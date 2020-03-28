@@ -1,0 +1,2 @@
+class CampaignEnd(Exception):
+    pass

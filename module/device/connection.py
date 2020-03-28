@@ -1,0 +1,62 @@
+import subprocess
+
+import requests
+import uiautomator2 as u2
+
+from module.config.config import AzurLaneConfig
+from module.logger import logger
+
+
+class Connection:
+    def __init__(self, config):
+        """
+        Args:
+            config(AzurLaneConfig):
+        """
+        logger.hr('Device')
+        self.config = config
+        self.serial = str(self.config.SERIAL)
+        self.device = self.connect(self.serial)
+        self.disable_uiautomator2_auto_quit()
+
+    @staticmethod
+    def adb_command(cmd, serial=None):
+        if serial:
+            cmd = ['adb', '-s', serial] + cmd
+        else:
+            cmd = ['adb'] + cmd
+        # process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        # result = process.stdout.read()
+        # print(cmd)
+        result = subprocess.check_output(cmd, timeout=4, stderr=subprocess.STDOUT)
+        return result
+
+    def adb_shell(self, cmd, serial=None):
+        cmd.insert(0, 'shell')
+        return self.adb_command(cmd, serial)
+
+    def _adb_connect(self, serial):
+        if serial.startswith('127.0.0.1'):
+            msg = self.adb_command(['connect', serial]).decode("utf-8")
+            if msg.startswith('unable'):
+                logger.error('Unable to connect %s' % serial)
+                exit(1)
+            else:
+                logger.info(msg.strip())
+
+    def connect(self, serial):
+        """Connect to a device.
+
+        Args:
+            serial (str): device serial or device address.
+
+        Returns:
+            uiautomator2.UIAutomatorServer: Device.
+        """
+        self._adb_connect(serial)
+        device = u2.connect(serial)
+        return device
+
+    def disable_uiautomator2_auto_quit(self, port=7912, expire=300000):
+        self.adb_command(['forward', 'tcp:%s' % port, 'tcp:%s' % port], serial=self.serial)
+        requests.post('http://127.0.0.1:%s/newCommandTimeout' % port, data=str(expire))

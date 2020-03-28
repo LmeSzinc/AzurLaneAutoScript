@@ -1,0 +1,11 @@
+numpy==1.14.6
+scipy
+pillow
+opencv-python
+scikit-image
+requests==2.18.4
+uiautomator2
+retrying
+mxnet==1.4.1
+cnocr
+gooey
