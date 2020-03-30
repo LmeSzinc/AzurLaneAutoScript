@@ -13,6 +13,7 @@ class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
     fleet_current_index = 1
     battle_count = 0
     mystery_count = 0
+    siren_count = 0
     fleet_ammo = 5
     ammo_count = 3
 
@@ -72,6 +73,7 @@ class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
             arrived = False
             # Wait to confirm fleet arrived. It does't appear immediately if fleet in combat .
             arrive_timer = Timer(0.3)
+            arrive_unexpected_timer = Timer(1.5)
             # Wait after ambushed.
             ambushed_retry = Timer(0.5)
             # If nothing happens, click again.
@@ -102,6 +104,8 @@ class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
                     arrived = True
                     result = 'combat'
                     self.battle_count += 1
+                    if 'siren' in expected:
+                        self.siren_count += 1
                     self.fleet_ammo -= 1
                     self.map[location_ensure(location)].is_cleared = True
                     self.handle_boss_appear_refocus()
@@ -113,10 +117,14 @@ class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
 
                 if grid.predict_fleet():
                     arrive_timer.start()
+                    arrive_unexpected_timer.start()
                     if not arrive_timer.reached():
                         continue
-                    if expected and result != expected:
-                        continue
+                    if expected and result not in expected:
+                        if arrive_unexpected_timer.reached():
+                            logger.warning('Arrive with unexpected result')
+                        else:
+                            continue
                     logger.info('Arrive confirm')
                     arrived = True
                     break
@@ -202,11 +210,12 @@ class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
         logger.hr('Map init')
         self.battle_count = 0
         self.mystery_count = 0
+        self.siren_count = 0
         self.ammo_count = 3
         self.map = map_
         self.map.reset()
         self.ensure_edge_insight(preset=self.map.in_map_swipe_preset_data)
-        self.full_scan(battle_count=self.battle_count, mystery_count=self.mystery_count)
+        self.full_scan(battle_count=self.battle_count, mystery_count=self.mystery_count, siren_count=self.siren_count)
         self.find_current_fleet()
         self.find_path_initial()
 

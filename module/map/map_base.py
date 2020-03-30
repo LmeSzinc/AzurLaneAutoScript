@@ -76,9 +76,18 @@ class CampaignMap:
     @shape.setter
     def shape(self, scale):
         self._shape = node2location(scale.upper())
+        for y in range(self._shape[1] + 1):
+            for x in range(self._shape[0] + 1):
+                grid = GridInfo()
+                grid.location = (x, y)
+                self.grids[(x, y)] = grid
 
         # camera_data can be generate automatically, but it's better to set it manually.
-        self._camera_data = SelectedGrids(camera_2d(self._shape, sight=(-3, -1, 3, 2)))
+        self.camera_data = [location2node(loca) for loca in camera_2d(self._shape, sight=(-3, -1, 3, 2))]
+
+        # weight_data set to 10.
+        for grid in self:
+            grid.weight = 10.
 
     @property
     def map_data(self):
@@ -88,11 +97,7 @@ class CampaignMap:
     def map_data(self, text):
         self._map_data = text
         for loca, data in self._parse_text(text):
-            grid = GridInfo()
-            grid.location = loca
-            grid.weight = 10.  # weight_data can be generate automatically
-            grid.decode(data)
-            self.grids[loca] = grid
+            self.grids[loca].decode(data)
 
     def show(self):
         # logger.info('Showing grids:')
@@ -298,11 +303,12 @@ class CampaignMap:
 
         return path
 
-    def missing_get(self, battle_count, mystery_count=0):
+    def missing_get(self, battle_count, mystery_count=0, siren_count=0):
         missing = self.spawn_data[battle_count].copy()
-        may = {'enemy': 0, 'mystery': 0, 'siren': 0,'boss': 0}
+        may = {'enemy': 0, 'mystery': 0, 'siren': 0, 'boss': 0}
         missing['enemy'] -= battle_count
         missing['mystery'] -= mystery_count
+        missing['siren'] -= siren_count
         for grid in self:
             for attr in may.keys():
                 if grid.__getattribute__('is_' + attr):
@@ -321,8 +327,8 @@ class CampaignMap:
         logger.info('may: %s' % may)
         return may, missing
 
-    def missing_is_none(self, battle_count, mystery_count=0):
-        may, missing = self.missing_get(battle_count, mystery_count)
+    def missing_is_none(self, battle_count, mystery_count=0, siren_count=0):
+        may, missing = self.missing_get(battle_count, mystery_count, siren_count)
 
         for key in may.keys():
             if missing[key] != 0:
@@ -330,8 +336,8 @@ class CampaignMap:
 
         return True
 
-    def missing_predict(self, battle_count, mystery_count=0):
-        may, missing = self.missing_get(battle_count, mystery_count)
+    def missing_predict(self, battle_count, mystery_count=0, siren_count=0):
+        may, missing = self.missing_get(battle_count, mystery_count, siren_count)
 
         # predict
         for grid in self:

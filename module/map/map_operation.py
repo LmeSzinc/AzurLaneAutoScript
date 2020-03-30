@@ -38,7 +38,7 @@ class MapOperation(UrgentCommissionHandler, EnemySearchingHandler, FleetPreparat
             self.device.screenshot()
 
             if not checked_in_map and self.is_in_map():
-                logger.info('Already in map.')
+                logger.info('Already in map, skip enter_map.')
                 return False
             else:
                 checked_in_map = True

@@ -197,7 +197,7 @@ class Camera(InfoBarHandler):
             if np.all(np.abs(vector) <= 0):
                 break
 
-    def full_scan(self, battle_count=None, mystery_count=0):
+    def full_scan(self, battle_count=None, mystery_count=0, siren_count=0):
         """Scan the hole map.
 
         Args:
@@ -217,7 +217,7 @@ class Camera(InfoBarHandler):
             queue = queue[1:]
 
         if battle_count is not None:
-            self.map.missing_predict(battle_count=battle_count, mystery_count=mystery_count)
+            self.map.missing_predict(battle_count=battle_count, mystery_count=mystery_count, siren_count=siren_count)
         self.map.show()
 
     def in_sight(self, location, sight=(-3, -1, 3, 2)):

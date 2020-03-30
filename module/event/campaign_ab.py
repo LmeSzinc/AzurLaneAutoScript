@@ -6,11 +6,11 @@ CAMPAIGN_NAME = ['a1', 'a2', 'a3', 'b1', 'b2', 'b3']
 
 
 class CampaignAB(CampaignRun):
-    def run(self, name, folder='campaign_main'):
+    def run(self, name, folder='campaign_main', total=0):
         name = name.lower()
         option = ('EventABRecord', name)
         if not self.config.record_executed_since(option=option, since=RECORD_SINCE):
-            super().run(name=name, folder=folder)
+            super().run(name=name, folder=folder, total=1)
             self.config.record_save(option=option)
 
     def run_event_daily(self):

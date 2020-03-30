@@ -5,7 +5,7 @@ from module.logger import logger
 from campaign.event_20200326_cn.a1 import Config
 
 MAP = CampaignMap()
-MAP.shape = 'G7'
+MAP.shape = 'H7'
 MAP.map_data = '''
     -- ME -- ME ++ ++ SP SP
     ME -- MS -- ME -- -- SP
@@ -48,3 +48,6 @@ class Campaign(CampaignBase):
             return True
 
         return self.battle_default()
+
+    def battle_4(self):
+        return self.clear_boss()

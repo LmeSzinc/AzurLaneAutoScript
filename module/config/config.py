@@ -196,6 +196,7 @@ class AzurLaneConfig:
         'height': (255 - 24, 255),
         'prominence': 10,
         'distance': 50,
+        'width': (0, 7),
         'wlen': 1000
     }
     # Parameters for cv2.HoughLines

@@ -111,7 +111,7 @@ class Perspective:
                     )
         if len(horizontal) - len(self.horizontal) >= 3 or len(vertical) - len(self.vertical) >= 3:
             logger.warning('Too many deleted lines')
-            # self.save_error_image()
+            self.save_error_image()
 
     def load_image(self, image):
         """Method that turns image to monochrome and hide UI.

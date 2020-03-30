@@ -37,7 +37,7 @@ class Config:
     CAMPAIGN_MODE = 'normal'
 
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (50, 200),
+        'height': (50, 255 - 80),
         'width': 1,
         'prominence': 10,
         'distance': 35,
@@ -46,6 +46,7 @@ class Config:
         'height': (255 - 80, 255),
         'prominence': 10,
         'distance': 50,
+        'width': (0, 7),
         'wlen': 1000
     }
 
@@ -64,3 +65,6 @@ class Campaign(CampaignBase):
             return True
 
         return self.battle_default()
+
+    def battle_3(self):
+        return self.clear_boss()

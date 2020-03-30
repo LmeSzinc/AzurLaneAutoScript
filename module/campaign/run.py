@@ -20,6 +20,7 @@ class CampaignRun(CampaignUI):
     module = None
     config: AzurLaneConfig
     campaign: CampaignBase
+    run_count: int
 
     def load_campaign(self, name, folder='campaign_main'):
         """
@@ -67,57 +68,72 @@ class CampaignRun(CampaignUI):
             os.mkdir(folder)
         self.campaign.config.SCREEN_SHOT_SAVE_FOLDER = folder
 
-    def oil_check(self):
+    def triggered_stop_condition(self):
         """
-        Returns:
-            bool: If have enough oil.
-        """
-        if not self.config.STOP_IF_OIL_LOWER_THAN:
-            return True
-        self.device.screenshot()
-        return OCR_OIL.ocr(self.device.image) > self.config.STOP_IF_OIL_LOWER_THAN
 
-    def run(self, name, folder='campaign_main'):
+        Returns:
+            bool: If triggered a stop condition.
+        """
+        # Run count limit
+        if self.run_count >= self.config.STOP_IF_COUNT_GREATER_THAN > 0:
+            logger.hr('Triggered count stop')
+            return True
+        # Run time limit
+        if self.config.STOP_IF_TIME_REACH and datetime.now() > self.config.STOP_IF_TIME_REACH:
+            logger.hr('Triggered time limit')
+            self.config.config.set('Setting', 'if_time_reach', '0')
+            self.config.save()
+            return True
+        # Oil limit
+        if self.config.STOP_IF_TRIGGER_EMOTION_LIMIT and self.campaign.config.EMOTION_LIMIT_TRIGGERED:
+            logger.hr('Triggered emotion limit')
+            return True
+        # Emotion limit
+        if self.config.STOP_IF_OIL_LOWER_THAN:
+            if OCR_OIL.ocr(self.device.image) < self.config.STOP_IF_OIL_LOWER_THAN:
+                logger.hr('Triggered oil limit')
+                return True
+
+        return False
+
+    def run(self, name, folder='campaign_main', total=0):
         """
         Args:
             name (str): Name of .py file.
             folder (str): Name of the file folder under campaign.
+            total (int):
         """
         self.load_campaign(name, folder=folder)
-        n = 0
+        self.run_count = 0
         while 1:
+            self.device.screenshot()
+
             # End
-            if n >= self.config.STOP_IF_COUNT_GREATER_THAN > 0:
-                logger.hr('Triggered count stop')
+            if total and self.run_count == total:
                 break
-            if not self.oil_check():
-                logger.hr('Triggered oil limit')
-                break
-            if self.config.STOP_IF_TIME_REACH and datetime.now() > self.config.STOP_IF_TIME_REACH:
-                logger.hr('Triggered time limit')
-                self.config.config.set('Setting', 'if_time_reach', '0')
-                self.config.save()
-                break
-            if self.config.STOP_IF_TRIGGER_EMOTION_LIMIT and self.campaign.config.EMOTION_LIMIT_TRIGGERED:
-                logger.hr('Triggered emotion limit')
+            if self.triggered_stop_condition():
                 break
 
             # Log
             logger.hr(name, level=1)
             if self.config.STOP_IF_COUNT_GREATER_THAN > 0:
-                logger.info(f'Count: [{n}/{self.config.STOP_IF_COUNT_GREATER_THAN}]')
+                logger.info(f'Count: [{self.run_count}/{self.config.STOP_IF_COUNT_GREATER_THAN}]')
             else:
-                logger.info(f'Count: [{n}]')
+                logger.info(f'Count: [{self.run_count}]')
 
             # Run
-            self.ensure_campaign_ui(name=self.stage)
-            self.campaign.ENTRANCE = self.campaign_get_entrance(name=self.stage)
+            self.campaign.device.image = self.device.image
+            if self.campaign.is_in_map():
+                logger.info('Already in map, skip ensure_campaign_ui.')
+            else:
+                self.ensure_campaign_ui(name=self.stage)
+                self.campaign.ENTRANCE = self.campaign_get_entrance(name=self.stage)
             self.campaign.run()
 
             # After run
-            n += 1
+            self.run_count += 1
             if self.config.STOP_IF_COUNT_GREATER_THAN > 0:
-                count = self.config.STOP_IF_COUNT_GREATER_THAN - n
+                count = self.config.STOP_IF_COUNT_GREATER_THAN - self.run_count
                 count = 0 if count < 0 else count
                 self.config.config.set('Setting', 'if_count_greater_than', str(count))
                 self.config.save()

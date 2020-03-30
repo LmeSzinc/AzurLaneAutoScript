@@ -50,3 +50,6 @@ class Campaign(CampaignBase):
             return True
 
         return self.battle_default()
+
+    def battle_4(self):
+        return self.clear_boss()

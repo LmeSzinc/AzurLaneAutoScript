@@ -69,12 +69,9 @@ class GridPredictor:
         self.enemy_scale = self.predict_enemy_scale()
         if self.enemy_scale > 0:
             self.is_enemy = True
-        if self.may_siren:
-            if not self.is_enemy:
-                self.is_enemy = self.predict_dynamic_red_border()
-            if self.is_enemy:
-                self.is_siren = True
         self.is_mystery = self.predict_mystery()
+        if not self.is_enemy and not self.is_mystery:
+            self.is_siren = self.predict_dynamic_red_border()
         self.is_fleet = self.predict_fleet()
         self.is_boss = self.predict_boss()
         # self.image_perspective = color_similarity_2d(
@@ -152,6 +149,7 @@ class GridPredictor:
         mask = np.pad(mask, ((pad, pad), (pad, pad)), mode='constant', constant_values=1)
         image = image * mask
         image[r < 221] = 0
+        # print(self, np.mean(image))
         return np.mean(image) > 2
 
 
@@ -166,6 +164,23 @@ class GridPredictor:
         image = self.get_relative_image(area, output_shape=output_shape)
         image = color_similarity_2d(image, color=color)
         count = np.sum(image > color_threshold)
+        return count
+
+    def _relative_image_color_hue_count(self, area, h, s=None, v=None, output_shape=(50, 50)):
+        image = self.get_relative_image(area, output_shape=output_shape)
+        # if str(self) == 'A4':
+        #     image.show()
+        hsv = rgb2hsv(np.array(image) / 255)
+        hue = hsv[:, :, 0]
+        count = (h[0] / 360 < hue) & (hue < h[1] / 360)
+        if s:
+            saturation = hsv[:, :, 1]
+            count &= (s[0] / 100 < saturation) & (saturation < s[1] / 100)
+        if v:
+            value = hsv[:, :, 2]
+            count &= (v[0] / 100 < value) & (value < v[1] / 100)
+
+        count = np.sum(count)
         return count
 
     def predict_mystery(self):
@@ -184,8 +199,11 @@ class GridPredictor:
 
     def predict_fleet(self):
         # white ammo icon
-        return self._relative_image_color_count(
-            area=(-1, -2, -0.5, -1.5), color=(255, 255, 255), color_threshold=252) > 300
+        # return self._relative_image_color_count(
+        #     area=(-1, -2, -0.5, -1.5), color=(255, 255, 255), color_threshold=252) > 300
+        count = self._relative_image_color_hue_count(area=(-1, -2, -0.5, -1.5), h=(-3, 3), v=(50, 101))
+        count += self._relative_image_color_hue_count(area=(-1, -2, -0.5, -1.5), h=(180 - 3, 180 + 3), v=(50, 101))
+        return count > 300
 
     def predict_current_fleet(self):
         # Green arrow over head with hue around 141.
@@ -195,6 +213,9 @@ class GridPredictor:
         return count > 1000
 
     def predict_boss(self):
-        count = self._relative_image_color_count(
-            area=(-0.5, -0.2, 0.5, 0.2), color=(255, 77, 82), color_threshold=247)
-        return count > 100
+        # count = self._relative_image_color_count(
+        #     area=(-0.5, -0.2, 0.5, 0.2), color=(255, 77, 82), color_threshold=247)
+        # return count > 100
+
+        # 微层混合 event_20200326_cn
+        return self._relative_image_color_hue_count(area=(-0.5, -0.2, 0.5, 0.2), h=(358 - 3, 358 + 3)) > 250

@@ -6,7 +6,7 @@ from module.map.map_grids import SelectedGrids, RoadGrids
 
 
 class Map(Fleet):
-    def clear_chosen_enemy(self, grid):
+    def clear_chosen_enemy(self, grid, expected=''):
         """
         Args:
             grid (GridInfo):
@@ -15,9 +15,9 @@ class Map(Fleet):
         self.show_fleet()
         if self.config.ENABLE_EMOTION_REDUCE and self.config.ENABLE_MAP_FLEET_LOCK:
             self.emotion.wait()
-        self.goto(grid, expected='combat')
+        self.goto(grid, expected=f'combat_{expected}' if expected else 'combat')
 
-        self.full_scan(battle_count=self.battle_count, mystery_count=self.mystery_count)
+        self.full_scan(battle_count=self.battle_count, mystery_count=self.mystery_count, siren_count=self.siren_count)
         self.find_path_initial()
 
     def clear_chosen_mystery(self, grid):
@@ -261,12 +261,16 @@ class Map(Fleet):
 
     def clear_siren(self):
         grids = self.map.select(may_siren=True, is_enemy=True, is_accessible=True)
+        grids = grids.add(self.map.select(may_siren=True, is_siren=True, is_accessible=True))
+        logger.info('May siren: %s' % self.map.select(may_siren=True))
+        logger.info('May siren and is enemy: %s' % self.map.select(may_siren=True, is_enemy=True))
+        logger.info('Is siren: %s' % self.map.select(is_siren=True))
 
         if grids:
             logger.hr('Clear siren')
             grids = grids.sort(cost=True, weight=True)
             logger.info('Grids: %s' % str(grids))
-            self.clear_chosen_enemy(grids[0])
+            self.clear_chosen_enemy(grids[0], expected='siren')
             return True
 
         return False
