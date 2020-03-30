@@ -181,7 +181,7 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
             if self.handle_battle_status(save_get_items=save_get_items):
                 break
 
-    def handle_battle_status(self, save_get_items):
+    def handle_battle_status(self, save_get_items=False):
         """
         Args:
             save_get_items (bool):
@@ -199,6 +199,27 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
 
         return False
 
+    def handle_get_items(self, save_get_items=False):
+        """
+        Args:
+            save_get_items (bool):
+
+        Returns:
+            bool:
+        """
+        if self.appear_then_click(GET_ITEMS_1, screenshot=save_get_items, genre='get_items', offset=5):
+            return True
+        if self.appear_then_click(GET_ITEMS_2, screenshot=save_get_items, genre='get_items', offset=5):
+            return False
+
+        return False
+
+    def handle_get_ship(self):
+        if self.appear_then_click(GET_SHIP):
+            return True
+
+        return False
+
     def combat_status(self, save_get_items=False, expected_end=None):
         """
         Args:
@@ -210,13 +231,11 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
             self.device.screenshot()
 
             # Combat status
-            if self.appear_then_click(GET_ITEMS_1, screenshot=save_get_items, genre='get_items', offset=5):
-                continue
-            if self.appear_then_click(GET_ITEMS_2, screenshot=save_get_items, genre='get_items', offset=5):
+            if self.handle_get_items(save_get_items=save_get_items):
                 continue
             if self.handle_battle_status(save_get_items=save_get_items):
                 continue
-            if self.appear_then_click(GET_SHIP):
+            if self.handle_get_ship():
                 continue
             if self.appear_then_click(EXP_INFO_S):
                 self.device.sleep((0.25, 0.5))

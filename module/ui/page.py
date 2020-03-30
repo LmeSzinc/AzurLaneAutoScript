@@ -60,3 +60,13 @@ page_sp = Page(SP_CHECK)
 page_sp.link(button=GOTO_MAIN, destination=page_main)
 page_sp.link(button=BACK_ARROW, destination=page_campaign)
 page_campaign.link(button=CAMPAIGN_GOTO_EVENT, destination=page_sp)
+
+# Reward
+page_reward = Page(REWARD_CHECK)
+page_reward.link(button=REWARD_GOTO_MAIN, destination=page_main)
+page_main.link(button=MAIN_GOTO_REWARD, destination=page_reward)
+
+# Mission
+page_mission = Page(MISSION_CHECK)
+page_mission.link(button=GOTO_MAIN, destination=page_main)
+page_main.link(button=MAIN_GOTO_MISSION, destination=page_mission)

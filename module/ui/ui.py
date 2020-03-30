@@ -7,7 +7,7 @@ from module.ui.page import *
 
 
 class UI(ModuleBase):
-    ui_pages = [page_main, page_campaign, page_fleet, page_exercise, page_daily, page_event, page_sp]
+    ui_pages = [page_main, page_campaign, page_fleet, page_exercise, page_daily, page_event, page_sp, page_mission]
     ui_current: Page
 
     def ui_page_appear(self, page):
