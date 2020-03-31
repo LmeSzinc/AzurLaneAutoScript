@@ -12,10 +12,11 @@ class Map(Fleet):
             grid (GridInfo):
         """
         logger.info('Clear enemy: %s' % grid)
+        expected = f'combat_{expected}' if expected else 'combat'
         self.show_fleet()
-        if self.config.ENABLE_EMOTION_REDUCE and self.config.ENABLE_MAP_FLEET_LOCK:
+        if self.config.ENABLE_EMOTION_REDUCE and self.config.ENABLE_MAP_FLEET_LOCK and 'boss' not in expected:
             self.emotion.wait()
-        self.goto(grid, expected=f'combat_{expected}' if expected else 'combat')
+        self.goto(grid, expected=expected)
 
         self.full_scan(battle_count=self.battle_count, mystery_count=self.mystery_count, siren_count=self.siren_count)
         self.find_path_initial()
@@ -254,7 +255,7 @@ class Map(Fleet):
             logger.hr('Clear BOSS')
             grids = grids.sort(cost=True, weight=True)
             logger.info('Grids: %s' % str(grids))
-            self.clear_chosen_enemy(grids[0])
+            self.clear_chosen_enemy(grids[0], expected='boss')
             raise CampaignEnd('BOSS Clear.')
 
         return False
