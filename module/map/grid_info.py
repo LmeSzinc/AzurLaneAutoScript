@@ -126,14 +126,16 @@ class GridInfo:
         # failure = 0
         for item in ['boss', 'siren']:
             if info.__getattribute__('is_' + item):
-                if self.__getattribute__('may_' + item) and not self.is_cleared:
+                if self.__getattribute__('may_' + item) and not self.is_cleared \
+                        and not info.is_fleet and not self.is_fleet:
                     self.__setattr__('is_' + item, True)
                     return True
                 else:
                     logger.info(f'Wrong Prediction. Grid: {self}, Attr: {item}')
                     # failure += 1
 
-        if info.is_enemy and self.may_enemy and not self.is_cleared:
+        if info.is_enemy and self.may_enemy and not self.is_cleared \
+                and not info.is_fleet and not self.is_fleet:
             self.is_enemy = True
             self.enemy_scale = info.enemy_scale
             self.enemy_type = info.enemy_type
