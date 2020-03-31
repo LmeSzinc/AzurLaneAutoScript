@@ -51,7 +51,7 @@ class AzurLaneAutoScript:
         """
         from module.campaign.run import CampaignRun
         az = CampaignRun(self.config)
-        az.run(self.config.CAMPAIGN_EVENT)
+        az.run(self.config.CAMPAIGN_EVENT, folder=self.config.EVENT_NAME)
 
     def reward(self):
         from module.reward.reward import Reward
@@ -84,5 +84,5 @@ class AzurLaneAutoScript:
         az.retire_ships(amount=2000)
 
 
-alas = AzurLaneAutoScript()
-alas.reward()
+# alas = AzurLaneAutoScript()
+# alas.reward()

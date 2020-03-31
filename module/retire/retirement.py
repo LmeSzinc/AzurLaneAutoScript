@@ -192,3 +192,4 @@ class Retirement(UI, InfoBarHandler):
         self.retire_ships(amount=amount, rarity=rarity)
 
         self._retirement_quit()
+        return True

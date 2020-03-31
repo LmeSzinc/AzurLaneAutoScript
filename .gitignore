@@ -1,8 +1,7 @@
 ### AzurLaneAutoScript
-log/*.txt
-log/error/*.png
+log
 config/*.ini
-dev_tools/debug_tools/*.py
+dev_tools/debug_tools
 .idea
 
 # Created by .ignore support plugin (hsz.mobi)

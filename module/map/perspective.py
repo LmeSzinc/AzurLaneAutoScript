@@ -87,7 +87,7 @@ class Perspective:
         # print(inner_h.group())
 
         # Lines cleansing
-        # self.draw(edge_h)
+        # self.draw()
         self.horizontal, self.lower_edge, self.upper_edge = self.line_cleanse(
             self.horizontal, inner=inner_h.group(), edge=edge_h)
         self.vertical, self.left_edge, self.right_edge = self.line_cleanse(
@@ -111,7 +111,7 @@ class Perspective:
                     )
         if len(horizontal) - len(self.horizontal) >= 3 or len(vertical) - len(self.vertical) >= 3:
             logger.warning('Too many deleted lines')
-            self.save_error_image()
+            # self.save_error_image()
 
     def load_image(self, image):
         """Method that turns image to monochrome and hide UI.
@@ -150,7 +150,7 @@ class Perspective:
             out = out[:, :-pad]
         if is_horizontal:
             out = out.T
-        out &= self.config.UI_MASK
+        out &= self.config.UI_MASK_STROKE
         return out
 
     def hough_lines(self, image, is_horizontal, threshold, theta):
@@ -355,7 +355,12 @@ class Perspective:
             else:
                 lower, upper = (None, edge) if edge > self.config.SCREEN_CENTER[0] else (edge, None)
         else:
-            lower, upper = edge[0], edge[-1]
+            # lower, upper = edge[0], edge[-1]
+            center = self.config.SCREEN_CENTER[1] if lines.is_horizontal else self.config.SCREEN_CENTER[0]
+            lower = [mid for mid in edge if mid < center]
+            upper = [mid for mid in edge if mid > center]
+            lower = lower[0] if len(lower) else None
+            upper = upper[-1] if len(upper) else None
 
         # crop mid
         if lower:

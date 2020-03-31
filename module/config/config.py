@@ -3,6 +3,7 @@ import configparser
 import copy
 import os
 from datetime import datetime, timedelta
+import cv2
 
 import numpy as np
 from PIL import Image
@@ -91,6 +92,7 @@ class AzurLaneConfig:
     """
     module.event
     """
+    EVENT_NAME = ''
     CAMPAIGN_EVENT = ''
     EVENT_NAME_AB = ''
 
@@ -184,6 +186,9 @@ class AzurLaneConfig:
     # UI mask
     UI_MASK_FILE = './module/map/ui_mask.png'
     UI_MASK = np.array(Image.open(UI_MASK_FILE).convert('L'))
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
+    UI_MASK_STROKE = cv2.erode(UI_MASK, kernel).astype('uint8')
+
     # Parameters for scipy.signal.find_peaks
     # https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.find_peaks.html
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
@@ -196,7 +201,7 @@ class AzurLaneConfig:
         'height': (255 - 24, 255),
         'prominence': 10,
         'distance': 50,
-        'width': (0, 7),
+        # 'width': (0, 7),
         'wlen': 1000
     }
     # Parameters for cv2.HoughLines
@@ -343,7 +348,11 @@ class AzurLaneConfig:
 
         # Event
         option = config['Event']
-        self.CAMPAIGN_EVENT = option['event_stage']
+        self.EVENT_NAME = option['event_name']
+        if 'sp' in ''.join(os.listdir(f'./campaign/{self.EVENT_NAME}')):
+            self.CAMPAIGN_EVENT = option['sp_stage']
+        else:
+            self.CAMPAIGN_EVENT = option['event_stage']
 
         # Event_daily_ab
         option = config['Event_daily_ab']

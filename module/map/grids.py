@@ -23,15 +23,21 @@ class Grids(Perspective):
         for grid in self._gen():
             self.grids[grid.location] = grid
 
-        # Handle offset.
-        offset = np.min(list(self.grids.keys()), axis=0)
-        if np.sum(offset) > 0:
-            logger.info('          Grids offset: %s.' % str(tuple(offset)))
-            self.vertical = self.vertical[offset[0]:]
-            self.horizontal = self.horizontal[offset[1]:]
-            self.grids = {}
-            for grid in self._gen():
-                self.grids[grid.location] = grid
+        # Delete stand alone grid
+        keys = np.array(list(self.grids.keys()))
+        mask = np.zeros(np.max(keys, axis=0) + 1)
+        mask[tuple(keys.T)] = 1
+        count = np.sum(mask, axis=1)
+        if np.max(count) >= 4:
+            leave = np.where(count > 2)[0]
+            vertical = self.vertical[leave[0]:leave[-1] + 2]
+            diff = len(self.vertical) - len(vertical)
+            if diff > 0:
+                logger.info(f'          Grids offset: {(diff, 0)}')
+                self.vertical = vertical
+                self.grids = {}
+                for grid in self._gen():
+                    self.grids[grid.location] = grid
 
         self.center_grid = (
             np.where(self.vertical.distance_to_point(self.config.SCREEN_CENTER) >= 0)[0][0] - 1,

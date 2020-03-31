@@ -10,22 +10,26 @@ from module.base.utils import color_similarity_2d
 
 class Template:
     def __init__(self, file, similarity=0.85):
-        file = os.path.join(TEMPLATE_FOLDER, file)
-        self.image = np.array(Image.open(file))
+        self.file = os.path.join(TEMPLATE_FOLDER, file)
+        self.image = np.array(Image.open(self.file))
         self.similarity = similarity
 
-    def match(self, image):
+    def match(self, image, threshold=None):
         res = cv2.matchTemplate(np.array(image), self.image, cv2.TM_CCOEFF_NORMED)
         _, similarity, _, _ = cv2.minMaxLoc(res)
-        # print(similarity)
-        return similarity > self.similarity
+        # print(self.file, similarity)
+        if threshold is not None:
+            return similarity > threshold
+        else:
+            return similarity > self.similarity
 
 
 TEMPLATE_FOLDER = './template'
 TEMPLATE_ENEMY_S = Template('ENEMY_S.png', similarity=0.85)
 TEMPLATE_ENEMY_M = Template('ENEMY_M.png', similarity=0.85)
 TEMPLATE_ENEMY_L = Template('ENEMY_L.png', similarity=0.85)
-# TEMPLATE_ENEMY_RED_BORDER = Template('ENEMY_RED_BORDER.png', similarity=0.85)
+TEMPLATE_FLEET_AMMO = Template('FLEET_AMMO.png', similarity=0.85)
+TEMPLATE_BOSS = Template('BOSS.png', similarity=0.75)
 
 
 class GridPredictor:
@@ -152,7 +156,6 @@ class GridPredictor:
         # print(self, np.mean(image))
         return np.mean(image) > 2
 
-
     def screen_point_to_grid_location(self, point):
         a, b, c, d, e, f, g, h = self._perspective
         y = (point[1] - f) / (e - point[1] * h)
@@ -168,15 +171,16 @@ class GridPredictor:
 
     def _relative_image_color_hue_count(self, area, h, s=None, v=None, output_shape=(50, 50)):
         image = self.get_relative_image(area, output_shape=output_shape)
-        # if str(self) == 'A4':
-        #     image.show()
         hsv = rgb2hsv(np.array(image) / 255)
         hue = hsv[:, :, 0]
+        h = np.array([-1, 1]) + h
         count = (h[0] / 360 < hue) & (hue < h[1] / 360)
         if s:
+            s = np.array([-1, 1]) + s
             saturation = hsv[:, :, 1]
             count &= (s[0] / 100 < saturation) & (saturation < s[1] / 100)
         if v:
+            v = np.array([-1, 1]) + v
             value = hsv[:, :, 2]
             count &= (v[0] / 100 < value) & (value < v[1] / 100)
 
@@ -201,21 +205,36 @@ class GridPredictor:
         # white ammo icon
         # return self._relative_image_color_count(
         #     area=(-1, -2, -0.5, -1.5), color=(255, 255, 255), color_threshold=252) > 300
-        count = self._relative_image_color_hue_count(area=(-1, -2, -0.5, -1.5), h=(-3, 3), v=(50, 101))
-        count += self._relative_image_color_hue_count(area=(-1, -2, -0.5, -1.5), h=(180 - 3, 180 + 3), v=(50, 101))
-        return count > 300
+        # count = self._relative_image_color_hue_count(area=(-1, -2, -0.5, -1.5), h=(0, 360), s=(0, 5), v=(95, 100))
+        # return count > 300
+        image = self.get_relative_image((-1, -2, -0.5, -1.5), output_shape=self.ENEMY_SCALE_IMAGE_SIZE)
+        image = color_similarity_2d(image, (255, 255, 255))
+        return TEMPLATE_FLEET_AMMO.match(image)
 
     def predict_current_fleet(self):
         # Green arrow over head with hue around 141.
-        image = self.get_relative_image((-0.5, -3.5, 0.5, -2.5))
-        hue = rgb2hsv(np.array(image) / 255)[:, :, 0] * 360
-        count = np.sum((141 - 3 < hue) & (hue < 141 + 3))
-        return count > 1000
+        # image = self.get_relative_image((-0.5, -3.5, 0.5, -2.5))
+        # hue = rgb2hsv(np.array(image) / 255)[:, :, 0] * 360
+        # count = np.sum((141 - 3 < hue) & (hue < 141 + 3))
+        # return count > 1000
+        count = self._relative_image_color_hue_count(
+                area=(-0.5, -3.5, 0.5, -2.5), h=(141 - 3, 141 + 10), output_shape=(50, 50))
+        return count > 600
+
 
     def predict_boss(self):
         # count = self._relative_image_color_count(
-        #     area=(-0.5, -0.2, 0.5, 0.2), color=(255, 77, 82), color_threshold=247)
+        #     area=(-0.55, -0.2, 0.45, 0.2), color=(255, 77, 82), color_threshold=247)
         # return count > 100
 
+        if TEMPLATE_BOSS.match(self.get_relative_image((-0.55, -0.2, 0.45, 0.2), output_shape=(50, 20))):
+            return True
+
         # 微层混合 event_20200326_cn
-        return self._relative_image_color_hue_count(area=(-0.5, -0.2, 0.5, 0.2), h=(358 - 3, 358 + 3)) > 250
+        if self._relative_image_color_hue_count(
+                area=(0.13, -0.05, 0.63, 0.15), h=(358 - 3, 358 + 3), v=(96, 100), output_shape=(50, 20)) > 100:
+            if TEMPLATE_BOSS.match(
+                    self.get_relative_image((0.13, -0.05, 0.63, 0.15), output_shape=(50, 20)), threshold=0.4):
+                return True
+
+        return False

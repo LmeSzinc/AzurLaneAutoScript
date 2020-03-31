@@ -185,14 +185,20 @@ def main():
 
     # ==========活动图==========
     event_parser = subs.add_parser('活动图')
+    event_folder = [dic_eng_to_chi.get(f, f) for f in os.listdir('./campaign') if f.startswith('event_')][::-1]
 
     event = event_parser.add_argument_group('选择关卡', '')
-    event.add_argument('--活动关卡出击', default=default('--活动关卡出击'), help='例如 event_20200312cn_sp3')
+    event.add_argument('--活动地图', default=default('--活动地图'),
+                             choices=['a1', 'a2', 'a3', 'b1', 'b2', 'b3', 'c1', 'c2', 'c3', 'd1', 'd2', 'd3'],
+                             help='例如 d3')
+    event.add_argument('--sp地图', default=default('--sp地图'),
+                             choices=['sp3', 'sp2', 'sp1'],
+                             help='例如 sp3')
+    event.add_argument('--活动名称', default=default('--活动名称'), choices=event_folder, help='例如 event_20200312_cn')
 
     # ==========活动AB图每日三倍==========
     event_ab_parser = subs.add_parser('活动AB图每日三倍')
     event_name = event_ab_parser.add_argument_group('选择活动', '')
-    event_folder = [dic_eng_to_chi.get(f, f) for f in os.listdir('./campaign') if f.startswith('event_')][::-1]
     event_name.add_argument('--活动名称ab', default=default('--活动名称ab'), choices=event_folder, help='例如 event_20200326_cn')
 
     # ==========半自动==========

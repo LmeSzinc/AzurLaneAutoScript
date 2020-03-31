@@ -208,7 +208,7 @@ class Camera(InfoBarHandler):
 
         queue = self.map.camera_data
         while len(queue) > 0:
-            if self.map.missing_is_none(battle_count, mystery_count):
+            if self.map.missing_is_none(battle_count, mystery_count, siren_count):
                 logger.info('All spawn found, Early stopped.')
                 break
             queue = queue.sort_by_camera_distance(self.camera)
@@ -257,8 +257,8 @@ class Camera(InfoBarHandler):
         location = location_ensure(location)
 
         grid = np.array(location) - self.camera + self.grids.center_grid
-        # logger.info('Convert_map_to_grid Failed. Map: %s, Camera: %s, grids_center: %s, grid: %s' % (
-        #     location2node(location), str(self.camera), str(self.grids.center_grid), str(grid)))
+        logger.info('Convert_map_to_grid. Map: %s, Camera: %s, grids_center: %s, grid: %s' % (
+            location2node(location), str(self.camera), str(self.grids.center_grid), str(grid)))
         if grid in self.grids:
             return self.grids[grid]
         else:

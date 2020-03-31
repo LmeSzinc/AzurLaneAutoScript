@@ -68,7 +68,7 @@ class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
         while 1:
             self.ambush_color_initial()
             grid.__str__ = location
-            result = ''
+            result = 'nothing'
             self.device.click(grid)
             arrived = False
             # Wait to confirm fleet arrived. It does't appear immediately if fleet in combat .
@@ -104,10 +104,12 @@ class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
                     arrived = True
                     result = 'combat'
                     self.battle_count += 1
+                    self.fleet_ammo -= 1
                     if 'siren' in expected:
                         self.siren_count += 1
-                    self.fleet_ammo -= 1
-                    self.map[location_ensure(location)].is_cleared = True
+                    else:
+                        self.map[location_ensure(location)].is_cleared = True
+
                     self.handle_boss_appear_refocus()
                     grid = self.convert_map_to_grid(location)
                     # break
@@ -125,7 +127,7 @@ class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
                             logger.warning('Arrive with unexpected result')
                         else:
                             continue
-                    logger.info('Arrive confirm')
+                    logger.info(f'Arrive confirm. Result: {result}. Expected: {expected}')
                     arrived = True
                     break
 
@@ -183,9 +185,13 @@ class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
             if self.convert_map_to_grid(fleets[0]).predict_current_fleet():
                 self.fleet_1 = fleets[0].location
                 self.fleet_2 = fleets[1].location
-            else:
+            elif self.convert_map_to_grid(fleets[1]).predict_current_fleet():
                 self.fleet_1 = fleets[1].location
                 self.fleet_2 = fleets[0].location
+            else:
+                logger.warning('Current fleet not found')
+                self.fleet_1 = fleets[0].location
+                self.fleet_2 = fleets[1].location
         else:
             if count == 0:
                 logger.warning('No fleets detected. Checking fleet spawn points.')

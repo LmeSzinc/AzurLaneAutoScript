@@ -126,7 +126,7 @@ class GridInfo:
         # failure = 0
         for item in ['boss', 'siren']:
             if info.__getattribute__('is_' + item):
-                if self.__getattribute__('may_' + item):
+                if self.__getattribute__('may_' + item) and not self.is_cleared:
                     self.__setattr__('is_' + item, True)
                     return True
                 else:
@@ -137,6 +137,8 @@ class GridInfo:
             self.is_enemy = True
             self.enemy_scale = info.enemy_scale
             self.enemy_type = info.enemy_type
+            if self.may_siren:
+                self.is_siren = True
             return True
 
         for item in ['mystery', 'ammo']:
