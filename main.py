@@ -12,6 +12,12 @@ class AzurLaneAutoScript:
 
         logger.hr('Settings saved')
 
+    def emulator(self):
+        for key, value in self.config.config['Emulator'].items():
+            print(f'{key} = {value}')
+
+        logger.hr('Emulator saved')
+
     def main(self):
         """
         Method to run main chapter.

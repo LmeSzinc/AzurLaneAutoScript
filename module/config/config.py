@@ -231,6 +231,11 @@ class AzurLaneConfig:
     ENABLE_SEMI_STORY_SKIP = True
 
     """
+    C_7_2_mystery_farming
+    """
+    C72_BOSS_FLEET_STEP_ON_A3 = True
+
+    """
     C_12_4_leveling
     """
     C124_NON_S3_ENTER_TOLERANCE = 1
@@ -277,9 +282,11 @@ class AzurLaneConfig:
         """
         self.COMMAND = config.get('Command', 'command')
 
-        option = config['Setting']
-        # Serial
+        # Emulator
+        option = config['Emulator']
         self.SERIAL = option['serial']
+
+        option = config['Setting']
         # Stop condition
         self.ENABLE_STOP_CONDITION = to_bool(option['enable_stop_condition'])
         self.STOP_IF_COUNT_GREATER_THAN = int(option['if_count_greater_than'])
@@ -362,6 +369,12 @@ class AzurLaneConfig:
         option = config['Semi_auto']
         self.ENABLE_SEMI_MAP_PREPARATION = to_bool(option['enable_semi_map_preparation'])
         self.ENABLE_SEMI_STORY_SKIP = to_bool(option['enable_semi_story_skip'])
+
+        # C_7_2_mystery_farming
+        option = config['C72_mystery_farming']
+        self.C72_BOSS_FLEET_STEP_ON_A3 = to_bool(option['boss_fleet_step_on_a3'])
+        if self.COMMAND.lower() == 'c72_mystery_farming' and not self.C72_BOSS_FLEET_STEP_ON_A3:
+            self.FLEET_2 = 0
 
         # C_12_4_leveling
         option = config['C124_leveling']

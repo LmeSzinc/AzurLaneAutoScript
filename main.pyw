@@ -74,9 +74,9 @@ def main():
 
     stop = stage.add_argument_group('停止条件', '触发后不会马上停止会先完成当前出击, 不需要就填0')
     stop.add_argument('--如果出击次数大于', default=default('--如果出击次数大于'), help='会沿用先前设置, 完成出击将扣除次数, 直至清零')
-    stop.add_argument('--如果时间超过', default=default('--如果时间超过'), help='使用未来24小时内的时间, 使用会沿用先前设置, 直至触发. 建议提前10分钟左右, 以完成当前出击. 格式 14:59')
+    stop.add_argument('--如果时间超过', default=default('--如果时间超过'), help='使用未来24小时内的时间, 会沿用先前设置, 触发后清零. 建议提前10分钟左右, 以完成当前出击. 格式 14:59')
     stop.add_argument('--如果石油低于', default=default('--如果石油低于'))
-    stop.add_argument('--如果触发心情控制', default=default('--如果触发心情控制'), choices=['是', '否'], help='触发后会等自动等待心情回复')
+    stop.add_argument('--如果触发心情控制', default=default('--如果触发心情控制'), choices=['是', '否'], help='若是, 等待回复, 完成本次, 停止\n若否, 等待回复, 完成本次, 继续')
     stop.add_argument('--如果船舱已满', default=default('--如果船舱已满'), choices=['是', '否'])
 
     # 出击舰队
@@ -96,7 +96,7 @@ def main():
     f3.add_argument('--舰队阵型3', default=default('--舰队阵型3'), choices=['单纵阵', '复纵阵', '轮形阵'])
 
     # 潜艇设置
-    submarine = setting_parser.add_argument_group('潜艇设置', '暂不支持潜艇, 会避免潜艇进图')
+    submarine = setting_parser.add_argument_group('潜艇设置', '暂不支持潜艇, 最好避免潜艇进图')
     submarine.add_argument('--舰队编号4', default=default('--舰队编号4'), choices=['不使用', '1', '2'])
     submarine.add_argument('--潜艇出击方案', default=default('--潜艇出击方案'), choices=['不使用', '仅狩猎', '每战出击', '空弹出击', 'BOSS战出击', 'BOSS战BOSS出现后召唤'])
 
@@ -141,7 +141,8 @@ def main():
     drop.add_argument('--掉落保存目录', default=default('--掉落保存目录'))
 
     # 模拟器
-    emulator = setting_parser.add_argument_group('模拟器', '')
+    emulator_parser = subs.add_parser('模拟器')
+    emulator = emulator_parser.add_argument_group('模拟器', '')
     emulator.add_argument('--设备', default=default('--设备'), help='例如 127.0.0.1:62001')
 
     # ==========每日任务==========
@@ -209,8 +210,8 @@ def main():
 
     # ==========7-2三战拣垃圾==========
     c_7_2_parser = subs.add_parser('7-2三战拣垃圾')
-    # c_12_4 = c_12_4_parser.add_argument_group('7-2三战拣垃圾', '需保证队伍有一定强度')
-    # c_12_4.add_argument('--非大型敌人进图忍耐', default=default('--非大型敌人进图忍耐'), choices=['0', '1', '2'], help='忍受进场多少战没有大型')
+    c_7_2 = c_7_2_parser.add_argument_group('7-2三战拣垃圾', '')
+    c_7_2.add_argument('--BOSS队踩A3', default=default('--BOSS队踩A3'), choices=['是', '否'], help='A3有敌人就G3, C3, E3')
     # c_12_4.add_argument('--非大型敌人撤退忍耐', default=default('--非大型敌人撤退忍耐'), choices=['0', '1', '2', '10'],
     #                     help='没有大型之后还会打多少战, 不挑敌人选10')
     # c_12_4.add_argument('--拣弹药124', default=default('--拣弹药124'), choices=['2', '3', '4', '5'], help='多少战后拣弹药')

@@ -25,6 +25,7 @@ dic_daily = {
 dic_chi_to_eng = {
     # Function
     '出击设置': 'setting',
+    '模拟器': 'emulator',
     '每日任务': 'daily',
     '主线图': 'main',
     '活动图': 'event',
@@ -95,6 +96,7 @@ dic_chi_to_eng = {
     '活动名称ab': 'event_name_ab',
     '进图准备': 'enable_semi_map_preparation',
     '跳过剧情': 'enable_semi_story_skip',
+    'BOSS队踩A3': 'boss_fleet_step_on_a3',
     '非大型敌人进图忍耐': 'non_s3_enemy_enter_tolerance',
     '非大型敌人撤退忍耐': 'non_s3_enemy_withdraw_tolerance',
     '拣弹药124': 'ammo_pick_up_124',
