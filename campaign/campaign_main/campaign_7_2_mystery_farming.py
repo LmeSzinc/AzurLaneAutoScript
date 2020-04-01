@@ -51,15 +51,19 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
-        if self.fleet_2_step_on(FLEET_2_STEP_ON, roadblocks=[ROAD_MAIN]):
-            return True
+        if self.config.C72_BOSS_FLEET_STEP_ON_A3:
+            if self.fleet_2_step_on(FLEET_2_STEP_ON, roadblocks=[ROAD_MAIN]):
+                return True
 
-        ignore = None
-        if self.fleet_at(A3, fleet=2):
-            ignore = SelectedGrids([A2])
-        if self.fleet_at(G3, fleet=2):
-            ignore = SelectedGrids([H3])
-        self.clear_all_mystery(nearby=False, ignore=ignore)
+            ignore = None
+            if self.fleet_at(A3, fleet=2):
+                ignore = SelectedGrids([A2])
+            if self.fleet_at(G3, fleet=2):
+                ignore = SelectedGrids([H3])
+
+            self.clear_all_mystery(nearby=False, ignore=ignore)
+        else:
+            self.clear_all_mystery(nearby=False)
 
         grids = ROAD_MAIN.roadblocks().select(is_accessible=True, enemy_scale=3)
         if grids:
@@ -94,17 +98,20 @@ class Campaign(CampaignBase):
     battle_2 = battle_0
 
     def battle_3(self):
-        ignore = None
-        if self.fleet_at(A3, fleet=2):
-            ignore = SelectedGrids([A2])
-        if self.fleet_at(G3, fleet=2):
-            ignore = SelectedGrids([H3])
-        self.clear_all_mystery(nearby=False, ignore=ignore)
+        if self.config.C72_BOSS_FLEET_STEP_ON_A3:
+            ignore = None
+            if self.fleet_at(A3, fleet=2):
+                ignore = SelectedGrids([A2])
+            if self.fleet_at(G3, fleet=2):
+                ignore = SelectedGrids([H3])
+            self.clear_all_mystery(nearby=False, ignore=ignore)
 
-        if self.fleet_at(A3, fleet=2) and A2.is_mystery:
-            self.fleet_2.clear_chosen_mystery(A2)
-        if self.fleet_at(G3, fleet=2) and H3.is_mystery:
-            self.fleet_2.clear_chosen_mystery(H3)
+            if self.fleet_at(A3, fleet=2) and A2.is_mystery:
+                self.fleet_2.clear_chosen_mystery(A2)
+            if self.fleet_at(G3, fleet=2) and H3.is_mystery:
+                self.fleet_2.clear_chosen_mystery(H3)
+        else:
+            self.clear_all_mystery(nearby=False)
 
         if self.map.select(is_mystery=True, is_accessible=False):
             logger.info('Roadblock blocks mystery.')
