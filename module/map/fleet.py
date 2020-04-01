@@ -185,13 +185,15 @@ class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
             if self.convert_map_to_grid(fleets[0]).predict_current_fleet():
                 self.fleet_1 = fleets[0].location
                 self.fleet_2 = fleets[1].location
-            elif self.convert_map_to_grid(fleets[1]).predict_current_fleet():
-                self.fleet_1 = fleets[1].location
-                self.fleet_2 = fleets[0].location
             else:
-                logger.warning('Current fleet not found')
-                self.fleet_1 = fleets[0].location
-                self.fleet_2 = fleets[1].location
+                self.in_sight(fleets[1], sight=(-1, 0, 1, 2))
+                if self.convert_map_to_grid(fleets[1]).predict_current_fleet():
+                    self.fleet_1 = fleets[1].location
+                    self.fleet_2 = fleets[0].location
+                else:
+                    logger.warning('Current fleet not found')
+                    self.fleet_1 = fleets[0].location
+                    self.fleet_2 = fleets[1].location
         else:
             if count == 0:
                 logger.warning('No fleets detected. Checking fleet spawn points.')
