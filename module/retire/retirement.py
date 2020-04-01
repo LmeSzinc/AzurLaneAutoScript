@@ -192,4 +192,5 @@ class Retirement(UI, InfoBarHandler):
         self.retire_ships(amount=amount, rarity=rarity)
 
         self._retirement_quit()
+        self.config.DOCK_FULL_TRIGGERED = True
         return True

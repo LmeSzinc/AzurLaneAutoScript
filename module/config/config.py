@@ -169,6 +169,7 @@ class AzurLaneConfig:
     module.retire
     """
     ENABLE_RETIREMENT = True
+    DOCK_FULL_TRIGGERED = False
     RETIRE_MODE = '10'  # all, 10
     RETIRE_N = True
     RETIRE_R = False

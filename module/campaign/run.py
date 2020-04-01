@@ -84,11 +84,15 @@ class CampaignRun(CampaignUI):
             self.config.config.set('Setting', 'if_time_reach', '0')
             self.config.save()
             return True
-        # Oil limit
+        # Dock full limit
+        if self.config.STOP_IF_DOCK_FULL and self.campaign.config.DOCK_FULL_TRIGGERED:
+            logger.hr('Triggered dock full limit')
+            return True
+        # Emotion limit
         if self.config.STOP_IF_TRIGGER_EMOTION_LIMIT and self.campaign.config.EMOTION_LIMIT_TRIGGERED:
             logger.hr('Triggered emotion limit')
             return True
-        # Emotion limit
+        # Oil limit
         if self.config.STOP_IF_OIL_LOWER_THAN:
             if OCR_OIL.ocr(self.device.image) < self.config.STOP_IF_OIL_LOWER_THAN:
                 logger.hr('Triggered oil limit')
