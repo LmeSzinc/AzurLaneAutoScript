@@ -140,7 +140,20 @@ def main():
     drop.add_argument('--启用掉落记录', default=default('--启用掉落记录'), choices=['是', '否'])
     drop.add_argument('--掉落保存目录', default=default('--掉落保存目录'))
 
-    # 模拟器
+    # ==========收菜设置==========
+    reward_parser = subs.add_parser('收菜设置')
+    reward_condition = reward_parser.add_argument_group('触发条件', '')
+    reward_condition.add_argument('--启用收获', default=default('--启用收获'), choices=['是', '否'])
+    reward_condition.add_argument('--收菜间隔', default=default('--收菜间隔'), choices=['20', '30', '60'], help='每隔多少分钟触发收菜')
+
+    reward_oil = reward_parser.add_argument_group('石油物资', '')
+    reward_oil.add_argument('--启用石油收获', default=default('--启用石油收获'), choices=['是', '否'])
+    reward_oil.add_argument('--启用物资收获', default=default('--启用物资收获'), choices=['是', '否'])
+
+    reward_mission = reward_parser.add_argument_group('任务奖励', '')
+    reward_mission.add_argument('--启用任务收获', default=default('--启用任务收获'), choices=['是', '否'])
+
+    # ==========模拟器==========
     emulator_parser = subs.add_parser('模拟器')
     emulator = emulator_parser.add_argument_group('模拟器', '')
     emulator.add_argument('--设备', default=default('--设备'), help='例如 127.0.0.1:62001')

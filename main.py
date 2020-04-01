@@ -12,6 +12,12 @@ class AzurLaneAutoScript:
 
         logger.hr('Settings saved')
 
+    def reward(self):
+        for key, value in self.config.config['Reward'].items():
+            print(f'{key} = {value}')
+
+        logger.hr('Reward Settings saved')
+
     def emulator(self):
         for key, value in self.config.config['Emulator'].items():
             print(f'{key} = {value}')
@@ -58,11 +64,6 @@ class AzurLaneAutoScript:
         from module.campaign.run import CampaignRun
         az = CampaignRun(self.config)
         az.run(self.config.CAMPAIGN_EVENT, folder=self.config.EVENT_NAME)
-
-    def reward(self):
-        from module.reward.reward import Reward
-        az = Reward(self.config)
-        az.run()
 
     def event_daily_ab(self):
         from module.event.campaign_ab import CampaignAB

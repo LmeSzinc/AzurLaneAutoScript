@@ -25,6 +25,7 @@ dic_daily = {
 dic_chi_to_eng = {
     # Function
     '出击设置': 'setting',
+    '收菜设置': 'reward',
     '模拟器': 'emulator',
     '每日任务': 'daily',
     '主线图': 'main',
@@ -70,6 +71,11 @@ dic_chi_to_eng = {
     '退役金皮': 'retire_ssr',
     '启用掉落记录': 'enable_drop_screenshot',
     '掉落保存目录': 'drop_screenshot_folder',
+    '启用收获': 'enable_reward',
+    '收菜间隔': 'reward_interval',
+    '启用石油收获': 'enable_oil_reward',
+    '启用物资收获': 'enable_coin_reward',
+    '启用任务收获': 'enable_mission_reward',
     '设备': 'serial',
     '打每日': 'enable_daily_mission',
     '打困难': 'enable_hard_campaign',

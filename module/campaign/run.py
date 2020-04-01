@@ -9,11 +9,12 @@ from module.campaign.campaign_base import CampaignBase
 from module.campaign.campaign_ui import CampaignUI
 from module.config.config import AzurLaneConfig
 from module.logger import logger
+from module.reward.reward import Reward
 
 OCR_OIL = Digit(OCR_OIL, letter=(247, 247, 247), back=(33, 36, 49), limit=25000, name='OCR_OIL')
 
 
-class CampaignRun(CampaignUI):
+class CampaignRun(CampaignUI, Reward):
     folder: str
     name: str
     stage: str
@@ -110,12 +111,10 @@ class CampaignRun(CampaignUI):
         self.load_campaign(name, folder=folder)
         self.run_count = 0
         while 1:
-            self.device.screenshot()
+            self.handle_reward()
 
             # End
             if total and self.run_count == total:
-                break
-            if self.triggered_stop_condition():
                 break
 
             # Log
@@ -125,13 +124,20 @@ class CampaignRun(CampaignUI):
             else:
                 logger.info(f'Count: [{self.run_count}]')
 
-            # Run
+            # UI ensure
+            self.device.screenshot()
             self.campaign.device.image = self.device.image
             if self.campaign.is_in_map():
                 logger.info('Already in map, skip ensure_campaign_ui.')
             else:
                 self.ensure_campaign_ui(name=self.stage)
                 self.campaign.ENTRANCE = self.campaign_get_entrance(name=self.stage)
+
+            # End
+            if self.triggered_stop_condition():
+                break
+
+            # Run
             self.campaign.run()
 
             # After run

@@ -232,6 +232,16 @@ class AzurLaneConfig:
     ENABLE_SEMI_STORY_SKIP = True
 
     """
+    module.reward
+    """
+    ENABLE_REWARD = True
+    REWARD_INTERVAL = 20
+    REWARD_LAST_TIME = datetime.now()
+    ENABLE_OIL_REWARD = True
+    ENABLE_COIN_REWARD = True
+    ENABLE_MISSION_REWARD = True
+
+    """
     C_7_2_mystery_farming
     """
     C72_BOSS_FLEET_STEP_ON_A3 = True
@@ -326,6 +336,12 @@ class AzurLaneConfig:
         self.RETIRE_MODE = option['retire_mode'].split('_')[1]
         for r in ['n', 'r', 'sr', 'ssr']:
             self.__setattr__(f'RETIRE_{r.upper()}', to_bool(option[f'retire_{r}']))
+
+        # Reward
+        option = config['Reward']
+        self.REWARD_INTERVAL = int(option['reward_interval'])
+        for attr in ['enable_reward', 'enable_oil_reward', 'enable_coin_reward', 'enable_mission_reward']:
+            self.__setattr__(attr.upper(), to_bool(option[attr]))
 
         option = config['Main']
         self.CAMPAIGN_NAME = option['main_stage']

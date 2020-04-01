@@ -64,10 +64,11 @@ class UI(ModuleBase):
 
         logger.info('Unable to goto page_main')
 
-    def ui_goto(self, destination):
+    def ui_goto(self, destination, skip_first_screenshot=False):
         """
         Args:
             destination (Page):
+            skip_first_screenshot (bool):
         """
         # Iter
         visited = [self.ui_current]
@@ -100,12 +101,15 @@ class UI(ModuleBase):
         logger.attr('UI route', ' - '.join([p.name for p in route]))
 
         # Click
-        skip = False
         for p1, p2 in zip(route[:-1], route[1:]):
             # self.ui_click(source=p1, destination=p2)
-            self.ui_click(click_button=p1.links[p2], check_button=p2.check_button, offset=(20, 20), skip_first_screenshot=skip)
+            self.ui_click(
+                click_button=p1.links[p2],
+                check_button=p2.check_button,
+                offset=(20, 20),
+                skip_first_screenshot=skip_first_screenshot)
             self.ui_current = p2
-            skip = True
+            skip_first_screenshot = True
 
         # Reset
         for page in visited:
