@@ -17,6 +17,7 @@ CARD_RARITY_COLORS = {
     # Not support marriage cards.
 }
 
+
 class Retirement(UI, InfoBarHandler):
     def _handle_retirement_cards_loading(self):
         self.device.sleep((1, 1.5))
@@ -77,6 +78,32 @@ class Retirement(UI, InfoBarHandler):
         if current != method:
             logger.info(f'Sorting set to {method}')
             self.device.click(SORTNG_CLICK)
+            self._handle_retirement_cards_loading()
+            self.device.screenshot()
+            return True
+        else:
+            return False
+
+    def _retirement_set_common_ship_filter(self, enable=False):
+        """
+        Args:
+            enable (bool): If enable common_ship_filter
+
+        Returns:
+            bool: If changed.
+        """
+        # self.device.screenshot()
+        if self.appear(COMMON_SHIP_FILTER_ENABLE):
+            current = True
+        elif self.appear(COMMON_SHIP_FILTER_DISABLE):
+            current = False
+        else:
+            logger.warning('Common ship filter not detected, skipped')
+            return False
+
+        if current != enable:
+            logger.info(f'Common ship filter set to {enable}')
+            self.device.click(COMMON_SHIP_FILTER_ENABLE)
             self._handle_retirement_cards_loading()
             self.device.screenshot()
             return True
@@ -155,6 +182,9 @@ class Retirement(UI, InfoBarHandler):
         Args:
             amount (int): Amount of cards retire. 0 to 2000.
             rarity (tuple(str)): Card rarity. N, R, SR, SSR.
+
+        Returns:
+            int: Total retired.
         """
         if amount is None:
             amount = self._retire_amount
@@ -163,6 +193,7 @@ class Retirement(UI, InfoBarHandler):
         logger.hr('Retirement')
         logger.info(f'Amount={amount}. Rarity={rarity}')
         self._retirement_set_sort_method('ASC')
+        self._retirement_set_common_ship_filter()
         total = 0
 
         while amount:
@@ -179,6 +210,7 @@ class Retirement(UI, InfoBarHandler):
 
         self._retirement_set_sort_method('DESC')
         logger.info(f'Total retired: {total}')
+        return total
 
     def handle_retirement(self, amount=None, rarity=None):
         if not self.config.ENABLE_RETIREMENT:
@@ -189,8 +221,12 @@ class Retirement(UI, InfoBarHandler):
         self.ui_click(RETIRE_APPEAR_1, check_button=IN_RETIREMENT_CHECK, skip_first_screenshot=True)
         self._handle_retirement_cards_loading()
 
-        self.retire_ships(amount=amount, rarity=rarity)
+        total = self.retire_ships(amount=amount, rarity=rarity)
 
         self._retirement_quit()
         self.config.DOCK_FULL_TRIGGERED = True
+
+        if total == 0:
+            logger.warning('No ship retired, exit')
+            exit(1)
         return True
