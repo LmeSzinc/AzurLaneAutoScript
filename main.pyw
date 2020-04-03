@@ -32,6 +32,7 @@ def main():
     config_file = f'./config/{script_name}.ini'
     config = configparser.ConfigParser(interpolation=None)
     config.read_file(codecs.open(config_file, "r", "utf8"))
+    event_folder = [dic_eng_to_chi.get(f, f) for f in os.listdir('./campaign') if f.startswith('event_')][::-1]
 
     saved_config = {}
     for opt, option in config.items():
@@ -62,7 +63,7 @@ def main():
     # https://github.com/chriskiehl/Gooey/issues/148
     # https://github.com/chriskiehl/Gooey/issues/485
 
-    parser = GooeyParser(description='An Azur Lane Automation Tool.')
+    parser = GooeyParser(description='AzurLaneAutoScript, An Azur Lane automation tool.')
     subs = parser.add_subparsers(help='commands', dest='command')
 
     # ==========出击设置==========
@@ -153,13 +154,13 @@ def main():
     reward_mission = reward_parser.add_argument_group('任务奖励', '')
     reward_mission.add_argument('--启用任务收获', default=default('--启用任务收获'), choices=['是', '否'])
 
-    # ==========模拟器==========
-    emulator_parser = subs.add_parser('模拟器')
+    # ==========设备设置==========
+    emulator_parser = subs.add_parser('设备设置')
     emulator = emulator_parser.add_argument_group('模拟器', '')
     emulator.add_argument('--设备', default=default('--设备'), help='例如 127.0.0.1:62001')
 
     # ==========每日任务==========
-    daily_parser = subs.add_parser('每日任务')
+    daily_parser = subs.add_parser('每日任务困难演习')
 
     # 选择每日
     daily = daily_parser.add_argument_group('选择每日', '每日任务, 演习, 困难图')
@@ -174,22 +175,27 @@ def main():
     daily_task.add_argument('--商船护航', default=default('--商船护航'), choices=['70级', '50级', '35级'])
     daily_task.add_argument('--海域突进', default=default('--海域突进'), choices=['70级', '50级', '35级'])
     daily_task.add_argument('--每日舰队', default=default('--每日舰队'), choices=['1', '2', '3', '4', '5', '6'])
-    daily_task.add_argument('--每日舰队快速换装', default=default('--每日舰队快速换装'), help='打之前换装备, 打完后卸装备, 不需要就填0\n逗号分割, 例如 \"3, 1, 0, 1, 1, 0\"')
+    daily_task.add_argument('--每日舰队快速换装', default=default('--每日舰队快速换装'), help='打之前换装备, 打完后卸装备, 不需要就填0\n逗号分割, 例如 3, 1, 0, 1, 1, 0')
 
     # 困难设置
-    hard = daily_parser.add_argument_group('困难设置', '暂时仅支持 10-4')
+    hard = daily_parser.add_argument_group('困难设置', '需要开启周回模式, 暂时仅支持 10-4')
     hard.add_argument('--困难地图', default=default('--困难地图'), help='比如 10-4')
     hard.add_argument('--困难舰队', default=default('--困难舰队'), choices=['1', '2'])
-    hard.add_argument('--困难舰队快速换装', default=default('--困难舰队快速换装'), help='打之前换装备, 打完后卸装备, 不需要就填0\n逗号分割, 例如 \"3, 1, 0, 1, 1, 0\"')
+    hard.add_argument('--困难舰队快速换装', default=default('--困难舰队快速换装'), help='打之前换装备, 打完后卸装备, 不需要就填0\n逗号分割, 例如 3, 1, 0, 1, 1, 0')
 
     # 演习设置
-    exercise = daily_parser.add_argument_group('演习设置', '暂时不支持挑选福利队')
+    exercise = daily_parser.add_argument_group('演习设置', '暂时仅支持经验最多')
     exercise.add_argument('--演习对手选择', default=default('--演习对手选择'), choices=['经验最多', '排名最前', '福利队'], help='暂时仅支持经验最多')
     exercise.add_argument('--演习次数保留', default=default('--演习次数保留'), help='暂时仅支持保留0个')
     exercise.add_argument('--演习尝试次数', default=default('--演习尝试次数'), help='每个对手的尝试次数, 打不过就换')
     exercise.add_argument('--演习SL阈值', default=default('--演习SL阈值'), help='HP<阈值时撤退')
     exercise.add_argument('--演习低血量确认时长', default=default('--演习低血量确认时长'), help='HP低于阈值后, 过一定时长才会撤退\n推荐 1.0 ~ 3.0')
-    exercise.add_argument('--演习快速换装', default=default('--演习快速换装'), help='打之前换装备, 打完后卸装备, 不需要就填0\n逗号分割, 例如 \"3, 1, 0, 1, 1, 0\"')
+    exercise.add_argument('--演习快速换装', default=default('--演习快速换装'), help='打之前换装备, 打完后卸装备, 不需要就填0\n逗号分割, 例如 3, 1, 0, 1, 1, 0')
+
+    # ==========每日活动图三倍PT==========
+    event_ab_parser = subs.add_parser('每日活动图三倍PT')
+    event_name = event_ab_parser.add_argument_group('选择活动', '')
+    event_name.add_argument('--活动名称ab', default=default('--活动名称ab'), choices=event_folder, help='例如 event_20200326_cn')
 
     # ==========主线图==========
     main_parser = subs.add_parser('主线图')
@@ -199,24 +205,18 @@ def main():
 
     # ==========活动图==========
     event_parser = subs.add_parser('活动图')
-    event_folder = [dic_eng_to_chi.get(f, f) for f in os.listdir('./campaign') if f.startswith('event_')][::-1]
 
     event = event_parser.add_argument_group('选择关卡', '')
     event.add_argument('--活动地图', default=default('--活动地图'),
-                             choices=['a1', 'a2', 'a3', 'b1', 'b2', 'b3', 'c1', 'c2', 'c3', 'd1', 'd2', 'd3'],
+                             choices=['a1', 'a2', 'a3', 'b1', 'b2', 'b3', 'c1', 'c2', 'c3', 'd1', 'd2', 'd3'][::-1],
                              help='例如 d3')
     event.add_argument('--sp地图', default=default('--sp地图'),
                              choices=['sp3', 'sp2', 'sp1'],
                              help='例如 sp3')
     event.add_argument('--活动名称', default=default('--活动名称'), choices=event_folder, help='例如 event_20200312_cn')
 
-    # ==========活动AB图每日三倍==========
-    event_ab_parser = subs.add_parser('活动AB图每日三倍')
-    event_name = event_ab_parser.add_argument_group('选择活动', '')
-    event_name.add_argument('--活动名称ab', default=default('--活动名称ab'), choices=event_folder, help='例如 event_20200326_cn')
-
     # ==========半自动==========
-    semi_parser = subs.add_parser('半自动')
+    semi_parser = subs.add_parser('半自动辅助点击')
     semi = semi_parser.add_argument_group('半自动模式', '手动选敌, 自动结算, 用于出击未适配的图')
     semi.add_argument('--进图准备', default=default('--进图准备'), help='', choices=['是', '否'])
     semi.add_argument('--跳过剧情', default=default('--跳过剧情'), help='注意, 这会自动确认所有提示框, 包括红脸出击', choices=['是', '否'])
@@ -225,9 +225,6 @@ def main():
     c_7_2_parser = subs.add_parser('7-2三战拣垃圾')
     c_7_2 = c_7_2_parser.add_argument_group('7-2三战拣垃圾', '')
     c_7_2.add_argument('--BOSS队踩A3', default=default('--BOSS队踩A3'), choices=['是', '否'], help='A3有敌人就G3, C3, E3')
-    # c_12_4.add_argument('--非大型敌人撤退忍耐', default=default('--非大型敌人撤退忍耐'), choices=['0', '1', '2', '10'],
-    #                     help='没有大型之后还会打多少战, 不挑敌人选10')
-    # c_12_4.add_argument('--拣弹药124', default=default('--拣弹药124'), choices=['2', '3', '4', '5'], help='多少战后拣弹药')
 
     # ==========12-4打大型练级==========
     c_12_4_parser = subs.add_parser('12-4打大型练级')
@@ -235,8 +232,6 @@ def main():
     c_12_4.add_argument('--非大型敌人进图忍耐', default=default('--非大型敌人进图忍耐'), choices=['0', '1', '2'], help='忍受进场多少战没有大型')
     c_12_4.add_argument('--非大型敌人撤退忍耐', default=default('--非大型敌人撤退忍耐'), choices=['0', '1', '2', '10'], help='没有大型之后还会打多少战, 不挑敌人选10')
     c_12_4.add_argument('--拣弹药124', default=default('--拣弹药124'), choices=['2', '3', '4', '5'], help='多少战后拣弹药')
-
-
 
     args = parser.parse_args()
 

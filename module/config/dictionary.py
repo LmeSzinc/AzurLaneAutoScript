@@ -26,12 +26,12 @@ dic_chi_to_eng = {
     # Function
     '出击设置': 'setting',
     '收菜设置': 'reward',
-    '模拟器': 'emulator',
-    '每日任务': 'daily',
+    '设备设置': 'emulator',
+    '每日任务困难演习': 'daily',
+    '每日活动图三倍PT': 'event_daily_ab',
     '主线图': 'main',
     '活动图': 'event',
-    '活动AB图每日三倍': 'event_daily_ab',
-    '半自动': 'semi_auto',
+    '半自动辅助点击': 'semi_auto',
     '7-2三战拣垃圾': 'c72_mystery_farming',
     '12-4打大型练级': 'c124_leveling',
 
