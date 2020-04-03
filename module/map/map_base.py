@@ -131,6 +131,10 @@ class CampaignMap:
             grid.wipe_out()
             grid.is_cleared = False
 
+    def reset_fleet(self):
+        for grid in self:
+            grid.is_current_fleet = False
+
     @property
     def camera_data(self):
         """
@@ -341,12 +345,19 @@ class CampaignMap:
 
         # predict
         for grid in self:
-            if grid.is_fleet or grid.is_mystery:
-                upper = tuple(np.array(grid.location) + (0, -1))
+            if not grid.is_fleet or not grid.is_mystery:
+                continue
+
+            cover = [(0, -1)]
+            if grid.is_current_fleet:
+                cover.append((0, -2))
+
+            for upper in cover:
+                upper = tuple(np.array(grid.location) + upper)
                 if upper in self:
                     upper = self[upper]
                     for attr in may.keys():
-                        if upper.__getattribute__('may_' + attr) and missing[attr] == may[attr]:
+                        if upper.__getattribute__('may_' + attr) and missing[attr] > 0 and missing[attr] == may[attr]:
                             logger.info('Predict %s to be %s' % (location2node(upper.location), attr))
                             upper.__setattr__('is_' + attr, True)
 

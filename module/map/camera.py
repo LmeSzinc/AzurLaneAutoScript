@@ -205,6 +205,7 @@ class Camera(InfoBarHandler):
             mystery_count:
         """
         logger.info('Full scan start')
+        self.map.reset_fleet()
 
         queue = self.map.camera_data
         while len(queue) > 0:
@@ -271,6 +272,8 @@ class Camera(InfoBarHandler):
 
     def full_scan_find_boss(self):
         logger.info('Full scan find boss.')
+        self.map.reset_fleet()
+
         queue = self.map.select(may_boss=True)
         while len(queue) > 0:
             queue = queue.sort_by_camera_distance(self.camera)

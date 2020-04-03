@@ -38,6 +38,7 @@ class GridInfo:
     is_mystery = False  # MY
     is_ammo = False  # AM
     is_fleet = False  # FL
+    is_current_fleet = False
     is_submarine = False  # SS
     is_siren = False  # SI
 
@@ -88,7 +89,8 @@ class GridInfo:
             return '%s%s' % (self.enemy_scale, self.enemy_type[0].upper())
 
         dic = {
-            'FL': 'is_fleet',
+            'FL': 'is_current_fleet',
+            'Fl': 'is_fleet',
             'MY': 'is_mystery',
             'AM': 'is_ammo',
             '==': 'is_cleared'
@@ -153,6 +155,8 @@ class GridInfo:
                     # failure += 1
 
         self.is_fleet = info.is_fleet
+        if info.is_current_fleet:
+            self.is_current_fleet = True
         return False
 
     def wipe_out(self):

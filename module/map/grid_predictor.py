@@ -77,6 +77,8 @@ class GridPredictor:
         if not self.is_enemy and not self.is_mystery:
             self.is_siren = self.predict_dynamic_red_border()
         self.is_fleet = self.predict_fleet()
+        if self.is_fleet:
+            self.is_current_fleet = self.predict_current_fleet()
         self.is_boss = self.predict_boss()
         # self.image_perspective = color_similarity_2d(
         #     self.image.transform(self.ENEMY_PERSPECTIVE_IMAGE_SIZE, Image.PERSPECTIVE, self._perspective)
