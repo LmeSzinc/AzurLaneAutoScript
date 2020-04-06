@@ -53,6 +53,9 @@ class Campaign(CampaignBase, HardEquipment):
             self._goto(grids[0])
             raise CampaignEnd('BOSS Clear.')
 
+        logger.warning('BOSS not detected, trying all boss spawn point.')
+        self.clear_potential_boss()
+
         return False
 
     def equipment_take_off_when_finished(self):

@@ -40,9 +40,6 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
-        if self.clear_boss():
-            return True
-
         if self.clear_siren():
             return True
 

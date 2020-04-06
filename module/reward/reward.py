@@ -65,6 +65,7 @@ class Reward(RewardCommission):
             for button in [EXP_INFO_S_REWARD, GET_ITEMS_1, GET_ITEMS_2, GET_SHIP]:
                 if self.appear(button, interval=1):
                     self.device.click(REWARD_SAVE_CLICK)
+                    click_timer.reset()
                     exit_timer.reset()
                     reward = True
                     continue
@@ -73,6 +74,7 @@ class Reward(RewardCommission):
                 if not click_timer.reached():
                     continue
                 if self.appear_then_click(button, interval=1):
+                    btn.remove(button)
                     exit_timer.reset()
                     click_timer.reset()
                     reward = True
@@ -99,27 +101,37 @@ class Reward(RewardCommission):
         reward = False
         exit_timer = Timer(1)
         click_timer = Timer(1)
+        timeout = Timer(10)
         exit_timer.start()
+        timeout.start()
         while 1:
             self.device.screenshot()
 
-            for button in [GET_ITEMS_1, GET_ITEMS_2, GET_SHIP]:
-                if self.appear_then_click(button, interval=1):
+            for button in [GET_ITEMS_1, GET_ITEMS_2]:
+                if self.appear_then_click(button, offset=(30, 30), interval=1):
                     exit_timer.reset()
                     reward = True
                     continue
 
-            for button in [MISSION_MULTI, MISSION_SIGNAL]:
+            for button in [MISSION_MULTI, MISSION_SINGLE]:
                 if not click_timer.reached():
                     continue
                 if self.appear_then_click(button, interval=1):
                     exit_timer.reset()
                     click_timer.reset()
-                    reward = True
+                    continue
+
+            if not self.appear(MISSION_CHECK):
+                if self.appear_then_click(GET_SHIP, interval=1):
+                    click_timer.reset()
+                    exit_timer.reset()
                     continue
 
             # End
-            if exit_timer.reached():
+            if reward and exit_timer.reached():
+                break
+            if timeout.reached():
+                logger.warning('Wait get items timeout.')
                 break
 
         self.ui_goto(page_main, skip_first_screenshot=True)

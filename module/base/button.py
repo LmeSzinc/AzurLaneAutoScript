@@ -77,14 +77,14 @@ class Button:
         This method is irreversible, this would be only use in some special occasion.
 
         Args:
-            image (PIL.Image.Image): Another screenshot.
+            image: Another screenshot.
 
         Returns:
             tuple: Color (r, g, b).
         """
-        color = get_color(image, self.area)
-        self.color = color
-        return color
+        self.color = get_color(image, self.area)
+        self.image = np.array(image.crop(self.area))
+        return self.color
 
     def ensure_template(self):
         """

@@ -428,11 +428,13 @@ class RewardCommission(UI, InfoBarHandler):
         logger.hr('Commission run', level=2)
         if self.daily_choose:
             for comm in self.daily_choose:
-                self._commission_ensure_mode('daily')
+                if not self._commission_ensure_mode('daily'):
+                    self._commission_mode_reset()
                 self._commission_find_and_start(comm)
         if self.urgent_choose:
             for comm in self.urgent_choose:
-                self._commission_ensure_mode('urgent')
+                if not self._commission_ensure_mode('urgent'):
+                    self._commission_mode_reset()
                 self._commission_find_and_start(comm)
         if not self.daily_choose and not self.urgent_choose:
             logger.info('No commission chose')

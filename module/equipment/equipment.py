@@ -4,22 +4,33 @@ from module.handler.info_bar import InfoBarHandler
 from module.logger import logger
 from module.ui.assets import BACK_ARROW
 
-SWIPE_DISTANCE = (350, 0)
+SWIPE_DISTANCE = 250
 SWIPE_RANDOM_RANGE = (-40, -20, 40, 20)
 
 
 class Equipment(InfoBarHandler):
     equipment_has_take_on = False
 
+    def _view_swipe(self, distance):
+        while 1:
+            SWIPE_CHECK.load_color(self.device.image)
+            self.device.swipe(vector=(distance, 0), box=SWIPE_AREA.area, random_range=SWIPE_RANDOM_RANGE,
+                              padding=0, duration=(0.1, 0.12))
+            while 1:
+                self.device.screenshot()
+                if SWIPE_CHECK.match(self.device.image):
+                    continue
+                if self.appear(EQUIPMENT_OPEN):
+                    break
+
+            if not SWIPE_CHECK.match(self.device.image):
+                break
+
     def _view_next(self):
-        self.device.swipe(vector=(-SWIPE_DISTANCE[0], 0), box=SWIPE_AREA.area, random_range=SWIPE_RANDOM_RANGE,
-                          padding=0, duration=(0.1, 0.12))
-        self.wait_until_appear(EQUIPMENT_OPEN)
+        self._view_swipe(distance=-SWIPE_DISTANCE)
 
     def _view_prev(self):
-        self.device.swipe(vector=(SWIPE_DISTANCE[0], 0), box=SWIPE_AREA.area, random_range=SWIPE_RANDOM_RANGE,
-                          padding=0, duration=(0.1, 0.12))
-        self.wait_until_appear(EQUIPMENT_OPEN)
+        self._view_swipe(distance=SWIPE_DISTANCE)
 
     def _equip_enter(self, enter):
         enter_timer = Timer(5)

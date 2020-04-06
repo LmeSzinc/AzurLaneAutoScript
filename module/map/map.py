@@ -14,8 +14,8 @@ class Map(Fleet):
         logger.info('Clear enemy: %s' % grid)
         expected = f'combat_{expected}' if expected else 'combat'
         self.show_fleet()
-        if self.config.ENABLE_EMOTION_REDUCE and self.config.ENABLE_MAP_FLEET_LOCK and 'boss' not in expected:
-            self.emotion.wait()
+        if self.config.ENABLE_EMOTION_REDUCE and self.config.ENABLE_MAP_FLEET_LOCK:
+            self.emotion.wait(fleet=self.fleet_current_index)
         self.goto(grid, expected=expected)
 
         self.full_scan(battle_count=self.battle_count, mystery_count=self.mystery_count, siren_count=self.siren_count)
@@ -258,7 +258,28 @@ class Map(Fleet):
             self.clear_chosen_enemy(grids[0], expected='boss')
             raise CampaignEnd('BOSS Clear.')
 
+        logger.warning('BOSS not detected, trying all boss spawn point.')
+        self.clear_potential_boss()
+
         return False
+
+    def clear_potential_boss(self):
+        """
+        Method to step on all boss spawn point when boss not detected.
+        """
+        grids = self.map.select(may_boss=True, is_accessible=True)
+        logger.info('May boss: %s' % self.map.select(may_boss=True))
+        battle_count = self.battle_count
+
+        for grid in grids:
+            logger.hr('Clear BOSS')
+            grids = grids.sort(cost=True, weight=True)
+            logger.info('Grid: %s' % str(grid))
+            self.clear_chosen_enemy(grid, expected='boss')
+            if self.battle_count - battle_count > 0:
+                raise CampaignEnd('BOSS Clear.')
+            else:
+                logger.info('Boss guessing incorrect.')
 
     def clear_siren(self):
         grids = self.map.select(may_siren=True, is_enemy=True, is_accessible=True)

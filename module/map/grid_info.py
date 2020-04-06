@@ -167,3 +167,11 @@ class GridInfo:
         self.is_boss = False
         self.is_ammo = False
         self.is_siren = False
+
+    def reset(self):
+        self.wipe_out()
+        self.is_fleet = False
+        self.is_current_fleet = False
+        self.is_submarine = False
+
+        self.is_cleared = False

@@ -46,3 +46,12 @@ class Device(Screenshot, Control):
         """
         self.handle_night_commission()
         return super().screenshot()
+
+    def click(self, button, adb=False):
+        self.handle_night_commission()
+        return super().click(button, adb=adb)
+
+    def swipe(self, vector, box=(123, 159, 1193, 628), random_range=(0, 0, 0, 0), padding=15, duration=(0.1, 0.2)):
+        self.handle_night_commission()
+        return super().swipe(vector=vector, box=box, random_range=random_range, padding=padding, duration=duration)
+

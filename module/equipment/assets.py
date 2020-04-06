@@ -15,3 +15,4 @@ FLEET_NEXT = Button(area=(1234, 327, 1254, 356), color=(72, 93, 125), button=(12
 FLEET_PREV = Button(area=(26, 327, 46, 356), color=(72, 93, 125), button=(26, 327, 46, 356), file='./assets/equipment/FLEET_PREV.png')
 OCR_FLEET_INDEX = Button(area=(958, 124, 984, 155), color=(46, 72, 117), button=(958, 124, 984, 155), file='./assets/equipment/OCR_FLEET_INDEX.png')
 SWIPE_AREA = Button(area=(220, 167, 580, 527), color=(165, 172, 194), button=(220, 167, 580, 527), file='./assets/equipment/SWIPE_AREA.png')
+SWIPE_CHECK = Button(area=(190, 353, 610, 455), color=(171, 180, 198), button=(190, 353, 610, 455), file='./assets/equipment/SWIPE_CHECK.png')

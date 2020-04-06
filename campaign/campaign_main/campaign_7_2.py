@@ -57,7 +57,7 @@ class Campaign(CampaignBase):
             ignore = SelectedGrids([A2])
         if self.fleet_at(G3, fleet=2):
             ignore = SelectedGrids([H3])
-        self.clear_all_mystery(nearby=True, ignore=ignore)
+        self.clear_all_mystery(nearby=False, ignore=ignore)
 
         if self.clear_roadblocks([ROAD_MAIN]):
             return True

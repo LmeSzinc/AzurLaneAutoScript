@@ -62,7 +62,12 @@ class Emotion:
         self.record()
 
     def recovered_time(self, fleet=(1, 2)):
-        # fleet = [2, 3] if self.config.USING_SPARE_FLEET else [1, 2]
+        """
+        Args:
+            fleet (int, tuple):
+        """
+        if isinstance(fleet, int):
+            fleet = (fleet,)
         recover_count = [
             (self.emotion_limit(index) - int(self.emotion[config_name][f'fleet_{index}_emotion'])) \
             // self.recover_value(index) for index in fleet]
@@ -85,9 +90,13 @@ class Emotion:
     def emotion_recovered(self, fleet):
         pass
 
-    def wait(self):
+    def wait(self, fleet=(1, 2)):
+        """
+        Args:
+            fleet (int, tuple):
+        """
         self.update()
-        recovered_time = self.recovered_time()
+        recovered_time = self.recovered_time(fleet=fleet)
         while 1:
             if datetime.now() > recovered_time:
                 break

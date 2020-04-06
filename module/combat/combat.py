@@ -90,7 +90,7 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
         logger.info('Combat preparation.')
 
         if emotion_reduce and not self.config.ENABLE_MAP_FLEET_LOCK:
-            self.emotion.wait()
+            self.emotion.wait(fleet=fleet_index)
         if balance_hp:
             self.balance_scout_hp()
         # logger.info('start combat')
@@ -263,27 +263,22 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
                 if expected_end():
                     break
 
-    def combat(self, banlance_hp=None, emotion_reduce=None, func=None, call_submarine_at_boss=None, save_get_items=None,
-               expected_end=None):
+    def combat(self, balance_hp=None, emotion_reduce=None, func=None, call_submarine_at_boss=None, save_get_items=None,
+               expected_end=None, fleet_index=1):
         """
         Execute a combat.
         """
-        banlance_hp = banlance_hp if banlance_hp is not None else self.config.ENABLE_HP_BALANCE
+        balance_hp = balance_hp if balance_hp is not None else self.config.ENABLE_HP_BALANCE
         emotion_reduce = emotion_reduce if emotion_reduce is not None else self.config.ENABLE_EMOTION_REDUCE
         auto = func is None
         call_submarine_at_boss = call_submarine_at_boss if call_submarine_at_boss is not None else self.config.SUBMARINE_CALL_AT_BOSS
         save_get_items = save_get_items if save_get_items is not None else self.config.ENABLE_SAVE_GET_ITEMS
-        if expected_end == 'in_stage':
-            emotion_reduce = False
-            fleet_index = 2
-        else:
-            fleet_index = 1
 
         # if not hasattr(self, 'emotion'):
         #     self.emotion = Emotion(config=self.config)
 
         self.combat_preparation(
-            balance_hp=banlance_hp, emotion_reduce=emotion_reduce, auto=auto, fleet_index=fleet_index)
+            balance_hp=balance_hp, emotion_reduce=emotion_reduce, auto=auto, fleet_index=fleet_index)
         self.combat_execute(
             func=func, call_submarine_at_boss=call_submarine_at_boss, save_get_items=save_get_items)
         self.combat_status(

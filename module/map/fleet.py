@@ -100,7 +100,7 @@ class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
                     # break
 
                 if self.combat_appear():
-                    self.combat(expected_end=self._expected_combat_end)
+                    self.combat(expected_end=self._expected_combat_end, fleet_index=self.fleet_current_index)
                     arrived = True
                     result = 'combat'
                     self.battle_count += 1
@@ -233,7 +233,7 @@ class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
             if data.get('battle') == self.battle_count and data.get('boss', 0):
                 return 'in_stage'
             if data.get('battle') == self.battle_count + 1:
-                if data.get('enemy', 0) > 0:
+                if data.get('enemy', 0) + data.get('siren', 0) > 0:
                     return 'with_searching'
                 else:
                     return 'no_searching'

@@ -128,8 +128,7 @@ class CampaignMap:
 
     def reset(self):
         for grid in self:
-            grid.wipe_out()
-            grid.is_cleared = False
+            grid.reset()
 
     def reset_fleet(self):
         for grid in self:
@@ -319,8 +318,15 @@ class CampaignMap:
                     missing[attr] -= 1
 
         for grid in self:
-            if grid.is_fleet or grid.is_mystery or grid.is_siren:
-                upper = tuple(np.array(grid.location) + (0, -1))
+            if not grid.is_fleet and not grid.is_mystery and not grid.is_siren:
+                continue
+
+            cover = [(0, -1)]
+            if grid.is_current_fleet:
+                cover.append((0, -2))
+
+            for upper in cover:
+                upper = tuple(np.array(grid.location) + upper)
                 if upper in self:
                     upper = self[upper]
                     for attr in may.keys():
@@ -345,7 +351,7 @@ class CampaignMap:
 
         # predict
         for grid in self:
-            if not grid.is_fleet or not grid.is_mystery:
+            if not grid.is_fleet and not grid.is_mystery:
                 continue
 
             cover = [(0, -1)]
