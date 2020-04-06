@@ -1,4 +1,5 @@
 import time
+from datetime import datetime, timedelta
 from functools import wraps
 
 from module.logger import logger
@@ -14,6 +15,20 @@ def timer(function):
         print('%s: %s s' % (function.__name__, str(round(t1 - t0, 10))))
         return result
     return function_timer
+
+
+def future_time(string):
+    """
+    Args:
+        string (str): Such as 14:59.
+
+    Returns:
+        datetime: Time with given hour, minute, second in the future.
+    """
+    hour, minute = [int(x) for x in string.split(':')]
+    future = datetime.now().replace(hour=hour, minute=minute, second=0, microsecond=0)
+    future = future + timedelta(days=1) if future < datetime.now() else future
+    return future
 
 
 class Timer:

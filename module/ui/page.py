@@ -70,3 +70,10 @@ page_main.link(button=MAIN_GOTO_REWARD, destination=page_reward)
 page_mission = Page(MISSION_CHECK)
 page_mission.link(button=GOTO_MAIN, destination=page_main)
 page_main.link(button=MAIN_GOTO_MISSION, destination=page_mission)
+
+# Commission
+# Please don't goto commission from campaign.
+page_commission = Page(COMMISSION_CHECK)
+page_commission.link(button=GOTO_MAIN, destination=page_main)
+page_commission.link(button=BACK_ARROW, destination=page_reward)
+page_reward.link(button=REWARD_GOTO_COMMISSION, destination=page_commission)

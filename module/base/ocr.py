@@ -16,6 +16,8 @@ OCR_MODELS = {
     # Font: Impact
     # Charset: 0123456789ABCDEFSP-:/
     'stage': CnOcr(root='./cnocr_models/stage', model_epoch=56),
+
+    'cnocr': CnOcr(root='./cnocr_models/cnocr', model_epoch=20)
 }
 image_shape = (280, 32)
 width_range = (0.6, 1.4)
@@ -26,7 +28,7 @@ y_range = (-2, 2)
 
 class Ocr:
     def __init__(self, buttons, lang, letter=(255, 255, 255), back=(0, 0, 0), mid_process_height=70, threshold=127,
-                 additional_preprocess=None, length=None, white_list=None, name='OCR'):
+                 additional_preprocess=None, use_binary=True, length=None, white_list=None, name='OCR'):
         """
         Args:
             lang (str): OCR model. in ['digit', 'cnocr'].
@@ -34,6 +36,7 @@ class Ocr:
             back (tuple(int)): Background RGB.
             mid_process_height (int): 70
             additional_preprocess (callable):
+            use_binary (bool):
             length (int, tuple(int)): Expected length.
             white_list (str): Expected str.
             buttons (Button, List[Button]): Button or list of Button instance.
@@ -45,6 +48,7 @@ class Ocr:
         self.mid_process_height = mid_process_height
         self.threshold = threshold
         self.additional_preprocess = additional_preprocess
+        self.use_binary=use_binary
         self.length = (length, length) if isinstance(length, int) else length
         self.white_list = white_list
         self.buttons = buttons if isinstance(buttons, list) else [buttons]
@@ -80,7 +84,8 @@ class Ocr:
             image = self.additional_preprocess(image)
 
         # Binarization.
-        _, image = cv2.threshold(image, self.threshold, 255, cv2.THRESH_BINARY)
+        if self.use_binary:
+            _, image = cv2.threshold(image, self.threshold, 255, cv2.THRESH_BINARY)
 
         # Resize to input size.
         size = (int(image.shape[1] / image.shape[0] * image_shape[1]), image_shape[1])

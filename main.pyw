@@ -154,6 +154,36 @@ def main():
     reward_mission = reward_parser.add_argument_group('任务奖励', '')
     reward_mission.add_argument('--启用任务收获', default=default('--启用任务收获'), choices=['是', '否'])
 
+    reward_commission = reward_parser.add_argument_group('委托设置', '')
+    reward_commission.add_argument('--启用委托收获', default=default('--启用委托收获'), choices=['是', '否'])
+    reward_commission.add_argument('--委托时间限制', default=default('--委托时间限制'), help='忽略完成时间超过限制的委托, 格式: 23:30')
+
+    priority1 = reward_commission.add_argument_group('委托耗时优先级', '')
+    priority1.add_argument('--委托耗时小于2h', default=default('--委托耗时小于2h'), help='')
+    priority1.add_argument('--委托耗时超过6h', default=default('--委托耗时超过6h'), help='')
+    priority1.add_argument('--委托过期小于2h', default=default('--委托过期小于2h'), help='')
+    priority1.add_argument('--委托过期大于6h', default=default('--委托过期大于6h'), help='')
+
+    priority2 = reward_commission.add_argument_group('日常委托优先级', '')
+    priority2.add_argument('--日常委托', default=default('--日常委托'), help='日常资源开发, 高阶战术研发')
+    priority2.add_argument('--主要委托', default=default('--主要委托'), help='1200油/1000油委托')
+
+    priority3 = reward_commission.add_argument_group('额外委托优先级', '')
+    priority3.add_argument('--钻头类额外委托', default=default('--钻头类额外委托'), help='短距离航行训练, 近海防卫巡逻')
+    priority3.add_argument('--部件类额外委托', default=default('--部件类额外委托'), help='矿脉护卫委托, 林木护卫委托')
+    priority3.add_argument('--魔方类额外委托', default=default('--魔方类额外委托'), help='舰队高阶演习, 舰队护卫演习')
+    priority3.add_argument('--石油类额外委托', default=default('--石油类额外委托'), help='小型油田开发, 大型油田开发')
+    priority3.add_argument('--教材类额外委托', default=default('--教材类额外委托'), help='小型商船护卫, 大型商船护卫')
+
+    priority4 = reward_commission.add_argument_group('紧急委托优先级', '')
+    priority4.add_argument('--钻头类紧急委托', default=default('--钻头类紧急委托'), help='保卫运输部队, 歼灭敌精锐部队')
+    priority4.add_argument('--部件类紧急委托', default=default('--部件类紧急委托'), help='支援维拉维拉岛, 支援恐班纳')
+    priority4.add_argument('--魔方类紧急委托', default=default('--魔方类紧急委托'), help='解救商船, 敌袭')
+    priority4.add_argument('--教材类紧急委托', default=default('--教材类紧急委托'), help='支援土豪尔岛, 支援萌岛')
+    priority4.add_argument('--装备类紧急委托', default=default('--装备类紧急委托'), help='BIW装备运输, NYB装备研发')
+    priority4.add_argument('--钻石类紧急委托', default=default('--钻石类紧急委托'), help='BIW要员护卫, NYB巡视护卫')
+    priority4.add_argument('--观舰类紧急委托', default=default('--观舰类紧急委托'), help='小型观舰仪式, 同盟观舰仪式')
+
     # ==========设备设置==========
     emulator_parser = subs.add_parser('设备设置')
     emulator = emulator_parser.add_argument_group('模拟器', '')

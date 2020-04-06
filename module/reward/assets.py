@@ -5,6 +5,14 @@ from module.base.template import Template
 # Don't modified it manually.
 
 COIN = Button(area=(403, 64, 436, 88), color=(226, 173, 72), button=(403, 64, 436, 88), file='./assets/reward/COIN.png')
+COMMISSION_ADVICE = Button(area=(871, 322, 999, 383), color=(230, 177, 116), button=(871, 322, 999, 383), file='./assets/reward/COMMISSION_ADVICE.png')
+COMMISSION_DAILY = Button(area=(35, 132, 67, 186), color=(208, 172, 118), button=(35, 132, 67, 186), file='./assets/reward/COMMISSION_DAILY.png')
+COMMISSION_HAS_PENDING = Button(area=(357, 300, 359, 330), color=(86, 201, 173), button=(357, 300, 359, 330), file='./assets/reward/COMMISSION_HAS_PENDING.png')
+COMMISSION_NOTICE_AT_CAMPAIGN = Button(area=(1054, 647, 1061, 654), color=(197, 89, 64), button=(1054, 647, 1061, 654), file='./assets/reward/COMMISSION_NOTICE_AT_CAMPAIGN.png')
+COMMISSION_OIL_CONFIRM = Button(area=(704, 493, 876, 550), color=(96, 145, 204), button=(704, 493, 876, 550), file='./assets/reward/COMMISSION_OIL_CONFIRM.png')
+COMMISSION_START = Button(area=(1028, 322, 1156, 383), color=(229, 175, 113), button=(1028, 322, 1156, 383), file='./assets/reward/COMMISSION_START.png')
+COMMISSION_STOP_SCROLLING = Button(area=(115, 236, 179, 487), color=(50, 55, 74), button=(115, 236, 179, 487), file='./assets/reward/COMMISSION_STOP_SCROLLING.png')
+COMMISSION_URGENT = Button(area=(35, 231, 68, 281), color=(215, 188, 124), button=(35, 231, 68, 281), file='./assets/reward/COMMISSION_URGENT.png')
 EXP_INFO_S_REWARD = Button(area=(498, 140, 557, 154), color=(233, 241, 127), button=(498, 140, 557, 154), file='./assets/reward/EXP_INFO_S_REWARD.png')
 MISSION_MULTI = Button(area=(1041, 8, 1101, 39), color=(226, 192, 142), button=(1041, 8, 1101, 39), file='./assets/reward/MISSION_MULTI.png')
 MISSION_NOTICE = Button(area=(940, 670, 945, 681), color=(183, 83, 66), button=(940, 670, 945, 681), file='./assets/reward/MISSION_NOTICE.png')

@@ -2,12 +2,13 @@ import codecs
 import configparser
 import copy
 import os
-from datetime import datetime, timedelta
-import cv2
+from datetime import datetime
 
+import cv2
 import numpy as np
 from PIL import Image
 
+from module.base.timer import future_time
 from module.config.dictionary import *
 from module.logger import logger
 
@@ -240,6 +241,28 @@ class AzurLaneConfig:
     ENABLE_OIL_REWARD = True
     ENABLE_COIN_REWARD = True
     ENABLE_MISSION_REWARD = True
+    ENABLE_COMMISSION_REWARD = True
+    COMMISSION_PRIORITY = {
+        'major_comm': 0,
+        'daily_comm': 100,
+        'extra_drill': 20,
+        'extra_part': 60,
+        'extra_cube': 80,
+        'extra_oil': 90,
+        'extra_book': 70,
+        'urgent_drill': 45,
+        'urgent_part': 95,
+        'urgent_book': 145,
+        'urgent_box': 195,
+        'urgent_cube': 165,
+        'urgent_gem': 205,
+        'urgent_ship': 155,
+        'expire_shorter_than_2': 11,
+        'expire_longer_than_6': -11,
+        'duration_shorter_than_2': 11,
+        'duration_longer_than_6': -11,
+    }
+    COMMISSION_TIME_LIMIT = 0
 
     """
     C_7_2_mystery_farming
@@ -302,10 +325,7 @@ class AzurLaneConfig:
         self.ENABLE_STOP_CONDITION = to_bool(option['enable_stop_condition'])
         self.STOP_IF_COUNT_GREATER_THAN = int(option['if_count_greater_than'])
         if not option['if_time_reach'].isdigit():
-            hour, minute = [int(x) for x in option['if_time_reach'].split(':')]
-            limit = datetime.now().replace(hour=hour, minute=minute, second=0, microsecond=0)
-            limit = limit + timedelta(1) if limit < datetime.now() else limit
-            self.STOP_IF_TIME_REACH = limit
+            self.STOP_IF_TIME_REACH = future_time(option['if_time_reach'])
         else:
             self.STOP_IF_TIME_REACH = 0
         self.STOP_IF_OIL_LOWER_THAN = int(option['if_oil_lower_than'])
@@ -340,8 +360,11 @@ class AzurLaneConfig:
         # Reward
         option = config['Reward']
         self.REWARD_INTERVAL = int(option['reward_interval'])
-        for attr in ['enable_reward', 'enable_oil_reward', 'enable_coin_reward', 'enable_mission_reward']:
+        for attr in ['enable_reward', 'enable_oil_reward', 'enable_coin_reward', 'enable_mission_reward', 'enable_commission_reward']:
             self.__setattr__(attr.upper(), to_bool(option[attr]))
+        self.COMMISSION_TIME_LIMIT = future_time(option['commission_time_limit'])
+        for attr in self.COMMISSION_PRIORITY.keys():
+            self.COMMISSION_PRIORITY[attr] = int(option[attr])
 
         option = config['Main']
         self.CAMPAIGN_NAME = option['main_stage']

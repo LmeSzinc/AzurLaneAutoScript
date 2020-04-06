@@ -5,10 +5,10 @@ from module.combat.assets import *
 from module.logger import logger
 from module.reward.assets import *
 from module.ui.page import *
-from module.ui.ui import UI
+from module.reward.commission import RewardCommission
 
 
-class Reward(UI):
+class Reward(RewardCommission):
     def reward(self):
         logger.hr('Reward start')
         self.ui_goto_main()
@@ -17,6 +17,8 @@ class Reward(UI):
         self.ui_goto(page_reward, skip_first_screenshot=True)
 
         self._reward_receive()
+        self.handle_info_bar()
+        self.handle_commission_start()
 
         self.ui_click(
             click_button=page_reward.links[page_main],
@@ -47,6 +49,16 @@ class Reward(UI):
         exit_timer = Timer(1)
         click_timer = Timer(1)
         exit_timer.start()
+        btn = []
+        if self.config.ENABLE_REWARD:
+            btn.append(REWARD_3)
+        if self.config.ENABLE_COMMISSION_REWARD:
+            btn.append(REWARD_1)
+        if self.config.ENABLE_OIL_REWARD:
+            btn.append(OIL)
+        if self.config.ENABLE_COIN_REWARD:
+            btn.append(COIN)
+
         while 1:
             self.device.screenshot()
 
@@ -57,7 +69,7 @@ class Reward(UI):
                     reward = True
                     continue
 
-            for button in [REWARD_1, REWARD_3, OIL, COIN]:
+            for button in btn:
                 if not click_timer.reached():
                     continue
                 if self.appear_then_click(button, interval=1):
