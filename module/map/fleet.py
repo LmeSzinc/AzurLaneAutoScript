@@ -101,7 +101,10 @@ class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
                     # break
 
                 if self.combat_appear():
-                    self.combat(expected_end=self._expected_combat_end, fleet_index=self.fleet_current_index)
+                    self.combat(expected_end=self._expected_combat_end(expected), fleet_index=self.fleet_current_index)
+                    self.hp_get()
+                    if self.hp_withdraw_triggered():
+                        self.withdraw()
                     arrived = True
                     result = 'combat'
                     self.battle_count += 1
@@ -223,19 +226,19 @@ class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
         self.ammo_count = 3
         self.map = map_
         self.map.reset()
+        self.hp_get()
         self.ensure_edge_insight(preset=self.map.in_map_swipe_preset_data)
         self.full_scan(battle_count=self.battle_count, mystery_count=self.mystery_count, siren_count=self.siren_count)
         self.find_current_fleet()
         self.find_path_initial()
         self.map.show_cost()
 
-    @property
-    def _expected_combat_end(self):
+    def _expected_combat_end(self, expected):
         for data in self.map.spawn_data:
-            if data.get('battle') == self.battle_count and data.get('boss', 0):
+            if data.get('battle') == self.battle_count and 'boss' in expected:
                 return 'in_stage'
-            if data.get('battle') == self.battle_count + 1:
-                if data.get('enemy', 0) + data.get('siren', 0) > 0:
+            if data.get('battle') == self.battle_count:
+                if data.get('enemy', 0) + data.get('siren', 0) + data.get('boss', 0) > 0:
                     return 'with_searching'
                 else:
                     return 'no_searching'

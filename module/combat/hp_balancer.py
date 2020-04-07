@@ -18,20 +18,11 @@ SIZE = (67, 4)
 # Color that shows on HP bar.
 COLOR_HP_GREEN = (156, 235, 57)
 COLOR_HP_RED = (99, 44, 24)
-# If difference greater than this, change position.
-SCOUT_HP_DIFFERENCE_THRESHOLD = 0.2
 SCOUT_POSITION = [
     (403, 421),
     (625, 369),
     (821, 326)
 ]
-# Give a normal distribution random offset when swiping to a point.
-# (x_min, y_min, x_max, y_max).
-POINT_OFFSET = (0, 0, 0, 0)
-# Give a normal distribution random offset when moving up and down.
-# (x_min, y_min, x_max, y_max).
-UP_OFFSET = (0, 10, 0, 10)
-DOWN_OFFSET = (0, -10, 0, -10)
 
 
 class HPBalancer(ModuleBase):
@@ -49,7 +40,7 @@ class HPBalancer(ModuleBase):
             float: HP.
         """
         area = np.append(np.array(location), np.array(location) + np.array(size))
-        data = self.image.crop(area).resize((size[0], 1))
+        data = self.device.image.crop(area).resize((size[0], 1))
         data = [
             color_similar(pixel, COLOR_HP_GREEN) or color_similar(pixel, COLOR_HP_RED)
             for pixel in np.array(data)[0]
@@ -57,19 +48,19 @@ class HPBalancer(ModuleBase):
         data = np.sum(data) / size[0]
         return data
 
-    def get_hp(self):
+    def hp_get(self):
         """Get current HP from screenshot.
 
         Returns:
             list: HP(float) of 6 ship.
         """
         self.hp = [self._calculate_hp(loca, SIZE) for loca in LOCATION]
-        logger.info(
-            'HP:' + ' '.join([str(int(data*100)).rjust(3)+'%' for data in self.hp])
+        logger.attr(
+            'HP', ' '.join([str(int(data*100)).rjust(3)+'%' for data in self.hp])
         )
         return self.hp
 
-    def scout_position_change(self, p1, p2):
+    def _scout_position_change(self, p1, p2):
         """Exchange KAN-SEN's position.
         It need to move up and down a little, even though it moves to the right location.
 
@@ -78,24 +69,14 @@ class HPBalancer(ModuleBase):
             p2 (int): Target position [0, 2].
         """
         logger.info('scout_position_change (%s, %s)' % (p1, p2))
-        p1 = self.drag_node(SCOUT_POSITION[p1], POINT_OFFSET, 0.25)
-        p2 = self.drag_node(SCOUT_POSITION[p2], POINT_OFFSET, 0.1)
-        path = [
-            p1,
-            p2,
-            self.drag_node(p2[:2], UP_OFFSET, 0.1),
-            self.drag_node(p2[:2], DOWN_OFFSET, 0.1),
-            p2
-        ]
-        self.drag(path)
+        self.device.drag(p1=SCOUT_POSITION[p1], p2=SCOUT_POSITION[p2])
 
-    @staticmethod
-    def _expected_scout_order(hp):
+    def _expected_scout_order(self, hp):
         descending = np.sort(hp)[::-1]
         sort = np.argsort(hp)[::-1]
 
-        if descending[0] - descending[2] > SCOUT_HP_DIFFERENCE_THRESHOLD:
-            if descending[1] - descending[2] > SCOUT_HP_DIFFERENCE_THRESHOLD:
+        if descending[0] - descending[2] > self.config.SCOUT_HP_DIFFERENCE_THRESHOLD:
+            if descending[1] - descending[2] > self.config.SCOUT_HP_DIFFERENCE_THRESHOLD:
                 # 100% 70% 40%
                 order = [sort[0], sort[2], sort[1]]
             else:
@@ -123,8 +104,21 @@ class HPBalancer(ModuleBase):
             # Target is the same as origin. Do nothing
             pass
 
-    def balance_scout_hp(self):
+    def hp_balance(self):
+        if self.config.ENABLE_MAP_FLEET_LOCK:
+            return False
+
         target = self._expected_scout_order(self.hp[3:])
         for step in self._gen_exchange_step(self._scout_order, target):
-            self.scout_position_change(*step)
-            self.sleep(0.5)
+            self._scout_position_change(*step)
+            self.device.sleep(0.5)
+
+        return True
+
+    def hp_withdraw_triggered(self):
+        if self.config.ENABLE_LOW_HP_WITHDRAW:
+            if np.any(np.array(self.hp) < self.config.LOW_HP_WITHDRAW_THRESHOLD):
+                logger.info('Low HP withdraw triggered.')
+                return True
+
+        return False

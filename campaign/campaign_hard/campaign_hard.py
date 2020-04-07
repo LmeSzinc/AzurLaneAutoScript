@@ -50,7 +50,7 @@ class Campaign(CampaignBase, HardEquipment):
             logger.hr('Clear BOSS')
             grids = grids.sort(cost=True, weight=True)
             logger.info('Grids: %s' % str(grids))
-            self._goto(grids[0])
+            self._goto(grids[0], expected='boss')
             raise CampaignEnd('BOSS Clear.')
 
         logger.warning('BOSS not detected, trying all boss spawn point.')

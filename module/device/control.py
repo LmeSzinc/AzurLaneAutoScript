@@ -102,14 +102,14 @@ class Control(Connection):
             ))
         self.device.swipe(fx, fy, tx, ty, duration=duration)
 
-    def drag(self, path):
+    def drag_along(self, path):
         """Swipe following path.
 
         Args:
             path (list): (x, y, sleep)
 
         Examples:
-            al.swipe([
+            al.drag_along([
                 (403, 421, 0.2),
                 (821, 326, 0.1),
                 (821, 326-10, 0.1),
@@ -141,21 +141,16 @@ class Control(Connection):
                 logger.info(self._point2str(x, y) + ' move')
             self.sleep(second)
 
-    def drag_node(self, location, offset=(-10, -10, 10, 10), sleep=0.25, reverse=False):
-        """Generate a swipe node.
-
-        Args:
-            location (tuple): Origin location (x, y).
-            offset (tuple): set
-            sleep:
-            reverse (bool): Reverse offset. Default to false.
-
-        Returns:
-            tuple: (x, y, sleep)
-        """
-        if not reverse:
-            location = np.array(location) - random_rectangle_point(offset)
-        else:
-            location = np.array(location) + random_rectangle_point(offset)
-        location = tuple(np.append(location, [sleep]))
-        return location
+    def drag(self, p1, p2, shake=(0, 15), point_random=(-10, -10, 10, 10), shake_random=(-5, -5, 5, 5),
+             swipe_duration=0.25, shake_duration=0.1):
+        p1 = np.array(p1) - random_rectangle_point(point_random)
+        p2 = np.array(p2) - random_rectangle_point(point_random)
+        path = [
+            (*p1, swipe_duration),
+            (*p2, shake_duration),
+            (*p2 + shake + random_rectangle_point(shake_random), shake_duration),
+            (*p2 - shake - random_rectangle_point(shake_random), shake_duration),
+            (*p2, shake_duration)
+        ]
+        path = [(int(x), int(y), d) for x, y, d in path]
+        self.drag_along(path)

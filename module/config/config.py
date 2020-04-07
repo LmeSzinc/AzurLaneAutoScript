@@ -72,10 +72,17 @@ class AzurLaneConfig:
     module.combat
     """
     ENABLE_SAVE_GET_ITEMS = True
-    ENABLE_HP_BALANCE = False
     ENABLE_MAP_FLEET_LOCK = True
     SUBMARINE_MODE = ''
     SUBMARINE_CALL_AT_BOSS = False
+
+    """
+    module.combat.hp_balance
+    """
+    ENABLE_HP_BALANCE = False
+    ENABLE_LOW_HP_WITHDRAW = True
+    SCOUT_HP_DIFFERENCE_THRESHOLD = 0.2
+    LOW_HP_WITHDRAW_THRESHOLD = 0.2
 
     """
     module.campaign
@@ -349,6 +356,9 @@ class AzurLaneConfig:
             self.__setattr__(f'FLEET_{n}_EMOTION_LIMIT', dic_emotion_limit[option[f'emotion_control_{n}']])
         # HP balance, save get items -> combat
         self.ENABLE_HP_BALANCE = to_bool(option['enable_hp_balance'])
+        self.ENABLE_LOW_HP_WITHDRAW = to_bool(option['enable_low_hp_withdraw'])
+        self.SCOUT_HP_DIFFERENCE_THRESHOLD = float(option['scout_hp_difference_threshold'])
+        self.LOW_HP_WITHDRAW_THRESHOLD = float(option['low_hp_withdraw_threshold'])
         self.ENABLE_SAVE_GET_ITEMS = to_bool(option['enable_drop_screenshot'])
         self.SCREEN_SHOT_SAVE_FOLDER_BASE = option['drop_screenshot_folder']
         # Retirement

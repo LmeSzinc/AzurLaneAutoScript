@@ -89,10 +89,10 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
         """
         logger.info('Combat preparation.')
 
-        if emotion_reduce and not self.config.ENABLE_MAP_FLEET_LOCK:
+        if emotion_reduce:
             self.emotion.wait(fleet=fleet_index)
         if balance_hp:
-            self.balance_scout_hp()
+            self.hp_balance()
         # logger.info('start combat')
 
         while 1:
