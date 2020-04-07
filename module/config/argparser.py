@@ -1,18 +1,20 @@
 import codecs
 import configparser
 import os
+import shutil
 
 from gooey import Gooey, GooeyParser
 
-from main import AzurLaneAutoScript
+from alas import AzurLaneAutoScript
 from module.config.dictionary import dic_chi_to_eng, dic_eng_to_chi
+from module.logger import logger, pyw_name
 
 running = True
 
 
 @Gooey(
     optional_cols=2,
-    program_name="AzurLaneAutoScript",
+    program_name=pyw_name.capitalize(),
     sidebar_title='功能',
     terminal_font_family='Consolas',
     language='chinese',
@@ -25,13 +27,21 @@ running = True
     # load_build_config='gooey_config.json',
     # dump_build_config='gooey_config.json',
 )
-def main():
-    script_name = os.path.splitext(os.path.basename(__file__))[0]
+def main(ini_name=''):
+    if not ini_name:
+        ini_name = pyw_name
+    ini_name = ini_name.lower()
 
     # Load default value from .ini file.
-    config_file = f'./config/{script_name}.ini'
+    config_file = f'./config/{ini_name}.ini'
     config = configparser.ConfigParser(interpolation=None)
-    config.read_file(codecs.open(config_file, "r", "utf8"))
+    try:
+        config.read_file(codecs.open(config_file, "r", "utf8"))
+    except FileNotFoundError:
+        logger.info('Config file not exists, copy from ./config/template.ini')
+        shutil.copy('./config/template.ini', config_file)
+        config.read_file(codecs.open(config_file, "r", "utf8"))
+
     event_folder = [dic_eng_to_chi.get(f, f) for f in os.listdir('./campaign') if f.startswith('event_')][::-1]
 
     saved_config = {}
@@ -63,7 +73,7 @@ def main():
     # https://github.com/chriskiehl/Gooey/issues/148
     # https://github.com/chriskiehl/Gooey/issues/485
 
-    parser = GooeyParser(description='AzurLaneAutoScript, An Azur Lane automation tool.')
+    parser = GooeyParser(description=f'AzurLaneAutoScript, An Azur Lane automation tool. Config: {config_file}')
     subs = parser.add_subparsers(help='commands', dest='command')
 
     # ==========出击设置==========
@@ -284,9 +294,8 @@ def main():
     config.write(codecs.open(config_file, "w+", "utf8"))
 
     # Call AzurLaneAutoScript
-    alas = AzurLaneAutoScript(config_name=script_name)
-    alas.__getattribute__(command.lower())()
-
-
-if __name__ == '__main__':
-    main()
+    alas = AzurLaneAutoScript(ini_name=ini_name)
+    try:
+        alas.__getattribute__(command.lower())()
+    except Exception as e:
+        logger.exception(e)

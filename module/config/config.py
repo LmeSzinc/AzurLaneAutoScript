@@ -456,12 +456,12 @@ class AzurLaneConfig:
         self.config.set(option[0], option[1], record)
         self.save()
 
-    def __init__(self, conf='main'):
+    def __init__(self, ini_name='alas'):
         """
         Args:
-            conf (str): Config to load.
+            ini_name (str): Config to load.
         """
-        self.load_config_file(conf)
+        self.load_config_file(ini_name)
 
         self.create_folder()
 

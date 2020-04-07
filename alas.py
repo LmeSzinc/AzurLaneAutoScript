@@ -1,10 +1,13 @@
 from module.config.config import AzurLaneConfig
-from module.logger import logger
+from module.logger import logger, pyw_name
 
 
 class AzurLaneAutoScript:
-    def __init__(self, config_name='main'):
-        self.config = AzurLaneConfig(config_name)
+    def __init__(self, ini_name=''):
+        if not ini_name:
+            ini_name = pyw_name
+        ini_name = ini_name.lower()
+        self.config = AzurLaneConfig(ini_name)
 
     def setting(self):
         for key, value in self.config.config['Setting'].items():

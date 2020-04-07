@@ -1,6 +1,11 @@
 import logging
 import datetime
+import os
+import sys
 
+pyw_name = os.path.splitext(os.path.basename(sys.argv[0]))[0]
+if f'{pyw_name}.pyw' not in os.listdir('./'):
+    pyw_name = 'default'
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -11,8 +16,12 @@ console = logging.StreamHandler()
 console.setFormatter(formatter)
 logger.addHandler(console)
 
-log_file = './log/%s.txt' % datetime.date.today()
-file = logging.FileHandler(log_file)
+log_file = f'./log/{datetime.date.today()}_{pyw_name}.txt'
+try:
+    file = logging.FileHandler(log_file)
+except FileNotFoundError:
+    os.mkdir('./log')
+    file = logging.FileHandler(log_file)
 file.setFormatter(formatter)
 logger.addHandler(file)
 

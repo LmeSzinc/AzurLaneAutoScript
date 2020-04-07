@@ -1,6 +1,9 @@
 ### AzurLaneAutoScript
 log
 config/*.ini
+!config/template.ini
+*.pyw
+!alas.pyw
 dev_tools/debug_tools
 .idea
 
