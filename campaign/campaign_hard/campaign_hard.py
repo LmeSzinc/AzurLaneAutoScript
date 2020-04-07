@@ -9,7 +9,8 @@ from module.ui.ui import CAMPAIGN_CHECK
 
 class Config:
     MAP_HAS_AMBUSH = False
-    EMOTION_REDUCE = False
+    ENABLE_EMOTION_REDUCE = False
+
 
 class Campaign(CampaignBase, HardEquipment):
     def run(self):
@@ -35,8 +36,7 @@ class Campaign(CampaignBase, HardEquipment):
     def fleet_preparation(self):
         self.equipment_take_on()
 
-    @property
-    def _expected_combat_end(self):
+    def _expected_combat_end(self, expected):
         return 'in_stage'
 
     def clear_boss(self):

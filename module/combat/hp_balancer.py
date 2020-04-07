@@ -27,6 +27,7 @@ SCOUT_POSITION = [
 
 class HPBalancer(ModuleBase):
     hp = []
+    hp_record = []
     _scout_order = (0, 1, 2)
 
     def _calculate_hp(self, location, size):
@@ -58,6 +59,11 @@ class HPBalancer(ModuleBase):
         logger.attr(
             'HP', ' '.join([str(int(data*100)).rjust(3)+'%' for data in self.hp])
         )
+        return self.hp
+
+    def hp_init(self):
+        self.hp_get()
+        self.hp_record = self.hp
         return self.hp
 
     def _scout_position_change(self, p1, p2):
@@ -117,7 +123,8 @@ class HPBalancer(ModuleBase):
 
     def hp_withdraw_triggered(self):
         if self.config.ENABLE_LOW_HP_WITHDRAW:
-            if np.any(np.array(self.hp) < self.config.LOW_HP_WITHDRAW_THRESHOLD):
+            hp = np.array(self.hp)[np.array(self.hp_record) > 0.3]
+            if np.any(hp < self.config.LOW_HP_WITHDRAW_THRESHOLD):
                 logger.info('Low HP withdraw triggered.')
                 return True
 

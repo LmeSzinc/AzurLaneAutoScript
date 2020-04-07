@@ -99,7 +99,7 @@ class Reward(RewardCommission):
         self.ui_goto(page_mission, skip_first_screenshot=True)
 
         reward = False
-        exit_timer = Timer(1)
+        exit_timer = Timer(2)
         click_timer = Timer(1)
         timeout = Timer(10)
         exit_timer.start()

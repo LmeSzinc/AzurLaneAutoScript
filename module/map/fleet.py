@@ -226,7 +226,7 @@ class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
         self.ammo_count = 3
         self.map = map_
         self.map.reset()
-        self.hp_get()
+        self.hp_init()
         self.ensure_edge_insight(preset=self.map.in_map_swipe_preset_data)
         self.full_scan(battle_count=self.battle_count, mystery_count=self.mystery_count, siren_count=self.siren_count)
         self.find_current_fleet()
