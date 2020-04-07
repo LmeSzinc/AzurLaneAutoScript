@@ -50,6 +50,7 @@ class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
         self.camera = self.fleet_current
         self.update()
         self.find_path_initial()
+        self.map.show_cost()
         self.show_fleet()
 
     def switch_to(self):
@@ -160,7 +161,7 @@ class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
             self._goto(location, expected=expected)
 
     def find_path_initial(self):
-        self.map.find_path_initial(self.fleet_current)
+        self.map.find_path_initial(self.fleet_current, has_ambush=self.config.MAP_HAS_AMBUSH)
 
     def show_fleet(self):
         fleets = []
@@ -226,6 +227,7 @@ class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
         self.full_scan(battle_count=self.battle_count, mystery_count=self.mystery_count, siren_count=self.siren_count)
         self.find_current_fleet()
         self.find_path_initial()
+        self.map.show_cost()
 
     @property
     def _expected_combat_end(self):

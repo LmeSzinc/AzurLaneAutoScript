@@ -119,8 +119,11 @@ class SelectedGrids:
             attr.append('weight')
         if cost:
             attr.append('cost')
-        grids = sorted(self.grids, key=operator.attrgetter(*attr))
-        return SelectedGrids(grids)
+        if len(attr):
+            grids = sorted(self.grids, key=operator.attrgetter(*attr))
+            return SelectedGrids(grids)
+        else:
+            return self
 
     def sort_by_camera_distance(self, camera):
         """

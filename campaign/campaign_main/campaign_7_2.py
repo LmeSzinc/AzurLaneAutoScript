@@ -59,55 +59,33 @@ class Campaign(CampaignBase):
             ignore = SelectedGrids([H3])
         self.clear_all_mystery(nearby=False, ignore=ignore)
 
-        if self.clear_roadblocks([ROAD_MAIN]):
+        if self.clear_roadblocks([ROAD_MAIN], strongest=True):
             return True
 
         if self.clear_enemy(scale=(3,)):
             return True
-        if self.clear_potential_roadblocks([ROAD_MAIN]):
-            return True
-        if self.clear_grids_for_faster(GRIDS_FOR_FASTER):
+        if self.clear_potential_roadblocks([ROAD_MAIN], strongest=True):
             return True
 
-        return self.battle_default()
-
-    battle_1 = battle_0
-    battle_2 = battle_0
-
-    def battle_3(self):
-        if self.fleet_at(A3, fleet=2) and A2.is_mystery:
-            self.fleet_2.clear_chosen_mystery(A2)
-            self.fleet_2.goto(A3)
-            self.fleet_1.switch_to()
-
-        if self.fleet_at(G3, fleet=2) and H3.is_mystery:
-            self.fleet_2.clear_chosen_mystery(H3)
-            self.fleet_2.goto(G3)
-            self.fleet_1.switch_to()
-
-        return self.battle_0()
-
-    def battle_4(self):
-        self.clear_all_mystery(nearby=False)
-
-        if self.clear_roadblocks([ROAD_MAIN]):
-            return True
-
-        if self.clear_enemy(scale=(3,)):
-            return True
-        # if self.clear_potential_roadblocks([ROAD_MAIN]):
-        #     return True
-        if self.clear_grids_for_faster(GRIDS_FOR_FASTER):
+        if self.clear_enemy(strongest=True, weight=True):
             return True
 
         return self.battle_default()
 
     def battle_5(self):
-        self.clear_all_mystery(nearby=False)
+        ignore = None
+        if self.fleet_at(A3, fleet=2):
+            ignore = SelectedGrids([A2])
+        if self.fleet_at(G3, fleet=2):
+            ignore = SelectedGrids([H3])
+        self.clear_all_mystery(nearby=False, ignore=ignore)
 
         if self.clear_roadblocks([ROAD_MAIN]):
             return True
 
+        if self.fleet_at(A3, fleet=2) and A2.is_mystery:
+            self.fleet_2.clear_chosen_mystery(A2)
+        if self.fleet_at(G3, fleet=2) and H3.is_mystery:
+            self.fleet_2.clear_chosen_mystery(H3)
+
         return self.fleet_2.clear_boss()
-        # self.fleet_2.goto(D3)
-        # raise CampaignEnd('Boss cleared.')

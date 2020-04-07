@@ -409,7 +409,6 @@ class RewardCommission(UI, InfoBarHandler):
                     if comm == new_comm:
                         comm = new_comm
                 self._commission_start_click(comm)
-                self._commission_mode_reset()
                 return True
 
             self._commission_swipe()
