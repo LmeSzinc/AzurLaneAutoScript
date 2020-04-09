@@ -1,5 +1,6 @@
 from module.base.timer import Timer
 from module.handler.enemy_searching import EnemySearchingHandler
+from module.handler.fast_forward import FastForwardHandler
 from module.handler.urgent_commission import UrgentCommissionHandler
 from module.logger import logger
 from module.map.assets import *
@@ -8,7 +9,7 @@ from module.map.map_fleet_preparation import FleetPreparation
 from module.retire.retirement import Retirement
 
 
-class MapOperation(UrgentCommissionHandler, EnemySearchingHandler, FleetPreparation, Retirement):
+class MapOperation(UrgentCommissionHandler, EnemySearchingHandler, FleetPreparation, Retirement, FastForwardHandler):
     def fleet_switch_click(self):
         """
         Switch fleet.
@@ -50,6 +51,7 @@ class MapOperation(UrgentCommissionHandler, EnemySearchingHandler, FleetPreparat
 
             # Map preparation
             if map_timer.reached() and self.appear(MAP_PREPARATION):
+                self.handle_fast_forward()
                 self.device.click(MAP_PREPARATION)
                 map_timer.reset()
                 campaign_timer.reset()
@@ -108,46 +110,6 @@ class MapOperation(UrgentCommissionHandler, EnemySearchingHandler, FleetPreparat
             return True
 
         return False
-
-    def handle_map_fleet_lock(self, lock=None, skip_first_screenshot=True):
-        """
-        Args:
-            lock (bool, optional): Set to lock or unlock.
-            skip_first_screenshot (bool):
-
-        Returns:
-            bool: If fleet lock changed.
-        """
-        if lock is None:
-            lock = self.config.ENABLE_MAP_FLEET_LOCK
-
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            if lock:
-                if self.appear(FLEET_LOCKED):
-                    logger.attr('Map_fleet', 'locked')
-                    return False
-                elif self.appear_then_click(FLEET_UNLOCKED, interval=1):
-                    continue
-                else:
-                    logger.info('No fleet lock option.')
-                    return False
-
-            else:
-                if self.appear(FLEET_UNLOCKED):
-                    logger.attr('Map_fleet', 'unlocked')
-                    return False
-                elif self.appear_then_click(FLEET_LOCKED, interval=1):
-                    continue
-                else:
-                    logger.info('No fleet lock option.')
-                    return False
-
-        return True
 
     def handle_fleet_reverse(self):
         """

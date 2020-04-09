@@ -82,6 +82,7 @@ def main(ini_name=''):
     # 选择关卡
     stage = setting_parser.add_argument_group('关卡设置', '需要运行一次来保存选项')
     stage.add_argument('--启用停止条件', default=default('--启用停止条件'), choices=['是', '否'])
+    stage.add_argument('--使用周回模式', default=default('--使用周回模式'), choices=['是', '否'])
 
     stop = stage.add_argument_group('停止条件', '触发后不会马上停止会先完成当前出击, 不需要就填0')
     stop.add_argument('--如果出击次数大于', default=default('--如果出击次数大于'), help='会沿用先前设置, 完成出击将扣除次数, 直至清零')
@@ -93,6 +94,7 @@ def main(ini_name=''):
     # 出击舰队
     fleet = setting_parser.add_argument_group('出击舰队', '暂不支持阵型选择, 暂不支持备用道中队')
     fleet.add_argument('--启用舰队控制', default=default('--启用舰队控制'), choices=['是', '否'])
+    fleet.add_argument('--启用阵容锁定', default=default('--启用阵容锁定'), choices=['是', '否'])
 
     f1 = fleet.add_argument_group('道中队')
     f1.add_argument('--舰队编号1', default=default('--舰队编号1'), choices=['1', '2', '3', '4', '5', '6'])

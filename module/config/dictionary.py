@@ -37,12 +37,14 @@ dic_chi_to_eng = {
 
     # Argument
     '启用停止条件': 'enable_stop_condition',
+    '使用周回模式': 'enable_fast_forward',
     '如果出击次数大于': 'if_count_greater_than',
     '如果时间超过': 'if_time_reach',
     '如果石油低于': 'if_oil_lower_than',
     '如果触发心情控制': 'if_trigger_emotion_control',
     '如果船舱已满': 'if_dock_full',
     '启用舰队控制': 'enable_fleet_control',
+    '启用阵容锁定': 'enable_map_fleet_lock',
     '舰队编号1': 'fleet_index_1',
     '舰队阵型1': 'fleet_formation_1',
     '舰队编号2': 'fleet_index_2',

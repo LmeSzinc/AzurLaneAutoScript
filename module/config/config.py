@@ -91,6 +91,7 @@ class AzurLaneConfig:
     CAMPAIGN_MODE = 'normal'
 
     ENABLE_STOP_CONDITION = True
+    ENABLE_FAST_FORWARD = True
     STOP_IF_OIL_LOWER_THAN = 5000
     STOP_IF_COUNT_GREATER_THAN = 0
     STOP_IF_TIME_REACH = 0
@@ -171,7 +172,7 @@ class AzurLaneConfig:
     """
     module.map.fleet
     """
-    MAP_HAS_AMBUSH = False
+    MAP_HAS_AMBUSH = True
 
     """
     module.retire
@@ -330,6 +331,7 @@ class AzurLaneConfig:
         option = config['Setting']
         # Stop condition
         self.ENABLE_STOP_CONDITION = to_bool(option['enable_stop_condition'])
+        self.ENABLE_FAST_FORWARD = to_bool(option['enable_fast_forward'])
         self.STOP_IF_COUNT_GREATER_THAN = int(option['if_count_greater_than'])
         if not option['if_time_reach'].isdigit():
             self.STOP_IF_TIME_REACH = future_time(option['if_time_reach'])
@@ -340,6 +342,7 @@ class AzurLaneConfig:
         self.STOP_IF_DOCK_FULL = to_bool(option['if_dock_full'])
         # Fleet
         self.ENABLE_FLEET_CONTROL = to_bool(option['enable_fleet_control'])
+        self.ENABLE_MAP_FLEET_LOCK = to_bool(option['enable_map_fleet_lock'])
         for n in ['1', '2', '3']:
             self.__setattr__(f'FLEET_{n}', int(option[f'fleet_index_{n}']))
             self.__setattr__(f'FLEET_{n}_FORMATION', int(option[f'fleet_formation_{n}'].split('_')[1]))
