@@ -1,12 +1,13 @@
 import collections
 
-import cv2
 import numpy as np
 
 from module.base.ocr import Ocr
 from module.base.utils import extract_letters, area_offset
-from module.campaign.assets import *
 from module.logger import logger
+from module.template.assets import TEMPLATE_STAGE_CLEAR, Button
+
+stage_clear_color = np.mean(np.mean(TEMPLATE_STAGE_CLEAR.image, axis=0), axis=0)
 
 
 def ensure_chapter_index(name):
@@ -49,13 +50,12 @@ class CampaignOcr:
     chapter = 0
 
     def extract_campaign_name_image(self, image):
-        match_threshold = 0.95
-        result = cv2.matchTemplate(np.array(image), TEMPLATE_STAGE_CLEAR.image, cv2.TM_CCOEFF_NORMED)
+        result = TEMPLATE_STAGE_CLEAR.match_multi(image, similarity=0.95)
         # np.sort(result.flatten())[-10:]
         # array([0.8680386 , 0.8688129 , 0.8693155 , 0.86967576, 0.87012905,
         #        0.8705039 , 0.99954903, 0.99983317, 0.99996626, 1.        ],
         #       dtype=float32)
-        result = np.array(np.where(result > match_threshold)).T
+
         if result is None or len(result) == 0:
             logger.warning('No stage clear image found.')
 
@@ -70,10 +70,8 @@ class CampaignOcr:
             point = point + name_offset
             name = image.crop(np.append(point, point + name_size))
             name = extract_letters(name, letter=name_letter, back=name_back)
-
             stage = self.extract_stage_name(name)
-            color = TEMPLATE_STAGE_CLEAR.color
-            digits.append(Button(area=area_offset(stage, point), color=color, button=button, name='stage'))
+            digits.append(Button(area=area_offset(stage, point), color=stage_clear_color, button=button, name='stage'))
 
             # chapter, stage = self.name_separate(name)
             # color = TEMPLATE_STAGE_CLEAR.color
@@ -91,7 +89,7 @@ class CampaignOcr:
         if x_list is None or len(x_list) == 0:
             logger.warning('No interval between digit and text.')
 
-        return (0, 0, x_list[0] + 1 + x_skip, image.shape[0])
+        return 0, 0, x_list[0] + 1 + x_skip, image.shape[0]
 
     @staticmethod
     def name_separate(image):
@@ -116,8 +114,8 @@ class CampaignOcr:
         mean = np.mean(image, axis=0)
         # print(mean)
         x_list = np.where(
-            (mean > dash_color_range[0]) \
-            & (mean < dash_color_range[1]) \
+            (mean > dash_color_range[0])
+            & (mean < dash_color_range[1])
             & (np.argmin(image, axis=0) == dash_height_index)
         )[0]
         if x_list is None or len(x_list) == 0:

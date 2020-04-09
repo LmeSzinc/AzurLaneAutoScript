@@ -19,5 +19,3 @@ MAP_AMBUSH_EVADE = Button(area=(325, 393, 1280, 395), color=(255, 255, 255), but
 MAP_ENEMY_SEARCHING = Button(area=(531, 320, 864, 382), color=(200, 99, 91), button=(531, 320, 864, 382), file='./assets/handler/MAP_ENEMY_SEARCHING.png')
 MYSTERY_ITEM = Button(area=(589, 294, 691, 427), color=(144, 127, 83), button=(589, 294, 691, 427), file='./assets/handler/MYSTERY_ITEM.png')
 STRATEGY_OPEN_1 = Button(area=(1176, 366, 1275, 393), color=(128, 155, 218), button=(1060, 406, 1092, 485), file='./assets/handler/STRATEGY_OPEN_1.png')
-TEMPLATE_AMBUSH_EVADE_FAILED = Template(area=(641, 311, 692, 336), color=(107, 110, 118), button=(641, 311, 692, 336), file='./assets/handler/TEMPLATE_AMBUSH_EVADE_FAILED.png')
-TEMPLATE_AMBUSH_EVADE_SUCCESS = Template(area=(641, 311, 692, 336), color=(101, 101, 112), button=(641, 311, 692, 336), file='./assets/handler/TEMPLATE_AMBUSH_EVADE_SUCCESS.png')

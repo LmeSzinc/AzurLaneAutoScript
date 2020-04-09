@@ -5,6 +5,7 @@ from module.base.utils import red_overlay_transparency, get_color
 from module.combat.combat import Combat
 from module.handler.assets import *
 from module.logger import logger
+from module.template.assets import TEMPLATE_AMBUSH_EVADE_SUCCESS, TEMPLATE_AMBUSH_EVADE_FAILED
 
 
 def ambush_letter_preprocess(image):
@@ -15,11 +16,16 @@ def ambush_letter_preprocess(image):
     Returns:
         np.ndarray
     """
-    return (image - 64) / 0.75
+    image = image.astype(float)
+    image = (image - 64) / 0.75
+    image[image > 255] = 255
+    image[image < 0] = 0
+    image = image.astype('uint8')
+    return image
 
 
-TEMPLATE_AMBUSH_EVADE_SUCCESS.set_preprocess_func(ambush_letter_preprocess)
-TEMPLATE_AMBUSH_EVADE_FAILED.set_preprocess_func(ambush_letter_preprocess)
+TEMPLATE_AMBUSH_EVADE_SUCCESS.image = ambush_letter_preprocess(TEMPLATE_AMBUSH_EVADE_SUCCESS.image)
+TEMPLATE_AMBUSH_EVADE_FAILED.image = ambush_letter_preprocess(TEMPLATE_AMBUSH_EVADE_FAILED.image)
 
 
 class AmbushHandler(Combat):
@@ -63,9 +69,11 @@ class AmbushHandler(Combat):
         #             self.combat()
         #         break
         self.wait_until_appear(INFO_BAR_1)
-        if TEMPLATE_AMBUSH_EVADE_SUCCESS.match(self.device.image):
+        image = ambush_letter_preprocess(np.array(self.device.image.crop((641, 311, 692, 336))))
+
+        if TEMPLATE_AMBUSH_EVADE_SUCCESS.match(image):
             logger.info('Ambush evade success')
-        elif TEMPLATE_AMBUSH_EVADE_FAILED.match(self.device.image):
+        elif TEMPLATE_AMBUSH_EVADE_FAILED.match(image):
             logger.info('Ambush evade failed')
             self.combat(expected_end='no_searching')
         else:

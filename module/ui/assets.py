@@ -19,7 +19,6 @@ MAIN_GOTO_FLEET = Button(area=(733, 359, 987, 435), color=(110, 166, 234), butto
 MAIN_GOTO_MISSION = Button(area=(816, 666, 932, 713), color=(93, 110, 140), button=(816, 666, 932, 713), file='./assets/ui/MAIN_GOTO_MISSION.png')
 MAIN_GOTO_REWARD = Button(area=(11, 139, 30, 189), color=(69, 81, 115), button=(11, 139, 30, 189), file='./assets/ui/MAIN_GOTO_REWARD.png')
 MISSION_CHECK = Button(area=(120, 15, 173, 40), color=(141, 156, 194), button=(120, 15, 173, 40), file='./assets/ui/MISSION_CHECK.png')
-OCR_OIL_CV = Button(area=(634, 27, 714, 48), color=(93, 95, 109), button=(634, 27, 714, 48), file='./assets/ui/OCR_OIL_CV.png')
 REWARD_CHECK = Button(area=(302, 119, 371, 195), color=(146, 118, 120), button=(302, 119, 371, 195), file='./assets/ui/REWARD_CHECK.png')
 REWARD_GOTO_COMMISSION = Button(area=(383, 262, 503, 302), color=(91, 136, 199), button=(383, 262, 503, 302), file='./assets/ui/REWARD_GOTO_COMMISSION.png')
 REWARD_GOTO_MAIN = Button(area=(1037, 611, 1107, 656), color=(134, 122, 127), button=(1037, 611, 1107, 656), file='./assets/ui/REWARD_GOTO_MAIN.png')

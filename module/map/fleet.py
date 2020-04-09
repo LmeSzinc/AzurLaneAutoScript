@@ -159,7 +159,7 @@ class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
         if self.config.MAP_HAS_AMBUSH and optimize:
             nodes = self.map.find_path(location)
             for node in nodes:
-                self._goto(node, expected=expected)
+                self._goto(node, expected=expected if node == nodes[-1] else '')
         else:
             self._goto(location, expected=expected)
 

@@ -80,12 +80,12 @@ class TemplateExtractor(ImageExtractor):
 
     @property
     def expression(self):
-        # return '%s = Template(file=\'%s\')' % (
-        #     os.path.splitext(self.file)[0],
-        #     self.config.ASSETS_FOLDER + '/' + self.module + '/' + self.file)
-        return '%s = Template(area=%s, color=%s, button=%s, file=\'%s\')' % (
-            self.name, self.area, self.color, self.button,
+        return '%s = Template(file=\'%s\')' % (
+            self.name,
             self.config.ASSETS_FOLDER + '/' + self.module + '/' + self.name + '.png')
+        # return '%s = Template(area=%s, color=%s, button=%s, file=\'%s\')' % (
+        #     self.name, self.area, self.color, self.button,
+        #     self.config.ASSETS_FOLDER + '/' + self.module + '/' + self.name + '.png')
 
 
 # class OcrExtractor(ImageExtractor):

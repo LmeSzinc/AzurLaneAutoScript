@@ -133,6 +133,9 @@ class MapOperation(UrgentCommissionHandler, EnemySearchingHandler, FleetPreparat
                     return False
                 elif self.appear_then_click(FLEET_UNLOCKED, interval=1):
                     continue
+                else:
+                    logger.info('No fleet lock option.')
+                    return False
 
             else:
                 if self.appear(FLEET_UNLOCKED):
@@ -140,6 +143,9 @@ class MapOperation(UrgentCommissionHandler, EnemySearchingHandler, FleetPreparat
                     return False
                 elif self.appear_then_click(FLEET_LOCKED, interval=1):
                     continue
+                else:
+                    logger.info('No fleet lock option.')
+                    return False
 
         return True
 

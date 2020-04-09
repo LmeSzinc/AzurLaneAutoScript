@@ -1,35 +1,9 @@
-import os
-
-import cv2
 import numpy as np
 from PIL import Image
 from skimage.color import rgb2hsv
 
 from module.base.utils import color_similarity_2d
-
-
-class Template:
-    def __init__(self, file, similarity=0.85):
-        self.file = os.path.join(TEMPLATE_FOLDER, file)
-        self.image = np.array(Image.open(self.file))
-        self.similarity = similarity
-
-    def match(self, image, threshold=None):
-        res = cv2.matchTemplate(np.array(image), self.image, cv2.TM_CCOEFF_NORMED)
-        _, similarity, _, _ = cv2.minMaxLoc(res)
-        # print(self.file, similarity)
-        if threshold is not None:
-            return similarity > threshold
-        else:
-            return similarity > self.similarity
-
-
-TEMPLATE_FOLDER = './template'
-TEMPLATE_ENEMY_S = Template('ENEMY_S.png', similarity=0.85)
-TEMPLATE_ENEMY_M = Template('ENEMY_M.png', similarity=0.85)
-TEMPLATE_ENEMY_L = Template('ENEMY_L.png', similarity=0.85)
-TEMPLATE_FLEET_AMMO = Template('FLEET_AMMO.png', similarity=0.85)
-TEMPLATE_BOSS = Template('BOSS.png', similarity=0.75)
+from module.template.assets import *
 
 
 class GridPredictor:
@@ -223,20 +197,21 @@ class GridPredictor:
                 area=(-0.5, -3.5, 0.5, -2.5), h=(141 - 3, 141 + 10), output_shape=(50, 50))
         return count > 600
 
-
     def predict_boss(self):
         # count = self._relative_image_color_count(
         #     area=(-0.55, -0.2, 0.45, 0.2), color=(255, 77, 82), color_threshold=247)
         # return count > 100
 
-        if TEMPLATE_BOSS.match(self.get_relative_image((-0.55, -0.2, 0.45, 0.2), output_shape=(50, 20))):
+        if TEMPLATE_ENEMY_BOSS.match(
+                self.get_relative_image((-0.55, -0.2, 0.45, 0.2), output_shape=(50, 20)),
+                similarity=0.75):
             return True
 
         # 微层混合 event_20200326_cn
         if self._relative_image_color_hue_count(
                 area=(0.13, -0.05, 0.63, 0.15), h=(358 - 3, 358 + 3), v=(96, 100), output_shape=(50, 20)) > 100:
-            if TEMPLATE_BOSS.match(
-                    self.get_relative_image((0.13, -0.05, 0.63, 0.15), output_shape=(50, 20)), threshold=0.4):
+            if TEMPLATE_ENEMY_BOSS.match(
+                    self.get_relative_image((0.13, -0.05, 0.63, 0.15), output_shape=(50, 20)), similarity=0.4):
                 return True
 
         return False
