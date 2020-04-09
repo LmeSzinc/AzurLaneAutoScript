@@ -48,6 +48,7 @@ class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
         self.fleet_switch_click()
         self.fleet_current_index = 1 if self.fleet_current_index == 2 else 2
         self.camera = self.fleet_current
+        self.handle_strategy(index=self.fleet_current_index)
         self.update()
         self.find_path_initial()
         self.map.show_cost()
@@ -227,6 +228,7 @@ class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
         self.map = map_
         self.map.reset()
         self.hp_init()
+        self.handle_strategy(index=self.fleet_current_index)
         self.ensure_edge_insight(preset=self.map.in_map_swipe_preset_data)
         self.full_scan(battle_count=self.battle_count, mystery_count=self.mystery_count, siren_count=self.siren_count)
         self.find_current_fleet()

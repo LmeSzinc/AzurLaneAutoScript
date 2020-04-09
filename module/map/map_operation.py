@@ -1,6 +1,7 @@
 from module.base.timer import Timer
 from module.handler.enemy_searching import EnemySearchingHandler
 from module.handler.fast_forward import FastForwardHandler
+from module.handler.strategy import StrategyHandler
 from module.handler.urgent_commission import UrgentCommissionHandler
 from module.logger import logger
 from module.map.assets import *
@@ -9,7 +10,8 @@ from module.map.map_fleet_preparation import FleetPreparation
 from module.retire.retirement import Retirement
 
 
-class MapOperation(UrgentCommissionHandler, EnemySearchingHandler, FleetPreparation, Retirement, FastForwardHandler):
+class MapOperation(UrgentCommissionHandler, EnemySearchingHandler, FleetPreparation, Retirement, FastForwardHandler,
+                   StrategyHandler):
     def fleet_switch_click(self):
         """
         Switch fleet.

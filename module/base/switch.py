@@ -56,18 +56,20 @@ class Switch:
             else:
                 main.device.screenshot()
 
+            matched = None
             current = 'unknown'
             for data in self.status_list:
                 if main.appear(data['check_button'], offset=data['offset']):
                     current = data['status']
                     logger.attr(self.name, current)
-            if current == status:
-                return changed
+                    matched = data
+                    if current == status:
+                        return changed
             if current == 'unknown':
                 logger.warning(f'Unknown {self.name} switch')
 
             for data in self.status_list:
                 if data['status'] == status:
-                    main.device.click(data['click_button'])
+                    main.device.click(data['click_button'] if matched is None else matched['click_button'])
                     main.device.sleep(data['sleep'])
                     changed = True
