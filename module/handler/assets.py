@@ -24,6 +24,7 @@ IN_STAGE_RED = Button(area=(22, 643, 150, 704), color=(229, 159, 159), button=(2
 MAP_AIR_RAID = Button(area=(350, 447, 1280, 472), color=(154, 43, 46), button=(350, 447, 1280, 472), file='./assets/handler/MAP_AIR_RAID.png')
 MAP_AMBUSH = Button(area=(261, 433, 1280, 449), color=(161, 41, 43), button=(261, 433, 1280, 449), file='./assets/handler/MAP_AMBUSH.png')
 MAP_AMBUSH_EVADE = Button(area=(325, 393, 1280, 395), color=(255, 255, 255), button=(979, 444, 1152, 502), file='./assets/handler/MAP_AMBUSH_EVADE.png')
+MAP_BUFF = Button(area=(145, 115, 437, 159), color=(103, 118, 118), button=(145, 115, 437, 159), file='./assets/handler/MAP_BUFF.png')
 MAP_ENEMY_SEARCHING = Button(area=(531, 320, 864, 382), color=(200, 99, 91), button=(531, 320, 864, 382), file='./assets/handler/MAP_ENEMY_SEARCHING.png')
 MYSTERY_ITEM = Button(area=(589, 294, 691, 427), color=(144, 127, 83), button=(589, 294, 691, 427), file='./assets/handler/MYSTERY_ITEM.png')
 STRATEGY_OPEN = Button(area=(1198, 411, 1269, 471), color=(81, 85, 101), button=(1198, 411, 1269, 471), file='./assets/handler/STRATEGY_OPEN.png')

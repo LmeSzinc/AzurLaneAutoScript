@@ -1,5 +1,7 @@
+import numpy as np
 from module.base.switch import Switch
 from module.handler.assets import *
+from module.template.assets import TEMPLATE_FORMATION_1, TEMPLATE_FORMATION_2, TEMPLATE_FORMATION_3
 from module.handler.info_bar import InfoBarHandler
 from module.logger import logger
 
@@ -64,13 +66,35 @@ class StrategyHandler(InfoBarHandler):
         Returns:
             bool: If changed.
         """
+        if not self.config.ENABLE_FLEET_CONTROL:
+            return False
         if self.__getattribute__(f'fleet_{index}_formation_fixed'):
+            return False
+        expected_formation = self.config.__getattribute__(f'FLEET_{index}_FORMATION')
+        if self._strategy_get_from_map_buff() == expected_formation and not self.config.SUBMARINE:
+            logger.info('Skip strategy bar check.')
+            self.__setattr__(f'fleet_{index}_formation_fixed', True)
             return False
 
         self.strategy_set_execute(
-            formation_index=self.config.__getattribute__(f'FLEET_{index}_FORMATION'),
+            formation_index=expected_formation,
             sub_view=False,
             sub_hunt=self.config.SUBMARINE and self.config.SUBMARINE_MODE == 'hunt_only'
         )
         self.__setattr__(f'fleet_{index}_formation_fixed', True)
         return True
+
+    def _strategy_get_from_map_buff(self):
+        """
+        Returns:
+            int: Formation index.
+        """
+        image = np.array(self.device.image.crop(MAP_BUFF.area))
+        if TEMPLATE_FORMATION_2.match(image):
+            return 2
+        elif TEMPLATE_FORMATION_1.match(image):
+            return 1
+        elif TEMPLATE_FORMATION_3.match(image):
+            return 3
+        else:
+            return 0
