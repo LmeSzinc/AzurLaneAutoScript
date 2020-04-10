@@ -25,10 +25,11 @@ class Connection:
             cmd = ['adb', '-s', serial] + cmd
         else:
             cmd = ['adb'] + cmd
-        # process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        # result = process.stdout.read()
-        # print(cmd)
-        result = subprocess.check_output(cmd, timeout=4, stderr=subprocess.STDOUT)
+
+        # Use shell=True to disable console window when using GUI.
+        # Although, there's still a window when you stop running in GUI, which cause by gooey.
+        # To disable it, edit gooey/gui/util/taskkill.py
+        result = subprocess.check_output(cmd, timeout=4, stderr=subprocess.STDOUT, shell=True)
         return result
 
     def adb_shell(self, cmd, serial=None):

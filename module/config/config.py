@@ -126,7 +126,7 @@ class AzurLaneConfig:
     SERIAL = '127.0.0.1:62001'
     PACKAGE_NAME = 'com.bilibili.azurlane'
     COMMAND = ''
-    USE_ADB_SREENSHOT = False
+    USE_ADB_SCREENSHOT = False
     USE_ADB_CONTROL = False
     SCREEN_SHOT_SAVE_FOLDER_BASE = './screenshot'
     SCREEN_SHOT_SAVE_FOLDER = ''

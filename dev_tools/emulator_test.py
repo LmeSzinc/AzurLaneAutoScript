@@ -30,7 +30,7 @@ class Config:
     # SERIAL = 'emulator-5554'
     # SERIAL = '127.0.0.1:21503'
 
-    USE_ADB_SREENSHOT = False
+    USE_ADB_SCREENSHOT = False
 
 
 az = EmulatorChecker(AzurLaneConfig().merge(Config()))

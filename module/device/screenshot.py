@@ -52,7 +52,7 @@ class Screenshot(Connection):
         Returns:
             PIL.Image.Image:
         """
-        adb = self.config.USE_ADB_SREENSHOT
+        adb = self.config.USE_ADB_SCREENSHOT
         self._adb = adb
 
         if adb:
