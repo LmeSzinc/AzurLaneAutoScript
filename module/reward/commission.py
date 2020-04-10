@@ -11,7 +11,7 @@ from module.base.utils import area_offset, get_color
 from module.handler.info_bar import InfoBarHandler
 from module.logger import logger
 from module.reward.assets import *
-from module.ui.page import page_reward, page_commission
+from module.ui.page import page_reward, page_commission, CAMPAIGN_CHECK
 from module.ui.ui import UI
 
 dictionary = {
@@ -458,9 +458,8 @@ class RewardCommission(UI, InfoBarHandler):
         self.ui_goto(page_reward, skip_first_screenshot=True)
 
     def commission_notice_show_at_campaign(self):
-        """Make sure current page is page_campaign before calls.
-
+        """
         Returns:
             bool: If any commission finished.
         """
-        return self.appear(COMMISSION_NOTICE_AT_CAMPAIGN)
+        return self.appear(CAMPAIGN_CHECK) and self.appear(COMMISSION_NOTICE_AT_CAMPAIGN)

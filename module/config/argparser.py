@@ -158,7 +158,7 @@ def main(ini_name=''):
 
     # ==========收菜设置==========
     reward_parser = subs.add_parser('收菜设置')
-    reward_condition = reward_parser.add_argument_group('触发条件', '')
+    reward_condition = reward_parser.add_argument_group('触发条件', '需要运行一次来保存选项, 运行时会执行一次收菜')
     reward_condition.add_argument('--启用收获', default=default('--启用收获'), choices=['是', '否'])
     reward_condition.add_argument('--收菜间隔', default=default('--收菜间隔'), choices=['20', '30', '60'], help='每隔多少分钟触发收菜')
 

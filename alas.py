@@ -20,6 +20,9 @@ class AzurLaneAutoScript:
             print(f'{key} = {value}')
 
         logger.hr('Reward Settings saved')
+        from module.reward.reward import Reward
+        az = Reward(self.config)
+        az.reward()
 
     def emulator(self):
         for key, value in self.config.config['Emulator'].items():
@@ -42,6 +45,8 @@ class AzurLaneAutoScript:
         """
         Method to run daily missions.
         """
+        flag = False
+
         if self.config.ENABLE_DAILY_MISSION:
             from module.daily.daily import Daily
             az = Daily(self.config)
@@ -62,6 +67,11 @@ class AzurLaneAutoScript:
             if not az.record_executed_since():
                 az.run()
                 az.record_save()
+
+        if flag:
+            from module.reward.reward import Reward
+            az = Reward(self.config)
+            az.reward()
 
     def event(self):
         """

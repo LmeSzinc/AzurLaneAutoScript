@@ -10,9 +10,11 @@ from module.reward.commission import RewardCommission
 
 class Reward(RewardCommission):
     def reward(self):
+        if not self.config.ENABLE_REWARD:
+            return False
+
         logger.hr('Reward start')
         self.ui_goto_main()
-        self._reward_mission()
 
         self.ui_goto(page_reward, skip_first_screenshot=True)
 
@@ -25,18 +27,20 @@ class Reward(RewardCommission):
             check_button=page_main.check_button,
             appear_button=page_reward.check_button,
             skip_first_screenshot=True)
+
+        self._reward_mission()
+
+        self.config.REWARD_LAST_TIME = datetime.now()
         logger.hr('Reward end')
+        return True
 
     def handle_reward(self):
-        if not self.config.ENABLE_REWARD:
-            return False
         if datetime.now() - self.config.REWARD_LAST_TIME < timedelta(minutes=self.config.REWARD_INTERVAL):
             return False
 
-        self.reward()
+        flag = self.reward()
 
-        self.config.REWARD_LAST_TIME = datetime.now()
-        return True
+        return flag
 
     def _reward_receive(self):
         """
