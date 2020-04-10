@@ -109,7 +109,7 @@ def main(ini_name=''):
     f3.add_argument('--舰队阵型3', default=default('--舰队阵型3'), choices=['单纵阵', '复纵阵', '轮形阵'])
 
     # 潜艇设置
-    submarine = setting_parser.add_argument_group('潜艇设置', '暂不支持潜艇, 最好避免潜艇进图')
+    submarine = setting_parser.add_argument_group('潜艇设置', '仅支持: 不使用, 仅狩猎, 每战出击')
     submarine.add_argument('--舰队编号4', default=default('--舰队编号4'), choices=['不使用', '1', '2'])
     submarine.add_argument('--潜艇出击方案', default=default('--潜艇出击方案'), choices=['不使用', '仅狩猎', '每战出击', '空弹出击', 'BOSS战出击', 'BOSS战BOSS出现后召唤'])
 

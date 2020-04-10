@@ -3,6 +3,7 @@ from module.base.utils import color_bar_percentage
 from module.combat.assets import *
 from module.combat.emotion import Emotion
 from module.combat.hp_balancer import HPBalancer
+from module.combat.submarine import SubmarineCall
 from module.handler.enemy_searching import EnemySearchingHandler
 from module.handler.urgent_commission import UrgentCommissionHandler
 from module.logger import logger
@@ -12,7 +13,7 @@ from module.retire.retirement import Retirement
 from module.ui.assets import BACK_ARROW
 
 
-class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirement):
+class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirement, SubmarineCall):
     _automation_set_timer = Timer(1)
     _emotion: Emotion
 
@@ -163,6 +164,7 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
             save_get_items (bool)
         """
         logger.info('Combat execute')
+        self.submarine_call_reset()
         confirm_timer = Timer(10)
         confirm_timer.start()
 
@@ -174,6 +176,9 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
 
             if call_submarine_at_boss:
                 pass
+            else:
+                if self.handle_submarine_call():
+                    continue
 
             # End
             # if self.appear_then_click(BATTLE_STATUS):

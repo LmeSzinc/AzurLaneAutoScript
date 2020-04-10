@@ -21,3 +21,7 @@ GET_MISSION = Button(area=(553, 482, 727, 539), color=(93, 142, 203), button=(55
 GET_SHIP = Button(area=(1104, 610, 1110, 630), color=(255, 255, 255), button=(1000, 631, 1055, 689), file='./assets/combat/GET_SHIP.png')
 LOADING_BAR = Button(area=(33, 676, 1247, 680), color=(172, 205, 232), button=(33, 676, 1247, 680), file='./assets/combat/LOADING_BAR.png')
 PAUSE = Button(area=(1236, 37, 1244, 59), color=(247, 243, 247), button=(1162, 34, 1246, 61), file='./assets/combat/PAUSE.png')
+SUBMARINE_AVAILABLE_CHECK_1 = Button(area=(707, 660, 712, 665), color=(255, 255, 255), button=(707, 660, 712, 665), file='./assets/combat/SUBMARINE_AVAILABLE_CHECK_1.png')
+SUBMARINE_AVAILABLE_CHECK_2 = Button(area=(790, 631, 795, 641), color=(255, 255, 255), button=(790, 631, 795, 641), file='./assets/combat/SUBMARINE_AVAILABLE_CHECK_2.png')
+SUBMARINE_CALLED = Button(area=(737, 608, 750, 626), color=(132, 134, 132), button=(737, 608, 750, 626), file='./assets/combat/SUBMARINE_CALLED.png')
+SUBMARINE_READY = Button(area=(737, 608, 752, 625), color=(255, 251, 255), button=(737, 608, 752, 625), file='./assets/combat/SUBMARINE_READY.png')
