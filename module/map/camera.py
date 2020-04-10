@@ -105,7 +105,6 @@ class Camera(InfoBarHandler):
                 self.grids.save_error_image()
 
         # Set camera position
-
         if self.grids.left_edge:
             x = 0 + self.grids.center_grid[0]
         elif self.grids.right_edge:
@@ -118,11 +117,10 @@ class Camera(InfoBarHandler):
             y = self.map.shape[1] - self.grids.shape[1] + self.grids.center_grid[1]
         else:
             y = self.camera[1]
-        self.camera = (x, y)
 
-        # align_x = self.map.shape[0] - self.grids.shape[0] if self.grids.right_edge else 0
-        # align_y = self.map.shape[1] - self.grids.shape[1] if self.grids.upper_edge else 0
-        # self.camera = np.array((align_x, align_y)) + self.grids.center_grid
+        if self.camera != (x, y):
+            logger.info(f'      camera corrected: {location2node(self.camera)} -> {location2node((x, y))}')
+        self.camera = (x, y)
         self.show_camera()
 
     def predict(self):
@@ -203,6 +201,7 @@ class Camera(InfoBarHandler):
         Args:
             battle_count:
             mystery_count:
+            siren_count:
         """
         logger.info('Full scan start')
         self.map.reset_fleet()

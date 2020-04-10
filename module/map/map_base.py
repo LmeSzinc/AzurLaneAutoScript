@@ -42,6 +42,7 @@ class CampaignMap:
         self._weight_data = ''
         self._block_data = []
         self._spawn_data = []
+        self._spawn_data_backup = []
         self._camera_data = []
         self.in_map_swipe_preset_data = None
 
@@ -156,8 +157,8 @@ class CampaignMap:
 
     @spawn_data.setter
     def spawn_data(self, data_list):
+        self._spawn_data_backup = data_list
         spawn = {'battle': 0, 'enemy': 0, 'mystery': 0, 'siren': 0, 'boss': 0}
-        # spawn = {'battle': 0, 'enemy': 0, 'mystery': 0, 'boss': 0}
         for data in data_list:
             spawn['battle'] = data['battle']
             spawn['enemy'] += data.get('enemy', 0) + data.get('siren', 0)

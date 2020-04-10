@@ -236,10 +236,10 @@ class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
         self.map.show_cost()
 
     def _expected_combat_end(self, expected):
-        for data in self.map.spawn_data:
+        for data in self.map._spawn_data_backup:
             if data.get('battle') == self.battle_count and 'boss' in expected:
                 return 'in_stage'
-            if data.get('battle') == self.battle_count:
+            if data.get('battle') == self.battle_count + 1:
                 if data.get('enemy', 0) + data.get('siren', 0) + data.get('boss', 0) > 0:
                     return 'with_searching'
                 else:

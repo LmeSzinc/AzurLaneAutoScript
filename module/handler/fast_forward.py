@@ -33,7 +33,9 @@ class FastForwardHandler(ModuleBase):
         if not fleet_lock.appear(main=self):
             logger.info('No fleet lock option.')
             return False
+
         logger.info('fleet_lock')
+        self.config.MAP_HAS_AMBUSH = False
         status = 'on' if self.config.ENABLE_MAP_FLEET_LOCK else 'off'
         changed = fleet_lock.set(status=status, main=self)
         return changed

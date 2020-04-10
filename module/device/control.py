@@ -1,4 +1,5 @@
 import time
+from collections import deque
 
 from retrying import retry
 
@@ -9,6 +10,8 @@ from module.logger import logger
 
 
 class Control(Connection):
+    click_record = deque(maxlen=15)
+
     @staticmethod
     def sleep(second):
         """
@@ -25,6 +28,23 @@ class Control(Connection):
     def _point2str(x, y):
         return '(%s,%s)' % (str(int(x)).rjust(4), str(int(y)).rjust(4))
 
+    def click_record_check(self, button):
+        """
+        Args:
+            button (button.Button): AzurLane Button instance.
+
+        Returns:
+            bool:
+        """
+        if sum([1 if str(prev) == str(button) else 0 for prev in self.click_record]) >= 12:
+            logger.warning(f'Too many click for a button: {button}')
+            logger.info(f'History click: {[str(prev) for prev in self.click_record]}')
+            exit(1)
+        else:
+            self.click_record.append(str(button))
+
+        return False
+
     def click(self, button, adb=False):
         """Method to click a button.
 
@@ -32,6 +52,7 @@ class Control(Connection):
             button (button.Button): AzurLane Button instance.
             adb (bool): If use adb.
         """
+        self.click_record_check(button)
         x, y = random_rectangle_point(button.button)
         logger.info(
             'Click %s @ %s' % (self._point2str(x, y), button)
