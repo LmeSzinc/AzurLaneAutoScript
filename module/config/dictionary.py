@@ -102,6 +102,7 @@ dic_chi_to_eng = {
     '钻石类紧急委托': 'urgent_gem',
     '观舰类紧急委托': 'urgent_ship',
     '设备': 'serial',
+    '包名': 'package_name',
     '打每日': 'enable_daily_mission',
     '打困难': 'enable_hard_campaign',
     '打演习': 'enable_exercise',

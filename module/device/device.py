@@ -1,13 +1,14 @@
 from datetime import datetime, time
 
 from module.base.timer import Timer
+from module.device.app import AppControl
 from module.device.control import Control
 from module.device.screenshot import Screenshot
 from module.handler.assets import GET_MISSION
 from module.logger import logger
 
 
-class Device(Screenshot, Control):
+class Device(Screenshot, Control, AppControl):
     def handle_night_commission(self, hour=21, threshold=5):
         """
         Args:

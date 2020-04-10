@@ -124,6 +124,7 @@ class AzurLaneConfig:
     module.device
     """
     SERIAL = '127.0.0.1:62001'
+    PACKAGE_NAME = 'com.bilibili.azurlane'
     COMMAND = ''
     USE_ADB_SREENSHOT = False
     USE_ADB_CONTROL = False
@@ -327,6 +328,7 @@ class AzurLaneConfig:
         # Emulator
         option = config['Emulator']
         self.SERIAL = option['serial']
+        self.PACKAGE_NAME = option['package_name'].strip()
 
         option = config['Setting']
         # Stop condition

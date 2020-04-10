@@ -8,7 +8,7 @@ from module.logger import logger
 MAP = CampaignMap('12-4')
 MAP.shape = 'K8'
 MAP.map_data = '''
-    MB ME ME -- ME ++ ++ ++ MB MB ++
+    MB MB ME -- ME ++ ++ ++ MB MB ++
     ME ++ -- ME -- MA ++ ++ ME ME ++
     -- ME -- ME ME -- ME ME -- ME --
     ++ -- ME ++ ++ ME ME -- ++ ++ ME

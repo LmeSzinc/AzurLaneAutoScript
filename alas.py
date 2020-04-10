@@ -26,6 +26,9 @@ class AzurLaneAutoScript:
             print(f'{key} = {value}')
 
         logger.hr('Emulator saved')
+        from module.handler.login import LoginHandler
+        az = LoginHandler(self.config)
+        az.app_ensure_start()
 
     def main(self):
         """

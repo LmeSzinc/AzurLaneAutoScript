@@ -201,8 +201,9 @@ def main(ini_name=''):
 
     # ==========设备设置==========
     emulator_parser = subs.add_parser('设备设置')
-    emulator = emulator_parser.add_argument_group('模拟器', '')
+    emulator = emulator_parser.add_argument_group('模拟器', '需要运行一次来保存选项, 会检查游戏是否启动')
     emulator.add_argument('--设备', default=default('--设备'), help='例如 127.0.0.1:62001')
+    emulator.add_argument('--包名', default=default('--包名'), help='如果不是Biliibli国服, 或者使用了非官方客户端, 需修改')
 
     # ==========每日任务==========
     daily_parser = subs.add_parser('每日任务困难演习')
