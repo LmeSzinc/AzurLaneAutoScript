@@ -29,7 +29,7 @@ MAP.spawn_data = [
     {'battle': 4, 'enemy': 1},
     {'battle': 5, 'boss': 1},
 ]
-MAP.in_map_swipe_preset_data = (-1, 0)
+# MAP.in_map_swipe_preset_data = (-1, 0)
 
 A1, B1, C1, D1, E1, F1, G1, H1, \
 A2, B2, C2, D2, E2, F2, G2, H2, \
