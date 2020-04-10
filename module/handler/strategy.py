@@ -91,10 +91,13 @@ class StrategyHandler(InfoBarHandler):
         """
         image = np.array(self.device.image.crop(MAP_BUFF.area))
         if TEMPLATE_FORMATION_2.match(image):
-            return 2
+            buff = 2
         elif TEMPLATE_FORMATION_1.match(image):
-            return 1
+            buff = 1
         elif TEMPLATE_FORMATION_3.match(image):
-            return 3
+            buff = 3
         else:
-            return 0
+            buff = 0
+
+        logger.attr('Map_buff', buff)
+        return buff

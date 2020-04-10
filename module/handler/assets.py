@@ -31,5 +31,5 @@ STRATEGY_OPEN = Button(area=(1198, 411, 1269, 471), color=(81, 85, 101), button=
 STRATEGY_OPENED = Button(area=(1176, 366, 1275, 393), color=(128, 155, 218), button=(1060, 406, 1092, 485), file='./assets/handler/STRATEGY_OPENED.png')
 SUBMARINE_HUNT_OFF = Button(area=(1200, 415, 1262, 477), color=(125, 127, 132), button=(1200, 415, 1262, 477), file='./assets/handler/SUBMARINE_HUNT_OFF.png')
 SUBMARINE_HUNT_ON = Button(area=(1200, 415, 1262, 477), color=(124, 125, 132), button=(1200, 415, 1262, 477), file='./assets/handler/SUBMARINE_HUNT_ON.png')
-SUBMARINE_VIEW_OFF = Button(area=(1108, 415, 1170, 477), color=(129, 130, 135), button=(1108, 415, 1170, 477), file='./assets/handler/SUBMARINE_VIEW_OFF.png')
-SUBMARINE_VIEW_ON = Button(area=(1108, 415, 1170, 477), color=(134, 135, 141), button=(1108, 415, 1170, 477), file='./assets/handler/SUBMARINE_VIEW_ON.png')
+SUBMARINE_VIEW_OFF = Button(area=(1140, 435, 1170, 468), color=(156, 156, 158), button=(1140, 435, 1170, 468), file='./assets/handler/SUBMARINE_VIEW_OFF.png')
+SUBMARINE_VIEW_ON = Button(area=(1140, 435, 1170, 468), color=(177, 178, 179), button=(1140, 435, 1170, 468), file='./assets/handler/SUBMARINE_VIEW_ON.png')
