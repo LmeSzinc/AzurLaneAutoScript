@@ -75,6 +75,7 @@ class AzurLaneConfig:
     ENABLE_MAP_FLEET_LOCK = True
     SUBMARINE_MODE = ''
     SUBMARINE_CALL_AT_BOSS = False
+    COMBAT_AUTO_MODE = 'combat_auto'
 
     """
     module.combat.hp_balance
@@ -350,6 +351,7 @@ class AzurLaneConfig:
         for n in ['1', '2', '3']:
             self.__setattr__(f'FLEET_{n}', int(option[f'fleet_index_{n}']))
             self.__setattr__(f'FLEET_{n}_FORMATION', int(option[f'fleet_formation_{n}'].split('_')[1]))
+        self.COMBAT_AUTO_MODE = option['combat_auto_mode']
         self.SUBMARINE = int(option['fleet_index_4']) if to_bool(option['fleet_index_4']) else 0
         self.SUBMARINE_MODE = option['submarine_mode']
         self.SUBMARINE_CALL_AT_BOSS = option['submarine_mode'] == 'when_boss_combat_boss_appear'

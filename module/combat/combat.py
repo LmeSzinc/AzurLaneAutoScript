@@ -1,6 +1,8 @@
 from module.base.timer import Timer
 from module.base.utils import color_bar_percentage
 from module.combat.assets import *
+from module.combat.combat_auto import CombatAuto
+from module.combat.combat_manual import CombatManual
 from module.combat.emotion import Emotion
 from module.combat.hp_balancer import HPBalancer
 from module.combat.submarine import SubmarineCall
@@ -14,7 +16,8 @@ from module.retire.retirement import Retirement
 from module.ui.assets import BACK_ARROW
 
 
-class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirement, SubmarineCall, LowEmotionHandler):
+class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirement, SubmarineCall, LowEmotionHandler,
+             CombatAuto, CombatManual):
     _automation_set_timer = Timer(1)
     _emotion: Emotion
 
@@ -173,6 +176,8 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
         """
         logger.info('Combat execute')
         self.submarine_call_reset()
+        self.combat_auto_reset()
+        self.combat_manual_reset()
         confirm_timer = Timer(10)
         confirm_timer.start()
 
@@ -180,6 +185,11 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
             self.device.screenshot()
 
             if not confirm_timer.reached() and self.appear_then_click(AUTOMATION_CONFIRM, offset=True):
+                continue
+
+            if self.handle_combat_auto():
+                continue
+            if self.handle_combat_manual():
                 continue
 
             if call_submarine_at_boss:

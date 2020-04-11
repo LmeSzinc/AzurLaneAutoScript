@@ -108,6 +108,9 @@ def main(ini_name=''):
     f3.add_argument('--舰队编号3', default=default('--舰队编号3'), choices=['不使用', '1', '2', '3', '4', '5', '6'])
     f3.add_argument('--舰队阵型3', default=default('--舰队阵型3'), choices=['单纵阵', '复纵阵', '轮形阵'])
 
+    f4 = fleet.add_argument_group('自律模式')
+    f4.add_argument('--战斗自律模式', default=default('--战斗自律模式'), choices=['自律', '手操', '中路站桩'])
+
     # 潜艇设置
     submarine = setting_parser.add_argument_group('潜艇设置', '仅支持: 不使用, 仅狩猎, 每战出击')
     submarine.add_argument('--舰队编号4', default=default('--舰队编号4'), choices=['不使用', '1', '2'])
@@ -206,7 +209,7 @@ def main(ini_name=''):
     emulator.add_argument('--包名', default=default('--包名'), help='如果不是Biliibli国服, 或者使用了非官方客户端, 需修改')
 
     debug = emulator_parser.add_argument_group('调试', '')
-    debug.add_argument('--保存透视识别出错的图像', default=default('--保存透视识别错误的图像'))
+    debug.add_argument('--保存透视识别出错的图像', default=default('--保存透视识别出错的图像'), choices=['是', '否'])
 
     # ==========每日任务==========
     daily_parser = subs.add_parser('每日任务困难演习')
