@@ -2,6 +2,7 @@ import numpy as np
 
 from module.handler.info_bar import InfoBarHandler
 from module.logger import logger
+from module.map.exception import PerspectiveError
 from module.map.grids import Grids, Grid
 from module.map.map_base import CampaignMap, location2node, location_ensure
 
@@ -144,19 +145,29 @@ class Camera(InfoBarHandler):
         """
         logger.info('Ensure edge in sight.')
         record = []
-        self.update()
-
-        if preset is not None:
-            self.map_swipe(preset)
-            record.append(preset)
-            self.update()
 
         while 1:
-            x = 0 if self.grids.left_edge or self.grids.right_edge else 3
-            y = 0 if self.grids.lower_edge or self.grids.upper_edge else 2
+            try:
+                if len(record) == 0:
+                    self.update()
+                    if preset is not None:
+                        self.map_swipe(preset)
+                        record.append(preset)
 
-            # Swipe even if two edges insight, this will avoid some embarrassing camera position.
-            self.map_swipe((x, y))
+                x = 0 if self.grids.left_edge or self.grids.right_edge else 3
+                y = 0 if self.grids.lower_edge or self.grids.upper_edge else 2
+
+                if len(record) > 0:
+                    # Swipe even if two edges insight, this will avoid some embarrassing camera position.
+                    self.map_swipe((x, y))
+
+            except PerspectiveError as e:
+                msg = str(e).split(':')[1].strip()
+                logger.warning(f'Camera outside map: {msg}')
+                dic = {'to the left': (2, 0), 'to the right': (-2, 0), 'to the lower': (0, 2), 'to the upper': (0, -2)}
+                self._map_swipe(dic[msg])
+                continue
+
             record.append((x, y))
 
             if x == 0 and y == 0:

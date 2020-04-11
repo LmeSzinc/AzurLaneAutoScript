@@ -17,7 +17,7 @@ class LoginHandler(Combat):
                 continue
             if self.handle_get_ship():
                 continue
-            if self.appear_then_click(LOGIN_ANNOUNCE, interval=1):
+            if self.appear_then_click(LOGIN_ANNOUNCE, offset=(30, 30), interval=1):
                 continue
             if self.appear(EVENT_LIST_CHECK):
                 self.ui_back(check_button=MAIN_CHECK, appear_button=EVENT_LIST_CHECK, skip_first_screenshot=True)

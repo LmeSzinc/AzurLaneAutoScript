@@ -13,6 +13,7 @@ BATTLE_PREPARATION = Button(area=(1043, 607, 1241, 667), color=(234, 179, 97), b
 BATTLE_PREPARATION_WITH_OVERLAY = Button(area=(1058, 622, 1226, 652), color=(96, 74, 39), button=(1058, 622, 1226, 652), file='./assets/combat/BATTLE_PREPARATION_WITH_OVERLAY.png')
 BATTLE_STATUS_A = Button(area=(622, 266, 732, 288), color=(235, 227, 111), button=(1000, 631, 1055, 689), file='./assets/combat/BATTLE_STATUS_A.png')
 BATTLE_STATUS_S = Button(area=(633, 297, 722, 320), color=(233, 241, 127), button=(1000, 631, 1055, 689), file='./assets/combat/BATTLE_STATUS_S.png')
+COMBAT_AUTO = Button(area=(110, 32, 139, 61), color=(162, 186, 228), button=(18, 38, 96, 56), file='./assets/combat/COMBAT_AUTO.png')
 EXP_INFO_A = Button(area=(389, 100, 444, 116), color=(236, 231, 116), button=(1000, 631, 1055, 689), file='./assets/combat/EXP_INFO_A.png')
 EXP_INFO_S = Button(area=(396, 122, 457, 137), color=(233, 241, 127), button=(1000, 631, 1055, 689), file='./assets/combat/EXP_INFO_S.png')
 GET_ITEMS_1 = Button(area=(538, 217, 741, 253), color=(160, 192, 248), button=(1000, 631, 1055, 689), file='./assets/combat/GET_ITEMS_1.png')

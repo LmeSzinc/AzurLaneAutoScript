@@ -1,6 +1,7 @@
 from module.base.timer import Timer
 from module.handler.enemy_searching import EnemySearchingHandler
 from module.handler.fast_forward import FastForwardHandler
+from module.handler.low_emotion import LowEmotionHandler
 from module.handler.strategy import StrategyHandler
 from module.handler.urgent_commission import UrgentCommissionHandler
 from module.logger import logger
@@ -11,7 +12,7 @@ from module.retire.retirement import Retirement
 
 
 class MapOperation(UrgentCommissionHandler, EnemySearchingHandler, FleetPreparation, Retirement, FastForwardHandler,
-                   StrategyHandler):
+                   StrategyHandler, LowEmotionHandler):
     def fleet_switch_click(self):
         """
         Switch fleet.
@@ -74,7 +75,8 @@ class MapOperation(UrgentCommissionHandler, EnemySearchingHandler, FleetPreparat
                 continue
 
             # Emotion
-            pass
+            if self.handle_combat_low_emotion():
+                continue
 
             # Urgent commission
             if self.handle_urgent_commission():

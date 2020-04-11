@@ -111,6 +111,8 @@ class Lines:
     def add(self, other):
         if not other:
             return self
+        if not self:
+            return other
         lines = np.append(self.lines, other.lines, axis=0)
         return Lines(lines, is_horizontal=self.is_horizontal, config=self.config)
 

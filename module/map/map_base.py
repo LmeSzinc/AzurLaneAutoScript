@@ -308,7 +308,10 @@ class CampaignMap:
         return path
 
     def missing_get(self, battle_count, mystery_count=0, siren_count=0):
-        missing = self.spawn_data[battle_count].copy()
+        try:
+            missing = self.spawn_data[battle_count].copy()
+        except IndexError:
+            missing = self.spawn_data[-1].copy()
         may = {'enemy': 0, 'mystery': 0, 'siren': 0, 'boss': 0}
         missing['enemy'] -= battle_count
         missing['mystery'] -= mystery_count

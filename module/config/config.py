@@ -235,6 +235,7 @@ class AzurLaneConfig:
         ),
         MID_DIFF_RANGE
     )
+    ENABLE_PERSPECTIVE_ERROR_IMAGE_SAVE = False
     """
     module.daemon
     """
@@ -329,6 +330,7 @@ class AzurLaneConfig:
         option = config['Emulator']
         self.SERIAL = option['serial']
         self.PACKAGE_NAME = option['package_name'].strip()
+        self.ENABLE_PERSPECTIVE_ERROR_IMAGE_SAVE = to_bool(option['enable_perspective_error_image_save'])
 
         option = config['Setting']
         # Stop condition

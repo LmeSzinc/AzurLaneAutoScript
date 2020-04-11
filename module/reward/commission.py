@@ -221,7 +221,7 @@ def commission_choose(daily, urgent, priority, time_limit=None):
     """
     # Count Commission
     commission = daily.commission + urgent.commission
-    running_count = np.sum([1 for c in commission if c.status == 'running'])
+    running_count = int(np.sum([1 for c in commission if c.status == 'running']))
     logger.attr('Running', running_count)
     if running_count >= 4:
         return [], []

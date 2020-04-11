@@ -4,7 +4,7 @@ from module.combat.assets import GET_ITEMS_1
 from module.handler.info_bar import InfoBarHandler
 from module.logger import logger
 from module.retire.assets import *
-from module.ui.ui import UI, BACK_ARROW
+from module.ui.ui import UI
 
 CARD_GRIDS = ButtonGrid(origin=(93, 76), delta=(164 + 2 / 3, 227), button_shape=(138, 204), grid_shape=(7, 2), name='CARD')
 CARD_RARITY_GRIDS = ButtonGrid(origin=(93, 76), delta=(164 + 2 / 3, 227), button_shape=(138, 5), grid_shape=(7, 2), name='RARITY')
@@ -141,20 +141,11 @@ class Retirement(UI, InfoBarHandler):
             and self.appear(RETIRE_APPEAR_2, offset=30) \
             and self.appear(RETIRE_APPEAR_3, offset=30)
 
+    def _retirement_quit_check_func(self):
+        return not self.appear(IN_RETIREMENT_CHECK)
+
     def _retirement_quit(self):
-        skip = True
-        while 1:
-            if skip:
-                skip = False
-            else:
-                self.device.screenshot()
-
-            # End
-            if not self.appear(IN_RETIREMENT_CHECK):
-                break
-
-            if self.appear_then_click(BACK_ARROW, offset=(20, 20)):
-                continue
+        self.ui_back(check_button=self._retirement_quit_check_func, skip_first_screenshot=True)
 
     @property
     def _retire_amount(self):

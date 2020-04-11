@@ -8,7 +8,7 @@ COMMON_SHIP_FILTER_DISABLE = Button(area=(666, 6, 802, 48), color=(71, 88, 125),
 COMMON_SHIP_FILTER_ENABLE = Button(area=(666, 6, 802, 48), color=(182, 145, 96), button=(666, 6, 802, 48), file='./assets/retire/COMMON_SHIP_FILTER_ENABLE.png')
 EQUIP_CONFIRM = Button(area=(871, 516, 1044, 573), color=(95, 143, 203), button=(871, 516, 1044, 573), file='./assets/retire/EQUIP_CONFIRM.png')
 EQUIP_CONFIRM_2 = Button(area=(720, 541, 893, 598), color=(94, 142, 202), button=(720, 541, 893, 598), file='./assets/retire/EQUIP_CONFIRM_2.png')
-GET_ITEMS_1_RETIREMENT_SAVE = Button(area=(951, 654, 987, 687), color=(64, 62, 69), button=(951, 654, 987, 687), file='./assets/retire/GET_ITEMS_1_RETIREMENT_SAVE.png')
+GET_ITEMS_1_RETIREMENT_SAVE = Button(area=(1031, 656, 1063, 688), color=(49, 44, 54), button=(1031, 656, 1063, 688), file='./assets/retire/GET_ITEMS_1_RETIREMENT_SAVE.png')
 IN_RETIREMENT_CHECK = Button(area=(854, 641, 1027, 698), color=(184, 99, 89), button=(854, 641, 1027, 698), file='./assets/retire/IN_RETIREMENT_CHECK.png')
 RETIRE_APPEAR_1 = Button(area=(353, 492, 527, 550), color=(96, 144, 204), button=(353, 492, 527, 550), file='./assets/retire/RETIRE_APPEAR_1.png')
 RETIRE_APPEAR_2 = Button(area=(553, 492, 727, 550), color=(94, 143, 204), button=(553, 492, 727, 550), file='./assets/retire/RETIRE_APPEAR_2.png')

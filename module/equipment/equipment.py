@@ -16,14 +16,13 @@ class Equipment(InfoBarHandler):
             SWIPE_CHECK.load_color(self.device.image)
             self.device.swipe(vector=(distance, 0), box=SWIPE_AREA.area, random_range=SWIPE_RANDOM_RANGE,
                               padding=0, duration=(0.1, 0.12))
-            while 1:
-                self.device.screenshot()
-                if SWIPE_CHECK.match(self.device.image):
-                    continue
-                if self.appear(EQUIPMENT_OPEN):
-                    break
 
-            if not SWIPE_CHECK.match(self.device.image):
+            self.device.sleep(0.3)
+            self.device.screenshot()
+            if SWIPE_CHECK.match(self.device.image):
+                continue
+
+            if self.appear(EQUIPMENT_OPEN) and not SWIPE_CHECK.match(self.device.image):
                 break
 
     def _view_next(self):

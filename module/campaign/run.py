@@ -133,8 +133,8 @@ class CampaignRun(CampaignUI, Reward):
                 self.ensure_campaign_ui(name=self.stage)
                 self.campaign.ENTRANCE = self.campaign_get_entrance(name=self.stage)
             if self.commission_notice_show_at_campaign():
-                self.reward()
-                continue
+                if self.reward():
+                    continue
 
             # End
             if self.triggered_stop_condition():

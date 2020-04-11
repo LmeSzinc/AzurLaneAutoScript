@@ -32,7 +32,7 @@ class Device(Screenshot, Control, AppControl):
             super().screenshot()
 
             if GET_MISSION.appear_on(self.image):
-                self.click(GET_MISSION)
+                super().click(GET_MISSION)
 
             if wait.reached():
                 break

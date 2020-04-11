@@ -103,6 +103,7 @@ dic_chi_to_eng = {
     '观舰类紧急委托': 'urgent_ship',
     '设备': 'serial',
     '包名': 'package_name',
+    '保存透视识别出错的图像': 'enable_perspective_error_image_save',
     '打每日': 'enable_daily_mission',
     '打困难': 'enable_hard_campaign',
     '打演习': 'enable_exercise',

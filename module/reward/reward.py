@@ -68,6 +68,7 @@ class Reward(RewardCommission):
 
             for button in [EXP_INFO_S_REWARD, GET_ITEMS_1, GET_ITEMS_2, GET_SHIP]:
                 if self.appear(button, interval=1):
+                    REWARD_SAVE_CLICK.name = button.name
                     self.device.click(REWARD_SAVE_CLICK)
                     click_timer.reset()
                     exit_timer.reset()

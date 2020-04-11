@@ -5,6 +5,7 @@ from module.combat.emotion import Emotion
 from module.combat.hp_balancer import HPBalancer
 from module.combat.submarine import SubmarineCall
 from module.handler.enemy_searching import EnemySearchingHandler
+from module.handler.low_emotion import LowEmotionHandler
 from module.handler.urgent_commission import UrgentCommissionHandler
 from module.logger import logger
 from module.map.assets import MAP_OFFENSIVE
@@ -13,7 +14,7 @@ from module.retire.retirement import Retirement
 from module.ui.assets import BACK_ARROW
 
 
-class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirement, SubmarineCall):
+class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirement, SubmarineCall, LowEmotionHandler):
     _automation_set_timer = Timer(1)
     _emotion: Emotion
 
@@ -33,7 +34,9 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
                 return True
             if self.handle_retirement():
                 self.map_offensive()
-                return True
+                return False
+            if self.handle_combat_low_emotion():
+                return False
 
         if self.appear(BATTLE_PREPARATION):
             return True
@@ -109,6 +112,11 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
             # Retirement
             if self.handle_retirement():
                 continue
+
+            # Emotion
+            if not self.config.ENABLE_MAP_FLEET_LOCK:
+                if self.handle_combat_low_emotion():
+                    continue
 
             # Combat start
             if self.appear_then_click(BATTLE_PREPARATION):

@@ -9,6 +9,7 @@ from scipy import signal, optimize
 
 from module.config.config import AzurLaneConfig
 from module.logger import logger
+from module.map.exception import PerspectiveError
 from module.map.perspective_items import Points, Lines
 
 warnings.filterwarnings("ignore")
@@ -362,6 +363,16 @@ class Perspective:
             lower = lower[0] if len(lower) else None
             upper = upper[-1] if len(upper) else None
 
+        # If camera outside map
+        if lower is not None:
+            correct, incorrect = np.sum(inner - lower > -threshold), np.sum(inner - lower < threshold)
+            if incorrect >= 2 and incorrect > correct:
+                raise PerspectiveError('Camera outside map: to the %s' % ('upper' if lines.is_horizontal else 'right'))
+        if upper is not None:
+            correct, incorrect = np.sum(upper - inner > -threshold), np.sum(upper - inner < threshold)
+            if incorrect >= 2 and incorrect > correct:
+                raise PerspectiveError('Camera outside map: to the %s' % ('lower' if lines.is_horizontal else 'left'))
+
         # crop mid
         if lower:
             clean = clean[clean > lower - threshold]
@@ -387,6 +398,9 @@ class Perspective:
         return lines, lower, upper
 
     def save_error_image(self):
+        if not self.config.ENABLE_PERSPECTIVE_ERROR_IMAGE_SAVE:
+            return False
+
         file = '%s.%s' % (int(time.time() * 1000), 'png')
         file = os.path.join(self.config.ERROR_LOG_FOLDER, file)
         self.image.save(file)
