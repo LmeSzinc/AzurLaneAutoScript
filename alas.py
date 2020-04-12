@@ -45,7 +45,7 @@ class AzurLaneAutoScript:
         """
         Method to run daily missions.
         """
-        flag = False
+        flag = True
 
         if self.config.ENABLE_DAILY_MISSION:
             from module.daily.daily import Daily
@@ -53,6 +53,7 @@ class AzurLaneAutoScript:
             if not az.record_executed_since():
                 az.run()
                 az.record_save()
+                flag = True
 
         if self.config.ENABLE_HARD_CAMPAIGN:
             from module.hard.hard import CampaignHard
@@ -60,6 +61,7 @@ class AzurLaneAutoScript:
             if not az.record_executed_since():
                 az.run()
                 az.record_save()
+                flag = True
 
         if self.config.ENABLE_EXERCISE:
             from module.exercise.exercise import Exercise
@@ -67,6 +69,7 @@ class AzurLaneAutoScript:
             if not az.record_executed_since():
                 az.run()
                 az.record_save()
+                flag = True
 
         if flag:
             from module.reward.reward import Reward

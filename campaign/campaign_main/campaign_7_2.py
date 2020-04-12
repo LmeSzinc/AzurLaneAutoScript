@@ -42,7 +42,7 @@ FLEET_2_STEP_ON = SelectedGrids([A3, G3, C3, E3])
 
 
 class Config:
-    pass
+    SUBMARINE = 0
 
 
 class Campaign(CampaignBase):

@@ -18,6 +18,7 @@ A1, B1, C1, D1, E1, F1, G1, \
 
 class Config:
     FLEET_2 = 0
+    SUBMARINE = 0
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (120, 255 - 40),
         'width': (1.5, 10),

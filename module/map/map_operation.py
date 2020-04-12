@@ -96,9 +96,9 @@ class MapOperation(UrgentCommissionHandler, EnemySearchingHandler, FleetPreparat
         while 1:
             self.device.screenshot()
 
-            if self.appear_then_click(WITHDRAW, interval=2):
-                continue
             if self.appear_then_click(WITHDRAW_CONFIRM, offset=True, interval=2):
+                continue
+            if self.appear_then_click(WITHDRAW, interval=2):
                 continue
 
             # End

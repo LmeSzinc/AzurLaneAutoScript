@@ -48,11 +48,11 @@ class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
         self.fleet_switch_click()
         self.fleet_current_index = 1 if self.fleet_current_index == 2 else 2
         self.camera = self.fleet_current
-        self.handle_strategy(index=self.fleet_current_index)
         self.update()
         self.find_path_initial()
         self.map.show_cost()
         self.show_fleet()
+        self.handle_strategy(index=self.fleet_current_index)
 
     def switch_to(self):
         pass

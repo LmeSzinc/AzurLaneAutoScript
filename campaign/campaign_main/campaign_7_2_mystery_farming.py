@@ -2,6 +2,7 @@ from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
+from campaign.campaign_main.campaign_7_2 import Config
 
 
 MAP = CampaignMap('7-2')
@@ -40,11 +41,6 @@ A5, B5, C5, D5, E5, F5, G5, H5 = MAP.flatten()
 ROAD_MAIN = RoadGrids([A3, [C3, B4, C5], [F1, G2, G3]])
 GRIDS_FOR_FASTER = SelectedGrids([A3, C3, E3, G3])
 FLEET_2_STEP_ON = SelectedGrids([A3, G3, C3, E3])
-
-
-class Config:
-    # FLEET_2 = 0
-    pass
 
 
 class Campaign(CampaignBase):

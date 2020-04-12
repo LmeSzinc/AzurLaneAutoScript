@@ -23,7 +23,7 @@ class Template:
         """
         res = cv2.matchTemplate(np.array(image), self.image, cv2.TM_CCOEFF_NORMED)
         _, sim, _, _ = cv2.minMaxLoc(res)
-        # print(self.file, similarity)
+        # print(self.file, sim)
         return sim > similarity
 
     def match_multi(self, image, similarity=0.85):
