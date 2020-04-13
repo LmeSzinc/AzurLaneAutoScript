@@ -34,6 +34,10 @@ class Grids(Perspective):
             diff = len(self.vertical) - len(vertical)
             if diff > 0:
                 logger.info(f'          Grids offset: {(diff, 0)}')
+                if leave[0] > 0:
+                    self.left_edge = None
+                if leave[-1] + 2 < len(self.vertical):
+                    self.right_edge = None
                 self.vertical = vertical
                 self.grids = {}
                 for grid in self._gen():

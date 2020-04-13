@@ -2,6 +2,8 @@ from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
+from module.map.exception import CampaignEnd
+
 
 MAP = CampaignMap()
 MAP.shape = 'G1'
@@ -16,6 +18,7 @@ MAP.spawn_data = [
 A1, B1, C1, D1, E1, F1, G1, \
     = MAP.flatten()
 
+
 class Config:
     FLEET_2 = 0
     SUBMARINE = 0
@@ -25,8 +28,15 @@ class Config:
         'prominence': 10,
         'distance': 35,
     }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 40, 255),
+        'prominence': 10,
+        'distance': 50,
+        'wlen': 1000
+    }
     INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
     EDGE_LINES_HOUGHLINES_THRESHOLD = 40
+
 
 class Campaign(CampaignBase):
     MAP = MAP
@@ -36,3 +46,7 @@ class Campaign(CampaignBase):
 
     def battle_1(self):
         return self.clear_boss()
+
+    def handle_boss_appear_refocus(self):
+        self.map_swipe((-3, 0))
+        return super().handle_boss_appear_refocus()

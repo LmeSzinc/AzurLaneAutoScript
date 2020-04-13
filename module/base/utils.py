@@ -43,7 +43,7 @@ def random_rectangle_point(area):
     """Choose a random point in an area.
 
     Args:
-        area (tuple): (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
+        area: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
 
     Returns:
         int: x
@@ -52,6 +52,44 @@ def random_rectangle_point(area):
     x = random_normal_distribution_int(area[0], area[2])
     y = random_normal_distribution_int(area[1], area[3])
     return x, y
+
+
+def random_rectangle_vector(vector, box, random_range=(0, 0, 0, 0), padding=15):
+    """Place a vector in a box randomly.
+
+    Args:
+        vector: (x, y)
+        box: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
+        random_range (tuple): Add a random_range to vector. (x_min, y_min, x_max, y_max).
+        padding (int):
+
+    Returns:
+        tuple(int), tuple(int): start_point, end_point.
+    """
+    vector = np.array(vector) + random_rectangle_point(random_range)
+    vector = np.round(vector).astype(np.int)
+    half_vector = np.round(vector / 2).astype(np.int)
+    box = np.array(box) + np.append(np.abs(half_vector) + padding, -np.abs(half_vector) - padding)
+    center = random_rectangle_point(box)
+    start_point = center - half_vector
+    end_point = start_point + vector
+    return tuple(start_point), tuple(end_point)
+
+
+def random_line_segments(p1, p2, n, random_range=(0, 0, 0, 0)):
+    """Cut a line into multiple segments.
+
+    Args:
+        p1: (x, y).
+        p2: (x, y).
+        n: Number of slice.
+        random_range: Add a random_range to points.
+
+    Returns:
+        list[tuple]: [(x0, y0), (x1, y1), (x2, y2)]
+    """
+    return [tuple((((n - index) * p1 + index * p2) / n).astype(int) + random_rectangle_point(random_range))
+            for index in range(0, n + 1)]
 
 
 def area_offset(area, offset):
@@ -278,9 +316,10 @@ def color_bar_percentage(image, area, prev_color, reverse=False, starter=0, thre
     Args:
         image:
         area:
+        prev_color:
         reverse: True if bar goes from right to left.
         starter:
-        prev_color:
+        threshold:
 
     Returns:
         float: 0 to 1.

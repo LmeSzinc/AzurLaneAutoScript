@@ -7,7 +7,7 @@ from scipy import signal
 
 from module.base.ocr import Ocr
 from module.base.timer import Timer
-from module.base.utils import area_offset, get_color
+from module.base.utils import area_offset, get_color, random_rectangle_vector
 from module.handler.info_bar import InfoBarHandler
 from module.logger import logger
 from module.reward.assets import *
@@ -309,10 +309,10 @@ class RewardCommission(UI, InfoBarHandler):
 
         return True
 
-    def _commission_swipe(self, distance=180):
+    def _commission_swipe(self, distance=300):
         # Distance of two commission is 146px
-        self.device.swipe((0, -distance), box=(620, 67, 1154, 692), random_range=(-20, -5, 20, 5))
-        self.device.click(COMMISSION_STOP_SCROLLING)
+        p1, p2 = random_rectangle_vector((0, -distance), box=(620, 67, 1154, 692), random_range=(-20, -5, 20, 5))
+        self.device.drag(p1, p2, segments=2, shake=(25, 0), point_random=(0, 0, 0, 0), shake_random=(-5, 0, 5, 0))
         self.device.sleep(0.3)
         self.device.screenshot()
 

@@ -85,6 +85,10 @@ class Reward(RewardCommission):
                     reward = True
                     continue
 
+            if not self.appear(page_reward.check_button):
+                exit_timer.reset()
+                continue
+
             # End
             if exit_timer.reached():
                 break

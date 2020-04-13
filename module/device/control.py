@@ -106,21 +106,11 @@ class Control(Connection):
             duration(int, float, tuple):
         """
         duration = ensure_time(duration)
-        vector = np.array(vector) + random_rectangle_point(random_range)
-        vector = np.round(vector).astype(np.int)
-        half_vector = np.round(vector / 2).astype(np.int)
-        box = np.array(box) + np.append(np.abs(half_vector) + padding, -np.abs(half_vector) - padding)
-        center = random_rectangle_point(box)
-        start_point = center - half_vector
-        end_point = start_point + vector
+        start, end = random_rectangle_vector(vector, box, random_range=random_range, padding=padding)
         logger.info(
-            'Swipe %s -> %s, %s' % (self._point2str(*start_point), self._point2str(*end_point), duration)
+            'Swipe %s -> %s, %s' % (self._point2str(*start), self._point2str(*end), duration)
         )
-        fx, fy, tx, ty = np.append(start_point, end_point).tolist()
-        if fx < 0 or tx < 0:
-            logger.warning('Swipe Error. vector: %s, box: %s, center: %s, half_vector: %s' % (
-                str(vector), str(box), str(center), str(half_vector)
-            ))
+        fx, fy, tx, ty = np.append(start, end).tolist()
         self.device.swipe(fx, fy, tx, ty, duration=duration)
 
     def drag_along(self, path):
@@ -162,13 +152,29 @@ class Control(Connection):
                 logger.info(self._point2str(x, y) + ' move')
             self.sleep(second)
 
-    def drag(self, p1, p2, shake=(0, 15), point_random=(-10, -10, 10, 10), shake_random=(-5, -5, 5, 5),
+    def drag(self, p1, p2, segments=1, shake=(0, 15), point_random=(-10, -10, 10, 10), shake_random=(-5, -5, 5, 5),
              swipe_duration=0.25, shake_duration=0.1):
+        """Drag and shake, like:
+                     /\
+        +-----------+  +  +
+                        \/
+        A simple swipe or drag don't work well, because it only has two points.
+        Add some way point to make it more like swipe.
+
+        Args:
+            p1 (tuple): Start point, (x, y).
+            p2 (tuple): End point, (x, y).
+            segments (int):
+            shake (tuple): Shake after arrive end point.
+            point_random: Add random to start point and end point.
+            shake_random: Add random to shake array.
+            swipe_duration: Duration between way points.
+            shake_duration: Duration between shake points.
+        """
         p1 = np.array(p1) - random_rectangle_point(point_random)
         p2 = np.array(p2) - random_rectangle_point(point_random)
-        path = [
-            (*p1, swipe_duration),
-            (*p2, shake_duration),
+        path = [(x, y, swipe_duration) for x, y in random_line_segments(p1, p2, n=segments, random_range=point_random)]
+        path += [
             (*p2 + shake + random_rectangle_point(shake_random), shake_duration),
             (*p2 - shake - random_rectangle_point(shake_random), shake_duration),
             (*p2, shake_duration)

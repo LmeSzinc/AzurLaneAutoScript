@@ -61,7 +61,7 @@ class Map(Fleet):
 
     @staticmethod
     def select_grids(grids, nearby=False, is_accessible=True, scale=(), strongest=False, weakest=False, cost=True,
-                     weight=False, ignore=None):
+                     weight=True, ignore=None):
         """
         Args:
             grids (SelectedGrids):

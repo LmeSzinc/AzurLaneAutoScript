@@ -256,7 +256,9 @@ class Perspective:
             threshold(int):
 
         Returns:
-            np.ndarray
+            np.ndarray: All correct lines.mid in DETECTING_AREA. Such as:
+            [ 147.52489312  276.64750191  405.77011071  534.89271951  664.0153283
+            793.1379371   922.2605459  1051.38315469 1180.50576349 1309.62837229]
         """
         right_distant_point = (self.vanish_point[0] * 2 - self.distant_point[0], self.distant_point[1])
 
@@ -343,7 +345,9 @@ class Perspective:
         # Cleansing edge
         edge = edge.mid
         inner = inner.mid
-        edge = edge[(edge > np.max(inner) - threshold) | (edge < np.min(inner) + threshold)]
+        inner_clean = [l for l in inner if np.any(np.abs(l - clean) < 5)]  # Use correct inner to delete wrong edge.
+        if len(inner_clean) > 0:
+            edge = edge[(edge > np.max(inner_clean) - threshold) | (edge < np.min(inner_clean) + threshold)]
         edge = [c for c in clean if np.any(np.abs(c - edge) < 5)]
 
         # Separate edges

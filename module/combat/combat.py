@@ -1,7 +1,7 @@
 import numpy as np
 
 from module.base.timer import Timer
-from module.base.utils import color_bar_percentage, get_color
+from module.base.utils import color_bar_percentage
 from module.combat.assets import *
 from module.combat.combat_auto import CombatAuto
 from module.combat.combat_manual import CombatManual
@@ -79,7 +79,7 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
         Returns:
             bool:
         """
-        return self.appear(PAUSE) and np.mean(get_color(self.device.image, PAUSE_DOUBLE_CHECK.area)) < 153
+        return self.appear(PAUSE) and np.max(self.device.image.crop(PAUSE_DOUBLE_CHECK.area)) < 153
 
     def handle_combat_automation_confirm(self):
         if self.appear(AUTOMATION_CONFIRM_CHECK, interval=1):
