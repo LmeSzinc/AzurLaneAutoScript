@@ -19,7 +19,6 @@ EXP_INFO_A = Button(area=(389, 100, 444, 116), color=(236, 231, 116), button=(10
 EXP_INFO_S = Button(area=(396, 122, 457, 137), color=(233, 241, 127), button=(1000, 631, 1055, 689), file='./assets/combat/EXP_INFO_S.png')
 GET_ITEMS_1 = Button(area=(538, 217, 741, 253), color=(160, 192, 248), button=(1000, 631, 1055, 689), file='./assets/combat/GET_ITEMS_1.png')
 GET_ITEMS_2 = Button(area=(538, 146, 742, 182), color=(160, 192, 248), button=(1000, 631, 1055, 689), file='./assets/combat/GET_ITEMS_2.png')
-GET_MISSION = Button(area=(553, 482, 727, 539), color=(93, 142, 203), button=(553, 482, 727, 539), file='./assets/combat/GET_MISSION.png')
 GET_SHIP = Button(area=(1104, 610, 1110, 630), color=(255, 255, 255), button=(1000, 631, 1055, 689), file='./assets/combat/GET_SHIP.png')
 LOADING_BAR = Button(area=(33, 676, 1247, 680), color=(172, 205, 232), button=(33, 676, 1247, 680), file='./assets/combat/LOADING_BAR.png')
 MOVE_DOWN = Button(area=(148, 647, 155, 669), color=(21, 28, 57), button=(148, 647, 155, 669), file='./assets/combat/MOVE_DOWN.png')

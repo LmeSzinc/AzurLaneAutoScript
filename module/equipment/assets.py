@@ -9,7 +9,6 @@ EQUIP_1 = Button(area=(1218, 249, 1274, 302), color=(102, 152, 219), button=(121
 EQUIP_2 = Button(area=(1218, 349, 1274, 402), color=(101, 150, 215), button=(1218, 349, 1274, 402), file='./assets/equipment/EQUIP_2.png')
 EQUIP_3 = Button(area=(1218, 450, 1274, 503), color=(98, 145, 211), button=(1218, 450, 1274, 503), file='./assets/equipment/EQUIP_3.png')
 EQUIP_OFF = Button(area=(933, 548, 1063, 593), color=(107, 151, 216), button=(933, 548, 1063, 593), file='./assets/equipment/EQUIP_OFF.png')
-EQUIP_OFF_CONFIRM = Button(area=(703, 492, 877, 550), color=(96, 144, 204), button=(703, 492, 877, 550), file='./assets/equipment/EQUIP_OFF_CONFIRM.png')
 FLEET_ENTER = Button(area=(502, 474, 517, 489), color=(58, 62, 77), button=(502, 474, 517, 489), file='./assets/equipment/FLEET_ENTER.png')
 FLEET_NEXT = Button(area=(1234, 327, 1254, 356), color=(72, 93, 125), button=(1234, 327, 1254, 356), file='./assets/equipment/FLEET_NEXT.png')
 FLEET_PREV = Button(area=(26, 327, 46, 356), color=(72, 93, 125), button=(26, 327, 46, 356), file='./assets/equipment/FLEET_PREV.png')

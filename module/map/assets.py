@@ -24,4 +24,3 @@ SUBMARINE_CLEAR = Button(area=(1108, 447, 1172, 505), color=(152, 153, 154), but
 SUBMARINE_IN_USE = Button(area=(454, 439, 537, 521), color=(42, 54, 76), button=(454, 439, 537, 521), file='./assets/map/SUBMARINE_IN_USE.png')
 SWITCH_OVER = Button(area=(947, 654, 1118, 706), color=(144, 158, 198), button=(947, 654, 1118, 706), file='./assets/map/SWITCH_OVER.png')
 WITHDRAW = Button(area=(749, 654, 921, 707), color=(213, 124, 124), button=(749, 654, 921, 707), file='./assets/map/WITHDRAW.png')
-WITHDRAW_CONFIRM = Button(area=(703, 492, 877, 551), color=(95, 143, 203), button=(703, 492, 877, 551), file='./assets/map/WITHDRAW_CONFIRM.png')

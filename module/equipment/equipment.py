@@ -1,6 +1,7 @@
 from module.base.timer import Timer
 from module.equipment.assets import *
 from module.handler.info_bar import InfoBarHandler
+from module.handler.popup import PopupHandler
 from module.logger import logger
 from module.ui.assets import BACK_ARROW
 
@@ -8,7 +9,7 @@ SWIPE_DISTANCE = 250
 SWIPE_RANDOM_RANGE = (-40, -20, 40, 20)
 
 
-class Equipment(InfoBarHandler):
+class Equipment(InfoBarHandler, PopupHandler):
     equipment_has_take_on = False
 
     def _view_swipe(self, distance):
@@ -78,7 +79,7 @@ class Equipment(InfoBarHandler):
                 off_timer.reset()
                 continue
 
-            if confirm_timer.reached() and self.appear_then_click(EQUIP_OFF_CONFIRM, offset=10):
+            if confirm_timer.reached() and self.handle_popup_confirm():
                 confirm_timer.reset()
                 continue
 

@@ -2,6 +2,7 @@ from module.base.timer import Timer
 from module.handler.enemy_searching import EnemySearchingHandler
 from module.handler.fast_forward import FastForwardHandler
 from module.handler.low_emotion import LowEmotionHandler
+from module.handler.popup import PopupHandler
 from module.handler.strategy import StrategyHandler
 from module.handler.urgent_commission import UrgentCommissionHandler
 from module.logger import logger
@@ -12,7 +13,7 @@ from module.retire.retirement import Retirement
 
 
 class MapOperation(UrgentCommissionHandler, EnemySearchingHandler, FleetPreparation, Retirement, FastForwardHandler,
-                   StrategyHandler, LowEmotionHandler):
+                   StrategyHandler, LowEmotionHandler, PopupHandler):
     def fleet_switch_click(self):
         """
         Switch fleet.
@@ -96,7 +97,7 @@ class MapOperation(UrgentCommissionHandler, EnemySearchingHandler, FleetPreparat
         while 1:
             self.device.screenshot()
 
-            if self.appear_then_click(WITHDRAW_CONFIRM, offset=True, interval=2):
+            if self.handle_popup_confirm():
                 continue
             if self.appear_then_click(WITHDRAW, interval=2):
                 continue

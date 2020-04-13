@@ -2,6 +2,7 @@ from module.base.button import ButtonGrid
 from module.base.utils import get_color, color_similar
 from module.combat.assets import GET_ITEMS_1
 from module.handler.info_bar import InfoBarHandler
+from module.handler.popup import PopupHandler
 from module.logger import logger
 from module.retire.assets import *
 from module.ui.ui import UI
@@ -18,7 +19,7 @@ CARD_RARITY_COLORS = {
 }
 
 
-class Retirement(UI, InfoBarHandler):
+class Retirement(UI, InfoBarHandler, PopupHandler):
     def _handle_retirement_cards_loading(self):
         self.device.sleep((1, 1.5))
 
@@ -77,7 +78,7 @@ class Retirement(UI, InfoBarHandler):
         logger.info(f'Current sorting: {current}')
         if current != method:
             logger.info(f'Sorting set to {method}')
-            self.device.click(SORTNG_CLICK)
+            self.device.click(SORTING_CLICK)
             self._handle_retirement_cards_loading()
             self.device.screenshot()
             return True
@@ -114,6 +115,9 @@ class Retirement(UI, InfoBarHandler):
         executed = False
         while 1:
             self.device.screenshot()
+            if self.config.RETIRE_SR or self.config.RETIRE_SSR:
+                if self.handle_popup_confirm():
+                    continue
             if self.appear_then_click(SHIP_CONFIRM, offset=30, interval=2):
                 continue
             if self.appear_then_click(SHIP_CONFIRM_2, offset=30, interval=2):

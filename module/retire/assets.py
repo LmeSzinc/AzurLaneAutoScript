@@ -15,6 +15,6 @@ RETIRE_APPEAR_2 = Button(area=(553, 492, 727, 550), color=(94, 143, 204), button
 RETIRE_APPEAR_3 = Button(area=(753, 492, 927, 550), color=(94, 143, 202), button=(753, 492, 927, 550), file='./assets/retire/RETIRE_APPEAR_3.png')
 SHIP_CONFIRM = Button(area=(1069, 641, 1241, 698), color=(84, 131, 190), button=(1069, 641, 1241, 698), file='./assets/retire/SHIP_CONFIRM.png')
 SHIP_CONFIRM_2 = Button(area=(928, 617, 1100, 674), color=(95, 143, 203), button=(928, 617, 1100, 674), file='./assets/retire/SHIP_CONFIRM_2.png')
-SORTNG_CLICK = Button(area=(1004, 14, 1096, 42), color=(49, 54, 67), button=(1004, 14, 1096, 42), file='./assets/retire/SORTNG_CLICK.png')
+SORTING_CLICK = Button(area=(1004, 14, 1096, 42), color=(49, 54, 67), button=(1004, 14, 1096, 42), file='./assets/retire/SORTING_CLICK.png')
 SORT_ASC = Button(area=(1014, 22, 1019, 26), color=(189, 207, 231), button=(1014, 22, 1019, 26), file='./assets/retire/SORT_ASC.png')
 SORT_DESC = Button(area=(1014, 29, 1019, 33), color=(189, 207, 231), button=(1014, 29, 1019, 33), file='./assets/retire/SORT_DESC.png')

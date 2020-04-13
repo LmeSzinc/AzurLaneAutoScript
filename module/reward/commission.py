@@ -9,6 +9,7 @@ from module.base.ocr import Ocr
 from module.base.timer import Timer
 from module.base.utils import area_offset, get_color, random_rectangle_vector
 from module.handler.info_bar import InfoBarHandler
+from module.handler.popup import PopupHandler
 from module.logger import logger
 from module.reward.assets import *
 from module.ui.page import page_reward, page_commission, CAMPAIGN_CHECK
@@ -266,7 +267,7 @@ def commission_choose(daily, urgent, priority, time_limit=None):
     return daily_choose, urgent_choose
 
 
-class RewardCommission(UI, InfoBarHandler):
+class RewardCommission(UI, InfoBarHandler, PopupHandler):
     daily: CommissionGroup
     urgent: CommissionGroup
     daily_choose: CommissionGroup
@@ -371,7 +372,7 @@ class RewardCommission(UI, InfoBarHandler):
                 self.device.click(comm.button)
                 comm_timer.reset()
 
-            if self.appear_then_click(COMMISSION_OIL_CONFIRM, offset=True, interval=3):
+            if self.handle_popup_confirm():
                 pass
             if self.appear_then_click(COMMISSION_START, interval=3):
                 pass
