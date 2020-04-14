@@ -11,6 +11,7 @@ FLEET_UNLOCKED = Button(area=(1197, 502, 1274, 519), color=(195, 168, 168), butt
 FORMATION_1 = Button(area=(1108, 415, 1170, 477), color=(80, 82, 93), button=(1108, 415, 1170, 477), file='./assets/handler/FORMATION_1.png')
 FORMATION_2 = Button(area=(1108, 415, 1170, 477), color=(80, 82, 92), button=(1108, 415, 1170, 477), file='./assets/handler/FORMATION_2.png')
 FORMATION_3 = Button(area=(1108, 415, 1170, 477), color=(79, 82, 92), button=(1108, 415, 1170, 477), file='./assets/handler/FORMATION_3.png')
+FORMATION_LOCATION = Button(area=(145, 115, 437, 159), color=(103, 118, 118), button=(145, 115, 437, 159), file='./assets/handler/FORMATION_LOCATION.png')
 GET_AMMO = Button(area=(792, 315, 794, 333), color=(251, 250, 255), button=(792, 315, 794, 333), file='./assets/handler/GET_AMMO.png')
 GET_ITEMS_1 = Button(area=(538, 217, 741, 253), color=(160, 192, 248), button=(924, 653, 943, 672), file='./assets/handler/GET_ITEMS_1.png')
 GET_MISSION = Button(area=(553, 491, 727, 551), color=(96, 144, 204), button=(553, 491, 727, 551), file='./assets/handler/GET_MISSION.png')

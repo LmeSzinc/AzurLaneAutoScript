@@ -127,7 +127,7 @@ class AzurLaneConfig:
     SERIAL = '127.0.0.1:62001'
     PACKAGE_NAME = 'com.bilibili.azurlane'
     COMMAND = ''
-    USE_ADB_SCREENSHOT = False
+    USE_ADB_SCREENSHOT = True
     USE_ADB_CONTROL = False
     SCREEN_SHOT_SAVE_FOLDER_BASE = './screenshot'
     SCREEN_SHOT_SAVE_FOLDER = ''
@@ -180,6 +180,7 @@ class AzurLaneConfig:
     module.retire
     """
     ENABLE_RETIREMENT = True
+    USE_ONE_CLICK_RETIREMENT = False
     DOCK_FULL_TRIGGERED = False
     RETIRE_MODE = '10'  # all, 10
     RETIRE_N = True
@@ -332,6 +333,8 @@ class AzurLaneConfig:
         self.SERIAL = option['serial']
         self.PACKAGE_NAME = option['package_name'].strip()
         self.ENABLE_PERSPECTIVE_ERROR_IMAGE_SAVE = to_bool(option['enable_perspective_error_image_save'])
+        self.USE_ADB_SCREENSHOT = to_bool(option['use_adb_screenshot'])
+        self.USE_ADB_CONTROL = to_bool(option['use_adb_control'])
 
         option = config['Setting']
         # Stop condition
@@ -372,6 +375,7 @@ class AzurLaneConfig:
         self.SCREEN_SHOT_SAVE_FOLDER_BASE = option['drop_screenshot_folder']
         # Retirement
         self.ENABLE_RETIREMENT = to_bool(option['enable_retirement'])
+        self.USE_ONE_CLICK_RETIREMENT = to_bool(option['use_one_click_retirement'])
         self.RETIRE_MODE = option['retire_mode'].split('_')[1]
         for r in ['n', 'r', 'sr', 'ssr']:
             self.__setattr__(f'RETIRE_{r.upper()}', to_bool(option[f'retire_{r}']))

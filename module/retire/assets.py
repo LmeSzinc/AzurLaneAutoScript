@@ -10,6 +10,7 @@ EQUIP_CONFIRM = Button(area=(871, 516, 1044, 573), color=(95, 143, 203), button=
 EQUIP_CONFIRM_2 = Button(area=(720, 541, 893, 598), color=(94, 142, 202), button=(720, 541, 893, 598), file='./assets/retire/EQUIP_CONFIRM_2.png')
 GET_ITEMS_1_RETIREMENT_SAVE = Button(area=(1031, 656, 1063, 688), color=(49, 44, 54), button=(1031, 656, 1063, 688), file='./assets/retire/GET_ITEMS_1_RETIREMENT_SAVE.png')
 IN_RETIREMENT_CHECK = Button(area=(854, 641, 1027, 698), color=(184, 99, 89), button=(854, 641, 1027, 698), file='./assets/retire/IN_RETIREMENT_CHECK.png')
+ONE_CLICK_RETIREMENT = Button(area=(639, 641, 811, 698), color=(94, 138, 194), button=(639, 641, 811, 698), file='./assets/retire/ONE_CLICK_RETIREMENT.png')
 RETIRE_APPEAR_1 = Button(area=(353, 492, 527, 550), color=(96, 144, 204), button=(353, 492, 527, 550), file='./assets/retire/RETIRE_APPEAR_1.png')
 RETIRE_APPEAR_2 = Button(area=(553, 492, 727, 550), color=(94, 143, 204), button=(553, 492, 727, 550), file='./assets/retire/RETIRE_APPEAR_2.png')
 RETIRE_APPEAR_3 = Button(area=(753, 492, 927, 550), color=(94, 143, 202), button=(753, 492, 927, 550), file='./assets/retire/RETIRE_APPEAR_3.png')

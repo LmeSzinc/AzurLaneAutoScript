@@ -85,7 +85,7 @@ class Reward(RewardCommission):
                     reward = True
                     continue
 
-            if not self.appear(page_reward.check_button):
+            if not self.appear(page_reward.check_button) or self.info_bar_count():
                 exit_timer.reset()
                 continue
 

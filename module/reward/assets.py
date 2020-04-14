@@ -10,6 +10,7 @@ COMMISSION_DAILY = Button(area=(35, 132, 67, 186), color=(208, 172, 118), button
 COMMISSION_HAS_PENDING = Button(area=(357, 300, 359, 330), color=(86, 201, 173), button=(357, 300, 359, 330), file='./assets/reward/COMMISSION_HAS_PENDING.png')
 COMMISSION_NOTICE_AT_CAMPAIGN = Button(area=(1054, 647, 1061, 654), color=(197, 89, 64), button=(1054, 647, 1061, 654), file='./assets/reward/COMMISSION_NOTICE_AT_CAMPAIGN.png')
 COMMISSION_START = Button(area=(1028, 322, 1156, 383), color=(229, 175, 113), button=(1028, 322, 1156, 383), file='./assets/reward/COMMISSION_START.png')
+COMMISSION_STOP_SCROLLING = Button(area=(115, 236, 179, 487), color=(50, 55, 74), button=(115, 236, 179, 487), file='./assets/reward/COMMISSION_STOP_SCROLLING.png')
 COMMISSION_URGENT = Button(area=(35, 231, 68, 281), color=(215, 188, 124), button=(35, 231, 68, 281), file='./assets/reward/COMMISSION_URGENT.png')
 EXP_INFO_S_REWARD = Button(area=(498, 140, 557, 154), color=(233, 241, 127), button=(498, 140, 557, 154), file='./assets/reward/EXP_INFO_S_REWARD.png')
 MISSION_MULTI = Button(area=(1041, 8, 1101, 39), color=(226, 192, 142), button=(1041, 8, 1101, 39), file='./assets/reward/MISSION_MULTI.png')

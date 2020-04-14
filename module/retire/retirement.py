@@ -1,4 +1,5 @@
 from module.base.button import ButtonGrid
+from module.base.decorator import Config
 from module.base.utils import get_color, color_similar
 from module.combat.assets import GET_ITEMS_1
 from module.handler.info_bar import InfoBarHandler
@@ -115,7 +116,7 @@ class Retirement(UI, InfoBarHandler, PopupHandler):
         executed = False
         while 1:
             self.device.screenshot()
-            if self.config.RETIRE_SR or self.config.RETIRE_SSR:
+            if self.config.RETIRE_SR or self.config.RETIRE_SSR or self.config.USE_ONE_CLICK_RETIREMENT:
                 if self.handle_popup_confirm():
                     continue
             if self.appear_then_click(SHIP_CONFIRM, offset=30, interval=2):
@@ -172,6 +173,40 @@ class Retirement(UI, InfoBarHandler, PopupHandler):
             rarity.add('SSR')
         return rarity
 
+    @Config.when(USE_ONE_CLICK_RETIREMENT=True)
+    def retire_ships(self, amount=None, rarity=None):
+        logger.hr('Retirement')
+        logger.info('Using one click retirement.')
+        if amount is None:
+            amount = self._retire_amount
+        end = False
+        total = 0
+
+        while 1:
+            self.handle_info_bar()
+
+            while 1:
+                self.device.screenshot()
+                if self.appear(SHIP_CONFIRM_2):
+                    break
+                if self.info_bar_count():
+                    logger.info('No more ships to retire.')
+                    end = True
+                    break
+                if self.appear_then_click(ONE_CLICK_RETIREMENT, interval=2):
+                    continue
+
+            if end:
+                break
+            self._retirement_confirm()
+            total += 10
+            if total >= amount:
+                break
+
+        logger.info(f'Total retired round: {total // 10}')
+        return total
+
+    @Config.when(USE_ONE_CLICK_RETIREMENT=False)
     def retire_ships(self, amount=None, rarity=None):
         """
         Args:

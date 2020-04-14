@@ -146,9 +146,10 @@ def main(ini_name=''):
     # 退役选项
     retire = setting_parser.add_argument_group('退役设置', '')
     retire.add_argument('--启用退役', default=default('--启用退役'), choices=['是', '否'])
+    retire.add_argument('--使用一键退役', default=default('--使用一键退役'), choices=['是', '否'])
     retire.add_argument('--退役方案', default=default('--退役方案'), choices=['退役全部', '退役10个'])
 
-    rarity = retire.add_argument_group('退役稀有度', '暂不支持舰种选择')
+    rarity = retire.add_argument_group('退役稀有度', '暂不支持舰种选择, 使用一键退役时忽略以下选项')
     rarity.add_argument('--退役白皮', default=default('--退役白皮'), choices=['是', '否'], help='N')
     rarity.add_argument('--退役蓝皮', default=default('--退役蓝皮'), choices=['是', '否'], help='R')
     rarity.add_argument('--退役紫皮', default=default('--退役紫皮'), choices=['是', '否'], help='SR')
@@ -208,8 +209,12 @@ def main(ini_name=''):
     emulator.add_argument('--设备', default=default('--设备'), help='例如 127.0.0.1:62001')
     emulator.add_argument('--包名', default=default('--包名'), help='如果不是Biliibli国服, 或者使用了非官方客户端, 需修改')
 
-    debug = emulator_parser.add_argument_group('调试', '')
+    debug = emulator_parser.add_argument_group('调试设置', '')
     debug.add_argument('--保存透视识别出错的图像', default=default('--保存透视识别出错的图像'), choices=['是', '否'])
+
+    adb = emulator_parser.add_argument_group('ADB设置', '')
+    adb.add_argument('--使用ADB截图', default=default('--使用ADB截图'), choices=['是', '否'], help='建议开启, 能减少CPU占用')
+    adb.add_argument('--使用ADB点击', default=default('--使用ADB点击'), choices=['是', '否'], help='建议关闭, 能加快点击速度')
 
     # ==========每日任务==========
     daily_parser = subs.add_parser('每日任务困难演习')
