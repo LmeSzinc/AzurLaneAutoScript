@@ -373,10 +373,13 @@ class RewardCommission(UI, InfoBarHandler, PopupHandler):
                 comm_timer.reset()
 
             if self.handle_popup_confirm():
+                comm_timer.reset()
                 pass
             if self.appear_then_click(COMMISSION_START, interval=3):
+                comm_timer.reset()
                 pass
             if self.appear_then_click(COMMISSION_ADVICE, interval=3):
+                comm_timer.reset()
                 pass
 
             if self.handle_info_bar():

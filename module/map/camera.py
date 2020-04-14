@@ -90,11 +90,11 @@ class Camera(InfoBarHandler):
         known_exception = self.info_bar_count()
         if len(self.grids.horizontal) > self.map.shape[1] + 2 or len(self.grids.vertical) > self.map.shape[0] + 2:
             if not known_exception:
-                logger.warn('Perspective Error. Too many lines')
+                logger.info('Perspective Error. Too many lines')
             self.grids.correct = False
         if len(self.grids.horizontal) <= 3 or len(self.grids.vertical) <= 3:
             if not known_exception:
-                logger.warn('Perspective Error. Too few lines')
+                logger.info('Perspective Error. Too few lines')
             self.grids.correct = False
 
         if not self.grids.correct:
@@ -163,7 +163,7 @@ class Camera(InfoBarHandler):
 
             except PerspectiveError as e:
                 msg = str(e).split(':')[1].strip()
-                logger.warning(f'Camera outside map: {msg}')
+                logger.info(f'Camera outside map: {msg}')
                 dic = {'to the left': (2, 0), 'to the right': (-2, 0), 'to the lower': (0, 2), 'to the upper': (0, -2)}
                 self._map_swipe(dic[msg])
                 continue

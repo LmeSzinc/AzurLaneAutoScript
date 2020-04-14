@@ -111,7 +111,7 @@ class Perspective:
             '\\' if self.right_edge else ' ', len(self.vertical), len(vertical), len(edge_v))
                     )
         if len(horizontal) - len(self.horizontal) >= 3 or len(vertical) - len(self.vertical) >= 3:
-            logger.warning('Too many deleted lines')
+            logger.info('Too many deleted lines')
             # self.save_error_image()
 
     def load_image(self, image):
@@ -308,7 +308,7 @@ class Perspective:
         diff = abs(coincident_point[1] - 129)
         if diff > 3:
             self.correct = False
-            logger.warning('%s coincident point unexpected: %s' % (
+            logger.info('%s coincident point unexpected: %s' % (
                 'Horizontal' if is_horizontal else 'Vertical',
                 str(coincident_point)))
             if diff > 6:

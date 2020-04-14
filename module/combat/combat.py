@@ -123,7 +123,7 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
                 continue
 
             # Combat start
-            if self.appear_then_click(BATTLE_PREPARATION):
+            if self.appear_then_click(BATTLE_PREPARATION, interval=2):
                 continue
 
             if self.handle_combat_automation_confirm():
@@ -259,6 +259,8 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
                 continue
             if self.handle_battle_status(save_get_items=save_get_items):
                 continue
+            if self.handle_popup_confirm():
+                continue
             if self.handle_get_ship():
                 continue
             if self.appear_then_click(EXP_INFO_S):
@@ -294,7 +296,7 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
         """
         balance_hp = balance_hp if balance_hp is not None else self.config.ENABLE_HP_BALANCE
         emotion_reduce = emotion_reduce if emotion_reduce is not None else self.config.ENABLE_EMOTION_REDUCE
-        auto = func is None
+        auto = self.config.COMBAT_AUTO_MODE == 'combat_auto'
         call_submarine_at_boss = call_submarine_at_boss if call_submarine_at_boss is not None else self.config.SUBMARINE_CALL_AT_BOSS
         save_get_items = save_get_items if save_get_items is not None else self.config.ENABLE_SAVE_GET_ITEMS
 

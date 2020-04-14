@@ -55,6 +55,8 @@ class MapOperation(UrgentCommissionHandler, EnemySearchingHandler, FleetPreparat
 
             # Map preparation
             if map_timer.reached() and self.appear(MAP_PREPARATION):
+                self.device.sleep(0.3)  # Wait for map information.
+                self.device.screenshot()
                 self.handle_fast_forward()
                 self.device.click(MAP_PREPARATION)
                 map_timer.reset()

@@ -25,6 +25,7 @@ class CampaignBase(Map):
                 break
 
         logger.hr(f'{self.FUNCTION_NAME_BASE}{self.battle_count}', level=2)
+        logger.info(f'Using function: {func}')
         func = self.__getattribute__(func)
 
         result = func()

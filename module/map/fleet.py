@@ -245,6 +245,10 @@ class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
                 else:
                     return 'no_searching'
 
+        if 'boss' in expected:
+            return 'in_stage'
+        return 'no_searching'
+
     def fleet_at(self, grid, fleet=None):
         """
         Args:
