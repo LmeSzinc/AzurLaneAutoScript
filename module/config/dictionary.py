@@ -18,9 +18,9 @@ dic_daily = {
     'daily_air': 1,
     'daily_gun': 2,
     'daily_torpedo': 3,
-    'lv_70': 1,
-    'lv_50': 2,
-    'lv_35': 3,
+    'index_1': 1,
+    'index_2': 2,
+    'index_3': 3,
 }
 dic_chi_to_eng = {
     # Function
@@ -165,9 +165,9 @@ dic_chi_to_eng = {
     '航空': 'daily_air',
     '炮击': 'daily_gun',
     '雷击': 'daily_torpedo',
-    '70级': 'lv_70',
-    '50级': 'lv_50',
-    '35级': 'lv_35',
+    '第一个': 'index_1',
+    '第二个': 'index_2',
+    '第三个': 'index_3',
     '经验最多': 'max_exp',
     '排名最前': 'max_ranking',
     '福利队': 'good_opponent',

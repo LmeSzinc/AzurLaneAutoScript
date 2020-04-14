@@ -228,9 +228,9 @@ def main(ini_name=''):
     # 每日设置
     daily_task = daily_parser.add_argument_group('每日设置', '不支持潜艇每日')
     daily_task.add_argument('--战术研修', default=default('--战术研修'), choices=['航空', '炮击', '雷击'])
-    daily_task.add_argument('--斩首行动', default=default('--斩首行动'), choices=['70级', '50级', '35级'])
-    daily_task.add_argument('--商船护航', default=default('--商船护航'), choices=['70级', '50级', '35级'])
-    daily_task.add_argument('--海域突进', default=default('--海域突进'), choices=['70级', '50级', '35级'])
+    daily_task.add_argument('--斩首行动', default=default('--斩首行动'), choices=['第一个', '第二个', '第三个'])
+    daily_task.add_argument('--商船护航', default=default('--商船护航'), choices=['第一个', '第二个', '第三个'])
+    daily_task.add_argument('--海域突进', default=default('--海域突进'), choices=['第一个', '第二个', '第三个'])
     daily_task.add_argument('--每日舰队', default=default('--每日舰队'), choices=['1', '2', '3', '4', '5', '6'])
     daily_task.add_argument('--每日舰队快速换装', default=default('--每日舰队快速换装'), help='打之前换装备, 打完后卸装备, 不需要就填0\n逗号分割, 例如 3, 1, 0, 1, 1, 0')
 
