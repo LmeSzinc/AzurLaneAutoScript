@@ -124,9 +124,9 @@ class Camera(InfoBarHandler):
         self.camera = (x, y)
         self.show_camera()
 
-    def predict(self):
+    def predict(self, is_carrier_scan=False):
         self.grids.predict()
-        self.map.update(grids=self.grids, camera=self.camera)
+        self.map.update(grids=self.grids, camera=self.camera, is_carrier_scan=is_carrier_scan)
 
     def show_camera(self):
         logger.info('                Camera: %s' % location2node(self.camera))
@@ -206,29 +206,32 @@ class Camera(InfoBarHandler):
             if np.all(np.abs(vector) <= 0):
                 break
 
-    def full_scan(self, battle_count=None, mystery_count=0, siren_count=0):
+    def full_scan(self, battle_count=None, mystery_count=0, siren_count=0, carrier_count=0, is_carrier_scan=False):
         """Scan the hole map.
 
         Args:
             battle_count:
             mystery_count:
             siren_count:
+            carrier_count:
+            is_carrier_scan:
         """
         logger.info('Full scan start')
         self.map.reset_fleet()
 
         queue = self.map.camera_data
         while len(queue) > 0:
-            if self.map.missing_is_none(battle_count, mystery_count, siren_count):
+            if self.map.missing_is_none(battle_count, mystery_count, siren_count, carrier_count):
                 logger.info('All spawn found, Early stopped.')
                 break
             queue = queue.sort_by_camera_distance(self.camera)
             self.focus_to(queue[0])
-            self.predict()
+            self.predict(is_carrier_scan=is_carrier_scan)
             queue = queue[1:]
 
         if battle_count is not None:
-            self.map.missing_predict(battle_count=battle_count, mystery_count=mystery_count, siren_count=siren_count)
+            self.map.missing_predict(battle_count=battle_count, mystery_count=mystery_count, siren_count=siren_count,
+                                     carrier_count=carrier_count)
         self.map.show()
 
     def in_sight(self, location, sight=(-3, -1, 3, 2)):

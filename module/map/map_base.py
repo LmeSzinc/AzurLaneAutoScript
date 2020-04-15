@@ -108,11 +108,12 @@ class CampaignMap:
                 [self[(x, y)].str if (x, y) in self else '  ' for x in range(self.shape[0] + 1)])
             logger.info(text)
 
-    def update(self, grids, camera):
+    def update(self, grids, camera, is_carrier_scan=False):
         """
         Args:
             grids:
             camera (tuple):
+            is_carrier_scan (bool):
         """
         # failure = 0
         offset = np.array(camera) - np.array(grids.center_grid)
@@ -120,7 +121,7 @@ class CampaignMap:
         for grid in grids.grids.values():
             loca = tuple(offset + grid.location)
             if loca in self.grids:
-                self.grids[loca].update(grid)
+                self.grids[loca].update(grid, is_carrier_scan=is_carrier_scan)
                 # flag, fail = self.grids[loca].update(grid)
                 # failure += fail
 
@@ -307,18 +308,19 @@ class CampaignMap:
 
         return path
 
-    def missing_get(self, battle_count, mystery_count=0, siren_count=0):
+    def missing_get(self, battle_count, mystery_count=0, siren_count=0, carrier_count=0):
         try:
             missing = self.spawn_data[battle_count].copy()
         except IndexError:
             missing = self.spawn_data[-1].copy()
-        may = {'enemy': 0, 'mystery': 0, 'siren': 0, 'boss': 0}
+        may = {'enemy': 0, 'mystery': 0, 'siren': 0, 'boss': 0, 'carrier': 0}
         missing['enemy'] -= battle_count
         missing['mystery'] -= mystery_count
         missing['siren'] -= siren_count
+        missing['carrier'] = carrier_count - self.select(is_enemy=True, may_enemy=False).count
         for grid in self:
-            for attr in may.keys():
-                if grid.__getattribute__('is_' + attr):
+            for attr in ['enemy', 'mystery', 'siren', 'boss']:
+                if grid.__getattribute__('is_' + attr) and grid.__getattribute__('may_' + attr):
                     missing[attr] -= 1
 
         for grid in self:
@@ -333,16 +335,18 @@ class CampaignMap:
                 upper = tuple(np.array(grid.location) + upper)
                 if upper in self:
                     upper = self[upper]
-                    for attr in may.keys():
+                    for attr in ['enemy', 'mystery', 'siren', 'boss']:
                         if upper.__getattribute__('may_' + attr) and not upper.__getattribute__('is_' + attr):
                             may[attr] += 1
+                    if upper.may_carrier:
+                        may['carrier'] += 1
 
         logger.info('missing: %s' % missing)
         logger.info('may: %s' % may)
         return may, missing
 
-    def missing_is_none(self, battle_count, mystery_count=0, siren_count=0):
-        may, missing = self.missing_get(battle_count, mystery_count, siren_count)
+    def missing_is_none(self, battle_count, mystery_count=0, siren_count=0, carrier_count=0):
+        may, missing = self.missing_get(battle_count, mystery_count, siren_count, carrier_count)
 
         for key in may.keys():
             if missing[key] != 0:
@@ -350,8 +354,8 @@ class CampaignMap:
 
         return True
 
-    def missing_predict(self, battle_count, mystery_count=0, siren_count=0):
-        may, missing = self.missing_get(battle_count, mystery_count, siren_count)
+    def missing_predict(self, battle_count, mystery_count=0, siren_count=0, carrier_count=0):
+        may, missing = self.missing_get(battle_count, mystery_count, siren_count, carrier_count)
 
         # predict
         for grid in self:
@@ -366,10 +370,14 @@ class CampaignMap:
                 upper = tuple(np.array(grid.location) + upper)
                 if upper in self:
                     upper = self[upper]
-                    for attr in may.keys():
+                    for attr in ['enemy', 'mystery', 'siren', 'boss']:
                         if upper.__getattribute__('may_' + attr) and missing[attr] > 0 and missing[attr] == may[attr]:
                             logger.info('Predict %s to be %s' % (location2node(upper.location), attr))
                             upper.__setattr__('is_' + attr, True)
+                    if carrier_count:
+                        if upper.may_carrier and missing['carrier'] > 0 and missing['carrier'] == may['carrier']:
+                            logger.info('Predict %s to be enemy' % location2node(upper.location))
+                            upper.__setattr__('is_enemy', True)
 
     def select(self, **kwargs):
         """

@@ -1,13 +1,12 @@
 from module.base.timer import Timer
 from module.handler.ambush import AmbushHandler
-from module.handler.mystery import MysteryHandler
 from module.logger import logger
 from module.map.camera import Camera
 from module.map.map_base import location2node, location_ensure
 from module.map.map_operation import MapOperation
 
 
-class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
+class Fleet(Camera, MapOperation, AmbushHandler):
     fleet_1_location = ()
     fleet_2_location = ()
     fleet_current_index = 1
@@ -94,8 +93,8 @@ class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
                     # arrived = grid.predict_fleet()
                     # 把break去掉就搞定了
                     # break
-
-                if self.handle_mystery(button=grid):
+                mystery = self.handle_mystery(button=grid)
+                if mystery:
                     # arrived = True
                     self.mystery_count += 1
                     result = 'mystery'
@@ -151,7 +150,12 @@ class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
         self.map[location].wipe_out()
         self.map[location].is_fleet = True
         self.__setattr__('fleet_%s_location' % self.fleet_current_index, location)
-
+        if mystery == 'get_carrier':
+            prev_enemy = self.map.select(is_enemy=True)
+            self.full_scan(battle_count=self.battle_count, mystery_count=self.mystery_count,
+                           siren_count=self.siren_count, carrier_count=self.carrier_count, is_carrier_scan=True)
+            diff = self.map.select(is_enemy=True).delete(prev_enemy)
+            logger.info(f'Carrier spawn: {diff}')
         self.find_path_initial()
 
     def goto(self, location, optimize=True, expected=''):
@@ -223,6 +227,7 @@ class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
         logger.hr('Map init')
         self.battle_count = 0
         self.mystery_count = 0
+        self.carrier_count = 0
         self.siren_count = 0
         self.ammo_count = 3
         self.map = map_
@@ -230,7 +235,8 @@ class Fleet(Camera, AmbushHandler, MysteryHandler, MapOperation):
         self.hp_init()
         self.handle_strategy(index=self.fleet_current_index)
         self.ensure_edge_insight(preset=self.map.in_map_swipe_preset_data)
-        self.full_scan(battle_count=self.battle_count, mystery_count=self.mystery_count, siren_count=self.siren_count)
+        self.full_scan(battle_count=self.battle_count, mystery_count=self.mystery_count, siren_count=self.siren_count,
+                       carrier_count=self.carrier_count)
         self.find_current_fleet()
         self.find_path_initial()
         self.map.show_cost()

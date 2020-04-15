@@ -113,6 +113,10 @@ class GridInfo:
         return False if self.is_land or self.is_enemy or self.is_mystery or self.is_boss else True
 
     @property
+    def may_carrier(self):
+        return self.is_sea and not self.may_enemy
+
+    @property
     def is_accessible(self):
         return self.cost < 9999
 
@@ -120,10 +124,11 @@ class GridInfo:
     def is_nearby(self):
         return self.cost < 20
 
-    def update(self, info):
+    def update(self, info, is_carrier_scan=False):
         """
         Args:
-            info(GridInfo):
+            info (GridInfo):
+            is_carrier_scan (bool): Is a scan for mystery: enemy_searching, which ignore may_enemy spawn point.
         """
         # failure = 0
         for item in ['boss', 'siren']:
@@ -136,14 +141,19 @@ class GridInfo:
                     logger.info(f'Wrong Prediction. Grid: {self}, Attr: {item}')
                     # failure += 1
 
-        if info.is_enemy and self.may_enemy and not self.is_cleared \
-                and not info.is_fleet and not self.is_fleet:
-            self.is_enemy = True
-            self.enemy_scale = info.enemy_scale
-            self.enemy_type = info.enemy_type
-            if self.may_siren:
-                self.is_siren = True
-            return True
+        if info.is_enemy:
+            flag = not info.is_fleet and not self.is_fleet
+            if not is_carrier_scan:
+                flag = flag and self.may_enemy and not self.is_cleared
+            if flag:
+                self.is_enemy = True
+                self.enemy_scale = info.enemy_scale
+                self.enemy_type = info.enemy_type
+                if self.may_siren:
+                    self.is_siren = True
+                return True
+            else:
+                logger.info(f'Wrong Prediction. Grid: {self}, Attr: is_enemy')
 
         for item in ['mystery', 'ammo']:
             if info.__getattribute__('is_' + item):

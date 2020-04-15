@@ -12,12 +12,12 @@ class EnemySearchingHandler(InfoBarHandler):
     def _color_initial(self):
         MAP_ENEMY_SEARCHING.load_color(self.device.image)
 
-    def _enemy_searching_appear(self):
+    def enemy_searching_appear(self):
         return red_overlay_transparency(
             MAP_ENEMY_SEARCHING.color, get_color(self.device.image, MAP_ENEMY_SEARCHING.area)
         ) > self.MAP_ENEMY_SEARCHING_OVERLAY_TRANSPARENCY_THRESHOLD
 
-    def _handle_enemy_flashing(self):
+    def handle_enemy_flashing(self):
         self.device.sleep(1)
 
     def handle_in_stage(self):
@@ -40,11 +40,11 @@ class EnemySearchingHandler(InfoBarHandler):
         appeared = False
         while 1:
             timeout.start()
-            if self._enemy_searching_appear():
+            if self.enemy_searching_appear():
                 appeared = True
             else:
                 if appeared:
-                    self._handle_enemy_flashing()
+                    self.handle_enemy_flashing()
                     self.device.sleep(0.3)
                     logger.info('In map.')
                     break

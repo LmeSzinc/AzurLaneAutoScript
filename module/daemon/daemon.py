@@ -1,14 +1,13 @@
 from module.combat.combat import Combat
 from module.daemon.assets import *
 from module.handler.ambush import MAP_AMBUSH_EVADE
-from module.handler.enemy_searching import EnemySearchingHandler
 from module.handler.mystery import MysteryHandler
 from module.handler.popup import PopupHandler
 from module.handler.urgent_commission import UrgentCommissionHandler
 from module.map.map_fleet_preparation import FleetPreparation
 
 
-class AzurLaneDaemon(FleetPreparation, Combat, UrgentCommissionHandler, EnemySearchingHandler, MysteryHandler,
+class AzurLaneDaemon(FleetPreparation, Combat, UrgentCommissionHandler, MysteryHandler,
                      PopupHandler):
     def daemon(self):
 

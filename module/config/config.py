@@ -175,6 +175,7 @@ class AzurLaneConfig:
     module.map.fleet
     """
     MAP_HAS_AMBUSH = True
+    MAP_MYSTERY_HAS_CARRIER = False
 
     """
     module.retire

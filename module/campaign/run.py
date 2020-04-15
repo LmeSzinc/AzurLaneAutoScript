@@ -111,7 +111,8 @@ class CampaignRun(CampaignUI, Reward):
         self.load_campaign(name, folder=folder)
         self.run_count = 0
         while 1:
-            self.handle_reward()
+            if self.handle_reward():
+                self.campaign.config.FLEET_CHECKED = False
 
             # End
             if total and self.run_count == total:
@@ -134,6 +135,7 @@ class CampaignRun(CampaignUI, Reward):
                 self.campaign.ENTRANCE = self.campaign_get_entrance(name=self.stage)
             if self.commission_notice_show_at_campaign():
                 if self.reward():
+                    self.campaign.config.FLEET_CHECKED = False
                     continue
 
             # End

@@ -19,7 +19,8 @@ class Map(Fleet):
             self.emotion.wait(fleet=self.fleet_current_index)
         self.goto(grid, expected=expected)
 
-        self.full_scan(battle_count=self.battle_count, mystery_count=self.mystery_count, siren_count=self.siren_count)
+        self.full_scan(battle_count=self.battle_count, mystery_count=self.mystery_count, siren_count=self.siren_count,
+                       carrier_count=self.carrier_count)
         self.find_path_initial()
         self.map.show_cost()
 
@@ -311,6 +312,7 @@ class Map(Fleet):
             else:
                 logger.info('Fleet_2 step on %s got roadblocks.' % grid)
                 self.fleet_1.clear_roadblocks(roadblocks)
+                self.fleet_1.clear_all_mystery()
                 return True
 
         return False
