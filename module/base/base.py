@@ -84,4 +84,5 @@ class ModuleBase:
         return self.device.image.crop(button.area)
 
     def interval_reset(self, button):
-        self.interval_timer[button.name].reset()
+        if button.name in self.interval_timer:
+            self.interval_timer[button.name].reset()

@@ -22,6 +22,7 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
              CombatAuto, CombatManual):
     _automation_set_timer = Timer(1)
     _emotion: Emotion
+    battle_status_click_interval = 0
 
     @property
     def emotion(self):
@@ -200,8 +201,6 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
                     continue
 
             # End
-            # if self.appear_then_click(BATTLE_STATUS):
-            #     break
             if self.handle_battle_status(save_get_items=save_get_items):
                 break
 
@@ -213,12 +212,16 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
         Returns:
             bool:
         """
-        if self.appear_then_click(BATTLE_STATUS_S, screenshot=save_get_items, genre='status'):
-            self.device.sleep((0.25, 0.5))
+        if self.appear_then_click(BATTLE_STATUS_S, screenshot=save_get_items, genre='status',
+                                  interval=self.battle_status_click_interval):
+            if not save_get_items:
+                self.device.sleep((0.25, 0.5))
             return True
-        if self.appear_then_click(BATTLE_STATUS_A, screenshot=save_get_items, genre='status'):
-            self.device.sleep((0.25, 0.5))
+        if self.appear_then_click(BATTLE_STATUS_A, screenshot=save_get_items, genre='status',
+                                  interval=self.battle_status_click_interval):
             logger.warning('Battle status: A')
+            if not save_get_items:
+                self.device.sleep((0.25, 0.5))
             return True
 
         return False
@@ -231,15 +234,50 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
         Returns:
             bool:
         """
-        if self.appear_then_click(GET_ITEMS_1, screenshot=save_get_items, genre='get_items', offset=5):
+        if self.appear_then_click(GET_ITEMS_1, screenshot=save_get_items, genre='get_items', offset=5,
+                                  interval=self.battle_status_click_interval):
+            self.interval_reset(BATTLE_STATUS_S)
+            self.interval_reset(BATTLE_STATUS_A)
             return True
-        if self.appear_then_click(GET_ITEMS_2, screenshot=save_get_items, genre='get_items', offset=5):
-            return False
+        if self.appear_then_click(GET_ITEMS_2, screenshot=save_get_items, genre='get_items', offset=5,
+                                  interval=self.battle_status_click_interval):
+            self.interval_reset(BATTLE_STATUS_S)
+            self.interval_reset(BATTLE_STATUS_A)
+            return True
 
         return False
 
-    def handle_get_ship(self):
-        if self.appear_then_click(GET_SHIP):
+    def handle_exp_info(self, save_get_items=False):
+        """
+        Args:
+            save_get_items (bool):
+
+        Returns:
+            bool:
+        """
+        if save_get_items:
+            return self.appear_then_click(EXP_INFO_CONFIRM, interval=self.battle_status_click_interval)
+        else:
+            if self.appear_then_click(EXP_INFO_S):
+                if not save_get_items:
+                    self.device.sleep((0.25, 0.5))
+                return True
+            if self.appear_then_click(EXP_INFO_A):
+                if not save_get_items:
+                    self.device.sleep((0.25, 0.5))
+                return True
+
+            return False
+
+    def handle_get_ship(self, save_get_items=False):
+        """
+        Args:
+            save_get_items (bool):
+
+        Returns:
+            bool:
+        """
+        if self.appear_then_click(GET_SHIP, screenshot=save_get_items, genre='get_ship'):
             return True
 
         return False
@@ -255,19 +293,15 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
             self.device.screenshot()
 
             # Combat status
+            if self.handle_get_ship(save_get_items=save_get_items):
+                continue
             if self.handle_get_items(save_get_items=save_get_items):
                 continue
             if self.handle_battle_status(save_get_items=save_get_items):
                 continue
             if self.handle_popup_confirm():
                 continue
-            if self.handle_get_ship():
-                continue
-            if self.appear_then_click(EXP_INFO_S):
-                self.device.sleep((0.25, 0.5))
-                continue
-            if self.appear_then_click(EXP_INFO_A):
-                self.device.sleep((0.25, 0.5))
+            if self.handle_exp_info(save_get_items=save_get_items):
                 continue
             if self.handle_urgent_commission(save_get_items=save_get_items):
                 continue
@@ -299,6 +333,7 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
         auto = self.config.COMBAT_AUTO_MODE == 'combat_auto'
         call_submarine_at_boss = call_submarine_at_boss if call_submarine_at_boss is not None else self.config.SUBMARINE_CALL_AT_BOSS
         save_get_items = save_get_items if save_get_items is not None else self.config.ENABLE_SAVE_GET_ITEMS
+        self.battle_status_click_interval = 3 if save_get_items else 0
 
         # if not hasattr(self, 'emotion'):
         #     self.emotion = Emotion(config=self.config)

@@ -16,6 +16,7 @@ BATTLE_STATUS_S = Button(area=(633, 297, 722, 320), color=(233, 241, 127), butto
 COMBAT_AUTO = Button(area=(136, 573, 167, 604), color=(229, 242, 255), button=(136, 573, 167, 604), file='./assets/combat/COMBAT_AUTO.png')
 COMBAT_AUTO_SWITCH = Button(area=(18, 38, 36, 56), color=(179, 198, 235), button=(18, 38, 36, 56), file='./assets/combat/COMBAT_AUTO_SWITCH.png')
 EXP_INFO_A = Button(area=(389, 100, 444, 116), color=(236, 231, 116), button=(1000, 631, 1055, 689), file='./assets/combat/EXP_INFO_A.png')
+EXP_INFO_CONFIRM = Button(area=(1001, 632, 1173, 689), color=(229, 159, 66), button=(1001, 632, 1173, 689), file='./assets/combat/EXP_INFO_CONFIRM.png')
 EXP_INFO_S = Button(area=(396, 122, 457, 137), color=(233, 241, 127), button=(1000, 631, 1055, 689), file='./assets/combat/EXP_INFO_S.png')
 GET_ITEMS_1 = Button(area=(538, 217, 741, 253), color=(160, 192, 248), button=(1000, 631, 1055, 689), file='./assets/combat/GET_ITEMS_1.png')
 GET_ITEMS_2 = Button(area=(538, 146, 742, 182), color=(160, 192, 248), button=(1000, 631, 1055, 689), file='./assets/combat/GET_ITEMS_2.png')

@@ -15,11 +15,12 @@ class UrgentCommissionHandler(InfoBarHandler):
         if save_get_items is None:
             save_get_items = self.config.ENABLE_SAVE_GET_ITEMS
 
-        appear = self.appear_then_click(GET_MISSION, offset=True, interval=2)
+        appear = self.appear(GET_MISSION, offset=True, interval=2)
         if appear:
             logger.info('Get urgent commission')
             if save_get_items:
                 if self.handle_info_bar():
                     self.device.screenshot()
                 self.device.save_screenshot('get_mission')
+                self.device.click(GET_MISSION)
         return appear

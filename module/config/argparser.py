@@ -156,7 +156,7 @@ def main(ini_name=''):
     rarity.add_argument('--退役金皮', default=default('--退役金皮'), choices=['是', '否'], help='SSR')
 
     # 掉落记录
-    drop = setting_parser.add_argument_group('掉落记录', '保存掉落物品的截图, 启用后会减慢结算时的点击速度')
+    drop = setting_parser.add_argument_group('掉落记录', '保存掉落物品的截图, 启用后会放缓结算时的点击速度')
     drop.add_argument('--启用掉落记录', default=default('--启用掉落记录'), choices=['是', '否'])
     drop.add_argument('--掉落保存目录', default=default('--掉落保存目录'))
 
@@ -257,7 +257,7 @@ def main(ini_name=''):
     # ==========主线图==========
     main_parser = subs.add_parser('主线图')
     # 选择关卡
-    stage = main_parser.add_argument_group('选择关卡', '主线图出击, 目前仅支持7-2')
+    stage = main_parser.add_argument_group('选择关卡', '主线图出击, 目前仅支持前三章和7-2')
     stage.add_argument('--主线地图出击', default=default('--主线地图出击'), help='例如 7-2')
 
     # ==========活动图==========
