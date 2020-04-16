@@ -169,7 +169,10 @@ class AzurLaneConfig:
     """
     error_log
     """
+    PERSPECTIVE_ERROR_LOG_FOLDER = './log/perspective_error'
     ERROR_LOG_FOLDER = './log/error'
+    ENABLE_ERROR_LOG_AND_SCREENSHOT_SAVE = True
+    ENABLE_PERSPECTIVE_ERROR_IMAGE_SAVE = False
 
     """
     module.map.fleet
@@ -238,7 +241,7 @@ class AzurLaneConfig:
         ),
         MID_DIFF_RANGE
     )
-    ENABLE_PERSPECTIVE_ERROR_IMAGE_SAVE = False
+
     """
     module.daemon
     """
@@ -291,7 +294,8 @@ class AzurLaneConfig:
 
     def create_folder(self):
         self.SCREEN_SHOT_SAVE_FOLDER = self.SCREEN_SHOT_SAVE_FOLDER_BASE + '/' + self.CAMPAIGN_NAME
-        for folder in [self.SCREEN_SHOT_SAVE_FOLDER_BASE, self.ASSETS_FOLDER, self.SCREEN_SHOT_SAVE_FOLDER, self.ERROR_LOG_FOLDER]:
+        for folder in [self.SCREEN_SHOT_SAVE_FOLDER_BASE, self.ASSETS_FOLDER, self.SCREEN_SHOT_SAVE_FOLDER,
+                       self.PERSPECTIVE_ERROR_LOG_FOLDER, self.ERROR_LOG_FOLDER]:
             if not os.path.exists(folder):
                 os.mkdir(folder)
 
@@ -333,6 +337,7 @@ class AzurLaneConfig:
         option = config['Emulator']
         self.SERIAL = option['serial']
         self.PACKAGE_NAME = option['package_name'].strip()
+        self.ENABLE_ERROR_LOG_AND_SCREENSHOT_SAVE = to_bool(option['enable_error_log_and_screenshot_save'])
         self.ENABLE_PERSPECTIVE_ERROR_IMAGE_SAVE = to_bool(option['enable_perspective_error_image_save'])
         self.USE_ADB_SCREENSHOT = to_bool(option['use_adb_screenshot'])
         self.USE_ADB_CONTROL = to_bool(option['use_adb_control'])

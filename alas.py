@@ -1,5 +1,9 @@
+import os
+import re
+import time
+
 from module.config.config import AzurLaneConfig
-from module.logger import logger, pyw_name
+from module.logger import logger, pyw_name, log_file
 
 
 class AzurLaneAutoScript:
@@ -8,6 +12,28 @@ class AzurLaneAutoScript:
             ini_name = pyw_name
         ini_name = ini_name.lower()
         self.config = AzurLaneConfig(ini_name)
+
+    def run(self, command):
+        try:
+            self.__getattribute__(command.lower())()
+        except Exception as e:
+            logger.exception(e)
+
+            if self.config.ENABLE_ERROR_LOG_AND_SCREENSHOT_SAVE:
+                folder = f'./log/error/{int(time.time() * 1000)}'
+                logger.info(f'Saving error: {folder}')
+                os.mkdir(folder)
+                for index, image in enumerate(logger.screenshot_deque):
+                    image.save(f'{folder}/{index}.png')
+                with open(log_file, 'r') as f:
+                    start = 0
+                    for index, line in enumerate(f.readlines()):
+                        if re.search('\+-{15,}\+', line):
+                            start = index
+                with open(log_file, 'r') as f:
+                    text = f.readlines()[start - 2:]
+                with open(f'{folder}/log.txt', 'w') as f:
+                    f.writelines(text)
 
     def setting(self):
         for key, value in self.config.config['Setting'].items():

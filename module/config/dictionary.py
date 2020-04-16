@@ -105,6 +105,7 @@ dic_chi_to_eng = {
     '观舰类紧急委托': 'urgent_ship',
     '设备': 'serial',
     '包名': 'package_name',
+    '出错时保存log和截图': 'enable_error_log_and_screenshot_save',
     '保存透视识别出错的图像': 'enable_perspective_error_image_save',
     '使用ADB截图': 'use_adb_screenshot',
     '使用ADB点击': 'use_adb_control',

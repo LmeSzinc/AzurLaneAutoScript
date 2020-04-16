@@ -406,5 +406,5 @@ class Perspective:
             return False
 
         file = '%s.%s' % (int(time.time() * 1000), 'png')
-        file = os.path.join(self.config.ERROR_LOG_FOLDER, file)
+        file = os.path.join(self.config.PERSPECTIVE_ERROR_LOG_FOLDER, file)
         self.image.save(file)

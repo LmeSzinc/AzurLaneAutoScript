@@ -210,6 +210,7 @@ def main(ini_name=''):
     emulator.add_argument('--包名', default=default('--包名'), help='如果不是Biliibli国服, 或者使用了非官方客户端, 需修改')
 
     debug = emulator_parser.add_argument_group('调试设置', '')
+    debug.add_argument('--出错时保存log和截图', default=default('--出错时保存log和截图'), choices=['是', '否'])
     debug.add_argument('--保存透视识别出错的图像', default=default('--保存透视识别出错的图像'), choices=['是', '否'])
 
     adb = emulator_parser.add_argument_group('ADB设置', '')
@@ -309,7 +310,4 @@ def main(ini_name=''):
 
     # Call AzurLaneAutoScript
     alas = AzurLaneAutoScript(ini_name=ini_name)
-    try:
-        alas.__getattribute__(command.lower())()
-    except Exception as e:
-        logger.exception(e)
+    alas.run(command=command)

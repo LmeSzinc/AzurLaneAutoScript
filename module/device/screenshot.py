@@ -6,6 +6,7 @@ from PIL import Image
 from retrying import retry
 
 from module.device.connection import Connection
+from module.logger import logger
 
 
 class Screenshot(Connection):
@@ -61,6 +62,7 @@ class Screenshot(Connection):
             self.image = self._screenshot_uiautomator2()
 
         self.image.load()
+        logger.screenshot_deque.append(self.image)
         return self.image
 
     def save_screenshot(self, genre='items'):

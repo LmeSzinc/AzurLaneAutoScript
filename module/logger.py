@@ -2,6 +2,7 @@ import logging
 import datetime
 import os
 import sys
+from collections import deque
 
 pyw_name = os.path.splitext(os.path.basename(sys.argv[0]))[0]
 if f'{pyw_name}.pyw' not in os.listdir('./'):
@@ -48,5 +49,6 @@ def attr(name, text):
 
 logger.hr = hr
 logger.attr = attr
+logger.screenshot_deque = deque(maxlen=30)
 
 logger.hr('Start', level=0)
