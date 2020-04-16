@@ -103,6 +103,8 @@ class FleetOperator:
 
 
 class FleetPreparation(ModuleBase):
+    map_fleet_checked = False
+
     def fleet_preparation(self):
         """Change fleets.
 
@@ -110,7 +112,7 @@ class FleetPreparation(ModuleBase):
             bool: True if changed.
         """
         logger.info(f'Using fleet: {[self.config.FLEET_1, self.config.FLEET_2, self.config.SUBMARINE]}')
-        if self.config.FLEET_CHECKED:
+        if self.map_fleet_checked:
             return False
         if self.appear(FLEET_PREPARATION_HARD_1) or self.appear(FLEET_PREPARATION_HARD_2):
             logger.info('Hard Campaign. No fleet preparation')
@@ -139,7 +141,7 @@ class FleetPreparation(ModuleBase):
                 if fleet_2.in_use():
                     fleet_2.clear()
             fleet_1.ensure_to_be(self.config.FLEET_1)
-            self.config.FLEET_CHECKED = True
+            self.map_fleet_checked = True
             return True
 
         # Using both fleets.
@@ -147,7 +149,7 @@ class FleetPreparation(ModuleBase):
         selected = fleet_1.selected()
         if self.config.FLEET_1 in selected and self.config.FLEET_2 in selected:
             fleet_1.close()
-            self.config.FLEET_CHECKED = True
+            self.map_fleet_checked = True
             return True
         else:
             fleet_1.close()
@@ -155,5 +157,5 @@ class FleetPreparation(ModuleBase):
                 fleet_2.clear()
             fleet_1.ensure_to_be(self.config.FLEET_1)
             fleet_2.ensure_to_be(self.config.FLEET_2)
-            self.config.FLEET_CHECKED = True
+            self.map_fleet_checked = True
             return True

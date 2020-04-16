@@ -247,27 +247,19 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
 
         return False
 
-    def handle_exp_info(self, save_get_items=False):
+    def handle_exp_info(self):
         """
-        Args:
-            save_get_items (bool):
-
         Returns:
             bool:
         """
-        if save_get_items:
-            return self.appear_then_click(EXP_INFO_CONFIRM, interval=self.battle_status_click_interval)
-        else:
-            if self.appear_then_click(EXP_INFO_S):
-                if not save_get_items:
-                    self.device.sleep((0.25, 0.5))
-                return True
-            if self.appear_then_click(EXP_INFO_A):
-                if not save_get_items:
-                    self.device.sleep((0.25, 0.5))
-                return True
+        if self.appear_then_click(EXP_INFO_S):
+            self.device.sleep((0.25, 0.5))
+            return True
+        if self.appear_then_click(EXP_INFO_A):
+            self.device.sleep((0.25, 0.5))
+            return True
 
-            return False
+        return False
 
     def handle_get_ship(self, save_get_items=False):
         """
@@ -301,7 +293,7 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
                 continue
             if self.handle_popup_confirm():
                 continue
-            if self.handle_exp_info(save_get_items=save_get_items):
+            if self.handle_exp_info():
                 continue
             if self.handle_urgent_commission(save_get_items=save_get_items):
                 continue

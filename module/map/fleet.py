@@ -314,3 +314,8 @@ class Fleet(Camera, MapOperation, AmbushHandler):
             return True
         else:
             return False
+
+    def fleet_checked_reset(self):
+        self.map_fleet_checked = False
+        self.fleet_1_formation_fixed = False
+        self.fleet_2_formation_fixed = False

@@ -34,7 +34,6 @@ class AzurLaneConfig:
     FLEET_3_FORMATION = 2
     # Fleet 1-2, if empty use 0.
     SUBMARINE = 0
-    FLEET_CHECKED = False
 
     USING_SPARE_FLEET = False
 
