@@ -65,6 +65,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         location = location_ensure(location)
         self.in_sight(location, sight=(-3, 0, 3, 2))
         grid = self.convert_map_to_grid(location)
+        result_mystery = ''
 
         while 1:
             self.ambush_color_initial()
@@ -98,6 +99,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                     # arrived = True
                     self.mystery_count += 1
                     result = 'mystery'
+                    result_mystery = mystery
                     # break
 
                 if self.combat_appear():
@@ -150,7 +152,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         self.map[location].wipe_out()
         self.map[location].is_fleet = True
         self.__setattr__('fleet_%s_location' % self.fleet_current_index, location)
-        if mystery == 'get_carrier':
+        if result_mystery == 'get_carrier':
             prev_enemy = self.map.select(is_enemy=True)
             self.full_scan(battle_count=self.battle_count, mystery_count=self.mystery_count,
                            siren_count=self.siren_count, carrier_count=self.carrier_count, is_carrier_scan=True)
