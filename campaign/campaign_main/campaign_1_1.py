@@ -48,5 +48,7 @@ class Campaign(CampaignBase):
         return self.clear_boss()
 
     def handle_boss_appear_refocus(self):
-        self.map_swipe((-3, 0))
+        for data in self.map.spawn_data:
+            if data.get('battle') == self.battle_count and data.get('boss', 0):
+                self.map_swipe((-3, 0))
         return super().handle_boss_appear_refocus()
