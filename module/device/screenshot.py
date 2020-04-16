@@ -62,7 +62,8 @@ class Screenshot(Connection):
             self.image = self._screenshot_uiautomator2()
 
         self.image.load()
-        logger.screenshot_deque.append(self.image)
+        if self.config.ENABLE_ERROR_LOG_AND_SCREENSHOT_SAVE:
+            logger.screenshot_deque.append(self.image)
         return self.image
 
     def save_screenshot(self, genre='items'):
