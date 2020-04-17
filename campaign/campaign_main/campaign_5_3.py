@@ -7,7 +7,7 @@ from campaign.campaign_main.campaign_5_1 import Config
 
 MAP = CampaignMap()
 MAP.shape = 'G5'
-MAP.camera_data = ['D3']
+MAP.camera_data = ['D2', 'D3']
 MAP.map_data = '''
     ++ MB ME SP ME MB ME
     ++ ME -- ME -- -- --
@@ -23,7 +23,7 @@ MAP.weight_data = '''
     50 50 50 50 50 50 50
 '''
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 2, 'mystery': 1},
+    {'battle': 0, 'enemy': 3, 'mystery': 1},
     {'battle': 1, 'enemy': 1},
     {'battle': 2, 'enemy': 2},
     {'battle': 3, 'enemy': 1},

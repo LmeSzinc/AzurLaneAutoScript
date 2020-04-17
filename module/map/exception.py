@@ -4,3 +4,7 @@ class CampaignEnd(Exception):
 
 class PerspectiveError(Exception):
     pass
+
+
+class ScriptError(Exception):
+    pass

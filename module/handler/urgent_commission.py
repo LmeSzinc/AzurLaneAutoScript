@@ -22,5 +22,5 @@ class UrgentCommissionHandler(InfoBarHandler):
                 if self.handle_info_bar():
                     self.device.screenshot()
                 self.device.save_screenshot('get_mission')
-                self.device.click(GET_MISSION)
+            self.device.click(GET_MISSION)
         return appear

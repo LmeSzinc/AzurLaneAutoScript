@@ -63,8 +63,8 @@ class Screenshot(Connection):
 
         self.image.load()
         if self.config.ENABLE_ERROR_LOG_AND_SCREENSHOT_SAVE:
-            logger.screenshot_deque.append(self.image)
-        return self.image
+            logger.screenshot_deque.append({'time': int(time.time() * 1000), 'image': self.image})
+            return self.image
 
     def save_screenshot(self, genre='items'):
         """Save a screenshot. Use millisecond timestamp as file name.

@@ -23,8 +23,9 @@ class AzurLaneAutoScript:
                 folder = f'./log/error/{int(time.time() * 1000)}'
                 logger.info(f'Saving error: {folder}')
                 os.mkdir(folder)
-                for index, image in enumerate(logger.screenshot_deque):
-                    image.save(f'{folder}/{index}.png')
+                for data in logger.screenshot_deque:
+                    image_time, image = data['time'], data['image']
+                    image.save(f'{folder}/{image_time}.png')
                 with open(log_file, 'r') as f:
                     start = 0
                     for index, line in enumerate(f.readlines()):

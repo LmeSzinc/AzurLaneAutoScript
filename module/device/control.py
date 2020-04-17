@@ -7,6 +7,7 @@ from module.base.timer import Timer
 from module.base.utils import *
 from module.device.connection import Connection
 from module.logger import logger
+from module.map.exception import ScriptError
 
 
 class Control(Connection):
@@ -39,7 +40,7 @@ class Control(Connection):
         if sum([1 if str(prev) == str(button) else 0 for prev in self.click_record]) >= 12:
             logger.warning(f'Too many click for a button: {button}')
             logger.info(f'History click: {[str(prev) for prev in self.click_record]}')
-            exit(1)
+            raise ScriptError(f'Too many click for a button: {button}')
         else:
             self.click_record.append(str(button))
 

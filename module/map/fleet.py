@@ -123,7 +123,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                 if self.handle_map_cat_attack():
                     continue
 
-                if grid.predict_fleet():
+                if self.is_in_map() and grid.predict_fleet():
                     arrive_timer.start()
                     arrive_unexpected_timer.start()
                     if not arrive_timer.reached():

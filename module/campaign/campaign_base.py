@@ -1,6 +1,7 @@
 from module.base.button import Button
 from module.logger import logger
 from module.map.exception import CampaignEnd
+from module.map.exception import ScriptError
 from module.map.map import Map
 from module.map.map_base import CampaignMap
 
@@ -31,7 +32,7 @@ class CampaignBase(Map):
         result = func()
         if not result:
             logger.warning('No combat executed.')
-            exit(1)
+            raise ScriptError('No combat executed.')
 
         return result
 
