@@ -1,6 +1,7 @@
 import os
 import re
 import time
+from datetime import datetime
 
 from module.config.config import AzurLaneConfig
 from module.logger import logger, pyw_name, log_file
@@ -24,8 +25,8 @@ class AzurLaneAutoScript:
                 logger.info(f'Saving error: {folder}')
                 os.mkdir(folder)
                 for data in logger.screenshot_deque:
-                    image_time, image = data['time'], data['image']
-                    image.save(f'{folder}/{image_time}.png')
+                    image_time = datetime.strftime(data['time'], '%Y-%m-%d_%H-%M-%S-%f')
+                    data['image'].save(f'{folder}/{image_time}.png')
                 with open(log_file, 'r') as f:
                     start = 0
                     for index, line in enumerate(f.readlines()):

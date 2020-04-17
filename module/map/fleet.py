@@ -69,6 +69,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
 
         while 1:
             self.ambush_color_initial()
+            self.enemy_searching_color_initial()
             grid.__str__ = location
             result = 'nothing'
             self.device.click(grid)
@@ -118,6 +119,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
 
                     self.handle_boss_appear_refocus()
                     grid = self.convert_map_to_grid(location)
+                    walk_timeout.reset()
                     # break
 
                 if self.handle_map_cat_attack():
@@ -140,7 +142,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                 # End
                 if ambushed_retry.started() and ambushed_retry.reached():
                     break
-                if not arrived and walk_timeout.reached():
+                if walk_timeout.reached():
                     logger.warning('Walk timeout. Retrying.')
                     break
 

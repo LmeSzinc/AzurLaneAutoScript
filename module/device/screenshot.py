@@ -1,5 +1,6 @@
 import os
 import time
+from datetime import datetime
 from io import BytesIO
 
 from PIL import Image
@@ -63,7 +64,7 @@ class Screenshot(Connection):
 
         self.image.load()
         if self.config.ENABLE_ERROR_LOG_AND_SCREENSHOT_SAVE:
-            logger.screenshot_deque.append({'time': int(time.time() * 1000), 'image': self.image})
+            logger.screenshot_deque.append({'time': datetime.now(), 'image': self.image})
             return self.image
 
     def save_screenshot(self, genre='items'):

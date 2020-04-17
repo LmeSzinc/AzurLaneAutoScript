@@ -7,9 +7,9 @@ from module.logger import logger
 
 class EnemySearchingHandler(InfoBarHandler):
     MAP_ENEMY_SEARCHING_OVERLAY_TRANSPARENCY_THRESHOLD = 0.5  # Usually (0.70, 0.80).
-    MAP_ENEMY_SEARCHING_TIMEOUT_SECOND = 4
+    MAP_ENEMY_SEARCHING_TIMEOUT_SECOND = 4.5
 
-    def _color_initial(self):
+    def enemy_searching_color_initial(self):
         MAP_ENEMY_SEARCHING.load_color(self.device.image)
 
     def enemy_searching_appear(self):
@@ -18,7 +18,7 @@ class EnemySearchingHandler(InfoBarHandler):
         ) > self.MAP_ENEMY_SEARCHING_OVERLAY_TRANSPARENCY_THRESHOLD
 
     def handle_enemy_flashing(self):
-        self.device.sleep(1)
+        self.device.sleep(1.2)
 
     def handle_in_stage(self):
         if self.appear(IN_STAGE_RED) or self.appear(IN_STAGE_BLUE):
@@ -48,7 +48,7 @@ class EnemySearchingHandler(InfoBarHandler):
                     self.device.sleep(0.3)
                     logger.info('In map.')
                     break
-                self._color_initial()
+                self.enemy_searching_color_initial()
 
             if timeout.reached():
                 # logger.warning('Enemy searching timeout.')

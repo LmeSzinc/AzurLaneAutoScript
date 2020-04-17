@@ -94,4 +94,7 @@ class AmbushHandler(Combat):
             self._handle_ambush()
             return True
 
+        if self.appear(MAP_AMBUSH_EVADE):
+            self._handle_ambush()
+
         return False

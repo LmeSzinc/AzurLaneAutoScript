@@ -59,7 +59,7 @@ class CampaignOcr:
         if result is None or len(result) == 0:
             logger.warning('No stage clear image found.')
 
-        name_offset = (75, 9)
+        name_offset = (77, 9)
         name_size = (60, 16)
         name_letter = (255, 255, 255)
         name_back = (102, 102, 102)

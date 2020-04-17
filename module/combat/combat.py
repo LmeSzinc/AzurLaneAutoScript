@@ -281,6 +281,7 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
             expected_end (str): with_searching, no_searching, in_stage.
         """
         logger.info('Combat status')
+        logger.attr('expected_end', expected_end)
         while 1:
             self.device.screenshot()
 
