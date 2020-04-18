@@ -1,7 +1,9 @@
 from module.base.base import ModuleBase
 from module.base.switch import Switch
+from module.base.utils import color_bar_percentage
 from module.handler.assets import *
 from module.logger import logger
+from module.map.exception import ScriptEnd
 
 fast_forward = Switch('Fast_Forward')
 fast_forward.add_status('on', check_button=FAST_FORWARD_ON)
@@ -46,3 +48,26 @@ class FastForwardHandler(ModuleBase):
         status = 'on' if self.config.ENABLE_MAP_FLEET_LOCK else 'off'
         changed = fleet_lock.set(status=status, main=self)
         return changed
+
+    def handle_map_clear_mode_stop(self):
+        if not self.config.ENABLE_MAP_CLEAR_MODE:
+            return False
+
+        percent = color_bar_percentage(self.device.image, area=MAP_CLEAR_PERCENTAGE.area, prev_color=(231, 170, 82))
+        logger.attr('Map_clear', percent)
+        if self.config.CLEAR_MODE_STOP_CONDITION == 'map_100':
+            if percent > 0.95:
+                raise ScriptEnd(f'Reach condition: {self.config.CLEAR_MODE_STOP_CONDITION}')
+
+        if self.config.CLEAR_MODE_STOP_CONDITION == 'map_3_star':
+            if self.appear(MAP_STAR_1) and self.appear(MAP_STAR_2) and self.appear(MAP_STAR_3):
+                raise ScriptEnd(f'Reach condition: {self.config.CLEAR_MODE_STOP_CONDITION}')
+
+        if self.config.CLEAR_MODE_STOP_CONDITION in ['map_3_star', 'map_green'] and self.config.MAP_STAR_CLEAR_ALL:
+            button = [MAP_STAR_1, MAP_STAR_2, MAP_STAR_3][self.config.MAP_STAR_CLEAR_ALL - 1]
+            self.config.MAP_CLEAR_ALL_THIS_TIME = not self.appear(button)
+            logger.attr('MAP_CLEAR_ALL_THIS_TIME', self.config.MAP_CLEAR_ALL_THIS_TIME)
+
+        if self.config.CLEAR_MODE_STOP_CONDITION == 'map_green':
+            if self.appear(MAP_GREEN):
+                raise ScriptEnd(f'Reach condition: {self.config.CLEAR_MODE_STOP_CONDITION}')

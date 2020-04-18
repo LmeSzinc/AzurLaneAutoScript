@@ -98,6 +98,11 @@ class AzurLaneConfig:
     STOP_IF_TRIGGER_EMOTION_LIMIT = False
     STOP_IF_DOCK_FULL = False
 
+    ENABLE_MAP_CLEAR_MODE = False
+    CLEAR_MODE_STOP_CONDITION = 'map_green'  # map_green, map_3_star, map_100
+    MAP_STAR_CLEAR_ALL = 3
+    MAP_CLEAR_ALL_THIS_TIME = False
+
     """
     module.event
     """
@@ -397,6 +402,10 @@ class AzurLaneConfig:
         option = config['Main']
         self.CAMPAIGN_NAME = option['main_stage']
         self.CAMPAIGN_NAME = 'campaign_' + self.CAMPAIGN_NAME.replace('-', '_')
+        self.ENABLE_MAP_CLEAR_MODE = to_bool(option['enable_map_clear_mode'])
+        self.CLEAR_MODE_STOP_CONDITION = option['clear_mode_stop_condition']
+        star = option['map_star_clear_all']
+        self.MAP_STAR_CLEAR_ALL = int(star.split('_')[1]) if star.startswith('index_') else 0
 
         option = config['Daily']
         for n in ['daily_mission', 'hard_campaign', 'exercise']:

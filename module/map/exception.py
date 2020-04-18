@@ -8,3 +8,7 @@ class PerspectiveError(Exception):
 
 class ScriptError(Exception):
     pass
+
+
+class ScriptEnd(Exception):
+    pass

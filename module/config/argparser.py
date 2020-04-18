@@ -261,6 +261,11 @@ def main(ini_name=''):
     stage = main_parser.add_argument_group('选择关卡', '主线图出击, 目前仅支持前六章和7-2')
     stage.add_argument('--主线地图出击', default=default('--主线地图出击'), help='例如 7-2')
 
+    clear = stage.add_argument_group('主线开荒', '')
+    clear.add_argument('--启用主线开荒', default=default('--启用主线开荒'), choices=['是', '否'])
+    clear.add_argument('--主线开荒停止条件', default=default('--主线开荒停止条件'), choices=['地图通关', '地图三星', '地图绿海'])
+    clear.add_argument('--主线全清星星', default=default('--主线全清星星'), choices=['第一个', '第二个', '第三个', '不使用'], help='第几颗星星是击破所有敌舰')
+
     # ==========活动图==========
     event_parser = subs.add_parser('活动图')
 

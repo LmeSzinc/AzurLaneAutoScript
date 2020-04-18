@@ -9,6 +9,7 @@ from module.campaign.campaign_base import CampaignBase
 from module.campaign.campaign_ui import CampaignUI
 from module.config.config import AzurLaneConfig
 from module.logger import logger
+from module.map.exception import ScriptEnd
 from module.reward.reward import Reward
 
 OCR_OIL = Digit(OCR_OIL, letter=(247, 247, 247), back=(33, 36, 49), limit=25000, name='OCR_OIL')
@@ -143,7 +144,12 @@ class CampaignRun(CampaignUI, Reward):
                 break
 
             # Run
-            self.campaign.run()
+            try:
+                self.campaign.run()
+            except ScriptEnd as e:
+                logger.hr('Script end')
+                logger.info(str(e))
+                break
 
             # After run
             self.run_count += 1

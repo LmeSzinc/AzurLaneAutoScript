@@ -43,7 +43,8 @@ class Map(Fleet):
         if grid is None:
             grid = self.map.select(may_ammo=True)
             if not grid:
-                logger.warning('Ammo not found')
+                logger.info('Ammo not found')
+                return False
             grid = grid[0]
 
         if self.ammo_count > 0:
@@ -143,7 +144,7 @@ class Map(Fleet):
         Returns:
             bool: True if clear an enemy.
         """
-        grids = self.map.select(is_enemy=True)
+        grids = self.map.select(is_enemy=True, is_boss=False)
         grids = self.select_grids(grids, **kwargs)
 
         if grids:
