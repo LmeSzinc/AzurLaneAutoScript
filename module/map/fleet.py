@@ -87,22 +87,18 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                 self.device.screenshot()
                 grid.image = self.device.image
 
+                # Ambush
                 if self.handle_ambush():
                     ambushed_retry.start()
-                    # 这个虽然到了之后还会原地再点一次, 但还是先用着, 问题不大
-                    # arrived = False
-                    # 这个可能会误以为已经到达
-                    # arrived = grid.predict_fleet()
-                    # 把break去掉就搞定了
-                    # break
+
+                # Mystery
                 mystery = self.handle_mystery(button=grid)
                 if mystery:
-                    # arrived = True
                     self.mystery_count += 1
                     result = 'mystery'
                     result_mystery = mystery
-                    # break
 
+                # Combat
                 if self.combat_appear():
                     self.combat(expected_end=self._expected_combat_end(expected), fleet_index=self.fleet_current_index)
                     self.hp_get()
@@ -120,11 +116,12 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                     self.handle_boss_appear_refocus()
                     grid = self.convert_map_to_grid(location)
                     walk_timeout.reset()
-                    # break
 
+                # Cat attack animation
                 if self.handle_map_cat_attack():
                     continue
 
+                # Arrive
                 if self.is_in_map() and grid.predict_fleet():
                     arrive_timer.start()
                     arrive_unexpected_timer.start()
@@ -148,6 +145,9 @@ class Fleet(Camera, MapOperation, AmbushHandler):
 
             # End
             if arrived:
+                # Ammo grid needs to click again, otherwise the next click doesn't work.
+                if self.map[location].may_ammo:
+                    self.device.click(grid)
                 break
 
         self.map[self.fleet_current].is_fleet = False
@@ -186,12 +186,30 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                 fleets.append(text)
         logger.info(' '.join(fleets))
 
+    def find_all_fleets(self):
+        logger.hr('Find all fleets')
+        queue = self.map.select(is_spawn_point=True)
+        while queue:
+            queue = queue.sort_by_camera_distance(self.camera)
+            self.in_sight(queue[0], sight=(-1, 0, 1, 2))
+            grid = self.convert_map_to_grid(queue[0])
+            if grid.predict_current_fleet():
+                self.fleet_1 = queue[0].location
+            elif grid.predict_fleet():
+                self.fleet_2 = queue[0].location
+            queue = queue[1:]
+
     def find_current_fleet(self):
+        logger.hr('Find current fleet')
         fleets = self.map.select(is_fleet=True, is_spawn_point=True)
         logger.info('Fleets: %s' % str(fleets))
         count = fleets.count
         if count == 1:
-            self.fleet_1 = fleets[0].location
+            if not self.config.FLEET_2:
+                self.fleet_1 = fleets[0].location
+            else:
+                logger.info('Fleet_2 not detected.')
+                self.find_all_fleets()
         elif count == 2:
             fleets = fleets.sort_by_camera_distance(self.camera)
             self.in_sight(fleets[0], sight=(-1, 0, 1, 2))
@@ -209,19 +227,10 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                     self.fleet_2 = fleets[1].location
         else:
             if count == 0:
-                logger.warning('No fleets detected. Checking fleet spawn points.')
+                logger.warning('No fleets detected.')
             if count > 2:
-                logger.warning('Too many fleets: %s. Re-checking all spawn points.' % str(fleets))
-            queue = self.map.select(is_spawn_point=True)
-            while queue:
-                queue = queue.sort_by_camera_distance(self.camera)
-                self.in_sight(queue[0], sight=(-1, 0, 1, 2))
-                grid = self.convert_map_to_grid(queue[0])
-                if grid.predict_current_fleet():
-                    self.fleet_1 = grid.location
-                elif grid.predict_fleet():
-                    self.fleet_2 = grid.location
-                queue = queue[1:]
+                logger.warning('Too many fleets: %s.' % str(fleets))
+            self.find_all_fleets()
 
         self.fleet_current_index = 1
         self.show_fleet()
@@ -229,6 +238,9 @@ class Fleet(Camera, MapOperation, AmbushHandler):
 
     def map_init(self, map_):
         logger.hr('Map init')
+        self.fleet_1_location = ()
+        self.fleet_2_location = ()
+        self.fleet_current_index = 1
         self.battle_count = 0
         self.mystery_count = 0
         self.carrier_count = 0

@@ -258,7 +258,7 @@ def main(ini_name=''):
     # ==========主线图==========
     main_parser = subs.add_parser('主线图')
     # 选择关卡
-    stage = main_parser.add_argument_group('选择关卡', '主线图出击, 目前仅支持前三章和7-2')
+    stage = main_parser.add_argument_group('选择关卡', '主线图出击, 目前仅支持前六章和7-2')
     stage.add_argument('--主线地图出击', default=default('--主线地图出击'), help='例如 7-2')
 
     # ==========活动图==========

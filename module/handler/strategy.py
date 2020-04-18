@@ -79,7 +79,7 @@ class StrategyHandler(InfoBarHandler):
         self.strategy_set_execute(
             formation_index=expected_formation,
             sub_view=False,
-            sub_hunt=self.config.SUBMARINE and self.config.SUBMARINE_MODE == 'hunt_only'
+            sub_hunt=bool(self.config.SUBMARINE) and self.config.SUBMARINE_MODE == 'hunt_only'
         )
         self.__setattr__(f'fleet_{index}_formation_fixed', True)
         return True

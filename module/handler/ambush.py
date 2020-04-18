@@ -72,9 +72,9 @@ class AmbushHandler(Combat):
         image = ambush_letter_preprocess(np.array(self.device.image.crop((641, 311, 692, 336))))
 
         if TEMPLATE_AMBUSH_EVADE_SUCCESS.match(image):
-            logger.info('Ambush evade success')
+            logger.attr('Ambush_evade', 'success')
         elif TEMPLATE_AMBUSH_EVADE_FAILED.match(image):
-            logger.info('Ambush evade failed')
+            logger.attr('Ambush_evade', 'failed')
             self.combat(expected_end='no_searching')
         else:
             logger.warning('Unrecognised info when ambush evade.')

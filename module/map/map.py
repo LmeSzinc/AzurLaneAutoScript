@@ -49,7 +49,6 @@ class Map(Fleet):
         if self.ammo_count > 0:
             logger.info('Pick up ammo: %s' % grid)
             self.goto(grid, expected='')
-            self.goto(grid, expected='')
             self.ensure_no_info_bar()
 
             # self.ammo_count -= 5 - self.battle_count
@@ -301,18 +300,17 @@ class Map(Fleet):
             if self.fleet_at(grid=grid, fleet=2):
                 return False
 
+        logger.info('Fleet 2 step on')
         for grid in grids:
-            if grid.is_enemy:
+            if grid.is_enemy or grid.is_cleared:
                 continue
             if self.check_accessibility(grid=grid, fleet=2):
                 logger.info('Fleet_2 step on %s' % grid)
                 self.fleet_2.goto(grid)
                 self.fleet_1.switch_to()
                 return False
-            else:
-                logger.info('Fleet_2 step on %s got roadblocks.' % grid)
-                self.fleet_1.clear_roadblocks(roadblocks)
-                self.fleet_1.clear_all_mystery()
-                return True
 
-        return False
+        logger.info('Fleet_2 step on %s got roadblocks.')
+        self.fleet_1.clear_roadblocks(roadblocks)
+        self.fleet_1.clear_all_mystery()
+        return True
