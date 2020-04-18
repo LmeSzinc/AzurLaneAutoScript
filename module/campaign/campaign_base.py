@@ -39,6 +39,7 @@ class CampaignBase(Map):
     def run(self):
         logger.hr(self.ENTRANCE, level=2)
         self.handle_spare_fleet()
+        self.ENTRANCE.area = self.ENTRANCE.button
         self.enter_map(self.ENTRANCE, mode=self.config.CAMPAIGN_MODE)
         self.handle_map_fleet_lock()
         self.handle_fleet_reverse()

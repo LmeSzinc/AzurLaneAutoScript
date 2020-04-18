@@ -90,6 +90,14 @@ class Ocr:
         # Resize to input size.
         size = (int(image.shape[1] / image.shape[0] * image_shape[1]), image_shape[1])
         image = cv2.resize(image, size, interpolation=cv2.INTER_LINEAR)
+
+        # Left align
+        x = np.where(np.mean(image, axis=0) < 220)[0]
+        if len(x):
+            x = x[0] - 2 if x[0] - 2 >= 2 else 0
+            image = image[:, x:]
+
+        # Pad to image_shape=(280, 32)
         diff_x = image_shape[0] - image.shape[1]
         if diff_x > 0:
             image = np.pad(image, ((0, 0), (0, diff_x)), mode='constant', constant_values=255)

@@ -29,6 +29,7 @@ MAP_AIR_RAID = Button(area=(350, 447, 1280, 472), color=(154, 43, 46), button=(3
 MAP_AMBUSH = Button(area=(261, 433, 1280, 449), color=(161, 41, 43), button=(261, 433, 1280, 449), file='./assets/handler/MAP_AMBUSH.png')
 MAP_AMBUSH_EVADE = Button(area=(325, 393, 1280, 395), color=(255, 255, 255), button=(979, 444, 1152, 502), file='./assets/handler/MAP_AMBUSH_EVADE.png')
 MAP_BUFF = Button(area=(145, 115, 437, 159), color=(103, 118, 118), button=(145, 115, 437, 159), file='./assets/handler/MAP_BUFF.png')
+MAP_CLEAR_PERCENTAGE = Button(area=(626, 185, 970, 190), color=(245, 213, 88), button=(626, 185, 970, 190), file='./assets/handler/MAP_CLEAR_PERCENTAGE.png')
 MAP_ENEMY_SEARCHING = Button(area=(531, 320, 864, 382), color=(200, 99, 91), button=(531, 320, 864, 382), file='./assets/handler/MAP_ENEMY_SEARCHING.png')
 MAP_GREEN = Button(area=(195, 260, 349, 292), color=(125, 190, 84), button=(195, 260, 349, 292), file='./assets/handler/MAP_GREEN.png')
 MAP_STAR_1 = Button(area=(245, 377, 254, 384), color=(251, 233, 143), button=(245, 377, 254, 384), file='./assets/handler/MAP_STAR_1.png')

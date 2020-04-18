@@ -5,9 +5,10 @@ import numpy as np
 from module.base.ocr import Ocr
 from module.base.utils import extract_letters, area_offset
 from module.logger import logger
-from module.template.assets import TEMPLATE_STAGE_CLEAR, Button
+from module.template.assets import TEMPLATE_STAGE_CLEAR, TEMPLATE_STAGE_PERCENT, Button
 
-stage_clear_color = np.mean(np.mean(TEMPLATE_STAGE_CLEAR.image, axis=0), axis=0)
+stage_clear_color = tuple(np.mean(np.mean(TEMPLATE_STAGE_CLEAR.image, axis=0), axis=0))
+stage_percentage_color = tuple(np.mean(np.mean(TEMPLATE_STAGE_PERCENT.image, axis=0), axis=0))
 
 
 def ensure_chapter_index(name):
@@ -56,33 +57,40 @@ class CampaignOcr:
         #        0.8705039 , 0.99954903, 0.99983317, 0.99996626, 1.        ],
         #       dtype=float32)
 
-        if result is None or len(result) == 0:
-            logger.warning('No stage clear image found.')
-
-        name_offset = (77, 9)
+        name_offset = (75, 9)
         name_size = (60, 16)
         name_letter = (255, 255, 255)
         name_back = (102, 102, 102)
         digits = []
         for point in result:
             point = point[::-1]
-            button = tuple(np.append(point, point + TEMPLATE_STAGE_CLEAR.image.shape[:2]))
+            button = tuple(np.append(point, point + TEMPLATE_STAGE_CLEAR.image.shape[:2][::-1]))
             point = point + name_offset
             name = image.crop(np.append(point, point + name_size))
             name = extract_letters(name, letter=name_letter, back=name_back)
             stage = self.extract_stage_name(name)
             digits.append(Button(area=area_offset(stage, point), color=stage_clear_color, button=button, name='stage'))
 
-            # chapter, stage = self.name_separate(name)
-            # color = TEMPLATE_STAGE_CLEAR.color
-            # digits.append(Button(area=area_offset(chapter, point), color=color, button=button, name='chapter'))
-            # digits.append(Button(area=area_offset(stage, point), color=color, button=button, name='stage'))
+        result = TEMPLATE_STAGE_PERCENT.match_multi(image, similarity=0.95)
+        name_offset = (50, 0)
+        for point in result:
+            point = point[::-1]
+            button = tuple(np.append(point, point + TEMPLATE_STAGE_PERCENT.image.shape[:2][::-1]))
+            point = point + name_offset
+            name = image.crop(np.append(point, point + name_size))
+            name = extract_letters(name, letter=name_letter, back=name_back)
+            stage = self.extract_stage_name(name)
+            digits.append(
+                Button(area=area_offset(stage, point), color=stage_percentage_color, button=button, name='stage'))
+
+        if len(digits) == 0:
+            logger.warning('No stage found.')
 
         return digits
 
     @staticmethod
     def extract_stage_name(image):
-        x_skip = 2
+        x_skip = 7
         interval = 5
         x_color = np.convolve(np.mean(image, axis=0), np.ones(interval), 'valid') / interval
         x_list = np.where(x_color[x_skip:] > 235)[0]
@@ -128,9 +136,11 @@ class CampaignOcr:
     def get_stage_name(self, image):
         self.stage = {}
         buttons = self.extract_campaign_name_image(image)
-        # ocr = Digit(buttons)
+
         ocr = Ocr(buttons, lang='stage')
         result = ocr.ocr(image)
+        if not isinstance(result, list):
+            result = [result]
         result = [res.lower().replace('--', '-') for res in result]
 
         chapter = [separate_name(res)[0] for res in result]
@@ -141,12 +151,6 @@ class CampaignOcr:
             button.area = button.button
             button.name = name
             self.stage[name] = button
-
-        # self.chapter = np.argmax(np.bincount(result[::2]))
-        # for stage, button in zip(result[1::2], buttons[1::2]):
-        #     button.area = button.button
-        #     button.name = f'STAGE_{self.chapter}_{stage}'
-        #     self.stage[f'{self.chapter}-{stage}'] = button
 
         logger.attr('Chapter', self.chapter)
         logger.attr('Stage', ', '.join(self.stage.keys()))

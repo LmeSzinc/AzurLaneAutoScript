@@ -15,3 +15,4 @@ TEMPLATE_FORMATION_1 = Template(file='./assets/template/TEMPLATE_FORMATION_1.png
 TEMPLATE_FORMATION_2 = Template(file='./assets/template/TEMPLATE_FORMATION_2.png')
 TEMPLATE_FORMATION_3 = Template(file='./assets/template/TEMPLATE_FORMATION_3.png')
 TEMPLATE_STAGE_CLEAR = Template(file='./assets/template/TEMPLATE_STAGE_CLEAR.png')
+TEMPLATE_STAGE_PERCENT = Template(file='./assets/template/TEMPLATE_STAGE_PERCENT.png')
