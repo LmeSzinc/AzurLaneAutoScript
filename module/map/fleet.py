@@ -64,6 +64,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         """
         location = location_ensure(location)
         self.in_sight(location, sight=(-3, 0, 3, 2))
+        self.focus_to_grid_center()
         grid = self.convert_map_to_grid(location)
         result_mystery = ''
 

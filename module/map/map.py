@@ -112,9 +112,8 @@ class Map(Fleet):
         length = 3
         keys = list(kwargs.keys())
         for index in range(0, len(keys), length):
-            text = ''
-            for key in keys[index:index + length]:
-                text += f'{key}={kwargs[key]}'
+            text = [f'{key}={kwargs[key]}' for key in keys[index:index + length]]
+            text = ', '.join(text)
             logger.info(text)
 
         logger.info(f'Grids: {grids}')
@@ -229,10 +228,12 @@ class Map(Fleet):
             bool:
         """
         grids = self.map.select(is_boss=True, is_accessible=True)
-        grids = grids.add(self.map.select(may_boss=True, is_enemy=True, is_accessible=True))
-        logger.info('May boss: %s' % self.map.select(may_boss=True))
-        logger.info('May boss and is enemy: %s' % self.map.select(may_boss=True, is_enemy=True))
         logger.info('Is boss: %s' % self.map.select(is_boss=True))
+        if not grids.count:
+            grids = grids.add(self.map.select(may_boss=True, is_enemy=True, is_accessible=True))
+            logger.warning('Boss not detected, using may_boss grids.')
+            logger.info('May boss: %s' % self.map.select(may_boss=True))
+            logger.info('May boss and is enemy: %s' % self.map.select(may_boss=True, is_enemy=True))
 
         if grids:
             logger.hr('Clear BOSS')

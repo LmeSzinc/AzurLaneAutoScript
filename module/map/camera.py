@@ -73,6 +73,20 @@ class Camera(InfoBarHandler):
         vector = np.array([0.5, 0.5]) - np.array(self.grids.center_offset) + vector
         self._map_swipe(vector)
 
+    def focus_to_grid_center(self):
+        """
+        Re-focus to the center of a grid.
+
+        Returns:
+            bool: Map swiped.
+        """
+        if np.any(np.abs(self.grids.center_offset - 0.5) > 0.1):
+            logger.info('Re-focus to grid center.')
+            self.map_swipe((0, 0))
+            return True
+
+        return False
+
     def update(self, camera=True):
         """Update map image
 
