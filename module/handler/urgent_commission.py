@@ -19,8 +19,7 @@ class UrgentCommissionHandler(InfoBarHandler):
         if appear:
             logger.info('Get urgent commission')
             if save_get_items:
-                if self.handle_info_bar():
-                    self.device.screenshot()
+                self.handle_info_bar()
                 self.device.save_screenshot('get_mission')
             self.device.click(GET_MISSION)
         return appear
