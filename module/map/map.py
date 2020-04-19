@@ -312,7 +312,7 @@ class Map(Fleet):
                 self.fleet_1.switch_to()
                 return False
 
-        logger.info('Fleet_2 step on %s got roadblocks.')
+        logger.info('Fleet_2 step on got roadblocks.')
         self.fleet_1.clear_roadblocks(roadblocks)
         self.fleet_1.clear_all_mystery()
         return True

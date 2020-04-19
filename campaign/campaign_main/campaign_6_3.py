@@ -44,6 +44,12 @@ road_boss = RoadGrids([
     A1, [B1, A2], B2, [C2, B3], [B3, C3], [B4, C3], [C3, C4], [C4, D3], D4,  # A1 - D4
     [G3, H4], [G3, G4], G3, [F3, G4], F4, [E4, F5], [E4, E5], [E4, D5]  # H3 - D4
 ])
+road_in_map = RoadGrids([
+    A1, [B1, A2], B2, [C2, B3], [B3, C3], [B4, C3], [C3, C4], [C4, D3], D4,  # A1 - D4
+    [G3, H4], [G3, G4], G3, [F3, G4], F4, [E4, F5], [E4, E5], [E4, D5],  # H3 - D4
+    D1, C1, [B1, C2],  # D1 - C2
+    E1, F1, [G1, F2], [G2, F2], [F3, G2]  # E1 - G3
+])
 road_mystery = RoadGrids([[F5, G4], [H4, G5], H2])
 
 
@@ -51,7 +57,7 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
-        if self.fleet_2_step_on(step_on, roadblocks=[road_boss]):
+        if self.fleet_2_step_on(step_on, roadblocks=[road_in_map]):
             return True
 
         if self.clear_roadblocks([road_boss]):
