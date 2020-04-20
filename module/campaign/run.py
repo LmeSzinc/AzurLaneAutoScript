@@ -8,6 +8,7 @@ from module.campaign.assets import *
 from module.campaign.campaign_base import CampaignBase
 from module.campaign.campaign_ui import CampaignUI
 from module.config.config import AzurLaneConfig
+from module.handler.login import LoginHandler
 from module.logger import logger
 from module.map.exception import ScriptEnd
 from module.reward.reward import Reward
@@ -15,7 +16,7 @@ from module.reward.reward import Reward
 OCR_OIL = Digit(OCR_OIL, letter=(247, 247, 247), back=(33, 36, 49), limit=25000, name='OCR_OIL')
 
 
-class CampaignRun(CampaignUI, Reward):
+class CampaignRun(CampaignUI, Reward, LoginHandler):
     folder: str
     name: str
     stage: str
@@ -111,7 +112,11 @@ class CampaignRun(CampaignUI, Reward):
         """
         self.load_campaign(name, folder=folder)
         self.run_count = 0
+        start_date = datetime.now().date()
         while 1:
+            if datetime.now().date() != start_date:
+                start_date.replace(day=datetime.now().day)
+                self.app_restart()
             if self.handle_reward():
                 self.campaign.fleet_checked_reset()
 
