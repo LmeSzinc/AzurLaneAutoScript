@@ -1,5 +1,4 @@
 from module.logger import logger
-from module.map.exception import CampaignEnd
 from module.map.fleet import Fleet
 from module.map.grid_info import GridInfo
 from module.map.map_grids import SelectedGrids, RoadGrids
@@ -240,7 +239,6 @@ class Map(Fleet):
             grids = grids.sort(cost=True, weight=True)
             logger.info('Grids: %s' % str(grids))
             self.clear_chosen_enemy(grids[0], expected='boss')
-            raise CampaignEnd('BOSS Clear.')
 
         logger.warning('BOSS not detected, trying all boss spawn point.')
         self.clear_potential_boss()
@@ -253,17 +251,13 @@ class Map(Fleet):
         """
         grids = self.map.select(may_boss=True, is_accessible=True)
         logger.info('May boss: %s' % self.map.select(may_boss=True))
-        battle_count = self.battle_count
 
         for grid in grids:
             logger.hr('Clear BOSS')
             grids = grids.sort(cost=True, weight=True)
             logger.info('Grid: %s' % str(grid))
             self.clear_chosen_enemy(grid, expected='boss')
-            if self.battle_count - battle_count > 0:
-                raise CampaignEnd('BOSS Clear.')
-            else:
-                logger.info('Boss guessing incorrect.')
+            logger.info('Boss guessing incorrect.')
 
     def clear_siren(self, **kwargs):
         """

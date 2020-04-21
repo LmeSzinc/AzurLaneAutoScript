@@ -5,14 +5,11 @@ from module.handler.assets import *
 
 class InfoBarHandler(ModuleBase):
     def info_bar_count(self):
-        if self.appear(INFO_BAR_1):
-            # if self.appear(INFO_BAR_2):
-            #     if self.appear(INFO_BAR_3):
-            #         return 3
-            #     else:
-            #         return 2
-            # else:
-            #     return 1
+        if self.appear(INFO_BAR_3):
+            return 3
+        elif self.appear(INFO_BAR_2):
+            return 2
+        elif self.appear(INFO_BAR_1):
             return 1
         else:
             return 0
