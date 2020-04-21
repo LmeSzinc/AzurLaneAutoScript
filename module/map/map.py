@@ -268,6 +268,8 @@ class Map(Fleet):
         boss = self.map.select(is_boss=True)
         if boss:
             logger.info('Brute clear BOSS')
+            if self.brute_fleet_meet():
+                return True
             grids = self.brute_find_roadblocks(boss[0], fleet=self.config.FLEET_BOSS)
             if grids:
                 logger.info('Brute clear BOSS roadblocks')
@@ -279,6 +281,22 @@ class Map(Fleet):
                 return self.fleet_boss.clear_boss()
         else:
             logger.warning('No boss found.')
+            return False
+
+    def brute_fleet_meet(self):
+        """
+        Method to clear roadblocks between fleets, using brute-force to find roadblocks.
+        """
+        if not self.config.FLEET_2:
+            return False
+        grids = self.brute_find_roadblocks(self.map[self.fleet_2_location], fleet=1)
+        if grids:
+            logger.info('Brute clear roadblocks between fleets.')
+            grids = grids.sort(cost=True, weight=True)
+            logger.info('Grids: %s' % str(grids))
+            self.clear_chosen_enemy(grids[0])
+            return True
+        else:
             return False
 
     def clear_siren(self, **kwargs):
