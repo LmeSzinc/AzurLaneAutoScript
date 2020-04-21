@@ -54,7 +54,7 @@ class FastForwardHandler(ModuleBase):
             return False
 
         percent = color_bar_percentage(self.device.image, area=MAP_CLEAR_PERCENTAGE.area, prev_color=(231, 170, 82))
-        logger.attr('Map_clear', percent)
+        logger.attr('Map_clear', f'{int(percent * 100)}%')
         if self.config.CLEAR_MODE_STOP_CONDITION == 'map_100':
             if percent > 0.95:
                 raise ScriptEnd(f'Reach condition: {self.config.CLEAR_MODE_STOP_CONDITION}')

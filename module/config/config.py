@@ -183,6 +183,8 @@ class AzurLaneConfig:
     """
     MAP_HAS_AMBUSH = True
     MAP_MYSTERY_HAS_CARRIER = False
+    POOR_MAP_DATA = False
+    FLEET_BOSS = 2
 
     """
     module.retire

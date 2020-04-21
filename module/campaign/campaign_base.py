@@ -19,8 +19,34 @@ class CampaignBase(Map):
         logger.warning('No battle executed.')
         return False
 
+    def battle_boss(self):
+        if self.brute_clear_boss():
+            return True
+
+        logger.warning('No battle executed.')
+        return False
+
+    @Config.when(POOR_MAP_DATA=True, MAP_CLEAR_ALL_THIS_TIME=False)
+    def execute_a_battle(self):
+        logger.hr(f'{self.FUNCTION_NAME_BASE}{self.battle_count}', level=2)
+        logger.info('Running with poor map data.')
+        self.clear_all_mystery()
+
+        if self.battle_count >= 3:
+            self.pick_up_ammo()
+
+        if self.map.select(is_boss=True):
+            if self.brute_clear_boss():
+                return True
+        else:
+            return self.clear_enemy()
+
+        logger.warning('No battle executed.')
+        return False
+
     @Config.when(MAP_CLEAR_ALL_THIS_TIME=True)
     def execute_a_battle(self):
+        logger.hr(f'{self.FUNCTION_NAME_BASE}{self.battle_count}', level=2)
         logger.info('Using function: clear_all')
         self.clear_all_mystery()
 
@@ -30,12 +56,9 @@ class CampaignBase(Map):
         if self.map.select(is_enemy=True, is_boss=False).count > 0:
             return self.battle_default()
         else:
-            if self.config.FLEET_2:
-                return self.fleet_2.clear_boss()
-            else:
-                return self.clear_boss()
+            return self.battle_boss()
 
-    @Config.when(MAP_CLEAR_ALL_THIS_TIME=False)
+    @Config.when(MAP_CLEAR_ALL_THIS_TIME=False, POOR_MAP_DATA=False)
     def execute_a_battle(self):
         func = self.FUNCTION_NAME_BASE + 'default'
         for extra_battle in range(10):

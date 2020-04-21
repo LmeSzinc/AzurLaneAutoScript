@@ -18,6 +18,8 @@ class Map(Fleet):
             self.emotion.wait(fleet=self.fleet_current_index)
         self.goto(grid, expected=expected)
 
+        if self.config.POOR_MAP_DATA:
+            self.ensure_edge_insight()
         self.full_scan(battle_count=self.battle_count, mystery_count=self.mystery_count, siren_count=self.siren_count,
                        carrier_count=self.carrier_count)
         self.find_path_initial()
@@ -42,11 +44,11 @@ class Map(Fleet):
         if grid is None:
             grid = self.map.select(may_ammo=True)
             if not grid:
-                logger.info('Ammo not found')
+                logger.info('Map has no ammo.')
                 return False
             grid = grid[0]
 
-        if self.ammo_count > 0:
+        if self.ammo_count > 0 and grid.is_accessible:
             logger.info('Pick up ammo: %s' % grid)
             self.goto(grid, expected='')
             self.ensure_no_info_bar()
@@ -258,6 +260,26 @@ class Map(Fleet):
             logger.info('Grid: %s' % str(grid))
             self.clear_chosen_enemy(grid, expected='boss')
             logger.info('Boss guessing incorrect.')
+
+    def brute_clear_boss(self):
+        """
+        Method to clear boss, using brute-force to find roadblocks.
+        """
+        boss = self.map.select(is_boss=True)
+        if boss:
+            logger.info('Brute clear BOSS')
+            grids = self.brute_find_roadblocks(boss[0], fleet=self.config.FLEET_BOSS)
+            if grids:
+                logger.info('Brute clear BOSS roadblocks')
+                grids = grids.sort(cost=True, weight=True)
+                logger.info('Grids: %s' % str(grids))
+                self.clear_chosen_enemy(grids[0])
+                return True
+            else:
+                return self.fleet_boss.clear_boss()
+        else:
+            logger.warning('No boss found.')
+            return False
 
     def clear_siren(self, **kwargs):
         """

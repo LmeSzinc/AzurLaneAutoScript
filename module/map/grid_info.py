@@ -110,7 +110,7 @@ class GridInfo:
 
     @property
     def is_sea(self):
-        return False if self.is_land or self.is_enemy or self.is_mystery or self.is_boss else True
+        return False if self.is_land or self.is_enemy or self.is_boss else True
 
     @property
     def may_carrier(self):
@@ -124,27 +124,36 @@ class GridInfo:
     def is_nearby(self):
         return self.cost < 20
 
-    def update(self, info, is_carrier_scan=False):
+    def update(self, info, is_carrier_scan=False, ignore_may=False, ignore_cleared=False):
         """
         Args:
             info (GridInfo):
             is_carrier_scan (bool): Is a scan for mystery: enemy_searching, which ignore may_enemy spawn point.
+            ignore_may (bool): Ignore map_data, force update.
+            ignore_cleared (bool): Ignore is_cleared property.
         """
-        # failure = 0
         for item in ['boss', 'siren']:
+            if info.enemy_scale:
+                break
             if info.__getattribute__('is_' + item):
-                if self.__getattribute__('may_' + item) and not self.is_cleared \
-                        and not info.is_fleet and not self.is_fleet:
+                flag = not info.is_fleet and not self.is_fleet
+                if not ignore_may:
+                    flag &= self.__getattribute__('may_' + item)
+                if not ignore_cleared:
+                    flag &= not self.is_cleared
+                if flag:
                     self.__setattr__('is_' + item, True)
                     return True
                 else:
-                    logger.info(f'Wrong Prediction. Grid: {self}, Attr: {item}')
-                    # failure += 1
+                    logger.info(f'Wrong Prediction. Grid: {self}, Attr: is_{item}')
 
         if info.is_enemy:
             flag = not info.is_fleet and not self.is_fleet
             if not is_carrier_scan:
-                flag = flag and self.may_enemy and not self.is_cleared
+                if not ignore_may:
+                    flag &= self.may_enemy
+                if not ignore_cleared:
+                    flag &= not self.is_cleared
             if flag:
                 self.is_enemy = True
                 self.enemy_scale = info.enemy_scale
@@ -157,7 +166,7 @@ class GridInfo:
 
         for item in ['mystery', 'ammo']:
             if info.__getattribute__('is_' + item):
-                if self.__getattribute__('may_' + item):
+                if self.__getattribute__('may_' + item) or ignore_may:
                     self.__setattr__('is_' + item, True)
                     return True
                 else:
@@ -170,6 +179,9 @@ class GridInfo:
         return False
 
     def wipe_out(self):
+        """
+        Call this method when a fleet step on grid.
+        """
         self.is_enemy = False
         self.enemy_scale = 0
         self.enemy_type = 'Enemy'
@@ -179,9 +191,11 @@ class GridInfo:
         self.is_siren = False
 
     def reset(self):
+        """
+        Call this method after entering a map.
+        """
         self.wipe_out()
         self.is_fleet = False
         self.is_current_fleet = False
         self.is_submarine = False
-
         self.is_cleared = False

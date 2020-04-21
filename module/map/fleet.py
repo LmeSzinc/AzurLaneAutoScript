@@ -2,6 +2,9 @@ from module.base.timer import Timer
 from module.handler.ambush import AmbushHandler
 from module.logger import logger
 from module.map.camera import Camera
+import itertools
+
+from module.map.map_base import SelectedGrids
 from module.map.map_base import location2node, location_ensure
 from module.map.map_operation import MapOperation
 
@@ -42,6 +45,13 @@ class Fleet(Camera, MapOperation, AmbushHandler):
             return self.fleet_2_location
         else:
             return self.fleet_1_location
+
+    @property
+    def fleet_boss(self):
+        if self.config.FLEET_BOSS == 2 and self.config.FLEET_2:
+            return self.fleet_2
+        else:
+            return self.fleet_1
 
     def fleet_switch(self):
         self.fleet_switch_click()
@@ -111,8 +121,8 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                     self.fleet_ammo -= 1
                     if 'siren' in expected:
                         self.siren_count += 1
-                    else:
-                        self.map[location_ensure(location)].is_cleared = True
+                    elif self.map[location].may_enemy:
+                        self.map[location].is_cleared = True
 
                     self.handle_boss_appear_refocus()
                     grid = self.convert_map_to_grid(location)
@@ -133,7 +143,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                             logger.warning('Arrive with unexpected result')
                         else:
                             continue
-                    logger.info(f'Arrive confirm. Result: {result}. Expected: {expected}')
+                    logger.info(f'Arrive {location2node(location)} confirm. Result: {result}. Expected: {expected}')
                     arrived = True
                     break
 
@@ -202,7 +212,10 @@ class Fleet(Camera, MapOperation, AmbushHandler):
 
     def find_current_fleet(self):
         logger.hr('Find current fleet')
-        fleets = self.map.select(is_fleet=True, is_spawn_point=True)
+        if not self.config.POOR_MAP_DATA:
+            fleets = self.map.select(is_fleet=True, is_spawn_point=True)
+        else:
+            fleets = self.map.select(is_fleet=True)
         logger.info('Fleets: %s' % str(fleets))
         count = fleets.count
         if count == 1:
@@ -249,6 +262,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         self.ammo_count = 3
         self.map = map_
         self.map.reset()
+        self.map.poor_map_data = self.config.POOR_MAP_DATA
         self.hp_init()
         self.handle_strategy(index=self.fleet_current_index)
         self.ensure_edge_insight(preset=self.map.in_map_swipe_preset_data)
@@ -310,6 +324,48 @@ class Fleet(Camera, MapOperation, AmbushHandler):
             self.fleet_current_index = backup
             self.find_path_initial()
             return result
+
+    def brute_find_roadblocks(self, grid, fleet=None):
+        """
+        Args:
+            grid (Grid):
+            fleet (int): 1, 2. Default to current fleet.
+
+        Returns:
+            SelectedGrids:
+        """
+        if fleet is not None and fleet != self.fleet_current_index:
+            backup = self.fleet_current_index
+            self.fleet_current_index = fleet
+            self.find_path_initial()
+        else:
+            backup = None
+
+        if grid.is_accessible:
+            if backup is not None:
+                self.fleet_current_index = backup
+                self.find_path_initial()
+            return SelectedGrids([])
+
+        enemies = self.map.select(is_enemy=True)
+        logger.info(f'Potential enemy roadblocks: {enemies}')
+        for repeat in range(1, enemies.count + 1):
+            for select in itertools.product(enemies, repeat=repeat):
+                for block in select:
+                    block.is_enemy = False
+                self.find_path_initial()
+                for block in select:
+                    block.is_enemy = True
+
+                if grid.is_accessible:
+                    select = SelectedGrids(list(select))
+                    logger.info(f'Enemy roadblock: {select}')
+                    if backup is not None:
+                        self.fleet_current_index = backup
+                        self.find_path_initial()
+                    return select
+
+        logger.warning('Enemy roadblock try exhausted.')
 
     def handle_boss_appear_refocus(self):
         """

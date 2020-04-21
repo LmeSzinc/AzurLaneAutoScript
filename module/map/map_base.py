@@ -45,6 +45,7 @@ class CampaignMap:
         self._spawn_data_backup = []
         self._camera_data = []
         self.in_map_swipe_preset_data = None
+        self.poor_map_data = False
 
     def __iter__(self):
         return iter(self.grids.values())
@@ -96,6 +97,10 @@ class CampaignMap:
 
     @map_data.setter
     def map_data(self, text):
+        if not len(self.grids.keys()):
+            grids = np.array([loca for loca, _ in self._parse_text(text)])
+            self.shape = location2node(tuple(np.max(grids, axis=0)))
+
         self._map_data = text
         for loca, data in self._parse_text(text):
             self.grids[loca].decode(data)
@@ -115,17 +120,13 @@ class CampaignMap:
             camera (tuple):
             is_carrier_scan (bool):
         """
-        # failure = 0
         offset = np.array(camera) - np.array(grids.center_grid)
         grids.show()
         for grid in grids.grids.values():
             loca = tuple(offset + grid.location)
             if loca in self.grids:
-                self.grids[loca].update(grid, is_carrier_scan=is_carrier_scan)
-                # flag, fail = self.grids[loca].update(grid)
-                # failure += fail
+                self.grids[loca].update(grid, is_carrier_scan=is_carrier_scan, ignore_may=self.poor_map_data)
 
-        # return failure
         return True
 
     def reset(self):
@@ -346,6 +347,9 @@ class CampaignMap:
         return may, missing
 
     def missing_is_none(self, battle_count, mystery_count=0, siren_count=0, carrier_count=0):
+        if self.poor_map_data:
+            return False
+
         may, missing = self.missing_get(battle_count, mystery_count, siren_count, carrier_count)
 
         for key in may.keys():
@@ -355,6 +359,9 @@ class CampaignMap:
         return True
 
     def missing_predict(self, battle_count, mystery_count=0, siren_count=0, carrier_count=0):
+        if self.poor_map_data:
+            return False
+
         may, missing = self.missing_get(battle_count, mystery_count, siren_count, carrier_count)
 
         # predict
