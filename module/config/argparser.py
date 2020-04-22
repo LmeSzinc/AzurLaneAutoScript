@@ -92,21 +92,24 @@ def main(ini_name=''):
     stop.add_argument('--如果船舱已满', default=default('--如果船舱已满'), choices=['是', '否'])
 
     # 出击舰队
-    fleet = setting_parser.add_argument_group('出击舰队', '暂不支持阵型选择, 暂不支持备用道中队')
+    fleet = setting_parser.add_argument_group('出击舰队', '暂不支持备用道中队, 非活动图或周回模式会忽略步长设置')
     fleet.add_argument('--启用舰队控制', default=default('--启用舰队控制'), choices=['是', '否'])
     fleet.add_argument('--启用阵容锁定', default=default('--启用阵容锁定'), choices=['是', '否'])
 
     f1 = fleet.add_argument_group('道中队')
     f1.add_argument('--舰队编号1', default=default('--舰队编号1'), choices=['1', '2', '3', '4', '5', '6'])
     f1.add_argument('--舰队阵型1', default=default('--舰队阵型1'), choices=['单纵阵', '复纵阵', '轮形阵'])
+    f1.add_argument('--舰队步长1', default=default('--舰队步长1'), choices=['1', '2', '3', '4', '5', '6'])
 
     f2 = fleet.add_argument_group('BOSS队')
     f2.add_argument('--舰队编号2', default=default('--舰队编号2'), choices=['不使用', '1', '2', '3', '4', '5', '6'])
     f2.add_argument('--舰队阵型2', default=default('--舰队阵型2'), choices=['单纵阵', '复纵阵', '轮形阵'])
+    f2.add_argument('--舰队步长2', default=default('--舰队步长2'), choices=['1', '2', '3', '4', '5', '6'])
 
     f3 = fleet.add_argument_group('备用道中队')
     f3.add_argument('--舰队编号3', default=default('--舰队编号3'), choices=['不使用', '1', '2', '3', '4', '5', '6'])
     f3.add_argument('--舰队阵型3', default=default('--舰队阵型3'), choices=['单纵阵', '复纵阵', '轮形阵'])
+    f3.add_argument('--舰队步长3', default=default('--舰队步长3'), choices=['1', '2', '3', '4', '5', '6'])
 
     f4 = fleet.add_argument_group('自律模式')
     f4.add_argument('--战斗自律模式', default=default('--战斗自律模式'), choices=['自律', '手操', '中路站桩'])

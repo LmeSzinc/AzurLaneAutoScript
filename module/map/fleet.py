@@ -53,6 +53,15 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         else:
             return self.fleet_1
 
+    @property
+    def fleet_step(self):
+        if not self.config.MAP_HAS_FLEET_STEP:
+            return 0
+        if self.fleet_current_index == 2:
+            return self.config.FLEET_2_STEP
+        else:
+            return self.config.FLEET_1_STEP
+
     def fleet_switch(self):
         self.fleet_switch_click()
         self.fleet_current_index = 1 if self.fleet_current_index == 2 else 2
@@ -177,7 +186,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         # self.device.sleep(1000)
         location = location_ensure(location)
         if self.config.MAP_HAS_AMBUSH and optimize:
-            nodes = self.map.find_path(location)
+            nodes = self.map.find_path(location, step=self.fleet_step)
             for node in nodes:
                 self._goto(node, expected=expected if node == nodes[-1] else '')
         else:
@@ -284,7 +293,8 @@ class Fleet(Camera, MapOperation, AmbushHandler):
 
         if 'boss' in expected:
             return 'in_stage'
-        return 'no_searching'
+
+        return None
 
     def fleet_at(self, grid, fleet=None):
         """

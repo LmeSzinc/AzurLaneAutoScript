@@ -32,6 +32,10 @@ class AzurLaneConfig:
     _FLEET_1_FORMATION = 2
     FLEET_2_FORMATION = 2
     FLEET_3_FORMATION = 2
+    # Fleet step 1-6
+    _FLEET_1_STEP = 3
+    FLEET_2_STEP = 2
+    FLEET_3_STEP = 3
     # Fleet 1-2, if empty use 0.
     SUBMARINE = 0
 
@@ -52,6 +56,14 @@ class AzurLaneConfig:
     @FLEET_1_FORMATION.setter
     def FLEET_1_FORMATION(self, value):
         self._FLEET_1_FORMATION = value
+
+    @property
+    def FLEET_1_STEP(self):
+        return self.FLEET_3_STEP if self.USING_SPARE_FLEET else self._FLEET_1_STEP
+
+    @FLEET_1_STEP.setter
+    def FLEET_1_STEP(self, value):
+        self._FLEET_1_STEP = value
 
     """
     module.assets
@@ -182,6 +194,7 @@ class AzurLaneConfig:
     module.map.fleet
     """
     MAP_HAS_AMBUSH = True
+    MAP_HAS_FLEET_STEP = False
     MAP_MYSTERY_HAS_CARRIER = False
     POOR_MAP_DATA = False
     FLEET_BOSS = 2
@@ -366,6 +379,7 @@ class AzurLaneConfig:
         for n in ['1', '2', '3']:
             self.__setattr__(f'FLEET_{n}', int(option[f'fleet_index_{n}']))
             self.__setattr__(f'FLEET_{n}_FORMATION', int(option[f'fleet_formation_{n}'].split('_')[1]))
+            self.__setattr__(f'FLEET_{n}_STEP', int(option[f'fleet_step_{n}']))
         self.COMBAT_AUTO_MODE = option['combat_auto_mode']
         self.SUBMARINE = int(option['fleet_index_4']) if to_bool(option['fleet_index_4']) else 0
         self.SUBMARINE_MODE = option['submarine_mode']

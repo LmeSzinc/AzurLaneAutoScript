@@ -28,6 +28,8 @@ class FastForwardHandler(ModuleBase):
             logger.info('No fast forward mode.')
             return False
 
+        logger.info('Set fast forward.')
+        self.config.MAP_HAS_FLEET_STEP = False
         if self.config.ENABLE_FAST_FORWARD:
             self.config.MAP_HAS_AMBUSH = False
             status = 'on'

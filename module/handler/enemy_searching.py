@@ -3,6 +3,7 @@ from module.base.utils import red_overlay_transparency, get_color
 from module.handler.assets import *
 from module.handler.info_bar import InfoBarHandler
 from module.logger import logger
+from module.map.exception import CampaignEnd
 
 
 class EnemySearchingHandler(InfoBarHandler):
@@ -25,7 +26,7 @@ class EnemySearchingHandler(InfoBarHandler):
             logger.info('In stage.')
             # self.device.sleep(0.5)
             self.ensure_no_info_bar(timeout=0.6)
-            return True
+            raise CampaignEnd('In map.')
         else:
             return False
 
@@ -40,6 +41,8 @@ class EnemySearchingHandler(InfoBarHandler):
         appeared = False
         while 1:
             timeout.start()
+            if self.handle_in_stage():
+                return True
             if self.enemy_searching_appear():
                 appeared = True
             else:

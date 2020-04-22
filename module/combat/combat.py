@@ -301,11 +301,11 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
 
             # End
             if expected_end is None:
-                if self.handle_in_stage() or self.handle_in_map_with_enemy_searching():
+                if self.handle_in_map_with_enemy_searching():
                     break
             if isinstance(expected_end, str):
                 if expected_end == 'in_stage' and self.handle_in_stage():
-                    raise CampaignEnd('Boss clear')
+                    break
                 if expected_end == 'with_searching' and self.handle_in_map_with_enemy_searching():
                     break
                 if expected_end == 'no_searching' and self.handle_in_map():

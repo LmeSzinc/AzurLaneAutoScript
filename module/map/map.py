@@ -258,7 +258,7 @@ class Map(Fleet):
             logger.hr('Clear BOSS')
             grids = grids.sort(cost=True, weight=True)
             logger.info('Grid: %s' % str(grid))
-            self.clear_chosen_enemy(grid, expected='boss')
+            self.clear_chosen_enemy(grid)
             logger.info('Boss guessing incorrect.')
 
     def brute_clear_boss(self):

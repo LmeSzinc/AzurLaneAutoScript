@@ -265,11 +265,12 @@ class CampaignMap:
 
         return res
 
-    def _find_route_node(self, route):
+    def _find_route_node(self, route, step=0):
         """
 
         Args:
             route (list[tuple]): list of grids.
+            step (int): Fleet step in event map. Default to 0.
 
         Returns:
             list[tuple]: list of walking node.
@@ -283,19 +284,35 @@ class CampaignMap:
         turning = np.diff(diff, axis=0)[:, 0]
         indexes = np.where(turning == -1)[0] + 1
         for index in indexes:
-            grid = route[index]
-            if not self[grid].is_fleet:
-                res.append(grid)
+            if not self[route[index]].is_fleet:
+                res.append(index)
             else:
-                if (index > 1) and (index + 1 not in indexes):
-                    res.append(route[index - 1])
+                if (index > 1) and (index - 1 not in indexes):
+                    res.append(index - 1)
                 if (index < len(route) - 2) and (index + 1 not in indexes):
-                    res.append(route[index + 1])
-        res.append(route[-1])
+                    res.append(index + 1)
+        res.append(len(route) - 1)
+        # res = [6, 8]
+        if step == 0:
+            return [route[index] for index in res]
 
-        return res
+        res.insert(0, 0)
+        inserted = []
+        for left, right in zip(res[:-1], res[1:]):
+            for index in list(range(left, right, step))[1:]:
+                if not self[route[index]].is_fleet:
+                    inserted.append(index)
+                else:
+                    if (index > 1) and (index - 1 not in res):
+                        inserted.append(index - 1)
+                    if (index < len(route) - 2) and (index + 1 not in res):
+                        inserted.append(index + 1)
+            inserted.append(right)
+        res = inserted
+        # res = [3, 6, 8]
+        return [route[index] for index in res]
 
-    def find_path(self, location):
+    def find_path(self, location, step=0):
         location = location_ensure(location)
 
         path = self._find_path(location)
@@ -304,7 +321,7 @@ class CampaignMap:
             return [location]
 
         logger.info('Path: %s' % '[' + ', ' .join([location2node(grid) for grid in path]) + ']')
-        path = self._find_route_node(path)
+        path = self._find_route_node(path, step=step)
         logger.info('Path: %s' % '[' + ', ' .join([location2node(grid) for grid in path]) + ']')
 
         return path
