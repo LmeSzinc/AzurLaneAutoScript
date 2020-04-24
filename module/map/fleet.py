@@ -152,6 +152,8 @@ class Fleet(Camera, MapOperation, AmbushHandler):
 
                 # Arrive
                 if self.is_in_map() and grid.predict_fleet():
+                    if not arrive_timer.started():
+                        logger.info(f'Arrive {location2node(location)}')
                     arrive_timer.start()
                     arrive_unexpected_timer.start()
                     if not arrive_timer.reached():
@@ -188,12 +190,6 @@ class Fleet(Camera, MapOperation, AmbushHandler):
             self.full_scan(is_carrier_scan=True)
             diff = self.map.select(is_enemy=True).delete(prev_enemy)
             logger.info(f'Carrier spawn: {diff}')
-        elif self.config.POOR_MAP_DATA:
-            for grid in self.map:
-                grid.reset()
-            if result == 'combat':
-                self.ensure_edge_insight()
-            self.full_scan()
         self.find_path_initial()
 
     def goto(self, location, optimize=True, expected=''):

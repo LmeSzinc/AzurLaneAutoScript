@@ -18,9 +18,8 @@ class Map(Fleet):
             self.emotion.wait(fleet=self.fleet_current_index)
         self.goto(grid, expected=expected)
 
-        if not self.config.POOR_MAP_DATA:
-            self.full_scan()
-            self.find_path_initial()
+        self.full_scan()
+        self.find_path_initial()
         self.map.show_cost()
 
     def clear_chosen_mystery(self, grid):

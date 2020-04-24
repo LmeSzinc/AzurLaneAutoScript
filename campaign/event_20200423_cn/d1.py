@@ -24,7 +24,7 @@ class Config:
     MAP_HAS_FLEET_STEP = True
     MAP_HAS_MOVABLE_ENEMY = True
     MAP_HAS_SIREN = True
-    MAP_SIREN_COUNT = 3
+    MAP_SIREN_COUNT = 2
 
     TRUST_EDGE_LINES = True
 
