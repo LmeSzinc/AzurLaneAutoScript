@@ -82,6 +82,8 @@ class Perspective:
         self.vanish_point = optimize.brute(self._vanish_point_value, self.config.VANISH_POINT_RANGE)
         distance_point_x = optimize.brute(self._distant_point_value, self.config.DISTANCE_POINT_X_RANGE)[0]
         self.distant_point = np.array([distance_point_x, self.vanish_point[1]])
+        logger.info(f'          vanish_point: ({", ".join([str(int(x)).rjust(5) for x in self.vanish_point])})')
+        logger.info(f'         distant_point: ({", ".join([str(int(x)).rjust(5) for x in self.distant_point])})')
 
         # Re-generate lines. Useless after mid_cleanse function added.
         # self.horizontal = self.crossings.link(None, is_horizontal=True).group()

@@ -38,9 +38,9 @@ class GridPredictor:
             0,  # g
             ((-x0 + x1) / (-x2 + x3) - 1) / self.ENEMY_PERSPECTIVE_IMAGE_SIZE[1]  # h
         )
-        self.image_transform = self.image.transform(self.ENEMY_PERSPECTIVE_IMAGE_SIZE, Image.PERSPECTIVE, self._perspective)
 
     def predict(self):
+        self.image_transform = self.image.transform(self.ENEMY_PERSPECTIVE_IMAGE_SIZE, Image.PERSPECTIVE, self._perspective)
         # self.image_hole = self.get_relative_image((-1, -1, 1, 1))
         self.is_enemy = self.predict_static_red_border()
 

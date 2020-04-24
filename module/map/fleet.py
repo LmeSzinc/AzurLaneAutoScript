@@ -190,7 +190,9 @@ class Fleet(Camera, MapOperation, AmbushHandler):
             logger.info(f'Carrier spawn: {diff}')
         elif self.config.POOR_MAP_DATA:
             for grid in self.map:
-                grid.wipe_out()
+                grid.reset()
+            if result == 'combat':
+                self.ensure_edge_insight()
             self.full_scan()
         self.find_path_initial()
 

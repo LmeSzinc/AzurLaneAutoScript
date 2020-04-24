@@ -66,7 +66,7 @@ class Control(Connection):
 
     # @retry()
     def _click_uiautomator2(self, x, y):
-        self.device.click(x, y)
+        self.device.click(int(x), int(y))
 
     # @retry()
     def _click_adb(self, x, y):

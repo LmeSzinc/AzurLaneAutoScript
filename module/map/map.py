@@ -238,7 +238,7 @@ class Map(Fleet):
             logger.hr('Clear BOSS')
             grids = grids.sort(cost=True, weight=True)
             logger.info('Grids: %s' % str(grids))
-            self.clear_chosen_enemy(grids[0], expected='boss')
+            self.clear_chosen_enemy(grids[0])
 
         logger.warning('BOSS not detected, trying all boss spawn point.')
         self.clear_potential_boss()
