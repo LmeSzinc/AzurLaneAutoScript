@@ -429,8 +429,8 @@ class Fleet(Camera, MapOperation, AmbushHandler):
             for grid in grids:
                 if grid.is_boss:
                     appear = True
-                    for grid in self.map:
-                        grid.wipe_out()
+                    for g in self.map:
+                        g.wipe_out()
                     break
 
         if appear:

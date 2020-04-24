@@ -9,6 +9,7 @@ from module.template.assets import *
 class GridPredictor:
     ENEMY_SCALE_IMAGE_SIZE = (50, 50)
     ENEMY_PERSPECTIVE_IMAGE_SIZE = (50, 50)
+    RED_BORDER_IGNORE_TOP = 10
 
     def __init__(self, location, image, corner):
         """
@@ -111,7 +112,9 @@ class GridPredictor:
     def predict_static_red_border(self):
         # image = self.image.transform(self.ENEMY_PERSPECTIVE_IMAGE_SIZE, Image.PERSPECTIVE, self._perspective)
 
-        image = color_similarity_2d(self.image_transform, color=(255, 36, 82))
+        image = color_similarity_2d(
+            self.image_transform.crop((0, self.RED_BORDER_IGNORE_TOP, *self.ENEMY_PERSPECTIVE_IMAGE_SIZE)),
+            color=(255, 36, 82))
 
         # Image.fromarray(np.array(image).astype('uint8'), mode='RGB').save(f'{self}.png')
 
@@ -119,7 +122,9 @@ class GridPredictor:
         return count > 40
 
     def predict_dynamic_red_border(self, pad=4):
-        image = np.array(self.image_transform).astype(float)
+        image = np.array(
+            self.image_transform.crop((0, self.RED_BORDER_IGNORE_TOP, *self.ENEMY_PERSPECTIVE_IMAGE_SIZE))
+        ).astype(float)
         r, b = image[:, :, 0], image[:, :, 2]
         image = r - b
         image[image < 0] = 0

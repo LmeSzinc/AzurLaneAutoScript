@@ -97,6 +97,12 @@ class Grids(Perspective):
             for grid in self:
                 grid.is_siren = False
 
+        # for grid in self:
+        #     if grid.is_enemy and grid.enemy_scale == 0:
+        #         import time
+        #         self.image.save(f'{int(time.time()*1000)}.png')
+        #         break
+
     def update(self, image):
         self.image = image
         for grid in self:
