@@ -9,7 +9,7 @@ class LoginHandler(Combat):
     def handle_app_login(self):
         logger.hr('App login')
 
-        confirm_timer = Timer(2)
+        confirm_timer = Timer(1)
         while 1:
             self.device.screenshot()
 
@@ -30,11 +30,11 @@ class LoginHandler(Combat):
             if self.info_bar_count() and self.appear_then_click(LOGIN_CHECK, interval=0.5):
                 logger.info('Login success')
             if self.appear(MAIN_CHECK):
-                confirm_timer.start()
-
-            if confirm_timer.started() and confirm_timer.reached():
-                logger.info('Login to main confirm')
-                break
+                if confirm_timer.reached():
+                    logger.info('Login to main confirm')
+                    break
+                else:
+                    confirm_timer.reset()
 
         return True
 
