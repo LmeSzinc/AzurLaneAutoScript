@@ -45,6 +45,9 @@ def separate_name(name):
     elif name[0] in 'abcdef':
         return name[0], name[-1]
 
+    logger.warning(f'Unknown stage name: {name}')
+    return name[0], name[1:]
+
 
 class CampaignOcr:
     stage = {}
@@ -137,7 +140,7 @@ class CampaignOcr:
         self.stage = {}
         buttons = self.extract_campaign_name_image(image)
 
-        ocr = Ocr(buttons, lang='stage')
+        ocr = Ocr(buttons, lang='stage', letter=(255, 255, 255), back=(102, 102, 102), threshold=180)
         result = ocr.ocr(image)
         if not isinstance(result, list):
             result = [result]

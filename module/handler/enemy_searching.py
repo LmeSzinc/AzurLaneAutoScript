@@ -9,6 +9,7 @@ from module.map.exception import CampaignEnd
 class EnemySearchingHandler(InfoBarHandler):
     MAP_ENEMY_SEARCHING_OVERLAY_TRANSPARENCY_THRESHOLD = 0.5  # Usually (0.70, 0.80).
     MAP_ENEMY_SEARCHING_TIMEOUT_SECOND = 4.5
+    in_stage_timer = Timer(1)
 
     def enemy_searching_color_initial(self):
         MAP_ENEMY_SEARCHING.load_color(self.device.image)
@@ -23,11 +24,12 @@ class EnemySearchingHandler(InfoBarHandler):
 
     def handle_in_stage(self):
         if self.is_in_stage():
-            logger.info('In stage.')
-            # self.device.sleep(0.5)
-            self.ensure_no_info_bar(timeout=1.2)
-            raise CampaignEnd('In stage.')
+            if self.in_stage_timer.reached():
+                logger.info('In stage.')
+                self.ensure_no_info_bar(timeout=1.2)
+                raise CampaignEnd('In stage.')
         else:
+            self.in_stage_timer.reset()
             return False
 
     def is_in_stage(self):

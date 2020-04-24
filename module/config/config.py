@@ -198,7 +198,7 @@ class AzurLaneConfig:
     MAP_HAS_MOVABLE_ENEMY = False
     MAP_HAS_SIREN = False
     MAP_HAS_DYNAMIC_RED_BORDER = False
-    MAP_SIREN_MOVE_WAIT = 1.8  # The enemy moving takes about 1.5 ~ 1.8s.
+    MAP_SIREN_MOVE_WAIT = 1.5  # The enemy moving takes about 1.2 ~ 1.5s.
     MAP_SIREN_COUNT = 0
     MAP_MYSTERY_HAS_CARRIER = False
     MAP_GRID_CENTER_TOLERANCE = 0.1

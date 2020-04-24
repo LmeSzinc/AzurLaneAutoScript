@@ -17,15 +17,16 @@ class FastForwardHandler(ModuleBase):
 
     def handle_fast_forward(self):
         if not self.appear(MAP_STAR_1) or not self.appear(MAP_STAR_2) or not self.appear(MAP_STAR_3):
+            self.config.ENABLE_FAST_FORWARD = False
             logger.info('Campaign is not 3-star cleared.')
             return False
         if not self.appear(MAP_GREEN):
+            self.config.ENABLE_FAST_FORWARD = False
             logger.info('Campaign is not green sea.')
             return False
 
         if not fast_forward.appear(main=self):
             self.config.ENABLE_FAST_FORWARD = False
-            self.config.MAP_HAS_AMBUSH = True
             logger.info('No fast forward mode.')
             return False
 
