@@ -93,6 +93,9 @@ class Grids(Perspective):
     def predict(self):
         for grid in self:
             grid.predict()
+        if not self.config.MAP_HAS_DYNAMIC_RED_BORDER:
+            for grid in self:
+                grid.is_siren = False
 
     def update(self, image):
         self.image = image

@@ -72,7 +72,7 @@ class CampaignOcr:
             digits.append(Button(area=area_offset(stage, point), color=stage_clear_color, button=button, name='stage'))
 
         result = TEMPLATE_STAGE_PERCENT.match_multi(image, similarity=0.95)
-        name_offset = (50, 0)
+        name_offset = (48, 0)
         for point in result:
             point = point[::-1]
             button = tuple(np.append(point, point + TEMPLATE_STAGE_PERCENT.image.shape[:2][::-1]))

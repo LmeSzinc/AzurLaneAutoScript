@@ -46,6 +46,7 @@ class CampaignMap:
         self._camera_data = []
         self.in_map_swipe_preset_data = None
         self.poor_map_data = False
+        self.camera_sight = (-3, -1, 3, 2)
 
     def __iter__(self):
         return iter(self.grids.values())
@@ -85,7 +86,7 @@ class CampaignMap:
                 self.grids[(x, y)] = grid
 
         # camera_data can be generate automatically, but it's better to set it manually.
-        self.camera_data = [location2node(loca) for loca in camera_2d(self._shape, sight=(-3, -1, 3, 2))]
+        self.camera_data = [location2node(loca) for loca in camera_2d(self._shape, sight=self.camera_sight)]
 
         # weight_data set to 10.
         for grid in self:

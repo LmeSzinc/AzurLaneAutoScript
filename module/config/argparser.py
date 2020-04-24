@@ -163,6 +163,11 @@ def main(ini_name=''):
     drop.add_argument('--启用掉落记录', default=default('--启用掉落记录'), choices=['是', '否'])
     drop.add_argument('--掉落保存目录', default=default('--掉落保存目录'))
 
+    clear = setting_parser.add_argument_group('开荒模式', '未开荒地图会在完成后停止, 已开荒的地图会忽略选项, 无脑开就完事了')
+    clear.add_argument('--启用开荒', default=default('--启用开荒'), choices=['是', '否'])
+    clear.add_argument('--开荒停止条件', default=default('--开荒停止条件'), choices=['地图通关', '地图三星', '地图绿海'])
+    clear.add_argument('--地图全清星星', default=default('--地图全清星星'), choices=['第一个', '第二个', '第三个', '不使用'], help='第几颗星星是击破所有敌舰')
+
     # ==========收菜设置==========
     reward_parser = subs.add_parser('收菜设置')
     reward_condition = reward_parser.add_argument_group('触发条件', '需要运行一次来保存选项, 运行时会执行一次收菜')
@@ -264,17 +269,12 @@ def main(ini_name=''):
     stage = main_parser.add_argument_group('选择关卡', '主线图出击, 目前仅支持前六章和7-2')
     stage.add_argument('--主线地图出击', default=default('--主线地图出击'), help='例如 7-2')
 
-    clear = stage.add_argument_group('主线开荒', '')
-    clear.add_argument('--启用主线开荒', default=default('--启用主线开荒'), choices=['是', '否'])
-    clear.add_argument('--主线开荒停止条件', default=default('--主线开荒停止条件'), choices=['地图通关', '地图三星', '地图绿海'])
-    clear.add_argument('--主线全清星星', default=default('--主线全清星星'), choices=['第一个', '第二个', '第三个', '不使用'], help='第几颗星星是击破所有敌舰')
-
     # ==========活动图==========
     event_parser = subs.add_parser('活动图')
 
     event = event_parser.add_argument_group('选择关卡', '')
     event.add_argument('--活动地图', default=default('--活动地图'),
-                             choices=['a1', 'a2', 'a3', 'b1', 'b2', 'b3', 'c1', 'c2', 'c3', 'd1', 'd2', 'd3'][::-1],
+                             choices=['a1', 'a2', 'a3', 'b1', 'b2', 'b3', 'c1', 'c2', 'c3', 'd1', 'd2', 'd3'],
                              help='例如 d3')
     event.add_argument('--sp地图', default=default('--sp地图'),
                              choices=['sp3', 'sp2', 'sp1'],

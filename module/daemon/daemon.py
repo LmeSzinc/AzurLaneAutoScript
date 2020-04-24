@@ -2,13 +2,13 @@ from module.combat.combat import Combat
 from module.daemon.assets import *
 from module.handler.ambush import MAP_AMBUSH_EVADE
 from module.handler.mystery import MysteryHandler
-from module.handler.popup import PopupHandler
+from module.handler.story import StoryHandler
 from module.handler.urgent_commission import UrgentCommissionHandler
 from module.map.map_fleet_preparation import FleetPreparation
 
 
 class AzurLaneDaemon(FleetPreparation, Combat, UrgentCommissionHandler, MysteryHandler,
-                     PopupHandler):
+                     StoryHandler):
     def daemon(self):
 
         while 1:
@@ -54,14 +54,7 @@ class AzurLaneDaemon(FleetPreparation, Combat, UrgentCommissionHandler, MysteryH
 
             # Story
             if self.config.ENABLE_SEMI_STORY_SKIP:
-                if self.appear_then_click(STORY_SKIP, offset=True, interval=2):
-                    continue
-                if self.handle_popup_confirm():
-                    continue
-                if self.appear_then_click(STORY_CHOOCE, offset=True, interval=2):
-                    continue
-                if self.appear_then_click(STORY_CHOOCE_2, offset=True, interval=2):
-                    continue
+                self.story_skip()
 
             # End
             # No end condition, stop it manually.

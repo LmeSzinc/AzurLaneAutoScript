@@ -115,7 +115,7 @@ class CampaignRun(CampaignUI, Reward, LoginHandler):
         start_date = datetime.now().date()
         while 1:
             if datetime.now().date() != start_date:
-                start_date.replace(day=datetime.now().day)
+                start_date = datetime.now().date()
                 self.app_restart()
                 self.campaign.fleet_checked_reset()
             if self.handle_reward():

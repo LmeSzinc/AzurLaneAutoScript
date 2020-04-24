@@ -18,6 +18,7 @@ FLEET_PREPARATION_HARD_2 = Button(area=(201, 393, 1001, 394), color=(255, 219, 0
 MAP_CAT_ATTACK = Button(area=(1241, 106, 1271, 115), color=(255, 231, 123), button=(1148, 653, 1262, 705), file='./assets/map/MAP_CAT_ATTACK.png')
 MAP_OFFENSIVE = Button(area=(1148, 653, 1262, 705), color=(234, 180, 108), button=(1148, 653, 1262, 705), file='./assets/map/MAP_OFFENSIVE.png')
 MAP_PREPARATION = Button(area=(854, 488, 1052, 548), color=(236, 186, 115), button=(854, 488, 1052, 548), file='./assets/map/MAP_PREPARATION.png')
+MAP_PREPARATION_CANCEL = Button(area=(234, 12, 278, 47), color=(45, 46, 69), button=(234, 12, 278, 47), file='./assets/map/MAP_PREPARATION_CANCEL.png')
 SUBMARINE_BAR = Button(area=(1015, 525, 1186, 602), color=(193, 177, 144), button=(1015, 525, 1186, 602), file='./assets/map/SUBMARINE_BAR.png')
 SUBMARINE_CHOOSE = Button(area=(1026, 447, 1090, 505), color=(208, 164, 103), button=(1026, 447, 1090, 505), file='./assets/map/SUBMARINE_CHOOSE.png')
 SUBMARINE_CLEAR = Button(area=(1108, 447, 1172, 505), color=(152, 153, 154), button=(1108, 447, 1172, 505), file='./assets/map/SUBMARINE_CLEAR.png')

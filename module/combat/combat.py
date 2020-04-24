@@ -10,16 +10,16 @@ from module.combat.hp_balancer import HPBalancer
 from module.combat.submarine import SubmarineCall
 from module.handler.enemy_searching import EnemySearchingHandler
 from module.handler.low_emotion import LowEmotionHandler
+from module.handler.story import StoryHandler
 from module.handler.urgent_commission import UrgentCommissionHandler
 from module.logger import logger
 from module.map.assets import MAP_OFFENSIVE
-from module.map.exception import CampaignEnd
 from module.retire.retirement import Retirement
 from module.ui.assets import BACK_ARROW
 
 
 class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirement, SubmarineCall, LowEmotionHandler,
-             CombatAuto, CombatManual):
+             CombatAuto, CombatManual, StoryHandler):
     _automation_set_timer = Timer(1)
     _emotion: Emotion
     battle_status_click_interval = 0
@@ -189,6 +189,8 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
             if not confirm_timer.reached() and self.appear_then_click(AUTOMATION_CONFIRM, offset=True):
                 continue
 
+            if self.handle_story_skip():
+                continue
             if self.handle_combat_auto():
                 continue
             if self.handle_combat_manual():
@@ -297,6 +299,8 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
             if self.handle_exp_info():
                 continue
             if self.handle_urgent_commission(save_get_items=save_get_items):
+                continue
+            if self.handle_story_skip():
                 continue
 
             # End

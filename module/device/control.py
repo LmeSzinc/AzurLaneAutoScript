@@ -64,11 +64,11 @@ class Control(Connection):
             self._click_uiautomator2(x, y)
         self.sleep(self.config.SLEEP_AFTER_CLICK)
 
-    @retry()
+    # @retry()
     def _click_uiautomator2(self, x, y):
         self.device.click(x, y)
 
-    @retry()
+    # @retry()
     def _click_adb(self, x, y):
         self.adb_shell(['input', 'tap', str(x), str(y)], serial=self.serial)
 

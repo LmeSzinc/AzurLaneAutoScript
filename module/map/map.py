@@ -18,11 +18,9 @@ class Map(Fleet):
             self.emotion.wait(fleet=self.fleet_current_index)
         self.goto(grid, expected=expected)
 
-        if self.config.POOR_MAP_DATA:
-            self.ensure_edge_insight()
-        self.full_scan(battle_count=self.battle_count, mystery_count=self.mystery_count, siren_count=self.siren_count,
-                       carrier_count=self.carrier_count)
-        self.find_path_initial()
+        if not self.config.POOR_MAP_DATA:
+            self.full_scan()
+            self.find_path_initial()
         self.map.show_cost()
 
     def clear_chosen_mystery(self, grid):
@@ -287,7 +285,7 @@ class Map(Fleet):
         """
         Method to clear roadblocks between fleets, using brute-force to find roadblocks.
         """
-        if not self.config.FLEET_2:
+        if not self.config.FLEET_2 or not self.fleet_2_location:
             return False
         grids = self.brute_find_roadblocks(self.map[self.fleet_2_location], fleet=1)
         if grids:
@@ -304,11 +302,18 @@ class Map(Fleet):
         Returns:
             bool: True if clear an enemy.
         """
+        if not self.config.MAP_HAS_SIREN:
+            return False
+
         grids = self.map.select(may_siren=True, is_enemy=True)
-        grids = grids.add(self.map.select(may_siren=True, is_siren=True))
+        grids = grids.add(self.map.select(is_siren=True))
+        grids = grids.add(self.map.select(is_enemy=True, enemy_scale=0))
+        grids = grids.delete(self.map.select(is_boss=True))
         logger.info('May siren: %s' % self.map.select(may_siren=True))
         logger.info('May siren and is enemy: %s' % self.map.select(may_siren=True, is_enemy=True))
         logger.info('Is siren: %s' % self.map.select(is_siren=True))
+        logger.info('Is 0 scale enemy: %s' % self.map.select(is_enemy=True, enemy_scale=0))
+        logger.info('Delete is boss: %s' % self.map.select(is_boss=True))
 
         grids = self.select_grids(grids, **kwargs)
 

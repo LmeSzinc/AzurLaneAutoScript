@@ -22,13 +22,16 @@ class EnemySearchingHandler(InfoBarHandler):
         self.device.sleep(1.2)
 
     def handle_in_stage(self):
-        if self.appear(IN_STAGE_RED) or self.appear(IN_STAGE_BLUE):
+        if self.is_in_stage():
             logger.info('In stage.')
             # self.device.sleep(0.5)
-            self.ensure_no_info_bar(timeout=0.6)
-            raise CampaignEnd('In map.')
+            self.ensure_no_info_bar(timeout=1.2)
+            raise CampaignEnd('In stage.')
         else:
             return False
+
+    def is_in_stage(self):
+        return self.appear(IN_STAGE_RED) or self.appear(IN_STAGE_BLUE)
 
     def is_in_map(self):
         return self.appear(IN_MAP)

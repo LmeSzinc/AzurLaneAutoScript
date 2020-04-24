@@ -39,6 +39,8 @@ class CampaignBase(Map):
             if self.brute_clear_boss():
                 return True
         else:
+            if self.clear_siren():
+                return True
             return self.clear_enemy()
 
         logger.warning('No battle executed.')
@@ -53,7 +55,11 @@ class CampaignBase(Map):
         if self.battle_count >= 3:
             self.pick_up_ammo()
 
-        if self.map.select(is_enemy=True, is_boss=False).count > 0:
+        remain = self.map.select(is_enemy=True, is_boss=False)
+        logger.info('Enemy remain: {}')
+        if remain.count > 0:
+            if self.clear_siren():
+                return True
             return self.battle_default()
         else:
             return self.battle_boss()
@@ -91,4 +97,7 @@ class CampaignBase(Map):
                 self.execute_a_battle()
             except CampaignEnd:
                 logger.hr('Campaign end')
-                break
+                return True
+
+        logger.warning('Battle function exhausted.')
+        raise ScriptError('Battle function exhausted.')

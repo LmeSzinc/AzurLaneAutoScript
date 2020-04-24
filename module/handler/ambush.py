@@ -5,7 +5,7 @@ from module.base.utils import red_overlay_transparency, get_color
 from module.combat.combat import Combat
 from module.handler.assets import *
 from module.logger import logger
-from module.template.assets import TEMPLATE_AMBUSH_EVADE_SUCCESS, TEMPLATE_AMBUSH_EVADE_FAILED
+from module.template.assets import *
 
 
 def ambush_letter_preprocess(image):
@@ -26,6 +26,7 @@ def ambush_letter_preprocess(image):
 
 TEMPLATE_AMBUSH_EVADE_SUCCESS.image = ambush_letter_preprocess(TEMPLATE_AMBUSH_EVADE_SUCCESS.image)
 TEMPLATE_AMBUSH_EVADE_FAILED.image = ambush_letter_preprocess(TEMPLATE_AMBUSH_EVADE_FAILED.image)
+TEMPLATE_MAP_WALK_OUT_OF_STEP.image = ambush_letter_preprocess(TEMPLATE_MAP_WALK_OUT_OF_STEP.image)
 
 
 class AmbushHandler(Combat):
@@ -96,5 +97,19 @@ class AmbushHandler(Combat):
 
         if self.appear(MAP_AMBUSH_EVADE):
             self._handle_ambush()
+
+        return False
+
+    def handle_walk_out_of_step(self):
+        if not self.config.MAP_HAS_FLEET_STEP:
+            return False
+        if not self.appear(INFO_BAR_1):
+            return False
+
+        image = ambush_letter_preprocess(np.array(self.device.image.crop(MAP_WALK_OUT_OF_STEP.area)))
+        if TEMPLATE_MAP_WALK_OUT_OF_STEP.match(image):
+            logger.warning('Map walk out of step.')
+            self.handle_info_bar()
+            return True
 
         return False

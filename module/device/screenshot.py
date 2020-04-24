@@ -47,7 +47,7 @@ class Screenshot(Connection):
         screenshot = self.adb_shell(['screencap', '-p'], serial=self.serial)
         return self._process_screenshot(screenshot)
 
-    @retry()
+    # @retry()
     # @timer
     def screenshot(self):
         """

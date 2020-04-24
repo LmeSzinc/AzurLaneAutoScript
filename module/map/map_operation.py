@@ -2,16 +2,18 @@ from module.base.timer import Timer
 from module.handler.fast_forward import FastForwardHandler
 from module.handler.low_emotion import LowEmotionHandler
 from module.handler.mystery import MysteryHandler
+from module.handler.story import StoryHandler
 from module.handler.urgent_commission import UrgentCommissionHandler
 from module.logger import logger
 from module.map.assets import *
 from module.map.exception import CampaignEnd
+from module.map.exception import ScriptEnd
 from module.map.map_fleet_preparation import FleetPreparation
 from module.retire.retirement import Retirement
 
 
 class MapOperation(UrgentCommissionHandler, MysteryHandler, FleetPreparation, Retirement, FastForwardHandler,
-                   LowEmotionHandler):
+                   LowEmotionHandler, StoryHandler):
     def fleet_switch_click(self):
         """
         Switch fleet.
@@ -55,7 +57,9 @@ class MapOperation(UrgentCommissionHandler, MysteryHandler, FleetPreparation, Re
             if map_timer.reached() and self.appear(MAP_PREPARATION):
                 self.device.sleep(0.3)  # Wait for map information.
                 self.device.screenshot()
-                self.handle_map_clear_mode_stop()
+                if self.handle_map_clear_mode_stop():
+                    self.enter_map_cancel()
+                    raise ScriptEnd(f'Reach condition: {self.config.CLEAR_MODE_STOP_CONDITION}')
                 self.handle_fast_forward()
                 self.device.click(MAP_PREPARATION)
                 map_timer.reset()
@@ -84,8 +88,29 @@ class MapOperation(UrgentCommissionHandler, MysteryHandler, FleetPreparation, Re
             if self.handle_urgent_commission():
                 continue
 
+            # Story skip
+            if self.handle_story_skip():
+                continue
+
             # End
             if self.handle_in_map_with_enemy_searching():
+                break
+
+        return True
+
+    def enter_map_cancel(self, skip_first_screenshot=True):
+        logger.hr('Enter map cancel')
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear(MAP_PREPARATION) or self.appear(FLEET_PREPARATION):
+                self.device.click(MAP_PREPARATION_CANCEL)
+                continue
+
+            if self.is_in_stage():
                 break
 
         return True

@@ -48,7 +48,7 @@ class Ocr:
         self.mid_process_height = mid_process_height
         self.threshold = threshold
         self.additional_preprocess = additional_preprocess
-        self.use_binary=use_binary
+        self.use_binary = use_binary
         self.length = (length, length) if isinstance(length, int) else length
         self.white_list = white_list
         self.buttons = buttons if isinstance(buttons, list) else [buttons]

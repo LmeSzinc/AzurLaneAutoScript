@@ -195,9 +195,18 @@ class AzurLaneConfig:
     """
     MAP_HAS_AMBUSH = True
     MAP_HAS_FLEET_STEP = False
+    MAP_HAS_MOVABLE_ENEMY = False
+    MAP_HAS_SIREN = False
+    MAP_HAS_DYNAMIC_RED_BORDER = False
+    MAP_SIREN_MOVE_WAIT = 1.8  # The enemy moving takes about 1.5 ~ 1.8s.
+    MAP_SIREN_COUNT = 0
     MAP_MYSTERY_HAS_CARRIER = False
+    MAP_GRID_CENTER_TOLERANCE = 0.1
+
     POOR_MAP_DATA = False
     FLEET_BOSS = 2
+    CAMERA_SWIPE_MULTIPLY_X = 200
+    CAMERA_SWIPE_MULTIPLY_Y = 140
 
     """
     module.retire
@@ -246,20 +255,15 @@ class AzurLaneConfig:
     # Parameters for lines pre-cleansing
     HORIZONTAL_LINES_THETA_THRESHOLD = 0.005
     VERTICAL_LINES_THETA_THRESHOLD = 18
+    TRUST_EDGE_LINES = True  # For map fog in event_20200326_cn.
     # Parameters for perspective calculating
     VANISH_POINT_RANGE = ((540, 740), (-3000, -1000))
     DISTANCE_POINT_X_RANGE = ((-3200, -1600),)
     # Parameters for line cleansing
+    COINCIDENT_POINT_ENCOURAGE_DISTANCE = 3
     ERROR_LINES_TOLERANCE = (-10, 10)
-    MID_DIFF_RANGE = (129 - 3, 129 + 3)
-    COINCIDENT_POINT_RANGE = (
-        (
-            -abs(ERROR_LINES_TOLERANCE[0]) * MID_DIFF_RANGE[1],
-            # SCREEN_SIZE[0] + ERROR_LINES_TOLERANCE[1] * MID_DIFF_RANGE[1]
-            200
-        ),
-        MID_DIFF_RANGE
-    )
+    MID_DIFF_RANGE_H = (129 - 3, 129 + 3)
+    MID_DIFF_RANGE_V = (129 - 3, 129 + 3)
 
     """
     module.daemon
@@ -405,6 +409,11 @@ class AzurLaneConfig:
         self.RETIRE_MODE = option['retire_mode'].split('_')[1]
         for r in ['n', 'r', 'sr', 'ssr']:
             self.__setattr__(f'RETIRE_{r.upper()}', to_bool(option[f'retire_{r}']))
+        # Clear mode
+        self.ENABLE_MAP_CLEAR_MODE = to_bool(option['enable_map_clear_mode'])
+        self.CLEAR_MODE_STOP_CONDITION = option['clear_mode_stop_condition']
+        star = option['map_star_clear_all']
+        self.MAP_STAR_CLEAR_ALL = int(star.split('_')[1]) if star.startswith('index_') else 0
 
         # Reward
         option = config['Reward']
@@ -418,10 +427,6 @@ class AzurLaneConfig:
         option = config['Main']
         self.CAMPAIGN_NAME = option['main_stage']
         self.CAMPAIGN_NAME = 'campaign_' + self.CAMPAIGN_NAME.replace('-', '_')
-        self.ENABLE_MAP_CLEAR_MODE = to_bool(option['enable_map_clear_mode'])
-        self.CLEAR_MODE_STOP_CONDITION = option['clear_mode_stop_condition']
-        star = option['map_star_clear_all']
-        self.MAP_STAR_CLEAR_ALL = int(star.split('_')[1]) if star.startswith('index_') else 0
 
         option = config['Daily']
         for n in ['daily_mission', 'hard_campaign', 'exercise']:

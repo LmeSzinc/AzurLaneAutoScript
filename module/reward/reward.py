@@ -119,6 +119,7 @@ class Reward(RewardCommission):
             for button in [GET_ITEMS_1, GET_ITEMS_2]:
                 if self.appear_then_click(button, offset=(30, 30), interval=1):
                     exit_timer.reset()
+                    timeout.reset()
                     reward = True
                     continue
 
@@ -128,12 +129,14 @@ class Reward(RewardCommission):
                 if self.appear_then_click(button, interval=1):
                     exit_timer.reset()
                     click_timer.reset()
+                    timeout.reset()
                     continue
 
             if not self.appear(MISSION_CHECK):
                 if self.appear_then_click(GET_SHIP, interval=1):
                     click_timer.reset()
                     exit_timer.reset()
+                    timeout.reset()
                     continue
 
             # End

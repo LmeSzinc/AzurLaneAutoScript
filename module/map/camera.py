@@ -47,10 +47,20 @@ class Camera(InfoBarHandler):
             # Linear fit
             # x = x * 200
             # y = y * 140
-            # Function fit
-            x, y = swipe_multiply_2d(x, y)
+            if self.config.CAMERA_SWIPE_MULTIPLY_X is not None and self.config.CAMERA_SWIPE_MULTIPLY_Y is not None:
+                if callable(self.config.CAMERA_SWIPE_MULTIPLY_X):
+                    x = self.config.CAMERA_SWIPE_MULTIPLY_X(x)
+                else:
+                    x = x * self.config.CAMERA_SWIPE_MULTIPLY_X
+                if callable(self.config.CAMERA_SWIPE_MULTIPLY_Y):
+                    y = self.config.CAMERA_SWIPE_MULTIPLY_X(y)
+                else:
+                    y = y * self.config.CAMERA_SWIPE_MULTIPLY_Y
+            else:
+                # Function fit
+                x, y = swipe_multiply_2d(x, y)
 
-            vector = (-x, -y)
+            vector = (-int(x), -int(y))
             self.device.swipe(vector)
             self.device.sleep(0.3)
             self.update()
@@ -71,7 +81,10 @@ class Camera(InfoBarHandler):
         vector = np.array(vector)
         self.camera = tuple(vector + self.camera)
         vector = np.array([0.5, 0.5]) - np.array(self.grids.center_offset) + vector
-        self._map_swipe(vector)
+        try:
+            self._map_swipe(vector)
+        except PerspectiveError as e:
+            self.handle_camera_outside_map(e)
 
     def focus_to_grid_center(self):
         """
@@ -80,7 +93,7 @@ class Camera(InfoBarHandler):
         Returns:
             bool: Map swiped.
         """
-        if np.any(np.abs(self.grids.center_offset - 0.5) > 0.1):
+        if np.any(np.abs(self.grids.center_offset - 0.5) > self.config.MAP_GRID_CENTER_TOLERANCE):
             logger.info('Re-focus to grid center.')
             self.map_swipe((0, 0))
             return True
@@ -176,10 +189,7 @@ class Camera(InfoBarHandler):
                     self.map_swipe((x, y))
 
             except PerspectiveError as e:
-                msg = str(e).split(':')[1].strip()
-                logger.info(f'Camera outside map: {msg}')
-                dic = {'to the left': (2, 0), 'to the right': (-2, 0), 'to the lower': (0, 2), 'to the upper': (0, -2)}
-                self._map_swipe(dic[msg])
+                self.handle_camera_outside_map(e)
                 continue
 
             record.append((x, y))
@@ -195,6 +205,12 @@ class Camera(InfoBarHandler):
                     self.map_swipe((-x, -y))
 
         return record
+
+    def handle_camera_outside_map(self, e):
+        msg = str(e).split(':')[1].strip()
+        logger.info(f'Camera outside map: {msg}')
+        dic = {'to the left': (2, 0), 'to the right': (-2, 0), 'to the lower': (0, 2), 'to the upper': (0, -2)}
+        self._map_swipe(dic[msg])
 
     def focus_to(self, location, swipe_limit=(3, 2)):
         """Focus camera on a grid
@@ -248,15 +264,17 @@ class Camera(InfoBarHandler):
                                      carrier_count=carrier_count)
         self.map.show()
 
-    def in_sight(self, location, sight=(-3, -1, 3, 2)):
+    def in_sight(self, location, sight=None):
         """Make sure location in camera sight
 
         Args:
             location:
-            sight:
+            sight (tuple): Such as (-3, -1, 3, 2).
         """
         location = location_ensure(location)
         logger.info('In sight: %s' % location2node(location))
+        if sight is None:
+            sight = self.map.camera_sight
 
         diff = np.array(location) - self.camera
         if diff[1] > sight[3]:

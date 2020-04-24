@@ -69,8 +69,11 @@ class Perspective:
         # edge_v = edge_v.group()
         horizontal = inner_h.add(edge_h).group()
         vertical = inner_v.add(edge_v).group()
-        edge_h = edge_h.group().delete(inner_h)  # Experimental, reduce edge lines.
-        edge_v = edge_v.group().delete(inner_v)
+        edge_h = edge_h.group()
+        edge_v = edge_v.group()
+        if not self.config.TRUST_EDGE_LINES:
+            edge_h = edge_h.delete(inner_h)  # Experimental, reduce edge lines.
+            edge_v = edge_v.delete(inner_v)
         self.horizontal = horizontal
         self.vertical = vertical
 
@@ -261,6 +264,7 @@ class Perspective:
             793.1379371   922.2605459  1051.38315469 1180.50576349 1309.62837229]
         """
         right_distant_point = (self.vanish_point[0] * 2 - self.distant_point[0], self.distant_point[1])
+        encourage = self.config.COINCIDENT_POINT_ENCOURAGE_DISTANCE ** 2
 
         def convert_to_x(ys):
             return Points([[self.config.SCREEN_CENTER[0], y] for y in ys], config=self.config) \
@@ -285,7 +289,7 @@ class Perspective:
 
             # Activation function
             # distance = 1 / (1 + np.exp(16 / distance - distance))
-            distance = 1 / (1 + np.exp(9 / distance) / distance)
+            distance = 1 / (1 + np.exp(encourage / distance) / distance)
             distance = np.sum(distance)
             return distance
 
@@ -302,16 +306,18 @@ class Perspective:
         # Fitting mid
         coincident = Lines(np.vstack(lines), is_horizontal=False, config=self.config)
         # print(np.round(np.sort(coincident.get_x(128))).astype(int))
-        coincident_point = optimize.brute(coincident_point_value, self.config.COINCIDENT_POINT_RANGE)
+        mid_diff_range = self.config.MID_DIFF_RANGE_H if is_horizontal else self.config.MID_DIFF_RANGE_V
+        coincident_point_range = ((-abs(self.config.ERROR_LINES_TOLERANCE[0]) * mid_diff_range[1], 200), mid_diff_range)
+        coincident_point = optimize.brute(coincident_point_value, coincident_point_range)
         # print(coincident_point, is_horizontal)
 
-        diff = abs(coincident_point[1] - 129)
-        if diff > 3:
+        diff = np.max([mid_diff_range[0] - coincident_point[1], coincident_point[1] - mid_diff_range[1]])
+        if diff > 0:
             self.correct = False
             logger.info('%s coincident point unexpected: %s' % (
                 'Horizontal' if is_horizontal else 'Vertical',
                 str(coincident_point)))
-            if diff > 6:
+            if diff > 3:
                 self.save_error_image()
 
         # The limits of detecting area
@@ -329,6 +335,7 @@ class Perspective:
 
         left, right = border
         # print(mids)
+        # print(np.diff(mids))
         # Filling mid
         mids = np.arange(-25, 25) * coincident_point[1] + coincident_point[0]
         mids = mids[(mids > left - threshold) & (mids < right + threshold)]
