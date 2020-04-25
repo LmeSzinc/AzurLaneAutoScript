@@ -272,7 +272,12 @@ def main(ini_name=''):
     # ==========活动图==========
     event_parser = subs.add_parser('活动图')
 
-    event = event_parser.add_argument_group('选择关卡', '')
+    description = """
+    支持复刻苍红的回响, C2和D3有单独优化
+    出击未优化关卡或地图未达到安全海域时, 使用开荒模式运行(较慢)
+    """
+    event = event_parser.add_argument_group(
+        '选择关卡', '\n'.join([line.strip() for line in description.strip().split('\n')]))
     event.add_argument('--活动地图', default=default('--活动地图'),
                              choices=['a1', 'a2', 'a3', 'b1', 'b2', 'b3', 'c1', 'c2', 'c3', 'd1', 'd2', 'd3'],
                              help='例如 d3')

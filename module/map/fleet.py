@@ -307,6 +307,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         self.ammo_count = 3
         self.map = map_
         self.map.reset()
+        self.handle_map_green_config_cover()
         self.map.poor_map_data = self.config.POOR_MAP_DATA
         self.hp_init()
         self.handle_strategy(index=self.fleet_current_index)
@@ -315,6 +316,24 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         self.find_current_fleet()
         self.find_path_initial()
         self.map.show_cost()
+
+    def handle_map_green_config_cover(self):
+        if not self.is_map_green:
+            return False
+
+        logger.info('Map is green sea.')
+        self.config.MAP_HAS_FLEET_STEP = False
+        self.config.MAP_HAS_MOVABLE_ENEMY = False
+        if self.config.ENABLE_FAST_FORWARD:
+            self.config.MAP_HAS_AMBUSH = False
+        else:
+            # When disable fast forward, MAP_HAS_AMBUSH depends on map settings.
+            # self.config.MAP_HAS_AMBUSH = True
+            pass
+        if self.config.POOR_MAP_DATA and self.map.is_map_data_poor:
+            self.config.POOR_MAP_DATA = False
+
+        return True
 
     def _expected_combat_end(self, expected):
         for data in self.map._spawn_data_backup:

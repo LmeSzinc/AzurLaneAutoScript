@@ -14,6 +14,7 @@ fleet_lock.add_status('off', check_button=FLEET_UNLOCKED)
 
 class FastForwardHandler(ModuleBase):
     map_clear_record = None
+    is_map_green = False
 
     def handle_fast_forward(self):
         if not self.appear(MAP_STAR_1) or not self.appear(MAP_STAR_2) or not self.appear(MAP_STAR_3):
@@ -25,21 +26,15 @@ class FastForwardHandler(ModuleBase):
             logger.info('Campaign is not green sea.')
             return False
 
+        self.is_map_green = True
+
         if not fast_forward.appear(main=self):
             self.config.ENABLE_FAST_FORWARD = False
             logger.info('No fast forward mode.')
             return False
 
         logger.info('Set fast forward.')
-        self.config.MAP_HAS_FLEET_STEP = False
-        self.config.MAP_HAS_MOVABLE_ENEMY = False
-        if self.config.ENABLE_FAST_FORWARD:
-            self.config.MAP_HAS_AMBUSH = False
-            status = 'on'
-        else:
-            # When disable fast forward, MAP_HAS_AMBUSH depends on map settings.
-            # self.config.MAP_HAS_AMBUSH = True
-            status = 'off'
+        status = 'on' if self.config.ENABLE_FAST_FORWARD else 'off'
         changed = fast_forward.set(status=status, main=self)
         return changed
 
@@ -49,6 +44,7 @@ class FastForwardHandler(ModuleBase):
             return False
 
         logger.info('fleet_lock')
+        self.is_map_green = True
         self.config.MAP_HAS_AMBUSH = False
         status = 'on' if self.config.ENABLE_MAP_FLEET_LOCK else 'off'
         changed = fleet_lock.set(status=status, main=self)

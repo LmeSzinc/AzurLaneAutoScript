@@ -180,6 +180,14 @@ class CampaignMap:
         for loca, data in self._parse_text(text):
             self[loca].weight = float(data)
 
+    @property
+    def is_map_data_poor(self):
+        if not self.select(may_enemy=True) or not self.select(may_boss=True) or not self.select(is_spawn_point=True):
+            return False
+        if not len(self._spawn_data_backup):
+            return False
+        return True
+
     def show_cost(self):
         logger.info('  ' + ' '.join(['   ' + chr(x + 64 + 1) for x in range(self.shape[0] + 1)]))
         for y in range(self.shape[1] + 1):
