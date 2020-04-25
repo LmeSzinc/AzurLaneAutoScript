@@ -2,7 +2,7 @@ import numpy as np
 
 from module.handler.info_bar import InfoBarHandler
 from module.logger import logger
-from module.map.exception import PerspectiveError
+from module.exception import PerspectiveError
 from module.map.grids import Grids, Grid
 from module.map.map_base import CampaignMap, location2node, location_ensure
 

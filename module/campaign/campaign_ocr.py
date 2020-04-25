@@ -6,6 +6,7 @@ from module.base.ocr import Ocr
 from module.base.utils import extract_letters, area_offset
 from module.logger import logger
 from module.template.assets import TEMPLATE_STAGE_CLEAR, TEMPLATE_STAGE_PERCENT, Button
+from module.exception import CampaignNameError
 
 stage_clear_color = tuple(np.mean(np.mean(TEMPLATE_STAGE_CLEAR.image, axis=0), axis=0))
 stage_percentage_color = tuple(np.mean(np.mean(TEMPLATE_STAGE_PERCENT.image, axis=0), axis=0))
@@ -162,6 +163,9 @@ class CampaignOcr:
         """
         A tricky method for ui_ensure_index
         """
-        self.get_stage_name(image)
+        try:
+            self.get_stage_name(image)
+        except IndexError:
+            raise CampaignNameError
 
         return ensure_chapter_index(self.chapter)

@@ -1,13 +1,11 @@
 import time
 from collections import deque
 
-from retrying import retry
-
 from module.base.timer import Timer
 from module.base.utils import *
 from module.device.connection import Connection
 from module.logger import logger
-from module.map.exception import ScriptError
+from module.exception import ScriptError
 
 
 class Control(Connection):

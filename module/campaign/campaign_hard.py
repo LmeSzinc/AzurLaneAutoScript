@@ -3,7 +3,7 @@ from module.campaign.campaign_base import CampaignBase
 from module.hard.equipment import HardEquipment
 from module.logger import logger
 from module.map.assets import MAP_PREPARATION, FLEET_PREPARATION
-from module.map.exception import CampaignEnd
+from module.exception import CampaignEnd
 from module.ui.ui import CAMPAIGN_CHECK
 
 

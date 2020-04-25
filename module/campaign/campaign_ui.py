@@ -5,6 +5,7 @@ from module.campaign.assets import *
 from module.campaign.campaign_ocr import CampaignOcr, ensure_chapter_index, separate_name
 from module.logger import logger
 from module.ui.ui import UI
+from module.exception import CampaignNameError
 
 STAGE_SHOWN_WAIT = (1, 1.2)
 
@@ -66,6 +67,7 @@ class CampaignUI(UI):
         """
         if name not in self.campaign_ocr.stage:
             logger.warning(f'Stage not found: {name}')
+            raise CampaignNameError
         return self.campaign_ocr.stage[name]
 
     def ensure_campaign_ui(self, name, mode='normal'):

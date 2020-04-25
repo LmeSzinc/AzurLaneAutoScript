@@ -10,7 +10,7 @@ from module.campaign.campaign_ui import CampaignUI
 from module.config.config import AzurLaneConfig
 from module.handler.login import LoginHandler
 from module.logger import logger
-from module.map.exception import ScriptEnd
+from module.exception import ScriptEnd, CampaignNameError
 from module.reward.reward import Reward
 
 OCR_OIL = Digit(OCR_OIL, letter=(247, 247, 247), back=(33, 36, 49), limit=25000, name='OCR_OIL')
@@ -138,8 +138,7 @@ class CampaignRun(CampaignUI, Reward, LoginHandler):
             if self.campaign.is_in_map():
                 logger.info('Already in map, skip ensure_campaign_ui.')
             else:
-                self.ensure_campaign_ui(name=self.stage)
-                self.campaign.ENTRANCE = self.campaign_get_entrance(name=self.stage)
+                self.handle_campaign_ui()
             if self.commission_notice_show_at_campaign():
                 if self.reward():
                     self.campaign.fleet_checked_reset()
@@ -164,3 +163,15 @@ class CampaignRun(CampaignUI, Reward, LoginHandler):
                 count = 0 if count < 0 else count
                 self.config.config.set('Setting', 'if_count_greater_than', str(count))
                 self.config.save()
+
+    def handle_campaign_ui(self):
+        for n in range(20):
+            try:
+                self.ensure_campaign_ui(name=self.stage)
+                self.campaign.ENTRANCE = self.campaign_get_entrance(name=self.stage)
+                return True
+            except CampaignNameError:
+                continue
+
+        logger.warning('Campaign name error')
+        raise ScriptEnd('Campaign name error')

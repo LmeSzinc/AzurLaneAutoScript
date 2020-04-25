@@ -10,6 +10,10 @@ class MapWalkError(Exception):
     pass
 
 
+class CampaignNameError(Exception):
+    pass
+
+
 class ScriptError(Exception):
     pass
 

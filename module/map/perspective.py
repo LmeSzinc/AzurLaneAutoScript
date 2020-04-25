@@ -9,7 +9,7 @@ from scipy import signal, optimize
 
 from module.config.config import AzurLaneConfig
 from module.logger import logger
-from module.map.exception import PerspectiveError
+from module.exception import PerspectiveError
 from module.map.perspective_items import Points, Lines
 
 warnings.filterwarnings("ignore")

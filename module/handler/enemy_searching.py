@@ -3,7 +3,8 @@ from module.base.utils import red_overlay_transparency, get_color
 from module.handler.assets import *
 from module.handler.info_bar import InfoBarHandler
 from module.logger import logger
-from module.map.exception import CampaignEnd
+from module.exception import CampaignEnd
+from module.ui.assets import CAMPAIGN_GOTO_DAILY
 
 
 class EnemySearchingHandler(InfoBarHandler):
@@ -33,7 +34,7 @@ class EnemySearchingHandler(InfoBarHandler):
             return False
 
     def is_in_stage(self):
-        return self.appear(IN_STAGE_RED) or self.appear(IN_STAGE_BLUE)
+        return self.appear(IN_STAGE_RED) or self.appear(IN_STAGE_BLUE) or self.appear(CAMPAIGN_GOTO_DAILY)
 
     def is_in_map(self):
         return self.appear(IN_MAP)

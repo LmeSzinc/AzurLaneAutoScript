@@ -6,8 +6,8 @@ from module.handler.story import StoryHandler
 from module.handler.urgent_commission import UrgentCommissionHandler
 from module.logger import logger
 from module.map.assets import *
-from module.map.exception import CampaignEnd
-from module.map.exception import ScriptEnd
+from module.exception import CampaignEnd
+from module.exception import ScriptEnd
 from module.map.map_fleet_preparation import FleetPreparation
 from module.retire.retirement import Retirement
 
@@ -49,7 +49,8 @@ class MapOperation(UrgentCommissionHandler, MysteryHandler, FleetPreparation, Re
                 checked_in_map = True
 
             # Enter campaign
-            if campaign_timer.reached() and self.appear_then_click(button):
+            if campaign_timer.reached() and self.is_in_stage():
+                self.device.click(button)
                 campaign_timer.reset()
                 continue
 

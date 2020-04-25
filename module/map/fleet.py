@@ -4,7 +4,7 @@ from module.base.timer import Timer
 from module.handler.ambush import AmbushHandler
 from module.logger import logger
 from module.map.camera import Camera
-from module.map.exception import MapWalkError
+from module.exception import MapWalkError
 from module.map.grids import Grids
 from module.map.map_base import SelectedGrids
 from module.map.map_base import location2node, location_ensure
