@@ -38,11 +38,6 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
         if self.config.ENABLE_MAP_FLEET_LOCK and not self.is_in_map():
             if self.is_combat_loading():
                 return True
-            if self.handle_retirement():
-                self.map_offensive()
-                return False
-            if self.handle_combat_low_emotion():
-                return False
 
         if self.appear(BATTLE_PREPARATION):
             return True
@@ -56,6 +51,8 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
             self.device.screenshot()
 
             if self.appear_then_click(MAP_OFFENSIVE, interval=1):
+                continue
+            if self.handle_combat_low_emotion():
                 continue
 
             # Break

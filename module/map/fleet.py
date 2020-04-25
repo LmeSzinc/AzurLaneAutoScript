@@ -125,6 +125,12 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                     result_mystery = mystery
 
                 # Combat
+                if self.config.ENABLE_MAP_FLEET_LOCK and not self.is_in_map():
+                    if self.handle_retirement():
+                        self.map_offensive()
+                        walk_timeout.reset()
+                    if self.handle_combat_low_emotion():
+                        walk_timeout.reset()
                 if self.combat_appear():
                     self.combat(expected_end=self._expected_combat_end(expected), fleet_index=self.fleet_current_index)
                     self.hp_get()
