@@ -368,8 +368,10 @@ class CampaignMap:
                     if upper.may_carrier:
                         may['carrier'] += 1
 
-        logger.info('missing: %s' % missing)
-        logger.info('may: %s' % may)
+        logger.attr('enemy_missing',
+                    ', '.join([f'{k[:2].upper()}:{str(v).rjust(2)}' for k, v in missing.items() if k != 'battle']))
+        logger.attr('enemy_may____',
+                    ', '.join([f'{k[:2].upper()}:{str(v).rjust(2)}' for k, v in may.items()]))
         return may, missing
 
     def missing_is_none(self, battle_count, mystery_count=0, siren_count=0, carrier_count=0):

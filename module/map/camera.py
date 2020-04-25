@@ -303,13 +303,15 @@ class Camera(InfoBarHandler):
         location = location_ensure(location)
 
         grid = np.array(location) - self.camera + self.grids.center_grid
-        logger.info('Convert_map_to_grid. Map: %s, Camera: %s, grids_center: %s, grid: %s' % (
-            location2node(location), str(self.camera), str(self.grids.center_grid), str(grid)))
+        logger.info('Convert_map_to_grid')
+        logger.info(f'Map: {location2node(location)}, '
+                    f'Camera: {location2node(self.camera)}, '
+                    f'Center: {location2node(self.grids.center_grid)}, '
+                    f'grid: {location2node(grid)}')
         if grid in self.grids:
             return self.grids[grid]
         else:
-            logger.warning('Convert_map_to_grid Failed. Map: %s, Camera: %s, grids_center: %s, grid: %s' % (
-                location2node(location), str(self.camera), str(self.grids.center_grid), str(grid)))
+            logger.warning('Convert_map_to_grid Failed.')
             self.grids.save_error_image()
             self.focus_to(location)
             grid = np.array(location) - self.camera + self.grids.center_grid

@@ -304,15 +304,19 @@ class Map(Fleet):
         if not self.config.MAP_HAS_SIREN:
             return False
 
-        grids = self.map.select(may_siren=True, is_enemy=True)
-        grids = grids.add(self.map.select(is_siren=True))
-        grids = grids.add(self.map.select(is_enemy=True, enemy_scale=0))
-        grids = grids.delete(self.map.select(is_boss=True))
         logger.info('May siren: %s' % self.map.select(may_siren=True))
         logger.info('May siren and is enemy: %s' % self.map.select(may_siren=True, is_enemy=True))
+        grids = self.map.select(may_siren=True, is_enemy=True)
+
         logger.info('Is siren: %s' % self.map.select(is_siren=True))
-        logger.info('Is 0 scale enemy: %s' % self.map.select(is_enemy=True, enemy_scale=0))
+        grids = grids.add(self.map.select(is_siren=True))
+
+        if self.config.POOR_MAP_DATA or not self.is_map_green:
+            logger.info('Is 0 scale enemy: %s' % self.map.select(is_enemy=True, enemy_scale=0))
+            grids = grids.add(self.map.select(is_enemy=True, enemy_scale=0))
+
         logger.info('Delete is boss: %s' % self.map.select(is_boss=True))
+        grids = grids.delete(self.map.select(is_boss=True))
 
         grids = self.select_grids(grids, **kwargs)
 
