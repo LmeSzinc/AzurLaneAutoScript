@@ -144,7 +144,7 @@ python -m uiautomator2 init
 
 ## 文档 Doc
 
-**海图识别 perspective**
+[海图识别 perspective](doc/perspective.md)
 
 `海图识别` 是一个碧蓝航线脚本的核心. 如果只是单纯地使用 `模板匹配 (Template matching)` 来进行索敌, 就不可避免地会出现 BOSS被小怪堵住 的情况.  `AzurLaneAutoScript` 提供了一个更好的海图识别方法, 在 `module.map` 中, 你将可以得到完整的海域信息, 比如:
 
@@ -157,7 +157,7 @@ python -m uiautomator2 init
 2020-03-10 22:09:03.830 | INFO | 5 -- -- -- 2E -- 2E ++ ++
 ```
 
-**参与开发 development**
+[参与开发 development](doc/development.md)
 
 - 如何添加一个按钮 How to add a button
 - 如何适配一张新的地图 How to adapt to a new map
