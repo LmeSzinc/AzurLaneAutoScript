@@ -133,7 +133,7 @@ class GridInfo:
             ignore_cleared (bool): Ignore is_cleared property.
         """
         for item in ['boss', 'siren']:
-            if info.enemy_scale:
+            if info.enemy_scale or self.enemy_scale:
                 break
             if info.__getattribute__('is_' + item):
                 flag = not info.is_fleet and not self.is_fleet
