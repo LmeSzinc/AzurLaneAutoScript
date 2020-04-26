@@ -3,7 +3,7 @@ scipy
 pillow
 opencv-python
 scikit-image
-requests==2.18.4
+requests==2.20.0
 uiautomator2
 retrying
 mxnet==1.4.1
