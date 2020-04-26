@@ -50,7 +50,7 @@ Alas, 一个带GUI的碧蓝航线脚本 (仅支持国服).
 pip install -r requirements.txt
 ```
 
-### 安装模拟器 Install a emulator
+### 安装模拟器 Install an emulator
 
 | 设备       | Device     | 模拟器版本 | 安卓版本 | adb截图 | u2截图 | adb点击 | u2点击 |
 | ---------- | ---------- | ---------- | -------- | ------- | ------ | ------- | ------ |
@@ -60,7 +60,7 @@ pip install -r requirements.txt
 | MuMu模拟器 | MuMuPlayer | 2.3.1.0    | 6.0.1    | 0.368   | 0.701  | 0.358   | 0.148  |
 | 一加5      | Oneplus5   |            | 7.1.1    | 1.211   | 0.285  | 0.447   | 0.160  |
 
-这里给出了一些常见模拟器的性能测试结果, 测试平台 Windows 10, I7-8700k, 1080ti, nvme SSD, 模拟器分辨率1280x720, 碧蓝航线 60帧开启, 进入地图 7-2, 执行100次取平均.
+这里给出了一些常见模拟器的性能测试结果, 测试平台 Windows 10, I7-8700k, 1080ti, nvme SSD, 模拟器分辨率1280x720, 碧蓝航线 60帧开启, 进入地图 7-2, 执行100次取平均, 单位秒.
 
 由于海图识别模块对截图质量有很高的要求, `AzurLaneAutoScript` 暂时不支持手机, 必须使用模拟器. (Alas其实是支持手机的, 远古版本的Alas也是在手机上测试的, 但是长时间运行会发热和假死, 就放弃了)
 
@@ -71,7 +71,7 @@ pip install -r requirements.txt
 
 - 获取 [ADB](https://developer.android.com/studio/releases/platform-tools)
 
-- 将ADB配置与系统的环境变量中, 并测试是否配置成功.
+- 将ADB配置于系统的环境变量中, 并测试是否配置成功.
 
 ```
 adb devices
@@ -94,7 +94,9 @@ adb connect <your emulator address>
 
 ### 安装 uiautomator2 Install uiautomator2
 
-[uiautomator2](https://github.com/openatx/uiautomator2), 是一个自动化测试的库, 可以加快截图和点击的速度.  `AzurLaneAutoScript` 也可以使用ADB来执行截图和点击, 就是慢一点而已.
+[uiautomator2](https://github.com/openatx/uiautomator2), 是一个自动化测试的库, 可以加快截图和点击的速度.  `AzurLaneAutoScript` 也可以使用ADB来执行截图和点击, 就是慢一点而已. 
+
+出于性能优化, 建议使用ADB截图, uiautomator2点击. (u2截图稍稍快于adb截图, 但是cpu占用翻倍, u2点击则全方位碾压adb)
 
 - 执行
 
@@ -124,7 +126,7 @@ python -m uiautomator2 init
 - 双击 alas.pyw, 通过图形界面(GUI)运行
 - (不推荐) 通过命令行运行. 虽然alas使用了 [Gooey](https://github.com/chriskiehl/Gooey), 一个将命令行转为GUI的库, 但是Alas并不是先有命令行方法运行再用gooey的, Alas是为了使用gooey快速编写GUI而去拼凑命令行参数的. 因此使用命令行会很难受.
 - (不推荐) 修改配置文件 `config/alas.ini` , 在 `alas.py` 中调用相关函数
-- 多开运行, 复制 alas.pyw, 并重命名, 双击运行即可. 首次运行时是会复制template.ini的设置. 脚本运行时会使用同名的ini配置文件.
+- 多开运行, 复制 alas.pyw, 并重命名, 双击运行即可. 首次运行时会复制template.ini的设置. 脚本运行时会使用同名的ini配置文件.
 
 
 
@@ -134,7 +136,7 @@ python -m uiautomator2 init
 
 - **GUI启动慢, uiautomator2启动慢**
 - **无法处理网络波动** 重连弹窗, 跳小黄鸡
-- **处理夜间委托的弹窗可能出错 ** 有捕捉, 但是可能会在一些奇怪的时间弹出来
+- **处理夜间委托的弹窗可能出错** 有捕捉, 但是可能会在一些奇怪的时间弹出来
 - **会显示绿脸黄脸红脸, 红脸出击确认** 这个是瓜游心情值更新BUG的锅了, 只要填对了`RECOVER_PER_HOUR` 和 `EMOTION_LIMIT` 就不会红脸出击, 或者保证一直处于经验加成状态.
 - **演习可能SL失败** 演习看的是屏幕上方的血槽, 血槽可能被立绘遮挡, 因此需要一定时间(默认1s)血量低于一定值(默认40%)才会触发SL.  一个血皮后排就有30%左右的血槽, 所以别以为在1s内被打掉40%是不可能的. 另外如果后排立绘过大且CD重叠严重, 建议增大确认时间(比如3s), 或者换皮肤, 这样可以减少误判.
 - **极少数情况下ADB和uiautomator2会抽风**
