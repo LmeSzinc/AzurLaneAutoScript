@@ -92,7 +92,7 @@ class Commission:
         Returns:
             bool:
         """
-        threshold = timedelta(seconds=30)
+        threshold = timedelta(seconds=120)
         if not self.valid or not other.valid:
             return False
         if self.genre != other.genre or self.status != other.status:
