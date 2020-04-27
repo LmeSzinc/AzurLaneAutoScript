@@ -301,6 +301,8 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
                 continue
 
             # End
+            if self.handle_in_stage():
+                break
             if expected_end is None:
                 if self.handle_in_map_with_enemy_searching():
                     break
