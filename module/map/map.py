@@ -267,7 +267,8 @@ class Map(Fleet):
             logger.info('Brute clear BOSS')
             if self.brute_fleet_meet():
                 return True
-            grids = self.brute_find_roadblocks(boss[0], fleet=self.config.FLEET_BOSS)
+            fleet = 2 if self.config.FLEET_BOSS == 2 and self.config.FLEET_2 else 1
+            grids = self.brute_find_roadblocks(boss[0], fleet=fleet)
             if grids:
                 logger.info('Brute clear BOSS roadblocks')
                 grids = grids.sort(cost=True, weight=True)

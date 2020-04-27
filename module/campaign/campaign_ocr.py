@@ -94,7 +94,7 @@ class CampaignOcr:
 
     @staticmethod
     def extract_stage_name(image):
-        x_skip = 7
+        x_skip = 10
         interval = 5
         x_color = np.convolve(np.mean(image, axis=0), np.ones(interval), 'valid') / interval
         x_list = np.where(x_color[x_skip:] > 235)[0]

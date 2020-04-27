@@ -42,6 +42,8 @@ class EnemySearchingHandler(InfoBarHandler):
     def handle_in_map_with_enemy_searching(self):
         if not self.is_in_map():
             return False
+        if self.handle_in_stage():
+            return True
 
         timeout = Timer(self.MAP_ENEMY_SEARCHING_TIMEOUT_SECOND)
         appeared = False
@@ -67,9 +69,11 @@ class EnemySearchingHandler(InfoBarHandler):
             self.device.screenshot()
         return True
 
-    def handle_in_map(self):
+    def handle_in_map_no_enemy_searching(self):
         if not self.is_in_map():
             return False
+        if self.handle_in_stage():
+            return True
 
         self.device.sleep((1, 1.2))
         return True

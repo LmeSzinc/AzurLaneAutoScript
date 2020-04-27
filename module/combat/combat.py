@@ -309,7 +309,7 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
                     break
                 if expected_end == 'with_searching' and self.handle_in_map_with_enemy_searching():
                     break
-                if expected_end == 'no_searching' and self.handle_in_map():
+                if expected_end == 'no_searching' and self.handle_in_map_no_enemy_searching():
                     break
                 if expected_end == 'in_ui' and self.appear(BACK_ARROW, offset=(20, 20)):
                     break

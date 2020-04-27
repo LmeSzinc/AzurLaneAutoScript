@@ -1,11 +1,13 @@
 import time
 from collections import deque
 
+from retrying import retry
+
 from module.base.timer import Timer
 from module.base.utils import *
 from module.device.connection import Connection
-from module.logger import logger
 from module.exception import ScriptError
+from module.logger import logger
 
 
 class Control(Connection):
@@ -62,11 +64,11 @@ class Control(Connection):
             self._click_uiautomator2(x, y)
         self.sleep(self.config.SLEEP_AFTER_CLICK)
 
-    # @retry()
+    @retry()
     def _click_uiautomator2(self, x, y):
         self.device.click(int(x), int(y))
 
-    # @retry()
+    @retry()
     def _click_adb(self, x, y):
         self.adb_shell(['input', 'tap', str(x), str(y)], serial=self.serial)
 

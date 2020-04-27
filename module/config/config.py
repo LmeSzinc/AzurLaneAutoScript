@@ -319,7 +319,7 @@ class AzurLaneConfig:
         self.SCREEN_SHOT_SAVE_FOLDER = self.SCREEN_SHOT_SAVE_FOLDER_BASE + '/' + self.CAMPAIGN_NAME
         for folder in [self.SCREEN_SHOT_SAVE_FOLDER_BASE, self.ASSETS_FOLDER, self.SCREEN_SHOT_SAVE_FOLDER,
                        self.PERSPECTIVE_ERROR_LOG_FOLDER, self.ERROR_LOG_FOLDER]:
-            if not os.path.exists(folder):
+            if folder and not os.path.exists(folder):
                 os.mkdir(folder)
 
     def merge(self, other):
