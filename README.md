@@ -170,7 +170,7 @@ python -m uiautomator2 init
 
 - (Not open source) http://asaiq2.lofter.com/
 
-  现成的碧蓝航线脚本, 实现很蠢运行很慢, 但是完成度很高. 参考了主要的功能和设置.
+  现成的碧蓝航线脚本, 完成度很高. 参考了主要的功能和设置.
 
 - https://github.com/Egoistically/ALAuto
 
