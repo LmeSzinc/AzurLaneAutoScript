@@ -20,9 +20,10 @@ class SubmarineCall(ModuleBase):
         Returns:
             bool: If call.
         """
-        if not self.config.SUBMARINE or self.config.SUBMARINE_MODE in ['do_not_use', 'hunt_only']:
-            return False
         if self.submarine_call_flag:
+            return False
+        if not self.config.SUBMARINE or self.config.SUBMARINE_MODE in ['do_not_use', 'hunt_only']:
+            self.submarine_call_flag = True
             return False
         if self.submarine_call_timer.reached():
             logger.info('Submarine call timer reached')

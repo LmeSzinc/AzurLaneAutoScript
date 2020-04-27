@@ -115,6 +115,7 @@ dic_chi_to_eng = {
     '保存透视识别出错的图像': 'enable_perspective_error_image_save',
     '使用ADB截图': 'use_adb_screenshot',
     '使用ADB点击': 'use_adb_control',
+    '战斗中截图间隔': 'combat_screenshot_interval',
     '打每日': 'enable_daily_mission',
     '打困难': 'enable_hard_campaign',
     '打演习': 'enable_exercise',

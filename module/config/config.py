@@ -87,6 +87,7 @@ class AzurLaneConfig:
     SUBMARINE_MODE = ''
     SUBMARINE_CALL_AT_BOSS = False
     COMBAT_AUTO_MODE = 'combat_auto'
+    COMBAT_SCREENSHOT_INTERVAL = 2
 
     """
     module.combat.hp_balance
@@ -364,6 +365,7 @@ class AzurLaneConfig:
         self.ENABLE_PERSPECTIVE_ERROR_IMAGE_SAVE = to_bool(option['enable_perspective_error_image_save'])
         self.USE_ADB_SCREENSHOT = to_bool(option['use_adb_screenshot'])
         self.USE_ADB_CONTROL = to_bool(option['use_adb_control'])
+        self.COMBAT_SCREENSHOT_INTERVAL = float(option['combat_screenshot_interval'])
 
         option = config['Setting']
         # Stop condition

@@ -8,11 +8,13 @@ from retrying import retry
 
 from module.device.connection import Connection
 from module.logger import logger
+from module.base.timer import Timer
 
 
 class Screenshot(Connection):
     _screenshot_method = 0
     _screenshot_method_fixed = False
+    _screenshot_interval_timer = Timer(0.1)
     _adb = False
     _last_save_time = {}
     image: Image.Image
@@ -54,6 +56,8 @@ class Screenshot(Connection):
         Returns:
             PIL.Image.Image:
         """
+        self._screenshot_interval_timer.wait()
+        self._screenshot_interval_timer.reset()
         adb = self.config.USE_ADB_SCREENSHOT
         self._adb = adb
 
@@ -65,7 +69,8 @@ class Screenshot(Connection):
         self.image.load()
         if self.config.ENABLE_ERROR_LOG_AND_SCREENSHOT_SAVE:
             logger.screenshot_deque.append({'time': datetime.now(), 'image': self.image})
-            return self.image
+
+        return self.image
 
     def save_screenshot(self, genre='items'):
         """Save a screenshot. Use millisecond timestamp as file name.
@@ -92,3 +97,10 @@ class Screenshot(Connection):
         else:
             self._last_save_time[genre] = now
             return False
+
+    def screenshot_interval_set(self, interval):
+        if interval < 0.1:
+            interval = 0.1
+        if interval != self._screenshot_interval_timer.limit:
+            logger.info(f'Screenshot interval set to {interval}s')
+            self._screenshot_interval_timer.limit = interval

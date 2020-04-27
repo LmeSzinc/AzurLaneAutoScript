@@ -224,6 +224,7 @@ def main(ini_name=''):
     adb = emulator_parser.add_argument_group('ADB设置', '')
     adb.add_argument('--使用ADB截图', default=default('--使用ADB截图'), choices=['是', '否'], help='建议开启, 能减少CPU占用')
     adb.add_argument('--使用ADB点击', default=default('--使用ADB点击'), choices=['是', '否'], help='建议关闭, 能加快点击速度')
+    adb.add_argument('--战斗中截图间隔', default=default('--战斗中截图间隔'), help='战斗中放慢截图速度, 降低CPU使用')
 
     # ==========每日任务==========
     daily_parser = subs.add_parser('每日任务困难演习')

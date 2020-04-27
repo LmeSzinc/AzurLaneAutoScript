@@ -179,6 +179,7 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
         self.combat_manual_reset()
         confirm_timer = Timer(10)
         confirm_timer.start()
+        self.device.screenshot_interval_set(self.config.COMBAT_SCREENSHOT_INTERVAL)
 
         while 1:
             self.device.screenshot()
@@ -192,7 +193,6 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
                 continue
             if self.handle_combat_manual():
                 continue
-
             if call_submarine_at_boss:
                 pass
             else:
@@ -201,6 +201,7 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
 
             # End
             if self.handle_battle_status(save_get_items=save_get_items):
+                self.device.screenshot_interval_set(0)
                 break
 
     def handle_battle_status(self, save_get_items=False):

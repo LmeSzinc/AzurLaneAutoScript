@@ -60,5 +60,13 @@ class Timer:
     def reset(self):
         self._current = time.time()
 
+    def wait(self):
+        """
+        Wait until timer reached.
+        """
+        diff = self._current + self.limit - time.time()
+        if diff > 0:
+            time.sleep(diff)
+
     def show(self):
         logger.info('%s s' % str(self.current()))
