@@ -9,7 +9,7 @@ class LoginHandler(Combat):
     def handle_app_login(self):
         logger.hr('App login')
 
-        confirm_timer = Timer(1)
+        confirm_timer = Timer(1.5, count=4)
         while 1:
             self.device.screenshot()
 

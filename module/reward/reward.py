@@ -50,7 +50,7 @@ class Reward(RewardCommission):
         logger.hr('Oil Reward')
 
         reward = False
-        exit_timer = Timer(1)
+        exit_timer = Timer(1, count=3)
         click_timer = Timer(1)
         exit_timer.start()
         btn = []

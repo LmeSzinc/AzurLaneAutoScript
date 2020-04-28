@@ -32,9 +32,24 @@ def future_time(string):
 
 
 class Timer:
-    def __init__(self, limit):
+    def __init__(self, limit, count=0):
+        """
+        Args:
+            limit (int, float): Timer limit
+            count (int): Timer reach confirm count. Default to 0.
+                When using a structure like this, must set a count.
+                Otherwise it goes wrong, if screenshot time cost greater than limit.
+
+                if self.appear(MAIN_CHECK):
+                    if confirm_timer.reached():
+                        pass
+                    else:
+                        confirm_timer.reset()
+        """
         self.limit = limit
+        self.count = count
         self._current = 0
+        self._reach_count = 0
 
     def start(self):
         if not self.started():
@@ -55,10 +70,12 @@ class Timer:
         Returns:
             bool
         """
-        return time.time() - self._current > self.limit
+        self._reach_count += 1
+        return time.time() - self._current > self.limit and self._reach_count > self.count
 
     def reset(self):
         self._current = time.time()
+        self._reach_count = 0
 
     def wait(self):
         """
