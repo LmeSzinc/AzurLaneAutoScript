@@ -31,6 +31,13 @@ def ensure_chapter_index(name):
             return 2
 
 
+def ocr_result_process(result):
+    result = result.lower().replace('--', '-')
+    if len(result) == 2 and result[0].isdigit():
+        result = '-'.join(result)
+    return result
+
+
 def separate_name(name):
     """
     Args:
@@ -145,7 +152,7 @@ class CampaignOcr:
         result = ocr.ocr(image)
         if not isinstance(result, list):
             result = [result]
-        result = [res.lower().replace('--', '-') for res in result]
+        result = [ocr_result_process(res) for res in result]
 
         chapter = [separate_name(res)[0] for res in result]
         counter = collections.Counter(chapter)

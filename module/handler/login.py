@@ -33,8 +33,8 @@ class LoginHandler(Combat):
                 if confirm_timer.reached():
                     logger.info('Login to main confirm')
                     break
-                else:
-                    confirm_timer.reset()
+            else:
+                confirm_timer.reset()
 
         return True
 
