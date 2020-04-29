@@ -1,19 +1,18 @@
 from module.base.timer import Timer
+from module.exception import CampaignEnd
+from module.exception import ScriptEnd
 from module.handler.fast_forward import FastForwardHandler
 from module.handler.low_emotion import LowEmotionHandler
 from module.handler.mystery import MysteryHandler
-from module.handler.story import StoryHandler
 from module.handler.urgent_commission import UrgentCommissionHandler
 from module.logger import logger
 from module.map.assets import *
-from module.exception import CampaignEnd
-from module.exception import ScriptEnd
 from module.map.map_fleet_preparation import FleetPreparation
 from module.retire.retirement import Retirement
 
 
 class MapOperation(UrgentCommissionHandler, MysteryHandler, FleetPreparation, Retirement, FastForwardHandler,
-                   LowEmotionHandler, StoryHandler):
+                   LowEmotionHandler):
     def fleet_switch_click(self):
         """
         Switch fleet.
