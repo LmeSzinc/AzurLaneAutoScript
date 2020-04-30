@@ -4,9 +4,11 @@ from module.handler.popup import PopupHandler
 
 class StoryHandler(PopupHandler):
     def story_skip(self):
+        if self.handle_popup_confirm():
+            return True
         if self.appear_then_click(STORY_SKIP, offset=True, interval=2):
             return True
-        if self.handle_popup_confirm():
+        if self.appear(STORY_LETTER_BLACK) and  self.appear_then_click(STORY_LETTERS_ONLY, offset=True, interval=2):
             return True
         if self.appear_then_click(STORY_CHOOCE, offset=True, interval=2):
             return True

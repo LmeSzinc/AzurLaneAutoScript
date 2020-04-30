@@ -126,6 +126,9 @@ class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirem
             if self.handle_combat_automation_confirm():
                 continue
 
+            if self.handle_story_skip():
+                continue
+
             # End
             if self.is_combat_executing():
                 if emotion_reduce:

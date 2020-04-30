@@ -47,12 +47,6 @@ class MapOperation(UrgentCommissionHandler, MysteryHandler, FleetPreparation, Re
             else:
                 checked_in_map = True
 
-            # Enter campaign
-            if campaign_timer.reached() and self.is_in_stage():
-                self.device.click(button)
-                campaign_timer.reset()
-                continue
-
             # Map preparation
             if map_timer.reached() and self.appear(MAP_PREPARATION):
                 self.device.sleep(0.3)  # Wait for map information.
@@ -90,6 +84,13 @@ class MapOperation(UrgentCommissionHandler, MysteryHandler, FleetPreparation, Re
 
             # Story skip
             if self.handle_story_skip():
+                campaign_timer.reset()
+                continue
+
+            # Enter campaign
+            if campaign_timer.reached() and self.is_in_stage():
+                self.device.click(button)
+                campaign_timer.reset()
                 continue
 
             # End
