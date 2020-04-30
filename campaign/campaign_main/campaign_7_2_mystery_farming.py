@@ -2,34 +2,8 @@ from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-from campaign.campaign_main.campaign_7_2 import Config
+from campaign.campaign_main.campaign_7_2 import Config, MAP
 
-
-MAP = CampaignMap('7-2')
-MAP.shape = 'H5'
-MAP.map_data = '''
-    ME ++ ME -- ME ME -- SP
-    MM ++ ++ MM -- -- ME --
-    ME -- ME MB ME -- ME MM
-    -- ME -- MM -- ME ++ ++
-    SP -- ME ME -- ME ++ ++
-'''
-MAP.weight_data = '''
-    40 30 30 30 30 30 30 30
-    20 20 20 20 20 20 20 20
-    10 10 10 10 10 10 10 10
-    20 20 20 20 20 20 20 20
-    30 30 30 30 30 30 30 30
-'''
-MAP.camera_data = ['D3']
-MAP.spawn_data = [
-    {'battle': 0, 'enemy': 3},
-    {'battle': 1, 'enemy': 2, 'mystery': 1},
-    {'battle': 2, 'enemy': 2, 'mystery': 1},
-    {'battle': 3, 'enemy': 1, 'mystery': 2},
-    {'battle': 4, 'enemy': 1},
-    {'battle': 5, 'boss': 1},
-]
 # MAP.in_map_swipe_preset_data = (-1, 0)
 
 A1, B1, C1, D1, E1, F1, G1, H1, \

@@ -9,8 +9,8 @@ from module.logger import logger
 
 class EnemySearchingHandler(InfoBarHandler, StoryHandler):
     MAP_ENEMY_SEARCHING_OVERLAY_TRANSPARENCY_THRESHOLD = 0.5  # Usually (0.70, 0.80).
-    MAP_ENEMY_SEARCHING_TIMEOUT_SECOND = 4.5
-    in_stage_timer = Timer(1, count=3)
+    MAP_ENEMY_SEARCHING_TIMEOUT_SECOND = 5
+    in_stage_timer = Timer(1, count=2)
 
     def enemy_searching_color_initial(self):
         MAP_ENEMY_SEARCHING.load_color(self.device.image)
@@ -48,10 +48,15 @@ class EnemySearchingHandler(InfoBarHandler, StoryHandler):
         timeout = Timer(self.MAP_ENEMY_SEARCHING_TIMEOUT_SECOND)
         appeared = False
         while 1:
-            timeout.start()
+            if self.is_in_map():
+                timeout.start()
+            else:
+                timeout.reset()
+
             if self.handle_in_stage():
                 return True
             if self.handle_story_skip():
+                timeout.limit = 10
                 timeout.reset()
             if self.enemy_searching_appear():
                 appeared = True
