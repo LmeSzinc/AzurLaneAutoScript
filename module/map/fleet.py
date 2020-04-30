@@ -214,6 +214,10 @@ class Fleet(Camera, MapOperation, AmbushHandler):
             self._goto(location, expected=expected)
 
     def find_path_initial(self):
+        if self.fleet_1_location:
+            self.map[self.fleet_1_location].is_fleet = True
+        if self.fleet_2_location:
+            self.map[self.fleet_2_location].is_fleet = True
         self.map.find_path_initial(self.fleet_current, has_ambush=self.config.MAP_HAS_AMBUSH)
 
     def show_fleet(self):

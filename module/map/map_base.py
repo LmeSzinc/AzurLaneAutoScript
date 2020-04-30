@@ -296,6 +296,7 @@ class CampaignMap:
             if not self[route[index]].is_fleet:
                 res.append(index)
             else:
+                logger.info(f'Path_node_avoid: {self[route[index]]}')
                 if (index > 1) and (index - 1 not in indexes):
                     res.append(index - 1)
                 if (index < len(route) - 2) and (index + 1 not in indexes):
@@ -312,6 +313,7 @@ class CampaignMap:
                 if not self[route[index]].is_fleet:
                     inserted.append(index)
                 else:
+                    logger.info(f'Path_node_avoid: {self[route[index]]}')
                     if (index > 1) and (index - 1 not in res):
                         inserted.append(index - 1)
                     if (index < len(route) - 2) and (index + 1 not in res):

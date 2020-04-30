@@ -30,6 +30,7 @@ class Config:
 
     TRUST_EDGE_LINES = True
 
+    EDGE_LINES_HOUGHLINES_THRESHOLD = 135
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 40),
         'width': (0.9, 10),
