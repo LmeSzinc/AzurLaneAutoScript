@@ -1,4 +1,7 @@
+import numpy as np
+
 from module.base.timer import Timer
+from module.base.utils import color_similarity_2d
 from module.exception import CampaignEnd
 from module.exception import ScriptEnd
 from module.handler.fast_forward import FastForwardHandler
@@ -13,6 +16,8 @@ from module.retire.retirement import Retirement
 
 class MapOperation(UrgentCommissionHandler, MysteryHandler, FleetPreparation, Retirement, FastForwardHandler,
                    LowEmotionHandler):
+    map_cat_attack_timer = Timer(2)
+
     def fleet_switch_click(self):
         """
         Switch fleet.
@@ -137,8 +142,11 @@ class MapOperation(UrgentCommissionHandler, MysteryHandler, FleetPreparation, Re
         """
         Click to skip the animation when cat attacks.
         """
-        if self.appear_then_click(MAP_CAT_ATTACK, genre='cat_attack', interval=2):
+        if not self.map_cat_attack_timer.reached():
+            return False
+        if np.sum(color_similarity_2d(self.image_area(MAP_CAT_ATTACK), (255, 231, 123)) > 221) > 100:
             logger.info('Skip map cat attack')
+            self.map_cat_attack_timer.reset()
             return True
 
         return False
