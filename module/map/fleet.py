@@ -151,6 +151,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
 
                 # Cat attack animation
                 if self.handle_map_cat_attack():
+                    walk_timeout.reset()
                     continue
 
                 if self.handle_walk_out_of_step():
