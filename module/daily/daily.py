@@ -61,7 +61,7 @@ class Daily(Combat, DailyEquipment):
             self.ui_click(click_button=button, check_button=self.combat_appear, appear_button=DAILY_ENTER_CHECK)
             self.ui_ensure_index(self.config.FLEET_DAILY, letter=OCR_DAILY_FLEET_INDEX, prev_button=DAILY_FLEET_PREV,
                                  next_button=DAILY_FLEET_NEXT, fast=False, skip_first_screenshot=True)
-            self.combat(emotion_reduce=False, save_get_items=False, expected_end=daily_end)
+            self.combat(emotion_reduce=False, save_get_items=False, expected_end=daily_end, balance_hp=False)
 
         self.ui_click(click_button=BACK_ARROW, check_button=DAILY_CHECK)
         self.device.sleep((1, 1.2))

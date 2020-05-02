@@ -99,11 +99,11 @@ class HPBalancer(ModuleBase):
         diff = np.array(target) - np.array(origin)
         count = np.count_nonzero(diff)
         if count == 3:
-            yield (0, 2)
+            yield (2, 0)
             if np.argsort(target)[0] - np.argsort(origin)[0] == 1:
-                yield (1, 2)
+                yield (2, 1)
             else:
-                yield (0, 1)
+                yield (1, 0)
         elif count == 2:
             yield tuple(np.nonzero(diff)[0])
         elif count == 0:

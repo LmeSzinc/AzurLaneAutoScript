@@ -10,6 +10,7 @@ from module.ui.ui import CAMPAIGN_CHECK
 class Config:
     MAP_HAS_AMBUSH = False
     ENABLE_EMOTION_REDUCE = False
+    ENABLE_HP_BALANCE = False
 
 
 class Campaign(CampaignBase, HardEquipment):
