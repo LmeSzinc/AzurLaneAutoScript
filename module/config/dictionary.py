@@ -33,6 +33,7 @@ dic_chi_to_eng = {
     '活动图': 'event',
     '半自动辅助点击': 'semi_auto',
     '7-2三战拣垃圾': 'c72_mystery_farming',
+    '12-2打中型练级': 'c122_leveling',
     '12-4打大型练级': 'c124_leveling',
 
     # Argument
@@ -142,6 +143,7 @@ dic_chi_to_eng = {
     '进图准备': 'enable_semi_map_preparation',
     '跳过剧情': 'enable_semi_story_skip',
     'BOSS队踩A3': 'boss_fleet_step_on_a3',
+    '大型敌人忍耐': 's3_enemy_tolerance',
     '非大型敌人进图忍耐': 'non_s3_enemy_enter_tolerance',
     '非大型敌人撤退忍耐': 'non_s3_enemy_withdraw_tolerance',
     '拣弹药124': 'ammo_pick_up_124',

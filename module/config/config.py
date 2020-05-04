@@ -310,6 +310,11 @@ class AzurLaneConfig:
     C72_BOSS_FLEET_STEP_ON_A3 = True
 
     """
+    C_12_2_leveling
+    """
+    C122_S3_TOLERANCE = 0
+
+    """
     C_12_4_leveling
     """
     C124_NON_S3_ENTER_TOLERANCE = 1
@@ -475,6 +480,10 @@ class AzurLaneConfig:
         self.C72_BOSS_FLEET_STEP_ON_A3 = to_bool(option['boss_fleet_step_on_a3'])
         if self.COMMAND.lower() == 'c72_mystery_farming' and not self.C72_BOSS_FLEET_STEP_ON_A3:
             self.FLEET_2 = 0
+
+        # C_12_2_leveling
+        option = config['C122_leveling']
+        self.C122_S3_TOLERANCE = int(option['s3_enemy_tolerance'])
 
         # C_12_4_leveling
         option = config['C124_leveling']

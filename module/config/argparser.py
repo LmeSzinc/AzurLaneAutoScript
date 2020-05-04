@@ -337,6 +337,11 @@ def main(ini_name=''):
     c_7_2 = c_7_2_parser.add_argument_group('7-2三战拣垃圾', '')
     c_7_2.add_argument('--BOSS队踩A3', default=default('--BOSS队踩A3'), choices=['是', '否'], help='A3有敌人就G3, C3, E3')
 
+    # ==========12-2打中型练级==========
+    c_12_2_parser = subs.add_parser('12-2打中型练级')
+    c_12_2 = c_12_2_parser.add_argument_group('12-2索敌设置', '')
+    c_12_2.add_argument('--大型敌人忍耐', default=default('--大型敌人忍耐'), choices=['0', '1', '2', '10'], help='最多打多少战大型敌人, 不挑敌人选10')
+
     # ==========12-4打大型练级==========
     c_12_4_parser = subs.add_parser('12-4打大型练级')
     c_12_4 = c_12_4_parser.add_argument_group('12-4索敌设置', '需保证队伍有一定强度')

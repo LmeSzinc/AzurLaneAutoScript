@@ -132,6 +132,11 @@ class AzurLaneAutoScript:
         az = CampaignRun(self.config)
         az.run('campaign_12_4_leveling')
 
+    def c122_leveling(self):
+        from module.campaign.run import CampaignRun
+        az = CampaignRun(self.config)
+        az.run('campaign_12_2_leveling')
+
     def retire(self):
         from module.retire.retirement import Retirement
         az = Retirement(self.config)
