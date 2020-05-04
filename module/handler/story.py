@@ -10,9 +10,9 @@ class StoryHandler(PopupHandler):
             return True
         if self.appear(STORY_LETTER_BLACK) and  self.appear_then_click(STORY_LETTERS_ONLY, offset=True, interval=2):
             return True
-        if self.appear_then_click(STORY_CHOOCE, offset=True, interval=2):
+        if self.appear_then_click(STORY_CHOOSE, offset=True, interval=2):
             return True
-        if self.appear_then_click(STORY_CHOOCE_2, offset=True, interval=2):
+        if self.appear_then_click(STORY_CHOOSE_2, offset=True, interval=2):
             return True
 
         return False
