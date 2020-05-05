@@ -91,6 +91,7 @@ dic_chi_to_eng = {
     '启用物资收获': 'enable_coin_reward',
     '启用任务收获': 'enable_mission_reward',
     '启用委托收获': 'enable_commission_reward',
+    '启用战术学院收获': 'enable_tactical_reward',
     '委托时间限制': 'commission_time_limit',
     '委托耗时小于2h': 'duration_shorter_than_2',
     '委托耗时超过6h': 'duration_longer_than_6',
@@ -110,6 +111,11 @@ dic_chi_to_eng = {
     '装备类紧急委托': 'urgent_box',
     '钻石类紧急委托': 'urgent_gem',
     '观舰类紧急委托': 'urgent_ship',
+    '战术学院夜间时段': 'tactical_night_range',
+    '技能书稀有度': 'tactical_book_tier',
+    '技能书优先使用同类型': 'tactical_exp_first',
+    '技能书夜间稀有度': 'tactical_book_tier_night',
+    '技能书夜间优先使用同类型': 'tactical_exp_first_night',
     '设备': 'serial',
     '包名': 'package_name',
     '出错时保存log和截图': 'enable_error_log_and_screenshot_save',
@@ -198,10 +204,8 @@ def to_bool(string):
     return dic_bool.get(string, string)
 
 
-def equip(string):
+def to_list(string):
     if string.isdigit():
         return None
-
     out = [int(letter.strip()) for letter in string.split(',')]
-    assert len(out) == 6
     return out

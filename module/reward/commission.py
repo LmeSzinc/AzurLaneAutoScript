@@ -443,7 +443,7 @@ class RewardCommission(UI, InfoBarHandler, PopupHandler):
             logger.info('No commission chose')
 
     def handle_commission_start(self):
-        """Make sure current page is page_reward before calls.
+        """Remember to make sure current page is page_reward before calls.
 
         Returns:
             bool: If runs a commission.
@@ -460,6 +460,7 @@ class RewardCommission(UI, InfoBarHandler, PopupHandler):
         self.commission_start()
 
         self.ui_goto(page_reward, skip_first_screenshot=True)
+        return True
 
     def commission_notice_show_at_campaign(self):
         """

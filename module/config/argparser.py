@@ -250,6 +250,14 @@ def main(ini_name=''):
     priority4.add_argument('--钻石类紧急委托', default=default('--钻石类紧急委托'), help='BIW要员护卫, NYB巡视护卫')
     priority4.add_argument('--观舰类紧急委托', default=default('--观舰类紧急委托'), help='小型观舰仪式, 同盟观舰仪式')
 
+    reward_tactical = reward_parser.add_argument_group('战术学院', '只支持续技能书, 不支持学新技能')
+    reward_tactical.add_argument('--启用战术学院收获', default=default('--启用战术学院收获'), choices=['是', '否'])
+    reward_tactical.add_argument('--战术学院夜间时段', default=default('--战术学院夜间时段'), help='格式 23:30-06:30')
+    reward_tactical.add_argument('--技能书稀有度', default=default('--技能书稀有度'), choices=['3', '2', '1'], help='最多使用T几的技能书\nT3是金书, T2是紫书, T1是蓝书')
+    reward_tactical.add_argument('--技能书优先使用同类型', default=default('--技能书优先使用同类型'), choices=['是', '否'], help='选是, 优先使用有150%加成的\n选否, 优先使用同稀有度的技能书')
+    reward_tactical.add_argument('--技能书夜间稀有度', default=default('--技能书夜间稀有度'), choices=['3', '2', '1'])
+    reward_tactical.add_argument('--技能书夜间优先使用同类型', default=default('--技能书夜间优先使用同类型'), choices=['是', '否'])
+
     # ==========设备设置==========
     emulator_parser = subs.add_parser('设备设置')
     emulator = emulator_parser.add_argument_group('模拟器', '需要运行一次来保存选项, 会检查游戏是否启动')

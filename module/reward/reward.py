@@ -6,9 +6,10 @@ from module.logger import logger
 from module.reward.assets import *
 from module.ui.page import *
 from module.reward.commission import RewardCommission
+from module.reward.tactical_class import RewardTacticalClass
 
 
-class Reward(RewardCommission):
+class Reward(RewardCommission, RewardTacticalClass):
     def reward(self):
         if not self.config.ENABLE_REWARD:
             return False
@@ -21,6 +22,7 @@ class Reward(RewardCommission):
         self._reward_receive()
         self.handle_info_bar()
         self.handle_commission_start()
+        self.handle_tactical_class()
 
         self.ui_click(
             click_button=page_reward.links[page_main],
@@ -47,7 +49,7 @@ class Reward(RewardCommission):
         Returns:
             bool: If rewarded.
         """
-        logger.hr('Oil Reward')
+        logger.hr('Reward receive')
 
         reward = False
         exit_timer = Timer(1, count=3)
@@ -75,15 +77,16 @@ class Reward(RewardCommission):
                     reward = True
                     continue
 
-            for button in btn:
-                if not click_timer.reached():
-                    continue
-                if self.appear_then_click(button, interval=1):
-                    btn.remove(button)
-                    exit_timer.reset()
-                    click_timer.reset()
-                    reward = True
-                    continue
+            if click_timer.reached() and (
+                    (self.config.ENABLE_OIL_REWARD and self.appear_then_click(OIL, interval=60))
+                    or (self.config.ENABLE_COIN_REWARD and self.appear_then_click(COIN, interval=60))
+                    or (self.config.ENABLE_COMMISSION_REWARD and self.appear_then_click(REWARD_1, interval=1))
+                    or (self.config.ENABLE_REWARD and self.appear_then_click(REWARD_3, interval=1))
+            ):
+                exit_timer.reset()
+                click_timer.reset()
+                reward = True
+                continue
 
             if not self.appear(page_reward.check_button) or self.info_bar_count():
                 exit_timer.reset()

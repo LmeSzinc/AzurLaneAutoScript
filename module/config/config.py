@@ -2,13 +2,12 @@ import codecs
 import configparser
 import copy
 import os
-from datetime import datetime
 
 import cv2
 import numpy as np
 from PIL import Image
 
-from module.base.timer import future_time
+from module.base.timer import *
 from module.config.dictionary import *
 from module.logger import logger
 
@@ -282,6 +281,8 @@ class AzurLaneConfig:
     ENABLE_COIN_REWARD = True
     ENABLE_MISSION_REWARD = True
     ENABLE_COMMISSION_REWARD = True
+    ENABLE_TACTICAL_REWARD = True
+
     COMMISSION_PRIORITY = {
         'major_comm': 0,
         'daily_comm': 100,
@@ -303,6 +304,12 @@ class AzurLaneConfig:
         'duration_longer_than_6': -11,
     }
     COMMISSION_TIME_LIMIT = 0
+
+    TACTICAL_BOOK_TIER = 2
+    TACTICAL_EXP_FIRST = True
+    TACTICAL_BOOK_TIER_NIGHT = 3
+    TACTICAL_EXP_FIRST_NIGHT = False
+    TACTICAL_NIGHT_RANGE = future_time_range('23:30-06:30')  # (Night start, night end), datetime.datetime instance.
 
     """
     C_7_2_mystery_farming
@@ -425,11 +432,16 @@ class AzurLaneConfig:
         # Reward
         option = config['Reward']
         self.REWARD_INTERVAL = int(option['reward_interval'])
-        for attr in ['enable_reward', 'enable_oil_reward', 'enable_coin_reward', 'enable_mission_reward', 'enable_commission_reward']:
+        for attr in ['enable_reward', 'enable_oil_reward', 'enable_coin_reward', 'enable_mission_reward', 'enable_commission_reward', 'enable_tactical_reward']:
             self.__setattr__(attr.upper(), to_bool(option[attr]))
         self.COMMISSION_TIME_LIMIT = future_time(option['commission_time_limit'])
         for attr in self.COMMISSION_PRIORITY.keys():
             self.COMMISSION_PRIORITY[attr] = int(option[attr])
+        self.TACTICAL_NIGHT_RANGE = future_time_range(option['tactical_night_range'])
+        self.TACTICAL_BOOK_TIER = int(option['tactical_book_tier'])
+        self.TACTICAL_EXP_FIRST = to_bool(option['tactical_exp_first'])
+        self.TACTICAL_BOOK_TIER_NIGHT = int(option['tactical_book_tier_night'])
+        self.TACTICAL_EXP_FIRST_NIGHT = to_bool(option['tactical_exp_first_night'])
 
         option = config['Main']
         self.CAMPAIGN_NAME = option['main_stage']
@@ -443,12 +455,12 @@ class AzurLaneConfig:
         for n in [1, 2, 4, 5]:
             self.DAILY_CHOOSE[n] = dic_daily[option[f'daily_mission_{n}']]
         self.FLEET_DAILY = int(option['daily_fleet'])
-        self.FLEET_DAILY_EQUIPMENT = equip(option['daily_equipment'])
+        self.FLEET_DAILY_EQUIPMENT = to_list(option['daily_equipment'])
         # Hard
         self.ENABLE_HARD_CAMPAIGN = to_bool(option['enable_hard_campaign'])
         self.HARD_CAMPAIGN = option['hard_campaign']
         self.FLEET_HARD = int(option['hard_fleet'])
-        self.FLEET_HARD_EQUIPMENT = equip(option['hard_equipment'])
+        self.FLEET_HARD_EQUIPMENT = to_list(option['hard_equipment'])
         # Exercise
         self.ENABLE_EXERCISE = to_bool(option['enable_exercise'])
         self.EXERCISE_CHOOSE_MODE = option['exercise_choose_mode']
@@ -456,7 +468,7 @@ class AzurLaneConfig:
         self.OPPONENT_CHALLENGE_TRIAL = int(option['exercise_try'])
         self.LOW_HP_THRESHOLD = float(option['exercise_hp_threshold'])
         self.LOW_HP_CONFIRM_WAIT = float(option['exercise_low_hp_confirm'])
-        self.EXERCISE_FLEET_EQUIPMENT = equip(option['exercise_equipment'])
+        self.EXERCISE_FLEET_EQUIPMENT = to_list(option['exercise_equipment'])
 
         # Event
         option = config['Event']

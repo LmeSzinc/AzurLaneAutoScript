@@ -78,6 +78,13 @@ page_commission.link(button=GOTO_MAIN, destination=page_main)
 page_commission.link(button=BACK_ARROW, destination=page_reward)
 page_reward.link(button=REWARD_GOTO_COMMISSION, destination=page_commission)
 
+# Tactical class
+# Please don't goto tactical class from academy.
+page_tactical = Page(TACTICAL_CHECK)
+page_tactical.link(button=GOTO_MAIN, destination=page_main)
+page_tactical.link(button=BACK_ARROW, destination=page_reward)
+page_reward.link(button=REWARD_GOTO_TACTICAL, destination=page_tactical)
+
 # Event list
 page_event_list = Page(EVENT_LIST_CHECK)
 page_event_list.link(button=GOTO_MAIN, destination=page_main)

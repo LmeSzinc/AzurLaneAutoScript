@@ -24,4 +24,6 @@ MISSION_CHECK = Button(area=(120, 15, 173, 40), color=(141, 156, 194), button=(1
 REWARD_CHECK = Button(area=(302, 119, 371, 195), color=(146, 118, 120), button=(302, 119, 371, 195), file='./assets/ui/REWARD_CHECK.png')
 REWARD_GOTO_COMMISSION = Button(area=(383, 262, 503, 302), color=(91, 136, 199), button=(383, 262, 503, 302), file='./assets/ui/REWARD_GOTO_COMMISSION.png')
 REWARD_GOTO_MAIN = Button(area=(1037, 611, 1107, 656), color=(134, 122, 127), button=(1037, 611, 1107, 656), file='./assets/ui/REWARD_GOTO_MAIN.png')
+REWARD_GOTO_TACTICAL = Button(area=(383, 404, 503, 444), color=(89, 140, 198), button=(383, 404, 503, 444), file='./assets/ui/REWARD_GOTO_TACTICAL.png')
 SP_CHECK = Button(area=(123, 63, 206, 109), color=(95, 110, 145), button=(123, 63, 206, 109), file='./assets/ui/SP_CHECK.png')
+TACTICAL_CHECK = Button(area=(122, 14, 231, 38), color=(145, 161, 200), button=(122, 14, 231, 38), file='./assets/ui/TACTICAL_CHECK.png')
