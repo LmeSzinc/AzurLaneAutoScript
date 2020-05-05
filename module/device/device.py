@@ -1,6 +1,5 @@
 from datetime import datetime, time
 
-from module.base.timer import Timer
 from module.device.app import AppControl
 from module.device.control import Control
 from module.device.screenshot import Screenshot
@@ -9,7 +8,7 @@ from module.logger import logger
 
 
 class Device(Screenshot, Control, AppControl):
-    def handle_night_commission(self, hour=21, threshold=5):
+    def handle_night_commission(self, hour=21, threshold=30):
         """
         Args:
             hour (int): Hour that night commission refresh.
@@ -24,35 +23,20 @@ class Device(Screenshot, Control, AppControl):
         if now > time(hour, 0, threshold):
             return False
 
-        logger.info('Handling night commission')
-        wait = Timer(10)
-        wait.start()
+        if GET_MISSION.match(self.image, offset=True):
+            logger.info('Night commission appear.')
+            self.click(GET_MISSION)
+            return True
 
-        while 1:
-            super().screenshot()
-
-            if GET_MISSION.appear_on(self.image):
-                super().click(GET_MISSION)
-
-            if wait.reached():
-                break
-
-        logger.info('Handle night commission finished')
-        return True
+        return False
 
     def screenshot(self):
         """
         Returns:
             PIL.Image.Image:
         """
-        self.handle_night_commission()
-        return super().screenshot()
+        super().screenshot()
+        if self.handle_night_commission():
+            super().screenshot()
 
-    def click(self, button):
-        self.handle_night_commission()
-        return super().click(button)
-
-    def swipe(self, vector, box=(123, 159, 1193, 628), random_range=(0, 0, 0, 0), padding=15, duration=(0.1, 0.2)):
-        self.handle_night_commission()
-        return super().swipe(vector=vector, box=box, random_range=random_range, padding=padding, duration=duration)
-
+        return self.image
