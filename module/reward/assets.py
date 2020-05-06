@@ -21,4 +21,5 @@ REWARD_1 = Button(area=(383, 285, 503, 297), color=(238, 168, 81), button=(383, 
 REWARD_2 = Button(area=(383, 404, 503, 444), color=(233, 165, 67), button=(383, 404, 503, 444), file='./assets/reward/REWARD_2.png')
 REWARD_3 = Button(area=(383, 546, 503, 586), color=(234, 163, 69), button=(383, 546, 503, 586), file='./assets/reward/REWARD_3.png')
 REWARD_SAVE_CLICK = Button(area=(415, 184, 496, 214), color=(152, 150, 168), button=(415, 184, 496, 214), file='./assets/reward/REWARD_SAVE_CLICK.png')
+TACTICAL_CLASS_CANCEL = Button(area=(818, 590, 990, 648), color=(153, 153, 154), button=(818, 590, 990, 648), file='./assets/reward/TACTICAL_CLASS_CANCEL.png')
 TACTICAL_CLASS_START = Button(area=(1024, 590, 1197, 648), color=(96, 139, 194), button=(1024, 590, 1197, 648), file='./assets/reward/TACTICAL_CLASS_START.png')

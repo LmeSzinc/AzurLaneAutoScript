@@ -151,3 +151,13 @@ class Reward(RewardCommission, RewardTacticalClass):
 
         self.ui_goto(page_main, skip_first_screenshot=True)
         return reward
+
+    def reward_loop(self):
+        logger.hr('Reward loop')
+        while 1:
+            if not self.reward():
+                break
+
+            logger.info('Reward loop wait')
+            logger.attr('Reward_loop_wait', f'{self.config.REWARD_INTERVAL} min')
+            self.device.sleep(self.config.REWARD_INTERVAL * 60)

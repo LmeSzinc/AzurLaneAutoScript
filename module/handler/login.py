@@ -48,3 +48,6 @@ class LoginHandler(Combat):
         if not self.device.app_is_running():
             self.device.app_start()
             self.handle_app_login()
+            return True
+
+        return False

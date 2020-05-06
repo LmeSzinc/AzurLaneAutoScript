@@ -209,7 +209,7 @@ def main(ini_name=''):
 
     # ==========收菜设置==========
     reward_parser = subs.add_parser('收菜设置')
-    reward_condition = reward_parser.add_argument_group('触发条件', '需要运行一次来保存选项, 运行时会执行一次收菜')
+    reward_condition = reward_parser.add_argument_group('触发条件', '需要运行一次来保存选项, 运行后会进入挂机收菜模式')
     reward_condition.add_argument('--启用收获', default=default('--启用收获'), choices=['是', '否'])
     reward_condition.add_argument('--收菜间隔', default=default('--收菜间隔'), choices=['20', '30', '60'], help='每隔多少分钟触发收菜')
 
@@ -260,9 +260,9 @@ def main(ini_name=''):
 
     # ==========设备设置==========
     emulator_parser = subs.add_parser('设备设置')
-    emulator = emulator_parser.add_argument_group('模拟器', '需要运行一次来保存选项, 会检查游戏是否启动')
+    emulator = emulator_parser.add_argument_group('模拟器', '需要运行一次来保存选项, 会检查游戏是否启动\n若启动了游戏, 触发一次收菜')
     emulator.add_argument('--设备', default=default('--设备'), help='例如 127.0.0.1:62001')
-    emulator.add_argument('--包名', default=default('--包名'), help='如果不是Biliibli国服, 或者使用了非官方客户端, 需修改')
+    emulator.add_argument('--包名', default=default('--包名'), help='')
 
     debug = emulator_parser.add_argument_group('调试设置', '')
     debug.add_argument('--出错时保存log和截图', default=default('--出错时保存log和截图'), choices=['是', '否'])

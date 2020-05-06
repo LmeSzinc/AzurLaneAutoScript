@@ -50,7 +50,7 @@ class AzurLaneAutoScript:
         logger.hr('Reward Settings saved')
         from module.reward.reward import Reward
         az = Reward(self.config)
-        az.reward()
+        az.reward_loop()
 
     def emulator(self):
         for key, value in self.config.config['Emulator'].items():
@@ -59,7 +59,10 @@ class AzurLaneAutoScript:
         logger.hr('Emulator saved')
         from module.handler.login import LoginHandler
         az = LoginHandler(self.config)
-        az.app_ensure_start()
+        if az.app_ensure_start():
+            from module.reward.reward import Reward
+            az = Reward(self.config)
+            az.reward()
 
     def main(self):
         """
