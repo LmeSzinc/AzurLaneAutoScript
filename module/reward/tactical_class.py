@@ -6,7 +6,7 @@ from module.base.timer import Timer, time_range_active
 from module.base.utils import area_offset, get_color, color_similar, color_similarity_2d
 from module.handler.popup import PopupHandler
 from module.logger import logger
-from module.reward.assets import TACTICAL_CLASS_START, REWARD_2
+from module.reward.assets import *
 from module.ui.assets import TACTICAL_CHECK
 from module.ui.ui import UI, page_tactical, page_reward
 
@@ -216,7 +216,8 @@ class RewardTacticalClass(UI, PopupHandler):
                 continue
             if self.handle_popup_confirm():
                 continue
-            if self.appear(TACTICAL_CLASS_START, offset=(30, 30), interval=1):
+            if self.appear(TACTICAL_CLASS_CANCEL, offset=(30, 30), interval=1) \
+                    and self.appear(TACTICAL_CLASS_START, offset=(30, 30)):
                 self._tactical_books_choose()
                 self.device.click(TACTICAL_CLASS_START)
                 continue
