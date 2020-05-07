@@ -95,3 +95,4 @@ class CampaignUI(UI):
 
         elif chapter == 'sp':
             self.ui_goto_sp()
+            self.campaign_ensure_chapter(index=chapter)

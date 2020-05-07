@@ -3,7 +3,6 @@ import traceback
 from module.ui.assets import *
 
 MAIN_CHECK = MAIN_GOTO_CAMPAIGN
-CAMPAIGN_CHECK = CAMPAIGN_GOTO_EXERCISE
 
 
 class Page:

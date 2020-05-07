@@ -5,6 +5,7 @@ from module.base.template import Template
 # Don't modified it manually.
 
 BACK_ARROW = Button(area=(36, 53, 82, 55), color=(251, 251, 255), button=(33, 31, 81, 78), file='./assets/ui/BACK_ARROW.png')
+CAMPAIGN_CHECK = Button(area=(173, 78, 194, 98), color=(165, 182, 221), button=(173, 78, 194, 98), file='./assets/ui/CAMPAIGN_CHECK.png')
 CAMPAIGN_GOTO_DAILY = Button(area=(804, 648, 892, 703), color=(189, 145, 78), button=(804, 648, 892, 703), file='./assets/ui/CAMPAIGN_GOTO_DAILY.png')
 CAMPAIGN_GOTO_EVENT = Button(area=(804, 648, 892, 703), color=(189, 145, 78), button=(1178, 171, 1230, 223), file='./assets/ui/CAMPAIGN_GOTO_EVENT.png')
 CAMPAIGN_GOTO_EXERCISE = Button(area=(1166, 648, 1248, 703), color=(177, 136, 69), button=(1166, 648, 1248, 703), file='./assets/ui/CAMPAIGN_GOTO_EXERCISE.png')
