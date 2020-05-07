@@ -238,7 +238,7 @@ class AzurLaneConfig:
     # https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.find_peaks.html
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (150, 255 - 40),
-        'width': 2,
+        'width': (0.9, 10),
         'prominence': 10,
         'distance': 35,
     }
@@ -255,7 +255,7 @@ class AzurLaneConfig:
     # Parameters for lines pre-cleansing
     HORIZONTAL_LINES_THETA_THRESHOLD = 0.005
     VERTICAL_LINES_THETA_THRESHOLD = 18
-    TRUST_EDGE_LINES = True  # For map fog in event_20200326_cn.
+    TRUST_EDGE_LINES = False  # True to use edge to crop inner, false to use inner to crop edge
     # Parameters for perspective calculating
     VANISH_POINT_RANGE = ((540, 740), (-3000, -1000))
     DISTANCE_POINT_X_RANGE = ((-3200, -1600),)
