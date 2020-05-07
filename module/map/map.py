@@ -240,9 +240,7 @@ class Map(Fleet):
             self.clear_chosen_enemy(grids[0])
 
         logger.warning('BOSS not detected, trying all boss spawn point.')
-        self.clear_potential_boss()
-
-        return False
+        return self.clear_potential_boss()
 
     def clear_potential_boss(self):
         """
@@ -250,13 +248,19 @@ class Map(Fleet):
         """
         grids = self.map.select(may_boss=True, is_accessible=True)
         logger.info('May boss: %s' % self.map.select(may_boss=True))
+        battle_count = self.battle_count
 
         for grid in grids:
-            logger.hr('Clear BOSS')
+            logger.hr('Clear potential BOSS')
             grids = grids.sort(cost=True, weight=True)
             logger.info('Grid: %s' % str(grid))
             self.clear_chosen_enemy(grid)
-            logger.info('Boss guessing incorrect.')
+            if self.battle_count >= battle_count:
+                return True
+            else:
+                logger.info('Boss guessing incorrect.')
+
+        return False
 
     def brute_clear_boss(self):
         """
@@ -278,8 +282,8 @@ class Map(Fleet):
             else:
                 return self.fleet_boss.clear_boss()
         else:
-            logger.warning('No boss found.')
-            return False
+            logger.warning('BOSS not detected, trying all boss spawn point.')
+            return self.clear_potential_boss()
 
     def brute_fleet_meet(self):
         """
