@@ -321,7 +321,7 @@ def main(ini_name=''):
     event_parser = subs.add_parser('活动图')
 
     description = """
-    支持复刻苍红的回响, C2和D3有单独优化
+    支持「夜幕下的归途」(event_20200507_cn), SP1至SP3均有优化
     出击未优化关卡或地图未达到安全海域时, 使用开荒模式运行(较慢)
     """
     event = event_parser.add_argument_group(
@@ -330,7 +330,7 @@ def main(ini_name=''):
                              choices=['a1', 'a2', 'a3', 'b1', 'b2', 'b3', 'c1', 'c2', 'c3', 'd1', 'd2', 'd3'],
                              help='例如 d3')
     event.add_argument('--sp地图', default=default('--sp地图'),
-                             choices=['sp3', 'sp2', 'sp1'],
+                             choices=['sp1', 'sp2', 'sp3'],
                              help='例如 sp3')
     event.add_argument('--活动名称', default=default('--活动名称'), choices=event_folder, help='例如 event_20200312_cn')
 

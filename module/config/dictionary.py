@@ -196,6 +196,7 @@ dic_chi_to_eng = {
     '复刻斯图尔特的硝烟': 'event_20200312_cn',
     '微层混合': 'event_20200326_cn',
     '复刻苍红的回响': 'event_20200423_cn',
+    '夜幕下的归途': 'event_20200507_cn',
 }
 dic_eng_to_chi = {v: k for k, v in dic_chi_to_eng.items()}
 
