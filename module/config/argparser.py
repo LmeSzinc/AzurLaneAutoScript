@@ -179,10 +179,10 @@ def main(ini_name=''):
     e3.add_argument('--全员已婚3', default=default('--全员已婚3'), choices=['是', '否'])
 
     # 血量平衡
-    balance = setting_parser.add_argument_group('血量平衡', '')
+    balance = setting_parser.add_argument_group('血量平衡', '需关闭舰队锁定才能生效')
     balance.add_argument('--启用血量平衡', default=default('--启用血量平衡'), choices=['是', '否'])
     balance.add_argument('--启用低血量撤退', default=default('--启用低血量撤退'), choices=['是', '否'])
-    balance.add_argument('--先锋血量平衡阈值', default=default('--先锋血量平衡阈值'), help='血量差值大于阈值时, 换位. 启用阵容锁定后停用')
+    balance.add_argument('--先锋血量平衡阈值', default=default('--先锋血量平衡阈值'), help='血量差值大于阈值时, 换位')
     balance.add_argument('--低血量撤退阈值', default=default('--低血量撤退阈值'), help='任意一人血量低于阈值时, 撤退')
 
     # 退役选项

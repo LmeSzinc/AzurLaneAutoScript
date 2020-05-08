@@ -75,7 +75,7 @@ class HPBalancer(ModuleBase):
             p2 (int): Target position [0, 2].
         """
         logger.info('scout_position_change (%s, %s)' % (p1, p2))
-        self.device.drag(p1=SCOUT_POSITION[p1], p2=SCOUT_POSITION[p2])
+        self.device.drag(p1=SCOUT_POSITION[p1], p2=SCOUT_POSITION[p2], segments=3)
 
     def _expected_scout_order(self, hp):
         descending = np.sort(hp)[::-1]

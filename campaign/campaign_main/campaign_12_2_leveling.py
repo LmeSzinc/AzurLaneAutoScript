@@ -47,7 +47,9 @@ class Campaign(CampaignBase):
         elif self.battle_count >= 5:
             self.withdraw()
 
-        current = self.map.select(is_enemy=True, enemy_scale=2).count
+        current = self.map.select(is_enemy=True, enemy_scale=2)\
+            .add(self.map.select(is_enemy=True, enemy_scale=1))\
+            .count
         logger.attr('S2_enemy', current)
 
         if self.s3_enemy_count >= self.config.C122_S3_TOLERANCE and current == 0:
@@ -56,6 +58,8 @@ class Campaign(CampaignBase):
     def battle_0(self):
         self.check_s3_enemy()
         if self.clear_enemy(scale=(2,)):
+            return True
+        if self.clear_enemy(scale=(1,)):
             return True
         if self.clear_enemy(scale=(3,)):
             self.s3_enemy_count += 1
