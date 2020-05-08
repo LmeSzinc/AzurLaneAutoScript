@@ -13,12 +13,14 @@ class Equipment(InfoBarHandler, PopupHandler):
     equipment_has_take_on = False
 
     def _view_swipe(self, distance):
+        swipe_timer = Timer(3, count=3)
         while 1:
             SWIPE_CHECK.load_color(self.device.image)
-            self.device.swipe(vector=(distance, 0), box=SWIPE_AREA.area, random_range=SWIPE_RANDOM_RANGE,
-                              padding=0, duration=(0.1, 0.12))
+            if not swipe_timer.started() or swipe_timer.reached():
+                swipe_timer.reset()
+                self.device.swipe(vector=(distance, 0), box=SWIPE_AREA.area, random_range=SWIPE_RANDOM_RANGE,
+                                  padding=0, duration=(0.1, 0.12))
 
-            self.device.sleep(0.3)
             self.device.screenshot()
             if SWIPE_CHECK.match(self.device.image):
                 continue
