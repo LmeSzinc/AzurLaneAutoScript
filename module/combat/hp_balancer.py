@@ -78,20 +78,37 @@ class HPBalancer(ModuleBase):
         self.device.drag(p1=SCOUT_POSITION[p1], p2=SCOUT_POSITION[p2], segments=3)
 
     def _expected_scout_order(self, hp):
-        descending = np.sort(hp)[::-1]
-        sort = np.argsort(hp)[::-1]
+        count = np.count_nonzero(hp)
+        threshold = self.config.SCOUT_HP_DIFFERENCE_THRESHOLD
 
-        if descending[0] - descending[2] > self.config.SCOUT_HP_DIFFERENCE_THRESHOLD:
-            if descending[1] - descending[2] > self.config.SCOUT_HP_DIFFERENCE_THRESHOLD:
-                # 100% 70% 40%
-                order = [sort[0], sort[2], sort[1]]
+        if count == 3:
+            descending = np.sort(hp)[::-1]
+            sort = np.argsort(hp)[::-1]
+            if descending[0] - descending[2] > threshold:
+                if descending[1] - descending[2] > threshold:
+                    # 100% 70% 40%
+                    order = [sort[0], sort[2], sort[1]]
+                else:
+                    # 100% 70% 60%
+                    order = [sort[0], 1, 2]
+                    order[sort[0]] = 0
             else:
-                # 100% 70% 60%
-                order = [sort[0], 1, 2]
-                order[sort[0]] = 0
-        else:
-            # 80% 80% 80%
+                # 80% 80% 80%
+                order = [0, 1, 2]
+        elif count == 2:
+            if hp[1] - hp[0] > threshold:
+                # 70% 100% 0%
+                order = [1, 0, 2]
+            else:
+                # 100% 70% 0%
+                order = [0, 1, 2]
+        elif count == 1:
+            # 80% 0% 0%
             order = [0, 1, 2]
+        else:
+            logger.warning(f'HP invalid: {hp}')
+            order = [0, 1, 2]
+
         return order
 
     @staticmethod
