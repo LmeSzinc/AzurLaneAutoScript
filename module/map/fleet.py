@@ -249,10 +249,11 @@ class Fleet(Camera, MapOperation, AmbushHandler):
             queue = queue.sort_by_camera_distance(self.camera)
             self.in_sight(queue[0], sight=(-1, 0, 1, 2))
             grid = self.convert_map_to_grid(queue[0])
-            if grid.predict_current_fleet():
-                self.fleet_1 = queue[0].location
-            elif grid.predict_fleet():
-                self.fleet_2 = queue[0].location
+            if grid.predict_fleet():
+                if grid.predict_current_fleet():
+                    self.fleet_1 = queue[0].location
+                else:
+                    self.fleet_2 = queue[0].location
             queue = queue[1:]
 
     def find_current_fleet(self):
