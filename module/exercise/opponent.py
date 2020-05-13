@@ -81,6 +81,6 @@ class OpponentChoose(UI):
                           appear_button=EXERCISE_PREPARATION, skip_first_screenshot=True)
 
     def _opponent_sort(self):
-        priority = np.argsort([x.priority for x in self.opponents])[::-1]
+        priority = np.argsort([- x.priority for x in self.opponents])
         logger.attr('Order', str(priority))
         return priority
