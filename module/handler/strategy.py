@@ -1,9 +1,10 @@
 import numpy as np
+
 from module.base.switch import Switch
 from module.handler.assets import *
-from module.template.assets import TEMPLATE_FORMATION_1, TEMPLATE_FORMATION_2, TEMPLATE_FORMATION_3
-from module.handler.info_bar import InfoBarHandler
+from module.handler.info_handler import InfoHandler
 from module.logger import logger
+from module.template.assets import TEMPLATE_FORMATION_1, TEMPLATE_FORMATION_2, TEMPLATE_FORMATION_3
 
 formation = Switch('Formation')
 formation.add_status('1', check_button=FORMATION_1, offset=120)
@@ -19,7 +20,7 @@ submarine_hunt.add_status('on', check_button=SUBMARINE_HUNT_ON, offset=120)
 submarine_hunt.add_status('off', check_button=SUBMARINE_HUNT_OFF, offset=120)
 
 
-class StrategyHandler(InfoBarHandler):
+class StrategyHandler(InfoHandler):
     fleet_1_formation_fixed = False
     fleet_2_formation_fixed = False
 

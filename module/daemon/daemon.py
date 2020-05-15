@@ -2,13 +2,10 @@ from module.combat.combat import Combat
 from module.daemon.assets import *
 from module.handler.ambush import MAP_AMBUSH_EVADE
 from module.handler.mystery import MysteryHandler
-from module.handler.story import StoryHandler
-from module.handler.urgent_commission import UrgentCommissionHandler
 from module.map.map_fleet_preparation import FleetPreparation
 
 
-class AzurLaneDaemon(FleetPreparation, Combat, UrgentCommissionHandler, MysteryHandler,
-                     StoryHandler):
+class AzurLaneDaemon(FleetPreparation, Combat, MysteryHandler):
     def daemon(self):
 
         while 1:

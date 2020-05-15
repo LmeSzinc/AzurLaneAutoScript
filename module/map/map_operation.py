@@ -5,17 +5,14 @@ from module.base.utils import color_similarity_2d
 from module.exception import CampaignEnd
 from module.exception import ScriptEnd
 from module.handler.fast_forward import FastForwardHandler
-from module.handler.low_emotion import LowEmotionHandler
 from module.handler.mystery import MysteryHandler
-from module.handler.urgent_commission import UrgentCommissionHandler
 from module.logger import logger
 from module.map.assets import *
 from module.map.map_fleet_preparation import FleetPreparation
 from module.retire.retirement import Retirement
 
 
-class MapOperation(UrgentCommissionHandler, MysteryHandler, FleetPreparation, Retirement, FastForwardHandler,
-                   LowEmotionHandler):
+class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHandler):
     map_cat_attack_timer = Timer(2)
 
     def fleet_switch_click(self):

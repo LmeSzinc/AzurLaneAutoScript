@@ -4,7 +4,7 @@ from scipy import signal
 from module.base.button import Button, ButtonGrid
 from module.base.timer import Timer, time_range_active
 from module.base.utils import area_offset, get_color, color_similar, color_similarity_2d
-from module.handler.popup import PopupHandler
+from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.reward.assets import *
 from module.ui.assets import TACTICAL_CHECK
@@ -146,7 +146,7 @@ class BookGroup:
         return self[0]
 
 
-class RewardTacticalClass(UI, PopupHandler):
+class RewardTacticalClass(UI, InfoHandler):
     tactical_animation_timer = Timer(2, count=3)
 
     def _tactical_animation_running(self):

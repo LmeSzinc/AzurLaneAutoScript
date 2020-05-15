@@ -8,8 +8,7 @@ from scipy import signal
 from module.base.ocr import Ocr
 from module.base.timer import Timer
 from module.base.utils import area_offset, get_color, random_rectangle_vector
-from module.handler.info_bar import InfoBarHandler
-from module.handler.popup import PopupHandler
+from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.reward.assets import *
 from module.ui.page import page_reward, page_commission, CAMPAIGN_CHECK
@@ -267,7 +266,7 @@ def commission_choose(daily, urgent, priority, time_limit=None):
     return daily_choose, urgent_choose
 
 
-class RewardCommission(UI, InfoBarHandler, PopupHandler):
+class RewardCommission(UI, InfoHandler):
     daily: CommissionGroup
     urgent: CommissionGroup
     daily_choose: CommissionGroup

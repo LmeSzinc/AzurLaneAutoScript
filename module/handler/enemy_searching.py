@@ -2,12 +2,11 @@ from module.base.timer import Timer
 from module.base.utils import red_overlay_transparency, get_color
 from module.exception import CampaignEnd
 from module.handler.assets import *
-from module.handler.info_bar import InfoBarHandler
-from module.handler.story import StoryHandler
+from module.handler.info_handler import InfoHandler
 from module.logger import logger
 
 
-class EnemySearchingHandler(InfoBarHandler, StoryHandler):
+class EnemySearchingHandler(InfoHandler):
     MAP_ENEMY_SEARCHING_OVERLAY_TRANSPARENCY_THRESHOLD = 0.5  # Usually (0.70, 0.80).
     MAP_ENEMY_SEARCHING_TIMEOUT_SECOND = 5
     in_stage_timer = Timer(1, count=2)

@@ -1,8 +1,8 @@
 import numpy as np
 
-from module.handler.info_bar import InfoBarHandler
-from module.logger import logger
 from module.exception import PerspectiveError
+from module.handler.info_handler import InfoHandler
+from module.logger import logger
 from module.map.grids import Grids, Grid
 from module.map.map_base import CampaignMap, location2node, location_ensure
 
@@ -29,7 +29,7 @@ def swipe_multiply_2d(x, y):
     return x, y
 
 
-class Camera(InfoBarHandler):
+class Camera(InfoHandler):
     map: CampaignMap
     camera = (0, 0)
 

@@ -2,10 +2,9 @@ from module.base.button import ButtonGrid
 from module.base.decorator import Config
 from module.base.utils import get_color, color_similar
 from module.combat.assets import GET_ITEMS_1
-from module.handler.info_bar import InfoBarHandler
-from module.handler.popup import PopupHandler
-from module.logger import logger
 from module.exception import ScriptError
+from module.handler.info_handler import InfoHandler
+from module.logger import logger
 from module.retire.assets import *
 from module.ui.ui import UI
 
@@ -21,7 +20,7 @@ CARD_RARITY_COLORS = {
 }
 
 
-class Retirement(UI, InfoBarHandler, PopupHandler):
+class Retirement(UI, InfoHandler):
     def _handle_retirement_cards_loading(self):
         self.device.sleep((1, 1.5))
 

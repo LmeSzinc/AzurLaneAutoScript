@@ -9,16 +9,13 @@ from module.combat.emotion import Emotion
 from module.combat.hp_balancer import HPBalancer
 from module.combat.submarine import SubmarineCall
 from module.handler.enemy_searching import EnemySearchingHandler
-from module.handler.low_emotion import LowEmotionHandler
-from module.handler.urgent_commission import UrgentCommissionHandler
 from module.logger import logger
 from module.map.assets import MAP_OFFENSIVE
 from module.retire.retirement import Retirement
 from module.ui.assets import BACK_ARROW
 
 
-class Combat(HPBalancer, UrgentCommissionHandler, EnemySearchingHandler, Retirement, SubmarineCall, LowEmotionHandler,
-             CombatAuto, CombatManual):
+class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, CombatAuto, CombatManual):
     _automation_set_timer = Timer(1)
     _emotion: Emotion
     battle_status_click_interval = 0

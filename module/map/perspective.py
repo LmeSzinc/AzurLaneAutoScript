@@ -8,8 +8,8 @@ from PIL import Image, ImageOps, ImageDraw
 from scipy import signal, optimize
 
 from module.config.config import AzurLaneConfig
-from module.logger import logger
 from module.exception import PerspectiveError
+from module.logger import logger
 from module.map.perspective_items import Points, Lines
 
 warnings.filterwarnings("ignore")

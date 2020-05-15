@@ -1,7 +1,7 @@
-from module.combat.combat import Combat
-from module.logger import logger
 from module.base.timer import Timer
+from module.combat.combat import Combat
 from module.handler.assets import *
+from module.logger import logger
 from module.ui.ui import MAIN_CHECK, EVENT_LIST_CHECK, BACK_ARROW
 
 
