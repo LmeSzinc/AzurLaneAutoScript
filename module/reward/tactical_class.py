@@ -4,6 +4,7 @@ from scipy import signal
 from module.base.button import Button, ButtonGrid
 from module.base.timer import Timer, time_range_active
 from module.base.utils import area_offset, get_color, color_similar, color_similarity_2d
+from module.exception import ScriptError
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.reward.assets import *
@@ -180,6 +181,7 @@ class RewardTacticalClass(UI, InfoHandler):
             logger.info(f'Book_T{index}: {books.select(tier=index)}')
         if not books:
             logger.warning('No book found.')
+            raise ScriptError('No book found.')
 
         if not time_range_active(self.config.TACTICAL_NIGHT_RANGE):
             tier = self.config.TACTICAL_BOOK_TIER
@@ -221,6 +223,8 @@ class RewardTacticalClass(UI, InfoHandler):
                 continue
             if self.appear(TACTICAL_CLASS_CANCEL, offset=(30, 30), interval=1) \
                     and self.appear(TACTICAL_CLASS_START, offset=(30, 30)):
+                self.device.sleep(0.3)
+                self.device.screenshot()
                 self._tactical_books_choose()
                 self.device.click(TACTICAL_CLASS_START)
                 continue
