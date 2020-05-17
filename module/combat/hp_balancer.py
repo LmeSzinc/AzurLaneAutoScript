@@ -55,10 +55,12 @@ class HPBalancer(ModuleBase):
         Returns:
             list: HP(float) of 6 ship.
         """
-        self.hp = [self._calculate_hp(loca, SIZE) for loca in LOCATION]
-        logger.attr(
-            'HP', ' '.join([str(int(data*100)).rjust(3)+'%' for data in self.hp])
-        )
+        hp = [self._calculate_hp(loca, SIZE) for loca in LOCATION]
+        scout = np.array(hp[3:]) * np.array(self.config.SCOUT_HP_WEIGHTS) / np.max(self.config.SCOUT_HP_WEIGHTS)
+        self.hp = hp[:3] + scout.tolist()
+        logger.attr('HP', ' '.join([str(int(data * 100)).rjust(3) + '%' for data in hp]))
+        if np.sum(np.abs(np.diff(self.config.SCOUT_HP_WEIGHTS))) > 0:
+            logger.attr('HP_weight', ' '.join([str(int(data * 100)).rjust(3) + '%' for data in self.hp]))
         return self.hp
 
     def hp_init(self):

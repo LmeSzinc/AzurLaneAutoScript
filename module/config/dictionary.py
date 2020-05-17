@@ -72,6 +72,7 @@ dic_chi_to_eng = {
     '启用血量平衡': 'enable_hp_balance',
     '启用低血量撤退': 'enable_low_hp_withdraw',
     '先锋血量平衡阈值': 'scout_hp_difference_threshold',
+    '先锋血量权重': 'scout_hp_weights',
     '低血量撤退阈值': 'low_hp_withdraw_threshold',
     '启用退役': 'enable_retirement',
     '使用一键退役': 'use_one_click_retirement',

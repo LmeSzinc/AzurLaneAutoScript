@@ -94,6 +94,7 @@ class AzurLaneConfig:
     ENABLE_HP_BALANCE = False
     ENABLE_LOW_HP_WITHDRAW = True
     SCOUT_HP_DIFFERENCE_THRESHOLD = 0.2
+    SCOUT_HP_WEIGHTS = [1000, 1000, 1000]
     LOW_HP_WITHDRAW_THRESHOLD = 0.2
 
     """
@@ -414,6 +415,7 @@ class AzurLaneConfig:
         self.ENABLE_HP_BALANCE = to_bool(option['enable_hp_balance'])
         self.ENABLE_LOW_HP_WITHDRAW = to_bool(option['enable_low_hp_withdraw'])
         self.SCOUT_HP_DIFFERENCE_THRESHOLD = float(option['scout_hp_difference_threshold'])
+        self.SCOUT_HP_WEIGHTS = to_list(option['scout_hp_weights'])
         self.LOW_HP_WITHDRAW_THRESHOLD = float(option['low_hp_withdraw_threshold'])
         self.ENABLE_SAVE_GET_ITEMS = to_bool(option['enable_drop_screenshot'])
         self.SCREEN_SHOT_SAVE_FOLDER_BASE = option['drop_screenshot_folder']

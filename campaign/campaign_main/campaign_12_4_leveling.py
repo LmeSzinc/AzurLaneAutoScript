@@ -65,7 +65,6 @@ class Campaign(CampaignBase):
     s3_enemy_count = 0
     non_s3_enemy_count = 0
 
-
     def check_s3_enemy(self):
         if self.battle_count == 0:
             self.s3_enemy_count = 0
@@ -74,7 +73,8 @@ class Campaign(CampaignBase):
         current = self.map.select(is_enemy=True, enemy_scale=3).count
         logger.attr('S3_enemy', current)
 
-        if self.battle_count == self.config.C124_NON_S3_ENTER_TOLERANCE:
+        if self.battle_count == self.config.C124_NON_S3_ENTER_TOLERANCE \
+                and self.config.C124_NON_S3_WITHDRAW_TOLERANCE < 10:
             if self.s3_enemy_count + current == 0:
                 self.withdraw()
         elif self.battle_count > self.config.C124_NON_S3_ENTER_TOLERANCE:
@@ -94,5 +94,8 @@ class Campaign(CampaignBase):
         if self.clear_enemy(scale=(2,)):
             self.non_s3_enemy_count += 1
             return True
+        if not self.map.select(is_enemy=True, may_boss=False):
+            logger.info('No more enemies.')
+            self.withdraw()
 
         return self.battle_default()

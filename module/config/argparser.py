@@ -179,11 +179,14 @@ def main(ini_name=''):
     e3.add_argument('--全员已婚3', default=default('--全员已婚3'), choices=['是', '否'])
 
     # 血量平衡
-    balance = setting_parser.add_argument_group('血量平衡', '需关闭舰队锁定才能生效')
-    balance.add_argument('--启用血量平衡', default=default('--启用血量平衡'), choices=['是', '否'])
-    balance.add_argument('--启用低血量撤退', default=default('--启用低血量撤退'), choices=['是', '否'])
-    balance.add_argument('--先锋血量平衡阈值', default=default('--先锋血量平衡阈值'), help='血量差值大于阈值时, 换位')
-    balance.add_argument('--低血量撤退阈值', default=default('--低血量撤退阈值'), help='任意一人血量低于阈值时, 撤退')
+    hp = setting_parser.add_argument_group('血量控制', '需关闭舰队锁定才能生效')
+    hp.add_argument('--启用血量平衡', default=default('--启用血量平衡'), choices=['是', '否'])
+    hp.add_argument('--启用低血量撤退', default=default('--启用低血量撤退'), choices=['是', '否'])
+    hp_balance = hp.add_argument_group('血量平衡', '')
+    hp_balance.add_argument('--先锋血量平衡阈值', default=default('--先锋血量平衡阈值'), help='血量差值大于阈值时, 换位')
+    hp_balance.add_argument('--先锋血量权重', default=default('--先锋血量权重'), help='先锋肉度有差别时应修改, 格式 1000,1000,1000')
+    hp_withdraw = hp.add_argument_group('低血量撤退', '')
+    hp_withdraw.add_argument('--低血量撤退阈值', default=default('--低血量撤退阈值'), help='任意一人血量低于阈值时, 撤退')
 
     # 退役选项
     retire = setting_parser.add_argument_group('退役设置', '')
