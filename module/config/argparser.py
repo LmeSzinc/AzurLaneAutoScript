@@ -185,6 +185,9 @@ def main(ini_name=''):
     hp_balance = hp.add_argument_group('血量平衡', '')
     hp_balance.add_argument('--先锋血量平衡阈值', default=default('--先锋血量平衡阈值'), help='血量差值大于阈值时, 换位')
     hp_balance.add_argument('--先锋血量权重', default=default('--先锋血量权重'), help='先锋肉度有差别时应修改, 格式 1000,1000,1000')
+    hp_add = hp.add_argument_group('紧急维修', '')
+    hp_add.add_argument('--紧急维修单人阈值', default=default('--紧急维修单人阈值'), help='单人低于阈值时使用')
+    hp_add.add_argument('--紧急维修全队阈值', default=default('--紧急维修全队阈值'), help='前排全部或后排全部低于阈值时使用')
     hp_withdraw = hp.add_argument_group('低血量撤退', '')
     hp_withdraw.add_argument('--低血量撤退阈值', default=default('--低血量撤退阈值'), help='任意一人血量低于阈值时, 撤退')
 

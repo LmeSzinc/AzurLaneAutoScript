@@ -101,28 +101,19 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
         while 1:
             self.device.screenshot()
 
-            # Automation.
             if self.appear(BATTLE_PREPARATION):
-                # if self.handle_combat_automation_confirm():
-                #     continue
                 if self.handle_combat_automation_set(auto=auto):
                     continue
-
-            # Retirement
             if self.handle_retirement():
                 continue
-
-            # Emotion
             if self.handle_combat_low_emotion():
                 continue
-
-            # Combat start
+            if self.handle_emergency_repair_use():
+                continue
             if self.appear_then_click(BATTLE_PREPARATION, interval=2):
                 continue
-
             if self.handle_combat_automation_confirm():
                 continue
-
             if self.handle_story_skip():
                 continue
 
@@ -162,6 +153,21 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
         if self.appear_then_click(AUTOMATION_CONFIRM, offset=True):
             self._automation_set_timer.reset()
             return True
+
+        return False
+
+    def handle_emergency_repair_use(self):
+        if self.appear_then_click(EMERGENCY_REPAIR_CONFIRM, offset=True):
+            self.device.sleep(0.5)  # Animation: hp increase and emergency_repair amount decrease.
+            return True
+        if self.appear(EMERGENCY_REPAIR_AVAILABLE):
+            logger.info('EMERGENCY_REPAIR_AVAILABLE')
+            if np.min(np.array(self.hp)[np.array(self.hp) > 0.001]) < self.config.EMERGENCY_REPAIR_SINGLE_THRESHOLD \
+                    or np.max(self.hp[:3]) < self.config.EMERGENCY_REPAIR_HOLE_THRESHOLD \
+                    or np.max(self.hp[3:]) < self.config.EMERGENCY_REPAIR_HOLE_THRESHOLD:
+                logger.info('Use emergency repair')
+                self.device.click(EMERGENCY_REPAIR_AVAILABLE)
+                return True
 
         return False
 
