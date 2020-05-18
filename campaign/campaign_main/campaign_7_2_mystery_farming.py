@@ -35,37 +35,22 @@ class Campaign(CampaignBase):
         else:
             self.clear_all_mystery(nearby=False)
 
-        grids = ROAD_MAIN.roadblocks().select(is_accessible=True, enemy_scale=3)
-        if grids:
-            self.clear_chosen_enemy(grids[0])
+        if self.clear_roadblocks([ROAD_MAIN], strongest=True):
             return True
-        if self.clear_roadblocks([ROAD_MAIN]):
-            return True
-
-        grids = ROAD_MAIN.potential_roadblocks().select(is_accessible=True, enemy_scale=3)
-        if grids:
-            self.clear_chosen_enemy(grids[0])
-            return True
-        if self.clear_potential_roadblocks([ROAD_MAIN]):
+        if self.clear_potential_roadblocks([ROAD_MAIN], strongest=True):
             return True
 
         if self.clear_enemy(scale=(3,)):
             return True
 
-        grids = ROAD_MAIN.first_roadblock().select(is_accessible=True, enemy_scale=2)
-        if grids:
-            self.clear_chosen_enemy(grids[0])
+        if self.clear_grids_for_faster(GRIDS_FOR_FASTER, scale=(2,)):
             return True
         if self.clear_enemy(scale=(2,)):
             return True
-
         if self.clear_grids_for_faster(GRIDS_FOR_FASTER):
             return True
 
         return self.battle_default()
-
-    battle_1 = battle_0
-    battle_2 = battle_0
 
     def battle_3(self):
         if self.config.C72_BOSS_FLEET_STEP_ON_A3:

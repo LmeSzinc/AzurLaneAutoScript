@@ -221,12 +221,13 @@ class RewardTacticalClass(UI, InfoHandler):
             if self.handle_urgent_commission(save_get_items=False):
                 # Only one button in the middle, when skill reach max level.
                 continue
-            if self.appear(TACTICAL_CLASS_CANCEL, offset=(30, 30), interval=1) \
+            if self.appear(TACTICAL_CLASS_CANCEL, offset=(30, 30), interval=2) \
                     and self.appear(TACTICAL_CLASS_START, offset=(30, 30)):
                 self.device.sleep(0.3)
                 self.device.screenshot()
                 self._tactical_books_choose()
                 self.device.click(TACTICAL_CLASS_START)
+                self.interval_reset(TACTICAL_CLASS_CANCEL)
                 continue
 
             # End
