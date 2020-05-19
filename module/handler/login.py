@@ -2,10 +2,13 @@ from module.base.timer import Timer
 from module.combat.combat import Combat
 from module.handler.assets import *
 from module.logger import logger
+from datetime import datetime, timedelta
 from module.ui.ui import MAIN_CHECK, EVENT_LIST_CHECK, BACK_ARROW
 
 
 class LoginHandler(Combat):
+    start_time = datetime.now()
+
     def handle_app_login(self):
         logger.hr('App login')
 
@@ -48,6 +51,32 @@ class LoginHandler(Combat):
         if not self.device.app_is_running():
             self.device.app_start()
             self.handle_app_login()
+            return True
+
+        return False
+
+    def _triggered_app_restart(self):
+        """
+        Returns:
+            bool: If triggered a restart condition.
+        """
+        now = datetime.now()
+        if now.date() != self.start_time.date():
+            logger.hr('Triggered restart new day')
+            return True
+        if not self.config.IGNORE_LOW_EMOTION_WARN:
+            # The game does not calculate emotion correctly, which is a bug in AzurLane.
+            # After a long run, we have to restart the game to update it.
+            if now - self.start_time > timedelta(hours=2, minutes=30):
+                logger.hr('Triggered restart avoid emotion bug')
+                return True
+
+        return False
+
+    def handle_app_restart(self):
+        if self._triggered_app_restart():
+            self.app_restart()
+            self.start_time = datetime.now()
             return True
 
         return False

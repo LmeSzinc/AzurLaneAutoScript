@@ -112,11 +112,8 @@ class CampaignRun(CampaignUI, Reward, LoginHandler):
         """
         self.load_campaign(name, folder=folder)
         self.run_count = 0
-        start_date = datetime.now().date()
         while 1:
-            if datetime.now().date() != start_date:
-                start_date = datetime.now().date()
-                self.app_restart()
+            if self.handle_app_restart():
                 self.campaign.fleet_checked_reset()
             if self.handle_reward():
                 self.campaign.fleet_checked_reset()
