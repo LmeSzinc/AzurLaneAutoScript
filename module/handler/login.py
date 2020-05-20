@@ -67,7 +67,7 @@ class LoginHandler(Combat):
         if not self.config.IGNORE_LOW_EMOTION_WARN:
             # The game does not calculate emotion correctly, which is a bug in AzurLane.
             # After a long run, we have to restart the game to update it.
-            if now - self.start_time > timedelta(hours=2, minutes=30):
+            if now - self.start_time > timedelta(hours=2):
                 logger.hr('Triggered restart avoid emotion bug')
                 return True
 
