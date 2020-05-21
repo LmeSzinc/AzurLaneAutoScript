@@ -8,6 +8,9 @@ config_name = 'EmotionRecord'
 
 
 class Emotion:
+    total_reduced = 0
+    BUG_THRESHOLD = 100
+
     def __init__(self, config):
         """
         Args:
@@ -59,6 +62,7 @@ class Emotion:
         self.update()
         self.emotion[config_name][f'fleet_{index}_emotion'] = str(int(
             self.emotion[config_name][f'fleet_{index}_emotion']) - 2)
+        self.total_reduced += 2
         self.record()
 
     def recovered_time(self, fleet=(1, 2)):
@@ -104,3 +108,14 @@ class Emotion:
             logger.attr('Emotion recovered', recovered_time)
             self.config.EMOTION_LIMIT_TRIGGERED = True
             sleep(60)
+
+    def triggered_bug(self):
+        """
+        The game does not calculate emotion correctly, which is a bug in AzurLane.
+        After a long run, we have to restart the game to update it.
+        """
+        if self.total_reduced >= self.BUG_THRESHOLD:
+            self.total_reduced = 0
+            return True
+
+        return False

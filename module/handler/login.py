@@ -2,7 +2,7 @@ from module.base.timer import Timer
 from module.combat.combat import Combat
 from module.handler.assets import *
 from module.logger import logger
-from datetime import datetime, timedelta
+from datetime import datetime
 from module.ui.ui import MAIN_CHECK, EVENT_LIST_CHECK, BACK_ARROW
 
 
@@ -65,9 +65,7 @@ class LoginHandler(Combat):
             logger.hr('Triggered restart new day')
             return True
         if not self.config.IGNORE_LOW_EMOTION_WARN:
-            # The game does not calculate emotion correctly, which is a bug in AzurLane.
-            # After a long run, we have to restart the game to update it.
-            if now - self.start_time > timedelta(hours=2):
+            if self.emotion.triggered_bug():
                 logger.hr('Triggered restart avoid emotion bug')
                 return True
 
