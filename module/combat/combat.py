@@ -160,7 +160,7 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
         if self.appear_then_click(EMERGENCY_REPAIR_CONFIRM, offset=True):
             self.device.sleep(0.5)  # Animation: hp increase and emergency_repair amount decrease.
             return True
-        if self.appear(EMERGENCY_REPAIR_AVAILABLE):
+        if self.appear(BATTLE_PREPARATION) and self.appear(EMERGENCY_REPAIR_AVAILABLE):
             logger.info('EMERGENCY_REPAIR_AVAILABLE')
             if np.min(np.array(self.hp)[np.array(self.hp) > 0.001]) < self.config.EMERGENCY_REPAIR_SINGLE_THRESHOLD \
                     or np.max(self.hp[:3]) < self.config.EMERGENCY_REPAIR_HOLE_THRESHOLD \
@@ -346,3 +346,4 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
             func=func, call_submarine_at_boss=call_submarine_at_boss, save_get_items=save_get_items)
         self.combat_status(
             save_get_items=save_get_items, expected_end=expected_end)
+        self.handle_map_after_combat_story()

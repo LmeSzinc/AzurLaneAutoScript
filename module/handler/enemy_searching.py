@@ -55,8 +55,11 @@ class EnemySearchingHandler(InfoHandler):
             if self.handle_in_stage():
                 return True
             if self.handle_story_skip():
+                self.ensure_no_story()
                 timeout.limit = 10
                 timeout.reset()
+
+            # End
             if self.enemy_searching_appear():
                 appeared = True
             else:
@@ -66,9 +69,7 @@ class EnemySearchingHandler(InfoHandler):
                     logger.info('In map.')
                     break
                 self.enemy_searching_color_initial()
-
             if timeout.reached():
-                # logger.warning('Enemy searching timeout.')
                 logger.info('Enemy searching timeout.')
                 break
 

@@ -49,6 +49,6 @@ def attr(name, text):
 
 logger.hr = hr
 logger.attr = attr
-logger.screenshot_deque = deque(maxlen=30)
+logger.screenshot_deque = deque(maxlen=60)
 
 logger.hr('Start', level=0)

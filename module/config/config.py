@@ -201,6 +201,7 @@ class AzurLaneConfig:
     MAP_HAS_MOVABLE_ENEMY = False
     MAP_HAS_SIREN = False
     MAP_HAS_DYNAMIC_RED_BORDER = False
+    MAP_HAS_MAP_STORY = False  # event_20200521_cn(穹顶下的圣咏曲) adds after-combat story.
     MAP_SIREN_MOVE_WAIT = 1.5  # The enemy moving takes about 1.2 ~ 1.5s.
     MAP_SIREN_COUNT = 0
     MAP_MYSTERY_HAS_CARRIER = False
@@ -233,7 +234,8 @@ class AzurLaneConfig:
     MID_Y = SCREEN_CENTER[1]
     # UI mask
     UI_MASK_FILE = './module/map/ui_mask.png'
-    UI_MASK = np.array(Image.open(UI_MASK_FILE).convert('L'))
+    UI_MASK_PIL = Image.open(UI_MASK_FILE).convert('L')
+    UI_MASK = np.array(UI_MASK_PIL)
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
     UI_MASK_STROKE = cv2.erode(UI_MASK, kernel).astype('uint8')
 

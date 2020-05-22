@@ -17,6 +17,9 @@ class FastForwardHandler(ModuleBase):
     is_map_green = False
 
     def handle_fast_forward(self):
+        if self.config.MAP_HAS_MAP_STORY:
+            if self.appear(MAP_STAR_1):
+                self.config.MAP_HAS_MAP_STORY = False
         if not self.appear(MAP_STAR_1) or not self.appear(MAP_STAR_2) or not self.appear(MAP_STAR_3):
             self.config.ENABLE_FAST_FORWARD = False
             logger.info('Campaign is not 3-star cleared.')

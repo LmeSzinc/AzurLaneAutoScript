@@ -3,11 +3,11 @@ from module.daemon.assets import *
 from module.handler.ambush import MAP_AMBUSH_EVADE
 from module.handler.mystery import MysteryHandler
 from module.map.map_fleet_preparation import FleetPreparation
+from module.exception import *
 
 
 class AzurLaneDaemon(FleetPreparation, Combat, MysteryHandler):
     def daemon(self):
-
         while 1:
             self.device.screenshot()
 
@@ -21,8 +21,11 @@ class AzurLaneDaemon(FleetPreparation, Combat, MysteryHandler):
                 #     continue
                 # self.device.click(BATTLE_PREPARATION)
                 self.combat_preparation()
-            if self.handle_battle_status(save_get_items=False):
-                self.combat_status(save_get_items=False, expected_end='no_searching')
+            try:
+                if self.handle_battle_status(save_get_items=False):
+                    self.combat_status(save_get_items=False, expected_end='no_searching')
+                    continue
+            except CampaignEnd:
                 continue
 
             # Map operation

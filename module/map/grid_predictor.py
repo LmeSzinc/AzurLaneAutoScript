@@ -13,7 +13,6 @@ class GridPredictor:
 
     def __init__(self, location, image, corner):
         """
-
         Args:
             location:
             image:
@@ -55,6 +54,7 @@ class GridPredictor:
         if self.is_fleet:
             self.is_current_fleet = self.predict_current_fleet()
         self.is_boss = self.predict_boss()
+        # self.caught_by_siren = self.predict_siren_caught()
         # self.image_perspective = color_similarity_2d(
         #     self.image.transform(self.ENEMY_PERSPECTIVE_IMAGE_SIZE, Image.PERSPECTIVE, self._perspective)
         #     , color=(255, 36, 82)
@@ -220,3 +220,7 @@ class GridPredictor:
                 return True
 
         return False
+
+    def predict_siren_caught(self):
+        image = self.get_relative_image((-1, -1.5, 1, 0.5), output_shape=(120, 120))
+        return TEMPLATE_CAUGHT_BY_SIREN.match(image, similarity=0.6)

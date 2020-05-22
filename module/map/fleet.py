@@ -242,6 +242,10 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                 logger.info(f'Predict fleet_2 to be {fleets[0]}')
                 self.fleet_2_location = fleets[0].location
 
+        for loca in [self.fleet_1_location, self.fleet_2_location]:
+            if len(loca) and loca in self.map:
+                self.map[loca].wipe_out()
+
     def find_all_fleets(self):
         logger.hr('Find all fleets')
         queue = self.map.select(is_spawn_point=True)
@@ -269,7 +273,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                 self.fleet_1 = fleets[0].location
             else:
                 logger.info('Fleet_2 not detected.')
-                if self.config.POOR_MAP_DATA and self.map.select(is_spawn_point=True):
+                if self.config.POOR_MAP_DATA and not self.map.select(is_spawn_point=True):
                     self.fleet_1 = fleets[0].location
                 else:
                     self.find_all_fleets()
@@ -450,22 +454,24 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         appear = False
         for data in self.map.spawn_data:
             if data.get('battle') == self.battle_count and data.get('boss', 0):
+                logger.info('Catch camera re-positioning after boss appear')
                 appear = True
 
         if self.config.POOR_MAP_DATA:
+            appear = True
             self.device.screenshot()
             grids = Grids(self.device.image, config=self.config)
             grids.predict()
             grids.show()
             for grid in grids:
                 if grid.is_boss:
-                    appear = True
+                    logger.info('Catch camera re-positioning after boss appear')
+
                     for g in self.map:
                         g.wipe_out()
                     break
 
         if appear:
-            logger.info('Catch camera re-positioning after boss appear')
             camera = self.camera
             self.ensure_edge_insight()
             logger.info('Refocus to previous camera position.')

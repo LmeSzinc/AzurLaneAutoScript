@@ -107,3 +107,25 @@ class InfoHandler(ModuleBase):
             return False
 
         return self.story_skip()
+
+    def ensure_no_story(self, skip_first_screenshot=True):
+        logger.info('Ensure no story')
+        story_timer = Timer(5, count=4)
+        story_timer.start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.story_skip():
+                story_timer.reset()
+
+            if story_timer.reached():
+                break
+
+    def handle_map_after_combat_story(self):
+        if not self.config.MAP_HAS_MAP_STORY:
+            return False
+
+        self.ensure_no_story()

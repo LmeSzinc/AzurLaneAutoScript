@@ -6,6 +6,7 @@ from module.base.template import Template
 
 TEMPLATE_AMBUSH_EVADE_FAILED = Template(file='./assets/template/TEMPLATE_AMBUSH_EVADE_FAILED.png')
 TEMPLATE_AMBUSH_EVADE_SUCCESS = Template(file='./assets/template/TEMPLATE_AMBUSH_EVADE_SUCCESS.png')
+TEMPLATE_CAUGHT_BY_SIREN = Template(file='./assets/template/TEMPLATE_CAUGHT_BY_SIREN.png')
 TEMPLATE_ENEMY_BOSS = Template(file='./assets/template/TEMPLATE_ENEMY_BOSS.png')
 TEMPLATE_ENEMY_L = Template(file='./assets/template/TEMPLATE_ENEMY_L.png')
 TEMPLATE_ENEMY_M = Template(file='./assets/template/TEMPLATE_ENEMY_M.png')

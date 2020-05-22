@@ -1,4 +1,5 @@
 import numpy as np
+from PIL import Image
 
 from module.base.utils import area_in_area
 from module.config.config import AzurLaneConfig
@@ -14,10 +15,9 @@ class Grids(Perspective):
             image:
             config(AzurLaneConfig):
         """
-        self.image = image
-        self.config = config
         # try:
         super().__init__(image, config)
+        self.image = self._image_clear_ui(image)
 
         self.grids = {}
         for grid in self._gen():
@@ -104,6 +104,15 @@ class Grids(Perspective):
         #         break
 
     def update(self, image):
+        image = self._image_clear_ui(image)
         self.image = image
         for grid in self:
             grid.image = image
+
+    def _image_clear_ui(self, image):
+        if not self.config.MAP_HAS_DYNAMIC_RED_BORDER:
+            return image
+
+        new = Image.new('RGB', self.config.SCREEN_SIZE, (0, 0, 0))
+        new.paste(image.crop(self.config.DETECTING_AREA), box=self.config.DETECTING_AREA, mask=self.config.UI_MASK_PIL)
+        return new
