@@ -171,10 +171,10 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
 
         return False
 
-    def combat_execute(self, func=None, call_submarine_at_boss=False, save_get_items=False):
+    def combat_execute(self, auto=True, call_submarine_at_boss=False, save_get_items=False):
         """
         Args:
-            func: Funtion to run when in combat.
+            auto (bool):
             call_submarine_at_boss (bool):
             save_get_items (bool)
         """
@@ -198,6 +198,9 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
                 continue
             if self.handle_combat_manual():
                 continue
+            if not auto and self.is_combat_executing():
+                if self.handle_combat_weapon_release():
+                    continue
             if call_submarine_at_boss:
                 pass
             else:
@@ -343,7 +346,7 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
         self.combat_preparation(
             balance_hp=balance_hp, emotion_reduce=emotion_reduce, auto=auto, fleet_index=fleet_index)
         self.combat_execute(
-            func=func, call_submarine_at_boss=call_submarine_at_boss, save_get_items=save_get_items)
+            auto=auto, call_submarine_at_boss=call_submarine_at_boss, save_get_items=save_get_items)
         self.combat_status(
             save_get_items=save_get_items, expected_end=expected_end)
         self.handle_map_after_combat_story()

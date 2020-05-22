@@ -1,5 +1,5 @@
 from module.base.base import ModuleBase
-from module.combat.assets import MOVE_DOWN
+from module.combat.assets import *
 
 
 class CombatManual(ModuleBase):
@@ -15,6 +15,14 @@ class CombatManual(ModuleBase):
 
         self.device.long_click(MOVE_DOWN, duration=0.8)
         return True
+
+    def handle_combat_weapon_release(self):
+        if self.appear_then_click(READY_AIR_RAID, interval=5):
+            return True
+        if self.appear_then_click(READY_TORPEDO, interval=5):
+            return True
+
+        return False
 
     def handle_combat_manual(self):
         if self.manual_executed or not self.auto_mode_checked:
