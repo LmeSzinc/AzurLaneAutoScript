@@ -164,7 +164,7 @@ class CampaignMap:
         spawn = {'battle': 0, 'enemy': 0, 'mystery': 0, 'siren': 0, 'boss': 0}
         for data in data_list:
             spawn['battle'] = data['battle']
-            spawn['enemy'] += data.get('enemy', 0) + data.get('siren', 0)
+            spawn['enemy'] += data.get('enemy', 0)
             spawn['mystery'] += data.get('mystery', 0)
             spawn['siren'] += data.get('siren', 0)
             spawn['boss'] += data.get('boss', 0)
@@ -343,7 +343,7 @@ class CampaignMap:
         except IndexError:
             missing = self.spawn_data[-1].copy()
         may = {'enemy': 0, 'mystery': 0, 'siren': 0, 'boss': 0, 'carrier': 0}
-        missing['enemy'] -= battle_count
+        missing['enemy'] -= battle_count - siren_count
         missing['mystery'] -= mystery_count
         missing['siren'] -= siren_count
         missing['carrier'] = carrier_count - self.select(is_enemy=True, may_enemy=False).count

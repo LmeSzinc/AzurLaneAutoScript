@@ -82,10 +82,10 @@ class GridInfo:
                 return key
 
         if self.is_siren:
-            return ''.join([text[0] for text in self.enemy_type.split('_')]).upper()
+            return ''.join([text[0] for text in self.enemy_type.split('_')]).upper() if self.enemy_type else 'SU'
 
         if self.is_enemy:
-            return '%s%s' % (self.enemy_scale, self.enemy_type[0].upper())
+            return '%s%s' % (self.enemy_scale, self.enemy_type[0].upper()) if self.enemy_type else '0E'
 
         dic = {
             'FL': 'is_current_fleet',
@@ -142,13 +142,15 @@ class GridInfo:
                     flag &= not self.is_cleared
                 if flag:
                     self.__setattr__('is_' + item, True)
+                    # self.is_enemy = True
+                    # self.enemy_scale = 0
                     self.enemy_type = info.enemy_type
                     return True
                 else:
                     logger.info(f'Wrong Prediction. Grid: {self}, Attr: is_{item}')
 
         if info.is_enemy:
-            flag = not info.is_fleet and not self.is_fleet
+            flag = not info.is_fleet and not self.is_fleet and not self.is_siren
             if not is_carrier_scan:
                 if not ignore_may:
                     flag &= self.may_enemy

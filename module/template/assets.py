@@ -23,5 +23,7 @@ TEMPLATE_MAP_WALK_OUT_OF_STEP = Template(file='./assets/template/TEMPLATE_MAP_WA
 TEMPLATE_SIREN_1 = Template(file='./assets/template/TEMPLATE_SIREN_1.png')
 TEMPLATE_SIREN_2 = Template(file='./assets/template/TEMPLATE_SIREN_2.png')
 TEMPLATE_SIREN_3 = Template(file='./assets/template/TEMPLATE_SIREN_3.png')
+TEMPLATE_SIREN_Algerie = Template(file='./assets/template/TEMPLATE_SIREN_Algerie.png')
+TEMPLATE_SIREN_LaGalissonniere = Template(file='./assets/template/TEMPLATE_SIREN_LaGalissonniere.png')
 TEMPLATE_STAGE_CLEAR = Template(file='./assets/template/TEMPLATE_STAGE_CLEAR.png')
 TEMPLATE_STAGE_PERCENT = Template(file='./assets/template/TEMPLATE_STAGE_PERCENT.png')

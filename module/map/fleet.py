@@ -158,7 +158,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                     raise MapWalkError('walk_out_of_step')
 
                 # Arrive
-                if self.is_in_map() and grid.predict_fleet():
+                if self.is_in_map() and (grid.predict_fleet() or grid.predict_current_fleet()):
                     if not arrive_timer.started():
                         logger.info(f'Arrive {location2node(location)}')
                     arrive_timer.start()

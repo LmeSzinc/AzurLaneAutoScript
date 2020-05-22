@@ -255,7 +255,8 @@ class Map(Fleet):
             grids = grids.sort(cost=True, weight=True)
             logger.info('Grid: %s' % str(grid))
             self.clear_chosen_enemy(grid)
-            if self.battle_count >= battle_count:
+            if self.battle_count > battle_count:
+                logger.info('Boss guessing correct.')
                 return True
             else:
                 logger.info('Boss guessing incorrect.')

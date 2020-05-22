@@ -12,14 +12,15 @@ class GridPredictor:
     ENEMY_PERSPECTIVE_IMAGE_SIZE = (50, 50)
     RED_BORDER_IGNORE_TOP = 10
     DIC_ENEMY_TYPE = {
-        'Siren_1': TEMPLATE_SIREN_1,
-        'Siren_2': TEMPLATE_SIREN_2,
-        'Siren_3': TEMPLATE_SIREN_3,
+        # 'Siren_1': TEMPLATE_SIREN_1,
+        # 'Siren_2': TEMPLATE_SIREN_2,
+        # 'Siren_3': TEMPLATE_SIREN_3,
         'Light': TEMPLATE_ENEMY_LIGHT,
         'Main': TEMPLATE_ENEMY_MAIN,
         'Carrier': TEMPLATE_ENEMY_CARRIER,
         'Treasure': TEMPLATE_ENEMY_TREASURE,
     }
+    SIREN_TEMPLATE_LOADED = False
 
     def __init__(self, location, image, corner, config):
         """
@@ -254,6 +255,11 @@ class GridPredictor:
 
     def predict_enemy_type(self):
         image = self.get_relative_image((-1, -1, 1, 0), output_shape=(120, 60))
+        if not self.SIREN_TEMPLATE_LOADED:
+            for name in self.config.MAP_SIREN_TEMPLATE:
+                self.DIC_ENEMY_TYPE[f'Siren_{name}'] = globals().get(f'TEMPLATE_SIREN_{name}')
+                self.SIREN_TEMPLATE_LOADED = True
+
         for name, template in self.DIC_ENEMY_TYPE.items():
             if not self.config.MAP_HAS_SIREN and name.startswith('Siren'):
                 continue

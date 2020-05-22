@@ -203,6 +203,7 @@ class AzurLaneConfig:
     MAP_HAS_DYNAMIC_RED_BORDER = False
     MAP_HAS_MAP_STORY = False  # event_20200521_cn(穹顶下的圣咏曲) adds after-combat story.
     MAP_SIREN_MOVE_WAIT = 1.5  # The enemy moving takes about 1.2 ~ 1.5s.
+    MAP_SIREN_TEMPLATE = ['1', '2', '3']
     MAP_SIREN_COUNT = 0
     MAP_MYSTERY_HAS_CARRIER = False
     MAP_GRID_CENTER_TOLERANCE = 0.1
