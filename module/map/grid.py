@@ -6,7 +6,7 @@ from module.map.grid_predictor import GridPredictor
 
 
 class Grid(GridPredictor, GridInfo):
-    def __init__(self, location, image, corner):
+    def __init__(self, location, image, corner, config):
         """
 
         Args:
@@ -18,7 +18,7 @@ class Grid(GridPredictor, GridInfo):
                  (x2, y2)  +-------------+  (x3, y3)
         """
         self.location = location
-        super().__init__(location, image, corner)
+        super().__init__(location, image, corner, config)
         self.corner = corner.flatten()
 
     @property

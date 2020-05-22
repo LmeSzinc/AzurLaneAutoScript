@@ -43,7 +43,7 @@ class GridInfo:
     is_siren = False  # SI
 
     enemy_scale = 0
-    enemy_type = 'Enemy'  # Light, Main, Carrier, Treasure, Enemy(unknown)
+    enemy_type = None  # Light, Main, Carrier, Treasure, Enemy(unknown)
 
     is_cleared = False
     is_ambush_save = False
@@ -76,16 +76,15 @@ class GridInfo:
         dic = {
             '++': 'is_land',
             'BO': 'is_boss',
-            'SI': 'is_siren'
         }
         for key, value in dic.items():
             if self.__getattribute__(value):
                 return key
 
+        if self.is_siren:
+            return ''.join([text[0] for text in self.enemy_type.split('_')]).upper()
+
         if self.is_enemy:
-            # if self.may_siren:
-            #     return 'SI'
-            # else:
             return '%s%s' % (self.enemy_scale, self.enemy_type[0].upper())
 
         dic = {
@@ -143,6 +142,7 @@ class GridInfo:
                     flag &= not self.is_cleared
                 if flag:
                     self.__setattr__('is_' + item, True)
+                    self.enemy_type = info.enemy_type
                     return True
                 else:
                     logger.info(f'Wrong Prediction. Grid: {self}, Attr: is_{item}')
@@ -184,7 +184,7 @@ class GridInfo:
         """
         self.is_enemy = False
         self.enemy_scale = 0
-        self.enemy_type = 'Enemy'
+        self.enemy_type = None
         self.is_mystery = False
         self.is_boss = False
         self.is_ammo = False

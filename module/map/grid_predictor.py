@@ -3,6 +3,7 @@ from PIL import Image
 from skimage.color import rgb2hsv
 
 from module.base.utils import color_similarity_2d
+from module.config.config import AzurLaneConfig
 from module.template.assets import *
 
 
@@ -10,14 +11,25 @@ class GridPredictor:
     ENEMY_SCALE_IMAGE_SIZE = (50, 50)
     ENEMY_PERSPECTIVE_IMAGE_SIZE = (50, 50)
     RED_BORDER_IGNORE_TOP = 10
+    DIC_ENEMY_TYPE = {
+        'Siren_1': TEMPLATE_SIREN_1,
+        'Siren_2': TEMPLATE_SIREN_2,
+        'Siren_3': TEMPLATE_SIREN_3,
+        'Light': TEMPLATE_ENEMY_LIGHT,
+        'Main': TEMPLATE_ENEMY_MAIN,
+        'Carrier': TEMPLATE_ENEMY_CARRIER,
+        'Treasure': TEMPLATE_ENEMY_TREASURE,
+    }
 
-    def __init__(self, location, image, corner):
+    def __init__(self, location, image, corner, config):
         """
         Args:
             location:
             image:
             corner:
+            config (AzurLaneConfig)
         """
+        self.config = config
         self.location = location
         self.image = image
         self.corner = corner.flatten()
@@ -41,20 +53,35 @@ class GridPredictor:
 
     def predict(self):
         self.image_transform = self.image.transform(self.ENEMY_PERSPECTIVE_IMAGE_SIZE, Image.PERSPECTIVE, self._perspective)
-        # self.image_hole = self.get_relative_image((-1, -1, 1, 1))
-        self.is_enemy = self.predict_static_red_border()
 
         self.enemy_scale = self.predict_enemy_scale()
-        if self.enemy_scale > 0:
-            self.is_enemy = True
+        self.enemy_type = self.predict_enemy_type()
+
         self.is_mystery = self.predict_mystery()
-        if not self.is_enemy and not self.is_mystery:
-            self.is_siren = self.predict_dynamic_red_border()
         self.is_fleet = self.predict_fleet()
         if self.is_fleet:
             self.is_current_fleet = self.predict_current_fleet()
         self.is_boss = self.predict_boss()
-        # self.caught_by_siren = self.predict_siren_caught()
+
+        if self.config.MAP_HAS_DYNAMIC_RED_BORDER:
+            if not self.is_enemy and not self.is_mystery:
+                if self.predict_dynamic_red_border():
+                    self.enemy_type = 'Siren_unknown'
+            # self.caught_by_siren = self.predict_siren_caught()
+
+        if self.enemy_type:
+            self.is_enemy = True
+        if self.enemy_scale:
+            self.is_enemy = True
+        if not self.is_enemy:
+            self.is_enemy = self.predict_static_red_border()
+        if self.is_enemy and not self.enemy_type:
+            self.enemy_type = 'Enemy'
+        if self.config.MAP_HAS_SIREN:
+            if self.enemy_type is not None and self.enemy_type.startswith('Siren'):
+                self.is_siren = True
+                self.enemy_scale = 0
+
         # self.image_perspective = color_similarity_2d(
         #     self.image.transform(self.ENEMY_PERSPECTIVE_IMAGE_SIZE, Image.PERSPECTIVE, self._perspective)
         #     , color=(255, 36, 82)
@@ -224,3 +251,14 @@ class GridPredictor:
     def predict_siren_caught(self):
         image = self.get_relative_image((-1, -1.5, 1, 0.5), output_shape=(120, 120))
         return TEMPLATE_CAUGHT_BY_SIREN.match(image, similarity=0.6)
+
+    def predict_enemy_type(self):
+        image = self.get_relative_image((-1, -1, 1, 0), output_shape=(120, 60))
+        for name, template in self.DIC_ENEMY_TYPE.items():
+            if not self.config.MAP_HAS_SIREN and name.startswith('Siren'):
+                continue
+            if template.match(image):
+                return name
+
+        return None
+

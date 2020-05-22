@@ -82,7 +82,7 @@ class Grids(Perspective):
                 area = np.append(cross[0], cross[3])
 
                 if area_in_area(area, self.config.DETECTING_AREA):
-                    grid = Grid(location=(x, y), image=self.image, corner=cross.points)
+                    grid = Grid(location=(x, y), image=self.image, corner=cross.points, config=self.config)
                     yield grid
 
     def show(self):
@@ -93,9 +93,6 @@ class Grids(Perspective):
     def predict(self):
         for grid in self:
             grid.predict()
-        if not self.config.MAP_HAS_DYNAMIC_RED_BORDER:
-            for grid in self:
-                grid.is_siren = False
 
         # for grid in self:
         #     if grid.is_enemy and grid.enemy_scale == 0:

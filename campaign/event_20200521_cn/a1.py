@@ -24,7 +24,7 @@ class Config:
     MAP_HAS_FLEET_STEP = True
     MAP_HAS_MOVABLE_ENEMY = True
     MAP_HAS_SIREN = True
-    MAP_HAS_DYNAMIC_RED_BORDER = True
+    MAP_HAS_DYNAMIC_RED_BORDER = False
     MAP_HAS_MAP_STORY = True
     MAP_SIREN_COUNT = 2
 
