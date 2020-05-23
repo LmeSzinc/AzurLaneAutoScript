@@ -11,7 +11,7 @@ class GridPredictor:
     ENEMY_SCALE_IMAGE_SIZE = (50, 50)
     ENEMY_PERSPECTIVE_IMAGE_SIZE = (50, 50)
     RED_BORDER_IGNORE_TOP = 10
-    DIC_ENEMY_TYPE = {
+    DIC_ENEMY_GENRE = {
         # 'Siren_1': TEMPLATE_SIREN_1,
         # 'Siren_2': TEMPLATE_SIREN_2,
         # 'Siren_3': TEMPLATE_SIREN_3,
@@ -56,7 +56,7 @@ class GridPredictor:
         self.image_transform = self.image.transform(self.ENEMY_PERSPECTIVE_IMAGE_SIZE, Image.PERSPECTIVE, self._perspective)
 
         self.enemy_scale = self.predict_enemy_scale()
-        self.enemy_type = self.predict_enemy_type()
+        self.enemy_genre = self.predict_enemy_genre()
 
         self.is_mystery = self.predict_mystery()
         self.is_fleet = self.predict_fleet()
@@ -67,20 +67,20 @@ class GridPredictor:
         if self.config.MAP_HAS_DYNAMIC_RED_BORDER:
             if not self.is_enemy and not self.is_mystery:
                 if self.predict_dynamic_red_border():
-                    self.enemy_type = 'Siren_unknown'
+                    self.enemy_genre = 'Siren_unknown'
         if self.config.MAP_HAS_MOVABLE_ENEMY:
             self.is_caught_by_siren = self.predict_siren_caught()
 
-        if self.enemy_type:
+        if self.enemy_genre:
             self.is_enemy = True
         if self.enemy_scale:
             self.is_enemy = True
         if not self.is_enemy:
             self.is_enemy = self.predict_static_red_border()
-        if self.is_enemy and not self.enemy_type:
-            self.enemy_type = 'Enemy'
+        if self.is_enemy and not self.enemy_genre:
+            self.enemy_genre = 'Enemy'
         if self.config.MAP_HAS_SIREN:
-            if self.enemy_type is not None and self.enemy_type.startswith('Siren'):
+            if self.enemy_genre is not None and self.enemy_genre.startswith('Siren'):
                 self.is_siren = True
                 self.enemy_scale = 0
 
@@ -254,14 +254,14 @@ class GridPredictor:
         image = self.get_relative_image((-1, -1.5, 1, 0.5), output_shape=(120, 120))
         return TEMPLATE_CAUGHT_BY_SIREN.match(image, similarity=0.6)
 
-    def predict_enemy_type(self):
+    def predict_enemy_genre(self):
         image = self.get_relative_image((-1, -1, 1, 0), output_shape=(120, 60))
         if not self.SIREN_TEMPLATE_LOADED:
             for name in self.config.MAP_SIREN_TEMPLATE:
-                self.DIC_ENEMY_TYPE[f'Siren_{name}'] = globals().get(f'TEMPLATE_SIREN_{name}')
+                self.DIC_ENEMY_GENRE[f'Siren_{name}'] = globals().get(f'TEMPLATE_SIREN_{name}')
                 self.SIREN_TEMPLATE_LOADED = True
 
-        for name, template in self.DIC_ENEMY_TYPE.items():
+        for name, template in self.DIC_ENEMY_GENRE.items():
             if not self.config.MAP_HAS_SIREN and name.startswith('Siren'):
                 continue
             if template.match(image):

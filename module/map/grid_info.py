@@ -43,7 +43,7 @@ class GridInfo:
     is_siren = False  # SI
 
     enemy_scale = 0
-    enemy_type = None  # Light, Main, Carrier, Treasure, Enemy(unknown)
+    enemy_genre = None  # Light, Main, Carrier, Treasure, Enemy(unknown)
 
     is_cleared = False
     is_ambush_save = False
@@ -83,10 +83,10 @@ class GridInfo:
                 return key
 
         if self.is_siren:
-            return ''.join([text[0] for text in self.enemy_type.split('_')]).upper() if self.enemy_type else 'SU'
+            return ''.join([text[0] for text in self.enemy_genre.split('_')]).upper() if self.enemy_genre else 'SU'
 
         if self.is_enemy:
-            return '%s%s' % (self.enemy_scale, self.enemy_type[0].upper()) if self.enemy_type else '0E'
+            return '%s%s' % (self.enemy_scale, self.enemy_genre[0].upper()) if self.enemy_genre else '0E'
 
         dic = {
             'FL': 'is_current_fleet',
@@ -146,7 +146,7 @@ class GridInfo:
                     self.__setattr__('is_' + item, True)
                     # self.is_enemy = True
                     # self.enemy_scale = 0
-                    self.enemy_type = info.enemy_type
+                    self.enemy_genre = info.enemy_genre
                     return True
                 else:
                     logger.info(f'Wrong Prediction. Grid: {self}, Attr: is_{item}')
@@ -161,7 +161,7 @@ class GridInfo:
             if flag:
                 self.is_enemy = True
                 self.enemy_scale = info.enemy_scale
-                self.enemy_type = info.enemy_type
+                self.enemy_genre = info.enemy_genre
                 if self.may_siren:
                     self.is_siren = True
                 return True
@@ -190,7 +190,7 @@ class GridInfo:
         """
         self.is_enemy = False
         self.enemy_scale = 0
-        self.enemy_type = None
+        self.enemy_genre = None
         self.is_mystery = False
         self.is_boss = False
         self.is_ammo = False

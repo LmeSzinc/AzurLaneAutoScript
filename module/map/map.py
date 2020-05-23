@@ -59,14 +59,15 @@ class Map(Fleet):
             self.fleet_ammo += recover
 
     @staticmethod
-    def select_grids(grids, nearby=False, is_accessible=True, scale=(), strongest=False, weakest=False, cost=True,
-                     weight=True, ignore=None):
+    def select_grids(grids, nearby=False, is_accessible=True, scale=(), genre=(), strongest=False, weakest=False,
+                     cost=True, weight=True, ignore=None):
         """
         Args:
             grids (SelectedGrids):
             nearby (bool):
             is_accessible (bool):
-            scale (tuple[int]):
+            scale (tuple[int], list[int]): Tuple: select out of order, list: select in order.
+            genre (tuple[str], list[str]): light, main, carrier, treasure. (Case insensitive).
             strongest (bool):
             weakest (bool):
             cost (bool):
@@ -86,6 +87,15 @@ class Map(Fleet):
             enemy = SelectedGrids([])
             for enemy_scale in scale:
                 enemy = enemy.add(grids.select(enemy_scale=enemy_scale))
+                if isinstance(scale, list) and enemy:
+                    break
+            grids = enemy
+        if len(genre):
+            enemy = SelectedGrids([])
+            for enemy_genre in genre:
+                enemy = enemy.add(grids.select(enemy_genre=enemy_genre.capitalize()))
+                if isinstance(genre, list) and enemy:
+                    break
             grids = enemy
         if strongest:
             for scale in [3, 2, 1, 0]:
@@ -385,4 +395,3 @@ class Map(Fleet):
         for grid in self.map:
             grid.is_caught_by_siren = False
         return True
-

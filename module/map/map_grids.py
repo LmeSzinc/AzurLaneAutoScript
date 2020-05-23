@@ -76,7 +76,8 @@ class SelectedGrids:
         for grid in self:
             flag = True
             for k, v in kwargs.items():
-                if grid.__getattribute__(k) != v:
+                grid_v = grid.__getattribute__(k)
+                if type(grid_v) != type(v) or grid_v != v:
                     flag = False
             if flag:
                 result.append(grid)
