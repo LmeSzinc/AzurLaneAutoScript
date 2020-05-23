@@ -47,6 +47,7 @@ class GridInfo:
 
     is_cleared = False
     is_ambush_save = False
+    is_caught_by_siren = False
     cost = 9999
     connection = None
     weight = 1
@@ -90,6 +91,7 @@ class GridInfo:
         dic = {
             'FL': 'is_current_fleet',
             'Fl': 'is_fleet',
+            'Fc': 'is_caught_by_siren',
             'MY': 'is_mystery',
             'AM': 'is_ammo',
             '==': 'is_cleared'
@@ -178,6 +180,8 @@ class GridInfo:
         self.is_fleet = info.is_fleet
         if info.is_current_fleet:
             self.is_current_fleet = True
+        if info.is_caught_by_siren:
+            self.is_caught_by_siren = True
         return False
 
     def wipe_out(self):

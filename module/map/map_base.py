@@ -253,6 +253,8 @@ class CampaignMap:
             MAP_7_2._find_path(node2location('H2'))
             [(2, 2), (3, 2), (4, 2), (5, 2), (6, 2), (6, 1), (7, 1)]  # ['C3', 'D3', 'E3', 'F3', 'G3', 'G2', 'H2']
         """
+        if self[location].cost == 0:
+            return [location]
         if self[location].connection is None:
             return None
         res = [location]

@@ -30,6 +30,8 @@ class CampaignBase(Map):
     def execute_a_battle(self):
         logger.hr(f'{self.FUNCTION_NAME_BASE}{self.battle_count}', level=2)
         logger.info('Running with poor map data.')
+        if self.fleet_2_break_siren_caught():
+            return True
         self.clear_all_mystery()
 
         if self.battle_count >= 3:
@@ -50,6 +52,8 @@ class CampaignBase(Map):
     def execute_a_battle(self):
         logger.hr(f'{self.FUNCTION_NAME_BASE}{self.battle_count}', level=2)
         logger.info('Using function: clear_all')
+        if self.fleet_2_break_siren_caught():
+            return True
         self.clear_all_mystery()
 
         if self.battle_count >= 3:

@@ -364,3 +364,25 @@ class Map(Fleet):
         self.fleet_1.clear_roadblocks(roadblocks)
         self.fleet_1.clear_all_mystery()
         return True
+
+    def fleet_2_break_siren_caught(self):
+        if not self.config.MAP_HAS_SIREN or not self.config.MAP_HAS_MOVABLE_ENEMY:
+            return False
+        if not self.map.select(is_caught_by_siren=True):
+            logger.info('No fleet caught by siren.')
+            return False
+        if not self.fleet_2_location or not self.map[self.fleet_2_location].is_caught_by_siren:
+            logger.warning('Appear caught by siren, but not fleet_2.')
+            for grid in self.map:
+                grid.is_caught_by_siren = False
+            return False
+
+        logger.info(f'Break siren caught, fleet_2: {self.fleet_2_location}')
+        self.fleet_2.switch_to()
+        self.ensure_edge_insight(reverse=True)
+        self.clear_chosen_enemy(self.map[self.fleet_2_location])
+        self.fleet_1.switch_to()
+        for grid in self.map:
+            grid.is_caught_by_siren = False
+        return True
+
