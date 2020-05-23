@@ -73,7 +73,7 @@ class Campaign(CampaignBase):
             return True
         if self.clear_enemy(scale=(1,)):
             return True
-        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'carrier']):
+        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
             return True
         if self.clear_enemy(genre=['light', 'main']):
             return True
