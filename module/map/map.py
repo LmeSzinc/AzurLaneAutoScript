@@ -389,7 +389,7 @@ class Map(Fleet):
 
         logger.info(f'Break siren caught, fleet_2: {self.fleet_2_location}')
         self.fleet_2.switch_to()
-        self.ensure_edge_insight(reverse=True)
+        self.ensure_edge_insight()
         self.clear_chosen_enemy(self.map[self.fleet_2_location])
         self.fleet_1.switch_to()
         for grid in self.map:

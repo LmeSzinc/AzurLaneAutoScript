@@ -280,10 +280,10 @@ class CampaignMap:
 
                     if cost < arr.cost:
                         arr.cost = cost
-                        arr.connection = grid
+                        arr.connection = grid.location
                     elif cost == arr.cost:
                         if abs(arr.location[0] - grid.location[0]) == 1:
-                            arr.connection = grid
+                            arr.connection = grid.location
                     if arr.is_sea:
                         new.add(arr)
             if len(new) == len(visited):
