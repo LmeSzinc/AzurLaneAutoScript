@@ -40,6 +40,7 @@ class CampaignMap:
         self._shape = (0, 0)
         self._map_data = ''
         self._weight_data = ''
+        self._wall_data = ''
         self._block_data = []
         self._spawn_data = []
         self._spawn_data_backup = []
@@ -47,6 +48,7 @@ class CampaignMap:
         self.in_map_swipe_preset_data = None
         self.poor_map_data = False
         self.camera_sight = (-3, -1, 3, 2)
+        self.grid_connection = {}
 
     def __iter__(self):
         return iter(self.grids.values())
@@ -87,10 +89,11 @@ class CampaignMap:
 
         # camera_data can be generate automatically, but it's better to set it manually.
         self.camera_data = [location2node(loca) for loca in camera_2d(self._shape, sight=self.camera_sight)]
-
         # weight_data set to 10.
         for grid in self:
             grid.weight = 10.
+        # Initialize grid connection.
+        self.grid_connection_initial()
 
     @property
     def map_data(self):
@@ -105,6 +108,57 @@ class CampaignMap:
         self._map_data = text
         for loca, data in self._parse_text(text):
             self.grids[loca].decode(data)
+
+    @property
+    def wall_data(self):
+        return self._wall_data
+
+    @wall_data.setter
+    def wall_data(self, text):
+        self._wall_data = text
+
+    def grid_connection_initial(self, wall=False):
+        """
+        Args:
+            wall (bool): If use wall_data
+
+        Returns:
+            bool: If used wall data.
+        """
+        # Generate grid connection.
+        total = set([grid for grid in self.grids.keys()])
+        for grid in self:
+            connection = set()
+            for arr in np.array([(0, -1), (0, 1), (-1, 0), (1, 0)]):
+                arr = tuple(arr + grid.location)
+                if arr in total:
+                    connection.add(self[arr])
+            self.grid_connection[grid] = connection
+
+        if not wall or not self._wall_data:
+            return False
+
+        # Use wall_data to delete connection.
+        wall = []
+        for y, line in enumerate([l for l in self._wall_data.split('\n') if l]):
+            for x, letter in enumerate(line[4:-2]):
+                if letter != ' ':
+                    wall.append((x, y))
+        wall = np.array(wall)
+        vert = wall[np.all([wall[:, 0] % 4 == 2, wall[:, 1] % 2 == 0], axis=0)]
+        hori = wall[np.all([wall[:, 0] % 4 == 0, wall[:, 1] % 2 == 1], axis=0)]
+        disconnect = []
+        for loca in (vert - (2, 0)) // (4, 2):
+            disconnect.append([loca, loca + (1, 0)])
+        for loca in (hori - (0, 1)) // (4, 2):
+            disconnect.append([loca, loca + (0, 1)])
+        for g1, g2 in disconnect:
+            g1 = self[g1]
+            g2 = self[g2]
+            self.grid_connection[g1].remove(g2)
+            self.grid_connection[g2].remove(g1)
+
+        return True
 
     def show(self):
         # logger.info('Showing grids:')
@@ -210,28 +264,27 @@ class CampaignMap:
         for grid in self:
             grid.cost = 9999
             grid.connection = None
-        self[location].cost = 0
-        total = set([grid for grid in self.grids.keys()])
-        visited = [location]
+        start = self[location]
+        start.cost = 0
+        visited = [start]
         visited = set(visited)
 
         while 1:
             new = visited.copy()
             for grid in visited:
-                for arr in np.array([(0, -1), (0, 1), (-1, 0), (1, 0)]):
-                    arr = tuple(arr + grid)
-                    if arr not in total or self[arr].is_land:
+                for arr in self.grid_connection[grid]:
+                    if arr.is_land:
                         continue
-                    cost = 1 if self[arr].is_ambush_save else ambush_cost
-                    cost += self[grid].cost
+                    cost = 1 if arr.is_ambush_save else ambush_cost
+                    cost += grid.cost
 
-                    if cost < self[arr].cost:
-                        self[arr].cost = cost
-                        self[arr].connection = grid
-                    elif cost == self[arr].cost:
-                        if abs(arr[0] - grid[0]) == 1:
-                            self[arr].connection = grid
-                    if self[arr].is_sea:
+                    if cost < arr.cost:
+                        arr.cost = cost
+                        arr.connection = grid
+                    elif cost == arr.cost:
+                        if abs(arr.location[0] - grid.location[0]) == 1:
+                            arr.connection = grid
+                    if arr.is_sea:
                         new.add(arr)
             if len(new) == len(visited):
                 break

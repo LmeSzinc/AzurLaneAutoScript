@@ -86,7 +86,8 @@ class GridInfo:
             return ''.join([text[0] for text in self.enemy_genre.split('_')]).upper() if self.enemy_genre else 'SU'
 
         if self.is_enemy:
-            return '%s%s' % (self.enemy_scale, self.enemy_genre[0].upper()) if self.enemy_genre else '0E'
+            return '%s%s' % (self.enemy_scale, self.enemy_genre[0].upper()) \
+                if self.enemy_genre and self.enemy_scale else '0E'
 
         dic = {
             'FL': 'is_current_fleet',
@@ -104,6 +105,11 @@ class GridInfo:
 
     def __str__(self):
         return location2node(self.location)
+
+    __repr__ = __str__
+
+    def __hash__(self):
+        return hash(self.location)
 
     @property
     def str(self):

@@ -327,6 +327,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         self.map.reset()
         self.handle_map_green_config_cover()
         self.map.poor_map_data = self.config.POOR_MAP_DATA
+        self.map.grid_connection_initial(wall=self.config.MAP_HAS_WALL and self.is_map_green)
         self.hp_init()
         self.handle_strategy(index=self.fleet_current_index)
         self.ensure_edge_insight(preset=self.map.in_map_swipe_preset_data)
