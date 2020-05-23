@@ -327,7 +327,8 @@ def main(ini_name=''):
     event_parser = subs.add_parser('活动图')
 
     description = """
-    支持「夜幕下的归途」(event_20200507_cn), SP1至SP3均有优化
+    支持「穹顶下的圣咏曲」(event_20200521_cn), 针对D1有优化
+    D3第一次进图和第一次通关均有剧情战斗, 会导致报错
     出击未优化关卡或地图未达到安全海域时, 使用开荒模式运行(较慢)
     """
     event = event_parser.add_argument_group(
