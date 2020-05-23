@@ -1,8 +1,5 @@
 from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
-from module.map.map_grids import SelectedGrids, RoadGrids
-from module.logger import logger
-
 
 MAP = CampaignMap()
 MAP.map_data = '''
@@ -55,13 +52,13 @@ class Config:
     TRUST_EDGE_LINES = False
     COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.5
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (100, 235),
+        'height': (100, 255 - 16),
         'width': 1,
         'prominence': 10,
         'distance': 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 80, 255),
+        'height': (255 - 16, 255),
         'prominence': 2,
         'distance': 50,
         'wlen': 1000
@@ -74,7 +71,9 @@ class Campaign(CampaignBase):
     def battle_0(self):
         if self.clear_siren():
             return True
-        if self.clear_enemy(scale=(2, 1)):
+        if self.clear_enemy(scale=(1,)):
+            return True
+        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'carrier']):
             return True
         if self.clear_enemy(genre=['light', 'main']):
             return True

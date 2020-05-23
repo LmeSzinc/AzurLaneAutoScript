@@ -181,6 +181,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                     break
                 if walk_timeout.reached():
                     logger.warning('Walk timeout. Retrying.')
+                    self.ensure_edge_insight()
                     break
 
             # End
@@ -210,6 +211,8 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                 try:
                     self._goto(node, expected=expected if node == nodes[-1] else '')
                 except MapWalkError:
+                    logger.warning('Map walk error.')
+                    self.ensure_edge_insight()
                     nodes_ = self.map.find_path(node, step=1)
                     for node_ in nodes_:
                         self._goto(node_, expected=expected if node == nodes[-1] else '')
@@ -461,7 +464,6 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                 appear = True
 
         if self.config.POOR_MAP_DATA:
-            appear = True
             self.device.screenshot()
             grids = Grids(self.device.image, config=self.config)
             grids.predict()
@@ -469,7 +471,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
             for grid in grids:
                 if grid.is_boss:
                     logger.info('Catch camera re-positioning after boss appear')
-
+                    appear = True
                     for g in self.map:
                         g.wipe_out()
                     break

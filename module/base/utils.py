@@ -174,7 +174,7 @@ def node2location(node):
     Returns:
         tuple: Example: (6, 4)
     """
-    return ord(node[0]) % 32 - 1, int(node[1]) - 1
+    return ord(node[0]) % 32 - 1, int(node[1:]) - 1
 
 
 def location2node(location):
