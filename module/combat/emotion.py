@@ -114,6 +114,7 @@ class Emotion:
         The game does not calculate emotion correctly, which is a bug in AzurLane.
         After a long run, we have to restart the game to update it.
         """
+        logger.attr('Emotion_bug', f'{self.total_reduced}/{self.BUG_THRESHOLD}')
         if self.total_reduced >= self.BUG_THRESHOLD:
             self.total_reduced = 0
             return True

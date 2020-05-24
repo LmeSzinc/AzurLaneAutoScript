@@ -24,6 +24,7 @@ class CampaignRun(CampaignUI, Reward, LoginHandler):
     config: AzurLaneConfig
     campaign: CampaignBase
     run_count: int
+    start_time = datetime.now()
 
     def load_campaign(self, name, folder='campaign_main'):
         """
@@ -100,6 +101,30 @@ class CampaignRun(CampaignUI, Reward, LoginHandler):
             if OCR_OIL.ocr(self.device.image) < self.config.STOP_IF_OIL_LOWER_THAN:
                 logger.hr('Triggered oil limit')
                 return True
+
+        return False
+
+    def _triggered_app_restart(self):
+        """
+        Returns:
+            bool: If triggered a restart condition.
+        """
+        now = datetime.now()
+        if now.date() != self.start_time.date():
+            logger.hr('Triggered restart new day')
+            return True
+        if not self.campaign.config.IGNORE_LOW_EMOTION_WARN:
+            if self.campaign.emotion.triggered_bug():
+                logger.hr('Triggered restart avoid emotion bug')
+                return True
+
+        return False
+
+    def handle_app_restart(self):
+        if self._triggered_app_restart():
+            self.app_restart()
+            self.start_time = datetime.now()
+            return True
 
         return False
 
