@@ -7,7 +7,7 @@ MAP.map_data = '''
     ME ME ++ ++ ME ME
     ++ -- MB MB -- --
     ME -- ME ME ++ ME
-    ME MS -- -- ME ME
+    ME MS __ __ ME ME
     ++ ++ MS -- MS ME
     ++ MS -- ME ++ ME
     ME -- SP -- ME --

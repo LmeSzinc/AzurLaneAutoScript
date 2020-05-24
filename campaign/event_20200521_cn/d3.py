@@ -7,18 +7,30 @@ from campaign.event_20200521_cn.d1 import Config as ConfigBase
 
 MAP = CampaignMap()
 MAP.map_data = """
-    -- -- -- -- -- -- -- -- -- -- -- -- -- ++
-    -- -- -- -- -- -- -- -- -- -- -- -- -- --
-    ++ -- -- -- -- -- -- -- -- -- -- -- -- --
-    ++ -- -- -- -- -- -- -- -- -- -- -- -- --
-    -- -- -- -- -- -- -- -- -- -- -- -- ++ ++
-    -- ++ -- -- ++ ++ -- -- ++ ++ -- -- -- --
-    -- ++ -- -- ++ ++ -- -- ++ ++ -- -- -- --
-    -- -- -- -- -- -- -- -- -- -- -- -- ++ ++
+    -- -- -- -- -- ME -- -- ME -- -- -- -- ++
+    -- -- -- ME -- -- MB MB -- -- ME -- -- --
+    ++ -- ME -- ME ME -- -- ME ME -- ME -- --
+    ++ -- -- ME -- -- __ __ -- -- ME -- -- --
+    -- -- -- -- ME MS -- -- MS ME -- -- ++ ++
+    -- ++ -- ME ++ ++ -- -- ++ ++ ME -- -- --
+    -- ++ -- ME ++ ++ -- -- ++ ++ ME -- -- --
+    -- -- -- -- ME MS -- -- MS ME -- -- ++ ++
     ++ -- -- -- -- -- -- -- -- -- -- -- ++ ++
-    -- -- -- -- -- -- -- -- -- -- -- -- -- --
+    -- -- -- -- -- -- SP SP -- -- -- -- -- --
 """
-MAP.camera_data = ['G8', 'G6', 'F3', 'I3']
+MAP.weight_data = """
+    10 10 10 10 10 10 10 10 10 10 10 10 10 10
+    10 10 10 30 10 10 10 10 10 10 30 10 10 10
+    10 10 30 10 10 10 10 10 10 10 10 30 10 10
+    10 10 10 10 10 10 10 10 10 10 10 10 10 10
+    10 10 10 10 10 10 10 10 10 10 10 10 10 10
+    10 10 10 30 10 10 10 10 10 10 30 10 10 10
+    10 10 10 30 10 10 10 10 10 10 30 10 10 10
+    10 10 10 10 10 10 10 10 10 10 10 10 10 10
+    10 10 10 10 10 10 10 10 10 10 10 10 10 10
+    10 10 10 10 10 10 10 10 10 10 10 10 10 10
+"""
+MAP.camera_data = ['G8', 'G6', 'F3', 'H4']
 MAP.wall_data = """
     ·   ·   ·   ·   · | ·   ·   ·   · | ·   ·   ·   ·   · ,
           +-----------+               +-----------+       ,
@@ -40,6 +52,15 @@ MAP.wall_data = """
               +-----------+       +-----------+           ,
     ·   ·   ·   ·   ·   · | ·   · | ·   ·   ·   ·   ·   · ,
 """
+MAP.spawn_data = [
+    {'battle': 0, 'enemy': 2, 'siren': 2},
+    {'battle': 1, 'enemy': 1},
+    {'battle': 2, 'enemy': 2, 'siren': 1},
+    {'battle': 3, 'enemy': 1},
+    {'battle': 4, 'enemy': 2},
+    {'battle': 5, 'enemy': 1},
+    {'battle': 6, 'boss': 1},
+]
 
 
 class Config(ConfigBase):
@@ -49,3 +70,26 @@ class Config(ConfigBase):
 
 class Campaign(CampaignBase):
     MAP = MAP
+
+    def battle_0(self):
+        if self.clear_siren():
+            return True
+        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
+            return True
+        if self.clear_enemy(scale=(3,), genre=['light', 'main', 'enemy', 'carrier']):
+            return True
+
+        return self.battle_default()
+
+    def battle_5(self):
+        if self.clear_enemy(scale=(1,)):
+            return True
+        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
+            return True
+        if self.clear_enemy(genre=['light', 'main']):
+            return True
+
+        return self.battle_default()
+
+    def battle_6(self):
+        return self.fleet_2.brute_clear_boss()
