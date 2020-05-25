@@ -54,7 +54,8 @@ class Config:
                 """
                 for record in cls.func_list[name]:
 
-                    flag = [self.config.__getattribute__(key) == value for key, value in record['options'].items()]
+                    flag = [value is None or self.config.__getattribute__(key) == value
+                            for key, value in record['options'].items()]
                     if not np.all(flag):
                         continue
 

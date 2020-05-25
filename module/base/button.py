@@ -4,6 +4,7 @@ import traceback
 import cv2
 from PIL import Image
 
+import module.config.server as server
 from module.base.utils import *
 
 
@@ -12,11 +13,11 @@ class Button:
         """Initialize a Button instance.
 
         Args:
-            area (tuple): Area that the button would appear on the image.
+            area (dict[tuple], tuple): Area that the button would appear on the image.
                           (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y)
-            color (tuple): Color we expect the area would be.
+            color (dict[tuple], tuple): Color we expect the area would be.
                            (r, g, b)
-            button (tuple): Area to be click if button appears on the image.
+            button (dict[tuple], tuple): Area to be click if button appears on the image.
                             (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y)
                             If tuple is empty, this object can be use as a checker.
         Examples:
@@ -26,15 +27,16 @@ class Button:
                 button=(1562, 908, 1864, 1003)
             )
         """
-        self.area = area
-        self.color = color
-        self._button = button
+        self.server = server.server
+        self.area = area[self.server] if isinstance(area, dict) else area
+        self.color = color[self.server] if isinstance(color, dict) else color
+        self._button = button[self.server] if isinstance(button, dict) else button
         self._button_offset = None
         self._match_init = False
-        self.file = file
+        self.file = file[self.server] if isinstance(file, dict) else file
         self.image = None
-        if file:
-            self.name = os.path.splitext(os.path.split(file)[1])[0]
+        if self.file:
+            self.name = os.path.splitext(os.path.split(self.file)[1])[0]
         elif name:
             self.name = name
         else:

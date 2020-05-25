@@ -382,3 +382,51 @@ class Config:
 
 未完待续
 
+
+
+## 如何支持其他服务器/语言 How to support other server/language
+
+### GUI
+
+Copy `./module/config/argparser.py` to `argparser_xx.py` and change the argment.
+
+Create a dictionary in `./module/config/dictionary.py` that translate your language to english.
+
+Copy `alas_cn.py` to `alas_xx.py` and import  `argparser_xx.py` . Then, edit server name.
+
+> Format of .pyw file name: <sctipt_name>_<server_name>.pyw
+>
+> Script name is used to load ini file under `./config`, For example, alas_cn.pyw and alas_en.pyw both loads `./config/alas.ini`, but in different languages.
+
+### Assets
+
+Copy folder `./assets/cn` to `./assets/<your server>`, and replace the image. This will cost a lot of time to find, crop and test. Fortunately, if a image does not contain any charactors, it may works in all servers.
+
+After replacing an image, don't forget to run `./dev_tools/button_extract.py`
+
+### Class methods
+
+Some method may be different in different servers. This decoractor is use to calls different function with a same name according to config (AzurLaneConfig instance).
+
+```
+from module.base.decorator import Config
+from module.base.base import ModuleBase
+
+class AnotherModule(ModuleBase):
+    @Config.when(SERVER='en')
+    def function(self):
+        # This method will be called only in EN server
+        pass
+
+    @Config.when(SERVER=None)
+    def function(self):
+        # This method will be called in other server
+        pass
+```
+
+### Other
+
+There area also some modules diffcult to change: the commission module.
+
+In `./module/reward/commission.py`, I use [cnocr](https://github.com/breezedeus/cnocr) to recognize commission name in chinese, it may not works well in other languages.
+

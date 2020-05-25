@@ -162,6 +162,8 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
             return True
         if self.appear(BATTLE_PREPARATION) and self.appear(EMERGENCY_REPAIR_AVAILABLE):
             logger.info('EMERGENCY_REPAIR_AVAILABLE')
+            if not len(self.hp):
+                return False
             if np.min(np.array(self.hp)[np.array(self.hp) > 0.001]) < self.config.EMERGENCY_REPAIR_SINGLE_THRESHOLD \
                     or np.max(self.hp[:3]) < self.config.EMERGENCY_REPAIR_HOLE_THRESHOLD \
                     or np.max(self.hp[3:]) < self.config.EMERGENCY_REPAIR_HOLE_THRESHOLD:

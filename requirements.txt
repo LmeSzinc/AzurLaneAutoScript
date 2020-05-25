@@ -1,11 +1,11 @@
 numpy==1.14.6
-scipy
+scipy==1.4.1
 pillow
 opencv-python
-scikit-image
-requests
+scikit-image==0.16.2
+requests<2.19.0,>=2.18.4
 uiautomator2
 retrying
 mxnet==1.4.1
-cnocr
+cnocr==1.0.0
 gooey

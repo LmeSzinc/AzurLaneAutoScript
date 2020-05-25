@@ -5,8 +5,8 @@ import sys
 from collections import deque
 
 pyw_name = os.path.splitext(os.path.basename(sys.argv[0]))[0]
-if f'{pyw_name}.pyw' not in os.listdir('./'):
-    pyw_name = 'default'
+if '_' in pyw_name:
+    pyw_name = '_'.join(pyw_name.split('_')[:-1])
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)

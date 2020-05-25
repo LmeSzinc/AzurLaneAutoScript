@@ -3,7 +3,11 @@ log
 config/*.ini
 !config/template.ini
 *.pyw
-!alas.pyw
+!alas_cn.pyw
+!alas_en.pyw
+!alas_jp.pyw
+!alas_tw.pyw
+!alas_kr.pyw
 dev_tools/debug_tools
 .idea
 
