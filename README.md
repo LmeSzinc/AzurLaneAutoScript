@@ -1,8 +1,8 @@
 # AzurLaneAutoScript
 
-Alas, an Azur Lane automation tool with GUI (CN server only).
+Alas, an Azur Lane automation tool with GUI (For CN server, can support other server).
 
-Alas, 一个带GUI的碧蓝航线脚本 (仅支持国服).
+Alas, 一个带GUI的碧蓝航线脚本 (支持国服, 可以支持其他服务器).
 
 ![gui](doc/README.assets/gui.png)
 
@@ -162,6 +162,7 @@ python -m uiautomator2 init
 
 - 如何添加一个按钮 How to add a button
 - 如何适配一张新的地图 How to adapt to a new map
+- 如何支持其他服务器/语言 How to support other server/language
 
 
 
