@@ -1,16 +1,18 @@
 import cv2
 import numpy as np
 from PIL import Image
+import module.config.server as server
 
 
 class Template:
     def __init__(self, file):
         """
         Args:
-            file (str): Filepath of template file.
+            file (dict[str], str): Filepath of template file.
         """
-        self.file = file
-        self.image = np.array(Image.open(file))
+        self.server = server.server
+        self.file = file[self.server] if isinstance(file, dict) else file
+        self.image = np.array(Image.open(self.file))
 
     def match(self, image, similarity=0.85):
         """

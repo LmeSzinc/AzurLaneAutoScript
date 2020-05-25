@@ -19,6 +19,7 @@ from module.base.template import Template
 # Don't modified it manually.
 """
 IMPORT_EXP = IMPORT_EXP.strip().split('\n') + ['']
+VALID_SERVER = ['cn', 'en']
 
 
 class ImageExtractor:
@@ -32,12 +33,13 @@ class ImageExtractor:
         self.module = module
         self.name = os.path.splitext(file)[0]
         self.config = config
-        self.area, self.color, self.button = (), (), ()
-        self.load()
+        self.area, self.color, self.button, self.file = {}, {}, {}, {}
+        for server in VALID_SERVER:
+            self.load(server)
 
-    def file(self, genre=''):
+    def get_file(self, genre='', server='cn'):
         file = '%s.%s.png' % (self.name, genre) if genre else '%s.png' % self.name
-        file = os.path.join(self.config.ASSETS_FOLDER, self.module, file)
+        file = os.path.join(self.config.ASSETS_FOLDER, server, self.module, file)
         return file
 
     @staticmethod
@@ -48,22 +50,32 @@ class ImageExtractor:
         mean = tuple(np.rint(mean).astype(int))
         return bbox, mean
 
-    def load(self):
-        if os.path.exists(self.file()):
-            self.area, self.color = self.extract(self.file())
-            self.button = self.area
-        if os.path.exists(self.file('AREA')):
-            self.area, _ = self.extract(self.file('AREA'))
-        if os.path.exists(self.file('COLOR')):
-            _, self.color = self.extract(self.file('COLOR'))
-        if os.path.exists(self.file('BUTTON')):
-            self.button, _ = self.extract(self.file('BUTTON'))
+    def load(self, server='cn'):
+        if os.path.exists(self.get_file(server=server)):
+            area, color = self.extract(self.get_file(server=server))
+            button = area
+            if os.path.exists(self.get_file('AREA', server=server)):
+                area, _ = self.extract(self.get_file('AREA', server=server))
+            if os.path.exists(self.get_file('COLOR', server=server)):
+                _, color = self.extract(self.get_file('COLOR', server=server))
+            if os.path.exists(self.get_file('BUTTON', server=server)):
+                button, _ = self.extract(self.get_file('BUTTON', server=server))
+
+            self.area[server] = area
+            self.color[server] = color
+            self.button[server] = button
+            self.file[server] = f"{self.config.ASSETS_FOLDER}/{server}/{self.module}/{self.name}.png"
+        else:
+            logger.attr(server, f'{self.name} not found, use cn server assets')
+            self.area[server] = self.area['cn']
+            self.color[server] = self.color['cn']
+            self.button[server] = self.button['cn']
+            self.file[server] = self.file['cn']
 
     @property
     def expression(self):
-        return '%s = Button(area=%s, color=%s, button=%s, file=\'%s\')' % (
-            self.name, self.area, self.color, self.button,
-            self.config.ASSETS_FOLDER + '/' + self.module + '/' + self.name + '.png')
+        return '%s = Button(area=%s, color=%s, button=%s, file=%s)' % (
+            self.name, self.area, self.color, self.button, self.file)
 
 
 class TemplateExtractor(ImageExtractor):
@@ -80,9 +92,8 @@ class TemplateExtractor(ImageExtractor):
 
     @property
     def expression(self):
-        return '%s = Template(file=\'%s\')' % (
-            self.name,
-            self.config.ASSETS_FOLDER + '/' + self.module + '/' + self.name + '.png')
+        return '%s = Template(file=%s)' % (
+            self.name, self.file)
         # return '%s = Template(area=%s, color=%s, button=%s, file=\'%s\')' % (
         #     self.name, self.area, self.color, self.button,
         #     self.config.ASSETS_FOLDER + '/' + self.module + '/' + self.name + '.png')
@@ -100,7 +111,7 @@ class ModuleExtractor:
     def __init__(self, name, config):
         self.name = name
         self.config = config
-        self.folder = os.path.join(self.config.ASSETS_FOLDER, name)
+        self.folder = os.path.join(self.config.ASSETS_FOLDER, 'cn', name)
 
     @staticmethod
     def split(file):
@@ -162,8 +173,9 @@ class AssetExtractor:
 
     def __init__(self, config):
         logger.info('Assets extract')
-        for module in os.listdir(config.ASSETS_FOLDER):
-            if os.path.isdir(os.path.join(config.ASSETS_FOLDER, module)):
+
+        for module in os.listdir(config.ASSETS_FOLDER + '/cn'):
+            if os.path.isdir(os.path.join(config.ASSETS_FOLDER + '/cn', module)):
                 me = ModuleExtractor(name=module, config=config)
                 me.write()
 

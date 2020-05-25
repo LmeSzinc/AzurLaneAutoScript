@@ -10,6 +10,7 @@ from PIL import Image
 from module.base.timer import *
 from module.config.dictionary import *
 from module.logger import logger
+import module.config.server as server
 
 
 class AzurLaneConfig:
@@ -18,6 +19,9 @@ class AzurLaneConfig:
     """
     CONFIG_FILE = ''
     config = configparser.ConfigParser(interpolation=None)
+
+    SERVER = server.server
+    logger.attr('Server', SERVER)
 
     """
     Fleet
