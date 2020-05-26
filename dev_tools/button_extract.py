@@ -3,8 +3,6 @@ import os
 import numpy as np
 from PIL import Image
 
-os.chdir('../')
-
 from module.base.button import get_color
 from module.config.config import AzurLaneConfig
 from module.logger import logger
@@ -179,5 +177,5 @@ class AssetExtractor:
                 me = ModuleExtractor(name=module, config=config)
                 me.write()
 
-
-ae = AssetExtractor(AzurLaneConfig())
+if __name__ == '__main__':
+    ae = AssetExtractor(AzurLaneConfig('template'))

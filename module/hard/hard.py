@@ -1,7 +1,7 @@
 import importlib
 
 from module.base.ocr import Digit
-from module.campaign.campaign_hard import Campaign
+from campaign.campaign_hard.campaign_hard import Campaign
 from module.campaign.run import CampaignRun
 from module.hard.assets import *
 from module.logger import logger

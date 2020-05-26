@@ -1,6 +1,9 @@
 import time
 
 import numpy as np
+import module.config.server as server
+
+server.server = 'cn'  # Don't need to edit, it's used to avoid error.
 
 from module.config.config import AzurLaneConfig
 from module.device.device import Device
@@ -33,5 +36,5 @@ class Config:
     USE_ADB_SCREENSHOT = False
 
 
-az = EmulatorChecker(AzurLaneConfig().merge(Config()))
+az = EmulatorChecker(AzurLaneConfig('template').merge(Config()))
 az.stress_test()
