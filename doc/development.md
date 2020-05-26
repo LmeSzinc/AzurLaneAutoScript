@@ -78,6 +78,10 @@ BATTLE_PREPARATION = Button(area=(1043, 607, 1241, 667), color=(234, 179, 97), b
 
    button_extract.py会自动提取按钮的属性, 免去了人工输入的烦恼
 
+   ```
+   python -m dev_tools.button_extract
+   ```
+
 8. **使用按钮**
 
    继承 module.base.base 下的 ModuleBase 类, 可以调用以下方法:
