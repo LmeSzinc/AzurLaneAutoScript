@@ -28,21 +28,6 @@ class Config:
     MAP_HAS_DYNAMIC_RED_BORDER = True
     MAP_SIREN_COUNT = 4
 
-    TRUST_EDGE_LINES = True
-
-    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (80, 255 - 40),
-        'width': (0.9, 10),
-        'prominence': 10,
-        'distance': 35,
-    }
-    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 40, 255),
-        'prominence': 10,
-        'distance': 50,
-        'wlen': 1000
-    }
-
 
 class Campaign(CampaignBase):
     MAP = MAP
