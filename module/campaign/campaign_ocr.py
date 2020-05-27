@@ -31,6 +31,8 @@ def ensure_chapter_index(name):
 
 def ocr_result_process(result):
     result = result.lower().replace('--', '-')
+    if result.startswith('-'):
+        result = result[1:]
     if len(result) == 2 and result[0].isdigit():
         result = '-'.join(result)
     return result
