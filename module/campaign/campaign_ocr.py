@@ -7,9 +7,7 @@ from module.base.utils import extract_letters, area_offset
 from module.logger import logger
 from module.template.assets import TEMPLATE_STAGE_CLEAR, TEMPLATE_STAGE_PERCENT, Button
 from module.exception import CampaignNameError
-
-stage_clear_color = tuple(np.mean(np.mean(TEMPLATE_STAGE_CLEAR.image, axis=0), axis=0))
-stage_percentage_color = tuple(np.mean(np.mean(TEMPLATE_STAGE_PERCENT.image, axis=0), axis=0))
+from module.base.decorator import Config
 
 
 def ensure_chapter_index(name):
@@ -58,41 +56,55 @@ def separate_name(name):
 
 
 class CampaignOcr:
-    stage = {}
-    chapter = 0
+    stage_entrance = {}
+    campaign_chapter = 0
 
-    def extract_campaign_name_image(self, image):
-        result = TEMPLATE_STAGE_CLEAR.match_multi(image, similarity=0.95)
-        # np.sort(result.flatten())[-10:]
-        # array([0.8680386 , 0.8688129 , 0.8693155 , 0.86967576, 0.87012905,
-        #        0.8705039 , 0.99954903, 0.99983317, 0.99996626, 1.        ],
-        #       dtype=float32)
+    def campaign_match_multi(self, template, image, name_offset=(75, 9), name_size=(60, 16),
+                             name_letter=(255, 255, 255), name_back=(102, 102, 102)):
+        """
+        Args:
+            template (Template):
+            image: Screenshot
+            name_offset (tuple[int]):
+            name_size (tuple[int]):
+            name_letter (tuple[int]):
+            name_back (tuple[int]):
 
-        name_offset = (75, 9)
-        name_size = (60, 16)
-        name_letter = (255, 255, 255)
-        name_back = (102, 102, 102)
+        Returns:
+            list[Button]: Stage clear buttons.
+        """
         digits = []
-        for point in result:
-            point = point[::-1]
-            button = tuple(np.append(point, point + TEMPLATE_STAGE_CLEAR.image.shape[:2][::-1]))
-            point = point + name_offset
-            name = image.crop(np.append(point, point + name_size))
-            name = extract_letters(name, letter=name_letter, back=name_back)
-            stage = self.extract_stage_name(name)
-            digits.append(Button(area=area_offset(stage, point), color=stage_clear_color, button=button, name='stage'))
+        color = tuple(np.mean(np.mean(template.image, axis=0), axis=0))
+        result = template.match_multi(image, similarity=0.95)
 
-        result = TEMPLATE_STAGE_PERCENT.match_multi(image, similarity=0.95)
-        name_offset = (48, 0)
         for point in result:
             point = point[::-1]
-            button = tuple(np.append(point, point + TEMPLATE_STAGE_PERCENT.image.shape[:2][::-1]))
+            button = tuple(np.append(point, point + template.image.shape[:2][::-1]))
             point = point + name_offset
             name = image.crop(np.append(point, point + name_size))
             name = extract_letters(name, letter=name_letter, back=name_back)
-            stage = self.extract_stage_name(name)
+            stage = self._extract_stage_name(name)
             digits.append(
-                Button(area=area_offset(stage, point), color=stage_percentage_color, button=button, name='stage'))
+                Button(area=area_offset(stage, point), color=color, button=button, name='stage'))
+
+        return digits
+
+    @Config.when(SERVER='en')
+    def campaign_extract_name_image(self, image):
+        digits = []
+        digits += self.campaign_match_multi(TEMPLATE_STAGE_CLEAR, image, name_offset=(70, 12), name_size=(60, 14))
+        digits += self.campaign_match_multi(TEMPLATE_STAGE_PERCENT, image, name_offset=(45, 3), name_size=(60, 14))
+
+        if len(digits) == 0:
+            logger.warning('No stage found.')
+
+        return digits
+
+    @Config.when(SERVER=None)
+    def campaign_extract_name_image(self, image):
+        digits = []
+        digits += self.campaign_match_multi(TEMPLATE_STAGE_CLEAR, image, name_offset=(75, 9), name_size=(60, 16))
+        digits += self.campaign_match_multi(TEMPLATE_STAGE_PERCENT, image, name_offset=(48, 0), name_size=(60, 16))
 
         if len(digits) == 0:
             logger.warning('No stage found.')
@@ -100,7 +112,7 @@ class CampaignOcr:
         return digits
 
     @staticmethod
-    def extract_stage_name(image):
+    def _extract_stage_name(image):
         x_skip = 10
         interval = 5
         x_color = np.convolve(np.mean(image, axis=0), np.ones(interval), 'valid') / interval
@@ -111,7 +123,7 @@ class CampaignOcr:
         return 0, 0, x_list[0] + 1 + x_skip, image.shape[0]
 
     @staticmethod
-    def name_separate(image):
+    def _name_separate(image):
         """
         Args:
             image (np.ndarray): (height, width)
@@ -144,9 +156,9 @@ class CampaignOcr:
 
         return chapter, stage
 
-    def get_stage_name(self, image):
-        self.stage = {}
-        buttons = self.extract_campaign_name_image(image)
+    def _get_stage_name(self, image):
+        self.stage_entrance = {}
+        buttons = self.campaign_extract_name_image(image)
 
         ocr = Ocr(buttons, lang='stage', letter=(255, 255, 255), back=(102, 102, 102), threshold=180)
         result = ocr.ocr(image)
@@ -156,23 +168,23 @@ class CampaignOcr:
 
         chapter = [separate_name(res)[0] for res in result]
         counter = collections.Counter(chapter)
-        self.chapter = counter.most_common()[0][0]
+        self.campaign_chapter = counter.most_common()[0][0]
 
         for name, button in zip(result, buttons):
             button.area = button.button
             button.name = name
-            self.stage[name] = button
+            self.stage_entrance[name] = button
 
-        logger.attr('Chapter', self.chapter)
-        logger.attr('Stage', ', '.join(self.stage.keys()))
+        logger.attr('Chapter', self.campaign_chapter)
+        logger.attr('Stage', ', '.join(self.stage_entrance.keys()))
 
     def get_chapter_index(self, image):
         """
         A tricky method for ui_ensure_index
         """
         try:
-            self.get_stage_name(image)
+            self._get_stage_name(image)
         except IndexError:
             raise CampaignNameError
 
-        return ensure_chapter_index(self.chapter)
+        return ensure_chapter_index(self.campaign_chapter)
