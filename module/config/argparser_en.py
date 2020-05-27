@@ -331,7 +331,7 @@ def main(ini_name=''):
     """
     event = event_parser.add_argument_group(
         'Choose a level', '\n'.join([line.strip() for line in description.strip().split('\n')]))
-    event.add_argument('--event_stagesp_stage', default=default('--event_stagesp_stage'),
+    event.add_argument('--event_stage', default=default('--event_stage'),
                              choices=['a1', 'a2', 'a3', 'b1', 'b2', 'b3', 'c1', 'c2', 'c3', 'd1', 'd2', 'd3'],
                              help='E.g d3')
     event.add_argument('--sp_stage', default=default('--sp_stage'),
@@ -346,17 +346,17 @@ def main(ini_name=''):
     semi.add_argument('--enable_semi_story_skip', default=default('--enable_semi_story_skip'), help='Note that this will automatically confirm all the prompt boxes, including the red face attack', choices=['yes', 'no'])
 
     # ==========c72_mystery_farming==========
-    c_7_2_parser = subs.add_parser('c72_mystery_farming')
+    c_7_2_parser = subs.add_parser('c7-2_mystery_farming')
     c_7_2 = c_7_2_parser.add_argument_group('c72_mystery_farming', '')
     c_7_2.add_argument('--boss_fleet_step_on_a3', default=default('--boss_fleet_step_on_a3'), choices=['yes', 'no'], help='A3 has enemies, G3, C3, E3')
 
     # ==========c122_leveling==========
-    c_12_2_parser = subs.add_parser('c122_leveling')
+    c_12_2_parser = subs.add_parser('c12-2_leveling')
     c_12_2 = c_12_2_parser.add_argument_group('12-2 enemy search settings', '')
     c_12_2.add_argument('--s3_enemy_tolerance', default=default('--s3_enemy_tolerance'), choices=['0', '1', '2', '10'], help='The maximum number of battles to fight against large enemies')
 
     # ==========c124_leveling==========
-    c_12_4_parser = subs.add_parser('c124_leveling')
+    c_12_4_parser = subs.add_parser('c12-4_leveling')
     c_12_4 = c_12_4_parser.add_argument_group('12-4 Search enemy settings', 'Need to ensure that the team has a certain strength')
     c_12_4.add_argument('--non_s3_enemy_enter_tolerance', default=default('--non_s3_enemy_enter_tolerance'), choices=['0', '1', '2'], help='Endure how many battles to enter without big')
     c_12_4.add_argument('--non_s3_enemy_withdraw_tolerance', default=default('--non_s3_enemy_withdraw_tolerance'), choices=['0', '1', '2', '10'], help='How many battles will be fought after there is no large scale')

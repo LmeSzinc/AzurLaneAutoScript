@@ -32,9 +32,9 @@ dic_true_eng_to_eng = {
     'main': 'main',
     'event': 'event',
     'semi_auto': 'semi_auto',
-    'c72_mystery_farming': 'c72_mystery_farming',
-    'c122_leveling': 'c122_leveling',
-    'c124_leveling': 'c124_leveling',
+    'c7-2_mystery_farming': 'c72_mystery_farming',
+    'c12-2_leveling': 'c122_leveling',
+    'c12-4_leveling': 'c124_leveling',
 
     # Argument
     'enable_stop_condition': 'enable_stop_condition',
