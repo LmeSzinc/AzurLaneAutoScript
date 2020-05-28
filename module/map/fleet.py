@@ -219,12 +219,20 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         else:
             self._goto(location, expected=expected)
 
-    def find_path_initial(self):
+    def find_path_initial(self, grid=None):
+        """
+        Args:
+            grid (tuple, GridInfo): Current fleet grid
+        """
+        if grid is None:
+            grid = self.fleet_current
+        else:
+            grid = location_ensure(grid)
         if self.fleet_1_location:
             self.map[self.fleet_1_location].is_fleet = True
         if self.fleet_2_location:
             self.map[self.fleet_2_location].is_fleet = True
-        self.map.find_path_initial(self.fleet_current, has_ambush=self.config.MAP_HAS_AMBUSH)
+        self.map.find_path_initial(grid, has_ambush=self.config.MAP_HAS_AMBUSH)
 
     def show_fleet(self):
         fleets = []
@@ -280,6 +288,15 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                 logger.info('Fleet_2 not detected.')
                 if self.config.POOR_MAP_DATA and not self.map.select(is_spawn_point=True):
                     self.fleet_1 = fleets[0].location
+                elif self.map.select(is_spawn_point=True).count == 2:
+                    logger.info('Predict fleet to be spawn point')
+                    another = self.map.select(is_spawn_point=True).delete(SelectedGrids([fleets[0]]))[0]
+                    if fleets[0].is_current_fleet:
+                        self.fleet_1 = fleets[0].location
+                        self.fleet_2 = another.location
+                    else:
+                        self.fleet_1 = another.location
+                        self.fleet_2 = fleets[0].location
                 else:
                     self.find_all_fleets()
         elif count == 2:

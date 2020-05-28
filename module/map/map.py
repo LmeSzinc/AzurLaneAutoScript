@@ -230,7 +230,8 @@ class Map(Fleet):
         return False
 
     def clear_boss(self):
-        """Clear BOSS.
+        """This method is deprecated, although it works well in simple map.
+        In a complex map, brute_clear_boss is recommended.
 
         Returns:
             bool:
@@ -292,6 +293,10 @@ class Map(Fleet):
                 return True
             else:
                 return self.fleet_boss.clear_boss()
+        elif self.map.select(may_boss=True, is_caught_by_siren=True):
+            logger.info('BOSS appear on fleet grid')
+            self.fleet_2.switch_to()
+            self.clear_chosen_enemy(self.map.select(may_boss=True, is_caught_by_siren=True)[0])
         else:
             logger.warning('BOSS not detected, trying all boss spawn point.')
             return self.clear_potential_boss()
@@ -356,6 +361,8 @@ class Map(Fleet):
         Returns:
             bool: if clear an enemy.
         """
+        if not self.config.FLEET_2:
+            return False
         for grid in grids:
             if self.fleet_at(grid=grid, fleet=2):
                 return False
@@ -376,6 +383,8 @@ class Map(Fleet):
         return True
 
     def fleet_2_break_siren_caught(self):
+        if not self.config.FLEET_2:
+            return False
         if not self.config.MAP_HAS_SIREN or not self.config.MAP_HAS_MOVABLE_ENEMY:
             return False
         if not self.map.select(is_caught_by_siren=True):
@@ -394,4 +403,42 @@ class Map(Fleet):
         self.fleet_1.switch_to()
         for grid in self.map:
             grid.is_caught_by_siren = False
+        return True
+
+    def fleet_2_push_forward(self):
+        """Move fleet 2 to the grid with lower grid.weight
+        This will reduce the possibility of Boss fleet get stuck by enemies, especially for those one-way-road map
+        from chapter 7 to chapter 9.
+
+        Know more (in Chinese simplified):
+        9章道中战最小化路线规划 (Route Planning for battle minimization in chapter 9)
+        https://wiki.biligame.com/blhx/9%E7%AB%A0%E9%81%93%E4%B8%AD%E6%88%98%E6%9C%80%E5%B0%8F%E5%8C%96%E8%B7%AF%E7%BA%BF%E8%A7%84%E5%88%92
+
+        Returns:
+            bool: If pushed forward.
+        """
+        if not self.config.FLEET_2:
+            return False
+
+        logger.info('Fleet_2 push forward')
+        grids = self.map.select(is_land=False).sort(cost=True, weight=True)
+        if self.map[self.fleet_2_location].weight <= grids[0].weight:
+            logger.info('Fleet_2 pushed to destination')
+            return False
+
+        self.find_path_initial(self.fleet_2_location)
+        fleets = SelectedGrids([self.map[self.fleet_1_location], self.map[self.fleet_2_location]])
+        grids = grids.select(is_accessible=True, is_sea=True).delete(fleets)
+        self.find_path_initial()
+        if not grids:
+            logger.info('Fleet_2 has no where to push')
+            return False
+        if self.map[self.fleet_2_location].weight <= grids[0].weight:
+            logger.info('Fleet_2 pushed to closest grid')
+            return False
+
+        logger.info(f'Grids: {grids}')
+        logger.info(f'Push forward: {grids[0]}')
+        self.fleet_2.goto(grids[0])
+        self.fleet_1.switch_to()
         return True
