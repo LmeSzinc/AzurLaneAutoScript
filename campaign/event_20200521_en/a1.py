@@ -7,9 +7,9 @@ from module.logger import logger
 MAP = CampaignMap('a1')
 MAP.shape = 'I5'
 MAP.map_data = '''
-    SP -- ++ ME -- ME ++ ++ --
+    SP -- ++ ME -- ME ++ -- --
     -- ME -- -- ME -- ME ++ ME
-    -- -- MS -- -- -- __ -- --
+    -- -- MS -- -- MS __ -- --
     -- ME -- -- ++ ME -- ME --
     SP -- -- ME ++ -- ME -- MB
 '''
@@ -17,8 +17,6 @@ MAP.map_data = '''
 
 class Config:
     SUBMARINE = 1
-    FLEET_BOSS = 1
-
     POOR_MAP_DATA = True
     MAP_HAS_AMBUSH = False
     MAP_HAS_FLEET_STEP = True

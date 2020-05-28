@@ -3,7 +3,6 @@ from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
 
-
 MAP = CampaignMap('a2')
 MAP.shape = 'J6'
 MAP.map_data = '''
@@ -15,11 +14,8 @@ MAP.map_data = '''
     ++ ME ME -- ++ ME MM -- -- MB
 '''
 
-
 class Config:
     SUBMARINE = 1
-    FLEET_BOSS = 1
-
     POOR_MAP_DATA = True
     MAP_HAS_AMBUSH = False
     MAP_HAS_FLEET_STEP = True

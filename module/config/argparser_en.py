@@ -133,19 +133,19 @@ def main(ini_name=''):
     fleet.add_argument('--enable_fleet_control', default=default('--enable_fleet_control'), choices=['yes', 'no'])
     fleet.add_argument('--enable_map_fleet_lock', default=default('--enable_map_fleet_lock'), choices=['yes', 'no'])
 
-    f1 = fleet.add_argument_group('Road Fleet')
+    f1 = fleet.add_argument_group('Road Fleet', 'Players can choose a formation before battle. Though it has no effect appearance-wise, the formations applies buffs to certain stats.\nLine Ahead: Increases Firepower and Torpedo by 15%, but reduces Evasion by 10% (Applies only to Vanguard fleet)\nDouble Line: Increases Evasion by 30%, but decreases Firepower and Torpedo by 5% (Applies only to Vanguard fleet)\nDiamond: Increases Anti-Air by 20% (no penalties, applies to entire fleet)')
     f1.add_argument('--fleet_index_1', default=default('--fleet_index_1'), choices=['1', '2', '3', '4', '5', '6'])
-    f1.add_argument('--fleet_formation_1', default=default('--fleet_formation_1'), choices=['formation_1', 'formation_2', 'formation_3'])
+    f1.add_argument('--fleet_formation_1', default=default('--fleet_formation_1'), choices=['Line Ahead', 'Double Line', 'Diamond'])
     f1.add_argument('--fleet_step_1', default=default('--fleet_step_1'), choices=['1', '2', '3', '4', '5', '6'])
 
     f2 = fleet.add_argument_group('Boss Fleet')
     f2.add_argument('--fleet_index_2', default=default('--fleet_index_2'), choices=['do_not_use', '1', '2', '3', '4', '5', '6'])
-    f2.add_argument('--fleet_formation_2', default=default('--fleet_formation_2'), choices=['formation_1', 'formation_2', 'formation_3'])
+    f2.add_argument('--fleet_formation_2', default=default('--fleet_formation_2'), choices=['Line Ahead', 'Double Line', 'Diamond'])
     f2.add_argument('--fleet_step_2', default=default('--fleet_step_2'), choices=['1', '2', '3', '4', '5', '6'])
 
     f3 = fleet.add_argument_group('Alternate Road Fleet')
     f3.add_argument('--fleet_index_3', default=default('--fleet_index_3'), choices=['do_not_use', '1', '2', '3', '4', '5', '6'])
-    f3.add_argument('--fleet_formation_3', default=default('--fleet_formation_3'), choices=['formation_1', 'formation_2', 'formation_3'])
+    f3.add_argument('--fleet_formation_3', default=default('--fleet_formation_3'), choices=['Line Ahead', 'Double Line', 'Diamond'])
     f3.add_argument('--fleet_step_3', default=default('--fleet_step_3'), choices=['1', '2', '3', '4', '5', '6'])
 
     f4 = fleet.add_argument_group('Auto-mode')

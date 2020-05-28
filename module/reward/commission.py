@@ -15,20 +15,20 @@ from module.ui.page import page_reward, page_commission, CAMPAIGN_CHECK
 from module.ui.ui import UI
 
 dictionary = {
-    'major_comm': ['自主训练', '对抗演习', '科研任务', '工具整备', '战术课程', '货物运输'],
-    'daily_comm': ['日常资源开发', '高阶战术研发'],
-    'extra_drill': ['航行训练', '防卫巡逻', '海域浮标检查作业'],
-    'extra_part': ['委托'],
-    'extra_cube': ['演习'],
-    'extra_oil': ['油田'],
-    'extra_book': ['商船护卫'],
-    'urgent_drill': ['运输部队', '侦查部队', '主力部队', '精锐部队'],
-    'urgent_part': ['维拉', '伊', '多伦瓦', '恐班纳'],
-    'urgent_book': ['土豪尔', '姆波罗', '马拉基', '卡波罗', '马内', '玛丽', '萌', '特林'],
-    'urgent_box': ['装备', '物资'],
-    'urgent_cube': ['解救', '敌袭'],
-    'urgent_gem': ['要员', '度假', '巡视'],
-    'urgent_ship': ['观舰']
+    'major_comm': ['Self Training', 'Defense Exercise', 'Research Mission', 'Tool Prep', 'Tactical Class', 'Cargo Transport'],
+    'daily_comm': ['Daily Resource Extraction', 'Awakening Tactical Research'],
+    'extra_drill': ['Sailing Training', 'Defense Patrol', 'Buoy Inspection'],
+    'extra_part': ['Commission'],
+    'extra_cube': ['Exercise'],
+    'extra_oil': ['Oil Extraction'],
+    'extra_book': ['Merchant Escort'],
+    'urgent_drill': ['Cargo Defense', 'Enemy Scouts', 'Enemy Force', 'Enemy Elites'],
+    'urgent_part': ['Lavella', 'Maui', 'Rendova', 'Kongbanna'],
+    'urgent_book': ['Tyrant', 'Poro', 'Makira', 'Kapolo', 'Manne ', 'Mary', 'Isle', 'Kotlin'],
+    'urgent_box': ['Gear', 'Handover'],
+    'urgent_cube': ['Merchant Rescue', 'Enemy Attack'],
+    'urgent_gem': ['VIP Escort', 'Holiday Escort', 'Patrol Escort'],
+    'urgent_ship': ['Launch Ceremony']
 }
 
 
