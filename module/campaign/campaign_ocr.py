@@ -68,8 +68,8 @@ class CampaignOcr:
         #        0.8705039 , 0.99954903, 0.99983317, 0.99996626, 1.        ],
         #       dtype=float32)
 
-        name_offset = (70, 12)
-        name_size = (60, 14)
+        name_offset = (75, 9)
+        name_size = (60, 16)
         name_letter = (255, 255, 255)
         name_back = (102, 102, 102)
         digits = []
@@ -83,7 +83,7 @@ class CampaignOcr:
             digits.append(Button(area=area_offset(stage, point), color=stage_clear_color, button=button, name='stage'))
 
         result = TEMPLATE_STAGE_PERCENT.match_multi(image, similarity=0.95)
-        name_offset = (45, 3)
+        name_offset = (48, 0)
         for point in result:
             point = point[::-1]
             button = tuple(np.append(point, point + TEMPLATE_STAGE_PERCENT.image.shape[:2][::-1]))
