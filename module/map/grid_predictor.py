@@ -68,8 +68,7 @@ class GridPredictor:
             if not self.is_enemy and not self.is_mystery:
                 if self.predict_dynamic_red_border():
                     self.enemy_genre = 'Siren_unknown'
-        if self.config.MAP_HAS_MOVABLE_ENEMY:
-            self.is_caught_by_siren = self.predict_siren_caught()
+        self.is_caught_by_siren = self.predict_siren_caught()
 
         if self.enemy_genre:
             self.is_enemy = True

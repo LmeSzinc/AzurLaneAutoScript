@@ -10,9 +10,7 @@ from module.exception import CampaignNameError
 STAGE_SHOWN_WAIT = (1, 1.2)
 
 
-class CampaignUI(UI):
-    campaign_ocr = CampaignOcr()
-
+class CampaignUI(UI, CampaignOcr):
     def campaign_ensure_chapter(self, index):
         """
         Args:
@@ -21,7 +19,7 @@ class CampaignUI(UI):
         index = ensure_chapter_index(index)
 
         # A tricky way to use ui_ensure_index.
-        self.ui_ensure_index(index, letter=self.campaign_ocr.get_chapter_index,
+        self.ui_ensure_index(index, letter=self.get_chapter_index,
                              prev_button=CHAPTER_PREV, next_button=CHAPTER_NEXT,
                              fast=True, skip_first_screenshot=True, step_sleep=STAGE_SHOWN_WAIT, finish_sleep=0)
 
@@ -65,10 +63,10 @@ class CampaignUI(UI):
         Returns:
             Button:
         """
-        if name not in self.campaign_ocr.stage:
+        if name not in self.stage_entrance:
             logger.warning(f'Stage not found: {name}')
             raise CampaignNameError
-        return self.campaign_ocr.stage[name]
+        return self.stage_entrance[name]
 
     def ensure_campaign_ui(self, name, mode='normal'):
         """

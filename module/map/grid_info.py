@@ -6,8 +6,8 @@ class GridInfo:
     """
     Class that gather basic information of a grid in map_v1.
 
-    Visit 碧蓝航线WIKI(Chinese Simplified) http://wiki.joyme.com/blhx, to get basic info of a map_v1. For example,
-    visit http://wiki.joyme.com/blhx/7-2, to know more about campaign 7-2, which includes boss point, enemy spawn point.
+    Visit 碧蓝航线WIKI(Chinese Simplified) http://wiki.biligame.com/blhx, to get basic info of a map_v1. For example,
+    visit http://wiki.biligame.com/blhx/7-2, to know more about campaign 7-2, which includes boss point, enemy spawn point.
 
     A grid contains these unchangeable properties which can known from WIKI.
     | print_name | property_name  | description             |
