@@ -6,7 +6,7 @@ import shutil
 from gooey import Gooey, GooeyParser
 
 from alas import AzurLaneAutoScript
-from module.config.dictionary import dic_true_eng_to_eng, dic_eng_to_chi
+from module.config.dictionary import dic_true_eng_to_eng, dic_eng_to_true_eng
 from module.logger import logger, pyw_name
 
 
@@ -79,14 +79,14 @@ def main(ini_name=''):
 
     config = update_config_from_template(config, file=config_file)
 
-    event_folder = [dic_eng_to_chi.get(f, f) for f in os.listdir('./campaign') if f.startswith('event_')][::-1]
+    event_folder = [dic_eng_to_true_eng.get(f, f) for f in os.listdir('./campaign') if f.startswith('event_')][::-1]
 
     saved_config = {}
     for opt, option in config.items():
         for key, value in option.items():
-            key = dic_eng_to_chi.get(key, key)
-            if value in dic_eng_to_chi:
-                value = dic_eng_to_chi.get(value, value)
+            key = dic_eng_to_true_eng.get(key, key)
+            if value in dic_eng_to_true_eng:
+                value = dic_eng_to_true_eng.get(value, value)
             if value == 'None':
                 value = ''
 
