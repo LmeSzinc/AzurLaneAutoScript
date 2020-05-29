@@ -9,7 +9,7 @@ from module.logger import logger
 class EnemySearchingHandler(InfoHandler):
     MAP_ENEMY_SEARCHING_OVERLAY_TRANSPARENCY_THRESHOLD = 0.5  # Usually (0.70, 0.80).
     MAP_ENEMY_SEARCHING_TIMEOUT_SECOND = 5
-    in_stage_timer = Timer(1, count=2)
+    in_stage_timer = Timer(1.5, count=5)
 
     def enemy_searching_color_initial(self):
         MAP_ENEMY_SEARCHING.load_color(self.device.image)

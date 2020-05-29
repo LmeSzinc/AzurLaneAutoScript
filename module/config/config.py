@@ -340,11 +340,14 @@ class AzurLaneConfig:
     C124_AMMO_PICK_UP = 3
 
     def create_folder(self):
-        self.SCREEN_SHOT_SAVE_FOLDER = self.SCREEN_SHOT_SAVE_FOLDER_BASE + '/' + self.CAMPAIGN_NAME
-        for folder in [self.SCREEN_SHOT_SAVE_FOLDER_BASE, self.ASSETS_FOLDER, self.SCREEN_SHOT_SAVE_FOLDER,
-                       self.PERSPECTIVE_ERROR_LOG_FOLDER, self.ERROR_LOG_FOLDER]:
+        for folder in [self.ASSETS_FOLDER, self.PERSPECTIVE_ERROR_LOG_FOLDER, self.ERROR_LOG_FOLDER]:
             if folder and not os.path.exists(folder):
                 os.mkdir(folder)
+        self.SCREEN_SHOT_SAVE_FOLDER = self.SCREEN_SHOT_SAVE_FOLDER_BASE + '/' + self.CAMPAIGN_NAME
+        if self.ENABLE_SAVE_GET_ITEMS and len(self.SCREEN_SHOT_SAVE_FOLDER_BASE.strip()):
+            for folder in [self.SCREEN_SHOT_SAVE_FOLDER_BASE, self.SCREEN_SHOT_SAVE_FOLDER]:
+                if folder and not os.path.exists(folder):
+                    os.mkdir(folder)
 
     def merge(self, other):
         """

@@ -61,12 +61,10 @@ class CampaignRun(CampaignUI, Reward, LoginHandler):
         return True
 
     def campaign_name_set(self, name):
-        # self.config.CAMPAIGN_NAME = name
-        # folder = self.config.SCREEN_SHOT_SAVE_FOLDER_BASE + '/' + name
-        # if not os.path.exists(folder):
-        #     os.mkdir(folder)
-        # self.config.SCREEN_SHOT_SAVE_FOLDER = folder
-
+        if not self.campaign.config.ENABLE_SAVE_GET_ITEMS \
+                or not len(self.campaign.config.SCREEN_SHOT_SAVE_FOLDER_BASE.strip()):
+            return False
+        # Create folder to save drop screenshot
         folder = self.campaign.config.SCREEN_SHOT_SAVE_FOLDER_BASE + '/' + name
         if not os.path.exists(folder):
             os.mkdir(folder)
