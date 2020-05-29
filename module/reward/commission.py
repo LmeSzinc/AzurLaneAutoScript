@@ -5,6 +5,7 @@ import cv2
 import numpy as np
 from scipy import signal
 
+from module.base.decorator import Config
 from module.base.ocr import Ocr
 from module.base.timer import Timer
 from module.base.utils import area_offset, get_color, random_rectangle_vector
@@ -14,7 +15,23 @@ from module.reward.assets import *
 from module.ui.page import page_reward, page_commission, CAMPAIGN_CHECK
 from module.ui.ui import UI
 
-dictionary = {
+dictionary_cn = {
+    'major_comm': ['自主训练', '对抗演习', '科研任务', '工具整备', '战术课程', '货物运输'],
+    'daily_comm': ['日常资源开发', '高阶战术研发'],
+    'extra_drill': ['航行训练', '防卫巡逻', '海域浮标检查作业'],
+    'extra_part': ['委托'],
+    'extra_cube': ['演习'],
+    'extra_oil': ['油田'],
+    'extra_book': ['商船护卫'],
+    'urgent_drill': ['运输部队', '侦查部队', '主力部队', '精锐部队'],
+    'urgent_part': ['维拉', '伊', '多伦瓦', '恐班纳'],
+    'urgent_book': ['土豪尔', '姆波罗', '马拉基', '卡波罗', '马内', '玛丽', '萌', '特林'],
+    'urgent_box': ['装备', '物资'],
+    'urgent_cube': ['解救', '敌袭'],
+    'urgent_gem': ['要员', '度假', '巡视'],
+    'urgent_ship': ['观舰']
+}
+dictionary_en = {
     'major_comm': ['Self Training', 'Defense Exercise', 'Research Mission', 'Tool Prep', 'Tactical Class', 'Cargo Transport'],
     'daily_comm': ['Daily Resource Extraction', 'Awakening Tactical Research'],
     'extra_drill': ['Sailing Training', 'Defense Patrol', 'Buoy Inspection'],
@@ -33,35 +50,46 @@ dictionary = {
 
 
 class Commission:
-    def __init__(self, image, y):
+    button: Button
+    name: str
+    genre: str
+    status: str
+    duration: timedelta
+    expire: timedelta
+
+    def __init__(self, image, y, config):
+        self.config = config
         self.y = y
         self.stack_y = y
         self.area = (188, y - 119, 1199, y)
         self.image = image
         self.valid = True
+        self.commission_parse()
 
+    @Config.when(SERVER='en')
+    def commission_parse(self):
         # Name
-        area = area_offset((211, 26, 415, 49), self.area[0:2])
+        area = area_offset((176, 23, 420, 51), self.area[0:2])  # This is different from CN, EN has longer names
         button = Button(area=area, color=(), button=area, name='COMMISSION')
         ocr = Ocr(button, lang='cnocr', back=(74, 97, 148), use_binary=False)
         self.button = button
-        self.name = ocr.ocr(image)
-        self.genre = self.parse_name(self.name)
+        self.name = ocr.ocr(self.image)
+        self.genre = self.commission_name_parse(self.name)
 
         # Duration time
         area = area_offset((290, 74, 390, 92), self.area[0:2])
         button = Button(area=area, color=(), button=area, name='DURATION')
         ocr = Ocr(button, lang='stage', back=(57, 85, 132))
-        self.duration = self.parse_time(ocr.ocr(image))
+        self.duration = self.parse_time(ocr.ocr(self.image))
 
         # Expire time
         area = area_offset((-49, 68, -45, 84), self.area[0:2])
         button = Button(area=area, color=(189, 65, 66), button=area, name='IS_URGENT')
-        if button.appear_on(image):
+        if button.appear_on(self.image):
             area = area_offset((-49, 73, 45, 91), self.area[0:2])
             button = Button(area=area, color=(), button=area, name='EXPIRE')
             ocr = Ocr(button, lang='stage', back=(189, 65, 66))
-            self.expire = self.parse_time(ocr.ocr(image))
+            self.expire = self.parse_time(ocr.ocr(self.image))
         else:
             self.expire = None
 
@@ -72,7 +100,43 @@ class Commission:
             1: 'running',
             2: 'pending'
         }
-        self.status = dic[int(np.argmax(get_color(image, area)))]
+        self.status = dic[int(np.argmax(get_color(self.image, area)))]
+
+    @Config.when(SERVER=None)
+    def commission_parse(self):
+        # Name
+        area = area_offset((211, 26, 415, 49), self.area[0:2])
+        button = Button(area=area, color=(), button=area, name='COMMISSION')
+        ocr = Ocr(button, lang='cnocr', back=(74, 97, 148), use_binary=False)
+        self.button = button
+        self.name = ocr.ocr(self.image)
+        self.genre = self.commission_name_parse(self.name)
+
+        # Duration time
+        area = area_offset((290, 74, 390, 92), self.area[0:2])
+        button = Button(area=area, color=(), button=area, name='DURATION')
+        ocr = Ocr(button, lang='stage', back=(57, 85, 132))
+        self.duration = self.parse_time(ocr.ocr(self.image))
+
+        # Expire time
+        area = area_offset((-49, 68, -45, 84), self.area[0:2])
+        button = Button(area=area, color=(189, 65, 66), button=area, name='IS_URGENT')
+        if button.appear_on(self.image):
+            area = area_offset((-49, 73, 45, 91), self.area[0:2])
+            button = Button(area=area, color=(), button=area, name='EXPIRE')
+            ocr = Ocr(button, lang='stage', back=(189, 65, 66))
+            self.expire = self.parse_time(ocr.ocr(self.image))
+        else:
+            self.expire = None
+
+        # Status
+        area = area_offset((179, 71, 187, 93), self.area[0:2])
+        dic = {
+            0: 'finished',
+            1: 'running',
+            2: 'pending'
+        }
+        self.status = dic[int(np.argmax(get_color(self.image, area)))]
 
     def __str__(self):
         if self.valid:
@@ -124,7 +188,8 @@ class Commission:
             result = [int(s) for s in result.groups()]
             return timedelta(hours=result[0], minutes=result[1], seconds=result[2])
 
-    def parse_name(self, string):
+    @Config.when(SERVER='en')
+    def commission_name_parse(self, string):
         """
         Args:
             string (str): Commission name, such as 'NYB要员护卫'.
@@ -132,7 +197,25 @@ class Commission:
         Returns:
             str: Commission genre, such as 'urgent_gem'.
         """
-        for key, value in dictionary.items():
+        for key, value in dictionary_en.items():
+            for keyword in value:
+                if keyword in string:
+                    return key
+
+        logger.warning(f'Name with unknown genre: {string}')
+        self.valid = False
+        return ''
+
+    @Config.when(SERVER=None)
+    def commission_name_parse(self, string):
+        """
+        Args:
+            string (str): Commission name, such as 'NYB要员护卫'.
+
+        Returns:
+            str: Commission genre, such as 'urgent_gem'.
+        """
+        for key, value in dictionary_cn.items():
             for keyword in value:
                 if keyword in string:
                     return key
@@ -148,7 +231,8 @@ class CommissionGroup:
     lower = int((show[3] - show[1]) / 2 - height / 2)
     template_area = (620, lower, 1154, lower + height)
 
-    def __init__(self):
+    def __init__(self, config):
+        self.config = config
         self.template = None
         self.swipe = 0
         self.commission = []
@@ -202,68 +286,10 @@ class CommissionGroup:
             diff = np.array([c.stack_y - stack_y for c in self.commission])
             if np.any(np.abs(diff) < 3):
                 continue
-            commission = Commission(image, y=y)
+            commission = Commission(image, y=y, config=self.config)
             commission.stack_y = stack_y
             logger.info(f'Add commission: {commission}')
             self.commission.append(commission)
-
-
-def commission_choose(daily, urgent, priority, time_limit=None):
-    """
-    Args:
-        daily (CommissionGroup):
-        urgent (CommissionGroup):
-        priority (dict):
-        time_limit (datetime):
-
-    Returns:
-        CommissionGroup, CommissionGroup: Chosen daily commission, Chosen urgent commission
-    """
-    # Count Commission
-    commission = daily.commission + urgent.commission
-    running_count = int(np.sum([1 for c in commission if c.status == 'running']))
-    logger.attr('Running', running_count)
-    if running_count >= 4:
-        return [], []
-
-    # Calculate priority
-    commission = [c for c in commission if c.valid and c.status == 'pending']
-    comm_priority = []
-    for comm in commission:
-        pri = priority[comm.genre]
-        if comm.duration <= timedelta(hours=2):
-            pri += priority['duration_shorter_than_2']
-        if comm.duration >= timedelta(hours=6):
-            pri += priority['duration_longer_than_6']
-        if comm.expire:
-            if comm.expire <= timedelta(hours=2):
-                pri += priority['expire_shorter_than_2']
-            if comm.expire >= timedelta(hours=6):
-                pri += priority['expire_longer_than_6']
-        comm_priority.append(pri)
-
-    # Sort
-    commission = list(np.array(commission)[np.argsort(comm_priority)])[::-1]
-    if time_limit:
-        commission = [comm for comm in commission if datetime.now() + comm.duration <= time_limit]
-    commission = commission[:4 - running_count]
-    daily_choose, urgent_choose = CommissionGroup(), CommissionGroup()
-    for comm in commission:
-        if comm in daily:
-            daily_choose.commission.append(comm)
-        if comm in urgent:
-            urgent_choose.commission.append(comm)
-
-    if daily_choose:
-        logger.info('Choose daily commission')
-        for comm in daily_choose:
-            logger.info(comm)
-    if urgent_choose:
-        logger.info('Choose urgent commission')
-        for comm in urgent_choose:
-            logger.info(comm)
-
-    return daily_choose, urgent_choose
 
 
 class RewardCommission(UI, InfoHandler):
@@ -271,6 +297,63 @@ class RewardCommission(UI, InfoHandler):
     urgent: CommissionGroup
     daily_choose: CommissionGroup
     urgent_choose: CommissionGroup
+
+    def _commission_choose(self, daily, urgent, priority, time_limit=None):
+        """
+        Args:
+            daily (CommissionGroup):
+            urgent (CommissionGroup):
+            priority (dict):
+            time_limit (datetime):
+
+        Returns:
+            CommissionGroup, CommissionGroup: Chosen daily commission, Chosen urgent commission
+        """
+        # Count Commission
+        commission = daily.commission + urgent.commission
+        running_count = int(np.sum([1 for c in commission if c.status == 'running']))
+        logger.attr('Running', running_count)
+        if running_count >= 4:
+            return [], []
+
+        # Calculate priority
+        commission = [c for c in commission if c.valid and c.status == 'pending']
+        comm_priority = []
+        for comm in commission:
+            pri = priority[comm.genre]
+            if comm.duration <= timedelta(hours=2):
+                pri += priority['duration_shorter_than_2']
+            if comm.duration >= timedelta(hours=6):
+                pri += priority['duration_longer_than_6']
+            if comm.expire:
+                if comm.expire <= timedelta(hours=2):
+                    pri += priority['expire_shorter_than_2']
+                if comm.expire >= timedelta(hours=6):
+                    pri += priority['expire_longer_than_6']
+            comm_priority.append(pri)
+
+        # Sort
+        commission = list(np.array(commission)[np.argsort(comm_priority)])[::-1]
+        if time_limit:
+            commission = [comm for comm in commission if datetime.now() + comm.duration <= time_limit]
+        commission = commission[:4 - running_count]
+        daily_choose, urgent_choose = CommissionGroup(self.config), CommissionGroup(self.config)
+        for comm in commission:
+            if comm in daily:
+                daily_choose.commission.append(comm)
+            if comm in urgent:
+                urgent_choose.commission.append(comm)
+
+        if daily_choose:
+            logger.info('Choose daily commission')
+            for comm in daily_choose:
+                logger.info(comm)
+        if urgent_choose:
+            logger.info('Choose urgent commission')
+            for comm in urgent_choose:
+                logger.info(comm)
+
+        return daily_choose, urgent_choose
 
     def _commission_ensure_mode(self, mode):
         if self.appear(COMMISSION_DAILY):
@@ -317,7 +400,7 @@ class RewardCommission(UI, InfoHandler):
         self.device.screenshot()
 
     def _commission_scan_list(self):
-        commission = CommissionGroup()
+        commission = CommissionGroup(self.config)
         commission.merge(self.device.image)
         if commission.count <= 3:
             return commission
@@ -352,7 +435,7 @@ class RewardCommission(UI, InfoHandler):
 
         self.daily = daily
         self.urgent = urgent
-        self.daily_choose, self.urgent_choose = commission_choose(
+        self.daily_choose, self.urgent_choose = self._commission_choose(
             self.daily,
             self.urgent,
             priority=self.config.COMMISSION_PRIORITY,
@@ -396,7 +479,7 @@ class RewardCommission(UI, InfoHandler):
         logger.hr(f'Finding commission')
         logger.info(f'Finding commission {comm}')
 
-        commission = CommissionGroup()
+        commission = CommissionGroup(self.config)
         prev = 0
         for _ in range(15):
             commission.merge(self.device.image)
