@@ -32,7 +32,7 @@ dictionary_cn = {
     'urgent_ship': ['观舰']
 }
 dictionary_en = {
-    'major_comm': ['Self Training', 'Defense Exercise', 'Research Mission', 'Tool Prep', 'Tactical Class', 'Cargo Transport'],
+    'major_comm': ['Self Training', 'Defense Exercise', 'Research Mission', 'Prep', 'Class', 'Cargo Transport'],
     'daily_comm': ['Daily', 'Awakening'],
     'extra_drill': ['Sailing', 'Defense Patrol', 'Buoy'],
     'extra_part': ['Forest'],
