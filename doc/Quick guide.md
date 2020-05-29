@@ -19,7 +19,7 @@
     ![venv](quickguide.assets/venv.png)
     
     You can see that now python has created some folders and files in the venv folder, it has created a completely clean virtual environment, thus preventing any conflicts.
-* Now, it is necessary to activate the virtual environment in command line, go to project root and type `.\venv\scripts\activate.bat`
+* Now, it is necessary to activate the virtual environment in command line, go to project root (the same where you have the file alas.py) and type `.\venv\scripts\activate.bat`
 
    ![venv_activate](quickguide.assets/venv_activate.png)
    

@@ -313,7 +313,7 @@ def main(ini_name=''):
     # ==========event_daily_ab==========
     event_ab_parser = subs.add_parser('event_daily_ab')
     event_name = event_ab_parser.add_argument_group('Choose an event', '')
-    event_name.add_argument('--event_name_ab', default=default('--event_name_ab'), choices=event_folder, help='E.g event_20200326_cn')
+    event_name.add_argument('--event_name_ab', default=default('--event_name_ab'), choices=event_folder, help='E.g event_20200521_en')
 
     # ==========main==========
     main_parser = subs.add_parser('main')
@@ -325,19 +325,17 @@ def main(ini_name=''):
     event_parser = subs.add_parser('event')
 
     description = """
-    Support "Songs under the dome" (event_20200521_cn), optimized for D1D3
-    D3 has a plot battle when he first enters the picture and clears 100%, which will cause an error.
-    When the attack level is not optimized or the map does not reach the safe sea area, use the wasteland mode to run (slower)
+    Support "Iris of Light and Dark Rerun" (event_20200521_en), optimized for D2
     """
     event = event_parser.add_argument_group(
         'Choose a level', '\n'.join([line.strip() for line in description.strip().split('\n')]))
-    event.add_argument('--event_stage', default=default('--event_stage'),
+    event.add_argument('--Event map', default=default('--Event map'),
                              choices=['a1', 'a2', 'a3', 'b1', 'b2', 'b3', 'c1', 'c2', 'c3', 'd1', 'd2', 'd3'],
                              help='E.g d3')
-    event.add_argument('--sp_stage', default=default('--sp_stage'),
+    event.add_argument('--SP map', default=default('--SP map'),
                              choices=['sp1', 'sp2', 'sp3'],
                              help='E.g sp3')
-    event.add_argument('--event_name', default=default('--event_name'), choices=event_folder, help='E.g event_20200312_cn')
+    event.add_argument('--Name event', default=default('--Name event'), choices=event_folder, help='There a dropdown menu with many options')
 
     # ==========半自动==========
     semi_parser = subs.add_parser('semi_auto')
