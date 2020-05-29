@@ -7,6 +7,7 @@
 * Latest [ADB](https://developer.android.com/studio/releases/platform-tools) added to PATH.
 * [I don't know how to add to PATH](https://www.youtube.com/watch?v=Y2q_b4ugPWk)
 * The use of a virtual environment (venv) in python is highly recommended
+* ADB debugging enabled and emulator with 1280x720 resolution
 
 # How to create e python virtual environment
 
