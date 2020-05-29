@@ -129,10 +129,10 @@ dic_true_eng_to_eng = {
     'enable_daily_mission': 'enable_daily_mission',
     'enable_hard_campaign': 'enable_hard_campaign',
     'enable_exercise': 'enable_exercise',
-    'daily_mission_1': 'daily_mission_1',
-    'daily_mission_2': 'daily_mission_2',
-    'daily_mission_4': 'daily_mission_4',
-    'daily_mission_5': 'daily_mission_5',
+    'tactical_training': 'daily_mission_1',
+    'fierce_assault': 'daily_mission_2',
+    'escort_mission': 'daily_mission_4',
+    'advance_mission': 'daily_mission_5',
     'daily_fleet': 'daily_fleet',
     'daily_equipment': 'daily_equipment',
     'hard_campaign': 'hard_campaign',
@@ -162,7 +162,7 @@ dic_true_eng_to_eng = {
     'no': 'no',
     'Line Ahead': 'formation_1',
     'Double Line': 'formation_2',
-    'Diamond': 'formation_3',
+    'formation_3': 'formation_3',
     'combat_auto': 'combat_auto',
     'combat_manual': 'combat_manual',
     'stand_still_in_the_middle': 'stand_still_in_the_middle',
@@ -198,6 +198,7 @@ dic_true_eng_to_eng = {
     'event_20200521_en': 'event_20200521_en',
 
 }
+dic_eng_to_true_eng = {v: k for k, v in dic_true_eng_to_eng.items()}
 
 dic_chi_to_eng = {
     # Function
@@ -380,7 +381,7 @@ dic_chi_to_eng = {
     '穹顶下的圣咏曲': 'event_20200521_cn',
 }
 
-dic_eng_to_chi = {v: k for k, v in dic_true_eng_to_eng.items()}
+dic_eng_to_chi = {v: k for k, v in dic_chi_to_eng.items()}
 
 
 def to_bool(string):

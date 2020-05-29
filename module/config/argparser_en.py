@@ -6,7 +6,7 @@ import shutil
 from gooey import Gooey, GooeyParser
 
 from alas import AzurLaneAutoScript
-from module.config.dictionary import dic_true_eng_to_eng, dic_eng_to_chi
+from module.config.dictionary import dic_true_eng_to_eng, dic_eng_to_true_eng
 from module.logger import logger, pyw_name
 
 
@@ -79,14 +79,14 @@ def main(ini_name=''):
 
     config = update_config_from_template(config, file=config_file)
 
-    event_folder = [dic_eng_to_chi.get(f, f) for f in os.listdir('./campaign') if f.startswith('event_')][::-1]
+    event_folder = [dic_eng_to_true_eng.get(f, f) for f in os.listdir('./campaign') if f.startswith('event_')][::-1]
 
     saved_config = {}
     for opt, option in config.items():
         for key, value in option.items():
-            key = dic_eng_to_chi.get(key, key)
-            if value in dic_eng_to_chi:
-                value = dic_eng_to_chi.get(value, value)
+            key = dic_eng_to_true_eng.get(key, key)
+            if value in dic_eng_to_true_eng:
+                value = dic_eng_to_true_eng.get(value, value)
             if value == 'None':
                 value = ''
 
@@ -288,10 +288,10 @@ def main(ini_name=''):
 
     # 每日设置
     daily_task = daily_parser.add_argument_group('Daily settings', 'Does not support submarine daily')
-    daily_task.add_argument('--daily_mission_1', default=default('--daily_mission_1'), choices=['daily_air', 'daily_gun', 'daily_torpedo'])
-    daily_task.add_argument('--daily_mission_2', default=default('--daily_mission_2'), choices=['index_1', 'index_2', 'index_3'])
-    daily_task.add_argument('--daily_mission_4', default=default('--daily_mission_4'), choices=['index_1', 'index_2', 'index_3'])
-    daily_task.add_argument('--daily_mission_5', default=default('--daily_mission_5'), choices=['index_1', 'index_2', 'index_3'])
+    daily_task.add_argument('--tactical_training', default=default('--tactical_training'), choices=['daily_air', 'daily_gun', 'daily_torpedo'])
+    daily_task.add_argument('--fierce_assault', default=default('--fierce_assault'), choices=['index_1', 'index_2', 'index_3'])
+    daily_task.add_argument('--escort_mission', default=default('--escort_mission'), choices=['index_1', 'index_2', 'index_3'])
+    daily_task.add_argument('--advance_mission', default=default('--advance_mission'), choices=['index_1', 'index_2', 'index_3'])
     daily_task.add_argument('--daily_fleet', default=default('--daily_fleet'), choices=['1', '2', '3', '4', '5', '6'])
     daily_task.add_argument('--daily_equipment', default=default('--daily_equipment'), help='Change equipment before playing, unload equipment after playing, do not need to fill in 0 \ncomma, such as 3, 1, 0, 1, 1, 0')
 
@@ -325,9 +325,7 @@ def main(ini_name=''):
     event_parser = subs.add_parser('event')
 
     description = """
-    Support "Songs under the dome" (event_20200521_cn), optimized for D1D3
-    D3 has a plot battle when he first enters the picture and clears 100%, which will cause an error.
-    When the attack level is not optimized or the map does not reach the safe sea area, use the wasteland mode to run (slower)
+    Support "Iris of Light and Dark Rerun" (event_20200521_en), optimized for D2
     """
     event = event_parser.add_argument_group(
         'Choose a level', '\n'.join([line.strip() for line in description.strip().split('\n')]))
@@ -337,7 +335,7 @@ def main(ini_name=''):
     event.add_argument('--sp_stage', default=default('--sp_stage'),
                              choices=['sp1', 'sp2', 'sp3'],
                              help='E.g sp3')
-    event.add_argument('--event_name', default=default('--event_name'), choices=event_folder, help='E.g event_20200312_cn')
+    event.add_argument('--event_name', default=default('--event_name'), choices=event_folder, help='There a dropdown menu with many options')
 
     # ==========半自动==========
     semi_parser = subs.add_parser('semi_auto')

@@ -3,23 +3,25 @@
 #### Requirements
 
 * A good PC (Potato PC may have problems running the emulator correctly)
-* [Python](https://www.python.org/downloads/release/python-376/) installed and added to PATH (recommended 3.7.6)
+* [Python](https://www.python.org/downloads/release/python-376/) installed and added to PATH (recommended 3.7.6 64bit version only) 
 * Latest [ADB](https://developer.android.com/studio/releases/platform-tools) added to PATH.
 * [I don't know how to add to PATH](https://www.youtube.com/watch?v=Y2q_b4ugPWk)
 * The use of a virtual environment (venv) in python is highly recommended
+* ADB debugging enabled and emulator with 1280x720 resolution
+
 
 # How to create e python virtual environment
 
-* First install [Python](https://www.python.org/downloads/release/python-376/)
+* First install [Python](https://www.python.org/ftp/python/3.7.6/python-3.7.6-amd64.exe)
 
 * Create a folder where you will put the virtual environment, I recommend creating a folder `venv` in the project's root directory
 * Go to project root in command line
-* type `python -m venv path_to_your_folder_venv`
+* type `python -m venv path_to_your_folder\venv`
 
     ![venv](quickguide.assets/venv.png)
     
     You can see that now python has created some folders and files in the venv folder, it has created a completely clean virtual environment, thus preventing any conflicts.
-* Now, it is necessary to activate the virtual environment in command line, go to project root and type `.\venv\scripts\activate.bat`
+* Now, it is necessary to activate the virtual environment in command line, go to project root (the same where you have the file alas.py) and type `.\venv\scripts\activate.bat`
 
    ![venv_activate](quickguide.assets/venv_activate.png)
    
