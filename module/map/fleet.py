@@ -106,7 +106,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
             # Wait after ambushed.
             ambushed_retry = Timer(0.5)
             # If nothing happens, click again.
-            walk_timeout = Timer(10)
+            walk_timeout = Timer(20)
             walk_timeout.start()
 
             while 1:
