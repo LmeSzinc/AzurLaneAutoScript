@@ -15,20 +15,20 @@ from module.ui.page import page_reward, page_commission, CAMPAIGN_CHECK
 from module.ui.ui import UI
 
 dictionary = {
-    'major_comm': ['Self Training', 'Defense Exercise', 'Research Mission', 'Tool Prep', 'Tactical Class', 'Cargo Transport'],
-    'daily_comm': ['Daily Resource Extraction', 'Awakening Tactical Research'],
-    'extra_drill': ['Sailing Training', 'Defense Patrol', 'Buoy Inspection'],
+    'major_comm': ['Self', 'Defense Exercise', 'Research Mission', 'Prep', 'Tactical Class', 'Cargo Transport'],
+    'daily_comm': ['Daily', 'Awakening'],
+    'extra_drill': ['Sailing', 'Defense Patrol', 'Buoy Inspection'],
     'extra_part': ['Commission'],
     'extra_cube': ['Exercise'],
     'extra_oil': ['Oil Extraction'],
     'extra_book': ['Merchant Escort'],
-    'urgent_drill': ['Cargo Defense', 'Enemy Scouts', 'Enemy Force', 'Enemy Elites'],
+    'urgent_drill': ['Cargo Defense', 'Scouts', 'Force', 'Elites'],
     'urgent_part': ['Lavella', 'Maui', 'Rendova', 'Kongbanna'],
-    'urgent_book': ['Tyrant', 'Poro', 'Makira', 'Kapolo', 'Manne ', 'Mary', 'Isle', 'Kotlin'],
-    'urgent_box': ['Gear', 'Handover'],
-    'urgent_cube': ['Merchant Rescue', 'Enemy Attack'],
-    'urgent_gem': ['VIP Escort', 'Holiday Escort', 'Patrol Escort'],
-    'urgent_ship': ['Launch Ceremony']
+    'urgent_book': ['Tyrant', 'Poro', 'Makira', 'Kapolo', 'Manne ', 'St.', 'Isle', 'Kotlin'],
+    'urgent_box': ['Gear Transport', 'Handover'],
+    'urgent_cube': ['Merchant Rescue', 'Attack'],
+    'urgent_gem': ['VIP ', 'Holiday', 'Patrol Escort'],
+    'urgent_ship': ['Launch']
 }
 
 
@@ -41,7 +41,7 @@ class Commission:
         self.valid = True
 
         # Name
-        area = area_offset((211, 26, 415, 49), self.area[0:2])
+        area = area_offset((176, 23, 420, 50), self.area[0:2])
         button = Button(area=area, color=(), button=area, name='COMMISSION')
         ocr = Ocr(button, lang='cnocr', back=(74, 97, 148), use_binary=False)
         self.button = button

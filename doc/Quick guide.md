@@ -14,7 +14,7 @@
 
 * Create a folder where you will put the virtual environment, I recommend creating a folder `venv` in the project's root directory
 * Go to project root in command line
-* type `python -m venv path_to_your_folder_venv`
+* type `python -m venv path_to_your_folder\venv`
 
     ![venv](quickguide.assets/venv.png)
     
