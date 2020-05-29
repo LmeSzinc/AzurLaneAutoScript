@@ -198,6 +198,7 @@ dic_true_eng_to_eng = {
     'event_20200521_en': 'event_20200521_en',
 
 }
+dic_eng_to_true_eng = {v: k for k, v in dic_true_eng_to_eng.items()}
 
 dic_chi_to_eng = {
     # Function
@@ -380,7 +381,7 @@ dic_chi_to_eng = {
     '穹顶下的圣咏曲': 'event_20200521_cn',
 }
 
-dic_eng_to_chi = {v: k for k, v in dic_true_eng_to_eng.items()}
+dic_eng_to_chi = {v: k for k, v in dic_chi_to_eng.items()}
 
 
 def to_bool(string):
