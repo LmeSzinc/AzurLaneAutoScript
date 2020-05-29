@@ -1,3 +1,5 @@
+ - Under process of localization
+
 # AzurLaneAutoScript
 
 Alas, an Azur Lane automation tool with GUI (For CN server, can support other server).
