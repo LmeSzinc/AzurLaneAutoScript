@@ -64,8 +64,7 @@ class Connection:
         requests.post('http://127.0.0.1:%s/newCommandTimeout' % port, data=str(expire))
 
     def check_screen_size(self):
-        info = self.device._request("get", '/info').json()
-        width, height = info['display']['width'], info['display']['height']
+        width, height = self.device.window_size()
         if height > width:
             width, height = height, width
 
