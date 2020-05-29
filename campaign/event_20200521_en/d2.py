@@ -5,13 +5,13 @@ MAP = CampaignMap('d2')
 MAP.shape = 'I7'
 MAP.camera_data = ['D2', 'D5', 'F3', 'F5']
 MAP.map_data = '''
-    SP -- -- -- -- -- ME ++ MB 
-    -- ME -- MS ME -- -- ++ -- 
-    -- -- ME ++ ++ ++ -- -- -- 
-    ME __ -- ME ME ME -- MS -- 
-    ME MS -- ++ ++ ++ -- -- -- 
-    -- ME -- ME -- -- -- ++ -- 
-    SP -- -- -- -- ME -- ++ MB 
+    SP -- -- -- -- -- ME ++ MB
+    -- ME -- MS ME -- -- ++ --
+    -- -- ME ++ ++ ++ -- -- --
+    ME __ -- ME ME ME -- MS --
+    ME MS -- ++ ++ ++ -- -- --
+    -- ME -- ME -- -- -- ++ --
+    SP -- -- -- -- ME -- ++ MB
 '''
 MAP.weight_data = '''
     10 10 10 10 10 10 10 10 10
@@ -65,9 +65,10 @@ class Campaign(CampaignBase):
     def battle_0(self):
         if self.clear_siren():
             return True
-        if self.clear_enemy(scale=(2, 3)):
+        if self.clear_enemy(scale=(3,)):
             return True
-
+        if self.clear_enemy(scale=(2,)):
+            return True
         return self.battle_default()
 
     def battle_5(self):
