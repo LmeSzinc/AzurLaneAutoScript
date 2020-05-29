@@ -33,11 +33,11 @@ dictionary_cn = {
 }
 dictionary_en = {
     'major_comm': ['Self Training', 'Defense Exercise', 'Research Mission', 'Tool Prep', 'Tactical Class', 'Cargo Transport'],
-    'daily_comm': ['Daily Resource Extraction', 'Awakening Tactical Research'],
-    'extra_drill': ['Sailing Training', 'Defense Patrol', 'Buoy Inspection'],
-    'extra_part': ['Commission'],
+    'daily_comm': ['Daily', 'Awakening'],
+    'extra_drill': ['Sailing', 'Defense Patrol', 'Buoy'],
+    'extra_part': ['Forest'],
     'extra_cube': ['Exercise'],
-    'extra_oil': ['Oil Extraction'],
+    'extra_oil': ['Oil'],
     'extra_book': ['Merchant Escort'],
     'urgent_drill': ['Cargo Defense', 'Scouts', 'Force', 'Elites'],
     'urgent_part': ['Lavella', 'Maui', 'Rendova', 'Kongbanna'],
