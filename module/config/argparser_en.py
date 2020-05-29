@@ -313,7 +313,7 @@ def main(ini_name=''):
     # ==========event_daily_ab==========
     event_ab_parser = subs.add_parser('event_daily_ab')
     event_name = event_ab_parser.add_argument_group('Choose an event', '')
-    event_name.add_argument('--event_name_ab', default=default('--event_name_ab'), choices=event_folder, help='E.g event_20200521_en')
+    event_name.add_argument('--event_name_ab', default=default('--event_name_ab'), choices=event_folder, help='E.g event_20200326_cn')
 
     # ==========main==========
     main_parser = subs.add_parser('main')
@@ -329,13 +329,13 @@ def main(ini_name=''):
     """
     event = event_parser.add_argument_group(
         'Choose a level', '\n'.join([line.strip() for line in description.strip().split('\n')]))
-    event.add_argument('--Event map', default=default('--Event map'),
+    event.add_argument('--event_stage', default=default('--event_stage'),
                              choices=['a1', 'a2', 'a3', 'b1', 'b2', 'b3', 'c1', 'c2', 'c3', 'd1', 'd2', 'd3'],
                              help='E.g d3')
-    event.add_argument('--SP map', default=default('--SP map'),
+    event.add_argument('--sp_stage', default=default('--sp_stage'),
                              choices=['sp1', 'sp2', 'sp3'],
                              help='E.g sp3')
-    event.add_argument('--Name event', default=default('--Name event'), choices=event_folder, help='There a dropdown menu with many options')
+    event.add_argument('--event_name', default=default('--event_name'), choices=event_folder, help='There a dropdown menu with many options')
 
     # ==========半自动==========
     semi_parser = subs.add_parser('semi_auto')

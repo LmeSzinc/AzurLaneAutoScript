@@ -162,7 +162,7 @@ dic_true_eng_to_eng = {
     'no': 'no',
     'Line Ahead': 'formation_1',
     'Double Line': 'formation_2',
-    'Diamond': 'formation_3',
+    'formation_3': 'formation_3',
     'combat_auto': 'combat_auto',
     'combat_manual': 'combat_manual',
     'stand_still_in_the_middle': 'stand_still_in_the_middle',
