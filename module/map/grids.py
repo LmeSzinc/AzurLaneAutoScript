@@ -104,6 +104,7 @@ class Grids(Perspective):
         image = self._image_clear_ui(image)
         self.image = image
         for grid in self:
+            grid.reset()
             grid.image = image
 
     def _image_clear_ui(self, image):
