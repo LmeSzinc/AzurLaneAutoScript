@@ -18,7 +18,6 @@ class Connection:
         self.serial = str(self.config.SERIAL)
         self.device = self.connect(self.serial)
         self.disable_uiautomator2_auto_quit()
-        self.check_screen_size()
 
     @staticmethod
     def adb_command(cmd, serial=None):
@@ -62,18 +61,3 @@ class Connection:
     def disable_uiautomator2_auto_quit(self, port=7912, expire=300000):
         self.adb_command(['forward', 'tcp:%s' % port, 'tcp:%s' % port], serial=self.serial)
         requests.post('http://127.0.0.1:%s/newCommandTimeout' % port, data=str(expire))
-
-    def check_screen_size(self):
-        width, height = self.device.window_size()
-        if height > width:
-            width, height = height, width
-
-        logger.attr('Screen_size', f'{width}x{height}')
-
-        if width == 1280 and height == 720:
-            return True
-        else:
-            logger.warning(f'Not supported screen size: {width}x{height}')
-            logger.warning('Alas requires 1280x720')
-            logger.hr('Script end')
-            exit(1)

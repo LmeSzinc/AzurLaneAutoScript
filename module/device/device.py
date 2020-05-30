@@ -8,6 +8,8 @@ from module.logger import logger
 
 
 class Device(Screenshot, Control, AppControl):
+    _screen_size_checked = False
+
     def handle_night_commission(self, hour=21, threshold=30):
         """
         Args:
@@ -39,4 +41,27 @@ class Device(Screenshot, Control, AppControl):
         if self.handle_night_commission():
             super().screenshot()
 
+        if not self._screen_size_checked:
+            self.check_screen_size()
+            self._screen_size_checked = True
+
         return self.image
+
+    def check_screen_size(self):
+        """
+        Screen size must be 1280x720, if not exit.
+        Take a screenshot before call.
+        """
+        width, height = self.image.size
+        if height > width:
+            width, height = height, width
+
+        logger.attr('Screen_size', f'{width}x{height}')
+
+        if width == 1280 and height == 720:
+            return True
+        else:
+            logger.warning(f'Not supported screen size: {width}x{height}')
+            logger.warning('Alas requires 1280x720')
+            logger.hr('Script end')
+            exit(1)
