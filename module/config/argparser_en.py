@@ -53,7 +53,7 @@ def update_config_from_template(config, file):
     sidebar_title='Function',
     terminal_font_family='Consolas',
     language='english',
-    default_size=(800, 950),
+    default_size=(1000, 720),
     navigation='SIDEBAR',
     tabbed_groups=True,
     show_success_modal=False,
@@ -136,17 +136,17 @@ def main(ini_name=''):
     f1 = fleet.add_argument_group('Road Fleet', 'Players can choose a formation before battle. Though it has no effect appearance-wise, the formations applies buffs to certain stats.\nLine Ahead: Increases Firepower and Torpedo by 15%, but reduces Evasion by 10% (Applies only to Vanguard fleet)\nDouble Line: Increases Evasion by 30%, but decreases Firepower and Torpedo by 5% (Applies only to Vanguard fleet)\nDiamond: Increases Anti-Air by 20% (no penalties, applies to entire fleet)')
     f1.add_argument('--fleet_index_1', default=default('--fleet_index_1'), choices=['1', '2', '3', '4', '5', '6'])
     f1.add_argument('--fleet_formation_1', default=default('--fleet_formation_1'), choices=['Line Ahead', 'Double Line', 'Diamond'])
-    f1.add_argument('--fleet_step_1', default=default('--fleet_step_1'), choices=['1', '2', '3', '4', '5', '6'])
+    f1.add_argument('--fleet_step_1', default=default('--fleet_step_1'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored')
 
     f2 = fleet.add_argument_group('Boss Fleet')
     f2.add_argument('--fleet_index_2', default=default('--fleet_index_2'), choices=['do_not_use', '1', '2', '3', '4', '5', '6'])
     f2.add_argument('--fleet_formation_2', default=default('--fleet_formation_2'), choices=['Line Ahead', 'Double Line', 'Diamond'])
-    f2.add_argument('--fleet_step_2', default=default('--fleet_step_2'), choices=['1', '2', '3', '4', '5', '6'])
+    f2.add_argument('--fleet_step_2', default=default('--fleet_step_2'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored')
 
     f3 = fleet.add_argument_group('Alternate Road Fleet')
     f3.add_argument('--fleet_index_3', default=default('--fleet_index_3'), choices=['do_not_use', '1', '2', '3', '4', '5', '6'])
     f3.add_argument('--fleet_formation_3', default=default('--fleet_formation_3'), choices=['Line Ahead', 'Double Line', 'Diamond'])
-    f3.add_argument('--fleet_step_3', default=default('--fleet_step_3'), choices=['1', '2', '3', '4', '5', '6'])
+    f3.add_argument('--fleet_step_3', default=default('--fleet_step_3'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored')
 
     f4 = fleet.add_argument_group('Auto-mode')
     f4.add_argument('--combat_auto_mode', default=default('--combat_auto_mode'), choices=['combat_auto', 'combat_manual', 'stand_still_in_the_middle'])
@@ -288,10 +288,10 @@ def main(ini_name=''):
 
     # 每日设置
     daily_task = daily_parser.add_argument_group('Daily settings', 'Does not support submarine daily')
-    daily_task.add_argument('--daily_mission_1', default=default('--daily_mission_1'), choices=['daily_air', 'daily_gun', 'daily_torpedo'])
-    daily_task.add_argument('--daily_mission_2', default=default('--daily_mission_2'), choices=['index_1', 'index_2', 'index_3'])
-    daily_task.add_argument('--daily_mission_4', default=default('--daily_mission_4'), choices=['index_1', 'index_2', 'index_3'])
-    daily_task.add_argument('--daily_mission_5', default=default('--daily_mission_5'), choices=['index_1', 'index_2', 'index_3'])
+    daily_task.add_argument('--tactical_training', default=default('--tactical_training'), choices=['daily_air', 'daily_gun', 'daily_torpedo'])
+    daily_task.add_argument('--fierce_assault', default=default('--fierce_assault'), choices=['index_1', 'index_2', 'index_3'])
+    daily_task.add_argument('--escort_mission', default=default('--escort_mission'), choices=['index_1', 'index_2', 'index_3'])
+    daily_task.add_argument('--advance_mission', default=default('--advance_mission'), choices=['index_1', 'index_2', 'index_3'])
     daily_task.add_argument('--daily_fleet', default=default('--daily_fleet'), choices=['1', '2', '3', '4', '5', '6'])
     daily_task.add_argument('--daily_equipment', default=default('--daily_equipment'), help='Change equipment before playing, unload equipment after playing, do not need to fill in 0 \ncomma, such as 3, 1, 0, 1, 1, 0')
 
@@ -312,8 +312,8 @@ def main(ini_name=''):
 
     # ==========event_daily_ab==========
     event_ab_parser = subs.add_parser('event_daily_ab')
-    event_name = event_ab_parser.add_argument_group('Choose an event', '')
-    event_name.add_argument('--event_name_ab', default=default('--event_name_ab'), choices=event_folder, help='E.g event_20200326_cn')
+    event_name = event_ab_parser.add_argument_group('Choose an event', 'bonus for first clear each day')
+    event_name.add_argument('--event_name_ab', default=default('--event_name_ab'), choices=event_folder, help='There a dropdown menu with many options')
 
     # ==========main==========
     main_parser = subs.add_parser('main')
@@ -325,9 +325,7 @@ def main(ini_name=''):
     event_parser = subs.add_parser('event')
 
     description = """
-    Support "Songs under the dome" (event_20200521_cn), optimized for D1D3
-    D3 has a plot battle when he first enters the picture and clears 100%, which will cause an error.
-    When the attack level is not optimized or the map does not reach the safe sea area, use the wasteland mode to run (slower)
+    Support "Iris of Light and Dark Rerun" (event_20200521_en), optimized for D2
     """
     event = event_parser.add_argument_group(
         'Choose a level', '\n'.join([line.strip() for line in description.strip().split('\n')]))
@@ -337,7 +335,7 @@ def main(ini_name=''):
     event.add_argument('--sp_stage', default=default('--sp_stage'),
                              choices=['sp1', 'sp2', 'sp3'],
                              help='E.g sp3')
-    event.add_argument('--event_name', default=default('--event_name'), choices=event_folder, help='E.g event_20200312_cn')
+    event.add_argument('--event_name', default=default('--event_name'), choices=event_folder, help='There a dropdown menu with many options')
 
     # ==========半自动==========
     semi_parser = subs.add_parser('semi_auto')

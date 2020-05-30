@@ -1,3 +1,6 @@
+[English Quick Guide](doc%2FQuick_guide.md) 
+
+[English Readme](README_en.md) `Translation in progress`
 # AzurLaneAutoScript
 
 Alas, an Azur Lane automation tool with GUI (For CN server, can support other server).

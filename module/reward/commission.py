@@ -32,20 +32,20 @@ dictionary_cn = {
     'urgent_ship': ['观舰']
 }
 dictionary_en = {
-    'major_comm': ['Self Training', 'Defense Exercise', 'Research Mission', 'Tool Prep', 'Tactical Class', 'Cargo Transport'],
-    'daily_comm': ['Daily Resource Extraction', 'Awakening Tactical Research'],
-    'extra_drill': ['Sailing Training', 'Defense Patrol', 'Buoy Inspection'],
-    'extra_part': ['Commission'],
+    'major_comm': ['SelfTrainingl', 'Defense Exercise', 'Research Mission', 'Prep', 'Class', 'Cargo Transport'],
+    'daily_comm': ['Daily', 'Awakening'],
+    'extra_drill': ['Sailing', 'Defense Patrol', 'Buoy'],
+    'extra_part': ['veinprotectoncommisionll', 'Forestprtectoncommisionl', 'Forestprotectoncommisionll'],
     'extra_cube': ['Exercise'],
-    'extra_oil': ['Oil Extraction'],
-    'extra_book': ['Merchant Escort'],
-    'urgent_drill': ['Cargo Defense', 'Enemy Scouts', 'Enemy Force', 'Enemy Elites'],
-    'urgent_part': ['Lavella', 'Maui', 'Rendova', 'Kongbanna'],
-    'urgent_book': ['Tyrant', 'Poro', 'Makira', 'Kapolo', 'Manne ', 'Mary', 'Isle', 'Kotlin'],
-    'urgent_box': ['Gear', 'Handover'],
-    'urgent_cube': ['Merchant Rescue', 'Enemy Attack'],
-    'urgent_gem': ['VIP Escort', 'Holiday Escort', 'Patrol Escort'],
-    'urgent_ship': ['Launch Ceremony']
+    'extra_oil': ['Large-saleoilExtractionlll', 'FleetCargoTransport', 'Large-saleoilExtractianl', 'Large-saleoilExtractionl', 'Large-saleoilExtractiaonll'],
+    'extra_book': ['LargeMerchantEscort'],
+    'urgent_drill': ['Cargo Defense', 'Scouts', 'Force', 'Elites', 'FrontierDefensePatrol'],
+    'urgent_part': ['Lavella', 'Maui', 'Rendova', 'AidingWongbanna'],
+    'urgent_book': ['Tyrant', 'Poro', 'Makira', 'Kapolo', 'Manne ', 'St.', 'Isle', 'Kotlin'],
+    'urgent_box': ['Gear Transport', 'Handover'],
+    'urgent_cube': ['MerchantRescuel', 'Attack'],
+    'urgent_gem': ['VIP ', 'Holiday', 'Patrol Escort'],
+    'urgent_ship': ['Launch']
 }
 
 
@@ -69,7 +69,8 @@ class Commission:
     @Config.when(SERVER='en')
     def commission_parse(self):
         # Name
-        area = area_offset((176, 23, 420, 51), self.area[0:2])  # This is different from CN, EN has longer names
+        # This is different from CN, EN has longer names
+        area = area_offset((176, 23, 420, 51), self.area[0:2])
         button = Button(area=area, color=(), button=area, name='COMMISSION')
         ocr = Ocr(button, lang='cnocr', back=(74, 97, 148), use_binary=False)
         self.button = button
@@ -84,7 +85,8 @@ class Commission:
 
         # Expire time
         area = area_offset((-49, 68, -45, 84), self.area[0:2])
-        button = Button(area=area, color=(189, 65, 66), button=area, name='IS_URGENT')
+        button = Button(area=area, color=(189, 65, 66),
+                        button=area, name='IS_URGENT')
         if button.appear_on(self.image):
             area = area_offset((-49, 73, 45, 91), self.area[0:2])
             button = Button(area=area, color=(), button=area, name='EXPIRE')
@@ -105,7 +107,7 @@ class Commission:
     @Config.when(SERVER=None)
     def commission_parse(self):
         # Name
-        area = area_offset((211, 26, 415, 49), self.area[0:2])
+        area = area_offset((176, 23, 420, 50), self.area[0:2])
         button = Button(area=area, color=(), button=area, name='COMMISSION')
         ocr = Ocr(button, lang='cnocr', back=(74, 97, 148), use_binary=False)
         self.button = button
@@ -120,7 +122,8 @@ class Commission:
 
         # Expire time
         area = area_offset((-49, 68, -45, 84), self.area[0:2])
-        button = Button(area=area, color=(189, 65, 66), button=area, name='IS_URGENT')
+        button = Button(area=area, color=(189, 65, 66),
+                        button=area, name='IS_URGENT')
         if button.appear_on(self.image):
             area = area_offset((-49, 73, 45, 91), self.area[0:2])
             button = Button(area=area, color=(), button=area, name='EXPIRE')
@@ -267,15 +270,18 @@ class CommissionGroup:
         if self.template is None:
             self.template = np.array(image.crop(self.template_area))
             self.swipe = 0
-        res = cv2.matchTemplate(self.template, np.array(image), cv2.TM_CCOEFF_NORMED)
+        res = cv2.matchTemplate(
+            self.template, np.array(image), cv2.TM_CCOEFF_NORMED)
         _, similarity, _, position = cv2.minMaxLoc(res)
         if similarity < 0.85:
-            logger.warning(f'Low similarity when finding swipe. Similarity: {similarity}, Position: {position}')
+            logger.warning(
+                f'Low similarity when finding swipe. Similarity: {similarity}, Position: {position}')
         self.swipe -= position[1] - self.template_area[1]
         self.template = np.array(image.crop(self.template_area))
 
         # Find commission position
-        color_height = np.mean(image.crop((597, 0, 619, 720)).convert('L'), axis=1)
+        color_height = np.mean(image.crop(
+            (597, 0, 619, 720)).convert('L'), axis=1)
         parameters = {'height': 200}
         peaks, _ = signal.find_peaks(color_height, **parameters)
         peaks = [y for y in peaks if y > 67 + 117]
@@ -311,13 +317,15 @@ class RewardCommission(UI, InfoHandler):
         """
         # Count Commission
         commission = daily.commission + urgent.commission
-        running_count = int(np.sum([1 for c in commission if c.status == 'running']))
+        running_count = int(
+            np.sum([1 for c in commission if c.status == 'running']))
         logger.attr('Running', running_count)
         if running_count >= 4:
             return [], []
 
         # Calculate priority
-        commission = [c for c in commission if c.valid and c.status == 'pending']
+        commission = [
+            c for c in commission if c.valid and c.status == 'pending']
         comm_priority = []
         for comm in commission:
             pri = priority[comm.genre]
@@ -333,11 +341,14 @@ class RewardCommission(UI, InfoHandler):
             comm_priority.append(pri)
 
         # Sort
-        commission = list(np.array(commission)[np.argsort(comm_priority)])[::-1]
+        commission = list(np.array(commission)[
+                          np.argsort(comm_priority)])[::-1]
         if time_limit:
-            commission = [comm for comm in commission if datetime.now() + comm.duration <= time_limit]
+            commission = [
+                comm for comm in commission if datetime.now() + comm.duration <= time_limit]
         commission = commission[:4 - running_count]
-        daily_choose, urgent_choose = CommissionGroup(self.config), CommissionGroup(self.config)
+        daily_choose, urgent_choose = CommissionGroup(
+            self.config), CommissionGroup(self.config)
         for comm in commission:
             if comm in daily:
                 daily_choose.commission.append(comm)
@@ -394,8 +405,10 @@ class RewardCommission(UI, InfoHandler):
 
     def _commission_swipe(self, distance=300):
         # Distance of two commission is 146px
-        p1, p2 = random_rectangle_vector((0, -distance), box=(620, 67, 1154, 692), random_range=(-20, -5, 20, 5))
-        self.device.drag(p1, p2, segments=2, shake=(25, 0), point_random=(0, 0, 0, 0), shake_random=(-5, 0, 5, 0))
+        p1, p2 = random_rectangle_vector(
+            (0, -distance), box=(620, 67, 1154, 692), random_range=(-20, -5, 20, 5))
+        self.device.drag(p1, p2, segments=2, shake=(25, 0),
+                         point_random=(0, 0, 0, 0), shake_random=(-5, 0, 5, 0))
         self.device.sleep(0.3)
         self.device.screenshot()
 
