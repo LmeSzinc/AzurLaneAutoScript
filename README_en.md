@@ -1,155 +1,127 @@
- - Under process of localization
-
 # AzurLaneAutoScript
 
 Alas, an Azur Lane automation tool with GUI (For CN server, can support other server).
 
-Alas, 一个带GUI的碧蓝航线脚本 (支持国服, 可以支持其他服务器).
+![gui](doc/README.assets/gui.png)
 
-![gui](doc/README.assets/gui_en.png)
+## Features  
 
+- **Campaign**: Currently support the first 6 chapter and 7-2  
 
+- **Events**: Support「Skybound Oratorio」, specifically map D1 and D3, supporting handling of 光之壁? (Fleet is unable to proceed into square that has 光之壁. Support 开荒)
 
-## 功能 Features
+- **Daily Mission**: Able to finish everything in 30 minutes, repeated run will skip over what has been done on that day  
 
-- **主线图出击** 暂时仅支持前六章和7-2
+  Daily Mission(Submarine not support). Hardmode(Currently only support 10-4). Exercise, Auto SL.  
+  
+- **Events x3 PT**: 30 minutes to finish A1-B3  
 
-- **活动图出击** 支持「穹顶下的圣咏曲」(event_20200521_cn), 针对D1D3有优化, 支持处理光之壁(舰队无法在有光之壁的格子进行通行), 支持开荒
+- **Commissions**: Dispatch commision every 20 minutes during campaign, accept commission rewards, research rewards, and daily mission rewards.  
 
-- **每日任务** 半小时左右一套做完, 重复运行时会跳过当天做过的
+- **Misc Features**  
 
-  每日任务(不支持潜艇每日). 困难图(暂时仅支持10-4). 演习, 自动SL.
+  Morale Control, Calculate Morale to prevent it from going sad, or to maintain Morale to earn experience   
 
-- **活动图每日三倍PT** 半小时左右A1到B3一套做完
+  HP Monitoring, Low HP Retire, Frontline HP Balancing  
 
-- **委托收派** 出击时每20分钟切出去收获, 支持收委托, 收科研, 收任务, 派委托
-
-- **特定模式出击** 7-2三战拣垃圾, 12图练级. ~~碧蓝航线不就只有两张图吗? 最多再算上1-1~~ (
-
-- **其他小功能**
-
-  心情控制, 计算心情防止红脸或者保持经验加成状态
-
-  血量监控, 低血量撤退, 先锋血量平衡
-
-  整队换装备
-
-  掉落截图记录
-
-  自动退役
-
+  Equipment Change  
+ 
+  Periodic Screeshot Record?  
+ 
+  Auto Retire  
+ 
   开荒模式
 
 
 
-## 安装 Installation
+## Installation
 
-- Clone 本项目
+- Clone this item
 
-- 安装依赖, 最好使用虚拟环境
+- Installing dependacy using a virutal enviroment
 
 ```
 pip install -r requirements.txt
 ```
 
-### 安装模拟器 Install an emulator
 
-| 设备       | Device     | 模拟器版本 | 安卓版本 | adb截图 | u2截图 | adb点击 | u2点击 |
-| ---------- | ---------- | ---------- | -------- | ------- | ------ | ------- | ------ |
-| 逍遥模拟器 | NemuPlayer | 7.1.3      | 5.1.1    | 0.308   | 0.275  | 0.294   | 0.146  |
-| 雷电模拟器 | LDPlayer   | 3.83       | 5.1.1    | 0.329   | 0.313  | 0.291   | 0.146  |
-| 夜神模拟器 | NoxPlayer  | 6.6.0.0    | 5.1.1    | 0.339   | 0.313  | 0.505   | 0.141  |
-| MuMu模拟器 | MuMuPlayer | 2.3.1.0    | 6.0.1    | 0.368   | 0.701  | 0.358   | 0.148  |
-| 一加5      | Oneplus5   |            | 7.1.1    | 1.211   | 0.285  | 0.447   | 0.160  |
+| Device     | Emulator Version | Android Version | ADB Screenshot | UIAutomator2 Screenshot | ADB Click | UIAutomator2 Click |
+| ---------- | ---------- | -------- | ------- | ------ | ------- | ------ |
+| NemuPlayer | 7.1.3      | 5.1.1    | 0.308   | 0.275  | 0.294   | 0.146  |
+| LDPlayer   | 3.83       | 5.1.1    | 0.329   | 0.313  | 0.291   | 0.146  |
+| NoxPlayer  | 6.6.0.0    | 5.1.1    | 0.339   | 0.313  | 0.505   | 0.141  |
+| MuMuPlayer | 2.3.1.0    | 6.0.1    | 0.368   | 0.701  | 0.358   | 0.148  |
+| Oneplus5   |            | 7.1.1    | 1.211   | 0.285  | 0.447   | 0.160  |
 
-这里给出了一些常见模拟器的性能测试结果, 测试平台 Windows 10, I7-8700k, 1080ti, nvme SSD, 模拟器分辨率1280x720, 碧蓝航线 60帧开启, 进入地图 7-2, 执行100次取平均, 单位秒.
+This are the common emulation setting that we have tested on, tested Platform Windows 10, I7-8700K, 1080ti, nvme SSD, emulator resolution 1280x720, Azur Lane 60FPS, tested on map 7-2, on average execute 100 commands in seconds.  
 
-由于海图识别模块对截图质量有很高的要求, `AzurLaneAutoScript` 暂时不支持手机, 必须使用模拟器. (Alas其实是支持手机的, 远古版本的Alas也是在手机上测试的, 但是长时间运行会发热和假死, 就放弃了)
+As screenshot recognition has a high requirement needed to run, AzurLaneAutoScript currently does not support mobile devices, you MUST use an emulator.  
 
-- 安装一款安卓模拟器
-- 模拟器分辨率设置为 `1280x720` .
+- Install an Android emulator  
+- Set emulator resolution to 1280x720
 
-### 配置ADB Set up ADB
+### ADB Setup
 
-- 获取 [ADB](https://developer.android.com/studio/releases/platform-tools)
-
-- 将ADB配置于系统的环境变量中, 并测试是否配置成功.
+- Install [ADB](https://developer.android.com/studio/releases/platform-tools)
+- Add ADB to enviroment variables of the system and test wheather the configurationis successful using the below command
 
 ```
 adb devices
 ```
 
-### 调教国产模拟器 Dealing with chinese emulator
+### Installing UIAutomator2
 
-国产模拟器一般会使用自己的 ADB, 而不同的ADB之间会互相结束对方, 这里提供一个一劳永逸的方法: 直接替换.
+[UIAutomator2](https://github.com/openatx/uiautomator2), is a library for automation, it can be use to speedup screenshots and clicks. `AzurLaneAutoScript` can also use ADB to perform screenshots and clicks, but it will be slightly slower.  
 
-- 前往模拟器的安装目录, 搜索 `adb`, 备份这些文件
-- 将自己的 `adb.exe` 复制进安装目录, 并且把名字改成刚才备份的文件的名字.
+For performance optimisation, it is recommended to use ADB for screenshot, and UIautomator2 for clicks. (As U2 Screenshot is slightly faster compare to ADB screenshot, but CPU resource usage is doubled, while U2 click is superior in all ways compare to ADB)  
 
-比如说夜神模拟器的安装目录有 `adb.exe` 和 `nox_adb.exe` , 备份它们. 把自己的 `adb.exe` 复制两份进来, 其中一份改名为 `nox_adb.exe` .
-
-这并不会影响模拟器运行, 还会带来方便. 每次打开模拟器的时候, 模拟器就会自动连接至ADB, 相当于执行了
-
-```
-adb connect <your emulator address>
-```
-
-### 安装 uiautomator2 Install uiautomator2
-
-[uiautomator2](https://github.com/openatx/uiautomator2), 是一个自动化测试的库, 可以加快截图和点击的速度.  `AzurLaneAutoScript` 也可以使用ADB来执行截图和点击, 就是慢一点而已. 
-
-出于性能优化, 建议使用ADB截图, uiautomator2点击. (u2截图稍稍快于adb截图, 但是cpu占用翻倍, u2点击则全方位碾压adb)
-
-- 执行
+- Starting up
 
 ```
 python -m uiautomator2 init
 ```
 
-  会在所有连接的设备上安装 [uiautomator-server](https://github.com/openatx/android-uiautomator-server/releases) , [atx-agent](https://github.com/openatx/atx-agent), [minicap](https://github.com/openstf/minicap), [minitouch](https://github.com/openstf/minitouch) . 如果设备是模拟器, uiautomator2 将跳过 minicap 的安装.
+All connected devices will be install with [uiautomator-server](https://github.com/openatx/android-uiautomator-server/releases) , [atx-agent](https://github.com/openatx/atx-agent), [minicap](https://github.com/openstf/minicap), [minitouch](https://github.com/openstf/minitouch)
+. If the device is a emulator, UIautomator2 will skip over the installation of minicap.  
 
-- 检查 uiautomator2 是否安装成功
+- Check if the installation of UIautomator 2 is successful  
 
-  修改 `module.dev_tools` 下的 `emulator_test.py` 中的 `SERIAL`, 并执行.
+  Modify the serial in \dev_tools\emulator_test.py line 31 and, execute from root project directory (the same where you have the file alas.py) 
+  
+  The default serial for some emulators:
+  | Device     | serial          |
+  | ---------- | --------------- |
+  | NoxPlayer  | 127.0.0.1:62001 |
+  | MuMuPlayer | 127.0.0.1:7555  |
+  | NemuPlayer | 127.0.0.1:21503 |
+  | LDPlayer   | emulator-5554   |
 
-  一些模拟器的默认 serial:
+## Usage
+ 
+- Double-click alas.pyw to run via graphical interface (GUI)
+- (Not Recommeneded) to run alas.pyw throught cmd even thought Alas is using [Gooey](https://github.com/chriskiehl/Gooey) a library that converts the command line to a GUI, Alas didnt have a method for running command line before using gooey. Alas was meant to be use with gooey, as such the command line function was create hastily. Therefore, using command line to run Alas will not be easy.  
+- (Not Recommended) to modify the configuration file 'config'alas.ini' and relation function in 'alas.py'
+- Multi-usage: copy alas.pyw, and rename, double-click run on it. The settings of template.ini are copied when the first run runs. The script runtime uses the ini profile of the same name.
 
-	| 设备       | Device     | serial          |
-	| ---------- | ---------- | --------------- |
-	| 夜神模拟器 | NoxPlayer  | 127.0.0.1:62001 |
-	| MuMu模拟器 | MuMuPlayer | 127.0.0.1:7555  |
-	| 逍遥模拟器 | NemuPlayer | 127.0.0.1:21503 |
-	| 雷电模拟器 | LDPlayer   | emulator-5554   |
+## Known issue
 
+Sort by frequency
 
-
-## 使用方法 Usage
-
-- 双击 alas.pyw, 通过图形界面(GUI)运行
-- (不推荐) 通过命令行运行. 虽然alas使用了 [Gooey](https://github.com/chriskiehl/Gooey), 一个将命令行转为GUI的库, 但是Alas并不是先有命令行方法运行再用gooey的, Alas是为了使用gooey快速编写GUI而去拼凑命令行参数的. 因此使用命令行会很难受.
-- (不推荐) 修改配置文件 `config/alas.ini` , 在 `alas.py` 中调用相关函数
-- 多开运行, 复制 alas.pyw, 并重命名, 双击运行即可. 首次运行时会复制template.ini的设置. 脚本运行时会使用同名的ini配置文件.
-
-
-
-## 已知问题 Known issue
-
-按出现频率排列
-
-- **GUI启动慢, uiautomator2启动慢**
-- **无法处理网络波动** 重连弹窗, 跳小黄鸡
-- **会显示绿脸黄脸红脸** 这个是瓜游心情值更新BUG, Alas会每隔2小时重启游戏来更新心情.
-- **演习可能SL失败** 演习看的是屏幕上方的血槽, 血槽可能被立绘遮挡, 因此需要一定时间(默认1s)血量低于一定值(默认40%)才会触发SL.  一个血皮后排就有30%左右的血槽, 所以别以为在1s内被打掉40%是不可能的. 另外如果后排立绘过大且CD重叠严重, 建议增大确认时间(比如3s), 或者换皮肤, 这样可以减少误判.
-- **极少数情况下ADB和uiautomator2会抽风**
-- **拖动操作在极少数情况下无效**
+- **GUI move slowly, UIautomator2 move slowly**
+- **Unable to deal with network issues** Reconnect pop-up, little chick pop-up
+- **It will display green face, yellow face, red face** This is a bug, Alas will restart the game every 2 hour to update the affections level.
+- **Exercise may fail SL**
+- **Under rare circumstance ABD and UIAutomator2 will have convulsive seizures**
+- **Screen draging will not work in rare circumstances**
 
 
 
-## 文档 Doc
 
-[海图识别 perspective](doc/perspective.md)
+## Doc
+[Map Perspective](doc/perspective.md)
 
-`海图识别` 是一个碧蓝航线脚本的核心. 如果只是单纯地使用 `模板匹配 (Template matching)` 来进行索敌, 就不可避免地会出现 BOSS被小怪堵住 的情况.  `AzurLaneAutoScript` 提供了一个更好的海图识别方法, 在 `module.map` 中, 你将可以得到完整的海域信息, 比如:
+`Map Perspective` is the core foundation of Azur scripts. If you simply use (Template Matching) to search for enemies, it is inevitable that in some rare cases, the BOSS will be blocked by mobs. `AzurLaneAutoScript` provides a better map recognition menthod in `module.map`, you will be able to get a more complete sea information such as:
+
 
 ```
 2020-03-10 22:09:03.830 | INFO |    A  B  C  D  E  F  G  H
@@ -160,23 +132,20 @@ python -m uiautomator2 init
 2020-03-10 22:09:03.830 | INFO | 5 -- -- -- 2E -- 2E ++ ++
 ```
 
-[参与开发 development](doc/development.md)
 
-- 如何添加一个按钮 How to add a button
-- 如何适配一张新的地图 How to adapt to a new map
-- 如何支持其他服务器/语言 How to support other server/language
+[Development](doc/development.md)
+- How to add a button
+- How to adapt to a new map
+- How to support other server/language
 
-
-
-## 参考 Reference
+## Reference
 
 - (Not open source) http://asaiq2.lofter.com/
 
-  现成的碧蓝航线脚本, 完成度很高. 参考了主要的功能和设置.
+  Ready made Azur scripts that has high completetion rate. Refer to the main functions and settings.
 
 - https://github.com/Egoistically/ALAuto
 
   (Archived) https://github.com/perryhuynh/azurlane-auto
 
-  EN服的碧蓝航线脚本, 模仿了脚本架构.
-
+  EN Server script, use to mimic server architect.
