@@ -53,7 +53,7 @@ def update_config_from_template(config, file):
     sidebar_title='Function',
     terminal_font_family='Consolas',
     language='english',
-    default_size=(1000, 720),
+    default_size=(1110, 720),
     navigation='SIDEBAR',
     tabbed_groups=True,
     show_success_modal=False,

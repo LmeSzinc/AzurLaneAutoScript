@@ -37,7 +37,7 @@ dictionary_en = {
     'extra_drill': ['Sailing', 'Defense Patrol', 'Buoy'],
     'extra_part': ['veinprotectoncommisionll', 'Forestprtectoncommisionl', 'Forestprotectoncommisionll'],
     'extra_cube': ['Exercise'],
-    'extra_oil': ['Large-saleoilExtractionlll', 'FleetCargoTransport', 'Large-saleoilExtractianl', 'Large-saleoilExtractionl', 'Large-saleoilExtractiaonll'],
+    'extra_oil': ['oilextraction', 'FleetCargoTransport', 'oilExtractianl', '', 'oilExtractiaonll'],
     'extra_book': ['LargeMerchantEscort'],
     'urgent_drill': ['Cargo Defense', 'Scouts', 'Force', 'Elites', 'FrontierDefensePatrol'],
     'urgent_part': ['Lavella', 'Maui', 'Rendova', 'AidingWongbanna'],
@@ -181,7 +181,7 @@ class Commission:
         Returns:
             timedelta: datetime.timedelta instance.
         """
-        string = string.replace('D', '0')  # Poor OCR
+        string = string.replace('D', '0').replace(' ', '').replace('-', '')  # Poor OCR
         result = re.search('(\d+):(\d+):(\d+)', string)
         if not result:
             logger.warning(f'Invalid time string: {string}')

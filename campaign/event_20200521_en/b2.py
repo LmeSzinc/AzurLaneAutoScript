@@ -25,9 +25,18 @@ A6, B6, C6, D6, E6, F6, G6, H6, I6, \
 A7, B7, C7, D7, E7, F7, G7, H7, I7, \
     = MAP.flatten()
 
+MAP.spawn_data = [
+    {'battle': 0, 'enemy': 2, 'siren': 2},
+    {'battle': 1, 'enemy': 1},
+    {'battle': 2, 'enemy': 2},
+    {'battle': 3, 'enemy': 1},
+    {'battle': 4, 'enemy': 1},
+    {'battle': 5, 'boss': 1},
+]
+
 class Config:
-    SUBMARINE = 1
-    FLEET_BOSS = 1
+    SUBMARINE = 0
+    FLEET_BOSS = 0
 
     POOR_MAP_DATA = True
     MAP_HAS_AMBUSH = False
@@ -55,4 +64,15 @@ class Config:
 
 class Campaign(CampaignBase):
     MAP = MAP
+
+    def battle_0(self):
+        if self.clear_siren():
+            return True
+        if self.clear_enemy(scale=(2, 3)):
+            return True
+
+        return self.battle_default()
+
+    def battle_5(self):
+        return self.clear_boss()
 
