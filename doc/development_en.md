@@ -26,6 +26,10 @@ Suppose we want to add a `CONFIRM` button, which appears in the submarine signal
 1. **Screenshot**
 
    ![screenshot](development.assets/ss.png)
+   
+   the best way to take screenshots its using `adb exec-out screencap -p > screenshot.png`
+   
+   If you get some output error, maybe you need to add your emulator port like that `adb -s 127.0.0.1:5555 exec-out screencap -p >screenshot.png`
 
 2. **Copy the picture to the corresponding directory under `./asset`**, and change the file name, for example `EQUIP_CONFIRM.png`
 
