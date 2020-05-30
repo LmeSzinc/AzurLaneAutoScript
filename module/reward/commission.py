@@ -32,18 +32,18 @@ dictionary_cn = {
     'urgent_ship': ['观舰']
 }
 dictionary_en = {
-    'major_comm': ['Self Training', 'Defense Exercise', 'Research Mission', 'Prep', 'Class', 'Cargo Transport'],
+    'major_comm': ['SelfTrainingl', 'Defense Exercise', 'Research Mission', 'Prep', 'Class', 'Cargo Transport'],
     'daily_comm': ['Daily', 'Awakening'],
     'extra_drill': ['Sailing', 'Defense Patrol', 'Buoy'],
-    'extra_part': ['Forest'],
+    'extra_part': ['veinprotectoncommisionll', 'Forestprtectoncommisionl'],
     'extra_cube': ['Exercise'],
-    'extra_oil': ['Oil'],
-    'extra_book': ['Merchant Escort'],
-    'urgent_drill': ['Cargo Defense', 'Scouts', 'Force', 'Elites'],
+    'extra_oil': ['Large-saleoilExtractionlll', 'FleetCargoTransport', 'Large-saleoilExtractianl'],
+    'extra_book': ['LargeMerchantEscort'],
+    'urgent_drill': ['Cargo Defense', 'Scouts', 'Force', 'Elites', 'FrontierDefensePatrol'],
     'urgent_part': ['Lavella', 'Maui', 'Rendova', 'Kongbanna'],
     'urgent_book': ['Tyrant', 'Poro', 'Makira', 'Kapolo', 'Manne ', 'St.', 'Isle', 'Kotlin'],
     'urgent_box': ['Gear Transport', 'Handover'],
-    'urgent_cube': ['Merchant Rescue', 'Attack'],
+    'urgent_cube': ['MerchantRescuel', 'Attack'],
     'urgent_gem': ['VIP ', 'Holiday', 'Patrol Escort'],
     'urgent_ship': ['Launch']
 }

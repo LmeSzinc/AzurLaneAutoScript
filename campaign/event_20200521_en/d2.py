@@ -33,9 +33,8 @@ MAP.spawn_data = [
 ]
 
 class Config:
-    SUBMARINE = 1
-    FLEET_BOSS = 2
-
+    SUBMARINE = 0
+    FLEET_BOSS = 0
     MAP_HAS_AMBUSH = False
     MAP_HAS_FLEET_STEP = False
     MAP_HAS_MOVABLE_ENEMY = False
