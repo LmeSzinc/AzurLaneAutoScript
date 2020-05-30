@@ -31,4 +31,3 @@ class Config:
 
 class Campaign(CampaignBase):
     MAP = MAP
-
