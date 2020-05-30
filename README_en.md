@@ -142,10 +142,10 @@ Sort by frequency
 
 - (Not open source) http://asaiq2.lofter.com/
 
-  Ready made Azur scripts has high completetion rate. Refer to the main functions and settings
+  Ready made Azur scripts that has high completetion rate. Refer to the main functions and settings.
 
 - https://github.com/Egoistically/ALAuto
 
   (Archived) https://github.com/perryhuynh/azurlane-auto
 
-  EN Server script, use to mimic server architect 
+  EN Server script, use to mimic server architect.
