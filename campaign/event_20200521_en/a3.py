@@ -3,52 +3,56 @@ from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
 
-MAP = CampaignMap('')
-# MAP.shape = 'K7'
+MAP = CampaignMap('a3')
+MAP.shape = 'K7'
 # MAP.camera_data = ['D2', 'D5', 'F3', 'F5']
-# MAP.map_data = '''
-#     SP ++ ++ ++ ME -- -- -- ME -- MM
-#     -- -- -- -- -- -- ME -- -- -- --
-#     ME -- ++ ME -- -- -- -- ++ ++ --
-#     ME -- -- -- MS ++ __ -- MB ++ --
-#     -- -- ME -- -- -- -- -- -- -- --
-#     -- -- ++ ++ ME ME -- ME ++ ++ ++
-#     SP -- ++ MM ME -- -- -- -- ME MM
-# '''
 MAP.map_data = '''
-    SP ++ ++ ++ -- -- -- -- -- -- --
-    -- -- -- -- -- -- -- -- -- -- --
-    -- -- ++ -- -- -- -- -- ++ ++ --
-    -- -- -- -- -- ++ -- -- -- ++ --
-    -- -- -- -- -- -- -- -- -- -- --
-    -- -- ++ ++ -- -- -- -- ++ ++ ++
-    SP -- ++ ++ -- -- -- -- -- -- --
+    SP ++ ++ ++ ME -- -- -- ME -- MM
+    -- -- -- -- -- -- ME -- -- -- --
+    ME -- ++ ME -- -- -- -- ++ ++ --
+    ME -- -- -- MS ++ __ -- MB ++ --
+    -- -- ME -- -- -- -- -- -- -- --
+    -- -- ++ ++ ME ME -- ME ++ ++ ++
+    SP -- ++ MM ME -- -- -- -- ME MM
 '''
+# MAP.map_data = '''
+#     SP ++ ++ ++ -- -- -- -- -- -- --
+#     -- -- -- -- -- -- -- -- -- -- --
+#     -- -- ++ -- -- -- -- -- ++ ++ --
+#     -- -- -- -- -- ++ -- -- -- ++ --
+#     -- -- -- -- -- -- -- -- -- -- --
+#     -- -- ++ ++ -- -- -- -- ++ ++ ++
+#     SP -- ++ ++ -- -- -- -- -- -- --
+# '''
 
 class Config:
-    SUBMARINE = 0
-    FLEET_BOSS = 0
-
     POOR_MAP_DATA = True
     MAP_HAS_AMBUSH = False
     MAP_HAS_FLEET_STEP = True
     MAP_HAS_MOVABLE_ENEMY = True
     MAP_HAS_SIREN = True
-    MAP_HAS_DYNAMIC_RED_BORDER = False
-    MAP_HAS_MAP_STORY = True
-    MAP_SIREN_COUNT = 0
+    MAP_HAS_DYNAMIC_RED_BORDER = True
+    MAP_SIREN_COUNT = 1
+    MAP_GRID_CENTER_TOLERANCE = 0.3
+    MAP_SIREN_TEMPLATE = ['1', '2', '3', 'DD']
 
-    TRUST_EDGE_LINES = False
-    COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.5
+    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 50
+    MID_DIFF_RANGE_H = (45, 70)
+    MID_DIFF_RANGE_V = (97 - 3, 97 + 3)
+    TRUST_EDGE_LINES = True
+
+    VANISH_POINT_RANGE = ((540, 740), (-4000, -2000))
+    DISTANCE_POINT_X_RANGE = ((-2000, -1000),)
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (100, 255 - 24),
-        'width': 1,
+        'height': (80, 255 - 40),
+        'width': (0.9, 10),
         'prominence': 10,
         'distance': 35,
+        'wlen': 100,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 24, 255),
-        'prominence': 2,
+        'height': (255 - 40, 255),
+        'prominence': 10,
         'distance': 50,
         'wlen': 1000
     }

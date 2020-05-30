@@ -24,6 +24,7 @@ TEMPLATE_SIREN_1 = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_1.p
 TEMPLATE_SIREN_2 = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_2.png', 'en': './assets/en/template/TEMPLATE_SIREN_2.png'})
 TEMPLATE_SIREN_3 = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_3.png', 'en': './assets/en/template/TEMPLATE_SIREN_3.png'})
 TEMPLATE_SIREN_Algerie = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_Algerie.png', 'en': './assets/en/template/TEMPLATE_SIREN_Algerie.png'})
+TEMPLATE_SIREN_DD = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_DD.png', 'en': './assets/en/template/TEMPLATE_SIREN_DD.png'})
 TEMPLATE_SIREN_LaGalissonniere = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_LaGalissonniere.png', 'en': './assets/en/template/TEMPLATE_SIREN_LaGalissonniere.png'})
 TEMPLATE_SIREN_Vauquelin = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_Vauquelin.png', 'en': './assets/en/template/TEMPLATE_SIREN_Vauquelin.png'})
 TEMPLATE_STAGE_CLEAR = Template(file={'cn': './assets/cn/template/TEMPLATE_STAGE_CLEAR.png', 'en': './assets/en/template/TEMPLATE_STAGE_CLEAR.png'})

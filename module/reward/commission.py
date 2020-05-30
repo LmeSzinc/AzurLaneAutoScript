@@ -32,18 +32,18 @@ dictionary_cn = {
     'urgent_ship': ['观舰']
 }
 dictionary_en = {
-    'major_comm': ['Self Training', 'Defense Exercise', 'Research Mission', 'Prep', 'Class', 'Cargo Transport'],
+    'major_comm': ['SelfTrainingl', 'Defense Exercise', 'Research Mission', 'Prep', 'Class', 'Cargo Transport'],
     'daily_comm': ['Daily', 'Awakening'],
     'extra_drill': ['Sailing', 'Defense Patrol', 'Buoy'],
-    'extra_part': ['Forest'],
+    'extra_part': ['veinprotectoncommisionll', 'Forestprtectoncommisionl', 'Forestprotectoncommisionll'],
     'extra_cube': ['Exercise'],
-    'extra_oil': ['Oil'],
-    'extra_book': ['Merchant Escort'],
-    'urgent_drill': ['Cargo Defense', 'Scouts', 'Force', 'Elites'],
-    'urgent_part': ['Lavella', 'Maui', 'Rendova', 'Kongbanna'],
+    'extra_oil': ['oilextraction', 'FleetCargoTransport', 'oilExtractianl', '', 'oilExtractiaonll'],
+    'extra_book': ['LargeMerchantEscort'],
+    'urgent_drill': ['Cargo Defense', 'Scouts', 'Force', 'Elites', 'FrontierDefensePatrol'],
+    'urgent_part': ['Lavella', 'Maui', 'Rendova', 'AidingWongbanna'],
     'urgent_book': ['Tyrant', 'Poro', 'Makira', 'Kapolo', 'Manne ', 'St.', 'Isle', 'Kotlin'],
     'urgent_box': ['Gear Transport', 'Handover'],
-    'urgent_cube': ['Merchant Rescue', 'Attack'],
+    'urgent_cube': ['MerchantRescuel', 'Attack'],
     'urgent_gem': ['VIP ', 'Holiday', 'Patrol Escort'],
     'urgent_ship': ['Launch']
 }
@@ -181,7 +181,7 @@ class Commission:
         Returns:
             timedelta: datetime.timedelta instance.
         """
-        string = string.replace('D', '0')  # Poor OCR
+        string = string.replace('D', '0').replace(' ', '').replace('-', '')  # Poor OCR
         result = re.search('(\d+):(\d+):(\d+)', string)
         if not result:
             logger.warning(f'Invalid time string: {string}')
