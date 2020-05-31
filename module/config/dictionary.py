@@ -28,7 +28,7 @@ dic_true_eng_to_eng = {
     'reward': 'reward',
     'emulator': 'emulator',
     'daily': 'daily',
-    'event_daily_ab': 'event_daily_ab',
+    'event_daily_bonus': 'event_daily_ab',
     'main': 'main',
     'event': 'event',
     'semi_auto': 'semi_auto',

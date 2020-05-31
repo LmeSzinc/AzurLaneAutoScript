@@ -2,7 +2,7 @@
 
 Alas, an Azur Lane automation tool with GUI (For CN server, can support other server).
 
-![gui](doc/README.assets/gui.png)
+![gui](doc/README.assets/gui_en.png)
 
 ## Features  
 

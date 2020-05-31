@@ -10,6 +10,7 @@ config/*.ini
 !alas_kr.pyw
 dev_tools/debug_tools
 .idea
+/screenshots
 
 # Created by .ignore support plugin (hsz.mobi)
 
