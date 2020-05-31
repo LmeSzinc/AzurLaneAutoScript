@@ -211,3 +211,16 @@ class GridInfo:
         self.is_current_fleet = False
         self.is_submarine = False
         self.is_cleared = False
+
+    def covered_grid(self):
+        """Relative coordinate of the covered grid.
+
+        Returns:
+            list[tuple]:
+        """
+        if self.is_current_fleet:
+            return [(0, -1), (0, -2)]
+        if self.is_fleet or self.is_siren or self.is_mystery:
+            return [(0, -1)]
+
+        return []

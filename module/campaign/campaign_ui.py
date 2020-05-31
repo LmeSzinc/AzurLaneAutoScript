@@ -66,7 +66,10 @@ class CampaignUI(UI, CampaignOcr):
         if name not in self.stage_entrance:
             logger.warning(f'Stage not found: {name}')
             raise CampaignNameError
-        return self.stage_entrance[name]
+
+        entrance = self.stage_entrance[name]
+        entrance.name = name
+        return entrance
 
     def ensure_campaign_ui(self, name, mode='normal'):
         """
