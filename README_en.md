@@ -26,11 +26,11 @@ Alas, an Azur Lane automation tool with GUI (For CN server, can support other se
 
   Equipment Change  
  
-  Periodic Screeshot Record?  
+  Periodic Screeshot Record  
  
   Auto Retire  
  
-  开荒模式
+  Map completion mode, when running new map, it will try to do 3 star clear
 
 
 
