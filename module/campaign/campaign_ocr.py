@@ -162,7 +162,7 @@ class CampaignOcr:
         self.stage_entrance = {}
         buttons = self.campaign_extract_name_image(image)
 
-        ocr = Ocr(buttons, lang='stage', letter=(255, 255, 255), back=(102, 102, 102), threshold=180)
+        ocr = Ocr(buttons, lang='stage', letter=(255, 255, 255), back=(102, 102, 102), threshold=120)
         result = ocr.ocr(image)
         if not isinstance(result, list):
             result = [result]

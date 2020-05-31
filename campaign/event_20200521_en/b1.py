@@ -24,8 +24,8 @@ A6, B6, C6, D6, E6, F6, G6, H6, \
     = MAP.flatten()
 
 class Config:
-    SUBMARINE = 1
-    FLEET_BOSS = 1
+    SUBMARINE = 0
+    FLEET_BOSS = 0
 
     POOR_MAP_DATA = True
     MAP_HAS_AMBUSH = False

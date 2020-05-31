@@ -28,8 +28,8 @@ MAP.map_data = '''
 class Config:
     POOR_MAP_DATA = True
     MAP_HAS_AMBUSH = False
-    MAP_HAS_FLEET_STEP = False
-    MAP_HAS_MOVABLE_ENEMY = False
+    MAP_HAS_FLEET_STEP = True
+    MAP_HAS_MOVABLE_ENEMY = True
     MAP_HAS_SIREN = True
     MAP_HAS_DYNAMIC_RED_BORDER = True
     MAP_SIREN_COUNT = 1
