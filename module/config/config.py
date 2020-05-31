@@ -2,15 +2,16 @@ import codecs
 import configparser
 import copy
 import os
+from datetime import timezone
 
 import cv2
 import numpy as np
 from PIL import Image
 
+import module.config.server as server
 from module.base.timer import *
 from module.config.dictionary import *
 from module.logger import logger
-import module.config.server as server
 
 
 class AzurLaneConfig:
@@ -520,6 +521,30 @@ class AzurLaneConfig:
         self.C124_NON_S3_WITHDRAW_TOLERANCE = int(option['non_s3_enemy_withdraw_tolerance'])
         self.C124_AMMO_PICK_UP = int(option['ammo_pick_up_124'])
 
+    def get_server_timezone(self):
+        if self.SERVER == 'en':
+            return -7
+        elif self.SERVER == 'cn':
+            return 8
+        elif self.SERVER == 'jp':
+            return 9
+        else:
+            return 8
+
+    def get_server_last_update(self, since):
+        """
+        Args:
+            since (tuple(int)): Update hour in Azurlane, such as (0, 12, 18,).
+
+        Returns:
+            datetime.datetime
+        """
+        d = datetime.now(timezone.utc).astimezone()
+        diff = d.utcoffset() // timedelta(seconds=1) // 3600 - self.get_server_timezone()
+        since = np.sort((np.array(since) + diff) % 24)
+        update = sorted([past_time(f'{t}:00') for t in since])[-1]
+        return update
+
     def record_executed_since(self, option, since):
         """
         Args:
@@ -530,10 +555,7 @@ class AzurLaneConfig:
             bool: If got a record after last game update.
         """
         record = datetime.strptime(self.config.get(*option), self.TIME_FORMAT)
-        since = np.array(since)
-
-        hour = since[since <= datetime.now().hour][-1]
-        update = datetime.now().replace(hour=hour, minute=0, second=0, microsecond=0)
+        update = self.get_server_last_update(since)
 
         logger.attr(f'{option[0]}_{option[1]}', f'Record time: {record}')
         logger.attr(f'{option[0]}_{option[1]}', f'Last update: {update}')
