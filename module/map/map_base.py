@@ -408,14 +408,7 @@ class CampaignMap:
                     missing[attr] -= 1
 
         for grid in self:
-            if not grid.is_fleet and not grid.is_mystery and not grid.is_siren:
-                continue
-
-            cover = [(0, -1)]
-            if grid.is_current_fleet:
-                cover.append((0, -2))
-
-            for upper in cover:
+            for upper in grid.covered_grid():
                 upper = tuple(np.array(grid.location) + upper)
                 if upper in self:
                     upper = self[upper]
@@ -451,14 +444,7 @@ class CampaignMap:
 
         # predict
         for grid in self:
-            if not grid.is_fleet and not grid.is_mystery:
-                continue
-
-            cover = [(0, -1)]
-            if grid.is_current_fleet:
-                cover.append((0, -2))
-
-            for upper in cover:
+            for upper in grid.covered_grid():
                 upper = tuple(np.array(grid.location) + upper)
                 if upper in self:
                     upper = self[upper]

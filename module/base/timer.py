@@ -23,12 +23,26 @@ def future_time(string):
         string (str): Such as 14:59.
 
     Returns:
-        datetime.datetime: Time with given hour, minute, second in the future.
+        datetime.datetime: Time with given hour, minute in the future.
     """
     hour, minute = [int(x) for x in string.split(':')]
     future = datetime.now().replace(hour=hour, minute=minute, second=0, microsecond=0)
     future = future + timedelta(days=1) if future < datetime.now() else future
     return future
+
+
+def past_time(string):
+    """
+    Args:
+        string (str): Such as 14:59.
+
+    Returns:
+        datetime.datetime: Time with given hour, minute in the past.
+    """
+    hour, minute = [int(x) for x in string.split(':')]
+    past = datetime.now().replace(hour=hour, minute=minute, second=0, microsecond=0)
+    past = past - timedelta(days=1) if past > datetime.now() else past
+    return past
 
 
 def future_time_range(string):

@@ -119,7 +119,7 @@ def main(ini_name=''):
     # 选择关卡
     stage = setting_parser.add_argument_group('Level settings', 'Need to run once to save options')
     stage.add_argument('--enable_stop_condition', default=default('--enable_stop_condition'), choices=['yes', 'no'])
-    stage.add_argument('--enable_fast_forward', default=default('--enable_fast_forward'), choices=['yes', 'no'])
+    stage.add_argument('--enable_fast_forward', default=default('--enable_fast_forward'), choices=['yes', 'no'], help='Enable or disable clearing mode')
 
     stop = stage.add_argument_group('Stop condition', 'After triggering, it will not stop immediately. It will complete the current attack first, and fill in 0 if it is not needed.')
     stop.add_argument('--if_count_greater_than', default=default('--if_count_greater_than'), help='The previous setting will be used, and the number\n of deductions will be deducted after completion of the attack until it is cleared.')
@@ -133,7 +133,7 @@ def main(ini_name=''):
     fleet.add_argument('--enable_fleet_control', default=default('--enable_fleet_control'), choices=['yes', 'no'])
     fleet.add_argument('--enable_map_fleet_lock', default=default('--enable_map_fleet_lock'), choices=['yes', 'no'])
 
-    f1 = fleet.add_argument_group('Road Fleet', 'Players can choose a formation before battle. Though it has no effect appearance-wise, the formations applies buffs to certain stats.\nLine Ahead: Increases Firepower and Torpedo by 15%, but reduces Evasion by 10% (Applies only to Vanguard fleet)\nDouble Line: Increases Evasion by 30%, but decreases Firepower and Torpedo by 5% (Applies only to Vanguard fleet)\nDiamond: Increases Anti-Air by 20% (no penalties, applies to entire fleet)')
+    f1 = fleet.add_argument_group('Mob Fleet', 'Players can choose a formation before battle. Though it has no effect appearance-wise, the formations applies buffs to certain stats.\nLine Ahead: Increases Firepower and Torpedo by 15%, but reduces Evasion by 10% (Applies only to Vanguard fleet)\nDouble Line: Increases Evasion by 30%, but decreases Firepower and Torpedo by 5% (Applies only to Vanguard fleet)\nDiamond: Increases Anti-Air by 20% (no penalties, applies to entire fleet)')
     f1.add_argument('--fleet_index_1', default=default('--fleet_index_1'), choices=['1', '2', '3', '4', '5', '6'])
     f1.add_argument('--fleet_formation_1', default=default('--fleet_formation_1'), choices=['Line Ahead', 'Double Line', 'Diamond'])
     f1.add_argument('--fleet_step_1', default=default('--fleet_step_1'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored')
@@ -143,7 +143,7 @@ def main(ini_name=''):
     f2.add_argument('--fleet_formation_2', default=default('--fleet_formation_2'), choices=['Line Ahead', 'Double Line', 'Diamond'])
     f2.add_argument('--fleet_step_2', default=default('--fleet_step_2'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored')
 
-    f3 = fleet.add_argument_group('Alternate Road Fleet')
+    f3 = fleet.add_argument_group('Alternate Mob Fleet')
     f3.add_argument('--fleet_index_3', default=default('--fleet_index_3'), choices=['do_not_use', '1', '2', '3', '4', '5', '6'])
     f3.add_argument('--fleet_formation_3', default=default('--fleet_formation_3'), choices=['Line Ahead', 'Double Line', 'Diamond'])
     f3.add_argument('--fleet_step_3', default=default('--fleet_step_3'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored')
@@ -152,7 +152,7 @@ def main(ini_name=''):
     f4.add_argument('--combat_auto_mode', default=default('--combat_auto_mode'), choices=['combat_auto', 'combat_manual', 'stand_still_in_the_middle'])
 
     # 潜艇设置
-    submarine = setting_parser.add_argument_group('Submarine settings', 'Only supported: hunt_only, do_not_use every_combat')
+    submarine = setting_parser.add_argument_group('Submarine settings', 'Only supported: hunt_only, do_not_use and every_combat')
     submarine.add_argument('--fleet_index_4', default=default('--fleet_index_4'), choices=['do_not_use', '1', '2'])
     submarine.add_argument('--submarine_mode', default=default('--submarine_mode'), choices=['do_not_use', 'hunt_only', 'every_combat', 'when_no_ammo', 'when_boss_combat', 'when_boss_combat_boss_appear'])
 
@@ -161,7 +161,7 @@ def main(ini_name=''):
     emotion.add_argument('--enable_emotion_reduce', default=default('--enable_emotion_reduce'), choices=['yes', 'no'])
     emotion.add_argument('--ignore_low_emotion_warn', default=default('--ignore_low_emotion_warn'), choices=['yes', 'no'])
 
-    e1 = emotion.add_argument_group('Road Fleet')
+    e1 = emotion.add_argument_group('Mob Fleet')
     e1.add_argument('--emotion_recover_1', default=default('--emotion_recover_1'), choices=['not_in_dormitory', 'dormitory_floor_1', 'dormitory_floor_2'])
     e1.add_argument('--emotion_control_1', default=default('--emotion_control_1'), choices=['keep_high_emotion', 'avoid_green_face', 'avoid_yellow_face', 'avoid_red_face'])
     e1.add_argument('--hole_fleet_married_1', default=default('--hole_fleet_married_1'), choices=['yes', 'no'])
@@ -171,7 +171,7 @@ def main(ini_name=''):
     e2.add_argument('--emotion_control_2', default=default('--emotion_control_2'), choices=['keep_high_emotion', 'avoid_green_face', 'avoid_yellow_face', 'avoid_red_face'])
     e2.add_argument('--hole_fleet_married_2', default=default('--hole_fleet_married_2'), choices=['yes', 'no'])
 
-    e3 = emotion.add_argument_group('Alternate Road Fleet', 'Will be used when the home team triggers mood control')
+    e3 = emotion.add_argument_group('Alternate Mob Fleet', 'Will be used when the first team triggers mood control')
     e3.add_argument('--emotion_recover_3', default=default('--emotion_recover_3'), choices=['not_in_dormitory', 'dormitory_floor_1', 'dormitory_floor_2'])
     e3.add_argument('--emotion_control_3', default=default('--emotion_control_3'), choices=['keep_high_emotion', 'avoid_green_face', 'avoid_yellow_face', 'avoid_red_face'])
     e3.add_argument('--hole_fleet_married_3', default=default('--hole_fleet_married_3'), choices=['yes', 'no'])
@@ -182,7 +182,7 @@ def main(ini_name=''):
     hp.add_argument('--enable_low_hp_withdraw', default=default('--enable_low_hp_withdraw'), choices=['yes', 'no'])
     hp_balance = hp.add_argument_group('HP Balance', '')
     hp_balance.add_argument('--scout_hp_difference_threshold', default=default('--scout_hp_difference_threshold'), help='When the difference in HP volume is greater than the threshold, transpose')
-    hp_balance.add_argument('--scout_hp_weights', default=default('--scout_hp_weights'), help='Pioneer flesh should be modified when there is a difference, the format 1000,1000,1000')
+    hp_balance.add_argument('--scout_hp_weights', default=default('--scout_hp_weights'), help='Should be repaired when there is a difference in Vanguard, format 1000,1000,1000')
     hp_add = hp.add_argument_group('Emergency repair', '')
     hp_add.add_argument('--emergency_repair_single_threshold', default=default('--emergency_repair_single_threshold'), help='Used when single shipgirl is below the threshold')
     hp_add.add_argument('--emergency_repair_hole_threshold', default=default('--emergency_repair_hole_threshold'), help='Used when all front rows or all back rows are below the threshold')
@@ -192,8 +192,9 @@ def main(ini_name=''):
     # 退役选项
     retire = setting_parser.add_argument_group('Retirement settings', '')
     retire.add_argument('--enable_retirement', default=default('--enable_retirement'), choices=['yes', 'no'])
-    retire.add_argument('--use_one_click_retirement', default=default('--use_one_click_retirement'), choices=['yes', 'no'])
-    retire.add_argument('--retire_mode', default=default('--retire_mode'), choices=['retire_all', 'retire_10'])
+    retire.add_argument('--retire_method', default=default('--retire_method'), choices=['enhance', 'one_click_retire', 'old_retire'])
+    retire.add_argument('--retire_amount', default=default('--retire_amount'), choices=['retire_all', 'retire_10'])
+    retire.add_argument('--enhance_favourite', default=default('--enhance_favourite'), choices=['yes', 'no'])
 
     rarity = retire.add_argument_group('Retirement rarity', 'The ship type selection is not supported yet. Ignore the following options when using one-key retirement')
     rarity.add_argument('--retire_n', default=default('--retire_n'), choices=['yes', 'no'], help='N')
@@ -228,43 +229,43 @@ def main(ini_name=''):
     reward_commission.add_argument('--enable_commission_reward', default=default('--enable_commission_reward'), choices=['yes', 'no'])
     reward_commission.add_argument('--commission_time_limit', default=default('--commission_time_limit'), help='Ignore orders whose completion time exceeds the limit, Format: 23:30')
 
-    priority1 = reward_commission.add_argument_group('Time-consuming priority of delegation', '')
+    priority1 = reward_commission.add_argument_group('Commission priority by time duration', '')
     priority1.add_argument('--duration_shorter_than_2', default=default('--duration_shorter_than_2'), help='')
     priority1.add_argument('--duration_longer_than_6', default=default('--duration_longer_than_6'), help='')
     priority1.add_argument('--expire_shorter_than_2', default=default('--expire_shorter_than_2'), help='')
     priority1.add_argument('--expire_longer_than_6', default=default('--expire_longer_than_6'), help='')
 
-    priority2 = reward_commission.add_argument_group('Daily delegation priority', '')
+    priority2 = reward_commission.add_argument_group('Daily Commission priority', '')
     priority2.add_argument('--daily_comm', default=default('--daily_comm'), help='Daily resource development, high-level tactical research and development')
     priority2.add_argument('--major_comm', default=default('--major_comm'), help='1200 oil / 1000 oil commission')
 
-    priority3 = reward_commission.add_argument_group('Additional delegation priority', '')
+    priority3 = reward_commission.add_argument_group('Additional commission priority', '')
     priority3.add_argument('--extra_drill', default=default('--extra_drill'), help='Short-range Sailing Training, Coastal Defense Patrol')
     priority3.add_argument('--extra_part', default=default('--extra_part'), help='Small Merchant Escort, Forest Protection Commission')
     priority3.add_argument('--extra_cube', default=default('--extra_cube'), help='Fleet Exercise Ⅲ, Fleet Escort ExerciseFleet Exercise Ⅲ')
     priority3.add_argument('--extra_oil', default=default('--extra_oil'), help='Small-scale Oil Extraction, Large-scale Oil Extraction')
     priority3.add_argument('--extra_book', default=default('--extra_book'), help='Small Merchant Escort, Large Merchant Escort')
 
-    priority4 = reward_commission.add_argument_group('Emergency delegation priority', '')
+    priority4 = reward_commission.add_argument_group('Urgente commission priority', '')
     priority4.add_argument('--urgent_drill', default=default('--urgent_drill'), help='Defend the transport troops, annihilate the enemy elite troops')
     priority4.add_argument('--urgent_part', default=default('--urgent_part'), help='Support Vila Vela Island, support terror Banner')
     priority4.add_argument('--urgent_cube', default=default('--urgent_cube'), help='Rescue merchant ship, enemy attack')
     priority4.add_argument('--urgent_book', default=default('--urgent_book'), help='Support Tuhaoer Island, support Moe Island')
-    priority4.add_argument('--urgent_box', default=default('--urgent_box'), help='BIW equipment transportation, NYB equipment research and development')
-    priority4.add_argument('--urgent_gem', default=default('--urgent_gem'), help='BIW VIP guard, NYB patrol guard')
-    priority4.add_argument('--urgent_ship', default=default('--urgent_ship'), help='Small ship watching ceremony, alliance ship watching ceremony')
+    priority4.add_argument('--urgent_box', default=default('--urgent_box'), help='BIW Gear Transport, NYB Gear Transport')
+    priority4.add_argument('--urgent_gem', default=default('--urgent_gem'), help='BIW VIP Escort, NYB VIP Escort')
+    priority4.add_argument('--urgent_ship', default=default('--urgent_ship'), help='Small Launch Ceremony, Fleet Launch Ceremony, Alliance Launch Ceremony')
 
     reward_tactical = reward_parser.add_argument_group('Classroom', 'Only support continuation of skill books, not new skills')
     reward_tactical.add_argument('--enable_tactical_reward', default=default('--enable_tactical_reward'), choices=['yes', 'no'])
     reward_tactical.add_argument('--tactical_night_range', default=default('--tactical_night_range'), help='Format 23:30-06:30')
-    reward_tactical.add_argument('--tactical_book_tier', default=default('--tactical_book_tier'), choices=['3', '2', '1'], help='Skill book that uses at most T a few \nT3 is a gold book, T2 is a purple book, T1 is a blue book')
+    reward_tactical.add_argument('--tactical_book_tier', default=default('--tactical_book_tier'), choices=['3', '2', '1'], help='Wich skill book will use first\nT3 is a gold book, T2 is a purple book, T1 is a blue book')
     reward_tactical.add_argument('--tactical_exp_first', default=default('--tactical_exp_first'), choices=['yes', 'no'], help='Choose Yes, give priority to the 150% bonus \nSelect No, give priority to the skills book with the same rarity')
     reward_tactical.add_argument('--tactical_book_tier_night', default=default('--tactical_book_tier_night'), choices=['3', '2', '1'])
     reward_tactical.add_argument('--tactical_exp_first_night', default=default('--tactical_exp_first_night'), choices=['yes', 'no'])
 
     # ==========emulator==========
     emulator_parser = subs.add_parser('emulator')
-    emulator = emulator_parser.add_argument_group('Emulator', 'Need to run once to save the options, it will check whether the game is started \nIf the game is started, trigger a collection')
+    emulator = emulator_parser.add_argument_group('Emulator', 'Need to run once to save the options, it will check whether the game is started \nIf the game has not started, it will be started')
     emulator.add_argument('--serial', default=default('--serial'), help='Bluestacks 127.0.0.1:5555 \nNox 127.0.0.1:62001')
     emulator.add_argument('--package_name', default='com.YoStarEN.AzurLane', help='')
 
@@ -274,7 +275,7 @@ def main(ini_name=''):
 
     adb = emulator_parser.add_argument_group('ADB settings', '')
     adb.add_argument('--use_adb_screenshot', default=default('--use_adb_screenshot'), choices=['yes', 'no'], help='It is recommended to enable it to reduce CPU usage')
-    adb.add_argument('--use_adb_control', default=default('--use_adb_control'), choices=['yes', 'no'], help='Suggest to close, can speed up the click speed')
+    adb.add_argument('--use_adb_control', default=default('--use_adb_control'), choices=['yes', 'no'], help='Recommended off, can speed up the click speed')
     adb.add_argument('--combat_screenshot_interval', default=default('--combat_screenshot_interval'), help='Slow down the screenshot speed during battle and reduce CPU')
 
     # ==========每日任务==========
@@ -296,7 +297,7 @@ def main(ini_name=''):
     daily_task.add_argument('--daily_equipment', default=default('--daily_equipment'), help='Change equipment before playing, unload equipment after playing, do not need to fill in 0 \ncomma, such as 3, 1, 0, 1, 1, 0')
 
     # 困难设置
-    hard = daily_parser.add_argument_group('Difficult setting', 'Need to turn on weekly mode, only support 10-4 temporarily')
+    hard = daily_parser.add_argument_group('Difficult setting', 'Need to turn on weekly mode, only support 10-1, 10-2 and 10-4 temporarily')
     hard.add_argument('--hard_campaign', default=default('--hard_campaign'), help='For example 10-4')
     hard.add_argument('--hard_fleet', default=default('--hard_fleet'), choices=['1', '2'])
     hard.add_argument('--hard_equipment', default=default('--hard_equipment'), help='Change equipment before playing, unload equipment after playing, do not need to fill in 0 \ncomma, such as 3, 1, 0, 1, 1, 0')
@@ -311,14 +312,15 @@ def main(ini_name=''):
     exercise.add_argument('--exercise_equipment', default=default('--exercise_equipment'), help='Change equipment before playing, unload equipment after playing, do not need to fill in 0 \ncomma, such as 3, 1, 0, 1, 1, 0')
 
     # ==========event_daily_ab==========
-    event_ab_parser = subs.add_parser('event_daily_ab')
+    event_ab_parser = subs.add_parser('event_daily_bonus')
     event_name = event_ab_parser.add_argument_group('Choose an event', 'bonus for first clear each day')
     event_name.add_argument('--event_name_ab', default=default('--event_name_ab'), choices=event_folder, help='There a dropdown menu with many options')
+    # event_name.add_argument('--enable_hard_bonus', default=default('--enable_hard_bonus'), choices=['yes', 'no'], help='Will enable Daily bonus for Event hard maps') # Trying implement all event maps
 
     # ==========main==========
     main_parser = subs.add_parser('main')
     # 选择关卡
-    stage = main_parser.add_argument_group('Choose a level', 'The main line chart strikes, currently only supports the first six chapters and 7-2')
+    stage = main_parser.add_argument_group('Choose a level', 'Main campaign, currently only supports the first six chapters and 7-2')
     stage.add_argument('--main_stage', default=default('--main_stage'), help='E.g 7-2')
 
     # ==========event==========
@@ -356,9 +358,9 @@ def main(ini_name=''):
     # ==========c124_leveling==========
     c_12_4_parser = subs.add_parser('c12-4_leveling')
     c_12_4 = c_12_4_parser.add_argument_group('12-4 Search enemy settings', 'Need to ensure that the team has a certain strength')
-    c_12_4.add_argument('--non_s3_enemy_enter_tolerance', default=default('--non_s3_enemy_enter_tolerance'), choices=['0', '1', '2'], help='Endure how many battles to enter without big')
+    c_12_4.add_argument('--non_s3_enemy_enter_tolerance', default=default('--non_s3_enemy_enter_tolerance'), choices=['0', '1', '2'], help='Avoid enemy too strong')
     c_12_4.add_argument('--non_s3_enemy_withdraw_tolerance', default=default('--non_s3_enemy_withdraw_tolerance'), choices=['0', '1', '2', '10'], help='How many battles will be fought after there is no large scale')
-    c_12_4.add_argument('--ammo_pick_up_124', default=default('--ammo_pick_up_124'), choices=['2', '3', '4', '5'], help='How much ammunition to pick after the war')
+    c_12_4.add_argument('--ammo_pick_up_124', default=default('--ammo_pick_up_124'), choices=['2', '3', '4', '5'], help='How much ammunition to pick after the battle')
 
     args = parser.parse_args()
 

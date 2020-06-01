@@ -32,19 +32,19 @@ dictionary_cn = {
     'urgent_ship': ['观舰']
 }
 dictionary_en = {
-    'major_comm': ['SelfTrainingl', 'Defense Exercise', 'Research Mission', 'Prep', 'Class', 'Cargo Transport'],
+    'major_comm': ['SelfTraining', 'DefenseExercise', 'ResearchMission', 'Prep', 'Class', 'CargoTransport'],
     'daily_comm': ['Daily', 'Awakening'],
-    'extra_drill': ['Sailing', 'Defense Patrol', 'Buoy'],
-    'extra_part': ['veinprotectoncommisionll', 'Forestprtectoncommisionl', 'Forestprotectoncommisionll'],
-    'extra_cube': ['Exercise'],
-    'extra_oil': ['oilextraction', 'FleetCargoTransport', 'oilExtractianl', '', 'oilExtractiaonll'],
-    'extra_book': ['LargeMerchantEscort'],
-    'urgent_drill': ['Cargo Defense', 'Scouts', 'Force', 'Elites', 'FrontierDefensePatrol'],
-    'urgent_part': ['Lavella', 'Maui', 'Rendova', 'AidingWongbanna'],
-    'urgent_book': ['Tyrant', 'Poro', 'Makira', 'Kapolo', 'Manne ', 'St.', 'Isle', 'Kotlin'],
-    'urgent_box': ['Gear Transport', 'Handover'],
-    'urgent_cube': ['MerchantRescuel', 'Attack'],
-    'urgent_gem': ['VIP ', 'Holiday', 'Patrol Escort'],
+    'extra_drill': ['Sailing', 'DefensePatrol', 'Buoy'],
+    'extra_part': ['Protection'],
+    'extra_cube': ['FleetExercise', 'EscortExercise', 'FleetCargo', 'CombatExercise'],
+    'extra_oil': ['oil'],
+    'extra_book': ['MerchantEscort'],
+    'urgent_drill': ['CargoDefense', 'Destroy'],
+    'urgent_part': ['Lavella', 'Maui', 'Rendova', 'banna'],
+    'urgent_book': ['Tyrant', 'Poro', 'Makira', 'Kapolo', 'Manne ', 'Mary', 'Isle', 'Kotlin'],
+    'urgent_box': ['Gear', 'Handover'],
+    'urgent_cube': ['MerchantRescue', 'Attack'],
+    'urgent_gem': ['VIP ', 'Holiday', 'PatrolEscort'],
     'urgent_ship': ['Launch']
 }
 
@@ -181,7 +181,7 @@ class Commission:
         Returns:
             timedelta: datetime.timedelta instance.
         """
-        string = string.replace('D', '0').replace(' ', '').replace('-', '')  # Poor OCR
+        string = string.replace('D', '0')  # Poor OCR
         result = re.search('(\d+):(\d+):(\d+)', string)
         if not result:
             logger.warning(f'Invalid time string: {string}')
@@ -200,6 +200,7 @@ class Commission:
         Returns:
             str: Commission genre, such as 'urgent_gem'.
         """
+        string = string.replace(' ', '').replace('-', '')
         for key, value in dictionary_en.items():
             for keyword in value:
                 if keyword in string:

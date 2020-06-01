@@ -50,6 +50,8 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
                 continue
             if self.handle_combat_low_emotion():
                 continue
+            if self.handle_retirement():
+                continue
 
             # Break
             if self.combat_appear():

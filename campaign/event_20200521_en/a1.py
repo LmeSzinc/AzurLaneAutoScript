@@ -13,6 +13,7 @@ MAP.map_data = '''
     -- ME -- -- ++ ME -- ME --
     SP -- -- ME ++ -- ME -- MB
 '''
+MAP.camera_data = ['D1', 'D3', 'F1', 'F3']
 
 class Config:
     POOR_MAP_DATA = True
@@ -24,6 +25,12 @@ class Config:
     MAP_SIREN_COUNT = 1
 
     TRUST_EDGE_LINES = True
+
+    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
+    EDGE_LINES_HOUGHLINES_THRESHOLD = 40
+    COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.5
+    MID_DIFF_RANGE_H = (140 - 3, 140 + 3)
+    MID_DIFF_RANGE_V = (143 - 3, 143 + 3)
 
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 40),
@@ -42,3 +49,8 @@ class Config:
 class Campaign(CampaignBase):
     MAP = MAP
 
+    def handle_boss_appear_refocus(self):
+        if self.battle_count == 4:
+            self.map_swipe((-3, -2))
+
+        return super().handle_boss_appear_refocus()

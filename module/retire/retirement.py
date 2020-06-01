@@ -3,13 +3,14 @@ from module.base.decorator import Config
 from module.base.utils import get_color, color_similar
 from module.combat.assets import GET_ITEMS_1
 from module.exception import ScriptError
-from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.retire.assets import *
-from module.ui.ui import UI
+from module.retire.enhancement import Enhancement
 
-CARD_GRIDS = ButtonGrid(origin=(93, 76), delta=(164 + 2 / 3, 227), button_shape=(138, 204), grid_shape=(7, 2), name='CARD')
-CARD_RARITY_GRIDS = ButtonGrid(origin=(93, 76), delta=(164 + 2 / 3, 227), button_shape=(138, 5), grid_shape=(7, 2), name='RARITY')
+CARD_GRIDS = ButtonGrid(
+    origin=(93, 76), delta=(164 + 2 / 3, 227), button_shape=(138, 204), grid_shape=(7, 2), name='CARD')
+CARD_RARITY_GRIDS = ButtonGrid(
+    origin=(93, 76), delta=(164 + 2 / 3, 227), button_shape=(138, 5), grid_shape=(7, 2), name='RARITY')
 
 CARD_RARITY_COLORS = {
     'N': (174, 176, 187),
@@ -20,9 +21,8 @@ CARD_RARITY_COLORS = {
 }
 
 
-class Retirement(UI, InfoHandler):
-    def _handle_retirement_cards_loading(self):
-        self.device.sleep((1, 1.5))
+class Retirement(Enhancement):
+    _unable_to_enhance = False
 
     def _retirement_choose(self, amount=10, target_rarity=('N',)):
         """
@@ -80,7 +80,7 @@ class Retirement(UI, InfoHandler):
         if current != method:
             logger.info(f'Sorting set to {method}')
             self.device.click(SORTING_CLICK)
-            self._handle_retirement_cards_loading()
+            self.handle_dock_cards_loading()
             self.device.screenshot()
             return True
         else:
@@ -106,7 +106,7 @@ class Retirement(UI, InfoHandler):
         if current != enable:
             logger.info(f'Common ship filter set to {enable}')
             self.device.click(COMMON_SHIP_FILTER_ENABLE)
-            self._handle_retirement_cards_loading()
+            self.handle_dock_cards_loading()
             self.device.screenshot()
             return True
         else:
@@ -116,7 +116,7 @@ class Retirement(UI, InfoHandler):
         executed = False
         while 1:
             self.device.screenshot()
-            if self.config.RETIRE_SR or self.config.RETIRE_SSR or self.config.USE_ONE_CLICK_RETIREMENT:
+            if self.config.RETIRE_SR or self.config.RETIRE_SSR or self.config.RETIREMENT_METHOD == 'one_click_retire':
                 if self.handle_popup_confirm():
                     continue
             if self.appear_then_click(SHIP_CONFIRM, offset=30, interval=2):
@@ -153,14 +153,6 @@ class Retirement(UI, InfoHandler):
         self.ui_back(check_button=self._retirement_quit_check_func, skip_first_screenshot=True)
 
     @property
-    def _retire_amount(self):
-        if self.config.RETIRE_MODE == 'all':
-            return 2000
-        if self.config.RETIRE_MODE == '10':
-            return 10
-        return 10
-
-    @property
     def _retire_rarity(self):
         rarity = set()
         if self.config.RETIRE_N:
@@ -173,7 +165,7 @@ class Retirement(UI, InfoHandler):
             rarity.add('SSR')
         return rarity
 
-    @Config.when(USE_ONE_CLICK_RETIREMENT=True)
+    @Config.when(RETIREMENT_METHOD='one_click_retire')
     def retire_ships(self, amount=None, rarity=None):
         logger.hr('Retirement')
         logger.info('Using one click retirement.')
@@ -206,7 +198,7 @@ class Retirement(UI, InfoHandler):
         logger.info(f'Total retired round: {total // 10}')
         return total
 
-    @Config.when(USE_ONE_CLICK_RETIREMENT=False)
+    @Config.when(RETIREMENT_METHOD='old_retire')
     def retire_ships(self, amount=None, rarity=None):
         """
         Args:
@@ -242,21 +234,43 @@ class Retirement(UI, InfoHandler):
         logger.info(f'Total retired: {total}')
         return total
 
-    def handle_retirement(self, amount=None, rarity=None):
+    def handle_retirement(self):
         if not self.config.ENABLE_RETIREMENT:
             return False
         if not self.retirement_appear():
             return False
 
-        self.ui_click(RETIRE_APPEAR_1, check_button=IN_RETIREMENT_CHECK, skip_first_screenshot=True)
-        self._handle_retirement_cards_loading()
+        if self._unable_to_enhance:
+            self.config.RETIREMENT_METHOD = 'one_click_retire'
+            total = self._retire_handler()
+            self.config.RETIREMENT_METHOD = 'enhance'
+            self._unable_to_enhance = False
+            if not total:
+                logger.warning('No ship retired, exit')
+                logger.info('This may happens because wrong options of one click retirement in game')
+                exit(1)
+        elif 'retire' in self.config.RETIREMENT_METHOD or self._unable_to_enhance:
+            total = self._retire_handler()
+            self._unable_to_enhance = False
+            if not total:
+                logger.warning('No ship retired, exit')
+                logger.info('This may happens because some filters are set in dock')
+                exit(1)
+        else:
+            total = self._enhance_handler()
+            if not total:
+                logger.info('No ship to enhance, but dock full, will try retire')
+                self._unable_to_enhance = True
 
-        total = self.retire_ships(amount=amount, rarity=rarity)
+        return True
+
+    def _retire_handler(self):
+        self.ui_click(RETIRE_APPEAR_1, check_button=IN_RETIREMENT_CHECK, skip_first_screenshot=True)
+        self.handle_dock_cards_loading()
+
+        total = self.retire_ships()
 
         self._retirement_quit()
         self.config.DOCK_FULL_TRIGGERED = True
 
-        if total == 0:
-            logger.warning('No ship retired, exit')
-            raise ScriptError('No ship retired, exit')
-        return True
+        return total

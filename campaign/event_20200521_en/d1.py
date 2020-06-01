@@ -18,7 +18,7 @@ MAP.map_data = '''
 
 class Config:
     SUBMARINE = 0
-    FLEET_BOSS = 2
+    FLEET_BOSS = 0
 
     POOR_MAP_DATA = True
     MAP_HAS_AMBUSH = False
