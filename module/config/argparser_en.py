@@ -192,8 +192,9 @@ def main(ini_name=''):
     # 退役选项
     retire = setting_parser.add_argument_group('Retirement settings', '')
     retire.add_argument('--enable_retirement', default=default('--enable_retirement'), choices=['yes', 'no'])
-    retire.add_argument('--use_one_click_retirement', default=default('--use_one_click_retirement'), choices=['yes', 'no'])
-    retire.add_argument('--retire_mode', default=default('--retire_mode'), choices=['retire_all', 'retire_10'])
+    retire.add_argument('--retire_method', default=default('--retire_method'), choices=['enhance', 'one_click_retire', 'old_retire'])
+    retire.add_argument('--retire_amount', default=default('--retire_amount'), choices=['retire_all', 'retire_10'])
+    retire.add_argument('--enhance_favourite', default=default('--enhance_favourite'), choices=['yes', 'no'])
 
     rarity = retire.add_argument_group('Retirement rarity', 'The ship type selection is not supported yet. Ignore the following options when using one-key retirement')
     rarity.add_argument('--retire_n', default=default('--retire_n'), choices=['yes', 'no'], help='N')

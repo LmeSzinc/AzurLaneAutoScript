@@ -56,9 +56,12 @@ class ModuleBase:
             self.device.click(button)
         return appear
 
-    def wait_until_appear(self, button, offset=0):
+    def wait_until_appear(self, button, offset=0, skip_first_screenshot=False):
         while 1:
-            self.device.screenshot()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
             if self.appear(button, offset=offset):
                 break
 

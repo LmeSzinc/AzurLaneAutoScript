@@ -224,8 +224,10 @@ class AzurLaneConfig:
     """
     ENABLE_RETIREMENT = True
     USE_ONE_CLICK_RETIREMENT = False
+    RETIREMENT_METHOD = 'one_click_retire'  # enhance, old_retire, one_click_retire
+    ENHANCE_FAVOURITE = False
     DOCK_FULL_TRIGGERED = False
-    RETIRE_MODE = '10'  # all, 10
+    RETIRE_AMOUNT = 'all'  # all, 10
     RETIRE_N = True
     RETIRE_R = False
     RETIRE_SR = False
@@ -437,8 +439,9 @@ class AzurLaneConfig:
         self.SCREEN_SHOT_SAVE_FOLDER_BASE = option['drop_screenshot_folder']
         # Retirement
         self.ENABLE_RETIREMENT = to_bool(option['enable_retirement'])
-        self.USE_ONE_CLICK_RETIREMENT = to_bool(option['use_one_click_retirement'])
-        self.RETIRE_MODE = option['retire_mode'].split('_')[1]
+        self.RETIREMENT_METHOD = option['retire_method']
+        self.RETIRE_AMOUNT = option['retire_amount'].split('_')[1]
+        self.ENHANCE_FAVOURITE = to_bool(option['enhance_favourite'])
         for r in ['n', 'r', 'sr', 'ssr']:
             self.__setattr__(f'RETIRE_{r.upper()}', to_bool(option[f'retire_{r}']))
         # Clear mode

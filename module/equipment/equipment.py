@@ -1,20 +1,25 @@
+from module.base.button import ButtonGrid
 from module.base.timer import Timer
 from module.equipment.assets import *
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.ui.assets import BACK_ARROW
+from module.base.utils import color_similarity_2d
+import numpy as np
 
 SWIPE_DISTANCE = 250
 SWIPE_RANDOM_RANGE = (-40, -20, 40, 20)
+DETAIL_SIDEBAR = ButtonGrid(
+    origin=(21, 118), delta=(0, 94.5), button_shape=(60, 75), grid_shape=(1, 5), name='DETAIL_SIDEBAR')
 
 
 class Equipment(InfoHandler):
     equipment_has_take_on = False
 
-    def _view_swipe(self, distance):
-        swipe_timer = Timer(3, count=3)
+    def _view_swipe(self, distance, check_button=EQUIPMENT_OPEN):
+        swipe_timer = Timer(3, count=5)
+        SWIPE_CHECK.load_color(self.device.image)
         while 1:
-            SWIPE_CHECK.load_color(self.device.image)
             if not swipe_timer.started() or swipe_timer.reached():
                 swipe_timer.reset()
                 self.device.swipe(vector=(distance, 0), box=SWIPE_AREA.area, random_range=SWIPE_RANDOM_RANGE,
@@ -22,32 +27,40 @@ class Equipment(InfoHandler):
 
             self.device.screenshot()
             if SWIPE_CHECK.match(self.device.image):
+                if swipe_timer.reached():
+                    import time
+                    from PIL import Image
+                    self.device.image.save(f'{int(time.time() * 1000)}.png')
+                    Image.fromarray(SWIPE_CHECK.image).save(f'{int(time.time() * 1000)}.png')
                 continue
 
-            if self.appear(EQUIPMENT_OPEN) and not SWIPE_CHECK.match(self.device.image):
+            if self.appear(check_button, offset=(30, 30)) and not SWIPE_CHECK.match(self.device.image):
                 break
 
-    def _view_next(self):
-        self._view_swipe(distance=-SWIPE_DISTANCE)
+    def equip_view_next(self, check_button=EQUIPMENT_OPEN):
+        self._view_swipe(distance=-SWIPE_DISTANCE, check_button=check_button)
 
-    def _view_prev(self):
-        self._view_swipe(distance=SWIPE_DISTANCE)
+    def equip_view_prev(self, check_button=EQUIPMENT_OPEN):
+        self._view_swipe(distance=SWIPE_DISTANCE, check_button=check_button)
 
-    def _equip_enter(self, enter):
+    def equip_enter(self, click_button, check_button=EQUIPMENT_OPEN, long_click=True):
         enter_timer = Timer(5)
 
         while 1:
             if enter_timer.reached():
-                self.device.long_click(enter, duration=(1.5, 1.7))
+                if long_click:
+                    self.device.long_click(click_button, duration=(1.5, 1.7))
+                else:
+                    self.device.click(click_button)
                 enter_timer.reset()
 
             self.device.screenshot()
 
             # End
-            if self.appear(EQUIPMENT_OPEN):
+            if self.appear(check_button):
                 break
 
-    def _equip_exit(self, out):
+    def equip_quit(self, out):
         quit_timer = Timer(3)
 
         while 1:
@@ -63,6 +76,70 @@ class Equipment(InfoHandler):
                 self.device.sleep((0.2, 0.3))
                 quit_timer.reset()
                 continue
+
+    def _equip_sidebar_click(self, index):
+        """
+        Args:
+            index (int):
+                5 for retrofit.
+                4 for enhancement.
+                3 for limit break.
+                2 for gem / equipment.
+                1 for detail.
+
+        Returns:
+            bool: if changed.
+        """
+        current = 0
+        total = 0
+
+        for idx, button in enumerate(DETAIL_SIDEBAR.buttons()):
+            image = np.array(self.device.image.crop(button.area))
+            if np.sum(image[:, :, 0] > 235) > 100:
+                current = idx + 1
+                total = idx + 1
+                continue
+            if np.sum(color_similarity_2d(image, color=(140, 162, 181)) > 221) > 100:
+                total = idx + 1
+            else:
+                break
+        if not current:
+            logger.warning('No ship details sidebar active.')
+        if total == 4:
+            current = 5 - current
+        elif total == 5:
+            current = 6 - current
+        else:
+            logger.warning('Ship details sidebar total count error.')
+
+        logger.attr('Detail_sidebar', f'{current}/{total}')
+        if current == index:
+            return False
+
+        self.device.click(DETAIL_SIDEBAR[0, total - index])
+        return True
+
+    def equip_sidebar_ensure(self, index, skip_first_screenshot=True):
+        """
+        Args:
+            index (int):
+                5 for retrofit.
+                4 for enhancement.
+                3 for limit break.
+                2 for gem / equipment.
+                1 for detail.
+        """
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self._equip_sidebar_click(index):
+                self.device.sleep((0.3, 0.5))
+                continue
+            else:
+                break
 
     def _equip_take_off_one(self):
         bar_timer = Timer(5)
@@ -98,16 +175,16 @@ class Equipment(InfoHandler):
             fleet (list[int]): list of equipment record. [3, 1, 1, 1, 1, 1]
         """
         logger.hr('Equipment take off')
-        self._equip_enter(enter)
+        self.equip_enter(enter)
 
         for index in '9'.join([str(x) for x in fleet if x > 0]):
             index = int(index)
             if index == 9:
-                self._view_next()
+                self.equip_view_next()
             else:
                 self._equip_take_off_one()
 
-        self._equip_exit(out)
+        self.equip_quit(out)
         self.equipment_has_take_on = False
 
     def _equip_take_on_one(self, index):
@@ -148,14 +225,14 @@ class Equipment(InfoHandler):
             fleet (list[int]): list of equipment record. [3, 1, 1, 1, 1, 1]
         """
         logger.hr('Equipment take on')
-        self._equip_enter(enter)
+        self.equip_enter(enter)
 
         for index in '9'.join([str(x) for x in fleet if x > 0]):
             index = int(index)
             if index == 9:
-                self._view_next()
+                self.equip_view_next()
             else:
                 self._equip_take_on_one(index=index)
 
-        self._equip_exit(out)
+        self.equip_quit(out)
         self.equipment_has_take_on = True
