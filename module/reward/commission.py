@@ -34,7 +34,7 @@ dictionary_cn = {
 dictionary_en = {
     'major_comm': ['SelfTraining', 'DefenseExercise', 'ResearchMission', 'Prep', 'Class', 'CargoTransport'],
     'daily_comm': ['Daily', 'Awakening'],
-    'extra_drill': ['Sailing', 'DefensePatrol', 'Buoy'],
+    'extra_drill': ['Sailing', 'DefensePatrol', 'Buoy', 'saingTraining'],
     'extra_part': ['Protection'],
     'extra_cube': ['FleetExercise', 'EscortExercise', 'FleetCargo', 'CombatExercise'],
     'extra_oil': ['oil'],
