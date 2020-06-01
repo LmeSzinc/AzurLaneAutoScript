@@ -148,7 +148,7 @@ class BookGroup:
 
 
 class RewardTacticalClass(UI, InfoHandler):
-    tactical_animation_timer = Timer(2, count=6)
+    tactical_animation_timer = Timer(2, count=3)
 
     def _tactical_animation_running(self):
         """
