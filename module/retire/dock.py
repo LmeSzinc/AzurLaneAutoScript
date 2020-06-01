@@ -36,7 +36,7 @@ class Dock(UI, Equipment):
             self.handle_dock_cards_loading()
 
     def _dock_quit_check_func(self):
-        return not self.appear(DOCK_CHECK)
+        return not self.appear(DOCK_CHECK, offset=(20, 20))
 
     def dock_quit(self):
         self.ui_back(check_button=self._dock_quit_check_func, skip_first_screenshot=True)

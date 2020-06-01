@@ -72,7 +72,6 @@ class Enhancement(Dock):
             self.equip_sidebar_ensure(index=4)
             self.wait_until_appear(ENHANCE_RECOMMEND, offset=(5, 5), skip_first_screenshot=True)
 
-
             status = color_bar_percentage(self.device.image, area=ENHANCE_RELOAD.area, prev_color=(231, 178, 74))
             logger.attr('Reload_enhanced', f'{int(status * 100)}%')
             choose = np.sum(np.array(self.device.image.crop(ENHANCE_FILLED.area)) > 200) > 100
@@ -134,7 +133,4 @@ class Enhancement(Dock):
         self.dock_quit()
         self.config.DOCK_FULL_TRIGGERED = True
 
-        if total == 0:
-            logger.warning('No ship enhanced, exit')
-            raise ScriptError('No ship enhanced, exit')
-        return True
+        return total

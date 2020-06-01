@@ -22,6 +22,8 @@ CARD_RARITY_COLORS = {
 
 
 class Retirement(Enhancement):
+    _unable_to_enhance = False
+
     def _retirement_choose(self, amount=10, target_rarity=('N',)):
         """
         Args:
@@ -114,7 +116,7 @@ class Retirement(Enhancement):
         executed = False
         while 1:
             self.device.screenshot()
-            if self.config.RETIRE_SR or self.config.RETIRE_SSR or self.config.USE_ONE_CLICK_RETIREMENT:
+            if self.config.RETIRE_SR or self.config.RETIRE_SSR or self.config.RETIREMENT_METHOD == 'one_click_retire':
                 if self.handle_popup_confirm():
                     continue
             if self.appear_then_click(SHIP_CONFIRM, offset=30, interval=2):
@@ -238,10 +240,27 @@ class Retirement(Enhancement):
         if not self.retirement_appear():
             return False
 
-        if self.config.RETIREMENT_METHOD == 'enhance':
-            return self._enhance_handler()
+        if self._unable_to_enhance:
+            self.config.RETIREMENT_METHOD = 'one_click_retire'
+            total = self._retire_handler()
+            self.config.RETIREMENT_METHOD = 'enhance'
+            self._unable_to_enhance = False
+            if not total:
+                logger.warning('No ship retired, exit')
+                raise ScriptError('No ship retired, exit')
+        elif 'retire' in self.config.RETIREMENT_METHOD or self._unable_to_enhance:
+            total = self._retire_handler()
+            self._unable_to_enhance = False
+            if not total:
+                logger.warning('No ship retired, exit')
+                raise ScriptError('No ship retired, exit')
         else:
-            return self._retire_handler()
+            total = self._enhance_handler()
+            if not total:
+                logger.info('No ship to enhance, but dock full, will try retire')
+                self._unable_to_enhance = True
+
+        return True
 
     def _retire_handler(self):
         self.ui_click(RETIRE_APPEAR_1, check_button=IN_RETIREMENT_CHECK, skip_first_screenshot=True)
@@ -252,7 +271,4 @@ class Retirement(Enhancement):
         self._retirement_quit()
         self.config.DOCK_FULL_TRIGGERED = True
 
-        if total == 0:
-            logger.warning('No ship retired, exit')
-            raise ScriptError('No ship retired, exit')
-        return True
+        return total
