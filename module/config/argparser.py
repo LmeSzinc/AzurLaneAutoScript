@@ -194,8 +194,9 @@ def main(ini_name=''):
     # 退役选项
     retire = setting_parser.add_argument_group('退役设置', '')
     retire.add_argument('--启用退役', default=default('--启用退役'), choices=['是', '否'])
-    retire.add_argument('--使用一键退役', default=default('--使用一键退役'), choices=['是', '否'])
-    retire.add_argument('--退役方案', default=default('--退役方案'), choices=['退役全部', '退役10个'])
+    retire.add_argument('--退役方案', default=default('--退役方案'), choices=['强化角色', '一键退役', '传统退役'])
+    retire.add_argument('--退役数量', default=default('--退役数量'), choices=['退役全部', '退役10个'])
+    retire.add_argument('--强化常用角色', default=default('--强化常用角色'), choices=['是', '否'])
 
     rarity = retire.add_argument_group('退役稀有度', '暂不支持舰种选择, 使用一键退役时忽略以下选项')
     rarity.add_argument('--退役白皮', default=default('--退役白皮'), choices=['是', '否'], help='N')

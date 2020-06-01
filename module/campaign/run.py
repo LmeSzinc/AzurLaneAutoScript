@@ -107,8 +107,7 @@ class CampaignRun(CampaignUI, Reward, LoginHandler):
         Returns:
             bool: If triggered a restart condition.
         """
-        now = datetime.now()
-        if now.date() != self.start_time.date():
+        if self.config.get_server_last_update(since=(0,)) > self.start_time:
             logger.hr('Triggered restart new day')
             return True
         if not self.campaign.config.IGNORE_LOW_EMOTION_WARN:

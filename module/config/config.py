@@ -2,15 +2,16 @@ import codecs
 import configparser
 import copy
 import os
+from datetime import timezone
 
 import cv2
 import numpy as np
 from PIL import Image
 
+import module.config.server as server
 from module.base.timer import *
 from module.config.dictionary import *
 from module.logger import logger
-import module.config.server as server
 
 
 class AzurLaneConfig:
@@ -223,8 +224,10 @@ class AzurLaneConfig:
     """
     ENABLE_RETIREMENT = True
     USE_ONE_CLICK_RETIREMENT = False
+    RETIREMENT_METHOD = 'one_click_retire'  # enhance, old_retire, one_click_retire
+    ENHANCE_FAVOURITE = False
     DOCK_FULL_TRIGGERED = False
-    RETIRE_MODE = '10'  # all, 10
+    RETIRE_AMOUNT = 'all'  # all, 10
     RETIRE_N = True
     RETIRE_R = False
     RETIRE_SR = False
@@ -436,8 +439,9 @@ class AzurLaneConfig:
         self.SCREEN_SHOT_SAVE_FOLDER_BASE = option['drop_screenshot_folder']
         # Retirement
         self.ENABLE_RETIREMENT = to_bool(option['enable_retirement'])
-        self.USE_ONE_CLICK_RETIREMENT = to_bool(option['use_one_click_retirement'])
-        self.RETIRE_MODE = option['retire_mode'].split('_')[1]
+        self.RETIREMENT_METHOD = option['retire_method']
+        self.RETIRE_AMOUNT = option['retire_amount'].split('_')[1]
+        self.ENHANCE_FAVOURITE = to_bool(option['enhance_favourite'])
         for r in ['n', 'r', 'sr', 'ssr']:
             self.__setattr__(f'RETIRE_{r.upper()}', to_bool(option[f'retire_{r}']))
         # Clear mode
@@ -520,6 +524,30 @@ class AzurLaneConfig:
         self.C124_NON_S3_WITHDRAW_TOLERANCE = int(option['non_s3_enemy_withdraw_tolerance'])
         self.C124_AMMO_PICK_UP = int(option['ammo_pick_up_124'])
 
+    def get_server_timezone(self):
+        if self.SERVER == 'en':
+            return -7
+        elif self.SERVER == 'cn':
+            return 8
+        elif self.SERVER == 'jp':
+            return 9
+        else:
+            return 8
+
+    def get_server_last_update(self, since):
+        """
+        Args:
+            since (tuple(int)): Update hour in Azurlane, such as (0, 12, 18,).
+
+        Returns:
+            datetime.datetime
+        """
+        d = datetime.now(timezone.utc).astimezone()
+        diff = d.utcoffset() // timedelta(seconds=1) // 3600 - self.get_server_timezone()
+        since = np.sort((np.array(since) + diff) % 24)
+        update = sorted([past_time(f'{t}:00') for t in since])[-1]
+        return update
+
     def record_executed_since(self, option, since):
         """
         Args:
@@ -530,10 +558,7 @@ class AzurLaneConfig:
             bool: If got a record after last game update.
         """
         record = datetime.strptime(self.config.get(*option), self.TIME_FORMAT)
-        since = np.array(since)
-
-        hour = since[since <= datetime.now().hour][-1]
-        update = datetime.now().replace(hour=hour, minute=0, second=0, microsecond=0)
+        update = self.get_server_last_update(since)
 
         logger.attr(f'{option[0]}_{option[1]}', f'Record time: {record}')
         logger.attr(f'{option[0]}_{option[1]}', f'Last update: {update}')

@@ -128,7 +128,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
 
             if self.handle_popup_confirm():
                 continue
-            if self.appear_then_click(WITHDRAW, interval=2):
+            if self.appear_then_click(WITHDRAW, interval=5):
                 continue
 
             # End
