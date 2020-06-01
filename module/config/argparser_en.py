@@ -229,24 +229,24 @@ def main(ini_name=''):
     reward_commission.add_argument('--enable_commission_reward', default=default('--enable_commission_reward'), choices=['yes', 'no'])
     reward_commission.add_argument('--commission_time_limit', default=default('--commission_time_limit'), help='Ignore orders whose completion time exceeds the limit, Format: 23:30')
 
-    priority1 = reward_commission.add_argument_group('Time-consuming priority of delegation', '')
+    priority1 = reward_commission.add_argument_group('Commission priority by time duration', '')
     priority1.add_argument('--duration_shorter_than_2', default=default('--duration_shorter_than_2'), help='')
     priority1.add_argument('--duration_longer_than_6', default=default('--duration_longer_than_6'), help='')
     priority1.add_argument('--expire_shorter_than_2', default=default('--expire_shorter_than_2'), help='')
     priority1.add_argument('--expire_longer_than_6', default=default('--expire_longer_than_6'), help='')
 
-    priority2 = reward_commission.add_argument_group('Daily delegation priority', '')
+    priority2 = reward_commission.add_argument_group('Daily Commission priority', '')
     priority2.add_argument('--daily_comm', default=default('--daily_comm'), help='Daily resource development, high-level tactical research and development')
     priority2.add_argument('--major_comm', default=default('--major_comm'), help='1200 oil / 1000 oil commission')
 
-    priority3 = reward_commission.add_argument_group('Additional delegation priority', '')
+    priority3 = reward_commission.add_argument_group('Additional commission priority', '')
     priority3.add_argument('--extra_drill', default=default('--extra_drill'), help='Short-range Sailing Training, Coastal Defense Patrol')
     priority3.add_argument('--extra_part', default=default('--extra_part'), help='Small Merchant Escort, Forest Protection Commission')
     priority3.add_argument('--extra_cube', default=default('--extra_cube'), help='Fleet Exercise Ⅲ, Fleet Escort ExerciseFleet Exercise Ⅲ')
     priority3.add_argument('--extra_oil', default=default('--extra_oil'), help='Small-scale Oil Extraction, Large-scale Oil Extraction')
     priority3.add_argument('--extra_book', default=default('--extra_book'), help='Small Merchant Escort, Large Merchant Escort')
 
-    priority4 = reward_commission.add_argument_group('Emergency delegation priority', '')
+    priority4 = reward_commission.add_argument_group('Urgente commission priority', '')
     priority4.add_argument('--urgent_drill', default=default('--urgent_drill'), help='Defend the transport troops, annihilate the enemy elite troops')
     priority4.add_argument('--urgent_part', default=default('--urgent_part'), help='Support Vila Vela Island, support terror Banner')
     priority4.add_argument('--urgent_cube', default=default('--urgent_cube'), help='Rescue merchant ship, enemy attack')
