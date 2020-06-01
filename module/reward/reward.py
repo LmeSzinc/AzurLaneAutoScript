@@ -52,7 +52,7 @@ class Reward(RewardCommission, RewardTacticalClass):
         logger.hr('Reward receive')
 
         reward = False
-        exit_timer = Timer(1, count=3)
+        exit_timer = Timer(1.5, count=5)
         click_timer = Timer(1)
         exit_timer.start()
         btn = []
