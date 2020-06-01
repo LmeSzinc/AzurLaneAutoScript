@@ -247,13 +247,15 @@ class Retirement(Enhancement):
             self._unable_to_enhance = False
             if not total:
                 logger.warning('No ship retired, exit')
-                raise ScriptError('No ship retired, exit')
+                logger.info('This may happens because wrong options of one click retirement in game')
+                exit(1)
         elif 'retire' in self.config.RETIREMENT_METHOD or self._unable_to_enhance:
             total = self._retire_handler()
             self._unable_to_enhance = False
             if not total:
                 logger.warning('No ship retired, exit')
-                raise ScriptError('No ship retired, exit')
+                logger.info('This may happens because some filters are set in dock')
+                exit(1)
         else:
             total = self._enhance_handler()
             if not total:

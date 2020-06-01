@@ -3,9 +3,11 @@
 [English Readme](README_en.md) `Translation in progress`
 # AzurLaneAutoScript
 
-Alas, an Azur Lane automation tool with GUI (For CN server, can support other server).
+Alas, an Azur Lane automation tool with GUI (Support CN and EN, can support other server).
 
-Alas, 一个带GUI的碧蓝航线脚本 (支持国服, 可以支持其他服务器).
+Alas, 一个带GUI的碧蓝航线脚本 (支持国服和国际服, 可以支持其他服务器).
+
+EN support, Thanks **[@whoamikyo](https://github.com/whoamikyo)**
 
 ![gui](doc/README.assets/gui.png)
 
@@ -126,10 +128,11 @@ python -m uiautomator2 init
 
 ## 使用方法 Usage
 
-- 双击 alas.pyw, 通过图形界面(GUI)运行
+- 编辑`alas.bat`, 并双击运行
+- 创建快捷方式, 把目标修改为`<绝对路径至python虚拟环境> <绝对路径至alas.pyw>`, 把起始位置修改为 `<绝对路径至AzurLaneAutoScript的目录>`, 双击运行
 - (不推荐) 通过命令行运行. 虽然alas使用了 [Gooey](https://github.com/chriskiehl/Gooey), 一个将命令行转为GUI的库, 但是Alas并不是先有命令行方法运行再用gooey的, Alas是为了使用gooey快速编写GUI而去拼凑命令行参数的. 因此使用命令行会很难受.
 - (不推荐) 修改配置文件 `config/alas.ini` , 在 `alas.py` 中调用相关函数
-- 多开运行, 复制 alas.pyw, 并重命名, 双击运行即可. 首次运行时会复制template.ini的设置. 脚本运行时会使用同名的ini配置文件.
+- 多开运行, 复制 alas.pyw, 并重命名. 首次运行时会复制template.ini的设置. 脚本运行时会使用同名的ini配置文件.
 
 
 
