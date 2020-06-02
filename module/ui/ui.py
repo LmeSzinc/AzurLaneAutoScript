@@ -30,7 +30,7 @@ class UI(ModuleBase):
         logger.hr('UI click')
         if appear_button is None:
             appear_button = click_button
-        click_timer = Timer(retry_wait)
+        click_timer = Timer(retry_wait, count=retry_wait // 0.5)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False

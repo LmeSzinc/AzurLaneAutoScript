@@ -84,6 +84,9 @@ class Timer:
                         pass
                 else:
                     confirm_timer.reset()
+
+                Also, It's a good idea to set `count`, to make alas run more stable on slow computers.
+                Expected speed is 0.35 second / screenshot.
         """
         self.limit = limit
         self.count = count

@@ -141,12 +141,12 @@ def main(ini_name=''):
     f1.add_argument('--舰队步长1', default=default('--舰队步长1'), choices=['1', '2', '3', '4', '5', '6'])
 
     f2 = fleet.add_argument_group('BOSS队')
-    f2.add_argument('--舰队编号2', default=default('--舰队编号2'), choices=['不使用', '1', '2', '3', '4', '5', '6'])
+    f2.add_argument('--舰队编号2', default=default('--舰队编号2'), choices=['1', '2', '3', '4', '5', '6'])
     f2.add_argument('--舰队阵型2', default=default('--舰队阵型2'), choices=['单纵阵', '复纵阵', '轮形阵'])
     f2.add_argument('--舰队步长2', default=default('--舰队步长2'), choices=['1', '2', '3', '4', '5', '6'])
 
     f3 = fleet.add_argument_group('备用道中队')
-    f3.add_argument('--舰队编号3', default=default('--舰队编号3'), choices=['不使用', '1', '2', '3', '4', '5', '6'])
+    f3.add_argument('--舰队编号3', default=default('--舰队编号3'), choices=['1', '2', '3', '4', '5', '6'])
     f3.add_argument('--舰队阵型3', default=default('--舰队阵型3'), choices=['单纵阵', '复纵阵', '轮形阵'])
     f3.add_argument('--舰队步长3', default=default('--舰队步长3'), choices=['1', '2', '3', '4', '5', '6'])
 
