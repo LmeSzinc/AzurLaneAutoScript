@@ -227,7 +227,7 @@ def main(ini_name=''):
 
     reward_commission = reward_parser.add_argument_group('Commission settings', '')
     reward_commission.add_argument('--enable_commission_reward', default=default('--enable_commission_reward'), choices=['yes', 'no'])
-    reward_commission.add_argument('--commission_time_limit', default=default('--commission_time_limit'), help='Ignore orders whose completion time exceeds the limit, Format: 23:30')
+    reward_commission.add_argument('--commission_time_limit', default=default('--commission_time_limit'), help='Ignore orders whose completion time exceeds the limit, Format: 23:30. Fill in 0 if it is not needed')
 
     priority1 = reward_commission.add_argument_group('Commission priority by time duration', '')
     priority1.add_argument('--duration_shorter_than_2', default=default('--duration_shorter_than_2'), help='')
