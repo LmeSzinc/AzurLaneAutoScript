@@ -96,6 +96,9 @@ class Timer:
     def start(self):
         if not self.started():
             self._current = time.time()
+            self._reach_count = 0
+
+        return self
 
     def started(self):
         return bool(self._current)
