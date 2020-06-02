@@ -139,12 +139,12 @@ def main(ini_name=''):
     f1.add_argument('--fleet_step_1', default=default('--fleet_step_1'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored')
 
     f2 = fleet.add_argument_group('Boss Fleet')
-    f2.add_argument('--fleet_index_2', default=default('--fleet_index_2'), choices=['do_not_use', '1', '2', '3', '4', '5', '6'])
+    f2.add_argument('--fleet_index_2', default=default('--fleet_index_2'), choices=['1', '2', '3', '4', '5', '6'])
     f2.add_argument('--fleet_formation_2', default=default('--fleet_formation_2'), choices=['Line Ahead', 'Double Line', 'Diamond'])
     f2.add_argument('--fleet_step_2', default=default('--fleet_step_2'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored')
 
     f3 = fleet.add_argument_group('Alternate Mob Fleet')
-    f3.add_argument('--fleet_index_3', default=default('--fleet_index_3'), choices=['do_not_use', '1', '2', '3', '4', '5', '6'])
+    f3.add_argument('--fleet_index_3', default=default('--fleet_index_3'), choices=['1', '2', '3', '4', '5', '6'])
     f3.add_argument('--fleet_formation_3', default=default('--fleet_formation_3'), choices=['Line Ahead', 'Double Line', 'Diamond'])
     f3.add_argument('--fleet_step_3', default=default('--fleet_step_3'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored')
 
@@ -246,7 +246,7 @@ def main(ini_name=''):
     priority3.add_argument('--extra_oil', default=default('--extra_oil'), help='Small-scale Oil Extraction, Large-scale Oil Extraction')
     priority3.add_argument('--extra_book', default=default('--extra_book'), help='Small Merchant Escort, Large Merchant Escort')
 
-    priority4 = reward_commission.add_argument_group('Urgente commission priority', '')
+    priority4 = reward_commission.add_argument_group('Urgent commission priority', '')
     priority4.add_argument('--urgent_drill', default=default('--urgent_drill'), help='Defend the transport troops, annihilate the enemy elite troops')
     priority4.add_argument('--urgent_part', default=default('--urgent_part'), help='Support Vila Vela Island, support terror Banner')
     priority4.add_argument('--urgent_cube', default=default('--urgent_cube'), help='Rescue merchant ship, enemy attack')

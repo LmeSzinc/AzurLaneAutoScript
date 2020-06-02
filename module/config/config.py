@@ -375,6 +375,13 @@ class AzurLaneConfig:
         self.CONFIG_FILE = f'./config/{name}.ini'
         self.config.read_file(codecs.open(self.CONFIG_FILE, "r", "utf8"))
         self.load_from_config(self.config)
+        self.config_check()
+
+    def config_check(self):
+        if self.FLEET_1 == self.FLEET_2:
+            logger.warning(f'Mob fleet [{self.FLEET_1}] and boss fleet [{self.FLEET_2}] is the same')
+            logger.warning('They should to be set to different fleets')
+            exit(1)
 
     def save(self):
         self.config.write(codecs.open(self.CONFIG_FILE, "w+", "utf8"))
