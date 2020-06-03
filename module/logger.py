@@ -4,6 +4,8 @@ import os
 import sys
 from collections import deque
 
+logging.raiseExceptions = False # Set True if wanna see encode errors on console
+
 pyw_name = os.path.splitext(os.path.basename(sys.argv[0]))[0]
 if '_' in pyw_name:
     pyw_name = '_'.join(pyw_name.split('_')[:-1])

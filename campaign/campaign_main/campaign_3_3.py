@@ -47,7 +47,7 @@ class Campaign(CampaignBase):
     def battle_3(self):
         self.clear_all_mystery()
 
-        if not self.check_accessibility(A4):
+        if not self.check_accessibility(A4, fleet='boss'):
             return self.battle_default()
 
-        return self.clear_boss()
+        return self.fleet_boss.clear_boss()

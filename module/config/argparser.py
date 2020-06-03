@@ -5,6 +5,7 @@ import shutil
 
 from gooey import Gooey, GooeyParser
 
+import module.config.server as server
 from alas import AzurLaneAutoScript
 from module.config.dictionary import dic_chi_to_eng, dic_eng_to_chi
 from module.logger import logger, pyw_name
@@ -81,7 +82,10 @@ def main(ini_name=''):
 
     config = update_config_from_template(config, file=config_file)
 
-    event_folder = [dic_eng_to_chi.get(f, f) for f in os.listdir('./campaign') if f.startswith('event_')][::-1]
+    event_folder = [f for f in os.listdir('./campaign') if f.startswith('event_') and f.split('_')[-1] == server.server]
+    event_latest = sorted([f for f in event_folder], reverse=True)[0]
+    event_folder = [dic_eng_to_chi.get(f, f) for f in event_folder][::-1]
+    event_latest = dic_eng_to_chi.get(event_latest, event_latest)
 
     saved_config = {}
     for opt, option in config.items():
@@ -141,12 +145,12 @@ def main(ini_name=''):
     f1.add_argument('--舰队步长1', default=default('--舰队步长1'), choices=['1', '2', '3', '4', '5', '6'])
 
     f2 = fleet.add_argument_group('BOSS队')
-    f2.add_argument('--舰队编号2', default=default('--舰队编号2'), choices=['1', '2', '3', '4', '5', '6'])
+    f2.add_argument('--舰队编号2', default=default('--舰队编号2'), choices=['不使用', '1', '2', '3', '4', '5', '6'])
     f2.add_argument('--舰队阵型2', default=default('--舰队阵型2'), choices=['单纵阵', '复纵阵', '轮形阵'])
     f2.add_argument('--舰队步长2', default=default('--舰队步长2'), choices=['1', '2', '3', '4', '5', '6'])
 
     f3 = fleet.add_argument_group('备用道中队')
-    f3.add_argument('--舰队编号3', default=default('--舰队编号3'), choices=['1', '2', '3', '4', '5', '6'])
+    f3.add_argument('--舰队编号3', default=default('--舰队编号3'), choices=['不使用', '1', '2', '3', '4', '5', '6'])
     f3.add_argument('--舰队阵型3', default=default('--舰队阵型3'), choices=['单纵阵', '复纵阵', '轮形阵'])
     f3.add_argument('--舰队步长3', default=default('--舰队步长3'), choices=['1', '2', '3', '4', '5', '6'])
 
@@ -316,7 +320,7 @@ def main(ini_name=''):
     # ==========每日活动图三倍PT==========
     event_ab_parser = subs.add_parser('每日活动图三倍PT')
     event_name = event_ab_parser.add_argument_group('选择活动', '')
-    event_name.add_argument('--活动名称ab', default=default('--活动名称ab'), choices=event_folder, help='例如 event_20200326_cn')
+    event_name.add_argument('--活动名称ab', default=event_latest, choices=event_folder, help='例如 event_20200326_cn')
 
     # ==========主线图==========
     main_parser = subs.add_parser('主线图')
@@ -328,8 +332,7 @@ def main(ini_name=''):
     event_parser = subs.add_parser('活动图')
 
     description = """
-    支持「穹顶下的圣咏曲」(event_20200521_cn), 针对D1D3有优化
-    D3第一次进图和100%通关时均有剧情战斗, 会导致报错
+    支持「峡湾间的反击」(event_20200603_cn), 针对SP1-SP3有优化
     出击未优化关卡或地图未达到安全海域时, 使用开荒模式运行(较慢)
     """
     event = event_parser.add_argument_group(
@@ -340,7 +343,7 @@ def main(ini_name=''):
     event.add_argument('--sp地图', default=default('--sp地图'),
                              choices=['sp1', 'sp2', 'sp3'],
                              help='例如 sp3')
-    event.add_argument('--活动名称', default=default('--活动名称'), choices=event_folder, help='例如 event_20200312_cn')
+    event.add_argument('--活动名称', default=event_latest, choices=event_folder, help='例如 event_20200312_cn')
 
     # ==========半自动==========
     semi_parser = subs.add_parser('半自动辅助点击')

@@ -1,4 +1,4 @@
-shape = 'K7'
+shape = 'G7'
 def location2node(location):
     return chr(location[0] + 64 + 1) + str(location[1] + 1)
 def node2location(node):
