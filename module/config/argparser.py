@@ -5,6 +5,7 @@ import shutil
 
 from gooey import Gooey, GooeyParser
 
+import module.config.server as server
 from alas import AzurLaneAutoScript
 from module.config.dictionary import dic_chi_to_eng, dic_eng_to_chi
 from module.logger import logger, pyw_name
@@ -81,7 +82,10 @@ def main(ini_name=''):
 
     config = update_config_from_template(config, file=config_file)
 
-    event_folder = [dic_eng_to_chi.get(f, f) for f in os.listdir('./campaign') if f.startswith('event_')][::-1]
+    event_folder = [f for f in os.listdir('./campaign') if f.startswith('event_') and f.split('_')[-1] == server.server]
+    event_latest = sorted([f for f in event_folder], reverse=True)[0]
+    event_folder = [dic_eng_to_chi.get(f, f) for f in event_folder][::-1]
+    event_latest = dic_eng_to_chi.get(event_latest, event_latest)
 
     saved_config = {}
     for opt, option in config.items():
@@ -316,7 +320,7 @@ def main(ini_name=''):
     # ==========每日活动图三倍PT==========
     event_ab_parser = subs.add_parser('每日活动图三倍PT')
     event_name = event_ab_parser.add_argument_group('选择活动', '')
-    event_name.add_argument('--活动名称ab', default=default('--活动名称ab'), choices=event_folder, help='例如 event_20200326_cn')
+    event_name.add_argument('--活动名称ab', default=event_latest, choices=event_folder, help='例如 event_20200326_cn')
 
     # ==========主线图==========
     main_parser = subs.add_parser('主线图')
@@ -339,7 +343,7 @@ def main(ini_name=''):
     event.add_argument('--sp地图', default=default('--sp地图'),
                              choices=['sp1', 'sp2', 'sp3'],
                              help='例如 sp3')
-    event.add_argument('--活动名称', default=default('--活动名称'), choices=event_folder, help='例如 event_20200312_cn')
+    event.add_argument('--活动名称', default=event_latest, choices=event_folder, help='例如 event_20200312_cn')
 
     # ==========半自动==========
     semi_parser = subs.add_parser('半自动辅助点击')
