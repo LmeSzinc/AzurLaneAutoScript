@@ -91,11 +91,14 @@ class Timer:
         self.limit = limit
         self.count = count
         self._current = 0
-        self._reach_count = 0
+        self._reach_count = count
 
     def start(self):
         if not self.started():
             self._current = time.time()
+            self._reach_count = 0
+
+        return self
 
     def started(self):
         return bool(self._current)

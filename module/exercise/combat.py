@@ -32,8 +32,7 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
             bool: True if wins. False if quit.
         """
         logger.info('Combat execute')
-        self.low_hp_confirm_timer = Timer(self.config.LOW_HP_CONFIRM_WAIT, count=2)
-        self.low_hp_confirm_timer.start()
+        self.low_hp_confirm_timer = Timer(self.config.LOW_HP_CONFIRM_WAIT, count=2).start()
         show_hp_timer = Timer(5)
         success = True
         end = False

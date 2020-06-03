@@ -52,9 +52,8 @@ class Reward(RewardCommission, RewardTacticalClass):
         logger.hr('Reward receive')
 
         reward = False
-        exit_timer = Timer(1, count=3)
+        exit_timer = Timer(1, count=3).start()
         click_timer = Timer(1)
-        exit_timer.start()
         btn = []
         if self.config.ENABLE_REWARD:
             btn.append(REWARD_3)
