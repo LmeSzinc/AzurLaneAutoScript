@@ -29,6 +29,8 @@ class Config:
     SUBMARINE = 0
     FLEET_BOSS = 0
     MAP_HAS_AMBUSH = False
+    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
+    EDGE_LINES_HOUGHLINES_THRESHOLD = 40
 
 
 class Campaign(CampaignBase):
