@@ -9,7 +9,7 @@ MAP.shape = 'g7'
 MAP.camera_data = ['D3', 'D5']
 MAP.map_data = '''
     ++ ++ -- ME -- ME MB
-    MS ++ -- -- ME -- MB
+    MM ++ -- -- ME -- MB
     ME -- ME -- ++ ++ ++
     -- -- -- ME -- ME MB
     -- -- ++ -- ++ ME --
@@ -27,7 +27,7 @@ A7, B7, C7, D7, E7, F7, G7, \
     = MAP.flatten()
 
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 3},
+    {'battle': 0, 'enemy': 3, 'mystery': 1},
     {'battle': 1, 'enemy': 1},
     {'battle': 2, 'enemy': 1},
     {'battle': 3, 'enemy': 1},
@@ -45,8 +45,11 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
+        self.clear_all_mystery()
         return self.battle_default()
 
+    def battle_1(self):
+        return self.battle_default()
 
     def battle_4(self):
         return self.brute_clear_boss()
