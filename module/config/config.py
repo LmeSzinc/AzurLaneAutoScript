@@ -462,7 +462,10 @@ class AzurLaneConfig:
         self.REWARD_INTERVAL = int(option['reward_interval'])
         for attr in ['enable_reward', 'enable_oil_reward', 'enable_coin_reward', 'enable_mission_reward', 'enable_commission_reward', 'enable_tactical_reward']:
             self.__setattr__(attr.upper(), to_bool(option[attr]))
-        self.COMMISSION_TIME_LIMIT = future_time(option['commission_time_limit'])
+        if not option['commission_time_limit'].isdigit():
+            self.COMMISSION_TIME_LIMIT = future_time(option['commission_time_limit'])
+        else:
+            self.COMMISSION_TIME_LIMIT = 0
         for attr in self.COMMISSION_PRIORITY.keys():
             self.COMMISSION_PRIORITY[attr] = int(option[attr])
         self.TACTICAL_NIGHT_RANGE = future_time_range(option['tactical_night_range'])

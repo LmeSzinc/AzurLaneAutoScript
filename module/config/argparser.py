@@ -229,7 +229,7 @@ def main(ini_name=''):
 
     reward_commission = reward_parser.add_argument_group('委托设置', '')
     reward_commission.add_argument('--启用委托收获', default=default('--启用委托收获'), choices=['是', '否'])
-    reward_commission.add_argument('--委托时间限制', default=default('--委托时间限制'), help='忽略完成时间超过限制的委托, 格式: 23:30')
+    reward_commission.add_argument('--委托时间限制', default=default('--委托时间限制'), help='忽略完成时间超过限制的委托, 格式: 23:30, 不需要就填0')
 
     priority1 = reward_commission.add_argument_group('委托耗时优先级', '')
     priority1.add_argument('--委托耗时小于2h', default=default('--委托耗时小于2h'), help='')

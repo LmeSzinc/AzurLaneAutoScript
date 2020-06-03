@@ -148,8 +148,6 @@ class BookGroup:
 
 
 class RewardTacticalClass(UI, InfoHandler):
-    tactical_animation_timer = Timer(2, count=3)
-
     def _tactical_animation_running(self):
         """
         Returns:
@@ -208,6 +206,8 @@ class RewardTacticalClass(UI, InfoHandler):
             return False
 
         logger.hr('Tactical class receive')
+        tactical_class_timout = Timer(10, count=10).start()
+        tactical_animation_timer = Timer(2, count=3).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -215,11 +215,14 @@ class RewardTacticalClass(UI, InfoHandler):
                 self.device.screenshot()
 
             if self.appear_then_click(REWARD_2, interval=1):
+                tactical_class_timout.reset()
                 continue
             if self.handle_popup_confirm():
+                tactical_class_timout.reset()
                 continue
             if self.handle_urgent_commission(save_get_items=False):
                 # Only one button in the middle, when skill reach max level.
+                tactical_class_timout.reset()
                 continue
             if self.appear(TACTICAL_CLASS_CANCEL, offset=(30, 30), interval=2) \
                     and self.appear(TACTICAL_CLASS_START, offset=(30, 30)):
@@ -228,17 +231,21 @@ class RewardTacticalClass(UI, InfoHandler):
                 self._tactical_books_choose()
                 self.device.click(TACTICAL_CLASS_START)
                 self.interval_reset(TACTICAL_CLASS_CANCEL)
+                tactical_class_timout.reset()
                 continue
 
             # End
             if self.appear(TACTICAL_CHECK, offset=(20, 20)):
                 self.ui_current = page_tactical
                 if not self._tactical_animation_running():
-                    if self.tactical_animation_timer.reached():
+                    if tactical_animation_timer.reached():
                         logger.info('Tactical reward end.')
                         break
                 else:
-                    self.tactical_animation_timer.reset()
+                    tactical_animation_timer.reset()
+            if tactical_class_timout.reached():
+                logger.info('Tactical reward timeout.')
+                break
 
         self.ui_goto(page_reward, skip_first_screenshot=True)
         return True
