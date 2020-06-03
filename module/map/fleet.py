@@ -50,10 +50,17 @@ class Fleet(Camera, MapOperation, AmbushHandler):
 
     @property
     def fleet_boss(self):
-        if self.config.FLEET_BOSS == 2 and self.config.FLEET_2:
+        if self.config.FLEET_BOSS == 2 or self.config.FLEET_2:
             return self.fleet_2
         else:
             return self.fleet_1
+
+    @property
+    def fleet_boss_index(self):
+        if self.config.FLEET_BOSS == 2 or self.config.FLEET_2:
+            return 1
+        else:
+            return 1
 
     @property
     def fleet_step(self):
@@ -410,13 +417,18 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         """
         Args:
             grid (Grid):
-            fleet (int): 1, 2
+            fleet (int, str): 1, 2, 'boss'
 
         Returns:
             bool: If accessible.
         """
         if fleet is None:
             return grid.is_accessible
+        if isinstance(fleet, str) and fleet.isdigit():
+            fleet = int(fleet)
+        if fleet == 'boss':
+            fleet = self.fleet_boss_index
+
         if fleet == self.fleet_current_index:
             return grid.is_accessible
         else:

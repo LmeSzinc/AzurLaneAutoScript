@@ -41,7 +41,7 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_3(self):
-        if not self.check_accessibility(G1):
+        if not self.check_accessibility(G1, fleet='boss'):
             return self.battle_default()
 
-        return self.clear_boss()
+        return self.fleet_boss.clear_boss()

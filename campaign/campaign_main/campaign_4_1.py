@@ -39,8 +39,8 @@ A6, B6, C6, D6, E6, F6, \
 
 
 class Config:
-    FLEET_2 = 0
-    SUBMARINE = 0
+    FLEET_BOSS = 1
+
     MAP_MYSTERY_HAS_CARRIER = True
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (120, 255 - 40),
@@ -72,7 +72,7 @@ class Campaign(CampaignBase):
 
         boss = self.map.select(is_boss=True)
         if boss:
-            if not self.check_accessibility(boss[0]):
+            if not self.check_accessibility(boss[0], fleet='boss'):
                 return self.battle_default()
 
-        return self.clear_boss()
+        return self.fleet_boss.clear_boss()

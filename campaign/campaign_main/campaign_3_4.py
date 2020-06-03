@@ -50,10 +50,10 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_3(self):
-        if not self.check_accessibility(H3):
+        if not self.check_accessibility(H3, fleet='boss'):
             return self.battle_default()
 
-        return self.clear_boss()
+        return self.fleet_boss.clear_boss()
 
     def handle_boss_appear_refocus(self):
         for data in self.map.spawn_data:
