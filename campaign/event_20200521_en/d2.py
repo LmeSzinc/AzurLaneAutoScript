@@ -62,17 +62,17 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
-        if self.clear_siren():
+        if self.fleet_2.clear_siren():
             return True
-        if self.clear_enemy(scale=(2, 3)):
+        if self.fleet_1.clear_enemy(scale=(2, 3)):
             return True
 
         return self.battle_default()
 
     def battle_5(self):
-        if self.clear_enemy(scale=(1,)):
+        if self.fleet_1.clear_enemy(scale=(1,)):
             return True
-        if self.clear_enemy(scale=(2,)):
+        if self.fleet_1.clear_enemy(scale=(2,)):
             return True
 
         return self.battle_default()

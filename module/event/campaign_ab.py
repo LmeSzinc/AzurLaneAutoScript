@@ -2,7 +2,7 @@ from module.campaign.run import CampaignRun
 
 
 RECORD_SINCE = (0,)
-CAMPAIGN_NAME = ['a1', 'a2', 'a3', 'b1', 'b2', 'b3']
+CAMPAIGN_NAME = ['c1', 'c2', 'c3']
 # CAMPAIGN_ALL = ['a1', 'a2', 'a3', 'b1', 'b2', 'b3', 'c1', 'c2', 'c3', 'd1', 'd2', 'd3'] # Trying implement all event maps
 
 

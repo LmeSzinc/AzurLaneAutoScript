@@ -34,17 +34,17 @@ dictionary_cn = {
 dictionary_en = {
     'major_comm': ['SelfTraining', 'DefenseExercise', 'ResearchMission', 'Prep', 'Class', 'CargoTransport'],
     'daily_comm': ['Daily', 'Awakening'],
-    'extra_drill': ['Sailing', 'DefensePatrol', 'Buoy', 'saingTraining'],
-    'extra_part': ['Protection'],
+    'extra_drill': ['Sailing', 'DefensePatrol', 'oy', 'saingTraining'],
+    'extra_part': ['Protection', 'protecton'],
     'extra_cube': ['FleetExercise', 'EscortExercise', 'FleetCargo', 'CombatExercise'],
-    'extra_oil': ['oil'],
-    'extra_book': ['MerchantEscort'],
+    'extra_oil': ['oi'],
+    'extra_book': ['MerchantEscort', 'SmalIMerchantEscor'],
     'urgent_drill': ['CargoDefense', 'Destroy'],
     'urgent_part': ['Lavella', 'Maui', 'Rendova', 'banna', 'Mannelsland'],
     'urgent_book': ['Tyrant', 'Poro', 'Makira', 'Kapolo', 'Mary', 'Isle', 'Kotlin'],
     'urgent_box': ['Gear', 'Handover'],
     'urgent_cube': ['MerchantRescue', 'Attack'],
-    'urgent_gem': ['VIP ', 'Holiday', 'PatrolEscort'],
+    'urgent_gem': ['VIP ', 'Holiday', 'PatrolEscort', 'PEscort'],
     'urgent_ship': ['Launch']
 }
 
@@ -200,7 +200,7 @@ class Commission:
         Returns:
             str: Commission genre, such as 'urgent_gem'.
         """
-        string = string.replace(' ', '').replace('-', '')
+        string = string.replace('-', '')
         for key, value in dictionary_en.items():
             for keyword in value:
                 if keyword in string:
