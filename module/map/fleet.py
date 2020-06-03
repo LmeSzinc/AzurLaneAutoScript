@@ -84,6 +84,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
             location (tuple, str, GridInfo): Destination.
         """
         location = location_ensure(location)
+        siren_count = self.map.select(is_siren=True).count
         result_mystery = ''
 
         while 1:
@@ -99,7 +100,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
             self.device.click(grid)
             arrived = False
             # Wait to confirm fleet arrived. It does't appear immediately if fleet in combat .
-            add = self.config.MAP_SIREN_MOVE_WAIT * self.config.MAP_SIREN_COUNT \
+            add = self.config.MAP_SIREN_MOVE_WAIT * min(self.config.MAP_SIREN_COUNT, siren_count) \
                 if self.config.MAP_HAS_MOVABLE_ENEMY and not self.config.ENABLE_FAST_FORWARD else 0
             arrive_timer = Timer(0.3 + add)
             arrive_unexpected_timer = Timer(1.5 + add)

@@ -328,8 +328,7 @@ def main(ini_name=''):
     event_parser = subs.add_parser('活动图')
 
     description = """
-    支持「穹顶下的圣咏曲」(event_20200521_cn), 针对D1D3有优化
-    D3第一次进图和100%通关时均有剧情战斗, 会导致报错
+    支持「峡湾间的反击」(event_20200603_cn), 针对SP1-SP3有优化
     出击未优化关卡或地图未达到安全海域时, 使用开荒模式运行(较慢)
     """
     event = event_parser.add_argument_group(
