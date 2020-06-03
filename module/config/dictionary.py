@@ -29,7 +29,7 @@ dic_true_eng_to_eng = {
     'emulator': 'emulator',
     'daily': 'daily',
     'event_daily_bonus': 'event_daily_ab',
-    'Main_campaign': 'main',
+    'main': 'main',
     'event': 'event',
     'semi_auto': 'semi_auto',
     'c7-2_mystery_farming': 'c72_mystery_farming',

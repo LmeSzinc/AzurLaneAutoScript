@@ -60,16 +60,6 @@ page_sp.link(button=GOTO_MAIN, destination=page_main)
 page_sp.link(button=BACK_ARROW, destination=page_campaign)
 page_campaign.link(button=CAMPAIGN_GOTO_EVENT, destination=page_sp)
 
-# War Archives
-page_archive = Page(ARCHIVE_CHECK)
-page_campaign.link(button=WAR_ARCHIVES, destination=page_archive)
-# page_archive.link(button=GOTO_MAIN, destination=page_main)
-page_archive.link(button=ARCHIVE_GOTO_CAMPAIGN, destination=page_campaign)
-page_archive.link(button=VISITORS_RED, destination=page_event)
-page_archive.link(button=FALLEN_WINGS, destination=page_event)
-page_archive.link(button=WINTERS_CROWN, destination=page_event)
-
-
 # Reward
 page_reward = Page(REWARD_CHECK)
 page_reward.link(button=REWARD_GOTO_MAIN, destination=page_main)
