@@ -26,6 +26,8 @@ class LoginHandler(Combat):
                 continue
             if self.appear_then_click(LOGIN_RETURN_SIGN, offset=(30, 30), interval=1):
                 continue
+            if self.appear_then_click(LOGIN_CONFIRM, offset=(30, 30), interval=1):
+                continue
 
             if self.info_bar_count() and self.appear_then_click(LOGIN_CHECK, interval=0.5):
                 logger.info('Login success')

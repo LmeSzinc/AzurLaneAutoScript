@@ -42,7 +42,7 @@ road_mystery = RoadGrids([[C4, D5], D4, G2, [G1, H2]])
 
 
 class Config:
-    SUBMARINE = 0
+    FLEET_BOSS = 1
     MAP_MYSTERY_HAS_CARRIER = True
 
 
@@ -70,7 +70,7 @@ class Campaign(CampaignBase):
 
         boss = self.map.select(is_boss=True)
         if boss:
-            if not self.check_accessibility(boss[0], fleet=2):
+            if not self.check_accessibility(boss[0], fleet='boss'):
                 return self.clear_roadblocks([road_boss])
 
-        return self.fleet_2.clear_boss()
+        return self.fleet_boss.clear_boss()
