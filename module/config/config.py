@@ -419,7 +419,7 @@ class AzurLaneConfig:
         self.ENABLE_FLEET_CONTROL = to_bool(option['enable_fleet_control'])
         self.ENABLE_MAP_FLEET_LOCK = to_bool(option['enable_map_fleet_lock'])
         for n in ['1', '2', '3']:
-            self.__setattr__(f'FLEET_{n}', int(option[f'fleet_index_{n}']))
+            self.__setattr__(f'FLEET_{n}', int(option[f'fleet_index_{n}']) if to_bool(option[f'fleet_index_{n}']) else 0)
             self.__setattr__(f'FLEET_{n}_FORMATION', int(option[f'fleet_formation_{n}'].split('_')[1]))
             self.__setattr__(f'FLEET_{n}_STEP', int(option[f'fleet_step_{n}']))
         self.COMBAT_AUTO_MODE = option['combat_auto_mode']
