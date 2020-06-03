@@ -5,6 +5,7 @@ import shutil
 
 from gooey import Gooey, GooeyParser
 
+import module.config.server as server
 from alas import AzurLaneAutoScript
 from module.config.dictionary import dic_true_eng_to_eng, dic_eng_to_true_eng
 from module.logger import logger, pyw_name
@@ -79,7 +80,10 @@ def main(ini_name=''):
 
     config = update_config_from_template(config, file=config_file)
 
-    event_folder = [dic_eng_to_true_eng.get(f, f) for f in os.listdir('./campaign') if f.startswith('event_')][::-1]
+    event_folder = [f for f in os.listdir('./campaign') if f.startswith('event_') and f.split('_')[-1] == server.server]
+    event_latest = sorted([f for f in event_folder], reverse=True)[0]
+    event_folder = [dic_eng_to_true_eng.get(f, f) for f in event_folder][::-1]
+    event_latest = dic_eng_to_true_eng.get(event_latest, event_latest)
 
     saved_config = {}
     for opt, option in config.items():
@@ -139,12 +143,12 @@ def main(ini_name=''):
     f1.add_argument('--fleet_step_1', default=default('--fleet_step_1'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored')
 
     f2 = fleet.add_argument_group('Boss Fleet')
-    f2.add_argument('--fleet_index_2', default=default('--fleet_index_2'), choices=['1', '2', '3', '4', '5', '6'])
+    f2.add_argument('--fleet_index_2', default=default('--fleet_index_2'), choices=['do_not_use', '1', '2', '3', '4', '5', '6'])
     f2.add_argument('--fleet_formation_2', default=default('--fleet_formation_2'), choices=['Line Ahead', 'Double Line', 'Diamond'])
     f2.add_argument('--fleet_step_2', default=default('--fleet_step_2'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored')
 
     f3 = fleet.add_argument_group('Alternate Mob Fleet')
-    f3.add_argument('--fleet_index_3', default=default('--fleet_index_3'), choices=['1', '2', '3', '4', '5', '6'])
+    f3.add_argument('--fleet_index_3', default=default('--fleet_index_3'), choices=['do_not_use', '1', '2', '3', '4', '5', '6'])
     f3.add_argument('--fleet_formation_3', default=default('--fleet_formation_3'), choices=['Line Ahead', 'Double Line', 'Diamond'])
     f3.add_argument('--fleet_step_3', default=default('--fleet_step_3'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored')
 
@@ -314,11 +318,11 @@ def main(ini_name=''):
     # ==========event_daily_ab==========
     event_ab_parser = subs.add_parser('event_daily_bonus')
     event_name = event_ab_parser.add_argument_group('Choose an event', 'bonus for first clear each day')
-    event_name.add_argument('--event_name_ab', default=default('--event_name_ab'), choices=event_folder, help='There a dropdown menu with many options')
+    event_name.add_argument('--event_name_ab', default=event_latest, choices=event_folder, help='There a dropdown menu with many options')
     # event_name.add_argument('--enable_hard_bonus', default=default('--enable_hard_bonus'), choices=['yes', 'no'], help='Will enable Daily bonus for Event hard maps') # Trying implement all event maps
 
     # ==========main==========
-    main_parser = subs.add_parser('main')
+    main_parser = subs.add_parser('Main_campaign')
     # 选择关卡
     stage = main_parser.add_argument_group('Choose a level', 'Main campaign, currently only supports the first six chapters and 7-2')
     stage.add_argument('--main_stage', default=default('--main_stage'), help='E.g 7-2')
@@ -337,7 +341,7 @@ def main(ini_name=''):
     event.add_argument('--sp_stage', default=default('--sp_stage'),
                              choices=['sp1', 'sp2', 'sp3'],
                              help='E.g sp3')
-    event.add_argument('--event_name', default=default('--event_name'), choices=event_folder, help='There a dropdown menu with many options')
+    event.add_argument('--event_name', default=event_latest, choices=event_folder, help='There a dropdown menu with many options')
 
     # ==========半自动==========
     semi_parser = subs.add_parser('semi_auto')

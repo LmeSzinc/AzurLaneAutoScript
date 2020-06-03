@@ -50,10 +50,17 @@ class Fleet(Camera, MapOperation, AmbushHandler):
 
     @property
     def fleet_boss(self):
-        if self.config.FLEET_BOSS == 2 and self.config.FLEET_2:
+        if self.config.FLEET_BOSS == 2 or self.config.FLEET_2:
             return self.fleet_2
         else:
             return self.fleet_1
+
+    @property
+    def fleet_boss_index(self):
+        if self.config.FLEET_BOSS == 2 or self.config.FLEET_2:
+            return 1
+        else:
+            return 1
 
     @property
     def fleet_step(self):
@@ -84,6 +91,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
             location (tuple, str, GridInfo): Destination.
         """
         location = location_ensure(location)
+        siren_count = self.map.select(is_siren=True).count
         result_mystery = ''
 
         while 1:
@@ -99,7 +107,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
             self.device.click(grid)
             arrived = False
             # Wait to confirm fleet arrived. It does't appear immediately if fleet in combat .
-            add = self.config.MAP_SIREN_MOVE_WAIT * self.config.MAP_SIREN_COUNT \
+            add = self.config.MAP_SIREN_MOVE_WAIT * min(self.config.MAP_SIREN_COUNT, siren_count) \
                 if self.config.MAP_HAS_MOVABLE_ENEMY and not self.config.ENABLE_FAST_FORWARD else 0
             arrive_timer = Timer(0.3 + add)
             arrive_unexpected_timer = Timer(1.5 + add)
@@ -409,13 +417,18 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         """
         Args:
             grid (Grid):
-            fleet (int): 1, 2
+            fleet (int, str): 1, 2, 'boss'
 
         Returns:
             bool: If accessible.
         """
         if fleet is None:
             return grid.is_accessible
+        if isinstance(fleet, str) and fleet.isdigit():
+            fleet = int(fleet)
+        if fleet == 'boss':
+            fleet = self.fleet_boss_index
+
         if fleet == self.fleet_current_index:
             return grid.is_accessible
         else:
