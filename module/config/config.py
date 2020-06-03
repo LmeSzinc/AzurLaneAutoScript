@@ -375,6 +375,13 @@ class AzurLaneConfig:
         self.CONFIG_FILE = f'./config/{name}.ini'
         self.config.read_file(codecs.open(self.CONFIG_FILE, "r", "utf8"))
         self.load_from_config(self.config)
+        self.config_check()
+
+    def config_check(self):
+        if self.FLEET_1 == self.FLEET_2:
+            logger.warning(f'Mob fleet [{self.FLEET_1}] and boss fleet [{self.FLEET_2}] is the same')
+            logger.warning('They should to be set to different fleets')
+            exit(1)
 
     def save(self):
         self.config.write(codecs.open(self.CONFIG_FILE, "w+", "utf8"))
@@ -455,7 +462,10 @@ class AzurLaneConfig:
         self.REWARD_INTERVAL = int(option['reward_interval'])
         for attr in ['enable_reward', 'enable_oil_reward', 'enable_coin_reward', 'enable_mission_reward', 'enable_commission_reward', 'enable_tactical_reward']:
             self.__setattr__(attr.upper(), to_bool(option[attr]))
-        self.COMMISSION_TIME_LIMIT = future_time(option['commission_time_limit'])
+        if not option['commission_time_limit'].isdigit():
+            self.COMMISSION_TIME_LIMIT = future_time(option['commission_time_limit'])
+        else:
+            self.COMMISSION_TIME_LIMIT = 0
         for attr in self.COMMISSION_PRIORITY.keys():
             self.COMMISSION_PRIORITY[attr] = int(option[attr])
         self.TACTICAL_NIGHT_RANGE = future_time_range(option['tactical_night_range'])

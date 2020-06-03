@@ -27,11 +27,6 @@ class Equipment(InfoHandler):
 
             self.device.screenshot()
             if SWIPE_CHECK.match(self.device.image):
-                if swipe_timer.reached():
-                    import time
-                    from PIL import Image
-                    self.device.image.save(f'{int(time.time() * 1000)}.png')
-                    Image.fromarray(SWIPE_CHECK.image).save(f'{int(time.time() * 1000)}.png')
                 continue
 
             if self.appear(check_button, offset=(30, 30)) and not SWIPE_CHECK.match(self.device.image):

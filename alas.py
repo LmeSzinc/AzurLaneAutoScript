@@ -42,6 +42,7 @@ class AzurLaneAutoScript:
             print(f'{key} = {value}')
 
         logger.hr('Settings saved')
+        self.config.config_check()
 
     def reward(self):
         for key, value in self.config.config['Reward'].items():
