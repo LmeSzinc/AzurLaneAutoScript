@@ -139,11 +139,17 @@ class GridInfo:
             ignore_may (bool): Ignore map_data, force update.
             ignore_cleared (bool): Ignore is_cleared property.
         """
+        if info.is_caught_by_siren:
+            self.is_caught_by_siren = True
+
         for item in ['boss', 'siren']:
             if info.enemy_scale or self.enemy_scale:
                 break
             if info.__getattribute__('is_' + item):
-                flag = not info.is_fleet and not self.is_fleet
+                if item == 'boss':
+                    flag = not info.is_fleet
+                else:
+                    flag = not info.is_fleet and not self.is_fleet
                 if not ignore_may:
                     flag &= self.__getattribute__('may_' + item)
                 if not ignore_cleared:
@@ -186,8 +192,6 @@ class GridInfo:
         self.is_fleet = info.is_fleet
         if info.is_current_fleet:
             self.is_current_fleet = True
-        if info.is_caught_by_siren:
-            self.is_caught_by_siren = True
         return False
 
     def wipe_out(self):
@@ -201,6 +205,7 @@ class GridInfo:
         self.is_boss = False
         self.is_ammo = False
         self.is_siren = False
+        self.is_caught_by_siren = False
 
     def reset(self):
         """

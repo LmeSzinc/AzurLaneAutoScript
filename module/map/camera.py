@@ -111,7 +111,15 @@ class Camera(InfoHandler):
             self.grids.update(image=self.device.image)
             return True
 
-        self.grids = Grids(self.device.image, config=self.config)
+        try:
+            self.grids = Grids(self.device.image, config=self.config)
+        except PerspectiveError as e:
+            if self.info_bar_count():
+                logger.info('Perspective error cause by info bar. Waiting.')
+                self.handle_info_bar()
+                return self.update(camera=camera)
+            else:
+                raise e
 
         # Catch perspective error
         known_exception = self.info_bar_count()

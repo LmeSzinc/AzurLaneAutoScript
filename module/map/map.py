@@ -237,7 +237,8 @@ class Map(Fleet):
             bool:
         """
         grids = self.map.select(is_boss=True, is_accessible=True)
-        logger.info('Is boss: %s' % self.map.select(is_boss=True))
+        grids = grids.add(self.map.select(may_boss=True, is_caught_by_siren=True))
+        logger.info('Is boss: %s' % grids)
         if not grids.count:
             grids = grids.add(self.map.select(may_boss=True, is_enemy=True, is_accessible=True))
             logger.warning('Boss not detected, using may_boss grids.')
@@ -277,6 +278,7 @@ class Map(Fleet):
     def brute_clear_boss(self):
         """
         Method to clear boss, using brute-force to find roadblocks.
+        Note: This method will use 2 fleets.
         """
         boss = self.map.select(is_boss=True)
         if boss:
@@ -296,7 +298,7 @@ class Map(Fleet):
         elif self.map.select(may_boss=True, is_caught_by_siren=True):
             logger.info('BOSS appear on fleet grid')
             self.fleet_2.switch_to()
-            self.clear_chosen_enemy(self.map.select(may_boss=True, is_caught_by_siren=True)[0])
+            return self.clear_chosen_enemy(self.map.select(may_boss=True, is_caught_by_siren=True)[0])
         else:
             logger.warning('BOSS not detected, trying all boss spawn point.')
             return self.clear_potential_boss()
@@ -441,4 +443,27 @@ class Map(Fleet):
         logger.info(f'Push forward: {grids[0]}')
         self.fleet_2.goto(grids[0])
         self.fleet_1.switch_to()
+        return True
+
+    def fleet_2_rescue(self, grid):
+        """Use mob fleet to rescue boss fleet.
+
+        Args:
+            grid (GridInfo): Destination. Usually to be boss spawn grid.
+
+        Returns:
+            bool: If clear an enemy.
+        """
+        if not self.config.FLEET_2:
+            return False
+
+        grids = self.brute_find_roadblocks(grid, fleet=2)
+        if not grids:
+            return False
+        logger.info('Fleet_2 rescue')
+        grids = self.select_grids(grids)
+        if not grids:
+            return False
+
+        self.clear_chosen_enemy(grids[0])
         return True
