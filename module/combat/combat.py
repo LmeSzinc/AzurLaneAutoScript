@@ -300,11 +300,12 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
         """
         logger.info('Combat status')
         logger.attr('expected_end', expected_end)
+        exp_info = False  # This is for the white screen bug in game
         while 1:
             self.device.screenshot()
 
             # Combat status
-            if self.handle_get_ship(save_get_items=save_get_items):
+            if not exp_info and self.handle_get_ship(save_get_items=save_get_items):
                 continue
             if self.handle_get_items(save_get_items=save_get_items):
                 continue
@@ -313,6 +314,7 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
             if self.handle_popup_confirm():
                 continue
             if self.handle_exp_info():
+                exp_info = True
                 continue
             if self.handle_urgent_commission(save_get_items=save_get_items):
                 continue
