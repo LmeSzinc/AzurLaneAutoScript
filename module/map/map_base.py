@@ -392,6 +392,22 @@ class CampaignMap:
 
         return path
 
+    def grid_covered(self, grid, location=None):
+        """
+        Args:
+            grid (GridInfo)
+            location (list[tuple[int]]): Relative coordinate of the covered grid.
+
+        Returns:
+            list[GridInfo]:
+        """
+        if location is None:
+            covered = [tuple(np.array(grid.location) + upper) for upper in grid.covered_grid()]
+        else:
+            covered = [tuple(np.array(grid.location) + upper) for upper in location]
+        covered = [self[upper] for upper in covered if upper in self]
+        return covered
+
     def missing_get(self, battle_count, mystery_count=0, siren_count=0, carrier_count=0):
         try:
             missing = self.spawn_data[battle_count].copy()
@@ -408,15 +424,12 @@ class CampaignMap:
                     missing[attr] -= 1
 
         for grid in self:
-            for upper in grid.covered_grid():
-                upper = tuple(np.array(grid.location) + upper)
-                if upper in self:
-                    upper = self[upper]
-                    for attr in ['enemy', 'mystery', 'siren', 'boss']:
-                        if upper.__getattribute__('may_' + attr) and not upper.__getattribute__('is_' + attr):
-                            may[attr] += 1
-                    if upper.may_carrier:
-                        may['carrier'] += 1
+            for upper in self.grid_covered(grid):
+                for attr in ['enemy', 'mystery', 'siren', 'boss']:
+                    if upper.__getattribute__('may_' + attr) and not upper.__getattribute__('is_' + attr):
+                        may[attr] += 1
+                if upper.may_carrier:
+                    may['carrier'] += 1
 
         logger.attr('enemy_missing',
                     ', '.join([f'{k[:2].upper()}:{str(v).rjust(2)}' for k, v in missing.items() if k != 'battle']))
@@ -444,18 +457,15 @@ class CampaignMap:
 
         # predict
         for grid in self:
-            for upper in grid.covered_grid():
-                upper = tuple(np.array(grid.location) + upper)
-                if upper in self:
-                    upper = self[upper]
-                    for attr in ['enemy', 'mystery', 'siren', 'boss']:
-                        if upper.__getattribute__('may_' + attr) and missing[attr] > 0 and missing[attr] == may[attr]:
-                            logger.info('Predict %s to be %s' % (location2node(upper.location), attr))
-                            upper.__setattr__('is_' + attr, True)
-                    if carrier_count:
-                        if upper.may_carrier and missing['carrier'] > 0 and missing['carrier'] == may['carrier']:
-                            logger.info('Predict %s to be enemy' % location2node(upper.location))
-                            upper.__setattr__('is_enemy', True)
+            for upper in self.grid_covered(grid):
+                for attr in ['enemy', 'mystery', 'siren', 'boss']:
+                    if upper.__getattribute__('may_' + attr) and missing[attr] > 0 and missing[attr] == may[attr]:
+                        logger.info('Predict %s to be %s' % (location2node(upper.location), attr))
+                        upper.__setattr__('is_' + attr, True)
+                if carrier_count:
+                    if upper.may_carrier and missing['carrier'] > 0 and missing['carrier'] == may['carrier']:
+                        logger.info('Predict %s to be enemy' % location2node(upper.location))
+                        upper.__setattr__('is_enemy', True)
 
     def select(self, **kwargs):
         """

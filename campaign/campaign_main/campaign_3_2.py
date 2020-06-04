@@ -15,10 +15,10 @@ MAP.map_data = '''
     SP ME -- -- ME MM -- ++
 '''
 MAP.weight_data = '''
-    50 50 50 30 30 20 10 10
+    50 50 50 30 30 20 10 09
     50 50 40 40 30 20 10 10
-    50 50 50 40 40 20 20 20
-    50 50 50 50 35 30 30 30
+    50 50 50 40 40 50 20 20
+    50 50 50 50 35 50 50 50
 '''
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 2, 'mystery': 1},
@@ -38,11 +38,17 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
+        self.fleet_2_push_forward()
+
+        if self.fleet_2_rescue(H1):
+            return True
+
         self.clear_all_mystery()
 
         return self.battle_default()
 
     def battle_3(self):
+        # print(H1.__dict__)
         self.clear_all_mystery()
 
         if not self.check_accessibility(H1, fleet='boss'):
