@@ -322,7 +322,7 @@ def main(ini_name=''):
     # event_name.add_argument('--enable_hard_bonus', default=default('--enable_hard_bonus'), choices=['yes', 'no'], help='Will enable Daily bonus for Event hard maps') # Trying implement all event maps
 
     # ==========main==========
-    main_parser = subs.add_parser('main')
+    main_parser = subs.add_parser('Main_campaign')
     # 选择关卡
     stage = main_parser.add_argument_group('Choose a level', 'Main campaign, currently only supports the first six chapters and 7-2')
     stage.add_argument('--main_stage', default=default('--main_stage'), help='E.g 7-2')
