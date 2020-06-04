@@ -13,13 +13,13 @@ MAP.map_data = '''
 	-- ++ -- -- ++ SP -- ME --
 	-- ME -- SP ++ SP -- -- --  
 '''
-MAP.weight_data = '''
-	10 10 30 10 10 10 10 10 10
-	10 10 20 20 10 30 10 10 10
-	30 10 20 10 10 10 10 10 10
-	10 10 10 10 10 10 10 10 10
-	10 30 10 10 10 10 10 10 10
-'''
+#MAP.weight_data = '''
+#	10 10 30 10 10 10 10 10 10
+#	10 10 20 30 10 30 10 10 10
+#	30 10 20 10 10 10 10 10 10
+#	10 10 10 10 10 10 10 10 10
+#	10 30 10 10 10 10 10 10 10
+#'''
 #MAP.camera_data = ['D4']
 MAP.spawn_data = [
      {'battle': 0, 'enemy': 3},
@@ -39,7 +39,10 @@ A5, B5, C5, D5, E5, F5, G5, H5, I5, \
 
 road_main = RoadGrids([C3, C2, [C1, D2], F1, H1, H2, H3, H4])
 
+
+
 class Config:
+	SUBMARINE = 0
 	INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
 	EDGE_LINES_HOUGHLINES_THRESHOLD = 40
 	COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.5
@@ -61,6 +64,30 @@ class Campaign(CampaignBase):
 	MAP = MAP
 
 	def battle_0(self):
+		if self.fleet_at(D5, fleet=2):
+			self.map.weight_data = '''
+				10 10 30 10 10 20 30 40 10
+				10 10 10 10 10 30 10 50 10
+				30 10 10 10 10 10 10 60 10
+				10 10 10 10 10 10 10 70 10
+				10 30 10 10 10 10 10 10 10
+			'''
+		if self.fleet_at(F4, fleet=2):
+			self.map.weight_data = '''
+				10 10 30 10 10 10 10 10 10
+				10 10 20 30 10 30 10 10 10
+				30 10 20 10 10 10 10 10 10
+				10 10 10 10 10 10 10 10 10
+				10 30 10 10 10 10 10 10 10
+			'''
+		if self.fleet_at(F5, fleet=2):
+			self.map.weight_data = '''
+				10 10 30 10 10 10 10 10 10
+				10 10 20 30 10 30 10 10 10
+				30 10 20 10 10 10 10 10 10
+				10 10 10 10 10 10 10 10 10
+				10 30 10 10 10 10 10 10 10
+			'''
 		if self.clear_roadblocks([road_main]):
 			return True
 		if self.clear_potential_roadblocks([road_main]):
