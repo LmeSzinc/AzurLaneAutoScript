@@ -67,7 +67,7 @@ class Campaign(CampaignBase):
     MAP = MAP
 	
     def battle_0(self):
-        if self.fleet_2_step_on(FLEET_2_STEP_ON, roadblocks=[ROAD_MAIN]):
+        if self.fleet_2_step_on(FLEET_2_STEP_ON, roadblocks=[road_main]):
             return True
         if self.clear_roadblocks([road_main]):
             return True
