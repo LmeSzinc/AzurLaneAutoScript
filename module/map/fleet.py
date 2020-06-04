@@ -1,5 +1,6 @@
 import itertools
 
+
 from module.base.timer import Timer
 from module.exception import MapWalkError
 from module.handler.ambush import AmbushHandler
@@ -58,7 +59,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
     @property
     def fleet_boss_index(self):
         if self.config.FLEET_BOSS == 2 or self.config.FLEET_2:
-            return 1
+            return 2
         else:
             return 1
 
@@ -265,7 +266,12 @@ class Fleet(Camera, MapOperation, AmbushHandler):
 
         for loca in [self.fleet_1_location, self.fleet_2_location]:
             if len(loca) and loca in self.map:
-                self.map[loca].wipe_out()
+                grid = self.map[loca]
+                if grid.may_boss and grid.is_caught_by_siren:
+                    # Only boss appears on fleet's face
+                    pass
+                else:
+                    self.map[loca].wipe_out()
 
     def find_all_fleets(self):
         logger.hr('Find all fleets')
@@ -306,7 +312,12 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                         self.fleet_1 = another.location
                         self.fleet_2 = fleets[0].location
                 else:
-                    self.find_all_fleets()
+                    cover = self.map.grid_covered(fleets[0], location=[(0, -1)])
+                    if fleets[0].is_current_fleet and len(cover) and cover[0].is_spawn_point:
+                        self.fleet_1 = fleets[0].location
+                        self.fleet_2 = cover[0].location
+                    else:
+                        self.find_all_fleets()
         elif count == 2:
             current = self.map.select(is_current_fleet=True)
             if current.count == 1:

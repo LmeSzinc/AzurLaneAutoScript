@@ -14,9 +14,9 @@ MAP.map_data = '''
 '''
 MAP.weight_data = '''
     30 30 30 20 10 10 10
-    30 30 30 20 10 10 10
+    30 30 30 20 10 09 10
     40 40 40 20 10 10 10
-    40 40 40 20 10 10 10
+    40 40 40 20 20 10 10
 '''
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 2, 'mystery': 1},
@@ -36,6 +36,9 @@ class Config:
     FLEET_BOSS = 1
 
     MAP_MYSTERY_HAS_CARRIER = True
+
+    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
+    EDGE_LINES_HOUGHLINES_THRESHOLD = 40
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (120, 255 - 40),
         'width': (1.5, 10),
@@ -54,6 +57,11 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
+        self.fleet_2_push_forward()
+
+        if self.fleet_2_rescue(G2):
+            return True
+
         self.clear_all_mystery()
 
         return self.battle_default()
@@ -64,4 +72,4 @@ class Campaign(CampaignBase):
         if not self.check_accessibility(G2, fleet='boss'):
             return self.fleet_boss.battle_default()
 
-        return self.clear_boss()
+        return self.fleet_boss.clear_boss()

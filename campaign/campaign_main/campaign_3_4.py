@@ -18,8 +18,8 @@ MAP.map_data = '''
 MAP.weight_data = '''
     40 40 40 40 40 40 40 40
     40 40 40 30 30 30 30 30
-    40 40 30 30 20 10 10 10
-    40 40 30 20 20 10 10 10
+    40 40 30 30 20 10 10 09
+    40 40 30 20 20 10 10 09
 '''
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 2},
@@ -38,15 +38,16 @@ A4, B4, C4, D4, E4, F4, G4, H4, \
 class Config(Config31):
     MAP_MYSTERY_HAS_CARRIER = False
 
-    # Map 3-4 is relatively small for the density of enemies.
-    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
-    EDGE_LINES_HOUGHLINES_THRESHOLD = 40
-
 
 class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
+        self.fleet_2_push_forward()
+
+        if self.fleet_2_rescue(H3):
+            return True
+
         return self.battle_default()
 
     def battle_3(self):
