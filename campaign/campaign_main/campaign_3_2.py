@@ -48,7 +48,6 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_3(self):
-        # print(H1.__dict__)
         self.clear_all_mystery()
 
         if not self.check_accessibility(H1, fleet='boss'):
