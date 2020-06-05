@@ -45,6 +45,7 @@ class CampaignMap:
         self._spawn_data = []
         self._spawn_data_backup = []
         self._camera_data = []
+        self._camera_data_spawn_point = []
         self.in_map_swipe_preset_data = None
         self.poor_map_data = False
         self.camera_sight = (-3, -1, 3, 2)
@@ -89,6 +90,7 @@ class CampaignMap:
 
         # camera_data can be generate automatically, but it's better to set it manually.
         self.camera_data = [location2node(loca) for loca in camera_2d(self._shape, sight=self.camera_sight)]
+        self.camera_data_spawn_point = []
         # weight_data set to 10.
         for grid in self:
             grid.weight = 10.
@@ -207,6 +209,23 @@ class CampaignMap:
             nodes (list): Contains str.
         """
         self._camera_data = SelectedGrids([self[node2location(node)] for node in nodes])
+
+    @property
+    def camera_data_spawn_point(self):
+        """Additional camera_data to detect fleets at spawn point.
+
+        Returns:
+            SelectedGrids:
+        """
+        return self._camera_data_spawn_point
+
+    @camera_data_spawn_point.setter
+    def camera_data_spawn_point(self, nodes):
+        """
+        Args:
+            nodes (list): Contains str.
+        """
+        self._camera_data_spawn_point = SelectedGrids([self[node2location(node)] for node in nodes])
 
     @property
     def spawn_data(self):

@@ -11,6 +11,7 @@ MAP.map_data = '''
     SP -- ++ ++ -- ME ME MB
 '''
 MAP.camera_data = ['C1', 'E1']
+MAP.camera_data_spawn_point = ['C1']
 MAP.weight_data = '''
     40 30 21 20 17 15 50 50
     40 40 50 50 16 13 50 50

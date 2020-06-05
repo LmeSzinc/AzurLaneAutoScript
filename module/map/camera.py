@@ -113,7 +113,7 @@ class Camera(InfoHandler):
 
         try:
             self.grids = Grids(self.device.image, config=self.config)
-        except PerspectiveError as e:
+        except Exception as e:
             if self.info_bar_count():
                 logger.info('Perspective error cause by info bar. Waiting.')
                 self.handle_info_bar()
@@ -258,10 +258,17 @@ class Camera(InfoHandler):
         self.map.reset_fleet()
 
         queue = self.map.camera_data
+        if battle_count == 0:
+            queue.add(self.map.camera_data_spawn_point)
+
         while len(queue) > 0:
             if self.map.missing_is_none(battle_count, mystery_count, siren_count, carrier_count):
-                logger.info('All spawn found, Early stopped.')
-                break
+                if battle_count == 0 and queue.count != queue.delete(self.map.camera_data_spawn_point).count:
+                    logger.info('Continue scanning spawn points.')
+                    pass
+                else:
+                    logger.info('All spawn found, Early stopped.')
+                    break
             queue = queue.sort_by_camera_distance(self.camera)
             self.focus_to(queue[0])
             self.predict(is_carrier_scan=is_carrier_scan)
