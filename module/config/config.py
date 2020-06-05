@@ -382,6 +382,11 @@ class AzurLaneConfig:
             logger.warning(f'Mob fleet [{self.FLEET_1}] and boss fleet [{self.FLEET_2}] is the same')
             logger.warning('They should to be set to different fleets')
             exit(1)
+        if self.COMMAND.lower() == 'main' and self.CAMPAIGN_NAME.startswith('campaign_'):
+            if int(self.CAMPAIGN_NAME.split('_')[1]) >= 7 and self.FLEET_2 == 0:
+                logger.warning('You should use 2 fleets from chapter 7 to 13')
+                logger.warning(f'Current: mob fleet [{self.FLEET_1}], boss fleet [{self.FLEET_2}]')
+                exit(1)
 
     def save(self):
         self.config.write(codecs.open(self.CONFIG_FILE, "w+", "utf8"))
