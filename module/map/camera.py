@@ -113,7 +113,7 @@ class Camera(InfoHandler):
 
         try:
             self.grids = Grids(self.device.image, config=self.config)
-        except PerspectiveError as e:
+        except Exception as e:
             if self.info_bar_count():
                 logger.info('Perspective error cause by info bar. Waiting.')
                 self.handle_info_bar()
