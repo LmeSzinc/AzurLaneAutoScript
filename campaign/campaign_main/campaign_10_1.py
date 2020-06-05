@@ -3,35 +3,34 @@ from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
 
-
 MAP = CampaignMap('10-1')
 MAP.shape = 'G6'
 MAP.map_data = '''
-	SP -- ++ -- ME ME --
-	-- -- ++ ME ME ME ME
-	-- ME ME ME ++ ++ MB
-	-- ME ME ME ME ++ MB
-	-- -- ++ -- ME ME ME
-	SP -- ++ ++ -- -- ++
+    SP -- ++ -- ME ME --
+    -- -- ++ ME ME ME ME
+    -- ME ME ME ++ ++ MB
+    -- ME ME ME ME ++ MB
+    -- -- ++ -- ME ME ME
+    SP -- ++ ++ -- -- ++
 '''
 MAP.weight_data = '''
-	50 50 50 50 50 40 50
-	50 50 50 30 30 50 40
-	50 40 30 30 30 50 05
-	50 25 20 20 30 50 05
-	50 50 50 15 10 10 05
-	50 50 50 50 50 50 50
+    50 50 50 50 50 40 50
+    50 50 50 30 30 50 40
+    50 40 30 30 30 50 05
+    50 25 20 20 30 50 05
+    50 50 50 15 10 10 05
+    50 50 50 50 50 50 50
 '''
 # MAP.camera_data = ['D3']
 MAP.spawn_data = [
-     {'battle': 0, 'enemy': 4},
-     {'battle': 1, 'enemy': 1},
-     {'battle': 2, 'enemy': 1},
-     {'battle': 3, 'enemy': 1},
-     {'battle': 4, 'enemy': 1},
-     {'battle': 5},
-	 {'battle': 6, 'boss': 1},
- ]
+    {'battle': 0, 'enemy': 4},
+    {'battle': 1, 'enemy': 1},
+    {'battle': 2, 'enemy': 1},
+    {'battle': 3, 'enemy': 1},
+    {'battle': 4, 'enemy': 1},
+    {'battle': 5},
+    {'battle': 6, 'boss': 1},
+]
 
 A1, B1, C1, D1, E1, F1, G1, \
 A2, B2, C2, D2, E2, F2, G2, \
@@ -43,6 +42,7 @@ A6, B6, C6, D6, E6, F6, G6, \
 
 road_main = RoadGrids([B4, C4, D4, E5, F5, G5])
 
+
 class Config:
     INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
     EDGE_LINES_HOUGHLINES_THRESHOLD = 40
@@ -52,22 +52,22 @@ class Config:
         'width': (0.9, 10),
         'prominence': 10,
         'distance': 35,
-	}
+    }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (255 - 24, 255),
         'prominence': 10,
         'distance': 50,
         'width': (0, 10),
         'wlen': 1000,
-	}
+    }
 
 
 class Campaign(CampaignBase):
     MAP = MAP
-	
+
     def battle_0(self):
         self.fleet_2_push_forward()
-		
+
         if self.clear_roadblocks([road_main]):
             return True
         if self.clear_potential_roadblocks([road_main]):
@@ -81,5 +81,5 @@ class Campaign(CampaignBase):
             if not self.check_accessibility(boss[0], fleet=2):
                 if self.clear_roadblocks([road_main]):
                     return True
-				
+
         return self.fleet_2.clear_boss()
