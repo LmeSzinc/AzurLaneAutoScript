@@ -15,12 +15,12 @@ MAP.map_data = '''
 	SP -- ++ ++ -- -- ++
 '''
 MAP.weight_data = '''
-	10 10 10 10 40 40 10
-	10 20 10 30 30 40 40
-	10 40 30 30 30 10 10
-	10 10 10 10 30 10 10
-	10 10 10 10 10 10 10
-	10 10 10 10 10 10 10
+	50 50 50 50 50 40 50
+	50 50 50 30 30 50 40
+	50 40 30 30 30 50 05
+	50 25 20 20 30 50 05
+	50 50 50 15 10 10 05
+	50 50 50 50 50 50 50
 '''
 # MAP.camera_data = ['D3']
 MAP.spawn_data = [
@@ -43,18 +43,17 @@ A6, B6, C6, D6, E6, F6, G6, \
 
 road_main = RoadGrids([B4, C4, D4, E5, F5, G5])
 
-
 class Config:
-	INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
-	EDGE_LINES_HOUGHLINES_THRESHOLD = 40
-	COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.5
-	INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
+    EDGE_LINES_HOUGHLINES_THRESHOLD = 40
+    COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.5
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (150, 255 - 24),
         'width': (0.9, 10),
         'prominence': 10,
         'distance': 35,
 	}
-	EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (255 - 24, 255),
         'prominence': 10,
         'distance': 50,
@@ -64,21 +63,23 @@ class Config:
 
 
 class Campaign(CampaignBase):
-	MAP = MAP
+    MAP = MAP
 	
-	def battle_0(self):
-		if self.clear_roadblocks([road_main]):
-			return True
-		if self.clear_potential_roadblocks([road_main]):
-			return True
+    def battle_0(self):
+        self.fleet_2_push_forward()
+		
+        if self.clear_roadblocks([road_main]):
+            return True
+        if self.clear_potential_roadblocks([road_main]):
+            return True
 
-		return self.battle_default()
+        return self.battle_default()
 
-	def battle_6(self):
-		boss = self.map.select(is_boss=True)
-		if boss:
-			if not self.check_accessibility(boss[0], fleet=2):
-				if self.clear_roadblocks([road_main]):
-					return True
+    def battle_6(self):
+        boss = self.map.select(is_boss=True)
+        if boss:
+            if not self.check_accessibility(boss[0], fleet=2):
+                if self.clear_roadblocks([road_main]):
+                    return True
 				
-		return self.fleet_2.clear_boss()
+        return self.fleet_2.clear_boss()
