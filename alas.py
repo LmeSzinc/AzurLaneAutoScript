@@ -15,6 +15,7 @@ class AzurLaneAutoScript:
         self.config = AzurLaneConfig(ini_name)
 
     def run(self, command):
+        self.config.start_time = datetime.now()
         try:
             self.__getattribute__(command.lower())()
         except Exception as e:

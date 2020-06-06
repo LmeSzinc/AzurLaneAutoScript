@@ -8,15 +8,14 @@ from module.campaign.assets import *
 from module.campaign.campaign_base import CampaignBase
 from module.campaign.campaign_ui import CampaignUI
 from module.config.config import AzurLaneConfig
-from module.handler.login import LoginHandler
-from module.logger import logger
 from module.exception import ScriptEnd, CampaignNameError
+from module.logger import logger
 from module.reward.reward import Reward
 
 OCR_OIL = Digit(OCR_OIL, letter=(247, 247, 247), back=(33, 36, 49), limit=25000, name='OCR_OIL')
 
 
-class CampaignRun(CampaignUI, Reward, LoginHandler):
+class CampaignRun(CampaignUI, Reward):
     folder: str
     name: str
     stage: str
@@ -24,7 +23,6 @@ class CampaignRun(CampaignUI, Reward, LoginHandler):
     config: AzurLaneConfig
     campaign: CampaignBase
     run_count: int
-    start_time = datetime.now()
 
     def load_campaign(self, name, folder='campaign_main'):
         """
@@ -107,8 +105,7 @@ class CampaignRun(CampaignUI, Reward, LoginHandler):
         Returns:
             bool: If triggered a restart condition.
         """
-        if self.config.get_server_last_update(since=(0,)) > self.start_time:
-            logger.hr('Triggered restart new day')
+        if self.config.triggered_app_restart():
             return True
         if not self.campaign.config.IGNORE_LOW_EMOTION_WARN:
             if self.campaign.emotion.triggered_bug():
@@ -120,7 +117,6 @@ class CampaignRun(CampaignUI, Reward, LoginHandler):
     def handle_app_restart(self):
         if self._triggered_app_restart():
             self.app_restart()
-            self.start_time = datetime.now()
             return True
 
         return False

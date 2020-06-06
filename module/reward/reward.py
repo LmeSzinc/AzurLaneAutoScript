@@ -2,14 +2,15 @@ from datetime import datetime, timedelta
 
 from module.base.timer import Timer
 from module.combat.assets import *
+from module.handler.login import LoginHandler
 from module.logger import logger
 from module.reward.assets import *
-from module.ui.page import *
 from module.reward.commission import RewardCommission
 from module.reward.tactical_class import RewardTacticalClass
+from module.ui.page import *
 
 
-class Reward(RewardCommission, RewardTacticalClass):
+class Reward(RewardCommission, RewardTacticalClass, LoginHandler):
     def reward(self):
         if not self.config.ENABLE_REWARD:
             return False
@@ -154,8 +155,10 @@ class Reward(RewardCommission, RewardTacticalClass):
     def reward_loop(self):
         logger.hr('Reward loop')
         while 1:
-            if not self.reward():
-                break
+            if self.config.triggered_app_restart():
+                self.app_restart()
+
+            self.reward()
 
             logger.info('Reward loop wait')
             logger.attr('Reward_loop_wait', f'{self.config.REWARD_INTERVAL} min')
