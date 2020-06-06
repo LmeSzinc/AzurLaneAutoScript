@@ -3,7 +3,6 @@ from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
 
-
 MAP = CampaignMap('10-4')
 MAP.shape = 'I6'
 MAP.map_data = '''

@@ -18,8 +18,8 @@ MAP.weight_data = '''
     50 50 30 30 50 50
     50 50 30 30 50 50
     50 50 20 30 50 50
-    10 10 10 20 50 50
-    10 10 10 50 50 50
+    09 10 11 20 50 50
+    10 10 11 50 50 50
 '''
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 2, 'mystery': 1},
@@ -40,6 +40,11 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
+        self.fleet_2_push_forward()
+
+        if self.fleet_2_rescue(A4):
+            return True
+
         self.clear_all_mystery()
 
         return self.battle_default()
