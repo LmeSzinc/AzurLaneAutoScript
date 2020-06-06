@@ -343,11 +343,14 @@ class RewardCommission(UI, InfoHandler):
             comm_priority.append(pri)
 
         # Sort
-        commission = list(np.array(commission)[
-                          np.argsort(comm_priority)])[::-1]
+        commission = list(np.array(commission)[np.argsort(comm_priority)])[::-1]
+        # Select priority > 0
+        commission = [comm for comm in commission if priority[comm.genre] > 0]
+        # Select within time_limit
         if time_limit:
             commission = [
                 comm for comm in commission if datetime.now() + comm.duration <= time_limit]
+
         commission = commission[:4 - running_count]
         daily_choose, urgent_choose = CommissionGroup(
             self.config), CommissionGroup(self.config)

@@ -20,6 +20,7 @@ class AzurLaneConfig:
     """
     CONFIG_FILE = ''
     config = configparser.ConfigParser(interpolation=None)
+    start_time = datetime.now()
 
     SERVER = server.server
     logger.attr('Server', SERVER)
@@ -578,6 +579,13 @@ class AzurLaneConfig:
         logger.attr(f'{option[0]}_{option[1]}', f'Record time: {record}')
         logger.attr(f'{option[0]}_{option[1]}', f'Last update: {update}')
         return record > update
+
+    def triggered_app_restart(self):
+        if self.get_server_last_update(since=(0,)) > self.start_time:
+            logger.hr('Triggered restart new day')
+            return True
+        else:
+            return False
 
     def record_save(self, option):
         record = datetime.strftime(datetime.now(), self.TIME_FORMAT)

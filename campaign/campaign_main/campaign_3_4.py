@@ -38,6 +38,19 @@ A4, B4, C4, D4, E4, F4, G4, H4, \
 class Config(Config31):
     MAP_MYSTERY_HAS_CARRIER = False
 
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (120, 255 - 75),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 40, 255),
+        'prominence': 10,
+        'distance': 50,
+        'wlen': 1000
+    }
+
 
 class Campaign(CampaignBase):
     MAP = MAP
