@@ -481,6 +481,7 @@ class AzurLaneConfig:
         self.TACTICAL_EXP_FIRST_NIGHT = to_bool(option['tactical_exp_first_night'])
 
         option = config['Main']
+        self.CAMPAIGN_MODE = option['campaign_mode']
         self.CAMPAIGN_NAME = option['main_stage']
         self.CAMPAIGN_NAME = 'campaign_' + self.CAMPAIGN_NAME.replace('-', '_')
 
