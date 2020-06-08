@@ -36,16 +36,16 @@ dictionary_en = {
     'major_comm': ['SelfTraining', 'DefenseExercise', 'ResearchMission', 'Prep', 'Class', 'CargoTransport'],
     'daily_comm': ['Daily', 'Awakening'],
     'extra_drill': ['Sailing', 'DefensePatrol', 'Buoy', 'saingTraining'],
-    'extra_part': ['Protection'],
+    'extra_part': ['Protection', 'Forestprtectioncommisionl', 'veinprotectoncommisionl', 'veinprtectioncommision', 'Forestprotectncommisionll', 'veinprotectncommision'],
     'extra_cube': ['FleetExercise', 'EscortExercise', 'FleetCargo', 'CombatExercise'],
-    'extra_oil': ['oil'],
+    'extra_oil': ['oil', 'smallscaleoiExtractionll', 'smal.scaleoiExtractionll'],
     'extra_book': ['MerchantEscort'],
     'urgent_drill': ['CargoDefense', 'Destroy'],
     'urgent_part': ['Lavella', 'Maui', 'Rendova', 'banna', 'Mannelsland'],
-    'urgent_book': ['Tyrant', 'Poro', 'Makira', 'Kapolo', 'Mary', 'Isle', 'Kotlin'],
+    'urgent_book': ['Tyrant', 'Poro', 'Makira', 'Kapolo', 'Mary', 'Isle', 'Kotlin', 'AidingWapolo'],
     'urgent_box': ['Gear', 'Handover'],
     'urgent_cube': ['MerchantRescue', 'Attack'],
-    'urgent_gem': ['VIP ', 'Holiday', 'PatrolEscort'],
+    'urgent_gem': ['VIP ', 'Holiday', 'PatrolEscort', 'BIWWIPEscort', 'BIWVIPEscort'],
     'urgent_ship': ['Launch']
 }
 
@@ -284,7 +284,7 @@ class CommissionGroup:
         # Find commission position
         color_height = np.mean(image.crop(
             (597, 0, 619, 720)).convert('L'), axis=1)
-        parameters = {'height': 200}
+        parameters = {'height': 200, 'distance': 100}
         peaks, _ = signal.find_peaks(color_height, **parameters)
         peaks = [y for y in peaks if y > 67 + 117]
 

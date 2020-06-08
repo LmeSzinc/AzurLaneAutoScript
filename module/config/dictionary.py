@@ -147,7 +147,7 @@ dic_true_eng_to_eng = {
     'exercise_equipment': 'exercise_equipment',
     'main_stage': 'main_stage',
     'event_stage': 'event_stage',
-    'enable_hard_main_campaign': 'enable_hard_main_campaign',
+    'campaign_mode': 'campaign_mode',
     'sp_stage': 'sp_stage',
     'event_name': 'event_name',
     'event_name_ab': 'event_name_ab',

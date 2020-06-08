@@ -110,7 +110,6 @@ class AzurLaneConfig:
     """
     CAMPAIGN_NAME = 'default'
     CAMPAIGN_MODE = 'normal'
-    ENABLE_HARD_MAIN_CAMPAIGN = ''
 
     ENABLE_STOP_CONDITION = True
     ENABLE_FAST_FORWARD = True
@@ -482,7 +481,7 @@ class AzurLaneConfig:
         self.TACTICAL_EXP_FIRST_NIGHT = to_bool(option['tactical_exp_first_night'])
 
         option = config['Main']
-        self.ENABLE_HARD_MAIN_CAMPAIGN = option['enable_hard_main_campaign']
+        self.CAMPAIGN_MODE = option['campaign_mode']
         self.CAMPAIGN_NAME = option['main_stage']
         self.CAMPAIGN_NAME = 'campaign_' + self.CAMPAIGN_NAME.replace('-', '_')
 
