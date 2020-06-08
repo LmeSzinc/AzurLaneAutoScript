@@ -71,11 +71,10 @@ class CampaignUI(UI, CampaignOcr):
         entrance.name = name
         return entrance
 
-    def ensure_campaign_ui(self, name, mode='normal'):
+    def ensure_campaign_ui(self, name):
         """
         Args:
             name (str): Campaign name, such as '7-2', 'd3', 'sp3'.
-            mode (str): 'normal' or 'hard'.
         """
         chapter, _ = separate_name(name)
 
@@ -83,7 +82,7 @@ class CampaignUI(UI, CampaignOcr):
             self.ui_weigh_anchor()
             self.campaign_ensure_mode('normal')
             self.campaign_ensure_chapter(index=chapter)
-            if mode == 'hard':
+            if self.config.ENABLE_HARD_MAIN_CAMPAIGN == 'hard':
                 self.campaign_ensure_mode('hard')
 
         elif chapter in 'abcd':
