@@ -40,14 +40,24 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
         while 1:
             self.device.screenshot()
 
-            # Finish
+            # Finish - S or D rank
             if self.appear_then_click(BATTLE_STATUS_S):
                 success = True
                 end = True
                 continue
+            if self.appear_then_click(BATTLE_STATUS_D):
+                success = True
+                end = True
+                logger.info("Exercise LOST")
+                continue
             if self.appear_then_click(GET_ITEMS_1):
                 continue
             if self.appear_then_click(EXP_INFO_S):
+                continue
+            if self.appear_then_click(EXP_INFO_D):
+                continue
+            # Last D rank screen
+            if self.appear_then_click(OPTS_INFO_D, offset=(30,30)):
                 continue
 
             # Quit
