@@ -267,4 +267,3 @@ class GridPredictor:
                 return name
 
         return None
-

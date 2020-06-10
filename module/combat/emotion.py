@@ -47,6 +47,7 @@ class Emotion:
             savetime = datetime.strptime(self.emotion[config_name][f'fleet_{index}_savetime'], self.config.TIME_FORMAT)
             savetime = int(savetime.timestamp())
             recover_count = int(datetime.now().timestamp() // 360 - savetime // 360)
+            recover_count = 0 if recover_count < 0 else recover_count
 
             value = self.emotion.getint(config_name, f'fleet_{index}_emotion')
 

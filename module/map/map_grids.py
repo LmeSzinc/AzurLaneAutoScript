@@ -92,7 +92,7 @@ class SelectedGrids:
         Returns:
             SelectedGrids:
         """
-        return SelectedGrids(self.grids + grids.grids)
+        return SelectedGrids(list(set(self.grids + grids.grids)))
 
     def delete(self, grids):
         """

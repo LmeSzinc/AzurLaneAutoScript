@@ -51,8 +51,10 @@ class StrategyHandler(InfoHandler):
         self.device.screenshot()
 
         formation.set(str(formation_index), main=self)
-        if submarine_view.appear(main=self):
-            submarine_view.set('on' if sub_view else 'off', main=self)
+        # Disable this until the icon bug of submarine zone is fixed
+        # And don't enable MAP_HAS_DYNAMIC_RED_BORDER when using submarine
+        # if submarine_view.appear(main=self):
+        #     submarine_view.set('on' if sub_view else 'off', main=self)
         if submarine_hunt.appear(main=self):
             submarine_hunt.set('on' if sub_hunt else 'off', main=self)
 

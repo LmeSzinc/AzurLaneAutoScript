@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from module.base.timer import Timer
 from module.combat.combat import Combat
 from module.handler.assets import *
@@ -45,6 +47,7 @@ class LoginHandler(Combat):
         self.device.app_stop()
         self.device.app_start()
         self.handle_app_login()
+        self.config.start_time = datetime.now()
 
     def app_ensure_start(self):
         if not self.device.app_is_running():

@@ -324,8 +324,9 @@ def main(ini_name=''):
     # ==========main==========
     main_parser = subs.add_parser('Main_campaign')
     # 选择关卡
-    stage = main_parser.add_argument_group('Choose a level', 'Main campaign, currently only supports the first six chapters and 7-2')
+    stage = main_parser.add_argument_group('Choose a level', 'Main campaign, Currently, not all maps are being supported, check the folder /doc/development_en.md to know how add new maps')
     stage.add_argument('--main_stage', default=default('--main_stage'), help='E.g 7-2')
+    stage.add_argument('--campaign_mode', default=default('--campaign_mode'), help='Useful if you want to clear a hard mode map', choices=['normal', 'hard'])
 
     # ==========event==========
     event_parser = subs.add_parser('event')

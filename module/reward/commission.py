@@ -9,6 +9,7 @@ from module.base.decorator import Config
 from module.base.ocr import Ocr
 from module.base.timer import Timer
 from module.base.utils import area_offset, get_color, random_rectangle_vector
+from module.base.utils import color_similar_1d, random_rectangle_point
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.reward.assets import *
@@ -35,16 +36,16 @@ dictionary_en = {
     'major_comm': ['SelfTraining', 'DefenseExercise', 'ResearchMission', 'Prep', 'Class', 'CargoTransport'],
     'daily_comm': ['Daily', 'Awakening'],
     'extra_drill': ['Sailing', 'DefensePatrol', 'Buoy', 'saingTraining'],
-    'extra_part': ['Protection'],
+    'extra_part': ['Protection', 'Forestprtectioncommisionl', 'veinprotectoncommisionl', 'veinprtectioncommision', 'Forestprotectncommisionll', 'veinprotectncommision'],
     'extra_cube': ['FleetExercise', 'EscortExercise', 'FleetCargo', 'CombatExercise'],
-    'extra_oil': ['oil'],
+    'extra_oil': ['oil', 'smallscaleoiExtractionll', 'smal.scaleoiExtractionll'],
     'extra_book': ['MerchantEscort'],
     'urgent_drill': ['CargoDefense', 'Destroy'],
     'urgent_part': ['Lavella', 'Maui', 'Rendova', 'banna', 'Mannelsland'],
-    'urgent_book': ['Tyrant', 'Poro', 'Makira', 'Kapolo', 'Mary', 'Isle', 'Kotlin'],
+    'urgent_book': ['Tyrant', 'Poro', 'Makira', 'Kapolo', 'Mary', 'Isle', 'Kotlin', 'AidingWapolo'],
     'urgent_box': ['Gear', 'Handover'],
     'urgent_cube': ['MerchantRescue', 'Attack'],
-    'urgent_gem': ['VIP ', 'Holiday', 'PatrolEscort'],
+    'urgent_gem': ['VIP ', 'Holiday', 'PatrolEscort', 'BIWWIPEscort', 'BIWVIPEscort'],
     'urgent_ship': ['Launch']
 }
 
@@ -283,7 +284,7 @@ class CommissionGroup:
         # Find commission position
         color_height = np.mean(image.crop(
             (597, 0, 619, 720)).convert('L'), axis=1)
-        parameters = {'height': 200}
+        parameters = {'height': 200, 'distance': 100}
         peaks, _ = signal.find_peaks(color_height, **parameters)
         peaks = [y for y in peaks if y > 67 + 117]
 
@@ -342,11 +343,14 @@ class RewardCommission(UI, InfoHandler):
             comm_priority.append(pri)
 
         # Sort
-        commission = list(np.array(commission)[
-                          np.argsort(comm_priority)])[::-1]
+        commission = list(np.array(commission)[np.argsort(comm_priority)])[::-1]
+        # Select priority > 0
+        commission = [comm for comm in commission if priority[comm.genre] > 0]
+        # Select within time_limit
         if time_limit:
             commission = [
                 comm for comm in commission if datetime.now() + comm.duration <= time_limit]
+
         commission = commission[:4 - running_count]
         daily_choose, urgent_choose = CommissionGroup(
             self.config), CommissionGroup(self.config)
@@ -413,6 +417,26 @@ class RewardCommission(UI, InfoHandler):
         self.device.sleep(0.3)
         self.device.screenshot()
 
+    def _commission_swipe_to_top(self, bar_padding_y=10):
+        if self.appear(COMMISSION_SCROLL_TOP):
+            # Already at top
+            return False
+
+        mean = np.mean(self.device.image.crop(COMMISSION_SCROLL.area), axis=1)
+        bar = np.where(color_similar_1d(mean, color=(247, 211, 66)))[0]
+        if len(bar) < bar_padding_y * 2:
+            # No scroll found.
+            return False
+
+        bar = (COMMISSION_SCROLL.area[0], np.min(bar) + bar_padding_y,
+               COMMISSION_SCROLL.area[2], np.max(bar) - bar_padding_y)
+        p1 = random_rectangle_point(bar)
+        p2 = random_rectangle_point(COMMISSION_SCROLL_TOP.area)
+        self.device.drag(p1, p2, shake=(15, 0), point_random=(0, 0, 0, 0))
+        self.device.sleep(0.3)
+        self.device.screenshot()
+        return True
+
     def _commission_scan_list(self):
         commission = CommissionGroup(self.config)
         commission.merge(self.device.image)
@@ -432,10 +456,12 @@ class RewardCommission(UI, InfoHandler):
     def _commission_scan_all(self):
         logger.hr('Scan daily')
         self._commission_ensure_mode('daily')
+        self._commission_swipe_to_top()
         daily = self._commission_scan_list()
 
         logger.hr('Scan urgent')
         self._commission_ensure_mode('urgent')
+        self._commission_swipe_to_top()
         urgent = self._commission_scan_list()
 
         logger.hr('Showing commission')
@@ -529,11 +555,13 @@ class RewardCommission(UI, InfoHandler):
             for comm in self.daily_choose:
                 if not self._commission_ensure_mode('daily'):
                     self._commission_mode_reset()
+                self._commission_swipe_to_top()
                 self._commission_find_and_start(comm)
         if self.urgent_choose:
             for comm in self.urgent_choose:
                 if not self._commission_ensure_mode('urgent'):
                     self._commission_mode_reset()
+                self._commission_swipe_to_top()
                 self._commission_find_and_start(comm)
         if not self.daily_choose and not self.urgent_choose:
             logger.info('No commission chose')
