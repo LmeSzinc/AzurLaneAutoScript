@@ -43,6 +43,8 @@ class ImageExtractor:
     @staticmethod
     def extract(file):
         image = Image.open(file).convert('RGB')
+        if image.size != (1280, 720):
+            logger.warning(f'Incorrect asset {image.size} {file}')
         bbox = image.getbbox()
         mean = get_color(image=image, area=bbox)
         mean = tuple(np.rint(mean).astype(int))
@@ -87,6 +89,13 @@ class TemplateExtractor(ImageExtractor):
     #     self.module = module
     #     self.file = file
     #     self.config = config
+    @staticmethod
+    def extract(file):
+        image = Image.open(file).convert('RGB')
+        bbox = image.getbbox()
+        mean = get_color(image=image, area=bbox)
+        mean = tuple(np.rint(mean).astype(int))
+        return bbox, mean
 
     @property
     def expression(self):
