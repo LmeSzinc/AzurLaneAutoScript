@@ -203,6 +203,7 @@ dic_true_eng_to_eng = {
 
     # Event
     'event_20200521_en': 'event_20200521_en',
+    'Skybound_Oratorio': 'event_20200611_en',
 
 }
 dic_eng_to_true_eng = {v: k for k, v in dic_true_eng_to_eng.items()}
