@@ -20,6 +20,7 @@ class AzurLaneConfig:
     """
     CONFIG_FILE = ''
     config = configparser.ConfigParser(interpolation=None)
+    start_time = datetime.now()
 
     SERVER = server.server
     logger.attr('Server', SERVER)
@@ -382,6 +383,11 @@ class AzurLaneConfig:
             logger.warning(f'Mob fleet [{self.FLEET_1}] and boss fleet [{self.FLEET_2}] is the same')
             logger.warning('They should to be set to different fleets')
             exit(1)
+        if self.COMMAND.lower() == 'main' and self.CAMPAIGN_NAME.startswith('campaign_'):
+            if int(self.CAMPAIGN_NAME.split('_')[1]) >= 7 and self.FLEET_2 == 0:
+                logger.warning('You should use 2 fleets from chapter 7 to 13')
+                logger.warning(f'Current: mob fleet [{self.FLEET_1}], boss fleet [{self.FLEET_2}]')
+                exit(1)
 
     def save(self):
         self.config.write(codecs.open(self.CONFIG_FILE, "w+", "utf8"))
@@ -475,6 +481,7 @@ class AzurLaneConfig:
         self.TACTICAL_EXP_FIRST_NIGHT = to_bool(option['tactical_exp_first_night'])
 
         option = config['Main']
+        self.CAMPAIGN_MODE = option['campaign_mode']
         self.CAMPAIGN_NAME = option['main_stage']
         self.CAMPAIGN_NAME = 'campaign_' + self.CAMPAIGN_NAME.replace('-', '_')
 
@@ -573,6 +580,13 @@ class AzurLaneConfig:
         logger.attr(f'{option[0]}_{option[1]}', f'Record time: {record}')
         logger.attr(f'{option[0]}_{option[1]}', f'Last update: {update}')
         return record > update
+
+    def triggered_app_restart(self):
+        if self.get_server_last_update(since=(0,)) > self.start_time:
+            logger.hr('Triggered restart new day')
+            return True
+        else:
+            return False
 
     def record_save(self, option):
         record = datetime.strftime(datetime.now(), self.TIME_FORMAT)
