@@ -3,7 +3,7 @@
 #### Requirements
 
 * A good PC (Potato PC may have problems running the emulator correctly)
-* [Python](https://www.python.org/downloads/release/python-376/) installed and added to PATH (recommended 3.7.6 64bit version only) 
+* [Python](https://www.python.org/downloads/release/python-376/) installed and added to PATH (is highly recommended 3.7.6 64bit version only) 
 * Latest [ADB](https://developer.android.com/studio/releases/platform-tools) added to PATH.
 * [I don't know how to add to PATH](https://www.youtube.com/watch?v=Y2q_b4ugPWk)
 * The use of a virtual environment (venv) in python is highly recommended
