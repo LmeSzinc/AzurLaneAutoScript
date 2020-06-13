@@ -31,7 +31,7 @@ class Config:
     MAP_HAS_DYNAMIC_RED_BORDER = False
     MAP_HAS_MAP_STORY = True
     MAP_SIREN_TEMPLATE = ['Algerie', 'LaGalissonniere']
-    MAP_SIREN_COUNT = 2
+    MAP_SIREN_COUNT = 1
 
     TRUST_EDGE_LINES = False
     COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.5

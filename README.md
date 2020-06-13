@@ -3,11 +3,13 @@
 [English Readme](README_en.md) `Translation in progress`
 # AzurLaneAutoScript
 
-Alas, an Azur Lane automation tool with GUI (Support CN and EN, can support other server).
+Alas, an Azur Lane automation tool with GUI (Support CN, EN, JP, able to support other servers).
 
-Alas, 一个带GUI的碧蓝航线脚本 (支持国服和国际服, 可以支持其他服务器).
+Alas, 一个带GUI的碧蓝航线脚本 (支持国服, 国际服, 日服, 可以支持其他服务器).
 
 EN support, Thanks **[@whoamikyo](https://github.com/whoamikyo)**
+
+JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)**, some features might not work
 
 ![gui](doc/README.assets/gui.png)
 

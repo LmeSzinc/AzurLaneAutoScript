@@ -2,7 +2,7 @@ from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-from campaign.event_20200521_cn.d1 import Config as ConfigBase
+from campaign.event_20200611_en.d1 import Config as ConfigBase
 
 
 MAP = CampaignMap()

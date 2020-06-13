@@ -10,6 +10,13 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
     def _in_exercise(self):
         return self.appear(NEW_OPPONENT)
 
+    def is_combat_executing(self):
+        """
+        Returns:
+            bool:
+        """
+        return self.appear(PAUSE) and np.max(self.device.image.crop(PAUSE_DOUBLE_CHECK.area)) < 153
+
     def _combat_preparation(self):
         logger.info('Combat preparation')
         while 1:
@@ -40,16 +47,17 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
         while 1:
             self.device.screenshot()
 
-            # Finish - S or D rank
-            if self.appear_then_click(BATTLE_STATUS_S):
-                success = True
-                end = True
-                continue
-            if self.appear_then_click(BATTLE_STATUS_D):
-                success = True
-                end = True
-                logger.info("Exercise LOST")
-                continue
+            if not self.is_combat_executing():
+                # Finish - S or D rank
+                if self.appear_then_click(BATTLE_STATUS_S):
+                    success = True
+                    end = True
+                    continue
+                if self.appear_then_click(BATTLE_STATUS_D):
+                    success = True
+                    end = True
+                    logger.info("Exercise LOST")
+                    continue
             if self.appear_then_click(GET_ITEMS_1):
                 continue
             if self.appear_then_click(EXP_INFO_S):
