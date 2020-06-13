@@ -202,8 +202,9 @@ dic_true_eng_to_eng = {
     'hard': 'hard',
 
     # Event
-    'event_20200521_en': 'event_20200521_en',
+    'Iris_of_Light_and_Dark': 'event_20200521_en',
     'Skybound_Oratorio': 'event_20200611_en',
+    'Prelude_under_the_Moon': 'event_20200603_en'
 
 }
 dic_eng_to_true_eng = {v: k for k, v in dic_true_eng_to_eng.items()}
