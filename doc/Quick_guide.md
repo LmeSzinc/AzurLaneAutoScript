@@ -9,6 +9,16 @@
 * The use of a virtual environment (venv) in python is highly recommended
 * ADB debugging enabled and emulator with 1280x720 resolution
 * **Read the entire guide before asking any questions.**
+* 
+
+# New installation method
+
+* Just download the file [EasyALAS_CLICK_INSTALL.bat](https://raw.githubusercontent.com/whoamikyo/AzurLaneAutoScript/master/EasyALAS_CLICK_INSTALL.bat), put in some folder and run as administrator (`Right click> Run as administrator`)
+* Then it will install everything and download ALAS
+* Will be created a folder `AzurLaneAutoScript` in the directory you run `EasyALAS_CLICK_INSTALL.bat`
+* To Run ALAS, just click in `alas.bat`
+* to avoid connection errors it's recommended to configure your emulator port correctly in the `alas.bat` file, just open it with notepad and edit line 6, remove the `::` and configure with your emulator PORT, below you have more information on how to find your emulator PORT, READ ALL.
+* It probably doesn't work on windows 7, you can test it and if it doesn't work try manual installation, tested on Windows 10 x64 Version 2004.
 
 
 # How to create e python virtual environment
