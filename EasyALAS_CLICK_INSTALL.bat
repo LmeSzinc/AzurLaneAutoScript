@@ -31,7 +31,7 @@ call refreshenv
 :: Uninstalling/removing the platform tools older version, if they exists and  killing instances of adb if they are running
 echo Uninstalling older version
 adb kill-server > nul 2>&1
-rmdir /Q /S "%PROGRAMFILES%\platform-tools" > nul 2>&1
+rmdir /Q /S "%PROGRAMDATA%\chocolatey\lib\adb\tools\platform-tools" > nul 2>&1
 
 echo installing ADB
 choco install adb --force -y
