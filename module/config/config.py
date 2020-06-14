@@ -149,8 +149,8 @@ class AzurLaneConfig:
     """
     module.device
     """
-    SERIAL = '127.0.0.1:62001'
-    PACKAGE_NAME = 'com.bilibili.azurlane'
+    SERIAL = ''
+    PACKAGE_NAME = ''
     COMMAND = ''
     USE_ADB_SCREENSHOT = True
     USE_ADB_CONTROL = False
