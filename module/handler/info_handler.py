@@ -43,18 +43,22 @@ class InfoHandler(ModuleBase):
     """
     _popup_offset = (3, 30)
 
-    def handle_popup_confirm(self):
+    def handle_popup_confirm(self, name=''):
         if self.appear(POPUP_CANCEL, offset=self._popup_offset) \
                 and self.appear(POPUP_CONFIRM, offset=self._popup_offset, interval=2):
+            POPUP_CONFIRM.name = POPUP_CONFIRM.name + '_' + name
             self.device.click(POPUP_CONFIRM)
+            POPUP_CONFIRM.name = POPUP_CONFIRM.name[:-len(name) - 1]
             return True
         else:
             return False
 
-    def handle_popup_cancel(self):
+    def handle_popup_cancel(self, name=''):
         if self.appear(POPUP_CONFIRM, offset=self._popup_offset) \
                 and self.appear(POPUP_CANCEL, offset=self._popup_offset, interval=2):
+            POPUP_CANCEL.name = POPUP_CANCEL.name + '_' + name
             self.device.click(POPUP_CANCEL)
+            POPUP_CANCEL.name = POPUP_CANCEL.name[:-len(name) - 1]
             return True
         else:
             return False
@@ -83,7 +87,7 @@ class InfoHandler(ModuleBase):
         if not self.config.IGNORE_LOW_EMOTION_WARN:
             return False
 
-        return self.handle_popup_confirm()
+        return self.handle_popup_confirm('IGNORE_LOW_EMOTION')
 
     """
     Story

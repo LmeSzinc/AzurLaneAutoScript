@@ -147,6 +147,7 @@ dic_true_eng_to_eng = {
     'exercise_equipment': 'exercise_equipment',
     'main_stage': 'main_stage',
     'event_stage': 'event_stage',
+    'campaign_mode': 'campaign_mode',
     'sp_stage': 'sp_stage',
     'event_name': 'event_name',
     'event_name_ab': 'event_name_ab',
@@ -197,9 +198,13 @@ dic_true_eng_to_eng = {
     'max_exp': 'max_exp',
     'max_ranking': 'max_ranking',
     'good_opponent': 'good_opponent',
+    'normal': 'normal',
+    'hard': 'hard',
 
     # Event
-    'event_20200521_en': 'event_20200521_en',
+    'Iris_of_Light_and_Dark': 'event_20200521_en',
+    'Skybound_Oratorio': 'event_20200611_en',
+    'Prelude_under_the_Moon': 'event_20200603_en'
 
 }
 dic_eng_to_true_eng = {v: k for k, v in dic_true_eng_to_eng.items()}

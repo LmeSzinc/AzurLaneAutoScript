@@ -1,7 +1,8 @@
 # 参与开发 Development
 
-- [如何添加一个按钮 How to add a button](#如何添加一个按钮 How to add a button)
-- [如何适配一张新的地图 How to adapt to a new map](#如何适配一张新的地图 How to adapt to a new map)
+- 如何添加一个按钮 How to add a button
+- 如何适配一张新的地图 How to adapt to a new map
+- 如何支持其他服务器/语言 How to support other server/language
 
 ## 如何添加一个按钮 How to add a button
 
@@ -105,6 +106,20 @@ BATTLE_PREPARATION = Button(area=(1043, 607, 1241, 667), color=(234, 179, 97), b
    - screenshot (bool): 按钮出现后保存截图
    
    - genre (str): 截图保存的子目录名称
+
+
+
+## 如何制作用于敌人识别的模板图片 How to make a template image for enemy detection
+
+首先, 我们不能直接裁切截图来制作模板图片, 因为地图中的物体是有透视的. 我们需要使用 `dev_tools/relative_crop.py` 来获取图片. `get_relative_image` 可以根据透视裁剪出相对位置的图片, 并放大到固定的大小.
+
+下图展示了`self.get_relative_image((-1, -1, 1, 0), output_shape=(120, 60))`的裁切区域
+
+![relative_crop](development.assets/relative_crop.png)
+
+运行 `dev_tools/relative_crop.py` 后, 会得到大量的临时图片, 找到对应格子的图片, 在图片中裁切出需要的模板.
+
+将模板图片放置于 `assets/<server>/template` 目录下, 文件名需以 `TEMPLATE_` 开头, 最后运行 button_extract.
 
 
 
@@ -430,7 +445,7 @@ class AnotherModule(ModuleBase):
 
 ### Other
 
-There area also some modules diffcult to change: the commission module.
+There area also some modules difficult to change: the commission module.
 
 In `./module/reward/commission.py`, I use [cnocr](https://github.com/breezedeus/cnocr) to recognize commission name in chinese, it may not works well in other languages.
 

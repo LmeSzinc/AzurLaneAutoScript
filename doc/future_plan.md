@@ -18,19 +18,19 @@ Alas has a lot of handful public functions and class methods, from object detect
   >
   > Some new logics may not included, read module/map/map.py
 
-- Add support for hard map
+- ~~Add support for hard map~~ Already done
 
-  > Alas can use the map file from normal mode, no need to rewrite
+  > ~~Alas can use the map file from normal mode, no need to rewrite~~
   >
-  > Add a new option in module/config/argparser.py, under the "main chapter".
+  > ~~Add a new option in module/config/argparser.py, under the "main chapter".~~
   >
-  > Add the arg name into module/config/dictionary.py
+  > ~~Add the arg name into module/config/dictionary.py~~
   >
-  > Add arg into config/template.ini
+  > ~~Add arg into config/template.ini~~
   >
-  > Load it in module/config/config.py
+  > ~~Load it in module/config/config.py~~
   >
-  > Pass that parameter to `ensure_campaign_ui` in module/campaign/campaign_ui.py line 74
+  > ~~Pass that parameter to `ensure_campaign_ui` in module/campaign/campaign_ui.py line 74~~
 
 - Add support for dorm
 

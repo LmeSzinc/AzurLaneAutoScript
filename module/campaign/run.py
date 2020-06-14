@@ -182,7 +182,7 @@ class CampaignRun(CampaignUI, Reward):
     def handle_campaign_ui(self):
         for n in range(20):
             try:
-                self.ensure_campaign_ui(name=self.stage)
+                self.ensure_campaign_ui(name=self.stage, mode=self.config.CAMPAIGN_MODE)
                 self.campaign.ENTRANCE = self.campaign_get_entrance(name=self.stage)
                 return True
             except CampaignNameError:
