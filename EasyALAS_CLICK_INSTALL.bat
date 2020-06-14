@@ -31,7 +31,7 @@ call refreshenv
 :: Uninstalling/removing the platform tools older version, if they exists and  killing instances of adb if they are running
 echo Uninstalling older version
 adb kill-server > nul 2>&1
-rmdir /Q /S "%PROGRAMFILES%\platform-tools" > nul 2>&1
+rmdir /Q /S "%PROGRAMDATA%\chocolatey\lib\adb\tools\platform-tools" > nul 2>&1
 
 echo installing ADB
 choco install adb --force -y
@@ -56,7 +56,7 @@ popd
 PowerShell -Command "Start-Sleep -s 10" > nul 2>&1
 
 :: killing adb server
-"%PROGRAMDATA%\chocolatey\lib\adb\tools\platform-tools\adb.exe" kill-server > nul 2>&1
+call adb kill-server > nul 2>&1
 
 pushd %~dp0
 echo creating Virtual Environment
