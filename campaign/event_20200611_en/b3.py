@@ -26,13 +26,13 @@ MAP.wall_data = """
     ·   · | ·   ·   · | ·   ·   ·   · | ·   ·   · | ·   · ,
           |           |               |           |       ,
     ·   · | ·   ·   · | ·   ·   ·   · | ·   ·   · | ·   · ,
-          +---+       +---+       +----+       +---+       ,
+          +---+       +---+       +----+      +---+       ,
     ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
               |                               |           ,
     ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
               |                               |           ,
     ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
-              |                               |            ,
+              |                               |           ,
     ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
               |                               |           ,
     ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
@@ -50,10 +50,13 @@ MAP.spawn_data = [
     {'battle': 5, 'enemy': 1, 'boss': 1},
 ]
 
+
 class Config(ConfigBase):
     MAP_SIREN_COUNT = 2
     MAP_HAS_WALL = True
     MAP_SIREN_TEMPLATE = ['LaGalissonniere', 'Vauquelin']
+
+    EDGE_LINES_HOUGHLINES_THRESHOLD = 40
 
 
 class Campaign(CampaignBase):
