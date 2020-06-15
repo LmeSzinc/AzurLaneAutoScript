@@ -152,8 +152,13 @@ class AzurLaneConfig:
     SERIAL = ''
     PACKAGE_NAME = ''
     COMMAND = ''
-    USE_ADB_SCREENSHOT = True
-    USE_ADB_CONTROL = False
+    ASCREENCAP_FILEPATH = '/data/local/tmp/ascreencap'
+    # Speed: aScreenCap >> uiautomator2 > ADB
+    DEVICE_SCREENSHOT_METHOD = 'aScreenCap'  # ADB, uiautomator2, aScreenCap
+    # Speed: uiautomator2 >> ADB
+    DEVICE_CONTROL_METHOD = 'uiautomator2'  # ADB, uiautomator2
+    # USE_ADB_SCREENSHOT = True
+    # USE_ADB_CONTROL = False
     SCREEN_SHOT_SAVE_FOLDER_BASE = './screenshot'
     SCREEN_SHOT_SAVE_FOLDER = ''
     SCREEN_SHOT_SAVE_INTERVAL = 5  # Seconds between two save. Saves in the interval will be dropped.
@@ -405,8 +410,8 @@ class AzurLaneConfig:
         self.PACKAGE_NAME = option['package_name'].strip()
         self.ENABLE_ERROR_LOG_AND_SCREENSHOT_SAVE = to_bool(option['enable_error_log_and_screenshot_save'])
         self.ENABLE_PERSPECTIVE_ERROR_IMAGE_SAVE = to_bool(option['enable_perspective_error_image_save'])
-        self.USE_ADB_SCREENSHOT = to_bool(option['use_adb_screenshot'])
-        self.USE_ADB_CONTROL = to_bool(option['use_adb_control'])
+        self.DEVICE_SCREENSHOT_METHOD = option['device_screenshot_method']
+        self.DEVICE_CONTROL_METHOD = option['device_control_method']
         self.COMBAT_SCREENSHOT_INTERVAL = float(option['combat_screenshot_interval'])
 
         option = config['Setting']

@@ -20,6 +20,7 @@ class EmulatorChecker(Device):
             self._screenshot_uiautomator2()
             # self._click_adb(1270, 360)
             # self._click_uiautomator2(1270, 360)
+            # self._screenshot_ascreencap()
 
             cost = time.time() - t0
             record.append(cost)
@@ -27,13 +28,18 @@ class EmulatorChecker(Device):
             print(count, np.round(np.mean(record), 3), np.round(np.std(record), 3))
 
 
-class Config:
-    SERIAL = '127.0.0.1:62001'
+class Config(AzurLaneConfig):
+    SERIAL = '127.0.0.1:5555'
+    # SERIAL = '127.0.0.1:62001'
     # SERIAL = '127.0.0.1:7555'
     # SERIAL = 'emulator-5554'
     # SERIAL = '127.0.0.1:21503'
 
-    USE_ADB_SCREENSHOT = False
+    # Speed: aScreenCap >> uiautomator2 > ADB
+    DEVICE_SCREENSHOT_METHOD = 'aScreenCap'  # ADB, uiautomator2, aScreenCap
+
+    # Speed: uiautomator2 >> ADB
+    DEVICE_CONTROL_METHOD = 'uiautomator2'  # ADB, uiautomator2
 
 
 az = EmulatorChecker(AzurLaneConfig('template').merge(Config()))
