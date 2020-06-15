@@ -11,9 +11,9 @@
 
 # How to Download repository through GIT
 
-* Like above, you need GIT installed and make sure it is installed in the same path as it is in the file `downloader.bat`.
+* Like above, you need GIT installed and make sure it is installed in the same path as it's in the file in the file `downloader.bat`.
 * If you already download `AzurLaneAutoScript-master.zip`, just extract and double-click in `downloader.bat`, then the repository will be cloned again, but now the .git folder will be created.
-* If you haven't downloaded the .zip, just download the `downloader.bat` file, created a folder where you want ALAS to be downloaded, put `downloader.bat` inside that folder and click.
+* If you haven't downloaded the .zip, just download the `downloader.bat` file, create a folder where you want ALAS to be downloaded, put `downloader.bat` inside that folder and click.
 
 
 If you do it right, you will have a similar result, so only what has been changed will be downloaded again.

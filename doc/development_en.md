@@ -2,8 +2,9 @@
 
 # Participate in development
 
-- [How to add a button] (#How to add a button)
-- [How to adapt to a new map] (#How to adapt to a new map)
+- How to add a button
+- How to adapt to a new map
+- How to support other server/language
 
 ## How to add a asset
 
@@ -114,6 +115,20 @@ This is a very useful feature, because the script usually needs to analyze the e
 
 
 
+## How to make a template image for enemy detection
+
+First of all, we can't simply crop the screenshot to make a template image, because things on the map have perspective. We should use `dev_tools/relative_crop.py`  to get the image. `get_relative_image` can do a relative crop according to perspective and rescale to an output_size.
+
+This image shows the cropping area of `self.get_relative_image((-1, -1, 1, 0), output_shape=(120, 60))`
+
+![relative_crop](development_en.assets/relative_crop.png)
+
+After running  `dev_tools/relative_crop.py` , you will get a lot of temp images. Find the image of target grid, crop the template.
+
+Paste the image under  `dev_tools/relative_crop.py` , filename should start with  `TEMPLATE_` , and run button_extract at last.
+
+
+
 ## How to adapt to a new map
 
 The following example is adapted to the simple version of 7-2. The complete logic is in `campaign/campaign_main/7_2.py`
@@ -126,7 +141,7 @@ The following example is adapted to the simple version of 7-2. The complete logi
 
    Create a new .py file, the file name is the map name, lowercase, starting with a letter, such as sp3, d3.
 
-2. **Import入**
+2. **Import**
 
    ```
    from module.campaign.campaign_base import CampaignBase
@@ -437,7 +452,7 @@ class AnotherModule(ModuleBase):
 
 ### Other
 
-There area also some modules diffcult to change: the commission module.
+There area also some modules difficult to change: the commission module.
 
 In `./module/reward/commission.py`, I use [cnocr](https://github.com/breezedeus/cnocr) to recognize commission name in chinese, it may not works well in other languages.
 
