@@ -336,6 +336,7 @@ dic_chi_to_eng = {
     '演习低血量确认时长': 'exercise_low_hp_confirm',
     '演习快速换装': 'exercise_equipment',
     '主线地图出击': 'main_stage',
+    '主线地图模式': 'campaign_mode',
     '活动地图': 'event_stage',
     'sp地图': 'sp_stage',
     '活动名称': 'event_name',
@@ -390,6 +391,8 @@ dic_chi_to_eng = {
     '经验最多': 'max_exp',
     '排名最前': 'max_ranking',
     '福利队': 'good_opponent',
+    '普通': 'normal',
+    '困难': 'hard',
 
     # Event
     '北境序曲': 'event_20200227_cn',

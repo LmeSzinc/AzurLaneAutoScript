@@ -327,6 +327,7 @@ def main(ini_name=''):
     # 选择关卡
     stage = main_parser.add_argument_group('选择关卡', '主线图出击, 目前仅支持前六章和7-2')
     stage.add_argument('--主线地图出击', default=default('--主线地图出击'), help='例如 7-2')
+    stage.add_argument('--主线地图模式', default=default('--主线地图模式'), help='仅困难图开荒时使用, 周回模式后请使用每日困难', choices=['普通', '困难'])
 
     # ==========活动图==========
     event_parser = subs.add_parser('活动图')
