@@ -1,5 +1,5 @@
 @ECHO off
-set PATH=%PATH%;C:\Program Files\Git\cmd
+set PATH=%PATH%;%PROGRAMFILES%\Git\cmd
 cls
 :start
 ECHO.
