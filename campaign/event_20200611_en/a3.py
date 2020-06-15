@@ -24,8 +24,10 @@ MAP.spawn_data = [
     {'battle': 4, 'enemy': 1, 'boss': 1},
 ]
 
-class Config:
+
+class Config(ConfigBase):
     POOR_MAP_DATA = False
+
 
 class Campaign(CampaignBase):
     MAP = MAP

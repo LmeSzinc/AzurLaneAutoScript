@@ -37,13 +37,13 @@ MAP.wall_data = """
     ·   · | ·   ·   · | ·   ·   ·   · | ·   ·   · | ·   · ,
           |           |               |           |       ,
     ·   · | ·   ·   · | ·   ·   ·   · | ·   ·   · | ·   · ,
-          +---+       +---+       +----+       +---+       ,
+          +---+       +---+       +----+      +---+       ,
     ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
               |                               |           ,
     ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
               |                               |           ,
     ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
-              |                               |            ,
+              |                               |           ,
     ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
               |                               |           ,
     ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
@@ -67,6 +67,8 @@ class Config(ConfigBase):
     MAP_HAS_WALL = True
     MAP_SIREN_COUNT = 3
     MAP_SIREN_TEMPLATE = ['LaGalissonniere', 'Vauquelin']
+
+    EDGE_LINES_HOUGHLINES_THRESHOLD = 40
 
 
 class Campaign(CampaignBase):
