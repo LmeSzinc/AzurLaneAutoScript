@@ -1,6 +1,10 @@
+import os
 import time
 
 import numpy as np
+
+# os.chdir('../')
+print(os.getcwd())
 import module.config.server as server
 
 server.server = 'cn'  # Don't need to edit, it's used to avoid error.
@@ -17,10 +21,10 @@ class EmulatorChecker(Device):
         while 1:
             t0 = time.time()
             # self._screenshot_adb()
-            self._screenshot_uiautomator2()
+            # self._screenshot_uiautomator2()
+            self._screenshot_ascreencap()
             # self._click_adb(1270, 360)
             # self._click_uiautomator2(1270, 360)
-            # self._screenshot_ascreencap()
 
             cost = time.time() - t0
             record.append(cost)
@@ -28,7 +32,7 @@ class EmulatorChecker(Device):
             print(count, np.round(np.mean(record), 3), np.round(np.std(record), 3))
 
 
-class Config(AzurLaneConfig):
+class Config:
     SERIAL = '127.0.0.1:5555'
     # SERIAL = '127.0.0.1:62001'
     # SERIAL = '127.0.0.1:7555'

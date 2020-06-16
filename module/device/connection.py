@@ -77,7 +77,8 @@ class Connection:
         logger.info(f'cpu_arc: {arc}, sdk_ver: {sdk}')
 
         if int(sdk) not in range(21, 26) or not os.path.exists(f'./ascreencap/{arc}'):
-            logger.warning('No suitable version of aScreenCap lib is available locally')
+            logger.warning('No suitable version of aScreenCap lib is available')
+            logger.info('Please use ADB or uiautomator2 screenshot instead')
             exit(1)
 
         filepath = f'./ascreencap/{arc}/ascreencap'
