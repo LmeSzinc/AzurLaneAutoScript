@@ -92,22 +92,33 @@ class InfoHandler(ModuleBase):
     """
     Story
     """
+
+    story_popup_timout = Timer(10, count=20)
+
     def story_skip(self):
-        if self.handle_popup_confirm():
-            return True
+        if self.story_popup_timout.started() and not self.story_popup_timout.reached():
+            if self.handle_popup_confirm('STORY_SKIP'):
+                self.story_popup_timout = Timer(10)
+                return True
         if self.appear_then_click(STORY_SKIP, offset=True, interval=2):
+            self.story_popup_timout.start()
             return True
-        if self.appear(STORY_LETTER_BLACK) and  self.appear_then_click(STORY_LETTERS_ONLY, offset=True, interval=2):
+        if self.appear(STORY_LETTER_BLACK) and self.appear_then_click(STORY_LETTERS_ONLY, offset=True, interval=2):
+            self.story_popup_timout.start()
             return True
         if self.appear_then_click(STORY_CHOOSE, offset=True, interval=2):
+            self.story_popup_timout.start()
             return True
         if self.appear_then_click(STORY_CHOOSE_2, offset=True, interval=2):
+            self.story_popup_timout.start()
             return True
 
         return False
 
     def handle_story_skip(self):
         if not self.config.ENABLE_MAP_CLEAR_MODE:
+            return False
+        if self.config.ENABLE_FAST_FORWARD:
             return False
 
         return self.story_skip()

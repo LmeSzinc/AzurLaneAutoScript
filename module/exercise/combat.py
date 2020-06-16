@@ -65,7 +65,7 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
             if self.appear_then_click(EXP_INFO_D):
                 continue
             # Last D rank screen
-            if self.appear_then_click(OPTS_INFO_D, offset=(30,30)):
+            if self.appear_then_click(OPTS_INFO_D, offset=(30, 30)):
                 continue
 
             # Quit

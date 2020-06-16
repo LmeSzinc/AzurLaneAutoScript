@@ -17,7 +17,7 @@ class UI(ModuleBase):
         """
         return self.appear(page.check_button, offset=(20, 20))
 
-    def ui_click(self, click_button, check_button, appear_button=None, offset=(20, 20), retry_wait=3,
+    def ui_click(self, click_button, check_button, appear_button=None, offset=(20, 20), retry_wait=10,
                  skip_first_screenshot=False):
         """
         Args:
