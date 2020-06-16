@@ -1,5 +1,6 @@
 from module.base.base import ModuleBase
 from module.base.button import Button
+from module.base.timer import Timer
 from module.logger import logger
 
 
@@ -50,6 +51,7 @@ class Switch:
             bool:
         """
         changed = False
+        warning_show_timer = Timer(5, count=10).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -65,8 +67,12 @@ class Switch:
                     matched = data
                     if current == status:
                         return changed
+
             if current == 'unknown':
-                logger.warning(f'Unknown {self.name} switch')
+                if warning_show_timer.reached():
+                    logger.warning(f'Unknown {self.name} switch')
+                    warning_show_timer.reset()
+                continue
 
             for data in self.status_list:
                 if data['status'] == status:
