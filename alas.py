@@ -114,7 +114,7 @@ class AzurLaneAutoScript:
         """
         from module.campaign.run import CampaignRun
         az = CampaignRun(self.config, device=self.device)
-        az.run(self.config.CAMPAIGN_EVENT)
+        az.run(self.config.CAMPAIGN_EVENT, folder=self.config.EVENT_NAME)
         self.reward_when_finished()
 
     def event_daily_ab(self):
