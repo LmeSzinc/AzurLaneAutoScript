@@ -74,15 +74,14 @@ class Connection:
 
         arc = self.adb_exec_out(['getprop', 'ro.product.cpu.abi'], serial=self.serial).decode('utf-8').strip()
         sdk = self.adb_exec_out(['getprop', 'ro.build.version.sdk'], serial=self.serial).decode('utf-8').strip()
-        logger.attr('CPU_Architecture', arc)
-        logger.attr('Android_SDK_version', sdk)
+        logger.info(f'cpu_arc: {arc}, sdk_ver: {sdk}')
 
         if int(sdk) not in range(21, 26) or not os.path.exists(f'./ascreencap/{arc}'):
             logger.warning('No suitable version of aScreenCap lib is available locally')
             exit(1)
 
         filepath = f'./ascreencap/{arc}/ascreencap'
-        logger.info(f'Pushing {filepath} to {self.config.ASCREENCAP_FILEPATH}')
+        logger.info(f'pushing {filepath}')
         self.adb_command(['push', filepath, self.config.ASCREENCAP_FILEPATH], serial=self.serial)
 
         logger.info(f'chmod 0777 {self.config.ASCREENCAP_FILEPATH}')
