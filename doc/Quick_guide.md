@@ -9,9 +9,9 @@
 * The use of a virtual environment (venv) in python is highly recommended
 * ADB debugging enabled and emulator with 1280x720 resolution
 * **Read the entire guide before asking any questions.**
-* 
 
-# New installation method
+
+# New installation method (Recommended)
 
 * Just download the file [EasyALAS_CLICK_INSTALL.bat](https://raw.githubusercontent.com/whoamikyo/AzurLaneAutoScript/master/EasyALAS_CLICK_INSTALL.bat), put in some folder and run as administrator (`Right click> Run as administrator`)
 * Then it will install everything and download ALAS

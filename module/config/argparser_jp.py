@@ -49,7 +49,7 @@ def update_config_from_template(config, file):
 
 @Gooey(
     optional_cols=2,
-    program_name=pyw_name.capitalize(),
+    program_name=pyw_name.capitalize(), image_dir='doc/misc.assets',
     sidebar_title='Function',
     terminal_font_family='Consolas',
     language='english',
