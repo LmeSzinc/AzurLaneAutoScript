@@ -69,6 +69,19 @@ pip install -r requirements.txt
 
 这里给出了一些常见模拟器的性能测试结果, 测试平台 Windows 10, I7-8700k, 1080ti, nvme SSD, 模拟器分辨率1280x720, 碧蓝航线 60帧开启, 进入地图 7-2, 执行100次取平均, 单位秒.
 
+2020.06, 对 [aScreenCap](https://github.com/ClnViewer/Android-fast-screen-capture) 和 蓝叠模拟器(BlueStacks) 追加测试.
+
+| 设备             | Device          | 模拟器版本   | 安卓版本 | aScreenCap截图 | adb截图 | u2截图 | adb点击 | u2点击 |
+| ---------------- | --------------- | ------------ | -------- | -------------- | ------- | ------ | ------- | ------ |
+| 夜神模拟器       | NoxPlayer       | 6.6.0.0      | 5.1.1    | 0.242          | 0.408   | 0.368  | 0.532   | 0.142  |
+| 蓝叠模拟器(台湾) | BlueStacks (TW) | 4.205.0.1006 | 5.1.1    | 0.129          | 0.280   | 0.458  | 0.234   | 0.151  |
+
+>  **结论**
+>
+> 推荐使用 蓝叠模拟器国际版
+>
+> 推荐使用 aScreenCap 截图, uiautomator2点击
+
 由于海图识别模块对截图质量有很高的要求, `AzurLaneAutoScript` 暂时不支持手机, 必须使用模拟器. (Alas其实是支持手机的, 远古版本的Alas也是在手机上测试的, 但是长时间运行会发热和假死, 就放弃了)
 
 - 安装一款安卓模拟器
@@ -103,8 +116,6 @@ adb connect <your emulator address>
 
 [uiautomator2](https://github.com/openatx/uiautomator2), 是一个自动化测试的库, 可以加快截图和点击的速度.  `AzurLaneAutoScript` 也可以使用ADB来执行截图和点击, 就是慢一点而已. 
 
-出于性能优化, 建议使用ADB截图, uiautomator2点击. (u2截图稍稍快于adb截图, 但是cpu占用翻倍, u2点击则全方位碾压adb)
-
 - 执行
 
 ```
@@ -121,6 +132,7 @@ python -m uiautomator2 init
 
 	| 设备       | Device     | serial          |
 	| ---------- | ---------- | --------------- |
+	| 蓝叠模拟器 | BlueStacks  | 127.0.0.1:5555 |
 	| 夜神模拟器 | NoxPlayer  | 127.0.0.1:62001 |
 	| MuMu模拟器 | MuMuPlayer | 127.0.0.1:7555  |
 	| 逍遥模拟器 | NemuPlayer | 127.0.0.1:21503 |
