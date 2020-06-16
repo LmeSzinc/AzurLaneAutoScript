@@ -57,11 +57,11 @@ class Control(Connection):
         logger.info(
             'Click %s @ %s' % (self._point2str(x, y), button)
         )
-        adb = self.config.USE_ADB_CONTROL
-        if adb:
-            self._click_adb(x, y)
-        else:
+        method = self.config.DEVICE_CONTROL_METHOD
+        if method == 'uiautomator2':
             self._click_uiautomator2(x, y)
+        else:
+            self._click_adb(x, y)
         self.sleep(self.config.SLEEP_AFTER_CLICK)
 
     @retry()

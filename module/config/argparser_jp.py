@@ -273,8 +273,8 @@ def main(ini_name=''):
     debug.add_argument('--enable_perspective_error_image_save', default=default('--enable_perspective_error_image_save'), choices=['yes', 'no'])
 
     adb = emulator_parser.add_argument_group('ADB settings', '')
-    adb.add_argument('--use_adb_screenshot', default=default('--use_adb_screenshot'), choices=['yes', 'no'], help='It is recommended to enable it to reduce CPU usage')
-    adb.add_argument('--use_adb_control', default=default('--use_adb_control'), choices=['yes', 'no'], help='Suggest to close, can speed up the click speed')
+    adb.add_argument('--device_screenshot_method', default=default('--device_screenshot_method'), choices=['aScreenCap', 'uiautomator2', 'ADB'], help='Speed: aScreenCap >> uiautomator2 > ADB')
+    adb.add_argument('--device_control_method', default=default('--device_control_method'), choices=['uiautomator2', 'ADB'], help='Speed: uiautomator2 >> ADB')
     adb.add_argument('--combat_screenshot_interval', default=default('--combat_screenshot_interval'), help='Slow down the screenshot speed during battle and reduce CPU')
 
     # ==========每日任务==========

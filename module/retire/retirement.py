@@ -128,7 +128,7 @@ class Retirement(Enhancement):
             if self.appear_then_click(EQUIP_CONFIRM_2, offset=30, interval=2):
                 executed = True
                 continue
-            if self.appear(GET_ITEMS_1, interval=2):
+            if self.appear(GET_ITEMS_1, interval=0.5):
                 self.device.click(GET_ITEMS_1_RETIREMENT_SAVE)
                 self.interval_reset(SHIP_CONFIRM)
                 continue
