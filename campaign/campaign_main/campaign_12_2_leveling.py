@@ -57,11 +57,11 @@ class Campaign(CampaignBase):
 
     def battle_0(self):
         self.check_s3_enemy()
-        if self.clear_enemy(scale=(2,)):
+        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'treasure', 'enemy', 'carrier']):
             return True
         if self.clear_enemy(scale=(1,)):
             return True
-        if self.clear_enemy(scale=(3,)):
+        if self.clear_enemy(scale=(3,), genre=['light', 'carrier', 'enemy', 'treasure', 'main']):
             self.s3_enemy_count += 1
             return True
 
