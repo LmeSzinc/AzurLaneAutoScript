@@ -1,6 +1,10 @@
+import os
 import time
 
 import numpy as np
+
+# os.chdir('../')
+print(os.getcwd())
 import module.config.server as server
 
 server.server = 'cn'  # Don't need to edit, it's used to avoid error.
@@ -17,7 +21,8 @@ class EmulatorChecker(Device):
         while 1:
             t0 = time.time()
             # self._screenshot_adb()
-            self._screenshot_uiautomator2()
+            # self._screenshot_uiautomator2()
+            self._screenshot_ascreencap()
             # self._click_adb(1270, 360)
             # self._click_uiautomator2(1270, 360)
 
@@ -29,11 +34,19 @@ class EmulatorChecker(Device):
 
 class Config:
     SERIAL = '127.0.0.1:5555'
+<<<<<<< HEAD
+=======
+    # SERIAL = '127.0.0.1:62001'
+>>>>>>> b5f97b328a548bc956bffb65bea27b4f114894a8
     # SERIAL = '127.0.0.1:7555'
     # SERIAL = 'emulator-5554'
     # SERIAL = '127.0.0.1:21503'
 
-    USE_ADB_SCREENSHOT = False
+    # Speed: aScreenCap >> uiautomator2 > ADB
+    DEVICE_SCREENSHOT_METHOD = 'aScreenCap'  # ADB, uiautomator2, aScreenCap
+
+    # Speed: uiautomator2 >> ADB
+    DEVICE_CONTROL_METHOD = 'uiautomator2'  # ADB, uiautomator2
 
 
 az = EmulatorChecker(AzurLaneConfig('template').merge(Config()))

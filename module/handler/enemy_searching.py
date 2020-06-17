@@ -66,7 +66,7 @@ class EnemySearchingHandler(InfoHandler):
                 if appeared:
                     self.handle_enemy_flashing()
                     self.device.sleep(0.3)
-                    logger.info('In map.')
+                    logger.info('Enemy searching appeared.')
                     break
                 self.enemy_searching_color_initial()
             if timeout.reached():

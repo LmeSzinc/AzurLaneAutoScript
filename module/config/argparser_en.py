@@ -50,7 +50,7 @@ def update_config_from_template(config, file):
 
 @Gooey(
     optional_cols=2,
-    program_name=pyw_name.capitalize(),
+    program_name=pyw_name.capitalize(), image_dir='doc/misc.assets',
     sidebar_title='Function',
     terminal_font_family='Consolas',
     language='english',
@@ -121,7 +121,7 @@ def main(ini_name=''):
     setting_parser = subs.add_parser('setting')
 
     # 选择关卡
-    stage = setting_parser.add_argument_group('Level settings', 'Need to run once to save options')
+    stage = setting_parser.add_argument_group('Level settings', 'Need to Press start to save your settings.')
     stage.add_argument('--enable_stop_condition', default=default('--enable_stop_condition'), choices=['yes', 'no'])
     stage.add_argument('--enable_fast_forward', default=default('--enable_fast_forward'), choices=['yes', 'no'], help='Enable or disable clearing mode')
 
@@ -218,7 +218,7 @@ def main(ini_name=''):
 
     # ==========reward==========
     reward_parser = subs.add_parser('reward')
-    reward_condition = reward_parser.add_argument_group('Triggering conditions', 'Need to run once to save the options, after running it will enter the on-hook vegetable collection mode')
+    reward_condition = reward_parser.add_argument_group('Triggering conditions', 'Need to Press start to save your settings, after running it will enter the on-hook vegetable collection mode')
     reward_condition.add_argument('--enable_reward', default=default('--enable_reward'), choices=['yes', 'no'])
     reward_condition.add_argument('--reward_interval', default=default('--reward_interval'), choices=['20', '30', '60'], help='How many minutes to trigger collection')
 
@@ -269,7 +269,7 @@ def main(ini_name=''):
 
     # ==========emulator==========
     emulator_parser = subs.add_parser('emulator')
-    emulator = emulator_parser.add_argument_group('Emulator', 'Need to run once to save the options, it will check whether the game is started \nIf the game has not started, it will be started')
+    emulator = emulator_parser.add_argument_group('Emulator', 'Need to Press start to save your settings, it will check whether the game is started \nIf the game has not started, it will be started')
     emulator.add_argument('--serial', default=default('--serial'), help='Bluestacks 127.0.0.1:5555 \nNox 127.0.0.1:62001')
     emulator.add_argument('--package_name', default='com.YoStarEN.AzurLane', help='')
 
@@ -278,8 +278,8 @@ def main(ini_name=''):
     debug.add_argument('--enable_perspective_error_image_save', default=default('--enable_perspective_error_image_save'), choices=['yes', 'no'])
 
     adb = emulator_parser.add_argument_group('ADB settings', '')
-    adb.add_argument('--use_adb_screenshot', default=default('--use_adb_screenshot'), choices=['yes', 'no'], help='It is recommended to enable it to reduce CPU usage')
-    adb.add_argument('--use_adb_control', default=default('--use_adb_control'), choices=['yes', 'no'], help='Recommended off, can speed up the click speed')
+    adb.add_argument('--device_screenshot_method', default=default('--device_screenshot_method'), choices=['aScreenCap', 'uiautomator2', 'ADB'], help='Speed: aScreenCap >> uiautomator2 > ADB')
+    adb.add_argument('--device_control_method', default=default('--device_control_method'), choices=['uiautomator2', 'ADB'], help='Speed: uiautomator2 >> ADB')
     adb.add_argument('--combat_screenshot_interval', default=default('--combat_screenshot_interval'), help='Slow down the screenshot speed during battle and reduce CPU')
 
     # ==========每日任务==========

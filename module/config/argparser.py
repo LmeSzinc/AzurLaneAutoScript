@@ -52,7 +52,7 @@ def update_config_from_template(config, file):
 
 @Gooey(
     optional_cols=2,
-    program_name=pyw_name.capitalize(),
+    program_name=pyw_name.capitalize(), image_dir='doc/misc.assets',
     sidebar_title='功能',
     terminal_font_family='Consolas',
     language='chinese',
@@ -280,8 +280,8 @@ def main(ini_name=''):
     debug.add_argument('--保存透视识别出错的图像', default=default('--保存透视识别出错的图像'), choices=['是', '否'])
 
     adb = emulator_parser.add_argument_group('ADB设置', '')
-    adb.add_argument('--使用ADB截图', default=default('--使用ADB截图'), choices=['是', '否'], help='建议开启, 能减少CPU占用')
-    adb.add_argument('--使用ADB点击', default=default('--使用ADB点击'), choices=['是', '否'], help='建议关闭, 能加快点击速度')
+    adb.add_argument('--设备截图方案', default=default('--设备截图方案'), choices=['aScreenCap', 'uiautomator2', 'ADB'], help='速度: aScreenCap >> uiautomator2 > ADB')
+    adb.add_argument('--设备控制方案', default=default('--设备控制方案'), choices=['uiautomator2', 'ADB'], help='速度: uiautomator2 >> ADB')
     adb.add_argument('--战斗中截图间隔', default=default('--战斗中截图间隔'), help='战斗中放慢截图速度, 降低CPU使用')
 
     # ==========每日任务==========
@@ -327,6 +327,7 @@ def main(ini_name=''):
     # 选择关卡
     stage = main_parser.add_argument_group('选择关卡', '主线图出击, 目前仅支持前六章和7-2')
     stage.add_argument('--主线地图出击', default=default('--主线地图出击'), help='例如 7-2')
+    stage.add_argument('--主线地图模式', default=default('--主线地图模式'), help='仅困难图开荒时使用, 周回模式后请使用每日困难', choices=['普通', '困难'])
 
     # ==========活动图==========
     event_parser = subs.add_parser('活动图')

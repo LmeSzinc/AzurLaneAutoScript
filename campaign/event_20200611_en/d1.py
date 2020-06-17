@@ -71,7 +71,7 @@ class Campaign(CampaignBase):
     def battle_0(self):
         if self.fleet_2.clear_siren():
             return True
-        if self.fleet_2.clear_enemy(scale=(1,)):
+        if self.fleet_2.clear_enemy(scale=(3,)):
             return True
         if self.fleet_2.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
             return True
@@ -81,4 +81,4 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_5(self):
-        return self.fleet_1.brute_clear_boss()
+        return self.fleet_1.clear_boss()
