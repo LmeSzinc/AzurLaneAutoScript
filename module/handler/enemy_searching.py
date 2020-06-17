@@ -10,6 +10,7 @@ class EnemySearchingHandler(InfoHandler):
     MAP_ENEMY_SEARCHING_OVERLAY_TRANSPARENCY_THRESHOLD = 0.5  # Usually (0.70, 0.80).
     MAP_ENEMY_SEARCHING_TIMEOUT_SECOND = 5
     in_stage_timer = Timer(1.5, count=5)
+    stage_entrance = None
 
     def enemy_searching_color_initial(self):
         MAP_ENEMY_SEARCHING.load_color(self.device.image)
@@ -35,7 +36,12 @@ class EnemySearchingHandler(InfoHandler):
             return False
 
     def is_in_stage(self):
-        return self.appear(IN_STAGE, offset=(10, 10))
+        if not self.appear(IN_STAGE, offset=(10, 10)):
+            return False
+        if self.stage_entrance is not None and not self.appear(self.stage_entrance, threshold=30):
+            return False
+
+        return True
 
     def is_in_map(self):
         return self.appear(IN_MAP)
