@@ -18,12 +18,14 @@ class ModuleBase:
         else:
             self.device = Device(config=config)
 
-    def appear(self, button, offset=0, interval=0):
+    def appear(self, button, offset=0, interval=0, threshold=None):
         """
         Args:
             button (Button, Template):
             offset (bool, int):
             interval (int, float): interval between two active events.
+            threshold (int, float): 0 to 1 if use offset, bigger means more similar,
+                0 to 255 if not use offset, smaller means more similar
 
         Returns:
             bool:
@@ -37,9 +39,11 @@ class ModuleBase:
         if offset:
             if isinstance(offset, bool):
                 offset = self.config.BUTTON_OFFSET
-            appear = button.match(self.device.image, offset=offset, threshold=self.config.BUTTON_MATCH_SIMILARITY)
+            appear = button.match(self.device.image, offset=offset,
+                                  threshold=self.config.BUTTON_MATCH_SIMILARITY if threshold is None else threshold)
         else:
-            appear = button.appear_on(self.device.image, threshold=self.config.COLOR_SIMILAR_THRESHOLD)
+            appear = button.appear_on(self.device.image,
+                                      threshold=self.config.COLOR_SIMILAR_THRESHOLD if threshold is None else threshold)
 
         if appear and interval:
             self.interval_timer[button.name].reset()

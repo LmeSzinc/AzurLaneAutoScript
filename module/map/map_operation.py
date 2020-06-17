@@ -40,6 +40,8 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         map_timer = Timer(1)
         fleet_timer = Timer(1)
         checked_in_map = False
+        self.stage_entrance = button
+
         while 1:
             self.device.screenshot()
 
