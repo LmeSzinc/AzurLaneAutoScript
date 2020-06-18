@@ -11,6 +11,7 @@ config/*.ini
 dev_tools/debug_tools
 .idea
 /screenshots
+/python
 
 # Created by .ignore support plugin (hsz.mobi)
 
