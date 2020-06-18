@@ -266,7 +266,7 @@ def main(ini_name=''):
     emulator_parser = subs.add_parser('emulator')
     emulator = emulator_parser.add_argument_group('Emulator', 'Need to run once to save the options, it will check whether the game is started \nIf the game is started, trigger a collection')
     emulator.add_argument('--serial', default=default('--serial'), help='Bluestacks 127.0.0.1:5555 \nNox 127.0.0.1:62001')
-    emulator.add_argument('--package_name', default=default('--package_name'), help='')
+    emulator.add_argument('--package_name', default=default('com.YoStarJP.AzurLane'), help='')
 
     debug = emulator_parser.add_argument_group('Debug settings', '')
     debug.add_argument('--enable_error_log_and_screenshot_save', default=default('--enable_error_log_and_screenshot_save'), choices=['yes', 'no'])
