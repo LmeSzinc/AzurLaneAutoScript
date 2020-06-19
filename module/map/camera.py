@@ -33,10 +33,6 @@ class Camera(InfoHandler):
     map: CampaignMap
     camera = (0, 0)
 
-    def __init__(self, config, device=None):
-        super().__init__(config, device=None)
-        self.grids = Grids(self.device.image, config=self.config)
-
     def _map_swipe(self, vector, drop_threshold=0.1):
         """
         Args:
@@ -116,7 +112,7 @@ class Camera(InfoHandler):
             return True
 
         try:
-            pass
+            self.grids = Grids(self.device.image, config=self.config)
         except Exception as e:
             if self.info_bar_count():
                 logger.info('Perspective error cause by info bar. Waiting.')
