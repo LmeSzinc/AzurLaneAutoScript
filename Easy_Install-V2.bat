@@ -54,7 +54,7 @@ goto menu
 	echo  :: Incorrect Input Entered
 	echo.
 	echo     Please type a 'number' or 'exit'
-	echo     Press any key to retrn to the menu...
+	echo     Press any key to return to the menu...
 	echo.
 		pause > NUL
 		goto menu
@@ -127,21 +127,43 @@ if not exist %ROOT% (
 goto menu
 
 :updater
-ECHO.
-ECHO 1. https://github.com/LmeSzinc/AzurLaneAutoScript (Main Repo, When in doubt, use it)
-ECHO 2. https://github.com/whoamikyo/AzurLaneAutoScript (Fork)
-set choice=
-set /p choice=Choose the repository you want to use.
-if not '%choice%'=='' set choice=%choice:~0,1%
-if '%choice%'=='1' goto LmeSzinc
-if '%choice%'=='2' goto whoamikyo
-ECHO "%choice%" is not valid, try again
-ECHO.
-goto start
-:LmeSzinc
-git pull https://github.com/LmeSzinc/AzurLaneAutoScript.git
-goto end
-:whoamikyo
-git pull https://github.com/whoamikyo/AzurLaneAutoScript.git
+	cls
+	echo.
+	echo  :: Only update
+	echo. 
+	echo     1. https://github.com/LmeSzinc/AzurLaneAutoScript (Main Repo, When in doubt, use it)
+	echo     2. https://github.com/whoamikyo/AzurLaneAutoScript (Fork)
+	echo.
+	echo. 
+	echo  :: Type a 'number' and press ENTER
+	echo  :: Type 'exit' to quit
+	echo.
+	
+	set /P choice=Choose the repository you want to use.
+		if %choice%==1 GOTO LmeSzinc
+		if %choice%==2 GOTO whoamikyo
+		if %menu%==exit GOTO EOF
+		
+		else (
+		cls
+	echo.
+	echo  :: Incorrect Input Entered
+	echo.
+	echo     Please type a 'number' or 'exit'
+	echo     Press any key to return to the menu...
+	echo.
+		pause > NUL
+		goto updater
+		)
+		
 
+:LmeSzinc
+git pull --ff-only https://github.com/LmeSzinc/AzurLaneAutoScript.git
+:: timout
+PowerShell -Command "Start-Sleep -s 10" > nul 2>&1
+goto menu
+:whoamikyo
+git pull --ff-only https://github.com/whoamikyo/AzurLaneAutoScript.git
+:: timout
+PowerShell -Command "Start-Sleep -s 10" > nul 2>&1
 goto menu
