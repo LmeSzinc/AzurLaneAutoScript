@@ -33,6 +33,7 @@ goto menu
 	echo     1. Essentials programs
 	echo     2. Clone repository
 	echo     3. Python 3.7.6 + requirements.txt
+	echo     4. Updater Only
 	echo.
 	echo			Install in order
 	echo. 
@@ -44,6 +45,7 @@ goto menu
 		if %menu%==1 GOTO programs
 		if %menu%==2 GOTO clone
 		if %menu%==3 GOTO python
+		if %menu%==4 GOTO updater
 		if %menu%==exit GOTO EOF
 		
 		else (
@@ -52,7 +54,7 @@ goto menu
 	echo  :: Incorrect Input Entered
 	echo.
 	echo     Please type a 'number' or 'exit'
-	echo     Press any key to retrn to the menu...
+	echo     Press any key to return to the menu...
 	echo.
 		pause > NUL
 		goto menu
@@ -88,6 +90,16 @@ cls
 
 		@powershell -NoProfile -ExecutionPolicy Bypass -Command "choco install -y --force --allow-empty-checksums adb git"
 
+:: timout
+PowerShell -Command "Start-Sleep -s 10" > nul 2>&1
+:: killing adb server
+call adb kill-server > nul 2>&1
+
+goto menu
+
+:clone
+echo Cloning repository
+git clone https://github.com/LmeSzinc/AzurLaneAutoScript.git && cd AzurLaneAutoScript && git remote add whoamikyo https://github.com/whoamikyo/AzurLaneAutoScript.git
 
 goto menu
 
@@ -114,12 +126,57 @@ if not exist %ROOT% (
 
 goto menu
 
-:clone
-echo Cloning repository
-git clone https://github.com/LmeSzinc/AzurLaneAutoScript.git
+:updater
+	cls
+	echo.
+	echo  :: This update only will work if you downloaded ALAS with this file using option 2. clone
+	echo. 
+	echo	::DISCLAIMER
+	echo	IF YOU GET THE FOLLOWING ERROR: 
+	echo	"error: Your local changes to the following files would be overwritten by merge:Easy_Install-V2.bat"
+	echo	YOU NEED RE-DOWNLOAD ONLY Easy_Install-V2.bat FILE FROM REPOSITORY AND OVERWRITTEN THE OLD FOR NEW FILE	
+	echo. 
+	echo     1. https://github.com/LmeSzinc/AzurLaneAutoScript (Main Repo, When in doubt, use it)
+	echo     2. https://github.com/whoamikyo/AzurLaneAutoScript (Mirrored Fork)
+	echo     3. https://github.com/whoamikyo/AzurLaneAutoScript (nightly build, dont use)
+	echo     4. Back to main menu
+	echo. 
+	echo  :: Type a 'number' and press ENTER
+	echo  :: Type 'exit' to quit
+	echo.
+	
+	set /P choice=
+		if %choice%==1 GOTO LmeSzinc
+		if %choice%==2 GOTO whoamikyo
+		if %choice%==3 GOTO nightly
+		if %choice%==4 GOTO menu
+		if %choice%==exit GOTO EOF
+		
+		else (
+		cls
+	echo.
+	echo  :: Incorrect Input Entered
+	echo.
+	echo     Please type a 'number' or 'exit'
+	echo     Press any key to return to the menu...
+	echo.
+		pause > NUL
+		goto updater
+		)
+		
+
+:LmeSzinc
+git fetch origin master && git reset --hard origin/master && git pull --ff-only origin master
 :: timout
 PowerShell -Command "Start-Sleep -s 10" > nul 2>&1
-:: killing adb server
-call adb kill-server > nul 2>&1
-
-goto menu
+goto updater
+:whoamikyo
+git fetch whoamikyo master && git reset --hard whoamikyo/master && git pull --ff-only whoamikyo master
+:: timout
+PowerShell -Command "Start-Sleep -s 10" > nul 2>&1
+goto updater
+:nightly
+git fetch whoamikyo nightly && git reset --hard whoamikyo/nightly && git pull --ff-only whoamikyo nightly
+:: timout
+PowerShell -Command "Start-Sleep -s 10" > nul 2>&1
+goto updater
