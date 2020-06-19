@@ -38,7 +38,9 @@ class EnemySearchingHandler(InfoHandler):
     def is_in_stage(self):
         if not self.appear(IN_STAGE, offset=(10, 10)):
             return False
-        if self.stage_entrance is not None and not self.appear(self.stage_entrance, threshold=30):
+        if self.stage_entrance is not None \
+                and self.stage_entrance.area \
+                and not self.appear(self.stage_entrance, threshold=30):
             return False
 
         return True

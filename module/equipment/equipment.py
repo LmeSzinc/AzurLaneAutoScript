@@ -17,7 +17,7 @@ class Equipment(InfoHandler):
     equipment_has_take_on = False
 
     def _view_swipe(self, distance, check_button=EQUIPMENT_OPEN):
-        swipe_timer = Timer(3, count=5)
+        swipe_timer = Timer(5, count=10)
         SWIPE_CHECK.load_color(self.device.image)
         while 1:
             if not swipe_timer.started() or swipe_timer.reached():
