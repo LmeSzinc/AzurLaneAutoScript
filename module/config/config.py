@@ -113,6 +113,7 @@ class AzurLaneConfig:
     CAMPAIGN_MODE = 'normal'
 
     ENABLE_STOP_CONDITION = True
+    ENABLE_EXCEPTION = True
     ENABLE_FAST_FORWARD = True
     STOP_IF_OIL_LOWER_THAN = 5000
     STOP_IF_COUNT_GREATER_THAN = 0
@@ -418,6 +419,7 @@ class AzurLaneConfig:
         option = config['Setting']
         # Stop condition
         self.ENABLE_STOP_CONDITION = to_bool(option['enable_stop_condition'])
+        self.ENABLE_EXCEPTION = to_bool(option['enable_exception'])
         self.ENABLE_FAST_FORWARD = to_bool(option['enable_fast_forward'])
         self.STOP_IF_COUNT_GREATER_THAN = int(option['if_count_greater_than'])
         if not option['if_time_reach'].isdigit():

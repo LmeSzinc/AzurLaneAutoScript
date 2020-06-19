@@ -125,6 +125,7 @@ def main(ini_name=''):
     # 选择关卡
     stage = setting_parser.add_argument_group('关卡设置', '需要运行一次来保存选项')
     stage.add_argument('--启用停止条件', default=default('--启用停止条件'), choices=['是', '否'])
+    stage.add_argument('--enable_exception', default=default('--enable_exception'), choices=['yes', 'no'],help='Enable or disable some exceptions, ALAS will withdraw from the map when it occurs instead of stopping')
     stage.add_argument('--使用周回模式', default=default('--使用周回模式'), choices=['是', '否'])
 
     stop = stage.add_argument_group('停止条件', '触发后不会马上停止会先完成当前出击, 不需要就填0')

@@ -38,6 +38,7 @@ dic_true_eng_to_eng = {
 
     # Argument
     'enable_stop_condition': 'enable_stop_condition',
+    'enable_exception': 'enable_exception',
     'enable_fast_forward': 'enable_fast_forward',
     'if_count_greater_than': 'if_count_greater_than',
     'if_time_reach': 'if_time_reach',
