@@ -22,6 +22,7 @@ class AzurLaneConfig:
     config = configparser.ConfigParser(interpolation=None)
     start_time = datetime.now()
 
+    UPDATE = True
     SERVER = server.server
     logger.attr('Server', SERVER)
 
