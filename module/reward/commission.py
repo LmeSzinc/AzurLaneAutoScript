@@ -37,7 +37,7 @@ dictionary_en = {
     'major_comm': ['SelfTraining', 'DefenseExercise', 'ResearchMission', 'Prep', 'Class'],
     'daily_comm': ['Daily', 'Awakening', 'paily'],
     'extra_drill': ['Sailing', 'Buoy', 'saingTraining', 'shortrangesailingTraining', 'MidrangesailingTraining', 'FrontierDefensePatrol'],
-    'extra_part': ['Protection', 'Forestprtectioncommisionl', 'veinprotectoncommisionl', 'veinprtectioncommision', 'Forestprotectncommisionll', 'veinprotectncommision', 'Forestprtectoncommisionl', 'Forestprtectioncommisonl', 'veinprotectoncommisonl', 'veinprotecioncommisionl', 'Forestprotectoncommisionll'],
+    'extra_part': ['Protection', 'Forestpr', 'veinprot', 'veinprtectioncommision'],
     'extra_cube': ['FleetExercise', 'EscortExercise', 'FleetCargo', 'CombatExercise', 'FleetCargoTransport'],
     'extra_oil': ['oil', 'smallscaleoiExtractionll', 'smal.scaleoiExtractionll', 'smalscaleoiExtraction'],
     'extra_book': ['MerchantEscort', 'SmalIMerchantEscor'],
