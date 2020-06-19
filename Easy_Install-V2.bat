@@ -33,6 +33,7 @@ goto menu
 	echo     1. Essentials programs
 	echo     2. Clone repository
 	echo     3. Python 3.7.6 + requirements.txt
+	echo     4. Updater Only
 	echo.
 	echo			Install in order
 	echo. 
@@ -44,6 +45,7 @@ goto menu
 		if %menu%==1 GOTO programs
 		if %menu%==2 GOTO clone
 		if %menu%==3 GOTO python
+		if %menu%==4 GOTO updater
 		if %menu%==exit GOTO EOF
 		
 		else (
@@ -88,6 +90,16 @@ cls
 
 		@powershell -NoProfile -ExecutionPolicy Bypass -Command "choco install -y --force --allow-empty-checksums adb git"
 
+:: timout
+PowerShell -Command "Start-Sleep -s 10" > nul 2>&1
+:: killing adb server
+call adb kill-server > nul 2>&1
+
+goto menu
+
+:clone
+echo Cloning repository
+git clone https://github.com/LmeSzinc/AzurLaneAutoScript.git
 
 goto menu
 
@@ -114,12 +126,22 @@ if not exist %ROOT% (
 
 goto menu
 
-:clone
-echo Cloning repository
-git clone https://github.com/LmeSzinc/AzurLaneAutoScript.git
-:: timout
-PowerShell -Command "Start-Sleep -s 10" > nul 2>&1
-:: killing adb server
-call adb kill-server > nul 2>&1
+:updater
+ECHO.
+ECHO 1. https://github.com/LmeSzinc/AzurLaneAutoScript (Main Repo, When in doubt, use it)
+ECHO 2. https://github.com/whoamikyo/AzurLaneAutoScript (Fork)
+set choice=
+set /p choice=Choose the repository you want to use.
+if not '%choice%'=='' set choice=%choice:~0,1%
+if '%choice%'=='1' goto LmeSzinc
+if '%choice%'=='2' goto whoamikyo
+ECHO "%choice%" is not valid, try again
+ECHO.
+goto start
+:LmeSzinc
+git pull https://github.com/LmeSzinc/AzurLaneAutoScript.git
+goto end
+:whoamikyo
+git pull https://github.com/whoamikyo/AzurLaneAutoScript.git
 
 goto menu
