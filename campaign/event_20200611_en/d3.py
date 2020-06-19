@@ -115,6 +115,8 @@ class Campaign(CampaignBase):
     def battle_5(self):
         if self.clear_siren():
             return True
+        if self.clear_roadblocks([ROAD_MAIN]):
+            return True
         if self.clear_potential_roadblocks([ROAD_MAIN]):
             return True
         if self.fleet_1.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
