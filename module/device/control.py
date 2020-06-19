@@ -8,10 +8,9 @@ from module.base.utils import *
 from module.device.connection import Connection
 from module.exception import ScriptError
 from module.logger import logger
-from module.map.map import Map
 
 
-class Control(Connection, Map):
+class Control(Connection):
     click_record = deque(maxlen=15)
 
     @staticmethod
@@ -41,12 +40,9 @@ class Control(Connection, Map):
         if sum([1 if str(prev) == str(button) else 0 for prev in self.click_record]) >= 12:
             logger.warning(f'Too many click for a button: {button}')
             logger.info(f'History click: {[str(prev) for prev in self.click_record]}')
-            if self.config.ENABLE_EXCEPTION:
-                raise ScriptError(f'Too many click for a button: {button}')
+            raise ScriptError(f'Too many click for a button: {button}')
         else:
-            logger.warning('ScriptError, Withdrawing because enable_exception = no')
             self.click_record.append(str(button))
-            self.withdraw()
 
         return False
 
