@@ -42,7 +42,7 @@ dictionary_en = {
     'extra_oil': ['oil', 'smallscaleoiExtractionll', 'smal.scaleoiExtractionll', 'smalscaleoiExtraction'],
     'extra_book': ['MerchantEscort', 'SmalIMerchantEscor'],
     'urgent_drill': ['CargoDefense', 'Destroy', 'CoastalDefensePatrol'],
-    'urgent_part': ['Lavella', 'Maui', 'Rendova', 'banna', 'Mannelsland'],
+    'urgent_part': ['Lavella', 'Maui', 'Rendova', 'banna', 'Mannelsland', 'AidingMamne'],
     'urgent_book': ['Tyrant', 'Poro', 'Makira', 'Kapolo', 'Mary', 'Isle', 'Kotlin', 'AidingWapolo'],
     'urgent_box': ['Gear', 'Handover'],
     'urgent_cube': ['MerchantRescue', 'Attack', 'EnemyAtack'],

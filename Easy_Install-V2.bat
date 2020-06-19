@@ -99,7 +99,7 @@ goto menu
 
 :clone
 echo Cloning repository
-git clone https://github.com/LmeSzinc/AzurLaneAutoScript.git
+git clone https://github.com/LmeSzinc/AzurLaneAutoScript.git && cd AzurLaneAutoScript && git remote add whoamikyo https://github.com/whoamikyo/AzurLaneAutoScript.git
 
 goto menu
 
@@ -129,20 +129,28 @@ goto menu
 :updater
 	cls
 	echo.
-	echo  :: Only update
+	echo  :: This update only will work if you downloaded ALAS with this file using option 2. clone
+	echo. 
+	echo	::DISCLAIMER
+	echo	IF YOU GET THE FOLLOWING ERROR: 
+	echo	"error: Your local changes to the following files would be overwritten by merge:Easy_Install-V2.bat"
+	echo	YOU NEED RE-DOWNLOAD ONLY Easy_Install-V2.bat FILE FROM REPOSITORY AND OVERWRITTEN THE OLD FOR NEW FILE	
 	echo. 
 	echo     1. https://github.com/LmeSzinc/AzurLaneAutoScript (Main Repo, When in doubt, use it)
-	echo     2. https://github.com/whoamikyo/AzurLaneAutoScript (Fork)
-	echo.
+	echo     2. https://github.com/whoamikyo/AzurLaneAutoScript (Mirrored Fork)
+	echo     3. https://github.com/whoamikyo/AzurLaneAutoScript (nightly build, dont use)
+	echo     4. Back to main menu
 	echo. 
 	echo  :: Type a 'number' and press ENTER
 	echo  :: Type 'exit' to quit
 	echo.
 	
-	set /P choice=Choose the repository you want to use.
+	set /P choice=
 		if %choice%==1 GOTO LmeSzinc
 		if %choice%==2 GOTO whoamikyo
-		if %menu%==exit GOTO EOF
+		if %choice%==3 GOTO nightly
+		if %choice%==4 GOTO menu
+		if %choice%==exit GOTO EOF
 		
 		else (
 		cls
@@ -158,12 +166,17 @@ goto menu
 		
 
 :LmeSzinc
-git pull --ff-only https://github.com/LmeSzinc/AzurLaneAutoScript.git
+git fetch origin master && git reset --hard origin/master && git pull --ff-only origin master
 :: timout
 PowerShell -Command "Start-Sleep -s 10" > nul 2>&1
-goto menu
+goto updater
 :whoamikyo
-git pull --ff-only https://github.com/whoamikyo/AzurLaneAutoScript.git
+git fetch whoamikyo master && git reset --hard whoamikyo/master && git pull --ff-only whoamikyo master
 :: timout
 PowerShell -Command "Start-Sleep -s 10" > nul 2>&1
-goto menu
+goto updater
+:nightly
+git fetch whoamikyo nightly && git reset --hard whoamikyo/nightly && git pull --ff-only whoamikyo nightly
+:: timout
+PowerShell -Command "Start-Sleep -s 10" > nul 2>&1
+goto updater
