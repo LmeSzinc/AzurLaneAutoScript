@@ -229,8 +229,9 @@ dic_chi_to_eng = {
     '12-4打大型练级': 'c124_leveling',
 
     # Argument
-    'enable_update_check': 'enable_update_check',
+    '启用更新检查': 'enable_update_check',
     '启用停止条件': 'enable_stop_condition',
+    '启用异常处理': 'enable_exception',
     '使用周回模式': 'enable_fast_forward',
     '如果出击次数大于': 'if_count_greater_than',
     '如果时间超过': 'if_time_reach',

@@ -125,7 +125,7 @@ def main(ini_name=''):
     # 选择关卡
     stage = setting_parser.add_argument_group('关卡设置', '需要运行一次来保存选项')
     stage.add_argument('--启用停止条件', default=default('--启用停止条件'), choices=['是', '否'])
-    stage.add_argument('--enable_exception', default=default('--enable_exception'), choices=['yes', 'no'],help='Enable or disable some exceptions, ALAS will withdraw from the map when it occurs instead of stopping')
+    stage.add_argument('--启用异常处理', default=default('--启用异常处理'), choices=['是', '否'], help='处理部分异常, 运行出错时撤退')
     stage.add_argument('--使用周回模式', default=default('--使用周回模式'), choices=['是', '否'])
 
     stop = stage.add_argument_group('停止条件', '触发后不会马上停止会先完成当前出击, 不需要就填0')
@@ -214,8 +214,8 @@ def main(ini_name=''):
     drop.add_argument('--启用掉落记录', default=default('--启用掉落记录'), choices=['是', '否'])
     drop.add_argument('--掉落保存目录', default=default('--掉落保存目录'))
 
-    update = setting_parser.add_argument_group('ALAS Update Check', '')
-    update.add_argument('--enable_update_check', default=default('--enable_update_check'), choices=['yes', 'no'])
+    update = setting_parser.add_argument_group('更新检查', '')
+    update.add_argument('--启用更新检查', default=default('--启用更新检查'), choices=['是', '否'])
 
     clear = setting_parser.add_argument_group('开荒模式', '未开荒地图会在完成后停止, 已开荒的地图会忽略选项, 无脑开就完事了')
     clear.add_argument('--启用开荒', default=default('--启用开荒'), choices=['是', '否'])
