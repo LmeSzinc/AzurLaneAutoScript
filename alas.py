@@ -8,9 +8,6 @@ from module.logger import logger, pyw_name, log_file
 
 from module.device.device import Device
 
-from module.updater import Update
-
-
 
 class AzurLaneAutoScript:
     def __init__(self, ini_name=''):
@@ -60,9 +57,10 @@ class AzurLaneAutoScript:
         self.config.config_check()
 
     def update_check(self):
-        self.config.UPDATE = Update(self.config)
-        if self.config.UPDATE.check_update():
-            logger.warning('A new update is available, please run updater.bat or check github.')
+        from module.updater import Update
+        ad = Update(self.config)
+        if self.config.UPDATE_CHECK:
+            ad.check_update()
 
     def reward(self):
         for key, value in self.config.config['Reward'].items():

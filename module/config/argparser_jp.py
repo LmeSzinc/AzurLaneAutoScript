@@ -212,6 +212,9 @@ def main(ini_name=''):
     clear.add_argument('--clear_mode_stop_condition', default=default('--clear_mode_stop_condition'), choices=['map_100', 'map_3_star', 'map_green'])
     clear.add_argument('--map_star_clear_all', default=default('--map_star_clear_all'), choices=['index_1', 'index_2', 'index_3', 'do_not_use'], help='The first few stars are to destroy all enemy ships')
 
+    update = setting_parser.add_argument_group('ALAS Update Check', '')
+    update.add_argument('--enable_update_check', default=default('--enable_update_check'), choices=['yes', 'no'])
+
     # ==========reward==========
     reward_parser = subs.add_parser('reward')
     reward_condition = reward_parser.add_argument_group('Triggering conditions', 'Need to run once to save the options, after running it will enter the on-hook vegetable collection mode')
