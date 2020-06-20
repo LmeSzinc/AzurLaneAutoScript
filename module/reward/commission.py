@@ -46,7 +46,7 @@ dictionary_en = {
     'urgent_book': ['Tyrant', 'Poro', 'Makira', 'Kapolo', 'Mary', 'Isle', 'Kotlin', 'AidingWapolo'],
     'urgent_box': ['Gear', 'Handover'],
     'urgent_cube': ['MerchantRescue', 'Attack', 'EnemyAtack'],
-    'urgent_gem': ['VIP ', 'Holiday', 'PatrolEscort', 'BIWWIPEscort', 'BIWVIPEscort', 'NYBWIPEscort', 'BIWPatro'],
+    'urgent_gem': ['VIP ', 'Holiday', 'PatrolEscort', 'BIWWIPEscort', 'BIWVIPEscort', 'NYBWIPEscort', 'BIWPatro', 'BIWWPEscor'],
     'urgent_ship': ['Launch']
 }
 
