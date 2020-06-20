@@ -123,6 +123,7 @@ def main(ini_name=''):
     # 选择关卡
     stage = setting_parser.add_argument_group('Level settings', 'Need to Press start to save your settings.')
     stage.add_argument('--enable_stop_condition', default=default('--enable_stop_condition'), choices=['yes', 'no'])
+    stage.add_argument('--enable_exception', default=default('--enable_exception'), choices=['yes', 'no'], help='Enable or disable some exceptions, ALAS will withdraw from the map when it occurs instead of stopping')
     stage.add_argument('--enable_fast_forward', default=default('--enable_fast_forward'), choices=['yes', 'no'], help='Enable or disable clearing mode')
 
     stop = stage.add_argument_group('Stop condition', 'After triggering, it will not stop immediately. It will complete the current attack first, and fill in 0 if it is not needed.')
@@ -215,6 +216,9 @@ def main(ini_name=''):
     clear.add_argument('--enable_map_clear_mode', default=default('--enable_map_clear_mode'), choices=['yes', 'no'])
     clear.add_argument('--clear_mode_stop_condition', default=default('--clear_mode_stop_condition'), choices=['map_100', 'map_3_star', 'map_green'])
     clear.add_argument('--map_star_clear_all', default=default('--map_star_clear_all'), choices=['index_1', 'index_2', 'index_3', 'do_not_use'], help='The first few stars are to destroy all enemy ships')
+
+    update = setting_parser.add_argument_group('ALAS Update Check', '')
+    update.add_argument('--enable_update_check', default=default('--enable_update_check'), choices=['yes', 'no'])
 
     # ==========reward==========
     reward_parser = subs.add_parser('reward')

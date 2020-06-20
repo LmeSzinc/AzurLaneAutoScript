@@ -87,8 +87,12 @@ class CampaignBase(Map):
 
         result = func()
         if not result:
-            logger.warning('No combat executed.')
-            raise ScriptError('No combat executed.')
+            logger.warning('ScriptError, No combat executed.')
+            if self.config.ENABLE_EXCEPTION:
+                raise ScriptError('No combat executed.')
+            else:
+                logger.warning('ScriptError, Withdrawing because enable_exception = no')
+                self.withdraw()
 
         return result
 
@@ -109,4 +113,8 @@ class CampaignBase(Map):
                 return True
 
         logger.warning('Battle function exhausted.')
-        raise ScriptError('Battle function exhausted.')
+        if self.config.ENABLE_EXCEPTION:
+            raise ScriptError('Battle function exhausted.')
+        else:
+            logger.warning('ScriptError, Battle function exhausted, Withdrawing because enable_exception = no')
+            self.withdraw()
