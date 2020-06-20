@@ -46,7 +46,7 @@ class Update(object):
                     if main_version_date > date_time_lmeszinc:
                         logger.warning('A new update is available on LmeSzinc repository, please run Easy_Install-V2.bat or check github')
                     else:
-                        logger.info('ALAS is up to date with LmeSzinc repository')
+                        logger.info("ALAS is up to date with LmeSzinc repository, current local version: " + local_lmeszinc)
             except error.HTTPError as e:
                 logger.error("Couldn't check for updates, {}.".format(e))
 
@@ -61,25 +61,13 @@ class Update(object):
                         if fork_version_date > date_time_whoamikyo:
                             logger.warning('A new update is available on whoamikyo repository, please run Easy_Install-V2.bat or check github')
                         else:
-                            logger.info('ALAS is up to date with whoamikyo repository')
+                            logger.info("ALAS is up to date with whoamikyo repository, current local version: " + local_whoamikyo)
                             logger.info('Latest commit from\n%s - %s' % (
                             main_commit_info['commit']['author']['name'], main_commit_info['commit']['message']))
                             logger.info('Latest commit from\n%s - %s' % (
                             fork_commit_info['commit']['author']['name'], fork_commit_info['commit']['message']))
                 except error.HTTPError as e:
                     logger.error("Couldn't check for updates, {}.".format(e))
-
-                # if local_version != fork_version:
-                #     logger.warning("Current Version: " + local_version)
-                #     logger.warning("Current LmeSzinc version: " + main_version)
-                #     logger.warning("Current whoamikyo version: " + fork_version)
-                #     logger.warning('A new update is available, please run Easy_Install-V2.bat or check github')
-                #
-                # else:
-                #     logger.info('ALAS is up to date')
-                #     logger.warning("Current Version: " + local_version)
-                #     logger.info('Latest commit from\n%s - %s' % (main_commit_info['commit']['author']['name'], main_commit_info['commit']['message']))
-                #     logger.info('Latest commit from\n%s - %s' % (fork_commit_info['commit']['author']['name'], fork_commit_info['commit']['message']))
 
                     return True
 
