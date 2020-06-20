@@ -5,6 +5,7 @@ from datetime import datetime
 
 from module.config.config import AzurLaneConfig
 from module.logger import logger, pyw_name, log_file
+
 from module.device.device import Device
 
 
@@ -45,13 +46,21 @@ class AzurLaneAutoScript:
         from module.reward.reward import Reward
         az = Reward(self.config, device=self.device)
         az.reward_loop()
+        self.update_check()
 
     def setting(self):
         for key, value in self.config.config['Setting'].items():
             print(f'{key} = {value}')
 
         logger.hr('Settings saved')
+        self.update_check()
         self.config.config_check()
+
+    def update_check(self):
+        from module.updater import Update
+        ad = Update(self.config)
+        if self.config.UPDATE_CHECK:
+            ad.check_update()
 
     def reward(self):
         for key, value in self.config.config['Reward'].items():
@@ -59,12 +68,14 @@ class AzurLaneAutoScript:
 
         logger.hr('Reward Settings saved')
         self.reward_when_finished()
+        self.update_check()
 
     def emulator(self):
         for key, value in self.config.config['Emulator'].items():
             print(f'{key} = {value}')
 
         logger.hr('Emulator saved')
+        self.update_check()
         from module.handler.login import LoginHandler
         az = LoginHandler(self.config, device=self.device)
         if az.app_ensure_start():
