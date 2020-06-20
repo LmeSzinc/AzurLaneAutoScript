@@ -77,7 +77,7 @@ class Enhancement(Dock):
             in: page_ship_enhance, without info_bar
             out: EQUIP_CONFIRM
         """
-        end_activate_timer = Timer(2, count=4)
+        end_activate_timer = Timer(2, count=2)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
