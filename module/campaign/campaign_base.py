@@ -87,8 +87,12 @@ class CampaignBase(Map):
 
         result = func()
         if not result:
-            logger.warning('No combat executed.')
-            raise ScriptError('No combat executed.')
+            logger.warning('ScriptError, No combat executed.')
+            if self.config.ENABLE_EXCEPTION:
+                raise ScriptError('No combat executed.')
+            else:
+                logger.warning('ScriptError, Withdrawing because enable_exception = no')
+                self.withdraw()
 
         return result
 

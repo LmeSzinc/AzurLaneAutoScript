@@ -37,7 +37,9 @@ dic_true_eng_to_eng = {
     'c12-4_leveling': 'c124_leveling',
 
     # Argument
+    'enable_update_check': 'enable_update_check',
     'enable_stop_condition': 'enable_stop_condition',
+    'enable_exception': 'enable_exception',
     'enable_fast_forward': 'enable_fast_forward',
     'if_count_greater_than': 'if_count_greater_than',
     'if_time_reach': 'if_time_reach',
@@ -227,6 +229,7 @@ dic_chi_to_eng = {
     '12-4打大型练级': 'c124_leveling',
 
     # Argument
+    'enable_update_check': 'enable_update_check',
     '启用停止条件': 'enable_stop_condition',
     '使用周回模式': 'enable_fast_forward',
     '如果出击次数大于': 'if_count_greater_than',
