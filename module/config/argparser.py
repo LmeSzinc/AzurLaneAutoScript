@@ -214,9 +214,6 @@ def main(ini_name=''):
     drop.add_argument('--启用掉落记录', default=default('--启用掉落记录'), choices=['是', '否'])
     drop.add_argument('--掉落保存目录', default=default('--掉落保存目录'))
 
-    update = setting_parser.add_argument_group('更新检查', '')
-    update.add_argument('--启用更新检查', default=default('--启用更新检查'), choices=['是', '否'])
-
     clear = setting_parser.add_argument_group('开荒模式', '未开荒地图会在完成后停止, 已开荒的地图会忽略选项, 无脑开就完事了')
     clear.add_argument('--启用开荒', default=default('--启用开荒'), choices=['是', '否'])
     clear.add_argument('--开荒停止条件', default=default('--开荒停止条件'), choices=['地图通关', '地图三星', '地图绿海'])
@@ -287,6 +284,9 @@ def main(ini_name=''):
     adb.add_argument('--设备截图方案', default=default('--设备截图方案'), choices=['aScreenCap', 'uiautomator2', 'ADB'], help='速度: aScreenCap >> uiautomator2 > ADB')
     adb.add_argument('--设备控制方案', default=default('--设备控制方案'), choices=['uiautomator2', 'ADB'], help='速度: uiautomator2 >> ADB')
     adb.add_argument('--战斗中截图间隔', default=default('--战斗中截图间隔'), help='战斗中放慢截图速度, 降低CPU使用')
+    
+    update = emulator_parser.add_argument_group('更新检查', '')
+    update.add_argument('--启用更新检查', default=default('--启用更新检查'), choices=['是', '否'])
 
     # ==========每日任务==========
     daily_parser = subs.add_parser('每日任务困难演习')

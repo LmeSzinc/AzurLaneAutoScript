@@ -415,10 +415,10 @@ class AzurLaneConfig:
         self.DEVICE_SCREENSHOT_METHOD = option['device_screenshot_method']
         self.DEVICE_CONTROL_METHOD = option['device_control_method']
         self.COMBAT_SCREENSHOT_INTERVAL = float(option['combat_screenshot_interval'])
-
-        option = config['Setting']
         #UpdateCheck
         self.UPDATE_CHECK = to_bool(option['enable_update_check'])
+
+        option = config['Setting']
         # Stop condition
         self.ENABLE_STOP_CONDITION = to_bool(option['enable_stop_condition'])
         self.ENABLE_EXCEPTION = to_bool(option['enable_exception'])
