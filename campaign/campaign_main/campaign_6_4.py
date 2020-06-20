@@ -7,6 +7,7 @@ from campaign.campaign_main.campaign_6_1 import Config
 
 MAP = CampaignMap()
 MAP.shape = 'H6'
+MAP.camera_data_spawn_point = ['D4']
 MAP.map_data = '''
     -- ME MB MB -- ME ++ ++
     MB SP ME -- ME MM MA ++
@@ -39,7 +40,6 @@ A4, B4, C4, D4, E4, F4, G4, H4, \
 A5, B5, C5, D5, E5, F5, G5, H5, \
 A6, B6, C6, D6, E6, F6, G6, H6, \
     = MAP.flatten()
-
 
 step_on = SelectedGrids([C2, C3, D4, F3, G4])
 road_boss = RoadGrids([
