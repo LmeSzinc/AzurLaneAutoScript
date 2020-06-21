@@ -24,6 +24,7 @@ class AzurLaneConfig:
     start_time = datetime.now()
 
     UPDATE_CHECK = True
+    UPDATE_METHOD = 'api'  # web, api
     UPDATE_PROXY = ''
     GITHUB_TOKEN = ''
     SERVER = server.server
@@ -419,8 +420,9 @@ class AzurLaneConfig:
         self.DEVICE_SCREENSHOT_METHOD = option['device_screenshot_method']
         self.DEVICE_CONTROL_METHOD = option['device_control_method']
         self.COMBAT_SCREENSHOT_INTERVAL = float(option['combat_screenshot_interval'])
-        #UpdateCheck
+        # UpdateCheck
         self.UPDATE_CHECK = to_bool(option['enable_update_check'])
+        self.UPDATE_METHOD = option['update_method']
         self.UPDATE_PROXY = option['update_proxy']
         self.GITHUB_TOKEN = option['github_token']
 

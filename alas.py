@@ -4,9 +4,12 @@ import time
 from datetime import datetime
 
 from module.config.config import AzurLaneConfig
-from module.logger import logger, pyw_name, log_file
-
 from module.device.device import Device
+from module.logger import logger, pyw_name, log_file
+from module.update import Update
+
+
+Update(AzurLaneConfig()).get_latest_commit()
 
 
 class AzurLaneAutoScript:
@@ -167,7 +170,6 @@ class AzurLaneAutoScript:
         az = Retirement(self.config, device=self.device)
         az.device.screenshot()
         az.retire_ships(amount=2000)
-
 
 # alas = AzurLaneAutoScript()
 # alas.reward()
