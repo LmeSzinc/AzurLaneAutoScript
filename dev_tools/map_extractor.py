@@ -119,6 +119,10 @@ class MapData:
         for y in range(self.shape[1] + 1):
             lines.append('    ' + ' '.join(['10'] * (self.shape[0] + 1)))
         lines.append('\"\"\"')
+        lines.append('MAP.spawn_data = [')
+        for battle in self.spawn_data:
+            lines.append('    ' + str(battle) + ',')
+        lines.append(']')
         for y in range(self.shape[1] + 1):
             lines.append(', '.join([location2node((x, y)) for x in range(self.shape[0] + 1)]) + ', \\')
         lines.append('    = MAP.flatten()')
