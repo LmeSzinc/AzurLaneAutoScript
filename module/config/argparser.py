@@ -56,7 +56,7 @@ def update_config_from_template(config, file):
     sidebar_title='功能',
     terminal_font_family='Consolas',
     language='chinese',
-    default_size=(800, 850),
+    default_size=(850, 850),
     navigation='SIDEBAR',
     tabbed_groups=True,
     show_success_modal=False,
@@ -133,7 +133,7 @@ def main(ini_name=''):
     stop.add_argument('--如果时间超过', default=default('--如果时间超过'), help='使用未来24小时内的时间, 会沿用先前设置, 触发后清零. 建议提前10分钟左右, 以完成当前出击. 格式 14:59')
     stop.add_argument('--如果石油低于', default=default('--如果石油低于'))
     stop.add_argument('--如果触发心情控制', default=default('--如果触发心情控制'), choices=['是', '否'], help='若是, 等待回复, 完成本次, 停止\n若否, 等待回复, 完成本次, 继续')
-    stop.add_argument('--如果船舱已满', default=default('--如果船舱已满'), choices=['是', '否'])
+    # stop.add_argument('--如果船舱已满', default=default('--如果船舱已满'), choices=['是', '否'])
 
     # 出击舰队
     fleet = setting_parser.add_argument_group('出击舰队', '暂不支持备用道中队, 非活动图或周回模式会忽略步长设置')

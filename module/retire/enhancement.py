@@ -115,7 +115,7 @@ class Enhancement(Dock):
 
             if self.appear_then_click(ENHANCE_RECOMMEND, offset=(5, 5), interval=2):
                 self.device.sleep(0.3)
-                self.appear_then_click(ENHANCE_CONFIRM)
+                self.device.click(ENHANCE_CONFIRM)
 
     def enhance_ships(self, favourite=None):
         """
