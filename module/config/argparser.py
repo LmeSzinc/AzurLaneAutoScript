@@ -287,6 +287,8 @@ def main(ini_name=''):
     
     update = emulator_parser.add_argument_group('更新检查', '')
     update.add_argument('--启用更新检查', default=default('--启用更新检查'), choices=['是', '否'])
+    update.add_argument('--github_token', default=default('--github_token'), help='To generate your token visit https://github.com/settings/tokens')
+    update.add_argument('--update_proxy', default=default('--update_proxy'), help='Local http or socks proxy, example: http://127.0.0.1:10809')
 
     # ==========每日任务==========
     daily_parser = subs.add_parser('每日任务困难演习')

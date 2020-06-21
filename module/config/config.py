@@ -23,6 +23,8 @@ class AzurLaneConfig:
     start_time = datetime.now()
 
     UPDATE_CHECK = True
+    UPDATE_PROXY = ''
+    GITHUB_TOKEN = 'dd49b498d12c4f0908a91ccc8d54396352fc4740'
     SERVER = server.server
     logger.attr('Server', SERVER)
 
@@ -417,6 +419,8 @@ class AzurLaneConfig:
         self.COMBAT_SCREENSHOT_INTERVAL = float(option['combat_screenshot_interval'])
         #UpdateCheck
         self.UPDATE_CHECK = to_bool(option['enable_update_check'])
+        self.UPDATE_PROXY = option['update_proxy']
+        self.GITHUB_TOKEN = option['github_token']
 
         option = config['Setting']
         # Stop condition
