@@ -47,7 +47,7 @@ pip install -r requirements.txt
 
 | Device     | Emulator Version | Android Version | ADB Screenshot | UIAutomator2 Screenshot | ADB Click | UIAutomator2 Click |
 | ---------- | ---------- | -------- | ------- | ------ | ------- | ------ |
-| NemuPlayer | 7.1.3      | 5.1.1    | 0.308   | 0.275  | 0.294   | 0.146  |
+| MemuPlayer | 7.1.3      | 5.1.1    | 0.308   | 0.275  | 0.294   | 0.146  |
 | LDPlayer   | 3.83       | 5.1.1    | 0.329   | 0.313  | 0.291   | 0.146  |
 | NoxPlayer  | 6.6.0.0    | 5.1.1    | 0.339   | 0.313  | 0.505   | 0.141  |
 | MuMuPlayer | 2.3.1.0    | 6.0.1    | 0.368   | 0.701  | 0.358   | 0.148  |
@@ -89,11 +89,13 @@ All connected devices will be install with [uiautomator-server](https://github.c
   Modify the serial in \dev_tools\emulator_test.py line 31 and, execute from root project directory (the same where you have the file alas.py) 
   
   The default serial for some emulators:
+  
   | Device     | serial          |
   | ---------- | --------------- |
+  | BlueStacks | 127.0.0.1:5555  |
   | NoxPlayer  | 127.0.0.1:62001 |
   | MuMuPlayer | 127.0.0.1:7555  |
-  | NemuPlayer | 127.0.0.1:21503 |
+  | MemuPlayer | 127.0.0.1:21503 |
   | LDPlayer   | emulator-5554   |
 
 ## Usage

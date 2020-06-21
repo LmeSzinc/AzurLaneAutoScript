@@ -9,19 +9,23 @@ from module.ui.ui import UI
 
 OPPONENT = ButtonGrid(origin=(104, 77), delta=(244, 0), button_shape=(212, 304), grid_shape=(4, 1))
 
+# Mode 'easiest' constants
+# MAX_LVL_SUM = Max Fleet Size (6) * Max Lvl (120)
+# PWR_FACTOR used to make overall PWR manageable
+MAX_LVL_SUM = 720
+PWR_FACTOR = 100
 
 class Opponent:
     def __init__(self, main_image, fleet_image, index):
         self.index = index
         self.power = self.get_power(image=main_image)
         self.level = self.get_level(image=fleet_image)
-        self.priority = self.get_priority()
 
         # [OPPONENT_1] ( 8256) 120 120 120 | (12356) 100  80  80
         level = [str(x).rjust(3, ' ') for x in self.level]
         power = ['(' + str(x).rjust(5, ' ') + ')' for x in self.power]
         logger.attr(
-            'OPPONENT_%s, %s' % (index, str(np.round(self.priority, 3)).ljust(5, '0')),
+            'OPPONENT_%s' % (index),
             ' '.join([power[0]] + level[:3] + ['|'] + [power[1]] + level[3:])
         )
 
@@ -54,14 +58,19 @@ class Opponent:
         result = power.ocr(image)
         return result
 
-    def get_priority(self):
+    def get_priority(self, method="max_exp"):
         # level = np.sum(self.level) / 6
         # power = np.sum(self.power) / 6
         # return level - (power - 1000) / 30
 
-        level = np.sum(self.level) / 6
-        return level
-
+        if method == "easiest":
+            level = (1 - (np.sum(self.level) / MAX_LVL_SUM)) * 100
+            team_pwr_div = np.count_nonzero(self.level) * PWR_FACTOR
+            avg_team_pwr = np.sum(self.power) / team_pwr_div
+            priority = level - avg_team_pwr
+        else:
+            priority = np.sum(self.level) / 6
+        return priority
 
 class OpponentChoose(UI):
     main_image = None
@@ -81,6 +90,6 @@ class OpponentChoose(UI):
                           appear_button=EXERCISE_PREPARATION, skip_first_screenshot=True)
 
     def _opponent_sort(self):
-        priority = np.argsort([- x.priority for x in self.opponents])
+        priority = np.argsort([- x.get_priority(self.config.EXERCISE_CHOOSE_MODE) for x in self.opponents])
         logger.attr('Order', str(priority))
         return priority

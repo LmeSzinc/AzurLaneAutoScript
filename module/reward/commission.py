@@ -16,6 +16,7 @@ from module.reward.assets import *
 from module.ui.page import page_reward, page_commission, CAMPAIGN_CHECK
 from module.ui.ui import UI
 
+
 dictionary_cn = {
     'major_comm': ['自主训练', '对抗演习', '科研任务', '工具整备', '战术课程', '货物运输'],
     'daily_comm': ['日常资源开发', '高阶战术研发'],
@@ -33,19 +34,19 @@ dictionary_cn = {
     'urgent_ship': ['观舰']
 }
 dictionary_en = {
-    'major_comm': ['SelfTraining', 'DefenseExercise', 'ResearchMission', 'Prep', 'Class', 'CargoTransport'],
-    'daily_comm': ['Daily', 'Awakening'],
-    'extra_drill': ['Sailing', 'DefensePatrol', 'Buoy', 'saingTraining'],
-    'extra_part': ['Protection', 'Forestprtectioncommisionl', 'veinprotectoncommisionl', 'veinprtectioncommision', 'Forestprotectncommisionll', 'veinprotectncommision'],
-    'extra_cube': ['FleetExercise', 'EscortExercise', 'FleetCargo', 'CombatExercise'],
-    'extra_oil': ['oil', 'smallscaleoiExtractionll', 'smal.scaleoiExtractionll'],
-    'extra_book': ['MerchantEscort'],
-    'urgent_drill': ['CargoDefense', 'Destroy'],
-    'urgent_part': ['Lavella', 'Maui', 'Rendova', 'banna', 'Mannelsland'],
+    'major_comm': ['SelfTraining', 'DefenseExercise', 'ResearchMission', 'Prep', 'Class'],
+    'daily_comm': ['Daily', 'Awakening', 'paily'],
+    'extra_drill': ['Sailing', 'Buoy', 'saingTraining', 'shortrangesailingTraining', 'MidrangesailingTraining', 'FrontierDefensePatrol'],
+    'extra_part': ['Protection', 'Forestpr', 'veinprot', 'veinprtectioncommision'],
+    'extra_cube': ['FleetExercise', 'EscortExercise', 'FleetCargo', 'CombatExercise', 'FleetCargoTransport'],
+    'extra_oil': ['oil', 'smallscaleoiExtractionll', 'smal.scaleoiExtractionll', 'smalscaleoiExtraction'],
+    'extra_book': ['MerchantEscort', 'SmalIMerchantEscor'],
+    'urgent_drill': ['CargoDefense', 'Destroy', 'CoastalDefensePatrol'],
+    'urgent_part': ['Lavella', 'Maui', 'Rendova', 'banna', 'Mannelsland', 'AidingMamne'],
     'urgent_book': ['Tyrant', 'Poro', 'Makira', 'Kapolo', 'Mary', 'Isle', 'Kotlin', 'AidingWapolo'],
     'urgent_box': ['Gear', 'Handover'],
-    'urgent_cube': ['MerchantRescue', 'Attack'],
-    'urgent_gem': ['VIP ', 'Holiday', 'PatrolEscort', 'BIWWIPEscort', 'BIWVIPEscort'],
+    'urgent_cube': ['MerchantRescue', 'Attack', 'EnemyAtack'],
+    'urgent_gem': ['VIP ', 'Holiday', 'PatrolEscort', 'BIWWIPEscort', 'BIWVIPEscort', 'NYBWIPEscort', 'BIWPatro', 'BIWWPEscor'],
     'urgent_ship': ['Launch']
 }
 

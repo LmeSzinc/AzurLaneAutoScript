@@ -21,6 +21,7 @@ dic_daily = {
     'index_1': 1,
     'index_2': 2,
     'index_3': 3,
+    
 }
 dic_true_eng_to_eng = {
     # Function
@@ -37,7 +38,11 @@ dic_true_eng_to_eng = {
     'c12-4_leveling': 'c124_leveling',
 
     # Argument
+    'github_token': 'github_token',
+    'update_proxy': 'update_proxy',
+    'enable_update_check': 'enable_update_check',
     'enable_stop_condition': 'enable_stop_condition',
+    'enable_exception': 'enable_exception',
     'enable_fast_forward': 'enable_fast_forward',
     'if_count_greater_than': 'if_count_greater_than',
     'if_time_reach': 'if_time_reach',
@@ -124,8 +129,8 @@ dic_true_eng_to_eng = {
     'package_name': 'package_name',
     'enable_error_log_and_screenshot_save': 'enable_error_log_and_screenshot_save',
     'enable_perspective_error_image_save': 'enable_perspective_error_image_save',
-    'use_adb_screenshot': 'use_adb_screenshot',
-    'use_adb_control': 'use_adb_control',
+    'device_screenshot_method': 'device_screenshot_method',
+    'device_control_method': 'device_control_method',
     'combat_screenshot_interval': 'combat_screenshot_interval',
     'enable_daily_mission': 'enable_daily_mission',
     'enable_hard_campaign': 'enable_hard_campaign',
@@ -189,6 +194,9 @@ dic_true_eng_to_eng = {
     'map_100': 'map_100',
     'map_3_star': 'map_3_star',
     'map_green': 'map_green',
+    'aScreenCap': 'aScreenCap',
+    'uiautomator2': 'uiautomator2',
+    'ADB': 'ADB',
     'daily_air': 'daily_air',
     'daily_gun': 'daily_gun',
     'daily_torpedo': 'daily_torpedo',
@@ -224,7 +232,11 @@ dic_chi_to_eng = {
     '12-4打大型练级': 'c124_leveling',
 
     # Argument
+    'github_token': 'github_token',
+    'update_proxy': 'update_proxy',
+    '启用更新检查': 'enable_update_check',
     '启用停止条件': 'enable_stop_condition',
+    '启用异常处理': 'enable_exception',
     '使用周回模式': 'enable_fast_forward',
     '如果出击次数大于': 'if_count_greater_than',
     '如果时间超过': 'if_time_reach',
@@ -311,8 +323,8 @@ dic_chi_to_eng = {
     '包名': 'package_name',
     '出错时保存log和截图': 'enable_error_log_and_screenshot_save',
     '保存透视识别出错的图像': 'enable_perspective_error_image_save',
-    '使用ADB截图': 'use_adb_screenshot',
-    '使用ADB点击': 'use_adb_control',
+    '设备截图方案': 'device_screenshot_method',
+    '设备控制方案': 'device_control_method',
     '战斗中截图间隔': 'combat_screenshot_interval',
     '打每日': 'enable_daily_mission',
     '打困难': 'enable_hard_campaign',
@@ -333,6 +345,7 @@ dic_chi_to_eng = {
     '演习低血量确认时长': 'exercise_low_hp_confirm',
     '演习快速换装': 'exercise_equipment',
     '主线地图出击': 'main_stage',
+    '主线地图模式': 'campaign_mode',
     '活动地图': 'event_stage',
     'sp地图': 'sp_stage',
     '活动名称': 'event_name',
@@ -375,6 +388,9 @@ dic_chi_to_eng = {
     '地图通关': 'map_100',
     '地图三星': 'map_3_star',
     '地图绿海': 'map_green',
+    'aScreenCap': 'aScreenCap',
+    'uiautomator2': 'uiautomator2',
+    'ADB': 'ADB',
     '航空': 'daily_air',
     '炮击': 'daily_gun',
     '雷击': 'daily_torpedo',
@@ -384,6 +400,8 @@ dic_chi_to_eng = {
     '经验最多': 'max_exp',
     '排名最前': 'max_ranking',
     '福利队': 'good_opponent',
+    '普通': 'normal',
+    '困难': 'hard',
 
     # Event
     '北境序曲': 'event_20200227_cn',

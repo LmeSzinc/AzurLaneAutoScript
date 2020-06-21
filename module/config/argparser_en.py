@@ -50,7 +50,7 @@ def update_config_from_template(config, file):
 
 @Gooey(
     optional_cols=2,
-    program_name=pyw_name.capitalize(),
+    program_name=pyw_name.capitalize(), image_dir='doc/misc.assets',
     sidebar_title='Function',
     terminal_font_family='Consolas',
     language='english',
@@ -121,8 +121,9 @@ def main(ini_name=''):
     setting_parser = subs.add_parser('setting')
 
     # 选择关卡
-    stage = setting_parser.add_argument_group('Level settings', 'Need to run once to save options')
+    stage = setting_parser.add_argument_group('Level settings', 'Need to Press start to save your settings.')
     stage.add_argument('--enable_stop_condition', default=default('--enable_stop_condition'), choices=['yes', 'no'])
+    stage.add_argument('--enable_exception', default=default('--enable_exception'), choices=['yes', 'no'], help='Enable or disable some exceptions, ALAS will withdraw from the map when it occurs instead of stopping')
     stage.add_argument('--enable_fast_forward', default=default('--enable_fast_forward'), choices=['yes', 'no'], help='Enable or disable clearing mode')
 
     stop = stage.add_argument_group('Stop condition', 'After triggering, it will not stop immediately. It will complete the current attack first, and fill in 0 if it is not needed.')
@@ -130,7 +131,7 @@ def main(ini_name=''):
     stop.add_argument('--if_time_reach', default=default('--if_time_reach'), help='Use the time within the next 24 hours, the previous setting will be used, and it will be cleared\n after the trigger. It is recommended to advance about\n 10 minutes to complete the current attack. Format 14:59')
     stop.add_argument('--if_oil_lower_than', default=default('--if_oil_lower_than'))
     stop.add_argument('--if_trigger_emotion_control', default=default('--if_trigger_emotion_control'), choices=['yes', 'no'], help='If yes, wait for reply, complete this time, stop \nIf no, wait for reply, complete this time, continue')
-    stop.add_argument('--if_dock_full', default=default('--if_dock_full'), choices=['yes', 'no'])
+    # stop.add_argument('--if_dock_full', default=default('--if_dock_full'), choices=['yes', 'no'])
 
     # 出击舰队
     fleet = setting_parser.add_argument_group('Attack fleet', 'No support for alternate lane squadrons, inactive map or weekly mode will ignore the step setting')
@@ -216,9 +217,10 @@ def main(ini_name=''):
     clear.add_argument('--clear_mode_stop_condition', default=default('--clear_mode_stop_condition'), choices=['map_100', 'map_3_star', 'map_green'])
     clear.add_argument('--map_star_clear_all', default=default('--map_star_clear_all'), choices=['index_1', 'index_2', 'index_3', 'do_not_use'], help='The first few stars are to destroy all enemy ships')
 
+
     # ==========reward==========
     reward_parser = subs.add_parser('reward')
-    reward_condition = reward_parser.add_argument_group('Triggering conditions', 'Need to run once to save the options, after running it will enter the on-hook vegetable collection mode')
+    reward_condition = reward_parser.add_argument_group('Triggering conditions', 'Need to Press start to save your settings, after running it will enter the on-hook vegetable collection mode')
     reward_condition.add_argument('--enable_reward', default=default('--enable_reward'), choices=['yes', 'no'])
     reward_condition.add_argument('--reward_interval', default=default('--reward_interval'), choices=['20', '30', '60'], help='How many minutes to trigger collection')
 
@@ -269,7 +271,7 @@ def main(ini_name=''):
 
     # ==========emulator==========
     emulator_parser = subs.add_parser('emulator')
-    emulator = emulator_parser.add_argument_group('Emulator', 'Need to run once to save the options, it will check whether the game is started \nIf the game has not started, it will be started')
+    emulator = emulator_parser.add_argument_group('Emulator', 'Need to Press start to save your settings, it will check whether the game is started \nIf the game has not started, it will be started')
     emulator.add_argument('--serial', default=default('--serial'), help='Bluestacks 127.0.0.1:5555 \nNox 127.0.0.1:62001')
     emulator.add_argument('--package_name', default='com.YoStarEN.AzurLane', help='')
 
@@ -278,9 +280,14 @@ def main(ini_name=''):
     debug.add_argument('--enable_perspective_error_image_save', default=default('--enable_perspective_error_image_save'), choices=['yes', 'no'])
 
     adb = emulator_parser.add_argument_group('ADB settings', '')
-    adb.add_argument('--use_adb_screenshot', default=default('--use_adb_screenshot'), choices=['yes', 'no'], help='It is recommended to enable it to reduce CPU usage')
-    adb.add_argument('--use_adb_control', default=default('--use_adb_control'), choices=['yes', 'no'], help='Recommended off, can speed up the click speed')
+    adb.add_argument('--device_screenshot_method', default=default('--device_screenshot_method'), choices=['aScreenCap', 'uiautomator2', 'ADB'], help='Speed: aScreenCap >> uiautomator2 > ADB')
+    adb.add_argument('--device_control_method', default=default('--device_control_method'), choices=['uiautomator2', 'ADB'], help='Speed: uiautomator2 >> ADB')
     adb.add_argument('--combat_screenshot_interval', default=default('--combat_screenshot_interval'), help='Slow down the screenshot speed during battle and reduce CPU')
+
+    update = emulator_parser.add_argument_group('ALAS Update Check', '')
+    update.add_argument('--enable_update_check', default=default('--enable_update_check'), choices=['yes', 'no'])
+    update.add_argument('--github_token', default=default('--github_token'), help='To generate your token visit https://github.com/settings/tokens')
+    update.add_argument('--update_proxy', default=default('--update_proxy'), help='Local http or socks proxy, example: http://127.0.0.1:10809')
 
     # ==========每日任务==========
     daily_parser = subs.add_parser('daily')
@@ -308,7 +315,7 @@ def main(ini_name=''):
 
     # 演习设置
     exercise = daily_parser.add_argument_group('Exercise settings', 'Only support the most experience for the time being')
-    exercise.add_argument('--exercise_choose_mode', default=default('--exercise_choose_mode'), choices=['max_exp', 'max_ranking', 'good_opponent'], help='Only support the most experience for the time being')
+    exercise.add_argument('--exercise_choose_mode', default=default('--exercise_choose_mode'), choices=['max_exp', 'max_ranking', 'good_opponent', 'easiest'], help='Only support the most experience for the time being')
     exercise.add_argument('--exercise_preserve', default=default('--exercise_preserve'), help='Only 0 are temporarily reserved')
     exercise.add_argument('--exercise_try', default=default('--exercise_try'), help='The number of attempts by each opponent')
     exercise.add_argument('--exercise_hp_threshold', default=default('--exercise_hp_threshold'), help='HHP <Retreat at Threshold')

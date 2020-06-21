@@ -65,7 +65,7 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
             if self.appear_then_click(EXP_INFO_D):
                 continue
             # Last D rank screen
-            if self.appear_then_click(OPTS_INFO_D, offset=(30,30)):
+            if self.appear_then_click(OPTS_INFO_D, offset=(30, 30)):
                 continue
 
             # Quit
@@ -80,17 +80,17 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
                         show_hp_timer.reset()
                         self._show_hp()
 
-            if self.appear_then_click(QUIT_CONFIRM, offset=True, interval=1):
+            if self.appear_then_click(QUIT_CONFIRM, offset=True, interval=5):
                 success = False
                 end = True
                 continue
 
-            if self.appear_then_click(QUIT_RECONFIRM, offset=True, interval=1):
+            if self.appear_then_click(QUIT_RECONFIRM, offset=True, interval=5):
                 self.interval_reset(QUIT_CONFIRM)
                 continue
 
             # End
-            if end and self.appear(BACK_ARROW):
+            if end and self._in_exercise() or self.appear(BATTLE_PREPARATION):
                 logger.hr('Combat end')
                 break
 

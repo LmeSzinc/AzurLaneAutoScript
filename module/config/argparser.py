@@ -52,11 +52,11 @@ def update_config_from_template(config, file):
 
 @Gooey(
     optional_cols=2,
-    program_name=pyw_name.capitalize(),
+    program_name=pyw_name.capitalize(), image_dir='doc/misc.assets',
     sidebar_title='功能',
     terminal_font_family='Consolas',
     language='chinese',
-    default_size=(800, 850),
+    default_size=(850, 850),
     navigation='SIDEBAR',
     tabbed_groups=True,
     show_success_modal=False,
@@ -125,6 +125,7 @@ def main(ini_name=''):
     # 选择关卡
     stage = setting_parser.add_argument_group('关卡设置', '需要运行一次来保存选项')
     stage.add_argument('--启用停止条件', default=default('--启用停止条件'), choices=['是', '否'])
+    stage.add_argument('--启用异常处理', default=default('--启用异常处理'), choices=['是', '否'], help='处理部分异常, 运行出错时撤退')
     stage.add_argument('--使用周回模式', default=default('--使用周回模式'), choices=['是', '否'])
 
     stop = stage.add_argument_group('停止条件', '触发后不会马上停止会先完成当前出击, 不需要就填0')
@@ -132,7 +133,7 @@ def main(ini_name=''):
     stop.add_argument('--如果时间超过', default=default('--如果时间超过'), help='使用未来24小时内的时间, 会沿用先前设置, 触发后清零. 建议提前10分钟左右, 以完成当前出击. 格式 14:59')
     stop.add_argument('--如果石油低于', default=default('--如果石油低于'))
     stop.add_argument('--如果触发心情控制', default=default('--如果触发心情控制'), choices=['是', '否'], help='若是, 等待回复, 完成本次, 停止\n若否, 等待回复, 完成本次, 继续')
-    stop.add_argument('--如果船舱已满', default=default('--如果船舱已满'), choices=['是', '否'])
+    # stop.add_argument('--如果船舱已满', default=default('--如果船舱已满'), choices=['是', '否'])
 
     # 出击舰队
     fleet = setting_parser.add_argument_group('出击舰队', '暂不支持备用道中队, 非活动图或周回模式会忽略步长设置')
@@ -280,9 +281,14 @@ def main(ini_name=''):
     debug.add_argument('--保存透视识别出错的图像', default=default('--保存透视识别出错的图像'), choices=['是', '否'])
 
     adb = emulator_parser.add_argument_group('ADB设置', '')
-    adb.add_argument('--使用ADB截图', default=default('--使用ADB截图'), choices=['是', '否'], help='建议开启, 能减少CPU占用')
-    adb.add_argument('--使用ADB点击', default=default('--使用ADB点击'), choices=['是', '否'], help='建议关闭, 能加快点击速度')
+    adb.add_argument('--设备截图方案', default=default('--设备截图方案'), choices=['aScreenCap', 'uiautomator2', 'ADB'], help='速度: aScreenCap >> uiautomator2 > ADB')
+    adb.add_argument('--设备控制方案', default=default('--设备控制方案'), choices=['uiautomator2', 'ADB'], help='速度: uiautomator2 >> ADB')
     adb.add_argument('--战斗中截图间隔', default=default('--战斗中截图间隔'), help='战斗中放慢截图速度, 降低CPU使用')
+    
+    update = emulator_parser.add_argument_group('更新检查', '')
+    update.add_argument('--启用更新检查', default=default('--启用更新检查'), choices=['是', '否'])
+    update.add_argument('--github_token', default=default('--github_token'), help='To generate your token visit https://github.com/settings/tokens')
+    update.add_argument('--update_proxy', default=default('--update_proxy'), help='Local http or socks proxy, example: http://127.0.0.1:10809')
 
     # ==========每日任务==========
     daily_parser = subs.add_parser('每日任务困难演习')
@@ -327,6 +333,7 @@ def main(ini_name=''):
     # 选择关卡
     stage = main_parser.add_argument_group('选择关卡', '主线图出击, 目前仅支持前六章和7-2')
     stage.add_argument('--主线地图出击', default=default('--主线地图出击'), help='例如 7-2')
+    stage.add_argument('--主线地图模式', default=default('--主线地图模式'), help='仅困难图开荒时使用, 周回模式后请使用每日困难', choices=['普通', '困难'])
 
     # ==========活动图==========
     event_parser = subs.add_parser('活动图')

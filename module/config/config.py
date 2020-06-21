@@ -22,6 +22,9 @@ class AzurLaneConfig:
     config = configparser.ConfigParser(interpolation=None)
     start_time = datetime.now()
 
+    UPDATE_CHECK = True
+    UPDATE_PROXY = ''
+    GITHUB_TOKEN = 'dd49b498d12c4f0908a91ccc8d54396352fc4740'
     SERVER = server.server
     logger.attr('Server', SERVER)
 
@@ -112,6 +115,7 @@ class AzurLaneConfig:
     CAMPAIGN_MODE = 'normal'
 
     ENABLE_STOP_CONDITION = True
+    ENABLE_EXCEPTION = True
     ENABLE_FAST_FORWARD = True
     STOP_IF_OIL_LOWER_THAN = 5000
     STOP_IF_COUNT_GREATER_THAN = 0
@@ -152,8 +156,13 @@ class AzurLaneConfig:
     SERIAL = ''
     PACKAGE_NAME = ''
     COMMAND = ''
-    USE_ADB_SCREENSHOT = True
-    USE_ADB_CONTROL = False
+    ASCREENCAP_FILEPATH = '/data/local/tmp/ascreencap'
+    # Speed: aScreenCap >> uiautomator2 > ADB
+    DEVICE_SCREENSHOT_METHOD = 'aScreenCap'  # ADB, uiautomator2, aScreenCap
+    # Speed: uiautomator2 >> ADB
+    DEVICE_CONTROL_METHOD = 'uiautomator2'  # ADB, uiautomator2
+    # USE_ADB_SCREENSHOT = True
+    # USE_ADB_CONTROL = False
     SCREEN_SHOT_SAVE_FOLDER_BASE = './screenshot'
     SCREEN_SHOT_SAVE_FOLDER = ''
     SCREEN_SHOT_SAVE_INTERVAL = 5  # Seconds between two save. Saves in the interval will be dropped.
@@ -405,13 +414,18 @@ class AzurLaneConfig:
         self.PACKAGE_NAME = option['package_name'].strip()
         self.ENABLE_ERROR_LOG_AND_SCREENSHOT_SAVE = to_bool(option['enable_error_log_and_screenshot_save'])
         self.ENABLE_PERSPECTIVE_ERROR_IMAGE_SAVE = to_bool(option['enable_perspective_error_image_save'])
-        self.USE_ADB_SCREENSHOT = to_bool(option['use_adb_screenshot'])
-        self.USE_ADB_CONTROL = to_bool(option['use_adb_control'])
+        self.DEVICE_SCREENSHOT_METHOD = option['device_screenshot_method']
+        self.DEVICE_CONTROL_METHOD = option['device_control_method']
         self.COMBAT_SCREENSHOT_INTERVAL = float(option['combat_screenshot_interval'])
+        #UpdateCheck
+        self.UPDATE_CHECK = to_bool(option['enable_update_check'])
+        self.UPDATE_PROXY = option['update_proxy']
+        self.GITHUB_TOKEN = option['github_token']
 
         option = config['Setting']
         # Stop condition
         self.ENABLE_STOP_CONDITION = to_bool(option['enable_stop_condition'])
+        self.ENABLE_EXCEPTION = to_bool(option['enable_exception'])
         self.ENABLE_FAST_FORWARD = to_bool(option['enable_fast_forward'])
         self.STOP_IF_COUNT_GREATER_THAN = int(option['if_count_greater_than'])
         if not option['if_time_reach'].isdigit():

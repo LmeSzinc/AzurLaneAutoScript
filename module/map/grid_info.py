@@ -55,6 +55,7 @@ class GridInfo:
     location = None
 
     def decode(self, text):
+        text = text.upper()
         dic = {
             '++': 'is_land',
             'SP': 'is_spawn_point',
