@@ -1,53 +1,13 @@
 import codecs
-import configparser
 import os
-import shutil
 
 from gooey import Gooey, GooeyParser
 
 import module.config.server as server
 from alas import AzurLaneAutoScript
 from module.config.dictionary import dic_chi_to_eng, dic_eng_to_chi
-from module.logger import logger, pyw_name
-
-running = True
-
-
-def update_config_from_template(config, file):
-    """
-    Args:
-        config (configparser.ConfigParser):
-
-    Returns:
-        configparser.ConfigParser:
-    """
-    template = configparser.ConfigParser(interpolation=None)
-    template.read_file(codecs.open(f'./config/template.ini', "r", "utf8"))
-    changed = False
-    # Update section.
-    for section in template.sections():
-        if not config.has_section(section):
-            config.add_section(section)
-            changed = True
-    for section in config.sections():
-        if not template.has_section(section):
-            config.remove_section(section)
-            changed = True
-    # Update option
-    for section in template.sections():
-        for option in template.options(section):
-            if not config.has_option(section, option):
-                config.set(section, option, value=template.get(section, option))
-                changed = True
-    for section in config.sections():
-        for option in config.options(section):
-            if not template.has_option(section, option):
-                config.remove_option(section, option)
-                changed = True
-    # Save
-    if changed:
-        config.write(codecs.open(file, "w+", "utf8"))
-    return config
+from module.config.update import get_config
+from module.logger import pyw_name
 
 
 @Gooey(
@@ -56,7 +16,7 @@ def update_config_from_template(config, file):
     sidebar_title='功能',
     terminal_font_family='Consolas',
     language='chinese',
-    default_size=(800, 850),
+    default_size=(850, 850),
     navigation='SIDEBAR',
     tabbed_groups=True,
     show_success_modal=False,
@@ -68,19 +28,8 @@ def update_config_from_template(config, file):
 def main(ini_name=''):
     if not ini_name:
         ini_name = pyw_name
-    ini_name = ini_name.lower()
-
-    # Load default value from .ini file.
     config_file = f'./config/{ini_name}.ini'
-    config = configparser.ConfigParser(interpolation=None)
-    try:
-        config.read_file(codecs.open(config_file, "r", "utf8"))
-    except FileNotFoundError:
-        logger.info('Config file not exists, copy from ./config/template.ini')
-        shutil.copy('./config/template.ini', config_file)
-        config.read_file(codecs.open(config_file, "r", "utf8"))
-
-    config = update_config_from_template(config, file=config_file)
+    config = get_config(ini_name.lower())
 
     event_folder = [f for f in os.listdir('./campaign') if f.startswith('event_') and f.split('_')[-1] == server.server]
     event_latest = sorted([f for f in event_folder], reverse=True)[0]
@@ -133,7 +82,7 @@ def main(ini_name=''):
     stop.add_argument('--如果时间超过', default=default('--如果时间超过'), help='使用未来24小时内的时间, 会沿用先前设置, 触发后清零. 建议提前10分钟左右, 以完成当前出击. 格式 14:59')
     stop.add_argument('--如果石油低于', default=default('--如果石油低于'))
     stop.add_argument('--如果触发心情控制', default=default('--如果触发心情控制'), choices=['是', '否'], help='若是, 等待回复, 完成本次, 停止\n若否, 等待回复, 完成本次, 继续')
-    stop.add_argument('--如果船舱已满', default=default('--如果船舱已满'), choices=['是', '否'])
+    # stop.add_argument('--如果船舱已满', default=default('--如果船舱已满'), choices=['是', '否'])
 
     # 出击舰队
     fleet = setting_parser.add_argument_group('出击舰队', '暂不支持备用道中队, 非活动图或周回模式会忽略步长设置')

@@ -12,6 +12,7 @@ import module.config.server as server
 from module.base.timer import *
 from module.config.dictionary import *
 from module.logger import logger
+from module.config.update import get_config
 
 
 class AzurLaneConfig:
@@ -382,9 +383,9 @@ class AzurLaneConfig:
 
         return config
 
-    def load_config_file(self, name='main'):
+    def load_config_file(self, name='alas'):
         self.CONFIG_FILE = f'./config/{name}.ini'
-        self.config.read_file(codecs.open(self.CONFIG_FILE, "r", "utf8"))
+        self.config = get_config(ini_name=name)
         self.load_from_config(self.config)
         self.config_check()
 

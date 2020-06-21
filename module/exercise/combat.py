@@ -90,7 +90,7 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
                 continue
 
             # End
-            if end and self.appear(BACK_ARROW):
+            if end and self._in_exercise() or self.appear(BATTLE_PREPARATION):
                 logger.hr('Combat end')
                 break
 

@@ -17,12 +17,14 @@ class UI(ModuleBase):
         """
         return self.appear(page.check_button, offset=(20, 20))
 
-    def ui_click(self, click_button, check_button, appear_button=None, offset=(20, 20), retry_wait=10,
-                 skip_first_screenshot=False):
+    def ui_click(self, click_button, check_button, appear_button=None, additional_button=None,
+                 offset=(20, 20), retry_wait=10, additional_button_interval=3, skip_first_screenshot=False):
         """
         Args:
             click_button (Button):
             check_button (Button, callable):
+            additional_button (Button, list[Button], callable):
+            additional_button_interval (int, float):
             offset (bool, int, tuple):
             retry_wait (int, float):
             skip_first_screenshot (bool):
@@ -30,6 +32,8 @@ class UI(ModuleBase):
         logger.hr('UI click')
         if appear_button is None:
             appear_button = click_button
+        if not isinstance(additional_button, list):
+            additional_button = [additional_button]
         click_timer = Timer(retry_wait, count=retry_wait // 0.5)
         while 1:
             if skip_first_screenshot:
@@ -41,6 +45,15 @@ class UI(ModuleBase):
                 break
             if callable(check_button) and check_button():
                 break
+
+            for button in additional_button:
+                if button is None:
+                    continue
+                if isinstance(button, Button):
+                    self.appear_then_click(button, offset=offset, interval=additional_button_interval)
+                    continue
+                if callable(button) and button():
+                    continue
 
             if click_timer.reached() and self.appear(appear_button, offset=offset):
                 self.device.click(click_button)
