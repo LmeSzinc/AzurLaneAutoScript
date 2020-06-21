@@ -19,7 +19,7 @@ class MapData:
         1: 'SP',
         2: 'MY',
         3: 'MA',
-        4: 'ME',  # This grid 100% spawn enemy?
+        4: 'Me',  # This grid 100% spawn enemy?
         6: 'ME',
         8: 'MB',
         12: 'MS',
