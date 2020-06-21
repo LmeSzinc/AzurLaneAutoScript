@@ -5,12 +5,11 @@ from datetime import datetime
 
 from module.config.config import AzurLaneConfig
 from module.logger import logger, pyw_name, log_file
-from module.update import Update
 
 from module.device.device import Device
 
 
-class AzurLaneAutoScript(Update):
+class AzurLaneAutoScript:
     def __init__(self, ini_name=''):
         if not ini_name:
             ini_name = pyw_name
@@ -47,26 +46,28 @@ class AzurLaneAutoScript(Update):
         from module.reward.reward import Reward
         az = Reward(self.config, device=self.device)
         az.reward_loop()
+        self.update_check()
 
     def setting(self):
         for key, value in self.config.config['Setting'].items():
             print(f'{key} = {value}')
 
         logger.hr('Settings saved')
-        # self.update_check()
+        self.update_check()
         self.config.config_check()
 
-    # def update_check(self):
-    #     from module.update import Update
-    #     ad = Update(self.config)
-    #     if self.config.UPDATE_CHECK:
-    #         ad.get_latest_commit()
+    def update_check(self):
+        from module.update import Update
+        ad = Update(self.config)
+        if self.config.UPDATE_CHECK:
+            ad.get_local_commit()
 
     def reward(self):
         for key, value in self.config.config['Reward'].items():
             print(f'{key} = {value}')
 
         logger.hr('Reward Settings saved')
+        self.update_check()
         self.reward_when_finished()
 
     def emulator(self):
@@ -74,7 +75,7 @@ class AzurLaneAutoScript(Update):
             print(f'{key} = {value}')
 
         logger.hr('Emulator saved')
-        # self.update_check()
+        self.update_check()
         from module.handler.login import LoginHandler
         az = LoginHandler(self.config, device=self.device)
         if az.app_ensure_start():
@@ -108,6 +109,11 @@ class AzurLaneAutoScript(Update):
             if not az.record_executed_since():
                 az.run()
                 az.record_save()
+
+        if self.config.ENABLE_EVENT_NAME_AB:
+            from module.event.campaign_ab import CampaignAB
+            az = CampaignAB(self.config, device=self.device)
+            az.run_event_daily()
 
         if self.config.ENABLE_EXERCISE:
             from module.exercise.exercise import Exercise

@@ -248,6 +248,7 @@ def main(ini_name=''):
     daily.add_argument('--enable_daily_mission', default=default('--enable_daily_mission'), help='If there are records on the day, skip', choices=['yes', 'no'])
     daily.add_argument('--enable_hard_campaign', default=default('--enable_hard_campaign'), help='If there are records on the day, skip', choices=['yes', 'no'])
     daily.add_argument('--enable_exercise', default=default('--enable_exercise'), help='If there is a record after refreshing, skip', choices=['yes', 'no'])
+    daily.add_argument('--enable_event_ab', default=default('--enable_event_ab'), help='If there is a record after refreshing, skip', choices=['yes', 'no'])
 
     # 每日设置
     daily_task = daily_parser.add_argument_group('Daily settings', 'Does not support submarine daily')
@@ -273,10 +274,13 @@ def main(ini_name=''):
     exercise.add_argument('--exercise_low_hp_confirm', default=default('--exercise_low_hp_confirm'), help='After HP is below the threshold, it will retreat after a certain period of time \nRecommended 1.0 ~ 3.0')
     exercise.add_argument('--exercise_equipment', default=default('--exercise_equipment'), help='Change equipment before playing, unload equipment after playing, do not need to fill in 0 \ncomma, such as 3, 1, 0, 1, 1, 0')
 
+    event_bonus = daily_parser.add_argument_group('Event Daily Bonus', 'bonus for first clear each day')
+    event_bonus.add_argument('--event_name_ab', default=event_latest, choices=event_folder, help='There a dropdown menu with many options')
+
     # ==========event_daily_ab==========
-    event_ab_parser = subs.add_parser('event_daily_bonus')
-    event_name = event_ab_parser.add_argument_group('Choose an event', 'bonus for first clear each day')
-    event_name.add_argument('--event_name_ab', default=event_latest, choices=event_folder, help='There a dropdown menu with many options')
+    # event_ab_parser = subs.add_parser('event_daily_bonus')
+    # event_name = event_ab_parser.add_argument_group('Choose an event', 'bonus for first clear each day')
+    # event_name.add_argument('--event_name_ab', default=event_latest, choices=event_folder, help='There a dropdown menu with many options')
     # event_name.add_argument('--enable_hard_bonus', default=default('--enable_hard_bonus'), choices=['yes', 'no'], help='Will enable Daily bonus for Event hard maps') # Trying implement all event maps
 
     # ==========main==========

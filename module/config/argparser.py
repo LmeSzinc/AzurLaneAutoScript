@@ -272,10 +272,13 @@ def main(ini_name=''):
     exercise.add_argument('--演习低血量确认时长', default=default('--演习低血量确认时长'), help='HP低于阈值后, 过一定时长才会撤退\n推荐 1.0 ~ 3.0')
     exercise.add_argument('--演习快速换装', default=default('--演习快速换装'), help='打之前换装备, 打完后卸装备, 不需要就填0\n逗号分割, 例如 3, 1, 0, 1, 1, 0')
 
-    # ==========每日活动图三倍PT==========
-    event_ab_parser = subs.add_parser('每日活动图三倍PT')
-    event_name = event_ab_parser.add_argument_group('选择活动', '')
-    event_name.add_argument('--活动名称ab', default=event_latest, choices=event_folder, help='例如 event_20200326_cn')
+    event_bonus = daily_parser.add_argument_group('Event Daily Bonus', 'bonus for first clear each day')
+    event_bonus.add_argument('--event_name_ab', default=event_latest, choices=event_folder, help='There a dropdown menu with many options')
+
+    # # ==========每日活动图三倍PT==========
+    # event_ab_parser = subs.add_parser('每日活动图三倍PT')
+    # event_name = event_ab_parser.add_argument_group('选择活动', '')
+    # event_name.add_argument('--活动名称ab', default=event_latest, choices=event_folder, help='例如 event_20200326_cn')
 
     # ==========主线图==========
     main_parser = subs.add_parser('主线图')
