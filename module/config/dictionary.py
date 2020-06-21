@@ -38,6 +38,7 @@ dic_true_eng_to_eng = {
     'c12-4_leveling': 'c124_leveling',
 
     # Argument
+    'enable_event_ab': 'enable_event_ab',
     'github_token': 'github_token',
     'update_proxy': 'update_proxy',
     'enable_update_check': 'enable_update_check',
@@ -232,6 +233,7 @@ dic_chi_to_eng = {
     '12-4打大型练级': 'c124_leveling',
 
     # Argument
+    'enable_event_ab': 'enable_event_ab',
     'github_token': 'github_token',
     'update_proxy': 'update_proxy',
     '启用更新检查': 'enable_update_check',

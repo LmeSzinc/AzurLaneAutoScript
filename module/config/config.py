@@ -24,7 +24,7 @@ class AzurLaneConfig:
 
     UPDATE_CHECK = True
     UPDATE_PROXY = ''
-    GITHUB_TOKEN = 'dd49b498d12c4f0908a91ccc8d54396352fc4740'
+    GITHUB_TOKEN = ''
     SERVER = server.server
     logger.attr('Server', SERVER)
 
@@ -134,6 +134,7 @@ class AzurLaneConfig:
     EVENT_NAME = ''
     CAMPAIGN_EVENT = ''
     EVENT_NAME_AB = ''
+    ENABLE_EVENT_NAME_AB = True
 
     """
     module.combat.emotion
@@ -521,6 +522,10 @@ class AzurLaneConfig:
         self.LOW_HP_THRESHOLD = float(option['exercise_hp_threshold'])
         self.LOW_HP_CONFIRM_WAIT = float(option['exercise_low_hp_confirm'])
         self.EXERCISE_FLEET_EQUIPMENT = to_list(option['exercise_equipment'])
+        # Event bonus
+        # option = config['Event_daily_ab']
+        self.ENABLE_EVENT_NAME_AB = to_bool(option['enable_event_ab'])
+        self.EVENT_NAME_AB = option['event_name_ab']
 
         # Event
         option = config['Event']
@@ -531,8 +536,8 @@ class AzurLaneConfig:
             self.CAMPAIGN_EVENT = option['event_stage']
 
         # Event_daily_ab
-        option = config['Event_daily_ab']
-        self.EVENT_NAME_AB = option['event_name_ab']
+        # option = config['Event_daily_ab']
+        # self.EVENT_NAME_AB = option['event_name_ab']
 
         # Semi_auto
         option = config['Semi_auto']

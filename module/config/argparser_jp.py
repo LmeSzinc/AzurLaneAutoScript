@@ -4,7 +4,7 @@ import os
 import shutil
 
 from gooey import Gooey, GooeyParser
-
+import module.config.server as server
 from alas import AzurLaneAutoScript
 from module.config.dictionary import dic_true_eng_to_eng, dic_eng_to_true_eng
 from module.logger import logger, pyw_name
@@ -79,7 +79,10 @@ def main(ini_name=''):
 
     config = update_config_from_template(config, file=config_file)
 
-    event_folder = [dic_eng_to_true_eng.get(f, f) for f in os.listdir('./campaign') if f.startswith('event_')][::-1]
+    event_folder = [f for f in os.listdir('./campaign') if f.startswith('event_') and f.split('_')[-1] == server.server]
+    event_latest = sorted([f for f in event_folder], reverse=True)[0]
+    event_folder = [dic_eng_to_true_eng.get(f, f) for f in event_folder][::-1]
+    event_latest = dic_eng_to_true_eng.get(event_latest, event_latest)
 
     saved_config = {}
     for opt, option in config.items():
@@ -291,6 +294,7 @@ def main(ini_name=''):
     daily.add_argument('--enable_daily_mission', default=default('--enable_daily_mission'), help='If there are records on the day, skip', choices=['yes', 'no'])
     daily.add_argument('--enable_hard_campaign', default=default('--enable_hard_campaign'), help='If there are records on the day, skip', choices=['yes', 'no'])
     daily.add_argument('--enable_exercise', default=default('--enable_exercise'), help='If there is a record after refreshing, skip', choices=['yes', 'no'])
+    daily.add_argument('--enable_event_ab', default=default('--enable_event_ab'), help='If there is a record after refreshing, skip', choices=['yes', 'no'])
 
     # 每日设置
     daily_task = daily_parser.add_argument_group('Daily settings', 'Does not support submarine daily')
@@ -316,10 +320,13 @@ def main(ini_name=''):
     exercise.add_argument('--exercise_low_hp_confirm', default=default('--exercise_low_hp_confirm'), help='After HP is below the threshold, it will retreat after a certain period of time \nRecommended 1.0 ~ 3.0')
     exercise.add_argument('--exercise_equipment', default=default('--exercise_equipment'), help='Change equipment before playing, unload equipment after playing, do not need to fill in 0 \ncomma, such as 3, 1, 0, 1, 1, 0')
 
-    # ==========event_daily_ab==========
-    event_ab_parser = subs.add_parser('event_daily_ab')
-    event_name = event_ab_parser.add_argument_group('Choose an event', 'bonus for first clear each day')
-    event_name.add_argument('--event_name_ab', default=default('--event_name_ab'), choices=event_folder, help='There a dropdown menu with many options')
+    event_bonus = daily_parser.add_argument_group('Event Daily Bonus', 'bonus for first clear each day')
+    event_bonus.add_argument('--event_name_ab', default=event_latest, choices=event_folder, help='There a dropdown menu with many options')
+
+    # # ==========event_daily_ab==========
+    # event_ab_parser = subs.add_parser('event_daily_ab')
+    # event_name = event_ab_parser.add_argument_group('Choose an event', 'bonus for first clear each day')
+    # event_name.add_argument('--event_name_ab', default=default('--event_name_ab'), choices=event_folder, help='There a dropdown menu with many options')
 
     # ==========main==========
     main_parser = subs.add_parser('main')
