@@ -5,7 +5,7 @@ REM Change to your emulator port
 adb connect 127.0.0.1:5565
 
 echo initializing uiautomator2
-python -m uiautomator2 init
+%~dp0python/python.exe -m uiautomator2 init
 
 :: timout
 PowerShell -Command "Start-Sleep -s 3" > nul 2>&1

@@ -46,6 +46,7 @@ class AzurLaneAutoScript:
         from module.reward.reward import Reward
         az = Reward(self.config, device=self.device)
         az.reward_loop()
+        self.update_check()
 
     def setting(self):
         for key, value in self.config.config['Setting'].items():
