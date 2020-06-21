@@ -21,6 +21,7 @@ dic_daily = {
     'index_1': 1,
     'index_2': 2,
     'index_3': 3,
+    
 }
 dic_true_eng_to_eng = {
     # Function
@@ -37,6 +38,8 @@ dic_true_eng_to_eng = {
     'c12-4_leveling': 'c124_leveling',
 
     # Argument
+    'github_token': 'github_token',
+    'update_proxy': 'update_proxy',
     'enable_update_check': 'enable_update_check',
     'enable_stop_condition': 'enable_stop_condition',
     'enable_exception': 'enable_exception',
@@ -229,6 +232,8 @@ dic_chi_to_eng = {
     '12-4打大型练级': 'c124_leveling',
 
     # Argument
+    'github_token': 'github_token',
+    'update_proxy': 'update_proxy',
     '启用更新检查': 'enable_update_check',
     '启用停止条件': 'enable_stop_condition',
     '启用异常处理': 'enable_exception',

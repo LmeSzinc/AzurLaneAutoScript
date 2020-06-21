@@ -8,7 +8,7 @@ from module.reward.assets import *
 from module.reward.commission import RewardCommission
 from module.reward.tactical_class import RewardTacticalClass
 from module.ui.page import *
-from module.updater import Update
+from module.update import Update
 
 
 class Reward(RewardCommission, RewardTacticalClass, LoginHandler, Update):
@@ -163,5 +163,4 @@ class Reward(RewardCommission, RewardTacticalClass, LoginHandler, Update):
 
             logger.info('Reward loop wait')
             logger.attr('Reward_loop_wait', f'{self.config.REWARD_INTERVAL} min')
-            self.check_update()
             self.device.sleep(self.config.REWARD_INTERVAL * 60)
