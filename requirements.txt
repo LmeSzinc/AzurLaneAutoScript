@@ -5,9 +5,8 @@ opencv-python
 scikit-image==0.16.2
 lz4
 requests<2.19.0,>=2.18.4
-uiautomator2==2.9.2
+uiautomator2
 retrying
 mxnet==1.4.1
 cnocr==1.0.0
 gooey
-colored 
