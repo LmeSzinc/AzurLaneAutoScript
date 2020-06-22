@@ -91,15 +91,20 @@ cls
 		@powershell -NoProfile -ExecutionPolicy Bypass -Command "choco install -y --force --allow-empty-checksums adb git"
 
 :: timout
-PowerShell -Command "Start-Sleep -s 10" > nul 2>&1
+PowerShell -Command "Start-Sleep -s 3" > nul 2>&1
 :: killing adb server
 call adb kill-server > nul 2>&1
 
 goto menu
 
 :clone
+set ROOT=%~dp0AzurLaneAutoScript
 echo Cloning repository
+if exist %ROOT% (
+  RMDIR /S /Q %ROOT%
+)
 git clone https://github.com/LmeSzinc/AzurLaneAutoScript.git && cd AzurLaneAutoScript && git remote add whoamikyo https://github.com/whoamikyo/AzurLaneAutoScript.git
+PowerShell -Command "Start-Sleep -s 3" > nul 2>&1
 
 goto menu
 
@@ -124,6 +129,7 @@ if not exist %ROOT% (
    echo "pythonpackage.zip already downloaded, delete to re-download"
  )
 
+PowerShell -Command "Start-Sleep -s 3" > nul 2>&1
 goto menu
 
 :updater
@@ -168,15 +174,15 @@ goto menu
 :LmeSzinc
 git fetch origin master && git reset --hard origin/master && git pull --ff-only origin master
 :: timout
-PowerShell -Command "Start-Sleep -s 10" > nul 2>&1
+PowerShell -Command "Start-Sleep -s 3" > nul 2>&1
 goto updater
 :whoamikyo
 git fetch whoamikyo master && git reset --hard whoamikyo/master && git pull --ff-only whoamikyo master
 :: timout
-PowerShell -Command "Start-Sleep -s 10" > nul 2>&1
+PowerShell -Command "Start-Sleep -s 3" > nul 2>&1
 goto updater
 :nightly
 git fetch whoamikyo nightly && git reset --hard whoamikyo/nightly && git pull --ff-only whoamikyo nightly
 :: timout
-PowerShell -Command "Start-Sleep -s 10" > nul 2>&1
+PowerShell -Command "Start-Sleep -s 3" > nul 2>&1
 goto updater
