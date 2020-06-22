@@ -95,9 +95,12 @@ class Update:
             datetime.datetime, str
         """
         cmd = ['git', 'log', '--no-merges', '-1']
-        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
-        result = process.communicate(timeout=4)[0].decode("utf-8")
-
+        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+        result, error = process.communicate(timeout=4)
+        result = result.decode("utf-8")
+        if error:
+            logger.warning('Failed to get local git commit')
+            return None
         date = datetime.strptime(result.split('\n')[2][8:], '%a %b %d %H:%M:%S %Y %z')
         date -= date.utcoffset()
         date = date.replace(tzinfo=None)
@@ -123,8 +126,10 @@ class Update:
         commits = [
             self.get_github_commit('whoamikyo', token=self.config.GITHUB_TOKEN, proxy=self.config.UPDATE_PROXY),
             self.get_github_commit('LmeSzinc', token=self.config.GITHUB_TOKEN, proxy=self.config.UPDATE_PROXY),
-            self.get_local_commit()
         ]
+        local = self.get_local_commit()
+        if local is not None:
+            commits.append(local)
         commits.sort(key=lambda x: x[0])
 
         text = [f'{commit[0]}  {commit[1]}' for commit in commits]
@@ -137,5 +142,5 @@ class Update:
             else:
                 logger.info(f'      {line}')
 
-        if commits[-1][1] != '<local>':
+        if commits[-1][1] != '<local>' and local is not None:
             logger.warning('A new update is available')
