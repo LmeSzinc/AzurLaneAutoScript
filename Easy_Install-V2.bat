@@ -115,7 +115,7 @@ echo  :: Installing Python 3.7.6 + requirements.txt
 echo.
 echo.
 set ROOT=%~dp0AzurLaneAutoScript
-set FILE_URL="https://gitlab.com/whoamikyo/alas-venv/-/blob/master/python.zip"
+set FILE_URL="https://gitlab.com/whoamikyo/alas-venv/-/raw/master/python.zip"
 set FILE_DEST=%ROOT%\pythonpackage.zip
 if not exist %ROOT% (
   mkdir %ROOT%
@@ -129,6 +129,7 @@ if not exist %ROOT% (
    echo "pythonpackage.zip already downloaded, delete to re-download"
  )
 
+PowerShell -Command "Start-Sleep -s 3" > nul 2>&1
 goto menu
 
 :updater
