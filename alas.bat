@@ -1,43 +1,14 @@
 @echo off
 
-title ALAS run
 call adb kill-server > nul 2>&1
+REM Change to your emulator port
+adb connect 127.0.0.1:5565
 
-set SCREENSHOT_FOLDER=%~dp0screenshots
-if not exist %SCREENSHOT_FOLDER% (
-  mkdir %SCREENSHOT_FOLDER%
-)
+echo initializing uiautomator2
+%~dp0python/python.exe -m uiautomator2 init
 
-if not exist adb_port.ini (
-  cd . > adb_port.ini
-)
-
-set "adb_empty=*adb_port.ini"
-for %%A in (%adb_empty%) do if %%~zA==0 (
-    echo enter your HOST:PORT eg: 127.0.0.1:5555 for default bluestacks
-    set /p adb_input=
-)
-
-REM if adb_input = 0 load from adb_port.ini
-if [%adb_input%]==[] (
-    goto load
-)
-
-REM write adb_input on adb_port.ini
-echo %adb_input% >> adb_port.ini
-
-REM Load adb_port.ini
-:load
-REM 
-set /p ADB_PORT=<adb_port.ini
-
-echo connecting at %ADB_PORT%
-adb connect %ADB_PORT%
-
-::echo initializing uiautomator2
-::%~dp0python-3.7.6.amd64/python.exe -m uiautomator2 init
 :: timout
-PowerShell -Command "Start-Sleep -s 4" > nul 2>&1
+PowerShell -Command "Start-Sleep -s 3" > nul 2>&1
 
 goto alas
 
@@ -48,9 +19,9 @@ goto alas
 	echo. 
 	echo  Choose your server
     echo.
-    echo	1. EN
-	echo	2. CN
-	echo	3. JP
+    echo     1. EN
+	echo     2. CN
+	echo     3. JP
 	echo. 
 	echo  :: Type a 'number' and press ENTER
 	echo  :: Type 'exit' to quit
@@ -76,23 +47,16 @@ goto alas
 		
 
 :en
-%~dp0python-3.7.6.amd64/python.exe alas_en.pyw
-:: timout
-PowerShell -Command "Start-Sleep -s 10" > nul 2>&1
+%~dp0python/python.exe alas_en.pyw
 
 goto alas
 
 :cn
-%~dp0python-3.7.6.amd64/python.exe alas_cn.pyw
+%~dp0python/python.exe alas_cn.pyw
 
 goto alas
 
 :jp
-%~dp0python-3.7.6.amd64/python.exe alas_jp.pyw
+%~dp0python/python.exe alas_jp.pyw
 
 goto alas
-
-:EOF
-exit
-
-
