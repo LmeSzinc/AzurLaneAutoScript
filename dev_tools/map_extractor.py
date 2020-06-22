@@ -17,7 +17,7 @@ class MapData:
     dic_grid_info = {
         0: '--',
         1: 'SP',
-        2: 'MY',
+        2: 'MM',
         3: 'MA',
         4: 'Me',  # This grid 100% spawn enemy?
         6: 'ME',

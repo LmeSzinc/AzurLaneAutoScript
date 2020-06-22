@@ -76,6 +76,10 @@ class UI(ModuleBase):
             return page_main
 
         logger.info('Unable to goto page_main')
+        logger.warning('Starting from current page is not supported')
+        logger.warning(f'Supported page: {[str(page) for page in self.ui_pages]}')
+        logger.warning(f'Supported page: Any page with a "HOME" button on the upper-right')
+        exit(1)
 
     def ui_goto(self, destination, skip_first_screenshot=False):
         """

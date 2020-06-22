@@ -33,7 +33,7 @@ class Connection:
         # Although, there's still a window when you stop running in GUI, which cause by gooey.
         # To disable it, edit gooey/gui/util/taskkill.py
         process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
-        return process.communicate(timeout=4)[0]
+        return process.communicate(timeout=10)[0]
 
     def adb_shell(self, cmd, serial=None):
         cmd.insert(0, 'shell')
