@@ -137,10 +137,12 @@ goto menu
 	echo.
 	echo  :: This update only will work if you downloaded ALAS with this file using option 2. clone
 	echo. 
-	echo	::DISCLAIMER
+	echo	::DISCLAIMER::
 	echo	IF YOU GET THE FOLLOWING ERROR: 
 	echo	"error: Your local changes to the following files would be overwritten by merge:Easy_Install-V2.bat"
 	echo	YOU NEED RE-DOWNLOAD ONLY Easy_Install-V2.bat FILE FROM REPOSITORY AND OVERWRITTEN THE OLD FOR NEW FILE	
+	echo
+	echo					YOU NEED RUN UPDATER INSIDE AzurLaneAutoScript FOLDER
 	echo. 
 	echo     1. https://github.com/LmeSzinc/AzurLaneAutoScript (Main Repo, When in doubt, use it)
 	echo     2. https://github.com/whoamikyo/AzurLaneAutoScript (Mirrored Fork)
