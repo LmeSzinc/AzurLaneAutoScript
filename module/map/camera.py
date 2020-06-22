@@ -43,6 +43,7 @@ class Camera(InfoHandler):
             bool: if camera moved.
         """
         x, y = vector
+        name = f'MAP_SWIPE_{int(round(x, 0))}_{int(round(y, 0))}'
         if abs(x) > drop_threshold or abs(y) > drop_threshold:
             # Linear fit
             # x = x * 200
@@ -61,7 +62,7 @@ class Camera(InfoHandler):
                 x, y = swipe_multiply_2d(x, y)
 
             vector = (-int(x), -int(y))
-            self.device.swipe(vector)
+            self.device.swipe(vector, name=name)
             self.device.sleep(0.3)
             self.update()
         else:

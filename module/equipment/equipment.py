@@ -23,7 +23,7 @@ class Equipment(InfoHandler):
             if not swipe_timer.started() or swipe_timer.reached():
                 swipe_timer.reset()
                 self.device.swipe(vector=(distance, 0), box=SWIPE_AREA.area, random_range=SWIPE_RANDOM_RANGE,
-                                  padding=0, duration=(0.1, 0.12))
+                                  padding=0, duration=(0.1, 0.12), name='EQUIP_SWIPE')
 
             self.device.screenshot()
             if SWIPE_CHECK.match(self.device.image):
