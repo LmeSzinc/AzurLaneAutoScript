@@ -4,9 +4,12 @@ import time
 from datetime import datetime
 
 from module.config.config import AzurLaneConfig
-from module.logger import logger, pyw_name, log_file
-
 from module.device.device import Device
+from module.logger import logger, pyw_name, log_file
+from module.update import Update
+
+
+Update(AzurLaneConfig()).get_latest_commit()
 
 
 class AzurLaneAutoScript:
@@ -110,17 +113,17 @@ class AzurLaneAutoScript:
                 az.run()
                 az.record_save()
 
-        if self.config.ENABLE_EVENT_NAME_AB:
-            from module.event.campaign_ab import CampaignAB
-            az = CampaignAB(self.config, device=self.device)
-            az.run_event_daily()
-
         if self.config.ENABLE_EXERCISE:
             from module.exercise.exercise import Exercise
             az = Exercise(self.config, device=self.device)
             if not az.record_executed_since():
                 az.run()
                 az.record_save()
+
+        if self.config.ENABLE_EVENT_NAME_AB:
+            from module.event.campaign_ab import CampaignAB
+            az = CampaignAB(self.config, device=self.device)
+            az.run_event_daily()
 
         self.reward_when_finished()
 
@@ -167,7 +170,6 @@ class AzurLaneAutoScript:
         az = Retirement(self.config, device=self.device)
         az.device.screenshot()
         az.retire_ships(amount=2000)
-
 
 # alas = AzurLaneAutoScript()
 # alas.reward()

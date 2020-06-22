@@ -237,6 +237,7 @@ def main(ini_name=''):
 
     update = emulator_parser.add_argument_group('ALAS Update Check', '')
     update.add_argument('--enable_update_check', default=default('--enable_update_check'), choices=['yes', 'no'])
+    update.add_argument('--update_method', default=default('--update_method'), choices=['api', 'web'], help='')
     update.add_argument('--github_token', default=default('--github_token'), help='To generate your token visit https://github.com/settings/tokens')
     update.add_argument('--update_proxy', default=default('--update_proxy'), help='Local http or socks proxy, example: http://127.0.0.1:10809')
 

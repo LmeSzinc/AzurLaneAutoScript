@@ -236,8 +236,9 @@ def main(ini_name=''):
     
     update = emulator_parser.add_argument_group('更新检查', '')
     update.add_argument('--启用更新检查', default=default('--启用更新检查'), choices=['是', '否'])
-    update.add_argument('--github_token', default=default('--github_token'), help='To generate your token visit https://github.com/settings/tokens')
-    update.add_argument('--update_proxy', default=default('--update_proxy'), help='Local http or socks proxy, example: http://127.0.0.1:10809')
+    update.add_argument('--更新检查方法', default=default('--更新检查方法'), choices=['api', 'web'], help='使用api时建议填写tokens, 使用web则不需要')
+    update.add_argument('--github_token', default=default('--github_token'), help='Github API限制为每小时60次, 获取tokens https://github.com/settings/tokens')
+    update.add_argument('--更新检查代理', default=default('--更新检查代理'), help='本地http或socks代理, 如果github很慢, 请使用代理, example: http://127.0.0.1:10809')
 
     # ==========每日任务==========
     daily_parser = subs.add_parser('每日任务困难演习')
@@ -247,6 +248,7 @@ def main(ini_name=''):
     daily.add_argument('--打每日', default=default('--打每日'), help='若当天有记录, 则跳过', choices=['是', '否'])
     daily.add_argument('--打困难', default=default('--打困难'), help='若当天有记录, 则跳过', choices=['是', '否'])
     daily.add_argument('--打演习', default=default('--打演习'), help='若在刷新后有记录, 则跳过', choices=['是', '否'])
+    daily.add_argument('--打活动图每日三倍PT', default=default('--打活动图每日三倍PT'), help='若当天有记录, 则跳过', choices=['是', '否'])
 
     # 每日设置
     daily_task = daily_parser.add_argument_group('每日设置', '不支持潜艇每日')
@@ -272,8 +274,8 @@ def main(ini_name=''):
     exercise.add_argument('--演习低血量确认时长', default=default('--演习低血量确认时长'), help='HP低于阈值后, 过一定时长才会撤退\n推荐 1.0 ~ 3.0')
     exercise.add_argument('--演习快速换装', default=default('--演习快速换装'), help='打之前换装备, 打完后卸装备, 不需要就填0\n逗号分割, 例如 3, 1, 0, 1, 1, 0')
 
-    event_bonus = daily_parser.add_argument_group('Event Daily Bonus', 'bonus for first clear each day')
-    event_bonus.add_argument('--event_name_ab', default=event_latest, choices=event_folder, help='There a dropdown menu with many options')
+    event_bonus = daily_parser.add_argument_group('活动设置', '')
+    event_bonus.add_argument('--活动名称ab', default=event_latest, choices=event_folder, help='例如 event_20200326_cn')
 
     # # ==========每日活动图三倍PT==========
     # event_ab_parser = subs.add_parser('每日活动图三倍PT')

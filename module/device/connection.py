@@ -19,8 +19,8 @@ class Connection:
         self.serial = str(self.config.SERIAL)
         self.device = self.connect(self.serial)
         self.disable_uiautomator2_auto_quit()
-        if self.config.DEVICE_SCREENSHOT_METHOD == 'aScreenCap':
-            self._ascreencap_init()
+        # if self.config.DEVICE_SCREENSHOT_METHOD == 'aScreenCap':
+        #     self._ascreencap_init()
 
     @staticmethod
     def adb_command(cmd, serial=None):
