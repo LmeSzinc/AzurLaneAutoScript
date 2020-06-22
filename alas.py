@@ -113,17 +113,17 @@ class AzurLaneAutoScript:
                 az.run()
                 az.record_save()
 
-        if self.config.ENABLE_EVENT_NAME_AB:
-            from module.event.campaign_ab import CampaignAB
-            az = CampaignAB(self.config, device=self.device)
-            az.run_event_daily()
-
         if self.config.ENABLE_EXERCISE:
             from module.exercise.exercise import Exercise
             az = Exercise(self.config, device=self.device)
             if not az.record_executed_since():
                 az.run()
                 az.record_save()
+
+        if self.config.ENABLE_EVENT_NAME_AB:
+            from module.event.campaign_ab import CampaignAB
+            az = CampaignAB(self.config, device=self.device)
+            az.run_event_daily()
 
         self.reward_when_finished()
 
