@@ -230,7 +230,7 @@ goto updater
 	if %errorlevel% == 0 (
 	echo GIT Found! Proceeding..
 	echo Updating from whoamikyo repository..
-	call git remote add whoamikyo https://github.com/whoamikyo/AzurLaneAutoScript.git && git fetch whoamikyo master && git reset --hard whoamikyo/master && git pull --ff-only whoamikyo master
+	call git fetch whoamikyo master && git reset --hard whoamikyo/master && git pull --ff-only whoamikyo master
 	) else (
 		echo  :: Git not detected, maybe there was an installation issue, try opening another CMD window and type choco install git
 		echo.
@@ -244,7 +244,7 @@ goto updater
 	if %errorlevel% == 0 (
 	echo GIT Found! Proceeding..
 	echo Updating from whoamikyo nightly repository..
-	call git remote add whoamikyo https://github.com/whoamikyo/AzurLaneAutoScript.git && git fetch whoamikyo nightly && git reset --hard whoamikyo/nightly && git pull --ff-only whoamikyo nightly
+	call git fetch whoamikyo nightly && git reset --hard whoamikyo/nightly && git pull --ff-only whoamikyo nightly
 	) else (
 		echo  :: Git not detected, maybe there was an installation issue, try opening another CMD window and type choco install git
 		echo.
