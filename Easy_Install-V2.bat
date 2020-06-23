@@ -27,15 +27,17 @@ goto menu
 	echo  :: Easy install for ALAS
 	echo. 
 	echo  This script will install Python 3.7.6 + requirements.txt + ADB + GIT + CHOCOLATEY
-	echo. 
-	echo  :: By whoamikyo
-	echo. 
-	echo     1. Essentials programs
-	echo     2. Clone repository
-	echo     3. Python 3.7.6 + requirements.txt
-	echo     4. Updater Only
 	echo.
-	echo			Install in order
+	echo  :: For fresh install, Run from step "1" to "3"
+	echo. 
+	echo		1.Essentials programs
+	echo		2.Clone repository
+	echo		3.Python 3.7.6 + requirements.txt
+	echo		4.Updater ONLY (Do not update if you are doing a fresh install)
+	echo.	
+	echo	JUST RUN UPDATER INSIDE AzurLaneAutoScript FOLDER
+	echo.
+	echo	Install in order
 	echo. 
 	echo  :: Type a 'number' and press ENTER
 	echo  :: Type 'exit' to quit
@@ -71,7 +73,7 @@ cls
 	ping -n 1 archlinux.org -w 20000 >nul
 
 	if %errorlevel% == 0 (
-	echo Internet Connection Found! Proceeding...
+	echo Internet Connection Found! Proceeding..
 	) else (
 		echo  :: You are NOT connected to the Internet
 		echo.
@@ -82,32 +84,58 @@ cls
 	)
 		cls
 		echo.
-		echo  :: Installing Packages...
+		echo  :: Installing Packages ADB + GIT + CHOCOLATEY
+		echo  :: If you already have any of these packages installed
+		echo  :: you will probably have an error installing that package
+		echo  :: you can try to proceed anyway
+		echo  :: it might work if there is nothing wrong with the previous installation
+		echo  :: if you have problems I suggest uninstalling all packages mentioned in the control panel (windows)
 		echo.
 		timeout /t 1 /nobreak > NUL
-				
-		@powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))" && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin
 
-		@powershell -NoProfile -ExecutionPolicy Bypass -Command "choco install -y --force --allow-empty-checksums adb git"
+		echo Installing chocolatey on this machine
+		@powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))">>chocolatey-%DATE:~-4%-%DATE:~4,2%-%DATE:~7,2%_%time:~0,2%%time:~3,2%%time:~6,2%.log && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin
+	)
+		echo Installing Essentials programs, It may take
+		@powershell -NoProfile -ExecutionPolicy Bypass -Command "choco install -y --force --allow-empty-checksums adb git">>Essentials-%DATE:~-4%-%DATE:~4,2%-%DATE:~7,2%_%time:~0,2%%time:~3,2%%time:~6,2%.log
+	)
 
 :: timout
 PowerShell -Command "Start-Sleep -s 3" > nul 2>&1
+call refreshenv
+set PATH=%PATH%;%PROGRAMDATA%\chocolatey\lib\adb\tools\platform-tools\
 :: killing adb server
-call adb kill-server > nul 2>&1
-
+	call adb --version >nul
+	if %errorlevel% == 0 (
+	echo ADB Found! Proceeding..
+	echo killing adb server..
+	call adb kill-server > nul 2>&1
+	) else (
+		echo  :: ADB not found, maybe there was an installation issue, try opening another CMD window and type choco install adb
+		echo.
+        pause > NUL
+)
+REM call adb kill-server > nul 2>&1
 goto menu
-
 :clone
 set ROOT=%~dp0AzurLaneAutoScript
+SET PATH=%PATH%;%PROGRAMFILES%\Git\cmd
 echo Cloning repository
 if exist %ROOT% (
   RMDIR /S /Q %ROOT%
 )
-git clone https://github.com/LmeSzinc/AzurLaneAutoScript.git && cd AzurLaneAutoScript && git remote add whoamikyo https://github.com/whoamikyo/AzurLaneAutoScript.git
-PowerShell -Command "Start-Sleep -s 3" > nul 2>&1
-
+	call git --version >nul
+	if %errorlevel% == 0 (
+	echo GIT Found! Proceeding..
+	echo Cloning repository...
+	call git clone https://github.com/LmeSzinc/AzurLaneAutoScript.git && cd AzurLaneAutoScript && git remote add whoamikyo https://github.com/whoamikyo/AzurLaneAutoScript.git > clone-%DATE:~-4%-%DATE:~4,2%-%DATE:~7,2%_%time:~0,2%%time:~3,2%%time:~6,2%.log
+	) else (
+		echo  :: Git not found, maybe there was an installation issue, try opening another CMD window and type choco install git
+		echo.
+        pause > NUL
+)
+REM PowerShell -Command "Start-Sleep -s 3" > nul 2>&1
 goto menu
-
 :python
 cls
 echo.
@@ -127,9 +155,19 @@ if not exist %ROOT% (
    powershell -command "$shell_app=new-object -com shell.application; $zip_file = $shell_app.namespace(\"%FILE_DEST%\"); $destination = $shell_app.namespace(\"%ROOT%\"); $destination.Copyhere($zip_file.items())"
  ) else (
    echo "pythonpackage.zip already downloaded, delete to re-download"
+   pause > NUL
  )
-
-PowerShell -Command "Start-Sleep -s 3" > nul 2>&1
+	call %~dp0AzurLaneAutoScript/python-3.7.6.amd64/python.exe --version >nul
+	if %errorlevel% == 0 (
+	echo Python Found! Proceeding..
+	echo initializing uiautomator2..
+	%~dp0AzurLaneAutoScript/python-3.7.6.amd64/python.exe -m uiautomator2 init
+	) else (
+		echo :: it was not possible to install uiautomator2, make sure you have a folder python-3.7.6.amd64
+		echo :: inside AzurLaneAutoScript folder.
+		echo.
+        pause > NUL
+	)
 goto menu
 
 :updater
@@ -142,7 +180,7 @@ goto menu
 	echo	"error: Your local changes to the following files would be overwritten by merge:Easy_Install-V2.bat"
 	echo	YOU NEED RE-DOWNLOAD ONLY Easy_Install-V2.bat FILE FROM REPOSITORY AND OVERWRITTEN THE OLD FOR NEW FILE	
 	echo
-	echo					YOU NEED RUN UPDATER INSIDE AzurLaneAutoScript FOLDER
+	echo					JUST RUN UPDATER INSIDE AzurLaneAutoScript FOLDER
 	echo. 
 	echo     1. https://github.com/LmeSzinc/AzurLaneAutoScript (Main Repo, When in doubt, use it)
 	echo     2. https://github.com/whoamikyo/AzurLaneAutoScript (Mirrored Fork)
@@ -174,17 +212,44 @@ goto menu
 		
 
 :LmeSzinc
-git fetch origin master && git reset --hard origin/master && git pull --ff-only origin master
+	call git --version >nul
+	if %errorlevel% == 0 (
+	echo GIT Found! Proceeding..
+	echo Updating from LmeSzinc repository..
+	call git fetch origin master && git reset --hard origin/master && git pull --ff-only origin master
+	) else (
+		echo  :: Git not detected, maybe there was an installation issue, try opening another CMD window and type choco install git
+		echo.
+        pause > NUL
+	)
 :: timout
 PowerShell -Command "Start-Sleep -s 3" > nul 2>&1
 goto updater
 :whoamikyo
-git fetch whoamikyo master && git reset --hard whoamikyo/master && git pull --ff-only whoamikyo master
+	call git --version >nul
+	if %errorlevel% == 0 (
+	echo GIT Found! Proceeding..
+	echo Updating from whoamikyo repository..
+	call git fetch whoamikyo master && git reset --hard whoamikyo/master && git pull --ff-only whoamikyo master
+	) else (
+		echo  :: Git not detected, maybe there was an installation issue, try opening another CMD window and type choco install git
+		echo.
+        pause > NUL
+	)
 :: timout
 PowerShell -Command "Start-Sleep -s 3" > nul 2>&1
 goto updater
 :nightly
-git fetch whoamikyo nightly && git reset --hard whoamikyo/nightly && git pull --ff-only whoamikyo nightly
+	call git --version >nul
+	if %errorlevel% == 0 (
+	echo GIT Found! Proceeding..
+	echo Updating from whoamikyo nightly repository..
+	call git fetch whoamikyo nightly && git reset --hard whoamikyo/nightly && git pull --ff-only whoamikyo nightly
+	) else (
+		echo  :: Git not detected, maybe there was an installation issue, try opening another CMD window and type choco install git
+		echo.
+        pause > NUL
+	)
 :: timout
 PowerShell -Command "Start-Sleep -s 3" > nul 2>&1
 goto updater

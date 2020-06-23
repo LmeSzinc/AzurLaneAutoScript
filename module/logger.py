@@ -47,6 +47,8 @@ def hr(title, level=3):
 
 def attr(name, text):
     logger.info('[%s] %s' % (str(name), str(text)))
+    if '[%s] %s' % (str(name), str(text)) == '[Fast_Forward] off':
+        raise Exception
 
 
 logger.hr = hr
