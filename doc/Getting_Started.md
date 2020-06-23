@@ -8,4 +8,4 @@
 
 * Dont use submarines, When switching the submarine zone, the icon in the strategy don't change because a in-game bug, it's not just to checking `do_not_use` in ALAS, dont have any submarine fleet mounted while using the ALAS.
 
-
+* Do not try any trick to use only 1 Fleet, the logic is hardcoded, to avoid errors use mob fleet and boss fleet
