@@ -53,11 +53,14 @@ class FastForwardHandler(ModuleBase):
         changed = fleet_lock.set(status=status, main=self)
         return changed
 
+    def get_map_clear_percentage(self):
+        return color_bar_percentage(self.device.image, area=MAP_CLEAR_PERCENTAGE.area, prev_color=(231, 170, 82))
+
     def triggered_map_clear_mode_stop(self):
         if not self.config.ENABLE_MAP_CLEAR_MODE:
             return False
 
-        percent = color_bar_percentage(self.device.image, area=MAP_CLEAR_PERCENTAGE.area, prev_color=(231, 170, 82))
+        percent = self.get_map_clear_percentage()
         logger.attr('Map_clear', f'{int(percent * 100)}%')
         if self.config.CLEAR_MODE_STOP_CONDITION == 'map_100':
             if percent > 0.95:

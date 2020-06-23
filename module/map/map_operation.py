@@ -14,6 +14,7 @@ from module.retire.retirement import Retirement
 
 class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHandler):
     map_cat_attack_timer = Timer(2)
+    map_clear_percentage_prev = -1
 
     def fleet_switch_click(self):
         """
@@ -52,9 +53,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                 checked_in_map = True
 
             # Map preparation
-            if map_timer.reached() and self.appear(MAP_PREPARATION):
-                self.device.sleep(0.3)  # Wait for map information.
-                self.device.screenshot()
+            if map_timer.reached() and self.handle_map_preparation():
                 if self.handle_map_clear_mode_stop():
                     self.enter_map_cancel()
                     raise ScriptEnd(f'Reach condition: {self.config.CLEAR_MODE_STOP_CONDITION}')
@@ -119,6 +118,23 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                 break
 
         return True
+
+    def handle_map_preparation(self):
+        """
+        Returns:
+            bool: If MAP_PREPARATION and tha animation of map information finished
+        """
+        if not self.appear(MAP_PREPARATION):
+            self.map_clear_percentage_prev = -1
+            return False
+
+        percent = self.get_map_clear_percentage()
+        if abs(percent - self.map_clear_percentage_prev) < 0.02:
+            self.map_clear_percentage_prev = percent
+            return True
+        else:
+            self.map_clear_percentage_prev = percent
+            return False
 
     def withdraw(self):
         """
