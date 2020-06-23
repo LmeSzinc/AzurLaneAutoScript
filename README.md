@@ -1,6 +1,8 @@
 [English Quick Guide](doc%2FQuick_guide.md) 
 
 [English Readme](README_en.md) `Translation in progress`
+
+[Download Easy Install-v2](https://github.com/LmeSzinc/AzurLaneAutoScript/raw/master/Easy_Install-V2.bat)
 # AzurLaneAutoScript
 
 Alas, an Azur Lane automation tool with GUI (Support CN, EN, JP, able to support other servers).
