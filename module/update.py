@@ -142,5 +142,5 @@ class Update:
             else:
                 logger.info(f'      {line}')
 
-        if commits[-1][1] != '<local>' and local is not None:
+        if commits[-1][1] != '<local version>' and local is not None:
             logger.warning('A new update is available')
