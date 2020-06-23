@@ -77,21 +77,26 @@ goto alas
 
 :en
 %~dp0python-3.7.6.amd64/python.exe alas_en.pyw
-:: timout
-PowerShell -Command "Start-Sleep -s 10" > nul 2>&1
-
+if NOT ["%errorlevel%"]==["0"] (
+    pause
+    exit /b %errorlevel%
+)
 goto alas
-
 :cn
 %~dp0python-3.7.6.amd64/python.exe alas_cn.pyw
-
+if NOT ["%errorlevel%"]==["0"] (
+    pause
+    exit /b %errorlevel%
+)
 goto alas
-
 :jp
 %~dp0python-3.7.6.amd64/python.exe alas_jp.pyw
-
+PowerShell -Command "Start-Sleep -s 5" > nul 2>&1
+if NOT ["%errorlevel%"]==["0"] (
+    pause
+    exit /b %errorlevel%
+)
 goto alas
-
 :EOF
 exit
 
