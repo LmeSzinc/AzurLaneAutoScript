@@ -31,7 +31,7 @@ goto menu
 	echo  :: For fresh install, Run from step "1" to "3"
 	echo. 
 	echo		1.Essentials programs
-	echo		2.Clone repository
+	echo		2.Clone repository (Download the latest version from LmeSzinc repository)
 	echo		3.Python 3.7.6 + requirements.txt
 	echo		4.Updater ONLY (Do not update if you are doing a fresh install)
 	echo.	
@@ -128,7 +128,7 @@ if exist %ROOT% (
 	if %errorlevel% == 0 (
 	echo GIT Found! Proceeding..
 	echo Cloning repository...
-	call git clone https://github.com/LmeSzinc/AzurLaneAutoScript.git && cd AzurLaneAutoScript && git remote add whoamikyo https://github.com/whoamikyo/AzurLaneAutoScript.git > clone-%DATE:~-4%-%DATE:~4,2%-%DATE:~7,2%_%time:~0,2%%time:~3,2%%time:~6,2%.log
+	call git clone https://github.com/LmeSzinc/AzurLaneAutoScript.git && cd AzurLaneAutoScript && git remote add whoamikyo https://github.com/whoamikyo/AzurLaneAutoScript.git
 	) else (
 		echo  :: Git not found, maybe there was an installation issue, try opening another CMD window and type choco install git
 		echo.
