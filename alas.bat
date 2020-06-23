@@ -12,9 +12,11 @@ if not exist adb_port.ini (
   cd . > adb_port.ini
 )
 
+REM if adb_port is empty, prompt HOST:PORT
 set "adb_empty=*adb_port.ini"
 for %%A in (%adb_empty%) do if %%~zA==0 (
     echo enter your HOST:PORT eg: 127.0.0.1:5555 for default bluestacks
+	echo WARNING! DONT FORGET TO SETUP AGAIN IN, ALAS ON EMULATOR SETTINGS FUNCTION
     set /p adb_input=
 )
 
@@ -74,28 +76,44 @@ goto alas
 		goto alas
 		)
 		
-
 :en
-%~dp0python-3.7.6.amd64/python.exe alas_en.pyw
-if NOT ["%errorlevel%"]==["0"] (
-    pause
-    exit /b %errorlevel%
-)
+	call %~dp0python-3.7.6.amd64/python.exe --version >nul
+	if %errorlevel% == 0 (
+	echo Python Found! Proceeding..
+	echo Opening alas_en.pyw...
+	%~dp0python-3.7.6.amd64/python.exe alas_en.pyw
+	) else (
+		echo :: it was not possible to open alas_en.pyw, make sure you have a folder python-3.7.6.amd64
+		echo :: inside AzurLaneAutoScript folder.
+		echo.
+        pause > NUL
+	)
 goto alas
 :cn
-%~dp0python-3.7.6.amd64/python.exe alas_cn.pyw
-if NOT ["%errorlevel%"]==["0"] (
-    pause
-    exit /b %errorlevel%
-)
+	call %~dp0python-3.7.6.amd64/python.exe --version >nul
+	if %errorlevel% == 0 (
+	echo Python Found! Proceeding..
+	echo Opening alas_en.pyw...
+	%~dp0python-3.7.6.amd64/python.exe alas_cn.pyw
+	) else (
+		echo :: it was not possible to open alas_cn.pyw, make sure you have a folder python-3.7.6.amd64
+		echo :: inside AzurLaneAutoScript folder.
+		echo.
+        pause > NUL
+	)
 goto alas
 :jp
-%~dp0python-3.7.6.amd64/python.exe alas_jp.pyw
-PowerShell -Command "Start-Sleep -s 5" > nul 2>&1
-if NOT ["%errorlevel%"]==["0"] (
-    pause
-    exit /b %errorlevel%
-)
+	call %~dp0python-3.7.6.amd64/python.exe --version >nul
+	if %errorlevel% == 0 (
+	echo Python Found! Proceeding..
+	echo Opening alas_en.pyw...
+	%~dp0python-3.7.6.amd64/python.exe alas_jp.pyw
+	) else (
+		echo :: it was not possible to open alas_jp.pyw, make sure you have a folder python-3.7.6.amd64
+		echo :: inside AzurLaneAutoScript folder.
+		echo.
+        pause > NUL
+	)
 goto alas
 :EOF
 exit

@@ -1,5 +1,6 @@
 import codecs
 import os
+import sys
 
 from gooey import Gooey, GooeyParser
 import module.config.server as server
@@ -7,6 +8,11 @@ from alas import AzurLaneAutoScript
 from module.config.dictionary import dic_true_eng_to_eng, dic_eng_to_true_eng
 from module.config.update import get_config
 from module.logger import pyw_name
+
+if sys.stdout.encoding != 'UTF-8':
+    sys.stdout = codecs.getwriter('utf-8')(sys.stdout.buffer, 'strict')
+if sys.stderr.encoding != 'UTF-8':
+    sys.stderr = codecs.getwriter('utf-8')(sys.stderr.buffer, 'strict')
 
 
 @Gooey(

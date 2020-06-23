@@ -105,7 +105,7 @@ class Update:
         date -= date.utcoffset()
         date = date.replace(tzinfo=None)
 
-        return date, '<local>'
+        return date, '<local version>'
 
     def get_latest_commit(self):
         """
