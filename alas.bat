@@ -1,7 +1,10 @@
+@SETLOCAL EnableExtensions EnableDelayedExpansion
 @echo off
-
 title ALAS run
-call adb kill-server > nul 2>&1
+SET ADB=%~dp0python-3.7.6.amd64\Lib\site-packages\adbutils\binaries\adb.exe
+SET PYTHON=%~dp0python-3.7.6.amd64\python.exe
+
+call %ADB% kill-server > nul 2>&1
 
 set SCREENSHOT_FOLDER=%~dp0screenshots
 if not exist %SCREENSHOT_FOLDER% (
@@ -34,7 +37,7 @@ REM
 set /p ADB_PORT=<adb_port.ini
 
 echo connecting at %ADB_PORT%
-adb connect %ADB_PORT%
+call %ADB% connect %ADB_PORT%
 
 ::echo initializing uiautomator2
 ::%~dp0python-3.7.6.amd64/python.exe -m uiautomator2 init
@@ -77,24 +80,25 @@ goto alas
 		)
 		
 :en
-	call %~dp0python-3.7.6.amd64/python.exe --version >nul
+	call %PYTHON% --version >nul
 	if %errorlevel% == 0 (
 	echo Python Found! Proceeding..
 	echo Opening alas_en.pyw...
-	%~dp0python-3.7.6.amd64/python.exe alas_en.pyw
+	call %PYTHON% alas_en.pyw
 	) else (
 		echo :: it was not possible to open alas_en.pyw, make sure you have a folder python-3.7.6.amd64
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
 	)
+PowerShell -Command "Start-Sleep -s 10" > nul 2>&1
 goto alas
 :cn
-	call %~dp0python-3.7.6.amd64/python.exe --version >nul
+	call %PYTHON% --version >nul
 	if %errorlevel% == 0 (
 	echo Python Found! Proceeding..
 	echo Opening alas_en.pyw...
-	%~dp0python-3.7.6.amd64/python.exe alas_cn.pyw
+	call %PYTHON% alas_cn.pyw
 	) else (
 		echo :: it was not possible to open alas_cn.pyw, make sure you have a folder python-3.7.6.amd64
 		echo :: inside AzurLaneAutoScript folder.
@@ -103,11 +107,11 @@ goto alas
 	)
 goto alas
 :jp
-	call %~dp0python-3.7.6.amd64/python.exe --version >nul
+	call %PYTHON% --version >nul
 	if %errorlevel% == 0 (
 	echo Python Found! Proceeding..
 	echo Opening alas_en.pyw...
-	%~dp0python-3.7.6.amd64/python.exe alas_jp.pyw
+	call %PYTHON% alas_jp.pyw
 	) else (
 		echo :: it was not possible to open alas_jp.pyw, make sure you have a folder python-3.7.6.amd64
 		echo :: inside AzurLaneAutoScript folder.

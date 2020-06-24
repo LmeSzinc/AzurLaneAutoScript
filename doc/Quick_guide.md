@@ -18,7 +18,7 @@
 * Then it will install everything and download ALAS
 * Will be created a folder `AzurLaneAutoScript` in the directory you run `Easy_Install-V2.bat`
 * To Run ALAS, just click in `alas.bat`
-* to avoid connection errors it's recommended to configure your emulator port correctly in the `alas.bat` file, just open it with notepad and edit line 5, remove the `::` and configure with your emulator PORT, below you have more information on how to find your emulator PORT, READ ALL.
+* to avoid connection errors it's recommended to configure your emulator port correctly, in `alas.bat` first start will be prompt to enter your HOST:PORT, just open it with notepad and edit line 5, remove the `::` and configure with your emulator PORT, below you have more information on how to find your emulator PORT, READ ALL.
 * It probably doesn't work on windows 7, you can test it and if it doesn't work try manual installation, tested on Windows 10 x64 Version 2004.
 
 # Manual installation method
