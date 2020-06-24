@@ -37,9 +37,9 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             mode (str): 'normal' or 'hard' or 'cd'
         """
         logger.hr('Enter map')
-        campaign_timer = Timer(2)
-        map_timer = Timer(1)
-        fleet_timer = Timer(1)
+        campaign_timer = Timer(5)
+        map_timer = Timer(5)
+        fleet_timer = Timer(5)
         checked_in_map = False
         self.stage_entrance = button
 
