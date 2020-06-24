@@ -189,10 +189,10 @@ SET name=%time%
 SET /P name=
 IF /I '%name%'=='exit' goto EOF
 IF /I '%name%'=='alas' goto dev_menu
-adb -s %ADB_PORT% shell mkdir /sdcard/dcim/Screenshot 2>nul
-adb -s %ADB_PORT% shell screencap -p /sdcard/dcim/Screenshot/%name%.png
-adb -s %ADB_PORT% pull /sdcard/dcim/Screenshot/%name%.png %SCREENSHOT_FOLDER%\%name%.png
-adb -s %ADB_PORT% shell rm /sdcard/dcim/Screenshot/%name%.png
+call %~dp0python-3.7.6.amd64\Lib\site-packages\adbutils\binaries\adb -s %ADB_PORT% shell mkdir /sdcard/dcim/Screenshot 2>nul
+call %~dp0python-3.7.6.amd64\Lib\site-packages\adbutils\binaries\adb -s %ADB_PORT% shell screencap -p /sdcard/dcim/Screenshot/%name%.png
+call %~dp0python-3.7.6.amd64\Lib\site-packages\adbutils\binaries\adb -s %ADB_PORT% pull /sdcard/dcim/Screenshot/%name%.png %SCREENSHOT_FOLDER%\%name%.png
+call %~dp0python-3.7.6.amd64\Lib\site-packages\adbutils\binaries\adb -s %ADB_PORT% shell rm /sdcard/dcim/Screenshot/%name%.png
 echo.
 echo The file %name%.png has been copied to ./screenshots/ directory
 echo.
