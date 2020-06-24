@@ -1,12 +1,18 @@
 @echo off
 setlocal EnableDelayedExpansion
 title Dev_tools
+:: -----------------------------------------------------------------------------
+SET ADB_PATH=%~dp0python-3.7.6.amd64\Lib\site-packages\adbutils\binaries\adb.exe
+SET ADB=%ADB_PATH%
+SET PYTHON_PATH=%~dp0python-3.7.6.amd64\python.exe
+SET PYTHON=%PYTHON_PATH%
+:: -----------------------------------------------------------------------------
 
 set SCREENSHOT_FOLDER=%~dp0screenshots
 if not exist %SCREENSHOT_FOLDER% (
   mkdir %SCREENSHOT_FOLDER%
 )
-
+:: -----------------------------------------------------------------------------
 if not exist adb_port.ini (
   cd . > adb_port.ini
 )
@@ -31,8 +37,8 @@ REM
 set /p ADB_PORT=<adb_port.ini
 
 echo connecting at %ADB_PORT%
-adb connect %ADB_PORT%
-
+CALL %ADB% connect %ADB_PORT%
+:: -----------------------------------------------------------------------------
 :dev_menu
 	cls
 	echo.
@@ -75,110 +81,113 @@ adb connect %ADB_PORT%
 		pause > NUL
 		goto dev_menu
 		)
-
+:: -----------------------------------------------------------------------------
 :emulator_test
-%~dp0python-3.7.6.amd64/python.exe -m dev_tools.emulator_test
-echo.
-PowerShell -Command "Start-Sleep -s 3" > nul 2>&1
-
+	call %PYTHON% --version >nul
+	if %errorlevel% == 0 (
+	echo Python Found! Proceeding..
+	echo Opening dev_tools.emulator_test...
+	call %PYTHON% -m dev_tools.emulator_test
+	pause > NUL
+	) else (
+		echo :: it was not possible to open dev_tools.emulator_test, make sure you have a folder python-3.7.6.amd64
+		echo :: inside AzurLaneAutoScript folder.
+		echo.
+        pause > NUL
+	)
 goto dev_menu
-
+:: -----------------------------------------------------------------------------
 :button_extract
-	call %~dp0python-3.7.6.amd64/python.exe --version >nul
+	call %PYTHON% --version >nul
 	if %errorlevel% == 0 (
 	echo Python Found! Proceeding..
 	echo Opening dev_tools.button_extract...
-	%~dp0python-3.7.6.amd64/python.exe -m dev_tools.button_extract
+	call %PYTHON% -m dev_tools.button_extract
+	pause > NUL
 	) else (
 		echo :: it was not possible to open dev_tools.button_extract, make sure you have a folder python-3.7.6.amd64
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
 	)
-PowerShell -Command "Start-Sleep -s 3" > nul 2>&1
-
 goto dev_menu
-
+:: -----------------------------------------------------------------------------
 :grids_debug
-	call %~dp0python-3.7.6.amd64/python.exe --version >nul
+	call %PYTHON% --version >nul
 	if %errorlevel% == 0 (
 	echo Python Found! Proceeding..
 	echo Opening dev_tools.button_extract...
-	%~dp0python-3.7.6.amd64/python.exe -m dev_tools.grids_debug
+	call %PYTHON% -m dev_tools.grids_debug
+	pause > NUL
 	) else (
 		echo :: it was not possible to open dev_tools.grids_debug, make sure you have a folder python-3.7.6.amd64
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
 	)
-PowerShell -Command "Start-Sleep -s 10" > nul 2>&1
-
 goto dev_menu
-
+:: -----------------------------------------------------------------------------
 :item_stastistics
-	call %~dp0python-3.7.6.amd64/python.exe --version >nul
+	call %PYTHON% --version >nul
 	if %errorlevel% == 0 (
 	echo Python Found! Proceeding..
 	echo Opening dev_tools.button_extract...
-	%~dp0python-3.7.6.amd64/python.exe -m dev_tools.item_stastistics
+	call %PYTHON% -m dev_tools.item_stastistics
+	pause > NUL
 	) else (
 		echo :: it was not possible to open dev_tools.item_stastistics, make sure you have a folder python-3.7.6.amd64
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
 	)
-PowerShell -Command "Start-Sleep -s 10" > nul 2>&1
-
 goto dev_menu
-
+:: -----------------------------------------------------------------------------
 :relative_crop
-	call %~dp0python-3.7.6.amd64/python.exe --version >nul
+	call %PYTHON% --version >nul
 	if %errorlevel% == 0 (
 	echo Python Found! Proceeding..
 	echo Opening dev_tools.button_extract...
-	%~dp0python-3.7.6.amd64/python.exe -m dev_tools.relative_crop
+	call %PYTHON% -m dev_tools.relative_crop
+	pause > NUL
 	) else (
 		echo :: it was not possible to open dev_tools.relative_crop, make sure you have a folder python-3.7.6.amd64
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
 	)
-PowerShell -Command "Start-Sleep -s 3" > nul 2>&1
 
 goto dev_menu
-
+:: -----------------------------------------------------------------------------
 :map_extractor
-	call %~dp0python-3.7.6.amd64/python.exe --version >nul
+	call %PYTHON% --version >nul
 	if %errorlevel% == 0 (
 	echo Python Found! Proceeding..
 	echo Opening dev_tools.button_extract...
-	%~dp0python-3.7.6.amd64/python.exe -m dev_tools.map_extractor
+	call %PYTHON% -m dev_tools.map_extractor
+	pause > NUL
 	) else (
 		echo :: it was not possible to open dev_tools.map_extractor, make sure you have a folder python-3.7.6.amd64
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
 	)
-PowerShell -Command "Start-Sleep -s 3" > nul 2>&1
-
 goto dev_menu
-
+:: -----------------------------------------------------------------------------
 :word_template_extractor
-	call %~dp0python-3.7.6.amd64/python.exe --version >nul
+	call %PYTHON% --version >nul
 	if %errorlevel% == 0 (
 	echo Python Found! Proceeding..
 	echo Opening dev_tools.button_extract...
-	%~dp0python-3.7.6.amd64/python.exe -m dev_tools.word_template_extractor
+	call %PYTHON% -m dev_tools.word_template_extractor
+	pause > NUL
 	) else (
 		echo :: it was not possible to open dev_tools.word_template_extractor, make sure you have a folder python-3.7.6.amd64
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
 	)
-PowerShell -Command "Start-Sleep -s 3" > nul 2>&1
-
 goto dev_menu
-
+:: -----------------------------------------------------------------------------
 :adbss
 echo Enter any text/letter instead of the file name, do not enter spaces, enter exit to exit
 echo or enter alas to back to main menu
@@ -189,33 +198,35 @@ SET name=%time%
 SET /P name=
 IF /I '%name%'=='exit' goto EOF
 IF /I '%name%'=='alas' goto dev_menu
-call %~dp0python-3.7.6.amd64\Lib\site-packages\adbutils\binaries\adb -s %ADB_PORT% shell mkdir /sdcard/dcim/Screenshot 2>nul
-call %~dp0python-3.7.6.amd64\Lib\site-packages\adbutils\binaries\adb -s %ADB_PORT% shell screencap -p /sdcard/dcim/Screenshot/%name%.png
-call %~dp0python-3.7.6.amd64\Lib\site-packages\adbutils\binaries\adb -s %ADB_PORT% pull /sdcard/dcim/Screenshot/%name%.png %SCREENSHOT_FOLDER%\%name%.png
-call %~dp0python-3.7.6.amd64\Lib\site-packages\adbutils\binaries\adb -s %ADB_PORT% shell rm /sdcard/dcim/Screenshot/%name%.png
+call %ADB% -s %ADB_PORT% shell mkdir /sdcard/dcim/Screenshot 2>nul
+call %ADB% -s %ADB_PORT% shell screencap -p /sdcard/dcim/Screenshot/%name%.png
+call %ADB% -s %ADB_PORT% pull /sdcard/dcim/Screenshot/%name%.png %SCREENSHOT_FOLDER%\%name%.png
+call %ADB% -s %ADB_PORT% shell rm /sdcard/dcim/Screenshot/%name%.png
 echo.
 echo The file %name%.png has been copied to ./screenshots/ directory
 echo.
 SET time=
-PowerShell -Command "Start-Sleep -s 3" > nul 2>&1
 if NOT ["%errorlevel%"]==["0"] (
     pause
     exit /b %errorlevel%
 )
 goto adbss
-
+:: -----------------------------------------------------------------------------
 :u2ss
-%~dp0python-3.7.6.amd64/python.exe -m dev_tools.uiautomator2_screenshot
-echo The file *.png has been copied to ./screenshots/ directory
-PowerShell -Command "Start-Sleep -s 3" > nul 2>&1
-if NOT ["%errorlevel%"]==["0"] (
-    pause
-    exit /b %errorlevel%
-)
-echo.
-
+	call %PYTHON% --version >nul
+	if %errorlevel% == 0 (
+	echo Python Found! Proceeding..
+	echo Opening dev_tools.button_extract...
+	call %PYTHON% -m dev_tools.uiautomator2_screenshot
+	echo The file *.png has been copied to ./screenshots/ directory
+	pause > NUL
+	) else (
+		echo :: it was not possible to open ddev_tools.uiautomator2_screenshot, make sure you have a folder python-3.7.6.amd64
+		echo :: inside AzurLaneAutoScript folder.
+		echo.
+        pause > NUL
+	)
 goto dev_menu
-
-
+:: -----------------------------------------------------------------------------
 :EOF
 exit
