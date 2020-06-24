@@ -13,7 +13,7 @@
 
 # New automatic installation method (Recommended)
 
-* Just download the file [Easy_Install-V2.bat](https://raw.githubusercontent.com/LmeSzinc/AzurLaneAutoScript/master/Easy_Install-V2.bat), put in some folder and run as administrator (`Right click> Run as administrator`) 
+* Just download the file [Easy_Install-V2.bat](https://github.com/whoamikyo/AzurLaneAutoScript/releases), put in some folder and run as administrator (`Right click> Run as administrator`) 
 * Do not install ALAS in a folder that contains spaces in the name, this will make the scripts not work correctly, created a folder at the root of some drive like `C:\ALAS\` or `D:\ALAS\`, Then place Easy_Install-V2.bat in that folder and run.
 * Then it will install everything and download ALAS
 * Will be created a folder `AzurLaneAutoScript` in the directory you run `Easy_Install-V2.bat`
