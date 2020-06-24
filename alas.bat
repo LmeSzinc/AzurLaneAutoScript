@@ -6,7 +6,7 @@ SET PYTHON=%~dp0python-3.7.6.amd64\python.exe
 SET CMD=%SystemRoot%\system32\cmd.exe
 SET LMESZINC=https://github.com/LmeSzinc/AzurLaneAutoScript.git
 SET WHOAMIKYO=https://github.com/whoamikyo/AzurLaneAutoScript.git
-
+:: -----------------------------------------------------------------------------
 call %ADB% kill-server > nul 2>&1
 
 set SCREENSHOT_FOLDER=%~dp0screenshots
@@ -17,7 +17,7 @@ if not exist %SCREENSHOT_FOLDER% (
 if not exist adb_port.ini (
   cd . > adb_port.ini
 )
-
+:: -----------------------------------------------------------------------------
 REM if adb_port is empty, prompt HOST:PORT
 set "adb_empty=*adb_port.ini"
 for %%A in (%adb_empty%) do if %%~zA==0 (
@@ -25,7 +25,7 @@ for %%A in (%adb_empty%) do if %%~zA==0 (
 	echo WARNING! DONT FORGET TO SETUP AGAIN IN, ALAS ON EMULATOR SETTINGS FUNCTION
     set /p adb_input=
 )
-
+:: -----------------------------------------------------------------------------
 REM if adb_input = 0 load from adb_port.ini
 if [%adb_input%]==[] (
     goto load
@@ -45,10 +45,8 @@ call %ADB% connect %ADB_PORT%
 echo initializing uiautomator2
 call %PYTHON% -m uiautomator2 init
 :: timout
-PowerShell -Command "Start-Sleep -s 4" > nul 2>&1
-
 goto alas
-
+:: -----------------------------------------------------------------------------
 :alas
 	cls
 	echo.
@@ -90,13 +88,13 @@ goto alas
 	echo Python Found! Proceeding..
 	echo Opening alas_en.pyw...
 	call %PYTHON% alas_en.pyw
+	goto alas
 	) else (
 		echo :: it was not possible to open alas_en.pyw, make sure you have a folder python-3.7.6.amd64
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
 	)
-PowerShell -Command "Start-Sleep -s 10" > nul 2>&1
 goto alas
 :cn
 	call %PYTHON% --version >nul
@@ -104,6 +102,7 @@ goto alas
 	echo Python Found! Proceeding..
 	echo Opening alas_en.pyw...
 	call %PYTHON% alas_cn.pyw
+	goto alas
 	) else (
 		echo :: it was not possible to open alas_cn.pyw, make sure you have a folder python-3.7.6.amd64
 		echo :: inside AzurLaneAutoScript folder.
@@ -117,14 +116,13 @@ goto alas
 	echo Python Found! Proceeding..
 	echo Opening alas_en.pyw...
 	call %PYTHON% alas_jp.pyw
+	goto alas
 	) else (
 		echo :: it was not possible to open alas_jp.pyw, make sure you have a folder python-3.7.6.amd64
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
 	)
-goto alas
-
 :: -----------------------------------------------------------------------------
 :updater
 SET GIT_ALAS=%~dp0python-3.7.6.amd64\Git\cmd\git.exe
@@ -141,26 +139,27 @@ SET ALAS_PY=alas.py
 :updater_menu
 	cls
 	echo.
-	echo  :: This update only will work if you downloaded ALAS on Release tab and installed with Easy_Install-v2.bat
-	echo. 
-	echo									::DISCLAIMER::
-	echo
-	echo					JUST RUN UPDATER INSIDE AzurLaneAutoScript FOLDER
-	echo. 
-	echo     1. https://github.com/LmeSzinc/AzurLaneAutoScript (Main Repo, When in doubt, use it)
-	echo     2. https://github.com/whoamikyo/AzurLaneAutoScript (Mirrored Fork)
-	echo     3. https://github.com/whoamikyo/AzurLaneAutoScript (nightly build, dont use)
-	echo     4. Back to main menu
-	echo. 
-	echo  :: Type a 'number' and press ENTER
-	echo  :: Type 'exit' to quit
+	echo	:: This update only will work if you downloaded ALAS on
+	echo	:: Release tab and installed with Easy_Install-v2.bat
+	echo.
+	echo	::DISCLAIMER::
+	echo.
+	echo	JUST RUN UPDATER INSIDE AzurLaneAutoScript FOLDER
+	echo.
+	echo	1. https://github.com/LmeSzinc/AzurLaneAutoScript (Main Repo, When in doubt, use it)
+	echo	2. https://github.com/whoamikyo/AzurLaneAutoScript (Mirrored Fork)
+	echo	3. https://github.com/whoamikyo/AzurLaneAutoScript (nightly build, dont use)
+	echo	4. Back to main menu
+	echo.
+	echo	:: Type a 'number' and press ENTER
+	echo	:: Type 'exit' to quit
 	echo.
 	
 	set /P choice=
 		if %choice%==1 GOTO LmeSzinc
 		if %choice%==2 GOTO whoamikyo
 		if %choice%==3 GOTO nightly
-		if %choice%==4 GOTO menu
+		if %choice%==4 GOTO alas
 		if %choice%==exit GOTO EOF
 		
 		else (
