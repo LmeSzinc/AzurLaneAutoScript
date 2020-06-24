@@ -67,7 +67,7 @@ goto alas
 		if %menu%==1 GOTO en
 		if %menu%==2 GOTO cn
 		if %menu%==3 GOTO jp
-		if %menu%==4 GOTO updater
+		if %menu%==4 GOTO updater_menu
 		if %menu%==exit GOTO EOF
 		
 		else (
@@ -81,7 +81,7 @@ goto alas
 		pause > NUL
 		goto alas
 		)
-		
+:: -----------------------------------------------------------------------------
 :en
 	call %PYTHON% --version >nul
 	if %errorlevel% == 0 (
@@ -94,8 +94,9 @@ goto alas
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
+        goto alas
 	)
-goto alas
+:: -----------------------------------------------------------------------------
 :cn
 	call %PYTHON% --version >nul
 	if %errorlevel% == 0 (
@@ -108,8 +109,9 @@ goto alas
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
+        goto alas
 	)
-goto alas
+:: -----------------------------------------------------------------------------
 :jp
 	call %PYTHON% --version >nul
 	if %errorlevel% == 0 (
@@ -122,21 +124,24 @@ goto alas
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
+        goto alas
 	)
 :: -----------------------------------------------------------------------------
-:updater
+rem :updater
+rem SET GIT_ALAS=%~dp0python-3.7.6.amd64\Git\cmd\git.exe
+rem SET GLP=%GIT_ALAS%
+rem SET ALAS_PY=alas.py
+rem 	if exist %ALAS_PY% (
+rem 			goto updater_menu
+rem 		) else (
+rem 		cd AzurLaneAutoScript
+rem 		echo.
+rem 		goto updater_menu
+rem 	)
+rem :: -----------------------------------------------------------------------------
+:updater_menu
 SET GIT_ALAS=%~dp0python-3.7.6.amd64\Git\cmd\git.exe
 SET GLP=%GIT_ALAS%
-SET ALAS_PY=alas.py
-	if exist %ALAS_PY% (
-			goto updater_menu
-		) else (
-		cd AzurLaneAutoScript
-		echo.
-		goto updater_menu
-	)
-:: -----------------------------------------------------------------------------
-:updater_menu
 	cls
 	echo.
 	echo	:: This update only will work if you downloaded ALAS on
@@ -154,7 +159,7 @@ SET ALAS_PY=alas.py
 	echo	:: Type a 'number' and press ENTER
 	echo	:: Type 'exit' to quit
 	echo.
-	
+
 	set /P choice=
 		if %choice%==1 GOTO LmeSzinc
 		if %choice%==2 GOTO whoamikyo
@@ -192,6 +197,7 @@ SET ALAS_PY=alas.py
 		echo AzurLaneAutoScript\python-3.7.6.amd64\Git\cmd
 		echo.
         pause > NUL
+        goto updater_menu
 	)
 :: -----------------------------------------------------------------------------
 :whoamikyo
