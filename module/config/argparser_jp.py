@@ -45,6 +45,8 @@ def main(ini_name=''):
     event_folder = [dic_eng_to_true_eng.get(f, f) for f in event_folder][::-1]
     event_latest = dic_eng_to_true_eng.get(event_latest, event_latest)
 
+    raid_latest = 'Air_Raid_Drills_with_Essex'
+
     saved_config = {}
     for opt, option in config.items():
         for key, value in option.items():
@@ -259,6 +261,7 @@ def main(ini_name=''):
     daily.add_argument('--enable_hard_campaign', default=default('--enable_hard_campaign'), help='If there are records on the day, skip', choices=['yes', 'no'])
     daily.add_argument('--enable_exercise', default=default('--enable_exercise'), help='If there is a record after refreshing, skip', choices=['yes', 'no'])
     daily.add_argument('--enable_event_ab', default=default('--enable_event_ab'), help='If there is a record after refreshing, skip', choices=['yes', 'no'])
+    daily.add_argument('--enable_raid_daily', default=default('--enable_raid_daily'), help='If there is a record after refreshing, skip', choices=['yes', 'no'])
 
     # 每日设置
     daily_task = daily_parser.add_argument_group('Daily settings', 'Does not support submarine daily')
@@ -286,6 +289,13 @@ def main(ini_name=''):
 
     event_bonus = daily_parser.add_argument_group('Event Daily Bonus', 'bonus for first clear each day')
     event_bonus.add_argument('--event_name_ab', default=event_latest, choices=event_folder, help='There a dropdown menu with many options')
+
+    # Raid daily
+    raid_bonus = daily_parser.add_argument_group('Raid settings', '')
+    raid_bonus.add_argument('--raid_daily_name', default=raid_latest, choices=[raid_latest], help='')
+    raid_bonus.add_argument('--raid_hard', default=default('--raid_hard'), choices=['yes', 'no'], help='')
+    raid_bonus.add_argument('--raid_normal', default=default('--raid_normal'), choices=['yes', 'no'], help='')
+    raid_bonus.add_argument('--raid_easy', default=default('--raid_easy'), choices=['yes', 'no'], help='')
 
     # ==========event_daily_ab==========
     # event_ab_parser = subs.add_parser('event_daily_bonus')
@@ -315,6 +325,13 @@ def main(ini_name=''):
                              choices=['sp1', 'sp2', 'sp3'],
                              help='E.g sp3')
     event.add_argument('--event_name', default=event_latest, choices=event_folder, help='There a dropdown menu with many options')
+
+    # ==========Raid==========
+    raid_parser = subs.add_parser('raid')
+    raid = raid_parser.add_argument_group('Choose a raid', '')
+    raid.add_argument('--raid_name', default=raid_latest, choices=[raid_latest], help='')
+    raid.add_argument('--raid_mode', default=default('--raid_mode'), choices=['hard', 'normal', 'easy'], help='')
+    raid.add_argument('--raid_use_ticket', default=default('--raid_use_ticket'), choices=['yes', 'no'], help='')
 
     # ==========半自动==========
     semi_parser = subs.add_parser('semi_auto')

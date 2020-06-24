@@ -9,9 +9,6 @@ from module.logger import logger, pyw_name, log_file
 from module.update import Update
 
 
-Update(AzurLaneConfig()).get_latest_commit()
-
-
 class AzurLaneAutoScript:
     def __init__(self, ini_name=''):
         if not ini_name:
@@ -125,6 +122,13 @@ class AzurLaneAutoScript:
             az = CampaignAB(self.config, device=self.device)
             az.run_event_daily()
 
+        if self.config.ENABLE_RAID_DAILY:
+            from module.raid.daily import RaidDaily
+            az = RaidDaily(self.config, device=self.device)
+            if not az.record_executed_since():
+                az.run(self.config.RAID_DAILY_NAME)
+                az.record_save()
+
         self.reward_when_finished()
 
     def event(self):
@@ -134,6 +138,12 @@ class AzurLaneAutoScript:
         from module.campaign.run import CampaignRun
         az = CampaignRun(self.config, device=self.device)
         az.run(self.config.CAMPAIGN_EVENT, folder=self.config.EVENT_NAME)
+        self.reward_when_finished()
+
+    def raid(self):
+        from module.raid.run import RaidRun
+        az = RaidRun(self.config, device=self.device)
+        az.run(self.config.RAID_NAME)
         self.reward_when_finished()
 
     def event_daily_ab(self):
