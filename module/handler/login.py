@@ -20,7 +20,7 @@ class LoginHandler(Combat):
                 continue
             if self.handle_get_ship():
                 continue
-            if self.appear_then_click(LOGIN_ANNOUNCE, offset=(30, 30), interval=1):
+            if self.appear_then_click(LOGIN_ANNOUNCE, offset=(30, 30), interval=5):
                 continue
             if self.appear(EVENT_LIST_CHECK, offset=(30, 30), interval=1):
                 self.device.click(BACK_ARROW)

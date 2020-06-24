@@ -44,7 +44,12 @@ class CampaignRun(CampaignUI, Reward):
         if folder.startswith('event'):
             self.stage = name
 
-        self.module = importlib.import_module('.' + name, f'campaign.{folder}')
+        try:
+            self.module = importlib.import_module('.' + name, f'campaign.{folder}')
+        except ModuleNotFoundError:
+            logger.warning(f'Map file not found: campaign.{folder}.{name}')
+            exit(1)
+
         config = copy.copy(self.config).merge(self.module.Config())
         device = copy.copy(self.device)
         device.config = config

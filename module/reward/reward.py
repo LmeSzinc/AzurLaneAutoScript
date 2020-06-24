@@ -8,9 +8,10 @@ from module.reward.assets import *
 from module.reward.commission import RewardCommission
 from module.reward.tactical_class import RewardTacticalClass
 from module.ui.page import *
+from module.update import Update
 
 
-class Reward(RewardCommission, RewardTacticalClass, LoginHandler):
+class Reward(RewardCommission, RewardTacticalClass, LoginHandler, Update):
     def reward(self):
         if not self.config.ENABLE_REWARD:
             return False

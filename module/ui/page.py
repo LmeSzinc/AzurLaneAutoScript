@@ -88,3 +88,8 @@ page_reward.link(button=REWARD_GOTO_TACTICAL, destination=page_tactical)
 page_event_list = Page(EVENT_LIST_CHECK)
 page_event_list.link(button=GOTO_MAIN, destination=page_main)
 page_main.link(button=MAIN_GOTO_EVENT_LIST, destination=page_event_list)
+
+# Raid
+page_raid = Page(RAID_CHECK)
+page_raid.link(button=GOTO_MAIN, destination=page_main)
+page_main.link(button=MAIN_GOTO_RAID, destination=page_raid)

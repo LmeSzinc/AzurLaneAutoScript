@@ -110,8 +110,8 @@ class Fleet(Camera, MapOperation, AmbushHandler):
             # Wait to confirm fleet arrived. It does't appear immediately if fleet in combat .
             add = self.config.MAP_SIREN_MOVE_WAIT * min(self.config.MAP_SIREN_COUNT, siren_count) \
                 if self.config.MAP_HAS_MOVABLE_ENEMY and not self.config.ENABLE_FAST_FORWARD else 0
-            arrive_timer = Timer(0.3 + add)
-            arrive_unexpected_timer = Timer(1.5 + add)
+            arrive_timer = Timer(0.5 + add, count=2)
+            arrive_unexpected_timer = Timer(1.5 + add, count=6)
             # Wait after ambushed.
             ambushed_retry = Timer(0.5)
             # If nothing happens, click again.

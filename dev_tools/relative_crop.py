@@ -21,9 +21,9 @@ class Config:
 cfg = AzurLaneConfig().merge(Config())
 
 # Folder to save temp images
-folder = ''
+folder = './screenshots/temp/'
 # Put Screenshot here
-file = ''
+file = './screenshots/TEMPLATE_AMBUSH_EVADE_FAILED.png'
 
 i = Image.open(file).convert('RGB')
 grids = Grids(i, cfg)
