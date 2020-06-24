@@ -1,3 +1,7 @@
+[English Quick Guide](doc%2FQuick_guide.md) 
+
+[Download Easy Install-v2](https://github.com/LmeSzinc/AzurLaneAutoScript/raw/master/Easy_Install-V2.bat)
+
 # AzurLaneAutoScript
 
 Alas, an Azur Lane automation tool with GUI (For CN server, can support other server).

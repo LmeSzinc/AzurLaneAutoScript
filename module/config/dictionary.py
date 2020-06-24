@@ -21,7 +21,6 @@ dic_daily = {
     'index_1': 1,
     'index_2': 2,
     'index_3': 3,
-    
 }
 dic_true_eng_to_eng = {
     # Function
@@ -32,15 +31,13 @@ dic_true_eng_to_eng = {
     'event_daily_bonus': 'event_daily_ab',
     'Main_campaign': 'main',
     'event': 'event',
+    'raid': 'raid',
     'semi_auto': 'semi_auto',
     'c7-2_mystery_farming': 'c72_mystery_farming',
     'c12-2_leveling': 'c122_leveling',
     'c12-4_leveling': 'c124_leveling',
 
     # Argument
-    'github_token': 'github_token',
-    'update_proxy': 'update_proxy',
-    'enable_update_check': 'enable_update_check',
     'enable_stop_condition': 'enable_stop_condition',
     'enable_exception': 'enable_exception',
     'enable_fast_forward': 'enable_fast_forward',
@@ -132,9 +129,15 @@ dic_true_eng_to_eng = {
     'device_screenshot_method': 'device_screenshot_method',
     'device_control_method': 'device_control_method',
     'combat_screenshot_interval': 'combat_screenshot_interval',
+    'enable_update_check': 'enable_update_check',
+    'update_method': 'update_method',
+    'github_token': 'github_token',
+    'update_proxy': 'update_proxy',
     'enable_daily_mission': 'enable_daily_mission',
     'enable_hard_campaign': 'enable_hard_campaign',
     'enable_exercise': 'enable_exercise',
+    'enable_event_ab': 'enable_event_ab',
+    'enable_raid_daily': 'enable_raid_daily',
     'tactical_training': 'daily_mission_1',
     'fierce_assault': 'daily_mission_2',
     'escort_mission': 'daily_mission_4',
@@ -150,12 +153,19 @@ dic_true_eng_to_eng = {
     'exercise_hp_threshold': 'exercise_hp_threshold',
     'exercise_low_hp_confirm': 'exercise_low_hp_confirm',
     'exercise_equipment': 'exercise_equipment',
+    'raid_daily_name': 'raid_daily_name',
+    'raid_hard': 'raid_hard',
+    'raid_normal': 'raid_normal',
+    'raid_easy': 'raid_easy',
     'main_stage': 'main_stage',
     'event_stage': 'event_stage',
     'campaign_mode': 'campaign_mode',
     'sp_stage': 'sp_stage',
     'event_name': 'event_name',
     'event_name_ab': 'event_name_ab',
+    'raid_name': 'raid_name',
+    'raid_mode': 'raid_mode',
+    'raid_use_ticket': 'raid_use_ticket',
     'enable_semi_map_preparation': 'enable_semi_map_preparation',
     'enable_semi_story_skip': 'enable_semi_story_skip',
     'boss_fleet_step_on_a3': 'boss_fleet_step_on_a3',
@@ -208,11 +218,13 @@ dic_true_eng_to_eng = {
     'good_opponent': 'good_opponent',
     'normal': 'normal',
     'hard': 'hard',
+    'easy': 'easy',
 
     # Event
     'Iris_of_Light_and_Dark': 'event_20200521_en',
     'Skybound_Oratorio': 'event_20200611_en',
-    'Prelude_under_the_Moon': 'event_20200603_en'
+    'Prelude_under_the_Moon': 'event_20200603_en',
+    'Air_Raid_Drills_with_Essex': 'raid_20200624',
 
 }
 dic_eng_to_true_eng = {v: k for k, v in dic_true_eng_to_eng.items()}
@@ -226,15 +238,13 @@ dic_chi_to_eng = {
     '每日活动图三倍PT': 'event_daily_ab',
     '主线图': 'main',
     '活动图': 'event',
+    '共斗活动': 'raid',
     '半自动辅助点击': 'semi_auto',
     '7-2三战拣垃圾': 'c72_mystery_farming',
     '12-2打中型练级': 'c122_leveling',
     '12-4打大型练级': 'c124_leveling',
 
     # Argument
-    'github_token': 'github_token',
-    'update_proxy': 'update_proxy',
-    '启用更新检查': 'enable_update_check',
     '启用停止条件': 'enable_stop_condition',
     '启用异常处理': 'enable_exception',
     '使用周回模式': 'enable_fast_forward',
@@ -326,9 +336,15 @@ dic_chi_to_eng = {
     '设备截图方案': 'device_screenshot_method',
     '设备控制方案': 'device_control_method',
     '战斗中截图间隔': 'combat_screenshot_interval',
+    '启用更新检查': 'enable_update_check',
+    '更新检查方法': 'update_method',
+    'github_token': 'github_token',
+    '更新检查代理': 'update_proxy',
     '打每日': 'enable_daily_mission',
     '打困难': 'enable_hard_campaign',
     '打演习': 'enable_exercise',
+    '打活动图每日三倍PT': 'enable_event_ab',
+    '打共斗每日15次': 'enable_raid_daily',
     '战术研修': 'daily_mission_1',
     '斩首行动': 'daily_mission_2',
     '商船护航': 'daily_mission_4',
@@ -344,12 +360,19 @@ dic_chi_to_eng = {
     '演习SL阈值': 'exercise_hp_threshold',
     '演习低血量确认时长': 'exercise_low_hp_confirm',
     '演习快速换装': 'exercise_equipment',
+    '共斗每日名称': 'raid_daily_name',
+    '共斗困难': 'raid_hard',
+    '共斗普通': 'raid_normal',
+    '共斗简单': 'raid_easy',
     '主线地图出击': 'main_stage',
     '主线地图模式': 'campaign_mode',
     '活动地图': 'event_stage',
     'sp地图': 'sp_stage',
     '活动名称': 'event_name',
     '活动名称ab': 'event_name_ab',
+    '共斗名称': 'raid_name',
+    '共斗难度': 'raid_mode',
+    '共斗使用挑战券': 'raid_use_ticket',
     '进图准备': 'enable_semi_map_preparation',
     '跳过剧情': 'enable_semi_story_skip',
     'BOSS队踩A3': 'boss_fleet_step_on_a3',
@@ -402,6 +425,7 @@ dic_chi_to_eng = {
     '福利队': 'good_opponent',
     '普通': 'normal',
     '困难': 'hard',
+    '简单': 'easy',
 
     # Event
     '北境序曲': 'event_20200227_cn',
@@ -411,6 +435,7 @@ dic_chi_to_eng = {
     '夜幕下的归途': 'event_20200507_cn',
     '穹顶下的圣咏曲': 'event_20200521_cn',
     '峡湾间的反击': 'event_20200603_cn',
+    '复刻特别演习埃塞克斯级': 'raid_20200624',
 }
 
 dic_eng_to_chi = {v: k for k, v in dic_chi_to_eng.items()}

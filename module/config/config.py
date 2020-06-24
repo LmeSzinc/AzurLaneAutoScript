@@ -12,6 +12,7 @@ import module.config.server as server
 from module.base.timer import *
 from module.config.dictionary import *
 from module.logger import logger
+from module.config.update import get_config
 
 
 class AzurLaneConfig:
@@ -23,8 +24,9 @@ class AzurLaneConfig:
     start_time = datetime.now()
 
     UPDATE_CHECK = True
+    UPDATE_METHOD = 'api'  # web, api
     UPDATE_PROXY = ''
-    GITHUB_TOKEN = 'dd49b498d12c4f0908a91ccc8d54396352fc4740'
+    GITHUB_TOKEN = ''
     SERVER = server.server
     logger.attr('Server', SERVER)
 
@@ -134,6 +136,7 @@ class AzurLaneConfig:
     EVENT_NAME = ''
     CAMPAIGN_EVENT = ''
     EVENT_NAME_AB = ''
+    ENABLE_EVENT_NAME_AB = True
 
     """
     module.combat.emotion
@@ -199,6 +202,18 @@ class AzurLaneConfig:
     LOW_HP_CONFIRM_WAIT = 1.0
     OPPONENT_CHALLENGE_TRIAL = 1
     EXERCISE_FLEET_EQUIPMENT = [1, 1, 1, 1, 1, 1]
+
+    """
+    module.raid
+    """
+    RAID_NAME = ''
+    RAID_MODE = 'hard'  # hard, normal, easy
+    RAID_USE_TICKET = False
+    ENABLE_RAID_DAILY = False
+    RAID_DAILY_NAME = ''
+    RAID_HARD = True
+    RAID_NORMAL = True
+    RAID_EASY = True
 
     """
     error_log
@@ -381,9 +396,9 @@ class AzurLaneConfig:
 
         return config
 
-    def load_config_file(self, name='main'):
+    def load_config_file(self, name='alas'):
         self.CONFIG_FILE = f'./config/{name}.ini'
-        self.config.read_file(codecs.open(self.CONFIG_FILE, "r", "utf8"))
+        self.config = get_config(ini_name=name)
         self.load_from_config(self.config)
         self.config_check()
 
@@ -417,8 +432,9 @@ class AzurLaneConfig:
         self.DEVICE_SCREENSHOT_METHOD = option['device_screenshot_method']
         self.DEVICE_CONTROL_METHOD = option['device_control_method']
         self.COMBAT_SCREENSHOT_INTERVAL = float(option['combat_screenshot_interval'])
-        #UpdateCheck
+        # UpdateCheck
         self.UPDATE_CHECK = to_bool(option['enable_update_check'])
+        self.UPDATE_METHOD = option['update_method']
         self.UPDATE_PROXY = option['update_proxy']
         self.GITHUB_TOKEN = option['github_token']
 
@@ -521,6 +537,16 @@ class AzurLaneConfig:
         self.LOW_HP_THRESHOLD = float(option['exercise_hp_threshold'])
         self.LOW_HP_CONFIRM_WAIT = float(option['exercise_low_hp_confirm'])
         self.EXERCISE_FLEET_EQUIPMENT = to_list(option['exercise_equipment'])
+        # Event bonus
+        # option = config['Event_daily_ab']
+        self.ENABLE_EVENT_NAME_AB = to_bool(option['enable_event_ab'])
+        self.EVENT_NAME_AB = option['event_name_ab']
+        # Raid daily
+        self.ENABLE_RAID_DAILY = to_bool(option['enable_raid_daily'])
+        self.RAID_DAILY_NAME = option['raid_daily_name']
+        self.RAID_HARD = to_bool(option['raid_hard'])
+        self.RAID_NORMAL = to_bool(option['raid_normal'])
+        self.RAID_EASY = to_bool(option['raid_easy'])
 
         # Event
         option = config['Event']
@@ -530,9 +556,15 @@ class AzurLaneConfig:
         else:
             self.CAMPAIGN_EVENT = option['event_stage']
 
+        # Raid
+        option = config['Raid']
+        self.RAID_NAME = option['raid_name']
+        self.RAID_MODE = option['raid_mode']
+        self.RAID_USE_TICKET = to_bool(option['raid_use_ticket'])
+
         # Event_daily_ab
-        option = config['Event_daily_ab']
-        self.EVENT_NAME_AB = option['event_name_ab']
+        # option = config['Event_daily_ab']
+        # self.EVENT_NAME_AB = option['event_name_ab']
 
         # Semi_auto
         option = config['Semi_auto']

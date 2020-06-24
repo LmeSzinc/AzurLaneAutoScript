@@ -1,11 +1,17 @@
 [English Quick Guide](doc%2FQuick_guide.md) 
 
 [English Readme](README_en.md) `Translation in progress`
+
+[Download Easy Install-v2](https://github.com/LmeSzinc/AzurLaneAutoScript/raw/master/Easy_Install-V2.bat)
 # AzurLaneAutoScript
 
 Alas, an Azur Lane automation tool with GUI (Support CN, EN, JP, able to support other servers).
 
 Alas, 一个带GUI的碧蓝航线脚本 (支持国服, 国际服, 日服, 可以支持其他服务器).
+
+**Event Updates** Support Air Raid Drills with Essex
+
+**活动更新** 支持「复刻特别演习埃塞克斯级」
 
 EN support, Thanks **[@whoamikyo](https://github.com/whoamikyo)**
 
@@ -19,7 +25,7 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)**, some featur
 
 - **主线图出击** 暂时仅支持前六章和7-2
 
-- **活动图出击** 支持「峡湾间的反击」(event_20200603_cn), 针对SP1-SP3有优化, 支持开荒
+- **活动图出击** 支持开荒
 
 - **每日任务** 半小时左右一套做完, 重复运行时会跳过当天做过的
 

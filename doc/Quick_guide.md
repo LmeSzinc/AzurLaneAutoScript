@@ -2,7 +2,7 @@
 
 #### Requirements
 
-* A good PC (Potato PC may have problems running the emulator correctly)
+* A good PC (Older or underpowered PCs may have problems running the emulator correctly)
 * [Python](https://www.python.org/ftp/python/3.7.6/python-3.7.6-amd64.exe) installed and added to PATH (is highly recommended 3.7.6 64bit version only) 
 * Latest [ADB](https://developer.android.com/studio/releases/platform-tools) added to PATH.
 * [I don't know how to add to PATH](https://www.youtube.com/watch?v=Y2q_b4ugPWk)
@@ -13,15 +13,16 @@
 
 # New automatic installation method (Recommended)
 
-* Just download the file [Easy_Install-V2.bat](https://raw.githubusercontent.com/LmeSzinc/AzurLaneAutoScript/master/Easy_Install-V2.bat), put in some folder and run as administrator (`Right click> Run as administrator`) 
-* Do not install ALAS in a folder that contains spaces in the name, this will make the scripts not work correctly, created a folder at the root of some drive like `C:\ALAS\` or `D:\ALAS\`, Then place Easy_Install-V2.bat in that folder and run.
-* Then it will install everything and download ALAS
-* Will be created a folder `AzurLaneAutoScript` in the directory you run `Easy_Install-V2.bat`
-* To Run ALAS, just click in `alas.bat`
-* to avoid connection errors it's recommended to configure your emulator port correctly in the `alas.bat` file, just open it with notepad and edit line 5, remove the `::` and configure with your emulator PORT, below you have more information on how to find your emulator PORT, READ ALL.
+* Download the file [Easy_Install-V2.bat](https://raw.githubusercontent.com/LmeSzinc/AzurLaneAutoScript/master/Easy_Install-V2.bat) (right-click, save)
+* Move **Easy_Install-V2.bat** to your drive root (ex. `C:\`, or `D:\`, any will work). The installer will create the nessesary folders.
+* Run the installer as administrator (`Right click> Run as administrator`)
+* **Do not run the installer in a folder that contains spaces in the name, this will make the scripts not work correctly, create a folder at the root of some drive like `C:\ALAS\` or `D:\ALAS\`, then place Easy_Install-V2.bat in that folder and run if you must run it inside of a folder.**
+* The installer will create a folder `AzurLaneAutoScript` in the directory you run `Easy_Install-V2.bat`
+* To Run ALAS, just click in `alas.bat` inside the installation folder and follow the instructions located below in the `How to use Use` section.
+* To avoid connection errors it's recommended to configure your emulator port correctly, in `alas.bat` first start will be prompt to enter your HOST:PORT, just open it with notepad and edit line 5, remove the `::` and configure with your emulator PORT, below you have more information on how to find your emulator PORT, READ ALL.
 * It probably doesn't work on windows 7, you can test it and if it doesn't work try manual installation, tested on Windows 10 x64 Version 2004.
 
-# Manual installation method
+# Manual installation method (Not Recommended)
 
 ### How to create e python virtual environment
 
@@ -112,7 +113,9 @@ If are not running, you cannot use U2 and will get error.
 
 ## How to use Use
 
-If you installed with `Easy_Install-V2.bat` you can just double-click alas.bat, if not you can call `py alas_en.pyw` from command line to open the GUI
+If you installed with `Easy_Install-V2.bat` you can just double-click `alas.bat` located in your `AzurLaneAutoScript` folder. It will ask you for your emulator connection information (located in the table above). Once you've entered the serial information, choose your preferred language.
+
+If not you can call `py alas_en.pyw` from command line to open the GUI
 
 Multi-usage: copy alas.pyw, and rename, double-click run on it. The settings of template.ini are copied when the first run runs. The script runtime uses the ini profile of the same name.
 

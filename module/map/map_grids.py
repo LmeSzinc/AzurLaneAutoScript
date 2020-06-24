@@ -197,3 +197,19 @@ class RoadGrids:
             if block.select(is_enemy=True).count == 1:
                 grids += block.select(is_enemy=True).grids
         return SelectedGrids(grids)
+
+    def combine(self, road):
+        """
+        Args:
+            road (RoadGrids):
+
+        Returns:
+            RoadGrids:
+        """
+        out = RoadGrids([])
+        for select_1 in self.grids:
+            for select_2 in road.grids:
+                select = select_1.add(select_2)
+                out.grids.append(select)
+
+        return out
