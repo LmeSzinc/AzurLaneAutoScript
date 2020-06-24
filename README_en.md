@@ -1,6 +1,6 @@
 [English Quick Guide](doc%2FQuick_guide.md) 
 
-[Download Easy Install-v2](https://github.com/whoamikyo/AzurLaneAutoScript/releases)
+[Download Easy Install-v2](https://github.com/LmeSzinc/AzurLaneAutoScript/raw/master/Easy_Install-V2.bat)
 
 # AzurLaneAutoScript
 
