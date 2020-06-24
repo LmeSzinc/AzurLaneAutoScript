@@ -39,8 +39,8 @@ set /p ADB_PORT=<adb_port.ini
 echo connecting at %ADB_PORT%
 call %ADB% connect %ADB_PORT%
 
-::echo initializing uiautomator2
-::%~dp0python-3.7.6.amd64/python.exe -m uiautomator2 init
+echo initializing uiautomator2
+call %PYTHON% -m uiautomator2 init
 :: timout
 PowerShell -Command "Start-Sleep -s 4" > nul 2>&1
 
