@@ -72,8 +72,6 @@ goto menu
 	echo		4.Updater ONLY (Do not update if you are doing a fresh install)
 	echo.	
 	echo		JUST RUN UPDATER INSIDE AzurLaneAutoScript FOLDER
-	echo.
-	echo		Install in order
 	echo. 
 	echo  :: Type a 'number' and press ENTER
 	echo  :: Type 'exit' to quit
@@ -176,6 +174,7 @@ for %%F in ("*") do (
 	call %GIT% pull origin master
 	echo ## setting default branch...
 	call %GIT% branch --set-upstream-to=origin/master master
+	echo ## adding whoamikyo remote origin
 	call %GIT% remote add whoamikyo %WHOAMIKYO%
 	echo The installation was successful
 	echo Press any key to proceed
