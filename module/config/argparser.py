@@ -10,10 +10,14 @@ from module.config.dictionary import dic_chi_to_eng, dic_eng_to_chi
 from module.config.update import get_config
 from module.logger import pyw_name
 
-if sys.stdout.encoding != 'UTF-8':
-    sys.stdout = codecs.getwriter('utf-8')(sys.stdout.buffer, 'strict')
-if sys.stderr.encoding != 'UTF-8':
-    sys.stderr = codecs.getwriter('utf-8')(sys.stderr.buffer, 'strict')
+
+try:
+    if sys.stdout.encoding != 'UTF-8':
+        sys.stdout = codecs.getwriter('utf-8')(sys.stdout.buffer, 'strict')
+    if sys.stderr.encoding != 'UTF-8':
+        sys.stderr = codecs.getwriter('utf-8')(sys.stderr.buffer, 'strict')
+except Exception:
+    pass
 
 
 @Gooey(
@@ -41,6 +45,8 @@ def main(ini_name=''):
     event_latest = sorted([f for f in event_folder], reverse=True)[0]
     event_folder = [dic_eng_to_chi.get(f, f) for f in event_folder][::-1]
     event_latest = dic_eng_to_chi.get(event_latest, event_latest)
+
+    raid_latest = '复刻特别演习埃塞克斯级'
 
     saved_config = {}
     for opt, option in config.items():
@@ -255,6 +261,7 @@ def main(ini_name=''):
     daily.add_argument('--打困难', default=default('--打困难'), help='若当天有记录, 则跳过', choices=['是', '否'])
     daily.add_argument('--打演习', default=default('--打演习'), help='若在刷新后有记录, 则跳过', choices=['是', '否'])
     daily.add_argument('--打活动图每日三倍PT', default=default('--打活动图每日三倍PT'), help='若当天有记录, 则跳过', choices=['是', '否'])
+    daily.add_argument('--打共斗每日15次', default=default('--打共斗每日15次'), help='若当天有记录, 则跳过', choices=['是', '否'])
 
     # 每日设置
     daily_task = daily_parser.add_argument_group('每日设置', '不支持潜艇每日')
@@ -282,6 +289,13 @@ def main(ini_name=''):
 
     event_bonus = daily_parser.add_argument_group('活动设置', '')
     event_bonus.add_argument('--活动名称ab', default=event_latest, choices=event_folder, help='例如 event_20200326_cn')
+
+    # 共斗每日设置
+    raid_bonus = daily_parser.add_argument_group('共斗设置', '')
+    raid_bonus.add_argument('--共斗每日名称', default=raid_latest, choices=[raid_latest], help='')
+    raid_bonus.add_argument('--共斗困难', default=default('--共斗困难'), choices=['是', '否'], help='')
+    raid_bonus.add_argument('--共斗普通', default=default('--共斗普通'), choices=['是', '否'], help='')
+    raid_bonus.add_argument('--共斗简单', default=default('--共斗简单'), choices=['是', '否'], help='')
 
     # # ==========每日活动图三倍PT==========
     # event_ab_parser = subs.add_parser('每日活动图三倍PT')
@@ -311,6 +325,13 @@ def main(ini_name=''):
                              choices=['sp1', 'sp2', 'sp3'],
                              help='例如 sp3')
     event.add_argument('--活动名称', default=event_latest, choices=event_folder, help='例如 event_20200312_cn')
+
+    # ==========共斗活动==========
+    raid_parser = subs.add_parser('共斗活动')
+    raid = raid_parser.add_argument_group('选择共斗', '')
+    raid.add_argument('--共斗名称', default=raid_latest, choices=[raid_latest], help='')
+    raid.add_argument('--共斗难度', default=default('--共斗难度'), choices=['困难', '普通', '简单'], help='')
+    raid.add_argument('--共斗使用挑战券', default=default('--共斗使用挑战券'), choices=['是', '否'], help='')
 
     # ==========半自动==========
     semi_parser = subs.add_parser('半自动辅助点击')

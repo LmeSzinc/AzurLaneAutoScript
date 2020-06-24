@@ -204,6 +204,18 @@ class AzurLaneConfig:
     EXERCISE_FLEET_EQUIPMENT = [1, 1, 1, 1, 1, 1]
 
     """
+    module.raid
+    """
+    RAID_NAME = ''
+    RAID_MODE = 'hard'  # hard, normal, easy
+    RAID_USE_TICKET = False
+    ENABLE_RAID_DAILY = False
+    RAID_DAILY_NAME = ''
+    RAID_HARD = True
+    RAID_NORMAL = True
+    RAID_EASY = True
+
+    """
     error_log
     """
     PERSPECTIVE_ERROR_LOG_FOLDER = './log/perspective_error'
@@ -529,6 +541,12 @@ class AzurLaneConfig:
         # option = config['Event_daily_ab']
         self.ENABLE_EVENT_NAME_AB = to_bool(option['enable_event_ab'])
         self.EVENT_NAME_AB = option['event_name_ab']
+        # Raid daily
+        self.ENABLE_RAID_DAILY = to_bool(option['enable_raid_daily'])
+        self.RAID_DAILY_NAME = option['raid_daily_name']
+        self.RAID_HARD = to_bool(option['raid_hard'])
+        self.RAID_NORMAL = to_bool(option['raid_normal'])
+        self.RAID_EASY = to_bool(option['raid_easy'])
 
         # Event
         option = config['Event']
@@ -537,6 +555,12 @@ class AzurLaneConfig:
             self.CAMPAIGN_EVENT = option['sp_stage']
         else:
             self.CAMPAIGN_EVENT = option['event_stage']
+
+        # Raid
+        option = config['Raid']
+        self.RAID_NAME = option['raid_name']
+        self.RAID_MODE = option['raid_mode']
+        self.RAID_USE_TICKET = to_bool(option['raid_use_ticket'])
 
         # Event_daily_ab
         # option = config['Event_daily_ab']
