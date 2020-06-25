@@ -89,13 +89,14 @@ CALL %ADB% connect %ADB_PORT%
 	echo Opening dev_tools.emulator_test...
 	call %PYTHON% -m dev_tools.emulator_test
 	pause > NUL
+	goto dev_menu
 	) else (
 		echo :: it was not possible to open dev_tools.emulator_test, make sure you have a folder python-3.7.6.amd64
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
+        goto dev_menu
 	)
-goto dev_menu
 :: -----------------------------------------------------------------------------
 :button_extract
 	call %PYTHON% --version >nul
@@ -104,13 +105,14 @@ goto dev_menu
 	echo Opening dev_tools.button_extract...
 	call %PYTHON% -m dev_tools.button_extract
 	pause > NUL
+	goto dev_menu
 	) else (
 		echo :: it was not possible to open dev_tools.button_extract, make sure you have a folder python-3.7.6.amd64
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
+        goto dev_menu
 	)
-goto dev_menu
 :: -----------------------------------------------------------------------------
 :grids_debug
 	call %PYTHON% --version >nul
@@ -119,13 +121,14 @@ goto dev_menu
 	echo Opening dev_tools.button_extract...
 	call %PYTHON% -m dev_tools.grids_debug
 	pause > NUL
+	goto dev_menu
 	) else (
 		echo :: it was not possible to open dev_tools.grids_debug, make sure you have a folder python-3.7.6.amd64
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
+        goto dev_menu
 	)
-goto dev_menu
 :: -----------------------------------------------------------------------------
 :item_stastistics
 	call %PYTHON% --version >nul
@@ -134,13 +137,14 @@ goto dev_menu
 	echo Opening dev_tools.button_extract...
 	call %PYTHON% -m dev_tools.item_stastistics
 	pause > NUL
+	goto dev_menu
 	) else (
 		echo :: it was not possible to open dev_tools.item_stastistics, make sure you have a folder python-3.7.6.amd64
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
+        goto dev_menu
 	)
-goto dev_menu
 :: -----------------------------------------------------------------------------
 :relative_crop
 	call %PYTHON% --version >nul
@@ -149,14 +153,14 @@ goto dev_menu
 	echo Opening dev_tools.button_extract...
 	call %PYTHON% -m dev_tools.relative_crop
 	pause > NUL
+	goto dev_menu
 	) else (
 		echo :: it was not possible to open dev_tools.relative_crop, make sure you have a folder python-3.7.6.amd64
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
+        goto dev_menu
 	)
-
-goto dev_menu
 :: -----------------------------------------------------------------------------
 :map_extractor
 	call %PYTHON% --version >nul
@@ -165,13 +169,14 @@ goto dev_menu
 	echo Opening dev_tools.button_extract...
 	call %PYTHON% -m dev_tools.map_extractor
 	pause > NUL
+	goto dev_menu
 	) else (
 		echo :: it was not possible to open dev_tools.map_extractor, make sure you have a folder python-3.7.6.amd64
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
+        goto dev_menu
 	)
-goto dev_menu
 :: -----------------------------------------------------------------------------
 :word_template_extractor
 	call %PYTHON% --version >nul
@@ -180,13 +185,14 @@ goto dev_menu
 	echo Opening dev_tools.button_extract...
 	call %PYTHON% -m dev_tools.word_template_extractor
 	pause > NUL
+	goto dev_menu
 	) else (
 		echo :: it was not possible to open dev_tools.word_template_extractor, make sure you have a folder python-3.7.6.amd64
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
+        goto dev_menu
 	)
-goto dev_menu
 :: -----------------------------------------------------------------------------
 :adbss
 echo Enter any text/letter instead of the file name, do not enter spaces, enter exit to exit
