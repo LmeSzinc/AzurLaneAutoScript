@@ -1,5 +1,6 @@
 @SETLOCAL EnableExtensions EnableDelayedExpansion
 @echo off
+pushd "%~dp0"
 title ALAS run
 SET ADB=%~dp0python-3.7.6.amd64\Lib\site-packages\adbutils\binaries\adb.exe
 SET PYTHON=%~dp0python-3.7.6.amd64\python.exe
@@ -7,6 +8,22 @@ SET CMD=%SystemRoot%\system32\cmd.exe
 SET LMESZINC=https://github.com/LmeSzinc/AzurLaneAutoScript.git
 SET WHOAMIKYO=https://github.com/whoamikyo/AzurLaneAutoScript.git
 :: -----------------------------------------------------------------------------
+goto check_Permissions
+:check_Permissions
+    echo Administrative permissions required. Detecting permissions...
+
+    net session >nul 2>&1
+    if %errorLevel% == 0 (
+        echo Success: Administrative permissions confirmed.
+        echo Press any to continue...
+        pause >nul
+        goto continue
+    ) else (
+        echo Failure: Current permissions inadequate.
+    )
+    pause >nul
+:: -----------------------------------------------------------------------------
+:continue
 call %ADB% kill-server > nul 2>&1
 
 set SCREENSHOT_FOLDER=%~dp0screenshots
@@ -67,7 +84,7 @@ goto alas
 		if %menu%==1 GOTO en
 		if %menu%==2 GOTO cn
 		if %menu%==3 GOTO jp
-		if %menu%==4 GOTO updater_menu
+		if %menu%==4 GOTO check_connection
 		if %menu%==exit GOTO EOF
 		
 		else (
@@ -239,8 +256,53 @@ SET GLP=%GIT_ALAS%
         pause > NUL
         goto updater_menu
 	)
-
 :: -----------------------------------------------------------------------------
+:check_connection
+cls
+	echo.
+	echo  :: Checking For Internet Connection to Github...
+	echo.
+	timeout /t 2 /nobreak > NUL
+
+	ping -n 1 google.com -w 20000 >nul
+
+	if %errorlevel% == 0 (
+	echo You have a good connection with Github! Proceeding...
+	echo press any to proceed
+	pause > NUL
+	goto updater_menu
+	) else (
+		echo  :: You don't have a good connection out of China
+		echo  :: It might be better to update using Gitee
+		echo  :: Redirecting...
+		echo.
+        echo     Press any key to continue...
+        pause > NUL
+        goto start_gitee
+	)
+:: -----------------------------------------------------------------------------
+:start_gitee
+	call %GLP% --version >nul
+	if %errorlevel% == 0 (
+	echo GIT Found! Proceeding..
+	echo Updating from LmeSzinc repository..
+	call %GLP% fetch origin master
+	call %GLP% reset --hard origin/master
+	call %GLP% pull --ff-only origin master
+	echo DONE!
+	echo Press any key to proceed
+	pause > NUL
+	goto alas
+	) else (
+		echo  :: Git not detected, maybe there was an installation issue
+		echo check if you have this directory:
+		echo AzurLaneAutoScript\python-3.7.6.amd64\Git\cmd
+		echo.
+        pause > NUL
+        goto alas
+	)
+:: -----------------------------------------------------------------------------
+
 :EOF
 exit
 
