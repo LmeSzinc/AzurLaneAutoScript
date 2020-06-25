@@ -257,16 +257,15 @@ goto adbss
 rem create output file name and path from parameters and date and time
 rem loop
 :CLOCK
-rem FOR /L %%A IN (1,1,1) DO (
-rem removing the upper for loop
 set Timestamp=%date:~0,2%-%date:~3,2%-%date:~6,4%-%time:~0,2%-%time:~3,2%-%time:~6,2%-%time:~9,2%
 set SCREENCAP_FILE_NAME=%FILE_PREFIX%-%Timestamp%.png
-set SCREENCAP_FILE_PATH=%SCREENSHOT_FOLDER%%SCREENCAP_FILE_NAME%
+set SCREENCAP_FILE_PATH=%SCREENSHOT_FOLDER%\%SCREENCAP_FILE_NAME%
 
 rem calling adb shell screencap, pull and remove the previos file
-call %ADB% shell screencap -p %SCREENCAP_FILE_PATH%
-call %ADB% pull %SCREENCAP_FILE_PATH%
-call %ADB% shell rm %SCREENCAP_FILE_PATH%
+call %ADB% -s %ADB_PORT% shell mkdir /sdcard/dcim/Screenshot 2>nul
+call %ADB% -s %ADB_PORT% shell screencap -p /sdcard/dcim/Screenshot/%SCREENCAP_FILE_NAME%
+call %ADB% -s %ADB_PORT% pull /sdcard/dcim/Screenshot/%SCREENCAP_FILE_NAME% %SCREENCAP_FILE_PATH%
+call %ADB% -s %ADB_PORT% shell rm /sdcard/dcim/Screenshot/%SCREENCAP_FILE_NAME%
 goto:CLOCK
 
 :EOF
