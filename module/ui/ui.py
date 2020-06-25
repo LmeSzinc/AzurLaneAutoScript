@@ -24,6 +24,7 @@ class UI(ModuleBase):
         Args:
             click_button (Button):
             check_button (Button, callable):
+            appear_button (Button):
             additional_button (Button, list[Button], callable):
             additional_button_interval (int, float):
             offset (bool, int, tuple):
@@ -76,11 +77,14 @@ class UI(ModuleBase):
             self.ui_current = page_main
             return page_main
 
-        logger.info('Unable to goto page_main')
-        logger.warning('Starting from current page is not supported')
-        logger.warning(f'Supported page: {[str(page) for page in self.ui_pages]}')
-        logger.warning(f'Supported page: Any page with a "HOME" button on the upper-right')
-        exit(1)
+        if hasattr(self, 'ui_current'):
+            logger.warning(f'Unrecognized ui_current, using previous: {self.ui_current}')
+        else:
+            logger.info('Unable to goto page_main')
+            logger.warning('Starting from current page is not supported')
+            logger.warning(f'Supported page: {[str(page) for page in self.ui_pages]}')
+            logger.warning(f'Supported page: Any page with a "HOME" button on the upper-right')
+            exit(1)
 
     def ui_goto(self, destination, skip_first_screenshot=False):
         """
