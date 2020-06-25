@@ -44,11 +44,12 @@ class RaidDaily(RaidRun):
     def record_save(self):
         return self.config.record_save(option=RECORD_OPTION)
 
-    def run(self, name):
+    def run(self, name=''):
         """
         Args:
             name (str): Raid name, such as 'raid_20200624'
         """
+        name = name if name else self.config.RAID_NAME
         self.ui_ensure(page_raid)
 
         if self.config.RAID_HARD:

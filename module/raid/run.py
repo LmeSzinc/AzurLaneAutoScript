@@ -6,7 +6,7 @@ from module.ui.page import page_raid
 
 
 class RaidRun(Raid, CampaignRun):
-    def run(self, name, mode='hard', total=0):
+    def run(self, name='', mode='', total=0):
         """
         Args:
             name (str): Raid name, such as 'raid_20200624'
@@ -14,6 +14,11 @@ class RaidRun(Raid, CampaignRun):
             total (int): Total run count
         """
         logger.hr('Raid', level=1)
+        name = name if name else self.config.RAID_NAME
+        mode = mode if mode else self.config.RAID_MODE
+        if not name or not mode:
+            logger.warning(f'RaidRun arguments unfilled. name={name}, mode={mode}')
+
         self.config.STOP_IF_OIL_LOWER_THAN = 0  # No oil shows on page_raid
         self.campaign = self  # A trick to call CampaignRun
         self.campaign_name_set(f'{name}_{mode}')
