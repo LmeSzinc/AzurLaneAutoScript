@@ -3,7 +3,7 @@
 pushd "%~dp0"
 title ALAS run
 :: -----------------------------------------------------------------------------
-SET RENAME="toolkit"
+SET RENAME="python-3.7.6.amd64"
 if exist %RENAME% (
   rename %RENAME% toolkit
 )
