@@ -1,5 +1,6 @@
 @SETLOCAL EnableExtensions EnableDelayedExpansion
 @echo off
+pushd "%~dp0"
 title ALAS run
 SET ADB=%~dp0python-3.7.6.amd64\Lib\site-packages\adbutils\binaries\adb.exe
 SET PYTHON=%~dp0python-3.7.6.amd64\python.exe
@@ -7,6 +8,21 @@ SET CMD=%SystemRoot%\system32\cmd.exe
 SET LMESZINC=https://github.com/LmeSzinc/AzurLaneAutoScript.git
 SET WHOAMIKYO=https://github.com/whoamikyo/AzurLaneAutoScript.git
 :: -----------------------------------------------------------------------------
+goto check_Permissions
+:check_Permissions
+    echo Administrative permissions required. Detecting permissions...
+
+    net session >nul 2>&1
+    if %errorLevel% == 0 (
+        echo Success: Administrative permissions confirmed.
+        pause >nul
+        goto continue
+    ) else (
+        echo Failure: Current permissions inadequate.
+    )
+    pause >nul
+:: -----------------------------------------------------------------------------
+:continue
 call %ADB% kill-server > nul 2>&1
 
 set SCREENSHOT_FOLDER=%~dp0screenshots
