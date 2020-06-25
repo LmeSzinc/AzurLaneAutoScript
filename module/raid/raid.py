@@ -3,6 +3,7 @@ from module.combat.combat import Combat
 from module.logger import logger
 from module.map.map_operation import MapOperation
 from module.raid.assets import *
+from module.ui.assets import RAID_CHECK
 
 
 class Raid(MapOperation, Combat):
@@ -93,8 +94,11 @@ class Raid(MapOperation, Combat):
             if self.combat_appear():
                 break
 
+    def raid_expected_end(self):
+        return self.appear(RAID_CHECK, offset=(30, 30))
+
     def raid_execute_once(self, mode):
         logger.hr('Raid Execute')
         self.raid_enter(mode=mode)
-        self.combat(balance_hp=False, expected_end='in_ui')
+        self.combat(balance_hp=False, expected_end=self.raid_expected_end)
         logger.hr('Raid End')

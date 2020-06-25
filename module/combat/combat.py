@@ -309,7 +309,7 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
             expected_end (str): with_searching, no_searching, in_stage.
         """
         logger.info('Combat status')
-        logger.attr('expected_end', expected_end)
+        logger.attr('expected_end', expected_end.__name__ if callable(expected_end) else expected_end)
         exp_info = False  # This is for the white screen bug in game
         while 1:
             self.device.screenshot()

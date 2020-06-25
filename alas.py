@@ -126,7 +126,7 @@ class AzurLaneAutoScript:
             from module.raid.daily import RaidDaily
             az = RaidDaily(self.config, device=self.device)
             if not az.record_executed_since():
-                az.run(self.config.RAID_DAILY_NAME)
+                az.run()
                 az.record_save()
 
         self.reward_when_finished()
@@ -143,7 +143,7 @@ class AzurLaneAutoScript:
     def raid(self):
         from module.raid.run import RaidRun
         az = RaidRun(self.config, device=self.device)
-        az.run(self.config.RAID_NAME)
+        az.run()
         self.reward_when_finished()
 
     def event_daily_ab(self):
