@@ -13,7 +13,7 @@
 
 # New automatic installation method (Recommended)
 
-* [Video tutorial](https://www.youtube.com/watch?v=kBMK7PEjMIE)
+* [Video tutorial](https://www.youtube.com/watch?v=bp4kd8P1qT4)
 * Download the zip [AzurLaneAutoScript.zip
 ](https://github.com/whoamikyo/AzurLaneAutoScript/releases) (right-click, save)
 * Extract and run **Easy_Install-V2.bat** (ex. `C:\`, or `D:\`, any will work). The installer will create the nessesary folders.
