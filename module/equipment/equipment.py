@@ -17,13 +17,13 @@ class Equipment(InfoHandler):
     equipment_has_take_on = False
 
     def _view_swipe(self, distance, check_button=EQUIPMENT_OPEN):
-        swipe_timer = Timer(3, count=5)
+        swipe_timer = Timer(5, count=10)
         SWIPE_CHECK.load_color(self.device.image)
         while 1:
             if not swipe_timer.started() or swipe_timer.reached():
                 swipe_timer.reset()
                 self.device.swipe(vector=(distance, 0), box=SWIPE_AREA.area, random_range=SWIPE_RANDOM_RANGE,
-                                  padding=0, duration=(0.1, 0.12))
+                                  padding=0, duration=(0.1, 0.12), name='EQUIP_SWIPE')
 
             self.device.screenshot()
             if SWIPE_CHECK.match(self.device.image):

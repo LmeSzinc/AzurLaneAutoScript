@@ -1,53 +1,23 @@
 import codecs
-import configparser
 import os
-import shutil
+import sys
 
 from gooey import Gooey, GooeyParser
 
 import module.config.server as server
 from alas import AzurLaneAutoScript
 from module.config.dictionary import dic_chi_to_eng, dic_eng_to_chi
-from module.logger import logger, pyw_name
+from module.config.update import get_config
+from module.logger import pyw_name
 
-running = True
 
-
-def update_config_from_template(config, file):
-    """
-    Args:
-        config (configparser.ConfigParser):
-
-    Returns:
-        configparser.ConfigParser:
-    """
-    template = configparser.ConfigParser(interpolation=None)
-    template.read_file(codecs.open(f'./config/template.ini', "r", "utf8"))
-    changed = False
-    # Update section.
-    for section in template.sections():
-        if not config.has_section(section):
-            config.add_section(section)
-            changed = True
-    for section in config.sections():
-        if not template.has_section(section):
-            config.remove_section(section)
-            changed = True
-    # Update option
-    for section in template.sections():
-        for option in template.options(section):
-            if not config.has_option(section, option):
-                config.set(section, option, value=template.get(section, option))
-                changed = True
-    for section in config.sections():
-        for option in config.options(section):
-            if not template.has_option(section, option):
-                config.remove_option(section, option)
-                changed = True
-    # Save
-    if changed:
-        config.write(codecs.open(file, "w+", "utf8"))
-    return config
+try:
+    if sys.stdout.encoding != 'UTF-8':
+        sys.stdout = codecs.getwriter('utf-8')(sys.stdout.buffer, 'strict')
+    if sys.stderr.encoding != 'UTF-8':
+        sys.stderr = codecs.getwriter('utf-8')(sys.stderr.buffer, 'strict')
+except Exception:
+    pass
 
 
 @Gooey(
@@ -56,7 +26,7 @@ def update_config_from_template(config, file):
     sidebar_title='功能',
     terminal_font_family='Consolas',
     language='chinese',
-    default_size=(800, 850),
+    default_size=(850, 850),
     navigation='SIDEBAR',
     tabbed_groups=True,
     show_success_modal=False,
@@ -68,24 +38,15 @@ def update_config_from_template(config, file):
 def main(ini_name=''):
     if not ini_name:
         ini_name = pyw_name
-    ini_name = ini_name.lower()
-
-    # Load default value from .ini file.
     config_file = f'./config/{ini_name}.ini'
-    config = configparser.ConfigParser(interpolation=None)
-    try:
-        config.read_file(codecs.open(config_file, "r", "utf8"))
-    except FileNotFoundError:
-        logger.info('Config file not exists, copy from ./config/template.ini')
-        shutil.copy('./config/template.ini', config_file)
-        config.read_file(codecs.open(config_file, "r", "utf8"))
-
-    config = update_config_from_template(config, file=config_file)
+    config = get_config(ini_name.lower())
 
     event_folder = [f for f in os.listdir('./campaign') if f.startswith('event_') and f.split('_')[-1] == server.server]
     event_latest = sorted([f for f in event_folder], reverse=True)[0]
     event_folder = [dic_eng_to_chi.get(f, f) for f in event_folder][::-1]
     event_latest = dic_eng_to_chi.get(event_latest, event_latest)
+
+    raid_latest = '复刻特别演习埃塞克斯级'
 
     saved_config = {}
     for opt, option in config.items():
@@ -125,6 +86,7 @@ def main(ini_name=''):
     # 选择关卡
     stage = setting_parser.add_argument_group('关卡设置', '需要运行一次来保存选项')
     stage.add_argument('--启用停止条件', default=default('--启用停止条件'), choices=['是', '否'])
+    stage.add_argument('--启用异常处理', default=default('--启用异常处理'), choices=['是', '否'], help='处理部分异常, 运行出错时撤退')
     stage.add_argument('--使用周回模式', default=default('--使用周回模式'), choices=['是', '否'])
 
     stop = stage.add_argument_group('停止条件', '触发后不会马上停止会先完成当前出击, 不需要就填0')
@@ -132,7 +94,7 @@ def main(ini_name=''):
     stop.add_argument('--如果时间超过', default=default('--如果时间超过'), help='使用未来24小时内的时间, 会沿用先前设置, 触发后清零. 建议提前10分钟左右, 以完成当前出击. 格式 14:59')
     stop.add_argument('--如果石油低于', default=default('--如果石油低于'))
     stop.add_argument('--如果触发心情控制', default=default('--如果触发心情控制'), choices=['是', '否'], help='若是, 等待回复, 完成本次, 停止\n若否, 等待回复, 完成本次, 继续')
-    stop.add_argument('--如果船舱已满', default=default('--如果船舱已满'), choices=['是', '否'])
+    # stop.add_argument('--如果船舱已满', default=default('--如果船舱已满'), choices=['是', '否'])
 
     # 出击舰队
     fleet = setting_parser.add_argument_group('出击舰队', '暂不支持备用道中队, 非活动图或周回模式会忽略步长设置')
@@ -283,6 +245,12 @@ def main(ini_name=''):
     adb.add_argument('--设备截图方案', default=default('--设备截图方案'), choices=['aScreenCap', 'uiautomator2', 'ADB'], help='速度: aScreenCap >> uiautomator2 > ADB')
     adb.add_argument('--设备控制方案', default=default('--设备控制方案'), choices=['uiautomator2', 'ADB'], help='速度: uiautomator2 >> ADB')
     adb.add_argument('--战斗中截图间隔', default=default('--战斗中截图间隔'), help='战斗中放慢截图速度, 降低CPU使用')
+    
+    update = emulator_parser.add_argument_group('更新检查', '')
+    update.add_argument('--启用更新检查', default=default('--启用更新检查'), choices=['是', '否'])
+    update.add_argument('--更新检查方法', default=default('--更新检查方法'), choices=['api', 'web'], help='使用api时建议填写tokens, 使用web则不需要')
+    update.add_argument('--github_token', default=default('--github_token'), help='Github API限制为每小时60次, 获取tokens https://github.com/settings/tokens')
+    update.add_argument('--更新检查代理', default=default('--更新检查代理'), help='本地http或socks代理, 如果github很慢, 请使用代理, example: http://127.0.0.1:10809')
 
     # ==========每日任务==========
     daily_parser = subs.add_parser('每日任务困难演习')
@@ -292,6 +260,8 @@ def main(ini_name=''):
     daily.add_argument('--打每日', default=default('--打每日'), help='若当天有记录, 则跳过', choices=['是', '否'])
     daily.add_argument('--打困难', default=default('--打困难'), help='若当天有记录, 则跳过', choices=['是', '否'])
     daily.add_argument('--打演习', default=default('--打演习'), help='若在刷新后有记录, 则跳过', choices=['是', '否'])
+    daily.add_argument('--打活动图每日三倍PT', default=default('--打活动图每日三倍PT'), help='若当天有记录, 则跳过', choices=['是', '否'])
+    daily.add_argument('--打共斗每日15次', default=default('--打共斗每日15次'), help='若当天有记录, 则跳过', choices=['是', '否'])
 
     # 每日设置
     daily_task = daily_parser.add_argument_group('每日设置', '不支持潜艇每日')
@@ -317,10 +287,20 @@ def main(ini_name=''):
     exercise.add_argument('--演习低血量确认时长', default=default('--演习低血量确认时长'), help='HP低于阈值后, 过一定时长才会撤退\n推荐 1.0 ~ 3.0')
     exercise.add_argument('--演习快速换装', default=default('--演习快速换装'), help='打之前换装备, 打完后卸装备, 不需要就填0\n逗号分割, 例如 3, 1, 0, 1, 1, 0')
 
-    # ==========每日活动图三倍PT==========
-    event_ab_parser = subs.add_parser('每日活动图三倍PT')
-    event_name = event_ab_parser.add_argument_group('选择活动', '')
-    event_name.add_argument('--活动名称ab', default=event_latest, choices=event_folder, help='例如 event_20200326_cn')
+    event_bonus = daily_parser.add_argument_group('活动设置', '')
+    event_bonus.add_argument('--活动名称ab', default=event_latest, choices=event_folder, help='例如 event_20200326_cn')
+
+    # 共斗每日设置
+    raid_bonus = daily_parser.add_argument_group('共斗设置', '')
+    raid_bonus.add_argument('--共斗每日名称', default=raid_latest, choices=[raid_latest], help='')
+    raid_bonus.add_argument('--共斗困难', default=default('--共斗困难'), choices=['是', '否'], help='')
+    raid_bonus.add_argument('--共斗普通', default=default('--共斗普通'), choices=['是', '否'], help='')
+    raid_bonus.add_argument('--共斗简单', default=default('--共斗简单'), choices=['是', '否'], help='')
+
+    # # ==========每日活动图三倍PT==========
+    # event_ab_parser = subs.add_parser('每日活动图三倍PT')
+    # event_name = event_ab_parser.add_argument_group('选择活动', '')
+    # event_name.add_argument('--活动名称ab', default=event_latest, choices=event_folder, help='例如 event_20200326_cn')
 
     # ==========主线图==========
     main_parser = subs.add_parser('主线图')
@@ -345,6 +325,13 @@ def main(ini_name=''):
                              choices=['sp1', 'sp2', 'sp3'],
                              help='例如 sp3')
     event.add_argument('--活动名称', default=event_latest, choices=event_folder, help='例如 event_20200312_cn')
+
+    # ==========共斗活动==========
+    raid_parser = subs.add_parser('共斗活动')
+    raid = raid_parser.add_argument_group('选择共斗', '')
+    raid.add_argument('--共斗名称', default=raid_latest, choices=[raid_latest], help='')
+    raid.add_argument('--共斗难度', default=default('--共斗难度'), choices=['困难', '普通', '简单'], help='')
+    raid.add_argument('--共斗使用挑战券', default=default('--共斗使用挑战券'), choices=['是', '否'], help='')
 
     # ==========半自动==========
     semi_parser = subs.add_parser('半自动辅助点击')

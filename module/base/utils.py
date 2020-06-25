@@ -324,17 +324,25 @@ def color_bar_percentage(image, area, prev_color, reverse=False, starter=0, thre
     Returns:
         float: 0 to 1.
     """
-    bar = np.array(image.crop(area))
-    length = bar.shape[1]
-    bar = np.swapaxes(bar, 0, 1)
-    bar = bar[::-1, :, :] if reverse else bar
-    prev_index = 0
-    for index, color in enumerate(bar):
-        if index < starter:
-            continue
-        mask = color_similar_1d(color, prev_color, threshold=threshold)
-        if np.any(mask):
-            prev_color = color[mask].mean(axis=0)
-            prev_index = index
+    image = np.array(image.crop(area))
+    image = image[:, ::-1, :] if reverse else image
+    length = image.shape[1]
+    prev_index = starter
 
-    return prev_index / length
+    for _ in range(1280):
+        bar = color_similarity_2d(image, color=prev_color)
+        index = np.where(np.any(bar > 255 - threshold, axis=0))[0]
+        if not index.size:
+            return prev_index / length
+        else:
+            index = index[-1]
+        if index <= prev_index:
+            return index / length
+        prev_index = index
+
+        prev_row = bar[:, prev_index] > 255 - threshold
+        if not prev_row.size:
+            return prev_index / length
+        prev_color = np.mean(image[:, prev_index], axis=0)
+
+    return 0.

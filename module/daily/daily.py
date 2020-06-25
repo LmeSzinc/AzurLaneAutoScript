@@ -58,7 +58,8 @@ class Daily(Combat, DailyEquipment):
         button = DAILY_MISSION_LIST[self.config.DAILY_CHOOSE[self.daily_current] - 1]
         for n in range(remain):
             logger.hr(f'Count {n + 1}')
-            self.ui_click(click_button=button, check_button=self.combat_appear, appear_button=DAILY_ENTER_CHECK)
+            self.ui_click(click_button=button, check_button=self.combat_appear, appear_button=DAILY_ENTER_CHECK,
+                          additional_button=self.handle_combat_automation_confirm)
             self.ui_ensure_index(self.config.FLEET_DAILY, letter=OCR_DAILY_FLEET_INDEX, prev_button=DAILY_FLEET_PREV,
                                  next_button=DAILY_FLEET_NEXT, fast=False, skip_first_screenshot=True)
             self.combat(emotion_reduce=False, save_get_items=False, expected_end=daily_end, balance_hp=False)

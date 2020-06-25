@@ -7,7 +7,8 @@ from module.ui.page import *
 
 
 class UI(ModuleBase):
-    ui_pages = [page_main, page_campaign, page_fleet, page_exercise, page_daily, page_event, page_sp, page_mission]
+    ui_pages = [page_main, page_campaign, page_fleet, page_exercise, page_daily, page_event, page_sp, page_mission,
+                page_raid]
     ui_current: Page
 
     def ui_page_appear(self, page):
@@ -17,12 +18,15 @@ class UI(ModuleBase):
         """
         return self.appear(page.check_button, offset=(20, 20))
 
-    def ui_click(self, click_button, check_button, appear_button=None, offset=(20, 20), retry_wait=10,
-                 skip_first_screenshot=False):
+    def ui_click(self, click_button, check_button, appear_button=None, additional_button=None,
+                 offset=(20, 20), retry_wait=10, additional_button_interval=3, skip_first_screenshot=False):
         """
         Args:
             click_button (Button):
             check_button (Button, callable):
+            appear_button (Button):
+            additional_button (Button, list[Button], callable):
+            additional_button_interval (int, float):
             offset (bool, int, tuple):
             retry_wait (int, float):
             skip_first_screenshot (bool):
@@ -30,6 +34,8 @@ class UI(ModuleBase):
         logger.hr('UI click')
         if appear_button is None:
             appear_button = click_button
+        if not isinstance(additional_button, list):
+            additional_button = [additional_button]
         click_timer = Timer(retry_wait, count=retry_wait // 0.5)
         while 1:
             if skip_first_screenshot:
@@ -41,6 +47,15 @@ class UI(ModuleBase):
                 break
             if callable(check_button) and check_button():
                 break
+
+            for button in additional_button:
+                if button is None:
+                    continue
+                if isinstance(button, Button):
+                    self.appear_then_click(button, offset=offset, interval=additional_button_interval)
+                    continue
+                if callable(button) and button():
+                    continue
 
             if click_timer.reached() and self.appear(appear_button, offset=offset):
                 self.device.click(click_button)
@@ -62,7 +77,14 @@ class UI(ModuleBase):
             self.ui_current = page_main
             return page_main
 
-        logger.info('Unable to goto page_main')
+        if hasattr(self, 'ui_current'):
+            logger.warning(f'Unrecognized ui_current, using previous: {self.ui_current}')
+        else:
+            logger.info('Unable to goto page_main')
+            logger.warning('Starting from current page is not supported')
+            logger.warning(f'Supported page: {[str(page) for page in self.ui_pages]}')
+            logger.warning(f'Supported page: Any page with a "HOME" button on the upper-right')
+            exit(1)
 
     def ui_goto(self, destination, skip_first_screenshot=False):
         """
@@ -198,6 +220,6 @@ class UI(ModuleBase):
 
         self.device.sleep(finish_sleep)
 
-    def ui_back(self, check_button, appear_button=None, offset=(20, 20), retry_wait=3, skip_first_screenshot=False):
+    def ui_back(self, check_button, appear_button=None, offset=(20, 20), retry_wait=10, skip_first_screenshot=False):
         return self.ui_click(click_button=BACK_ARROW, check_button=check_button, appear_button=appear_button,
                              offset=offset, retry_wait=retry_wait, skip_first_screenshot=skip_first_screenshot)

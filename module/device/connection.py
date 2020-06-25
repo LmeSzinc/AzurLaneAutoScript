@@ -9,6 +9,13 @@ from module.logger import logger
 
 
 class Connection:
+    _adb_binary = ''
+    adb_binary_list = [
+        r'.\adb\adb.exe',
+        r'.\python-3.7.6.amd64\Lib\site-packages\adbutils\binaries\adb.exe',
+        r'.\python\Lib\site-packages\adbutils\binaries\adb.exe',
+    ]
+
     def __init__(self, config):
         """
         Args:
@@ -19,21 +26,38 @@ class Connection:
         self.serial = str(self.config.SERIAL)
         self.device = self.connect(self.serial)
         self.disable_uiautomator2_auto_quit()
-        if self.config.DEVICE_SCREENSHOT_METHOD == 'aScreenCap':
-            self._ascreencap_init()
+        # if self.config.DEVICE_SCREENSHOT_METHOD == 'aScreenCap':
+        #     self._ascreencap_init()
 
-    @staticmethod
-    def adb_command(cmd, serial=None):
+    @property
+    def adb_binary(self):
+        if self._adb_binary:
+            return self._adb_binary
+
+        # Try existing adb.exe
+        for file in self.adb_binary_list:
+            if os.path.exists(file):
+                logger.attr('Adb_binary', file)
+                self._adb_binary = file
+                return file
+
+        # Use adb.exe in system PATH
+        file = 'adb.exe'
+        logger.attr('Adb_binary', file)
+        self._adb_binary = file
+        return file
+
+    def adb_command(self, cmd, serial=None):
         if serial:
-            cmd = ['adb', '-s', serial] + cmd
+            cmd = [self.adb_binary, '-s', serial] + cmd
         else:
-            cmd = ['adb'] + cmd
+            cmd = [self.adb_binary] + cmd
 
         # Use shell=True to disable console window when using GUI.
         # Although, there's still a window when you stop running in GUI, which cause by gooey.
         # To disable it, edit gooey/gui/util/taskkill.py
         process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
-        return process.communicate(timeout=4)[0]
+        return process.communicate(timeout=10)[0]
 
     def adb_shell(self, cmd, serial=None):
         cmd.insert(0, 'shell')

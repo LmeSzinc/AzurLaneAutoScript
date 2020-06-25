@@ -1,11 +1,17 @@
 [English Quick Guide](doc%2FQuick_guide.md) 
 
 [English Readme](README_en.md) `Translation in progress`
+
+[Download Easy Install-v2](https://github.com/LmeSzinc/AzurLaneAutoScript/raw/master/Easy_Install-V2.bat)
 # AzurLaneAutoScript
 
 Alas, an Azur Lane automation tool with GUI (Support CN, EN, JP, able to support other servers).
 
 Alas, 一个带GUI的碧蓝航线脚本 (支持国服, 国际服, 日服, 可以支持其他服务器).
+
+**Event Updates** Support Air Raid Drills with Essex
+
+**活动更新** 支持「复刻特别演习埃塞克斯级」
 
 EN support, Thanks **[@whoamikyo](https://github.com/whoamikyo)**
 
@@ -19,7 +25,7 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)**, some featur
 
 - **主线图出击** 暂时仅支持前六章和7-2
 
-- **活动图出击** 支持「峡湾间的反击」(event_20200603_cn), 针对SP1-SP3有优化, 支持开荒
+- **活动图出击** 支持开荒
 
 - **每日任务** 半小时左右一套做完, 重复运行时会跳过当天做过的
 
@@ -61,7 +67,7 @@ pip install -r requirements.txt
 
 | 设备       | Device     | 模拟器版本 | 安卓版本 | adb截图 | u2截图 | adb点击 | u2点击 |
 | ---------- | ---------- | ---------- | -------- | ------- | ------ | ------- | ------ |
-| 逍遥模拟器 | NemuPlayer | 7.1.3      | 5.1.1    | 0.308   | 0.275  | 0.294   | 0.146  |
+| 逍遥模拟器 | MemuPlayer | 7.1.3      | 5.1.1    | 0.308   | 0.275  | 0.294   | 0.146  |
 | 雷电模拟器 | LDPlayer   | 3.83       | 5.1.1    | 0.329   | 0.313  | 0.291   | 0.146  |
 | 夜神模拟器 | NoxPlayer  | 6.6.0.0    | 5.1.1    | 0.339   | 0.313  | 0.505   | 0.141  |
 | MuMu模拟器 | MuMuPlayer | 2.3.1.0    | 6.0.1    | 0.368   | 0.701  | 0.358   | 0.148  |
@@ -135,7 +141,7 @@ python -m uiautomator2 init
 	| 蓝叠模拟器 | BlueStacks  | 127.0.0.1:5555 |
 	| 夜神模拟器 | NoxPlayer  | 127.0.0.1:62001 |
 	| MuMu模拟器 | MuMuPlayer | 127.0.0.1:7555  |
-	| 逍遥模拟器 | NemuPlayer | 127.0.0.1:21503 |
+	| 逍遥模拟器 | MemuPlayer | 127.0.0.1:21503 |
 	| 雷电模拟器 | LDPlayer   | emulator-5554   |
 
 

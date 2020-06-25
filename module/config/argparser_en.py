@@ -1,51 +1,23 @@
 import codecs
-import configparser
 import os
-import shutil
+import sys
 
 from gooey import Gooey, GooeyParser
 
 import module.config.server as server
 from alas import AzurLaneAutoScript
 from module.config.dictionary import dic_true_eng_to_eng, dic_eng_to_true_eng
-from module.logger import logger, pyw_name
+from module.config.update import get_config
+from module.logger import pyw_name
 
 
-def update_config_from_template(config, file):
-    """
-    Args:
-        config (configparser.ConfigParser):
-
-    Returns:
-        configparser.ConfigParser:
-    """
-    template = configparser.ConfigParser(interpolation=None)
-    template.read_file(codecs.open(f'./config/template.ini', "r", "utf8"))
-    changed = False
-    # Update section.
-    for section in template.sections():
-        if not config.has_section(section):
-            config.add_section(section)
-            changed = True
-    for section in config.sections():
-        if not template.has_section(section):
-            config.remove_section(section)
-            changed = True
-    # Update option
-    for section in template.sections():
-        for option in template.options(section):
-            if not config.has_option(section, option):
-                config.set(section, option, value=template.get(section, option))
-                changed = True
-    for section in config.sections():
-        for option in config.options(section):
-            if not template.has_option(section, option):
-                config.remove_option(section, option)
-                changed = True
-    # Save
-    if changed:
-        config.write(codecs.open(file, "w+", "utf8"))
-    return config
+try:
+    if sys.stdout.encoding != 'UTF-8':
+        sys.stdout = codecs.getwriter('utf-8')(sys.stdout.buffer, 'strict')
+    if sys.stderr.encoding != 'UTF-8':
+        sys.stderr = codecs.getwriter('utf-8')(sys.stderr.buffer, 'strict')
+except Exception:
+    pass
 
 
 @Gooey(
@@ -66,24 +38,15 @@ def update_config_from_template(config, file):
 def main(ini_name=''):
     if not ini_name:
         ini_name = pyw_name
-    ini_name = ini_name.lower()
-
-    # Load default value from .ini file.
     config_file = f'./config/{ini_name}.ini'
-    config = configparser.ConfigParser(interpolation=None)
-    try:
-        config.read_file(codecs.open(config_file, "r", "utf8"))
-    except FileNotFoundError:
-        logger.info('Config file not exists, copy from ./config/template.ini')
-        shutil.copy('./config/template.ini', config_file)
-        config.read_file(codecs.open(config_file, "r", "utf8"))
-
-    config = update_config_from_template(config, file=config_file)
+    config = get_config(ini_name.lower())
 
     event_folder = [f for f in os.listdir('./campaign') if f.startswith('event_') and f.split('_')[-1] == server.server]
     event_latest = sorted([f for f in event_folder], reverse=True)[0]
     event_folder = [dic_eng_to_true_eng.get(f, f) for f in event_folder][::-1]
     event_latest = dic_eng_to_true_eng.get(event_latest, event_latest)
+
+    raid_latest = 'Air_Raid_Drills_with_Essex'
 
     saved_config = {}
     for opt, option in config.items():
@@ -123,6 +86,7 @@ def main(ini_name=''):
     # 选择关卡
     stage = setting_parser.add_argument_group('Level settings', 'Need to Press start to save your settings.')
     stage.add_argument('--enable_stop_condition', default=default('--enable_stop_condition'), choices=['yes', 'no'])
+    stage.add_argument('--enable_exception', default=default('--enable_exception'), choices=['yes', 'no'], help='Enable or disable some exceptions, ALAS will withdraw from the map when it occurs instead of stopping')
     stage.add_argument('--enable_fast_forward', default=default('--enable_fast_forward'), choices=['yes', 'no'], help='Enable or disable clearing mode')
 
     stop = stage.add_argument_group('Stop condition', 'After triggering, it will not stop immediately. It will complete the current attack first, and fill in 0 if it is not needed.')
@@ -130,7 +94,7 @@ def main(ini_name=''):
     stop.add_argument('--if_time_reach', default=default('--if_time_reach'), help='Use the time within the next 24 hours, the previous setting will be used, and it will be cleared\n after the trigger. It is recommended to advance about\n 10 minutes to complete the current attack. Format 14:59')
     stop.add_argument('--if_oil_lower_than', default=default('--if_oil_lower_than'))
     stop.add_argument('--if_trigger_emotion_control', default=default('--if_trigger_emotion_control'), choices=['yes', 'no'], help='If yes, wait for reply, complete this time, stop \nIf no, wait for reply, complete this time, continue')
-    stop.add_argument('--if_dock_full', default=default('--if_dock_full'), choices=['yes', 'no'])
+    # stop.add_argument('--if_dock_full', default=default('--if_dock_full'), choices=['yes', 'no'])
 
     # 出击舰队
     fleet = setting_parser.add_argument_group('Attack fleet', 'No support for alternate lane squadrons, inactive map or weekly mode will ignore the step setting')
@@ -143,12 +107,12 @@ def main(ini_name=''):
     f1.add_argument('--fleet_step_1', default=default('--fleet_step_1'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored')
 
     f2 = fleet.add_argument_group('Boss Fleet')
-    f2.add_argument('--fleet_index_2', default=default('--fleet_index_2'), choices=['do_not_use', '1', '2', '3', '4', '5', '6'])
+    f2.add_argument('--fleet_index_2', default=default('--fleet_index_2'), choices=['1', '2', '3', '4', '5', '6'])
     f2.add_argument('--fleet_formation_2', default=default('--fleet_formation_2'), choices=['Line Ahead', 'Double Line', 'Diamond'])
     f2.add_argument('--fleet_step_2', default=default('--fleet_step_2'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored')
 
     f3 = fleet.add_argument_group('Alternate Mob Fleet')
-    f3.add_argument('--fleet_index_3', default=default('--fleet_index_3'), choices=['do_not_use', '1', '2', '3', '4', '5', '6'])
+    f3.add_argument('--fleet_index_3', default=default('--fleet_index_3'), choices=['1', '2', '3', '4', '5', '6'])
     f3.add_argument('--fleet_formation_3', default=default('--fleet_formation_3'), choices=['Line Ahead', 'Double Line', 'Diamond'])
     f3.add_argument('--fleet_step_3', default=default('--fleet_step_3'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored')
 
@@ -216,6 +180,7 @@ def main(ini_name=''):
     clear.add_argument('--clear_mode_stop_condition', default=default('--clear_mode_stop_condition'), choices=['map_100', 'map_3_star', 'map_green'])
     clear.add_argument('--map_star_clear_all', default=default('--map_star_clear_all'), choices=['index_1', 'index_2', 'index_3', 'do_not_use'], help='The first few stars are to destroy all enemy ships')
 
+
     # ==========reward==========
     reward_parser = subs.add_parser('reward')
     reward_condition = reward_parser.add_argument_group('Triggering conditions', 'Need to Press start to save your settings, after running it will enter the on-hook vegetable collection mode')
@@ -282,6 +247,12 @@ def main(ini_name=''):
     adb.add_argument('--device_control_method', default=default('--device_control_method'), choices=['uiautomator2', 'ADB'], help='Speed: uiautomator2 >> ADB')
     adb.add_argument('--combat_screenshot_interval', default=default('--combat_screenshot_interval'), help='Slow down the screenshot speed during battle and reduce CPU')
 
+    update = emulator_parser.add_argument_group('ALAS Update Check', '')
+    update.add_argument('--enable_update_check', default=default('--enable_update_check'), choices=['yes', 'no'])
+    update.add_argument('--update_method', default=default('--update_method'), choices=['api', 'web'], help='')
+    update.add_argument('--github_token', default=default('--github_token'), help='To generate your token visit https://github.com/settings/tokens')
+    update.add_argument('--update_proxy', default=default('--update_proxy'), help='Local http or socks proxy, example: http://127.0.0.1:10809')
+
     # ==========每日任务==========
     daily_parser = subs.add_parser('daily')
 
@@ -290,6 +261,8 @@ def main(ini_name=''):
     daily.add_argument('--enable_daily_mission', default=default('--enable_daily_mission'), help='If there are records on the day, skip', choices=['yes', 'no'])
     daily.add_argument('--enable_hard_campaign', default=default('--enable_hard_campaign'), help='If there are records on the day, skip', choices=['yes', 'no'])
     daily.add_argument('--enable_exercise', default=default('--enable_exercise'), help='If there is a record after refreshing, skip', choices=['yes', 'no'])
+    daily.add_argument('--enable_event_ab', default=default('--enable_event_ab'), help='If there is a record after refreshing, skip', choices=['yes', 'no'])
+    daily.add_argument('--enable_raid_daily', default=default('--enable_raid_daily'), help='If there is a record after refreshing, skip', choices=['yes', 'no'])
 
     # 每日设置
     daily_task = daily_parser.add_argument_group('Daily settings', 'Does not support submarine daily')
@@ -315,10 +288,20 @@ def main(ini_name=''):
     exercise.add_argument('--exercise_low_hp_confirm', default=default('--exercise_low_hp_confirm'), help='After HP is below the threshold, it will retreat after a certain period of time \nRecommended 1.0 ~ 3.0')
     exercise.add_argument('--exercise_equipment', default=default('--exercise_equipment'), help='Change equipment before playing, unload equipment after playing, do not need to fill in 0 \ncomma, such as 3, 1, 0, 1, 1, 0')
 
+    event_bonus = daily_parser.add_argument_group('Event Daily Bonus', 'bonus for first clear each day')
+    event_bonus.add_argument('--event_name_ab', default=event_latest, choices=event_folder, help='There a dropdown menu with many options')
+
+    # Raid daily
+    raid_bonus = daily_parser.add_argument_group('Raid settings', '')
+    raid_bonus.add_argument('--raid_daily_name', default=raid_latest, choices=[raid_latest], help='')
+    raid_bonus.add_argument('--raid_hard', default=default('--raid_hard'), choices=['yes', 'no'], help='')
+    raid_bonus.add_argument('--raid_normal', default=default('--raid_normal'), choices=['yes', 'no'], help='')
+    raid_bonus.add_argument('--raid_easy', default=default('--raid_easy'), choices=['yes', 'no'], help='')
+
     # ==========event_daily_ab==========
-    event_ab_parser = subs.add_parser('event_daily_bonus')
-    event_name = event_ab_parser.add_argument_group('Choose an event', 'bonus for first clear each day')
-    event_name.add_argument('--event_name_ab', default=event_latest, choices=event_folder, help='There a dropdown menu with many options')
+    # event_ab_parser = subs.add_parser('event_daily_bonus')
+    # event_name = event_ab_parser.add_argument_group('Choose an event', 'bonus for first clear each day')
+    # event_name.add_argument('--event_name_ab', default=event_latest, choices=event_folder, help='There a dropdown menu with many options')
     # event_name.add_argument('--enable_hard_bonus', default=default('--enable_hard_bonus'), choices=['yes', 'no'], help='Will enable Daily bonus for Event hard maps') # Trying implement all event maps
 
     # ==========main==========
@@ -343,6 +326,13 @@ def main(ini_name=''):
                              choices=['sp1', 'sp2', 'sp3'],
                              help='E.g sp3')
     event.add_argument('--event_name', default=event_latest, choices=event_folder, help='There a dropdown menu with many options')
+
+    # ==========Raid==========
+    raid_parser = subs.add_parser('raid')
+    raid = raid_parser.add_argument_group('Choose a raid', '')
+    raid.add_argument('--raid_name', default=raid_latest, choices=[raid_latest], help='')
+    raid.add_argument('--raid_mode', default=default('--raid_mode'), choices=['hard', 'normal', 'easy'], help='')
+    raid.add_argument('--raid_use_ticket', default=default('--raid_use_ticket'), choices=['yes', 'no'], help='')
 
     # ==========半自动==========
     semi_parser = subs.add_parser('semi_auto')
