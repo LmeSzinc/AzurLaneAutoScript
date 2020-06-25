@@ -3,9 +3,9 @@ setlocal EnableDelayedExpansion
 title Dev_tools
 pushd "%~dp0"
 :: -----------------------------------------------------------------------------
-SET ADB_PATH=%~dp0python-3.7.6.amd64\Lib\site-packages\adbutils\binaries\adb.exe
+SET ADB_PATH=%~dp0toolkit\Lib\site-packages\adbutils\binaries\adb.exe
 SET ADB=%ADB_PATH%
-SET PYTHON_PATH=%~dp0python-3.7.6.amd64\python.exe
+SET PYTHON_PATH=%~dp0toolkit\python.exe
 SET PYTHON=%PYTHON_PATH%
 :: -----------------------------------------------------------------------------
 goto check_Permissions
@@ -109,7 +109,7 @@ CALL %ADB% connect %ADB_PORT%
 	pause > NUL
 	goto dev_menu
 	) else (
-		echo :: it was not possible to open dev_tools.emulator_test, make sure you have a folder python-3.7.6.amd64
+		echo :: it was not possible to open dev_tools.emulator_test, make sure you have a folder toolkit
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
@@ -125,7 +125,7 @@ CALL %ADB% connect %ADB_PORT%
 	pause > NUL
 	goto dev_menu
 	) else (
-		echo :: it was not possible to open dev_tools.button_extract, make sure you have a folder python-3.7.6.amd64
+		echo :: it was not possible to open dev_tools.button_extract, make sure you have a folder toolkit
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
@@ -141,7 +141,7 @@ CALL %ADB% connect %ADB_PORT%
 	pause > NUL
 	goto dev_menu
 	) else (
-		echo :: it was not possible to open dev_tools.grids_debug, make sure you have a folder python-3.7.6.amd64
+		echo :: it was not possible to open dev_tools.grids_debug, make sure you have a folder toolkit
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
@@ -157,7 +157,7 @@ CALL %ADB% connect %ADB_PORT%
 	pause > NUL
 	goto dev_menu
 	) else (
-		echo :: it was not possible to open dev_tools.item_stastistics, make sure you have a folder python-3.7.6.amd64
+		echo :: it was not possible to open dev_tools.item_stastistics, make sure you have a folder toolkit
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
@@ -173,7 +173,7 @@ CALL %ADB% connect %ADB_PORT%
 	pause > NUL
 	goto dev_menu
 	) else (
-		echo :: it was not possible to open dev_tools.relative_crop, make sure you have a folder python-3.7.6.amd64
+		echo :: it was not possible to open dev_tools.relative_crop, make sure you have a folder toolkit
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
@@ -189,7 +189,7 @@ CALL %ADB% connect %ADB_PORT%
 	pause > NUL
 	goto dev_menu
 	) else (
-		echo :: it was not possible to open dev_tools.map_extractor, make sure you have a folder python-3.7.6.amd64
+		echo :: it was not possible to open dev_tools.map_extractor, make sure you have a folder toolkit
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
@@ -205,7 +205,7 @@ CALL %ADB% connect %ADB_PORT%
 	pause > NUL
 	goto dev_menu
 	) else (
-		echo :: it was not possible to open dev_tools.word_template_extractor, make sure you have a folder python-3.7.6.amd64
+		echo :: it was not possible to open dev_tools.word_template_extractor, make sure you have a folder toolkit
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
@@ -246,7 +246,7 @@ goto adbss
 	pause > NUL
 	goto dev_menu
 	) else (
-		echo :: it was not possible to open dev_tools.uiautomator2_screenshot, make sure you have a folder python-3.7.6.amd64
+		echo :: it was not possible to open dev_tools.uiautomator2_screenshot, make sure you have a folder toolkit
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL

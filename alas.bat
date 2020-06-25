@@ -2,8 +2,13 @@
 @echo off
 pushd "%~dp0"
 title ALAS run
-SET ADB=%~dp0python-3.7.6.amd64\Lib\site-packages\adbutils\binaries\adb.exe
-SET PYTHON=%~dp0python-3.7.6.amd64\python.exe
+:: -----------------------------------------------------------------------------
+SET RENAME="toolkit"
+if exist %RENAME% (
+  rename %RENAME% toolkit
+)
+SET ADB=%~dp0toolkit\Lib\site-packages\adbutils\binaries\adb.exe
+SET PYTHON=%~dp0toolkit\python.exe
 SET CMD=%SystemRoot%\system32\cmd.exe
 SET LMESZINC=https://github.com/LmeSzinc/AzurLaneAutoScript.git
 SET WHOAMIKYO=https://github.com/whoamikyo/AzurLaneAutoScript.git
@@ -107,7 +112,7 @@ goto alas
 	call %PYTHON% alas_en.pyw
 	goto alas
 	) else (
-		echo :: it was not possible to open alas_en.pyw, make sure you have a folder python-3.7.6.amd64
+		echo :: it was not possible to open alas_en.pyw, make sure you have a folder toolkit
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
@@ -122,7 +127,7 @@ goto alas
 	call %PYTHON% alas_cn.pyw
 	goto alas
 	) else (
-		echo :: it was not possible to open alas_cn.pyw, make sure you have a folder python-3.7.6.amd64
+		echo :: it was not possible to open alas_cn.pyw, make sure you have a folder toolkit
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
@@ -137,7 +142,7 @@ goto alas
 	call %PYTHON% alas_jp.pyw
 	goto alas
 	) else (
-		echo :: it was not possible to open alas_jp.pyw, make sure you have a folder python-3.7.6.amd64
+		echo :: it was not possible to open alas_jp.pyw, make sure you have a folder toolkit
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
@@ -145,7 +150,7 @@ goto alas
 	)
 :: -----------------------------------------------------------------------------
 rem :updater
-rem SET GIT_ALAS=%~dp0python-3.7.6.amd64\Git\cmd\git.exe
+rem SET GIT_ALAS=%~dp0toolkit\Git\cmd\git.exe
 rem SET GLP=%GIT_ALAS%
 rem SET ALAS_PY=alas.py
 rem 	if exist %ALAS_PY% (
@@ -157,7 +162,7 @@ rem 		goto updater_menu
 rem 	)
 rem :: -----------------------------------------------------------------------------
 :updater_menu
-SET GIT_ALAS=%~dp0python-3.7.6.amd64\Git\cmd\git.exe
+SET GIT_ALAS=%~dp0toolkit\Git\cmd\git.exe
 SET GLP=%GIT_ALAS%
 	cls
 	echo.
@@ -211,7 +216,7 @@ SET GLP=%GIT_ALAS%
 	) else (
 		echo  :: Git not detected, maybe there was an installation issue
 		echo check if you have this directory:
-		echo AzurLaneAutoScript\python-3.7.6.amd64\Git\cmd
+		echo AzurLaneAutoScript\toolkit\Git\cmd
 		echo.
         pause > NUL
         goto updater_menu
@@ -232,7 +237,7 @@ SET GLP=%GIT_ALAS%
 	) else (
 		echo  :: Git not detected, maybe there was an installation issue
 		echo check if you have this directory:
-		echo AzurLaneAutoScript\python-3.7.6.amd64\Git\cmd
+		echo AzurLaneAutoScript\toolkit\Git\cmd
         pause > NUL
         goto updater_menu
 	)
@@ -251,7 +256,7 @@ SET GLP=%GIT_ALAS%
 	) else (
 		echo  :: Git not detected, maybe there was an installation issue
 		echo check if you have this directory:
-		echo AzurLaneAutoScript\python-3.7.6.amd64\Git\cmd
+		echo AzurLaneAutoScript\toolkit\Git\cmd
 		echo.
         pause > NUL
         goto updater_menu
@@ -296,7 +301,7 @@ cls
 	) else (
 		echo  :: Git not detected, maybe there was an installation issue
 		echo check if you have this directory:
-		echo AzurLaneAutoScript\python-3.7.6.amd64\Git\cmd
+		echo AzurLaneAutoScript\toolkit\Git\cmd
 		echo.
         pause > NUL
         goto alas
