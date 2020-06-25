@@ -3,7 +3,6 @@ from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
 
-
 MAP = CampaignMap('10-4')
 MAP.shape = 'I6'
 MAP.camera_data = ['D2', 'D4', 'F2', 'F4']
@@ -46,8 +45,25 @@ step_on = SelectedGrids([E4, D3, G4, C3])
 road_main = RoadGrids([D5, E4, D3, C3, A2, G4, H5, G3, G2])
 roadblocks_d4 = RoadGrids([[D5, E6], E4, D3])
 
+
 class Config:
-    pass
+    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
+    EDGE_LINES_HOUGHLINES_THRESHOLD = 40
+    COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.5
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (150, 255 - 24),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 24, 255),
+        'prominence': 10,
+        'distance': 50,
+        'width': (0, 10),
+        'wlen': 1000,
+    }
+
 
 class Campaign(CampaignBase):
     MAP = MAP
