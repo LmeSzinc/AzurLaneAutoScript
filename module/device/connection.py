@@ -12,7 +12,7 @@ class Connection:
     _adb_binary = ''
     adb_binary_list = [
         r'.\adb\adb.exe',
-        r'.\python-3.7.6.amd64\Lib\site-packages\adbutils\binaries\adb.exe',
+        r'.\toolkit\Lib\site-packages\adbutils\binaries\adb.exe',
         r'.\python\Lib\site-packages\adbutils\binaries\adb.exe',
     ]
 
