@@ -133,9 +133,11 @@ class FleetPreparation(ModuleBase):
                 if submarine.in_use():
                     submarine.clear()
 
+        # No need, this may clear FLEET_2 by mistake, clear FLEET_2 in map config.
+        # if not fleet_2.allow():
+        #     self.config.FLEET_2 = 0
+
         # Not using fleet 2.
-        if not fleet_2.allow():
-            self.config.FLEET_2 = 0
         if not self.config.FLEET_2:
             if fleet_2.allow():
                 if fleet_2.in_use():
