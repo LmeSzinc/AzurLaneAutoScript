@@ -23,9 +23,7 @@ class RaidRun(Raid, CampaignRun):
         self.campaign = self  # A trick to call CampaignRun
         self.campaign_name_set(f'{name}_{mode}')
 
-        # UI ensure
         self.device.screenshot()
-        self.ui_ensure(page_raid)
 
         self.run_count = 0
         while 1:
@@ -47,6 +45,9 @@ class RaidRun(Raid, CampaignRun):
             # End
             if self.triggered_stop_condition():
                 break
+
+            # UI ensure
+            self.ui_ensure(page_raid)
 
             # Run
             try:
