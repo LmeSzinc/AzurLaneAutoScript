@@ -49,34 +49,49 @@ set SCREENSHOT_FOLDER=%~dp0screenshots
 if not exist %SCREENSHOT_FOLDER% (
   mkdir %SCREENSHOT_FOLDER%
 )
-rem if config\adb_port.ini dont exist, will be created
-if not exist %ADB_P% (
-  cd . > %ADB_P%
-)
 :: -----------------------------------------------------------------------------
+::if config\adb_port.ini dont exist, will be created
+	if not exist %ADB_P% (
+  	cd . > %ADB_P%
+		)
+:: -----------------------------------------------------------------------------
+:prompt
 REM if adb_port is empty, prompt HOST:PORT
 SET "adb_empty=%~dp0config\adb_port.ini"
 for %%A in (%adb_empty%) do if %%~zA==0 (
-    echo enter your HOST:PORT eg: 127.0.0.1:5555 for default bluestacks
-	echo WARNING! DONT FORGET TO SETUP AGAIN IN, ALAS ON EMULATOR SETTINGS FUNCTION
+    echo Enter your HOST:PORT eg: 127.0.0.1:5555 for default bluestacks
+	echo If you misstype, you can edit the file in config/adb_port.ini
     set /p adb_input=
-)
+	)
 :: -----------------------------------------------------------------------------
 REM if adb_input = 0 load from adb_port.ini
 if [%adb_input%]==[] (
     goto load
-)
+	)
 REM write adb_input on adb_port.ini
 echo %adb_input% >> %ADB_P%
-
-REM Load adb_port.ini
+:: -----------------------------------------------------------------------------
+:: Will search for 127.0.0.1:62001 and replace for %ADB_PORT%
+:FINDSTR
+setlocal enableextensions disabledelayedexpansion
+SET "template=%~dp0config\template.ini"
+SET "search=127.0.0.1:62001"
+SET "replace=%adb_input%"
+SET "string=%template%"
+for /f "delims=" %%i in ('type "%string%" ^& break ^> "%string%" ') do (
+    SET "line=%%i"
+    setlocal enabledelayedexpansion
+    >>"%string%" echo(!line:%search%=%replace%!
+    endlocal
+)
+:: -----------------------------------------------------------------------------
 :load
+REM Load adb_port.ini
 REM 
-set /p ADB_PORT=<%ADB_P%
-
+SET /p ADB_PORT=<%ADB_P%
 echo connecting at %ADB_PORT%
 call %ADB% connect %ADB_PORT%
-
+:: -----------------------------------------------------------------------------
 echo initializing uiautomator2
 call %PYTHON% -m uiautomator2 init
 :: timout
