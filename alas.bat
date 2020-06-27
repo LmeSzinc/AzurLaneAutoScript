@@ -128,6 +128,8 @@ color 8F
 	) else (
 		echo :: it was not possible to open alas_en.pyw, make sure you have a folder toolkit
 		echo :: inside AzurLaneAutoScript folder.
+		echo Alas PATH: %ALAS_PATH%
+		echo Python Path: %PYTHON%
 		echo.
         pause > NUL
         goto alas
@@ -143,6 +145,8 @@ color 8F
 	) else (
 		echo :: it was not possible to open alas_cn.pyw, make sure you have a folder toolkit
 		echo :: inside AzurLaneAutoScript folder.
+		echo Alas PATH: %ALAS_PATH%
+		echo Python Path: %PYTHON%
 		echo.
         pause > NUL
         goto alas
@@ -158,6 +162,8 @@ color 8F
 	) else (
 		echo :: it was not possible to open alas_jp.pyw, make sure you have a folder toolkit
 		echo :: inside AzurLaneAutoScript folder.
+		echo Alas PATH: %ALAS_PATH%
+		echo Python Path: %PYTHON%
 		echo.
         pause > NUL
         goto alas

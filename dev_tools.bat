@@ -1,5 +1,5 @@
+@SETLOCAL EnableExtensions EnableDelayedExpansion
 @echo off
-setlocal EnableDelayedExpansion
 title Dev_tools
 pushd %~dp0
 SET CMD=%SystemRoot%\system32\cmd.exe
@@ -41,10 +41,9 @@ SET WHOAMIKYO=https://github.com/whoamikyo/AzurLaneAutoScript.git
 SET ENV=https://github.com/whoamikyo/alas-env.git
 SET GITEE_URL=https://gitee.com/lmeszinc/AzurLaneAutoScript.git
 SET ADB_P=%ALAS_PATH%config\adb_port.ini
-SET FILE_PREFIX=screenshot
-SET SCREENSHOT_FOLDER=%~dp0screenshots
 :: -----------------------------------------------------------------------------
-
+:: Screenshots
+SET SCREENSHOT_FOLDER=%~dp0screenshots
 :: -----------------------------------------------------------------------------
 set SCREENSHOT_FOLDER=%~dp0screenshots
 if not exist %SCREENSHOT_FOLDER% (
@@ -242,8 +241,6 @@ echo Enter any text/letter instead of the file name, do not enter spaces, enter 
 echo or enter alas to back to main menu
 echo.
 :set
-SET time=%date:~0,4%%date:~5,2%%date:~8,2%%time:~0,2%%time:~3,2%%time:~6,2%
-SET name=%time%
 SET /P name=
 IF /I '%name%'=='exit' goto EOF
 IF /I '%name%'=='alas' goto dev_menu
@@ -280,18 +277,18 @@ goto adbss
 :: -----------------------------------------------------------------------------
 :adbc
 rem create output file name and path from parameters and date and time
-rem loop
-:CLOCK
-set Timestamp=%date:~0,2%-%date:~3,2%-%date:~6,4%-%time:~0,2%-%time:~3,2%-%time:~6,2%-%time:~9,2%
-set SCREENCAP_FILE_NAME=%FILE_PREFIX%-%Timestamp%.png
-set SCREENCAP_FILE_PATH=%SCREENSHOT_FOLDER%\%SCREENCAP_FILE_NAME%
-
-rem calling adb shell screencap, pull and remove the previos file
+::loop
+:LOOP
+FOR /f %%a IN ('WMIC OS GET LocalDateTime ^| FIND "."') DO SET DTS=%%a  
+SET DATETIME=%DTS:~0,8%-%DTS:~8,6%-%DTS:~9,2%
+SET SCREENCAP_FILE_NAME=screenshot-%DATETIME%.png
+SET SCREENCAP_FILE_PATH=%SCREENSHOT_FOLDER%\%SCREENCAP_FILE_NAME%
+::calling adb shell screencap, pull and remove the previos file
 call %ADB% -s %ADB_PORT% shell mkdir /sdcard/dcim/Screenshot 2>nul
 call %ADB% -s %ADB_PORT% shell screencap -p /sdcard/dcim/Screenshot/%SCREENCAP_FILE_NAME%
 call %ADB% -s %ADB_PORT% pull /sdcard/dcim/Screenshot/%SCREENCAP_FILE_NAME% %SCREENCAP_FILE_PATH%
 call %ADB% -s %ADB_PORT% shell rm /sdcard/dcim/Screenshot/%SCREENCAP_FILE_NAME%
-goto:CLOCK
+goto:LOOP
 
 :EOF
 exit
