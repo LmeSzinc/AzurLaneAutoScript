@@ -13,14 +13,13 @@
 
 # New automatic installation method (Recommended)
 
-* Download the file [Easy_Install-V2.bat](https://raw.githubusercontent.com/LmeSzinc/AzurLaneAutoScript/master/Easy_Install-V2.bat) (right-click, save)
-* Move **Easy_Install-V2.bat** to your drive root (ex. `C:\`, or `D:\`, any will work). The installer will create the nessesary folders.
-* Run the installer as administrator (`Right click> Run as administrator`)
+* [Video tutorial](https://www.youtube.com/watch?v=bp4kd8P1qT4)
+* Download the zip [AzurLaneAutoScript.zip
+](https://github.com/whoamikyo/AzurLaneAutoScript/releases) (right-click, save)
+* Extract and run **Easy_Install-V2.bat** (ex. `C:\`, or `D:\`, any will work). The installer will create the nessesary folders.
 * **Do not run the installer in a folder that contains spaces in the name, this will make the scripts not work correctly, create a folder at the root of some drive like `C:\ALAS\` or `D:\ALAS\`, then place Easy_Install-V2.bat in that folder and run if you must run it inside of a folder.**
-* The installer will create a folder `AzurLaneAutoScript` in the directory you run `Easy_Install-V2.bat`
 * To Run ALAS, just click in `alas.bat` inside the installation folder and follow the instructions located below in the `How to use Use` section.
-* To avoid connection errors it's recommended to configure your emulator port correctly, in `alas.bat` first start will be prompt to enter your HOST:PORT, just open it with notepad and edit line 5, remove the `::` and configure with your emulator PORT, below you have more information on how to find your emulator PORT, READ ALL.
-* It probably doesn't work on windows 7, you can test it and if it doesn't work try manual installation, tested on Windows 10 x64 Version 2004.
+* To avoid connection errors it's recommended to configure your emulator port correctly, in `alas.bat` first start will be prompt to enter your HOST:PORT, below you have more information on how to find your emulator PORT, READ ALL.
 
 # Manual installation method (Not Recommended)
 

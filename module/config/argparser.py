@@ -26,7 +26,7 @@ except Exception:
     sidebar_title='功能',
     terminal_font_family='Consolas',
     language='chinese',
-    default_size=(850, 850),
+    default_size=(800, 850),
     navigation='SIDEBAR',
     tabbed_groups=True,
     show_success_modal=False,

@@ -1,13 +1,29 @@
 @echo off
 setlocal EnableDelayedExpansion
 title Dev_tools
+pushd "%~dp0"
 :: -----------------------------------------------------------------------------
-SET ADB_PATH=%~dp0python-3.7.6.amd64\Lib\site-packages\adbutils\binaries\adb.exe
+SET ADB_PATH=%~dp0toolkit\Lib\site-packages\adbutils\binaries\adb.exe
 SET ADB=%ADB_PATH%
-SET PYTHON_PATH=%~dp0python-3.7.6.amd64\python.exe
+SET PYTHON_PATH=%~dp0toolkit\python.exe
 SET PYTHON=%PYTHON_PATH%
 :: -----------------------------------------------------------------------------
+goto check_Permissions
+:check_Permissions
+    echo Administrative permissions required. Detecting permissions...
 
+    net session >nul 2>&1
+    if %errorLevel% == 0 (
+        echo Success: Administrative permissions confirmed.
+        pause >nul
+        goto continue
+    ) else (
+        echo Failure: Current permissions inadequate.
+    )
+    pause >nul
+:: -----------------------------------------------------------------------------
+:continue
+set FILE_PREFIX=screenshot
 set SCREENSHOT_FOLDER=%~dp0screenshots
 if not exist %SCREENSHOT_FOLDER% (
   mkdir %SCREENSHOT_FOLDER%
@@ -53,6 +69,7 @@ CALL %ADB% connect %ADB_PORT%
 	echo	7.  word_template_extractor
 	echo	8. ADB SCREENSHOT (for ASSETS)
 	echo	9. Uiautomator2 SCREENSHOT (for ASSETS)
+	echo	10. ADB SCREENSHOT (Continuous Screenshot)
 	echo. 
 	echo  :: Type a 'number' and press ENTER
 	echo  :: Type 'exit' to quit
@@ -68,6 +85,7 @@ CALL %ADB% connect %ADB_PORT%
 		if %menu%==7 GOTO word_template_extractor
 		if %menu%==8 GOTO adbss
 		if %menu%==9 GOTO u2ss
+		if %menu%==10 GOTO adbc
 		if %menu%==exit GOTO EOF
 		
 		else (
@@ -89,13 +107,14 @@ CALL %ADB% connect %ADB_PORT%
 	echo Opening dev_tools.emulator_test...
 	call %PYTHON% -m dev_tools.emulator_test
 	pause > NUL
+	goto dev_menu
 	) else (
-		echo :: it was not possible to open dev_tools.emulator_test, make sure you have a folder python-3.7.6.amd64
+		echo :: it was not possible to open dev_tools.emulator_test, make sure you have a folder toolkit
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
+        goto dev_menu
 	)
-goto dev_menu
 :: -----------------------------------------------------------------------------
 :button_extract
 	call %PYTHON% --version >nul
@@ -104,13 +123,14 @@ goto dev_menu
 	echo Opening dev_tools.button_extract...
 	call %PYTHON% -m dev_tools.button_extract
 	pause > NUL
+	goto dev_menu
 	) else (
-		echo :: it was not possible to open dev_tools.button_extract, make sure you have a folder python-3.7.6.amd64
+		echo :: it was not possible to open dev_tools.button_extract, make sure you have a folder toolkit
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
+        goto dev_menu
 	)
-goto dev_menu
 :: -----------------------------------------------------------------------------
 :grids_debug
 	call %PYTHON% --version >nul
@@ -119,13 +139,14 @@ goto dev_menu
 	echo Opening dev_tools.button_extract...
 	call %PYTHON% -m dev_tools.grids_debug
 	pause > NUL
+	goto dev_menu
 	) else (
-		echo :: it was not possible to open dev_tools.grids_debug, make sure you have a folder python-3.7.6.amd64
+		echo :: it was not possible to open dev_tools.grids_debug, make sure you have a folder toolkit
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
+        goto dev_menu
 	)
-goto dev_menu
 :: -----------------------------------------------------------------------------
 :item_stastistics
 	call %PYTHON% --version >nul
@@ -134,13 +155,14 @@ goto dev_menu
 	echo Opening dev_tools.button_extract...
 	call %PYTHON% -m dev_tools.item_stastistics
 	pause > NUL
+	goto dev_menu
 	) else (
-		echo :: it was not possible to open dev_tools.item_stastistics, make sure you have a folder python-3.7.6.amd64
+		echo :: it was not possible to open dev_tools.item_stastistics, make sure you have a folder toolkit
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
+        goto dev_menu
 	)
-goto dev_menu
 :: -----------------------------------------------------------------------------
 :relative_crop
 	call %PYTHON% --version >nul
@@ -149,14 +171,14 @@ goto dev_menu
 	echo Opening dev_tools.button_extract...
 	call %PYTHON% -m dev_tools.relative_crop
 	pause > NUL
+	goto dev_menu
 	) else (
-		echo :: it was not possible to open dev_tools.relative_crop, make sure you have a folder python-3.7.6.amd64
+		echo :: it was not possible to open dev_tools.relative_crop, make sure you have a folder toolkit
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
+        goto dev_menu
 	)
-
-goto dev_menu
 :: -----------------------------------------------------------------------------
 :map_extractor
 	call %PYTHON% --version >nul
@@ -165,13 +187,14 @@ goto dev_menu
 	echo Opening dev_tools.button_extract...
 	call %PYTHON% -m dev_tools.map_extractor
 	pause > NUL
+	goto dev_menu
 	) else (
-		echo :: it was not possible to open dev_tools.map_extractor, make sure you have a folder python-3.7.6.amd64
+		echo :: it was not possible to open dev_tools.map_extractor, make sure you have a folder toolkit
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
+        goto dev_menu
 	)
-goto dev_menu
 :: -----------------------------------------------------------------------------
 :word_template_extractor
 	call %PYTHON% --version >nul
@@ -180,13 +203,14 @@ goto dev_menu
 	echo Opening dev_tools.button_extract...
 	call %PYTHON% -m dev_tools.word_template_extractor
 	pause > NUL
+	goto dev_menu
 	) else (
-		echo :: it was not possible to open dev_tools.word_template_extractor, make sure you have a folder python-3.7.6.amd64
+		echo :: it was not possible to open dev_tools.word_template_extractor, make sure you have a folder toolkit
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
+        goto dev_menu
 	)
-goto dev_menu
 :: -----------------------------------------------------------------------------
 :adbss
 echo Enter any text/letter instead of the file name, do not enter spaces, enter exit to exit
@@ -220,13 +244,30 @@ goto adbss
 	call %PYTHON% -m dev_tools.uiautomator2_screenshot
 	echo The file *.png has been copied to ./screenshots/ directory
 	pause > NUL
+	goto dev_menu
 	) else (
-		echo :: it was not possible to open ddev_tools.uiautomator2_screenshot, make sure you have a folder python-3.7.6.amd64
+		echo :: it was not possible to open dev_tools.uiautomator2_screenshot, make sure you have a folder toolkit
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
+        goto dev_menu
 	)
-goto dev_menu
 :: -----------------------------------------------------------------------------
+:adbc
+rem create output file name and path from parameters and date and time
+rem loop
+:CLOCK
+rem FOR /L %%A IN (1,1,1) DO (
+rem removing the upper for loop
+set Timestamp=%date:~0,2%-%date:~3,2%-%date:~6,4%-%time:~0,2%-%time:~3,2%-%time:~6,2%-%time:~9,2%
+set SCREENCAP_FILE_NAME=%FILE_PREFIX%-%Timestamp%.png
+set SCREENCAP_FILE_PATH=%SCREENSHOT_FOLDER%%SCREENCAP_FILE_NAME%
+
+rem calling adb shell screencap, pull and remove the previos file
+call %ADB% shell screencap -p %SCREENCAP_FILE_PATH%
+call %ADB% pull %SCREENCAP_FILE_PATH%
+call %ADB% shell rm %SCREENCAP_FILE_PATH%
+goto:CLOCK
+
 :EOF
 exit
