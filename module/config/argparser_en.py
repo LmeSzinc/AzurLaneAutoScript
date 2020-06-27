@@ -274,9 +274,9 @@ def main(ini_name=''):
     daily_task.add_argument('--daily_equipment', default=default('--daily_equipment'), help='Change equipment before playing, unload equipment after playing, do not need to fill in 0 \ncomma, such as 3, 1, 0, 1, 1, 0')
 
     # 困难设置
-    hard = daily_parser.add_argument_group('Difficult setting', 'Need to turn on weekly mode, only support 10-1, 10-2 and 10-4 temporarily')
+    hard = daily_parser.add_argument_group('Difficult setting', 'Need to turn on weekly mode')
     hard.add_argument('--hard_campaign', default=default('--hard_campaign'), help='For example 10-4')
-    hard.add_argument('--hard_fleet', default=default('--hard_fleet'), choices=['1', '2'])
+    hard.add_argument('--hard_fleet', default=default('--hard_fleet'), choices=['1', '2'], help='For 10-2 hard, Set Fleet 2')
     hard.add_argument('--hard_equipment', default=default('--hard_equipment'), help='Change equipment before playing, unload equipment after playing, do not need to fill in 0 \ncomma, such as 3, 1, 0, 1, 1, 0')
 
     # 演习设置
