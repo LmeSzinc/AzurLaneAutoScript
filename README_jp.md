@@ -130,7 +130,7 @@ Alas （アズールレーン自動化ツール / Azur Lane automation tool）
     - **スタートアップ**
       - `python -m uiautomator2 init`
       - インストールが完了すると出力は以下のようになります。
-        - ![U2](quickguide.assets/u2_test.png)
+        - ![U2](doc/quickguide.assets/u2_test.png)
 
     - すべての接続されたデバイスに以下がダウンロードされます。  
     [uiautomator-server](https://github.com/openatx/android-uiautomator-server/releases) , [atx-agent](https://github.com/openatx/atx-agent), [minicap](https://github.com/openstf/minicap), [minitouch](https://github.com/openstf/minitouch)
@@ -152,11 +152,11 @@ Alas （アズールレーン自動化ツール / Azur Lane automation tool）
 
     - エミュレータに新しいアプリがインストールされたことが確認できます。
 
-        ![emulator_test](quickguide.assets/atx.png)
+        ![emulator_test](doc/quickguide.assets/atx.png)
 
     - アプリを開くと起動しているか確認できます。
 
-        ![emulator_test](quickguide.assets/atx_running.png)
+        ![emulator_test](doc/quickguide.assets/atx_running.png)
 
 
 
