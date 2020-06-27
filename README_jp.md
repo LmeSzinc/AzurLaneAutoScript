@@ -27,17 +27,14 @@ Alas （アズールレーン自動化ツール / Azur Lane automation tool）
 
 #### 以下は日本サーバー未対応のものも含まれます。上記参照
 
-- **Campaign**: 通常海域は現状では6章までと7-2をサポートしています。  
+- **Campaign**: 通常海域に対応しています。実行できるマップは`./campaign`フォルダ内で確認することができます。  
 
-- **Events**: イベント海域にも対応しています。  
+- **Events**: イベント海域に対応しています。 実行できるマップは`./campaign`フォルダ内で確認することができます。  
   > Support「Skybound Oratorio」, specifically map D1 and D3, supporting handling of 光之壁? (Fleet is unable to proceed into square that has 光之壁. Support 开荒)
 
-- **Daily Mission**: デイリー出撃（通商破壊以外）、ハードモード（現状では10-4のみ）、演習、自動撤退を実行できます。  
-  > Able to finish everything in 30 minutes, repeated run will skip over what has been done on that day.
-  > Daily Mission(Submarine not support). Hardmode(Currently only support 10-4). Exercise, Auto SL.  
+- **Daily Mission**: デイリー出撃（潜水艦以外）、演習、自動撤退を実行できます。  
 
-- **Events x3 PT**:
-  > 30 minutes to finish A1-B3  
+- **Events x3 PT**: イベント海域A1~B3を30分で実行できます。
 
 - **Commissions**: 海域実行中20分ごとに、委託報酬、研究報酬、デイリーミッション報酬を受け取り、委託を行うことができます。  
   > Dispatch commision every 20 minutes during campaign, accept commission rewards, research rewards, and daily mission rewards.
@@ -49,6 +46,7 @@ Alas （アズールレーン自動化ツール / Azur Lane automation tool）
   - 装備変更  
   - 定期的にスクリーンショットを保存  
   - 自動退役  
+  - 艦船強化  
   - マップ攻略モード: 新しいマップにおいて星3でのクリアに挑戦できます。  
 
 
@@ -177,12 +175,11 @@ Alas （アズールレーン自動化ツール / Azur Lane automation tool）
 
 Sort by frequency
 
-- **GUI move slowly, UIautomator2 move slowly**
-- **Unable to deal with network issues** Reconnect pop-up, little chick pop-up
-- **It will display green face, yellow face, red face** This is a bug, Alas will restart the game every 2 hour to update the affections level.
-- **Exercise may fail SL**
-- **Under rare circumstance ABD and UIAutomator2 will have convulsive seizures**
-- **Screen draging will not work in rare circumstances**
+- **GUI starts slowly, uiautomator2 starts slowly**
+- **Unable to deal with network fluctuations** Reconnect popup window
+- **The green face, yellow face and red face will be displayed** This is the BUG, Alas will restart the game every 2 hour to update the affections level.
+- **Exercises may fail**
+- **Screen swipe will not work in rare circumstances**
 
 ## Doc
 [Map Perspective](doc/perspective.md)
