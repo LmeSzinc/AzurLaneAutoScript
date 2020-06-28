@@ -316,6 +316,7 @@ class AzurLaneConfig:
     ENABLE_REWARD = True
     REWARD_INTERVAL = 20
     REWARD_LAST_TIME = datetime.now()
+    ENABLE_DAILY_REWARD = False
     ENABLE_OIL_REWARD = True
     ENABLE_COIN_REWARD = True
     ENABLE_MISSION_REWARD = True
@@ -496,7 +497,8 @@ class AzurLaneConfig:
         # Reward
         option = config['Reward']
         self.REWARD_INTERVAL = int(option['reward_interval'])
-        for attr in ['enable_reward', 'enable_oil_reward', 'enable_coin_reward', 'enable_mission_reward', 'enable_commission_reward', 'enable_tactical_reward']:
+        for attr in ['enable_reward', 'enable_oil_reward', 'enable_coin_reward', 'enable_mission_reward',
+                     'enable_commission_reward', 'enable_tactical_reward', 'enable_daily_reward']:
             self.__setattr__(attr.upper(), to_bool(option[attr]))
         if not option['commission_time_limit'].isdigit():
             self.COMMISSION_TIME_LIMIT = future_time(option['commission_time_limit'])

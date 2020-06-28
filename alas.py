@@ -96,38 +96,9 @@ class AzurLaneAutoScript:
         """
         Method to run daily missions.
         """
-        if self.config.ENABLE_DAILY_MISSION:
-            from module.daily.daily import Daily
-            az = Daily(self.config, device=self.device)
-            if not az.record_executed_since():
-                az.run()
-                az.record_save()
-
-        if self.config.ENABLE_HARD_CAMPAIGN:
-            from module.hard.hard import CampaignHard
-            az = CampaignHard(self.config, device=self.device)
-            if not az.record_executed_since():
-                az.run()
-                az.record_save()
-
-        if self.config.ENABLE_EXERCISE:
-            from module.exercise.exercise import Exercise
-            az = Exercise(self.config, device=self.device)
-            if not az.record_executed_since():
-                az.run()
-                az.record_save()
-
-        if self.config.ENABLE_EVENT_NAME_AB:
-            from module.event.campaign_ab import CampaignAB
-            az = CampaignAB(self.config, device=self.device)
-            az.run_event_daily()
-
-        if self.config.ENABLE_RAID_DAILY:
-            from module.raid.daily import RaidDaily
-            az = RaidDaily(self.config, device=self.device)
-            if not az.record_executed_since():
-                az.run()
-                az.record_save()
+        from module.reward.reward import Reward
+        az = Reward(self.config, device=self.device)
+        az.daily_wrapper_run()
 
         self.reward_when_finished()
 
