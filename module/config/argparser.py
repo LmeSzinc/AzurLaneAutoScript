@@ -185,6 +185,7 @@ def main(ini_name=''):
     reward_condition = reward_parser.add_argument_group('触发条件', '需要运行一次来保存选项, 运行后会进入挂机收菜模式')
     reward_condition.add_argument('--启用收获', default=default('--启用收获'), choices=['是', '否'])
     reward_condition.add_argument('--收菜间隔', default=default('--收菜间隔'), choices=['20', '30', '60'], help='每隔多少分钟触发收菜')
+    reward_condition.add_argument('--启用每日收获', default=default('--启用每日收获'), choices=['是', '否'], help='将每日任务困难演习作为收获的一部分来运行')
 
     reward_oil = reward_parser.add_argument_group('石油物资', '')
     reward_oil.add_argument('--启用石油收获', default=default('--启用石油收获'), choices=['是', '否'])

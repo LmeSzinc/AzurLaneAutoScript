@@ -186,6 +186,7 @@ def main(ini_name=''):
     reward_condition = reward_parser.add_argument_group('Triggering conditions', 'Need to Press start to save your settings, after running it will enter the on-hook vegetable collection mode')
     reward_condition.add_argument('--enable_reward', default=default('--enable_reward'), choices=['yes', 'no'])
     reward_condition.add_argument('--reward_interval', default=default('--reward_interval'), choices=['20', '30', '60'], help='How many minutes to trigger collection')
+    reward_condition.add_argument('--enable_daily_reward', default=default('--enable_daily_reward'), choices=['yes', 'no'], help='Run daily as a part of reward')
 
     reward_oil = reward_parser.add_argument_group('Oil supplies', '')
     reward_oil.add_argument('--enable_oil_reward', default=default('--enable_oil_reward'), choices=['yes', 'no'])

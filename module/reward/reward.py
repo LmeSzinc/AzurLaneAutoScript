@@ -36,6 +36,13 @@ class Reward(RewardCommission, RewardTacticalClass, LoginHandler, Update):
 
         self.config.REWARD_LAST_TIME = datetime.now()
         logger.hr('Reward end')
+
+        if self.config.ENABLE_DAILY_REWARD:
+            logger.hr('Daily reward')
+            count = self.daily_wrapper_run()
+            if count > 0:
+                return self.reward()
+
         return True
 
     def handle_reward(self):
@@ -164,3 +171,47 @@ class Reward(RewardCommission, RewardTacticalClass, LoginHandler, Update):
             logger.info('Reward loop wait')
             logger.attr('Reward_loop_wait', f'{self.config.REWARD_INTERVAL} min')
             self.device.sleep(self.config.REWARD_INTERVAL * 60)
+
+    def daily_wrapper_run(self):
+        count = 0
+        total = 5
+        if self.config.ENABLE_DAILY_MISSION:
+            from module.daily.daily import Daily
+            az = Daily(self.config, device=self.device)
+            if not az.record_executed_since():
+                az.run()
+                az.record_save()
+                count += 1
+
+        if self.config.ENABLE_HARD_CAMPAIGN:
+            from module.hard.hard import CampaignHard
+            az = CampaignHard(self.config, device=self.device)
+            if not az.record_executed_since():
+                az.run()
+                az.record_save()
+                count += 1
+
+        if self.config.ENABLE_EXERCISE:
+            from module.exercise.exercise import Exercise
+            az = Exercise(self.config, device=self.device)
+            if not az.record_executed_since():
+                az.run()
+                az.record_save()
+                count += 1
+
+        if self.config.ENABLE_EVENT_NAME_AB:
+            from module.event.campaign_ab import CampaignAB
+            az = CampaignAB(self.config, device=self.device)
+            az.run_event_daily()
+            count += 1
+
+        if self.config.ENABLE_RAID_DAILY:
+            from module.raid.daily import RaidDaily
+            az = RaidDaily(self.config, device=self.device)
+            if not az.record_executed_since():
+                az.run()
+                az.record_save()
+                count += 1
+
+        logger.attr('Daily_executed', f'{count}/{total}')
+        return count
