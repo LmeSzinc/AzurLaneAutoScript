@@ -1,3 +1,6 @@
+run.sh
+drop_screenshots/*
+
 ### AzurLaneAutoScript
 log
 config/*.ini
@@ -10,13 +13,12 @@ config/*.ini
 !alas_kr.pyw
 dev_tools/debug_tools
 .idea
-run.sh
-drop_screenshots/*
 /screenshots
 /python
 /python-3.7.6.amd64
 /scripts
 /campaign/test/
+/toolkit
 
 # Created by .ignore support plugin (hsz.mobi)
 
