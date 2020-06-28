@@ -2,7 +2,6 @@ from module.base.button import ButtonGrid
 from module.base.switch import Switch
 from module.equipment.equipment import Equipment
 from module.retire.assets import *
-from module.ui.ui import UI
 
 dock_sorting = Switch('Dork_sorting')
 dock_sorting.add_status('Ascending', check_button=SORT_ASC, click_button=SORTING_CLICK)
@@ -27,7 +26,7 @@ CARD_RARITY_GRIDS = ButtonGrid(
     origin=(93, 76), delta=(164 + 2 / 3, 227), button_shape=(138, 5), grid_shape=(7, 2), name='RARITY')
 
 
-class Dock(UI, Equipment):
+class Dock(Equipment):
     def handle_dock_cards_loading(self):
         self.device.sleep((1, 1.5))
 
