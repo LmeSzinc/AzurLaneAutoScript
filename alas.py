@@ -72,7 +72,10 @@ class AzurLaneAutoScript:
 
     def emulator(self):
         for key, value in self.config.config['Emulator'].items():
-            print(f'{key} = {value}')
+            if key == 'github_token':
+                print(f'{key} = {"<sensitive_infomation>"}')
+            else:
+                print(f'{key} = {value}')
 
         logger.hr('Emulator saved')
         self.update_check()
