@@ -1,7 +1,7 @@
 from module.campaign.run import CampaignRun
 from module.exception import ScriptEnd
 from module.logger import logger
-from module.raid.raid import Raid
+from module.raid.raid import Raid, OilExhausted
 from module.ui.page import page_raid
 
 
@@ -19,7 +19,6 @@ class RaidRun(Raid, CampaignRun):
         if not name or not mode:
             logger.warning(f'RaidRun arguments unfilled. name={name}, mode={mode}')
 
-        self.config.STOP_IF_OIL_LOWER_THAN = 0  # No oil shows on page_raid
         self.campaign = self  # A trick to call CampaignRun
         self.campaign_name_set(f'{name}_{mode}')
 
@@ -43,7 +42,10 @@ class RaidRun(Raid, CampaignRun):
                 logger.info(f'Count: [{self.run_count}]')
 
             # End
-            if self.triggered_stop_condition():
+            oil_backup, self.config.STOP_IF_OIL_LOWER_THAN = self.config.STOP_IF_OIL_LOWER_THAN, 0
+            triggered = self.triggered_stop_condition()
+            self.config.STOP_IF_OIL_LOWER_THAN = oil_backup
+            if triggered:
                 break
 
             # UI ensure
@@ -52,6 +54,9 @@ class RaidRun(Raid, CampaignRun):
             # Run
             try:
                 self.raid_execute_once(mode=mode if mode else self.config.RAID_MODE)
+            except OilExhausted:
+                self.ui_goto_main()
+                break
             except ScriptEnd as e:
                 logger.hr('Script end')
                 logger.info(str(e))

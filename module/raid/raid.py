@@ -1,9 +1,14 @@
+from module.campaign.run import OCR_OIL
 from module.combat.assets import *
 from module.combat.combat import Combat
 from module.logger import logger
 from module.map.map_operation import MapOperation
 from module.raid.assets import *
 from module.ui.assets import RAID_CHECK
+
+
+class OilExhausted(Exception):
+    pass
 
 
 class Raid(MapOperation, Combat):
@@ -16,6 +21,7 @@ class Raid(MapOperation, Combat):
             fleet_index (int):
         """
         logger.info('Combat preparation.')
+        oil_checked = False
 
         if emotion_reduce:
             self.emotion.wait(fleet=fleet_index)
@@ -26,6 +32,13 @@ class Raid(MapOperation, Combat):
             if self.appear(BATTLE_PREPARATION):
                 if self.handle_combat_automation_set(auto=auto):
                     continue
+                if not oil_checked and self.config.STOP_IF_OIL_LOWER_THAN:
+                    self.ensure_combat_oil_loaded()
+                    oil = OCR_OIL.ocr(self.device.image)
+                    oil_checked = True
+                    if oil < self.config.STOP_IF_OIL_LOWER_THAN:
+                        logger.hr('Triggered oil limit')
+                        raise OilExhausted()
             if self.handle_raid_ticket_use():
                 continue
             if self.handle_retirement():
