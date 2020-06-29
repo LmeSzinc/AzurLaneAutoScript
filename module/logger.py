@@ -4,7 +4,7 @@ import os
 import sys
 from collections import deque
 
-logging.raiseExceptions = False # Set True if wanna see encode errors on console
+logging.raiseExceptions = False  # Set True if wanna see encode errors on console
 
 pyw_name = os.path.splitext(os.path.basename(sys.argv[0]))[0]
 if '_' in pyw_name:
@@ -47,8 +47,6 @@ def hr(title, level=3):
 
 def attr(name, text):
     logger.info('[%s] %s' % (str(name), str(text)))
-    if '[%s] %s' % (str(name), str(text)) == '[Fast_Forward] off':
-        raise Exception
 
 
 logger.hr = hr
