@@ -270,7 +270,7 @@ def main(ini_name=''):
     daily_task.add_argument('--斩首行动', default=default('--斩首行动'), choices=['第一个', '第二个', '第三个'])
     daily_task.add_argument('--商船护航', default=default('--商船护航'), choices=['第一个', '第二个', '第三个'])
     daily_task.add_argument('--海域突进', default=default('--海域突进'), choices=['第一个', '第二个', '第三个'])
-    daily_task.add_argument('--每日舰队', default=default('--每日舰队'), choices=['1', '2', '3', '4', '5', '6'])
+    daily_task.add_argument('--每日舰队', default=default('--每日舰队'), help='如果使用同一队, 填舰队编号, 例如 5\n如果使用不同队, 用逗号分割, 顺序为商船护送, 海域突进, 斩首行动, 战术研修\n例如 5, 5, 5, 6')
     daily_task.add_argument('--每日舰队快速换装', default=default('--每日舰队快速换装'), help='打之前换装备, 打完后卸装备, 不需要就填0\n逗号分割, 例如 3, 1, 0, 1, 1, 0')
 
     # 困难设置

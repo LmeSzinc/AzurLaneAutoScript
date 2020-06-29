@@ -174,14 +174,17 @@ class AzurLaneConfig:
     module.daily
     """
     ENABLE_DAILY_MISSION = True
-    FLEET_DAILY = 3
+    # Order of FLEET_DAILY
+    # 0 商船护送, 1 海域突进, 2 斩首行动, 3 战术研修, 4 破交作战
+    # 0 Escort Mission, 1 Advance Mission, 2 Fierce Assault, 3 Tactical Training, 4 Supply Line Disruption
+    FLEET_DAILY = [3, 3, 3, 3, 0]
     FLEET_DAILY_EQUIPMENT = [1, 1, 1, 1, 1, 1]
     DAILY_CHOOSE = {
-        4: 1,  # 商船护送
-        5: 1,  # 海域突进
-        1: 2,  # 战术研修, 1航空 2炮击 3雷击
-        2: 1,  # 斩首行动
-        3: 1,  # 破交作战
+        4: 1,  # 商船护送, Escort Mission
+        5: 1,  # 海域突进, Advance Mission
+        1: 2,  # 战术研修, 1航空 2炮击 3雷击. Tactical Training, 1 Aviation, 2 Firepower, 3 Torpedo
+        2: 1,  # 斩首行动, Fierce Assault
+        3: 1,  # 破交作战, Supply Line Disruption
     }
 
     """
@@ -524,7 +527,10 @@ class AzurLaneConfig:
         self.ENABLE_DAILY_MISSION = to_bool(option['enable_daily_mission'])
         for n in [1, 2, 4, 5]:
             self.DAILY_CHOOSE[n] = dic_daily[option[f'daily_mission_{n}']]
-        self.FLEET_DAILY = int(option['daily_fleet'])
+        if option['daily_fleet'].isdigit():
+            self.FLEET_DAILY = [int(option['daily_fleet'])] * 4 + [0]
+        else:
+            self.FLEET_DAILY = to_list(option['daily_fleet']) + [0]
         self.FLEET_DAILY_EQUIPMENT = to_list(option['daily_equipment'])
         # Hard
         self.ENABLE_HARD_CAMPAIGN = to_bool(option['enable_hard_campaign'])

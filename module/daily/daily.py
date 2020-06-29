@@ -48,8 +48,9 @@ class Daily(Combat, DailyEquipment):
         self._wait_daily_switch()
         self.device.screenshot()
 
-    def daily_execute(self, remain):
+    def daily_execute(self, remain, fleet):
         logger.hr(f'Daily {self.daily_current}')
+        logger.attr('Fleet', fleet)
         self.ui_click(click_button=DAILY_ENTER, check_button=DAILY_ENTER_CHECK, appear_button=DAILY_CHECK)
 
         def daily_end():
@@ -60,7 +61,7 @@ class Daily(Combat, DailyEquipment):
             logger.hr(f'Count {n + 1}')
             self.ui_click(click_button=button, check_button=self.combat_appear, appear_button=DAILY_ENTER_CHECK,
                           additional_button=self.handle_combat_automation_confirm)
-            self.ui_ensure_index(self.config.FLEET_DAILY, letter=OCR_DAILY_FLEET_INDEX, prev_button=DAILY_FLEET_PREV,
+            self.ui_ensure_index(fleet, letter=OCR_DAILY_FLEET_INDEX, prev_button=DAILY_FLEET_PREV,
                                  next_button=DAILY_FLEET_NEXT, fast=False, skip_first_screenshot=True)
             self.combat(emotion_reduce=False, save_get_items=False, expected_end=daily_end, balance_hp=False)
 
@@ -80,11 +81,23 @@ class Daily(Combat, DailyEquipment):
         self.device.screenshot()
         self.daily_current = 1
 
+        # Order of FLEET_DAILY
+        # 0 商船护送, 1 海域突进, 2 斩首行动, 3 战术研修, 4 破交作战
+        # 0 Escort Mission, 1 Advance Mission, 2 Fierce Assault, 3 Tactical Training, 4 Supply Line Disruption
+        fleets = self.config.FLEET_DAILY
+        # Order of fleets
+        # 1 Tactical Training, 2 Fierce Assault, 3 Supply Line Disruption, 4 Escort Mission, 5 Advance Mission
+        # 1 战术研修, 2 斩首行动, 3 破交作战, 4 商船护送, 5 海域突进
+        fleets = [0, fleets[3], fleets[2], fleets[4], fleets[0], fleets[1], 0]
+
         logger.info(f'Checked_list: {self.daily_checked}')
         for _ in range(max(self.daily_checked)):
             self.next()
 
         while 1:
+            # Meaning of daily_current
+            # 1 Tactical Training, 2 Fierce Assault, 3 Supply Line Disruption, 4 Escort Mission, 5 Advance Mission
+            # 1 战术研修, 2 斩首行动, 3 破交作战, 4 商船护送, 5 海域突进
             if self.daily_current > 5:
                 break
             if self.daily_current == 3:
@@ -102,7 +115,7 @@ class Daily(Combat, DailyEquipment):
                 self.next()
                 continue
             else:
-                self.daily_execute(remain=remain)
+                self.daily_execute(remain=remain, fleet=fleets[self.daily_current])
                 self.daily_check()
                 # The order of daily tasks will be disordered after execute a daily, exit and re-enter to reset.
                 # 打完一次之后每日任务的顺序会乱掉, 退出再进入来重置顺序.
