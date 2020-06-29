@@ -77,6 +77,9 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
         """
         return self.appear(PAUSE) and np.max(self.device.image.crop(PAUSE_DOUBLE_CHECK.area)) < 153
 
+    def ensure_combat_oil_loaded(self):
+        self.wait_until_stable(COMBAT_OIL_LOADING)
+
     def handle_combat_automation_confirm(self):
         if self.appear(AUTOMATION_CONFIRM_CHECK, interval=1):
             self.appear_then_click(AUTOMATION_CONFIRM, offset=True)
