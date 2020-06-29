@@ -38,7 +38,7 @@ class Enhancement(Dock):
             in: page_ship_enhance
             out: page_dock
         """
-        self.equip_quit(DOCK_FILTER)
+        self.ui_back(DOCK_FILTER)
         self.dock_favourite_set(enable=False)
         self.dock_filter_enter()
         self.dock_filter_index_all_set(enable=True)

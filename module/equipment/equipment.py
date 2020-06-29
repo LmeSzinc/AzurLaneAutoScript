@@ -3,7 +3,7 @@ from module.base.timer import Timer
 from module.equipment.assets import *
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
-from module.ui.assets import BACK_ARROW
+from module.ui.ui import UI
 from module.base.utils import color_similarity_2d
 import numpy as np
 
@@ -13,7 +13,7 @@ DETAIL_SIDEBAR = ButtonGrid(
     origin=(21, 118), delta=(0, 94.5), button_shape=(60, 75), grid_shape=(1, 5), name='DETAIL_SIDEBAR')
 
 
-class Equipment(InfoHandler):
+class Equipment(UI, InfoHandler):
     equipment_has_take_on = False
 
     def _view_swipe(self, distance, check_button=EQUIPMENT_OPEN):
@@ -39,7 +39,7 @@ class Equipment(InfoHandler):
         self._view_swipe(distance=SWIPE_DISTANCE, check_button=check_button)
 
     def equip_enter(self, click_button, check_button=EQUIPMENT_OPEN, long_click=True):
-        enter_timer = Timer(5)
+        enter_timer = Timer(10)
 
         while 1:
             if enter_timer.reached():
@@ -54,23 +54,6 @@ class Equipment(InfoHandler):
             # End
             if self.appear(check_button):
                 break
-
-    def equip_quit(self, out):
-        quit_timer = Timer(3)
-
-        while 1:
-            self.device.screenshot()
-
-            # End
-            if self.appear(out):
-                break
-
-            if quit_timer.reached() and self.appear(BACK_ARROW):
-                # self.device.sleep(1)
-                self.device.click(BACK_ARROW)
-                self.device.sleep((0.2, 0.3))
-                quit_timer.reset()
-                continue
 
     def _equip_sidebar_click(self, index):
         """
@@ -179,7 +162,7 @@ class Equipment(InfoHandler):
             else:
                 self._equip_take_off_one()
 
-        self.equip_quit(out)
+        self.ui_back(out)
         self.equipment_has_take_on = False
 
     def _equip_take_on_one(self, index):
@@ -229,5 +212,5 @@ class Equipment(InfoHandler):
             else:
                 self._equip_take_on_one(index=index)
 
-        self.equip_quit(out)
+        self.ui_back(out)
         self.equipment_has_take_on = True
