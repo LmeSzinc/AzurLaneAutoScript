@@ -153,6 +153,12 @@ class Reward(RewardCommission, RewardTacticalClass, LoginHandler, Update):
                     timeout.reset()
                     continue
 
+            if self.story_skip():
+                click_timer.reset()
+                exit_timer.reset()
+                timeout.reset()
+                continue
+
             # End
             if reward and exit_timer.reached():
                 break
