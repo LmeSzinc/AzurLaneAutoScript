@@ -111,6 +111,9 @@ class Reward(RewardCommission, RewardTacticalClass, LoginHandler, Update):
         Returns:
             bool: If rewarded.
         """
+        if not self.config.ENABLE_MISSION_REWARD:
+            return False
+
         logger.hr('Mission reward')
         if not self.appear(MISSION_NOTICE):
             logger.info('No mission reward')
