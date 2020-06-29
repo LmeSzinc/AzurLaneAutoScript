@@ -12,7 +12,18 @@ class Template:
         """
         self.server = server.server
         self.file = file[self.server] if isinstance(file, dict) else file
-        self.image = np.array(Image.open(self.file))
+        self._image = None
+
+    @property
+    def image(self):
+        if self._image is None:
+            self._image = np.array(Image.open(self.file))
+
+        return self._image
+
+    @image.setter
+    def image(self, value):
+        self._image = value
 
     def match(self, image, similarity=0.85):
         """
