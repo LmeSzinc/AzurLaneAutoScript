@@ -6,7 +6,7 @@ from datetime import datetime
 from module.config.config import AzurLaneConfig
 from module.device.device import Device
 from module.logger import logger, pyw_name, log_file
-from module.update import Update
+from module.handler.sensitive_info import handle_sensitive_image
 
 
 class AzurLaneAutoScript:
@@ -31,7 +31,8 @@ class AzurLaneAutoScript:
                 os.mkdir(folder)
                 for data in logger.screenshot_deque:
                     image_time = datetime.strftime(data['time'], '%Y-%m-%d_%H-%M-%S-%f')
-                    data['image'].save(f'{folder}/{image_time}.png')
+                    image = handle_sensitive_image(data['image'])
+                    image.save(f'{folder}/{image_time}.png')
                 with open(log_file, 'r') as f:
                     start = 0
                     for index, line in enumerate(f.readlines()):
@@ -72,7 +73,10 @@ class AzurLaneAutoScript:
 
     def emulator(self):
         for key, value in self.config.config['Emulator'].items():
-            print(f'{key} = {value}')
+            if key == 'github_token':
+                print(f'{key} = {"<sensitive_infomation>"}')
+            else:
+                print(f'{key} = {value}')
 
         logger.hr('Emulator saved')
         self.update_check()

@@ -172,6 +172,14 @@ class GridPredictor:
         res = np.array((x, y)) / self.ENEMY_PERSPECTIVE_IMAGE_SIZE
         return res
 
+    def grid_location_to_screen_point(self, point):
+        a, b, c, d, e, f, g, h = self._perspective
+        x, y = np.array(point) * self.ENEMY_PERSPECTIVE_IMAGE_SIZE
+        divisor = g * x + h * y + 1
+        x = (a * x + b * y + c) / divisor
+        y = (d * x + e * y + f) / divisor
+        return np.array((x, y))
+
     def _relative_image_color_count(self, area, color, output_shape=(50, 50), color_threshold=221):
         image = self.get_relative_image(area, output_shape=output_shape)
         image = color_similarity_2d(image, color=color)

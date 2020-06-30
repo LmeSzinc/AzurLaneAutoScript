@@ -111,6 +111,9 @@ class Reward(RewardCommission, RewardTacticalClass, LoginHandler, Update):
         Returns:
             bool: If rewarded.
         """
+        if not self.config.ENABLE_MISSION_REWARD:
+            return False
+
         logger.hr('Mission reward')
         if not self.appear(MISSION_NOTICE):
             logger.info('No mission reward')
@@ -149,6 +152,12 @@ class Reward(RewardCommission, RewardTacticalClass, LoginHandler, Update):
                     exit_timer.reset()
                     timeout.reset()
                     continue
+
+            if self.story_skip():
+                click_timer.reset()
+                exit_timer.reset()
+                timeout.reset()
+                continue
 
             # End
             if reward and exit_timer.reached():

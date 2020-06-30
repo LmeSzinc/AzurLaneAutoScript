@@ -22,14 +22,14 @@ class LoginHandler(Combat):
                 continue
             if self.appear_then_click(LOGIN_ANNOUNCE, offset=(30, 30), interval=5):
                 continue
-            if self.appear(EVENT_LIST_CHECK, offset=(30, 30), interval=1):
+            if self.appear(EVENT_LIST_CHECK, offset=(30, 30), interval=5):
                 self.device.click(BACK_ARROW)
                 continue
-            if self.appear_then_click(LOGIN_GAME_UPDATE, offset=(30, 30), interval=1):
+            if self.appear_then_click(LOGIN_GAME_UPDATE, offset=(30, 30), interval=5):
                 continue
-            if self.appear_then_click(LOGIN_RETURN_SIGN, offset=(30, 30), interval=1):
+            if self.appear_then_click(LOGIN_RETURN_SIGN, offset=(30, 30), interval=5):
                 continue
-            if self.appear_then_click(LOGIN_CONFIRM, interval=1):
+            if self.appear_then_click(LOGIN_CONFIRM, interval=5):
                 continue
 
             if self.info_bar_count() and self.appear_then_click(LOGIN_CHECK, interval=5):
