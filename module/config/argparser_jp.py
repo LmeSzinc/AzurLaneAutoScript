@@ -21,7 +21,7 @@ except Exception:
 
 @Gooey(
     optional_cols=2,
-    program_name=pyw_name.capitalize(), image_dir='doc/misc.assets',
+    program_name=pyw_name.capitalize(), image_dir='assets/gooey',
     sidebar_title='Function',
     terminal_font_family='Consolas',
     language='english',
