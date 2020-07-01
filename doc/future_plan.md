@@ -4,9 +4,9 @@ Here list the future plan for Alas, sorted from easy to hard.
 
 Alas has a lot of handful public functions and class methods, from object detection to map logics, don't handcraft them again.
 
-- Test chapter 6 when using 1 fleet
+- ~~Test chapter 6 when using 1 fleet~~ Done
 
-- Add logic to chapter 2, 4, 5, when using 2 fleets
+- ~~Add logic to chapter 2, 4, 5, when using 2 fleets~~ Done
 
   > Chapter 1 to 5 are written in logic of 1 fleet, and I added the logic of 2 fleets in chapter 3, try to imitate that.
 
@@ -90,7 +90,7 @@ Alas has a lot of handful public functions and class methods, from object detect
   >
   > Imitating commission.py, use ocr to get research name, classify them, then choose
 
-- Re-fit the relationship between map swipe and screen swipe
+- ~~Re-fit the relationship between map swipe and screen swipe~~ Done, the magic number is 1.626
 
   > This function is `_map_swipe` in module/map/camera.py line 36. If you want to focus camera from D3 to E4, then it will do a swipe (-200, -140). A simple linear fit turn `(1, 1)` to be `(-200, -140)`.
   >
