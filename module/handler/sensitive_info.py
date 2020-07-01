@@ -1,3 +1,5 @@
+import re
+
 from PIL import Image
 
 from module.ui.page import *
@@ -32,3 +34,19 @@ def handle_sensitive_image(image):
         return put_image_mask(image, mask='MASK_MAIN')
 
     return image
+
+
+def handle_sensitive_text(text):
+    """
+    Args:
+        text (str):
+
+    Returns:
+        str:
+    """
+    text = re.sub('File \"(.*?)AzurLaneAutoScript', 'File \"C:\\\\fakepath\\\\AzurLaneAutoScript', text)
+    return text
+
+
+def handle_sensitive_logs(logs):
+    return [handle_sensitive_text(line) for line in logs]

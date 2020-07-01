@@ -6,7 +6,7 @@ from datetime import datetime
 from module.config.config import AzurLaneConfig
 from module.device.device import Device
 from module.logger import logger, pyw_name, log_file
-from module.handler.sensitive_info import handle_sensitive_image
+from module.handler.sensitive_info import handle_sensitive_image, handle_sensitive_logs
 
 
 class AzurLaneAutoScript:
@@ -40,6 +40,7 @@ class AzurLaneAutoScript:
                             start = index
                 with open(log_file, 'r') as f:
                     text = f.readlines()[start - 2:]
+                    text = handle_sensitive_logs(text)
                 with open(f'{folder}/log.txt', 'w') as f:
                     f.writelines(text)
 

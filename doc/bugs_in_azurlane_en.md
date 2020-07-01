@@ -105,3 +105,14 @@ When switching the submarine zone, the icon in the strategy don't change.
 
 ![submarine_bug](bugs_in_azurlane_en.assets/submarine_bug.png)
 
+## Submarine call icon not loaded in battle
+
+> Appear time: Unknown
+>
+> Found time: 2020.07.01
+>
+> Fixed time: Not yet
+
+After a few battle the icon for calling submarine may not be loaded correctly. If you click on it, it back to normal, if you don't, this bug will still appear in next battle.
+
+![combat_submarine_icon_bug](bugs_in_azurlane_en.assets/combat_submarine_icon_bug.png)

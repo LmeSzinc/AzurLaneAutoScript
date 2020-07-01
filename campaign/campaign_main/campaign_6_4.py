@@ -2,8 +2,6 @@ from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-from campaign.campaign_main.campaign_6_1 import Config
-
 
 MAP = CampaignMap()
 MAP.shape = 'H6'
@@ -49,6 +47,11 @@ road_boss = RoadGrids([
     [B1, B2], [B1, C2], [C1, C2], [C2, D1], [C2, D2],  # A2 - D3
     [H3, G4], [G3, G4], [F3, G4], [F3, F4], [F2, F3, E4], [E2, F3, E4], E3  # H4 - D3
 ])
+
+
+class Config:
+    FLEET_BOSS = 1
+    MAP_MYSTERY_HAS_CARRIER = True
 
 
 class Campaign(CampaignBase):

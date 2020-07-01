@@ -165,14 +165,14 @@ class GridPredictor:
         # print(self, np.mean(image))
         return np.mean(image) > 2
 
-    def screen_point_to_grid_location(self, point):
+    def screen_to_grid(self, point):
         a, b, c, d, e, f, g, h = self._perspective
         y = (point[1] - f) / (e - point[1] * h)
         x = (point[0] * (h * y + 1) - b * y - c) / a
         res = np.array((x, y)) / self.ENEMY_PERSPECTIVE_IMAGE_SIZE
         return res
 
-    def grid_location_to_screen_point(self, point):
+    def grid_to_screen(self, point):
         a, b, c, d, e, f, g, h = self._perspective
         x, y = np.array(point) * self.ENEMY_PERSPECTIVE_IMAGE_SIZE
         divisor = g * x + h * y + 1

@@ -2,8 +2,6 @@ from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-from campaign.campaign_main.campaign_6_1 import Config
-
 
 MAP = CampaignMap()
 MAP.shape = 'H6'
@@ -40,9 +38,17 @@ A5, B5, C5, D5, E5, F5, G5, H5, \
 A6, B6, C6, D6, E6, F6, G6, H6, \
     = MAP.flatten()
 
-
 step_on = SelectedGrids([C4, F4, A5, H4, F6])
 road_boss = RoadGrids([B6, A6, A5, A4, B4, C4, D4, D5, E5, F5, F6, F4, G4, H4])
+
+
+class Config:
+    FLEET_BOSS = 1
+    MAP_MYSTERY_HAS_CARRIER = True
+
+    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
+    # EDGE_LINES_HOUGHLINES_THRESHOLD = 40
+    COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.5
 
 
 class Campaign(CampaignBase):
