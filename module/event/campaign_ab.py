@@ -5,7 +5,6 @@ from module.logger import logger
 
 RECORD_SINCE = (0,)
 CAMPAIGN_NAME = ['a1', 'a2', 'a3', 'b1', 'b2', 'b3']
-# CAMPAIGN_ALL = ['a1', 'a2', 'a3', 'b1', 'b2', 'b3', 'c1', 'c2', 'c3', 'd1', 'd2', 'd3'] # Trying implement all event maps
 
 
 class CampaignAB(CampaignRun):
