@@ -124,20 +124,7 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
 
     def _preparation_quit(self):
         logger.info('Preparation quit')
-        quit_timer = Timer(1)
-
-        while 1:
-            self.device.screenshot()
-
-            # End
-            if self._in_exercise():
-                break
-
-            if quit_timer.reached() and self.appear(BACK_ARROW):
-                # self.device.sleep(1)
-                self.device.click(BACK_ARROW)
-                quit_timer.reset()
-                continue
+        self.ui_back(check_button=self._in_exercise, appear_button=BATTLE_PREPARATION)
 
     def _combat(self, opponent):
         """
