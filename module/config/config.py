@@ -244,8 +244,12 @@ class AzurLaneConfig:
 
     POOR_MAP_DATA = False
     FLEET_BOSS = 2
-    CAMERA_SWIPE_MULTIPLY_X = 200
-    CAMERA_SWIPE_MULTIPLY_Y = 140
+    # Convert map grid distance to swipe distance
+    # Usually range from 1/0.62 to 1/0.61
+    MAP_SWIPE_MULTIPLY = 1.626
+    # Swipe distance in map grid lower than this will be dropped,
+    # because a closing swipe will be treat as a click in game.
+    MAP_SWIPE_DROP = 0.15
 
     """
     module.retire
