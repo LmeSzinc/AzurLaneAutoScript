@@ -1,4 +1,4 @@
-from datetime import datetime, time
+from datetime import datetime, timedelta
 
 from module.device.app import AppControl
 from module.device.control import Control
@@ -19,10 +19,11 @@ class Device(Screenshot, Control, AppControl):
         Returns:
             bool: If handled.
         """
+        update = self.config.get_server_last_update(since=(hour,))
         now = datetime.now().time()
-        if now < time(hour - 1, 59, 60 - threshold):
+        if now < (update - timedelta(seconds=threshold)).time():
             return False
-        if now > time(hour, 0, threshold):
+        if now > (update + timedelta(seconds=threshold)).time():
             return False
 
         if GET_MISSION.match(self.image, offset=True):
