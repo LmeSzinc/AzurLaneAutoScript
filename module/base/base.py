@@ -30,6 +30,8 @@ class ModuleBase:
         Returns:
             bool:
         """
+        self.device.stuck_record_add(button)
+
         if interval:
             if button.name not in self.interval_timer:
                 self.interval_timer[button.name] = Timer(interval)
