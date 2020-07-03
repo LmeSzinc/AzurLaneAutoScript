@@ -45,9 +45,9 @@ road_main = RoadGrids([C6, F5, G5, H4, H6])
 
 
 class Config:
-    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 35
-    EDGE_LINES_HOUGHLINES_THRESHOLD = 35
-    COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.3
+    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 30
+    EDGE_LINES_HOUGHLINES_THRESHOLD = 30
+    COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.2
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (150, 255 - 24),
         'width': (0.9, 10),
@@ -58,10 +58,8 @@ class Config:
         'height': (255 - 24, 255),
         'prominence': 10,
         'distance': 50,
-        'width': (0, 10),
         'wlen': 1000,
     }
-
 
 
 class Campaign(CampaignBase):
@@ -69,7 +67,7 @@ class Campaign(CampaignBase):
 
     def battle_0(self):
         self.fleet_2_push_forward()
-        
+
         if self.clear_roadblocks([road_main]):
             return True
         if self.clear_potential_roadblocks([road_main]):
@@ -85,3 +83,10 @@ class Campaign(CampaignBase):
                     return True
 
         return self.fleet_2.clear_boss()
+    
+    def handle_boss_appear_refocus(self):
+        for data in self.map.spawn_data:
+            if data.get('battle') == self.battle_count and data.get('boss', 0):
+                self.map_swipe((-3, -2))
+
+        return super().handle_boss_appear_refocus()
