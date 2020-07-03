@@ -110,8 +110,11 @@
 > 傻瓜式安装包里有什么?
 >
 > [WinPython](https://winpython.github.io/) Winpython64-3.7.6.0dot
-> 预安装的 requirements
+>
+> 预安装的依赖
+>
 > [PortableGit](https://git-scm.com/download/win)
+>
 > Easy_Install-V2.bat, 用来执行 git pull
 
 - Clone 本项目
@@ -188,6 +191,8 @@ python -m uiautomator2 init
 
   一些模拟器的默认 serial:
 
+  如果你有多个模拟器, 需要执行 `adb devices` 查看对应的 serial
+  
   | 设备       | Emulator   | serial          |
   | ---------- | ---------- | --------------- |
   | 蓝叠模拟器 | BlueStacks | 127.0.0.1:5555  |

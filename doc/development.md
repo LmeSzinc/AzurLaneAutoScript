@@ -125,6 +125,10 @@ BATTLE_PREPARATION = Button(area=(1043, 607, 1241, 667), color=(234, 179, 97), b
 
 ## 如何适配一张新的地图 How to adapt to a new map
 
+> 以下内容已过时, 但你仍然可以依照这些内容创建新的地图
+>
+> 现在可以使用 `./dev_tools/map_extractor.py` 自动生成地图文件, 详细说明在该文件的末尾.
+
 下面举例适配 7-2 的简单版, 完整逻辑在 campaign.campaign_main.campaign_7_2
 
 ### 定义地图
