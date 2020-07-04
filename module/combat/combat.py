@@ -363,7 +363,7 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
         auto = self.config.COMBAT_AUTO_MODE == 'combat_auto'
         call_submarine_at_boss = call_submarine_at_boss if call_submarine_at_boss is not None else self.config.SUBMARINE_CALL_AT_BOSS
         save_get_items = save_get_items if save_get_items is not None else self.config.ENABLE_SAVE_GET_ITEMS
-        self.battle_status_click_interval = 3 if save_get_items else 0
+        self.battle_status_click_interval = 7 if save_get_items else 0
 
         # if not hasattr(self, 'emotion'):
         #     self.emotion = Emotion(config=self.config)
