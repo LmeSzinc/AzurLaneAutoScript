@@ -66,8 +66,14 @@ def attr(name, text):
     logger.info('[%s] %s' % (str(name), str(text)))
 
 
+def attr_align(name, text, align=22):
+    name = str(name).rjust(align)
+    logger.info('%s: %s' % (name, str(text)))
+
+
 logger.hr = hr
 logger.attr = attr
+logger.attr_align = attr_align
 logger.screenshot_deque = deque(maxlen=60)
 
 logger.hr('Start', level=0)
