@@ -1,4 +1,4 @@
-[English Quick Guide](doc%2FQuick_guide.md)  
+[English Quick Guide](doc%2FQuick_guide.md) 
 [English Readme](README_en.md) `Translation in progress`
 
 [Japanese Readme](README_jp.md) `Translation in progress`
@@ -25,15 +25,13 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)**, some featur
 
 ## 功能 Features
 
-- **主线图出击** 暂时仅支持前六章和7-2
+- **主线图出击** 基本完成, 请在 `./campaign/campaign_main` 目录下查看支持的地图
 
 - **活动图出击** 支持开荒
 
 - **每日任务** 半小时左右一套做完, 重复运行时会跳过当天做过的
 
-  每日任务(不支持潜艇每日). 困难图(暂时仅支持10-4). 演习, 自动SL.
-
-- **活动图每日三倍PT** 半小时左右A1到B3一套做完
+  每日任务(不支持潜艇每日). 困难图. 演习(自动SL), 活动图每日三倍PT, 共斗活动每天15把
 
 - **委托收派** 出击时每20分钟切出去收获, 支持收委托, 收科研, 收任务, 派委托
 
@@ -65,8 +63,8 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)**, some featur
 
 ## 使用注意事项 Note
 
+- 模拟器分辨率需要为 1280 x 720.
 - 当修改完设置后, 需要点击"开始"来保存选项, 然后点击"编辑"返回主界面. 因为位于左侧的每一项功能都是分别保存和运行的.
-
 - 在提问题前, 请先阅读 [常见问题(FAQ)](doc/FAQ_en_cn.md)
 
 
