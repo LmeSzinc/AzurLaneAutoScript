@@ -6,7 +6,7 @@ SET CMD=%SystemRoot%\system32\cmd.exe
 :: -----------------------------------------------------------------------------
 color 8F
 :: -----------------------------------------------------------------------------
-goto check_Permissions
+call :check_Permissions
 :check_Permissions
     echo Administrative permissions required. Detecting permissions...
 
@@ -15,7 +15,7 @@ goto check_Permissions
         echo Success: Administrative permissions confirmed.
         echo Press any to continue...
         pause >nul
-        goto continue
+        call :continue
     ) else (
         echo Failure: Current permissions inadequate.
     )
@@ -66,7 +66,7 @@ for %%A in (%adb_empty%) do if %%~zA==0 (
 :: -----------------------------------------------------------------------------
 REM if adb_input = 0 load from adb_port.ini
 if [%adb_input%]==[] (
-    goto load
+    call :load
 	)
 REM write adb_input on adb_port.ini
 echo %adb_input% >> %ADB_P%
@@ -87,7 +87,7 @@ for /f "delims=" %%i in ('type "%string%" ^& break ^> "%string%" ') do (
 :: -----------------------------------------------------------------------------
 :load
 REM Load adb_port.ini
-REM 
+REM
 SET /p ADB_PORT=<%ADB_P%
 echo connecting at %ADB_PORT%
 call %ADB% connect %ADB_PORT%
@@ -95,32 +95,32 @@ call %ADB% connect %ADB_PORT%
 echo initializing uiautomator2
 call %PYTHON% -m uiautomator2 init
 :: timout
-goto alas
+call :alas
 :: -----------------------------------------------------------------------------
 :alas
 color 8F
 	cls
 	echo.
 	echo  :: Alas run
-	echo. 
+	echo.
 	echo  Choose your option
     echo.
     echo	1. EN
 	echo	2. CN
 	echo	3. JP
 	echo	4. UPDATER
-	echo. 
+	echo.
 	echo  :: Type a 'number' and press ENTER
 	echo  :: Type 'exit' to quit
 	echo.
-	
+
 	set /P menu=
-		if %menu%==1 GOTO en
-		if %menu%==2 GOTO cn
-		if %menu%==3 GOTO jp
-		if %menu%==4 GOTO choose_update_mode
-		if %menu%==exit GOTO EOF
-		
+		if %menu%==1 call :en
+		if %menu%==2 call :cn
+		if %menu%==3 call :jp
+		if %menu%==4 call :choose_update_mode
+		if %menu%==exit call :EOF
+
 		else (
 		cls
 	echo.
@@ -130,7 +130,7 @@ color 8F
 	echo     Press any key to retry to the menu...
 	echo.
 		pause > NUL
-		goto alas
+		call :alas
 		)
 :: -----------------------------------------------------------------------------
 :en
@@ -139,7 +139,7 @@ color 8F
 	echo Python Found in %PYTHON% Proceeding..
 	echo Opening alas_en.pyw in %ALAS_PATH%
 	call %PYTHON% alas_en.pyw
-	goto alas
+	call :alas
 	) else (
 		echo :: it was not possible to open alas_en.pyw, make sure you have a folder toolkit
 		echo :: inside AzurLaneAutoScript folder.
@@ -147,7 +147,7 @@ color 8F
 		echo Python Path: %PYTHON%
 		echo.
         pause > NUL
-        goto alas
+        call :alas
 	)
 :: -----------------------------------------------------------------------------
 :cn
@@ -156,7 +156,7 @@ color 8F
 	echo Python Found in %PYTHON% Proceeding..
 	echo Opening alas_en.pyw in %ALAS_PATH%
 	call %PYTHON% alas_cn.pyw
-	goto alas
+	call :alas
 	) else (
 		echo :: it was not possible to open alas_cn.pyw, make sure you have a folder toolkit
 		echo :: inside AzurLaneAutoScript folder.
@@ -164,7 +164,7 @@ color 8F
 		echo Python Path: %PYTHON%
 		echo.
         pause > NUL
-        goto alas
+        call :alas
 	)
 :: -----------------------------------------------------------------------------
 :jp
@@ -173,7 +173,7 @@ color 8F
 	echo Python Found in %PYTHON% Proceeding..
 	echo Opening alas_en.pyw in %ALAS_PATH%
 	call %PYTHON% alas_jp.pyw
-	goto alas
+	call :alas
 	) else (
 		echo :: it was not possible to open alas_jp.pyw, make sure you have a folder toolkit
 		echo :: inside AzurLaneAutoScript folder.
@@ -181,7 +181,7 @@ color 8F
 		echo Python Path: %PYTHON%
 		echo.
         pause > NUL
-        goto alas
+        call :alas
 	)
 :: -----------------------------------------------------------------------------
 :updater_menu
@@ -204,13 +204,13 @@ color 8F
 	echo.
 
 	set /P choice=
-		if %choice%==1 GOTO LmeSzinc
-		if %choice%==2 GOTO whoamikyo
-		if %choice%==3 GOTO nightly
-		if %choice%==4 GOTO gitee
-		if %choice%==5 GOTO alas
-		if %choice%==exit GOTO EOF
-		
+		if %choice%==1 call :LmeSzinc
+		if %choice%==2 call :whoamikyo
+		if %choice%==3 call :nightly
+		if %choice%==4 call :gitee
+		if %choice%==5 call :alas
+		if %choice%==exit call :EOF
+
 		else (
 		cls
 	echo.
@@ -220,7 +220,7 @@ color 8F
 	echo     Press any key to return to the menu...
 	echo.
 		pause > NUL
-		goto alas
+		call :alas
 		)
 :: -----------------------------------------------------------------------------
 :update_menu_local
@@ -243,13 +243,13 @@ color 8F
 	echo.
 
 	set /P choice=
-		if %choice%==1 GOTO LmeSzinc_local
-		if %choice%==2 GOTO whoamikyo_local
-		if %choice%==3 GOTO nightly_local
-		if %choice%==4 GOTO gitee_local
-		if %choice%==5 GOTO alas
-		if %choice%==exit GOTO EOF
-		
+		if %choice%==1 call :LmeSzinc_local
+		if %choice%==2 call :whoamikyo_local
+		if %choice%==3 call :nightly_local
+		if %choice%==4 call :gitee_local
+		if %choice%==5 call :alas
+		if %choice%==exit call :EOF
+
 		else (
 		cls
 	echo.
@@ -259,13 +259,13 @@ color 8F
 	echo     Press any key to return to the menu...
 	echo.
 		pause > NUL
-		goto alas
+		call :alas
 		)
 :: -----------------------------------------------------------------------------
 :LmeSzinc
 	call %GIT% --version >nul
 	if %errorlevel% == 0 (
-	echo GIT Found in %GIT% Proceeding 
+	echo GIT Found in %GIT% Proceeding
 	echo Updating from LmeSzinc repository..
 	call %GIT% fetch origin master
 	call %GIT% reset --hard origin/master
@@ -273,20 +273,20 @@ color 8F
 	echo DONE!
 	echo Press any key to proceed
 	pause > NUL
-	goto updater_menu
+	call :updater_menu
 	) else (
 		echo  :: Git not detected, maybe there was an installation issue
 		echo check if you have this directory:
 		echo AzurLaneAutoScript\toolkit\Git\cmd
 		echo.
         pause > NUL
-        goto alas
+        call :alas
 	)
 :: -----------------------------------------------------------------------------
 :whoamikyo
 	call %GIT% --version >nul
 	if %errorlevel% == 0 (
-	echo GIT Found in %GIT% Proceeding 
+	echo GIT Found in %GIT% Proceeding
 	echo Updating from whoamikyo repository..
 	call %GIT% fetch whoamikyo master
 	call %GIT% reset --hard whoamikyo/master
@@ -294,39 +294,39 @@ color 8F
 	echo DONE!
 	echo Press any key to proceed
 	pause > NUL
-	goto updater_menu
+	call :updater_menu
 	) else (
 		echo  :: Git not detected, maybe there was an installation issue
 		echo check if you have this directory:
 		echo AzurLaneAutoScript\toolkit\Git\cmd
         pause > NUL
-        goto alas
+        call :alas
 	)
 :: -----------------------------------------------------------------------------
 :nightly
 	call %GIT% --version >nul
 	if %errorlevel% == 0 (
-	echo GIT Found in %GIT% Proceeding 
+	echo GIT Found in %GIT% Proceeding
 	echo Updating from whoamikyo nightly repository..
 	call %GIT% fetch whoamikyo nightly
 	call %GIT% reset --hard whoamikyo/nightly
 	call %GIT% pull --ff-only whoamikyo nightly
 	echo Press any key to proceed
 	pause > NUL
-	goto alas
+	call :alas
 	) else (
 		echo  :: Git not detected, maybe there was an installation issue
 		echo check if you have this directory:
 		echo AzurLaneAutoScript\toolkit\Git\cmd
 		echo.
         pause > NUL
-        goto alas
+        call :alas
 	)
 :: -----------------------------------------------------------------------------
 :gitee
 	call %GIT% --version >nul
 	if %errorlevel% == 0 (
-	echo GIT Found in %GIT% Proceeding 
+	echo GIT Found in %GIT% Proceeding
 	echo Updating from LmeSzinc repository..
 	call %GIT% fetch lmeszincgitee master
 	call %GIT% reset --hard lmeszincgitee/master
@@ -334,13 +334,13 @@ color 8F
 	echo DONE!
 	echo Press any key to proceed
 	pause > NUL
-	goto updater_menu
+	call :updater_menu
 	) else (
 		echo  :: Git not detected, maybe there was an installation issue
 		echo check if you have this directory:
 		echo AzurLaneAutoScript\toolkit\Git\cmd
         pause > NUL
-        goto alas
+        call :alas
 	)
 :: -----------------------------------------------------------------------------
 rem :check_connection
@@ -356,7 +356,7 @@ rem 	if %errorlevel% == 0 (
 rem 	echo You have a good connection with Github! Proceeding...
 rem 	echo press any to proceed
 rem 	pause > NUL
-rem 	goto updater_menu
+rem 	call updater_menu
 rem 	) else (
 rem 		echo  :: You don't have a good connection out of China
 rem 		echo  :: It might be better to update using Gitee
@@ -364,13 +364,13 @@ rem 		echo  :: Redirecting...
 rem 		echo.
 rem         echo     Press any key to continue...
 rem         pause > NUL
-rem         goto start_gitee
+rem         call start_gitee
 rem 	)
 :: -----------------------------------------------------------------------------
 :toolkit
 	call %GIT% --version >nul
 	if %errorlevel% == 0 (
-	echo GIT Found in %GIT% Proceeding 
+	echo GIT Found in %GIT% Proceeding
 	echo Updating toolkit..
 	call cd toolkit
 	echo ## initializing toolkit..
@@ -389,13 +389,13 @@ rem 	)
 	echo DONE!
 	echo Press any key to proceed
 	pause > NUL
-	goto updater_menu
+	call :updater_menu
 	) else (
 		echo  :: Git not detected, maybe there was an installation issue
 		echo check if you have this directory:
 		echo AzurLaneAutoScript\toolkit\Git\cmd
         pause > NUL
-        goto updater_menu
+        call :updater_menu
 	)
 :: -----------------------------------------------------------------------------
 rem Keep local changes
@@ -416,11 +416,11 @@ color 7C
 	echo.
 
 	set /P choice=
-		if %choice%==1 GOTO updater_menu
-		if %choice%==2 GOTO update_menu_local
-		if %choice%==3 GOTO alas
-		if %choice%==exit GOTO EOF
-		
+		if %choice%==1 call :updater_menu
+		if %choice%==2 call :update_menu_local
+		if %choice%==3 call :alas
+		if %choice%==exit call EOF
+
 		else (
 		cls
 	echo.
@@ -430,13 +430,13 @@ color 7C
 	echo     Press any key to return to the menu...
 	echo.
 		pause > NUL
-		goto alas
+		call :alas
 		)
 :: -----------------------------------------------------------------------------
 :LmeSzinc_local
 	call %GIT% --version >nul
 	if %errorlevel% == 0 (
-	echo GIT Found in %GIT% Proceeding 
+	echo GIT Found in %GIT% Proceeding
 	echo Updating from LmeSzinc repository..
 	call %GIT% stash
 	call %GIT% pull origin master
@@ -444,20 +444,20 @@ color 7C
 	echo DONE!
 	echo Press any key to proceed
 	pause > NUL
-	goto update_menu_local
+	call :update_menu_local
 	) else (
 		echo  :: Git not detected, maybe there was an installation issue
 		echo check if you have this directory:
 		echo AzurLaneAutoScript\toolkit\Git\cmd
 		echo.
         pause > NUL
-        goto alas
+        call :alas
 	)
 :: -----------------------------------------------------------------------------
 :whoamikyo_local
 	call %GIT% --version >nul
 	if %errorlevel% == 0 (
-	echo GIT Found in %GIT% Proceeding 
+	echo GIT Found in %GIT% Proceeding
 	echo Updating from whoamikyo repository..
 	call %GIT% stash
 	call %GIT% pull whoamikyo master
@@ -465,39 +465,39 @@ color 7C
 	echo DONE!
 	echo Press any key to proceed
 	pause > NUL
-	goto update_menu_local
+	call :update_menu_local
 	) else (
 		echo  :: Git not detected, maybe there was an installation issue
 		echo check if you have this directory:
 		echo AzurLaneAutoScript\toolkit\Git\cmd
         pause > NUL
-        goto alas
+        call :alas
 	)
 :: -----------------------------------------------------------------------------
 :nightly_local
 	call %GIT% --version >nul
 	if %errorlevel% == 0 (
-	echo GIT Found in %GIT% Proceeding 
+	echo GIT Found in %GIT% Proceeding
 	echo Updating from whoamikyo nightly repository..
 	call %GIT% stash
 	call %GIT% pull whoamikyo nightly
 	call %GIT% stash pop
 	echo Press any key to proceed
 	pause > NUL
-	goto update_menu_local
+	call :update_menu_local
 	) else (
 		echo  :: Git not detected, maybe there was an installation issue
 		echo check if you have this directory:
 		echo AzurLaneAutoScript\toolkit\Git\cmd
 		echo.
         pause > NUL
-        goto alas
+        call :alas
 	)
 :: -----------------------------------------------------------------------------
 :gitee_local
 	call %GIT% --version >nul
 	if %errorlevel% == 0 (
-	echo GIT Found in %GIT% Proceeding 
+	echo GIT Found in %GIT% Proceeding
 	echo Updating from LmeSzinc repository..
 	call %GIT% stash
 	call %GIT% pull lmeszincgitee master
@@ -505,13 +505,13 @@ color 7C
 	echo DONE!
 	echo Press any key to proceed
 	pause > NUL
-	goto update_menu_local
+	call :update_menu_local
 	) else (
 		echo  :: Git not detected, maybe there was an installation issue
 		echo check if you have this directory:
 		echo AzurLaneAutoScript\toolkit\Git\cmd
         pause > NUL
-        goto alas
+        call :alas
 	)
 :: -----------------------------------------------------------------------------
 ::Add paths
@@ -536,7 +536,7 @@ rem 		SET "PATH=%PATH%;%~1"
 rem 		rem SET UPDATE=1
 rem 	) ELSE (
 rem 		ECHO Adding   %1 . . . FAILED. Run this script with administrator privileges. >> add-paths.log
-rem 	)	
+rem 	)
 rem ) ELSE (
 rem 	ECHO Skipping %1 - Already in PATH >> add-paths.log
 rem 	)
@@ -551,12 +551,10 @@ rem 		SET "PATH=%PATH%;%~1"
 rem 		SET UPDATE=1
 rem 	) ELSE (
 rem 		ECHO Adding   %1 . . . FAILED. Run this script with administrator privileges.
-rem 	)	
+rem 	)
 rem ) ELSE (
 rem 	ECHO Skipping %1 - Already in PATH
 rem 	)
 :: -----------------------------------------------------------------------------
 :EOF
 exit
-
-
