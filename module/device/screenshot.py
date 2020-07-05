@@ -72,7 +72,7 @@ class Screenshot(Connection):
 
     def _screenshot_ascreencap(self):
         raw_compressed_data = self._reposition_byte_pointer(
-            self.adb_exec_out([self.config.ASCREENCAP_FILEPATH, '--pack', '2', '--stdout'], serial=self.serial))
+            self.adb_exec_out([self.config.ASCREENCAP_FILEPATH_REMOTE, '--pack', '2', '--stdout'], serial=self.serial))
 
         compressed_data_header = np.frombuffer(raw_compressed_data[0:20], dtype=np.uint32)
         if compressed_data_header[0] != 828001602:
@@ -108,6 +108,7 @@ class Screenshot(Connection):
                 logger.warning('Error when calling aScreenCap, re-initializing')
                 self._ascreencap_init()
                 self._bytepointer = 0
+                self.image = self._screenshot_ascreencap()
 
         elif method == 'uiautomator2':
             self.image = self._screenshot_uiautomator2()

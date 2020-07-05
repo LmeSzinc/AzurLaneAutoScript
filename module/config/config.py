@@ -159,7 +159,8 @@ class AzurLaneConfig:
     SERIAL = ''
     PACKAGE_NAME = ''
     COMMAND = ''
-    ASCREENCAP_FILEPATH = '/data/local/tmp/ascreencap'
+    ASCREENCAP_FILEPATH_LOCAL = './bin/ascreencap'
+    ASCREENCAP_FILEPATH_REMOTE = '/data/local/tmp/ascreencap'
     # Speed: aScreenCap >> uiautomator2 > ADB
     DEVICE_SCREENSHOT_METHOD = 'aScreenCap'  # ADB, uiautomator2, aScreenCap
     # Speed: uiautomator2 >> ADB
