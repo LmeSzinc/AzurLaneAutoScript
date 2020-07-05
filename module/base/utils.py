@@ -2,6 +2,10 @@ import numpy as np
 from PIL import ImageStat
 
 
+def point2str(x, y, length=4):
+    return '(%s,%s)' % (str(int(x)).rjust(length), str(int(y)).rjust(length))
+
+
 def random_normal_distribution_int(a, b, n=5):
     """Generate a normal distribution int within the interval. Use the average value of several random numbers to
     simulate normal distribution.
