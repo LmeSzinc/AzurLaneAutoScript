@@ -17,7 +17,7 @@ class Template:
     @property
     def image(self):
         if self._image is None:
-            self._image = np.array(Image.open(self.file).convert('RGB'))
+            self._image = np.array(Image.open(self.file))
 
         return self._image
 
