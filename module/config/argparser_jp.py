@@ -3,12 +3,12 @@ import os
 import sys
 
 from gooey import Gooey, GooeyParser
+
 import module.config.server as server
 from alas import AzurLaneAutoScript
 from module.config.dictionary import dic_true_eng_to_eng, dic_eng_to_true_eng
 from module.config.update import get_config
 from module.logger import pyw_name
-
 
 try:
     if sys.stdout.encoding != 'UTF-8':
@@ -21,7 +21,9 @@ except Exception:
 
 @Gooey(
     optional_cols=2,
-    program_name=pyw_name.capitalize(), image_dir='assets/gooey',
+    program_name=pyw_name.capitalize(),
+    image_dir='assets/gooey',
+    language_dir='assets/gooey',
     sidebar_title='Function',
     terminal_font_family='Consolas',
     language='english',
