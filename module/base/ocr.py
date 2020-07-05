@@ -12,12 +12,12 @@ from module.logger import logger
 OCR_MODELS = {
     # Font: Impact, AgencyFB
     # Charset: 0123456789
-    'digit': CnOcr(root='./cnocr_models/digit', model_epoch=60),
+    'digit': CnOcr(root='./bin/cnocr_models/digit', model_epoch=60),
     # Font: Impact
     # Charset: 0123456789ABCDEFSP-:/
-    'stage': CnOcr(root='./cnocr_models/stage', model_epoch=56),
+    'stage': CnOcr(root='./bin/cnocr_models/stage', model_epoch=56),
 
-    'cnocr': CnOcr(root='./cnocr_models/cnocr', model_epoch=20)
+    'cnocr': CnOcr(root='./bin/cnocr_models/cnocr', model_epoch=20)
 }
 image_shape = (280, 32)
 width_range = (0.6, 1.4)
