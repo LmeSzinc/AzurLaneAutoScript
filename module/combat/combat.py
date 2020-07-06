@@ -211,7 +211,7 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
                 continue
             if self.handle_combat_manual():
                 continue
-            if not auto and self.is_combat_executing():
+            if not auto and self.auto_mode_checked and self.is_combat_executing():
                 if self.handle_combat_weapon_release():
                     continue
             if call_submarine_at_boss:
