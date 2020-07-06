@@ -131,6 +131,10 @@ Paste the image under  `dev_tools/relative_crop.py` , filename should start with
 
 ## How to adapt to a new map
 
+> The following content is out-dated, but you can still create a map file according to this.
+>
+> Now you can auto-generate map files using `./dev_tools/map_extractor.py`, docs are at the end of the file.
+
 The following example is adapted to the simple version of 7-2. The complete logic is in `campaign/campaign_main/7_2.py`
 
 ### Define the map

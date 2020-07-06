@@ -582,6 +582,7 @@ class RewardCommission(UI, InfoHandler):
 
         self.ui_goto(page_commission)
 
+        self.handle_info_bar()  # info_bar appears when get ship in Launch Ceremony commissions
         self.commission_start()
 
         self.ui_goto(page_reward, skip_first_screenshot=True)
