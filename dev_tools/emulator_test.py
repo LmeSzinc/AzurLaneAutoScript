@@ -20,9 +20,9 @@ class EmulatorChecker(Device):
         self._screenshot_adb()
         while 1:
             t0 = time.time()
-            # self._screenshot_adb()
+            self._screenshot_adb()
             # self._screenshot_uiautomator2()
-            self._screenshot_ascreencap()
+            # self._screenshot_ascreencap()
             # self._click_adb(1270, 360)
             # self._click_uiautomator2(1270, 360)
 
