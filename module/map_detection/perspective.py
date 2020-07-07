@@ -50,6 +50,7 @@ class Perspective:
     crossings: Points
     vanish_point: tuple
     distant_point: tuple
+    map_inner: np.ndarray
 
     def __init__(self, config):
         """
@@ -141,6 +142,7 @@ class Perspective:
 
         # Lines cleansing
         # self.draw()
+        self.map_inner = get_map_inner(self.crossings.points)
         self.horizontal, self.lower_edge, self.upper_edge = self.line_cleanse(
             self.horizontal, inner=inner_h.group(), edge=edge_h)
         self.vertical, self.left_edge, self.right_edge = self.line_cleanse(
@@ -407,21 +409,7 @@ class Perspective:
         edge = [c for c in clean if np.any(np.abs(c - edge) < 5)]
 
         # Separate edges
-        if len(edge) == 0:
-            lower, upper = None, None
-        elif len(edge) == 1:
-            edge = edge[0]
-            if lines.is_horizontal:
-                lower, upper = (None, edge) if edge > self.config.SCREEN_CENTER[1] else (edge, None)
-            else:
-                lower, upper = (None, edge) if edge > self.config.SCREEN_CENTER[0] else (edge, None)
-        else:
-            # lower, upper = edge[0], edge[-1]
-            center = self.config.SCREEN_CENTER[1] if lines.is_horizontal else self.config.SCREEN_CENTER[0]
-            lower = [mid for mid in edge if mid < center]
-            upper = [mid for mid in edge if mid > center]
-            lower = lower[0] if len(lower) else None
-            upper = upper[-1] if len(upper) else None
+        lower, upper = separate_edges(edge, inner=self.map_inner[1] if lines.is_horizontal else self.map_inner[0])
 
         # crop mid
         if lower:

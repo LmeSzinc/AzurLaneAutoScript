@@ -208,6 +208,21 @@ def points_to_area_generator(points, shape):
             yield ((x, y), area)
 
 
+def get_map_inner(points):
+    """
+    Args:
+        points (np.ndarray): N x 2 array.
+
+    Yields:
+        np.ndarray: (x, y).
+    """
+    points = np.array(points)
+    if len(points.shape) == 1:
+        points = np.array([points])
+
+    return np.mean(points, axis=0)
+
+
 def separate_edges(edges, inner):
     """
     Args:
