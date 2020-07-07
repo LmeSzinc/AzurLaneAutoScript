@@ -87,6 +87,8 @@ class AzurLaneAutoScript:
             from module.reward.reward import Reward
             az = Reward(self.config, device=self.device)
             az.reward()
+        else:
+            az.device.screenshot()
 
     def main(self):
         """
