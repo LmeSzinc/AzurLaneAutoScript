@@ -90,7 +90,7 @@ class Screenshot(Connection):
         image = Image.fromarray(image)
         return image
 
-    @retry(wait_fixed=5000)
+    @retry(wait_fixed=5000, stop_max_attempt_number=10)
     # @timer
     def screenshot(self):
         """
