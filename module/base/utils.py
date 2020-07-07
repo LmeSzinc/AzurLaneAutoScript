@@ -166,6 +166,18 @@ def area_cross_area(area1, area2, threshold=5):
            or point_in_area((area1[2], area1[3]), area2, threshold=threshold)
 
 
+def float2str(n, decimal=3):
+    """
+    Args:
+        n (float):
+        decimal (int):
+
+    Returns:
+        str:
+    """
+    return str(round(n, decimal)).ljust(decimal + 2, "0")
+
+
 def point2str(x, y, length=4):
     """
     Args:
