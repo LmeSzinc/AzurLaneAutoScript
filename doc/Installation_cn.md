@@ -26,7 +26,7 @@
 
    ![install_batch](Installation_cn.assets/install_batch.png)
 
-   准备完成后, 输入`start`, 然后按下回车键
+   准备完成后, 输入 `gitee` , 也就是从选择码云(gitee)镜像下载, 然后按下回车键
 
    当看到如下信息时, 说明安装成功
 
@@ -110,7 +110,7 @@
 
 ![alas_update](Installation_cn.assets/alas_update.png)
 
-国内用户按下数字键4, 选择从gitee镜像更新, 有能力的可以选择从github更新
+国内用户按下数字键4, 选择从gitee镜像更新
 
 然后按下回车键
 
