@@ -164,9 +164,6 @@ class Perspective:
             '/' if self.left_edge else ' ', '_' if self.upper_edge else ' ',
             '\\' if self.right_edge else ' ', len(self.vertical), len(vertical), len(edge_v))
                     )
-        if len(horizontal) - len(self.horizontal) >= 3 or len(vertical) - len(self.vertical) >= 3:
-            logger.info('Too many deleted lines')
-            # self.save_error_image()
 
     def load_image(self, image):
         """Method that turns image to monochrome and hide UI.
