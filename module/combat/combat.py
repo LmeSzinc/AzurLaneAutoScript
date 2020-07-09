@@ -1,7 +1,6 @@
 import numpy as np
 
 from module.base.timer import Timer
-from module.base.utils import color_bar_percentage
 from module.combat.assets import *
 from module.combat.combat_auto import CombatAuto
 from module.combat.combat_manual import CombatManual
@@ -12,6 +11,7 @@ from module.handler.enemy_searching import EnemySearchingHandler
 from module.logger import logger
 from module.map.assets import MAP_OFFENSIVE
 from module.retire.retirement import Retirement
+from module.template.assets import TEMPLATE_COMBAT_LOADING
 from module.ui.assets import BACK_ARROW
 
 
@@ -62,13 +62,13 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
         Returns:
             bool:
         """
-        left = color_bar_percentage(self.device.image, area=LOADING_BAR.area, prev_color=(99, 150, 255))
-        right = color_bar_percentage(self.device.image, area=LOADING_BAR.area, prev_color=(225, 225, 225), reverse=True)
-        if 0.15 < left < 0.95 and right > 0.15 and left + right <= 1.2:
-            logger.attr('Loading', f'{int(left * 100)}%({int(right * 100)}%)')
+        similarity, location = TEMPLATE_COMBAT_LOADING.match_result(self.device.image.crop((0, 620, 1280, 720)))
+        if similarity > 0.85:
+            loading = (location[0] + 38 - LOADING_BAR.area[0]) / (LOADING_BAR.area[2] - LOADING_BAR.area[0])
+            logger.attr('Loading', f'{int(loading * 100)}%')
             return True
-
-        return False
+        else:
+            return False
 
     def is_combat_executing(self):
         """
@@ -211,7 +211,7 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
                 continue
             if self.handle_combat_manual():
                 continue
-            if not auto and self.is_combat_executing():
+            if not auto and self.auto_mode_checked and self.is_combat_executing():
                 if self.handle_combat_weapon_release():
                     continue
             if call_submarine_at_boss:

@@ -39,6 +39,19 @@ class Template:
         # print(self.file, sim)
         return sim > similarity
 
+    def match_result(self, image):
+        """
+        Args:
+            image:
+
+        Returns:
+            bool: If matches.
+        """
+        res = cv2.matchTemplate(np.array(image), self.image, cv2.TM_CCOEFF_NORMED)
+        _, sim, _, point = cv2.minMaxLoc(res)
+        # print(self.file, sim)
+        return sim, point
+
     def match_multi(self, image, similarity=0.85):
         """
         Args:

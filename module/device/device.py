@@ -6,6 +6,7 @@ from module.device.control import Control
 from module.device.screenshot import Screenshot
 from module.handler.assets import GET_MISSION
 from module.logger import logger
+from module.base.utils import get_color
 
 
 class Device(Screenshot, Control, AppControl):
@@ -49,7 +50,7 @@ class Device(Screenshot, Control, AppControl):
             super().screenshot()
 
         if not self._screen_size_checked:
-            self.check_screen_size()
+            self.check_screen()
             self._screen_size_checked = True
 
         return self.image
@@ -58,23 +59,30 @@ class Device(Screenshot, Control, AppControl):
         self.stuck_record_clear()
         return super().click(button)
 
-    def check_screen_size(self):
+    def check_screen(self):
         """
-        Screen size must be 1280x720, if not exit.
+        Screen size must be 1280x720.
         Take a screenshot before call.
         """
+        # Check screen size
         width, height = self.image.size
         if height > width:
             width, height = height, width
-
         logger.attr('Screen_size', f'{width}x{height}')
-
         if width == 1280 and height == 720:
             return True
         else:
             logger.warning(f'Not supported screen size: {width}x{height}')
             logger.warning('Alas requires 1280x720')
             logger.hr('Script end')
+            exit(1)
+
+        # Check screen color
+        # May get a pure black screenshot on some emulators.
+        color = get_color(self.image, area=(0, 0, 1280, 720))
+        if sum(color) < 1:
+            logger.warning('Received a pure black screenshot')
+            logger.warning(f'Color: {color}')
             exit(1)
 
     def stuck_record_add(self, button):
