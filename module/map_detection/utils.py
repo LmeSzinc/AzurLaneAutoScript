@@ -227,7 +227,8 @@ def corner2area(corner):
     Returns:
         np.ndarray: (x1, y1, x2, y2)
     """
-    return np.append(corner[0], corner[3])
+    x, y = np.array(corner).T
+    return np.rint([np.min(x), np.min(y), np.max(x), np.max(y)]).astype(int)
 
 
 def points_to_area_generator(points, shape):

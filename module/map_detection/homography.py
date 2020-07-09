@@ -356,10 +356,10 @@ class Homography:
         Yields (tuple): ((x, y), [upper-left, upper-right, bottom-left, bottom-right])
         """
         area = [
-            self.left_edge if self.left_edge else 0,
-            self.lower_edge if self.lower_edge else 0,
-            self.right_edge if self.right_edge else self.homo_size[0],
-            self.upper_edge if self.upper_edge else self.homo_size[1]
+            self.left_edge - 5 if self.left_edge else 0,
+            self.lower_edge - 5 if self.lower_edge else 0,
+            self.right_edge + 5 if self.right_edge else self.homo_size[0],
+            self.upper_edge + 5 if self.upper_edge else self.homo_size[1]
         ]
         x = np.arange(-25, 25) * self.config.HOMO_TILE[0] + self.homo_loca[0]
         x = x[(x > area[0]) & (x < area[2])]

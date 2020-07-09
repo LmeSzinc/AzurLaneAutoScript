@@ -218,7 +218,7 @@ def crop(image, area):
 
     Args:
         image (np.ndarray):
-        area (tuple):
+        area:
 
     Returns:
         np.ndarray:
