@@ -1,7 +1,6 @@
 import time
 import warnings
 
-import cv2
 import numpy as np
 from PIL import Image, ImageOps, ImageDraw
 from scipy import signal
@@ -174,9 +173,7 @@ class Perspective:
         Returns:
             np.ndarray
         """
-        image = crop(image, self.config.DETECTING_AREA)
-        r, g, b = cv2.split(image)
-        image = cv2.add(cv2.multiply(cv2.max(cv2.max(r, g), b), 0.5), cv2.multiply(cv2.min(cv2.min(r, g), b), 0.5))
+        image = rgb2gray(crop(image, self.config.DETECTING_AREA))
         image = cv2.subtract(255, cv2.bitwise_and(image, self.ui_mask))
         return image
 

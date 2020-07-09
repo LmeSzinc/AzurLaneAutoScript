@@ -1,3 +1,4 @@
+import cv2
 import numpy as np
 from scipy import optimize
 
@@ -192,6 +193,43 @@ class Lines:
         return Lines(lines, is_horizontal=self.is_horizontal, config=self.config)
 
 
+def rgb2gray(image):
+    """
+    Args:
+        image (np.ndarray):
+
+    Returns:
+        np.ndarray:
+    """
+    r, g, b = cv2.split(image)
+    return cv2.add(
+        cv2.multiply(cv2.max(cv2.max(r, g), b), 0.5),
+        cv2.multiply(cv2.min(cv2.min(r, g), b), 0.5)
+    )
+
+
+def area2corner(area):
+    """
+    Args:
+        area: (x1, y1, x2, y2)
+
+    Returns:
+        np.ndarray: [upper-left, upper-right, bottom-left, bottom-right]
+    """
+    return np.array([[area[0], area[1]], [area[2], area[1]], [area[0], area[3]], [area[2], area[3]]])
+
+
+def corner2area(corner):
+    """
+    Args:
+        corner: [upper-left, upper-right, bottom-left, bottom-right]
+
+    Returns:
+        np.ndarray: (x1, y1, x2, y2)
+    """
+    return np.append(corner[0], corner[3])
+
+
 def points_to_area_generator(points, shape):
     """
     Args:
@@ -204,7 +242,7 @@ def points_to_area_generator(points, shape):
     points = points.reshape(*shape[::-1], 2)
     for y in range(shape[1] - 1):
         for x in range(shape[0] - 1):
-            area = np.append(points[y, x], points[y + 1, x + 1])
+            area = np.array([points[y, x], points[y, x + 1], points[y + 1, x], points[y + 1, x + 1]])
             yield ((x, y), area)
 
 

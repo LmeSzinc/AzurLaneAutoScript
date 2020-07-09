@@ -1,6 +1,5 @@
 import time
 
-import cv2
 import numpy as np
 from PIL import Image, ImageDraw, ImageOps
 
@@ -141,22 +140,14 @@ class Homography:
 
         # Generate perspective data
         src_pts = np.array(src_pts) - self.config.DETECTING_AREA[:2]
-        dst_pts = np.array([
-            [0, 0],
-            [size[0] * self.config.HOMO_TILE[0], 0],
-            [0, size[1] * self.config.HOMO_TILE[1]],
-            [size[0] * self.config.HOMO_TILE[0], size[1] * self.config.HOMO_TILE[1]]
-        ], dtype=float)
-        dst_pts += src_pts[0]
-        homo, _ = cv2.findHomography(src_pts, dst_pts)
+        dst_pts = src_pts[0] + area2corner((0, 0, *np.multiply(size, self.config.HOMO_TILE)))
+        homo = cv2.getPerspectiveTransform(src_pts.astype(np.float32), dst_pts.astype(np.float32))
 
         # Re-generate to align image to upper-left
-        area = self.config.DETECTING_AREA
-        area = np.array([[area[0], area[1]], [area[2], area[1]], [area[0], area[3]], [area[2], area[3]]])
-        area -= self.config.DETECTING_AREA[:2]
+        area = area2corner(self.config.DETECTING_AREA) - self.config.DETECTING_AREA[:2]
         transformed = perspective_transform(area, data=homo)
         transformed -= np.min(transformed, axis=0)
-        homo, _ = cv2.findHomography(area, transformed)
+        homo = cv2.getPerspectiveTransform(area.astype(np.float32), transformed.astype(np.float32))
         size = np.ceil(np.max(transformed, axis=0)).astype(int)
 
         self.homo_data = homo
@@ -177,9 +168,7 @@ class Homography:
         self.image = image
 
         # Image initialization
-        image = crop(image, self.config.DETECTING_AREA)
-        r, g, b = cv2.split(image)
-        image = cv2.add(cv2.multiply(cv2.max(cv2.max(r, g), b), 0.5), cv2.multiply(cv2.min(cv2.min(r, g), b), 0.5))
+        image = rgb2gray(crop(image, self.config.DETECTING_AREA))
 
         # Perspective transform
         image_trans = cv2.warpPerspective(image, self.homo_data, self.homo_size)
@@ -366,10 +355,16 @@ class Homography:
         """
         Yields (tuple): ((x, y), [upper-left, upper-right, bottom-left, bottom-right])
         """
+        area = [
+            self.left_edge if self.left_edge else 0,
+            self.lower_edge if self.lower_edge else 0,
+            self.right_edge if self.right_edge else self.homo_size[0],
+            self.upper_edge if self.upper_edge else self.homo_size[1]
+        ]
         x = np.arange(-25, 25) * self.config.HOMO_TILE[0] + self.homo_loca[0]
-        x = x[(x > 0) & (x < self.homo_size[0])]
+        x = x[(x > area[0]) & (x < area[2])]
         y = np.arange(-25, 25) * self.config.HOMO_TILE[1] + self.homo_loca[1]
-        y = y[(y > 0) & (y < self.homo_size[1])]
+        y = y[(y > area[1]) & (y < area[3])]
 
         shape = (len(x), len(y))
         points = np.array(np.meshgrid(x, y)).reshape((2, -1)).T
