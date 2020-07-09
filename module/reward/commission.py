@@ -36,10 +36,10 @@ dictionary_cn = {
 dictionary_en = {
     'major_comm': ['SelfTraining', 'DefenseExercise', 'ResearchMission', 'Prep', 'Class'],
     'daily_comm': ['Daily', 'Awakening', 'paily'],
-    'extra_drill': ['Sailing', 'Buoy', 'saingTraining', 'shortrangesailingTraining', 'MidrangesailingTraining', 'FrontierDefensePatrol'],
+    'extra_drill': ['Sailing', 'Buoy', 'saingTraining', 'shortrangesailingTraining', 'MidrangesailingTraining', 'FrontierDefensePatrol', 'MidangesailingTraining'],
     'extra_part': ['Protection', 'Forestpr', 'veinprot', 'veinprtectioncommision'],
     'extra_cube': ['FleetExercise', 'EscortExercise', 'FleetCargo', 'CombatExercise', 'FleetCargoTransport'],
-    'extra_oil': ['oil', 'smallscaleoiExtractionll', 'smal.scaleoiExtractionll', 'smalscaleoiExtraction'],
+    'extra_oil': ['oil', 'smallscaleoiExtractionll', 'smalscaleoiExtraction', 'smal.scaleoiExtractionl'],
     'extra_book': ['MerchantEscort', 'SmalIMerchantEscor'],
     'urgent_drill': ['CargoDefense', 'Destroy', 'CoastalDefensePatrol'],
     'urgent_part': ['Lavella', 'Maui', 'Rendova', 'banna', 'Mannelsland', 'AidingMamne'],
