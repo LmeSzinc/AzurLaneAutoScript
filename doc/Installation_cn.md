@@ -26,7 +26,7 @@
 
    ![install_batch](Installation_cn.assets/install_batch.png)
 
-   准备完成后, 输入`start`, 然后按下回车键
+   准备完成后, 输入 `gitee` , 也就是从选择码云(gitee)镜像下载, 然后按下回车键
 
    当看到如下信息时, 说明安装成功
 
@@ -50,7 +50,7 @@
 
    在第一次运行的时候, 要求输入模拟器的SERIAL
 
-   以下是一些常见模拟器的默认SERIAL
+   以下是一些常见模拟器的默认SERIAL. (如果你有多个模拟器实例, 它们的serial可能不是这里列出的)
 
    | 模拟器   | Emulator | serial          |
    | ---------- | ---------- | --------------- |
@@ -75,6 +75,28 @@
    然后 Alas 的 GUI 就出来了
 
    ![alas_gui](Installation_cn.assets/alas_gui.png)
+   
+5. **检查模拟器连接**
+
+   点击左侧菜单的 `设备设置`,
+
+   - 把修改`设备`修改成刚刚使用的SERIAL.
+
+   - 检查`包名`, `com.bilibili.azurlane` 是碧蓝航线B服的APK包名 (Package Name).
+
+     如果你玩的是碧蓝航线B服, 不需要修改.
+
+     如果你玩的是渠道服, 请自行搜索对应的APK包名并修改.
+
+   - 点击`开始`, 这将保存选项并检查连接, 然后点击`编辑`返回主界面
+
+   ![alas_emulator_settings](Installation_cn.assets/alas_emulator_settings.png)
+
+   当你看到以下信息时, 说明一切正常.
+
+   ![alas_emulator_save](C:/Users/LmeSzinc/Desktop/doc/alas_emulator_save.png)
+
+   现在可以点击`编辑`返回主界面, 开始使用Alas了.
 
 
 
@@ -88,7 +110,7 @@
 
 ![alas_update](Installation_cn.assets/alas_update.png)
 
-国内用户按下数字键4, 选择从gitee镜像更新, 有能力的可以选择从github更新
+国内用户按下数字键4, 选择从gitee镜像更新
 
 然后按下回车键
 
@@ -200,6 +222,26 @@ python -m uiautomator2 init
   | MuMu模拟器 | MuMuPlayer | 127.0.0.1:7555  |
   | 逍遥模拟器 | MemuPlayer | 127.0.0.1:21503 |
   | 雷电模拟器 | LDPlayer   | emulator-5554   |
+  
+  在运行时, 会打印当前截图方式的平均耗时和耗时标准差.
+  
+  打印几个之后, 就说明没问题, 你可以结束它.
+  
+  > **不同截图方式的差别**
+  >
+  > aScreenCap 远快于 uiautomator2 和 ADB. 但是cpu占用高, 在少部分模拟器上运行会报错.
+  >
+  > uiautomator2 在 VirtualBox 内核的模拟器上 (夜神模拟器, 逍遥模拟器, 雷电模拟器), 快于ADB, 但是在 BlueStacks 内核的模拟器上 (蓝叠模拟器, MuMu模拟器), 慢于 ADB.
+  >
+  > ADB 兼容性最好.
+  >
+  > Alas 默认使用 ADB 截图, 如果 aScreenCap 可用, 则推荐使用.
+  
+  > **不同点击方式的差别**
+  >
+  > uiautomator2 使用的 minitouch 在点击速度, 手势操作等方面碾压 ADB.
+  >
+  > Alas 默认使用 uiautomator2 点击, 也推荐使用 uiautomator2.
 
 ### 启动
 

@@ -18,13 +18,21 @@ class UI(ModuleBase):
         """
         return self.appear(page.check_button, offset=(20, 20))
 
+    def ensure_button_execute(self, button, offset=0):
+        if isinstance(button, Button) and self.appear(button, offset=offset):
+            return True
+        elif callable(button) and button():
+            return True
+        else:
+            return False
+
     def ui_click(self, click_button, check_button, appear_button=None, additional_button=None,
                  offset=(20, 20), retry_wait=10, additional_button_interval=3, skip_first_screenshot=False):
         """
         Args:
             click_button (Button):
             check_button (Button, callable):
-            appear_button (Button):
+            appear_button (Button, callable):
             additional_button (Button, list[Button], callable):
             additional_button_interval (int, float):
             offset (bool, int, tuple):
@@ -43,9 +51,8 @@ class UI(ModuleBase):
             else:
                 self.device.screenshot()
 
-            if isinstance(check_button, Button) and self.appear(check_button, offset=offset):
-                break
-            if callable(check_button) and check_button():
+            if (isinstance(check_button, Button) and self.appear(check_button, offset=offset)) \
+                    or (callable(check_button) and check_button()):
                 break
 
             for button in additional_button:
@@ -57,10 +64,12 @@ class UI(ModuleBase):
                 if callable(button) and button():
                     continue
 
-            if click_timer.reached() and self.appear(appear_button, offset=offset):
-                self.device.click(click_button)
-                click_timer.reset()
-                continue
+            if click_timer.reached():
+                if (isinstance(appear_button, Button) and self.appear(appear_button, offset=offset)) \
+                        or (callable(appear_button) and appear_button()):
+                    self.device.click(click_button)
+                    click_timer.reset()
+                    continue
 
     def ui_get_current_page(self):
         self.device.screenshot()
