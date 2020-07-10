@@ -94,7 +94,7 @@
 
    当你看到以下信息时, 说明一切正常.
 
-   ![alas_emulator_save](C:/Users/LmeSzinc/Desktop/doc/alas_emulator_save.png)
+   ![alas_emulator_save](Installation_cn.assets/alas_emulator_save.png)
 
    现在可以点击`编辑`返回主界面, 开始使用Alas了.
 

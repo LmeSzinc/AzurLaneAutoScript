@@ -368,6 +368,9 @@ class Map(Fleet):
         for grid in grids:
             if self.fleet_at(grid=grid, fleet=2):
                 return False
+        if grids.count == len([grid for grid in grids if grid.is_enemy or grid.is_cleared]):
+            logger.info('Fleet 2 step on, no need')
+            return False
 
         logger.info('Fleet 2 step on')
         for grid in grids:
@@ -380,9 +383,9 @@ class Map(Fleet):
                 return False
 
         logger.info('Fleet_2 step on got roadblocks.')
-        self.fleet_1.clear_roadblocks(roadblocks)
+        clear = self.fleet_1.clear_roadblocks(roadblocks)
         self.fleet_1.clear_all_mystery()
-        return True
+        return clear
 
     def fleet_2_break_siren_caught(self):
         if not self.config.FLEET_2:
