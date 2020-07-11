@@ -301,7 +301,7 @@ class CommissionGroup:
             self.commission.append(commission)
 
 
-class RewardCommission(UI, InfoHandler):
+class RewardCommission(UI):
     daily: CommissionGroup
     urgent: CommissionGroup
     daily_choose: CommissionGroup

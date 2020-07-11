@@ -65,6 +65,9 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
+        if self.battle_count > 3:
+            self.pick_up_ammo()
+
         if self.clear_roadblocks([road_main]):
             return True
         if self.clear_potential_roadblocks([road_main]):
@@ -76,8 +79,8 @@ class Campaign(CampaignBase):
         self.pick_up_ammo()
         boss = self.map.select(is_boss=True)
         if boss:
-            if not self.check_accessibility(boss[0], fleet=1):
+            if not self.check_accessibility(boss[0], fleet='boss'):
                 if self.clear_roadblocks([road_main]):
                     return True
 
-        return self.fleet_1.clear_boss()
+        return self.fleet_boss.clear_boss()
