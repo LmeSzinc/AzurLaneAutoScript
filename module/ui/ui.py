@@ -11,6 +11,8 @@ from module.ui.page import *
 class UI(InfoHandler):
     ui_pages = [page_main, page_campaign, page_fleet, page_exercise, page_daily, page_event, page_sp, page_mission,
                 page_raid]
+    ui_pages_all = [page_main, page_campaign, page_fleet, page_exercise, page_daily, page_event, page_sp, page_mission,
+                    page_raid, page_commission, page_event_list, page_tactical, page_reward, page_unknown]
     ui_current: Page
 
     def ui_page_appear(self, page):
@@ -101,6 +103,8 @@ class UI(InfoHandler):
             destination (Page):
             skip_first_screenshot (bool):
         """
+        for page in self.ui_pages_all:
+            page.parent = None
         # Iter
         visited = [self.ui_current]
         visited = set(visited)
@@ -126,6 +130,11 @@ class UI(InfoHandler):
                 route.append(destination)
             else:
                 break
+            if len(route) > 30:
+                logger.warning('UI route too long')
+                logger.warning(str(route))
+                exit(1)
+
         route.reverse()
         if len(route) < 2:
             logger.warning('No page route found.')
