@@ -3,7 +3,6 @@ from module.exercise.assets import *
 from module.exercise.equipment import ExerciseEquipment
 from module.exercise.hp_daemon import HpDaemon
 from module.exercise.opponent import OpponentChoose, OPPONENT
-from module.ui.assets import BACK_ARROW
 
 
 class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
@@ -102,8 +101,8 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
             index (int): From left to right. 0 to 3.
         """
         logger.hr('Opponent: %s' % str(index))
-        opponent_timer = Timer(1)
-        preparation_timer = Timer(1)
+        opponent_timer = Timer(5)
+        preparation_timer = Timer(5)
 
         while 1:
             self.device.screenshot()

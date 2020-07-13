@@ -76,7 +76,7 @@ class Reward(RewardCommission, RewardTacticalClass, LoginHandler, Update):
         while 1:
             self.device.screenshot()
 
-            for button in [EXP_INFO_S_REWARD, GET_ITEMS_1, GET_ITEMS_2, GET_SHIP]:
+            for button in [EXP_INFO_S_REWARD, GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3, GET_SHIP]:
                 if self.appear(button, interval=1):
                     REWARD_SAVE_CLICK.name = button.name
                     self.device.click(REWARD_SAVE_CLICK)
