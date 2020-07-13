@@ -24,6 +24,8 @@ goto check_Permissions
 :continue
 SET ALAS_PATH=%~dp0
 
+echo "ALAS_PATH:"%ALAS_PATH
+
 SET RENAME="python-3.7.6.amd64"
 if exist %RENAME% (
   rename %RENAME% toolkit
@@ -71,7 +73,7 @@ echo %adb_input% >> %ADB_P%
 
 REM Load adb_port.ini
 :load
-REM 
+REM
 set /p ADB_PORT=<%ADB_P%
 
 echo connecting at %ADB_PORT%
@@ -87,23 +89,23 @@ call %ADB% connect %ADB_PORT%
     echo	1.  emulator_test
 	echo	2.  button_extract
 	echo	3.  grids_debug
-	echo	4.  item_stastistics
+	echo	4.  item_statistics
 	echo	5.  relative_crop
 	echo	6.  map_extractor
 	echo	7.  word_template_extractor
 	echo	8. ADB SCREENSHOT (for ASSETS)
 	echo	9. Uiautomator2 SCREENSHOT (for ASSETS)
 	echo	10. ADB SCREENSHOT (Continuous Screenshot)
-	echo. 
+	echo.
 	echo  :: Type a 'number' and press ENTER
 	echo  :: Type 'exit' to quit
 	echo.
-	
+
 	set /P menu=
 		if %menu%==1 GOTO emulator_test
 		if %menu%==2 GOTO button_extract
 		if %menu%==3 GOTO grids_debug
-		if %menu%==4 GOTO item_stastistics
+		if %menu%==4 GOTO item_statistics
 		if %menu%==5 GOTO relative_crop
 		if %menu%==6 GOTO map_extractor
 		if %menu%==7 GOTO word_template_extractor
@@ -111,7 +113,7 @@ call %ADB% connect %ADB_PORT%
 		if %menu%==9 GOTO u2ss
 		if %menu%==10 GOTO adbc
 		if %menu%==exit GOTO EOF
-		
+
 		else (
 		cls
 	echo.
@@ -172,16 +174,16 @@ call %ADB% connect %ADB_PORT%
         goto dev_menu
 	)
 :: -----------------------------------------------------------------------------
-:item_stastistics
+:item_statistics
 	call %PYTHON% --version >nul
 	if %errorlevel% == 0 (
 	echo Python Found! Proceeding..
 	echo Opening dev_tools.button_extract...
-	call %PYTHON% -m dev_tools.item_stastistics
+	call %PYTHON% -m dev_tools.item_statistics
 	pause > NUL
 	goto dev_menu
 	) else (
-		echo :: it was not possible to open dev_tools.item_stastistics, make sure you have a folder toolkit
+		echo :: it was not possible to open dev_tools.item_statistics, make sure you have a folder toolkit
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
@@ -279,7 +281,7 @@ goto adbss
 rem create output file name and path from parameters and date and time
 ::loop
 :LOOP
-FOR /f %%a IN ('WMIC OS GET LocalDateTime ^| FIND "."') DO SET DTS=%%a  
+FOR /f %%a IN ('WMIC OS GET LocalDateTime ^| FIND "."') DO SET DTS=%%a
 SET DATETIME=%DTS:~0,8%-%DTS:~8,6%-%DTS:~9,2%
 SET SCREENCAP_FILE_NAME=screenshot-%DATETIME%.png
 SET SCREENCAP_FILE_PATH=%SCREENSHOT_FOLDER%\%SCREENCAP_FILE_NAME%

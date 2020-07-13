@@ -3,7 +3,9 @@ import os
 # os.chdir('../')
 import module.config.server as server
 
-server.server = 'cn'  # Edit server here.
+
+server.server = 'en'  # Don't need to edit, it's used to avoid error.
+
 print(os.getcwd())
 
 import numpy as np
@@ -21,13 +23,15 @@ from module.logger import logger
 Set your folder here
 Examples: xxx/campaign_7_2
 """
-IMAGE_FOLDER = ''
+IMAGE_FOLDER = 'screenshots/campaign_10_3_HARD'
 STATUS_ITEMS_INTERVAL = 10
 TEMPLATE_THRESHOLD = 0.9
 
 BATTLE_STATUS_FOLDER = f'{IMAGE_FOLDER}/status'
 GET_ITEMS_FOLDER = f'{IMAGE_FOLDER}/get_items'
 TEMPLATE_FOLDER = f'{IMAGE_FOLDER}/item_template'
+ALL_TEMPLATES_FOLDER = f'screenshots/item_templates_all'
+
 for f_ in [TEMPLATE_FOLDER]:
     if not os.path.exists(f_):
         os.mkdir(f_)
@@ -208,7 +212,7 @@ These code is for testing
 Set your image name here
 Examples: 159022xxxxxxx (int)
 """
-# ts = 1590227624035
+# ts = 1593301640807
 # items = Items(ts)
 # for item in items.items:
 #     print(item.amount, item.name)
@@ -216,13 +220,13 @@ Examples: 159022xxxxxxx (int)
 """
 These code is for template extracting
 """
-# from tqdm import tqdm
-# for ts in tqdm([int(f.split('.')[0]) for f in os.listdir(GET_ITEMS_FOLDER)]):
-#     try:
-#         items = Items(ts)
-#     except Exception:
-#         logger.warning(f'Error image: {ts}')
-#         continue
+from tqdm import tqdm
+for ts in tqdm([int(f.split('.')[0]) for f in os.listdir(GET_ITEMS_FOLDER)]):
+    try:
+        items = Items(ts)
+    except Exception:
+        logger.warning(f'Error image: {ts}')
+        continue
 
 """
 These code is for final statistic
