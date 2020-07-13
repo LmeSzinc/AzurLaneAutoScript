@@ -4,8 +4,6 @@ pushd %~dp0
 title ALAS run
 SET CMD=%SystemRoot%\system32\cmd.exe
 :: -----------------------------------------------------------------------------
-color 8F
-:: -----------------------------------------------------------------------------
 call :check_Permissions
 :check_Permissions
     echo Administrative permissions required. Detecting permissions...
@@ -98,7 +96,6 @@ call %PYTHON% -m uiautomator2 init
 call :alas
 :: -----------------------------------------------------------------------------
 :alas
-color 8F
 	cls
 	echo.
 	echo  :: Alas run
@@ -401,7 +398,6 @@ rem 	)
 rem Keep local changes
 :: -----------------------------------------------------------------------------
 :choose_update_mode
-color 7C
 	cls
 	echo.
 	echo.

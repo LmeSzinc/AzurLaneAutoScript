@@ -3,7 +3,7 @@ import os
 # os.chdir('../')
 import module.config.server as server
 
-server.server = 'cn'  # Don't need to edit, it's used to avoid error.
+server.server = 'cn'  # Edit server here.
 print(os.getcwd())
 
 import numpy as np
@@ -199,6 +199,9 @@ class Items:
     def get_data(self):
         return [[self.timestamp, self.status_timestamp, self.enemy, item.name, item.amount] for item in self.items]
 
+"""
+Edit server at the top of this file first.
+"""
 
 """
 These code is for testing

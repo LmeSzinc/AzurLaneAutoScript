@@ -280,6 +280,8 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
         Returns:
             bool:
         """
+        if self.is_combat_executing():
+            return False
         if self.appear_then_click(EXP_INFO_S):
             self.device.sleep((0.25, 0.5))
             return True
