@@ -318,20 +318,19 @@ def color_similarity_2d(image, color):
     return image
 
 
-def extract_letters(image, letter=(255, 255, 255), back=(0, 0, 0)):
+def extract_letters(image, letter=(255, 255, 255), threshold=128):
     """Set letter color to black, set background color to white.
 
     Args:
         image: Shape (height, width, channel)
         letter (tuple): Letter RGB.
-        back (tuple): Background RGB.
+        threshold (int):
 
     Returns:
         np.ndarray: Shape (height, width)
     """
     image = color_similarity_2d(np.array(image), color=letter)
-    back = color_similarity(back, letter)
-    image = (255.0 - image) * (1 + back / 255)
+    image = (255.0 - image) * (255.0 / threshold)
     image[image > 255] = 255
     return image
 

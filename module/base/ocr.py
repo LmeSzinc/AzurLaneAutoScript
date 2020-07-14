@@ -9,16 +9,16 @@ from module.base.button import Button
 from module.base.utils import extract_letters
 from module.logger import logger
 
-OCR_MODELS = {
-    # Font: Impact, AgencyFB
-    # Charset: 0123456789
-    'digit': CnOcr(root='./bin/cnocr_models/digit', model_epoch=60),
-    # Font: Impact
-    # Charset: 0123456789ABCDEFSP-:/
-    'stage': CnOcr(root='./bin/cnocr_models/stage', model_epoch=56),
-
-    'cnocr': CnOcr(root='./bin/cnocr_models/cnocr', model_epoch=20)
-}
+# OCR_MODELS = {
+#     # Font: Impact, AgencyFB
+#     # Charset: 0123456789
+#     'digit': CnOcr(root='./bin/cnocr_models/digit', model_epoch=60),
+#     # Font: Impact
+#     # Charset: 0123456789ABCDEFSP-:/
+#     'stage': CnOcr(root='./bin/cnocr_models/stage', model_epoch=56),
+#
+#     'cnocr': CnOcr(root='./bin/cnocr_models/cnocr', model_epoch=20)
+# }
 image_shape = (280, 32)
 width_range = (0.6, 1.4)
 text_length = (1, 6)
@@ -42,7 +42,7 @@ class Ocr:
             buttons (Button, List[Button]): Button or list of Button instance.
         """
         self.lang = lang
-        self.cnocr = OCR_MODELS[lang]
+        # self.cnocr = OCR_MODELS[lang]
         self.letter = letter
         self.back = back
         self.mid_process_height = mid_process_height
