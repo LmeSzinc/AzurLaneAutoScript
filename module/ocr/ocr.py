@@ -48,6 +48,13 @@ class Ocr:
         self.cnocr = OCR_MODEL[lang]
 
     def pre_process(self, image):
+        """
+        Args:
+            image (np.ndarray): Shape (width, height, channel)
+
+        Returns:
+            np.ndarray: Shape (width, height)
+        """
         image = extract_letters(image, letter=self.letter, threshold=self.threshold)
 
         return image.astype(np.uint8)
@@ -69,7 +76,7 @@ class Ocr:
 
         if self.alphabet is not None:
             self.cnocr.set_cand_alphabet(self.alphabet)
-        image_list = [self.pre_process(image.crop(area)) for area in self.buttons]
+        image_list = [self.pre_process(np.array(image.crop(area))) for area in self.buttons]
 
         # This will show the images feed to OCR model
         # self.cnocr.debug(image_list)
@@ -92,4 +99,6 @@ class Digit(Ocr):
 
     def after_process(self, result):
         result = super().after_process(result)
-        return int(result)
+        result = int(result) if result else 0
+
+        return result
