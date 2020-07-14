@@ -6,16 +6,15 @@ import numpy as np
 from scipy import signal
 
 from module.base.decorator import Config
-from module.base.ocr import Ocr
 from module.base.timer import Timer
 from module.base.utils import area_offset, get_color, random_rectangle_vector
 from module.base.utils import color_similar_1d, random_rectangle_point
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
+from module.ocr.ocr import Ocr
 from module.reward.assets import *
 from module.ui.page import page_reward, page_commission, CAMPAIGN_CHECK
 from module.ui.ui import UI
-
 
 dictionary_cn = {
     'major_comm': ['自主训练', '对抗演习', '科研任务', '工具整备', '战术课程', '货物运输'],
@@ -72,17 +71,17 @@ class Commission:
     def commission_parse(self):
         # Name
         # This is different from CN, EN has longer names
-        area = area_offset((176, 23, 420, 51), self.area[0:2])
+        area = area_offset((176, 23, 420, 53), self.area[0:2])
         button = Button(area=area, color=(), button=area, name='COMMISSION')
-        ocr = Ocr(button, lang='cnocr', back=(74, 97, 148), use_binary=False)
+        ocr = Ocr(button, lang='cnocr')
         self.button = button
         self.name = ocr.ocr(self.image)
         self.genre = self.commission_name_parse(self.name)
 
         # Duration time
-        area = area_offset((290, 74, 390, 92), self.area[0:2])
+        area = area_offset((290, 68, 390, 95), self.area[0:2])
         button = Button(area=area, color=(), button=area, name='DURATION')
-        ocr = Ocr(button, lang='stage', back=(57, 85, 132))
+        ocr = Ocr(button, alphabet='0123456789:')
         self.duration = self.parse_time(ocr.ocr(self.image))
 
         # Expire time
@@ -90,9 +89,9 @@ class Commission:
         button = Button(area=area, color=(189, 65, 66),
                         button=area, name='IS_URGENT')
         if button.appear_on(self.image):
-            area = area_offset((-49, 73, 45, 91), self.area[0:2])
+            area = area_offset((-49, 67, 45, 94), self.area[0:2])
             button = Button(area=area, color=(), button=area, name='EXPIRE')
-            ocr = Ocr(button, lang='stage', back=(189, 65, 66))
+            ocr = Ocr(button, alphabet='0123456789:')
             self.expire = self.parse_time(ocr.ocr(self.image))
         else:
             self.expire = None
@@ -109,17 +108,17 @@ class Commission:
     @Config.when(SERVER=None)
     def commission_parse(self):
         # Name
-        area = area_offset((176, 23, 420, 50), self.area[0:2])
+        area = area_offset((176, 23, 420, 53), self.area[0:2])
         button = Button(area=area, color=(), button=area, name='COMMISSION')
-        ocr = Ocr(button, lang='cnocr', back=(74, 97, 148), use_binary=False)
+        ocr = Ocr(button, lang='cnocr', threshold=256)
         self.button = button
         self.name = ocr.ocr(self.image)
         self.genre = self.commission_name_parse(self.name)
 
         # Duration time
-        area = area_offset((290, 74, 390, 92), self.area[0:2])
+        area = area_offset((290, 68, 390, 95), self.area[0:2])
         button = Button(area=area, color=(), button=area, name='DURATION')
-        ocr = Ocr(button, lang='stage', back=(57, 85, 132))
+        ocr = Ocr(button, alphabet='0123456789:')
         self.duration = self.parse_time(ocr.ocr(self.image))
 
         # Expire time
@@ -127,9 +126,9 @@ class Commission:
         button = Button(area=area, color=(189, 65, 66),
                         button=area, name='IS_URGENT')
         if button.appear_on(self.image):
-            area = area_offset((-49, 73, 45, 91), self.area[0:2])
+            area = area_offset((-49, 67, 45, 94), self.area[0:2])
             button = Button(area=area, color=(), button=area, name='EXPIRE')
-            ocr = Ocr(button, lang='stage', back=(189, 65, 66))
+            ocr = Ocr(button, alphabet='0123456789:')
             self.expire = self.parse_time(ocr.ocr(self.image))
         else:
             self.expire = None

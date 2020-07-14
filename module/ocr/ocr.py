@@ -83,3 +83,13 @@ class Ocr:
                     text=str(result_list))
 
         return result_list
+
+
+class Digit(Ocr):
+    def __init__(self, buttons, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='0123456789',
+                 name=None):
+        super().__init__(buttons, lang=lang, letter=letter, threshold=threshold, alphabet=alphabet, name=name)
+
+    def after_process(self, result):
+        result = super().after_process(result)
+        return int(result)

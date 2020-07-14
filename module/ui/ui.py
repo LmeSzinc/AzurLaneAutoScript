@@ -1,10 +1,10 @@
 from module.base.button import Button
-from module.base.ocr import Ocr
 from module.base.timer import Timer
 from module.combat.assets import *
 from module.handler.assets import *
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
+from module.ocr.ocr import Ocr
 from module.ui.page import *
 
 
