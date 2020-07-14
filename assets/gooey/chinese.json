@@ -33,5 +33,7 @@
   "sure_you_want_to_exit": "你确定要退出?",
   "sure_you_want_to_stop": "你确定要停止当前运行的任务?",
   "uh_oh": "\nUh 糟糕! 程序运行出现故障。 \n复制下方的错误信息给程序的开发员。\n\n{} \t\t\n\t\t",
-  "validation_failed": "一个或一个以上的输入数据不符合格式要求"
+  "validation_failed": "一个或一个以上的输入数据不符合格式要求",
+  "dialog_button_yes": "是",
+  "dialog_button_no": "否"
 }
