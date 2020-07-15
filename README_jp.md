@@ -19,9 +19,10 @@ Alas （アズールレーン自動化ツール / Azur Lane automation tool）
 - **直近のイベントについて**: 「特別演習 超空強襲波」対応(2020/6/27)
 - **JPサーバー用の画像について**: 画像は追加されていますが、一部CNサーバ用のものを使用しています。そのため、CN, ENサーバーで実行できる機能がJPサーバーで実行できない可能性があります。
 - **翻訳について**: GUIやドキュメントは日本語に翻訳されていません。
-- **委託機能について**: 委託機能(commissions)には中国語用のOCRであるCNOCRを使われており、日本語を認識できないためJPサーバーでは実行できません。
+- **委託機能について**: JPサーバー用の委託機能にはtesseractというOCRを用いています。委託機能を有効化したい場合にはtesseractを[別途インストール](#install-tesseract)してください。
+- **CNOCRについて**: 委託機能以外の場所では中国語用のOCRであるCNOCRが使われており、日本語を認識できない可能性があります。
 - **確認されている問題**:  
-  - 委託機能使用不可
+  - CNOCRについて
 
 <h2 id="features">特徴</h2>
 
@@ -155,6 +156,17 @@ Alas （アズールレーン自動化ツール / Azur Lane automation tool）
 
         ![emulator_test](doc/quickguide.assets/atx_running.png)
 
+8. <strong id="install-tesseract">Tesseractのインストール（オプション）</strong>
+    - （委託機能を使わない場合は必要ありません）
+    - Tesseract  
+      [https://github.com/UB-Mannheim/tesseract/wiki](https://github.com/UB-Mannheim/tesseract/wiki)
+    - 日本語用のデータファイルをインストールする
+      - select components
+        - additional script data => Japanese script
+        - additional language data => Japanese
+    - 環境変数を設定する
+      - 環境変数Pathに追加: インストール先\Tesseract-OCR
+      - 環境変数TESSDATA_PREFIXを新規作成: インストール先\Tesseract-OCR\tessdata  
 
 
 <h2 id="how-to-use">使い方</h2>

@@ -26,6 +26,7 @@ class Exercise(ExerciseCombat):
                 if success:
                     return success
             self._new_opponent()
+            self._opponent_fleet_check_all()
         return False
 
     def run(self):
