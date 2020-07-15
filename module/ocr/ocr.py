@@ -10,7 +10,7 @@ from module.ocr.al_ocr import AlOcr
 from module.exception import ScriptError
 
 OCR_MODEL = {
-    # Folder: ./bin/cnocr_models/al
+    # Folder: ./bin/cnocr_models/azur_lane
     # Size: 3.25MB
     # Model: densenet-lite-gru
     # Epoch: 15
@@ -54,7 +54,7 @@ class Ocr:
     def pre_process(self, image):
         """
         Args:
-            image (np.ndarray): Shape (width, height, channel)
+            image (np.ndarray): Shape (height, width, channel)
 
         Returns:
             np.ndarray: Shape (width, height)
@@ -124,7 +124,7 @@ class OcrJapanese:
                 'No ocr-tool found, please install tesseract by yourself and make sure to set correct env vars.')
         ocr_tool = ocr_tool[0]
         ocr_langs = ocr_tool.get_available_languages()
-        if not 'jpn' in ocr_langs:
+        if 'jpn' not in ocr_langs:
             raise ScriptError(
                 'No jpn found in tesseract langs, please install japanese data files.')
         return ocr_tool
@@ -132,7 +132,7 @@ class OcrJapanese:
     def pre_process(self, image):
         """
         Args:
-            image (np.ndarray): Shape (width, height, channel)
+            image (np.ndarray): Shape (height, width, channel)
 
         Returns:
             PIL.Image

@@ -159,7 +159,7 @@ class Commission:
         }
         self.status = dic[int(np.argmax(get_color(self.image, area)))]
 
-    @Config.when(SERVER=None)
+    @Config.when(SERVER='cn')
     def commission_parse(self):
         # Name
         area = area_offset((176, 23, 420, 53), self.area[0:2])
