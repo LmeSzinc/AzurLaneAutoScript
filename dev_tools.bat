@@ -87,7 +87,7 @@ call %ADB% connect %ADB_PORT%
     echo	1.  emulator_test
 	echo	2.  button_extract
 	echo	3.  grids_debug
-	echo	4.  item_stastistics
+	echo	4.  item_statistics
 	echo	5.  relative_crop
 	echo	6.  map_extractor
 	echo	7.  word_template_extractor
@@ -103,7 +103,7 @@ call %ADB% connect %ADB_PORT%
 		if %menu%==1 GOTO emulator_test
 		if %menu%==2 GOTO button_extract
 		if %menu%==3 GOTO grids_debug
-		if %menu%==4 GOTO item_stastistics
+		if %menu%==4 GOTO item_statistics
 		if %menu%==5 GOTO relative_crop
 		if %menu%==6 GOTO map_extractor
 		if %menu%==7 GOTO word_template_extractor
@@ -172,16 +172,16 @@ call %ADB% connect %ADB_PORT%
         goto dev_menu
 	)
 :: -----------------------------------------------------------------------------
-:item_stastistics
+:item_statistics
 	call %PYTHON% --version >nul
 	if %errorlevel% == 0 (
 	echo Python Found! Proceeding..
 	echo Opening dev_tools.button_extract...
-	call %PYTHON% -m dev_tools.item_stastistics
+	call %PYTHON% -m dev_tools.item_statistics
 	pause > NUL
 	goto dev_menu
 	) else (
-		echo :: it was not possible to open dev_tools.item_stastistics, make sure you have a folder toolkit
+		echo :: it was not possible to open dev_tools.item_statistics, make sure you have a folder toolkit
 		echo :: inside AzurLaneAutoScript folder.
 		echo.
         pause > NUL
