@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 import cv2
 import numpy as np
 from scipy import signal
+import Levenshtein
 
 from module.base.decorator import Config
 from module.base.timer import Timer
@@ -11,7 +12,7 @@ from module.base.utils import area_offset, get_color, random_rectangle_vector
 from module.base.utils import color_similar_1d, random_rectangle_point
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
-from module.ocr.ocr import Ocr
+from module.ocr.ocr import Ocr, OcrJapanese
 from module.reward.assets import *
 from module.ui.page import page_reward, page_commission, CAMPAIGN_CHECK
 from module.ui.ui import UI
@@ -48,6 +49,22 @@ dictionary_en = {
     'urgent_gem': ['VIP ', 'Holiday', 'PatrolEscort', 'BIWWIPEscort', 'BIWVIPEscort', 'NYBWIPEscort', 'BIWPatro', 'BIWWPEscor'],
     'urgent_ship': ['Launch']
 }
+dictionary_jp = {
+    'major_comm': ['初級自主訓練', '中級自主訓練', '上級自主訓練', '初級対抗演習', '中級対抗演習', '上級対抗演習', '初級科学研究', '中級科学研究', '上級科学研究', '初級資材整理', '中級資材整理', '上級資材整理', '初級戦術課程', '中級戦術課程', '上級戦術課程', '初級貨物輸送', '中級貨物輸送', '上級貨物輸送'],
+    'daily_comm': ['日常資源開発Ⅰ', '日常資源開発Ⅱ', '日常資源開発Ⅲ', '日常資源開発Ⅳ', '日常資源開発Ⅴ', '日常資源開発Ⅵ', '覚醒実証研究Ⅰ', '覚醒実証研究Ⅱ'],
+    'extra_drill': ['短距離練習航海', '中距離練習航海', '外洋練習航海', '近海防衛巡回', '前線基地防衛巡回', '海域浮標保守作業'],
+    'extra_part': ['初級木材輸送護衛', '中級木材輸送護衛', '上級木材輸送護衛', '初級鉄鋼輸送護衛', '中級鉄鋼輸送護衛', '上級鉄鋼輸送護衛'],
+    'extra_cube': ['船団護衛演習', '艦隊輸送演習', '艦隊実弾演習', '装備慣熟演習', '艦隊慣熟演習', '艦隊運動演習'],
+    'extra_oil': ['小型油田開発Ⅰ', '小型油田開発Ⅱ', '小型油田開発Ⅲ', '中型油田開発Ⅰ', '中型油田開発Ⅱ', '中型油田開発Ⅲ', '大型油田開発Ⅰ', '大型油田開発Ⅱ', '大型油田開発Ⅲ'],
+    'extra_book': ['小型船団護衛', '中型船団護衛', '大型船団護衛'],
+    'urgent_drill': ['敵偵察部隊迎撃', '敵主力艦隊撃破', '敵精鋭部隊撃破', '輸送部隊護衛Ⅰ', '輸送部隊護衛Ⅱ', '輸送部隊護衛Ⅲ'],
+    'urgent_part': ['近海掃海任務', '近海航行展示', '離島火力支援', '離島兵員輸送', '外敵生態調査', '兵站航路確保'],
+    'urgent_book': ['離島物資輸送', '近海パトロール', '離島漸減支援', '外的動静哨戒', '前線部隊支援', '外敵中枢偵察'],
+    'urgent_box': ['BIW装備輸送', 'NYB装備輸送', 'BIW物資交換', 'NYB物資交換', 'BIW装備試験', 'NYB装備試験'],
+    'urgent_cube': ['船団救出Ⅰ', '船団救出Ⅱ', '船団救出Ⅲ', '敵襲Ⅰ', '敵襲Ⅱ', '敵襲Ⅲ'],
+    'urgent_gem': ['BIW要人護衛', 'NYB要人護衛', 'BIW休暇護衛', 'NYB休暇護衛'],
+    'urgent_ship': ['小型観覧式', '連合艦隊観覧式', '多国連合観覧式']
+}
 
 
 class Commission:
@@ -76,6 +93,43 @@ class Commission:
         ocr = Ocr(button, lang='cnocr')
         self.button = button
         self.name = ocr.ocr(self.image)
+        self.genre = self.commission_name_parse(self.name)
+
+        # Duration time
+        area = area_offset((290, 68, 390, 95), self.area[0:2])
+        button = Button(area=area, color=(), button=area, name='DURATION')
+        ocr = Ocr(button, alphabet='0123456789:')
+        self.duration = self.parse_time(ocr.ocr(self.image))
+
+        # Expire time
+        area = area_offset((-49, 68, -45, 84), self.area[0:2])
+        button = Button(area=area, color=(189, 65, 66),
+                        button=area, name='IS_URGENT')
+        if button.appear_on(self.image):
+            area = area_offset((-49, 67, 45, 94), self.area[0:2])
+            button = Button(area=area, color=(), button=area, name='EXPIRE')
+            ocr = Ocr(button, alphabet='0123456789:')
+            self.expire = self.parse_time(ocr.ocr(self.image))
+        else:
+            self.expire = None
+
+        # Status
+        area = area_offset((179, 71, 187, 93), self.area[0:2])
+        dic = {
+            0: 'finished',
+            1: 'running',
+            2: 'pending'
+        }
+        self.status = dic[int(np.argmax(get_color(self.image, area)))]
+
+    @Config.when(SERVER='jp')
+    def commission_parse(self):
+        # Name
+        area = area_offset((176, 23, 420, 53), self.area[0:2])
+        button = Button(area=area, color=(), button=area, name='COMMISSION')
+        ocr_jpn = OcrJapanese(button)
+        self.button = button
+        self.name = ocr_jpn.ocr(self.image)
         self.genre = self.commission_name_parse(self.name)
 
         # Duration time
@@ -207,6 +261,30 @@ class Commission:
                 if keyword in string:
                     return key
 
+        logger.warning(f'Name with unknown genre: {string}')
+        self.valid = False
+        return ''
+
+    @Config.when(SERVER='jp')
+    def commission_name_parse(self, string):
+        """
+        Args:
+            string (str): Commission name, such as 'NYB要员护卫'.
+
+        Returns:
+            str: Commission genre, such as 'urgent_gem'.
+        """
+        min_key = ''
+        min_distance = 100
+        for key, value in dictionary_jp.items():
+            for keyword in value:
+                distance = Levenshtein.distance(keyword, string)
+                if distance < min_distance:
+                    min_key = key
+                    min_distance = distance
+        if min_distance < 3:
+            return min_key
+        
         logger.warning(f'Name with unknown genre: {string}')
         self.valid = False
         return ''
