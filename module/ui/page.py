@@ -36,6 +36,10 @@ page_main.link(button=MAIN_GOTO_FLEET, destination=page_fleet)
 page_campaign.link(button=GOTO_MAIN, destination=page_main)
 page_fleet.link(button=GOTO_MAIN, destination=page_main)
 
+# Unknown
+page_unknown = Page(None)
+page_unknown.link(button=GOTO_MAIN, destination=page_main)
+
 # Exercise
 page_exercise = Page(EXERCISE_CHECK)
 page_exercise.link(button=GOTO_MAIN, destination=page_main)

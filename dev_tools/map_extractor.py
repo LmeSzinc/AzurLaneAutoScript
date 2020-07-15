@@ -32,7 +32,8 @@ class MapData:
         self.name = data['name']
         self.profiles = data['profiles']
         self.map_id = data['id']
-        self.spawn_data = [{'battle': index} for index in range(data['boss_refresh'] + 1)]
+        battle_count = max(data['boss_refresh'], max(data['enemy_refresh'].keys()))
+        self.spawn_data = [{'battle': index} for index in range(battle_count + 1)]
         try:
             # spawn_data
             for index, count in data['enemy_refresh'].items():
@@ -189,6 +190,8 @@ class ChapterTemplate:
             list(MapData):
         """
         print('<<< SEARCH MAP >>>')
+        name = name.strip()
+        name = int(name) if name.isdigit() else name
         print(f'Searching: {name}')
         if isinstance(name, str):
             maps = []
@@ -236,8 +239,8 @@ class ChapterTemplate:
             folder (str):
         """
         print('<<< CONFIRM >>>')
-        print('Please confirm selected the right maps, before extracting. Will skip existing files.\n'
-              'Press ENTER to continue')
+        print('Please confirm selected the correct maps before extracting. Will skip existing files.\n'
+              'Input any key and press ENTER to continue')
         input()
 
         if not os.path.exists(folder):

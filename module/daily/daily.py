@@ -1,17 +1,16 @@
 import numpy as np
 
-from module.base.ocr import Digit
 from module.base.utils import get_color
 from module.combat.combat import Combat
 from module.daily.assets import *
 from module.equipment.fleet_equipment import DailyEquipment
 from module.logger import logger
+from module.ocr.ocr import Digit
 from module.ui.ui import page_daily, page_campaign, BACK_ARROW, DAILY_CHECK
 
 DAILY_MISSION_LIST = [DAILY_MISSION_1, DAILY_MISSION_2, DAILY_MISSION_3]
-OCR_REMAIN = Digit(OCR_REMAIN, letter=(255, 255, 255), back=(127, 127, 127), length=1, white_list='0123')
-OCR_DAILY_FLEET_INDEX = Digit(OCR_DAILY_FLEET_INDEX, letter=(90, 154, 255), back=(24, 32, 49), length=1,
-                              white_list='123456')
+OCR_REMAIN = Digit(OCR_REMAIN, threshold=128, alphabet='0123')
+OCR_DAILY_FLEET_INDEX = Digit(OCR_DAILY_FLEET_INDEX, letter=(90, 154, 255), threshold=128, alphabet='123456')
 RECORD_OPTION = ('DailyRecord', 'daily')
 RECORD_SINCE = (0,)
 
@@ -19,6 +18,7 @@ RECORD_SINCE = (0,)
 class Daily(Combat, DailyEquipment):
     daily_current: int
     daily_checked: list
+    daily_auto_checked = False
 
     def is_active(self):
         color = get_color(image=self.device.image, area=DAILY_ACTIVE.area)
@@ -64,7 +64,8 @@ class Daily(Combat, DailyEquipment):
         for n in range(remain):
             logger.hr(f'Count {n + 1}')
             self.ui_click(click_button=button, check_button=self.combat_appear, appear_button=daily_enter_check,
-                          additional_button=self.handle_combat_automation_confirm)
+                          additional=self.handle_combat_automation_confirm if not self.daily_auto_checked else None)
+            self.daily_auto_checked = True
             self.ui_ensure_index(fleet, letter=OCR_DAILY_FLEET_INDEX, prev_button=DAILY_FLEET_PREV,
                                  next_button=DAILY_FLEET_NEXT, fast=False, skip_first_screenshot=True)
             self.combat(emotion_reduce=False, save_get_items=False, expected_end=daily_end, balance_hp=False)

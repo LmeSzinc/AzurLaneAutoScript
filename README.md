@@ -25,7 +25,7 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)**, some featur
 
 ## 功能 Features
 
-- **主线图出击** 基本完成, 请在 `./campaign/campaign_main` 目录下查看支持的地图
+- **主线图出击** 在社区的帮助下已基本完成, 请在 `./campaign/campaign_main` 目录下查看支持的地图
 
 - **活动图出击** 支持开荒
 
@@ -57,14 +57,16 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)**, some featur
 
 详见 [中文安装教程](doc/Installation_cn.md)
 
-包含傻瓜式安装教程和高级用户安装教程.
+包含傻瓜式安装教程, 傻瓜式更新教程和高级用户安装教程.
 
 
 
 ## 使用注意事项 Note
 
 - 模拟器分辨率需要为 1280 x 720.
+- 需要关闭`开发者选项-输入-指针位置(屏幕叠加层显示当前触摸数据)`, 因为这会遮挡模拟器内的游戏画面.
 - 当修改完设置后, 需要点击 `开始` 来保存选项, 然后点击 `编辑` 返回主界面. 因为位于左侧的每一项功能都是分别保存和运行的.
+- 当你的图打到一半的时候, 需要手动打完或者手动撤退, 再启动 Alas.
 
 
 
@@ -119,17 +121,13 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)**, some featur
 - 如何适配一张新的地图 How to adapt to a new map
 - 如何支持其他服务器/语言 How to support other server/language
 
+更多文档, 请前往 `doc` 目录.
+
 
 
 ## 参考 Reference
 
-- (Not open source) http://asaiq2.lofter.com/
-
-  现成的碧蓝航线脚本, 完成度很高. 参考了主要的功能和设置.
-
-- https://github.com/Egoistically/ALAuto
-
-  (Archived) https://github.com/perryhuynh/azurlane-auto
-
-  EN服的碧蓝航线脚本, 模仿了脚本架构.
+- [code:azure](https://asaiq2.lofter.com/post/1f0a3d9a_1c636b95b), 浅. (Not open source) 现成的碧蓝航线脚本, 完成度很高. 参考了主要的功能和设置.
+- [ALAuto](https://github.com/Egoistically/ALAuto), Egoistically. EN服的碧蓝航线脚本, 模仿了脚本架构.
+- [ALAuto homg_trans_beta](https://github.com/asd111333/ALAuto/tree/homg_trans_beta), asd111333. 引入了单应性变换至海图识别模块中.
 

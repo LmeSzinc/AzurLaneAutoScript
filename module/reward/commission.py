@@ -6,16 +6,15 @@ import numpy as np
 from scipy import signal
 
 from module.base.decorator import Config
-from module.base.ocr import Ocr
 from module.base.timer import Timer
 from module.base.utils import area_offset, get_color, random_rectangle_vector
 from module.base.utils import color_similar_1d, random_rectangle_point
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
+from module.ocr.ocr import Ocr
 from module.reward.assets import *
 from module.ui.page import page_reward, page_commission, CAMPAIGN_CHECK
 from module.ui.ui import UI
-
 
 dictionary_cn = {
     'major_comm': ['自主训练', '对抗演习', '科研任务', '工具整备', '战术课程', '货物运输'],
@@ -36,10 +35,10 @@ dictionary_cn = {
 dictionary_en = {
     'major_comm': ['SelfTraining', 'DefenseExercise', 'ResearchMission', 'Prep', 'Class'],
     'daily_comm': ['Daily', 'Awakening', 'paily'],
-    'extra_drill': ['Sailing', 'Buoy', 'saingTraining', 'shortrangesailingTraining', 'MidrangesailingTraining', 'FrontierDefensePatrol'],
+    'extra_drill': ['Sailing', 'Buoy', 'saingTraining', 'shortrangesailingTraining', 'MidrangesailingTraining', 'FrontierDefensePatrol', 'MidangesailingTraining'],
     'extra_part': ['Protection', 'Forestpr', 'veinprot', 'veinprtectioncommision'],
     'extra_cube': ['FleetExercise', 'EscortExercise', 'FleetCargo', 'CombatExercise', 'FleetCargoTransport'],
-    'extra_oil': ['oil', 'smallscaleoiExtractionll', 'smal.scaleoiExtractionll', 'smalscaleoiExtraction'],
+    'extra_oil': ['oil', 'smallscaleoiExtractionll', 'smalscaleoiExtraction', 'smal.scaleoiExtractionl'],
     'extra_book': ['MerchantEscort', 'SmalIMerchantEscor'],
     'urgent_drill': ['CargoDefense', 'Destroy', 'CoastalDefensePatrol'],
     'urgent_part': ['Lavella', 'Maui', 'Rendova', 'banna', 'Mannelsland', 'AidingMamne'],
@@ -72,17 +71,17 @@ class Commission:
     def commission_parse(self):
         # Name
         # This is different from CN, EN has longer names
-        area = area_offset((176, 23, 420, 51), self.area[0:2])
+        area = area_offset((176, 23, 420, 53), self.area[0:2])
         button = Button(area=area, color=(), button=area, name='COMMISSION')
-        ocr = Ocr(button, lang='cnocr', back=(74, 97, 148), use_binary=False)
+        ocr = Ocr(button, lang='cnocr')
         self.button = button
         self.name = ocr.ocr(self.image)
         self.genre = self.commission_name_parse(self.name)
 
         # Duration time
-        area = area_offset((290, 74, 390, 92), self.area[0:2])
+        area = area_offset((290, 68, 390, 95), self.area[0:2])
         button = Button(area=area, color=(), button=area, name='DURATION')
-        ocr = Ocr(button, lang='stage', back=(57, 85, 132))
+        ocr = Ocr(button, alphabet='0123456789:')
         self.duration = self.parse_time(ocr.ocr(self.image))
 
         # Expire time
@@ -90,9 +89,9 @@ class Commission:
         button = Button(area=area, color=(189, 65, 66),
                         button=area, name='IS_URGENT')
         if button.appear_on(self.image):
-            area = area_offset((-49, 73, 45, 91), self.area[0:2])
+            area = area_offset((-49, 67, 45, 94), self.area[0:2])
             button = Button(area=area, color=(), button=area, name='EXPIRE')
-            ocr = Ocr(button, lang='stage', back=(189, 65, 66))
+            ocr = Ocr(button, alphabet='0123456789:')
             self.expire = self.parse_time(ocr.ocr(self.image))
         else:
             self.expire = None
@@ -109,17 +108,17 @@ class Commission:
     @Config.when(SERVER=None)
     def commission_parse(self):
         # Name
-        area = area_offset((176, 23, 420, 50), self.area[0:2])
+        area = area_offset((176, 23, 420, 53), self.area[0:2])
         button = Button(area=area, color=(), button=area, name='COMMISSION')
-        ocr = Ocr(button, lang='cnocr', back=(74, 97, 148), use_binary=False)
+        ocr = Ocr(button, lang='cnocr', threshold=256)
         self.button = button
         self.name = ocr.ocr(self.image)
         self.genre = self.commission_name_parse(self.name)
 
         # Duration time
-        area = area_offset((290, 74, 390, 92), self.area[0:2])
+        area = area_offset((290, 68, 390, 95), self.area[0:2])
         button = Button(area=area, color=(), button=area, name='DURATION')
-        ocr = Ocr(button, lang='stage', back=(57, 85, 132))
+        ocr = Ocr(button, alphabet='0123456789:')
         self.duration = self.parse_time(ocr.ocr(self.image))
 
         # Expire time
@@ -127,9 +126,9 @@ class Commission:
         button = Button(area=area, color=(189, 65, 66),
                         button=area, name='IS_URGENT')
         if button.appear_on(self.image):
-            area = area_offset((-49, 73, 45, 91), self.area[0:2])
+            area = area_offset((-49, 67, 45, 94), self.area[0:2])
             button = Button(area=area, color=(), button=area, name='EXPIRE')
-            ocr = Ocr(button, lang='stage', back=(189, 65, 66))
+            ocr = Ocr(button, alphabet='0123456789:')
             self.expire = self.parse_time(ocr.ocr(self.image))
         else:
             self.expire = None
@@ -489,7 +488,7 @@ class RewardCommission(UI, InfoHandler):
             comm (Commission):
         """
         logger.info(f'Start commission {comm}')
-        comm_timer = Timer(3)
+        comm_timer = Timer(10)
         while 1:
             if comm_timer.reached():
                 self.device.click(comm.button)
@@ -498,10 +497,10 @@ class RewardCommission(UI, InfoHandler):
             if self.handle_popup_confirm():
                 comm_timer.reset()
                 pass
-            if self.appear_then_click(COMMISSION_START, interval=3):
+            if self.appear_then_click(COMMISSION_ADVICE, interval=3):
                 comm_timer.reset()
                 pass
-            if self.appear_then_click(COMMISSION_ADVICE, interval=3):
+            if self.appear_then_click(COMMISSION_START, interval=3):
                 comm_timer.reset()
                 pass
 
@@ -582,7 +581,6 @@ class RewardCommission(UI, InfoHandler):
 
         self.ui_goto(page_commission)
 
-        self.handle_info_bar()  # info_bar appears when get ship in Launch Ceremony commissions
         self.commission_start()
 
         self.ui_goto(page_reward, skip_first_screenshot=True)

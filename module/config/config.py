@@ -159,7 +159,8 @@ class AzurLaneConfig:
     SERIAL = ''
     PACKAGE_NAME = ''
     COMMAND = ''
-    ASCREENCAP_FILEPATH = '/data/local/tmp/ascreencap'
+    ASCREENCAP_FILEPATH_LOCAL = './bin/ascreencap'
+    ASCREENCAP_FILEPATH_REMOTE = '/data/local/tmp/ascreencap'
     # Speed: aScreenCap >> uiautomator2 > ADB
     DEVICE_SCREENSHOT_METHOD = 'aScreenCap'  # ADB, uiautomator2, aScreenCap
     # Speed: uiautomator2 >> ADB
@@ -266,13 +267,35 @@ class AzurLaneConfig:
     RETIRE_SSR = False
 
     """
-    module.map.perspective
+    module.map_detection
     """
-    # Screen
     SCREEN_SIZE = (1280, 720)
     DETECTING_AREA = (123, 55, 1280, 720)
     SCREEN_CENTER = (SCREEN_SIZE[0] / 2, SCREEN_SIZE[1] / 2)
     MID_Y = SCREEN_CENTER[1]
+    DETECTION_BACKEND = 'homography'
+
+    """
+    module.map_detection.homography
+    """
+    HOMO_TILE = (140, 140)
+    HOMO_CENTER_OFFSET = (48, 48)
+    # [upper-left, upper-right, bottom-left, bottom-right]
+    HOMO_CORNER_OFFSET_LIST = [(-42, -42), (68, -42), (-42, 69), (69, 69)]
+
+    HOMO_CENTER_GOOD_THRESHOLD = 0.9
+    HOMO_CENTER_THRESHOLD = 0.8
+    HOMO_CORNER_THRESHOLD = 0.8
+    HOMO_RECTANGLE_THRESHOLD = 10
+
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 120
+    HOMO_EDGE_COLOR_RANGE = (0, 24)
+    # ((x, y), [upper-left, upper-right, bottom-left, bottom-right])
+    HOMO_STORAGE = None
+
+    """
+    module.map_detection.perspective
+    """
     # UI mask
     UI_MASK_FILE = './module/map/ui_mask.png'
     UI_MASK_PIL = Image.open(UI_MASK_FILE).convert('L')

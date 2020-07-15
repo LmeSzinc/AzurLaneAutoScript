@@ -21,24 +21,6 @@ def random_normal_distribution_int(a, b, n=5):
         return b
 
 
-def ensure_time(second, n=5, precision=3):
-    """Ensure to be time.
-
-    Args:
-        second (int, float, tuple): time.
-        n (int): The amount of numbers in simulation. Default to 5.
-        precision (int): Decimals.
-
-    Returns:
-
-    """
-    if isinstance(second, tuple):
-        multiply = 10 ** precision
-        return random_normal_distribution_int(second[0] * multiply, second[1] * multiply, n) / multiply
-    else:
-        return second
-
-
 def random_rectangle_point(area):
     """Choose a random point in an area.
 
@@ -92,6 +74,24 @@ def random_line_segments(p1, p2, n, random_range=(0, 0, 0, 0)):
             for index in range(0, n + 1)]
 
 
+def ensure_time(second, n=5, precision=3):
+    """Ensure to be time.
+
+    Args:
+        second (int, float, tuple): time.
+        n (int): The amount of numbers in simulation. Default to 5.
+        precision (int): Decimals.
+
+    Returns:
+        float:
+    """
+    if isinstance(second, tuple):
+        multiply = 10 ** precision
+        return random_normal_distribution_int(second[0] * multiply, second[1] * multiply, n) / multiply
+    else:
+        return second
+
+
 def area_offset(area, offset):
     """
 
@@ -127,7 +127,7 @@ def point_in_area(point, area, threshold=5):
         threshold: int
 
     Returns:
-        bool
+        bool:
     """
     return area[0] - threshold < point[0] < area[2] + threshold and area[1] - threshold < point[1] < area[3] + threshold
 
@@ -141,7 +141,7 @@ def area_in_area(area1, area2, threshold=5):
         threshold: int
 
     Returns:
-        bool
+        bool:
     """
     return area2[0] - threshold <= area1[0] \
            and area2[1] - threshold <= area1[1] \
@@ -158,12 +158,37 @@ def area_cross_area(area1, area2, threshold=5):
         threshold: int
 
     Returns:
-        bool
+        bool:
     """
     return point_in_area((area1[0], area1[1]), area2, threshold=threshold) \
            or point_in_area((area1[2], area1[1]), area2, threshold=threshold) \
            or point_in_area((area1[0], area1[3]), area2, threshold=threshold) \
            or point_in_area((area1[2], area1[3]), area2, threshold=threshold)
+
+
+def float2str(n, decimal=3):
+    """
+    Args:
+        n (float):
+        decimal (int):
+
+    Returns:
+        str:
+    """
+    return str(round(n, decimal)).ljust(decimal + 2, "0")
+
+
+def point2str(x, y, length=4):
+    """
+    Args:
+        x (int, float):
+        y (int, float):
+        length (int): Align length.
+
+    Returns:
+        str: String with numbers right aligned, such as '( 100,  80)'.
+    """
+    return '(%s, %s)' % (str(int(x)).rjust(length), str(int(y)).rjust(length))
 
 
 def node2location(node):
@@ -186,6 +211,20 @@ def location2node(location):
         str: Example: 'E3'
     """
     return chr(location[0] + 64 + 1) + str(location[1] + 1)
+
+
+def crop(image, area):
+    """Crop image like pillow, when using opencv / numpy
+
+    Args:
+        image (np.ndarray):
+        area:
+
+    Returns:
+        np.ndarray:
+    """
+    x1, y1, x2, y2 = area
+    return image[y1:y2, x1:x2]
 
 
 def get_color(image, area):
@@ -279,20 +318,19 @@ def color_similarity_2d(image, color):
     return image
 
 
-def extract_letters(image, letter=(255, 255, 255), back=(0, 0, 0)):
+def extract_letters(image, letter=(255, 255, 255), threshold=128):
     """Set letter color to black, set background color to white.
 
     Args:
         image: Shape (height, width, channel)
         letter (tuple): Letter RGB.
-        back (tuple): Background RGB.
+        threshold (int):
 
     Returns:
         np.ndarray: Shape (height, width)
     """
     image = color_similarity_2d(np.array(image), color=letter)
-    back = color_similarity(back, letter)
-    image = (255.0 - image) * (1 + back / 255)
+    image = (255.0 - image) * (255.0 / threshold)
     image[image > 255] = 255
     return image
 

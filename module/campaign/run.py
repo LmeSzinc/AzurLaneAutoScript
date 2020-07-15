@@ -3,16 +3,16 @@ import importlib
 import os
 from datetime import datetime
 
-from module.base.ocr import Digit
 from module.campaign.assets import *
 from module.campaign.campaign_base import CampaignBase
 from module.campaign.campaign_ui import CampaignUI
 from module.config.config import AzurLaneConfig
 from module.exception import ScriptEnd, CampaignNameError
 from module.logger import logger
+from module.ocr.ocr import Digit
 from module.reward.reward import Reward
 
-OCR_OIL = Digit(OCR_OIL, letter=(247, 247, 247), back=(33, 36, 49), limit=25000, name='OCR_OIL')
+OCR_OIL = Digit(OCR_OIL, name='OCR_OIL', letter=(247, 247, 247), threshold=128)
 
 
 class CampaignRun(CampaignUI, Reward):
