@@ -226,6 +226,7 @@ dic_true_eng_to_eng = {
     'Skybound_Oratorio': 'event_20200611_en',
     'Prelude_under_the_Moon': 'event_20200603_en',
     'Air_Raid_Drills_with_Essex': 'raid_20200624',
+    'Ink_Stained_Steel_Sakura_Rerun': 'event_20200716_en',
 
 }
 dic_eng_to_true_eng = {v: k for k, v in dic_true_eng_to_eng.items()}
