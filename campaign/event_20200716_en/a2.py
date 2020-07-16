@@ -5,8 +5,9 @@ from module.logger import logger
 from campaign.event_20200716_en.a1 import Config as ConfigBase
 
 MAP = CampaignMap('A2')
+MAP.camera_sight = (-4, -2, 4, 2)
 MAP.shape = 'F7'
-MAP.camera_data = ['C2', 'C5']
+# MAP.camera_data = ['C2', 'C5']
 MAP.camera_data_spawn_point = []
 MAP.map_data = """
     ++ ++ ME -- Me MB
