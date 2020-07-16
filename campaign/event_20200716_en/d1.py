@@ -4,8 +4,9 @@ from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
 
 MAP = CampaignMap('D1')
+MAP.camera_sight = (-4, -2, 4, 2)
 MAP.shape = 'J7'
-MAP.camera_data = ['D2', 'D5', 'G2', 'G5']
+# MAP.camera_data = ['D2', 'D5', 'G2', 'G5']
 MAP.camera_data_spawn_point = []
 MAP.map_data = """
     ++ ++ ++ MS -- ME ++ ++ ++ ++
