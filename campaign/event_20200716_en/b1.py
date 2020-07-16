@@ -66,6 +66,15 @@ class Config:
         'distance': 50,
         'wlen': 1000
     }
+    VANISH_POINT_RANGE = ((540, 740), (-4000, -2000))
+    DISTANCE_POINT_X_RANGE = ((-2000, -1000),)
+    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 50
+    EDGE_LINES_HOUGHLINES_THRESHOLD = 50
+    COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.
+    MID_DIFF_RANGE_H = (45, 70)
+    MID_DIFF_RANGE_V = (97 - 3, 97 + 3)
+    TRUST_EDGE_LINES = True
+    MAP_GRID_CENTER_TOLERANCE = 0.3
 
 
 class Campaign(CampaignBase):
