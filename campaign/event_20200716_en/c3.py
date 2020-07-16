@@ -2,7 +2,7 @@ from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-
+from campaign.event_20200716_en.c1 import Config as ConfigBase
 
 MAP = CampaignMap('C3')
 MAP.shape = 'G8'
@@ -47,7 +47,7 @@ A8, B8, C8, D8, E8, F8, G8, \
     = MAP.flatten()
 
 
-class Config:
+class Config(ConfigBase):
     pass
 
 

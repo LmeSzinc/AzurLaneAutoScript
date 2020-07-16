@@ -3,7 +3,6 @@ from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
 
-
 MAP = CampaignMap('D1')
 MAP.shape = 'J7'
 MAP.camera_data = ['D2', 'D5', 'G2', 'G5']
@@ -46,7 +45,28 @@ A7, B7, C7, D7, E7, F7, G7, H7, I7, J7, \
 
 
 class Config:
-    pass
+    SUBMARINE = 0
+
+    POOR_MAP_DATA = True
+    MAP_HAS_AMBUSH = False
+    MAP_HAS_FLEET_STEP = True
+    MAP_HAS_MOVABLE_ENEMY = True
+    MAP_HAS_SIREN = True
+    MAP_HAS_DYNAMIC_RED_BORDER = False
+    MAP_SIREN_COUNT = 3
+
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (100, 255 - 24),
+        'width': 1,
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 24, 255),
+        'prominence': 2,
+        'distance': 50,
+        'wlen': 1000
+    }
 
 
 class Campaign(CampaignBase):

@@ -2,7 +2,7 @@ from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-
+from campaign.event_20200716_en.b1 import Config as ConfigBase
 
 MAP = CampaignMap('B2')
 MAP.shape = 'I7'
@@ -44,8 +44,8 @@ A7, B7, C7, D7, E7, F7, G7, H7, I7, \
     = MAP.flatten()
 
 
-class Config:
-    pass
+class Config(ConfigBase):
+    MAP_SIREN_COUNT = 2
 
 
 class Campaign(CampaignBase):
