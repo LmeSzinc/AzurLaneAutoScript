@@ -382,6 +382,16 @@ class AzurLaneConfig:
     TACTICAL_NIGHT_RANGE = future_time_range('23:30-06:30')  # (Night start, night end), datetime.datetime instance.
 
     """
+    module.research
+    """
+    ENABLE_RESEARCH_REWARD = True
+    RESEARCH_FILTER_STRING = ''
+    RESEARCH_FILTER_PRESET = 'series_3_than_2'  # customized, series_3, ...
+    RESEARCH_USE_CUBE = True
+    RESEARCH_USE_COIN = True
+    RESEARCH_USE_PART = True
+
+    """
     C_7_2_mystery_farming
     """
     C72_BOSS_FLEET_STEP_ON_A3 = True
