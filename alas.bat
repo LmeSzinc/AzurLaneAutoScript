@@ -1,4 +1,3 @@
-@SETLOCAL EnableExtensions EnableDelayedExpansion
 @echo off
 pushd %~dp0
 title ALAS run
@@ -7,7 +6,6 @@ SET CMD=%SystemRoot%\system32\cmd.exe
 call :check_Permissions
 :check_Permissions
     echo Administrative permissions required. Detecting permissions...
-
     net session >nul 2>&1
     if %errorLevel% == 0 (
         echo Success: Administrative permissions confirmed.
@@ -21,27 +19,39 @@ call :check_Permissions
 :: -----------------------------------------------------------------------------
 :continue
 SET ALAS_PATH=%~dp0
-
+:: -----------------------------------------------------------------------------
+:: Legacy functions
 SET RENAME="python-3.7.6.amd64"
 if exist %RENAME% (
   rename %RENAME% toolkit
 )
-
 SET MOVE_P="adb_port.ini"
 if exist %MOVE_P% (
   move %MOVE_P% %ALAS_PATH%config
 )
+:: -----------------------------------------------------------------------------
 SET ADB=%ALAS_PATH%toolkit\Lib\site-packages\adbutils\binaries\adb.exe
 SET PYTHON=%ALAS_PATH%toolkit\python.exe
 SET GIT=%ALAS_PATH%toolkit\Git\cmd\git.exe
 SET LMESZINC=https://github.com/LmeSzinc/AzurLaneAutoScript.git
 SET WHOAMIKYO=https://github.com/whoamikyo/AzurLaneAutoScript.git
-SET ENV=https://github.com/whoamikyo/alas-env.git
+SET ALAS_ENV=https://github.com/whoamikyo/alas-env.git
+SET ALAS_ENV_GITEE=https://gitee.com/lmeszinc/alas-env.git
 SET GITEE_URL=https://gitee.com/lmeszinc/AzurLaneAutoScript.git
 SET ADB_P=%ALAS_PATH%config\adb_port.ini
 :: -----------------------------------------------------------------------------
-
+SET TOOLKIT_GIT=%~dp0toolkit\.git
+if not exist %TOOLKIT_GIT% (
+	echo You may need to update your dependencies
+	echo Press any key to update
+	pause > NUL
+	call :toolkit_choose
+) else (
+	call :adb_kill
+)
 :: -----------------------------------------------------------------------------
+:adb_kill
+cls
 call %ADB% kill-server > nul 2>&1
 set SCREENSHOT_FOLDER=%~dp0screenshots
 if not exist %SCREENSHOT_FOLDER% (
@@ -110,14 +120,12 @@ call :alas
 	echo  :: Type a 'number' and press ENTER
 	echo  :: Type 'exit' to quit
 	echo.
-
 	set /P menu=
 		if %menu%==1 call :en
 		if %menu%==2 call :cn
 		if %menu%==3 call :jp
 		if %menu%==4 call :choose_update_mode
 		if %menu%==exit call :EOF
-
 		else (
 		cls
 	echo.
@@ -199,7 +207,6 @@ call :alas
 	echo	:: Type a 'number' and press ENTER
 	echo	:: Type 'exit' to quit
 	echo.
-
 	set /P choice=
 		if %choice%==1 call :LmeSzinc
 		if %choice%==2 call :whoamikyo
@@ -207,7 +214,6 @@ call :alas
 		if %choice%==4 call :gitee
 		if %choice%==5 call :alas
 		if %choice%==exit call :EOF
-
 		else (
 		cls
 	echo.
@@ -238,7 +244,6 @@ call :alas
 	echo	:: Type a 'number' and press ENTER
 	echo	:: Type 'exit' to quit
 	echo.
-
 	set /P choice=
 		if %choice%==1 call :LmeSzinc_local
 		if %choice%==2 call :whoamikyo_local
@@ -364,37 +369,6 @@ rem         pause > NUL
 rem         call start_gitee
 rem 	)
 :: -----------------------------------------------------------------------------
-:toolkit
-	call %GIT% --version >nul
-	if %errorlevel% == 0 (
-	echo GIT Found in %GIT% Proceeding
-	echo Updating toolkit..
-	call cd toolkit
-	echo ## initializing toolkit..
-	call %GIT% init
-	call %GIT% config --global core.autocrlf false
-	echo ## Adding files
-	call %GIT% add -A
-	echo ## adding origin..
-	call %GIT% remote add origin %ALAS_ENV%
-	echo Fething...
-	call %GIT% fetch origin master
-	call %GIT% reset --hard origin/master
-	echo Pulling...
-	call %GIT% pull --ff-only origin master
-	call cd ..
-	echo DONE!
-	echo Press any key to proceed
-	pause > NUL
-	call :updater_menu
-	) else (
-		echo  :: Git not detected, maybe there was an installation issue
-		echo check if you have this directory:
-		echo AzurLaneAutoScript\toolkit\Git\cmd
-        pause > NUL
-        call :updater_menu
-	)
-:: -----------------------------------------------------------------------------
 rem Keep local changes
 :: -----------------------------------------------------------------------------
 :choose_update_mode
@@ -410,13 +384,11 @@ rem Keep local changes
 	echo	:: Type a 'number' and press ENTER
 	echo	:: Type 'exit' to quit
 	echo.
-
 	set /P choice=
 		if %choice%==1 call :updater_menu
 		if %choice%==2 call :update_menu_local
 		if %choice%==3 call :alas
 		if %choice%==exit call EOF
-
 		else (
 		cls
 	echo.
@@ -510,6 +482,101 @@ rem Keep local changes
         call :alas
 	)
 :: -----------------------------------------------------------------------------
+:toolkit_choose
+	cls
+	echo.
+	echo	:: This will add the toolkit repository for updating
+	echo.
+	echo	::Toolkit::
+	echo.
+	echo.
+	echo	1) https://github.com/whoamikyo/alas-env.git (Default Github)
+	echo	2) https://gitee.com/lmeszinc/alas-env.git (Recommended for CN users)
+	echo	3) Back to main menu
+	echo.
+	echo	:: Type a 'number' and press ENTER
+	echo	:: Type 'exit' to quit
+	echo.
+	set /P choice=
+		if %choice%==1 call :toolkit_github
+		if %choice%==2 call :toolkit_gitee
+		if %choice%==3 call :alas
+		if %choice%==exit call :EOF
+		else (
+		cls
+	echo.
+	echo  :: Incorrect Input Entered
+	echo.
+	echo     Please type a 'number' or 'exit'
+	echo     Press any key to return to the menu...
+	echo.
+		pause > NUL
+		call :alas
+		)
+:: -----------------------------------------------------------------------------
+:toolkit_github
+	call %GIT% --version >nul
+	if %errorlevel% == 0 (
+	echo GIT Found in %GIT% Proceeding
+	echo Updating toolkit..
+	call cd toolkit
+	echo ## initializing toolkit..
+	call %GIT% init
+	call %GIT% config --global core.autocrlf false
+	echo ## Adding files
+	echo ## This process may take a while
+	call %GIT% add -A
+	echo ## adding origin..
+	call %GIT% remote add origin %ALAS_ENV%
+	echo Fething...
+	call %GIT% fetch origin master
+	call %GIT% reset --hard origin/master
+	echo Pulling...
+	call %GIT% pull --ff-only origin master
+	call cd ..
+	echo DONE!
+	echo Press any key to proceed
+	pause > NUL
+	call :adb_kill
+	) else (
+		echo	:: Git not found, maybe there was an installation issue
+		echo	:: check if you have this directory %GIT%
+        pause > NUL
+        call :adb_kill
+	)
+:: -----------------------------------------------------------------------------
+:toolkit_gitee
+	call %GIT% --version >nul
+	if %errorlevel% == 0 (
+	echo GIT Found in %GIT% Proceeding
+	echo Updating toolkit..
+	call cd toolkit
+	echo ## initializing toolkit..
+	call %GIT% init
+	call %GIT% config --global core.autocrlf false
+	echo ## Adding files
+	echo ## This process may take a while
+	call %GIT% add -A
+	echo ## adding origin..
+	call %GIT% remote add origin %ALAS_ENV_GITEE%
+	echo Fething...
+	call %GIT% fetch origin master
+	call %GIT% reset --hard origin/master
+	echo Pulling...
+	call %GIT% pull --ff-only origin master
+	call cd ..
+	echo DONE!
+	echo Press any key to proceed
+	pause > NUL
+	call :adb_kill
+	) else (
+		echo	:: Git not found, maybe there was an installation issue
+		echo	:: check if you have this directory %GIT%
+        pause > NUL
+        call :adb_kill
+	)
+:: -----------------------------------------------------------------------------
+
 ::Add paths
 rem call :AddPath %ALAS_PATH%
 rem call :AddPath %ADB%
