@@ -10,7 +10,7 @@ from module.ui.page import *
 
 class UI(InfoHandler):
     ui_pages = [page_main, page_campaign, page_fleet, page_exercise, page_daily, page_event, page_sp, page_mission,
-                page_raid]
+                page_raid, page_reward]
     ui_pages_all = [page_main, page_campaign, page_fleet, page_exercise, page_daily, page_event, page_sp, page_mission,
                     page_raid, page_commission, page_event_list, page_tactical, page_reward, page_unknown]
     ui_current: Page

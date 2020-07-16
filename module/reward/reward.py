@@ -26,12 +26,7 @@ class Reward(RewardCommission, RewardTacticalClass, LoginHandler, Update):
         self.handle_commission_start()
         self.handle_tactical_class()
 
-        self.ui_click(
-            click_button=page_reward.links[page_main],
-            check_button=page_main.check_button,
-            appear_button=page_reward.check_button,
-            skip_first_screenshot=True)
-
+        self.ui_goto_main()
         self._reward_mission()
 
         self.config.REWARD_LAST_TIME = datetime.now()
