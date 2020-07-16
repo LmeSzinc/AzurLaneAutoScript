@@ -11,6 +11,11 @@ config/*.ini
 dev_tools/debug_tools
 .idea
 /screenshots
+/python
+/python-3.7.6.amd64
+/scripts
+/campaign/test/
+/toolkit
 
 # Created by .ignore support plugin (hsz.mobi)
 
@@ -234,3 +239,7 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+adb_port.txt
+adb_port.ini
+*.exe
+*.zip
