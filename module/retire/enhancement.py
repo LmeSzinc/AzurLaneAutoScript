@@ -1,8 +1,8 @@
 import numpy as np
 
+from module.base.timer import Timer
 from module.base.utils import color_bar_percentage
 from module.combat.assets import GET_ITEMS_1
-from module.exception import ScriptError
 from module.logger import logger
 from module.retire.assets import *
 from module.retire.dock import Dock, CARD_GRIDS
@@ -18,6 +18,11 @@ class Enhancement(Dock):
         return 10
 
     def _enhance_enter(self, favourite=False):
+        """
+        Pages:
+            in: page_dock
+            out: page_ship_enhance
+        """
         if favourite:
             self.dock_favourite_set(enable=True)
 
@@ -28,13 +33,23 @@ class Enhancement(Dock):
         self.equip_enter(CARD_GRIDS[(0, 0)], check_button=SHIP_DETAIL_CHECK, long_click=False)
 
     def _enhance_quit(self):
-        self.equip_quit(DOCK_FILTER)
+        """
+        Pages:
+            in: page_ship_enhance
+            out: page_dock
+        """
+        self.ui_back(DOCK_FILTER)
         self.dock_favourite_set(enable=False)
         self.dock_filter_enter()
         self.dock_filter_index_all_set(enable=True)
         self.dock_filter_confirm()
 
     def _enhance_confirm(self):
+        """
+        Pages:
+            in: EQUIP_CONFIRM
+            out: page_ship_enhance, without info_bar
+        """
         executed = False
         while 1:
             self.device.screenshot()
@@ -58,8 +73,11 @@ class Enhancement(Dock):
 
     def _enhance_choose(self, skip_first_screenshot=True):
         """
-        Page require: page_ship_enhance, without info_bar
+        Pages:
+            in: page_ship_enhance, without info_bar
+            out: EQUIP_CONFIRM
         """
+        end_activate_timer = Timer(2, count=2)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -68,6 +86,9 @@ class Enhancement(Dock):
 
             if self.appear(EQUIP_CONFIRM, offset=(30, 30)):
                 return True
+
+            if not end_activate_timer.reached_and_reset():
+                continue
 
             self.equip_sidebar_ensure(index=4)
             self.wait_until_appear(ENHANCE_RECOMMEND, offset=(5, 5), skip_first_screenshot=True)
@@ -94,10 +115,13 @@ class Enhancement(Dock):
 
             if self.appear_then_click(ENHANCE_RECOMMEND, offset=(5, 5), interval=2):
                 self.device.sleep(0.3)
-                self.appear_then_click(ENHANCE_CONFIRM)
+                self.device.click(ENHANCE_CONFIRM)
 
     def enhance_ships(self, favourite=None):
-        """Page require: page_dock
+        """
+        Pages:
+            in: page_dock
+            out: page_dock
 
         Args:
             favourite (bool):
@@ -125,6 +149,14 @@ class Enhancement(Dock):
         return total
 
     def _enhance_handler(self):
+        """
+        Pages:
+            in: RETIRE_APPEAR
+            out:
+
+        Returns:
+            int: enhance turn count
+        """
         self.ui_click(RETIRE_APPEAR_3, check_button=DOCK_FILTER, skip_first_screenshot=True)
         self.handle_dock_cards_loading()
 

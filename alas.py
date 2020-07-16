@@ -4,9 +4,9 @@ import time
 from datetime import datetime
 
 from module.config.config import AzurLaneConfig
-from module.logger import logger, pyw_name, log_file
-
 from module.device.device import Device
+from module.logger import logger, pyw_name, log_file
+from module.handler.sensitive_info import handle_sensitive_image, handle_sensitive_logs
 
 
 class AzurLaneAutoScript:
@@ -31,7 +31,8 @@ class AzurLaneAutoScript:
                 os.mkdir(folder)
                 for data in logger.screenshot_deque:
                     image_time = datetime.strftime(data['time'], '%Y-%m-%d_%H-%M-%S-%f')
-                    data['image'].save(f'{folder}/{image_time}.png')
+                    image = handle_sensitive_image(data['image'])
+                    image.save(f'{folder}/{image_time}.png')
                 with open(log_file, 'r') as f:
                     start = 0
                     for index, line in enumerate(f.readlines()):
@@ -39,6 +40,7 @@ class AzurLaneAutoScript:
                             start = index
                 with open(log_file, 'r') as f:
                     text = f.readlines()[start - 2:]
+                    text = handle_sensitive_logs(text)
                 with open(f'{folder}/log.txt', 'w') as f:
                     f.writelines(text)
 
@@ -57,22 +59,25 @@ class AzurLaneAutoScript:
         self.config.config_check()
 
     def update_check(self):
-        from module.updater import Update
+        from module.update import Update
         ad = Update(self.config)
         if self.config.UPDATE_CHECK:
-            ad.check_update()
+            ad.get_local_commit()
 
     def reward(self):
         for key, value in self.config.config['Reward'].items():
             print(f'{key} = {value}')
 
         logger.hr('Reward Settings saved')
-        self.reward_when_finished()
         self.update_check()
+        self.reward_when_finished()
 
     def emulator(self):
         for key, value in self.config.config['Emulator'].items():
-            print(f'{key} = {value}')
+            if key == 'github_token':
+                print(f'{key} = {"<sensitive_infomation>"}')
+            else:
+                print(f'{key} = {value}')
 
         logger.hr('Emulator saved')
         self.update_check()
@@ -82,6 +87,8 @@ class AzurLaneAutoScript:
             from module.reward.reward import Reward
             az = Reward(self.config, device=self.device)
             az.reward()
+        else:
+            az.device.screenshot()
 
     def main(self):
         """
@@ -96,26 +103,9 @@ class AzurLaneAutoScript:
         """
         Method to run daily missions.
         """
-        if self.config.ENABLE_DAILY_MISSION:
-            from module.daily.daily import Daily
-            az = Daily(self.config, device=self.device)
-            if not az.record_executed_since():
-                az.run()
-                az.record_save()
-
-        if self.config.ENABLE_HARD_CAMPAIGN:
-            from module.hard.hard import CampaignHard
-            az = CampaignHard(self.config, device=self.device)
-            if not az.record_executed_since():
-                az.run()
-                az.record_save()
-
-        if self.config.ENABLE_EXERCISE:
-            from module.exercise.exercise import Exercise
-            az = Exercise(self.config, device=self.device)
-            if not az.record_executed_since():
-                az.run()
-                az.record_save()
+        from module.reward.reward import Reward
+        az = Reward(self.config, device=self.device)
+        az.daily_wrapper_run()
 
         self.reward_when_finished()
 
@@ -126,6 +116,12 @@ class AzurLaneAutoScript:
         from module.campaign.run import CampaignRun
         az = CampaignRun(self.config, device=self.device)
         az.run(self.config.CAMPAIGN_EVENT, folder=self.config.EVENT_NAME)
+        self.reward_when_finished()
+
+    def raid(self):
+        from module.raid.run import RaidRun
+        az = RaidRun(self.config, device=self.device)
+        az.run()
         self.reward_when_finished()
 
     def event_daily_ab(self):
@@ -162,7 +158,6 @@ class AzurLaneAutoScript:
         az = Retirement(self.config, device=self.device)
         az.device.screenshot()
         az.retire_ships(amount=2000)
-
 
 # alas = AzurLaneAutoScript()
 # alas.reward()

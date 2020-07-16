@@ -30,6 +30,8 @@ class ModuleBase:
         Returns:
             bool:
         """
+        self.device.stuck_record_add(button)
+
         if interval:
             if button.name not in self.interval_timer:
                 self.interval_timer[button.name] = Timer(interval)
@@ -78,6 +80,25 @@ class ModuleBase:
             self.device.screenshot()
             if not self.appear(button, offset=offset):
                 break
+
+    def wait_until_stable(self, button, timer=Timer(0.3, count=1), skip_first_screenshot=True):
+        button._match_init = False
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if button._match_init:
+                if button.match(self.device.image, offset=(0, 0)):
+                    if timer.reached():
+                        break
+                else:
+                    button.load_color(self.device.image)
+                    timer.reset()
+            else:
+                button.load_color(self.device.image)
+                button._match_init = True
 
     def image_area(self, button):
         """Extract the area from image.

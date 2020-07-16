@@ -1,9 +1,9 @@
 import numpy as np
 
 from module.base.button import ButtonGrid
-from module.base.ocr import Digit
 from module.exercise.assets import *
 from module.logger import logger
+from module.ocr.ocr import Digit
 from module.ui.assets import BACK_ARROW
 from module.ui.ui import UI
 
@@ -15,6 +15,19 @@ OPPONENT = ButtonGrid(origin=(104, 77), delta=(244, 0), button_shape=(212, 304),
 MAX_LVL_SUM = 720
 PWR_FACTOR = 100
 
+
+class Level(Digit):
+    def pre_process(self, image):
+        image = super().pre_process(image)
+        letter_l = np.where(np.mean(image, axis=0) < 85)[0]
+        if len(letter_l):
+            letter_l = letter_l[0] + 22
+            image = image[:, letter_l:]
+
+        image = np.pad(image, ((5, 6), (0, 5)), mode='constant', constant_values=255)
+        return image.astype(np.uint8)
+
+
 class Opponent:
     def __init__(self, main_image, fleet_image, index):
         self.index = index
@@ -25,36 +38,25 @@ class Opponent:
         level = [str(x).rjust(3, ' ') for x in self.level]
         power = ['(' + str(x).rjust(5, ' ') + ')' for x in self.power]
         logger.attr(
-            'OPPONENT_%s' % (index),
+            'OPPONENT_%s' % index,
             ' '.join([power[0]] + level[:3] + ['|'] + [power[1]] + level[3:])
         )
 
     @staticmethod
-    def process(image):
-        # image[-6:, :] = 255
-        letter_l = np.where(np.mean(image, axis=0) < 85)[0]
-        if len(letter_l):
-            letter_l = letter_l[0] + 75
-            image = image[:, letter_l:]
-
-        image = np.pad(image, ((0, 0), (0, 5)), mode='constant', constant_values=255)
-
-        return image
-
-    def get_level(self, image):
+    def get_level(image):
         level = []
-        level += ButtonGrid(origin=(130, 259), delta=(168, 0), button_shape=(57, 21), grid_shape=(3, 1), name='LEVEL').buttons()
-        level += ButtonGrid(origin=(832, 259), delta=(168, 0), button_shape=(57, 21), grid_shape=(3, 1), name='LEVEL').buttons()
+        level += ButtonGrid(origin=(130, 259), delta=(168, 0), button_shape=(58, 21), grid_shape=(3, 1), name='LEVEL').buttons()
+        level += ButtonGrid(origin=(832, 259), delta=(168, 0), button_shape=(58, 21), grid_shape=(3, 1), name='LEVEL').buttons()
 
-        level = Digit(level, letter=(255, 255, 255), back=(102, 102, 102), limit=120, threshold=127, additional_preprocess=self.process, name='LEVEL')
+        level = Level(level, name='LEVEL', letter=(255, 255, 255), threshold=128)
         result = level.ocr(image)
         return result
 
     def get_power(self, image):
-        grids = ButtonGrid(origin=(222, 266), delta=(244, 30), button_shape=(72, 15), grid_shape=(4, 2), name='POWER')
+        grids = ButtonGrid(origin=(222, 257), delta=(244, 30), button_shape=(72, 28), grid_shape=(4, 2), name='POWER')
         power = [grids[self.index, 0], grids[self.index, 1]]
 
-        power = Digit(power, letter=(255, 223, 57), back=(74, 109, 156), threshold=221, limit=17000, name='POWER')
+        power = Digit(power, name='POWER', letter=(255, 223, 57), threshold=128)
         result = power.ocr(image)
         return result
 
@@ -71,6 +73,7 @@ class Opponent:
         else:
             priority = np.sum(self.level) / 6
         return priority
+
 
 class OpponentChoose(UI):
     main_image = None

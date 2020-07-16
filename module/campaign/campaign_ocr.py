@@ -2,12 +2,12 @@ import collections
 
 import numpy as np
 
-from module.base.ocr import Ocr
-from module.base.utils import extract_letters, area_offset
-from module.logger import logger
-from module.template.assets import TEMPLATE_STAGE_CLEAR, TEMPLATE_STAGE_PERCENT, Button
-from module.exception import CampaignNameError
 from module.base.decorator import Config
+from module.base.utils import extract_letters, area_offset
+from module.exception import CampaignNameError
+from module.logger import logger
+from module.ocr.ocr import Ocr
+from module.template.assets import TEMPLATE_STAGE_CLEAR, TEMPLATE_STAGE_PERCENT, Button
 
 
 def ensure_chapter_index(name):
@@ -30,7 +30,8 @@ def ensure_chapter_index(name):
 
 
 def ocr_result_process(result):
-    result = result.lower().replace('--', '-')
+    # The result will be like '7--2', because tha dash in game is '–' not '-'
+    result = result.lower().replace('--', '-').replace('--', '-')
     if result.startswith('-'):
         result = result[1:]
     if len(result) == 2 and result[0].isdigit():
@@ -62,7 +63,7 @@ class CampaignOcr:
     campaign_chapter = 0
 
     def campaign_match_multi(self, template, image, name_offset=(75, 9), name_size=(60, 16),
-                             name_letter=(255, 255, 255), name_back=(102, 102, 102)):
+                             name_letter=(255, 255, 255), name_thresh=128):
         """
         Args:
             template (Template):
@@ -70,7 +71,7 @@ class CampaignOcr:
             name_offset (tuple[int]):
             name_size (tuple[int]):
             name_letter (tuple[int]):
-            name_back (tuple[int]):
+            name_thresh (int):
 
         Returns:
             list[Button]: Stage clear buttons.
@@ -84,7 +85,7 @@ class CampaignOcr:
             button = tuple(np.append(point, point + template.image.shape[:2][::-1]))
             point = point + name_offset
             name = image.crop(np.append(point, point + name_size))
-            name = extract_letters(name, letter=name_letter, back=name_back)
+            name = extract_letters(name, letter=name_letter, threshold=name_thresh)
             stage = self._extract_stage_name(name)
             digits.append(
                 Button(area=area_offset(stage, point), color=color, button=button, name='stage'))
@@ -122,7 +123,8 @@ class CampaignOcr:
         if x_list is None or len(x_list) == 0:
             logger.warning('No interval between digit and text.')
 
-        return 0, 0, x_list[0] + 1 + x_skip, image.shape[0]
+        area = (0, 0, x_list[0] + 1 + x_skip, image.shape[0])
+        return np.array(area) + (-3, -7, 3, 7)
 
     @staticmethod
     def _name_separate(image):
@@ -162,7 +164,7 @@ class CampaignOcr:
         self.stage_entrance = {}
         buttons = self.campaign_extract_name_image(image)
 
-        ocr = Ocr(buttons, lang='stage', letter=(255, 255, 255), back=(102, 102, 102), threshold=120)
+        ocr = Ocr(buttons, name='campaign', letter=(255, 255, 255), threshold=128, alphabet='0123456789ABCDEF-')
         result = ocr.ocr(image)
         if not isinstance(result, list):
             result = [result]

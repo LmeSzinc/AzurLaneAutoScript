@@ -1,13 +1,18 @@
-from module.base.base import ModuleBase
 from module.base.button import Button
-from module.base.ocr import Ocr
 from module.base.timer import Timer
+from module.combat.assets import *
+from module.handler.assets import *
+from module.handler.info_handler import InfoHandler
 from module.logger import logger
+from module.ocr.ocr import Ocr
 from module.ui.page import *
 
 
-class UI(ModuleBase):
-    ui_pages = [page_main, page_campaign, page_fleet, page_exercise, page_daily, page_event, page_sp, page_mission]
+class UI(InfoHandler):
+    ui_pages = [page_main, page_campaign, page_fleet, page_exercise, page_daily, page_event, page_sp, page_mission,
+                page_raid]
+    ui_pages_all = [page_main, page_campaign, page_fleet, page_exercise, page_daily, page_event, page_sp, page_mission,
+                    page_raid, page_commission, page_event_list, page_tactical, page_reward, page_unknown]
     ui_current: Page
 
     def ui_page_appear(self, page):
@@ -17,12 +22,23 @@ class UI(ModuleBase):
         """
         return self.appear(page.check_button, offset=(20, 20))
 
-    def ui_click(self, click_button, check_button, appear_button=None, offset=(20, 20), retry_wait=10,
-                 skip_first_screenshot=False):
+    def ensure_button_execute(self, button, offset=0):
+        if isinstance(button, Button) and self.appear(button, offset=offset):
+            return True
+        elif callable(button) and button():
+            return True
+        else:
+            return False
+
+    def ui_click(self, click_button, check_button, appear_button=None, additional=None, confirm_wait=2,
+                 offset=(20, 20), retry_wait=10, skip_first_screenshot=False):
         """
         Args:
             click_button (Button):
             check_button (Button, callable):
+            appear_button (Button, callable):
+            additional (callable):
+            confirm_wait (int, float):
             offset (bool, int, tuple):
             retry_wait (int, float):
             skip_first_screenshot (bool):
@@ -30,22 +46,33 @@ class UI(ModuleBase):
         logger.hr('UI click')
         if appear_button is None:
             appear_button = click_button
+
         click_timer = Timer(retry_wait, count=retry_wait // 0.5)
+        confirm_wait = confirm_wait if additional is not None else 0
+        confirm_timer = Timer(confirm_wait, count=confirm_wait // 0.5).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
 
-            if isinstance(check_button, Button) and self.appear(check_button, offset=offset):
-                break
-            if callable(check_button) and check_button():
-                break
+            if (isinstance(check_button, Button) and self.appear(check_button, offset=offset)) \
+                    or (callable(check_button) and check_button()):
+                if confirm_timer.reached():
+                    break
+            else:
+                confirm_timer.reset()
 
-            if click_timer.reached() and self.appear(appear_button, offset=offset):
-                self.device.click(click_button)
-                click_timer.reset()
-                continue
+            if click_timer.reached():
+                if (isinstance(appear_button, Button) and self.appear(appear_button, offset=offset)) \
+                        or (callable(appear_button) and appear_button()):
+                    self.device.click(click_button)
+                    click_timer.reset()
+                    continue
+
+            if additional is not None:
+                if additional():
+                    continue
 
     def ui_get_current_page(self):
         self.device.screenshot()
@@ -58,11 +85,17 @@ class UI(ModuleBase):
         logger.info('Unknown ui page')
         if self.appear_then_click(GOTO_MAIN, offset=(20, 20)):
             logger.info('Goto page_main')
-            self.wait_until_appear(MAIN_CHECK)
-            self.ui_current = page_main
-            return page_main
+            self.ui_current = page_unknown
+            self.ui_goto(page_main, skip_first_screenshot=True)
 
-        logger.info('Unable to goto page_main')
+        if hasattr(self, 'ui_current'):
+            logger.warning(f'Unrecognized ui_current, using previous: {self.ui_current}')
+        else:
+            logger.info('Unable to goto page_main')
+            logger.warning('Starting from current page is not supported')
+            logger.warning(f'Supported page: {[str(page) for page in self.ui_pages]}')
+            logger.warning(f'Supported page: Any page with a "HOME" button on the upper-right')
+            exit(1)
 
     def ui_goto(self, destination, skip_first_screenshot=False):
         """
@@ -70,6 +103,8 @@ class UI(ModuleBase):
             destination (Page):
             skip_first_screenshot (bool):
         """
+        for page in self.ui_pages_all:
+            page.parent = None
         # Iter
         visited = [self.ui_current]
         visited = set(visited)
@@ -95,6 +130,11 @@ class UI(ModuleBase):
                 route.append(destination)
             else:
                 break
+            if len(route) > 30:
+                logger.warning('UI route too long')
+                logger.warning(str(route))
+                exit(1)
+
         route.reverse()
         if len(route) < 2:
             logger.warning('No page route found.')
@@ -102,10 +142,11 @@ class UI(ModuleBase):
 
         # Click
         for p1, p2 in zip(route[:-1], route[1:]):
-            # self.ui_click(source=p1, destination=p2)
+            additional = f'ui_additional_{str(p2)}'
             self.ui_click(
                 click_button=p1.links[p2],
                 check_button=p2.check_button,
+                additional=self.__getattribute__(additional) if hasattr(self, additional) else None,
                 offset=(20, 20),
                 skip_first_screenshot=skip_first_screenshot)
             self.ui_current = p2
@@ -198,6 +239,25 @@ class UI(ModuleBase):
 
         self.device.sleep(finish_sleep)
 
-    def ui_back(self, check_button, appear_button=None, offset=(20, 20), retry_wait=3, skip_first_screenshot=False):
+    def ui_back(self, check_button, appear_button=None, offset=(20, 20), retry_wait=10, skip_first_screenshot=False):
         return self.ui_click(click_button=BACK_ARROW, check_button=check_button, appear_button=appear_button,
                              offset=offset, retry_wait=retry_wait, skip_first_screenshot=skip_first_screenshot)
+
+    def ui_additional_page_main(self):
+        # Research popup, lost connection popup
+        if self.handle_popup_confirm('PAGE_MAIN'):
+            return True
+
+        # Daily reset
+        if self.appear_then_click(LOGIN_ANNOUNCE, offset=(30, 30), interval=5):
+            return True
+        if self.appear_then_click(GET_ITEMS_1, offset=(30, 30), interval=5):
+            return True
+        if self.appear_then_click(GET_SHIP, interval=5):
+            return True
+        if self.appear_then_click(LOGIN_RETURN_SIGN, offset=(30, 30), interval=5):
+            return True
+        if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=5):
+            return True
+
+        return False

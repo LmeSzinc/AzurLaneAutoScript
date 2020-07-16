@@ -113,4 +113,8 @@ class CampaignBase(Map):
                 return True
 
         logger.warning('Battle function exhausted.')
-        raise ScriptError('Battle function exhausted.')
+        if self.config.ENABLE_EXCEPTION:
+            raise ScriptError('Battle function exhausted.')
+        else:
+            logger.warning('ScriptError, Battle function exhausted, Withdrawing because enable_exception = no')
+            self.withdraw()

@@ -12,7 +12,18 @@ class Template:
         """
         self.server = server.server
         self.file = file[self.server] if isinstance(file, dict) else file
-        self.image = np.array(Image.open(self.file))
+        self._image = None
+
+    @property
+    def image(self):
+        if self._image is None:
+            self._image = np.array(Image.open(self.file))
+
+        return self._image
+
+    @image.setter
+    def image(self, value):
+        self._image = value
 
     def match(self, image, similarity=0.85):
         """
@@ -27,6 +38,19 @@ class Template:
         _, sim, _, _ = cv2.minMaxLoc(res)
         # print(self.file, sim)
         return sim > similarity
+
+    def match_result(self, image):
+        """
+        Args:
+            image:
+
+        Returns:
+            bool: If matches.
+        """
+        res = cv2.matchTemplate(np.array(image), self.image, cv2.TM_CCOEFF_NORMED)
+        _, sim, _, point = cv2.minMaxLoc(res)
+        # print(self.file, sim)
+        return sim, point
 
     def match_multi(self, image, similarity=0.85):
         """

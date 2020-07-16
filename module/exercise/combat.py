@@ -3,7 +3,6 @@ from module.exercise.assets import *
 from module.exercise.equipment import ExerciseEquipment
 from module.exercise.hp_daemon import HpDaemon
 from module.exercise.opponent import OpponentChoose, OPPONENT
-from module.ui.assets import BACK_ARROW
 
 
 class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
@@ -90,7 +89,7 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
                 continue
 
             # End
-            if end and self.appear(BACK_ARROW):
+            if end and self._in_exercise() or self.appear(BATTLE_PREPARATION):
                 logger.hr('Combat end')
                 break
 
@@ -102,8 +101,8 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
             index (int): From left to right. 0 to 3.
         """
         logger.hr('Opponent: %s' % str(index))
-        opponent_timer = Timer(1)
-        preparation_timer = Timer(1)
+        opponent_timer = Timer(5)
+        preparation_timer = Timer(5)
 
         while 1:
             self.device.screenshot()
@@ -124,20 +123,7 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
 
     def _preparation_quit(self):
         logger.info('Preparation quit')
-        quit_timer = Timer(1)
-
-        while 1:
-            self.device.screenshot()
-
-            # End
-            if self._in_exercise():
-                break
-
-            if quit_timer.reached() and self.appear(BACK_ARROW):
-                # self.device.sleep(1)
-                self.device.click(BACK_ARROW)
-                quit_timer.reset()
-                continue
+        self.ui_back(check_button=self._in_exercise, appear_button=BATTLE_PREPARATION)
 
     def _combat(self, opponent):
         """
