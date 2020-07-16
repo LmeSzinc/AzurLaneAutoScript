@@ -48,7 +48,7 @@ class Grids(Perspective):
             np.where(self.horizontal.distance_to_point(self.config.SCREEN_CENTER) >= 0)[0][0] - 1
         )
         logger.info(f'           Center grid: {self.center_grid}')
-        self.center_offset = self.grids[self.center_grid].screen_point_to_grid_location(self.config.SCREEN_CENTER)
+        self.center_offset = self.grids[self.center_grid].screen_to_grid(self.config.SCREEN_CENTER)
         self.shape = np.max(list(self.grids.keys()), axis=0)
 
         # self.save_error_image()

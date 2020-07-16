@@ -1,10 +1,10 @@
-from module.base.ocr import Digit
 from module.exercise.assets import *
 from module.exercise.combat import ExerciseCombat
 from module.logger import logger
+from module.ocr.ocr import Digit
 from module.ui.ui import page_exercise
 
-OCR_EXERCISE_REMAIN = Digit(OCR_EXERCISE_REMAIN, letter=(173, 247, 74), back=(66, 89, 140), limit=10)
+OCR_EXERCISE_REMAIN = Digit(OCR_EXERCISE_REMAIN, letter=(173, 247, 74), threshold=128)
 RECORD_OPTION = ('DailyRecord', 'exercise')
 RECORD_SINCE = (0, 12, 18,)
 
@@ -26,6 +26,7 @@ class Exercise(ExerciseCombat):
                 if success:
                     return success
             self._new_opponent()
+            self._opponent_fleet_check_all()
         return False
 
     def run(self):

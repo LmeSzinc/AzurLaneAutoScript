@@ -6,62 +6,36 @@ from module.logger import logger
 from module.map.grids import Grids, Grid
 from module.map.map_base import CampaignMap, location2node, location_ensure
 
-param_x = np.array([4.41071252e+00, -3.90656142e-03, 1.95849683e+02])
-param_y_positive = np.array([4.88226475e+00, -2.79093133e-03, 1.39520005e+02])
-param_y_negative = np.array([4.58377745e+00, 3.13441976e-04, 1.39028669e+02])
-
-
-def swipe_multiply_1d(x, a, b, c):
-    return a / (x + b) + c
-
-
-def swipe_multiply_2d(x, y):
-    if abs(x) > 0.3:
-        x = swipe_multiply_1d(abs(x), *param_x) * x
-    else:
-        x = x * 200
-
-    if abs(y) > 0.3:
-        y = swipe_multiply_1d(y, *param_y_positive) * y if y > 0 else swipe_multiply_1d(-y, *param_y_negative) * y
-    else:
-        y = y * 140
-
-    return x, y
-
 
 class Camera(InfoHandler):
     map: CampaignMap
     camera = (0, 0)
 
-    def _map_swipe(self, vector, drop_threshold=0.1):
+    def _map_swipe(self, vector):
         """
         Args:
             vector(tuple, np.ndarray): float
-            drop_threshold(float): swipe distance lower than this will be drop, because a closing swipe will be treat
-                as a click in game.
+
         Returns:
             bool: if camera moved.
         """
-        x, y = vector
-        if abs(x) > drop_threshold or abs(y) > drop_threshold:
+        vector = np.array(vector)
+        name = 'MAP_SWIPE_' + '_'.join([str(int(round(x))) for x in vector])
+        if np.any(np.abs(vector) > self.config.MAP_SWIPE_DROP):
             # Linear fit
             # x = x * 200
             # y = y * 140
-            if self.config.CAMERA_SWIPE_MULTIPLY_X is not None and self.config.CAMERA_SWIPE_MULTIPLY_Y is not None:
-                if callable(self.config.CAMERA_SWIPE_MULTIPLY_X):
-                    x = self.config.CAMERA_SWIPE_MULTIPLY_X(x)
-                else:
-                    x = x * self.config.CAMERA_SWIPE_MULTIPLY_X
-                if callable(self.config.CAMERA_SWIPE_MULTIPLY_Y):
-                    y = self.config.CAMERA_SWIPE_MULTIPLY_X(y)
-                else:
-                    y = y * self.config.CAMERA_SWIPE_MULTIPLY_Y
-            else:
-                # Function fit
-                x, y = swipe_multiply_2d(x, y)
 
-            vector = (-int(x), -int(y))
-            self.device.swipe(vector)
+            # Map grid fit
+            grid = self.grids[self.grids.center_grid]
+            distance = np.array([
+                np.linalg.norm(grid.grid_to_screen([0.5, 0]) - grid.grid_to_screen([-0.5, 0])),
+                np.linalg.norm(grid.grid_to_screen([0, 0.5]) - grid.grid_to_screen([0, -0.5])),
+            ]) * self.config.MAP_SWIPE_MULTIPLY
+            vector = distance * vector
+
+            vector = -vector
+            self.device.swipe(vector, name=name)
             self.device.sleep(0.3)
             self.update()
         else:

@@ -25,10 +25,6 @@ class Control(Connection):
     def time(self):
         return time.time()
 
-    @staticmethod
-    def _point2str(x, y):
-        return '(%s,%s)' % (str(int(x)).rjust(4), str(int(y)).rjust(4))
-
     def click_record_check(self, button):
         """
         Args:
@@ -55,7 +51,7 @@ class Control(Connection):
         self.click_record_check(button)
         x, y = random_rectangle_point(button.button)
         logger.info(
-            'Click %s @ %s' % (self._point2str(x, y), button)
+            'Click %s @ %s' % (point2str(x, y), button)
         )
         method = self.config.DEVICE_CONTROL_METHOD
         if method == 'uiautomator2':
@@ -92,24 +88,27 @@ class Control(Connection):
         x, y = random_rectangle_point(button.button)
         duration = ensure_time(duration)
         logger.info(
-            'Click %s @ %s, %s' % (self._point2str(x, y), button, duration)
+            'Click %s @ %s, %s' % (point2str(x, y), button, duration)
         )
         self.device.long_click(x, y, duration=duration)
 
-    def swipe(self, vector, box=(123, 159, 1193, 628), random_range=(0, 0, 0, 0), padding=15, duration=(0.1, 0.2)):
+    def swipe(self, vector, box=(123, 159, 1193, 628), random_range=(0, 0, 0, 0), padding=15, duration=(0.1, 0.2),
+              name='SWIPE'):
         """Method to swipe.
 
         Args:
-            box(tuple): Swipe in box (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
-            vector(tuple): (x, y).
-            random_range(tuple): (x_min, y_min, x_max, y_max).
-            padding(int):
-            duration(int, float, tuple):
+            box (tuple): Swipe in box (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
+            vector (tuple): (x, y).
+            random_range (tuple): (x_min, y_min, x_max, y_max).
+            padding (int):
+            duration (int, float, tuple):
+            name (str): Swipe name
         """
+        self.click_record_check(name)
         duration = ensure_time(duration)
         start, end = random_rectangle_vector(vector, box, random_range=random_range, padding=padding)
         logger.info(
-            'Swipe %s -> %s, %s' % (self._point2str(*start), self._point2str(*end), duration)
+            'Swipe %s -> %s, %s' % (point2str(*start), point2str(*end), duration)
         )
         fx, fy, tx, ty = np.append(start, end).tolist()
         self.device.swipe(fx, fy, tx, ty, duration=duration)
@@ -144,13 +143,13 @@ class Control(Connection):
             x, y, second = data
             if index == 0:
                 self.device.touch.down(x, y)
-                logger.info(self._point2str(x, y) + ' down')
+                logger.info(point2str(x, y) + ' down')
             elif index - length == -1:
                 self.device.touch.up(x, y)
-                logger.info(self._point2str(x, y) + ' up')
+                logger.info(point2str(x, y) + ' up')
             else:
                 self.device.touch.move(x, y)
-                logger.info(self._point2str(x, y) + ' move')
+                logger.info(point2str(x, y) + ' move')
             self.sleep(second)
 
     def drag(self, p1, p2, segments=1, shake=(0, 15), point_random=(-10, -10, 10, 10), shake_random=(-5, -5, 5, 5),

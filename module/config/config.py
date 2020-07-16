@@ -12,6 +12,7 @@ import module.config.server as server
 from module.base.timer import *
 from module.config.dictionary import *
 from module.logger import logger
+from module.config.update import get_config
 
 
 class AzurLaneConfig:
@@ -23,6 +24,9 @@ class AzurLaneConfig:
     start_time = datetime.now()
 
     UPDATE_CHECK = True
+    UPDATE_METHOD = 'api'  # web, api
+    UPDATE_PROXY = ''
+    GITHUB_TOKEN = ''
     SERVER = server.server
     logger.attr('Server', SERVER)
 
@@ -132,6 +136,7 @@ class AzurLaneConfig:
     EVENT_NAME = ''
     CAMPAIGN_EVENT = ''
     EVENT_NAME_AB = ''
+    ENABLE_EVENT_NAME_AB = True
 
     """
     module.combat.emotion
@@ -154,7 +159,8 @@ class AzurLaneConfig:
     SERIAL = ''
     PACKAGE_NAME = ''
     COMMAND = ''
-    ASCREENCAP_FILEPATH = '/data/local/tmp/ascreencap'
+    ASCREENCAP_FILEPATH_LOCAL = './bin/ascreencap'
+    ASCREENCAP_FILEPATH_REMOTE = '/data/local/tmp/ascreencap'
     # Speed: aScreenCap >> uiautomator2 > ADB
     DEVICE_SCREENSHOT_METHOD = 'aScreenCap'  # ADB, uiautomator2, aScreenCap
     # Speed: uiautomator2 >> ADB
@@ -169,14 +175,17 @@ class AzurLaneConfig:
     module.daily
     """
     ENABLE_DAILY_MISSION = True
-    FLEET_DAILY = 3
+    # Order of FLEET_DAILY
+    # 0 商船护送, 1 海域突进, 2 斩首行动, 3 战术研修, 4 破交作战
+    # 0 Escort Mission, 1 Advance Mission, 2 Fierce Assault, 3 Tactical Training, 4 Supply Line Disruption
+    FLEET_DAILY = [3, 3, 3, 3, 0]
     FLEET_DAILY_EQUIPMENT = [1, 1, 1, 1, 1, 1]
     DAILY_CHOOSE = {
-        4: 1,  # 商船护送
-        5: 1,  # 海域突进
-        1: 2,  # 战术研修, 1航空 2炮击 3雷击
-        2: 1,  # 斩首行动
-        3: 1,  # 破交作战
+        4: 1,  # 商船护送, Escort Mission
+        5: 1,  # 海域突进, Advance Mission
+        1: 2,  # 战术研修, 1航空 2炮击 3雷击. Tactical Training, 1 Aviation, 2 Firepower, 3 Torpedo
+        2: 1,  # 斩首行动, Fierce Assault
+        3: 1,  # 破交作战, Supply Line Disruption
     }
 
     """
@@ -197,6 +206,18 @@ class AzurLaneConfig:
     LOW_HP_CONFIRM_WAIT = 1.0
     OPPONENT_CHALLENGE_TRIAL = 1
     EXERCISE_FLEET_EQUIPMENT = [1, 1, 1, 1, 1, 1]
+
+    """
+    module.raid
+    """
+    RAID_NAME = ''
+    RAID_MODE = 'hard'  # hard, normal, easy
+    RAID_USE_TICKET = False
+    ENABLE_RAID_DAILY = False
+    RAID_DAILY_NAME = ''
+    RAID_HARD = True
+    RAID_NORMAL = True
+    RAID_EASY = True
 
     """
     error_log
@@ -224,8 +245,12 @@ class AzurLaneConfig:
 
     POOR_MAP_DATA = False
     FLEET_BOSS = 2
-    CAMERA_SWIPE_MULTIPLY_X = 200
-    CAMERA_SWIPE_MULTIPLY_Y = 140
+    # Convert map grid distance to swipe distance
+    # Usually range from 1/0.62 to 1/0.61
+    MAP_SWIPE_MULTIPLY = 1.626
+    # Swipe distance in map grid lower than this will be dropped,
+    # because a closing swipe will be treat as a click in game.
+    MAP_SWIPE_DROP = 0.15
 
     """
     module.retire
@@ -242,13 +267,35 @@ class AzurLaneConfig:
     RETIRE_SSR = False
 
     """
-    module.map.perspective
+    module.map_detection
     """
-    # Screen
     SCREEN_SIZE = (1280, 720)
     DETECTING_AREA = (123, 55, 1280, 720)
     SCREEN_CENTER = (SCREEN_SIZE[0] / 2, SCREEN_SIZE[1] / 2)
     MID_Y = SCREEN_CENTER[1]
+    DETECTION_BACKEND = 'homography'
+
+    """
+    module.map_detection.homography
+    """
+    HOMO_TILE = (140, 140)
+    HOMO_CENTER_OFFSET = (48, 48)
+    # [upper-left, upper-right, bottom-left, bottom-right]
+    HOMO_CORNER_OFFSET_LIST = [(-42, -42), (68, -42), (-42, 69), (69, 69)]
+
+    HOMO_CENTER_GOOD_THRESHOLD = 0.9
+    HOMO_CENTER_THRESHOLD = 0.8
+    HOMO_CORNER_THRESHOLD = 0.8
+    HOMO_RECTANGLE_THRESHOLD = 10
+
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 120
+    HOMO_EDGE_COLOR_RANGE = (0, 24)
+    # ((x, y), [upper-left, upper-right, bottom-left, bottom-right])
+    HOMO_STORAGE = None
+
+    """
+    module.map_detection.perspective
+    """
     # UI mask
     UI_MASK_FILE = './module/map/ui_mask.png'
     UI_MASK_PIL = Image.open(UI_MASK_FILE).convert('L')
@@ -299,6 +346,7 @@ class AzurLaneConfig:
     ENABLE_REWARD = True
     REWARD_INTERVAL = 20
     REWARD_LAST_TIME = datetime.now()
+    ENABLE_DAILY_REWARD = False
     ENABLE_OIL_REWARD = True
     ENABLE_COIN_REWARD = True
     ENABLE_MISSION_REWARD = True
@@ -379,9 +427,9 @@ class AzurLaneConfig:
 
         return config
 
-    def load_config_file(self, name='main'):
+    def load_config_file(self, name='alas'):
         self.CONFIG_FILE = f'./config/{name}.ini'
-        self.config.read_file(codecs.open(self.CONFIG_FILE, "r", "utf8"))
+        self.config = get_config(ini_name=name)
         self.load_from_config(self.config)
         self.config_check()
 
@@ -415,10 +463,13 @@ class AzurLaneConfig:
         self.DEVICE_SCREENSHOT_METHOD = option['device_screenshot_method']
         self.DEVICE_CONTROL_METHOD = option['device_control_method']
         self.COMBAT_SCREENSHOT_INTERVAL = float(option['combat_screenshot_interval'])
+        # UpdateCheck
+        self.UPDATE_CHECK = to_bool(option['enable_update_check'])
+        self.UPDATE_METHOD = option['update_method']
+        self.UPDATE_PROXY = option['update_proxy']
+        self.GITHUB_TOKEN = option['github_token']
 
         option = config['Setting']
-        #UpdateCheck
-        self.UPDATE_CHECK = to_bool(option['enable_update_check'])
         # Stop condition
         self.ENABLE_STOP_CONDITION = to_bool(option['enable_stop_condition'])
         self.ENABLE_EXCEPTION = to_bool(option['enable_exception'])
@@ -476,7 +527,8 @@ class AzurLaneConfig:
         # Reward
         option = config['Reward']
         self.REWARD_INTERVAL = int(option['reward_interval'])
-        for attr in ['enable_reward', 'enable_oil_reward', 'enable_coin_reward', 'enable_mission_reward', 'enable_commission_reward', 'enable_tactical_reward']:
+        for attr in ['enable_reward', 'enable_oil_reward', 'enable_coin_reward', 'enable_mission_reward',
+                     'enable_commission_reward', 'enable_tactical_reward', 'enable_daily_reward']:
             self.__setattr__(attr.upper(), to_bool(option[attr]))
         if not option['commission_time_limit'].isdigit():
             self.COMMISSION_TIME_LIMIT = future_time(option['commission_time_limit'])
@@ -502,7 +554,10 @@ class AzurLaneConfig:
         self.ENABLE_DAILY_MISSION = to_bool(option['enable_daily_mission'])
         for n in [1, 2, 4, 5]:
             self.DAILY_CHOOSE[n] = dic_daily[option[f'daily_mission_{n}']]
-        self.FLEET_DAILY = int(option['daily_fleet'])
+        if option['daily_fleet'].isdigit():
+            self.FLEET_DAILY = [int(option['daily_fleet'])] * 4 + [0]
+        else:
+            self.FLEET_DAILY = to_list(option['daily_fleet']) + [0]
         self.FLEET_DAILY_EQUIPMENT = to_list(option['daily_equipment'])
         # Hard
         self.ENABLE_HARD_CAMPAIGN = to_bool(option['enable_hard_campaign'])
@@ -517,6 +572,16 @@ class AzurLaneConfig:
         self.LOW_HP_THRESHOLD = float(option['exercise_hp_threshold'])
         self.LOW_HP_CONFIRM_WAIT = float(option['exercise_low_hp_confirm'])
         self.EXERCISE_FLEET_EQUIPMENT = to_list(option['exercise_equipment'])
+        # Event bonus
+        # option = config['Event_daily_ab']
+        self.ENABLE_EVENT_NAME_AB = to_bool(option['enable_event_ab'])
+        self.EVENT_NAME_AB = option['event_name_ab']
+        # Raid daily
+        self.ENABLE_RAID_DAILY = to_bool(option['enable_raid_daily'])
+        self.RAID_DAILY_NAME = option['raid_daily_name']
+        self.RAID_HARD = to_bool(option['raid_hard'])
+        self.RAID_NORMAL = to_bool(option['raid_normal'])
+        self.RAID_EASY = to_bool(option['raid_easy'])
 
         # Event
         option = config['Event']
@@ -526,9 +591,15 @@ class AzurLaneConfig:
         else:
             self.CAMPAIGN_EVENT = option['event_stage']
 
+        # Raid
+        option = config['Raid']
+        self.RAID_NAME = option['raid_name']
+        self.RAID_MODE = option['raid_mode']
+        self.RAID_USE_TICKET = to_bool(option['raid_use_ticket'])
+
         # Event_daily_ab
-        option = config['Event_daily_ab']
-        self.EVENT_NAME_AB = option['event_name_ab']
+        # option = config['Event_daily_ab']
+        # self.EVENT_NAME_AB = option['event_name_ab']
 
         # Semi_auto
         option = config['Semi_auto']

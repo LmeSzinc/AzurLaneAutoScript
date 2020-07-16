@@ -147,7 +147,7 @@ class BookGroup:
         return self[0]
 
 
-class RewardTacticalClass(UI, InfoHandler):
+class RewardTacticalClass(UI):
     def _tactical_animation_running(self):
         """
         Returns:

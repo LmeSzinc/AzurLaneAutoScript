@@ -14,6 +14,10 @@ from module.device.connection import Connection
 from module.logger import logger
 
 
+class AscreencapError(Exception):
+    pass
+
+
 class Screenshot(Connection):
     _screenshot_method = 0
     _screenshot_method_fixed = False
@@ -63,12 +67,12 @@ class Screenshot(Connection):
             if self._bytepointer >= len(byte_array):
                 text = 'Repositioning byte pointer failed, corrupted aScreenCap data received'
                 logger.warning(text)
-                exit(1)
+                raise AscreencapError(text)
         return byte_array[self._bytepointer:]
 
     def _screenshot_ascreencap(self):
         raw_compressed_data = self._reposition_byte_pointer(
-            self.adb_exec_out([self.config.ASCREENCAP_FILEPATH, '--pack', '2', '--stdout'], serial=self.serial))
+            self.adb_exec_out([self.config.ASCREENCAP_FILEPATH_REMOTE, '--pack', '2', '--stdout'], serial=self.serial))
 
         compressed_data_header = np.frombuffer(raw_compressed_data[0:20], dtype=np.uint32)
         if compressed_data_header[0] != 828001602:
@@ -77,7 +81,7 @@ class Screenshot(Connection):
                 text = f'aScreenCap header verification failure, corrupted image received. ' \
                     f'HEADER IN HEX = {compressed_data_header.tobytes().hex()}'
                 logger.warning(text)
-                exit(1)
+                raise AscreencapError(text)
 
         uncompressed_data_size = compressed_data_header[1].item()
         data = lz4.block.decompress(raw_compressed_data[20:], uncompressed_size=uncompressed_data_size)
@@ -86,7 +90,7 @@ class Screenshot(Connection):
         image = Image.fromarray(image)
         return image
 
-    @retry()
+    @retry(wait_fixed=5000, stop_max_attempt_number=10)
     # @timer
     def screenshot(self):
         """
@@ -98,7 +102,14 @@ class Screenshot(Connection):
         method = self.config.DEVICE_SCREENSHOT_METHOD
 
         if method == 'aScreenCap':
-            self.image = self._screenshot_ascreencap()
+            try:
+                self.image = self._screenshot_ascreencap()
+            except AscreencapError:
+                logger.warning('Error when calling aScreenCap, re-initializing')
+                self._ascreencap_init()
+                self._bytepointer = 0
+                self.image = self._screenshot_ascreencap()
+
         elif method == 'uiautomator2':
             self.image = self._screenshot_uiautomator2()
         else:

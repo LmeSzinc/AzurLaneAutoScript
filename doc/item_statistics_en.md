@@ -1,5 +1,11 @@
 # How to do statistics on item drop rate
 
+
+> **DEPRECATED**
+>
+> This document uses cnocr==1.0.0, need old versions of Alas to run it.
+
+
 This document will show how to use `dev_tools/item_statistics.py`
 
 ## Enable statistics in alas
