@@ -104,7 +104,6 @@ class MapData:
         for head in header.strip().split('\n'):
             lines.append(head.strip())
         lines.append('')
-        lines.append('')
 
         # Map
         lines.append(f'MAP = CampaignMap(\'{self.chapter_name}\')')
