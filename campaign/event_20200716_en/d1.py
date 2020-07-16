@@ -10,12 +10,12 @@ MAP.shape = 'J7'
 MAP.camera_data_spawn_point = []
 MAP.map_data = """
     ++ ++ ++ MS -- ME ++ ++ ++ ++
-    ++ ++ ++ -- ME -- -- ++ ++ ++
-    ++ ++ ++ MS -- Me -- MS ++ ++
+    ++ ++ ++ -- ME __ -- ++ ++ ++
+    ++ ++ ++ __ -- ME -- -- ++ ++
     ++ ++ ++ Me ++ ++ ME -- ++ ++
-    -- MB -- -- ME Me -- -- -- SP
-    -- -- Me -- -- -- -- ME -- SP
-    ++ ++ -- Me MS ME ME ++ ME --
+    -- MB -- -- ME ME -- ME -- SP
+    -- -- Me -- -- -- -- __ -- SP
+    ++ ++ -- Me MS ME Me ++ ME --
 """
 MAP.weight_data = """
     10 10 10 10 10 10 10 10 10 10

@@ -12,9 +12,9 @@ MAP.camera_data_spawn_point = []
 MAP.map_data = """
     ++ ++ ++ ++ ++ -- -- ++ ++
     ++ ++ ++ ++ ++ MB MB ++ ++
-    -- ME -- ME Me -- MS ++ ++
-    MS -- -- -- -- MS -- Me --
-    ++ ++ ME -- ME -- ME -- ME
+    -- ME Me ME -- -- -- ++ ++
+    MS -- __ -- -- MS -- Me --
+    ++ ++ ME -- ME -- ME __ ME
     ++ ++ -- -- -- ME -- ME --
     ++ ++ SP SP SP ++ ++ -- MS
 """
