@@ -110,6 +110,7 @@ call %ADB% connect %ADB_PORT%
 		if %menu%==8 GOTO adbss
 		if %menu%==9 GOTO u2ss
 		if %menu%==10 GOTO adbc
+		if %menu%==11 GOTO adbcap
 		if %menu%==exit GOTO EOF
 		
 		else (
@@ -278,17 +279,33 @@ goto adbss
 :adbc
 rem create output file name and path from parameters and date and time
 ::loop
+call %ADB% -s %ADB_PORT% shell mkdir /sdcard/dcim/Screenshot 2>nul
 :LOOP
 FOR /f %%a IN ('WMIC OS GET LocalDateTime ^| FIND "."') DO SET DTS=%%a  
 SET DATETIME=%DTS:~0,8%-%DTS:~8,6%-%DTS:~9,2%
 SET SCREENCAP_FILE_NAME=screenshot-%DATETIME%.png
 SET SCREENCAP_FILE_PATH=%SCREENSHOT_FOLDER%\%SCREENCAP_FILE_NAME%
 ::calling adb shell screencap, pull and remove the previos file
-call %ADB% -s %ADB_PORT% shell mkdir /sdcard/dcim/Screenshot 2>nul
 call %ADB% -s %ADB_PORT% shell screencap -p /sdcard/dcim/Screenshot/%SCREENCAP_FILE_NAME%
 call %ADB% -s %ADB_PORT% pull /sdcard/dcim/Screenshot/%SCREENCAP_FILE_NAME% %SCREENCAP_FILE_PATH%
 call %ADB% -s %ADB_PORT% shell rm /sdcard/dcim/Screenshot/%SCREENCAP_FILE_NAME%
 goto:LOOP
+:: -----------------------------------------------------------------------------
+:adbcap
+call %ADB% -s %ADB_PORT% shell mkdir /sdcard/dcim/Screenshot 2>nul
+:begin
+REM Set the Screenshot Capture Date and Time as found on the Android Device
+FOR /f %%a IN ('WMIC OS GET LocalDateTime ^| FIND "."') DO SET DTS=%%a  
+SET DATETIME=%DTS:~0,8%-%DTS:~8,6%-%DTS:~9,2%
+SET SCREENCAP_FILE_NAME=screenshot-%DATETIME%.png
+SET SCREENCAP_FILE_PATH=%SCREENSHOT_FOLDER%\%capname%
+REM Use ADB to take a screenshot within the newly created directory as above
+call %ADB% -s %ADB_PORT% shell screencap -p /sdcard/dcim/Screenshot/%SCREENCAP_FILE_NAME%
+call %ADB% -s %ADB_PORT% pull /sdcard/dcim/Screenshot/%SCREENCAP_FILE_NAME% %SCREENCAP_FILE_PATH%
+call %ADB% -s %ADB_PORT% shell rm /sdcard/dcim/Screenshot/%SCREENCAP_FILE_NAME%
+set /p DUMMY=Please Press the "Enter" key to continue with the infinite loop...
+Goto begin
+:: -----------------------------------------------------------------------------
 
 :EOF
 exit
