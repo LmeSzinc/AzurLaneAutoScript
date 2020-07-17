@@ -538,7 +538,8 @@ class AzurLaneConfig:
         option = config['Reward']
         self.REWARD_INTERVAL = int(option['reward_interval'])
         for attr in ['enable_reward', 'enable_oil_reward', 'enable_coin_reward', 'enable_mission_reward',
-                     'enable_commission_reward', 'enable_tactical_reward', 'enable_daily_reward']:
+                     'enable_commission_reward', 'enable_tactical_reward', 'enable_daily_reward',
+                     'enable_research_reward']:
             self.__setattr__(attr.upper(), to_bool(option[attr]))
         if not option['commission_time_limit'].isdigit():
             self.COMMISSION_TIME_LIMIT = future_time(option['commission_time_limit'])
@@ -551,6 +552,10 @@ class AzurLaneConfig:
         self.TACTICAL_EXP_FIRST = to_bool(option['tactical_exp_first'])
         self.TACTICAL_BOOK_TIER_NIGHT = int(option['tactical_book_tier_night'])
         self.TACTICAL_EXP_FIRST_NIGHT = to_bool(option['tactical_exp_first_night'])
+        for item in ['coin', 'cube', 'part']:
+            self.__setattr__(f'RESEARCH_USE_{item}'.upper(), to_bool(option[f'RESEARCH_USE_{item}'.lower()]))
+        self.RESEARCH_FILTER_PRESET = option['research_filter_preset']
+        self.RESEARCH_FILTER_STRING = option['research_filter_string']
 
         option = config['Main']
         self.CAMPAIGN_MODE = option['campaign_mode']

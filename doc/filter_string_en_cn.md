@@ -115,6 +115,22 @@ Q1 > Q2 > T3 > T4 > Q4 > C6 > T6 > C8 > C12 > G1.5 > D2.5 > G2.5 > D5 > Q0.5 > G
 
 - `reset`, 举例 `x-xx > reset > x-xx`. 当查找到此处时, Alas 会刷新科研列表. 如果今天的刷新已经用过了, 什么都不做.
 
+## Use your filter string in Alas 在Alas中使用过滤字符串
+
+Open config/alas.ini , search `research_filter_string`, and paste filter string there, like this:
+
+Choose "research_filter_prefix" to be "customized" in Alas GUI, and press "run" to save settings.
+
+打开  config/alas.ini , 找到 `research_filter_string`, 并在那粘贴过滤字符串, 像这样:
+
+在 Alas GUI 中把 "科研项目选择预设" 设置为 "自定义", 并点击 "运行" 保存设置.
+
+```
+research_filter_string = S3-DR-0.5 > S3-0.5 > Q0.5 > cheapest
+```
+
+
+
 ## Some pre-written filter string 一些预制的过滤字符串
 
 - `series_3_fastest` Do series 3 ASAP, whatever it costs. 快速完成三期科研, 不惜一切代价.

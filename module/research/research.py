@@ -1,6 +1,5 @@
 import numpy as np
 
-from module.base.timer import Timer
 from module.base.utils import get_color
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3
 from module.logger import logger
@@ -11,9 +10,9 @@ from module.ui.ui import page_research, page_main, RESEARCH_CHECK
 RESEARCH_ENTRANCE = [ENTRANCE_1, ENTRANCE_2, ENTRANCE_3, ENTRANCE_4, ENTRANCE_5]
 
 
-class ResearchReward(ResearchSelector):
+class RewardResearch(ResearchSelector):
     def ensure_research_stable(self):
-        self.wait_until_stable(STABLE_CHECKER, timer=Timer(1, count=3))
+        self.wait_until_stable(STABLE_CHECKER)
 
     def _in_research(self):
         return self.appear(RESEARCH_CHECK, offset=(20, 20))
@@ -63,7 +62,7 @@ class ResearchReward(ResearchSelector):
 
             # End
             if executed and self._in_research():
-                self.ensure_no_info_bar()
+                self.ensure_no_info_bar()  # Refresh success
                 self.ensure_research_stable()
                 break
 
@@ -125,6 +124,7 @@ class ResearchReward(ResearchSelector):
 
             # End
             if self.appear(RESEARCH_STOP):
+                self.ensure_no_info_bar()  # Research started
                 break
 
     def research_receive(self, skip_first_screenshot=True, save_get_items=False):
@@ -182,7 +182,7 @@ class ResearchReward(ResearchSelector):
 
         self.config.SCREEN_SHOT_SAVE_FOLDER_FOLDER = backup
 
-    def research_start(self):
+    def research_reward(self):
         """
         Receive research reward and start new research.
         Unable to detect research is running.
@@ -198,7 +198,7 @@ class ResearchReward(ResearchSelector):
         index = self.research_select()
         self.research_project_start(index)
 
-    def handle_research_start(self):
+    def handle_research_reward(self):
         """
         Pages:
             in: page_reward
@@ -215,7 +215,7 @@ class ResearchReward(ResearchSelector):
         self.ui_goto(page_research, skip_first_screenshot=True)
         self.ensure_research_stable()
 
-        self.research_start()
+        self.research_reward()
 
         self.ui_goto(page_main, skip_first_screenshot=True)
         return True

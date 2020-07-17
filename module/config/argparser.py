@@ -9,6 +9,7 @@ from alas import AzurLaneAutoScript
 from module.config.dictionary import dic_chi_to_eng, dic_eng_to_chi
 from module.config.update import get_config
 from module.logger import pyw_name
+from module.research.preset import DICT_FILTER_PRESET
 
 try:
     if sys.stdout.encoding != 'UTF-8':
@@ -46,6 +47,7 @@ def main(ini_name=''):
     event_latest = sorted([f for f in event_folder], reverse=True)[0]
     event_folder = [dic_eng_to_chi.get(f, f) for f in event_folder][::-1]
     event_latest = dic_eng_to_chi.get(event_latest, event_latest)
+    research_preset = [dic_eng_to_chi.get(f, f) for f in ['customized'] + list(DICT_FILTER_PRESET.keys())]
 
     raid_latest = '复刻特别演习埃塞克斯级'
 
@@ -185,7 +187,7 @@ def main(ini_name=''):
     reward_parser = subs.add_parser('收菜设置')
     reward_condition = reward_parser.add_argument_group('触发条件', '需要运行一次来保存选项, 运行后会进入挂机收菜模式')
     reward_condition.add_argument('--启用收获', default=default('--启用收获'), choices=['是', '否'])
-    reward_condition.add_argument('--收菜间隔', default=default('--收菜间隔'), choices=['20', '30', '60'], help='每隔多少分钟触发收菜')
+    reward_condition.add_argument('--收菜间隔', default=default('--收菜间隔'), help='每隔多少分钟触发收菜')
     reward_condition.add_argument('--启用每日收获', default=default('--启用每日收获'), choices=['是', '否'], help='将每日任务困难演习作为收获的一部分来运行')
 
     reward_oil = reward_parser.add_argument_group('石油物资', '')
@@ -232,6 +234,15 @@ def main(ini_name=''):
     reward_tactical.add_argument('--技能书优先使用同类型', default=default('--技能书优先使用同类型'), choices=['是', '否'], help='选是, 优先使用有150%加成的\n选否, 优先使用同稀有度的技能书')
     reward_tactical.add_argument('--技能书夜间稀有度', default=default('--技能书夜间稀有度'), choices=['3', '2', '1'])
     reward_tactical.add_argument('--技能书夜间优先使用同类型', default=default('--技能书夜间优先使用同类型'), choices=['是', '否'])
+
+    reward_research = reward_parser.add_argument_group('科研项目', '科研预设选择为自定义时, 须先阅读 doc/filter_string_en_cn.md')
+    reward_research.add_argument('--启用科研项目收获', default=default('--启用科研项目收获'), choices=['是', '否'])
+    research_input = reward_research.add_argument_group('科研投入', '')
+    research_input.add_argument('--科研项目使用魔方', default=default('--科研项目使用魔方'), choices=['是', '否'])
+    research_input.add_argument('--科研项目使用金币', default=default('--科研项目使用金币'), choices=['是', '否'])
+    research_input.add_argument('--科研项目使用部件', default=default('--科研项目使用部件'), choices=['是', '否'])
+    research_output = reward_research.add_argument_group('科研产出', '')
+    research_output.add_argument('--科研项目选择预设', default=default('--科研项目选择预设'), choices=research_preset)
 
     # ==========设备设置==========
     emulator_parser = subs.add_parser('设备设置')
