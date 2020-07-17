@@ -1,5 +1,6 @@
 import numpy as np
 
+from module.base.timer import Timer
 from module.base.utils import get_color
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3
 from module.logger import logger
@@ -108,14 +109,17 @@ class RewardResearch(ResearchSelector):
 
     def research_project_start(self, index, skip_first_screenshot=True):
         logger.info(f'Research project: {index}')
+        click_timer = Timer(10)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
 
-            if self.appear(RESEARCH_CHECK, interval=10):
+            # Don't use interval here, RESEARCH_CHECK already appeared 5 seconds ago
+            if click_timer.reached() and self.appear(RESEARCH_CHECK, offset=(20, 20)):
                 self.device.click(RESEARCH_ENTRANCE[index])
+                click_timer.reset()
                 continue
             if self.appear_then_click(RESEARCH_START, interval=10):
                 continue
