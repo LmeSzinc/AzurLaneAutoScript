@@ -23,7 +23,7 @@ from module.logger import logger
 Set your folder here
 Examples: xxx/campaign_7_2
 """
-IMAGE_FOLDER = 'screenshots/SkyboundOratorio/d1'
+IMAGE_FOLDER = 'screenshots/xx'
 STATUS_ITEMS_INTERVAL = 10
 # 0.9 is sometimes unable to distinguish between equipment of different rarities
 TEMPLATE_THRESHOLD = 0.95

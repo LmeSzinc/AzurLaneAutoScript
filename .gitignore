@@ -14,7 +14,7 @@ config/*.ini
 dev_tools/debug_tools
 .idea
 
-/screenshots
+/screenshots/*
 !/screenshots/item_template_archive
 
 /python

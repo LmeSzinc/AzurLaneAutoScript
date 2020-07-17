@@ -4,7 +4,7 @@ This document will show how to use `dev_tools/item_statistics.py`
 
 ## Enable statistics in alas
 
-In alas GUI, 
+In alas GUI,
 
 - set `enable_drop_screenshot` to `yes`, if enabled, alas will add a 1s sleep before screenshot, to avoid capture the flash. There's a flash light when item shows up.
 - set `drop_screenshot_folder` to be the folder you want to save. It is recommended to save it in SSD.
@@ -34,7 +34,7 @@ After few hours or few days of running, you will get a folder structure like:
         status
 ```
 
-Screenshot are named after millesecond timestamp.
+Screenshots are named by the unix timestamp, to the millisecond.
 
 ## Prepare a new environment
 
@@ -65,19 +65,6 @@ pip install tqdm
 ```
 
 ## Extract item_template
-
-Copy folder `dev_tools\item_template` to the map folder such as `<your_folder>\campaign_7_2`.
-
-Change the folder in line 24
-
-These template are named in chinese, rename them in English.
-
->**How to a name template image**
->
->You should use their full name, such as "138.6mm单装炮Mle1929T3", instead of short name or nickname, such as "DD_gun".
->
->If you have same item with different image, use names like `torpedo_part.png`, `torpedo_part_2.png`, they will a classified as torpedo_part
-
 Uncomment the part for item extract in dev_tools/item_statistics.py, and run, you will have some new item templates. Here's an example log:
 
 ```
@@ -88,7 +75,10 @@ Uncomment the part for item extract in dev_tools/item_statistics.py, and run, yo
 100%|██████████| 12668/12668 [10:33<00:00, 19.99it/s]
 ```
 
-Rename those new templates.
+If a item matches a template in the archive, it will automatically pull that template into the map's template directory. If it does not, it will assign it a number and create a copy in both the map template directory and in the archive. **Rename the templates in `screenshots/item_template_archive`, ideally using the naming convention described [here](doc/item_template_names.md):**
+
+
+**Rerun the template extractor to make the map template names match the archive.**
 
 If you find some items haven't been extracted,  try use line 140, instead of 141.
 
