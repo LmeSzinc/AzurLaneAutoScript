@@ -294,13 +294,13 @@ Examples: 159022xxxxxxx (int)
 """
 These code is for template extracting
 """
-from tqdm import tqdm
-for ts in tqdm([int(f.split('.')[0]) for f in os.listdir(GET_ITEMS_FOLDER)]):
-    try:
-        items = Items(ts)
-    except Exception:
-        logger.warning(f'Error image: {ts}')
-        continue
+# from tqdm import tqdm
+# for ts in tqdm([int(f.split('.')[0]) for f in os.listdir(GET_ITEMS_FOLDER)]):
+#     try:
+#         items = Items(ts)
+#     except Exception:
+#         logger.warning(f'Error image: {ts}')
+#         continue
 
 """
 These code is for final statistic
