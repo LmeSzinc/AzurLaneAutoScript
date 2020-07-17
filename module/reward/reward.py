@@ -59,14 +59,6 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, LoginHandler
         reward = False
         exit_timer = Timer(1, count=3).start()
         click_timer = Timer(1)
-        btn = []
-        if self.config.ENABLE_COMMISSION_REWARD:
-            btn.append(REWARD_1)
-        if self.config.ENABLE_OIL_REWARD:
-            btn.append(OIL)
-        if self.config.ENABLE_COIN_REWARD:
-            btn.append(COIN)
-
         while 1:
             self.device.screenshot()
 
@@ -83,7 +75,6 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, LoginHandler
                     (self.config.ENABLE_OIL_REWARD and self.appear_then_click(OIL, interval=60))
                     or (self.config.ENABLE_COIN_REWARD and self.appear_then_click(COIN, interval=60))
                     or (self.config.ENABLE_COMMISSION_REWARD and self.appear_then_click(REWARD_1, interval=1))
-                    or (self.config.ENABLE_REWARD and self.appear_then_click(REWARD_3, interval=1))
             ):
                 exit_timer.reset()
                 click_timer.reset()
