@@ -54,6 +54,7 @@ class Config:
     MAP_HAS_SIREN = True
     MAP_HAS_DYNAMIC_RED_BORDER = False
     MAP_SIREN_COUNT = 1
+    MAP_HAS_PT_BONUS = True
 
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (100, 255 - 24),
@@ -82,6 +83,9 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
+        if self.clear_siren():
+            return True
+
         return self.battle_default()
 
     def battle_5(self):

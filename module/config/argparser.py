@@ -11,6 +11,7 @@ from module.config.update import get_config
 from module.logger import pyw_name
 from module.research.preset import DICT_FILTER_PRESET
 
+
 try:
     if sys.stdout.encoding != 'UTF-8':
         sys.stdout = codecs.getwriter('utf-8')(sys.stdout.buffer, 'strict')
