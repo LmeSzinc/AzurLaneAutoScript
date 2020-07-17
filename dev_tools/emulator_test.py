@@ -34,10 +34,9 @@ class EmulatorChecker(Device):
 
 class Config:
     SERIAL = '127.0.0.1:5555'
-<<<<<<< HEAD
-=======
+
     # SERIAL = '127.0.0.1:62001'
->>>>>>> b5f97b328a548bc956bffb65bea27b4f114894a8
+
     # SERIAL = '127.0.0.1:7555'
     # SERIAL = 'emulator-5554'
     # SERIAL = '127.0.0.1:21503'

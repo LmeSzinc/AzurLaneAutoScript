@@ -99,43 +99,6 @@ class ItemTemplate:
         image = Image.fromarray(self.image)
         image.save(f'{TEMPLATE_ARCHIVE_FOLDER}/{name}.png')
 
-"""
-Ideal workflow:
-Run dev_tools/item_statistics on a directory. it generates templates and stores a copy
-in both the map and in the archive
-
-At your leisure, you can rename the templates in either directory.
-
-On the next pass, the script scans for matching templates in both directories and
-attempts to match the names accordingly.
-
-Assumptions:
-Templates are essentially unique.
-
-
-Pseudocode:
-
-instantiate map list and master list
-    for each entry in map list:
-        if name is int:
-            check master list for match
-            if match and match name is not int:
-                use master name
-
-
-for item in image:
-    match item to map list
-    if item in map list:
-        if name is number:
-            search master list
-
-    if item not in map list:
-        if item in master list:
-            use master list name, duplicate entry in map list
-        if item not in master list
-            add new template (numbered) to both lists
-"""
-
 class ItemTemplateGroup:
     def __init__(self):
         # all templates

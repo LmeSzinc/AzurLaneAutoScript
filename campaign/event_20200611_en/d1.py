@@ -37,7 +37,7 @@ MAP.spawn_data = [
 
 class Config:
     SUBMARINE = 0
-    FLEET_BOSS = 1
+    FLEET_BOSS = 2
 
     POOR_MAP_DATA = True
     MAP_HAS_AMBUSH = False
@@ -69,16 +69,16 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
-        if self.fleet_2.clear_siren():
+        if self.clear_siren():
             return True
-        if self.fleet_2.clear_enemy(scale=(3,)):
+        if self.clear_enemy(scale=(1,)):
             return True
-        if self.fleet_2.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
+        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
             return True
-        if self.fleet_2.clear_enemy(genre=['light', 'main']):
+        if self.clear_enemy(genre=['light', 'main', 'enemy']):
             return True
 
         return self.battle_default()
 
     def battle_5(self):
-        return self.fleet_1.clear_boss()
+        return self.fleet_2.brute_clear_boss()
