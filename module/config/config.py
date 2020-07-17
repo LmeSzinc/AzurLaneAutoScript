@@ -236,6 +236,7 @@ class AzurLaneConfig:
     MAP_HAS_DYNAMIC_RED_BORDER = False
     MAP_HAS_MAP_STORY = False  # event_20200521_cn(穹顶下的圣咏曲) adds after-combat story.
     MAP_HAS_WALL = False  # event_20200521_cn(穹顶下的圣咏曲) adds wall between grids.
+    MAP_HAS_PT_BONUS = False  # 100% PT bonus if success to catch enemy else 50%. Retreat get 0%.
     MAP_SIREN_MOVE_WAIT = 1.5  # The enemy moving takes about 1.2 ~ 1.5s.
     MAP_SIREN_TEMPLATE = ['1', '2', '3', 'DD']
     MAP_SIREN_COUNT = 0
