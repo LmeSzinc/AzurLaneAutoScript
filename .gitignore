@@ -1,6 +1,3 @@
-run.sh
-drop_screenshots/*
-
 ### AzurLaneAutoScript
 log
 config/*.ini
