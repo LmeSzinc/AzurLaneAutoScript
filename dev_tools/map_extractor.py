@@ -104,7 +104,6 @@ class MapData:
         for head in header.strip().split('\n'):
             lines.append(head.strip())
         lines.append('')
-        lines.append('')
 
         # Map
         lines.append(f'MAP = CampaignMap(\'{self.chapter_name}\')')
@@ -214,13 +213,17 @@ class ChapterTemplate:
         print('')
 
         print('<<< SELECT MAP >>>')
+
+        def get_event_id(map_id):
+            return (map_id - 2100000) // 20 + 21000 if map_id // 10000 == 210 else map_id // 10000
+
         if select:
-            event_id = maps[0].map_id // 10000
+            event_id = get_event_id(maps[0].map_id)
             new = []
             for map_id, data in self.data.items():
                 if not isinstance(map_id, int) or data['chapter_name'] == 'EXTRA':
                     continue
-                if data['id'] // 10000 == event_id:
+                if get_event_id(data['id']) == event_id:
                     data = MapData(data)
                     print(f'Selected: {data}')
                     new.append(data)

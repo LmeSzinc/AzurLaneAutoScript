@@ -2,18 +2,19 @@ from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-
+from campaign.event_20200716_en.a1 import Config as ConfigBase
 
 MAP = CampaignMap('A4')
+MAP.camera_sight = (-4, -2, 4, 2)
 MAP.shape = 'I7'
-MAP.camera_data = ['D2', 'D5', 'F2', 'F5']
+# MAP.camera_data = ['D2', 'D5', 'F2', 'F5']
 MAP.camera_data_spawn_point = []
 MAP.map_data = """
     ++ ++ ++ ++ ++ -- -- ++ ++
     ++ ++ ++ ++ ++ MB MB ++ ++
-    -- ME -- ME Me -- -- ++ ++
-    MS -- -- -- -- MS -- Me --
-    ++ ++ ME -- ME -- ME -- ME
+    -- ME Me ME -- -- -- ++ ++
+    MS -- __ -- -- MS -- Me --
+    ++ ++ ME -- ME -- ME __ ME
     ++ ++ -- -- -- ME -- ME --
     ++ ++ SP SP SP ++ ++ -- MS
 """
@@ -44,7 +45,7 @@ A7, B7, C7, D7, E7, F7, G7, H7, I7, \
     = MAP.flatten()
 
 
-class Config:
+class Config(ConfigBase):
     pass
 
 
@@ -52,6 +53,9 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
+        if self.clear_siren():
+            return True
+
         return self.battle_default()
 
     def battle_4(self):

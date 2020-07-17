@@ -3,18 +3,18 @@ from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
 
-
 MAP = CampaignMap('B1')
+MAP.camera_sight = (-4, -2, 4, 2)
 MAP.shape = 'J7'
-MAP.camera_data = ['D2', 'D5', 'G2', 'G5']
+# MAP.camera_data = ['D2', 'D5', 'G2', 'G5']
 MAP.camera_data_spawn_point = []
 MAP.map_data = """
     ++ ++ ++ MS -- ME ++ ++ ++ ++
-    ++ ++ ++ -- ME -- -- ++ ++ ++
-    ++ ++ ++ -- -- ME -- -- ++ ++
+    ++ ++ ++ -- ME __ -- ++ ++ ++
+    ++ ++ ++ __ -- ME -- -- ++ ++
     ++ ++ ++ Me ++ ++ ME -- ++ ++
     -- MB -- -- ME ME -- ME -- SP
-    -- -- Me -- -- -- -- -- -- SP
+    -- -- Me -- -- -- -- __ -- SP
     ++ ++ -- Me MS ME Me ++ ME --
 """
 MAP.weight_data = """
@@ -45,13 +45,47 @@ A7, B7, C7, D7, E7, F7, G7, H7, I7, J7, \
 
 
 class Config:
-    pass
+    SUBMARINE = 0
+
+    POOR_MAP_DATA = True
+    MAP_HAS_AMBUSH = False
+    MAP_HAS_FLEET_STEP = True
+    MAP_HAS_MOVABLE_ENEMY = True
+    MAP_HAS_SIREN = True
+    MAP_HAS_DYNAMIC_RED_BORDER = False
+    MAP_SIREN_COUNT = 1
+    MAP_HAS_PT_BONUS = True
+
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (100, 255 - 24),
+        'width': 1,
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 24, 255),
+        'prominence': 2,
+        'distance': 50,
+        'wlen': 1000
+    }
+    VANISH_POINT_RANGE = ((540, 740), (-4000, -2000))
+    DISTANCE_POINT_X_RANGE = ((-2000, -1000),)
+    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 50
+    EDGE_LINES_HOUGHLINES_THRESHOLD = 50
+    COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.
+    MID_DIFF_RANGE_H = (45, 70)
+    MID_DIFF_RANGE_V = (97 - 3, 97 + 3)
+    TRUST_EDGE_LINES = True
+    MAP_GRID_CENTER_TOLERANCE = 0.3
 
 
 class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
+        if self.clear_siren():
+            return True
+
         return self.battle_default()
 
     def battle_5(self):
