@@ -34,19 +34,19 @@ dictionary_cn = {
     'urgent_ship': ['观舰']
 }
 dictionary_en = {
-    'major_comm': ['SelfTraining', 'DefenseExercise', 'ResearchMission', 'Prep', 'Class'],
-    'daily_comm': ['Daily', 'Awakening', 'paily'],
-    'extra_drill': ['Sailing', 'Buoy', 'saingTraining', 'shortrangesailingTraining', 'MidrangesailingTraining', 'FrontierDefensePatrol', 'MidangesailingTraining'],
-    'extra_part': ['Protection', 'Forestpr', 'veinprot', 'veinprtectioncommision'],
-    'extra_cube': ['FleetExercise', 'EscortExercise', 'FleetCargo', 'CombatExercise', 'FleetCargoTransport'],
-    'extra_oil': ['oil', 'smallscaleoiExtractionll', 'smalscaleoiExtraction', 'smal.scaleoiExtractionl'],
-    'extra_book': ['MerchantEscort', 'SmalIMerchantEscor'],
-    'urgent_drill': ['CargoDefense', 'Destroy', 'CoastalDefensePatrol'],
-    'urgent_part': ['Lavella', 'Maui', 'Rendova', 'banna', 'Mannelsland', 'AidingMamne'],
-    'urgent_book': ['Tyrant', 'Poro', 'Makira', 'Kapolo', 'Mary', 'Isle', 'Kotlin', 'AidingWapolo'],
+    'major_comm': ['Self Training', 'Defense Exercise', 'Research Mission', 'Tool Prep', 'Tactical Class', 'Cargo Transport'],
+    'daily_comm': ['Daily Resource Extraction', 'Awakening Tactical Research'],
+    'extra_drill': ['Sailing', 'Buoy', 'Frontier', 'Coastal'],
+    'extra_part': ['Vein', 'Forest'],
+    'extra_cube': ['Fleet Escort Exercise', 'Fleet Exercise', 'Fleet Cargo Transport', 'Fleet Combat Exercise'],
+    'extra_oil': ['Oil'],
+    'extra_book': ['Merchant Escort'],
+    'urgent_drill': ['Cargo Defense', 'Destroy', 'Coastal'],
+    'urgent_part': ['Lavella', 'Maui', 'Rendova', 'Kongbanna'],
+    'urgent_book': ['Tyrant', 'Poro', 'Makira', 'Kapolo', 'Manne', 'Mary', 'Isle', 'Kotlin'],
     'urgent_box': ['Gear', 'Handover'],
-    'urgent_cube': ['MerchantRescue', 'Attack', 'EnemyAtack'],
-    'urgent_gem': ['VIP ', 'Holiday', 'PatrolEscort', 'BIWWIPEscort', 'BIWVIPEscort', 'NYBWIPEscort', 'BIWPatro', 'BIWWPEscor'],
+    'urgent_cube': ['Enemy Attack', 'Merchant Rescue'],
+    'urgent_gem': ['VIP', 'Holiday Escort', 'Patrol Escort'],
     'urgent_ship': ['Launch']
 }
 dictionary_jp = {
@@ -255,7 +255,7 @@ class Commission:
         Returns:
             str: Commission genre, such as 'urgent_gem'.
         """
-        string = string.replace(' ', '').replace('-', '')
+        # string = string.replace(' ', '').replace('-', '')
         for key, value in dictionary_en.items():
             for keyword in value:
                 if keyword in string:
