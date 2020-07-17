@@ -652,12 +652,12 @@ class RewardCommission(UI, InfoHandler):
         """
         if not self.config.ENABLE_COMMISSION_REWARD:
             return False
-        self.device.screenshot()
+
         if not self.appear(COMMISSION_HAS_PENDING):
             logger.info('No commission pending')
             return False
 
-        self.ui_goto(page_commission)
+        self.ui_goto(page_commission, skip_first_screenshot=True)
 
         self.commission_start()
 
