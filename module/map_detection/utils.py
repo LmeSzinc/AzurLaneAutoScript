@@ -2,11 +2,43 @@ import cv2
 import numpy as np
 from scipy import optimize
 
+from module.base.decorator import cached_property
 from module.base.mask import Mask
 
 UI_MASK = Mask(file='./assets/mask/MASK_MAP_UI.png')
 TILE_CENTER = Mask(file='./assets/map_detection/TILE_CENTER.png')
 TILE_CORNER = Mask(file='./assets/map_detection/TILE_CORNER.png')
+
+
+class Assets:
+    @cached_property
+    def ui_mask(self):
+        return UI_MASK.image
+
+    @cached_property
+    def ui_mask_stroke(self):
+        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
+        image = cv2.erode(self.ui_mask, kernel).astype('uint8')
+        return image
+
+    @cached_property
+    def tile_center_image(self):
+        return TILE_CENTER.image
+
+    @cached_property
+    def tile_corner_image(self):
+        return TILE_CORNER.image
+
+    @cached_property
+    def tile_corner_image_list(self):
+        # [upper-left, upper-right, bottom-left, bottom-right]
+        return [cv2.flip(self.tile_corner_image, -1),
+                cv2.flip(self.tile_corner_image, 0),
+                cv2.flip(self.tile_corner_image, 1),
+                self.tile_corner_image]
+
+
+ASSETS = Assets()
 
 
 class Points:

@@ -3,7 +3,6 @@ import time
 import numpy as np
 from PIL import Image, ImageDraw, ImageOps
 
-from module.base.decorator import cached_property
 from module.base.utils import crop, float2str, point2str
 from module.config.config import AzurLaneConfig
 from module.exception import MapDetectionError
@@ -65,28 +64,8 @@ class Homography:
         self.homo_loaded = False
 
     @cached_property
-    def tile_center_image(self):
-        return TILE_CENTER.image
-
-    @cached_property
-    def tile_corner_image(self):
-        return TILE_CORNER.image
-
-    @cached_property
-    def tile_corner_image_list(self):
-        # [upper-left, upper-right, bottom-left, bottom-right]
-        return [cv2.flip(self.tile_corner_image, -1),
-                cv2.flip(self.tile_corner_image, 0),
-                cv2.flip(self.tile_corner_image, 1),
-                self.tile_corner_image]
-
-    @cached_property
-    def ui_mask(self):
-        return UI_MASK.image
-
-    @cached_property
     def ui_mask_homo_stroke(self):
-        image = cv2.warpPerspective(self.ui_mask, self.homo_data, self.homo_size)
+        image = cv2.warpPerspective(ASSETS.ui_mask, self.homo_data, self.homo_size)
         kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
         image = cv2.erode(image, kernel).astype('uint8')
         return image
@@ -223,7 +202,7 @@ class Homography:
         Returns:
             bool: If success.
         """
-        result = cv2.matchTemplate(image, self.tile_center_image, cv2.TM_CCOEFF_NORMED)
+        result = cv2.matchTemplate(image, ASSETS.tile_center_image, cv2.TM_CCOEFF_NORMED)
         _, similarity, _, loca = cv2.minMaxLoc(result)
         if similarity > threshold_good:
             self.homo_loca = np.array(loca) - self.config.HOMO_CENTER_OFFSET
@@ -259,7 +238,7 @@ class Homography:
         similarity = 0
         location = np.array([])
         for index in range(4):
-            template = self.tile_corner_image_list[index]
+            template = ASSETS.tile_corner_image_list[index]
             result = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
             similarity = max(similarity, np.max(result))
             loca = np.argwhere(result > threshold)[:, ::-1] - self.config.HOMO_CORNER_OFFSET_LIST[index]
