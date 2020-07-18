@@ -599,10 +599,7 @@ rem Keep local changes
         pause > NUL
         call :alas
 	)
-
-
 :: -----------------------------------------------------------------------------
-
 ::Add paths
 rem call :AddPath %ALAS_PATH%
 rem call :AddPath %ADB%
