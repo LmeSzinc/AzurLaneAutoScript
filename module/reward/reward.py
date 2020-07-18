@@ -196,8 +196,8 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, LoginHandler
         if self.config.ENABLE_EVENT_AB:
             from module.event.campaign_ab import CampaignAB
             az = CampaignAB(self.config, device=self.device)
-            az.run_event_daily()
-            count += 1
+            if az.run_event_daily():
+                count += 1
 
         if self.config.ENABLE_RAID_DAILY:
             from module.raid.daily import RaidDaily
