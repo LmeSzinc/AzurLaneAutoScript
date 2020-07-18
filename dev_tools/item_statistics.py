@@ -13,7 +13,7 @@ import time
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2
 from module.handler.assets import INFO_BAR_1
 from module.base.button import ButtonGrid, Button
-from module.base.ocr import Ocr
+from module.ocr.ocr import Ocr
 from module.logger import logger
 
 

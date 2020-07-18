@@ -202,7 +202,8 @@ call :alas
 	echo	2) https://github.com/whoamikyo/AzurLaneAutoScript (Mirrored Fork)
 	echo	3) https://github.com/whoamikyo/AzurLaneAutoScript (nightly build, dont use)
 	echo	4) https://gitee.com/lmeszinc/AzurLaneAutoScript.git (Recommended for CN users)
-	echo	5) Back to main menu
+	echo	5) Toolkit tools updater
+	echo	6) Back to main menu
 	echo.
 	echo	:: Type a 'number' and press ENTER
 	echo	:: Type 'exit' to quit
@@ -212,7 +213,8 @@ call :alas
 		if %choice%==2 call :whoamikyo
 		if %choice%==3 call :nightly
 		if %choice%==4 call :gitee
-		if %choice%==5 call :alas
+		if %choice%==5 call :toolkit_updater
+		if %choice%==6 call :alas
 		if %choice%==exit call :EOF
 		else (
 		cls
@@ -251,7 +253,6 @@ call :alas
 		if %choice%==4 call :gitee_local
 		if %choice%==5 call :alas
 		if %choice%==exit call :EOF
-
 		else (
 		cls
 	echo.
@@ -576,7 +577,29 @@ rem Keep local changes
         call :adb_kill
 	)
 :: -----------------------------------------------------------------------------
-
+:toolkit_updater
+	call %GIT% --version >nul
+	if %errorlevel% == 0 (
+	echo GIT Found in %GIT% Proceeding
+	echo Updating toolkit..
+	call cd toolkit
+	call %GIT% fetch origin master
+	call %GIT% reset --hard origin/master
+	echo Pulling...
+	call %GIT% pull --ff-only origin master
+	echo DONE!
+	call cd ..
+	echo Press any key to proceed
+	pause > NUL
+	call :updater_menu
+	) else (
+		echo  :: Git not detected, maybe there was an installation issue
+		echo check if you have this directory:
+		echo AzurLaneAutoScript\toolkit\Git\cmd
+        pause > NUL
+        call :alas
+	)
+:: -----------------------------------------------------------------------------
 ::Add paths
 rem call :AddPath %ALAS_PATH%
 rem call :AddPath %ADB%
