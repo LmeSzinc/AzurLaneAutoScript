@@ -230,11 +230,12 @@ def main(ini_name=''):
 
     reward_tactical = reward_parser.add_argument_group('战术学院', '只支持续技能书, 不支持学新技能')
     reward_tactical.add_argument('--启用战术学院收获', default=default('--启用战术学院收获'), choices=['是', '否'])
-    reward_tactical.add_argument('--战术学院夜间时段', default=default('--战术学院夜间时段'), help='格式 23:30-06:30')
-    reward_tactical.add_argument('--技能书稀有度', default=default('--技能书稀有度'), choices=['3', '2', '1'], help='最多使用T几的技能书\nT3是金书, T2是紫书, T1是蓝书')
+    # reward_tactical.add_argument('--战术学院夜间时段', default=default('--战术学院夜间时段'), help='格式 23:30-06:30')
     reward_tactical.add_argument('--技能书优先使用同类型', default=default('--技能书优先使用同类型'), choices=['是', '否'], help='选是, 优先使用有150%加成的\n选否, 优先使用同稀有度的技能书')
-    reward_tactical.add_argument('--技能书夜间稀有度', default=default('--技能书夜间稀有度'), choices=['3', '2', '1'])
-    reward_tactical.add_argument('--技能书夜间优先使用同类型', default=default('--技能书夜间优先使用同类型'), choices=['是', '否'])
+    reward_tactical.add_argument('--技能书最大稀有度', default=default('--技能书最大稀有度'), choices=['3', '2', '1'], help='最高使用T几的技能书\nT3是金书, T2是紫书, T1是蓝书\n最大值需要大于等于最小值')
+    reward_tactical.add_argument('--技能书最小稀有度', default=default('--技能书最小稀有度'), choices=['3', '2', '1'], help='最低使用T几的技能书\n')
+    # reward_tactical.add_argument('--技能书夜间稀有度', default=default('--技能书夜间稀有度'), choices=['3', '2', '1'])
+    # reward_tactical.add_argument('--技能书夜间优先使用同类型', default=default('--技能书夜间优先使用同类型'), choices=['是', '否'])
 
     reward_research = reward_parser.add_argument_group('科研项目', '科研预设选择为自定义时, 须先阅读 doc/filter_string_en_cn.md')
     reward_research.add_argument('--启用科研项目收获', default=default('--启用科研项目收获'), choices=['是', '否'])
