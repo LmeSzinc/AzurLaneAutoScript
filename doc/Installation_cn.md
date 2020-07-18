@@ -10,7 +10,7 @@
 
    ![install_release](Installation_cn.assets/install_release.png)
 
-2. **解压** 解压到目录, 比如解压到 `D:\AzurLaneAutoScript`
+2. **解压** 解压到目录, 比如解压到 `D:\AzurLaneAutoScript`, 请确保有至少 1.5 GB 的空间.
 
    你会看到有一个名为 `toolkit` 的目录, 和一个名为 `Easy_Install-V2.bat` 的批处理文件
 
@@ -22,11 +22,9 @@
 
    ![install_admin](Installation_cn.assets/install_admin.png)
 
-   这下面这个界面, 你需要启动你的模拟器
+   这下面这个界面,  输入 `gitee` , 也就是从选择码云(gitee)镜像下载, 然后按下回车键
 
    ![install_batch](Installation_cn.assets/install_batch.png)
-
-   准备完成后, 输入 `gitee` , 也就是从选择码云(gitee)镜像下载, 然后按下回车键
 
    当看到如下信息时, 说明安装成功
 
@@ -106,11 +104,21 @@
 
 ![alas_main](Installation_cn.assets/alas_main.png)
 
-按下数字4, 也就是更新, 再按下回车键, 进入到选择界面
+按下数字4, 也就是更新, 再按下回车键.
+
+这里会询问更新的方式.
+
+![alas_update_method](Installation_cn.assets/alas_update_method.png)
+
+一般选 1 , 也就是覆盖已有文件(会保留用户设置). 如果你手动修改了一些文件, 比如编写了自己的地图逻辑, 并且希望保留, 就选 2.
+
+输入选择的数字, 然后按下回车键.
+
+进入到选择界面
 
 ![alas_update](Installation_cn.assets/alas_update.png)
 
-国内用户按下数字键4, 选择从gitee镜像更新
+输入数字4, 选择从gitee镜像更新. 如果 Alas 有大版本更新需要更新, 就输入数字 5, 更新运行环境.
 
 然后按下回车键
 
@@ -150,6 +158,12 @@
 ```
 pip install -r requirements.txt
 ```
+
+> 如果在安装 Python-Levenshtein 的时候遇到 Microsoft Visual C++ 14.0 is required, 可以在[这里](https://www.lfd.uci.edu/~gohlke/pythonlibs/)下载它的 wheel 文件, 然后用 pip 安装
+>
+> ```
+> pip install python_Levenshtein-0.12.0-cp37-cp37m-win_amd64.whl
+> ```
 
 ### 安装模拟器
 

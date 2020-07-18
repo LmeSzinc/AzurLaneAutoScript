@@ -48,6 +48,7 @@ class RaidDaily(RaidRun):
         Args:
             name (str): Raid name, such as 'raid_20200624'
         """
+        self.reward_backup_daily_reward_settings()
         name = name if name else self.config.RAID_NAME
         self.ui_ensure(page_raid)
 
@@ -65,3 +66,5 @@ class RaidDaily(RaidRun):
             remain = self.get_remain(mode='easy')
             if remain > 0:
                 super().run(name=name, mode='easy', total=remain)
+
+        self.reward_recover_daily_reward_settings()

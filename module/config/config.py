@@ -136,7 +136,8 @@ class AzurLaneConfig:
     EVENT_NAME = ''
     CAMPAIGN_EVENT = ''
     EVENT_NAME_AB = ''
-    ENABLE_EVENT_NAME_AB = True
+    ENABLE_EVENT_AB = True
+    EVENT_AB_CHAPTER = 'chapter_ab'  # chapter_ab, chapter_abcd
 
     """
     module.combat.emotion
@@ -239,7 +240,7 @@ class AzurLaneConfig:
     MAP_HAS_WALL = False  # event_20200521_cn(穹顶下的圣咏曲) adds wall between grids.
     MAP_HAS_PT_BONUS = False  # 100% PT bonus if success to catch enemy else 50%. Retreat get 0%.
     MAP_SIREN_MOVE_WAIT = 1.5  # The enemy moving takes about 1.2 ~ 1.5s.
-    MAP_SIREN_TEMPLATE = ['1', '2', '3', 'DD']
+    MAP_SIREN_TEMPLATE = ['DD', 'CL', 'CA', 'BB', 'CV']
     MAP_SIREN_COUNT = 0
     MAP_MYSTERY_HAS_CARRIER = False
     MAP_GRID_CENTER_TOLERANCE = 0.1
@@ -376,11 +377,12 @@ class AzurLaneConfig:
     }
     COMMISSION_TIME_LIMIT = 0
 
-    TACTICAL_BOOK_TIER = 2
+    TACTICAL_BOOK_TIER_MAX = 3
+    TACTICAL_BOOK_TIER_MIN = 2
     TACTICAL_EXP_FIRST = True
-    TACTICAL_BOOK_TIER_NIGHT = 3
-    TACTICAL_EXP_FIRST_NIGHT = False
-    TACTICAL_NIGHT_RANGE = future_time_range('23:30-06:30')  # (Night start, night end), datetime.datetime instance.
+    # TACTICAL_BOOK_TIER_NIGHT = 3
+    # TACTICAL_EXP_FIRST_NIGHT = False
+    # TACTICAL_NIGHT_RANGE = future_time_range('23:30-06:30')  # (Night start, night end), datetime.datetime instance.
 
     """
     module.research
@@ -548,11 +550,12 @@ class AzurLaneConfig:
             self.COMMISSION_TIME_LIMIT = 0
         for attr in self.COMMISSION_PRIORITY.keys():
             self.COMMISSION_PRIORITY[attr] = int(option[attr])
-        self.TACTICAL_NIGHT_RANGE = future_time_range(option['tactical_night_range'])
-        self.TACTICAL_BOOK_TIER = int(option['tactical_book_tier'])
+        self.TACTICAL_BOOK_TIER_MAX = int(option['tactical_book_tier_max'])
+        self.TACTICAL_BOOK_TIER_MIN = int(option['tactical_book_tier_min'])
         self.TACTICAL_EXP_FIRST = to_bool(option['tactical_exp_first'])
-        self.TACTICAL_BOOK_TIER_NIGHT = int(option['tactical_book_tier_night'])
-        self.TACTICAL_EXP_FIRST_NIGHT = to_bool(option['tactical_exp_first_night'])
+        # self.TACTICAL_NIGHT_RANGE = future_time_range(option['tactical_night_range'])
+        # self.TACTICAL_BOOK_TIER_NIGHT = int(option['tactical_book_tier_night'])
+        # self.TACTICAL_EXP_FIRST_NIGHT = to_bool(option['tactical_exp_first_night'])
         for item in ['coin', 'cube', 'part']:
             self.__setattr__(f'RESEARCH_USE_{item}'.upper(), to_bool(option[f'RESEARCH_USE_{item}'.lower()]))
         self.RESEARCH_FILTER_PRESET = option['research_filter_preset']
@@ -590,8 +593,9 @@ class AzurLaneConfig:
         self.EXERCISE_FLEET_EQUIPMENT = to_list(option['exercise_equipment'])
         # Event bonus
         # option = config['Event_daily_ab']
-        self.ENABLE_EVENT_NAME_AB = to_bool(option['enable_event_ab'])
+        self.ENABLE_EVENT_AB = to_bool(option['enable_event_ab'])
         self.EVENT_NAME_AB = option['event_name_ab']
+        self.EVENT_AB_CHAPTER = option['event_ab_chapter']
         # Raid daily
         self.ENABLE_RAID_DAILY = to_bool(option['enable_raid_daily'])
         self.RAID_DAILY_NAME = option['raid_daily_name']

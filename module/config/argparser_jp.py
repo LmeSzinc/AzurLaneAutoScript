@@ -230,12 +230,12 @@ def main(ini_name=''):
     priority4.add_argument('--urgent_ship', default=default('--urgent_ship'), help='Small Launch Ceremony, Fleet Launch Ceremony, Alliance Launch Ceremony')
 
     reward_tactical = reward_parser.add_argument_group('Classroom', 'Only support continuation of skill books, not new skills')
-    reward_tactical.add_argument('--enable_tactical_reward', default=default('--enable_tactical_reward'), choices=['yes', 'no'])
-    reward_tactical.add_argument('--tactical_night_range', default=default('--tactical_night_range'), help='Format 23:30-06:30')
-    reward_tactical.add_argument('--tactical_book_tier', default=default('--tactical_book_tier'), choices=['3', '2', '1'], help='Wich skill book will use first\nT3 is a gold book, T2 is a purple book, T1 is a blue book')
     reward_tactical.add_argument('--tactical_exp_first', default=default('--tactical_exp_first'), choices=['yes', 'no'], help='Choose Yes, give priority to the 150% bonus \nSelect No, give priority to the skills book with the same rarity')
-    reward_tactical.add_argument('--tactical_book_tier_night', default=default('--tactical_book_tier_night'), choices=['3', '2', '1'])
-    reward_tactical.add_argument('--tactical_exp_first_night', default=default('--tactical_exp_first_night'), choices=['yes', 'no'])
+    # reward_tactical.add_argument('--tactical_night_range', default=default('--tactical_night_range'), help='Format 23:30-06:30')
+    reward_tactical.add_argument('--tactical_book_tier_max', default=default('--tactical_book_tier_max'), choices=['3', '2', '1'], help='Wich skill book will use first\nT3 is a gold book, T2 is a purple book, T1 is a blue book\ntier_max should greater than or equal to tier_min')
+    reward_tactical.add_argument('--tactical_book_tier_min', default=default('--tactical_book_tier_min'), choices=['3', '2', '1'], help='Minimal tier to choose.')
+    # reward_tactical.add_argument('--tactical_book_tier_night', default=default('--tactical_book_tier_night'), choices=['3', '2', '1'])
+    # reward_tactical.add_argument('--tactical_exp_first_night', default=default('--tactical_exp_first_night'), choices=['yes', 'no'])
 
     reward_research = reward_parser.add_argument_group('Research', 'If set research_filter_preset=customized, read doc/filter_string_en_cn.md first')
     reward_research.add_argument('--enable_research_reward', default=default('--enable_research_reward'), choices=['yes', 'no'])
@@ -302,8 +302,10 @@ def main(ini_name=''):
     exercise.add_argument('--exercise_low_hp_confirm', default=default('--exercise_low_hp_confirm'), help='After HP is below the threshold, it will retreat after a certain period of time \nRecommended 1.0 ~ 3.0')
     exercise.add_argument('--exercise_equipment', default=default('--exercise_equipment'), help='Change equipment before playing, unload equipment after playing, do not need to fill in 0 \ncomma, such as 3, 1, 0, 1, 1, 0')
 
+    # event_daily_ab
     event_bonus = daily_parser.add_argument_group('Event Daily Bonus', 'bonus for first clear each day')
     event_bonus.add_argument('--event_name_ab', default=event_latest, choices=event_folder, help='There a dropdown menu with many options')
+    event_bonus.add_argument('--event_ab_chapter', default=default('--event_ab_chapter'), choices=['chapter_ab', 'chapter_abcd'], help='Chapter with PT bonus')
 
     # Raid daily
     raid_bonus = daily_parser.add_argument_group('Raid settings', '')
