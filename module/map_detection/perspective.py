@@ -5,7 +5,6 @@ import numpy as np
 from PIL import Image, ImageOps, ImageDraw
 from scipy import signal
 
-from module.base.decorator import cached_property
 from module.base.utils import crop, point2str, float2str
 from module.config.config import AzurLaneConfig
 from module.exception import MapDetectionError
@@ -57,16 +56,6 @@ class Perspective:
             config (AzurLaneConfig):
         """
         self.config = config
-
-    @cached_property
-    def ui_mask(self):
-        return UI_MASK.image
-
-    @cached_property
-    def ui_mask_stroke(self):
-        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
-        image = cv2.erode(self.ui_mask, kernel).astype('uint8')
-        return image
 
     def load(self, image):
         """
@@ -174,10 +163,11 @@ class Perspective:
             np.ndarray
         """
         image = rgb2gray(crop(image, self.config.DETECTING_AREA))
-        image = cv2.subtract(255, cv2.bitwise_and(image, self.ui_mask))
+        image = cv2.subtract(255, cv2.bitwise_and(image, ASSETS.ui_mask))
         return image
 
-    def find_peaks(self, image, is_horizontal, param, pad=0):
+    @staticmethod
+    def find_peaks(image, is_horizontal, param, pad=0):
         """
         Args:
             image(np.ndarray): Processed screenshot.
@@ -201,7 +191,7 @@ class Perspective:
             out = out[:, :-pad]
         if is_horizontal:
             out = out.T
-        out &= self.ui_mask_stroke
+        out &= ASSETS.ui_mask_stroke
         return out
 
     def hough_lines(self, image, is_horizontal, threshold, theta):
