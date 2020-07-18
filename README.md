@@ -1,3 +1,9 @@
+> **DEPRECATED**
+>
+> This is the last stable version of Alas, using `cnocr==1.0.0` and `mxnet==1.4.1`.
+>
+> Download Easy Install V2 for this version [here](https://github.com/whoamikyo/AzurLaneAutoScript/releases/tag/v2020.07.06)
+
 [English Quick Guide](doc%2FQuick_guide.md) 
 [English Readme](README_en.md) `Translation in progress`
 
