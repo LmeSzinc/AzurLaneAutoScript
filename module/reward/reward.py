@@ -193,7 +193,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, LoginHandler
                 az.record_save()
                 count += 1
 
-        if self.config.ENABLE_EVENT_NAME_AB:
+        if self.config.ENABLE_EVENT_AB:
             from module.event.campaign_ab import CampaignAB
             az = CampaignAB(self.config, device=self.device)
             az.run_event_daily()

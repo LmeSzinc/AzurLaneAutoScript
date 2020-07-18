@@ -302,8 +302,10 @@ def main(ini_name=''):
     exercise.add_argument('--演习低血量确认时长', default=default('--演习低血量确认时长'), help='HP低于阈值后, 过一定时长才会撤退\n推荐 1.0 ~ 3.0')
     exercise.add_argument('--演习快速换装', default=default('--演习快速换装'), help='打之前换装备, 打完后卸装备, 不需要就填0\n逗号分割, 例如 3, 1, 0, 1, 1, 0')
 
+    # 每日活动图三倍PT
     event_bonus = daily_parser.add_argument_group('活动设置', '')
     event_bonus.add_argument('--活动名称ab', default=event_latest, choices=event_folder, help='例如 event_20200326_cn')
+    event_bonus.add_argument('--活动奖励章节', default=default('--活动奖励章节'), choices=['AB图', 'ABCD图'], help='有额外PT奖励章节')
 
     # 共斗每日设置
     raid_bonus = daily_parser.add_argument_group('共斗设置', '')

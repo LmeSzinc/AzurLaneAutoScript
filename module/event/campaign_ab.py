@@ -4,7 +4,7 @@ from module.campaign.run import CampaignRun
 from module.logger import logger
 
 RECORD_SINCE = (0,)
-CAMPAIGN_NAME = ['a1', 'a2', 'a3', 'a4', 'b1', 'b2', 'b3', 'b4']
+CAMPAIGN_NAME = ['a1', 'a2', 'a3', 'a4', 'b1', 'b2', 'b3', 'b4', 'c1', 'c2', 'c3', 'c4', 'd1', 'd2', 'd3', 'd4']
 
 
 class CampaignAB(CampaignRun):
@@ -17,6 +17,7 @@ class CampaignAB(CampaignRun):
 
     def run_event_daily(self):
         existing = [file[:-3] for file in os.listdir(f'./campaign/{self.config.EVENT_NAME_AB}') if file[-3:] == '.py']
+        chapter = self.config.EVENT_AB_CHAPTER.split('_')[1]
         self.reward_backup_daily_reward_settings()
 
         for name in existing:
@@ -27,6 +28,8 @@ class CampaignAB(CampaignRun):
 
         for name in CAMPAIGN_NAME:
             if name not in existing:
+                continue
+            if name[0] not in chapter:
                 continue
             self.run(name=name, folder=self.config.EVENT_NAME_AB)
 

@@ -144,6 +144,7 @@ dic_true_eng_to_eng = {
     'enable_hard_campaign': 'enable_hard_campaign',
     'enable_exercise': 'enable_exercise',
     'enable_event_ab': 'enable_event_ab',
+    'event_ab_chapter': 'event_ab_chapter',
     'enable_raid_daily': 'enable_raid_daily',
     'tactical_training': 'daily_mission_1',
     'fierce_assault': 'daily_mission_2',
@@ -226,6 +227,8 @@ dic_true_eng_to_eng = {
     'normal': 'normal',
     'hard': 'hard',
     'easy': 'easy',
+    'chapter_ab': 'chapter_ab',
+    'chapter_abcd': 'chapter_abcd',
 
     # Research filter preset
     'customized': 'customized',
@@ -393,6 +396,7 @@ dic_chi_to_eng = {
     'sp地图': 'sp_stage',
     '活动名称': 'event_name',
     '活动名称ab': 'event_name_ab',
+    '活动奖励章节': 'event_ab_chapter',
     '共斗名称': 'raid_name',
     '共斗难度': 'raid_mode',
     '共斗使用挑战券': 'raid_use_ticket',
@@ -449,6 +453,8 @@ dic_chi_to_eng = {
     '普通': 'normal',
     '困难': 'hard',
     '简单': 'easy',
+    'AB图': 'chapter_ab',
+    'ABCD图': 'chapter_abcd',
 
     # Research filter preset
     '自定义': 'customized',
