@@ -193,7 +193,7 @@ class RewardTacticalClass(UI):
 
         book = books.choose(tier_max=self.config.TACTICAL_BOOK_TIER_MAX,
                             tier_min=self.config.TACTICAL_BOOK_TIER_MIN,
-                            exp=self.config.TACTICAL_EXP_FIRST_NIGHT)
+                            exp=self.config.TACTICAL_EXP_FIRST)
 
         self.device.click(book.button)
         self.device.sleep((0.3, 0.5))
