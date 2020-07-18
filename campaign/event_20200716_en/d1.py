@@ -4,17 +4,18 @@ from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
 
 MAP = CampaignMap('D1')
+MAP.camera_sight = (-4, -2, 4, 2)
 MAP.shape = 'J7'
-MAP.camera_data = ['D2', 'D5', 'G2', 'G5']
+# MAP.camera_data = ['D2', 'D5', 'G2', 'G5']
 MAP.camera_data_spawn_point = []
 MAP.map_data = """
     ++ ++ ++ MS -- ME ++ ++ ++ ++
-    ++ ++ ++ -- ME -- -- ++ ++ ++
-    ++ ++ ++ MS -- Me -- MS ++ ++
+    ++ ++ ++ -- ME __ -- ++ ++ ++
+    ++ ++ ++ __ -- ME -- -- ++ ++
     ++ ++ ++ Me ++ ++ ME -- ++ ++
-    -- MB -- -- ME Me -- -- -- SP
-    -- -- Me -- -- -- -- ME -- SP
-    ++ ++ -- Me MS ME ME ++ ME --
+    -- MB -- -- ME ME -- ME -- SP
+    -- -- Me -- -- -- -- __ -- SP
+    ++ ++ -- Me MS ME Me ++ ME --
 """
 MAP.weight_data = """
     10 10 10 10 10 10 10 10 10 10
@@ -54,6 +55,7 @@ class Config:
     MAP_HAS_SIREN = True
     MAP_HAS_DYNAMIC_RED_BORDER = False
     MAP_SIREN_COUNT = 3
+    MAP_HAS_PT_BONUS = True
 
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (100, 255 - 24),
@@ -82,6 +84,9 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
+        if self.clear_siren():
+            return True
+
         return self.battle_default()
 
     def battle_6(self):

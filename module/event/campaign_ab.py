@@ -4,7 +4,7 @@ from module.campaign.run import CampaignRun
 from module.logger import logger
 
 RECORD_SINCE = (0,)
-CAMPAIGN_NAME = ['a1', 'a2', 'a3', 'b1', 'b2', 'b3']
+CAMPAIGN_NAME = ['a1', 'a2', 'a3', 'a4', 'b1', 'b2', 'b3', 'b4']
 
 
 class CampaignAB(CampaignRun):

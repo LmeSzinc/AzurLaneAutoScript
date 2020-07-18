@@ -2,6 +2,10 @@ class CampaignEnd(Exception):
     pass
 
 
+class MapDetectionError(Exception):
+    pass
+
+
 class PerspectiveError(Exception):
     pass
 

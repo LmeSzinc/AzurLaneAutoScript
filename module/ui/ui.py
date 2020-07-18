@@ -1,18 +1,19 @@
 from module.base.button import Button
-from module.base.ocr import Ocr
 from module.base.timer import Timer
 from module.combat.assets import *
 from module.handler.assets import *
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
+from module.ocr.ocr import Ocr
 from module.ui.page import *
 
 
 class UI(InfoHandler):
     ui_pages = [page_main, page_campaign, page_fleet, page_exercise, page_daily, page_event, page_sp, page_mission,
-                page_raid]
+                page_raid, page_reward, page_reshmenu, page_research]
     ui_pages_all = [page_main, page_campaign, page_fleet, page_exercise, page_daily, page_event, page_sp, page_mission,
-                    page_raid, page_commission, page_event_list, page_tactical, page_reward, page_unknown]
+                    page_raid, page_commission, page_event_list, page_tactical, page_reward, page_unknown,
+                    page_reshmenu, page_research]
     ui_current: Page
 
     def ui_page_appear(self, page):

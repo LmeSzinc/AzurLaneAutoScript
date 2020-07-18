@@ -1,12 +1,12 @@
 import importlib
 
-from module.base.ocr import Digit
 from campaign.campaign_hard.campaign_hard import Campaign
 from module.campaign.run import CampaignRun
 from module.hard.assets import *
 from module.logger import logger
+from module.ocr.ocr import Digit
 
-OCR_HARD_REMAIN = Digit(OCR_HARD_REMAIN, letter=(123, 227, 66), back=(24, 24, 24), limit=3, name='OCR_HARD_REMAIN')
+OCR_HARD_REMAIN = Digit(OCR_HARD_REMAIN, letter=(123, 227, 66), threshold=128, alphabet='0123')
 RECORD_OPTION = ('DailyRecord', 'hard')
 RECORD_SINCE = (0,)
 

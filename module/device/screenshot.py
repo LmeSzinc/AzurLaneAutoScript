@@ -72,7 +72,7 @@ class Screenshot(Connection):
 
     def _screenshot_ascreencap(self):
         raw_compressed_data = self._reposition_byte_pointer(
-            self.adb_exec_out([self.config.ASCREENCAP_FILEPATH, '--pack', '2', '--stdout'], serial=self.serial))
+            self.adb_exec_out([self.config.ASCREENCAP_FILEPATH_REMOTE, '--pack', '2', '--stdout'], serial=self.serial))
 
         compressed_data_header = np.frombuffer(raw_compressed_data[0:20], dtype=np.uint32)
         if compressed_data_header[0] != 828001602:
@@ -108,6 +108,7 @@ class Screenshot(Connection):
                 logger.warning('Error when calling aScreenCap, re-initializing')
                 self._ascreencap_init()
                 self._bytepointer = 0
+                self.image = self._screenshot_ascreencap()
 
         elif method == 'uiautomator2':
             self.image = self._screenshot_uiautomator2()
@@ -120,17 +121,21 @@ class Screenshot(Connection):
 
         return self.image
 
-    def save_screenshot(self, genre='items'):
+    def save_screenshot(self, genre='items', interval=None):
         """Save a screenshot. Use millisecond timestamp as file name.
 
         Args:
             genre (str, optional): Screenshot type.
+            interval (int, float): Seconds between two save. Saves in the interval will be dropped.
 
         Returns:
             bool: True if save succeed.
         """
         now = time.time()
-        if now - self._last_save_time.get(genre, 0) > self.config.SCREEN_SHOT_SAVE_INTERVAL:
+        if interval is None:
+            interval = self.config.SCREEN_SHOT_SAVE_INTERVAL
+
+        if now - self._last_save_time.get(genre, 0) > interval:
             fmt = 'png'
             file = '%s.%s' % (int(now * 1000), fmt)
 
@@ -145,6 +150,9 @@ class Screenshot(Connection):
         else:
             self._last_save_time[genre] = now
             return False
+
+    def screenshot_last_save_time_reset(self, genre):
+        self._last_save_time[genre] = 0
 
     def screenshot_interval_set(self, interval):
         if interval < 0.1:

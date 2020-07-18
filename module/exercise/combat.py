@@ -3,11 +3,12 @@ from module.exercise.assets import *
 from module.exercise.equipment import ExerciseEquipment
 from module.exercise.hp_daemon import HpDaemon
 from module.exercise.opponent import OpponentChoose, OPPONENT
+from module.ui.assets import EXERCISE_CHECK
 
 
 class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
     def _in_exercise(self):
-        return self.appear(NEW_OPPONENT)
+        return self.appear(EXERCISE_CHECK, offset=(20, 20))
 
     def is_combat_executing(self):
         """

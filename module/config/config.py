@@ -159,7 +159,8 @@ class AzurLaneConfig:
     SERIAL = ''
     PACKAGE_NAME = ''
     COMMAND = ''
-    ASCREENCAP_FILEPATH = '/data/local/tmp/ascreencap'
+    ASCREENCAP_FILEPATH_LOCAL = './bin/ascreencap'
+    ASCREENCAP_FILEPATH_REMOTE = '/data/local/tmp/ascreencap'
     # Speed: aScreenCap >> uiautomator2 > ADB
     DEVICE_SCREENSHOT_METHOD = 'aScreenCap'  # ADB, uiautomator2, aScreenCap
     # Speed: uiautomator2 >> ADB
@@ -236,6 +237,7 @@ class AzurLaneConfig:
     MAP_HAS_DYNAMIC_RED_BORDER = False
     MAP_HAS_MAP_STORY = False  # event_20200521_cn(穹顶下的圣咏曲) adds after-combat story.
     MAP_HAS_WALL = False  # event_20200521_cn(穹顶下的圣咏曲) adds wall between grids.
+    MAP_HAS_PT_BONUS = False  # 100% PT bonus if success to catch enemy else 50%. Retreat get 0%.
     MAP_SIREN_MOVE_WAIT = 1.5  # The enemy moving takes about 1.2 ~ 1.5s.
     MAP_SIREN_TEMPLATE = ['1', '2', '3', 'DD']
     MAP_SIREN_COUNT = 0
@@ -266,13 +268,35 @@ class AzurLaneConfig:
     RETIRE_SSR = False
 
     """
-    module.map.perspective
+    module.map_detection
     """
-    # Screen
     SCREEN_SIZE = (1280, 720)
     DETECTING_AREA = (123, 55, 1280, 720)
     SCREEN_CENTER = (SCREEN_SIZE[0] / 2, SCREEN_SIZE[1] / 2)
     MID_Y = SCREEN_CENTER[1]
+    DETECTION_BACKEND = 'homography'
+
+    """
+    module.map_detection.homography
+    """
+    HOMO_TILE = (140, 140)
+    HOMO_CENTER_OFFSET = (48, 48)
+    # [upper-left, upper-right, bottom-left, bottom-right]
+    HOMO_CORNER_OFFSET_LIST = [(-42, -42), (68, -42), (-42, 69), (69, 69)]
+
+    HOMO_CENTER_GOOD_THRESHOLD = 0.9
+    HOMO_CENTER_THRESHOLD = 0.8
+    HOMO_CORNER_THRESHOLD = 0.8
+    HOMO_RECTANGLE_THRESHOLD = 10
+
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 120
+    HOMO_EDGE_COLOR_RANGE = (0, 24)
+    # ((x, y), [upper-left, upper-right, bottom-left, bottom-right])
+    HOMO_STORAGE = None
+
+    """
+    module.map_detection.perspective
+    """
     # UI mask
     UI_MASK_FILE = './module/map/ui_mask.png'
     UI_MASK_PIL = Image.open(UI_MASK_FILE).convert('L')
@@ -357,6 +381,16 @@ class AzurLaneConfig:
     TACTICAL_BOOK_TIER_NIGHT = 3
     TACTICAL_EXP_FIRST_NIGHT = False
     TACTICAL_NIGHT_RANGE = future_time_range('23:30-06:30')  # (Night start, night end), datetime.datetime instance.
+
+    """
+    module.research
+    """
+    ENABLE_RESEARCH_REWARD = True
+    RESEARCH_FILTER_STRING = ''
+    RESEARCH_FILTER_PRESET = 'series_3_than_2'  # customized, series_3, ...
+    RESEARCH_USE_CUBE = True
+    RESEARCH_USE_COIN = True
+    RESEARCH_USE_PART = True
 
     """
     C_7_2_mystery_farming
@@ -505,7 +539,8 @@ class AzurLaneConfig:
         option = config['Reward']
         self.REWARD_INTERVAL = int(option['reward_interval'])
         for attr in ['enable_reward', 'enable_oil_reward', 'enable_coin_reward', 'enable_mission_reward',
-                     'enable_commission_reward', 'enable_tactical_reward', 'enable_daily_reward']:
+                     'enable_commission_reward', 'enable_tactical_reward', 'enable_daily_reward',
+                     'enable_research_reward']:
             self.__setattr__(attr.upper(), to_bool(option[attr]))
         if not option['commission_time_limit'].isdigit():
             self.COMMISSION_TIME_LIMIT = future_time(option['commission_time_limit'])
@@ -518,6 +553,10 @@ class AzurLaneConfig:
         self.TACTICAL_EXP_FIRST = to_bool(option['tactical_exp_first'])
         self.TACTICAL_BOOK_TIER_NIGHT = int(option['tactical_book_tier_night'])
         self.TACTICAL_EXP_FIRST_NIGHT = to_bool(option['tactical_exp_first_night'])
+        for item in ['coin', 'cube', 'part']:
+            self.__setattr__(f'RESEARCH_USE_{item}'.upper(), to_bool(option[f'RESEARCH_USE_{item}'.lower()]))
+        self.RESEARCH_FILTER_PRESET = option['research_filter_preset']
+        self.RESEARCH_FILTER_STRING = option['research_filter_string']
 
         option = config['Main']
         self.CAMPAIGN_MODE = option['campaign_mode']

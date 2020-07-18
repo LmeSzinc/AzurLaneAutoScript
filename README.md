@@ -25,7 +25,7 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)**, some featur
 
 ## 功能 Features
 
-- **主线图出击** 基本完成, 请在 `./campaign/campaign_main` 目录下查看支持的地图
+- **主线图出击** 在社区的帮助下已基本完成, 请在 `./campaign/campaign_main` 目录下查看支持的地图
 
 - **活动图出击** 支持开荒
 
@@ -121,17 +121,13 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)**, some featur
 - 如何适配一张新的地图 How to adapt to a new map
 - 如何支持其他服务器/语言 How to support other server/language
 
+更多文档, 请前往 `doc` 目录.
+
 
 
 ## 参考 Reference
 
-- (Not open source) http://asaiq2.lofter.com/
-
-  现成的碧蓝航线脚本, 完成度很高. 参考了主要的功能和设置.
-
-- https://github.com/Egoistically/ALAuto
-
-  (Archived) https://github.com/perryhuynh/azurlane-auto
-
-  EN服的碧蓝航线脚本, 模仿了脚本架构.
+- [code:azure](https://asaiq2.lofter.com/post/1f0a3d9a_1c636b95b), 浅. (Not open source) 现成的碧蓝航线脚本, 完成度很高. 参考了主要的功能和设置.
+- [ALAuto](https://github.com/Egoistically/ALAuto), Egoistically. EN服的碧蓝航线脚本, 模仿了脚本架构.
+- [ALAuto homg_trans_beta](https://github.com/asd111333/ALAuto/tree/homg_trans_beta), asd111333. 引入了单应性变换至海图识别模块中.
 

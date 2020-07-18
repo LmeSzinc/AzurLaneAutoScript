@@ -4,6 +4,10 @@ Here list the future plan for Alas, sorted from easy to hard.
 
 Alas has a lot of handful public functions and class methods, from object detection to map logics, don't handcraft them again.
 
+
+
+## Plans in 2020.06
+
 - ~~Test chapter 6 when using 1 fleet~~ Done
 
 - ~~Add logic to chapter 2, 4, 5, when using 2 fleets~~ Done
@@ -66,13 +70,13 @@ Alas has a lot of handful public functions and class methods, from object detect
   >
   > If so, add that option in GUI, and set to default.
 
-- Update cnocr
+- ~~Update cnocr~~ 2020.07.15
 
   > If we use the latest `cnocr`, we can recognize English letters better, get rid of `mxnet==1.4.1`, have smaller model size.
   >
   > But I already train 2 models under `cnocr==1.0.0`, named `stage` and `digit`, test if they are compatible.
 
-- Re-train ocr models
+- ~~Re-train ocr models~~ 2020.07.15
 
   > The existing ocr model named `stage` and `digit` are poorly trained, you need to make sure letters are full-filled the image.
   >

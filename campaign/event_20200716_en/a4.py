@@ -5,15 +5,16 @@ from module.logger import logger
 from campaign.event_20200716_en.a1 import Config as ConfigBase
 
 MAP = CampaignMap('A4')
+MAP.camera_sight = (-4, -2, 4, 2)
 MAP.shape = 'I7'
-MAP.camera_data = ['D2', 'D5', 'F2', 'F5']
+# MAP.camera_data = ['D2', 'D5', 'F2', 'F5']
 MAP.camera_data_spawn_point = []
 MAP.map_data = """
     ++ ++ ++ ++ ++ -- -- ++ ++
     ++ ++ ++ ++ ++ MB MB ++ ++
-    -- ME -- ME Me -- -- ++ ++
-    MS -- -- -- -- MS -- Me --
-    ++ ++ ME -- ME -- ME -- ME
+    -- ME Me ME -- -- -- ++ ++
+    MS -- __ -- -- MS -- Me --
+    ++ ++ ME -- ME -- ME __ ME
     ++ ++ -- -- -- ME -- ME --
     ++ ++ SP SP SP ++ ++ -- MS
 """
@@ -52,6 +53,9 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
+        if self.clear_siren():
+            return True
+
         return self.battle_default()
 
     def battle_4(self):

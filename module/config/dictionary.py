@@ -123,6 +123,11 @@ dic_true_eng_to_eng = {
     'tactical_exp_first': 'tactical_exp_first',
     'tactical_book_tier_night': 'tactical_book_tier_night',
     'tactical_exp_first_night': 'tactical_exp_first_night',
+    'enable_research_reward': 'enable_research_reward',
+    'research_filter_preset': 'research_filter_preset',
+    'research_use_cube': 'research_use_cube',
+    'research_use_coin': 'research_use_coin',
+    'research_use_part': 'research_use_part',
     'serial': 'serial',
     'package_name': 'package_name',
     'enable_error_log_and_screenshot_save': 'enable_error_log_and_screenshot_save',
@@ -220,6 +225,14 @@ dic_true_eng_to_eng = {
     'normal': 'normal',
     'hard': 'hard',
     'easy': 'easy',
+
+    # Research filter preset
+    'customized': 'customized',
+    'series_3': 'series_3',
+    'series_3_than_2': 'series_3_than_2',
+    'series_3_fastest': 'series_3_fastest',
+    'free_research_only': 'free_research_only',
+    'cubes_to_chips': 'cubes_to_chips',
 
     # Event
     'Iris_of_Light_and_Dark': 'event_20200521_en',
@@ -332,6 +345,11 @@ dic_chi_to_eng = {
     '技能书优先使用同类型': 'tactical_exp_first',
     '技能书夜间稀有度': 'tactical_book_tier_night',
     '技能书夜间优先使用同类型': 'tactical_exp_first_night',
+    '启用科研项目收获': 'enable_research_reward',
+    '科研项目选择预设': 'research_filter_preset',
+    '科研项目使用魔方': 'research_use_cube',
+    '科研项目使用金币': 'research_use_coin',
+    '科研项目使用部件': 'research_use_part',
     '设备': 'serial',
     '包名': 'package_name',
     '出错时保存log和截图': 'enable_error_log_and_screenshot_save',
@@ -429,6 +447,14 @@ dic_chi_to_eng = {
     '普通': 'normal',
     '困难': 'hard',
     '简单': 'easy',
+
+    # Research filter preset
+    '自定义': 'customized',
+    '三期': 'series_3',
+    '三期兼顾二期': 'series_3_than_2',
+    '三期最快': 'series_3_fastest',
+    '仅白嫖': 'free_research_only',
+    '切魔方换心智': 'cubes_to_chips',
 
     # Event
     '北境序曲': 'event_20200227_cn',

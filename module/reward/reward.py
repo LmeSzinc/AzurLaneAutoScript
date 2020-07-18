@@ -9,9 +9,10 @@ from module.reward.commission import RewardCommission
 from module.reward.tactical_class import RewardTacticalClass
 from module.ui.page import *
 from module.update import Update
+from module.research.research import RewardResearch
 
 
-class Reward(RewardCommission, RewardTacticalClass, LoginHandler, Update):
+class Reward(RewardCommission, RewardTacticalClass, RewardResearch, LoginHandler, Update):
     def reward(self):
         if not self.config.ENABLE_REWARD:
             return False
@@ -26,12 +27,7 @@ class Reward(RewardCommission, RewardTacticalClass, LoginHandler, Update):
         self.handle_commission_start()
         self.handle_tactical_class()
 
-        self.ui_click(
-            click_button=page_reward.links[page_main],
-            check_button=page_main.check_button,
-            appear_button=page_reward.check_button,
-            skip_first_screenshot=True)
-
+        self.handle_research_reward()
         self._reward_mission()
 
         self.config.REWARD_LAST_TIME = datetime.now()
@@ -63,16 +59,6 @@ class Reward(RewardCommission, RewardTacticalClass, LoginHandler, Update):
         reward = False
         exit_timer = Timer(1, count=3).start()
         click_timer = Timer(1)
-        btn = []
-        if self.config.ENABLE_REWARD:
-            btn.append(REWARD_3)
-        if self.config.ENABLE_COMMISSION_REWARD:
-            btn.append(REWARD_1)
-        if self.config.ENABLE_OIL_REWARD:
-            btn.append(OIL)
-        if self.config.ENABLE_COIN_REWARD:
-            btn.append(COIN)
-
         while 1:
             self.device.screenshot()
 
@@ -89,7 +75,6 @@ class Reward(RewardCommission, RewardTacticalClass, LoginHandler, Update):
                     (self.config.ENABLE_OIL_REWARD and self.appear_then_click(OIL, interval=60))
                     or (self.config.ENABLE_COIN_REWARD and self.appear_then_click(COIN, interval=60))
                     or (self.config.ENABLE_COMMISSION_REWARD and self.appear_then_click(REWARD_1, interval=1))
-                    or (self.config.ENABLE_REWARD and self.appear_then_click(REWARD_3, interval=1))
             ):
                 exit_timer.reset()
                 click_timer.reset()
