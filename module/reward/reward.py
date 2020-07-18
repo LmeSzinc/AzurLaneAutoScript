@@ -209,3 +209,15 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, LoginHandler
 
         logger.attr('Daily_executed', f'{count}/{total}')
         return count
+
+    _enable_daily_reward = False
+
+    def reward_backup_daily_reward_settings(self):
+        """
+        Method to avoid event_daily_ab calls reward, and reward calls event_daily_ab itself again.
+        """
+        self._enable_daily_reward = self.config.ENABLE_DAILY_REWARD
+        self.config.ENABLE_DAILY_REWARD = False
+
+    def reward_recover_daily_reward_settings(self):
+        self.config.ENABLE_DAILY_REWARD = self._enable_daily_reward

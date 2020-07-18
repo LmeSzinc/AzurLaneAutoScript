@@ -17,6 +17,7 @@ class CampaignAB(CampaignRun):
 
     def run_event_daily(self):
         existing = [file[:-3] for file in os.listdir(f'./campaign/{self.config.EVENT_NAME_AB}') if file[-3:] == '.py']
+        self.reward_backup_daily_reward_settings()
 
         for name in existing:
             if name.lower().startswith('sp'):
@@ -28,3 +29,5 @@ class CampaignAB(CampaignRun):
             if name not in existing:
                 continue
             self.run(name=name, folder=self.config.EVENT_NAME_AB)
+
+        self.reward_recover_daily_reward_settings()
