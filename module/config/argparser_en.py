@@ -296,7 +296,7 @@ def main(ini_name=''):
 
     # 演习设置
     exercise = daily_parser.add_argument_group('Exercise settings', 'Only support the most experience for the time being')
-    exercise.add_argument('--exercise_choose_mode', default=default('--exercise_choose_mode'), choices=['max_exp', 'max_ranking', 'good_opponent', 'easiest'], help='Only support the most experience for the time being')
+    exercise.add_argument('--exercise_choose_mode', default=default('--exercise_choose_mode'), choices=['max_exp', 'max_ranking', 'good_opponent', 'easiest', 'easiest_else_exp'], help='Only support the most experience for the time being')
     exercise.add_argument('--exercise_preserve', default=default('--exercise_preserve'), help='Only 0 are temporarily reserved')
     exercise.add_argument('--exercise_try', default=default('--exercise_try'), help='The number of attempts by each opponent')
     exercise.add_argument('--exercise_hp_threshold', default=default('--exercise_hp_threshold'), help='HHP <Retreat at Threshold')

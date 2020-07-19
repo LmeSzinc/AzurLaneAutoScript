@@ -65,7 +65,7 @@ class Opponent:
         # power = np.sum(self.power) / 6
         # return level - (power - 1000) / 30
 
-        if method == "easiest":
+        if "easiest" in method:
             level = (1 - (np.sum(self.level) / MAX_LVL_SUM)) * 100
             team_pwr_div = np.count_nonzero(self.level) * PWR_FACTOR
             avg_team_pwr = np.sum(self.power) / team_pwr_div
