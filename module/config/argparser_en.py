@@ -282,9 +282,9 @@ def main(ini_name=''):
     # 每日设置
     daily_task = daily_parser.add_argument_group('Daily settings', 'Does not support submarine daily')
     daily_task.add_argument('--tactical_training', default=default('--tactical_training'), choices=['daily_air', 'daily_gun', 'daily_torpedo'])
-    daily_task.add_argument('--fierce_assault', default=default('--fierce_assault'), choices=['index_1', 'index_2', 'index_3'])
-    daily_task.add_argument('--escort_mission', default=default('--escort_mission'), choices=['index_1', 'index_2', 'index_3'])
-    daily_task.add_argument('--advance_mission', default=default('--advance_mission'), choices=['index_1', 'index_2', 'index_3'])
+    daily_task.add_argument('--fierce_assault', default=default('--fierce_assault'), choices=['high_level', 'medium_level', 'low_level', 'index_1', 'index_2', 'index_3'])
+    daily_task.add_argument('--escort_mission', default=default('--escort_mission'), choices=['firepower_high_level', 'air_high_level', 'firepower_low_level', 'index_1', 'index_2', 'index_3'])
+    daily_task.add_argument('--advance_mission', default=default('--advance_mission'), choices=['high_level', 'medium_level', 'low_level', 'index_1', 'index_2', 'index_3'])
     daily_task.add_argument('--daily_fleet', default=default('--daily_fleet'), help='If use one fleet, fill in the index of the fleet, such as 5\nIf use different fleets in different daily, separate index with commas, order: Escort Mission, Advance Mission, Fierce Assault, Tactical Training, such as 5, 5, 5, 6')
     daily_task.add_argument('--daily_equipment', default=default('--daily_equipment'), help='Change equipment before playing, unload equipment after playing, do not need to fill in 0 \ncomma, such as 3, 1, 0, 1, 1, 0')
 

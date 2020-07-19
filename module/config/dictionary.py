@@ -21,6 +21,12 @@ dic_daily = {
     'index_1': 1,
     'index_2': 2,
     'index_3': 3,
+    'high_level': 1,
+    'medium_level': 2,
+    'low_level': 3,
+    'firepower_high_level': 1,
+    'air_high_level': 2,
+    'firepower_low_level': 3,
 }
 dic_true_eng_to_eng = {
     # Function
