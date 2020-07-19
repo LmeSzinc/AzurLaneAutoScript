@@ -534,6 +534,8 @@ class RewardCommission(UI, InfoHandler):
             if commission.count - prev <= 0:
                 break
             prev = commission.count
+            if self.appear(COMMISSION_SCROLL_BOTTOM):
+                break
 
         return commission
 

@@ -12,6 +12,8 @@ RESEARCH_ENTRANCE = [ENTRANCE_1, ENTRANCE_2, ENTRANCE_3, ENTRANCE_4, ENTRANCE_5]
 
 
 class RewardResearch(ResearchSelector):
+    _research_project_offset = 0
+
     def ensure_research_stable(self):
         self.wait_until_stable(STABLE_CHECKER)
 
@@ -35,10 +37,11 @@ class RewardResearch(ResearchSelector):
             logger.warning(f'Unexpected color: {color}')
             return False
 
-    def research_reset(self, skip_first_screenshot=True):
+    def research_reset(self, skip_first_screenshot=True, save_get_items=False):
         """
         Args:
             skip_first_screenshot (bool):
+            save_get_items (bool):
 
         Returns:
             bool: If reset success.
@@ -49,6 +52,8 @@ class RewardResearch(ResearchSelector):
 
         logger.info('Research reset')
         executed = False
+        if save_get_items:
+            self.device.save_screenshot('research_project', interval=0)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -69,12 +74,35 @@ class RewardResearch(ResearchSelector):
 
         return True
 
-    def research_select(self):
+    def research_select_quit(self, skip_first_screenshot=True):
+        logger.info('Research select quit')
+        click_timer = Timer(10)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear(RESEARCH_UNAVAILABLE, offset=(20, 20)) \
+                    or self.appear(RESEARCH_START, offset=(20, 20)) \
+                    or self.appear(RESEARCH_STOP, offset=(20, 20)):
+                if click_timer.reached():
+                    self.device.click(RESEARCH_SELECT_QUIT)
+                else:
+                    click_timer.reset()
+            else:
+                self.wait_until_stable(STABLE_CHECKER_CENTER)
+                break
+
+    def research_select(self, save_get_items=False):
         """
         Get best research and able to use research reset.
 
+        Args:
+            save_get_items (bool):
+
         Returns:
-            int: Research project index from left to right. None if no project satisfied.
+            list[int]: List of index from left to right.
         """
         for _ in range(2):
             self.research_detect(self.device.image)
@@ -84,7 +112,7 @@ class RewardResearch(ResearchSelector):
             if not len(priority):
                 return None
             if priority[0] == 'reset':
-                if self.research_reset():
+                if self.research_reset(save_get_items=save_get_items):
                     continue
                 else:
                     priority.pop(0)
@@ -102,12 +130,17 @@ class RewardResearch(ResearchSelector):
                     logger.warning(f'Unknown select method: {method}')
 
             # priority example: [2, 1, 4, 0, 3]
-            if not len(priority):
-                return None
-            else:
-                return priority[0]
+            return priority
 
     def research_project_start(self, index, skip_first_screenshot=True):
+        """
+        Args:
+            index (int): 0 to 4.
+            skip_first_screenshot:
+
+        Returns:
+            bool: If start success.
+        """
         logger.info(f'Research project: {index}')
         click_timer = Timer(10)
         while 1:
@@ -118,7 +151,10 @@ class RewardResearch(ResearchSelector):
 
             # Don't use interval here, RESEARCH_CHECK already appeared 5 seconds ago
             if click_timer.reached() and self.appear(RESEARCH_CHECK, offset=(20, 20)):
-                self.device.click(RESEARCH_ENTRANCE[index])
+                i = (index - self._research_project_offset) % 5
+                logger.info(f'Project offset: {self._research_project_offset}, project {index} is at {i}')
+                self.device.click(RESEARCH_ENTRANCE[i])
+                self._research_project_offset = (index - 2) % 5
                 click_timer.reset()
                 continue
             if self.appear_then_click(RESEARCH_START, interval=10):
@@ -128,8 +164,13 @@ class RewardResearch(ResearchSelector):
 
             # End
             if self.appear(RESEARCH_STOP):
+                self.research_select_quit()
                 self.ensure_no_info_bar()  # Research started
-                break
+                return True
+            if self.appear(RESEARCH_UNAVAILABLE):
+                logger.info('Not enough resources to start this project')
+                self.research_select_quit()
+                return False
 
     def research_receive(self, skip_first_screenshot=True, save_get_items=False):
         logger.info('Research receive')
@@ -146,7 +187,7 @@ class RewardResearch(ResearchSelector):
 
             if self.appear(RESEARCH_CHECK, interval=10):
                 if save_get_items:
-                    self.device.save_screenshot('research_project')
+                    self.device.save_screenshot('research_project', interval=0)
                 self.device.click(RESEARCH_ENTRANCE[2])
                 continue
 
@@ -194,13 +235,23 @@ class RewardResearch(ResearchSelector):
         Pages:
             in: page_research, stable.
             out: page_research, has research project information, but it's still page_research.
+
+        Returns:
+            bool: If success to start a project
         """
         logger.hr('Research start')
         if self.research_has_finished():
             self.research_receive(save_get_items=self.config.ENABLE_SAVE_GET_ITEMS)
+        else:
+            logger.info('No research has finished')
 
-        index = self.research_select()
-        self.research_project_start(index)
+        self._research_project_offset = 0
+        for index in self.research_select(save_get_items=self.config.ENABLE_SAVE_GET_ITEMS):
+            self.research_project_start(index)
+            return True
+
+        logger.warning('Not enough resources for all projects')
+        return False
 
     def handle_research_reward(self):
         """

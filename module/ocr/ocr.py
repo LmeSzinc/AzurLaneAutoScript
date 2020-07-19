@@ -1,13 +1,16 @@
 import time
 
-import pyocr
 from PIL import Image
 
+import module.config.server as server
 from module.base.button import Button
 from module.base.utils import *
+from module.exception import ScriptError
 from module.logger import logger
 from module.ocr.al_ocr import AlOcr
-from module.exception import ScriptError
+
+if server.server == 'jp':
+    import pyocr
 
 OCR_MODEL = {
     # Folder: ./bin/cnocr_models/azur_lane
