@@ -520,10 +520,16 @@ class RewardCommission(UI, InfoHandler):
         commission.merge(self.device.image)
         if commission.count <= 3:
             return commission
+        mean = np.mean(self.device.image.crop(COMMISSION_SCROLL.area), axis=1)
+        bar = np.where(color_similar_1d(mean, color=(247, 211, 66)))[0]
+        if len(bar) < 10 * 2:
+            return commission
 
         prev = commission.count
         for _ in range(15):
             self._commission_swipe()
+            if self.appear(COMMISSION_SCROLL_BOTTOM):
+                break
             commission.merge(self.device.image)
             if commission.count - prev <= 0:
                 break
