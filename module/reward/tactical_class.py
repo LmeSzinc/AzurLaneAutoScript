@@ -128,15 +128,11 @@ class BookGroup:
             Book:
         """
         tier = tier_max
-        while 1:
+        while tier >= tier_min:
             books = self.select(tier=tier)
+            books_with_exp = books.select(exp=True)
             tier -= 1
 
-            # End
-            if tier < tier_min:
-                break
-
-            books_with_exp = books.select(exp=True)
             if exp and not books_with_exp:
                 continue
             if books_with_exp:
