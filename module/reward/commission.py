@@ -528,12 +528,12 @@ class RewardCommission(UI, InfoHandler):
         prev = commission.count
         for _ in range(15):
             self._commission_swipe()
-            if self.appear(COMMISSION_SCROLL_BOTTOM):
-                break
             commission.merge(self.device.image)
             if commission.count - prev <= 0:
                 break
             prev = commission.count
+            if self.appear(COMMISSION_SCROLL_BOTTOM):
+                break
 
         return commission
 
