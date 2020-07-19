@@ -37,10 +37,11 @@ class RewardResearch(ResearchSelector):
             logger.warning(f'Unexpected color: {color}')
             return False
 
-    def research_reset(self, skip_first_screenshot=True):
+    def research_reset(self, skip_first_screenshot=True, save_get_items=False):
         """
         Args:
             skip_first_screenshot (bool):
+            save_get_items (bool):
 
         Returns:
             bool: If reset success.
@@ -51,6 +52,8 @@ class RewardResearch(ResearchSelector):
 
         logger.info('Research reset')
         executed = False
+        if save_get_items:
+            self.device.save_screenshot('research_project', interval=0)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -91,9 +94,12 @@ class RewardResearch(ResearchSelector):
                 self.wait_until_stable(STABLE_CHECKER_CENTER)
                 break
 
-    def research_select(self):
+    def research_select(self, save_get_items=False):
         """
         Get best research and able to use research reset.
+
+        Args:
+            save_get_items (bool):
 
         Returns:
             list[int]: List of index from left to right.
@@ -106,7 +112,7 @@ class RewardResearch(ResearchSelector):
             if not len(priority):
                 return None
             if priority[0] == 'reset':
-                if self.research_reset():
+                if self.research_reset(save_get_items=save_get_items):
                     continue
                 else:
                     priority.pop(0)
@@ -181,7 +187,7 @@ class RewardResearch(ResearchSelector):
 
             if self.appear(RESEARCH_CHECK, interval=10):
                 if save_get_items:
-                    self.device.save_screenshot('research_project')
+                    self.device.save_screenshot('research_project', interval=0)
                 self.device.click(RESEARCH_ENTRANCE[2])
                 continue
 
@@ -240,7 +246,7 @@ class RewardResearch(ResearchSelector):
             logger.info('No research has finished')
 
         self._research_project_offset = 0
-        for index in self.research_select():
+        for index in self.research_select(save_get_items=self.config.ENABLE_SAVE_GET_ITEMS):
             self.research_project_start(index)
             return True
 
