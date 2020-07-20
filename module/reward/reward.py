@@ -28,6 +28,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, LoginHandler
         self.handle_tactical_class()
 
         self.handle_research_reward()
+        self.ui_goto(page_main, skip_first_screenshot=True)
         self._reward_mission()
 
         self.config.REWARD_LAST_TIME = datetime.now()
