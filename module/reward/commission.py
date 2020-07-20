@@ -37,7 +37,7 @@ dictionary_en = {
     'major_comm': ['Self Training', 'Defense Exercise', 'Research Mission', 'Tool Prep', 'Tactical Class', 'Cargo Transport'],
     'daily_comm': ['Daily Resource Extraction', 'Awakening Tactical Research'],
     'extra_drill': ['Sailing', 'Buoy', 'Frontier', 'Coastal'],
-    'extra_part': ['Vein', 'Forest'],
+    'extra_part': ['vein', 'Forest'],
     'extra_cube': ['Fleet Escort Exercise', 'Fleet Exercise', 'Fleet Cargo Transport', 'Fleet Combat Exercise'],
     'extra_oil': ['Oil'],
     'extra_book': ['Merchant Escort'],
