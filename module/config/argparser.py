@@ -294,8 +294,8 @@ def main(ini_name=''):
     hard.add_argument('--困难舰队快速换装', default=default('--困难舰队快速换装'), help='打之前换装备, 打完后卸装备, 不需要就填0\n逗号分割, 例如 3, 1, 0, 1, 1, 0')
 
     # 演习设置
-    exercise = daily_parser.add_argument_group('演习设置', '暂时仅支持经验最多')
-    exercise.add_argument('--演习对手选择', default=default('--演习对手选择'), choices=['经验最多', '排名最前', '福利队'], help='暂时仅支持经验最多')
+    exercise = daily_parser.add_argument_group('演习设置', '')
+    exercise.add_argument('--演习对手选择', default=default('--演习对手选择'), choices=['经验最多', '最简单', '先最简单再经验最多'], help='')
     exercise.add_argument('--演习次数保留', default=default('--演习次数保留'), help='暂时仅支持保留0个')
     exercise.add_argument('--演习尝试次数', default=default('--演习尝试次数'), help='每个对手的尝试次数, 打不过就换')
     exercise.add_argument('--演习SL阈值', default=default('--演习SL阈值'), help='HP<阈值时撤退')
