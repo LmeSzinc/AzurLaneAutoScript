@@ -6,13 +6,15 @@ from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3
 from module.logger import logger
 from module.research.assets import *
 from module.research.project import ResearchSelector
-from module.ui.ui import page_research, page_main, RESEARCH_CHECK
+from module.ui.ui import page_research, RESEARCH_CHECK
 
 RESEARCH_ENTRANCE = [ENTRANCE_1, ENTRANCE_2, ENTRANCE_3, ENTRANCE_4, ENTRANCE_5]
+RESEARCH_STATUS = [STATUS_1, STATUS_2, STATUS_3, STATUS_4, STATUS_5]
 
 
 class RewardResearch(ResearchSelector):
     _research_project_offset = 0
+    _research_finished_index = 2
 
     def ensure_research_stable(self):
         self.wait_until_stable(STABLE_CHECKER)
@@ -20,12 +22,15 @@ class RewardResearch(ResearchSelector):
     def _in_research(self):
         return self.appear(RESEARCH_CHECK, offset=(20, 20))
 
-    def research_has_finished(self):
+    def _research_has_finished_at(self, button):
         """
+        Args:
+            button (Button):
+
         Returns:
             bool: True if a research finished
         """
-        color = get_color(self.device.image, CURRENT_PROJECT_STATUS.area)
+        color = get_color(self.device.image, button.area)
         if np.max(color) - np.min(color) < 40:
             logger.warning(f'Unexpected color: {color}')
         index = np.argmax(color)  # R, G, B
@@ -36,6 +41,22 @@ class RewardResearch(ResearchSelector):
         else:
             logger.warning(f'Unexpected color: {color}')
             return False
+
+    def research_has_finished(self):
+        """
+        Finished research should be auto-focused to the center, but sometimes didn't, due to an unknown game bug.
+        This method will handle that.
+
+        Returns:
+            bool: True if a research finished
+        """
+        for index, button in enumerate(RESEARCH_STATUS):
+            if self._research_has_finished_at(button):
+                logger.attr('Research_finished', index)
+                self._research_finished_index = index
+                return True
+
+        return False
 
     def research_reset(self, skip_first_screenshot=True, save_get_items=False):
         """
@@ -188,7 +209,7 @@ class RewardResearch(ResearchSelector):
             if self.appear(RESEARCH_CHECK, interval=10):
                 if save_get_items:
                     self.device.save_screenshot('research_project', interval=0)
-                self.device.click(RESEARCH_ENTRANCE[2])
+                self.device.click(RESEARCH_ENTRANCE[self._research_finished_index])
                 continue
 
             if self.appear(GET_ITEMS_1, interval=5):
