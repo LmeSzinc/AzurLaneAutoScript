@@ -294,8 +294,8 @@ def main(ini_name=''):
     hard.add_argument('--hard_equipment', default=default('--hard_equipment'), help='Change equipment before playing, unload equipment after playing, do not need to fill in 0 \ncomma, such as 3, 1, 0, 1, 1, 0')
 
     # 演习设置
-    exercise = daily_parser.add_argument_group('Exercise settings', 'Only support the most experience for the time being')
-    exercise.add_argument('--exercise_choose_mode', default=default('--exercise_choose_mode'), choices=['max_exp', 'max_ranking', 'good_opponent', 'easiest'], help='Only support the most experience for the time being')
+    exercise = daily_parser.add_argument_group('Exercise settings', '')
+    exercise.add_argument('--exercise_choose_mode', default=default('--exercise_choose_mode'), choices=['max_exp', 'easiest', 'easiest_else_exp'], help='')
     exercise.add_argument('--exercise_preserve', default=default('--exercise_preserve'), help='Only 0 are temporarily reserved')
     exercise.add_argument('--exercise_try', default=default('--exercise_try'), help='The number of attempts by each opponent')
     exercise.add_argument('--exercise_hp_threshold', default=default('--exercise_hp_threshold'), help='HHP <Retreat at Threshold')

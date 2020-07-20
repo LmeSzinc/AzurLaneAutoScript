@@ -257,14 +257,13 @@ class RewardResearch(ResearchSelector):
         """
         Pages:
             in: page_reward
-            out: page_main
+            out: page_research or page_reward
         """
         if not self.config.ENABLE_RESEARCH_REWARD:
             return False
 
         if not self.appear(RESEARCH_FINISHED) and not self.appear(RESEARCH_PENDING):
             logger.info('No research finished or pending')
-            self.ui_goto(page_main, skip_first_screenshot=True)
             return False
 
         self.ui_goto(page_research, skip_first_screenshot=True)
@@ -272,5 +271,4 @@ class RewardResearch(ResearchSelector):
 
         self.research_reward()
 
-        self.ui_goto(page_main, skip_first_screenshot=True)
         return True
