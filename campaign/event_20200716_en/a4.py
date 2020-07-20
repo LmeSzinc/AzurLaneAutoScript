@@ -63,10 +63,6 @@ class Campaign(CampaignBase):
 
     def battle_3(self):
         self.fleet_boss.clear_enemy()
-        if self.clear_roadblocks([road_main]):
-            return True
-        if self.clear_potential_roadblocks([road_main]):
-            return True
 
         return self.fleet_boss.clear_boss()
 

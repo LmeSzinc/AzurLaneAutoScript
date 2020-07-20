@@ -64,6 +64,10 @@ class Ocr:
         """
         image = extract_letters(image, letter=self.letter, threshold=self.threshold)
 
+
+        #  un-comment to see the image feed to ocr model
+        # Image.fromarray(image.astype('uint8')).show()
+
         return image.astype(np.uint8)
 
     def after_process(self, result):
