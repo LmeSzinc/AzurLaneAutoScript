@@ -76,6 +76,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, LoginHandler
                     (self.config.ENABLE_OIL_REWARD and self.appear_then_click(OIL, interval=60))
                     or (self.config.ENABLE_COIN_REWARD and self.appear_then_click(COIN, interval=60))
                     or (self.config.ENABLE_COMMISSION_REWARD and self.appear_then_click(REWARD_1, interval=1))
+                    or (self.config.ENABLE_RESEARCH_REWARD and not self.config.ENABLE_SAVE_GET_ITEMS and self.appear_then_click(REWARD_3, interval=1))
             ):
                 exit_timer.reset()
                 click_timer.reset()
