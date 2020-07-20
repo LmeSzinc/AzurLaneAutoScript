@@ -694,58 +694,6 @@ class AzurLaneConfig:
         self.config.set(option[0], option[1], record)
         self.save()
 
-    def record_save_zero(self, option):
-        """
-            Note:
-                Save an entry of now's date but with 0 time
-                to allow re-runs for example DailyRecord exercise
-
-            option (tuple(str)): (Section, Option), such as ('DailyRecord', 'exercise').
-        """
-        date = datetime.now().replace(hour=0, minute=0, second=0)
-        record = datetime.strftime(date, self.TIME_FORMAT)
-        self.config.set(option[0], option[1], record)
-        self.save()
-
-    def record_day_check(self):
-        """
-        Note:
-            Really only applies to daily record exercise, so using constant
-
-        Returns:
-            int: An opponent_change_count based on configuration or current date
-        """
-        RECORD_OPTION = ('DailyRecord', 'exercise')
-        RECORD_SINCE = (0, 12, 18,)
-        RECORD_COUNT = ('DailyRecord', 'exercise_count')
-        record = datetime.strptime(self.config.get(*RECORD_OPTION), self.TIME_FORMAT)
-        update = self.get_server_last_update(RECORD_SINCE)
-        if record.date() == update.date():
-            logger.hr("Same Day")
-            return self.config.getint(*RECORD_COUNT, fallback=6)
-        else:
-            logger.hr("New Day")
-            return 0
-
-    def record_change_count(self, value):
-        """
-        Note:
-            Really only applies to daily record exercise, so using constant
-
-            Args:
-                value (int): This value should strictly be positive int
-        """
-        RECORD_COUNT = ('DailyRecord', 'exercise_count')
-        try:
-            value = int(value)
-            if value < 0:
-                raise
-            logger.hr("Saving Opponent Change Count")
-            self.config.set('DailyRecord', 'exercise_count', str(value))
-            self.save()
-        except:
-            logger.hr("Unable to save Opponent Change Count")
-
     def __init__(self, ini_name='alas'):
         """
         Args:
