@@ -315,17 +315,21 @@ class Homography:
         rho, theta = lines[:, 0], lines[:, 1]
 
         hori = lines[(np.deg2rad(90 - theta_th) < theta) & (theta < np.deg2rad(90 + theta_th))]
-        hori = Lines(hori, is_horizontal=True, config=self.config).group().rho
+        hori = Lines(hori, is_horizontal=True, config=self.config).group()
         vert = lines[(theta < np.deg2rad(theta_th)) | (np.deg2rad(180 - theta_th) < theta)]
         vert = [[-rho, theta - np.pi] if rho < 0 else [rho, theta] for rho, theta in vert]
-        vert = Lines(vert, is_horizontal=False, config=self.config).group().rho
+        vert = Lines(vert, is_horizontal=False, config=self.config).group()
 
         self._map_edge_count = (len(vert), len(hori))
 
-        diff = (hori - self.homo_loca[1]) % self.config.HOMO_TILE[1]
-        hori = hori[(diff < edge_th) | (diff > self.config.HOMO_TILE[1] - edge_th)]
-        diff = (vert - self.homo_loca[0]) % self.config.HOMO_TILE[0]
-        vert = vert[(diff < edge_th) | (diff > self.config.HOMO_TILE[0] - edge_th)]
+        if hori:
+            hori = hori.rho
+            diff = (hori - self.homo_loca[1]) % self.config.HOMO_TILE[1]
+            hori = hori[(diff < edge_th) | (diff > self.config.HOMO_TILE[1] - edge_th)]
+        if vert:
+            vert = vert.rho
+            diff = (vert - self.homo_loca[0]) % self.config.HOMO_TILE[0]
+            vert = vert[(diff < edge_th) | (diff > self.config.HOMO_TILE[0] - edge_th)]
 
         self.lower_edge, self.upper_edge = separate_edges(hori, inner=self.map_inner[1])
         self.left_edge, self.right_edge = separate_edges(vert, inner=self.map_inner[0])
