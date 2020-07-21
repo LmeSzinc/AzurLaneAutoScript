@@ -1,3 +1,4 @@
+import cv2
 import numpy as np
 from PIL import ImageStat
 
@@ -299,10 +300,11 @@ def color_similarity_2d(image, color):
     Returns:
         np.ndarray: uint8
     """
-    diff = np.array(image).astype(int) - color
-    diff = 255 - np.max(np.maximum(diff, 0), axis=2) + np.min(np.minimum(diff, 0), axis=2)
-    image = np.clip(diff, 0, 255).astype(np.uint8)
-    return image
+    r, g, b = cv2.split(cv2.subtract(image, (*color, 0)))
+    positive = cv2.max(cv2.max(r, g), b)
+    r, g, b = cv2.split(cv2.subtract((*color, 0), image))
+    negative = cv2.max(cv2.max(r, g), b)
+    return cv2.subtract(255, cv2.add(positive, negative))
 
 
 def extract_letters(image, letter=(255, 255, 255), threshold=128):
@@ -316,10 +318,11 @@ def extract_letters(image, letter=(255, 255, 255), threshold=128):
     Returns:
         np.ndarray: Shape (height, width)
     """
-    image = color_similarity_2d(np.array(image), color=letter)
-    image = (255.0 - image) * (255.0 / threshold)
-    image = np.clip(image, 0, 255).astype(np.uint8)
-    return image
+    r, g, b = cv2.split(cv2.subtract(image, (*letter, 0)))
+    positive = cv2.max(cv2.max(r, g), b)
+    r, g, b = cv2.split(cv2.subtract((*letter, 0), image))
+    negative = cv2.max(cv2.max(r, g), b)
+    return cv2.multiply(cv2.add(positive, negative), 255.0 / threshold)
 
 
 def red_overlay_transparency(color1, color2, red=247):

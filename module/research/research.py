@@ -123,7 +123,7 @@ class RewardResearch(ResearchSelector):
             save_get_items (bool):
 
         Returns:
-            list[int]: List of index from left to right.
+            list[int]: List of index from left to right or None if no research satisfies.
         """
         for _ in range(2):
             self.research_detect(self.device.image)
@@ -267,9 +267,14 @@ class RewardResearch(ResearchSelector):
             logger.info('No research has finished')
 
         self._research_project_offset = 0
-        for index in self.research_select(save_get_items=self.config.ENABLE_SAVE_GET_ITEMS):
-            self.research_project_start(index)
-            return True
+        projects = self.research_select(save_get_items=self.config.ENABLE_SAVE_GET_ITEMS)
+        if projects is None:
+            logger.info('No research project satisfies current filter')
+            return False
+
+        for index in projects:
+            if self.research_project_start(index):
+                return True
 
         logger.warning('Not enough resources for all projects')
         return False
