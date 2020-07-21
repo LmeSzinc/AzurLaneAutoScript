@@ -251,11 +251,8 @@ def color_similarity(color1, color2):
     Returns:
         int:
     """
-    diff = np.array(color1) - np.array(color2)
-    positive, negative = diff, np.abs(diff)
-    positive[diff < 0] = 0
-    negative[diff > 0] = 0
-    diff = np.max(positive) + np.max(negative)
+    diff = np.array(color1).astype(int) - np.array(color2).astype(int)
+    diff = np.max(np.maximum(diff, 0)) - np.min(np.minimum(diff, 0))
     return diff
 
 
@@ -273,29 +270,23 @@ def color_similar(color1, color2, threshold=10):
         bool: True if two colors are similar.
     """
     # print(color1, color2)
-    diff = np.array(color1) - np.array(color2)
-    positive, negative = diff, np.abs(diff)
-    positive[diff < 0] = 0
-    negative[diff > 0] = 0
-    diff = np.max(positive) + np.max(negative)
+    diff = np.array(color1).astype(int) - np.array(color2).astype(int)
+    diff = np.max(np.maximum(diff, 0)) - np.min(np.minimum(diff, 0))
     return diff <= threshold
 
 
-def color_similar_1d(bar, color, threshold=10):
+def color_similar_1d(image, color, threshold=10):
     """
     Args:
-        bar: 1D array.
+        image: 1D array.
         color: (r, g, b)
         threshold(int): Default to 10.
 
     Returns:
         np.ndarray: bool
     """
-    diff = np.array(bar) - np.array(color)
-    positive, negative = diff, np.abs(diff)
-    positive[diff < 0] = 0
-    negative[diff > 0] = 0
-    diff = np.max(positive, axis=1) + np.max(negative, axis=1)
+    diff = np.array(image).astype(int) - color
+    diff = np.max(np.maximum(diff, 0), axis=1) - np.min(np.minimum(diff, 0), axis=1)
     return diff <= threshold
 
 
@@ -308,13 +299,9 @@ def color_similarity_2d(image, color):
     Returns:
         np.ndarray: uint8
     """
-    diff = np.array(image) - color
-    positive, negative = diff, np.abs(diff)
-    positive[diff < 0] = 0
-    negative[diff > 0] = 0
-    diff = 255.0 - np.max(positive, axis=2) - np.max(negative, axis=2)
-    diff[diff < 0] = 0
-    image = diff.astype(np.uint8)
+    diff = np.array(image).astype(int) - color
+    diff = 255 - np.max(np.maximum(diff, 0), axis=2) + np.min(np.minimum(diff, 0), axis=2)
+    image = np.clip(diff, 0, 255).astype(np.uint8)
     return image
 
 
@@ -331,7 +318,7 @@ def extract_letters(image, letter=(255, 255, 255), threshold=128):
     """
     image = color_similarity_2d(np.array(image), color=letter)
     image = (255.0 - image) * (255.0 / threshold)
-    image[image > 255] = 255
+    image = np.clip(image, 0, 255).astype(np.uint8)
     return image
 
 
