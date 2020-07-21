@@ -48,8 +48,18 @@ class Daily(Combat, DailyEquipment):
         self._wait_daily_switch()
         self.device.screenshot()
 
+    def daily_locked_check(self):
+        def daily_enter_check():
+            return self.appear(DAILY_ENTER_CHECK)
+
+        self.ui_click(click_button=DAILY_ENTER, check_button=daily_enter_check, appear_button=DAILY_CHECK)
+
+        if self.appear(DAILY_LOCKED):
+            logger.info('Daily locked, switching to next active daily')
+            self.ui_click(click_button=BACK_ARROW, check_button=DAILY_CHECK)
+            self.next()
+
     def daily_execute(self, remain, fleet):
-        logger.hr(f'Daily {self.daily_current}')
         logger.attr('Fleet', fleet)
 
         def daily_enter_check():
@@ -59,11 +69,7 @@ class Daily(Combat, DailyEquipment):
             return self.appear(DAILY_ENTER_CHECK) or self.appear(BACK_ARROW)
 
         self.ui_click(click_button=DAILY_ENTER, check_button=daily_enter_check, appear_button=DAILY_CHECK)
-        if self.appear(DAILY_LOCKED):
-            self.ui_click(click_button=BACK_ARROW, check_button=DAILY_CHECK)
-            self.next()
 
-        self.ui_click(click_button=DAILY_ENTER, check_button=daily_enter_check, appear_button=DAILY_CHECK)
         button = DAILY_MISSION_LIST[self.config.DAILY_CHOOSE[self.daily_current] - 1]
         for n in range(remain):
             logger.hr(f'Count {n + 1}')
@@ -89,6 +95,7 @@ class Daily(Combat, DailyEquipment):
         self.device.sleep(0.2)
         self.device.screenshot()
         self.daily_current = 1
+        self.daily_locked_check()
 
         # Order of FLEET_DAILY
         # 0 商船护送, 1 海域突进, 2 斩首行动, 3 战术研修, 4 破交作战
