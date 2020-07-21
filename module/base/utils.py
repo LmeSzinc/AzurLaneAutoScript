@@ -300,6 +300,7 @@ def color_similarity_2d(image, color):
     Returns:
         np.ndarray: uint8
     """
+    image = np.array(image)
     r, g, b = cv2.split(cv2.subtract(image, (*color, 0)))
     positive = cv2.max(cv2.max(r, g), b)
     r, g, b = cv2.split(cv2.subtract((*color, 0), image))
@@ -318,6 +319,7 @@ def extract_letters(image, letter=(255, 255, 255), threshold=128):
     Returns:
         np.ndarray: Shape (height, width)
     """
+    image = np.array(image)
     r, g, b = cv2.split(cv2.subtract(image, (*letter, 0)))
     positive = cv2.max(cv2.max(r, g), b)
     r, g, b = cv2.split(cv2.subtract((*letter, 0), image))
