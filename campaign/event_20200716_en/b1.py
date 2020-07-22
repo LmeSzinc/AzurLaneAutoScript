@@ -6,16 +6,16 @@ from module.logger import logger
 MAP = CampaignMap('B1')
 MAP.camera_sight = (-4, -2, 4, 2)
 MAP.shape = 'J7'
-# MAP.camera_data = ['D2', 'D5', 'G2', 'G5']
+MAP.camera_data = ['D2', 'D5', 'G2', 'G5']
 MAP.camera_data_spawn_point = []
 MAP.map_data = """
     ++ ++ ++ MS -- ME ++ ++ ++ ++
     ++ ++ ++ -- ME __ -- ++ ++ ++
     ++ ++ ++ __ -- ME -- -- ++ ++
-    ++ ++ ++ Me ++ ++ ME -- ++ ++
+    ++ ++ ++ ME ++ ++ ME -- ++ ++
     -- MB -- -- ME ME -- ME -- SP
-    -- -- Me -- -- -- -- __ -- SP
-    ++ ++ -- Me MS ME Me ++ ME --
+    -- -- ME -- -- -- -- __ -- SP
+    ++ ++ -- ME MS ME ME ++ ME --
 """
 MAP.weight_data = """
     10 10 10 10 10 10 10 10 10 10
@@ -43,6 +43,7 @@ A6, B6, C6, D6, E6, F6, G6, H6, I6, J6, \
 A7, B7, C7, D7, E7, F7, G7, H7, I7, J7, \
     = MAP.flatten()
 
+road_main = RoadGrids([H5, G4, F3, E2, D4])
 
 class Config:
     SUBMARINE = 0
@@ -55,6 +56,7 @@ class Config:
     MAP_HAS_DYNAMIC_RED_BORDER = False
     MAP_SIREN_COUNT = 1
     MAP_HAS_PT_BONUS = True
+    # MAP_SIREN_TEMPLATE = ['DD', 'CL']
 
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (100, 255 - 24),
@@ -78,15 +80,18 @@ class Config:
     TRUST_EDGE_LINES = True
     MAP_GRID_CENTER_TOLERANCE = 0.3
 
-
 class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
         if self.clear_siren():
             return True
+        if self.clear_roadblocks([road_main]):
+            return True
+        if self.clear_potential_roadblocks([road_main]):
+            return True
 
         return self.battle_default()
 
     def battle_5(self):
-        return self.fleet_boss.clear_boss()
+        self.fleet_boss.capture_clear_boss()
