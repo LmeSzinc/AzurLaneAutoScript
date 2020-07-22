@@ -52,6 +52,7 @@ class Config(ConfigBase):
 class Campaign(CampaignBase):
     MAP = MAP
 
+
     def battle_0(self):
         if self.clear_siren():
             return True
@@ -59,10 +60,8 @@ class Campaign(CampaignBase):
             return True
         if self.clear_potential_roadblocks([road_main]):
             return True
+
         return self.battle_default()
 
-    def battle_3(self):
-        self.fleet_boss.clear_enemy()
-
-        return self.fleet_boss.clear_boss()
-
+    def battle_4(self):
+        self.fleet_boss.capture_clear_boss()

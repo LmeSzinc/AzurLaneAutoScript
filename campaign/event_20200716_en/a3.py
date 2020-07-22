@@ -32,9 +32,10 @@ MAP.weight_data = """
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 2, 'siren': 1},
     {'battle': 1, 'enemy': 1},
-    {'battle': 2, 'enemy': 1},
+    {'battle': 2, 'enemy': 2},
     {'battle': 3, 'enemy': 1},
-    {'battle': 4, 'enemy': 1, 'boss': 1},
+    {'battle': 4, 'enemy': 2, 'boss': 1},
+    {'battle': 5, 'enemy': 1},
 ]
 A1, B1, C1, D1, E1, F1, G1, H1, \
 A2, B2, C2, D2, E2, F2, G2, H2, \
@@ -57,14 +58,8 @@ class Campaign(CampaignBase):
     def battle_0(self):
         if self.clear_siren():
             return True
+
         return self.battle_default()
 
-    def battle_3(self):
-        self.fleet_boss.clear_enemy()
-
-        boss = self.map.select(is_boss=True)
-        if boss:
-            if not self.check_accessibility(boss[0], fleet='boss'):
-                return self.battle_default()
-
-        return self.fleet_boss.clear_boss()
+    def battle_5(self):
+        self.fleet_boss.capture_clear_boss()

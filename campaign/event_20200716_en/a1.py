@@ -81,15 +81,9 @@ class Campaign(CampaignBase):
     def battle_0(self):
         if self.clear_siren():
             return True
+
         return self.battle_default()
 
-    def battle_3(self):
-        self.fleet_boss.clear_enemy()
-
-        boss = self.map.select(is_boss=True)
-        if boss:
-            if not self.check_accessibility(boss[0], fleet='boss'):
-                return self.battle_default()
-
-        return self.fleet_boss.clear_boss()
+    def battle_4(self):
+        self.fleet_boss.capture_clear_boss()
 

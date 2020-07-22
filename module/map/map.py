@@ -254,6 +254,33 @@ class Map(Fleet):
         logger.warning('BOSS not detected, trying all boss spawn point.')
         return self.clear_potential_boss()
 
+    def capture_clear_boss(self):
+        """This method is deprecated, although it works well in simple map.
+        In a complex map, brute_clear_boss is recommended.
+        Note: Lazy method to handle with grand capture map
+
+        Returns:
+            bool:
+        """
+
+        grids = self.map.select(is_boss=True, is_accessible=True)
+        grids = grids.add(self.map.select(may_boss=True, is_caught_by_siren=True))
+        logger.info('Is boss: %s' % grids)
+        if not grids.count:
+            grids = grids.add(self.map.select(may_boss=True, is_enemy=True, is_accessible=True))
+            logger.warning('Boss not detected, using may_boss grids.')
+            logger.info('May boss: %s' % self.map.select(may_boss=True))
+            logger.info('May boss and is enemy: %s' % self.map.select(may_boss=True, is_enemy=True))
+
+        if grids:
+            logger.hr('Clear BOSS')
+            grids = grids.sort(cost=True, weight=True)
+            logger.info('Grids: %s' % str(grids))
+            self.clear_chosen_enemy(grids[0])
+
+        logger.warning('Grand Capture detected, Withdrawing.')
+        self.withdraw()
+
     def clear_potential_boss(self):
         """
         Method to step on all boss spawn point when boss not detected.
