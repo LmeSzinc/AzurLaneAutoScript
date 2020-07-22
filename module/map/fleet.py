@@ -1,5 +1,6 @@
 import itertools
 
+import numpy as np
 
 from module.base.timer import Timer
 from module.exception import MapWalkError
@@ -120,7 +121,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
 
             while 1:
                 self.device.screenshot()
-                grid.image = self.device.image
+                grid.image = np.array(self.device.image)
 
                 # Ambush
                 if self.handle_ambush():

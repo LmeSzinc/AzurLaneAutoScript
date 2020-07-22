@@ -177,7 +177,7 @@ class CampaignMap:
             camera (tuple):
             is_carrier_scan (bool):
         """
-        offset = np.array(camera) - np.array(grids.center_grid)
+        offset = np.array(camera) - np.array(grids.center_loca)
         grids.show()
         for grid in grids.grids.values():
             loca = tuple(offset + grid.location)
