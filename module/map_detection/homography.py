@@ -157,6 +157,7 @@ class Homography:
         image_edge = cv2.bitwise_and(image_edge, self.ui_mask_homo_stroke)
         kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
         image_edge = cv2.morphologyEx(image_edge, cv2.MORPH_CLOSE, kernel)
+        # Image.fromarray(image_edge, mode='L').show()
 
         # Find free tile
         if self.search_tile_center(image_edge, threshold_good=self.config.HOMO_CENTER_GOOD_THRESHOLD,
@@ -297,7 +298,7 @@ class Homography:
         logger.attr_align('tile_rectangle', f'{len(location)} rectangles ({message})')
         return self.homo_loca is not None
 
-    def detect_edges(self, image, hough_th=120, theta_th=0.005, edge_th=3):
+    def detect_edges(self, image, hough_th=120, theta_th=0.005, edge_th=5):
         """
         Detect map edges
 
@@ -365,13 +366,12 @@ class Homography:
             grids[loca] = points
         shape = np.max(list(grids.keys()), axis=0)
 
-        hori = Points([640, grids[(0, 0)][1]], config=self.config).link(None, is_horizontal=True)
+        hori = Points([640, grids[(0, 0)][1, 1]], config=self.config).link(None, is_horizontal=True)
         for y in range(shape[1] + 1):
-            hori = hori.add(Points([640, grids[(0, y)][3]], config=self.config).link(None, is_horizontal=True))
-        vert = Points(grids[(0, 0)][:2], config=self.config).link(grids[(0, shape[1])][:2])
+            hori = hori.add(Points([640, grids[(0, y)][3, 1]], config=self.config).link(None, is_horizontal=True))
+        vert = Points(grids[(0, 0)][1], config=self.config).link(grids[(0, shape[1])][3])
         for x in range(shape[0] + 1):
-            vert = vert.add(Points(grids[(x, 0)][2:], config=self.config).link(grids[(x, shape[1])][2:]))
-
+            vert = vert.add(Points(grids[(x, 0)][1], config=self.config).link(grids[(x, shape[1])][3]))
         return hori, vert
 
     def draw(self, lines=None, bg=None, expend=0):
