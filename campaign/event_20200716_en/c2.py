@@ -43,10 +43,8 @@ A6, B6, C6, D6, E6, F6, G6, \
 A7, B7, C7, D7, E7, F7, G7, \
     = MAP.flatten()
 
-
 class Config(ConfigBase):
     pass
-
 
 class Campaign(CampaignBase):
     MAP = MAP
@@ -58,4 +56,4 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_4(self):
-        return self.fleet_boss.clear_boss()
+        self.fleet_boss.capture_clear_boss()
