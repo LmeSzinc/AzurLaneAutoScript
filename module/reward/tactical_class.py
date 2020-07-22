@@ -230,6 +230,7 @@ class RewardTacticalClass(UI):
                     and self.appear(TACTICAL_CLASS_START, offset=(30, 30)):
                 self.device.sleep(0.3)
                 self.device.screenshot()
+                self.handle_info_bar()  # info_bar appears when get ship in Launch Ceremony commissions
                 self._tactical_books_choose()
                 self.device.click(TACTICAL_CLASS_START)
                 self.interval_reset(TACTICAL_CLASS_CANCEL)
