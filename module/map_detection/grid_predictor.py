@@ -173,10 +173,10 @@ class GridPredictor:
             return True
 
         # Small boss icon
-        if self.relative_hsv_count(
-                area=(0.13, -0.05, 0.63, 0.15), h=(358 - 3, 358 + 3), v=(96, 100), shape=(50, 20)) > 100:
-            if TEMPLATE_ENEMY_BOSS.match(
-                    self.relative_crop((0.13, -0.05, 0.63, 0.15), shape=(50, 20)), similarity=0.4):
+        if self.relative_hsv_count(area=(0.03, -0.15, 0.63, 0.15), h=(358 - 3, 358 + 3), shape=(50, 20)) > 100:
+            image = self.relative_crop((0.03, -0.15, 0.63, 0.15), shape=(50, 20))
+            image = color_similarity_2d(image, color=(255, 77, 82))
+            if TEMPLATE_ENEMY_BOSS.match(image, similarity=0.7):
                 return True
 
         return False
