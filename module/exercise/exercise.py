@@ -25,7 +25,7 @@ class Exercise(ExerciseCombat):
         self.config.config.set(*RECORD_COUNT, str(self.opponent_change_count))
         self.config.save()
 
-        self.ensure_no_info_bar()
+        self.ensure_no_info_bar(timeout=3)
 
     def _exercise_once(self):
         """Execute exercise once.

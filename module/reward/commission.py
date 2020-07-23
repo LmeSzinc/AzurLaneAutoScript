@@ -34,20 +34,20 @@ dictionary_cn = {
     'urgent_ship': ['观舰']
 }
 dictionary_en = {
-    'major_comm': ['Self Training', 'Defense Exercise', 'Research Mission', 'Tool Prep', 'Tactical Class', 'Cargo Transport'],
-    'daily_comm': ['Daily Resource Extraction', 'Awakening Tactical Research'],
-    'extra_drill': ['Sailing', 'Buoy', 'Frontier', 'Coastal', 'saling'],
-    'extra_part': ['vein', 'Forest'],
-    'extra_cube': ['Fleet Escort Exercise', 'Fleet Exercise', 'Fleet Cargo Transport', 'Fleet Combat Exercise'],
-    'extra_oil': ['Oil'],
-    'extra_book': ['Merchant Escort'],
-    'urgent_drill': ['Cargo Defense', 'Destroy', 'Coastal'],
-    'urgent_part': ['Lavella', 'Maui', 'Rendova', 'Kongbanna'],
-    'urgent_book': ['Tyrant', 'Poro', 'Makira', 'Kapolo', 'Manne', 'Mary', 'Isle', 'Kotlin'],
-    'urgent_box': ['Gear', 'Handover'],
-    'urgent_cube': ['Enemy Attack', 'Merchant Rescue'],
-    'urgent_gem': ['VIP', 'Holiday Escort', 'Patrol Escort'],
-    'urgent_ship': ['Launch']
+    'major_comm': ['SELF TRAINING', 'DEFENSE EXERCISE', 'RESEARCH MISSION', 'TOOL PREP', 'TACTICAL CLASS', 'CARGO TRANSPORT'],
+    'daily_comm': ['DAILY RESOURCE EXTRACTION', 'AWAKENING TACTICAL RESEARCH'],
+    'extra_drill': ['SAILING', 'BUOY', 'FRONTIER', 'COASTAL', 'SALING'],
+    'extra_part': ['VEIN', 'FOREST'],
+    'extra_cube': ['FLEET ESCORT EXERCISE', 'FLEET EXERCISE', 'FLEET CARGO TRANSPORT', 'FLEET COMBAT EXERCISE'],
+    'extra_oil': ['OIL'],
+    'extra_book': ['MERCHANT ESCORT'],
+    'urgent_drill': ['CARGO DEFENSE', 'DESTROY', 'COASTAL'],
+    'urgent_part': ['LAVELLA', 'MAUI', 'RENDOVA', 'KONGBANNA'],
+    'urgent_book': ['TYRANT', 'PORO', 'MAKIRA', 'KAPOLO', 'MANNE', 'MARY', 'ISLE', 'KOTLIN'],
+    'urgent_box': ['GEAR', 'HANDOVER'],
+    'urgent_cube': ['ENEMY ATTACK', 'MERCHANT RESCUE'],
+    'urgent_gem': ['VIP', 'HOLIDAY ESCORT', 'PATROL ESCORT'],
+    'urgent_ship': ['LAUNCH']
 }
 dictionary_jp = {
     'major_comm': ['初級自主訓練', '中級自主訓練', '上級自主訓練', '初級対抗演習', '中級対抗演習', '上級対抗演習', '初級科学研究', '中級科学研究', '上級科学研究', '初級資材整理', '中級資材整理', '上級資材整理', '初級戦術課程', '中級戦術課程', '上級戦術課程', '初級貨物輸送', '中級貨物輸送', '上級貨物輸送'],
@@ -93,7 +93,7 @@ class Commission:
         ocr = Ocr(button, lang='cnocr')
         self.button = button
         self.name = ocr.ocr(self.image)
-        self.genre = self.commission_name_parse(self.name)
+        self.genre = self.commission_name_parse(self.name.upper())
 
         # Duration time
         area = area_offset((290, 68, 390, 95), self.area[0:2])
@@ -664,6 +664,9 @@ class RewardCommission(UI, InfoHandler):
             return False
 
         self.ui_goto(page_commission, skip_first_screenshot=True)
+        # info_bar appears when get ship in Launch Ceremony commissions
+        # This is a game bug, the info_bar shows get ship, will appear over and over again, until you click get_ship.
+        self.handle_info_bar()
 
         self.commission_start()
 

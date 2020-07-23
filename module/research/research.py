@@ -115,43 +115,44 @@ class RewardResearch(ResearchSelector):
                 self.wait_until_stable(STABLE_CHECKER_CENTER)
                 break
 
-    def research_select(self, save_get_items=False):
+    def research_select(self, priority, save_get_items=False):
         """
-        Get best research and able to use research reset.
-
         Args:
+            priority (list): A list of str and int, such as [2, 3, 0, 'reset']
             save_get_items (bool):
 
         Returns:
-            list[int]: List of index from left to right or None if no research satisfies.
+            bool: False if have been reset
         """
-        for _ in range(2):
-            self.research_detect(self.device.image)
-            priority = self.research_sort_filter()
-
+        if not len(priority):
+            logger.info('No research project satisfies current filter')
+            return True
+        for project in priority:
             # priority example: ['reset', 'shortest']
-            if not len(priority):
-                return None
-            if priority[0] == 'reset':
+            if project == 'reset':
                 if self.research_reset(save_get_items=save_get_items):
+                    return False
+                else:
                     continue
-                else:
-                    priority.pop(0)
 
-            # priority example: ['shortest']
-            if not len(priority):
-                return None
-            if isinstance(priority[0], str):
-                method = priority[0]
-                if method == 'shortest':
-                    priority = self.research_sort_shortest()
-                elif method == 'cheapest':
-                    priority = self.research_sort_cheapest()
+            if isinstance(project, str):
+                # priority example: ['shortest']
+                if project == 'shortest':
+                    self.research_select(self.research_sort_shortest(), save_get_items=save_get_items)
+                elif project == 'cheapest':
+                    self.research_select(self.research_sort_cheapest(), save_get_items=save_get_items)
                 else:
-                    logger.warning(f'Unknown select method: {method}')
+                    logger.warning(f'Unknown select method: {project}')
+                return True
+            else:
+                # priority example: [2, 3, 0]
+                if self.research_project_start(project):
+                    return True
+                else:
+                    continue
 
-            # priority example: [2, 1, 4, 0, 3]
-            return priority
+        logger.info('No research project started')
+        return True
 
     def research_project_start(self, index, skip_first_screenshot=True):
         """
@@ -256,9 +257,6 @@ class RewardResearch(ResearchSelector):
         Pages:
             in: page_research, stable.
             out: page_research, has research project information, but it's still page_research.
-
-        Returns:
-            bool: If success to start a project
         """
         logger.hr('Research start')
         if self.research_has_finished():
@@ -267,17 +265,13 @@ class RewardResearch(ResearchSelector):
             logger.info('No research has finished')
 
         self._research_project_offset = 0
-        projects = self.research_select(save_get_items=self.config.ENABLE_SAVE_GET_ITEMS)
-        if projects is None:
-            logger.info('No research project satisfies current filter')
-            return False
+        self.research_detect(self.device.image)
+        priority = self.research_sort_filter()
 
-        for index in projects:
-            if self.research_project_start(index):
-                return True
-
-        logger.warning('Not enough resources for all projects')
-        return False
+        for _ in range(2):
+            result = self.research_select(priority, save_get_items=self.config.ENABLE_SAVE_GET_ITEMS)
+            if result:
+                break
 
     def handle_research_reward(self):
         """
