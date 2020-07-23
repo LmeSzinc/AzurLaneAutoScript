@@ -250,9 +250,9 @@ class GridPredictor:
 
         # 微层混合 event_20200326_cn
         if self._relative_image_color_hue_count(
-                area=(0.13, -0.05, 0.63, 0.15), h=(358 - 3, 358 + 3), v=(96, 100), output_shape=(50, 20)) > 100:
+                area=(0.03, -0.15, 0.63, 0.15), h=(358 - 3, 358 + 3), output_shape=(50, 20)) > 100:
             if TEMPLATE_ENEMY_BOSS.match(
-                    self.get_relative_image((0.13, -0.05, 0.63, 0.15), output_shape=(50, 20)), similarity=0.4):
+                    self.get_relative_image((0.03, -0.15, 0.63, 0.15), output_shape=(50, 20)), similarity=0.7):
                 return True
 
         return False
