@@ -664,6 +664,9 @@ class RewardCommission(UI, InfoHandler):
             return False
 
         self.ui_goto(page_commission, skip_first_screenshot=True)
+        # info_bar appears when get ship in Launch Ceremony commissions
+        # This is a game bug, the info_bar shows get ship, will appear over and over again, until you click get_ship.
+        self.handle_info_bar()
 
         self.commission_start()
 
