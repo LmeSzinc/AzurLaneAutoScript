@@ -2,7 +2,6 @@ import copy
 import importlib
 import os
 from datetime import datetime
-
 from module.campaign.assets import *
 from module.campaign.campaign_base import CampaignBase
 from module.campaign.campaign_ui import CampaignUI
@@ -11,8 +10,12 @@ from module.exception import ScriptEnd, CampaignNameError
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.reward.reward import Reward
+from module.hard.assets import OCR_HARD_REMAIN
 
 OCR_OIL = Digit(OCR_OIL, name='OCR_OIL', letter=(247, 247, 247), threshold=128)
+OCR_HARD_REMAIN = Digit(OCR_HARD_REMAIN, letter=(123, 227, 66), threshold=128, alphabet='0123')
+RECORD_OPTION = ('DailyRecord', 'hard')
+RECORD_SINCE = (0,)
 
 
 class CampaignRun(CampaignUI, Reward):
@@ -126,12 +129,13 @@ class CampaignRun(CampaignUI, Reward):
 
         return False
 
-    def run(self, name, folder='campaign_main', total=0):
+    def run(self, name, folder='campaign_main', total=0, mode=None):
         """
         Args:
             name (str): Name of .py file.
             folder (str): Name of the file folder under campaign.
             total (int):
+            mode (str): 'normal' or 'hard'.
         """
         self.load_campaign(name, folder=folder)
         self.run_count = 0
@@ -167,10 +171,21 @@ class CampaignRun(CampaignUI, Reward):
             # End
             if self.triggered_stop_condition():
                 break
-
             # Run
             try:
-                self.campaign.run()
+                if mode == 'normal':
+                    self.campaign.run()
+                else:
+                    remain = OCR_HARD_REMAIN.ocr(self.device.image)
+                    logger.attr('Remain', remain)
+                    for n in range(remain):
+                        if n > '0':
+                            self.campaign.run()
+                    else:
+                        logger.info('No more HARD attacks left')
+                        self.config.record_executed_since(option=RECORD_OPTION, since=RECORD_SINCE)
+                        self.config.record_save(option=RECORD_OPTION)
+                        self.reward_loop()
             except ScriptEnd as e:
                 logger.hr('Script end')
                 logger.info(str(e))
