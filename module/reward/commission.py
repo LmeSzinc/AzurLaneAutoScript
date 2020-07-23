@@ -256,7 +256,6 @@ class Commission:
             str: Commission genre, such as 'urgent_gem'.
         """
         # string = string.replace(' ', '').replace('-', '')
-        string = string.upper()
         for key, value in dictionary_en.items():
             for keyword in value:
                 if keyword in string:
