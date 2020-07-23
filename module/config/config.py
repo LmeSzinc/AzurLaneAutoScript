@@ -4,15 +4,13 @@ import copy
 import os
 from datetime import timezone
 
-import cv2
 import numpy as np
-from PIL import Image
 
 import module.config.server as server
 from module.base.timer import *
 from module.config.dictionary import *
-from module.logger import logger
 from module.config.update import get_config
+from module.logger import logger
 
 
 class AzurLaneConfig:
@@ -298,13 +296,6 @@ class AzurLaneConfig:
     """
     module.map_detection.perspective
     """
-    # UI mask
-    UI_MASK_FILE = './module/map/ui_mask.png'
-    UI_MASK_PIL = Image.open(UI_MASK_FILE).convert('L')
-    UI_MASK = np.array(UI_MASK_PIL)
-    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
-    UI_MASK_STROKE = cv2.erode(UI_MASK, kernel).astype('uint8')
-
     # Parameters for scipy.signal.find_peaks
     # https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.find_peaks.html
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {

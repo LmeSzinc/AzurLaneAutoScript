@@ -68,17 +68,21 @@ class View(MapDetector):
                 raise MapDetectionError(f'Camera outside map: offset=({x}, {y})')
             break
 
-        # Predict grid info
-        self.predict()
-        self.show()
-
     def predict(self):
+        """
+        Predict grid info.
+        """
         start_time = time.time()
         for grid in self:
             grid.predict()
         logger.attr_align('predict', len(self.grids.keys()), front=float2str(time.time() - start_time) + 's')
+        self.show()
 
     def update(self, image):
+        """
+        Update image to all grids.
+        If camera position didn't change, no need to calculate again, updating image is enough.
+        """
         image = np.array(image)
         self.image = image
         for grid in self:

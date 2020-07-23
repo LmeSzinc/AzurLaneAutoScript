@@ -123,8 +123,8 @@ class GridPredictor:
             int: Number of matched pixels.
         """
         image = cv2.cvtColor(self.relative_crop(area, shape=shape), cv2.COLOR_RGB2HSV)
-        lower = (h[0] / 2, s[0] * 2.55 + 1, v[0] * 2.55 + 1)
-        upper = (h[1] / 2, s[1] * 2.55 + 1, v[1] * 2.55 + 1)
+        lower = (h[0] / 2, s[0] * 2.55, v[0] * 2.55)
+        upper = (h[1] / 2 + 1, s[1] * 2.55 + 1, v[1] * 2.55 + 1)
         image = cv2.inRange(image, lower, upper)
         count = image[image > 0].shape[0]
         return count
