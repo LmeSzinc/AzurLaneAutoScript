@@ -28,6 +28,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, LoginHandler
         self.handle_tactical_class()
 
         self.handle_research_reward()
+        self.ui_goto(page_main, skip_first_screenshot=True)
         self._reward_mission()
 
         self.config.REWARD_LAST_TIME = datetime.now()
@@ -75,6 +76,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, LoginHandler
                     (self.config.ENABLE_OIL_REWARD and self.appear_then_click(OIL, interval=60))
                     or (self.config.ENABLE_COIN_REWARD and self.appear_then_click(COIN, interval=60))
                     or (self.config.ENABLE_COMMISSION_REWARD and self.appear_then_click(REWARD_1, interval=1))
+                    or (self.config.ENABLE_RESEARCH_REWARD and not self.config.ENABLE_SAVE_GET_ITEMS and self.appear_then_click(REWARD_3, interval=1))
             ):
                 exit_timer.reset()
                 click_timer.reset()
@@ -193,11 +195,11 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, LoginHandler
                 az.record_save()
                 count += 1
 
-        if self.config.ENABLE_EVENT_NAME_AB:
+        if self.config.ENABLE_EVENT_AB:
             from module.event.campaign_ab import CampaignAB
             az = CampaignAB(self.config, device=self.device)
-            az.run_event_daily()
-            count += 1
+            if az.run_event_daily():
+                count += 1
 
         if self.config.ENABLE_RAID_DAILY:
             from module.raid.daily import RaidDaily
@@ -209,3 +211,15 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, LoginHandler
 
         logger.attr('Daily_executed', f'{count}/{total}')
         return count
+
+    _enable_daily_reward = False
+
+    def reward_backup_daily_reward_settings(self):
+        """
+        Method to avoid event_daily_ab calls reward, and reward calls event_daily_ab itself again.
+        """
+        self._enable_daily_reward = self.config.ENABLE_DAILY_REWARD
+        self.config.ENABLE_DAILY_REWARD = False
+
+    def reward_recover_daily_reward_settings(self):
+        self.config.ENABLE_DAILY_REWARD = self._enable_daily_reward

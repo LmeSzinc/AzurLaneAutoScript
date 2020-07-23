@@ -230,11 +230,12 @@ def main(ini_name=''):
 
     reward_tactical = reward_parser.add_argument_group('战术学院', '只支持续技能书, 不支持学新技能')
     reward_tactical.add_argument('--启用战术学院收获', default=default('--启用战术学院收获'), choices=['是', '否'])
-    reward_tactical.add_argument('--战术学院夜间时段', default=default('--战术学院夜间时段'), help='格式 23:30-06:30')
-    reward_tactical.add_argument('--技能书稀有度', default=default('--技能书稀有度'), choices=['3', '2', '1'], help='最多使用T几的技能书\nT3是金书, T2是紫书, T1是蓝书')
+    # reward_tactical.add_argument('--战术学院夜间时段', default=default('--战术学院夜间时段'), help='格式 23:30-06:30')
     reward_tactical.add_argument('--技能书优先使用同类型', default=default('--技能书优先使用同类型'), choices=['是', '否'], help='选是, 优先使用有150%加成的\n选否, 优先使用同稀有度的技能书')
-    reward_tactical.add_argument('--技能书夜间稀有度', default=default('--技能书夜间稀有度'), choices=['3', '2', '1'])
-    reward_tactical.add_argument('--技能书夜间优先使用同类型', default=default('--技能书夜间优先使用同类型'), choices=['是', '否'])
+    reward_tactical.add_argument('--技能书最大稀有度', default=default('--技能书最大稀有度'), choices=['3', '2', '1'], help='最高使用T几的技能书\nT3是金书, T2是紫书, T1是蓝书\n最大值需要大于等于最小值')
+    reward_tactical.add_argument('--技能书最小稀有度', default=default('--技能书最小稀有度'), choices=['3', '2', '1'], help='最低使用T几的技能书\n')
+    # reward_tactical.add_argument('--技能书夜间稀有度', default=default('--技能书夜间稀有度'), choices=['3', '2', '1'])
+    # reward_tactical.add_argument('--技能书夜间优先使用同类型', default=default('--技能书夜间优先使用同类型'), choices=['是', '否'])
 
     reward_research = reward_parser.add_argument_group('科研项目', '科研预设选择为自定义时, 须先阅读 doc/filter_string_en_cn.md')
     reward_research.add_argument('--启用科研项目收获', default=default('--启用科研项目收获'), choices=['是', '否'])
@@ -293,16 +294,18 @@ def main(ini_name=''):
     hard.add_argument('--困难舰队快速换装', default=default('--困难舰队快速换装'), help='打之前换装备, 打完后卸装备, 不需要就填0\n逗号分割, 例如 3, 1, 0, 1, 1, 0')
 
     # 演习设置
-    exercise = daily_parser.add_argument_group('演习设置', '暂时仅支持经验最多')
-    exercise.add_argument('--演习对手选择', default=default('--演习对手选择'), choices=['经验最多', '排名最前', '福利队'], help='暂时仅支持经验最多')
+    exercise = daily_parser.add_argument_group('演习设置', '')
+    exercise.add_argument('--演习对手选择', default=default('--演习对手选择'), choices=['经验最多', '最简单', '先最简单再经验最多'], help='')
     exercise.add_argument('--演习次数保留', default=default('--演习次数保留'), help='暂时仅支持保留0个')
     exercise.add_argument('--演习尝试次数', default=default('--演习尝试次数'), help='每个对手的尝试次数, 打不过就换')
     exercise.add_argument('--演习SL阈值', default=default('--演习SL阈值'), help='HP<阈值时撤退')
     exercise.add_argument('--演习低血量确认时长', default=default('--演习低血量确认时长'), help='HP低于阈值后, 过一定时长才会撤退\n推荐 1.0 ~ 3.0')
     exercise.add_argument('--演习快速换装', default=default('--演习快速换装'), help='打之前换装备, 打完后卸装备, 不需要就填0\n逗号分割, 例如 3, 1, 0, 1, 1, 0')
 
+    # 每日活动图三倍PT
     event_bonus = daily_parser.add_argument_group('活动设置', '')
     event_bonus.add_argument('--活动名称ab', default=event_latest, choices=event_folder, help='例如 event_20200326_cn')
+    event_bonus.add_argument('--活动奖励章节', default=default('--活动奖励章节'), choices=['AB图', 'ABCD图'], help='有额外PT奖励章节')
 
     # 共斗每日设置
     raid_bonus = daily_parser.add_argument_group('共斗设置', '')

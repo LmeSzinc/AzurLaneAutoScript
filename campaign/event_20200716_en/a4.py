@@ -30,10 +30,9 @@ MAP.weight_data = """
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 2, 'siren': 1},
     {'battle': 1, 'enemy': 1},
-    {'battle': 2, 'enemy': 2},
+    {'battle': 2, 'enemy': 1},
     {'battle': 3, 'enemy': 1},
-    {'battle': 4, 'enemy': 2, 'boss': 1},
-    {'battle': 5, 'enemy': 1},
+    {'battle': 4, 'enemy': 1, 'boss': 1},
 ]
 A1, B1, C1, D1, E1, F1, G1, H1, I1, \
 A2, B2, C2, D2, E2, F2, G2, H2, I2, \
@@ -44,6 +43,7 @@ A6, B6, C6, D6, E6, F6, G6, H6, I6, \
 A7, B7, C7, D7, E7, F7, G7, H7, I7, \
     = MAP.flatten()
 
+road_main = RoadGrids([G5, H5, H6])
 
 class Config(ConfigBase):
     pass
@@ -52,11 +52,16 @@ class Config(ConfigBase):
 class Campaign(CampaignBase):
     MAP = MAP
 
+
     def battle_0(self):
         if self.clear_siren():
+            return True
+        if self.clear_roadblocks([road_main]):
+            return True
+        if self.clear_potential_roadblocks([road_main]):
             return True
 
         return self.battle_default()
 
     def battle_4(self):
-        return self.fleet_boss.clear_boss()
+        self.fleet_boss.capture_clear_boss()

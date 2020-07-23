@@ -1,12 +1,12 @@
 import itertools
 
+import numpy as np
 
 from module.base.timer import Timer
 from module.exception import MapWalkError
 from module.handler.ambush import AmbushHandler
 from module.logger import logger
 from module.map.camera import Camera
-from module.map.grids import Grids
 from module.map.map_base import SelectedGrids
 from module.map.map_base import location2node, location_ensure
 from module.map.map_operation import MapOperation
@@ -120,7 +120,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
 
             while 1:
                 self.device.screenshot()
-                grid.image = self.device.image
+                grid.image = np.array(self.device.image)
 
                 # Ambush
                 if self.handle_ambush():
@@ -504,18 +504,18 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                 logger.info('Catch camera re-positioning after boss appear')
                 appear = True
 
-        if self.config.POOR_MAP_DATA:
-            self.device.screenshot()
-            grids = Grids(self.device.image, config=self.config)
-            grids.predict()
-            grids.show()
-            for grid in grids:
-                if grid.is_boss:
-                    logger.info('Catch camera re-positioning after boss appear')
-                    appear = True
-                    for g in self.map:
-                        g.wipe_out()
-                    break
+        # if self.config.POOR_MAP_DATA:
+        #     self.device.screenshot()
+        #     grids = Grids(self.device.image, config=self.config)
+        #     grids.predict()
+        #     grids.show()
+        #     for grid in grids:
+        #         if grid.is_boss:
+        #             logger.info('Catch camera re-positioning after boss appear')
+        #             appear = True
+        #             for g in self.map:
+        #                 g.wipe_out()
+        #             break
 
         if appear:
             camera = self.camera

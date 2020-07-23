@@ -5,7 +5,6 @@ from module.base.button import Button, ButtonGrid
 from module.base.timer import Timer, time_range_active
 from module.base.utils import area_offset, get_color, color_similar, color_similarity_2d
 from module.exception import ScriptError
-from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.reward.assets import *
 from module.ui.assets import TACTICAL_CHECK
@@ -118,19 +117,22 @@ class BookGroup:
         """
         return BookGroup(self.books + books.books)
 
-    def choose(self, tier, exp=True):
+    def choose(self, tier_max, tier_min, exp=True):
         """
         Args:
-            tier (int): Max tier to choose.
+            tier_max (int): Max tier to choose, 1 to 3.
+            tier_min (int): Min tier to choose, 1 to 3.
             exp (bool): True to choose books with exp bonus, False to choose other books in the same tier.
 
         Returns:
             Book:
         """
-        while 1:
+        tier = tier_max
+        while tier >= tier_min:
             books = self.select(tier=tier)
-            tier -= 1
             books_with_exp = books.select(exp=True)
+            tier -= 1
+
             if exp and not books_with_exp:
                 continue
             if books_with_exp:
@@ -138,10 +140,6 @@ class BookGroup:
             if books:
                 logger.attr('Book_choose', books[0])
                 return books[0]
-
-            # End
-            if tier <= 0:
-                break
 
         logger.warning('No book choose, return first book.')
         return self[0]
@@ -181,13 +179,17 @@ class RewardTacticalClass(UI):
             logger.warning('No book found.')
             raise ScriptError('No book found.')
 
-        if not time_range_active(self.config.TACTICAL_NIGHT_RANGE):
-            tier = self.config.TACTICAL_BOOK_TIER
-            exp = self.config.TACTICAL_EXP_FIRST
-        else:
-            tier = self.config.TACTICAL_BOOK_TIER_NIGHT
-            exp = self.config.TACTICAL_EXP_FIRST_NIGHT
-        book = books.choose(tier=tier, exp=exp)
+        # if not time_range_active(self.config.TACTICAL_NIGHT_RANGE):
+        #     tier = self.config.TACTICAL_BOOK_TIER
+        #     exp = self.config.TACTICAL_EXP_FIRST
+        # else:
+        #     tier = self.config.TACTICAL_BOOK_TIER_NIGHT
+        #     exp = self.config.TACTICAL_EXP_FIRST_NIGHT
+        # book = books.choose(tier=tier, exp=exp)
+
+        book = books.choose(tier_max=self.config.TACTICAL_BOOK_TIER_MAX,
+                            tier_min=self.config.TACTICAL_BOOK_TIER_MIN,
+                            exp=self.config.TACTICAL_EXP_FIRST)
 
         self.device.click(book.button)
         self.device.sleep((0.3, 0.5))
@@ -228,6 +230,7 @@ class RewardTacticalClass(UI):
                     and self.appear(TACTICAL_CLASS_START, offset=(30, 30)):
                 self.device.sleep(0.3)
                 self.device.screenshot()
+                self.handle_info_bar()  # info_bar appears when get ship in Launch Ceremony commissions
                 self._tactical_books_choose()
                 self.device.click(TACTICAL_CLASS_START)
                 self.interval_reset(TACTICAL_CLASS_CANCEL)

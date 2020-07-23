@@ -70,11 +70,12 @@ class AmbushHandler(Combat):
         #             self.combat()
         #         break
         self.wait_until_appear(INFO_BAR_1)
-        image = ambush_letter_preprocess(np.array(self.device.image.crop((641, 311, 692, 336))))
+        success = ambush_letter_preprocess(np.array(self.device.image.crop(AMBUSH_EVADE_SUCCESS.area)))
+        failed = ambush_letter_preprocess(np.array(self.device.image.crop(AMBUSH_EVADE_FAILED.area)))
 
-        if TEMPLATE_AMBUSH_EVADE_SUCCESS.match(image):
+        if TEMPLATE_AMBUSH_EVADE_SUCCESS.match(success):
             logger.attr('Ambush_evade', 'success')
-        elif TEMPLATE_AMBUSH_EVADE_FAILED.match(image):
+        elif TEMPLATE_AMBUSH_EVADE_FAILED.match(failed):
             logger.attr('Ambush_evade', 'failed')
             self.combat(expected_end='no_searching')
         else:

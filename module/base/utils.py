@@ -1,3 +1,4 @@
+import cv2
 import numpy as np
 from PIL import ImageStat
 
@@ -224,7 +225,9 @@ def crop(image, area):
         np.ndarray:
     """
     x1, y1, x2, y2 = area
-    return image[y1:y2, x1:x2]
+    h, w = image.shape[:2]
+    border = np.maximum((0 - y1, y2 - h, 0 - x1, x2 - w), 0)
+    return cv2.copyMakeBorder(image[y1:y2, x1:x2], *border, borderType=cv2.BORDER_CONSTANT, value=(0, 0, 0))
 
 
 def get_color(image, area):
@@ -251,11 +254,8 @@ def color_similarity(color1, color2):
     Returns:
         int:
     """
-    diff = np.array(color1) - np.array(color2)
-    positive, negative = diff, np.abs(diff)
-    positive[diff < 0] = 0
-    negative[diff > 0] = 0
-    diff = np.max(positive) + np.max(negative)
+    diff = np.array(color1).astype(int) - np.array(color2).astype(int)
+    diff = np.max(np.maximum(diff, 0)) - np.min(np.minimum(diff, 0))
     return diff
 
 
@@ -273,29 +273,23 @@ def color_similar(color1, color2, threshold=10):
         bool: True if two colors are similar.
     """
     # print(color1, color2)
-    diff = np.array(color1) - np.array(color2)
-    positive, negative = diff, np.abs(diff)
-    positive[diff < 0] = 0
-    negative[diff > 0] = 0
-    diff = np.max(positive) + np.max(negative)
+    diff = np.array(color1).astype(int) - np.array(color2).astype(int)
+    diff = np.max(np.maximum(diff, 0)) - np.min(np.minimum(diff, 0))
     return diff <= threshold
 
 
-def color_similar_1d(bar, color, threshold=10):
+def color_similar_1d(image, color, threshold=10):
     """
     Args:
-        bar: 1D array.
+        image: 1D array.
         color: (r, g, b)
         threshold(int): Default to 10.
 
     Returns:
         np.ndarray: bool
     """
-    diff = np.array(bar) - np.array(color)
-    positive, negative = diff, np.abs(diff)
-    positive[diff < 0] = 0
-    negative[diff > 0] = 0
-    diff = np.max(positive, axis=1) + np.max(negative, axis=1)
+    diff = np.array(image).astype(int) - color
+    diff = np.max(np.maximum(diff, 0), axis=1) - np.min(np.minimum(diff, 0), axis=1)
     return diff <= threshold
 
 
@@ -308,14 +302,12 @@ def color_similarity_2d(image, color):
     Returns:
         np.ndarray: uint8
     """
-    diff = np.array(image) - color
-    positive, negative = diff, np.abs(diff)
-    positive[diff < 0] = 0
-    negative[diff > 0] = 0
-    diff = 255.0 - np.max(positive, axis=2) - np.max(negative, axis=2)
-    diff[diff < 0] = 0
-    image = diff.astype(np.uint8)
-    return image
+    image = np.array(image)
+    r, g, b = cv2.split(cv2.subtract(image, (*color, 0)))
+    positive = cv2.max(cv2.max(r, g), b)
+    r, g, b = cv2.split(cv2.subtract((*color, 0), image))
+    negative = cv2.max(cv2.max(r, g), b)
+    return cv2.subtract(255, cv2.add(positive, negative))
 
 
 def extract_letters(image, letter=(255, 255, 255), threshold=128):
@@ -329,10 +321,12 @@ def extract_letters(image, letter=(255, 255, 255), threshold=128):
     Returns:
         np.ndarray: Shape (height, width)
     """
-    image = color_similarity_2d(np.array(image), color=letter)
-    image = (255.0 - image) * (255.0 / threshold)
-    image[image > 255] = 255
-    return image
+    image = np.array(image)
+    r, g, b = cv2.split(cv2.subtract(image, (*letter, 0)))
+    positive = cv2.max(cv2.max(r, g), b)
+    r, g, b = cv2.split(cv2.subtract((*letter, 0), image))
+    negative = cv2.max(cv2.max(r, g), b)
+    return cv2.multiply(cv2.add(positive, negative), 255.0 / threshold)
 
 
 def red_overlay_transparency(color1, color2, red=247):

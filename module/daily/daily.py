@@ -49,6 +49,14 @@ class Daily(Combat, DailyEquipment):
         self.device.screenshot()
 
     def daily_execute(self, remain, fleet):
+        """
+        Args:
+            remain (int): Remain daily challenge count.
+            fleet (int): Index of fleet to use.
+
+        Returns:
+            bool: True if success, False if daily locked.
+        """
         logger.hr(f'Daily {self.daily_current}')
         logger.attr('Fleet', fleet)
 
@@ -59,6 +67,11 @@ class Daily(Combat, DailyEquipment):
             return self.appear(DAILY_ENTER_CHECK) or self.appear(BACK_ARROW)
 
         self.ui_click(click_button=DAILY_ENTER, check_button=daily_enter_check, appear_button=DAILY_CHECK)
+        if self.appear(DAILY_LOCKED):
+            logger.info('Daily locked')
+            self.ui_click(click_button=BACK_ARROW, check_button=DAILY_CHECK)
+            self.device.sleep((1, 1.2))
+            return False
 
         button = DAILY_MISSION_LIST[self.config.DAILY_CHOOSE[self.daily_current] - 1]
         for n in range(remain):
@@ -72,6 +85,7 @@ class Daily(Combat, DailyEquipment):
 
         self.ui_click(click_button=BACK_ARROW, check_button=DAILY_CHECK)
         self.device.sleep((1, 1.2))
+        return True
 
     def daily_check(self, n=None):
         if not n:
