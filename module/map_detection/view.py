@@ -76,7 +76,6 @@ class View(MapDetector):
         for grid in self:
             grid.predict()
         logger.attr_align('predict', len(self.grids.keys()), front=float2str(time.time() - start_time) + 's')
-        self.show()
 
     def update(self, image):
         """
