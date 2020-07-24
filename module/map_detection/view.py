@@ -43,6 +43,8 @@ class View(MapDetector):
             if area_in_area(area1=corner2area(points), area2=self.config.DETECTING_AREA):
                 grids[loca] = Grid(location=loca, image=image, corner=points, config=self.config)
 
+
+
         # Handle grids offset
         offset = np.min(list(grids.keys()), axis=0)
         if np.sum(np.abs(offset)) > 0:
@@ -80,6 +82,7 @@ class View(MapDetector):
         for grid in self:
             grid.predict()
         logger.attr_align('predict', len(self.grids.keys()), front=float2str(time.time() - start_time) + 's')
+
 
     def update(self, image):
         """
