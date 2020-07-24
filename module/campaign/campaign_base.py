@@ -105,7 +105,7 @@ class CampaignBase(Map):
         self.handle_fleet_reverse()
         self.map_init(self.MAP)
 
-        for _ in range(20):
+        for _ in range(50):
             try:
                 self.execute_a_battle()
             except CampaignEnd:

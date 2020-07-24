@@ -311,7 +311,10 @@ class Homography:
         """
         lines = cv2.HoughLines(image, 1, np.pi / 180, hough_th)
         if lines is None:
-            return None, None
+            self.lower_edge, self.upper_edge = separate_edges([], inner=self.map_inner[1])
+            self.left_edge, self.right_edge = separate_edges([], inner=self.map_inner[0])
+            self._map_edge_count = (0, 0)
+            return None
 
         lines = lines[:, 0, :]
         rho, theta = lines[:, 0], lines[:, 1]
