@@ -32,7 +32,7 @@ class GridPredictor:
         x = (x0 * x2 - x1 * x3) / divisor
         y = (x0 * y2 - x1 * y2 + x2 * y0 - x3 * y0) / divisor
         self._image_center = np.array([x, y, x, y])
-        self._image_a = (-x0 * x2 + x0 * x3 + x1 * x2 - x1 * x3) / divisor
+        self._image_a = (-x0 * x2 + x0 * x3 + x1 * x2 - x1 * x3) / divisor * self.config.GRID_IMAGE_A_MULTIPLY
 
         self.area = corner2area(self.corner)
         self.homo_data = cv2.getPerspectiveTransform(

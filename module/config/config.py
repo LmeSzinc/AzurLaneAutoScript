@@ -274,6 +274,8 @@ class AzurLaneConfig:
     SCREEN_CENTER = (SCREEN_SIZE[0] / 2, SCREEN_SIZE[1] / 2)
     MID_Y = SCREEN_CENTER[1]
     DETECTION_BACKEND = 'homography'
+    # In event_20200723_cn B3D3, Grid have 1.2x width, images on the grid still remain the same.
+    GRID_IMAGE_A_MULTIPLY = 1.0
 
     """
     module.map_detection.homography
