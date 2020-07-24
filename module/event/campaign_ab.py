@@ -37,11 +37,11 @@ class CampaignAB(CampaignRun):
         chapter = self.config.EVENT_AB_CHAPTER.split('_')[1]
         self.reward_backup_daily_reward_settings()
 
-        for name in existing:
-            if name.lower().startswith('sp'):
-                logger.warning(f'{self.config.EVENT_NAME_AB} seems to be a SP event, skip daily_ab')
-                logger.warning(f'Existing map files: {existing}')
-                return False
+        name = ''.join(existing).lower()
+        if 'sp1' in name or 'sp2' in name or 'sp3' in name:
+            logger.warning(f'{self.config.EVENT_NAME_AB} seems to be a SP event, skip daily_ab')
+            logger.warning(f'Existing map files: {existing}')
+            return False
 
         for name in CAMPAIGN_NAME:
             if name not in existing:
