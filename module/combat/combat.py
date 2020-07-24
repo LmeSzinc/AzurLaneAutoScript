@@ -221,7 +221,7 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
                     continue
 
             # End
-            if self.handle_battle_status(save_get_items=save_get_items):
+            if self.handle_battle_status(save_get_items=save_get_items) or self.handle_get_items(save_get_items=save_get_items):
                 self.device.screenshot_interval_set(0)
                 break
 

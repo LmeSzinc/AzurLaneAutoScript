@@ -106,7 +106,7 @@ class AmbushHandler(Combat):
         if not self.appear(INFO_BAR_1):
             return False
 
-        image = ambush_letter_preprocess(np.array(self.device.image.crop(MAP_WALK_OUT_OF_STEP.area)))
+        image = ambush_letter_preprocess(np.array(self.device.image.crop(INFO_BAR_DETECT.area)))
         if TEMPLATE_MAP_WALK_OUT_OF_STEP.match(image):
             logger.warning('Map walk out of step.')
             self.handle_info_bar()
