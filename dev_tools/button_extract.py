@@ -29,14 +29,14 @@ class ImageExtractor:
             config(AzurLaneConfig):
         """
         self.module = module
-        self.name = os.path.splitext(file)[0]
+        self.name, self.ext = os.path.splitext(file)
         self.config = config
         self.area, self.color, self.button, self.file = {}, {}, {}, {}
         for server in VALID_SERVER:
             self.load(server)
 
     def get_file(self, genre='', server='cn'):
-        file = '%s.%s.png' % (self.name, genre) if genre else '%s.png' % self.name
+        file = f'{self.name}.{genre}{self.ext}' if genre else f'{self.name}{self.ext}'
         file = os.path.join(self.config.ASSETS_FOLDER, server, self.module, file)
         return file
 
@@ -64,7 +64,7 @@ class ImageExtractor:
             self.area[server] = area
             self.color[server] = color
             self.button[server] = button
-            self.file[server] = f"{self.config.ASSETS_FOLDER}/{server}/{self.module}/{self.name}.png"
+            self.file[server] = f"{self.config.ASSETS_FOLDER}/{server}/{self.module}/{self.name}{self.ext}"
         else:
             logger.attr(server, f'{self.name} not found, use cn server assets')
             self.area[server] = self.area['cn']
