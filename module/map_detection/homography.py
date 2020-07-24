@@ -116,6 +116,7 @@ class Homography:
             src_pts (list[tuple]): [upper-left, upper-right, bottom-left, bottom-right]
         """
         self.homo_storage = (size, [(x, y) for x, y in np.round(src_pts, 3)])
+        logger.attr('homo_storage', self.homo_storage)
 
         # Generate perspective data
         src_pts = np.array(src_pts) - self.config.DETECTING_AREA[:2]
@@ -220,7 +221,7 @@ class Homography:
 
         # print(self.homo_loca % self.config.HOMO_TILE)
         logger.attr_align('tile_center', f'{float2str(similarity)} ({message})')
-        return self.homo_loca is not None
+        return message != 'bad match'
 
     def search_tile_corner(self, image, threshold=0.8, encourage=1.0):
         """
@@ -255,7 +256,7 @@ class Homography:
 
         # print(self.homo_loca % self.config.HOMO_TILE)
         logger.attr_align('tile_corner', f'{float2str(similarity)} ({message})')
-        return self.homo_loca is not None
+        return message != 'bad match'
 
     def search_tile_rectangle(self, image, threshold=10, encourage=5.1, close_kernel=(5, 10, 15, 20, 25)):
         """
@@ -296,7 +297,7 @@ class Homography:
 
         # print(self.homo_loca % self.config.HOMO_TILE)
         logger.attr_align('tile_rectangle', f'{len(location)} rectangles ({message})')
-        return self.homo_loca is not None
+        return message != 'bad match'
 
     def detect_edges(self, image, hough_th=120, theta_th=0.005, edge_th=5):
         """

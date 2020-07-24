@@ -483,6 +483,7 @@ dic_chi_to_eng = {
     '穹顶下的圣咏曲': 'event_20200521_cn',
     '峡湾间的反击': 'event_20200603_cn',
     '复刻特别演习埃塞克斯级': 'raid_20200624',
+    '永夜幻光': 'event_20200723_cn',
 }
 
 dic_eng_to_chi = {v: k for k, v in dic_chi_to_eng.items()}
