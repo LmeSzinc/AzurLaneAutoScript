@@ -101,16 +101,16 @@ class InfoHandler(ModuleBase):
                 self.story_popup_timout = Timer(10)
                 return True
         if self.appear_then_click(STORY_SKIP, offset=True, interval=2):
-            self.story_popup_timout.start()
+            self.story_popup_timout.reset()
             return True
         if self.appear(STORY_LETTER_BLACK) and self.appear_then_click(STORY_LETTERS_ONLY, offset=True, interval=2):
-            self.story_popup_timout.start()
+            self.story_popup_timout.reset()
             return True
         if self.appear_then_click(STORY_CHOOSE, offset=True, interval=2):
-            self.story_popup_timout.start()
+            self.story_popup_timout.reset()
             return True
         if self.appear_then_click(STORY_CHOOSE_2, offset=True, interval=2):
-            self.story_popup_timout.start()
+            self.story_popup_timout.reset()
             return True
 
         return False
