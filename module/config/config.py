@@ -606,7 +606,8 @@ class AzurLaneConfig:
         # Event
         option = config['Event']
         self.EVENT_NAME = option['event_name']
-        if 'sp' in ''.join(os.listdir(f'./campaign/{self.EVENT_NAME}')):
+        name = ''.join(os.listdir(f'./campaign/{self.EVENT_NAME}'))
+        if 'sp1' in name or 'sp2' in name or 'sp3' in name:
             self.CAMPAIGN_EVENT = option['sp_stage']
         else:
             self.CAMPAIGN_EVENT = option['event_stage']
