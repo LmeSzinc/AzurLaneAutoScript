@@ -13,6 +13,7 @@ class View(MapDetector):
     shape: np.ndarray
     center_loca: tuple
     center_offset: np.ndarray
+    swipe_base: np.ndarray
 
     def __iter__(self):
         return iter(self.grids.values())
@@ -41,6 +42,7 @@ class View(MapDetector):
         for loca, points in self.generate():
             if area_in_area(area1=corner2area(points), area2=self.config.DETECTING_AREA):
                 grids[loca] = Grid(location=loca, image=image, corner=points, config=self.config)
+
         # Handle grids offset
         offset = np.min(list(grids.keys()), axis=0)
         if np.sum(np.abs(offset)) > 0:
@@ -56,8 +58,10 @@ class View(MapDetector):
 
         # Find local view center
         for loca, grid in self.grids.items():
-            offset = grid.screen2grid([self.config.SCREEN_CENTER])[0]
-            self.center_loca = tuple(np.add(loca, offset.astype(int)).tolist())
+            offset = grid.screen2grid([self.config.SCREEN_CENTER])[0].astype(int)
+            points = grid.grid2screen(np.add([[0.5, 0], [-0.5, 0], [0, 0.5], [0, -0.5]], offset))
+            self.swipe_base = np.array([np.linalg.norm(points[0] - points[1]), np.linalg.norm(points[2] - points[3])])
+            self.center_loca = tuple(np.add(loca, offset).tolist())
             logger.attr_align('center_loca', self.center_loca)
             if self.center_loca in self:
                 self.center_offset = self.grids[self.center_loca].screen2grid([self.config.SCREEN_CENTER])[0]

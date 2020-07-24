@@ -26,12 +26,7 @@ class Camera(InfoHandler):
         name = 'MAP_SWIPE_' + '_'.join([str(int(round(x))) for x in vector])
         if np.any(np.abs(vector) > self.config.MAP_SWIPE_DROP):
             # Map grid fit
-            grid = self.view[self.view.center_loca]
-            points = grid.grid2screen([[0.5, 0], [-0.5, 0], [0, 0.5], [0, -0.5]])
-            distance = np.array([
-                np.linalg.norm(points[0] - points[1]),
-                np.linalg.norm(points[2] - points[3]),
-            ]) * self.config.MAP_SWIPE_MULTIPLY
+            distance = self.view.swipe_base * self.config.MAP_SWIPE_MULTIPLY
             vector = distance * vector
 
             vector = -vector
