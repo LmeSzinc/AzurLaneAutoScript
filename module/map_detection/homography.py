@@ -176,7 +176,7 @@ class Homography:
         # Detect map edges
         image_edge = cv2.bitwise_and(cv2.dilate(image_edge, kernel),
                                      cv2.inRange(image_trans, *self.config.HOMO_EDGE_COLOR_RANGE))
-        self.detect_edges(image_edge)
+        self.detect_edges(image_edge, hough_th=self.config.HOMO_EDGE_HOUGHLINES_THRESHOLD)
 
         # Log
         time_cost = round(time.time() - start_time, 3)

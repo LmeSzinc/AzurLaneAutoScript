@@ -93,7 +93,7 @@ class Camera(InfoHandler):
                 string = str(e)
                 logger.warning(string)
                 x, y = string.split('=')[1].strip('() ').split(',')
-                self._map_swipe((int(x.strip()), int(y.strip())))
+                self._map_swipe((-int(x.strip()), -int(y.strip())))
             else:
                 raise e
 

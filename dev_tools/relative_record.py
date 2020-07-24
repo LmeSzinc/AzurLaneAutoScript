@@ -35,11 +35,17 @@ Usage:
 Arguments:
     CONFIG:     ini config file to load.
     FOLDER:     Folder to save.
+    NAME:       Siren name, images will save in <FOLDER>/<NAME>
     NODE:       Node in local map view, that you are going to crop.
 """
 CONFIG = 'alas'
 FOLDER = ''
+NAME = 'Deutschland'
 NODE = 'D5'
+
+for folder in [FOLDER, os.path.join(FOLDER, NAME)]:
+    if not os.path.exists(folder):
+        os.mkdir(folder)
 
 cfg = AzurLaneConfig(CONFIG).merge(Config())
 al = ModuleBase(cfg)
@@ -47,6 +53,11 @@ view = View(cfg)
 al.device.screenshot()
 view.load(al.device.image)
 grid = view[node2location(NODE.upper())]
+
+print('Please check if it is cropping the right area')
+image = rgb2gray(grid.relative_crop((-0.5, -1, 0.5, 0), shape=(60, 60)))
+image = Image.fromarray(image, mode='L').show()
+
 images = []
 for n in range(300):
     print(n)
@@ -55,4 +66,4 @@ for n, image in enumerate(images):
     grid.image = np.array(image)
     image = rgb2gray(grid.relative_crop((-0.5, -1, 0.5, 0), shape=(60, 60)))
     image = Image.fromarray(image, mode='L')
-    image.save(os.path.join(FOLDER, f'{n}.png'))
+    image.save(os.path.join(FOLDER, NAME, f'{n}.png'))
