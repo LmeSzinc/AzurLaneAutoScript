@@ -276,6 +276,7 @@ class Commission:
         """
         min_key = ''
         min_distance = 100
+        string = re.sub(' ', '', string)
         for key, value in dictionary_jp.items():
             for keyword in value:
                 distance = Levenshtein.distance(keyword, string)
@@ -284,7 +285,7 @@ class Commission:
                     min_distance = distance
         if min_distance < 3:
             return min_key
-        
+
         logger.warning(f'Name with unknown genre: {string}')
         self.valid = False
         return ''
