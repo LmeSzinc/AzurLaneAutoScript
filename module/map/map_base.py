@@ -183,7 +183,7 @@ class CampaignMap:
             loca = tuple(offset + grid.location)
             if loca in self.grids:
                 self.grids[loca].update(grid, is_carrier_scan=is_carrier_scan, ignore_may=self.poor_map_data)
-        self.show()
+
         return True
 
     def reset(self):

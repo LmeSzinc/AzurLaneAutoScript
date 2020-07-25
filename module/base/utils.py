@@ -227,6 +227,7 @@ def crop(image, area):
     x1, y1, x2, y2 = area
     h, w = image.shape[:2]
     border = np.maximum((0 - y1, y2 - h, 0 - x1, x2 - w), 0)
+    x1, y1, x2, y2 = np.maximum((x1, y1, x2, y2), 0)
     return cv2.copyMakeBorder(image[y1:y2, x1:x2], *border, borderType=cv2.BORDER_CONSTANT, value=(0, 0, 0))
 
 
