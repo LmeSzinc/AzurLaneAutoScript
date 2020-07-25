@@ -328,7 +328,7 @@ def main(ini_name=''):
     # ==========主线图==========
     main_parser = subs.add_parser('主线图')
     # 选择关卡
-    stage = main_parser.add_argument_group('选择关卡', '主线图出击, 目前仅支持前六章和7-2')
+    stage = main_parser.add_argument_group('选择关卡', '')
     stage.add_argument('--主线地图出击', default=default('--主线地图出击'), help='例如 7-2')
     stage.add_argument('--主线地图模式', default=default('--主线地图模式'), help='仅困难图开荒时使用, 周回模式后请使用每日困难', choices=['普通', '困难'])
 
@@ -336,17 +336,16 @@ def main(ini_name=''):
     event_parser = subs.add_parser('活动图')
 
     description = """
-    支持「峡湾间的反击」(event_20200603_cn), 针对SP1-SP3有优化
     出击未优化关卡或地图未达到安全海域时, 使用开荒模式运行(较慢)
     """
     event = event_parser.add_argument_group(
         '选择关卡', '\n'.join([line.strip() for line in description.strip().split('\n')]))
     event.add_argument('--活动地图', default=default('--活动地图'),
-                             choices=['a1', 'a2', 'a3', 'a4', 'b1', 'b2', 'b3', 'b4', 'c1', 'c2', 'c3', 'c4', 'd1', 'd2', 'd3', 'd4'],
-                             help='例如 d3')
+                             choices=['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4', 'C1', 'C2', 'C3', 'C4', 'D1', 'D2', 'D3', 'D4'],
+                             help='例如 D3')
     event.add_argument('--sp地图', default=default('--sp地图'),
-                             choices=['sp1', 'sp2', 'sp3'],
-                             help='例如 sp3')
+                             choices=['SP1', 'SP2', 'SP3'],
+                             help='例如 SP3')
     event.add_argument('--活动名称', default=event_latest, choices=event_folder, help='例如 event_20200312_cn')
 
     # ==========共斗活动==========
