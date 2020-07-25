@@ -2,7 +2,7 @@ import numpy as np
 
 from module.base.utils import location2node, node2location
 from module.logger import logger
-from module.map.grid_info import GridInfo
+from module.map_detection.grid_info import GridInfo
 from module.map.map_grids import SelectedGrids
 
 
@@ -183,7 +183,7 @@ class CampaignMap:
             loca = tuple(offset + grid.location)
             if loca in self.grids:
                 self.grids[loca].update(grid, is_carrier_scan=is_carrier_scan, ignore_may=self.poor_map_data)
-
+        self.show()
         return True
 
     def reset(self):
