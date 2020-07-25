@@ -7,7 +7,7 @@ from .a1 import Config as ConfigBase
 MAP = CampaignMap('A2')
 MAP.shape = 'J6'
 MAP.camera_data = ['D2', 'D4', 'G2', 'G4']
-MAP.camera_data_spawn_point = []
+MAP.camera_data_spawn_point = ['D2']
 MAP.map_data = """
     -- ++ ME MS ++ MB MB MB ++ --
     Me -- ME -- ++ -- -- -- ME ME

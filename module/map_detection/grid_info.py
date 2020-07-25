@@ -144,6 +144,11 @@ class GridInfo:
         if info.is_caught_by_siren:
             self.is_caught_by_siren = True
 
+        if info.is_fleet:
+            self.is_fleet = True
+        if info.is_current_fleet:
+            self.is_current_fleet = True
+
         for item in ['boss', 'siren']:
             if info.enemy_scale or self.enemy_scale:
                 break
@@ -191,9 +196,6 @@ class GridInfo:
                     logger.info(f'Wrong Prediction. Grid: {self}, Attr: {item}')
                     # failure += 1
 
-        self.is_fleet = info.is_fleet
-        if info.is_current_fleet:
-            self.is_current_fleet = True
         return False
 
     def wipe_out(self):
