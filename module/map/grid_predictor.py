@@ -35,6 +35,13 @@ class GridPredictor:
         self.image = image
         self.corner = corner.flatten()
 
+        self.template_enemy_genre = {}
+        for name in self.config.MAP_ENEMY_TEMPLATE:
+            self.DIC_ENEMY_GENRE[name] = globals().get(f'TEMPLATE_ENEMY_{name}')
+        if self.config.MAP_HAS_SIREN:
+            for name in self.config.MAP_SIREN_TEMPLATE:
+                self.DIC_ENEMY_GENRE[f'Siren_{name}'] = globals().get(f'TEMPLATE_SIREN_{name}')
+
         x0, y0, x1, y1, x2, y2, x3, y3 = self.corner
         divisor = x0 - x1 + x2 - x3
         x = (x0 * x2 - x1 * x3) / divisor
@@ -263,14 +270,7 @@ class GridPredictor:
 
     def predict_enemy_genre(self):
         image = self.get_relative_image((-1, -1, 1, 0), output_shape=(120, 60))
-        if not self.SIREN_TEMPLATE_LOADED:
-            for name in self.config.MAP_SIREN_TEMPLATE:
-                self.DIC_ENEMY_GENRE[f'Siren_{name}'] = globals().get(f'TEMPLATE_SIREN_{name}')
-                self.SIREN_TEMPLATE_LOADED = True
-
-        for name, template in self.DIC_ENEMY_GENRE.items():
-            if not self.config.MAP_HAS_SIREN and name.startswith('Siren'):
-                continue
+        for name, template in self.template_enemy_genre.items():
             if template.match(image):
                 return name
 
