@@ -1,16 +1,14 @@
 import codecs
-import os
 import sys
 
 from gooey import Gooey, GooeyParser
 
 import module.config.server as server
 from alas import AzurLaneAutoScript
-from module.config.dictionary import dic_chi_to_eng, dic_eng_to_chi
+from module.config.dictionary import dic_event, dic_chi_to_eng
 from module.config.update import get_config
 from module.logger import pyw_name
 from module.research.preset import DICT_FILTER_PRESET
-
 
 try:
     if sys.stdout.encoding != 'UTF-8':
@@ -44,23 +42,31 @@ def main(ini_name=''):
     config_file = f'./config/{ini_name}.ini'
     config = get_config(ini_name.lower())
 
-    event_folder = [f for f in os.listdir('./campaign') if f.startswith('event_') and f.split('_')[-1] == server.server]
+    # Load translation dictionary
+    dic_gui_to_ini = dic_chi_to_eng  # GUI translation dictionary here.
+    dic_gui_to_ini.update(dic_event[server.server])
+    dic_ini_to_gui = {v: k for k, v in dic_gui_to_ini.items()}
+    # Event list
+    event_folder = [f for f in dic_event[server.server].values() if f.startswith('event_')]
     event_latest = sorted([f for f in event_folder], reverse=True)[0]
-    event_folder = [dic_eng_to_chi.get(f, f) for f in event_folder][::-1]
-    event_latest = dic_eng_to_chi.get(event_latest, event_latest)
-    research_preset = [dic_eng_to_chi.get(f, f) for f in ['customized'] + list(DICT_FILTER_PRESET.keys())]
-
-    raid_latest = '复刻特别演习埃塞克斯级'
-
+    event_folder = [dic_ini_to_gui.get(f, f) for f in event_folder][::-1]
+    event_latest = dic_ini_to_gui.get(event_latest, event_latest)
+    # Raid list
+    raid_folder = [f for f in dic_event[server.server].values() if f.startswith('raid_')]
+    raid_latest = sorted([f for f in raid_folder], reverse=True)[0]
+    raid_folder = [dic_ini_to_gui.get(f, f) for f in raid_folder][::-1]
+    raid_latest = dic_ini_to_gui.get(raid_latest, raid_latest)
+    # Research preset list
+    research_preset = [dic_ini_to_gui.get(f, f) for f in ['customized'] + list(DICT_FILTER_PRESET.keys())]
+    # Translate settings in ini file
     saved_config = {}
     for opt, option in config.items():
         for key, value in option.items():
-            key = dic_eng_to_chi.get(key, key)
-            if value in dic_eng_to_chi:
-                value = dic_eng_to_chi.get(value, value)
+            key = dic_ini_to_gui.get(key, key)
+            if value in dic_ini_to_gui:
+                value = dic_ini_to_gui.get(value, value)
             if value == 'None':
                 value = ''
-
             saved_config[key] = value
 
     def default(name):
@@ -309,7 +315,7 @@ def main(ini_name=''):
 
     # 共斗每日设置
     raid_bonus = daily_parser.add_argument_group('共斗设置', '')
-    raid_bonus.add_argument('--共斗每日名称', default=raid_latest, choices=[raid_latest], help='')
+    raid_bonus.add_argument('--共斗每日名称', default=raid_latest, choices=raid_folder, help='')
     raid_bonus.add_argument('--共斗困难', default=default('--共斗困难'), choices=['是', '否'], help='')
     raid_bonus.add_argument('--共斗普通', default=default('--共斗普通'), choices=['是', '否'], help='')
     raid_bonus.add_argument('--共斗简单', default=default('--共斗简单'), choices=['是', '否'], help='')
@@ -346,7 +352,7 @@ def main(ini_name=''):
     # ==========共斗活动==========
     raid_parser = subs.add_parser('共斗活动')
     raid = raid_parser.add_argument_group('选择共斗', '')
-    raid.add_argument('--共斗名称', default=raid_latest, choices=[raid_latest], help='')
+    raid.add_argument('--共斗名称', default=raid_latest, choices=raid_folder, help='')
     raid.add_argument('--共斗难度', default=default('--共斗难度'), choices=['困难', '普通', '简单'], help='')
     raid.add_argument('--共斗使用挑战券', default=default('--共斗使用挑战券'), choices=['是', '否'], help='')
 
@@ -378,8 +384,8 @@ def main(ini_name=''):
     # Convert option from chinese to english.
     out = {}
     for key, value in vars(args).items():
-        key = dic_chi_to_eng.get(key, key)
-        value = dic_chi_to_eng.get(value, value)
+        key = dic_gui_to_ini.get(key, key)
+        value = dic_gui_to_ini.get(value, value)
         out[key] = value
     args = out
 

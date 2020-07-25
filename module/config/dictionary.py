@@ -245,16 +245,7 @@ dic_true_eng_to_eng = {
     'series_3_fastest': 'series_3_fastest',
     'free_research_only': 'free_research_only',
     'cubes_to_chips': 'cubes_to_chips',
-
-    # Event
-    'Iris_of_Light_and_Dark': 'event_20200521_en',
-    'Skybound_Oratorio': 'event_20200611_en',
-    'Prelude_under_the_Moon': 'event_20200603_en',
-    'Air_Raid_Drills_with_Essex': 'raid_20200624',
-    'Ink_Stained_Steel_Sakura_Rerun': 'event_20200716_en',
-
 }
-dic_eng_to_true_eng = {v: k for k, v in dic_true_eng_to_eng.items()}
 
 dic_chi_to_eng = {
     # Function
@@ -473,20 +464,32 @@ dic_chi_to_eng = {
     '三期最快': 'series_3_fastest',
     '仅白嫖': 'free_research_only',
     '切魔方换心智': 'cubes_to_chips',
-
-    # Event
-    '北境序曲': 'event_20200227_cn',
-    '复刻斯图尔特的硝烟': 'event_20200312_cn',
-    '微层混合': 'event_20200326_cn',
-    '复刻苍红的回响': 'event_20200423_cn',
-    '夜幕下的归途': 'event_20200507_cn',
-    '穹顶下的圣咏曲': 'event_20200521_cn',
-    '峡湾间的反击': 'event_20200603_cn',
-    '复刻特别演习埃塞克斯级': 'raid_20200624',
-    '永夜幻光': 'event_20200723_cn',
 }
-
-dic_eng_to_chi = {v: k for k, v in dic_chi_to_eng.items()}
+dic_event = {
+    'cn': {
+        '北境序曲': 'event_20200227_cn',
+        '复刻斯图尔特的硝烟': 'event_20200312_cn',
+        '微层混合': 'event_20200326_cn',
+        '复刻苍红的回响': 'event_20200423_cn',
+        '夜幕下的归途': 'event_20200507_cn',
+        '穹顶下的圣咏曲': 'event_20200521_cn',
+        '峡湾间的反击': 'event_20200603_cn',
+        '复刻特别演习埃塞克斯级': 'raid_20200624',
+        '永夜幻光': 'event_20200723_cn',
+    },
+    'en': {
+        'Iris_of_Light_and_Dark': 'event_20200521_en',
+        'Skybound_Oratorio': 'event_20200611_en',
+        'Prelude_under_the_Moon': 'event_20200603_en',
+        'Air_Raid_Drills_with_Essex': 'raid_20200624',
+        'Ink_Stained_Steel_Sakura_Rerun': 'event_20200716_en',
+    },
+    'jp': {
+        '峡湾間の反撃': 'event_20200603_jp',
+        '特別演習超空強襲波（復刻）': 'raid_20200624',
+        '極夜照らす幻光': 'event_20200723_cn',
+    },
+}
 
 
 def to_bool(string):

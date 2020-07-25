@@ -1,16 +1,14 @@
 import codecs
-import os
 import sys
 
 from gooey import Gooey, GooeyParser
 
 import module.config.server as server
 from alas import AzurLaneAutoScript
-from module.config.dictionary import dic_true_eng_to_eng, dic_eng_to_true_eng
+from module.config.dictionary import dic_event, dic_true_eng_to_eng
 from module.config.update import get_config
 from module.logger import pyw_name
 from module.research.preset import DICT_FILTER_PRESET
-
 
 try:
     if sys.stdout.encoding != 'UTF-8':
@@ -44,23 +42,31 @@ def main(ini_name=''):
     config_file = f'./config/{ini_name}.ini'
     config = get_config(ini_name.lower())
 
-    event_folder = [f for f in os.listdir('./campaign') if f.startswith('event_') and f.split('_')[-1] == server.server]
+    # Load translation dictionary
+    dic_gui_to_ini = dic_true_eng_to_eng  # GUI translation dictionary here.
+    dic_gui_to_ini.update(dic_event[server.server])
+    dic_ini_to_gui = {v: k for k, v in dic_gui_to_ini.items()}
+    # Event list
+    event_folder = [f for f in dic_event[server.server].values() if f.startswith('event_')]
     event_latest = sorted([f for f in event_folder], reverse=True)[0]
-    event_folder = [dic_eng_to_true_eng.get(f, f) for f in event_folder][::-1]
-    event_latest = dic_eng_to_true_eng.get(event_latest, event_latest)
-    research_preset = [dic_eng_to_true_eng.get(f, f) for f in ['customized'] + list(DICT_FILTER_PRESET.keys())]
-
-    raid_latest = 'Air_Raid_Drills_with_Essex'
-
+    event_folder = [dic_ini_to_gui.get(f, f) for f in event_folder][::-1]
+    event_latest = dic_ini_to_gui.get(event_latest, event_latest)
+    # Raid list
+    raid_folder = [f for f in dic_event[server.server].values() if f.startswith('raid_')]
+    raid_latest = sorted([f for f in raid_folder], reverse=True)[0]
+    raid_folder = [dic_ini_to_gui.get(f, f) for f in raid_folder][::-1]
+    raid_latest = dic_ini_to_gui.get(raid_latest, raid_latest)
+    # Research preset list
+    research_preset = [dic_ini_to_gui.get(f, f) for f in ['customized'] + list(DICT_FILTER_PRESET.keys())]
+    # Translate settings in ini file
     saved_config = {}
     for opt, option in config.items():
         for key, value in option.items():
-            key = dic_eng_to_true_eng.get(key, key)
-            if value in dic_eng_to_true_eng:
-                value = dic_eng_to_true_eng.get(value, value)
+            key = dic_ini_to_gui.get(key, key)
+            if value in dic_ini_to_gui:
+                value = dic_ini_to_gui.get(value, value)
             if value == 'None':
                 value = ''
-
             saved_config[key] = value
 
     def default(name):
@@ -310,7 +316,7 @@ def main(ini_name=''):
 
     # Raid daily
     raid_bonus = daily_parser.add_argument_group('Raid settings', '')
-    raid_bonus.add_argument('--raid_daily_name', default=raid_latest, choices=[raid_latest], help='')
+    raid_bonus.add_argument('--raid_daily_name', default=raid_latest, choices=raid_folder, help='')
     raid_bonus.add_argument('--raid_hard', default=default('--raid_hard'), choices=['yes', 'no'], help='')
     raid_bonus.add_argument('--raid_normal', default=default('--raid_normal'), choices=['yes', 'no'], help='')
     raid_bonus.add_argument('--raid_easy', default=default('--raid_easy'), choices=['yes', 'no'], help='')
@@ -347,7 +353,7 @@ def main(ini_name=''):
     # ==========Raid==========
     raid_parser = subs.add_parser('raid')
     raid = raid_parser.add_argument_group('Choose a raid', '')
-    raid.add_argument('--raid_name', default=raid_latest, choices=[raid_latest], help='')
+    raid.add_argument('--raid_name', default=raid_latest, choices=raid_folder, help='')
     raid.add_argument('--raid_mode', default=default('--raid_mode'), choices=['hard', 'normal', 'easy'], help='')
     raid.add_argument('--raid_use_ticket', default=default('--raid_use_ticket'), choices=['yes', 'no'], help='')
 
@@ -379,8 +385,8 @@ def main(ini_name=''):
     # Convert option from chinese to english.
     out = {}
     for key, value in vars(args).items():
-        key = dic_true_eng_to_eng.get(key, key)
-        value = dic_true_eng_to_eng.get(value, value)
+        key = dic_gui_to_ini.get(key, key)
+        value = dic_gui_to_ini.get(value, value)
         out[key] = value
     args = out
 
