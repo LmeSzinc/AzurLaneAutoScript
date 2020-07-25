@@ -338,16 +338,16 @@ def main(ini_name=''):
     event_parser = subs.add_parser('event')
 
     description = """
-    Support "Iris of Light and Dark Rerun" (event_20200521_en), optimized for D2
+
     """
     event = event_parser.add_argument_group(
         'Choose a level', '\n'.join([line.strip() for line in description.strip().split('\n')]))
     event.add_argument('--event_stage', default=default('--event_stage'),
-                             choices=['a1', 'a2', 'a3', 'a4', 'b1', 'b2', 'b3', 'b4', 'c1', 'c2', 'c3', 'c4', 'd1', 'd2', 'd3', 'd4'],
-                             help='E.g d3')
+                             choices=['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4', 'C1', 'C2', 'C3', 'C4', 'D1', 'D2', 'D3', 'D4'],
+                             help='E.g D3')
     event.add_argument('--sp_stage', default=default('--sp_stage'),
-                             choices=['sp1', 'sp2', 'sp3'],
-                             help='E.g sp3')
+                             choices=['SP1', 'SP2', 'SP3'],
+                             help='E.g SP3')
     event.add_argument('--event_name', default=event_latest, choices=event_folder, help='There a dropdown menu with many options')
 
     # ==========Raid==========
