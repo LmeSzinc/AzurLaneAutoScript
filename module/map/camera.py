@@ -205,7 +205,7 @@ class Camera(InfoHandler):
 
         queue = self.map.camera_data
         if battle_count == 0:
-            queue.add(self.map.camera_data_spawn_point)
+            queue = queue.add(self.map.camera_data_spawn_point)
 
         while len(queue) > 0:
             if self.map.missing_is_none(battle_count, mystery_count, siren_count, carrier_count):
