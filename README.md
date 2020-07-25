@@ -11,13 +11,17 @@ Alas, an Azur Lane automation tool with GUI (Support CN, EN, JP, able to support
 
 Alas, 一个带GUI的碧蓝航线脚本 (支持国服, 国际服, 日服, 可以支持其他服务器).
 
-**Event Updates** Support Air Raid Drills with Essex
-
-**活动更新** 支持「复刻特别演习埃塞克斯级」
-
 EN support, Thanks **[@whoamikyo](https://github.com/whoamikyo)**
 
 JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)**, some features might not work
+
+> **Event Announcement 活动公告**
+>
+> [CN] 支持活动「永夜幻光」, 请使用 dev 分支.
+>
+> [EN] Support event "Ink-Stained Steel Sakura Rerun".
+>
+> [JP] Support event 「極夜照らす幻光」, please use dev brunch.
 
 ![gui](doc/README.assets/gui.png)
 
