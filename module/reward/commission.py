@@ -573,7 +573,7 @@ class RewardCommission(UI, InfoHandler):
             comm (Commission):
         """
         logger.info(f'Start commission {comm}')
-        comm_timer = Timer(10)
+        comm_timer = Timer(7)
         while 1:
             if comm_timer.reached():
                 self.device.click(comm.button)
@@ -582,10 +582,10 @@ class RewardCommission(UI, InfoHandler):
             if self.handle_popup_confirm():
                 comm_timer.reset()
                 pass
-            if self.appear_then_click(COMMISSION_ADVICE, interval=3):
+            if self.appear_then_click(COMMISSION_ADVICE, offset=(5, 20), interval=7):
                 comm_timer.reset()
                 pass
-            if self.appear_then_click(COMMISSION_START, interval=3):
+            if self.appear_then_click(COMMISSION_START, offset=(5, 20), interval=7):
                 comm_timer.reset()
                 pass
 

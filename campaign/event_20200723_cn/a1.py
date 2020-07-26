@@ -55,7 +55,7 @@ class Config:
 
     HOMO_EDGE_HOUGHLINES_THRESHOLD = 280
     MAP_SIREN_TEMPLATE = ['U73', 'U81', 'U552']
-    MAP_SWIPE_MULTIPLY = 1.726
+    MAP_SWIPE_MULTIPLY = 1.82
 
 
 class Campaign(CampaignBase):
