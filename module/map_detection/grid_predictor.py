@@ -1,18 +1,11 @@
 from module.base.utils import *
 from module.config.config import AzurLaneConfig
+from module.logger import logger
 from module.map_detection.utils import *
 from module.template.assets import *
 
 
 class GridPredictor:
-    DIC_ENEMY_GENRE = {
-        'Light': TEMPLATE_ENEMY_LIGHT,
-        'Main': TEMPLATE_ENEMY_MAIN,
-        'Carrier': TEMPLATE_ENEMY_CARRIER,
-        'Treasure': TEMPLATE_ENEMY_TREASURE,
-    }
-    SIREN_TEMPLATE_LOADED = False
-
     def __init__(self, location, image, corner, config):
         """
         Args:
@@ -33,6 +26,13 @@ class GridPredictor:
         y = (x0 * y2 - x1 * y2 + x2 * y0 - x3 * y0) / divisor
         self._image_center = np.array([x, y, x, y])
         self._image_a = (-x0 * x2 + x0 * x3 + x1 * x2 - x1 * x3) / divisor * self.config.GRID_IMAGE_A_MULTIPLY
+
+        self.template_enemy_genre = {}
+        for name in self.config.MAP_ENEMY_TEMPLATE:
+            self.template_enemy_genre[name] = globals().get(f'TEMPLATE_ENEMY_{name}')
+        if self.config.MAP_HAS_SIREN:
+            for name in self.config.MAP_SIREN_TEMPLATE:
+                self.template_enemy_genre[f'Siren_{name}'] = globals().get(f'TEMPLATE_SIREN_{name}')
 
         self.area = corner2area(self.corner)
         self.homo_data = cv2.getPerspectiveTransform(
@@ -153,14 +153,10 @@ class GridPredictor:
 
     def predict_enemy_genre(self):
         image = rgb2gray(self.relative_crop((-0.5, -1, 0.5, 0), shape=(60, 60)))
-        if not self.SIREN_TEMPLATE_LOADED:
-            for name in self.config.MAP_SIREN_TEMPLATE:
-                self.DIC_ENEMY_GENRE[f'Siren_{name}'] = globals().get(f'TEMPLATE_SIREN_{name}')
-                self.SIREN_TEMPLATE_LOADED = True
-
-        for name, template in self.DIC_ENEMY_GENRE.items():
-            if not self.config.MAP_HAS_SIREN and name.startswith('Siren'):
-                continue
+        for name, template in self.template_enemy_genre.items():
+            if template is None:
+                logger.warning(f'Enemy detection template not found: {name}')
+                exit(1)
             if template.match(image):
                 return name
 
