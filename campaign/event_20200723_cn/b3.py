@@ -55,7 +55,7 @@ A10, B10, C10, D10, E10, F10, G10, H10, I10, \
 
 
 class Config(ConfigBase):
-    MAP_SIREN_TEMPLATE = ['ELpurple', 'CVpurple', 'CApurple']
+    MAP_SIREN_TEMPLATE = ['ELpurple', 'CLpurple', 'CApurple']
 
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 40),

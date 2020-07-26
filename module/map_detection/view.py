@@ -29,12 +29,16 @@ class View(MapDetector):
             text = ' '.join([self[(x, y)].str if (x, y) in self else '..' for x in range(self.shape[0] + 1)])
             logger.info(text)
 
+    @staticmethod
+    def _image_clear_ui(image):
+        return cv2.copyTo(image, ASSETS.ui_mask_in_map)
+
     def load(self, image):
         """
         Args:
             image:
         """
-        image = np.array(image)
+        image = self._image_clear_ui(np.array(image))
         super().load(image)
 
         # Create local view map
@@ -42,8 +46,6 @@ class View(MapDetector):
         for loca, points in self.generate():
             if area_in_area(area1=corner2area(points), area2=self.config.DETECTING_AREA):
                 grids[loca] = Grid(location=loca, image=image, corner=points, config=self.config)
-
-
 
         # Handle grids offset
         offset = np.min(list(grids.keys()), axis=0)
@@ -83,13 +85,12 @@ class View(MapDetector):
             grid.predict()
         logger.attr_align('predict', len(self.grids.keys()), front=float2str(time.time() - start_time) + 's')
 
-
     def update(self, image):
         """
         Update image to all grids.
         If camera position didn't change, no need to calculate again, updating image is enough.
         """
-        image = np.array(image)
+        image = self._image_clear_ui(np.array(image))
         self.image = image
         for grid in self:
             grid.reset()
