@@ -94,7 +94,7 @@ class Campaign(CampaignBase):
 
         return self.battle_default()
 
-    def bettle_5(self):
+    def battle_5(self):
         if self.clear_enemy(scale=(1,)):
             return True
         if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
