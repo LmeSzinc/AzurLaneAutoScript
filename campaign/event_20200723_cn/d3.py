@@ -78,7 +78,7 @@ class Config(ConfigBase):
     HOMO_TILE = (168, 140)
     HOMO_CENTER_OFFSET = (48 + 14, 48)
     GRID_IMAGE_A_MULTIPLY = 1 / 1.2
-    MAP_SWIPE_MULTIPLY = (1.626, 1.626)  # Same value as main chapter.
+    MAP_SWIPE_MULTIPLY = 1.537
 
 
 class Campaign(CampaignBase):
