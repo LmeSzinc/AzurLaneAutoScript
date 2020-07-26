@@ -102,7 +102,8 @@ class ResearchProject:
                         self.__setattr__(f'need_{result.group(1)}', True)
                 for item in data['output']:
                     result = re.search(self.REGEX_SHIP, item['name'].replace(' ', '').lower())
-                    self.ship = result.group(1) if result else ''
+                    if not self.ship:
+                        self.ship = result.group(1) if result else ''
                     if self.ship:
                         self.ship_rarity = 'dr' if self.ship in self.DR_SHIP else 'pry'
                 break
