@@ -7,6 +7,8 @@
 
 # AzurLaneAutoScript
 
+#### Discord https://discord.gg/c3WwYWf QQ群 1087735381
+
 Alas, an Azur Lane automation tool with GUI (Support CN, EN, JP, able to support other servers).
 
 Alas, 一个带GUI的碧蓝航线脚本 (支持国服, 国际服, 日服, 可以支持其他服务器).
