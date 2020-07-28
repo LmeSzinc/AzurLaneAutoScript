@@ -89,7 +89,7 @@ class RewardResearch(ResearchSelector):
 
             # End
             if executed and self._in_research():
-                self.ensure_no_info_bar()  # Refresh success
+                self.ensure_no_info_bar(timeout=3)  # Refresh success
                 self.ensure_research_stable()
                 break
 
@@ -187,7 +187,7 @@ class RewardResearch(ResearchSelector):
             # End
             if self.appear(RESEARCH_STOP):
                 self.research_select_quit()
-                self.ensure_no_info_bar()  # Research started
+                self.ensure_no_info_bar(timeout=3)  # Research started
                 return True
             if self.appear(RESEARCH_UNAVAILABLE):
                 logger.info('Not enough resources to start this project')
@@ -265,10 +265,10 @@ class RewardResearch(ResearchSelector):
             logger.info('No research has finished')
 
         self._research_project_offset = 0
-        self.research_detect(self.device.image)
-        priority = self.research_sort_filter()
 
         for _ in range(2):
+            self.research_detect(self.device.image)
+            priority = self.research_sort_filter()
             result = self.research_select(priority, save_get_items=self.config.ENABLE_SAVE_GET_ITEMS)
             if result:
                 break

@@ -343,7 +343,7 @@ def main(ini_name=''):
     event = event_parser.add_argument_group(
         'Choose a level', '\n'.join([line.strip() for line in description.strip().split('\n')]))
     event.add_argument('--event_stage', default=default('--event_stage'),
-                             choices=['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4', 'C1', 'C2', 'C3', 'C4', 'D1', 'D2', 'D3', 'D4'],
+                             choices=['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4', 'C1', 'C2', 'C3', 'C4', 'D1', 'D2', 'D3', 'D4', 'SP'],
                              help='E.g D3')
     event.add_argument('--sp_stage', default=default('--sp_stage'),
                              choices=['SP1', 'SP2', 'SP3'],

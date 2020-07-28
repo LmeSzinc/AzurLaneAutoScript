@@ -23,7 +23,7 @@ def ensure_chapter_index(name):
     else:
         if name.isdigit():
             return int(name)
-        elif name in ['a', 'c', 'sp']:
+        elif name in ['a', 'c', 'sp', 'ex_sp']:
             return 1
         elif name in ['b', 'd']:
             return 2
@@ -47,7 +47,9 @@ def separate_name(name):
     Returns:
         tuple[str]: Campaign_name and stage index in lowercase, Such as ['7', '2'], ['d', '3'], ['sp', '3'].
     """
-    if '-' in name:
+    if name == 'sp':
+        return 'ex_sp', '1'
+    elif '-' in name:
         return name.split('-')
     elif name.startswith('sp'):
         return 'sp', name[-1]
@@ -164,7 +166,7 @@ class CampaignOcr:
         self.stage_entrance = {}
         buttons = self.campaign_extract_name_image(image)
 
-        ocr = Ocr(buttons, name='campaign', letter=(255, 255, 255), threshold=128, alphabet='0123456789ABCDEF-')
+        ocr = Ocr(buttons, name='campaign', letter=(255, 255, 255), threshold=128, alphabet='0123456789ABCDEFSP-')
         result = ocr.ocr(image)
         if not isinstance(result, list):
             result = [result]

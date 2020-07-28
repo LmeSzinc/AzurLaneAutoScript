@@ -40,6 +40,20 @@ class Switch:
 
         return False
 
+    def get(self, main):
+        """
+        Args:
+            main (ModuleBase):
+
+        Returns:
+            str: Status name or 'unknown'.
+        """
+        for data in self.status_list:
+            if main.appear(data['check_button'], offset=data['offset']):
+                return data['status']
+
+        return 'unknown'
+
     def set(self, status, main, skip_first_screenshot=True):
         """
         Args:
@@ -58,15 +72,10 @@ class Switch:
             else:
                 main.device.screenshot()
 
-            matched = None
-            current = 'unknown'
-            for data in self.status_list:
-                if main.appear(data['check_button'], offset=data['offset']):
-                    current = data['status']
-                    logger.attr(self.name, current)
-                    matched = data
-                    if current == status:
-                        return changed
+            current = self.get(main=main)
+            logger.attr(self.name, current)
+            if current == status:
+                return changed
 
             if current == 'unknown':
                 if warning_show_timer.reached():
@@ -75,7 +84,7 @@ class Switch:
                 continue
 
             for data in self.status_list:
-                if data['status'] == status:
-                    main.device.click(data['click_button'] if matched is None else matched['click_button'])
+                if data['status'] == current:
+                    main.device.click(data['click_button'])
                     main.device.sleep(data['sleep'])
                     changed = True

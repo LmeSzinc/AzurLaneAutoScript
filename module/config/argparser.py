@@ -341,7 +341,7 @@ def main(ini_name=''):
     event = event_parser.add_argument_group(
         '选择关卡', '\n'.join([line.strip() for line in description.strip().split('\n')]))
     event.add_argument('--活动地图', default=default('--活动地图'),
-                             choices=['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4', 'C1', 'C2', 'C3', 'C4', 'D1', 'D2', 'D3', 'D4'],
+                             choices=['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4', 'C1', 'C2', 'C3', 'C4', 'D1', 'D2', 'D3', 'D4', 'SP'],
                              help='例如 D3')
     event.add_argument('--sp地图', default=default('--sp地图'),
                              choices=['SP1', 'SP2', 'SP3'],
