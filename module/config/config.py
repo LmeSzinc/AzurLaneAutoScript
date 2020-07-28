@@ -134,8 +134,10 @@ class AzurLaneConfig:
     EVENT_NAME = ''
     CAMPAIGN_EVENT = ''
     EVENT_NAME_AB = ''
-    ENABLE_EVENT_AB = True
+    ENABLE_EVENT_AB = False
+    ENABLE_EVENT_SP = False
     EVENT_AB_CHAPTER = 'chapter_ab'  # chapter_ab, chapter_abcd
+    EVENT_SP_MOB_FLEET = 1
 
     """
     module.combat.emotion
@@ -588,8 +590,10 @@ class AzurLaneConfig:
         # Event bonus
         # option = config['Event_daily_ab']
         self.ENABLE_EVENT_AB = to_bool(option['enable_event_ab'])
+        self.ENABLE_EVENT_SP = to_bool(option['enable_event_sp'])
         self.EVENT_NAME_AB = option['event_name_ab']
         self.EVENT_AB_CHAPTER = option['event_ab_chapter']
+        self.EVENT_SP_MOB_FLEET = int(option['event_sp_mob_fleet'])
         # Raid daily
         self.ENABLE_RAID_DAILY = to_bool(option['enable_raid_daily'])
         self.RAID_DAILY_NAME = option['raid_daily_name']
