@@ -4,6 +4,7 @@ from module.exception import CampaignEnd
 from module.handler.assets import *
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
+from module.map.assets import *
 
 
 class EnemySearchingHandler(InfoHandler):
@@ -38,6 +39,8 @@ class EnemySearchingHandler(InfoHandler):
 
     def is_in_stage(self):
         if not self.appear(IN_STAGE, offset=(10, 10)):
+            if self.appear(MAP_PREPARATION) or self.appear(FLEET_PREPARATION):
+                self.device.click(MAP_PREPARATION_CANCEL)
             return False
         if self.is_map_green \
                 and self.stage_entrance is not None \
