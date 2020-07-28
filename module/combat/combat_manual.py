@@ -9,8 +9,15 @@ class CombatManual(ModuleBase):
     def combat_manual_reset(self):
         self.manual_executed = False
 
-    def handle_combat_stand_still_in_the_middle(self):
-        if self.config.COMBAT_AUTO_MODE != 'stand_still_in_the_middle':
+    def handle_combat_stand_still_in_the_middle(self, auto):
+        """
+        Args:
+            auto (str): Combat auto mode.
+
+        Returns:
+            bool: If executed
+        """
+        if auto != 'stand_still_in_the_middle':
             return False
 
         self.device.long_click(MOVE_DOWN, duration=0.8)
@@ -24,11 +31,18 @@ class CombatManual(ModuleBase):
 
         return False
 
-    def handle_combat_manual(self):
+    def handle_combat_manual(self, auto):
+        """
+        Args:
+            auto (str): Combat auto mode.
+
+        Returns:
+            bool: If executed
+        """
         if self.manual_executed or not self.auto_mode_checked:
             return False
 
-        if self.handle_combat_stand_still_in_the_middle():
+        if self.handle_combat_stand_still_in_the_middle(auto):
             self.manual_executed = True
             return True
 
