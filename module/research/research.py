@@ -177,6 +177,7 @@ class RewardResearch(ResearchSelector):
                 logger.info(f'Project offset: {self._research_project_offset}, project {index} is at {i}')
                 self.device.click(RESEARCH_ENTRANCE[i])
                 self._research_project_offset = (index - 2) % 5
+                self.ensure_research_stable()
                 click_timer.reset()
                 continue
             if self.appear_then_click(RESEARCH_START, interval=10):
