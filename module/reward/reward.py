@@ -219,6 +219,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, LoginHandler
         return count
 
     _enable_daily_reward = False
+    _fleet_auto_mode = ('combat_auto', 'combat_auto', 'combat_auto')
 
     def reward_backup_daily_reward_settings(self):
         """
@@ -226,6 +227,9 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, LoginHandler
         """
         self._enable_daily_reward = self.config.ENABLE_DAILY_REWARD
         self.config.ENABLE_DAILY_REWARD = False
+        self._fleet_auto_mode = self.config.FLEET_1_AUTO_MODE, self.config.FLEET_2_AUTO_MODE, self.config.FLEET_3_AUTO_MODE
+        self.config.FLEET_1_AUTO_MODE, self.config.FLEET_2_AUTO_MODE, self.config.FLEET_3_AUTO_MODE = ('combat_auto', 'combat_auto', 'combat_auto')
 
     def reward_recover_daily_reward_settings(self):
         self.config.ENABLE_DAILY_REWARD = self._enable_daily_reward
+        self.config.FLEET_1_AUTO_MODE, self.config.FLEET_2_AUTO_MODE, self.config.FLEET_3_AUTO_MODE = self._fleet_auto_mode
