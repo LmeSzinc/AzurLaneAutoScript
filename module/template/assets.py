@@ -28,6 +28,7 @@ TEMPLATE_SIREN_CA = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_CA
 TEMPLATE_SIREN_CApurple = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_CApurple.gif', 'en': './assets/en/template/TEMPLATE_SIREN_CApurple.gif', 'jp': './assets/jp/template/TEMPLATE_SIREN_CApurple.gif'})
 TEMPLATE_SIREN_CL = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_CL.gif', 'en': './assets/en/template/TEMPLATE_SIREN_CL.gif', 'jp': './assets/jp/template/TEMPLATE_SIREN_CL.gif'})
 TEMPLATE_SIREN_CLpurple = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_CLpurple.gif', 'en': './assets/en/template/TEMPLATE_SIREN_CLpurple.gif', 'jp': './assets/jp/template/TEMPLATE_SIREN_CLpurple.gif'})
+TEMPLATE_SIREN_CV = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_CV.gif', 'en': './assets/en/template/TEMPLATE_SIREN_CV.gif', 'jp': './assets/jp/template/TEMPLATE_SIREN_CV.gif'})
 TEMPLATE_SIREN_CVpurple = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_CVpurple.gif', 'en': './assets/en/template/TEMPLATE_SIREN_CVpurple.gif', 'jp': './assets/jp/template/TEMPLATE_SIREN_CVpurple.gif'})
 TEMPLATE_SIREN_DD = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_DD.gif', 'en': './assets/en/template/TEMPLATE_SIREN_DD.gif', 'jp': './assets/jp/template/TEMPLATE_SIREN_DD.gif'})
 TEMPLATE_SIREN_DDpurple = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_DDpurple.gif', 'en': './assets/en/template/TEMPLATE_SIREN_DDpurple.gif', 'jp': './assets/jp/template/TEMPLATE_SIREN_DDpurple.gif'})
