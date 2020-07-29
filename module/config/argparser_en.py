@@ -114,20 +114,20 @@ def main(ini_name=''):
     f1 = fleet.add_argument_group('Mob Fleet', 'Players can choose a formation before battle. Though it has no effect appearance-wise, the formations applies buffs to certain stats.\nLine Ahead: Increases Firepower and Torpedo by 15%, but reduces Evasion by 10% (Applies only to Vanguard fleet)\nDouble Line: Increases Evasion by 30%, but decreases Firepower and Torpedo by 5% (Applies only to Vanguard fleet)\nDiamond: Increases Anti-Air by 20% (no penalties, applies to entire fleet)')
     f1.add_argument('--fleet_index_1', default=default('--fleet_index_1'), choices=['1', '2', '3', '4', '5', '6'])
     f1.add_argument('--fleet_formation_1', default=default('--fleet_formation_1'), choices=['Line Ahead', 'Double Line', 'Diamond'])
+    f1.add_argument('--fleet_auto_mode_1', default=default('--fleet_auto_mode_1'), choices=['combat_auto', 'combat_manual', 'stand_still_in_the_middle'])
     f1.add_argument('--fleet_step_1', default=default('--fleet_step_1'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored')
 
     f2 = fleet.add_argument_group('Boss Fleet')
     f2.add_argument('--fleet_index_2', default=default('--fleet_index_2'), choices=['1', '2', '3', '4', '5', '6'])
     f2.add_argument('--fleet_formation_2', default=default('--fleet_formation_2'), choices=['Line Ahead', 'Double Line', 'Diamond'])
+    f2.add_argument('--fleet_auto_mode_2', default=default('--fleet_auto_mode_2'), choices=['combat_auto', 'combat_manual', 'stand_still_in_the_middle'])
     f2.add_argument('--fleet_step_2', default=default('--fleet_step_2'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored')
 
     f3 = fleet.add_argument_group('Alternate Mob Fleet')
     f3.add_argument('--fleet_index_3', default=default('--fleet_index_3'), choices=['1', '2', '3', '4', '5', '6'])
     f3.add_argument('--fleet_formation_3', default=default('--fleet_formation_3'), choices=['Line Ahead', 'Double Line', 'Diamond'])
+    f3.add_argument('--fleet_auto_mode_3', default=default('--fleet_auto_mode_3'), choices=['combat_auto', 'combat_manual', 'stand_still_in_the_middle'])
     f3.add_argument('--fleet_step_3', default=default('--fleet_step_3'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored')
-
-    f4 = fleet.add_argument_group('Auto-mode')
-    f4.add_argument('--combat_auto_mode', default=default('--combat_auto_mode'), choices=['combat_auto', 'combat_manual', 'stand_still_in_the_middle'])
 
     # 潜艇设置
     submarine = setting_parser.add_argument_group('Submarine settings', 'Only supported: hunt_only, do_not_use and every_combat')
@@ -282,8 +282,9 @@ def main(ini_name=''):
     daily.add_argument('--enable_daily_mission', default=default('--enable_daily_mission'), help='If there are records on the day, skip', choices=['yes', 'no'])
     daily.add_argument('--enable_hard_campaign', default=default('--enable_hard_campaign'), help='If there are records on the day, skip', choices=['yes', 'no'])
     daily.add_argument('--enable_exercise', default=default('--enable_exercise'), help='If there is a record after refreshing, skip', choices=['yes', 'no'])
-    daily.add_argument('--enable_event_ab', default=default('--enable_event_ab'), help='If there is a record after refreshing, skip', choices=['yes', 'no'])
     daily.add_argument('--enable_raid_daily', default=default('--enable_raid_daily'), help='If there is a record after refreshing, skip', choices=['yes', 'no'])
+    daily.add_argument('--enable_event_ab', default=default('--enable_event_ab'), help='If there is a record after refreshing, skip', choices=['yes', 'no'])
+    daily.add_argument('--enable_event_sp', default=default('--enable_event_sp'), help='If there is a record after refreshing, skip', choices=['yes', 'no'])
 
     # 每日设置
     daily_task = daily_parser.add_argument_group('Daily settings', 'Does not support submarine daily')
@@ -311,8 +312,9 @@ def main(ini_name=''):
 
     # event_daily_ab
     event_bonus = daily_parser.add_argument_group('Event Daily Bonus', 'bonus for first clear each day')
-    event_bonus.add_argument('--event_name_ab', default=event_latest, choices=event_folder, help='There a dropdown menu with many options')
     event_bonus.add_argument('--event_ab_chapter', default=default('--event_ab_chapter'), choices=['chapter_ab', 'chapter_abcd'], help='Chapter with PT bonus')
+    event_bonus.add_argument('--event_sp_mob_fleet', default=default('--event_sp_mob_fleet'), choices=['1', '2'], help='')
+    event_bonus.add_argument('--event_name_ab', default=event_latest, choices=event_folder, help='There a dropdown menu with many options')
 
     # Raid daily
     raid_bonus = daily_parser.add_argument_group('Raid settings', '')

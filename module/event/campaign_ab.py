@@ -35,13 +35,14 @@ class CampaignAB(CampaignRun):
         count = 0
         existing = [file[:-3] for file in os.listdir(f'./campaign/{self.config.EVENT_NAME_AB}') if file[-3:] == '.py']
         chapter = self.config.EVENT_AB_CHAPTER.split('_')[1]
-        self.reward_backup_daily_reward_settings()
 
         name = ''.join(existing).lower()
         if 'sp1' in name or 'sp2' in name or 'sp3' in name:
             logger.warning(f'{self.config.EVENT_NAME_AB} seems to be a SP event, skip daily_ab')
             logger.warning(f'Existing map files: {existing}')
             return False
+
+        self.reward_backup_daily_reward_settings()
 
         for name in CAMPAIGN_NAME:
             if name not in existing:

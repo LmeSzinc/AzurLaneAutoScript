@@ -46,6 +46,10 @@ class AzurLaneConfig:
     FLEET_3_STEP = 3
     # Fleet 1-2, if empty use 0.
     SUBMARINE = 0
+    # Combat auto mode: combat_auto, combat_manual, stand_still_in_the_middle
+    FLEET_1_AUTO_MODE = 'combat_auto'
+    FLEET_2_AUTO_MODE = 'combat_auto'
+    FLEET_3_AUTO_MODE = 'combat_auto'
 
     USING_SPARE_FLEET = False
 
@@ -94,7 +98,6 @@ class AzurLaneConfig:
     ENABLE_MAP_FLEET_LOCK = True
     SUBMARINE_MODE = ''
     SUBMARINE_CALL_AT_BOSS = False
-    COMBAT_AUTO_MODE = 'combat_auto'
     COMBAT_SCREENSHOT_INTERVAL = 2
 
     """
@@ -134,8 +137,10 @@ class AzurLaneConfig:
     EVENT_NAME = ''
     CAMPAIGN_EVENT = ''
     EVENT_NAME_AB = ''
-    ENABLE_EVENT_AB = True
+    ENABLE_EVENT_AB = False
+    ENABLE_EVENT_SP = False
     EVENT_AB_CHAPTER = 'chapter_ab'  # chapter_ab, chapter_abcd
+    EVENT_SP_MOB_FLEET = 1
 
     """
     module.combat.emotion
@@ -496,7 +501,7 @@ class AzurLaneConfig:
             self.__setattr__(f'FLEET_{n}', int(option[f'fleet_index_{n}']) if to_bool(option[f'fleet_index_{n}']) else 0)
             self.__setattr__(f'FLEET_{n}_FORMATION', int(option[f'fleet_formation_{n}'].split('_')[1]))
             self.__setattr__(f'FLEET_{n}_STEP', int(option[f'fleet_step_{n}']))
-        self.COMBAT_AUTO_MODE = option['combat_auto_mode']
+            self.__setattr__(f'FLEET_{n}_AUTO_MODE', option[f'fleet_auto_mode_{n}'])
         self.SUBMARINE = int(option['fleet_index_4']) if to_bool(option['fleet_index_4']) else 0
         self.SUBMARINE_MODE = option['submarine_mode']
         self.SUBMARINE_CALL_AT_BOSS = option['submarine_mode'] == 'when_boss_combat_boss_appear'
@@ -588,8 +593,10 @@ class AzurLaneConfig:
         # Event bonus
         # option = config['Event_daily_ab']
         self.ENABLE_EVENT_AB = to_bool(option['enable_event_ab'])
+        self.ENABLE_EVENT_SP = to_bool(option['enable_event_sp'])
         self.EVENT_NAME_AB = option['event_name_ab']
         self.EVENT_AB_CHAPTER = option['event_ab_chapter']
+        self.EVENT_SP_MOB_FLEET = int(option['event_sp_mob_fleet'])
         # Raid daily
         self.ENABLE_RAID_DAILY = to_bool(option['enable_raid_daily'])
         self.RAID_DAILY_NAME = option['raid_daily_name']

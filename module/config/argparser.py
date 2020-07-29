@@ -114,20 +114,20 @@ def main(ini_name=''):
     f1 = fleet.add_argument_group('道中队')
     f1.add_argument('--舰队编号1', default=default('--舰队编号1'), choices=['1', '2', '3', '4', '5', '6'])
     f1.add_argument('--舰队阵型1', default=default('--舰队阵型1'), choices=['单纵阵', '复纵阵', '轮形阵'])
+    f1.add_argument('--自律模式1', default=default('--自律模式1'), choices=['自律', '手操', '中路站桩'])
     f1.add_argument('--舰队步长1', default=default('--舰队步长1'), choices=['1', '2', '3', '4', '5', '6'])
 
     f2 = fleet.add_argument_group('BOSS队')
     f2.add_argument('--舰队编号2', default=default('--舰队编号2'), choices=['不使用', '1', '2', '3', '4', '5', '6'])
     f2.add_argument('--舰队阵型2', default=default('--舰队阵型2'), choices=['单纵阵', '复纵阵', '轮形阵'])
+    f2.add_argument('--自律模式2', default=default('--自律模式2'), choices=['自律', '手操', '中路站桩'])
     f2.add_argument('--舰队步长2', default=default('--舰队步长2'), choices=['1', '2', '3', '4', '5', '6'])
 
     f3 = fleet.add_argument_group('备用道中队')
     f3.add_argument('--舰队编号3', default=default('--舰队编号3'), choices=['不使用', '1', '2', '3', '4', '5', '6'])
     f3.add_argument('--舰队阵型3', default=default('--舰队阵型3'), choices=['单纵阵', '复纵阵', '轮形阵'])
+    f3.add_argument('--自律模式3', default=default('--自律模式3'), choices=['自律', '手操', '中路站桩'])
     f3.add_argument('--舰队步长3', default=default('--舰队步长3'), choices=['1', '2', '3', '4', '5', '6'])
-
-    f4 = fleet.add_argument_group('自律模式')
-    f4.add_argument('--战斗自律模式', default=default('--战斗自律模式'), choices=['自律', '手操', '中路站桩'])
 
     # 潜艇设置
     submarine = setting_parser.add_argument_group('潜艇设置', '仅支持: 不使用, 仅狩猎, 每战出击')
@@ -281,8 +281,9 @@ def main(ini_name=''):
     daily.add_argument('--打每日', default=default('--打每日'), help='若当天有记录, 则跳过', choices=['是', '否'])
     daily.add_argument('--打困难', default=default('--打困难'), help='若当天有记录, 则跳过', choices=['是', '否'])
     daily.add_argument('--打演习', default=default('--打演习'), help='若在刷新后有记录, 则跳过', choices=['是', '否'])
-    daily.add_argument('--打活动图每日三倍PT', default=default('--打活动图每日三倍PT'), help='若当天有记录, 则跳过', choices=['是', '否'])
     daily.add_argument('--打共斗每日15次', default=default('--打共斗每日15次'), help='若当天有记录, 则跳过', choices=['是', '否'])
+    daily.add_argument('--打活动图每日三倍PT', default=default('--打活动图每日三倍PT'), help='若当天有记录, 则跳过', choices=['是', '否'])
+    daily.add_argument('--打活动每日SP图', default=default('--打活动每日SP图'), help='若当天有记录, 则跳过', choices=['是', '否'])
 
     # 每日设置
     daily_task = daily_parser.add_argument_group('每日设置', '不支持潜艇每日')
@@ -310,8 +311,9 @@ def main(ini_name=''):
 
     # 每日活动图三倍PT
     event_bonus = daily_parser.add_argument_group('活动设置', '')
-    event_bonus.add_argument('--活动名称ab', default=event_latest, choices=event_folder, help='例如 event_20200326_cn')
     event_bonus.add_argument('--活动奖励章节', default=default('--活动奖励章节'), choices=['AB图', 'ABCD图'], help='有额外PT奖励章节')
+    event_bonus.add_argument('--活动SP图道中队', default=default('--活动SP图道中队'), choices=['1', '2'], help='')
+    event_bonus.add_argument('--活动名称ab', default=event_latest, choices=event_folder, help='例如 event_20200326_cn')
 
     # 共斗每日设置
     raid_bonus = daily_parser.add_argument_group('共斗设置', '')
