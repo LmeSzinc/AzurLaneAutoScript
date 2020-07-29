@@ -13,7 +13,7 @@ from module.ui.ui import UI
 
 RESEARCH_SERIES = [SERIES_1, SERIES_2, SERIES_3, SERIES_4, SERIES_5]
 OCR_RESEARCH = [OCR_RESEARCH_1, OCR_RESEARCH_2, OCR_RESEARCH_3, OCR_RESEARCH_4, OCR_RESEARCH_5]
-OCR_RESEARCH = Ocr(OCR_RESEARCH, name='RESEARCH', threshold=128, alphabet='0123456789BCDEGHQTMIULRF-')
+OCR_RESEARCH = Ocr(OCR_RESEARCH, name='RESEARCH', threshold=64, alphabet='0123456789BCDEGHQTMIULRF-')
 FILTER_REGEX = re.compile('(s[123])?'
                           '-?'
                           '(neptune|monarch|ibuki|izumo|roon|saintlouis|seattle|georgia|kitakaze|azuma|friedrich|gascogne|champagne|cheshire|drake|mainz|odin)?'
@@ -62,7 +62,12 @@ def get_research_name(image):
     Returns:
         list[str]: Such as ['D-057-UL', 'D-057-UL', 'D-057-UL', 'D-057-UL', 'D-057-UL']
     """
-    return OCR_RESEARCH.ocr(image)
+    names = []
+    for name in OCR_RESEARCH.ocr(image):
+        # S3 D-022-MI (S3-Drake-0.5) detected as 'D-022-ML', because of Drake's white cloth.
+        name = name.replace('ML', 'MI').replace('MIL', 'MI')
+        names.append(name)
+    return names
 
 
 class ResearchProject:

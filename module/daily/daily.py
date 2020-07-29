@@ -1,11 +1,11 @@
 import numpy as np
 
 from module.base.utils import get_color
-from module.combat.combat import Combat
 from module.daily.assets import *
 from module.equipment.fleet_equipment import DailyEquipment
 from module.logger import logger
 from module.ocr.ocr import Digit
+from module.reward.reward import Reward
 from module.ui.ui import page_daily, page_campaign, BACK_ARROW, DAILY_CHECK
 
 DAILY_MISSION_LIST = [DAILY_MISSION_1, DAILY_MISSION_2, DAILY_MISSION_3]
@@ -15,7 +15,7 @@ RECORD_OPTION = ('DailyRecord', 'daily')
 RECORD_SINCE = (0,)
 
 
-class Daily(Combat, DailyEquipment):
+class Daily(Reward, DailyEquipment):
     daily_current: int
     daily_checked: list
     daily_auto_checked = False
@@ -153,8 +153,13 @@ class Daily(Combat, DailyEquipment):
 
     def run(self):
         self.equipment_take_on()
+        self.reward_backup_daily_reward_settings()
+
         self.daily_run()
+
+        self.reward_recover_daily_reward_settings()
         self.equipment_take_off()
+
         self.ui_goto_main()
 
     def record_executed_since(self):
