@@ -1,16 +1,14 @@
 import codecs
-import os
 import sys
 
 from gooey import Gooey, GooeyParser
 
 import module.config.server as server
 from alas import AzurLaneAutoScript
-from module.config.dictionary import dic_chi_to_eng, dic_eng_to_chi
+from module.config.dictionary import dic_event, dic_chi_to_eng
 from module.config.update import get_config
 from module.logger import pyw_name
 from module.research.preset import DICT_FILTER_PRESET
-
 
 try:
     if sys.stdout.encoding != 'UTF-8':
@@ -44,23 +42,31 @@ def main(ini_name=''):
     config_file = f'./config/{ini_name}.ini'
     config = get_config(ini_name.lower())
 
-    event_folder = [f for f in os.listdir('./campaign') if f.startswith('event_') and f.split('_')[-1] == server.server]
+    # Load translation dictionary
+    dic_gui_to_ini = dic_chi_to_eng  # GUI translation dictionary here.
+    dic_gui_to_ini.update(dic_event[server.server])
+    dic_ini_to_gui = {v: k for k, v in dic_gui_to_ini.items()}
+    # Event list
+    event_folder = [f for f in dic_event[server.server].values() if f.startswith('event_')]
     event_latest = sorted([f for f in event_folder], reverse=True)[0]
-    event_folder = [dic_eng_to_chi.get(f, f) for f in event_folder][::-1]
-    event_latest = dic_eng_to_chi.get(event_latest, event_latest)
-    research_preset = [dic_eng_to_chi.get(f, f) for f in ['customized'] + list(DICT_FILTER_PRESET.keys())]
-
-    raid_latest = '复刻特别演习埃塞克斯级'
-
+    event_folder = [dic_ini_to_gui.get(f, f) for f in event_folder][::-1]
+    event_latest = dic_ini_to_gui.get(event_latest, event_latest)
+    # Raid list
+    raid_folder = [f for f in dic_event[server.server].values() if f.startswith('raid_')]
+    raid_latest = sorted([f for f in raid_folder], reverse=True)[0]
+    raid_folder = [dic_ini_to_gui.get(f, f) for f in raid_folder][::-1]
+    raid_latest = dic_ini_to_gui.get(raid_latest, raid_latest)
+    # Research preset list
+    research_preset = [dic_ini_to_gui.get(f, f) for f in ['customized'] + list(DICT_FILTER_PRESET.keys())]
+    # Translate settings in ini file
     saved_config = {}
     for opt, option in config.items():
         for key, value in option.items():
-            key = dic_eng_to_chi.get(key, key)
-            if value in dic_eng_to_chi:
-                value = dic_eng_to_chi.get(value, value)
+            key = dic_ini_to_gui.get(key, key)
+            if value in dic_ini_to_gui:
+                value = dic_ini_to_gui.get(value, value)
             if value == 'None':
                 value = ''
-
             saved_config[key] = value
 
     def default(name):
@@ -108,20 +114,20 @@ def main(ini_name=''):
     f1 = fleet.add_argument_group('道中队')
     f1.add_argument('--舰队编号1', default=default('--舰队编号1'), choices=['1', '2', '3', '4', '5', '6'])
     f1.add_argument('--舰队阵型1', default=default('--舰队阵型1'), choices=['单纵阵', '复纵阵', '轮形阵'])
+    f1.add_argument('--自律模式1', default=default('--自律模式1'), choices=['自律', '手操', '中路站桩'])
     f1.add_argument('--舰队步长1', default=default('--舰队步长1'), choices=['1', '2', '3', '4', '5', '6'])
 
     f2 = fleet.add_argument_group('BOSS队')
     f2.add_argument('--舰队编号2', default=default('--舰队编号2'), choices=['不使用', '1', '2', '3', '4', '5', '6'])
     f2.add_argument('--舰队阵型2', default=default('--舰队阵型2'), choices=['单纵阵', '复纵阵', '轮形阵'])
+    f2.add_argument('--自律模式2', default=default('--自律模式2'), choices=['自律', '手操', '中路站桩'])
     f2.add_argument('--舰队步长2', default=default('--舰队步长2'), choices=['1', '2', '3', '4', '5', '6'])
 
     f3 = fleet.add_argument_group('备用道中队')
     f3.add_argument('--舰队编号3', default=default('--舰队编号3'), choices=['不使用', '1', '2', '3', '4', '5', '6'])
     f3.add_argument('--舰队阵型3', default=default('--舰队阵型3'), choices=['单纵阵', '复纵阵', '轮形阵'])
+    f3.add_argument('--自律模式3', default=default('--自律模式3'), choices=['自律', '手操', '中路站桩'])
     f3.add_argument('--舰队步长3', default=default('--舰队步长3'), choices=['1', '2', '3', '4', '5', '6'])
-
-    f4 = fleet.add_argument_group('自律模式')
-    f4.add_argument('--战斗自律模式', default=default('--战斗自律模式'), choices=['自律', '手操', '中路站桩'])
 
     # 潜艇设置
     submarine = setting_parser.add_argument_group('潜艇设置', '仅支持: 不使用, 仅狩猎, 每战出击')
@@ -275,8 +281,9 @@ def main(ini_name=''):
     daily.add_argument('--打每日', default=default('--打每日'), help='若当天有记录, 则跳过', choices=['是', '否'])
     daily.add_argument('--打困难', default=default('--打困难'), help='若当天有记录, 则跳过', choices=['是', '否'])
     daily.add_argument('--打演习', default=default('--打演习'), help='若在刷新后有记录, 则跳过', choices=['是', '否'])
-    daily.add_argument('--打活动图每日三倍PT', default=default('--打活动图每日三倍PT'), help='若当天有记录, 则跳过', choices=['是', '否'])
     daily.add_argument('--打共斗每日15次', default=default('--打共斗每日15次'), help='若当天有记录, 则跳过', choices=['是', '否'])
+    daily.add_argument('--打活动图每日三倍PT', default=default('--打活动图每日三倍PT'), help='若当天有记录, 则跳过', choices=['是', '否'])
+    daily.add_argument('--打活动每日SP图', default=default('--打活动每日SP图'), help='若当天有记录, 则跳过', choices=['是', '否'])
 
     # 每日设置
     daily_task = daily_parser.add_argument_group('每日设置', '不支持潜艇每日')
@@ -304,12 +311,13 @@ def main(ini_name=''):
 
     # 每日活动图三倍PT
     event_bonus = daily_parser.add_argument_group('活动设置', '')
-    event_bonus.add_argument('--活动名称ab', default=event_latest, choices=event_folder, help='例如 event_20200326_cn')
     event_bonus.add_argument('--活动奖励章节', default=default('--活动奖励章节'), choices=['AB图', 'ABCD图'], help='有额外PT奖励章节')
+    event_bonus.add_argument('--活动SP图道中队', default=default('--活动SP图道中队'), choices=['1', '2'], help='')
+    event_bonus.add_argument('--活动名称ab', default=event_latest, choices=event_folder, help='例如 event_20200326_cn')
 
     # 共斗每日设置
     raid_bonus = daily_parser.add_argument_group('共斗设置', '')
-    raid_bonus.add_argument('--共斗每日名称', default=raid_latest, choices=[raid_latest], help='')
+    raid_bonus.add_argument('--共斗每日名称', default=raid_latest, choices=raid_folder, help='')
     raid_bonus.add_argument('--共斗困难', default=default('--共斗困难'), choices=['是', '否'], help='')
     raid_bonus.add_argument('--共斗普通', default=default('--共斗普通'), choices=['是', '否'], help='')
     raid_bonus.add_argument('--共斗简单', default=default('--共斗简单'), choices=['是', '否'], help='')
@@ -322,7 +330,7 @@ def main(ini_name=''):
     # ==========主线图==========
     main_parser = subs.add_parser('主线图')
     # 选择关卡
-    stage = main_parser.add_argument_group('选择关卡', '主线图出击, 目前仅支持前六章和7-2')
+    stage = main_parser.add_argument_group('选择关卡', '')
     stage.add_argument('--主线地图出击', default=default('--主线地图出击'), help='例如 7-2')
     stage.add_argument('--主线地图模式', default=default('--主线地图模式'), help='仅困难图开荒时使用, 周回模式后请使用每日困难', choices=['普通', '困难'])
 
@@ -330,23 +338,22 @@ def main(ini_name=''):
     event_parser = subs.add_parser('活动图')
 
     description = """
-    支持「峡湾间的反击」(event_20200603_cn), 针对SP1-SP3有优化
     出击未优化关卡或地图未达到安全海域时, 使用开荒模式运行(较慢)
     """
     event = event_parser.add_argument_group(
         '选择关卡', '\n'.join([line.strip() for line in description.strip().split('\n')]))
     event.add_argument('--活动地图', default=default('--活动地图'),
-                             choices=['a1', 'a2', 'a3', 'a4', 'b1', 'b2', 'b3', 'b4', 'c1', 'c2', 'c3', 'c4', 'd1', 'd2', 'd3', 'd4'],
-                             help='例如 d3')
+                             choices=['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4', 'C1', 'C2', 'C3', 'C4', 'D1', 'D2', 'D3', 'D4', 'SP'],
+                             help='例如 D3')
     event.add_argument('--sp地图', default=default('--sp地图'),
-                             choices=['sp1', 'sp2', 'sp3'],
-                             help='例如 sp3')
+                             choices=['SP1', 'SP2', 'SP3'],
+                             help='例如 SP3')
     event.add_argument('--活动名称', default=event_latest, choices=event_folder, help='例如 event_20200312_cn')
 
     # ==========共斗活动==========
     raid_parser = subs.add_parser('共斗活动')
     raid = raid_parser.add_argument_group('选择共斗', '')
-    raid.add_argument('--共斗名称', default=raid_latest, choices=[raid_latest], help='')
+    raid.add_argument('--共斗名称', default=raid_latest, choices=raid_folder, help='')
     raid.add_argument('--共斗难度', default=default('--共斗难度'), choices=['困难', '普通', '简单'], help='')
     raid.add_argument('--共斗使用挑战券', default=default('--共斗使用挑战券'), choices=['是', '否'], help='')
 
@@ -378,8 +385,8 @@ def main(ini_name=''):
     # Convert option from chinese to english.
     out = {}
     for key, value in vars(args).items():
-        key = dic_chi_to_eng.get(key, key)
-        value = dic_chi_to_eng.get(value, value)
+        key = dic_gui_to_ini.get(key, key)
+        value = dic_gui_to_ini.get(value, value)
         out[key] = value
     args = out
 

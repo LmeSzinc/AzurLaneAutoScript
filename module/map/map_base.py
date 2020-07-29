@@ -2,7 +2,7 @@ import numpy as np
 
 from module.base.utils import location2node, node2location
 from module.logger import logger
-from module.map.grid_info import GridInfo
+from module.map_detection.grid_info import GridInfo
 from module.map.map_grids import SelectedGrids
 
 
@@ -177,7 +177,7 @@ class CampaignMap:
             camera (tuple):
             is_carrier_scan (bool):
         """
-        offset = np.array(camera) - np.array(grids.center_grid)
+        offset = np.array(camera) - np.array(grids.center_loca)
         grids.show()
         for grid in grids.grids.values():
             loca = tuple(offset + grid.location)

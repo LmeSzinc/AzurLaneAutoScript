@@ -1,7 +1,7 @@
 from module.logger import logger
 from module.map.fleet import Fleet
-from module.map.grid_info import GridInfo
 from module.map.map_grids import SelectedGrids, RoadGrids
+from module.map_detection.grid_info import GridInfo
 
 
 class Map(Fleet):

@@ -87,12 +87,12 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
 
         return False
 
-    def combat_preparation(self, balance_hp=False, emotion_reduce=False, auto=True, fleet_index=1):
+    def combat_preparation(self, balance_hp=False, emotion_reduce=False, auto='combat_auto', fleet_index=1):
         """
         Args:
             balance_hp (bool):
             emotion_reduce (bool):
-            auto (bool):
+            auto (str):
             fleet_index (int):
         """
         logger.info('Combat preparation.')
@@ -106,7 +106,7 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
             self.device.screenshot()
 
             if self.appear(BATTLE_PREPARATION):
-                if self.handle_combat_automation_set(auto=auto):
+                if self.handle_combat_automation_set(auto=auto == 'combat_auto'):
                     continue
             if self.handle_retirement():
                 if self.config.ENABLE_HP_BALANCE:
@@ -184,10 +184,10 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
 
         return False
 
-    def combat_execute(self, auto=True, call_submarine_at_boss=False, save_get_items=False):
+    def combat_execute(self, auto='combat_auto', call_submarine_at_boss=False, save_get_items=False):
         """
         Args:
-            auto (bool):
+            auto (str): Combat auto mode.
             call_submarine_at_boss (bool):
             save_get_items (bool)
         """
@@ -207,11 +207,11 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
 
             if self.handle_story_skip():
                 continue
-            if self.handle_combat_auto():
+            if self.handle_combat_auto(auto):
                 continue
-            if self.handle_combat_manual():
+            if self.handle_combat_manual(auto):
                 continue
-            if not auto and self.auto_mode_checked and self.is_combat_executing():
+            if auto != 'combat_auto' and self.auto_mode_checked and self.is_combat_executing():
                 if self.handle_combat_weapon_release():
                     continue
             if call_submarine_at_boss:
@@ -221,7 +221,7 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
                     continue
 
             # End
-            if self.handle_battle_status(save_get_items=save_get_items):
+            if self.handle_battle_status(save_get_items=save_get_items) or self.handle_get_items(save_get_items=save_get_items):
                 self.device.screenshot_interval_set(0)
                 break
 
@@ -362,7 +362,7 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
         """
         balance_hp = balance_hp if balance_hp is not None else self.config.ENABLE_HP_BALANCE
         emotion_reduce = emotion_reduce if emotion_reduce is not None else self.config.ENABLE_EMOTION_REDUCE
-        auto = self.config.COMBAT_AUTO_MODE == 'combat_auto'
+        auto = self.config.FLEET_1_AUTO_MODE if fleet_index == 1 else self.config.FLEET_2_AUTO_MODE
         call_submarine_at_boss = call_submarine_at_boss if call_submarine_at_boss is not None else self.config.SUBMARINE_CALL_AT_BOSS
         save_get_items = save_get_items if save_get_items is not None else self.config.ENABLE_SAVE_GET_ITEMS
         self.battle_status_click_interval = 7 if save_get_items else 0

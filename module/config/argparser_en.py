@@ -1,16 +1,14 @@
 import codecs
-import os
 import sys
 
 from gooey import Gooey, GooeyParser
 
 import module.config.server as server
 from alas import AzurLaneAutoScript
-from module.config.dictionary import dic_true_eng_to_eng, dic_eng_to_true_eng
+from module.config.dictionary import dic_event, dic_true_eng_to_eng
 from module.config.update import get_config
 from module.logger import pyw_name
 from module.research.preset import DICT_FILTER_PRESET
-
 
 try:
     if sys.stdout.encoding != 'UTF-8':
@@ -44,23 +42,31 @@ def main(ini_name=''):
     config_file = f'./config/{ini_name}.ini'
     config = get_config(ini_name.lower())
 
-    event_folder = [f for f in os.listdir('./campaign') if f.startswith('event_') and f.split('_')[-1] == server.server]
+    # Load translation dictionary
+    dic_gui_to_ini = dic_true_eng_to_eng  # GUI translation dictionary here.
+    dic_gui_to_ini.update(dic_event[server.server])
+    dic_ini_to_gui = {v: k for k, v in dic_gui_to_ini.items()}
+    # Event list
+    event_folder = [f for f in dic_event[server.server].values() if f.startswith('event_')]
     event_latest = sorted([f for f in event_folder], reverse=True)[0]
-    event_folder = [dic_eng_to_true_eng.get(f, f) for f in event_folder][::-1]
-    event_latest = dic_eng_to_true_eng.get(event_latest, event_latest)
-    research_preset = [dic_eng_to_true_eng.get(f, f) for f in ['customized'] + list(DICT_FILTER_PRESET.keys())]
-
-    raid_latest = 'Air_Raid_Drills_with_Essex'
-
+    event_folder = [dic_ini_to_gui.get(f, f) for f in event_folder][::-1]
+    event_latest = dic_ini_to_gui.get(event_latest, event_latest)
+    # Raid list
+    raid_folder = [f for f in dic_event[server.server].values() if f.startswith('raid_')]
+    raid_latest = sorted([f for f in raid_folder], reverse=True)[0]
+    raid_folder = [dic_ini_to_gui.get(f, f) for f in raid_folder][::-1]
+    raid_latest = dic_ini_to_gui.get(raid_latest, raid_latest)
+    # Research preset list
+    research_preset = [dic_ini_to_gui.get(f, f) for f in ['customized'] + list(DICT_FILTER_PRESET.keys())]
+    # Translate settings in ini file
     saved_config = {}
     for opt, option in config.items():
         for key, value in option.items():
-            key = dic_eng_to_true_eng.get(key, key)
-            if value in dic_eng_to_true_eng:
-                value = dic_eng_to_true_eng.get(value, value)
+            key = dic_ini_to_gui.get(key, key)
+            if value in dic_ini_to_gui:
+                value = dic_ini_to_gui.get(value, value)
             if value == 'None':
                 value = ''
-
             saved_config[key] = value
 
     def default(name):
@@ -108,20 +114,20 @@ def main(ini_name=''):
     f1 = fleet.add_argument_group('Mob Fleet', 'Players can choose a formation before battle. Though it has no effect appearance-wise, the formations applies buffs to certain stats.\nLine Ahead: Increases Firepower and Torpedo by 15%, but reduces Evasion by 10% (Applies only to Vanguard fleet)\nDouble Line: Increases Evasion by 30%, but decreases Firepower and Torpedo by 5% (Applies only to Vanguard fleet)\nDiamond: Increases Anti-Air by 20% (no penalties, applies to entire fleet)')
     f1.add_argument('--fleet_index_1', default=default('--fleet_index_1'), choices=['1', '2', '3', '4', '5', '6'])
     f1.add_argument('--fleet_formation_1', default=default('--fleet_formation_1'), choices=['Line Ahead', 'Double Line', 'Diamond'])
+    f1.add_argument('--fleet_auto_mode_1', default=default('--fleet_auto_mode_1'), choices=['combat_auto', 'combat_manual', 'stand_still_in_the_middle'])
     f1.add_argument('--fleet_step_1', default=default('--fleet_step_1'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored')
 
     f2 = fleet.add_argument_group('Boss Fleet')
     f2.add_argument('--fleet_index_2', default=default('--fleet_index_2'), choices=['1', '2', '3', '4', '5', '6'])
     f2.add_argument('--fleet_formation_2', default=default('--fleet_formation_2'), choices=['Line Ahead', 'Double Line', 'Diamond'])
+    f2.add_argument('--fleet_auto_mode_2', default=default('--fleet_auto_mode_2'), choices=['combat_auto', 'combat_manual', 'stand_still_in_the_middle'])
     f2.add_argument('--fleet_step_2', default=default('--fleet_step_2'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored')
 
     f3 = fleet.add_argument_group('Alternate Mob Fleet')
     f3.add_argument('--fleet_index_3', default=default('--fleet_index_3'), choices=['1', '2', '3', '4', '5', '6'])
     f3.add_argument('--fleet_formation_3', default=default('--fleet_formation_3'), choices=['Line Ahead', 'Double Line', 'Diamond'])
+    f3.add_argument('--fleet_auto_mode_3', default=default('--fleet_auto_mode_3'), choices=['combat_auto', 'combat_manual', 'stand_still_in_the_middle'])
     f3.add_argument('--fleet_step_3', default=default('--fleet_step_3'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored')
-
-    f4 = fleet.add_argument_group('Auto-mode')
-    f4.add_argument('--combat_auto_mode', default=default('--combat_auto_mode'), choices=['combat_auto', 'combat_manual', 'stand_still_in_the_middle'])
 
     # 潜艇设置
     submarine = setting_parser.add_argument_group('Submarine settings', 'Only supported: hunt_only, do_not_use and every_combat')
@@ -276,8 +282,9 @@ def main(ini_name=''):
     daily.add_argument('--enable_daily_mission', default=default('--enable_daily_mission'), help='If there are records on the day, skip', choices=['yes', 'no'])
     daily.add_argument('--enable_hard_campaign', default=default('--enable_hard_campaign'), help='If there are records on the day, skip', choices=['yes', 'no'])
     daily.add_argument('--enable_exercise', default=default('--enable_exercise'), help='If there is a record after refreshing, skip', choices=['yes', 'no'])
-    daily.add_argument('--enable_event_ab', default=default('--enable_event_ab'), help='If there is a record after refreshing, skip', choices=['yes', 'no'])
     daily.add_argument('--enable_raid_daily', default=default('--enable_raid_daily'), help='If there is a record after refreshing, skip', choices=['yes', 'no'])
+    daily.add_argument('--enable_event_ab', default=default('--enable_event_ab'), help='If there is a record after refreshing, skip', choices=['yes', 'no'])
+    daily.add_argument('--enable_event_sp', default=default('--enable_event_sp'), help='If there is a record after refreshing, skip', choices=['yes', 'no'])
 
     # 每日设置
     daily_task = daily_parser.add_argument_group('Daily settings', 'Does not support submarine daily')
@@ -305,12 +312,13 @@ def main(ini_name=''):
 
     # event_daily_ab
     event_bonus = daily_parser.add_argument_group('Event Daily Bonus', 'bonus for first clear each day')
-    event_bonus.add_argument('--event_name_ab', default=event_latest, choices=event_folder, help='There a dropdown menu with many options')
     event_bonus.add_argument('--event_ab_chapter', default=default('--event_ab_chapter'), choices=['chapter_ab', 'chapter_abcd'], help='Chapter with PT bonus')
+    event_bonus.add_argument('--event_sp_mob_fleet', default=default('--event_sp_mob_fleet'), choices=['1', '2'], help='')
+    event_bonus.add_argument('--event_name_ab', default=event_latest, choices=event_folder, help='There a dropdown menu with many options')
 
     # Raid daily
     raid_bonus = daily_parser.add_argument_group('Raid settings', '')
-    raid_bonus.add_argument('--raid_daily_name', default=raid_latest, choices=[raid_latest], help='')
+    raid_bonus.add_argument('--raid_daily_name', default=raid_latest, choices=raid_folder, help='')
     raid_bonus.add_argument('--raid_hard', default=default('--raid_hard'), choices=['yes', 'no'], help='')
     raid_bonus.add_argument('--raid_normal', default=default('--raid_normal'), choices=['yes', 'no'], help='')
     raid_bonus.add_argument('--raid_easy', default=default('--raid_easy'), choices=['yes', 'no'], help='')
@@ -332,22 +340,22 @@ def main(ini_name=''):
     event_parser = subs.add_parser('event')
 
     description = """
-    Support "Iris of Light and Dark Rerun" (event_20200521_en), optimized for D2
+
     """
     event = event_parser.add_argument_group(
         'Choose a level', '\n'.join([line.strip() for line in description.strip().split('\n')]))
     event.add_argument('--event_stage', default=default('--event_stage'),
-                             choices=['a1', 'a2', 'a3', 'a4', 'b1', 'b2', 'b3', 'b4', 'c1', 'c2', 'c3', 'c4', 'd1', 'd2', 'd3', 'd4'],
-                             help='E.g d3')
+                             choices=['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4', 'C1', 'C2', 'C3', 'C4', 'D1', 'D2', 'D3', 'D4', 'SP'],
+                             help='E.g D3')
     event.add_argument('--sp_stage', default=default('--sp_stage'),
-                             choices=['sp1', 'sp2', 'sp3'],
-                             help='E.g sp3')
+                             choices=['SP1', 'SP2', 'SP3'],
+                             help='E.g SP3')
     event.add_argument('--event_name', default=event_latest, choices=event_folder, help='There a dropdown menu with many options')
 
     # ==========Raid==========
     raid_parser = subs.add_parser('raid')
     raid = raid_parser.add_argument_group('Choose a raid', '')
-    raid.add_argument('--raid_name', default=raid_latest, choices=[raid_latest], help='')
+    raid.add_argument('--raid_name', default=raid_latest, choices=raid_folder, help='')
     raid.add_argument('--raid_mode', default=default('--raid_mode'), choices=['hard', 'normal', 'easy'], help='')
     raid.add_argument('--raid_use_ticket', default=default('--raid_use_ticket'), choices=['yes', 'no'], help='')
 
@@ -379,8 +387,8 @@ def main(ini_name=''):
     # Convert option from chinese to english.
     out = {}
     for key, value in vars(args).items():
-        key = dic_true_eng_to_eng.get(key, key)
-        value = dic_true_eng_to_eng.get(value, value)
+        key = dic_gui_to_ini.get(key, key)
+        value = dic_gui_to_ini.get(value, value)
         out[key] = value
     args = out
 

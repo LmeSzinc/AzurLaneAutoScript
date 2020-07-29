@@ -4,15 +4,13 @@ import copy
 import os
 from datetime import timezone
 
-import cv2
 import numpy as np
-from PIL import Image
 
 import module.config.server as server
 from module.base.timer import *
 from module.config.dictionary import *
-from module.logger import logger
 from module.config.update import get_config
+from module.logger import logger
 
 
 class AzurLaneConfig:
@@ -48,6 +46,10 @@ class AzurLaneConfig:
     FLEET_3_STEP = 3
     # Fleet 1-2, if empty use 0.
     SUBMARINE = 0
+    # Combat auto mode: combat_auto, combat_manual, stand_still_in_the_middle
+    FLEET_1_AUTO_MODE = 'combat_auto'
+    FLEET_2_AUTO_MODE = 'combat_auto'
+    FLEET_3_AUTO_MODE = 'combat_auto'
 
     USING_SPARE_FLEET = False
 
@@ -96,7 +98,6 @@ class AzurLaneConfig:
     ENABLE_MAP_FLEET_LOCK = True
     SUBMARINE_MODE = ''
     SUBMARINE_CALL_AT_BOSS = False
-    COMBAT_AUTO_MODE = 'combat_auto'
     COMBAT_SCREENSHOT_INTERVAL = 2
 
     """
@@ -136,8 +137,10 @@ class AzurLaneConfig:
     EVENT_NAME = ''
     CAMPAIGN_EVENT = ''
     EVENT_NAME_AB = ''
-    ENABLE_EVENT_AB = True
+    ENABLE_EVENT_AB = False
+    ENABLE_EVENT_SP = False
     EVENT_AB_CHAPTER = 'chapter_ab'  # chapter_ab, chapter_abcd
+    EVENT_SP_MOB_FLEET = 1
 
     """
     module.combat.emotion
@@ -239,8 +242,9 @@ class AzurLaneConfig:
     MAP_HAS_MAP_STORY = False  # event_20200521_cn(穹顶下的圣咏曲) adds after-combat story.
     MAP_HAS_WALL = False  # event_20200521_cn(穹顶下的圣咏曲) adds wall between grids.
     MAP_HAS_PT_BONUS = False  # 100% PT bonus if success to catch enemy else 50%. Retreat get 0%.
-    MAP_SIREN_MOVE_WAIT = 1.5  # The enemy moving takes about 1.2 ~ 1.5s.
+    MAP_ENEMY_TEMPLATE = ['Light', 'Main', 'Carrier', 'Treasure']
     MAP_SIREN_TEMPLATE = ['DD', 'CL', 'CA', 'BB', 'CV']
+    MAP_SIREN_MOVE_WAIT = 1.5  # The enemy moving takes about 1.2 ~ 1.5s.
     MAP_SIREN_COUNT = 0
     MAP_MYSTERY_HAS_CARRIER = False
     MAP_GRID_CENTER_TOLERANCE = 0.1
@@ -276,6 +280,8 @@ class AzurLaneConfig:
     SCREEN_CENTER = (SCREEN_SIZE[0] / 2, SCREEN_SIZE[1] / 2)
     MID_Y = SCREEN_CENTER[1]
     DETECTION_BACKEND = 'homography'
+    # In event_20200723_cn B3D3, Grid have 1.2x width, images on the grid still remain the same.
+    GRID_IMAGE_A_MULTIPLY = 1.0
 
     """
     module.map_detection.homography
@@ -298,13 +304,6 @@ class AzurLaneConfig:
     """
     module.map_detection.perspective
     """
-    # UI mask
-    UI_MASK_FILE = './module/map/ui_mask.png'
-    UI_MASK_PIL = Image.open(UI_MASK_FILE).convert('L')
-    UI_MASK = np.array(UI_MASK_PIL)
-    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
-    UI_MASK_STROKE = cv2.erode(UI_MASK, kernel).astype('uint8')
-
     # Parameters for scipy.signal.find_peaks
     # https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.find_peaks.html
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
@@ -502,7 +501,7 @@ class AzurLaneConfig:
             self.__setattr__(f'FLEET_{n}', int(option[f'fleet_index_{n}']) if to_bool(option[f'fleet_index_{n}']) else 0)
             self.__setattr__(f'FLEET_{n}_FORMATION', int(option[f'fleet_formation_{n}'].split('_')[1]))
             self.__setattr__(f'FLEET_{n}_STEP', int(option[f'fleet_step_{n}']))
-        self.COMBAT_AUTO_MODE = option['combat_auto_mode']
+            self.__setattr__(f'FLEET_{n}_AUTO_MODE', option[f'fleet_auto_mode_{n}'])
         self.SUBMARINE = int(option['fleet_index_4']) if to_bool(option['fleet_index_4']) else 0
         self.SUBMARINE_MODE = option['submarine_mode']
         self.SUBMARINE_CALL_AT_BOSS = option['submarine_mode'] == 'when_boss_combat_boss_appear'
@@ -594,8 +593,10 @@ class AzurLaneConfig:
         # Event bonus
         # option = config['Event_daily_ab']
         self.ENABLE_EVENT_AB = to_bool(option['enable_event_ab'])
+        self.ENABLE_EVENT_SP = to_bool(option['enable_event_sp'])
         self.EVENT_NAME_AB = option['event_name_ab']
         self.EVENT_AB_CHAPTER = option['event_ab_chapter']
+        self.EVENT_SP_MOB_FLEET = int(option['event_sp_mob_fleet'])
         # Raid daily
         self.ENABLE_RAID_DAILY = to_bool(option['enable_raid_daily'])
         self.RAID_DAILY_NAME = option['raid_daily_name']

@@ -116,6 +116,7 @@ class Homography:
             src_pts (list[tuple]): [upper-left, upper-right, bottom-left, bottom-right]
         """
         self.homo_storage = (size, [(x, y) for x, y in np.round(src_pts, 3)])
+        logger.attr('homo_storage', self.homo_storage)
 
         # Generate perspective data
         src_pts = np.array(src_pts) - self.config.DETECTING_AREA[:2]
@@ -157,6 +158,7 @@ class Homography:
         image_edge = cv2.bitwise_and(image_edge, self.ui_mask_homo_stroke)
         kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
         image_edge = cv2.morphologyEx(image_edge, cv2.MORPH_CLOSE, kernel)
+        # Image.fromarray(image_edge, mode='L').show()
 
         # Find free tile
         if self.search_tile_center(image_edge, threshold_good=self.config.HOMO_CENTER_GOOD_THRESHOLD,
@@ -174,7 +176,7 @@ class Homography:
         # Detect map edges
         image_edge = cv2.bitwise_and(cv2.dilate(image_edge, kernel),
                                      cv2.inRange(image_trans, *self.config.HOMO_EDGE_COLOR_RANGE))
-        self.detect_edges(image_edge)
+        self.detect_edges(image_edge, hough_th=self.config.HOMO_EDGE_HOUGHLINES_THRESHOLD)
 
         # Log
         time_cost = round(time.time() - start_time, 3)
@@ -219,7 +221,7 @@ class Homography:
 
         # print(self.homo_loca % self.config.HOMO_TILE)
         logger.attr_align('tile_center', f'{float2str(similarity)} ({message})')
-        return self.homo_loca is not None
+        return message != 'bad match'
 
     def search_tile_corner(self, image, threshold=0.8, encourage=1.0):
         """
@@ -254,7 +256,7 @@ class Homography:
 
         # print(self.homo_loca % self.config.HOMO_TILE)
         logger.attr_align('tile_corner', f'{float2str(similarity)} ({message})')
-        return self.homo_loca is not None
+        return message != 'bad match'
 
     def search_tile_rectangle(self, image, threshold=10, encourage=5.1, close_kernel=(5, 10, 15, 20, 25)):
         """
@@ -295,9 +297,9 @@ class Homography:
 
         # print(self.homo_loca % self.config.HOMO_TILE)
         logger.attr_align('tile_rectangle', f'{len(location)} rectangles ({message})')
-        return self.homo_loca is not None
+        return message != 'bad match'
 
-    def detect_edges(self, image, hough_th=120, theta_th=0.005, edge_th=3):
+    def detect_edges(self, image, hough_th=120, theta_th=0.005, edge_th=5):
         """
         Detect map edges
 
@@ -309,23 +311,30 @@ class Homography:
         """
         lines = cv2.HoughLines(image, 1, np.pi / 180, hough_th)
         if lines is None:
-            return None, None
+            self.lower_edge, self.upper_edge = separate_edges([], inner=self.map_inner[1])
+            self.left_edge, self.right_edge = separate_edges([], inner=self.map_inner[0])
+            self._map_edge_count = (0, 0)
+            return None
 
         lines = lines[:, 0, :]
         rho, theta = lines[:, 0], lines[:, 1]
 
         hori = lines[(np.deg2rad(90 - theta_th) < theta) & (theta < np.deg2rad(90 + theta_th))]
-        hori = Lines(hori, is_horizontal=True, config=self.config).group().rho
+        hori = Lines(hori, is_horizontal=True, config=self.config).group()
         vert = lines[(theta < np.deg2rad(theta_th)) | (np.deg2rad(180 - theta_th) < theta)]
         vert = [[-rho, theta - np.pi] if rho < 0 else [rho, theta] for rho, theta in vert]
-        vert = Lines(vert, is_horizontal=False, config=self.config).group().rho
+        vert = Lines(vert, is_horizontal=False, config=self.config).group()
 
         self._map_edge_count = (len(vert), len(hori))
 
-        diff = (hori - self.homo_loca[1]) % self.config.HOMO_TILE[1]
-        hori = hori[(diff < edge_th) | (diff > self.config.HOMO_TILE[1] - edge_th)]
-        diff = (vert - self.homo_loca[0]) % self.config.HOMO_TILE[0]
-        vert = vert[(diff < edge_th) | (diff > self.config.HOMO_TILE[0] - edge_th)]
+        if hori:
+            hori = hori.rho
+            diff = (hori - self.homo_loca[1]) % self.config.HOMO_TILE[1]
+            hori = hori[(diff < edge_th) | (diff > self.config.HOMO_TILE[1] - edge_th)]
+        if vert:
+            vert = vert.rho
+            diff = (vert - self.homo_loca[0]) % self.config.HOMO_TILE[0]
+            vert = vert[(diff < edge_th) | (diff > self.config.HOMO_TILE[0] - edge_th)]
 
         self.lower_edge, self.upper_edge = separate_edges(hori, inner=self.map_inner[1])
         self.left_edge, self.right_edge = separate_edges(vert, inner=self.map_inner[0])
@@ -361,13 +370,12 @@ class Homography:
             grids[loca] = points
         shape = np.max(list(grids.keys()), axis=0)
 
-        hori = Points([640, grids[(0, 0)][1]], config=self.config).link(None, is_horizontal=True)
+        hori = Points([640, grids[(0, 0)][1, 1]], config=self.config).link(None, is_horizontal=True)
         for y in range(shape[1] + 1):
-            hori = hori.add(Points([640, grids[(0, y)][3]], config=self.config).link(None, is_horizontal=True))
-        vert = Points(grids[(0, 0)][:2], config=self.config).link(grids[(0, shape[1])][:2])
+            hori = hori.add(Points([640, grids[(0, y)][3, 1]], config=self.config).link(None, is_horizontal=True))
+        vert = Points(grids[(0, 0)][1], config=self.config).link(grids[(0, shape[1])][3])
         for x in range(shape[0] + 1):
-            vert = vert.add(Points(grids[(x, 0)][2:], config=self.config).link(grids[(x, shape[1])][2:]))
-
+            vert = vert.add(Points(grids[(x, 0)][1], config=self.config).link(grids[(x, shape[1])][3]))
         return hori, vert
 
     def draw(self, lines=None, bg=None, expend=0):
