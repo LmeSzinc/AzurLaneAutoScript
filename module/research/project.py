@@ -174,9 +174,7 @@ class ResearchSelector(UI):
 
         FILTER.load(string)
         priority = FILTER.apply(self.projects)
-        logger.info(priority)
         priority = self._research_check_filter(priority)
-        logger.info(priority)
 
         # Log
         logger.attr(
