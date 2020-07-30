@@ -20,7 +20,7 @@ FILTER_REGEX = re.compile('(s[123])?'
                           '(dr|pry)?'
                           '([bcdeghqt])?'
                           '-?'
-                          '(\d.\d|\d)?')
+                          '(\d.\d|\d\d?)?')
 FILTER_ATTR = ('series', 'ship', 'ship_rarity', 'genre', 'duration')
 FILTER_PRESET = ('shortest', 'cheapest', 'reset')
 FILTER = Filter(FILTER_REGEX, FILTER_ATTR, FILTER_PRESET)
