@@ -137,34 +137,31 @@ class GridInfo:
     def is_nearby(self):
         return self.cost < 20
 
-    def merge(self, info):
+    def merge(self, info, mode='normal'):
         """
         Args:
             info (GridInfo):
+            mode (str): Scan mode, such as 'normal', 'carrier', 'move'
 
         Returns:
             bool: If success.
         """
-        if info.is_current_fleet:
-            if self.is_sea:
-                self.is_current_fleet = True
-                return True
-            else:
-                return False
         if info.is_fleet:
             if self.is_sea:
                 self.is_fleet = True
+                if info.is_current_fleet:
+                    self.is_current_fleet = True
                 return True
             else:
                 return False
         if info.is_boss:
-            if (self.is_boss or self.is_sea) and self.may_boss:
+            if not self.is_land and self.may_boss:
                 self.is_boss = True
                 return True
             else:
                 return False
         if info.is_siren:
-            if (self.is_siren or self.is_sea) and self.may_siren:
+            if not self.is_land and self.may_siren:
                 self.is_siren = True
                 self.enemy_scale = 0
                 self.enemy_genre = info.enemy_genre
@@ -172,8 +169,16 @@ class GridInfo:
             else:
                 return False
         if info.is_enemy:
-            if (self.is_enemy or self.is_sea) and self.may_enemy:
+            if not self.is_land and (self.may_enemy or self.is_carrier):
                 self.is_enemy = True
+                if info.enemy_scale:
+                    self.enemy_scale = info.enemy_scale
+                if info.enemy_genre != 'Enemy':
+                    self.enemy_genre = info.enemy_genre
+                return True
+            elif mode == 'carrier' and not self.is_land and self.may_carrier:
+                self.is_enemy = True
+                self.is_carrier = True
                 if info.enemy_scale:
                     self.enemy_scale = info.enemy_scale
                 if info.enemy_genre != 'Enemy':
@@ -208,6 +213,7 @@ class GridInfo:
         self.is_ammo = False
         self.is_siren = False
         self.is_caught_by_siren = False
+        self.is_carrier = False
 
     def reset(self):
         """

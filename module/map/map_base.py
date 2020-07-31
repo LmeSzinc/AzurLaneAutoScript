@@ -170,19 +170,19 @@ class CampaignMap:
                 [self[(x, y)].str if (x, y) in self else '  ' for x in range(self.shape[0] + 1)])
             logger.info(text)
 
-    def update(self, grids, camera, is_carrier_scan=False):
+    def update(self, grids, camera, mode='normal'):
         """
         Args:
             grids:
             camera (tuple):
-            is_carrier_scan (bool):
+            mode (str): Scan mode, such as 'normal', 'carrier', 'move'
         """
         offset = np.array(camera) - np.array(grids.center_loca)
         grids.show()
         for grid in grids.grids.values():
             loca = tuple(offset + grid.location)
             if loca in self.grids:
-                success = self.grids[loca].merge(grid)
+                success = self.grids[loca].merge(grid, mode=mode)
                 if not success:
                     logger.warning(f"Wrong Prediction. {self.grids[loca]} = '{grid.str}'")
 
