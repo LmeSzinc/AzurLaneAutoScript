@@ -162,7 +162,7 @@ call %ADB% connect %ADB_PORT%
 	if %errorlevel% == 0 (
 	echo Python Found! Proceeding..
 	echo Opening dev_tools.button_extract...
-	call %PYTHON% -m dev_tools.relative_record
+	call %PYTHON% -m dev_tools.grids_debug
 	pause > NUL
 	goto dev_menu
 	) else (
@@ -178,7 +178,7 @@ call %ADB% connect %ADB_PORT%
 	if %errorlevel% == 0 (
 	echo Python Found! Proceeding..
 	echo Opening dev_tools.button_extract...
-	call %PYTHON% -m dev_tools.relative_record_gif
+	call %PYTHON% -m dev_tools.item_statistics
 	pause > NUL
 	goto dev_menu
 	) else (
