@@ -31,6 +31,8 @@ class LoginHandler(Combat):
                 continue
             if self.appear_then_click(LOGIN_CONFIRM, interval=5):
                 continue
+            if self.handle_popup_confirm():
+                continue
 
             if self.info_bar_count() and self.appear_then_click(LOGIN_CHECK, interval=5):
                 if not login_success:
