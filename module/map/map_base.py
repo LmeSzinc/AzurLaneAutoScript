@@ -182,7 +182,9 @@ class CampaignMap:
         for grid in grids.grids.values():
             loca = tuple(offset + grid.location)
             if loca in self.grids:
-                self.grids[loca].update(grid, is_carrier_scan=is_carrier_scan, ignore_may=self.poor_map_data)
+                success = self.grids[loca].merge(grid)
+                if not success:
+                    logger.warning(f"Wrong Prediction. {self.grids[loca]} = '{grid.str}'")
 
         return True
 

@@ -27,7 +27,7 @@ class Campaign(CampaignBase):
                 return True
 
             ignore = None
-            if self.fleet_at(A3, fleet=2):
+            if self.fleet_at(A3, fleet=2) and A1.enemy_scale != 3 and not self.fleet_at(A1, fleet=1):
                 ignore = SelectedGrids([A2])
             if self.fleet_at(G3, fleet=2):
                 ignore = SelectedGrids([H3])
