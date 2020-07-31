@@ -215,9 +215,15 @@ class Camera(InfoHandler):
                 else:
                     logger.info('All spawn found, Early stopped.')
                     break
+
             queue = queue.sort_by_camera_distance(self.camera)
             self.focus_to(queue[0])
-            self.predict(mode=mode)
+            self.view.predict()
+            success = self.map.update(grids=self.view, camera=self.camera, mode=mode)
+            if not success:
+                self.ensure_edge_insight()
+                continue
+
             queue = queue[1:]
 
         if battle_count is not None:
