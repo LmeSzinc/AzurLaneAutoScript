@@ -8,6 +8,9 @@ from module.exception import *
 
 class AzurLaneDaemon(FleetPreparation, Combat, MysteryHandler):
     def daemon(self):
+        self.config.ENABLE_GAME_STUCK_HANDLER = False
+        self.device.config.ENABLE_GAME_STUCK_HANDLER = False
+
         while 1:
             self.device.screenshot()
 

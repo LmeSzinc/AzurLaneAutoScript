@@ -34,7 +34,6 @@ dictionary_cn = {
     'urgent_ship': ['观舰']
 }
 dictionary_en = {
-    'major_comm': ['SELF TRAINING', 'DEFENSE EXERCISE', 'RESEARCH MISSION', 'TOOL PREP', 'TACTICAL CLASS', 'CARGO TRANSPORT'],
     'daily_comm': ['DAILY RESOURCE EXTRACTION', 'AWAKENING TACTICAL RESEARCH'],
     'extra_drill': ['SAILING', 'BUOY', 'FRONTIER', 'COASTAL', 'SALING'],
     'extra_part': ['VEIN', 'FOREST'],
@@ -47,7 +46,8 @@ dictionary_en = {
     'urgent_box': ['GEAR', 'HANDOVER'],
     'urgent_cube': ['ENEMY ATTACK', 'MERCHANT RESCUE'],
     'urgent_gem': ['VIP', 'HOLIDAY ESCORT', 'PATROL ESCORT'],
-    'urgent_ship': ['LAUNCH']
+    'urgent_ship': ['LAUNCH'],
+    'major_comm': ['SELF TRAINING', 'DEFENSE EXERCISE', 'RESEARCH MISSION', 'TOOL PREP', 'TACTICAL CLASS', 'CARGO TRANSPORT']
 }
 dictionary_jp = {
     'major_comm': ['初級自主訓練', '中級自主訓練', '上級自主訓練', '初級対抗演習', '中級対抗演習', '上級対抗演習', '初級科学研究', '中級科学研究', '上級科学研究', '初級資材整理', '中級資材整理', '上級資材整理', '初級戦術課程', '中級戦術課程', '上級戦術課程', '初級貨物輸送', '中級貨物輸送', '上級貨物輸送'],

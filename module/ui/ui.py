@@ -1,6 +1,7 @@
 from module.base.button import Button
 from module.base.timer import Timer
 from module.combat.assets import *
+from module.exception import GameNotRunningError
 from module.handler.assets import *
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
@@ -31,7 +32,7 @@ class UI(InfoHandler):
         else:
             return False
 
-    def ui_click(self, click_button, check_button, appear_button=None, additional=None, confirm_wait=2,
+    def ui_click(self, click_button, check_button, appear_button=None, additional=None, confirm_wait=1,
                  offset=(20, 20), retry_wait=10, skip_first_screenshot=False):
         """
         Args:
@@ -96,7 +97,10 @@ class UI(InfoHandler):
             logger.warning('Starting from current page is not supported')
             logger.warning(f'Supported page: {[str(page) for page in self.ui_pages]}')
             logger.warning(f'Supported page: Any page with a "HOME" button on the upper-right')
-            exit(1)
+            if not self.device.app_is_running():
+                raise GameNotRunningError('Game not running')
+            else:
+                exit(1)
 
     def ui_goto(self, destination, skip_first_screenshot=False):
         """
@@ -260,5 +264,34 @@ class UI(InfoHandler):
             return True
         if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=5):
             return True
+
+        return False
+
+    _ui_additional_reward_goto_main_timer = Timer(5, count=5)
+
+    def ui_additional_page_reward(self):
+        # Research popup, lost connection popup
+        if self.handle_popup_confirm('PAGE_REWARD'):
+            return True
+
+        # Daily reset
+        if self.appear_then_click(LOGIN_ANNOUNCE, offset=(30, 30), interval=5):
+            return True
+        if self.appear_then_click(GET_ITEMS_1, offset=(30, 30), interval=5):
+            return True
+        if self.appear_then_click(GET_SHIP, interval=5):
+            return True
+        if self.appear_then_click(LOGIN_RETURN_SIGN, offset=(30, 30), interval=5):
+            return True
+        if self.appear(EVENT_LIST_CHECK, offset=(30, 30), interval=5) \
+                or self.appear(RESHMENU_CHECK, offset=(30, 30), interval=5) \
+                or self.appear(RESEARCH_CHECK, offset=(30, 30), interval=5):
+            self.device.click(GOTO_MAIN)
+            self._ui_additional_reward_goto_main_timer.reset()
+            return True
+        if not self._ui_additional_reward_goto_main_timer.reached():
+            if self.appear(MAIN_CHECK, offset=(30, 30), interval=5):
+                self.device.click(MAIN_GOTO_REWARD)
+                return True
 
         return False

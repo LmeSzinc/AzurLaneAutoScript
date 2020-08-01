@@ -116,9 +116,9 @@ class Camera(InfoHandler):
         self.camera = (x, y)
         self.show_camera()
 
-    def predict(self, is_carrier_scan=False):
+    def predict(self, mode='normal'):
         self.view.predict()
-        self.map.update(grids=self.view, camera=self.camera, is_carrier_scan=is_carrier_scan)
+        self.map.update(grids=self.view, camera=self.camera, mode=mode)
 
     def show_camera(self):
         logger.attr_align('Camera', location2node(self.camera))
@@ -190,7 +190,7 @@ class Camera(InfoHandler):
             if np.all(np.abs(vector) <= 0):
                 break
 
-    def full_scan(self, battle_count=None, mystery_count=0, siren_count=0, carrier_count=0, is_carrier_scan=False):
+    def full_scan(self, battle_count=0, mystery_count=0, siren_count=0, carrier_count=0, mode='normal'):
         """Scan the hole map.
 
         Args:
@@ -198,7 +198,7 @@ class Camera(InfoHandler):
             mystery_count:
             siren_count:
             carrier_count:
-            is_carrier_scan:
+            mode (str): Scan mode, such as 'normal', 'carrier', 'move'
         """
         logger.info('Full scan start')
         self.map.reset_fleet()
@@ -215,14 +215,20 @@ class Camera(InfoHandler):
                 else:
                     logger.info('All spawn found, Early stopped.')
                     break
+
             queue = queue.sort_by_camera_distance(self.camera)
             self.focus_to(queue[0])
-            self.predict(is_carrier_scan=is_carrier_scan)
+            self.view.predict()
+            success = self.map.update(grids=self.view, camera=self.camera, mode=mode)
+            if not success:
+                self.ensure_edge_insight()
+                continue
+
             queue = queue[1:]
 
         if battle_count is not None:
-            self.map.missing_predict(battle_count=battle_count, mystery_count=mystery_count, siren_count=siren_count,
-                                     carrier_count=carrier_count)
+            self.map.missing_predict(battle_count, mystery_count, siren_count, carrier_count)
+
         self.map.show()
 
     def in_sight(self, location, sight=None):

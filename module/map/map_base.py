@@ -1,9 +1,11 @@
+import copy
+
 import numpy as np
 
 from module.base.utils import location2node, node2location
 from module.logger import logger
-from module.map_detection.grid_info import GridInfo
 from module.map.map_grids import SelectedGrids
+from module.map_detection.grid_info import GridInfo
 
 
 def location_ensure(location):
@@ -170,21 +172,33 @@ class CampaignMap:
                 [self[(x, y)].str if (x, y) in self else '  ' for x in range(self.shape[0] + 1)])
             logger.info(text)
 
-    def update(self, grids, camera, is_carrier_scan=False):
+    def update(self, grids, camera, mode='normal'):
         """
         Args:
             grids:
             camera (tuple):
-            is_carrier_scan (bool):
+            mode (str): Scan mode, such as 'normal', 'carrier', 'move'
         """
         offset = np.array(camera) - np.array(grids.center_loca)
         grids.show()
+
+        failed_count = 0
         for grid in grids.grids.values():
             loca = tuple(offset + grid.location)
             if loca in self.grids:
-                self.grids[loca].update(grid, is_carrier_scan=is_carrier_scan, ignore_may=self.poor_map_data)
+                if not copy.copy(self.grids[loca]).merge(grid, mode=mode):
+                    logger.warning(f"Wrong Prediction. {self.grids[loca]} = '{grid.str}'")
+                    failed_count += 1
 
-        return True
+        if failed_count < 2:
+            for grid in grids.grids.values():
+                loca = tuple(offset + grid.location)
+                if loca in self.grids:
+                    self.grids[loca].merge(grid, mode=mode)
+            return True
+        else:
+            logger.warning('Too many wrong prediction')
+            return False
 
     def reset(self):
         for grid in self:

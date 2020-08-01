@@ -205,10 +205,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         self.map[location].is_fleet = True
         self.__setattr__('fleet_%s_location' % self.fleet_current_index, location)
         if result_mystery == 'get_carrier':
-            prev_enemy = self.map.select(is_enemy=True)
-            self.full_scan(is_carrier_scan=True)
-            diff = self.map.select(is_enemy=True).delete(prev_enemy)
-            logger.info(f'Carrier spawn: {diff}')
+            self.full_scan(mode='carrier')
         self.find_path_initial()
 
     def goto(self, location, optimize=True, expected=''):
@@ -254,10 +251,16 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                 fleets.append(text)
         logger.info(' '.join(fleets))
 
-    def full_scan(self, is_carrier_scan=False):
+    def full_scan(self, mode='normal'):
+        prev_enemy = self.map.select(is_enemy=True)
         super().full_scan(battle_count=self.battle_count, mystery_count=self.mystery_count,
                           siren_count=self.siren_count, carrier_count=self.carrier_count,
-                          is_carrier_scan=is_carrier_scan)
+                          mode=mode)
+
+        if mode == 'carrier':
+            diff = self.map.select(is_enemy=True).delete(prev_enemy)
+            logger.info(f'Carrier spawn: {diff}')
+
         if self.config.FLEET_2 and not self.fleet_2_location:
             fleets = self.map.select(is_fleet=True, is_current_fleet=False)
             if fleets.count:

@@ -19,11 +19,11 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)**, some featur
 
 > **Event Announcement 活动公告**
 >
-> [CN] 支持活动「永夜幻光」, 请使用 dev 分支.
+> [CN] 支持活动「永夜幻光」.
 >
 > [EN] Support event "Ink-Stained Steel Sakura Rerun".
 >
-> [JP] Support event 「極夜照らす幻光」, please use dev brunch.
+> [JP] Support event 「極夜照らす幻光」.
 
 ![gui](doc/README.assets/gui.png)
 
