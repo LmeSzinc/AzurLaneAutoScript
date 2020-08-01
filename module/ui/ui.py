@@ -1,6 +1,7 @@
 from module.base.button import Button
 from module.base.timer import Timer
 from module.combat.assets import *
+from module.exception import GameNotRunningError
 from module.handler.assets import *
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
@@ -96,7 +97,10 @@ class UI(InfoHandler):
             logger.warning('Starting from current page is not supported')
             logger.warning(f'Supported page: {[str(page) for page in self.ui_pages]}')
             logger.warning(f'Supported page: Any page with a "HOME" button on the upper-right')
-            exit(1)
+            if not self.device.app_is_running():
+                raise GameNotRunningError('Game not running')
+            else:
+                exit(1)
 
     def ui_goto(self, destination, skip_first_screenshot=False):
         """
