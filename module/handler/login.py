@@ -4,7 +4,9 @@ from module.base.timer import Timer
 from module.combat.combat import Combat
 from module.handler.assets import *
 from module.logger import logger
-from module.ui.ui import MAIN_CHECK, EVENT_LIST_CHECK, BACK_ARROW
+from module.map.assets import *
+from module.ui.assets import *
+from module.ui.ui import MAIN_CHECK
 
 
 class LoginHandler(Combat):
@@ -31,6 +33,12 @@ class LoginHandler(Combat):
                 continue
             if self.appear_then_click(LOGIN_CONFIRM, interval=5):
                 continue
+            if self.handle_popup_confirm('LOGIN'):
+                continue
+            if self.handle_urgent_commission(save_get_items=False):
+                continue
+            if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=5):
+                continue
 
             if self.info_bar_count() and self.appear_then_click(LOGIN_CHECK, interval=5):
                 if not login_success:
@@ -43,6 +51,7 @@ class LoginHandler(Combat):
             else:
                 confirm_timer.reset()
 
+        self.config.start_time = datetime.now()
         return True
 
     def app_restart(self):
@@ -50,7 +59,6 @@ class LoginHandler(Combat):
         self.device.app_stop()
         self.device.app_start()
         self.handle_app_login()
-        self.config.start_time = datetime.now()
 
     def app_ensure_start(self):
         if not self.device.app_is_running():
@@ -59,3 +67,32 @@ class LoginHandler(Combat):
             return True
 
         return False
+
+    def ensure_no_unfinished_campaign(self, confirm_wait=3):
+        """
+        Pages:
+            in: page_main
+            out: page_main
+        """
+        def ensure_campaign_retreat():
+            if self.appear_then_click(WITHDRAW, offset=(30, 30), interval=5):
+                return True
+            if self.handle_popup_confirm('WITHDRAW'):
+                return True
+
+        def in_campaign():
+            return self.appear(CAMPAIGN_CHECK, offset=(30, 30)) \
+                   or self.appear(EVENT_CHECK, offset=(30, 30)) \
+                   or self.appear(SP_CHECK, offset=(30, 30))
+
+        self.ui_click(MAIN_GOTO_CAMPAIGN, check_button=in_campaign, additional=ensure_campaign_retreat,
+                      confirm_wait=confirm_wait, skip_first_screenshot=True)
+        self.ui_goto_main()
+
+    def handle_game_stuck(self):
+        logger.warning(f'{self.config.PACKAGE_NAME} will be restart in 10 seconds')
+        logger.warning('If you are playing by hand, please stop Alas')
+        self.device.sleep(10)
+
+        self.app_restart()
+        self.ensure_no_unfinished_campaign()
