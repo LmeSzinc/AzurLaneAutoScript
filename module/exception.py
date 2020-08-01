@@ -6,10 +6,6 @@ class MapDetectionError(Exception):
     pass
 
 
-class PerspectiveError(Exception):
-    pass
-
-
 class MapWalkError(Exception):
     pass
 
@@ -23,4 +19,12 @@ class ScriptError(Exception):
 
 
 class ScriptEnd(Exception):
+    pass
+
+
+class GameStuckError(Exception):
+    pass
+
+
+class GameNotRunningError(Exception):
     pass

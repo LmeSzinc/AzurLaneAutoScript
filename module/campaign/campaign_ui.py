@@ -55,6 +55,7 @@ class CampaignUI(UI, CampaignOcr):
                 MODE_SWITCH_1.set('hard', main=self)
             elif mode == 'hard':
                 MODE_SWITCH_2.set('ex', main=self)
+                MODE_SWITCH_1.set('normal', main=self)
             else:
                 logger.warning(f'Unknown campaign mode: {mode}')
 
