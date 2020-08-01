@@ -4,7 +4,7 @@ from module.base.timer import Timer
 from module.combat.combat import Combat
 from module.handler.assets import *
 from module.logger import logger
-from module.ui.ui import MAIN_CHECK, EVENT_LIST_CHECK, BACK_ARROW
+from module.ui.ui import MAIN_CHECK, EVENT_LIST_CHECK, BACK_ARROW, GOTO_MAIN
 
 
 class LoginHandler(Combat):
@@ -30,6 +30,12 @@ class LoginHandler(Combat):
             if self.appear_then_click(LOGIN_RETURN_SIGN, offset=(30, 30), interval=5):
                 continue
             if self.appear_then_click(LOGIN_CONFIRM, interval=5):
+                continue
+            if self.handle_popup_confirm('LOGIN'):
+                continue
+            if self.handle_urgent_commission(save_get_items=False):
+                continue
+            if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=5):
                 continue
 
             if self.info_bar_count() and self.appear_then_click(LOGIN_CHECK, interval=5):
