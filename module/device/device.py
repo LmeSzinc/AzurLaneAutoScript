@@ -110,4 +110,4 @@ class Device(Screenshot, Control, AppControl):
         self.stuck_record_clear()
 
         if self.config.ENABLE_GAME_STUCK_HANDLER:
-            raise GameStuckError(f'Waiting for {self.stuck_record}')
+            raise GameStuckError(f'Wait too long')
