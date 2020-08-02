@@ -1,12 +1,13 @@
 import numpy as np
 
+from module.base.decorator import Config
 from module.base.timer import Timer
 from module.base.utils import get_color
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3
 from module.logger import logger
 from module.research.assets import *
 from module.research.project import ResearchSelector
-from module.ui.ui import page_research, RESEARCH_CHECK
+from module.ui.page import *
 
 RESEARCH_ENTRANCE = [ENTRANCE_1, ENTRANCE_2, ENTRANCE_3, ENTRANCE_4, ENTRANCE_5]
 RESEARCH_STATUS = [STATUS_1, STATUS_2, STATUS_3, STATUS_4, STATUS_5]
@@ -18,6 +19,36 @@ class RewardResearch(ResearchSelector):
 
     def ensure_research_stable(self):
         self.wait_until_stable(STABLE_CHECKER)
+
+    def wait_until_get_items_stable(self, timeout=Timer(1, count=2).start(), skip_first_screenshot=True):
+        """
+        Items in research are shown one by one, row by row,
+        which will mis-detect GET_ITEMS_2 as GET_ITEMS_1, or mis-detect GET_ITEMS_3 as GET_ITEMS_1.
+
+        Pages:
+            in: GET_ITEMS_<any>
+            out: GET_ITEMS_<stabled>
+        """
+        prev = ''
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            name = ''
+            for button in [GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3]:
+                if self.appear(button):
+                    name = button.name
+                    break
+
+            # End
+            if len(name) and name == prev:
+                if timeout.reached():
+                    break
+            else:
+                timeout.reset()
+            prev = name
 
     def _in_research(self):
         return self.appear(RESEARCH_CHECK, offset=(20, 20))
@@ -209,30 +240,43 @@ class RewardResearch(ResearchSelector):
                 self.device.screenshot()
 
             if self.appear(RESEARCH_CHECK, interval=10):
-                if save_get_items:
-                    self.device.save_screenshot('research_project', interval=0)
-                self.device.click(RESEARCH_ENTRANCE[self._research_finished_index])
-                continue
+                if self._research_has_finished_at(RESEARCH_STATUS[self._research_finished_index]):
+                    if save_get_items:
+                        self.device.save_screenshot('research_project', interval=0)
+                    self.device.click(RESEARCH_ENTRANCE[self._research_finished_index])
+                    continue
 
             if self.appear(GET_ITEMS_1, interval=5):
+                self.wait_until_get_items_stable()
+                logger.info('Get items 1 stabled')
+                if not self.appear(GET_ITEMS_1, interval=0):
+                    continue
+                self.device.sleep(2)
                 if save_get_items:
-                    self.device.sleep(2)
                     self.device.screenshot()
                     self.device.save_screenshot('research_items')
                 self.device.click(GET_ITEMS_RESEARCH_SAVE)
                 executed = True
                 continue
             if self.appear(GET_ITEMS_2, interval=5):
+                self.wait_until_get_items_stable()
+                logger.info('Get items 2 stabled')
+                if not self.appear(GET_ITEMS_2, interval=0):
+                    continue
+                self.device.sleep(2)
                 if save_get_items:
-                    self.device.sleep(3)
                     self.device.screenshot()
                     self.device.save_screenshot('research_items')
                 self.device.click(GET_ITEMS_RESEARCH_SAVE)
                 executed = True
                 continue
             if self.appear(GET_ITEMS_3, interval=5):
+                self.wait_until_get_items_stable()
+                logger.info('Get items 3 stabled')
+                if not self.appear(GET_ITEMS_3, interval=0):
+                    continue
+                self.device.sleep(3)
                 if save_get_items:
-                    self.device.sleep(4)
                     self.device.screenshot()
                     self.device.save_screenshot('research_items')
                     self.device.swipe((0, 250), box=ITEMS_3_SWIPE.area, random_range=(-10, -10, 10, 10), padding=0)
@@ -274,6 +318,36 @@ class RewardResearch(ResearchSelector):
             if result:
                 break
 
+    @Config.when(SERVER='en')
+    def ui_ensure_research(self):
+        """
+        In EN, the title of page_reshmenu and page_research are "Technology",
+        so RESEARCH_CHECK in EN uses "Resets daily in midnight".
+        However it's loaded faster then other objects in page_research.
+        To handle this, check both "Technology" and "Resets daily in midnight".
+
+        Pages:
+            in: Any page
+            out: page_research
+        """
+
+        def research_check():
+            return self.appear(RESEARCH_CHECK, offset=(20, 20)) and self.appear(RESEARCH_TITLE, offset=(20, 20))
+
+        self.ui_goto(page_reshmenu, skip_first_screenshot=True)
+        self.ui_click(RESHMENU_GOTO_RESEARCH, check_button=research_check, skip_first_screenshot=True)
+        self.ensure_research_stable()
+
+    @Config.when(SERVER=None)
+    def ui_ensure_research(self):
+        """
+        Pages:
+            in: Any page
+            out: page_research
+        """
+        self.ui_goto(page_research, skip_first_screenshot=True)
+        self.ensure_research_stable()
+
     def handle_research_reward(self):
         """
         Pages:
@@ -287,9 +361,7 @@ class RewardResearch(ResearchSelector):
             logger.info('No research finished or pending')
             return False
 
-        self.ui_goto(page_research, skip_first_screenshot=True)
-        self.ensure_research_stable()
-
+        self.ui_ensure_research()
         self.research_reward()
 
         return True
