@@ -332,7 +332,7 @@ class RewardResearch(ResearchSelector):
         """
 
         def research_check():
-            return self.appear(RESEARCH_CHECK, offset=(20, 20)) and self.appear(RESHMENU_CHECK, offset=(20, 20))
+            return self.appear(RESEARCH_CHECK, offset=(20, 20)) and self.appear(RESEARCH_TITLE, offset=(20, 20))
 
         self.ui_goto(page_reshmenu, skip_first_screenshot=True)
         self.ui_click(RESHMENU_GOTO_RESEARCH, check_button=research_check, skip_first_screenshot=True)
