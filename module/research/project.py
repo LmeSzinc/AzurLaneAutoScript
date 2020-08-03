@@ -208,7 +208,7 @@ class ResearchSelector(UI):
             # - Low income from B series research.
             #   Gold B-4 basically equivalent to C-12, but needs a lot of oil.
             if (proj.genre.upper() == 'B') \
-                    or proj.genre.upper() == 'E' and str(proj.duration) != '6':
+                    or (proj.genre.upper() == 'E' and str(proj.duration) != '6'):
                 continue
             out.append(index)
         return out
