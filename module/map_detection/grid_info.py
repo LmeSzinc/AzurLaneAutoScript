@@ -141,7 +141,7 @@ class GridInfo:
         """
         Args:
             info (GridInfo):
-            mode (str): Scan mode, such as 'normal', 'carrier', 'move'
+            mode (str): Scan mode, such as 'normal', 'carrier', 'movable'
 
         Returns:
             bool: If success.
@@ -162,6 +162,11 @@ class GridInfo:
                 return False
         if info.is_siren:
             if not self.is_land and self.may_siren:
+                self.is_siren = True
+                self.enemy_scale = 0
+                self.enemy_genre = info.enemy_genre
+                return True
+            elif mode == 'movable' and not self.is_land:
                 self.is_siren = True
                 self.enemy_scale = 0
                 self.enemy_genre = info.enemy_genre

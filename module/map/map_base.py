@@ -177,7 +177,7 @@ class CampaignMap:
         Args:
             grids:
             camera (tuple):
-            mode (str): Scan mode, such as 'normal', 'carrier', 'move'
+            mode (str): Scan mode, such as 'normal', 'carrier', 'movable'
         """
         offset = np.array(camera) - np.array(grids.center_loca)
         grids.show()

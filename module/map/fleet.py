@@ -205,7 +205,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         self.map[location].is_fleet = True
         self.__setattr__('fleet_%s_location' % self.fleet_current_index, location)
         if result_mystery == 'get_carrier':
-            self.full_scan(mode='carrier')
+            self.full_scan_carrier()
         self.find_path_initial()
 
     def goto(self, location, optimize=True, expected=''):
@@ -251,15 +251,10 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                 fleets.append(text)
         logger.info(' '.join(fleets))
 
-    def full_scan(self, mode='normal'):
-        prev_enemy = self.map.select(is_enemy=True)
-        super().full_scan(battle_count=self.battle_count, mystery_count=self.mystery_count,
-                          siren_count=self.siren_count, carrier_count=self.carrier_count,
-                          mode=mode)
-
-        if mode == 'carrier':
-            diff = self.map.select(is_enemy=True).delete(prev_enemy)
-            logger.info(f'Carrier spawn: {diff}')
+    def full_scan(self, queue=None, must_scan=None, mode='normal'):
+        super().full_scan(
+            queue=queue, must_scan=must_scan, battle_count=self.battle_count, mystery_count=self.mystery_count,
+            siren_count=self.siren_count, carrier_count=self.carrier_count, mode=mode)
 
         if self.config.FLEET_2 and not self.fleet_2_location:
             fleets = self.map.select(is_fleet=True, is_current_fleet=False)
@@ -275,6 +270,12 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                     pass
                 else:
                     self.map[loca].wipe_out()
+
+    def full_scan_carrier(self):
+        prev = self.map.select(is_enemy=True)
+        self.full_scan(mode='carrier')
+        diff = self.map.select(is_enemy=True).delete(prev)
+        logger.info(f'Carrier spawn: {diff}')
 
     def find_all_fleets(self):
         logger.hr('Find all fleets')
@@ -373,7 +374,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         self.hp_init()
         self.handle_strategy(index=self.fleet_current_index)
         self.ensure_edge_insight(preset=self.map.in_map_swipe_preset_data)
-        self.full_scan()
+        self.full_scan(must_scan=self.map.camera_data_spawn_point)
         self.find_current_fleet()
         self.find_path_initial()
         self.map.show_cost()
