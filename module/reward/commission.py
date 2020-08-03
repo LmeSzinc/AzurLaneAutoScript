@@ -1,15 +1,16 @@
 import re
 from datetime import datetime, timedelta
 
+import Levenshtein
 import cv2
 import numpy as np
 from scipy import signal
-import Levenshtein
 
 from module.base.decorator import Config
 from module.base.timer import Timer
 from module.base.utils import area_offset, get_color, random_rectangle_vector
 from module.base.utils import color_similar_1d, random_rectangle_point
+from module.exception import GameStuckError
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.ocr.ocr import Ocr, OcrJapanese
@@ -574,6 +575,7 @@ class RewardCommission(UI, InfoHandler):
         """
         logger.info(f'Start commission {comm}')
         comm_timer = Timer(7)
+        count = 0
         while 1:
             if comm_timer.reached():
                 self.device.click(comm.button)
@@ -583,14 +585,22 @@ class RewardCommission(UI, InfoHandler):
                 comm_timer.reset()
                 pass
             if self.appear_then_click(COMMISSION_ADVICE, offset=(5, 20), interval=7):
+                count += 1
                 comm_timer.reset()
                 pass
             if self.appear_then_click(COMMISSION_START, offset=(5, 20), interval=7):
                 comm_timer.reset()
                 pass
 
+            # End
             if self.handle_info_bar():
                 break
+            if count >= 3:
+                # Restart game and handle commission recommend bug.
+                # After you click "Recommend", your ships appear and then suddenly disappear.
+                # At the same time, the icon of commission is flashing.
+                logger.warning('Triggered commission list flashing bug')
+                raise GameStuckError('Triggered commission list flashing bug')
 
             self.device.screenshot()
 
