@@ -383,10 +383,11 @@ class Fleet(Camera, MapOperation, AmbushHandler):
             return False
 
         logger.info('Map is green sea.')
-        self.config.MAP_HAS_FLEET_STEP = False
-        self.config.MAP_HAS_MOVABLE_ENEMY = False
+
         if self.config.ENABLE_FAST_FORWARD:
             self.config.MAP_HAS_AMBUSH = False
+            self.config.MAP_HAS_FLEET_STEP = False
+            self.config.MAP_HAS_MOVABLE_ENEMY = False
         else:
             # When disable fast forward, MAP_HAS_AMBUSH depends on map settings.
             # self.config.MAP_HAS_AMBUSH = True
