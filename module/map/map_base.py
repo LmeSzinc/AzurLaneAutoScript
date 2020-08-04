@@ -45,7 +45,7 @@ class CampaignMap:
         self._wall_data = ''
         self._block_data = []
         self._spawn_data = []
-        self._spawn_data_backup = []
+        self._spawn_data_stack = []
         self._camera_data = []
         self._camera_data_spawn_point = []
         self.in_map_swipe_preset_data = None
@@ -247,7 +247,7 @@ class CampaignMap:
 
     @spawn_data.setter
     def spawn_data(self, data_list):
-        self._spawn_data_backup = data_list
+        self._spawn_data = data_list
         spawn = {'battle': 0, 'enemy': 0, 'mystery': 0, 'siren': 0, 'boss': 0}
         for data in data_list:
             spawn['battle'] = data['battle']
@@ -255,7 +255,11 @@ class CampaignMap:
             spawn['mystery'] += data.get('mystery', 0)
             spawn['siren'] += data.get('siren', 0)
             spawn['boss'] += data.get('boss', 0)
-            self._spawn_data.append(spawn.copy())
+            self._spawn_data_stack.append(spawn.copy())
+
+    @property
+    def spawn_data_stack(self):
+        return self._spawn_data_stack
 
     @property
     def weight_data(self):
@@ -271,7 +275,7 @@ class CampaignMap:
     def is_map_data_poor(self):
         if not self.select(may_enemy=True) or not self.select(may_boss=True) or not self.select(is_spawn_point=True):
             return False
-        if not len(self._spawn_data_backup):
+        if not len(self.spawn_data):
             return False
         return True
 
@@ -443,9 +447,9 @@ class CampaignMap:
 
     def missing_get(self, battle_count, mystery_count=0, siren_count=0, carrier_count=0):
         try:
-            missing = self.spawn_data[battle_count].copy()
+            missing = self.spawn_data_stack[battle_count].copy()
         except IndexError:
-            missing = self.spawn_data[-1].copy()
+            missing = self.spawn_data_stack[-1].copy()
         may = {'enemy': 0, 'mystery': 0, 'siren': 0, 'boss': 0, 'carrier': 0}
         missing['enemy'] -= battle_count - siren_count
         missing['mystery'] -= mystery_count

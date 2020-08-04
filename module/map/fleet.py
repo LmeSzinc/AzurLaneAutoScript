@@ -399,7 +399,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         return True
 
     def _expected_combat_end(self, expected):
-        for data in self.map._spawn_data_backup:
+        for data in self.map.spawn_data:
             if data.get('battle') == self.battle_count and 'boss' in expected:
                 return 'in_stage'
             if data.get('battle') == self.battle_count + 1:
