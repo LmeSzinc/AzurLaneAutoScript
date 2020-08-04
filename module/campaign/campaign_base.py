@@ -1,7 +1,6 @@
 from module.base.button import Button
 from module.logger import logger
-from module.exception import CampaignEnd
-from module.exception import ScriptError
+from module.exception import CampaignEnd, ScriptError, MapEnemyMoved
 from module.map.map import Map
 from module.map.map_base import CampaignMap
 from module.base.decorator import Config
@@ -84,8 +83,21 @@ class CampaignBase(Map):
         logger.hr(f'{self.FUNCTION_NAME_BASE}{self.battle_count}', level=2)
         logger.info(f'Using function: {func}')
         func = self.__getattribute__(func)
+        prev = self.battle_count
 
-        result = func()
+        result = False
+        for _ in range(10):
+            try:
+                result = func()
+                if result:
+                    break
+            except MapEnemyMoved:
+                if self.battle_count > prev:
+                    result = True
+                    break
+                else:
+                    continue
+
         if not result:
             logger.warning('ScriptError, No combat executed.')
             if self.config.ENABLE_EXCEPTION:

@@ -457,7 +457,7 @@ class CampaignMap:
         missing['carrier'] = carrier_count - self.select(is_enemy=True, may_enemy=False).count
         for grid in self:
             for attr in ['enemy', 'mystery', 'siren', 'boss']:
-                if grid.__getattribute__('is_' + attr) and grid.__getattribute__('may_' + attr):
+                if grid.__getattribute__('is_' + attr):
                     missing[attr] -= 1
 
         for grid in self:
