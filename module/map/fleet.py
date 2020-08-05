@@ -114,6 +114,13 @@ class Fleet(Camera, MapOperation, AmbushHandler):
             r = self.round % self.config.MOVABLE_ENEMY_TURN
             self.enemy_round[r] = self.enemy_round.get(r, 0) + enemy
 
+    def round_reset(self):
+        """
+        Call this method after entering map.
+        """
+        self.round = 0
+        self.enemy_round = {}
+
     @property
     def round_is_new(self):
         """
@@ -448,6 +455,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         self.find_current_fleet()
         self.find_path_initial()
         self.map.show_cost()
+        self.round_reset()
         self.round_battle()
 
     def handle_map_green_config_cover(self):
