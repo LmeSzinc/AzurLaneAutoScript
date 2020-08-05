@@ -1,6 +1,7 @@
 from module.base.button import ButtonGrid
 from module.base.switch import Switch
 from module.equipment.equipment import Equipment
+from module.exception import ScriptError
 from module.retire.assets import *
 
 dock_sorting = Switch('Dork_sorting')
@@ -104,15 +105,11 @@ class Dock(Equipment):
     def dock_filter_index_all_set(self, enable):
         filter_index_all.set('on' if enable else 'off', main=self)
 
-    def dock_filter_index_set(self, ship_type, enable):
-        globals()[f'filter_index_{ship_type}'].set('on' if enable else 'off', main=self)
+   def dock_filter_set(self, category, type, enable):
+        key = f'filter_{category}_{type}'
 
-    def dock_filter_sort_set(self, sort_type, enable):
-        globals()[f'filter_sort_{sort_type}'].set('on' if enable else 'off', main=self)
-
-    def dock_filter_faction_set(self, faction, enable):
-        globals()[f'filter_faction_{faction}'].set('on' if enable else 'off', main=self)
-
-    def dock_filter_rarity_set(self, rarity, enable):
-        globals()[f'filter_rarity_{rarity}'].set('on' if enable else 'off', main=self)
-
+        try:
+            obj = globals()[key]
+            obj.set('on' if enable else 'off', main=self)
+        except:
+            raise ScriptError(f'{key} filter switch object does not exist in module/retire/dock.py')

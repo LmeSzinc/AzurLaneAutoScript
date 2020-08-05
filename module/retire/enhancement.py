@@ -33,13 +33,14 @@ class Enhancement(Dock):
             self.dock_favourite_set(enable=True)
 
         self.dock_filter_enter()
-        self.dock_filter_index_enhance_set(enable=True)
-        self.dock_filter_index_set(ship_type='clear', enable=True)
-        self.dock_filter_sort_set(sort_type='lvl', enable=True)
-        self.dock_filter_faction_set(faction='all', enable=True)
-        self.dock_filter_rarity_set(rarity='all', enable=True)
-        if not (ship_type is None):
-            self.dock_filter_index_set(ship_type=ship_type, enable=True)
+        self.dock_filter_set(category='index', type='enhanceable', enable=True)
+        self.dock_filter_set(category='index', type='clear', enable=True)
+        self.dock_filter_set(category='sort', type='clear', enable=True)
+        self.dock_filter_set(category='faction', type='clear', enable=True)
+        self.dock_filter_set(category='rarity', type='clear', enable=True)
+        if ship_type is not None:
+            ship_type = str(ship_type)
+            self.dock_filter_set(category='index', type=ship_type, enable=True)
         self.dock_filter_confirm()
 
         if self.appear(DOCK_EMPTY, offset=(30, 30)):
@@ -57,8 +58,8 @@ class Enhancement(Dock):
         self.ui_back(DOCK_FILTER)
         self.dock_favourite_set(enable=False)
         self.dock_filter_enter()
-        self.dock_filter_index_all_set(enable=True)
-        self.dock_filter_index_set(ship_type='clear', enable=True)
+        self.dock_filter_set(category='index', type='all', enable=True)
+        self.dock_filter_set(category='index', type='clear', enable=True)
         self.dock_filter_confirm()
 
     def _enhance_confirm(self):
@@ -169,6 +170,10 @@ class Enhancement(Dock):
 
     def enhance_ships_order(self, favourite=None):
         """
+        Info:
+            Target ships in order of specified
+            type listing by ENHANCE_ORDER_STRING
+
         Pages:
             in: page_dock
             out: page_dock
@@ -206,8 +211,7 @@ class Enhancement(Dock):
                     if not at_least_once:
                         exhaust_count += 1
                     break
-                else:
-                    at_least_once = True
+                at_least_once = True
                 self._enhance_confirm()
                 total += 10
                 if total >= self._retire_amount:
