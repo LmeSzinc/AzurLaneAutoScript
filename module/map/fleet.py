@@ -295,20 +295,20 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         else:
             self._goto(location, expected=expected)
 
-    def find_path_initial(self, grid=None):
+    def find_path_initial(self):
         """
-        Args:
-            grid (tuple, GridInfo): Current fleet grid
+        Call this method after fleet moved or entered map.
         """
-        if grid is None:
-            grid = self.fleet_current
-        else:
-            grid = location_ensure(grid)
         if self.fleet_1_location:
             self.map[self.fleet_1_location].is_fleet = True
         if self.fleet_2_location:
             self.map[self.fleet_2_location].is_fleet = True
-        self.map.find_path_initial(grid, has_ambush=self.config.MAP_HAS_AMBUSH)
+        location_dict = {}
+        if self.config.FLEET_2:
+            location_dict[2] = self.fleet_2_location
+        location_dict[1] = self.fleet_1_location
+        self.map.find_path_initial_multi_fleet(
+            location_dict, current=self.fleet_current, has_ambush=self.config.MAP_HAS_AMBUSH)
 
     def show_fleet(self):
         fleets = []

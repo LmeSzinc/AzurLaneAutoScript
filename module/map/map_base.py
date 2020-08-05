@@ -295,8 +295,12 @@ class CampaignMap:
             logger.info(text)
 
     def find_path_initial(self, location, has_ambush=True):
+        """
+        Args:
+            location (tuple(int)): Grid location
+            has_ambush (bool): MAP_HAS_AMBUSH
+        """
         location = location_ensure(location)
-
         ambush_cost = 10 if has_ambush else 1
         for grid in self:
             grid.cost = 9999
@@ -330,9 +334,22 @@ class CampaignMap:
         # self.show_cost()
         # self.show_connection()
 
+    def find_path_initial_multi_fleet(self, location_dict, current, has_ambush):
+        """
+        Args:
+            location_dict (dict): Key: int, fleet index. Value: tuple(int), grid location.
+            current (tuple): Current location.
+            has_ambush (bool): MAP_HAS_AMBUSH
+        """
+        location_dict = sorted(location_dict.items(), key=lambda kv: (int(kv[1] == current),))
+        for fleet, location in location_dict:
+            self.find_path_initial(location, has_ambush=has_ambush)
+            attr = f'cost_{fleet}'
+            for grid in self:
+                grid.__setattr__(attr, grid.cost)
+
     def _find_path(self, location):
         """
-
         Args:
             location (tuple):
 
@@ -368,7 +385,6 @@ class CampaignMap:
 
     def _find_route_node(self, route, step=0):
         """
-
         Args:
             route (list[tuple]): list of grids.
             step (int): Fleet step in event map. Default to 0.
@@ -525,7 +541,6 @@ class CampaignMap:
 
     def flatten(self):
         """
-
         Returns:
             list[GridInfo]:
         """

@@ -49,7 +49,7 @@ class Campaign(CampaignBase, HardEquipment):
         # logger.info('Grids: %s' % grids)
         if grids:
             logger.hr('Clear BOSS')
-            grids = grids.sort(cost=True, weight=True)
+            grids = grids.sort('weight', 'cost')
             logger.info('Grids: %s' % str(grids))
             self._goto(grids[0], expected='boss')
             raise CampaignEnd('BOSS Clear.')
