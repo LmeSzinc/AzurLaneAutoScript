@@ -26,9 +26,8 @@ class CampaignBase(Map):
         return False
 
     @Config.when(POOR_MAP_DATA=True, MAP_CLEAR_ALL_THIS_TIME=False)
-    def execute_a_battle(self):
-        logger.hr(f'{self.FUNCTION_NAME_BASE}{self.battle_count}', level=2)
-        logger.info('Running with poor map data.')
+    def battle_function(self):
+        logger.info('Using function: battle_with_poor_map_data')
         if self.fleet_2_break_siren_caught():
             return True
         self.clear_all_mystery()
@@ -44,12 +43,10 @@ class CampaignBase(Map):
                 return True
             return self.clear_enemy()
 
-        logger.warning('No battle executed.')
         return False
 
     @Config.when(MAP_CLEAR_ALL_THIS_TIME=True)
-    def execute_a_battle(self):
-        logger.hr(f'{self.FUNCTION_NAME_BASE}{self.battle_count}', level=2)
+    def battle_function(self):
         logger.info('Using function: clear_all')
         if self.fleet_2_break_siren_caught():
             return True
@@ -59,7 +56,7 @@ class CampaignBase(Map):
             self.pick_up_ammo()
 
         remain = self.map.select(is_enemy=True, is_boss=False)
-        logger.info('Enemy remain: {}')
+        logger.info(f'Enemy remain: {remain}')
         if remain.count > 0:
             if self.clear_siren():
                 return True
@@ -73,24 +70,28 @@ class CampaignBase(Map):
             return result
 
     @Config.when(MAP_CLEAR_ALL_THIS_TIME=False, POOR_MAP_DATA=False)
-    def execute_a_battle(self):
+    def battle_function(self):
         func = self.FUNCTION_NAME_BASE + 'default'
         for extra_battle in range(10):
             if hasattr(self, self.FUNCTION_NAME_BASE + str(self.battle_count - extra_battle)):
                 func = self.FUNCTION_NAME_BASE + str(self.battle_count - extra_battle)
                 break
 
-        logger.hr(f'{self.FUNCTION_NAME_BASE}{self.battle_count}', level=2)
         logger.info(f'Using function: {func}')
         func = self.__getattribute__(func)
-        prev = self.battle_count
 
+        result = func()
+
+        return result
+
+    def execute_a_battle(self):
+        logger.hr(f'{self.FUNCTION_NAME_BASE}{self.battle_count}', level=2)
+        prev = self.battle_count
         result = False
         for _ in range(10):
             try:
-                result = func()
-                if result:
-                    break
+                result = self.battle_function()
+                break
             except MapEnemyMoved:
                 if self.battle_count > prev:
                     result = True
@@ -117,7 +118,7 @@ class CampaignBase(Map):
         self.handle_fleet_reverse()
         self.map_init(self.MAP)
 
-        for _ in range(50):
+        for _ in range(20):
             try:
                 self.execute_a_battle()
             except CampaignEnd:

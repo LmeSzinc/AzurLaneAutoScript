@@ -180,6 +180,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                 # Ambush
                 if self.handle_ambush():
                     ambushed_retry.start()
+                    walk_timeout.reset()
 
                 # Mystery
                 mystery = self.handle_mystery(button=grid)
