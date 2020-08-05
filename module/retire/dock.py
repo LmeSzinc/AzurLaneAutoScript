@@ -105,7 +105,7 @@ class Dock(Equipment):
     def dock_filter_index_all_set(self, enable):
         filter_index_all.set('on' if enable else 'off', main=self)
 
-   def dock_filter_set(self, category, type, enable):
+    def dock_filter_set(self, category, type, enable):
         key = f'filter_{category}_{type}'
 
         try:
