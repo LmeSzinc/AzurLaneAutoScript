@@ -196,11 +196,19 @@ class ResearchSelector(UI):
                 out.append(index)
                 continue
             proj = self.projects[index]
+            if not proj.valid:
+                continue
             if (not self.config.RESEARCH_USE_CUBE and proj.need_cube) \
                     or (not self.config.RESEARCH_USE_COIN and proj.need_coin) \
-                    or (not self.config.RESEARCH_USE_PART and proj.need_part) \
-                    or not proj.valid \
-                    or proj.genre.upper() in ['B', 'E']:
+                    or (not self.config.RESEARCH_USE_PART and proj.need_part):
+                continue
+            # Reasons to ignore B series and E-2:
+            # - Can't guarantee research condition satisfied.
+            #   You may get nothing after a day of running, because you didn't complete the precondition.
+            # - Low income from B series research.
+            #   Gold B-4 basically equivalent to C-12, but needs a lot of oil.
+            if (proj.genre.upper() == 'B') \
+                    or (proj.genre.upper() == 'E' and str(proj.duration) != '6'):
                 continue
             out.append(index)
         return out

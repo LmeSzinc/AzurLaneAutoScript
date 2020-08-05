@@ -6,7 +6,7 @@ from retrying import retry
 from module.base.timer import Timer
 from module.base.utils import *
 from module.device.connection import Connection
-from module.exception import ScriptError
+from module.exception import GameTooManyClickError
 from module.logger import logger
 
 
@@ -36,7 +36,7 @@ class Control(Connection):
         if sum([1 if str(prev) == str(button) else 0 for prev in self.click_record]) >= 12:
             logger.warning(f'Too many click for a button: {button}')
             logger.info(f'History click: {[str(prev) for prev in self.click_record]}')
-            raise ScriptError(f'Too many click for a button: {button}')
+            raise GameTooManyClickError(f'Too many click for a button: {button}')
         else:
             self.click_record.append(str(button))
 

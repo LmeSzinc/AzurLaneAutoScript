@@ -30,5 +30,9 @@ class GameStuckError(Exception):
     pass
 
 
+class GameTooManyClickError(Exception):
+    pass
+
+
 class GameNotRunningError(Exception):
     pass
