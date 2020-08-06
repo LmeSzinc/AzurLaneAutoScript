@@ -1,5 +1,5 @@
 
-[Check Wiki for installation guide](https://github.com/whoamikyo/AzurLaneAutoScript/wiki)
+[Check Wiki for installation guide](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki)
 
 # AzurLaneAutoScript
 
