@@ -57,7 +57,7 @@ A10, B10, C10, D10, E10, F10, G10, H10, I10, J10, K10, L10, M10, \
 class Config:
     SUBMARINE = 0
 
-    POOR_MAP_DATA = True
+    # POOR_MAP_DATA = True
     MAP_HAS_AMBUSH = False
     MAP_HAS_FLEET_STEP = True
     MAP_HAS_MOVABLE_ENEMY = True

@@ -49,6 +49,8 @@ class GridInfo:
     is_cleared = False
     is_ambush_save = False
     is_caught_by_siren = False
+    is_carrier = False
+    is_movable = False
     cost = 9999
     connection = None
     weight = 1
@@ -85,11 +87,13 @@ class GridInfo:
                 return key
 
         if self.is_siren:
-            return self.enemy_genre.split('_')[1][:2].upper() if self.enemy_genre and '_' in self.enemy_genre else 'SU'
+            name = self.enemy_genre[6:8].upper() if self.enemy_genre else 'SU'
+            return name if name else 'SU'
 
         if self.is_enemy:
-            return '%s%s' % (self.enemy_scale, self.enemy_genre[0].upper()) \
-                if self.enemy_genre and self.enemy_scale else '0E'
+            return '%s%s' % (
+                self.enemy_scale if self.enemy_scale else 0,
+                self.enemy_genre[0].upper() if self.enemy_genre else 'E')
 
         dic = {
             'FL': 'is_current_fleet',
@@ -133,70 +137,75 @@ class GridInfo:
     def is_nearby(self):
         return self.cost < 20
 
-    def update(self, info, is_carrier_scan=False, ignore_may=False, ignore_cleared=False):
+    def merge(self, info, mode='normal'):
         """
         Args:
             info (GridInfo):
-            is_carrier_scan (bool): Is a scan for mystery: enemy_searching, which ignore may_enemy spawn point.
-            ignore_may (bool): Ignore map_data, force update.
-            ignore_cleared (bool): Ignore is_cleared property.
+            mode (str): Scan mode, such as 'normal', 'carrier', 'movable'
+
+        Returns:
+            bool: If success.
         """
-        if info.is_caught_by_siren:
-            self.is_caught_by_siren = True
-
         if info.is_fleet:
-            self.is_fleet = True
-        if info.is_current_fleet:
-            self.is_current_fleet = True
-
-        for item in ['boss', 'siren']:
-            if info.enemy_scale or self.enemy_scale:
-                break
-            if info.__getattribute__('is_' + item):
-                if item == 'boss':
-                    flag = not info.is_fleet
-                else:
-                    flag = not info.is_fleet and not self.is_fleet
-                if not ignore_may:
-                    flag &= self.__getattribute__('may_' + item)
-                if not ignore_cleared:
-                    flag &= not self.is_cleared
-                if flag:
-                    self.__setattr__('is_' + item, True)
-                    # self.is_enemy = True
-                    # self.enemy_scale = 0
-                    self.enemy_genre = info.enemy_genre
-                    return True
-                else:
-                    logger.info(f'Wrong Prediction. Grid: {self}, Attr: is_{item}')
-
-        if info.is_enemy:
-            flag = not info.is_fleet and not self.is_fleet and not self.is_siren
-            if not is_carrier_scan:
-                if not ignore_may:
-                    flag &= self.may_enemy
-                if not ignore_cleared:
-                    flag &= not self.is_cleared
-            if flag:
-                self.is_enemy = True
-                self.enemy_scale = info.enemy_scale
-                self.enemy_genre = info.enemy_genre
-                if self.may_siren:
-                    self.is_siren = True
+            if self.is_sea:
+                self.is_fleet = True
+                if info.is_current_fleet:
+                    self.is_current_fleet = True
                 return True
             else:
-                logger.info(f'Wrong Prediction. Grid: {self}, Attr: is_enemy')
+                return False
+        if info.is_boss:
+            if not self.is_land and self.may_boss:
+                self.is_boss = True
+                return True
+            else:
+                return False
+        if info.is_siren:
+            if not self.is_land and self.may_siren:
+                self.is_siren = True
+                self.enemy_scale = 0
+                self.enemy_genre = info.enemy_genre
+                return True
+            elif (mode == 'movable' or self.is_movable) and not self.is_land:
+                self.is_siren = True
+                self.enemy_scale = 0
+                self.enemy_genre = info.enemy_genre
+                return True
+            else:
+                return False
+        if info.is_enemy:
+            if not self.is_land and (self.may_enemy or self.is_carrier):
+                self.is_enemy = True
+                if info.enemy_scale:
+                    self.enemy_scale = info.enemy_scale
+                if info.enemy_genre:
 
-        for item in ['mystery', 'ammo']:
-            if info.__getattribute__('is_' + item):
-                if self.__getattribute__('may_' + item) or ignore_may:
-                    self.__setattr__('is_' + item, True)
-                    return True
-                else:
-                    logger.info(f'Wrong Prediction. Grid: {self}, Attr: {item}')
-                    # failure += 1
+                    self.enemy_genre = info.enemy_genre
+                return True
+            elif mode == 'carrier' and not self.is_land and self.may_carrier:
+                self.is_enemy = True
+                self.is_carrier = True
+                if info.enemy_scale:
+                    self.enemy_scale = info.enemy_scale
+                if info.enemy_genre:
+                    self.enemy_genre = info.enemy_genre
+                return True
+            else:
+                return False
+        if info.is_mystery:
+            if self.may_mystery:
+                self.is_mystery = info.is_mystery
+                return True
+            else:
+                return False
+        if info.is_ammo:
+            if self.may_ammo:
+                self.is_ammo = info.is_ammo
+                return True
+            else:
+                return False
 
-        return False
+        return True
 
     def wipe_out(self):
         """
@@ -210,6 +219,8 @@ class GridInfo:
         self.is_ammo = False
         self.is_siren = False
         self.is_caught_by_siren = False
+        self.is_carrier = False
+        self.is_movable = False
 
     def reset(self):
         """

@@ -524,6 +524,7 @@ dic_event = {
         '峡湾间的反击': 'event_20200603_cn',
         '复刻特别演习埃塞克斯级': 'raid_20200624',
         '永夜幻光': 'event_20200723_cn',
+        '复刻最重要的宝物': 'event_20200806_cn',
     },
     'en': {
         'Iris_of_Light_and_Dark': 'event_20200521_en',
@@ -531,11 +532,13 @@ dic_event = {
         'Prelude_under_the_Moon': 'event_20200603_en',
         'Air_Raid_Drills_with_Essex': 'raid_20200624',
         'Ink_Stained_Steel_Sakura_Rerun': 'event_20200716_en',
+        'Aurora_Noctis': 'event_20200723_cn',
     },
     'jp': {
         '峡湾間の反撃': 'event_20200603_jp',
         '特別演習超空強襲波（復刻）': 'raid_20200624',
         '極夜照らす幻光': 'event_20200723_cn',
+        '鉄血鮫とエニグマ（復刻）': 'event_20200806_cn',
     },
 }
 

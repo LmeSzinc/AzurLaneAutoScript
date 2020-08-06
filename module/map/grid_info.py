@@ -49,6 +49,8 @@ class GridInfo:
     is_ambush_save = False
     is_caught_by_siren = False
     cost = 9999
+    cost_1 = 9999
+    cost_2 = 9999
     connection = None
     weight = 1
 
@@ -127,6 +129,14 @@ class GridInfo:
     @property
     def is_accessible(self):
         return self.cost < 9999
+
+    @property
+    def is_accessible_1(self):
+        return self.cost_1 < 9999
+
+    @property
+    def is_accessible_2(self):
+        return self.cost_2 < 9999
 
     @property
     def is_nearby(self):

@@ -379,8 +379,8 @@ def main(ini_name=''):
     c_12_4_parser = subs.add_parser('c12-4_leveling')
     c_12_4 = c_12_4_parser.add_argument_group('12-4 Search enemy settings', 'Need to ensure that the team has a certain strength')
     c_12_4.add_argument('--non_s3_enemy_enter_tolerance', default=default('--non_s3_enemy_enter_tolerance'), choices=['0', '1', '2'], help='Avoid enemy too strong')
-    c_12_4.add_argument('--non_s3_enemy_withdraw_tolerance', default=default('--non_s3_enemy_withdraw_tolerance'), choices=['0', '1', '2', '10'], help='How many battles will be fought after there is no large scale')
-    c_12_4.add_argument('--ammo_pick_up_124', default=default('--ammo_pick_up_124'), choices=['2', '3', '4', '5'], help='How much ammunition to pick after the battle')
+    c_12_4.add_argument('--non_s3_enemy_withdraw_tolerance', default=default('--non_s3_enemy_withdraw_tolerance'), choices=['0', '1', '2', '10'], help='How many battles will be fought after there is no large scale enemy')
+    c_12_4.add_argument('--ammo_pick_up_124', default=default('--ammo_pick_up_124'), choices=['2', '3', '4', '5'], help='How many battles before pick ammo, the recommended is 3')
 
     args = parser.parse_args()
 

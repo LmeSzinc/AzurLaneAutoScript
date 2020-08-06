@@ -17,6 +17,7 @@ class Config:
     """
     Paste the config of map file here
     """
+    ENABLE_GAME_STUCK_HANDLER = False
     pass
 
 
