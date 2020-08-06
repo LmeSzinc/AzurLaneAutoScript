@@ -18,11 +18,11 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)**, some featur
 
 > **Event Announcement 活动公告**
 >
-> [CN] 支持活动「永夜幻光」.
+> [CN] 支持活动「复刻: 最重要的宝物」.
 >
-> [EN] Support event "Ink-Stained Steel Sakura Rerun".
+> [EN] Support event "Aurora Noctis".
 >
-> [JP] Support event 「極夜照らす幻光」.
+> [JP] Support event 「鉄血鮫とエニグマ（復刻）」.
 
 ![gui](doc/README.assets/gui.png)
 
