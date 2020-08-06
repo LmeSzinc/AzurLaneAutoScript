@@ -10,6 +10,10 @@ class MapWalkError(Exception):
     pass
 
 
+class MapEnemyMoved(Exception):
+    pass
+
+
 class CampaignNameError(Exception):
     pass
 
@@ -23,6 +27,10 @@ class ScriptEnd(Exception):
 
 
 class GameStuckError(Exception):
+    pass
+
+
+class GameTooManyClickError(Exception):
     pass
 
 

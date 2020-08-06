@@ -99,6 +99,8 @@ class InfoHandler(ModuleBase):
         if self.story_popup_timout.started() and not self.story_popup_timout.reached():
             if self.handle_popup_confirm('STORY_SKIP'):
                 self.story_popup_timout = Timer(10)
+                self.interval_reset(STORY_SKIP)
+                self.interval_reset(STORY_LETTERS_ONLY)
                 return True
         if self.appear_then_click(STORY_SKIP, offset=True, interval=2):
             self.story_popup_timout.reset()

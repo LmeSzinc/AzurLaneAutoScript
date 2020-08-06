@@ -190,27 +190,32 @@ class Camera(InfoHandler):
             if np.all(np.abs(vector) <= 0):
                 break
 
-    def full_scan(self, battle_count=0, mystery_count=0, siren_count=0, carrier_count=0, mode='normal'):
-        """Scan the hole map.
+
+    def full_scan(self, queue=None, must_scan=None, battle_count=0, mystery_count=0, siren_count=0, carrier_count=0,
+                  mode='normal'):
+        """Scan the whole map.
 
         Args:
+            queue (SelectedGrids): Grids to focus on. If none, use map.camera_data
+            must_scan (SelectedGrids): Must scan these grids
             battle_count:
             mystery_count:
             siren_count:
             carrier_count:
-            mode (str): Scan mode, such as 'normal', 'carrier', 'move'
+            mode (str): Scan mode, such as 'normal', 'carrier', 'movable'
+
         """
         logger.info('Full scan start')
         self.map.reset_fleet()
 
-        queue = self.map.camera_data
-        if battle_count == 0:
-            queue = queue.add(self.map.camera_data_spawn_point)
+        queue = queue if queue else self.map.camera_data
+        if must_scan:
+            queue = queue.add(must_scan)
 
         while len(queue) > 0:
             if self.map.missing_is_none(battle_count, mystery_count, siren_count, carrier_count):
-                if battle_count == 0 and queue.count != queue.delete(self.map.camera_data_spawn_point).count:
-                    logger.info('Continue scanning spawn points.')
+                if must_scan and queue.count != queue.delete(must_scan).count:
+                    logger.info('Continue scanning.')
                     pass
                 else:
                     logger.info('All spawn found, Early stopped.')
@@ -226,8 +231,8 @@ class Camera(InfoHandler):
 
             queue = queue[1:]
 
-        if battle_count is not None:
-            self.map.missing_predict(battle_count, mystery_count, siren_count, carrier_count)
+        self.map.missing_predict(battle_count, mystery_count, siren_count, carrier_count)
+
 
         self.map.show()
 

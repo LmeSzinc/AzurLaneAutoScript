@@ -49,7 +49,7 @@ A8, B8, C8, D8, E8, F8, G8, H8, I8, \
 class Config:
     SUBMARINE = 0
 
-    POOR_MAP_DATA = True
+    # POOR_MAP_DATA = True
     MAP_HAS_AMBUSH = False
     MAP_HAS_FLEET_STEP = True
     MAP_HAS_MOVABLE_ENEMY = True
