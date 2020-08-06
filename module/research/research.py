@@ -237,7 +237,7 @@ class RewardResearch(ResearchSelector):
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
-                self.device.sleep(2)
+                self.device.screenshot_interval_set(0.3)
                 self.device.screenshot()
 
             if self.appear(RESEARCH_CHECK, interval=10):
