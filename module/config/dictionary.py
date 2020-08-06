@@ -531,6 +531,7 @@ dic_event = {
         'Prelude_under_the_Moon': 'event_20200603_en',
         'Air_Raid_Drills_with_Essex': 'raid_20200624',
         'Ink_Stained_Steel_Sakura_Rerun': 'event_20200716_en',
+        'Aurora_Noctis': 'event_20200723_cn',
     },
     'jp': {
         '峡湾間の反撃': 'event_20200603_jp',
