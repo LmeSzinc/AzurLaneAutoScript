@@ -22,6 +22,7 @@ TEMPLATE_FORMATION_2 = Template(file={'cn': './assets/cn/template/TEMPLATE_FORMA
 TEMPLATE_FORMATION_3 = Template(file={'cn': './assets/cn/template/TEMPLATE_FORMATION_3.png', 'en': './assets/en/template/TEMPLATE_FORMATION_3.png', 'jp': './assets/jp/template/TEMPLATE_FORMATION_3.png'})
 TEMPLATE_MAP_WALK_OUT_OF_STEP = Template(file={'cn': './assets/cn/template/TEMPLATE_MAP_WALK_OUT_OF_STEP.png', 'en': './assets/en/template/TEMPLATE_MAP_WALK_OUT_OF_STEP.png', 'jp': './assets/jp/template/TEMPLATE_MAP_WALK_OUT_OF_STEP.png'})
 TEMPLATE_SIREN_Algerie = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_Algerie.png', 'en': './assets/en/template/TEMPLATE_SIREN_Algerie.png', 'jp': './assets/jp/template/TEMPLATE_SIREN_Algerie.png'})
+TEMPLATE_SIREN_Amazon = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_Amazon.gif', 'en': './assets/en/template/TEMPLATE_SIREN_Amazon.gif', 'jp': './assets/jp/template/TEMPLATE_SIREN_Amazon.gif'})
 TEMPLATE_SIREN_BB = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_BB.gif', 'en': './assets/en/template/TEMPLATE_SIREN_BB.gif', 'jp': './assets/jp/template/TEMPLATE_SIREN_BB.gif'})
 TEMPLATE_SIREN_BBpurple = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_BBpurple.gif', 'en': './assets/en/template/TEMPLATE_SIREN_BBpurple.gif', 'jp': './assets/jp/template/TEMPLATE_SIREN_BBpurple.gif'})
 TEMPLATE_SIREN_CA = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_CA.gif', 'en': './assets/en/template/TEMPLATE_SIREN_CA.gif', 'jp': './assets/jp/template/TEMPLATE_SIREN_CA.gif'})

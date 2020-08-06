@@ -105,23 +105,16 @@ class SelectedGrids:
         g = [grid for grid in self.grids if grid not in grids]
         return SelectedGrids(g)
 
-    def sort(self, cost=True, weight=True):
+    def sort(self, *args):
         """
-
         Args:
-            cost (bool):
-            weight (bool):
+            args (str): Attribute name to sort.
 
         Returns:
-
+            SelectedGrids:
         """
-        attr = []
-        if weight:
-            attr.append('weight')
-        if cost:
-            attr.append('cost')
-        if len(attr):
-            grids = sorted(self.grids, key=operator.attrgetter(*attr))
+        if len(args):
+            grids = sorted(self.grids, key=operator.attrgetter(*args))
             return SelectedGrids(grids)
         else:
             return self
