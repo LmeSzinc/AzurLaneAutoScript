@@ -53,6 +53,9 @@ class AzurLaneConfig:
 
     USING_SPARE_FLEET = False
 
+    MOVABLE_ENEMY_FLEET_STEP = 2
+    MOVABLE_ENEMY_TURN = (2,)
+
     @property
     def FLEET_1(self):
         return self.FLEET_3 if self.USING_SPARE_FLEET else self._FLEET_1

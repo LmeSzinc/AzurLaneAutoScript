@@ -3,7 +3,7 @@ import itertools
 import numpy as np
 
 from module.base.timer import Timer
-from module.exception import MapWalkError
+from module.exception import MapWalkError, MapEnemyMoved
 from module.handler.ambush import AmbushHandler
 from module.logger import logger
 from module.map.camera import Camera
@@ -85,6 +85,81 @@ class Fleet(Camera, MapOperation, AmbushHandler):
     def switch_to(self):
         pass
 
+    round = 0
+    enemy_round = {}
+
+    def round_next(self):
+        """
+        Call this method after fleet arrived.
+        """
+        if not self.config.MAP_HAS_MOVABLE_ENEMY:
+            return False
+        self.round += 1
+        logger.info(f'Round: {self.round}, enemy_round: {self.enemy_round}')
+
+    def round_battle(self):
+        """
+        Call this method after cleared an enemy.
+        """
+        if not self.config.MAP_HAS_MOVABLE_ENEMY:
+            return False
+        if not self.map.select(is_siren=True):
+            self.enemy_round = {}
+        try:
+            data = self.map.spawn_data[self.battle_count]
+        except IndexError:
+            data = {}
+        enemy = data.get('siren', 0)
+        if enemy > 0:
+            r = self.round
+            self.enemy_round[r] = self.enemy_round.get(r, 0) + enemy
+
+    def round_reset(self):
+        """
+        Call this method after entering map.
+        """
+        self.round = 0
+        self.enemy_round = {}
+
+    @property
+    def round_is_new(self):
+        """
+        Usually, MOVABLE_ENEMY_TURN = 2.
+        So a walk round is `player - player - enemy`, player moves twice, enemy moves once.
+
+        Different sirens have different MOVABLE_ENEMY_TURN:
+            2: Non-siren elite, SIREN_CL
+            3: SIREN_CA
+
+        Returns:
+            bool: If it's a new walk round, which means enemies have moved.
+        """
+        if not self.config.MAP_HAS_MOVABLE_ENEMY:
+            return False
+        for enemy in self.enemy_round.keys():
+            for turn in self.config.MOVABLE_ENEMY_TURN:
+                if self.round - enemy > 0 and (self.round - enemy) % turn == 0:
+                    return True
+
+        return False
+
+    @property
+    def round_wait(self):
+        """
+        Returns:
+            float: Seconds to wait enemies moving.
+        """
+        if not self.config.MAP_HAS_MOVABLE_ENEMY:
+            return 0
+        count = 0
+        for enemy, c in self.enemy_round.items():
+            for turn in self.config.MOVABLE_ENEMY_TURN:
+                if self.round + 1 - enemy > 0 and (self.round + 1 - enemy) % turn == 0:
+                    count += c
+                    break
+
+        return count * self.config.MAP_SIREN_MOVE_WAIT
+
     def _goto(self, location, expected=''):
         """Goto a grid directly and handle ambush, air raid, mystery picked up, combat.
 
@@ -92,7 +167,6 @@ class Fleet(Camera, MapOperation, AmbushHandler):
             location (tuple, str, GridInfo): Destination.
         """
         location = location_ensure(location)
-        siren_count = self.map.select(is_siren=True).count
         result_mystery = ''
 
         while 1:
@@ -108,10 +182,8 @@ class Fleet(Camera, MapOperation, AmbushHandler):
             self.device.click(grid)
             arrived = False
             # Wait to confirm fleet arrived. It does't appear immediately if fleet in combat .
-            add = self.config.MAP_SIREN_MOVE_WAIT * min(self.config.MAP_SIREN_COUNT, siren_count) \
-                if self.config.MAP_HAS_MOVABLE_ENEMY and not self.config.ENABLE_FAST_FORWARD else 0
-            arrive_timer = Timer(0.5 + add, count=2)
-            arrive_unexpected_timer = Timer(1.5 + add, count=6)
+            arrive_timer = Timer(0.5 + self.round_wait, count=2)
+            arrive_unexpected_timer = Timer(1.5 + self.round_wait, count=6)
             # Wait after ambushed.
             ambushed_retry = Timer(0.5)
             # If nothing happens, click again.
@@ -125,6 +197,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                 # Ambush
                 if self.handle_ambush():
                     ambushed_retry.start()
+                    walk_timeout.reset()
 
                 # Mystery
                 mystery = self.handle_mystery(button=grid)
@@ -149,7 +222,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                     result = 'combat'
                     self.battle_count += 1
                     self.fleet_ammo -= 1
-                    if 'siren' in expected:
+                    if 'siren' in expected or (self.config.MAP_HAS_MOVABLE_ENEMY and not expected):
                         self.siren_count += 1
                     elif self.map[location].may_enemy:
                         self.map[location].is_cleared = True
@@ -205,10 +278,14 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         self.map[location].is_fleet = True
         self.__setattr__('fleet_%s_location' % self.fleet_current_index, location)
         if result_mystery == 'get_carrier':
-            prev_enemy = self.map.select(is_enemy=True)
-            self.full_scan(is_carrier_scan=True)
-            diff = self.map.select(is_enemy=True).delete(prev_enemy)
-            logger.info(f'Carrier spawn: {diff}')
+            self.full_scan_carrier()
+        if result == 'combat':
+            self.round_battle()
+        self.round_next()
+        if self.round_is_new:
+            self.full_scan_movable()
+            self.find_path_initial()
+            raise MapEnemyMoved
         self.find_path_initial()
 
     def goto(self, location, optimize=True, expected=''):
@@ -228,20 +305,20 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         else:
             self._goto(location, expected=expected)
 
-    def find_path_initial(self, grid=None):
+    def find_path_initial(self):
         """
-        Args:
-            grid (tuple, GridInfo): Current fleet grid
+        Call this method after fleet moved or entered map.
         """
-        if grid is None:
-            grid = self.fleet_current
-        else:
-            grid = location_ensure(grid)
         if self.fleet_1_location:
             self.map[self.fleet_1_location].is_fleet = True
         if self.fleet_2_location:
             self.map[self.fleet_2_location].is_fleet = True
-        self.map.find_path_initial(grid, has_ambush=self.config.MAP_HAS_AMBUSH)
+        location_dict = {}
+        if self.config.FLEET_2:
+            location_dict[2] = self.fleet_2_location
+        location_dict[1] = self.fleet_1_location
+        self.map.find_path_initial_multi_fleet(
+            location_dict, current=self.fleet_current, has_ambush=self.config.MAP_HAS_AMBUSH)
 
     def show_fleet(self):
         fleets = []
@@ -254,10 +331,11 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                 fleets.append(text)
         logger.info(' '.join(fleets))
 
-    def full_scan(self, is_carrier_scan=False):
-        super().full_scan(battle_count=self.battle_count, mystery_count=self.mystery_count,
-                          siren_count=self.siren_count, carrier_count=self.carrier_count,
-                          is_carrier_scan=is_carrier_scan)
+    def full_scan(self, queue=None, must_scan=None, mode='normal'):
+        super().full_scan(
+            queue=queue, must_scan=must_scan, battle_count=self.battle_count, mystery_count=self.mystery_count,
+            siren_count=self.siren_count, carrier_count=self.carrier_count, mode=mode)
+
         if self.config.FLEET_2 and not self.fleet_2_location:
             fleets = self.map.select(is_fleet=True, is_current_fleet=False)
             if fleets.count:
@@ -272,6 +350,21 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                     pass
                 else:
                     self.map[loca].wipe_out()
+
+    def full_scan_carrier(self):
+        prev = self.map.select(is_enemy=True)
+        self.full_scan(mode='carrier')
+        diff = self.map.select(is_enemy=True).delete(prev)
+        logger.info(f'Carrier spawn: {diff}')
+
+    def full_scan_movable(self):
+        prev = self.map.select(is_siren=True)
+        for grid in prev:
+            grid.wipe_out()
+        self.full_scan(queue=prev, must_scan=prev, mode='movable')
+        after = self.map.select(is_siren=True)
+        for grid in after:
+            grid.is_movable = True
 
     def find_all_fleets(self):
         logger.hr('Find all fleets')
@@ -370,20 +463,23 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         self.hp_init()
         self.handle_strategy(index=self.fleet_current_index)
         self.ensure_edge_insight(preset=self.map.in_map_swipe_preset_data)
-        self.full_scan()
+        self.full_scan(must_scan=self.map.camera_data_spawn_point)
         self.find_current_fleet()
         self.find_path_initial()
         self.map.show_cost()
+        self.round_reset()
+        self.round_battle()
 
     def handle_map_green_config_cover(self):
         if not self.is_map_green:
             return False
 
         logger.info('Map is green sea.')
-        self.config.MAP_HAS_FLEET_STEP = False
-        self.config.MAP_HAS_MOVABLE_ENEMY = False
+
         if self.config.ENABLE_FAST_FORWARD:
             self.config.MAP_HAS_AMBUSH = False
+            self.config.MAP_HAS_FLEET_STEP = False
+            self.config.MAP_HAS_MOVABLE_ENEMY = False
         else:
             # When disable fast forward, MAP_HAS_AMBUSH depends on map settings.
             # self.config.MAP_HAS_AMBUSH = True
@@ -394,7 +490,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         return True
 
     def _expected_combat_end(self, expected):
-        for data in self.map._spawn_data_backup:
+        for data in self.map.spawn_data:
             if data.get('battle') == self.battle_count and 'boss' in expected:
                 return 'in_stage'
             if data.get('battle') == self.battle_count + 1:
