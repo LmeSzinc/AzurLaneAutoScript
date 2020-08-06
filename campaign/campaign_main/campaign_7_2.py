@@ -68,7 +68,7 @@ class Campaign(CampaignBase):
         if self.clear_potential_roadblocks([ROAD_MAIN], strongest=True):
             return True
 
-        if self.clear_enemy(strongest=True, weight=True):
+        if self.clear_enemy(strongest=True):
             return True
 
         return self.battle_default()

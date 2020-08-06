@@ -111,7 +111,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
             data = {}
         enemy = data.get('siren', 0)
         if enemy > 0:
-            r = self.round % self.config.MOVABLE_ENEMY_TURN
+            r = self.round
             self.enemy_round[r] = self.enemy_round.get(r, 0) + enemy
 
     def round_reset(self):
@@ -127,17 +127,21 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         Usually, MOVABLE_ENEMY_TURN = 2.
         So a walk round is `player - player - enemy`, player moves twice, enemy moves once.
 
+        Different sirens have different MOVABLE_ENEMY_TURN:
+            2: Non-siren elite, SIREN_CL
+            3: SIREN_CA
+
         Returns:
             bool: If it's a new walk round, which means enemies have moved.
         """
         if not self.config.MAP_HAS_MOVABLE_ENEMY:
             return False
-        r = self.round % self.config.MOVABLE_ENEMY_TURN
-        if r in self.enemy_round:
-            logger.info('Enemy moved')
-            return True
-        else:
-            return False
+        for enemy in self.enemy_round.keys():
+            for turn in self.config.MOVABLE_ENEMY_TURN:
+                if self.round - enemy > 0 and (self.round - enemy) % turn == 0:
+                    return True
+
+        return False
 
     @property
     def round_wait(self):
@@ -147,8 +151,14 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         """
         if not self.config.MAP_HAS_MOVABLE_ENEMY:
             return 0
-        r = (self.round + 1) % self.config.MOVABLE_ENEMY_TURN
-        return self.enemy_round.get(r, 0) * self.config.MAP_SIREN_MOVE_WAIT
+        count = 0
+        for enemy, c in self.enemy_round.items():
+            for turn in self.config.MOVABLE_ENEMY_TURN:
+                if self.round + 1 - enemy > 0 and (self.round + 1 - enemy) % turn == 0:
+                    count += c
+                    break
+
+        return count * self.config.MAP_SIREN_MOVE_WAIT
 
     def _goto(self, location, expected=''):
         """Goto a grid directly and handle ambush, air raid, mystery picked up, combat.
@@ -352,7 +362,9 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         for grid in prev:
             grid.wipe_out()
         self.full_scan(queue=prev, must_scan=prev, mode='movable')
-        # after = self.map.select(is_siren=True)
+        after = self.map.select(is_siren=True)
+        for grid in after:
+            grid.is_movable = True
 
     def find_all_fleets(self):
         logger.hr('Find all fleets')

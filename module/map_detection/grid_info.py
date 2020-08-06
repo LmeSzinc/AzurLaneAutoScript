@@ -50,7 +50,7 @@ class GridInfo:
     is_ambush_save = False
     is_caught_by_siren = False
     is_carrier = False
-    if_movable = False
+    is_movable = False
     cost = 9999
     connection = None
     weight = 1
@@ -166,7 +166,7 @@ class GridInfo:
                 self.enemy_scale = 0
                 self.enemy_genre = info.enemy_genre
                 return True
-            elif mode == 'movable' and not self.is_land:
+            elif (mode == 'movable' or self.is_movable) and not self.is_land:
                 self.is_siren = True
                 self.enemy_scale = 0
                 self.enemy_genre = info.enemy_genre
@@ -220,6 +220,7 @@ class GridInfo:
         self.is_siren = False
         self.is_caught_by_siren = False
         self.is_carrier = False
+        self.is_movable = False
 
     def reset(self):
         """
