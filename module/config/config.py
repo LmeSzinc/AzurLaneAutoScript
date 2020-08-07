@@ -270,6 +270,7 @@ class AzurLaneConfig:
     USE_ONE_CLICK_RETIREMENT = False
     RETIREMENT_METHOD = 'one_click_retire'  # enhance, old_retire, one_click_retire
     ENHANCE_FAVOURITE = False
+    ENHANCE_ORDER_STRING = ''
     DOCK_FULL_TRIGGERED = False
     RETIRE_AMOUNT = 'all'  # all, 10
     RETIRE_N = True
@@ -533,6 +534,7 @@ class AzurLaneConfig:
         self.RETIREMENT_METHOD = option['retire_method']
         self.RETIRE_AMOUNT = option['retire_amount'].split('_')[1]
         self.ENHANCE_FAVOURITE = to_bool(option['enhance_favourite'])
+        self.ENHANCE_ORDER_STRING = option['enhance_order_string']
         for r in ['n', 'r', 'sr', 'ssr']:
             self.__setattr__(f'RETIRE_{r.upper()}', to_bool(option[f'retire_{r}']))
         # Clear mode
