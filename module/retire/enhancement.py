@@ -118,14 +118,18 @@ class Enhancement(Dock):
             if self.info_bar_count():
                 if status > 0.98:
                     logger.info('Fully enhanced for this ship')
-                    self.equip_view_next(check_button=ENHANCE_RECOMMEND)
+                    swiped = self.equip_view_next(check_button=ENHANCE_RECOMMEND)
                     self.ensure_no_info_bar()
+                    if not swiped:
+                        return False
                     continue
                 else:
                     if choose:
                         logger.info('Unable to enhance this ship')
-                        self.equip_view_next(check_button=ENHANCE_RECOMMEND)
+                        swiped = self.equip_view_next(check_button=ENHANCE_RECOMMEND)
                         self.ensure_no_info_bar()
+                        if not swiped:
+                            return False
                         continue
                     else:
                         logger.info('Enhancement material exhausted')
@@ -219,7 +223,7 @@ class Enhancement(Dock):
             self.ui_back(DOCK_FILTER)
 
             if exhaust_count > 2:
-                logger.info(f'Mats exhausted, threshold exceeded, terminate early. Last filter was {ship_type}')
+                logger.warning(f'Too many failed enhancements, terminate early')
                 break
 
         self._enhance_quit()
