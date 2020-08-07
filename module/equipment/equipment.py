@@ -17,6 +17,7 @@ class Equipment(UI):
     equipment_has_take_on = False
 
     def _view_swipe(self, distance, check_button=EQUIPMENT_OPEN):
+        swipe_count = 0
         swipe_timer = Timer(5, count=10)
         SWIPE_CHECK.load_color(self.device.image)
         while 1:
@@ -24,19 +25,24 @@ class Equipment(UI):
                 swipe_timer.reset()
                 self.device.swipe(vector=(distance, 0), box=SWIPE_AREA.area, random_range=SWIPE_RANDOM_RANGE,
                                   padding=0, duration=(0.1, 0.12), name='EQUIP_SWIPE')
+                swipe_count += 1
 
             self.device.screenshot()
             if SWIPE_CHECK.match(self.device.image):
+                if swipe_count > 3:
+                    logger.warning('Same ship on multiple swipes')
+                    return False
                 continue
 
             if self.appear(check_button, offset=(30, 30)) and not SWIPE_CHECK.match(self.device.image):
-                break
+                logger.info('New ship detected on swipe')
+                return True
 
     def equip_view_next(self, check_button=EQUIPMENT_OPEN):
-        self._view_swipe(distance=-SWIPE_DISTANCE, check_button=check_button)
+        return self._view_swipe(distance=-SWIPE_DISTANCE, check_button=check_button)
 
     def equip_view_prev(self, check_button=EQUIPMENT_OPEN):
-        self._view_swipe(distance=SWIPE_DISTANCE, check_button=check_button)
+        return self._view_swipe(distance=SWIPE_DISTANCE, check_button=check_button)
 
     def equip_enter(self, click_button, check_button=EQUIPMENT_OPEN, long_click=True):
         enter_timer = Timer(10)

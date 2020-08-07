@@ -80,6 +80,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         self.find_path_initial()
         self.map.show_cost()
         self.show_fleet()
+        self.hp_get()
         self.handle_strategy(index=self.fleet_current_index)
 
     def switch_to(self):
