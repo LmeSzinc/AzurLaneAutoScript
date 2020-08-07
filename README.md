@@ -1,13 +1,12 @@
-[English Quick Guide](doc%2FQuick_guide.md) 
-[English Readme](README_en.md) `Translation in progress`
 
-[Japanese Readme](README_jp.md) `Translation in progress`
-
-[Download Easy Install-v2](https://github.com/whoamikyo/AzurLaneAutoScript/releases)
+[Check Wiki for installation guide](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki)
 
 # AzurLaneAutoScript
 
-#### Discord https://discord.gg/c3WwYWf QQ群 1087735381
+#### Discord
+[![](https://img.shields.io/discord/720789890354249748?logo=discord)](https://discord.gg/c3WwYWf)
+
+### QQ群 1087735381
 
 Alas, an Azur Lane automation tool with GUI (Support CN, EN, JP, able to support other servers).
 
@@ -19,11 +18,11 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)**, some featur
 
 > **Event Announcement 活动公告**
 >
-> [CN] 支持活动「永夜幻光」.
+> [CN] 支持活动「复刻: 最重要的宝物」.
 >
-> [EN] Support event "Ink-Stained Steel Sakura Rerun".
+> [EN] Support event "Aurora Noctis".
 >
-> [JP] Support event 「極夜照らす幻光」.
+> [JP] Support event 「鉄血鮫とエニグマ（復刻）」.
 
 ![gui](doc/README.assets/gui.png)
 
