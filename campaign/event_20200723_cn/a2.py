@@ -54,4 +54,4 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_4(self):
-        return self.fleet_1.clear_boss()
+        return self.fleet_boss.clear_boss()
