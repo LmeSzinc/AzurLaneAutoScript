@@ -4,11 +4,12 @@ import os
 import sys
 from collections import deque
 
-logging.raiseExceptions = False  # Set True if wanna see encode errors on console
+logging.raiseExceptions = True  # Set True if wanna see encode errors on console
 
 # Logger init
+logger_debug = False
 logger = logging.getLogger()
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG if logger_debug else logging.INFO)
 formatter = logging.Formatter(fmt='%(asctime)s.%(msecs)03d | %(levelname)s | %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
 # Add console logger
