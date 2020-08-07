@@ -5,6 +5,7 @@ from module.base.timer import Timer
 from module.base.utils import get_color
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3
 from module.logger import logger
+from module.map_detection.utils import rgb2gray
 from module.research.assets import *
 from module.research.project import ResearchSelector
 from module.ui.page import *
@@ -202,6 +203,8 @@ class RewardResearch(ResearchSelector):
             else:
                 self.device.screenshot()
 
+            max_rgb = np.max(rgb2gray(np.array(self.image_area(RESEARCH_UNAVAILABLE))))
+
             # Don't use interval here, RESEARCH_CHECK already appeared 5 seconds ago
             if click_timer.reached() and self.appear(RESEARCH_CHECK, offset=(20, 20)):
                 i = (index - self._research_project_offset) % 5
@@ -211,7 +214,7 @@ class RewardResearch(ResearchSelector):
                 self.ensure_research_stable()
                 click_timer.reset()
                 continue
-            if self.appear_then_click(RESEARCH_START, interval=10):
+            if max_rgb > 235 and self.appear_then_click(RESEARCH_START, offset=(5, 20), interval=10):
                 continue
             if self.handle_popup_confirm('RESEARCH_START'):
                 continue
@@ -221,7 +224,7 @@ class RewardResearch(ResearchSelector):
                 self.research_select_quit()
                 self.ensure_no_info_bar(timeout=3)  # Research started
                 return True
-            if self.appear(RESEARCH_UNAVAILABLE):
+            if max_rgb < 235 and self.appear(RESEARCH_UNAVAILABLE, offset=(5, 20)):
                 logger.info('Not enough resources to start this project')
                 self.research_select_quit()
                 return False
@@ -294,6 +297,7 @@ class RewardResearch(ResearchSelector):
                 break
 
         self.config.SCREEN_SHOT_SAVE_FOLDER_FOLDER = backup
+        self.device.screenshot_interval_set(0.1)
 
     def research_reward(self):
         """
@@ -358,7 +362,7 @@ class RewardResearch(ResearchSelector):
         if not self.config.ENABLE_RESEARCH_REWARD:
             return False
 
-        if not self.appear(RESEARCH_FINISHED) and not self.appear(RESEARCH_PENDING):
+        if not self.appear(RESEARCH_FINISHED) and not self.appear(RESEARCH_PENDING, offset=(20, 20)):
             logger.info('No research finished or pending')
             return False
 

@@ -105,9 +105,6 @@ class ModuleBase:
 
         Args:
             button(Button): Button instance.
-
-        Returns:
-            PIL.Image.Image:
         """
         return self.device.image.crop(button.area)
 
