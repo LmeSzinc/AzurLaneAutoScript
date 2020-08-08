@@ -9,6 +9,7 @@ from module.logger import logger
 from module.map.camera import Camera
 from module.map.map_base import SelectedGrids
 from module.map.map_base import location2node, location_ensure
+from module.map.utils import match_movable
 from module.map.map_operation import MapOperation
 
 
@@ -161,6 +162,8 @@ class Fleet(Camera, MapOperation, AmbushHandler):
 
         return count * self.config.MAP_SIREN_MOVE_WAIT
 
+    movable_before: SelectedGrids
+
     def _goto(self, location, expected=''):
         """Goto a grid directly and handle ambush, air raid, mystery picked up, combat.
 
@@ -169,6 +172,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         """
         location = location_ensure(location)
         result_mystery = ''
+        self.movable_before = self.map.select(is_siren=True)
 
         while 1:
             sight = self.map.camera_sight
@@ -284,7 +288,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
             self.round_battle()
         self.round_next()
         if self.round_is_new:
-            self.full_scan_movable()
+            self.full_scan_movable(enemy_cleared=result == 'combat')
             self.find_path_initial()
             raise MapEnemyMoved
         self.find_path_initial()
@@ -353,19 +357,68 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                     self.map[loca].wipe_out()
 
     def full_scan_carrier(self):
+        """
+        Call this method if get enemy searching in mystery.
+        """
         prev = self.map.select(is_enemy=True)
         self.full_scan(mode='carrier')
         diff = self.map.select(is_enemy=True).delete(prev)
         logger.info(f'Carrier spawn: {diff}')
 
-    def full_scan_movable(self):
-        prev = self.map.select(is_siren=True)
-        for grid in prev:
+    def full_scan_movable(self, enemy_cleared=True):
+        """
+        Call this method if enemy moved.
+
+        Args:
+            enemy_cleared (bool): True if cleared an enemy and need to scan spawn enemies.
+                                  False if just a simple walk and only need to scan movable enemies.
+        """
+        before = self.movable_before
+        for grid in before:
             grid.wipe_out()
-        self.full_scan(queue=prev, must_scan=prev, mode='movable')
+
+        self.full_scan(queue=None if enemy_cleared else before, must_scan=before, mode='movable')
+
         after = self.map.select(is_siren=True)
-        for grid in after:
-            grid.is_movable = True
+        step = self.config.MOVABLE_ENEMY_FLEET_STEP
+        matched_before, matched_after = match_movable(
+            before=before.location,
+            spawn=self.map.select(may_siren=True).location,
+            after=after.location,
+            fleets=[self.fleet_current] if enemy_cleared else [],
+            fleet_step=step
+        )
+        matched_before = self.map.to_selected(matched_before)
+        matched_after = self.map.to_selected(matched_after)
+        logger.info(f'Movable enemy {before} -> {after}')
+        logger.info(f'Tracked enemy {matched_before} -> {matched_after}')
+
+        for grid in after.delete(matched_after):
+            if not grid.may_siren:
+                logger.warning(f'Wrong detection: {grid}')
+                grid.wipe_out()
+
+        diff = before.delete(matched_before)
+        if diff:
+            logger.info(f'Movable enemy tracking lost: {diff}')
+            covered = self.map.grid_covered(self.map[self.fleet_current], location=[(0, -2)]) \
+                .add(self.map.grid_covered(self.map[self.fleet_1_location], location=[(0, -1)])) \
+                .add(self.map.grid_covered(self.map[self.fleet_2_location], location=[(0, -1)]))
+            for grid in after:
+                covered = covered.add(self.map.grid_covered(grid))
+            accessible = SelectedGrids([])
+            location = [(x, y) for x in range(step) for y in range(step) if abs(x) + abs(y) <= step]
+            for grid in diff:
+                accessible = accessible.add(self.map.grid_covered(grid, location=location))
+            predict = accessible.intersect(covered).select(is_sea=True)
+            logger.info(f'Movable enemy predict: {predict}')
+            for grid in predict:
+                grid.is_siren = True
+                grid.is_enemy = True
+
+        for grid in matched_after:
+            if grid.location != self.fleet_current:
+                grid.is_movable = True
 
     def find_all_fleets(self):
         logger.hr('Find all fleets')
