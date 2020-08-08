@@ -5,6 +5,7 @@ import numpy as np
 from PIL import Image
 from cnocr import CnOcr
 from cnocr.cn_ocr import data_dir, read_charset, check_model_name, load_module, gen_network
+from cnocr.fit.ctc_metrics import CtcMetrics
 from cnocr.hyperparams.cn_hyperparams import CnHyperparams as Hyperparams
 
 from module.logger import logger
@@ -108,6 +109,29 @@ class AlOcr(CnOcr):
         img = cv2.resize(img, (new_width, self._hp.img_height))
         img = np.expand_dims(img, 0).astype('float32') / 255.0
         return img
+
+    def _gen_line_pred_chars(self, line_prob, img_width, max_img_width):
+        """
+        Get the predicted characters.
+        :param line_prob: with shape of [seq_length, num_classes]
+        :param img_width:
+        :param max_img_width:
+        :return:
+        """
+        class_ids = np.argmax(line_prob, axis=-1)
+
+        class_ids *= np.max(line_prob, axis=-1) > 0.1  # Delete low confidence result
+
+        if img_width < max_img_width:
+            comp_ratio = self._hp.seq_len_cmpr_ratio
+            end_idx = img_width // comp_ratio
+            if end_idx < len(class_ids):
+                class_ids[end_idx:] = 0
+        prediction, start_end_idx = CtcMetrics.ctc_label(class_ids.tolist())
+        alphabet = self._alphabet
+        res = [alphabet[p] if alphabet[p] != '<space>' else ' ' for p in prediction]
+
+        return res
 
     def debug(self, img_list):
         """

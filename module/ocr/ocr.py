@@ -64,10 +64,6 @@ class Ocr:
         """
         image = extract_letters(image, letter=self.letter, threshold=self.threshold)
 
-
-        #  un-comment to see the image feed to ocr model
-        # Image.fromarray(image.astype('uint8')).show()
-
         return image.astype(np.uint8)
 
     def after_process(self, result):
@@ -82,12 +78,15 @@ class Ocr:
 
         return result
 
-    def ocr(self, image):
+    def ocr(self, image, direct_ocr=False):
         start_time = time.time()
 
         if self.alphabet is not None:
             self.cnocr.set_cand_alphabet(self.alphabet)
-        image_list = [self.pre_process(np.array(image.crop(area))) for area in self.buttons]
+        if direct_ocr:
+            image_list = [self.pre_process(np.array(i)) for i in image]
+        else:
+            image_list = [self.pre_process(np.array(image.crop(area))) for area in self.buttons]
 
         # This will show the images feed to OCR model
         # self.cnocr.debug(image_list)
