@@ -190,7 +190,6 @@ class Camera(InfoHandler):
             if np.all(np.abs(vector) <= 0):
                 break
 
-
     def full_scan(self, queue=None, must_scan=None, battle_count=0, mystery_count=0, siren_count=0, carrier_count=0,
                   mode='normal'):
         """Scan the whole map.
@@ -205,7 +204,7 @@ class Camera(InfoHandler):
             mode (str): Scan mode, such as 'normal', 'carrier', 'movable'
 
         """
-        logger.info('Full scan start')
+        logger.info(f'Full scan start, mode={mode}')
         self.map.reset_fleet()
 
         queue = queue if queue else self.map.camera_data
@@ -213,7 +212,7 @@ class Camera(InfoHandler):
             queue = queue.add(must_scan)
 
         while len(queue) > 0:
-            if self.map.missing_is_none(battle_count, mystery_count, siren_count, carrier_count):
+            if self.map.missing_is_none(battle_count, mystery_count, siren_count, carrier_count, mode):
                 if must_scan and queue.count != queue.delete(must_scan).count:
                     logger.info('Continue scanning.')
                     pass
@@ -231,9 +230,7 @@ class Camera(InfoHandler):
 
             queue = queue[1:]
 
-        self.map.missing_predict(battle_count, mystery_count, siren_count, carrier_count)
-
-
+        self.map.missing_predict(battle_count, mystery_count, siren_count, carrier_count, mode)
         self.map.show()
 
     def in_sight(self, location, sight=None):

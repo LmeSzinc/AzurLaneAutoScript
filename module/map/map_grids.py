@@ -94,6 +94,16 @@ class SelectedGrids:
         """
         return SelectedGrids(list(set(self.grids + grids.grids)))
 
+    def intersect(self, grids):
+        """
+        Args:
+            grids(SelectedGrids):
+
+        Returns:
+            SelectedGrids:
+        """
+        return SelectedGrids(list(set(self.grids).intersection(set(grids.grids))))
+
     def delete(self, grids):
         """
         Args:
