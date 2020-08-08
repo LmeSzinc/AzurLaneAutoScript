@@ -173,6 +173,8 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         location = location_ensure(location)
         result_mystery = ''
         self.movable_before = self.map.select(is_siren=True)
+        if self.hp_withdraw_triggered():
+            self.withdraw()
 
         while 1:
             sight = self.map.camera_sight
@@ -201,6 +203,7 @@ class Fleet(Camera, MapOperation, AmbushHandler):
 
                 # Ambush
                 if self.handle_ambush():
+                    self.hp_get()
                     ambushed_retry.start()
                     walk_timeout.reset()
 
@@ -221,8 +224,6 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                 if self.combat_appear():
                     self.combat(expected_end=self._expected_combat_end(expected), fleet_index=self.fleet_current_index)
                     self.hp_get()
-                    if self.hp_withdraw_triggered():
-                        self.withdraw()
                     arrived = True if not self.config.MAP_HAS_MOVABLE_ENEMY else False
                     result = 'combat'
                     self.battle_count += 1
