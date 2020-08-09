@@ -93,6 +93,7 @@ for /f "delims=" %%i in ('type "%string%" ^& break ^> "%string%" ') do (
     setlocal enabledelayedexpansion
     >>"%string%" echo(!line:%search%=%replace%!
     endlocal
+	)
 )
 call :CHECK_BST_BETA
 :: -----------------------------------------------------------------------------
@@ -117,7 +118,7 @@ set "configtemp=%~dp0config\alastemp.ini"
 set /a search=104
 set "replace=serial = %SERIAL_REALTIME%"
 
-for /f "tokens=1*delims=:" %%a IN ('findstr /n "^" "%config%"') DO (
+(for /f "tokens=1*delims=:" %%a IN ('findstr /n "^" "%config%"') do (
     set "Line=%%b"
     IF %%a equ %search% set "Line=%replace%"
     setLOCAL ENABLEDELAYEDEXPANSION
@@ -126,6 +127,7 @@ for /f "tokens=1*delims=:" %%a IN ('findstr /n "^" "%config%"') DO (
 ))> %~dp0config\alastemp.ini
 del %config%
 MOVE %configtemp% %config%
+)
 call :init
 :: -----------------------------------------------------------------------------
 :: -----------------------------------------------------------------------------
