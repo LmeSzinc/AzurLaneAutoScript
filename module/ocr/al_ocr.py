@@ -120,7 +120,7 @@ class AlOcr(CnOcr):
         """
         class_ids = np.argmax(line_prob, axis=-1)
 
-        class_ids *= np.max(line_prob, axis=-1) > 0.1  # Delete low confidence result
+        class_ids *= np.max(line_prob, axis=-1) > 0.5  # Delete low confidence result
 
         if img_width < max_img_width:
             comp_ratio = self._hp.seq_len_cmpr_ratio
