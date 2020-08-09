@@ -24,9 +24,42 @@ SCOUT_POSITION = [
 
 
 class HPBalancer(ModuleBase):
-    hp = []  # List of float, length=6
-    has_ship = []  # List of bool, length=6
+    fleet_current_index = 1
+    _hp = {}
+    _hp_has_ship = {}
     _scout_order = (0, 1, 2)
+
+    @property
+    def hp(self):
+        """
+        Returns:
+            list[float]:
+        """
+        return self._hp[self.fleet_current_index]
+
+    @hp.setter
+    def hp(self, value):
+        """
+        Args:
+            value (list[float]):
+        """
+        self._hp[self.fleet_current_index] = value
+
+    @property
+    def hp_has_ship(self):
+        """
+        Returns:
+            list[bool]:
+        """
+        return self._hp_has_ship[self.fleet_current_index]
+
+    @hp_has_ship.setter
+    def hp_has_ship(self, value):
+        """
+        Args:
+            value (list[float]):
+        """
+        self._hp_has_ship[self.fleet_current_index] = value
 
     def _calculate_hp(self, location, size):
         """Calculate hp according to color.
@@ -45,23 +78,6 @@ class HPBalancer(ModuleBase):
         )
         return data
 
-    def _predict_has_ship(self, location):
-        """
-        Args:
-            location (tuple): Upper right of HP bar. (x, y)
-
-        Returns:
-            bool: If here have a ship, or a sunk ship.
-        """
-        area = area_offset((-15, -7, 0, 6), offset=location)
-        image = np.array(self.device.image.crop(area))
-        if np.sum(color_similarity_2d(image, color=(255, 255, 255)) > 221) > 40:
-            return True
-        elif np.sum(color_similarity_2d(image, color=(107, 105, 107)) > 221) > 40:
-            return True
-        else:
-            return False
-
     def hp_get(self):
         """Get current HP from screenshot.
 
@@ -69,19 +85,28 @@ class HPBalancer(ModuleBase):
             list: HP(float) of 6 ship.
 
         Logs:
-            [HP]  98% ___ ___  98%  98%  98%
+            [HP]  98% ____ ____  98%  98%  98%
         """
-        logger.info('start hp get')
         hp = [self._calculate_hp(loca, SIZE) for loca in LOCATION]
-        self.has_ship = [self._predict_has_ship(loca) for loca in LOCATION]
         scout = np.array(hp[3:]) * np.array(self.config.SCOUT_HP_WEIGHTS) / np.max(self.config.SCOUT_HP_WEIGHTS)
+
         self.hp = hp[:3] + scout.tolist()
-        logger.attr(
-            'HP',
-            ' '.join([str(int(data * 100)).rjust(3) + '%' if use else '___' for data, use in zip(hp, self.has_ship)]))
+        if self.fleet_current_index not in self._hp_has_ship:
+            self.hp_has_ship = [bool(hp > 0.3) for hp in self.hp]
+
+        logger.attr('HP', ' '.join(
+            [str(int(data * 100)).rjust(3) + '%' if use else '____' for data, use in zip(hp, self.hp_has_ship)]))
         if np.sum(np.abs(np.diff(self.config.SCOUT_HP_WEIGHTS))) > 0:
             logger.attr('HP_weight', ' '.join([str(int(data * 100)).rjust(3) + '%' for data in self.hp]))
+
         return self.hp
+
+    def hp_reset(self):
+        """
+        Call this method after enter map.
+        """
+        self._hp = {}
+        self._hp_has_ship = {}
 
     def _scout_position_change(self, p1, p2):
         """Exchange KAN-SEN's position.
@@ -157,7 +182,7 @@ class HPBalancer(ModuleBase):
 
     def hp_withdraw_triggered(self):
         if self.config.ENABLE_LOW_HP_WITHDRAW:
-            hp = np.array(self.hp)[self.has_ship]
+            hp = np.array(self.hp)[self.hp_has_ship]
             if np.any(hp < self.config.LOW_HP_WITHDRAW_THRESHOLD):
                 logger.info('Low HP withdraw triggered.')
                 return True
