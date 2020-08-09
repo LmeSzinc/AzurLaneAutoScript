@@ -1,7 +1,7 @@
 @echo off
 pushd %~dp0
 title ALAS run
-SET CMD=%SystemRoot%\system32\cmd.exe
+set CMD=%SystemRoot%\system32\cmd.exe
 :: -----------------------------------------------------------------------------
 call :check_Permissions
 :check_Permissions
@@ -18,29 +18,29 @@ call :check_Permissions
     pause >nul
 :: -----------------------------------------------------------------------------
 :continue
-SET ALAS_PATH=%~dp0
+set ALAS_PATH=%~dp0
 :: -----------------------------------------------------------------------------
 :: Legacy functions
-SET RENAME="python-3.7.6.amd64"
+set RENAME="python-3.7.6.amd64"
 if exist %RENAME% (
-  rename %RENAME% toolkit
+	rename %RENAME% toolkit
 )
-SET MOVE_P="adb_port.ini"
+set MOVE_P="adb_port.ini"
 if exist %MOVE_P% (
-  move %MOVE_P% %ALAS_PATH%config
+	move %MOVE_P% %ALAS_PATH%config
 )
 :: -----------------------------------------------------------------------------
-SET ADB=%ALAS_PATH%toolkit\Lib\site-packages\adbutils\binaries\adb.exe
-SET PYTHON=%ALAS_PATH%toolkit\python.exe
-SET GIT=%ALAS_PATH%toolkit\Git\cmd\git.exe
-SET LMESZINC=https://github.com/LmeSzinc/AzurLaneAutoScript.git
-SET WHOAMIKYO=https://github.com/whoamikyo/AzurLaneAutoScript.git
-SET ALAS_ENV=https://github.com/whoamikyo/alas-env.git
-SET ALAS_ENV_GITEE=https://gitee.com/lmeszinc/alas-env.git
-SET GITEE_URL=https://gitee.com/lmeszinc/AzurLaneAutoScript.git
-SET ADB_P=%ALAS_PATH%config\adb_port.ini
+set ADB=%ALAS_PATH%toolkit\Lib\site-packages\adbutils\binaries\adb.exe
+set PYTHON=%ALAS_PATH%toolkit\python.exe
+set GIT=%ALAS_PATH%toolkit\Git\cmd\git.exe
+set LMESZINC=https://github.com/LmeSzinc/AzurLaneAutoScript.git
+set WHOAMIKYO=https://github.com/whoamikyo/AzurLaneAutoScript.git
+set ALAS_ENV=https://github.com/whoamikyo/alas-env.git
+set ALAS_ENV_GITEE=https://gitee.com/lmeszinc/alas-env.git
+set GITEE_URL=https://gitee.com/lmeszinc/AzurLaneAutoScript.git
+set ADB_P=%ALAS_PATH%config\adb_port.ini
 :: -----------------------------------------------------------------------------
-SET TOOLKIT_GIT=%~dp0toolkit\.git
+set TOOLKIT_GIT=%~dp0toolkit\.git
 if not exist %TOOLKIT_GIT% (
 	echo You may need to update your dependencies
 	echo Press any key to update
@@ -55,17 +55,17 @@ cls
 call %ADB% kill-server > nul 2>&1
 set SCREENSHOT_FOLDER=%~dp0screenshots
 if not exist %SCREENSHOT_FOLDER% (
-  mkdir %SCREENSHOT_FOLDER%
+	mkdir %SCREENSHOT_FOLDER%
 )
 :: -----------------------------------------------------------------------------
 ::if config\adb_port.ini dont exist, will be created
 	if not exist %ADB_P% (
-  	cd . > %ADB_P%
+	cd . > %ADB_P%
 		)
 :: -----------------------------------------------------------------------------
 :prompt
 REM if adb_port is empty, prompt HOST:PORT
-SET "adb_empty=%~dp0config\adb_port.ini"
+set "adb_empty=%~dp0config\adb_port.ini"
 for %%A in (%adb_empty%) do if %%~zA==0 (
     echo Enter your HOST:PORT eg: 127.0.0.1:5555 for default bluestacks
 	echo If you misstype, you can edit the file in config/adb_port.ini
@@ -74,7 +74,7 @@ for %%A in (%adb_empty%) do if %%~zA==0 (
 :: -----------------------------------------------------------------------------
 REM if adb_input = 0 load from adb_port.ini
 if [%adb_input%]==[] (
-    call :load
+    call :CHECK_BST_BETA
 	)
 REM write adb_input on adb_port.ini
 echo %adb_input% >> %ADB_P%
@@ -82,24 +82,59 @@ echo %adb_input% >> %ADB_P%
 :: Will search for 127.0.0.1:62001 and replace for %ADB_PORT%
 :FINDSTR
 setlocal enableextensions disabledelayedexpansion
-SET "template=%~dp0config\template.ini"
-SET "search=127.0.0.1:62001"
-SET "replace=%adb_input%"
-SET "string=%template%"
-for /f "delims=" %%i in ('type "%string%" ^& break ^> "%string%" ') do (
-    SET "line=%%i"
+set "template=%~dp0config\template.ini"
+set "search=127.0.0.1:62001"
+set "replace=%ADB_P%"
+
+for /f "delims=" %%i in ('type "%template%" ^& break ^> "%template%" ') do (
+    set "line=%%i"
     setlocal enabledelayedexpansion
-    >>"%string%" echo(!line:%search%=%replace%!
+    >>"%template%" echo(!line:%search%=%replace%!
     endlocal
 )
+call :CHECK_BST_BETA
+:: -----------------------------------------------------------------------------
+:CHECK_BST_BETA
+reg query HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_bgp64_hyperv >nul
+if %errorlevel% equ 0 (
+	echo Bluestacks Hyper-V BETA detected
+	call :realtime_connection
+) else (
+	call :load
+)
+:: -----------------------------------------------------------------------------
+:realtime_connection
+ECHO. Connecting with realtime mode ...
+for /f "tokens=3" %%a in ('reg query HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_bgp64_hyperv\Guests\Android\Config /v BstAdbPort') do (set /a port = %%a)
+set "SERIAL_REALTIME=127.0.0.1:%port%"
+echo connecting at %SERIAL_REALTIME%
+call %ADB% connect %SERIAL_REALTIME%
+
+set "config=%~dp0config\alas.ini"
+set "configtemp=%~dp0config\alastemp.ini"
+set /a search=104
+set "replace=serial = %SERIAL_REALTIME%"
+
+(FOR /f "tokens=1*delims=:" %%a IN ('findstr /n "^" "%config%"') DO (
+    set "Line=%%b"
+    IF %%a equ %search% set "Line=%replace%"
+    setLOCAL ENABLEDELAYEDEXPANSION
+    ECHO(!Line!
+    ENDLOCAL
+))> %~dp0config\alastemp.ini
+del %config%
+MOVE %configtemp% %config%
+call :init
+:: -----------------------------------------------------------------------------
 :: -----------------------------------------------------------------------------
 :load
 REM Load adb_port.ini
 REM
-SET /p ADB_PORT=<%ADB_P%
+set /p ADB_PORT=<%ADB_P%
 echo connecting at %ADB_PORT%
 call %ADB% connect %ADB_PORT%
 :: -----------------------------------------------------------------------------
+:init
 echo initializing uiautomator2
 call %PYTHON% -m uiautomator2 init
 :: timout
@@ -615,11 +650,11 @@ rem REG delete HKCU\Environment /F /V TEMPVAR > nul 2>&1
 rem :AddPath <pathToAdd>
 rem ECHO %PATH% | FINDSTR /C:"%~1" > nul
 rem IF ERRORLEVEL 1 (
-rem 	 REG add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /f /v PATH /t REG_SZ /d "%PATH%;%~1" >> add-paths-detail.log
+rem 	 REG add "HKLM\SYSTEM\CurrentControlset\Control\Session Manager\Environment" /f /v PATH /t REG_SZ /d "%PATH%;%~1" >> add-paths-detail.log
 rem 	IF ERRORLEVEL 0 (
 rem 		ECHO Adding   %1 . . . Success! >> add-paths.log
-rem 		SET "PATH=%PATH%;%~1"
-rem 		rem SET UPDATE=1
+rem 		set "PATH=%PATH%;%~1"
+rem 		rem set UPDATE=1
 rem 	) ELSE (
 rem 		ECHO Adding   %1 . . . FAILED. Run this script with administrator privileges. >> add-paths.log
 rem 	)
@@ -630,11 +665,11 @@ rem 	)
 rem :AddPath <pathToAdd>
 rem ECHO %PATH% | FINDSTR /C:"%~1" > nul
 rem IF ERRORLEVEL 1 (
-rem 	REG add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /f /v PATH /t REG_SZ /d "%PATH%;%~1"  > nul 2>&1
+rem 	REG add "HKLM\SYSTEM\CurrentControlset\Control\Session Manager\Environment" /f /v PATH /t REG_SZ /d "%PATH%;%~1"  > nul 2>&1
 rem 	IF ERRORLEVEL 0 (
 rem 		ECHO Adding   %1 . . . Success!
-rem 		SET "PATH=%PATH%;%~1"
-rem 		SET UPDATE=1
+rem 		set "PATH=%PATH%;%~1"
+rem 		set UPDATE=1
 rem 	) ELSE (
 rem 		ECHO Adding   %1 . . . FAILED. Run this script with administrator privileges.
 rem 	)
