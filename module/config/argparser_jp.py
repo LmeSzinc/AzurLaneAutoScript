@@ -173,6 +173,7 @@ def main(ini_name=''):
     retire.add_argument('--retire_method', default=default('--retire_method'), choices=['enhance', 'one_click_retire', 'old_retire'])
     retire.add_argument('--retire_amount', default=default('--retire_amount'), choices=['retire_all', 'retire_10'])
     retire.add_argument('--enhance_favourite', default=default('--enhance_favourite'), choices=['yes', 'no'])
+    retire.add_argument('--enhance_order_string', default=default('--enhance_order_string'), help='Leave blank to use default enhance method')
 
     rarity = retire.add_argument_group('Retirement rarity', 'The ship type selection is not supported yet. Ignore the following options when using one-key retirement')
     rarity.add_argument('--retire_n', default=default('--retire_n'), choices=['yes', 'no'], help='N')
@@ -251,6 +252,7 @@ def main(ini_name=''):
     research_input.add_argument('--research_use_part', default=default('--research_use_part'), choices=['yes', 'no'])
     research_output = reward_research.add_argument_group('Research output', '')
     research_output.add_argument('--research_filter_preset', default=default('--research_filter_preset'), choices=research_preset)
+    research_output.add_argument('--research_filter_string', default=default('--research_filter_string'), help='Only if you are using custom preset.')
 
     # ==========emulator==========
     emulator_parser = subs.add_parser('emulator')
