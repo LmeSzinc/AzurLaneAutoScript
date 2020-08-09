@@ -78,18 +78,20 @@ if [%adb_input%]==[] (
 	)
 REM write adb_input on adb_port.ini
 echo %adb_input% >> %ADB_P%
+call :FINDSTR
 :: -----------------------------------------------------------------------------
 :: Will search for 127.0.0.1:62001 and replace for %ADB_PORT%
 :FINDSTR
 setlocal enableextensions disabledelayedexpansion
 set "template=%~dp0config\template.ini"
 set "search=127.0.0.1:62001"
-set "replace=%ADB_P%"
+set "replace=%adb_input%"
+set "string=%template%"
 
-for /f "delims=" %%i in ('type "%template%" ^& break ^> "%template%" ') do (
+for /f "delims=" %%i in ('type "%string%" ^& break ^> "%string%" ') do (
     set "line=%%i"
     setlocal enabledelayedexpansion
-    >>"%template%" echo(!line:%search%=%replace%!
+    >>"%string%" echo(!line:%search%=%replace%!
     endlocal
 )
 call :CHECK_BST_BETA
@@ -115,7 +117,7 @@ set "configtemp=%~dp0config\alastemp.ini"
 set /a search=104
 set "replace=serial = %SERIAL_REALTIME%"
 
-(FOR /f "tokens=1*delims=:" %%a IN ('findstr /n "^" "%config%"') DO (
+for /f "tokens=1*delims=:" %%a IN ('findstr /n "^" "%config%"') DO (
     set "Line=%%b"
     IF %%a equ %search% set "Line=%replace%"
     setLOCAL ENABLEDELAYEDEXPANSION
