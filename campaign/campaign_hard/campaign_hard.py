@@ -19,6 +19,8 @@ class Campaign(CampaignBase, HardEquipment):
         self.enter_map(self.ENTRANCE, mode='hard')
         self.map = self.MAP
         self.map.reset()
+        self.hp_reset()
+        self.hp_get()
 
         if self.config.FLEET_HARD == 1:
             self.ensure_edge_insight(reverse=True)
