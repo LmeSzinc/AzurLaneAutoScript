@@ -60,6 +60,15 @@ class FastForwardHandler(ModuleBase):
         if not self.map_has_fast_forward:
             return False
 
+        if self.config.ENABLE_FAST_FORWARD:
+            self.config.MAP_HAS_AMBUSH = False
+            self.config.MAP_HAS_FLEET_STEP = False
+            self.config.MAP_HAS_MOVABLE_ENEMY = False
+        else:
+            # When disable fast forward, MAP_HAS_AMBUSH depends on map settings.
+            # self.config.MAP_HAS_AMBUSH = True
+            pass
+
         status = 'on' if self.config.ENABLE_FAST_FORWARD else 'off'
         changed = fast_forward.set(status=status, main=self)
         return changed
@@ -70,15 +79,6 @@ class FastForwardHandler(ModuleBase):
         if not fleet_lock.appear(main=self):
             logger.info('No fleet lock option.')
             return False
-
-        if self.config.ENABLE_MAP_FLEET_LOCK:
-            self.config.MAP_HAS_AMBUSH = False
-            self.config.MAP_HAS_FLEET_STEP = False
-            self.config.MAP_HAS_MOVABLE_ENEMY = False
-        else:
-            # When disable fast forward, MAP_HAS_AMBUSH depends on map settings.
-            # self.config.MAP_HAS_AMBUSH = True
-            pass
 
         status = 'on' if self.config.ENABLE_MAP_FLEET_LOCK else 'off'
         changed = fleet_lock.set(status=status, main=self)
