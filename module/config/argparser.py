@@ -173,6 +173,7 @@ def main(ini_name=''):
     retire.add_argument('--退役方案', default=default('--退役方案'), choices=['强化角色', '一键退役', '传统退役'])
     retire.add_argument('--退役数量', default=default('--退役数量'), choices=['退役全部', '退役10个'])
     retire.add_argument('--强化常用角色', default=default('--强化常用角色'), choices=['是', '否'])
+    retire.add_argument('--enhance_order_string', default=default('--enhance_order_string'), help='Leave blank to use default enhance method')
 
     rarity = retire.add_argument_group('退役稀有度', '暂不支持舰种选择, 使用一键退役时忽略以下选项')
     rarity.add_argument('--退役白皮', default=default('--退役白皮'), choices=['是', '否'], help='N')
@@ -251,6 +252,7 @@ def main(ini_name=''):
     research_input.add_argument('--科研项目使用部件', default=default('--科研项目使用部件'), choices=['是', '否'])
     research_output = reward_research.add_argument_group('科研产出', '')
     research_output.add_argument('--科研项目选择预设', default=default('--科研项目选择预设'), choices=research_preset)
+    research_output.add_argument('--research_filter_string', default=default('--research_filter_string'), help='Only if you are using custom preset.')
 
     # ==========设备设置==========
     emulator_parser = subs.add_parser('设备设置')
