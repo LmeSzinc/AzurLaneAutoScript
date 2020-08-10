@@ -124,6 +124,11 @@ class Daily(Reward, DailyEquipment):
                 self.daily_check()
                 self.next()
                 continue
+            if not fleets[self.daily_current]:
+                logger.info(f'No fleet set on daily_current: {self.daily_current}, skip')
+                self.daily_check()
+                self.next()
+                continue
             if not self.is_active():
                 self.daily_check()
                 self.next()
