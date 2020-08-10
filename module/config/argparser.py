@@ -173,7 +173,7 @@ def main(ini_name=''):
     retire.add_argument('--退役方案', default=default('--退役方案'), choices=['强化角色', '一键退役', '传统退役'])
     retire.add_argument('--退役数量', default=default('--退役数量'), choices=['退役全部', '退役10个'])
     retire.add_argument('--强化常用角色', default=default('--强化常用角色'), choices=['是', '否'])
-    retire.add_argument('--enhance_order_string', default=default('--enhance_order_string'), help='Leave blank to use default enhance method')
+    retire.add_argument('--enhance_order_string', default=default('--enhance_order_string'), help='Use example format "cv > bb > ..." may omit a ship type category altogether to skip otherwise leave blank to use default enhance method')
 
     rarity = retire.add_argument_group('退役稀有度', '暂不支持舰种选择, 使用一键退役时忽略以下选项')
     rarity.add_argument('--退役白皮', default=default('--退役白皮'), choices=['是', '否'], help='N')
@@ -268,7 +268,7 @@ def main(ini_name=''):
     adb.add_argument('--设备截图方案', default=default('--设备截图方案'), choices=['aScreenCap', 'uiautomator2', 'ADB'], help='速度: aScreenCap >> uiautomator2 > ADB')
     adb.add_argument('--设备控制方案', default=default('--设备控制方案'), choices=['uiautomator2', 'ADB'], help='速度: uiautomator2 >> ADB')
     adb.add_argument('--战斗中截图间隔', default=default('--战斗中截图间隔'), help='战斗中放慢截图速度, 降低CPU使用')
-    
+
     update = emulator_parser.add_argument_group('更新检查', '')
     update.add_argument('--启用更新检查', default=default('--启用更新检查'), choices=['是', '否'])
     update.add_argument('--更新检查方法', default=default('--更新检查方法'), choices=['api', 'web'], help='使用api时建议填写tokens, 使用web则不需要')

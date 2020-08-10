@@ -19,6 +19,7 @@ class Equipment(UI):
     def _view_swipe(self, distance, check_button=EQUIPMENT_OPEN):
         swipe_count = 0
         swipe_timer = Timer(5, count=10)
+        self.ensure_no_info_bar()
         SWIPE_CHECK.load_color(self.device.image)
         while 1:
             if not swipe_timer.started() or swipe_timer.reached():
@@ -29,7 +30,7 @@ class Equipment(UI):
 
             self.device.screenshot()
             if SWIPE_CHECK.match(self.device.image):
-                if swipe_count > 3:
+                if swipe_count > 1:
                     logger.warning('Same ship on multiple swipes')
                     return False
                 continue

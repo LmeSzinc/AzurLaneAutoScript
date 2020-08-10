@@ -168,12 +168,12 @@ def main(ini_name=''):
     hp_withdraw.add_argument('--low_hp_withdraw_threshold', default=default('--low_hp_withdraw_threshold'), help='When HP is below the threshold, retreat')
 
     # 退役选项
-    retire = setting_parser.add_argument_group('Retirement settings', 'Enhancement order by ship type is supported in alas.ini:\n Use example format \"enhance_order_string = cv > bb > ...\" to enable otherwise leave as \"enhance_order_string = \" to disable')
+    retire = setting_parser.add_argument_group('Retirement settings', '')
     retire.add_argument('--enable_retirement', default=default('--enable_retirement'), choices=['yes', 'no'])
     retire.add_argument('--retire_method', default=default('--retire_method'), choices=['enhance', 'one_click_retire', 'old_retire'])
     retire.add_argument('--retire_amount', default=default('--retire_amount'), choices=['retire_all', 'retire_10'])
     retire.add_argument('--enhance_favourite', default=default('--enhance_favourite'), choices=['yes', 'no'])
-    retire.add_argument('--enhance_order_string', default=default('--enhance_order_string'), help='Leave blank to use default enhance method')
+    retire.add_argument('--enhance_order_string', default=default('--enhance_order_string'), help='Use example format "cv > bb > ..." may omit a ship type category altogether to skip otherwise leave blank to use default enhance method')
 
     rarity = retire.add_argument_group('Retirement rarity', 'The ship type selection is not supported yet. Ignore the following options when using one-key retirement')
     rarity.add_argument('--retire_n', default=default('--retire_n'), choices=['yes', 'no'], help='N')
