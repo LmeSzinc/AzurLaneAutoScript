@@ -243,6 +243,7 @@ def main(ini_name=''):
     reward_tactical.add_argument('--技能书最小稀有度', default=default('--技能书最小稀有度'), choices=['3', '2', '1'], help='最低使用T几的技能书\n')
     # reward_tactical.add_argument('--技能书夜间稀有度', default=default('--技能书夜间稀有度'), choices=['3', '2', '1'])
     # reward_tactical.add_argument('--技能书夜间优先使用同类型', default=default('--技能书夜间优先使用同类型'), choices=['是', '否'])
+    reward_tactical.add_argument('--如果无技能书可用', default=default('--如果无技能书可用'), choices=['停止学习', '使用第一本'])
 
     reward_research = reward_parser.add_argument_group('科研项目', '科研预设选择为自定义时, 须先阅读 doc/filter_string_en_cn.md')
     reward_research.add_argument('--启用科研项目收获', default=default('--启用科研项目收获'), choices=['是', '否'])

@@ -385,6 +385,7 @@ class AzurLaneConfig:
     TACTICAL_BOOK_TIER_MAX = 3
     TACTICAL_BOOK_TIER_MIN = 2
     TACTICAL_EXP_FIRST = True
+    TACTICAL_IF_NO_BOOK_SATISFIED = 'cancel_tactical'  # cancel_tactical, use_the_first_book
     # TACTICAL_BOOK_TIER_NIGHT = 3
     # TACTICAL_EXP_FIRST_NIGHT = False
     # TACTICAL_NIGHT_RANGE = future_time_range('23:30-06:30')  # (Night start, night end), datetime.datetime instance.
@@ -559,6 +560,7 @@ class AzurLaneConfig:
         self.TACTICAL_BOOK_TIER_MAX = int(option['tactical_book_tier_max'])
         self.TACTICAL_BOOK_TIER_MIN = int(option['tactical_book_tier_min'])
         self.TACTICAL_EXP_FIRST = to_bool(option['tactical_exp_first'])
+        self.TACTICAL_IF_NO_BOOK_SATISFIED = option['tactical_if_no_book_satisfied']
         # self.TACTICAL_NIGHT_RANGE = future_time_range(option['tactical_night_range'])
         # self.TACTICAL_BOOK_TIER_NIGHT = int(option['tactical_book_tier_night'])
         # self.TACTICAL_EXP_FIRST_NIGHT = to_bool(option['tactical_exp_first_night'])

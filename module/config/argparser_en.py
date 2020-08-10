@@ -244,6 +244,7 @@ def main(ini_name=''):
     reward_tactical.add_argument('--tactical_book_tier_min', default=default('--tactical_book_tier_min'), choices=['3', '2', '1'], help='Minimal tier to choose.')
     # reward_tactical.add_argument('--tactical_book_tier_night', default=default('--tactical_book_tier_night'), choices=['3', '2', '1'])
     # reward_tactical.add_argument('--tactical_exp_first_night', default=default('--tactical_exp_first_night'), choices=['yes', 'no'])
+    reward_tactical.add_argument('--tactical_if_no_book_satisfied', default=default('--tactical_if_no_book_satisfied'), choices=['cancel_tactical', 'use_the_first_book'])
 
     reward_research = reward_parser.add_argument_group('Research', 'If set research_filter_preset=customized, read doc/filter_string_en_cn.md first')
     reward_research.add_argument('--enable_research_reward', default=default('--enable_research_reward'), choices=['yes', 'no'])
