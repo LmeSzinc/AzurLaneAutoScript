@@ -103,6 +103,7 @@ def main(ini_name=''):
     stop.add_argument('--if_count_greater_than', default=default('--if_count_greater_than'), help='The previous setting will be used, and the number\n of deductions will be deducted after completion of the attack until it is cleared.')
     stop.add_argument('--if_time_reach', default=default('--if_time_reach'), help='Use the time within the next 24 hours, the previous setting will be used, and it will be cleared\n after the trigger. It is recommended to advance about\n 10 minutes to complete the current attack. Format 14:59')
     stop.add_argument('--if_oil_lower_than', default=default('--if_oil_lower_than'))
+    stop.add_argument('--if_map_reach', default=default('--if_map_reach'), choices=['no', 'map_100', 'map_3_star', 'map_green'])
     stop.add_argument('--if_trigger_emotion_control', default=default('--if_trigger_emotion_control'), choices=['yes', 'no'], help='If yes, wait for reply, complete this time, stop \nIf no, wait for reply, complete this time, continue')
     # stop.add_argument('--if_dock_full', default=default('--if_dock_full'), choices=['yes', 'no'])
 
@@ -186,10 +187,10 @@ def main(ini_name=''):
     drop.add_argument('--enable_drop_screenshot', default=default('--enable_drop_screenshot'), choices=['yes', 'no'])
     drop.add_argument('--drop_screenshot_folder', default=default('--drop_screenshot_folder'))
 
-    clear = setting_parser.add_argument_group('Wasteland mode', 'Unopened maps will stop after completion. Opened maps will ignore options, and its done if you do not open up')
-    clear.add_argument('--enable_map_clear_mode', default=default('--enable_map_clear_mode'), choices=['yes', 'no'])
-    clear.add_argument('--clear_mode_stop_condition', default=default('--clear_mode_stop_condition'), choices=['map_100', 'map_3_star', 'map_green'])
-    clear.add_argument('--map_star_clear_all', default=default('--map_star_clear_all'), choices=['index_1', 'index_2', 'index_3', 'do_not_use'], help='The first few stars are to destroy all enemy ships')
+    # clear = setting_parser.add_argument_group('Wasteland mode', 'Unopened maps will stop after completion. Opened maps will ignore options, and its done if you do not open up')
+    # clear.add_argument('--enable_map_clear_mode', default=default('--enable_map_clear_mode'), choices=['yes', 'no'])
+    # clear.add_argument('--clear_mode_stop_condition', default=default('--clear_mode_stop_condition'), choices=['map_100', 'map_3_star', 'map_green'])
+    # clear.add_argument('--map_star_clear_all', default=default('--map_star_clear_all'), choices=['index_1', 'index_2', 'index_3', 'do_not_use'], help='The first few stars are to destroy all enemy ships')
 
 
     # ==========reward==========
