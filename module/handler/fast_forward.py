@@ -22,6 +22,8 @@ class FastForwardHandler(ModuleBase):
     map_is_green = False
     map_has_fast_forward = False
 
+    map_clear_record = None
+
     def map_get_info(self):
         """
         Logs:
@@ -106,5 +108,17 @@ class FastForwardHandler(ModuleBase):
         if self.config.STOP_IF_MAP_REACH == 'map_green':
             if self.map_is_clear and self.map_is_3_star and self.map_is_green:
                 return True
+
+        return False
+
+    def handle_map_stop(self):
+        if self.map_clear_record is True:
+            return False
+
+        flag = self.triggered_map_stop()
+        if self.map_clear_record is None:
+            self.map_clear_record = flag
+        elif self.map_clear_record is False and flag:
+            return True
 
         return False

@@ -57,7 +57,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             if map_timer.reached() and self.handle_map_preparation():
                 self.map_get_info()
                 self.handle_fast_forward()
-                if self.triggered_map_stop():
+                if self.handle_map_stop():
                     self.enter_map_cancel()
                     raise ScriptEnd(f'Reach condition: {self.config.STOP_IF_MAP_REACH}')
                 self.device.click(MAP_PREPARATION)
