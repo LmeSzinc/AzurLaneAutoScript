@@ -44,7 +44,8 @@ class FastForwardHandler(ModuleBase):
             # Story before boss spawn, Attribute "story_refresh_boss" in chapter_template.lua
             self.config.MAP_HAS_MAP_STORY = False
         self.config.MAP_CLEAR_ALL_THIS_TIME = self.config.STAR_REQUIRE_3 \
-            and not self.__getattribute__(f'map_achieved_star_{self.config.STAR_REQUIRE_3}')
+            and not self.__getattribute__(f'map_achieved_star_{self.config.STAR_REQUIRE_3}') \
+            and self.config.STOP_IF_MAP_REACH != 'map_green_without_3_star'
         logger.attr('MAP_CLEAR_ALL_THIS_TIME', self.config.MAP_CLEAR_ALL_THIS_TIME)
 
         # Log
@@ -103,6 +104,10 @@ class FastForwardHandler(ModuleBase):
 
         if self.config.STOP_IF_MAP_REACH == 'map_3_star':
             if self.map_is_clear and self.map_is_3_star:
+                return True
+
+        if self.config.STOP_IF_MAP_REACH == 'map_green_without_3_star':
+            if self.map_is_clear and self.map_is_green:
                 return True
 
         if self.config.STOP_IF_MAP_REACH == 'map_green':

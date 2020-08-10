@@ -103,7 +103,7 @@ def main(ini_name=''):
     stop.add_argument('--if_count_greater_than', default=default('--if_count_greater_than'), help='The previous setting will be used, and the number\n of deductions will be deducted after completion of the attack until it is cleared.')
     stop.add_argument('--if_time_reach', default=default('--if_time_reach'), help='Use the time within the next 24 hours, the previous setting will be used, and it will be cleared\n after the trigger. It is recommended to advance about\n 10 minutes to complete the current attack. Format 14:59')
     stop.add_argument('--if_oil_lower_than', default=default('--if_oil_lower_than'))
-    stop.add_argument('--if_map_reach', default=default('--if_map_reach'), choices=['no', 'map_100', 'map_3_star', 'map_green'], help='If already reached, ignore this setting')
+    stop.add_argument('--if_map_reach', default=default('--if_map_reach'), choices=['no', 'map_100', 'map_3_star', 'map_green_without_3_star', 'map_green'], help='If already reached, ignore this setting')
     stop.add_argument('--if_trigger_emotion_control', default=default('--if_trigger_emotion_control'), choices=['yes', 'no'], help='If yes, wait for reply, complete this time, stop \nIf no, wait for reply, complete this time, continue')
     # stop.add_argument('--if_dock_full', default=default('--if_dock_full'), choices=['yes', 'no'])
 

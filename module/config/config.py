@@ -130,7 +130,7 @@ class AzurLaneConfig:
     STOP_IF_TIME_REACH = 0
     STOP_IF_TRIGGER_EMOTION_LIMIT = False
     STOP_IF_DOCK_FULL = False
-    STOP_IF_MAP_REACH = 'no' # no, map_100, map_3_star, map_green
+    STOP_IF_MAP_REACH = 'no' # no, map_100, map_3_star, map_green_without_3_star, map_green
 
     MAP_CLEAR_ALL_THIS_TIME = False
     # From chapter_template.lua
