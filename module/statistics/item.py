@@ -103,11 +103,13 @@ class ItemGrid:
             folder (str): Template folder.
         """
         data = load_folder(folder)
-        self.next_template_index += len(data)
         for name, image in data.items():
+            if name in self.templates:
+                continue
             image = load_image(image)
             self.templates[name] = crop(np.array(image), area=self.template_area)
             self.templates_hit[name] = 0
+            self.next_template_index += 1
 
     def match_template(self, image):
         """

@@ -108,7 +108,7 @@ Second Run:
     2. Uncomment this, and run.
 """
 # import csv
-# with open(CSV_FILE, 'a', newline='') as csv_file:
+# with open(CSV_FILE, 'a', newline='', encoding='utf-8') as csv_file:
 #     writer = csv.writer(csv_file)
 #     for d in drop.generate_data():
 #         writer.writerows(d)
