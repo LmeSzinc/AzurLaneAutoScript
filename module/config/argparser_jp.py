@@ -173,7 +173,7 @@ def main(ini_name=''):
     retire.add_argument('--retire_method', default=default('--retire_method'), choices=['enhance', 'one_click_retire', 'old_retire'])
     retire.add_argument('--retire_amount', default=default('--retire_amount'), choices=['retire_all', 'retire_10'])
     retire.add_argument('--enhance_favourite', default=default('--enhance_favourite'), choices=['yes', 'no'])
-    retire.add_argument('--enhance_order_string', default=default('--enhance_order_string'), help='Leave blank to use default enhance method')
+    retire.add_argument('--enhance_order_string', default=default('--enhance_order_string'), help='Use example format "cv > bb > ..." may omit a ship type category altogether to skip otherwise leave blank to use default enhance method')
 
     rarity = retire.add_argument_group('Retirement rarity', 'The ship type selection is not supported yet. Ignore the following options when using one-key retirement')
     rarity.add_argument('--retire_n', default=default('--retire_n'), choices=['yes', 'no'], help='N')
@@ -341,7 +341,7 @@ def main(ini_name=''):
     event_parser = subs.add_parser('event')
 
     description = """
-    
+
     """
     event = event_parser.add_argument_group(
         'Choose a level', '\n'.join([line.strip() for line in description.strip().split('\n')]))

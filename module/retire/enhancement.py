@@ -139,6 +139,52 @@ class Enhancement(Dock):
                 self.device.sleep(0.3)
                 self.device.click(ENHANCE_CONFIRM)
 
+    def _enhance_choose_simple(self, skip_first_screenshot=True):
+        """
+        Info:
+            Simplified version of the legacy _enhance_choose
+            Performs enhancements solely based on appearance
+            of info bars
+
+        Pages:
+            in: page_ship_enhance, without info_bar
+            out: EQUIP_CONFIRM
+        """
+        end_activate_timer = Timer(2, count=2)
+        attempt_count = 0
+        next_count = 0
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear(EQUIP_CONFIRM, offset=(30, 30)):
+                return True
+
+            if not end_activate_timer.reached_and_reset():
+                continue
+
+            self.equip_sidebar_ensure(index=4)
+            self.wait_until_appear(ENHANCE_RECOMMEND, offset=(5, 5), skip_first_screenshot=True)
+
+            if self.info_bar_count():
+                if attempt_count >= 1:
+                    logger.info('Unable to enhance this ship, swipe to next')
+                    swiped = self.equip_view_next(check_button=ENHANCE_RECOMMEND)
+                    self.ensure_no_info_bar()
+                    if not swiped or next_count >= 3:
+                        return False
+                    else:
+                        attempt_count = -1
+                        logger.info(f'Try next ship: {3 - next_count}/3 remaining until give up')
+                        next_count += 1
+                attempt_count += 1
+
+            if self.appear_then_click(ENHANCE_RECOMMEND, offset=(5, 5), interval=2):
+                self.device.sleep(0.3)
+                self.device.click(ENHANCE_CONFIRM)
+
     def enhance_ships(self, favourite=None):
         """
         Pages:
@@ -193,10 +239,11 @@ class Enhancement(Dock):
 
         logger.hr('Enhancement by type')
         total = 0
-        exhaust_count = 0
 
         ship_types = [s.strip().lower() for s in self.config.ENHANCE_ORDER_STRING.split('>')]
+        enable_simple = True
         if ship_types == ['']:
+            enable_simple = False
             ship_types = [None]
         logger.attr('Enhance Order', ship_types)
 
@@ -207,24 +254,15 @@ class Enhancement(Dock):
                 logger.hr(f'Dock Empty by ship type {ship_type}')
                 continue
 
-            # Keep track whether a successful enhancement went by at least once
-            at_least_once = False
-
             while 1:
-                if not self._enhance_choose():
-                    if not at_least_once:
-                        exhaust_count += 1
+                choose_result = self._enhance_choose_simple() if enable_simple else self._enhance_choose()
+                if not choose_result:
                     break
-                at_least_once = True
                 self._enhance_confirm()
                 total += 10
                 if total >= self._retire_amount:
                     break
             self.ui_back(DOCK_FILTER)
-
-            if exhaust_count > 2:
-                logger.warning(f'Too many failed enhancements, terminate early')
-                break
 
         self._enhance_quit()
         return total

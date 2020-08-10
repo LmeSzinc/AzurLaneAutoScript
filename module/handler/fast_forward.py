@@ -8,8 +8,8 @@ fast_forward = Switch('Fast_Forward')
 fast_forward.add_status('on', check_button=FAST_FORWARD_ON)
 fast_forward.add_status('off', check_button=FAST_FORWARD_OFF)
 fleet_lock = Switch('Fleet_Lock')
-fleet_lock.add_status('on', check_button=FLEET_LOCKED)
-fleet_lock.add_status('off', check_button=FLEET_UNLOCKED)
+fleet_lock.add_status('on', check_button=FLEET_LOCKED, offset=(5, 5))
+fleet_lock.add_status('off', check_button=FLEET_UNLOCKED, offset=(5, 5))
 
 
 class FastForwardHandler(ModuleBase):
