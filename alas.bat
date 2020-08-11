@@ -115,7 +115,7 @@ call %ADB% connect %SERIAL_REALTIME%
 
 set "config=%~dp0config\alas.ini"
 set "configtemp=%~dp0config\alastemp.ini"
-set /a search=104
+set /a search=103
 set "replace=serial = %SERIAL_REALTIME%"
 
 (for /f "tokens=1*delims=:" %%a IN ('findstr /n "^" "%config%"') do (
