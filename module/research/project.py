@@ -96,7 +96,7 @@ class ResearchProject:
 
         matched = False
         for data in LIST_RESEARCH_PROJECT:
-            if data['name'] == self.name and data['series'] == series:
+            if self.name_equal(data['name']) and data['series'] == series:
                 matched = True
                 self.data = data
                 self.genre = data['name'][0]
@@ -139,6 +139,20 @@ class ResearchProject:
             number = number.replace('D', '0').replace('O', '0').replace('S', '5')
             return '-'.join([prefix, number, suffix])
         return name
+
+    def name_equal(self, name):
+        """
+        Ignore suffix like `-MI`, `-RF`, `-UL`, only match names like `D-022`
+
+        Args:
+            name (str):
+
+        Returns:
+            bool:
+        """
+        name1 = self.name.rstrip('MIRFUL-')
+        name2 = name.rstrip('MIRFUL-')
+        return name1 == name2
 
 
 class ResearchSelector(UI):
