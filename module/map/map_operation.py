@@ -55,10 +55,11 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
 
             # Map preparation
             if map_timer.reached() and self.handle_map_preparation():
-                if self.handle_map_clear_mode_stop():
-                    self.enter_map_cancel()
-                    raise ScriptEnd(f'Reach condition: {self.config.CLEAR_MODE_STOP_CONDITION}')
+                self.map_get_info()
                 self.handle_fast_forward()
+                if self.handle_map_stop():
+                    self.enter_map_cancel()
+                    raise ScriptEnd(f'Reach condition: {self.config.STOP_IF_MAP_REACH}')
                 self.device.click(MAP_PREPARATION)
                 map_timer.reset()
                 campaign_timer.reset()

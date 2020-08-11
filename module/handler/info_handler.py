@@ -92,8 +92,8 @@ class InfoHandler(ModuleBase):
     """
     Story
     """
-
     story_popup_timout = Timer(10, count=20)
+    map_has_fast_forward = False  # Will be override in fast_forward.py
 
     def story_skip(self):
         if self.story_popup_timout.started() and not self.story_popup_timout.reached():
@@ -118,9 +118,7 @@ class InfoHandler(ModuleBase):
         return False
 
     def handle_story_skip(self):
-        if not self.config.ENABLE_MAP_CLEAR_MODE:
-            return False
-        if self.config.ENABLE_FAST_FORWARD:
+        if self.map_has_fast_forward:
             return False
 
         return self.story_skip()

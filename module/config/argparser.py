@@ -103,6 +103,7 @@ def main(ini_name=''):
     stop.add_argument('--如果出击次数大于', default=default('--如果出击次数大于'), help='会沿用先前设置, 完成出击将扣除次数, 直至清零')
     stop.add_argument('--如果时间超过', default=default('--如果时间超过'), help='使用未来24小时内的时间, 会沿用先前设置, 触发后清零. 建议提前10分钟左右, 以完成当前出击. 格式 14:59')
     stop.add_argument('--如果石油低于', default=default('--如果石油低于'))
+    stop.add_argument('--如果地图开荒', default=default('--如果地图开荒'), choices=['否', '地图通关', '地图三星', '地图绿海不打三星', '地图绿海'], help='如果已经满足, 无视此设置')
     stop.add_argument('--如果触发心情控制', default=default('--如果触发心情控制'), choices=['是', '否'], help='若是, 等待回复, 完成本次, 停止\n若否, 等待回复, 完成本次, 继续')
     # stop.add_argument('--如果船舱已满', default=default('--如果船舱已满'), choices=['是', '否'])
 
@@ -173,7 +174,7 @@ def main(ini_name=''):
     retire.add_argument('--退役方案', default=default('--退役方案'), choices=['强化角色', '一键退役', '传统退役'])
     retire.add_argument('--退役数量', default=default('--退役数量'), choices=['退役全部', '退役10个'])
     retire.add_argument('--强化常用角色', default=default('--强化常用角色'), choices=['是', '否'])
-    retire.add_argument('--enhance_order_string', default=default('--enhance_order_string'), help='Use example format "cv > bb > ..." may omit a ship type category altogether to skip otherwise leave blank to use default enhance method')
+    retire.add_argument('--强化过滤字符串', default=default('--强化过滤字符串'), help='格式: "cv > bb > ...", 留空则使用默认强化方式')
 
     rarity = retire.add_argument_group('退役稀有度', '暂不支持舰种选择, 使用一键退役时忽略以下选项')
     rarity.add_argument('--退役白皮', default=default('--退役白皮'), choices=['是', '否'], help='N')
@@ -186,10 +187,10 @@ def main(ini_name=''):
     drop.add_argument('--启用掉落记录', default=default('--启用掉落记录'), choices=['是', '否'])
     drop.add_argument('--掉落保存目录', default=default('--掉落保存目录'))
 
-    clear = setting_parser.add_argument_group('开荒模式', '未开荒地图会在完成后停止, 已开荒的地图会忽略选项, 无脑开就完事了')
-    clear.add_argument('--启用开荒', default=default('--启用开荒'), choices=['是', '否'])
-    clear.add_argument('--开荒停止条件', default=default('--开荒停止条件'), choices=['地图通关', '地图三星', '地图绿海'])
-    clear.add_argument('--地图全清星星', default=default('--地图全清星星'), choices=['第一个', '第二个', '第三个', '不使用'], help='第几颗星星是击破所有敌舰')
+    # clear = setting_parser.add_argument_group('开荒模式', '未开荒地图会在完成后停止, 已开荒的地图会忽略选项, 无脑开就完事了')
+    # clear.add_argument('--启用开荒', default=default('--启用开荒'), choices=['是', '否'])
+    # clear.add_argument('--开荒停止条件', default=default('--开荒停止条件'), choices=['地图通关', '地图三星', '地图绿海'])
+    # clear.add_argument('--地图全清星星', default=default('--地图全清星星'), choices=['第一个', '第二个', '第三个', '不使用'], help='第几颗星星是击破所有敌舰')
 
     # ==========收菜设置==========
     reward_parser = subs.add_parser('收菜设置')
@@ -243,6 +244,7 @@ def main(ini_name=''):
     reward_tactical.add_argument('--技能书最小稀有度', default=default('--技能书最小稀有度'), choices=['3', '2', '1'], help='最低使用T几的技能书\n')
     # reward_tactical.add_argument('--技能书夜间稀有度', default=default('--技能书夜间稀有度'), choices=['3', '2', '1'])
     # reward_tactical.add_argument('--技能书夜间优先使用同类型', default=default('--技能书夜间优先使用同类型'), choices=['是', '否'])
+    reward_tactical.add_argument('--如果无技能书可用', default=default('--如果无技能书可用'), choices=['停止学习', '使用第一本'])
 
     reward_research = reward_parser.add_argument_group('科研项目', '科研预设选择为自定义时, 须先阅读 doc/filter_string_en_cn.md')
     reward_research.add_argument('--启用科研项目收获', default=default('--启用科研项目收获'), choices=['是', '否'])
@@ -252,7 +254,7 @@ def main(ini_name=''):
     research_input.add_argument('--科研项目使用部件', default=default('--科研项目使用部件'), choices=['是', '否'])
     research_output = reward_research.add_argument_group('科研产出', '')
     research_output.add_argument('--科研项目选择预设', default=default('--科研项目选择预设'), choices=research_preset)
-    research_output.add_argument('--research_filter_string', default=default('--research_filter_string'), help='Only if you are using custom preset.')
+    research_output.add_argument('--科研过滤字符串', default=default('--科研过滤字符串'), help='仅在科研预设选择为自定义时启用')
 
     # ==========设备设置==========
     emulator_parser = subs.add_parser('设备设置')

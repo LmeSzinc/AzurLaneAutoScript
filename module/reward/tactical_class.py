@@ -141,8 +141,8 @@ class BookGroup:
                 logger.attr('Book_choose', books[0])
                 return books[0]
 
-        logger.warning('No book choose, return first book.')
-        return self[0]
+        logger.info('No book choose')
+        return None
 
 
 class RewardTacticalClass(UI):
@@ -191,8 +191,20 @@ class RewardTacticalClass(UI):
                             tier_min=self.config.TACTICAL_BOOK_TIER_MIN,
                             exp=self.config.TACTICAL_EXP_FIRST)
 
-        self.device.click(book.button)
-        self.device.sleep((0.3, 0.5))
+        if book is not None:
+            self.device.click(book.button)
+            self.device.sleep((0.3, 0.5))
+            self.device.click(TACTICAL_CLASS_START)
+        else:
+            # cancel_tactical, use_the_first_book
+            if self.config.TACTICAL_IF_NO_BOOK_SATISFIED == 'use_the_first_book':
+                logger.info('Choose first book')
+                self.device.click(books[0].button)
+                self.device.sleep((0.3, 0.5))
+                self.device.click(TACTICAL_CLASS_START)
+            else:
+                logger.info('Cancel tactical')
+                self.device.click(TACTICAL_CLASS_CANCEL)
 
     def _tactical_class_receive(self, skip_first_screenshot=True):
         """Remember to make sure current page is page_reward before calls.
@@ -232,7 +244,6 @@ class RewardTacticalClass(UI):
                 self.device.screenshot()
                 self.handle_info_bar()  # info_bar appears when get ship in Launch Ceremony commissions
                 self._tactical_books_choose()
-                self.device.click(TACTICAL_CLASS_START)
                 self.interval_reset(TACTICAL_CLASS_CANCEL)
                 tactical_class_timout.reset()
                 continue

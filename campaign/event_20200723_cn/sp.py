@@ -65,7 +65,7 @@ class Config:
     MAP_HAS_DYNAMIC_RED_BORDER = False
     # MAP_HAS_MAP_STORY = True
     MAP_SIREN_COUNT = 3
-    MAP_STAR_CLEAR_ALL = 0  # SP map don't need to clear all enemies.
+    STAR_REQUIRE_3 = 0  # SP map don't need to clear all enemies.
 
     HOMO_EDGE_HOUGHLINES_THRESHOLD = 280
     MAP_SIREN_TEMPLATE = ['Deutschland', 'Tirpitz', 'Gneisenau', 'Scharnhorst', 'Spee']

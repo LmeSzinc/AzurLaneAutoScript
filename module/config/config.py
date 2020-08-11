@@ -130,11 +130,13 @@ class AzurLaneConfig:
     STOP_IF_TIME_REACH = 0
     STOP_IF_TRIGGER_EMOTION_LIMIT = False
     STOP_IF_DOCK_FULL = False
+    STOP_IF_MAP_REACH = 'no' # no, map_100, map_3_star, map_green_without_3_star, map_green
 
-    ENABLE_MAP_CLEAR_MODE = False
-    CLEAR_MODE_STOP_CONDITION = 'map_green'  # map_green, map_3_star, map_100
-    MAP_STAR_CLEAR_ALL = 3
     MAP_CLEAR_ALL_THIS_TIME = False
+    # From chapter_template.lua
+    STAR_REQUIRE_1 = 1
+    STAR_REQUIRE_2 = 2
+    STAR_REQUIRE_3 = 3
 
     """
     module.event
@@ -385,6 +387,7 @@ class AzurLaneConfig:
     TACTICAL_BOOK_TIER_MAX = 3
     TACTICAL_BOOK_TIER_MIN = 2
     TACTICAL_EXP_FIRST = True
+    TACTICAL_IF_NO_BOOK_SATISFIED = 'cancel_tactical'  # cancel_tactical, use_the_first_book
     # TACTICAL_BOOK_TIER_NIGHT = 3
     # TACTICAL_EXP_FIRST_NIGHT = False
     # TACTICAL_NIGHT_RANGE = future_time_range('23:30-06:30')  # (Night start, night end), datetime.datetime instance.
@@ -500,6 +503,7 @@ class AzurLaneConfig:
         self.STOP_IF_OIL_LOWER_THAN = int(option['if_oil_lower_than'])
         self.STOP_IF_TRIGGER_EMOTION_LIMIT = to_bool(option['if_trigger_emotion_control'])
         self.STOP_IF_DOCK_FULL = to_bool(option['if_dock_full'])
+        self.STOP_IF_MAP_REACH = option['if_map_reach']
         # Fleet
         self.ENABLE_FLEET_CONTROL = to_bool(option['enable_fleet_control'])
         self.ENABLE_MAP_FLEET_LOCK = to_bool(option['enable_map_fleet_lock'])
@@ -537,11 +541,6 @@ class AzurLaneConfig:
         self.ENHANCE_ORDER_STRING = option['enhance_order_string']
         for r in ['n', 'r', 'sr', 'ssr']:
             self.__setattr__(f'RETIRE_{r.upper()}', to_bool(option[f'retire_{r}']))
-        # Clear mode
-        self.ENABLE_MAP_CLEAR_MODE = to_bool(option['enable_map_clear_mode'])
-        self.CLEAR_MODE_STOP_CONDITION = option['clear_mode_stop_condition']
-        star = option['map_star_clear_all']
-        self.MAP_STAR_CLEAR_ALL = int(star.split('_')[1]) if star.startswith('index_') else 0
 
         # Reward
         option = config['Reward']
@@ -559,6 +558,7 @@ class AzurLaneConfig:
         self.TACTICAL_BOOK_TIER_MAX = int(option['tactical_book_tier_max'])
         self.TACTICAL_BOOK_TIER_MIN = int(option['tactical_book_tier_min'])
         self.TACTICAL_EXP_FIRST = to_bool(option['tactical_exp_first'])
+        self.TACTICAL_IF_NO_BOOK_SATISFIED = option['tactical_if_no_book_satisfied']
         # self.TACTICAL_NIGHT_RANGE = future_time_range(option['tactical_night_range'])
         # self.TACTICAL_BOOK_TIER_NIGHT = int(option['tactical_book_tier_night'])
         # self.TACTICAL_EXP_FIRST_NIGHT = to_bool(option['tactical_exp_first_night'])

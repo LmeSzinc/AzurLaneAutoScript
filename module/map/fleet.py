@@ -527,19 +527,9 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         self.round_battle()
 
     def handle_map_green_config_cover(self):
-        if not self.is_map_green:
+        if not self.map_is_green:
             return False
 
-        logger.info('Map is green sea.')
-
-        if self.config.ENABLE_FAST_FORWARD:
-            self.config.MAP_HAS_AMBUSH = False
-            self.config.MAP_HAS_FLEET_STEP = False
-            self.config.MAP_HAS_MOVABLE_ENEMY = False
-        else:
-            # When disable fast forward, MAP_HAS_AMBUSH depends on map settings.
-            # self.config.MAP_HAS_AMBUSH = True
-            pass
         if self.config.POOR_MAP_DATA and self.map.is_map_data_poor:
             self.config.POOR_MAP_DATA = False
 
