@@ -176,9 +176,10 @@ class Enhancement(Dock):
                     if not swiped or next_count >= 3:
                         return False
                     else:
-                        attempt_count = -1
+                        attempt_count = 0
                         logger.info(f'Try next ship: {3 - next_count}/3 remaining until give up')
                         next_count += 1
+                        continue
                 attempt_count += 1
 
             if self.appear_then_click(ENHANCE_RECOMMEND, offset=(5, 5), interval=2):
