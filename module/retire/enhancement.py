@@ -108,8 +108,11 @@ class Enhancement(Dock):
             if not end_activate_timer.reached_and_reset():
                 continue
 
-            self.equip_sidebar_ensure(index=4)
-            self.wait_until_appear(ENHANCE_RECOMMEND, offset=(5, 5), skip_first_screenshot=True)
+            ensured = self.equip_sidebar_ensure(index=4)
+            if ensured:
+                self.wait_until_appear(ENHANCE_RECOMMEND, offset=(5, 5), skip_first_screenshot=True)
+            else:
+                continue
 
             status = color_bar_percentage(self.device.image, area=ENHANCE_RELOAD.area, prev_color=(231, 178, 74))
             logger.attr('Reload_enhanced', f'{int(status * 100)}%')
@@ -165,8 +168,11 @@ class Enhancement(Dock):
             if not end_activate_timer.reached_and_reset():
                 continue
 
-            self.equip_sidebar_ensure(index=4)
-            self.wait_until_appear(ENHANCE_RECOMMEND, offset=(5, 5), skip_first_screenshot=True)
+            ensured = self.equip_sidebar_ensure(index=4)
+            if ensured:
+                self.wait_until_appear(ENHANCE_RECOMMEND, offset=(5, 5), skip_first_screenshot=True)
+            else:
+                continue
 
             if self.info_bar_count():
                 if attempt_count >= 1:
@@ -176,10 +182,9 @@ class Enhancement(Dock):
                     if not swiped or next_count >= 3:
                         return False
                     else:
-                        attempt_count = 0
+                        attempt_count = -1
                         logger.info(f'Try next ship: {3 - next_count}/3 remaining until give up')
                         next_count += 1
-                        continue
                 attempt_count += 1
 
             if self.appear_then_click(ENHANCE_RECOMMEND, offset=(5, 5), interval=2):

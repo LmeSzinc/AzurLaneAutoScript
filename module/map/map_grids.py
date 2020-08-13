@@ -186,7 +186,7 @@ class RoadGrids:
                 grids += block.select(is_enemy=True).grids
         return SelectedGrids(grids)
 
-    def first_roadblock(self):
+    def first_roadblocks(self):
         """
         Returns:
             SelectedGrids:
@@ -197,7 +197,7 @@ class RoadGrids:
                 continue
             if np.any([grid.is_cleared for grid in block]):
                 continue
-            if block.select(is_enemy=True).count == 1:
+            if block.select(is_enemy=True).count >= 1:
                 grids += block.select(is_enemy=True).grids
         return SelectedGrids(grids)
 
