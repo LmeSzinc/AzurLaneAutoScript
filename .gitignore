@@ -243,4 +243,5 @@ $RECYCLE.BIN/
 adb_port.txt
 adb_port.ini
 *.exe
+!popup.exe
 *.zip
