@@ -156,6 +156,12 @@ class GridInfo:
         Returns:
             bool: If success.
         """
+        if info.is_caught_by_siren:
+            if self.is_sea:
+                self.is_fleet = True
+                self.is_caught_by_siren = True
+            else:
+                return False
         if info.is_fleet:
             if self.is_sea:
                 self.is_fleet = True
