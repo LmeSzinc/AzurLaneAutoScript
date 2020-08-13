@@ -39,7 +39,56 @@ set ALAS_ENV=https://github.com/whoamikyo/alas-env.git
 set ALAS_ENV_GITEE=https://gitee.com/lmeszinc/alas-env.git
 set GITEE_URL=https://gitee.com/lmeszinc/AzurLaneAutoScript.git
 set ADB_P=%ALAS_PATH%config\adb_port.ini
+set CURL=%ALAS_PATH%toolkit\Git\mingw64\bin\curl.exe
+set API_JSON=%ALAS_PATH%log\api_git.json
+set config=%~dp0config\alas.ini
+set configtemp=%~dp0config\alastemp.ini
+set template=%~dp0config\template.ini
+set git_log="%GIT% log --pretty=format:%%H%%n%%aI -1"
 :: -----------------------------------------------------------------------------
+set using_git=
+if exist ".git\" set using_git=1
+if defined using_git (
+	call :is_using_git
+) else (
+	call :not_using_git
+)
+:: -----------------------------------------------------------------------------
+:is_using_git
+setlocal enabledelayedexpansion
+for /f "delims=" %%a in (!config!) do (
+    set line=%%a
+    if "x!line:~0,15!"=="xgithub_token = " (
+        set github_token=!line:~15!
+		
+    )
+)
+%CURL% -s https://api.github.com/repos/lmeszinc/AzurLaneAutoScript/git/refs/heads/master?access_token=!github_token! > %~dp0log\API_GIT.json
+endlocal
+FOR /f "skip=5 tokens=2 delims=:," %%I IN (%API_JSON%) DO IF NOT DEFINED sha SET "sha=%%I"
+set sha=%sha:"=%
+set sha=%sha: =%
+FOR /F "delims=" %%i IN ('%GIT% log -1 "--pretty=%%H"') DO set LAST_LOCAL_GIT=%%i
+:: -----------------------------------------------------------------------------
+echo %sha%
+echo %LAST_LOCAL_GIT%
+echo Parse Ok
+pause
+:: -----------------------------------------------------------------------------
+if %LAST_LOCAL_GIT% EQU %sha% (
+	set found_updates=
+	echo your ALAS is updated
+	timeout /t 2
+	call :adb_kill
+) else (
+	set found_updates=1
+	start /wait popup.exe
+	choice /t 10 /c yn /d n /m "There is an update for ALAS. Download now?"
+	if errorlevel 2 call :alas
+	if errorlevel 1 call :choose_update_mode
+)
+:: -----------------------------------------------------------------------------
+:not_using_git
 set TOOLKIT_GIT=%~dp0toolkit\.git
 if not exist %TOOLKIT_GIT% (
 	echo You may need to update your dependencies
@@ -144,6 +193,7 @@ call %PYTHON% -m uiautomator2 init
 :: timout
 call :alas
 :: -----------------------------------------------------------------------------
+
 :alas
 	cls
 	echo.
@@ -638,6 +688,22 @@ rem Keep local changes
         pause > NUL
         call :alas
 	)
+:: -----------------------------------------------------------------------------
+:git_update_checker
+%CURL% -s https://api.github.com/repos/lmeszinc/AzurLaneAutoScript/git/refs/heads/master?access_token=%github_token% > %~dp0log\API_GIT.json
+FOR /f "skip=5 tokens=2 delims=:," %%I IN (%API_JSON%) DO IF NOT DEFINED sha SET "sha=%%I"
+set sha=%sha:"=%
+set sha=%sha: =%
+FOR /F "delims=" %%i IN ('%GIT% log -1 "--pretty=%%H"') DO set LAST_LOCAL_GIT=%%i
+:: -----------------------------------------------------------------------------
+echo %sha%
+echo %LAST_LOCAL_GIT%
+echo Parse Ok
+pause
+:: -----------------------------------------------------------------------------
+if %LAST_LOCAL_GIT% EQU %sha% SET run_update=1
+call :alas
+
 :: -----------------------------------------------------------------------------
 ::Add paths
 rem call :AddPath %ALAS_PATH%
