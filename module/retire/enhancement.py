@@ -153,9 +153,6 @@ class Enhancement(Dock):
             in: page_ship_enhance, without info_bar
             out: EQUIP_CONFIRM
         """
-        self.equip_sidebar_ensure(index=4)
-        self.wait_until_appear(ENHANCE_RECOMMEND, offset=(5, 5), skip_first_screenshot=True)
-
         end_activate_timer = Timer(2, count=2)
         attempt_count = 0
         next_count = 0
