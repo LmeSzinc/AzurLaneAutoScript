@@ -131,6 +131,7 @@ class Map(Fleet):
         Returns:
             bool: False, because didn't clear any enemy.
         """
+        kwargs['sort'] = ('cost',)
         while 1:
             grids = self.map.select(is_mystery=True)
             grids = self.select_grids(grids, **kwargs)
@@ -201,6 +202,29 @@ class Map(Fleet):
 
         if grids:
             logger.hr('Avoid potential roadblock')
+            self.show_select_grids(grids, **kwargs)
+            self.clear_chosen_enemy(grids[0])
+            return True
+
+        return False
+
+    def clear_first_roadblocks(self, roads, **kwargs):
+        """Ensure every roadblocks have one grid with is_cleared=True.
+
+        Args:
+            roads(list[RoadGrids]):
+
+        Returns:
+            bool: True if clear an enemy.
+        """
+        grids = SelectedGrids([])
+        for road in roads:
+            grids = grids.add(road.first_roadblocks())
+
+        grids = self.select_grids(grids, **kwargs)
+
+        if grids:
+            logger.hr('Clear first roadblock')
             self.show_select_grids(grids, **kwargs)
             self.clear_chosen_enemy(grids[0])
             return True
@@ -285,19 +309,31 @@ class Map(Fleet):
         Method to step on all boss spawn point when boss not detected.
         """
         grids = self.map.select(may_boss=True, is_accessible=True)
-        logger.info('May boss: %s' % self.map.select(may_boss=True))
+        logger.info('May boss: %s' % grids)
         battle_count = self.battle_count
 
         for grid in grids:
             logger.hr('Clear potential BOSS')
             grids = grids.sort('weight', 'cost')
             logger.info('Grid: %s' % str(grid))
-            self.clear_chosen_enemy(grid)
+            self.fleet_boss.clear_chosen_enemy(grid)
             if self.battle_count > battle_count:
                 logger.info('Boss guessing correct.')
                 return True
             else:
                 logger.info('Boss guessing incorrect.')
+
+        grids = self.map.select(may_boss=True, is_accessible=False)
+        logger.info('May boss: %s' % grids)
+
+        for grid in grids:
+            logger.hr('Clear potential BOSS roadblocks')
+            fleet = 2 if self.config.FLEET_BOSS == 2 and self.config.FLEET_2 else 1
+            roadblocks = self.brute_find_roadblocks(grid, fleet=fleet)
+            roadblocks = roadblocks.sort('weight', 'cost')
+            logger.info('Grids: %s' % str(roadblocks))
+            self.fleet_1.clear_chosen_enemy(roadblocks[0])
+            return True
 
         return False
 
@@ -383,13 +419,14 @@ class Map(Fleet):
         for grid in grids:
             if self.fleet_at(grid=grid, fleet=2):
                 return False
-        if grids.count == len([grid for grid in grids if grid.is_enemy or grid.is_cleared]):
-            logger.info('Fleet 2 step on, no need')
-            return False
+        # if grids.count == len([grid for grid in grids if grid.is_enemy or grid.is_cleared]):
+        #     logger.info('Fleet 2 step on, no need')
+        #     return False
+        all_cleared = grids.select(is_cleared=True).count == grids.count
 
         logger.info('Fleet 2 step on')
         for grid in grids:
-            if grid.is_enemy or grid.is_cleared:
+            if grid.is_enemy or (not all_cleared and grid.is_cleared):
                 continue
             if self.check_accessibility(grid=grid, fleet=2):
                 logger.info('Fleet_2 step on %s' % grid)
