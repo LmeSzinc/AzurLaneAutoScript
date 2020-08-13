@@ -59,10 +59,10 @@ set sha=%sha:"=%
 set sha=%sha: =%
 FOR /F "delims=" %%i IN ('%GIT% log -1 "--pretty=%%H"') DO set LAST_LOCAL_GIT=%%i
 :: -----------------------------------------------------------------------------
-echo %sha%
-echo %LAST_LOCAL_GIT%
-echo Parse Ok
-pause
+REM echo %sha%
+REM echo %LAST_LOCAL_GIT%
+REM echo Parse Ok
+REM pause
 :: -----------------------------------------------------------------------------
 if %LAST_LOCAL_GIT% EQU %sha% (
 	set found_updates=
