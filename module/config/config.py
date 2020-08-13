@@ -46,7 +46,7 @@ class AzurLaneConfig:
     FLEET_3_STEP = 3
     # Fleet 1-2, if empty use 0.
     SUBMARINE = 0
-    # Combat auto mode: combat_auto, combat_manual, stand_still_in_the_middle
+    # Combat auto mode: combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left
     FLEET_1_AUTO_MODE = 'combat_auto'
     FLEET_2_AUTO_MODE = 'combat_auto'
     FLEET_3_AUTO_MODE = 'combat_auto'

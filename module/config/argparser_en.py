@@ -115,19 +115,19 @@ def main(ini_name=''):
     f1 = fleet.add_argument_group('Mob Fleet', 'Players can choose a formation before battle. Though it has no effect appearance-wise, the formations applies buffs to certain stats.\nLine Ahead: Increases Firepower and Torpedo by 15%, but reduces Evasion by 10% (Applies only to Vanguard fleet)\nDouble Line: Increases Evasion by 30%, but decreases Firepower and Torpedo by 5% (Applies only to Vanguard fleet)\nDiamond: Increases Anti-Air by 20% (no penalties, applies to entire fleet)')
     f1.add_argument('--fleet_index_1', default=default('--fleet_index_1'), choices=['1', '2', '3', '4', '5', '6'])
     f1.add_argument('--fleet_formation_1', default=default('--fleet_formation_1'), choices=['Line Ahead', 'Double Line', 'Diamond'])
-    f1.add_argument('--fleet_auto_mode_1', default=default('--fleet_auto_mode_1'), choices=['combat_auto', 'combat_manual', 'stand_still_in_the_middle'])
+    f1.add_argument('--fleet_auto_mode_1', default=default('--fleet_auto_mode_1'), choices=['combat_auto', 'combat_manual', 'stand_still_in_the_middle', 'hide_in_bottom_left'])
     f1.add_argument('--fleet_step_1', default=default('--fleet_step_1'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored')
 
     f2 = fleet.add_argument_group('Boss Fleet')
     f2.add_argument('--fleet_index_2', default=default('--fleet_index_2'), choices=['1', '2', '3', '4', '5', '6'])
     f2.add_argument('--fleet_formation_2', default=default('--fleet_formation_2'), choices=['Line Ahead', 'Double Line', 'Diamond'])
-    f2.add_argument('--fleet_auto_mode_2', default=default('--fleet_auto_mode_2'), choices=['combat_auto', 'combat_manual', 'stand_still_in_the_middle'])
+    f2.add_argument('--fleet_auto_mode_2', default=default('--fleet_auto_mode_2'), choices=['combat_auto', 'combat_manual', 'stand_still_in_the_middle', 'hide_in_bottom_left'])
     f2.add_argument('--fleet_step_2', default=default('--fleet_step_2'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored')
 
     f3 = fleet.add_argument_group('Alternate Mob Fleet')
     f3.add_argument('--fleet_index_3', default=default('--fleet_index_3'), choices=['1', '2', '3', '4', '5', '6'])
     f3.add_argument('--fleet_formation_3', default=default('--fleet_formation_3'), choices=['Line Ahead', 'Double Line', 'Diamond'])
-    f3.add_argument('--fleet_auto_mode_3', default=default('--fleet_auto_mode_3'), choices=['combat_auto', 'combat_manual', 'stand_still_in_the_middle'])
+    f3.add_argument('--fleet_auto_mode_3', default=default('--fleet_auto_mode_3'), choices=['combat_auto', 'combat_manual', 'stand_still_in_the_middle', 'hide_in_bottom_left'])
     f3.add_argument('--fleet_step_3', default=default('--fleet_step_3'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored')
 
     # 潜艇设置

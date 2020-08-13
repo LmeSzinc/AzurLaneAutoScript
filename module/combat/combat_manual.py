@@ -23,6 +23,20 @@ class CombatManual(ModuleBase):
         self.device.long_click(MOVE_DOWN, duration=0.8)
         return True
 
+    def handle_combat_stand_still_bottom_left(self, auto):
+        """
+        Args:
+            auto (str): Combat auto mode.
+
+        Returns:
+            bool: If executed
+        """
+        if auto != 'hide_in_bottom_left':
+            return False
+
+        self.device.long_click(MOVE_LEFT_DOWN, duration=(3.5, 5.5))
+        return True
+
     def handle_combat_weapon_release(self):
         if self.appear_then_click(READY_AIR_RAID, interval=5):
             return True
@@ -43,6 +57,9 @@ class CombatManual(ModuleBase):
             return False
 
         if self.handle_combat_stand_still_in_the_middle(auto):
+            self.manual_executed = True
+            return True
+        if self.handle_combat_stand_still_bottom_left(auto):
             self.manual_executed = True
             return True
 
