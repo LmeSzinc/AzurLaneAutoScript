@@ -152,7 +152,16 @@ class ResearchProject:
         """
         name1 = self.name.rstrip('MIRFUL-')
         name2 = name.rstrip('MIRFUL-')
-        return name1 == name2
+        if name1 == name2:
+            return True
+        elif self.name.startswith('D'):
+            # Letter 'C' may recognized as 'D', because project card is shining.
+            name1 = 'C' + self.name[1:]
+            if name1 == name:
+                self.name = name1
+                return True
+
+        return False
 
 
 class ResearchSelector(UI):
