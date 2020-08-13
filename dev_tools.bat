@@ -4,8 +4,6 @@ title Dev_tools
 pushd %~dp0
 SET CMD=%SystemRoot%\system32\cmd.exe
 :: -----------------------------------------------------------------------------
-color 8F
-:: -----------------------------------------------------------------------------
 goto check_Permissions
 :check_Permissions
     echo Administrative permissions required. Detecting permissions...
@@ -23,16 +21,6 @@ goto check_Permissions
 :: -----------------------------------------------------------------------------
 :continue
 SET ALAS_PATH=%~dp0
-
-SET RENAME="python-3.7.6.amd64"
-if exist %RENAME% (
-  rename %RENAME% toolkit
-)
-
-SET MOVE_P="adb_port.ini"
-if exist %MOVE_P% (
-  move %MOVE_P% %ALAS_PATH%config
-)
 SET ADB=%ALAS_PATH%toolkit\Lib\site-packages\adbutils\binaries\adb.exe
 SET PYTHON=%ALAS_PATH%toolkit\python.exe
 SET GIT=%ALAS_PATH%toolkit\Git\cmd\git.exe
@@ -43,39 +31,50 @@ SET GITEE_URL=https://gitee.com/lmeszinc/AzurLaneAutoScript.git
 SET ADB_P=%ALAS_PATH%config\adb_port.ini
 :: -----------------------------------------------------------------------------
 :: Screenshots
-SET SCREENSHOT_FOLDER=%~dp0screenshots
-:: -----------------------------------------------------------------------------
 set SCREENSHOT_FOLDER=%~dp0screenshots
 if not exist %SCREENSHOT_FOLDER% (
   mkdir %SCREENSHOT_FOLDER%
 )
-rem if config\adb_port.ini dont exist, will be created
-if not exist %ADB_P% (
-  cd . > %ADB_P%
-)
 :: -----------------------------------------------------------------------------
-REM if adb_port is empty, prompt HOST:PORT
-SET "adb_empty=%~dp0config\adb_port.ini"
-for %%A in (%adb_empty%) do if %%~zA==0 (
-    echo enter your HOST:PORT eg: 127.0.0.1:5555 for default bluestacks
-	echo WARNING! DONT FORGET TO SETUP AGAIN IN, ALAS ON EMULATOR SETTINGS FUNCTION
-    set /p adb_input=
+set "alas=%~dp0config\alas.ini"
+for /f "delims=" %%i in (%alas%) do (
+    set line=%%i
+    if "x!line:~0,9!"=="xserial = " (
+        set serial=!line:~9!
+    )
 )
+echo connecting at %serial%
+call %ADB% connect %serial%
+
 :: -----------------------------------------------------------------------------
-REM if adb_input = 0 load from adb_port.ini
-if [%adb_input%]==[] (
-    goto load
-)
+:: Deprecated method
+REM rem if config\adb_port.ini dont exist, will be created
+REM if not exist %ADB_P% (
+REM   cd . > %ADB_P%
+REM )
+:: -----------------------------------------------------------------------------
+REM REM if adb_port is empty, prompt HOST:PORT
+REM SET "adb_empty=%~dp0config\adb_port.ini"
+REM for %%A in (%adb_empty%) do if %%~zA==0 (
+REM     echo enter your HOST:PORT eg: 127.0.0.1:5555 for default bluestacks
+REM 	echo WARNING! DONT FORGET TO SETUP AGAIN IN, ALAS ON EMULATOR SETTINGS FUNCTION
+REM     set /p adb_input=
+REM )
+:: -----------------------------------------------------------------------------
+REM REM if adb_input = 0 load from adb_port.ini
+REM if [%adb_input%]==[] (
+REM     goto load
+REM )
 REM write adb_input on adb_port.ini
-echo %adb_input% >> %ADB_P%
+REM echo %adb_input% >> %ADB_P%
 
-REM Load adb_port.ini
-:load
-REM 
-set /p ADB_PORT=<%ADB_P%
+REM REM Load adb_port.ini
+REM :load
+REM REM 
+REM set /p ADB_PORT=<%ADB_P%
 
-echo connecting at %ADB_PORT%
-call %ADB% connect %ADB_PORT%
+REM echo connecting at %ADB_PORT%
+REM call %ADB% connect %ADB_PORT%
 :: -----------------------------------------------------------------------------
 :continue
 :: -----------------------------------------------------------------------------

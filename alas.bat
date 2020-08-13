@@ -3,7 +3,6 @@ pushd %~dp0
 title ALAS run
 set CMD=%SystemRoot%\system32\cmd.exe
 :: -----------------------------------------------------------------------------
-call :check_Permissions
 :check_Permissions
     echo Administrative permissions required. Detecting permissions...
     net session >nul 2>&1
@@ -20,16 +19,6 @@ call :check_Permissions
 :continue
 set ALAS_PATH=%~dp0
 :: -----------------------------------------------------------------------------
-:: Legacy functions
-set RENAME="python-3.7.6.amd64"
-if exist %RENAME% (
-	rename %RENAME% toolkit
-)
-set MOVE_P="adb_port.ini"
-if exist %MOVE_P% (
-	move %MOVE_P% %ALAS_PATH%config
-)
-:: -----------------------------------------------------------------------------
 set ADB=%ALAS_PATH%toolkit\Lib\site-packages\adbutils\binaries\adb.exe
 set PYTHON=%ALAS_PATH%toolkit\python.exe
 set GIT=%ALAS_PATH%toolkit\Git\cmd\git.exe
@@ -39,7 +28,56 @@ set ALAS_ENV=https://github.com/whoamikyo/alas-env.git
 set ALAS_ENV_GITEE=https://gitee.com/lmeszinc/alas-env.git
 set GITEE_URL=https://gitee.com/lmeszinc/AzurLaneAutoScript.git
 set ADB_P=%ALAS_PATH%config\adb_port.ini
+set CURL=%ALAS_PATH%toolkit\Git\mingw64\bin\curl.exe
+set API_JSON=%ALAS_PATH%log\api_git.json
+set config=%~dp0config\alas.ini
+set configtemp=%~dp0config\alastemp.ini
+set template=%~dp0config\template.ini
+set git_log="%GIT% log --pretty=format:%%H%%n%%aI -1"
 :: -----------------------------------------------------------------------------
+set using_git=
+if exist ".git\" set using_git=1
+if defined using_git (
+	call :is_using_git
+) else (
+	call :not_using_git
+)
+:: -----------------------------------------------------------------------------
+:is_using_git
+setlocal enabledelayedexpansion
+for /f "delims=" %%a in (!config!) do (
+    set line=%%a
+    if "x!line:~0,15!"=="xgithub_token = " (
+        set github_token=!line:~15!
+		
+    )
+)
+%CURL% -s https://api.github.com/repos/lmeszinc/AzurLaneAutoScript/git/refs/heads/master?access_token=!github_token! > %~dp0log\API_GIT.json
+endlocal
+FOR /f "skip=5 tokens=2 delims=:," %%I IN (%API_JSON%) DO IF NOT DEFINED sha SET "sha=%%I"
+set sha=%sha:"=%
+set sha=%sha: =%
+FOR /F "delims=" %%i IN ('%GIT% log -1 "--pretty=%%H"') DO set LAST_LOCAL_GIT=%%i
+:: -----------------------------------------------------------------------------
+REM echo %sha%
+REM echo %LAST_LOCAL_GIT%
+REM echo Parse Ok
+REM pause
+:: -----------------------------------------------------------------------------
+if %LAST_LOCAL_GIT% EQU %sha% (
+	set found_updates=
+	echo your ALAS is updated
+	timeout /t 2
+	call :adb_kill
+) else (
+	set found_updates=1
+	start /wait popup.exe
+	choice /t 10 /c yn /d n /m "There is an update for ALAS. Download now?"
+	if errorlevel 2 call :alas
+	if errorlevel 1 call :choose_update_mode
+)
+:: -----------------------------------------------------------------------------
+:not_using_git
 set TOOLKIT_GIT=%~dp0toolkit\.git
 if not exist %TOOLKIT_GIT% (
 	echo You may need to update your dependencies
@@ -53,6 +91,7 @@ if not exist %TOOLKIT_GIT% (
 :adb_kill
 cls
 call %ADB% kill-server > nul 2>&1
+:: -----------------------------------------------------------------------------
 set SCREENSHOT_FOLDER=%~dp0screenshots
 if not exist %SCREENSHOT_FOLDER% (
 	mkdir %SCREENSHOT_FOLDER%
@@ -73,17 +112,18 @@ for %%A in (%adb_empty%) do if %%~zA==0 (
 	)
 :: -----------------------------------------------------------------------------
 REM if adb_input = 0 load from adb_port.ini
+:adb_input
 if [%adb_input%]==[] (
     call :CHECK_BST_BETA
+	) else (
+	REM write adb_input on adb_port.ini
+	echo %adb_input% >> %ADB_P%
+	call :FINDSTR
 	)
-REM write adb_input on adb_port.ini
-echo %adb_input% >> %ADB_P%
-call :FINDSTR
 :: -----------------------------------------------------------------------------
 :: Will search for 127.0.0.1:62001 and replace for %ADB_PORT%
 :FINDSTR
-setlocal enableextensions disabledelayedexpansion
-set "template=%~dp0config\template.ini"
+REM setlocal enableextensions disabledelayedexpansion
 set "search=127.0.0.1:62001"
 set "replace=%adb_input%"
 set "string=%template%"
@@ -100,8 +140,9 @@ call :CHECK_BST_BETA
 :CHECK_BST_BETA
 reg query HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_bgp64_hyperv >nul
 if %errorlevel% equ 0 (
-	echo Bluestacks Hyper-V BETA detected
-	call :realtime_connection
+	choice /t 10 /c yn /d n /m "Bluestacks Hyper-V BETA detected, would you like to use realtime_connection mode?"
+	if errorlevel 2 call :load
+	if errorlevel 1 call :realtime_connection
 ) else (
 	call :load
 )
@@ -113,17 +154,15 @@ set "SERIAL_REALTIME=127.0.0.1:%port%"
 echo connecting at %SERIAL_REALTIME%
 call %ADB% connect %SERIAL_REALTIME%
 
-set "config=%~dp0config\alas.ini"
-set "configtemp=%~dp0config\alastemp.ini"
 set /a search=103
 set "replace=serial = %SERIAL_REALTIME%"
 
 (for /f "tokens=1*delims=:" %%a IN ('findstr /n "^" "%config%"') do (
     set "Line=%%b"
     IF %%a equ %search% set "Line=%replace%"
-    setLOCAL ENABLEDELAYEDEXPANSION
+    setlocal enabledelayedexpansion
     ECHO(!Line!
-    ENDLOCAL
+    endlocal
 ))> %~dp0config\alastemp.ini
 del %config%
 MOVE %configtemp% %config%
@@ -132,18 +171,33 @@ call :init
 :: -----------------------------------------------------------------------------
 :: -----------------------------------------------------------------------------
 :load
+set "config=%~dp0config\alas.ini"
+setlocal enabledelayedexpansion
+for /f "delims=" %%i in (!config!) do (
+    set line=%%i
+    if "x!line:~0,9!"=="xserial = " (
+        set serial=!line:~9!
+    )
+)
+echo connecting at !serial!
+call !ADB! connect !serial!
+endlocal
 REM Load adb_port.ini
 REM
-set /p ADB_PORT=<%ADB_P%
-echo connecting at %ADB_PORT%
-call %ADB% connect %ADB_PORT%
+REM set /p ADB_PORT=<%ADB_P%
+REM echo connecting at %ADB_PORT%
+REM call %ADB% connect %ADB_PORT%
 :: -----------------------------------------------------------------------------
 :init
 echo initializing uiautomator2
 call %PYTHON% -m uiautomator2 init
+REM timeout /t 1
+:: uncomment the pause to catch errors
+REM pause
 :: timout
 call :alas
 :: -----------------------------------------------------------------------------
+
 :alas
 	cls
 	echo.
@@ -241,8 +295,9 @@ call :alas
 	echo	2) https://github.com/whoamikyo/AzurLaneAutoScript (Mirrored Fork)
 	echo	3) https://github.com/whoamikyo/AzurLaneAutoScript (nightly build, dont use)
 	echo	4) https://gitee.com/lmeszinc/AzurLaneAutoScript.git (Recommended for CN users)
-	echo	5) Toolkit tools updater
-	echo	6) Back to main menu
+	echo	5) https://github.com/LmeSzinc/AzurLaneAutoScript (Dev build, use only if you know what you are doing)
+	echo	6) Toolkit tools updater
+	echo	7) Back to main menu
 	echo.
 	echo	:: Type a 'number' and press ENTER
 	echo	:: Type 'exit' to quit
@@ -252,8 +307,9 @@ call :alas
 		if %choice%==2 call :whoamikyo
 		if %choice%==3 call :nightly
 		if %choice%==4 call :gitee
-		if %choice%==5 call :toolkit_updater
-		if %choice%==6 call :alas
+		if %choice%==5 call :LmeSzincD
+		if %choice%==6 call :toolkit_updater
+		if %choice%==7 call :alas
 		if %choice%==exit call :EOF
 		else (
 		cls
@@ -312,6 +368,27 @@ call :alas
 	call %GIT% fetch origin master
 	call %GIT% reset --hard origin/master
 	call %GIT% pull --ff-only origin master
+	echo DONE!
+	echo Press any key to proceed
+	pause > NUL
+	call :updater_menu
+	) else (
+		echo  :: Git not detected, maybe there was an installation issue
+		echo check if you have this directory:
+		echo AzurLaneAutoScript\toolkit\Git\cmd
+		echo.
+        pause > NUL
+        call :alas
+	)
+:: -----------------------------------------------------------------------------
+:LmeSzincD
+	call %GIT% --version >nul
+	if %errorlevel% == 0 (
+	echo GIT Found in %GIT% Proceeding
+	echo Updating from LmeSzinc Dev branch..
+	call %GIT% fetch origin dev
+	call %GIT% reset --hard origin/dev
+	call %GIT% pull --ff-only origin dev
 	echo DONE!
 	echo Press any key to proceed
 	pause > NUL
@@ -638,6 +715,22 @@ rem Keep local changes
         pause > NUL
         call :alas
 	)
+:: -----------------------------------------------------------------------------
+:git_update_checker
+%CURL% -s https://api.github.com/repos/lmeszinc/AzurLaneAutoScript/git/refs/heads/master?access_token=%github_token% > %~dp0log\API_GIT.json
+FOR /f "skip=5 tokens=2 delims=:," %%I IN (%API_JSON%) DO IF NOT DEFINED sha SET "sha=%%I"
+set sha=%sha:"=%
+set sha=%sha: =%
+FOR /F "delims=" %%i IN ('%GIT% log -1 "--pretty=%%H"') DO set LAST_LOCAL_GIT=%%i
+:: -----------------------------------------------------------------------------
+echo %sha%
+echo %LAST_LOCAL_GIT%
+echo Parse Ok
+pause
+:: -----------------------------------------------------------------------------
+if %LAST_LOCAL_GIT% EQU %sha% SET run_update=1
+call :alas
+
 :: -----------------------------------------------------------------------------
 ::Add paths
 rem call :AddPath %ALAS_PATH%
