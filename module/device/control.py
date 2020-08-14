@@ -42,13 +42,15 @@ class Control(Connection):
 
         return False
 
-    def click(self, button):
+    def click(self, button, record_check=True):
         """Method to click a button.
 
         Args:
             button (button.Button): AzurLane Button instance.
+            record_check (bool):
         """
-        self.click_record_check(button)
+        if record_check:
+            self.click_record_check(button)
         x, y = random_rectangle_point(button.button)
         logger.info(
             'Click %s @ %s' % (point2str(x, y), button)
@@ -69,6 +71,7 @@ class Control(Connection):
         self.adb_shell(['input', 'tap', str(x), str(y)], serial=self.serial)
 
     def multi_click(self, button, n, interval=(0.1, 0.2)):
+        self.click_record_check(button)
         click_timer = Timer(0.1)
         for _ in range(n):
             remain = ensure_time(interval) - click_timer.current()
@@ -76,7 +79,7 @@ class Control(Connection):
                 self.sleep(remain)
 
             click_timer.reset()
-            self.click(button)
+            self.click(button, record_check=False)
 
     def long_click(self, button, duration=(1, 1.2)):
         """Method to long click a button.
