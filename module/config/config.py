@@ -46,7 +46,7 @@ class AzurLaneConfig:
     FLEET_3_STEP = 3
     # Fleet 1-2, if empty use 0.
     SUBMARINE = 0
-    # Combat auto mode: combat_auto, combat_manual, stand_still_in_the_middle
+    # Combat auto mode: combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left
     FLEET_1_AUTO_MODE = 'combat_auto'
     FLEET_2_AUTO_MODE = 'combat_auto'
     FLEET_3_AUTO_MODE = 'combat_auto'
@@ -198,6 +198,11 @@ class AzurLaneConfig:
         2: 1,  # 斩首行动, Fierce Assault
         3: 1,  # 破交作战, Supply Line Disruption
     }
+
+    """
+    module.handler
+    """
+    AMBUSH_EVADE = True
 
     """
     module.hard
@@ -401,6 +406,11 @@ class AzurLaneConfig:
     RESEARCH_USE_CUBE = True
     RESEARCH_USE_COIN = True
     RESEARCH_USE_PART = True
+
+    """
+    C_1_1_affinity_farming
+    """
+    C11_AFFINITY_BATTLE_COUNT = 0
 
     """
     C_7_2_mystery_farming
@@ -634,6 +644,10 @@ class AzurLaneConfig:
         option = config['Semi_auto']
         self.ENABLE_SEMI_MAP_PREPARATION = to_bool(option['enable_semi_map_preparation'])
         self.ENABLE_SEMI_STORY_SKIP = to_bool(option['enable_semi_story_skip'])
+
+        # C_1_1_affinity_farming
+        option = config['C11_affinity_farming']
+        self.C11_AFFINITY_BATTLE_COUNT = int(option['affinity_battle_count'])
 
         # C_7_2_mystery_farming
         option = config['C72_mystery_farming']

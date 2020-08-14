@@ -158,6 +158,12 @@ class AzurLaneAutoScript:
         az = AzurLaneDaemon(self.config, device=self.device)
         az.daemon()
 
+    def c11_affinity_farming(self):
+        from module.campaign.run import CampaignRun
+        az = CampaignRun(self.config, device=self.device)
+        az.run('campaign_1_1_affinity_farming')
+        self.reward_when_finished()
+
     def c72_mystery_farming(self):
         from module.campaign.run import CampaignRun
         az = CampaignRun(self.config, device=self.device)
