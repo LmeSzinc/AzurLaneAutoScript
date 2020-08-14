@@ -111,5 +111,5 @@ class Dock(Equipment):
         try:
             obj = globals()[key]
             obj.set('on' if enable else 'off', main=self)
-        except:
+        except KeyError:
             raise ScriptError(f'{key} filter switch object does not exist in module/retire/dock.py')
