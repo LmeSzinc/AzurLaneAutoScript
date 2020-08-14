@@ -256,6 +256,9 @@ def main(ini_name=''):
     research_output.add_argument('--research_filter_preset', default=default('--research_filter_preset'), choices=research_preset)
     research_output.add_argument('--research_filter_string', default=default('--research_filter_string'), help='Only if you are using custom preset.')
 
+    reward_buy = reward_parser.add_argument_group('Buy', 'If already bought, skip')
+    reward_buy.add_argument('--buy_meowfficer', default=default('--buy_meowfficer'), help='From 0 to 15. If no need, fill 0.')
+
     # ==========emulator==========
     emulator_parser = subs.add_parser('emulator')
     emulator = emulator_parser.add_argument_group('Emulator', 'Need to Press start to save your settings, it will check whether the game is started \nIf the game has not started, it will be started')

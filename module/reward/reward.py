@@ -4,15 +4,16 @@ from module.base.timer import Timer
 from module.combat.assets import *
 from module.handler.login import LoginHandler
 from module.logger import logger
+from module.research.research import RewardResearch
 from module.reward.assets import *
 from module.reward.commission import RewardCommission
+from module.reward.meowfficer import RewardMeowfficer
 from module.reward.tactical_class import RewardTacticalClass
 from module.ui.page import *
 from module.update import Update
-from module.research.research import RewardResearch
 
 
-class Reward(RewardCommission, RewardTacticalClass, RewardResearch, LoginHandler, Update):
+class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardMeowfficer, LoginHandler, Update):
     def reward(self):
         if not self.config.ENABLE_REWARD:
             return False
@@ -21,14 +22,14 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, LoginHandler
         self.ui_goto_main()
 
         self.ui_goto(page_reward, skip_first_screenshot=True)
-
         self._reward_receive()
         self.handle_info_bar()
         self.handle_commission_start()
         self.handle_tactical_class()
-
         self.handle_research_reward()
         self.ui_goto(page_main, skip_first_screenshot=True)
+
+        self.handle_meowfficer()
         self._reward_mission()
 
         self.config.REWARD_LAST_TIME = datetime.now()

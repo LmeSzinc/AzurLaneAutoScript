@@ -397,6 +397,8 @@ class AzurLaneConfig:
     # TACTICAL_EXP_FIRST_NIGHT = False
     # TACTICAL_NIGHT_RANGE = future_time_range('23:30-06:30')  # (Night start, night end), datetime.datetime instance.
 
+    BUY_MEOWFFICER = 0  # 0 to 15.
+
     """
     module.research
     """
@@ -576,6 +578,7 @@ class AzurLaneConfig:
             self.__setattr__(f'RESEARCH_USE_{item}'.upper(), to_bool(option[f'RESEARCH_USE_{item}'.lower()]))
         self.RESEARCH_FILTER_PRESET = option['research_filter_preset']
         self.RESEARCH_FILTER_STRING = option['research_filter_string']
+        self.BUY_MEOWFFICER = int(option['buy_meowfficer'])
 
         option = config['Main']
         self.CAMPAIGN_MODE = option['campaign_mode']

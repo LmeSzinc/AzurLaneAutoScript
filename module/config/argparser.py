@@ -256,6 +256,9 @@ def main(ini_name=''):
     research_output.add_argument('--科研项目选择预设', default=default('--科研项目选择预设'), choices=research_preset)
     research_output.add_argument('--科研过滤字符串', default=default('--科研过滤字符串'), help='仅在科研预设选择为自定义时启用')
 
+    reward_buy = reward_parser.add_argument_group('商店购买', '如果已经买过则自动跳过')
+    reward_buy.add_argument('--买指挥喵', default=default('--买指挥喵'), help='从0到15, 不需要就填0')
+
     # ==========设备设置==========
     emulator_parser = subs.add_parser('设备设置')
     emulator = emulator_parser.add_argument_group('模拟器', '需要运行一次来保存选项, 会检查游戏是否启动\n若启动了游戏, 触发一次收菜')
