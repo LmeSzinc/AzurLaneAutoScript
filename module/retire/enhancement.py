@@ -33,6 +33,7 @@ class Enhancement(Dock):
             self.dock_favourite_set(enable=True)
 
         self.dock_filter_enter()
+        self.dock_filter_set(category='index', type='all', enable=True)
         self.dock_filter_set(category='index', type='enhanceable', enable=True)
         self.dock_filter_set(category='index', type='clear', enable=True)
         self.dock_filter_set(category='sort', type='lvl', enable=True)

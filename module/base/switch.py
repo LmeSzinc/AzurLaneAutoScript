@@ -83,7 +83,7 @@ class Switch:
                     logger.warning(f'Unknown {self.name} switch')
                     warning_show_timer.reset()
                     if counter >= 1:
-                        logger.warning(f'{self.name} switch {status} asset has evaluated to unknown too many times')
+                        logger.warning(f'{self.name} switch {status} asset has evaluated to unknown too many times, asset should be re-verified')
                         return False
                     counter += 1
                 continue

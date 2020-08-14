@@ -110,10 +110,6 @@ class Dock(Equipment):
 
         try:
             obj = globals()[key]
-            success = obj.set('on' if enable else 'off', main=self)
-            if not success:
-                raise ScriptError(f'{key} switch failed to change, asset should be re-verified')
+            obj.set('on' if enable else 'off', main=self)
         except KeyError:
             raise ScriptError(f'{key} filter switch object does not exist in module/retire/dock.py')
-        except:
-            raise
