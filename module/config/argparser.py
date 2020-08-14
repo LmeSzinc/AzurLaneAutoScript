@@ -367,6 +367,11 @@ def main(ini_name=''):
     semi.add_argument('--进图准备', default=default('--进图准备'), help='', choices=['是', '否'])
     semi.add_argument('--跳过剧情', default=default('--跳过剧情'), help='注意, 这会自动确认所有提示框, 包括红脸出击', choices=['是', '否'])
 
+    # ==========1-1Affinity farming==========
+    c_1_1_parser = subs.add_parser('1-1伏击刷好感')
+    c_1_1 = c_1_1_parser.add_argument_group('1-1伏击刷好感', '会自动关闭周回模式\n有MVP, 8场战斗涨1点好感, 无MVP, 16场战斗涨1点好感')
+    c_1_1.add_argument('--刷好感战斗场数', default=default('--刷好感战斗场数'), help='例如: 32')
+
     # ==========7-2三战拣垃圾==========
     c_7_2_parser = subs.add_parser('7-2三战拣垃圾')
     c_7_2 = c_7_2_parser.add_argument_group('7-2三战拣垃圾', '')

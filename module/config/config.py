@@ -200,6 +200,11 @@ class AzurLaneConfig:
     }
 
     """
+    module.handler
+    """
+    AMBUSH_EVADE = True
+
+    """
     module.hard
     """
     ENABLE_HARD_CAMPAIGN = True
@@ -401,6 +406,11 @@ class AzurLaneConfig:
     RESEARCH_USE_CUBE = True
     RESEARCH_USE_COIN = True
     RESEARCH_USE_PART = True
+
+    """
+    C_1_1_affinity_farming
+    """
+    C11_AFFINITY_BATTLE_COUNT = 0
 
     """
     C_7_2_mystery_farming
@@ -634,6 +644,10 @@ class AzurLaneConfig:
         option = config['Semi_auto']
         self.ENABLE_SEMI_MAP_PREPARATION = to_bool(option['enable_semi_map_preparation'])
         self.ENABLE_SEMI_STORY_SKIP = to_bool(option['enable_semi_story_skip'])
+
+        # C_1_1_affinity_farming
+        option = config['C11_affinity_farming']
+        self.C11_AFFINITY_BATTLE_COUNT = int(option['affinity_battle_count'])
 
         # C_7_2_mystery_farming
         option = config['C72_mystery_farming']

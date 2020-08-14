@@ -368,9 +368,14 @@ def main(ini_name=''):
     semi.add_argument('--enable_semi_map_preparation', default=default('--enable_semi_map_preparation'), help='', choices=['yes', 'no'])
     semi.add_argument('--enable_semi_story_skip', default=default('--enable_semi_story_skip'), help='Note that this will automatically confirm all the prompt boxes, including the red face attack', choices=['yes', 'no'])
 
+    # ==========c11_affinity_farming==========
+    c_1_1_parser = subs.add_parser('c1-1_affinity_farming')
+    c_1_1 = c_1_1_parser.add_argument_group('c1-1_affinity_farming', 'Will auto turn off clearing mode\nWith MVP, 8 battle to 1 affnity. Without MVP, 16 battle to 1 affnity.')
+    c_1_1.add_argument('--affinity_battle_count', default=default('--affinity_battle_count'), help='Example: 32')
+
     # ==========c72_mystery_farming==========
     c_7_2_parser = subs.add_parser('c7-2_mystery_farming')
-    c_7_2 = c_7_2_parser.add_argument_group('c72_mystery_farming', '')
+    c_7_2 = c_7_2_parser.add_argument_group('c7-2_mystery_farming', '')
     c_7_2.add_argument('--boss_fleet_step_on_a3', default=default('--boss_fleet_step_on_a3'), choices=['yes', 'no'], help='A3 has enemies, G3, C3, E3')
 
     # ==========c122_leveling==========
