@@ -153,22 +153,41 @@ for /f "tokens=3" %%a in ('reg query HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_bgp6
 set "SERIAL_REALTIME=127.0.0.1:%port%"
 echo connecting at %SERIAL_REALTIME%
 call %ADB% connect %SERIAL_REALTIME%
-
-set /a search=103
-set "replace=serial = %SERIAL_REALTIME%"
-
-(for /f "tokens=1*delims=:" %%a IN ('findstr /n "^" "%config%"') do (
-    set "Line=%%b"
-    IF %%a equ %search% set "Line=%replace%"
-    setlocal enabledelayedexpansion
-    ECHO(!Line!
-    endlocal
-))> %~dp0config\alastemp.ini
-del %config%
-MOVE %configtemp% %config%
+call :replace_serial
+:: -----------------------------------------------------------------------------
+:replace_serial
+set "config=%~dp0config\alas.ini"
+setlocal enabledelayedexpansion
+for /f "delims=" %%i in (!config!) do (
+    set line=%%i
+    if "x!line:~0,9!"=="xserial = " (
+        set serial=!line:~9!
+    )
 )
+set "search=%serial%"
+set "replace=%SERIAL_REALTIME%"
+for /f "delims=" %%i in ('type "%config%" ^& break ^> "%config%" ') do (
+    set "line=%%i"
+    >>"%config%" echo(!line:%search%=%replace%!
+	)
+)
+endlocal
 call :init
 :: -----------------------------------------------------------------------------
+:: Deprecated
+REM set /a search=104
+REM set "replace=serial = %SERIAL_REALTIME%"
+REM (for /f "tokens=1*delims=:" %%a IN ('findstr /n "^" "%config%"') do (
+REM     set "Line=%%b"
+REM     IF %%a equ %search% set "Line=%replace%"
+REM     setlocal enabledelayedexpansion
+REM     ECHO(!Line!
+REM     endlocal
+REM ))> %~dp0config\alastemp.ini
+REM pause
+REM del %config%
+REM MOVE %configtemp% %config%
+REM )
 :: -----------------------------------------------------------------------------
 :load
 set "config=%~dp0config\alas.ini"
@@ -182,6 +201,8 @@ for /f "delims=" %%i in (!config!) do (
 echo connecting at !serial!
 call !ADB! connect !serial!
 endlocal
+:: -----------------------------------------------------------------------------
+:: Deprecated
 REM Load adb_port.ini
 REM
 REM set /p ADB_PORT=<%ADB_P%
@@ -194,7 +215,6 @@ call %PYTHON% -m uiautomator2 init
 REM timeout /t 1
 :: uncomment the pause to catch errors
 REM pause
-:: timout
 call :alas
 :: -----------------------------------------------------------------------------
 
@@ -237,6 +257,7 @@ call :alas
 	echo Python Found in %PYTHON% Proceeding..
 	echo Opening alas_en.pyw in %ALAS_PATH%
 	call %PYTHON% alas_en.pyw
+	pause
 	call :alas
 	) else (
 		echo :: it was not possible to open alas_en.pyw, make sure you have a folder toolkit

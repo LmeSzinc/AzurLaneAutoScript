@@ -45,7 +45,6 @@ for /f "delims=" %%i in (%alas%) do (
 )
 echo connecting at %serial%
 call %ADB% connect %serial%
-
 :: -----------------------------------------------------------------------------
 :: Deprecated method
 REM rem if config\adb_port.ini dont exist, will be created
@@ -73,8 +72,8 @@ REM :load
 REM REM 
 REM set /p ADB_PORT=<%ADB_P%
 
-REM echo connecting at %ADB_PORT%
-REM call %ADB% connect %ADB_PORT%
+REM echo connecting at %serial%
+REM call %ADB% connect %serial%
 :: -----------------------------------------------------------------------------
 :continue
 :: -----------------------------------------------------------------------------
@@ -244,10 +243,10 @@ echo.
 SET /P name=
 IF /I '%name%'=='exit' goto EOF
 IF /I '%name%'=='alas' goto dev_menu
-call %ADB% -s %ADB_PORT% shell mkdir /sdcard/dcim/Screenshot 2>nul
-call %ADB% -s %ADB_PORT% shell screencap -p /sdcard/dcim/Screenshot/%name%.png
-call %ADB% -s %ADB_PORT% pull /sdcard/dcim/Screenshot/%name%.png %SCREENSHOT_FOLDER%\%name%.png
-call %ADB% -s %ADB_PORT% shell rm /sdcard/dcim/Screenshot/%name%.png
+call %ADB% -s %serial% shell mkdir /sdcard/dcim/Screenshot 2>nul
+call %ADB% -s %serial% shell screencap -p /sdcard/dcim/Screenshot/%name%.png
+call %ADB% -s %serial% pull /sdcard/dcim/Screenshot/%name%.png %SCREENSHOT_FOLDER%\%name%.png
+call %ADB% -s %serial% shell rm /sdcard/dcim/Screenshot/%name%.png
 echo.
 echo The file %name%.png has been copied to ./screenshots/ directory
 echo.
@@ -278,20 +277,20 @@ goto adbss
 :adbc
 rem create output file name and path from parameters and date and time
 ::loop
-call %ADB% -s %ADB_PORT% shell mkdir /sdcard/dcim/Screenshot 2>nul
+call %ADB% -s %serial% shell mkdir /sdcard/dcim/Screenshot 2>nul
 :LOOP
 FOR /f %%a IN ('WMIC OS GET LocalDateTime ^| FIND "."') DO SET DTS=%%a  
 SET DATETIME=%DTS:~0,8%-%DTS:~8,6%-%DTS:~9,2%
 SET SCREENCAP_FILE_NAME=screenshot-%DATETIME%.png
 SET SCREENCAP_FILE_PATH=%SCREENSHOT_FOLDER%\%SCREENCAP_FILE_NAME%
 ::calling adb shell screencap, pull and remove the previos file
-call %ADB% -s %ADB_PORT% shell screencap -p /sdcard/dcim/Screenshot/%SCREENCAP_FILE_NAME%
-call %ADB% -s %ADB_PORT% pull /sdcard/dcim/Screenshot/%SCREENCAP_FILE_NAME% %SCREENCAP_FILE_PATH%
-call %ADB% -s %ADB_PORT% shell rm /sdcard/dcim/Screenshot/%SCREENCAP_FILE_NAME%
+call %ADB% -s %serial% shell screencap -p /sdcard/dcim/Screenshot/%SCREENCAP_FILE_NAME%
+call %ADB% -s %serial% pull /sdcard/dcim/Screenshot/%SCREENCAP_FILE_NAME% %SCREENCAP_FILE_PATH%
+call %ADB% -s %serial% shell rm /sdcard/dcim/Screenshot/%SCREENCAP_FILE_NAME%
 goto:LOOP
 :: -----------------------------------------------------------------------------
 :adbcap
-call %ADB% -s %ADB_PORT% shell mkdir /sdcard/dcim/Screenshot 2>nul
+call %ADB% -s %serial% shell mkdir /sdcard/dcim/Screenshot 2>nul
 :begin
 REM Set the Screenshot Capture Date and Time as found on the Android Device
 FOR /f %%a IN ('WMIC OS GET LocalDateTime ^| FIND "."') DO SET DTS=%%a  
@@ -299,9 +298,9 @@ SET DATETIME=%DTS:~0,8%-%DTS:~8,6%-%DTS:~9,2%
 SET SCREENCAP_FILE_NAME=screenshot-%DATETIME%.png
 SET SCREENCAP_FILE_PATH=%SCREENSHOT_FOLDER%\%capname%
 REM Use ADB to take a screenshot within the newly created directory as above
-call %ADB% -s %ADB_PORT% shell screencap -p /sdcard/dcim/Screenshot/%SCREENCAP_FILE_NAME%
-call %ADB% -s %ADB_PORT% pull /sdcard/dcim/Screenshot/%SCREENCAP_FILE_NAME% %SCREENCAP_FILE_PATH%
-call %ADB% -s %ADB_PORT% shell rm /sdcard/dcim/Screenshot/%SCREENCAP_FILE_NAME%
+call %ADB% -s %serial% shell screencap -p /sdcard/dcim/Screenshot/%SCREENCAP_FILE_NAME%
+call %ADB% -s %serial% pull /sdcard/dcim/Screenshot/%SCREENCAP_FILE_NAME% %SCREENCAP_FILE_PATH%
+call %ADB% -s %serial% shell rm /sdcard/dcim/Screenshot/%SCREENCAP_FILE_NAME%
 set /p DUMMY=Please Press the "Enter" key to continue with the infinite loop...
 Goto begin
 :: -----------------------------------------------------------------------------
