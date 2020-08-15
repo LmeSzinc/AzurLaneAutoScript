@@ -67,6 +67,10 @@ class Connection:
         cmd.insert(0, 'exec-out')
         return self.adb_command(cmd, serial)
 
+    def adb_forward(self, cmd, serial=None):
+        cmd.insert(0, 'forward')
+        return self.adb_command(cmd, serial)
+
     def _adb_connect(self, serial):
         if serial.startswith('127.0.0.1'):
             msg = self.adb_command(['connect', serial]).decode("utf-8")

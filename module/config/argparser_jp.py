@@ -271,7 +271,7 @@ def main(ini_name=''):
 
     adb = emulator_parser.add_argument_group('ADB settings', '')
     adb.add_argument('--device_screenshot_method', default=default('--device_screenshot_method'), choices=['aScreenCap', 'uiautomator2', 'ADB'], help='Speed: aScreenCap >> uiautomator2 > ADB')
-    adb.add_argument('--device_control_method', default=default('--device_control_method'), choices=['uiautomator2', 'ADB'], help='Speed: uiautomator2 >> ADB')
+    adb.add_argument('--device_control_method', default=default('--device_control_method'), choices=['minitouch', 'uiautomator2', 'ADB'], help='Speed: minitouch >> uiautomator2 >> ADB')
     adb.add_argument('--combat_screenshot_interval', default=default('--combat_screenshot_interval'), help='Slow down the screenshot speed during battle and reduce CPU')
 
     update = emulator_parser.add_argument_group('ALAS Update Check', '')
