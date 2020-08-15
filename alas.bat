@@ -52,7 +52,7 @@ for /f "delims=" %%a in (!config!) do (
 		
     )
 )
-%CURL% -s https://api.github.com/repos/lmeszinc/AzurLaneAutoScript/git/refs/heads/master?access_token=!github_token! > %~dp0log\API_GIT.json
+%CURL% -s https://api.github.com/repos/lmeszinc/AzurLaneAutoScript/git/refs/heads/master?access_token=!github_token! > %~dp0log\api_git.json
 endlocal
 FOR /f "skip=5 tokens=2 delims=:," %%I IN (%API_JSON%) DO IF NOT DEFINED sha SET "sha=%%I"
 set sha=%sha:"=%
