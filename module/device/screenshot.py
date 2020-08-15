@@ -3,25 +3,17 @@ import time
 from datetime import datetime
 from io import BytesIO
 
-import cv2
-import lz4.block
-import numpy as np
 from PIL import Image
 from retrying import retry
 
 from module.base.timer import Timer
-from module.device.connection import Connection
+from module.device.ascreencap import AScreenCap
 from module.logger import logger
 
 
-class AscreencapError(Exception):
-    pass
-
-
-class Screenshot(Connection):
+class Screenshot(AScreenCap):
     _screenshot_method = 0
     _screenshot_method_fixed = False
-    _bytepointer = 0
 
     _screenshot_interval_timer = Timer(0.1)
     _last_save_time = {}
@@ -57,39 +49,6 @@ class Screenshot(Connection):
         screenshot = self.adb_shell(['screencap', '-p'], serial=self.serial)
         return self._process_screenshot(screenshot)
 
-    def _reposition_byte_pointer(self, byte_array):
-        """Method to return the sanitized version of ascreencap stdout for devices
-            that suffers from linker warnings. The correct pointer location will be saved
-            for subsequent screen refreshes
-        """
-        while byte_array[self._bytepointer:self._bytepointer + 4] != b'BMZ1':
-            self._bytepointer += 1
-            if self._bytepointer >= len(byte_array):
-                text = 'Repositioning byte pointer failed, corrupted aScreenCap data received'
-                logger.warning(text)
-                raise AscreencapError(text)
-        return byte_array[self._bytepointer:]
-
-    def _screenshot_ascreencap(self):
-        raw_compressed_data = self._reposition_byte_pointer(
-            self.adb_exec_out([self.config.ASCREENCAP_FILEPATH_REMOTE, '--pack', '2', '--stdout'], serial=self.serial))
-
-        compressed_data_header = np.frombuffer(raw_compressed_data[0:20], dtype=np.uint32)
-        if compressed_data_header[0] != 828001602:
-            compressed_data_header = compressed_data_header.byteswap()
-            if compressed_data_header[0] != 828001602:
-                text = f'aScreenCap header verification failure, corrupted image received. ' \
-                    f'HEADER IN HEX = {compressed_data_header.tobytes().hex()}'
-                logger.warning(text)
-                raise AscreencapError(text)
-
-        uncompressed_data_size = compressed_data_header[1].item()
-        data = lz4.block.decompress(raw_compressed_data[20:], uncompressed_size=uncompressed_data_size)
-        image = cv2.imdecode(np.frombuffer(data, dtype=np.uint8), cv2.IMREAD_COLOR)
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        image = Image.fromarray(image)
-        return image
-
     @retry(wait_fixed=5000, stop_max_attempt_number=10)
     # @timer
     def screenshot(self):
@@ -102,14 +61,7 @@ class Screenshot(Connection):
         method = self.config.DEVICE_SCREENSHOT_METHOD
 
         if method == 'aScreenCap':
-            try:
-                self.image = self._screenshot_ascreencap()
-            except AscreencapError:
-                logger.warning('Error when calling aScreenCap, re-initializing')
-                self._ascreencap_init()
-                self._bytepointer = 0
-                self.image = self._screenshot_ascreencap()
-
+            self.image = self._screenshot_ascreencap()
         elif method == 'uiautomator2':
             self.image = self._screenshot_uiautomator2()
         else:
