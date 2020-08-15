@@ -117,7 +117,7 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
                     continue
             if self.handle_combat_low_emotion():
                 continue
-            if self.handle_emergency_repair_use():
+            if balance_hp and self.handle_emergency_repair_use():
                 continue
             if self.appear_then_click(BATTLE_PREPARATION, interval=2):
                 continue
@@ -166,8 +166,6 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
         return False
 
     def handle_emergency_repair_use(self):
-        if not self.config.ENABLE_HP_BALANCE:
-            return False
         if self.appear_then_click(EMERGENCY_REPAIR_CONFIRM, offset=True):
             self.device.sleep(0.5)  # Animation: hp increase and emergency_repair amount decrease.
             return True
