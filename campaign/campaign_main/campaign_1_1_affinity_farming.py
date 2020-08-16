@@ -22,20 +22,15 @@ class Campaign(CampaignBase):
     affinity_battle = 0
 
     def battle_default(self):
-        logger.attr('Affinity_battle', f'{self.affinity_battle}/{self.config.C11_AFFINITY_BATTLE_COUNT}')
-        self.goto(C1)
-        self.affinity_battle += 1
+        while self.affinity_battle < self.config.C11_AFFINITY_BATTLE_COUNT:
+            logger.attr('Affinity_battle', f'{self.affinity_battle}/{self.config.C11_AFFINITY_BATTLE_COUNT}')
+            self.goto(C1)
+            self.affinity_battle += 1
+            self.goto(D1 if np.random.uniform() < 0.7 else B1)
 
         # End
-        if self.affinity_battle >= self.config.C11_AFFINITY_BATTLE_COUNT:
-            try:
-                self.withdraw()
-            except CampaignEnd:
-                raise ScriptEnd('Reach condition: Affinity farming battle count')
+        try:
+            self.withdraw()
+        except CampaignEnd:
+            raise ScriptEnd('Reach condition: Affinity farming battle count')
 
-        # Continue
-        if np.random.uniform() < 0.7:
-            self.goto(D1)
-        else:
-            self.goto(B1)
-        return True
