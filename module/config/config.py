@@ -176,7 +176,7 @@ class AzurLaneConfig:
     # Speed: aScreenCap >> uiautomator2 > ADB
     DEVICE_SCREENSHOT_METHOD = 'aScreenCap'  # ADB, uiautomator2, aScreenCap
     # Speed: uiautomator2 >> ADB
-    DEVICE_CONTROL_METHOD = 'uiautomator2'  # ADB, uiautomator2
+    DEVICE_CONTROL_METHOD = 'uiautomator2'  # ADB, uiautomator2, minitouch
     # USE_ADB_SCREENSHOT = True
     # USE_ADB_CONTROL = False
     SCREEN_SHOT_SAVE_FOLDER_BASE = './screenshot'
