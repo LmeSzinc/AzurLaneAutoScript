@@ -1,7 +1,7 @@
 @echo off
+REM @setlocal EnableExtensions DisableDelayedExpansion
 pushd %~dp0
 title ALAS run
-set CMD=%SystemRoot%\system32\cmd.exe
 :: -----------------------------------------------------------------------------
 :check_Permissions
     echo Administrative permissions required. Detecting permissions...
@@ -35,6 +35,14 @@ set configtemp=%~dp0config\alastemp.ini
 set template=%~dp0config\template.ini
 set git_log="%GIT% log --pretty=format:%%H%%n%%aI -1"
 :: -----------------------------------------------------------------------------
+:first_run
+if exist %~dp0config\alas.ini set first_run=1
+if defined first_run (
+	call :is_using_git
+) else (
+	call :not_using_git
+)
+:: -----------------------------------------------------------------------------
 set using_git=
 if exist ".git\" set using_git=1
 if defined using_git (
@@ -52,6 +60,8 @@ for /f "delims=" %%a in (!config!) do (
 		
     )
 )
+:: -----------------------------------------------------------------------------
+:bypass_first_run
 %CURL% -s https://api.github.com/repos/lmeszinc/AzurLaneAutoScript/git/refs/heads/master?access_token=!github_token! > %~dp0log\api_git.json
 endlocal
 FOR /f "skip=5 tokens=2 delims=:," %%I IN (%API_JSON%) DO IF NOT DEFINED sha SET "sha=%%I"
@@ -119,7 +129,7 @@ if [%adb_input%]==[] (
 	REM write adb_input on adb_port.ini
 	echo %adb_input% >> %ADB_P%
 	call :FINDSTR
-	)
+)
 :: -----------------------------------------------------------------------------
 :: Will search for 127.0.0.1:62001 and replace for %ADB_PORT%
 :FINDSTR
@@ -190,6 +200,13 @@ REM MOVE %configtemp% %config%
 REM )
 :: -----------------------------------------------------------------------------
 :load
+if defined first_run (
+	call :load_alas
+) else (
+	call :load_input_serial
+)
+:: -----------------------------------------------------------------------------
+:load_alas
 set "config=%~dp0config\alas.ini"
 setlocal enabledelayedexpansion
 for /f "delims=" %%i in (!config!) do (
@@ -198,8 +215,18 @@ for /f "delims=" %%i in (!config!) do (
         set serial=!line:~9!
     )
 )
+call :load_alas_serial
+:: -----------------------------------------------------------------------------
+:load_input_serial
+echo connecting at %adb_input%
+call %ADB% connect %adb_input%
+call :init
+:: -----------------------------------------------------------------------------
+:load_alas_serial
 echo connecting at !serial!
 call !ADB! connect !serial!
+call :init
+:: -----------------------------------------------------------------------------
 endlocal
 :: -----------------------------------------------------------------------------
 :: Deprecated

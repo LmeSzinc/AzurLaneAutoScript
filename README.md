@@ -4,7 +4,7 @@
 # AzurLaneAutoScript
 
 #### Discord
-[![](https://img.shields.io/discord/720789890354249748?logo=discord)](https://discord.gg/c3WwYWf)
+[![](https://img.shields.io/discord/720789890354249748?logo=discord)](https://discord.gg/AQN6GeJ)
 
 ### QQ群 1087735381
 
