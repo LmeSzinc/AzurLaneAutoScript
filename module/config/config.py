@@ -358,7 +358,8 @@ class AzurLaneConfig:
     module.reward
     """
     ENABLE_REWARD = True
-    REWARD_INTERVAL = 20
+    REWARD_INTERVAL = '10, 40'  # str, such as '20', '10, 40'.
+    REWARD_STOP_GAME_DURING_INTERVAL = False
     REWARD_LAST_TIME = datetime.now()
     ENABLE_DAILY_REWARD = False
     ENABLE_OIL_REWARD = True
@@ -556,7 +557,8 @@ class AzurLaneConfig:
 
         # Reward
         option = config['Reward']
-        self.REWARD_INTERVAL = int(option['reward_interval'])
+        self.REWARD_INTERVAL = option['reward_interval']
+        self.REWARD_STOP_GAME_DURING_INTERVAL = to_bool(option['reward_stop_game_during_interval'])
         for attr in ['enable_reward', 'enable_oil_reward', 'enable_coin_reward', 'enable_mission_reward',
                      'enable_commission_reward', 'enable_tactical_reward', 'enable_daily_reward',
                      'enable_research_reward']:
