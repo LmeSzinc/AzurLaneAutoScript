@@ -35,6 +35,28 @@ except Exception:
     # show_stop_warning=False,
     # load_build_config='gooey_config.json',
     # dump_build_config='gooey_config.json',
+    richtext_controls=False, auto_start=False,
+    menu=[{
+        'name': 'File',
+        'items': [{
+            'type': 'AboutDialog',
+            'menuTitle': 'About',
+            'name': 'AzurLaneAutoScript',
+            'description': 'Alas, an AzurLane automation tool with GUI (Support CN, EN, JP, able to support other servers).',
+            'website': 'https://github.com/LmeSzinc/AzurLaneAutoScript'
+        }, {
+            'type': 'Link',
+            'menuTitle': 'Visit our github repository',
+            'url': 'https://github.com/LmeSzinc/AzurLaneAutoScript'
+        }]
+    }, {
+        'name': 'Help',
+        'items': [{
+            'type': 'Link',
+            'menuTitle': 'Wiki',
+            'url': 'https://github.com/LmeSzinc/AzurLaneAutoScript/wiki'
+        }]
+    }]
 )
 def main(ini_name=''):
     if not ini_name:
@@ -87,105 +109,105 @@ def main(ini_name=''):
     # https://github.com/chriskiehl/Gooey/issues/148
     # https://github.com/chriskiehl/Gooey/issues/485
 
-    parser = GooeyParser(description=f'AzurLaneAutoScript, An Azur Lane automation tool. Config: {config_file}')
+    parser = GooeyParser(description=f'AzurLaneAutoScript, An Azur Lane automation tool. Config: {config_file}\nDo not forget to Press start button to save your settings in each function that modifies')
     subs = parser.add_subparsers(help='commands', dest='command')
 
     # ==========setting==========
     setting_parser = subs.add_parser('setting')
 
     # 选择关卡
-    stage = setting_parser.add_argument_group('Level settings', 'Need to Press start to save your settings.')
-    stage.add_argument('--enable_stop_condition', default=default('--enable_stop_condition'), choices=['yes', 'no'], help='If enabled will start reward loop when triggered any filter below')
-    stage.add_argument('--enable_exception', default=default('--enable_exception'), choices=['yes', 'no'], help='Enable or disable some exceptions, ALAS will withdraw from the map when it occurs instead of stopping')
-    stage.add_argument('--enable_fast_forward', default=default('--enable_fast_forward'), choices=['yes', 'no'], help='Enable or disable clearing mode')
+    stage = setting_parser.add_argument_group('Level settings', 'Need to Press start to save your settings.', gooey_options={'label_color': '#931D03'})
+    stage.add_argument('--enable_stop_condition', default=default('--enable_stop_condition'), choices=['yes', 'no'], help='If enabled will start reward loop when triggered any filter below', gooey_options={'label_color': '#4B5F83'})
+    stage.add_argument('--enable_exception', default=default('--enable_exception'), choices=['yes', 'no'], help='Enable or disable some exceptions, ALAS will withdraw from the map when it occurs instead of stopping', gooey_options={'label_color': '#4B5F83'})
+    stage.add_argument('--enable_fast_forward', default=default('--enable_fast_forward'), choices=['yes', 'no'], help='Enable or disable clearing mode', gooey_options={'label_color': '#4B5F83'})
 
-    stop = stage.add_argument_group('Stop condition', 'After triggering, it will not stop immediately. It will complete the current attack first, Set 0 to disable')
-    stop.add_argument('--if_count_greater_than', default=default('--if_count_greater_than'), help='How many map completions\n until ALAS enter in Reward loop.')
-    stop.add_argument('--if_time_reach', default=default('--if_time_reach'), help='How many time in minutes run ALAS until stop\n. It is recommended about\n 10 minutes to complete the current attack. Format 14:59')
-    stop.add_argument('--if_oil_lower_than', default=default('--if_oil_lower_than'), help='Will enter in reward loop when\ntriggered Oil limit')
-    stop.add_argument('--if_map_reach', default=default('--if_map_reach'), choices=['no', 'map_100', 'map_3_star', 'map_green_without_3_star', 'map_green'], help='If already reached, ignore this setting')
-    stop.add_argument('--if_trigger_emotion_control', default=default('--if_trigger_emotion_control'), choices=['yes', 'no'], help='Will enter in reward loop when\ntriggered Mood limit')
+    stop = stage.add_argument_group('Stop condition', 'After triggering, it will not stop immediately. It will complete the current attack first, Set 0 to disable', gooey_options={'label_color': '#4B5F83'})
+    stop.add_argument('--if_count_greater_than', default=default('--if_count_greater_than'), help='How many map completions\n until ALAS enter in Reward loop.', gooey_options={'label_color': '#4B5F83'})
+    stop.add_argument('--if_time_reach', default=default('--if_time_reach'), help='How many time in minutes run ALAS until stop\n. It is recommended about\n 10 minutes to complete the current attack. Format 14:59', gooey_options={'label_color': '#4B5F83'})
+    stop.add_argument('--if_oil_lower_than', default=default('--if_oil_lower_than'), help='Will enter in reward loop when\ntriggered Oil limit', gooey_options={'label_color': '#4B5F83'})
+    stop.add_argument('--if_map_reach', default=default('--if_map_reach'), choices=['no', 'map_100', 'map_3_star', 'map_green_without_3_star', 'map_green'], help='If already reached, ignore this setting', gooey_options={'label_color': '#4B5F83'})
+    stop.add_argument('--if_trigger_emotion_control', default=default('--if_trigger_emotion_control'), choices=['yes', 'no'], help='Will enter in reward loop when\ntriggered Mood limit', gooey_options={'label_color': '#4B5F83'})
     # stop.add_argument('--if_dock_full', default=default('--if_dock_full'), choices=['yes', 'no'])
 
     # 出击舰队
-    fleet = setting_parser.add_argument_group('Attack fleet', 'No support for alternate lane squadrons, inactive map or weekly mode will ignore the step setting')
-    fleet.add_argument('--enable_fleet_control', default=default('--enable_fleet_control'), choices=['yes', 'no'])
-    fleet.add_argument('--enable_map_fleet_lock', default=default('--enable_map_fleet_lock'), choices=['yes', 'no'])
+    fleet = setting_parser.add_argument_group('Attack fleet', 'No support for alternate lane squadrons, inactive map or weekly mode will ignore the step setting', gooey_options={'label_color': '#931D03'})
+    fleet.add_argument('--enable_fleet_control', default=default('--enable_fleet_control'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    fleet.add_argument('--enable_map_fleet_lock', default=default('--enable_map_fleet_lock'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
 
-    f1 = fleet.add_argument_group('Mob Fleet', 'Players can choose a formation before battle. Though it has no effect appearance-wise, the formations applies buffs to certain stats.\nLine Ahead: Increases Firepower and Torpedo by 15%, but reduces Evasion by 10% (Applies only to Vanguard fleet)\nDouble Line: Increases Evasion by 30%, but decreases Firepower and Torpedo by 5% (Applies only to Vanguard fleet)\nDiamond: Increases Anti-Air by 20% (no penalties, applies to entire fleet)')
-    f1.add_argument('--fleet_index_1', default=default('--fleet_index_1'), choices=['1', '2', '3', '4', '5', '6'])
-    f1.add_argument('--fleet_formation_1', default=default('--fleet_formation_1'), choices=['Line Ahead', 'Double Line', 'Diamond'])
-    f1.add_argument('--fleet_auto_mode_1', default=default('--fleet_auto_mode_1'), choices=['combat_auto', 'combat_manual', 'stand_still_in_the_middle', 'hide_in_bottom_left'])
-    f1.add_argument('--fleet_step_1', default=default('--fleet_step_1'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored')
+    f1 = fleet.add_argument_group('Mob Fleet', 'Players can choose a formation before battle. Though it has no effect appearance-wise, the formations applies buffs to certain stats.\nLine Ahead: Increases Firepower and Torpedo by 15%, but reduces Evasion by 10% (Applies only to Vanguard fleet)\nDouble Line: Increases Evasion by 30%, but decreases Firepower and Torpedo by 5% (Applies only to Vanguard fleet)\nDiamond: Increases Anti-Air by 20% (no penalties, applies to entire fleet)', gooey_options={'label_color': '#4B5F83'})
+    f1.add_argument('--fleet_index_1', default=default('--fleet_index_1'), choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
+    f1.add_argument('--fleet_formation_1', default=default('--fleet_formation_1'), choices=['Line Ahead', 'Double Line', 'Diamond'], gooey_options={'label_color': '#4B5F83'})
+    f1.add_argument('--fleet_auto_mode_1', default=default('--fleet_auto_mode_1'), choices=['combat_auto', 'combat_manual', 'stand_still_in_the_middle', 'hide_in_bottom_left'], gooey_options={'label_color': '#4B5F83'})
+    f1.add_argument('--fleet_step_1', default=default('--fleet_step_1'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored', gooey_options={'label_color': '#4B5F83'})
 
-    f2 = fleet.add_argument_group('Boss Fleet')
-    f2.add_argument('--fleet_index_2', default=default('--fleet_index_2'), choices=['1', '2', '3', '4', '5', '6'])
-    f2.add_argument('--fleet_formation_2', default=default('--fleet_formation_2'), choices=['Line Ahead', 'Double Line', 'Diamond'])
-    f2.add_argument('--fleet_auto_mode_2', default=default('--fleet_auto_mode_2'), choices=['combat_auto', 'combat_manual', 'stand_still_in_the_middle', 'hide_in_bottom_left'])
-    f2.add_argument('--fleet_step_2', default=default('--fleet_step_2'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored')
+    f2 = fleet.add_argument_group('Boss Fleet', gooey_options={'label_color': '#4B5F83'})
+    f2.add_argument('--fleet_index_2', default=default('--fleet_index_2'), choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
+    f2.add_argument('--fleet_formation_2', default=default('--fleet_formation_2'), choices=['Line Ahead', 'Double Line', 'Diamond'], gooey_options={'label_color': '#4B5F83'})
+    f2.add_argument('--fleet_auto_mode_2', default=default('--fleet_auto_mode_2'), choices=['combat_auto', 'combat_manual', 'stand_still_in_the_middle', 'hide_in_bottom_left'], gooey_options={'label_color': '#4B5F83'})
+    f2.add_argument('--fleet_step_2', default=default('--fleet_step_2'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored', gooey_options={'label_color': '#4B5F83'})
 
-    f3 = fleet.add_argument_group('Alternate Mob Fleet')
-    f3.add_argument('--fleet_index_3', default=default('--fleet_index_3'), choices=['1', '2', '3', '4', '5', '6'])
-    f3.add_argument('--fleet_formation_3', default=default('--fleet_formation_3'), choices=['Line Ahead', 'Double Line', 'Diamond'])
-    f3.add_argument('--fleet_auto_mode_3', default=default('--fleet_auto_mode_3'), choices=['combat_auto', 'combat_manual', 'stand_still_in_the_middle', 'hide_in_bottom_left'])
-    f3.add_argument('--fleet_step_3', default=default('--fleet_step_3'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored')
+    f3 = fleet.add_argument_group('Alternate Mob Fleet', 'It hasnt been implemented yet', gooey_options={'label_color': '#4B5F83'})
+    f3.add_argument('--fleet_index_3', default=default('--fleet_index_3'), choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
+    f3.add_argument('--fleet_formation_3', default=default('--fleet_formation_3'), choices=['Line Ahead', 'Double Line', 'Diamond'], gooey_options={'label_color': '#4B5F83'})
+    f3.add_argument('--fleet_auto_mode_3', default=default('--fleet_auto_mode_3'), choices=['combat_auto', 'combat_manual', 'stand_still_in_the_middle', 'hide_in_bottom_left'], gooey_options={'label_color': '#4B5F83'})
+    f3.add_argument('--fleet_step_3', default=default('--fleet_step_3'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored', gooey_options={'label_color': '#4B5F83'})
 
     # 潜艇设置
-    submarine = setting_parser.add_argument_group('Submarine settings', 'Only supported: hunt_only, do_not_use and every_combat')
-    submarine.add_argument('--fleet_index_4', default=default('--fleet_index_4'), choices=['do_not_use', '1', '2'])
-    submarine.add_argument('--submarine_mode', default=default('--submarine_mode'), choices=['do_not_use', 'hunt_only', 'every_combat', 'when_no_ammo', 'when_boss_combat', 'when_boss_combat_boss_appear'])
+    submarine = setting_parser.add_argument_group('Submarine settings', 'Only supported: hunt_only, do_not_use and every_combat', gooey_options={'label_color': '#931D03'})
+    submarine.add_argument('--fleet_index_4', default=default('--fleet_index_4'), choices=['do_not_use', '1', '2'], gooey_options={'label_color': '#4B5F83'})
+    submarine.add_argument('--submarine_mode', default=default('--submarine_mode'), choices=['do_not_use', 'hunt_only', 'every_combat', 'when_no_ammo', 'when_boss_combat', 'when_boss_combat_boss_appear'], gooey_options={'label_color': '#4B5F83'})
 
     # 心情控制
-    emotion = setting_parser.add_argument_group('Mood control')
-    emotion.add_argument('--enable_emotion_reduce', default=default('--enable_emotion_reduce'), choices=['yes', 'no'])
-    emotion.add_argument('--ignore_low_emotion_warn', default=default('--ignore_low_emotion_warn'), choices=['yes', 'no'])
+    emotion = setting_parser.add_argument_group('Mood control', gooey_options={'label_color': '#931D03'})
+    emotion.add_argument('--enable_emotion_reduce', default=default('--enable_emotion_reduce'), help='Set No to disable MOOD control by ALAS', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    emotion.add_argument('--ignore_low_emotion_warn', default=default('--ignore_low_emotion_warn'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
 
-    e1 = emotion.add_argument_group('Mob Fleet')
-    e1.add_argument('--emotion_recover_1', default=default('--emotion_recover_1'), choices=['not_in_dormitory', 'dormitory_floor_1', 'dormitory_floor_2'])
-    e1.add_argument('--emotion_control_1', default=default('--emotion_control_1'), choices=['keep_high_emotion', 'avoid_green_face', 'avoid_yellow_face', 'avoid_red_face'])
-    e1.add_argument('--hole_fleet_married_1', default=default('--hole_fleet_married_1'), choices=['yes', 'no'])
+    e1 = emotion.add_argument_group('Mob Fleet', 'Emotion limit:\nkeep_high_emotion: 120\navoid_green_face: 40\navoid_yellow_face: 30\navoid_red_face: 2', gooey_options={'label_color': '#4B5F83'})
+    e1.add_argument('--emotion_recover_1', default=default('--emotion_recover_1'), choices=['not_in_dormitory', 'dormitory_floor_1', 'dormitory_floor_2'], gooey_options={'label_color': '#4B5F83'})
+    e1.add_argument('--emotion_control_1', default=default('--emotion_control_1'), choices=['keep_high_emotion', 'avoid_green_face', 'avoid_yellow_face', 'avoid_red_face'], gooey_options={'label_color': '#4B5F83'})
+    e1.add_argument('--hole_fleet_married_1', default=default('--hole_fleet_married_1'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
 
-    e2 = emotion.add_argument_group('BOSS Fleet')
-    e2.add_argument('--emotion_recover_2', default=default('--emotion_recover_2'), choices=['not_in_dormitory', 'dormitory_floor_1', 'dormitory_floor_2'])
-    e2.add_argument('--emotion_control_2', default=default('--emotion_control_2'), choices=['keep_high_emotion', 'avoid_green_face', 'avoid_yellow_face', 'avoid_red_face'])
-    e2.add_argument('--hole_fleet_married_2', default=default('--hole_fleet_married_2'), choices=['yes', 'no'])
+    e2 = emotion.add_argument_group('BOSS Fleet', gooey_options={'label_color': '#4B5F83'})
+    e2.add_argument('--emotion_recover_2', default=default('--emotion_recover_2'), choices=['not_in_dormitory', 'dormitory_floor_1', 'dormitory_floor_2'], gooey_options={'label_color': '#4B5F83'})
+    e2.add_argument('--emotion_control_2', default=default('--emotion_control_2'), choices=['keep_high_emotion', 'avoid_green_face', 'avoid_yellow_face', 'avoid_red_face'], gooey_options={'label_color': '#4B5F83'})
+    e2.add_argument('--hole_fleet_married_2', default=default('--hole_fleet_married_2'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
 
-    e3 = emotion.add_argument_group('Alternate Mob Fleet', 'Will be used when the first team triggers mood control')
-    e3.add_argument('--emotion_recover_3', default=default('--emotion_recover_3'), choices=['not_in_dormitory', 'dormitory_floor_1', 'dormitory_floor_2'])
-    e3.add_argument('--emotion_control_3', default=default('--emotion_control_3'), choices=['keep_high_emotion', 'avoid_green_face', 'avoid_yellow_face', 'avoid_red_face'])
-    e3.add_argument('--hole_fleet_married_3', default=default('--hole_fleet_married_3'), choices=['yes', 'no'])
+    e3 = emotion.add_argument_group('Alternate Mob Fleet', 'Will be used when the first team triggers mood control', gooey_options={'label_color': '#4B5F83'})
+    e3.add_argument('--emotion_recover_3', default=default('--emotion_recover_3'), choices=['not_in_dormitory', 'dormitory_floor_1', 'dormitory_floor_2'], gooey_options={'label_color': '#4B5F83'})
+    e3.add_argument('--emotion_control_3', default=default('--emotion_control_3'), choices=['keep_high_emotion', 'avoid_green_face', 'avoid_yellow_face', 'avoid_red_face'], gooey_options={'label_color': '#4B5F83'})
+    e3.add_argument('--hole_fleet_married_3', default=default('--hole_fleet_married_3'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
 
     # 血量平衡
-    hp = setting_parser.add_argument_group('HP control', 'Fleet lock must be turned off to take effect')
-    hp.add_argument('--enable_hp_balance', default=default('--enable_hp_balance'), choices=['yes', 'no'])
-    hp.add_argument('--enable_low_hp_withdraw', default=default('--enable_low_hp_withdraw'), choices=['yes', 'no'])
-    hp_balance = hp.add_argument_group('HP Balance', '')
-    hp_balance.add_argument('--scout_hp_difference_threshold', default=default('--scout_hp_difference_threshold'), help='When the difference in HP volume is greater than the threshold, transpose')
-    hp_balance.add_argument('--scout_hp_weights', default=default('--scout_hp_weights'), help='Should be repaired when there is a difference in Vanguard, format 1000,1000,1000')
-    hp_add = hp.add_argument_group('Emergency repair', '')
-    hp_add.add_argument('--emergency_repair_single_threshold', default=default('--emergency_repair_single_threshold'), help='Used when single shipgirl is below the threshold')
-    hp_add.add_argument('--emergency_repair_hole_threshold', default=default('--emergency_repair_hole_threshold'), help='Used when all front rows or all back rows are below the threshold')
-    hp_withdraw = hp.add_argument_group('Low HP volume withdrawal', '')
-    hp_withdraw.add_argument('--low_hp_withdraw_threshold', default=default('--low_hp_withdraw_threshold'), help='When HP is below the threshold, retreat')
+    hp = setting_parser.add_argument_group('HP control', 'Fleet lock must be turned off to take effect', gooey_options={'label_color': '#931D03'})
+    hp.add_argument('--enable_hp_balance', default=default('--enable_hp_balance'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    hp.add_argument('--enable_low_hp_withdraw', default=default('--enable_low_hp_withdraw'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    hp_balance = hp.add_argument_group('HP Balance', '', gooey_options={'label_color': '#4B5F83'})
+    hp_balance.add_argument('--scout_hp_difference_threshold', default=default('--scout_hp_difference_threshold'), help='When the difference in HP volume is greater than the threshold, transpose', gooey_options={'label_color': '#4B5F83'})
+    hp_balance.add_argument('--scout_hp_weights', default=default('--scout_hp_weights'), help='Should be repaired when there is a difference in Vanguard, format 1000,1000,1000', gooey_options={'label_color': '#4B5F83'})
+    hp_add = hp.add_argument_group('Emergency repair', '', gooey_options={'label_color': '#4B5F83'})
+    hp_add.add_argument('--emergency_repair_single_threshold', default=default('--emergency_repair_single_threshold'), help='Used when single shipgirl is below the threshold', gooey_options={'label_color': '#4B5F83'})
+    hp_add.add_argument('--emergency_repair_hole_threshold', default=default('--emergency_repair_hole_threshold'), help='Used when all front rows or all back rows are below the threshold', gooey_options={'label_color': '#4B5F83'})
+    hp_withdraw = hp.add_argument_group('Low HP volume withdrawal', '', gooey_options={'label_color': '#4B5F83'})
+    hp_withdraw.add_argument('--low_hp_withdraw_threshold', default=default('--low_hp_withdraw_threshold'), help='When HP is below the threshold, retreat', gooey_options={'label_color': '#4B5F83'})
 
     # 退役选项
-    retire = setting_parser.add_argument_group('Retirement settings', '')
-    retire.add_argument('--enable_retirement', default=default('--enable_retirement'), choices=['yes', 'no'])
-    retire.add_argument('--retire_method', default=default('--retire_method'), choices=['enhance', 'one_click_retire', 'old_retire'])
-    retire.add_argument('--retire_amount', default=default('--retire_amount'), choices=['retire_all', 'retire_10'])
-    retire.add_argument('--enhance_favourite', default=default('--enhance_favourite'), choices=['yes', 'no'])
-    retire.add_argument('--enhance_order_string', default=default('--enhance_order_string'), help='Use example format "cv > bb > ..." may omit a ship type category altogether to skip otherwise leave blank to use default enhance method')
+    retire = setting_parser.add_argument_group('Retirement settings', '', gooey_options={'label_color': '#931D03'})
+    retire.add_argument('--enable_retirement', default=default('--enable_retirement'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    retire.add_argument('--retire_method', default=default('--retire_method'), choices=['enhance', 'one_click_retire', 'old_retire'], gooey_options={'label_color': '#4B5F83'})
+    retire.add_argument('--retire_amount', default=default('--retire_amount'), choices=['retire_all', 'retire_10'], gooey_options={'label_color': '#4B5F83'})
+    retire.add_argument('--enhance_favourite', default=default('--enhance_favourite'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    retire.add_argument('--enhance_order_string', default=default('--enhance_order_string'), help='Use example format "cv > bb > ..." may omit a ship type category altogether to skip otherwise leave blank to use default enhance method', gooey_options={'label_color': '#4B5F83'})
 
-    rarity = retire.add_argument_group('Retirement rarity', 'The ship type selection is not supported yet. Ignore the following options when using one-key retirement')
-    rarity.add_argument('--retire_n', default=default('--retire_n'), choices=['yes', 'no'], help='N')
-    rarity.add_argument('--retire_r', default=default('--retire_r'), choices=['yes', 'no'], help='R')
-    rarity.add_argument('--retire_sr', default=default('--retire_sr'), choices=['yes', 'no'], help='SR')
-    rarity.add_argument('--retire_ssr', default=default('--retire_ssr'), choices=['yes', 'no'], help='SSR')
+    rarity = retire.add_argument_group('Retirement rarity', 'The ship type selection is not supported yet. Ignore the following options when using one-key retirement', gooey_options={'label_color': '#4B5F83'})
+    rarity.add_argument('--retire_n', default=default('--retire_n'), choices=['yes', 'no'], help='N', gooey_options={'label_color': '#4B5F83'})
+    rarity.add_argument('--retire_r', default=default('--retire_r'), choices=['yes', 'no'], help='R', gooey_options={'label_color': '#4B5F83'})
+    rarity.add_argument('--retire_sr', default=default('--retire_sr'), choices=['yes', 'no'], help='SR', gooey_options={'label_color': '#4B5F83'})
+    rarity.add_argument('--retire_ssr', default=default('--retire_ssr'), choices=['yes', 'no'], help='SSR', gooey_options={'label_color': '#4B5F83'})
 
     # 掉落记录
-    drop = setting_parser.add_argument_group('Drop record', 'Save screenshots of dropped items, which will slow down the click speed when settlement is enabled')
-    drop.add_argument('--enable_drop_screenshot', default=default('--enable_drop_screenshot'), choices=['yes', 'no'])
-    drop.add_argument('--drop_screenshot_folder', default=default('--drop_screenshot_folder'))
+    drop = setting_parser.add_argument_group('Drop record', 'Save screenshots of dropped items, which will slow down the click speed when settlement is enabled', gooey_options={'label_color': '#931D03'})
+    drop.add_argument('--enable_drop_screenshot', default=default('--enable_drop_screenshot'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    drop.add_argument('--drop_screenshot_folder', default=default('--drop_screenshot_folder'), gooey_options={'label_color': '#4B5F83'})
 
     # clear = setting_parser.add_argument_group('Wasteland mode', 'Unopened maps will stop after completion. Opened maps will ignore options, and its done if you do not open up')
     # clear.add_argument('--enable_map_clear_mode', default=default('--enable_map_clear_mode'), choices=['yes', 'no'])
@@ -195,141 +217,185 @@ def main(ini_name=''):
 
     # ==========reward==========
     reward_parser = subs.add_parser('reward')
-    reward_condition = reward_parser.add_argument_group('Triggering conditions', 'Need to Press start to save your settings, after running it will enter the on-hook vegetable collection mode')
-    reward_condition.add_argument('--enable_reward', default=default('--enable_reward'), choices=['yes', 'no'])
-    reward_condition.add_argument('--reward_interval', default=default('--reward_interval'), help='How many minutes to trigger collection. Recommend to set a time range, such as "10, 40"')
-    reward_condition.add_argument('--reward_stop_game_during_interval', default=default('--reward_stop_game_during_interval'), choices=['yes', 'no'])
-    reward_condition.add_argument('--enable_daily_reward', default=default('--enable_daily_reward'), choices=['yes', 'no'], help='Run daily as a part of reward')
+    reward_condition = reward_parser.add_argument_group('Triggering conditions', 'Need to Press start to save your settings, after running it will enter the on-hook vegetable collection mode', gooey_options={'label_color': '#931D03'})
+    reward_condition.add_argument('--enable_reward', default=default('--enable_reward'),
+                                  choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_condition.add_argument('--reward_interval', default=default('--reward_interval'),
+                                  help='How many minutes to trigger collection. Recommend to set a time range, such as "10, 40"', gooey_options={'label_color': '#4B5F83'})
+    reward_condition.add_argument('--reward_stop_game_during_interval',
+                                  default=default('--reward_stop_game_during_interval'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_condition.add_argument('--enable_daily_reward', default=default('--enable_daily_reward'), choices=['yes', 'no'],
+                                  help='Run daily as a part of reward', gooey_options={'label_color': '#4B5F83'})
 
-    reward_oil = reward_parser.add_argument_group('Oil supplies', '')
-    reward_oil.add_argument('--enable_oil_reward', default=default('--enable_oil_reward'), choices=['yes', 'no'])
-    reward_oil.add_argument('--enable_coin_reward', default=default('--enable_coin_reward'), choices=['yes', 'no'])
+    reward_oil = reward_parser.add_argument_group('Oil supplies', '', gooey_options={'label_color': '#931D03'})
+    reward_oil.add_argument('--enable_oil_reward', default=default('--enable_oil_reward'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_oil.add_argument('--enable_coin_reward', default=default('--enable_coin_reward'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
 
-    reward_mission = reward_parser.add_argument_group('mission rewards', '')
-    reward_mission.add_argument('--enable_mission_reward', default=default('--enable_mission_reward'), choices=['yes', 'no'])
+    reward_mission = reward_parser.add_argument_group('mission rewards', '', gooey_options={'label_color': '#931D03'})
+    reward_mission.add_argument('--enable_mission_reward', default=default('--enable_mission_reward'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
 
-    reward_commission = reward_parser.add_argument_group('Commission settings', '')
-    reward_commission.add_argument('--enable_commission_reward', default=default('--enable_commission_reward'), choices=['yes', 'no'])
-    reward_commission.add_argument('--commission_time_limit', default=default('--commission_time_limit'), help='Ignore orders whose completion time exceeds the limit, Format: 23:30. Fill in 0 if it is not needed')
+    reward_commission = reward_parser.add_argument_group('Commission settings', '', gooey_options={'label_color': '#931D03'})
+    reward_commission.add_argument('--enable_commission_reward', default=default('--enable_commission_reward'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_commission.add_argument('--commission_time_limit', default=default('--commission_time_limit'),
+                                   help='Ignore orders whose completion time exceeds the limit, Format: 23:30. Fill in 0 if it is not needed', gooey_options={'label_color': '#4B5F83'})
 
-    priority1 = reward_commission.add_argument_group('Commission priority by time duration', '')
-    priority1.add_argument('--duration_shorter_than_2', default=default('--duration_shorter_than_2'), help='')
-    priority1.add_argument('--duration_longer_than_6', default=default('--duration_longer_than_6'), help='')
-    priority1.add_argument('--expire_shorter_than_2', default=default('--expire_shorter_than_2'), help='')
-    priority1.add_argument('--expire_longer_than_6', default=default('--expire_longer_than_6'), help='')
+    priority1 = reward_commission.add_argument_group('Commission priority by time duration', '', gooey_options={'label_color': '#931D03'})
+    priority1.add_argument('--duration_shorter_than_2', default=default('--duration_shorter_than_2'), help='', gooey_options={'label_color': '#4B5F83'})
+    priority1.add_argument('--duration_longer_than_6', default=default('--duration_longer_than_6'), help='', gooey_options={'label_color': '#4B5F83'})
+    priority1.add_argument('--expire_shorter_than_2', default=default('--expire_shorter_than_2'), help='', gooey_options={'label_color': '#4B5F83'})
+    priority1.add_argument('--expire_longer_than_6', default=default('--expire_longer_than_6'), help='', gooey_options={'label_color': '#4B5F83'})
 
-    priority2 = reward_commission.add_argument_group('Daily Commission priority', '')
-    priority2.add_argument('--daily_comm', default=default('--daily_comm'), help='Daily resource development, high-level tactical research and development')
-    priority2.add_argument('--major_comm', default=default('--major_comm'), help='1200 oil / 1000 oil commission')
+    priority2 = reward_commission.add_argument_group('Daily Commission priority', '', gooey_options={'label_color': '#931D03'})
+    priority2.add_argument('--daily_comm', default=default('--daily_comm'), help='Daily resource development, high-level tactical research and development', gooey_options={'label_color': '#4B5F83'})
+    priority2.add_argument('--major_comm', default=default('--major_comm'), help='1200 oil / 1000 oil commission', gooey_options={'label_color': '#4B5F83'})
 
-    priority3 = reward_commission.add_argument_group('Additional commission priority', '')
-    priority3.add_argument('--extra_drill', default=default('--extra_drill'), help='Short-range Sailing Training, Coastal Defense Patrol')
-    priority3.add_argument('--extra_part', default=default('--extra_part'), help='Small Merchant Escort, Forest Protection Commission')
-    priority3.add_argument('--extra_cube', default=default('--extra_cube'), help='Fleet Exercise Ⅲ, Fleet Escort ExerciseFleet Exercise Ⅲ')
-    priority3.add_argument('--extra_oil', default=default('--extra_oil'), help='Small-scale Oil Extraction, Large-scale Oil Extraction')
-    priority3.add_argument('--extra_book', default=default('--extra_book'), help='Small Merchant Escort, Large Merchant Escort')
+    priority3 = reward_commission.add_argument_group('Additional commission priority', '', gooey_options={'label_color': '#931D03'})
+    priority3.add_argument('--extra_drill', default=default('--extra_drill'), help='Short-range Sailing Training, Coastal Defense Patrol', gooey_options={'label_color': '#4B5F83'})
+    priority3.add_argument('--extra_part', default=default('--extra_part'), help='Small Merchant Escort, Forest Protection Commission', gooey_options={'label_color': '#4B5F83'})
+    priority3.add_argument('--extra_cube', default=default('--extra_cube'), help='Fleet Exercise Ⅲ, Fleet Escort ExerciseFleet Exercise Ⅲ', gooey_options={'label_color': '#4B5F83'})
+    priority3.add_argument('--extra_oil', default=default('--extra_oil'), help='Small-scale Oil Extraction, Large-scale Oil Extraction', gooey_options={'label_color': '#4B5F83'})
+    priority3.add_argument('--extra_book', default=default('--extra_book'), help='Small Merchant Escort, Large Merchant Escort', gooey_options={'label_color': '#4B5F83'})
 
-    priority4 = reward_commission.add_argument_group('Urgent commission priority', '')
-    priority4.add_argument('--urgent_drill', default=default('--urgent_drill'), help='Defend the transport troops, annihilate the enemy elite troops')
-    priority4.add_argument('--urgent_part', default=default('--urgent_part'), help='Support Vila Vela Island, support terror Banner')
-    priority4.add_argument('--urgent_cube', default=default('--urgent_cube'), help='Rescue merchant ship, enemy attack')
-    priority4.add_argument('--urgent_book', default=default('--urgent_book'), help='Support Tuhaoer Island, support Moe Island')
-    priority4.add_argument('--urgent_box', default=default('--urgent_box'), help='BIW Gear Transport, NYB Gear Transport')
-    priority4.add_argument('--urgent_gem', default=default('--urgent_gem'), help='BIW VIP Escort, NYB VIP Escort')
-    priority4.add_argument('--urgent_ship', default=default('--urgent_ship'), help='Small Launch Ceremony, Fleet Launch Ceremony, Alliance Launch Ceremony')
+    priority4 = reward_commission.add_argument_group('Urgent commission priority', '', gooey_options={'label_color': '#931D03'})
+    priority4.add_argument('--urgent_drill', default=default('--urgent_drill'), help='Defend the transport troops, annihilate the enemy elite troops', gooey_options={'label_color': '#4B5F83'})
+    priority4.add_argument('--urgent_part', default=default('--urgent_part'), help='Support Vila Vela Island, support terror Banner', gooey_options={'label_color': '#4B5F83'})
+    priority4.add_argument('--urgent_cube', default=default('--urgent_cube'), help='Rescue merchant ship, enemy attack', gooey_options={'label_color': '#4B5F83'})
+    priority4.add_argument('--urgent_book', default=default('--urgent_book'), help='Support Tuhaoer Island, support Moe Island', gooey_options={'label_color': '#4B5F83'})
+    priority4.add_argument('--urgent_box', default=default('--urgent_box'), help='BIW Gear Transport, NYB Gear Transport', gooey_options={'label_color': '#4B5F83'})
+    priority4.add_argument('--urgent_gem', default=default('--urgent_gem'), help='BIW VIP Escort, NYB VIP Escort', gooey_options={'label_color': '#4B5F83'})
+    priority4.add_argument('--urgent_ship', default=default('--urgent_ship'), help='Small Launch Ceremony, Fleet Launch Ceremony, Alliance Launch Ceremony', gooey_options={'label_color': '#4B5F83'})
 
-    reward_tactical = reward_parser.add_argument_group('Classroom', 'Only support continuation of skill books, not new skills')
-    reward_tactical.add_argument('--enable_tactical_reward', default=default('--enable_tactical_reward'), choices=['yes', 'no'])
-    reward_tactical.add_argument('--tactical_exp_first', default=default('--tactical_exp_first'), choices=['yes', 'no'], help='Choose Yes, give priority to the 150% bonus \nSelect No, give priority to the skills book with the same rarity')
+    reward_tactical = reward_parser.add_argument_group('Classroom', 'Only support continuation of skill books, not new skills', gooey_options={'label_color': '#931D03'})
+    reward_tactical.add_argument('--enable_tactical_reward', default=default('--enable_tactical_reward'),
+                                 choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_tactical.add_argument('--tactical_exp_first', default=default('--tactical_exp_first'),
+                                 choices=['yes', 'no'], help='Choose Yes, give priority to the 150% bonus \nSelect No, give priority to the skills book with the same rarity', gooey_options={'label_color': '#4B5F83'})
     # reward_tactical.add_argument('--tactical_night_range', default=default('--tactical_night_range'), help='Format 23:30-06:30')
-    reward_tactical.add_argument('--tactical_book_tier_max', default=default('--tactical_book_tier_max'), choices=['3', '2', '1'], help='Wich skill book will use first\nT3 is a gold book, T2 is a purple book, T1 is a blue book\ntier_max should greater than or equal to tier_min')
-    reward_tactical.add_argument('--tactical_book_tier_min', default=default('--tactical_book_tier_min'), choices=['3', '2', '1'], help='Minimal tier to choose.')
+    reward_tactical.add_argument('--tactical_book_tier_max', default=default('--tactical_book_tier_max'),
+                                 choices=['3', '2', '1'], help='Wich skill book will use first\nT3 is a gold book, T2 is a purple book, T1 is a blue book\ntier_max should greater than or equal to tier_min', gooey_options={'label_color': '#4B5F83'})
+    reward_tactical.add_argument('--tactical_book_tier_min', default=default('--tactical_book_tier_min'),
+                                 choices=['3', '2', '1'], help='Minimal tier to choose.', gooey_options={'label_color': '#4B5F83'})
     # reward_tactical.add_argument('--tactical_book_tier_night', default=default('--tactical_book_tier_night'), choices=['3', '2', '1'])
     # reward_tactical.add_argument('--tactical_exp_first_night', default=default('--tactical_exp_first_night'), choices=['yes', 'no'])
-    reward_tactical.add_argument('--tactical_if_no_book_satisfied', default=default('--tactical_if_no_book_satisfied'), choices=['cancel_tactical', 'use_the_first_book'])
+    reward_tactical.add_argument('--tactical_if_no_book_satisfied', default=default('--tactical_if_no_book_satisfied'),
+                                 choices=['cancel_tactical', 'use_the_first_book'], gooey_options={'label_color': '#4B5F83'})
 
-    reward_research = reward_parser.add_argument_group('Research', 'If set research_filter_preset=customized, read https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_en first')
-    reward_research.add_argument('--enable_research_reward', default=default('--enable_research_reward'), choices=['yes', 'no'])
-    research_input = reward_research.add_argument_group('Research input', '')
-    research_input.add_argument('--research_use_cube', default=default('--research_use_cube'), choices=['yes', 'no'])
-    research_input.add_argument('--research_use_coin', default=default('--research_use_coin'), choices=['yes', 'no'])
-    research_input.add_argument('--research_use_part', default=default('--research_use_part'), choices=['yes', 'no'])
-    research_output = reward_research.add_argument_group('Research output', '')
-    research_output.add_argument('--research_filter_preset', default=default('--research_filter_preset'), choices=research_preset)
-    research_output.add_argument('--research_filter_string', default=default('--research_filter_string'), help='Only if you are using custom preset.')
+    reward_research = reward_parser.add_argument_group('Research', 'If set research_filter_preset=customized, read https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_en first', gooey_options={'label_color': '#931D03'})
+    reward_research.add_argument('--enable_research_reward', default=default('--enable_research_reward'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    research_input = reward_research.add_argument_group('Research input', '', gooey_options={'label_color': '#4B5F83'})
+    research_input.add_argument('--research_use_cube', default=default('--research_use_cube'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    research_input.add_argument('--research_use_coin', default=default('--research_use_coin'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    research_input.add_argument('--research_use_part', default=default('--research_use_part'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    research_output = reward_research.add_argument_group('Research output', '', gooey_options={'label_color': '#4B5F83'})
+    research_output.add_argument('--research_filter_preset', default=default('--research_filter_preset'),
+                                 choices=research_preset, gooey_options={'label_color': '#4B5F83'})
+    research_output.add_argument('--research_filter_string', default=default('--research_filter_string'),
+                                 help='Only if you are using custom preset.', gooey_options={'label_color': '#4B5F83'})
 
-    reward_buy = reward_parser.add_argument_group('Buy', 'If already bought, skip')
-    reward_buy.add_argument('--buy_meowfficer', default=default('--buy_meowfficer'), help='From 0 to 15. If no need, fill 0.')
+    reward_buy = reward_parser.add_argument_group('Buy', 'If already bought, skip', gooey_options={'label_color': '#931D03'})
+    reward_buy.add_argument('--buy_meowfficer', default=default('--buy_meowfficer'), help='From 0 to 15. If no need, fill 0.', gooey_options={'label_color': '#4B5F83'})
 
     # ==========emulator==========
     emulator_parser = subs.add_parser('emulator')
-    emulator = emulator_parser.add_argument_group('Emulator', 'Need to Press start to save your settings, it will check whether the game is started \nIf the game has not started, it will be started')
-    emulator.add_argument('--serial', default=default('--serial'), help='Bluestacks 127.0.0.1:5555 \nNox 127.0.0.1:62001')
-    emulator.add_argument('--package_name', default='com.YoStarEN.AzurLane', help='')
+    emulator = emulator_parser.add_argument_group('Emulator', 'Need to Press start to save your settings, it will check whether the game is started \nIf the game has not started, it will be started', gooey_options={'label_color': '#931D03'})
+    emulator.add_argument('--serial', default=default('--serial'), help='Bluestacks 127.0.0.1:5555 \nNox 127.0.0.1:62001', gooey_options={'label_color': '#4B5F83'})
+    emulator.add_argument('--package_name', default='com.YoStarEN.AzurLane', help='', gooey_options={'label_color': '#4B5F83'})
 
-    debug = emulator_parser.add_argument_group('Debug settings', '')
-    debug.add_argument('--enable_error_log_and_screenshot_save', default=default('--enable_error_log_and_screenshot_save'), choices=['yes', 'no'])
-    debug.add_argument('--enable_perspective_error_image_save', default=default('--enable_perspective_error_image_save'), choices=['yes', 'no'])
+    debug = emulator_parser.add_argument_group('Debug settings', '', gooey_options={'label_color': '#931D03'})
+    debug.add_argument('--enable_error_log_and_screenshot_save', default=default('--enable_error_log_and_screenshot_save'),
+                       choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    debug.add_argument('--enable_perspective_error_image_save', default=default('--enable_perspective_error_image_save'),
+                       choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
 
-    adb = emulator_parser.add_argument_group('ADB settings', '')
-    adb.add_argument('--device_screenshot_method', default=default('--device_screenshot_method'), choices=['aScreenCap', 'uiautomator2', 'ADB'], help='Speed: aScreenCap >> uiautomator2 > ADB')
-    adb.add_argument('--device_control_method', default=default('--device_control_method'), choices=['uiautomator2', 'ADB'], help='Speed: uiautomator2 >> ADB')
-    adb.add_argument('--combat_screenshot_interval', default=default('--combat_screenshot_interval'), help='Slow down the screenshot speed during battle and reduce CPU')
+    adb = emulator_parser.add_argument_group('ADB settings', '', gooey_options={'label_color': '#931D03'})
+    adb.add_argument('--device_screenshot_method', default=default('--device_screenshot_method'),
+                     choices=['aScreenCap', 'uiautomator2', 'ADB'], help='Speed: aScreenCap >> uiautomator2 > ADB', gooey_options={'label_color': '#4B5F83'})
+    adb.add_argument('--device_control_method', default=default('--device_control_method'),
+                     choices=['uiautomator2', 'ADB'], help='Speed: uiautomator2 >> ADB', gooey_options={'label_color': '#4B5F83'})
+    adb.add_argument('--combat_screenshot_interval', default=default('--combat_screenshot_interval'),
+                     help='Slow down the screenshot speed during battle and reduce CPU', gooey_options={'label_color': '#4B5F83'})
 
-    update = emulator_parser.add_argument_group('ALAS Update Check', '')
-    update.add_argument('--enable_update_check', default=default('--enable_update_check'), choices=['yes', 'no'])
-    update.add_argument('--update_method', default=default('--update_method'), choices=['api', 'web'], help='')
-    update.add_argument('--github_token', default=default('--github_token'), help='To generate your token visit https://github.com/settings/tokens')
-    update.add_argument('--update_proxy', default=default('--update_proxy'), help='Local http or socks proxy, example: http://127.0.0.1:10809')
+    update = emulator_parser.add_argument_group('ALAS Update Check', '', gooey_options={'label_color': '#931D03'})
+    update.add_argument('--enable_update_check', default=default('--enable_update_check'),
+                        choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    update.add_argument('--update_method', default=default('--update_method'),
+                        choices=['api', 'web'], help='', gooey_options={'label_color': '#4B5F83'})
+    update.add_argument('--github_token', default=default('--github_token'),
+                        help='To generate your token visit https://github.com/settings/tokens', gooey_options={'label_color': '#4B5F83'})
+    update.add_argument('--update_proxy', default=default('--update_proxy'),
+                        help='Local http or socks proxy, example: http://127.0.0.1:10809', gooey_options={'label_color': '#4B5F83'})
 
     # ==========每日任务==========
     daily_parser = subs.add_parser('daily')
 
     # 选择每日
-    daily = daily_parser.add_argument_group('Choose daily', 'Daily tasks, exercises, difficulty charts')
-    daily.add_argument('--enable_daily_mission', default=default('--enable_daily_mission'), help='If there are records on the day, skip', choices=['yes', 'no'])
-    daily.add_argument('--enable_hard_campaign', default=default('--enable_hard_campaign'), help='If there are records on the day, skip', choices=['yes', 'no'])
-    daily.add_argument('--enable_exercise', default=default('--enable_exercise'), help='If there is a record after refreshing, skip', choices=['yes', 'no'])
-    daily.add_argument('--enable_raid_daily', default=default('--enable_raid_daily'), help='If there is a record after refreshing, skip', choices=['yes', 'no'])
-    daily.add_argument('--enable_event_ab', default=default('--enable_event_ab'), help='If there is a record after refreshing, skip', choices=['yes', 'no'])
-    daily.add_argument('--enable_event_sp', default=default('--enable_event_sp'), help='If there is a record after refreshing, skip', choices=['yes', 'no'])
+    daily = daily_parser.add_argument_group('Choose daily', 'Daily tasks, exercises, difficulty charts', gooey_options={'label_color': '#931D03'})
+    daily.add_argument('--enable_daily_mission', default=default('--enable_daily_mission'),
+                       help='If there are records on the day, skip', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    daily.add_argument('--enable_hard_campaign', default=default('--enable_hard_campaign'),
+                       help='If there are records on the day, skip', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    daily.add_argument('--enable_exercise', default=default('--enable_exercise'),
+                       help='If there is a record after refreshing, skip', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    daily.add_argument('--enable_raid_daily', default=default('--enable_raid_daily'),
+                       help='If there is a record after refreshing, skip', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    daily.add_argument('--enable_event_ab', default=default('--enable_event_ab'),
+                       help='If there is a record after refreshing, skip', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    daily.add_argument('--enable_event_sp', default=default('--enable_event_sp'),
+                       help='If there is a record after refreshing, skip', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
 
     # 每日设置
-    daily_task = daily_parser.add_argument_group('Daily settings', 'Does not support submarine daily')
-    daily_task.add_argument('--tactical_training', default=default('--tactical_training'), choices=['daily_air', 'daily_gun', 'daily_torpedo'])
-    daily_task.add_argument('--fierce_assault', default=default('--fierce_assault'), choices=['high_level', 'medium_level', 'low_level', 'index_1', 'index_2', 'index_3'])
-    daily_task.add_argument('--escort_mission', default=default('--escort_mission'), choices=['firepower_high_level', 'air_high_level', 'firepower_low_level', 'index_1', 'index_2', 'index_3'])
-    daily_task.add_argument('--advance_mission', default=default('--advance_mission'), choices=['high_level', 'medium_level', 'low_level', 'index_1', 'index_2', 'index_3'])
-    daily_task.add_argument('--daily_fleet', default=default('--daily_fleet'), help='If use one fleet, fill in the index of the fleet, such as 5\nIf use different fleets in different daily, separate index with commas, order: Escort Mission, Advance Mission, Fierce Assault, Tactical Training, such as 5, 5, 5, 6')
-    daily_task.add_argument('--daily_equipment', default=default('--daily_equipment'), help='Change equipment before playing, unload equipment after playing, do not need to fill in 0 \ncomma, such as 3, 1, 0, 1, 1, 0')
+    daily_task = daily_parser.add_argument_group('Daily settings', 'Does not support submarine daily', gooey_options={'label_color': '#931D03'})
+    daily_task.add_argument('--tactical_training', default=default('--tactical_training'),
+                            choices=['daily_air', 'daily_gun', 'daily_torpedo'], gooey_options={'label_color': '#4B5F83'})
+    daily_task.add_argument('--fierce_assault', default=default('--fierce_assault'),
+                            choices=['high_level', 'medium_level', 'low_level', 'index_1', 'index_2', 'index_3'], gooey_options={'label_color': '#4B5F83'})
+    daily_task.add_argument('--escort_mission', default=default('--escort_mission'),
+                            choices=['firepower_high_level', 'air_high_level', 'firepower_low_level', 'index_1', 'index_2', 'index_3'], gooey_options={'label_color': '#4B5F83'})
+    daily_task.add_argument('--advance_mission', default=default('--advance_mission'),
+                            choices=['high_level', 'medium_level', 'low_level', 'index_1', 'index_2', 'index_3'], gooey_options={'label_color': '#4B5F83'})
+    daily_task.add_argument('--daily_fleet', default=default('--daily_fleet'),
+                            help='If use one fleet, fill in the index of the fleet, such as 5\nIf use different fleets in different daily, separate index with commas, order: Escort Mission, Advance Mission, Fierce Assault, Tactical Training, such as 5, 5, 5, 6', gooey_options={'label_color': '#4B5F83'})
+    daily_task.add_argument('--daily_equipment', default=default('--daily_equipment'),
+                            help='Change equipment before playing, unload equipment after playing, do not need to fill in 0 \ncomma, such as 3, 1, 0, 1, 1, 0', gooey_options={'label_color': '#4B5F83'})
 
     # 困难设置
-    hard = daily_parser.add_argument_group('Difficult setting', 'Need to turn on weekly mode')
-    hard.add_argument('--hard_campaign', default=default('--hard_campaign'), help='For example 10-4')
-    hard.add_argument('--hard_fleet', default=default('--hard_fleet'), choices=['1', '2'], help='For 10-2 hard, Set Fleet 2')
-    hard.add_argument('--hard_equipment', default=default('--hard_equipment'), help='Change equipment before playing, unload equipment after playing, do not need to fill in 0 \ncomma, such as 3, 1, 0, 1, 1, 0')
+    hard = daily_parser.add_argument_group('Difficult setting', 'Need to turn on weekly mode', gooey_options={'label_color': '#931D03'})
+    hard.add_argument('--hard_campaign', default=default('--hard_campaign'),
+                      help='For example 10-4', gooey_options={'label_color': '#4B5F83'})
+    hard.add_argument('--hard_fleet', default=default('--hard_fleet'),
+                      choices=['1', '2'], help='For 10-2 hard, Set Fleet 2', gooey_options={'label_color': '#4B5F83'})
+    hard.add_argument('--hard_equipment', default=default('--hard_equipment'),
+                      help='Change equipment before playing, unload equipment after playing, do not need to fill in 0 \ncomma, such as 3, 1, 0, 1, 1, 0', gooey_options={'label_color': '#4B5F83'})
 
     # 演习设置
-    exercise = daily_parser.add_argument_group('Exercise settings', '')
-    exercise.add_argument('--exercise_choose_mode', default=default('--exercise_choose_mode'), choices=['max_exp', 'easiest', 'easiest_else_exp'], help='')
-    exercise.add_argument('--exercise_preserve', default=default('--exercise_preserve'), help='Only 0 are temporarily reserved')
-    exercise.add_argument('--exercise_try', default=default('--exercise_try'), help='The number of attempts by each opponent')
-    exercise.add_argument('--exercise_hp_threshold', default=default('--exercise_hp_threshold'), help='HHP <Retreat at Threshold')
-    exercise.add_argument('--exercise_low_hp_confirm', default=default('--exercise_low_hp_confirm'), help='After HP is below the threshold, it will retreat after a certain period of time \nRecommended 1.0 ~ 3.0')
-    exercise.add_argument('--exercise_equipment', default=default('--exercise_equipment'), help='Change equipment before playing, unload equipment after playing, do not need to fill in 0 \ncomma, such as 3, 1, 0, 1, 1, 0')
+    exercise = daily_parser.add_argument_group('Exercise settings', '', gooey_options={'label_color': '#931D03'})
+    exercise.add_argument('--exercise_choose_mode', default=default('--exercise_choose_mode'),
+                          choices=['max_exp', 'easiest', 'easiest_else_exp'], help='', gooey_options={'label_color': '#4B5F83'})
+    exercise.add_argument('--exercise_preserve', default=default('--exercise_preserve'),
+                          help='Only 0 are temporarily reserved', gooey_options={'label_color': '#4B5F83'})
+    exercise.add_argument('--exercise_try', default=default('--exercise_try'), help='The number of attempts by each opponent', gooey_options={'label_color': '#4B5F83'})
+    exercise.add_argument('--exercise_hp_threshold', default=default('--exercise_hp_threshold'),
+                          help='HHP <Retreat at Threshold', gooey_options={'label_color': '#4B5F83'})
+    exercise.add_argument('--exercise_low_hp_confirm', default=default('--exercise_low_hp_confirm'),
+                          help='After HP is below the threshold, it will retreat after a certain period of time \nRecommended 1.0 ~ 3.0', gooey_options={'label_color': '#4B5F83'})
+    exercise.add_argument('--exercise_equipment', default=default('--exercise_equipment'),
+                          help='Change equipment before playing, unload equipment after playing, do not need to fill in 0 \ncomma, such as 3, 1, 0, 1, 1, 0', gooey_options={'label_color': '#4B5F83'})
 
     # event_daily_ab
-    event_bonus = daily_parser.add_argument_group('Event Daily Bonus', 'bonus for first clear each day')
-    event_bonus.add_argument('--event_ab_chapter', default=default('--event_ab_chapter'), choices=['chapter_ab', 'chapter_abcd'], help='Chapter with PT bonus')
-    event_bonus.add_argument('--event_sp_mob_fleet', default=default('--event_sp_mob_fleet'), choices=['1', '2'], help='')
-    event_bonus.add_argument('--event_name_ab', default=event_latest, choices=event_folder, help='There a dropdown menu with many options')
+    event_bonus = daily_parser.add_argument_group('Event Daily Bonus', 'bonus for first clear each day', gooey_options={'label_color': '#931D03'})
+    event_bonus.add_argument('--event_ab_chapter', default=default('--event_ab_chapter'), choices=['chapter_ab', 'chapter_abcd'],
+                             help='Chapter with PT bonus', gooey_options={'label_color': '#4B5F83'})
+    event_bonus.add_argument('--event_sp_mob_fleet', default=default('--event_sp_mob_fleet'), choices=['1', '2'],
+                             help='', gooey_options={'label_color': '#4B5F83'})
+    event_bonus.add_argument('--event_name_ab', default=event_latest, choices=event_folder,
+                             help='There a dropdown menu with many options', gooey_options={'label_color': '#4B5F83'})
 
     # Raid daily
-    raid_bonus = daily_parser.add_argument_group('Raid settings', '')
-    raid_bonus.add_argument('--raid_daily_name', default=raid_latest, choices=raid_folder, help='')
-    raid_bonus.add_argument('--raid_hard', default=default('--raid_hard'), choices=['yes', 'no'], help='')
-    raid_bonus.add_argument('--raid_normal', default=default('--raid_normal'), choices=['yes', 'no'], help='')
-    raid_bonus.add_argument('--raid_easy', default=default('--raid_easy'), choices=['yes', 'no'], help='')
+    raid_bonus = daily_parser.add_argument_group('Raid settings', '', gooey_options={'label_color': '#931D03'})
+    raid_bonus.add_argument('--raid_daily_name', default=raid_latest, choices=raid_folder, help='', gooey_options={'label_color': '#4B5F83'})
+    raid_bonus.add_argument('--raid_hard', default=default('--raid_hard'), choices=['yes', 'no'], help='', gooey_options={'label_color': '#4B5F83'})
+    raid_bonus.add_argument('--raid_normal', default=default('--raid_normal'), choices=['yes', 'no'], help='', gooey_options={'label_color': '#4B5F83'})
+    raid_bonus.add_argument('--raid_easy', default=default('--raid_easy'), choices=['yes', 'no'], help='', gooey_options={'label_color': '#4B5F83'})
 
     # ==========event_daily_ab==========
     # event_ab_parser = subs.add_parser('event_daily_bonus')
@@ -340,9 +406,13 @@ def main(ini_name=''):
     # ==========main==========
     main_parser = subs.add_parser('Main_campaign')
     # 选择关卡
-    stage = main_parser.add_argument_group('Choose a level', 'Main campaign, Currently, not all maps are being supported, check the folder /doc/development_en.md to know how add new maps')
-    stage.add_argument('--main_stage', default=default('--main_stage'), help='E.g 7-2')
-    stage.add_argument('--campaign_mode', default=default('--campaign_mode'), help='Useful if you want to clear a hard mode map', choices=['normal', 'hard'])
+    stage = main_parser.add_argument_group('Choose a level',
+                                           'Main campaign, Currently, not all maps are being supported, check the folder /doc/development_en.md to know how add new maps',
+                                           gooey_options={'label_color': '#931D03'})
+    stage.add_argument('--main_stage', default=default('--main_stage'), help='E.g 7-2',
+                       gooey_options={'label_color': '#4B5F83'})
+    stage.add_argument('--campaign_mode', default=default('--campaign_mode'), help='Useful if you want to clear a hard mode map',
+                       choices=['normal', 'hard'], gooey_options={'label_color': '#4B5F83'})
 
     # ==========event==========
     event_parser = subs.add_parser('event')
@@ -351,49 +421,57 @@ def main(ini_name=''):
 
     """
     event = event_parser.add_argument_group(
-        'Choose a level', '\n'.join([line.strip() for line in description.strip().split('\n')]))
+        'Choose a level', '\n'.join([line.strip() for line in description.strip().split('\n')]), gooey_options={'label_color': '#931D03'})
     event.add_argument('--event_stage', default=default('--event_stage'),
                              choices=['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4', 'C1', 'C2', 'C3', 'C4', 'D1', 'D2', 'D3', 'D4', 'SP'],
-                             help='E.g D3')
+                             help='E.g D3', gooey_options={'label_color': '#4B5F83'})
     event.add_argument('--sp_stage', default=default('--sp_stage'),
                              choices=['SP1', 'SP2', 'SP3'],
-                             help='E.g SP3')
-    event.add_argument('--event_name', default=event_latest, choices=event_folder, help='There a dropdown menu with many options')
+                             help='E.g SP3', gooey_options={'label_color': '#4B5F83'})
+    event.add_argument('--event_name', default=event_latest, choices=event_folder, help='There a dropdown menu with many options', gooey_options={'label_color': '#4B5F83'})
 
     # ==========Raid==========
     raid_parser = subs.add_parser('raid')
-    raid = raid_parser.add_argument_group('Choose a raid', '')
-    raid.add_argument('--raid_name', default=raid_latest, choices=raid_folder, help='')
-    raid.add_argument('--raid_mode', default=default('--raid_mode'), choices=['hard', 'normal', 'easy'], help='')
-    raid.add_argument('--raid_use_ticket', default=default('--raid_use_ticket'), choices=['yes', 'no'], help='')
+    raid = raid_parser.add_argument_group('Choose a raid', '', gooey_options={'label_color': '#931D03'})
+    raid.add_argument('--raid_name', default=raid_latest, choices=raid_folder, help='', gooey_options={'label_color': '#4B5F83'})
+    raid.add_argument('--raid_mode', default=default('--raid_mode'), choices=['hard', 'normal', 'easy'], help='', gooey_options={'label_color': '#4B5F83'})
+    raid.add_argument('--raid_use_ticket', default=default('--raid_use_ticket'), choices=['yes', 'no'], help='', gooey_options={'label_color': '#4B5F83'})
 
     # ==========半自动==========
     semi_parser = subs.add_parser('semi_auto')
-    semi = semi_parser.add_argument_group('Semi-automatic mode', 'Manual selection of enemies, automatic settlement, used to attack unsuited pictures')
-    semi.add_argument('--enable_semi_map_preparation', default=default('--enable_semi_map_preparation'), help='', choices=['yes', 'no'])
-    semi.add_argument('--enable_semi_story_skip', default=default('--enable_semi_story_skip'), help='Note that this will automatically confirm all the prompt boxes, including the red face attack', choices=['yes', 'no'])
+    semi = semi_parser.add_argument_group('Semi-automatic mode', 'Manual selection of enemies, automatic settlement, used to attack unsuited pictures', gooey_options={'label_color': '#931D03'})
+    semi.add_argument('--enable_semi_map_preparation', default=default('--enable_semi_map_preparation'), help='',
+                      choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    semi.add_argument('--enable_semi_story_skip', default=default('--enable_semi_story_skip'), help='Note that this will automatically confirm all the prompt boxes, including the red face attack',
+                      choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
 
     # ==========c11_affinity_farming==========
     c_1_1_parser = subs.add_parser('c1-1_affinity_farming')
-    c_1_1 = c_1_1_parser.add_argument_group('c1-1_affinity_farming', 'Will auto turn off clearing mode\nWith MVP, 8 battle to 1 affnity. Without MVP, 16 battle to 1 affnity.')
-    c_1_1.add_argument('--affinity_battle_count', default=default('--affinity_battle_count'), help='Example: 32')
+    c_1_1 = c_1_1_parser.add_argument_group('c1-1_affinity_farming', 'Will auto turn off clearing mode\nWith MVP, 8 battle to 1 affnity. Without MVP, 16 battle to 1 affnity.',
+                                            gooey_options={'label_color': '#931D03'})
+    c_1_1.add_argument('--affinity_battle_count', default=default('--affinity_battle_count'), help='Example: 32', gooey_options={'label_color': '#4B5F83'})
 
     # ==========c72_mystery_farming==========
     c_7_2_parser = subs.add_parser('c7-2_mystery_farming')
-    c_7_2 = c_7_2_parser.add_argument_group('c7-2_mystery_farming', '')
-    c_7_2.add_argument('--boss_fleet_step_on_a3', default=default('--boss_fleet_step_on_a3'), choices=['yes', 'no'], help='A3 has enemies, G3, C3, E3')
+    c_7_2 = c_7_2_parser.add_argument_group('c7-2_mystery_farming', '', gooey_options={'label_color': '#931D03'})
+    c_7_2.add_argument('--boss_fleet_step_on_a3', default=default('--boss_fleet_step_on_a3'),
+                       choices=['yes', 'no'], help='A3 has enemies, G3, C3, E3', gooey_options={'label_color': '#4B5F83'})
 
     # ==========c122_leveling==========
     c_12_2_parser = subs.add_parser('c12-2_leveling')
-    c_12_2 = c_12_2_parser.add_argument_group('12-2 enemy search settings', '')
-    c_12_2.add_argument('--s3_enemy_tolerance', default=default('--s3_enemy_tolerance'), choices=['0', '1', '2', '10'], help='The maximum number of battles to fight against large enemies')
+    c_12_2 = c_12_2_parser.add_argument_group('12-2 enemy search settings', '', gooey_options={'label_color': '#931D03'})
+    c_12_2.add_argument('--s3_enemy_tolerance', default=default('--s3_enemy_tolerance'),
+                        choices=['0', '1', '2', '10'], help='The maximum number of battles to fight against large enemies', gooey_options={'label_color': '#4B5F83'})
 
     # ==========c124_leveling==========
     c_12_4_parser = subs.add_parser('c12-4_leveling')
-    c_12_4 = c_12_4_parser.add_argument_group('12-4 Search enemy settings', 'Need to ensure that the team has a certain strength')
-    c_12_4.add_argument('--non_s3_enemy_enter_tolerance', default=default('--non_s3_enemy_enter_tolerance'), choices=['0', '1', '2'], help='Avoid enemy too strong')
-    c_12_4.add_argument('--non_s3_enemy_withdraw_tolerance', default=default('--non_s3_enemy_withdraw_tolerance'), choices=['0', '1', '2', '10'], help='How many battles will be fought after there is no large scale enemy')
-    c_12_4.add_argument('--ammo_pick_up_124', default=default('--ammo_pick_up_124'), choices=['2', '3', '4', '5'], help='How many battles before pick ammo, the recommended is 3')
+    c_12_4 = c_12_4_parser.add_argument_group('12-4 Search enemy settings', 'Need to ensure that the team has a certain strength', gooey_options={'label_color': '#931D03'})
+    c_12_4.add_argument('--non_s3_enemy_enter_tolerance', default=default('--non_s3_enemy_enter_tolerance'),
+                        choices=['0', '1', '2'], help='Avoid enemy too strong', gooey_options={'label_color': '#4B5F83'})
+    c_12_4.add_argument('--non_s3_enemy_withdraw_tolerance', default=default('--non_s3_enemy_withdraw_tolerance'),
+                        choices=['0', '1', '2', '10'], help='How many battles will be fought after there is no large scale enemy', gooey_options={'label_color': '#4B5F83'})
+    c_12_4.add_argument('--ammo_pick_up_124', default=default('--ammo_pick_up_124'),
+                        choices=['2', '3', '4', '5'], help='How many battles before pick ammo, the recommended is 3', gooey_options={'label_color': '#4B5F83'})
 
     args = parser.parse_args()
 
