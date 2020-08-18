@@ -312,7 +312,7 @@ def main(ini_name=''):
     emulator = emulator_parser.add_argument_group('Emulator', 'Need to Press start to save your settings, it will check whether the game is started \nIf the game has not started, it will be started', gooey_options={'label_color': '#931D03'})
     emulator.add_argument('--serial', default=default('--serial'),
                           help='', gooey_options={'label_color': '#4B5F83'})
-    emulator.add_argument('--package_name', default='com.YoStarEN.AzurLane', help='', gooey_options={'label_color': '#4B5F83'})
+    emulator.add_argument('--package_name', default='com.YoStarJP.AzurLane', help='', gooey_options={'label_color': '#4B5F83'})
     emulator.add_argument(
         '--default_serial',
         default=message,

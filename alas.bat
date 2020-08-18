@@ -73,6 +73,7 @@ set sha=%sha: =%
 for /f "skip=14 tokens=3 delims=:" %%I IN (%API_JSON%) DO IF NOT DEFINED message SET message=%%I 
 set message=%message:"=%
 set message=%message:,=%
+for /f %%i in ('git rev-parse --abbrev-ref HEAD') do set BRANCH=%%i
 for /f "delims=" %%i IN ('%GIT% log -1 "--pretty=%%H"') DO set LAST_LOCAL_GIT=%%i
 for /f "tokens=1,2" %%A in ('%GIT% log -1 "--format=%%h %%ct" -- .') do (
     set GIT_SHA1=%%A
@@ -82,22 +83,25 @@ for /f "tokens=1,2" %%A in ('%GIT% log -1 "--format=%%h %%ct" -- .') do (
 :time_parsed
 if %LAST_LOCAL_GIT% equ %sha% (
     echo ----------------------------------------------------------------
-    echo Remote Git hash:    %sha%
+    echo Remote Git hash:        %sha%
     echo Remote Git message:    %message%
     echo ----------------------------------------------------------------
-    echo Local Git hash:     %LAST_LOCAL_GIT%
-    echo Local commit date:  %GIT_CTIME%
+    echo Local Git hash:       %LAST_LOCAL_GIT%
+    echo Local commit date:    %GIT_CTIME%
+    echo Local Branch:         %BRANCH%
     echo ----------------------------------------------------------------
     echo your ALAS is updated
+    echo Press any to continue...
     pause > NUL
     call :adb_kill
 ) else (
     echo ----------------------------------------------------------------
-    echo Remote Git hash:    %sha%
+    echo Remote Git hash:        %sha%
     echo Remote Git message:    %message%
     echo ----------------------------------------------------------------
-    echo Local Git hash:     %LAST_LOCAL_GIT%
-    echo Local commit date:  %GIT_CTIME%
+    echo Local Git hash:       %LAST_LOCAL_GIT%
+    echo Local commit date:    %GIT_CTIME%
+    echo Local Branch:         %BRANCH%
     echo ----------------------------------------------------------------
     call popup.exe
     choice /t 10 /c yn /d n /m "There is an update for ALAS. Download now?"
@@ -202,6 +206,7 @@ echo ----------------------------------------------------------------
 echo Old Serial:      %serial%
 echo New Serial:      %SERIAL_REALTIME% 
 echo ----------------------------------------------------------------
+echo Press any to continue...
 pause > NUL
 for /f "delims=" %%i in ('type "%config%" ^& break ^> "%config%" ') do (
     set line=%%i
@@ -272,6 +277,7 @@ echo ----------------------------------------------------------------
 echo initializing uiautomator2
 call %PYTHON% -m uiautomator2 init
 echo ----------------------------------------------------------------
+echo Press any to continue...
 pause > NUL
 :: uncomment the pause to catch errors
 REM pause
