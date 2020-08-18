@@ -55,9 +55,14 @@ except Exception:
             'type': 'Link',
             'menuTitle': 'Wiki',
             'url': 'https://github.com/LmeSzinc/AzurLaneAutoScript/wiki'
+        }, {
+            'type': 'Link',
+            'menuTitle': 'Github Token',
+            'url': 'https://github.com/settings/tokens'
         }]
     }]
 )
+
 def main(ini_name=''):
     if not ini_name:
         ini_name = pyw_name
@@ -90,6 +95,13 @@ def main(ini_name=''):
             if value == 'None':
                 value = ''
             saved_config[key] = value
+    message = (
+        'BlueStacks:  127.0.0.1:5555\n' 
+        'NoxPlayer:   127.0.0.1:62001\n' 
+        'MuMuPlayer:  127.0.0.1:7555\n'
+        'MemuPlayer:  127.0.0.1:21503\n'
+        'LDPlayer:    emulator-5554\n'
+    )
 
     def default(name):
         """Get default value in .ini file.
@@ -298,8 +310,22 @@ def main(ini_name=''):
     # ==========emulator==========
     emulator_parser = subs.add_parser('emulator')
     emulator = emulator_parser.add_argument_group('Emulator', 'Need to Press start to save your settings, it will check whether the game is started \nIf the game has not started, it will be started', gooey_options={'label_color': '#931D03'})
-    emulator.add_argument('--serial', default=default('--serial'), help='Bluestacks 127.0.0.1:5555 \nNox 127.0.0.1:62001', gooey_options={'label_color': '#4B5F83'})
+    emulator.add_argument('--serial', default=default('--serial'),
+                          help='', gooey_options={'label_color': '#4B5F83'})
     emulator.add_argument('--package_name', default='com.YoStarEN.AzurLane', help='', gooey_options={'label_color': '#4B5F83'})
+    emulator.add_argument(
+        '--default_serial',
+        default=message,
+        widget='Textarea',
+        help="Some default SERIAL for most popular emulators, Only base values and may change according to the version you use",
+        gooey_options={
+            'height': 100,
+            'show_help': True,
+            'show_label': True,
+            'readonly': True,
+            'label_color': '#4B5F83'
+        }
+    )
 
     debug = emulator_parser.add_argument_group('Debug settings', '', gooey_options={'label_color': '#931D03'})
     debug.add_argument('--enable_error_log_and_screenshot_save', default=default('--enable_error_log_and_screenshot_save'),
@@ -321,7 +347,7 @@ def main(ini_name=''):
     update.add_argument('--update_method', default=default('--update_method'),
                         choices=['api', 'web'], help='', gooey_options={'label_color': '#4B5F83'})
     update.add_argument('--github_token', default=default('--github_token'),
-                        help='To generate your token visit https://github.com/settings/tokens', gooey_options={'label_color': '#4B5F83'})
+                        help='To generate your token visit https://github.com/settings/tokens or Help menu above', gooey_options={'label_color': '#4B5F83'})
     update.add_argument('--update_proxy', default=default('--update_proxy'),
                         help='Local http or socks proxy, example: http://127.0.0.1:10809', gooey_options={'label_color': '#4B5F83'})
 
