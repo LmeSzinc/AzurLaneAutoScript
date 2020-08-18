@@ -96,11 +96,11 @@ def main(ini_name=''):
                 value = ''
             saved_config[key] = value
     message = (
-        'BlueStacks:  127.0.0.1:5555\n' 
-        'NoxPlayer:   127.0.0.1:62001\n' 
-        'MuMuPlayer:  127.0.0.1:7555\n'
-        'MemuPlayer:  127.0.0.1:21503\n'
-        'LDPlayer:    emulator-5554\n'
+        'BlueStacks:\t127.0.0.1:5555\n' 
+        'NoxPlayer:\t127.0.0.1:62001\n' 
+        'MuMuPlayer:\t127.0.0.1:7555\n'
+        'MemuPlayer:\t127.0.0.1:21503\n'
+        'LDPlayer:\t\temulator-5554\n'
     )
 
     def default(name):

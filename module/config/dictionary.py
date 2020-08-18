@@ -199,6 +199,7 @@ dic_true_eng_to_eng = {
     'non_s3_enemy_enter_tolerance': 'non_s3_enemy_enter_tolerance',
     'non_s3_enemy_withdraw_tolerance': 'non_s3_enemy_withdraw_tolerance',
     'ammo_pick_up_124': 'ammo_pick_up_124',
+    'default_serial_list': 'default_serial_list',
 
     # Option
     'yes': 'yes',
@@ -454,6 +455,7 @@ dic_chi_to_eng = {
     '非大型敌人进图忍耐': 'non_s3_enemy_enter_tolerance',
     '非大型敌人撤退忍耐': 'non_s3_enemy_withdraw_tolerance',
     '拣弹药124': 'ammo_pick_up_124',
+    '默认serial列表': 'default_serial_list',
 
     # Option
     '是': 'yes',
