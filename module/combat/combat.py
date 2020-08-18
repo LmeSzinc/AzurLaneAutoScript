@@ -1,6 +1,7 @@
 import numpy as np
 
 from module.base.timer import Timer
+from module.base.utils import color_bar_percentage
 from module.combat.assets import *
 from module.combat.combat_auto import CombatAuto
 from module.combat.combat_manual import CombatManual
@@ -11,7 +12,6 @@ from module.handler.enemy_searching import EnemySearchingHandler
 from module.logger import logger
 from module.map.assets import MAP_OFFENSIVE
 from module.retire.retirement import Retirement
-from module.template.assets import TEMPLATE_COMBAT_LOADING
 from module.ui.assets import BACK_ARROW
 
 
@@ -62,13 +62,13 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
         Returns:
             bool:
         """
-        similarity, location = TEMPLATE_COMBAT_LOADING.match_result(self.device.image.crop((0, 620, 1280, 720)))
-        if similarity > 0.85:
-            loading = (location[0] + 38 - LOADING_BAR.area[0]) / (LOADING_BAR.area[2] - LOADING_BAR.area[0])
-            logger.attr('Loading', f'{int(loading * 100)}%')
+        left = color_bar_percentage(self.device.image, area=LOADING_BAR.area, prev_color=(99, 150, 255))
+        right = color_bar_percentage(self.device.image, area=LOADING_BAR.area, prev_color=(225, 225, 225), reverse=True)
+        if 0.15 < left < 0.95 and right > 0.15 and left + right <= 1.2:
+            logger.attr('Loading', f'{int(left * 100)}%({int(right * 100)}%)')
             return True
-        else:
-            return False
+
+        return False
 
     def is_combat_executing(self):
         """
@@ -77,9 +77,6 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
         """
         return self.appear(PAUSE) and np.max(self.device.image.crop(PAUSE_DOUBLE_CHECK.area)) < 153
 
-    def ensure_combat_oil_loaded(self):
-        self.wait_until_stable(COMBAT_OIL_LOADING)
-
     def handle_combat_automation_confirm(self):
         if self.appear(AUTOMATION_CONFIRM_CHECK, interval=1):
             self.appear_then_click(AUTOMATION_CONFIRM, offset=True)
@@ -87,12 +84,12 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
 
         return False
 
-    def combat_preparation(self, balance_hp=False, emotion_reduce=False, auto='combat_auto', fleet_index=1):
+    def combat_preparation(self, balance_hp=False, emotion_reduce=False, auto=True, fleet_index=1):
         """
         Args:
             balance_hp (bool):
             emotion_reduce (bool):
-            auto (str):
+            auto (bool):
             fleet_index (int):
         """
         logger.info('Combat preparation.')
@@ -106,7 +103,7 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
             self.device.screenshot()
 
             if self.appear(BATTLE_PREPARATION):
-                if self.handle_combat_automation_set(auto=auto == 'combat_auto'):
+                if self.handle_combat_automation_set(auto=auto):
                     continue
             if self.handle_retirement():
                 if self.config.ENABLE_HP_BALANCE:
@@ -117,7 +114,7 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
                     continue
             if self.handle_combat_low_emotion():
                 continue
-            if balance_hp and self.handle_emergency_repair_use():
+            if self.handle_emergency_repair_use():
                 continue
             if self.appear_then_click(BATTLE_PREPARATION, interval=2):
                 continue
@@ -166,6 +163,8 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
         return False
 
     def handle_emergency_repair_use(self):
+        if not self.config.ENABLE_HP_BALANCE:
+            return False
         if self.appear_then_click(EMERGENCY_REPAIR_CONFIRM, offset=True):
             self.device.sleep(0.5)  # Animation: hp increase and emergency_repair amount decrease.
             return True
@@ -182,10 +181,10 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
 
         return False
 
-    def combat_execute(self, auto='combat_auto', call_submarine_at_boss=False, save_get_items=False):
+    def combat_execute(self, auto=True, call_submarine_at_boss=False, save_get_items=False):
         """
         Args:
-            auto (str): Combat auto mode.
+            auto (bool):
             call_submarine_at_boss (bool):
             save_get_items (bool)
         """
@@ -205,11 +204,11 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
 
             if self.handle_story_skip():
                 continue
-            if self.handle_combat_auto(auto):
+            if self.handle_combat_auto():
                 continue
-            if self.handle_combat_manual(auto):
+            if self.handle_combat_manual():
                 continue
-            if auto != 'combat_auto' and self.auto_mode_checked and self.is_combat_executing():
+            if not auto and self.is_combat_executing():
                 if self.handle_combat_weapon_release():
                     continue
             if call_submarine_at_boss:
@@ -219,7 +218,7 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
                     continue
 
             # End
-            if self.handle_battle_status(save_get_items=save_get_items) or self.handle_get_items(save_get_items=save_get_items):
+            if self.handle_battle_status(save_get_items=save_get_items):
                 self.device.screenshot_interval_set(0)
                 break
 
@@ -278,8 +277,6 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
         Returns:
             bool:
         """
-        if self.is_combat_executing():
-            return False
         if self.appear_then_click(EXP_INFO_S):
             self.device.sleep((0.25, 0.5))
             return True
@@ -312,7 +309,7 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
             expected_end (str): with_searching, no_searching, in_stage.
         """
         logger.info('Combat status')
-        logger.attr('expected_end', expected_end.__name__ if callable(expected_end) else expected_end)
+        logger.attr('expected_end', expected_end)
         exp_info = False  # This is for the white screen bug in game
         while 1:
             self.device.screenshot()
@@ -353,26 +350,25 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
                 if expected_end():
                     break
 
-    def combat(self, balance_hp=None, emotion_reduce=None, auto_mode=None, call_submarine_at_boss=None,
-               save_get_items=None, expected_end=None, fleet_index=1):
+    def combat(self, balance_hp=None, emotion_reduce=None, func=None, call_submarine_at_boss=None, save_get_items=None,
+               expected_end=None, fleet_index=1):
         """
         Execute a combat.
         """
         balance_hp = balance_hp if balance_hp is not None else self.config.ENABLE_HP_BALANCE
         emotion_reduce = emotion_reduce if emotion_reduce is not None else self.config.ENABLE_EMOTION_REDUCE
-        if auto_mode is None:
-            auto_mode = self.config.FLEET_1_AUTO_MODE if fleet_index == 1 else self.config.FLEET_2_AUTO_MODE
+        auto = self.config.COMBAT_AUTO_MODE == 'combat_auto'
         call_submarine_at_boss = call_submarine_at_boss if call_submarine_at_boss is not None else self.config.SUBMARINE_CALL_AT_BOSS
         save_get_items = save_get_items if save_get_items is not None else self.config.ENABLE_SAVE_GET_ITEMS
-        self.battle_status_click_interval = 7 if save_get_items else 0
+        self.battle_status_click_interval = 3 if save_get_items else 0
 
         # if not hasattr(self, 'emotion'):
         #     self.emotion = Emotion(config=self.config)
 
         self.combat_preparation(
-            balance_hp=balance_hp, emotion_reduce=emotion_reduce, auto=auto_mode, fleet_index=fleet_index)
+            balance_hp=balance_hp, emotion_reduce=emotion_reduce, auto=auto, fleet_index=fleet_index)
         self.combat_execute(
-            auto=auto_mode, call_submarine_at_boss=call_submarine_at_boss, save_get_items=save_get_items)
+            auto=auto, call_submarine_at_boss=call_submarine_at_boss, save_get_items=save_get_items)
         self.combat_status(
             save_get_items=save_get_items, expected_end=expected_end)
         self.handle_map_after_combat_story()

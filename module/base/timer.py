@@ -122,17 +122,6 @@ class Timer:
         self._current = time.time()
         self._reach_count = 0
 
-    def reached_and_reset(self):
-        """
-        Returns:
-            bool:
-        """
-        if self.reached():
-            self.reset()
-            return True
-        else:
-            return False
-
     def wait(self):
         """
         Wait until timer reached.

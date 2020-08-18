@@ -1,39 +1,67 @@
 import numpy as np
 
-from module.exception import MapDetectionError
-from module.handler.assets import IN_MAP
+from module.exception import PerspectiveError
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
+from module.map.grids import Grids, Grid
 from module.map.map_base import CampaignMap, location2node, location_ensure
-from module.map_detection.grid import Grid
-from module.map_detection.view import View
+
+param_x = np.array([4.41071252e+00, -3.90656142e-03, 1.95849683e+02])
+param_y_positive = np.array([4.88226475e+00, -2.79093133e-03, 1.39520005e+02])
+param_y_negative = np.array([4.58377745e+00, 3.13441976e-04, 1.39028669e+02])
+
+
+def swipe_multiply_1d(x, a, b, c):
+    return a / (x + b) + c
+
+
+def swipe_multiply_2d(x, y):
+    if abs(x) > 0.3:
+        x = swipe_multiply_1d(abs(x), *param_x) * x
+    else:
+        x = x * 200
+
+    if abs(y) > 0.3:
+        y = swipe_multiply_1d(y, *param_y_positive) * y if y > 0 else swipe_multiply_1d(-y, *param_y_negative) * y
+    else:
+        y = y * 140
+
+    return x, y
 
 
 class Camera(InfoHandler):
-    view: View
     map: CampaignMap
     camera = (0, 0)
 
-    def _map_swipe(self, vector):
+    def _map_swipe(self, vector, drop_threshold=0.1):
         """
         Args:
             vector(tuple, np.ndarray): float
-
+            drop_threshold(float): swipe distance lower than this will be drop, because a closing swipe will be treat
+                as a click in game.
         Returns:
             bool: if camera moved.
         """
-        vector = np.array(vector)
-        name = 'MAP_SWIPE_' + '_'.join([str(int(round(x))) for x in vector])
-        if np.any(np.abs(vector) > self.config.MAP_SWIPE_DROP):
-            # Map grid fit
-            if self.config.DEVICE_CONTROL_METHOD == 'minitouch':
-                distance = self.view.swipe_base * self.config.MAP_SWIPE_MULTIPLY_MINITOUCH
+        x, y = vector
+        if abs(x) > drop_threshold or abs(y) > drop_threshold:
+            # Linear fit
+            # x = x * 200
+            # y = y * 140
+            if self.config.CAMERA_SWIPE_MULTIPLY_X is not None and self.config.CAMERA_SWIPE_MULTIPLY_Y is not None:
+                if callable(self.config.CAMERA_SWIPE_MULTIPLY_X):
+                    x = self.config.CAMERA_SWIPE_MULTIPLY_X(x)
+                else:
+                    x = x * self.config.CAMERA_SWIPE_MULTIPLY_X
+                if callable(self.config.CAMERA_SWIPE_MULTIPLY_Y):
+                    y = self.config.CAMERA_SWIPE_MULTIPLY_X(y)
+                else:
+                    y = y * self.config.CAMERA_SWIPE_MULTIPLY_Y
             else:
-                distance = self.view.swipe_base * self.config.MAP_SWIPE_MULTIPLY
-            vector = distance * vector
+                # Function fit
+                x, y = swipe_multiply_2d(x, y)
 
-            vector = -vector
-            self.device.swipe(vector, name=name)
+            vector = (-int(x), -int(y))
+            self.device.swipe(vector)
             self.device.sleep(0.3)
             self.update()
         else:
@@ -52,22 +80,20 @@ class Camera(InfoHandler):
         logger.info('Map swipe: %s' % str(vector))
         vector = np.array(vector)
         self.camera = tuple(vector + self.camera)
-        vector = np.array([0.5, 0.5]) - self.view.center_offset + vector
-        self._map_swipe(vector)
+        vector = np.array([0.5, 0.5]) - np.array(self.grids.center_offset) + vector
+        try:
+            self._map_swipe(vector)
+        except PerspectiveError as e:
+            self.handle_camera_outside_map(e)
 
-    def focus_to_grid_center(self, tolerance=None):
+    def focus_to_grid_center(self):
         """
         Re-focus to the center of a grid.
-
-        Args:
-            tolerance (float): 0 to 0.5. If None, use MAP_GRID_CENTER_TOLERANCE
 
         Returns:
             bool: Map swiped.
         """
-        if not tolerance:
-            tolerance = self.config.MAP_GRID_CENTER_TOLERANCE
-        if np.any(np.abs(self.view.center_offset - 0.5) > tolerance):
+        if np.any(np.abs(self.grids.center_offset - 0.5) > self.config.MAP_GRID_CENTER_TOLERANCE):
             logger.info('Re-focus to grid center.')
             self.map_swipe((0, 0))
             return True
@@ -82,54 +108,63 @@ class Camera(InfoHandler):
         """
         self.device.screenshot()
         if not camera:
-            self.view.update(image=self.device.image)
+            self.grids.update(image=self.device.image)
             return True
 
-        if not hasattr(self, 'view'):
-            self.view = View(self.config)
         try:
-            self.view.load(self.device.image)
-        except MapDetectionError as e:
+            self.grids = Grids(self.device.image, config=self.config)
+        except Exception as e:
             if self.info_bar_count():
                 logger.info('Perspective error cause by info bar. Waiting.')
                 self.handle_info_bar()
                 return self.update(camera=camera)
-            elif not self.appear(IN_MAP):
-                logger.warning('Image to detect is not in_map')
-                raise e
-            elif 'Camera outside map' in str(e):
-                string = str(e)
-                logger.warning(string)
-                x, y = string.split('=')[1].strip('() ').split(',')
-                self._map_swipe((-int(x.strip()), -int(y.strip())))
             else:
                 raise e
 
+        # Catch perspective error
+        known_exception = self.info_bar_count()
+        if len(self.grids.horizontal) > self.map.shape[1] + 2 or len(self.grids.vertical) > self.map.shape[0] + 2:
+            if not known_exception:
+                logger.info('Perspective Error. Too many lines')
+            self.grids.correct = False
+        if len(self.grids.horizontal) <= 3 or len(self.grids.vertical) <= 3:
+            if not known_exception:
+                logger.info('Perspective Error. Too few lines')
+            self.grids.correct = False
+
+        if not self.grids.correct:
+            if self.info_bar_count():
+                logger.info('Perspective error cause by info bar. Waiting.')
+                self.handle_info_bar()
+                return self.update(camera=camera)
+            else:
+                self.grids.save_error_image()
+
         # Set camera position
-        if self.view.left_edge:
-            x = 0 + self.view.center_loca[0]
-        elif self.view.right_edge:
-            x = self.map.shape[0] - self.view.shape[0] + self.view.center_loca[0]
+        if self.grids.left_edge:
+            x = 0 + self.grids.center_grid[0]
+        elif self.grids.right_edge:
+            x = self.map.shape[0] - self.grids.shape[0] + self.grids.center_grid[0]
         else:
             x = self.camera[0]
-        if self.view.lower_edge:
-            y = 0 + self.view.center_loca[1]
-        elif self.view.upper_edge:
-            y = self.map.shape[1] - self.view.shape[1] + self.view.center_loca[1]
+        if self.grids.lower_edge:
+            y = 0 + self.grids.center_grid[1]
+        elif self.grids.upper_edge:
+            y = self.map.shape[1] - self.grids.shape[1] + self.grids.center_grid[1]
         else:
             y = self.camera[1]
 
         if self.camera != (x, y):
-            logger.attr_align('camera_corrected', f'{location2node(self.camera)} -> {location2node((x, y))}')
+            logger.info(f'      camera corrected: {location2node(self.camera)} -> {location2node((x, y))}')
         self.camera = (x, y)
         self.show_camera()
 
-    def predict(self, mode='normal'):
-        self.view.predict()
-        self.map.update(grids=self.view, camera=self.camera, mode=mode)
+    def predict(self, is_carrier_scan=False):
+        self.grids.predict()
+        self.map.update(grids=self.grids, camera=self.camera, is_carrier_scan=is_carrier_scan)
 
     def show_camera(self):
-        logger.attr_align('Camera', location2node(self.camera))
+        logger.info('                Camera: %s' % location2node(self.camera))
 
     def ensure_edge_insight(self, reverse=False, preset=None):
         """
@@ -147,18 +182,23 @@ class Camera(InfoHandler):
         record = []
 
         while 1:
-            if len(record) == 0:
-                self.update()
-                if preset is not None:
-                    self.map_swipe(preset)
-                    record.append(preset)
+            try:
+                if len(record) == 0:
+                    self.update()
+                    if preset is not None:
+                        self.map_swipe(preset)
+                        record.append(preset)
 
-            x = 0 if self.view.left_edge or self.view.right_edge else 3
-            y = 0 if self.view.lower_edge or self.view.upper_edge else 2
+                x = 0 if self.grids.left_edge or self.grids.right_edge else 3
+                y = 0 if self.grids.lower_edge or self.grids.upper_edge else 2
 
-            if len(record) > 0:
-                # Swipe even if two edges insight, this will avoid some embarrassing camera position.
-                self.map_swipe((x, y))
+                if len(record) > 0:
+                    # Swipe even if two edges insight, this will avoid some embarrassing camera position.
+                    self.map_swipe((x, y))
+
+            except PerspectiveError as e:
+                self.handle_camera_outside_map(e)
+                continue
 
             record.append((x, y))
 
@@ -173,6 +213,12 @@ class Camera(InfoHandler):
                     self.map_swipe((-x, -y))
 
         return record
+
+    def handle_camera_outside_map(self, e):
+        msg = str(e).split(':')[1].strip()
+        logger.info(f'Camera outside map: {msg}')
+        dic = {'to the left': (2, 0), 'to the right': (-2, 0), 'to the lower': (0, 2), 'to the upper': (0, -2)}
+        self._map_swipe(dic[msg])
 
     def focus_to(self, location, swipe_limit=(3, 2)):
         """Focus camera on a grid
@@ -198,48 +244,39 @@ class Camera(InfoHandler):
             if np.all(np.abs(vector) <= 0):
                 break
 
-    def full_scan(self, queue=None, must_scan=None, battle_count=0, mystery_count=0, siren_count=0, carrier_count=0,
-                  mode='normal'):
-        """Scan the whole map.
+    def full_scan(self, battle_count=None, mystery_count=0, siren_count=0, carrier_count=0, is_carrier_scan=False):
+        """Scan the hole map.
 
         Args:
-            queue (SelectedGrids): Grids to focus on. If none, use map.camera_data
-            must_scan (SelectedGrids): Must scan these grids
             battle_count:
             mystery_count:
             siren_count:
             carrier_count:
-            mode (str): Scan mode, such as 'normal', 'carrier', 'movable'
-
+            is_carrier_scan:
         """
-        logger.info(f'Full scan start, mode={mode}')
+        logger.info('Full scan start')
         self.map.reset_fleet()
 
-        queue = queue if queue else self.map.camera_data
-        if must_scan:
-            queue = queue.add(must_scan)
+        queue = self.map.camera_data
+        if battle_count == 0:
+            queue.add(self.map.camera_data_spawn_point)
 
         while len(queue) > 0:
-            if self.map.missing_is_none(battle_count, mystery_count, siren_count, carrier_count, mode):
-                if must_scan and queue.count != queue.delete(must_scan).count:
-                    logger.info('Continue scanning.')
+            if self.map.missing_is_none(battle_count, mystery_count, siren_count, carrier_count):
+                if battle_count == 0 and queue.count != queue.delete(self.map.camera_data_spawn_point).count:
+                    logger.info('Continue scanning spawn points.')
                     pass
                 else:
                     logger.info('All spawn found, Early stopped.')
                     break
-
             queue = queue.sort_by_camera_distance(self.camera)
             self.focus_to(queue[0])
-            self.focus_to_grid_center(0.25)
-            self.view.predict()
-            success = self.map.update(grids=self.view, camera=self.camera, mode=mode)
-            if not success:
-                self.ensure_edge_insight()
-                continue
-
+            self.predict(is_carrier_scan=is_carrier_scan)
             queue = queue[1:]
 
-        self.map.missing_predict(battle_count, mystery_count, siren_count, carrier_count, mode)
+        if battle_count is not None:
+            self.map.missing_predict(battle_count=battle_count, mystery_count=mystery_count, siren_count=siren_count,
+                                     carrier_count=carrier_count)
         self.map.show()
 
     def in_sight(self, location, sight=None):
@@ -280,20 +317,20 @@ class Camera(InfoHandler):
         """
         location = location_ensure(location)
 
-        local = np.array(location) - self.camera + self.view.center_loca
-        logger.info('Global %s (camera=%s) -> Local %s (center=%s)' % (
-            location2node(location),
-            location2node(self.camera),
-            location2node(local),
-            location2node(self.view.center_loca)
-        ))
-        if local in self.view:
-            return self.view[local]
+        grid = np.array(location) - self.camera + self.grids.center_grid
+        logger.info('Convert_map_to_grid')
+        logger.info(f'Map: {location2node(location)}, '
+                    f'Camera: {location2node(self.camera)}, '
+                    f'Center: {location2node(self.grids.center_grid)}, '
+                    f'grid: {location2node(grid)}')
+        if grid in self.grids:
+            return self.grids[grid]
         else:
-            logger.warning('Convert global to local Failed.')
+            logger.warning('Convert_map_to_grid Failed.')
+            self.grids.save_error_image()
             self.focus_to(location)
-            local = np.array(location) - self.camera + self.view.center_loca
-            return self.view[local]
+            grid = np.array(location) - self.camera + self.grids.center_grid
+            return self.grids[grid]
 
     def full_scan_find_boss(self):
         logger.info('Full scan find boss.')

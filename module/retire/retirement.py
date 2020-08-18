@@ -119,16 +119,16 @@ class Retirement(Enhancement):
             if self.config.RETIRE_SR or self.config.RETIRE_SSR or self.config.RETIREMENT_METHOD == 'one_click_retire':
                 if self.handle_popup_confirm():
                     continue
-            if self.appear_then_click(SHIP_CONFIRM, offset=(30, 30), interval=2):
+            if self.appear_then_click(SHIP_CONFIRM, offset=30, interval=2):
                 continue
-            if self.appear_then_click(SHIP_CONFIRM_2, offset=(30, 30), interval=2):
+            if self.appear_then_click(SHIP_CONFIRM_2, offset=30, interval=2):
                 continue
-            if self.appear_then_click(EQUIP_CONFIRM, offset=(30, 30), interval=2):
+            if self.appear_then_click(EQUIP_CONFIRM, offset=30, interval=2):
                 continue
-            if self.appear_then_click(EQUIP_CONFIRM_2, offset=(30, 30), interval=2):
+            if self.appear_then_click(EQUIP_CONFIRM_2, offset=30, interval=2):
                 executed = True
                 continue
-            if self.appear(GET_ITEMS_1, offset=(30, 30)):
+            if self.appear(GET_ITEMS_1, interval=0.5):
                 self.device.click(GET_ITEMS_1_RETIREMENT_SAVE)
                 self.interval_reset(SHIP_CONFIRM)
                 continue

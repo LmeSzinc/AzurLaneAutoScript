@@ -1,6 +1,7 @@
 from module.base.button import Button
 from module.logger import logger
-from module.exception import CampaignEnd, ScriptError, MapEnemyMoved
+from module.exception import CampaignEnd
+from module.exception import ScriptError
 from module.map.map import Map
 from module.map.map_base import CampaignMap
 from module.base.decorator import Config
@@ -26,8 +27,9 @@ class CampaignBase(Map):
         return False
 
     @Config.when(POOR_MAP_DATA=True, MAP_CLEAR_ALL_THIS_TIME=False)
-    def battle_function(self):
-        logger.info('Using function: battle_with_poor_map_data')
+    def execute_a_battle(self):
+        logger.hr(f'{self.FUNCTION_NAME_BASE}{self.battle_count}', level=2)
+        logger.info('Running with poor map data.')
         if self.fleet_2_break_siren_caught():
             return True
         self.clear_all_mystery()
@@ -43,10 +45,12 @@ class CampaignBase(Map):
                 return True
             return self.clear_enemy()
 
+        logger.warning('No battle executed.')
         return False
 
     @Config.when(MAP_CLEAR_ALL_THIS_TIME=True)
-    def battle_function(self):
+    def execute_a_battle(self):
+        logger.hr(f'{self.FUNCTION_NAME_BASE}{self.battle_count}', level=2)
         logger.info('Using function: clear_all')
         if self.fleet_2_break_siren_caught():
             return True
@@ -56,7 +60,7 @@ class CampaignBase(Map):
             self.pick_up_ammo()
 
         remain = self.map.select(is_enemy=True, is_boss=False)
-        logger.info(f'Enemy remain: {remain}')
+        logger.info('Enemy remain: {}')
         if remain.count > 0:
             if self.clear_siren():
                 return True
@@ -70,42 +74,21 @@ class CampaignBase(Map):
             return result
 
     @Config.when(MAP_CLEAR_ALL_THIS_TIME=False, POOR_MAP_DATA=False)
-    def battle_function(self):
+    def execute_a_battle(self):
         func = self.FUNCTION_NAME_BASE + 'default'
         for extra_battle in range(10):
             if hasattr(self, self.FUNCTION_NAME_BASE + str(self.battle_count - extra_battle)):
                 func = self.FUNCTION_NAME_BASE + str(self.battle_count - extra_battle)
                 break
 
+        logger.hr(f'{self.FUNCTION_NAME_BASE}{self.battle_count}', level=2)
         logger.info(f'Using function: {func}')
         func = self.__getattribute__(func)
 
         result = func()
-
-        return result
-
-    def execute_a_battle(self):
-        logger.hr(f'{self.FUNCTION_NAME_BASE}{self.battle_count}', level=2)
-        prev = self.battle_count
-        result = False
-        for _ in range(10):
-            try:
-                result = self.battle_function()
-                break
-            except MapEnemyMoved:
-                if self.battle_count > prev:
-                    result = True
-                    break
-                else:
-                    continue
-
         if not result:
-            logger.warning('ScriptError, No combat executed.')
-            if self.config.ENABLE_EXCEPTION:
-                raise ScriptError('No combat executed.')
-            else:
-                logger.warning('ScriptError, Withdrawing because enable_exception = no')
-                self.withdraw()
+            logger.warning('No combat executed.')
+            raise ScriptError('No combat executed.')
 
         return result
 
@@ -126,8 +109,4 @@ class CampaignBase(Map):
                 return True
 
         logger.warning('Battle function exhausted.')
-        if self.config.ENABLE_EXCEPTION:
-            raise ScriptError('Battle function exhausted.')
-        else:
-            logger.warning('ScriptError, Battle function exhausted, Withdrawing because enable_exception = no')
-            self.withdraw()
+        raise ScriptError('Battle function exhausted.')

@@ -34,10 +34,6 @@ A4, B4, C4, D4, E4, F4, \
 class Config:
     FLEET_BOSS = 1
 
-    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
-    EDGE_LINES_HOUGHLINES_THRESHOLD = 40
-    COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.5
-
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (120, 255 - 40),
         'width': (1.5, 10),
@@ -67,9 +63,3 @@ class Campaign(CampaignBase):
             return self.battle_default()
 
         return self.fleet_boss.clear_boss()
-
-    def handle_boss_appear_refocus(self):
-        for data in self.map.spawn_data:
-            if data.get('battle') == self.battle_count and data.get('boss', 0):
-                self.map_swipe((0, -2))
-        return super().handle_boss_appear_refocus()

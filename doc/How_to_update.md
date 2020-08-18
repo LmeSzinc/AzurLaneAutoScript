@@ -1,15 +1,24 @@
-﻿# How to Update
+﻿# How to use updater.bat
 
-Step 1. Run alas.bat
+* This only will work if you have download the repository with GIT, if you downloaded the .zip you will have to delete the folder and download it again through GIT, see step 2.
+* [Download and install the last GIT version](https://git-scm.com/download/win)
+* Open the file `updater.bat` with any text editor
+* Change the `C:\Program Files\Git\cmd` for the path that you are installed, you don't usually need to change it, but make sure it is installed in the same path as it is in the file.
+* It is important that the path you enter is the same as the one with the git.exe file as shown in the image.
 
-Step 2. Select
-option 4 to select the updater
+    ![](how_to_update.assets/git.png)
+* In `updater.bat` we have 2 source options, most of the time there will be no difference between them, if in doubt, choose option 1.
 
-Step 3. Select which repo to pull from, if in doubt go with option 1.
+# How to Download repository through GIT
 
-This will update your ALAS.
+* Like above, you need GIT installed and make sure it is installed in the same path as it's in the file in the file `downloader.bat`.
+* If you already download `AzurLaneAutoScript-master.zip`, just extract and double-click in `downloader.bat`, then the repository will be cloned again, but now the .git folder will be created.
+* If you haven't downloaded the .zip, just download the `downloader.bat` file, create a folder where you want ALAS to be downloaded, put `downloader.bat` inside that folder and click.
 
-If you do not have a alas.bat with the update option, please download a fresh copy from newest release.
+
+If you do it right, you will have a similar result, so only what has been changed will be downloaded again.
+
+![](how_to_update.assets/update.png)
 
 
 # DO NOT ADD FILES MANUALLY INSIDE THE ALAS FOLDER, THIS WILL CAUSE CONFLICTS AND YOU WILL HAVE TO DOWNLOAD EVERYTHING AGAIN.

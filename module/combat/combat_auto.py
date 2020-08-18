@@ -15,14 +15,7 @@ class CombatAuto(ModuleBase):
         self.auto_skip_timer.reset()
         self.auto_mode_checked = False
 
-    def handle_combat_auto(self, auto):
-        """
-        Args:
-            auto (str): Combat auto mode.
-
-        Returns:
-            bool: If executed
-        """
+    def handle_combat_auto(self):
         if self.auto_mode_checked:
             return False
         if self.auto_mode_click_timer.reached():
@@ -34,7 +27,7 @@ class CombatAuto(ModuleBase):
         if not self.auto_click_interval_timer.reached():
             return False
 
-        auto = auto == 'combat_auto'
+        auto = self.config.COMBAT_AUTO_MODE == 'combat_auto'
         if self.appear(COMBAT_AUTO, offset=(200, 200)):
             if auto:
                 self.device.click(COMBAT_AUTO_SWITCH)

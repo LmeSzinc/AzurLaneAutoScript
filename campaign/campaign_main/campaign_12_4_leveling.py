@@ -87,7 +87,7 @@ class Campaign(CampaignBase):
         if self.battle_count >= self.config.C124_AMMO_PICK_UP:
             self.pick_up_ammo()
 
-        if self.clear_enemy(scale=(3,), genre=['light', 'carrier', 'enemy', 'treasure', 'main']):
+        if self.clear_enemy(scale=(3,), genre=['light', 'carrier']):
             self.s3_enemy_count += 1
             self.non_s3_enemy_count = 0
             return True

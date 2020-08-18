@@ -94,16 +94,6 @@ class SelectedGrids:
         """
         return SelectedGrids(list(set(self.grids + grids.grids)))
 
-    def intersect(self, grids):
-        """
-        Args:
-            grids(SelectedGrids):
-
-        Returns:
-            SelectedGrids:
-        """
-        return SelectedGrids(list(set(self.grids).intersection(set(grids.grids))))
-
     def delete(self, grids):
         """
         Args:
@@ -115,16 +105,23 @@ class SelectedGrids:
         g = [grid for grid in self.grids if grid not in grids]
         return SelectedGrids(g)
 
-    def sort(self, *args):
+    def sort(self, cost=True, weight=True):
         """
+
         Args:
-            args (str): Attribute name to sort.
+            cost (bool):
+            weight (bool):
 
         Returns:
-            SelectedGrids:
+
         """
-        if len(args):
-            grids = sorted(self.grids, key=operator.attrgetter(*args))
+        attr = []
+        if weight:
+            attr.append('weight')
+        if cost:
+            attr.append('cost')
+        if len(attr):
+            grids = sorted(self.grids, key=operator.attrgetter(*attr))
             return SelectedGrids(grids)
         else:
             return self
@@ -186,7 +183,7 @@ class RoadGrids:
                 grids += block.select(is_enemy=True).grids
         return SelectedGrids(grids)
 
-    def first_roadblocks(self):
+    def first_roadblock(self):
         """
         Returns:
             SelectedGrids:
@@ -197,22 +194,6 @@ class RoadGrids:
                 continue
             if np.any([grid.is_cleared for grid in block]):
                 continue
-            if block.select(is_enemy=True).count >= 1:
+            if block.select(is_enemy=True).count == 1:
                 grids += block.select(is_enemy=True).grids
         return SelectedGrids(grids)
-
-    def combine(self, road):
-        """
-        Args:
-            road (RoadGrids):
-
-        Returns:
-            RoadGrids:
-        """
-        out = RoadGrids([])
-        for select_1 in self.grids:
-            for select_2 in road.grids:
-                select = select_1.add(select_2)
-                out.grids.append(select)
-
-        return out

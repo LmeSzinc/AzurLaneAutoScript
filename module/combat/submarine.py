@@ -7,7 +7,6 @@ from module.logger import logger
 class SubmarineCall(ModuleBase):
     submarine_call_flag = False
     submarine_call_timer = Timer(5)
-    submarine_call_click_timer = Timer(1)
 
     def submarine_call_reset(self):
         """
@@ -30,20 +29,13 @@ class SubmarineCall(ModuleBase):
             logger.info('Submarine call timer reached')
             self.submarine_call_flag = True
             return False
-
         if not self.appear(SUBMARINE_AVAILABLE_CHECK_1) or not self.appear(SUBMARINE_AVAILABLE_CHECK_2):
             return False
-
         if self.appear(SUBMARINE_CALLED):
             logger.info('Submarine called')
             self.submarine_call_flag = True
             return False
-        elif self.submarine_call_click_timer.reached():
-            if self.appear_then_click(SUBMARINE_READY):
-                logger.info('Call submarine')
-                return True
-            else:
-                logger.info('Incorrect submarine icon')
-                self.device.click(SUBMARINE_READY)
-                logger.info('Call submarine')
-                return True
+
+        if self.appear_then_click(SUBMARINE_READY, interval=1):
+            logger.info('Call submarine')
+            return True

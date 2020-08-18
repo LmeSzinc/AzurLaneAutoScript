@@ -5,12 +5,12 @@ from retrying import retry
 
 from module.base.timer import Timer
 from module.base.utils import *
-from module.device.minitouch import MiniTouch
-from module.exception import GameTooManyClickError
+from module.device.connection import Connection
+from module.exception import ScriptError
 from module.logger import logger
 
 
-class Control(MiniTouch):
+class Control(Connection):
     click_record = deque(maxlen=15)
 
     @staticmethod
@@ -25,6 +25,10 @@ class Control(MiniTouch):
     def time(self):
         return time.time()
 
+    @staticmethod
+    def _point2str(x, y):
+        return '(%s,%s)' % (str(int(x)).rjust(4), str(int(y)).rjust(4))
+
     def click_record_check(self, button):
         """
         Args:
@@ -36,29 +40,25 @@ class Control(MiniTouch):
         if sum([1 if str(prev) == str(button) else 0 for prev in self.click_record]) >= 12:
             logger.warning(f'Too many click for a button: {button}')
             logger.info(f'History click: {[str(prev) for prev in self.click_record]}')
-            raise GameTooManyClickError(f'Too many click for a button: {button}')
+            raise ScriptError(f'Too many click for a button: {button}')
         else:
             self.click_record.append(str(button))
 
         return False
 
-    def click(self, button, record_check=True):
+    def click(self, button):
         """Method to click a button.
 
         Args:
             button (button.Button): AzurLane Button instance.
-            record_check (bool):
         """
-        if record_check:
-            self.click_record_check(button)
+        self.click_record_check(button)
         x, y = random_rectangle_point(button.button)
         logger.info(
-            'Click %s @ %s' % (point2str(x, y), button)
+            'Click %s @ %s' % (self._point2str(x, y), button)
         )
         method = self.config.DEVICE_CONTROL_METHOD
-        if method == 'minitouch':
-            self._click_minitouch(x, y)
-        elif method == 'uiautomator2':
+        if method == 'uiautomator2':
             self._click_uiautomator2(x, y)
         else:
             self._click_adb(x, y)
@@ -73,7 +73,6 @@ class Control(MiniTouch):
         self.adb_shell(['input', 'tap', str(x), str(y)], serial=self.serial)
 
     def multi_click(self, button, n, interval=(0.1, 0.2)):
-        self.click_record_check(button)
         click_timer = Timer(0.1)
         for _ in range(n):
             remain = ensure_time(interval) - click_timer.current()
@@ -81,7 +80,7 @@ class Control(MiniTouch):
                 self.sleep(remain)
 
             click_timer.reset()
-            self.click(button, record_check=False)
+            self.click(button)
 
     def long_click(self, button, duration=(1, 1.2)):
         """Method to long click a button.
@@ -93,35 +92,27 @@ class Control(MiniTouch):
         x, y = random_rectangle_point(button.button)
         duration = ensure_time(duration)
         logger.info(
-            'Click %s @ %s, %s' % (point2str(x, y), button, duration)
+            'Click %s @ %s, %s' % (self._point2str(x, y), button, duration)
         )
         self.device.long_click(x, y, duration=duration)
 
-    def swipe(self, vector, box=(123, 159, 1193, 628), random_range=(0, 0, 0, 0), padding=15, duration=(0.1, 0.2),
-              name='SWIPE'):
+    def swipe(self, vector, box=(123, 159, 1193, 628), random_range=(0, 0, 0, 0), padding=15, duration=(0.1, 0.2)):
         """Method to swipe.
 
         Args:
-            box (tuple): Swipe in box (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
-            vector (tuple): (x, y).
-            random_range (tuple): (x_min, y_min, x_max, y_max).
-            padding (int):
-            duration (int, float, tuple):
-            name (str): Swipe name
+            box(tuple): Swipe in box (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
+            vector(tuple): (x, y).
+            random_range(tuple): (x_min, y_min, x_max, y_max).
+            padding(int):
+            duration(int, float, tuple):
         """
-        self.click_record_check(name)
         duration = ensure_time(duration)
         start, end = random_rectangle_vector(vector, box, random_range=random_range, padding=padding)
         logger.info(
-            'Swipe %s -> %s, %s' % (point2str(*start), point2str(*end), duration)
+            'Swipe %s -> %s, %s' % (self._point2str(*start), self._point2str(*end), duration)
         )
         fx, fy, tx, ty = np.append(start, end).tolist()
-
-        method = self.config.DEVICE_CONTROL_METHOD
-        if method == 'minitouch':
-            self._swipe_minitouch(fx, fy, tx, ty)
-        else:
-            self.device.swipe(fx, fy, tx, ty, duration=duration)
+        self.device.swipe(fx, fy, tx, ty, duration=duration)
 
     def drag_along(self, path):
         """Swipe following path.
@@ -153,27 +144,17 @@ class Control(MiniTouch):
             x, y, second = data
             if index == 0:
                 self.device.touch.down(x, y)
-                logger.info(point2str(x, y) + ' down')
+                logger.info(self._point2str(x, y) + ' down')
             elif index - length == -1:
                 self.device.touch.up(x, y)
-                logger.info(point2str(x, y) + ' up')
+                logger.info(self._point2str(x, y) + ' up')
             else:
                 self.device.touch.move(x, y)
-                logger.info(point2str(x, y) + ' move')
+                logger.info(self._point2str(x, y) + ' move')
             self.sleep(second)
 
     def drag(self, p1, p2, segments=1, shake=(0, 15), point_random=(-10, -10, 10, 10), shake_random=(-5, -5, 5, 5),
              swipe_duration=0.25, shake_duration=0.1):
-        method = self.config.DEVICE_CONTROL_METHOD
-        if method == 'minitouch':
-            self._drag_minitouch(p1, p2, point_random=point_random)
-        else:
-            self._drag_uiautomator2(
-                p1, p2, segments=segments, shake=shake, point_random=point_random, shake_random=shake_random,
-                swipe_duration=swipe_duration, shake_duration=shake_duration)
-
-    def _drag_uiautomator2(self, p1, p2, segments=1, shake=(0, 15), point_random=(-10, -10, 10, 10),
-            shake_random=(-5, -5, 5, 5), swipe_duration=0.25, shake_duration=0.1):
         """Drag and shake, like:
                      /\
         +-----------+  +  +

@@ -1,9 +1,8 @@
-import cv2
 import numpy as np
 from PIL import ImageStat
 
 
-def random_normal_distribution_int(a, b, n=3):
+def random_normal_distribution_int(a, b, n=5):
     """Generate a normal distribution int within the interval. Use the average value of several random numbers to
     simulate normal distribution.
 
@@ -20,6 +19,24 @@ def random_normal_distribution_int(a, b, n=3):
         return int(output.round())
     else:
         return b
+
+
+def ensure_time(second, n=5, precision=3):
+    """Ensure to be time.
+
+    Args:
+        second (int, float, tuple): time.
+        n (int): The amount of numbers in simulation. Default to 5.
+        precision (int): Decimals.
+
+    Returns:
+
+    """
+    if isinstance(second, tuple):
+        multiply = 10 ** precision
+        return random_normal_distribution_int(second[0] * multiply, second[1] * multiply, n) / multiply
+    else:
+        return second
 
 
 def random_rectangle_point(area):
@@ -75,24 +92,6 @@ def random_line_segments(p1, p2, n, random_range=(0, 0, 0, 0)):
             for index in range(0, n + 1)]
 
 
-def ensure_time(second, n=5, precision=3):
-    """Ensure to be time.
-
-    Args:
-        second (int, float, tuple): time.
-        n (int): The amount of numbers in simulation. Default to 5.
-        precision (int): Decimals.
-
-    Returns:
-        float:
-    """
-    if isinstance(second, tuple):
-        multiply = 10 ** precision
-        return random_normal_distribution_int(second[0] * multiply, second[1] * multiply, n) / multiply
-    else:
-        return second
-
-
 def area_offset(area, offset):
     """
 
@@ -128,7 +127,7 @@ def point_in_area(point, area, threshold=5):
         threshold: int
 
     Returns:
-        bool:
+        bool
     """
     return area[0] - threshold < point[0] < area[2] + threshold and area[1] - threshold < point[1] < area[3] + threshold
 
@@ -142,7 +141,7 @@ def area_in_area(area1, area2, threshold=5):
         threshold: int
 
     Returns:
-        bool:
+        bool
     """
     return area2[0] - threshold <= area1[0] \
            and area2[1] - threshold <= area1[1] \
@@ -159,37 +158,12 @@ def area_cross_area(area1, area2, threshold=5):
         threshold: int
 
     Returns:
-        bool:
+        bool
     """
     return point_in_area((area1[0], area1[1]), area2, threshold=threshold) \
            or point_in_area((area1[2], area1[1]), area2, threshold=threshold) \
            or point_in_area((area1[0], area1[3]), area2, threshold=threshold) \
            or point_in_area((area1[2], area1[3]), area2, threshold=threshold)
-
-
-def float2str(n, decimal=3):
-    """
-    Args:
-        n (float):
-        decimal (int):
-
-    Returns:
-        str:
-    """
-    return str(round(n, decimal)).ljust(decimal + 2, "0")
-
-
-def point2str(x, y, length=4):
-    """
-    Args:
-        x (int, float):
-        y (int, float):
-        length (int): Align length.
-
-    Returns:
-        str: String with numbers right aligned, such as '( 100,  80)'.
-    """
-    return '(%s, %s)' % (str(int(x)).rjust(length), str(int(y)).rjust(length))
 
 
 def node2location(node):
@@ -212,23 +186,6 @@ def location2node(location):
         str: Example: 'E3'
     """
     return chr(location[0] + 64 + 1) + str(location[1] + 1)
-
-
-def crop(image, area):
-    """Crop image like pillow, when using opencv / numpy
-
-    Args:
-        image (np.ndarray):
-        area:
-
-    Returns:
-        np.ndarray:
-    """
-    x1, y1, x2, y2 = area
-    h, w = image.shape[:2]
-    border = np.maximum((0 - y1, y2 - h, 0 - x1, x2 - w), 0)
-    x1, y1, x2, y2 = np.maximum((x1, y1, x2, y2), 0)
-    return cv2.copyMakeBorder(image[y1:y2, x1:x2], *border, borderType=cv2.BORDER_CONSTANT, value=(0, 0, 0))
 
 
 def get_color(image, area):
@@ -255,8 +212,11 @@ def color_similarity(color1, color2):
     Returns:
         int:
     """
-    diff = np.array(color1).astype(int) - np.array(color2).astype(int)
-    diff = np.max(np.maximum(diff, 0)) - np.min(np.minimum(diff, 0))
+    diff = np.array(color1) - np.array(color2)
+    positive, negative = diff, np.abs(diff)
+    positive[diff < 0] = 0
+    negative[diff > 0] = 0
+    diff = np.max(positive) + np.max(negative)
     return diff
 
 
@@ -274,23 +234,29 @@ def color_similar(color1, color2, threshold=10):
         bool: True if two colors are similar.
     """
     # print(color1, color2)
-    diff = np.array(color1).astype(int) - np.array(color2).astype(int)
-    diff = np.max(np.maximum(diff, 0)) - np.min(np.minimum(diff, 0))
+    diff = np.array(color1) - np.array(color2)
+    positive, negative = diff, np.abs(diff)
+    positive[diff < 0] = 0
+    negative[diff > 0] = 0
+    diff = np.max(positive) + np.max(negative)
     return diff <= threshold
 
 
-def color_similar_1d(image, color, threshold=10):
+def color_similar_1d(bar, color, threshold=10):
     """
     Args:
-        image: 1D array.
+        bar: 1D array.
         color: (r, g, b)
         threshold(int): Default to 10.
 
     Returns:
         np.ndarray: bool
     """
-    diff = np.array(image).astype(int) - color
-    diff = np.max(np.maximum(diff, 0), axis=1) - np.min(np.minimum(diff, 0), axis=1)
+    diff = np.array(bar) - np.array(color)
+    positive, negative = diff, np.abs(diff)
+    positive[diff < 0] = 0
+    negative[diff > 0] = 0
+    diff = np.max(positive, axis=1) + np.max(negative, axis=1)
     return diff <= threshold
 
 
@@ -303,49 +269,32 @@ def color_similarity_2d(image, color):
     Returns:
         np.ndarray: uint8
     """
-    image = np.array(image)
-    r, g, b = cv2.split(cv2.subtract(image, (*color, 0)))
-    positive = cv2.max(cv2.max(r, g), b)
-    r, g, b = cv2.split(cv2.subtract((*color, 0), image))
-    negative = cv2.max(cv2.max(r, g), b)
-    return cv2.subtract(255, cv2.add(positive, negative))
+    diff = np.array(image) - color
+    positive, negative = diff, np.abs(diff)
+    positive[diff < 0] = 0
+    negative[diff > 0] = 0
+    diff = 255.0 - np.max(positive, axis=2) - np.max(negative, axis=2)
+    diff[diff < 0] = 0
+    image = diff.astype(np.uint8)
+    return image
 
 
-def extract_letters(image, letter=(255, 255, 255), threshold=128):
+def extract_letters(image, letter=(255, 255, 255), back=(0, 0, 0)):
     """Set letter color to black, set background color to white.
 
     Args:
         image: Shape (height, width, channel)
         letter (tuple): Letter RGB.
-        threshold (int):
+        back (tuple): Background RGB.
 
     Returns:
         np.ndarray: Shape (height, width)
     """
-    image = np.array(image)
-    r, g, b = cv2.split(cv2.subtract(image, (*letter, 0)))
-    positive = cv2.max(cv2.max(r, g), b)
-    r, g, b = cv2.split(cv2.subtract((*letter, 0), image))
-    negative = cv2.max(cv2.max(r, g), b)
-    return cv2.multiply(cv2.add(positive, negative), 255.0 / threshold)
-
-
-def extract_white_letters(image, threshold=128):
-    """Set letter color to black, set background color to white.
-    This function will discourage color pixels (Non-gray pixels)
-
-    Args:
-        image: Shape (height, width, channel)
-        threshold (int):
-
-    Returns:
-        np.ndarray: Shape (height, width)
-    """
-    image = np.array(image)
-    r, g, b = cv2.split(cv2.subtract((255, 255, 255, 0), image))
-    minimum = cv2.min(cv2.min(r, g), b)
-    maximum = cv2.max(cv2.max(r, g), b)
-    return cv2.multiply(cv2.add(maximum, cv2.subtract(maximum, minimum)), 255.0 / threshold)
+    image = color_similarity_2d(np.array(image), color=letter)
+    back = color_similarity(back, letter)
+    image = (255.0 - image) * (1 + back / 255)
+    image[image > 255] = 255
+    return image
 
 
 def red_overlay_transparency(color1, color2, red=247):
@@ -375,25 +324,17 @@ def color_bar_percentage(image, area, prev_color, reverse=False, starter=0, thre
     Returns:
         float: 0 to 1.
     """
-    image = np.array(image.crop(area))
-    image = image[:, ::-1, :] if reverse else image
-    length = image.shape[1]
-    prev_index = starter
+    bar = np.array(image.crop(area))
+    length = bar.shape[1]
+    bar = np.swapaxes(bar, 0, 1)
+    bar = bar[::-1, :, :] if reverse else bar
+    prev_index = 0
+    for index, color in enumerate(bar):
+        if index < starter:
+            continue
+        mask = color_similar_1d(color, prev_color, threshold=threshold)
+        if np.any(mask):
+            prev_color = color[mask].mean(axis=0)
+            prev_index = index
 
-    for _ in range(1280):
-        bar = color_similarity_2d(image, color=prev_color)
-        index = np.where(np.any(bar > 255 - threshold, axis=0))[0]
-        if not index.size:
-            return prev_index / length
-        else:
-            index = index[-1]
-        if index <= prev_index:
-            return index / length
-        prev_index = index
-
-        prev_row = bar[:, prev_index] > 255 - threshold
-        if not prev_row.size:
-            return prev_index / length
-        prev_color = np.mean(image[:, prev_index], axis=0)
-
-    return 0.
+    return prev_index / length

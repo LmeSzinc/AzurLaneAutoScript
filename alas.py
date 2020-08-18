@@ -4,11 +4,12 @@ import time
 from datetime import datetime
 
 from module.config.config import AzurLaneConfig
-from module.device.device import Device
-from module.exception import *
-from module.handler.login import LoginHandler
-from module.handler.sensitive_info import handle_sensitive_image, handle_sensitive_logs
 from module.logger import logger, pyw_name, log_file
+
+from module.device.device import Device
+
+from module.updater import Update
+
 
 
 class AzurLaneAutoScript:
@@ -21,51 +22,28 @@ class AzurLaneAutoScript:
 
     def run(self, command):
         self.config.start_time = datetime.now()
-        self.device = Device(config=self.config)
-        while 1:
-            try:
-                self.__getattribute__(command.lower())()
-                break
-            except GameNotRunningError as e:
-                logger.warning(e)
-                az = LoginHandler(self.config, device=self.device)
-                az.app_restart()
-                az.ensure_no_unfinished_campaign()
-                continue
-            except GameStuckError as e:
-                logger.warning(e)
-                self.save_error_log()
-                az = LoginHandler(self.config, device=self.device)
-                az.handle_game_stuck()
-                continue
-            except Exception as e:
-                logger.exception(e)
-                self.save_error_log()
-                break
+        try:
+            self.device = Device(config=self.config)
+            self.__getattribute__(command.lower())()
+        except Exception as e:
+            logger.exception(e)
 
-    def save_error_log(self):
-        """
-        Save last 60 screenshots in ./log/error/<timestamp>
-        Save logs to ./log/error/<timestamp>/log.txt
-        """
-        if self.config.ENABLE_ERROR_LOG_AND_SCREENSHOT_SAVE:
-            folder = f'./log/error/{int(time.time() * 1000)}'
-            logger.info(f'Saving error: {folder}')
-            os.mkdir(folder)
-            for data in logger.screenshot_deque:
-                image_time = datetime.strftime(data['time'], '%Y-%m-%d_%H-%M-%S-%f')
-                image = handle_sensitive_image(data['image'])
-                image.save(f'{folder}/{image_time}.png')
-            with open(log_file, 'r') as f:
-                start = 0
-                for index, line in enumerate(f.readlines()):
-                    if re.search('\+-{15,}\+', line):
-                        start = index
-            with open(log_file, 'r') as f:
-                text = f.readlines()[start - 2:]
-                text = handle_sensitive_logs(text)
-            with open(f'{folder}/log.txt', 'w') as f:
-                f.writelines(text)
+            if self.config.ENABLE_ERROR_LOG_AND_SCREENSHOT_SAVE:
+                folder = f'./log/error/{int(time.time() * 1000)}'
+                logger.info(f'Saving error: {folder}')
+                os.mkdir(folder)
+                for data in logger.screenshot_deque:
+                    image_time = datetime.strftime(data['time'], '%Y-%m-%d_%H-%M-%S-%f')
+                    data['image'].save(f'{folder}/{image_time}.png')
+                with open(log_file, 'r') as f:
+                    start = 0
+                    for index, line in enumerate(f.readlines()):
+                        if re.search('\+-{15,}\+', line):
+                            start = index
+                with open(log_file, 'r') as f:
+                    text = f.readlines()[start - 2:]
+                with open(f'{folder}/log.txt', 'w') as f:
+                    f.writelines(text)
 
     def reward_when_finished(self):
         from module.reward.reward import Reward
@@ -82,25 +60,21 @@ class AzurLaneAutoScript:
         self.config.config_check()
 
     def update_check(self):
-        from module.update import Update
-        ad = Update(self.config)
-        if self.config.UPDATE_CHECK:
-            ad.get_local_commit()
+        self.config.UPDATE = Update(self.config)
+        if self.config.UPDATE.check_update():
+            logger.warning('A new update is available, please run updater.bat or check github.')
 
     def reward(self):
         for key, value in self.config.config['Reward'].items():
             print(f'{key} = {value}')
 
         logger.hr('Reward Settings saved')
-        self.update_check()
         self.reward_when_finished()
+        self.update_check()
 
     def emulator(self):
         for key, value in self.config.config['Emulator'].items():
-            if key == 'github_token':
-                print(f'{key} = {"<sensitive_infomation>"}')
-            else:
-                print(f'{key} = {value}')
+            print(f'{key} = {value}')
 
         logger.hr('Emulator saved')
         self.update_check()
@@ -110,8 +84,6 @@ class AzurLaneAutoScript:
             from module.reward.reward import Reward
             az = Reward(self.config, device=self.device)
             az.reward()
-        else:
-            az.device.screenshot()
 
     def main(self):
         """
@@ -126,9 +98,26 @@ class AzurLaneAutoScript:
         """
         Method to run daily missions.
         """
-        from module.reward.reward import Reward
-        az = Reward(self.config, device=self.device)
-        az.daily_wrapper_run()
+        if self.config.ENABLE_DAILY_MISSION:
+            from module.daily.daily import Daily
+            az = Daily(self.config, device=self.device)
+            if not az.record_executed_since():
+                az.run()
+                az.record_save()
+
+        if self.config.ENABLE_HARD_CAMPAIGN:
+            from module.hard.hard import CampaignHard
+            az = CampaignHard(self.config, device=self.device)
+            if not az.record_executed_since():
+                az.run()
+                az.record_save()
+
+        if self.config.ENABLE_EXERCISE:
+            from module.exercise.exercise import Exercise
+            az = Exercise(self.config, device=self.device)
+            if not az.record_executed_since():
+                az.run()
+                az.record_save()
 
         self.reward_when_finished()
 
@@ -141,12 +130,6 @@ class AzurLaneAutoScript:
         az.run(self.config.CAMPAIGN_EVENT, folder=self.config.EVENT_NAME)
         self.reward_when_finished()
 
-    def raid(self):
-        from module.raid.run import RaidRun
-        az = RaidRun(self.config, device=self.device)
-        az.run()
-        self.reward_when_finished()
-
     def event_daily_ab(self):
         from module.event.campaign_ab import CampaignAB
         az = CampaignAB(self.config, device=self.device)
@@ -157,12 +140,6 @@ class AzurLaneAutoScript:
         from module.daemon.daemon import AzurLaneDaemon
         az = AzurLaneDaemon(self.config, device=self.device)
         az.daemon()
-
-    def c11_affinity_farming(self):
-        from module.campaign.run import CampaignRun
-        az = CampaignRun(self.config, device=self.device)
-        az.run('campaign_1_1_affinity_farming')
-        self.reward_when_finished()
 
     def c72_mystery_farming(self):
         from module.campaign.run import CampaignRun
@@ -187,6 +164,7 @@ class AzurLaneAutoScript:
         az = Retirement(self.config, device=self.device)
         az.device.screenshot()
         az.retire_ships(amount=2000)
+
 
 # alas = AzurLaneAutoScript()
 # alas.reward()

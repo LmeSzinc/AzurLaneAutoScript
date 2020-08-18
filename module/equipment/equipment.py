@@ -3,7 +3,7 @@ from module.base.timer import Timer
 from module.equipment.assets import *
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
-from module.ui.ui import UI
+from module.ui.assets import BACK_ARROW
 from module.base.utils import color_similarity_2d
 import numpy as np
 
@@ -13,40 +13,33 @@ DETAIL_SIDEBAR = ButtonGrid(
     origin=(21, 118), delta=(0, 94.5), button_shape=(60, 75), grid_shape=(1, 5), name='DETAIL_SIDEBAR')
 
 
-class Equipment(UI):
+class Equipment(InfoHandler):
     equipment_has_take_on = False
 
     def _view_swipe(self, distance, check_button=EQUIPMENT_OPEN):
-        swipe_count = 0
-        swipe_timer = Timer(5, count=10)
-        self.ensure_no_info_bar()
+        swipe_timer = Timer(3, count=5)
         SWIPE_CHECK.load_color(self.device.image)
         while 1:
             if not swipe_timer.started() or swipe_timer.reached():
                 swipe_timer.reset()
                 self.device.swipe(vector=(distance, 0), box=SWIPE_AREA.area, random_range=SWIPE_RANDOM_RANGE,
-                                  padding=0, duration=(0.1, 0.12), name='EQUIP_SWIPE')
-                swipe_count += 1
+                                  padding=0, duration=(0.1, 0.12))
 
             self.device.screenshot()
             if SWIPE_CHECK.match(self.device.image):
-                if swipe_count > 1:
-                    logger.warning('Same ship on multiple swipes')
-                    return False
                 continue
 
             if self.appear(check_button, offset=(30, 30)) and not SWIPE_CHECK.match(self.device.image):
-                logger.info('New ship detected on swipe')
-                return True
+                break
 
     def equip_view_next(self, check_button=EQUIPMENT_OPEN):
-        return self._view_swipe(distance=-SWIPE_DISTANCE, check_button=check_button)
+        self._view_swipe(distance=-SWIPE_DISTANCE, check_button=check_button)
 
     def equip_view_prev(self, check_button=EQUIPMENT_OPEN):
-        return self._view_swipe(distance=SWIPE_DISTANCE, check_button=check_button)
+        self._view_swipe(distance=SWIPE_DISTANCE, check_button=check_button)
 
     def equip_enter(self, click_button, check_button=EQUIPMENT_OPEN, long_click=True):
-        enter_timer = Timer(10)
+        enter_timer = Timer(5)
 
         while 1:
             if enter_timer.reached():
@@ -62,6 +55,23 @@ class Equipment(UI):
             if self.appear(check_button):
                 break
 
+    def equip_quit(self, out):
+        quit_timer = Timer(3)
+
+        while 1:
+            self.device.screenshot()
+
+            # End
+            if self.appear(out):
+                break
+
+            if quit_timer.reached() and self.appear(BACK_ARROW):
+                # self.device.sleep(1)
+                self.device.click(BACK_ARROW)
+                self.device.sleep((0.2, 0.3))
+                quit_timer.reset()
+                continue
+
     def _equip_sidebar_click(self, index):
         """
         Args:
@@ -75,10 +85,6 @@ class Equipment(UI):
         Returns:
             bool: if changed.
         """
-        if index <= 0 or index > 5:
-            logger.warning(f'Sidebar index cannot be clicked, {index}, limit to 1 through 5 only')
-            return False
-
         current = 0
         total = 0
 
@@ -100,7 +106,6 @@ class Equipment(UI):
             current = 6 - current
         else:
             logger.warning('Ship details sidebar total count error.')
-            return True
 
         logger.attr('Detail_sidebar', f'{current}/{total}')
         if current == index:
@@ -118,17 +123,7 @@ class Equipment(UI):
                 3 for limit break.
                 2 for gem / equipment.
                 1 for detail.
-
-            Returns:
-                bool: whether sidebar could be ensured
-                      at most 3 attempts are made before
-                      return False otherwise True
         """
-        if index <= 0 or index > 5:
-            logger.warning(f'Sidebar index cannot be ensured, {index}, limit 1 through 5 only')
-            return False
-
-        counter = 0
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -136,14 +131,10 @@ class Equipment(UI):
                 self.device.screenshot()
 
             if self._equip_sidebar_click(index):
-                if counter > 2:
-                    logger.warning('Sidebar could not be ensured')
-                    return False
-                counter += 1
                 self.device.sleep((0.3, 0.5))
                 continue
             else:
-                return True
+                break
 
     def _equip_take_off_one(self):
         bar_timer = Timer(5)
@@ -188,7 +179,7 @@ class Equipment(UI):
             else:
                 self._equip_take_off_one()
 
-        self.ui_back(out)
+        self.equip_quit(out)
         self.equipment_has_take_on = False
 
     def _equip_take_on_one(self, index):
@@ -238,5 +229,5 @@ class Equipment(UI):
             else:
                 self._equip_take_on_one(index=index)
 
-        self.ui_back(out)
+        self.equip_quit(out)
         self.equipment_has_take_on = True

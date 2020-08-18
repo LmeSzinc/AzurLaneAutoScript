@@ -8,7 +8,6 @@ from campaign.campaign_main.campaign_5_1 import Config
 MAP = CampaignMap()
 MAP.shape = 'G5'
 MAP.camera_data = ['D2', 'D3']
-MAP.camera_data_spawn_point = ['D2', 'D3']
 MAP.map_data = '''
     ++ MB ME SP ME MB ME
     ++ ME -- ME -- -- --

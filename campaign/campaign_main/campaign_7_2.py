@@ -20,8 +20,7 @@ MAP.weight_data = '''
     20 20 20 10 20 20 20 20
     30 30 30 30 30 30 30 30
 '''
-MAP.camera_data = ['D3', 'D2']
-MAP.camera_data_spawn_point = ['D3', 'D2']
+MAP.camera_data = ['D3']
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 3},
     {'battle': 1, 'enemy': 2, 'mystery': 1},
@@ -54,7 +53,7 @@ class Campaign(CampaignBase):
             return True
 
         ignore = None
-        if self.fleet_at(A3, fleet=2) and A1.enemy_scale != 3 and not self.fleet_at(A1, fleet=1):
+        if self.fleet_at(A3, fleet=2):
             ignore = SelectedGrids([A2])
         if self.fleet_at(G3, fleet=2):
             ignore = SelectedGrids([H3])
@@ -68,7 +67,7 @@ class Campaign(CampaignBase):
         if self.clear_potential_roadblocks([ROAD_MAIN], strongest=True):
             return True
 
-        if self.clear_enemy(strongest=True):
+        if self.clear_enemy(strongest=True, weight=True):
             return True
 
         return self.battle_default()

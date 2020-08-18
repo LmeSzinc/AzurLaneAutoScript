@@ -5,6 +5,7 @@ from module.base.button import Button, ButtonGrid
 from module.base.timer import Timer, time_range_active
 from module.base.utils import area_offset, get_color, color_similar, color_similarity_2d
 from module.exception import ScriptError
+from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.reward.assets import *
 from module.ui.assets import TACTICAL_CHECK
@@ -117,22 +118,19 @@ class BookGroup:
         """
         return BookGroup(self.books + books.books)
 
-    def choose(self, tier_max, tier_min, exp=True):
+    def choose(self, tier, exp=True):
         """
         Args:
-            tier_max (int): Max tier to choose, 1 to 3.
-            tier_min (int): Min tier to choose, 1 to 3.
+            tier (int): Max tier to choose.
             exp (bool): True to choose books with exp bonus, False to choose other books in the same tier.
 
         Returns:
             Book:
         """
-        tier = tier_max
-        while tier >= tier_min:
+        while 1:
             books = self.select(tier=tier)
-            books_with_exp = books.select(exp=True)
             tier -= 1
-
+            books_with_exp = books.select(exp=True)
             if exp and not books_with_exp:
                 continue
             if books_with_exp:
@@ -141,11 +139,15 @@ class BookGroup:
                 logger.attr('Book_choose', books[0])
                 return books[0]
 
-        logger.info('No book choose')
-        return None
+            # End
+            if tier <= 0:
+                break
+
+        logger.warning('No book choose, return first book.')
+        return self[0]
 
 
-class RewardTacticalClass(UI):
+class RewardTacticalClass(UI, InfoHandler):
     def _tactical_animation_running(self):
         """
         Returns:
@@ -179,32 +181,16 @@ class RewardTacticalClass(UI):
             logger.warning('No book found.')
             raise ScriptError('No book found.')
 
-        # if not time_range_active(self.config.TACTICAL_NIGHT_RANGE):
-        #     tier = self.config.TACTICAL_BOOK_TIER
-        #     exp = self.config.TACTICAL_EXP_FIRST
-        # else:
-        #     tier = self.config.TACTICAL_BOOK_TIER_NIGHT
-        #     exp = self.config.TACTICAL_EXP_FIRST_NIGHT
-        # book = books.choose(tier=tier, exp=exp)
-
-        book = books.choose(tier_max=self.config.TACTICAL_BOOK_TIER_MAX,
-                            tier_min=self.config.TACTICAL_BOOK_TIER_MIN,
-                            exp=self.config.TACTICAL_EXP_FIRST)
-
-        if book is not None:
-            self.device.click(book.button)
-            self.device.sleep((0.3, 0.5))
-            self.device.click(TACTICAL_CLASS_START)
+        if not time_range_active(self.config.TACTICAL_NIGHT_RANGE):
+            tier = self.config.TACTICAL_BOOK_TIER
+            exp = self.config.TACTICAL_EXP_FIRST
         else:
-            # cancel_tactical, use_the_first_book
-            if self.config.TACTICAL_IF_NO_BOOK_SATISFIED == 'use_the_first_book':
-                logger.info('Choose first book')
-                self.device.click(books[0].button)
-                self.device.sleep((0.3, 0.5))
-                self.device.click(TACTICAL_CLASS_START)
-            else:
-                logger.info('Cancel tactical')
-                self.device.click(TACTICAL_CLASS_CANCEL)
+            tier = self.config.TACTICAL_BOOK_TIER_NIGHT
+            exp = self.config.TACTICAL_EXP_FIRST_NIGHT
+        book = books.choose(tier=tier, exp=exp)
+
+        self.device.click(book.button)
+        self.device.sleep((0.3, 0.5))
 
     def _tactical_class_receive(self, skip_first_screenshot=True):
         """Remember to make sure current page is page_reward before calls.
@@ -242,8 +228,8 @@ class RewardTacticalClass(UI):
                     and self.appear(TACTICAL_CLASS_START, offset=(30, 30)):
                 self.device.sleep(0.3)
                 self.device.screenshot()
-                self.handle_info_bar()  # info_bar appears when get ship in Launch Ceremony commissions
                 self._tactical_books_choose()
+                self.device.click(TACTICAL_CLASS_START)
                 self.interval_reset(TACTICAL_CLASS_CANCEL)
                 tactical_class_timout.reset()
                 continue

@@ -9,13 +9,6 @@ from module.logger import logger
 
 
 class Connection:
-    _adb_binary = ''
-    adb_binary_list = [
-        r'.\adb\adb.exe',
-        r'.\toolkit\Lib\site-packages\adbutils\binaries\adb.exe',
-        r'.\python\Lib\site-packages\adbutils\binaries\adb.exe',
-    ]
-
     def __init__(self, config):
         """
         Args:
@@ -26,38 +19,21 @@ class Connection:
         self.serial = str(self.config.SERIAL)
         self.device = self.connect(self.serial)
         self.disable_uiautomator2_auto_quit()
-        # if self.config.DEVICE_SCREENSHOT_METHOD == 'aScreenCap':
-        #     self._ascreencap_init()
+        if self.config.DEVICE_SCREENSHOT_METHOD == 'aScreenCap':
+            self._ascreencap_init()
 
-    @property
-    def adb_binary(self):
-        if self._adb_binary:
-            return self._adb_binary
-
-        # Try existing adb.exe
-        for file in self.adb_binary_list:
-            if os.path.exists(file):
-                logger.attr('Adb_binary', file)
-                self._adb_binary = file
-                return file
-
-        # Use adb.exe in system PATH
-        file = 'adb.exe'
-        logger.attr('Adb_binary', file)
-        self._adb_binary = file
-        return file
-
-    def adb_command(self, cmd, serial=None):
+    @staticmethod
+    def adb_command(cmd, serial=None):
         if serial:
-            cmd = [self.adb_binary, '-s', serial] + cmd
+            cmd = ['adb', '-s', serial] + cmd
         else:
-            cmd = [self.adb_binary] + cmd
+            cmd = ['adb'] + cmd
 
         # Use shell=True to disable console window when using GUI.
         # Although, there's still a window when you stop running in GUI, which cause by gooey.
         # To disable it, edit gooey/gui/util/taskkill.py
         process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
-        return process.communicate(timeout=10)[0]
+        return process.communicate(timeout=4)[0]
 
     def adb_shell(self, cmd, serial=None):
         cmd.insert(0, 'shell')
@@ -65,10 +41,6 @@ class Connection:
 
     def adb_exec_out(self, cmd, serial=None):
         cmd.insert(0, 'exec-out')
-        return self.adb_command(cmd, serial)
-
-    def adb_forward(self, cmd, serial=None):
-        cmd.insert(0, 'forward')
         return self.adb_command(cmd, serial)
 
     def _adb_connect(self, serial):
@@ -96,3 +68,22 @@ class Connection:
     def disable_uiautomator2_auto_quit(self, port=7912, expire=300000):
         self.adb_command(['forward', 'tcp:%s' % port, 'tcp:%s' % port], serial=self.serial)
         requests.post('http://127.0.0.1:%s/newCommandTimeout' % port, data=str(expire))
+
+    def _ascreencap_init(self):
+        logger.hr('aScreenCap init')
+
+        arc = self.adb_exec_out(['getprop', 'ro.product.cpu.abi'], serial=self.serial).decode('utf-8').strip()
+        sdk = self.adb_exec_out(['getprop', 'ro.build.version.sdk'], serial=self.serial).decode('utf-8').strip()
+        logger.info(f'cpu_arc: {arc}, sdk_ver: {sdk}')
+
+        if int(sdk) not in range(21, 26) or not os.path.exists(f'./ascreencap/{arc}'):
+            logger.warning('No suitable version of aScreenCap lib is available')
+            logger.info('Please use ADB or uiautomator2 screenshot instead')
+            exit(1)
+
+        filepath = f'./ascreencap/{arc}/ascreencap'
+        logger.info(f'pushing {filepath}')
+        self.adb_command(['push', filepath, self.config.ASCREENCAP_FILEPATH], serial=self.serial)
+
+        logger.info(f'chmod 0777 {self.config.ASCREENCAP_FILEPATH}')
+        self.adb_shell(['chmod', '0777', self.config.ASCREENCAP_FILEPATH], serial=self.serial)

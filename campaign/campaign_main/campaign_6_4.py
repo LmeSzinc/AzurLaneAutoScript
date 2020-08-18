@@ -2,11 +2,11 @@ from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
+from campaign.campaign_main.campaign_6_1 import Config
+
 
 MAP = CampaignMap()
 MAP.shape = 'H6'
-MAP.camera_data = ['D2', 'D4', 'E2', 'E4']
-MAP.camera_data_spawn_point = ['D2', 'D4']
 MAP.map_data = '''
     -- ME MB MB -- ME ++ ++
     MB SP ME -- ME MM MA ++
@@ -40,6 +40,7 @@ A5, B5, C5, D5, E5, F5, G5, H5, \
 A6, B6, C6, D6, E6, F6, G6, H6, \
     = MAP.flatten()
 
+
 step_on = SelectedGrids([C2, C3, D4, F3, G4])
 road_boss = RoadGrids([
     [A5, B6], [A4, B5, B6], C4, C5, [C3, D4], D3,  # A6 - D3
@@ -47,11 +48,6 @@ road_boss = RoadGrids([
     [B1, B2], [B1, C2], [C1, C2], [C2, D1], [C2, D2],  # A2 - D3
     [H3, G4], [G3, G4], [F3, G4], [F3, F4], [F2, F3, E4], [E2, F3, E4], E3  # H4 - D3
 ])
-
-
-class Config:
-    FLEET_BOSS = 1
-    MAP_MYSTERY_HAS_CARRIER = True
 
 
 class Campaign(CampaignBase):

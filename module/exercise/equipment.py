@@ -6,7 +6,7 @@ from module.exercise.assets import *
 
 class ExerciseEquipment(Equipment):
     def _active_edit(self):
-        timer = Timer(5)
+        timer = Timer(1)
         while 1:
             self.device.screenshot()
 
@@ -19,7 +19,7 @@ class ExerciseEquipment(Equipment):
                 break
 
     def _inactive_edit(self):
-        timer = Timer(5)
+        timer = Timer(1)
         while 1:
             self.device.screenshot()
 
