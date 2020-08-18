@@ -36,6 +36,10 @@ page_main.link(button=MAIN_GOTO_FLEET, destination=page_fleet)
 page_campaign.link(button=GOTO_MAIN, destination=page_main)
 page_fleet.link(button=GOTO_MAIN, destination=page_main)
 
+# Unknown
+page_unknown = Page(None)
+page_unknown.link(button=GOTO_MAIN, destination=page_main)
+
 # Exercise
 page_exercise = Page(EXERCISE_CHECK)
 page_exercise.link(button=GOTO_MAIN, destination=page_main)
@@ -88,3 +92,28 @@ page_reward.link(button=REWARD_GOTO_TACTICAL, destination=page_tactical)
 page_event_list = Page(EVENT_LIST_CHECK)
 page_event_list.link(button=GOTO_MAIN, destination=page_main)
 page_main.link(button=MAIN_GOTO_EVENT_LIST, destination=page_event_list)
+
+# Raid
+page_raid = Page(RAID_CHECK)
+page_raid.link(button=GOTO_MAIN, destination=page_main)
+page_main.link(button=MAIN_GOTO_RAID, destination=page_raid)
+
+# Research
+# Please don't goto page_research from page_reward.
+page_research = Page(RESEARCH_CHECK)
+page_research.link(button=GOTO_MAIN, destination=page_main)
+
+# Research menu
+page_reshmenu = Page(RESHMENU_CHECK)
+page_reshmenu.link(button=RESHMENU_GOTO_RESEARCH, destination=page_research)
+page_reshmenu.link(button=GOTO_MAIN, destination=page_main)
+page_main.link(button=MAIN_GOTO_RESHMENU, destination=page_reshmenu)
+
+# Dorm menu
+page_dormmenu = Page(DORMMENU_CHECK)
+page_main.link(button=MAIN_GOTO_DORMMENU, destination=page_dormmenu)
+
+# Meowficcer
+page_meowfficer = Page(MEOWFFICER_CHECK)
+page_dormmenu.link(button=DORMMENU_GOTO_MEOWFFICER, destination=page_meowfficer)
+page_meowfficer.link(button=BACK_ARROW_DORM, destination=page_main)

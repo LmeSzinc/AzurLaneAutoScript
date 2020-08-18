@@ -1,13 +1,13 @@
-from module.base.ocr import Digit
 from module.equipment.assets import *
 from module.equipment.equipment import Equipment
+from module.ocr.ocr import Digit
 from module.ui.assets import FLEET_CHECK
-from module.ui.ui import UI, page_fleet
+from module.ui.ui import page_fleet
 
-OCR_FLEET_INDEX = Digit(OCR_FLEET_INDEX, letter=(90, 154, 255), back=(24, 32, 49), length=1, white_list='123456')
+OCR_FLEET_INDEX = Digit(OCR_FLEET_INDEX, letter=(90, 154, 255), threshold=128, alphabet='123456')
 
 
-class DailyEquipment(UI, Equipment):
+class DailyEquipment(Equipment):
     equipment_has_take_on = False
 
     def equipment_take_on(self):

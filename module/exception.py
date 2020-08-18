@@ -2,11 +2,15 @@ class CampaignEnd(Exception):
     pass
 
 
-class PerspectiveError(Exception):
+class MapDetectionError(Exception):
     pass
 
 
 class MapWalkError(Exception):
+    pass
+
+
+class MapEnemyMoved(Exception):
     pass
 
 
@@ -19,4 +23,16 @@ class ScriptError(Exception):
 
 
 class ScriptEnd(Exception):
+    pass
+
+
+class GameStuckError(Exception):
+    pass
+
+
+class GameTooManyClickError(Exception):
+    pass
+
+
+class GameNotRunningError(Exception):
     pass

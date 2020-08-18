@@ -4,6 +4,7 @@ from module.exception import CampaignEnd
 from module.handler.assets import *
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
+from module.map.assets import *
 
 
 class EnemySearchingHandler(InfoHandler):
@@ -11,6 +12,8 @@ class EnemySearchingHandler(InfoHandler):
     MAP_ENEMY_SEARCHING_TIMEOUT_SECOND = 5
     in_stage_timer = Timer(1.5, count=5)
     stage_entrance = None
+
+    map_is_clear = False  # Will be override in fast_forward.py
 
     def enemy_searching_color_initial(self):
         MAP_ENEMY_SEARCHING.load_color(self.device.image)
@@ -37,8 +40,13 @@ class EnemySearchingHandler(InfoHandler):
 
     def is_in_stage(self):
         if not self.appear(IN_STAGE, offset=(10, 10)):
+            if self.appear(MAP_PREPARATION) or self.appear(FLEET_PREPARATION):
+                self.device.click(MAP_PREPARATION_CANCEL)
             return False
-        if self.stage_entrance is not None and not self.appear(self.stage_entrance, threshold=30):
+        if self.map_is_clear \
+                and self.stage_entrance is not None \
+                and self.stage_entrance.area \
+                and not self.appear(self.stage_entrance, threshold=30):
             return False
 
         return True

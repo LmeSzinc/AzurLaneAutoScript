@@ -58,19 +58,12 @@ class AmbushHandler(Combat):
                 if disappear.reached():
                     break
 
-    def _handle_ambush(self):
+    def _handle_ambush_evade(self):
         logger.info('Map ambushed')
         self.wait_until_appear_then_click(MAP_AMBUSH_EVADE)
-        # self.sleep(0.8)
-        # while 1:
-        #     self.screenshot()
-        #     if self.handle_info_bar():
-        #         if self.combat_appear():
-        #             logger.info('Ambush evade failed')
-        #             self.combat()
-        #         break
+
         self.wait_until_appear(INFO_BAR_1)
-        image = ambush_letter_preprocess(np.array(self.device.image.crop((641, 311, 692, 336))))
+        image = ambush_letter_preprocess(np.array(self.device.image.crop(INFO_BAR_DETECT.area)))
 
         if TEMPLATE_AMBUSH_EVADE_SUCCESS.match(image):
             logger.attr('Ambush_evade', 'success')
@@ -82,6 +75,33 @@ class AmbushHandler(Combat):
             self.ensure_no_info_bar()
             if self.combat_appear():
                 self.combat()
+
+    def _handle_ambush_attack(self):
+        logger.info('Map ambushed')
+        self.wait_until_appear(MAP_AMBUSH_EVADE)
+
+        while 1:
+            if self.appear_then_click(MAP_AMBUSH_ATTACK, interval=1):
+                continue
+            if self.handle_combat_low_emotion():
+                continue
+            if self.handle_retirement():
+                continue
+
+            # Break
+            if self.combat_appear():
+                break
+
+            self.device.screenshot()
+
+        logger.attr('Ambush_evade', 'attack')
+        self.combat(expected_end='no_searching')
+
+    def _handle_ambush(self):
+        if self.config.AMBUSH_EVADE:
+            return self._handle_ambush_evade()
+        else:
+            return self._handle_ambush_attack()
 
     def handle_ambush(self):
         if not self.config.MAP_HAS_AMBUSH:
@@ -106,7 +126,7 @@ class AmbushHandler(Combat):
         if not self.appear(INFO_BAR_1):
             return False
 
-        image = ambush_letter_preprocess(np.array(self.device.image.crop(MAP_WALK_OUT_OF_STEP.area)))
+        image = ambush_letter_preprocess(np.array(self.device.image.crop(INFO_BAR_DETECT.area)))
         if TEMPLATE_MAP_WALK_OUT_OF_STEP.match(image):
             logger.warning('Map walk out of step.')
             self.handle_info_bar()

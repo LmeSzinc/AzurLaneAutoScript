@@ -4,13 +4,12 @@ import copy
 import os
 from datetime import timezone
 
-import cv2
 import numpy as np
-from PIL import Image
 
 import module.config.server as server
 from module.base.timer import *
 from module.config.dictionary import *
+from module.config.update import get_config
 from module.logger import logger
 
 
@@ -22,7 +21,10 @@ class AzurLaneConfig:
     config = configparser.ConfigParser(interpolation=None)
     start_time = datetime.now()
 
-    UPDATE = True
+    UPDATE_CHECK = True
+    UPDATE_METHOD = 'api'  # web, api
+    UPDATE_PROXY = ''
+    GITHUB_TOKEN = ''
     SERVER = server.server
     logger.attr('Server', SERVER)
 
@@ -44,8 +46,15 @@ class AzurLaneConfig:
     FLEET_3_STEP = 3
     # Fleet 1-2, if empty use 0.
     SUBMARINE = 0
+    # Combat auto mode: combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left
+    FLEET_1_AUTO_MODE = 'combat_auto'
+    FLEET_2_AUTO_MODE = 'combat_auto'
+    FLEET_3_AUTO_MODE = 'combat_auto'
 
     USING_SPARE_FLEET = False
+
+    MOVABLE_ENEMY_FLEET_STEP = 2
+    MOVABLE_ENEMY_TURN = (2,)
 
     @property
     def FLEET_1(self):
@@ -92,7 +101,6 @@ class AzurLaneConfig:
     ENABLE_MAP_FLEET_LOCK = True
     SUBMARINE_MODE = ''
     SUBMARINE_CALL_AT_BOSS = False
-    COMBAT_AUTO_MODE = 'combat_auto'
     COMBAT_SCREENSHOT_INTERVAL = 2
 
     """
@@ -112,6 +120,9 @@ class AzurLaneConfig:
     CAMPAIGN_NAME = 'default'
     CAMPAIGN_MODE = 'normal'
 
+    ENABLE_EXCEPTION = True
+    ENABLE_GAME_STUCK_HANDLER = True
+
     ENABLE_STOP_CONDITION = True
     ENABLE_FAST_FORWARD = True
     STOP_IF_OIL_LOWER_THAN = 5000
@@ -119,11 +130,13 @@ class AzurLaneConfig:
     STOP_IF_TIME_REACH = 0
     STOP_IF_TRIGGER_EMOTION_LIMIT = False
     STOP_IF_DOCK_FULL = False
+    STOP_IF_MAP_REACH = 'no' # no, map_100, map_3_star, map_green_without_3_star, map_green
 
-    ENABLE_MAP_CLEAR_MODE = False
-    CLEAR_MODE_STOP_CONDITION = 'map_green'  # map_green, map_3_star, map_100
-    MAP_STAR_CLEAR_ALL = 3
     MAP_CLEAR_ALL_THIS_TIME = False
+    # From chapter_template.lua
+    STAR_REQUIRE_1 = 1
+    STAR_REQUIRE_2 = 2
+    STAR_REQUIRE_3 = 3
 
     """
     module.event
@@ -131,6 +144,10 @@ class AzurLaneConfig:
     EVENT_NAME = ''
     CAMPAIGN_EVENT = ''
     EVENT_NAME_AB = ''
+    ENABLE_EVENT_AB = False
+    ENABLE_EVENT_SP = False
+    EVENT_AB_CHAPTER = 'chapter_ab'  # chapter_ab, chapter_abcd
+    EVENT_SP_MOB_FLEET = 1
 
     """
     module.combat.emotion
@@ -153,11 +170,13 @@ class AzurLaneConfig:
     SERIAL = ''
     PACKAGE_NAME = ''
     COMMAND = ''
-    ASCREENCAP_FILEPATH = '/data/local/tmp/ascreencap'
+    ASCREENCAP_FILEPATH_LOCAL = './bin/ascreencap'
+    ASCREENCAP_FILEPATH_REMOTE = '/data/local/tmp/ascreencap'
+    MINITOUCH_FILEPATH_REMOTE = '/data/local/tmp/minitouch'
     # Speed: aScreenCap >> uiautomator2 > ADB
     DEVICE_SCREENSHOT_METHOD = 'aScreenCap'  # ADB, uiautomator2, aScreenCap
     # Speed: uiautomator2 >> ADB
-    DEVICE_CONTROL_METHOD = 'uiautomator2'  # ADB, uiautomator2
+    DEVICE_CONTROL_METHOD = 'uiautomator2'  # ADB, uiautomator2, minitouch
     # USE_ADB_SCREENSHOT = True
     # USE_ADB_CONTROL = False
     SCREEN_SHOT_SAVE_FOLDER_BASE = './screenshot'
@@ -168,15 +187,23 @@ class AzurLaneConfig:
     module.daily
     """
     ENABLE_DAILY_MISSION = True
-    FLEET_DAILY = 3
+    # Order of FLEET_DAILY
+    # 0 商船护送, 1 海域突进, 2 斩首行动, 3 战术研修, 4 破交作战
+    # 0 Escort Mission, 1 Advance Mission, 2 Fierce Assault, 3 Tactical Training, 4 Supply Line Disruption
+    FLEET_DAILY = [3, 3, 3, 3, 0]
     FLEET_DAILY_EQUIPMENT = [1, 1, 1, 1, 1, 1]
     DAILY_CHOOSE = {
-        4: 1,  # 商船护送
-        5: 1,  # 海域突进
-        1: 2,  # 战术研修, 1航空 2炮击 3雷击
-        2: 1,  # 斩首行动
-        3: 1,  # 破交作战
+        4: 1,  # 商船护送, Escort Mission
+        5: 1,  # 海域突进, Advance Mission
+        1: 2,  # 战术研修, 1航空 2炮击 3雷击. Tactical Training, 1 Aviation, 2 Firepower, 3 Torpedo
+        2: 1,  # 斩首行动, Fierce Assault
+        3: 1,  # 破交作战, Supply Line Disruption
     }
+
+    """
+    module.handler
+    """
+    AMBUSH_EVADE = True
 
     """
     module.hard
@@ -198,6 +225,18 @@ class AzurLaneConfig:
     EXERCISE_FLEET_EQUIPMENT = [1, 1, 1, 1, 1, 1]
 
     """
+    module.raid
+    """
+    RAID_NAME = ''
+    RAID_MODE = 'hard'  # hard, normal, easy
+    RAID_USE_TICKET = False
+    ENABLE_RAID_DAILY = False
+    RAID_DAILY_NAME = ''
+    RAID_HARD = True
+    RAID_NORMAL = True
+    RAID_EASY = True
+
+    """
     error_log
     """
     PERSPECTIVE_ERROR_LOG_FOLDER = './log/perspective_error'
@@ -215,16 +254,25 @@ class AzurLaneConfig:
     MAP_HAS_DYNAMIC_RED_BORDER = False
     MAP_HAS_MAP_STORY = False  # event_20200521_cn(穹顶下的圣咏曲) adds after-combat story.
     MAP_HAS_WALL = False  # event_20200521_cn(穹顶下的圣咏曲) adds wall between grids.
+    MAP_HAS_PT_BONUS = False  # 100% PT bonus if success to catch enemy else 50%. Retreat get 0%.
+    MAP_ENEMY_TEMPLATE = ['Light', 'Main', 'Carrier', 'Treasure']
+    MAP_SIREN_TEMPLATE = ['DD', 'CL', 'CA', 'BB', 'CV']
     MAP_SIREN_MOVE_WAIT = 1.5  # The enemy moving takes about 1.2 ~ 1.5s.
-    MAP_SIREN_TEMPLATE = ['1', '2', '3', 'DD']
     MAP_SIREN_COUNT = 0
     MAP_MYSTERY_HAS_CARRIER = False
     MAP_GRID_CENTER_TOLERANCE = 0.1
 
     POOR_MAP_DATA = False
     FLEET_BOSS = 2
-    CAMERA_SWIPE_MULTIPLY_X = 200
-    CAMERA_SWIPE_MULTIPLY_Y = 140
+    # Convert map grid distance to swipe distance
+    # Usually range from 1/0.62 to 1/0.61
+    # Value may be different in different maps
+    MAP_SWIPE_MULTIPLY = 1.626
+    # When using minitouch, MAP_SWIPE_MULTIPLY is a fixed value.
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.572
+    # Swipe distance in map grid lower than this will be dropped,
+    # because a closing swipe will be treat as a click in game.
+    MAP_SWIPE_DROP = 0.15
 
     """
     module.retire
@@ -233,6 +281,7 @@ class AzurLaneConfig:
     USE_ONE_CLICK_RETIREMENT = False
     RETIREMENT_METHOD = 'one_click_retire'  # enhance, old_retire, one_click_retire
     ENHANCE_FAVOURITE = False
+    ENHANCE_ORDER_STRING = ''
     DOCK_FULL_TRIGGERED = False
     RETIRE_AMOUNT = 'all'  # all, 10
     RETIRE_N = True
@@ -241,20 +290,37 @@ class AzurLaneConfig:
     RETIRE_SSR = False
 
     """
-    module.map.perspective
+    module.map_detection
     """
-    # Screen
     SCREEN_SIZE = (1280, 720)
     DETECTING_AREA = (123, 55, 1280, 720)
     SCREEN_CENTER = (SCREEN_SIZE[0] / 2, SCREEN_SIZE[1] / 2)
     MID_Y = SCREEN_CENTER[1]
-    # UI mask
-    UI_MASK_FILE = './module/map/ui_mask.png'
-    UI_MASK_PIL = Image.open(UI_MASK_FILE).convert('L')
-    UI_MASK = np.array(UI_MASK_PIL)
-    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
-    UI_MASK_STROKE = cv2.erode(UI_MASK, kernel).astype('uint8')
+    DETECTION_BACKEND = 'homography'
+    # In event_20200723_cn B3D3, Grid have 1.2x width, images on the grid still remain the same.
+    GRID_IMAGE_A_MULTIPLY = 1.0
 
+    """
+    module.map_detection.homography
+    """
+    HOMO_TILE = (140, 140)
+    HOMO_CENTER_OFFSET = (48, 48)
+    # [upper-left, upper-right, bottom-left, bottom-right]
+    HOMO_CORNER_OFFSET_LIST = [(-42, -42), (68, -42), (-42, 69), (69, 69)]
+
+    HOMO_CENTER_GOOD_THRESHOLD = 0.9
+    HOMO_CENTER_THRESHOLD = 0.8
+    HOMO_CORNER_THRESHOLD = 0.8
+    HOMO_RECTANGLE_THRESHOLD = 10
+
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 120
+    HOMO_EDGE_COLOR_RANGE = (0, 24)
+    # ((x, y), [upper-left, upper-right, bottom-left, bottom-right])
+    HOMO_STORAGE = None
+
+    """
+    module.map_detection.perspective
+    """
     # Parameters for scipy.signal.find_peaks
     # https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.find_peaks.html
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
@@ -296,8 +362,10 @@ class AzurLaneConfig:
     module.reward
     """
     ENABLE_REWARD = True
-    REWARD_INTERVAL = 20
+    REWARD_INTERVAL = '10, 40'  # str, such as '20', '10, 40'.
+    REWARD_STOP_GAME_DURING_INTERVAL = False
     REWARD_LAST_TIME = datetime.now()
+    ENABLE_DAILY_REWARD = False
     ENABLE_OIL_REWARD = True
     ENABLE_COIN_REWARD = True
     ENABLE_MISSION_REWARD = True
@@ -326,11 +394,30 @@ class AzurLaneConfig:
     }
     COMMISSION_TIME_LIMIT = 0
 
-    TACTICAL_BOOK_TIER = 2
+    TACTICAL_BOOK_TIER_MAX = 3
+    TACTICAL_BOOK_TIER_MIN = 2
     TACTICAL_EXP_FIRST = True
-    TACTICAL_BOOK_TIER_NIGHT = 3
-    TACTICAL_EXP_FIRST_NIGHT = False
-    TACTICAL_NIGHT_RANGE = future_time_range('23:30-06:30')  # (Night start, night end), datetime.datetime instance.
+    TACTICAL_IF_NO_BOOK_SATISFIED = 'cancel_tactical'  # cancel_tactical, use_the_first_book
+    # TACTICAL_BOOK_TIER_NIGHT = 3
+    # TACTICAL_EXP_FIRST_NIGHT = False
+    # TACTICAL_NIGHT_RANGE = future_time_range('23:30-06:30')  # (Night start, night end), datetime.datetime instance.
+
+    BUY_MEOWFFICER = 0  # 0 to 15.
+
+    """
+    module.research
+    """
+    ENABLE_RESEARCH_REWARD = True
+    RESEARCH_FILTER_STRING = ''
+    RESEARCH_FILTER_PRESET = 'series_3_than_2'  # customized, series_3, ...
+    RESEARCH_USE_CUBE = True
+    RESEARCH_USE_COIN = True
+    RESEARCH_USE_PART = True
+
+    """
+    C_1_1_affinity_farming
+    """
+    C11_AFFINITY_BATTLE_COUNT = 0
 
     """
     C_7_2_mystery_farming
@@ -378,9 +465,9 @@ class AzurLaneConfig:
 
         return config
 
-    def load_config_file(self, name='main'):
+    def load_config_file(self, name='alas'):
         self.CONFIG_FILE = f'./config/{name}.ini'
-        self.config.read_file(codecs.open(self.CONFIG_FILE, "r", "utf8"))
+        self.config = get_config(ini_name=name)
         self.load_from_config(self.config)
         self.config_check()
 
@@ -414,10 +501,16 @@ class AzurLaneConfig:
         self.DEVICE_SCREENSHOT_METHOD = option['device_screenshot_method']
         self.DEVICE_CONTROL_METHOD = option['device_control_method']
         self.COMBAT_SCREENSHOT_INTERVAL = float(option['combat_screenshot_interval'])
+        # UpdateCheck
+        self.UPDATE_CHECK = to_bool(option['enable_update_check'])
+        self.UPDATE_METHOD = option['update_method']
+        self.UPDATE_PROXY = option['update_proxy']
+        self.GITHUB_TOKEN = option['github_token']
 
         option = config['Setting']
         # Stop condition
         self.ENABLE_STOP_CONDITION = to_bool(option['enable_stop_condition'])
+        self.ENABLE_EXCEPTION = to_bool(option['enable_exception'])
         self.ENABLE_FAST_FORWARD = to_bool(option['enable_fast_forward'])
         self.STOP_IF_COUNT_GREATER_THAN = int(option['if_count_greater_than'])
         if not option['if_time_reach'].isdigit():
@@ -427,6 +520,7 @@ class AzurLaneConfig:
         self.STOP_IF_OIL_LOWER_THAN = int(option['if_oil_lower_than'])
         self.STOP_IF_TRIGGER_EMOTION_LIMIT = to_bool(option['if_trigger_emotion_control'])
         self.STOP_IF_DOCK_FULL = to_bool(option['if_dock_full'])
+        self.STOP_IF_MAP_REACH = option['if_map_reach']
         # Fleet
         self.ENABLE_FLEET_CONTROL = to_bool(option['enable_fleet_control'])
         self.ENABLE_MAP_FLEET_LOCK = to_bool(option['enable_map_fleet_lock'])
@@ -434,7 +528,7 @@ class AzurLaneConfig:
             self.__setattr__(f'FLEET_{n}', int(option[f'fleet_index_{n}']) if to_bool(option[f'fleet_index_{n}']) else 0)
             self.__setattr__(f'FLEET_{n}_FORMATION', int(option[f'fleet_formation_{n}'].split('_')[1]))
             self.__setattr__(f'FLEET_{n}_STEP', int(option[f'fleet_step_{n}']))
-        self.COMBAT_AUTO_MODE = option['combat_auto_mode']
+            self.__setattr__(f'FLEET_{n}_AUTO_MODE', option[f'fleet_auto_mode_{n}'])
         self.SUBMARINE = int(option['fleet_index_4']) if to_bool(option['fleet_index_4']) else 0
         self.SUBMARINE_MODE = option['submarine_mode']
         self.SUBMARINE_CALL_AT_BOSS = option['submarine_mode'] == 'when_boss_combat_boss_appear'
@@ -461,18 +555,17 @@ class AzurLaneConfig:
         self.RETIREMENT_METHOD = option['retire_method']
         self.RETIRE_AMOUNT = option['retire_amount'].split('_')[1]
         self.ENHANCE_FAVOURITE = to_bool(option['enhance_favourite'])
+        self.ENHANCE_ORDER_STRING = option['enhance_order_string']
         for r in ['n', 'r', 'sr', 'ssr']:
             self.__setattr__(f'RETIRE_{r.upper()}', to_bool(option[f'retire_{r}']))
-        # Clear mode
-        self.ENABLE_MAP_CLEAR_MODE = to_bool(option['enable_map_clear_mode'])
-        self.CLEAR_MODE_STOP_CONDITION = option['clear_mode_stop_condition']
-        star = option['map_star_clear_all']
-        self.MAP_STAR_CLEAR_ALL = int(star.split('_')[1]) if star.startswith('index_') else 0
 
         # Reward
         option = config['Reward']
-        self.REWARD_INTERVAL = int(option['reward_interval'])
-        for attr in ['enable_reward', 'enable_oil_reward', 'enable_coin_reward', 'enable_mission_reward', 'enable_commission_reward', 'enable_tactical_reward']:
+        self.REWARD_INTERVAL = option['reward_interval']
+        self.REWARD_STOP_GAME_DURING_INTERVAL = to_bool(option['reward_stop_game_during_interval'])
+        for attr in ['enable_reward', 'enable_oil_reward', 'enable_coin_reward', 'enable_mission_reward',
+                     'enable_commission_reward', 'enable_tactical_reward', 'enable_daily_reward',
+                     'enable_research_reward']:
             self.__setattr__(attr.upper(), to_bool(option[attr]))
         if not option['commission_time_limit'].isdigit():
             self.COMMISSION_TIME_LIMIT = future_time(option['commission_time_limit'])
@@ -480,11 +573,18 @@ class AzurLaneConfig:
             self.COMMISSION_TIME_LIMIT = 0
         for attr in self.COMMISSION_PRIORITY.keys():
             self.COMMISSION_PRIORITY[attr] = int(option[attr])
-        self.TACTICAL_NIGHT_RANGE = future_time_range(option['tactical_night_range'])
-        self.TACTICAL_BOOK_TIER = int(option['tactical_book_tier'])
+        self.TACTICAL_BOOK_TIER_MAX = int(option['tactical_book_tier_max'])
+        self.TACTICAL_BOOK_TIER_MIN = int(option['tactical_book_tier_min'])
         self.TACTICAL_EXP_FIRST = to_bool(option['tactical_exp_first'])
-        self.TACTICAL_BOOK_TIER_NIGHT = int(option['tactical_book_tier_night'])
-        self.TACTICAL_EXP_FIRST_NIGHT = to_bool(option['tactical_exp_first_night'])
+        self.TACTICAL_IF_NO_BOOK_SATISFIED = option['tactical_if_no_book_satisfied']
+        # self.TACTICAL_NIGHT_RANGE = future_time_range(option['tactical_night_range'])
+        # self.TACTICAL_BOOK_TIER_NIGHT = int(option['tactical_book_tier_night'])
+        # self.TACTICAL_EXP_FIRST_NIGHT = to_bool(option['tactical_exp_first_night'])
+        for item in ['coin', 'cube', 'part']:
+            self.__setattr__(f'RESEARCH_USE_{item}'.upper(), to_bool(option[f'RESEARCH_USE_{item}'.lower()]))
+        self.RESEARCH_FILTER_PRESET = option['research_filter_preset']
+        self.RESEARCH_FILTER_STRING = option['research_filter_string']
+        self.BUY_MEOWFFICER = int(option['buy_meowfficer'])
 
         option = config['Main']
         self.CAMPAIGN_MODE = option['campaign_mode']
@@ -498,7 +598,10 @@ class AzurLaneConfig:
         self.ENABLE_DAILY_MISSION = to_bool(option['enable_daily_mission'])
         for n in [1, 2, 4, 5]:
             self.DAILY_CHOOSE[n] = dic_daily[option[f'daily_mission_{n}']]
-        self.FLEET_DAILY = int(option['daily_fleet'])
+        if option['daily_fleet'].isdigit():
+            self.FLEET_DAILY = [int(option['daily_fleet'])] * 4 + [0]
+        else:
+            self.FLEET_DAILY = to_list(option['daily_fleet']) + [0]
         self.FLEET_DAILY_EQUIPMENT = to_list(option['daily_equipment'])
         # Hard
         self.ENABLE_HARD_CAMPAIGN = to_bool(option['enable_hard_campaign'])
@@ -513,23 +616,47 @@ class AzurLaneConfig:
         self.LOW_HP_THRESHOLD = float(option['exercise_hp_threshold'])
         self.LOW_HP_CONFIRM_WAIT = float(option['exercise_low_hp_confirm'])
         self.EXERCISE_FLEET_EQUIPMENT = to_list(option['exercise_equipment'])
+        # Event bonus
+        # option = config['Event_daily_ab']
+        self.ENABLE_EVENT_AB = to_bool(option['enable_event_ab'])
+        self.ENABLE_EVENT_SP = to_bool(option['enable_event_sp'])
+        self.EVENT_NAME_AB = option['event_name_ab']
+        self.EVENT_AB_CHAPTER = option['event_ab_chapter']
+        self.EVENT_SP_MOB_FLEET = int(option['event_sp_mob_fleet'])
+        # Raid daily
+        self.ENABLE_RAID_DAILY = to_bool(option['enable_raid_daily'])
+        self.RAID_DAILY_NAME = option['raid_daily_name']
+        self.RAID_HARD = to_bool(option['raid_hard'])
+        self.RAID_NORMAL = to_bool(option['raid_normal'])
+        self.RAID_EASY = to_bool(option['raid_easy'])
 
         # Event
         option = config['Event']
         self.EVENT_NAME = option['event_name']
-        if 'sp' in ''.join(os.listdir(f'./campaign/{self.EVENT_NAME}')):
+        name = ''.join(os.listdir(f'./campaign/{self.EVENT_NAME}'))
+        if 'sp1' in name or 'sp2' in name or 'sp3' in name:
             self.CAMPAIGN_EVENT = option['sp_stage']
         else:
             self.CAMPAIGN_EVENT = option['event_stage']
 
+        # Raid
+        option = config['Raid']
+        self.RAID_NAME = option['raid_name']
+        self.RAID_MODE = option['raid_mode']
+        self.RAID_USE_TICKET = to_bool(option['raid_use_ticket'])
+
         # Event_daily_ab
-        option = config['Event_daily_ab']
-        self.EVENT_NAME_AB = option['event_name_ab']
+        # option = config['Event_daily_ab']
+        # self.EVENT_NAME_AB = option['event_name_ab']
 
         # Semi_auto
         option = config['Semi_auto']
         self.ENABLE_SEMI_MAP_PREPARATION = to_bool(option['enable_semi_map_preparation'])
         self.ENABLE_SEMI_STORY_SKIP = to_bool(option['enable_semi_story_skip'])
+
+        # C_1_1_affinity_farming
+        option = config['C11_affinity_farming']
+        self.C11_AFFINITY_BATTLE_COUNT = int(option['affinity_battle_count'])
 
         # C_7_2_mystery_farming
         option = config['C72_mystery_farming']
