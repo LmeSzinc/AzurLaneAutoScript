@@ -19,6 +19,8 @@ class Campaign(CampaignBase, HardEquipment):
         self.enter_map(self.ENTRANCE, mode='hard')
         self.map = self.MAP
         self.map.reset()
+        self.hp_reset()
+        self.hp_get()
 
         if self.config.FLEET_HARD == 1:
             self.ensure_edge_insight(reverse=True)
@@ -49,7 +51,7 @@ class Campaign(CampaignBase, HardEquipment):
         # logger.info('Grids: %s' % grids)
         if grids:
             logger.hr('Clear BOSS')
-            grids = grids.sort(cost=True, weight=True)
+            grids = grids.sort('weight', 'cost')
             logger.info('Grids: %s' % str(grids))
             self._goto(grids[0], expected='boss')
             raise CampaignEnd('BOSS Clear.')

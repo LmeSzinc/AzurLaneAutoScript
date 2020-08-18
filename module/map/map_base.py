@@ -1,36 +1,10 @@
-import numpy as np
+import copy
 
 from module.base.utils import location2node, node2location
 from module.logger import logger
-from module.map.grid_info import GridInfo
 from module.map.map_grids import SelectedGrids
-
-
-def location_ensure(location):
-    if isinstance(location, GridInfo):
-        return location.location
-    elif isinstance(location, str):
-        return node2location(location)
-    else:
-        return location
-
-
-def camera_1d(shape, sight):
-    start, step = abs(sight[0]), sight[1] - sight[0] + 1
-    if shape <= start:
-        out = shape // 2
-    else:
-        out = list(range(start, 26, step))
-        out.append(shape - sight[1])
-        out = [x for x in set(out) if x <= shape - sight[1]]
-    return out
-
-
-def camera_2d(shape, sight):
-    x = camera_1d(shape=shape[0], sight=[sight[0], sight[2]])
-    y = camera_1d(shape=shape[1], sight=[sight[1], sight[3]])
-    out = np.array(np.meshgrid(x, y)).T.reshape(-1, 2)
-    return [tuple(c) for c in out]
+from module.map.utils import *
+from module.map_detection.grid_info import GridInfo
 
 
 class CampaignMap:
@@ -43,7 +17,7 @@ class CampaignMap:
         self._wall_data = ''
         self._block_data = []
         self._spawn_data = []
-        self._spawn_data_backup = []
+        self._spawn_data_stack = []
         self._camera_data = []
         self._camera_data_spawn_point = []
         self.in_map_swipe_preset_data = None
@@ -170,21 +144,33 @@ class CampaignMap:
                 [self[(x, y)].str if (x, y) in self else '  ' for x in range(self.shape[0] + 1)])
             logger.info(text)
 
-    def update(self, grids, camera, is_carrier_scan=False):
+    def update(self, grids, camera, mode='normal'):
         """
         Args:
             grids:
             camera (tuple):
-            is_carrier_scan (bool):
+            mode (str): Scan mode, such as 'normal', 'carrier', 'movable'
         """
-        offset = np.array(camera) - np.array(grids.center_grid)
+        offset = np.array(camera) - np.array(grids.center_loca)
         grids.show()
+
+        failed_count = 0
         for grid in grids.grids.values():
             loca = tuple(offset + grid.location)
             if loca in self.grids:
-                self.grids[loca].update(grid, is_carrier_scan=is_carrier_scan, ignore_may=self.poor_map_data)
+                if not copy.copy(self.grids[loca]).merge(grid, mode=mode):
+                    logger.warning(f"Wrong Prediction. {self.grids[loca]} = '{grid.str}'")
+                    failed_count += 1
 
-        return True
+        if failed_count < 2:
+            for grid in grids.grids.values():
+                loca = tuple(offset + grid.location)
+                if loca in self.grids:
+                    self.grids[loca].merge(grid, mode=mode)
+            return True
+        else:
+            logger.warning('Too many wrong prediction')
+            return False
 
     def reset(self):
         for grid in self:
@@ -233,7 +219,7 @@ class CampaignMap:
 
     @spawn_data.setter
     def spawn_data(self, data_list):
-        self._spawn_data_backup = data_list
+        self._spawn_data = data_list
         spawn = {'battle': 0, 'enemy': 0, 'mystery': 0, 'siren': 0, 'boss': 0}
         for data in data_list:
             spawn['battle'] = data['battle']
@@ -241,7 +227,11 @@ class CampaignMap:
             spawn['mystery'] += data.get('mystery', 0)
             spawn['siren'] += data.get('siren', 0)
             spawn['boss'] += data.get('boss', 0)
-            self._spawn_data.append(spawn.copy())
+            self._spawn_data_stack.append(spawn.copy())
+
+    @property
+    def spawn_data_stack(self):
+        return self._spawn_data_stack
 
     @property
     def weight_data(self):
@@ -257,7 +247,7 @@ class CampaignMap:
     def is_map_data_poor(self):
         if not self.select(may_enemy=True) or not self.select(may_boss=True) or not self.select(is_spawn_point=True):
             return False
-        if not len(self._spawn_data_backup):
+        if not len(self.spawn_data):
             return False
         return True
 
@@ -277,8 +267,12 @@ class CampaignMap:
             logger.info(text)
 
     def find_path_initial(self, location, has_ambush=True):
+        """
+        Args:
+            location (tuple(int)): Grid location
+            has_ambush (bool): MAP_HAS_AMBUSH
+        """
         location = location_ensure(location)
-
         ambush_cost = 10 if has_ambush else 1
         for grid in self:
             grid.cost = 9999
@@ -312,9 +306,22 @@ class CampaignMap:
         # self.show_cost()
         # self.show_connection()
 
+    def find_path_initial_multi_fleet(self, location_dict, current, has_ambush):
+        """
+        Args:
+            location_dict (dict): Key: int, fleet index. Value: tuple(int), grid location.
+            current (tuple): Current location.
+            has_ambush (bool): MAP_HAS_AMBUSH
+        """
+        location_dict = sorted(location_dict.items(), key=lambda kv: (int(kv[1] == current),))
+        for fleet, location in location_dict:
+            self.find_path_initial(location, has_ambush=has_ambush)
+            attr = f'cost_{fleet}'
+            for grid in self:
+                grid.__setattr__(attr, grid.cost)
+
     def _find_path(self, location):
         """
-
         Args:
             location (tuple):
 
@@ -350,7 +357,6 @@ class CampaignMap:
 
     def _find_route_node(self, route, step=0):
         """
-
         Args:
             route (list[tuple]): list of grids.
             step (int): Fleet step in event map. Default to 0.
@@ -418,20 +424,20 @@ class CampaignMap:
             location (list[tuple[int]]): Relative coordinate of the covered grid.
 
         Returns:
-            list[GridInfo]:
+            SelectedGrids:
         """
         if location is None:
             covered = [tuple(np.array(grid.location) + upper) for upper in grid.covered_grid()]
         else:
             covered = [tuple(np.array(grid.location) + upper) for upper in location]
         covered = [self[upper] for upper in covered if upper in self]
-        return covered
+        return SelectedGrids(covered)
 
-    def missing_get(self, battle_count, mystery_count=0, siren_count=0, carrier_count=0):
+    def missing_get(self, battle_count, mystery_count=0, siren_count=0, carrier_count=0, mode='normal'):
         try:
-            missing = self.spawn_data[battle_count].copy()
+            missing = self.spawn_data_stack[battle_count].copy()
         except IndexError:
-            missing = self.spawn_data[-1].copy()
+            missing = self.spawn_data_stack[-1].copy()
         may = {'enemy': 0, 'mystery': 0, 'siren': 0, 'boss': 0, 'carrier': 0}
         missing['enemy'] -= battle_count - siren_count
         missing['mystery'] -= mystery_count
@@ -439,14 +445,19 @@ class CampaignMap:
         missing['carrier'] = carrier_count - self.select(is_enemy=True, may_enemy=False).count
         for grid in self:
             for attr in ['enemy', 'mystery', 'siren', 'boss']:
-                if grid.__getattribute__('is_' + attr) and grid.__getattribute__('may_' + attr):
+                if grid.__getattribute__('is_' + attr):
                     missing[attr] -= 1
 
         for grid in self:
             for upper in self.grid_covered(grid):
-                for attr in ['enemy', 'mystery', 'siren', 'boss']:
-                    if upper.__getattribute__('may_' + attr) and not upper.__getattribute__('is_' + attr):
-                        may[attr] += 1
+                if upper.may_enemy and not upper.is_enemy:
+                    may['enemy'] += 1
+                if upper.may_mystery and not upper.is_mystery:
+                    may['mystery'] += 1
+                if (upper.may_siren or mode == 'movable') and not upper.is_siren:
+                    may['siren'] += 1
+                if upper.may_boss and not upper.is_boss:
+                    may['boss'] += 1
                 if upper.may_carrier:
                     may['carrier'] += 1
 
@@ -456,11 +467,11 @@ class CampaignMap:
                     ', '.join([f'{k[:2].upper()}:{str(v).rjust(2)}' for k, v in may.items()]))
         return may, missing
 
-    def missing_is_none(self, battle_count, mystery_count=0, siren_count=0, carrier_count=0):
+    def missing_is_none(self, battle_count, mystery_count=0, siren_count=0, carrier_count=0, mode='normal'):
         if self.poor_map_data:
             return False
 
-        may, missing = self.missing_get(battle_count, mystery_count, siren_count, carrier_count)
+        may, missing = self.missing_get(battle_count, mystery_count, siren_count, carrier_count, mode)
 
         for key in may.keys():
             if missing[key] != 0:
@@ -468,11 +479,11 @@ class CampaignMap:
 
         return True
 
-    def missing_predict(self, battle_count, mystery_count=0, siren_count=0, carrier_count=0):
+    def missing_predict(self, battle_count, mystery_count=0, siren_count=0, carrier_count=0, mode='normal'):
         if self.poor_map_data:
             return False
 
-        may, missing = self.missing_get(battle_count, mystery_count, siren_count, carrier_count)
+        may, missing = self.missing_get(battle_count, mystery_count, siren_count, carrier_count, mode)
 
         # predict
         for grid in self:
@@ -505,9 +516,18 @@ class CampaignMap:
 
         return SelectedGrids(result)
 
+    def to_selected(self, grids):
+        """
+        Args:
+            grids (list):
+
+        Returns:
+            SelectedGrids:
+        """
+        return SelectedGrids([self[location_ensure(loca)] for loca in grids])
+
     def flatten(self):
         """
-
         Returns:
             list[GridInfo]:
         """

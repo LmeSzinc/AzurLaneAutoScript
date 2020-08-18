@@ -1,7 +1,5 @@
-import numpy as np
-
 from module.base.base import ModuleBase
-from module.base.button import color_similar
+from module.base.button import *
 from module.logger import logger
 
 # Location of six HP bar.
@@ -26,9 +24,42 @@ SCOUT_POSITION = [
 
 
 class HPBalancer(ModuleBase):
-    hp = []
-    hp_record = []
+    fleet_current_index = 1
+    _hp = {}
+    _hp_has_ship = {}
     _scout_order = (0, 1, 2)
+
+    @property
+    def hp(self):
+        """
+        Returns:
+            list[float]:
+        """
+        return self._hp[self.fleet_current_index]
+
+    @hp.setter
+    def hp(self, value):
+        """
+        Args:
+            value (list[float]):
+        """
+        self._hp[self.fleet_current_index] = value
+
+    @property
+    def hp_has_ship(self):
+        """
+        Returns:
+            list[bool]:
+        """
+        return self._hp_has_ship[self.fleet_current_index]
+
+    @hp_has_ship.setter
+    def hp_has_ship(self, value):
+        """
+        Args:
+            value (list[float]):
+        """
+        self._hp_has_ship[self.fleet_current_index] = value
 
     def _calculate_hp(self, location, size):
         """Calculate hp according to color.
@@ -41,12 +72,10 @@ class HPBalancer(ModuleBase):
             float: HP.
         """
         area = np.append(np.array(location), np.array(location) + np.array(size))
-        data = self.device.image.crop(area).resize((size[0], 1))
-        data = [
-            color_similar(pixel, COLOR_HP_GREEN) or color_similar(pixel, COLOR_HP_RED)
-            for pixel in np.array(data)[0]
-        ]
-        data = np.sum(data) / size[0]
+        data = max(
+            color_bar_percentage(self.device.image, area=area, prev_color=COLOR_HP_RED),
+            color_bar_percentage(self.device.image, area=area, prev_color=COLOR_HP_GREEN)
+        )
         return data
 
     def hp_get(self):
@@ -54,19 +83,30 @@ class HPBalancer(ModuleBase):
 
         Returns:
             list: HP(float) of 6 ship.
+
+        Logs:
+            [HP]  98% ____ ____  98%  98%  98%
         """
         hp = [self._calculate_hp(loca, SIZE) for loca in LOCATION]
         scout = np.array(hp[3:]) * np.array(self.config.SCOUT_HP_WEIGHTS) / np.max(self.config.SCOUT_HP_WEIGHTS)
+
         self.hp = hp[:3] + scout.tolist()
-        logger.attr('HP', ' '.join([str(int(data * 100)).rjust(3) + '%' for data in hp]))
+        if self.fleet_current_index not in self._hp_has_ship:
+            self.hp_has_ship = [bool(hp > 0.3) for hp in self.hp]
+
+        logger.attr('HP', ' '.join(
+            [str(int(data * 100)).rjust(3) + '%' if use else '____' for data, use in zip(hp, self.hp_has_ship)]))
         if np.sum(np.abs(np.diff(self.config.SCOUT_HP_WEIGHTS))) > 0:
             logger.attr('HP_weight', ' '.join([str(int(data * 100)).rjust(3) + '%' for data in self.hp]))
+
         return self.hp
 
-    def hp_init(self):
-        self.hp_get()
-        self.hp_record = self.hp
-        return self.hp
+    def hp_reset(self):
+        """
+        Call this method after enter map.
+        """
+        self._hp = {}
+        self._hp_has_ship = {}
 
     def _scout_position_change(self, p1, p2):
         """Exchange KAN-SEN's position.
@@ -142,7 +182,7 @@ class HPBalancer(ModuleBase):
 
     def hp_withdraw_triggered(self):
         if self.config.ENABLE_LOW_HP_WITHDRAW:
-            hp = np.array(self.hp)[np.array(self.hp_record) > 0.3]
+            hp = np.array(self.hp)[self.hp_has_ship]
             if np.any(hp < self.config.LOW_HP_WITHDRAW_THRESHOLD):
                 logger.info('Low HP withdraw triggered.')
                 return True
