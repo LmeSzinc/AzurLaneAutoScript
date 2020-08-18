@@ -75,6 +75,10 @@ class Equipment(UI):
         Returns:
             bool: if changed.
         """
+        if index <= 0 or index > 5:
+            logger.warning(f'Sidebar index cannot be clicked, {index}, limit to 1 through 5 only')
+            return False
+
         current = 0
         total = 0
 
@@ -96,6 +100,7 @@ class Equipment(UI):
             current = 6 - current
         else:
             logger.warning('Ship details sidebar total count error.')
+            return True
 
         logger.attr('Detail_sidebar', f'{current}/{total}')
         if current == index:
@@ -113,7 +118,17 @@ class Equipment(UI):
                 3 for limit break.
                 2 for gem / equipment.
                 1 for detail.
+
+            Returns:
+                bool: whether sidebar could be ensured
+                      at most 3 attempts are made before
+                      return False otherwise True
         """
+        if index <= 0 or index > 5:
+            logger.warning(f'Sidebar index cannot be ensured, {index}, limit 1 through 5 only')
+            return False
+
+        counter = 0
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -121,10 +136,14 @@ class Equipment(UI):
                 self.device.screenshot()
 
             if self._equip_sidebar_click(index):
+                if counter > 2:
+                    logger.warning('Sidebar could not be ensured')
+                    return False
+                counter += 1
                 self.device.sleep((0.3, 0.5))
                 continue
             else:
-                break
+                return True
 
     def _equip_take_off_one(self):
         bar_timer = Timer(5)

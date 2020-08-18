@@ -73,7 +73,8 @@ class Config(ConfigBase):
     MID_DIFF_RANGE_V = (144 - 3, 144 + 3)
     # Grid have 1.2x width, images on the grid still remain the same.
     # Both homography and perspective are usable, but perspective is less effected by this.
-    DETECTION_BACKEND = 'perspective'
+    DETECTION_BACKEND = 'homography'
+    HOMO_STORAGE = ((7, 5), [(198.047, 82.241), (1078.103, 82.241), (93.21, 506.071), (1183.061, 506.071)])
     HOMO_TILE = (168, 140)
     HOMO_CENTER_OFFSET = (48 + 14, 48)
     GRID_IMAGE_A_MULTIPLY = 1 / 1.2
@@ -90,4 +91,4 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_5(self):
-        return self.fleet_boss.clear_boss()
+        return self.fleet_1.clear_boss()

@@ -46,7 +46,7 @@ class AzurLaneConfig:
     FLEET_3_STEP = 3
     # Fleet 1-2, if empty use 0.
     SUBMARINE = 0
-    # Combat auto mode: combat_auto, combat_manual, stand_still_in_the_middle
+    # Combat auto mode: combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left
     FLEET_1_AUTO_MODE = 'combat_auto'
     FLEET_2_AUTO_MODE = 'combat_auto'
     FLEET_3_AUTO_MODE = 'combat_auto'
@@ -172,10 +172,11 @@ class AzurLaneConfig:
     COMMAND = ''
     ASCREENCAP_FILEPATH_LOCAL = './bin/ascreencap'
     ASCREENCAP_FILEPATH_REMOTE = '/data/local/tmp/ascreencap'
+    MINITOUCH_FILEPATH_REMOTE = '/data/local/tmp/minitouch'
     # Speed: aScreenCap >> uiautomator2 > ADB
     DEVICE_SCREENSHOT_METHOD = 'aScreenCap'  # ADB, uiautomator2, aScreenCap
     # Speed: uiautomator2 >> ADB
-    DEVICE_CONTROL_METHOD = 'uiautomator2'  # ADB, uiautomator2
+    DEVICE_CONTROL_METHOD = 'uiautomator2'  # ADB, uiautomator2, minitouch
     # USE_ADB_SCREENSHOT = True
     # USE_ADB_CONTROL = False
     SCREEN_SHOT_SAVE_FOLDER_BASE = './screenshot'
@@ -198,6 +199,11 @@ class AzurLaneConfig:
         2: 1,  # 斩首行动, Fierce Assault
         3: 1,  # 破交作战, Supply Line Disruption
     }
+
+    """
+    module.handler
+    """
+    AMBUSH_EVADE = True
 
     """
     module.hard
@@ -260,7 +266,10 @@ class AzurLaneConfig:
     FLEET_BOSS = 2
     # Convert map grid distance to swipe distance
     # Usually range from 1/0.62 to 1/0.61
+    # Value may be different in different maps
     MAP_SWIPE_MULTIPLY = 1.626
+    # When using minitouch, MAP_SWIPE_MULTIPLY is a fixed value.
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.572
     # Swipe distance in map grid lower than this will be dropped,
     # because a closing swipe will be treat as a click in game.
     MAP_SWIPE_DROP = 0.15
@@ -353,7 +362,8 @@ class AzurLaneConfig:
     module.reward
     """
     ENABLE_REWARD = True
-    REWARD_INTERVAL = 20
+    REWARD_INTERVAL = '10, 40'  # str, such as '20', '10, 40'.
+    REWARD_STOP_GAME_DURING_INTERVAL = False
     REWARD_LAST_TIME = datetime.now()
     ENABLE_DAILY_REWARD = False
     ENABLE_OIL_REWARD = True
@@ -392,6 +402,8 @@ class AzurLaneConfig:
     # TACTICAL_EXP_FIRST_NIGHT = False
     # TACTICAL_NIGHT_RANGE = future_time_range('23:30-06:30')  # (Night start, night end), datetime.datetime instance.
 
+    BUY_MEOWFFICER = 0  # 0 to 15.
+
     """
     module.research
     """
@@ -401,6 +413,11 @@ class AzurLaneConfig:
     RESEARCH_USE_CUBE = True
     RESEARCH_USE_COIN = True
     RESEARCH_USE_PART = True
+
+    """
+    C_1_1_affinity_farming
+    """
+    C11_AFFINITY_BATTLE_COUNT = 0
 
     """
     C_7_2_mystery_farming
@@ -544,7 +561,8 @@ class AzurLaneConfig:
 
         # Reward
         option = config['Reward']
-        self.REWARD_INTERVAL = int(option['reward_interval'])
+        self.REWARD_INTERVAL = option['reward_interval']
+        self.REWARD_STOP_GAME_DURING_INTERVAL = to_bool(option['reward_stop_game_during_interval'])
         for attr in ['enable_reward', 'enable_oil_reward', 'enable_coin_reward', 'enable_mission_reward',
                      'enable_commission_reward', 'enable_tactical_reward', 'enable_daily_reward',
                      'enable_research_reward']:
@@ -566,6 +584,7 @@ class AzurLaneConfig:
             self.__setattr__(f'RESEARCH_USE_{item}'.upper(), to_bool(option[f'RESEARCH_USE_{item}'.lower()]))
         self.RESEARCH_FILTER_PRESET = option['research_filter_preset']
         self.RESEARCH_FILTER_STRING = option['research_filter_string']
+        self.BUY_MEOWFFICER = int(option['buy_meowfficer'])
 
         option = config['Main']
         self.CAMPAIGN_MODE = option['campaign_mode']
@@ -634,6 +653,10 @@ class AzurLaneConfig:
         option = config['Semi_auto']
         self.ENABLE_SEMI_MAP_PREPARATION = to_bool(option['enable_semi_map_preparation'])
         self.ENABLE_SEMI_STORY_SKIP = to_bool(option['enable_semi_story_skip'])
+
+        # C_1_1_affinity_farming
+        option = config['C11_affinity_farming']
+        self.C11_AFFINITY_BATTLE_COUNT = int(option['affinity_battle_count'])
 
         # C_7_2_mystery_farming
         option = config['C72_mystery_farming']

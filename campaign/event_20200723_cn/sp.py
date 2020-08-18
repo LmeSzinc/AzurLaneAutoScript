@@ -66,6 +66,8 @@ class Config:
     # MAP_HAS_MAP_STORY = True
     MAP_SIREN_COUNT = 3
     STAR_REQUIRE_3 = 0  # SP map don't need to clear all enemies.
+    DETECTION_BACKEND = 'homography'
+    HOMO_STORAGE = ((10, 6), [(172.714, 96.467), (1291.455, 96.467), (27.369, 639.803), (1491.921, 639.803)])
 
     HOMO_EDGE_HOUGHLINES_THRESHOLD = 280
     MAP_SIREN_TEMPLATE = ['Deutschland', 'Tirpitz', 'Gneisenau', 'Scharnhorst', 'Spee']

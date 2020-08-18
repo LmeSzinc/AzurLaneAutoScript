@@ -117,7 +117,7 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
                     continue
             if self.handle_combat_low_emotion():
                 continue
-            if self.handle_emergency_repair_use():
+            if balance_hp and self.handle_emergency_repair_use():
                 continue
             if self.appear_then_click(BATTLE_PREPARATION, interval=2):
                 continue
@@ -166,8 +166,6 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
         return False
 
     def handle_emergency_repair_use(self):
-        if not self.config.ENABLE_HP_BALANCE:
-            return False
         if self.appear_then_click(EMERGENCY_REPAIR_CONFIRM, offset=True):
             self.device.sleep(0.5)  # Animation: hp increase and emergency_repair amount decrease.
             return True
@@ -355,14 +353,15 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
                 if expected_end():
                     break
 
-    def combat(self, balance_hp=None, emotion_reduce=None, func=None, call_submarine_at_boss=None, save_get_items=None,
-               expected_end=None, fleet_index=1):
+    def combat(self, balance_hp=None, emotion_reduce=None, auto_mode=None, call_submarine_at_boss=None,
+               save_get_items=None, expected_end=None, fleet_index=1):
         """
         Execute a combat.
         """
         balance_hp = balance_hp if balance_hp is not None else self.config.ENABLE_HP_BALANCE
         emotion_reduce = emotion_reduce if emotion_reduce is not None else self.config.ENABLE_EMOTION_REDUCE
-        auto = self.config.FLEET_1_AUTO_MODE if fleet_index == 1 else self.config.FLEET_2_AUTO_MODE
+        if auto_mode is None:
+            auto_mode = self.config.FLEET_1_AUTO_MODE if fleet_index == 1 else self.config.FLEET_2_AUTO_MODE
         call_submarine_at_boss = call_submarine_at_boss if call_submarine_at_boss is not None else self.config.SUBMARINE_CALL_AT_BOSS
         save_get_items = save_get_items if save_get_items is not None else self.config.ENABLE_SAVE_GET_ITEMS
         self.battle_status_click_interval = 7 if save_get_items else 0
@@ -371,9 +370,9 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
         #     self.emotion = Emotion(config=self.config)
 
         self.combat_preparation(
-            balance_hp=balance_hp, emotion_reduce=emotion_reduce, auto=auto, fleet_index=fleet_index)
+            balance_hp=balance_hp, emotion_reduce=emotion_reduce, auto=auto_mode, fleet_index=fleet_index)
         self.combat_execute(
-            auto=auto, call_submarine_at_boss=call_submarine_at_boss, save_get_items=save_get_items)
+            auto=auto_mode, call_submarine_at_boss=call_submarine_at_boss, save_get_items=save_get_items)
         self.combat_status(
             save_get_items=save_get_items, expected_end=expected_end)
         self.handle_map_after_combat_story()

@@ -51,15 +51,9 @@ class CampaignRun(CampaignUI, Reward):
             exit(1)
 
         config = copy.copy(self.config).merge(self.module.Config())
-        device = copy.copy(self.device)
-        device.config = config
+        device = self.device
         self.campaign = self.module.Campaign(config=config, device=device)
         self.campaign_name_set(name)
-
-        # self.config = self.config.merge(self.module.Config())
-        # self.campaign_name_set(name)
-        # self.device.config = self.config
-        # self.campaign = self.module.Campaign(config=self.config, device=self.device)
 
         return True
 

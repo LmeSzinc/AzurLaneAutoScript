@@ -3,7 +3,7 @@ import numpy as np
 from PIL import ImageStat
 
 
-def random_normal_distribution_int(a, b, n=5):
+def random_normal_distribution_int(a, b, n=3):
     """Generate a normal distribution int within the interval. Use the average value of several random numbers to
     simulate normal distribution.
 

@@ -95,23 +95,22 @@ class ResearchProject:
         self.need_part = False
 
         matched = False
-        for data in LIST_RESEARCH_PROJECT:
-            if self.name_equal(data['name']) and data['series'] == series:
-                matched = True
-                self.data = data
-                self.genre = data['name'][0]
-                self.duration = str(data['time'] / 3600).rstrip('.0')
-                for item in data['input']:
-                    result = re.search(self.REGEX_INPUT, item['name'].replace(' ', '').lower())
-                    if result:
-                        self.__setattr__(f'need_{result.group(1)}', True)
-                for item in data['output']:
-                    result = re.search(self.REGEX_SHIP, item['name'].replace(' ', '').lower())
-                    if not self.ship:
-                        self.ship = result.group(1) if result else ''
-                    if self.ship:
-                        self.ship_rarity = 'dr' if self.ship in self.DR_SHIP else 'pry'
-                break
+        for data in self.get_data(name=self.name, series=series):
+            matched = True
+            self.data = data
+            self.genre = data['name'][0]
+            self.duration = str(data['time'] / 3600).rstrip('.0')
+            for item in data['input']:
+                result = re.search(self.REGEX_INPUT, item['name'].replace(' ', '').lower())
+                if result:
+                    self.__setattr__(f'need_{result.group(1)}', True)
+            for item in data['output']:
+                result = re.search(self.REGEX_SHIP, item['name'].replace(' ', '').lower())
+                if not self.ship:
+                    self.ship = result.group(1) if result else ''
+                if self.ship:
+                    self.ship_rarity = 'dr' if self.ship in self.DR_SHIP else 'pry'
+            break
 
         if not matched:
             logger.warning(f'Invalid research {self}')
@@ -140,19 +139,32 @@ class ResearchProject:
             return '-'.join([prefix, number, suffix])
         return name
 
-    def name_equal(self, name):
+    def get_data(self, name, series):
         """
-        Ignore suffix like `-MI`, `-RF`, `-UL`, only match names like `D-022`
-
         Args:
-            name (str):
+            name (str): Such as 'D-057-UL'
+            series (int): Such as 1, 2, 3
 
-        Returns:
-            bool:
+        Yields:
+            dict:
         """
-        name1 = self.name.rstrip('MIRFUL-')
-        name2 = name.rstrip('MIRFUL-')
-        return name1 == name2
+        for data in LIST_RESEARCH_PROJECT:
+            if (data['series'] == series) and (data['name'] == name):
+                yield data
+
+        if name.startswith('D'):
+            # Letter 'C' may recognized as 'D', because project card is shining.
+            name1 = 'C' + self.name[1:]
+            for data in LIST_RESEARCH_PROJECT:
+                if (data['series'] == series) and (data['name'] == name1):
+                    self.name = name1
+                    yield data
+
+        for data in LIST_RESEARCH_PROJECT:
+            if (data['series'] == series) and (data['name'].rstrip('MIRFUL-') == name.rstrip('MIRFUL-')):
+                yield data
+
+        return False
 
 
 class ResearchSelector(UI):

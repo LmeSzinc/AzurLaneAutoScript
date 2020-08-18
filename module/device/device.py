@@ -56,9 +56,9 @@ class Device(Screenshot, Control, AppControl):
 
         return self.image
 
-    def click(self, button):
+    def click(self, button, record_check=True):
         self.stuck_record_clear()
-        return super().click(button)
+        return super().click(button, record_check=record_check)
 
     def check_screen(self):
         """

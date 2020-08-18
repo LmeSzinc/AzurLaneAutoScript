@@ -1,18 +1,43 @@
 from datetime import datetime, timedelta
 
+from module.base.decorator import cached_property
 from module.base.timer import Timer
+from module.base.utils import ensure_time
 from module.combat.assets import *
 from module.handler.login import LoginHandler
 from module.logger import logger
+from module.research.research import RewardResearch
 from module.reward.assets import *
 from module.reward.commission import RewardCommission
+from module.reward.meowfficer import RewardMeowfficer
 from module.reward.tactical_class import RewardTacticalClass
 from module.ui.page import *
 from module.update import Update
-from module.research.research import RewardResearch
 
 
-class Reward(RewardCommission, RewardTacticalClass, RewardResearch, LoginHandler, Update):
+class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardMeowfficer, LoginHandler, Update):
+    @cached_property
+    def reward_interval(self):
+        """
+        REWARD_INTERVAL should be string in minutes, such as '20', '10, 40'.
+        If it's a time range, should separated with ','
+
+        Returns:
+            int: Reward interval in seconds.
+        """
+        interval = self.config.REWARD_INTERVAL
+        if ',' in interval:
+            lower, upper = interval.replace(' ', '').split(',')
+            lower = int(lower) * 60
+            upper = int(upper) * 60
+            return int(ensure_time((lower, upper), precision=0))
+        else:
+            return int(interval) * 60
+
+    def reward_interval_reset(self):
+        """ Call this method after script sleep ends """
+        del self.__dict__['reward_interval']
+
     def reward(self):
         if not self.config.ENABLE_REWARD:
             return False
@@ -21,14 +46,14 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, LoginHandler
         self.ui_goto_main()
 
         self.ui_goto(page_reward, skip_first_screenshot=True)
-
         self._reward_receive()
         self.handle_info_bar()
         self.handle_commission_start()
         self.handle_tactical_class()
-
         self.handle_research_reward()
         self.ui_goto(page_main, skip_first_screenshot=True)
+
+        self.handle_meowfficer()
         self._reward_mission()
 
         self.config.REWARD_LAST_TIME = datetime.now()
@@ -43,7 +68,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, LoginHandler
         return True
 
     def handle_reward(self):
-        if datetime.now() - self.config.REWARD_LAST_TIME < timedelta(minutes=self.config.REWARD_INTERVAL):
+        if datetime.now() - self.config.REWARD_LAST_TIME < timedelta(minutes=self.reward_interval):
             return False
 
         flag = self.reward()
@@ -165,8 +190,19 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, LoginHandler
             self.reward()
 
             logger.info('Reward loop wait')
-            logger.attr('Reward_loop_wait', f'{self.config.REWARD_INTERVAL} min')
-            self.device.sleep(self.config.REWARD_INTERVAL * 60)
+            logger.attr('Reward_loop_wait', f'{self.reward_interval // 60} min {self.reward_interval % 60} sec')
+            if self.config.REWARD_STOP_GAME_DURING_INTERVAL:
+                interval = ensure_time((10, 30))
+                logger.info(f'{self.config.PACKAGE_NAME} will stop in {interval} seconds')
+                logger.info('If you are playing by hand, please stop Alas')
+                self.device.sleep(interval)
+                self.device.app_stop()
+
+            self.device.sleep(self.reward_interval)
+            self.reward_interval_reset()
+
+            if self.config.REWARD_STOP_GAME_DURING_INTERVAL:
+                self.app_ensure_start()
 
     def daily_wrapper_run(self):
         count = 0

@@ -45,8 +45,6 @@ class Raid(MapOperation, Combat):
                 continue
             if self.handle_combat_low_emotion():
                 continue
-            if self.handle_emergency_repair_use():
-                continue
             if self.appear_then_click(BATTLE_PREPARATION, interval=2):
                 continue
             if self.handle_combat_automation_confirm():
