@@ -1,4 +1,5 @@
 @echo off
+rem @SETLOCAL EnableExtensions EnableDelayedExpansion
 pushd %~dp0
 title ALAS run
 :: -----------------------------------------------------------------------------
@@ -81,7 +82,7 @@ for /f "tokens=1,2" %%A in ('%GIT% log -1 "--format=%%h %%ct" -- .') do (
 )
 :: -----------------------------------------------------------------------------
 :time_parsed
-if %LAST_LOCAL_GIT% equ %sha% (
+if %LAST_LOCAL_GIT% == %sha% (
     echo ----------------------------------------------------------------
     echo Remote Git hash:        %sha%
     echo Remote Git message:    %message%
@@ -103,7 +104,7 @@ if %LAST_LOCAL_GIT% equ %sha% (
     echo Local commit date:    %GIT_CTIME%
     echo Local Branch:         %BRANCH%
     echo ----------------------------------------------------------------
-    call popup.exe
+    popup.exe
     choice /t 10 /c yn /d n /m "There is an update for ALAS. Download now?"
     if errorlevel 2 call :adb_kill
     if errorlevel 1 call :choose_update_mode
@@ -129,7 +130,7 @@ if not exist %SCREENSHOT_FOLDER% (
     mkdir %SCREENSHOT_FOLDER%
 )
 :: -----------------------------------------------------------------------------
-::if config\adb_port.ini dont exist, will be created
+:: if config\adb_port.ini dont exist, will be created
     if not exist %ADB_P% (
     cd . > %ADB_P%
         )

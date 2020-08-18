@@ -299,7 +299,7 @@ def main(ini_name=''):
     emulator.add_argument('--设备', default=default('--设备'), help='例如 127.0.0.1:62001', gooey_options={'label_color': '#4B5F83'})
     emulator.add_argument('--包名', default=default('--包名'), help='', gooey_options={'label_color': '#4B5F83'})
     emulator.add_argument(
-        '--default_serial',
+        '默认serial列表',
         default=message,
         widget='Textarea',
         help="以下是一些常见模拟器的默认serial\n如果你使用了模拟器多开, 它们将不使用默认的serial",
