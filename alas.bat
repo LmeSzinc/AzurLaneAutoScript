@@ -1,20 +1,21 @@
 @echo off
 rem @SETLOCAL EnableExtensions EnableDelayedExpansion
 pushd %~dp0
-title ALAS run
+set ver=2.7
+title ALAS RUNNER %ver%
 :: -----------------------------------------------------------------------------
-:check_Permissions
-    echo Administrative permissions required. Detecting permissions...
-    net session >nul 2>&1
-    if %errorLevel% == 0 (
-        echo Success: Administrative permissions confirmed.
-        echo Press any to continue...
-        pause >nul
-        call :continue
-    ) else (
-        echo Failure: Current permissions inadequate.
-    )
-    pause >nul
+rem :check_Permissions
+rem     echo Administrative permissions required. Detecting permissions...
+rem     net session >nul 2>&1
+rem     if %errorLevel% == 0 (
+rem         echo Success: Administrative permissions confirmed.
+rem         echo Press any to continue...
+rem         pause >nul
+rem         call :continue
+rem     ) else (
+rem         echo Failure: Current permissions inadequate.
+rem     )
+rem     pause >nul
 :: -----------------------------------------------------------------------------
 :continue
 set ALAS_PATH=%~dp0
@@ -105,7 +106,7 @@ if %LAST_LOCAL_GIT% == %sha% (
     echo Local Branch:         %BRANCH%
     echo ----------------------------------------------------------------
     popup.exe
-    choice /t 10 /c yn /d n /m "There is an update for ALAS. Download now?"
+    choice /t 10 /c yn /d y /m "There is an update for ALAS. Download now?"
     if errorlevel 2 call :adb_kill
     if errorlevel 1 call :choose_update_mode
 )
@@ -300,12 +301,13 @@ call :alas
     echo  :: Type a 'number' and press ENTER
     echo  :: Type 'exit' to quit
     echo.
-    set /P menu=
+    set /P menu= || Set menu=Nothing
         if %menu%==1 call :en
         if %menu%==2 call :cn
         if %menu%==3 call :jp
         if %menu%==4 call :choose_update_mode
         if %menu%==exit call :EOF
+        if %menu%==Nothing call :alas
         else (
         cls
     echo.

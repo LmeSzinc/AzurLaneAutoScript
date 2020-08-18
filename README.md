@@ -2,6 +2,7 @@
 [Check Wiki for installation guide](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki)
 
 # AzurLaneAutoScript
+![GitHub All Releases](https://img.shields.io/github/downloads/whoamikyo/AzurLaneAutoScript/total)
 
 #### Discord
 [![](https://img.shields.io/discord/720789890354249748?logo=discord)](https://discord.gg/AQN6GeJ)
