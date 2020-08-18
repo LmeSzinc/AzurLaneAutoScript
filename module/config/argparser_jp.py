@@ -319,7 +319,7 @@ def main(ini_name=''):
         widget='Textarea',
         help="Some default SERIAL for most popular emulators, Only base values and may change according to the version you use",
         gooey_options={
-            'height': 100,
+            'height': 150,
             'show_help': True,
             'show_label': True,
             'readonly': True,

@@ -37,20 +37,20 @@ except Exception:
     # dump_build_config='gooey_config.json',
     richtext_controls=False, auto_start=False,
     menu=[{
-        'name': 'File',
+        'name': '文件',
         'items': [{
             'type': 'AboutDialog',
-            'menuTitle': 'About',
+            'menuTitle': '关于',
             'name': 'AzurLaneAutoScript',
-            'description': 'Alas, an AzurLane automation tool with GUI (Support CN, EN, JP, able to support other servers).',
+            'description': 'Alas, 一个带GUI的碧蓝航线脚本 (支持国服, 国际服, 日服, 可以支持其他服务器).',
             'website': 'https://github.com/LmeSzinc/AzurLaneAutoScript'
         }, {
             'type': 'Link',
-            'menuTitle': 'Visit our github repository',
+            'menuTitle': '访问Github仓库',
             'url': 'https://github.com/LmeSzinc/AzurLaneAutoScript'
         }]
     }, {
-        'name': 'Help',
+        'name': '帮助',
         'items': [{
             'type': 'Link',
             'menuTitle': 'Wiki',
@@ -95,11 +95,11 @@ def main(ini_name=''):
                 value = ''
             saved_config[key] = value
     message = (
-        'BlueStacks:  127.0.0.1:5555\n' 
-        'NoxPlayer:   127.0.0.1:62001\n' 
-        'MuMuPlayer:  127.0.0.1:7555\n'
-        'MemuPlayer:  127.0.0.1:21503\n'
-        'LDPlayer:    emulator-5554\n'
+        '蓝叠模拟器:\t127.0.0.1:5555\n' 
+        '夜神模拟器:\t127.0.0.1:62001\n' 
+        'MuMu模拟器:\t127.0.0.1:7555\n'
+        '逍遥模拟器:\t127.0.0.1:21503\n'
+        '雷电模拟器:\temulator-5554\n'
     )
 
     def default(name):
@@ -120,7 +120,7 @@ def main(ini_name=''):
     # https://github.com/chriskiehl/Gooey/issues/148
     # https://github.com/chriskiehl/Gooey/issues/485
 
-    parser = GooeyParser(description=f'AzurLaneAutoScript, An Azur Lane automation tool. Config: {config_file}\nDo not forget to Press start button to save your settings in each function that modifies')
+    parser = GooeyParser(description=f'AzurLaneAutoScript, An Azur Lane automation tool. Config: {config_file}\n功能都是分别保存和运行的, 修改设置后别忘了点击"开始"来保存')
     subs = parser.add_subparsers(help='commands', dest='command')
 
     # ==========出击设置==========
@@ -302,9 +302,9 @@ def main(ini_name=''):
         '--default_serial',
         default=message,
         widget='Textarea',
-        help="Some default SERIAL for most popular emulators, Only base values and may change according to the version you use",
+        help="以下是一些常见模拟器的默认serial\n如果你使用了模拟器多开, 它们将不使用默认的serial",
         gooey_options={
-            'height': 100,
+            'height': 150,
             'show_help': True,
             'show_label': True,
             'readonly': True,
