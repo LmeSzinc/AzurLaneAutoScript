@@ -318,7 +318,7 @@ def main(ini_name=''):
 
     adb = emulator_parser.add_argument_group('ADB设置', '', gooey_options={'label_color': '#931D03'})
     adb.add_argument('--设备截图方案', default=default('--设备截图方案'), choices=['aScreenCap', 'uiautomator2', 'ADB'], help='速度: aScreenCap >> uiautomator2 > ADB', gooey_options={'label_color': '#4B5F83'})
-    adb.add_argument('--设备控制方案', default=default('--设备控制方案'), choices=['uiautomator2', 'ADB'], help='速度: uiautomator2 >> ADB', gooey_options={'label_color': '#4B5F83'})
+    adb.add_argument('--设备控制方案', default=default('--设备控制方案'), choices=['minitouch','uiautomator2', 'ADB'], help='速度: minitouch >> uiautomator2 >> ADB', gooey_options={'label_color': '#4B5F83'})
     adb.add_argument('--战斗中截图间隔', default=default('--战斗中截图间隔'), help='战斗中放慢截图速度, 降低CPU使用', gooey_options={'label_color': '#4B5F83'})
 
     update = emulator_parser.add_argument_group('更新检查', '', gooey_options={'label_color': '#931D03'})
