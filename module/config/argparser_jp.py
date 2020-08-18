@@ -314,7 +314,7 @@ def main(ini_name=''):
                           help='', gooey_options={'label_color': '#4B5F83'})
     emulator.add_argument('--package_name', default='com.YoStarJP.AzurLane', help='', gooey_options={'label_color': '#4B5F83'})
     emulator.add_argument(
-        '--default_serial',
+        'default_serial_list',
         default=message,
         widget='Textarea',
         help="Some default SERIAL for most popular emulators, Only base values and may change according to the version you use",
