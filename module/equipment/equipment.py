@@ -19,13 +19,14 @@ class Equipment(UI):
     def _view_swipe(self, distance, check_button=EQUIPMENT_OPEN):
         swipe_count = 0
         swipe_timer = Timer(5, count=10)
-        self.ensure_no_info_bar()
+        self.ensure_no_info_bar(timeout=3)
         SWIPE_CHECK.load_color(self.device.image)
         while 1:
             if not swipe_timer.started() or swipe_timer.reached():
                 swipe_timer.reset()
                 self.device.swipe(vector=(distance, 0), box=SWIPE_AREA.area, random_range=SWIPE_RANDOM_RANGE,
                                   padding=0, duration=(0.1, 0.12), name='EQUIP_SWIPE')
+                self.wait_until_stable(check_button)
                 swipe_count += 1
 
             self.device.screenshot()
@@ -94,19 +95,26 @@ class Equipment(UI):
                 break
         if not current:
             logger.warning('No ship details sidebar active.')
-        if total == 4:
+        if total == 3:
+            current = 4 - current
+        elif total == 4:
             current = 5 - current
         elif total == 5:
             current = 6 - current
         else:
             logger.warning('Ship details sidebar total count error.')
-            return True
 
         logger.attr('Detail_sidebar', f'{current}/{total}')
         if current == index:
             return False
 
-        self.device.click(DETAIL_SIDEBAR[0, total - index])
+        diff = total - index
+        if total == 3 and index == 3:
+            logger.warning('Ship is PRY, equipment research not supported')
+        elif diff >= 0:
+            self.device.click(DETAIL_SIDEBAR[0, diff])
+        else:
+            logger.warning(f'Target index {index} cannot be clicked for this ship')
         return True
 
     def equip_sidebar_ensure(self, index, skip_first_screenshot=True):
@@ -136,7 +144,7 @@ class Equipment(UI):
                 self.device.screenshot()
 
             if self._equip_sidebar_click(index):
-                if counter > 2:
+                if counter >= 2:
                     logger.warning('Sidebar could not be ensured')
                     return False
                 counter += 1
