@@ -97,6 +97,8 @@ class Enhancement(Dock):
             out: EQUIP_CONFIRM
         """
         end_activate_timer = Timer(2, count=2)
+        trapped_timer = Timer(25, count=5).start()
+        trapped = False
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -119,13 +121,15 @@ class Enhancement(Dock):
             logger.attr('Reload_enhanced', f'{int(status * 100)}%')
             choose = np.sum(np.array(self.device.image.crop(ENHANCE_FILLED.area)) > 200) > 100
 
-            if self.info_bar_count():
+            if trapped or self.info_bar_count():
                 if status > 0.98:
                     logger.info('Fully enhanced for this ship')
                     swiped = self.equip_view_next(check_button=ENHANCE_RECOMMEND)
                     self.ensure_no_info_bar()
                     if not swiped:
                         return False
+                    trapped_timer.reset()
+                    trapped = False
                     continue
                 else:
                     if choose:
@@ -134,29 +138,39 @@ class Enhancement(Dock):
                         self.ensure_no_info_bar()
                         if not swiped:
                             return False
+                        trapped_timer.reset()
+                        trapped = False
                         continue
                     else:
                         logger.info('Enhancement material exhausted')
                         return False
 
-            if self.appear_then_click(ENHANCE_RECOMMEND, offset=(5, 5), interval=2):
+            if not trapped_timer.reached_and_reset() and self.appear_then_click(ENHANCE_RECOMMEND, offset=(5, 5), interval=2):
                 self.device.sleep(0.3)
                 self.device.click(ENHANCE_CONFIRM)
+            else:
+                logger.warning('Current status appears trapped, will force stat gauge check')
+                trapped = True
 
     def _enhance_choose_simple(self, skip_first_screenshot=True):
         """
-        Info:
-            Simplified version of the legacy _enhance_choose
-            Performs enhancements solely based on appearance
-            of info bars
+        Description:
+            Simplified _enhance_choose focuses only on
+            appearance of info_bars, stat gauge is ignored
+            Minimum 2 times before swiping, if maximum of
+            6 times is detected, a forced swipe is initiated
+            Starting from the first failed enhance,
+            next 3 adjacent ships are checked before giving up
 
         Pages:
             in: page_ship_enhance, without info_bar
             out: EQUIP_CONFIRM
         """
         end_activate_timer = Timer(2, count=2)
-        attempt_count = 0
+        next_timer = Timer(2, count=1).start()
         next_count = 0
+        trapped_timer = Timer(25, count=5).start()
+        trapped = False
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -175,23 +189,27 @@ class Enhancement(Dock):
             else:
                 continue
 
-            if self.info_bar_count():
-                if attempt_count >= 1:
+            if trapped or self.info_bar_count():
+                if trapped or next_timer.reached():
                     logger.info('Unable to enhance this ship, swipe to next')
                     swiped = self.equip_view_next(check_button=ENHANCE_RECOMMEND)
                     self.ensure_no_info_bar()
                     if not swiped or next_count >= 3:
                         return False
                     else:
-                        attempt_count = 0
+                        next_timer.reset()
+                        trapped_timer.reset()
+                        trapped = False
                         logger.info(f'Try next ship: {3 - next_count}/3 remaining until give up')
                         next_count += 1
                         continue
-                attempt_count += 1
 
-            if self.appear_then_click(ENHANCE_RECOMMEND, offset=(5, 5), interval=2):
+            if not trapped_timer.reached_and_reset() and self.appear_then_click(ENHANCE_RECOMMEND, offset=(5, 5), interval=2):
                 self.device.sleep(0.3)
                 self.device.click(ENHANCE_CONFIRM)
+            else:
+                logger.warning('Current status appears trapped, will force swipe to next ship')
+                trapped = True
 
     def enhance_ships(self, favourite=None):
         """
