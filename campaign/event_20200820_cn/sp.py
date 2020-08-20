@@ -67,8 +67,6 @@ class Campaign(CampaignBase):
 
         if self.clear_siren():
             return True
-        if self.clear_enemy(scale=(2,)):
-            return True
         if self.clear_enemy(scale=(3,)):
             return True
 
