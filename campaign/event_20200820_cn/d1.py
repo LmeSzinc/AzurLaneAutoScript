@@ -2,20 +2,19 @@ from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-from .b1 import Config as ConfigBase
 
-MAP = CampaignMap('B3')
+MAP = CampaignMap('D1')
 MAP.shape = 'I7'
-MAP.camera_data = ['D2', 'D5', 'F3', 'F5']
-MAP.camera_data_spawn_point = ['D2', 'D5']
+MAP.camera_data = ['D2', 'D5', 'F2', 'F5']
+MAP.camera_data_spawn_point = ['D5']
 MAP.map_data = """
-    MS -- -- ++ ++ -- -- -- --
-    -- Me ME MS ++ -- ME -- --
-    SP -- -- -- -- ME ++ ++ ++
-    -- Me -- ++ -- -- -- -- MB
-    SP -- ME __ -- ME ++ ++ ++
-    Me -- ++ Me ME -- -- -- --
-    -- Me ++ -- ME MS ME -- --
+    MB -- -- MS -- -- -- -- --
+    -- ME -- ++ ++ ME ++ ++ --
+    -- -- __ ++ ++ -- MB ++ --
+    MS ME -- -- -- -- -- Me --
+    -- -- MS -- ME Me -- -- ME
+    -- ++ -- -- -- -- ME ++ --
+    -- ++ SP SP -- ME -- ++ --
 """
 MAP.weight_data = """
     10 10 10 10 10 10 10 10 10
@@ -44,12 +43,15 @@ A7, B7, C7, D7, E7, F7, G7, H7, I7, \
     = MAP.flatten()
 
 
-class Config(ConfigBase):
-    MAP_SIREN_TEMPLATE = ['CL', 'CA', 'BB']
-    MOVABLE_ENEMY_TURN = (2, 3)
+class Config:
+    MAP_SIREN_TEMPLATE = ['CL', 'CA']
+    MOVABLE_ENEMY_TURN = (3,)
     MAP_HAS_SIREN = True
-    MAP_HAS_MAP_STORY = False
+    MAP_HAS_MAP_STORY = True
     MAP_HAS_FLEET_STEP = True
+
+    MAP_HAS_AMBUSH = False
+    MAP_HAS_MOVABLE_ENEMY = True
 
 
 class Campaign(CampaignBase):
