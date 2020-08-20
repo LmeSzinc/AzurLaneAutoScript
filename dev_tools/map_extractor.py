@@ -11,6 +11,22 @@ from module.map.map_base import camera_2d
 This an auto-tool to extract map files used in Alas.
 """
 
+DIC_SIREN_NAME_CHI_TO_ENG = {
+    # Siren cyan
+    'sairenquzhu_i': 'DD',
+    'sairenqingxun_i': 'CL',
+    'sairenzhongxun_i': 'CA',
+    'sairenzhanlie_i': 'BB',
+    'sairenhangmu_i': 'CV',
+
+    # Scherzo of Iron and Blood
+    'aruituosha': 'Arethusa',
+    'xiefeierde': 'Sheffield',
+    'duosaitejun': 'Dorsetshire',
+    'shengwang': 'Renown',
+    'weiershiqinwang': 'PrinceOfWales'
+}
+
 
 def load_lua(folder, file, prefix):
     with open(os.path.join(folder, file), 'r', encoding='utf-8') as f:
@@ -82,13 +98,18 @@ class MapData:
             self.shape = tuple(np.max(list(self.map_data.keys()), axis=0))
 
             # config
-            self.siren = []
+            self.MAP_SIREN_TEMPLATE = []
+            self.MOVABLE_ENEMY_TURN = set()
             for siren_id in data['ai_expedition_list'].values():
                 if siren_id == 1:
                     continue
-                name = expedition_data[siren_id]['icon']
-
-                self.siren.append(name)
+                exped_data = expedition_data[siren_id]
+                name = exped_data['icon']
+                name = DIC_SIREN_NAME_CHI_TO_ENG.get(name, name)
+                self.MAP_SIREN_TEMPLATE.append(name)
+                self.MOVABLE_ENEMY_TURN.add(int(exped_data['ai_mov']))
+            self.MAP_HAS_MAP_STORY = len(data['story_refresh_boss']) > 0
+            self.MAP_HAS_FLEET_STEP = bool(data['is_limit_move'])
         except Exception as e:
             for k, v in data.items():
                 print(f'{k} = {v}')
@@ -160,9 +181,13 @@ class MapData:
                 lines.append('class Config:')
         else:
             lines.append('class Config:')
-        lines.append('    pass')
-        if len(self.siren):
-            lines.append(f'    MAP_SIREN_TEMPLATE = {self.siren}')
+        # lines.append('    pass')
+        if len(self.MAP_SIREN_TEMPLATE):
+            lines.append(f'    MAP_SIREN_TEMPLATE = {self.MAP_SIREN_TEMPLATE}')
+            lines.append(f'    MOVABLE_ENEMY_TURN = {tuple(self.MOVABLE_ENEMY_TURN)}')
+            lines.append(f'    MAP_HAS_SIREN = True')
+        lines.append(f'    MAP_HAS_MAP_STORY = {self.MAP_HAS_MAP_STORY}')
+        lines.append(f'    MAP_HAS_FLEET_STEP = {self.MAP_HAS_FLEET_STEP}')
         lines.append('')
         lines.append('')
 
@@ -171,6 +196,10 @@ class MapData:
         lines.append('    MAP = MAP')
         lines.append('')
         lines.append('    def battle_0(self):')
+        if len(self.MAP_SIREN_TEMPLATE):
+            lines.append('        if self.clear_siren():')
+            lines.append('            return True')
+            lines.append('')
         lines.append('        return self.battle_default()')
         lines.append('')
         lines.append(f'    def battle_{self.data["boss_refresh"]}(self):')

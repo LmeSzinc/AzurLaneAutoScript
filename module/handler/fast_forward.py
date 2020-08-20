@@ -45,7 +45,8 @@ class FastForwardHandler(ModuleBase):
             self.config.MAP_HAS_MAP_STORY = False
         self.config.MAP_CLEAR_ALL_THIS_TIME = self.config.STAR_REQUIRE_3 \
             and not self.__getattribute__(f'map_achieved_star_{self.config.STAR_REQUIRE_3}') \
-            and self.config.STOP_IF_MAP_REACH != 'map_green_without_3_star'
+            and self.config.STOP_IF_MAP_REACH != 'map_green_without_3_star' \
+            and self.config.STOP_IF_MAP_REACH != 'map_100'
         logger.attr('MAP_CLEAR_ALL_THIS_TIME', self.config.MAP_CLEAR_ALL_THIS_TIME)
 
         # Log
