@@ -103,6 +103,10 @@ class MapData:
         # Import
         for head in header.strip().split('\n'):
             lines.append(head.strip())
+        if self.chapter_name[-1].isdigit():
+            chap, stage = self.chapter_name[:-1], self.chapter_name[-1]
+            if stage != '1':
+                lines.append(f'from .{chap.lower()}1 import Config as ConfigBase')
         lines.append('')
 
         # Map
@@ -130,7 +134,12 @@ class MapData:
         lines.append('')
 
         # Config
-        lines.append('class Config:')
+        if self.chapter_name[-1].isdigit():
+            chap, stage = self.chapter_name[:-1], self.chapter_name[-1]
+            if stage != '1':
+                lines.append('class Config(ConfigBase):')
+            else:
+                lines.append('class Config:')
         lines.append('    pass')
         lines.append('')
         lines.append('')
@@ -251,8 +260,7 @@ class ChapterTemplate:
         for data in maps:
             data.write(folder)
 
-# import os
-# os.chdir('../')
+
 """
 This an auto-tool to extract map files used in Alas.
 
