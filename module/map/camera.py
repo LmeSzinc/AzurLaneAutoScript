@@ -1,7 +1,7 @@
 import numpy as np
 
-from module.exception import MapDetectionError
-from module.handler.assets import IN_MAP
+from module.exception import MapDetectionError, CampaignEnd
+from module.handler.assets import IN_MAP, IN_STAGE
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.map.map_base import CampaignMap, location2node, location_ensure
@@ -91,6 +91,9 @@ class Camera(InfoHandler):
                 logger.info('Perspective error cause by info bar. Waiting.')
                 self.handle_info_bar()
                 return self.update(camera=camera)
+            elif self.appear(IN_STAGE):
+                logger.warning('Image is in stage')
+                raise CampaignEnd('Image is in stage')
             elif not self.appear(IN_MAP):
                 logger.warning('Image to detect is not in_map')
                 raise e
