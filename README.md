@@ -1,6 +1,8 @@
 
 [Check Wiki for installation guide](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki)
 
+**| [English](README_en.md) | Chinese |**
+
 # AzurLaneAutoScript
 ![GitHub All Releases](https://img.shields.io/github/downloads/whoamikyo/AzurLaneAutoScript/total)
 

@@ -2,6 +2,8 @@
 
 [Download Easy Install-v2](https://github.com/whoamikyo/AzurLaneAutoScript/releases)
 
+**| English | [Chinese](README.md) |**
+
 # AzurLaneAutoScript
 
 Alas, an Azur Lane automation tool with GUI (For CN server, can support other server).
