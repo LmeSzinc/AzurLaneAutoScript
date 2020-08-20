@@ -7,6 +7,7 @@ MAP = CampaignMap('D1')
 MAP.shape = 'I7'
 MAP.camera_data = ['D2', 'D5', 'F2', 'F5']
 MAP.camera_data_spawn_point = ['D5']
+MAP.map_covered = ['D1']
 MAP.map_data = """
     MB -- -- MS -- -- -- -- --
     -- ME -- ++ ++ ME ++ ++ --
@@ -52,6 +53,7 @@ class Config:
 
     MAP_HAS_AMBUSH = False
     MAP_HAS_MOVABLE_ENEMY = True
+    MAP_SWIPE_MULTIPLY = 1.694
 
 
 class Campaign(CampaignBase):
@@ -59,6 +61,12 @@ class Campaign(CampaignBase):
 
     def battle_0(self):
         if self.clear_siren():
+            return True
+        if self.clear_enemy(scale=(1,)):
+            return True
+        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
+            return True
+        if self.clear_enemy(genre=['light', 'main', 'enemy']):
             return True
 
         return self.battle_default()

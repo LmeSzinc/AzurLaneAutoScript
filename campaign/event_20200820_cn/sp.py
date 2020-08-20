@@ -2,20 +2,19 @@ from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-from .d1 import Config as ConfigBase
 
-MAP = CampaignMap('D3')
+MAP = CampaignMap('SP')
 MAP.shape = 'I7'
 MAP.camera_data = ['D2', 'D5', 'F2', 'F5']
-MAP.camera_data_spawn_point = ['D2', 'D5']
+MAP.camera_data_spawn_point = ['D2']
 MAP.map_data = """
-    MS -- -- ++ ++ -- -- -- --
-    -- Me ME MS ++ -- ME -- --
-    SP -- -- -- -- ME ++ ++ ++
-    -- Me -- ++ -- -- -- -- MB
-    SP -- ME __ -- ME ++ ++ ++
-    Me -- ++ Me ME -- -- -- --
-    -- Me ++ -- ME MS ME -- --
+    -- MS ++ SP -- SP -- -- ME
+    -- -- Me -- -- -- ME -- --
+    ++ ++ -- MS Me -- ++ ++ --
+    ++ ++ Me -- __ -- ME ++ MS
+    -- -- ME -- -- ME -- ME --
+    -- Me -- ++ -- ++ ME -- --
+    -- -- Me ++ MB ++ -- ME --
 """
 MAP.weight_data = """
     10 10 10 10 10 10 10 10 10
@@ -23,7 +22,7 @@ MAP.weight_data = """
     10 10 10 10 10 10 10 10 10
     10 10 10 10 10 10 10 10 10
     10 10 10 10 10 10 10 10 10
-    05 04 10 10 10 10 10 10 10
+    10 10 10 10 10 10 10 10 10
     10 10 10 10 10 10 10 10 10
 """
 MAP.spawn_data = [
@@ -33,7 +32,8 @@ MAP.spawn_data = [
     {'battle': 3, 'enemy': 1},
     {'battle': 4, 'enemy': 2},
     {'battle': 5, 'enemy': 1},
-    {'battle': 6, 'boss': 1},
+    {'battle': 6},
+    {'battle': 7, 'boss': 1},
 ]
 A1, B1, C1, D1, E1, F1, G1, H1, I1, \
 A2, B2, C2, D2, E2, F2, G2, H2, I2, \
@@ -45,26 +45,31 @@ A7, B7, C7, D7, E7, F7, G7, H7, I7, \
     = MAP.flatten()
 
 
-class Config(ConfigBase):
+class Config:
     MAP_SIREN_TEMPLATE = ['CL', 'CA', 'BB', 'CV']
     MOVABLE_ENEMY_TURN = (3,)
     MAP_HAS_SIREN = True
     MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = True
 
+    MAP_HAS_AMBUSH = False
+    MAP_HAS_MOVABLE_ENEMY = True
+    MAP_SWIPE_MULTIPLY = 1.796
+    STAR_REQUIRE_3 = 0  # SP map don't need to clear all enemies.
+
 
 class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
-        if self.config.MAP_HAS_MOVABLE_ENEMY:
-            self.fleet_2_push_forward()
+        if self.fleet_2_protect():
+            return True
 
         if self.clear_siren():
             return True
-        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
+        if self.clear_enemy(scale=(2,)):
             return True
-        if self.clear_enemy(scale=(3,), genre=['light', 'main', 'enemy']):
+        if self.clear_enemy(scale=(3,)):
             return True
 
         return self.battle_default()
@@ -72,12 +77,10 @@ class Campaign(CampaignBase):
     def battle_5(self):
         if self.clear_enemy(scale=(1,)):
             return True
-        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
-            return True
-        if self.clear_enemy(genre=['light', 'main', 'enemy']):
+        if self.clear_enemy(scale=(2,)):
             return True
 
         return self.battle_default()
 
-    def battle_6(self):
+    def battle_7(self):
         return self.fleet_boss.clear_boss()

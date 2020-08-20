@@ -48,7 +48,6 @@ class Config:
 
     MAP_HAS_AMBUSH = False
     MAP_HAS_MOVABLE_ENEMY = True
-    MAP_SWIPE_MULTIPLY = 1.764
 
 
 class Campaign(CampaignBase):
