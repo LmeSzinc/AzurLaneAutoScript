@@ -21,11 +21,11 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)**, some featur
 
 > **Event Announcement 活动公告**
 >
-> [CN] 支持活动「复刻: 最重要的宝物」.
+> [CN] 支持活动「复刻: 铁血音符誓言」.
 >
-> [EN] Support event "Aurora Noctis".
+> [EN] Support event "Scherzo of Iron and Blood Rerun".
 >
-> [JP] Support event 「鉄血鮫とエニグマ（復刻）」.
+> [JP] Support event 「黒鉄の楽章_誓いの海（復刻）」.
 
 ![gui](doc/README.assets/gui.png)
 
@@ -33,7 +33,7 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)**, some featur
 
 ## 功能 Features
 
-- **主线图出击** 在社区的帮助下已基本完成, 请在 `./campaign/campaign_main` 目录下查看支持的地图
+- **主线图出击** 针对复杂地图优化, 降低BOSS队被堵住而多打一战的可能性
 
 - **活动图出击** 支持开荒
 
@@ -41,29 +41,23 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)**, some featur
 
   每日任务(不支持潜艇每日). 困难图. 演习(自动SL), 活动图每日三倍PT, 共斗活动每天15把
 
-- **委托收派** 出击时每20分钟切出去收获, 支持收委托, 收科研, 收任务, 派委托
+- **委托收派** 出击时自动切出去收获, 支持收派委托, 收派科研, 收派战术学院, 收任务
 
-- **特定模式出击** 7-2三战拣垃圾, 12图练级. ~~碧蓝航线不就只有两张图吗? 最多再算上1-1~~ (
+- **特定模式出击** 7-2三战拣垃圾, 12图练级. 1-1刷好感
 
 - **其他小功能**
 
   心情控制, 计算心情防止红脸或者保持经验加成状态
 
-  血量监控, 低血量撤退, 先锋血量平衡
+  血量监控, 低血量撤退, 先锋血量平衡(自动更换承伤位和保护位)
 
-  整队换装备
-
-  掉落截图记录
-
-  自动退役
-
-  开荒模式
+  掉落截图记录, 掉率统计, 科研统计
 
 
 
 ## 安装 Installation
 
-详见 [中文安装教程](doc/Installation_cn.md)
+详见 [中文安装教程](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Installation_cn)
 
 包含傻瓜式安装教程, 傻瓜式更新教程和高级用户安装教程.
 
@@ -80,9 +74,9 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)**, some featur
 
 ## 如何上报bug How to report
 
-- 在提问题前, 请先阅读 [常见问题(FAQ)](doc/FAQ_en_cn.md)
-- 检查 Alas 的更新和最近的 commit. Alas 现在仍处于开发阶段, 一些问题可能已经修过了.
-- 运行出错时, 会在 `log/error` 目录下, 以毫秒时间戳为文件夹名, 自动保存 log 和最近60张截图. 还会用黑框遮盖截图中出现的游戏昵称, UID等敏感信息, 并将log中的本地路径替换为 `C:\fakepath`, 所以请放心上传. (最好不要直接复制GUI里的log, 因为那里是没有经过处理的, 可能包含一些用户信息)
+- 在提问题前, 请先阅读 [常见问题(FAQ)](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/FAQ_en_cn)
+- 检查 Alas 的更新和最近的 commit. 确认使用的是最新版.
+- 上传出错log. 运行出错时, 会在 `log/error` 目录下, 以毫秒时间戳为文件夹名, 自动保存 log 和最近60张截图. 还会用黑框遮盖截图中出现的游戏昵称, UID等敏感信息, 并将log中的本地路径替换为 `C:\fakepath`, 所以请放心上传.
 
 
 
@@ -110,7 +104,7 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)**, some featur
 
 ## 文档 Doc
 
-[海图识别 perspective](doc/perspective.md)
+[海图识别 perspective](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/perspective)
 
 `海图识别` 是一个碧蓝航线脚本的核心. 如果只是单纯地使用 `模板匹配 (Template matching)` 来进行索敌, 就不可避免地会出现 BOSS被小怪堵住 的情况.  `AzurLaneAutoScript` 提供了一个更好的海图识别方法, 在 `module.map` 中, 你将可以得到完整的海域信息, 比如:
 
@@ -123,19 +117,19 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)**, some featur
 2020-03-10 22:09:03.830 | INFO | 5 -- -- -- 2E -- 2E ++ ++
 ```
 
-[参与开发 development](doc/development.md)
+[参与开发 development](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/development)
 
 - 如何添加一个按钮 How to add a button
 - 如何适配一张新的地图 How to adapt to a new map
 - 如何支持其他服务器/语言 How to support other server/language
 
-更多文档, 请前往 `doc` 目录.
+更多文档, 请前往 [WIKI](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki).
 
 
 
 ## 参考 Reference
 
-- [code:azure](https://asaiq2.lofter.com/post/1f0a3d9a_1c636b95b), 浅. (Not open source) 现成的碧蓝航线脚本, 完成度很高. 参考了主要的功能和设置.
+- [code:azure](https://asaiq.lofter.com/), 浅. (Not open source) 现成的碧蓝航线脚本, 完成度很高. 参考了主要的功能和设置.
 - [ALAuto](https://github.com/Egoistically/ALAuto), Egoistically. EN服的碧蓝航线脚本, 模仿了脚本架构.
 - [ALAuto homg_trans_beta](https://github.com/asd111333/ALAuto/tree/homg_trans_beta), asd111333. 引入了单应性变换至海图识别模块中.
 
