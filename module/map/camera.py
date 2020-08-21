@@ -91,7 +91,7 @@ class Camera(InfoHandler):
                 logger.info('Perspective error cause by info bar. Waiting.')
                 self.handle_info_bar()
                 return self.update(camera=camera)
-            elif self.appear(IN_STAGE):
+            elif self.appear(IN_STAGE, offset=(5, 5)):
                 logger.warning('Image is in stage')
                 raise CampaignEnd('Image is in stage')
             elif not self.appear(IN_MAP):
