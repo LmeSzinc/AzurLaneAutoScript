@@ -520,3 +520,33 @@ class Map(Fleet):
 
         self.clear_chosen_enemy(grids[0])
         return True
+
+    def fleet_2_protect(self):
+        """
+        Mob fleet moves around boss fleet, clear any approaching sirens.
+
+        Returns:
+            bool: If clear an enemy.
+        """
+        if not self.config.FLEET_2 or not self.config.MAP_HAS_MOVABLE_ENEMY:
+            return False
+
+        for n in range(20):
+            if not self.map.select(is_siren=True):
+                return False
+
+            nearby = self.map.select(cost_2=1).add(self.map.select(cost_2=2))
+            approaching = nearby.select(is_siren=True)
+            if approaching:
+                grids = self.select_grids(approaching, sort=('cost_2', 'cost_1'))
+                self.clear_chosen_enemy(grids[0])
+                return True
+            else:
+                grids = nearby.delete(self.map.select(is_fleet=True))
+                grids = self.select_grids(grids, sort=('cost_2', 'cost_1'))
+                self.goto(grids[0])
+                continue
+
+        logger.warning('fleet_2_protect no siren approaching')
+        return False
+

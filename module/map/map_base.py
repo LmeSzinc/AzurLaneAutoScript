@@ -20,6 +20,7 @@ class CampaignMap:
         self._spawn_data_stack = []
         self._camera_data = []
         self._camera_data_spawn_point = []
+        self._map_covered = SelectedGrids([])
         self.in_map_swipe_preset_data = None
         self.poor_map_data = False
         self.camera_sight = (-3, -1, 3, 2)
@@ -244,6 +245,25 @@ class CampaignMap:
             self[loca].weight = float(data)
 
     @property
+    def map_covered(self):
+        """
+        Returns:
+            SelectedGrids:
+        """
+        covered = []
+        for grid in self:
+            covered += self.grid_covered(grid).grids
+        return SelectedGrids(covered).add(self._map_covered)
+
+    @map_covered.setter
+    def map_covered(self, nodes):
+        """
+        Args:
+            nodes (list): Contains str.
+        """
+        self._map_covered = SelectedGrids([self[node2location(node)] for node in nodes])
+
+    @property
     def is_map_data_poor(self):
         if not self.select(may_enemy=True) or not self.select(may_boss=True) or not self.select(is_spawn_point=True):
             return False
@@ -448,18 +468,17 @@ class CampaignMap:
                 if grid.__getattribute__('is_' + attr):
                     missing[attr] -= 1
 
-        for grid in self:
-            for upper in self.grid_covered(grid):
-                if upper.may_enemy and not upper.is_enemy:
-                    may['enemy'] += 1
-                if upper.may_mystery and not upper.is_mystery:
-                    may['mystery'] += 1
-                if (upper.may_siren or mode == 'movable') and not upper.is_siren:
-                    may['siren'] += 1
-                if upper.may_boss and not upper.is_boss:
-                    may['boss'] += 1
-                if upper.may_carrier:
-                    may['carrier'] += 1
+        for upper in self.map_covered:
+            if upper.may_enemy and not upper.is_enemy:
+                may['enemy'] += 1
+            if upper.may_mystery and not upper.is_mystery:
+                may['mystery'] += 1
+            if (upper.may_siren or mode == 'movable') and not upper.is_siren:
+                may['siren'] += 1
+            if upper.may_boss and not upper.is_boss:
+                may['boss'] += 1
+            if upper.may_carrier:
+                may['carrier'] += 1
 
         logger.attr('enemy_missing',
                     ', '.join([f'{k[:2].upper()}:{str(v).rjust(2)}' for k, v in missing.items() if k != 'battle']))
@@ -486,16 +505,15 @@ class CampaignMap:
         may, missing = self.missing_get(battle_count, mystery_count, siren_count, carrier_count, mode)
 
         # predict
-        for grid in self:
-            for upper in self.grid_covered(grid):
-                for attr in ['enemy', 'mystery', 'siren', 'boss']:
-                    if upper.__getattribute__('may_' + attr) and missing[attr] > 0 and missing[attr] == may[attr]:
-                        logger.info('Predict %s to be %s' % (location2node(upper.location), attr))
-                        upper.__setattr__('is_' + attr, True)
-                if carrier_count:
-                    if upper.may_carrier and missing['carrier'] > 0 and missing['carrier'] == may['carrier']:
-                        logger.info('Predict %s to be enemy' % location2node(upper.location))
-                        upper.__setattr__('is_enemy', True)
+        for upper in self.map_covered:
+            for attr in ['enemy', 'mystery', 'siren', 'boss']:
+                if upper.__getattribute__('may_' + attr) and missing[attr] > 0 and missing[attr] == may[attr]:
+                    logger.info('Predict %s to be %s' % (location2node(upper.location), attr))
+                    upper.__setattr__('is_' + attr, True)
+            if carrier_count:
+                if upper.may_carrier and missing['carrier'] > 0 and missing['carrier'] == may['carrier']:
+                    logger.info('Predict %s to be enemy' % location2node(upper.location))
+                    upper.__setattr__('is_enemy', True)
 
     def select(self, **kwargs):
         """

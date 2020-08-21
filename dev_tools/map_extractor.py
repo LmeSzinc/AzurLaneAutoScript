@@ -7,10 +7,34 @@ from dev_tools.slpp import slpp
 from module.base.utils import location2node
 from module.map.map_base import camera_2d
 
-
 """
 This an auto-tool to extract map files used in Alas.
 """
+
+DIC_SIREN_NAME_CHI_TO_ENG = {
+    # Siren cyan
+    'sairenquzhu_i': 'DD',
+    'sairenqingxun_i': 'CL',
+    'sairenzhongxun_i': 'CA',
+    'sairenzhanlie_i': 'BB',
+    'sairenhangmu_i': 'CV',
+
+    # Scherzo of Iron and Blood
+    'aruituosha': 'Arethusa',
+    'xiefeierde': 'Sheffield',
+    'duosaitejun': 'Dorsetshire',
+    'shengwang': 'Renown',
+    'weiershiqinwang': 'PrinceOfWales'
+}
+
+
+def load_lua(folder, file, prefix):
+    with open(os.path.join(folder, file), 'r', encoding='utf-8') as f:
+        text = f.read()
+    print(f'Loading {file}')
+    result = slpp.decode(text[prefix:])
+    print(f'{len(result.keys())} items loaded')
+    return result
 
 
 class MapData:
@@ -26,8 +50,9 @@ class MapData:
         16: '__'
     }
 
-    def __init__(self, data):
+    def __init__(self, data, expedition_data):
         self.data = data
+        self.expedition_data = expedition_data
         self.chapter_name = data['chapter_name'].replace('–', '-')
         self.name = data['name']
         self.profiles = data['profiles']
@@ -71,6 +96,20 @@ class MapData:
                     print(f'Unknown grid info. grid={location2node(loca)}, info={grid[3]}')
                 self.map_data[loca] = info
             self.shape = tuple(np.max(list(self.map_data.keys()), axis=0))
+
+            # config
+            self.MAP_SIREN_TEMPLATE = []
+            self.MOVABLE_ENEMY_TURN = set()
+            for siren_id in data['ai_expedition_list'].values():
+                if siren_id == 1:
+                    continue
+                exped_data = expedition_data[siren_id]
+                name = exped_data['icon']
+                name = DIC_SIREN_NAME_CHI_TO_ENG.get(name, name)
+                self.MAP_SIREN_TEMPLATE.append(name)
+                self.MOVABLE_ENEMY_TURN.add(int(exped_data['ai_mov']))
+            self.MAP_HAS_MAP_STORY = len(data['story_refresh_boss']) > 0
+            self.MAP_HAS_FLEET_STEP = bool(data['is_limit_move'])
         except Exception as e:
             for k, v in data.items():
                 print(f'{k} = {v}')
@@ -103,6 +142,10 @@ class MapData:
         # Import
         for head in header.strip().split('\n'):
             lines.append(head.strip())
+        if self.chapter_name[-1].isdigit():
+            chap, stage = self.chapter_name[:-1], self.chapter_name[-1]
+            if stage != '1':
+                lines.append(f'from .{chap.lower()}1 import Config as ConfigBase')
         lines.append('')
 
         # Map
@@ -130,8 +173,21 @@ class MapData:
         lines.append('')
 
         # Config
-        lines.append('class Config:')
-        lines.append('    pass')
+        if self.chapter_name[-1].isdigit():
+            chap, stage = self.chapter_name[:-1], self.chapter_name[-1]
+            if stage != '1':
+                lines.append('class Config(ConfigBase):')
+            else:
+                lines.append('class Config:')
+        else:
+            lines.append('class Config:')
+        # lines.append('    pass')
+        if len(self.MAP_SIREN_TEMPLATE):
+            lines.append(f'    MAP_SIREN_TEMPLATE = {self.MAP_SIREN_TEMPLATE}')
+            lines.append(f'    MOVABLE_ENEMY_TURN = {tuple(self.MOVABLE_ENEMY_TURN)}')
+            lines.append(f'    MAP_HAS_SIREN = True')
+        lines.append(f'    MAP_HAS_MAP_STORY = {self.MAP_HAS_MAP_STORY}')
+        lines.append(f'    MAP_HAS_FLEET_STEP = {self.MAP_HAS_FLEET_STEP}')
         lines.append('')
         lines.append('')
 
@@ -140,6 +196,10 @@ class MapData:
         lines.append('    MAP = MAP')
         lines.append('')
         lines.append('    def battle_0(self):')
+        if len(self.MAP_SIREN_TEMPLATE):
+            lines.append('        if self.clear_siren():')
+            lines.append('            return True')
+            lines.append('')
         lines.append('        return self.battle_default()')
         lines.append('')
         lines.append(f'    def battle_{self.data["boss_refresh"]}(self):')
@@ -160,11 +220,8 @@ class MapData:
 
 class ChapterTemplate:
     def __init__(self, file):
-        with open(file, 'r', encoding='utf-8') as f:
-            text = f.read()
-        print('Loading chapter_template')
-        text = re.findall('pg.chapter_template = (.*?)$', text, re.DOTALL)
-        self.data = slpp.decode(text[0])
+        self.data = load_lua(file, 'chapter_template.lua', prefix=36)
+        self.expedition_data = load_lua(file, 'expedition_data_template.lua', prefix=43)
 
     def get_chapter_by_name(self, name, select=False):
         """
@@ -199,11 +256,11 @@ class ChapterTemplate:
                     continue
                 if not re.search(name, data['name']):
                     continue
-                data = MapData(data)
+                data = MapData(data, self.expedition_data)
                 print(f'Found map: {data}')
                 maps.append(data)
         else:
-            data = MapData(self.data[name])
+            data = MapData(self.data[name], self.expedition_data)
             print(f'Found map: {data}')
             maps = [data]
 
@@ -224,7 +281,7 @@ class ChapterTemplate:
                 if not isinstance(map_id, int) or data['chapter_name'] == 'EXTRA':
                     continue
                 if get_event_id(data['id']) == event_id:
-                    data = MapData(data)
+                    data = MapData(data, self.expedition_data)
                     print(f'Selected: {data}')
                     new.append(data)
             maps = new
@@ -251,14 +308,14 @@ class ChapterTemplate:
         for data in maps:
             data.write(folder)
 
-# import os
-# os.chdir('../')
+
 """
 This an auto-tool to extract map files used in Alas.
 
 Git clone https://github.com/Dimbreath/AzurLaneData, to get the decrypted scripts.
 Arguments:
-    FILE:    Path to chapter_template.lua, '<your_folder>/<server>/sharecfg/chapter_template.lua'
+    FILE:    Folder contains `chapter_template.lua` and `expedition_data_template.lua`, 
+             Such as '<your_folder>/<server>/sharecfg'
     FOLDER:  Folder to save, './campaign/test'
     KEYWORD: A keyword in map name, such as '短兵相接' (7-2, zh-CN), 'Counterattack!' (3-4, en-US)
              Or map id, such as 702 (7-2), 1140017 (Iris of Light and Dark D2)
