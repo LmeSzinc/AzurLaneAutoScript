@@ -68,7 +68,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardMeowff
         return True
 
     def handle_reward(self):
-        if datetime.now() - self.config.REWARD_LAST_TIME < timedelta(minutes=self.reward_interval):
+        if datetime.now() - self.config.REWARD_LAST_TIME < timedelta(seconds=self.reward_interval):
             return False
 
         flag = self.reward()
