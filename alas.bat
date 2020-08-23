@@ -445,14 +445,6 @@ if exist .git\ (
 )
 goto :eof
 
-:AskForInit
-if NOT exist usr (
-   echo. & echo Please perform the Initial Deployment first.
-   pause > NUL
-   goto MENU
-)
-goto :eof
-
 :StopIfDisconnected
 if exist deploy.ini (
 	for /f "tokens=3 delims= " %%i in ('findstr /i "NetTest" deploy.ini') do ( set "state_netTest=%%i" )
