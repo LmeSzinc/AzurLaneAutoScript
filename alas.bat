@@ -102,8 +102,8 @@ goto MENU
 rem ================= OPTION 1 =================
 
 :en
-call :AdbConnect
 call :CheckBsBeta
+call :AdbConnect
 rem call :uiautomator2init
 echo ====================================================================================================
 echo Python Found in %pyBin% Proceeding..
@@ -116,8 +116,8 @@ goto :MENU
 rem ================= OPTION 2 =================
 
 :cn
-call :AdbConnect
 call :CheckBsBeta
+call :AdbConnect
 rem call :uiautomator2init
 echo ====================================================================================================
 echo Python Found in %pyBin% Proceeding..
@@ -129,8 +129,8 @@ goto :MENU
 
 rem ================= OPTION 3 =================
 :jp
-call :AdbConnect
 call :CheckBsBeta
+call :AdbConnect
 rem call :uiautomator2init
 echo ====================================================================================================
 echo Python Found in %pyBin% Proceeding..
@@ -462,8 +462,11 @@ if "%_isNetConnected%"=="false" (
 goto :eof
 
 :CheckBsBeta
+echo testete
+echo %RealtimeMode%
+pause
 if "%RealtimeMode%"=="disable" goto :eof
-if "%FirstRun%"=="enable" goto :eof
+rem if "%FirstRun%"=="enable" goto :eof
 echo Connecting with realtime mode...
 for /f "tokens=3" %%a in ('reg query HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_bgp64_hyperv\Guests\Android\Config /v BstAdbPort') do (set /a port = %%a)
 set SerialRealtime=127.0.0.1:%port%
@@ -471,8 +474,11 @@ echo ===========================================================================
 echo connecting at %SerialRealtime%
 %adbBin% connect %SerialRealtime%
 echo ====================================================================================================
-pause
-call command\ConfigAlas.bat SerialAlas %SerialRealtime%
+if "%FirstRun%"=="yes" (
+   call command\ConfigTemplate.bat SerialTemplate %SerialRealtime%
+) else (
+   call command\ConfigAlas.bat SerialAlas %SerialRealtime
+)
 echo ====================================================================================================
 echo Old Serial:      %SerialAlas%
 echo New Serial:      %SerialRealtime% 
@@ -483,8 +489,8 @@ pause > NUL
 goto :eof
 
 :AdbConnect
-if "%FirstRun%"=="yes" ( %adbBin% connect %serial_input% && goto :eof )
 if "%RealtimeMode%"=="enable" goto :eof
+if "%FirstRun%"=="yes" ( %adbBin% connect %serial_input% && goto :eof )
 %adbBin% connect %Serial%
 goto :eof
 
@@ -513,6 +519,7 @@ set sha=%sha: =%
 for /f "skip=14 tokens=3 delims=:" %%I IN (%root%\toolkit\api_git.json) DO IF NOT DEFINED message SET message=%%I 
 set message=%message:"=%
 set message=%message:,=%
+set message=%message:\n=%
 for /f %%i in ('%gitBin%  rev-parse --abbrev-ref HEAD') do set BRANCH=%%i
 for /f "delims=" %%i IN ('%gitBin% log -1 "--pretty=%%H"') DO set LAST_LOCAL_GIT=%%i
 for /f "tokens=1,2" %%A in ('%gitBin% log -1 "--format=%%h %%ct" -- .') do (
