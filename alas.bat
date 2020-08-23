@@ -474,7 +474,7 @@ echo ===========================================================================
 if "%FirstRun%"=="yes" (
    call command\ConfigTemplate.bat SerialTemplate %SerialRealtime%
 ) else (
-   call command\ConfigAlas.bat SerialAlas %SerialRealtime
+   call command\ConfigAlas.bat SerialAlas %SerialRealtime%
 )
 echo ====================================================================================================
 echo Old Serial:      %SerialAlas%
