@@ -446,21 +446,6 @@ if exist .git\ (
 )
 goto :eof
 
-:StopIfDisconnected
-if exist deploy.ini (
-	for /f "tokens=3 delims= " %%i in ('findstr /i "NetTest" deploy.ini') do ( set "state_netTest=%%i" )
-)
-if "%state_netTest%"=="disable" goto :eof
-echo Checking network connection...
-wget -q --no-check-certificate %Remoterepo%/modules/CurrentVersion -O NetTest && set "_isNetConnected=true" || set "_isNetConnected=false"
-if exist NetTest del NetTest
-if "%_isNetConnected%"=="false" (
-	echo Unable to access GitHub, please check your network connection
-	pause > NUL
-	goto MENU
-)
-goto :eof
-
 :CheckBsBeta
 if "%RealtimeMode%"=="disable" goto :eof
 rem if "%FirstRun%"=="enable" goto :eof
