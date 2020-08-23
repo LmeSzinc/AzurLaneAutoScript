@@ -559,7 +559,7 @@ if %LAST_LOCAL_GIT% == %sha% (
    echo Local commit date:              %GIT_CTIME%
    echo Current Local Branch:           %BRANCH%
    echo ====================================================================================================
-   pause
+   popup.exe
    choice /t 10 /c yn /d y /m "There is an update for ALAS. Download now?"
    if errorlevel 2 goto :eof
    if errorlevel 1 goto Run_UpdateAlas
