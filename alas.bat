@@ -5,6 +5,7 @@
 :: Last updated: 2020-08-22
 :: >>> Get updated from: https://github.com/LmeSzinc/AzurLaneAutoScript <<<
 @echo off
+pushd "%~dp0"
 setlocal EnableDelayedExpansion
 set "Version=3.0"
 set "lastUpdated=2020-08-22"
