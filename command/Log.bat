@@ -19,6 +19,7 @@ call :Log_init
 call :GetPackagesInfo
 ( echo pipVer: %log_pipVer%
 echo adbutilsVer: %log_adbutilsVer%
+echo python_Levenshtein: %log_LevenshteinVer%
 echo numpy: %log_numpyVer%
 echo scipy: %log_scipyVer%
 echo pillow: %log_pillowVer%
@@ -103,6 +104,8 @@ for /f "tokens=2 delims=-" %%i in ('dir /b "requests*.dist-info"') do ( set "log
 set "log_requestsVer=%log_requestsVer:.dist=%"
 for /f "tokens=2 delims=-" %%i in ('dir /b "colored*.dist-info"') do ( set "log_coloredVer=%%i" )
 set "log_coloredVer=%log_coloredVer:.dist=%"
+for /f "tokens=2 delims=-" %%i in ('dir /b "python_Levenshtein*.dist-info"') do ( set "log_LevenshteinVer=%%i" )
+set "log_LevenshteinVer=%log_LevenshteinVer:.dist=%"
 popd
 goto :eof
 

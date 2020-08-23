@@ -462,9 +462,6 @@ if "%_isNetConnected%"=="false" (
 goto :eof
 
 :CheckBsBeta
-echo testete
-echo %RealtimeMode%
-pause
 if "%RealtimeMode%"=="disable" goto :eof
 rem if "%FirstRun%"=="enable" goto :eof
 echo Connecting with realtime mode...
