@@ -11,9 +11,7 @@
 call :Import_%~1
 goto :eof
 
-
 rem ================= FUNCTIONS =================
-
 
 :: %cd%: "%root%"
 :: Get %Language% , %Region% , %SystemType%
@@ -77,6 +75,26 @@ echo =========================================================================
 echo Press any to continue...
 pause > NUL
 
+rem set template=%root%\config\template.ini
+rem setlocal enabledelayedexpansion
+rem for /f "delims=" %%i in (!template!) do (
+rem     set line=%%i
+rem     if "x!line:~0,9!"=="xserial = " (
+rem         set serial=!line:~9!
+rem     )
+rem )
+rem echo =========================================================================
+rem echo Old Serial:      %serial%
+rem echo New Serial:      %serial_input% 
+rem echo =========================================================================
+rem echo Press any to continue...
+rem pause > NUL
+rem for /f "delims=" %%i in ('type "%template%" ^& break ^> "%template%" ') do (
+rem     set line=%%i
+rem     >>"%template%" echo(!line:%serial%=%serial_input%!
+rem     )
+rem )
+rem endlocal
 goto :eof
 
 

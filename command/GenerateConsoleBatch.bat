@@ -53,7 +53,7 @@ goto :eof
 :GenerateDownloadBatch_Common2
 ( REM :: Show the instructions
 echo title Alas Console Debugger
-echo echo Alas Console Debugger
+echo echo This is an console to run adb, git, python and pip.
 echo echo     adb devices
 echo echo     git log
 echo echo     python -V

@@ -2,20 +2,20 @@
 :: Alas Run Tool v3
 :: Author: whoamikyo (https://kyo.ninja)
 :: Version: 3.0
-:: Last updated: 2020-08-22
+:: Last updated: 2020-08-23
 :: >>> Get updated from: https://github.com/LmeSzinc/AzurLaneAutoScript <<<
 @echo off
 pushd "%~dp0"
 setlocal EnableDelayedExpansion
-set "Version=3.0"
-set "lastUpdated=2020-08-22"
+set "Version=3.0" 
+set "lastUpdated=2020-08-23" 
 :: Remote repo
-set "Remoterepo=https://raw.githubusercontent.com/LmeSzinc/AzurLaneAutoScript/master/toolkit"
+set "Remoterepo=https://raw.githubusercontent.com/LmeSzinc/AzurLaneAutoScript/master/toolkit" 
 
 rem ================= Preparation =================
 
 :: Set the root directory
-set "root=%~dp0"
+set "root=%~dp0" 
 set "root=%root:~0,-1%"
 cd "%root%"
 
@@ -53,10 +53,10 @@ rem echo Language: %Language% & echo Region: %Region% & echo SystemType: %System
 rem echo http_proxy: %http_proxy% & echo https_proxy: %https_proxy%
 echo DeployMode: %DeployMode%
 rem echo KeepLocalChanges: %KeepLocalChanges%
-rem echo RealtimeMode: %RealtimeMode%
-rem echo FirstRun: %FirstRun%
+echo RealtimeMode: %RealtimeMode%
+echo FirstRun: %FirstRun%
 rem echo IsUsingGit: %IsUsingGit%
-rem echo Serial: %Serial%
+echo Serial: %Serial%
 setLocal EnableDelayedExpansion
 set "STR=Alas Run Tool %Version%^"
 set "SIZE=100"
@@ -150,7 +150,7 @@ set "LEN=0"
 :strLen_Loop
    if not "!!STR:~%LEN%!!"=="" set /A "LEN+=1" & goto :strLen_Loop
 set "equal====================================================================================================="
-set "spaces====================================================================================================="
+set "spaces=====================================================================================================" 
 call echo %%equal:~0,%SIZE%%%
 set /a "pref_len=%SIZE%-%LEN%-2"
 set /a "pref_len/=2"
@@ -247,13 +247,13 @@ rem ================= OPTION 5 =================
 :Setting
 cls
 setLocal EnableDelayedExpansion
-set "STR2=Advanced Settings^!"
+set "STR2=Advanced Settings^!" 
 set "SIZE=100"
 set "LEN=0"
 :strLen_Loop
    if not "!!STR2:~%LEN%!!"=="" set /A "LEN+=1" & goto :strLen_Loop
-set "equal====================================================================================================="
-set "spaces====================================================================================================="
+set "equal=====================================================================================================" 
+set "spaces=====================================================================================================" 
 call echo %%equal:~0,%SIZE%%%
 set /a "pref_len=%SIZE%-%LEN%-2"
 set /a "pref_len/=2"
@@ -266,11 +266,10 @@ echo. & echo  [0] Return to the Main Menu
 echo. & echo  [1] Select Download Region
 echo. & echo  [2] Set Global Proxy
 echo. & echo  [3] Set SERIAL (For ADB connect)
-echo. & echo  [4] (Disable/Enable) Network connection test while updating
-echo. & echo  [5] (Disable/Enable) Realtime Connection Mode (Only Bluestacks Beta)
-echo. & echo  [6] (Disable/Enable) Keep local changes
-echo. & echo  [7] Change default Branch to update (master/dev)
-echo. & echo  [8] Reset Settings
+echo. & echo  [4] (Disable/Enable) Realtime Connection Mode (Only Bluestacks Beta)
+echo. & echo  [5] (Disable/Enable) Keep local changes
+echo. & echo  [6] Change default Branch to update (master/dev)
+echo. & echo  [7] Reset Settings
 echo. & echo.
 echo ====================================================================================================
 set opt2_choice=-1
@@ -280,11 +279,10 @@ if "%opt2_choice%"=="0" goto MENU
 if "%opt2_choice%"=="1" goto Region_setting
 if "%opt2_choice%"=="2" goto Proxy_setting
 if "%opt2_choice%"=="3" goto Serial_setting
-if "%opt2_choice%"=="4" goto NetworkTest_setting
-if "%opt2_choice%"=="5" goto Realtime_mode
-if "%opt2_choice%"=="6" goto Keep_local_changes
-if "%opt2_choice%"=="7" goto Branch_setting
-if "%opt2_choice%"=="8" goto Reset_setting
+if "%opt2_choice%"=="4" goto Realtime_mode
+if "%opt2_choice%"=="5" goto Keep_local_changes
+if "%opt2_choice%"=="6" goto Branch_setting
+if "%opt2_choice%"=="7" goto Reset_setting
 echo Please input a valid option.
 goto ReturnToSetting
 
@@ -315,7 +313,7 @@ echo.
 setlocal EnableDelayedExpansion
 if /i "%opt6_op5_choice%"=="Y" (
    set /p opt6_op5_choice= Please input - SERIAL ^(DEFAULT 127.0.0.1:5555 ^): 
-   if "!opt6_op5_choice!"=="" ( set "opt6_op5_choice=127.0.0.1:5555" )
+   if "!opt6_op5_choice!"=="" ( set "opt6_op5_choice=127.0.0.1:5555" ) 
    call command\Config.bat Serial !opt6_op5_choice!
    echo.
    echo The serial was set successfully.
@@ -375,9 +373,9 @@ if /i "%opt6_opt3_choice%"=="T" (
    set /p opt6_opt3_proxyHost= Please input - Proxy Host ^(DEFAULT http://127.0.0.1 ^): 
    set /p opt6_opt3_httpPort= Please input - Http Port ^(DEFAULT 1080 ^): 
    set /p opt6_opt3_httpsPort= Please input - Https Port ^(DEFAULT 1080 ^): 
-   if "!opt6_opt3_proxyHost!"=="" ( set "opt6_opt3_proxyHost=http://127.0.0.1" )
-   if "!opt6_opt3_httpPort!"=="" ( set "opt6_opt3_httpPort=1080" )
-   if "!opt6_opt3_httpsPort!"=="" ( set "opt6_opt3_httpsPort=1080" )
+   if "!opt6_opt3_proxyHost!"=="" ( set "opt6_opt3_proxyHost=http://127.0.0.1" ) 
+   if "!opt6_opt3_httpPort!"=="" ( set "opt6_opt3_httpPort=1080" ) 
+   if "!opt6_opt3_httpsPort!"=="" ( set "opt6_opt3_httpsPort=1080" ) 
    call command\Config.bat ProxyHost !opt6_opt3_proxyHost!
    call command\Config.bat HttpPort !opt6_opt3_httpPort!
    call command\Config.bat HttpsPort !opt6_opt3_httpsPort!
@@ -411,14 +409,6 @@ if /i "%opt6_opt6_choice%"=="Y" (
    cd toolkit && call command\WgetOptionsGenerator.bat
    cd .. && echo The "wget.ini" has been reset.
 ) else ( echo Invalid input. Cancelled. )
-goto ReturnToSetting
-
-:NetworkTest_setting
-call command\Config.bat NetTest
-goto ReturnToSetting
-
-:Upgrade_setting
-call command\Config.bat UpgradeOnlyViaGitHub
 goto ReturnToSetting
 
 rem ================= FUNCTIONS =================

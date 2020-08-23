@@ -26,10 +26,10 @@ if NOT exist %cfg_File% (
     ( echo Language = %Language%
     echo Region = %Region%
     echo SystemType = %SystemType%
-    echo NetTest = enable
+    echo NetTest = disable
     echo KeepLocalChanges = disable
     echo RealtimeMode = disable
-    echo AdbConnect = enable
+    echo AdbConnect = disable
     echo Serial = %Serial%
     echo FirstRun = %FirstRun%
     echo IsUsingGit = %IsUsingGit%
@@ -43,19 +43,17 @@ copy %cfg_File% %cfg_File%.bak > NUL
 type NUL > %cfg_File%
 goto :eof
 
-
 :Config_Common2
 del /Q %cfg_File%.bak >NUL 2>NUL
 cd ..
 goto :eof
-
 
 :: There are 3 types of configuration items: assignable, toggle-able, or both.
 ::     Assignable : You should call it with an argument `%2`.
 ::     Toggle-able: No argument `%2`. If it is already enabled, set it to disabled and vice versa.
 ::     Both       : If you call it without argument `%2`, toggle it. Otherwise assign it.
 
-:: Toggle-able: SystemType, ProxyHint, FFmpeg, NetTest, UpgradeOnlyViaGitHub
+:: Toggle-able: SystemType
 :: Assignable : Language, Region, ProxyHost, HttpPort, HttpsPort
 :: Both       : Proxy
 
@@ -131,19 +129,6 @@ for /f "delims=" %%i in (%cfg_File%.bak) do (
 )
 goto :eof
 
-:Config_NetTest
-for /f "delims=" %%i in (%cfg_File%.bak) do (
-    set "cfg_Temp=%%i"
-    set "cfg_Content=!cfg_Temp!"
-    if "!cfg_Temp!"=="NetTest = disable" ( set "cfg_Content=NetTest = enable" && set "cfg_State=enable" )
-    if "!cfg_Temp!"=="NetTest = enable" ( set "cfg_Content=NetTest = disable" && set "cfg_State=disable" )
-    echo !cfg_Content!>>%cfg_File%
-)
-if "%cfg_State%"=="enable" (
-    echo Network connection test while upgrading: enabled ^(DEFAULT^)
-) else echo Network connection test while upgrading: disabled
-goto :eof
-
 :Config_IsUsingGit
 for /f "delims=" %%i in (%cfg_File%.bak) do (
     set "cfg_Content=%%i"
@@ -205,19 +190,6 @@ for /f "delims=" %%i in (%cfg_File%.bak) do (
     echo %%i | findstr "Serial" >NUL && ( set "cfg_Content=Serial = %cfg_Extra%" )
     echo !cfg_Content!>>%cfg_File%
 )
-goto :eof
-
-:Config_UpgradeOnlyViaGitHub
-for /f "delims=" %%i in (%cfg_File%.bak) do (
-    set "cfg_Temp=%%i"
-    set "cfg_Content=!cfg_Temp!"
-    if "!cfg_Temp!"=="UpgradeOnlyViaGitHub = disable" ( set "cfg_Content=UpgradeOnlyViaGitHub = enable" && set "cfg_State=enable" )
-    if "!cfg_Temp!"=="UpgradeOnlyViaGitHub = enable" ( set "cfg_Content=UpgradeOnlyViaGitHub = disable" && set "cfg_State=disable" )
-    echo !cfg_Content!>>%cfg_File%
-)
-if "%cfg_State%"=="enable" (
-    echo Upgrade you-get via: GitHub_Releases
-) else echo Upgrade you-get via: PyPI.org ^(DEFAULT^)
 goto :eof
 
 rem ================= End of File =================

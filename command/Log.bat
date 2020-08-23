@@ -19,7 +19,6 @@ call :Log_init
 call :GetPackagesInfo
 ( echo pipVer: %log_pipVer%
 echo adbutilsVer: %log_adbutilsVer%
-echo python_Levenshtein: %log_LevenshteinVer%
 echo numpy: %log_numpyVer%
 echo scipy: %log_scipyVer%
 echo pillow: %log_pillowVer%
@@ -34,6 +33,7 @@ echo mxnet: %log_mxnetVer%
 echo cnocr: %log_cnocrVer%
 echo gooey: %log_gooeyVer%
 echo colored: %log_coloredVer%
+echo Python Levenshtein: %log_LevenshteinVer%
 echo pyocr: %log_pyocrVer%) >> %deploy_log_file%
 call :Log_common
 goto :eof
