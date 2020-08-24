@@ -67,8 +67,8 @@ def insert_swipe(p0, p3, speed=15):
 
     # Random control points in Bézier curve
     distance = np.linalg.norm(p3 - p0)
-    p1 = 2 / 3 * p0 + 1 / 3 * p3 + random_theta() * random_rho(distance * 0.2)
-    p2 = 1 / 3 * p0 + 2 / 3 * p3 + random_theta() * random_rho(distance * 0.2)
+    p1 = 2 / 3 * p0 + 1 / 3 * p3 + random_theta() * random_rho(distance * 0.1)
+    p2 = 1 / 3 * p0 + 2 / 3 * p3 + random_theta() * random_rho(distance * 0.1)
 
     # Random `t` on Bézier curve, sparse in the middle, dense at start and end
     segments = max(int(distance / speed) + 1, 5)
