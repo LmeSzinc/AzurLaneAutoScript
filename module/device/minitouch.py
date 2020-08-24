@@ -2,6 +2,7 @@ import random
 import socket
 import time
 
+from module.base.decorator import cached_property
 from module.base.utils import *
 from module.device.connection import Connection
 from module.logger import logger
@@ -108,9 +109,15 @@ class CommandBuilder:
     """
     DEFAULT_DELAY = 0.05
 
-    def __init__(self):
+    def __init__(self, max_x, max_y):
+        self.max_x = max_x
+        self.max_y = max_y
         self.content = ""
         self.delay = 0
+
+    def convert(self, x, y):
+        # Maximum X and Y coordinates may, but usually do not, match the display size.
+        return int(x / 1280 * self.max_x), int(y / 720 * self.max_y)
 
     def append(self, new_content):
         self.content += new_content + "\n"
@@ -133,10 +140,12 @@ class CommandBuilder:
 
     def down(self, x, y, contact_id=0, pressure=100):
         """ add minitouch command: 'd <contact_id> <x> <y> <pressure>\n' """
+        x, y = self.convert(x, y)
         self.append("d {} {} {} {}".format(contact_id, x, y, pressure))
         return self
 
     def move(self, x, y, contact_id=0, pressure=100):
+        x, y = self.convert(x, y)
         """ add minitouch command: 'm <contact_id> <x> <y> <pressure>\n' """
         self.append("m {} {} {} {}".format(contact_id, x, y, pressure))
         return self
@@ -151,6 +160,15 @@ class MiniTouch(Connection):
     _minitouch_port = 0
     _minitouch_process = None
     _minitouch_has_init = False
+    max_x: int
+    max_y: int
+
+    @cached_property
+    def minitouch_builder(self):
+        if not self._minitouch_has_init:
+            self.minitouch_init()
+
+        return CommandBuilder(self.max_x, self.max_y)
 
     def minitouch_init(self):
         logger.hr('MiniTouch init')
@@ -180,8 +198,8 @@ class MiniTouch(Connection):
             socket_out.readline().replace("\n", "").replace("\r", "").split(" ")
         )
         # self.max_contacts = max_contacts
-        # self.max_x = max_x
-        # self.max_y = max_y
+        self.max_x = int(max_x)
+        self.max_y = int(max_y)
         # self.max_pressure = max_pressure
 
         # $ <pid>
@@ -198,58 +216,51 @@ class MiniTouch(Connection):
         )
         self._minitouch_has_init = True
 
-    def _minitouch_send(self, builder):
-        """
-        Args:
-            builder (CommandBuilder):
-        """
-        if not self._minitouch_has_init:
-            self.minitouch_init()
-
-        content = builder.content
+    def minitouch_send(self):
+        content = self.minitouch_builder.content
         # logger.info("send operation: {}".format(content.replace("\n", "\\n")))
         byte_content = content.encode('utf-8')
         self.client.sendall(byte_content)
         self.client.recv(0)
-        time.sleep(builder.delay / 1000 + builder.DEFAULT_DELAY)
-        builder.reset()
+        time.sleep(self.minitouch_builder.delay / 1000 + self.minitouch_builder.DEFAULT_DELAY)
+        self.minitouch_builder.reset()
 
     def _click_minitouch(self, x, y):
-        builder = CommandBuilder()
+        builder = self.minitouch_builder
         builder.down(x, y).commit()
         builder.up().commit()
-        self._minitouch_send(builder)
+        self.minitouch_send()
 
     def _swipe_minitouch(self, fx, fy, tx, ty):
         points = insert_swipe(p0=(fx, fy), p3=(tx, ty))
-        builder = CommandBuilder()
+        builder = self.minitouch_builder
 
         builder.down(*points[0]).commit()
-        self._minitouch_send(builder)
+        self.minitouch_send()
 
         for point in points[1:]:
             builder.move(*point).commit().wait(10)
-        self._minitouch_send(builder)
+        self.minitouch_send()
 
         builder.up().commit()
-        self._minitouch_send(builder)
+        self.minitouch_send()
 
     def _drag_minitouch(self, p1, p2, point_random=(-10, -10, 10, 10)):
         p1 = np.array(p1) - random_rectangle_point(point_random)
         p2 = np.array(p2) - random_rectangle_point(point_random)
         points = insert_swipe(p0=p1, p3=p2, speed=20)
-        builder = CommandBuilder()
+        builder = self.minitouch_builder
 
         builder.down(*points[0]).commit()
-        self._minitouch_send(builder)
+        self.minitouch_send()
 
         for point in points[1:]:
             builder.move(*point).commit().wait(10)
-        self._minitouch_send(builder)
+        self.minitouch_send()
 
         builder.move(*p2).commit().wait(140)
         builder.move(*p2).commit().wait(140)
-        self._minitouch_send(builder)
+        self.minitouch_send()
 
         builder.up().commit()
-        self._minitouch_send(builder)
+        self.minitouch_send()
