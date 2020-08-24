@@ -71,13 +71,13 @@ if "%serial_input%"=="" ( set "serial_input=127.0.0.1:5555" )
 %adbBin% kill-server > nul 2>&1
 %adbBin% connect %serial_input% | find /i "connected to" >nul
 if errorlevel 1 (
-    echo The connection was not successful
+    echo The connection was not successful on SERIAL: %Serial%
     goto Import_Serial
 ) else (
     call command\Config.bat Serial %serial_input%
     call command\ConfigTemplate.bat SerialTemplate %serial_input%
     %pyBin% -m uiautomator2 init
-    echo The connection was Successful
+    echo The connection was Successful on SERIAL: %Serial%
 )
 echo =========================================================================
 echo Old Serial:      %Serial%
