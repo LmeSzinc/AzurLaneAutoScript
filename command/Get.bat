@@ -62,10 +62,10 @@ goto :eof
 
 :Import_Serial
 if "%FirstRun%"=="no" goto :eof
-echo =========================================================================
+echo ====================================================================================================
 echo Enter your HOST:PORT eg: 127.0.0.1:5555
 echo If you misstype, you can set in Settings menu Option 3
-echo =========================================================================
+echo ====================================================================================================
 set /p serial_input=Please input - SERIAL ^(DEFAULT 127.0.0.1:5555 ^): 
 if "%serial_input%"=="" ( set "serial_input=127.0.0.1:5555" )
 %adbBin% kill-server > nul 2>&1
@@ -83,10 +83,10 @@ if errorlevel 1 (
     %pyBin% -m uiautomator2 init
     echo The connection was Successful on SERIAL: %Serial%
 )
-echo =========================================================================
+echo ====================================================================================================
 echo Old Serial:      %Serial%
 echo New Serial:      %serial_input% 
-echo =========================================================================
+echo ====================================================================================================
 echo Press any to continue...
 pause > NUL
 goto :eof

@@ -33,3 +33,11 @@ for /f "delims=" %%i in (%cfg_Alas%.bak) do (
    echo !cfg_Content!>>%cfg_Alas%
 )
 goto :eof
+
+:Config_AzurLanePackage
+for /f "delims=" %%i in (%cfg_Alas%.bak) do (
+   set "cfg_Content=%%i"
+   echo %%i | findstr "package_name" >NUL && ( set "cfg_Content=package_name = %cfg_Extra%" )
+   echo !cfg_Content!>>%cfg_Alas%
+)
+goto :eof

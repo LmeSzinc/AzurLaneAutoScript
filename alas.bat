@@ -115,9 +115,9 @@ goto MENU
 rem ================= OPTION 1 =================
 
 :en
-call :ExitIfNotPython
+call command\ConfigAlas.bat AzurLanePackage com.YoStarEN.AzurLane
 call :CheckBsBeta
-call :AdbConnect
+:continue_en
 echo ====================================================================================================
 echo Python Found in %pyBin% Proceeding..
 echo Opening alas_en.pyw in %root%
@@ -129,9 +129,7 @@ goto :MENU
 rem ================= OPTION 2 =================
 
 :cn
-call :ExitIfNotPython
 call :CheckBsBeta
-call :AdbConnect
 echo ====================================================================================================
 echo Python Found in %pyBin% Proceeding..
 echo Opening alas_en.pyw in %root%
@@ -142,9 +140,7 @@ goto :MENU
 
 rem ================= OPTION 3 =================
 :jp
-call :ExitIfNotPython
 call :CheckBsBeta
-call :AdbConnect
 echo ====================================================================================================
 echo Python Found in %pyBin% Proceeding..
 echo Opening alas_en.pyw in %root%
@@ -455,55 +451,52 @@ if NOT exist toolkit\python.exe (
 )
 
 :CheckBsBeta
-if "%RealtimeMode%"=="disable" goto :eof
-rem if "%FirstRun%"=="enable" goto :eof
-echo Connecting with realtime mode...
+if "%RealtimeMode%"=="disable" ( goto AdbConnect )
+if "%FirstRun%"=="yes" ( goto :eof )
+echo == Connecting with realtime mode...
 for /f "tokens=3" %%a in ('reg query HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_bgp64_hyperv\Guests\Android\Config /v BstAdbPort') do (set /a port = %%a)
 set SerialRealtime=127.0.0.1:%port%
 echo ====================================================================================================
-echo connecting at %SerialRealtime%
-if "%KillServer%"=="enable" ( %adbBin% kill-server > nul 2>&1 )
+if "%KillServer%"=="enable" (
+   %adbBin% kill-server > nul 2>&1 
+   )
+echo == connecting at %SerialRealtime%
 %adbBin% connect %SerialRealtime%
 echo ====================================================================================================
 if "%FirstRun%"=="yes" (
+   call command\Config.bat Serial %SerialRealtime%
    call command\ConfigTemplate.bat SerialTemplate %SerialRealtime%
 ) else (
+   call command\Config.bat Serial %SerialRealtime%
    call command\ConfigAlas.bat SerialAlas %SerialRealtime%
 )
 echo ====================================================================================================
-echo Old Serial:      %SerialAlas%
-echo New Serial:      %SerialRealtime% 
+echo == Old Serial:      %SerialAlas%
+echo == New Serial:      %SerialRealtime%
 echo ====================================================================================================
-echo Press any to continue...
 %pyBin% -m uiautomator2 init
-:: -----------------------------------------------------------------------------
+echo ====================================================================================================
+echo == The connection was Successful on SERIAL: %SerialRealtime%
 goto :eof
 
+
 :AdbConnect
-if "%RealtimeMode%"=="enable" goto :eof
 if "%FirstRun%"=="yes" goto :eof
 if "%KillServer%"=="enable" ( %adbBin% kill-server > nul 2>&1 )
 %adbBin% connect %Serial% | find /i "connected to" >nul
 echo ====================================================================================================
 if errorlevel 1 (
-   echo The connection was not successful on SERIAL: %Serial%
-   echo Check our wiki for more info
+   echo == The connection was not successful on SERIAL: %Serial%
+   echo == Check our wiki for more info
    pause > NUL
    start https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Installation_en
    goto Serial_setting
+   echo ====================================================================================================
    ) else (
       %pyBin% -m uiautomator2 init
-      echo The connection was Successful on SERIAL: %Serial%
+      echo ====================================================================================================
+      echo == The connection was Successful on SERIAL: %Serial%
    )
-goto :eof
-
-:uiautomator2init
-echo ====================================================================================================
-echo initializing uiautomator2
-%pyBin% -m uiautomator2 init
-echo ====================================================================================================
-echo Press any to continue...
-pause > NUL
 goto :eof
 
 :UpdateChecker_Alas
@@ -542,7 +535,8 @@ for /f "tokens=1,2" %%A in ('%gitBin% log -1 "--format=%%h %%ct" -- .') do (
 set GIT_SHA1=%%A
 call :gmTime GIT_CTIME %%B
 )
-:: -----------------------------------------------------------------------------
+
+
 :time_parsed
 if %LAST_LOCAL_GIT% == %sha% (
    echo ====================================================================================================
@@ -583,5 +577,9 @@ if %mi% lss 10 set mi=0%mi%
 if %s% lss 10 set s=0%s%
 endlocal & set %1=%y%-%m%-%d% %h%:%mi%:%s%
 goto :eof
+
+:END
+echo tesadasdadsa
+pause
 
 rem ================= End of File =================
