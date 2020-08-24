@@ -2,21 +2,21 @@
 :: Used for "ADT-V4.bat" in :Create_Console-bat
 :: Please make sure that: only call this batch when %cd% is %root%;
 :: e.g.
-:: call command\GenerateDownloadBatch.bat portable
+:: call command\GenerateConsoleBatch.bat portable
 
 @echo off
 set "console-bat-filename=console.bat"
 REM if "%DeployMode%"=="unknown" exit
-call :GenerateDownloadBatch_Common
-call :GenerateDownloadBatch-%~1
-call :GenerateDownloadBatch_Common2
+call :GenerateConsoleBatch_Common
+call :GenerateConsoleBatch-%~1
+call :GenerateConsoleBatch_Common2
 goto :eof
 
 
 rem ================= FUNCTIONS =================
 
 
-:GenerateDownloadBatch_Common
+:GenerateConsoleBatch_Common
 ( echo @rem
 echo @echo off
 echo.
@@ -50,7 +50,7 @@ echo if NOT exist toolkit\command md toolkit\command
 echo del /Q toolkit\command\*.cmd ^>NUL 2^>NUL) > %console-bat-filename%
 goto :eof
 
-:GenerateDownloadBatch_Common2
+:GenerateConsoleBatch_Common2
 ( REM :: Show the instructions
 echo title Alas Console Debugger
 echo echo This is an console to run adb, git, python and pip.
@@ -70,7 +70,7 @@ echo PROMPT $P$_$G$G$G
 echo cmd /Q /K) >> %console-bat-filename%
 goto :eof
 
-:GenerateDownloadBatch-New
+:GenerateConsoleBatch-New
 ( echo echo @"%%_pyBin%%\python.exe" "%%_pyBin%%\Scripts\pip3.exe" %%%%*^> toolkit\command\pip3.cmd
 echo echo @"%%_pyBin%%\python.exe" "%%_pyBin%%\Scripts\pip.exe" %%%%*^> toolkit\command\pip.cmd
 echo echo @"%%_pyBin%%\python.exe" "%%_pyBin%%\Scripts\wheel.exe" %%%%*^> toolkit\command\wheel.cmd

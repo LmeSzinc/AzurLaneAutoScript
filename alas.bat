@@ -5,6 +5,15 @@
 :: Last updated: 2020-08-23
 :: >>> Get updated from: https://github.com/LmeSzinc/AzurLaneAutoScript <<<
 @echo off
+chcp | find "932" >NUL && set "IME=true" || set "IME=false"
+if "%IME%"=="true" (
+   echo ====================================================================================================
+   echo Incorrect encoding, visit this link to correct: https://bit.ly/34t8ubY
+   echo To copy, select the link and CTRL+SHFT+C
+   echo ====================================================================================================
+   pause
+   goto :eof
+   )
 pushd "%~dp0"
 setlocal EnableDelayedExpansion
 set "Version=3.0" 
@@ -19,6 +28,17 @@ set "root=%~dp0"
 set "root=%root:~0,-1%"
 cd "%root%"
 
+rem ================= Variables =================
+
+set "pyBin=%root%\toolkit\python.exe"
+set "adbBin=%root%\toolkit\Lib\site-packages\adbutils\binaries\adb.exe"
+set "gitBin=%root%\toolkit\Git\mingw64\bin\git.exe"
+set "curlBin=%root%\toolkit\Git\mingw64\bin\curl.exe"
+set "api_json=%root%\config\api_git.json"
+set "AlasConfig=%root%\config\alas.ini"
+set "template=%root%\config\template.ini"
+set "gitFolder=%root%\.git"
+
 :: Import main settings (%Language%, %Region%, %SystemType%) and translation text.
 call command\Get.bat Main
 :: Import the Proxy setting and apply. Then show more info in Option6.
@@ -32,14 +52,6 @@ call command\Get.bat DeployMode
 
 :: Start of Deployment
 title Alas Run Tool V3
-set "pyBin=%root%\toolkit\python.exe"
-set "adbBin=%root%\toolkit\Lib\site-packages\adbutils\binaries\adb.exe"
-set "gitBin=%root%\toolkit\Git\mingw64\bin\git.exe"
-set "curlBin=%root%\toolkit\Git\mingw64\bin\curl.exe"
-set "api_json=%root%\config\api_git.json"
-set "AlasConfig=%root%\config\alas.ini"
-set "template=%root%\config\template.ini"
-set "gitFolder=%root%\.git"
 if "%IsUsingGit%"=="yes" if "%DeployMode%"=="unknown" ( xcopy /Y toolkit\config .git\ > NUL )
 call :UpdateChecker_Alas
 
@@ -104,7 +116,6 @@ rem ================= OPTION 1 =================
 :en
 call :CheckBsBeta
 call :AdbConnect
-rem call :uiautomator2init
 echo ====================================================================================================
 echo Python Found in %pyBin% Proceeding..
 echo Opening alas_en.pyw in %root%
@@ -118,7 +129,6 @@ rem ================= OPTION 2 =================
 :cn
 call :CheckBsBeta
 call :AdbConnect
-rem call :uiautomator2init
 echo ====================================================================================================
 echo Python Found in %pyBin% Proceeding..
 echo Opening alas_en.pyw in %root%
@@ -131,7 +141,6 @@ rem ================= OPTION 3 =================
 :jp
 call :CheckBsBeta
 call :AdbConnect
-rem call :uiautomator2init
 echo ====================================================================================================
 echo Python Found in %pyBin% Proceeding..
 echo Opening alas_en.pyw in %root%
@@ -413,6 +422,11 @@ goto ReturnToSetting
 
 rem ================= FUNCTIONS =================
 
+:CheckAdbConnect
+for /f "tokens=1*" %%g IN ('%adbBin% connect 127.0.0.1:5555') do set adbCheck=%%g
+if "%adbCheck%"=="cannot"
+echo %adbCheck%
+
 :ReturnToSetting
 echo. & echo Press any key to continue...
 pause > NUL
@@ -444,6 +458,7 @@ for /f "tokens=3" %%a in ('reg query HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_bgp6
 set SerialRealtime=127.0.0.1:%port%
 echo ====================================================================================================
 echo connecting at %SerialRealtime%
+%adbBin% kill-server > nul 2>&1
 %adbBin% connect %SerialRealtime%
 echo ====================================================================================================
 if "%FirstRun%"=="yes" (
@@ -456,14 +471,23 @@ echo Old Serial:      %SerialAlas%
 echo New Serial:      %SerialRealtime% 
 echo ====================================================================================================
 echo Press any to continue...
+%pyBin% -m uiautomator2 init
 pause > NUL
 :: -----------------------------------------------------------------------------
 goto :eof
 
 :AdbConnect
 if "%RealtimeMode%"=="enable" goto :eof
-if "%FirstRun%"=="yes" ( %adbBin% connect %serial_input% && goto :eof )
-%adbBin% connect %Serial%
+if "%FirstRun%"=="yes" ( goto :eof )
+%adbBin% kill-server > nul 2>&1
+%adbBin% connect %Serial% | find /i "connected to" >nul
+if errorlevel 1 (
+   echo The connection was not successful
+   goto Serial_setting
+   ) else (
+      %pyBin% -m uiautomator2 init
+      echo The connection was Successful
+   )
 goto :eof
 
 :KillAdb

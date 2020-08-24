@@ -13,6 +13,8 @@ goto :eof
 
 rem ================= FUNCTIONS =================
 
+:Importo_Deploy
+
 :: %cd%: "%root%"
 :: Get %Language% , %Region% , %SystemType%
 :Import_Main
@@ -65,9 +67,17 @@ echo If you misstype, you can set in Settings menu Option 3
 echo =========================================================================
 set /p serial_input=Please input - SERIAL ^(DEFAULT 127.0.0.1:5555 ^): 
 if "%serial_input%"=="" ( set "serial_input=127.0.0.1:5555" )
-call command\Config.bat Serial %serial_input%
-call command\ConfigTemplate.bat SerialTemplate %serial_input%
-
+%adbBin% kill-server > nul 2>&1
+%adbBin% connect %serial_input% | find /i "connected to" >nul
+if errorlevel 1 (
+    echo The connection was not successful
+    goto Import_Serial
+) else (
+    call command\Config.bat Serial %serial_input%
+    call command\ConfigTemplate.bat SerialTemplate %serial_input%
+    %pyBin% -m uiautomator2 init
+    echo The connection was Successful
+)
 echo =========================================================================
 echo Old Serial:      %Serial%
 echo New Serial:      %serial_input% 
