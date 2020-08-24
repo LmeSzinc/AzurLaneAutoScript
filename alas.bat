@@ -102,7 +102,7 @@ echo. & echo  [5] Settings
 echo ====================================================================================================
 set choice=0
 set /p choice= Please input the option and press ENTER:
-echo. & echo.
+echo ====================================================================================================
 if "%choice%"=="1" goto en
 if "%choice%"=="2" goto cn
 if "%choice%"=="3" goto jp
@@ -190,7 +190,7 @@ echo. & echo  [0] Return to the Main Menu
 echo ====================================================================================================
 set choice=-1
 set /p choice= Please input the option and press ENTER:
-echo. & echo.
+echo ====================================================================================================
 if "%choice%"=="1" goto Run_UpdateAlas
 if "%choice%"=="2" goto update_toolkit
 if "%choice%"=="3" goto Setting
@@ -353,7 +353,7 @@ echo Chinese users, it is recommended to switch to Gitee, Option [2]
 echo [1] Origin (Github) ; [2] CN mirror (Gitee)
 set opt3_choice=-1
 set /p opt3_choice= Please input the option and press ENTER:
-echo. & echo.
+echo ====================================================================================================
 if "%opt3_choice%"=="1" ( call command\Config.bat Region origin && goto PleaseRerun )
 if "%opt3_choice%"=="2" ( call command\Config.bat Region cn && goto PleaseRerun )
 goto ReturnToSetting
@@ -484,6 +484,7 @@ if "%RealtimeMode%"=="enable" goto :eof
 if "%FirstRun%"=="yes" goto :eof
 if "%KillServer%"=="enable" ( %adbBin% kill-server > nul 2>&1 )
 %adbBin% connect %Serial% | find /i "connected to" >nul
+echo ====================================================================================================
 if errorlevel 1 (
    echo The connection was not successful on SERIAL: %Serial%
    echo Check our wiki for more info

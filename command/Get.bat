@@ -70,6 +70,7 @@ set /p serial_input=Please input - SERIAL ^(DEFAULT 127.0.0.1:5555 ^):
 if "%serial_input%"=="" ( set "serial_input=127.0.0.1:5555" )
 %adbBin% kill-server > nul 2>&1
 %adbBin% connect %serial_input% | find /i "connected to" >nul
+echo ====================================================================================================
 if errorlevel 1 (
     echo The connection was not successful on SERIAL: %Serial%
     echo Check our wiki for more info
