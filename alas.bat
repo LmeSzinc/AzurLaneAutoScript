@@ -9,7 +9,6 @@ chcp | find "932" >NUL && set "IME=true" || set "IME=false"
 if "%IME%"=="true" (
    echo ====================================================================================================
    echo Incorrect encoding, visit this link to correct: https://bit.ly/34t8ubY
-   start https://bit.ly/34t8ubY
    echo To copy, select the link and CTRL+SHFT+C
    echo ====================================================================================================
    pause
@@ -52,9 +51,9 @@ rem call command\Get.bat InfoOpt4
 call command\Get.bat DeployMode
 
 :: Start of Deployment
+title Alas Run Tool V3
 if "%IsUsingGit%"=="yes" if "%DeployMode%"=="unknown" ( xcopy /Y toolkit\config .git\ > NUL )
 call :UpdateChecker_Alas
-title Alas Run Tool V3 == Branch: %BRANCH% == Git hash: %LAST_LOCAL_GIT% == commit date: %GIT_CTIME%
 
 rem ================= Menu =================
 
@@ -115,7 +114,6 @@ goto MENU
 rem ================= OPTION 1 =================
 
 :en
-call :ExitIfNotPython
 call :CheckBsBeta
 call :AdbConnect
 echo ====================================================================================================
@@ -129,7 +127,6 @@ goto :MENU
 rem ================= OPTION 2 =================
 
 :cn
-call :ExitIfNotPython
 call :CheckBsBeta
 call :AdbConnect
 echo ====================================================================================================
@@ -142,7 +139,6 @@ goto :MENU
 
 rem ================= OPTION 3 =================
 :jp
-call :ExitIfNotPython
 call :CheckBsBeta
 call :AdbConnect
 echo ====================================================================================================
@@ -283,8 +279,7 @@ echo. & echo  [4] (Disable/Enable) Realtime Connection Mode (Only Bluestacks Bet
 echo. & echo  [5] (Disable/Enable) Keep local changes
 echo. & echo  [6] Change default Branch to update (master/dev)
 echo. & echo  [7] (Disable/Enable) Kill ADB server at each start
-echo. & echo  [8] Why can't I toggle certain settings above?
-echo. & echo  [9] Reset Settings
+echo. & echo  [8] Reset Settings
 echo. & echo.
 echo ====================================================================================================
 set opt2_choice=-1
@@ -299,7 +294,6 @@ if "%opt2_choice%"=="5" goto Keep_local_changes
 if "%opt2_choice%"=="6" goto Branch_setting
 if "%opt2_choice%"=="7" goto settings_KilADBserver
 if "%opt2_choice%"=="8" goto Reset_setting
-if "%opt2_choice%"=="9" goto Reset_setting
 echo Please input a valid option.
 goto ReturnToSetting
 
@@ -462,13 +456,6 @@ if exist .git\ (
 )
 goto :eof
 
-:ExitIfNotPython
-if NOT exist toolkit\python.exe (
-   echo. & echo The Initial Deployment was not done correctly. Please delete entire folder and reinstall from scratch.
-   start https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Installation_en
-   call :PleaseRerun
-)
-
 :CheckBsBeta
 if "%RealtimeMode%"=="disable" goto :eof
 rem if "%FirstRun%"=="enable" goto :eof
@@ -500,11 +487,11 @@ if "%FirstRun%"=="yes" ( goto :eof )
 if "%KillServer%"=="enable" ( %adbBin% kill-server > nul 2>&1 )
 %adbBin% connect %Serial% | find /i "connected to" >nul
 if errorlevel 1 (
-   echo The connection was not successful on SERIAL: %Serial%
+   echo The connection was not successful
    goto Serial_setting
    ) else (
       %pyBin% -m uiautomator2 init
-      echo The connection was Successful on SERIAL: %Serial%
+      echo The connection was Successful
    )
 goto :eof
 
