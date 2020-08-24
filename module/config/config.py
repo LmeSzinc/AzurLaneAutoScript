@@ -172,10 +172,11 @@ class AzurLaneConfig:
     COMMAND = ''
     ASCREENCAP_FILEPATH_LOCAL = './bin/ascreencap'
     ASCREENCAP_FILEPATH_REMOTE = '/data/local/tmp/ascreencap'
+    MINITOUCH_FILEPATH_REMOTE = '/data/local/tmp/minitouch'
     # Speed: aScreenCap >> uiautomator2 > ADB
     DEVICE_SCREENSHOT_METHOD = 'aScreenCap'  # ADB, uiautomator2, aScreenCap
     # Speed: uiautomator2 >> ADB
-    DEVICE_CONTROL_METHOD = 'uiautomator2'  # ADB, uiautomator2
+    DEVICE_CONTROL_METHOD = 'uiautomator2'  # ADB, uiautomator2, minitouch
     # USE_ADB_SCREENSHOT = True
     # USE_ADB_CONTROL = False
     SCREEN_SHOT_SAVE_FOLDER_BASE = './screenshot'
@@ -265,7 +266,10 @@ class AzurLaneConfig:
     FLEET_BOSS = 2
     # Convert map grid distance to swipe distance
     # Usually range from 1/0.62 to 1/0.61
+    # Value may be different in different maps
     MAP_SWIPE_MULTIPLY = 1.626
+    # When using minitouch, MAP_SWIPE_MULTIPLY is a fixed value.
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.572
     # Swipe distance in map grid lower than this will be dropped,
     # because a closing swipe will be treat as a click in game.
     MAP_SWIPE_DROP = 0.15

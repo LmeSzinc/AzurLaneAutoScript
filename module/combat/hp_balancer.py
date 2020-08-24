@@ -1,5 +1,6 @@
 from module.base.base import ModuleBase
 from module.base.button import *
+from module.base.decorator import Config
 from module.logger import logger
 
 # Location of six HP bar.
@@ -27,7 +28,6 @@ class HPBalancer(ModuleBase):
     fleet_current_index = 1
     _hp = {}
     _hp_has_ship = {}
-    _scout_order = (0, 1, 2)
 
     @property
     def hp(self):
@@ -153,19 +153,61 @@ class HPBalancer(ModuleBase):
 
         return order
 
-    @staticmethod
-    def _gen_exchange_step(origin, target):
-        diff = np.array(target) - np.array(origin)
+    @Config.when(DEVICE_CONTROL_METHOD='minitouch')
+    def _gen_exchange_step(self, target):
+        """
+        Minitouch swiping is more like human, when it drag the first ship to the third ship,
+        [0, 1, 2] becomes [1, 2, 0], while in adb/uiautomator2, it becomes [2, 1, 0].
+
+        Args:
+            target (list[int]): Such as [2, 0, 1].
+        """
+        diff = np.array(target) - np.array((0, 1, 2))
+        count = np.count_nonzero(diff)
+        if count == 3:
+            if np.argsort(target)[0] == 1:
+                # [0, 1, 2] -> [2, 0, 1]
+                yield (2, 0)
+            else:
+                # [0, 1, 2] -> [1, 2, 0]
+                yield (0, 2)
+        elif count == 2:
+            if np.argsort(target)[0] == 2:
+                # [0, 1, 2] -> [1, 2, 0] -> [2, 1, 0]
+                yield (0, 2)
+                yield (1, 0)
+            else:
+                # [0, 2, 1]
+                # [1, 0, 2]
+                yield tuple(np.nonzero(diff)[0])
+        elif count == 0:
+            # [0, 1, 2]
+            # Target is the same as origin. Do nothing
+            pass
+
+    @Config.when(DEVICE_CONTROL_METHOD=None)
+    def _gen_exchange_step(self, target):
+        """
+        Args:
+            target (list[int]): Such as [2, 0, 1].
+        """
+        diff = np.array(target) - np.array((0, 1, 2))
         count = np.count_nonzero(diff)
         if count == 3:
             yield (2, 0)
-            if np.argsort(target)[0] - np.argsort(origin)[0] == 1:
+            if np.argsort(target)[0] == 1:
+                # [0, 1, 2] -> [2, 1, 0] -> [2, 0, 1]
                 yield (2, 1)
             else:
+                # [0, 1, 2] -> [2, 1, 0] -> [1, 2, 0]
                 yield (1, 0)
         elif count == 2:
+            # [0, 2, 1]
+            # [1, 0, 2]
+            # [2, 1, 0]
             yield tuple(np.nonzero(diff)[0])
         elif count == 0:
+            # [0, 1, 2]
             # Target is the same as origin. Do nothing
             pass
 
@@ -174,7 +216,7 @@ class HPBalancer(ModuleBase):
             return False
 
         target = self._expected_scout_order(self.hp[3:])
-        for step in self._gen_exchange_step(self._scout_order, target):
+        for step in self._gen_exchange_step(target):
             self._scout_position_change(*step)
             self.device.sleep(0.5)
 

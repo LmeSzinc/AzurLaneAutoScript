@@ -26,7 +26,10 @@ class Camera(InfoHandler):
         name = 'MAP_SWIPE_' + '_'.join([str(int(round(x))) for x in vector])
         if np.any(np.abs(vector) > self.config.MAP_SWIPE_DROP):
             # Map grid fit
-            distance = self.view.swipe_base * self.config.MAP_SWIPE_MULTIPLY
+            if self.config.DEVICE_CONTROL_METHOD == 'minitouch':
+                distance = self.view.swipe_base * self.config.MAP_SWIPE_MULTIPLY_MINITOUCH
+            else:
+                distance = self.view.swipe_base * self.config.MAP_SWIPE_MULTIPLY
             vector = distance * vector
 
             vector = -vector
