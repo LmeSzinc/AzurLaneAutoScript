@@ -33,20 +33,24 @@ images = [np.array(Image.open(os.path.join(FOLDER, NAME, file))) for file in os.
 templates = [crop(images[0], area=AREA)]
 
 
-def matched(im):
+def match(im):
+    max_sim = 0
+    max_loca = (0, 0)
     for template in templates:
         res = cv2.matchTemplate(im, template, cv2.TM_CCOEFF_NORMED)
-        _, sim, _, _ = cv2.minMaxLoc(res)
-        if sim > THRESHOLD:
-            return True
+        _, sim, _, loca = cv2.minMaxLoc(res)
+        if sim > max_sim:
+            max_sim = sim
+            max_loca = loca
 
-    return False
+    return max_sim, max_loca
 
 
 for n, image in enumerate(images):
-    if matched(image):
+    sim, loca = match(image)
+    if sim > THRESHOLD:
         continue
     print(f'New template: {n}')
-    templates.append(crop(image, area=AREA))
+    templates.append(crop(image, area=area_offset(AREA, np.subtract(loca, AREA[:2]))))
 
 imageio.mimsave(os.path.join(FOLDER, f'TEMPLATE_SIREN_{NAME}.gif'), templates, fps=3)
