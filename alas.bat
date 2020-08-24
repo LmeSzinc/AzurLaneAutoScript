@@ -489,6 +489,7 @@ if errorlevel 1 (
    echo Check our wiki for more info
    pause > NUL
    start https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Installation_en
+   goto Serial_setting
    ) else (
       %pyBin% -m uiautomator2 init
       echo The connection was Successful on SERIAL: %Serial%

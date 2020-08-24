@@ -75,6 +75,7 @@ if errorlevel 1 (
     echo Check our wiki for more info
     pause > NUL
     start https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Installation_en
+    goto Import_Serial
 ) else (
     call command\Config.bat Serial %serial_input%
     call command\ConfigTemplate.bat SerialTemplate %serial_input%
