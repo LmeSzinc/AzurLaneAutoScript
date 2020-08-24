@@ -13,7 +13,7 @@ goto :eof
 
 rem ================= FUNCTIONS =================
 
-:Importo_Deploy
+:Import_Deploy
 
 :: %cd%: "%root%"
 :: Get %Language% , %Region% , %SystemType%
@@ -39,6 +39,7 @@ if exist config\deploy.ini (
     for /f "tokens=3 delims= " %%i in ('findstr /i "Branch" config\deploy.ini') do ( set "Branch=%%i" )
     for /f "tokens=3 delims= " %%i in ('findstr /i "AdbConnect" config\deploy.ini') do ( set "AdbConnect=%%i" )
     for /f "tokens=3 delims= " %%i in ('findstr /i "Serial" config\deploy.ini') do ( set "Serial=%%i" )
+    for /f "tokens=3 delims= " %%i in ('findstr /i "AdbKillServer" config\deploy.ini') do ( set "KillServer=%%i" )
 ) else (
     call command\LanguageSet.bat
     )
@@ -84,29 +85,7 @@ echo New Serial:      %serial_input%
 echo =========================================================================
 echo Press any to continue...
 pause > NUL
-
-rem set template=%root%\config\template.ini
-rem setlocal enabledelayedexpansion
-rem for /f "delims=" %%i in (!template!) do (
-rem     set line=%%i
-rem     if "x!line:~0,9!"=="xserial = " (
-rem         set serial=!line:~9!
-rem     )
-rem )
-rem echo =========================================================================
-rem echo Old Serial:      %serial%
-rem echo New Serial:      %serial_input% 
-rem echo =========================================================================
-rem echo Press any to continue...
-rem pause > NUL
-rem for /f "delims=" %%i in ('type "%template%" ^& break ^> "%template%" ') do (
-rem     set line=%%i
-rem     >>"%template%" echo(!line:%serial%=%serial_input%!
-rem     )
-rem )
-rem endlocal
 goto :eof
-
 
 :: %cd%: "%root%"
 :: Get the proxy settings of CMD from "config\deploy.ini"

@@ -30,6 +30,7 @@ if NOT exist %cfg_File% (
     echo KeepLocalChanges = disable
     echo RealtimeMode = disable
     echo AdbConnect = disable
+    echo AdbKillServer = enable
     echo Serial = %Serial%
     echo FirstRun = %FirstRun%
     echo IsUsingGit = %IsUsingGit%
@@ -156,6 +157,19 @@ for /f "delims=" %%i in (%cfg_File%.bak) do (
 if "%cfg_State%"=="disable" (
     echo Keep local changes when updating: Disable ^(DEFAULT^)
 ) else echo Keep local changes when updating: Enable
+goto :eof
+
+:Config_AdbKillServer
+for /f "delims=" %%i in (%cfg_File%.bak) do (
+    set "cfg_Temp=%%i"
+    set "cfg_Content=!cfg_Temp!"
+    if "!cfg_Temp!"=="AdbKillServer = enable" ( set "cfg_Content=AdbKillServer = disable" && set "cfg_State=enable" )
+    if "!cfg_Temp!"=="AdbKillServer = disable" ( set "cfg_Content=AdbKillServer = enable" && set "cfg_State=disable" )
+    echo !cfg_Content!>>%cfg_File%
+)
+if "%cfg_State%"=="disable" (
+    echo Will kill ADB server at each start: Enable ^(DEFAULT^)
+) else echo Dont kill ADB server at each start: Disable
 goto :eof
 
 :Config_Branch

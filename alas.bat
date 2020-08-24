@@ -278,7 +278,8 @@ echo. & echo  [3] Set SERIAL (For ADB connect)
 echo. & echo  [4] (Disable/Enable) Realtime Connection Mode (Only Bluestacks Beta)
 echo. & echo  [5] (Disable/Enable) Keep local changes
 echo. & echo  [6] Change default Branch to update (master/dev)
-echo. & echo  [7] Reset Settings
+echo. & echo  [7] (Disable/Enable) Kill ADB server at each start
+echo. & echo  [8] Reset Settings
 echo. & echo.
 echo ====================================================================================================
 set opt2_choice=-1
@@ -291,7 +292,8 @@ if "%opt2_choice%"=="3" goto Serial_setting
 if "%opt2_choice%"=="4" goto Realtime_mode
 if "%opt2_choice%"=="5" goto Keep_local_changes
 if "%opt2_choice%"=="6" goto Branch_setting
-if "%opt2_choice%"=="7" goto Reset_setting
+if "%opt2_choice%"=="7" goto settings_KilADBserver
+if "%opt2_choice%"=="8" goto Reset_setting
 echo Please input a valid option.
 goto ReturnToSetting
 
@@ -352,6 +354,10 @@ goto ReturnToSetting
 
 :Keep_local_changes
 call command\Config.bat KeepLocalChanges
+goto ReturnToSetting
+
+:settings_KilADBserver
+call command\Config.bat AdbKillServer
 goto ReturnToSetting
 
 :Proxy_setting
@@ -458,7 +464,7 @@ for /f "tokens=3" %%a in ('reg query HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_bgp6
 set SerialRealtime=127.0.0.1:%port%
 echo ====================================================================================================
 echo connecting at %SerialRealtime%
-%adbBin% kill-server > nul 2>&1
+if "%KillServer%"=="enable" ( %adbBin% kill-server > nul 2>&1 )
 %adbBin% connect %SerialRealtime%
 echo ====================================================================================================
 if "%FirstRun%"=="yes" (
@@ -472,14 +478,13 @@ echo New Serial:      %SerialRealtime%
 echo ====================================================================================================
 echo Press any to continue...
 %pyBin% -m uiautomator2 init
-pause > NUL
 :: -----------------------------------------------------------------------------
 goto :eof
 
 :AdbConnect
 if "%RealtimeMode%"=="enable" goto :eof
 if "%FirstRun%"=="yes" ( goto :eof )
-%adbBin% kill-server > nul 2>&1
+if "%KillServer%"=="enable" ( %adbBin% kill-server > nul 2>&1 )
 %adbBin% connect %Serial% | find /i "connected to" >nul
 if errorlevel 1 (
    echo The connection was not successful
@@ -488,11 +493,6 @@ if errorlevel 1 (
       %pyBin% -m uiautomator2 init
       echo The connection was Successful
    )
-goto :eof
-
-:KillAdb
-if "%RealtimeMode%"=="enable" goto :eof
-%adbBin% kill-server > nul 2>&1
 goto :eof
 
 :uiautomator2init
