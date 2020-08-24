@@ -67,6 +67,10 @@ class Connection:
         cmd.insert(0, 'exec-out')
         return self.adb_command(cmd, serial)
 
+    def adb_forward(self, cmd, serial=None):
+        cmd.insert(0, 'forward')
+        return self.adb_command(cmd, serial)
+
     def _adb_connect(self, serial):
         if serial.startswith('127.0.0.1'):
             msg = self.adb_command(['connect', serial]).decode("utf-8")
@@ -92,22 +96,3 @@ class Connection:
     def disable_uiautomator2_auto_quit(self, port=7912, expire=300000):
         self.adb_command(['forward', 'tcp:%s' % port, 'tcp:%s' % port], serial=self.serial)
         requests.post('http://127.0.0.1:%s/newCommandTimeout' % port, data=str(expire))
-
-    def _ascreencap_init(self):
-        logger.hr('aScreenCap init')
-
-        arc = self.adb_exec_out(['getprop', 'ro.product.cpu.abi'], serial=self.serial).decode('utf-8').strip()
-        sdk = self.adb_exec_out(['getprop', 'ro.build.version.sdk'], serial=self.serial).decode('utf-8').strip()
-        logger.info(f'cpu_arc: {arc}, sdk_ver: {sdk}')
-
-        filepath = os.path.join(self.config.ASCREENCAP_FILEPATH_LOCAL, arc, 'ascreencap')
-        if int(sdk) not in range(21, 26) or not os.path.exists(filepath):
-            logger.warning('No suitable version of aScreenCap lib is available')
-            logger.info('Please use ADB or uiautomator2 screenshot instead')
-            exit(1)
-
-        logger.info(f'pushing {filepath}')
-        self.adb_command(['push', filepath, self.config.ASCREENCAP_FILEPATH_REMOTE], serial=self.serial)
-
-        logger.info(f'chmod 0777 {self.config.ASCREENCAP_FILEPATH_REMOTE}')
-        self.adb_shell(['chmod', '0777', self.config.ASCREENCAP_FILEPATH_REMOTE], serial=self.serial)

@@ -312,8 +312,8 @@ class Commission:
 
 class CommissionGroup:
     show = (188, 67, 1199, 692)
-    height = 210  # About 1.5 commission height
-    lower = int((show[3] - show[1]) / 2 - height / 2)
+    height = 360  # About 2.5 commission height
+    lower = int(show[3] - height - 10)
     template_area = (620, lower, 1154, lower + height)
 
     def __init__(self, config):
@@ -488,6 +488,17 @@ class RewardCommission(UI, InfoHandler):
 
         return True
 
+    @Config.when(DEVICE_CONTROL_METHOD='minitouch')
+    def _commission_swipe(self, distance=190):
+        # Distance of two commission is 146px
+        p1, p2 = random_rectangle_vector(
+            (0, -distance), box=(620, 67, 1154, 692), random_range=(-20, -5, 20, 5))
+        self.device.drag(p1, p2, segments=2, shake=(25, 0),
+                         point_random=(0, 0, 0, 0), shake_random=(-5, 0, 5, 0))
+        self.device.sleep(0.3)
+        self.device.screenshot()
+
+    @Config.when(DEVICE_CONTROL_METHOD=None)
     def _commission_swipe(self, distance=300):
         # Distance of two commission is 146px
         p1, p2 = random_rectangle_vector(

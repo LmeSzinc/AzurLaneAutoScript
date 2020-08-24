@@ -5,12 +5,12 @@ from retrying import retry
 
 from module.base.timer import Timer
 from module.base.utils import *
-from module.device.connection import Connection
+from module.device.minitouch import MiniTouch
 from module.exception import GameTooManyClickError
 from module.logger import logger
 
 
-class Control(Connection):
+class Control(MiniTouch):
     click_record = deque(maxlen=15)
 
     @staticmethod
@@ -56,7 +56,9 @@ class Control(Connection):
             'Click %s @ %s' % (point2str(x, y), button)
         )
         method = self.config.DEVICE_CONTROL_METHOD
-        if method == 'uiautomator2':
+        if method == 'minitouch':
+            self._click_minitouch(x, y)
+        elif method == 'uiautomator2':
             self._click_uiautomator2(x, y)
         else:
             self._click_adb(x, y)
@@ -114,7 +116,12 @@ class Control(Connection):
             'Swipe %s -> %s, %s' % (point2str(*start), point2str(*end), duration)
         )
         fx, fy, tx, ty = np.append(start, end).tolist()
-        self.device.swipe(fx, fy, tx, ty, duration=duration)
+
+        method = self.config.DEVICE_CONTROL_METHOD
+        if method == 'minitouch':
+            self._swipe_minitouch(fx, fy, tx, ty)
+        else:
+            self.device.swipe(fx, fy, tx, ty, duration=duration)
 
     def drag_along(self, path):
         """Swipe following path.
@@ -157,6 +164,16 @@ class Control(Connection):
 
     def drag(self, p1, p2, segments=1, shake=(0, 15), point_random=(-10, -10, 10, 10), shake_random=(-5, -5, 5, 5),
              swipe_duration=0.25, shake_duration=0.1):
+        method = self.config.DEVICE_CONTROL_METHOD
+        if method == 'minitouch':
+            self._drag_minitouch(p1, p2, point_random=point_random)
+        else:
+            self._drag_uiautomator2(
+                p1, p2, segments=segments, shake=shake, point_random=point_random, shake_random=shake_random,
+                swipe_duration=swipe_duration, shake_duration=shake_duration)
+
+    def _drag_uiautomator2(self, p1, p2, segments=1, shake=(0, 15), point_random=(-10, -10, 10, 10),
+            shake_random=(-5, -5, 5, 5), swipe_duration=0.25, shake_duration=0.1):
         """Drag and shake, like:
                      /\
         +-----------+  +  +
