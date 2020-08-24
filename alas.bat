@@ -3,7 +3,7 @@
 :: Author: whoamikyo (https://kyo.ninja)
 :: Version: 3.0
 :: Last updated: 2020-08-23
-:: >>> Get updated from: https://github.com/LmeSzinc/AzurLaneAutoScript <<<
+:: https://github.com/LmeSzinc/AzurLaneAutoScript
 @echo off
 chcp | find "932" >NUL && set "IME=true" || set "IME=false"
 if "%IME%"=="true" (
@@ -40,7 +40,7 @@ set "AlasConfig=%root%\config\alas.ini"
 set "template=%root%\config\template.ini"
 set "gitFolder=%root%\.git"
 
-:: Import main settings (%Language%, %Region%, %SystemType%) and translation text.
+:: Import main settings (%Language%, %Region%, %SystemType%).
 call command\Get.bat Main
 :: Import the Proxy setting and apply. Then show more info in Option6.
 call command\Get.bat Serial
@@ -66,9 +66,9 @@ rem echo Language: %Language% & echo Region: %Region% & echo SystemType: %System
 rem echo http_proxy: %http_proxy% & echo https_proxy: %https_proxy%
 echo DeployMode: %DeployMode%
 rem echo KeepLocalChanges: %KeepLocalChanges%
-echo RealtimeMode: %RealtimeMode%
-echo FirstRun: %FirstRun%
-rem echo IsUsingGit: %IsUsingGit%
+rem echo RealtimeMode: %RealtimeMode%
+rem echo FirstRun: %FirstRun%
+echo IsUsingGit: %IsUsingGit%
 echo Serial: %Serial%
 setLocal EnableDelayedExpansion
 set "STR=Alas Run Tool %Version%^"
@@ -260,7 +260,7 @@ rem ================= OPTION 5 =================
 :Setting
 cls
 setLocal EnableDelayedExpansion
-set "STR2=Advanced Settings^!" 
+set "STR2=Advanced Settings=" 
 set "SIZE=100"
 set "LEN=0"
 :strLen_Loop
@@ -274,6 +274,9 @@ set /a "suf_len=%SIZE%-%LEN%-2-%pref_len%"
 call echo =%%spaces:~0,%pref_len%%%%%STR2%%%%spaces:~0,%suf_len%%%=
 call echo %%equal:~0,%SIZE%%%
 endLocal
+echo ====================================================================================================
+echo == Please re-run this batch to make any settings take effect
+echo ====================================================================================================
 echo.
 echo. & echo  [0] Return to the Main Menu
 echo. & echo  [1] Select Download Region
@@ -317,12 +320,13 @@ if /i "%opt3_opt10_choice%"=="Y" (
    del /Q config\deploy.ini >NUL 2>NUL
    echo The "config\deploy.ini" has been deleted, please try changing the settings again.
 ) else ( echo Invalid input. Cancelled. )
-goto PleaseRerun
+goto ReturnToSetting
 
 :Serial_setting
-echo. & echo.
-echo If AdbConnect is enable, the Serial of current CMD window will be:
-echo     Current Serial = %Serial%
+echo ====================================================================================================
+echo If you dont know what are doing, check our wiki first https://github.com/LmeSzinc/AzurLaneAutoScript/wiki:
+echo == Current Serial = %Serial%
+echo ====================================================================================================
 set opt6_op5_choice=0
 echo. & echo Would you like to change the current SERIAL?, please enter Y to proceed;
 set /p opt6_op5_choice= Press ENTER to cancel: 
@@ -386,8 +390,8 @@ if /i "%opt6_opt3_choice%"=="T" (
    call command\Config.bat Proxy
 ) else if /i "%opt6_opt3_choice%"=="Y" (
    call command\Config.bat ProxyHost http://127.0.0.1
-   call command\Config.bat HttpPort 1080
-   call command\Config.bat HttpsPort 1080
+   call command\Config.bat Http 1080
+   call command\Config.bat Https 1080
    echo The Proxy Server has been reset to the default.
    call command\Config.bat Proxy enable
 ) else if /i "%opt6_opt3_choice%"=="N" (
@@ -398,8 +402,8 @@ if /i "%opt6_opt3_choice%"=="T" (
    if "!opt6_opt3_httpPort!"=="" ( set "opt6_opt3_httpPort=1080" ) 
    if "!opt6_opt3_httpsPort!"=="" ( set "opt6_opt3_httpsPort=1080" ) 
    call command\Config.bat ProxyHost !opt6_opt3_proxyHost!
-   call command\Config.bat HttpPort !opt6_opt3_httpPort!
-   call command\Config.bat HttpsPort !opt6_opt3_httpsPort!
+   call command\Config.bat Http !opt6_opt3_httpPort!
+   call command\Config.bat Https !opt6_opt3_httpsPort!
    echo.
    call command\Config.bat Proxy enable
    echo The custom Proxy Server has been set successfully.
@@ -412,25 +416,6 @@ endlocal
 echo. & echo Please re-run this batch to make the settings take effect.
 echo Please re-run the "alas.bat" to make the settings take effect.
 goto PleaseRerun
-
-:Wget_setting
-echo The current options of 'wget' are:
-set "WgetOptions="
-cd toolkit && call command\Get.bat WgetOptions
-echo. & echo "%WgetOptions%"
-if NOT exist wget.ini ( call command\WgetOptionsGenerator.bat )
-cd ..
-echo. & echo Edit the "toolkit\wget.ini" manually to change the default options.
-echo Please re-perform this step here to confirm the modification.
-set opt6_opt6_choice=0
-echo. & echo To reset the default "wget.ini", please enter Y;
-set /p opt6_opt6_choice= Press ENTER to cancel: 
-echo.
-if /i "%opt6_opt6_choice%"=="Y" (
-   cd toolkit && call command\WgetOptionsGenerator.bat
-   cd .. && echo The "wget.ini" has been reset.
-) else ( echo Invalid input. Cancelled. )
-goto ReturnToSetting
 
 rem ================= FUNCTIONS =================
 
@@ -496,12 +481,14 @@ goto :eof
 
 :AdbConnect
 if "%RealtimeMode%"=="enable" goto :eof
-if "%FirstRun%"=="yes" ( goto :eof )
+if "%FirstRun%"=="yes" goto :eof
 if "%KillServer%"=="enable" ( %adbBin% kill-server > nul 2>&1 )
 %adbBin% connect %Serial% | find /i "connected to" >nul
 if errorlevel 1 (
    echo The connection was not successful on SERIAL: %Serial%
-   goto Serial_setting
+   echo Check our wiki for more info
+   pause > NUL
+   start https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Installation_en
    ) else (
       %pyBin% -m uiautomator2 init
       echo The connection was Successful on SERIAL: %Serial%

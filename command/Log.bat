@@ -128,6 +128,9 @@ goto :eof
 :Log_common
 ( echo.
 echo errorlevel: !errorlevel!
+echo.
+echo ----- SystemInfo -----
+systeminfo
 echo.) >> %deploy_log_file%
 goto :eof
 

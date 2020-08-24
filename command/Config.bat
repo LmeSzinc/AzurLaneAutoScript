@@ -114,7 +114,7 @@ for /f "delims=" %%i in (%cfg_File%.bak) do (
 )
 goto :eof
 
-:Config_HttpPort
+:Config_Http
 for /f "delims=" %%i in (%cfg_File%.bak) do (
     set "cfg_Content=%%i"
     echo %%i | findstr "HttpPort" >NUL && ( set "cfg_Content=HttpPort = %cfg_Extra%" )
@@ -122,7 +122,7 @@ for /f "delims=" %%i in (%cfg_File%.bak) do (
 )
 goto :eof
 
-:Config_HttpsPort
+:Config_Https
 for /f "delims=" %%i in (%cfg_File%.bak) do (
     set "cfg_Content=%%i"
     echo %%i | findstr "HttpsPort" >NUL && ( set "cfg_Content=HttpsPort = %cfg_Extra%" )
@@ -181,8 +181,8 @@ for /f "delims=" %%i in (%cfg_File%.bak) do (
     echo !cfg_Content!>>%cfg_File%
 )
 if "%cfg_State%"=="master" (
-    echo Branch: Master ^(DEFAULT^)
-) else echo Branch: Dev
+    echo Changed current Branch to: Master ^(DEFAULT^)
+) else echo Changed current Branch to: Dev
 goto :eof
 
 :Config_RealtimeMode
