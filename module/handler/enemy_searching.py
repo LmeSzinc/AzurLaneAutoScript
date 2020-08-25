@@ -35,13 +35,13 @@ class EnemySearchingHandler(InfoHandler):
             else:
                 return False
         else:
+            if self.appear(MAP_PREPARATION) or self.appear(FLEET_PREPARATION):
+                self.device.click(MAP_PREPARATION_CANCEL)
             self.in_stage_timer.reset()
             return False
 
     def is_in_stage(self):
         if not self.appear(IN_STAGE, offset=(10, 10)):
-            if self.appear(MAP_PREPARATION) or self.appear(FLEET_PREPARATION):
-                self.device.click(MAP_PREPARATION_CANCEL)
             return False
         if self.map_is_clear \
                 and self.stage_entrance is not None \
