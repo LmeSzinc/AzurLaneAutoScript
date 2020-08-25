@@ -282,8 +282,9 @@ echo. & echo  [4] (Disable/Enable) Realtime Connection Mode (Only Bluestacks Bet
 echo. & echo  [5] (Disable/Enable) Keep local changes
 echo. & echo  [6] Change default Branch to update (master/dev)
 echo. & echo  [7] (Disable/Enable) Kill ADB server at each start
-echo. & echo  [8] Why can't I toggle certain settings above?
-echo. & echo  [9] Reset Settings
+echo. & echo  [8] Replace ADB from chinese emulators
+echo. & echo  [9] Why can't I toggle certain settings above?
+echo. & echo  [10] Reset Settings
 echo. & echo.
 echo ====================================================================================================
 set opt2_choice=-1
@@ -297,8 +298,9 @@ if "%opt2_choice%"=="4" goto Realtime_mode
 if "%opt2_choice%"=="5" goto Keep_local_changes
 if "%opt2_choice%"=="6" goto Branch_setting
 if "%opt2_choice%"=="7" goto settings_KilADBserver
-if "%opt2_choice%"=="8" goto Reset_setting
+if "%opt2_choice%"=="8" goto menu_ReplaceAdb
 if "%opt2_choice%"=="9" goto Reset_setting
+if "%opt2_choice%"=="10" goto Reset_setting
 echo Please input a valid option.
 goto ReturnToSetting
 
@@ -317,6 +319,95 @@ if /i "%opt3_opt10_choice%"=="Y" (
    echo The "config\deploy.ini" has been deleted, please try changing the settings again.
 ) else ( echo Invalid input. Cancelled. )
 goto ReturnToSetting
+
+:menu_ReplaceAdb
+cls
+echo ====================================================================================================
+echo ======== Different version of ADB will kill each other when starting.
+echo ==== Chinese emulators (NoxPlayer, LDPlayer, MemuPlayer, MuMuPlayer) use their own adb,
+echo == instead of the one in system PATH, so when they start they kill the adb.exe that Alas is using
+echo == so, you need replace the ADB in your emulator with the one Alas is using.
+echo ====================================================================================================
+echo.
+echo. & echo  [0] Return to the Main Menu
+echo. & echo  [1] Replace NoxPlayer ADB
+echo. & echo  [2] Replace LDplayer ADB
+echo. & echo.
+echo ====================================================================================================
+set opt4_choice=-1
+set /p opt4_choice= Please input the index number of option and press ENTER:
+echo. & echo.
+if "%opt4_choice%"=="0" goto MENU
+if "%opt4_choice%"=="1" goto replace_nox
+if "%opt4_choice%"=="2" goto replace_ldplayer
+echo Please input a valid option.
+goto ReturnToSetting
+
+:replace_nox
+reg query HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\DuoDianOnline\SetupInfo >nul
+if %errorlevel% equ 0 (
+   echo ====================================================================================================
+   echo == NoxAppPlayer detected, Proceeding...
+   pause > NUL
+) else (
+   echo ====================================================================================================
+   echo == NoxAppPlayer not detected
+   echo Press any key to back main menu
+   pause > NUL
+   goto ReturnToMenu
+)
+for /f "tokens=3* delims= " %%r in ('reg query "HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\DuoDianOnline\SetupInfo" /v InstallPath') do (
+set "InstallPath=%%r" )
+echo f | xcopy /Y %InstallPath%\adb.exe %InstallPath%\adb.exe.bak >nul
+echo f | xcopy /Y %InstallPath%\nox_adb.exe %InstallPath%\nox_adb.exe.bak >nul
+xcopy /Y toolkit\Lib\site-packages\adbutils\binaries\adb.exe %InstallPath%\ >nul
+echo f | xcopy /Y toolkit\Lib\site-packages\adbutils\binaries\adb.exe %InstallPath%\nox_adb.exe >nul
+if %errorlevel% equ 0 (
+   echo ====================================================================================================
+   echo == Success
+   echo == Press any key to back main menu
+   pause > NUL
+   goto ReturnToMenu
+) else (
+   echo ====================================================================================================
+   echo == Error, you may not have permission to replace the file
+   echo == try run this batch as administrator
+   echo Press any key to back main menu
+   pause > NUL
+   goto ReturnToMenu
+)
+
+:replace_ldplayer
+reg query HKEY_CURRENT_USER\SOFTWARE\XuanZhi\LDPlayer >nul
+if %errorlevel% equ 0 (
+   echo ====================================================================================================
+   echo == LDplayer detected, Proceeding...
+   pause > NUL
+) else (
+   echo ====================================================================================================
+   echo == LDplayer not detected
+   echo Press any key to back main menu
+   pause > NUL
+   goto ReturnToMenu
+)
+for /f "tokens=3* delims= " %%r in ('reg query "HKEY_CURRENT_USER\SOFTWARE\XuanZhi\LDPlayer" /v InstallDir') do (
+set "InstallDir=%%r" )
+echo f | xcopy /Y %InstallDir%\adb.exe %InstallDir%\adb.exe.bak >nul
+xcopy /Y toolkit\Lib\site-packages\adbutils\binaries\adb.exe %InstallDir%\ >nul
+if %errorlevel% equ 0 (
+   echo ====================================================================================================
+   echo == Success
+   echo == Press any key to back main menu
+   pause > NUL
+   goto ReturnToMenu
+) else (
+   echo ====================================================================================================
+   echo == Error, you may not have permission to replace the file
+   echo == try run this batch as administrator
+   echo Press any key to back main menu
+   pause > NUL
+   goto ReturnToMenu
+)
 
 :Serial_setting
 echo ====================================================================================================
