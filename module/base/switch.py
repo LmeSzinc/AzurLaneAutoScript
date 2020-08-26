@@ -89,7 +89,7 @@ class Switch:
                 continue
 
             for data in self.status_list:
-                if data['status'] == current:
+                if data['status'] == status:
                     main.device.click(data['click_button'])
                     main.device.sleep(data['sleep'])
                     changed = True

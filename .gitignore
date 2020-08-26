@@ -244,3 +244,4 @@ adb_port.ini
 *.exe
 !popup.exe
 *.zip
+console.bat

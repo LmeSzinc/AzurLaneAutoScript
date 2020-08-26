@@ -115,7 +115,6 @@ class CampaignBase(Map):
         self.ENTRANCE.area = self.ENTRANCE.button
         self.enter_map(self.ENTRANCE, mode=self.config.CAMPAIGN_MODE)
         self.handle_map_fleet_lock()
-        self.handle_fleet_reverse()
         self.map_init(self.MAP)
 
         for _ in range(20):

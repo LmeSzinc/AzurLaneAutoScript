@@ -1,816 +1,693 @@
+@rem
+:: Alas Run Tool v3
+:: Author: whoamikyo (https://kyo.ninja)
+:: Version: 3.0
+:: Last updated: 2020-08-23
+:: https://github.com/LmeSzinc/AzurLaneAutoScript
 @echo off
-rem @SETLOCAL EnableExtensions EnableDelayedExpansion
-pushd %~dp0
-set ver=2.7
-title ALAS RUNNER %ver%
-:: -----------------------------------------------------------------------------
-rem :check_Permissions
-rem     echo Administrative permissions required. Detecting permissions...
-rem     net session >nul 2>&1
-rem     if %errorLevel% == 0 (
-rem         echo Success: Administrative permissions confirmed.
-rem         echo Press any to continue...
-rem         pause >nul
-rem         call :continue
-rem     ) else (
-rem         echo Failure: Current permissions inadequate.
-rem     )
-rem     pause >nul
-:: -----------------------------------------------------------------------------
-:continue
-set ALAS_PATH=%~dp0
-:: -----------------------------------------------------------------------------
-set ADB=%ALAS_PATH%toolkit\Lib\site-packages\adbutils\binaries\adb.exe
-set PYTHON=%ALAS_PATH%toolkit\python.exe
-set GIT=%ALAS_PATH%toolkit\Git\cmd\git.exe
-set LMESZINC=https://github.com/LmeSzinc/AzurLaneAutoScript.git
-set WHOAMIKYO=https://github.com/whoamikyo/AzurLaneAutoScript.git
-set ALAS_ENV=https://github.com/whoamikyo/alas-env.git
-set ALAS_ENV_GITEE=https://gitee.com/lmeszinc/alas-env.git
-set GITEE_URL=https://gitee.com/lmeszinc/AzurLaneAutoScript.git
-set ADB_P=%ALAS_PATH%config\adb_port.ini
-set CURL=%ALAS_PATH%toolkit\Git\mingw64\bin\curl.exe
-set API_JSON=%ALAS_PATH%log\api_git.json
-set config=%~dp0config\alas.ini
-set configtemp=%~dp0config\alastemp.ini
-set template=%~dp0config\template.ini
-set git_log="%GIT% log --pretty=format:%%H%%n%%aI -1"
-:: -----------------------------------------------------------------------------
-:first_run
-if exist %~dp0config\alas.ini set first_run=1
-if defined first_run (
-    call :is_using_git
+chcp | find "932" >NUL && set "IME=true" || set "IME=false"
+if "%IME%"=="true" (
+   echo ====================================================================================================
+   echo Incorrect encoding, visit this link to correct: https://bit.ly/34t8ubY
+   start https://bit.ly/34t8ubY
+   echo To copy, select the link and CTRL+SHFT+C
+   echo ====================================================================================================
+   pause
+   goto :eof
+   )
+pushd "%~dp0"
+setlocal EnableDelayedExpansion
+set "Version=3.0"
+set "lastUpdated=2020-08-23"
+:: Remote repo
+set "Remoterepo=https://raw.githubusercontent.com/LmeSzinc/AzurLaneAutoScript/master/toolkit"
+
+rem ================= Preparation =================
+
+:: Set the root directory
+set "root=%~dp0"
+set "root=%root:~0,-1%"
+cd "%root%"
+
+rem ================= Variables =================
+
+set "pyBin=%root%\toolkit\python.exe"
+set "adbBin=%root%\toolkit\Lib\site-packages\adbutils\binaries\adb.exe"
+set "gitBin=%root%\toolkit\Git\mingw64\bin\git.exe"
+set "curlBin=%root%\toolkit\Git\mingw64\bin\curl.exe"
+set "api_json=%root%\config\api_git.json"
+set "AlasConfig=%root%\config\alas.ini"
+set "template=%root%\config\template.ini"
+set "gitFolder=%root%\.git"
+
+:: Import main settings (%Language%, %Region%, %SystemType%).
+call command\Get.bat Main
+:: Import the Proxy setting and apply. Then show more info in Option6.
+call command\Get.bat Serial
+call command\Get.bat Proxy
+call command\Get.bat InfoOpt1
+:: If already deployed, show more info in Option3.
+call command\Get.bat InfoOpt2
+rem call command\Get.bat InfoOpt4
+call command\Get.bat DeployMode
+
+:: Start of Deployment
+if "%IsUsingGit%"=="yes" if "%DeployMode%"=="unknown" ( xcopy /Y toolkit\config .git\ > NUL )
+call :UpdateChecker_Alas
+title Alas Run Tool V3 == Branch: %BRANCH% == Git hash: %LAST_LOCAL_GIT% == commit date: %GIT_CTIME%
+
+rem ================= Menu =================
+
+:MENU
+cd "%root%"
+cls
+:: Uncomment to debug the configuration that imported from "config\deploy.ini"
+rem echo Language: %Language% & echo Region: %Region% & echo SystemType: %SystemType%
+rem echo http_proxy: %http_proxy% & echo https_proxy: %https_proxy%
+echo DeployMode: %DeployMode%
+rem echo KeepLocalChanges: %KeepLocalChanges%
+rem echo RealtimeMode: %RealtimeMode%
+rem echo FirstRun: %FirstRun%
+echo IsUsingGit: %IsUsingGit%
+echo Serial: %Serial%
+setLocal EnableDelayedExpansion
+set "STR=Alas Run Tool %Version%^"
+set "SIZE=100"
+set "LEN=0"
+:strLen_Loop
+   if not "!!STR:~%LEN%!!"=="" set /A "LEN+=1" & goto :strLen_Loop
+set "equal====================================================================================================="
+set "spaces====================================================================================================="
+call echo %%equal:~0,%SIZE%%%
+set /a "pref_len=%SIZE%-%LEN%-2"
+set /a "pref_len/=2"
+set /a "suf_len=%SIZE%-%LEN%-2-%pref_len%"
+call echo %%spaces:~0,%pref_len%%%%%STR%%%%spaces:~0,%suf_len%%%===
+call echo %%equal:~0,%SIZE%%%
+endLocal
+echo.
+echo ====================================================================================================
+echo. & echo  [*] Choose a Option
+      echo    ^|
+      echo    ^|-- [1] EN
+      echo    ^|
+      echo    ^|
+      echo    ^|-- [2] CN
+      echo    ^|
+      echo    ^|
+      echo    ^|-- [3] JP
+      echo.
+echo. & echo  [4] Updater
+echo. & echo  [5] Settings
+echo ====================================================================================================
+set choice=0
+set /p choice= Please input the option and press ENTER:
+echo ====================================================================================================
+if "%choice%"=="1" goto en
+if "%choice%"=="2" goto cn
+if "%choice%"=="3" goto jp
+if "%choice%"=="4" goto Updater_menu
+if "%choice%"=="5" goto setting
+echo. & echo Please input a valid option.
+pause > NUL
+goto MENU
+
+rem ================= OPTION 1 =================
+
+:en
+call command\ConfigAlas.bat AzurLanePackage com.YoStarEN.AzurLane
+call :CheckBsBeta
+:continue_en
+echo ====================================================================================================
+echo Python Found in %pyBin% Proceeding..
+echo Opening alas_en.pyw in %root%
+%pyBin% alas_en.pyw
+echo Press any key to back main menu
+pause > NUL
+goto :MENU
+
+rem ================= OPTION 2 =================
+
+:cn
+call :CheckBsBeta
+echo ====================================================================================================
+echo Python Found in %pyBin% Proceeding..
+echo Opening alas_en.pyw in %root%
+%pyBin% alas_cn.pyw
+echo Press any key to back main menu
+pause > NUL
+goto :MENU
+
+rem ================= OPTION 3 =================
+:jp
+call :CheckBsBeta
+echo ====================================================================================================
+echo Python Found in %pyBin% Proceeding..
+echo Opening alas_en.pyw in %root%
+%pyBin% alas_jp.pyw
+echo Press any key to back main menu
+pause > NUL
+goto :MENU
+
+rem ================= OPTION 4 =================
+:Updater_menu
+cls
+setLocal EnableDelayedExpansion
+set "STR=Alas Updater Tool^!"
+set "SIZE=100"
+set "LEN=0"
+:strLen_Loop
+   if not "!!STR:~%LEN%!!"=="" set /A "LEN+=1" & goto :strLen_Loop
+set "equal====================================================================================================="
+set "spaces====================================================================================================="
+call echo %%equal:~0,%SIZE%%%
+set /a "pref_len=%SIZE%-%LEN%-2"
+set /a "pref_len/=2"
+set /a "suf_len=%SIZE%-%LEN%-2-%pref_len%"
+call echo =%%spaces:~0,%pref_len%%%%%STR%%%%spaces:~0,%suf_len%%%=
+call echo %%equal:~0,%SIZE%%%
+endLocal
+echo.
+echo ====================================================================================================
+echo Chinese users may need setup proxy or region first, check if settings below are correct.
+echo Region: %Region%
+echo ====================================================================================================
+echo. & echo  [*] Choose a Option
+      echo    ^|
+      echo    ^|-- [1] Update Alas
+      echo    ^|
+      echo    ^|
+      echo    ^|-- [2] Update dependencies (Toolkit)
+      echo    ^|
+      echo    ^|
+      echo.
+echo. & echo  [3] Settings
+echo. & echo  [0] Return to the Main Menu
+echo ====================================================================================================
+set choice=-1
+set /p choice= Please input the option and press ENTER:
+echo ====================================================================================================
+if "%choice%"=="1" goto Run_UpdateAlas
+if "%choice%"=="2" goto update_toolkit
+if "%choice%"=="3" goto Setting
+if "%choice%"=="0" goto MENU
+echo. & echo Please input a valid option.
+pause > NUL
+goto Updater_menu
+
+:Run_UpdateAlas
+set source="origin"
+if "%Region%"=="cn" set "source=gitee"
+echo. & echo.
+echo ====================================================================================================
+echo Branch in use: %Branch%
+echo KeepLocalChanges is: %KeepLocalChanges%
+echo ====================================================================================================
+set opt6_opt4_choice=0
+echo. & echo Change default Branch (master/dev), please enter T;
+echo To proceed update using Branch: %Branch%, please enter Y;
+echo Back to Updater menu, please enter N;
+set /p opt6_opt4_choice= Press ENTER to cancel:
+echo.
+if /i "%opt6_opt4_choice%"=="T" (
+   call command\Config.bat Branch
+) else if /i "%opt6_opt4_choice%"=="Y" (
+   goto proceed_alas
+) else if /i "%opt6_opt4_choice%"=="N" (
+   goto ReturnToMenu
 ) else (
-    call :not_using_git
+   echo Invalid input. Cancelled.
+   goto ReturnToMenu
 )
-:: -----------------------------------------------------------------------------
-set using_git=
-if exist ".git\" set using_git=1
-if defined using_git (
-    call :is_using_git
+:proceed_alas
+if "%KeepLocalChanges%"=="disable" (
+   echo GIT Found in %gitBin% Proceeding
+   echo Updating from %source% repository..
+   pause
+   %gitBin% fetch %source% %Branch%
+   %gitBin% reset --hard %source%/%Branch%
+   %gitBin% pull --ff-only %source% %Branch%
+   echo DONE!
+   echo Press any key to proceed
+   pause > NUL
+   goto Updater_menu
 ) else (
-    call :not_using_git
+   echo GIT Found in %gitBin% Proceeding
+   echo Updating from %source% repository..
+   %gitBin% stash
+   %gitBin% pull %source% %Branch%
+   %gitBin% stash pop
+   echo DONE!
+   echo Press any key to proceed
+   pause > NUL
+   goto Updater_menu
 )
-:: -----------------------------------------------------------------------------
-:is_using_git
-setlocal enabledelayedexpansion
-for /f "delims=" %%a in (!config!) do (
-    set line=%%a
-    if "x!line:~0,15!"=="xgithub_token = " (
-        set github_token=!line:~15!
-        
-    )
+echo. & echo Please re-run this batch to make the settings take effect.
+echo Please re-run the "alas.bat" to make the settings take effect.
+goto PleaseRerun
+
+:update_toolkit
+echo is not done yet
+pause > NUL
+goto ReturnToSetting
+
+rem ================= OPTION 5 =================
+
+:Setting
+cls
+setLocal EnableDelayedExpansion
+set "STR2=Advanced Settings="
+set "SIZE=100"
+set "LEN=0"
+:strLen_Loop
+   if not "!!STR2:~%LEN%!!"=="" set /A "LEN+=1" & goto :strLen_Loop
+set "equal====================================================================================================="
+set "spaces====================================================================================================="
+call echo %%equal:~0,%SIZE%%%
+set /a "pref_len=%SIZE%-%LEN%-2"
+set /a "pref_len/=2"
+set /a "suf_len=%SIZE%-%LEN%-2-%pref_len%"
+call echo =%%spaces:~0,%pref_len%%%%%STR2%%%%spaces:~0,%suf_len%%%=
+call echo %%equal:~0,%SIZE%%%
+endLocal
+echo ====================================================================================================
+echo == Please re-run this batch to make any settings take effect
+echo ====================================================================================================
+echo.
+echo. & echo  [0] Return to the Main Menu
+echo. & echo  [1] Select Download Region
+echo. & echo  [2] Set Global Proxy
+echo. & echo  [3] Set SERIAL (For ADB connect)
+echo. & echo  [4] (Disable/Enable) Realtime Connection Mode (Only Bluestacks Beta)
+echo. & echo  [5] (Disable/Enable) Keep local changes
+echo. & echo  [6] Change default Branch to update (master/dev)
+echo. & echo  [7] (Disable/Enable) Kill ADB server at each start
+echo. & echo  [8] Replace ADB from chinese emulators
+echo. & echo  [9] Why can't I toggle certain settings above?
+echo. & echo  [10] Reset Settings
+echo. & echo.
+echo ====================================================================================================
+set opt2_choice=-1
+set /p opt2_choice= Please input the index number of option and press ENTER:
+echo. & echo.
+if "%opt2_choice%"=="0" goto MENU
+if "%opt2_choice%"=="1" goto Region_setting
+if "%opt2_choice%"=="2" goto Proxy_setting
+if "%opt2_choice%"=="3" goto Serial_setting
+if "%opt2_choice%"=="4" goto Realtime_mode
+if "%opt2_choice%"=="5" goto Keep_local_changes
+if "%opt2_choice%"=="6" goto Branch_setting
+if "%opt2_choice%"=="7" goto settings_KilADBserver
+if "%opt2_choice%"=="8" goto menu_ReplaceAdb
+if "%opt2_choice%"=="9" goto Reset_setting
+if "%opt2_choice%"=="10" goto Reset_setting
+echo Please input a valid option.
+goto ReturnToSetting
+
+:Branch_setting
+call command\Config.bat Branch
+goto ReturnToSetting
+
+:Reset_setting
+echo. & echo After updating this batch, if the new settings cannot be toggled, you need to delete "config\deploy.ini". & echo But this will reset all the above settings to default.
+set opt3_opt10_choice=0
+echo. & echo To delete the settings, please enter Y;
+set /p opt3_opt10_choice= Press ENTER to cancel:
+echo.
+if /i "%opt3_opt10_choice%"=="Y" (
+   del /Q config\deploy.ini >NUL 2>NUL
+   echo The "config\deploy.ini" has been deleted, please try changing the settings again.
+) else ( echo Invalid input. Cancelled. )
+goto ReturnToSetting
+
+:menu_ReplaceAdb
+cls
+echo ====================================================================================================
+echo ======== Different version of ADB will kill each other when starting.
+echo ==== Chinese emulators (NoxPlayer, LDPlayer, MemuPlayer, MuMuPlayer) use their own adb,
+echo == instead of the one in system PATH, so when they start they kill the adb.exe that Alas is using
+echo == so, you need replace the ADB in your emulator with the one Alas is using.
+echo ====================================================================================================
+echo.
+echo. & echo  [0] Return to the Main Menu
+echo. & echo  [1] Replace NoxPlayer ADB
+echo. & echo  [2] Replace LDplayer ADB
+echo. & echo  [3] Replace Memu ADB
+echo. & echo.
+echo ====================================================================================================
+set opt4_choice=-1
+set /p opt4_choice= Please input the index number of option and press ENTER:
+echo. & echo.
+if "%opt4_choice%"=="0" goto MENU
+if "%opt4_choice%"=="1" goto replace_nox
+if "%opt4_choice%"=="2" goto replace_ldplayer
+if "%opt4_choice%"=="3" goto replace_memu
+echo Please input a valid option.
+goto ReturnToSetting
+
+:replace_nox
+reg query HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\DuoDianOnline\SetupInfo >nul
+if %errorlevel% equ 0 (
+   echo ====================================================================================================
+   echo == NoxAppPlayer detected, Proceeding...
+) else (
+   echo ====================================================================================================
+   echo == NoxAppPlayer not detected
+   echo Press any key to back main menu
+   pause > NUL
+   goto ReturnToMenu
 )
-:: -----------------------------------------------------------------------------
-:bypass_first_run
-rem %CURL% -s https://api.github.com/repos/lmeszinc/AzurLaneAutoScript/git/refs/heads/master?access_token=!github_token! > %~dp0log\api_git.json
-%CURL% -s https://api.github.com/repos/lmeszinc/AzurLaneAutoScript/commits/master?access_token=!github_token! > %~dp0log\api_git.json
+for /f "usebackq tokens=2,* skip=2" %%L in ( `reg query "HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\DuoDianOnline\SetupInfo" /v InstallPath`) do set InstallPath=%%M
+%adbBin% kill-server > nul 2>&1
+echo f | xcopy /Y "%InstallPath%\bin\adb.exe" "%InstallPath%\bin\adb.exe.bak" >nul
+echo f | xcopy /Y "%InstallPath%\bin\nox_adb.exe" "%InstallPath%\bin\nox_adb.exe.bak" >nul
+xcopy /Y toolkit\Lib\site-packages\adbutils\binaries\adb.exe "%InstallPath%\bin\" >nul
+echo f | xcopy /Y toolkit\Lib\site-packages\adbutils\binaries\adb.exe "%InstallPath%\bin\nox_adb.exe" >nul
+if %errorlevel% equ 0 (
+   echo ====================================================================================================
+   echo == Success
+   echo == Press any key to back main menu
+   pause > NUL
+   goto ReturnToMenu
+) else (
+   echo ====================================================================================================
+   echo == Error, you may not have permission to replace the file
+   echo == try run this batch as administrator
+   echo Press any key to back main menu
+   pause > NUL
+   goto ReturnToMenu
+)
+
+:replace_memu
+reg query HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\MEmu >nul
+if %errorlevel% equ 0 (
+   echo ====================================================================================================
+   echo == Memu detected, Proceeding...
+) else (
+   echo ====================================================================================================
+   echo == Memu not detected
+   echo Press any key to back main menu
+   pause > NUL
+   goto ReturnToMenu
+)
+for /f "usebackq tokens=2,* skip=2" %%L in ( `reg query "HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\MEmu" /v InstallLocation`) do set InstallLocation=%%M
+%adbBin% kill-server > nul 2>&1
+echo f | xcopy /Y "%InstallLocation%\MEmu\adb.exe" "%InstallLocation%\MEmu\adb.exe.bak" >nul
+xcopy /Y toolkit\Lib\site-packages\adbutils\binaries\adb.exe "%InstallLocation%\MEmu\" >nul
+if %errorlevel% equ 0 (
+   echo ====================================================================================================
+   echo == Success
+   echo == Press any key to back main menu
+   pause > NUL
+   goto ReturnToMenu
+) else (
+   echo ====================================================================================================
+   echo == Error, you may not have permission to replace the file
+   echo == try run this batch as administrator
+   echo Press any key to back main menu
+   pause > NUL
+   goto ReturnToMenu
+)
+
+:replace_ldplayer
+reg query HKEY_CURRENT_USER\SOFTWARE\XuanZhi\LDPlayer >nul
+if %errorlevel% equ 0 (
+   echo ====================================================================================================
+   echo == LDplayer detected, Proceeding...
+) else (
+   echo ====================================================================================================
+   echo == LDplayer not detected
+   echo Press any key to back main menu
+   pause > NUL
+   goto ReturnToMenu
+)
+FOR /F "usebackq tokens=2,* skip=2" %%L IN ( `reg query "HKEY_CURRENT_USER\SOFTWARE\XuanZhi\LDPlayer" /v InstallDir`) do set InstallDir=%%M
+%adbBin% kill-server > nul 2>&1
+echo f | xcopy /Y "%InstallDir%\adb.exe" "%InstallDir%\adb.exe.bak" >nul
+xcopy /Y toolkit\Lib\site-packages\adbutils\binaries\adb.exe "%InstallDir%\" >nul
+if %errorlevel% equ 0 (
+   echo ====================================================================================================
+   echo == Success
+   echo == Press any key to back main menu
+   pause > NUL
+   goto ReturnToMenu
+) else (
+   echo ====================================================================================================
+   echo == Error, you may not have permission to replace the file
+   echo == try run this batch as administrator
+   echo Press any key to back main menu
+   pause > NUL
+   goto ReturnToMenu
+)
+
+:Serial_setting
+echo ====================================================================================================
+echo If you dont know what are doing, check our wiki first https://github.com/LmeSzinc/AzurLaneAutoScript/wiki:
+echo == Current Serial = %Serial%
+echo ====================================================================================================
+set opt6_op5_choice=0
+echo. & echo Would you like to change the current SERIAL?, please enter Y to proceed;
+set /p opt6_op5_choice= Press ENTER to cancel:
+echo.
+setlocal EnableDelayedExpansion
+if /i "%opt6_op5_choice%"=="Y" (
+   set /p opt6_op5_choice= Please input - SERIAL ^(DEFAULT 127.0.0.1:5555 ^):
+   if "!opt6_op5_choice!"=="" ( set "opt6_op5_choice=127.0.0.1:5555" )
+   call command\Config.bat Serial !opt6_op5_choice!
+   echo.
+   echo The serial was set successfully.
+) else (
+   echo Invalid input. Cancelled.
+   goto ReturnToSetting
+)
 endlocal
-rem for /f "skip=5 tokens=2 delims=:," %%I IN (%API_JSON%) DO IF NOT DEFINED sha SET sha=%%I 
-rem set sha=%sha:"=%
-rem set sha=%sha: =%
-for /f "skip=1 tokens=2 delims=:," %%I IN (%API_JSON%) DO IF NOT DEFINED sha SET sha=%%I 
+echo. & echo Please re-run this batch to make the settings take effect.
+echo Please re-run the "alas.bat" to make the settings take effect.
+goto PleaseRerun
+
+:Region_setting
+echo The current Download Region is: %Region%
+echo Chinese users, it is recommended to switch to Gitee, Option [2]
+echo [1] Origin (Github) ; [2] CN mirror (Gitee)
+set opt3_choice=-1
+set /p opt3_choice= Please input the option and press ENTER:
+echo ====================================================================================================
+if "%opt3_choice%"=="1" ( call command\Config.bat Region origin && goto PleaseRerun )
+if "%opt3_choice%"=="2" ( call command\Config.bat Region cn && goto PleaseRerun )
+goto ReturnToSetting
+
+:Realtime_mode
+call command\Config.bat RealtimeMode
+goto ReturnToSetting
+
+:Keep_local_changes
+call command\Config.bat KeepLocalChanges
+goto ReturnToSetting
+
+:settings_KilADBserver
+call command\Config.bat AdbKillServer
+goto ReturnToSetting
+
+:Proxy_setting
+call command\Get.bat Proxy
+if "%state_globalProxy%"=="enable" (
+   echo Global Proxy: enabled
+) else ( echo Global Proxy: disabled ^(DEFAULT^) )
+echo. & echo.
+echo If Global Proxy is enabled, the Proxy Server of current CMD window will be:
+echo     HTTP_PROXY  = %__proxyHost%:%__httpPort%
+echo     HTTPS_PROXY = %__proxyHost%:%__httpsPort%
+set opt6_opt3_choice=0
+echo. & echo To (disable/enable) the Global Proxy, please enter T;
+echo To reset to the default Proxy Server, please enter Y;
+echo To customize the Proxy Host or Port, please enter N;
+set /p opt6_opt3_choice= Press ENTER to cancel:
+echo.
+setlocal EnableDelayedExpansion
+if /i "%opt6_opt3_choice%"=="T" (
+   call command\Config.bat Proxy
+) else if /i "%opt6_opt3_choice%"=="Y" (
+   call command\Config.bat ProxyHost http://127.0.0.1
+   call command\Config.bat Http 1080
+   call command\Config.bat Https 1080
+   echo The Proxy Server has been reset to the default.
+   call command\Config.bat Proxy enable
+) else if /i "%opt6_opt3_choice%"=="N" (
+   set /p opt6_opt3_proxyHost= Please input - Proxy Host ^(DEFAULT http://127.0.0.1 ^):
+   set /p opt6_opt3_httpPort= Please input - Http Port ^(DEFAULT 1080 ^):
+   set /p opt6_opt3_httpsPort= Please input - Https Port ^(DEFAULT 1080 ^):
+   if "!opt6_opt3_proxyHost!"=="" ( set "opt6_opt3_proxyHost=http://127.0.0.1" )
+   if "!opt6_opt3_httpPort!"=="" ( set "opt6_opt3_httpPort=1080" )
+   if "!opt6_opt3_httpsPort!"=="" ( set "opt6_opt3_httpsPort=1080" )
+   call command\Config.bat ProxyHost !opt6_opt3_proxyHost!
+   call command\Config.bat Http !opt6_opt3_httpPort!
+   call command\Config.bat Https !opt6_opt3_httpsPort!
+   echo.
+   call command\Config.bat Proxy enable
+   echo The custom Proxy Server has been set successfully.
+   echo Please re-perform this step here to confirm the modification.
+) else (
+   echo Invalid input. Cancelled.
+   goto ReturnToSetting
+)
+endlocal
+echo. & echo Please re-run this batch to make the settings take effect.
+echo Please re-run the "alas.bat" to make the settings take effect.
+goto PleaseRerun
+
+rem ================= FUNCTIONS =================
+
+REM :CheckAdbConnect
+REM for /f "tokens=1*" %%g IN ('%adbBin% connect 127.0.0.1:5555') do set adbCheck=%%g
+REM if "%adbCheck%"=="cannot"
+REM echo %adbCheck%
+
+:ReturnToSetting
+echo. & echo Press any key to continue...
+pause > NUL
+goto Setting
+
+:ReturnToMenu
+echo. & echo Press any key to continue...
+pause > NUL
+goto MENU
+
+:PleaseRerun
+echo. & echo Press any key to exit...
+pause > NUL
+exit
+
+:ExitIfGit
+:: Check whether already exist .git folder
+if exist .git\ (
+   echo. & echo The Initial Deployment has been done. Please delete the ".git" folder before performing this action.
+   call :PleaseRerun
+)
+goto :eof
+
+:ExitIfNotPython
+if NOT exist toolkit\python.exe (
+   echo. & echo The Initial Deployment was not done correctly. Please delete entire folder and reinstall from scratch.
+   start https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Installation_en
+   call :PleaseRerun
+)
+
+:CheckBsBeta
+if "%RealtimeMode%"=="disable" ( goto AdbConnect )
+if "%FirstRun%"=="yes" ( goto :eof )
+echo == Connecting with realtime mode...
+for /f "tokens=3" %%a in ('reg query HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_bgp64_hyperv\Guests\Android\Config /v BstAdbPort') do (set /a port = %%a)
+set SerialRealtime=127.0.0.1:%port%
+echo ====================================================================================================
+if "%KillServer%"=="enable" (
+   %adbBin% kill-server > nul 2>&1
+   )
+echo == connecting at %SerialRealtime%
+%adbBin% connect %SerialRealtime%
+echo ====================================================================================================
+if "%FirstRun%"=="yes" (
+   call command\Config.bat Serial %SerialRealtime%
+   call command\ConfigTemplate.bat SerialTemplate %SerialRealtime%
+) else (
+   call command\Config.bat Serial %SerialRealtime%
+   call command\ConfigAlas.bat SerialAlas %SerialRealtime%
+)
+echo ====================================================================================================
+echo == Old Serial:      %SerialAlas%
+echo == New Serial:      %SerialRealtime%
+echo ====================================================================================================
+%pyBin% -m uiautomator2 init
+echo ====================================================================================================
+echo == The connection was Successful on SERIAL: %SerialRealtime%
+goto :eof
+
+
+:AdbConnect
+if "%FirstRun%"=="yes" goto :eof
+if "%KillServer%"=="enable" ( %adbBin% kill-server > nul 2>&1 )
+%adbBin% connect %Serial% | find /i "connected to" >nul
+echo ====================================================================================================
+if errorlevel 1 (
+   echo == The connection was not successful on SERIAL: %Serial%
+   echo == If you use LDplayer, Memu, NoxAppPlayer or MuMuPlayer, you may need replace your emulator ADB.
+   echo == Check our wiki for more info
+   pause > NUL
+   start https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/FAQ_en_cn
+   goto Serial_setting
+   echo ====================================================================================================
+   ) else (
+      %pyBin% -m uiautomator2 init
+      echo ====================================================================================================
+      echo == The connection was Successful on SERIAL: %Serial%
+   )
+goto :eof
+
+:UpdateChecker_Alas
+if "%IsUsingGit%"=="no" goto :eof
+if "%Region%"=="cn" goto UpdateChecker_AlasGitee
+for /f %%i in ('%gitBin%  rev-parse --abbrev-ref HEAD') do set cfg_branch=%%i
+"%curlBin%" -s https://api.github.com/repos/lmeszinc/AzurLaneAutoScript/commits/%cfg_branch%?access_token=%GithubToken% > "%root%\toolkit\api_git.json"
+for /f "skip=1 tokens=2 delims=:," %%I IN (%root%\toolkit\api_git.json) DO IF NOT DEFINED sha SET sha=%%I
 set sha=%sha:"=%
 set sha=%sha: =%
-for /f "skip=14 tokens=3 delims=:" %%I IN (%API_JSON%) DO IF NOT DEFINED message SET message=%%I 
+for /f "skip=14 tokens=3 delims=:" %%I IN (%root%\toolkit\api_git.json) DO IF NOT DEFINED message SET message=%%I
 set message=%message:"=%
 set message=%message:,=%
-for /f %%i in ('git rev-parse --abbrev-ref HEAD') do set BRANCH=%%i
-for /f "delims=" %%i IN ('%GIT% log -1 "--pretty=%%H"') DO set LAST_LOCAL_GIT=%%i
-for /f "tokens=1,2" %%A in ('%GIT% log -1 "--format=%%h %%ct" -- .') do (
-    set GIT_SHA1=%%A
-    call :gmTime GIT_CTIME %%B
+set message=%message:\n=%
+for /f %%i in ('%gitBin%  rev-parse --abbrev-ref HEAD') do set BRANCH=%%i
+for /f "delims=" %%i IN ('%gitBin% log -1 "--pretty=%%H"') DO set LAST_LOCAL_GIT=%%i
+for /f "tokens=1,2" %%A in ('%gitBin% log -1 "--format=%%h %%ct" -- .') do (
+set GIT_SHA1=%%A
+call :gmTime GIT_CTIME %%B
 )
-:: -----------------------------------------------------------------------------
+
+:UpdateChecker_AlasGitee
+if "%Region%"=="origin" goto time_parsed
+for /f %%i in ('%gitBin%  rev-parse --abbrev-ref HEAD') do set cfg_branch=%%i
+"%curlBin%" -s https://gitee.com/api/v5/repos/lmeszinc/AzurLaneAutoScript/commits/%cfg_branch% > "%root%\toolkit\api_git.json"
+for /f "tokens=5 delims=:," %%I IN (%root%\toolkit\api_git.json) DO IF NOT DEFINED sha SET sha=%%I
+set sha=%sha:"=%
+set sha=%sha: =%
+for /f "tokens=25 delims=:" %%I IN (%root%\toolkit\api_git.json) DO IF NOT DEFINED message SET message=%%I
+set message=%message:"=%
+set message=%message:,=%
+set message=%message:\ntree=%
+for /f %%i in ('%gitBin%  rev-parse --abbrev-ref HEAD') do set BRANCH=%%i
+for /f "delims=" %%i IN ('%gitBin% log -1 "--pretty=%%H"') DO set LAST_LOCAL_GIT=%%i
+for /f "tokens=1,2" %%A in ('%gitBin% log -1 "--format=%%h %%ct" -- .') do (
+set GIT_SHA1=%%A
+call :gmTime GIT_CTIME %%B
+)
+
+
 :time_parsed
 if %LAST_LOCAL_GIT% == %sha% (
-    echo ----------------------------------------------------------------
-    echo Remote Git hash:        %sha%
-    echo Remote Git message:    %message%
-    echo ----------------------------------------------------------------
-    echo Local Git hash:       %LAST_LOCAL_GIT%
-    echo Local commit date:    %GIT_CTIME%
-    echo Local Branch:         %BRANCH%
-    echo ----------------------------------------------------------------
-    echo your ALAS is updated
-    echo Press any to continue...
-    pause > NUL
-    call :adb_kill
+   echo ====================================================================================================
+   echo Remote Git hash:                   %sha%
+   echo Remote Git message:                %message%
+   echo ====================================================================================================
+   echo Local Git hash:                    %LAST_LOCAL_GIT%
+   echo Local commit date:                 %GIT_CTIME%
+   echo Current Local Branch:              %BRANCH%
+   echo ====================================================================================================
+   echo Your ALAS is updated, Press any to continue...
+   pause > NUL
+   goto :eof
 ) else (
-    echo ----------------------------------------------------------------
-    echo Remote Git hash:        %sha%
-    echo Remote Git message:    %message%
-    echo ----------------------------------------------------------------
-    echo Local Git hash:       %LAST_LOCAL_GIT%
-    echo Local commit date:    %GIT_CTIME%
-    echo Local Branch:         %BRANCH%
-    echo ----------------------------------------------------------------
-    popup.exe
-    choice /t 10 /c yn /d y /m "There is an update for ALAS. Download now?"
-    if errorlevel 2 call :adb_kill
-    if errorlevel 1 call :choose_update_mode
+   echo ====================================================================================================
+   echo Remote Git hash:                %sha%
+   echo Remote Git message:             %message%
+   echo ====================================================================================================
+   echo Local Git hash:                 %LAST_LOCAL_GIT%
+   echo Local commit date:              %GIT_CTIME%
+   echo Current Local Branch:           %BRANCH%
+   echo ====================================================================================================
+   popup.exe
+   choice /t 10 /c yn /d y /m "There is an update for ALAS. Download now?"
+   if errorlevel 2 goto :eof
+   if errorlevel 1 goto Run_UpdateAlas
 )
-:: -----------------------------------------------------------------------------
-:not_using_git
-set TOOLKIT_GIT=%~dp0toolkit\.git
-if not exist %TOOLKIT_GIT% (
-    echo You may need to update your dependencies
-    echo Press any key to update
-    pause > NUL
-    call :toolkit_choose
-) else (
-    call :adb_kill
-)
-:: -----------------------------------------------------------------------------
-:adb_kill
-cls
-call %ADB% kill-server > nul 2>&1
-:: -----------------------------------------------------------------------------
-set SCREENSHOT_FOLDER=%~dp0screenshots
-if not exist %SCREENSHOT_FOLDER% (
-    mkdir %SCREENSHOT_FOLDER%
-)
-:: -----------------------------------------------------------------------------
-:: if config\adb_port.ini dont exist, will be created
-    if not exist %ADB_P% (
-    cd . > %ADB_P%
-        )
-:: -----------------------------------------------------------------------------
-:prompt
-REM if adb_port is empty, prompt HOST:PORT
-set adb_empty=%~dp0config\adb_port.ini
-for %%A in (%adb_empty%) do if %%~zA==0 (
-    echo Enter your HOST:PORT eg: 127.0.0.1:5555 for default bluestacks
-    echo If you misstype, you can edit the file in config/adb_port.ini
-    set /p adb_input=
-    )
-:: -----------------------------------------------------------------------------
-REM if adb_input = 0 load from adb_port.ini
-:adb_input
-if [%adb_input%]==[] (
-    call :CHECK_BST_BETA
-    ) else (
-    REM write adb_input on adb_port.ini
-    echo %adb_input% >> %ADB_P%
-    call :FINDSTR
-)
-:: -----------------------------------------------------------------------------
-:: Will search for 127.0.0.1:62001 and replace for %ADB_PORT%
-:FINDSTR
-REM setlocal enableextensions disabledelayedexpansion
-set search=127.0.0.1:62001
-set replace=%adb_input%
-set string=%template%
 
-for /f "delims=" %%i in ('type "%string%" ^& break ^> "%string%" ') do (
-    set line=%%i
-    setlocal enabledelayedexpansion
-    >>"%string%" echo(!line:%search%=%replace%!
-    endlocal
-    )
-)
-call :CHECK_BST_BETA
-:: -----------------------------------------------------------------------------
-:CHECK_BST_BETA
-reg query HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_bgp64_hyperv >nul
-if %errorlevel% equ 0 (
-    echo ------------------------------------------------------------------------------------------
-    choice /t 10 /c yn /d n /m "Bluestacks Hyper-V BETA detected, would you like to use realtime_connection mode?"
-    echo ------------------------------------------------------------------------------------------
-    if errorlevel 2 call :load
-    if errorlevel 1 call :realtime_connection
-) else (
-    call :load
-)
-:: -----------------------------------------------------------------------------
-:realtime_connection
-ECHO. Connecting with realtime mode ...
-for /f "tokens=3" %%a in ('reg query HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_bgp64_hyperv\Guests\Android\Config /v BstAdbPort') do (set /a port = %%a)
-set SERIAL_REALTIME=127.0.0.1:%port%
-echo ----------------------------------------------------------------
-echo connecting at %SERIAL_REALTIME%
-call %ADB% connect %SERIAL_REALTIME%
-echo ----------------------------------------------------------------
-call :replace_serial
-:: -----------------------------------------------------------------------------
-:replace_serial
-set config=%~dp0config\alas.ini
-setlocal enabledelayedexpansion
-for /f "delims=" %%i in (!config!) do (
-    set line=%%i
-    if "x!line:~0,9!"=="xserial = " (
-        set serial=!line:~9!
-    )
-)
-set search=%serial%
-set replace=%SERIAL_REALTIME%
-echo ----------------------------------------------------------------
-echo Old Serial:      %serial%
-echo New Serial:      %SERIAL_REALTIME% 
-echo ----------------------------------------------------------------
-echo Press any to continue...
-pause > NUL
-for /f "delims=" %%i in ('type "%config%" ^& break ^> "%config%" ') do (
-    set line=%%i
-    >>"%config%" echo(!line:%search%=%replace%!
-    )
-)
-endlocal
-call :init
-:: -----------------------------------------------------------------------------
-:: Deprecated
-REM set /a search=104
-REM set replace=serial = %SERIAL_REALTIME%
-REM (for /f "tokens=1*delims=:" %%a IN ('findstr /n "^" "%config%"') do (
-REM     set Line=%%b
-REM     IF %%a equ %search% set Line=%replace%
-REM     setlocal enabledelayedexpansion
-REM     ECHO(!Line!
-REM     endlocal
-REM ))> %~dp0config\alastemp.ini
-REM pause
-REM del %config%
-REM MOVE %configtemp% %config%
-REM )
-:: -----------------------------------------------------------------------------
-:load
-if defined first_run (
-    call :load_alas
-) else (
-    call :load_input_serial
-)
-:: -----------------------------------------------------------------------------
-:load_alas
-set config=%~dp0config\alas.ini
-setlocal enabledelayedexpansion
-for /f "delims=" %%i in (!config!) do (
-    set line=%%i
-    if "x!line:~0,9!"=="xserial = " (
-        set serial=!line:~9!
-    )
-)
-call :load_alas_serial
-:: -----------------------------------------------------------------------------
-:load_input_serial
-echo ----------------------------------------------------------------
-echo connecting at %adb_input%
-call %ADB% connect %adb_input%
-echo ----------------------------------------------------------------
-call :init
-:: -----------------------------------------------------------------------------
-:load_alas_serial
-echo ----------------------------------------------------------------
-echo connecting at !serial!
-call !ADB! connect !serial!
-echo ----------------------------------------------------------------
-call :init
-:: -----------------------------------------------------------------------------
-endlocal
-:: -----------------------------------------------------------------------------
-:: Deprecated
-REM Load adb_port.ini
-REM
-REM set /p ADB_PORT=<%ADB_P%
-REM echo connecting at %ADB_PORT%
-REM call %ADB% connect %ADB_PORT%
-:: -----------------------------------------------------------------------------
-:init
-echo ----------------------------------------------------------------
-echo initializing uiautomator2
-call %PYTHON% -m uiautomator2 init
-echo ----------------------------------------------------------------
-echo Press any to continue...
-pause > NUL
-:: uncomment the pause to catch errors
-REM pause
-call :alas
-:: -----------------------------------------------------------------------------
-
-:alas
-    cls
-    echo.
-    echo  :: Alas run
-    echo.
-    echo  Choose your option
-    echo.
-    echo    1. EN
-    echo    2. CN
-    echo    3. JP
-    echo    4. UPDATER
-    echo.
-    echo  :: Type a 'number' and press ENTER
-    echo  :: Type 'exit' to quit
-    echo.
-    set /P menu= || Set menu=Nothing
-        if %menu%==1 call :en
-        if %menu%==2 call :cn
-        if %menu%==3 call :jp
-        if %menu%==4 call :choose_update_mode
-        if %menu%==exit call :EOF
-        if %menu%==Nothing call :alas
-        else (
-        cls
-    echo.
-    echo  :: Incorrect Input Entered
-    echo.
-    echo     Please type a 'number' or 'exit'
-    echo     Press any key to retry to the menu...
-    echo.
-        pause > NUL
-        call :alas
-        )
-:: -----------------------------------------------------------------------------
-:en
-    call %PYTHON% --version >nul
-    if %errorlevel% == 0 (
-    echo ----------------------------------------------------------------
-    echo Python Found in %PYTHON% Proceeding..
-    echo Opening alas_en.pyw in %ALAS_PATH%
-    call %PYTHON% alas_en.pyw
-    pause > NUL
-    call :alas
-    ) else (
-        echo :: it was not possible to open alas_en.pyw, make sure you have a folder toolkit
-        echo :: inside AzurLaneAutoScript folder.
-        echo Alas PATH: %ALAS_PATH%
-        echo Python Path: %PYTHON%
-        echo.
-        pause > NUL
-        call :alas
-    )
-:: -----------------------------------------------------------------------------
-:cn
-    call %PYTHON% --version >nul
-    if %errorlevel% == 0 (
-    echo ----------------------------------------------------------------
-    echo Python Found in %PYTHON% Proceeding..
-    echo Opening alas_en.pyw in %ALAS_PATH%
-    call %PYTHON% alas_cn.pyw
-    pause > NUL
-    call :alas
-    ) else (
-        echo :: it was not possible to open alas_cn.pyw, make sure you have a folder toolkit
-        echo :: inside AzurLaneAutoScript folder.
-        echo Alas PATH: %ALAS_PATH%
-        echo Python Path: %PYTHON%
-        echo.
-        pause > NUL
-        call :alas
-    )
-:: -----------------------------------------------------------------------------
-:jp
-    call %PYTHON% --version >nul
-    if %errorlevel% == 0 (
-    echo ----------------------------------------------------------------
-    echo Python Found in %PYTHON% Proceeding..
-    echo Opening alas_en.pyw in %ALAS_PATH%
-    call %PYTHON% alas_jp.pyw
-    pause > NUL
-    call :alas
-    ) else (
-        echo :: it was not possible to open alas_jp.pyw, make sure you have a folder toolkit
-        echo :: inside AzurLaneAutoScript folder.
-        echo Alas PATH: %ALAS_PATH%
-        echo Python Path: %PYTHON%
-        echo.
-        pause > NUL
-        call :alas
-    )
-:: -----------------------------------------------------------------------------
-:updater_menu
-    cls
-    echo.
-    echo    :: This update only will work if you downloaded ALAS on
-    echo    :: Release tab and installed with Easy_Install-v2.bat
-    echo.
-    echo    ::Overwrite local changes::
-    echo.
-    echo.
-    echo    1) https://github.com/LmeSzinc/AzurLaneAutoScript (Main Repo, When in doubt, use it)
-    echo    2) https://github.com/whoamikyo/AzurLaneAutoScript (Mirrored Fork)
-    echo    3) https://github.com/whoamikyo/AzurLaneAutoScript (nightly build, dont use)
-    echo    4) https://gitee.com/lmeszinc/AzurLaneAutoScript.git (Recommended for CN users)
-    echo    5) https://github.com/LmeSzinc/AzurLaneAutoScript (Dev build, use only if you know what you are doing)
-    echo    6) Toolkit tools updater
-    echo    7) Back to main menu
-    echo.
-    echo    :: Type a 'number' and press ENTER
-    echo    :: Type 'exit' to quit
-    echo.
-    set /P choice=
-        if %choice%==1 call :LmeSzinc
-        if %choice%==2 call :whoamikyo
-        if %choice%==3 call :nightly
-        if %choice%==4 call :gitee
-        if %choice%==5 call :LmeSzincD
-        if %choice%==6 call :toolkit_updater
-        if %choice%==7 call :alas
-        if %choice%==exit call :EOF
-        else (
-        cls
-    echo.
-    echo  :: Incorrect Input Entered
-    echo.
-    echo     Please type a 'number' or 'exit'
-    echo     Press any key to return to the menu...
-    echo.
-        pause > NUL
-        call :alas
-        )
-:: -----------------------------------------------------------------------------
-:update_menu_local
-    cls
-    echo.
-    echo    :: This update only will work if you downloaded ALAS on
-    echo    :: Release tab and installed with Easy_Install-v2.bat
-    echo.
-    echo    ::Keep local changes::
-    echo.
-    echo.
-    echo    1) https://github.com/LmeSzinc/AzurLaneAutoScript (Main Repo, When in doubt, use it)
-    echo    2) https://github.com/whoamikyo/AzurLaneAutoScript (Mirrored Fork)
-    echo    3) https://github.com/whoamikyo/AzurLaneAutoScript (nightly build, dont use)
-    echo    4) https://gitee.com/lmeszinc/AzurLaneAutoScript.git (Recommended for CN users)
-    echo    5) Back to main menu
-    echo.
-    echo    :: Type a 'number' and press ENTER
-    echo    :: Type 'exit' to quit
-    echo.
-    set /P choice=
-        if %choice%==1 call :LmeSzinc_local
-        if %choice%==2 call :whoamikyo_local
-        if %choice%==3 call :nightly_local
-        if %choice%==4 call :gitee_local
-        if %choice%==5 call :alas
-        if %choice%==exit call :EOF
-        else (
-        cls
-    echo.
-    echo  :: Incorrect Input Entered
-    echo.
-    echo     Please type a 'number' or 'exit'
-    echo     Press any key to return to the menu...
-    echo.
-        pause > NUL
-        call :alas
-        )
-:: -----------------------------------------------------------------------------
-:LmeSzinc
-    call %GIT% --version >nul
-    if %errorlevel% == 0 (
-    echo GIT Found in %GIT% Proceeding
-    echo Updating from LmeSzinc repository..
-    call %GIT% fetch origin master
-    call %GIT% reset --hard origin/master
-    call %GIT% pull --ff-only origin master
-    echo DONE!
-    echo Press any key to proceed
-    pause > NUL
-    call :updater_menu
-    ) else (
-        echo  :: Git not detected, maybe there was an installation issue
-        echo check if you have this directory:
-        echo AzurLaneAutoScript\toolkit\Git\cmd
-        echo.
-        pause > NUL
-        call :alas
-    )
-:: -----------------------------------------------------------------------------
-:LmeSzincD
-    call %GIT% --version >nul
-    if %errorlevel% == 0 (
-    echo GIT Found in %GIT% Proceeding
-    echo Updating from LmeSzinc Dev branch..
-    call %GIT% fetch origin dev
-    call %GIT% reset --hard origin/dev
-    call %GIT% pull --ff-only origin dev
-    echo DONE!
-    echo Press any key to proceed
-    pause > NUL
-    call :updater_menu
-    ) else (
-        echo  :: Git not detected, maybe there was an installation issue
-        echo check if you have this directory:
-        echo AzurLaneAutoScript\toolkit\Git\cmd
-        echo.
-        pause > NUL
-        call :alas
-    )
-:: -----------------------------------------------------------------------------
-:whoamikyo
-    call %GIT% --version >nul
-    if %errorlevel% == 0 (
-    echo GIT Found in %GIT% Proceeding
-    echo Updating from whoamikyo repository..
-    call %GIT% fetch whoamikyo master
-    call %GIT% reset --hard whoamikyo/master
-    call %GIT% pull --ff-only whoamikyo master
-    echo DONE!
-    echo Press any key to proceed
-    pause > NUL
-    call :updater_menu
-    ) else (
-        echo  :: Git not detected, maybe there was an installation issue
-        echo check if you have this directory:
-        echo AzurLaneAutoScript\toolkit\Git\cmd
-        pause > NUL
-        call :alas
-    )
-:: -----------------------------------------------------------------------------
-:nightly
-    call %GIT% --version >nul
-    if %errorlevel% == 0 (
-    echo GIT Found in %GIT% Proceeding
-    echo Updating from whoamikyo nightly repository..
-    call %GIT% fetch whoamikyo nightly
-    call %GIT% reset --hard whoamikyo/nightly
-    call %GIT% pull --ff-only whoamikyo nightly
-    echo Press any key to proceed
-    pause > NUL
-    call :alas
-    ) else (
-        echo  :: Git not detected, maybe there was an installation issue
-        echo check if you have this directory:
-        echo AzurLaneAutoScript\toolkit\Git\cmd
-        echo.
-        pause > NUL
-        call :alas
-    )
-:: -----------------------------------------------------------------------------
-:gitee
-    call %GIT% --version >nul
-    if %errorlevel% == 0 (
-    echo GIT Found in %GIT% Proceeding
-    echo Updating from LmeSzinc repository..
-    call %GIT% fetch lmeszincgitee master
-    call %GIT% reset --hard lmeszincgitee/master
-    call %GIT% pull --ff-only lmeszincgitee master
-    echo DONE!
-    echo Press any key to proceed
-    pause > NUL
-    call :updater_menu
-    ) else (
-        echo  :: Git not detected, maybe there was an installation issue
-        echo check if you have this directory:
-        echo AzurLaneAutoScript\toolkit\Git\cmd
-        pause > NUL
-        call :alas
-    )
-:: -----------------------------------------------------------------------------
-rem :check_connection
-rem cls
-rem     echo.
-rem     echo  :: Checking For Internet Connection to Github...
-rem     echo.
-rem     timeout /t 2 /nobreak > NUL
-
-rem     ping -n 1 google.com -w 20000 >nul
-
-rem     if %errorlevel% == 0 (
-rem     echo You have a good connection with Github! Proceeding...
-rem     echo press any to proceed
-rem     pause > NUL
-rem     call updater_menu
-rem     ) else (
-rem         echo  :: You don't have a good connection out of China
-rem         echo  :: It might be better to update using Gitee
-rem         echo  :: Redirecting...
-rem         echo.
-rem         echo     Press any key to continue...
-rem         pause > NUL
-rem         call start_gitee
-rem     )
-:: -----------------------------------------------------------------------------
-rem Keep local changes
-:: -----------------------------------------------------------------------------
-:choose_update_mode
-    cls
-    echo.
-    echo.
-    echo    ::Choose update method::
-    echo.
-    echo    1) Overwrite local changes (Will undo any local changes)
-    echo    2) Keep local changes (Useful if you have customized a map)
-    echo    3) Back to main menu
-    echo.
-    echo    :: Type a 'number' and press ENTER
-    echo    :: Type 'exit' to quit
-    echo.
-    set /P choice=
-        if %choice%==1 call :updater_menu
-        if %choice%==2 call :update_menu_local
-        if %choice%==3 call :alas
-        if %choice%==exit call EOF
-        else (
-        cls
-    echo.
-    echo  :: Incorrect Input Entered
-    echo.
-    echo     Please type a 'number' or 'exit'
-    echo     Press any key to return to the menu...
-    echo.
-        pause > NUL
-        call :alas
-        )
-:: -----------------------------------------------------------------------------
-:LmeSzinc_local
-    call %GIT% --version >nul
-    if %errorlevel% == 0 (
-    echo GIT Found in %GIT% Proceeding
-    echo Updating from LmeSzinc repository..
-    call %GIT% stash
-    call %GIT% pull origin master
-    call %GIT% stash pop
-    echo DONE!
-    echo Press any key to proceed
-    pause > NUL
-    call :update_menu_local
-    ) else (
-        echo  :: Git not detected, maybe there was an installation issue
-        echo check if you have this directory:
-        echo AzurLaneAutoScript\toolkit\Git\cmd
-        echo.
-        pause > NUL
-        call :alas
-    )
-:: -----------------------------------------------------------------------------
-:whoamikyo_local
-    call %GIT% --version >nul
-    if %errorlevel% == 0 (
-    echo GIT Found in %GIT% Proceeding
-    echo Updating from whoamikyo repository..
-    call %GIT% stash
-    call %GIT% pull whoamikyo master
-    call %GIT% stash pop
-    echo DONE!
-    echo Press any key to proceed
-    pause > NUL
-    call :update_menu_local
-    ) else (
-        echo  :: Git not detected, maybe there was an installation issue
-        echo check if you have this directory:
-        echo AzurLaneAutoScript\toolkit\Git\cmd
-        pause > NUL
-        call :alas
-    )
-:: -----------------------------------------------------------------------------
-:nightly_local
-    call %GIT% --version >nul
-    if %errorlevel% == 0 (
-    echo GIT Found in %GIT% Proceeding
-    echo Updating from whoamikyo nightly repository..
-    call %GIT% stash
-    call %GIT% pull whoamikyo nightly
-    call %GIT% stash pop
-    echo Press any key to proceed
-    pause > NUL
-    call :update_menu_local
-    ) else (
-        echo  :: Git not detected, maybe there was an installation issue
-        echo check if you have this directory:
-        echo AzurLaneAutoScript\toolkit\Git\cmd
-        echo.
-        pause > NUL
-        call :alas
-    )
-:: -----------------------------------------------------------------------------
-:gitee_local
-    call %GIT% --version >nul
-    if %errorlevel% == 0 (
-    echo GIT Found in %GIT% Proceeding
-    echo Updating from LmeSzinc repository..
-    call %GIT% stash
-    call %GIT% pull lmeszincgitee master
-    call %GIT% stash pop
-    echo DONE!
-    echo Press any key to proceed
-    pause > NUL
-    call :update_menu_local
-    ) else (
-        echo  :: Git not detected, maybe there was an installation issue
-        echo check if you have this directory:
-        echo AzurLaneAutoScript\toolkit\Git\cmd
-        pause > NUL
-        call :alas
-    )
-:: -----------------------------------------------------------------------------
-:toolkit_choose
-    cls
-    echo.
-    echo    :: This will add the toolkit repository for updating
-    echo.
-    echo    ::Toolkit::
-    echo.
-    echo.
-    echo    1) https://github.com/whoamikyo/alas-env.git (Default Github)
-    echo    2) https://gitee.com/lmeszinc/alas-env.git (Recommended for CN users)
-    echo    3) Back to main menu
-    echo.
-    echo    :: Type a 'number' and press ENTER
-    echo    :: Type 'exit' to quit
-    echo.
-    set /P choice=
-        if %choice%==1 call :toolkit_github
-        if %choice%==2 call :toolkit_gitee
-        if %choice%==3 call :alas
-        if %choice%==exit call :EOF
-        else (
-        cls
-    echo.
-    echo  :: Incorrect Input Entered
-    echo.
-    echo     Please type a 'number' or 'exit'
-    echo     Press any key to return to the menu...
-    echo.
-        pause > NUL
-        call :alas
-        )
-:: -----------------------------------------------------------------------------
-:toolkit_github
-    call %GIT% --version >nul
-    if %errorlevel% == 0 (
-    echo GIT Found in %GIT% Proceeding
-    echo Updating toolkit..
-    call cd toolkit
-    echo ## initializing toolkit..
-    call %GIT% init
-    call %GIT% config --global core.autocrlf false
-    echo ## Adding files
-    echo ## This process may take a while
-    call %GIT% add -A
-    echo ## adding origin..
-    call %GIT% remote add origin %ALAS_ENV%
-    echo Fething...
-    call %GIT% fetch origin master
-    call %GIT% reset --hard origin/master
-    echo Pulling...
-    call %GIT% pull --ff-only origin master
-    call cd ..
-    echo DONE!
-    echo Press any key to proceed
-    pause > NUL
-    call :adb_kill
-    ) else (
-        echo    :: Git not found, maybe there was an installation issue
-        echo    :: check if you have this directory %GIT%
-        pause > NUL
-        call :adb_kill
-    )
-:: -----------------------------------------------------------------------------
-:toolkit_gitee
-    call %GIT% --version >nul
-    if %errorlevel% == 0 (
-    echo GIT Found in %GIT% Proceeding
-    echo Updating toolkit..
-    call cd toolkit
-    echo ## initializing toolkit..
-    call %GIT% init
-    call %GIT% config --global core.autocrlf false
-    echo ## Adding files
-    echo ## This process may take a while
-    call %GIT% add -A
-    echo ## adding origin..
-    call %GIT% remote add origin %ALAS_ENV_GITEE%
-    echo Fething...
-    call %GIT% fetch origin master
-    call %GIT% reset --hard origin/master
-    echo Pulling...
-    call %GIT% pull --ff-only origin master
-    call cd ..
-    echo DONE!
-    echo Press any key to proceed
-    pause > NUL
-    call :adb_kill
-    ) else (
-        echo    :: Git not found, maybe there was an installation issue
-        echo    :: check if you have this directory %GIT%
-        pause > NUL
-        call :adb_kill
-    )
-:: -----------------------------------------------------------------------------
-:toolkit_updater
-    call %GIT% --version >nul
-    if %errorlevel% == 0 (
-    echo GIT Found in %GIT% Proceeding
-    echo Updating toolkit..
-    call cd toolkit
-    call %GIT% fetch origin master
-    call %GIT% reset --hard origin/master
-    echo Pulling...
-    call %GIT% pull --ff-only origin master
-    echo DONE!
-    call cd ..
-    echo Press any key to proceed
-    pause > NUL
-    call :updater_menu
-    ) else (
-        echo  :: Git not detected, maybe there was an installation issue
-        echo check if you have this directory:
-        echo AzurLaneAutoScript\toolkit\Git\cmd
-        pause > NUL
-        call :alas
-    )
-:: -----------------------------------------------------------------------------
 :gmtime
 setlocal
 set /a z=%2/86400+719468,d=z%%146097,y=^(d-d/1460+d/36525-d/146096^)/365,d-=365*y+y/4-y/100,m=^(5*d+2^)/153
@@ -822,61 +699,10 @@ if %h% lss 10 set h=0%h%
 if %mi% lss 10 set mi=0%mi%
 if %s% lss 10 set s=0%s%
 endlocal & set %1=%y%-%m%-%d% %h%:%mi%:%s%
-call :time_parsed
-:: -----------------------------------------------------------------------------
-rem :git_update_checker
-rem %CURL% -s https://api.github.com/repos/lmeszinc/AzurLaneAutoScript/git/refs/heads/master?access_token=%github_token% > %~dp0log\API_GIT.json
-rem FOR /f "skip=5 tokens=2 delims=:," %%I IN (%API_JSON%) DO IF NOT DEFINED sha SET sha=%%I
-rem set sha=%sha:"=%
-rem set sha=%sha: =%
-rem FOR /F "delims=" %%i IN ('%GIT% log -1 "--pretty=%%H"') DO set LAST_LOCAL_GIT=%%i
-:: -----------------------------------------------------------------------------
-:: -----------------------------------------------------------------------------
-rem if %LAST_LOCAL_GIT% equ %sha% SET run_update=1
-rem call :alas
+goto :eof
 
-:: -----------------------------------------------------------------------------
-::Add paths
-rem call :AddPath %ALAS_PATH%
-rem call :AddPath %ADB%
-rem call :AddPath %PYTHON%
-rem call :AddPath %GIT%
+:END
+echo tesadasdadsa
+pause
 
-rem :UpdateEnv
-rem ECHO Making updated PATH go live . . .
-rem REG delete HKCU\Environment /F /V TEMPVAR > nul 2>&1
-rem setx TEMPVAR 1 > nul 2>&1
-rem REG delete HKCU\Environment /F /V TEMPVAR > nul 2>&1
-:: -----------------------------------------------------------------------------
-rem :AddPath <pathToAdd>
-rem ECHO %PATH% | FINDSTR /C:"%~1" > nul
-rem IF ERRORLEVEL 1 (
-rem      REG add "HKLM\SYSTEM\CurrentControlset\Control\Session Manager\Environment" /f /v PATH /t REG_SZ /d "%PATH%;%~1" >> add-paths-detail.log
-rem     IF ERRORLEVEL 0 (
-rem         ECHO Adding   %1 . . . Success! >> add-paths.log
-rem         set "PATH=%PATH%;%~1"
-rem         rem set UPDATE=1
-rem     ) ELSE (
-rem         ECHO Adding   %1 . . . FAILED. Run this script with administrator privileges. >> add-paths.log
-rem     )
-rem ) ELSE (
-rem     ECHO Skipping %1 - Already in PATH >> add-paths.log
-rem     )
-:: -----------------------------------------------------------------------------
-rem :AddPath <pathToAdd>
-rem ECHO %PATH% | FINDSTR /C:"%~1" > nul
-rem IF ERRORLEVEL 1 (
-rem     REG add "HKLM\SYSTEM\CurrentControlset\Control\Session Manager\Environment" /f /v PATH /t REG_SZ /d "%PATH%;%~1"  > nul 2>&1
-rem     IF ERRORLEVEL 0 (
-rem         ECHO Adding   %1 . . . Success!
-rem         set "PATH=%PATH%;%~1"
-rem         set UPDATE=1
-rem     ) ELSE (
-rem         ECHO Adding   %1 . . . FAILED. Run this script with administrator privileges.
-rem     )
-rem ) ELSE (
-rem     ECHO Skipping %1 - Already in PATH
-rem     )
-:: -----------------------------------------------------------------------------
-:EOF
-exit
+rem ================= End of File =================

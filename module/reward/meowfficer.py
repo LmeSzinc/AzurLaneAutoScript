@@ -40,7 +40,7 @@ class RewardMeowfficer(UI):
             count = remain
         # Check coins
         coins = MEOWDDICER_COINS.ocr(self.device.image)
-        if coins < BUY_PRIZE:
+        if (coins < BUY_PRIZE) and (remain < BUY_MAX):
             logger.warning('Not enough coins to buy one')
             return False
         elif (count - int(remain == BUY_MAX)) * BUY_PRIZE > coins:

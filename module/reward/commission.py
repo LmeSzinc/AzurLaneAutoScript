@@ -7,6 +7,7 @@ import numpy as np
 from scipy import signal
 
 from module.base.decorator import Config
+from module.base.switch import Switch
 from module.base.timer import Timer
 from module.base.utils import area_offset, get_color, random_rectangle_vector
 from module.base.utils import color_similar_1d, random_rectangle_point
@@ -66,6 +67,9 @@ dictionary_jp = {
     'urgent_gem': ['BIW要人護衛', 'NYB要人護衛', 'BIW休暇護衛', 'NYB休暇護衛'],
     'urgent_ship': ['小型観覧式', '連合艦隊観覧式', '多国連合観覧式']
 }
+COMMISSION_SWITCH = Switch('Commission_switch')
+COMMISSION_SWITCH.add_status('daily', COMMISSION_DAILY)
+COMMISSION_SWITCH.add_status('urgent', COMMISSION_URGENT)
 
 
 class Commission:
@@ -452,39 +456,19 @@ class RewardCommission(UI, InfoHandler):
         return daily_choose, urgent_choose
 
     def _commission_ensure_mode(self, mode):
-        if self.appear(COMMISSION_DAILY):
-            current = 'daily'
-        elif self.appear(COMMISSION_URGENT):
-            current = 'urgent'
-        else:
-            logger.warning('Unknown Commission mode')
-            return False
-        if current == mode:
-            return False
-
-        if mode == 'daily':
-            self.device.click(COMMISSION_DAILY)
-        if mode == 'urgent':
-            self.device.click(COMMISSION_URGENT)
-
-        self.device.sleep(0.3)
-        self.device.screenshot()
-        return True
+        return COMMISSION_SWITCH.set(mode, main=self)
 
     def _commission_mode_reset(self):
         if self.appear(COMMISSION_DAILY):
-            current, another = COMMISSION_DAILY, COMMISSION_URGENT
+            current, another = 'daily', 'urgent'
         elif self.appear(COMMISSION_URGENT):
-            current, another = COMMISSION_URGENT, COMMISSION_DAILY
+            current, another = 'urgent', 'daily'
         else:
             logger.warning('Unknown Commission mode')
             return False
 
-        self.device.click(another)
-        self.device.screenshot()
-        self.device.click(current)
-        self.device.sleep(0.3)
-        self.device.screenshot()
+        self._commission_ensure_mode(another)
+        self._commission_ensure_mode(current)
 
         return True
 
