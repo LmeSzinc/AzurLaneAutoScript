@@ -515,6 +515,9 @@ class Fleet(Camera, MapOperation, AmbushHandler):
         self.handle_map_green_config_cover()
         self.map.poor_map_data = self.config.POOR_MAP_DATA
         self.map.grid_connection_initial(wall=self.config.MAP_HAS_WALL)
+
+        self.update()
+        self.handle_fleet_reverse()
         self.hp_reset()
         self.hp_get()
         self.handle_strategy(index=self.fleet_current_index)
