@@ -42,6 +42,7 @@ if exist config\deploy.ini (
 ) else (
     call command\LanguageSet.bat
     )
+goto :eof
 
 :Import_Serial
 if "%FirstRun%"=="no" goto :eof

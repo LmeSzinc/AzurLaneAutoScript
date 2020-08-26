@@ -77,12 +77,12 @@ set "LEN=0"
 :strLen_Loop
    if not "!!STR:~%LEN%!!"=="" set /A "LEN+=1" & goto :strLen_Loop
 set "equal====================================================================================================="
-set "spaces===================================================================================================="
+set "spaces====================================================================================================="
 call echo %%equal:~0,%SIZE%%%
 set /a "pref_len=%SIZE%-%LEN%-2"
 set /a "pref_len/=2"
 set /a "suf_len=%SIZE%-%LEN%-2-%pref_len%"
-call echo =%%spaces:~0,%pref_len%%%%%STR%%%%spaces:~0,%suf_len%%%=
+call echo %%spaces:~0,%pref_len%%%%%STR%%%%spaces:~0,%suf_len%%%===
 call echo %%equal:~0,%SIZE%%%
 endLocal
 echo.
@@ -359,10 +359,10 @@ if %errorlevel% equ 0 (
 )
 for /f "usebackq tokens=2,* skip=2" %%L in ( `reg query "HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\DuoDianOnline\SetupInfo" /v InstallPath`) do set InstallPath=%%M
 %adbBin% kill-server > nul 2>&1
-echo f | xcopy /Y "%InstallPath%\adb.exe" "%InstallPath%\adb.exe.bak" >nul
-echo f | xcopy /Y "%InstallPath%\nox_adb.exe" "%InstallPath%\nox_adb.exe.bak" >nul
-xcopy /Y toolkit\Lib\site-packages\adbutils\binaries\adb.exe "%InstallPath%\" >nul
-echo f | xcopy /Y toolkit\Lib\site-packages\adbutils\binaries\adb.exe "%InstallPath%\nox_adb.exe" >nul
+echo f | xcopy /Y "%InstallPath%\bin\adb.exe" "%InstallPath%\bin\adb.exe.bak" >nul
+echo f | xcopy /Y "%InstallPath%\bin\nox_adb.exe" "%InstallPath%\bin\nox_adb.exe.bak" >nul
+xcopy /Y toolkit\Lib\site-packages\adbutils\binaries\adb.exe "%InstallPath%\bin\" >nul
+echo f | xcopy /Y toolkit\Lib\site-packages\adbutils\binaries\adb.exe "%InstallPath%\bin\nox_adb.exe" >nul
 if %errorlevel% equ 0 (
    echo ====================================================================================================
    echo == Success
