@@ -31,7 +31,7 @@ if NOT exist %cfg_Deploy% (
     echo RealtimeMode = disable
     echo AdbConnect = disable
     echo AdbKillServer = enable
-    echo Serial = %Serial%
+    echo Serial = %SerialDeploy%
     echo FirstRun = %FirstRun%
     echo IsUsingGit = %IsUsingGit%
     echo Branch = master

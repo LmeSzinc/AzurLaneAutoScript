@@ -37,7 +37,7 @@ if exist config\deploy.ini (
     for /f "tokens=3 delims= " %%i in ('findstr /i "RealtimeMode" config\deploy.ini') do ( set "RealtimeMode=%%i" )
     for /f "tokens=3 delims= " %%i in ('findstr /i "Branch" config\deploy.ini') do ( set "Branch=%%i" )
     for /f "tokens=3 delims= " %%i in ('findstr /i "AdbConnect" config\deploy.ini') do ( set "AdbConnect=%%i" )
-    for /f "tokens=3 delims= " %%i in ('findstr /i "Serial" config\deploy.ini') do ( set "Serial=%%i" )
+    for /f "tokens=3 delims= " %%i in ('findstr /i "Serial" config\deploy.ini') do ( set "SerialDeploy=%%i" )
     for /f "tokens=3 delims= " %%i in ('findstr /i "AdbKillServer" config\deploy.ini') do ( set "KillServer=%%i" )
 ) else (
     call command\LanguageSet.bat
@@ -56,7 +56,7 @@ if "%serial_input%"=="" ( set "serial_input=127.0.0.1:5555" )
 %adbBin% connect %serial_input% | find /i "connected to" >nul
 echo ====================================================================================================
 if errorlevel 1 (
-    echo The connection was not successful on SERIAL: %Serial%
+    echo The connection was not successful on SERIAL: %SerialDeploy%
     echo == If you use LDplayer, Memu, NoxAppPlayer or MuMuPlayer, you may need replace your emulator ADB.
     echo Check our wiki for more info
     pause > NUL
@@ -66,10 +66,10 @@ if errorlevel 1 (
     call command\Config.bat Serial %serial_input%
     call command\ConfigTemplate.bat SerialTemplate %serial_input%
     %pyBin% -m uiautomator2 init
-    echo The connection was Successful on SERIAL: %Serial%
+    echo The connection was Successful on SERIAL: %SerialDeploy%
 )
 echo ====================================================================================================
-echo Old Serial:      %Serial%
+echo Old Serial:      %SerialDeploy%
 echo New Serial:      %serial_input%
 echo ====================================================================================================
 echo Press any to continue...
