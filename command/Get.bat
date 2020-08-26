@@ -66,16 +66,17 @@ echo ===========================================================================
 echo Enter your HOST:PORT eg: 127.0.0.1:5555
 echo If you misstype, you can set in Settings menu Option 3
 echo ====================================================================================================
-set /p serial_input=Please input - SERIAL ^(DEFAULT 127.0.0.1:5555 ^): 
+set /p serial_input=Please input - SERIAL ^(DEFAULT 127.0.0.1:5555 ^):
 if "%serial_input%"=="" ( set "serial_input=127.0.0.1:5555" )
 %adbBin% kill-server > nul 2>&1
 %adbBin% connect %serial_input% | find /i "connected to" >nul
 echo ====================================================================================================
 if errorlevel 1 (
     echo The connection was not successful on SERIAL: %Serial%
+    echo == If you use LDplayer, Memu, NoxAppPlayer or MuMuPlayer, you may need replace your emulator ADB.
     echo Check our wiki for more info
     pause > NUL
-    start https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Installation_en
+    start https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/FAQ_en_cn
     goto Import_Serial
 ) else (
     call command\Config.bat Serial %serial_input%
@@ -85,11 +86,12 @@ if errorlevel 1 (
 )
 echo ====================================================================================================
 echo Old Serial:      %Serial%
-echo New Serial:      %serial_input% 
+echo New Serial:      %serial_input%
 echo ====================================================================================================
 echo Press any to continue...
 pause > NUL
 goto :eof
+
 
 
 :: %cd%: "%root%"
