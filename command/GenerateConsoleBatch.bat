@@ -1,5 +1,5 @@
 @rem
-:: Used for "ADT-V4.bat" in :Create_Console-bat
+:: Used for "Alas-Deploy-Tool-V4.bat" in :Create_Console-bat
 :: Please make sure that: only call this batch when %cd% is %root%;
 :: e.g.
 :: call command\GenerateConsoleBatch.bat portable

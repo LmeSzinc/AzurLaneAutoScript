@@ -1,5 +1,5 @@
 @rem
-:: Used for "ADT-V4.bat" and Alas.bat
+:: Used for "Alas-Deploy-Tool-V4.bat" and Alas.bat
 :: Please make sure that: only call this batch when %cd% is "toolkit\".
 :: e.g.
 :: call command\CheckUpdate.bat Alas

@@ -1,5 +1,5 @@
 @rem
-:: Used for "ADT-V4.bat" in ==Preparation==
+:: Used for "Alas-Deploy-Tool-V4.bat" in ==Preparation==
 :: No %cd% limit.
 :: e.g.
 :: call command\SystemSet.bat

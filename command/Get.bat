@@ -1,11 +1,10 @@
 @rem
-:: Used for "ADT-V4.bat" in =Preparation=
+:: Used for "Alas-Deploy-Tool-V4.bat" in =Preparation=
 :: Pay attention to %cd% limit according to each Function.
 :: e.g.
 :: call command\Get.bat Proxy
-:: call command\Get.bat InfoOpt6
+:: call command\Get.bat InfoOpt1
 :: call command\Get.bat DeployMode
-:: call command\Get.bat WgetOptions
 
 @echo off
 call :Import_%~1
@@ -44,22 +43,6 @@ if exist config\deploy.ini (
     call command\LanguageSet.bat
     )
 
-:: 2. Get %SystemType% by "SystemTypeSelector"
-:: 3. Overwrite the default %Region% and %SystemType% if customized
-rem if exist config\deploy.ini (
-rem     for /f "tokens=3 delims= " %%i in ('findstr /i "Region" config\deploy.ini') do ( set "Region=%%i" )
-rem     for /f "tokens=3 delims= " %%i in ('findstr /i "SystemType" config\deploy.ini') do ( set "SystemType=%%i" )
-rem     for /f "tokens=3 delims= " %%i in ('findstr /i "FirstRun" config\deploy.ini') do ( set "FirstRun=%%i" )
-rem     for /f "tokens=3 delims= " %%i in ('findstr /i "IsUsingGit" config\deploy.ini') do ( set "IsUsingGit=%%i" )
-rem )
-rem if exist config\deploy.ini (
-rem     for /f "tokens=3 delims= " %%i in ('findstr /i "KeepLocalChanges" config\deploy.ini') do ( set "KeepLocalChanges=%%i" )
-rem     for /f "tokens=3 delims= " %%i in ('findstr /i "RealtimeMode" config\deploy.ini') do ( set "RealtimeMode=%%i" )
-rem     for /f "tokens=3 delims= " %%i in ('findstr /i "Branch" config\deploy.ini') do ( set "Branch=%%i" )
-rem     for /f "tokens=3 delims= " %%i in ('findstr /i "Serial" config\deploy.ini') do ( set "Serial=%%i" )
-rem )
-goto :eof
-
 :Import_Serial
 if "%FirstRun%"=="no" goto :eof
 echo ====================================================================================================
@@ -92,8 +75,6 @@ echo Press any to continue...
 pause > NUL
 goto :eof
 
-
-
 :: %cd%: "%root%"
 :: Get the proxy settings of CMD from "config\deploy.ini"
 :Import_Proxy
@@ -113,37 +94,25 @@ if exist deploy.log (
 goto :eof
 
 :: %cd%: "%root%"
-:: Get %opt3_info% according to "deploy.log"
-:Import_InfoOpt3
-set "opt3_info="
+:: Get %opt2_info% according to "deploy.log"
+:Import_InfoOpt2
+set "opt2_info="
 if exist deploy.log (
     pushd toolkit && call :Import_DeployMode && popd
-    if "!DeployMode!"=="New" set "opt3_info=(New)"
-    if "!DeployMode!"=="Legacy" set "opt3_info=(Legacy)"
-)
-goto :eof
-
-:: %cd%: "%root%"
-:: Get %opt4_info% according to "Console.bat"
-:Import_InfoOpt4
-set "opt4_info="
-if exist console.bat (
-    for /f "tokens=2 delims==" %%i in ('findstr /i "_versionAtCreation=" console.bat') do ( set "_versionAtCreation=%%~i" )
-    set "_versionAtCreation=!_versionAtCreation:~0,-1!"
-    REM If "_versionAtCreation" is not found, "%_versionAtCreation%" will be "~0,-1".  Next statement will still be executed.
-    if NOT "!_versionAtCreation!"=="%Version%" ( set "opt4_info=^>^>^>Perform this action after update^<^<^<" )
+    if "!DeployMode!"=="New" set "opt2_info=(New)"
+    if "!DeployMode!"=="Legacy" set "opt2_info=(Legacy)"
 )
 goto :eof
 
 :: %cd%: No limit
-:: Get %opt6_info% according to :Import_GlobalProxy ; Apply the proxy settings if Proxy is enabled.
+:: Get %opt1_info% according to :Import_GlobalProxy ; Apply the proxy settings if Proxy is enabled.
 :: call :Import_Proxy before calling this function.
-:Import_InfoOpt6
+:Import_InfoOpt1
 if "%state_globalProxy%"=="enable" (
     set "http_proxy=%__proxyHost%:%__httpPort%"
     set "https_proxy=%__proxyHost%:%__httpsPort%"
-    set "opt6_info=(Global Proxy: enabled)"
-) else ( set "opt6_info=" )
+    set "opt1_info=(Global Proxy: enabled)"
+) else ( set "opt1_info=" )
 goto :eof
 
 rem ================= End of File =================

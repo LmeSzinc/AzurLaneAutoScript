@@ -1,5 +1,5 @@
 @rem
-:: Used for "ADT-V4.bat"
+:: Used for "Alas-Deploy-Tool-V4.bat"
 :: Please make sure that: only call this batch when %cd% is %root%;
 :: e.g.
 :: call command\ConfigAlas.bat SerialAlas 127.0.0.1:5555

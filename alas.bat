@@ -45,9 +45,9 @@ call command\Get.bat Main
 :: Import the Proxy setting and apply. Then show more info in Option6.
 call command\Get.bat Serial
 call command\Get.bat Proxy
-call command\Get.bat InfoOpt6
+call command\Get.bat InfoOpt1
 :: If already deployed, show more info in Option3.
-call command\Get.bat InfoOpt3
+call command\Get.bat InfoOpt2
 rem call command\Get.bat InfoOpt4
 call command\Get.bat DeployMode
 
