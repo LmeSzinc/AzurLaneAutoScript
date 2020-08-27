@@ -488,7 +488,7 @@ rem ================= EMULATOR SETUP MENU =================
 :Emulator_Setup
 cls
 if NOT exist config\alas.ini (
-   echo f | xcopy config\template.ini config\alas.ini
+   echo f | xcopy config\template.ini config\alas.ini > nul
 )
 echo ====================================================================================================
 echo == It seems like this is the first time that you run this program
@@ -801,7 +801,7 @@ if "%KillServer%"=="enable" (
    %adbBin% kill-server > nul 2>&1
    )
 echo == connecting at %SerialRealtime%
-%adbBin% connect %SerialRealtime%
+%adbBin% connect %SerialRealtime% > nul
 if "%FirstRun%"=="yes" (
    call command\Config.bat Serial %SerialRealtime%
    call command\ConfigTemplate.bat SerialTemplate %SerialRealtime%
