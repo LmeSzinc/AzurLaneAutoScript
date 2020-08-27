@@ -616,10 +616,8 @@ if errorlevel 1 (
    pause > NUL
    goto Settings_MemuSerial
 ) 
-if "%FirstRun%"=="yes"
 call command\Config.bat Serial %SerialMEmu%
 if "%FirstRun%"=="yes" ( call command\ConfigTemplate.bat SerialTemplate %SerialMEmu% ) else ( call command\ConfigAlas.bat SerialAlas %SerialMEmu% )
-call command\ConfigTemplate.bat SerialTemplate %SerialMEmu%
 set FirstRun=no
 call command\Config.bat FirstRun %FirstRun%
 echo ====================================================================================================
@@ -675,10 +673,8 @@ if errorlevel 1 (
    pause > NUL
    goto Settings_NoxSerial
 )
-if "%FirstRun%"=="yes"
 call command\Config.bat Serial %SerialNox%
 if "%FirstRun%"=="yes" ( call command\ConfigTemplate.bat SerialTemplate %SerialNox% ) else ( call command\ConfigAlas.bat SerialAlas %SerialNox% )
-call command\ConfigTemplate.bat SerialTemplate %SerialNox%
 set FirstRun=no
 call command\Config.bat FirstRun %FirstRun%
 echo ====================================================================================================
@@ -691,35 +687,6 @@ echo == The connection was Successful on SERIAL: %SerialNox%
 echo. & echo == Please re-run the "alas.bat" to make the settings take effect.
 pause > NUL
 goto PleaseRerun
-
-
-setlocal EnableDelayedExpansion
-if /i "%opt6_opt3_choice%"=="T" (
-   call command\Config.bat Proxy
-) else if /i "%opt6_opt3_choice%"=="Y" (
-   call command\Config.bat ProxyHost http://127.0.0.1
-   call command\Config.bat Http 1080
-   call command\Config.bat Https 1080
-   echo The Proxy Server has been reset to the default.
-   call command\Config.bat Proxy enable
-) else if /i "%opt6_opt3_choice%"=="N" (
-   set /p opt6_opt3_proxyHost= Please input - Proxy Host ^(DEFAULT http://127.0.0.1 ^):
-   set /p opt6_opt3_httpPort= Please input - Http Port ^(DEFAULT 1080 ^):
-   set /p opt6_opt3_httpsPort= Please input - Https Port ^(DEFAULT 1080 ^):
-   if "!opt6_opt3_proxyHost!"=="" ( set "opt6_opt3_proxyHost=http://127.0.0.1" )
-   if "!opt6_opt3_httpPort!"=="" ( set "opt6_opt3_httpPort=1080" )
-   if "!opt6_opt3_httpsPort!"=="" ( set "opt6_opt3_httpsPort=1080" )
-   call command\Config.bat ProxyHost !opt6_opt3_proxyHost!
-   call command\Config.bat Http !opt6_opt3_httpPort!
-   call command\Config.bat Https !opt6_opt3_httpsPort!
-   echo.
-   call command\Config.bat Proxy enable
-   echo The custom Proxy Server has been set successfully.
-   echo Please re-perform this step here to confirm the modification.
-) else (
-   echo Invalid input. Cancelled.
-   goto ReturnToSetting
-)
 
 :Serial_setting
 echo ====================================================================================================
