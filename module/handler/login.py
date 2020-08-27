@@ -1,5 +1,6 @@
 from datetime import datetime
 
+import module.config.server as server
 from module.base.timer import Timer
 from module.combat.combat import Combat
 from module.exception import GameTooManyClickError, ScriptError
@@ -37,8 +38,9 @@ class LoginHandler(Combat):
                 continue
             if self.appear_then_click(LOGIN_RETURN_SIGN, offset=(30, 30), interval=5):
                 continue
-            if self.appear_then_click(LOGIN_CONFIRM, interval=5):
-                continue
+            if server.server == 'cn':
+                if self.appear_then_click(LOGIN_CONFIRM, interval=5):
+                    continue
             if self.handle_popup_confirm('LOGIN'):
                 continue
             if self.handle_urgent_commission(save_get_items=False):
@@ -46,7 +48,7 @@ class LoginHandler(Combat):
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=5):
                 continue
 
-            if self.info_bar_count() and self.appear_then_click(LOGIN_CHECK, interval=5):
+            if self.appear_then_click(LOGIN_CHECK, interval=5):
                 if not login_success:
                     logger.info('Login success')
                     login_success = True
