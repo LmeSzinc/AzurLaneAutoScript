@@ -5,8 +5,18 @@ from module.logger import logger
 
 
 class Switch:
-    def __init__(self, name='Switch'):
+    def __init__(self, name='Switch', is_choice=False):
+        """
+        Args:
+            name (str):
+            is_choice (bool): True if this is a multi choice, click to choose one of the switches.
+                For example: | [Daily] | Urgent | -> click -> | Daily | [Urgent] |
+                False if this is a switch, click the switch itself, and it changed in the same position.
+                For example: | [ON] | -> click -> | [OFF] |
+
+        """
         self.name = name
+        self.is_choice = is_choice
         self.status_list = []
 
     def add_status(self, status, check_button, click_button=None, offset=0, sleep=(1.0, 1.2)):
@@ -88,8 +98,9 @@ class Switch:
                     counter += 1
                 continue
 
+            click_status = status if self.is_choice else current
             for data in self.status_list:
-                if data['status'] == status:
+                if data['status'] == click_status:
                     main.device.click(data['click_button'])
                     main.device.sleep(data['sleep'])
                     changed = True
