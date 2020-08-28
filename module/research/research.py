@@ -296,7 +296,7 @@ class RewardResearch(ResearchSelector):
                 self.ensure_research_stable()
                 break
 
-        self.config.SCREEN_SHOT_SAVE_FOLDER_FOLDER = backup
+        self.config.SCREEN_SHOT_SAVE_FOLDER = backup
         self.device.screenshot_interval_set(0.1)
 
     def research_reward(self):

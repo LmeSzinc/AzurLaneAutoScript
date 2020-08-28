@@ -66,6 +66,7 @@ class CampaignRun(CampaignUI, Reward):
         if not os.path.exists(folder):
             os.mkdir(folder)
         self.campaign.config.SCREEN_SHOT_SAVE_FOLDER = folder
+        self.config.SCREEN_SHOT_SAVE_FOLDER = folder
 
     def triggered_stop_condition(self):
         """
