@@ -200,6 +200,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardMeowff
 
             self.device.sleep(self.reward_interval)
             self.reward_interval_reset()
+            self.device.stuck_record_clear()
 
             if self.config.REWARD_STOP_GAME_DURING_INTERVAL:
                 self.app_ensure_start()

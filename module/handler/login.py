@@ -71,6 +71,7 @@ class LoginHandler(Combat):
             ScriptError: If login failed more than 3
         """
         for _ in range(3):
+            self.device.stuck_record_clear()
             try:
                 self._handle_app_login()
                 return True
