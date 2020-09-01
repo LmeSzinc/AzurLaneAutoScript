@@ -94,7 +94,7 @@ class Retirement(Enhancement):
         Returns:
             bool: If changed.
         """
-        # self.device.screenshot()
+        self.device.screenshot()
         if self.appear(COMMON_SHIP_FILTER_ENABLE):
             current = True
         elif self.appear(COMMON_SHIP_FILTER_DISABLE):
@@ -169,6 +169,7 @@ class Retirement(Enhancement):
     def retire_ships(self, amount=None, rarity=None):
         logger.hr('Retirement')
         logger.info('Using one click retirement.')
+        self._retirement_set_common_ship_filter()
         if amount is None:
             amount = self._retire_amount
         end = False
