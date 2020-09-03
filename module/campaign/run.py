@@ -153,7 +153,10 @@ class CampaignRun(CampaignUI, Reward):
             if self.campaign.is_in_map():
                 logger.info('Already in map, skip ensure_campaign_ui.')
             else:
-                self.handle_campaign_ui()
+                self.ensure_campaign_ui(
+                    name=self.stage,
+                    mode=self.config.CAMPAIGN_MODE if self.config.COMMAND.lower() == 'main' else 'normal'
+                )
             if self.commission_notice_show_at_campaign():
                 if self.reward():
                     self.campaign.fleet_checked_reset()
@@ -179,11 +182,11 @@ class CampaignRun(CampaignUI, Reward):
                 self.config.config.set('Setting', 'if_count_greater_than', str(count))
                 self.config.save()
 
-    def handle_campaign_ui(self):
+    def ensure_campaign_ui(self, name, mode='normal'):
         for n in range(20):
             try:
-                self.ensure_campaign_ui(name=self.stage, mode=self.config.CAMPAIGN_MODE)
-                self.campaign.ENTRANCE = self.campaign_get_entrance(name=self.stage)
+                super().ensure_campaign_ui(name, mode)
+                self.campaign.ENTRANCE = self.campaign_get_entrance(name=name)
                 return True
             except CampaignNameError:
                 continue
