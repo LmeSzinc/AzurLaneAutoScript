@@ -3,7 +3,6 @@ import numpy as np
 from module.base.button import ButtonGrid
 from module.base.utils import *
 from module.logger import logger
-from module.map_detection.utils import rgb2gray
 from module.ocr.ocr import Digit
 from module.statistics.utils import *
 

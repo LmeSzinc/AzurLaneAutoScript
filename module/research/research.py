@@ -2,10 +2,9 @@ import numpy as np
 
 from module.base.decorator import Config
 from module.base.timer import Timer
-from module.base.utils import get_color
+from module.base.utils import get_color, rgb2gray
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3
 from module.logger import logger
-from module.map_detection.utils import rgb2gray
 from module.research.assets import *
 from module.research.project import ResearchSelector
 from module.ui.page import *

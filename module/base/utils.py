@@ -231,6 +231,21 @@ def crop(image, area):
     return cv2.copyMakeBorder(image[y1:y2, x1:x2], *border, borderType=cv2.BORDER_CONSTANT, value=(0, 0, 0))
 
 
+def rgb2gray(image):
+    """
+    Args:
+        image (np.ndarray): Shape (height, width, channel)
+
+    Returns:
+        np.ndarray: Shape (height, width)
+    """
+    r, g, b = cv2.split(image)
+    return cv2.add(
+        cv2.multiply(cv2.max(cv2.max(r, g), b), 0.5),
+        cv2.multiply(cv2.min(cv2.min(r, g), b), 0.5)
+    )
+
+
 def get_color(image, area):
     """Calculate the average color of a particular area of the image.
 

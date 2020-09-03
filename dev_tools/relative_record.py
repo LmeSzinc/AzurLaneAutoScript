@@ -10,7 +10,6 @@ from module.map_detection.view import View
 from module.base.base import ModuleBase
 from module.config.config import AzurLaneConfig
 from module.base.utils import *
-from module.map_detection.utils import *
 
 
 class Config:

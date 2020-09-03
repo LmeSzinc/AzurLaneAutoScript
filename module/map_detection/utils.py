@@ -233,21 +233,6 @@ class Lines:
         return Lines(lines, is_horizontal=self.is_horizontal, config=self.config)
 
 
-def rgb2gray(image):
-    """
-    Args:
-        image (np.ndarray):
-
-    Returns:
-        np.ndarray:
-    """
-    r, g, b = cv2.split(image)
-    return cv2.add(
-        cv2.multiply(cv2.max(cv2.max(r, g), b), 0.5),
-        cv2.multiply(cv2.min(cv2.min(r, g), b), 0.5)
-    )
-
-
 def area2corner(area):
     """
     Args:
