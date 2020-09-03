@@ -41,6 +41,9 @@ class LoginHandler(Combat):
             if server.server == 'cn':
                 if self.appear_then_click(LOGIN_CONFIRM, interval=5):
                     continue
+            if server.server == 'jp':
+                if self.appear_then_click(MAINTENANCE_ANNOUNCE, interval=5):
+                    continue            
             if self.handle_popup_confirm('LOGIN'):
                 continue
             if self.handle_urgent_commission(save_get_items=False):
