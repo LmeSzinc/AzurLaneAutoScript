@@ -51,7 +51,7 @@ class Connection:
         if serial:
             cmd = [self.adb_binary, '-s', serial] + cmd
         else:
-            cmd = [self.adb_binary] + cmd
+            cmd = [self.adb_binary, '-s', self.serial] + cmd
 
         # Use shell=True to disable console window when using GUI.
         # Although, there's still a window when you stop running in GUI, which cause by gooey.
@@ -70,6 +70,10 @@ class Connection:
     def adb_forward(self, cmd, serial=None):
         cmd.insert(0, 'forward')
         return self.adb_command(cmd, serial)
+
+    def adb_push(self, cmd, serial=None):
+        cmd.insert(0, 'push')
+        self.adb_command(cmd, serial)
 
     def _adb_connect(self, serial):
         if serial.startswith('127.0.0.1'):
@@ -94,5 +98,5 @@ class Connection:
         return device
 
     def disable_uiautomator2_auto_quit(self, port=7912, expire=300000):
-        self.adb_command(['forward', 'tcp:%s' % port, 'tcp:%s' % port], serial=self.serial)
+        self.adb_forward(['tcp:%s' % port, 'tcp:%s' % port])
         requests.post('http://127.0.0.1:%s/newCommandTimeout' % port, data=str(expire))

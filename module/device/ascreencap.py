@@ -19,8 +19,8 @@ class AScreenCap(Connection):
     def _ascreencap_init(self):
         logger.hr('aScreenCap init')
 
-        arc = self.adb_exec_out(['getprop', 'ro.product.cpu.abi'], serial=self.serial).decode('utf-8').strip()
-        sdk = self.adb_exec_out(['getprop', 'ro.build.version.sdk'], serial=self.serial).decode('utf-8').strip()
+        arc = self.adb_exec_out(['getprop', 'ro.product.cpu.abi']).decode('utf-8').strip()
+        sdk = self.adb_exec_out(['getprop', 'ro.build.version.sdk']).decode('utf-8').strip()
         logger.info(f'cpu_arc: {arc}, sdk_ver: {sdk}')
 
         filepath = os.path.join(self.config.ASCREENCAP_FILEPATH_LOCAL, arc, 'ascreencap')
@@ -30,10 +30,10 @@ class AScreenCap(Connection):
             exit(1)
 
         logger.info(f'pushing {filepath}')
-        self.adb_command(['push', filepath, self.config.ASCREENCAP_FILEPATH_REMOTE], serial=self.serial)
+        self.adb_push([filepath, self.config.ASCREENCAP_FILEPATH_REMOTE])
 
         logger.info(f'chmod 0777 {self.config.ASCREENCAP_FILEPATH_REMOTE}')
-        self.adb_shell(['chmod', '0777', self.config.ASCREENCAP_FILEPATH_REMOTE], serial=self.serial)
+        self.adb_shell(['chmod', '0777', self.config.ASCREENCAP_FILEPATH_REMOTE])
 
     def _ascreencap_reposition_byte_pointer(self, byte_array):
         """Method to return the sanitized version of ascreencap stdout for devices
@@ -50,7 +50,7 @@ class AScreenCap(Connection):
 
     def _ascreencap_execute(self):
         raw_compressed_data = self._ascreencap_reposition_byte_pointer(
-            self.adb_exec_out([self.config.ASCREENCAP_FILEPATH_REMOTE, '--pack', '2', '--stdout'], serial=self.serial))
+            self.adb_exec_out([self.config.ASCREENCAP_FILEPATH_REMOTE, '--pack', '2', '--stdout']))
 
         compressed_data_header = np.frombuffer(raw_compressed_data[0:20], dtype=np.uint32)
         if compressed_data_header[0] != 828001602:
