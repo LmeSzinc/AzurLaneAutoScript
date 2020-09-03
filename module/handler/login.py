@@ -34,6 +34,8 @@ class LoginHandler(Combat):
             if self.appear(EVENT_LIST_CHECK, offset=(30, 30), interval=5):
                 self.device.click(BACK_ARROW)
                 continue
+            if self.appear_then_click(MAINTENANCE_ANNOUNCE, offset=(30, 30), interval=5):
+                continue
             if self.appear_then_click(LOGIN_GAME_UPDATE, offset=(30, 30), interval=5):
                 continue
             if self.appear_then_click(LOGIN_RETURN_SIGN, offset=(30, 30), interval=5):
@@ -41,9 +43,6 @@ class LoginHandler(Combat):
             if server.server == 'cn':
                 if self.appear_then_click(LOGIN_CONFIRM, interval=5):
                     continue
-            if server.server == 'jp':
-                if self.appear_then_click(MAINTENANCE_ANNOUNCE, interval=5):
-                    continue            
             if self.handle_popup_confirm('LOGIN'):
                 continue
             if self.handle_urgent_commission(save_get_items=False):
