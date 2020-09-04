@@ -43,6 +43,7 @@ A6, B6, C6, D6, E6, F6, G6, H6, I6, J6, K6, \
 A7, B7, C7, D7, E7, F7, G7, H7, I7, J7, K7, \
     = MAP.flatten()
 
+road_main = RoadGrids([I4, J4])
 
 class Config(ConfigBase):
     MAP_SIREN_TEMPLATE = ['Z18']
@@ -58,7 +59,10 @@ class Campaign(CampaignBase):
     def battle_0(self):
         if self.clear_siren():
             return True
-
+        if self.clear_roadblocks([road_main]):
+            return True
+        if self.clear_potential_roadblocks([road_main]):
+            return True
         return self.battle_default()
 
     def battle_5(self):
