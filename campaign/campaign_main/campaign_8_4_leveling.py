@@ -11,15 +11,15 @@ class Campaign(CampaignBase):
             self.fleet_2.clear_all_mystery()
             self.fleet_2_push_forward()
 
-        if self.clear_roadblocks([road_D7, road_F3], strongest=True):
+        if self.clear_roadblocks([road_D7, road_F3, road_main], strongest=True):
             return True
-        if self.clear_potential_roadblocks([road_D7, road_F3], scale=(3,)):
+        if self.clear_potential_roadblocks([road_D7, road_F3, road_main], scale=(3,)):
             return True
         if self.clear_enemy(scale=(3,)):
             return True
-        if self.clear_potential_roadblocks([road_D7, road_F3], strongest=True):
+        if self.clear_potential_roadblocks([road_D7, road_F3, road_main], strongest=True):
             return True
-        if self.clear_first_roadblocks([road_D7, road_F3]):
+        if self.clear_first_roadblocks([road_D7, road_F3, road_main]):
             return True
 
         return self.battle_default()

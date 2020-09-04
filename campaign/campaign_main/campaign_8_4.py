@@ -44,6 +44,7 @@ A7, B7, C7, D7, E7, F7, G7, H7, \
 
 road_D7 = RoadGrids([G7, E7]).combine(RoadGrids([G5, E5, [C5, D6], [D6, C7]]))
 road_F3 = RoadGrids([G5, [F4, G4], [F4, G3]])
+road_main = RoadGrids([[G7, H6]])
 
 
 class Config(ConfigBase):
@@ -61,11 +62,11 @@ class Campaign(CampaignBase):
 
         self.clear_all_mystery()
 
-        if self.clear_roadblocks([road_D7, road_F3]):
+        if self.clear_roadblocks([road_D7, road_F3, road_main]):
             return True
-        if self.clear_potential_roadblocks([road_D7, road_F3]):
+        if self.clear_potential_roadblocks([road_D7, road_F3, road_main]):
             return True
-        if self.clear_first_roadblocks([road_D7, road_F3]):
+        if self.clear_first_roadblocks([road_D7, road_F3, road_main]):
             return True
 
         return self.battle_default()
