@@ -172,7 +172,7 @@ class Camera(InfoHandler):
             logger.info('Reverse swipes.')
             for vector in record[::-1]:
                 x, y = vector
-                if x != 0 and y != 0:
+                if x != 0 or y != 0:
                     self.map_swipe((-x, -y))
 
         return record
