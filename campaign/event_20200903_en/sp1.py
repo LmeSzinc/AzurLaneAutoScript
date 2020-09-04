@@ -43,6 +43,7 @@ A7, B7, C7, D7, E7, F7, G7, H7, I7, J7, K7, \
 
 road_main = RoadGrids([K3])
 
+
 class Config:
     MAP_SIREN_TEMPLATE = ['Z18']
     MOVABLE_ENEMY_TURN = (3,)

@@ -23,7 +23,7 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)**, some featur
 >
 > [CN] 支持活动「复刻: 铁血音符誓言」.
 >
-> [EN] Support event "Scherzo of Iron and Blood Rerun".
+> [EN] Support event "Stars of the Shimmering Fjord".
 >
 > [JP] Support event 「黒鉄の楽章_誓いの海（復刻）」.
 

@@ -59,10 +59,14 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
+        if not self.config.MAP_HAS_MOVABLE_ENEMY:
+            self.fleet_2_push_forward()
+
         if self.clear_siren():
             return True
 
-        self.fleet_2_push_forward()
+        if self.config.MAP_HAS_MOVABLE_ENEMY:
+            self.fleet_2_push_forward()
 
         if self.clear_roadblocks([road_main]):
             return True
