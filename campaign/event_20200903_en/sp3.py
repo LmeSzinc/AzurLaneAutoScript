@@ -18,19 +18,20 @@ MAP.map_data = """
     ME ME ++ ME ME ME -- ++ -- MS ME
 """
 MAP.weight_data = """
-    10 10 10 10 10 10 10 10 10 10 10
-    10 10 10 10 10 10 10 10 10 10 10
-    10 10 10 10 10 10 10 10 10 10 10
-    10 10 10 10 10 10 10 10 10 10 10
-    10 10 10 10 10 10 10 10 10 10 10
-    10 10 10 10 10 10 10 10 10 10 10
-    10 10 10 10 10 10 10 10 10 10 10
+    50 50 50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 40 30 50
+    50 50 50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 2, 'siren': 2},
     {'battle': 1, 'enemy': 2},
     {'battle': 2, 'enemy': 1},
-    {'battle': 3, 'enemy': 1, 'mystery': 1},
+    # {'battle': 3, 'enemy': 1, 'mystery': 1},
+    {'battle': 3, 'enemy': 1},
     {'battle': 4, 'enemy': 1},
     {'battle': 5, 'boss': 1},
 ]
@@ -44,6 +45,7 @@ A7, B7, C7, D7, E7, F7, G7, H7, I7, J7, K7, \
     = MAP.flatten()
 
 road_main = RoadGrids([I4, J4])
+
 
 class Config(ConfigBase):
     MAP_SIREN_TEMPLATE = ['Z18']
@@ -59,10 +61,12 @@ class Campaign(CampaignBase):
     def battle_0(self):
         if self.clear_siren():
             return True
+
+        self.fleet_2_push_forward()
+
         if self.clear_roadblocks([road_main]):
             return True
-        if self.clear_potential_roadblocks([road_main]):
-            return True
+
         return self.battle_default()
 
     def battle_5(self):
