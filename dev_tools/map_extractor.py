@@ -160,7 +160,7 @@ class MapData:
         lines.append('\"\"\"')
         lines.append('MAP.weight_data = \"\"\"')
         for y in range(self.shape[1] + 1):
-            lines.append('    ' + ' '.join(['10'] * (self.shape[0] + 1)))
+            lines.append('    ' + ' '.join(['50'] * (self.shape[0] + 1)))
         lines.append('\"\"\"')
         lines.append('MAP.spawn_data = [')
         for battle in self.spawn_data:
@@ -203,7 +203,10 @@ class MapData:
         lines.append('        return self.battle_default()')
         lines.append('')
         lines.append(f'    def battle_{self.data["boss_refresh"]}(self):')
-        lines.append('        return self.fleet_boss.clear_boss()')
+        if self.data["boss_refresh"] >= 5:
+            lines.append('        return self.fleet_boss.clear_boss()')
+        else:
+            lines.append('        return self.clear_boss()')
 
         return lines
 
