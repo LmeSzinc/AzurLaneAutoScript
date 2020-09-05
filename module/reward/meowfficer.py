@@ -8,7 +8,7 @@ BUY_MAX = 15
 BUY_PRIZE = 1500
 MEOWFFICER = Ocr(OCR_MEOWFFICER, letter=(140, 113, 99), threshold=64, alphabet='0123456789/')
 MEOWFFICER_CHOOSE = Digit(OCR_MEOWFFICER_CHOOSE, letter=(140, 113, 99), threshold=64)
-MEOWDDICER_COINS = Digit(OCR_MEOWDDICER_COINS, letter=(99, 69, 41), threshold=64)
+MEOWFFICER_COINS = Digit(OCR_MEOWFFICER_COINS, letter=(99, 69, 41), threshold=64)
 
 
 class RewardMeowfficer(UI):
@@ -39,7 +39,7 @@ class RewardMeowfficer(UI):
             logger.info('Remain less than to buy')
             count = remain
         # Check coins
-        coins = MEOWDDICER_COINS.ocr(self.device.image)
+        coins = MEOWFFICER_COINS.ocr(self.device.image)
         if (coins < BUY_PRIZE) and (remain < BUY_MAX):
             logger.warning('Not enough coins to buy one')
             return False
