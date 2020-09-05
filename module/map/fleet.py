@@ -189,8 +189,9 @@ class Fleet(Camera, MapOperation, AmbushHandler):
             self.device.click(grid)
             arrived = False
             # Wait to confirm fleet arrived. It does't appear immediately if fleet in combat .
-            arrive_timer = Timer(0.5 + self.round_wait, count=2)
-            arrive_unexpected_timer = Timer(1.5 + self.round_wait, count=6)
+            extra = 4.5 if self.config.SUBMARINE_MODE == 'hunt_only' else 0
+            arrive_timer = Timer(0.5 + self.round_wait + extra, count=2)
+            arrive_unexpected_timer = Timer(1.5 + self.round_wait + extra, count=6)
             # Wait after ambushed.
             ambushed_retry = Timer(0.5)
             # If nothing happens, click again.
