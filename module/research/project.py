@@ -1,6 +1,6 @@
 import re
 
-from datetime import datetime, timedelta
+from datetime import timedelta
 from scipy import signal
 
 from module.base.decorator import Config
@@ -114,18 +114,6 @@ def match_template(image, template, area, offset = 30, threshold = 0.85):
     return similarity
 
 
-def stats_items_num_is_odd(image):
-    """
-    Args:
-        image: Pillow image
-    Returns:
-        bool: If the number of items in row is odd.
-    """
-    image = np.array(image.crop(DETAIL_ITEMS_ODD.area))
-    # Item pictures have a much higher standard deviation than backgrounds.
-    return np.std(rgb2gray(image)) > 10
-
-
 def get_research_series_jp(image):
     """
     Almost the same as get_research_series except the button area.
@@ -220,27 +208,6 @@ def get_research_cost_jp(image):
     return costs
 
 
-def save_research_ship_jp(image):
-    """
-    2.5, 5, and 8 hours' D research have 4 items, while 0.5 hours' one has 3.
-    Need to check this to save ship templetes.
-    Can remove this check and simply add some offsets while matching once the collection is finished.
-    
-    Args:
-        image (PIL.Image.Image):
-
-    Returns:
-        ship (string):
-    """
-    area_even = (331, 448, 407, 524)
-    area_odd = (377, 448, 453, 524)
-    area = area_odd if stats_items_num_is_odd(image) else area_even
-    im = image.crop(area)
-    #Save ship templetes.
-    image_time = datetime.now().strftime('%Y-%m-%d_%H-%M-%S-%f')
-    im.save(f'./log/ship/{image_time}.png')
-
-
 def get_research_ship_jp(image):
     """
     Notice that 2.5, 5, and 8 hours' D research have 4 items, while 0.5 hours' one has 3,
@@ -252,7 +219,6 @@ def get_research_ship_jp(image):
     Returns:
         ship (string):
     """
-    #save_research_ship_jp(image)
     folder = './assets/research_blueprint'
     templates = load_folder(folder)
     similarity = 0.0
@@ -584,9 +550,3 @@ class ResearchSelector(UI):
             ' > '.join([str(self.projects[index]) if isinstance(index, int) else index for index in priority]))
         return priority
 
-
-#def main():
-#    image1 = Image.open('./test.png').convert('RGB')
-#    research_jp_detect(image1)
-
-#main()
