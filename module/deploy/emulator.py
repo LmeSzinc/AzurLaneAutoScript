@@ -131,10 +131,18 @@ memu_player = VirtualBoxEmulator(
     vbox_path="./MemuHyperv VMs",
     vbox_name='.*.memu$'
 )
+# MumuPlayer MuMu模拟器
+mumu_player = VirtualBoxEmulator(
+    name="Nemu",
+    root_path=".",
+    adb_path="./vmonitor/bin/adb_server.exe",
+    vbox_path="./vms",
+    vbox_name='.*.nemu$'
+)
 
 
 class EmulatorConnect:
-    SUPPORTED_EMULATORS = [nox_player, ld_player, ld_player_4, memu_player]
+    SUPPORTED_EMULATORS = [nox_player, ld_player, ld_player_4, memu_player, mumu_player]
 
     def __init__(self, adb='adb.exe'):
         self.adb_binary = adb
