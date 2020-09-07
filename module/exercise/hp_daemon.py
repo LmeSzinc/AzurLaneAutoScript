@@ -1,11 +1,8 @@
 from module.base.base import ModuleBase
 from module.base.timer import Timer
 from module.base.utils import color_bar_percentage
+from module.exercise.assets import ATTACKER_HP_AREA, DEFENDER_HP_AREA
 from module.logger import logger
-
-
-ATTACKER_HP_AREA = (271, 43, 586, 58)
-DEFENDER_HP_AREA = (691, 43, 1005, 58)
 
 
 class HpDaemon(ModuleBase):
@@ -58,8 +55,8 @@ class HpDaemon(ModuleBase):
         logger.info(text)
 
     def _at_low_hp(self, image):
-        self.attacker_hp = self._calculate_hp(image, area=ATTACKER_HP_AREA, reverse=True)
-        self.defender_hp = self._calculate_hp(image, area=DEFENDER_HP_AREA, reverse=False)
+        self.attacker_hp = self._calculate_hp(image, area=ATTACKER_HP_AREA.area, reverse=True)
+        self.defender_hp = self._calculate_hp(image, area=DEFENDER_HP_AREA.area, reverse=False)
         if 0.01 < self.attacker_hp <= self.config.LOW_HP_THRESHOLD:
             if self.low_hp_confirm_timer.reached() and self.low_hp_confirm_timer.current() < 300:
                 self._show_hp(self.low_hp_confirm_timer.current())
