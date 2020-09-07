@@ -18,7 +18,8 @@ RESEARCH_ENTRANCE = [ENTRANCE_1, ENTRANCE_2, ENTRANCE_3, ENTRANCE_4, ENTRANCE_5]
 RESEARCH_SERIES = [SERIES_1, SERIES_2, SERIES_3, SERIES_4, SERIES_5]
 OCR_RESEARCH = [OCR_RESEARCH_1, OCR_RESEARCH_2, OCR_RESEARCH_3, OCR_RESEARCH_4, OCR_RESEARCH_5]
 OCR_RESEARCH = Ocr(OCR_RESEARCH, name='RESEARCH', threshold=64, alphabet='0123456789BCDEGHQTMIULRF-')
-RESEARCH_DETAIL_GENRE = [DETAIL_GENRE_B, DETAIL_GENRE_C, DETAIL_GENRE_D, DETAIL_GENRE_E, DETAIL_GENRE_G, DETAIL_GENRE_H_0, DETAIL_GENRE_H_1, DETAIL_GENRE_Q, DETAIL_GENRE_T]
+RESEARCH_DETAIL_GENRE = [DETAIL_GENRE_B, DETAIL_GENRE_C, DETAIL_GENRE_D, DETAIL_GENRE_E, DETAIL_GENRE_G,
+                         DETAIL_GENRE_H_0, DETAIL_GENRE_H_1, DETAIL_GENRE_Q, DETAIL_GENRE_T]
 FILTER_REGEX = re.compile('(s[123])?'
                           '-?'
                           '(neptune|monarch|ibuki|izumo|roon|saintlouis|seattle|georgia|kitakaze|azuma|friedrich|gascogne|champagne|cheshire|drake|mainz|odin)?'
@@ -91,7 +92,7 @@ def parse_time(string):
         return timedelta(hours=result[0], minutes=result[1], seconds=result[2])
 
 
-def match_template(image, template, area, offset = 30, threshold = 0.85):
+def match_template(image, template, area, offset=30, threshold=0.85):
     """
     Args:
         image (PIL.Image.Image): Screenshot
@@ -188,19 +189,19 @@ def get_research_cost_jp(image):
     templates = load_folder(folder)
     costs = {'coins': False, 'cubes': False, 'plate': False}
     for name, template in templates.items():
-        template = load_image(template).resize(size = size_template).crop(area_template)
-        sim = match_template(image = image, \
-                             template = template, \
-                             area = DETAIL_COST.area, \
-                             offset = (10, 10), \
-                             threshold = 0.8)
+        template = load_image(template).resize(size=size_template).crop(area_template)
+        sim = match_template(image=image,
+                             template=template,
+                             area=DETAIL_COST.area,
+                             offset=(10, 10),
+                             threshold=0.8)
         if not sim:
             continue
         for cost in costs:
             if re.compile(cost).match(name.lower()):
                 costs[cost] = True
                 continue
-    
+
     # Rename keys to be the same as attrs of ResearchProjectJp.    
     costs['need_coin'] = costs.pop('coins')
     costs['need_cube'] = costs.pop('cubes')
@@ -224,11 +225,11 @@ def get_research_ship_jp(image):
     similarity = 0.0
     ship = ''
     for name, template in templates.items():
-        sim = match_template(image = image, \
-                             template = load_image(template), \
-                             area = DETAIL_BLUEPRINT.area, \
-                             offset = (10, 10), \
-                             threshold = 0.9)
+        sim = match_template(image=image,
+                             template=load_image(template),
+                             area=DETAIL_BLUEPRINT.area,
+                             offset=(10, 10),
+                             threshold=0.9)
         if sim > similarity:
             similarity = sim
             ship = name
@@ -256,7 +257,7 @@ def research_jp_detect(image):
         project.ship = get_research_ship_jp(image)
     if project.ship:
         project.ship_rarity = 'dr' if project.ship in project.DR_SHIP else 'pry'
-    project.name = (f'{project.series}-{project.genre}-{project.duration}{project.ship}')
+    project.name = f'{project.series}-{project.genre}-{project.duration}{project.ship}'
     if not project.check_valid():
         logger.warning(f'Invalid research {project}')
     return project
@@ -391,7 +392,7 @@ class ResearchProjectJp:
             return False
         self.valid = True
         return True
-    
+
     def __str__(self):
         if self.valid:
             return f'{self.name}'
@@ -418,13 +419,13 @@ class ResearchSelector(UI):
         self.device.click(RESEARCH_SELECT_QUIT)
         self.wait_until_disappear(RESEARCH_COST_CHECKER, offset=5)
         self.wait_until_stable(STABLE_CHECKER)
-        
+
     @Config.when(SERVER='jp')
     def research_detect(self, image):
         """
         We do not need a screenshot here actually.
         Adding this argument is just to eusure all "research_detect" have the same arguments.
-        
+
         Args:
             image (PIL.Image.Image): Screenshots
         """
@@ -434,9 +435,9 @@ class ResearchSelector(UI):
         # Enter the middle entrance first.
         self.device.click(RESEARCH_ENTRANCE[2])
         self.ensure_detail_stable()
-        
+
         for _ in range(5):
-            project = research_jp_detect(self.device.image)
+            project = research_jp_detect(image)
             logger.attr('Project', project)
             projects.append(project)
             self.research_jp_next()
@@ -447,11 +448,11 @@ class ResearchSelector(UI):
         """
         for pos in range(5):
             proj_sorted.append(projects[(pos + 3) % 5])
-        
+
         self.projects = proj_sorted
         # All done and we go back to page_research.
         self.detail_quit()
-        
+
     @Config.when(SERVER=None)
     def research_detect(self, image):
         """
@@ -549,4 +550,3 @@ class ResearchSelector(UI):
             'Cheapest_sort',
             ' > '.join([str(self.projects[index]) if isinstance(index, int) else index for index in priority]))
         return priority
-
