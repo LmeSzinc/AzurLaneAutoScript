@@ -1,7 +1,9 @@
 import re
 
+from datetime import timedelta
 from scipy import signal
 
+from module.base.decorator import Config
 from module.base.utils import *
 from module.logger import logger
 from module.ocr.ocr import Ocr
@@ -9,11 +11,14 @@ from module.research.assets import *
 from module.research.filter import Filter
 from module.research.preset import *
 from module.research.project_data import LIST_RESEARCH_PROJECT
+from module.statistics.utils import *
 from module.ui.ui import UI
 
+RESEARCH_ENTRANCE = [ENTRANCE_1, ENTRANCE_2, ENTRANCE_3, ENTRANCE_4, ENTRANCE_5]
 RESEARCH_SERIES = [SERIES_1, SERIES_2, SERIES_3, SERIES_4, SERIES_5]
 OCR_RESEARCH = [OCR_RESEARCH_1, OCR_RESEARCH_2, OCR_RESEARCH_3, OCR_RESEARCH_4, OCR_RESEARCH_5]
 OCR_RESEARCH = Ocr(OCR_RESEARCH, name='RESEARCH', threshold=64, alphabet='0123456789BCDEGHQTMIULRF-')
+RESEARCH_DETAIL_GENRE = [DETAIL_GENRE_B, DETAIL_GENRE_C, DETAIL_GENRE_D, DETAIL_GENRE_E, DETAIL_GENRE_G, DETAIL_GENRE_H_0, DETAIL_GENRE_H_1, DETAIL_GENRE_Q, DETAIL_GENRE_T]
 FILTER_REGEX = re.compile('(s[123])?'
                           '-?'
                           '(neptune|monarch|ibuki|izumo|roon|saintlouis|seattle|georgia|kitakaze|azuma|friedrich|gascogne|champagne|cheshire|drake|mainz|odin)?'
@@ -68,6 +73,193 @@ def get_research_name(image):
         name = name.replace('ML', 'MI').replace('MIL', 'MI')
         names.append(name)
     return names
+
+
+def parse_time(string):
+    """
+    Args:
+        string (str): Such as 01:00:00, 05:47:10, 17:50:51.
+    Returns:
+        timedelta: datetime.timedelta instance.
+    """
+    result = re.search('(\d+):(\d+):(\d+)', string)
+    if not result:
+        logger.warning(f'Invalid time string: {string}')
+        return None
+    else:
+        result = [int(s) for s in result.groups()]
+        return timedelta(hours=result[0], minutes=result[1], seconds=result[2])
+
+
+def match_template(image, template, area, offset = 30, threshold = 0.85):
+    """
+    Args:
+        image (PIL.Image.Image): Screenshot
+        template (PIL.Image.Image):
+        area (tuple): Crop area of image.
+        offset (int, tuple): Detection area offset.
+        threshold (float): 0-1. Similarity. Lower than this value will return float(0).
+    Returns:
+        similarity (float):
+    """
+    if isinstance(offset, tuple):
+        offset = np.array((-offset[0], -offset[1], offset[0], offset[1]))
+    else:
+        offset = np.array((0, -offset, 0, offset))
+    image = np.array(image.crop(offset + area))
+    template = np.array(template)
+    res = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
+    _, sim, _, point = cv2.minMaxLoc(res)
+    similarity = sim if sim >= threshold else 0.0
+    return similarity
+
+
+def get_research_series_jp(image):
+    """
+    Almost the same as get_research_series except the button area.
+
+    Args:
+        image (PIL.Image.Image): Screenshot
+
+    Returns:
+        series (string):
+    """
+    # Set 'prominence = 15' to ignore possible noise.
+    parameters = {'height': 200, 'prominence': 15}
+    area = SERIES_DETAIL.area
+    im = np.array(image.crop(area).resize((46, 25)).convert('L'))
+    mid = np.mean(im[8:17, :], axis=0)
+    peaks, _ = signal.find_peaks(mid, **parameters)
+    series = len(peaks)
+    if not 1 <= series <= 3:
+        logger.warning(f'Unknown research series: series={series}')
+        series = 0
+    return f'S{series}'
+
+
+def get_research_duration_jp(image):
+    """
+    Args:
+        image (PIL.Image.Image): Screenshot
+
+    Returns:
+        duration (int): number of seconds
+    """
+    ocr = Ocr(DURATION_DETAIL, alphabet='0123456789:')
+    duration = parse_time(ocr.ocr(image)).total_seconds()
+    return duration
+
+
+def get_research_genre_jp(image):
+    """
+    Args:
+        image (PIL.Image.Image): Screenshot
+
+    Returns:
+        genre (string):
+    """
+    genre = ''
+    for button in RESEARCH_DETAIL_GENRE:
+        if button.match(image, offset=10, threshold=0.9):
+            # DETAIL_GENRE_H_0.name.split("_")[2] == 'H'
+            genre = button.name.split("_")[2]
+            break
+    if not genre:
+        logger.warning(f'Not able to recognize research genre!')
+    return genre
+
+
+def get_research_cost_jp(image):
+    """
+    When the research has 1 cost item, the size of it is 78*78.
+    When the research has 2 cost items, the size of each is 77*77.
+    However, templates of coins, cubes, and plates differ a lot with each other,
+    so simply setting a lower threshold while matching can do the job.
+    
+    Args:
+        image (PIL.Image.Image): Screenshot
+
+    Returns:
+        costs (string): dict
+    """
+    size_template = (78, 78)
+    area_template = (0, 0, 78, 57)
+    folder = './assets/stats_basic'
+    templates = load_folder(folder)
+    costs = {'coins': False, 'cubes': False, 'plate': False}
+    for name, template in templates.items():
+        template = load_image(template).resize(size = size_template).crop(area_template)
+        sim = match_template(image = image, \
+                             template = template, \
+                             area = DETAIL_COST.area, \
+                             offset = (10, 10), \
+                             threshold = 0.8)
+        if not sim:
+            continue
+        for cost in costs:
+            if re.compile(cost).match(name.lower()):
+                costs[cost] = True
+                continue
+    
+    # Rename keys to be the same as attrs of ResearchProjectJp.    
+    costs['need_coin'] = costs.pop('coins')
+    costs['need_cube'] = costs.pop('cubes')
+    costs['need_part'] = costs.pop('plate')
+    return costs
+
+
+def get_research_ship_jp(image):
+    """
+    Notice that 2.5, 5, and 8 hours' D research have 4 items, while 0.5 hours' one has 3,
+    so the button DETAIL_BLUEPRINT should not cover only the first one of 4 items.
+    
+    Args:
+        image (PIL.Image.Image): Screenshot
+
+    Returns:
+        ship (string):
+    """
+    folder = './assets/research_blueprint'
+    templates = load_folder(folder)
+    similarity = 0.0
+    ship = ''
+    for name, template in templates.items():
+        sim = match_template(image = image, \
+                             template = load_image(template), \
+                             area = DETAIL_BLUEPRINT.area, \
+                             offset = (10, 10), \
+                             threshold = 0.9)
+        if sim > similarity:
+            similarity = sim
+            ship = name
+    if ship == '':
+        logger.warning(f'Ship recognition failed')
+    return ship
+
+
+def research_jp_detect(image):
+    """
+    Args:
+        image (PIL.Image.Image): Screenshot
+            
+    Return:
+        project (ResearchProjectJp):
+    """
+    project = ResearchProjectJp()
+    project.series = get_research_series_jp(image)
+    project.duration = str(get_research_duration_jp(image) / 3600).rstrip('.0')
+    project.genre = get_research_genre_jp(image)
+    costs = get_research_cost_jp(image)
+    for cost in costs:
+        project.__setattr__(cost, costs[cost])
+    if project.genre.lower() == 'd':
+        project.ship = get_research_ship_jp(image)
+    if project.ship:
+        project.ship_rarity = 'dr' if project.ship in project.DR_SHIP else 'pry'
+    project.name = (f'{project.series}-{project.genre}-{project.duration}{project.ship}')
+    if not project.check_valid():
+        logger.warning(f'Invalid research {project}')
+    return project
 
 
 class ResearchProject:
@@ -167,9 +359,100 @@ class ResearchProject:
         return False
 
 
+class ResearchProjectJp:
+    GENRE = ['b', 'c', 'd', 'e', 'g', 'h', 'q', 't']
+    DURATION = ['0.5', '1', '1.5', '2', '2.5', '3', '4', '5', '6', '8', '12']
+    REGEX_SHIP = re.compile(
+        '(neptune|monarch|ibuki|izumo|roon|saintlouis|seattle|georgia|kitakaze|azuma|friedrich|gascogne|champagne|cheshire|drake|mainz|odin)')
+    REGEX_INPUT = re.compile('(coin|cube|part)')
+    DR_SHIP = ['azuma', 'friedrich', 'drake']
+
+    def __init__(self):
+        self.valid = True
+        self.name = ''
+        self.series = ''
+        self.genre = ''
+        self.duration = '24'
+        self.ship = ''
+        self.ship_rarity = ''
+        self.need_coin = False
+        self.need_cube = False
+        self.need_part = False
+
+    def check_valid(self):
+        self.valid = False
+        if self.series == "S0":
+            return False
+        if self.genre.lower() not in self.GENRE:
+            return False
+        if self.duration not in self.DURATION:
+            return False
+        if self.genre.lower() == 'd' and not self.ship:
+            return False
+        self.valid = True
+        return True
+    
+    def __str__(self):
+        if self.valid:
+            return f'{self.name}'
+        else:
+            return f'{self.name} (Invalid)'
+
+
 class ResearchSelector(UI):
     projects: list
 
+    def ensure_detail_stable(self):
+        """
+        Check first STABLE_CHECKER_DETAIL then RESEARCH_COST_CHECKER 
+        to ensure that the research detail page is fully loaded.
+        """
+        self.wait_until_stable(STABLE_CHECKER_DETAIL)
+        self.wait_until_appear(RESEARCH_COST_CHECKER, offset=5, skip_first_screenshot=False)
+
+    def research_jp_next(self):
+        self.appear_then_click(DETAIL_NEXT, offset=(20, 20), interval=0)
+        self.ensure_detail_stable()
+
+    def detail_quit(self):
+        self.device.click(RESEARCH_SELECT_QUIT)
+        self.wait_until_disappear(RESEARCH_COST_CHECKER, offset=5)
+        self.wait_until_stable(STABLE_CHECKER)
+        
+    @Config.when(SERVER='jp')
+    def research_detect(self, image):
+        """
+        We do not need a screenshot here actually.
+        Adding this argument is just to eusure all "research_detect" have the same arguments.
+        
+        Args:
+            image (PIL.Image.Image): Screenshots
+        """
+        projects = []
+        proj_sorted = []
+
+        # Enter the middle entrance first.
+        self.device.click(RESEARCH_ENTRANCE[2])
+        self.ensure_detail_stable()
+        
+        for _ in range(5):
+            project = research_jp_detect(self.device.image)
+            logger.attr('Project', project)
+            projects.append(project)
+            self.research_jp_next()
+        """
+        The page_research should remain the same as before.
+        Since We entered the middle entrance first, 
+        the index from left to right is (3, 4, 0, 1, 2).
+        """
+        for pos in range(5):
+            proj_sorted.append(projects[(pos + 3) % 5])
+        
+        self.projects = proj_sorted
+        # All done and we go back to page_research.
+        self.detail_quit()
+        
+    @Config.when(SERVER=None)
     def research_detect(self, image):
         """
         Args:
@@ -266,3 +549,4 @@ class ResearchSelector(UI):
             'Cheapest_sort',
             ' > '.join([str(self.projects[index]) if isinstance(index, int) else index for index in priority]))
         return priority
+
