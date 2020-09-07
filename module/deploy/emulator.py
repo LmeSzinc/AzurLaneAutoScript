@@ -116,6 +116,13 @@ ld_player = VirtualBoxEmulator(
     vbox_path="./vms",
     vbox_name='.*.vbox$'
 )
+ld_player_4 = VirtualBoxEmulator(
+    name="LDPlayer4",
+    root_path=".",
+    adb_path="./adb.exe",
+    vbox_path="./vms",
+    vbox_name='.*.vbox$'
+)
 # MemuPlayer 逍遥模拟器
 memu_player = VirtualBoxEmulator(
     name="MEmu",
@@ -127,7 +134,7 @@ memu_player = VirtualBoxEmulator(
 
 
 class EmulatorConnect:
-    SUPPORTED_EMULATORS = [nox_player, ld_player, memu_player]
+    SUPPORTED_EMULATORS = [nox_player, ld_player, ld_player_4, memu_player]
 
     def __init__(self, adb='adb.exe'):
         self.adb_binary = adb
@@ -148,10 +155,12 @@ class EmulatorConnect:
         emulators = []
         for emulator in self.SUPPORTED_EMULATORS:
             try:
-                _ = emulator.serial
+                serial = emulator.serial
                 emulators.append(emulator)
             except FileNotFoundError:
                 continue
+            if len(serial):
+                print(f'Emulator {emulator.name} found, instances: {serial}')
 
         return emulators
 
