@@ -13,15 +13,25 @@ from module.logger import logger
 
 class AlOcr(CnOcr):
     def __init__(
-        self,
-        model_name='densenet-lite-gru',
-        model_epoch=None,
-        cand_alphabet=None,
-        root=data_dir(),
-        context='cpu',
-        name=None,
+            self,
+            model_name='densenet-lite-gru',
+            model_epoch=None,
+            cand_alphabet=None,
+            root=data_dir(),
+            context='cpu',
+            name=None,
     ):
+        self._args = (model_name, model_epoch, cand_alphabet, root, context, name)
+        self._model_loaded = False
 
+    def init(self,
+             model_name='densenet-lite-gru',
+             model_epoch=None,
+             cand_alphabet=None,
+             root=data_dir(),
+             context='cpu',
+             name=None,
+             ):
         """
 
         :param model_name: 模型名称
@@ -45,7 +55,8 @@ class AlOcr(CnOcr):
         )
 
         self._cand_alph_idx = None
-        self.set_cand_alphabet(cand_alphabet)
+        # Alphabet will be set before calling ocr.
+        # self.set_cand_alphabet(cand_alphabet)
 
         self._hp = Hyperparams()
         self._hp._loss_type = None  # infer mode
@@ -54,6 +65,34 @@ class AlOcr(CnOcr):
         self._net_prefix = None if name == '' else name
 
         self._mod = self._get_module(context)
+
+    def ocr(self, img_fp):
+        if not self._model_loaded:
+            self.init(*self._args)
+            self._model_loaded = True
+
+        return super().ocr(img_fp)
+
+    def ocr_for_single_line(self, img_fp):
+        if not self._model_loaded:
+            self.init(*self._args)
+            self._model_loaded = True
+
+        return super().ocr_for_single_line(img_fp)
+
+    def ocr_for_single_lines(self, img_list):
+        if not self._model_loaded:
+            self.init(*self._args)
+            self._model_loaded = True
+
+        return super().ocr_for_single_lines(img_list)
+
+    def set_cand_alphabet(self, cand_alphabet):
+        if not self._model_loaded:
+            self.init(*self._args)
+            self._model_loaded = True
+
+        return super().set_cand_alphabet(cand_alphabet)
 
     def _assert_and_prepare_model_files(self):
         model_dir = self._model_dir
