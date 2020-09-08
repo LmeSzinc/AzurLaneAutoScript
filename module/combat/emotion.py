@@ -1,6 +1,8 @@
 from datetime import datetime
 from time import sleep
 
+from module.base.decorator import cached_property
+from module.base.utils import random_normal_distribution_int
 from module.config.config import AzurLaneConfig
 from module.logger import logger
 
@@ -9,7 +11,6 @@ config_name = 'EmotionRecord'
 
 class Emotion:
     total_reduced = 0
-    BUG_THRESHOLD = 100
 
     def __init__(self, config):
         """
@@ -110,14 +111,27 @@ class Emotion:
             self.config.EMOTION_LIMIT_TRIGGERED = True
             sleep(60)
 
+    @cached_property
+    def bug_threshold(self):
+        """
+        Returns:
+            int:
+        """
+        return random_normal_distribution_int(55, 105, n=2)
+
+    def bug_threshold_reset(self):
+        """ Call this method after emotion bug triggered. """
+        del self.__dict__['bug_threshold']
+
     def triggered_bug(self):
         """
         The game does not calculate emotion correctly, which is a bug in AzurLane.
         After a long run, we have to restart the game to update it.
         """
-        logger.attr('Emotion_bug', f'{self.total_reduced}/{self.BUG_THRESHOLD}')
-        if self.total_reduced >= self.BUG_THRESHOLD:
+        logger.attr('Emotion_bug', f'{self.total_reduced}/{self.bug_threshold}')
+        if self.total_reduced >= self.bug_threshold:
             self.total_reduced = 0
+            self.bug_threshold_reset()
             return True
 
         return False
