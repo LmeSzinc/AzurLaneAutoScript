@@ -202,19 +202,6 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                 self.device.screenshot()
                 grid.image = np.array(self.device.image)
 
-                # Ambush
-                if self.handle_ambush():
-                    self.hp_get()
-                    ambushed_retry.start()
-                    walk_timeout.reset()
-
-                # Mystery
-                mystery = self.handle_mystery(button=grid)
-                if mystery:
-                    self.mystery_count += 1
-                    result = 'mystery'
-                    result_mystery = mystery
-
                 # Combat
                 if self.config.ENABLE_MAP_FLEET_LOCK and not self.is_in_map():
                     if self.handle_retirement():
@@ -237,6 +224,19 @@ class Fleet(Camera, MapOperation, AmbushHandler):
                     self.handle_boss_appear_refocus()
                     grid = self.convert_map_to_grid(location)
                     walk_timeout.reset()
+
+                # Ambush
+                if self.handle_ambush():
+                    self.hp_get()
+                    ambushed_retry.start()
+                    walk_timeout.reset()
+
+                # Mystery
+                mystery = self.handle_mystery(button=grid)
+                if mystery:
+                    self.mystery_count += 1
+                    result = 'mystery'
+                    result_mystery = mystery
 
                 # Cat attack animation
                 if self.handle_map_cat_attack():
