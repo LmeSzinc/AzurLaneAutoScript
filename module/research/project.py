@@ -423,7 +423,7 @@ class ResearchSelector(UI):
     @Config.when(SERVER='jp')
     def research_detect(self, image):
         """
-        We do not need a screenshot here actually.
+        We do not need a screenshot here actually. 'image' is a null argument.
         Adding this argument is just to eusure all "research_detect" have the same arguments.
 
         Args:
@@ -437,7 +437,11 @@ class ResearchSelector(UI):
         self.ensure_detail_stable()
 
         for _ in range(5):
-            project = research_jp_detect(image)
+            """
+            'image' is a null argument as described above.
+            What we need here is the current screen 'self.device.image'.
+            """
+            project = research_jp_detect(self.device.image)
             logger.attr('Project', project)
             projects.append(project)
             self.research_jp_next()
