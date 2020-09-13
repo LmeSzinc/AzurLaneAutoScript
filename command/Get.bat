@@ -19,7 +19,7 @@ rem ================= FUNCTIONS =================
 :Import_Main
 :: 1. Get customized %Language%, or decided by "LanguageSelector"
 if exist config\alas.ini (
-    echo f | xcopy /y config\alas.ini config\alas.ini.backup > nul
+    echo f | xcopy /y config\alas.ini config\alas_backup.ini > nul
 )
 call command\SystemSet.bat
 call command\LanguageSet.bat

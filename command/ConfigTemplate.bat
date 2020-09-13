@@ -8,20 +8,20 @@
 setlocal EnableDelayedExpansion
 set "cfg_Template=%root%\config\template.ini"
 set "cfg_Extra=%~2"
-call :Config_Common
+call :Config_misc
 call :Config_%~1
-call :Config_Common2
+call :Config_misc2
 goto :eof
 
 rem ================= FUNCTIONS =================
 
-:Config_Common
+:Config_misc
 
 copy %cfg_Template% %cfg_Template%.bak > NUL
 type NUL > %cfg_Template%
 goto :eof
 
-:Config_Common2
+:Config_misc2
 del /Q %cfg_Template%.bak >NUL 2>NUL
 cd ..
 goto :eof

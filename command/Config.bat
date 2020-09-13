@@ -12,14 +12,14 @@ setlocal EnableDelayedExpansion
 set "cfg_Deploy=%root%\config\deploy.ini"
 set "cfg_Alas=%root%\config\alas.ini"
 set "cfg_Extra=%~2"
-call :Config_Common
+call :Config_misc
 call :Config_%~1
-call :Config_Common2
+call :Config_misc2
 goto :eof
 
 rem ================= FUNCTIONS =================
 
-:Config_Common
+:Config_misc
 cd toolkit
 if NOT exist %cfg_Deploy% (
     REM Set to default
@@ -44,7 +44,7 @@ copy %cfg_Deploy% %cfg_Deploy%.bak > NUL
 type NUL > %cfg_Deploy%
 goto :eof
 
-:Config_Common2
+:Config_misc2
 del /Q %cfg_Deploy%.bak >NUL 2>NUL
 cd ..
 goto :eof

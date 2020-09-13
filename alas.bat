@@ -2,15 +2,16 @@
 :: Alas Run Tool v3
 :: Author: whoamikyo (https://kyo.ninja)
 :: Version: 3.0
-:: Last updated: 2020-08-23
+:: Last updated: 2020-09-08
 :: https://github.com/LmeSzinc/AzurLaneAutoScript
 @echo off
 chcp | find "932" >NUL && set "IME=true" || set "IME=false"
 if "%IME%"=="true" (
    echo ====================================================================================================
-   echo Incorrect encoding, visit this link to correct: https://bit.ly/34t8ubY
+   echo == Incorrect encoding, visit this link to correct: https://bit.ly/34t8ubY
+   echo == You have `¥` instead backslashes you may have problems to run ALAS
    start https://bit.ly/34t8ubY
-   echo To copy, select the link and CTRL+SHFT+C
+   echo == To copy, select the link and CTRL+SHFT+C
    echo ====================================================================================================
    pause
    goto :eof
@@ -28,6 +29,7 @@ rem ================= Preparation =================
 set "root=%~dp0"
 set "root=%root:~0,-1%"
 cd "%root%"
+rem call :ExitIfNotPython
 
 rem ================= Variables =================
 
@@ -800,26 +802,30 @@ pause > NUL
 goto Setting
 
 :ReturnToMenu
-echo. & echo Press any key to continue...
+echo ====================================================================================================
+echo == Press any key to continue...
 pause > NUL
 goto MENU
 
 :PleaseRerun
-echo. & echo Press any key to exit...
+echo ====================================================================================================
+echo == Press any key to exit...
 pause > NUL
 exit
 
 :ExitIfGit
 :: Check whether already exist .git folder
 if exist .git\ (
-   echo. & echo The Initial Deployment has been done. Please delete the ".git" folder before performing this action.
+   echo ====================================================================================================
+   echo == The Initial Deployment has been done. Please delete the ".git" folder before performing this action.
    call :PleaseRerun
 )
 goto :eof
 
 :ExitIfNotPython
 if NOT exist toolkit\python.exe (
-   echo. & echo The Initial Deployment was not done correctly. Please delete entire folder and reinstall from scratch.
+   echo ====================================================================================================
+   echo == The Initial Deployment was not done correctly. Please delete entire folder and reinstall from scratch.
    start https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Installation_en
    call :PleaseRerun
 )
@@ -836,6 +842,7 @@ for /f "skip=14 tokens=3 delims=:" %%I IN (%root%\toolkit\api_git.json) DO IF NO
 set message=%message:"=%
 set message=%message:,=%
 set message=%message:\n=%
+set message=%message:\n\n=%
 for /f %%i in ('%gitBin%  rev-parse --abbrev-ref HEAD') do set BRANCH=%%i
 for /f "delims=" %%i IN ('%gitBin% log -1 "--pretty=%%H"') DO set LAST_LOCAL_GIT=%%i
 for /f "tokens=1,2" %%A in ('%gitBin% log -1 "--format=%%h %%ct" -- .') do (
@@ -854,6 +861,7 @@ for /f "tokens=25 delims=:" %%I IN (%root%\toolkit\api_git.json) DO IF NOT DEFIN
 set message=%message:"=%
 set message=%message:,=%
 set message=%message:\ntree=%
+set message=%message:\n\n=%
 for /f %%i in ('%gitBin%  rev-parse --abbrev-ref HEAD') do set BRANCH=%%i
 for /f "delims=" %%i IN ('%gitBin% log -1 "--pretty=%%H"') DO set LAST_LOCAL_GIT=%%i
 for /f "tokens=1,2" %%A in ('%gitBin% log -1 "--format=%%h %%ct" -- .') do (
@@ -861,28 +869,27 @@ set GIT_SHA1=%%A
 call :gmTime GIT_CTIME %%B
 )
 
-
 :time_parsed
 if %LAST_LOCAL_GIT% == %sha% (
    echo ====================================================================================================
-   echo Remote Git hash:                   %sha%
-   echo Remote Git message:                %message%
+   echo == Remote Git hash:                   %sha%
+   echo == Remote Git message:                %message%
    echo ====================================================================================================
-   echo Local Git hash:                    %LAST_LOCAL_GIT%
-   echo Local commit date:                 %GIT_CTIME%
-   echo Current Local Branch:              %BRANCH%
+   echo == Local Git hash:                    %LAST_LOCAL_GIT%
+   echo == Local commit date:                 %GIT_CTIME%
+   echo == Current Local Branch:              %BRANCH%
    echo ====================================================================================================
-   echo Your ALAS is updated, Press any to continue...
+   echo == Your ALAS is updated, Press any to continue...
    pause > NUL
    goto :eof
 ) else (
    echo ====================================================================================================
-   echo Remote Git hash:                %sha%
-   echo Remote Git message:             %message%
+   echo == Remote Git hash:                %sha%
+   echo == Remote Git message:             %message%
    echo ====================================================================================================
-   echo Local Git hash:                 %LAST_LOCAL_GIT%
-   echo Local commit date:              %GIT_CTIME%
-   echo Current Local Branch:           %BRANCH%
+   echo == Local Git hash:                 %LAST_LOCAL_GIT%
+   echo == Local commit date:              %GIT_CTIME%
+   echo == Current Local Branch:           %BRANCH%
    echo ====================================================================================================
    popup.exe
    choice /t 10 /c yn /d y /m "There is an update for ALAS. Download now?"
