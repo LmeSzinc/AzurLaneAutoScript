@@ -9,14 +9,15 @@ server.server = 'cn'  # Don't need to edit, it's used to avoid error.
 
 from module.base.utils import *
 from module.map_detection.utils import *
+from dev_tools.relative_record import FOLDER, NAME
 
 """
 Usage:
     See relative_record.py
 
 Arguments:
-    FOLDER:     The same folder used in relative_record.
-    NAME:       Siren name. Load images in <FOLDER>/<NAME>
+    FOLDER:     Save folder from relative_record.
+    NAME:       Siren name from relative_record.
                 Save gif file to <FOLDER>/TEMPLATE_SIREN_<NAME>.gif
     AREA:       Area to crop, such as (32, 32, 54, 52).
                 Choose an area where things don't rotate too much.
@@ -24,10 +25,10 @@ Arguments:
                 this template will be dropped.
                 Threshold in real detection is 0.85, for higher accuracy, threshold here should higher than 0.85.
 """
-FOLDER = ''
-NAME = 'Deutschland'
+# FOLDER = ''
+# NAME = 'Deutschland'
 AREA = (32, 32, 54, 52)
-THRESHOLD = 0.90
+THRESHOLD = 0.92
 
 images = [np.array(Image.open(os.path.join(FOLDER, NAME, file))) for file in os.listdir(os.path.join(FOLDER, NAME)) if file[-4:] == '.png']
 templates = [crop(images[0], area=AREA)]
