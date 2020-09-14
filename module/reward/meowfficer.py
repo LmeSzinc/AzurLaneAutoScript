@@ -12,10 +12,10 @@ MEOWFFICER_COINS = Digit(OCR_MEOWFFICER_COINS, letter=(99, 69, 41), threshold=64
 
 
 class RewardMeowfficer(UI):
-    def moew_choose(self, count):
+    def meow_choose(self, count):
         """
         Pages:
-            in: page_moewfficer
+            in: page_meowfficer
             out: MEOWFFICER_BUY
 
         Args:
@@ -56,7 +56,7 @@ class RewardMeowfficer(UI):
         """
         Pages:
             in: MEOWFFICER_BUY
-            out: page_moewfficer
+            out: page_meowfficer
         """
         executed = False
         while 1:
@@ -89,7 +89,7 @@ class RewardMeowfficer(UI):
             out: page_main
         """
         self.ui_ensure(page_meowfficer)
-        if self.moew_choose(count=self.config.BUY_MEOWFFICER):
+        if self.meow_choose(count=self.config.BUY_MEOWFFICER):
             self.meow_confirm()
         self.ui_goto_main()
 
