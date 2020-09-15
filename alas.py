@@ -187,6 +187,12 @@ class AzurLaneAutoScript:
         az = Retirement(self.config, device=self.device)
         az.device.screenshot()
         az.retire_ships(amount=2000)
+    
+    def auto_box(self):
+        from module.decomposition.decomposition import Decomposition
+        az = Decomposition(self.config, device=self.device)
+        az.Decomps()
+        self.reward_when_finished()
 
 # alas = AzurLaneAutoScript()
 # alas.reward()
