@@ -6,6 +6,10 @@ from module.base.template import Template
 
 TEMPLATE_AMBUSH_EVADE_FAILED = Template(file={'cn': './assets/cn/template/TEMPLATE_AMBUSH_EVADE_FAILED.png', 'en': './assets/en/template/TEMPLATE_AMBUSH_EVADE_FAILED.png', 'jp': './assets/jp/template/TEMPLATE_AMBUSH_EVADE_FAILED.png'})
 TEMPLATE_AMBUSH_EVADE_SUCCESS = Template(file={'cn': './assets/cn/template/TEMPLATE_AMBUSH_EVADE_SUCCESS.png', 'en': './assets/en/template/TEMPLATE_AMBUSH_EVADE_SUCCESS.png', 'jp': './assets/jp/template/TEMPLATE_AMBUSH_EVADE_SUCCESS.png'})
+TEMPLATE_BOX_T1 = Template(file={'cn': './assets/cn/template/TEMPLATE_BOX_T1.png', 'en': './assets/cn/template/TEMPLATE_BOX_T1.png', 'jp': './assets/cn/template/TEMPLATE_BOX_T1.png'})
+TEMPLATE_BOX_T2 = Template(file={'cn': './assets/cn/template/TEMPLATE_BOX_T2.png', 'en': './assets/cn/template/TEMPLATE_BOX_T2.png', 'jp': './assets/cn/template/TEMPLATE_BOX_T2.png'})
+TEMPLATE_BOX_T3 = Template(file={'cn': './assets/cn/template/TEMPLATE_BOX_T3.png', 'en': './assets/cn/template/TEMPLATE_BOX_T3.png', 'jp': './assets/cn/template/TEMPLATE_BOX_T3.png'})
+TEMPLATE_BOX_T4 = Template(file={'cn': './assets/cn/template/TEMPLATE_BOX_T4.png', 'en': './assets/cn/template/TEMPLATE_BOX_T4.png', 'jp': './assets/cn/template/TEMPLATE_BOX_T4.png'})
 TEMPLATE_CAUGHT_BY_SIREN = Template(file={'cn': './assets/cn/template/TEMPLATE_CAUGHT_BY_SIREN.png', 'en': './assets/en/template/TEMPLATE_CAUGHT_BY_SIREN.png', 'jp': './assets/jp/template/TEMPLATE_CAUGHT_BY_SIREN.png'})
 TEMPLATE_COMBAT_LOADING = Template(file={'cn': './assets/cn/template/TEMPLATE_COMBAT_LOADING.png', 'en': './assets/en/template/TEMPLATE_COMBAT_LOADING.png', 'jp': './assets/jp/template/TEMPLATE_COMBAT_LOADING.png'})
 TEMPLATE_ENEMY_BOSS = Template(file={'cn': './assets/cn/template/TEMPLATE_ENEMY_BOSS.png', 'en': './assets/en/template/TEMPLATE_ENEMY_BOSS.png', 'jp': './assets/jp/template/TEMPLATE_ENEMY_BOSS.png'})
