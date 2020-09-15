@@ -413,6 +413,8 @@ class ResearchSelector(UI):
 
     def research_jp_next(self):
         self.appear_then_click(DETAIL_NEXT, offset=(20, 20), interval=0)
+        # Wait for the touch effect on DETAIL_NEXT to fade.
+        self.wait_until_appear(DETAIL_NEXT, offset=5, skip_first_screenshot=False)
         self.ensure_detail_stable()
 
     def detail_quit(self):
