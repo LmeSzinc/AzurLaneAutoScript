@@ -187,6 +187,12 @@ class AzurLaneAutoScript:
         az = Retirement(self.config, device=self.device)
         az.device.screenshot()
         az.retire_ships(amount=2000)
+    
+    def auto_box(self):
+        from module.recycle.recycle import Recycle
+        az = Recycle(self.config, device=self.device)
+        az.run()
+        self.reward_when_finished()
 
 # alas = AzurLaneAutoScript()
 # alas.reward()

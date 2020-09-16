@@ -6,7 +6,7 @@ from module.base.decorator import cached_property
 from module.base.mask import Mask
 from module.base.utils import crop
 
-UI_MASK = Mask(file='./assets/mask/MASK_MAP_UI.png')
+EQUIP_MASK = Mask(file='./assets/mask/MASK_MAP_UI.png')
 TILE_CENTER = Mask(file='./assets/map_detection/TILE_CENTER.png')
 TILE_CORNER = Mask(file='./assets/map_detection/TILE_CORNER.png')
 
@@ -14,7 +14,7 @@ TILE_CORNER = Mask(file='./assets/map_detection/TILE_CORNER.png')
 class Assets:
     @cached_property
     def ui_mask(self):
-        return UI_MASK.image
+        return EQUIP_MASK.image
 
     @cached_property
     def ui_mask_stroke(self):

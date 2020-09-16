@@ -674,6 +674,12 @@ class AzurLaneConfig:
         self.C124_NON_S3_WITHDRAW_TOLERANCE = int(option['non_s3_enemy_withdraw_tolerance'])
         self.C124_AMMO_PICK_UP = int(option['ammo_pick_up_124'])
 
+        # Auto_box
+        option = config['Auto_box']
+        self.Auto_box_remove_t3_box = to_bool(option['remove_t3_box'])
+        self.Auto_box_remove_t2_box = to_bool(option['remove_t2_box'])
+        self.Auto_box_remove_t1_box = to_bool(option['remove_t1_box'])
+
     def get_server_timezone(self):
         if self.SERVER == 'en':
             return -7
