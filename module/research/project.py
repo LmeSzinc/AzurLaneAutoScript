@@ -254,7 +254,7 @@ def research_jp_detect(image):
     for cost in costs:
         project.__setattr__(cost, costs[cost])
     if project.genre.lower() == 'd':
-        project.ship = get_research_ship_jp(image)
+        project.ship = get_research_ship_jp(image).lower()
     if project.ship:
         project.ship_rarity = 'dr' if project.ship in project.DR_SHIP else 'pry'
     project.name = f'{project.series}-{project.genre}-{project.duration}{project.ship}'
@@ -363,9 +363,10 @@ class ResearchProject:
 class ResearchProjectJp:
     GENRE = ['b', 'c', 'd', 'e', 'g', 'h', 'q', 't']
     DURATION = ['0.5', '1', '1.5', '2', '2.5', '3', '4', '5', '6', '8', '12']
-    REGEX_SHIP = re.compile(
-        '(neptune|monarch|ibuki|izumo|roon|saintlouis|seattle|georgia|kitakaze|azuma|friedrich|gascogne|champagne|cheshire|drake|mainz|odin)')
-    REGEX_INPUT = re.compile('(coin|cube|part)')
+    SHIP_S1 = ['neptune', 'monarch', 'ibuki', 'izumo', 'roon', 'saintlouis']
+    SHIP_S2 = ['seattle', 'georgia', 'kitakaze', 'azuma', 'friedrich', 'gascogne']
+    SHIP_S3 = ['champagne', 'cheshire', 'drake', 'mainz', 'odin']
+    SHIP_ALL = SHIP_S1 + SHIP_S2 + SHIP_S3
     DR_SHIP = ['azuma', 'friedrich', 'drake']
 
     def __init__(self):
@@ -382,12 +383,14 @@ class ResearchProjectJp:
 
     def check_valid(self):
         self.valid = False
-        if self.series == "S0":
+        if self.series.lower() == "s0":
             return False
         if self.genre.lower() not in self.GENRE:
             return False
         if self.duration not in self.DURATION:
             return False
+        if self.ship not in self.SHIP_ALL:
+            self.ship = ''
         if self.genre.lower() == 'd' and not self.ship:
             return False
         self.valid = True
@@ -408,19 +411,19 @@ class ResearchSelector(UI):
         Check first STABLE_CHECKER_DETAIL then RESEARCH_COST_CHECKER 
         to ensure that the research detail page is fully loaded.
         """
-        self.wait_until_stable(STABLE_CHECKER_DETAIL)
-        self.wait_until_appear(RESEARCH_COST_CHECKER, offset=5, skip_first_screenshot=False)
+        self.wait_until_stable(STABLE_CHECKER_DETAIL, skip_first_screenshot=False)
+        self.wait_until_appear(RESEARCH_COST_CHECKER, offset=True, skip_first_screenshot=True)
 
     def research_jp_next(self):
-        self.appear_then_click(DETAIL_NEXT, offset=(20, 20), interval=0)
+        self.appear_then_click(DETAIL_NEXT, offset=True, interval=0)
         # Wait for the touch effect on DETAIL_NEXT to fade.
-        self.wait_until_appear(DETAIL_NEXT, offset=5, skip_first_screenshot=False)
+        self.wait_until_appear(DETAIL_NEXT, offset=True, skip_first_screenshot=False)
         self.ensure_detail_stable()
 
     def detail_quit(self):
         self.device.click(RESEARCH_SELECT_QUIT)
-        self.wait_until_disappear(RESEARCH_COST_CHECKER, offset=5)
-        self.wait_until_stable(STABLE_CHECKER)
+        self.wait_until_disappear(RESEARCH_COST_CHECKER, offset=True)
+        self.wait_until_stable(STABLE_CHECKER, skip_first_screenshot=True)
 
     @Config.when(SERVER='jp')
     def research_detect(self, image):
@@ -448,8 +451,8 @@ class ResearchSelector(UI):
             projects.append(project)
             self.research_jp_next()
         """
-        The page_research should remain the same as before.
-        Since We entered the middle entrance first, 
+        page_research should remain the same as before.
+        Since we entered the middle entrance first, 
         the index from left to right is (3, 4, 0, 1, 2).
         """
         for pos in range(5):
