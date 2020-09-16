@@ -12,16 +12,14 @@ from module.base.decorator import cached_property
 from module.base.mask import Mask
 from module.base.utils import *
 from module.config.config import AzurLaneConfig
-from module.map_detection.perspective import Perspective
 from module.map_detection.utils import *
-from module.map_detection.grid_predictor import GridPredictor
 from module.template.assets import *
+from module.logger import logger
 
-from module.ocr.ocr import Ocr
 
 DETECTING_AREA = (0, 0, 1280, 720)
 
-UI_MASK = Mask(file='./assets/mask/MASK_EQUIPMENT.png')
+EQUIP_MASK = Mask(file='./assets/mask/MASK_EQUIPMENT.png')
 
 INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
     'height': (175, 230),
@@ -36,29 +34,22 @@ EDGE_LINES_FIND_PEAKS_PARAMETERS = {
     # 'width': (0, 7),
     'wlen': 1000
 }
-# Parameters for cv2.HoughLines
-INTERNAL_LINES_HOUGHLINES_THRESHOLD = 75
-EDGE_LINES_HOUGHLINES_THRESHOLD = 75
-# Parameters for lines pre-cleansing
-HORIZONTAL_LINES_THETA_THRESHOLD = 0.005
-VERTICAL_LINES_THETA_THRESHOLD = 18
 
 
-class test:
+class box_detect:
 
     image: np.ndarray
 
-    def __init__(self, config, file):
+    def __init__(self, config):
         """
         Args:
             config (AzurLaneConfig):
         """
         self.config = config
-        self.file = file
 
     @cached_property
     def ui_mask(self):
-        return UI_MASK.image
+        return EQUIP_MASK.image
 
     @cached_property
     def ui_mask_stroke(self):
@@ -173,11 +164,9 @@ class test:
             y2 = int(y0 - 10000 * a) + expend
             draw.line([x1, y1, x2, y2], 'white')
 
-        image.show()
-
     def load(self):
-        file = self.file
-        image = np.array(Image.open(file).convert('RGB'))
+        image = self.image
+        image = np.array(image)
 
         self.image = image
         image = self.load_image(image)
@@ -187,37 +176,32 @@ class test:
             image,
             is_horizontal=True,
             param=INTERNAL_LINES_FIND_PEAKS_PARAMETERS,
-            threshold=INTERNAL_LINES_HOUGHLINES_THRESHOLD,
-            theta=HORIZONTAL_LINES_THETA_THRESHOLD
+            threshold=self.config.INTERNAL_LINES_HOUGHLINES_THRESHOLD,
+            theta=self.config.HORIZONTAL_LINES_THETA_THRESHOLD
         ).move(*DETECTING_AREA[:2])
         inner_v = self.detect_lines(
             image,
             is_horizontal=False,
             param=INTERNAL_LINES_FIND_PEAKS_PARAMETERS,
-            threshold=INTERNAL_LINES_HOUGHLINES_THRESHOLD,
-            theta=VERTICAL_LINES_THETA_THRESHOLD
+            threshold=self.config.INTERNAL_LINES_HOUGHLINES_THRESHOLD,
+            theta=self.config.VERTICAL_LINES_THETA_THRESHOLD
         ).move(*DETECTING_AREA[:2])
         edge_h = self.detect_lines(
             image,
             is_horizontal=True,
             param=EDGE_LINES_FIND_PEAKS_PARAMETERS,
-            threshold=EDGE_LINES_HOUGHLINES_THRESHOLD,
-            theta=HORIZONTAL_LINES_THETA_THRESHOLD,
+            threshold=self.config.EDGE_LINES_HOUGHLINES_THRESHOLD,
+            theta=self.config.HORIZONTAL_LINES_THETA_THRESHOLD,
             pad=DETECTING_AREA[2] - DETECTING_AREA[0]
         ).move(*DETECTING_AREA[:2])
         edge_v = self.detect_lines(
             image,
             is_horizontal=False,
             param=EDGE_LINES_FIND_PEAKS_PARAMETERS,
-            threshold=EDGE_LINES_HOUGHLINES_THRESHOLD,
-            theta=VERTICAL_LINES_THETA_THRESHOLD,
+            threshold=self.config.EDGE_LINES_HOUGHLINES_THRESHOLD,
+            theta=self.config.VERTICAL_LINES_THETA_THRESHOLD,
             pad=DETECTING_AREA[3] - DETECTING_AREA[1]
         ).move(*DETECTING_AREA[:2])
-
-        # self.draw(edge_h)
-        # self.draw(edge_v)
-        # self.draw(inner_h)
-        # self.draw(inner_v)
 
         # Lines pre-cleansing
         horizontal = inner_h.add(edge_h).group()
@@ -250,18 +234,6 @@ class test:
             image = cv2.resize(image, shape, interpolation=cv2.INTER_CUBIC)
         return image
 
-    def template_crop(self, area, shape=None):
-        area = np.array(area)
-
-        center = np.array([(area[0]+area[2])/2, (area[1]+area[3])/2])
-        area = np.array([center[0] - 31, center[1] - 7, center[0] - 9, center[1] + 35])
-
-        image = crop(self.image, area=np.rint(area).astype(int))
-        if shape is not None:
-            # Follow the default re-sampling filter in pillow, which is BICUBIC.
-            image = cv2.resize(image, shape, interpolation=cv2.INTER_CUBIC)
-        return image
-
     def DivideGrid(self):
         list_h = sorted([i[0] for i in self.horizontal])
         list_v = sorted([i[0] for i in self.vertical])
@@ -280,70 +252,67 @@ class test:
         for h in tuple_h:
             for v in tuple_v:
                 self.grid.append((v[0], h[0], v[1], h[1]))
-            
+
         # print(len(self.grid))
 
-        ocr = Ocr(self.grid[14])
-        print(ocr.ocr(Image.fromarray(self.crop(area=self.grid[14]))))
-
+    def detectBoxArea(self, image, boxList={'T1': 1, 'T2': 1, 'T3': 1}):
+        self.image = image
+        self.load()
+        self.DivideGrid()
+        areaList = []
         for i in self.grid:
-            # Image.fromarray(self.template_crop(area=i)).show()
-            if self.Predict_Box_T1(i):
-                Image.fromarray(self.crop(area=i)).show()
-                print(1)
+            if boxList['T1'] and self.Predict_Box_T1(i):
+                areaList.append(i)
+                continue
 
-            if self.Predict_Box_T2(i):
-                Image.fromarray(self.crop(area=i)).show()
-                print(2)
+            if boxList['T2'] and self.Predict_Box_T2(i):
+                areaList.append(i)
+                continue
 
-            if self.Predict_Box_T3(i):
-                Image.fromarray(self.crop(area=i)).show()
-                print(3)
-            
-            if self.Predict_Box_T4(i):
-                Image.fromarray(self.crop(area=i)).show()
-                print(4)
+            if boxList['T3'] and self.Predict_Box_T3(i):
+                areaList.append(i)
+                continue
 
-    def Predict(self):
-        pass
+        return areaList
 
-    def Predict_Box_T1(self, area):
+    def detectWeaponArea(self, image):
+        self.image = image
+        self.load()
+        self.DivideGrid()
+
+        areaList = []
+        for i in self.grid:
+            if not self.Predict_Weapon_Upgrade(i):
+                areaList.append(i)
+
+        return areaList
+
+    def Predict_Weapon_Upgrade(self, area):
         
         image = self.crop(area=area)
-        # print(TEMPLATE_BOX_T1.image.shape)
-        # print(TEMPLATE_BOX_T1.match_result(image))
+
+        # logger.info(TEMPLATE_WEAPON_UPGRADE.match_result(image))
+        return TEMPLATE_BOX_T1.match(image, similarity=0.45)
+
+    def Predict_Box_T1(self, area):
+
+        image = self.crop(area=area)
         return TEMPLATE_BOX_T1.match(image, similarity=0.9)
 
     def Predict_Box_T2(self, area):
 
         image = self.crop(area=area)
-        # print(TEMPLATE_BOX_T2.image.shape)
-        # print(TEMPLATE_BOX_T2.match_result(image))
         return TEMPLATE_BOX_T2.match(image, similarity=0.9)
 
     def Predict_Box_T3(self, area):
 
         image = self.crop(area=area)
-        # print(TEMPLATE_BOX_T3.image.shape)
-        # print(TEMPLATE_BOX_T3.match_result(image))
         return TEMPLATE_BOX_T3.match(image, similarity=0.9)
 
     def Predict_Box_T4(self, area):
-
         image = self.crop(area=area)
-        # print(TEMPLATE_BOX_T4.image.shape)
-        # print(TEMPLATE_BOX_T4.match_result(image))
         return TEMPLATE_BOX_T4.match(image, similarity=0.9)
-    
-    
 
     def test(self):
         self.load()
         self.DivideGrid()
-
-
-if __name__ == "__main__":
-    t = test(AzurLaneConfig, r"module\decomposition\test3.png")
-
-    t.test()
-

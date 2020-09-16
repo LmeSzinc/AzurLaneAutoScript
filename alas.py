@@ -189,9 +189,9 @@ class AzurLaneAutoScript:
         az.retire_ships(amount=2000)
     
     def auto_box(self):
-        from module.decomposition.decomposition import Decomposition
-        az = Decomposition(self.config, device=self.device)
-        az.Decomps()
+        from module.recycle.recycle import Recycle
+        az = Recycle(self.config, device=self.device)
+        az.run()
         self.reward_when_finished()
 
 # alas = AzurLaneAutoScript()
