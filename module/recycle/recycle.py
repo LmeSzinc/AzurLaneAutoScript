@@ -18,15 +18,14 @@ SWIPE_RANDOM_RANGE = (-40, -20, 40, 20)
 AMOUNT_OCR = AmountOcr([], threshold=64, name='Amount_ocr')
 AMOUNT_AREA = (90, 72, 120, 120)
 
-class Recycleandler):
+
+class Recycle(InfoHandler):
 
     def __init__(self, config, device=None):
         super().__init__(config, device=device)
         self.detect = box_detect(AzurLaneConfig)
         self.amount_ocr = AMOUNT_OCR
         self.amount_area = AMOUNT_AREA
-
-
 
     def _view_swipe(self, distance=SWIPE_DISTANCE):
 
@@ -49,25 +48,39 @@ class Recycleandler):
     def run(self):
         # self.storageEnter()
 
-        # self._view_swipe(250)
+        # for debug
+        # self.image = self.device.screenshot()
+        # self.detect.detectWeaponArea(self.image)
+        # time.sleep(233)
 
+
+        # self._view_swipe(250)
 
         # self.destroy()
         self.image = self.device.screenshot()
         image = np.array(self.image)
-        logger.info(image.shape)
+
         boxArea = self.detect.detectBoxArea(self.image)
-        if boxArea:
-            for grid in boxArea:
+        while boxArea:
+            for area in boxArea:
                 # logger.info(grid)
                 # amount = crop(image, area=np.rint(grid).astype(int))
                 # amount = crop(amount, area=self.amount_area)
                 # amount = self.amount_ocr.ocr(amount, direct_ocr=True)
                 # logger.info(amount)
-                self.useBox(grid)
+                self.useBox(area)
                 self.device.screenshot()
                 if INFORM_FULL.match(self.device.screenshot()):
-                    logger.info("the storage is full, goto decomopose equipments")
+                    logger.info(
+                        "the storage is full, goto decomopose equipments")
+                    self.destroy()
+                else:
+                    self.wait_until_appear_then_click(GET_ITEM_1)
+                    self.device.sleep((0.2, 0.25))
+                    # self.device.click(BOX_USE10_1)
+            self.device.sleep((0.5, 0.55))
+            image = self.device.screenshot()
+            boxArea = self.detect.detectBoxArea(image)
 
     def destroy(self):
         self.wait_until_appear_then_click(GOTO_EQUIPMENT)
@@ -75,23 +88,44 @@ class Recycleandler):
         self.wait_until_appear_then_click(CHOOSE_UPGRADE)
 
         time.sleep(1)
-        
-        self.image = self.device.screenshot()
+
+        image = self.device.screenshot()
         equipArea = self.detect.detectWeaponArea(self.image)
         while equipArea:
             for area in equipArea:
-                self.device.click(Button(area, get_color(self.image, area), area))
+                self.device.click(Button(area=area, color=get_color(
+                    self.image, area), button=area, name=''.join(str(area[0]))))
                 self.device.sleep((0.1, 0.15))
-            equipArea = self.detect.detectWeaponArea(self.image)
+            self.device.click(DESTROY)
+            self.device.sleep((0.4, 0.45))
+            self.device.screenshot()
+            if self.appear(EQUIPMENT_T3_CHECK):
+                self.device.click(EQUIPMENT_T3_CONFIRM)
+            self.wait_until_appear_then_click(DESTROY_CONFIRM)
 
+            self.itemConfirm()
+            
+            image = self.device.screenshot()
+            equipArea = self.detect.detectWeaponArea(image)
+        self.wait_until_appear_then_click(DESTROY_QUICK)
+        self.wait_until_appear_then_click(GOTO_MATERIAL)
 
     def useBox(self, area):
-        self.device.click(Button(area, get_color(self.image, area), area))
+        self.device.click(Button(area=area, color=get_color(
+            self.image, area), button=area, name=''.join(str(area[0]))))
         self.wait_until_appear(INFORM_BOX)
         if BOX_COMBINE.match(self.device.screenshot()) > 0.7:
             self.device.click(BOX_USE10_2)
         else:
             self.device.click(BOX_USE10_1)
+
+    def itemConfirm(self):
+        self.device.sleep((1.4, 1.45))
+        self.device.screenshot()
+        if self.appear(GET_ITEM_CONFIRM):
+            self.device.click(GET_ITEM_CONFIRM)
+        elif self.appear(GET_ITEM_CONFIRM2):
+            self.device.click(GET_ITEM_CONFIRM2)
 
     def storageEnter(self):
         self.device.click(STORAGE_OPEN)

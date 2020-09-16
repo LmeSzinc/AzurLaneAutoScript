@@ -291,8 +291,8 @@ class box_detect:
         
         image = self.crop(area=area)
 
-        # logger.info(TEMPLATE_WEAPON_UPGRADE.match_result(image))
-        return TEMPLATE_BOX_T1.match(image, similarity=0.45)
+        logger.info(TEMPLATE_WEAPON_UPGRADE.match_result(image))
+        return TEMPLATE_WEAPON_UPGRADE.match(image, similarity=0.5)
 
     def Predict_Box_T1(self, area):
 
