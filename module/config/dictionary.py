@@ -300,7 +300,6 @@ dic_chi_to_eng = {
     '7-2三战拣垃圾': 'c72_mystery_farming',
     '12-2打中型练级': 'c122_leveling',
     '12-4打大型练级': 'c124_leveling',
-    '拆箱子': 'auto_box',
 
     # Argument
     '启用停止条件': 'enable_stop_condition',
@@ -457,9 +456,6 @@ dic_chi_to_eng = {
     '非大型敌人进图忍耐': 'non_s3_enemy_enter_tolerance',
     '非大型敌人撤退忍耐': 'non_s3_enemy_withdraw_tolerance',
     '拣弹药124': 'ammo_pick_up_124',
-    '是否拆紫箱子': 'remove_t3_box',
-    '是否拆蓝箱子': 'remove_t2_box',
-    '是否拆白箱子': 'remove_t1_box',
     '默认serial列表': 'default_serial_list',
 
     # Option

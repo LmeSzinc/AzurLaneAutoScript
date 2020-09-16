@@ -439,14 +439,6 @@ def main(ini_name=''):
     c_12_4.add_argument('--非大型敌人撤退忍耐', default=default('--非大型敌人撤退忍耐'), choices=['0', '1', '2', '10'], help='没有大型之后还会打多少战, 不挑敌人选10', gooey_options={'label_color': '#4B5F83'})
     c_12_4.add_argument('--拣弹药124', default=default('--拣弹药124'), choices=['2', '3', '4', '5'], help='多少战后拣弹药', gooey_options={'label_color': '#4B5F83'})
 
-    # ==========拆箱子==========
-    auto_box_parser = subs.add_parser('拆箱子')
-    auto_box = auto_box_parser.add_argument_group('自动分解装备拆箱子', '需保证仓库里没有不能分解的+0装备', gooey_options={'label_color': '#931D03'})
-    auto_box.add_argument('--是否拆紫箱子', default=default('--是否拆紫箱子'), choices=['是', '否'], help='优先拆紫箱子', gooey_options={'label_color': '#4B5F83'})
-    auto_box.add_argument('--是否拆蓝箱子', default=default('--是否拆蓝箱子'), choices=['是', '否'], help='是否拆蓝箱子', gooey_options={'label_color': '#4B5F83'})
-    auto_box.add_argument('--是否拆白箱子', default=default('--是否拆白箱子'), choices=['是', '否'], help='是否拆白箱子', gooey_options={'label_color': '#4B5F83'})
-
-
     args = parser.parse_args()
 
     # Convert option from chinese to english.
