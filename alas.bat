@@ -221,29 +221,28 @@ if /i "%opt6_opt4_choice%"=="T" (
 ) else if /i "%opt6_opt4_choice%"=="N" (
    goto ReturnToMenu
 ) else (
-   echo Invalid input. Cancelled.
+   echo == Invalid input. Cancelled.
    goto ReturnToMenu
 )
 :proceed_alas
 if "%KeepLocalChanges%"=="disable" (
-   echo GIT Found in %gitBin% Proceeding
-   echo Updating from %source% repository..
-   pause
+   echo == GIT Found in %gitBin% Proceeding
+   echo == Updating from %source% repository..
    %gitBin% fetch %source% %Branch%
    %gitBin% reset --hard %source%/%Branch%
    %gitBin% pull --ff-only %source% %Branch%
-   echo DONE!
-   echo Press any key to proceed
+   echo == DONE!
+   echo == Press any key to proceed
    pause > NUL
    goto Updater_menu
 ) else (
-   echo GIT Found in %gitBin% Proceeding
-   echo Updating from %source% repository..
+   echo == GIT Found in %gitBin% Proceeding
+   echo == Updating from %source% repository..
    %gitBin% stash
    %gitBin% pull %source% %Branch%
    %gitBin% stash pop
-   echo DONE!
-   echo Press any key to proceed
+   echo == DONE!
+   echo == Press any key to proceed
    pause > NUL
    goto Updater_menu
 )
@@ -252,7 +251,7 @@ echo Please re-run the "alas.bat" to make the settings take effect.
 goto PleaseRerun
 
 :update_toolkit
-echo is not done yet
+echo == is not done yet
 pause > NUL
 goto ReturnToSetting
 
