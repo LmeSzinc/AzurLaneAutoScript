@@ -37,7 +37,9 @@ EDGE_LINES_FIND_PEAKS_PARAMETERS = {
 
 
 class box_detect:
+    """
 
+    """
     image: np.ndarray
 
     def __init__(self, config):
@@ -218,7 +220,7 @@ class box_detect:
 
     def crop(self, area, shape=None):
         """Crop image and rescale to target shape. Eliminate the effect of perspective.
-
+        
         Args:
             area (tuple): upper_left_x, upper_left_y, bottom_right_x, bottom_right_y, such as (-1, -1, 1, 1).
             shape (tuple): Output image shape, (width, height).
@@ -256,6 +258,13 @@ class box_detect:
         # print(len(self.grid))
 
     def detectBoxArea(self, image, boxList={'T1': 1, 'T2': 1, 'T3': 1}):
+        """
+        Args:
+            image(PIL.Image, np.ndarray): image used for detected
+            boxList(list): filter
+        Return value:
+            areaList(list): a list of boxs area
+        """
         self.image = image
         self.load()
         self.DivideGrid()
@@ -276,6 +285,13 @@ class box_detect:
         return areaList
 
     def detectWeaponArea(self, image):
+        """
+        Args:
+            image(PIL.Image, np.ndarray): image used for detected
+
+        Return value:
+            areaList(list): a list of equipment
+        """
         self.image = image
         self.load()
         self.DivideGrid()
@@ -314,6 +330,3 @@ class box_detect:
         image = self.crop(area=area)
         return TEMPLATE_BOX_T4.match(image, similarity=0.9)
 
-    def test(self):
-        self.load()
-        self.DivideGrid()
