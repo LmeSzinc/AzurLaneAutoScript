@@ -49,40 +49,42 @@ class Recycle(UI):
     def run(self):
 
         # for debug
-        # self.image = self.device.screenshot()
-        # self.detect.detectWeaponArea(self.image)
-        # time.sleep(233)
-
-        self.ui_goto_main()
-
-        self.storageEnter()
-
         self.image = self.device.screenshot()
-        image = np.array(self.image)
+        self.detect.image = self.image
+        self.detect.load()
+        self.detect.load()
+        time.sleep(233)
 
-        boxArea = self.detect.detectBoxArea(self.image, self.boxList)
-        not_reach_buttom = 1
-        while boxArea or not_reach_buttom:
-            if not boxArea:
-                not_reach_buttom = self._view_swipe()
-                image = self.device.screenshot()
-                boxArea = self.detect.detectBoxArea(image, self.boxList)
-                continue
-            for area in boxArea:
-                # TODO: use ocr 
-                self.useBox(area)
-                self.device.screenshot()
-                if INFORM_FULL.match(self.device.screenshot()):
-                    logger.info(
-                        "the storage is full, goto destroy equipments")
-                    self.destroy()
-                else:
-                    self.wait_until_appear_then_click(GET_ITEM_1)
-                    self.device.sleep((0.2, 0.25))
-                    # self.device.click(BOX_USE10_1)
-            self.device.sleep((0.5, 0.55))
-            image = self.device.screenshot()
-            boxArea = self.detect.detectBoxArea(image, self.boxList)
+        # self.ui_goto_main()
+
+        # self.storageEnter()
+
+        # self.image = self.device.screenshot()
+        # image = np.array(self.image)
+
+        # boxArea = self.detect.detectBoxArea(self.image, self.boxList)
+        # not_reach_buttom = 1
+        # while boxArea or not_reach_buttom:
+        #     if not boxArea:
+        #         not_reach_buttom = self._view_swipe()
+        #         image = self.device.screenshot()
+        #         boxArea = self.detect.detectBoxArea(image, self.boxList)
+        #         continue
+        #     for area in boxArea:
+        #         # TODO: use ocr 
+        #         self.useBox(area)
+        #         self.device.screenshot()
+        #         if INFORM_FULL.match(self.device.screenshot()):
+        #             logger.info(
+        #                 "the storage is full, goto destroy equipments")
+        #             self.destroy()
+        #         else:
+        #             self.wait_until_appear_then_click(GET_ITEM_1)
+        #             self.device.sleep((0.2, 0.25))
+        #             # self.device.click(BOX_USE10_1)
+        #     self.device.sleep((0.5, 0.55))
+        #     image = self.device.screenshot()
+        #     boxArea = self.detect.detectBoxArea(image, self.boxList)
         
         return
 
