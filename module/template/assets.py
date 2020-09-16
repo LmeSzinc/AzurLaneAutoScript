@@ -59,4 +59,5 @@ TEMPLATE_SIREN_Z19 = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_Z
 TEMPLATE_SIREN_Z2 = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_Z2.png', 'en': './assets/en/template/TEMPLATE_SIREN_Z2.png', 'jp': './assets/jp/template/TEMPLATE_SIREN_Z2.png'})
 TEMPLATE_STAGE_CLEAR = Template(file={'cn': './assets/cn/template/TEMPLATE_STAGE_CLEAR.png', 'en': './assets/en/template/TEMPLATE_STAGE_CLEAR.png', 'jp': './assets/jp/template/TEMPLATE_STAGE_CLEAR.png'})
 TEMPLATE_STAGE_PERCENT = Template(file={'cn': './assets/cn/template/TEMPLATE_STAGE_PERCENT.png', 'en': './assets/en/template/TEMPLATE_STAGE_PERCENT.png', 'jp': './assets/jp/template/TEMPLATE_STAGE_PERCENT.png'})
+TEMPLATE_WEAPON_PLUS = Template(file={'cn': './assets/cn/template/TEMPLATE_WEAPON_PLUS.png', 'en': './assets/cn/template/TEMPLATE_WEAPON_PLUS.png', 'jp': './assets/cn/template/TEMPLATE_WEAPON_PLUS.png'})
 TEMPLATE_WEAPON_UPGRADE = Template(file={'cn': './assets/cn/template/TEMPLATE_WEAPON_UPGRADE.png', 'en': './assets/cn/template/TEMPLATE_WEAPON_UPGRADE.png', 'jp': './assets/cn/template/TEMPLATE_WEAPON_UPGRADE.png'})

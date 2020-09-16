@@ -26,6 +26,7 @@ class Recycle(InfoHandler):
         self.detect = box_detect(AzurLaneConfig)
         self.amount_ocr = AMOUNT_OCR
         self.amount_area = AMOUNT_AREA
+        self.boxList = {'T1': self.config.Auto_box_remove_t1_box, 'T2': self.config.Auto_box_remove_t2_box, 'T3': self.config.Auto_box_remove_t3_box}
 
     def _view_swipe(self, distance=SWIPE_DISTANCE):
 
@@ -60,7 +61,7 @@ class Recycle(InfoHandler):
         self.image = self.device.screenshot()
         image = np.array(self.image)
 
-        boxArea = self.detect.detectBoxArea(self.image)
+        boxArea = self.detect.detectBoxArea(self.image, self.boxList)
         while boxArea:
             for area in boxArea:
                 # logger.info(grid)
@@ -80,7 +81,7 @@ class Recycle(InfoHandler):
                     # self.device.click(BOX_USE10_1)
             self.device.sleep((0.5, 0.55))
             image = self.device.screenshot()
-            boxArea = self.detect.detectBoxArea(image)
+            boxArea = self.detect.detectBoxArea(image, self.boxList)
 
     def destroy(self):
         self.wait_until_appear_then_click(GOTO_EQUIPMENT)
@@ -120,7 +121,7 @@ class Recycle(InfoHandler):
             self.device.click(BOX_USE10_1)
 
     def itemConfirm(self):
-        self.device.sleep((1.4, 1.45))
+        self.device.sleep((0.4, 0.45))
         self.device.screenshot()
         if self.appear(GET_ITEM_CONFIRM):
             self.device.click(GET_ITEM_CONFIRM)
