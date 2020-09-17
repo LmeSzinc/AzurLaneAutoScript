@@ -137,6 +137,8 @@ class AzurLaneConfig:
     STAR_REQUIRE_1 = 1
     STAR_REQUIRE_2 = 2
     STAR_REQUIRE_3 = 3
+    # In Dreamwaker's Butterfly (event_20200917) add new stage entrance icons, called `blue`.
+    STAGE_ENTRANCE = ['normal']  # normal, blue
 
     """
     module.event
