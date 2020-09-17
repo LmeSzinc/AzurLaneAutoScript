@@ -4,6 +4,7 @@ from datetime import timedelta
 from scipy import signal
 
 from module.base.decorator import Config
+from module.base.timer import Timer
 from module.base.utils import *
 from module.logger import logger
 from module.ocr.ocr import Ocr
@@ -254,7 +255,7 @@ def research_jp_detect(image):
     for cost in costs:
         project.__setattr__(cost, costs[cost])
     if project.genre.lower() == 'd':
-        project.ship = get_research_ship_jp(image)
+        project.ship = get_research_ship_jp(image).lower()
     if project.ship:
         project.ship_rarity = 'dr' if project.ship in project.DR_SHIP else 'pry'
     project.name = f'{project.series}-{project.genre}-{project.duration}{project.ship}'
@@ -363,9 +364,10 @@ class ResearchProject:
 class ResearchProjectJp:
     GENRE = ['b', 'c', 'd', 'e', 'g', 'h', 'q', 't']
     DURATION = ['0.5', '1', '1.5', '2', '2.5', '3', '4', '5', '6', '8', '12']
-    REGEX_SHIP = re.compile(
-        '(neptune|monarch|ibuki|izumo|roon|saintlouis|seattle|georgia|kitakaze|azuma|friedrich|gascogne|champagne|cheshire|drake|mainz|odin)')
-    REGEX_INPUT = re.compile('(coin|cube|part)')
+    SHIP_S1 = ['neptune', 'monarch', 'ibuki', 'izumo', 'roon', 'saintlouis']
+    SHIP_S2 = ['seattle', 'georgia', 'kitakaze', 'azuma', 'friedrich', 'gascogne']
+    SHIP_S3 = ['champagne', 'cheshire', 'drake', 'mainz', 'odin']
+    SHIP_ALL = SHIP_S1 + SHIP_S2 + SHIP_S3
     DR_SHIP = ['azuma', 'friedrich', 'drake']
 
     def __init__(self):
@@ -382,12 +384,14 @@ class ResearchProjectJp:
 
     def check_valid(self):
         self.valid = False
-        if self.series == "S0":
+        if self.series.lower() == "s0":
             return False
         if self.genre.lower() not in self.GENRE:
             return False
         if self.duration not in self.DURATION:
             return False
+        if self.ship not in self.SHIP_ALL:
+            self.ship = ''
         if self.genre.lower() == 'd' and not self.ship:
             return False
         self.valid = True
@@ -403,24 +407,43 @@ class ResearchProjectJp:
 class ResearchSelector(UI):
     projects: list
 
-    def ensure_detail_stable(self):
-        """
-        Check first STABLE_CHECKER_DETAIL then RESEARCH_COST_CHECKER 
-        to ensure that the research detail page is fully loaded.
-        """
-        self.wait_until_stable(STABLE_CHECKER_DETAIL)
-        self.wait_until_appear(RESEARCH_COST_CHECKER, offset=5, skip_first_screenshot=False)
+    def research_goto_detail(self, index, skip_first_screenshot=True):
+        logger.info(f'Research goto detail (project {index})')
+        click_timer = Timer(10)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
-    def research_jp_next(self):
-        self.appear_then_click(DETAIL_NEXT, offset=(20, 20), interval=0)
-        # Wait for the touch effect on DETAIL_NEXT to fade.
-        self.wait_until_appear(DETAIL_NEXT, offset=5, skip_first_screenshot=False)
-        self.ensure_detail_stable()
+            # DETAIL_NEXT appears even when the research detail page is not fully loaded.
+            if not self.appear(DETAIL_NEXT, offset=(20, 20)):
+                if click_timer.reached():
+                    self.device.click(RESEARCH_ENTRANCE[index])
+                    click_timer.reset()
+            else:
+                # Check RESEARCH_COST_CHECKER to ensure that the research detail page is fully loaded.
+                self.wait_until_appear(RESEARCH_COST_CHECKER, offset=(20, 20), skip_first_screenshot=True)
+                break
 
-    def detail_quit(self):
-        self.device.click(RESEARCH_SELECT_QUIT)
-        self.wait_until_disappear(RESEARCH_COST_CHECKER, offset=5)
-        self.wait_until_stable(STABLE_CHECKER)
+    def research_detail_quit(self, skip_first_screenshot=True):
+        logger.info('Research detail quit')
+        click_timer = Timer(10)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear(RESEARCH_UNAVAILABLE, offset=(20, 20)) \
+                    or self.appear(RESEARCH_START, offset=(20, 20)) \
+                    or self.appear(RESEARCH_STOP, offset=(20, 20)):
+                if click_timer.reached():
+                    self.device.click(RESEARCH_DETAIL_QUIT)
+                    click_timer.reset()
+            else:
+                self.wait_until_stable(STABLE_CHECKER_CENTER)
+                break
 
     @Config.when(SERVER='jp')
     def research_detect(self, image):
@@ -434,11 +457,12 @@ class ResearchSelector(UI):
         projects = []
         proj_sorted = []
 
-        # Enter the middle entrance first.
-        self.device.click(RESEARCH_ENTRANCE[2])
-        self.ensure_detail_stable()
-
         for _ in range(5):
+            """
+            Every time entering the 4th(mid-right) entrance,
+            all research subjects shift 1 position from right to left.
+            """
+            self.research_goto_detail(3)
             """
             'image' is a null argument as described above.
             What we need here is the current screen 'self.device.image'.
@@ -446,18 +470,16 @@ class ResearchSelector(UI):
             project = research_jp_detect(self.device.image)
             logger.attr('Project', project)
             projects.append(project)
-            self.research_jp_next()
+            self.research_detail_quit()
         """
-        The page_research should remain the same as before.
-        Since We entered the middle entrance first, 
-        the index from left to right is (3, 4, 0, 1, 2).
+        page_research should remain the same as before.
+        Since we entered the 4th entrance first, 
+        the indexes from left to right are (2, 3, 4, 0, 1).
         """
         for pos in range(5):
-            proj_sorted.append(projects[(pos + 3) % 5])
-
+            proj_sorted.append(projects[(pos + 2) % 5])
+        
         self.projects = proj_sorted
-        # All done and we go back to page_research.
-        self.detail_quit()
 
     @Config.when(SERVER=None)
     def research_detect(self, image):
