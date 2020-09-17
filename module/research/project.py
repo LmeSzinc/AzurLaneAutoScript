@@ -408,7 +408,7 @@ class ResearchSelector(UI):
     projects: list
 
     def research_goto_detail(self, index, skip_first_screenshot=True):
-        logger.info('Research goto detail')
+        logger.info(f'Research goto detail (project {index})')
         click_timer = Timer(10)
         while 1:
             if skip_first_screenshot:
