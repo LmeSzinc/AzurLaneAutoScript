@@ -16,7 +16,7 @@ dev_tools/debug_tools
 /scripts
 /campaign/test/
 /toolkit
-
+/.vscode
 # Created by .ignore support plugin (hsz.mobi)
 
 ### JetBrains template

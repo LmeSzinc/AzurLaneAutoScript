@@ -32,82 +32,99 @@ class Recycle(UI):
     def _view_swipe(self, distance=SWIPE_DISTANCE):
 
         new = self.device.screenshot()
-        # self.ensure_no_info_bar(timeout=3)
+        beforeSwipe = new
 
         self.device.swipe(vector=(0, -distance), box=STORAGE_AREA.area, random_range=SWIPE_RANDOM_RANGE,
                           padding=0, duration=(0.1, 0.12), name='STORAGE_SWIPE')
-        time.sleep(5)
+        while 1:
 
-        new, old = self.device.screenshot(), new
-        diff = ImageChops.difference(new, old)
-        if diff.getbbox():
-            return True
-        else:
-            logger.info('reach the buttom')
-            return False
+            new, old = self.device.screenshot(), new
+            diff = ImageChops.difference(new, old)
+            if diff.getbbox():
+                continue
+            else:
+                diff = ImageChops.difference(beforeSwipe, new)
+                if diff.getbbox():
+                    return True
+                else:
+                    logger.info('reach the buttom')
+                    return False
+
+    
 
     def run(self):
 
         # for debug
-        self.image = self.device.screenshot()
-        self.detect.image = self.image
-        self.detect.load()
-        self.detect.load()
-        time.sleep(233)
-
-        # self.ui_goto_main()
-
-        # self.storageEnter()
-
         # self.image = self.device.screenshot()
-        # image = np.array(self.image)
+        # self.detect.detectWeaponArea(self.image)
+        # time.sleep(233)
 
-        # boxArea = self.detect.detectBoxArea(self.image, self.boxList)
-        # not_reach_buttom = 1
-        # while boxArea or not_reach_buttom:
-        #     if not boxArea:
-        #         not_reach_buttom = self._view_swipe()
-        #         image = self.device.screenshot()
-        #         boxArea = self.detect.detectBoxArea(image, self.boxList)
-        #         continue
-        #     for area in boxArea:
-        #         # TODO: use ocr 
-        #         self.useBox(area)
-        #         self.device.screenshot()
-        #         if INFORM_FULL.match(self.device.screenshot()):
-        #             logger.info(
-        #                 "the storage is full, goto destroy equipments")
-        #             self.destroy()
-        #         else:
-        #             self.wait_until_appear_then_click(GET_ITEM_1)
-        #             self.device.sleep((0.2, 0.25))
-        #             # self.device.click(BOX_USE10_1)
-        #     self.device.sleep((0.5, 0.55))
-        #     image = self.device.screenshot()
-        #     boxArea = self.detect.detectBoxArea(image, self.boxList)
+        self.ui_goto_main()
+
+        self.storageEnter()
+
+        self.image = self.device.screenshot()
+        image = np.array(self.image)
+
+        boxArea = self.detect.detectBoxArea(self.image, self.boxList)
+        not_reach_buttom = 1
+        while boxArea or not_reach_buttom:
+            if not boxArea:
+                not_reach_buttom = self._view_swipe()
+                image = self.device.screenshot()
+                boxArea = self.detect.detectBoxArea(image, self.boxList)
+                continue
+            for area in boxArea:
+                # TODO: use ocr 
+                # TODO: USE BUTTON_GRID
+                self.useBox(area)
+                self.device.screenshot()
+                if INFORM_FULL.match(self.device.screenshot()):
+                    logger.info(
+                        "the storage is full, goto destroy equipments")
+                    self.destroy()
+                else:
+                    self.wait_until_appear_then_click(GET_ITEM_1)
+                    self.device.sleep((0.2, 0.25))
+                    # self.device.click(BOX_USE10_1)
+            self.device.sleep((0.5, 0.55))
+            image = self.device.screenshot()
+            boxArea = self.detect.detectBoxArea(image, self.boxList)
         
         return
 
     def destroy(self):
-        self.wait_until_appear_then_click(GOTO_EQUIPMENT)
-        self.wait_until_appear_then_click(SELECT_SORT)
-        self.wait_until_appear_then_click(CHOOSE_UPGRADE)
+        while 1:
+            self.device.screenshot()
 
-        time.sleep(1)
+            if self.appear_then_click(GOTO_EQUIPMENT):
+                continue
+            if self.appear_then_click(SELECT_SORT):
+                continue
+            if self.appear_then_click(CHOOSE_UPGRADE):
+                continue
+            if self.appear_then_click(TODO):
+                ## use upgrade to judge
+                break
 
         image = self.device.screenshot()
-        equipArea = self.detect.detectWeaponArea(self.image)
+        equipArea = self.detect.detectWeaponArea(image)
         while equipArea:
             for area in equipArea:
                 self.device.click(Button(area=area, color=get_color(
                     self.image, area), button=area, name=''.join(str(area[0]))))
                 self.device.sleep((0.1, 0.15))
             self.device.click(DESTROY)
-            self.device.sleep((0.4, 0.45))
-            self.device.screenshot()
-            if self.appear(EQUIPMENT_T3_CHECK):
-                self.device.click(EQUIPMENT_T3_CONFIRM)
-            self.wait_until_appear_then_click(DESTROY_CONFIRM)
+
+            while 1:
+
+                self.device.screenshot()
+
+                if self.appear(EQUIPMENT_T3_CHECK):
+                    self.device.click(EQUIPMENT_T3_CONFIRM)
+                    continue
+                if self.appear_then_click(DESTROY_CONFIRM):
+                    break
 
             self.itemConfirm()
 
@@ -126,12 +143,26 @@ class Recycle(UI):
             self.device.click(BOX_USE10_1)
 
     def itemConfirm(self):
-        self.device.sleep((0.4, 0.45))
-        self.device.screenshot()
-        if self.appear(GET_ITEM_CONFIRM):
-            self.device.click(GET_ITEM_CONFIRM)
-        elif self.appear(GET_ITEM_CONFIRM2):
-            self.device.click(GET_ITEM_CONFIRM2)
+        while 1:
+
+            self.device.screenshot()
+
+            if self.appear_then_click(GET_ITEM_CONFIRM):
+                break
+            if self.appear_then_click(GET_ITEM_CONFIRM2):
+                break
+        return
+    
+
+    def gotoDestory(self):
+        """
+            cause there is an short animation when back to storage
+            we need to take a screenshot
+        """
+        self.image = self.device.screenshot()
+
+        while 1:
+            
 
     def storageEnter(self):
         self.device.click(STORAGE_OPEN)
