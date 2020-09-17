@@ -408,6 +408,7 @@ class ResearchSelector(UI):
     projects: list
 
     def research_goto_detail(self, index, skip_first_screenshot=True):
+        logger.info('Research goto detail')
         click_timer = Timer(10)
         while 1:
             if skip_first_screenshot:
@@ -426,6 +427,7 @@ class ResearchSelector(UI):
                 break
 
     def research_detail_quit(self, skip_first_screenshot=True):
+        logger.info('Research detail quit')
         click_timer = Timer(10)
         while 1:
             if skip_first_screenshot:
@@ -437,7 +439,7 @@ class ResearchSelector(UI):
                     or self.appear(RESEARCH_START, offset=(20, 20)) \
                     or self.appear(RESEARCH_STOP, offset=(20, 20)):
                 if click_timer.reached():
-                    self.device.click(RESEARCH_SELECT_QUIT)
+                    self.device.click(RESEARCH_DETAIL_QUIT)
                     click_timer.reset()
             else:
                 self.wait_until_stable(STABLE_CHECKER_CENTER)
