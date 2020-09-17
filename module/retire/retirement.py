@@ -117,7 +117,7 @@ class Retirement(Enhancement):
         while 1:
             self.device.screenshot()
             if self.config.RETIRE_SR or self.config.RETIRE_SSR or self.config.RETIREMENT_METHOD == 'one_click_retire':
-                if self.handle_popup_confirm():
+                if self.appear_then_click(SR_SSR_CONFIRM, offset=(10, 50), interval=2):
                     continue
             if self.appear_then_click(SHIP_CONFIRM, offset=(30, 30), interval=2):
                 continue
