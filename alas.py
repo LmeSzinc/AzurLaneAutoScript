@@ -138,7 +138,7 @@ class AzurLaneAutoScript:
         """
         from module.campaign.run import CampaignRun
         az = CampaignRun(self.config, device=self.device)
-        az.run(self.config.CAMPAIGN_EVENT, folder=self.config.EVENT_NAME)
+        az.run(self.config.EVENT_STAGE, folder=self.config.EVENT_NAME)
         self.reward_when_finished()
 
     def raid(self):

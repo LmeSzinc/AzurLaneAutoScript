@@ -142,7 +142,7 @@ class AzurLaneConfig:
     module.event
     """
     EVENT_NAME = ''
-    CAMPAIGN_EVENT = ''
+    EVENT_STAGE = ''
     EVENT_NAME_AB = ''
     ENABLE_EVENT_AB = False
     ENABLE_EVENT_SP = False
@@ -633,11 +633,7 @@ class AzurLaneConfig:
         # Event
         option = config['Event']
         self.EVENT_NAME = option['event_name']
-        name = ''.join(os.listdir(f'./campaign/{self.EVENT_NAME}'))
-        if 'sp1' in name or 'sp2' in name or 'sp3' in name:
-            self.CAMPAIGN_EVENT = option['sp_stage']
-        else:
-            self.CAMPAIGN_EVENT = option['event_stage']
+        self.EVENT_STAGE = option['event_stage']
 
         # Raid
         option = config['Raid']
