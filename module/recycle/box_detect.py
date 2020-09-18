@@ -29,8 +29,6 @@ INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
 MATERIAL_BASELINE = 140
 EQUIPMENT_BASELINE = 135
 
-ITEM_GRID = ButtonGrid(
-    origin=(139, 82), delta=(159, 178), button_shape=(135, 135), grid_shape=(7, 2), name='ITEM')
 
 
 class box_detect:
@@ -46,6 +44,12 @@ class box_detect:
         """
         self.config = config
 
+    @cached_property
+    def ui_mask(self):
+
+        image = Image.fromarray(EQUIP_MASK.image).convert('RGB')
+        return np.array(image)        
+
     def find_Y_peaks(self, image, baseLine, param):
         """
         Because there is no cutting pretreatment, there will always be an invalid value in the return value
@@ -59,8 +63,7 @@ class box_detect:
             peaks(list): a list of peaks
 
         """
-        logger.info(self.ui_mask.shape)
-        image = image - self.ui_mask
+        image = cv2.bitwise_and(image, self.ui_mask)
 
         image = Image.fromarray(image).convert('RGB')
 
@@ -68,13 +71,6 @@ class box_detect:
             rgb2gray(np.array(image.crop((baseLine, 0, baseLine + 2, 720)))), axis=1)
         peaks, properties = signal.find_peaks(bar, **param)
         return peaks
-
-    @cached_property
-    def ui_mask(self):
-
-        image = Image.fromarray(255 - EQUIP_MASK.image).convert('RGB')
-        return np.array(image)
-
 
     def draw(self, lines=None, bg=None, expend=0):
         if bg is None:

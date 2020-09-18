@@ -18,6 +18,8 @@ SWIPE_RANDOM_RANGE = (-40, -20, 40, 20)
 AMOUNT_OCR = AmountOcr([], threshold=64, name='Amount_ocr')
 AMOUNT_AREA = (90, 72, 120, 120)
 
+STABLE_AREA = (139, 82, 1000, 600)
+
 
 class Recycle(UI):
 
@@ -36,28 +38,23 @@ class Recycle(UI):
 
         self.device.swipe(vector=(0, -distance), box=STORAGE_AREA.area, random_range=SWIPE_RANDOM_RANGE,
                           padding=0, duration=(0.1, 0.12), name='STORAGE_SWIPE')
-        while 1:
+        self.wait_until_stable(
+            Button(STABLE_AREA, color=(), button=STABLE_AREA, name='stable'))
 
-            new, old = self.device.screenshot(), new
-            diff = ImageChops.difference(new, old)
-            if diff.getbbox():
-                continue
-            else:
-                diff = ImageChops.difference(beforeSwipe, new)
-                if diff.getbbox():
-                    return True
-                else:
-                    logger.info('reach the buttom')
-                    return False
-
-    
+        new, old = self.device.screenshot(), new
+        diff = ImageChops.difference(new, old)
+        if diff.getbbox():
+            return True
+        else:
+            logger.info('reach the buttom')
+            return False
 
     def run(self):
 
         # for debug
-        self.image = self.device.screenshot()
-        self.detect.detectBoxArea(self.image)
-        time.sleep(233)
+        # self.image = self.device.screenshot()
+        # self.detect.detectBoxArea(self.image)
+        # time.sleep(233)
 
         self.ui_goto_main()
 
@@ -75,22 +72,14 @@ class Recycle(UI):
                 boxArea = self.detect.detectBoxArea(image, self.boxList)
                 continue
             for area in boxArea:
-                # TODO: use ocr 
-                # TODO: USE BUTTON_GRID
+                # TODO: use ocr
+
                 self.useBox(area)
-                self.device.screenshot()
-                if INFORM_FULL.match(self.device.screenshot()):
-                    logger.info(
-                        "the storage is full, goto destroy equipments")
-                    self.destroy()
-                else:
-                    self.wait_until_appear_then_click(GET_ITEM_1)
-                    self.device.sleep((0.2, 0.25))
-                    # self.device.click(BOX_USE10_1)
-            self.device.sleep((0.5, 0.55))
+                
+            
             image = self.device.screenshot()
             boxArea = self.detect.detectBoxArea(image, self.boxList)
-        
+
         return
 
     def destroy(self):
@@ -103,16 +92,15 @@ class Recycle(UI):
                 continue
             if self.appear_then_click(CHOOSE_UPGRADE):
                 continue
-            if self.appear_then_click(TODO):
-                ## use upgrade to judge
+            if self.appear_then_click(CHOOSE_UPGRADE_CONFIRM):
+                # use upgrade to judge
                 break
 
         image = self.device.screenshot()
-        equipArea = self.detect.detectWeaponArea(image)
-        while equipArea:
-            for area in equipArea:
-                self.device.click(Button(area=area, color=get_color(
-                    self.image, area), button=area, name=''.join(str(area[0]))))
+        equipButton = self.detect.detectWeaponArea(image)
+        while equipButton:
+            for area in equipButton:
+                self.device.click(area)
                 self.device.sleep((0.1, 0.15))
             self.device.click(DESTROY)
 
@@ -129,18 +117,39 @@ class Recycle(UI):
             self.itemConfirm()
 
             image = self.device.screenshot()
-            equipArea = self.detect.detectWeaponArea(image)
-        self.wait_until_appear_then_click(DESTROY_QUICK)
-        self.wait_until_appear_then_click(GOTO_MATERIAL)
+            equipButton = self.detect.detectWeaponArea(image)
+
+        while 1:
+            self.device.screenshot()
+            if self.appear_then_click(DESTROY_QUICK):
+                continue
+            if self.appear_then_click(GOTO_MATERIAL):
+                break
+        self.wait_until_stable(
+            Button(STABLE_AREA, color=(), button=STABLE_AREA, name='stable'))
 
     def useBox(self, area):
-        self.device.click(Button(area=area, color=get_color(
-            self.image, area), button=area, name=''.join(str(area[0]))))
-        self.wait_until_appear(INFORM_BOX)
-        if BOX_COMBINE.match(self.device.screenshot()) > 0.7:
-            self.device.click(BOX_USE10_2)
-        else:
-            self.device.click(BOX_USE10_1)
+        """
+        use a box
+        """
+        self.device.click(area)
+        while 1:
+            self.device.screenshot()
+            # if self.appear_then_click(INFORM_BOX):
+            #     continue
+            if self.appear_then_click(BOX_USE10_1):
+                continue
+            if self.appear_then_click(BOX_USE10_2):
+                continue
+            if self.appear(INFORM_FULL):
+                logger.info(
+                    "the storage is full, goto destroy equipments")
+                self.destroy()
+                break
+            if self.appear_then_click(GET_ITEM_CONFIRM):
+                break
+            if self.appear_then_click(GET_ITEM_CONFIRM2):
+                break
 
     def itemConfirm(self):
         while 1:
@@ -152,18 +161,7 @@ class Recycle(UI):
             if self.appear_then_click(GET_ITEM_CONFIRM2):
                 break
         return
-    
 
-    def gotoDestory(self):
-        """
-            cause there is an short animation when back to storage
-            we need to take a screenshot
-        """
-        self.image = self.device.screenshot()
-
-        while 1:
-            pass
-            
 
     def storageEnter(self):
         self.device.click(STORAGE_OPEN)
