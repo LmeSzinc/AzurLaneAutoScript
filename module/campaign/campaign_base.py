@@ -1,15 +1,13 @@
-from module.base.button import Button
 from module.base.decorator import Config
-from module.campaign.campaign_ocr import CampaignOcr
+from module.campaign.campaign_ui import CampaignUI
 from module.exception import CampaignEnd, ScriptError, MapEnemyMoved
 from module.logger import logger
 from module.map.map import Map
 from module.map.map_base import CampaignMap
 
 
-class CampaignBase(Map, CampaignOcr):
+class CampaignBase(Map, CampaignUI):
     FUNCTION_NAME_BASE = 'battle_'
-    ENTRANCE = Button(area=(), color=(), button=(), name='default_button')
     MAP: CampaignMap
 
     def battle_default(self):

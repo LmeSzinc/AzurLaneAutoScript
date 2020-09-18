@@ -5,9 +5,8 @@ from datetime import datetime
 
 from module.campaign.assets import *
 from module.campaign.campaign_base import CampaignBase
-from module.campaign.campaign_ui import CampaignUI
 from module.config.config import AzurLaneConfig
-from module.exception import ScriptEnd, CampaignNameError
+from module.exception import ScriptEnd
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.reward.reward import Reward
@@ -15,7 +14,7 @@ from module.reward.reward import Reward
 OCR_OIL = Digit(OCR_OIL, name='OCR_OIL', letter=(247, 247, 247), threshold=128)
 
 
-class CampaignRun(CampaignUI, Reward):
+class CampaignRun(Reward):
     folder: str
     name: str
     stage: str
@@ -153,7 +152,7 @@ class CampaignRun(CampaignUI, Reward):
             if self.campaign.is_in_map():
                 logger.info('Already in map, skip ensure_campaign_ui.')
             else:
-                self.ensure_campaign_ui(
+                self.campaign.ensure_campaign_ui(
                     name=self.stage,
                     mode=self.config.CAMPAIGN_MODE if self.config.COMMAND.lower() == 'main' else 'normal'
                 )
@@ -181,15 +180,3 @@ class CampaignRun(CampaignUI, Reward):
                 count = 0 if count < 0 else count
                 self.config.config.set('Setting', 'if_count_greater_than', str(count))
                 self.config.save()
-
-    def ensure_campaign_ui(self, name, mode='normal'):
-        for n in range(20):
-            try:
-                super().ensure_campaign_ui(name, mode)
-                self.campaign.ENTRANCE = self.campaign_get_entrance(name=name)
-                return True
-            except CampaignNameError:
-                continue
-
-        logger.warning('Campaign name error')
-        raise ScriptEnd('Campaign name error')

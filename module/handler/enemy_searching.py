@@ -5,6 +5,7 @@ from module.handler.assets import *
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.map.assets import *
+from module.ui.assets import EVENT_CHECK, SP_CHECK, CAMPAIGN_CHECK
 
 
 class EnemySearchingHandler(InfoHandler):
@@ -41,8 +42,10 @@ class EnemySearchingHandler(InfoHandler):
             return False
 
     def is_in_stage(self):
-        if not self.appear(IN_STAGE, offset=(10, 10)):
+        appear = [self.appear(check, offset=(20, 20)) for check in [CAMPAIGN_CHECK, EVENT_CHECK, SP_CHECK]]
+        if not any(appear):
             return False
+
         # campaign_extract_name_image in CampaignOcr.
         if not len(self.campaign_extract_name_image(self.device.image)):
             return False

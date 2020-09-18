@@ -18,6 +18,7 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'sairenzhongxun_i': 'CA',
     'sairenzhanlie_i': 'BB',
     'sairenhangmu_i': 'CV',
+    'sairenqianting_i': 'SS',
 
     # Scherzo of Iron and Blood
     'aruituosha': 'Arethusa',
@@ -57,7 +58,10 @@ class MapData:
         self.name = data['name']
         self.profiles = data['profiles']
         self.map_id = data['id']
-        battle_count = max(data['boss_refresh'], max(data['enemy_refresh'].keys()))
+        try:
+            battle_count = max(data['boss_refresh'], max(data['enemy_refresh'].keys()))
+        except ValueError:
+            battle_count = 0
         self.spawn_data = [{'battle': index} for index in range(battle_count + 1)]
         try:
             # spawn_data
@@ -78,7 +82,10 @@ class MapData:
                 if count:
                     spawn = self.spawn_data[index]
                     spawn['mystery'] = spawn.get('mystery', 0) + count
-            self.spawn_data[data['boss_refresh']]['boss'] = 1
+            try:
+                self.spawn_data[data['boss_refresh']]['boss'] = 1
+            except IndexError:
+                pass
 
             # map_data
             # {0: {0: 6, 1: 8, 2: False, 3: 0}, ...}
@@ -110,6 +117,8 @@ class MapData:
                 self.MOVABLE_ENEMY_TURN.add(int(exped_data['ai_mov']))
             self.MAP_HAS_MAP_STORY = len(data['story_refresh_boss']) > 0
             self.MAP_HAS_FLEET_STEP = bool(data['is_limit_move'])
+            for n in range(1, 4):
+                self.__setattr__(f'STAR_REQUIRE_{n}', data[f'star_require_{n}'])
         except Exception as e:
             for k, v in data.items():
                 print(f'{k} = {v}')
@@ -181,13 +190,17 @@ class MapData:
                 lines.append('class Config:')
         else:
             lines.append('class Config:')
-        # lines.append('    pass')
+        lines.append('    # ===== Start of generated config =====')
         if len(self.MAP_SIREN_TEMPLATE):
             lines.append(f'    MAP_SIREN_TEMPLATE = {self.MAP_SIREN_TEMPLATE}')
             lines.append(f'    MOVABLE_ENEMY_TURN = {tuple(self.MOVABLE_ENEMY_TURN)}')
             lines.append(f'    MAP_HAS_SIREN = True')
         lines.append(f'    MAP_HAS_MAP_STORY = {self.MAP_HAS_MAP_STORY}')
         lines.append(f'    MAP_HAS_FLEET_STEP = {self.MAP_HAS_FLEET_STEP}')
+        for n in range(1, 4):
+            if not self.__getattribute__(f'STAR_REQUIRE_{n}'):
+                lines.append(f'    STAR_REQUIRE_{n} = 0')
+        lines.append('    # ===== End of generated config =====')
         lines.append('')
         lines.append('')
 
@@ -213,8 +226,12 @@ class MapData:
     def write(self, path):
         file = os.path.join(path, self.map_file_name())
         if os.path.exists(file):
-            print(f'File exists: {file}')
-            return False
+            if OVERWRITE:
+                print(f'Delete file: {file}')
+                os.remove(file)
+            else:
+                print(f'File exists: {file}')
+                return False
         print(f'Extract: {file}')
         with open(file, 'w') as f:
             for text in self.get_file_lines():
@@ -302,7 +319,7 @@ class ChapterTemplate:
             folder (str):
         """
         print('<<< CONFIRM >>>')
-        print('Please confirm selected the correct maps before extracting. Will skip existing files.\n'
+        print('Please confirm selected the correct maps before extracting.\n'
               'Input any key and press ENTER to continue')
         input()
 
@@ -317,18 +334,20 @@ This an auto-tool to extract map files used in Alas.
 
 Git clone https://github.com/Dimbreath/AzurLaneData, to get the decrypted scripts.
 Arguments:
-    FILE:    Folder contains `chapter_template.lua` and `expedition_data_template.lua`, 
-             Such as '<your_folder>/<server>/sharecfg'
-    FOLDER:  Folder to save, './campaign/test'
-    KEYWORD: A keyword in map name, such as '短兵相接' (7-2, zh-CN), 'Counterattack!' (3-4, en-US)
-             Or map id, such as 702 (7-2), 1140017 (Iris of Light and Dark D2)
-    SELECT:  True if select all maps in the same event
-             False if extract this map only
+    FILE:      Folder contains `chapter_template.lua` and `expedition_data_template.lua`, 
+               Such as '<your_folder>/<server>/sharecfg'
+    FOLDER:    Folder to save, './campaign/test'
+    KEYWORD:   A keyword in map name, such as '短兵相接' (7-2, zh-CN), 'Counterattack!' (3-4, en-US)
+               Or map id, such as 702 (7-2), 1140017 (Iris of Light and Dark D2)
+    SELECT:    True if select all maps in the same event
+               False if extract this map only
+    OVERWRITE: If overwrite existing files
 """
 FILE = ''
 FOLDER = './campaign/test'
 KEYWORD = ''
 SELECT = False
+OVERWRITE = True
 
 ct = ChapterTemplate(FILE)
 ct.extract(ct.get_chapter_by_name(KEYWORD, select=SELECT), folder=FOLDER)

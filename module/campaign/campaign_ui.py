@@ -1,7 +1,7 @@
 from module.base.switch import Switch
 from module.campaign.assets import *
-from module.campaign.campaign_ocr import CampaignOcr, ensure_chapter_index, separate_name
-from module.exception import CampaignNameError
+from module.campaign.campaign_ocr import CampaignOcr
+from module.exception import CampaignNameError, ScriptEnd
 from module.logger import logger
 from module.ui.ui import UI
 
@@ -16,12 +16,14 @@ MODE_SWITCH_2.add_status('ex', SWITCH_2_EX, offset=SWITCH_OFFSET, sleep=STAGE_SH
 
 
 class CampaignUI(UI, CampaignOcr):
+    ENTRANCE = Button(area=(), color=(), button=(), name='default_button')
+
     def campaign_ensure_chapter(self, index):
         """
         Args:
             index (int, str): Chapter. Such as 7, 'd', 'sp'.
         """
-        index = ensure_chapter_index(index)
+        index = self._campaign_get_chapter_index(index)
 
         # A tricky way to use ui_ensure_index.
         self.ui_ensure_index(index, letter=self.get_chapter_index,
@@ -75,13 +77,13 @@ class CampaignUI(UI, CampaignOcr):
         entrance.name = name
         return entrance
 
-    def ensure_campaign_ui(self, name, mode='normal'):
+    def campaign_set_chapter(self, name, mode='normal'):
         """
         Args:
             name (str): Campaign name, such as '7-2', 'd3', 'sp3'.
             mode (str): 'normal' or 'hard'.
         """
-        chapter, _ = separate_name(name)
+        chapter, _ = self._campaign_separate_name(name)
 
         if chapter.isdigit():
             self.ui_weigh_anchor()
@@ -103,3 +105,19 @@ class CampaignUI(UI, CampaignOcr):
         elif chapter == 'sp':
             self.ui_goto_sp()
             self.campaign_ensure_chapter(index=chapter)
+
+        else:
+            logger.warning(f'Unknown campaign chapter: {name}')
+
+    def ensure_campaign_ui(self, name, mode='normal'):
+        print(self.config.STAGE_ENTRANCE)
+        for n in range(20):
+            try:
+                self.campaign_set_chapter(name, mode)
+                self.ENTRANCE = self.campaign_get_entrance(name=name)
+                return True
+            except CampaignNameError:
+                continue
+
+        logger.warning('Campaign name error')
+        raise ScriptEnd('Campaign name error')

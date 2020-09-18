@@ -12,59 +12,59 @@ from module.ocr.ocr import Ocr
 from module.template.assets import *
 
 
-def ensure_chapter_index(name):
-    """
-    Args:
-        name (str, int):
-
-    Returns:
-        int
-    """
-    if isinstance(name, int):
-        return name
-    else:
-        if name.isdigit():
-            return int(name)
-        elif name in ['a', 'c', 'sp', 'ex_sp']:
-            return 1
-        elif name in ['b', 'd']:
-            return 2
-
-
-def ocr_result_process(result):
-    # The result will be like '7--2', because tha dash in game is '–' not '-'
-    result = result.lower().replace('--', '-').replace('--', '-')
-    if result.startswith('-'):
-        result = result[1:]
-    if len(result) == 2 and result[0].isdigit():
-        result = '-'.join(result)
-    return result
-
-
-def separate_name(name):
-    """
-    Args:
-        name (str): Stage name in lowercase, such as 7-2, d3, sp3.
-
-    Returns:
-        tuple[str]: Campaign_name and stage index in lowercase, Such as ['7', '2'], ['d', '3'], ['sp', '3'].
-    """
-    if name == 'sp':
-        return 'ex_sp', '1'
-    elif '-' in name:
-        return name.split('-')
-    elif name.startswith('sp'):
-        return 'sp', name[-1]
-    elif name[0] in 'abcdef':
-        return name[0], name[-1]
-
-    logger.warning(f'Unknown stage name: {name}')
-    return name[0], name[1:]
-
-
 class CampaignOcr(ModuleBase):
     stage_entrance = {}
     campaign_chapter = 0
+
+    @staticmethod
+    def _campaign_get_chapter_index(name):
+        """
+        Args:
+            name (str, int):
+
+        Returns:
+            int
+        """
+        if isinstance(name, int):
+            return name
+        else:
+            if name.isdigit():
+                return int(name)
+            elif name in ['a', 'c', 'sp', 'ex_sp']:
+                return 1
+            elif name in ['b', 'd']:
+                return 2
+
+    @staticmethod
+    def _campaign_ocr_result_process(result):
+        # The result will be like '7--2', because tha dash in game is '–' not '-'
+        result = result.lower().replace('--', '-').replace('--', '-')
+        if result.startswith('-'):
+            result = result[1:]
+        if len(result) == 2 and result[0].isdigit():
+            result = '-'.join(result)
+        return result
+
+    @staticmethod
+    def _campaign_separate_name(name):
+        """
+        Args:
+            name (str): Stage name in lowercase, such as 7-2, d3, sp3.
+
+        Returns:
+            tuple[str]: Campaign_name and stage index in lowercase, Such as ['7', '2'], ['d', '3'], ['sp', '3'].
+        """
+        if name == 'sp':
+            return 'ex_sp', '1'
+        elif '-' in name:
+            return name.split('-')
+        elif name.startswith('sp'):
+            return 'sp', name[-1]
+        elif name[-1].isdigit():
+            return name[:-1], name[-1]
+
+        logger.warning(f'Unknown stage name: {name}')
+        return name[0], name[1:]
 
     def campaign_match_multi(self, template, image, stage_image=None, name_offset=(75, 9), name_size=(60, 16),
                              name_letter=(255, 255, 255), name_thresh=128):
@@ -95,7 +95,7 @@ class CampaignOcr(ModuleBase):
             stage = self._extract_stage_name(name)
 
             area = area_offset(stage, point)
-            color = get_color(image, area)
+            color = get_color(image, button)
             digits.append(Button(area=area, color=color, button=button, name='stage'))
 
         return digits
@@ -190,9 +190,9 @@ class CampaignOcr(ModuleBase):
         result = ocr.ocr(image)
         if not isinstance(result, list):
             result = [result]
-        result = [ocr_result_process(res) for res in result]
+        result = [self._campaign_ocr_result_process(res) for res in result]
 
-        chapter = [separate_name(res)[0] for res in result]
+        chapter = [self._campaign_separate_name(res)[0] for res in result]
         counter = collections.Counter(chapter)
         self.campaign_chapter = counter.most_common()[0][0]
 
@@ -213,4 +213,4 @@ class CampaignOcr(ModuleBase):
         except IndexError:
             raise CampaignNameError
 
-        return ensure_chapter_index(self.campaign_chapter)
+        return self._campaign_get_chapter_index(self.campaign_chapter)
