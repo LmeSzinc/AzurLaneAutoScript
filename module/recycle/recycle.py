@@ -81,6 +81,34 @@ class Recycle(UI):
 
         return
 
+    def useBox(self, area):
+        """
+        use a box
+        """
+        self.device.click(area)
+
+        while 1:
+            self.wait_until_stable(STABLE_BUTTON)
+            self.device.screenshot()
+
+            # if self.appear_then_click(area):
+            #     continue
+            if self.appear_then_click(GOTO_EQUIPMENT, offset=1):
+                logger.info(
+                    "the storage is full, goto destroy equipments")
+                self.destroy()
+                break
+            if self.appear_then_click(GET_ITEM_CONFIRM):
+                break
+            if self.appear_then_click(GET_ITEM_CONFIRM2):
+                break
+            if self.appear_then_click(BOX_USE10_1, offset=1):
+                continue
+            if self.appear_then_click(BOX_USE10_2, offset=1):
+                continue
+        
+        self.wait_until_stable(STABLE_BUTTON)
+            
     def destroy(self):
         while 1:
             self.device.screenshot()
@@ -88,8 +116,8 @@ class Recycle(UI):
             # use upgrade to judge
             if self.appear(CHOOSE_UPGRADE_CONFIRM, offset = 1, threshold=0.9):
                 break
-            if self.appear_then_click(GOTO_EQUIPMENT):
-                continue
+            # if self.appear_then_click(GOTO_EQUIPMENT):
+            #     continue
             if self.appear_then_click(CHOOSE_UPGRADE):
                 continue
             if self.appear_then_click(SELECT_SORT, offset = 1):
@@ -101,12 +129,14 @@ class Recycle(UI):
             for area in equipButton:
                 self.device.click(area)
                 self.device.sleep((0.1, 0.15))
-            self.device.click(DESTROY)
+            
 
             while 1:
 
                 self.device.screenshot()
-
+                
+                if self.appear_then_click(DESTROY):
+                    continue
                 if self.appear_then_click(DESTROY_CONFIRM):
                     break
                 if self.appear(EQUIPMENT_T3_CHECK):
@@ -126,31 +156,7 @@ class Recycle(UI):
             if self.appear_then_click(DESTROY_QUICK):
                 continue
 
-        self.wait_until_stable(STABLE_BUTTON)
-
-    def useBox(self, area):
-        """
-        use a box
-        """
-        self.device.click(area)
-        while 1:
-            self.device.screenshot()
-            # if self.appear_then_click(INFORM_BOX):
-            #     continue
-            if self.appear(INFORM_FULL, offset = 1, threshold = 0.8):
-                logger.info(
-                    "the storage is full, goto destroy equipments")
-                self.destroy()
-                break
-            if self.appear_then_click(GET_ITEM_CONFIRM):
-                break
-            if self.appear_then_click(GET_ITEM_CONFIRM2):
-                break
-            if self.appear_then_click(BOX_USE10_1, offset=1):
-                continue
-            if self.appear_then_click(BOX_USE10_2, offset=1):
-                continue
-            
+        # self.wait_until_stable(STABLE_BUTTON)
 
     def itemConfirm(self):
         while 1:
