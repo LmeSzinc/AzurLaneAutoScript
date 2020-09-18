@@ -39,10 +39,10 @@ if '_' in pyw_name:
     pyw_name = '_'.join(pyw_name.split('_')[:-1])
 log_file = f'./log/{datetime.date.today()}_{pyw_name}.txt'
 try:
-    file = logging.FileHandler(log_file)
+    file = logging.FileHandler(log_file, encoding='utf-8')
 except FileNotFoundError:
     os.mkdir('./log')
-    file = logging.FileHandler(log_file)
+    file = logging.FileHandler(log_file, encoding='utf-8')
 file.setFormatter(formatter)
 logger.addHandler(file)
 

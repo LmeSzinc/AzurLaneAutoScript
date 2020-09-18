@@ -86,11 +86,10 @@ class VirtualBoxEmulator:
             adb (str): Absolute path to adb.exe
         """
         for ori, bak in zip(self.adb_binary, self.adb_backup):
-            if os.path.exists(bak):
-                os.remove(bak)
-            shutil.move(ori, bak)
-        for file in self.adb_binary:
-            shutil.copy(adb, file)
+            if not os.path.exists(bak):
+                print(f'Replacing {ori}')
+                shutil.move(ori, bak)
+                shutil.copy(adb, ori)
 
     def adb_recover(self):
         """ Revert adb replacement """

@@ -113,7 +113,7 @@ page_main.link(button=MAIN_GOTO_RESHMENU, destination=page_reshmenu)
 page_dormmenu = Page(DORMMENU_CHECK)
 page_main.link(button=MAIN_GOTO_DORMMENU, destination=page_dormmenu)
 
-# Meowficcer
+# Meowfficer
 page_meowfficer = Page(MEOWFFICER_CHECK)
 page_dormmenu.link(button=DORMMENU_GOTO_MEOWFFICER, destination=page_meowfficer)
 page_meowfficer.link(button=BACK_ARROW_DORM, destination=page_main)
