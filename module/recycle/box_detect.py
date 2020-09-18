@@ -108,7 +108,7 @@ class box_detect:
             param=INTERNAL_LINES_FIND_PEAKS_PARAMETERS
         )
 
-        logger.info(self.horizontal)
+        # logger.info(self.horizontal)
 
         # horizontal = Lines(inner_h, 1, self.config)
 
@@ -216,7 +216,7 @@ class box_detect:
 
         image = self.crop(area=area)
 
-        logger.info(TEMPLATE_WEAPON_PLUS.match_result(image))
+        # logger.info(TEMPLATE_WEAPON_PLUS.match_result(image))
         return TEMPLATE_WEAPON_PLUS.match(image, similarity=0.8)
 
     def Predict_Box_T1(self, area):
