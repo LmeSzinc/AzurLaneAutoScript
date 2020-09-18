@@ -143,8 +143,10 @@ class box_detect:
         for i in range(0, len(list_h) - 1):
             if(list_h[i + 1] - list_h[i] > 130):
                 tuple_h.append((list_h[i], list_h[i + 1]))
-
-        return tuple_h[0][0], len(tuple_h)
+        if tuple_h:
+            return tuple_h[0][0], len(tuple_h)
+        else:
+            raise NameError('EmptyList')
 
         # print(len(self.grid))
 
@@ -159,7 +161,10 @@ class box_detect:
         self.image = image
         self.load(MATERIAL_BASELINE)
 
-        origin_h, length = self.DivideGrid()
+        try:
+            origin_h, length = self.DivideGrid()
+        except NameError('EmptyList'):
+            return False
 
         buttonList = ButtonGrid(
             origin=(MATERIAL_BASELINE, origin_h), delta=(159, 178), button_shape=(135, 135), grid_shape=(7, length), name='EQUIPMENT')
@@ -190,14 +195,18 @@ class box_detect:
         """
         self.image = image
         self.load(EQUIPMENT_BASELINE)
-        origin_h, length = self.DivideGrid()
+
+        try:
+            origin_h, length = self.DivideGrid()
+        except NameError('EmptyList'):
+            return False
 
         buttonList = ButtonGrid(
             origin=(EQUIPMENT_BASELINE, origin_h), delta=(159, 178), button_shape=(135, 135), grid_shape=(7, length), name='EQUIPMENT')
 
         areaList = []
         for i in buttonList.buttons():
-            if self.Predict_Weapon_Upgrade(i.area):
+            if not self.Predict_Weapon_Upgrade(i.area):
                 areaList.append(i)
 
         # logger.info(areaList)
@@ -207,7 +216,7 @@ class box_detect:
 
         image = self.crop(area=area)
 
-        # logger.info(TEMPLATE_WEAPON_PLUS.match_result(image))
+        logger.info(TEMPLATE_WEAPON_PLUS.match_result(image))
         return TEMPLATE_WEAPON_PLUS.match(image, similarity=0.8)
 
     def Predict_Box_T1(self, area):
