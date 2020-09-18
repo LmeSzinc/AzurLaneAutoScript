@@ -110,7 +110,6 @@ class CampaignUI(UI, CampaignOcr):
             logger.warning(f'Unknown campaign chapter: {name}')
 
     def ensure_campaign_ui(self, name, mode='normal'):
-        print(self.config.STAGE_ENTRANCE)
         for n in range(20):
             try:
                 self.campaign_set_chapter(name, mode)

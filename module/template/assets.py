@@ -44,6 +44,7 @@ TEMPLATE_SIREN_Renown = Template(file={'cn': './assets/cn/template/TEMPLATE_SIRE
 TEMPLATE_SIREN_Scharnhorst = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_Scharnhorst.gif', 'en': './assets/en/template/TEMPLATE_SIREN_Scharnhorst.gif', 'jp': './assets/jp/template/TEMPLATE_SIREN_Scharnhorst.gif'})
 TEMPLATE_SIREN_Sheffield = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_Sheffield.gif', 'en': './assets/en/template/TEMPLATE_SIREN_Sheffield.gif', 'jp': './assets/jp/template/TEMPLATE_SIREN_Sheffield.gif'})
 TEMPLATE_SIREN_Spee = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_Spee.gif', 'en': './assets/en/template/TEMPLATE_SIREN_Spee.gif', 'jp': './assets/jp/template/TEMPLATE_SIREN_Spee.gif'})
+TEMPLATE_SIREN_SS = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_SS.gif', 'en': './assets/en/template/TEMPLATE_SIREN_SS.gif', 'jp': './assets/jp/template/TEMPLATE_SIREN_SS.gif'})
 TEMPLATE_SIREN_Tirpitz = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_Tirpitz.gif', 'en': './assets/en/template/TEMPLATE_SIREN_Tirpitz.gif', 'jp': './assets/jp/template/TEMPLATE_SIREN_Tirpitz.gif'})
 TEMPLATE_SIREN_U101 = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_U101.gif', 'en': './assets/en/template/TEMPLATE_SIREN_U101.gif', 'jp': './assets/jp/template/TEMPLATE_SIREN_U101.gif'})
 TEMPLATE_SIREN_U552 = Template(file={'cn': './assets/cn/template/TEMPLATE_SIREN_U552.gif', 'en': './assets/en/template/TEMPLATE_SIREN_U552.gif', 'jp': './assets/jp/template/TEMPLATE_SIREN_U552.gif'})

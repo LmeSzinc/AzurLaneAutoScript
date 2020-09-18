@@ -30,28 +30,30 @@ Arguments:
 AREA = (32, 32, 54, 52)
 THRESHOLD = 0.92
 
-images = [np.array(Image.open(os.path.join(FOLDER, NAME, file))) for file in os.listdir(os.path.join(FOLDER, NAME)) if file[-4:] == '.png']
-templates = [crop(images[0], area=AREA)]
+if __name__ == '__main__':
+    images = [np.array(Image.open(os.path.join(FOLDER, NAME, file))) for file in os.listdir(os.path.join(FOLDER, NAME))
+              if file[-4:] == '.png']
+    templates = [crop(images[0], area=AREA)]
 
 
-def match(im):
-    max_sim = 0
-    max_loca = (0, 0)
-    for template in templates:
-        res = cv2.matchTemplate(im, template, cv2.TM_CCOEFF_NORMED)
-        _, sim, _, loca = cv2.minMaxLoc(res)
-        if sim > max_sim:
-            max_sim = sim
-            max_loca = loca
+    def match(im):
+        max_sim = 0
+        max_loca = (0, 0)
+        for template in templates:
+            res = cv2.matchTemplate(im, template, cv2.TM_CCOEFF_NORMED)
+            _, sim, _, loca = cv2.minMaxLoc(res)
+            if sim > max_sim:
+                max_sim = sim
+                max_loca = loca
 
-    return max_sim, max_loca
+        return max_sim, max_loca
 
 
-for n, image in enumerate(images):
-    sim, loca = match(image)
-    if sim > THRESHOLD:
-        continue
-    print(f'New template: {n}')
-    templates.append(crop(image, area=area_offset(AREA, np.subtract(loca, AREA[:2]))))
+    for n, image in enumerate(images):
+        sim, loca = match(image)
+        if sim > THRESHOLD:
+            continue
+        print(f'New template: {n}')
+        templates.append(crop(image, area=area_offset(AREA, np.subtract(loca, AREA[:2]))))
 
-imageio.mimsave(os.path.join(FOLDER, f'TEMPLATE_SIREN_{NAME}.gif'), templates, fps=3)
+    imageio.mimsave(os.path.join(FOLDER, f'TEMPLATE_SIREN_{NAME}.gif'), templates, fps=3)
