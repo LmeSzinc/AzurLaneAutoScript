@@ -401,16 +401,19 @@ class Fleet(Camera, AmbushHandler):
 
         diff = before.delete(matched_before)
         if diff:
-            logger.info(f'Movable enemy tracking lost: {diff}')
+            logger.warning(f'Movable enemy tracking lost: {diff}')
             covered = self.map.grid_covered(self.map[self.fleet_current], location=[(0, -2)]) \
                 .add(self.map.grid_covered(self.map[self.fleet_1_location], location=[(0, -1)])) \
                 .add(self.map.grid_covered(self.map[self.fleet_2_location], location=[(0, -1)]))
             for grid in after:
                 covered = covered.add(self.map.grid_covered(grid))
+            logger.attr('enemy_covered', covered)
             accessible = SelectedGrids([])
-            location = [(x, y) for x in range(step) for y in range(step) if abs(x) + abs(y) <= step]
+            location = [
+                (x, y) for x in range(-step, step + 1) for y in range(-step, step + 1) if abs(x) + abs(y) <= step]
             for grid in diff:
-                accessible = accessible.add(self.map.grid_covered(grid, location=location))
+                accessible = accessible.add(self.map.grid_covered(grid, location=location).select(is_sea=True))
+            logger.attr('enemy_accessible', accessible)
             predict = accessible.intersect(covered).select(is_sea=True)
             logger.info(f'Movable enemy predict: {predict}')
             for grid in predict:

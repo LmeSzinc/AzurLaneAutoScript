@@ -539,7 +539,7 @@ class Map(Fleet):
             approaching = nearby.select(is_siren=True)
             if approaching:
                 grids = self.select_grids(approaching, sort=('cost_2', 'cost_1'))
-                self.clear_chosen_enemy(grids[0])
+                self.clear_chosen_enemy(grids[0], expected='siren')
                 return True
             else:
                 grids = nearby.delete(self.map.select(is_fleet=True))

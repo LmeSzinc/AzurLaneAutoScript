@@ -13,6 +13,7 @@ class Camera(MapOperation):
     view: View
     map: CampaignMap
     camera = (0, 0)
+    _correct_camera = False
 
     def _map_swipe(self, vector):
         """
@@ -108,6 +109,9 @@ class Camera(MapOperation):
             else:
                 raise e
 
+        if not self._correct_camera:
+            self.show_camera()
+            return False
         # Set camera position
         if self.view.left_edge:
             x = 0 + self.view.center_loca[0]
@@ -148,6 +152,7 @@ class Camera(MapOperation):
         """
         logger.info('Ensure edge in sight.')
         record = []
+        self._correct_camera = True
 
         while 1:
             if len(record) == 0:
@@ -167,6 +172,8 @@ class Camera(MapOperation):
 
             if x == 0 and y == 0:
                 break
+
+        self._correct_camera = False
 
         if reverse:
             logger.info('Reverse swipes.')
