@@ -3,7 +3,7 @@ from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
 
-MAP = CampaignMap('T1')
+MAP = CampaignMap('HT1')
 MAP.shape = 'K7'
 # MAP.camera_data = ['D2', 'D5', 'H2', 'H5']
 MAP.camera_data = ['D3', 'D5', 'H3', 'H5']
@@ -27,11 +27,11 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 2, 'siren': 1},
+    {'battle': 0, 'enemy': 2, 'siren': 2},
     {'battle': 1, 'enemy': 1},
-    {'battle': 2, 'enemy': 1},
-    {'battle': 3, 'enemy': 1, 'boss': 1},
-    {'battle': 4, 'enemy': 1},
+    {'battle': 2, 'enemy': 2},
+    {'battle': 3, 'enemy': 1},
+    {'battle': 4, 'enemy': 1, 'boss': 1},
 ]
 A1, B1, C1, D1, E1, F1, G1, H1, I1, J1, K1, \
 A2, B2, C2, D2, E2, F2, G2, H2, I2, J2, K2, \
@@ -45,7 +45,7 @@ A7, B7, C7, D7, E7, F7, G7, H7, I7, J7, K7, \
 
 class Config:
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['DD', 'SS']
+    MAP_SIREN_TEMPLATE = ['CL', 'SS']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MAP_STORY = True
@@ -61,10 +61,13 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
+        if self.fleet_2_protect():
+            return True
+
         if self.clear_siren():
             return True
 
         return self.battle_default()
 
-    def battle_3(self):
+    def battle_4(self):
         return self.clear_boss()
