@@ -635,7 +635,7 @@ class AzurLaneConfig:
         # Event
         option = config['Event']
         self.EVENT_NAME = option['event_name']
-        self.EVENT_STAGE = option['event_stage']
+        self.EVENT_STAGE = option['event_stage'].lower()
 
         # Raid
         option = config['Raid']
