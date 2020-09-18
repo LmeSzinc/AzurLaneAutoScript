@@ -54,7 +54,7 @@ class Config:
     MAP_HAS_AMBUSH = False
     STAGE_ENTRANCE = ['blue']
     FLEET_2 = 0
-    STOP_IF_COUNT_GREATER_THAN = 1
+    MAP_IS_ONE_TIME_STAGE = True
 
 
 class Campaign(CampaignBase):

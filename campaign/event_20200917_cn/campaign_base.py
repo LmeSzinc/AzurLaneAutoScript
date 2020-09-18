@@ -38,19 +38,21 @@ class CampaignBase(CampaignBase_):
             self.ui_goto_sp()
             self.campaign_ensure_chapter(index=chapter)
 
-        elif chapter in ['t', 'ts', 'ht']:
+        elif chapter in ['t', 'ts', 'ht', 'hts']:
             self.ui_goto_event()
-            if name == 'ts1' or chapter == 't':
+            # Campaign ball
+            if stage in ['1', '6']:
+                self._campaign_ball_set('blue')
+            else:
+                self._campaign_ball_set('red')
+            # Campaign mode
+            if chapter in ['t', 'ts']:
                 self.campaign_ensure_mode('normal')
-            if name == 'ts2' or chapter == 'ht':
-                self.campaign_ensure_mode('normal')
-            if chapter == 'hts':
+            if chapter in ['ht', 'hts']:
+                self.campaign_ensure_mode('hard')
+            if chapter == 'ex_sp':
                 self.campaign_ensure_mode('ex')
-            if chapter in ['t', 'ht']:
-                if stage in ['1', '6']:
-                    self._campaign_ball_set('blue')
-                else:
-                    self._campaign_ball_set('red')
+            # Get stage
             self.campaign_ensure_chapter(index=1)
         else:
             logger.warning(f'Unknown campaign chapter: {name}')
@@ -69,7 +71,7 @@ class CampaignBase(CampaignBase_):
         else:
             if name.isdigit():
                 return int(name)
-            elif name in ['a', 'c', 'sp', 'ex_sp', 'ts', 't', 'hts']:
+            elif name in ['a', 'c', 'sp', 'ex_sp', 'ts', 't', 'ht', 'hts']:
                 return 1
             elif name in ['b', 'd']:
                 return 2

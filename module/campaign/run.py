@@ -47,6 +47,12 @@ class CampaignRun(Reward):
             self.module = importlib.import_module('.' + name, f'campaign.{folder}')
         except ModuleNotFoundError:
             logger.warning(f'Map file not found: campaign.{folder}.{name}')
+            folder = f'./campaign/{folder}'
+            if not os.path.exists(folder):
+                logger.warning(f'Folder not exists: {folder}')
+            else:
+                files = [f[:-3] for f in os.listdir(folder) if f[-3:] == '.py']
+                logger.warning(f'Existing files: {files}')
             exit(1)
 
         config = copy.copy(self.config).merge(self.module.Config())
@@ -69,7 +75,6 @@ class CampaignRun(Reward):
 
     def triggered_stop_condition(self):
         """
-
         Returns:
             bool: If triggered a stop condition.
         """
@@ -180,3 +185,8 @@ class CampaignRun(Reward):
                 count = 0 if count < 0 else count
                 self.config.config.set('Setting', 'if_count_greater_than', str(count))
                 self.config.save()
+            # One-time stage limit
+            if self.campaign.config.MAP_IS_ONE_TIME_STAGE:
+                if self.run_count >= 1:
+                    logger.hr('Triggered one-time stage limit')
+                    return True

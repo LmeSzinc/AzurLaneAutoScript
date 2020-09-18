@@ -31,9 +31,9 @@ class CampaignHard(CampaignRun):
 
         # UI ensure
         self.ui_weigh_anchor()
-        self.campaign_ensure_chapter(index=int(chapter))
-        self.campaign_ensure_mode(mode='hard')
-        self.campaign.ENTRANCE = self.campaign_get_entrance(name=f'{chapter}-{stage}')
+        self.campaign.campaign_ensure_chapter(index=int(chapter))
+        self.campaign.campaign_ensure_mode(mode='hard')
+        self.campaign.ENTRANCE = self.campaign.campaign_get_entrance(name=f'{chapter}-{stage}')
 
         # Run
         remain = OCR_HARD_REMAIN.ocr(self.device.image)
