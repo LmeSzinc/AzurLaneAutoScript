@@ -10,10 +10,9 @@ from module.map.camera import Camera
 from module.map.map_base import SelectedGrids
 from module.map.map_base import location2node, location_ensure
 from module.map.utils import match_movable
-from module.map.map_operation import MapOperation
 
 
-class Fleet(Camera, MapOperation, AmbushHandler):
+class Fleet(Camera, AmbushHandler):
     fleet_1_location = ()
     fleet_2_location = ()
     fleet_current_index = 1

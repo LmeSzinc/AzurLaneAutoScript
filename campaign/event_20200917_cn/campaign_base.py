@@ -1,5 +1,10 @@
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.logger import logger
+from module.base.utils import *
+from module.base.button import Button
+
+# Here manually type coordinates, because the ball appears in event Dreamwaker's Butterfly only.
+BALL = Button(area=(571, 283, 696, 387), color=(), button=(597, 274, 671, 343))
 
 
 class CampaignBase(CampaignBase_):
@@ -41,6 +46,11 @@ class CampaignBase(CampaignBase_):
                 self.campaign_ensure_mode('normal')
             if chapter == 'hts':
                 self.campaign_ensure_mode('ex')
+            if chapter in ['t', 'ht']:
+                if stage in ['1', '6']:
+                    self._campaign_ball_set('blue')
+                else:
+                    self._campaign_ball_set('red')
             self.campaign_ensure_chapter(index=1)
         else:
             logger.warning(f'Unknown campaign chapter: {name}')
@@ -63,3 +73,43 @@ class CampaignBase(CampaignBase_):
                 return 1
             elif name in ['b', 'd']:
                 return 2
+
+    def _campaign_ball_get(self):
+        """
+        Returns:
+            str: 'blue' or 'red'.
+        """
+        color = get_color(self.device.image, BALL.area)
+        # Blue: (93, 127, 182), Red: (186, 116, 124)
+        index = np.argmax(color)
+        if index == 0:
+            return 'red'
+        elif index == 2:
+            return 'blue'
+        else:
+            logger.warning(f'Unknown campaign ball color: {color}')
+            return 'unknown'
+
+    def _campaign_ball_set(self, status):
+        """
+        Args:
+            status (str): 'blue' or 'red'.
+        """
+        while 1:
+            self.device.screenshot()
+
+            current = self._campaign_ball_get()
+            logger.attr('Campaign_ball', current)
+
+            if current == status:
+                break
+            else:
+                if self.is_in_stage():
+                    self.device.click(BALL)
+                    self.device.sleep(3)
+                    # wait until is_in_stage
+                    while 1:
+                        self.device.screenshot()
+                        if self.is_in_stage():
+                            self.handle_stage_icon_spawn()
+                            break
