@@ -76,7 +76,8 @@ class Campaign(CampaignBase, HardEquipment):
             self.device.screenshot()
 
             # Enter campaign
-            if campaign_timer.reached() and self.appear_then_click(self.ENTRANCE):
+            if campaign_timer.reached() and self.is_in_stage():
+                self.device.click(self.ENTRANCE)
                 campaign_timer.reset()
                 continue
 
