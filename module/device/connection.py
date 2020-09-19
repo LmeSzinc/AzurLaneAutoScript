@@ -97,6 +97,6 @@ class Connection:
         device = u2.connect(serial)
         return device
 
-    def disable_uiautomator2_auto_quit(self, port=7912, expire=300000):
+    def disable_uiautomator2_auto_quit(self, port=7912, expire=3000000):
         self.adb_forward(['tcp:%s' % port, 'tcp:%s' % port])
         requests.post('http://127.0.0.1:%s/newCommandTimeout' % port, data=str(expire))
