@@ -174,6 +174,7 @@ class Fleet(Camera, AmbushHandler):
         self.movable_before = self.map.select(is_siren=True)
         if self.hp_withdraw_triggered():
             self.withdraw()
+        is_portal = self.map[location].is_portal
 
         while 1:
             sight = self.map.camera_sight
@@ -200,6 +201,9 @@ class Fleet(Camera, AmbushHandler):
             while 1:
                 self.device.screenshot()
                 grid.image = np.array(self.device.image)
+                if is_portal:
+                    self.update()
+                    grid = self.view[self.view.center_loca]
 
                 # Combat
                 if self.config.ENABLE_MAP_FLEET_LOCK and not self.is_in_map():
@@ -260,6 +264,9 @@ class Fleet(Camera, AmbushHandler):
                             logger.warning('Arrive with unexpected result')
                         else:
                             continue
+                    if is_portal:
+                        location = self.map[location].portal_link
+                        self.camera = location
                     logger.info(f'Arrive {location2node(location)} confirm. Result: {result}. Expected: {expected}')
                     arrived = True
                     break
@@ -517,7 +524,11 @@ class Fleet(Camera, AmbushHandler):
         self.map.reset()
         self.handle_map_green_config_cover()
         self.map.poor_map_data = self.config.POOR_MAP_DATA
-        self.map.grid_connection_initial(wall=self.config.MAP_HAS_WALL)
+        self.map.load_map_data(use_loop=self.map_has_fast_forward and self.config.ENABLE_FAST_FORWARD)
+        self.map.grid_connection_initial(
+            wall=self.config.MAP_HAS_WALL,
+            portal=self.config.MAP_HAS_PORTAL,
+        )
 
         self.update()
         self.handle_fleet_reverse()

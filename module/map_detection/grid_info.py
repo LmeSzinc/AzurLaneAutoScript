@@ -42,6 +42,8 @@ class GridInfo:
     is_current_fleet = False
     is_submarine = False  # SS
     is_siren = False  # SI
+    is_portal = False
+    portal_link = ()
 
     enemy_scale = 0
     enemy_genre = None  # Light, Main, Carrier, Treasure, Enemy(unknown)
