@@ -492,7 +492,7 @@ class CampaignMap:
                 index += [i, i + 1]
         index.append(len(path))
         for start, end in zip(index[:-1], index[1:]):
-            if end - start == 1 and self[path[start]].is_portal and self[path[end]].is_portal:
+            if end - start == 1 and self[path[start]].is_portal and self[path[start]].portal_link == path[end]:
                 continue
             local_path = path[start:end + 1]
             local_path = self._find_route_node(local_path, step=step)

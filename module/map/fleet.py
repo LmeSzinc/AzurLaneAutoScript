@@ -271,6 +271,12 @@ class Fleet(Camera, AmbushHandler):
                     arrived = True
                     break
 
+                # Story
+                if expected == 'story':
+                    if self.handle_story_skip():
+                        result = 'story'
+                        continue
+
                 # End
                 if ambushed_retry.started() and ambushed_retry.reached():
                     break
