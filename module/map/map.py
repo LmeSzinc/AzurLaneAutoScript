@@ -481,6 +481,7 @@ class Map(Fleet):
         grids = self.map.select(is_land=False).sort('weight', 'cost')
         if self.map[self.fleet_2_location].weight <= grids[0].weight:
             logger.info('Fleet_2 pushed to destination')
+            self.fleet_1.switch_to()
             return False
 
         fleets = SelectedGrids([self.map[self.fleet_1_location], self.map[self.fleet_2_location]])

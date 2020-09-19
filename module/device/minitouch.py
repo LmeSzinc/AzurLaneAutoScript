@@ -45,7 +45,7 @@ def random_rho(dis):
     return random_normal_distribution(-dis, dis)
 
 
-def insert_swipe(p0, p3, speed=15):
+def insert_swipe(p0, p3, speed=20):
     """
     Insert way point from start to end.
     First generate a cubic bézier curve
