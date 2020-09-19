@@ -145,6 +145,9 @@ class Recycle(UI):
 
             self.itemConfirm()
 
+            # this may fix the mistakenly identifies bug
+            self.wait_until_stable(STABLE_BUTTON)
+
             image = self.device.screenshot()
             equipButton = self.detect.detectWeaponArea(image)
 
