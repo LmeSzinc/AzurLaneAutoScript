@@ -12,8 +12,8 @@ class CampaignMap:
         self.name = name
         self.grids = {}
         self._shape = (0, 0)
-        self.map_data = ''
-        self.map_data_loop = ''
+        self._map_data = ''
+        self._map_data_loop = ''
         self._weight_data = ''
         self._wall_data = ''
         self._portal_data = []
@@ -70,6 +70,23 @@ class CampaignMap:
         # weight_data set to 10.
         for grid in self:
             grid.weight = 10.
+
+    @property
+    def map_data(self):
+        return self._map_data
+
+    @map_data.setter
+    def map_data(self, text):
+        self._map_data = text
+        self.load_map_data(text)
+
+    @property
+    def map_data_loop(self):
+        return self._map_data_loop
+
+    @map_data_loop.setter
+    def map_data_loop(self, text):
+        self._map_data = text
 
     def load_map_data(self, use_loop=False):
         """
