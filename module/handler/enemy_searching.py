@@ -47,7 +47,10 @@ class EnemySearchingHandler(InfoHandler):
             return False
 
         # campaign_extract_name_image in CampaignOcr.
-        if not len(self.campaign_extract_name_image(self.device.image)):
+        try:
+            if not len(self.campaign_extract_name_image(self.device.image)):
+                return False
+        except IndexError:
             return False
 
         return True
