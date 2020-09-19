@@ -469,7 +469,11 @@ class CampaignMap:
         logger.info('Full path: %s' % '[' + ', ' .join([location2node(grid) for grid in path]) + ']')
 
         portal_path = []
-        index = [0] + [i for i, loca in enumerate(zip(path[:-1], path[1:])) if self[loca[0]].is_portal and self[loca[0]].portal_link == loca[1]] + [len(path)]
+        index = [0]
+        for i, loca in enumerate(zip(path[:-1], path[1:])):
+            if self[loca[0]].is_portal and self[loca[0]].portal_link == loca[1]:
+                index += [i, i + 1]
+        index.append(len(path))
         for start, end in zip(index[:-1], index[1:]):
             if end - start == 1 and self[path[start]].is_portal and self[path[end]].is_portal:
                 continue
