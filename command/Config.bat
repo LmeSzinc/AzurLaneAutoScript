@@ -29,7 +29,7 @@ if NOT exist %cfg_Deploy% (
     echo NetTest = disable
     echo KeepLocalChanges = disable
     echo RealtimeMode = disable
-    echo AdbConnect = disable
+    echo AdbConnect = enable
     echo AdbKillServer = enable
     echo Serial = %SerialDeploy%
     echo FirstRun = %FirstRun%
@@ -170,6 +170,19 @@ for /f "delims=" %%i in (%cfg_Deploy%.bak) do (
 if "%cfg_State%"=="disable" (
     echo Will kill ADB server at each start: Enable ^(DEFAULT^)
 ) else echo Dont kill ADB server at each start: Disable
+goto :eof
+
+:Config_Adbconnect
+for /f "delims=" %%i in (%cfg_Deploy%.bak) do (
+    set "cfg_Temp=%%i"
+    set "cfg_Content=!cfg_Temp!"
+    if "!cfg_Temp!"=="AdbConnect = enable" ( set "cfg_Content=AdbConnect = disable" && set "cfg_State=enable" )
+    if "!cfg_Temp!"=="AdbConnect = disable" ( set "cfg_Content=AdbConnect = enable" && set "cfg_State=disable" )
+    echo !cfg_Content!>>%cfg_Deploy%
+)
+if "%cfg_State%"=="disable" (
+    echo Connect at ADB server at each start: Enable ^(DEFAULT^)
+) else echo Will Not connect ADB server at each start: Disable
 goto :eof
 
 :Config_Branch

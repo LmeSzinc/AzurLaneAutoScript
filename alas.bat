@@ -89,7 +89,7 @@ call echo %%equal:~0,%SIZE%%%
 endLocal
 echo.
 echo ====================================================================================================
-echo. & echo  [*] Choose a Option
+echo. & echo  [*] Select your Server/GUI Language
       echo    ^|
       echo    ^|-- [1] EN
       echo    ^|
@@ -196,7 +196,7 @@ if "%choice%"=="1" goto Run_UpdateAlas
 if "%choice%"=="2" goto update_toolkit
 if "%choice%"=="3" goto Setting
 if "%choice%"=="0" goto MENU
-echo. & echo Please input a valid option.
+echo. & echo == Please input a valid option.
 pause > NUL
 goto Updater_menu
 
@@ -205,13 +205,13 @@ set source="origin"
 if "%Region%"=="cn" set "source=gitee"
 echo. & echo.
 echo ====================================================================================================
-echo Branch in use: %Branch%
-echo KeepLocalChanges is: %KeepLocalChanges%
+echo == Branch in use: %Branch%
+echo == KeepLocalChanges is: %KeepLocalChanges%
 echo ====================================================================================================
 set opt6_opt4_choice=0
-echo. & echo Change default Branch (master/dev), please enter T;
-echo To proceed update using Branch: %Branch%, please enter Y;
-echo Back to Updater menu, please enter N;
+echo. & echo == Change default Branch (master/dev), please enter T;
+echo == To proceed update using Branch: %Branch%, please enter Y;
+echo == Back to Updater menu, please enter N;
 set /p opt6_opt4_choice= Press ENTER to cancel:
 echo.
 if /i "%opt6_opt4_choice%"=="T" (
@@ -285,9 +285,10 @@ echo. & echo  [3] Emulator Auto-ADB Settings
 echo. & echo  [4] (Disable/Enable) Keep local changes
 echo. & echo  [5] Change default Branch to update (master/dev)
 echo. & echo  [6] (Disable/Enable) Kill ADB server at each start
-echo. & echo  [7] Replace ADB from chinese emulators
-echo. & echo  [8] Why can't I toggle certain settings above?
-echo. & echo  [9] Reset Settings
+echo. & echo  [7] (Disable/Enable) ADB connect at each start
+echo. & echo  [8] Replace ADB from chinese emulators
+echo. & echo  [9] Why can't I toggle certain settings above?
+echo. & echo  [10] Reset Settings
 echo. & echo.
 echo ====================================================================================================
 set opt2_choice=-1
@@ -300,9 +301,10 @@ if "%opt2_choice%"=="3" goto Emulator_Setup
 if "%opt2_choice%"=="4" goto Keep_local_changes
 if "%opt2_choice%"=="5" goto Branch_setting
 if "%opt2_choice%"=="6" goto settings_KilADBserver
-if "%opt2_choice%"=="7" goto menu_ReplaceAdb
-if "%opt2_choice%"=="8" goto Reset_setting
+if "%opt2_choice%"=="7" goto settings_ADBconnect
+if "%opt2_choice%"=="8" goto menu_ReplaceAdb
 if "%opt2_choice%"=="9" goto Reset_setting
+if "%opt2_choice%"=="10" goto Reset_setting
 echo Please input a valid option.
 goto ReturnToSetting
 
@@ -328,6 +330,10 @@ goto ReturnToSetting
 
 :settings_KilADBserver
 call command\Config.bat AdbKillServer
+goto ReturnToSetting
+
+:settings_ADBconnect
+call command\Config.bat Adbconnect
 goto ReturnToSetting
 
 :Proxy_setting
@@ -742,6 +748,7 @@ goto PleaseRerun
 :AdbConnect
 if "%FirstRun%"=="yes" goto Emulator_Setup
 if "%KillServer%"=="enable" ( %adbBin% kill-server > nul 2>&1 )
+if "%AdbConnect%"=="disable" goto :eof
 %adbBin% connect %SerialDeploy% | find /i "connected to" >nul
 echo ====================================================================================================
 if errorlevel 1 (
