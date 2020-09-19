@@ -53,9 +53,9 @@ class Recycle(UI):
     def run(self):
 
         # for debug
-        # self.image = self.device.screenshot()
-        # self.detect.detectBoxArea(self.image)
-        # time.sleep(233)
+        self.image = self.device.screenshot()
+        self.detect.detectWeaponArea(self.image)
+        time.sleep(233)
 
         self.ui_goto_main()
 
