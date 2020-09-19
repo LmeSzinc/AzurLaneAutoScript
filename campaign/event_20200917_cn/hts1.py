@@ -44,14 +44,15 @@ class Config:
     # MAP_SIREN_TEMPLATE = ['srzl2']
     # MOVABLE_ENEMY_TURN = (0,)
     # MAP_HAS_SIREN = True
+    # MAP_HAS_MOVABLE_ENEMY = True
     MAP_HAS_MAP_STORY = True
     MAP_HAS_FLEET_STEP = False
+    MAP_HAS_AMBUSH = False
     STAR_REQUIRE_1 = 0
     STAR_REQUIRE_2 = 0
     STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
 
-    MAP_HAS_AMBUSH = False
     STAGE_ENTRANCE = ['blue']
     FLEET_2 = 0
     MAP_IS_ONE_TIME_STAGE = True

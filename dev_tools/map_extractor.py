@@ -20,6 +20,14 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'sairenhangmu_i': 'CV',
     'sairenqianting_i': 'SS',
 
+    # Siren red
+    'sairenquzhu_M': 'DD',
+    'sairenqingxun_M': 'CL',
+    'sairenzhongxun_M': 'CAred',
+    'sairenzhanlie_M': 'BB',
+    'sairenhangmu_M': 'CV',
+    'sairenqianting_M': 'SS',
+
     # Scherzo of Iron and Blood
     'aruituosha': 'Arethusa',
     'xiefeierde': 'Sheffield',
@@ -38,6 +46,7 @@ def load_lua(folder, file, prefix):
     return result
 
 
+
 class MapData:
     dic_grid_info = {
         0: '--',
@@ -51,9 +60,9 @@ class MapData:
         16: '__'
     }
 
-    def __init__(self, data, expedition_data):
+    def __init__(self, data, data_loop):
         self.data = data
-        self.expedition_data = expedition_data
+        self.data_loop = data_loop
         self.chapter_name = data['chapter_name'].replace('–', '-')
         self.name = data['name']
         self.profiles = data['profiles']
@@ -89,20 +98,26 @@ class MapData:
 
             # map_data
             # {0: {0: 6, 1: 8, 2: False, 3: 0}, ...}
-            self.map_data = {}
-            grids = data['grids']
-            offset_y = min([grid[0] for grid in grids.values()])
-            offset_x = min([grid[1] for grid in grids.values()])
-            for grid in grids.values():
-                loca = (grid[1] - offset_x, grid[0] - offset_y)
-                if not grid[2]:
-                    info = '++'
-                else:
-                    info = self.dic_grid_info.get(grid[3], '??')
-                if info == '??':
-                    print(f'Unknown grid info. grid={location2node(loca)}, info={grid[3]}')
-                self.map_data[loca] = info
+            self.map_data = self.parse_map_data(data['grids'])
             self.shape = tuple(np.max(list(self.map_data.keys()), axis=0))
+            if self.data_loop is not None:
+                self.map_data_loop = self.parse_map_data(data_loop['grids'])
+                if all([d1 == d2 for d1, d2 in zip(self.map_data.values(), self.map_data_loop.values())]):
+                    self.map_data_loop = None
+            else:
+                self.map_data_loop = None
+
+            # portal
+            self.portal = []
+            if self.map_id in MAP_EVENT_LIST:
+                for event_id in MAP_EVENT_LIST[self.map_id]['event_list'].values():
+                    event = MAP_EVENT_TEMPLATE[event_id]
+                    for effect in event['effect'].values():
+                        if effect[0] == 'jump':
+                            address = event['address']
+                            address = location2node((address[1], address[0]))
+                            target = location2node((effect[2], effect[1]))
+                            self.portal.append((address, target))
 
             # config
             self.MAP_SIREN_TEMPLATE = []
@@ -110,13 +125,16 @@ class MapData:
             for siren_id in data['ai_expedition_list'].values():
                 if siren_id == 1:
                     continue
-                exped_data = expedition_data[siren_id]
+                exped_data = EXPECTATION_DATA[siren_id]
                 name = exped_data['icon']
                 name = DIC_SIREN_NAME_CHI_TO_ENG.get(name, name)
                 self.MAP_SIREN_TEMPLATE.append(name)
                 self.MOVABLE_ENEMY_TURN.add(int(exped_data['ai_mov']))
+            self.MAP_HAS_MOVABLE_ENEMY = bool(len(self.MOVABLE_ENEMY_TURN))
             self.MAP_HAS_MAP_STORY = len(data['story_refresh_boss']) > 0
             self.MAP_HAS_FLEET_STEP = bool(data['is_limit_move'])
+            self.MAP_HAS_AMBUSH = bool(data['is_ambush']) or bool(data['is_air_attack'])
+            self.MAP_HAS_PORTAL = bool(len(self.portal))
             for n in range(1, 4):
                 self.__setattr__(f'STAR_REQUIRE_{n}', data[f'star_require_{n}'])
         except Exception as e:
@@ -128,6 +146,22 @@ class MapData:
         return f'{self.map_id} {self.chapter_name} {self.name}'
 
     __repr__ = __str__
+
+    def parse_map_data(self, grids):
+        map_data = {}
+        offset_y = min([grid[0] for grid in grids.values()])
+        offset_x = min([grid[1] for grid in grids.values()])
+        for grid in grids.values():
+            loca = (grid[1] - offset_x, grid[0] - offset_y)
+            if not grid[2]:
+                info = '++'
+            else:
+                info = self.dic_grid_info.get(grid[3], '??')
+            if info == '??':
+                print(f'Unknown grid info. grid={location2node(loca)}, info={grid[3]}')
+            map_data[loca] = info
+
+        return map_data
 
     def map_file_name(self):
         name = self.chapter_name.replace('-', '_').lower()
@@ -165,10 +199,17 @@ class MapData:
             f'MAP.camera_data = {[location2node(loca) for loca in camera_data]}')
         camera_sp = camera_spawn_point(camera_data, sp_list=[k for k, v in self.map_data.items() if v == 'SP'])
         lines.append(f'MAP.camera_data_spawn_point = {[location2node(loca) for loca in camera_sp]}')
+        if len(self.portal):
+            lines.append(f'MAP.portal_data = {self.portal}')
         lines.append('MAP.map_data = \"\"\"')
         for y in range(self.shape[1] + 1):
             lines.append('    ' + ' '.join([self.map_data[(x, y)] for x in range(self.shape[0] + 1)]))
         lines.append('\"\"\"')
+        if self.map_data_loop is not None:
+            lines.append('MAP.map_data_loop = \"\"\"')
+            for y in range(self.shape[1] + 1):
+                lines.append('    ' + ' '.join([self.map_data_loop[(x, y)] for x in range(self.shape[0] + 1)]))
+            lines.append('\"\"\"')
         lines.append('MAP.weight_data = \"\"\"')
         for y in range(self.shape[1] + 1):
             lines.append('    ' + ' '.join(['50'] * (self.shape[0] + 1)))
@@ -197,8 +238,12 @@ class MapData:
             lines.append(f'    MAP_SIREN_TEMPLATE = {self.MAP_SIREN_TEMPLATE}')
             lines.append(f'    MOVABLE_ENEMY_TURN = {tuple(self.MOVABLE_ENEMY_TURN)}')
             lines.append(f'    MAP_HAS_SIREN = True')
+            lines.append(f'    MAP_HAS_MOVABLE_ENEMY = {self.MAP_HAS_MOVABLE_ENEMY}')
         lines.append(f'    MAP_HAS_MAP_STORY = {self.MAP_HAS_MAP_STORY}')
         lines.append(f'    MAP_HAS_FLEET_STEP = {self.MAP_HAS_FLEET_STEP}')
+        lines.append(f'    MAP_HAS_AMBUSH = {self.MAP_HAS_AMBUSH}')
+        if self.MAP_HAS_PORTAL:
+            lines.append(f'    MAP_HAS_PORTAL = {self.MAP_HAS_PORTAL}')
         for n in range(1, 4):
             if not self.__getattribute__(f'STAR_REQUIRE_{n}'):
                 lines.append(f'    STAR_REQUIRE_{n} = 0')
@@ -241,9 +286,8 @@ class MapData:
 
 
 class ChapterTemplate:
-    def __init__(self, file):
-        self.data = load_lua(file, 'chapter_template.lua', prefix=36)
-        self.expedition_data = load_lua(file, 'expedition_data_template.lua', prefix=43)
+    def __init__(self):
+        pass
 
     def get_chapter_by_name(self, name, select=False):
         """
@@ -273,16 +317,16 @@ class ChapterTemplate:
         print(f'Searching: {name}')
         if isinstance(name, str):
             maps = []
-            for map_id, data in self.data.items():
+            for map_id, data in DATA.items():
                 if not isinstance(map_id, int) or data['chapter_name'] == 'EXTRA':
                     continue
                 if not re.search(name, data['name']):
                     continue
-                data = MapData(data, self.expedition_data)
+                data = MapData(data, DATA_LOOP.get(map_id, None))
                 print(f'Found map: {data}')
                 maps.append(data)
         else:
-            data = MapData(self.data[name], self.expedition_data)
+            data = MapData(DATA[name], DATA_LOOP.get(name, None))
             print(f'Found map: {data}')
             maps = [data]
 
@@ -299,11 +343,11 @@ class ChapterTemplate:
         if select:
             event_id = get_event_id(maps[0].map_id)
             new = []
-            for map_id, data in self.data.items():
+            for map_id, data in DATA.items():
                 if not isinstance(map_id, int) or data['chapter_name'] == 'EXTRA':
                     continue
                 if get_event_id(data['id']) == event_id:
-                    data = MapData(data, self.expedition_data)
+                    data = MapData(data, DATA_LOOP.get(map_id, None))
                     print(f'Selected: {data}')
                     new.append(data)
             maps = new
@@ -351,5 +395,11 @@ KEYWORD = ''
 SELECT = False
 OVERWRITE = True
 
-ct = ChapterTemplate(FILE)
+DATA = load_lua(FILE, 'chapter_template.lua', prefix=36)
+DATA_LOOP = load_lua(FILE, 'chapter_template_loop.lua', prefix=41)
+MAP_EVENT_LIST = load_lua(FILE, 'map_event_list.lua', prefix=34)
+MAP_EVENT_TEMPLATE = load_lua(FILE, 'map_event_template.lua', prefix=38)
+EXPECTATION_DATA = load_lua(FILE, 'expedition_data_template.lua', prefix=43)
+
+ct = ChapterTemplate()
 ct.extract(ct.get_chapter_by_name(KEYWORD, select=SELECT), folder=FOLDER)

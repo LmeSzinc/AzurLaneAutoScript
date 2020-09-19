@@ -59,8 +59,10 @@ class Config(ConfigBase):
     MAP_SIREN_TEMPLATE = ['CA', 'SS']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
+    MAP_HAS_MOVABLE_ENEMY = True
     MAP_HAS_MAP_STORY = True
     MAP_HAS_FLEET_STEP = True
+    MAP_HAS_AMBUSH = False
     # ===== End of generated config =====
 
 
