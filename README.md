@@ -21,11 +21,11 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)**, some featur
 
 > **Event Announcement 活动公告**
 >
-> [CN] 支持活动「复刻: 铁血音符誓言」.
+> [CN] 支持活动「蝶海梦花」. 可以处理传送门.
 >
-> [EN] Support event "Stars of the Shimmering Fjord".
+> [EN] Support event "Dreamwaker's Butterfly". Able to handle portals.
 >
-> [JP] Support event 「黒鉄の楽章_誓いの海（復刻）」.
+> [JP] Support event 「刹那觀る胡蝶の夢」. Able to handle portals.
 
 ![gui](doc/README.assets/gui.png)
 

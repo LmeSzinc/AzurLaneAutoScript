@@ -56,7 +56,7 @@ class Config:
 
     STAGE_ENTRANCE = ['blue']
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (80, 255 - 40),
+        'height': (80, 255 - 24),
         'width': (0.9, 10),
         'prominence': 10,
         'distance': 35,
