@@ -148,7 +148,7 @@ class AzurLaneConfig:
     EVENT_NAME_AB = ''
     ENABLE_EVENT_AB = False
     ENABLE_EVENT_SP = False
-    EVENT_AB_CHAPTER = 'chapter_ab'  # chapter_ab, chapter_abcd
+    EVENT_AB_CHAPTER = 'chapter_ab'  # chapter_ab, chapter_abcd, chapter_t, chapter_ht
     EVENT_SP_MOB_FLEET = 1
 
     """

@@ -255,6 +255,8 @@ dic_true_eng_to_eng = {
     'easy': 'easy',
     'chapter_ab': 'chapter_ab',
     'chapter_abcd': 'chapter_abcd',
+    'chapter_t': 'chapter_t',
+    'chapter_ht': 'chapter_ht',
 
     # Research filter preset
     'customized': 'customized',
@@ -492,6 +494,8 @@ dic_chi_to_eng = {
     '简单': 'easy',
     'AB图': 'chapter_ab',
     'ABCD图': 'chapter_abcd',
+    'T图': 'chapter_t',
+    'HT图': 'chapter_ht',
 
     # Research filter preset
     '自定义': 'customized',

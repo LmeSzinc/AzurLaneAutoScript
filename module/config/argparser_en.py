@@ -96,8 +96,8 @@ def main(ini_name=''):
                 value = ''
             saved_config[key] = value
     message = (
-        'BlueStacks:\t127.0.0.1:5555\n' 
-        'NoxPlayer:\t127.0.0.1:62001\n' 
+        'BlueStacks:\t127.0.0.1:5555\n'
+        'NoxPlayer:\t127.0.0.1:62001\n'
         'MuMuPlayer:\t127.0.0.1:7555\n'
         'MemuPlayer:\t127.0.0.1:21503\n'
         'LDPlayer:\t\temulator-5554\n'
@@ -409,7 +409,7 @@ def main(ini_name=''):
 
     # event_daily_ab
     event_bonus = daily_parser.add_argument_group('Event Daily Bonus', 'bonus for first clear each day', gooey_options={'label_color': '#931D03'})
-    event_bonus.add_argument('--event_ab_chapter', default=default('--event_ab_chapter'), choices=['chapter_ab', 'chapter_abcd'],
+    event_bonus.add_argument('--event_ab_chapter', default=default('--event_ab_chapter'), choices=['chapter_ab', 'chapter_abcd', 'chapter_t', 'chapter_ht'],
                              help='Chapter with PT bonus', gooey_options={'label_color': '#4B5F83'})
     event_bonus.add_argument('--event_sp_mob_fleet', default=default('--event_sp_mob_fleet'), choices=['1', '2'],
                              help='', gooey_options={'label_color': '#4B5F83'})
