@@ -76,10 +76,10 @@ class GridInfo:
             self.__setattr__(dic[text], True)
         if self.may_enemy or self.may_boss or self.may_mystery or self.may_mystery:
             self.is_ambush_save = True
-        if self.may_siren:
-            self.may_enemy = True
-        if self.may_boss:
-            self.may_enemy = True
+        # if self.may_siren:
+        #     self.may_enemy = True
+        # if self.may_boss:
+        #     self.may_enemy = True
 
     def encode(self):
         dic = {
@@ -197,7 +197,6 @@ class GridInfo:
                 if info.enemy_scale:
                     self.enemy_scale = info.enemy_scale
                 if info.enemy_genre:
-
                     self.enemy_genre = info.enemy_genre
                 return True
             elif mode == 'carrier' and not self.is_land and self.may_carrier:

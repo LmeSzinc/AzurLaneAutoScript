@@ -427,7 +427,7 @@ class Fleet(Camera, AmbushHandler):
             for grid in diff:
                 accessible = accessible.add(self.map.grid_covered(grid, location=location).select(is_sea=True))
             logger.attr('enemy_accessible', accessible)
-            predict = accessible.intersect(covered).select(is_sea=True)
+            predict = accessible.intersect(covered).select(is_sea=True, is_fleet=False)
             logger.info(f'Movable enemy predict: {predict}')
             for grid in predict:
                 grid.is_siren = True
