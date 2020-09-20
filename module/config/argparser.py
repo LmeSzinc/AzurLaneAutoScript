@@ -95,8 +95,8 @@ def main(ini_name=''):
                 value = ''
             saved_config[key] = value
     message = (
-        '蓝叠模拟器:\t127.0.0.1:5555\n' 
-        '夜神模拟器:\t127.0.0.1:62001\n' 
+        '蓝叠模拟器:\t127.0.0.1:5555\n'
+        '夜神模拟器:\t127.0.0.1:62001\n'
         'MuMu模拟器:\t127.0.0.1:7555\n'
         '逍遥模拟器:\t127.0.0.1:21503\n'
         '雷电模拟器:\temulator-5554\n'
@@ -365,7 +365,7 @@ def main(ini_name=''):
 
     # 每日活动图三倍PT
     event_bonus = daily_parser.add_argument_group('活动设置', '', gooey_options={'label_color': '#931D03'})
-    event_bonus.add_argument('--活动奖励章节', default=default('--活动奖励章节'), choices=['AB图', 'ABCD图'], help='有额外PT奖励章节', gooey_options={'label_color': '#4B5F83'})
+    event_bonus.add_argument('--活动奖励章节', default=default('--活动奖励章节'), choices=['AB图', 'ABCD图', 'T图', 'HT图'], help='有额外PT奖励章节', gooey_options={'label_color': '#4B5F83'})
     event_bonus.add_argument('--活动SP图道中队', default=default('--活动SP图道中队'), choices=['1', '2'], help='', gooey_options={'label_color': '#4B5F83'})
     event_bonus.add_argument('--活动名称ab', default=event_latest, choices=event_folder, help='例如 event_20200326_cn', gooey_options={'label_color': '#4B5F83'})
 
