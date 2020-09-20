@@ -33,6 +33,7 @@ class GridInfo:
     may_mystery = False  # MM
     may_ammo = False  # MA
     may_siren = False  # MS
+    may_ambush = False
 
     is_enemy = False  # example: 0L 1M 2C 3T 3E
     is_boss = False  # BO
@@ -49,7 +50,6 @@ class GridInfo:
     enemy_genre = None  # Light, Main, Carrier, Treasure, Enemy(unknown)
 
     is_cleared = False
-    is_ambush_save = False
     is_caught_by_siren = False
     is_carrier = False
     is_movable = False
@@ -72,10 +72,11 @@ class GridInfo:
             'MA': 'may_ammo',
             'MS': 'may_siren',
         }
-        if text in dic:
-            self.__setattr__(dic[text], True)
-        if self.may_enemy or self.may_boss or self.may_mystery or self.may_mystery:
-            self.is_ambush_save = True
+        valid = text in dic
+        for k, v in dic.items():
+            self.__setattr__(v, valid and bool(k == text))
+
+        self.may_ambush = not (self.may_enemy or self.may_boss or self.may_mystery or self.may_mystery)
         # if self.may_siren:
         #     self.may_enemy = True
         # if self.may_boss:

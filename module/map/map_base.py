@@ -78,7 +78,7 @@ class CampaignMap:
     @map_data.setter
     def map_data(self, text):
         self._map_data = text
-        self.load_map_data(text)
+        self._load_map_data(text)
 
     @property
     def map_data_loop(self):
@@ -86,20 +86,20 @@ class CampaignMap:
 
     @map_data_loop.setter
     def map_data_loop(self, text):
-        self._map_data = text
+        self._map_data_loop = text
 
     def load_map_data(self, use_loop=False):
         """
         Args:
             use_loop (bool): If at clearing mode.
+                             clearing mode (Correct name) == fast forward (in old Alas) == loop (in lua files)
         """
-        if not len(self.map_data_loop):
-            self._load_map_data(self.map_data)
+        has_loop = len(self.map_data_loop)
+        logger.info(f'Load map_data, has_loop={has_loop}, use_loop={use_loop}')
+        if has_loop and use_loop:
+            self._load_map_data(self.map_data_loop)
         else:
-            if use_loop:
-                self._load_map_data(self.map_data_loop)
-            else:
-                self._load_map_data(self.map_data)
+            self._load_map_data(self.map_data)
 
     def _load_map_data(self, text):
         if not len(self.grids.keys()):
@@ -360,7 +360,7 @@ class CampaignMap:
                     arr = self[arr]
                     if arr.is_land:
                         continue
-                    cost = 1 if arr.is_ambush_save else ambush_cost
+                    cost = ambush_cost if arr.may_ambush else 1
                     cost += grid.cost
 
                     if cost < arr.cost:
