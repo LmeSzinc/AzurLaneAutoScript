@@ -393,6 +393,7 @@ class Fleet(Camera, AmbushHandler):
 
         self.full_scan(queue=None if enemy_cleared else before, must_scan=before, mode='movable')
 
+        # Track siren moving
         after = self.map.select(is_siren=True)
         step = self.config.MOVABLE_ENEMY_FLEET_STEP
         matched_before, matched_after = match_movable(
@@ -407,13 +408,17 @@ class Fleet(Camera, AmbushHandler):
         logger.info(f'Movable enemy {before} -> {after}')
         logger.info(f'Tracked enemy {matched_before} -> {matched_after}')
 
+        # Delete wrong prediction
         for grid in after.delete(matched_after):
             if not grid.may_siren:
                 logger.warning(f'Wrong detection: {grid}')
                 grid.wipe_out()
 
+        # Predict missing siren
         diff = before.delete(matched_before)
-        if diff:
+        _, missing = self.map.missing_get(
+            self.battle_count, self.mystery_count, self.siren_count, self.carrier_count, mode='normal')
+        if diff and missing['siren'] != 0:
             logger.warning(f'Movable enemy tracking lost: {diff}')
             covered = self.map.grid_covered(self.map[self.fleet_current], location=[(0, -2)]) \
                 .add(self.map.grid_covered(self.map[self.fleet_1_location], location=[(0, -1)])) \
@@ -422,16 +427,19 @@ class Fleet(Camera, AmbushHandler):
                 covered = covered.add(self.map.grid_covered(grid))
             logger.attr('enemy_covered', covered)
             accessible = SelectedGrids([])
-            location = [
-                (x, y) for x in range(-step, step + 1) for y in range(-step, step + 1) if abs(x) + abs(y) <= step]
             for grid in diff:
-                accessible = accessible.add(self.map.grid_covered(grid, location=location).select(is_sea=True))
+                self.map.find_path_initial(grid, has_ambush=False)
+                accessible = accessible.add(self.map.select(cost=0)) \
+                    .add(self.map.select(cost=1)).add(self.map.select(cost=2))
+            self.map.find_path_initial(self.fleet_current, has_ambush=self.config.MAP_HAS_AMBUSH)
             logger.attr('enemy_accessible', accessible)
             predict = accessible.intersect(covered).select(is_sea=True, is_fleet=False)
             logger.info(f'Movable enemy predict: {predict}')
             for grid in predict:
                 grid.is_siren = True
                 grid.is_enemy = True
+        elif missing['siren'] == 0:
+            logger.info(f'Movable enemy tracking drop: {diff}')
 
         for grid in matched_after:
             if grid.location != self.fleet_current:
