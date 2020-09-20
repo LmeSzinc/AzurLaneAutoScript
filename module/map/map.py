@@ -550,4 +550,3 @@ class Map(Fleet):
 
         logger.warning('fleet_2_protect no siren approaching')
         return False
-

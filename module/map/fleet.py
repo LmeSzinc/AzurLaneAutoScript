@@ -316,7 +316,7 @@ class Fleet(Camera, AmbushHandler):
     def goto(self, location, optimize=True, expected=''):
         # self.device.sleep(1000)
         location = location_ensure(location)
-        if (self.config.MAP_HAS_AMBUSH or self.config.MAP_HAS_FLEET_STEP) and optimize:
+        if (self.config.MAP_HAS_AMBUSH or self.config.MAP_HAS_FLEET_STEP or self.config.MAP_HAS_PORTAL) and optimize:
             nodes = self.map.find_path(location, step=self.fleet_step)
             for node in nodes:
                 try:
