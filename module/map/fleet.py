@@ -2,6 +2,7 @@ import itertools
 
 import numpy as np
 
+import module.config.server as server
 from module.base.timer import Timer
 from module.exception import MapWalkError, MapEnemyMoved
 from module.handler.ambush import AmbushHandler
@@ -75,8 +76,13 @@ class Fleet(Camera, AmbushHandler):
     def fleet_switch(self):
         self.fleet_switch_click()
         self.fleet_current_index = 1 if self.fleet_current_index == 2 else 2
-        self.camera = self.fleet_current
-        self.update()
+        if server.server == 'jp':
+            # [JP] After fleet switch, camera don't focus on fleet, but about 0.75 grids higher than grid center.
+            # So need to correct camera position.
+            self.ensure_edge_insight()
+        else:
+            self.camera = self.fleet_current
+            self.update()
         self.find_path_initial()
         self.map.show_cost()
         self.show_fleet()
