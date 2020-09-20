@@ -538,7 +538,7 @@ class Fleet(Camera, AmbushHandler):
         self.map.reset()
         self.handle_map_green_config_cover()
         self.map.poor_map_data = self.config.POOR_MAP_DATA
-        self.map.load_map_data(use_loop=self.map_has_fast_forward and self.config.ENABLE_FAST_FORWARD)
+        self.map.load_map_data(use_loop=self.map_is_clear_mode)
         self.map.grid_connection_initial(
             wall=self.config.MAP_HAS_WALL,
             portal=self.config.MAP_HAS_PORTAL,

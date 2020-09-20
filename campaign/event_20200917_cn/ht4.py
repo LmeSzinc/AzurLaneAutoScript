@@ -77,6 +77,7 @@ class Config(ConfigBase):
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.82
     MAP_SWIPE_MULTIPLY = 1.88
 
+
 class Campaign(CampaignBase):
     MAP = MAP
 
@@ -86,6 +87,22 @@ class Campaign(CampaignBase):
 
         if self.clear_siren():
             return True
+        if self.map_is_clear_mode:
+            if self.clear_enemy(scale=(2,)):
+                return True
+            if self.clear_enemy(scale=(1,)):
+                return True
+
+        return self.battle_default()
+
+    def battle_2(self):
+        if self.clear_siren():
+            return True
+        if self.map_is_clear_mode:
+            if self.clear_enemy(scale=(2,)):
+                return True
+            if self.clear_enemy(scale=(1,)):
+                return True
 
         return self.battle_default()
 
