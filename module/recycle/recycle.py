@@ -7,6 +7,7 @@ from module.base.button import Button
 from module.base.utils import *
 from module.config.config import AzurLaneConfig
 from module.recycle.assets import *
+from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2
 from module.ui.ui import UI
 from module.recycle.box_detect import box_detect
 from module.logger import logger
@@ -18,7 +19,7 @@ SWIPE_RANDOM_RANGE = (-40, -20, 40, 20)
 AMOUNT_OCR = AmountOcr([], threshold=64, name='Amount_ocr')
 AMOUNT_AREA = (90, 72, 120, 120)
 
-STABLE_AREA = (139, 82, 1200, 600)
+STABLE_AREA = (126, 57, 1232, 650)
 STABLE_BUTTON = Button(STABLE_AREA, color=(),
                        button=STABLE_AREA, name='stable')
 
@@ -38,7 +39,7 @@ class Recycle(UI):
         new = self.device.screenshot()
         beforeSwipe = new
 
-        self.device.swipe(vector=(0, -distance), box=STORAGE_AREA.area, random_range=SWIPE_RANDOM_RANGE,
+        self.device.swipe(vector=(0, -distance), box=STABLE_AREA, random_range=SWIPE_RANDOM_RANGE,
                           padding=0, duration=(0.1, 0.12), name='STORAGE_SWIPE')
         self.wait_until_stable(STABLE_BUTTON)
 
@@ -99,9 +100,9 @@ class Recycle(UI):
                     "the storage is full, goto destroy equipments")
                 self.destroy()
                 break
-            if self.appear_then_click(GET_ITEM_CONFIRM, offset=True, interval=2):
+            if self.appear_then_click(GET_ITEMS_1, offset=True, interval=2):
                 break
-            if self.appear_then_click(GET_ITEM_CONFIRM2, offset=True, interval=2):
+            if self.appear_then_click(GET_ITEMS_2, offset=True, interval=2):
                 break
             if self.appear_then_click(BOX_USE10_1, offset=1):
                 continue
@@ -165,9 +166,9 @@ class Recycle(UI):
 
             self.device.screenshot()
 
-            if self.appear_then_click(GET_ITEM_CONFIRM, offset=1):
+            if self.appear_then_click(GET_ITEMS_1, offset=1):
                 break
-            if self.appear_then_click(GET_ITEM_CONFIRM2, offset=1):
+            if self.appear_then_click(GET_ITEMS_2, offset=1):
                 break
         return
 

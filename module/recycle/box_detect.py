@@ -1,20 +1,17 @@
 
 import cv2
-import matplotlib.pyplot as plt
 import numpy as np
-from PIL import Image, ImageDraw, ImageOps
+from PIL import Image
 from scipy import signal
 
 from module.base.mask import Mask
 from module.base.utils import *
 from module.config.config import AzurLaneConfig
-from module.map_detection.utils import *
+from module.deploy.utils import cached_property
 from module.template.assets import *
 from module.logger import logger
 from module.base.button import ButtonGrid
 
-
-DETECTING_AREA = (0, 0, 1280, 720)
 
 EQUIP_MASK = Mask(file='./assets/mask/MASK_EQUIPMENT.png')
 
@@ -28,7 +25,6 @@ INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
 
 MATERIAL_BASELINE = 140
 EQUIPMENT_BASELINE = 135
-
 
 
 class box_detect:
@@ -48,12 +44,10 @@ class box_detect:
     def ui_mask(self):
 
         image = Image.fromarray(EQUIP_MASK.image).convert('RGB')
-        return np.array(image)        
+        return np.array(image)
 
     def find_Y_peaks(self, image, baseLine, param):
         """
-        Because there is no cutting pretreatment, there will always be an invalid value in the return value
-
         Args:
             image(np.darray): Processed screenshot.
             baseLine(int): base vertical line used for find peaks
@@ -72,34 +66,11 @@ class box_detect:
         peaks, properties = signal.find_peaks(bar, **param)
         return peaks
 
-    def draw(self, lines=None, bg=None, expend=0):
-        if bg is None:
-            image = self.image.copy()
-        else:
-            image = bg.copy()
-        image = Image.fromarray(image)
-        if expend:
-            image = ImageOps.expand(image, border=expend, fill=0)
-        draw = ImageDraw.Draw(image)
-        if lines is None:
-            lines = self.horizontal.add(self.vertical)
-        for rho, theta in zip(lines.rho, lines.theta):
-            a = np.cos(theta)
-            b = np.sin(theta)
-            x0 = a * rho
-            y0 = b * rho
-            x1 = int(x0 + 10000 * (-b)) + expend
-            y1 = int(y0 + 10000 * a) + expend
-            x2 = int(x0 - 10000 * (-b)) + expend
-            y2 = int(y0 - 10000 * a) + expend
-            draw.line([x1, y1, x2, y2], 'white')
-
     def load(self, baseLine):
         image = self.image
         image = np.array(image)
 
         self.image = image
-
 
         # Lines detection
         self.horizontal = self.find_Y_peaks(
@@ -107,16 +78,6 @@ class box_detect:
             baseLine,
             param=INTERNAL_LINES_FIND_PEAKS_PARAMETERS
         )
-
-        # logger.info(self.horizontal)
-
-        # horizontal = Lines(inner_h, 1, self.config)
-
-        # self.draw(horizontal)
-
-        # testLines = horizontal.add(vertical)
-        # print(testLines)
-        # logger.info(vertical)
 
     def crop(self, area, shape=None):
         """Crop image and rescale to target shape. Eliminate the effect of perspective.
@@ -216,7 +177,7 @@ class box_detect:
 
         image = self.crop(area=area)
 
-        logger.info(TEMPLATE_WEAPON_PLUS.match_result(image))
+        # logger.info(TEMPLATE_WEAPON_PLUS.match_result(image))
         return TEMPLATE_WEAPON_PLUS.match(image, similarity=0.8)
 
     def Predict_Box_T1(self, area):
@@ -233,7 +194,3 @@ class box_detect:
 
         image = self.crop(area=area)
         return TEMPLATE_BOX_T3.match(image, similarity=0.9)
-
-    def Predict_Box_T4(self, area):
-        image = self.crop(area=area)
-        return TEMPLATE_BOX_T4.match(image, similarity=0.9)
