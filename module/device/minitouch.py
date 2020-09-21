@@ -45,7 +45,7 @@ def random_rho(dis):
     return random_normal_distribution(-dis, dis)
 
 
-def insert_swipe(p0, p3, speed=20):
+def insert_swipe(p0, p3, speed=15):
     """
     Insert way point from start to end.
     First generate a cubic bézier curve
@@ -218,7 +218,7 @@ class MiniTouch(Connection):
 
     def minitouch_send(self):
         content = self.minitouch_builder.content
-        # logger.info("send operation: {}".format(content.replace("\n", "\\n")))
+        logger.info("send operation: {}".format(content.replace("\n", "\\n")))
         byte_content = content.encode('utf-8')
         self.client.sendall(byte_content)
         self.client.recv(0)
