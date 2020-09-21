@@ -69,8 +69,8 @@ class Config:
     MAP_SIREN_TEMPLATE = ['CV', 'BB']
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = False
-    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.82
-    MAP_SWIPE_MULTIPLY = 1.88
+    # MAP_SWIPE_MULTIPLY_MINITOUCH = 1.82
+    # MAP_SWIPE_MULTIPLY = 1.88
 
 
 class Campaign(CampaignBase):
