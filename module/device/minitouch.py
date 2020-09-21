@@ -218,7 +218,7 @@ class MiniTouch(Connection):
 
     def minitouch_send(self):
         content = self.minitouch_builder.content
-        logger.info("send operation: {}".format(content.replace("\n", "\\n")))
+        # logger.info("send operation: {}".format(content.replace("\n", "\\n")))
         byte_content = content.encode('utf-8')
         self.client.sendall(byte_content)
         self.client.recv(0)
