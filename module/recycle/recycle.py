@@ -104,9 +104,7 @@ class Recycle(UI):
                 break
             if self.appear_then_click(GET_ITEMS_2, offset=True, interval=2):
                 break
-            if self.appear_then_click(BOX_USE10_1, offset=1):
-                continue
-            if self.appear_then_click(BOX_USE10_2, offset=1):
+            if self.appear_then_click(BOX_USE10, offset=(100, 5)):
                 continue
 
         self.wait_until_stable(STABLE_BUTTON)
