@@ -152,7 +152,7 @@ class box_detect:
             image(PIL.Image, np.ndarray): image used for detected
 
         Return value:
-            areaList(list): button list 
+            areaList(buttonGrid): button list 
         """
         self.image = image
         self.load(EQUIPMENT_BASELINE)
