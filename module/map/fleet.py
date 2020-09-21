@@ -426,9 +426,11 @@ class Fleet(Camera, AmbushHandler):
             self.battle_count, self.mystery_count, self.siren_count, self.carrier_count, mode='normal')
         if diff and missing['siren'] != 0:
             logger.warning(f'Movable enemy tracking lost: {diff}')
-            covered = self.map.grid_covered(self.map[self.fleet_current], location=[(0, -2)]) \
-                .add(self.map.grid_covered(self.map[self.fleet_1_location], location=[(0, -1)])) \
-                .add(self.map.grid_covered(self.map[self.fleet_2_location], location=[(0, -1)]))
+            covered = self.map.grid_covered(self.map[self.fleet_current], location=[(0, -2)])
+            if self.fleet_1_location:
+                covered = covered.add(self.map.grid_covered(self.map[self.fleet_1_location], location=[(0, -1)]))
+            if self.fleet_2_location:
+                covered = covered.add(self.map.grid_covered(self.map[self.fleet_2_location], location=[(0, -1)]))
             for grid in after:
                 covered = covered.add(self.map.grid_covered(grid))
             logger.attr('enemy_covered', covered)
