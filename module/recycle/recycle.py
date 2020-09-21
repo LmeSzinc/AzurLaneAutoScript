@@ -138,8 +138,7 @@ class Recycle(UI):
                     continue
                 if self.appear_then_click(DESTROY_CONFIRM):
                     break
-                if self.appear(EQUIPMENT_T3_CHECK):
-                    self.device.click(EQUIPMENT_T3_CONFIRM)
+                if self.handle_popup_confirm():
                     continue
 
             self.itemConfirm()
