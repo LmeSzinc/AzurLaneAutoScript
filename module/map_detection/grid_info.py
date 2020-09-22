@@ -240,7 +240,6 @@ class GridInfo:
         self.is_caught_by_siren = False
         self.is_carrier = False
         self.is_movable = False
-        self.is_submarine = False
 
     def reset(self):
         """
@@ -249,6 +248,7 @@ class GridInfo:
         self.wipe_out()
         self.is_fleet = False
         self.is_current_fleet = False
+        self.is_submarine = False
         self.is_cleared = False
 
     def covered_grid(self):
