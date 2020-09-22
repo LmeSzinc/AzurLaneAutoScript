@@ -223,12 +223,6 @@ class GridInfo:
                 return True
             else:
                 return False
-        if info.is_submarine:
-            if self.is_sea:
-                self.is_submarine = True
-                return True
-            else:
-                return False
 
         return True
 
