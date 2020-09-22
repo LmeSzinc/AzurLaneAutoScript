@@ -41,7 +41,7 @@ class GridInfo:
     is_ammo = False  # AM
     is_fleet = False  # FL
     is_current_fleet = False
-    is_submarine = False  # SS
+    is_submarine = False  # ss
     is_siren = False  # SI
     is_portal = False
     portal_link = ()
@@ -104,6 +104,7 @@ class GridInfo:
             'FL': 'is_current_fleet',
             'Fc': 'is_caught_by_siren',
             'Fl': 'is_fleet',
+            'ss': 'is_submarine',
             'MY': 'is_mystery',
             'AM': 'is_ammo',
             '==': 'is_cleared'
