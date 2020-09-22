@@ -61,7 +61,9 @@ class GridPredictor:
         self.enemy_scale = self.predict_enemy_scale()
         self.enemy_genre = self.predict_enemy_genre()
         self.is_boss = self.predict_boss()
-        self.is_fleet = self.predict_fleet()
+        self.is_submarine = self.predict_submarine()
+        if not self.is_submarine:
+            self.is_fleet = self.predict_fleet()
         self.is_mystery = self.predict_mystery()
         self.is_current_fleet = self.predict_current_fleet()
         # self.is_caught_by_siren = self.predict_caught_by_siren()
@@ -182,6 +184,11 @@ class GridPredictor:
         image = self.relative_crop((-1, -2, -0.5, -1.5), shape=(50, 50))
         image = color_similarity_2d(image, color=(255, 255, 255))
         return TEMPLATE_FLEET_AMMO.match(image)
+
+    def predict_submarine(self):
+        image = self.relative_crop((-0.86, 0.08, -0.36, 0.58), shape=(50, 50))
+        image = color_similarity_2d(image, color=(255, 243, 156))
+        return TEMPLATE_SUBMARINE.match(image)
 
     def predict_caught_by_siren(self):
         image = self.relative_crop((-1, -1.5, 1, 0.5), shape=(120, 120))
