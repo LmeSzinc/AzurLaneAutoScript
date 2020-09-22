@@ -1,4 +1,3 @@
-
 import cv2
 import numpy as np
 from PIL import Image
@@ -27,7 +26,7 @@ MATERIAL_BASELINE = 140
 EQUIPMENT_BASELINE = 135
 
 
-class box_detect:
+class BoxDetect(object):
     """
 
     """
@@ -97,7 +96,7 @@ class box_detect:
             image = cv2.resize(image, shape, interpolation=cv2.INTER_CUBIC)
         return image
 
-    def DivideGrid(self):
+    def divide_grid(self):
         list_h = self.horizontal
 
         tuple_h = []
@@ -111,42 +110,42 @@ class box_detect:
 
         # print(len(self.grid))
 
-    def detectBoxArea(self, image, boxList={'T1': 1, 'T2': 1, 'T3': 1}):
+    def detect_box_area(self, image, box_list={'T1': 1, 'T2': 1, 'T3': 1}):
         """
         Args:
             image(PIL.Image, np.ndarray): image used for detected
-            boxList(list): filter
+            box_list(list): filter
         Return value:
-            areaList(list): button list
+            area_list(list): button list
         """
         self.image = image
         self.load(MATERIAL_BASELINE)
 
         try:
-            origin_h, length = self.DivideGrid()
+            origin_h, length = self.divide_grid()
         except NameError('EmptyList'):
             return False
 
-        buttonList = ButtonGrid(
+        button_list = ButtonGrid(
             origin=(MATERIAL_BASELINE, origin_h), delta=(159, 178), button_shape=(135, 135), grid_shape=(7, length), name='EQUIPMENT')
 
-        areaList = []
-        for i in buttonList.buttons():
-            if boxList['T1'] and self.Predict_Box_T1(i.area):
-                areaList.append(i)
+        area_list = []
+        for button in button_list.buttons():
+            if box_list['T1'] and self._predict_box_T1(button.area):
+                area_list.append(button)
                 continue
 
-            if boxList['T2'] and self.Predict_Box_T2(i.area):
-                areaList.append(i)
+            if box_list['T2'] and self._predict_box_T2(button.area):
+                area_list.append(button)
                 continue
 
-            if boxList['T3'] and self.Predict_Box_T3(i.area):
-                areaList.append(i)
+            if box_list['T3'] and self._predict_box_T3(button.area):
+                area_list.append(button)
                 continue
 
-        return areaList
+        return area_list
 
-    def detectWeaponArea(self, image):
+    def detect_weapon_area(self, image):
         """
         Args:
             image(PIL.Image, np.ndarray): image used for detected
@@ -158,39 +157,39 @@ class box_detect:
         self.load(EQUIPMENT_BASELINE)
 
         try:
-            origin_h, length = self.DivideGrid()
+            origin_h, length = self.divide_grid()
         except NameError('EmptyList'):
             return False
 
-        buttonList = ButtonGrid(
+        button_list = ButtonGrid(
             origin=(EQUIPMENT_BASELINE, origin_h), delta=(159, 178), button_shape=(135, 135), grid_shape=(7, length), name='EQUIPMENT')
 
-        areaList = []
-        for i in buttonList.buttons():
-            if not self.Predict_Weapon_Upgrade(i.area):
-                areaList.append(i)
+        area_list = []
+        for button in button_list.buttons():
+            if not self._predict_weapon_upgrade(button.area):
+                area_list.append(button)
 
         # logger.info(areaList)
-        return areaList
+        return area_list
 
-    def Predict_Weapon_Upgrade(self, area):
+    def _predict_weapon_upgrade(self, area):
 
         image = self.crop(area=area)
 
         # logger.info(TEMPLATE_WEAPON_PLUS.match_result(image))
         return TEMPLATE_WEAPON_PLUS.match(image, similarity=0.8)
 
-    def Predict_Box_T1(self, area):
+    def _predict_box_T1(self, area):
 
         image = self.crop(area=area)
         return TEMPLATE_BOX_T1.match(image, similarity=0.9)
 
-    def Predict_Box_T2(self, area):
+    def _predict_box_T2(self, area):
 
         image = self.crop(area=area)
         return TEMPLATE_BOX_T2.match(image, similarity=0.9)
 
-    def Predict_Box_T3(self, area):
+    def _predict_box_T3(self, area):
 
         image = self.crop(area=area)
         return TEMPLATE_BOX_T3.match(image, similarity=0.9)

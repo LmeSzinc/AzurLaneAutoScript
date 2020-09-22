@@ -1,15 +1,12 @@
-import time
-
 from PIL import ImageChops
 import numpy as np
 
 from module.base.button import Button
-from module.base.utils import *
 from module.config.config import AzurLaneConfig
 from module.recycle.assets import *
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2
 from module.ui.ui import UI
-from module.recycle.box_detect import box_detect
+from module.recycle.box_detect import BoxDetect
 from module.logger import logger
 from module.statistics.item import AmountOcr
 
@@ -28,7 +25,7 @@ class Recycle(UI):
 
     def __init__(self, config, device=None):
         super().__init__(config, device=device)
-        self.detect = box_detect(AzurLaneConfig)
+        self.detect = BoxDetect(AzurLaneConfig)
         self.amount_ocr = AMOUNT_OCR
         self.amount_area = AMOUNT_AREA
         self.boxList = {'T1': self.config.Auto_box_remove_t1_box,
@@ -37,7 +34,6 @@ class Recycle(UI):
     def _view_swipe(self, distance=SWIPE_DISTANCE):
 
         new = self.device.screenshot()
-        beforeSwipe = new
 
         self.device.swipe(vector=(0, -distance), box=STABLE_AREA, random_range=SWIPE_RANDOM_RANGE,
                           padding=0, duration=(0.1, 0.12), name='STORAGE_SWIPE')
@@ -54,38 +50,39 @@ class Recycle(UI):
     def run(self):
 
         # for debug
-        self.image = self.device.screenshot()
-        self.detect.detectWeaponArea(self.image)
-        time.sleep(233)
+        # self.image = self.device.screenshot()
+        # self.detect.detectWeaponArea(self.image)
+        # self.device.sleep((233,233.5))
 
         self.ui_goto_main()
 
-        self.storageEnter()
+        self.storage_enter()
 
         self.image = self.device.screenshot()
         image = np.array(self.image)
 
-        boxArea = self.detect.detectBoxArea(self.image, self.boxList)
+        box_buttons = self.detect.detect_box_area(self.image, self.boxList)
         not_reach_buttom = 1
-        while boxArea or not_reach_buttom:
-            if not boxArea:
+        while box_buttons or not_reach_buttom:
+            if not box_buttons:
                 not_reach_buttom = self._view_swipe()
                 image = self.device.screenshot()
-                boxArea = self.detect.detectBoxArea(image, self.boxList)
+                box_buttons = self.detect.detect_box_area(image, self.boxList)
                 continue
-            for area in boxArea:
+            for button in box_buttons:
                 # TODO: use ocr
 
-                self.useBox(area)
+                self.use_box(button)
 
             image = self.device.screenshot()
-            boxArea = self.detect.detectBoxArea(image, self.boxList)
+            box_buttons = self.detect.detect_box_area(image, self.boxList)
 
         return
 
-    def useBox(self, area):
+    def use_box(self, area):
         """
         use a box
+
         """
         self.device.click(area)
 
@@ -116,18 +113,16 @@ class Recycle(UI):
             # use upgrade to judge
             if self.appear(CHOOSE_UPGRADE_CONFIRM, offset=1, threshold=0.9):
                 break
-            # if self.appear_then_click(GOTO_EQUIPMENT):
-            #     continue
             if self.appear_then_click(CHOOSE_UPGRADE):
                 continue
             if self.appear_then_click(SELECT_SORT, offset=1):
                 continue
 
         image = self.device.screenshot()
-        equipButton = self.detect.detectWeaponArea(image)
-        while equipButton:
-            for area in equipButton:
-                self.device.click(area)
+        equip_buttons = self.detect.detect_weapon_area(image)
+        while equip_buttons:
+            for button in equip_buttons:
+                self.device.click(button)
                 self.device.sleep((0.1, 0.15))
 
             while 1:
@@ -141,13 +136,13 @@ class Recycle(UI):
                 if self.handle_popup_confirm():
                     continue
 
-            self.itemConfirm()
+            self.item_confirm()
 
             # this may fix the mistakenly identifies bug
             self.wait_until_stable(STABLE_BUTTON)
 
             image = self.device.screenshot()
-            equipButton = self.detect.detectWeaponArea(image)
+            equip_buttons = self.detect.detect_weapon_area(image)
 
         while 1:
             self.device.screenshot()
@@ -158,7 +153,7 @@ class Recycle(UI):
 
         # self.wait_until_stable(STABLE_BUTTON)
 
-    def itemConfirm(self):
+    def item_confirm(self):
         while 1:
 
             self.device.screenshot()
@@ -169,7 +164,7 @@ class Recycle(UI):
                 break
         return
 
-    def storageEnter(self):
+    def storage_enter(self):
         self.device.click(STORAGE_OPEN)
         self.wait_until_appear(STORAGE_CHECK)
         self.device.click(MATERIAL)
