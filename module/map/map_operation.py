@@ -173,6 +173,9 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
 
         return False
 
+    def fleets_reversed(self):
+        return (self.config.FLEET_2 != 0) and (self.config.FLEET_2 < self.config.FLEET_1)
+
     def handle_fleet_reverse(self):
         """
         The game chooses the fleet with a smaller index to be the first fleet,
@@ -181,7 +184,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         Returns:
             bool: Fleet changed
         """
-        if (self.config.FLEET_2 == 0) or (self.config.FLEET_2 > self.config.FLEET_1):
+        if not self.fleets_reversed():
             return False
 
         self.fleet_switch_click()
