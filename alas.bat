@@ -2,14 +2,14 @@
 :: Alas Run Tool v3
 :: Author: whoamikyo (https://kyo.ninja)
 :: Version: 3.0
-:: Last updated: 2020-09-08
+:: Last updated: 2020-09-22
 :: https://github.com/LmeSzinc/AzurLaneAutoScript
 @echo off
 chcp | find "932" >NUL && set "IME=true" || set "IME=false"
 if "%IME%"=="true" (
    echo ====================================================================================================
    echo == Incorrect encoding, visit this link to correct: https://bit.ly/34t8ubY
-   echo == You have `¥` instead backslashes you may have problems to run ALAS
+   echo == You have `ï¿½` instead backslashes you may have problems to run ALAS
    start https://bit.ly/34t8ubY
    echo == To copy, select the link and CTRL+SHFT+C
    echo ====================================================================================================
