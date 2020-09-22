@@ -552,6 +552,7 @@ class Fleet(Camera, AmbushHandler):
             portal=self.config.MAP_HAS_PORTAL,
         )
 
+        self.disable_submarine_view()
         self.update()
         self.handle_fleet_reverse()
         self.hp_reset()

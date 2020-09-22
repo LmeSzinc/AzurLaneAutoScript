@@ -117,6 +117,24 @@ class StrategyHandler(InfoHandler):
 
         self.strategy_close()
 
+    def disable_submarine_view(self):
+        if not self.config.SUBMARINE:
+            return False
+        
+        self.strategy_open()
+        self.device.screenshot()
+        
+        if submarine_view.get(main=self) == 'off':
+            changed = False
+        else:
+            logger.info('disable submarine_view')
+            # Here the same as strategy_set_execute.
+            submarine_view.set('off', main=self)
+            changed = True
+        
+        self.strategy_close()
+        return changed
+    
     def handle_strategy(self, index):
         """
 
