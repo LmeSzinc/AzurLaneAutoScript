@@ -28,8 +28,8 @@ class Recycle(UI):
         self.detect = BoxDetect(AzurLaneConfig)
         self.amount_ocr = AMOUNT_OCR
         self.amount_area = AMOUNT_AREA
-        self.boxList = {'T1': self.config.Auto_box_remove_t1_box,
-                        'T2': self.config.Auto_box_remove_t2_box, 'T3': self.config.Auto_box_remove_t3_box}
+        self.boxList = {'T1': self.config.AUTO_BOX_REMOVE_T1_BOX,
+                        'T2': self.config.AUTO_BOX_REMOVE_T2_BOX, 'T3': self.config.AUTO_BOX_REMOVE_T3_BOX}
 
     def _view_swipe(self, distance=SWIPE_DISTANCE):
 

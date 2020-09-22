@@ -130,7 +130,7 @@ class AzurLaneConfig:
     STOP_IF_TIME_REACH = 0
     STOP_IF_TRIGGER_EMOTION_LIMIT = False
     STOP_IF_DOCK_FULL = False
-    STOP_IF_MAP_REACH = 'no' # no, map_100, map_3_star, map_green_without_3_star, map_green
+    STOP_IF_MAP_REACH = 'no'  # no, map_100, map_3_star, map_green_without_3_star, map_green
 
     MAP_CLEAR_ALL_THIS_TIME = False
     # From chapter_template.lua
@@ -181,7 +181,8 @@ class AzurLaneConfig:
     # USE_ADB_CONTROL = False
     SCREEN_SHOT_SAVE_FOLDER_BASE = './screenshot'
     SCREEN_SHOT_SAVE_FOLDER = ''
-    SCREEN_SHOT_SAVE_INTERVAL = 5  # Seconds between two save. Saves in the interval will be dropped.
+    # Seconds between two save. Saves in the interval will be dropped.
+    SCREEN_SHOT_SAVE_INTERVAL = 5
 
     """
     module.daily
@@ -252,9 +253,11 @@ class AzurLaneConfig:
     MAP_HAS_MOVABLE_ENEMY = False
     MAP_HAS_SIREN = False
     MAP_HAS_DYNAMIC_RED_BORDER = False
-    MAP_HAS_MAP_STORY = False  # event_20200521_cn(穹顶下的圣咏曲) adds after-combat story.
+    # event_20200521_cn(穹顶下的圣咏曲) adds after-combat story.
+    MAP_HAS_MAP_STORY = False
     MAP_HAS_WALL = False  # event_20200521_cn(穹顶下的圣咏曲) adds wall between grids.
-    MAP_HAS_PT_BONUS = False  # 100% PT bonus if success to catch enemy else 50%. Retreat get 0%.
+    # 100% PT bonus if success to catch enemy else 50%. Retreat get 0%.
+    MAP_HAS_PT_BONUS = False
     MAP_ENEMY_TEMPLATE = ['Light', 'Main', 'Carrier', 'Treasure']
     MAP_SIREN_TEMPLATE = ['DD', 'CL', 'CA', 'BB', 'CV']
     MAP_SIREN_MOVE_WAIT = 1.5  # The enemy moving takes about 1.2 ~ 1.5s.
@@ -342,7 +345,8 @@ class AzurLaneConfig:
     # Parameters for lines pre-cleansing
     HORIZONTAL_LINES_THETA_THRESHOLD = 0.005
     VERTICAL_LINES_THETA_THRESHOLD = 18
-    TRUST_EDGE_LINES = False  # True to use edge to crop inner, false to use inner to crop edge
+    # True to use edge to crop inner, false to use inner to crop edge
+    TRUST_EDGE_LINES = False
     # Parameters for perspective calculating
     VANISH_POINT_RANGE = ((540, 740), (-3000, -1000))
     DISTANCE_POINT_X_RANGE = ((-3200, -1600),)
@@ -397,7 +401,8 @@ class AzurLaneConfig:
     TACTICAL_BOOK_TIER_MAX = 3
     TACTICAL_BOOK_TIER_MIN = 2
     TACTICAL_EXP_FIRST = True
-    TACTICAL_IF_NO_BOOK_SATISFIED = 'cancel_tactical'  # cancel_tactical, use_the_first_book
+    # cancel_tactical, use_the_first_book
+    TACTICAL_IF_NO_BOOK_SATISFIED = 'cancel_tactical'
     # TACTICAL_BOOK_TIER_NIGHT = 3
     # TACTICAL_EXP_FIRST_NIGHT = False
     # TACTICAL_NIGHT_RANGE = future_time_range('23:30-06:30')  # (Night start, night end), datetime.datetime instance.
@@ -436,11 +441,19 @@ class AzurLaneConfig:
     C124_NON_S3_WITHDRAW_TOLERANCE = 0
     C124_AMMO_PICK_UP = 3
 
+    """
+    Auto_box
+    """
+    AUTO_BOX_REMOVE_T3_BOX = True
+    AUTO_BOX_REMOVE_T2_BOX = True
+    AUTO_BOX_REMOVE_T1_BOX = True
+
     def create_folder(self):
         for folder in [self.ASSETS_FOLDER, self.PERSPECTIVE_ERROR_LOG_FOLDER, self.ERROR_LOG_FOLDER]:
             if folder and not os.path.exists(folder):
                 os.mkdir(folder)
-        self.SCREEN_SHOT_SAVE_FOLDER = self.SCREEN_SHOT_SAVE_FOLDER_BASE + '/' + self.CAMPAIGN_NAME
+        self.SCREEN_SHOT_SAVE_FOLDER = self.SCREEN_SHOT_SAVE_FOLDER_BASE + \
+            '/' + self.CAMPAIGN_NAME
         if self.ENABLE_SAVE_GET_ITEMS and len(self.SCREEN_SHOT_SAVE_FOLDER_BASE.strip()):
             for folder in [self.SCREEN_SHOT_SAVE_FOLDER_BASE, self.SCREEN_SHOT_SAVE_FOLDER]:
                 if folder and not os.path.exists(folder):
@@ -473,13 +486,15 @@ class AzurLaneConfig:
 
     def config_check(self):
         if self.FLEET_1 == self.FLEET_2:
-            logger.warning(f'Mob fleet [{self.FLEET_1}] and boss fleet [{self.FLEET_2}] is the same')
+            logger.warning(
+                f'Mob fleet [{self.FLEET_1}] and boss fleet [{self.FLEET_2}] is the same')
             logger.warning('They should to be set to different fleets')
             exit(1)
         if self.COMMAND.lower() == 'main' and self.CAMPAIGN_NAME.startswith('campaign_'):
             if int(self.CAMPAIGN_NAME.split('_')[1]) >= 7 and self.FLEET_2 == 0:
                 logger.warning('You should use 2 fleets from chapter 7 to 13')
-                logger.warning(f'Current: mob fleet [{self.FLEET_1}], boss fleet [{self.FLEET_2}]')
+                logger.warning(
+                    f'Current: mob fleet [{self.FLEET_1}], boss fleet [{self.FLEET_2}]')
                 exit(1)
 
     def save(self):
@@ -496,11 +511,14 @@ class AzurLaneConfig:
         option = config['Emulator']
         self.SERIAL = option['serial']
         self.PACKAGE_NAME = option['package_name'].strip()
-        self.ENABLE_ERROR_LOG_AND_SCREENSHOT_SAVE = to_bool(option['enable_error_log_and_screenshot_save'])
-        self.ENABLE_PERSPECTIVE_ERROR_IMAGE_SAVE = to_bool(option['enable_perspective_error_image_save'])
+        self.ENABLE_ERROR_LOG_AND_SCREENSHOT_SAVE = to_bool(
+            option['enable_error_log_and_screenshot_save'])
+        self.ENABLE_PERSPECTIVE_ERROR_IMAGE_SAVE = to_bool(
+            option['enable_perspective_error_image_save'])
         self.DEVICE_SCREENSHOT_METHOD = option['device_screenshot_method']
         self.DEVICE_CONTROL_METHOD = option['device_control_method']
-        self.COMBAT_SCREENSHOT_INTERVAL = float(option['combat_screenshot_interval'])
+        self.COMBAT_SCREENSHOT_INTERVAL = float(
+            option['combat_screenshot_interval'])
         # UpdateCheck
         self.UPDATE_CHECK = to_bool(option['enable_update_check'])
         self.UPDATE_METHOD = option['update_method']
@@ -518,36 +536,47 @@ class AzurLaneConfig:
         else:
             self.STOP_IF_TIME_REACH = 0
         self.STOP_IF_OIL_LOWER_THAN = int(option['if_oil_lower_than'])
-        self.STOP_IF_TRIGGER_EMOTION_LIMIT = to_bool(option['if_trigger_emotion_control'])
+        self.STOP_IF_TRIGGER_EMOTION_LIMIT = to_bool(
+            option['if_trigger_emotion_control'])
         self.STOP_IF_DOCK_FULL = to_bool(option['if_dock_full'])
         self.STOP_IF_MAP_REACH = option['if_map_reach']
         # Fleet
         self.ENABLE_FLEET_CONTROL = to_bool(option['enable_fleet_control'])
         self.ENABLE_MAP_FLEET_LOCK = to_bool(option['enable_map_fleet_lock'])
         for n in ['1', '2', '3']:
-            self.__setattr__(f'FLEET_{n}', int(option[f'fleet_index_{n}']) if to_bool(option[f'fleet_index_{n}']) else 0)
-            self.__setattr__(f'FLEET_{n}_FORMATION', int(option[f'fleet_formation_{n}'].split('_')[1]))
+            self.__setattr__(f'FLEET_{n}', int(option[f'fleet_index_{n}']) if to_bool(
+                option[f'fleet_index_{n}']) else 0)
+            self.__setattr__(f'FLEET_{n}_FORMATION', int(
+                option[f'fleet_formation_{n}'].split('_')[1]))
             self.__setattr__(f'FLEET_{n}_STEP', int(option[f'fleet_step_{n}']))
-            self.__setattr__(f'FLEET_{n}_AUTO_MODE', option[f'fleet_auto_mode_{n}'])
-        self.SUBMARINE = int(option['fleet_index_4']) if to_bool(option['fleet_index_4']) else 0
+            self.__setattr__(f'FLEET_{n}_AUTO_MODE',
+                             option[f'fleet_auto_mode_{n}'])
+        self.SUBMARINE = int(option['fleet_index_4']) if to_bool(
+            option['fleet_index_4']) else 0
         self.SUBMARINE_MODE = option['submarine_mode']
         self.SUBMARINE_CALL_AT_BOSS = option['submarine_mode'] == 'when_boss_combat_boss_appear'
         # Emotion
         self.ENABLE_EMOTION_REDUCE = to_bool(option['enable_emotion_reduce'])
-        self.IGNORE_LOW_EMOTION_WARN = to_bool(option['ignore_low_emotion_warn'])
+        self.IGNORE_LOW_EMOTION_WARN = to_bool(
+            option['ignore_low_emotion_warn'])
         for n in ['1', '2', '3']:
             recover = dic_emotion_recover[option[f'emotion_recover_{n}']]
             recover += 10 if to_bool(option[f'hole_fleet_married_{n}']) else 0
             self.__setattr__(f'FLEET_{n}_RECOVER_PER_HOUR', recover)
-            self.__setattr__(f'FLEET_{n}_EMOTION_LIMIT', dic_emotion_limit[option[f'emotion_control_{n}']])
+            self.__setattr__(
+                f'FLEET_{n}_EMOTION_LIMIT', dic_emotion_limit[option[f'emotion_control_{n}']])
         # HP balance, save get items -> combat
         self.ENABLE_HP_BALANCE = to_bool(option['enable_hp_balance'])
         self.ENABLE_LOW_HP_WITHDRAW = to_bool(option['enable_low_hp_withdraw'])
-        self.SCOUT_HP_DIFFERENCE_THRESHOLD = float(option['scout_hp_difference_threshold'])
+        self.SCOUT_HP_DIFFERENCE_THRESHOLD = float(
+            option['scout_hp_difference_threshold'])
         self.SCOUT_HP_WEIGHTS = to_list(option['scout_hp_weights'])
-        self.EMERGENCY_REPAIR_SINGLE_THRESHOLD = float(option['emergency_repair_single_threshold'])
-        self.EMERGENCY_REPAIR_HOLE_THRESHOLD = float(option['emergency_repair_hole_threshold'])
-        self.LOW_HP_WITHDRAW_THRESHOLD = float(option['low_hp_withdraw_threshold'])
+        self.EMERGENCY_REPAIR_SINGLE_THRESHOLD = float(
+            option['emergency_repair_single_threshold'])
+        self.EMERGENCY_REPAIR_HOLE_THRESHOLD = float(
+            option['emergency_repair_hole_threshold'])
+        self.LOW_HP_WITHDRAW_THRESHOLD = float(
+            option['low_hp_withdraw_threshold'])
         self.ENABLE_SAVE_GET_ITEMS = to_bool(option['enable_drop_screenshot'])
         self.SCREEN_SHOT_SAVE_FOLDER_BASE = option['drop_screenshot_folder']
         # Retirement
@@ -557,18 +586,21 @@ class AzurLaneConfig:
         self.ENHANCE_FAVOURITE = to_bool(option['enhance_favourite'])
         self.ENHANCE_ORDER_STRING = option['enhance_order_string']
         for r in ['n', 'r', 'sr', 'ssr']:
-            self.__setattr__(f'RETIRE_{r.upper()}', to_bool(option[f'retire_{r}']))
+            self.__setattr__(f'RETIRE_{r.upper()}',
+                             to_bool(option[f'retire_{r}']))
 
         # Reward
         option = config['Reward']
         self.REWARD_INTERVAL = option['reward_interval']
-        self.REWARD_STOP_GAME_DURING_INTERVAL = to_bool(option['reward_stop_game_during_interval'])
+        self.REWARD_STOP_GAME_DURING_INTERVAL = to_bool(
+            option['reward_stop_game_during_interval'])
         for attr in ['enable_reward', 'enable_oil_reward', 'enable_coin_reward', 'enable_mission_reward',
                      'enable_commission_reward', 'enable_tactical_reward', 'enable_daily_reward',
                      'enable_research_reward']:
             self.__setattr__(attr.upper(), to_bool(option[attr]))
         if not option['commission_time_limit'].isdigit():
-            self.COMMISSION_TIME_LIMIT = future_time(option['commission_time_limit'])
+            self.COMMISSION_TIME_LIMIT = future_time(
+                option['commission_time_limit'])
         else:
             self.COMMISSION_TIME_LIMIT = 0
         for attr in self.COMMISSION_PRIORITY.keys():
@@ -581,7 +613,8 @@ class AzurLaneConfig:
         # self.TACTICAL_BOOK_TIER_NIGHT = int(option['tactical_book_tier_night'])
         # self.TACTICAL_EXP_FIRST_NIGHT = to_bool(option['tactical_exp_first_night'])
         for item in ['coin', 'cube', 'part']:
-            self.__setattr__(f'RESEARCH_USE_{item}'.upper(), to_bool(option[f'RESEARCH_USE_{item}'.lower()]))
+            self.__setattr__(f'RESEARCH_USE_{item}'.upper(), to_bool(
+                option[f'RESEARCH_USE_{item}'.lower()]))
         self.RESEARCH_FILTER_PRESET = option['research_filter_preset']
         self.RESEARCH_FILTER_STRING = option['research_filter_string']
         self.BUY_MEOWFFICER = int(option['buy_meowfficer'])
@@ -651,7 +684,8 @@ class AzurLaneConfig:
 
         # Semi_auto
         option = config['Semi_auto']
-        self.ENABLE_SEMI_MAP_PREPARATION = to_bool(option['enable_semi_map_preparation'])
+        self.ENABLE_SEMI_MAP_PREPARATION = to_bool(
+            option['enable_semi_map_preparation'])
         self.ENABLE_SEMI_STORY_SKIP = to_bool(option['enable_semi_story_skip'])
 
         # C_1_1_affinity_farming
@@ -660,7 +694,8 @@ class AzurLaneConfig:
 
         # C_7_2_mystery_farming
         option = config['C72_mystery_farming']
-        self.C72_BOSS_FLEET_STEP_ON_A3 = to_bool(option['boss_fleet_step_on_a3'])
+        self.C72_BOSS_FLEET_STEP_ON_A3 = to_bool(
+            option['boss_fleet_step_on_a3'])
         if self.COMMAND.lower() == 'c72_mystery_farming' and not self.C72_BOSS_FLEET_STEP_ON_A3:
             self.FLEET_2 = 0
 
@@ -670,15 +705,17 @@ class AzurLaneConfig:
 
         # C_12_4_leveling
         option = config['C124_leveling']
-        self.C124_NON_S3_ENTER_TOLERANCE = int(option['non_s3_enemy_enter_tolerance'])
-        self.C124_NON_S3_WITHDRAW_TOLERANCE = int(option['non_s3_enemy_withdraw_tolerance'])
+        self.C124_NON_S3_ENTER_TOLERANCE = int(
+            option['non_s3_enemy_enter_tolerance'])
+        self.C124_NON_S3_WITHDRAW_TOLERANCE = int(
+            option['non_s3_enemy_withdraw_tolerance'])
         self.C124_AMMO_PICK_UP = int(option['ammo_pick_up_124'])
 
         # Auto_box
         option = config['Auto_box']
-        self.Auto_box_remove_t3_box = to_bool(option['remove_t3_box'])
-        self.Auto_box_remove_t2_box = to_bool(option['remove_t2_box'])
-        self.Auto_box_remove_t1_box = to_bool(option['remove_t1_box'])
+        self.AUTO_BOX_REMOVE_T3_BOX = to_bool(option['remove_t3_box'])
+        self.AUTO_BOX_REMOVE_T2_BOX = to_bool(option['remove_t2_box'])
+        self.AUTO_BOX_REMOVE_T1_BOX = to_bool(option['remove_t1_box'])
 
     def get_server_timezone(self):
         if self.SERVER == 'en':
