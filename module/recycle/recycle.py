@@ -35,8 +35,14 @@ class Recycle(UI):
 
         new = self.device.screenshot()
 
-        self.device.swipe(vector=(0, -distance), box=STABLE_AREA, random_range=SWIPE_RANDOM_RANGE,
-                          padding=0, duration=(0.1, 0.12), name='STORAGE_SWIPE')
+        p1, p2 = random_rectangle_vector(
+            (0, -distance), box=STABLE_AREA, random_range=(-20, -5, 20, 5))
+        self.device.drag(p1, p2, segments=2, shake=(25, 0),
+                         point_random=(0, 0, 0, 0), shake_random=(-5, 0, 5, 0))
+
+        # self.device.swipe(vector=(0, -distance), box=STABLE_AREA, random_range=SWIPE_RANDOM_RANGE,
+        #                   padding=0, duration=(0.1, 0.12), name='STORAGE_SWIPE')
+
         self.wait_until_stable(STABLE_BUTTON)
 
         new, old = self.device.screenshot(), new
