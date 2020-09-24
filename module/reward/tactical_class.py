@@ -192,8 +192,9 @@ class RewardTacticalClass(UI):
                             exp=self.config.TACTICAL_EXP_FIRST)
 
         if book is not None:
-            self.device.click(book.button)
-            self.device.sleep((0.3, 0.5))
+            for _ in range(3):
+                self.device.click(book.button)
+                self.device.sleep((0.3, 0.5))
             self.device.click(TACTICAL_CLASS_START)
         else:
             # cancel_tactical, use_the_first_book
