@@ -87,8 +87,7 @@ class CampaignOcr(ModuleBase):
         result = Points(result, config=self.config).group()
 
         for point in result:
-            point = point[::-1]
-            button = tuple(np.append(point, point + template.image.shape[:2][::-1]))
+            button = tuple(np.append(point, point + template.size))
             point = point + name_offset
             name = image.crop(np.append(point, point + name_size))
             name = extract_letters(name, letter=name_letter, threshold=name_thresh)
