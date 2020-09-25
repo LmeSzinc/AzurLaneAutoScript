@@ -113,6 +113,12 @@ page_main.link(button=MAIN_GOTO_RESHMENU, destination=page_reshmenu)
 page_dormmenu = Page(DORMMENU_CHECK)
 page_main.link(button=MAIN_GOTO_DORMMENU, destination=page_dormmenu)
 
+# Dorm
+# DORM_CHECK is the `manage` button (the third from the right), because it's the last button to load.
+page_dorm = Page(DORM_CHECK)
+page_dormmenu.link(button=DORMMENU_GOTO_DORM, destination=page_dorm)
+page_dorm.link(button=BACK_ARROW_DORM, destination=page_main)
+
 # Meowfficer
 page_meowfficer = Page(MEOWFFICER_CHECK)
 page_dormmenu.link(button=DORMMENU_GOTO_MEOWFFICER, destination=page_meowfficer)
