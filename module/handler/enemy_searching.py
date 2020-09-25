@@ -5,12 +5,13 @@ from module.handler.assets import *
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.map.assets import *
+from module.ui.assets import EVENT_CHECK, SP_CHECK, CAMPAIGN_CHECK
 
 
 class EnemySearchingHandler(InfoHandler):
     MAP_ENEMY_SEARCHING_OVERLAY_TRANSPARENCY_THRESHOLD = 0.5  # Usually (0.70, 0.80).
     MAP_ENEMY_SEARCHING_TIMEOUT_SECOND = 5
-    in_stage_timer = Timer(1.5, count=5)
+    in_stage_timer = Timer(0.5, count=2)
     stage_entrance = None
 
     map_is_clear = False  # Will be override in fast_forward.py
@@ -41,12 +42,15 @@ class EnemySearchingHandler(InfoHandler):
             return False
 
     def is_in_stage(self):
-        if not self.appear(IN_STAGE, offset=(10, 10)):
+        appear = [self.appear(check, offset=(20, 20)) for check in [CAMPAIGN_CHECK, EVENT_CHECK, SP_CHECK]]
+        if not any(appear):
             return False
-        if self.map_is_clear \
-                and self.stage_entrance is not None \
-                and self.stage_entrance.area \
-                and not self.appear(self.stage_entrance, threshold=30):
+
+        # campaign_extract_name_image in CampaignOcr.
+        try:
+            if not len(self.campaign_extract_name_image(self.device.image)):
+                return False
+        except IndexError:
             return False
 
         return True

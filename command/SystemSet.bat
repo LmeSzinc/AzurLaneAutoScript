@@ -19,12 +19,12 @@ if /i "%PROCESSOR_IDENTIFIER:~0,3%"=="x86" (
 :: Another way
 :: WMIC OS GET OSArchitecture | find "64" >NUL && set "SystemType=64" || set "SystemType=32"
 
-:SystemSet_FirstRun
-if NOT exist "%AlasConfig%" (
-	set "FirstRun=yes"
-) else (
-	set "FirstRun=no"
-)
+rem :SystemSet_FirstRun
+rem if NOT exist "%AlasConfig%" (
+rem 	set "FirstRun=yes"
+rem ) else (
+rem 	set "FirstRun=no"
+rem )
 
 :SystemSet_IsUsingGit
 
@@ -35,6 +35,6 @@ if exist "%gitFolder%" (
 )
 
 call command\Config.bat IsUsingGit %IsUsingGit%
-call command\Config.bat FirstRun %FirstRun%
+rem call command\Config.bat FirstRun %FirstRun%
 
 rem ================= End of File =================

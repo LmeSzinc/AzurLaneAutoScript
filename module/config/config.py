@@ -137,16 +137,18 @@ class AzurLaneConfig:
     STAR_REQUIRE_1 = 1
     STAR_REQUIRE_2 = 2
     STAR_REQUIRE_3 = 3
+    # In Dreamwaker's Butterfly (event_20200917) add new stage entrance icons, called `blue`.
+    STAGE_ENTRANCE = ['normal']  # normal, blue
 
     """
     module.event
     """
     EVENT_NAME = ''
-    CAMPAIGN_EVENT = ''
+    EVENT_STAGE = ''
     EVENT_NAME_AB = ''
     ENABLE_EVENT_AB = False
     ENABLE_EVENT_SP = False
-    EVENT_AB_CHAPTER = 'chapter_ab'  # chapter_ab, chapter_abcd
+    EVENT_AB_CHAPTER = 'chapter_ab'  # chapter_ab, chapter_abcd, chapter_t, chapter_ht
     EVENT_SP_MOB_FLEET = 1
 
     """
@@ -255,6 +257,8 @@ class AzurLaneConfig:
     MAP_HAS_MAP_STORY = False  # event_20200521_cn(穹顶下的圣咏曲) adds after-combat story.
     MAP_HAS_WALL = False  # event_20200521_cn(穹顶下的圣咏曲) adds wall between grids.
     MAP_HAS_PT_BONUS = False  # 100% PT bonus if success to catch enemy else 50%. Retreat get 0%.
+    MAP_IS_ONE_TIME_STAGE = False
+    MAP_HAS_PORTAL = False
     MAP_ENEMY_TEMPLATE = ['Light', 'Main', 'Carrier', 'Treasure']
     MAP_SIREN_TEMPLATE = ['DD', 'CL', 'CA', 'BB', 'CV']
     MAP_SIREN_MOVE_WAIT = 1.5  # The enemy moving takes about 1.2 ~ 1.5s.
@@ -633,11 +637,7 @@ class AzurLaneConfig:
         # Event
         option = config['Event']
         self.EVENT_NAME = option['event_name']
-        name = ''.join(os.listdir(f'./campaign/{self.EVENT_NAME}'))
-        if 'sp1' in name or 'sp2' in name or 'sp3' in name:
-            self.CAMPAIGN_EVENT = option['sp_stage']
-        else:
-            self.CAMPAIGN_EVENT = option['event_stage']
+        self.EVENT_STAGE = option['event_stage'].lower()
 
         # Raid
         option = config['Raid']

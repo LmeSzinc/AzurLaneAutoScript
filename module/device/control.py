@@ -70,7 +70,7 @@ class Control(MiniTouch):
 
     @retry()
     def _click_adb(self, x, y):
-        self.adb_shell(['input', 'tap', str(x), str(y)], serial=self.serial)
+        self.adb_shell(['input', 'tap', str(x), str(y)])
 
     def multi_click(self, button, n, interval=(0.1, 0.2)):
         self.click_record_check(button)

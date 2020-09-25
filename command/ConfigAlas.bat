@@ -8,20 +8,20 @@
 setlocal EnableDelayedExpansion
 set "cfg_Alas=%root%\config\alas.ini"
 set "cfg_Extra=%~2"
-call :Config_Common
+call :Config_misc
 call :Config_%~1
-call :Config_Common2
+call :Config_misc2
 goto :eof
 
 rem ================= FUNCTIONS =================
 
-:Config_Common
+:Config_misc
 
 copy %cfg_Alas% %cfg_Alas%.bak > NUL
 type NUL > %cfg_Alas%
 goto :eof
 
-:Config_Common2
+:Config_misc2
 del /Q %cfg_Alas%.bak >NUL 2>NUL
 cd ..
 goto :eof

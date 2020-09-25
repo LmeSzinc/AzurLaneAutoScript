@@ -13,9 +13,10 @@ class CampaignMap:
         self.grids = {}
         self._shape = (0, 0)
         self._map_data = ''
+        self._map_data_loop = ''
         self._weight_data = ''
         self._wall_data = ''
-        self._block_data = []
+        self._portal_data = []
         self._spawn_data = []
         self._spawn_data_stack = []
         self._camera_data = []
@@ -69,8 +70,6 @@ class CampaignMap:
         # weight_data set to 10.
         for grid in self:
             grid.weight = 10.
-        # Initialize grid connection.
-        self.grid_connection_initial()
 
     @property
     def map_data(self):
@@ -78,11 +77,35 @@ class CampaignMap:
 
     @map_data.setter
     def map_data(self, text):
+        self._map_data = text
+        self._load_map_data(text)
+
+    @property
+    def map_data_loop(self):
+        return self._map_data_loop
+
+    @map_data_loop.setter
+    def map_data_loop(self, text):
+        self._map_data_loop = text
+
+    def load_map_data(self, use_loop=False):
+        """
+        Args:
+            use_loop (bool): If at clearing mode.
+                             clearing mode (Correct name) == fast forward (in old Alas) == loop (in lua files)
+        """
+        has_loop = len(self.map_data_loop)
+        logger.info(f'Load map_data, has_loop={has_loop}, use_loop={use_loop}')
+        if has_loop and use_loop:
+            self._load_map_data(self.map_data_loop)
+        else:
+            self._load_map_data(self.map_data)
+
+    def _load_map_data(self, text):
         if not len(self.grids.keys()):
             grids = np.array([loca for loca, _ in self._parse_text(text)])
             self.shape = location2node(tuple(np.max(grids, axis=0)))
 
-        self._map_data = text
         for loca, data in self._parse_text(text):
             self.grids[loca].decode(data)
 
@@ -94,14 +117,32 @@ class CampaignMap:
     def wall_data(self, text):
         self._wall_data = text
 
-    def grid_connection_initial(self, wall=False):
+    @property
+    def portal_data(self):
+        return self._portal_data
+
+    @portal_data.setter
+    def portal_data(self, portal_list):
+        """
+        Args:
+            portal_list (list[tuple]): [(start, end),]
+        """
+        for nodes in portal_list:
+            node1, node2 = location_ensure(nodes[0]), location_ensure(nodes[1])
+            self._portal_data.append((node1, node2))
+            self[node1].is_portal = True
+
+    def grid_connection_initial(self, wall=False, portal=False):
         """
         Args:
             wall (bool): If use wall_data
+            portal (bool): If use portal_data
 
         Returns:
             bool: If used wall data.
         """
+        logger.info(f'grid_connection: wall={wall}, portal={portal}')
+
         # Generate grid connection.
         total = set([grid for grid in self.grids.keys()])
         for grid in self:
@@ -109,31 +150,41 @@ class CampaignMap:
             for arr in np.array([(0, -1), (0, 1), (-1, 0), (1, 0)]):
                 arr = tuple(arr + grid.location)
                 if arr in total:
-                    connection.add(self[arr])
-            self.grid_connection[grid] = connection
-
-        if not wall or not self._wall_data:
-            return False
+                    connection.add(arr)
+            self.grid_connection[grid.location] = connection
 
         # Use wall_data to delete connection.
-        wall = []
-        for y, line in enumerate([l for l in self._wall_data.split('\n') if l]):
-            for x, letter in enumerate(line[4:-2]):
-                if letter != ' ':
-                    wall.append((x, y))
-        wall = np.array(wall)
-        vert = wall[np.all([wall[:, 0] % 4 == 2, wall[:, 1] % 2 == 0], axis=0)]
-        hori = wall[np.all([wall[:, 0] % 4 == 0, wall[:, 1] % 2 == 1], axis=0)]
-        disconnect = []
-        for loca in (vert - (2, 0)) // (4, 2):
-            disconnect.append([loca, loca + (1, 0)])
-        for loca in (hori - (0, 1)) // (4, 2):
-            disconnect.append([loca, loca + (0, 1)])
-        for g1, g2 in disconnect:
-            g1 = self[g1]
-            g2 = self[g2]
-            self.grid_connection[g1].remove(g2)
-            self.grid_connection[g2].remove(g1)
+        if wall and self._wall_data:
+            wall = []
+            for y, line in enumerate([l for l in self._wall_data.split('\n') if l]):
+                for x, letter in enumerate(line[4:-2]):
+                    if letter != ' ':
+                        wall.append((x, y))
+            wall = np.array(wall)
+            vert = wall[np.all([wall[:, 0] % 4 == 2, wall[:, 1] % 2 == 0], axis=0)]
+            hori = wall[np.all([wall[:, 0] % 4 == 0, wall[:, 1] % 2 == 1], axis=0)]
+            disconnect = []
+            for loca in (vert - (2, 0)) // (4, 2):
+                disconnect.append([loca, loca + (1, 0)])
+            for loca in (hori - (0, 1)) // (4, 2):
+                disconnect.append([loca, loca + (0, 1)])
+            for g1, g2 in disconnect:
+                g1 = self[g1]
+                g2 = self[g2]
+                self.grid_connection[g1].remove(g2)
+                self.grid_connection[g2].remove(g1)
+
+        # Create portal link
+        for start, end in self._portal_data:
+            if portal:
+                self.grid_connection[start].add(end)
+                self[start].is_portal = True
+                self[start].portal_link = end
+            else:
+                if end in self.grid_connection[start]:
+                    self.grid_connection[start].remove(end)
+                self[start].is_portal = False
+                self[start].portal_link = None
 
         return True
 
@@ -305,10 +356,11 @@ class CampaignMap:
         while 1:
             new = visited.copy()
             for grid in visited:
-                for arr in self.grid_connection[grid]:
+                for arr in self.grid_connection[grid.location]:
+                    arr = self[arr]
                     if arr.is_land:
                         continue
-                    cost = 1 if arr.is_ambush_save else ambush_cost
+                    cost = ambush_cost if arr.may_ambush else 1
                     cost += grid.cost
 
                     if cost < arr.cost:
@@ -410,14 +462,15 @@ class CampaignMap:
         inserted = []
         for left, right in zip(res[:-1], res[1:]):
             for index in list(range(left, right, step))[1:]:
-                if not self[route[index]].is_fleet:
-                    inserted.append(index)
-                else:
-                    logger.info(f'Path_node_avoid: {self[route[index]]}')
+                way_node = self[route[index]]
+                if way_node.is_fleet or way_node.is_portal:
+                    logger.info(f'Path_node_avoid: {way_node}')
                     if (index > 1) and (index - 1 not in res):
                         inserted.append(index - 1)
                     if (index < len(route) - 2) and (index + 1 not in res):
                         inserted.append(index + 1)
+                else:
+                    inserted.append(index)
             inserted.append(right)
         res = inserted
         # res = [3, 6, 8]
@@ -430,10 +483,22 @@ class CampaignMap:
         if path is None or not len(path):
             logger.warning('No path found. Return destination.')
             return [location]
+        logger.info('Full path: %s' % '[' + ', ' .join([location2node(grid) for grid in path]) + ']')
 
-        logger.info('Path: %s' % '[' + ', ' .join([location2node(grid) for grid in path]) + ']')
-        path = self._find_route_node(path, step=step)
-        logger.info('Path: %s' % '[' + ', ' .join([location2node(grid) for grid in path]) + ']')
+        portal_path = []
+        index = [0]
+        for i, loca in enumerate(zip(path[:-1], path[1:])):
+            if self[loca[0]].is_portal and self[loca[0]].portal_link == loca[1]:
+                index += [i, i + 1]
+        index.append(len(path))
+        for start, end in zip(index[:-1], index[1:]):
+            if end - start == 1 and self[path[start]].is_portal and self[path[start]].portal_link == path[end]:
+                continue
+            local_path = path[start:end + 1]
+            local_path = self._find_route_node(local_path, step=step)
+            portal_path += local_path
+            logger.info('Path: %s' % '[' + ', ' .join([location2node(grid) for grid in local_path]) + ']')
+        path = portal_path
 
         return path
 

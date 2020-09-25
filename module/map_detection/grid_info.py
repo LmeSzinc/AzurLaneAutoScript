@@ -33,6 +33,7 @@ class GridInfo:
     may_mystery = False  # MM
     may_ammo = False  # MA
     may_siren = False  # MS
+    may_ambush = False
 
     is_enemy = False  # example: 0L 1M 2C 3T 3E
     is_boss = False  # BO
@@ -40,14 +41,15 @@ class GridInfo:
     is_ammo = False  # AM
     is_fleet = False  # FL
     is_current_fleet = False
-    is_submarine = False  # SS
+    is_submarine = False  # ss
     is_siren = False  # SI
+    is_portal = False
+    portal_link = ()
 
     enemy_scale = 0
     enemy_genre = None  # Light, Main, Carrier, Treasure, Enemy(unknown)
 
     is_cleared = False
-    is_ambush_save = False
     is_caught_by_siren = False
     is_carrier = False
     is_movable = False
@@ -70,14 +72,15 @@ class GridInfo:
             'MA': 'may_ammo',
             'MS': 'may_siren',
         }
-        if text in dic:
-            self.__setattr__(dic[text], True)
-        if self.may_enemy or self.may_boss or self.may_mystery or self.may_mystery:
-            self.is_ambush_save = True
-        if self.may_siren:
-            self.may_enemy = True
-        if self.may_boss:
-            self.may_enemy = True
+        valid = text in dic
+        for k, v in dic.items():
+            self.__setattr__(v, valid and bool(k == text))
+
+        self.may_ambush = not (self.may_enemy or self.may_boss or self.may_mystery or self.may_mystery)
+        # if self.may_siren:
+        #     self.may_enemy = True
+        # if self.may_boss:
+        #     self.may_enemy = True
 
     def encode(self):
         dic = {
@@ -101,6 +104,7 @@ class GridInfo:
             'FL': 'is_current_fleet',
             'Fc': 'is_caught_by_siren',
             'Fl': 'is_fleet',
+            'ss': 'is_submarine',
             'MY': 'is_mystery',
             'AM': 'is_ammo',
             '==': 'is_cleared'
@@ -195,7 +199,6 @@ class GridInfo:
                 if info.enemy_scale:
                     self.enemy_scale = info.enemy_scale
                 if info.enemy_genre:
-
                     self.enemy_genre = info.enemy_genre
                 return True
             elif mode == 'carrier' and not self.is_land and self.may_carrier:

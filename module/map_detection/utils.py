@@ -51,7 +51,7 @@ ASSETS = Assets()
 
 class Points:
     def __init__(self, points, config):
-        if points is None:
+        if points is None or len(points) == 0:
             self._bool = False
             self.points = None
         else:
@@ -59,8 +59,8 @@ class Points:
             self.points = np.array(points)
             if len(self.points.shape) == 1:
                 self.points = np.array([self.points])
+            self.x, self.y = self.points.T
         self.config = config
-        self.x, self.y = self.points.T
 
     def __str__(self):
         return str(self.points)
@@ -72,7 +72,10 @@ class Points:
         return self.points[item]
 
     def __len__(self):
-        return len(self.points)
+        if self:
+            return len(self.points)
+        else:
+            return 0
 
     def __bool__(self):
         return self._bool
@@ -87,6 +90,29 @@ class Points:
             rho = self.x * np.cos(theta) + self.y * np.sin(theta)
             lines = np.array([rho, theta]).T
             return Lines(lines, is_horizontal=False, config=self.config)
+
+    def mean(self):
+        if not self:
+            return None
+
+        return np.round(np.mean(self.points, axis=0)).astype(int)
+
+    def group(self, threshold=3):
+        if not self:
+            return np.array([])
+        groups = []
+        points = self.points
+
+        while len(points):
+            if len(points) == 1:
+                return np.array([points[0]])
+            p0, p1 = points[0], points[1:]
+            distance = np.sum(np.abs(p1 - p0), axis=1)
+            new = Points(np.append(p1[distance <= threshold], [p0], axis=0), config=self.config).mean().tolist()
+            groups.append(new)
+            points = p1[distance > threshold]
+
+        return np.array(groups)
 
 
 class Lines:
@@ -231,21 +257,6 @@ class Lines:
             lines.append(line)
 
         return Lines(lines, is_horizontal=self.is_horizontal, config=self.config)
-
-
-def rgb2gray(image):
-    """
-    Args:
-        image (np.ndarray):
-
-    Returns:
-        np.ndarray:
-    """
-    r, g, b = cv2.split(image)
-    return cv2.add(
-        cv2.multiply(cv2.max(cv2.max(r, g), b), 0.5),
-        cv2.multiply(cv2.min(cv2.min(r, g), b), 0.5)
-    )
 
 
 def area2corner(area):

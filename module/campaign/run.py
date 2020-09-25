@@ -5,9 +5,8 @@ from datetime import datetime
 
 from module.campaign.assets import *
 from module.campaign.campaign_base import CampaignBase
-from module.campaign.campaign_ui import CampaignUI
 from module.config.config import AzurLaneConfig
-from module.exception import ScriptEnd, CampaignNameError
+from module.exception import ScriptEnd
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.reward.reward import Reward
@@ -15,7 +14,7 @@ from module.reward.reward import Reward
 OCR_OIL = Digit(OCR_OIL, name='OCR_OIL', letter=(247, 247, 247), threshold=128)
 
 
-class CampaignRun(CampaignUI, Reward):
+class CampaignRun(Reward):
     folder: str
     name: str
     stage: str
@@ -48,6 +47,12 @@ class CampaignRun(CampaignUI, Reward):
             self.module = importlib.import_module('.' + name, f'campaign.{folder}')
         except ModuleNotFoundError:
             logger.warning(f'Map file not found: campaign.{folder}.{name}')
+            folder = f'./campaign/{folder}'
+            if not os.path.exists(folder):
+                logger.warning(f'Folder not exists: {folder}')
+            else:
+                files = [f[:-3] for f in os.listdir(folder) if f[-3:] == '.py']
+                logger.warning(f'Existing files: {files}')
             exit(1)
 
         config = copy.copy(self.config).merge(self.module.Config())
@@ -66,10 +71,10 @@ class CampaignRun(CampaignUI, Reward):
         if not os.path.exists(folder):
             os.mkdir(folder)
         self.campaign.config.SCREEN_SHOT_SAVE_FOLDER = folder
+        self.config.SCREEN_SHOT_SAVE_FOLDER = folder
 
     def triggered_stop_condition(self):
         """
-
         Returns:
             bool: If triggered a stop condition.
         """
@@ -152,7 +157,10 @@ class CampaignRun(CampaignUI, Reward):
             if self.campaign.is_in_map():
                 logger.info('Already in map, skip ensure_campaign_ui.')
             else:
-                self.handle_campaign_ui()
+                self.campaign.ensure_campaign_ui(
+                    name=self.stage,
+                    mode=self.config.CAMPAIGN_MODE if self.config.COMMAND.lower() == 'main' else 'normal'
+                )
             if self.commission_notice_show_at_campaign():
                 if self.reward():
                     self.campaign.fleet_checked_reset()
@@ -177,15 +185,8 @@ class CampaignRun(CampaignUI, Reward):
                 count = 0 if count < 0 else count
                 self.config.config.set('Setting', 'if_count_greater_than', str(count))
                 self.config.save()
-
-    def handle_campaign_ui(self):
-        for n in range(20):
-            try:
-                self.ensure_campaign_ui(name=self.stage, mode=self.config.CAMPAIGN_MODE)
-                self.campaign.ENTRANCE = self.campaign_get_entrance(name=self.stage)
-                return True
-            except CampaignNameError:
-                continue
-
-        logger.warning('Campaign name error')
-        raise ScriptEnd('Campaign name error')
+            # One-time stage limit
+            if self.campaign.config.MAP_IS_ONE_TIME_STAGE:
+                if self.run_count >= 1:
+                    logger.hr('Triggered one-time stage limit')
+                    return True

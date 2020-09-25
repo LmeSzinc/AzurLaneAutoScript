@@ -2,15 +2,16 @@
 :: Alas Run Tool v3
 :: Author: whoamikyo (https://kyo.ninja)
 :: Version: 3.0
-:: Last updated: 2020-08-23
+:: Last updated: 2020-09-22
 :: https://github.com/LmeSzinc/AzurLaneAutoScript
 @echo off
 chcp | find "932" >NUL && set "IME=true" || set "IME=false"
 if "%IME%"=="true" (
    echo ====================================================================================================
-   echo Incorrect encoding, visit this link to correct: https://bit.ly/34t8ubY
+   echo == Incorrect encoding, visit this link to correct: https://bit.ly/34t8ubY
+   echo == You have `�` instead backslashes you may have problems to run ALAS
    start https://bit.ly/34t8ubY
-   echo To copy, select the link and CTRL+SHFT+C
+   echo == To copy, select the link and CTRL+SHFT+C
    echo ====================================================================================================
    pause
    goto :eof
@@ -28,6 +29,7 @@ rem ================= Preparation =================
 set "root=%~dp0"
 set "root=%root:~0,-1%"
 cd "%root%"
+rem call :ExitIfNotPython
 
 rem ================= Variables =================
 
@@ -43,7 +45,7 @@ set "gitFolder=%root%\.git"
 :: Import main settings (%Language%, %Region%, %SystemType%).
 call command\Get.bat Main
 :: Import the Proxy setting and apply. Then show more info in Option6.
-call command\Get.bat Serial
+call :Emulator_SetupFirstRun
 call command\Get.bat Proxy
 call command\Get.bat InfoOpt1
 :: If already deployed, show more info in Option3.
@@ -69,7 +71,7 @@ rem echo KeepLocalChanges: %KeepLocalChanges%
 rem echo RealtimeMode: %RealtimeMode%
 rem echo FirstRun: %FirstRun%
 echo IsUsingGit: %IsUsingGit%
-echo Serial: %Serial%
+echo Serial: %SerialDeploy%
 setLocal EnableDelayedExpansion
 set "STR=Alas Run Tool %Version%^"
 set "SIZE=100"
@@ -87,7 +89,7 @@ call echo %%equal:~0,%SIZE%%%
 endLocal
 echo.
 echo ====================================================================================================
-echo. & echo  [*] Choose a Option
+echo. & echo  [*] Select your Server/GUI Language
       echo    ^|
       echo    ^|-- [1] EN
       echo    ^|
@@ -117,7 +119,8 @@ rem ================= OPTION 1 =================
 :en
 call command\ConfigAlas.bat AzurLanePackage com.YoStarEN.AzurLane
 call :CheckBsBeta
-:continue_en
+rem :continue_en
+rem call :AdbConnect
 echo ====================================================================================================
 echo Python Found in %pyBin% Proceeding..
 echo Opening alas_en.pyw in %root%
@@ -130,6 +133,7 @@ rem ================= OPTION 2 =================
 
 :cn
 call :CheckBsBeta
+rem call :AdbConnect
 echo ====================================================================================================
 echo Python Found in %pyBin% Proceeding..
 echo Opening alas_en.pyw in %root%
@@ -141,6 +145,7 @@ goto :MENU
 rem ================= OPTION 3 =================
 :jp
 call :CheckBsBeta
+rem call :AdbConnect
 echo ====================================================================================================
 echo Python Found in %pyBin% Proceeding..
 echo Opening alas_en.pyw in %root%
@@ -191,7 +196,7 @@ if "%choice%"=="1" goto Run_UpdateAlas
 if "%choice%"=="2" goto update_toolkit
 if "%choice%"=="3" goto Setting
 if "%choice%"=="0" goto MENU
-echo. & echo Please input a valid option.
+echo. & echo == Please input a valid option.
 pause > NUL
 goto Updater_menu
 
@@ -200,13 +205,13 @@ set source="origin"
 if "%Region%"=="cn" set "source=gitee"
 echo. & echo.
 echo ====================================================================================================
-echo Branch in use: %Branch%
-echo KeepLocalChanges is: %KeepLocalChanges%
+echo == Branch in use: %Branch%
+echo == KeepLocalChanges is: %KeepLocalChanges%
 echo ====================================================================================================
 set opt6_opt4_choice=0
-echo. & echo Change default Branch (master/dev), please enter T;
-echo To proceed update using Branch: %Branch%, please enter Y;
-echo Back to Updater menu, please enter N;
+echo. & echo == Change default Branch (master/dev), please enter T;
+echo == To proceed update using Branch: %Branch%, please enter Y;
+echo == Back to Updater menu, please enter N;
 set /p opt6_opt4_choice= Press ENTER to cancel:
 echo.
 if /i "%opt6_opt4_choice%"=="T" (
@@ -216,29 +221,28 @@ if /i "%opt6_opt4_choice%"=="T" (
 ) else if /i "%opt6_opt4_choice%"=="N" (
    goto ReturnToMenu
 ) else (
-   echo Invalid input. Cancelled.
+   echo == Invalid input. Cancelled.
    goto ReturnToMenu
 )
 :proceed_alas
 if "%KeepLocalChanges%"=="disable" (
-   echo GIT Found in %gitBin% Proceeding
-   echo Updating from %source% repository..
-   pause
+   echo == GIT Found in %gitBin% Proceeding
+   echo == Updating from %source% repository..
    %gitBin% fetch %source% %Branch%
    %gitBin% reset --hard %source%/%Branch%
    %gitBin% pull --ff-only %source% %Branch%
-   echo DONE!
-   echo Press any key to proceed
+   echo == DONE!
+   echo == Press any key to proceed
    pause > NUL
    goto Updater_menu
 ) else (
-   echo GIT Found in %gitBin% Proceeding
-   echo Updating from %source% repository..
+   echo == GIT Found in %gitBin% Proceeding
+   echo == Updating from %source% repository..
    %gitBin% stash
    %gitBin% pull %source% %Branch%
    %gitBin% stash pop
-   echo DONE!
-   echo Press any key to proceed
+   echo == DONE!
+   echo == Press any key to proceed
    pause > NUL
    goto Updater_menu
 )
@@ -247,7 +251,7 @@ echo Please re-run the "alas.bat" to make the settings take effect.
 goto PleaseRerun
 
 :update_toolkit
-echo is not done yet
+echo == is not done yet
 pause > NUL
 goto ReturnToSetting
 
@@ -277,11 +281,11 @@ echo.
 echo. & echo  [0] Return to the Main Menu
 echo. & echo  [1] Select Download Region
 echo. & echo  [2] Set Global Proxy
-echo. & echo  [3] Set SERIAL (For ADB connect)
-echo. & echo  [4] (Disable/Enable) Realtime Connection Mode (Only Bluestacks Beta)
-echo. & echo  [5] (Disable/Enable) Keep local changes
-echo. & echo  [6] Change default Branch to update (master/dev)
-echo. & echo  [7] (Disable/Enable) Kill ADB server at each start
+echo. & echo  [3] Emulator Auto-ADB Settings
+echo. & echo  [4] (Disable/Enable) Keep local changes
+echo. & echo  [5] Change default Branch to update (master/dev)
+echo. & echo  [6] (Disable/Enable) Kill ADB server at each start
+echo. & echo  [7] (Disable/Enable) ADB connect at each start
 echo. & echo  [8] Replace ADB from chinese emulators
 echo. & echo  [9] Why can't I toggle certain settings above?
 echo. & echo  [10] Reset Settings
@@ -293,177 +297,16 @@ echo. & echo.
 if "%opt2_choice%"=="0" goto MENU
 if "%opt2_choice%"=="1" goto Region_setting
 if "%opt2_choice%"=="2" goto Proxy_setting
-if "%opt2_choice%"=="3" goto Serial_setting
-if "%opt2_choice%"=="4" goto Realtime_mode
-if "%opt2_choice%"=="5" goto Keep_local_changes
-if "%opt2_choice%"=="6" goto Branch_setting
-if "%opt2_choice%"=="7" goto settings_KilADBserver
+if "%opt2_choice%"=="3" goto Emulator_Setup
+if "%opt2_choice%"=="4" goto Keep_local_changes
+if "%opt2_choice%"=="5" goto Branch_setting
+if "%opt2_choice%"=="6" goto settings_KilADBserver
+if "%opt2_choice%"=="7" goto settings_ADBconnect
 if "%opt2_choice%"=="8" goto menu_ReplaceAdb
 if "%opt2_choice%"=="9" goto Reset_setting
 if "%opt2_choice%"=="10" goto Reset_setting
 echo Please input a valid option.
 goto ReturnToSetting
-
-:Branch_setting
-call command\Config.bat Branch
-goto ReturnToSetting
-
-:Reset_setting
-echo. & echo After updating this batch, if the new settings cannot be toggled, you need to delete "config\deploy.ini". & echo But this will reset all the above settings to default.
-set opt3_opt10_choice=0
-echo. & echo To delete the settings, please enter Y;
-set /p opt3_opt10_choice= Press ENTER to cancel:
-echo.
-if /i "%opt3_opt10_choice%"=="Y" (
-   del /Q config\deploy.ini >NUL 2>NUL
-   echo The "config\deploy.ini" has been deleted, please try changing the settings again.
-) else ( echo Invalid input. Cancelled. )
-goto ReturnToSetting
-
-:menu_ReplaceAdb
-cls
-echo ====================================================================================================
-echo ======== Different version of ADB will kill each other when starting.
-echo ==== Chinese emulators (NoxPlayer, LDPlayer, MemuPlayer, MuMuPlayer) use their own adb,
-echo == instead of the one in system PATH, so when they start they kill the adb.exe that Alas is using
-echo == so, you need replace the ADB in your emulator with the one Alas is using.
-echo ====================================================================================================
-echo.
-echo. & echo  [0] Return to the Main Menu
-echo. & echo  [1] Replace NoxPlayer ADB
-echo. & echo  [2] Replace LDplayer ADB
-echo. & echo  [3] Replace Memu ADB
-echo. & echo.
-echo ====================================================================================================
-set opt4_choice=-1
-set /p opt4_choice= Please input the index number of option and press ENTER:
-echo. & echo.
-if "%opt4_choice%"=="0" goto MENU
-if "%opt4_choice%"=="1" goto replace_nox
-if "%opt4_choice%"=="2" goto replace_ldplayer
-if "%opt4_choice%"=="3" goto replace_memu
-echo Please input a valid option.
-goto ReturnToSetting
-
-:replace_nox
-reg query HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\DuoDianOnline\SetupInfo >nul
-if %errorlevel% equ 0 (
-   echo ====================================================================================================
-   echo == NoxAppPlayer detected, Proceeding...
-) else (
-   echo ====================================================================================================
-   echo == NoxAppPlayer not detected
-   echo Press any key to back main menu
-   pause > NUL
-   goto ReturnToMenu
-)
-for /f "usebackq tokens=2,* skip=2" %%L in ( `reg query "HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\DuoDianOnline\SetupInfo" /v InstallPath`) do set InstallPath=%%M
-%adbBin% kill-server > nul 2>&1
-echo f | xcopy /Y "%InstallPath%\bin\adb.exe" "%InstallPath%\bin\adb.exe.bak" >nul
-echo f | xcopy /Y "%InstallPath%\bin\nox_adb.exe" "%InstallPath%\bin\nox_adb.exe.bak" >nul
-xcopy /Y toolkit\Lib\site-packages\adbutils\binaries\adb.exe "%InstallPath%\bin\" >nul
-echo f | xcopy /Y toolkit\Lib\site-packages\adbutils\binaries\adb.exe "%InstallPath%\bin\nox_adb.exe" >nul
-if %errorlevel% equ 0 (
-   echo ====================================================================================================
-   echo == Success
-   echo == Press any key to back main menu
-   pause > NUL
-   goto ReturnToMenu
-) else (
-   echo ====================================================================================================
-   echo == Error, you may not have permission to replace the file
-   echo == try run this batch as administrator
-   echo Press any key to back main menu
-   pause > NUL
-   goto ReturnToMenu
-)
-
-:replace_memu
-reg query HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\MEmu >nul
-if %errorlevel% equ 0 (
-   echo ====================================================================================================
-   echo == Memu detected, Proceeding...
-) else (
-   echo ====================================================================================================
-   echo == Memu not detected
-   echo Press any key to back main menu
-   pause > NUL
-   goto ReturnToMenu
-)
-for /f "usebackq tokens=2,* skip=2" %%L in ( `reg query "HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\MEmu" /v InstallLocation`) do set InstallLocation=%%M
-%adbBin% kill-server > nul 2>&1
-echo f | xcopy /Y "%InstallLocation%\MEmu\adb.exe" "%InstallLocation%\MEmu\adb.exe.bak" >nul
-xcopy /Y toolkit\Lib\site-packages\adbutils\binaries\adb.exe "%InstallLocation%\MEmu\" >nul
-if %errorlevel% equ 0 (
-   echo ====================================================================================================
-   echo == Success
-   echo == Press any key to back main menu
-   pause > NUL
-   goto ReturnToMenu
-) else (
-   echo ====================================================================================================
-   echo == Error, you may not have permission to replace the file
-   echo == try run this batch as administrator
-   echo Press any key to back main menu
-   pause > NUL
-   goto ReturnToMenu
-)
-
-:replace_ldplayer
-reg query HKEY_CURRENT_USER\SOFTWARE\XuanZhi\LDPlayer >nul
-if %errorlevel% equ 0 (
-   echo ====================================================================================================
-   echo == LDplayer detected, Proceeding...
-) else (
-   echo ====================================================================================================
-   echo == LDplayer not detected
-   echo Press any key to back main menu
-   pause > NUL
-   goto ReturnToMenu
-)
-FOR /F "usebackq tokens=2,* skip=2" %%L IN ( `reg query "HKEY_CURRENT_USER\SOFTWARE\XuanZhi\LDPlayer" /v InstallDir`) do set InstallDir=%%M
-%adbBin% kill-server > nul 2>&1
-echo f | xcopy /Y "%InstallDir%\adb.exe" "%InstallDir%\adb.exe.bak" >nul
-xcopy /Y toolkit\Lib\site-packages\adbutils\binaries\adb.exe "%InstallDir%\" >nul
-if %errorlevel% equ 0 (
-   echo ====================================================================================================
-   echo == Success
-   echo == Press any key to back main menu
-   pause > NUL
-   goto ReturnToMenu
-) else (
-   echo ====================================================================================================
-   echo == Error, you may not have permission to replace the file
-   echo == try run this batch as administrator
-   echo Press any key to back main menu
-   pause > NUL
-   goto ReturnToMenu
-)
-
-:Serial_setting
-echo ====================================================================================================
-echo If you dont know what are doing, check our wiki first https://github.com/LmeSzinc/AzurLaneAutoScript/wiki:
-echo == Current Serial = %Serial%
-echo ====================================================================================================
-set opt6_op5_choice=0
-echo. & echo Would you like to change the current SERIAL?, please enter Y to proceed;
-set /p opt6_op5_choice= Press ENTER to cancel:
-echo.
-setlocal EnableDelayedExpansion
-if /i "%opt6_op5_choice%"=="Y" (
-   set /p opt6_op5_choice= Please input - SERIAL ^(DEFAULT 127.0.0.1:5555 ^):
-   if "!opt6_op5_choice!"=="" ( set "opt6_op5_choice=127.0.0.1:5555" )
-   call command\Config.bat Serial !opt6_op5_choice!
-   echo.
-   echo The serial was set successfully.
-) else (
-   echo Invalid input. Cancelled.
-   goto ReturnToSetting
-)
-endlocal
-echo. & echo Please re-run this batch to make the settings take effect.
-echo Please re-run the "alas.bat" to make the settings take effect.
-goto PleaseRerun
 
 :Region_setting
 echo The current Download Region is: %Region%
@@ -478,7 +321,8 @@ goto ReturnToSetting
 
 :Realtime_mode
 call command\Config.bat RealtimeMode
-goto ReturnToSetting
+if "%FirstRun%"=="yes" ( set FirstRun=no && call command\Config.bat FirstRun %FirstRun% )
+goto PleaseRerun
 
 :Keep_local_changes
 call command\Config.bat KeepLocalChanges
@@ -486,6 +330,10 @@ goto ReturnToSetting
 
 :settings_KilADBserver
 call command\Config.bat AdbKillServer
+goto ReturnToSetting
+
+:settings_ADBconnect
+call command\Config.bat Adbconnect
 goto ReturnToSetting
 
 :Proxy_setting
@@ -535,6 +383,418 @@ echo. & echo Please re-run this batch to make the settings take effect.
 echo Please re-run the "alas.bat" to make the settings take effect.
 goto PleaseRerun
 
+:Branch_setting
+call command\Config.bat Branch
+goto ReturnToSetting
+
+:Reset_setting
+echo. & echo After updating this batch, if the new settings cannot be toggled, you need to delete "config\deploy.ini". & echo But this will reset all the above settings to default.
+set opt3_opt10_choice=0
+echo. & echo To delete the settings, please enter Y;
+set /p opt3_opt10_choice= Press ENTER to cancel:
+echo.
+if /i "%opt3_opt10_choice%"=="Y" (
+   del /Q config\deploy.ini >NUL 2>NUL
+   echo The "config\deploy.ini" has been deleted, please try changing the settings again.
+) else ( echo Invalid input. Cancelled. )
+goto ReturnToSetting
+
+:menu_ReplaceAdb
+cls
+echo ====================================================================================================
+echo ======== Different version of ADB will kill each other when starting.
+echo ==== Chinese emulators (NoxPlayer, LDPlayer, MemuPlayer, MuMuPlayer) use their own adb,
+echo == instead of the one in system PATH, so when they start they kill the adb.exe that Alas is using
+echo == so, you need replace the ADB in your emulator with the one Alas is using.
+echo ====================================================================================================
+echo.
+echo. & echo  [0] Return to the Main Menu
+echo. & echo  [1] Replace NoxPlayer ADB
+echo. & echo  [2] Replace LDplayer ADB
+echo. & echo  [3] Replace Memu ADB
+echo. & echo.
+echo ====================================================================================================
+set opt4_choice=-1
+set /p opt4_choice= Please input the index number of option and press ENTER:
+echo. & echo.
+if "%opt4_choice%"=="0" goto MENU
+if "%opt4_choice%"=="1" goto replace_nox
+if "%opt4_choice%"=="2" goto replace_ldplayer
+if "%opt4_choice%"=="3" goto replace_memu
+echo Please input a valid option.
+goto menu_ReplaceAdb
+
+rem ================= EMULATOR SETTINGS =================
+
+:replace_nox
+reg query HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\DuoDianOnline\SetupInfo >nul
+if %errorlevel% equ 0 (
+   echo ====================================================================================================
+   echo == NoxAppPlayer detected, Proceeding...
+) else (
+   echo ====================================================================================================
+   echo == NoxAppPlayer not detected
+   echo Press any key to back main menu
+   pause > NUL
+   goto ReturnToMenu
+)
+for /f "usebackq tokens=2,* skip=2" %%L in ( `reg query "HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\DuoDianOnline\SetupInfo" /v InstallPath`) do set InstallPath=%%M
+%adbBin% kill-server > nul 2>&1
+echo f | xcopy /Y "%InstallPath%\bin\adb.exe" "%InstallPath%\bin\adb.exe.bak" >nul
+echo f | xcopy /Y "%InstallPath%\bin\nox_adb.exe" "%InstallPath%\bin\nox_adb.exe.bak" >nul
+xcopy /Y toolkit\Lib\site-packages\adbutils\binaries\adb.exe "%InstallPath%\bin\" >nul
+echo f | xcopy /Y toolkit\Lib\site-packages\adbutils\binaries\adb.exe "%InstallPath%\bin\nox_adb.exe" >nul
+if %errorlevel% equ 0 (
+   echo ====================================================================================================
+   echo == Success
+   echo == Press any key to back main menu
+   pause > NUL
+   goto ReturnToMenu
+) else (
+   echo ====================================================================================================
+   echo == Error, you may not have permission to replace the file
+   echo == try run this batch as administrator
+   echo Press any key to back main menu
+   pause > NUL
+   goto :eof
+)
+
+:replace_ldplayer
+reg query HKEY_CURRENT_USER\SOFTWARE\XuanZhi\LDPlayer >nul
+if %errorlevel% equ 0 (
+   echo ====================================================================================================
+   echo == LDplayer detected, Proceeding...
+) else (
+   echo ====================================================================================================
+   echo == LDplayer not detected
+   echo Press any key to back main menu
+   pause > NUL
+   goto ReturnToMenu
+)
+FOR /F "usebackq tokens=2,* skip=2" %%L IN ( `reg query "HKEY_CURRENT_USER\SOFTWARE\XuanZhi\LDPlayer" /v InstallDir`) do set InstallDir=%%M
+%adbBin% kill-server > nul 2>&1
+echo f | xcopy /Y "%InstallDir%\adb.exe" "%InstallDir%\adb.exe.bak" >nul
+xcopy /Y toolkit\Lib\site-packages\adbutils\binaries\adb.exe "%InstallDir%\" >nul
+if %errorlevel% equ 0 (
+   echo ====================================================================================================
+   echo == Success
+   echo == Press any key to back main menu
+   pause > NUL
+   goto ReturnToMenu
+) else (
+   echo ====================================================================================================
+   echo == Error, you may not have permission to replace the file
+   echo == try run this batch as administrator
+   echo Press any key to back main menu
+   pause > NUL
+   goto ReturnToMenu
+)
+
+rem ================= EMULATOR SETUP MENU =================
+
+:Emulator_Setup
+cls
+if NOT exist config\alas.ini (
+   echo f | xcopy config\template.ini config\alas.ini > nul
+)
+echo ====================================================================================================
+echo == It seems like this is the first time that you run this program
+echo == You may need to configure the connection to your emulator
+echo ====================================================================================================
+echo.
+echo. & echo  [1] Manual Setup
+echo. & echo  [2] NoxAppPlayer Automatic Connection
+echo. & echo  [3] Bluestacks Hyper-V Beta Automatic Connection
+echo. & echo  [4] MEmu Automatic Connection
+echo. & echo  [0] Return to the Main Menu
+echo. & echo.
+echo ====================================================================================================
+set opt55_choice=-1
+set /p opt55_choice= Please input the index number of option and press ENTER:
+echo. & echo.
+if "%opt55_choice%"=="1" call :Serial_setting
+if "%opt55_choice%"=="2" goto Settings_NoxSerial
+if "%opt55_choice%"=="3" goto Realtime_mode
+if "%opt55_choice%"=="4" goto Settings_MemuSerial
+if "%opt55_choice%"=="0" goto MENU
+echo Please input a valid option.
+goto Emulator_Setup
+
+:Emulator_SetupFirstRun
+cls
+if "%FirstRun%"=="no" goto :eof
+set FirstRun=yes
+echo ====================================================================================================
+echo == It seems like this is the first time that you run this program
+echo == You may need to configure the connection to your emulator
+echo ====================================================================================================
+echo.
+echo. & echo  [1] Manual Setup
+echo. & echo  [2] NoxAppPlayer Automatic Connection
+echo. & echo  [3] Bluestacks Hyper-V Beta Automatic Connection
+echo. & echo  [4] MEmu Automatic Connection
+echo. & echo  [0] Return to the Main Menu
+echo. & echo.
+echo ====================================================================================================
+set opt55_choice=-1
+set /p opt55_choice= Please input the index number of option and press ENTER:
+echo. & echo.
+if "%opt55_choice%"=="1" call :Serial_setting
+if "%opt55_choice%"=="2" goto Settings_NoxSerial
+if "%opt55_choice%"=="3" goto Realtime_mode
+if "%opt55_choice%"=="4" goto Settings_MemuSerial
+if "%opt55_choice%"=="0" goto MENU
+echo Please input a valid option.
+goto Emulator_SetupFirstRun
+
+rem ================= MEMU SETTINGS =================
+
+:replace_memu
+reg query HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\MEmu >nul
+if %errorlevel% equ 0 (
+   echo ====================================================================================================
+   echo == Memu detected, Proceeding...
+) else (
+   echo ====================================================================================================
+   echo == Memu not detected
+   echo == Press any key to back main menu
+   pause > NUL
+   goto ReturnToMenu
+)
+for /f "usebackq tokens=2,* skip=2" %%L in ( `reg query "HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\MEmu" /v InstallLocation`) do set InstallLocation=%%M
+%adbBin% kill-server > nul 2>&1
+echo f | xcopy /Y "%InstallLocation%\MEmu\adb.exe" "%InstallLocation%\MEmu\adb.exe.bak" >nul
+xcopy /Y toolkit\Lib\site-packages\adbutils\binaries\adb.exe "%InstallLocation%\MEmu\" >nul
+if %errorlevel% equ 0 (
+   echo ====================================================================================================
+   echo == Success
+   echo == Press any key to back main menu
+   pause > NUL
+   goto ReturnToMenu
+) else (
+   echo ====================================================================================================
+   echo == Error, you may not have permission to replace the file
+   echo == try run this batch as administrator
+   echo Press any key to back main menu
+   pause > NUL
+   goto ReturnToMenu
+)
+
+:Settings_MemuSerial
+reg query HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\MEmu >nul
+if %errorlevel% equ 0 (
+   echo ====================================================================================================
+   echo == MEmu detected, Proceeding...
+   ) else (
+   echo ====================================================================================================
+   echo == MEmu not detected
+   echo == Press any key to back Emulator Settings Menu
+   pause > NUL
+   goto Emulator_Setup
+   )
+for /f "usebackq tokens=2,* skip=2" %%L in ( `reg query "HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\MEmu" /v InstallLocation`) do set InstallLocation=%%M
+%adbBin% kill-server > nul 2>&1
+echo f | xcopy /Y "%InstallLocation%\MEmu\adb.exe" "%InstallLocation%\MEmu\adb.exe.bak" >nul
+xcopy /Y toolkit\Lib\site-packages\adbutils\binaries\adb.exe "%InstallLocation%\MEmu\" >nul
+echo ====================================================================================================
+echo == Please input the instance of your MEmu
+echo == if you have only one instance type 0 or press Enter
+echo == the first instance will always be 0, and the subsequent ones will follow the numerical order
+echo ====================================================================================================
+set index=0
+set /p index= Please input the instance of your MEmu, Press C to back Emulator Settings Menu:
+if /i "%index%"=="C" ( goto Emulator_Setup )
+echo ====================================================================================================
+if "%index%"=="0" ( set folderName=MEmu ) else ( set folderName=MEmu_%index% )
+set MEmuPathTemp=\MEmu\MemuHyperv VMs\
+set MEmuPath=%folderName%\%folderName%.memu
+set MEmuPath=%MEmuPath: =%
+set MEmuBoxPath="%InstallLocation%%MEmuPathTemp%%MEmuPath%"
+for /f tokens^=8delims^=^" %%e in ('findstr /i "5555" %MEmuBoxPath%') do ( set MEmuAdbPort=%%e )
+echo %folderName% adb port:%MEmuAdbPort%
+set SerialMEmu=127.0.0.1:%MEmuAdbPort%
+echo ====================================================================================================
+echo == connecting at %SerialMEmu%
+%adbBin% connect %SerialMEmu% | find /i "connected to" >nul
+if errorlevel 1 (
+   echo ====================================================================================================
+   echo == The connection was not successful on SERIAL: %SerialMEmu%
+   echo == Check if your emulator is open and ADB debug is ON
+   pause > NUL
+   goto Settings_MemuSerial
+) 
+call command\Config.bat Serial %SerialMEmu%
+if "%FirstRun%"=="yes" ( call command\ConfigTemplate.bat SerialTemplate %SerialMEmu% ) else ( call command\ConfigAlas.bat SerialAlas %SerialMEmu% )
+set FirstRun=no
+call command\Config.bat FirstRun %FirstRun%
+echo ====================================================================================================
+echo == The connection was Successful on SERIAL: %SerialMEmu%
+echo ====================================================================================================
+echo == Old Serial:      %SerialAlas%
+echo == New Serial:      %SerialMEmu%
+echo ====================================================================================================
+echo == The connection was Successful on SERIAL: %SerialMEmu%
+echo. & echo Please re-run the "alas.bat" to make the settings take effect.
+pause > NUL
+goto PleaseRerun
+
+:Settings_NoxSerial
+reg query HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\DuoDianOnline\SetupInfo >nul
+if %errorlevel% equ 0 (
+   echo ====================================================================================================
+   echo == NoxAppPlayer detected, Proceeding...
+   ) else (
+   echo ====================================================================================================
+   echo == NoxAppPlayer not detected
+   echo Press any key to back Emulator Settings Menu
+   pause > NUL
+   goto Emulator_Setup
+   )
+for /f "usebackq tokens=2,* skip=2" %%L in ( `reg query "HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\DuoDianOnline\SetupInfo" /v InstallPath`) do set InstallPath=%%M
+%adbBin% kill-server > nul 2>&1
+echo f | xcopy /Y "%InstallPath%\bin\adb.exe" "%InstallPath%\bin\adb.exe.bak" >nul
+echo f | xcopy /Y "%InstallPath%\bin\nox_adb.exe" "%InstallPath%\bin\nox_adb.exe.bak" >nul
+xcopy /Y toolkit\Lib\site-packages\adbutils\binaries\adb.exe "%InstallPath%\bin\" >nul
+echo f | xcopy /Y toolkit\Lib\site-packages\adbutils\binaries\adb.exe "%InstallPath%\bin\nox_adb.exe" >nul
+echo ====================================================================================================
+echo == Please input the instance of your Nox
+echo == if you have only one instance type 0 or press Enter
+echo == the first instance will always be 0, and the subsequent ones will follow the numerical order
+echo ====================================================================================================
+set index=0
+set /p index= Please input the instance of your Nox, press C to back Emulator Settings Menu:
+if /i "%index%"=="C" ( goto Emulator_Setup )
+if "%index%"=="0" ( set folderName=nox ) else ( set folderName=Nox_%index% )
+set NoxPath=\Bin\BignoxVMS\%folderName%\%folderName%.vbox
+set NoxPath=%NoxPath: =%
+set vboxPath="%InstallPath%"%NoxPath%
+for /f tokens^=8delims^=^" %%e in ('findstr /i "5555" %vboxPath%') do ( set NoxAdbPort=%%e )
+set SerialNox=127.0.0.1:%NoxAdbPort%
+echo ====================================================================================================
+echo == connecting at %SerialNox%
+%adbBin% connect %SerialNox% | find /i "connected to" >nul
+if errorlevel 1 (
+   echo ====================================================================================================
+   echo == The connection was not successful on SERIAL: %SerialNox%
+   echo == Check if your emulator is open and ADB debug is ON
+   pause > NUL
+   goto Settings_NoxSerial
+)
+call command\Config.bat Serial %SerialNox%
+if "%FirstRun%"=="yes" ( call command\ConfigTemplate.bat SerialTemplate %SerialNox% ) else ( call command\ConfigAlas.bat SerialAlas %SerialNox% )
+set FirstRun=no
+call command\Config.bat FirstRun %FirstRun%
+echo ====================================================================================================
+echo == The connection was Successful on SERIAL: %SerialNox%
+echo ====================================================================================================
+echo == Old Serial:      %SerialAlas%
+echo == New Serial:      %SerialNox%
+echo ====================================================================================================
+echo == The connection was Successful on SERIAL: %SerialNox%
+echo. & echo == Please re-run the "alas.bat" to make the settings take effect.
+pause > NUL
+goto PleaseRerun
+
+:Serial_setting
+echo ====================================================================================================
+echo == If you dont know what are doing, check our wiki first:
+echo https://github.com/LmeSzinc/AzurLaneAutoScript/wiki
+echo == Current Serial = %SerialDeploy%
+echo == Enter your HOST:PORT eg: 127.0.0.1:5555
+echo ====================================================================================================
+set serial_inputY=0
+echo. & echo Would you like to change the current SERIAL?, please enter Y to proceed;
+set /p serial_inputY= Press ENTER to cancel:
+echo.
+setlocal EnableDelayedExpansion
+if /i "%serial_inputY%"=="Y" (
+   set /p serial_input= Enter your HOST:PORT ^(DEFAULT 127.0.0.1:5555 ^):
+   if "!serial_input!"=="" ( set "serial_input=127.0.0.1:5555" )
+   echo ====================================================================================================
+   %adbBin% kill-server > nul 2>&1
+   %adbBin% connect !serial_input! | find /i "connected to" >nul
+   if errorlevel 1 (
+      echo ====================================================================================================
+      echo The connection was not successful on SERIAL: !serial_input!
+      echo == If you use LDplayer, Memu, NoxAppPlayer or MuMuPlayer, you may need replace your emulator ADB.
+      echo == Check our wiki for more info
+      pause > NUL
+      start https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/FAQ_en_cn
+      goto Serial_setting
+   ) else (
+      echo ====================================================================================================
+      call command\Config.bat Serial !serial_input!
+      if "%FirstRun%"=="yes" ( call command\ConfigTemplate.bat SerialTemplate !serial_input! ) else ( call command\ConfigAlas.bat SerialAlas !serial_input! )
+      set FirstRun=no
+      call command\Config.bat FirstRun %FirstRun%
+      echo == The connection was Successful on SERIAL: !serial_input!
+      echo. & echo Please re-run the "alas.bat" to make the settings take effect.
+      pause > NUL
+      goto PleaseRerun
+   )
+) else (
+   echo Invalid input. Cancelled.
+   goto Emulator_Setup
+)
+echo ====================================================================================================
+echo == Old Serial:      %SerialDeploy%
+echo == New Serial:      !serial_input!
+echo ====================================================================================================
+endlocal
+echo. & echo Please re-run the "alas.bat" to make the settings take effect.
+pause > NUL
+goto PleaseRerun
+
+:AdbConnect
+if "%FirstRun%"=="yes" goto Emulator_Setup
+if "%KillServer%"=="enable" ( %adbBin% kill-server > nul 2>&1 )
+if "%AdbConnect%"=="disable" goto :eof
+%adbBin% connect %SerialDeploy% | find /i "connected to" >nul
+echo ====================================================================================================
+if errorlevel 1 (
+   echo == The connection was not successful on SERIAL: %SerialDeploy%
+   echo == If you use LDplayer, Memu, NoxAppPlayer or MuMuPlayer, you may need replace your emulator ADB.
+   echo == Check our wiki for more info
+   pause > NUL
+   start https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/FAQ_en_cn
+   goto Serial_setting
+   echo ====================================================================================================
+   ) else (
+      %pyBin% -m uiautomator2 init
+      echo ====================================================================================================
+      echo == The connection was Successful on SERIAL: %SerialDeploy%
+   )
+goto :eof
+
+:CheckBsBeta
+if "%RealtimeMode%"=="disable" ( goto AdbConnect )
+echo == Connecting with realtime mode...
+for /f "tokens=3" %%a in ('reg query HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_bgp64_hyperv\Guests\Android\Config /v BstAdbPort') do (set /a port = %%a)
+set SerialRealtime=127.0.0.1:%port%
+echo ====================================================================================================
+if "%KillServer%"=="enable" (
+   %adbBin% kill-server > nul 2>&1
+   )
+echo == connecting at %SerialRealtime%
+%adbBin% connect %SerialRealtime% > nul
+if "%FirstRun%"=="yes" (
+   call command\Config.bat Serial %SerialRealtime%
+   call command\ConfigTemplate.bat SerialTemplate %SerialRealtime%
+   set FirstRun=no
+   call command\Config.bat FirstRun %FirstRun%
+) else (
+   call command\ConfigAlas.bat SerialAlas %SerialRealtime%
+   call command\Config.bat Serial %SerialRealtime%
+)
+echo ====================================================================================================
+echo == Old Serial:      %SerialAlas%
+echo == New Serial:      %SerialRealtime%
+echo ====================================================================================================
+%pyBin% -m uiautomator2 init
+echo ====================================================================================================
+echo == The connection was Successful on SERIAL: %SerialRealtime%
+goto :eof
+
 rem ================= FUNCTIONS =================
 
 REM :CheckAdbConnect
@@ -548,79 +808,33 @@ pause > NUL
 goto Setting
 
 :ReturnToMenu
-echo. & echo Press any key to continue...
+echo ====================================================================================================
+echo == Press any key to continue...
 pause > NUL
 goto MENU
 
 :PleaseRerun
-echo. & echo Press any key to exit...
+echo ====================================================================================================
+echo == Press any key to exit...
 pause > NUL
 exit
 
 :ExitIfGit
 :: Check whether already exist .git folder
 if exist .git\ (
-   echo. & echo The Initial Deployment has been done. Please delete the ".git" folder before performing this action.
+   echo ====================================================================================================
+   echo == The Initial Deployment has been done. Please delete the ".git" folder before performing this action.
    call :PleaseRerun
 )
 goto :eof
 
 :ExitIfNotPython
 if NOT exist toolkit\python.exe (
-   echo. & echo The Initial Deployment was not done correctly. Please delete entire folder and reinstall from scratch.
+   echo ====================================================================================================
+   echo == The Initial Deployment was not done correctly. Please delete entire folder and reinstall from scratch.
    start https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Installation_en
    call :PleaseRerun
 )
-
-:CheckBsBeta
-if "%RealtimeMode%"=="disable" ( goto AdbConnect )
-if "%FirstRun%"=="yes" ( goto :eof )
-echo == Connecting with realtime mode...
-for /f "tokens=3" %%a in ('reg query HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_bgp64_hyperv\Guests\Android\Config /v BstAdbPort') do (set /a port = %%a)
-set SerialRealtime=127.0.0.1:%port%
-echo ====================================================================================================
-if "%KillServer%"=="enable" (
-   %adbBin% kill-server > nul 2>&1
-   )
-echo == connecting at %SerialRealtime%
-%adbBin% connect %SerialRealtime%
-echo ====================================================================================================
-if "%FirstRun%"=="yes" (
-   call command\Config.bat Serial %SerialRealtime%
-   call command\ConfigTemplate.bat SerialTemplate %SerialRealtime%
-) else (
-   call command\Config.bat Serial %SerialRealtime%
-   call command\ConfigAlas.bat SerialAlas %SerialRealtime%
-)
-echo ====================================================================================================
-echo == Old Serial:      %SerialAlas%
-echo == New Serial:      %SerialRealtime%
-echo ====================================================================================================
-%pyBin% -m uiautomator2 init
-echo ====================================================================================================
-echo == The connection was Successful on SERIAL: %SerialRealtime%
-goto :eof
-
-
-:AdbConnect
-if "%FirstRun%"=="yes" goto :eof
-if "%KillServer%"=="enable" ( %adbBin% kill-server > nul 2>&1 )
-%adbBin% connect %Serial% | find /i "connected to" >nul
-echo ====================================================================================================
-if errorlevel 1 (
-   echo == The connection was not successful on SERIAL: %Serial%
-   echo == If you use LDplayer, Memu, NoxAppPlayer or MuMuPlayer, you may need replace your emulator ADB.
-   echo == Check our wiki for more info
-   pause > NUL
-   start https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/FAQ_en_cn
-   goto Serial_setting
-   echo ====================================================================================================
-   ) else (
-      %pyBin% -m uiautomator2 init
-      echo ====================================================================================================
-      echo == The connection was Successful on SERIAL: %Serial%
-   )
-goto :eof
 
 :UpdateChecker_Alas
 if "%IsUsingGit%"=="no" goto :eof
@@ -634,6 +848,7 @@ for /f "skip=14 tokens=3 delims=:" %%I IN (%root%\toolkit\api_git.json) DO IF NO
 set message=%message:"=%
 set message=%message:,=%
 set message=%message:\n=%
+set message=%message:\n\n=%
 for /f %%i in ('%gitBin%  rev-parse --abbrev-ref HEAD') do set BRANCH=%%i
 for /f "delims=" %%i IN ('%gitBin% log -1 "--pretty=%%H"') DO set LAST_LOCAL_GIT=%%i
 for /f "tokens=1,2" %%A in ('%gitBin% log -1 "--format=%%h %%ct" -- .') do (
@@ -652,6 +867,7 @@ for /f "tokens=25 delims=:" %%I IN (%root%\toolkit\api_git.json) DO IF NOT DEFIN
 set message=%message:"=%
 set message=%message:,=%
 set message=%message:\ntree=%
+set message=%message:\n\n=%
 for /f %%i in ('%gitBin%  rev-parse --abbrev-ref HEAD') do set BRANCH=%%i
 for /f "delims=" %%i IN ('%gitBin% log -1 "--pretty=%%H"') DO set LAST_LOCAL_GIT=%%i
 for /f "tokens=1,2" %%A in ('%gitBin% log -1 "--format=%%h %%ct" -- .') do (
@@ -659,28 +875,27 @@ set GIT_SHA1=%%A
 call :gmTime GIT_CTIME %%B
 )
 
-
 :time_parsed
 if %LAST_LOCAL_GIT% == %sha% (
    echo ====================================================================================================
-   echo Remote Git hash:                   %sha%
-   echo Remote Git message:                %message%
+   echo == Remote Git hash:                   %sha%
+   echo == Remote Git message:                %message%
    echo ====================================================================================================
-   echo Local Git hash:                    %LAST_LOCAL_GIT%
-   echo Local commit date:                 %GIT_CTIME%
-   echo Current Local Branch:              %BRANCH%
+   echo == Local Git hash:                    %LAST_LOCAL_GIT%
+   echo == Local commit date:                 %GIT_CTIME%
+   echo == Current Local Branch:              %BRANCH%
    echo ====================================================================================================
-   echo Your ALAS is updated, Press any to continue...
+   echo == Your ALAS is updated, Press any to continue...
    pause > NUL
    goto :eof
 ) else (
    echo ====================================================================================================
-   echo Remote Git hash:                %sha%
-   echo Remote Git message:             %message%
+   echo == Remote Git hash:                %sha%
+   echo == Remote Git message:             %message%
    echo ====================================================================================================
-   echo Local Git hash:                 %LAST_LOCAL_GIT%
-   echo Local commit date:              %GIT_CTIME%
-   echo Current Local Branch:           %BRANCH%
+   echo == Local Git hash:                 %LAST_LOCAL_GIT%
+   echo == Local commit date:              %GIT_CTIME%
+   echo == Current Local Branch:           %BRANCH%
    echo ====================================================================================================
    popup.exe
    choice /t 10 /c yn /d y /m "There is an update for ALAS. Download now?"
@@ -700,9 +915,5 @@ if %mi% lss 10 set mi=0%mi%
 if %s% lss 10 set s=0%s%
 endlocal & set %1=%y%-%m%-%d% %h%:%mi%:%s%
 goto :eof
-
-:END
-echo tesadasdadsa
-pause
 
 rem ================= End of File =================

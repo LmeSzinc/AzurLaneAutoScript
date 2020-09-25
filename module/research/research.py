@@ -2,10 +2,9 @@ import numpy as np
 
 from module.base.decorator import Config
 from module.base.timer import Timer
-from module.base.utils import get_color
+from module.base.utils import get_color, rgb2gray
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3
 from module.logger import logger
-from module.map_detection.utils import rgb2gray
 from module.research.assets import *
 from module.research.project import ResearchSelector
 from module.ui.page import *
@@ -127,26 +126,6 @@ class RewardResearch(ResearchSelector):
 
         return True
 
-    def research_select_quit(self, skip_first_screenshot=True):
-        logger.info('Research select quit')
-        click_timer = Timer(10)
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            if self.appear(RESEARCH_UNAVAILABLE, offset=(20, 20)) \
-                    or self.appear(RESEARCH_START, offset=(20, 20)) \
-                    or self.appear(RESEARCH_STOP, offset=(20, 20)):
-                if click_timer.reached():
-                    self.device.click(RESEARCH_SELECT_QUIT)
-                else:
-                    click_timer.reset()
-            else:
-                self.wait_until_stable(STABLE_CHECKER_CENTER)
-                break
-
     def research_select(self, priority, save_get_items=False):
         """
         Args:
@@ -221,12 +200,12 @@ class RewardResearch(ResearchSelector):
 
             # End
             if self.appear(RESEARCH_STOP):
-                self.research_select_quit()
+                self.research_detail_quit()
                 self.ensure_no_info_bar(timeout=3)  # Research started
                 return True
             if max_rgb < 235 and self.appear(RESEARCH_UNAVAILABLE, offset=(5, 20)):
                 logger.info('Not enough resources to start this project')
-                self.research_select_quit()
+                self.research_detail_quit()
                 return False
 
     def research_receive(self, skip_first_screenshot=True, save_get_items=False):
@@ -296,7 +275,7 @@ class RewardResearch(ResearchSelector):
                 self.ensure_research_stable()
                 break
 
-        self.config.SCREEN_SHOT_SAVE_FOLDER_FOLDER = backup
+        self.config.SCREEN_SHOT_SAVE_FOLDER = backup
         self.device.screenshot_interval_set(0.1)
 
     def research_reward(self):

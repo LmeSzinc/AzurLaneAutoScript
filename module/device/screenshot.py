@@ -46,7 +46,7 @@ class Screenshot(AScreenCap):
             return screenshot
 
     def _screenshot_adb(self):
-        screenshot = self.adb_shell(['screencap', '-p'], serial=self.serial)
+        screenshot = self.adb_shell(['screencap', '-p'])
         return self._process_screenshot(screenshot)
 
     @retry(wait_fixed=5000, stop_max_attempt_number=10)

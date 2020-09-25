@@ -176,11 +176,11 @@ class MiniTouch(Connection):
         self._minitouch_port = get_port()
         logger.info(f"Minitouch bind to port {self._minitouch_port}")
 
-        self.adb_forward([f"tcp:{self._minitouch_port}", "localabstract:minitouch"], serial=self.serial)
+        self.adb_forward([f"tcp:{self._minitouch_port}", "localabstract:minitouch"])
         logger.info(f"Minitouch forward port {self._minitouch_port}")
 
         # No need, minitouch already started by uiautomator2
-        # self.adb_shell([self.config.MINITOUCH_FILEPATH_REMOTE], serial=self.serial)
+        # self.adb_shell([self.config.MINITOUCH_FILEPATH_REMOTE])
 
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         client.connect(('127.0.0.1', self._minitouch_port))

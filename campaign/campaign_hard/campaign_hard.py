@@ -62,6 +62,11 @@ class Campaign(CampaignBase, HardEquipment):
         return False
 
     def equipment_take_off_when_finished(self):
+        if self.config.FLEET_HARD_EQUIPMENT is None:
+            return False
+        if not self.equipment_has_take_on:
+            return False
+
         logger.info('equipment_take_off_when_finished')
         campaign_timer = Timer(2)
         map_timer = Timer(1)
@@ -71,7 +76,8 @@ class Campaign(CampaignBase, HardEquipment):
             self.device.screenshot()
 
             # Enter campaign
-            if campaign_timer.reached() and self.appear_then_click(self.ENTRANCE):
+            if campaign_timer.reached() and self.is_in_stage():
+                self.device.click(self.ENTRANCE)
                 campaign_timer.reset()
                 continue
 

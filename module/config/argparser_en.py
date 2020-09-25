@@ -96,8 +96,8 @@ def main(ini_name=''):
                 value = ''
             saved_config[key] = value
     message = (
-        'BlueStacks:\t127.0.0.1:5555\n' 
-        'NoxPlayer:\t127.0.0.1:62001\n' 
+        'BlueStacks:\t127.0.0.1:5555\n'
+        'NoxPlayer:\t127.0.0.1:62001\n'
         'MuMuPlayer:\t127.0.0.1:7555\n'
         'MemuPlayer:\t127.0.0.1:21503\n'
         'LDPlayer:\t\temulator-5554\n'
@@ -409,7 +409,7 @@ def main(ini_name=''):
 
     # event_daily_ab
     event_bonus = daily_parser.add_argument_group('Event Daily Bonus', 'bonus for first clear each day', gooey_options={'label_color': '#931D03'})
-    event_bonus.add_argument('--event_ab_chapter', default=default('--event_ab_chapter'), choices=['chapter_ab', 'chapter_abcd'],
+    event_bonus.add_argument('--event_ab_chapter', default=default('--event_ab_chapter'), choices=['chapter_ab', 'chapter_abcd', 'chapter_t', 'chapter_ht'],
                              help='Chapter with PT bonus', gooey_options={'label_color': '#4B5F83'})
     event_bonus.add_argument('--event_sp_mob_fleet', default=default('--event_sp_mob_fleet'), choices=['1', '2'],
                              help='', gooey_options={'label_color': '#4B5F83'})
@@ -448,12 +448,7 @@ def main(ini_name=''):
     """
     event = event_parser.add_argument_group(
         'Choose a level', '\n'.join([line.strip() for line in description.strip().split('\n')]), gooey_options={'label_color': '#931D03'})
-    event.add_argument('--event_stage', default=default('--event_stage'),
-                             choices=['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4', 'C1', 'C2', 'C3', 'C4', 'D1', 'D2', 'D3', 'D4', 'SP'],
-                             help='E.g D3', gooey_options={'label_color': '#4B5F83'})
-    event.add_argument('--sp_stage', default=default('--sp_stage'),
-                             choices=['SP1', 'SP2', 'SP3'],
-                             help='E.g SP3', gooey_options={'label_color': '#4B5F83'})
+    event.add_argument('--event_stage', default=default('--event_stage'), help='Type stage name, not case sensitive, E.g D3 HT6', gooey_options={'label_color': '#4B5F83'})
     event.add_argument('--event_name', default=event_latest, choices=event_folder, help='There a dropdown menu with many options', gooey_options={'label_color': '#4B5F83'})
 
     # ==========Raid==========

@@ -481,6 +481,7 @@ class Map(Fleet):
         grids = self.map.select(is_land=False).sort('weight', 'cost')
         if self.map[self.fleet_2_location].weight <= grids[0].weight:
             logger.info('Fleet_2 pushed to destination')
+            self.fleet_1.switch_to()
             return False
 
         fleets = SelectedGrids([self.map[self.fleet_1_location], self.map[self.fleet_2_location]])
@@ -539,7 +540,7 @@ class Map(Fleet):
             approaching = nearby.select(is_siren=True)
             if approaching:
                 grids = self.select_grids(approaching, sort=('cost_2', 'cost_1'))
-                self.clear_chosen_enemy(grids[0])
+                self.clear_chosen_enemy(grids[0], expected='siren')
                 return True
             else:
                 grids = nearby.delete(self.map.select(is_fleet=True))
@@ -549,4 +550,3 @@ class Map(Fleet):
 
         logger.warning('fleet_2_protect no siren approaching')
         return False
-

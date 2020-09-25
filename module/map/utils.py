@@ -38,6 +38,24 @@ def camera_2d(shape, sight):
     return [tuple(c) for c in out]
 
 
+def camera_spawn_point(camera_list, sp_list):
+    """
+    Args:
+        camera_list (list[tuple]): CampaignMap.camera_data
+        sp_list (list[tuple]):
+
+    Returns:
+        list[tuple]: CampaignMap.camera_data_spawn_point
+    """
+    camera_sp = []
+    camera_list = np.array(camera_list)
+    for sp in sp_list:
+        diff = np.sum(np.abs(camera_list - sp), axis=1)
+        camera_sp.append(tuple(camera_list[np.argmin(diff)].tolist()))
+
+    return list(set(camera_sp))
+
+
 def combine(before, after, limit):
     after += [limit]
     for b in before:

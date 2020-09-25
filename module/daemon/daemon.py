@@ -1,12 +1,10 @@
-from module.combat.combat import Combat
+from module.campaign.campaign_base import CampaignBase
 from module.daemon.assets import *
-from module.handler.ambush import MAP_AMBUSH_EVADE
-from module.handler.mystery import MysteryHandler
-from module.map.map_fleet_preparation import FleetPreparation
 from module.exception import *
+from module.handler.ambush import MAP_AMBUSH_EVADE
 
 
-class AzurLaneDaemon(FleetPreparation, Combat, MysteryHandler):
+class AzurLaneDaemon(CampaignBase):
     def daemon(self):
         self.config.ENABLE_GAME_STUCK_HANDLER = False
         self.device.config.ENABLE_GAME_STUCK_HANDLER = False

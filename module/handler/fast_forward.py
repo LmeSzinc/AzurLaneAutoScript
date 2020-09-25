@@ -21,6 +21,7 @@ class FastForwardHandler(ModuleBase):
     map_is_3_star = False
     map_is_green = False
     map_has_fast_forward = False
+    map_is_clear_mode = False  # Clear mode == fast forward
 
     map_clear_record = None
 
@@ -60,15 +61,19 @@ class FastForwardHandler(ModuleBase):
 
     def handle_fast_forward(self):
         if not self.map_has_fast_forward:
+            self.map_is_clear_mode = False
             return False
 
         if self.config.ENABLE_FAST_FORWARD:
             self.config.MAP_HAS_AMBUSH = False
             self.config.MAP_HAS_FLEET_STEP = False
             self.config.MAP_HAS_MOVABLE_ENEMY = False
+            self.config.MAP_HAS_PORTAL = False
+            self.map_is_clear_mode = True
         else:
             # When disable fast forward, MAP_HAS_AMBUSH depends on map settings.
             # self.config.MAP_HAS_AMBUSH = True
+            self.map_is_clear_mode = False
             pass
 
         status = 'on' if self.config.ENABLE_FAST_FORWARD else 'off'

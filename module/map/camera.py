@@ -1,18 +1,19 @@
 import numpy as np
 
 from module.exception import MapDetectionError, CampaignEnd
-from module.handler.assets import IN_MAP, IN_STAGE
-from module.handler.info_handler import InfoHandler
+from module.handler.assets import IN_MAP
 from module.logger import logger
 from module.map.map_base import CampaignMap, location2node, location_ensure
+from module.map.map_operation import MapOperation
 from module.map_detection.grid import Grid
 from module.map_detection.view import View
 
 
-class Camera(InfoHandler):
+class Camera(MapOperation):
     view: View
     map: CampaignMap
     camera = (0, 0)
+    _correct_camera = False
 
     def _map_swipe(self, vector):
         """
@@ -94,7 +95,7 @@ class Camera(InfoHandler):
                 logger.info('Perspective error cause by info bar. Waiting.')
                 self.handle_info_bar()
                 return self.update(camera=camera)
-            elif self.appear(IN_STAGE, offset=(5, 5)):
+            elif self.is_in_stage():
                 logger.warning('Image is in stage')
                 raise CampaignEnd('Image is in stage')
             elif not self.appear(IN_MAP):
@@ -108,6 +109,9 @@ class Camera(InfoHandler):
             else:
                 raise e
 
+        if not self._correct_camera:
+            self.show_camera()
+            return False
         # Set camera position
         if self.view.left_edge:
             x = 0 + self.view.center_loca[0]
@@ -148,6 +152,7 @@ class Camera(InfoHandler):
         """
         logger.info('Ensure edge in sight.')
         record = []
+        self._correct_camera = True
 
         while 1:
             if len(record) == 0:
@@ -168,11 +173,13 @@ class Camera(InfoHandler):
             if x == 0 and y == 0:
                 break
 
+        self._correct_camera = False
+
         if reverse:
             logger.info('Reverse swipes.')
             for vector in record[::-1]:
                 x, y = vector
-                if x != 0 and y != 0:
+                if x != 0 or y != 0:
                     self.map_swipe((-x, -y))
 
         return record

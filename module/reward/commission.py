@@ -67,7 +67,7 @@ dictionary_jp = {
     'urgent_gem': ['BIW要人護衛', 'NYB要人護衛', 'BIW休暇護衛', 'NYB休暇護衛'],
     'urgent_ship': ['小型観覧式', '連合艦隊観覧式', '多国連合観覧式']
 }
-COMMISSION_SWITCH = Switch('Commission_switch')
+COMMISSION_SWITCH = Switch('Commission_switch', is_choice=True)
 COMMISSION_SWITCH.add_status('daily', COMMISSION_DAILY)
 COMMISSION_SWITCH.add_status('urgent', COMMISSION_URGENT)
 

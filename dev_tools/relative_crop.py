@@ -4,7 +4,7 @@ import time
 from PIL import Image
 
 import module.config.server as server
-from module.map_detection.utils import *
+from module.base.utils import *
 
 server.server = 'cn'  # Don't need to edit, it's used to avoid error.
 

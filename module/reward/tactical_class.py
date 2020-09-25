@@ -56,6 +56,16 @@ class Book:
 
         self.valid = bool(self.genre and self.tier)
 
+    def check_selected(self, image):
+        """
+        Args:
+            image (PIL.Image.Image): Screenshot
+        """
+        area = self.button.area
+        check_area = tuple([area[0], area[3] + 2, area[2], area[3] + 4])
+        im = np.array(image.crop(check_area).convert('L'))
+        return True if np.mean(im) > 127 else False
+        
     def __str__(self):
         # Example: Defensive_T3_Exp
         text = f'{GENRE_NAME_DICT.get(self.genre, "Unknown")}_T{self.tier}'
@@ -192,8 +202,11 @@ class RewardTacticalClass(UI):
                             exp=self.config.TACTICAL_EXP_FIRST)
 
         if book is not None:
-            self.device.click(book.button)
-            self.device.sleep((0.3, 0.5))
+            while 1:
+                self.device.click(book.button)
+                self.device.screenshot()
+                if book.check_selected(self.device.image):
+                    break
             self.device.click(TACTICAL_CLASS_START)
         else:
             # cancel_tactical, use_the_first_book

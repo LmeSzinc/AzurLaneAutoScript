@@ -56,15 +56,15 @@ class AzurLaneAutoScript:
                 image_time = datetime.strftime(data['time'], '%Y-%m-%d_%H-%M-%S-%f')
                 image = handle_sensitive_image(data['image'])
                 image.save(f'{folder}/{image_time}.png')
-            with open(log_file, 'r') as f:
+            with open(log_file, 'r', encoding='utf-8') as f:
                 start = 0
                 for index, line in enumerate(f.readlines()):
                     if re.search('\+-{15,}\+', line):
                         start = index
-            with open(log_file, 'r') as f:
+            with open(log_file, 'r', encoding='utf-8') as f:
                 text = f.readlines()[start - 2:]
                 text = handle_sensitive_logs(text)
-            with open(f'{folder}/log.txt', 'w') as f:
+            with open(f'{folder}/log.txt', 'w', encoding='utf-8') as f:
                 f.writelines(text)
 
     def reward_when_finished(self):
@@ -138,7 +138,7 @@ class AzurLaneAutoScript:
         """
         from module.campaign.run import CampaignRun
         az = CampaignRun(self.config, device=self.device)
-        az.run(self.config.CAMPAIGN_EVENT, folder=self.config.EVENT_NAME)
+        az.run(self.config.EVENT_STAGE, folder=self.config.EVENT_NAME)
         self.reward_when_finished()
 
     def raid(self):
