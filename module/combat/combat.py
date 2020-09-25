@@ -111,10 +111,7 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
             if self.handle_retirement():
                 if self.config.ENABLE_HP_BALANCE:
                     self.wait_until_appear(BATTLE_PREPARATION)
-                    # When re-entering battle_preparation page, the emergency icon is active by default, even if
-                    # nothing to use. After a short animation, everything shows as usual.
-                    self.device.sleep(0.5)  # Wait animation.
-                    continue
+                continue
             if self.handle_combat_low_emotion():
                 continue
             if balance_hp and self.handle_emergency_repair_use():
@@ -167,9 +164,14 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
 
     def handle_emergency_repair_use(self):
         if self.appear_then_click(EMERGENCY_REPAIR_CONFIRM, offset=True):
-            self.device.sleep(0.5)  # Animation: hp increase and emergency_repair amount decrease.
             return True
         if self.appear(BATTLE_PREPARATION) and self.appear(EMERGENCY_REPAIR_AVAILABLE):
+            # When entering battle_preparation page (or after emergency repairing), the emergency icon is active by default, 
+            # even if nothing to use. After a short animation, everything shows as usual. Using fleet power number as a 
+            # stable checker.
+            self.wait_until_stable(PREPARATION_STABLE_CHECKER)
+            if not self.appear(EMERGENCY_REPAIR_AVAILABLE):
+                return False
             logger.info('EMERGENCY_REPAIR_AVAILABLE')
             if not len(self.hp):
                 return False
