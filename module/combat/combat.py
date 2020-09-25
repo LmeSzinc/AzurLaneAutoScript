@@ -109,8 +109,6 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
                 if self.handle_combat_automation_set(auto=auto == 'combat_auto'):
                     continue
             if self.handle_retirement():
-                if self.config.ENABLE_HP_BALANCE:
-                    self.wait_until_appear(BATTLE_PREPARATION)
                 continue
             if self.handle_combat_low_emotion():
                 continue
