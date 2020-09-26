@@ -1,5 +1,6 @@
 import re
 
+import numpy as np
 from PIL import Image
 
 from module.base.mask import Mask
@@ -27,17 +28,17 @@ def put_image_mask(image, mask):
 def handle_sensitive_image(image):
     """
     Args:
-        image (PIL.Image.Image):
+        image:
 
     Returns:
         PIL.Image.Image:
     """
     if PLAYER_CHECK.match(image, offset=(30, 30)):
-        image = MASK_PLAYER.apply(image)
+        image = Image.fromarray(MASK_PLAYER.apply(image), mode='RGB')
     if MAIN_CHECK.match(image, offset=(30, 30)):
-        image = MASK_MAIN.apply(image)
+        image = Image.fromarray(MASK_MAIN.apply(image), mode='RGB')
 
-    return Image.fromarray(image, mode='RGB')
+    return image
 
 
 def handle_sensitive_text(text):
