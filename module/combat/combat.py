@@ -168,7 +168,7 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
             # even if nothing to use. After a short animation, everything shows as usual. Using fleet power number as a 
             # stable checker. First wait for it to be non-zero, then wait for it to be stable.
             self.wait_until_disappear(MAIN_FLEET_POWER_ZERO, offset=(20, 20))
-            stable_checker = Button(area=MAIN_FLEET_POWER_ZERO.area, color=(), button=MAIN_FLEET_POWER_ZERO.button, name='')
+            stable_checker = Button(area=MAIN_FLEET_POWER_ZERO.area, color=(), button=MAIN_FLEET_POWER_ZERO.button, name='STABLE_CHECKER')
             self.wait_until_stable(stable_checker)
             if not self.appear(EMERGENCY_REPAIR_AVAILABLE):
                 return False
