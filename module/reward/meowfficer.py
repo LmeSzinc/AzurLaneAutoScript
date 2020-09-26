@@ -1,12 +1,12 @@
 from module.combat.assets import GET_ITEMS_1
 from module.logger import logger
-from module.ocr.ocr import Ocr, Digit
+from module.ocr.ocr import Digit, DigitCounter
 from module.reward.assets import *
 from module.ui.ui import UI, page_meowfficer, MEOWFFICER_GOTO_DORM
 
 BUY_MAX = 15
 BUY_PRIZE = 1500
-MEOWFFICER = Ocr(OCR_MEOWFFICER, letter=(140, 113, 99), threshold=64, alphabet='0123456789/')
+MEOWFFICER = DigitCounter(OCR_MEOWFFICER, letter=(140, 113, 99), threshold=64)
 MEOWFFICER_CHOOSE = Digit(OCR_MEOWFFICER_CHOOSE, letter=(140, 113, 99), threshold=64)
 MEOWFFICER_COINS = Digit(OCR_MEOWFFICER_COINS, letter=(99, 69, 41), threshold=64)
 
@@ -24,11 +24,7 @@ class RewardMeowfficer(UI):
         Returns:
             bool: If success.
         """
-        remain = MEOWFFICER.ocr(self.device.image)
-        if '/' not in remain:
-            logger.warning('Unexpected OCR result')
-            return False
-        remain = int(remain.split('/')[0])
+        _, remain, _ = MEOWFFICER.ocr(self.device.image)
         logger.attr('Meowfficer_remain', remain)
 
         # Check buy status
