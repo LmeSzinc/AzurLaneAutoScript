@@ -2,7 +2,7 @@ from module.combat.assets import GET_ITEMS_1
 from module.logger import logger
 from module.ocr.ocr import Ocr, Digit
 from module.reward.assets import *
-from module.ui.ui import UI, page_meowfficer, BACK_ARROW_DORM
+from module.ui.ui import UI, page_meowfficer, MEOWFFICER_GOTO_DORM
 
 BUY_MAX = 15
 BUY_PRIZE = 1500
@@ -80,7 +80,7 @@ class RewardMeowfficer(UI):
             if executed and self.appear(MEOWFFICER_BUY):
                 break
 
-        self.ui_click(BACK_ARROW_DORM, check_button=MEOWFFICER_BUY_ENTER, appear_button=MEOWFFICER_BUY, offset=None)
+        self.ui_click(MEOWFFICER_GOTO_DORM, check_button=MEOWFFICER_BUY_ENTER, appear_button=MEOWFFICER_BUY, offset=None)
 
     def meow_buy(self):
         """
