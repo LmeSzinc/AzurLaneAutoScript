@@ -961,6 +961,7 @@ set message=%message:\n=%
 set message=%message:\n\n=%
 set message=%message:(=%
 set message=%message:)=%
+SET message=%message:~1%
 for /f %%i in ('%gitBin%  rev-parse --abbrev-ref HEAD') do set BRANCH=%%i
 for /f "delims=" %%i IN ('%gitBin% log -1 "--pretty=%%H"') DO set LAST_LOCAL_GIT=%%i
 for /f "tokens=1,2" %%A in ('%gitBin% log -1 "--format=%%h %%ct" -- .') do (
@@ -980,6 +981,9 @@ set message=%message:"=%
 set message=%message:,=%
 set message=%message:\ntree=%
 set message=%message:\n\n=%
+set message=%message:(=%
+set message=%message:)=%
+SET message=%message:~1%
 for /f %%i in ('%gitBin%  rev-parse --abbrev-ref HEAD') do set BRANCH=%%i
 for /f "delims=" %%i IN ('%gitBin% log -1 "--pretty=%%H"') DO set LAST_LOCAL_GIT=%%i
 for /f "tokens=1,2" %%A in ('%gitBin% log -1 "--format=%%h %%ct" -- .') do (
@@ -990,24 +994,24 @@ call :gmTime GIT_CTIME %%B
 :time_parsed
 if %LAST_LOCAL_GIT% == %sha% (
    echo ====================================================================================================
-   echo == Remote Git hash:                   %sha%
-   echo == Remote Git message:                %message%
+   echo == Remote Git hash:                 ^| %sha%
+   echo == Remote Git message:              ^| %message%
    echo ====================================================================================================
-   echo == Local Git hash:                    %LAST_LOCAL_GIT%
-   echo == Local commit date:                 %GIT_CTIME%
-   echo == Current Local Branch:              %BRANCH%
+   echo == Local Git hash:                  ^| %LAST_LOCAL_GIT%
+   echo == Local commit date:               ^| %GIT_CTIME%
+   echo == Current Local Branch:            ^| %BRANCH%
    echo ====================================================================================================
    echo == Your ALAS is updated, Press any to continue...
    pause > NUL
    goto :eof
 ) else (
    echo ====================================================================================================
-   echo == Remote Git hash:                %sha%
-   echo == Remote Git message:             %message%
+   echo == Remote Git hash:                ^| %sha%
+   echo == Remote Git message:             ^| %message%
    echo ====================================================================================================
-   echo == Local Git hash:                 %LAST_LOCAL_GIT%
-   echo == Local commit date:              %GIT_CTIME%
-   echo == Current Local Branch:           %BRANCH%
+   echo == Local Git hash:                 ^| %LAST_LOCAL_GIT%
+   echo == Local commit date:              ^| %GIT_CTIME%
+   echo == Current Local Branch:           ^| %BRANCH%
    echo ====================================================================================================
    popup.exe
    choice /t 10 /c yn /d y /m "There is an update for ALAS. Download now?"
