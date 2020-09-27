@@ -2,16 +2,16 @@
 :: Alas Run Tool v3
 :: Author: whoamikyo (https://kyo.ninja)
 :: Version: 3.0
-:: Last updated: 2020-09-22
+:: Last updated: 2020-09-08
 :: https://github.com/LmeSzinc/AzurLaneAutoScript
 @echo off
 chcp | find "932" >NUL && set "IME=true" || set "IME=false"
 if "%IME%"=="true" (
    echo ====================================================================================================
    echo == Incorrect encoding, visit this link to correct: https://bit.ly/34t8ubY
-   echo == You have `�` instead backslashes you may have problems to run ALAS
+   echo == You may not have classical backslashes, you may have problems to run ALAS
    start https://bit.ly/34t8ubY
-   echo == To copy, select the link and CTRL+SHFT+C
+   echo == To copy, select the link and CTRL+SHIFT+C
    echo ====================================================================================================
    pause
    goto :eof
@@ -19,7 +19,7 @@ if "%IME%"=="true" (
 pushd "%~dp0"
 setlocal EnableDelayedExpansion
 set "Version=3.0"
-set "lastUpdated=2020-08-23"
+set "lastUpdated=2020-08-27"
 :: Remote repo
 set "Remoterepo=https://raw.githubusercontent.com/LmeSzinc/AzurLaneAutoScript/master/toolkit"
 
@@ -427,7 +427,7 @@ goto menu_ReplaceAdb
 rem ================= EMULATOR SETTINGS =================
 
 :replace_nox
-reg query HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\DuoDianOnline\SetupInfo >nul
+reg query HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\DuoDianOnline\SetupInfo>nul 2>nul
 if %errorlevel% equ 0 (
    echo ====================================================================================================
    echo == NoxAppPlayer detected, Proceeding...
@@ -438,8 +438,11 @@ if %errorlevel% equ 0 (
    pause > NUL
    goto ReturnToMenu
 )
+:NOX
 for /f "usebackq tokens=2,* skip=2" %%L in ( `reg query "HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\DuoDianOnline\SetupInfo" /v InstallPath`) do set InstallPath=%%M
 %adbBin% kill-server > nul 2>&1
+"%InstallPath%\bin\nox_adb.exe" version | find /i "29.0.6-6198805" >NUL && set "MATCH=true" || set "MATCH=false"
+if "%MATCH%"=="true" ( echo Version already match with ALAS ADB version && echo Press any key to back main menu && pause > NUL )
 echo f | xcopy /Y "%InstallPath%\bin\adb.exe" "%InstallPath%\bin\adb.exe.bak" >nul
 echo f | xcopy /Y "%InstallPath%\bin\nox_adb.exe" "%InstallPath%\bin\nox_adb.exe.bak" >nul
 xcopy /Y toolkit\Lib\site-packages\adbutils\binaries\adb.exe "%InstallPath%\bin\" >nul
@@ -460,19 +463,21 @@ if %errorlevel% equ 0 (
 )
 
 :replace_ldplayer
-reg query HKEY_CURRENT_USER\SOFTWARE\XuanZhi\LDPlayer >nul
+set LDREG=HKEY_CURRENT_USER\SOFTWARE\XuanZhi\LDPlayer
+reg query HKEY_CURRENT_USER\SOFTWARE\XuanZhi\LDPlayer>nul 2>nul
 if %errorlevel% equ 0 (
    echo ====================================================================================================
    echo == LDplayer detected, Proceeding...
 ) else (
+   set LDREG=HKEY_CURRENT_USER\SOFTWARE\XuanZhi\LDPlayer64
    echo ====================================================================================================
-   echo == LDplayer not detected
-   echo Press any key to back main menu
-   pause > NUL
-   goto ReturnToMenu
+   echo == LDplayer64 detected, Proceeding...
 )
-FOR /F "usebackq tokens=2,* skip=2" %%L IN ( `reg query "HKEY_CURRENT_USER\SOFTWARE\XuanZhi\LDPlayer" /v InstallDir`) do set InstallDir=%%M
+:LD
+for /f "usebackq tokens=2,* skip=2" %%L IN ( `reg query "%LDREG%" /v InstallDir`) do set InstallDir=%%M
 %adbBin% kill-server > nul 2>&1
+"%InstallDir%\adb.exe" version | find /i "29.0.6-6198805" >NUL && set "MATCH=true" || set "MATCH=false"
+if "%MATCH%"=="true" ( echo Version already match with ALAS ADB version && echo Press any key to back main menu && pause > NUL )
 echo f | xcopy /Y "%InstallDir%\adb.exe" "%InstallDir%\adb.exe.bak" >nul
 xcopy /Y toolkit\Lib\site-packages\adbutils\binaries\adb.exe "%InstallDir%\" >nul
 if %errorlevel% equ 0 (
@@ -489,6 +494,96 @@ if %errorlevel% equ 0 (
    pause > NUL
    goto ReturnToMenu
 )
+
+:process_checker
+setlocal EnableDelayedExpansion
+set process=(MEmu.exe Bluestacks.exe Nox.exe dnplayer.exe NemuHeadless.exe )
+for %%i in %process% do (
+   tasklist /nh /fi "IMAGENAME EQ %%i" 2>NUL | find /i /n "%%i">NUL
+   if !ERRORLEVEL! EQU 0 ( CALL :ProcessFound %%i )
+   
+)
+goto :eof
+
+:ProcessFound
+ECHO == %1 is running
+echo ====================================================================================================
+if "%1"=="dnplayer.exe" goto process_ldplayer
+if "%1"=="Nox.exe" goto process_nox
+if "%1"=="MEmu.exe" goto process_memu
+goto :eof
+
+:process_ldplayer
+set LDREG=HKEY_CURRENT_USER\SOFTWARE\XuanZhi\LDPlayer
+reg query HKEY_CURRENT_USER\SOFTWARE\XuanZhi\LDPlayer>nul 2>nul
+if %errorlevel% equ 0 (
+   echo == LDplayer 32 bit detected
+   echo ====================================================================================================
+) else (
+   set LDREG=HKEY_CURRENT_USER\SOFTWARE\XuanZhi\LDPlayer64
+   echo == LDplayer 64 bit detected
+   echo ====================================================================================================
+)
+for /f "usebackq tokens=2,* skip=2" %%L IN ( `reg query %LDREG% /v InstallDir`) do set InstallDir=%%M
+"%InstallDir%\adb.exe" version | find /i "29.0.6-6198805" >NUL && set "MATCH=true" || set "MATCH=false"
+if "%MATCH%"=="false" (
+   echo == Wrong ADB version...
+   echo == We will replace your ADB, re-run your server choice after that you back to main menu
+   echo ====================================================================================================
+   goto LD
+)
+rem %adbBin% devices | find /i "emulator-5554" >NUL && set "EMULATOR=true" || set "EMULATOR=false"
+set "EMULATOR=true"
+if "%EMULATOR%"=="true" (
+   echo == Your LDplayer will be restarted, wait...
+   @cd/d "%InstallDir%"
+   dnconsole.exe quit --index all
+   @cd/d "%root%"
+   start command\taskkill.bat
+   timeout /t 3 >nul
+   %adbBin% kill-server
+   %adbBin% devices >nul
+   timeout /t 1 >nul
+   start /d "%InstallDir%" dnplayer.exe
+   echo Press any key to continue when your LDplayer completely started
+   pause > nul
+)
+goto :eof
+
+:process_nox
+echo == NoxAppPlayer is detected
+for /f "usebackq tokens=2,* skip=2" %%L in ( `reg query "HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\DuoDianOnline\SetupInfo" /v InstallPath`) do set InstallPath=%%M
+"%InstallPath%\bin\nox_adb.exe" version | find /i "29.0.6-6198805" >NUL && set "MATCH=true" || set "MATCH=false"
+if "%MATCH%"=="false" (
+   echo == Wrong ADB version...
+   echo == We will replace your ADB, re-run your server choice after that you back to main menu
+   echo ====================================================================================================
+   goto NOX
+
+:process_memu
+echo == MEmu is detected
+for /f "usebackq tokens=2,* skip=2" %%L in ( `reg query "HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\MEmu" /v InstallLocation`) do set InstallLocation=%%M
+"%InstallLocation%\MEmu\adb.exe" version | find /i "29.0.6-6198805" >NUL && set "MATCH=true" || set "MATCH=false"
+if "%MATCH%"=="false" (
+   echo == Wrong ADB version...
+   echo == We will replace your ADB, re-run your server choice after that you back to main menu
+   echo ====================================================================================================
+   goto MEMU
+
+:process_bluestacks
+echo == Bluestacks is detected
+for /f "usebackq tokens=2,* skip=2" %%L in ( `reg query "HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\DuoDianOnline\SetupInfo" /v InstallPath`) do set InstallPath=%%M
+"%InstallPath%\bin\nox_adb.exe" version | find /i "29.0.6-6198805" >NUL && set "MATCH=true" || set "MATCH=false"
+if "%MATCH%"=="false" (
+   echo == Wrong ADB version...
+   echo == We will replace your ADB, re-run your server choice after that you back to main menu
+   echo ====================================================================================================
+   goto NOX
+
+:ProcessNotFound
+ECHO %1 is not running
+echo ====================================================================================================
+goto :eof
 
 rem ================= EMULATOR SETUP MENU =================
 
@@ -767,9 +862,24 @@ if errorlevel 1 (
 goto :eof
 
 :CheckBsBeta
+call :process_checker
 if "%RealtimeMode%"=="disable" ( goto AdbConnect )
+for /f "skip=1 tokens=10 delims=," %%a in ('tasklist /fi "imagename eq bluestacks.exe" /fo:csv /v /fi "status ne NOT RESPONDING"') do ( set WINDOW=%%a )
+set WINDOW=%WINDOW:"=%
+set INDEX=%WINDOW:~11,-1%
+set INDEX=%INDEX: =%
+if "%WINDOW%"=="Bluestacks" (
+   echo == Bluestacks instance 1 detected
+   set folderName=Android 
+   ) else ( 
+      echo == Bluestacks instance %index% detected
+      set folderName=Android_%index% 
+      )
+set HYPERVREG=HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_bgp64_hyperv\Guests\%folderName%\Config
+set HYPERVREG=%HYPERVREG: =%
 echo == Connecting with realtime mode...
-for /f "tokens=3" %%a in ('reg query HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_bgp64_hyperv\Guests\Android\Config /v BstAdbPort') do (set /a port = %%a)
+
+for /f "tokens=3" %%a in ('reg query %HYPERVREG% /v BstAdbPort') do (set /a port = %%a)
 set SerialRealtime=127.0.0.1:%port%
 echo ====================================================================================================
 if "%KillServer%"=="enable" (
@@ -809,7 +919,7 @@ goto Setting
 
 :ReturnToMenu
 echo ====================================================================================================
-echo == Press any key to continue...
+echo == Press any key to back to main menu...
 pause > NUL
 goto MENU
 
@@ -849,6 +959,8 @@ set message=%message:"=%
 set message=%message:,=%
 set message=%message:\n=%
 set message=%message:\n\n=%
+set message=%message:(=%
+set message=%message:)=%
 for /f %%i in ('%gitBin%  rev-parse --abbrev-ref HEAD') do set BRANCH=%%i
 for /f "delims=" %%i IN ('%gitBin% log -1 "--pretty=%%H"') DO set LAST_LOCAL_GIT=%%i
 for /f "tokens=1,2" %%A in ('%gitBin% log -1 "--format=%%h %%ct" -- .') do (
