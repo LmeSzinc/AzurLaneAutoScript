@@ -341,8 +341,8 @@ class RewardResearch(ResearchSelector):
         if not self.config.ENABLE_RESEARCH_REWARD:
             return False
 
-        if not self.appear(RESEARCH_PENDING, offset=(20, 20)):
-            logger.info('No research pending')
+        if not self.appear(RESEARCH_FINISHED) and not self.appear(RESEARCH_PENDING, offset=(20, 20)):
+            logger.info('No research finished or pending')
             return False
 
         self.ui_ensure_research()
