@@ -48,7 +48,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardMeowff
         self.ui_goto(page_reward, skip_first_screenshot=True)
 
         reward_handled = False
-        while 1:
+        for _ in range(5):
             if reward_handled:
                 break
             self._reward_receive()
