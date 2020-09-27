@@ -46,11 +46,21 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardMeowff
         self.ui_goto_main()
 
         self.ui_goto(page_reward, skip_first_screenshot=True)
-        self._reward_receive()
-        self.handle_info_bar()
-        self.handle_commission_start()
-        self.handle_tactical_class()
-        self.handle_research_reward()
+
+        reward_handled = False
+        while 1:
+            if reward_handled:
+                break
+            self._reward_receive()
+            self.handle_info_bar()
+            if self.handle_commission_start():
+                continue
+            if self.handle_tactical_class():
+                continue
+            if self.handle_research_reward():
+                continue
+            reward_handled = True
+
         self.ui_goto(page_main, skip_first_screenshot=True)
 
         self.handle_meowfficer()
