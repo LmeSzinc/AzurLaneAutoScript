@@ -233,12 +233,16 @@ def main(ini_name=''):
     reward_condition.add_argument('--收菜间隔关闭游戏', default=default('--收菜间隔关闭游戏'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     reward_condition.add_argument('--启用每日收获', default=default('--启用每日收获'), choices=['是', '否'], help='将每日任务困难演习作为收获的一部分来运行', gooey_options={'label_color': '#4B5F83'})
 
-    reward_oil = reward_parser.add_argument_group('石油物资', '', gooey_options={'label_color': '#931D03'})
-    reward_oil.add_argument('--启用石油收获', default=default('--启用石油收获'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    reward_oil.add_argument('--启用物资收获', default=default('--启用物资收获'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    reward_general = reward_parser.add_argument_group('日常收获', '', gooey_options={'label_color': '#931D03'})
+    reward_general.add_argument('--启用石油收获', default=default('--启用石油收获'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    reward_general.add_argument('--启用物资收获', default=default('--启用物资收获'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    reward_general.add_argument('--启用任务收获', default=default('--启用任务收获'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
 
-    reward_mission = reward_parser.add_argument_group('任务奖励', '', gooey_options={'label_color': '#931D03'})
-    reward_mission.add_argument('--启用任务收获', default=default('--启用任务收获'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    reward_dorm = reward_parser.add_argument_group('后宅设置', '', gooey_options={'label_color': '#931D03'})
+    reward_dorm.add_argument('--启用后宅收获', default=default('--启用后宅收获'), choices=['是', '否'], help='后宅喂食', gooey_options={'label_color': '#4B5F83'})
+    reward_dorm.add_argument('--启用后宅收集', default=default('--启用后宅收集'), choices=['是', '否'], help='后宅收爱心收家具币', gooey_options={'label_color': '#4B5F83'})
+    reward_dorm.add_argument('--后宅收获间隔', default=default('--后宅收获间隔'), help='每隔多少分钟触发, 推荐使用时间区间, 比如"10, 40"\n后宅六船时, 使用六种食物分别需要间隔大于\n(14, 28, 42, 70, 139, 278)', gooey_options={'label_color': '#4B5F83'})
+    reward_dorm.add_argument('--后宅喂食优先', default=default('--后宅喂食优先'), help='仿照科研过滤字符串', gooey_options={'label_color': '#4B5F83'})
 
     reward_commission = reward_parser.add_argument_group('委托设置', '', gooey_options={'label_color': '#931D03'})
     reward_commission.add_argument('--启用委托收获', default=default('--启用委托收获'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})

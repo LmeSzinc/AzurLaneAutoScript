@@ -239,12 +239,17 @@ def main(ini_name=''):
     reward_condition.add_argument('--enable_daily_reward', default=default('--enable_daily_reward'), choices=['yes', 'no'],
                                   help='Run daily as a part of reward', gooey_options={'label_color': '#4B5F83'})
 
-    reward_oil = reward_parser.add_argument_group('Oil supplies', '', gooey_options={'label_color': '#931D03'})
-    reward_oil.add_argument('--enable_oil_reward', default=default('--enable_oil_reward'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
-    reward_oil.add_argument('--enable_coin_reward', default=default('--enable_coin_reward'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_general = reward_parser.add_argument_group('General', '', gooey_options={'label_color': '#931D03'})
+    reward_general.add_argument('--enable_oil_reward', default=default('--enable_oil_reward'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_general.add_argument('--enable_coin_reward', default=default('--enable_coin_reward'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_general.add_argument('--enable_mission_reward', default=default('--enable_mission_reward'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
 
-    reward_mission = reward_parser.add_argument_group('mission rewards', '', gooey_options={'label_color': '#931D03'})
-    reward_mission.add_argument('--enable_mission_reward', default=default('--enable_mission_reward'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_dorm = reward_parser.add_argument_group('Dorm', '', gooey_options={'label_color': '#931D03'})
+    reward_dorm.add_argument('--enable_dorm_reward', default=default('--enable_dorm_reward'), choices=['yes', 'no'], help='Dorm feed', gooey_options={'label_color': '#4B5F83'})
+    reward_dorm.add_argument('--enable_dorm_collect', default=default('--enable_dorm_collect'), choices=['yes', 'no'], help='Collect coins and loves', gooey_options={'label_color': '#4B5F83'})
+    reward_dorm.add_argument('--dorm_interval', default=default('--dorm_interval'),
+                             help='How many minutes to trigger collection. Recommend to set a time range, such as "10, 40"\nIf 6 ships in dorm, to use 6 kind of food, interval needs to greater than (14, 28, 42, 70, 139, 278)', gooey_options={'label_color': '#4B5F83'})
+    reward_dorm.add_argument('--dorm_feed_filter', default=default('--dorm_feed_filter'), help='Like research filter string', gooey_options={'label_color': '#4B5F83'})
 
     reward_commission = reward_parser.add_argument_group('Commission settings', '', gooey_options={'label_color': '#931D03'})
     reward_commission.add_argument('--enable_commission_reward', default=default('--enable_commission_reward'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
