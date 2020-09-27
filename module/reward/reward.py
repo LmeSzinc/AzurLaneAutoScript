@@ -47,19 +47,24 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardMeowff
 
         self.ui_goto(page_reward, skip_first_screenshot=True)
 
-        reward_handled = False
+        rewards_handled = research_handled = False
         for _ in range(8):
-            if reward_handled:
+            if rewards_handled:
                 break
             self._reward_receive()
             self.handle_info_bar()
-            if self.handle_commission_start():
-                continue
+            # There is only 1 research slot. No need to handle it again once succeeded. Without this check, 
+            # the script may try handle_research_reward multiple times if it failed to start a new research, 
+            # which is a waste of time.
+            if not research_handled:
+                if self.handle_research_reward():
+                    research_handled = True
+                    continue
             if self.handle_tactical_class():
                 continue
-            if self.handle_research_reward():
+            if self.handle_commission_start():
                 continue
-            reward_handled = True
+            rewards_handled = True
 
         self.ui_goto(page_main, skip_first_screenshot=True)
 
