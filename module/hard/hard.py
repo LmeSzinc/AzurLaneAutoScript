@@ -31,7 +31,7 @@ class CampaignHard(CampaignRun):
 
         # UI ensure
         self.ui_weigh_anchor()
-        self.campaign.ensure_campaign_ui(self.config.HARD_CAMPAIGN)
+        self.campaign.ensure_campaign_ui(self.config.HARD_CAMPAIGN, mode='hard')
 
         # Run
         remain = OCR_HARD_REMAIN.ocr(self.device.image)
