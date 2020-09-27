@@ -25,14 +25,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardMeowff
         Returns:
             int: Reward interval in seconds.
         """
-        interval = self.config.REWARD_INTERVAL
-        if ',' in interval:
-            lower, upper = interval.replace(' ', '').split(',')
-            lower = int(lower) * 60
-            upper = int(upper) * 60
-            return int(ensure_time((lower, upper), precision=0))
-        else:
-            return int(interval) * 60
+        return int(ensure_time(self.config.REWARD_INTERVAL, precision=3) * 60)
 
     def reward_interval_reset(self):
         """ Call this method after script sleep ends """
