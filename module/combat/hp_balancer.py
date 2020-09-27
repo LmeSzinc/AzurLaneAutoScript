@@ -126,17 +126,21 @@ class HPBalancer(ModuleBase):
         if count == 3:
             descending = np.sort(hp)[::-1]
             sort = np.argsort(hp)[::-1]
-            if descending[0] - descending[2] > threshold:
-                if descending[1] - descending[2] > threshold:
-                    # 100% 70% 40%
-                    order = [sort[0], sort[2], sort[1]]
-                else:
-                    # 100% 70% 60%
-                    order = [sort[0], 1, 2]
-                    order[sort[0]] = 0
-            else:
+            if not descending[0] - descending[2] > threshold:
                 # 80% 80% 80%
                 order = [0, 1, 2]
+            elif descending[0] - descending[1] > threshold and descending[1] - descending[2] > threshold:
+                # 100% 70% 40%
+                order = [sort[0], sort[2], sort[1]]
+            elif descending[0] - descending[1] > threshold:
+                # 100% 70% 60%
+                order = [sort[0], 1, 2]
+                order[sort[0]] = 0
+            else:
+                # descending[1] - descending[2] > threshold
+                # 100% 90% 60%
+                order = [0, sort[2], 2]
+                order[sort[2]] = 1
         elif count == 2:
             if hp[1] - hp[0] > threshold:
                 # 70% 100% 0%
