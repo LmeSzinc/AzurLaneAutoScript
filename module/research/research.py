@@ -348,4 +348,5 @@ class RewardResearch(ResearchSelector):
         self.ui_ensure_research()
         self.research_reward()
 
+        self.ui_goto(page_reward, skip_first_screenshot=True)
         return True

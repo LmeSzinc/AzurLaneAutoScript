@@ -285,6 +285,4 @@ class RewardTacticalClass(UI):
         if not self.config.ENABLE_TACTICAL_REWARD:
             return False
 
-        self._tactical_class_receive()
-
-        return True
+        return self._tactical_class_receive()
