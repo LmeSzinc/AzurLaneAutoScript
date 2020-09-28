@@ -90,9 +90,12 @@ def ensure_time(second, n=3, precision=3):
         multiply = 10 ** precision
         return random_normal_distribution_int(second[0] * multiply, second[1] * multiply, n) / multiply
     elif isinstance(second, str):
-        lower, upper = second.replace(' ', '').split(',')
-        lower, upper = int(lower), int(upper)
-        return ensure_time((lower, upper), n=n, precision=precision)
+        if ',' in second:
+            lower, upper = second.replace(' ', '').split(',')
+            lower, upper = int(lower), int(upper)
+            return ensure_time((lower, upper), n=n, precision=precision)
+        else:
+            return int(second)
     else:
         return second
 
