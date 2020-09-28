@@ -24,7 +24,7 @@ class RewardMeowfficer(UI):
         Returns:
             bool: If success.
         """
-        _, remain, _ = MEOWFFICER.ocr(self.device.image)
+        remain, _, _ = MEOWFFICER.ocr(self.device.image)
         logger.attr('Meowfficer_remain', remain)
 
         # Check buy status
