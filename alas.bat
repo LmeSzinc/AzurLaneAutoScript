@@ -626,7 +626,7 @@ echo ===========================================================================
 echo.
 echo. & echo  [1] Manual Setup
 echo. & echo  [2] NoxAppPlayer Automatic Connection
-echo. & echo  [3] Bluestacks Hyper-V Beta Automatic Connection
+echo. & echo  [3] Bluestacks Hyper-V Beta Automatic Connection ( ONLY TO HYPER-V VERSION, FOR NORMAL BLUESTACKS USE MANUAL SETUP )
 echo. & echo  [4] MEmu Automatic Connection
 echo. & echo  [0] Return to the Main Menu
 echo. & echo.
