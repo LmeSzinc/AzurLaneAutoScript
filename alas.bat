@@ -512,6 +512,7 @@ echo ===========================================================================
 if "%1"=="dnplayer.exe" goto process_ldplayer
 if "%1"=="Nox.exe" goto process_nox
 if "%1"=="MEmu.exe" goto process_memu
+if "%1"=="Bluestacks.exe" goto process_bluestacks
 goto :eof
 
 :process_ldplayer
@@ -577,14 +578,6 @@ goto :eof
 
 :process_bluestacks
 echo == Bluestacks is detected
-for /f "usebackq tokens=2,* skip=2" %%L in ( `reg query "HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\DuoDianOnline\SetupInfo" /v InstallPath`) do set InstallPath=%%M
-"%InstallPath%\bin\nox_adb.exe" version | find /i "29.0.6-6198805" >NUL && set "MATCH=true" || set "MATCH=false"
-if "%MATCH%"=="false" (
-   echo == Wrong ADB version...
-   echo == We will replace your ADB, re-run your server choice after that you back to main menu
-   echo =======================================================================================================================
-   goto NOX
-)
 goto :eof
 
 :ProcessNotFound
