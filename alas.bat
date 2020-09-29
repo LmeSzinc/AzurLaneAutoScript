@@ -866,14 +866,17 @@ call :process_checker
 if "%RealtimeMode%"=="disable" ( goto AdbConnect )
 for /f "skip=1 tokens=10 delims=," %%a in ('tasklist /fi "imagename eq bluestacks.exe" /fo:csv /v /fi "status ne NOT RESPONDING"') do ( set WINDOW=%%a )
 set WINDOW=%WINDOW:"=%
-set INDEX=%WINDOW:~11,-1%
-set INDEX=%INDEX: =%
-if "%WINDOW%"=="Bluestacks" (
+set WINDOW=%WINDOW: =%
+if not "%WINDOW%"=="BlueStacks" (
+   set WINDOW=%WINDOW:~10,1%
+   echo == BlueStacks instance %WINDOW% detected
+) else (
    echo == Bluestacks instance 1 detected
+)
+if "%WINDOW%"=="BlueStacks" (
    set folderName=Android 
    ) else ( 
-      echo == Bluestacks instance %index% detected
-      set folderName=Android_%index% 
+      set folderName=Android_%WINDOW% 
       )
 set HYPERVREG=HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_bgp64_hyperv\Guests\%folderName%\Config
 set HYPERVREG=%HYPERVREG: =%
