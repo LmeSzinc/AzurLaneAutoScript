@@ -122,6 +122,7 @@ class HPBalancer(ModuleBase):
     def _expected_scout_order(self, hp):
         count = np.count_nonzero(hp)
         threshold = self.config.SCOUT_HP_DIFFERENCE_THRESHOLD
+        hp = np.array(hp) / max(hp)
 
         if count == 3:
             descending = np.sort(hp)[::-1]
