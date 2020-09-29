@@ -178,3 +178,32 @@ class Digit(Ocr):
         result = int(result) if result else 0
 
         return result
+
+
+class DigitCounter(Ocr):
+    def __init__(self, buttons, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='0123456789/',
+                 name=None):
+        super().__init__(buttons, lang=lang, letter=letter, threshold=threshold, alphabet=alphabet, name=name)
+
+    def ocr(self, image, direct_ocr=False):
+        """
+        DigitCounter only support doing OCR on one button.
+
+        Args:
+            image:
+            direct_ocr:
+
+        Returns:
+            int, int, int: current, remain, total.
+        """
+        result_list = super().ocr(image, direct_ocr=direct_ocr)
+        result = result_list[0] if isinstance(result_list, list) else result_list
+
+        try:
+            current, total = result.split('/')
+            current, total = int(current), int(total)
+            current = min(current, total)
+            return current, total - current, total
+        except (IndexError, ValueError):
+            logger.warning(f'Unexpected ocr result: {result_list}')
+            return 0, 0, 0

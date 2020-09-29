@@ -9,13 +9,14 @@ from module.logger import logger
 from module.research.research import RewardResearch
 from module.reward.assets import *
 from module.reward.commission import RewardCommission
+from module.reward.dorm import RewardDorm
 from module.reward.meowfficer import RewardMeowfficer
 from module.reward.tactical_class import RewardTacticalClass
 from module.ui.page import *
 from module.update import Update
 
 
-class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardMeowfficer, LoginHandler, Update):
+class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, RewardMeowfficer, LoginHandler, Update):
     @cached_property
     def reward_interval(self):
         """
@@ -25,14 +26,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardMeowff
         Returns:
             int: Reward interval in seconds.
         """
-        interval = self.config.REWARD_INTERVAL
-        if ',' in interval:
-            lower, upper = interval.replace(' ', '').split(',')
-            lower = int(lower) * 60
-            upper = int(upper) * 60
-            return int(ensure_time((lower, upper), precision=0))
-        else:
-            return int(interval) * 60
+        return int(ensure_time(self.config.REWARD_INTERVAL, precision=3) * 60)
 
     def reward_interval_reset(self):
         """ Call this method after script sleep ends """
@@ -73,6 +67,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardMeowff
 
         self.ui_goto(page_main, skip_first_screenshot=True)
 
+        self.handle_dorm()
         self.handle_meowfficer()
         self._reward_mission()
 

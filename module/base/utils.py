@@ -75,11 +75,11 @@ def random_line_segments(p1, p2, n, random_range=(0, 0, 0, 0)):
             for index in range(0, n + 1)]
 
 
-def ensure_time(second, n=5, precision=3):
+def ensure_time(second, n=3, precision=3):
     """Ensure to be time.
 
     Args:
-        second (int, float, tuple): time.
+        second (int, float, tuple): time, such as 10, (10, 30), '10, 30'
         n (int): The amount of numbers in simulation. Default to 5.
         precision (int): Decimals.
 
@@ -89,6 +89,13 @@ def ensure_time(second, n=5, precision=3):
     if isinstance(second, tuple):
         multiply = 10 ** precision
         return random_normal_distribution_int(second[0] * multiply, second[1] * multiply, n) / multiply
+    elif isinstance(second, str):
+        if ',' in second:
+            lower, upper = second.replace(' ', '').split(',')
+            lower, upper = int(lower), int(upper)
+            return ensure_time((lower, upper), n=n, precision=precision)
+        else:
+            return int(second)
     else:
         return second
 

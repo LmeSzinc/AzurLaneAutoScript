@@ -1,15 +1,15 @@
 import re
-
 from datetime import timedelta
+
 from scipy import signal
 
 from module.base.decorator import Config
+from module.base.filter import Filter
 from module.base.timer import Timer
 from module.base.utils import *
 from module.logger import logger
 from module.ocr.ocr import Ocr
 from module.research.assets import *
-from module.research.filter import Filter
 from module.research.preset import *
 from module.research.project_data import LIST_RESEARCH_PROJECT
 from module.statistics.utils import *

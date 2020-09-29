@@ -1,8 +1,13 @@
 import re
 
+import numpy as np
 from PIL import Image
 
+from module.base.mask import Mask
 from module.ui.page import *
+
+MASK_MAIN = Mask('./assets/mask/MASK_MAIN.png')
+MASK_PLAYER = Mask('./assets/mask/MASK_PLAYER.png')
 
 
 def put_image_mask(image, mask):
@@ -23,15 +28,15 @@ def put_image_mask(image, mask):
 def handle_sensitive_image(image):
     """
     Args:
-        image (PIL.Image.Image):
+        image:
 
     Returns:
         PIL.Image.Image:
     """
     if PLAYER_CHECK.match(image, offset=(30, 30)):
-        return put_image_mask(image, mask='MASK_PLAYER')
+        image = Image.fromarray(MASK_PLAYER.apply(image), mode='RGB')
     if MAIN_CHECK.match(image, offset=(30, 30)):
-        return put_image_mask(image, mask='MASK_MAIN')
+        image = Image.fromarray(MASK_MAIN.apply(image), mode='RGB')
 
     return image
 
