@@ -301,5 +301,7 @@ class UI(InfoHandler):
             return True
         if self.appear_then_click(DORM_FEED_CANCEL, offset=(30, 30), interval=1):
             return True
+        if self.appear_then_click(DORM_TROPHY_CONFIRM, offset=(30, 30), interval=1):
+            return  True
 
         return False
