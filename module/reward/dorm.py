@@ -20,7 +20,7 @@ MASK_DORM = Mask(file='./assets/mask/MASK_DORM.png')
 DORM_CAMERA_SWIPE = (300, 250)
 DORM_CAMERA_RANDOM = (-20, -20, 20, 20)
 RECORD = ('RewardRecord', 'dorm')
-FOOD = ButtonGrid(origin=(295, 375), delta=(156, 0), button_shape=(118, 79), grid_shape=(6, 1), name='FOOD')
+FOOD = ButtonGrid(origin=(298, 375), delta=(156, 0), button_shape=(112, 66), grid_shape=(6, 1), name='FOOD')
 FOOD_AMOUNT = ButtonGrid(
     origin=(343, 411), delta=(156, 0), button_shape=(70, 33), grid_shape=(6, 1), name='FOOD_AMOUNT')
 OCR_FOOD = Digit(FOOD_AMOUNT.buttons(), letter=(255, 255, 255), threshold=128, name='OCR_DORM_FOOD')
