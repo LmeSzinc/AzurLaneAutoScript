@@ -303,6 +303,9 @@ class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, Comba
             bool:
         """
         if self.appear_then_click(GET_SHIP, screenshot=save_get_items, genre='get_ship'):
+            if self.appear(NEW_SHIP, interval=1):
+                logger.info('Get a new SHIP')
+                self.config.GET_SHIP_TRIGGERED = True
             return True
 
         return False

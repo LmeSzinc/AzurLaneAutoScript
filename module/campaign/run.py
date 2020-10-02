@@ -101,6 +101,12 @@ class CampaignRun(Reward):
             if OCR_OIL.ocr(self.device.image) < self.config.STOP_IF_OIL_LOWER_THAN:
                 logger.hr('Triggered oil limit')
                 return True
+        # If Get a New Ship
+        if self.config.STOP_IF_GET_SHIP and self.campaign.config.GET_SHIP_TRIGGERED:
+            logger.hr('Triggered get ship')
+            return True
+
+
 
         return False
 

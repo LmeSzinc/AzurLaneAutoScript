@@ -137,6 +137,9 @@ def main(ini_name=''):
     stop.add_argument('--if_count_greater_than', default=default('--if_count_greater_than'), help='How many map completions\n until ALAS enter in Reward loop.', gooey_options={'label_color': '#4B5F83'})
     stop.add_argument('--if_time_reach', default=default('--if_time_reach'), help='How many time in minutes run ALAS until stop\n. It is recommended about\n 10 minutes to complete the current attack. Format 14:59', gooey_options={'label_color': '#4B5F83'})
     stop.add_argument('--if_oil_lower_than', default=default('--if_oil_lower_than'), help='Will enter in reward loop when\ntriggered Oil limit', gooey_options={'label_color': '#4B5F83'})
+    stop.add_argument('--if_get_ship', default=default('--if_get_ship'), choices=['yes', 'no'],
+                      help='Will enter in reward loop when\nget a new ship',
+                      gooey_options={'label_color': '#4B5F83'})
     stop.add_argument('--if_map_reach', default=default('--if_map_reach'), choices=['no', 'map_100', 'map_3_star', 'map_green_without_3_star', 'map_green'], help='If already reached, ignore this setting', gooey_options={'label_color': '#4B5F83'})
     stop.add_argument('--if_trigger_emotion_control', default=default('--if_trigger_emotion_control'), choices=['yes', 'no'], help='Will enter in reward loop when\ntriggered Mood limit', gooey_options={'label_color': '#4B5F83'})
     # stop.add_argument('--if_dock_full', default=default('--if_dock_full'), choices=['yes', 'no'])
