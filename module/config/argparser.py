@@ -136,7 +136,7 @@ def main(ini_name=''):
     stop.add_argument('--如果出击次数大于', default=default('--如果出击次数大于'), help='会沿用先前设置, 完成出击将扣除次数, 直至清零', gooey_options={'label_color': '#4B5F83'})
     stop.add_argument('--如果时间超过', default=default('--如果时间超过'), help='使用未来24小时内的时间, 会沿用先前设置, 触发后清零. 建议提前10分钟左右, 以完成当前出击. 格式 14:59', gooey_options={'label_color': '#4B5F83'})
     stop.add_argument('--如果石油低于', default=default('--如果石油低于'), gooey_options={'label_color': '#4B5F83'})
-    stop.add_argument('--if_get_ship', default=default('--if_get_ship'), choices=['yes', 'no'],
+    stop.add_argument('--if_get_ship', default=default('--if_get_ship'), choices=['是', '否'],
                       help='Will enter in reward loop when\nget a new ship',
                       gooey_options={'label_color': '#4B5F83'})
     stop.add_argument('--如果地图开荒', default=default('--如果地图开荒'), choices=['否', '地图通关', '地图三星', '地图绿海不打三星', '地图绿海'], help='如果已经满足, 无视此设置', gooey_options={'label_color': '#4B5F83'})
