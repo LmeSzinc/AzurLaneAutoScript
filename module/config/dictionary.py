@@ -298,7 +298,7 @@ dic_chi_to_eng = {
     '如果触发心情控制': 'if_trigger_emotion_control',
     '如果船舱已满': 'if_dock_full',
     '如果地图开荒': 'if_map_reach',
-    'if_get_ship' : 'if_get_ship',
+    '如果获得新船' : 'if_get_ship',
     '启用舰队控制': 'enable_fleet_control',
     '启用阵容锁定': 'enable_map_fleet_lock',
     '舰队编号1': 'fleet_index_1',
