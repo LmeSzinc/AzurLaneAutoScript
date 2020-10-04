@@ -91,6 +91,7 @@ class CampaignUI(UI, CampaignOcr):
             self.campaign_ensure_chapter(index=chapter)
             if mode == 'hard':
                 self.campaign_ensure_mode('hard')
+                self.campaign_ensure_chapter(index=chapter)
 
         elif chapter in 'abcd' or chapter == 'ex_sp':
             self.ui_goto_event()

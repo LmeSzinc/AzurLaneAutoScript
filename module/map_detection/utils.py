@@ -102,10 +102,10 @@ class Points:
             return np.array([])
         groups = []
         points = self.points
+        if len(points) == 1:
+            return np.array([points[0]])
 
         while len(points):
-            if len(points) == 1:
-                return np.array([points[0]])
             p0, p1 = points[0], points[1:]
             distance = np.sum(np.abs(p1 - p0), axis=1)
             new = Points(np.append(p1[distance <= threshold], [p0], axis=0), config=self.config).mean().tolist()
