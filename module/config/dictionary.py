@@ -540,7 +540,7 @@ dic_event = {
         'Scherzo_of_Iron_and_Blood_Rerun': 'event_20200820_cn',
         'Stars_of_the_Shimmering_Fjord': 'event_20200903_en',
         'Dreamwakers_Butterfly': 'event_20200917_cn',
-        'Counterattack_Within_the_Fjord': 'event_20200603_cn',
+        'Counterattack_Within_the_Fjord': 'event_20201002_en',
     },
     'jp': {
         '峡湾間の反撃': 'event_20200603_jp',
