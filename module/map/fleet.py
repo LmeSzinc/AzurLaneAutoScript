@@ -87,6 +87,7 @@ class Fleet(Camera, AmbushHandler):
         self.map.show_cost()
         self.show_fleet()
         self.hp_get()
+        self.lv_get()
         self.handle_strategy(index=self.fleet_current_index)
 
     def switch_to(self):
@@ -221,6 +222,7 @@ class Fleet(Camera, AmbushHandler):
                 if self.combat_appear():
                     self.combat(expected_end=self._expected_combat_end(expected), fleet_index=self.fleet_current_index)
                     self.hp_get()
+                    self.lv_get(after_battle=True)
                     arrived = True if not self.config.MAP_HAS_MOVABLE_ENEMY else False
                     result = 'combat'
                     self.battle_count += 1
@@ -237,6 +239,7 @@ class Fleet(Camera, AmbushHandler):
                 # Ambush
                 if self.handle_ambush():
                     self.hp_get()
+                    self.lv_get(after_battle=True)
                     ambushed_retry.start()
                     walk_timeout.reset()
 
@@ -558,6 +561,8 @@ class Fleet(Camera, AmbushHandler):
             self.handle_strategy(index=1)
         self.hp_reset()
         self.hp_get()
+        self.lv_reset()
+        self.lv_get()
         self.ensure_edge_insight(preset=self.map.in_map_swipe_preset_data)
         self.full_scan(must_scan=self.map.camera_data_spawn_point)
         self.find_current_fleet()
