@@ -543,7 +543,7 @@ dic_event = {
         'Counterattack_Within_the_Fjord': 'event_20201002_en',
     },
     'jp': {
-        '峡湾間の反撃': 'event_20200603_jp',
+        '峡湾間の反撃': 'event_20200603_cn',
         '特別演習超空強襲波（復刻）': 'raid_20200624',
         '極夜照らす幻光': 'event_20200723_cn',
         '鉄血鮫とエニグマ（復刻）': 'event_20200806_cn',
