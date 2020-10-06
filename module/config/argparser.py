@@ -141,6 +141,7 @@ def main(ini_name=''):
                       gooey_options={'label_color': '#4B5F83'})
     stop.add_argument('--如果地图开荒', default=default('--如果地图开荒'), choices=['否', '地图通关', '地图三星', '地图绿海不打三星', '地图绿海'], help='如果已经满足, 无视此设置', gooey_options={'label_color': '#4B5F83'})
     stop.add_argument('--如果触发心情控制', default=default('--如果触发心情控制'), choices=['是', '否'], help='若是, 等待回复, 完成本次, 停止\n若否, 等待回复, 完成本次, 继续', gooey_options={'label_color': '#4B5F83'})
+    stop.add_argument('--如果到达120级', default=default('--如果到达120级'), choices=['是', '否'], help='当舰船从119级升至120级时: \n若是, 完成本次, 停止出击\n若否, 继续出击', gooey_options={'label_color': '#4B5F83'})
     # stop.add_argument('--如果船舱已满', default=default('--如果船舱已满'), choices=['是', '否'])
 
     # 出击舰队

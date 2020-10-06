@@ -115,6 +115,11 @@ class AzurLaneConfig:
     LOW_HP_WITHDRAW_THRESHOLD = 0.2
 
     """
+    module.combat.level
+    """
+    LV120_TRIGGERED = False
+    
+    """
     module.campaign
     """
     CAMPAIGN_NAME = 'default'
@@ -130,7 +135,8 @@ class AzurLaneConfig:
     STOP_IF_TIME_REACH = 0
     STOP_IF_TRIGGER_EMOTION_LIMIT = False
     STOP_IF_DOCK_FULL = False
-    STOP_IF_MAP_REACH = 'no'
+    STOP_IF_REACH_LV120 = False
+    STOP_IF_MAP_REACH = 'no' # no, map_100, map_3_star, map_green_without_3_star, map_green
     STOP_IF_GET_SHIP = False
 
     MAP_CLEAR_ALL_THIS_TIME = False
@@ -533,6 +539,7 @@ class AzurLaneConfig:
         self.STOP_IF_OIL_LOWER_THAN = int(option['if_oil_lower_than'])
         self.STOP_IF_TRIGGER_EMOTION_LIMIT = to_bool(option['if_trigger_emotion_control'])
         self.STOP_IF_DOCK_FULL = to_bool(option['if_dock_full'])
+        self.STOP_IF_REACH_LV120 = to_bool(option['if_reach_lv120'])
         self.STOP_IF_MAP_REACH = option['if_map_reach']
         self.STOP_IF_GET_SHIP = to_bool(option['if_get_ship'])
         # Fleet

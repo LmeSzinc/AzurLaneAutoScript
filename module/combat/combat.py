@@ -6,6 +6,7 @@ from module.combat.combat_auto import CombatAuto
 from module.combat.combat_manual import CombatManual
 from module.combat.emotion import Emotion
 from module.combat.hp_balancer import HPBalancer
+from module.combat.level import Level
 from module.combat.submarine import SubmarineCall
 from module.handler.enemy_searching import EnemySearchingHandler
 from module.logger import logger
@@ -15,7 +16,7 @@ from module.template.assets import TEMPLATE_COMBAT_LOADING
 from module.ui.assets import BACK_ARROW
 
 
-class Combat(HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, CombatAuto, CombatManual):
+class Combat(Level, HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, CombatAuto, CombatManual):
     _automation_set_timer = Timer(1)
     _emotion: Emotion
     battle_status_click_interval = 0

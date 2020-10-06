@@ -96,6 +96,10 @@ class CampaignRun(Reward):
         if self.config.STOP_IF_TRIGGER_EMOTION_LIMIT and self.campaign.config.EMOTION_LIMIT_TRIGGERED:
             logger.hr('Triggered emotion limit')
             return True
+        # Lv120 limit
+        if self.config.STOP_IF_REACH_LV120 and self.campaign.config.LV120_TRIGGERED:
+            logger.hr('Triggered lv120 limit')
+            return True
         # Oil limit
         if self.config.STOP_IF_OIL_LOWER_THAN:
             if OCR_OIL.ocr(self.device.image) < self.config.STOP_IF_OIL_LOWER_THAN:
