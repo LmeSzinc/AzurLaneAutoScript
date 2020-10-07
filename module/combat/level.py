@@ -4,7 +4,9 @@ from module.base.decorator import Config
 from module.logger import logger
 from module.ocr.ocr import Ocr
 
-LV_GRID = ButtonGrid(origin=(58, 117), delta=(0, 100), button_shape=(48, 22), grid_shape=(1, 6))
+LV_GRID_MAIN = ButtonGrid(origin=(58, 118), delta=(0, 100), button_shape=(46, 19), grid_shape=(1, 3))
+LV_GRID_VANGUARD = ButtonGrid(origin=(58, 420), delta=(0, 100), button_shape=(46, 19), grid_shape=(1, 3))
+LV_BUTTONS = LV_GRID_MAIN.buttons() + LV_GRID_VANGUARD.buttons()
 COLOR_WHITE = (255, 255, 255)
 COLOR_MASKED = (107, 105, 107)
 
@@ -49,7 +51,7 @@ class Level(ModuleBase):
 
         self._lv_before_battle = self.lv if after_battle else [-1] * 6
 
-        ocr = LevelOcr(LV_GRID.buttons())
+        ocr = LevelOcr(LV_BUTTONS)
         self.lv = ocr.ocr(self.device.image)
         logger.attr('LEVEL', ', '.join(str(data) for data in self.lv))
 
@@ -73,7 +75,7 @@ class Level(ModuleBase):
 class LevelOcr(Ocr):
     # Ocr's default argument 'threshold=128' makes some digits too thin to be recognized.
     # Use 'threshold=191' instead.
-    def __init__(self, buttons, lang='azur_lane', letter=COLOR_WHITE, threshold=191, alphabet='LV0123456789',
+    def __init__(self, buttons, lang='azur_lane', letter=COLOR_WHITE, threshold=191, alphabet='0123456789',
                  name='LevelOcr'):
         super().__init__(buttons, lang=lang, letter=letter, threshold=threshold, alphabet=alphabet, name=name)
 
@@ -88,11 +90,16 @@ class LevelOcr(Ocr):
             scalar = np.mean(COLOR_WHITE) / np.mean(COLOR_MASKED)
             image = cv2.addWeighted(image, scalar, image, 0, 0)
 
-        return super().pre_process(image)
+        image = super().pre_process(image)
+        # Find 'L' to strip 'LV.'.
+        # Ruturn an empty image if 'L' is not found.
+        letter_l = np.nonzero(image[2:15, :].max(axis=0) < 127)[0]
+        if len(letter_l):
+            return image[:, letter_l[0] + 17:]
+        else:
+            return np.array([[255]], dtype=np.uint8)
 
     def after_process(self, result):
         result = super().after_process(result)
-        # strip 'LV'
-        result = int(result[result.find('V') + 1:].replace('V', '').replace('L', '')) if result else -1
 
-        return result
+        return int(result) if result else -1
