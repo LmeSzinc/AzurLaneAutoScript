@@ -12,7 +12,7 @@ from module.map_detection.utils import Points
 from module.ocr.ocr import Digit, DigitCounter
 from module.reward.assets import *
 from module.template.assets import TEMPLATE_DORM_COIN, TEMPLATE_DORM_LOVE
-from module.ui.assets import DORM_CHECK
+from module.ui.assets import DORM_CHECK, DORM_TROPHY_CONFIRM
 from module.ui.page import page_dorm
 from module.ui.ui import UI
 
@@ -97,6 +97,11 @@ class RewardDorm(UI):
         # Collect
         for n in range(3):
             self.device.screenshot()
+            # Close trophies info
+            if self.appear(DORM_TROPHY_CONFIRM, offset=(30, 30)):
+                self.ui_click(DORM_TROPHY_CONFIRM, check_button=DORM_CHECK, skip_first_screenshot=True)
+                self.device.screenshot()
+
             if self._dorm_receive_click():
                 self.ensure_no_info_bar()
                 continue
