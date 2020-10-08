@@ -96,8 +96,8 @@ class Enhancement(Dock):
             in: page_ship_enhance, without info_bar
             out: EQUIP_CONFIRM
         """
-        end_activate_timer = Timer(2, count=2) if self.config.DEVICE_CONTROL_METHOD == 'minitouch' else Timer(2, count=1)
-        trapped_timer = Timer(15, count=3).start()
+        end_activate_timer = Timer(2, count=2)
+        trapped_timer = Timer(25, count=5).start()
         trapped = False
         while 1:
             if skip_first_screenshot:
@@ -152,24 +152,24 @@ class Enhancement(Dock):
                 logger.warning('Current status appears trapped, will force stat gauge check')
                 trapped = True
 
-    def _enhance_choose_simple(self, current_index=0, skip_first_screenshot=True):
+    def _enhance_choose_simple(self, skip_first_screenshot=True):
         """
         Description:
             Simplified _enhance_choose focuses only on
             appearance of info_bars, stat gauge is ignored
             Minimum 2 times before swiping, if maximum of
-            4 times is detected, a forced swipe is initiated
-            A maximum of 4 ships will be checked to account
-            for 'in battle' status, hard-coded otherwise if
-            desired can be configurable
+            6 times is detected, a forced swipe is initiated
+            Starting from the first failed enhance,
+            next 3 adjacent ships are checked before giving up
 
         Pages:
             in: page_ship_enhance, without info_bar
             out: EQUIP_CONFIRM
         """
-        end_activate_timer = Timer(2, count=2) if self.config.DEVICE_CONTROL_METHOD == 'minitouch' else Timer(2, count=1)
+        end_activate_timer = Timer(2, count=2)
         next_timer = Timer(2, count=1).start()
-        trapped_timer = Timer(15, count=3).start()
+        next_count = 0
+        trapped_timer = Timer(25, count=5).start()
         trapped = False
         while 1:
             if skip_first_screenshot:
@@ -178,7 +178,7 @@ class Enhancement(Dock):
                 self.device.screenshot()
 
             if self.appear(EQUIP_CONFIRM, offset=(30, 30)):
-                return True, current_index
+                return True
 
             if not end_activate_timer.reached_and_reset():
                 continue
@@ -194,15 +194,14 @@ class Enhancement(Dock):
                     logger.info('Unable to enhance this ship, swipe to next')
                     swiped = self.equip_view_next(check_button=ENHANCE_RECOMMEND)
                     self.ensure_no_info_bar()
-                    if not swiped or current_index >= 3:
-                        logger.info('Cannot swipe or ship check threshold reached, exiting current category')
-                        return False, current_index
+                    if not swiped or next_count >= 3:
+                        return False
                     else:
                         next_timer.reset()
                         trapped_timer.reset()
                         trapped = False
-                        logger.info(f'Try next ship: {3 - current_index}/3 remaining until give up')
-                        current_index += 1
+                        logger.info(f'Try next ship: {3 - next_count}/3 remaining until give up')
+                        next_count += 1
                         continue
 
             if not trapped_timer.reached_and_reset() and self.appear_then_click(ENHANCE_RECOMMEND, offset=(5, 5), interval=2):
@@ -275,17 +274,14 @@ class Enhancement(Dock):
         logger.attr('Enhance Order', ship_types)
 
         for ship_type in ship_types:
-            index = 0 # Helper variable only for _enhance_choose_simple
             logger.info(f'Favourite={favourite}, Ship Type={ship_type}')
+
             if not self._enhance_enter(favourite=favourite, ship_type=ship_type):
                 logger.hr(f'Dock Empty by ship type {ship_type}')
                 continue
 
             while 1:
-                if enable_simple:
-                    choose_result, index = self._enhance_choose_simple(current_index=index)
-                else:
-                    choose_result = self._enhance_choose()
+                choose_result = self._enhance_choose_simple() if enable_simple else self._enhance_choose()
                 if not choose_result:
                     break
                 self._enhance_confirm()
