@@ -251,9 +251,9 @@ def main(ini_name=''):
     reward_dorm = reward_parser.add_argument_group('Dorm', '', gooey_options={'label_color': '#931D03'})
     reward_dorm.add_argument('--enable_dorm_reward', default=default('--enable_dorm_reward'), choices=['yes', 'no'], help='Dorm collect coins and loves', gooey_options={'label_color': '#4B5F83'})
     reward_dorm.add_argument('--enable_dorm_feed', default=default('--enable_dorm_feed'), choices=['yes', 'no'], help='Dorm replace feed', gooey_options={'label_color': '#4B5F83'})
-    reward_dorm.add_argument('--collect_interval', default=default('--collect_interval'),
+    reward_dorm.add_argument('--dorm_collect_interval', default=default('--dorm_collect_interval'),
                              help='How many minutes to trigger collection. Recommend to set a time range, such as "10, 40"', gooey_options={'label_color': '#4B5F83'})
-    reward_dorm.add_argument('--feed_interval', default=default('--feed_interval'),
+    reward_dorm.add_argument('--dorm_feed_interval', default=default('--dorm_feed_interval'),
                              help='How many minutes to replace feed. Recommend to set a time range, such as "10, 40"\nIf 6 ships in dorm, to use 6 kind of food, interval needs to greater than (14, 28, 42, 70, 139, 278)', gooey_options={'label_color': '#4B5F83'})
     reward_dorm.add_argument('--dorm_feed_filter', default=default('--dorm_feed_filter'), help='Like research filter string', gooey_options={'label_color': '#4B5F83'})
 
