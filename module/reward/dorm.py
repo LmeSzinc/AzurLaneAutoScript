@@ -19,7 +19,8 @@ from module.ui.ui import UI
 MASK_DORM = Mask(file='./assets/mask/MASK_DORM.png')
 DORM_CAMERA_SWIPE = (300, 250)
 DORM_CAMERA_RANDOM = (-20, -20, 20, 20)
-RECORD = ('RewardRecord', 'dorm')
+FEED_RECORD = ('RewardRecord', 'feed')
+COLLECT_RECORD = ('RewardRecord', 'collect')
 FOOD = ButtonGrid(origin=(298, 375), delta=(156, 0), button_shape=(112, 66), grid_shape=(6, 1), name='FOOD')
 FOOD_AMOUNT = ButtonGrid(
     origin=(343, 411), delta=(156, 0), button_shape=(70, 33), grid_shape=(6, 1), name='FOOD_AMOUNT')
@@ -200,26 +201,54 @@ class RewardDorm(UI):
             in: Any page
             out: page_main
         """
-        self.ui_ensure(page_dorm)
+        now = datetime.now()
 
-        if self.config.ENABLE_DORM_COLLECT:
+        collect_record = datetime.strptime(self.config.config.get(*COLLECT_RECORD), self.config.TIME_FORMAT)
+        update = collect_record + timedelta(seconds=self.collect_interval)
+        attr = f'{COLLECT_RECORD[0]}_{COLLECT_RECORD[1]}'
+        logger.attr(f'{attr}', f'Record time: {collect_record}')
+        logger.attr(f'{attr}', f'Next update: {update}')
+
+        if now > update:
+            self.ui_ensure(page_dorm)
             self._dorm_receive()
+            self.collect_interval_reset()
+            self.config.record_save(COLLECT_RECORD)
 
-        self.ui_click(click_button=DORM_FEED_ENTER, appear_button=DORM_CHECK, check_button=DORM_FEED_CHECK,
-                      skip_first_screenshot=True)
-        self._dorm_feed()
-        self.ui_click(click_button=DORM_FEED_ENTER, appear_button=DORM_FEED_CHECK, check_button=DORM_CHECK,
-                      skip_first_screenshot=True)
+        if self.config.ENABLE_DORM_FEED:
+            feed_record = datetime.strptime(self.config.config.get(*FEED_RECORD), self.config.TIME_FORMAT)
+            update = feed_record + timedelta(seconds=self.feed_interval)
+            attr = f'{FEED_RECORD[0]}_{FEED_RECORD[1]}'
+            logger.attr(f'{attr}', f'Record time: {feed_record}')
+            logger.attr(f'{attr}', f'Next update: {update}')
+
+            if now > update:
+                self.ui_ensure(page_dorm)
+                self.ui_click(click_button=DORM_FEED_ENTER, appear_button=DORM_CHECK, check_button=DORM_FEED_CHECK,
+                            skip_first_screenshot=True)
+                self._dorm_feed()
+                self.ui_click(click_button=DORM_FEED_ENTER, appear_button=DORM_FEED_CHECK, check_button=DORM_CHECK,
+                            skip_first_screenshot=True)
+                self.feed_interval_reset()
+                self.config.record_save(FEED_RECORD)
 
         self.ui_goto_main()
 
     @cached_property
-    def dorm_interval(self):
-        return int(ensure_time(self.config.DORM_INTERVAL, precision=3) * 60)
+    def feed_interval(self):
+        return int(ensure_time(self.config.FEED_INTERVAL, precision=3) * 60)
 
-    def dorm_interval_reset(self):
-        """ Call this method after dorm reward executed """
-        del self.__dict__['dorm_interval']
+    def feed_interval_reset(self):
+        """ Call this method after dorm feed executed """
+        del self.__dict__['feed_interval']
+
+    @cached_property
+    def collect_interval(self):
+        return int(ensure_time(self.config.COLLECT_INTERVAL, precision=3) * 60)
+
+    def collect_interval_reset(self):
+        """ Call this method after dorm collect executed """
+        del self.__dict__['collect_interval']
 
     def handle_dorm(self):
         """
@@ -229,15 +258,5 @@ class RewardDorm(UI):
         if not self.config.ENABLE_DORM_REWARD:
             return False
 
-        record = datetime.strptime(self.config.config.get(*RECORD), self.config.TIME_FORMAT)
-        update = record + timedelta(seconds=self.dorm_interval)
-        attr = f'{RECORD[0]}_{RECORD[1]}'
-        logger.attr(f'{attr}', f'Record time: {record}')
-        logger.attr(f'{attr}', f'Next update: {update}')
-        if datetime.now() < update:
-            return False
-
         self.dorm_run()
-        self.dorm_interval_reset()
-        self.config.record_save(RECORD)
         return True
