@@ -420,8 +420,8 @@ class AzurLaneConfig:
     ENABLE_DORM_REWARD = True
     # When having 6 ships in dorm, to use 6 kind of food, need interval (in minutes) greater than:
     # (14, 28, 42, 70, 139, 278)
-    FEED_INTERVAL = '278, 480'  # str, such as '20', '10, 40'.
-    COLLECT_INTERVAL = '60, 180' # str, such as '20', '10, 40'.
+    DORM_FEED_INTERVAL = '278, 480'  # str, such as '20', '10, 40'.
+    DORM_COLLECT_INTERVAL = '60, 180' # str, such as '20', '10, 40'.
     DORM_FEED_FILTER = '20000 > 10000 > 5000 > 3000 > 2000 > 1000'
 
     """
@@ -596,8 +596,8 @@ class AzurLaneConfig:
             self.COMMISSION_TIME_LIMIT = 0
         for attr in self.COMMISSION_PRIORITY.keys():
             self.COMMISSION_PRIORITY[attr] = int(option[attr])
-        self.FEED_INTERVAL = option['feed_interval']
-        self.COLLECT_INTERVAL = option['collect_interval']
+        self.DORM_FEED_INTERVAL = option['dorm_feed_interval']
+        self.DORM_COLLECT_INTERVAL = option['dorm_collect_interval']
         self.DORM_FEED_FILTER = option['dorm_feed_filter']
         self.TACTICAL_BOOK_TIER_MAX = int(option['tactical_book_tier_max'])
         self.TACTICAL_BOOK_TIER_MIN = int(option['tactical_book_tier_min'])
