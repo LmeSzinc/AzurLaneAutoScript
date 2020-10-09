@@ -12,7 +12,7 @@ from module.map_detection.utils import Points
 from module.ocr.ocr import Digit, DigitCounter
 from module.reward.assets import *
 from module.template.assets import TEMPLATE_DORM_COIN, TEMPLATE_DORM_LOVE
-from module.ui.assets import DORM_CHECK, DORM_TROPHY_CONFIRM
+from module.ui.assets import DORM_CHECK, DORM_TROPHY_CONFIRM, DORM_INFO
 from module.ui.page import page_dorm
 from module.ui.ui import UI
 
@@ -100,6 +100,10 @@ class RewardDorm(UI):
             # Close trophies info
             if self.appear(DORM_TROPHY_CONFIRM, offset=(30, 30)):
                 self.ui_click(DORM_TROPHY_CONFIRM, check_button=DORM_CHECK, skip_first_screenshot=True)
+                self.device.screenshot()
+            # Close DORM_INFO. Usually, it was handled in ui_ensure(), but sometimes not.
+            if self.appear(DORM_INFO, offset=(30, 30)):
+                self.ui_click(DORM_INFO, check_button=DORM_CHECK, skip_first_screenshot=True)
                 self.device.screenshot()
 
             if self._dorm_receive_click():
@@ -202,17 +206,16 @@ class RewardDorm(UI):
             out: page_main
         """
         self.ui_ensure(page_dorm)
-        now = datetime.now()
 
         if collect:
-           self._dorm_receive()
+            self._dorm_receive()
 
         if feed:
             self.ui_click(click_button=DORM_FEED_ENTER, appear_button=DORM_CHECK, check_button=DORM_FEED_CHECK,
-                        skip_first_screenshot=True)
+                          skip_first_screenshot=True)
             self._dorm_feed()
             self.ui_click(click_button=DORM_FEED_ENTER, appear_button=DORM_FEED_CHECK, check_button=DORM_CHECK,
-                            skip_first_screenshot=True)
+                          skip_first_screenshot=True)
 
         self.ui_goto_main()
 
