@@ -41,7 +41,7 @@ class LoginHandler(Combat):
             if self.appear_then_click(LOGIN_RETURN_SIGN, offset=(30, 30), interval=5):
                 continue
             if server.server == 'cn':
-                if self.appear_then_click(LOGIN_CONFIRM, interval=5):
+                if self.appear_then_click(LOGIN_CONFIRM, offset=(200, 200), interval=5):
                     continue
             if self.handle_popup_confirm('LOGIN'):
                 continue
