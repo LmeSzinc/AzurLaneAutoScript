@@ -665,7 +665,7 @@ class RewardCommission(UI, InfoHandler):
         if not self.config.ENABLE_COMMISSION_REWARD:
             return False
 
-        if not self.appear(COMMISSION_HAS_PENDING):
+        if not self.image_color_count(COMMISSION_HAS_PENDING, color=(74, 199, 173), threshold=221, count=40):
             logger.info('No commission pending')
             return False
 

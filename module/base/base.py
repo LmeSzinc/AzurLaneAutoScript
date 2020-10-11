@@ -1,5 +1,6 @@
 from module.base.button import Button
 from module.base.timer import Timer
+from module.base.utils import *
 from module.config.config import AzurLaneConfig
 from module.device.device import Device
 
@@ -107,6 +108,24 @@ class ModuleBase:
             button(Button): Button instance.
         """
         return self.device.image.crop(button.area)
+
+    def image_color_count(self, button, color, threshold=221, count=50):
+        """
+        Args:
+            button (Button, tuple): Button instance or area.
+            color (tuple): RGB.
+            threshold: 255 means colors are the same, the lower the worse.
+            count (int): Pixels count.
+
+        Returns:
+            bool:
+        """
+        if isinstance(button, Button):
+            image = self.device.image.crop(button.area)
+        else:
+            image = self.device.image.crop(button)
+        mask = color_similarity_2d(image, color=color) > threshold
+        return np.sum(mask) > count
 
     def interval_reset(self, button):
         if button.name in self.interval_timer:
