@@ -59,6 +59,8 @@ class Config:
         'width': (0, 10),
         'wlen': 1000,
     }
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.714
+    MAP_SWIPE_MULTIPLY = 1.773
 
 
 class Campaign(CampaignBase):

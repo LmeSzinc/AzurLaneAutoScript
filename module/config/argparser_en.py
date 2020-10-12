@@ -459,7 +459,7 @@ def main(ini_name=''):
     """
     event = event_parser.add_argument_group(
         'Choose a level', '\n'.join([line.strip() for line in description.strip().split('\n')]), gooey_options={'label_color': '#931D03'})
-    event.add_argument('--event_stage', default=default('--event_stage'), help='Type stage name, not case sensitive, E.g D3 HT6', gooey_options={'label_color': '#4B5F83'})
+    event.add_argument('--event_stage', default=default('--event_stage'), help='Type stage name, not case sensitive, E.g D3, SP3, HT6', gooey_options={'label_color': '#4B5F83'})
     event.add_argument('--event_name', default=event_latest, choices=event_folder, help='There a dropdown menu with many options', gooey_options={'label_color': '#4B5F83'})
 
     # ==========Raid==========
