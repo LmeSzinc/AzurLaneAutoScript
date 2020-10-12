@@ -21,11 +21,11 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)**, some featur
 
 > **Event Announcement 活动公告**
 >
-> [CN] 支持活动「蝶海梦花」. 可以处理传送门.
+> [CN] 支持活动「划破海空之翼」.
 >
 > [EN] Support event "Dreamwaker's Butterfly". Able to handle portals.
 >
-> [JP] Support event 「刹那觀る胡蝶の夢」. Able to handle portals.
+> [JP] Support event 「奔る彩帆の青」.
 
 ![gui](doc/README.assets/gui.png)
 
