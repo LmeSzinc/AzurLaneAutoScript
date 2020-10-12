@@ -55,7 +55,7 @@ dic_true_eng_to_eng = {
     'if_dock_full': 'if_dock_full',
     'if_reach_lv120': 'if_reach_lv120',
     'if_map_reach': 'if_map_reach',
-    'if_get_ship' : 'if_get_ship',
+    'if_get_ship': 'if_get_ship',
     'enable_fleet_control': 'enable_fleet_control',
     'enable_map_fleet_lock': 'enable_map_fleet_lock',
     'fleet_index_1': 'fleet_index_1',
@@ -301,7 +301,7 @@ dic_chi_to_eng = {
     '如果到达120级': 'if_reach_lv120',
     '如果船舱已满': 'if_dock_full',
     '如果地图开荒': 'if_map_reach',
-    '如果获得新船' : 'if_get_ship',
+    '如果获得新船': 'if_get_ship',
     '启用舰队控制': 'enable_fleet_control',
     '启用阵容锁定': 'enable_map_fleet_lock',
     '舰队编号1': 'fleet_index_1',
@@ -533,6 +533,7 @@ dic_event = {
         '复刻最重要的宝物': 'event_20200806_cn',
         '复刻铁血音符誓言': 'event_20200820_cn',
         '蝶海梦花': 'event_20200917_cn',
+        '划破海空之翼': 'event_20201012_cn',
     },
     'en': {
         'Iris_of_Light_and_Dark': 'event_20200521_en',
@@ -553,6 +554,7 @@ dic_event = {
         '鉄血鮫とエニグマ（復刻）': 'event_20200806_cn',
         '黒鉄の楽章_誓いの海（復刻）': 'event_20200820_cn',
         '刹那觀る胡蝶の夢': 'event_20200917_cn',
+        '奔る彩帆の青': 'event_20201012_cn',
     },
 }
 

@@ -407,7 +407,7 @@ def main(ini_name=''):
     """
     event = event_parser.add_argument_group(
         '选择关卡', '\n'.join([line.strip() for line in description.strip().split('\n')]), gooey_options={'label_color': '#931D03'})
-    event.add_argument('--活动地图', default=default('--活动地图'), help='输入地图名称, 不分大小写, 例如 D3 HT6', gooey_options={'label_color': '#4B5F83'})
+    event.add_argument('--活动地图', default=default('--活动地图'), help='输入地图名称, 不分大小写, 例如 D3, SP3, HT6', gooey_options={'label_color': '#4B5F83'})
     event.add_argument('--活动名称', default=event_latest, choices=event_folder, help='例如 event_20200312_cn', gooey_options={'label_color': '#4B5F83'})
 
     # ==========共斗活动==========
