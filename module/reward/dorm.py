@@ -88,8 +88,10 @@ class RewardDorm(UI):
             self.device.minitouch_builder.down(x, y, contact_id=1).commit()
             self.device.minitouch_send()
             # Right hand swipe
-            p1, p2 = random_rectangle_vector((-750, 500), box=(247, 26, 1045, 594), padding=0)
-            self.device._drag_minitouch(p1, p2, point_random=(-50, -50, 50, 50))
+            # Need to avoid drop-down menu in android, which is 38 px.
+            p1, p2 = random_rectangle_vector(
+                (-700, 450), box=(247, 45, 1045, 594), random_range=(-50, -50, 50, 50), padding=0)
+            self.device._drag_minitouch(p1, p2, point_random=(0, 0, 0, 0))
             # Left hand up
             self.device.minitouch_builder.up(contact_id=1).commit()
             self.device.minitouch_send()
