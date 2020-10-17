@@ -177,26 +177,42 @@ class RewardTacticalClass(UI):
 
         return False
 
+    def _tactical_books_get(self):
+        """
+        Get books. Handle loadings, wait 10 times at max.
+        When TACTICAL_CLASS_START appears, game may stuck in loading, wait and retry detection.
+        If loading still exists, raise ScriptError.
+
+        Returns:
+            BookGroup:
+
+        Pages:
+            in: TACTICAL_CLASS_START
+            out: TACTICAL_CLASS_START
+        """
+        for n in range(10):
+            self.device.screenshot()
+            self.handle_info_bar()  # info_bar appears when get ship in Launch Ceremony commissions
+            books = BookGroup([Book(self.device.image, button) for button in BOOKS_GRID.buttons()]).select(valid=True)
+            logger.attr('Book_count', len(books))
+            for index in range(1, 4):
+                logger.info(f'Book_T{index}: {books.select(tier=index)}')
+
+            # End
+            if books:
+                return books
+            else:
+                self.device.sleep(3)
+                continue
+
+        logger.warning('No book found.')
+        raise ScriptError('No book found, after 10 attempts.')
+
     def _tactical_books_choose(self):
         """
         Choose tactical book according to config.
         """
-        books = BookGroup([Book(self.device.image, button) for button in BOOKS_GRID.buttons()]).select(valid=True)
-        logger.attr('Book_count', len(books))
-        for index in range(1, 4):
-            logger.info(f'Book_T{index}: {books.select(tier=index)}')
-        if not books:
-            logger.warning('No book found.')
-            raise ScriptError('No book found.')
-
-        # if not time_range_active(self.config.TACTICAL_NIGHT_RANGE):
-        #     tier = self.config.TACTICAL_BOOK_TIER
-        #     exp = self.config.TACTICAL_EXP_FIRST
-        # else:
-        #     tier = self.config.TACTICAL_BOOK_TIER_NIGHT
-        #     exp = self.config.TACTICAL_EXP_FIRST_NIGHT
-        # book = books.choose(tier=tier, exp=exp)
-
+        books = self._tactical_books_get()
         book = books.choose(tier_max=self.config.TACTICAL_BOOK_TIER_MAX,
                             tier_min=self.config.TACTICAL_BOOK_TIER_MIN,
                             exp=self.config.TACTICAL_EXP_FIRST)
@@ -254,8 +270,6 @@ class RewardTacticalClass(UI):
             if self.appear(TACTICAL_CLASS_CANCEL, offset=(30, 30), interval=2) \
                     and self.appear(TACTICAL_CLASS_START, offset=(30, 30)):
                 self.device.sleep(0.3)
-                self.device.screenshot()
-                self.handle_info_bar()  # info_bar appears when get ship in Launch Ceremony commissions
                 self._tactical_books_choose()
                 self.interval_reset(TACTICAL_CLASS_CANCEL)
                 tactical_class_timout.reset()
