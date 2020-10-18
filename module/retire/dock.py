@@ -1,8 +1,8 @@
 from module.base.button import ButtonGrid
-from module.base.switch import Switch
 from module.equipment.equipment import Equipment
 from module.exception import ScriptError
 from module.retire.assets import *
+from module.ui.switch import Switch
 
 dock_sorting = Switch('Dork_sorting')
 dock_sorting.add_status('Ascending', check_button=SORT_ASC, click_button=SORTING_CLICK)

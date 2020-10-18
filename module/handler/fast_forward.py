@@ -1,8 +1,8 @@
 from module.base.base import ModuleBase
-from module.base.switch import Switch
 from module.base.utils import color_bar_percentage
 from module.handler.assets import *
 from module.logger import logger
+from module.ui.switch import Switch
 
 fast_forward = Switch('Fast_Forward')
 fast_forward.add_status('on', check_button=FAST_FORWARD_ON)

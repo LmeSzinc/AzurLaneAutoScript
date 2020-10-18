@@ -1,11 +1,11 @@
 import numpy as np
 
-from module.base.switch import Switch
 from module.base.timer import Timer
 from module.handler.assets import *
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.template.assets import TEMPLATE_FORMATION_1, TEMPLATE_FORMATION_2, TEMPLATE_FORMATION_3
+from module.ui.switch import Switch
 
 formation = Switch('Formation')
 formation.add_status('1', check_button=FORMATION_1, offset=120)

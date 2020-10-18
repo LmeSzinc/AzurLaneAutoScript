@@ -1,8 +1,8 @@
-from module.base.switch import Switch
 from module.campaign.assets import *
 from module.campaign.campaign_ocr import CampaignOcr
 from module.exception import CampaignNameError, ScriptEnd
 from module.logger import logger
+from module.ui.switch import Switch
 from module.ui.ui import UI
 
 STAGE_SHOWN_WAIT = (1, 1.2)
