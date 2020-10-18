@@ -270,22 +270,19 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
         logger.attr('Daily_executed', f'{count}/{total}')
         return count
 
-    _enable_daily_reward = False
-    _fleet_auto_mode = ('combat_auto', 'combat_auto', 'combat_auto')
-    _enable_map_fleet_lock = False
+    _daily_reward_setting_backup = None
 
     def reward_backup_daily_reward_settings(self):
         """
         Method to avoid event_daily_ab calls reward, and reward calls event_daily_ab itself again.
         """
-        self._enable_daily_reward = self.config.ENABLE_DAILY_REWARD
-        self.config.ENABLE_DAILY_REWARD = False
-        self._fleet_auto_mode = self.config.FLEET_1_AUTO_MODE, self.config.FLEET_2_AUTO_MODE, self.config.FLEET_3_AUTO_MODE
-        self.config.FLEET_1_AUTO_MODE, self.config.FLEET_2_AUTO_MODE, self.config.FLEET_3_AUTO_MODE = ('combat_auto', 'combat_auto', 'combat_auto')
-        self._enable_map_fleet_lock = self.config.ENABLE_MAP_FLEET_LOCK
-        self.config.ENABLE_MAP_FLEET_LOCK = True
+        self._daily_reward_setting_backup = self.config.cover(
+            ENABLE_DAILY_REWARD=False,
+            FLEET_1_AUTO_MODE='combat_auto',
+            FLEET_2_AUTO_MODE='combat_auto',
+            FLEET_3_AUTO_MODE='combat_auto',
+            ENABLE_MAP_FLEET_LOCK=True,
+        )
 
     def reward_recover_daily_reward_settings(self):
-        self.config.ENABLE_DAILY_REWARD = self._enable_daily_reward
-        self.config.FLEET_1_AUTO_MODE, self.config.FLEET_2_AUTO_MODE, self.config.FLEET_3_AUTO_MODE = self._fleet_auto_mode
-        self.config.ENABLE_MAP_FLEET_LOCK = self._enable_map_fleet_lock
+        self._daily_reward_setting_backup.recover()

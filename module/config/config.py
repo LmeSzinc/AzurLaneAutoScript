@@ -748,6 +748,25 @@ class AzurLaneConfig:
         self.config.set(option[0], option[1], record)
         self.save()
 
+    def cover(self, **kwargs):
+        """
+        Cover some settings, and recover later.
+
+        Usage:
+        backup = self.config.cover(ENABLE_DAILY_REWARD=False)
+        # do_something()
+        backup.recover()
+
+        Args:
+            **kwargs:
+
+        Returns:
+            ConfigBackup:
+        """
+        backup = ConfigBackup(config=self)
+        backup.cover(**kwargs)
+        return backup
+
     def __init__(self, ini_name='alas'):
         """
         Args:
@@ -756,5 +775,26 @@ class AzurLaneConfig:
         self.load_config_file(ini_name)
 
         self.create_folder()
+
+
+class ConfigBackup:
+    def __init__(self, config):
+        """
+        Args:
+            config (AzurLaneConfig):
+        """
+        self.config = config
+        self.backup = {}
+        self.kwargs = {}
+
+    def cover(self, **kwargs):
+        self.kwargs = kwargs
+        for key, value in kwargs.items():
+            self.backup[key] = self.config.__getattribute__(key)
+            self.config.__setattr__(key, value)
+
+    def recover(self):
+        for key, value in self.backup.items():
+            self.config.__setattr__(key, value)
 
 # cfg = AzurLaneConfig()
