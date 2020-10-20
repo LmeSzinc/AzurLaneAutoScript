@@ -6,13 +6,12 @@ from module.ui.switch import Switch
 from module.ui.ui import UI
 
 STAGE_SHOWN_WAIT = (1, 1.2)
-SWITCH_OFFSET = (30, 10)
-MODE_SWITCH_1 = Switch('Mode_switch_1')
-MODE_SWITCH_1.add_status('normal', SWITCH_1_NORMAL, offset=SWITCH_OFFSET, sleep=STAGE_SHOWN_WAIT)
-MODE_SWITCH_1.add_status('hard', SWITCH_1_HARD, offset=SWITCH_OFFSET, sleep=STAGE_SHOWN_WAIT)
-MODE_SWITCH_2 = Switch('Mode_switch_2')
-MODE_SWITCH_2.add_status('hard', SWITCH_2_HARD, offset=SWITCH_OFFSET, sleep=STAGE_SHOWN_WAIT)
-MODE_SWITCH_2.add_status('ex', SWITCH_2_EX, offset=SWITCH_OFFSET, sleep=STAGE_SHOWN_WAIT)
+MODE_SWITCH_1 = Switch('Mode_switch_1', offset=(30, 10))
+MODE_SWITCH_1.add_status('normal', SWITCH_1_NORMAL, sleep=STAGE_SHOWN_WAIT)
+MODE_SWITCH_1.add_status('hard', SWITCH_1_HARD, sleep=STAGE_SHOWN_WAIT)
+MODE_SWITCH_2 = Switch('Mode_switch_2', offset=(30, 10))
+MODE_SWITCH_2.add_status('hard', SWITCH_2_HARD, sleep=STAGE_SHOWN_WAIT)
+MODE_SWITCH_2.add_status('ex', SWITCH_2_EX, sleep=STAGE_SHOWN_WAIT)
 
 
 class CampaignUI(UI, CampaignOcr):

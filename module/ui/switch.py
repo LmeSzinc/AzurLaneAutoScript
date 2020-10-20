@@ -5,18 +5,19 @@ from module.logger import logger
 
 
 class Switch:
-    def __init__(self, name='Switch', is_choice=False):
+    def __init__(self, name='Switch', is_selector=False, offset=0):
         """
         Args:
             name (str):
-            is_choice (bool): True if this is a multi choice, click to choose one of the switches.
+            is_selector (bool): True if this is a multi choice, click to choose one of the switches.
                 For example: | [Daily] | Urgent | -> click -> | Daily | [Urgent] |
                 False if this is a switch, click the switch itself, and it changed in the same position.
                 For example: | [ON] | -> click -> | [OFF] |
-
+            offset (bool, int, tuple): Global offset in current switch
         """
         self.name = name
-        self.is_choice = is_choice
+        self.is_choice = is_selector
+        self.offset = offset
         self.status_list = []
 
     def add_status(self, status, check_button, click_button=None, offset=0, sleep=(1.0, 1.2)):
@@ -32,7 +33,7 @@ class Switch:
             'status': status,
             'check_button': check_button,
             'click_button': click_button if click_button is not None else check_button,
-            'offset': offset,
+            'offset': offset if offset else self.offset,
             'sleep': sleep
         })
 

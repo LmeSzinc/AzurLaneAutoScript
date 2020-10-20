@@ -7,14 +7,14 @@ from module.logger import logger
 from module.template.assets import TEMPLATE_FORMATION_1, TEMPLATE_FORMATION_2, TEMPLATE_FORMATION_3
 from module.ui.switch import Switch
 
-formation = Switch('Formation')
-formation.add_status('1', check_button=FORMATION_1, offset=120)
-formation.add_status('2', check_button=FORMATION_2, offset=120)
-formation.add_status('3', check_button=FORMATION_3, offset=120)
+formation = Switch('Formation', offset=120)
+formation.add_status('1', check_button=FORMATION_1)
+formation.add_status('2', check_button=FORMATION_2)
+formation.add_status('3', check_button=FORMATION_3)
 
-submarine_hunt = Switch('Submarine_hunt')
-submarine_hunt.add_status('on', check_button=SUBMARINE_HUNT_ON, offset=120)
-submarine_hunt.add_status('off', check_button=SUBMARINE_HUNT_OFF, offset=120)
+submarine_hunt = Switch('Submarine_hunt', offset=120)
+submarine_hunt.add_status('on', check_button=SUBMARINE_HUNT_ON)
+submarine_hunt.add_status('off', check_button=SUBMARINE_HUNT_OFF)
 
 
 class SwitchWithHandler(Switch):
@@ -71,9 +71,9 @@ class SwitchWithHandler(Switch):
                     changed = True
 
 
-submarine_view = SwitchWithHandler('Submarine_view')
-submarine_view.add_status('on', check_button=SUBMARINE_VIEW_ON, offset=120)
-submarine_view.add_status('off', check_button=SUBMARINE_VIEW_OFF, offset=120)
+submarine_view = SwitchWithHandler('Submarine_view', offset=120)
+submarine_view.add_status('on', check_button=SUBMARINE_VIEW_ON)
+submarine_view.add_status('off', check_button=SUBMARINE_VIEW_OFF)
 
 
 class StrategyHandler(InfoHandler):
