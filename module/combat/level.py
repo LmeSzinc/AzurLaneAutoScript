@@ -97,6 +97,7 @@ class LevelOcr(Digit):
         # Ruturn an empty image if 'L' is not found.
         letter_l = np.nonzero(image[2:15, :].max(axis=0) < 127)[0]
         if len(letter_l):
-            return image[:, letter_l[0] + 17:]
-        else:
-            return np.array([[255]], dtype=np.uint8)
+            first_digit = letter_l[0] + 17
+            if first_digit + 3 < LV_GRID_MAIN.button_shape[0]:
+                return image[:, first_digit:]
+        return np.array([[255]], dtype=np.uint8)
