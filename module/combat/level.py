@@ -2,7 +2,7 @@ from module.base.base import ModuleBase
 from module.base.button import *
 from module.base.decorator import Config
 from module.logger import logger
-from module.ocr.ocr import Ocr
+from module.ocr.ocr import Digit
 
 LV_GRID_MAIN = ButtonGrid(origin=(58, 118), delta=(0, 100), button_shape=(46, 19), grid_shape=(1, 3))
 LV_GRID_VANGUARD = ButtonGrid(origin=(58, 420), delta=(0, 100), button_shape=(46, 19), grid_shape=(1, 3))
@@ -72,13 +72,7 @@ class Level(ModuleBase):
 
         return False
 
-class LevelOcr(Ocr):
-    # Ocr's default argument 'threshold=128' makes some digits too thin to be recognized.
-    # Use 'threshold=191' instead.
-    def __init__(self, buttons, lang='azur_lane', letter=COLOR_WHITE, threshold=191, alphabet='0123456789',
-                 name='LevelOcr'):
-        super().__init__(buttons, lang=lang, letter=letter, threshold=threshold, alphabet=alphabet, name=name)
-
+class LevelOcr(Digit):
     def pre_process(self, image):
         # Check the max value of red channel to find out whether the image is masked.
         # It would be no larger than COLOR_MASKED[0]=107 iff masked.
@@ -90,7 +84,15 @@ class LevelOcr(Ocr):
             scalar = np.mean(COLOR_WHITE) / np.mean(COLOR_MASKED)
             image = cv2.addWeighted(image, scalar, image, 0, 0)
 
-        image = super().pre_process(image)
+        # Deal with the blue background of chars before converting to greyscale.
+        # The background is semi-transparent. It turns (0, 0, 0) to (33, 65, 115), and (255, 255, 255)
+        # to (107, 138, 189). We use the middle point (70, 102, 152).
+        bg = (70, 102, 152)
+        # BT.601
+        luma_trans = (0.299, 0.587, 0.114)
+        luma_bg = np.dot(bg, luma_trans)
+        image = cv2.subtract(image, (*bg, 0)).dot(luma_trans).round().astype(np.uint8)
+        image = cv2.subtract(255, cv2.multiply(image, 255 / (255 - luma_bg)))
         # Find 'L' to strip 'LV.'.
         # Ruturn an empty image if 'L' is not found.
         letter_l = np.nonzero(image[2:15, :].max(axis=0) < 127)[0]
@@ -98,8 +100,3 @@ class LevelOcr(Ocr):
             return image[:, letter_l[0] + 17:]
         else:
             return np.array([[255]], dtype=np.uint8)
-
-    def after_process(self, result):
-        result = super().after_process(result)
-
-        return int(result) if result else -1
