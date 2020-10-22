@@ -1,3 +1,4 @@
+from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
@@ -48,33 +49,34 @@ class RewardMeowfficer(UI):
                              next_button=MEOWFFICER_BUY_NEXT, skip_first_screenshot=True)
         return True
 
-    def meow_confirm(self, skip_first_screenshot=True):
+    def meow_confirm(self):
         """
         Pages:
             in: MEOWFFICER_BUY
             out: page_meowfficer
         """
-        executed = False
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
+        # Here uses a simple click, to avoid clicking MEOWFFICER_BUY multiple times.
+        # Retry logic is in meow_buy()
+        self.device.click(MEOWFFICER_BUY)
 
-            if self.appear_then_click(MEOWFFICER_BUY,  interval=5):
-                continue
+        confirm_timer = Timer(1, count=2).start()
+        while 1:
+            self.device.screenshot()
+
             if self.appear_then_click(MEOWFFICER_BUY_CONFIRM, interval=5):
                 continue
             if self.appear_then_click(MEOWFFICER_BUY_SKIP, interval=5):
                 continue
             if self.appear(GET_ITEMS_1):
                 self.device.click(MEOWFFICER_BUY_SKIP)
-                executed = True
                 continue
 
             # End
-            if executed and self.appear(MEOWFFICER_BUY):
-                break
+            if self.appear(MEOWFFICER_BUY):
+                if confirm_timer.reached():
+                    break
+            else:
+                confirm_timer.reset()
 
         self.ui_click(MEOWFFICER_GOTO_DORM, check_button=MEOWFFICER_BUY_ENTER, appear_button=MEOWFFICER_BUY, offset=None)
 
@@ -85,9 +87,16 @@ class RewardMeowfficer(UI):
             out: page_main
         """
         self.ui_ensure(page_meowfficer)
-        if self.meow_choose(count=self.config.BUY_MEOWFFICER):
-            self.meow_confirm()
+        for _ in range(3):
+            if self.meow_choose(count=self.config.BUY_MEOWFFICER):
+                self.meow_confirm()
+            else:
+                self.ui_goto_main()
+                return True
+
+        logger.warning('Too many trial in meowfficer buy, stopped.')
         self.ui_goto_main()
+        return False
 
     def handle_meowfficer(self):
         """
