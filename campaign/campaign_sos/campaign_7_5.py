@@ -16,10 +16,10 @@ MAP.map_data = """
     ++ -- Me -- -- ME -- --
 """
 MAP.weight_data = """
-    50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 09
+    50 50 50 14 13 12 11 10
+    50 50 50 15 50 13 12 11
+    50 50 50 14 13 13 12 50
     50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50
 """
@@ -59,7 +59,13 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
+        if self.fleet_2_push_forward():
+            return True
+
         return self.battle_default()
 
     def battle_5(self):
-        return self.fleet_boss.clear_boss()
+        if not self.config.FLEET_2:
+            return self.fleet_1.clear_boss()
+        else:
+            return self.fleet_2.clear_boss()

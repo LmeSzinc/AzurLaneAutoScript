@@ -18,11 +18,11 @@ MAP.map_data = """
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50
+    50 50 13 50 50 50 50 50
+    50 11 12 13 50 50 50 50
+    10 11 12 12 13 50 50 50
+    50 50 12 13 50 50 50 50
+    50 50 13 50 50 50 50 50
     50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
@@ -74,7 +74,13 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
+        if self.fleet_2_push_forward():
+            return True
+
         return self.battle_default()
 
     def battle_4(self):
-        return self.clear_boss()
+        if not self.config.FLEET_2:
+            return self.fleet_1.clear_boss()
+        else:
+            return self.fleet_2.clear_boss()

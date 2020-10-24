@@ -60,7 +60,15 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
+        if self.clear_enemy(scale=(1,)):
+            return True
+        if self.clear_enemy(scale=(2,), genre=['light', 'carrier', 'enemy', 'treasure', 'main']):
+            return True
+
         return self.battle_default()
 
     def battle_6(self):
-        return self.fleet_boss.clear_boss()
+        if not self.config.FLEET_2:
+            return self.fleet_1.clear_boss()
+        else:
+            return self.fleet_2.clear_boss()

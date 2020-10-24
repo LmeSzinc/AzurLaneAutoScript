@@ -5,8 +5,8 @@ from module.logger import logger
 
 MAP = CampaignMap('SOS')
 MAP.shape = 'H7'
-MAP.camera_data = ['D2', 'D3', 'D5']
-MAP.camera_data_spawn_point = ['D5']
+MAP.camera_data = ['D2', 'D3', 'E5']
+MAP.camera_data_spawn_point = ['E5']
 MAP.map_data = """
     ME -- ME -- ++ Me ME --
     -- Me ME MB MB ME ME --
@@ -18,10 +18,10 @@ MAP.map_data = """
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50
+    50 50 10 10 10 10 50 50
+    50 50 20 10 10 20 30 50
+    50 50 20 20 20 20 30 50
+    50 50 30 30 30 30 50 50
     50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50
 """
@@ -79,4 +79,7 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_4(self):
-        return self.clear_boss()
+        if not self.config.FLEET_2:
+            return self.fleet_1.clear_boss()
+        else:
+            return self.fleet_2.clear_boss()
