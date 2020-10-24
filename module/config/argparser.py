@@ -410,6 +410,19 @@ def main(ini_name=''):
     event.add_argument('--活动地图', default=default('--活动地图'), help='输入地图名称, 不分大小写, 例如 D3, SP3, HT6', gooey_options={'label_color': '#4B5F83'})
     event.add_argument('--活动名称', default=event_latest, choices=event_folder, help='例如 event_20200312_cn', gooey_options={'label_color': '#4B5F83'})
 
+    # ==========潜艇图==========
+    sos_parser = subs.add_parser('潜艇图')
+    sos = sos_parser.add_argument_group(
+        '潜艇图设置', '设置每张潜艇图的队伍, 顺序: 一队二队潜艇队\n例如 "4, 6", "4, 0", "4, 6, 1"\n填0跳过不打', gooey_options={'label_color': '#931D03'})
+    sos.add_argument('--第3章潜艇图队伍', default=default('--第3章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--第4章潜艇图队伍', default=default('--第4章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--第5章潜艇图队伍', default=default('--第5章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--第6章潜艇图队伍', default=default('--第6章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--第7章潜艇图队伍', default=default('--第7章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--第8章潜艇图队伍', default=default('--第8章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--第9章潜艇图队伍', default=default('--第9章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--第10章潜艇图队伍', default=default('--第10章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
+
     # ==========共斗活动==========
     raid_parser = subs.add_parser('共斗活动')
     raid = raid_parser.add_argument_group('选择共斗', '', gooey_options={'label_color': '#931D03'})

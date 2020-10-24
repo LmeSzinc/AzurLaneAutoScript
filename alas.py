@@ -141,6 +141,15 @@ class AzurLaneAutoScript:
         az.run(self.config.EVENT_STAGE, folder=self.config.EVENT_NAME)
         self.reward_when_finished()
 
+    def sos(self):
+        """
+        Method to SOS maps.
+        """
+        from module.sos.sos import CampaignSos
+        az = CampaignSos(self.config, device=self.device)
+        az.run()
+        self.reward_when_finished()
+
     def raid(self):
         from module.raid.run import RaidRun
         az = RaidRun(self.config, device=self.device)

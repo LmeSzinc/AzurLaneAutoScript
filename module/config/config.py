@@ -435,6 +435,18 @@ class AzurLaneConfig:
     RESEARCH_USE_PART = True
 
     """
+    module.sos
+    """
+    SOS_FLEETS_CHAPTER_3 = [4, 0]
+    SOS_FLEETS_CHAPTER_4 = [4, 0]
+    SOS_FLEETS_CHAPTER_5 = [4, 0]
+    SOS_FLEETS_CHAPTER_6 = [4, 0]
+    SOS_FLEETS_CHAPTER_7 = [4, 6]
+    SOS_FLEETS_CHAPTER_8 = [4, 6]
+    SOS_FLEETS_CHAPTER_9 = [5, 6, 1]
+    SOS_FLEETS_CHAPTER_10 = [4, 6, 1]
+
+    """
     C_1_1_affinity_farming
     """
     C11_AFFINITY_BATTLE_COUNT = 0
@@ -660,6 +672,11 @@ class AzurLaneConfig:
         option = config['Event']
         self.EVENT_NAME = option['event_name']
         self.EVENT_STAGE = option['event_stage'].lower()
+
+        # Sos
+        option = config['Sos']
+        for chapter in range(3, 11):
+            self.__setattr__(f'SOS_FLEETS_CHAPTER_{chapter}', to_list(option[f'sos_fleets_chapter_{chapter}']))
 
         # Raid
         option = config['Raid']

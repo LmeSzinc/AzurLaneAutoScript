@@ -462,6 +462,19 @@ def main(ini_name=''):
     event.add_argument('--event_stage', default=default('--event_stage'), help='Type stage name, not case sensitive, E.g D3, SP3, HT6', gooey_options={'label_color': '#4B5F83'})
     event.add_argument('--event_name', default=event_latest, choices=event_folder, help='There a dropdown menu with many options', gooey_options={'label_color': '#4B5F83'})
 
+    # ==========sos==========
+    sos_parser = subs.add_parser('sos')
+    sos = sos_parser.add_argument_group(
+        'sos settings', 'Set fleets for SOS maps, order: fleet_1, fleet_2, submarine_fleet\nsuch as "4, 6", "4, 0", "4, 6, 1"\nFill 0 to skip a map', gooey_options={'label_color': '#931D03'})
+    sos.add_argument('--sos_fleets_chapter_3', default=default('--sos_fleets_chapter_3'), gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--sos_fleets_chapter_4', default=default('--sos_fleets_chapter_4'), gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--sos_fleets_chapter_5', default=default('--sos_fleets_chapter_5'), gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--sos_fleets_chapter_6', default=default('--sos_fleets_chapter_6'), gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--sos_fleets_chapter_7', default=default('--sos_fleets_chapter_7'), gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--sos_fleets_chapter_8', default=default('--sos_fleets_chapter_8'), gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--sos_fleets_chapter_9', default=default('--sos_fleets_chapter_9'), gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--sos_fleets_chapter_10', default=default('--sos_fleets_chapter_10'), gooey_options={'label_color': '#4B5F83'})
+
     # ==========Raid==========
     raid_parser = subs.add_parser('raid')
     raid = raid_parser.add_argument_group('Choose a raid', '', gooey_options={'label_color': '#931D03'})
