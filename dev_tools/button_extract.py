@@ -17,7 +17,7 @@ from module.base.template import Template
 # Don't modify it manually.
 """
 IMPORT_EXP = IMPORT_EXP.strip().split('\n') + ['']
-VALID_SERVER = ['cn', 'en', 'jp']
+VALID_SERVER = ['cn', 'en', 'jp', 'tw']
 
 
 class ImageExtractor:

@@ -94,11 +94,11 @@ echo. & echo  [*] Select your Server/GUI Language
       echo    ^|
       echo    ^|-- [1] EN
       echo    ^|
-      echo    ^|
       echo    ^|-- [2] CN
       echo    ^|
-      echo    ^|
       echo    ^|-- [3] JP
+      echo    ^|
+      echo    ^|-- [4] TW
       echo.
 echo. & echo  [4] Updater
 echo. & echo  [5] Settings
@@ -109,8 +109,9 @@ echo ===========================================================================
 if "%choice%"=="1" goto en
 if "%choice%"=="2" goto cn
 if "%choice%"=="3" goto jp
-if "%choice%"=="4" goto Updater_menu
-if "%choice%"=="5" goto setting
+if "%choice%"=="4" goto tw
+if "%choice%"=="5" goto Updater_menu
+if "%choice%"=="6" goto setting
 echo. & echo Please input a valid option.
 pause > NUL
 goto MENU
@@ -156,6 +157,18 @@ pause > NUL
 goto :MENU
 
 rem ================= OPTION 4 =================
+:tw
+call :CheckBsBeta
+rem call :AdbConnect
+echo =======================================================================================================================
+echo Python Found in %pyBin% Proceeding..
+echo Opening alas_tw.pyw in %root%
+%pyBin% alas_tw.pyw
+echo Press any key to back main menu
+pause > NUL
+goto :MENU
+
+rem ================= OPTION 5 =================
 :Updater_menu
 cls
 setLocal EnableDelayedExpansion
