@@ -100,8 +100,8 @@ echo. & echo  [*] Select your Server/GUI Language
       echo    ^|
       echo    ^|-- [4] TW
       echo.
-echo. & echo  [4] Updater
-echo. & echo  [5] Settings
+echo. & echo  [5] Updater
+echo. & echo  [6] Settings
 echo =======================================================================================================================
 set choice=0
 set /p choice= Please input the option and press ENTER:
