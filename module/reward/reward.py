@@ -223,6 +223,14 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
     def daily_wrapper_run(self):
         count = 0
         total = 5
+        if self.config.ENABLE_EXERCISE:
+            from module.exercise.exercise import Exercise
+            az = Exercise(self.config, device=self.device)
+            if not az.record_executed_since():
+                az.run()
+                az.record_save()
+                count += 1
+
         if self.config.ENABLE_DAILY_MISSION:
             from module.daily.daily import Daily
             az = Daily(self.config, device=self.device)
@@ -234,14 +242,6 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
         if self.config.ENABLE_HARD_CAMPAIGN:
             from module.hard.hard import CampaignHard
             az = CampaignHard(self.config, device=self.device)
-            if not az.record_executed_since():
-                az.run()
-                az.record_save()
-                count += 1
-
-        if self.config.ENABLE_EXERCISE:
-            from module.exercise.exercise import Exercise
-            az = Exercise(self.config, device=self.device)
             if not az.record_executed_since():
                 az.run()
                 az.record_save()
