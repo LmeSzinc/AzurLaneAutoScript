@@ -33,7 +33,18 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'xiefeierde': 'Sheffield',
     'duosaitejun': 'Dorsetshire',
     'shengwang': 'Renown',
-    'weiershiqinwang': 'PrinceOfWales'
+    'weiershiqinwang': 'PrinceOfWales',
+
+    # Universe in Unison
+    'edu_idol': 'LeMalinIdol',
+    'daiduo_idol': 'DidoIdol',
+    'daqinghuayu_idol': 'AlbacoreIdol',
+    'baerdimo_idol': 'BaltimoreIdol',
+    'kelifulan_idol': 'ClevelandIdol',
+    'xipeier_idol': 'HipperIdol',
+    'sipeibojue_5': 'SpeeIdol',
+    'luoen_idol': 'RoonIdol',
+    'guanghui_idol': 'IllustriousIdol',
 }
 
 
@@ -44,7 +55,6 @@ def load_lua(folder, file, prefix):
     result = slpp.decode(text[prefix:])
     print(f'{len(result.keys())} items loaded')
     return result
-
 
 
 class MapData:
