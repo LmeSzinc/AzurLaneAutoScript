@@ -111,6 +111,7 @@ class CampaignBase(Map, CampaignUI):
     def run(self):
         logger.hr(self.ENTRANCE, level=2)
         self.handle_spare_fleet()
+        self.emotion.wait()
         self.ENTRANCE.area = self.ENTRANCE.button
         self.enter_map(self.ENTRANCE, mode=self.config.CAMPAIGN_MODE)
         self.handle_map_fleet_lock()
