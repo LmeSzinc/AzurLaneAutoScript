@@ -5,8 +5,9 @@ from module.logger import logger
 
 MAP = CampaignMap('SP1')
 MAP.shape = 'G7'
-MAP.camera_data = ['D2', 'D5']
-MAP.camera_data_spawn_point = ['D5']
+MAP.camera_data = ['C2', 'C5']
+MAP.camera_data_spawn_point = ['C5']
+MAP.camera_sight = (-2, -1, 3, 2)
 MAP.map_data = """
     ++ ++ -- ME -- ++ ++
     ++ ++ ME __ ME -- ++
@@ -52,6 +53,23 @@ class Config:
     MAP_HAS_FLEET_STEP = True
     MAP_HAS_AMBUSH = False
     # ===== End of generated config =====
+
+    DETECTION_BACKEND = 'perspective'
+    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
+    EDGE_LINES_HOUGHLINES_THRESHOLD = 40
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (150, 255 - 12),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 9, 255),
+        'prominence': 10,
+        'distance': 50,
+        # 'width': (0, 7),
+        'wlen': 1000
+    }
 
 
 class Campaign(CampaignBase):

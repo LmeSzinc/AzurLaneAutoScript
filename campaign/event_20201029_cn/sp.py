@@ -7,6 +7,7 @@ MAP = CampaignMap('SP')
 MAP.shape = 'G8'
 MAP.camera_data = ['D2', 'D6']
 MAP.camera_data_spawn_point = ['D6']
+MAP.camera_sight = (-2, -1, 3, 2)
 MAP.map_data = """
     -- -- ++ ++ ++ -- --
     -- -- -- -- -- -- --
