@@ -114,6 +114,9 @@ class InfoHandler(ModuleBase):
         if self.appear_then_click(STORY_CHOOSE_2, offset=True, interval=2):
             self.story_popup_timout.reset()
             return True
+        if self.appear_then_click(GAME_TIPS, offset=(20, 20), interval=2):
+            self.story_popup_timout.reset()
+            return True
 
         return False
 
