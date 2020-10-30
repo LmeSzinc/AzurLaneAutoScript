@@ -552,6 +552,7 @@ dic_event = {
         '复刻铁血音符誓言': 'event_20200820_cn',
         '蝶海梦花': 'event_20200917_cn',
         '划破海空之翼': 'event_20201012_cn',
+        '激唱的UNIVERSE': 'event_20201029_cn',
     },
     'tw': {
         '北境序曲': 'event_20200227_cn',
@@ -579,6 +580,7 @@ dic_event = {
         'Stars_of_the_Shimmering_Fjord': 'event_20200903_en',
         'Dreamwakers_Butterfly': 'event_20200917_cn',
         'Counterattack_Within_the_Fjord': 'event_20201002_en',
+        'Universe_in_Unison': 'event_20201029_cn',
     },
     'jp': {
         '峡湾間の反撃': 'event_20200603_cn',
@@ -588,6 +590,7 @@ dic_event = {
         '黒鉄の楽章_誓いの海（復刻）': 'event_20200820_cn',
         '刹那觀る胡蝶の夢': 'event_20200917_cn',
         '奔る彩帆の青': 'event_20201012_cn',
+        '激唱のユニバース': 'event_20201029_cn',
     },
 }
 
