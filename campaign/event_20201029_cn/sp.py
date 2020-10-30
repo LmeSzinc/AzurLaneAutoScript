@@ -5,16 +5,16 @@ from module.logger import logger
 
 MAP = CampaignMap('SP')
 MAP.shape = 'G8'
-MAP.camera_data = ['D2', 'D6']
+MAP.camera_data = ['D3', 'D6']
 MAP.camera_data_spawn_point = ['D6']
 MAP.camera_sight = (-2, -1, 3, 2)
 MAP.map_data = """
     -- -- ++ ++ ++ -- --
-    -- -- -- -- -- -- --
+    -- -- -- MS -- -- --
     ++ ++ ME -- ME ++ ++
     ++ ++ -- MB -- ++ ++
     -- -- ME -- ME -- --
-    -- -- -- __ -- -- --
+    -- MS -- __ -- MS --
     -- ++ SP -- SP ++ --
     -- ++ -- -- -- ++ --
 """
@@ -29,7 +29,7 @@ MAP.weight_data = """
     50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0},
+    {'battle': 0, 'siren': 3},
     {'battle': 1},
     {'battle': 2},
     {'battle': 3, 'enemy': 4},
@@ -59,11 +59,33 @@ class Config:
     STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
 
+    MAP_HAS_SIREN = True
+    MAP_SIREN_TEMPLATE = ['BaltimoreIdol', 'RoonIdol', 'IllustriousIdol']
+    DETECTION_BACKEND = 'perspective'
+    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
+    EDGE_LINES_HOUGHLINES_THRESHOLD = 40
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (150, 255 - 12),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 9, 255),
+        'prominence': 10,
+        'distance': 50,
+        # 'width': (0, 7),
+        'wlen': 1000
+    }
+
 
 class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
+        if self.clear_siren():
+            return True
+
         return self.battle_default()
 
     def battle_7(self):
