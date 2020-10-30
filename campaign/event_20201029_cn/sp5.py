@@ -6,8 +6,8 @@ from .sp1 import Config as ConfigBase
 
 MAP = CampaignMap('SP5')
 MAP.shape = 'I10'
-MAP.camera_data = ['D2', 'D6', 'D8', 'F2', 'F6', 'F8']
-MAP.camera_data_spawn_point = ['D8', 'F8']
+MAP.camera_data = ['D3', 'D6', 'E6']
+MAP.camera_data_spawn_point = ['D7']
 MAP.camera_sight = (-2, -1, 3, 2)
 MAP.map_data = """
     -- ++ ME -- -- -- ME ++ --
@@ -66,12 +66,31 @@ class Config(ConfigBase):
     MAP_HAS_AMBUSH = False
     # ===== End of generated config =====
 
+    MAP_SWIPE_MULTIPLY = 1.445
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.397
+
 
 class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
         if self.clear_siren():
+            return True
+        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
+            return True
+        if self.clear_enemy(scale=(1,)):
+            return True
+        if self.clear_enemy(genre=['light', 'main', 'enemy']):
+            return True
+
+        return self.battle_default()
+
+    def battle_5(self):
+        if self.clear_enemy(scale=(1,)):
+            return True
+        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
+            return True
+        if self.clear_enemy(genre=['light', 'main', 'enemy']):
             return True
 
         return self.battle_default()

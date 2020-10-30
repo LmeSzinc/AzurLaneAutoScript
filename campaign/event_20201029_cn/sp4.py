@@ -56,6 +56,9 @@ class Config(ConfigBase):
     MAP_HAS_AMBUSH = False
     # ===== End of generated config =====
 
+    MAP_SWIPE_MULTIPLY = 1.847
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.786
+
 
 class Campaign(CampaignBase):
     MAP = MAP
