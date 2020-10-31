@@ -88,12 +88,25 @@ class StrategyHandler(InfoHandler):
         return False
 
     def strategy_open(self):
-        self.device.click(STRATEGY_OPEN)
-        self.device.sleep(0.5)
+        while 1:
+            if self.appear(IN_MAP, interval=5) and not self.appear(STRATEGY_OPENED, offset=120):
+                self.device.click(STRATEGY_OPEN)
+                self.device.sleep(0.5)
+
+            if self.appear(STRATEGY_OPENED, offset=120):
+                break
+
+            self.device.screenshot()
 
     def strategy_close(self):
-        self.appear_then_click(STRATEGY_OPENED, offset=120)
-        self.device.sleep(0.5)
+        while 1:
+            if self.appear_then_click(STRATEGY_OPENED, offset=120, interval=5):
+                self.device.sleep(0.5)
+
+            if not self.appear(STRATEGY_OPENED, offset=120):
+                break
+
+            self.device.screenshot()
 
     def strategy_set_execute(self, formation_index=2, sub_view=False, sub_hunt=False):
         """
