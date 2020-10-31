@@ -1,5 +1,6 @@
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.logger import logger
+from module.base.timer import Timer
 
 
 class CampaignBase(CampaignBase_):
@@ -62,3 +63,49 @@ class CampaignBase(CampaignBase_):
 
         else:
             logger.warning(f'Unknown campaign chapter: {name}')
+
+    def map_live_start(self):
+        appear = self.image_color_count((261, 266, 1022, 449), color=(255, 255, 255), count=10000)
+        if appear:
+            logger.info('Live start!')
+
+        return appear
+
+    def handle_in_map_with_enemy_searching(self):
+        if not self.is_in_map():
+            return False
+
+        timeout = Timer(self.MAP_ENEMY_SEARCHING_TIMEOUT_SECOND)
+        appeared = False
+        while 1:
+            self.device.screenshot()  # Difference
+            if self.map_live_start():
+                continue
+
+            if self.is_in_map():
+                timeout.start()
+            else:
+                timeout.reset()
+
+            if self.handle_in_stage():
+                return True
+            if self.handle_story_skip():
+                self.ensure_no_story()
+                timeout.limit = 10
+                timeout.reset()
+
+            # End
+            if self.enemy_searching_appear():
+                appeared = True
+            else:
+                if appeared:
+                    self.handle_enemy_flashing()
+                    self.device.sleep(0.3)
+                    logger.info('Enemy searching appeared.')
+                    break
+                self.enemy_searching_color_initial()
+            if timeout.reached():
+                logger.info('Enemy searching timeout.')
+                break
+
+        return True
