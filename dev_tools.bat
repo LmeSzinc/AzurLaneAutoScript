@@ -110,9 +110,9 @@ REM call %ADB% connect %serial%
         if %menu%==8 GOTO adbss
         if %menu%==9 GOTO u2ss
         if %menu%==10 GOTO adbc
-        if %menu%==11 GOTO adbcap
-        if %menu%==12 GOTO relative_record
-        if %menu%==13 GOTO relative_record_gif
+        if %menu%==11 GOTO relative_record
+        if %menu%==12 GOTO relative_record_gif
+        if %menu%==13 GOTO adbcap
         if %menu%==exit GOTO EOF
         
         else (
