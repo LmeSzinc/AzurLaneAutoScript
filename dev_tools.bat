@@ -92,6 +92,8 @@ REM call %ADB% connect %serial%
     echo    8. ADB SCREENSHOT (for ASSETS)
     echo    9. Uiautomator2 SCREENSHOT (for ASSETS)
     echo    10. ADB SCREENSHOT (Continuous Screenshot)
+    echo    11. relative_record
+    echo    12. relative_record_gif
     echo. 
     echo  :: Type a 'number' and press ENTER
     echo  :: Type 'exit' to quit
@@ -109,6 +111,8 @@ REM call %ADB% connect %serial%
         if %menu%==9 GOTO u2ss
         if %menu%==10 GOTO adbc
         if %menu%==11 GOTO adbcap
+        if %menu%==12 GOTO relative_record
+        if %menu%==13 GOTO relative_record_gif
         if %menu%==exit GOTO EOF
         
         else (
@@ -229,6 +233,37 @@ REM call %ADB% connect %serial%
     goto dev_menu
     ) else (
         echo :: it was not possible to open dev_tools.word_template_extractor, make sure you have a folder toolkit
+        echo :: inside AzurLaneAutoScript folder.
+        echo.
+        pause > NUL
+        goto dev_menu
+    )
+
+:relative_record
+    call %PYTHON% --version >nul
+    if %errorlevel% == 0 (
+    echo Python Found! Proceeding..
+    echo Opening dev_tools.relative_record...
+    call %PYTHON% -m dev_tools.relative_record
+    pause > NUL
+    goto dev_menu
+    ) else (
+        echo :: it was not possible to open dev_tools.relative_record, make sure you have a folder toolkit
+        echo :: inside AzurLaneAutoScript folder.
+        echo.
+        pause > NUL
+        goto dev_menu
+    )
+:relative_record_gif
+    call %PYTHON% --version >nul
+    if %errorlevel% == 0 (
+    echo Python Found! Proceeding..
+    echo Opening dev_tools.relative_record_gif...
+    call %PYTHON% -m dev_tools.relative_record_gif
+    pause > NUL
+    goto dev_menu
+    ) else (
+        echo :: it was not possible to open dev_tools.relative_record_gif, make sure you have a folder toolkit
         echo :: inside AzurLaneAutoScript folder.
         echo.
         pause > NUL
