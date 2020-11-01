@@ -5,7 +5,7 @@ from gooey import Gooey, GooeyParser
 
 import module.config.server as server
 from alas import AzurLaneAutoScript
-from module.config.dictionary import dic_event, dic_chi_to_eng
+from module.config.dictionary import dic_event, dic_tchi_to_eng
 from module.config.update import get_config
 from module.logger import pyw_name
 from module.research.preset import DICT_FILTER_PRESET
@@ -40,17 +40,17 @@ except Exception:
         'name': '文件',
         'items': [{
             'type': 'AboutDialog',
-            'menuTitle': '关于',
+            'menuTitle': '關於',
             'name': 'AzurLaneAutoScript',
-            'description': 'Alas, 一个带GUI的碧蓝航线脚本 (支持国服, 国际服, 日服, 可以支持其他服务器).',
+            'description': 'Alas, 一個帶GUI的碧藍航線腳本 (支援國服、國際服、日服及台服, 可以支援其他伺服器).',
             'website': 'https://github.com/LmeSzinc/AzurLaneAutoScript'
         }, {
             'type': 'Link',
-            'menuTitle': '访问Github仓库',
+            'menuTitle': '前往Github倉庫',
             'url': 'https://github.com/LmeSzinc/AzurLaneAutoScript'
         }]
     }, {
-        'name': '帮助',
+        'name': '幫助',
         'items': [{
             'type': 'Link',
             'menuTitle': 'Wiki',
@@ -69,7 +69,7 @@ def main(ini_name=''):
     config = get_config(ini_name.lower())
 
     # Load translation dictionary
-    dic_gui_to_ini = dic_chi_to_eng  # GUI translation dictionary here.
+    dic_gui_to_ini = dic_tchi_to_eng  # GUI translation dictionary here.
     dic_gui_to_ini.update(dic_event[server.server])
     dic_ini_to_gui = {v: k for k, v in dic_gui_to_ini.items()}
     # Event list
@@ -95,11 +95,11 @@ def main(ini_name=''):
                 value = ''
             saved_config[key] = value
     message = (
-        '蓝叠模拟器:\t127.0.0.1:5555\n'
-        '夜神模拟器:\t127.0.0.1:62001\n'
-        'MuMu模拟器:\t127.0.0.1:7555\n'
-        '逍遥模拟器:\t127.0.0.1:21503\n'
-        '雷电模拟器:\temulator-5554\n'
+        '藍疊模擬器:\t127.0.0.1:5555\n'
+        '夜神模擬器:\t127.0.0.1:62001\n'
+        'MuMu模擬器:\t127.0.0.1:7555\n'
+        '逍遙模擬器:\t127.0.0.1:21503\n'
+        '雷電模擬器:\temulator-5554\n'
     )
 
     def default(name):
@@ -120,200 +120,200 @@ def main(ini_name=''):
     # https://github.com/chriskiehl/Gooey/issues/148
     # https://github.com/chriskiehl/Gooey/issues/485
 
-    parser = GooeyParser(description=f'AzurLaneAutoScript, An Azur Lane automation tool. Config: {config_file}\n功能都是分别保存和运行的, 修改设置后别忘了点击"开始"来保存')
+    parser = GooeyParser(description=f'AzurLaneAutoScript, An Azur Lane automation tool. Config: {config_file}\n功能都是分別保存和執行的, 修改設定後別忘了點擊"開始"來保存')
     subs = parser.add_subparsers(help='commands', dest='command')
 
-    # ==========出击设置==========
-    setting_parser = subs.add_parser('出击设置')
+    # ==========出擊設定==========
+    setting_parser = subs.add_parser('出擊設定')
 
-    # 选择关卡
-    stage = setting_parser.add_argument_group('关卡设置', '需要运行一次来保存选项', gooey_options={'label_color': '#931D03'})
-    stage.add_argument('--启用停止条件', default=default('--启用停止条件'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    stage.add_argument('--启用异常处理', default=default('--启用异常处理'), choices=['是', '否'], help='处理部分异常, 运行出错时撤退', gooey_options={'label_color': '#4B5F83'})
+    # 選擇關卡
+    stage = setting_parser.add_argument_group('關卡設定', '需要執行一次來保存選項', gooey_options={'label_color': '#931D03'})
+    stage.add_argument('--啟用停止條件', default=default('--啟用停止條件'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    stage.add_argument('--啟用異常處理', default=default('--啟用異常處理'), choices=['是', '否'], help='處理部分異常, 執行出錯時撤退', gooey_options={'label_color': '#4B5F83'})
     stage.add_argument('--使用周回模式', default=default('--使用周回模式'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
 
-    stop = stage.add_argument_group('停止条件', '触发后不会马上停止会先完成当前出击, 不需要就填0', gooey_options={'label_color': '#931D03'})
-    stop.add_argument('--如果出击次数大于', default=default('--如果出击次数大于'), help='会沿用先前设置, 完成出击将扣除次数, 直至清零', gooey_options={'label_color': '#4B5F83'})
-    stop.add_argument('--如果时间超过', default=default('--如果时间超过'), help='使用未来24小时内的时间, 会沿用先前设置, 触发后清零. 建议提前10分钟左右, 以完成当前出击. 格式 14:59', gooey_options={'label_color': '#4B5F83'})
-    stop.add_argument('--如果石油低于', default=default('--如果石油低于'), gooey_options={'label_color': '#4B5F83'})
-    stop.add_argument('--如果获得新船', default=default('--如果获得新船'), choices=['是', '否'],
-                      help='获得新船后进入收获循环',
+    stop = stage.add_argument_group('停止條件', '出發後不會馬上停止, 會先完成目前出擊, 不需要就填0', gooey_options={'label_color': '#931D03'})
+    stop.add_argument('--如果出擊數大於', default=default('--如果出擊數大於'), help='會沿用先前設定, 完成出擊將扣除次數, 直至為零', gooey_options={'label_color': '#4B5F83'})
+    stop.add_argument('--如果時間超過', default=default('--如果時間超過'), help='使用未來24小時內的時間, 會沿用先前設定, 觸發後清零, 建議提前10分鐘左右, 以完成目前出擊。格式 14:59', gooey_options={'label_color': '#4B5F83'})
+    stop.add_argument('--如果石油低於', default=default('--如果石油低於'), gooey_options={'label_color': '#4B5F83'})
+    stop.add_argument('--如果獲得新船', default=default('--如果獲得新船'), choices=['是', '否'],
+                      help='獲得新船後進入收穫循環',
                       gooey_options={'label_color': '#4B5F83'})
-    stop.add_argument('--如果地图开荒', default=default('--如果地图开荒'), choices=['否', '地图通关', '地图三星', '地图绿海不打三星', '地图绿海'], help='如果已经满足, 无视此设置', gooey_options={'label_color': '#4B5F83'})
-    stop.add_argument('--如果触发心情控制', default=default('--如果触发心情控制'), choices=['是', '否'], help='若是, 等待回复, 完成本次, 停止\n若否, 等待回复, 完成本次, 继续', gooey_options={'label_color': '#4B5F83'})
-    stop.add_argument('--如果到达120级', default=default('--如果到达120级'), choices=['是', '否'], help='当舰船从119级升至120级时: \n若是, 完成本次, 停止出击\n若否, 继续出击', gooey_options={'label_color': '#4B5F83'})
-    # stop.add_argument('--如果船舱已满', default=default('--如果船舱已满'), choices=['是', '否'])
+    stop.add_argument('--如果地圖開荒', default=default('--如果地圖開荒'), choices=['否', '地圖通關', '地圖三星', '地圖安海不打三星', '地圖安海'], help='如果已滿足, 無視此設定', gooey_options={'label_color': '#4B5F83'})
+    stop.add_argument('--如果觸發心情控制', default=default('--如果觸發心情控制'), choices=['是', '否'], help='若是, 等待回復, 完成本次, 停止\n若否, 等待回復, 完成本次, 繼續', gooey_options={'label_color': '#4B5F83'})
+    stop.add_argument('--如果到達120級', default=default('--如果到達120級'), choices=['是', '否'], help='當艦船從119級升至120級时: \n若是, 完成本次, 停止出擊\n若否, 繼續出擊', gooey_options={'label_color': '#4B5F83'})
+    # stop.add_argument('--如果船塢已滿', default=default('--如果船塢已滿'), choices=['是', '否'])
 
-    # 出击舰队
-    fleet = setting_parser.add_argument_group('出击舰队', '暂不支持备用道中队, 非活动图或周回模式会忽略步长设置', gooey_options={'label_color': '#931D03'})
-    fleet.add_argument('--启用舰队控制', default=default('--启用舰队控制'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    fleet.add_argument('--启用阵容锁定', default=default('--启用阵容锁定'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    # 出擊艦隊
+    fleet = setting_parser.add_argument_group('出擊艦隊', '暫不支援備用道中隊, 非活動圖或周回模式會忽略步長設定', gooey_options={'label_color': '#931D03'})
+    fleet.add_argument('--啟用艦隊控制', default=default('--啟用艦隊控制'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    fleet.add_argument('--啟用陣容鎖定', default=default('--啟用陣容鎖定'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
 
-    f1 = fleet.add_argument_group('道中队', gooey_options={'label_color': '#931D03'})
-    f1.add_argument('--舰队编号1', default=default('--舰队编号1'), choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
-    f1.add_argument('--舰队阵型1', default=default('--舰队阵型1'), choices=['单纵阵', '复纵阵', '轮形阵'], gooey_options={'label_color': '#4B5F83'})
-    f1.add_argument('--自律模式1', default=default('--自律模式1'), choices=['自律', '手操', '中路站桩', '躲左下角'], gooey_options={'label_color': '#4B5F83'})
-    f1.add_argument('--舰队步长1', default=default('--舰队步长1'), choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
+    f1 = fleet.add_argument_group('道中隊', gooey_options={'label_color': '#931D03'})
+    f1.add_argument('--艦隊編號1', default=default('--艦隊編號1'), choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
+    f1.add_argument('--艦隊陣型1', default=default('--艦隊陣型1'), choices=['單縱陣', '復縱陣', '輪型陣'], gooey_options={'label_color': '#4B5F83'})
+    f1.add_argument('--自律模式1', default=default('--自律模式1'), choices=['自律', '手操', '中路站樁', '躲左下角'], gooey_options={'label_color': '#4B5F83'})
+    f1.add_argument('--艦隊步長1', default=default('--艦隊步長1'), choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
 
     f2 = fleet.add_argument_group('BOSS队', gooey_options={'label_color': '#931D03'})
-    f2.add_argument('--舰队编号2', default=default('--舰队编号2'), choices=['不使用', '1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
-    f2.add_argument('--舰队阵型2', default=default('--舰队阵型2'), choices=['单纵阵', '复纵阵', '轮形阵'], gooey_options={'label_color': '#4B5F83'})
-    f2.add_argument('--自律模式2', default=default('--自律模式2'), choices=['自律', '手操', '中路站桩', '躲左下角'], gooey_options={'label_color': '#4B5F83'})
-    f2.add_argument('--舰队步长2', default=default('--舰队步长2'), choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
+    f2.add_argument('--艦隊編號2', default=default('--艦隊編號2'), choices=['不使用', '1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
+    f2.add_argument('--艦隊陣型2', default=default('--艦隊陣型2'), choices=['單縱陣', '復縱陣', '輪型陣'], gooey_options={'label_color': '#4B5F83'})
+    f2.add_argument('--自律模式2', default=default('--自律模式2'), choices=['自律', '手操', '中路站樁', '躲左下角'], gooey_options={'label_color': '#4B5F83'})
+    f2.add_argument('--艦隊步長2', default=default('--艦隊步長2'), choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
 
     f3 = fleet.add_argument_group('备用道中队', gooey_options={'label_color': '#931D03'})
-    f3.add_argument('--舰队编号3', default=default('--舰队编号3'), choices=['不使用', '1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
-    f3.add_argument('--舰队阵型3', default=default('--舰队阵型3'), choices=['单纵阵', '复纵阵', '轮形阵'], gooey_options={'label_color': '#4B5F83'})
-    f3.add_argument('--自律模式3', default=default('--自律模式3'), choices=['自律', '手操', '中路站桩', '躲左下角'], gooey_options={'label_color': '#4B5F83'})
-    f3.add_argument('--舰队步长3', default=default('--舰队步长3'), choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
+    f3.add_argument('--艦隊編號3', default=default('--艦隊編號3'), choices=['不使用', '1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
+    f3.add_argument('--艦隊陣型3', default=default('--艦隊陣型3'), choices=['單縱陣', '復縱陣', '輪型陣'], gooey_options={'label_color': '#4B5F83'})
+    f3.add_argument('--自律模式3', default=default('--自律模式3'), choices=['自律', '手操', '中路站樁', '躲左下角'], gooey_options={'label_color': '#4B5F83'})
+    f3.add_argument('--艦隊步長3', default=default('--艦隊步長3'), choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
 
-    # 潜艇设置
-    submarine = setting_parser.add_argument_group('潜艇设置', '仅支持: 不使用, 仅狩猎, 每战出击', gooey_options={'label_color': '#931D03'})
-    submarine.add_argument('--舰队编号4', default=default('--舰队编号4'), choices=['不使用', '1', '2'], gooey_options={'label_color': '#4B5F83'})
-    submarine.add_argument('--潜艇出击方案', default=default('--潜艇出击方案'), choices=['不使用', '仅狩猎', '每战出击', '空弹出击', 'BOSS战出击', 'BOSS战BOSS出现后召唤'], gooey_options={'label_color': '#4B5F83'})
+    # 潛艇設定
+    submarine = setting_parser.add_argument_group('潛艇設定', '僅支援：不使用、僅狩獵、每戰出擊', gooey_options={'label_color': '#931D03'})
+    submarine.add_argument('--艦隊編號4', default=default('--艦隊編號4'), choices=['不使用', '1', '2'], gooey_options={'label_color': '#4B5F83'})
+    submarine.add_argument('--潛艇出擊方案', default=default('--潛艇出擊方案'), choices=['不使用', '僅狩獵', '每戰出擊', '空彈出擊', 'BOSS戰出擊', 'BOSS戰BOSS出現後招喚'], gooey_options={'label_color': '#4B5F83'})
 
     # 心情控制
     emotion = setting_parser.add_argument_group('心情控制', gooey_options={'label_color': '#931D03'})
-    emotion.add_argument('--启用心情消耗', default=default('--启用心情消耗'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    emotion.add_argument('--无视红脸出击警告', default=default('--无视红脸出击警告'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    emotion.add_argument('--啟用心情消耗', default=default('--啟用心情消耗'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    emotion.add_argument('--無視紅臉出擊警告', default=default('--無視紅臉出擊警告'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
 
-    e1 = emotion.add_argument_group('道中队', gooey_options={'label_color': '#931D03'})
-    e1.add_argument('--心情回复1', default=default('--心情回复1'), choices=['未放置于后宅', '后宅一楼', '后宅二楼'], gooey_options={'label_color': '#4B5F83'})
-    e1.add_argument('--心情控制1', default=default('--心情控制1'), choices=['保持经验加成', '防止绿脸', '防止黄脸', '防止红脸'], gooey_options={'label_color': '#4B5F83'})
-    e1.add_argument('--全员已婚1', default=default('--全员已婚1'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    e1 = emotion.add_argument_group('道中隊', gooey_options={'label_color': '#931D03'})
+    e1.add_argument('--心情回復1', default=default('--心情回復1'), choices=['未放置於後宅', '後宅一樓', '後宅二樓'], gooey_options={'label_color': '#4B5F83'})
+    e1.add_argument('--心情控制1', default=default('--心情控制1'), choices=['保持經驗加成', '防止綠臉', '防止黃臉', '防止紅臉'], gooey_options={'label_color': '#4B5F83'})
+    e1.add_argument('--全員已婚1', default=default('--全員已婚1'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
 
-    e2 = emotion.add_argument_group('BOSS队', gooey_options={'label_color': '#931D03'})
-    e2.add_argument('--心情回复2', default=default('--心情回复2'), choices=['未放置于后宅', '后宅一楼', '后宅二楼'], gooey_options={'label_color': '#4B5F83'})
-    e2.add_argument('--心情控制2', default=default('--心情控制2'), choices=['保持经验加成', '防止绿脸', '防止黄脸', '防止红脸'], gooey_options={'label_color': '#4B5F83'})
-    e2.add_argument('--全员已婚2', default=default('--全员已婚2'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    e2 = emotion.add_argument_group('BOSS隊', gooey_options={'label_color': '#931D03'})
+    e2.add_argument('--心情回復2', default=default('--心情回復2'), choices=['未放置於後宅', '後宅一樓', '後宅二樓'], gooey_options={'label_color': '#4B5F83'})
+    e2.add_argument('--心情控制2', default=default('--心情控制2'), choices=['保持經驗加成', '防止綠臉', '防止黃臉', '防止紅臉'], gooey_options={'label_color': '#4B5F83'})
+    e2.add_argument('--全員已婚2', default=default('--全員已婚2'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
 
-    e3 = emotion.add_argument_group('备用道中队', '会在主队触发心情控制时使用', gooey_options={'label_color': '#931D03'})
-    e3.add_argument('--心情回复3', default=default('--心情回复3'), choices=['未放置于后宅', '后宅一楼', '后宅二楼'], gooey_options={'label_color': '#4B5F83'})
-    e3.add_argument('--心情控制3', default=default('--心情控制3'), choices=['保持经验加成', '防止绿脸', '防止黄脸', '防止红脸'], gooey_options={'label_color': '#4B5F83'})
-    e3.add_argument('--全员已婚3', default=default('--全员已婚3'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    e3 = emotion.add_argument_group('備用道中隊', '會在主隊觸發心情控制時使用', gooey_options={'label_color': '#931D03'})
+    e3.add_argument('--心情回復3', default=default('--心情回復3'), choices=['未放置於後宅', '後宅一樓', '後宅二樓'], gooey_options={'label_color': '#4B5F83'})
+    e3.add_argument('--心情控制3', default=default('--心情控制3'), choices=['保持經驗加成', '防止綠臉', '防止黃臉', '防止紅臉'], gooey_options={'label_color': '#4B5F83'})
+    e3.add_argument('--全員已婚3', default=default('--全員已婚3'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
 
     # 血量平衡
-    hp = setting_parser.add_argument_group('血量控制', '需关闭舰队锁定才能生效', gooey_options={'label_color': '#931D03'})
-    hp.add_argument('--启用血量平衡', default=default('--启用血量平衡'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    hp.add_argument('--启用低血量撤退', default=default('--启用低血量撤退'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    hp = setting_parser.add_argument_group('血量控制', '需關閉艦隊鎖定才能生效', gooey_options={'label_color': '#931D03'})
+    hp.add_argument('--啟用血量平衡', default=default('--啟用血量平衡'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    hp.add_argument('--啟用低血量撤退', default=default('--啟用低血量撤退'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     hp_balance = hp.add_argument_group('血量平衡', '', gooey_options={'label_color': '#4B5F83'})
-    hp_balance.add_argument('--先锋血量平衡阈值', default=default('--先锋血量平衡阈值'), help='血量差值大于阈值时, 换位', gooey_options={'label_color': '#4B5F83'})
-    hp_balance.add_argument('--先锋血量权重', default=default('--先锋血量权重'), help='先锋肉度有差别时应修改, 格式 1000,1000,1000', gooey_options={'label_color': '#4B5F83'})
-    hp_add = hp.add_argument_group('紧急维修', '', gooey_options={'label_color': '#4B5F83'})
-    hp_add.add_argument('--紧急维修单人阈值', default=default('--紧急维修单人阈值'), help='单人低于阈值时使用', gooey_options={'label_color': '#4B5F83'})
-    hp_add.add_argument('--紧急维修全队阈值', default=default('--紧急维修全队阈值'), help='前排全部或后排全部低于阈值时使用', gooey_options={'label_color': '#4B5F83'})
+    hp_balance.add_argument('--先鋒血量平衡閾值', default=default('--先鋒血量平衡閾值'), help='血量差值大於閾值時, 換位', gooey_options={'label_color': '#4B5F83'})
+    hp_balance.add_argument('--先鋒血量權重', default=default('--先鋒血量權重'), help='先鋒肉度有差別時應修改, 格式 1000,1000,1000', gooey_options={'label_color': '#4B5F83'})
+    hp_add = hp.add_argument_group('緊急維修', '', gooey_options={'label_color': '#4B5F83'})
+    hp_add.add_argument('--緊急維修單人閾值', default=default('--緊急維修單人閾值'), help='單人低於閾值時使用', gooey_options={'label_color': '#4B5F83'})
+    hp_add.add_argument('--緊急維修全隊閾值', default=default('--緊急維修全隊閾值'), help='前排全部或後排全部低於閾值時使用', gooey_options={'label_color': '#4B5F83'})
     hp_withdraw = hp.add_argument_group('低血量撤退', '', gooey_options={'label_color': '#4B5F83'})
-    hp_withdraw.add_argument('--低血量撤退阈值', default=default('--低血量撤退阈值'), help='任意一人血量低于阈值时, 撤退', gooey_options={'label_color': '#4B5F83'})
+    hp_withdraw.add_argument('--低血量撤退閾值', default=default('--低血量撤退閾值'), help='任意一人血量低於閾值時, 撤退', gooey_options={'label_color': '#4B5F83'})
 
-    # 退役选项
-    retire = setting_parser.add_argument_group('退役设置', '', gooey_options={'label_color': '#931D03'})
-    retire.add_argument('--启用退役', default=default('--启用退役'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    retire.add_argument('--退役方案', default=default('--退役方案'), choices=['强化角色', '一键退役', '传统退役'], gooey_options={'label_color': '#4B5F83'})
-    retire.add_argument('--退役数量', default=default('--退役数量'), choices=['退役全部', '退役10个'], gooey_options={'label_color': '#4B5F83'})
-    retire.add_argument('--强化常用角色', default=default('--强化常用角色'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    retire.add_argument('--强化过滤字符串', default=default('--强化过滤字符串'), help='格式: "cv > bb > ...", 留空则使用默认强化方式', gooey_options={'label_color': '#4B5F83'})
+    # 退役選項
+    retire = setting_parser.add_argument_group('退役設定', '', gooey_options={'label_color': '#931D03'})
+    retire.add_argument('--啟用退役', default=default('--啟用退役'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    retire.add_argument('--退役方案', default=default('--退役方案'), choices=['強化角色', '一鍵退役', '傳統退役'], gooey_options={'label_color': '#4B5F83'})
+    retire.add_argument('--退役數量', default=default('--退役數量'), choices=['退役全部', '退役10個'], gooey_options={'label_color': '#4B5F83'})
+    retire.add_argument('--強化常用角色', default=default('--強化常用角色'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    retire.add_argument('--強化過濾字符串', default=default('--強化過濾字符串'), help='格式: "cv > bb > ...", 留空則使用默認強化方式', gooey_options={'label_color': '#4B5F83'})
 
-    rarity = retire.add_argument_group('退役稀有度', '暂不支持舰种选择, 使用一键退役时忽略以下选项', gooey_options={'label_color': '#931D03'})
+    rarity = retire.add_argument_group('退役稀有度', '暫不支援艦種選擇, 使用一鍵退役時忽略以下選項', gooey_options={'label_color': '#931D03'})
     rarity.add_argument('--退役白皮', default=default('--退役白皮'), choices=['是', '否'], help='N', gooey_options={'label_color': '#4B5F83'})
-    rarity.add_argument('--退役蓝皮', default=default('--退役蓝皮'), choices=['是', '否'], help='R', gooey_options={'label_color': '#4B5F83'})
+    rarity.add_argument('--退役藍皮', default=default('--退役藍皮'), choices=['是', '否'], help='R', gooey_options={'label_color': '#4B5F83'})
     rarity.add_argument('--退役紫皮', default=default('--退役紫皮'), choices=['是', '否'], help='SR', gooey_options={'label_color': '#4B5F83'})
     rarity.add_argument('--退役金皮', default=default('--退役金皮'), choices=['是', '否'], help='SSR', gooey_options={'label_color': '#4B5F83'})
 
-    # 掉落记录
-    drop = setting_parser.add_argument_group('掉落记录', '保存掉落物品的截图, 启用后会放缓结算时的点击速度', gooey_options={'label_color': '#931D03'})
-    drop.add_argument('--启用掉落记录', default=default('--启用掉落记录'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    drop.add_argument('--掉落保存目录', default=default('--掉落保存目录'), gooey_options={'label_color': '#4B5F83'})
+    # 掉落記錄
+    drop = setting_parser.add_argument_group('掉落記錄', '保存掉落物品的截圖, 啟用後會放緩結算時的點擊速度', gooey_options={'label_color': '#931D03'})
+    drop.add_argument('--啟用掉落記錄', default=default('--啟用掉落記錄'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    drop.add_argument('--掉落保存目錄', default=default('--掉落保存目錄'), gooey_options={'label_color': '#4B5F83'})
 
-    # clear = setting_parser.add_argument_group('开荒模式', '未开荒地图会在完成后停止, 已开荒的地图会忽略选项, 无脑开就完事了')
-    # clear.add_argument('--启用开荒', default=default('--启用开荒'), choices=['是', '否'])
-    # clear.add_argument('--开荒停止条件', default=default('--开荒停止条件'), choices=['地图通关', '地图三星', '地图绿海'])
-    # clear.add_argument('--地图全清星星', default=default('--地图全清星星'), choices=['第一个', '第二个', '第三个', '不使用'], help='第几颗星星是击破所有敌舰')
+    # clear = setting_parser.add_argument_group('開荒模式', '未開荒地圖會在完成後停止, 已開荒的地圖會忽略此選項, 無腦開就結束了')
+    # clear.add_argument('--啟用開荒', default=default('--啟用開荒'), choices=['是', '否'])
+    # clear.add_argument('--開荒停止條件', default=default('--開荒停止條件'), choices=['地圖通關', '地圖三星', '地圖安海'])
+    # clear.add_argument('--地圖全清星星', default=default('--地圖全清星星'), choices=['第一個', '第二個', '第三個', '不使用'], help='第幾顆星星是擊破所有敵艦')
 
-    # ==========收菜设置==========
-    reward_parser = subs.add_parser('收菜设置')
-    reward_condition = reward_parser.add_argument_group('触发条件', '需要运行一次来保存选项, 运行后会进入挂机收菜模式', gooey_options={'label_color': '#931D03'})
-    reward_condition.add_argument('--启用收获', default=default('--启用收获'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    reward_condition.add_argument('--收菜间隔', default=default('--收菜间隔'), help='每隔多少分钟触发收菜, 推荐使用时间区间, 比如"10, 40"', gooey_options={'label_color': '#4B5F83'})
-    reward_condition.add_argument('--收菜间隔关闭游戏', default=default('--收菜间隔关闭游戏'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    reward_condition.add_argument('--启用每日收获', default=default('--启用每日收获'), choices=['是', '否'], help='将每日任务困难演习作为收获的一部分来运行', gooey_options={'label_color': '#4B5F83'})
+    # ==========收成設定==========
+    reward_parser = subs.add_parser('收成設定')
+    reward_condition = reward_parser.add_argument_group('觸發條件', '需要執行一次來保存選項, 執行後會進入掛機收成模式', gooey_options={'label_color': '#931D03'})
+    reward_condition.add_argument('--啟用收穫', default=default('--啟用收穫'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    reward_condition.add_argument('--收成間隔', default=default('--收成間隔'), help='每隔多少分鐘觸發收成, 推薦使用時間區間, 比如"10, 40"', gooey_options={'label_color': '#4B5F83'})
+    reward_condition.add_argument('--收成間隔關閉遊戲', default=default('--收成間隔關閉遊戲'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    reward_condition.add_argument('--啟用每日收穫', default=default('--啟用每日收穫'), choices=['是', '否'], help='將每日任務困難演習作為收穫的一部份來執行', gooey_options={'label_color': '#4B5F83'})
 
-    reward_general = reward_parser.add_argument_group('日常收获', '', gooey_options={'label_color': '#931D03'})
-    reward_general.add_argument('--启用石油收获', default=default('--启用石油收获'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    reward_general.add_argument('--启用物资收获', default=default('--启用物资收获'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    reward_general.add_argument('--启用任务收获', default=default('--启用任务收获'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    reward_general = reward_parser.add_argument_group('日常收穫', '', gooey_options={'label_color': '#931D03'})
+    reward_general.add_argument('--啟用石油收穫', default=default('--啟用石油收穫'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    reward_general.add_argument('--啟用物資收穫', default=default('--啟用物資收穫'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    reward_general.add_argument('--啟用任務收穫', default=default('--啟用任務收穫'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
 
-    reward_dorm = reward_parser.add_argument_group('后宅设置', '', gooey_options={'label_color': '#931D03'})
-    reward_dorm.add_argument('--启用后宅收获', default=default('--启用后宅收获'), choices=['是', '否'], help='收获好感度和家具币', gooey_options={'label_color': '#4B5F83'})
-    reward_dorm.add_argument('--启用后宅喂食', default=default('--启用后宅喂食'), choices=['是', '否'], help='后宅喂食', gooey_options={'label_color': '#4B5F83'})
-    reward_dorm.add_argument('--后宅收获间隔', default=default('--后宅收获间隔'),
-                             help='每隔多少分钟触发, 推荐使用时间区间, 比如"10, 40"', gooey_options={'label_color': '#4B5F83'})
-    reward_dorm.add_argument('--后宅喂食间隔', default=default('--后宅喂食间隔'),
-                             help='每隔多少分钟触发, 推荐使用时间区间, 比如"10, 40"\n后宅六船时, 使用六种食物分别需要间隔大于\n(14, 28, 42, 70, 139, 278)', gooey_options={'label_color': '#4B5F83'})
-    reward_dorm.add_argument('--后宅喂食优先', default=default('--后宅喂食优先'), help='仿照科研过滤字符串', gooey_options={'label_color': '#4B5F83'})
+    reward_dorm = reward_parser.add_argument_group('後宅設定', '', gooey_options={'label_color': '#931D03'})
+    reward_dorm.add_argument('--啟用後宅收穫', default=default('--啟用後宅收穫'), choices=['是', '否'], help='收穫好感度和家具幣', gooey_options={'label_color': '#4B5F83'})
+    reward_dorm.add_argument('--啟用後宅餵食', default=default('--啟用後宅餵食'), choices=['是', '否'], help='後宅餵食', gooey_options={'label_color': '#4B5F83'})
+    reward_dorm.add_argument('--後宅收穫間隔', default=default('--後宅收穫間隔'),
+                             help='每隔多少分鐘觸發, 推薦使用時間區間, 比如"10, 40"', gooey_options={'label_color': '#4B5F83'})
+    reward_dorm.add_argument('--後宅餵食間隔', default=default('--後宅餵食間隔'),
+                             help='每隔多少分鐘觸發, 推薦使用時間區間, 比如"10, 40"\n後宅六船時, 使用六種食物分別需要間隔大於\n(14, 28, 42, 70, 139, 278)', gooey_options={'label_color': '#4B5F83'})
+    reward_dorm.add_argument('--後宅餵食優先', default=default('--後宅餵食優先'), help='仿照科研過濾字符串', gooey_options={'label_color': '#4B5F83'})
 
-    reward_commission = reward_parser.add_argument_group('委托设置', '', gooey_options={'label_color': '#931D03'})
-    reward_commission.add_argument('--启用委托收获', default=default('--启用委托收获'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    reward_commission.add_argument('--委托时间限制', default=default('--委托时间限制'), help='忽略完成时间超过限制的委托, 格式: 23:30, 不需要就填0', gooey_options={'label_color': '#4B5F83'})
+    reward_commission = reward_parser.add_argument_group('委託設定', '', gooey_options={'label_color': '#931D03'})
+    reward_commission.add_argument('--啟用委託收穫', default=default('--啟用委託收穫'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    reward_commission.add_argument('--委託時間限制', default=default('--委託時間限制'), help='忽略完成時間超過限制的委託, 格式：23:30, 不需要就填0', gooey_options={'label_color': '#4B5F83'})
 
-    priority1 = reward_commission.add_argument_group('委托耗时优先级', '', gooey_options={'label_color': '#931D03'})
-    priority1.add_argument('--委托耗时小于2h', default=default('--委托耗时小于2h'), help='', gooey_options={'label_color': '#4B5F83'})
-    priority1.add_argument('--委托耗时超过6h', default=default('--委托耗时超过6h'), help='', gooey_options={'label_color': '#4B5F83'})
-    priority1.add_argument('--委托过期小于2h', default=default('--委托过期小于2h'), help='', gooey_options={'label_color': '#4B5F83'})
-    priority1.add_argument('--委托过期大于6h', default=default('--委托过期大于6h'), help='', gooey_options={'label_color': '#4B5F83'})
+    priority1 = reward_commission.add_argument_group('委託耗時優先級', '', gooey_options={'label_color': '#931D03'})
+    priority1.add_argument('--委託耗時小於2h', default=default('--委託耗時小於2h'), help='', gooey_options={'label_color': '#4B5F83'})
+    priority1.add_argument('--委託耗時超過6h', default=default('--委託耗時超過6h'), help='', gooey_options={'label_color': '#4B5F83'})
+    priority1.add_argument('--委託過期小於2h', default=default('--委託過期小於2h'), help='', gooey_options={'label_color': '#4B5F83'})
+    priority1.add_argument('--委託過期大於6h', default=default('--委託過期大於6h'), help='', gooey_options={'label_color': '#4B5F83'})
 
-    priority2 = reward_commission.add_argument_group('日常委托优先级', '', gooey_options={'label_color': '#931D03'})
-    priority2.add_argument('--日常委托', default=default('--日常委托'), help='日常资源开发, 高阶战术研发', gooey_options={'label_color': '#4B5F83'})
-    priority2.add_argument('--主要委托', default=default('--主要委托'), help='1200油/1000油委托', gooey_options={'label_color': '#4B5F83'})
+    priority2 = reward_commission.add_argument_group('日常委託優先級', '', gooey_options={'label_color': '#931D03'})
+    priority2.add_argument('--日常委託', default=default('--日常委託'), help='日常資源開發, 高階戰術研發', gooey_options={'label_color': '#4B5F83'})
+    priority2.add_argument('--主要委託', default=default('--主要委託'), help='1200油/1000油委託', gooey_options={'label_color': '#4B5F83'})
 
-    priority3 = reward_commission.add_argument_group('额外委托优先级', '', gooey_options={'label_color': '#931D03'})
-    priority3.add_argument('--钻头类额外委托', default=default('--钻头类额外委托'), help='短距离航行训练, 近海防卫巡逻', gooey_options={'label_color': '#4B5F83'})
-    priority3.add_argument('--部件类额外委托', default=default('--部件类额外委托'), help='矿脉护卫委托, 林木护卫委托', gooey_options={'label_color': '#4B5F83'})
-    priority3.add_argument('--魔方类额外委托', default=default('--魔方类额外委托'), help='舰队高阶演习, 舰队护卫演习', gooey_options={'label_color': '#4B5F83'})
-    priority3.add_argument('--石油类额外委托', default=default('--石油类额外委托'), help='小型油田开发, 大型油田开发', gooey_options={'label_color': '#4B5F83'})
-    priority3.add_argument('--教材类额外委托', default=default('--教材类额外委托'), help='小型商船护卫, 大型商船护卫', gooey_options={'label_color': '#4B5F83'})
+    priority3 = reward_commission.add_argument_group('額外委託優先級', '', gooey_options={'label_color': '#931D03'})
+    priority3.add_argument('--鑽頭類額外委託', default=default('--鑽頭類額外委託'), help='短距離航行訓練, 近海防衛巡邏', gooey_options={'label_color': '#4B5F83'})
+    priority3.add_argument('--部件類額外委託', default=default('--部件類額外委託'), help='礦脈護衛委託, 林木護衛委託', gooey_options={'label_color': '#4B5F83'})
+    priority3.add_argument('--魔方類額外委託', default=default('--魔方類額外委託'), help='艦隊高階演習, 艦隊護衛演習', gooey_options={'label_color': '#4B5F83'})
+    priority3.add_argument('--石油類額外委託', default=default('--石油類額外委託'), help='小型油田開發, 大型油田開發', gooey_options={'label_color': '#4B5F83'})
+    priority3.add_argument('--教材類額外委託', default=default('--教材類額外委託'), help='小型商船護衛, 大型商船護衛', gooey_options={'label_color': '#4B5F83'})
 
-    priority4 = reward_commission.add_argument_group('紧急委托优先级', '', gooey_options={'label_color': '#931D03'})
-    priority4.add_argument('--钻头类紧急委托', default=default('--钻头类紧急委托'), help='保卫运输部队, 歼灭敌精锐部队', gooey_options={'label_color': '#4B5F83'})
-    priority4.add_argument('--部件类紧急委托', default=default('--部件类紧急委托'), help='支援维拉维拉岛, 支援恐班纳', gooey_options={'label_color': '#4B5F83'})
-    priority4.add_argument('--魔方类紧急委托', default=default('--魔方类紧急委托'), help='解救商船, 敌袭', gooey_options={'label_color': '#4B5F83'})
-    priority4.add_argument('--教材类紧急委托', default=default('--教材类紧急委托'), help='支援土豪尔岛, 支援萌岛', gooey_options={'label_color': '#4B5F83'})
-    priority4.add_argument('--装备类紧急委托', default=default('--装备类紧急委托'), help='BIW装备运输, NYB装备研发', gooey_options={'label_color': '#4B5F83'})
-    priority4.add_argument('--钻石类紧急委托', default=default('--钻石类紧急委托'), help='BIW要员护卫, NYB巡视护卫', gooey_options={'label_color': '#4B5F83'})
-    priority4.add_argument('--观舰类紧急委托', default=default('--观舰类紧急委托'), help='小型观舰仪式, 同盟观舰仪式', gooey_options={'label_color': '#4B5F83'})
+    priority4 = reward_commission.add_argument_group('緊急委託優先級', '', gooey_options={'label_color': '#931D03'})
+    priority4.add_argument('--鑽頭類緊急委託', default=default('--鑽頭類緊急委託'), help='保衛運輸部隊, 殲滅敵精銳部隊', gooey_options={'label_color': '#4B5F83'})
+    priority4.add_argument('--部件類緊急委託', default=default('--部件類緊急委託'), help='支援維拉維拉島, 支援恐班納', gooey_options={'label_color': '#4B5F83'})
+    priority4.add_argument('--魔方類緊急委託', default=default('--魔方類緊急委託'), help='解救商船, 敵襲', gooey_options={'label_color': '#4B5F83'})
+    priority4.add_argument('--教材類緊急委託', default=default('--教材類緊急委託'), help='支援土豪爾島, 支援萌島', gooey_options={'label_color': '#4B5F83'})
+    priority4.add_argument('--裝備類緊急委託', default=default('--裝備類緊急委託'), help='BIW裝備運輸, NYB裝備研發', gooey_options={'label_color': '#4B5F83' })
+    priority4.add_argument('--鑽石類緊急委託', default=default('--鑽石類緊急委託'), help='BIW要員護衛, NYB巡視護衛', gooey_options={'label_color': '#4B5F83'})
+    priority4.add_argument('--觀艦類緊急委託', default=default('--觀艦類緊急委託'), help='小型觀艦儀式, 同盟觀艦儀式', gooey_options={'label_color': '#4B5F83'})
 
-    reward_tactical = reward_parser.add_argument_group('战术学院', '只支持续技能书, 不支持学新技能', gooey_options={'label_color': '#931D03'})
-    reward_tactical.add_argument('--启用战术学院收获', default=default('--启用战术学院收获'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    # reward_tactical.add_argument('--战术学院夜间时段', default=default('--战术学院夜间时段'), help='格式 23:30-06:30')
-    reward_tactical.add_argument('--技能书优先使用同类型', default=default('--技能书优先使用同类型'), choices=['是', '否'], help='选是, 优先使用有150%加成的\n选否, 优先使用同稀有度的技能书', gooey_options={'label_color': '#4B5F83'})
-    reward_tactical.add_argument('--技能书最大稀有度', default=default('--技能书最大稀有度'), choices=['3', '2', '1'], help='最高使用T几的技能书\nT3是金书, T2是紫书, T1是蓝书\n最大值需要大于等于最小值', gooey_options={'label_color': '#4B5F83'})
-    reward_tactical.add_argument('--技能书最小稀有度', default=default('--技能书最小稀有度'), choices=['3', '2', '1'], help='最低使用T几的技能书\n', gooey_options={'label_color': '#4B5F83'})
-    # reward_tactical.add_argument('--技能书夜间稀有度', default=default('--技能书夜间稀有度'), choices=['3', '2', '1'])
-    # reward_tactical.add_argument('--技能书夜间优先使用同类型', default=default('--技能书夜间优先使用同类型'), choices=['是', '否'])
-    reward_tactical.add_argument('--如果无技能书可用', default=default('--如果无技能书可用'), choices=['停止学习', '使用第一本'], gooey_options={'label_color': '#4B5F83'})
+    reward_tactical = reward_parser.add_argument_group('戰術學院', '只支援續技能書, 不支援學新技能', gooey_options={'label_color': '#931D03'})
+    reward_tactical.add_argument('--啟用戰術學院收穫', default=default('--啟用戰術學院收穫'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83' })
+    # reward_tactical.add_argument('--戰術學院夜間時段', default=default('--戰術學院夜間時段'), help='格式 23:30-06:30')
+    reward_tactical.add_argument('--技能書優先使用同類型', default=default('--技能書優先使用同類型'), choices=['是', '否'], help='選是, 優先使用有150%加成的\n選否, 優先使用同稀有度的技能書', gooey_options={'label_color': '#4B5F83'})
+    reward_tactical.add_argument('--技能書最大稀有度', default=default('--技能書最大稀有度'), choices=['3', '2', '1'], help='最高使用T幾的技能書\nT3是金書, T2是紫書, T1是藍書\n最大值需要大於等於最小值', gooey_options={'label_color': '#4B5F83'})
+    reward_tactical.add_argument('--技能書最小稀有度', default=default('--技能書最小稀有度'), choices=['3', '2', '1'], help='最低使用T幾的技能書\n', gooey_options={'label_color': '#4B5F83'})
+    # reward_tactical.add_argument('--技能書夜間稀有度', default=default('--技能書夜間稀有度'), choices=['3', '2', '1'])
+    # reward_tactical.add_argument('--技能書夜間優先使用同類型', default=default('--技能書夜間優先使用同類型'), choices=['是', '否'])
+    reward_tactical.add_argument('--如果無技能書可用', default=default('--如果無技能書可用'), choices=['停止學習', '使用第一本'], gooey_options={'label_color': '#4B5F83'})
 
-    reward_research = reward_parser.add_argument_group('科研项目', '科研预设选择为自定义时, 须先阅读 doc/filter_string_en_cn.md', gooey_options={'label_color': '#931D03'})
-    reward_research.add_argument('--启用科研项目收获', default=default('--启用科研项目收获'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    reward_research = reward_parser.add_argument_group('科研項目', '科研預設選擇為自定義時, 須先閱讀 doc/filter_string_en_cn.md', gooey_options={'label_color': '#931D03'})
+    reward_research.add_argument('--啟用科研項目收穫', default=default('--啟用科研項目收穫'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83' })
     research_input = reward_research.add_argument_group('科研投入', '', gooey_options={'label_color': '#931D03'})
-    research_input.add_argument('--科研项目使用魔方', default=default('--科研项目使用魔方'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    research_input.add_argument('--科研项目使用金币', default=default('--科研项目使用金币'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    research_input.add_argument('--科研项目使用部件', default=default('--科研项目使用部件'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    research_output = reward_research.add_argument_group('科研产出', '', gooey_options={'label_color': '#931D03'})
-    research_output.add_argument('--科研项目选择预设', default=default('--科研项目选择预设'), choices=research_preset, gooey_options={'label_color': '#4B5F83'})
-    research_output.add_argument('--科研过滤字符串', default=default('--科研过滤字符串'), help='仅在科研预设选择为自定义时启用', gooey_options={'label_color': '#4B5F83'})
+    research_input.add_argument('--科研項目使用魔方', default=default('--科研項目使用魔方'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83' })
+    research_input.add_argument('--科研項目使用金幣', default=default('--科研項目使用金幣'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83' })
+    research_input.add_argument('--科研項目使用部件', default=default('--科研項目使用部件'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83' })
+    research_output = reward_research.add_argument_group('科研產出', '', gooey_options={'label_color': '#931D03'})
+    research_output.add_argument('--科研項目選擇預設', default=default('--科研項目選擇預設'), choices=research_preset, gooey_options={'label_color': '#4B5F83'})
+    research_output.add_argument('--科研過濾字符串', default=default('--科研過濾字符串'), help='僅在科研預設選擇為自定義時啟用', gooey_options={'label_color': '#4B5F83'})
 
-    reward_buy = reward_parser.add_argument_group('商店购买', '如果已经买过则自动跳过', gooey_options={'label_color': '#931D03'})
-    reward_buy.add_argument('--买指挥喵', default=default('--买指挥喵'), help='从0到15, 不需要就填0', gooey_options={'label_color': '#4B5F83'})
+    reward_buy = reward_parser.add_argument_group('商店購買', '如果已經買過則自動跳過', gooey_options={'label_color': '#931D03'})
+    reward_buy.add_argument('--買指揮喵', default=default('--買指揮喵'), help='從0到15, 不需要就填0', gooey_options={'label_color': '#4B5F83'})
 
-    # ==========设备设置==========
-    emulator_parser = subs.add_parser('设备设置')
-    emulator = emulator_parser.add_argument_group('模拟器', '需要运行一次来保存选项, 会检查游戏是否启动\n若启动了游戏, 触发一次收菜', gooey_options={'label_color': '#931D03'})
-    emulator.add_argument('--设备', default=default('--设备'), help='例如 127.0.0.1:62001', gooey_options={'label_color': '#4B5F83'})
+    # ==========設備設定==========
+    emulator_parser = subs.add_parser('設備設定')
+    emulator = emulator_parser.add_argument_group('模擬器', '需要運行一次來保存選項, 會檢查遊戲是否啟動\n若啟動了遊戲, 觸發一次收菜', gooey_options={'label_color': '#931D03'})
+    emulator.add_argument('--設備', default=default('--設備'), help='例如 127.0.0.1:62001', gooey_options={'label_color': '#4B5F83'})
     emulator.add_argument('--包名', default=default('--包名'), help='', gooey_options={'label_color': '#4B5F83'})
     emulator.add_argument(
-        '默认serial列表',
+        '默認serial列表',
         default=message,
         widget='Textarea',
-        help="以下是一些常见模拟器的默认serial\n如果你使用了模拟器多开, 它们将不使用默认的serial",
+        help="以下是一些常見模擬器的默認serial\n如果你使用了模擬器多開, 它們將不使用默認的serial",
         gooey_options={
             'height': 150,
             'show_help': True,
@@ -323,140 +323,141 @@ def main(ini_name=''):
         }
     )
 
-    debug = emulator_parser.add_argument_group('调试设置', '', gooey_options={'label_color': '#931D03'})
-    debug.add_argument('--出错时保存log和截图', default=default('--出错时保存log和截图'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    debug.add_argument('--保存透视识别出错的图像', default=default('--保存透视识别出错的图像'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    debug = emulator_parser.add_argument_group('調試設定', '', gooey_options={'label_color': '#931D03'})
+    debug.add_argument('--出錯時保存log和截圖', default=default('--出錯時保存log和截圖'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    debug.add_argument('--保存透視識別出錯的圖像', default=default('--保存透視識別出錯的圖像'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
 
-    adb = emulator_parser.add_argument_group('ADB设置', '', gooey_options={'label_color': '#931D03'})
-    adb.add_argument('--设备截图方案', default=default('--设备截图方案'), choices=['aScreenCap', 'uiautomator2', 'ADB'], help='速度: aScreenCap >> uiautomator2 > ADB', gooey_options={'label_color': '#4B5F83'})
-    adb.add_argument('--设备控制方案', default=default('--设备控制方案'), choices=['minitouch','uiautomator2', 'ADB'], help='速度: minitouch >> uiautomator2 >> ADB', gooey_options={'label_color': '#4B5F83'})
-    adb.add_argument('--战斗中截图间隔', default=default('--战斗中截图间隔'), help='战斗中放慢截图速度, 降低CPU使用', gooey_options={'label_color': '#4B5F83'})
+    adb = emulator_parser.add_argument_group('ADB設定', '', gooey_options={'label_color': '#931D03'})
+    adb.add_argument('--設備截圖方案', default=default('--設備截圖方案'), choices=['aScreenCap', 'uiautomator2', 'ADB'], help='速度: aScreenCap >> uiautomator2 > ADB', gooey_options={'label_color': '#4B5F83'})
+    adb.add_argument('--設備控制方案', default=default('--設備控制方案'), choices=['minitouch','uiautomator2', 'ADB'], help='速度: minitouch >> uiautomator2 >> ADB', gooey_options={'label_color': '#4B5F83'})
+    adb.add_argument('--戰鬥中截圖間隔', default=default('--戰鬥中截圖間隔'), help='戰鬥中放慢截圖速度, 降低CPU使用', gooey_options={'label_color': '#4B5F83'})
 
-    update = emulator_parser.add_argument_group('更新检查', '', gooey_options={'label_color': '#931D03'})
-    update.add_argument('--启用更新检查', default=default('--启用更新检查'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    update.add_argument('--更新检查方法', default=default('--更新检查方法'), choices=['api', 'web'], help='使用api时建议填写tokens, 使用web则不需要', gooey_options={'label_color': '#4B5F83'})
-    update.add_argument('--github_token', default=default('--github_token'), help='Github API限制为每小时60次, 获取tokens https://github.com/settings/tokens', gooey_options={'label_color': '#4B5F83'})
-    update.add_argument('--更新检查代理', default=default('--更新检查代理'), help='本地http或socks代理, 如果github很慢, 请使用代理, example: http://127.0.0.1:10809', gooey_options={'label_color': '#4B5F83'})
+    update = emulator_parser.add_argument_group('更新檢查', '', gooey_options={'label_color': '#931D03'})
+    update.add_argument('--啟用更新檢查', default=default('--啟用更新檢查'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    update.add_argument('--更新檢查方法', default=default('--更新檢查方法'), choices=['api', 'web'], help='使用api時建議填寫tokens, 使用web則不需要', gooey_options={'label_color': '#4B5F83'})
+    update.add_argument('--github_token', default=default('--github_token'), help='Github API限制為每小時60次, 獲取tokens https://github.com/settings/tokens', gooey_options= {'label_color': '#4B5F83'})
+    update.add_argument('--更新檢查代理', default=default('--更新檢查代理'), help='本地http或socks代理, 如果github很慢, 請使用代理, example: http://127.0 .0.1:10809', gooey_options={'label_color': '#4B5F83'})
 
-    # ==========每日任务==========
-    daily_parser = subs.add_parser('每日任务困难演习')
+    # ==========每日任務==========
+    daily_parser = subs.add_parser('每日任務困難演習')
 
-    # 选择每日
-    daily = daily_parser.add_argument_group('选择每日', '每日任务, 演习, 困难图', gooey_options={'label_color': '#931D03'})
-    daily.add_argument('--打每日', default=default('--打每日'), help='若当天有记录, 则跳过', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    daily.add_argument('--打困难', default=default('--打困难'), help='若当天有记录, 则跳过', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    daily.add_argument('--打演习', default=default('--打演习'), help='若在刷新后有记录, 则跳过', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    daily.add_argument('--打共斗每日15次', default=default('--打共斗每日15次'), help='若当天有记录, 则跳过', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    daily.add_argument('--打活动图每日三倍PT', default=default('--打活动图每日三倍PT'), help='若当天有记录, 则跳过', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    daily.add_argument('--打活动每日SP图', default=default('--打活动每日SP图'), help='若当天有记录, 则跳过', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    # 選擇每日
+    daily = daily_parser.add_argument_group('選擇每日', '每日任務, 演習, 困難圖', gooey_options={'label_color': '#931D03'})
+    daily.add_argument('--打每日', default=default('--打每日'), help='若當天有記錄, 則跳過', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    daily.add_argument('--打困難', default=default('--打困難'), help='若當天有記錄, 則跳過', choices=['是', '否'], gooey_options= {'label_color': '#4B5F83'})
+    daily.add_argument('--打演習', default=default('--打演習'), help='若在刷新後有記錄, 則跳過', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    daily.add_argument('--打共鬥每日15次', default=default('--打共鬥每日15次'), help='若當天有記錄, 則跳過', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    daily.add_argument('--打活動圖每日三倍PT', default=default('--打活動圖每日三倍PT'), help='若當天有記錄, 則跳過', choices= ['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    daily.add_argument('--打活動每日SP圖', default=default('--打活動每日SP圖'), help='若當天有記錄, 則跳過', choices=['是' , '否'], gooey_options={'label_color': '#4B5F83'})
 
-    # 每日设置
-    daily_task = daily_parser.add_argument_group('每日设置', '不支持潜艇每日', gooey_options={'label_color': '#931D03'})
-    daily_task.add_argument('--战术研修', default=default('--战术研修'), choices=['航空', '炮击', '雷击'], gooey_options={'label_color': '#4B5F83'})
-    daily_task.add_argument('--斩首行动', default=default('--斩首行动'), choices=['第一个', '第二个', '第三个'], gooey_options={'label_color': '#4B5F83'})
-    daily_task.add_argument('--商船护航', default=default('--商船护航'), choices=['第一个', '第二个', '第三个'], gooey_options={'label_color': '#4B5F83'})
-    daily_task.add_argument('--海域突进', default=default('--海域突进'), choices=['第一个', '第二个', '第三个'], gooey_options={'label_color': '#4B5F83'})
-    daily_task.add_argument('--每日舰队', default=default('--每日舰队'), help='如果使用同一队, 填舰队编号, 例如 5\n如果使用不同队, 用逗号分割, 顺序为商船护送, 海域突进, 斩首行动, 战术研修\n例如 5, 5, 5, 6', gooey_options={'label_color': '#4B5F83'})
-    daily_task.add_argument('--每日舰队快速换装', default=default('--每日舰队快速换装'), help='打之前换装备, 打完后卸装备, 不需要就填0\n逗号分割, 例如 3, 1, 0, 1, 1, 0', gooey_options={'label_color': '#4B5F83'})
+    # 每日設定
+    daily_task = daily_parser.add_argument_group('每日設定', '不支援潛艇每日', gooey_options={'label_color': '#931D03'})
+    daily_task.add_argument('--戰術研修', default=default('--戰術研修'), choices=['航空', '砲擊', '雷擊'], gooey_options={'label_color': '#4B5F83' })
+    daily_task.add_argument('--斬首行動', default=default('--斬首行動'), choices=['第一個', '第二個', '第三個'], gooey_options={'label_color': '#4B5F83'})
+    daily_task.add_argument('--商船護航', default=default('--商船護航'), choices=['第一個', '第二個', '第三個'], gooey_options={'label_color': '#4B5F83'})
+    daily_task.add_argument('--海域突進', default=default('--海域突進'), choices=['第一個', '第二個', '第三個'], gooey_options={'label_color': '#4B5F83'})
+    daily_task.add_argument('--每日艦隊', default=default('--每日艦隊'), help='如果使用同一隊, 填艦隊編號, 例如5\n如果使用不同隊, 用半形逗號分割, 順序為商船護送, 海域突進, 斬首行動, 戰術研修\n例如5, 5, 5, 6', gooey_options={'label_color': '#4B5F83'})
+    daily_task.add_argument('--每日艦隊快速換裝', default=default('--每日艦隊快速換裝'), help='打之前換裝備, 打完後卸裝備, 不需要就填0 \n半形逗號分割, 例如3, 1, 0, 1, 1, 0', gooey_options={'label_color': '#4B5F83'})
 
-    # 困难设置
-    hard = daily_parser.add_argument_group('困难设置', '需要开启周回模式, 暂时仅支持 10-4', gooey_options={'label_color': '#931D03'})
-    hard.add_argument('--困难地图', default=default('--困难地图'), help='比如 10-4', gooey_options={'label_color': '#4B5F83'})
-    hard.add_argument('--困难舰队', default=default('--困难舰队'), choices=['1', '2'], gooey_options={'label_color': '#4B5F83'})
-    hard.add_argument('--困难舰队快速换装', default=default('--困难舰队快速换装'), help='打之前换装备, 打完后卸装备, 不需要就填0\n逗号分割, 例如 3, 1, 0, 1, 1, 0', gooey_options={'label_color': '#4B5F83'})
+    # 困難設定
+    hard = daily_parser.add_argument_group('困難設定', '需要開啟週回模式, 暫時僅支援 10-4', gooey_options={'label_color': '#931D03'})
+    hard.add_argument('--困難地圖', default=default('--困難地圖'), help='比如 10-4', gooey_options={'label_color': '#4B5F83'})
+    hard.add_argument('--困難艦隊', default=default('--困難艦隊'), choices=['1', '2'], gooey_options={'label_color': '#4B5F83'})
+    hard.add_argument('--困難艦隊快速換裝', default=default('--困難艦隊快速換裝'), help='打之前換裝備, 打完後卸裝備, 不需要就填0\n半形逗號分割, 例如3, 1, 0, 1, 1, 0', gooey_options={'label_color': '#4B5F83'})
 
-    # 演习设置
-    exercise = daily_parser.add_argument_group('演习设置', '', gooey_options={'label_color': '#931D03'})
-    exercise.add_argument('--演习对手选择', default=default('--演习对手选择'), choices=['经验最多', '最简单', '先最简单再经验最多'], help='', gooey_options={'label_color': '#4B5F83'})
-    exercise.add_argument('--演习次数保留', default=default('--演习次数保留'), help='暂时仅支持保留0个', gooey_options={'label_color': '#4B5F83'})
-    exercise.add_argument('--演习尝试次数', default=default('--演习尝试次数'), help='每个对手的尝试次数, 打不过就换', gooey_options={'label_color': '#4B5F83'})
-    exercise.add_argument('--演习SL阈值', default=default('--演习SL阈值'), help='HP<阈值时撤退', gooey_options={'label_color': '#4B5F83'})
-    exercise.add_argument('--演习低血量确认时长', default=default('--演习低血量确认时长'), help='HP低于阈值后, 过一定时长才会撤退\n推荐 1.0 ~ 3.0', gooey_options={'label_color': '#4B5F83'})
-    exercise.add_argument('--演习快速换装', default=default('--演习快速换装'), help='打之前换装备, 打完后卸装备, 不需要就填0\n逗号分割, 例如 3, 1, 0, 1, 1, 0', gooey_options={'label_color': '#4B5F83'})
 
-    # 每日活动图三倍PT
-    event_bonus = daily_parser.add_argument_group('活动设置', '', gooey_options={'label_color': '#931D03'})
-    event_bonus.add_argument('--活动奖励章节', default=default('--活动奖励章节'), choices=['AB图', 'ABCD图', 'T图', 'HT图'], help='有额外PT奖励章节', gooey_options={'label_color': '#4B5F83'})
-    event_bonus.add_argument('--活动SP图道中队', default=default('--活动SP图道中队'), choices=['1', '2'], help='', gooey_options={'label_color': '#4B5F83'})
-    event_bonus.add_argument('--活动名称ab', default=event_latest, choices=event_folder, help='例如 event_20200326_cn', gooey_options={'label_color': '#4B5F83'})
+    # 演習設定
+    exercise = daily_parser.add_argument_group('演習設定', '', gooey_options={'label_color': '#931D03'})
+    exercise.add_argument('--演習對手選擇', default=default('--演習對手選擇'), choices=['經驗最多', '最簡單', '先最簡單再經驗最多'], help= '', gooey_options={'label_color': '#4B5F83'})
+    exercise.add_argument('--演習次數保留', default=default('--演習次數保留'), help='暫時僅支援保留0個', gooey_options={'label_color': '#4B5F83'})
+    exercise.add_argument('--演習嘗試次數', default=default('--演習嘗試次數'), help='每個對手的嘗試次數, 打不過就換', gooey_options={'label_color': '#4B5F83'})
+    exercise.add_argument('--演習SL閾值', default=default('--演習SL閾值'), help='HP<閾值時撤退', gooey_options={'label_color': '#4B5F83'})
+    exercise.add_argument('--演習低血量確認時長', default=default('--演習低血量確認時長'), help='HP低於閾值後, 過一定時長才會撤退\n推薦1.0 ~ 3.0', gooey_options={'label_color': '#4B5F83'})
+    exercise.add_argument('--演習快速換裝', default=default('--演習快速換裝'), help='打之前換裝備, 打完後卸裝備, 不需要就填0\n半形逗號分割, 例如3, 1, 0, 1, 1, 0', gooey_options={'label_color': '#4B5F83'})
 
-    # 共斗每日设置
-    raid_bonus = daily_parser.add_argument_group('共斗设置', '', gooey_options={'label_color': '#931D03'})
-    raid_bonus.add_argument('--共斗每日名称', default=raid_latest, choices=raid_folder, help='', gooey_options={'label_color': '#4B5F83'})
-    raid_bonus.add_argument('--共斗困难', default=default('--共斗困难'), choices=['是', '否'], help='', gooey_options={'label_color': '#4B5F83'})
-    raid_bonus.add_argument('--共斗普通', default=default('--共斗普通'), choices=['是', '否'], help='', gooey_options={'label_color': '#4B5F83'})
-    raid_bonus.add_argument('--共斗简单', default=default('--共斗简单'), choices=['是', '否'], help='', gooey_options={'label_color': '#4B5F83'})
+    # 每日活動圖三倍PT
+    event_bonus = daily_parser.add_argument_group('活動設定', '', gooey_options={'label_color': '#931D03'})
+    event_bonus.add_argument('--活動獎勵章節', default=default('--活動獎勵章節'), choices=['AB圖', 'ABCD圖', 'T圖', 'HT圖'], help ='有額外PT獎勵章節', gooey_options={'label_color': '#4B5F83'})
+    event_bonus.add_argument('--活動SP圖道中隊', default=default('--活動SP圖道中隊'), choices=['1', '2'], help='', gooey_options={'label_color': '#4B5F83'})
+    event_bonus.add_argument('--活動名稱ab', default=event_latest, choices=event_folder, help='例如 event_20200326_cn', gooey_options={'label_color': '#4B5F83'})
 
-    # # ==========每日活动图三倍PT==========
-    # event_ab_parser = subs.add_parser('每日活动图三倍PT')
-    # event_name = event_ab_parser.add_argument_group('选择活动', '')
-    # event_name.add_argument('--活动名称ab', default=event_latest, choices=event_folder, help='例如 event_20200326_cn')
+    # 共鬥每日設定
+    raid_bonus = daily_parser.add_argument_group('共鬥設定', '', gooey_options={'label_color': '#931D03'})
+    raid_bonus.add_argument('--共鬥每日名稱', default=raid_latest, choices=raid_folder, help='', gooey_options={'label_color': '#4B5F83'})
+    raid_bonus.add_argument('--共鬥困難', default=default('--共鬥困難'), choices=['是', '否'], help='', gooey_options={'label_color': '#4B5F83'})
+    raid_bonus.add_argument('--共鬥普通', default=default('--共鬥普通'), choices=['是', '否'], help='', gooey_options={'label_color': '#4B5F83'})
+    raid_bonus.add_argument('--共鬥簡單', default=default('--共鬥簡單'), choices=['是', '否'], help='', gooey_options={'label_color': '#4B5F83'})
 
-    # ==========主线图==========
-    main_parser = subs.add_parser('主线图')
-    # 选择关卡
-    stage = main_parser.add_argument_group('选择关卡', '', gooey_options={'label_color': '#931D03'})
-    stage.add_argument('--主线地图出击', default=default('--主线地图出击'), help='例如 7-2', gooey_options={'label_color': '#4B5F83'})
-    stage.add_argument('--主线地图模式', default=default('--主线地图模式'), help='仅困难图开荒时使用, 周回模式后请使用每日困难', choices=['普通', '困难'], gooey_options={'label_color': '#4B5F83'})
+    # # ==========每日活動圖三倍PT==========
+    # event_ab_parser = subs.add_parser('每日活動圖三倍PT')
+    # event_name = event_ab_parser.add_argument_group('選擇活動', '')
+    # event_name.add_argument('--活動名稱ab', default=event_latest, choices=event_folder, help='例如 event_20200326_cn')
 
-    # ==========活动图==========
-    event_parser = subs.add_parser('活动图')
+    # ==========主線圖==========
+    main_parser = subs.add_parser('主線圖')
+    # 選擇關卡
+    stage = main_parser.add_argument_group('選擇關卡', '', gooey_options={'label_color': '#931D03'})
+    stage.add_argument('--主線地圖出擊', default=default('--主線地圖出擊'), help='例如 7-2', gooey_options={'label_color': '#4B5F83'})
+    stage.add_argument('--主線地圖模式', default=default('--主線地圖模式'), help='僅困難圖開荒時使用, 週回模式後請使用每日困難', choices=['普通', '困難'], gooey_options={'label_color': '#4B5F83'})
+
+    # ==========活動圖==========
+    event_parser = subs.add_parser('活動圖')
 
     description = """
-    出击未优化关卡或地图未达到安全海域时, 使用开荒模式运行(较慢)
+    出擊未優化關卡或地圖未達到安全海域時, 使用開荒模式運行(較慢)
     """
     event = event_parser.add_argument_group(
-        '选择关卡', '\n'.join([line.strip() for line in description.strip().split('\n')]), gooey_options={'label_color': '#931D03'})
-    event.add_argument('--活动地图', default=default('--活动地图'), help='输入地图名称, 不分大小写, 例如 D3, SP3, HT6', gooey_options={'label_color': '#4B5F83'})
-    event.add_argument('--活动名称', default=event_latest, choices=event_folder, help='例如 event_20200312_cn', gooey_options={'label_color': '#4B5F83'})
+        '選擇關卡', '\n'.join([line.strip() for line in description.strip().split('\n')]), gooey_options={'label_color': '#931D03'})
+    event.add_argument('--活動地圖', default=default('--活動地圖'), help='輸入地圖名稱, 不分大小寫, 例如D3, SP3, HT6', gooey_options={'label_color': '#4B5F83'})
+    event.add_argument('--活動名稱', default=event_latest, choices=event_folder, help='例如 event_20200312_cn', gooey_options={'label_color': '#4B5F83'})
 
-    # ==========潜艇图==========
-    sos_parser = subs.add_parser('潜艇图')
+    # ==========潛艇圖==========
+    sos_parser = subs.add_parser('潛艇圖')
     sos = sos_parser.add_argument_group(
-        '潜艇图设置', '设置每张潜艇图的队伍, 顺序: 一队二队潜艇队\n例如 "4, 6", "4, 0", "4, 6, 1"\n填0跳过不打', gooey_options={'label_color': '#931D03'})
-    sos.add_argument('--第3章潜艇图队伍', default=default('--第3章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--第4章潜艇图队伍', default=default('--第4章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--第5章潜艇图队伍', default=default('--第5章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--第6章潜艇图队伍', default=default('--第6章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--第7章潜艇图队伍', default=default('--第7章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--第8章潜艇图队伍', default=default('--第8章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--第9章潜艇图队伍', default=default('--第9章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--第10章潜艇图队伍', default=default('--第10章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
+        '潛艇圖設定', '設定每張潛艇圖的隊伍, 順序: 一隊二隊潛艇隊\n例如"4, 6", "4, 0", "4, 6, 1"\n填0跳過不打', gooey_options={'label_color': '#931D03'})
+    sos.add_argument('--第3章潛艇圖隊伍', default=default('--第3章潛艇圖隊伍'), gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--第4章潛艇圖隊伍', default=default('--第4章潛艇圖隊伍'), gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--第5章潛艇圖隊伍', default=default('--第5章潛艇圖隊伍'), gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--第6章潛艇圖隊伍', default=default('--第6章潛艇圖隊伍'), gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--第7章潛艇圖隊伍', default=default('--第7章潛艇圖隊伍'), gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--第8章潛艇圖隊伍', default=default('--第8章潛艇圖隊伍'), gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--第9章潛艇圖隊伍', default=default('--第9章潛艇圖隊伍'), gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--第10章潛艇圖隊伍', default=default('--第10章潛艇圖隊伍'), gooey_options={'label_color': '#4B5F83'})
 
-    # ==========共斗活动==========
-    raid_parser = subs.add_parser('共斗活动')
-    raid = raid_parser.add_argument_group('选择共斗', '', gooey_options={'label_color': '#931D03'})
-    raid.add_argument('--共斗名称', default=raid_latest, choices=raid_folder, help='', gooey_options={'label_color': '#4B5F83'})
-    raid.add_argument('--共斗难度', default=default('--共斗难度'), choices=['困难', '普通', '简单'], help='', gooey_options={'label_color': '#4B5F83'})
-    raid.add_argument('--共斗使用挑战券', default=default('--共斗使用挑战券'), choices=['是', '否'], help='', gooey_options={'label_color': '#4B5F83'})
+    # ==========共鬥活動==========
+    raid_parser = subs.add_parser('共鬥活動')
+    raid = raid_parser.add_argument_group('選擇共鬥', '', gooey_options={'label_color': '#931D03'})
+    raid.add_argument('--共鬥名稱', default=raid_latest, choices=raid_folder, help='', gooey_options={'label_color': '#4B5F83'})
+    raid.add_argument('--共鬥難度', default=default('--共鬥難度'), choices=['困難', '普通', '簡單'], help='', gooey_options={'label_color': '#4B5F83'})
+    raid.add_argument('--共鬥使用挑戰券', default=default('--共鬥使用挑戰券'), choices=['是', '否'], help='', gooey_options={'label_color': '#4B5F83'})
 
-    # ==========半自动==========
-    semi_parser = subs.add_parser('半自动辅助点击')
-    semi = semi_parser.add_argument_group('半自动模式', '手动选敌, 自动结算, 用于出击未适配的图', gooey_options={'label_color': '#931D03'})
-    semi.add_argument('--进图准备', default=default('--进图准备'), help='', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    semi.add_argument('--跳过剧情', default=default('--跳过剧情'), help='注意, 这会自动确认所有提示框, 包括红脸出击', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    # ==========半自動==========
+    semi_parser = subs.add_parser('半自動輔助點擊')
+    semi = semi_parser.add_argument_group('半自動模式', '手動選敵, 自動結算, 用於出擊未適配的圖', gooey_options={'label_color': '#931D03'})
+    semi.add_argument('--進圖準備', default=default('--進圖準備'), help='', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    semi.add_argument('--跳過劇情', default=default('--跳過劇情'), help='注意, 這會自動確認所有提示框, 包括紅臉出擊', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
 
     # ==========1-1Affinity farming==========
-    c_1_1_parser = subs.add_parser('1-1伏击刷好感')
-    c_1_1 = c_1_1_parser.add_argument_group('1-1伏击刷好感', '会自动关闭周回模式\n有MVP, 8场战斗涨1点好感, 无MVP, 16场战斗涨1点好感', gooey_options={'label_color': '#931D03'})
-    c_1_1.add_argument('--刷好感战斗场数', default=default('--刷好感战斗场数'), help='例如: 32', gooey_options={'label_color': '#4B5F83'})
+    c_1_1_parser = subs.add_parser('1-1伏擊刷好感')
+    c_1_1 = c_1_1_parser.add_argument_group('1-1伏擊刷好感', '會自動關閉週回模式\n有MVP, 8場戰鬥漲1點好感, 無MVP, 16場戰鬥漲1點好感', gooey_options={'label_color': '#931D03'})
+    c_1_1.add_argument('--刷好感戰斗場數', default=default('--刷好感戰斗場數'), help='例如: 32', gooey_options={'label_color': '#4B5F83'})
 
-    # ==========7-2三战拣垃圾==========
-    c_7_2_parser = subs.add_parser('7-2三战拣垃圾')
-    c_7_2 = c_7_2_parser.add_argument_group('7-2三战拣垃圾', '', gooey_options={'label_color': '#931D03'})
-    c_7_2.add_argument('--BOSS队踩A3', default=default('--BOSS队踩A3'), choices=['是', '否'], help='A3有敌人就G3, C3, E3', gooey_options={'label_color': '#4B5F83'})
+    # ==========7-2三戰撿垃圾==========
+    c_7_2_parser = subs.add_parser('7-2三戰撿垃圾')
+    c_7_2 = c_7_2_parser.add_argument_group('7-2三戰撿垃圾', '', gooey_options={'label_color': '#931D03'})
+    c_7_2.add_argument('--BOSS隊踩A3', default=default('--BOSS隊踩A3'), choices=['是', '否'], help='A3有敵人就G3, C3, E3', gooey_options={'label_color': '#4B5F83'})
 
-    # ==========12-2打中型练级==========
-    c_12_2_parser = subs.add_parser('12-2打中型练级')
-    c_12_2 = c_12_2_parser.add_argument_group('12-2索敌设置', '', gooey_options={'label_color': '#931D03'})
-    c_12_2.add_argument('--大型敌人忍耐', default=default('--大型敌人忍耐'), choices=['0', '1', '2', '10'], help='最多打多少战大型敌人, 不挑敌人选10', gooey_options={'label_color': '#4B5F83'})
+    # ==========12-2打中型練級==========
+    c_12_2_parser = subs.add_parser('12-2打中型練級')
+    c_12_2 = c_12_2_parser.add_argument_group('12-2索敵設定', '', gooey_options={'label_color': '#931D03'})
+    c_12_2.add_argument('--大型敵人忍耐', default=default('--大型敵人忍耐'), choices=['0', '1', '2', '10'], help='最多打多少戰大型敵人, 不挑敵人選10', gooey_options={'label_color': '#4B5F83'})
 
-    # ==========12-4打大型练级==========
-    c_12_4_parser = subs.add_parser('12-4打大型练级')
-    c_12_4 = c_12_4_parser.add_argument_group('12-4索敌设置', '需保证队伍有一定强度', gooey_options={'label_color': '#931D03'})
-    c_12_4.add_argument('--非大型敌人进图忍耐', default=default('--非大型敌人进图忍耐'), choices=['0', '1', '2'], help='忍受进场多少战没有大型', gooey_options={'label_color': '#4B5F83'})
-    c_12_4.add_argument('--非大型敌人撤退忍耐', default=default('--非大型敌人撤退忍耐'), choices=['0', '1', '2', '10'], help='没有大型之后还会打多少战, 不挑敌人选10', gooey_options={'label_color': '#4B5F83'})
-    c_12_4.add_argument('--拣弹药124', default=default('--拣弹药124'), choices=['2', '3', '4', '5'], help='多少战后拣弹药', gooey_options={'label_color': '#4B5F83'})
+    # ==========12-4打大型練級==========
+    c_12_4_parser = subs.add_parser('12-4打大型練級')
+    c_12_4 = c_12_4_parser.add_argument_group('12-4索敵設定', '需保證隊伍有一定強度', gooey_options={'label_color': '#931D03'})
+    c_12_4.add_argument('--非大型敵人進圖忍耐', default=default('--非大型敵人進圖忍耐'), choices=['0', '1', '2'], help='忍受進場多少戰沒有大型', gooey_options={'label_color': '#4B5F83'})
+    c_12_4.add_argument('--非大型敵人撤退忍耐', default=default('--非大型敵人撤退忍耐'), choices=['0', '1', '2', '10'], help ='沒有大型之後還會打多少戰, 不挑敵人選10', gooey_options={'label_color': '#4B5F83'})
+    c_12_4.add_argument('--撿彈藥124', default=default('--撿彈藥124'), choices=['2', '3', '4', '5'], help='多少戰後撿彈藥', gooey_options={'label_color': '#4B5F83'})
 
     args = parser.parse_args()
 
