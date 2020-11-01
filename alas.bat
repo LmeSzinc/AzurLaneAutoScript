@@ -877,8 +877,8 @@ goto :eof
 :CheckBsBeta
 call :process_checker
 if "%RealtimeMode%"=="disable" ( goto AdbConnect )
-for /f "skip=1 tokens=10 delims=," %%a in ('tasklist /fi "imagename eq bluestacks.exe" /fo:csv /v /fi "status ne NOT RESPONDING"') do ( set WINDOW=%%a )
-set WINDOW=%WINDOW:"=%
+for /f skip^=1^ tokens^=17^ delims^=^" %%a in ('tasklist /fi "imagename eq bluestacks.exe" /fo:csv /v /fi "status ne NOT RESPONDING"') do ( set WINDOW=%%a )
+rem set WINDOW=%WINDOW:"=%
 set WINDOW=%WINDOW: =%
 if not "%WINDOW%"=="BlueStacks" (
    set WINDOW=%WINDOW:~10,1%
