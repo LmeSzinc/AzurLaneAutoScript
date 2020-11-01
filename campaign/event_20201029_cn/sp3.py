@@ -9,6 +9,7 @@ MAP.shape = 'I7'
 MAP.camera_data = ['C2', 'C5', 'F2', 'F5']
 MAP.camera_data_spawn_point = ['D2', 'D5']
 MAP.camera_sight = (-2, -1, 3, 2)
+MAP.map_covered = ['E3']
 MAP.map_data = """
     ++ ++ ++ -- -- -- ME ++ ++
     SP -- -- -- Me -- -- ME ++
