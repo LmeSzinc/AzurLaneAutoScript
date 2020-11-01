@@ -227,8 +227,8 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
             from module.war_archives.data_key_collect import DataKeyCollect
             az = DataKeyCollect(self.config, device=self.device)
             if not az.record_executed_since():
-                az.run()
-                az.record_save()
+                if az.run():
+                    az.record_save()
                 count += 1
 
         if self.config.ENABLE_EXERCISE:
