@@ -344,6 +344,8 @@ def main(ini_name=''):
     # 选择每日
     daily = daily_parser.add_argument_group('选择每日', '每日任务, 演习, 困难图', gooey_options={'label_color': '#931D03'})
     daily.add_argument('--打每日', default=default('--打每日'), help='若当天有记录, 则跳过', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    daily.add_argument('--enable_daily_data_key', default=default('--enable_daily_data_key'),
+                       help='If there is a record after refreshing, skip', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
     daily.add_argument('--打困难', default=default('--打困难'), help='若当天有记录, 则跳过', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     daily.add_argument('--打演习', default=default('--打演习'), help='若在刷新后有记录, 则跳过', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     daily.add_argument('--打共斗每日15次', default=default('--打共斗每日15次'), help='若当天有记录, 则跳过', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})

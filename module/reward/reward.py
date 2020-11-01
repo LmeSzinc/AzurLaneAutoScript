@@ -222,7 +222,15 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
 
     def daily_wrapper_run(self):
         count = 0
-        total = 5
+        total = 6
+        if self.config.ENABLE_DAILY_DATA_KEY:
+            from module.war_archives.data_key_collect import DataKeyCollect
+            az = DataKeyCollect(self.config, device=self.device)
+            if not az.record_executed_since():
+                az.run()
+                az.record_save()
+                count += 1
+
         if self.config.ENABLE_EXERCISE:
             from module.exercise.exercise import Exercise
             az = Exercise(self.config, device=self.device)

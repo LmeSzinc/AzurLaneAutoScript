@@ -215,6 +215,11 @@ class AzurLaneConfig:
     AMBUSH_EVADE = True
 
     """
+    module.war_archives
+    """
+    ENABLE_DAILY_DATA_KEY = True
+
+    """
     module.hard
     """
     ENABLE_HARD_CAMPAIGN = True
@@ -630,8 +635,10 @@ class AzurLaneConfig:
         self.CAMPAIGN_NAME = 'campaign_' + self.CAMPAIGN_NAME.replace('-', '_')
 
         option = config['Daily']
-        for n in ['daily_mission', 'hard_campaign', 'exercise']:
+        for n in ['daily_data_key', 'daily_mission', 'hard_campaign', 'exercise']:
             self.__setattr__(f'ENABLE_{n.upper()}', option[f'enable_{n}'])
+        # Daily data key
+        self.ENABLE_DAILY_DATA_KEY = to_bool(option['enable_daily_data_key'])
         # Daily mission
         self.ENABLE_DAILY_MISSION = to_bool(option['enable_daily_mission'])
         for n in [1, 2, 4, 5]:

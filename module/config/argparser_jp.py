@@ -369,6 +369,8 @@ def main(ini_name=''):
     daily = daily_parser.add_argument_group('Choose daily', 'Daily tasks, exercises, difficulty charts', gooey_options={'label_color': '#931D03'})
     daily.add_argument('--enable_daily_mission', default=default('--enable_daily_mission'),
                        help='If there are records on the day, skip', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    daily.add_argument('--enable_daily_data_key', default=default('--enable_daily_data_key'),
+                       help='If there is a record after refreshing, skip', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
     daily.add_argument('--enable_hard_campaign', default=default('--enable_hard_campaign'),
                        help='If there are records on the day, skip', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
     daily.add_argument('--enable_exercise', default=default('--enable_exercise'),
