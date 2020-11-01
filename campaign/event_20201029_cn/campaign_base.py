@@ -65,7 +65,7 @@ class CampaignBase(CampaignBase_):
             logger.warning(f'Unknown campaign chapter: {name}')
 
     def map_live_start(self):
-        appear = self.image_color_count((261, 266, 1022, 449), color=(255, 255, 255), count=10000)
+        appear = self.image_color_count((286, 342, 994, 422), color=(255, 255, 255), count=10000)
         if appear:
             logger.info('Live start!')
 

@@ -17,15 +17,15 @@ Alas, 一个带GUI的碧蓝航线脚本 (支持国服, 国际服, 日服, 可以
 
 EN support, Thanks **[@whoamikyo](https://github.com/whoamikyo)**
 
-JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)**, some features might not work
+JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)** and **[@noname94](https://github.com/noname94)** some features might not work.
 
 > **Event Announcement 活动公告**
 >
-> [CN] 支持活动「划破海空之翼」.
+> [CN] 支持活动「激唱的UNIVERSE」.
 >
-> [EN] Support event "Dreamwaker's Butterfly". Able to handle portals.
+> [EN] Support event "Universe in Unison".
 >
-> [JP] Support event 「奔る彩帆の青」.
+> [JP] Support event 「激唱のユニバース」.
 
 ![gui](doc/README.assets/gui.png)
 
@@ -43,7 +43,7 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)**, some featur
 
 - **委托收派** 出击时自动切出去收获, 支持收派委托, 收派科研, 收派战术学院, 收任务
 
-- **特定模式出击** 7-2三战拣垃圾, 12图练级. 1-1刷好感
+- **特定模式出击** 7-2三战拣垃圾, 12图练级. 1-1刷好感, 打潜艇图.
 
 - **其他小功能**
 
