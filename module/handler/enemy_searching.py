@@ -83,7 +83,7 @@ class EnemySearchingHandler(InfoHandler):
             else:
                 if appeared:
                     self.handle_enemy_flashing()
-                    self.device.sleep(0.3)
+                    self.device.sleep(1)
                     logger.info('Enemy searching appeared.')
                     break
                 self.enemy_searching_color_initial()
