@@ -13,7 +13,7 @@ from module.ocr.ocr import Digit, DigitCounter
 from module.reward.assets import *
 from module.template.assets import TEMPLATE_DORM_COIN, TEMPLATE_DORM_LOVE
 from module.ui.assets import DORM_CHECK, DORM_TROPHY_CONFIRM, DORM_INFO
-from module.ui.page import page_dorm
+from module.ui.page import page_dorm, page_dormmenu
 from module.ui.ui import UI
 
 MASK_DORM = Mask(file='./assets/mask/MASK_DORM.png')
@@ -207,7 +207,18 @@ class RewardDorm(UI):
             in: Any page
             out: page_main
         """
-        self.ui_ensure(page_dorm)
+        if not feed and not collect:
+            self.ui_goto_main()
+            return
+
+        self.ui_ensure(page_dormmenu)
+        if not self.appear(DORM_RED_DOT, offset=(30, 30)):
+            logger.info('Nothing to collect. Dorm collecting skipped.')
+            collect = False
+            if not feed:
+                self.ui_goto_main()
+                return
+        self.ui_goto(page_dorm, skip_first_screenshot=True)
 
         if collect:
             self._dorm_receive()
