@@ -112,6 +112,7 @@ page_main.link(button=MAIN_GOTO_RESHMENU, destination=page_reshmenu)
 # Dorm menu
 page_dormmenu = Page(DORMMENU_CHECK)
 page_main.link(button=MAIN_GOTO_DORMMENU, destination=page_dormmenu)
+page_dormmenu.link(button=DORMMENU_GOTO_MAIN, destination=page_main)
 
 # Dorm
 # DORM_CHECK is the `manage` button (the third from the right), because it's the last button to load.
