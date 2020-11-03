@@ -175,6 +175,7 @@ class RewardResearch(ResearchSelector):
             bool: If start success.
         """
         logger.info(f'Research project: {index}')
+        available = False
         click_timer = Timer(10)
         while 1:
             if skip_first_screenshot:
@@ -194,6 +195,7 @@ class RewardResearch(ResearchSelector):
                 click_timer.reset()
                 continue
             if max_rgb > 235 and self.appear_then_click(RESEARCH_START, offset=(5, 20), interval=10):
+                available = True
                 continue
             if self.handle_popup_confirm('RESEARCH_START'):
                 continue
@@ -203,7 +205,7 @@ class RewardResearch(ResearchSelector):
                 self.research_detail_quit()
                 self.ensure_no_info_bar(timeout=3)  # Research started
                 return True
-            if max_rgb < 235 and self.appear(RESEARCH_UNAVAILABLE, offset=(5, 20)):
+            if not available and max_rgb <= 235 and self.appear(RESEARCH_UNAVAILABLE, offset=(5, 20)):
                 logger.info('Not enough resources to start this project')
                 self.research_detail_quit()
                 return False
