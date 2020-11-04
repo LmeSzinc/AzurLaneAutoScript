@@ -13,4 +13,3 @@ cnocr==1.2.2
 gooey
 colored
 python-Levenshtein
-pyocr
