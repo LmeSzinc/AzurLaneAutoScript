@@ -32,6 +32,8 @@ OCR_MODEL = {
     # Charset: Number, English character, Chinese character, symbols, <space>
     # _num_classes: 6426
     'cnocr': AlOcr(model_name='densenet-lite-gru', model_epoch=39, root='./bin/cnocr_models/cnocr', name='cnocr'),
+
+    'jp': AlOcr(model_name='densenet-lite-gru', model_epoch=125, root='./bin/cnocr_models/jp', name='jp'),
 }
 
 
