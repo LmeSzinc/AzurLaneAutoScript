@@ -34,7 +34,6 @@ echo cnocr: %log_cnocrVer%
 echo gooey: %log_gooeyVer%
 echo colored: %log_coloredVer%
 echo Python Levenshtein: %log_LevenshteinVer%
-echo pyocr: %log_pyocrVer%) >> %deploy_log_file%
 call :Log_common
 goto :eof
 
@@ -57,7 +56,6 @@ echo mxnet: %log_mxnetVer%
 echo cnocr: %log_cnocrVer%
 echo gooey: %log_gooeyVer%
 echo colored: %log_coloredVer%
-echo pyocr: %log_pyocrVer%) >> %deploy_log_file%
 call :Log_common
 goto :eof
 
@@ -74,8 +72,6 @@ for /f "tokens=2 delims=-" %%i in ('dir /b "pip*.dist-info"') do ( set "log_pipV
 set "log_pipVer=%log_pipVer:.dist=%"
 for /f "tokens=2 delims=-" %%i in ('dir /b "adbutils*.dist-info"') do ( set "log_adbutilsVer=%%i" )
 set "log_adbutilsVer=%log_adbutilsVer:.dist=%"
-for /f "tokens=2 delims=-" %%i in ('dir /b "pyocr*.dist-info"') do ( set "log_pyocrVer=%%i" )
-set "log_pyocrVer=%log_pyocrVer:.dist=%"
 for /f "tokens=2 delims=-" %%i in ('dir /b "numpy*.dist-info"') do ( set "log_numpyVer=%%i" )
 set "log_numpyVer=%log_numpyVer:.dist=%"
 for /f "tokens=2 delims=-" %%i in ('dir /b "scipy*.dist-info"') do ( set "log_scipyVer=%%i" )
