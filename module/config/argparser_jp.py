@@ -318,6 +318,9 @@ def main(ini_name=''):
     reward_buy = reward_parser.add_argument_group('Buy', 'If already bought, skip', gooey_options={'label_color': '#931D03'})
     reward_buy.add_argument('--buy_meowfficer', default=default('--buy_meowfficer'), help='From 0 to 15. If no need, fill 0.', gooey_options={'label_color': '#4B5F83'})
 
+    reward_data_key = reward_parser.add_argument_group('Data Key', 'If already collected, skip', gooey_options={'label_color': '#931D03'})
+    reward_data_key.add_argument('--enable_data_key_collect', default=default('--enable_data_key_collect'), help='Enable collection of data key in war archives.', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+
     # ==========emulator==========
     emulator_parser = subs.add_parser('emulator')
     emulator = emulator_parser.add_argument_group('Emulator', 'Need to Press start to save your settings, it will check whether the game is started \nIf the game has not started, it will be started', gooey_options={'label_color': '#931D03'})
@@ -369,8 +372,6 @@ def main(ini_name=''):
     daily = daily_parser.add_argument_group('Choose daily', 'Daily tasks, exercises, difficulty charts', gooey_options={'label_color': '#931D03'})
     daily.add_argument('--enable_daily_mission', default=default('--enable_daily_mission'),
                        help='If there are records on the day, skip', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
-    daily.add_argument('--enable_daily_data_key', default=default('--enable_daily_data_key'),
-                       help='If there is a record after refreshing, skip', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
     daily.add_argument('--enable_hard_campaign', default=default('--enable_hard_campaign'),
                        help='If there are records on the day, skip', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
     daily.add_argument('--enable_exercise', default=default('--enable_exercise'),
