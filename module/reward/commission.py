@@ -13,7 +13,7 @@ from module.base.utils import color_similar_1d, random_rectangle_point
 from module.exception import GameStuckError
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
-from module.ocr.ocr import Ocr, OcrJapanese
+from module.ocr.ocr import Ocr
 from module.reward.assets import *
 from module.ui.page import page_reward, page_commission, CAMPAIGN_CHECK
 from module.ui.switch import Switch
@@ -53,19 +53,19 @@ dictionary_en = {
 }
 dictionary_jp = {
     'major_comm': ['初級自主訓練', '中級自主訓練', '上級自主訓練', '初級対抗演習', '中級対抗演習', '上級対抗演習', '初級科学研究', '中級科学研究', '上級科学研究', '初級資材整理', '中級資材整理', '上級資材整理', '初級戦術課程', '中級戦術課程', '上級戦術課程', '初級貨物輸送', '中級貨物輸送', '上級貨物輸送'],
-    'daily_comm': ['日常資源開発Ⅰ', '日常資源開発Ⅱ', '日常資源開発Ⅲ', '日常資源開発Ⅳ', '日常資源開発Ⅴ', '日常資源開発Ⅵ', '覚醒実証研究Ⅰ', '覚醒実証研究Ⅱ'],
+    'daily_comm': ['日常資源開発', '覚醒実証研究'],
     'extra_drill': ['短距離練習航海', '中距離練習航海', '外洋練習航海', '近海防衛巡回', '前線基地防衛巡回', '海域浮標保守作業'],
     'extra_part': ['初級木材輸送護衛', '中級木材輸送護衛', '上級木材輸送護衛', '初級鉄鋼輸送護衛', '中級鉄鋼輸送護衛', '上級鉄鋼輸送護衛'],
     'extra_cube': ['船団護衛演習', '艦隊輸送演習', '艦隊実弾演習', '装備慣熟演習', '艦隊慣熟演習', '艦隊運動演習'],
-    'extra_oil': ['小型油田開発Ⅰ', '小型油田開発Ⅱ', '小型油田開発Ⅲ', '中型油田開発Ⅰ', '中型油田開発Ⅱ', '中型油田開発Ⅲ', '大型油田開発Ⅰ', '大型油田開発Ⅱ', '大型油田開発Ⅲ'],
+    'extra_oil': ['小型油田開発', '中型油田開発', '大型油田開発'],
     'extra_book': ['小型船団護衛', '中型船団護衛', '大型船団護衛'],
-    'urgent_drill': ['敵偵察部隊迎撃', '敵主力艦隊撃破', '敵精鋭部隊撃破', '輸送部隊護衛Ⅰ', '輸送部隊護衛Ⅱ', '輸送部隊護衛Ⅲ'],
+    'urgent_drill': ['敵偵察部隊迎撃', '敵主力艦隊撃破', '敵精鋭部隊撃破', '輸送部隊護衛'],
     'urgent_part': ['近海掃海任務', '近海航行展示', '離島火力支援', '離島兵員輸送', '外敵生態調査', '兵站航路確保'],
-    'urgent_book': ['離島物資輸送', '近海パトロール', '離島漸減支援', '外的動静哨戒', '前線部隊支援', '外敵中枢偵察'],
-    'urgent_box': ['BIW装備輸送', 'NYB装備輸送', 'BIW物資交換', 'NYB物資交換', 'BIW装備試験', 'NYB装備試験'],
-    'urgent_cube': ['船団救出Ⅰ', '船団救出Ⅱ', '船団救出Ⅲ', '敵襲Ⅰ', '敵襲Ⅱ', '敵襲Ⅲ'],
-    'urgent_gem': ['BIW要人護衛', 'NYB要人護衛', 'BIW休暇護衛', 'NYB休暇護衛'],
-    'urgent_ship': ['小型観覧式', '連合艦隊観覧式', '多国連合観覧式']
+    'urgent_book': ['離島物資輸送', '近海パトロール', '離島漸減支援', '外敵動静哨戒', '前線部隊支援', '外敵中枢偵察'],
+    'urgent_box': ['装備輸送', '物資交換', '装備試験'],
+    'urgent_cube': ['船団救出', '敵襲'],
+    'urgent_gem': ['要人護衛', '休暇護衛'],
+    'urgent_ship': ['小型観艦式', '連合艦隊観艦式', '多国連合観艦式']
 }
 COMMISSION_SWITCH = Switch('Commission_switch', is_selector=True)
 COMMISSION_SWITCH.add_status('daily', COMMISSION_DAILY)
@@ -132,9 +132,9 @@ class Commission:
         # Name
         area = area_offset((176, 23, 420, 53), self.area[0:2])
         button = Button(area=area, color=(), button=area, name='COMMISSION')
-        ocr_jpn = OcrJapanese(button)
+        ocr = Ocr(button, lang='jp')
         self.button = button
-        self.name = ocr_jpn.ocr(self.image)
+        self.name = ocr.ocr(self.image)
         self.genre = self.commission_name_parse(self.name)
 
         # Duration time
@@ -281,7 +281,7 @@ class Commission:
         """
         min_key = ''
         min_distance = 100
-        string = re.sub(' ', '', string)
+        string = re.sub(r'[\x00-\x7F]', '', string)
         for key, value in dictionary_jp.items():
             for keyword in value:
                 distance = Levenshtein.distance(keyword, string)
