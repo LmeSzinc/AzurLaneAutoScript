@@ -12,11 +12,12 @@ from module.reward.commission import RewardCommission
 from module.reward.dorm import RewardDorm
 from module.reward.meowfficer import RewardMeowfficer
 from module.reward.tactical_class import RewardTacticalClass
+from module.reward.data_key import RewardDataKey
 from module.ui.page import *
 from module.update import Update
 
 
-class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, RewardMeowfficer, LoginHandler, Update):
+class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, RewardMeowfficer, RewardDataKey, LoginHandler, Update):
     @cached_property
     def reward_interval(self):
         """
@@ -69,6 +70,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
 
         self.handle_dorm()
         self.handle_meowfficer()
+        self.handle_data_key()
         self._reward_mission()
 
         self.config.REWARD_LAST_TIME = datetime.now()
@@ -222,7 +224,8 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
 
     def daily_wrapper_run(self):
         count = 0
-        total = 5
+        total = 6
+
         if self.config.ENABLE_EXERCISE:
             from module.exercise.exercise import Exercise
             az = Exercise(self.config, device=self.device)

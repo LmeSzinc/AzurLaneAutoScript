@@ -64,6 +64,11 @@ page_sp.link(button=GOTO_MAIN, destination=page_main)
 page_sp.link(button=BACK_ARROW, destination=page_campaign)
 page_campaign.link(button=CAMPAIGN_GOTO_EVENT, destination=page_sp)
 
+# War Archives
+page_archives = Page(WAR_ARCHIVES_CHECK)
+page_archives.link(button=WAR_ARCHIVES_GOTO_CAMPAIGN, destination=page_campaign)
+page_campaign.link(button=CAMPAIGN_GOTO_WAR_ARCHIVES, destination=page_archives)
+
 # Reward
 page_reward = Page(REWARD_CHECK)
 page_reward.link(button=REWARD_GOTO_MAIN, destination=page_main)

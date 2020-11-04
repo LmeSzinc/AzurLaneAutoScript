@@ -304,6 +304,9 @@ def main(ini_name=''):
     reward_buy = reward_parser.add_argument_group('商店購買', '如果已經買過則自動跳過', gooey_options={'label_color': '#931D03'})
     reward_buy.add_argument('--買指揮喵', default=default('--買指揮喵'), help='從0到15, 不需要就填0', gooey_options={'label_color': '#4B5F83'})
 
+    reward_data_key = reward_parser.add_argument_group('Data Key', 'If already collected, skip', gooey_options={'label_color': '#931D03'})
+    reward_data_key.add_argument('--enable_data_key_collect', default=default('--enable_data_key_collect'), help='Enable collection of data key in war archives.', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+
     # ==========設備設定==========
     emulator_parser = subs.add_parser('設備設定')
     emulator = emulator_parser.add_argument_group('模擬器', '需要運行一次來保存選項, 會檢查遊戲是否啟動\n若啟動了遊戲, 觸發一次收菜', gooey_options={'label_color': '#931D03'})

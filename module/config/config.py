@@ -424,6 +424,8 @@ class AzurLaneConfig:
     DORM_COLLECT_INTERVAL = '60, 180' # str, such as '20', '10, 40'.
     DORM_FEED_FILTER = '20000 > 10000 > 5000 > 3000 > 2000 > 1000'
 
+    ENABLE_DATA_KEY_COLLECT = True
+
     """
     module.research
     """
@@ -600,7 +602,8 @@ class AzurLaneConfig:
         for attr in ['enable_reward', 'enable_oil_reward', 'enable_coin_reward', 'enable_mission_reward',
                      'enable_dorm_reward', 'enable_dorm_feed',
                      'enable_commission_reward', 'enable_tactical_reward', 'enable_daily_reward',
-                     'enable_research_reward']:
+                     'enable_research_reward',
+                     'enable_data_key_collect']:
             self.__setattr__(attr.upper(), to_bool(option[attr]))
         if not option['commission_time_limit'].isdigit():
             self.COMMISSION_TIME_LIMIT = future_time(option['commission_time_limit'])
