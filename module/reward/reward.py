@@ -224,7 +224,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
 
     def daily_wrapper_run(self):
         count = 0
-        total = 6
+        total = 5
 
         if self.config.ENABLE_EXERCISE:
             from module.exercise.exercise import Exercise

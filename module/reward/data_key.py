@@ -10,6 +10,7 @@ DATA_KEY = DigitCounter(OCR_DATA_KEY, letter=(255, 247, 247), threshold=64)
 RECORD_OPTION = ('RewardRecord', 'data_key')
 RECORD_SINCE = (0,)
 
+
 class RewardDataKey(UI):
     def _data_key_collect_confirm(self, skip_first_screenshot=True):
         """
@@ -19,7 +20,6 @@ class RewardDataKey(UI):
             in: page_archives
             out: page_archives
         """
-        result = True
         confirm_timer = Timer(1.5, count=3).start()
         while 1:
             if skip_first_screenshot:
@@ -30,14 +30,16 @@ class RewardDataKey(UI):
             if self.appear_then_click(GET_ITEMS_1, genre='get_items', offset=5):
                 confirm_timer.reset()
                 continue
-            if self.handle_popup_cancel('DATA_KEY_LIMIT'):
+            if self.handle_popup_confirm('DATA_KEY_LIMIT'):
+                # If it's in 29/30 means user is not doing war achieves frequently,
+                # no need to bother losing one key, just make it full filled.
                 confirm_timer.reset()
                 continue
 
             # End
             if self.appear(WAR_ARCHIVES_CHECK, offset=(20, 20)):
                 if confirm_timer.reached():
-                    return result
+                    return True
             else:
                 confirm_timer.reset()
 
@@ -45,13 +47,17 @@ class RewardDataKey(UI):
         """
         Execute data key collection
 
+        Returns:
+            bool: If success to run.
+
         Pages:
             in: page_any
-            out: page_main
+            out: page_archives
         """
         self.ui_ensure(page_archives)
 
         for n in range(3):
+            self.device.screenshot()
             if self.appear(DATA_KEY_COLLECTED):
                 logger.info('Data key has been collected')
                 return True
@@ -59,33 +65,33 @@ class RewardDataKey(UI):
             current, remain, total = DATA_KEY.ocr(self.device.image)
             logger.info(f'Inventory: {current} / {total}, Remain: {remain}')
             if remain <= 0:
-                if n == 2:
-                    logger.warn('No more room for additional data key')
-                continue
+                logger.info('No more room for additional data key')
+                return True
 
             self.device.click(DATA_KEY_COLLECT)
             self._data_key_collect_confirm()
             continue
 
-        logger.warn('Too many tries on data key collection, skip and try again on next reward loop')
-        self.ui_goto_main()
+        logger.warning('Too many tries on data key collection, skip and try again on next reward loop')
         return False
 
     def handle_data_key(self):
+        """
+        Returns:
+            bool: If executed.
+
+        Pages:
+            in: page_any
+            out: page_archives
+        """
         if not self.config.ENABLE_DATA_KEY_COLLECT:
             return False
 
-        if self.record_executed_since():
+        if self.config.record_executed_since(option=RECORD_OPTION, since=RECORD_SINCE):
             return False
 
         if not self.data_key_collect():
             return False
 
-        self.record_save()
+        self.config.record_save(option=RECORD_OPTION)
         return True
-
-    def record_executed_since(self):
-        return self.config.record_executed_since(option=RECORD_OPTION, since=RECORD_SINCE)
-
-    def record_save(self):
-        return self.config.record_save(option=RECORD_OPTION)
