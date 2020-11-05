@@ -419,7 +419,7 @@ dic_chi_to_eng = {
     '更新检查方法': 'update_method',
     'github_token': 'github_token',
     '更新检查代理': 'update_proxy',
-    'enable_data_key_collect': 'enable_data_key_collect',
+    '启用档案密钥收获': 'enable_data_key_collect',
     '打每日': 'enable_daily_mission',
     '打困难': 'enable_hard_campaign',
     '打演习': 'enable_exercise',
