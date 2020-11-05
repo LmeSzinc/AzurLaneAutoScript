@@ -304,8 +304,8 @@ def main(ini_name=''):
     reward_buy = reward_parser.add_argument_group('商店購買', '如果已經買過則自動跳過', gooey_options={'label_color': '#931D03'})
     reward_buy.add_argument('--買指揮喵', default=default('--買指揮喵'), help='從0到15, 不需要就填0', gooey_options={'label_color': '#4B5F83'})
 
-    reward_data_key = reward_parser.add_argument_group('Data Key', 'If already collected, skip', gooey_options={'label_color': '#931D03'})
-    reward_data_key.add_argument('--enable_data_key_collect', default=default('--enable_data_key_collect'), help='Enable collection of data key in war archives.', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    reward_data_key = reward_parser.add_argument_group('作戰檔案', '如果已經領取則自動跳過', gooey_options={'label_color': '#931D03'})
+    reward_data_key.add_argument('--啟用檔案密鑰收穫', default=default('--啟用檔案密鑰收穫'), help='領取作戰檔案的檔案密鑰', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
 
     # ==========設備設定==========
     emulator_parser = subs.add_parser('設備設定')
