@@ -33,7 +33,7 @@ echo mxnet: %log_mxnetVer%
 echo cnocr: %log_cnocrVer%
 echo gooey: %log_gooeyVer%
 echo colored: %log_coloredVer%
-echo Python Levenshtein: %log_LevenshteinVer%
+echo Python Levenshtein: %log_LevenshteinVer%) >> %deploy_log_file%
 call :Log_common
 goto :eof
 
@@ -55,7 +55,7 @@ echo retrying: %log_retryingVer%
 echo mxnet: %log_mxnetVer%
 echo cnocr: %log_cnocrVer%
 echo gooey: %log_gooeyVer%
-echo colored: %log_coloredVer%
+echo colored: %log_coloredVer%) >> %deploy_log_file%
 call :Log_common
 goto :eof
 
