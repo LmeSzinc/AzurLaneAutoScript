@@ -89,6 +89,12 @@ class InfoHandler(ModuleBase):
 
         return self.handle_popup_confirm('IGNORE_LOW_EMOTION')
 
+    def handle_use_data_key(self):
+        if not self.appear(DATA_KEY_USE_INFO):
+            return False
+
+        return self.handle_popup_confirm('DATA_KEY_USE')
+
     """
     Story
     """

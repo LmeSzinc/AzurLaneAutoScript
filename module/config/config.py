@@ -449,6 +449,12 @@ class AzurLaneConfig:
     SOS_FLEETS_CHAPTER_10 = [4, 6, 1]
 
     """
+    module.war_archives
+    """
+    WAR_ARCHIVES_NAME = ''
+    WAR_ARCHIVES_STAGE = ''
+
+    """
     C_1_1_affinity_farming
     """
     C11_AFFINITY_BATTLE_COUNT = 0
@@ -680,6 +686,11 @@ class AzurLaneConfig:
         option = config['Sos']
         for chapter in range(3, 11):
             self.__setattr__(f'SOS_FLEETS_CHAPTER_{chapter}', to_list(option[f'sos_fleets_chapter_{chapter}']))
+
+        # War archives
+        option = config['War_archives']
+        self.WAR_ARCHIVES_NAME = option['war_archives_name']
+        self.WAR_ARCHIVES_STAGE = option['war_archives_stage'].lower()
 
         # Raid
         option = config['Raid']

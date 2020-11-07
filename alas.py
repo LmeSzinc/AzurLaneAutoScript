@@ -150,6 +150,15 @@ class AzurLaneAutoScript:
         az.run()
         self.reward_when_finished()
 
+    def war_archives(self):
+        """
+        Method to War Archives maps.
+        """
+        from module.war_archives.war_archives import CampaignWarArchives
+        az = CampaignWarArchives(self.config, device=self.device)
+        az.run(self.config.WAR_ARCHIVES_STAGE, folder=self.config.WAR_ARCHIVES_NAME)
+        self.reward_when_finished()
+
     def raid(self):
         from module.raid.run import RaidRun
         az = RaidRun(self.config, device=self.device)

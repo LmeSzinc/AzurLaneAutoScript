@@ -5,7 +5,7 @@ from gooey import Gooey, GooeyParser
 
 import module.config.server as server
 from alas import AzurLaneAutoScript
-from module.config.dictionary import dic_event, dic_true_eng_to_eng
+from module.config.dictionary import dic_event, dic_true_eng_to_eng, dic_archives
 from module.config.update import get_config
 from module.logger import pyw_name
 from module.research.preset import DICT_FILTER_PRESET
@@ -72,12 +72,18 @@ def main(ini_name=''):
     # Load translation dictionary
     dic_gui_to_ini = dic_true_eng_to_eng  # GUI translation dictionary here.
     dic_gui_to_ini.update(dic_event[server.server])
+    dic_gui_to_ini.update(dic_archives[server.server])
     dic_ini_to_gui = {v: k for k, v in dic_gui_to_ini.items()}
     # Event list
     event_folder = [f for f in dic_event[server.server].values() if f.startswith('event_')]
     event_latest = sorted([f for f in event_folder], reverse=True)[0]
     event_folder = [dic_ini_to_gui.get(f, f) for f in event_folder][::-1]
     event_latest = dic_ini_to_gui.get(event_latest, event_latest)
+    # Archives list
+    archives_folder = [f for f in dic_archives[server.server].values() if f.startswith('event_')]
+    archives_oldest = sorted([f for f in archives_folder], reverse=False)[0]
+    archives_folder = [dic_ini_to_gui.get(f, f) for f in archives_folder][::-1]
+    archives_oldest = dic_ini_to_gui.get(archives_oldest, archives_oldest)
     # Raid list
     raid_folder = [f for f in dic_event[server.server].values() if f.startswith('raid_')]
     raid_latest = sorted([f for f in raid_folder], reverse=True)[0]
@@ -477,6 +483,13 @@ def main(ini_name=''):
     sos.add_argument('--sos_fleets_chapter_8', default=default('--sos_fleets_chapter_8'), gooey_options={'label_color': '#4B5F83'})
     sos.add_argument('--sos_fleets_chapter_9', default=default('--sos_fleets_chapter_9'), gooey_options={'label_color': '#4B5F83'})
     sos.add_argument('--sos_fleets_chapter_10', default=default('--sos_fleets_chapter_10'), gooey_options={'label_color': '#4B5F83'})
+
+    # ==========war_archives==
+    war_archives_parser = subs.add_parser('war_archives')
+    war_archives = war_archives_parser.add_argument_group(
+        'war archives settings', 'Type a stage and select a corresponding event for that stage', gooey_options={'label_color': '#931D03'})
+    war_archives.add_argument('--war_archives_stage', default=default('--war_archives_stage'), help='Type stage name, not case sensitive, E.g D3, SP3, HT6', gooey_options={'label_color': '#4B5F83'})
+    war_archives.add_argument('--war_archives_name', default=archives_oldest, choices=archives_folder, help='There a dropdown menu with many options', gooey_options={'label_color': '#4B5F83'})
 
     # ==========Raid==========
     raid_parser = subs.add_parser('raid')

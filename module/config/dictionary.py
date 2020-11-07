@@ -205,6 +205,8 @@ dic_true_eng_to_eng = {
     'sos_fleets_chapter_8': 'sos_fleets_chapter_8',
     'sos_fleets_chapter_9': 'sos_fleets_chapter_9',
     'sos_fleets_chapter_10': 'sos_fleets_chapter_10',
+    'war_archives_name': 'war_archives_name',
+    'war_archives_stage': 'war_archives_stage',
     'raid_name': 'raid_name',
     'raid_mode': 'raid_mode',
     'raid_use_ticket': 'raid_use_ticket',
@@ -461,6 +463,8 @@ dic_chi_to_eng = {
     '第8章潜艇图队伍': 'sos_fleets_chapter_8',
     '第9章潜艇图队伍': 'sos_fleets_chapter_9',
     '第10章潜艇图队伍': 'sos_fleets_chapter_10',
+    'war_archives_name': 'war_archives_name',
+    'war_archives_stage': 'war_archives_stage',
     '共斗名称': 'raid_name',
     '共斗难度': 'raid_mode',
     '共斗使用挑战券': 'raid_use_ticket',
@@ -851,6 +855,26 @@ dic_event = {
         '奔る彩帆の青': 'event_20201012_cn',
         '激唱のユニバース': 'event_20201029_cn',
     },
+}
+
+dic_archives = {
+    'cn': {
+        'Visitors_Dyed_in_Red': 'event_20190329_cn',
+    },
+    'tw': {
+        'Visitors_Dyed_in_Red': 'event_20190329_cn',
+    },
+    'en': {
+        'Visitors_Dyed_in_Red': 'event_20190329_cn',
+    },
+    'jp': {
+        'Visitors_Dyed_in_Red': 'event_20190329_cn',
+    },
+}
+
+from module.war_archives.assets import TEMPLATE_VISITORS_DYED_IN_RED
+dic_archives_template = {
+    'event_20190329_cn': TEMPLATE_VISITORS_DYED_IN_RED,
 }
 
 

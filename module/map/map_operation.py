@@ -79,6 +79,10 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             if self.handle_retirement():
                 continue
 
+            # Use Data Key
+            if self.handle_use_data_key():
+                continue
+
             # Emotion
             if self.handle_combat_low_emotion():
                 continue
