@@ -802,6 +802,7 @@ dic_tchi_to_eng = {
 
 dic_event = {
     'cn': {
+        'Visitors_Dyed_in_Red': 'war_archives_20190329_cn',
         '北境序曲': 'event_20200227_cn',
         '复刻斯图尔特的硝烟': 'event_20200312_cn',
         '微层混合': 'event_20200326_cn',
@@ -818,6 +819,7 @@ dic_event = {
         '激唱的UNIVERSE': 'event_20201029_cn',
     },
     'tw': {
+        'Visitors_Dyed_in_Red': 'war_archives_20190329_cn',
         '北境序曲': 'event_20200227_cn',
         '復刻斯圖爾特的硝煙': 'event_20200312_cn',
         '微層混合': 'event_20200326_cn',
@@ -833,6 +835,7 @@ dic_event = {
         '劃破海空之翼': 'event_20201012_cn',
     },
     'en': {
+        'Visitors_Dyed_in_Red': 'war_archives_20190329_cn',
         'Iris_of_Light_and_Dark': 'event_20200521_en',
         'Skybound_Oratorio': 'event_20200611_en',
         'Prelude_under_the_Moon': 'event_20200603_en',
@@ -846,6 +849,7 @@ dic_event = {
         'Universe_in_Unison': 'event_20201029_cn',
     },
     'jp': {
+        'Visitors_Dyed_in_Red': 'war_archives_20190329_cn',
         '峡湾間の反撃': 'event_20200603_cn',
         '特別演習超空強襲波（復刻）': 'raid_20200624',
         '極夜照らす幻光': 'event_20200723_cn',
@@ -857,24 +861,9 @@ dic_event = {
     },
 }
 
-dic_archives = {
-    'cn': {
-        'Visitors_Dyed_in_Red': 'event_20190329_cn',
-    },
-    'tw': {
-        'Visitors_Dyed_in_Red': 'event_20190329_cn',
-    },
-    'en': {
-        'Visitors_Dyed_in_Red': 'event_20190329_cn',
-    },
-    'jp': {
-        'Visitors_Dyed_in_Red': 'event_20190329_cn',
-    },
-}
-
 from module.war_archives.assets import TEMPLATE_VISITORS_DYED_IN_RED
 dic_archives_template = {
-    'event_20190329_cn': TEMPLATE_VISITORS_DYED_IN_RED,
+    'war_archives_20190329_cn': TEMPLATE_VISITORS_DYED_IN_RED,
 }
 
 
