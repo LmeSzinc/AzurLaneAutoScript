@@ -94,8 +94,12 @@ class Connection:
             uiautomator2.UIAutomatorServer: Device.
         """
         self._adb_connect(serial)
-        device = u2.connect(serial)
-        return device
+        try:
+            device = u2.connect(serial)
+            return device
+        except AssertionError:
+            logger.warning('AssertionError when connecting emulator with uiautomator2.')
+            logger.warning('If you are using BlueStacks, you need to enable ADB in the settings of your emulator.')
 
     def disable_uiautomator2_auto_quit(self, port=7912, expire=3000000):
         self.adb_forward(['tcp:%s' % port, 'tcp:%s' % port])
