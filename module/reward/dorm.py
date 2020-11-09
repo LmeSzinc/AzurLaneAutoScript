@@ -60,13 +60,14 @@ class RewardDorm(UI):
             button = tuple(np.append(point, point + TEMPLATE_DORM_LOVE.size))
             button = Button(area=button, color=(), button=button, name='DORM_LOVE')
             count += 1
-            self.device.click(button)
+            # Disable click record check, because may have too many coins or loves.
+            self.device.click(button, record_check=False)
             self.device.sleep((0.5, 0.8))
         for point in coin_points:
             button = tuple(np.append(point, point + TEMPLATE_DORM_LOVE.size))
             button = Button(area=button, color=(), button=button, name='DORM_COIN')
             count += 1
-            self.device.click(button)
+            self.device.click(button, record_check=False)
             self.device.sleep((0.5, 0.8))
 
         return count
