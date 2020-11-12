@@ -847,6 +847,7 @@ dic_event = {
         'Dreamwakers_Butterfly': 'event_20200917_cn',
         'Counterattack_Within_the_Fjord': 'event_20201002_en',
         'Universe_in_Unison': 'event_20201029_cn',
+        'Sundered_Blue': 'event_20201012_cn',
     },
     'jp': {
         'Visitors_Dyed_in_Red': 'war_archives_20190329_cn',
