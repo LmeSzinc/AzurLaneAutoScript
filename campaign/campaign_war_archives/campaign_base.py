@@ -3,14 +3,15 @@ from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.exception import CampaignNameError, ScriptEnd
 from module.base.button import Button
 from module.war_archives.assets import WAR_ARCHIVES_EX_OFF, WAR_ARCHIVES_SP_OFF, WAR_ARCHIVES_CAMPAIGN_CHECK
-from module.ui.page import page_archives
+from module.ui.assets import WAR_ARCHIVES_CHECK
+from module.ui.page import page_main, page_archives
 from module.logger import logger
 from module.config.dictionary import dic_archives_template
 import module.config.server as server
 
 
 class CampaignBase(CampaignBase_):
-    # bool check whether this is the first run or not
+    # Helper to determine whether this is the first run
     first_run = True
 
     def _set_archives_view(self, type):
@@ -19,14 +20,17 @@ class CampaignBase(CampaignBase_):
 
         Args:
             type(str): ex or sp
-
         """
-        if type in 'ex':
-            self.appear_then_click(WAR_ARCHIVES_EX_OFF)
-        elif type in 'sp':
-            self.appear_then_click(WAR_ARCHIVES_SP_OFF)
-        else:
-            raise CampaignNameError
+        for n in range(3):
+            self.device.screenshot()
+            if type in 'ex':
+                self.appear_then_click(WAR_ARCHIVES_EX_OFF)
+                continue
+            elif type in 'sp':
+                self.appear_then_click(WAR_ARCHIVES_SP_OFF)
+                continue
+            else:
+                raise CampaignNameError
 
     def _get_archives_entrance(self, name):
         """
@@ -51,35 +55,51 @@ class CampaignBase(CampaignBase_):
         entrance = Button(area=button, color=color, button=button, name=name)
         return entrance
 
+    def _in_archives_campaign(self):
+        """
+        Check if already in archives campaign
+        """
+        for n in range(3):
+            self.device.screenshot()
+            if self.appear(WAR_ARCHIVES_CAMPAIGN_CHECK, offset=(20, 20)):
+                return True
+        return False
+
+
     def ui_goto_archives_campaign(self, type):
         """
-        Transition to page_archives and to the configured
+        Transition to page_archives then to the configured
         event campaign map
 
         Args:
             type (str): 'ex' or 'sp'.
         """
-        # First run always start from beginning
-        # Otherwise this is subsequent run, check
-        # for WAR_ARCHIVES_CAMPAIGN_CHECK
-        self.device.screenshot()
-        if self.first_run or not self.appear(WAR_ARCHIVES_CAMPAIGN_CHECK):
-            self.ui_ensure(destination=page_archives)
+        # First run, regardless of current location
+        # Start from page_main
+        if self.first_run:
             self.first_run = False
+            self.ui_ensure(destination=page_main)
 
-            # Click approriate switch
+        # If not in archives campaign map
+        # then transition to configured location
+        if not self._in_archives_campaign():
+            self.ui_ensure(destination=page_archives)
+
+            # Click approriate switch 'ex' or 'sp'
             # Wait same amount of time as stage_icon_spawn
             self._set_archives_view(type)
             self.handle_stage_icon_spawn()
 
             # Acquire approriate event entrance based on template
             # Wait for stage_icon_spawn
-            self.device.click(self._get_archives_entrance(self.config.WAR_ARCHIVES_NAME))
+            archives_entrance = self._get_archives_entrance(self.config.WAR_ARCHIVES_NAME)
+            self.ui_click(archives_entrance, appear_button=WAR_ARCHIVES_CHECK, check_button=WAR_ARCHIVES_CAMPAIGN_CHECK,
+                          skip_first_screenshot=True)
             self.handle_stage_icon_spawn()
 
     def campaign_set_chapter(self, name, mode='normal'):
         """
-        Overriden especially for war_archives usage
+        Overridden especially for war_archives usage
 
         Args:
             name (str): Campaign name, such as '7-2', 'd3', 'sp3'.
@@ -99,22 +119,3 @@ class CampaignBase(CampaignBase_):
             self.campaign_ensure_chapter(index=chapter)
         else:
             logger.warning(f'Unknown campaign chapter: {name}')
-
-    def ensure_campaign_ui(self, name, mode='normal'):
-        """
-        Overriden especially for war_archives usage
-
-        Args:
-            name (str): Campaign name, such as '7-2', 'd3', 'sp3'.
-            mode (str): 'normal' or 'hard'.
-        """
-        for n in range(3):
-            try:
-                self.campaign_set_chapter(name, mode)
-                self.ENTRANCE = self.campaign_get_entrance(name=name)
-                return True
-            except CampaignNameError:
-                continue
-
-        logger.warning('Campaign name error')
-        raise ScriptEnd('Campaign name error')

@@ -154,8 +154,8 @@ class AzurLaneAutoScript:
         """
         Method to War Archives maps.
         """
-        from module.campaign.run import CampaignRun
-        az = CampaignRun(self.config, device=self.device)
+        from module.war_archives.war_archives import CampaignWarArchives
+        az = CampaignWarArchives(self.config, device=self.device)
         az.run(self.config.WAR_ARCHIVES_STAGE, folder=self.config.WAR_ARCHIVES_NAME)
         self.reward_when_finished()
 
