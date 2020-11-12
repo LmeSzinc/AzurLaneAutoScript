@@ -16,4 +16,4 @@ class CampaignWarArchives(CampaignRun, CampaignBase):
             return True
 
         # Else, check other stop conditions
-        super().triggered_stop_condition()
+        return super().triggered_stop_condition()
