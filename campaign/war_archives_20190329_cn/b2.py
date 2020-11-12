@@ -19,11 +19,11 @@ MAP.map_data = """
 """
 MAP.weight_data = """
     50 10 20 20 10 20 50 50 50
-    10 10 30 30 50 50 50 50 50
-    50 10 50 50 50 50 50 10 50
-    50 50 50 50 50 50 20 20 50
+    20 20 30 30 50 50 50 50 50
+    10 10 50 50 50 50 50 10 50
+    50 50 50 50 50 50 20 10 50
     50 50 50 50 50 30 30 50 50
-    50 50 50 10 50 50 50 50 50
+    50 50 50 50 10 10 50 50 50
     50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
@@ -62,7 +62,7 @@ class Campaign(CampaignBase):
     def battle_3(self):
         self.clear_all_mystery()
 
-        return self.battle_0()
+        return self.battle_default()
 
     def battle_6(self):
         return self.fleet_boss.clear_boss()
