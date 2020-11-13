@@ -2,39 +2,36 @@ from ..campaign_war_archives.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-from .d1 import Config as ConfigBase
+from .sp1 import Config as ConfigBase
 
-MAP = CampaignMap('D2')
+MAP = CampaignMap('SP2')
 MAP.shape = 'I7'
 MAP.camera_data = ['D2', 'D5', 'F2', 'F5']
 MAP.camera_data_spawn_point = ['D5']
 MAP.map_data = """
-    ++ -- ME ME ME ME -- -- ++
-    MB ME ME ME ++ -- ME -- ++
-    MB MB ++ ++ ++ ++ ++ ME --
-    ++ ++ ++ ++ -- -- ME ME --
-    SP SP -- ++ -- ME ME -- ++
-    SP -- -- ME -- -- ++ -- --
-    SP SP ++ -- -- -- ++ -- MM
+    ++ ++ ++ -- -- -- ME MB ME
+    ++ -- -- Me -- ME -- ME --
+    ++ -- ME -- ME -- ++ -- ME
+    SP -- -- ++ ++ MB -- Me --
+    SP -- ME MM ++ ME ME ME MB
+    SP -- -- ME -- Me -- ++ ++
+    ++ -- -- -- ME -- -- ++ ++
 """
 MAP.weight_data = """
-    50 10 20 20 10 20 50 50 50
-    20 20 30 30 50 50 50 50 50
-    10 10 50 50 50 50 50 10 50
-    50 50 50 50 50 50 20 10 50
-    50 50 50 50 50 30 30 50 50
-    50 50 50 50 10 10 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 4},
+    {'battle': 0, 'enemy': 3},
     {'battle': 1, 'enemy': 2},
-    {'battle': 2, 'enemy': 1},
-    {'battle': 3, 'enemy': 1, 'mystery': 1},
-    {'battle': 4, 'enemy': 1},
-    {'battle': 5, 'enemy': 1},
-    {'battle': 6},
-    {'battle': 7, 'boss': 1},
+    {'battle': 2, 'enemy': 1, 'mystery': 1},
+    {'battle': 3, 'enemy': 1},
+    {'battle': 4, 'boss': 1},
 ]
 A1, B1, C1, D1, E1, F1, G1, H1, I1, \
 A2, B2, C2, D2, E2, F2, G2, H2, I2, \
@@ -48,7 +45,7 @@ A7, B7, C7, D7, E7, F7, G7, H7, I7, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_HAS_MAP_STORY = True
+    MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = False
     MAP_HAS_AMBUSH = True
     # ===== End of generated config =====
@@ -60,10 +57,5 @@ class Campaign(CampaignBase):
     def battle_0(self):
         return self.battle_default()
 
-    def battle_3(self):
-        self.clear_all_mystery()
-
-        self.battle_default()
-
-    def battle_7(self):
-        return self.fleet_boss.clear_boss()
+    def battle_4(self):
+        return self.clear_boss()

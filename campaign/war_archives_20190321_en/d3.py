@@ -2,9 +2,9 @@ from ..campaign_war_archives.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-from .b1 import Config as ConfigBase
+from .d1 import Config as ConfigBase
 
-MAP = CampaignMap('B3')
+MAP = CampaignMap('D3')
 MAP.shape = 'F10'
 MAP.camera_data = ['C2', 'C6', 'C8']
 MAP.camera_data_spawn_point = ['C8']
@@ -14,9 +14,9 @@ MAP.map_data = """
     ++ -- ++ ++ -- ++
     ++ ME ME ME ME ++
     ++ ME ME ME ME ++
-    -- ME ME ME ME --
-    ME ++ ++ ++ ++ ME
-    ME ME -- -- ME ME
+    -- Me ME ME Me --
+    ME ++ ++ ++ ++ Me
+    Me ME -- -- ME Me
     -- -- SP SP -- --
     ++ ++ ++ ++ ++ ++
 """
@@ -34,9 +34,9 @@ MAP.weight_data = """
 """
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 4},
-    {'battle': 1, 'enemy': 1},
-    {'battle': 2, 'enemy': 1},
-    {'battle': 3, 'enemy': 1},
+    {'battle': 1, 'enemy': 2, 'mystery': 1},
+    {'battle': 2, 'enemy': 2, 'mystery': 1},
+    {'battle': 3, 'enemy': 1, 'mystery': 2},
     {'battle': 4, 'enemy': 1},
     {'battle': 5, 'enemy': 1},
     {'battle': 6},

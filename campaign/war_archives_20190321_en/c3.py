@@ -10,12 +10,12 @@ MAP.camera_data = ['D2', 'D5', 'E2', 'E5']
 MAP.camera_data_spawn_point = ['D2']
 MAP.map_data = """
     SP -- -- ++ ++ ++ ++ ++
-    -- ++ ME -- ME -- -- ++
-    SP -- -- ME ME -- ME ++
+    -- ++ Me -- ME -- -- ++
+    SP -- -- Me ME -- ME ++
     ++ ++ ++ ++ ++ ME -- ++
     ++ MB ME ++ ++ -- ME --
-    ++ ME ME ME ME ME ++ --
-    ++ ME -- ME ME -- ME --
+    ++ ME ME ME ME Me ++ --
+    ++ ME -- ME Me -- ME --
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50
@@ -28,10 +28,10 @@ MAP.weight_data = """
 """
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 4},
-    {'battle': 1, 'enemy': 1},
-    {'battle': 2, 'enemy': 1},
-    {'battle': 3, 'enemy': 1},
-    {'battle': 4, 'enemy': 1},
+    {'battle': 1, 'enemy': 1, 'mystery': 1},
+    {'battle': 2, 'enemy': 1, 'mystery': 1},
+    {'battle': 3, 'enemy': 1, 'mystery': 1},
+    {'battle': 4, 'enemy': 1, 'mystery': 1},
     {'battle': 5, 'enemy': 1},
     {'battle': 6, 'boss': 1},
 ]

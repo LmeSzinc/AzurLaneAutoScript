@@ -25,10 +25,8 @@ class CampaignBase(CampaignBase_):
             self.device.screenshot()
             if type in 'ex':
                 self.appear_then_click(WAR_ARCHIVES_EX_OFF)
-                continue
             elif type in 'sp':
                 self.appear_then_click(WAR_ARCHIVES_SP_OFF)
-                continue
             else:
                 raise CampaignNameError
 
@@ -95,11 +93,15 @@ class CampaignBase(CampaignBase_):
             archives_entrance = self._get_archives_entrance(self.config.WAR_ARCHIVES_NAME)
             self.ui_click(archives_entrance, appear_button=WAR_ARCHIVES_CHECK, check_button=WAR_ARCHIVES_CAMPAIGN_CHECK,
                           skip_first_screenshot=True)
+            self.ensure_no_story()
             self.handle_stage_icon_spawn()
 
     def campaign_set_chapter(self, name, mode='normal'):
         """
-        Overridden especially for war_archives usage
+        Overridden to handle specifically transitions to
+        archives campaign via page_archives
+        Normally, these chapters assume to transition
+        to page_event
 
         Args:
             name (str): Campaign name, such as '7-2', 'd3', 'sp3'.
