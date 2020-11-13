@@ -840,7 +840,7 @@ dic_event = {
         'Dreamwakers_Butterfly': 'event_20200917_cn',
         'Counterattack_Within_the_Fjord': 'event_20201002_en',
         'Universe_in_Unison': 'event_20201029_cn',
-        'Sundered_Blue': 'event_20201012_cn',
+        'Sundered_Blue': 'event_20201112_en',
     },
     'jp': {
         '峡湾間の反撃': 'event_20200603_cn',
@@ -851,6 +851,7 @@ dic_event = {
         '刹那觀る胡蝶の夢': 'event_20200917_cn',
         '奔る彩帆の青': 'event_20201012_cn',
         '激唱のユニバース': 'event_20201029_cn',
+        '輝ける峡湾の星' : 'event_20200903_en',
     },
 }
 
