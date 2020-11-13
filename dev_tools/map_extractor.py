@@ -129,6 +129,15 @@ class MapData:
                             target = location2node((effect[2], effect[1]))
                             self.portal.append((address, target))
 
+            # land_based
+            # land_based = {{6, 7, 1}, ...}
+            # Format: {y, x, rotation}
+            land_based_rotation_dict = {1: 'up', 2: 'down', 3: 'left', 4: 'right'}
+            self.land_based = []
+            for lb in data['land_based'].values():
+                y, x, r = lb.values()
+                self.land_based.append([location2node((x, y)), land_based_rotation_dict[r]])
+
             # config
             self.MAP_SIREN_TEMPLATE = []
             self.MOVABLE_ENEMY_TURN = set()
@@ -145,6 +154,7 @@ class MapData:
             self.MAP_HAS_FLEET_STEP = bool(data['is_limit_move'])
             self.MAP_HAS_AMBUSH = bool(data['is_ambush']) or bool(data['is_air_attack'])
             self.MAP_HAS_PORTAL = bool(len(self.portal))
+            self.MAP_HAS_LAND_BASED = bool(len(self.land_based))
             for n in range(1, 4):
                 self.__setattr__(f'STAR_REQUIRE_{n}', data[f'star_require_{n}'])
         except Exception as e:
@@ -209,8 +219,10 @@ class MapData:
             f'MAP.camera_data = {[location2node(loca) for loca in camera_data]}')
         camera_sp = camera_spawn_point(camera_data, sp_list=[k for k, v in self.map_data.items() if v == 'SP'])
         lines.append(f'MAP.camera_data_spawn_point = {[location2node(loca) for loca in camera_sp]}')
-        if len(self.portal):
+        if self.MAP_HAS_PORTAL:
             lines.append(f'MAP.portal_data = {self.portal}')
+        if self.MAP_HAS_LAND_BASED:
+            lines.append(f'MAP.land_based_data = {self.land_based}')
         lines.append('MAP.map_data = \"\"\"')
         for y in range(self.shape[1] + 1):
             lines.append('    ' + ' '.join([self.map_data[(x, y)] for x in range(self.shape[0] + 1)]))
@@ -254,6 +266,8 @@ class MapData:
         lines.append(f'    MAP_HAS_AMBUSH = {self.MAP_HAS_AMBUSH}')
         if self.MAP_HAS_PORTAL:
             lines.append(f'    MAP_HAS_PORTAL = {self.MAP_HAS_PORTAL}')
+        if self.MAP_HAS_LAND_BASED:
+            lines.append(f'    MAP_HAS_LAND_BASED = {self.MAP_HAS_LAND_BASED}')
         for n in range(1, 4):
             if not self.__getattribute__(f'STAR_REQUIRE_{n}'):
                 lines.append(f'    STAR_REQUIRE_{n} = 0')

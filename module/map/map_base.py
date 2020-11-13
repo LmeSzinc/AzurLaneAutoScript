@@ -17,6 +17,7 @@ class CampaignMap:
         self._weight_data = ''
         self._wall_data = ''
         self._portal_data = []
+        self._land_based_data = []
         self._spawn_data = []
         self._spawn_data_stack = []
         self._camera_data = []
@@ -131,6 +132,23 @@ class CampaignMap:
             node1, node2 = location_ensure(nodes[0]), location_ensure(nodes[1])
             self._portal_data.append((node1, node2))
             self[node1].is_portal = True
+
+    @property
+    def land_based_data(self):
+        """
+        Returns:
+            list:
+        """
+        return self._land_based_data
+
+    @land_based_data.setter
+    def land_based_data(self, data_list):
+        """
+        Args:
+            data_list (list[list]): [[node, rotation],]
+        """
+        for data in data_list:
+            pass
 
     def grid_connection_initial(self, wall=False, portal=False):
         """
