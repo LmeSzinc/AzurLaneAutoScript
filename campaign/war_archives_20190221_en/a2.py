@@ -39,7 +39,7 @@ A5, B5, C5, D5, E5, F5, G5, H5, I5, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['sairenquzhu', 'sairenquzhu']
+    MAP_SIREN_TEMPLATE = ['DD']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
