@@ -9,7 +9,7 @@ DATA_KEY_CAMPAIGN = DigitCounter(OCR_DATA_KEY_CAMPAIGN, letter=(255, 247, 247), 
 class CampaignWarArchives(CampaignRun, CampaignBase):
     def triggered_stop_condition(self):
         # In case already inside campaign, OCR cannot be read otherwise
-        if self._in_archives_campaign():
+        if self.in_archives_campaign():
             # Check for 0 data keys left to use
             current, remain, total = DATA_KEY_CAMPAIGN.ocr(self.device.image)
             logger.info(f'Inventory: {current} / {total}, Remain: {current}')
@@ -19,3 +19,8 @@ class CampaignWarArchives(CampaignRun, CampaignBase):
 
         # Else, check other stop conditions
         return super().triggered_stop_condition()
+
+    def run(self, name=None, folder='campaign_main', total=0):
+        self.config.USE_DATA_KEY = True
+        super().run(name, folder, total)
+        self.config.USE_DATA_KEY = False

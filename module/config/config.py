@@ -451,6 +451,7 @@ class AzurLaneConfig:
     """
     module.war_archives
     """
+    USE_DATA_KEY = False
     WAR_ARCHIVES_NAME = ''
     WAR_ARCHIVES_STAGE = ''
 

@@ -887,20 +887,6 @@ dic_event = {
     },
 }
 
-from module.war_archives.assets import \
-    TEMPLATE_VISITORS_DYED_IN_RED, TEMPLATE_FALLEN_WINGS, TEMPLATE_WINTERS_CROWN, TEMPLATE_DIVERGENT_CHESSBOARD, \
-    TEMPLATE_STRIVE_WISH_AND_STRATEGIZE, TEMPLATE_ENCIRCLING_GRAF_SPEE, TEMPLATE_GLORIOUS_BATTLE
-dic_archives_template = {
-    'war_archives_20190321_en': TEMPLATE_VISITORS_DYED_IN_RED,
-    'war_archives_20181026_en': TEMPLATE_FALLEN_WINGS,
-    'war_archives_20190221_en': TEMPLATE_WINTERS_CROWN,
-    'war_archives_20191031_en': TEMPLATE_DIVERGENT_CHESSBOARD,
-    'war_archives_20181020_en': TEMPLATE_STRIVE_WISH_AND_STRATEGIZE,
-    'war_archives_20191010_en': TEMPLATE_ENCIRCLING_GRAF_SPEE,
-    'war_archives_20190620_en': TEMPLATE_GLORIOUS_BATTLE
-}
-
-
 def to_bool(string):
     return dic_bool.get(string, string)
 

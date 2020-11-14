@@ -1,34 +1,21 @@
-from module.base.utils import *
-from module.campaign.campaign_base import CampaignBase as CampaignBase_
-from module.exception import CampaignNameError, ScriptEnd
 from module.base.button import Button
-from module.war_archives.assets import WAR_ARCHIVES_EX_OFF, WAR_ARCHIVES_SP_OFF, WAR_ARCHIVES_CAMPAIGN_CHECK
+from module.base.utils import area_offset, get_color
+from module.campaign.campaign_base import CampaignBase as CampaignBase_
+from module.exception import CampaignNameError
 from module.ui.assets import WAR_ARCHIVES_CHECK
 from module.ui.page import page_main, page_archives
+from module.ui.switch import Switch
+from module.war_archives.assets import WAR_ARCHIVES_EX_ON, WAR_ARCHIVES_SP_ON, WAR_ARCHIVES_CAMPAIGN_CHECK
+from module.war_archives.dictionary import dic_archives_template
 from module.logger import logger
-from module.config.dictionary import dic_archives_template
-import module.config.server as server
 
+WAR_ARCHIVES_SWITCH = Switch('War_Archives_switch', is_selector=True)
+WAR_ARCHIVES_SWITCH.add_status('ex', WAR_ARCHIVES_EX_ON)
+WAR_ARCHIVES_SWITCH.add_status('sp', WAR_ARCHIVES_SP_ON)
 
 class CampaignBase(CampaignBase_):
-    # Helper to determine whether this is the first run
+    # Helper variable to keep track of whether is the first runthrough
     first_run = True
-
-    def _set_archives_view(self, type):
-        """
-        Switch to either EX or SP view in page_archives
-
-        Args:
-            type(str): ex or sp
-        """
-        for n in range(3):
-            self.device.screenshot()
-            if type in 'ex':
-                self.appear_then_click(WAR_ARCHIVES_EX_OFF)
-            elif type in 'sp':
-                self.appear_then_click(WAR_ARCHIVES_SP_OFF)
-            else:
-                raise CampaignNameError
 
     def _get_archives_entrance(self, name):
         """
@@ -53,7 +40,7 @@ class CampaignBase(CampaignBase_):
         entrance = Button(area=button, color=color, button=button, name=name)
         return entrance
 
-    def _in_archives_campaign(self):
+    def in_archives_campaign(self):
         """
         Check if already in archives campaign
         """
@@ -63,61 +50,43 @@ class CampaignBase(CampaignBase_):
                 return True
         return False
 
-
-    def ui_goto_archives_campaign(self, type):
+    def ui_goto_archives_campaign(self, mode='ex'):
         """
-        Transition to page_archives then to the configured
-        event campaign map
-
-        Args:
-            type (str): 'ex' or 'sp'.
+        Performs the operations needed to transition
+        to target archive's campaign stage map
         """
-        # First run, regardless of current location
-        # Start from page_main
-        if self.first_run:
-            self.first_run = False
-            self.ui_ensure(destination=page_main)
+        # On first run regardless of current location
+        # even in target stage map, start from page_archives
+        # For subsequent runs when neither reward or
+        # stop_triggers occur, no need perform operations
+        result = True
+        if self.first_run or not self.in_archives_campaign():
+            result = self.ui_ensure(destination=page_archives)
 
-        # If not in archives campaign map
-        # then transition to configured location
-        if not self._in_archives_campaign():
-            self.ui_ensure(destination=page_archives)
-
-            # Click approriate switch 'ex' or 'sp'
-            # Wait same amount of time as stage_icon_spawn
-            self._set_archives_view(type)
+            WAR_ARCHIVES_SWITCH.set(mode, main=self)
             self.handle_stage_icon_spawn()
 
-            # Acquire approriate event entrance based on template
-            # Wait for stage_icon_spawn
             archives_entrance = self._get_archives_entrance(self.config.WAR_ARCHIVES_NAME)
             self.ui_click(archives_entrance, appear_button=WAR_ARCHIVES_CHECK, check_button=WAR_ARCHIVES_CAMPAIGN_CHECK,
-                          skip_first_screenshot=True)
-            self.ensure_no_story()
-            self.handle_stage_icon_spawn()
+                        skip_first_screenshot=True)
+        self.handle_stage_icon_spawn()
 
-    def campaign_set_chapter(self, name, mode='normal'):
+        # Subsequent runs all set False
+        if self.first_run:
+            self.first_run = False
+
+        return result
+
+    def ui_goto_event(self):
         """
-        Overridden to handle specifically transitions to
-        archives campaign via page_archives
-        Normally, these chapters assume to transition
-        to page_event
-
-        Args:
-            name (str): Campaign name, such as '7-2', 'd3', 'sp3'.
-            mode (str): 'normal' or 'hard'.
+        Overridden to handle specifically transitions
+        to target ex event in page_archives
         """
-        chapter, _ = self._campaign_separate_name(name)
+        return self.ui_goto_archives_campaign(mode='ex')
 
-        if chapter in 'abcd':
-            self.ui_goto_archives_campaign('ex')
-            if chapter in 'ab':
-                self.campaign_ensure_mode('normal')
-            elif chapter in 'cd':
-                self.campaign_ensure_mode('hard')
-            self.campaign_ensure_chapter(index=chapter)
-        elif chapter == 'sp':
-            self.ui_goto_archives_campaign('sp')
-            self.campaign_ensure_chapter(index=chapter)
-        else:
-            logger.warning(f'Unknown campaign chapter: {name}')
+    def ui_goto_sp(self):
+        """
+        Overridden to handle specifically transitions
+        to target sp event in page_archives
+        """
+        return self.ui_goto_archives_campaign(mode='sp')

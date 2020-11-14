@@ -1,10 +1,7 @@
 from module.base.base import ModuleBase
 from module.base.timer import Timer
-from module.ocr.ocr import Ocr
 from module.handler.assets import *
 from module.logger import logger
-
-DATA_KEY_USE = Ocr(OCR_DATA_KEY_USE, lang='cnocr', letter=(255, 223, 57), threshold=64, alphabet='DKaety ')
 
 class InfoHandler(ModuleBase):
     """
@@ -92,12 +89,15 @@ class InfoHandler(ModuleBase):
         return self.handle_popup_confirm('IGNORE_LOW_EMOTION')
 
     def handle_use_data_key(self):
-        if not self.appear(POPUP_CONFIRM) and not self.appear(POPUP_CANCEL):
+        if not self.config.USE_DATA_KEY:
             return False
 
-        ocr_result = DATA_KEY_USE.ocr(self.device.image)
-        if 'Data Key' in ocr_result:
-            return self.handle_popup_confirm('DATA_KEY_USE')
+        if not self.appear(POPUP_CONFIRM, offset=self._popup_offset) \
+                and not self.appear(POPUP_CANCEL, offset=self._popup_offset, interval=2):
+            return False
+
+        if self.appear(USE_DATA_KEY, offset=True):
+            return self.handle_popup_confirm('USE_DATA_KEY')
 
         return False
 
