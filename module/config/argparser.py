@@ -74,12 +74,12 @@ def main(ini_name=''):
     dic_ini_to_gui = {v: k for k, v in dic_gui_to_ini.items()}
     # Event list
     event_folder = [f for f in dic_event[server.server].values() if f.startswith('event_')]
-    event_latest = sorted([f for f in event_folder], reverse=True)[0]
+    event_latest = event_folder[-1]
     event_folder = [dic_ini_to_gui.get(f, f) for f in event_folder][::-1]
     event_latest = dic_ini_to_gui.get(event_latest, event_latest)
     # Raid list
     raid_folder = [f for f in dic_event[server.server].values() if f.startswith('raid_')]
-    raid_latest = sorted([f for f in raid_folder], reverse=True)[0]
+    raid_latest = raid_folder[-1]
     raid_folder = [dic_ini_to_gui.get(f, f) for f in raid_folder][::-1]
     raid_latest = dic_ini_to_gui.get(raid_latest, raid_latest)
     # Research preset list
