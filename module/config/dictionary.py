@@ -823,6 +823,7 @@ dic_event = {
         '蝶海梦花': 'event_20200917_cn',
         '划破海空之翼': 'event_20201012_cn',
         '激唱的UNIVERSE': 'event_20201029_cn',
+        '复刻峡湾间的星辰': 'event_20200903_en',
     },
     'tw': {
         'Visitors_Dyed_in_Red': 'war_archives_20190321_en',
@@ -865,7 +866,7 @@ dic_event = {
         'Dreamwakers_Butterfly': 'event_20200917_cn',
         'Counterattack_Within_the_Fjord': 'event_20201002_en',
         'Universe_in_Unison': 'event_20201029_cn',
-        'Sundered_Blue': 'event_20201112_en',
+        'Sundered_Blue': 'event_20201012_cn',
     },
     'jp': {
         'Visitors_Dyed_in_Red': 'war_archives_20190321_en',
@@ -883,7 +884,7 @@ dic_event = {
         '刹那觀る胡蝶の夢': 'event_20200917_cn',
         '奔る彩帆の青': 'event_20201012_cn',
         '激唱のユニバース': 'event_20201029_cn',
-        '輝ける峡湾の星' : 'event_20200903_en',
+        '輝ける峡湾の星（復刻）' : 'event_20200903_en',
     },
 }
 
