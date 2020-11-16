@@ -133,22 +133,41 @@ class CampaignMap:
             self._portal_data.append((node1, node2))
             self[node1].is_portal = True
 
+    @staticmethod
+    def mechanism_add(trigger, block):
+        """
+        Args:
+            trigger (SelectedGrids): Grids to trigger/unlock mechanism.
+            block (SelectedGrids): Grids that blocked by mechanism
+        """
+        trigger.set(may_mechanism_trigger=True, mechanism_trigger=trigger, mechanism_block=block)
+        block.set(may_mechanism_block=True)
+
     @property
     def land_based_data(self):
-        """
-        Returns:
-            list:
-        """
         return self._land_based_data
 
     @land_based_data.setter
-    def land_based_data(self, data_list):
+    def land_based_data(self, data):
         """
+        land_based_data need to be set after map_data.
+
         Args:
-            data_list (list[list]): [[node, rotation],]
+            data (list[list[str]]): Such as [['H7', 'up'], ['D5', 'left'], ['G3', 'down'], ['C2', 'right']]
         """
-        for data in data_list:
-            pass
+        rotation_dict = {
+            'up': [(0, -1), (0, -2), (0, -3)],
+            'down': [(0, 1), (0, 2), (0, 3)],
+            'left': [(-1, 0), (-2, 0), (-3, 0)],
+            'right': [(1, 0), (2, 0), (3, 0)],
+        }
+        self._land_based_data = data
+        for land_based in data:
+            grid, rotation = land_based
+            grid = self.grids[location_ensure(grid)]
+            trigger = self.grid_covered(grid=grid, location=[(0, -1), (0, 1), (-1, 0), (1, 0)]).select(is_land=False)
+            block = self.grid_covered(grid=grid, location=rotation_dict[rotation]).select(is_land=False)
+            self.mechanism_add(trigger=trigger, block=block)
 
     def grid_connection_initial(self, wall=False, portal=False):
         """
@@ -376,7 +395,7 @@ class CampaignMap:
             for grid in visited:
                 for arr in self.grid_connection[grid.location]:
                     arr = self[arr]
-                    if arr.is_land:
+                    if arr.is_land or arr.is_mechanism_block:
                         continue
                     cost = ambush_cost if arr.may_ambush else 1
                     cost += grid.cost
