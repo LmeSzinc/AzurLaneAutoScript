@@ -212,7 +212,7 @@ def main(ini_name=''):
     # 退役选项
     retire = setting_parser.add_argument_group('Retirement settings', '', gooey_options={'label_color': '#931D03'})
     retire.add_argument('--enable_retirement', default=default('--enable_retirement'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
-    retire.add_argument('--retire_method', default=default('--retire_method'), choices=['enhance', 'one_click_retire', 'old_retire'], gooey_options={'label_color': '#4B5F83'})
+    retire.add_argument('--retire_method', default=default('--retire_method'), choices=['enhance', 'one_click_retire', 'old_retire'], help='If choosing enhance, when not having enough enhance material, will use one click retire', gooey_options={'label_color': '#4B5F83'})
     retire.add_argument('--retire_amount', default=default('--retire_amount'), choices=['retire_all', 'retire_10'], gooey_options={'label_color': '#4B5F83'})
     retire.add_argument('--enhance_favourite', default=default('--enhance_favourite'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
     retire.add_argument('--enhance_order_string', default=default('--enhance_order_string'), help='Use example format "cv > bb > ..." may omit a ship type category altogether to skip otherwise leave blank to use default enhance method', gooey_options={'label_color': '#4B5F83'})
@@ -220,8 +220,8 @@ def main(ini_name=''):
     rarity = retire.add_argument_group('Retirement rarity', 'The ship type selection is not supported yet. Ignore the following options when using one-key retirement', gooey_options={'label_color': '#4B5F83'})
     rarity.add_argument('--retire_n', default=default('--retire_n'), choices=['yes', 'no'], help='N', gooey_options={'label_color': '#4B5F83'})
     rarity.add_argument('--retire_r', default=default('--retire_r'), choices=['yes', 'no'], help='R', gooey_options={'label_color': '#4B5F83'})
-    rarity.add_argument('--retire_sr', default=default('--retire_sr'), choices=['yes', 'no'], help='SR', gooey_options={'label_color': '#4B5F83'})
-    rarity.add_argument('--retire_ssr', default=default('--retire_ssr'), choices=['yes', 'no'], help='SSR', gooey_options={'label_color': '#4B5F83'})
+    # rarity.add_argument('--retire_sr', default=default('--retire_sr'), choices=['yes', 'no'], help='SR', gooey_options={'label_color': '#4B5F83'})
+    # rarity.add_argument('--retire_ssr', default=default('--retire_ssr'), choices=['yes', 'no'], help='SSR', gooey_options={'label_color': '#4B5F83'})
 
     # 掉落记录
     drop = setting_parser.add_argument_group('Drop record', 'Save screenshots of dropped items, which will slow down the click speed when settlement is enabled', gooey_options={'label_color': '#931D03'})
