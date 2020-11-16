@@ -96,7 +96,7 @@ class InfoHandler(ModuleBase):
                 and not self.appear(POPUP_CANCEL, offset=self._popup_offset, interval=2):
             return False
 
-        if self.appear(USE_DATA_KEY, offset=True):
+        if self.appear(USE_DATA_KEY, offset=(20, 20)):
             return self.handle_popup_confirm('USE_DATA_KEY')
 
         return False
