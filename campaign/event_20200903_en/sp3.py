@@ -17,6 +17,15 @@ MAP.map_data = """
     ME ME -- __ -- -- -- -- -- ME --
     ME ME ++ ME ME ME -- ++ -- MS ME
 """
+MAP.map_data_loop = """
+    ME -- -- MS -- ME ME -- ME ME --
+    -- -- -- -- -- -- ++ -- ME ME ME
+    SP -- ++ ++ ME -- -- -- ++ ++ ++
+    SP -- ++ ++ ME -- -- -- Me Me MB
+    -- -- -- -- ME ME -- -- ++ ++ ++
+    ME ME -- __ -- -- -- -- -- ME --
+    ME ME ++ ME ME ME -- -- -- MS ME
+"""
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50 50 50
@@ -26,6 +35,7 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50 50 50
 """
+MAP.land_based_data = [['H7', 'up'], ['D5', 'left'], ['G3', 'down'], ['C2', 'right']]
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 2, 'siren': 2},
     {'battle': 1, 'enemy': 2},
@@ -48,11 +58,16 @@ road_main = RoadGrids([I4, J4])
 
 
 class Config(ConfigBase):
+    # ===== Start of generated config =====
     MAP_SIREN_TEMPLATE = ['Z18']
     MOVABLE_ENEMY_TURN = (3,)
     MAP_HAS_SIREN = True
+    MAP_HAS_MOVABLE_ENEMY = True
     MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = True
+    MAP_HAS_AMBUSH = False
+    MAP_HAS_LAND_BASED = True
+    # ===== End of generated config =====
 
 
 class Campaign(CampaignBase):

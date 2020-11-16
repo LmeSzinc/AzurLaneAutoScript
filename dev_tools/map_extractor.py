@@ -221,8 +221,6 @@ class MapData:
         lines.append(f'MAP.camera_data_spawn_point = {[location2node(loca) for loca in camera_sp]}')
         if self.MAP_HAS_PORTAL:
             lines.append(f'MAP.portal_data = {self.portal}')
-        if self.MAP_HAS_LAND_BASED:
-            lines.append(f'MAP.land_based_data = {self.land_based}')
         lines.append('MAP.map_data = \"\"\"')
         for y in range(self.shape[1] + 1):
             lines.append('    ' + ' '.join([self.map_data[(x, y)] for x in range(self.shape[0] + 1)]))
@@ -236,6 +234,8 @@ class MapData:
         for y in range(self.shape[1] + 1):
             lines.append('    ' + ' '.join(['50'] * (self.shape[0] + 1)))
         lines.append('\"\"\"')
+        if self.MAP_HAS_LAND_BASED:
+            lines.append(f'MAP.land_based_data = {self.land_based}')
         lines.append('MAP.spawn_data = [')
         for battle in self.spawn_data:
             lines.append('    ' + str(battle) + ',')
