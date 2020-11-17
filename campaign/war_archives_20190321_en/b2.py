@@ -21,9 +21,9 @@ MAP.weight_data = """
     50 10 20 20 10 20 50 50 50
     20 20 30 30 50 50 50 50 50
     10 10 50 50 50 50 50 10 50
-    50 50 50 50 50 50 20 10 50
-    50 50 50 50 50 30 30 50 50
-    50 50 50 50 10 10 50 50 50
+    50 50 50 50 50 10 20 10 50
+    50 50 50 50 10 30 30 50 50
+    50 50 50 20 50 40 50 50 50
     50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
@@ -31,7 +31,7 @@ MAP.spawn_data = [
     {'battle': 1, 'enemy': 1},
     {'battle': 2, 'enemy': 1},
     {'battle': 3, 'enemy': 1, 'mystery': 1},
-    {'battle': 4, 'enemy': 1, 'mystery': 2},
+    {'battle': 4, 'enemy': 1},
     {'battle': 5},
     {'battle': 6, 'boss': 1},
 ]
@@ -44,6 +44,7 @@ A6, B6, C6, D6, E6, F6, G6, H6, I6, \
 A7, B7, C7, D7, E7, F7, G7, H7, I7, \
     = MAP.flatten()
 
+ROAD_MAIN = RoadGrids([D6, [G4, G5], H4, H3, F1, D1, C1, B2])
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
@@ -57,12 +58,19 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
+        self.fleet_2_push_forward()
+        if self.clear_roadblocks([ROAD_MAIN], strongest=True):
+            return True
+
+        if self.clear_potential_roadblocks([ROAD_MAIN], strongest=True):
+            return True
+
         return self.battle_default()
 
     def battle_3(self):
         self.clear_all_mystery()
 
-        return self.battle_default()
+        return self.battle_0()
 
     def battle_6(self):
         return self.fleet_boss.clear_boss()

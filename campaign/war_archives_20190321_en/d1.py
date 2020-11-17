@@ -24,9 +24,9 @@ MAP.weight_data = """
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 4},
     {'battle': 1, 'enemy': 1},
-    {'battle': 2, 'enemy': 1, 'mystery': 1},
-    {'battle': 3, 'enemy': 1, 'mystery': 1},
-    {'battle': 4, 'enemy': 1, 'mystery': 1},
+    {'battle': 2, 'enemy': 1},
+    {'battle': 3, 'enemy': 1},
+    {'battle': 4, 'enemy': 1},
     {'battle': 5, 'enemy': 1},
     {'battle': 6, 'boss': 1},
 ]
