@@ -155,9 +155,6 @@ class StrategyHandler(InfoHandler):
             sub_hunt=bool(self.config.SUBMARINE) and self.config.SUBMARINE_MODE == 'hunt_only'
         )
         self.__setattr__(f'fleet_{index}_formation_fixed', True)
-
-        # The info_bar may affect the detection of map edge.
-        self.ensure_no_info_bar()
         return True
 
     def _strategy_get_from_map_buff(self):

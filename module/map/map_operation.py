@@ -22,13 +22,19 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         Switch fleet.
         """
         logger.info('Switch over')
-        if self.appear_then_click(SWITCH_OVER):
-            pass
-        else:
+        if not self.appear(SWITCH_OVER):
             logger.warning('No buttons detected.')
+            return False
 
-        self.device.sleep((1, 1.5))
-        # self.ensure_no_info_bar()
+        FLEET_NUM.load_color(self.device.image)
+        FLEET_NUM._match_init = True
+        while 1:
+            self.device.click(SWITCH_OVER)
+            self.device.sleep((1, 1.5))
+            self.device.screenshot()
+            if not FLEET_NUM.match(self.device.image, offset=(0, 0), threshold=0.9):
+                break
+        return True
 
     def enter_map(self, button, mode='normal'):
         """Enter a campaign.
