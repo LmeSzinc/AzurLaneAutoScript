@@ -2,7 +2,6 @@ import time
 
 from PIL import Image
 
-import module.config.server as server
 from module.base.button import Button
 from module.base.utils import *
 from module.exception import ScriptError

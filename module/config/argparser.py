@@ -208,7 +208,7 @@ def main(ini_name=''):
     # 退役选项
     retire = setting_parser.add_argument_group('退役设置', '', gooey_options={'label_color': '#931D03'})
     retire.add_argument('--启用退役', default=default('--启用退役'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    retire.add_argument('--退役方案', default=default('--退役方案'), choices=['强化角色', '一键退役', '传统退役'], gooey_options={'label_color': '#4B5F83'})
+    retire.add_argument('--退役方案', default=default('--退役方案'), choices=['强化角色', '一键退役', '传统退役'], help='若选择强化, 当强化材料不足时, 将使用一键退役', gooey_options={'label_color': '#4B5F83'})
     retire.add_argument('--退役数量', default=default('--退役数量'), choices=['退役全部', '退役10个'], gooey_options={'label_color': '#4B5F83'})
     retire.add_argument('--强化常用角色', default=default('--强化常用角色'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     retire.add_argument('--强化过滤字符串', default=default('--强化过滤字符串'), help='格式: "cv > bb > ...", 留空则使用默认强化方式', gooey_options={'label_color': '#4B5F83'})
@@ -216,8 +216,8 @@ def main(ini_name=''):
     rarity = retire.add_argument_group('退役稀有度', '暂不支持舰种选择, 使用一键退役时忽略以下选项', gooey_options={'label_color': '#931D03'})
     rarity.add_argument('--退役白皮', default=default('--退役白皮'), choices=['是', '否'], help='N', gooey_options={'label_color': '#4B5F83'})
     rarity.add_argument('--退役蓝皮', default=default('--退役蓝皮'), choices=['是', '否'], help='R', gooey_options={'label_color': '#4B5F83'})
-    rarity.add_argument('--退役紫皮', default=default('--退役紫皮'), choices=['是', '否'], help='SR', gooey_options={'label_color': '#4B5F83'})
-    rarity.add_argument('--退役金皮', default=default('--退役金皮'), choices=['是', '否'], help='SSR', gooey_options={'label_color': '#4B5F83'})
+    # rarity.add_argument('--退役紫皮', default=default('--退役紫皮'), choices=['是', '否'], help='SR', gooey_options={'label_color': '#4B5F83'})
+    # rarity.add_argument('--退役金皮', default=default('--退役金皮'), choices=['是', '否'], help='SSR', gooey_options={'label_color': '#4B5F83'})
 
     # 掉落记录
     drop = setting_parser.add_argument_group('掉落记录', '保存掉落物品的截图, 启用后会放缓结算时的点击速度', gooey_options={'label_color': '#931D03'})
