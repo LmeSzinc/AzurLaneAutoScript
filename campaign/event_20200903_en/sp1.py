@@ -5,7 +5,7 @@ from module.logger import logger
 
 MAP = CampaignMap('SP1')
 MAP.shape = 'K7'
-MAP.camera_data = ['D2', 'D5', 'H2', 'H5']
+MAP.camera_data = ['D3', 'D5', 'H3', 'H5']
 MAP.camera_data_spawn_point = ['D2']
 MAP.map_data = """
     ++ ++ ++ -- MS -- -- -- ME ++ --
@@ -28,7 +28,7 @@ MAP.map_data_loop = """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50 50 30
+    50 50 50 50 50 55 50 50 50 50 30
     50 50 50 50 50 50 50 50 50 50 40
     50 50 50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50 50 50
@@ -73,6 +73,8 @@ class Campaign(CampaignBase):
     def battle_0(self):
         if self.clear_siren():
             return True
+
+        self.clear_mechanism()
 
         if self.clear_roadblocks([road_main]):
             return True

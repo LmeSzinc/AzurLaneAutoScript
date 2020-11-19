@@ -6,7 +6,7 @@ from .sp1 import Config as ConfigBase
 
 MAP = CampaignMap('SP2')
 MAP.shape = 'K7'
-MAP.camera_data = ['D2', 'D5', 'H2', 'H5']
+MAP.camera_data = ['D3', 'D5', 'H3', 'H5']
 MAP.camera_data_spawn_point = ['D2', 'D5']
 MAP.map_data = """
     ++ ++ ++ -- -- -- -- ME ++ ++ --
@@ -79,6 +79,8 @@ class Campaign(CampaignBase):
 
         if self.clear_siren():
             return True
+
+        self.clear_mechanism()
 
         if self.config.MAP_HAS_MOVABLE_ENEMY:
             self.fleet_2_push_forward()

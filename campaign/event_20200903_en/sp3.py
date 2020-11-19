@@ -80,6 +80,8 @@ class Campaign(CampaignBase):
         if self.clear_siren():
             return True
 
+        self.clear_mechanism()
+
         if self.config.MAP_HAS_MOVABLE_ENEMY:
             self.fleet_2_push_forward()
 

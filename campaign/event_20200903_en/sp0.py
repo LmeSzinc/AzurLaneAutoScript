@@ -39,6 +39,8 @@ A5, B5, C5, D5, E5, F5, G5, H5, I5, J5, \
 A6, B6, C6, D6, E6, F6, G6, H6, I6, J6, \
     = MAP.flatten()
 
+mechanism = SelectedGrids([C6, E2, G5])
+
 
 class Config:
     # ===== Start of generated config =====
@@ -53,4 +55,6 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
+        self.clear_mechanism(mechanism)
+
         return self.clear_boss()
