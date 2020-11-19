@@ -1,15 +1,15 @@
 from campaign.campaign_war_archives.campaign_base import CampaignBase, CampaignNameError
 from module.campaign.run import CampaignRun
 from module.ocr.ocr import DigitCounter
-from module.war_archives.assets import OCR_DATA_KEY_CAMPAIGN
+from module.war_archives.assets import OCR_DATA_KEY_CAMPAIGN, WAR_ARCHIVES_CAMPAIGN_CHECK
 from module.logger import logger
 
 DATA_KEY_CAMPAIGN = DigitCounter(OCR_DATA_KEY_CAMPAIGN, letter=(255, 247, 247), threshold=64)
 
 class CampaignWarArchives(CampaignRun, CampaignBase):
     def triggered_stop_condition(self):
-        # In case already inside campaign, OCR cannot be read otherwise
-        if self.in_archives_campaign():
+        # Must be in archives campaign to OCR check
+        if self.appear(WAR_ARCHIVES_CAMPAIGN_CHECK, offset=(20, 20)):
             # Check for 0 data keys left to use
             current, remain, total = DATA_KEY_CAMPAIGN.ocr(self.device.image)
             logger.info(f'Inventory: {current} / {total}, Remain: {current}')
@@ -21,6 +21,6 @@ class CampaignWarArchives(CampaignRun, CampaignBase):
         return super().triggered_stop_condition()
 
     def run(self, name=None, folder='campaign_main', total=0):
-        self.config.USE_DATA_KEY = True
+        backup = self.config.cover(USE_DATA_KEY=True)
         super().run(name, folder, total)
-        self.config.USE_DATA_KEY = False
+        backup.recover()

@@ -40,16 +40,6 @@ class CampaignBase(CampaignBase_):
         entrance = Button(area=button, color=color, button=button, name=name)
         return entrance
 
-    def in_archives_campaign(self):
-        """
-        Check if already in archives campaign
-        """
-        for n in range(3):
-            self.device.screenshot()
-            if self.appear(WAR_ARCHIVES_CAMPAIGN_CHECK, offset=(20, 20)):
-                return True
-        return False
-
     def ui_goto_archives_campaign(self, mode='ex'):
         """
         Performs the operations needed to transition
@@ -60,7 +50,7 @@ class CampaignBase(CampaignBase_):
         # For subsequent runs when neither reward or
         # stop_triggers occur, no need perform operations
         result = True
-        if self.first_run or not self.in_archives_campaign():
+        if self.first_run or not self.appear(WAR_ARCHIVES_CAMPAIGN_CHECK, offset=(20, 20)):
             result = self.ui_ensure(destination=page_archives)
 
             WAR_ARCHIVES_SWITCH.set(mode, main=self)
