@@ -34,11 +34,6 @@ class GridInfo:
     may_ammo = False  # MA
     may_siren = False  # MS
     may_ambush = False
-    may_mechanism_trigger = False
-    may_mechanism_block = False
-    mechanism_trigger = None  # SelectedGrids
-    mechanism_block = None  # SelectedGrids
-    mechanism_wait = 2  # Seconds to wait the mechanism unlock animation
 
     is_enemy = False  # example: 0L 1M 2C 3T 3E
     is_boss = False  # BO
@@ -60,6 +55,9 @@ class GridInfo:
     is_movable = False  # Is movable enemy
     is_mechanism_trigger = False  # Mechanism has triggered
     is_mechanism_block = False  # Blocked by mechanism
+    mechanism_trigger = None  # SelectedGrids
+    mechanism_block = None  # SelectedGrids
+    mechanism_wait = 2  # Seconds to wait the mechanism unlock animation
     cost = 9999
     cost_1 = 9999
     cost_2 = 9999
@@ -263,8 +261,10 @@ class GridInfo:
         self.is_current_fleet = False
         self.is_submarine = False
         self.is_cleared = False
-        self.is_mechanism_trigger = self.may_mechanism_trigger
-        self.is_mechanism_block = self.may_mechanism_block
+        self.is_mechanism_trigger = False
+        self.is_mechanism_block = False
+        self.mechanism_trigger = None
+        self.mechanism_block = None
 
     def covered_grid(self):
         """Relative coordinate of the covered grid.

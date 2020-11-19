@@ -67,6 +67,9 @@ class Map(Fleet):
         Returns:
             bool: False, because didn't clear any enemy.
         """
+        if not self.config.MAP_HAS_LAND_BASED:
+            return False
+
         if not grids:
             grids = self.map.select(is_mechanism_trigger=True, is_mechanism_block=False)
         else:

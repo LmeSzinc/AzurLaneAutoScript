@@ -195,9 +195,12 @@ class Fleet(Camera, AmbushHandler):
             result = 'nothing'
             self.device.click(grid)
             arrived = False
-            # Wait to confirm fleet arrived. It does't appear immediately if fleet in combat .
-            extra = 4.5 if self.config.SUBMARINE_MODE == 'hunt_only' else 0
-            extra += grid.mechanism_wait if grid.is_mechanism_trigger else 0
+            # Wait to confirm fleet arrived. It does't appear immediately if fleet in combat.
+            extra = 0
+            if self.config.SUBMARINE_MODE == 'hunt_only':
+                extra += 4.5
+            if self.config.MAP_HAS_LAND_BASED and grid.is_mechanism_trigger:
+                extra += grid.mechanism_wait
             arrive_timer = Timer(0.5 + self.round_wait + extra, count=2)
             arrive_unexpected_timer = Timer(1.5 + self.round_wait + extra, count=6)
             # Wait after ambushed.
@@ -551,6 +554,7 @@ class Fleet(Camera, AmbushHandler):
         self.handle_map_green_config_cover()
         self.map.poor_map_data = self.config.POOR_MAP_DATA
         self.map.load_map_data(use_loop=self.map_is_clear_mode)
+        self.map.load_mechanism(land_based=self.config.MAP_HAS_LAND_BASED)
         self.map.grid_connection_initial(
             wall=self.config.MAP_HAS_WALL,
             portal=self.config.MAP_HAS_PORTAL,

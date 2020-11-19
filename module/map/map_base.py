@@ -133,22 +133,15 @@ class CampaignMap:
             self._portal_data.append((node1, node2))
             self[node1].is_portal = True
 
-    @staticmethod
-    def mechanism_add(trigger, block):
-        """
-        Args:
-            trigger (SelectedGrids): Grids to trigger/unlock mechanism.
-            block (SelectedGrids): Grids that blocked by mechanism
-        """
-        trigger.set(may_mechanism_trigger=True, mechanism_trigger=trigger, mechanism_block=block)
-        block.set(may_mechanism_block=True)
-
     @property
     def land_based_data(self):
         return self._land_based_data
 
     @land_based_data.setter
     def land_based_data(self, data):
+        self._land_based_data = data
+
+    def _load_land_base_data(self, data):
         """
         land_based_data need to be set after map_data.
 
@@ -167,7 +160,13 @@ class CampaignMap:
             grid = self.grids[location_ensure(grid)]
             trigger = self.grid_covered(grid=grid, location=[(0, -1), (0, 1), (-1, 0), (1, 0)]).select(is_land=False)
             block = self.grid_covered(grid=grid, location=rotation_dict[rotation]).select(is_land=False)
-            self.mechanism_add(trigger=trigger, block=block)
+            trigger.set(is_mechanism_trigger=True, mechanism_trigger=trigger, mechanism_block=block)
+            block.set(is_mechanism_block=True)
+
+    def load_mechanism(self, land_based=False):
+        logger.info(f'Load mechanism. land_base={land_based}')
+        if land_based:
+            self._load_land_base_data(self.land_based_data)
 
     def grid_connection_initial(self, wall=False, portal=False):
         """
