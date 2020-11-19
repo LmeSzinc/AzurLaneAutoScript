@@ -1,3 +1,4 @@
+from module.exception import MapEnemyMoved
 from module.logger import logger
 from module.map.fleet import Fleet
 from module.map.map_grids import SelectedGrids, RoadGrids
@@ -57,6 +58,34 @@ class Map(Fleet):
 
             self.ammo_count -= recover
             self.fleet_ammo += recover
+
+    def clear_mechanism(self, grids=None):
+        """
+        Args:
+            grids (SelectedGrids): Grids that triggers mechanism. If None, select all mechanism triggers.
+
+        Returns:
+            bool: False, because didn't clear any enemy.
+        """
+        if not self.config.MAP_HAS_LAND_BASED:
+            return False
+
+        if not grids:
+            grids = self.map.select(is_mechanism_trigger=True, is_mechanism_block=False)
+        else:
+            grids = grids.select(is_mechanism_trigger=True, is_mechanism_block=False)
+        grids = self.select_grids(grids, is_accessible=True, sort=('weight', 'cost'))
+
+        for grid in grids:
+            logger.info(f'Clear mechanism: {grid}')
+            self.goto(grid)
+            self.map.show_cost()
+            logger.info(f'Mechanism trigger release: {grid.mechanism_trigger}')
+            logger.info(f'Mechanism block release: {grid.mechanism_block}')
+            raise MapEnemyMoved
+
+        logger.info('Mechanism all cleared')
+        return False
 
     @staticmethod
     def select_grids(grids, nearby=False, is_accessible=True, scale=(), genre=(), strongest=False, weakest=False,

@@ -51,8 +51,13 @@ class GridInfo:
 
     is_cleared = False
     is_caught_by_siren = False
-    is_carrier = False
-    is_movable = False
+    is_carrier = False  # Is carrier spawn in mystery
+    is_movable = False  # Is movable enemy
+    is_mechanism_trigger = False  # Mechanism has triggered
+    is_mechanism_block = False  # Blocked by mechanism
+    mechanism_trigger = None  # SelectedGrids
+    mechanism_block = None  # SelectedGrids
+    mechanism_wait = 2  # Seconds to wait the mechanism unlock animation
     cost = 9999
     cost_1 = 9999
     cost_2 = 9999
@@ -122,6 +127,9 @@ class GridInfo:
 
     def __hash__(self):
         return hash(self.location)
+
+    def __eq__(self, other):
+        return self.location == other.location
 
     @property
     def str(self):
@@ -240,6 +248,9 @@ class GridInfo:
         self.is_caught_by_siren = False
         self.is_carrier = False
         self.is_movable = False
+        if self.is_mechanism_trigger:
+            self.mechanism_trigger.set(is_mechanism_trigger=False)
+            self.mechanism_block.set(is_mechanism_block=False)
 
     def reset(self):
         """
@@ -250,6 +261,10 @@ class GridInfo:
         self.is_current_fleet = False
         self.is_submarine = False
         self.is_cleared = False
+        self.is_mechanism_trigger = False
+        self.is_mechanism_block = False
+        self.mechanism_trigger = None
+        self.mechanism_block = None
 
     def covered_grid(self):
         """Relative coordinate of the covered grid.
