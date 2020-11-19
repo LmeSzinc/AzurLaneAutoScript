@@ -5,25 +5,28 @@ from module.logger import logger
 
 MAP = CampaignMap('11-3')
 MAP.shape = 'I7'
-MAP.map_data = '''
-    ++ -- -- ME -- ME ++ ++ ++
-    __ ME ME -- ME -- ME -- __
+MAP.camera_data = ['D2', 'D5', 'F2', 'F5']
+MAP.camera_data_spawn_point = ['D5']
+MAP.map_data = """
+    ++ -- -- ME -- Me ++ ++ ++
+    __ ME ME -- Me -- ME -- __
     -- -- ME -- -- ME -- ME --
     MB ++ ++ -- ++ ++ ++ -- ME
     ++ ++ ++ MB -- ME __ ME --
-    SP -- -- ME -- ME ++ ME --
+    SP -- -- Me -- ME ++ ME --
     SP -- -- -- ++ -- ME -- MB
-'''
-MAP.weight_data = '''
-    90 90 90 90 90 90 90 90 90
-    90 90 90 90 90 90 90 90 90
-    90 90 90 90 90 90 90 90 90
-    90 90 90 90 90 90 90 90 90
-    90 90 90 90 90 90 90 90 90
-    90 90 90 90 90 90 90 90 90
-    90 90 90 90 90 90 90 90 90  
-'''
-# MAP.camera_data = ['D3']
+"""
+
+MAP.weight_data = """
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+"""
+
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 3},
     {'battle': 1, 'enemy': 2},
@@ -45,8 +48,9 @@ A7, B7, C7, D7, E7, F7, G7, H7, I7, \
 
 road_main = RoadGrids([C2, D6, F6, G7])
 
-
 class Config:
+    DETECTION_BACKEND = 'homography'
+    HOMO_STORAGE = ((5, 4), [(133.207, 81.356), (696.903, 81.356), (44.566, 406.051), (705.278, 406.051)])
     INTERNAL_LINES_HOUGHLINES_THRESHOLD = 30
     EDGE_LINES_HOUGHLINES_THRESHOLD = 30
     COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.2
@@ -64,27 +68,19 @@ class Config:
         'wlen': 1000,
     }
 
+    class Campaign(CampaignBase):
+        MAP = MAP
 
+        def battle_0(self):
+            if self.clear_roadblocks([road_main]):
+                return True
+            if self.clear_potential_roadblocks([road_main]):
+                return True
 
-class Campaign(CampaignBase):
-    MAP = MAP
+            return self.battle_default()
 
-    def battle_0(self):
-
-        if self.clear_roadblocks([road_main]):
-            return True
-        if self.clear_potential_roadblocks([road_main]):
-            return True
-
-        return self.battle_default()
-
-    def battle_6(self):
-        boss = self.map.select(is_boss=True)
-        if boss:
-            if not self.check_accessibility(boss[0], fleet=2):
-                if self.clear_roadblocks([road_main]):
-                    return True
-
-        return self.fleet_2.clear_boss()
-    
+        def battle_6(self):
+            if self.clear_roadblocks([road_main]):
+                return True
+            return self.fleet_boss.clear_boss()
 
