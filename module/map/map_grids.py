@@ -84,6 +84,17 @@ class SelectedGrids:
 
         return SelectedGrids(result)
 
+    def set(self, **kwargs):
+        """
+        Set attribute to each grid.
+
+        Args:
+            **kwargs:
+        """
+        for grid in self:
+            for key, value in kwargs.items():
+                grid.__setattr__(key, value)
+
     def add(self, grids):
         """
         Args:

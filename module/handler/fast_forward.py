@@ -69,6 +69,7 @@ class FastForwardHandler(ModuleBase):
             self.config.MAP_HAS_FLEET_STEP = False
             self.config.MAP_HAS_MOVABLE_ENEMY = False
             self.config.MAP_HAS_PORTAL = False
+            self.config.MAP_HAS_LAND_BASED = False
             self.map_is_clear_mode = True
         else:
             # When disable fast forward, MAP_HAS_AMBUSH depends on map settings.

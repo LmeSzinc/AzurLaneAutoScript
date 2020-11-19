@@ -136,7 +136,7 @@ class AzurLaneConfig:
     STOP_IF_TRIGGER_EMOTION_LIMIT = False
     STOP_IF_DOCK_FULL = False
     STOP_IF_REACH_LV120 = False
-    STOP_IF_MAP_REACH = 'no' # no, map_100, map_3_star, map_green_without_3_star, map_green
+    STOP_IF_MAP_REACH = 'no'  # no, map_100, map_3_star, map_green_without_3_star, map_green
     STOP_IF_GET_SHIP = False
 
     MAP_CLEAR_ALL_THIS_TIME = False
@@ -266,6 +266,7 @@ class AzurLaneConfig:
     MAP_HAS_PT_BONUS = False  # 100% PT bonus if success to catch enemy else 50%. Retreat get 0%.
     MAP_IS_ONE_TIME_STAGE = False
     MAP_HAS_PORTAL = False
+    MAP_HAS_LAND_BASED = False
     MAP_ENEMY_TEMPLATE = ['Light', 'Main', 'Carrier', 'Treasure']
     MAP_SIREN_TEMPLATE = ['DD', 'CL', 'CA', 'BB', 'CV']
     MAP_SIREN_MOVE_WAIT = 1.5  # The enemy moving takes about 1.2 ~ 1.5s.
@@ -421,7 +422,7 @@ class AzurLaneConfig:
     # When having 6 ships in dorm, to use 6 kind of food, need interval (in minutes) greater than:
     # (14, 28, 42, 70, 139, 278)
     DORM_FEED_INTERVAL = '278, 480'  # str, such as '20', '10, 40'.
-    DORM_COLLECT_INTERVAL = '60, 180' # str, such as '20', '10, 40'.
+    DORM_COLLECT_INTERVAL = '60, 180'  # str, such as '20', '10, 40'.
     DORM_FEED_FILTER = '20000 > 10000 > 5000 > 3000 > 2000 > 1000'
 
     ENABLE_DATA_KEY_COLLECT = True

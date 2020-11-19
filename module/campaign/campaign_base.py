@@ -59,6 +59,9 @@ class CampaignBase(Map, CampaignUI):
         if remain.count > 0:
             if self.clear_siren():
                 return True
+
+            self.clear_mechanism()
+
             return self.battle_default()
         else:
             backup = self.config.FLEET_BOSS
