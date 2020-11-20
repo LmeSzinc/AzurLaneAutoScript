@@ -50,6 +50,11 @@ class Config:
     MAP_HAS_LAND_BASED = True
     # ===== End of generated config =====
 
+    STAR_REQUIRE_1 = 0
+    STAR_REQUIRE_2 = 0
+    STAR_REQUIRE_3 = 0
+    MAP_IS_ONE_TIME_STAGE = True
+
 
 class Campaign(CampaignBase):
     MAP = MAP
