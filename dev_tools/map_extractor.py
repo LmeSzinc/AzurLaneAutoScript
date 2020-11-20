@@ -12,6 +12,14 @@ This an auto-tool to extract map files used in Alas.
 """
 
 DIC_SIREN_NAME_CHI_TO_ENG = {
+    # Siren Winter's Crown, Fallen Wings
+    'sairenquzhu': 'DD',
+    'sairenqingxun': 'CL',
+    'sairenzhongxun': 'CA',
+    'sairenzhanlie': 'BB',
+    'sairenhangmu': 'CV',
+    'sairenqianting': 'SS',
+
     # Siren cyan
     'sairenquzhu_i': 'DD',
     'sairenqingxun_i': 'CL',
@@ -147,7 +155,8 @@ class MapData:
                 exped_data = EXPECTATION_DATA[siren_id]
                 name = exped_data['icon']
                 name = DIC_SIREN_NAME_CHI_TO_ENG.get(name, name)
-                self.MAP_SIREN_TEMPLATE.append(name)
+                if name not in self.MAP_SIREN_TEMPLATE:
+                    self.MAP_SIREN_TEMPLATE.append(name)
                 self.MOVABLE_ENEMY_TURN.add(int(exped_data['ai_mov']))
             self.MAP_HAS_MOVABLE_ENEMY = bool(len(self.MOVABLE_ENEMY_TURN))
             self.MAP_HAS_MAP_STORY = len(data['story_refresh_boss']) > 0
@@ -194,8 +203,13 @@ class MapData:
         Returns:
             list(str): Python code in map file.
         """
-        header = """
-            from module.campaign.campaign_base import CampaignBase
+        if IS_WAR_ARCHIVES:
+            base_import = 'from ..campaign_war_archives.campaign_base import CampaignBase'
+        else:
+            base_import = 'from module.campaign.campaign_base import CampaignBase'
+
+        header = f"""
+            {base_import}
             from module.map.map_base import CampaignMap
             from module.map.map_grids import SelectedGrids, RoadGrids
             from module.logger import logger
@@ -404,20 +418,23 @@ This an auto-tool to extract map files used in Alas.
 
 Git clone https://github.com/Dimbreath/AzurLaneData, to get the decrypted scripts.
 Arguments:
-    FILE:      Folder contains `chapter_template.lua` and `expedition_data_template.lua`, 
-               Such as '<your_folder>/<server>/sharecfg'
-    FOLDER:    Folder to save, './campaign/test'
-    KEYWORD:   A keyword in map name, such as '短兵相接' (7-2, zh-CN), 'Counterattack!' (3-4, en-US)
-               Or map id, such as 702 (7-2), 1140017 (Iris of Light and Dark D2)
-    SELECT:    True if select all maps in the same event
-               False if extract this map only
-    OVERWRITE: If overwrite existing files
+    FILE:            Folder contains `chapter_template.lua` and `expedition_data_template.lua`,
+                     Such as '<your_folder>/<server>/sharecfg'
+    FOLDER:          Folder to save, './campaign/test'
+    KEYWORD:         A keyword in map name, such as '短兵相接' (7-2, zh-CN), 'Counterattack!' (3-4, en-US)
+                     Or map id, such as 702 (7-2), 1140017 (Iris of Light and Dark D2)
+    SELECT:          True if select all maps in the same event
+                     False if extract this map only
+    OVERWRITE:       If overwrite existing files
+    IS_WAR_ARCHIVES: True if retrieved map is to be
+                     adapted for war_archives usage
 """
 FILE = ''
 FOLDER = './campaign/test'
 KEYWORD = ''
 SELECT = False
 OVERWRITE = True
+IS_WAR_ARCHIVES = False
 
 DATA = load_lua(FILE, 'chapter_template.lua', prefix=36)
 DATA_LOOP = load_lua(FILE, 'chapter_template_loop.lua', prefix=41)

@@ -3,7 +3,6 @@ from module.base.timer import Timer
 from module.handler.assets import *
 from module.logger import logger
 
-
 class InfoHandler(ModuleBase):
     """
     Class to handle all kinds of message.
@@ -88,6 +87,19 @@ class InfoHandler(ModuleBase):
             return False
 
         return self.handle_popup_confirm('IGNORE_LOW_EMOTION')
+
+    def handle_use_data_key(self):
+        if not self.config.USE_DATA_KEY:
+            return False
+
+        if not self.appear(POPUP_CONFIRM, offset=self._popup_offset) \
+                and not self.appear(POPUP_CANCEL, offset=self._popup_offset, interval=2):
+            return False
+
+        if self.appear(USE_DATA_KEY, offset=(20, 20)):
+            return self.handle_popup_confirm('USE_DATA_KEY')
+
+        return False
 
     """
     Story

@@ -77,6 +77,9 @@ def main(ini_name=''):
     event_latest = event_folder[-1]
     event_folder = [dic_ini_to_gui.get(f, f) for f in event_folder][::-1]
     event_latest = dic_ini_to_gui.get(event_latest, event_latest)
+    # Archives list
+    archives_folder = [f for f in dic_event[server.server].values() if f.startswith('war_archives_')]
+    archives_folder = [dic_ini_to_gui.get(f, f) for f in archives_folder][::-1]
     # Raid list
     raid_folder = [f for f in dic_event[server.server].values() if f.startswith('raid_')]
     raid_latest = raid_folder[-1]
@@ -425,6 +428,13 @@ def main(ini_name=''):
     sos.add_argument('--第8章潜艇图队伍', default=default('--第8章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
     sos.add_argument('--第9章潜艇图队伍', default=default('--第9章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
     sos.add_argument('--第10章潜艇图队伍', default=default('--第10章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
+
+    # ==========war_archives==
+    war_archives_parser = subs.add_parser('war_archives')
+    war_archives = war_archives_parser.add_argument_group(
+        'war archives settings', 'Type a stage and select a corresponding event for that stage', gooey_options={'label_color': '#931D03'})
+    war_archives.add_argument('--war_archives_stage', default=default('--war_archives_stage'), help='Type stage name, not case sensitive, E.g D3, SP3, HT6', gooey_options={'label_color': '#4B5F83'})
+    war_archives.add_argument('--war_archives_name', default=default('--war_archives_name'), choices=archives_folder, help='There a dropdown menu with many options', gooey_options={'label_color': '#4B5F83'})
 
     # ==========共斗活动==========
     raid_parser = subs.add_parser('共斗活动')

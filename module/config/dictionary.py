@@ -205,6 +205,8 @@ dic_true_eng_to_eng = {
     'sos_fleets_chapter_8': 'sos_fleets_chapter_8',
     'sos_fleets_chapter_9': 'sos_fleets_chapter_9',
     'sos_fleets_chapter_10': 'sos_fleets_chapter_10',
+    'war_archives_name': 'war_archives_name',
+    'war_archives_stage': 'war_archives_stage',
     'raid_name': 'raid_name',
     'raid_mode': 'raid_mode',
     'raid_use_ticket': 'raid_use_ticket',
@@ -461,6 +463,8 @@ dic_chi_to_eng = {
     '第8章潜艇图队伍': 'sos_fleets_chapter_8',
     '第9章潜艇图队伍': 'sos_fleets_chapter_9',
     '第10章潜艇图队伍': 'sos_fleets_chapter_10',
+    'war_archives_name': 'war_archives_name',
+    'war_archives_stage': 'war_archives_stage',
     '共斗名称': 'raid_name',
     '共斗难度': 'raid_mode',
     '共斗使用挑战券': 'raid_use_ticket',
@@ -798,6 +802,13 @@ dic_tchi_to_eng = {
 
 dic_event = {
     'cn': {
+        'Visitors_Dyed_in_Red': 'war_archives_20190321_en',
+        'Fallen_Wings': 'war_archives_20181026_en',
+        'Winter\'s_Crown': 'war_archives_20190221_en',
+        'Divergent_Chessboard': 'war_archives_20191031_en',
+        'Strive, Wish, and Strategize': 'war_archives_20181020_en',
+        'Encircling Graf Spee': 'war_archives_20191010_en',
+        'Glorious Battle': 'war_archives_20190620_en',
         '北境序曲': 'event_20200227_cn',
         '复刻斯图尔特的硝烟': 'event_20200312_cn',
         '微层混合': 'event_20200326_cn',
@@ -815,6 +826,13 @@ dic_event = {
         '复刻峡湾间的星辰': 'event_20200903_en',
     },
     'tw': {
+        'Visitors_Dyed_in_Red': 'war_archives_20190321_en',
+        'Fallen_Wings': 'war_archives_20181026_en',
+        'Winter\'s_Crown': 'war_archives_20190221_en',
+        'Divergent_Chessboard': 'war_archives_20191031_en',
+        'Strive, Wish, and Strategize': 'war_archives_20181020_en',
+        'Encircling Graf Spee': 'war_archives_20191010_en',
+        'Glorious Battle': 'war_archives_20190620_en',
         '北境序曲': 'event_20200227_cn',
         '復刻斯圖爾特的硝煙': 'event_20200312_cn',
         '微層混合': 'event_20200326_cn',
@@ -830,6 +848,13 @@ dic_event = {
         '劃破海空之翼': 'event_20201012_cn',
     },
     'en': {
+        'Visitors_Dyed_in_Red': 'war_archives_20190321_en',
+        'Fallen_Wings': 'war_archives_20181026_en',
+        'Winter\'s_Crown': 'war_archives_20190221_en',
+        'Divergent_Chessboard': 'war_archives_20191031_en',
+        'Strive, Wish, and Strategize': 'war_archives_20181020_en',
+        'Encircling Graf Spee': 'war_archives_20191010_en',
+        'Glorious Battle': 'war_archives_20190620_en',
         'Iris_of_Light_and_Dark': 'event_20200521_en',
         'Skybound_Oratorio': 'event_20200611_en',
         'Prelude_under_the_Moon': 'event_20200603_en',
@@ -844,6 +869,13 @@ dic_event = {
         'Sundered_Blue': 'event_20201012_cn',
     },
     'jp': {
+        'Visitors_Dyed_in_Red': 'war_archives_20190321_en',
+        'Fallen_Wings': 'war_archives_20181026_en',
+        'Winter\'s_Crown': 'war_archives_20190221_en',
+        'Divergent_Chessboard': 'war_archives_20191031_en',
+        'Strive, Wish, and Strategize': 'war_archives_20181020_en',
+        'Encircling Graf Spee': 'war_archives_20191010_en',
+        'Glorious Battle': 'war_archives_20190620_en',
         '峡湾間の反撃': 'event_20200603_cn',
         '特別演習超空強襲波（復刻）': 'raid_20200624',
         '極夜照らす幻光': 'event_20200723_cn',
@@ -855,7 +887,6 @@ dic_event = {
         '輝ける峡湾の星（復刻）' : 'event_20200903_en',
     },
 }
-
 
 def to_bool(string):
     return dic_bool.get(string, string)
