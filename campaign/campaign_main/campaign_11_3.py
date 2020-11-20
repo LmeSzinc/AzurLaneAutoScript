@@ -16,17 +16,16 @@ MAP.map_data = """
     SP -- -- Me -- ME ++ ME --
     SP -- -- -- ++ -- ME -- MB
 """
-
-MAP.weight_data = """
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-"""
-
+MAP.weight_data = '''
+    90 90 90 90 90 90 90 90 90
+    90 90 90 90 90 90 90 90 90
+    90 90 90 90 90 90 90 90 90
+    90 90 90 90 90 90 90 90 90
+    90 90 90 90 90 90 90 90 90
+    90 90 90 90 90 90 90 90 90
+    90 90 90 90 90 90 90 90 90  
+'''
+# MAP.camera_data = ['D3']
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 3},
     {'battle': 1, 'enemy': 2},
@@ -68,19 +67,19 @@ class Config:
         'wlen': 1000,
     }
 
-    class Campaign(CampaignBase):
-        MAP = MAP
+class Campaign(CampaignBase):
+    MAP = MAP
 
-        def battle_0(self):
-            if self.clear_roadblocks([road_main]):
-                return True
-            if self.clear_potential_roadblocks([road_main]):
-                return True
+    def battle_0(self):
+        if self.clear_roadblocks([road_main]):
+            return True
+        if self.clear_potential_roadblocks([road_main]):
+            return True
 
-            return self.battle_default()
+        return self.battle_default()
 
-        def battle_6(self):
-            if self.clear_roadblocks([road_main]):
-                return True
-            return self.fleet_boss.clear_boss()
+    def battle_6(self):
+        if self.clear_roadblocks([road_main]):
+            return True
+        return self.fleet_boss.clear_boss()
 
