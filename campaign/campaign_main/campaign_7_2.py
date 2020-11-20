@@ -21,7 +21,7 @@ MAP.weight_data = '''
     30 30 30 30 30 30 30 30
 '''
 MAP.camera_data = ['D3', 'D2']
-MAP.camera_data_spawn_point = ['D3', 'D2']
+MAP.camera_data_spawn_point = ['A2']
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 3},
     {'battle': 1, 'enemy': 2, 'mystery': 1},
