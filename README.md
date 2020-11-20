@@ -21,11 +21,11 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)** and **[@nona
 
 > **Event Announcement 活动公告**
 >
-> [CN] 支持活动「激唱的UNIVERSE」.
+> [CN] 支持活动「复刻峡湾间的星辰」, 可以处理岸防炮.
 >
-> [EN] Support event "Universe in Unison".
+> [EN] Support event "Sundered Blue".
 >
-> [JP] Support event 「激唱のユニバース」.
+> [JP] Support event 「輝ける峡湾の星（復刻）」, able to handle land based cannons.
 
 ![gui](doc/README.assets/gui.png)
 
