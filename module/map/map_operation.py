@@ -34,6 +34,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             self.device.screenshot()
             if not FLEET_NUM.match(self.device.image, offset=(0, 0), threshold=0.9):
                 break
+            logger.warning('Fleet switch failed. Retrying.')
         return True
 
     def enter_map(self, button, mode='normal'):
