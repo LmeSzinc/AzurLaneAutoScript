@@ -8,6 +8,7 @@ tqdm
 requests<2.19.0,>=2.18.4
 uiautomator2==2.9.2
 retrying
+packaging
 mxnet==1.6.0
 cnocr==1.2.2
 gooey
