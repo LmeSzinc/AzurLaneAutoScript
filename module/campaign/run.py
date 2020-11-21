@@ -110,8 +110,6 @@ class CampaignRun(Reward):
             logger.hr('Triggered get ship')
             return True
 
-
-
         return False
 
     def _triggered_app_restart(self):

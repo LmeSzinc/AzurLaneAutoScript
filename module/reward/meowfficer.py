@@ -78,7 +78,8 @@ class RewardMeowfficer(UI):
             else:
                 confirm_timer.reset()
 
-        self.ui_click(MEOWFFICER_GOTO_DORM, check_button=MEOWFFICER_BUY_ENTER, appear_button=MEOWFFICER_BUY, offset=None)
+        self.ui_click(MEOWFFICER_GOTO_DORM,
+                      check_button=MEOWFFICER_BUY_ENTER, appear_button=MEOWFFICER_BUY, offset=None)
 
     def meow_buy(self):
         """

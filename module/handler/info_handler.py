@@ -3,6 +3,7 @@ from module.base.timer import Timer
 from module.handler.assets import *
 from module.logger import logger
 
+
 class InfoHandler(ModuleBase):
     """
     Class to handle all kinds of message.
@@ -10,6 +11,7 @@ class InfoHandler(ModuleBase):
     """
     Info bar
     """
+
     def info_bar_count(self):
         if self.appear(INFO_BAR_3):
             return 3
