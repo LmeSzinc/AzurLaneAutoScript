@@ -429,12 +429,12 @@ def main(ini_name=''):
     sos.add_argument('--第9章潜艇图队伍', default=default('--第9章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
     sos.add_argument('--第10章潜艇图队伍', default=default('--第10章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
 
-    # ==========war_archives==
-    war_archives_parser = subs.add_parser('war_archives')
+    # ==========作战档案==========
+    war_archives_parser = subs.add_parser('作战档案')
     war_archives = war_archives_parser.add_argument_group(
-        'war archives settings', 'Type a stage and select a corresponding event for that stage', gooey_options={'label_color': '#931D03'})
-    war_archives.add_argument('--war_archives_stage', default=default('--war_archives_stage'), help='Type stage name, not case sensitive, E.g D3, SP3, HT6', gooey_options={'label_color': '#4B5F83'})
-    war_archives.add_argument('--war_archives_name', default=default('--war_archives_name'), choices=archives_folder, help='There a dropdown menu with many options', gooey_options={'label_color': '#4B5F83'})
+        '作战档案设置', '输入地图名称, 然后选择对应的活动', gooey_options={'label_color': '#931D03'})
+    war_archives.add_argument('--作战档案地图', default=default('--作战档案地图'), help='输入地图名称, 不分大小写, 例如 D3, SP3, HT6', gooey_options={'label_color': '#4B5F83'})
+    war_archives.add_argument('--作战档案活动', default=default('--作战档案活动'), choices=archives_folder, help='在下拉菜单中选择活动', gooey_options={'label_color': '#4B5F83'})
 
     # ==========共斗活动==========
     raid_parser = subs.add_parser('共斗活动')

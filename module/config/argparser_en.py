@@ -481,7 +481,7 @@ def main(ini_name=''):
     sos.add_argument('--sos_fleets_chapter_9', default=default('--sos_fleets_chapter_9'), gooey_options={'label_color': '#4B5F83'})
     sos.add_argument('--sos_fleets_chapter_10', default=default('--sos_fleets_chapter_10'), gooey_options={'label_color': '#4B5F83'})
 
-    # ==========war_archives==
+    # ==========war_archives==========
     war_archives_parser = subs.add_parser('war_archives')
     war_archives = war_archives_parser.add_argument_group(
         'war archives settings', 'Type a stage and select a corresponding event for that stage', gooey_options={'label_color': '#931D03'})

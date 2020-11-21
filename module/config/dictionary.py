@@ -38,6 +38,7 @@ dic_true_eng_to_eng = {
     'Main_campaign': 'main',
     'event': 'event',
     'sos': 'sos',
+    'war_archives': 'war_archives',
     'raid': 'raid',
     'semi_auto': 'semi_auto',
     'c1-1_affinity_farming': 'c11_affinity_farming',
@@ -296,6 +297,7 @@ dic_chi_to_eng = {
     '主线图': 'main',
     '活动图': 'event',
     '潜艇图': 'sos',
+    '作战档案': 'war_archives',
     '共斗活动': 'raid',
     '半自动辅助点击': 'semi_auto',
     '1-1伏击刷好感': 'c11_affinity_farming',
@@ -463,8 +465,8 @@ dic_chi_to_eng = {
     '第8章潜艇图队伍': 'sos_fleets_chapter_8',
     '第9章潜艇图队伍': 'sos_fleets_chapter_9',
     '第10章潜艇图队伍': 'sos_fleets_chapter_10',
-    'war_archives_name': 'war_archives_name',
-    'war_archives_stage': 'war_archives_stage',
+    '作战档案活动': 'war_archives_name',
+    '作战档案地图': 'war_archives_stage',
     '共斗名称': 'raid_name',
     '共斗难度': 'raid_mode',
     '共斗使用挑战券': 'raid_use_ticket',
@@ -554,6 +556,7 @@ dic_tchi_to_eng = {
     '主線圖': 'main',
     '活動圖': 'event',
     '潛艇圖': 'sos',
+    '作戰檔案': 'war_archives',
     '共鬥活動': 'raid',
     '半自動輔助點擊': 'semi_auto',
     '1-1伏擊刷好感': 'c11_affinity_farming',
@@ -721,6 +724,8 @@ dic_tchi_to_eng = {
     '第8章潛艇圖隊伍': 'sos_fleets_chapter_8',
     '第9章潛艇圖隊伍': 'sos_fleets_chapter_9',
     '第10章潛艇圖隊伍': 'sos_fleets_chapter_10',
+    '作戰檔案活動': 'war_archives_name',
+    '作戰檔案地圖': 'war_archives_stage',
     '共鬥名稱': 'raid_name',
     '共鬥難度': 'raid_mode',
     '共鬥使用挑戰券': 'raid_use_ticket',
@@ -884,9 +889,10 @@ dic_event = {
         '刹那觀る胡蝶の夢': 'event_20200917_cn',
         '奔る彩帆の青': 'event_20201012_cn',
         '激唱のユニバース': 'event_20201029_cn',
-        '輝ける峡湾の星（復刻）' : 'event_20200903_en',
+        '輝ける峡湾の星（復刻）': 'event_20200903_en',
     },
 }
+
 
 def to_bool(string):
     return dic_bool.get(string, string)
