@@ -3,15 +3,15 @@ from module.base.utils import area_offset, get_color
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.exception import CampaignNameError
 from module.ui.assets import WAR_ARCHIVES_CHECK
-from module.ui.page import page_main, page_archives
+from module.ui.page import page_archives
 from module.ui.switch import Switch
 from module.war_archives.assets import WAR_ARCHIVES_EX_ON, WAR_ARCHIVES_SP_ON, WAR_ARCHIVES_CAMPAIGN_CHECK
 from module.war_archives.dictionary import dic_archives_template
-from module.logger import logger
 
 WAR_ARCHIVES_SWITCH = Switch('War_Archives_switch', is_selector=True)
 WAR_ARCHIVES_SWITCH.add_status('ex', WAR_ARCHIVES_EX_ON)
 WAR_ARCHIVES_SWITCH.add_status('sp', WAR_ARCHIVES_SP_ON)
+
 
 class CampaignBase(CampaignBase_):
     # Helper variable to keep track of whether is the first runthrough
@@ -58,7 +58,7 @@ class CampaignBase(CampaignBase_):
 
             archives_entrance = self._get_archives_entrance(self.config.WAR_ARCHIVES_NAME)
             self.ui_click(archives_entrance, appear_button=WAR_ARCHIVES_CHECK, check_button=WAR_ARCHIVES_CAMPAIGN_CHECK,
-                        skip_first_screenshot=True)
+                          skip_first_screenshot=True)
         self.handle_stage_icon_spawn()
 
         # Subsequent runs all set False

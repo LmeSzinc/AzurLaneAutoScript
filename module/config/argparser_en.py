@@ -5,7 +5,8 @@ from gooey import Gooey, GooeyParser
 
 import module.config.server as server
 from alas import AzurLaneAutoScript
-from module.config.dictionary import dic_event, dic_true_eng_to_eng
+from module.config.dictionary import dic_true_eng_to_eng
+from module.config.event import dic_event, dic_archives
 from module.config.update import get_config
 from module.logger import pyw_name
 from module.research.preset import DICT_FILTER_PRESET
@@ -72,6 +73,7 @@ def main(ini_name=''):
     # Load translation dictionary
     dic_gui_to_ini = dic_true_eng_to_eng  # GUI translation dictionary here.
     dic_gui_to_ini.update(dic_event[server.server])
+    dic_gui_to_ini.update(dic_archives[server.server])
     dic_ini_to_gui = {v: k for k, v in dic_gui_to_ini.items()}
     # Event list
     event_folder = [f for f in dic_event[server.server].values() if f.startswith('event_')]
@@ -79,7 +81,7 @@ def main(ini_name=''):
     event_folder = [dic_ini_to_gui.get(f, f) for f in event_folder][::-1]
     event_latest = dic_ini_to_gui.get(event_latest, event_latest)
     # Archives list
-    archives_folder = [f for f in dic_event[server.server].values() if f.startswith('war_archives_')]
+    archives_folder = [f for f in dic_archives[server.server].values() if f.startswith('war_archives_')]
     archives_folder = [dic_ini_to_gui.get(f, f) for f in archives_folder][::-1]
     # Raid list
     raid_folder = [f for f in dic_event[server.server].values() if f.startswith('raid_')]
