@@ -206,7 +206,7 @@ class GridInfo:
                 self.is_enemy = True
                 if info.enemy_scale:
                     self.enemy_scale = info.enemy_scale
-                if info.enemy_genre:
+                if info.enemy_genre and not (info.enemy_genre == 'Enemy' and self.enemy_genre):
                     self.enemy_genre = info.enemy_genre
                 return True
             elif mode == 'carrier' and not self.is_land and self.may_carrier:
@@ -214,7 +214,7 @@ class GridInfo:
                 self.is_carrier = True
                 if info.enemy_scale:
                     self.enemy_scale = info.enemy_scale
-                if info.enemy_genre:
+                if info.enemy_genre and not (info.enemy_genre == 'Enemy' and self.enemy_genre):
                     self.enemy_genre = info.enemy_genre
                 return True
             else:
