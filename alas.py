@@ -20,6 +20,7 @@ class AzurLaneAutoScript:
         self.device = None
 
     def run(self, command):
+        logger.attr('Command', command)
         self.config.start_time = datetime.now()
         self.device = Device(config=self.config)
         while 1:
