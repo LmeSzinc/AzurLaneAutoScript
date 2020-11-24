@@ -375,8 +375,8 @@ def main(ini_name=''):
 
     # 演习设置
     exercise = daily_parser.add_argument_group('演习设置', '', gooey_options={'label_color': '#931D03'})
-    exercise.add_argument('--演习对手选择', default=default('--演习对手选择'), choices=['经验最多', '最简单', '先最简单再经验最多'], help='', gooey_options={'label_color': '#4B5F83'})
-    exercise.add_argument('--演习次数保留', default=default('--演习次数保留'), help='暂时仅支持保留0个', gooey_options={'label_color': '#4B5F83'})
+    exercise.add_argument('--演习对手选择', default=default('--演习对手选择'), choices=['经验最多', '最简单', '最左边', '先最简单再经验最多'], help='', gooey_options={'label_color': '#4B5F83'})
+    exercise.add_argument('--演习次数保留', default=default('--演习次数保留'), help='例如 1, 表示打到1/10停止', gooey_options={'label_color': '#4B5F83'})
     exercise.add_argument('--演习尝试次数', default=default('--演习尝试次数'), help='每个对手的尝试次数, 打不过就换', gooey_options={'label_color': '#4B5F83'})
     exercise.add_argument('--演习SL阈值', default=default('--演习SL阈值'), help='HP<阈值时撤退', gooey_options={'label_color': '#4B5F83'})
     exercise.add_argument('--演习低血量确认时长', default=default('--演习低血量确认时长'), help='HP低于阈值后, 过一定时长才会撤退\n推荐 1.0 ~ 3.0', gooey_options={'label_color': '#4B5F83'})

@@ -415,9 +415,9 @@ def main(ini_name=''):
     # 演习设置
     exercise = daily_parser.add_argument_group('Exercise settings', '', gooey_options={'label_color': '#931D03'})
     exercise.add_argument('--exercise_choose_mode', default=default('--exercise_choose_mode'),
-                          choices=['max_exp', 'easiest', 'easiest_else_exp'], help='', gooey_options={'label_color': '#4B5F83'})
+                          choices=['max_exp', 'easiest', 'leftmost', 'easiest_else_exp'], help='', gooey_options={'label_color': '#4B5F83'})
     exercise.add_argument('--exercise_preserve', default=default('--exercise_preserve'),
-                          help='Only 0 are temporarily reserved', gooey_options={'label_color': '#4B5F83'})
+                          help='Such as 1, which means run until 1/10', gooey_options={'label_color': '#4B5F83'})
     exercise.add_argument('--exercise_try', default=default('--exercise_try'), help='The number of attempts by each opponent', gooey_options={'label_color': '#4B5F83'})
     exercise.add_argument('--exercise_hp_threshold', default=default('--exercise_hp_threshold'),
                           help='HHP <Retreat at Threshold', gooey_options={'label_color': '#4B5F83'})

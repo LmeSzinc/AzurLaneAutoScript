@@ -44,6 +44,13 @@ class Opponent:
 
     @staticmethod
     def get_level(image):
+        """
+        Args:
+            image: Screenshot in EXERCISE_PREPARATION.
+
+        Returns:
+            list[int]: Fleet level, such as [120, 120, 120, 120, 120, 120].
+        """
         level = []
         level += ButtonGrid(origin=(130, 259), delta=(168, 0), button_shape=(58, 21), grid_shape=(3, 1), name='LEVEL').buttons()
         level += ButtonGrid(origin=(832, 259), delta=(168, 0), button_shape=(58, 21), grid_shape=(3, 1), name='LEVEL').buttons()
@@ -53,6 +60,13 @@ class Opponent:
         return result
 
     def get_power(self, image):
+        """
+        Args:
+            image: Screenshot in page_exercise.
+
+        Returns:
+            list[int]: Fleet power, such as [14848, 13477].
+        """
         grids = ButtonGrid(origin=(222, 257), delta=(244, 30), button_shape=(72, 28), grid_shape=(4, 2), name='POWER')
         power = [grids[self.index, 0], grids[self.index, 1]]
 
@@ -61,10 +75,14 @@ class Opponent:
         return result
 
     def get_priority(self, method="max_exp"):
-        # level = np.sum(self.level) / 6
-        # power = np.sum(self.power) / 6
-        # return level - (power - 1000) / 30
+        """
+        Args:
+            method: EXERCISE_CHOOSE_MODE
 
+        Returns:
+            np.ndarray: Priority of 4 opponents, such as [120, 113.2, 120, 95.3].
+                        Higher priority means attack first.
+        """
         if "easiest" in method:
             level = (1 - (np.sum(self.level) / MAX_LVL_SUM)) * 100
             team_pwr_div = np.count_nonzero(self.level) * PWR_FACTOR
@@ -93,6 +111,11 @@ class OpponentChoose(UI):
                           appear_button=EXERCISE_PREPARATION, skip_first_screenshot=True)
 
     def _opponent_sort(self):
-        priority = np.argsort([- x.get_priority(self.config.EXERCISE_CHOOSE_MODE) for x in self.opponents])
-        logger.attr('Order', str(priority))
-        return priority
+        """
+        Returns:
+            list[int]: List of opponent index, such as [2, 1, 0, 3].
+                       Attack one by one.
+        """
+        order = np.argsort([- x.get_priority(self.config.EXERCISE_CHOOSE_MODE) for x in self.opponents])
+        logger.attr('Order', str(order))
+        return order

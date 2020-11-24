@@ -226,7 +226,7 @@ class AzurLaneConfig:
     module.exercise
     """
     ENABLE_EXERCISE = True
-    EXERCISE_CHOOSE_MODE = 'max_exp'
+    EXERCISE_CHOOSE_MODE = 'max_exp'  # 'max_exp', 'easiest', 'leftmost', 'easiest_else_exp'
     EXERCISE_PRESERVE = 0
     LOW_HP_THRESHOLD = 0.40
     LOW_HP_CONFIRM_WAIT = 1.0
