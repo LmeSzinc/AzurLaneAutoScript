@@ -133,6 +133,24 @@ class CampaignRun(Reward):
 
         return False
 
+    def handle_stage_name(self, name, folder):
+        """
+        Handle wrong stage names.
+        In some events, the name of SP may be different, such as 'vsp', muse sp.
+        To call them easier, their map files should named 'sp.py'.
+
+        Args:
+            name (str): Name of .py file.
+            folder (str): Name of the file folder under campaign.
+
+        Returns:
+            str, str: name, folder
+        """
+        if folder == 'event_20201126_cn' and name == 'vsp':
+            name = 'sp'
+
+        return name, folder
+
     def run(self, name, folder='campaign_main', total=0):
         """
         Args:
@@ -140,6 +158,7 @@ class CampaignRun(Reward):
             folder (str): Name of the file folder under campaign.
             total (int):
         """
+        name, folder = self.handle_stage_name(name, folder)
         self.load_campaign(name, folder=folder)
         self.run_count = 0
         while 1:
