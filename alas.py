@@ -33,6 +33,12 @@ class AzurLaneAutoScript:
                 az.app_restart()
                 az.ensure_no_unfinished_campaign()
                 continue
+            except GameTooManyClickError as e:
+                logger.warning(e)
+                az = LoginHandler(self.config, device=self.device)
+                az.app_restart()
+                az.ensure_no_unfinished_campaign()
+                continue
             except GameStuckError as e:
                 logger.warning(e)
                 self.save_error_log()
