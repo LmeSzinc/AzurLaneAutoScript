@@ -106,6 +106,9 @@ class CampaignOcr(ModuleBase):
         if 'normal' in self.config.STAGE_ENTRANCE:
             digits += self.campaign_match_multi(TEMPLATE_STAGE_CLEAR, image, name_offset=(70, 12), name_size=(60, 14))
             digits += self.campaign_match_multi(TEMPLATE_STAGE_PERCENT, image, name_offset=(45, 3), name_size=(60, 14))
+        if 'half' in self.config.STAGE_ENTRANCE:
+            digits += self.campaign_match_multi(
+                TEMPLATE_STAGE_HALF_PERCENT, image, name_offset=(48, 0), name_size=(60, 16))
         if 'blue' in self.config.STAGE_ENTRANCE:
             digits += self.campaign_match_multi(
                 TEMPLATE_STAGE_BLUE_PERCENT, image, extract_letters(image, letter=(255, 255, 255), threshold=153),
@@ -123,6 +126,9 @@ class CampaignOcr(ModuleBase):
         if 'normal' in self.config.STAGE_ENTRANCE:
             digits += self.campaign_match_multi(TEMPLATE_STAGE_CLEAR, image, name_offset=(75, 9), name_size=(60, 16))
             digits += self.campaign_match_multi(TEMPLATE_STAGE_PERCENT, image, name_offset=(48, 0), name_size=(60, 16))
+        if 'half' in self.config.STAGE_ENTRANCE:
+            digits += self.campaign_match_multi(
+                TEMPLATE_STAGE_HALF_PERCENT, image, name_offset=(48, 0), name_size=(60, 16))
         if 'blue' in self.config.STAGE_ENTRANCE:
             digits += self.campaign_match_multi(
                 TEMPLATE_STAGE_BLUE_PERCENT, image, extract_letters(image, letter=(255, 255, 255), threshold=153),

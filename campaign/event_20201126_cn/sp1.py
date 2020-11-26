@@ -49,6 +49,7 @@ class Config:
     MAP_HAS_AMBUSH = False
     # ===== End of generated config =====
 
+    STAGE_ENTRANCE = ['normal', 'half']  # normal, blue, half
     MAP_SWIPE_MULTIPLY = 1.866
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.804
 
