@@ -58,6 +58,15 @@ class EnemySearchingHandler(InfoHandler):
     def is_in_map(self):
         return self.appear(IN_MAP)
 
+    def is_event_animation(self):
+        """
+        Animation in events after cleared an enemy.
+
+        Returns:
+            bool: If animation appearing.
+        """
+        return False
+
     def handle_in_map_with_enemy_searching(self):
         if not self.is_in_map():
             return False
@@ -65,6 +74,9 @@ class EnemySearchingHandler(InfoHandler):
         timeout = Timer(self.MAP_ENEMY_SEARCHING_TIMEOUT_SECOND)
         appeared = False
         while 1:
+            self.device.screenshot()
+            if self.is_event_animation():
+                continue
             if self.is_in_map():
                 timeout.start()
             else:
@@ -91,7 +103,6 @@ class EnemySearchingHandler(InfoHandler):
                 logger.info('Enemy searching timeout.')
                 break
 
-            self.device.screenshot()
         return True
 
     def handle_in_map_no_enemy_searching(self):
