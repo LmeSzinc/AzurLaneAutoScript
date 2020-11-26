@@ -53,6 +53,12 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'sipeibojue_5': 'SpeeIdol',
     'luoen_idol': 'RoonIdol',
     'guanghui_idol': 'IllustriousIdol',
+
+    # Vacation Lane
+    'maliluosi_doa': 'MarieRoseDOA',
+    'haixiao_doa': 'MisakiDOA',
+    'xia_doa': 'KasumiDOA',
+    'zhixiao_doa': 'NagisaDOA',
 }
 
 
