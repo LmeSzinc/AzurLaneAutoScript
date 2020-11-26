@@ -52,7 +52,7 @@ class RewardDataKey(UI):
 
         Pages:
             in: page_any
-            out: page_archives
+            out: page_main
         """
         self.ui_ensure(page_archives)
 
@@ -60,12 +60,14 @@ class RewardDataKey(UI):
             self.device.screenshot()
             if self.appear(DATA_KEY_COLLECTED):
                 logger.info('Data key has been collected')
+                self.ui_goto_main()
                 return True
 
             current, remain, total = DATA_KEY.ocr(self.device.image)
             logger.info(f'Inventory: {current} / {total}, Remain: {remain}')
             if remain <= 0:
                 logger.info('No more room for additional data key')
+                self.ui_goto_main()
                 return True
 
             self.device.click(DATA_KEY_COLLECT)
@@ -73,6 +75,7 @@ class RewardDataKey(UI):
             continue
 
         logger.warning('Too many tries on data key collection, skip and try again on next reward loop')
+        self.ui_goto_main()
         return False
 
     def handle_data_key(self):
@@ -82,7 +85,7 @@ class RewardDataKey(UI):
 
         Pages:
             in: page_any
-            out: page_archives
+            out: page_main
         """
         if not self.config.ENABLE_DATA_KEY_COLLECT:
             return False
