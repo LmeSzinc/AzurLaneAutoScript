@@ -33,9 +33,9 @@ class Enhancement(Dock):
             self.dock_favourite_set(enable=True)
 
         self.dock_filter_enter()
+        self.dock_filter_set(category='extra', type='no_limit', enable=True)
+        self.dock_filter_set(category='extra', type='enhanceable', enable=True)
         self.dock_filter_set(category='index', type='all', enable=True)
-        self.dock_filter_set(category='index', type='enhanceable', enable=True)
-        self.dock_filter_set(category='index', type='clear', enable=True)
         self.dock_filter_set(category='sort', type='lvl', enable=True)
         self.dock_filter_set(category='faction', type='all', enable=True)
         self.dock_filter_set(category='rarity', type='all', enable=True)
@@ -59,8 +59,8 @@ class Enhancement(Dock):
         self.ui_back(DOCK_FILTER)
         self.dock_favourite_set(enable=False)
         self.dock_filter_enter()
+        self.dock_filter_set(category='extra', type='no_limit', enable=True)
         self.dock_filter_set(category='index', type='all', enable=True)
-        self.dock_filter_set(category='index', type='clear', enable=True)
         self.dock_filter_confirm()
 
     def _enhance_confirm(self):
