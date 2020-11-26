@@ -21,11 +21,11 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)** and **[@nona
 
 > **Event Announcement 活动公告**
 >
-> [CN] 支持活动「复刻峡湾间的星辰」, 可以处理岸防炮.
+> [CN] 支持活动「假日航线」.
 >
-> [EN] Support event "Sundered Blue".
+> [EN] Support event "Vacation Lane".
 >
-> [JP] Support event 「輝ける峡湾の星（復刻）」, able to handle land based cannons.
+> [JP] Support event 「バケーションレーン」.
 
 ![gui](doc/README.assets/gui.png)
 
@@ -33,9 +33,9 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)** and **[@nona
 
 ## 功能 Features
 
-- **主线图出击** 针对复杂地图优化, 降低BOSS队被堵住而多打一战的可能性
+- **主线图出击** 针对复杂地图优化, 降低BOSS队被堵住而多打一战的可能性, 能处理伏击空袭
 
-- **活动图出击** 支持开荒
+- **活动图出击** 支持在非周回模式下运行, 能处理移动距离限制, 光之壁, 传送门, 岸防炮, 地图解谜
 
 - **每日任务** 半小时左右一套做完, 重复运行时会跳过当天做过的
 
@@ -76,7 +76,7 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)** and **[@nona
 
 - 在提问题前, 请先阅读 [常见问题(FAQ)](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/FAQ_en_cn)
 - 检查 Alas 的更新和最近的 commit. 确认使用的是最新版.
-- 上传出错log. 运行出错时, 会在 `log/error` 目录下, 以毫秒时间戳为文件夹名, 自动保存 log 和最近60张截图. 还会用黑框遮盖截图中出现的游戏昵称, UID等敏感信息, 并将log中的本地路径替换为 `C:\fakepath`, 所以请放心上传.
+- 上传出错log. 在 `log/error` 目录下, 以毫秒时间戳为文件夹名, 包含 log.txt 和最近60张截图.
 
 
 
