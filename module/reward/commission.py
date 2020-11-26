@@ -33,7 +33,8 @@ dictionary_cn = {
     'urgent_box': ['装备', '物资'],
     'urgent_cube': ['解救', '敌袭'],
     'urgent_gem': ['要员', '度假', '巡视'],
-    'urgent_ship': ['观舰']
+    'urgent_ship': ['观舰'],
+    'doa_daily': ['扫除'],
 }
 dictionary_en = {
     'daily_comm': ['DAILY RESOURCE EXTRACTION', 'AWAKENING TACTICAL RESEARCH'],
@@ -125,7 +126,10 @@ class Commission:
             1: 'running',
             2: 'pending'
         }
-        self.status = dic[int(np.argmax(get_color(self.image, area)))]
+        color = get_color(self.image, area)
+        if self.genre == 'doa_daily':
+            color -= [50, 30, 20]
+        self.status = dic[int(np.argmax(color))]
 
     @Config.when(SERVER='jp')
     def commission_parse(self):
@@ -162,7 +166,10 @@ class Commission:
             1: 'running',
             2: 'pending'
         }
-        self.status = dic[int(np.argmax(get_color(self.image, area)))]
+        color = get_color(self.image, area)
+        if self.genre == 'doa_daily':
+            color -= [50, 30, 20]
+        self.status = dic[int(np.argmax(color))]
 
     @Config.when(SERVER='cn')
     def commission_parse(self):
@@ -199,7 +206,10 @@ class Commission:
             1: 'running',
             2: 'pending'
         }
-        self.status = dic[int(np.argmax(get_color(self.image, area)))]
+        color = get_color(self.image, area)
+        if self.genre == 'doa_daily':
+            color -= [50, 30, 20]
+        self.status = dic[int(np.argmax(color))]
 
     def __str__(self):
         if self.valid:
@@ -389,6 +399,7 @@ class RewardCommission(UI, InfoHandler):
     urgent: CommissionGroup
     daily_choose: CommissionGroup
     urgent_choose: CommissionGroup
+    max_commission = 4
 
     def _commission_choose(self, daily, urgent, priority, time_limit=None):
         """
@@ -403,10 +414,14 @@ class RewardCommission(UI, InfoHandler):
         """
         # Count Commission
         commission = daily.commission + urgent.commission
+        self.max_commission = 4
+        for comm in commission:
+            if comm.genre == 'doa_daily':
+                self.max_commission = 5
         running_count = int(
             np.sum([1 for c in commission if c.status == 'running']))
         logger.attr('Running', running_count)
-        if running_count >= 4:
+        if running_count >= self.max_commission:
             return [], []
 
         # Calculate priority
@@ -435,9 +450,8 @@ class RewardCommission(UI, InfoHandler):
             commission = [
                 comm for comm in commission if datetime.now() + comm.duration <= time_limit]
 
-        commission = commission[:4 - running_count]
-        daily_choose, urgent_choose = CommissionGroup(
-            self.config), CommissionGroup(self.config)
+        commission = commission[:self.max_commission - running_count]
+        daily_choose, urgent_choose = CommissionGroup(self.config), CommissionGroup(self.config)
         for comm in commission:
             if comm in daily:
                 daily_choose.commission.append(comm)

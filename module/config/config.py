@@ -404,6 +404,7 @@ class AzurLaneConfig:
         'expire_longer_than_6': -11,
         'duration_shorter_than_2': 11,
         'duration_longer_than_6': -11,
+        'doa_daily': 500,
     }
     COMMISSION_TIME_LIMIT = 0
 
