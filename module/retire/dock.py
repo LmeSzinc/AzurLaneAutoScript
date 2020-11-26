@@ -12,17 +12,17 @@ favourite_filter = Switch('Favourite_filter')
 favourite_filter.add_status('on', check_button=COMMON_SHIP_FILTER_ENABLE)
 favourite_filter.add_status('off', check_button=COMMON_SHIP_FILTER_DISABLE)
 
-filter_index_enhanceable = Switch('Filter_index_enhanceable')
-filter_index_enhanceable.add_status('on', check_button=FILTER_INDEX_ENHANCEMENT_ON)
-filter_index_enhanceable.add_status('off', check_button=FILTER_INDEX_ENHANCEMENT_OFF)
+filter_extra_enhanceable = Switch('Filter_extra_enhanceable')
+filter_extra_enhanceable.add_status('on', check_button=FILTER_EXTRA_ENHANCEABLE_ON)
+filter_extra_enhanceable.add_status('off', check_button=FILTER_EXTRA_ENHANCEABLE_OFF)
+
+filter_extra_no_limit = Switch('Filter_extra_no_limit')
+filter_extra_no_limit.add_status('on', check_button=FILTER_EXTRA_NO_LIMIT_ON)
+filter_extra_no_limit.add_status('off', check_button=FILTER_EXTRA_NO_LIMIT_OFF)
 
 filter_index_all = Switch('Filter_index_all')
 filter_index_all.add_status('on', check_button=FILTER_INDEX_ALL_ON)
 filter_index_all.add_status('off', check_button=FILTER_INDEX_ALL_OFF)
-
-filter_index_clear = Switch('Filter_index_clear')
-filter_index_clear.add_status('on', check_button=FILTER_INDEX_CLEAR_ON)
-filter_index_clear.add_status('off', check_button=FILTER_INDEX_CLEAR_OFF)
 
 filter_index_dd = Switch('Filter_index_dd')
 filter_index_dd.add_status('on', check_button=FILTER_INDEX_DD_ON)
@@ -99,8 +99,8 @@ class Dock(Equipment):
         self.ui_click(DOCK_FILTER_CONFIRM, check_button=DOCK_FILTER, skip_first_screenshot=True)
         self.handle_dock_cards_loading()
 
-    def dock_filter_index_enhance_set(self, enable):
-        filter_index_enhanceable.set('on' if enable else 'off', main=self)
+    def dock_filter_extra_enhance_set(self, enable):
+        filter_extra_enhanceable.set('on' if enable else 'off', main=self)
 
     def dock_filter_index_all_set(self, enable):
         filter_index_all.set('on' if enable else 'off', main=self)
