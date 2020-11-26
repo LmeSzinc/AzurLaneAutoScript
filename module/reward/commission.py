@@ -2,14 +2,11 @@ import re
 from datetime import datetime, timedelta
 
 import Levenshtein
-import cv2
-import numpy as np
 from scipy import signal
 
 from module.base.decorator import Config
 from module.base.timer import Timer
-from module.base.utils import area_offset, get_color, random_rectangle_vector
-from module.base.utils import color_similar_1d, random_rectangle_point
+from module.base.utils import *
 from module.exception import GameStuckError
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
@@ -34,7 +31,6 @@ dictionary_cn = {
     'urgent_cube': ['解救', '敌袭'],
     'urgent_gem': ['要员', '度假', '巡视'],
     'urgent_ship': ['观舰'],
-    'doa_daily': ['扫除'],
 }
 dictionary_en = {
     'daily_comm': ['DAILY RESOURCE EXTRACTION', 'AWAKENING TACTICAL RESEARCH'],
@@ -67,7 +63,6 @@ dictionary_jp = {
     'urgent_cube': ['船団救出', '敵襲'],
     'urgent_gem': ['要人護衛', '休暇護衛'],
     'urgent_ship': ['小型観艦式', '連合艦隊観艦式', '多国連合観艦式'],
-    'doa_daily': ['限定寮舎エリア掃除']
 }
 COMMISSION_SWITCH = Switch('Commission_switch', is_selector=True)
 COMMISSION_SWITCH.add_status('daily', COMMISSION_DAILY)
@@ -272,6 +267,8 @@ class Commission:
             str: Commission genre, such as 'urgent_gem'.
         """
         # string = string.replace(' ', '').replace('-', '')
+        if self.is_doa_commission():
+            return 'doa_daily'
         for key, value in dictionary_en.items():
             for keyword in value:
                 if keyword in string:
@@ -290,6 +287,8 @@ class Commission:
         Returns:
             str: Commission genre, such as 'urgent_gem'.
         """
+        if self.is_doa_commission():
+            return 'doa_daily'
         min_key = ''
         min_distance = 100
         string = re.sub(r'[\x00-\x7F]', '', string)
@@ -315,6 +314,8 @@ class Commission:
         Returns:
             str: Commission genre, such as 'urgent_gem'.
         """
+        if self.is_doa_commission():
+            return 'doa_daily'
         for key, value in dictionary_cn.items():
             for keyword in value:
                 if keyword in string:
@@ -323,6 +324,16 @@ class Commission:
         logger.warning(f'Name with unknown genre: {string}')
         self.valid = False
         return ''
+
+    def is_doa_commission(self):
+        """
+        Event commission in Vacation Lane, with pink area on the left.
+
+        Returns:
+            bool:
+        """
+        area = area_offset((5, 5, 30, 30), self.area[0:2])
+        return color_similar(color1=get_color(self.image, area), color2=(239, 166, 231))
 
 
 class CommissionGroup:
