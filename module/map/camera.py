@@ -1,7 +1,7 @@
 import numpy as np
 
 from module.exception import MapDetectionError, CampaignEnd
-from module.handler.assets import IN_MAP
+from module.handler.assets import IN_MAP, GAME_TIPS
 from module.logger import logger
 from module.map.map_base import CampaignMap, location2node, location_ensure
 from module.map.map_operation import MapOperation
@@ -90,7 +90,7 @@ class Camera(MapOperation):
             self.view = View(self.config)
         try:
             self.view.load(self.device.image)
-        except MapDetectionError as e:
+        except (MapDetectionError, AttributeError) as e:
             if self.info_bar_count():
                 logger.info('Perspective error cause by info bar. Waiting.')
                 self.handle_info_bar()
@@ -100,7 +100,12 @@ class Camera(MapOperation):
                 raise CampaignEnd('Image is in stage')
             elif not self.appear(IN_MAP):
                 logger.warning('Image to detect is not in_map')
-                raise e
+                if self.appear_then_click(GAME_TIPS, offset=(20, 20)):
+                    logger.warning('Game tips found, retrying')
+                    self.device.screenshot()
+                    self.view.load(self.device.image)
+                else:
+                    raise e
             elif 'Camera outside map' in str(e):
                 string = str(e)
                 logger.warning(string)

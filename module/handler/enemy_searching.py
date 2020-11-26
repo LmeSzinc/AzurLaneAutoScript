@@ -103,6 +103,7 @@ class EnemySearchingHandler(InfoHandler):
                 logger.info('Enemy searching timeout.')
                 break
 
+        self.device.screenshot()
         return True
 
     def handle_in_map_no_enemy_searching(self):
