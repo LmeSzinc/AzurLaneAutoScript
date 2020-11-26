@@ -20,6 +20,7 @@ dic_event = {
         '划破海空之翼': 'event_20201012_cn',
         '激唱的UNIVERSE': 'event_20201029_cn',
         '复刻峡湾间的星辰': 'event_20200903_en',
+        '假日航线': 'event_20201126_cn',
     },
     'en': {
         'Northern_Overture': 'event_20200227_cn',
@@ -39,6 +40,7 @@ dic_event = {
         'Counterattack_Within_the_Fjord': 'event_20201002_en',
         'Universe_in_Unison': 'event_20201029_cn',
         'Sundered_Blue': 'event_20201012_cn',
+        'Vacation_Lane': 'event_20201126_cn',
     },
     'jp': {
         '凍絶の北海': 'event_20200227_cn',
@@ -56,6 +58,7 @@ dic_event = {
         '奔る彩帆の青': 'event_20201012_cn',
         '激唱のユニバース': 'event_20201029_cn',
         '輝ける峡湾の星（復刻）': 'event_20200903_en',
+        'バケーションレーン': 'event_20201126_cn',
     },
     'tw': {
         '特別演習埃塞克斯級': 'raid_20200624',

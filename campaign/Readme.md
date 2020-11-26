@@ -44,3 +44,4 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20201105   | event 20200312 cn        | The Solomon Ranger             | -                      | -                                | -                                    | 斯圖爾特的硝煙     |
 | 20201112   | event 20200903 en        | Stars of the Shimmering Fjord  | 复刻峡湾间的星辰       | -                                | 輝ける峡湾の星（復刻）               | -                  |
 | 20201112   | event 20201012 cn        | Sundered Blue                  | -                      | Sundered Blue                    | -                                    | -                  |
+| 20201126   | event 20201126 cn        | Vacation Lane                  | 假日航线               | Vacation Lane                    | バケーションレーン                   | -                  |
