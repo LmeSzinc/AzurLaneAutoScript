@@ -66,7 +66,8 @@ dictionary_jp = {
     'urgent_box': ['装備輸送', '物資交換', '装備試験'],
     'urgent_cube': ['船団救出', '敵襲'],
     'urgent_gem': ['要人護衛', '休暇護衛'],
-    'urgent_ship': ['小型観艦式', '連合艦隊観艦式', '多国連合観艦式']
+    'urgent_ship': ['小型観艦式', '連合艦隊観艦式', '多国連合観艦式'],
+    'doa_daily': ['限定寮舎エリア掃除']
 }
 COMMISSION_SWITCH = Switch('Commission_switch', is_selector=True)
 COMMISSION_SWITCH.add_status('daily', COMMISSION_DAILY)
