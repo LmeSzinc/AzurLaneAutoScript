@@ -52,6 +52,19 @@ class Config:
     STAGE_ENTRANCE = ['normal', 'half']  # normal, blue, half
     MAP_SWIPE_MULTIPLY = 1.866
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.804
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (80, 255 - 40),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 24, 255),
+        'prominence': 10,
+        'distance': 50,
+        # 'width': (0, 7),
+        'wlen': 1000
+    }
 
 class Campaign(CampaignBase):
     MAP = MAP
