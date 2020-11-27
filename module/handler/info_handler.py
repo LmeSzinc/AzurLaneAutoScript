@@ -128,6 +128,9 @@ class InfoHandler(ModuleBase):
         if self.appear_then_click(STORY_CHOOSE_LONG, offset=True, interval=2):
             self.story_popup_timout.reset()
             return True
+        if self.appear_then_click(STORY_CHOOSE_LONG_2, offset=True, interval=2):
+            self.story_popup_timout.reset()
+            return True
         if self.appear_then_click(STORY_SKIP, offset=True, interval=2):
             self.story_popup_timout.reset()
             return True
