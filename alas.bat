@@ -138,7 +138,7 @@ call :CheckBsBeta
 rem call :AdbConnect
 echo =======================================================================================================================
 echo Python Found in %pyBin% Proceeding..
-echo Opening alas_en.pyw in %root%
+echo Opening alas_cn.pyw in %root%
 %pyBin% alas_cn.pyw
 echo Press any key to back main menu
 pause > NUL
@@ -150,7 +150,7 @@ call :CheckBsBeta
 rem call :AdbConnect
 echo =======================================================================================================================
 echo Python Found in %pyBin% Proceeding..
-echo Opening alas_en.pyw in %root%
+echo Opening alas_jp.pyw in %root%
 %pyBin% alas_jp.pyw
 echo Press any key to back main menu
 pause > NUL
