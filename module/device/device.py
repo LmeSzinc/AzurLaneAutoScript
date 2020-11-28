@@ -67,8 +67,6 @@ class Device(Screenshot, Control, AppControl):
         """
         # Check screen size
         width, height = self.image.size
-        if height > width:
-            width, height = height, width
         logger.attr('Screen_size', f'{width}x{height}')
         if width == 1280 and height == 720:
             return True
