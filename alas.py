@@ -100,14 +100,7 @@ class AzurLaneAutoScript:
 
         logger.hr('Reward Settings saved')
         self.update_check()
-        from module.handler.login import LoginHandler
-        az = LoginHandler(self.config, device=self.device)
-        if az.app_ensure_start():
-            self.reward_when_finished()
-        else:
-            self.reward_when_finished()
-
-
+        self.reward_when_finished()
 
     def emulator(self):
         for key, value in self.config.config['Emulator'].items():
@@ -131,116 +124,59 @@ class AzurLaneAutoScript:
         """
         Method to run main chapter.
         """
-        from module.handler.login import LoginHandler
-        az = LoginHandler(self.config, device=self.device)
-        if az.app_ensure_start():
-            from module.campaign.run import CampaignRun
-            az = CampaignRun(self.config, device=self.device)
-            az.run(self.config.CAMPAIGN_NAME)
-            self.reward_when_finished()
-        else:
-            from module.campaign.run import CampaignRun
-            az = CampaignRun(self.config, device=self.device)
-            az.run(self.config.CAMPAIGN_NAME)
-            self.reward_when_finished()
+        from module.campaign.run import CampaignRun
+        az = CampaignRun(self.config, device=self.device)
+        az.run(self.config.CAMPAIGN_NAME)
+        self.reward_when_finished()
 
     def daily(self):
         """
         Method to run daily missions.
         """
-        from module.handler.login import LoginHandler
-        az = LoginHandler(self.config, device=self.device)
-        if az.app_ensure_start():
-            from module.reward.reward import Reward
-            az = Reward(self.config, device=self.device)
-            az.daily_wrapper_run()
-            self.reward_when_finished()
-        else:
-            from module.reward.reward import Reward
-            az = Reward(self.config, device=self.device)
-            az.daily_wrapper_run()
-            self.reward_when_finished()
+        from module.reward.reward import Reward
+        az = Reward(self.config, device=self.device)
+        az.daily_wrapper_run()
 
+        self.reward_when_finished()
 
     def event(self):
         """
         Method to run event.
         """
-        from module.handler.login import LoginHandler
-        az = LoginHandler(self.config, device=self.device)
-        if az.app_ensure_start():
-            from module.campaign.run import CampaignRun
-            az = CampaignRun(self.config, device=self.device)
-            az.run(self.config.EVENT_STAGE, folder=self.config.EVENT_NAME)
-            self.reward_when_finished()
-        else:
-            from module.campaign.run import CampaignRun
-            az = CampaignRun(self.config, device=self.device)
-            az.run(self.config.EVENT_STAGE, folder=self.config.EVENT_NAME)
-            self.reward_when_finished()
-
+        from module.campaign.run import CampaignRun
+        az = CampaignRun(self.config, device=self.device)
+        az.run(self.config.EVENT_STAGE, folder=self.config.EVENT_NAME)
+        self.reward_when_finished()
 
     def sos(self):
         """
         Method to SOS maps.
         """
-        from module.handler.login import LoginHandler
-        az = LoginHandler(self.config, device=self.device)
-        if az.app_ensure_start():
-            from module.sos.sos import CampaignSos
-            az = CampaignSos(self.config, device=self.device)
-            az.run()
-            self.reward_when_finished()
-        else:
-            from module.sos.sos import CampaignSos
-            az = CampaignSos(self.config, device=self.device)
-            az.run()
-            self.reward_when_finished()
+        from module.sos.sos import CampaignSos
+        az = CampaignSos(self.config, device=self.device)
+        az.run()
+        self.reward_when_finished()
 
     def war_archives(self):
         """
         Method to War Archives maps.
         """
-        from module.handler.login import LoginHandler
-        az = LoginHandler(self.config, device=self.device)
-        if az.app_ensure_start():
-            from module.war_archives.war_archives import CampaignWarArchives
-            az = CampaignWarArchives(self.config, device=self.device)
-            az.run(self.config.WAR_ARCHIVES_STAGE, folder=self.config.WAR_ARCHIVES_NAME)
-            self.reward_when_finished()
-        else:
-            from module.war_archives.war_archives import CampaignWarArchives
-            az = CampaignWarArchives(self.config, device=self.device)
-            az.run(self.config.WAR_ARCHIVES_STAGE, folder=self.config.WAR_ARCHIVES_NAME)
-            self.reward_when_finished()
+        from module.war_archives.war_archives import CampaignWarArchives
+        az = CampaignWarArchives(self.config, device=self.device)
+        az.run(self.config.WAR_ARCHIVES_STAGE, folder=self.config.WAR_ARCHIVES_NAME)
+        self.reward_when_finished()
 
     def raid(self):
-        from module.handler.login import LoginHandler
-        az = LoginHandler(self.config, device=self.device)
-        if az.app_ensure_start():
-            from module.raid.run import RaidRun
-            az = RaidRun(self.config, device=self.device)
-            az.run()
-            self.reward_when_finished()
-        else:
-            from module.raid.run import RaidRun
-            az = RaidRun(self.config, device=self.device)
-            az.run()
-            self.reward_when_finished()
+        from module.raid.run import RaidRun
+        az = RaidRun(self.config, device=self.device)
+        az.run()
+        self.reward_when_finished()
 
     def event_daily_ab(self):
-        from module.handler.login import LoginHandler
-        az = LoginHandler(self.config, device=self.device)
-        if az.app_ensure_start():
-            from module.event.campaign_ab import CampaignAB
-            az = CampaignAB(self.config, device=self.device)
-            az.run_event_daily()
-            self.reward_when_finished()
-        else:
-            from module.event.campaign_ab import CampaignAB
-            az = CampaignAB(self.config, device=self.device)
-            az.run_event_daily()
-            self.reward_when_finished()
+        from module.event.campaign_ab import CampaignAB
+        az = CampaignAB(self.config, device=self.device)
+        az.run_event_daily()
+        self.reward_when_finished()
 
     def semi_auto(self):
         from module.daemon.daemon import AzurLaneDaemon
@@ -248,60 +184,28 @@ class AzurLaneAutoScript:
         az.daemon()
 
     def c11_affinity_farming(self):
-        from module.handler.login import LoginHandler
-        az = LoginHandler(self.config, device=self.device)
-        if az.app_ensure_start():
-            from module.campaign.run import CampaignRun
-            az = CampaignRun(self.config, device=self.device)
-            az.run('campaign_1_1_affinity_farming')
-            self.reward_when_finished()
-        else:
-            from module.campaign.run import CampaignRun
-            az = CampaignRun(self.config, device=self.device)
-            az.run('campaign_1_1_affinity_farming')
-            self.reward_when_finished()
+        from module.campaign.run import CampaignRun
+        az = CampaignRun(self.config, device=self.device)
+        az.run('campaign_1_1_affinity_farming')
+        self.reward_when_finished()
 
     def c72_mystery_farming(self):
-        from module.handler.login import LoginHandler
-        az = LoginHandler(self.config, device=self.device)
-        if az.app_ensure_start():
-            from module.campaign.run import CampaignRun
-            az = CampaignRun(self.config, device=self.device)
-            az.run('campaign_7_2_mystery_farming')
-            self.reward_when_finished()
-        else:
-            from module.campaign.run import CampaignRun
-            az = CampaignRun(self.config, device=self.device)
-            az.run('campaign_7_2_mystery_farming')
-            self.reward_when_finished()
+        from module.campaign.run import CampaignRun
+        az = CampaignRun(self.config, device=self.device)
+        az.run('campaign_7_2_mystery_farming')
+        self.reward_when_finished()
 
     def c124_leveling(self):
-        from module.handler.login import LoginHandler
-        az = LoginHandler(self.config, device=self.device)
-        if az.app_ensure_start():
-            from module.campaign.run import CampaignRun
-            az = CampaignRun(self.config, device=self.device)
-            az.run('campaign_12_4_leveling')
-            self.reward_when_finished()
-        else:
-            from module.campaign.run import CampaignRun
-            az = CampaignRun(self.config, device=self.device)
-            az.run('campaign_12_4_leveling')
-            self.reward_when_finished()
+        from module.campaign.run import CampaignRun
+        az = CampaignRun(self.config, device=self.device)
+        az.run('campaign_12_4_leveling')
+        self.reward_when_finished()
 
     def c122_leveling(self):
-        from module.handler.login import LoginHandler
-        az = LoginHandler(self.config, device=self.device)
-        if az.app_ensure_start():
-            from module.campaign.run import CampaignRun
-            az = CampaignRun(self.config, device=self.device)
-            az.run('campaign_12_2_leveling')
-            self.reward_when_finished()
-        else:
-            from module.campaign.run import CampaignRun
-            az = CampaignRun(self.config, device=self.device)
-            az.run('campaign_12_2_leveling')
-            self.reward_when_finished()
+        from module.campaign.run import CampaignRun
+        az = CampaignRun(self.config, device=self.device)
+        az.run('campaign_12_2_leveling')
+        self.reward_when_finished()
 
     def retire(self):
         from module.retire.retirement import Retirement
