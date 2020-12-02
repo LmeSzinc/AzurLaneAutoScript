@@ -302,11 +302,11 @@ class UI(InfoHandler):
         return False
 
     def ui_additional_page_dorm(self):
-        if self.appear_then_click(DORM_INFO, offset=(30, 30), interval=1):
+        if self.appear_then_click(DORM_INFO, offset=(30, 30), interval=5):
             return True
-        if self.appear_then_click(DORM_FEED_CANCEL, offset=(30, 30), interval=1):
+        if self.appear_then_click(DORM_FEED_CANCEL, offset=(30, 30), interval=5):
             return True
-        if self.appear_then_click(DORM_TROPHY_CONFIRM, offset=(30, 30), interval=1):
+        if self.appear_then_click(DORM_TROPHY_CONFIRM, offset=(30, 30), interval=5):
             return True
 
         return False
