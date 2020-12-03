@@ -25,7 +25,7 @@ class CampaignHard(CampaignRun):
         self.load_campaign(name='campaign_hard', folder='campaign_hard')  # Load campaign file
         module = importlib.import_module('.' + name, 'campaign.campaign_main')  # Load map from normal mode.
         self.campaign.MAP = module.MAP
-        self.campaign_name_set(name + '_HARD')
+        backups = self.campaign_name_set(name + '_HARD')
         if self.equipment_has_take_on:
             self.campaign.equipment_has_take_on = True
 
@@ -39,6 +39,8 @@ class CampaignHard(CampaignRun):
         for n in range(remain):
             self.campaign.run()
 
+        for backup in backups:
+            backup.recover()
         self.campaign.equipment_take_off_when_finished()
         self.reward_recover_daily_reward_settings()
 

@@ -5,7 +5,7 @@ from datetime import datetime
 
 from module.campaign.assets import *
 from module.campaign.campaign_base import CampaignBase
-from module.config.config import AzurLaneConfig
+from module.config.config import AzurLaneConfig, ConfigBackup
 from module.exception import ScriptEnd
 from module.logger import logger
 from module.ocr.ocr import Digit
@@ -63,6 +63,13 @@ class CampaignRun(Reward):
         return True
 
     def campaign_name_set(self, name):
+        """
+        Args:
+            name (str): Campaign name used in drop screenshot.
+
+        Returns:
+            list[ConfigBackup]:
+        """
         if not self.campaign.config.ENABLE_SAVE_GET_ITEMS \
                 or not len(self.campaign.config.SCREEN_SHOT_SAVE_FOLDER_BASE.strip()):
             return False
@@ -70,8 +77,10 @@ class CampaignRun(Reward):
         folder = self.campaign.config.SCREEN_SHOT_SAVE_FOLDER_BASE + '/' + name
         if not os.path.exists(folder):
             os.mkdir(folder)
-        self.campaign.config.SCREEN_SHOT_SAVE_FOLDER = folder
-        self.config.SCREEN_SHOT_SAVE_FOLDER = folder
+
+        backup1 = self.campaign.config.cover(SCREEN_SHOT_SAVE_FOLDER=folder)
+        backup2 = self.config.cover(SCREEN_SHOT_SAVE_FOLDER=folder)
+        return [backup1, backup2]
 
     def triggered_stop_condition(self):
         """
@@ -133,7 +142,8 @@ class CampaignRun(Reward):
 
         return False
 
-    def handle_stage_name(self, name, folder):
+    @staticmethod
+    def handle_stage_name(name, folder):
         """
         Handle wrong stage names.
         In some events, the name of SP may be different, such as 'vsp', muse sp.
