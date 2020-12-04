@@ -138,14 +138,14 @@ class CampaignSos(CampaignRun, CampaignBase):
             fleets = self.config.__getattribute__(f'SOS_FLEETS_CHAPTER_{chapter}')
             fleet_1 = fleets[0]
             fleet_2 = fleets[1] if len(fleets) >= 2 else 0
-            fleet_3 = fleets[2] if len(fleets) >= 3 else 0
+            submarine = fleets[2] if len(fleets) >= 3 else 0
             if not fleet_1:
                 logger.info(f'Skip SOS in chapter {chapter}')
                 continue
             if not self._sos_is_appear_at_chapter(chapter):
                 continue
 
-            backup = self.config.cover(FLEET_1=fleet_1, FLEET_2=fleet_2, FLEET_3=fleet_3)
+            backup = self.config.cover(FLEET_1=fleet_1, FLEET_2=fleet_2, SUBMARINE=submarine)
             super().run(f'campaign_{chapter}_5', folder=folder, total=total)
             backup.recover()
 
