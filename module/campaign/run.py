@@ -72,7 +72,7 @@ class CampaignRun(Reward):
         """
         if not self.campaign.config.ENABLE_SAVE_GET_ITEMS \
                 or not len(self.campaign.config.SCREEN_SHOT_SAVE_FOLDER_BASE.strip()):
-            return False
+            return []
         # Create folder to save drop screenshot
         folder = self.campaign.config.SCREEN_SHOT_SAVE_FOLDER_BASE + '/' + name
         if not os.path.exists(folder):
