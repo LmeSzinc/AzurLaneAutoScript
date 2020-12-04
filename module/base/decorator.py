@@ -1,3 +1,4 @@
+import re
 from functools import wraps
 
 import numpy as np
@@ -87,3 +88,44 @@ class cached_property:
 
         value = obj.__dict__[self.func.__name__] = self.func(obj)
         return value
+
+
+def function_drop(rate=0.5, default=None):
+    """
+    Drop function calls to simulate random emulator stuck, for testing purpose.
+
+    Args:
+        rate (float): 0 to 1. Drop rate.
+        default: Default value to return if dropped.
+
+    Examples:
+        @function_drop(0.3)
+        def click(self, button, record_check=True):
+            pass
+
+        30% possibility:
+        INFO | Dropped: module.device.device.Device.click(REWARD_GOTO_MAIN, record_check=True)
+        70% possibility:
+        INFO | Click (1091,  628) @ REWARD_GOTO_MAIN
+    """
+    def decorate(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            if np.random.uniform(0, 1) > rate:
+                return func(*args, **kwargs)
+            else:
+                cls = ''
+                arguments = [str(arg) for arg in args]
+                if len(arguments):
+                    matched = re.search('<(.*?) object at', arguments[0])
+                    if matched:
+                        cls = matched.group(1) + '.'
+                        arguments.pop(0)
+                arguments += [f'{k}={v}' for k, v in kwargs.items()]
+                arguments = ', '.join(arguments)
+                logger.info(f'Dropped: {cls}{func.__name__}({arguments})')
+                return default
+
+        return wrapper
+
+    return decorate
