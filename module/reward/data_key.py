@@ -1,10 +1,11 @@
-from module.logger import logger
 from module.base.timer import Timer
-from module.ocr.ocr import DigitCounter
 from module.handler.assets import GET_ITEMS_1
-from module.ui.assets import WAR_ARCHIVES_CHECK
+from module.logger import logger
+from module.ocr.ocr import DigitCounter
 from module.reward.assets import OCR_DATA_KEY, DATA_KEY_COLLECT, DATA_KEY_COLLECTED
+from module.ui.assets import WAR_ARCHIVES_CHECK
 from module.ui.ui import UI, page_archives
+from module.war_archives.assets import WAR_ARCHIVES_EX_ON
 
 DATA_KEY = DigitCounter(OCR_DATA_KEY, letter=(255, 247, 247), threshold=64)
 RECORD_OPTION = ('RewardRecord', 'data_key')
@@ -27,7 +28,10 @@ class RewardDataKey(UI):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(GET_ITEMS_1, genre='get_items', offset=5):
+            if self.appear(GET_ITEMS_1, offset=5, interval=3):
+                # Clicking any blank area in page_archives will exit to page_campaign.
+                # Click WAR_ARCHIVES_EX to avoid this, if double clicking GET_ITEMS.
+                self.device.click(WAR_ARCHIVES_EX_ON)
                 confirm_timer.reset()
                 continue
             if self.handle_popup_confirm('DATA_KEY_LIMIT'):
