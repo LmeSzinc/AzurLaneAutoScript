@@ -145,7 +145,7 @@ class CampaignSos(CampaignRun, CampaignBase):
             if not self._sos_is_appear_at_chapter(chapter):
                 continue
 
-            backup = self.config.cover(FLEET_1=fleet_1, FLEET_2=fleet_2, SUBMARINE=submarine)
+            backup = self.config.cover(FLEET_1=fleet_1, FLEET_2=fleet_2, SUBMARINE=submarine, FLEET_BOSS=1 if not fleet_2 else 2)
             super().run(f'campaign_{chapter}_5', folder=folder, total=total)
             backup.recover()
 
