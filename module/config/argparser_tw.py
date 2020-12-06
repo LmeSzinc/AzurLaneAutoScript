@@ -310,7 +310,7 @@ def main(ini_name=''):
     reward_meowfficer.add_argument('--買指揮喵', default=default('--買指揮喵'), help='從0到15, 不需要就填0', gooey_options={'label_color': '#4B5F83'})
     reward_meowfficer.add_argument('--enable_train_meowfficer', default=default('--enable_train_meowfficer'),
                                    help='Enable collection of trained meowfficer and queue all slots for training on Sunday.',
-                                   choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+                                   choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
 
     reward_data_key = reward_parser.add_argument_group('作戰檔案', '如果已經領取則自動跳過', gooey_options={'label_color': '#931D03'})
     reward_data_key.add_argument('--啟用檔案密鑰收穫', default=default('--啟用檔案密鑰收穫'), help='領取作戰檔案的檔案密鑰', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
