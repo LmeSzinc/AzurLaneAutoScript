@@ -98,7 +98,6 @@ class RewardMeowfficer(UI):
             in: MEOWFFICER_STATUS
             out: MEOWFFICER_TRAIN
         """
-
         # Used to account for the cat box opening animation
         self.wait_until_appear(MEOWFFICER_STATUS)
 
@@ -248,6 +247,9 @@ class RewardMeowfficer(UI):
 
     def meow_run(self, buy=True, train=True):
         """
+        Execute buy and train operations
+        if enabled by arguments
+
         Pages:
             in: Any page
             out: page_main
@@ -274,7 +276,7 @@ class RewardMeowfficer(UI):
         if self.config.record_executed_since(option=('RewardRecord', 'meowfficer'), since=(0,)):
             return False
 
-        if not self.meow_run(buy=self.config.BUY_MEOWFFICER >= 1, train=True):
+        if not self.meow_run(buy=self.config.BUY_MEOWFFICER >= 1, train=self.config.ENABLE_TRAIN_MEOWFFICER):
             return False
 
         self.config.record_save(option=('RewardRecord', 'meowfficer'))

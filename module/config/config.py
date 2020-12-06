@@ -417,6 +417,7 @@ class AzurLaneConfig:
     # TACTICAL_NIGHT_RANGE = future_time_range('23:30-06:30')  # (Night start, night end), datetime.datetime instance.
 
     BUY_MEOWFFICER = 0  # 0 to 15.
+    ENABLE_TRAIN_MEOWFFICER = False
 
     ENABLE_DORM_FEED = True
     ENABLE_DORM_REWARD = True
@@ -612,7 +613,7 @@ class AzurLaneConfig:
                      'enable_dorm_reward', 'enable_dorm_feed',
                      'enable_commission_reward', 'enable_tactical_reward', 'enable_daily_reward',
                      'enable_research_reward',
-                     'enable_data_key_collect']:
+                     'enable_data_key_collect', 'enable_train_meowfficer']:
             self.__setattr__(attr.upper(), to_bool(option[attr]))
         if not option['commission_time_limit'].isdigit():
             self.COMMISSION_TIME_LIMIT = future_time(option['commission_time_limit'])
