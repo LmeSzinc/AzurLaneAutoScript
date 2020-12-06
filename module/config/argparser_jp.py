@@ -320,8 +320,11 @@ def main(ini_name=''):
     research_output.add_argument('--research_filter_string', default=default('--research_filter_string'),
                                  help='Only if you are using custom preset.', gooey_options={'label_color': '#4B5F83'})
 
-    reward_buy = reward_parser.add_argument_group('Buy', 'If already bought, skip', gooey_options={'label_color': '#931D03'})
-    reward_buy.add_argument('--buy_meowfficer', default=default('--buy_meowfficer'), help='From 0 to 15. If no need, fill 0.', gooey_options={'label_color': '#4B5F83'})
+    reward_meowfficer = reward_parser.add_argument_group('Meowfficer', 'If already bought, skip', gooey_options={'label_color': '#931D03'})
+    reward_meowfficer.add_argument('--buy_meowfficer', default=default('--buy_meowfficer'), help='From 0 to 15. If no need, fill 0.', gooey_options={'label_color': '#4B5F83'})
+    reward_meowfficer.add_argument('--enable_train_meowfficer', default=default('--enable_train_meowfficer'),
+                                   help='Enable collection of trained meowfficer and queue all slots for training on Sunday.',
+                                   choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
 
     reward_data_key = reward_parser.add_argument_group('Data Key', 'If already collected, skip', gooey_options={'label_color': '#931D03'})
     reward_data_key.add_argument('--enable_data_key_collect', default=default('--enable_data_key_collect'), help='Enable collection of data key in war archives.', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
