@@ -192,12 +192,12 @@ class RewardMeowfficer(UI):
         Returns:
             Bool whether collected or not
         """
-        if self.appear(MEOWFFICIER_TRAIN_COMPLETE, offset=(20, 20)):
+        if self.appear(MEOWFFICER_TRAIN_COMPLETE, offset=(20, 20)):
             # Today is Sunday, finish all else get just one
             if isSunday:
                 self.device.click(MEOWFFICER_TRAIN_FINISH_ALL)
             else:
-                self.device.click(MEOWFFICIER_TRAIN_COMPLETE)
+                self.device.click(MEOWFFICER_TRAIN_COMPLETE)
 
             # Get loop mechanism to collect all trained meowfficer
             self.meow_get()
