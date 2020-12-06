@@ -51,41 +51,6 @@ class RewardMeowfficer(UI):
                              next_button=MEOWFFICER_BUY_NEXT, skip_first_screenshot=True)
         return True
 
-    def meow_check(self, isSunday):
-        """
-        Pages:
-            in: page_meowfficer
-            out: True: MEOWFFICER_STATUS or False: page_meowfficer
-
-        Args:
-            isSunday (bool): Determine type of collection is used.
-
-        Returns:
-            bool: True if able to collect, False otherwise.
-        """
-        current, remain, total = MEOWFFICER_CAPACITY.ocr(self.device.image)
-        logger.attr('Meowfficer_remain', remain)
-
-        # Check capacity status, 0 implies no space left
-        if remain > 0:
-            self.ui_click(MEOWFFICER_TRAIN_ENTER,
-                          check_button=MEOWFFICER_TRAIN_START, skip_first_screenshot=True)
-
-            # At least one completed, completed slots are automatically moved to top-left
-            # Else go back to page_meowfficer
-            if self.appear(MEOWFFICIER_TRAIN_COMPLETE, offset=(20, 20)):
-                # Today is Sunday, finish all else get just one
-                if isSunday:
-                    self.device.click(MEOWFFICER_TRAIN_FINISH_ALL)
-                else:
-                    self.device.click(MEOWFFICIER_TRAIN_COMPLETE)
-                return True
-            else:
-                self.ui_click(MEOWFFICER_GOTO_DORM,
-                              check_button=MEOWFFICER_TRAIN_ENTER, appear_button=MEOWFFICER_TRAIN_START, offset=None)
-
-        return False
-
     def meow_confirm(self):
         """
         Pages:
@@ -120,9 +85,18 @@ class RewardMeowfficer(UI):
 
     def meow_get(self, skip_first_screenshot=True):
         """
+        Transition through all the necessary screens
+        to acquire each trained meowfficer
+        Animation is waited for as the amount can vary
+        Only SR will prompt MEOWFFICER_LOCK_CONFIRM
+
+        Args:
+            skip_first_screenshot (bool): Skip first
+            screen shot or not
+
         Pages:
             in: MEOWFFICER_STATUS
-            out: page_meowfficer
+            out: MEOWFFICER_TRAIN
         """
 
         # Used to account for the cat box opening animation
@@ -136,10 +110,10 @@ class RewardMeowfficer(UI):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(MEOWFFICER_STATUS, interval=3):
+            if self.appear_then_click(MEOWFFICER_STATUS, interval=5):
                 confirm_timer.reset()
                 continue
-            if self.appear_then_click(MEOWFFICER_LOCK_CONFIRM, offset=(20, 20), interval=3):
+            if self.appear_then_click(MEOWFFICER_LOCK_CONFIRM, offset=(20, 20), interval=5):
                 confirm_timer.reset()
                 continue
 
@@ -150,21 +124,17 @@ class RewardMeowfficer(UI):
             else:
                 confirm_timer.reset()
 
-        self.ui_click(MEOWFFICER_GOTO_DORM,
-                      check_button=MEOWFFICER_TRAIN_ENTER, appear_button=MEOWFFICER_TRAIN_START, offset=None)
-
-    def meow_train(self):
+    def meow_queue(self):
         """
+        Queue all remaining empty slots to begin
+        meowfficer training
+        Begin with single click then loop check
+        screen transitions
+
         Pages:
-            in: page_meowfficer
-            out: page_meowfficer
+            in: MEOWFFICER_TRAIN
+            out: MEOWFFICER_TRAIN
         """
-
-        # Transition to correct pages/windows
-        self.ui_click(MEOWFFICER_TRAIN_ENTER,
-                      check_button=MEOWFFICER_TRAIN_START, skip_first_screenshot=True)
-
-        # Try to start a training session
         self.device.click(MEOWFFICER_TRAIN_START)
 
         # Loop through possible screen transitions
@@ -191,10 +161,6 @@ class RewardMeowfficer(UI):
             else:
                 confirm_timer.reset()
 
-        # May click multiple depending on current screenshot
-        self.ui_click(MEOWFFICER_GOTO_DORM,
-                      check_button=MEOWFFICER_TRAIN_ENTER, appear_button=MEOWFFICER_TRAIN_START, offset=None)
-
     def meow_buy(self):
         """
         Pages:
@@ -210,28 +176,83 @@ class RewardMeowfficer(UI):
         logger.warning('Too many trial in meowfficer buy, stopped.')
         return False
 
-    def meow_collect(self):
+    def meow_collect(self, isSunday=False):
         """
+        Collect one or all trained meowfficer(s)
+        Completed slots are automatically moved
+        to top of queue, assume to check top-left
+        slot only
+
+        Args:
+            isSunday (bool): Whether today is Sunday or not
+
+        Pages:
+            in: MEOWFFICER_TRAIN
+            out: MEOWFFICER_TRAIN
+
+        Returns:
+            Bool whether collected or not
+        """
+        if self.appear(MEOWFFICIER_TRAIN_COMPLETE, offset=(20, 20)):
+            # Today is Sunday, finish all else get just one
+            if isSunday:
+                self.device.click(MEOWFFICER_TRAIN_FINISH_ALL)
+            else:
+                self.device.click(MEOWFFICIER_TRAIN_COMPLETE)
+
+            # Get loop mechanism to collect all trained meowfficer
+            self.meow_get()
+            return True
+        return False
+
+    def meow_train(self):
+        """
+        Performs both retriving a trained meowfficer and queuing
+        meowfficer boxes for training
+
         Pages:
             in: page_meowfficer
             out: page_meowfficer
         """
-        # Determine if final day, used for two separate actions
+        # Retrieve capacity to determine whether able to collect
+        current, remain, total = MEOWFFICER_CAPACITY.ocr(self.device.image)
+        logger.attr('Meowfficer_capacity_remain', remain)
+
+        # Helper variables
         isSunday = self.config.get_server_last_update((0,)).weekday() == 6
-        if self.meow_check(isSunday):
-            self.meow_get()
+        collected = False
 
-        # Final day, fill train queue for next week i.e. tomorrow
-        if isSunday:
-            self.meow_train()
+        # Enter MEOWFFICER_TRAIN window
+        self.ui_click(MEOWFFICER_TRAIN_ENTER,
+                      check_button=MEOWFFICER_TRAIN_START, skip_first_screenshot=True)
 
-    def meow_run(self, buy=True, collect=True):
+        # If today is Sunday, then collect all remainder otherwise just collect one
+        # Once collected, should be back in MEOWFFICER_TRAIN window
+        if remain > 0:
+            collected = self.meow_collect(isSunday)
+
+        # FIll queue to full if
+        # - Attempted to collect but failed,
+        #   indicating in progress or completely
+        #   empty
+        # - Today is Sunday
+        # Once queued, should be back in MEOWFFICER_TRAIN window
+        if (remain > 0 and not collected) or isSunday:
+            self.meow_queue()
+
+        self.ui_click(MEOWFFICER_GOTO_DORM,
+                      check_button=MEOWFFICER_TRAIN_ENTER, appear_button=MEOWFFICER_TRAIN_START, offset=None)
+
+        return collected
+
+
+    def meow_run(self, buy=True, train=True):
         """
         Pages:
             in: Any page
             out: page_main
         """
-        if not buy and not collect:
+        if not buy and not train:
             return False
 
         self.ui_ensure(page_meowfficer)
@@ -239,8 +260,8 @@ class RewardMeowfficer(UI):
         if buy:
             self.meow_buy()
 
-        if collect:
-            self.meow_collect()
+        if train:
+            self.meow_train()
 
         self.ui_goto_main()
         return True
@@ -253,7 +274,7 @@ class RewardMeowfficer(UI):
         if self.config.record_executed_since(option=('RewardRecord', 'meowfficer'), since=(0,)):
             return False
 
-        if not self.meow_run(buy=self.config.BUY_MEOWFFICER >= 1, collect=True):
+        if not self.meow_run(buy=self.config.BUY_MEOWFFICER >= 1, train=True):
             return False
 
         self.config.record_save(option=('RewardRecord', 'meowfficer'))
