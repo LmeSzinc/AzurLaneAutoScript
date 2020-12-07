@@ -1,9 +1,9 @@
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1
+from module.handler.assets import INFO_BAR_1
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
 from module.reward.assets import *
-from module.handler.assets import INFO_BAR_1
 from module.ui.ui import UI, page_meowfficer, MEOWFFICER_GOTO_DORM
 
 BUY_MAX = 15
@@ -51,6 +51,12 @@ class RewardMeowfficer(UI):
                              next_button=MEOWFFICER_BUY_NEXT, skip_first_screenshot=True)
         return True
 
+    def handle_meow_popup_confirm(self):
+        if self.appear_then_click(MEOWFFICER_CONFIRM, offset=(20, 20), interval=5):
+            return True
+        else:
+            return False
+
     def meow_confirm(self):
         """
         Pages:
@@ -65,7 +71,7 @@ class RewardMeowfficer(UI):
         while 1:
             self.device.screenshot()
 
-            if self.appear_then_click(MEOWFFICER_BUY_CONFIRM, interval=5):
+            if self.handle_meow_popup_confirm():
                 continue
             if self.appear_then_click(MEOWFFICER_BUY_SKIP, interval=5):
                 continue
@@ -112,7 +118,7 @@ class RewardMeowfficer(UI):
             if self.appear_then_click(MEOWFFICER_STATUS, interval=5):
                 confirm_timer.reset()
                 continue
-            if self.appear_then_click(MEOWFFICER_LOCK_CONFIRM, offset=(20, 20), interval=5):
+            if self.handle_meow_popup_confirm():
                 confirm_timer.reset()
                 continue
 
@@ -149,7 +155,7 @@ class RewardMeowfficer(UI):
                 self.device.click(MEOWFFICER_TRAIN_START)
                 confirm_timer.reset()
                 continue
-            if self.appear_then_click(MEOWFFICER_TRAIN_CONFIRM, offset=(20, 20), interval=5):
+            if self.handle_meow_popup_confirm():
                 confirm_timer.reset()
                 continue
 
@@ -175,7 +181,7 @@ class RewardMeowfficer(UI):
         logger.warning('Too many trial in meowfficer buy, stopped.')
         return False
 
-    def meow_collect(self, isSunday=False):
+    def meow_collect(self, is_sunday=False):
         """
         Collect one or all trained meowfficer(s)
         Completed slots are automatically moved
@@ -183,7 +189,7 @@ class RewardMeowfficer(UI):
         slot only
 
         Args:
-            isSunday (bool): Whether today is Sunday or not
+            is_sunday (bool): Whether today is Sunday or not
 
         Pages:
             in: MEOWFFICER_TRAIN
@@ -194,7 +200,7 @@ class RewardMeowfficer(UI):
         """
         if self.appear(MEOWFFICER_TRAIN_COMPLETE, offset=(20, 20)):
             # Today is Sunday, finish all else get just one
-            if isSunday:
+            if is_sunday:
                 self.device.click(MEOWFFICER_TRAIN_FINISH_ALL)
             else:
                 self.device.click(MEOWFFICER_TRAIN_COMPLETE)
@@ -206,7 +212,7 @@ class RewardMeowfficer(UI):
 
     def meow_train(self):
         """
-        Performs both retriving a trained meowfficer and queuing
+        Performs both retrieving a trained meowfficer and queuing
         meowfficer boxes for training
 
         Pages:
@@ -218,7 +224,7 @@ class RewardMeowfficer(UI):
         logger.attr('Meowfficer_capacity_remain', remain)
 
         # Helper variables
-        isSunday = self.config.get_server_last_update((0,)).weekday() == 6
+        is_sunday = self.config.get_server_last_update((0,)).weekday() == 6
         collected = False
 
         # Enter MEOWFFICER_TRAIN window
@@ -228,7 +234,7 @@ class RewardMeowfficer(UI):
         # If today is Sunday, then collect all remainder otherwise just collect one
         # Once collected, should be back in MEOWFFICER_TRAIN window
         if remain > 0:
-            collected = self.meow_collect(isSunday)
+            collected = self.meow_collect(is_sunday)
 
         # FIll queue to full if
         # - Attempted to collect but failed,
@@ -236,14 +242,13 @@ class RewardMeowfficer(UI):
         #   empty
         # - Today is Sunday
         # Once queued, should be back in MEOWFFICER_TRAIN window
-        if (remain > 0 and not collected) or isSunday:
+        if (remain > 0 and not collected) or is_sunday:
             self.meow_queue()
 
         self.ui_click(MEOWFFICER_GOTO_DORM,
                       check_button=MEOWFFICER_TRAIN_ENTER, appear_button=MEOWFFICER_TRAIN_START, offset=None)
 
         return collected
-
 
     def meow_run(self, buy=True, train=True):
         """
