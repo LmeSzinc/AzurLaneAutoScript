@@ -59,6 +59,9 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'haixiao_doa': 'MisakiDOA',
     'xia_doa': 'KasumiDOA',
     'zhixiao_doa': 'NagisaDOA',
+
+    # The Enigma and the Shark
+    'nvjiang': 'Amazon',
 }
 
 

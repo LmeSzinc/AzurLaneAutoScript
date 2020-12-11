@@ -40,16 +40,18 @@ A6, B6, C6, D6, E6, F6, G6, H6, \
 
 
 class Config:
-    MAP_HAS_AMBUSH = False
-    MAP_HAS_FLEET_STEP = True
-    MAP_HAS_MOVABLE_ENEMY = True
-    MAP_HAS_SIREN = True
-    MAP_HAS_DYNAMIC_RED_BORDER = False
-    MAP_HAS_MAP_STORY = True
+    # ===== Start of generated config =====
     MAP_SIREN_TEMPLATE = ['Amazon']
-    DETECTION_BACKEND = 'perspective'
+    MOVABLE_ENEMY_TURN = (2,)
+    MAP_HAS_SIREN = True
+    MAP_HAS_MOVABLE_ENEMY = True
+    MAP_HAS_MAP_STORY = False
+    MAP_HAS_FLEET_STEP = True
+    MAP_HAS_AMBUSH = False
+    # ===== End of generated config =====
 
     MAP_SWIPE_MULTIPLY = 1.741
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.683
 
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 40),
