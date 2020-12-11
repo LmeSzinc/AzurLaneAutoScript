@@ -105,7 +105,7 @@ class RewardResearch(ResearchSelector):
         logger.info('Research reset')
         executed = False
         if save_get_items:
-            self.device.save_screenshot('research_project', interval=0)
+            self.device.save_screenshot('research_project', interval=0, to_base_folder=True)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -213,9 +213,6 @@ class RewardResearch(ResearchSelector):
     def research_receive(self, skip_first_screenshot=True, save_get_items=False):
         logger.info('Research receive')
         executed = False
-        # Hacks to change save folder
-        backup = self.config.SCREEN_SHOT_SAVE_FOLDER
-        self.config.SCREEN_SHOT_SAVE_FOLDER = self.config.SCREEN_SHOT_SAVE_FOLDER_BASE
 
         while 1:
             if skip_first_screenshot:
@@ -227,7 +224,7 @@ class RewardResearch(ResearchSelector):
             if self.appear(RESEARCH_CHECK, interval=10):
                 if self._research_has_finished_at(RESEARCH_STATUS[self._research_finished_index]):
                     if save_get_items:
-                        self.device.save_screenshot('research_project', interval=0)
+                        self.device.save_screenshot('research_project', interval=0, to_base_folder=True)
                     self.device.click(RESEARCH_ENTRANCE[self._research_finished_index])
                     continue
 
@@ -239,7 +236,7 @@ class RewardResearch(ResearchSelector):
                 self.device.sleep(2)
                 if save_get_items:
                     self.device.screenshot()
-                    self.device.save_screenshot('research_items')
+                    self.device.save_screenshot('research_items', to_base_folder=True)
                 self.device.click(GET_ITEMS_RESEARCH_SAVE)
                 executed = True
                 continue
@@ -251,7 +248,7 @@ class RewardResearch(ResearchSelector):
                 self.device.sleep(2)
                 if save_get_items:
                     self.device.screenshot()
-                    self.device.save_screenshot('research_items')
+                    self.device.save_screenshot('research_items', to_base_folder=True)
                 self.device.click(GET_ITEMS_RESEARCH_SAVE)
                 executed = True
                 continue
@@ -263,11 +260,11 @@ class RewardResearch(ResearchSelector):
                 self.device.sleep(3)
                 if save_get_items:
                     self.device.screenshot()
-                    self.device.save_screenshot('research_items')
+                    self.device.save_screenshot('research_items', to_base_folder=True)
                     self.device.swipe((0, 250), box=ITEMS_3_SWIPE.area, random_range=(-10, -10, 10, 10), padding=0)
                     self.device.sleep(2)
                     self.device.screenshot()
-                    self.device.save_screenshot('research_items', interval=0)
+                    self.device.save_screenshot('research_items', interval=0, to_base_folder=True)
                 self.device.click(GET_ITEMS_RESEARCH_SAVE)
                 executed = True
                 continue
@@ -277,7 +274,6 @@ class RewardResearch(ResearchSelector):
                 self.ensure_research_stable()
                 break
 
-        self.config.SCREEN_SHOT_SAVE_FOLDER = backup
         self.device.screenshot_interval_set(0.1)
 
     def research_reward(self):

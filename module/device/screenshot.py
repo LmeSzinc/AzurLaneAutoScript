@@ -73,12 +73,13 @@ class Screenshot(AScreenCap):
 
         return self.image
 
-    def save_screenshot(self, genre='items', interval=None):
+    def save_screenshot(self, genre='items', interval=None, to_base_folder=False):
         """Save a screenshot. Use millisecond timestamp as file name.
 
         Args:
             genre (str, optional): Screenshot type.
             interval (int, float): Seconds between two save. Saves in the interval will be dropped.
+            to_base_folder (bool): If save to base folder.
 
         Returns:
             bool: True if save succeed.
@@ -91,7 +92,8 @@ class Screenshot(AScreenCap):
             fmt = 'png'
             file = '%s.%s' % (int(now * 1000), fmt)
 
-            folder = os.path.join(self.config.SCREEN_SHOT_SAVE_FOLDER, genre)
+            folder = self.config.SCREEN_SHOT_SAVE_FOLDER_BASE if to_base_folder else self.config.SCREEN_SHOT_SAVE_FOLDER
+            folder = os.path.join(folder, genre)
             if not os.path.exists(folder):
                 os.mkdir(folder)
 
