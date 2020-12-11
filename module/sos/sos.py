@@ -106,9 +106,7 @@ class CampaignSos(CampaignRun, CampaignBase):
             in: page_campaign
             out: page_campaign, may in different chapter.
         """
-        self.campaign_ensure_mode(mode='normal')
-        self.campaign_ensure_chapter(chapter)
-        self.device.sleep(STAGE_SHOWN_WAIT)
+        self.ensure_campaign_ui(name=f'{chapter}-4', mode='normal')
 
         confirm_timer = Timer(1.5, count=3).start()
         while 1:

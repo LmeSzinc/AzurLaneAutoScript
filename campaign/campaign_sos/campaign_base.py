@@ -17,6 +17,9 @@ class CampaignBase(CampaignBase_):
         Returns:
             Button:
         """
+        if '-5' not in name:
+            return super().campaign_get_entrance(name)
+
         sim, point = TEMPLATE_STAGE_SOS.match_result(self.device.image)
         if sim < 0.85:
             raise CampaignNameError
