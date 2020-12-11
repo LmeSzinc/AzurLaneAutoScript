@@ -34,7 +34,6 @@ dic_event = {
         'Air_Raid_Drills_with_Essex_Rerun': 'raid_20200624',
         'Ink_Stained_Steel_Sakura_Rerun': 'event_20200716_en',
         'Aurora_Noctis': 'event_20200723_cn',
-        'The_Enigma_and_the_Shark_Rerun': 'event_20200806_cn',
         'Scherzo_of_Iron_and_Blood_Rerun': 'event_20200820_cn',
         'Stars_of_the_Shimmering_Fjord': 'event_20200903_en',
         'Dreamwakers_Butterfly': 'event_20200917_cn',
@@ -42,6 +41,7 @@ dic_event = {
         'Universe_in_Unison': 'event_20201029_cn',
         'Sundered_Blue': 'event_20201012_cn',
         'Vacation_Lane': 'event_20201126_cn',
+        'The_Enigma_and_the_Shark_Rerun': 'event_20200806_cn',
     },
     'jp': {
         '凍絶の北海': 'event_20200227_cn',

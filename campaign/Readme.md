@@ -34,7 +34,7 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20200624   | raid 20200624            | Air Raid Drills with Essex     | 复刻特别演习埃塞克斯级 | Air Raid Drills with Essex Rerun | 特別演習超空強襲波（復刻）           | 特別演習埃塞克斯級 |
 | 20200716   | event 20200716 en        | Ink Stained Steel Sakura       | -                      | Ink Stained Steel Sakura Rerun   | -                                    | -                  |
 | 20200723   | event 20200723 cn        | Aurora Noctis                  | 永夜幻光               | Aurora Noctis                    | 極夜照らす幻光                       | -                  |
-| 20200806   | event 20200806 cn        | The Enigma and the Shark       | 复刻最重要的宝物       | The Enigma and the Shark Rerun   | 鉄血鮫とエニグマ（復刻）             | -                  |
+| 20200806   | event 20200806 cn        | The Enigma and the Shark       | 复刻最重要的宝物       | -                                | 鉄血鮫とエニグマ（復刻）             | -                  |
 | 20200820   | event 20200820 cn        | Scherzo of Iron and Blood      | 复刻铁血音符誓言       | Scherzo of Iron and Blood Rerun  | 黒鉄の楽章 誓いの海（復刻）          | -                  |
 | 20200903   | event 20200903 en        | Stars of the Shimmering Fjord  | -                      | Stars of the Shimmering Fjord    | -                                    | -                  |
 | 20200917   | event 20200917 cn        | Dreamwaker's Butterfly         | 蝶海梦花               | Dreamwaker's Butterfly           | 刹那觀る胡蝶の夢                     | -                  |
@@ -45,3 +45,4 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20201112   | event 20200903 en        | Stars of the Shimmering Fjord  | 复刻峡湾间的星辰       | -                                | 輝ける峡湾の星（復刻）               | -                  |
 | 20201112   | event 20201012 cn        | Sundered Blue                  | -                      | Sundered Blue                    | -                                    | -                  |
 | 20201126   | event 20201126 cn        | Vacation Lane                  | 假日航线               | Vacation Lane                    | バケーションレーン                   | -                  |
+| 20201210   | event 20200806 cn        | The Enigma and the Shark       | -                      | The Enigma and the Shark Rerun   | -                                    | -                  |
