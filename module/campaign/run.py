@@ -198,7 +198,8 @@ class CampaignRun(Reward):
                     name=self.stage,
                     mode=self.config.CAMPAIGN_MODE if self.config.COMMAND.lower() == 'main' else 'normal'
                 )
-            if self.commission_notice_show_at_campaign():
+            if self.config.ENABLE_REWARD and self.commission_notice_show_at_campaign():
+                logger.info('Commission notice found')
                 if self.reward():
                     self.campaign.fleet_checked_reset()
                     continue
