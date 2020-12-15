@@ -151,9 +151,10 @@ class MapData:
             # Format: {y, x, rotation}
             land_based_rotation_dict = {1: 'up', 2: 'down', 3: 'left', 4: 'right'}
             self.land_based = []
-            for lb in data['land_based'].values():
-                y, x, r = lb.values()
-                self.land_based.append([location2node((x, y)), land_based_rotation_dict[r]])
+            if isinstance(data['land_based'], dict):
+                for lb in data['land_based'].values():
+                    y, x, r = lb.values()
+                    self.land_based.append([location2node((x, y)), land_based_rotation_dict[r]])
 
             # config
             self.MAP_SIREN_TEMPLATE = []
