@@ -47,7 +47,6 @@ dictionary_en = {
     'urgent_gem': ['VIP', 'HOLIDAY ESCORT', 'PATROL ESCORT'],
     'urgent_ship': ['LAUNCH'],
     'major_comm': ['SELF TRAINING', 'DEFENSE EXERCISE', 'RESEARCH MISSION', 'TOOL PREP', 'TACTICAL CLASS', 'CARGO TRANSPORT'],
-    'doa_daily': ['AREA CLEANING']
 }
 dictionary_jp = {
     'major_comm': ['初級自主訓練', '中級自主訓練', '上級自主訓練', '初級対抗演習', '中級対抗演習', '上級対抗演習', '初級科学研究', '中級科学研究', '上級科学研究', '初級資材整理', '中級資材整理', '上級資材整理', '初級戦術課程', '中級戦術課程', '上級戦術課程', '初級貨物輸送', '中級貨物輸送', '上級貨物輸送'],
@@ -124,8 +123,8 @@ class Commission:
             2: 'pending'
         }
         color = get_color(self.image, area)
-        if self.genre == 'doa_daily':
-            color -= [50, 30, 20]
+        # if self.genre == 'doa_daily':
+        #     color -= [50, 30, 20]
         self.status = dic[int(np.argmax(color))]
 
     @Config.when(SERVER='jp')
@@ -164,8 +163,8 @@ class Commission:
             2: 'pending'
         }
         color = get_color(self.image, area)
-        if self.genre == 'doa_daily':
-            color -= [50, 30, 20]
+        # if self.genre == 'doa_daily':
+        #     color -= [50, 30, 20]
         self.status = dic[int(np.argmax(color))]
 
     @Config.when(SERVER='cn')
@@ -204,8 +203,8 @@ class Commission:
             2: 'pending'
         }
         color = get_color(self.image, area)
-        if self.genre == 'doa_daily':
-            color -= [50, 30, 20]
+        # if self.genre == 'doa_daily':
+        #     color -= [50, 30, 20]
         self.status = dic[int(np.argmax(color))]
 
     def __str__(self):
@@ -268,8 +267,8 @@ class Commission:
             str: Commission genre, such as 'urgent_gem'.
         """
         # string = string.replace(' ', '').replace('-', '')
-        if self.is_doa_commission():
-            return 'doa_daily'
+        # if self.is_doa_commission():
+        #     return 'doa_daily'
         for key, value in dictionary_en.items():
             for keyword in value:
                 if keyword in string:
@@ -288,8 +287,8 @@ class Commission:
         Returns:
             str: Commission genre, such as 'urgent_gem'.
         """
-        if self.is_doa_commission():
-            return 'doa_daily'
+        # if self.is_doa_commission():
+        #     return 'doa_daily'
         min_key = ''
         min_distance = 100
         string = re.sub(r'[\x00-\x7F]', '', string)
@@ -315,8 +314,8 @@ class Commission:
         Returns:
             str: Commission genre, such as 'urgent_gem'.
         """
-        if self.is_doa_commission():
-            return 'doa_daily'
+        # if self.is_doa_commission():
+        #     return 'doa_daily'
         for key, value in dictionary_cn.items():
             for keyword in value:
                 if keyword in string:
@@ -326,15 +325,15 @@ class Commission:
         self.valid = False
         return ''
 
-    def is_doa_commission(self):
-        """
-        Event commission in Vacation Lane, with pink area on the left.
-
-        Returns:
-            bool:
-        """
-        area = area_offset((5, 5, 30, 30), self.area[0:2])
-        return color_similar(color1=get_color(self.image, area), color2=(239, 166, 231))
+    # def is_doa_commission(self):
+    #     """
+    #     Event commission in Vacation Lane, with pink area on the left.
+    #
+    #     Returns:
+    #         bool:
+    #     """
+    #     area = area_offset((5, 5, 30, 30), self.area[0:2])
+    #     return color_similar(color1=get_color(self.image, area), color2=(239, 166, 231))
 
 
 class CommissionGroup:
@@ -428,9 +427,9 @@ class RewardCommission(UI, InfoHandler):
         # Count Commission
         commission = daily.commission + urgent.commission
         self.max_commission = 4
-        for comm in commission:
-            if comm.genre == 'doa_daily':
-                self.max_commission = 5
+        # for comm in commission:
+        #     if comm.genre == 'doa_daily':
+        #         self.max_commission = 5
         running_count = int(
             np.sum([1 for c in commission if c.status == 'running']))
         logger.attr('Running', running_count)
