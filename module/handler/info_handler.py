@@ -4,6 +4,22 @@ from module.handler.assets import *
 from module.logger import logger
 
 
+def info_letter_preprocess(image):
+    """
+    Args:
+        image (np.ndarray):
+
+    Returns:
+        np.ndarray
+    """
+    image = image.astype(float)
+    image = (image - 64) / 0.75
+    image[image > 255] = 255
+    image[image < 0] = 0
+    image = image.astype('uint8')
+    return image
+
+
 class InfoHandler(ModuleBase):
     """
     Class to handle all kinds of message.

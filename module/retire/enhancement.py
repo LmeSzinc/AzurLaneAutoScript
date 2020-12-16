@@ -1,38 +1,18 @@
-import numpy as np
 from random import choice
 
-from module.base.timer import Timer
-from module.base.utils import color_bar_percentage
-from module.logger import logger
-from module.combat.assets import GET_ITEMS_1
-from module.retire.assets import *
-from module.template.assets import TEMPLATE_ENHANCE_SUCCESS, TEMPLATE_ENHANCE_FAILED, TEMPLATE_ENHANCE_IN_BATTLE
-from module.handler.assets import INFO_BAR_DETECT
-from module.retire.dock import Dock, CARD_GRIDS
+import numpy as np
 
+from module.base.decorator import cached_property
+from module.base.timer import Timer
+from module.combat.assets import GET_ITEMS_1
+from module.handler.assets import INFO_BAR_DETECT
+from module.handler.info_handler import info_letter_preprocess
+from module.logger import logger
+from module.retire.assets import *
+from module.retire.dock import Dock, CARD_GRIDS
+from module.template.assets import TEMPLATE_ENHANCE_SUCCESS, TEMPLATE_ENHANCE_FAILED, TEMPLATE_ENHANCE_IN_BATTLE
 
 VALID_SHIP_TYPES = ['dd', 'ss', 'cl', 'ca', 'bb', 'cv', 'repair', 'others']
-
-
-def enhance_letter_preprocess(image):
-    """
-    Args:
-        image (np.ndarray):
-
-    Returns:
-        np.ndarray
-    """
-    image = image.astype(float)
-    image = (image - 64) / 0.75
-    image[image > 255] = 255
-    image[image < 0] = 0
-    image = image.astype('uint8')
-    return image
-
-
-TEMPLATE_ENHANCE_SUCCESS.image = enhance_letter_preprocess(TEMPLATE_ENHANCE_SUCCESS.image)
-TEMPLATE_ENHANCE_FAILED.image = enhance_letter_preprocess(TEMPLATE_ENHANCE_FAILED.image)
-TEMPLATE_ENHANCE_IN_BATTLE.image = enhance_letter_preprocess(TEMPLATE_ENHANCE_IN_BATTLE.image)
 
 
 class Enhancement(Dock):
@@ -43,6 +23,13 @@ class Enhancement(Dock):
         if self.config.RETIRE_AMOUNT == '10':
             return 10
         return 10
+
+    @cached_property
+    def _load_enhance_template(self):
+        TEMPLATE_ENHANCE_SUCCESS.image = info_letter_preprocess(TEMPLATE_ENHANCE_SUCCESS.image)
+        TEMPLATE_ENHANCE_FAILED.image = info_letter_preprocess(TEMPLATE_ENHANCE_FAILED.image)
+        TEMPLATE_ENHANCE_IN_BATTLE.image = info_letter_preprocess(TEMPLATE_ENHANCE_IN_BATTLE.image)
+        return True
 
     def _enhance_enter(self, favourite=False, ship_type=None):
         """
@@ -142,6 +129,7 @@ class Enhancement(Dock):
             True if able to enhance otherwise False
             Always paired with current ship_count
         """
+        _ = self._load_enhance_template
         skip_until_ensured = True
         enhanced = False
         while 1:
@@ -160,14 +148,13 @@ class Enhancement(Dock):
 
             # Respond accordingly based on info_bar information
             if self.info_bar_count():
-                image = enhance_letter_preprocess(np.array(self.device.image.crop(INFO_BAR_DETECT.area)))
+                image = info_letter_preprocess(np.array(self.device.image.crop(INFO_BAR_DETECT.area)))
                 if TEMPLATE_ENHANCE_SUCCESS.match(image):
                     enhanced = True
                 elif TEMPLATE_ENHANCE_FAILED.match(image):
                     logger.info('Enhancement failed. Swiping to next ship if feasible')
                     self.ensure_no_info_bar()
                     if self.equip_view_next(check_button=ENHANCE_RECOMMEND):
-                        skip_iteration = True
                         ship_count -= 1
                         continue
                     else:
@@ -177,12 +164,10 @@ class Enhancement(Dock):
                     logger.info('Enhancement impossible, ship currently in battle. Swiping to next ship if feasible')
                     self.ensure_no_info_bar()
                     if self.equip_view_next(check_button=ENHANCE_RECOMMEND):
-                        skip_iteration = True
                         continue
                     else:
                         logger.info('Swiped failed, exiting current category')
                         return False, ship_count
-
 
             # Possible trapped case in which info_bar will never appear
             # so long as EQUIP_CONFIRM remains appeared
