@@ -249,8 +249,7 @@ class Enhancement(Dock):
                 logger.hr(f'Dock Empty by ship type {ship_type}')
                 continue
 
-            # current_count = self.config.ENHANCE_CHECK_PER_CATEGORY
-            current_count = 2
+            current_count = self.config.ENHANCE_CHECK_PER_CATEGORY
             while 1:
                 choose_result, current_count = self._enhance_choose(ship_count=current_count)
                 if not choose_result:
