@@ -17,21 +17,8 @@ console = logging.StreamHandler()
 console.setFormatter(formatter)
 logger.addHandler(console)
 
-# Ensure folder to be alas root folder when running inside alas module folder
-if not os.path.exists('alas.py'):
-    path = os.path.normpath(os.getcwd()).split(os.sep)
-    path[0] = path[0] + os.sep
-    changed = False
-    for index in range(len(path), 0, -1):
-        folder = os.path.join(*path[:index])
-        if os.path.exists(os.path.join(folder, 'alas.py')):
-            logger.info('[Folder_changed] ' + '../' * (len(path) - index))
-            os.chdir(folder)
-            changed = True
-            break
-    if not changed:
-        logger.warning('Unable to locate Alas root folder')
-        logger.warning(f'Current_folder: {os.getcwd()}')
+# Ensure running in Alas root folder
+os.chdir(os.path.join(os.path.dirname(__file__), '../'))
 
 # Add file logger
 pyw_name = os.path.splitext(os.path.basename(sys.argv[0]))[0]
