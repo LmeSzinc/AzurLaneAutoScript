@@ -221,7 +221,7 @@ def main(ini_name=''):
                         help='Use example format "cv > bb > ..." may omit a ship type category altogether to skip otherwise leave blank to not apply any filter. Using \'?\' will have ALAS select a category at random, may use multiple in same string',
                         gooey_options={'label_color': '#4B5F83'})
     retire.add_argument('--enhance_check_per_category', default=default('--enhance_check_per_category'),
-                        help='This determines how many ships at maximum are viewed before moving onto the next category, ships that are \'in battle\' do not count towards this number and are skipped to the next available ship for enhancement',
+                        help='How many ships at maximum are viewed before moving onto the next category, ships that are \'in battle\' do not count towards this number and are skipped to the next available ship for enhancement',
                         gooey_options={'label_color': '#4B5F83'})
 
     rarity = retire.add_argument_group('Retirement rarity', 'The ship type selection is not supported yet. Ignore the following options when using one-key retirement', gooey_options={'label_color': '#4B5F83'})
