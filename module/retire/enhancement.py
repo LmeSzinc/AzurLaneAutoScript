@@ -238,6 +238,9 @@ class Enhancement(Dock):
             # Otherwise, select a type at random since
             # user has specified an unrecognized type
             if ship_type is not None and ship_type not in VALID_SHIP_TYPES:
+                if len(available_ship_types) == 0:
+                    logger.info('No more ship types for ALAS to choose from, skipping iteration')
+                    continue
                 ship_type = choice(available_ship_types)
                 available_ship_types.remove(ship_type)
 
