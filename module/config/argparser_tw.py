@@ -217,9 +217,7 @@ def main(ini_name=''):
     retire.add_argument('--退役數量', default=default('--退役數量'), choices=['退役全部', '退役10個'], gooey_options={'label_color': '#4B5F83'})
     retire.add_argument('--強化常用角色', default=default('--強化常用角色'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     retire.add_argument('--強化過濾字符串', default=default('--強化過濾字符串'), help='格式: "cv > bb > ...", 留空則使用默認強化方式', gooey_options={'label_color': '#4B5F83'})
-    retire.add_argument('--enhance_check_per_category', default=default('--enhance_check_per_category'),
-                        help='How many ships at maximum are viewed before moving onto the next category, ships that are \'in battle\' do not count towards this number and are skipped to the next available ship for enhancement',
-                        gooey_options={'label_color': '#4B5F83'})
+    retire.add_argument('--強化每分類數量', default=default('--強化每分類數量'), help='每個艦船分類最多強化多少艦船, 在戰鬥中的艦船會被跳過且不計入', gooey_options={'label_color': '#4B5F83'})
 
     rarity = retire.add_argument_group('退役稀有度', '暫不支援艦種選擇, 使用一鍵退役時忽略以下選項', gooey_options={'label_color': '#931D03'})
     rarity.add_argument('--退役白皮', default=default('--退役白皮'), choices=['是', '否'], help='N', gooey_options={'label_color': '#4B5F83'})
