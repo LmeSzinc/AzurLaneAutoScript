@@ -284,6 +284,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
             FLEET_1_AUTO_MODE='combat_auto',
             FLEET_2_AUTO_MODE='combat_auto',
             FLEET_3_AUTO_MODE='combat_auto',
+            ENABLE_FAST_FORWARD=True,
             ENABLE_MAP_FLEET_LOCK=True,
         )
 
