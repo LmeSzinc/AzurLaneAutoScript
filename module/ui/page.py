@@ -75,8 +75,8 @@ if server.server in ['cn', 'en', 'jp']:
     # War Archives
     # Don't enter page_archives from page_campaign
     page_archives = Page(WAR_ARCHIVES_CHECK)
-    page_archives.link(button=WAR_ARCHIVES_GOTO_CAMPAIGN, destination=page_campaign)
-    page_campaign_menu.link(button=CAMPAIGN_GOTO_WAR_ARCHIVES, destination=page_archives)
+    page_archives.link(button=WAR_ARCHIVES_GOTO_CAMPAIGN_MENU, destination=page_campaign_menu)
+    page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_WAR_ARCHIVES, destination=page_archives)
 
     # Reward
     page_reward = Page(REWARD_CHECK)
