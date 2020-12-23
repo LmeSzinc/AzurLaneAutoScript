@@ -145,6 +145,7 @@ else:
 
     # Main
     page_main = Page(MAIN_CHECK)
+    page_campaign_menu = Page(CAMPAIGN_MENU_CHECK)
     page_campaign = Page(CAMPAIGN_CHECK)
     page_fleet = Page(FLEET_CHECK)
     page_main.link(button=MAIN_GOTO_CAMPAIGN, destination=page_campaign)
