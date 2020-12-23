@@ -60,9 +60,11 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
                     continue
             if self.appear_then_click(GET_ITEMS_1):
                 continue
-            if self.appear_then_click(EXP_INFO_S):
+            if self.appear(EXP_INFO_S):
+                self.device.click(CLICK_SAFE_AREA)
                 continue
-            if self.appear_then_click(EXP_INFO_D):
+            if self.appear(EXP_INFO_D):
+                self.device.click(CLICK_SAFE_AREA)
                 continue
             # Last D rank screen
             if self.appear_then_click(OPTS_INFO_D, offset=(30, 30)):
