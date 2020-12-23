@@ -114,6 +114,7 @@ class LoginHandler(Combat):
 
         def in_campaign():
             return self.appear(CAMPAIGN_CHECK, offset=(30, 30)) \
+                   or self.appear(CAMPAIGN_MENU_CHECK, offset=(30, 30)) \
                    or self.appear(EVENT_CHECK, offset=(30, 30)) \
                    or self.appear(SP_CHECK, offset=(30, 30))
 
