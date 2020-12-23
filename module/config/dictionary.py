@@ -45,6 +45,7 @@ dic_true_eng_to_eng = {
     'c7-2_mystery_farming': 'c72_mystery_farming',
     'c12-2_leveling': 'c122_leveling',
     'c12-4_leveling': 'c124_leveling',
+    'os_semi_auto': 'os_semi_auto',
 
     # Argument
     'enable_stop_condition': 'enable_stop_condition',
@@ -222,6 +223,7 @@ dic_true_eng_to_eng = {
     'non_s3_enemy_withdraw_tolerance': 'non_s3_enemy_withdraw_tolerance',
     'ammo_pick_up_124': 'ammo_pick_up_124',
     'default_serial_list': 'default_serial_list',
+    'enable_os_semi_story_skip': 'enable_os_semi_story_skip',
 
     # Option
     'yes': 'yes',
@@ -307,6 +309,7 @@ dic_chi_to_eng = {
     '7-2三战拣垃圾': 'c72_mystery_farming',
     '12-2打中型练级': 'c122_leveling',
     '12-4打大型练级': 'c124_leveling',
+    '大世界辅助点击': 'os_semi_auto',
 
     # Argument
     '启用停止条件': 'enable_stop_condition',
@@ -484,6 +487,7 @@ dic_chi_to_eng = {
     '非大型敌人撤退忍耐': 'non_s3_enemy_withdraw_tolerance',
     '拣弹药124': 'ammo_pick_up_124',
     '默认serial列表': 'default_serial_list',
+    '大世界跳过剧情': 'enable_os_semi_story_skip',
 
     # Option
     '是': 'yes',
@@ -569,6 +573,7 @@ dic_tchi_to_eng = {
     '7-2三戰撿垃圾': 'c72_mystery_farming',
     '12-2打中型練級': 'c122_leveling',
     '12-4打大型練級': 'c124_leveling',
+    '大世界輔助點擊': 'os_semi_auto',
 
     # Argument
     '啟用停止條件': 'enable_stop_condition',
@@ -746,6 +751,7 @@ dic_tchi_to_eng = {
     '非大型敵人撤退忍耐': 'non_s3_enemy_withdraw_tolerance',
     '撿彈藥124': 'ammo_pick_up_124',
     '默認serial列表': 'default_serial_list',
+    '大世界跳過劇情': 'enable_os_semi_story_skip',
 
     # Option
     '是': 'yes',

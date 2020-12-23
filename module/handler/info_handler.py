@@ -137,15 +137,23 @@ class InfoHandler(ModuleBase):
             return True
         if self.appear_then_click(STORY_CHOOSE, offset=True, interval=2):
             self.story_popup_timout.reset()
+            self.interval_reset(STORY_SKIP)
+            self.interval_reset(STORY_LETTERS_ONLY)
             return True
         if self.appear_then_click(STORY_CHOOSE_2, offset=True, interval=2):
             self.story_popup_timout.reset()
+            self.interval_reset(STORY_SKIP)
+            self.interval_reset(STORY_LETTERS_ONLY)
             return True
         if self.appear_then_click(STORY_CHOOSE_LONG, offset=True, interval=2):
             self.story_popup_timout.reset()
+            self.interval_reset(STORY_SKIP)
+            self.interval_reset(STORY_LETTERS_ONLY)
             return True
         if self.appear_then_click(STORY_CHOOSE_LONG_2, offset=True, interval=2):
             self.story_popup_timout.reset()
+            self.interval_reset(STORY_SKIP)
+            self.interval_reset(STORY_LETTERS_ONLY)
             return True
         if self.appear_then_click(STORY_SKIP, offset=True, interval=2):
             self.story_popup_timout.reset()

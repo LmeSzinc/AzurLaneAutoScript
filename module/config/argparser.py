@@ -475,6 +475,11 @@ def main(ini_name=''):
     c_12_4.add_argument('--非大型敌人撤退忍耐', default=default('--非大型敌人撤退忍耐'), choices=['0', '1', '2', '10'], help='没有大型之后还会打多少战, 不挑敌人选10', gooey_options={'label_color': '#4B5F83'})
     c_12_4.add_argument('--拣弹药124', default=default('--拣弹药124'), choices=['2', '3', '4', '5'], help='多少战后拣弹药', gooey_options={'label_color': '#4B5F83'})
 
+    # ==========OS semi auto==========
+    os_semi_parser = subs.add_parser('大世界辅助点击')
+    os_semi = os_semi_parser.add_argument_group('大世界辅助点击', '辅助点击战斗准备和战斗结算', gooey_options={'label_color': '#931D03'})
+    os_semi.add_argument('--大世界跳过剧情', default=default('--大世界跳过剧情'), choices=['是', '否'], help='注意, 这会自动点击地图交互的选项', gooey_options={'label_color': '#4B5F83'})
+
     args = parser.parse_args()
 
     # Convert option from chinese to english.

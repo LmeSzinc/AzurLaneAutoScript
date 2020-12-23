@@ -481,6 +481,11 @@ class AzurLaneConfig:
     C124_NON_S3_WITHDRAW_TOLERANCE = 0
     C124_AMMO_PICK_UP = 3
 
+    """
+    Os_semi_auto
+    """
+    ENABLE_OS_SEMI_STORY_SKIP = True
+
     def create_folder(self):
         for folder in [self.ASSETS_FOLDER, self.PERSPECTIVE_ERROR_LOG_FOLDER, self.ERROR_LOG_FOLDER]:
             if folder and not os.path.exists(folder):
@@ -732,6 +737,10 @@ class AzurLaneConfig:
         self.C124_NON_S3_ENTER_TOLERANCE = int(option['non_s3_enemy_enter_tolerance'])
         self.C124_NON_S3_WITHDRAW_TOLERANCE = int(option['non_s3_enemy_withdraw_tolerance'])
         self.C124_AMMO_PICK_UP = int(option['ammo_pick_up_124'])
+
+        # OS semi auto
+        option = config['Os_semi_auto']
+        self.ENABLE_OS_SEMI_STORY_SKIP = to_bool(option['enable_os_semi_story_skip'])
 
     def get_server_timezone(self):
         if self.SERVER == 'en':

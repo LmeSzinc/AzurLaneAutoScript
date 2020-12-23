@@ -541,6 +541,11 @@ def main(ini_name=''):
     c_12_4.add_argument('--ammo_pick_up_124', default=default('--ammo_pick_up_124'),
                         choices=['2', '3', '4', '5'], help='How many battles before pick ammo, the recommended is 3', gooey_options={'label_color': '#4B5F83'})
 
+    # ==========OS semi auto==========
+    os_semi_parser = subs.add_parser('os_semi_auto')
+    os_semi = os_semi_parser.add_argument_group('os_semi_auto', 'Start and finish combat automatically', gooey_options={'label_color': '#931D03'})
+    os_semi.add_argument('--enable_os_semi_story_skip', default=default('--enable_os_semi_story_skip'), choices=['yes', 'no'], help='Note that this will automatically choose the options in map events', gooey_options={'label_color': '#4B5F83'})
+
     args = parser.parse_args()
 
     # Convert option from chinese to english.

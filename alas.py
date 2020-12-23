@@ -213,5 +213,11 @@ class AzurLaneAutoScript:
         az.device.screenshot()
         az.retire_ships(amount=2000)
 
+    def os_semi_auto(self):
+        from module.daemon.os_daemon import AzurLaneDaemon
+        az = AzurLaneDaemon(self.config, device=self.device)
+        az.daemon()
+
+
 # alas = AzurLaneAutoScript()
 # alas.reward()
