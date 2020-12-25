@@ -382,3 +382,5 @@ class Combat(Level, HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall
         self.combat_status(
             save_get_items=save_get_items, expected_end=expected_end)
         self.handle_map_after_combat_story()
+
+        logger.info('Combat end.')

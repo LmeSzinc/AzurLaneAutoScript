@@ -2,7 +2,9 @@ from module.combat.assets import *
 from module.combat.combat import Combat as Combat_
 from module.logger import logger
 from module.os_combat.assets import *
+from module.os_handler.assets import *
 from module.os_handler.enemy_searching import EnemySearchingHandler
+
 
 class Combat(Combat_, EnemySearchingHandler):
     def combat_appear(self):
@@ -66,3 +68,25 @@ class Combat(Combat_, EnemySearchingHandler):
                 if emotion_reduce:
                     self.emotion.reduce(fleet_index)
                 break
+
+    def handle_get_items(self, save_get_items=False):
+        if self.appear(GET_ITEMS_1, offset=5, interval=self.battle_status_click_interval):
+            self.device.click(CLICK_SAFE_AREA)
+            self.interval_reset(BATTLE_STATUS_S)
+            self.interval_reset(BATTLE_STATUS_A)
+            self.interval_reset(BATTLE_STATUS_B)
+            return True
+        if self.appear(GET_ITEMS_2, offset=5, interval=self.battle_status_click_interval):
+            self.device.click(CLICK_SAFE_AREA)
+            self.interval_reset(BATTLE_STATUS_S)
+            self.interval_reset(BATTLE_STATUS_A)
+            self.interval_reset(BATTLE_STATUS_B)
+            return True
+        if self.appear(GET_OS_STATUS, offset=5, interval=self.battle_status_click_interval):
+            self.device.click(CLICK_SAFE_AREA)
+            self.interval_reset(BATTLE_STATUS_S)
+            self.interval_reset(BATTLE_STATUS_A)
+            self.interval_reset(BATTLE_STATUS_B)
+            return True
+
+        return False

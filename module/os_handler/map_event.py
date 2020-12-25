@@ -5,10 +5,12 @@ from module.os_handler.assets import *
 
 class MapEventHandler(InfoHandler):
     def handle_map_get_items(self):
-        if self.appear(GET_ITEMS_1) or self.appear(GET_ITEMS_2) or self.appear(GET_ITEMS_3):
+        if self.appear(GET_ITEMS_1, interval=2) \
+                or self.appear(GET_ITEMS_2, interval=2) \
+                or self.appear(GET_ITEMS_3, interval=2):
             self.device.click(CLICK_SAFE_AREA)
             return True
-        if self.appear(GET_OS_STATUS):
+        if self.appear(GET_OS_STATUS, interval=2):
             self.device.click(CLICK_SAFE_AREA)
             return True
 
