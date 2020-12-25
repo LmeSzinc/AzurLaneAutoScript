@@ -115,7 +115,8 @@ class RewardMeowfficer(UI):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(MEOWFFICER_STATUS, interval=5):
+            if self.appear(MEOWFFICER_STATUS, interval=1):
+                self.device.multi_click(MEOWFFICER_TRAIN_CLICK_SAFE_AREA, 2)
                 confirm_timer.reset()
                 continue
             if self.handle_meow_popup_confirm():
@@ -152,6 +153,7 @@ class RewardMeowfficer(UI):
                 confirm_timer.reset()
                 continue
             if self.appear_then_click(MEOWFFICER_TRAIN_FILL_QUEUE, offset=(20, 20), interval=5):
+                self.device.sleep(0.3)
                 self.device.click(MEOWFFICER_TRAIN_START)
                 confirm_timer.reset()
                 continue
