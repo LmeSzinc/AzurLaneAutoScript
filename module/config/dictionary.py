@@ -758,7 +758,7 @@ dic_tchi_to_eng = {
     '否': 'no',
     '單縱陣': 'formation_1',
     '復縱陣': 'formation_2',
-    '輪形陣': 'formation_3',
+    '輪型陣': 'formation_3',
     '自律': 'combat_auto',
     '手操': 'combat_manual',
     '中路站樁': 'stand_still_in_the_middle',
