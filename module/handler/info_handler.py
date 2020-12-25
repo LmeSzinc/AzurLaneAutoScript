@@ -145,6 +145,11 @@ class InfoHandler(ModuleBase):
             self.interval_reset(STORY_SKIP)
             self.interval_reset(STORY_LETTERS_ONLY)
             return True
+        if self.appear_then_click(STORY_CHOOSE_LONG_3, offset=True, interval=2):
+            self.story_popup_timout.reset()
+            self.interval_reset(STORY_SKIP)
+            self.interval_reset(STORY_LETTERS_ONLY)
+            return True
         if self.appear_then_click(STORY_CHOOSE_LONG, offset=True, interval=2):
             self.story_popup_timout.reset()
             self.interval_reset(STORY_SKIP)
