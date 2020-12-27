@@ -1,5 +1,5 @@
 from module.base.timer import Timer
-from module.handler.assets import GET_ITEMS_1
+from module.combat.assets import GET_ITEMS_1
 from module.logger import logger
 from module.ocr.ocr import DigitCounter
 from module.reward.assets import OCR_DATA_KEY, DATA_KEY_COLLECT, DATA_KEY_COLLECTED
