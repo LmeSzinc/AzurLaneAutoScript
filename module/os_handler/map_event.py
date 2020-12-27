@@ -13,12 +13,17 @@ class MapEventHandler(InfoHandler):
         if self.appear(GET_OS_STATUS, interval=2):
             self.device.click(CLICK_SAFE_AREA)
             return True
+        if self.appear(GET_MEOWFFICER_ITEMS, interval=2):
+            self.device.click(CLICK_SAFE_AREA)
+            return True
 
         return False
 
     def handle_map_archives(self):
         if self.appear(MAP_ARCHIVES, interval=5):
             self.device.click(CLICK_SAFE_AREA)
+            return True
+        if self.appear_then_click(MAP_WORLD, offset=(20, 20), interval=5):
             return True
 
         return False
