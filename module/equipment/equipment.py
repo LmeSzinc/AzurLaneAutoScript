@@ -21,6 +21,7 @@ class Equipment(UI):
         swipe_timer = Timer(5, count=10)
         self.ensure_no_info_bar(timeout=3)
         SWIPE_CHECK.load_color(self.device.image)
+        SWIPE_CHECK._match_init = True # Disable ensure_template() on match(), allows ship to be properly determined whether different or not
         while 1:
             if not swipe_timer.started() or swipe_timer.reached():
                 swipe_timer.reset()
@@ -32,7 +33,7 @@ class Equipment(UI):
             self.device.screenshot()
             if SWIPE_CHECK.match(self.device.image):
                 if swipe_count > 1:
-                    logger.warning('Same ship on multiple swipes')
+                    logger.info('Same ship on multiple swipes')
                     return False
                 continue
 
