@@ -82,7 +82,7 @@ class Combat(Combat_, EnemySearchingHandler):
             self.interval_reset(BATTLE_STATUS_A)
             self.interval_reset(BATTLE_STATUS_B)
             return True
-        if self.appear(GET_OS_STATUS, offset=5, interval=self.battle_status_click_interval):
+        if self.appear(GET_ADAPTABILITY, offset=5, interval=self.battle_status_click_interval):
             self.device.click(CLICK_SAFE_AREA)
             self.interval_reset(BATTLE_STATUS_S)
             self.interval_reset(BATTLE_STATUS_A)

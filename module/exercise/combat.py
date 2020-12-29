@@ -82,7 +82,7 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
                         show_hp_timer.reset()
                         self._show_hp()
 
-            if self.appear_then_click(QUIT_CONFIRM, offset=True, interval=5):
+            if self.appear_then_click(QUIT_CONFIRM, offset=(20, 20), interval=5):
                 success = False
                 end = True
                 continue

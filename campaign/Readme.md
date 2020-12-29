@@ -46,3 +46,4 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20201112   | event 20201012 cn        | Sundered Blue                  | -                      | Sundered Blue                    | -                                    | -                  |
 | 20201126   | event 20201126 cn        | Vacation Lane                  | 假日航线               | Vacation Lane                    | バケーションレーン                   | -                  |
 | 20201210   | event 20200806 cn        | The Enigma and the Shark       | -                      | The Enigma and the Shark Rerun   | -                                    | -                  |
+| 20201229   | event 20201229 cn        | Inverted Orthant               | 负象限作战             | Inverted Orthant                 | 虚畳なりし限象                       | -                  |

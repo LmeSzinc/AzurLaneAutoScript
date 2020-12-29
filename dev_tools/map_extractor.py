@@ -62,6 +62,23 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
 
     # The Enigma and the Shark
     'nvjiang': 'Amazon',
+
+    # Inverted Orthant
+    'luodeni': 'Rodney',
+    'huangjiafangzhou': 'ArkRoyal',
+    'jingang': 'Kongo',
+    'shancheng': 'Yamashiro',
+    'z24': 'Z24',
+    'niulunbao': 'Nuremberg',
+    'longqibing': 'Carabiniere',
+    'sairenquzhu_ii': 'DD',
+    'sairenqingxun_ii': 'CL',
+    'sairenzhanlie_ii': 'BB',
+    'sairenhangmu_ii': 'CV',
+    'qinraozhe': 'Intruder',
+    'xianghe': 'Shokaku',
+    'ruihe': 'Zuikaku',
+    'shitelasai': 'PeterStrasser',
 }
 
 
@@ -70,6 +87,20 @@ def load_lua(folder, file, prefix):
         text = f.read()
     print(f'Loading {file}')
     result = slpp.decode(text[prefix:])
+    print(f'{len(result.keys())} items loaded')
+    return result
+
+
+def load_lua_by_function(folder, file):
+    with open(os.path.join(folder, file), 'r', encoding='utf-8') as f:
+        text = f.read()
+    print(f'Loading {file}')
+    matched = re.findall('function \(\)(.*?)end\(\)', text, re.S)
+    result = {}
+    for func in matched:
+        add = slpp.decode('{' + func + '}')
+        result.update(add)
+
     print(f'{len(result.keys())} items loaded')
     return result
 
@@ -154,6 +185,8 @@ class MapData:
             if isinstance(data['land_based'], dict):
                 for lb in data['land_based'].values():
                     y, x, r = lb.values()
+                    if r not in land_based_rotation_dict:
+                        continue
                     self.land_based.append([location2node((x, y)), land_based_rotation_dict[r]])
 
             # config
@@ -450,7 +483,7 @@ DATA = load_lua(FILE, 'chapter_template.lua', prefix=36)
 DATA_LOOP = load_lua(FILE, 'chapter_template_loop.lua', prefix=41)
 MAP_EVENT_LIST = load_lua(FILE, 'map_event_list.lua', prefix=34)
 MAP_EVENT_TEMPLATE = load_lua(FILE, 'map_event_template.lua', prefix=38)
-EXPECTATION_DATA = load_lua(FILE, 'expedition_data_template.lua', prefix=43)
+EXPECTATION_DATA = load_lua_by_function(FILE, 'expedition_data_template.lua')
 
 ct = ChapterTemplate()
 ct.extract(ct.get_chapter_by_name(KEYWORD, select=SELECT), folder=FOLDER)
