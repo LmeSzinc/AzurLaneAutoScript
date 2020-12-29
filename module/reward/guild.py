@@ -13,10 +13,9 @@ from module.ui.ui import UI
 
 GUILD_EXCHANGE_LIMIT_AZUR = Digit(OCR_GUILD_EXCHANGE_LIMIT_AZUR, letter=(173, 182, 206), threshold=64)
 GUILD_EXCHANGE_LIMIT_AXIS = Digit(OCR_GUILD_EXCHANGE_LIMIT_AXIS, letter=(214, 113, 115), threshold=64)
-#GUILD_EXCHANGE_INFO_1 = Ocr(OCR_GUILD_EXCHANGE_INFO_1, lang='cnocr', letter=(148, 255, 99))
-GUILD_EXCHANGE_INFO_1 = Ocr(OCR_GUILD_EXCHANGE_INFO_1, lang='cnocr', letter=(148, 255, 99), threshold=64,
-                                  alphabet='123ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz- ')
-GUILD_EXCHANGE_INFO_2 = Digit(OCR_GUILD_EXCHANGE_INFO_2, lang='cnocr', letter=(148, 255, 99), threshold=64)
+GUILD_EXCHANGE_INFO_1 = Ocr(OCR_GUILD_EXCHANGE_INFO_1, lang='cnocr', letter=(148, 249, 99), threshold=64,
+                            alphabet='0123ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz- ')
+GUILD_EXCHANGE_INFO_2 = Digit(OCR_GUILD_EXCHANGE_INFO_2_2, lang='cnocr', letter=(148, 249, 99), threshold=64)
 
 GUILD_SIDEBAR = ButtonGrid(
     origin=(21, 118), delta=(0, 94.5), button_shape=(60, 75), grid_shape=(1, 5), name='GUILD_SIDEBAR')
