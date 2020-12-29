@@ -192,18 +192,17 @@ class RewardGuild(UI):
             else:
                 return True
 
-    def guild_logistics_ensure(self, skip_first_screenshot=True):
+    def guild_affiliation_ensure(self, skip_first_screenshot=True):
         """
-        Ensure logistics page check either
-        AZUR or AXIS
-
-        Method also used as a means to determine
-        which affiliation the player is
+        Determine player's Guild affiliation
 
         Pages:
             in: ANY
-            out: ANY
+            out: GUILD_LOBBY
         """
+        # Transition to GUILD_LOBBY
+        self.guild_sidebar_ensure(5)
+
         confirm_timer = Timer(1.5, count=3).start()
         while 1:
             if skip_first_screenshot:
@@ -212,13 +211,13 @@ class RewardGuild(UI):
                 self.device.screenshot()
 
             # End
-            if self.appear(GUILD_LOGISTICS_CHECK_AZUR) or self.appear(GUILD_LOGISTICS_CHECK_AXIS):
+            if self.appear(GUILD_AFFILIATION_CHECK_AZUR) or self.appear(GUILD_AFFILIATION_CHECK_AXIS):
                 if confirm_timer.reached():
                     break
             else:
                 confirm_timer.reset()
 
-        if self.appear(GUILD_LOGISTICS_CHECK_AZUR):
+        if self.appear(GUILD_AFFILIATION_CHECK_AZUR):
             return True
         else:
             return False
@@ -297,7 +296,7 @@ class RewardGuild(UI):
                 break
             self.ensure_no_info_bar()
 
-    def guild_logistics(self):
+    def guild_logistics(self, is_affiliation_azur=True):
         """
         Execute all actions in logistics
 
@@ -310,16 +309,16 @@ class RewardGuild(UI):
         # Additional wait time needed
         # as ensure does not wait for
         # page to load
+        btn_guild_logistics_check = GUILD_LOGISTICS_CHECK_AZUR if is_affiliation_azur else GUILD_LOGISTICS_CHECK_AXIS
         if not self.guild_sidebar_ensure(3):
             logger.info('Ensurance has failed, please join a Guild first')
             return
-        is_affiliation_azur = self.guild_logistics_ensure()
+        self.wait_until_appear(btn_guild_logistics_check)
 
-        # After ensurance, use boolean returned to determine buttons
+        # Acquire remaining buttons
         btn_guild_mission_rewards = GUILD_MISSION_REWARDS_AZUR if is_affiliation_azur else GUILD_MISSION_REWARDS_AXIS
         btn_guild_mission_accept = GUILD_MISSION_ACCEPT_AZUR if is_affiliation_azur else GUILD_MISSION_ACCEPT_AXIS
         btn_guild_supply_rewards = GUILD_SUPPLY_REWARDS_AZUR if is_affiliation_azur else GUILD_SUPPLY_REWARDS_AXIS
-        btn_guild_logistics_check = GUILD_LOGISTICS_CHECK_AZUR if is_affiliation_azur else GUILD_LOGISTICS_CHECK_AXIS
 
         # Execute all logistics actions
         # 1) Collect Mission Rewards if available
@@ -343,7 +342,7 @@ class RewardGuild(UI):
         if limit > 0:
             self.guild_exchange(limit, btn_guild_logistics_check)
 
-    def guild_operations(self):
+    def guild_operations(self, is_affiliation_azur=True):
         pass
 
     def guild_run(self, logistics=True, operations=True):
@@ -358,13 +357,18 @@ class RewardGuild(UI):
         if not logistics and not operations:
             return False
 
+        # By default, going to page_guild always
+        # opens in GUILD_LOBBY
+        # If already in page_guild will ensure
+        # correct sidebar
         self.ui_ensure(page_guild)
+        is_affiliation_azur = self.guild_affiliation_ensure()
 
         if logistics:
-            self.guild_logistics()
+            self.guild_logistics(is_affiliation_azur)
 
         if operations:
-            self.guild_operations()
+            self.guild_operations(is_affiliation_azur)
 
         self.ui_goto_main()
         return True
