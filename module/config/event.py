@@ -21,6 +21,7 @@ dic_event = {
         '激唱的UNIVERSE': 'event_20201029_cn',
         '复刻峡湾间的星辰': 'event_20200903_en',
         '假日航线': 'event_20201126_cn',
+        '负象限作战': 'event_20201229_cn',
     },
     'en': {
         'Northern_Overture': 'event_20200227_cn',
@@ -42,6 +43,7 @@ dic_event = {
         'Sundered_Blue': 'event_20201012_cn',
         'Vacation_Lane': 'event_20201126_cn',
         'The_Enigma_and_the_Shark_Rerun': 'event_20200806_cn',
+        'Inverted_Orthant': 'event_20201229_cn',
     },
     'jp': {
         '凍絶の北海': 'event_20200227_cn',
@@ -60,6 +62,7 @@ dic_event = {
         '激唱のユニバース': 'event_20201029_cn',
         '輝ける峡湾の星（復刻）': 'event_20200903_en',
         'バケーションレーン': 'event_20201126_cn',
+        '虚畳なりし限象': 'event_20201229_cn',
     },
     'tw': {
         '特別演習埃塞克斯級': 'raid_20200624',
