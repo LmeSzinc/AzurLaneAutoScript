@@ -159,11 +159,11 @@ class RewardGuild(UI):
         priority = priority_parsed.copy()
         [priority.remove(s) for s in priority_parsed if s not in default_priority]
 
-        # If after all that processing, result in empty list, then use default
+        # If after all that processing, result is empty list, then use default
         if len(priority) == 0:
             priority = default_priority
 
-        logger.info(f'{title} Priorities: {priority}')
+        logger.info(f'{title:10}: {priority}')
         return priority
 
     def _guild_exchange_priorities(self):
@@ -181,15 +181,15 @@ class RewardGuild(UI):
 
         # Second T1 Grade Parts
         t1_priority_string = "torpedo > anti-air > aircraft > main > general"
-        t1_priority = self._guild_exchange_priorities_helper('T1', t1_priority_string, DEFAULT_PARTS_PRIORITY)
+        t1_priority = self._guild_exchange_priorities_helper('T1 Gear', t1_priority_string, DEFAULT_PARTS_PRIORITY)
 
         # Third T2 Grade Parts
         t2_priority_string = "torpedo > anti-air > aircraft"
-        t2_priority = self._guild_exchange_priorities_helper('T2', t2_priority_string, DEFAULT_PARTS_PRIORITY)
+        t2_priority = self._guild_exchange_priorities_helper('T2 Gear', t2_priority_string, DEFAULT_PARTS_PRIORITY)
 
         # Fourth T3 Grade Parts
         t3_priority_string = "torpedo > anti-air"
-        t3_priority = self._guild_exchange_priorities_helper('T3', t3_priority_string, DEFAULT_PARTS_PRIORITY)
+        t3_priority = self._guild_exchange_priorities_helper('T3 Gear', t3_priority_string, DEFAULT_PARTS_PRIORITY)
 
         # Build custom GRADE_TO_PARTS
         grade_to_parts_priorities = GRADE_TO_PARTS.copy()
