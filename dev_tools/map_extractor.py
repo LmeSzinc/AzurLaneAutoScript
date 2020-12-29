@@ -62,6 +62,23 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
 
     # The Enigma and the Shark
     'nvjiang': 'Amazon',
+
+    # Inverted Orthant
+    'luodeni': 'Rodney',
+    'huangjiafangzhou': 'ArkRoyal',
+    'jingang': 'Kongo',
+    'shancheng': 'Yamashiro',
+    'z24': 'Z24',
+    'niulunbao': 'Nuremberg',
+    'longqibing': 'Carabiniere',
+    'sairenquzhu_ii': 'DD',
+    'sairenqingxun_ii': 'CL',
+    'sairenzhanlie_ii': 'BB',
+    'sairenhangmu_ii': 'CV',
+    'qinraozhe': 'Intruder',
+    'xianghe': 'Shokaku',
+    'ruihe': 'Zuikaku',
+    'shitelasai': 'PeterStrasser',
 }
 
 
