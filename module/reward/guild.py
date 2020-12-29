@@ -19,7 +19,7 @@ GUILD_EXCHANGE_INFO_2 = Digit(OCR_GUILD_EXCHANGE_INFO_2, lang='cnocr', letter=(1
 GUILD_SIDEBAR = ButtonGrid(
     origin=(21, 118), delta=(0, 94.5), button_shape=(60, 75), grid_shape=(1, 5), name='GUILD_SIDEBAR')
 
-DEFAULT_ITEM_PRIORITY = [
+DEFAULT_RESOURCE_PRIORITY = [
     't1',
     't2',
     'cola',
@@ -38,7 +38,7 @@ DEFAULT_PARTS_PRIORITY = [
     'general'
 ]
 
-ITEM_TO_COST = {
+RESOURCE_TO_COST = {
     't1': 20,
     't2': 10,
     't3': 5,
@@ -115,7 +115,7 @@ class RewardGuild(UI):
     def _guild_exchange_select(self, choices, btn_guild_logistics_check):
         """
         Execute exchange action on choices
-        The order of selection based on item weight
+        The order of selection based on resource weight
         If none are applicable, return False
 
         Pages:
@@ -124,8 +124,8 @@ class RewardGuild(UI):
         """
         logger.info(choices)
         for i in range(3):
-            # Pick the choice with the least item_weight
-            # if same item_weight, min proceeds to next
+            # Pick the choice with the least resource_weight
+            # if same resource_weight, min proceeds to next
             # iterable, which is parts_weight
             # if same parts_weight, next iterable
             # then is button_index
@@ -175,10 +175,9 @@ class RewardGuild(UI):
             in: GUILD_LOGISTICS
             out: GUILD_LOGISTICS
         """
-        # First Items/Categories
-        # Strip invalid markers
-        item_priority_string = "t1 > t2 > coin > cola > coolant > oil > merit > t3"
-        item_priority = self._guild_exchange_priorities_helper('Resource', item_priority_string, DEFAULT_ITEM_PRIORITY)
+        # First Resources
+        resource_priority_string = "t1 > t2 > coin > cola > coolant > oil > merit > t3"
+        resource_priority = self._guild_exchange_priorities_helper('Resource', resource_priority_string, DEFAULT_RESOURCE_PRIORITY)
 
         # Second T1 Grade Parts
         t1_priority_string = "torpedo > anti-air > aircraft > main > general"
@@ -198,10 +197,10 @@ class RewardGuild(UI):
         grade_to_parts_priorities['t2'] = t2_priority
         grade_to_parts_priorities['t3'] = t3_priority
 
-        return item_priority, grade_to_parts_priorities
+        return resource_priority, grade_to_parts_priorities
 
 
-    def _guild_exchange_check(self, item_priority, grade_to_parts_priorities, btn_guild_logistics_check):
+    def _guild_exchange_check(self, resource_priority, grade_to_parts_priorities, btn_guild_logistics_check):
         """
         Sift through all exchangable options
         Record details on each to determine
@@ -215,7 +214,7 @@ class RewardGuild(UI):
         choices = dict()
 
         # Check all 3 available selections
-        # Use Ocr to determine item, cost, and inventory of that item
+        # Use Ocr to determine resource, cost, and inventory of that resource
         for index in range(3):
             index += 1
             btn_key = f'GUILD_EXCHANGE_{index}'
@@ -223,25 +222,33 @@ class RewardGuild(UI):
             self.ui_click(click_button=btn, check_button=POPUP_CONFIRM,
                           appear_button=btn_guild_logistics_check, skip_first_screenshot=True)
 
-            item_text = (GUILD_EXCHANGE_INFO_1.ocr(self.device.image)).lower()
+            info_text = (GUILD_EXCHANGE_INFO_1.ocr(self.device.image)).lower()
 
-            # Defaults if Ocr were to fail, set absurd values forcing to skip the item upon selection
-            item_weight = len(DEFAULT_ITEM_PRIORITY)
+            # Defaults if Ocr were to fail, set absurd values forcing to skip the resource
+            resource_weight = len(DEFAULT_RESOURCE_PRIORITY)
             parts_weight = len(DEFAULT_PARTS_PRIORITY)
-            item_cost = 999999999
-            item_inventory = 0
-            for i, item in enumerate(item_priority):
-                if item in item_text:
-                    item_weight = i
-                    item_cost = ITEM_TO_COST.get(item)
+            resource_cost = 999999999
+            resource_inventory = 0
 
-                if item in ['t1', 't2', 't3']:
-                    parts_priority = grade_to_parts_priorities.get(item)
+            # First loop by resource priorities
+            for i, resource in enumerate(resource_priority):
+                # Valid check, update resource_weight and resource_cost
+                if resource in info_text:
+                    resource_weight = i
+                    resource_cost = RESOURCE_TO_COST.get(resource)
+
+                # If a gear plate, then update parts_weight
+                # If not found, parts_weight is unchanged therefore
+                # reset resource_weight to place in the back of priority
+                if resource in ['t1', 't2', 't3']:
+                    parts_priority = grade_to_parts_priorities.get(resource)
                     for j, parts in enumerate(parts_priority):
-                        if parts in item_text:
+                        if parts in info_text:
                             parts_weight = j
-            item_inventory = GUILD_EXCHANGE_INFO_2.ocr(self.device.image)
-            choices[f'{index}'] = [item_weight, parts_weight, index, item_cost, item_inventory, btn]
+                    if parts_weight == len(DEFAULT_PARTS_PRIORITY):
+                        resource_weight = len(DEFAULT_RESOURCE_PRIORITY)
+            resource_inventory = GUILD_EXCHANGE_INFO_2.ocr(self.device.image)
+            choices[f'{index}'] = [resource_weight, parts_weight, index, resource_cost, resource_inventory, btn]
 
             self.handle_guild_cancel(btn_key, btn_guild_logistics_check)
 
@@ -382,9 +389,9 @@ class RewardGuild(UI):
             in: GUILD_LOGISTICS
             out: GUILD_LOGISTICS
         """
-        item_priority, grade_to_parts_priorities = self._guild_exchange_priorities()
+        resource_priority, grade_to_parts_priorities = self._guild_exchange_priorities()
         for num in range(limit):
-            choices = self._guild_exchange_check(item_priority, grade_to_parts_priorities, btn_guild_logistics_check)
+            choices = self._guild_exchange_check(resource_priority, grade_to_parts_priorities, btn_guild_logistics_check)
             if not self._guild_exchange_select(choices, btn_guild_logistics_check):
                 logger.warning('Failed to exchange with any of the 3 available options')
                 break
