@@ -144,7 +144,7 @@ def main(ini_name=''):
     stop.add_argument('--如果獲得新船', default=default('--如果獲得新船'), choices=['是', '否'],
                       help='獲得新船後進入收穫循環',
                       gooey_options={'label_color': '#4B5F83'})
-    stop.add_argument('--如果地圖開荒', default=default('--如果地圖開荒'), choices=['否', '地圖通關', '地圖三星', '地圖安海不打三星', '地圖安海'], help='如果已滿足, 無視此設定', gooey_options={'label_color': '#4B5F83'})
+    stop.add_argument('--如果地圖開荒', default=default('--如果地圖開荒'), choices=['否', '地圖通關', '地圖三星', '地圖安海不打三星', '地圖安海'], help='', gooey_options={'label_color': '#4B5F83'})
     stop.add_argument('--如果觸發心情控制', default=default('--如果觸發心情控制'), choices=['是', '否'], help='若是, 等待回復, 完成本次, 停止\n若否, 等待回復, 完成本次, 繼續', gooey_options={'label_color': '#4B5F83'})
     stop.add_argument('--如果到達120級', default=default('--如果到達120級'), choices=['是', '否'], help='當艦船從119級升至120級时: \n若是, 完成本次, 停止出擊\n若否, 繼續出擊', gooey_options={'label_color': '#4B5F83'})
     # stop.add_argument('--如果船塢已滿', default=default('--如果船塢已滿'), choices=['是', '否'])

@@ -23,8 +23,6 @@ class FastForwardHandler(ModuleBase):
     map_has_fast_forward = False
     map_is_clear_mode = False  # Clear mode == fast forward
 
-    map_clear_record = None
-
     def map_get_info(self):
         """
         Logs:
@@ -46,8 +44,7 @@ class FastForwardHandler(ModuleBase):
             self.config.MAP_HAS_MAP_STORY = False
         self.config.MAP_CLEAR_ALL_THIS_TIME = self.config.STAR_REQUIRE_3 \
             and not self.__getattribute__(f'map_achieved_star_{self.config.STAR_REQUIRE_3}') \
-            and self.config.STOP_IF_MAP_REACH != 'map_green_without_3_star' \
-            and self.config.STOP_IF_MAP_REACH != 'map_100'
+            and (self.config.STOP_IF_MAP_REACH in ['map_3_star', 'map_green'])
         logger.attr('MAP_CLEAR_ALL_THIS_TIME', self.config.MAP_CLEAR_ALL_THIS_TIME)
 
         # Log
@@ -120,17 +117,5 @@ class FastForwardHandler(ModuleBase):
         if self.config.STOP_IF_MAP_REACH == 'map_green':
             if self.map_is_clear and self.map_is_3_star and self.map_is_green:
                 return True
-
-        return False
-
-    def handle_map_stop(self):
-        if self.map_clear_record is True:
-            return False
-
-        flag = self.triggered_map_stop()
-        if self.map_clear_record is None:
-            self.map_clear_record = flag
-        elif self.map_clear_record is False and flag:
-            return True
 
         return False

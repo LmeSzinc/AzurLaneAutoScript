@@ -145,7 +145,7 @@ def main(ini_name=''):
     stop.add_argument('--if_get_ship', default=default('--if_get_ship'), choices=['yes', 'no'],
                       help='Will enter in reward loop when\nget a new ship',
                       gooey_options={'label_color': '#4B5F83'})
-    stop.add_argument('--if_map_reach', default=default('--if_map_reach'), choices=['no', 'map_100', 'map_3_star', 'map_green_without_3_star', 'map_green'], help='If already reached, ignore this setting', gooey_options={'label_color': '#4B5F83'})
+    stop.add_argument('--if_map_reach', default=default('--if_map_reach'), choices=['no', 'map_100', 'map_3_star', 'map_green_without_3_star', 'map_green'], help='', gooey_options={'label_color': '#4B5F83'})
     stop.add_argument('--if_trigger_emotion_control', default=default('--if_trigger_emotion_control'), choices=['yes', 'no'], help='Will enter in reward loop when\ntriggered Mood limit', gooey_options={'label_color': '#4B5F83'})
     stop.add_argument('--if_reach_lv120', default=default('--if_reach_lv120'), choices=['yes', 'no'], help='Will enter in reward loop when\na ship of lv119 reached lv120 in combat', gooey_options={'label_color': '#4B5F83'})
     # stop.add_argument('--if_dock_full', default=default('--if_dock_full'), choices=['yes', 'no'])
