@@ -9,7 +9,7 @@ from module.handler.assets import POPUP_CONFIRM
 from module.logger import logger
 from module.ocr.ocr import Digit, Ocr
 from module.reward.assets import *
-from module.ui.ui import UI
+from module.ui.ui import UI, page_guild
 
 GUILD_EXCHANGE_LIMIT = Digit(OCR_GUILD_EXCHANGE_LIMIT, threshold=64)
 GUILD_EXCHANGE_INFO_1 = Ocr(OCR_GUILD_EXCHANGE_INFO_1, lang='cnocr', letter=(148, 249, 99), threshold=64,
@@ -325,15 +325,15 @@ class RewardGuild(UI):
         # 3) Collect Supply Rewards if available
         # 4) Contribute resources if able
         if self.appear_then_click(btn_guild_mission_rewards, offset=(20, 20)):
-            self.handle_guild_confirm('GUILD_ACCEPT_MISSION', btn_guild_logistics_check)
+            self.handle_guild_confirm('GUILD_MISSION_REWARDS', btn_guild_logistics_check)
             self.ensure_no_info_bar()
 
         if self.appear_then_click(btn_guild_mission_accept, offset=(20, 20)):
-            self.handle_guild_confirm('GUILD_ACCEPT_MISSION', btn_guild_logistics_check)
+            self.handle_guild_confirm('GUILD_MISSION_ACCEPT', btn_guild_logistics_check)
             self.ensure_no_info_bar()
 
         if self.appear_then_click(btn_guild_supply_rewards, offset=(20, 20)):
-            self.handle_guild_confirm('GUILD_COLLECT_REWARDS', btn_guild_logistics_check)
+            self.handle_guild_confirm('GUILD_SUPPLY_REWARDS', btn_guild_logistics_check)
             self.ensure_no_info_bar()
 
         GUILD_EXCHANGE_LIMIT.letter = (173, 182, 206) if is_affiliation_azur else (214, 113, 115)
@@ -353,7 +353,7 @@ class RewardGuild(UI):
         if not logistics and not operations:
             return False
 
-        #self.ui_ensure(page_guild)
+        self.ui_ensure(page_guild)
 
         if logistics:
             self.guild_logistics()
@@ -361,7 +361,7 @@ class RewardGuild(UI):
         if operations:
             pass
 
-        #self.ui_goto_main()
+        self.ui_goto_main()
         return True
 
     def handle_guild(self):

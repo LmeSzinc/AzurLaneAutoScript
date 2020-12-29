@@ -88,6 +88,11 @@ if server.server in ['cn', 'en', 'jp']:
     page_mission.link(button=GOTO_MAIN, destination=page_main)
     page_main.link(button=MAIN_GOTO_MISSION, destination=page_mission)
 
+    # Guild
+    page_guild = Page(GUILD_CHECK)
+    page_guild.link(button=GOTO_MAIN, destination=page_main)
+    page_main.link(button=MAIN_GOTO_GUILD, destination=page_guild)
+
     # Commission
     # Please don't goto commission from campaign.
     page_commission = Page(COMMISSION_CHECK)
@@ -195,6 +200,11 @@ else:
     page_mission = Page(MISSION_CHECK)
     page_mission.link(button=GOTO_MAIN, destination=page_main)
     page_main.link(button=MAIN_GOTO_MISSION, destination=page_mission)
+
+    # Guild
+    page_guild = Page(GUILD_CHECK)
+    page_guild.link(button=GOTO_MAIN, destination=page_main)
+    page_main.link(button=MAIN_GOTO_GUILD, destination=page_guild)
 
     # Commission
     # Please don't goto commission from campaign.
