@@ -10,7 +10,7 @@ class MapEventHandler(InfoHandler):
                 or self.appear(GET_ITEMS_3, interval=2):
             self.device.click(CLICK_SAFE_AREA)
             return True
-        if self.appear(GET_OS_STATUS, interval=2):
+        if self.appear(GET_ADAPTABILITY, interval=2):
             self.device.click(CLICK_SAFE_AREA)
             return True
         if self.appear(GET_MEOWFFICER_ITEMS, interval=2):
