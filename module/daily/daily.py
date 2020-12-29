@@ -6,7 +6,7 @@ from module.equipment.fleet_equipment import DailyEquipment
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.reward.reward import Reward
-from module.ui.ui import page_daily, page_campaign, BACK_ARROW, DAILY_CHECK
+from module.ui.ui import page_daily, page_campaign_menu, BACK_ARROW, DAILY_CHECK
 
 DAILY_MISSION_LIST = [DAILY_MISSION_1, DAILY_MISSION_2, DAILY_MISSION_3]
 OCR_REMAIN = Digit(OCR_REMAIN, threshold=128, alphabet='0123')
@@ -143,7 +143,7 @@ class Daily(Reward, DailyEquipment):
                 self.daily_check()
                 # The order of daily tasks will be disordered after execute a daily, exit and re-enter to reset.
                 # 打完一次之后每日任务的顺序会乱掉, 退出再进入来重置顺序.
-                self.ui_ensure(page_campaign)
+                self.ui_ensure(page_campaign_menu)
                 break
 
     def daily_run(self):
