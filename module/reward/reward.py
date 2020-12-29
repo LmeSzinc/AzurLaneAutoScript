@@ -13,11 +13,12 @@ from module.reward.dorm import RewardDorm
 from module.reward.meowfficer import RewardMeowfficer
 from module.reward.tactical_class import RewardTacticalClass
 from module.reward.data_key import RewardDataKey
+from module.reward.guild import RewardGuild
 from module.ui.page import *
 from module.update import Update
 
 
-class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, RewardMeowfficer, RewardDataKey, LoginHandler, Update):
+class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, RewardMeowfficer, RewardDataKey, RewardGuild, LoginHandler, Update):
     @cached_property
     def reward_interval(self):
         """
@@ -71,6 +72,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
         self.handle_dorm()
         self.handle_meowfficer()
         self.handle_data_key()
+        self.handle_guild()
         self._reward_mission()
 
         self.config.REWARD_LAST_TIME = datetime.now()

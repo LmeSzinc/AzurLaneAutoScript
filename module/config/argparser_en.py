@@ -334,6 +334,10 @@ def main(ini_name=''):
     reward_data_key = reward_parser.add_argument_group('Data Key', 'If already collected, skip', gooey_options={'label_color': '#931D03'})
     reward_data_key.add_argument('--enable_data_key_collect', default=default('--enable_data_key_collect'), help='Enable collection of data key in war archives.', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
 
+    reward_guild = reward_parser.add_argument_group('Guild', 'Check Guild Logistics and Operations', gooey_options={'label_color': '#931D03'})
+    reward_guild.add_argument('--enable_guild_logistics', default=default('--enable_guild_logistics'), help='Enable logistics actions if applicable.', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_guild.add_argument('--enable_guild_operations', default=default('--enable_guild_operations'), help='Not supported yet.', choices=['no'], gooey_options={'label_color': '#4B5F83'})
+
     # ==========emulator==========
     emulator_parser = subs.add_parser('emulator')
     emulator = emulator_parser.add_argument_group('Emulator', 'Need to Press start to save your settings, it will check whether the game is started \nIf the game has not started, it will be started', gooey_options={'label_color': '#931D03'})

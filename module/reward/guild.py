@@ -310,7 +310,9 @@ class RewardGuild(UI):
         # Additional wait time needed
         # as ensure does not wait for
         # page to load
-        self.guild_sidebar_ensure(3)
+        if not self.guild_sidebar_ensure(3):
+            logger.info('Ensurance has failed, please join a Guild first')
+            return
         is_affiliation_azur = self.guild_logistics_ensure()
 
         # After ensurance, use boolean returned to determine buttons
@@ -341,6 +343,9 @@ class RewardGuild(UI):
         if limit > 0:
             self.guild_exchange(limit, btn_guild_logistics_check)
 
+    def guild_operations(self):
+        pass
+
     def guild_run(self, logistics=True, operations=True):
         """
         Execute logistics and operations actions
@@ -359,7 +364,7 @@ class RewardGuild(UI):
             self.guild_logistics()
 
         if operations:
-            pass
+            self.guild_operations()
 
         self.ui_goto_main()
         return True
@@ -369,10 +374,21 @@ class RewardGuild(UI):
         Returns:
             bool: If executed
         """
-        if self.config.record_executed_since(option=('RewardRecord', 'guild'), since=(0,)):
+        if not self.config.ENABLE_GUILD_LOGISTICS and not self.config.ENABLE_GUILD_OPERATIONS:
             return False
 
-        if not self.guild_run(logistics=self.config.ENABLE_GUILD_LOGISTICS, operations=False):
+        # Print out last date checked
+        self.config.record_executed_since(option=('RewardRecord', 'guild'), since=(0,))
+
+        # TODO: Because notification can appear for either logistics or operations,
+        # currently ignored as operations is not yet supported, guild will be checked
+        # every reward loop
+        #self.ui_goto_main()
+        #if not self.appear(GUILD_RED_DOT, offset=(30, 30)):
+        #    logger.info('Nothing in guild to check for, no notification detected')
+        #    return False
+
+        if not self.guild_run(logistics=self.config.ENABLE_GUILD_LOGISTICS, operations=self.config.ENABLE_GUILD_OPERATIONS):
             return False
 
         self.config.record_save(option=('RewardRecord', 'guild'))

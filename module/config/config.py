@@ -430,6 +430,9 @@ class AzurLaneConfig:
 
     ENABLE_DATA_KEY_COLLECT = True
 
+    ENABLE_GUILD_LOGISTICS = False
+    ENABLE_GUILD_OPERATIONS = False
+
     """
     module.research
     """
@@ -620,7 +623,8 @@ class AzurLaneConfig:
                      'enable_dorm_reward', 'enable_dorm_feed',
                      'enable_commission_reward', 'enable_tactical_reward', 'enable_daily_reward',
                      'enable_research_reward',
-                     'enable_data_key_collect', 'enable_train_meowfficer']:
+                     'enable_data_key_collect', 'enable_train_meowfficer',
+                     'enable_guild_logistics', 'enable_guild_operations']:
             self.__setattr__(attr.upper(), to_bool(option[attr]))
         if not option['commission_time_limit'].isdigit():
             self.COMMISSION_TIME_LIMIT = future_time(option['commission_time_limit'])
