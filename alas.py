@@ -35,9 +35,9 @@ class AzurLaneAutoScript:
                 continue
             except GameTooManyClickError as e:
                 logger.warning(e)
+                self.save_error_log()
                 az = LoginHandler(self.config, device=self.device)
-                az.app_restart()
-                az.ensure_no_unfinished_campaign()
+                az.handle_game_stuck()
                 continue
             except GameStuckError as e:
                 logger.warning(e)
