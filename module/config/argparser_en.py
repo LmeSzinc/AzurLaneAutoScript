@@ -337,6 +337,18 @@ def main(ini_name=''):
     reward_guild = reward_parser.add_argument_group('Guild', 'Check Guild Logistics and Operations. Running for every reward loop.', gooey_options={'label_color': '#931D03'})
     reward_guild.add_argument('--enable_guild_logistics', default=default('--enable_guild_logistics'), help='Enable logistics actions if applicable.', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
     reward_guild.add_argument('--enable_guild_operations', default=default('--enable_guild_operations'), help='Not supported yet.', choices=['no'], gooey_options={'label_color': '#4B5F83'})
+    reward_guild.add_argument('--guild_interval', default=default('--guild_interval'),
+                             help='How many minutes to trigger checking. Recommend to set a time range, such as "10, 40"', gooey_options={'label_color': '#4B5F83'})
+    reward_guild_logistics_resource = reward_guild.add_argument_group('Logistics resource input', 'Available resources: t1, t2, t3, coin, oil, merit, cola, and coolant. Omitting a resource will skip it', gooey_options={'label_color': '#4B5F83'})
+    reward_guild_logistics_resource.add_argument('--guild_logistics_resource_order_string', default=default('--guild_logistics_resource_order_string'),
+                        gooey_options={'label_color': '#4B5F83'})
+    reward_guild_logistics_gear = reward_guild.add_argument_group('Logistics gear input', 'Available gears: main, general, anti-air, aircraft, torpedo. Omitting a gear will decrease its priority', gooey_options={'label_color': '#4B5F83'})
+    reward_guild_logistics_gear.add_argument('--guild_logistics_gear_t1_order_string', default=default('--guild_logistics_gear_t1_order_string'),
+                        gooey_options={'label_color': '#4B5F83'})
+    reward_guild_logistics_gear.add_argument('--guild_logistics_gear_t2_order_string', default=default('--guild_logistics_gear_t2_order_string'),
+                        gooey_options={'label_color': '#4B5F83'})
+    reward_guild_logistics_gear.add_argument('--guild_logistics_gear_t3_order_string', default=default('--guild_logistics_gear_t3_order_string'),
+                        gooey_options={'label_color': '#4B5F83'})
 
     # ==========emulator==========
     emulator_parser = subs.add_parser('emulator')

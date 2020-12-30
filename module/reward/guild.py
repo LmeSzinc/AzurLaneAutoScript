@@ -1,15 +1,19 @@
 from re import sub
+from datetime import datetime, timedelta
 import numpy as np
 
 from module.base.button import ButtonGrid
+from module.base.decorator import cached_property
 from module.base.timer import Timer
-from module.base.utils import color_similarity_2d
+from module.base.utils import color_similarity_2d, ensure_time
 from module.combat.assets import GET_ITEMS_1
 from module.handler.assets import POPUP_CONFIRM
+from module.reward.assets import *
 from module.logger import logger
 from module.ocr.ocr import Digit, Ocr
-from module.reward.assets import *
 from module.ui.ui import UI, page_guild
+
+GUILD_RECORD = ('RewardRecord', 'guild')
 
 GUILD_EXCHANGE_LIMIT = Digit(OCR_GUILD_EXCHANGE_LIMIT, threshold=64)
 GUILD_EXCHANGE_INFO_1 = Ocr(OCR_GUILD_EXCHANGE_INFO_1, lang='cnocr', letter=(148, 249, 99), threshold=64,
@@ -144,7 +148,7 @@ class RewardGuild(UI):
 
     def _guild_exchange_priorities_helper(self, title, string_priority, default_priority):
         """
-        Helper method for _guild_exchange_priorities for repeated usage
+        Helper for _guild_exchange_priorities for repeated usage
 
         Use defaults if configurations are found
         invalid in any manner
@@ -176,20 +180,16 @@ class RewardGuild(UI):
             out: GUILD_LOGISTICS
         """
         # First Resources
-        resource_priority_string = "t1 > t2 > coin > cola > coolant > oil > merit > t3"
-        resource_priority = self._guild_exchange_priorities_helper('Resource', resource_priority_string, DEFAULT_RESOURCE_PRIORITY)
+        resource_priority = self._guild_exchange_priorities_helper('Resource', self.config.GUILD_LOGISTICS_RESOURCE_ORDER_STRING, DEFAULT_RESOURCE_PRIORITY)
 
         # Second T1 Grade Parts
-        t1_priority_string = "torpedo > anti-air > aircraft > main > general"
-        t1_priority = self._guild_exchange_priorities_helper('T1 Gear', t1_priority_string, DEFAULT_PARTS_PRIORITY)
+        t1_priority = self._guild_exchange_priorities_helper('T1 Gear', self.config.GUILD_LOGISTICS_GEAR_T1_ORDER_STRING, DEFAULT_PARTS_PRIORITY)
 
         # Third T2 Grade Parts
-        t2_priority_string = "torpedo > anti-air > aircraft"
-        t2_priority = self._guild_exchange_priorities_helper('T2 Gear', t2_priority_string, DEFAULT_PARTS_PRIORITY)
+        t2_priority = self._guild_exchange_priorities_helper('T2 Gear', self.config.GUILD_LOGISTICS_GEAR_T2_ORDER_STRING, DEFAULT_PARTS_PRIORITY)
 
         # Fourth T3 Grade Parts
-        t3_priority_string = "torpedo > anti-air"
-        t3_priority = self._guild_exchange_priorities_helper('T3 Gear', t3_priority_string, DEFAULT_PARTS_PRIORITY)
+        t3_priority = self._guild_exchange_priorities_helper('T3 Gear', self.config.GUILD_LOGISTICS_GEAR_T3_ORDER_STRING, DEFAULT_PARTS_PRIORITY)
 
         # Build custom GRADE_TO_PARTS
         grade_to_parts_priorities = GRADE_TO_PARTS.copy()
@@ -474,6 +474,14 @@ class RewardGuild(UI):
         self.ui_goto_main()
         return True
 
+    @cached_property
+    def guild_interval(self):
+        return int(ensure_time(self.config.GUILD_INTERVAL, precision=3) * 60)
+
+    def guild_interval_reset(self):
+        """ Call this method after guild run executed """
+        del self.__dict__['guild_interval']
+
     def handle_guild(self):
         """
         Returns:
@@ -483,18 +491,20 @@ class RewardGuild(UI):
         if not self.config.ENABLE_GUILD_LOGISTICS and not self.config.ENABLE_GUILD_OPERATIONS:
             return False
 
-        # Print last checked record
-        self.config.record_executed_since(option=('RewardRecord', 'guild'), since=(0,))
+        self.ui_goto_main()
+        now = datetime.now()
+        do_logistics = False
+        do_operations = False
+        guild_record = datetime.strptime(self.config.config.get(*GUILD_RECORD), self.config.TIME_FORMAT)
+        update = guild_record + timedelta(seconds=self.guild_interval)
+        attr = f'{GUILD_RECORD[0]}_{GUILD_RECORD[1]}'
+        logger.attr(f'{attr}', f'Record time: {guild_record}')
+        logger.attr(f'{attr}', f'Next update: {update}')
+        if now > update or self.appear(GUILD_RED_DOT, offset=(30, 30)):
+            do_logistics = True
+            do_operations = False
 
-        # TODO: Because notification can appear for either logistics or operations,
-        # currently ignored as operations is not yet supported, guild will be checked
-        # every reward loop
-        #self.ui_goto_main()
-        #if not self.appear(GUILD_RED_DOT, offset=(30, 30)):
-        #    logger.info('Nothing in guild to check for, no notification detected')
-        #    return False
-
-        if not self.guild_run(logistics=self.config.ENABLE_GUILD_LOGISTICS, operations=self.config.ENABLE_GUILD_OPERATIONS):
+        if not self.guild_run(logistics=do_logistics, operations=do_operations):
             return False
 
         self.config.record_save(option=('RewardRecord', 'guild'))
