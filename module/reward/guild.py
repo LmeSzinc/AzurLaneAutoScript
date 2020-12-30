@@ -491,7 +491,9 @@ class RewardGuild(UI):
         if not self.config.ENABLE_GUILD_LOGISTICS and not self.config.ENABLE_GUILD_OPERATIONS:
             return False
 
-        self.ui_goto_main()
+        # Determine if interval has elapsed
+        # If not, assumed to already be in page_main
+        # so can check for GUILD_RED_DOT
         now = datetime.now()
         do_logistics = False
         do_operations = False
