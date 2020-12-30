@@ -239,14 +239,14 @@ class RewardGuild(UI):
 
                 # If a gear plate, then update parts_weight
                 # If not found, parts_weight is unchanged therefore
-                # reset resource_weight to place in the back of priority
+                # reset resource_cost, to make it impossible to exchange
                 if resource in ['t1', 't2', 't3']:
                     parts_priority = grade_to_parts_priorities.get(resource)
                     for j, parts in enumerate(parts_priority):
                         if parts in info_text:
                             parts_weight = j
                     if parts_weight == len(DEFAULT_PARTS_PRIORITY):
-                        resource_weight = len(DEFAULT_RESOURCE_PRIORITY)
+                        resource_cost = 999999999
             resource_inventory = GUILD_EXCHANGE_INFO_2.ocr(self.device.image)
             choices[f'{index}'] = [resource_weight, parts_weight, index, resource_cost, resource_inventory, btn]
 
