@@ -23,7 +23,6 @@ GUILD_SIDEBAR = ButtonGrid(
     origin=(21, 118), delta=(0, 94.5), button_shape=(60, 75), grid_shape=(1, 5), name='GUILD_SIDEBAR')
 GUILD_EXCHANGE_GRIDS = ButtonGrid(origin=(470, 470), delta=(198.5, 0), button_shape=(83, 83), grid_shape=(3, 1))
 GUILD_EXCHANGE_ITEMS = ItemGrid(GUILD_EXCHANGE_GRIDS, {}, template_area=(40, 21, 89, 70), amount_area=(60, 71, 91, 92))
-GUILD_EXCHANGE_ITEMS.load_template_folder('./assets/stats_basic')
 
 ITEM_TO_COST = {
     't1': 20,
@@ -201,6 +200,7 @@ class RewardGuild(UI):
         """
 
         # Scan the available exchange items that are selectable
+        GUILD_EXCHANGE_ITEMS.load_template_folder('./assets/stats_basic')
         GUILD_EXCHANGE_ITEMS._load_image(self.device.image)
         name = [GUILD_EXCHANGE_ITEMS.match_template(item.image) for item in GUILD_EXCHANGE_ITEMS.items]
 
