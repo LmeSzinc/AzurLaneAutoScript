@@ -71,6 +71,7 @@ class Config(ConfigBase):
         'BBpurple': 1.111,
         'CVpurple': 1.111,
     }
+    MAP_ENEMY_TEMPLATE = ['MainPurple', 'CarrierPurple']
 
 
 class Campaign(CampaignBase):
@@ -81,6 +82,25 @@ class Campaign(CampaignBase):
             return True
 
         if self.clear_siren():
+            return True
+        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
+            return True
+        if self.clear_enemy(genre=['light', 'main', 'enemy']):
+            return True
+
+        return self.battle_default()
+
+    def battle_5(self):
+        if self.fleet_2_protect():
+            return True
+
+        if self.clear_siren():
+            return True
+        if self.clear_enemy(scale=(1,)):
+            return True
+        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
+            return True
+        if self.clear_enemy(genre=['light', 'main', 'enemy']):
             return True
 
         return self.battle_default()
