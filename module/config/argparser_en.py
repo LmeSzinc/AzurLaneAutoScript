@@ -339,15 +339,15 @@ def main(ini_name=''):
     reward_guild.add_argument('--enable_guild_operations', default=default('--enable_guild_operations'), help='Not supported yet.', choices=['no'], gooey_options={'label_color': '#4B5F83'})
     reward_guild.add_argument('--guild_interval', default=default('--guild_interval'),
                              help='How many minutes to trigger checking. Recommend to set a time range, such as "10, 40"', gooey_options={'label_color': '#4B5F83'})
-    reward_guild_logistics_resource = reward_guild.add_argument_group('Logistics resource input', 'Available resources: t1, t2, t3, coin, oil, merit, cola, and coolant. Omitting a resource will skip it', gooey_options={'label_color': '#4B5F83'})
-    reward_guild_logistics_resource.add_argument('--guild_logistics_resource_order_string', default=default('--guild_logistics_resource_order_string'),
+    reward_guild_logistics_items = reward_guild.add_argument_group('Logistics item input', 'Available items: t1, t2, t3, oxycola, coolant, coins, oil, and merit. Omitting an item will skip it. Less error-prone with many specified', gooey_options={'label_color': '#4B5F83'})
+    reward_guild_logistics_items.add_argument('--guild_logistics_item_order_string', default=default('--guild_logistics_item_order_string'),
                         gooey_options={'label_color': '#4B5F83'})
-    reward_guild_logistics_gear = reward_guild.add_argument_group('Logistics gear input', 'Available gears: main, general, anti-air, aircraft, torpedo. Omitting a gear will decrease its priority', gooey_options={'label_color': '#4B5F83'})
-    reward_guild_logistics_gear.add_argument('--guild_logistics_gear_t1_order_string', default=default('--guild_logistics_gear_t1_order_string'),
+    reward_guild_logistics_plates = reward_guild.add_argument_group('Logistics plate input', 'Available plates: torpedo, antiair, plane, gun, and general. Omitting a plate will skip it. Less error-prone with many specified', gooey_options={'label_color': '#4B5F83'})
+    reward_guild_logistics_plates.add_argument('--guild_logistics_plate_t1_order_string', default=default('--guild_logistics_plate_t1_order_string'),
                         gooey_options={'label_color': '#4B5F83'})
-    reward_guild_logistics_gear.add_argument('--guild_logistics_gear_t2_order_string', default=default('--guild_logistics_gear_t2_order_string'),
+    reward_guild_logistics_plates.add_argument('--guild_logistics_plate_t2_order_string', default=default('--guild_logistics_plate_t2_order_string'),
                         gooey_options={'label_color': '#4B5F83'})
-    reward_guild_logistics_gear.add_argument('--guild_logistics_gear_t3_order_string', default=default('--guild_logistics_gear_t3_order_string'),
+    reward_guild_logistics_plates.add_argument('--guild_logistics_plate_t3_order_string', default=default('--guild_logistics_plate_t3_order_string'),
                         gooey_options={'label_color': '#4B5F83'})
 
     # ==========emulator==========

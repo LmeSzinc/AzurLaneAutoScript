@@ -2,6 +2,7 @@ from re import sub
 from datetime import datetime, timedelta
 import numpy as np
 
+from module.statistics.item import ItemGrid
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.timer import Timer
@@ -16,48 +17,35 @@ from module.ui.ui import UI, page_guild
 GUILD_RECORD = ('RewardRecord', 'guild')
 
 GUILD_EXCHANGE_LIMIT = Digit(OCR_GUILD_EXCHANGE_LIMIT, threshold=64)
-GUILD_EXCHANGE_INFO_1 = Ocr(OCR_GUILD_EXCHANGE_INFO_1, lang='cnocr', letter=(148, 249, 99), threshold=64,
-                            alphabet='0123ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz- ')
 GUILD_EXCHANGE_INFO_2 = Digit(OCR_GUILD_EXCHANGE_INFO_2, lang='cnocr', letter=(148, 249, 99), threshold=64)
 
 GUILD_SIDEBAR = ButtonGrid(
     origin=(21, 118), delta=(0, 94.5), button_shape=(60, 75), grid_shape=(1, 5), name='GUILD_SIDEBAR')
+GUILD_EXCHANGE_GRIDS = ButtonGrid(origin=(470, 470), delta=(198.5, 0), button_shape=(83, 83), grid_shape=(3, 1))
+GUILD_EXCHANGE_ITEMS = ItemGrid(GUILD_EXCHANGE_GRIDS, {}, template_area=(40, 21, 89, 70), amount_area=(60, 71, 91, 92))
+GUILD_EXCHANGE_ITEMS.load_template_folder('./assets/stats_basic')
 
-DEFAULT_RESOURCE_PRIORITY = [
-    't1',
-    't2',
-    'cola',
-    'coolant',
-    'coin',
-    'oil',
-    'merit',
-    't3'
-]
-
-DEFAULT_PARTS_PRIORITY = [
-    'torpedo',
-    'anti-air',
-    'aircraft',
-    'main',
-    'general'
-]
-
-RESOURCE_TO_COST = {
+ITEM_TO_COST = {
     't1': 20,
     't2': 10,
     't3': 5,
-    'cola': 20,
+    'oxycola': 20,
     'coolant': 10,
-    'coin': 600,
+    'coins': 600,
     'oil': 200,
     'merit': 450
 }
 
-GRADE_TO_PARTS = {
-    't1': DEFAULT_PARTS_PRIORITY,
-    't2': DEFAULT_PARTS_PRIORITY,
-    't3': DEFAULT_PARTS_PRIORITY
-}
+DEFAULT_PLATE_PRIORITY = [
+    'torpedo',
+    'antiair',
+    'plane',
+    'gun',
+    'general'
+]
+
+DEFAULT_ITEM_PRIORITY = ITEM_TO_COST.keys()
+GRADES = [s for s in DEFAULT_ITEM_PRIORITY if len(s) == 2]
 
 class RewardGuild(UI):
     def _guild_sidebar_click(self, index):
@@ -119,7 +107,7 @@ class RewardGuild(UI):
     def _guild_exchange_select(self, choices, btn_guild_logistics_check):
         """
         Execute exchange action on choices
-        The order of selection based on resource weight
+        The order of selection based on item weight
         If none are applicable, return False
 
         Pages:
@@ -127,22 +115,26 @@ class RewardGuild(UI):
             out: GUILD_LOGISTICS
         """
         logger.info(choices)
-        for i in range(3):
-            # Pick the choice with the least resource_weight
-            # if same resource_weight, min proceeds to next
-            # iterable, which is parts_weight
-            # if same parts_weight, next iterable
-            # then is button_index
+        while len(choices):
+            # Select minimum by order of details
+            # First, item_weight then plate_weight then button_index
             key = min(choices, key=choices.get)
             details = choices.get(key)
-            if details[3] <= details[4]:
-                self.ui_click(click_button=details[5], check_button=POPUP_CONFIRM,
-                              appear_button=btn_guild_logistics_check, skip_first_screenshot=True)
+
+            # Open window for OCR check inventory of target item
+            self.ui_click(click_button=details[4], check_button=POPUP_CONFIRM,
+                          appear_button=btn_guild_logistics_check, skip_first_screenshot=True)
+            item_inventory = GUILD_EXCHANGE_INFO_2.ocr(self.device.image)
+
+            # Able to make the exchange?
+            if details[3] <= item_inventory:
+                # Confirm window, return True as exchange was successful
                 self.handle_guild_confirm('GUILD_EXCHANGE', btn_guild_logistics_check)
                 #self.handle_guild_cancel('GUILD_EXCHANGE', btn_guild_logistics_check)
                 return True
             else:
-                # Remove this choice since inapplicable, then choose again
+                # Cancel window, remove this choice since inapplicable, then choose again
+                self.handle_guild_cancel('GUILD_EXCHANGE', btn_guild_logistics_check)
                 choices.pop(key)
         return False
 
@@ -179,28 +171,46 @@ class RewardGuild(UI):
             in: GUILD_LOGISTICS
             out: GUILD_LOGISTICS
         """
-        # First Resources
-        resource_priority = self._guild_exchange_priorities_helper('Resource', self.config.GUILD_LOGISTICS_RESOURCE_ORDER_STRING, DEFAULT_RESOURCE_PRIORITY)
+        # Items
+        item_priority = self._guild_exchange_priorities_helper('Item', self.config.GUILD_LOGISTICS_ITEM_ORDER_STRING, DEFAULT_ITEM_PRIORITY)
 
-        # Second T1 Grade Parts
-        t1_priority = self._guild_exchange_priorities_helper('T1 Gear', self.config.GUILD_LOGISTICS_GEAR_T1_ORDER_STRING, DEFAULT_PARTS_PRIORITY)
+        # T1 Grade Plates
+        t1_priority = self._guild_exchange_priorities_helper('T1 Plate', self.config.GUILD_LOGISTICS_PLATE_T1_ORDER_STRING, DEFAULT_PLATE_PRIORITY)
 
-        # Third T2 Grade Parts
-        t2_priority = self._guild_exchange_priorities_helper('T2 Gear', self.config.GUILD_LOGISTICS_GEAR_T2_ORDER_STRING, DEFAULT_PARTS_PRIORITY)
+        # T2 Grade Plates
+        t2_priority = self._guild_exchange_priorities_helper('T2 Plate', self.config.GUILD_LOGISTICS_PLATE_T2_ORDER_STRING, DEFAULT_PLATE_PRIORITY)
 
-        # Fourth T3 Grade Parts
-        t3_priority = self._guild_exchange_priorities_helper('T3 Gear', self.config.GUILD_LOGISTICS_GEAR_T3_ORDER_STRING, DEFAULT_PARTS_PRIORITY)
+        # T3 Grade Plates
+        t3_priority = self._guild_exchange_priorities_helper('T3 Plate', self.config.GUILD_LOGISTICS_PLATE_T3_ORDER_STRING, DEFAULT_PLATE_PRIORITY)
 
-        # Build custom GRADE_TO_PARTS
-        grade_to_parts_priorities = GRADE_TO_PARTS.copy()
-        grade_to_parts_priorities['t1'] = t1_priority
-        grade_to_parts_priorities['t2'] = t2_priority
-        grade_to_parts_priorities['t3'] = t3_priority
+        # Build dictionary
+        grade_to_plate_priorities = dict()
+        grade_to_plate_priorities['t1'] = t1_priority
+        grade_to_plate_priorities['t2'] = t2_priority
+        grade_to_plate_priorities['t3'] = t3_priority
 
-        return resource_priority, grade_to_parts_priorities
+        return item_priority, grade_to_plate_priorities
 
+    def _guild_exchange_scan(self):
+        """
+        Single image scan of available options
+        to be exchanged. Summarizes matching
+        templates in a 1-D list
 
-    def _guild_exchange_check(self, resource_priority, grade_to_parts_priorities, btn_guild_logistics_check):
+        Pages:
+            in: GUILD_LOGISTICS
+            out: GUILD_LOGISTICS
+        """
+
+        # Scan the available exchange items that are selectable
+        GUILD_EXCHANGE_ITEMS._load_image(self.device.image)
+        name = [GUILD_EXCHANGE_ITEMS.match_template(item.image) for item in GUILD_EXCHANGE_ITEMS.items]
+        logger.info(f'{name}')
+
+        # Turn all elements into str and lowercase them
+        return [str(item).lower() for item in name]
+
+    def _guild_exchange_check(self, options, item_priority, grade_to_plate_priorities):
         """
         Sift through all exchangable options
         Record details on each to determine
@@ -210,47 +220,44 @@ class RewardGuild(UI):
             in: GUILD_LOGISTICS
             out: GUILD_LOGISTICS
         """
-        # Holds the details of all 3 choice options
+        logger.info(options)
+        # Contains the details of all options
         choices = dict()
 
-        # Check all 3 available selections
-        # Use Ocr to determine resource, cost, and inventory of that resource
-        for index in range(3):
-            index += 1
-            btn_key = f'GUILD_EXCHANGE_{index}'
+        for i, option in enumerate(options):
+            # Options sorted sequentially
+            # Button indexes are in sync
+            btn_key = f'GUILD_EXCHANGE_{i + 1}'
             btn = globals()[btn_key]
-            self.ui_click(click_button=btn, check_button=POPUP_CONFIRM,
-                          appear_button=btn_guild_logistics_check, skip_first_screenshot=True)
 
-            info_text = (GUILD_EXCHANGE_INFO_1.ocr(self.device.image)).lower()
+            # Defaults set absurd values, which tells ALAS to skip option
+            item_weight = len(DEFAULT_ITEM_PRIORITY)
+            plate_weight = len(DEFAULT_PLATE_PRIORITY)
+            item_cost = 999999999
 
-            # Defaults if Ocr were to fail, set absurd values forcing to skip the resource
-            resource_weight = len(DEFAULT_RESOURCE_PRIORITY)
-            parts_weight = len(DEFAULT_PARTS_PRIORITY)
-            resource_cost = 999999999
-            resource_inventory = 0
+            # Plate perhaps, extract last
+            # 2 characters to ensure
+            grade = option[-2:]
+            if grade in GRADES:
+                item_weight = item_priority.index(grade)
+                item_cost = ITEM_TO_COST.get(grade)
+                plate_priority = grade_to_plate_priorities.get(grade)
+                for j, plate in enumerate(plate_priority):
+                    if plate in option:
+                        plate_weight = j
+                        break
+                # Did weight update? If so, then valid
+                # Otherwise, configure to skip by set absurd cost
+                if plate_weight == len(DEFAULT_PLATE_PRIORITY):
+                    item_cost = 999999999
 
-            # First loop by resource priorities
-            for i, resource in enumerate(resource_priority):
-                # Valid check, update resource_weight and resource_cost
-                if resource in info_text:
-                    resource_weight = i
-                    resource_cost = RESOURCE_TO_COST.get(resource)
+            # Else normal item, check normally
+            # Plates are skipped since only grade in priority
+            if option in item_priority:
+                item_weight = item_priority.index(option)
+                item_cost = ITEM_TO_COST.get(option)
 
-                # If a gear plate, then update parts_weight
-                # If not found, parts_weight is unchanged therefore
-                # reset resource_cost, to make it impossible to exchange
-                if resource in ['t1', 't2', 't3']:
-                    parts_priority = grade_to_parts_priorities.get(resource)
-                    for j, parts in enumerate(parts_priority):
-                        if parts in info_text:
-                            parts_weight = j
-                    if parts_weight == len(DEFAULT_PARTS_PRIORITY):
-                        resource_cost = 999999999
-            resource_inventory = GUILD_EXCHANGE_INFO_2.ocr(self.device.image)
-            choices[f'{index}'] = [resource_weight, parts_weight, index, resource_cost, resource_inventory, btn]
-
-            self.handle_guild_cancel(btn_key, btn_guild_logistics_check)
+            choices[f'{i + 1}'] = [item_weight, plate_weight, i + 1, item_cost, btn]
 
         return choices
 
@@ -297,7 +304,7 @@ class RewardGuild(UI):
         Determine player's Guild affiliation
 
         Pages:
-            in: ANY
+            in: GUILD_ANY
             out: GUILD_LOBBY
         """
         # Transition to GUILD_LOBBY
@@ -389,9 +396,10 @@ class RewardGuild(UI):
             in: GUILD_LOGISTICS
             out: GUILD_LOGISTICS
         """
-        resource_priority, grade_to_parts_priorities = self._guild_exchange_priorities()
+        item_priority, grade_to_plate_priorities = self._guild_exchange_priorities()
         for num in range(limit):
-            choices = self._guild_exchange_check(resource_priority, grade_to_parts_priorities, btn_guild_logistics_check)
+            options = self._guild_exchange_scan()
+            choices = self._guild_exchange_check(options, item_priority, grade_to_plate_priorities)
             if not self._guild_exchange_select(choices, btn_guild_logistics_check):
                 logger.warning('Failed to exchange with any of the 3 available options')
                 break
@@ -425,7 +433,7 @@ class RewardGuild(UI):
         # 1) Collect Mission Rewards if available
         # 2) Accept Mission if available
         # 3) Collect Supply Rewards if available
-        # 4) Contribute resources if able
+        # 4) Contribute items if able
         if self.appear_then_click(btn_guild_mission_rewards, offset=(20, 20)):
             self.handle_guild_confirm('GUILD_MISSION_REWARDS', btn_guild_logistics_check)
             self.ensure_no_info_bar()

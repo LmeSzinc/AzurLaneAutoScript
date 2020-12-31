@@ -433,10 +433,10 @@ class AzurLaneConfig:
     ENABLE_GUILD_LOGISTICS = False
     ENABLE_GUILD_OPERATIONS = False
     GUILD_INTERVAL = '40, 60' # str, such as '20', '10, 40'.
-    GUILD_LOGISTICS_RESOURCE_ORDER_STRING = 't1 > t2 > coin > cola > coolant > oil > merit > t3'
-    GUILD_LOGISTICS_GEAR_T1_ORDER_STRING = 'main > general > anti-air > aircraft > torpedo'
-    GUILD_LOGISTICS_GEAR_T2_ORDER_STRING = 'main > general > anti-air > aircraft > torpedo'
-    GUILD_LOGISTICS_GEAR_T3_ORDER_STRING = 'main > general > anti-air > aircraft > torpedo'
+    GUILD_LOGISTICS_ITEM_ORDER_STRING = 't1 > t2 > t3 > oxycola > coolant > coins > oil > merit'
+    GUILD_LOGISTICS_PLATE_T1_ORDER_STRING = 'torpedo > antiair > plane > gun > general'
+    GUILD_LOGISTICS_PLATE_T2_ORDER_STRING = 'torpedo > antiair > plane > gun > general'
+    GUILD_LOGISTICS_PLATE_T3_ORDER_STRING = 'torpedo > antiair > plane > gun > general'
 
     """
     module.research
@@ -653,10 +653,10 @@ class AzurLaneConfig:
         self.RESEARCH_FILTER_STRING = option['research_filter_string']
         self.BUY_MEOWFFICER = int(option['buy_meowfficer'])
         self.GUILD_INTERVAL = option['guild_interval']
-        self.GUILD_LOGISTICS_RESOURCE_ORDER_STRING = option['guild_logistics_resource_order_string']
-        self.GUILD_LOGISTICS_GEAR_T1_ORDER_STRING = option['guild_logistics_gear_t1_order_string']
-        self.GUILD_LOGISTICS_GEAR_T2_ORDER_STRING = option['guild_logistics_gear_t2_order_string']
-        self.GUILD_LOGISTICS_GEAR_T3_ORDER_STRING = option['guild_logistics_gear_t3_order_string']
+        self.GUILD_LOGISTICS_ITEM_ORDER_STRING = option['guild_logistics_item_order_string']
+        self.GUILD_LOGISTICS_PLATE_T1_ORDER_STRING = option['guild_logistics_plate_t1_order_string']
+        self.GUILD_LOGISTICS_PLATE_T2_ORDER_STRING = option['guild_logistics_plate_t2_order_string']
+        self.GUILD_LOGISTICS_PLATE_T3_ORDER_STRING = option['guild_logistics_plate_t3_order_string']
 
         option = config['Main']
         self.CAMPAIGN_MODE = option['campaign_mode']
