@@ -65,11 +65,29 @@ class Config(ConfigBase):
     MAP_HAS_AMBUSH = False
     # ===== End of generated config =====
 
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (80, 255 - 24),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 24, 255),
+        'prominence': 10,
+        'distance': 50,
+        'width': (0, 10),
+        'wlen': 1000,
+    }
+
+
 
 class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
+        if self.fleet_2_protect():
+            return True
+
         if self.clear_siren():
             return True
 
