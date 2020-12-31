@@ -129,7 +129,6 @@ class RewardGuild(UI):
             if details[3] <= item_inventory:
                 # Confirm window, return True as exchange was successful
                 self.handle_guild_confirm('GUILD_EXCHANGE', btn_guild_logistics_check)
-                #self.handle_guild_cancel('GUILD_EXCHANGE', btn_guild_logistics_check)
                 return True
             else:
                 # Cancel window, remove this choice since inapplicable, then choose again
