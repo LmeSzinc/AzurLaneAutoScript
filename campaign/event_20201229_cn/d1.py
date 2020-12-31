@@ -5,7 +5,7 @@ from module.logger import logger
 
 MAP = CampaignMap('D1')
 MAP.shape = 'I8'
-MAP.camera_data = ['D2', 'D6', 'F2', 'F6']
+MAP.camera_data = ['D3', 'D6', 'F3', 'F6']
 MAP.camera_data_spawn_point = ['D6']
 MAP.map_data = """
     -- -- ++ -- -- ME ++ ++ ++
@@ -28,7 +28,7 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 1, 'siren': 2},
+    {'battle': 0, 'enemy': 4, 'siren': 2},
     {'battle': 1, 'enemy': 1},
     {'battle': 2, 'enemy': 1},
     {'battle': 3, 'enemy': 1},
@@ -57,12 +57,46 @@ class Config:
     MAP_HAS_AMBUSH = False
     # ===== End of generated config =====
 
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (80, 255 - 24),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 24, 255),
+        'prominence': 10,
+        'distance': 50,
+        'width': (0, 10),
+        'wlen': 1000,
+    }
+    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
+    EDGE_LINES_HOUGHLINES_THRESHOLD = 40
+    COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.5
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 180
+    MAP_ENEMY_GENRE_DETECTION_SCALING = {
+        'DD': 1.111,
+        'CL': 1.111,
+        'CA': 1.111,
+        'CV': 1.111,
+        'BB': 1.111,
+    }
+    MAP_SWIPE_MULTIPLY = 1.579
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.527
+    MAP_ENEMY_TEMPLATE = ['LightInvertedOrthant', 'MainInvertedOrthant', 'CarrierInvertedOrthant']
+
 
 class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
         if self.clear_siren():
+            return True
+        if self.clear_enemy(scale=(1,)):
+            return True
+        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
+            return True
+        if self.clear_enemy(genre=['light', 'main', 'enemy']):
             return True
 
         return self.battle_default()

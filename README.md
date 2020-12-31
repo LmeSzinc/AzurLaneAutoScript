@@ -21,11 +21,11 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)** and **[@nona
 
 > **Event Announcement 活动公告**
 >
-> [CN] 支持活动「假日航线」.
+> [CN] 支持活动「负象限作战」.
 >
-> [EN] Support event "Vacation Lane".
+> [EN] Support event "Inverted Orthant".
 >
-> [JP] Support event 「バケーションレーン」.
+> [JP] Support event 「虚畳なりし限象」.
 
 ![gui](doc/README.assets/gui.png)
 

@@ -1,6 +1,7 @@
 import numpy as np
 
 from module.base.utils import get_color
+from module.combat.assets import BATTLE_PREPARATION
 from module.daily.assets import *
 from module.equipment.fleet_equipment import DailyEquipment
 from module.logger import logger
@@ -64,6 +65,8 @@ class Daily(Reward, DailyEquipment):
             return self.appear(DAILY_ENTER_CHECK)
 
         def daily_end():
+            if self.appear(BATTLE_PREPARATION, interval=2):
+                self.device.click(BACK_ARROW)
             return self.appear(DAILY_ENTER_CHECK) or self.appear(BACK_ARROW)
 
         self.ui_click(click_button=DAILY_ENTER, check_button=daily_enter_check, appear_button=DAILY_CHECK)

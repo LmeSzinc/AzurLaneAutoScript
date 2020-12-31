@@ -5,7 +5,7 @@ from module.logger import logger
 
 MAP = CampaignMap('SP')
 MAP.shape = 'M10'
-MAP.camera_data = ['D2', 'D6', 'D8', 'J2', 'J6', 'J8']
+MAP.camera_data = ['F6', 'I6', 'G8']
 MAP.camera_data_spawn_point = ['D8']
 MAP.map_data = """
     -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -32,7 +32,7 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 1, 'siren': 2},
+    {'battle': 0, 'enemy': 3, 'siren': 2},
     {'battle': 1, 'enemy': 1},
     {'battle': 2, 'enemy': 1, 'siren': 1},
     {'battle': 3, 'enemy': 1},
@@ -67,6 +67,26 @@ class Config:
     STAR_REQUIRE_2 = 0
     STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
+
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (80, 255 - 24),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 24, 255),
+        'prominence': 10,
+        'distance': 50,
+        'width': (0, 10),
+        'wlen': 1000,
+    }
+    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
+    EDGE_LINES_HOUGHLINES_THRESHOLD = 40
+    COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.5
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 180
+    MAP_SWIPE_MULTIPLY = 1.445
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.397
 
 
 class Campaign(CampaignBase):

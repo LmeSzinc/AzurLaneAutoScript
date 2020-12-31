@@ -33,7 +33,7 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'siren': 2},
+    {'battle': 0, 'enemy': 4, 'siren': 2},
     {'battle': 1, 'enemy': 1},
     {'battle': 2, 'enemy': 1, 'siren': 1},
     {'battle': 3, 'enemy': 1},
@@ -56,7 +56,7 @@ A10, B10, C10, D10, E10, F10, G10, H10, I10, J10, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['BB', 'CV', 'Intruder']
+    MAP_SIREN_TEMPLATE = ['BBpurple', 'CVpurple', 'Intruder']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -65,12 +65,42 @@ class Config(ConfigBase):
     MAP_HAS_AMBUSH = False
     # ===== End of generated config =====
 
+    MAP_SWIPE_MULTIPLY = 1.445
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.397
+    MAP_ENEMY_GENRE_DETECTION_SCALING = {
+        'BBpurple': 1.111,
+        'CVpurple': 1.111,
+    }
+    MAP_ENEMY_TEMPLATE = ['MainPurple', 'CarrierPurple']
+
 
 class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
+        if self.fleet_2_protect():
+            return True
+
         if self.clear_siren():
+            return True
+        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
+            return True
+        if self.clear_enemy(genre=['light', 'main', 'enemy']):
+            return True
+
+        return self.battle_default()
+
+    def battle_5(self):
+        if self.fleet_2_protect():
+            return True
+
+        if self.clear_siren():
+            return True
+        if self.clear_enemy(scale=(1,)):
+            return True
+        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
+            return True
+        if self.clear_enemy(genre=['light', 'main', 'enemy']):
             return True
 
         return self.battle_default()

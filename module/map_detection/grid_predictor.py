@@ -155,12 +155,20 @@ class GridPredictor:
         return scale
 
     def predict_enemy_genre(self):
-        image = rgb2gray(self.relative_crop((-0.5, -1, 0.5, 0), shape=(60, 60)))
+        image_dic = {}
+        scaling_dic = self.config.MAP_ENEMY_GENRE_DETECTION_SCALING
         for name, template in self.template_enemy_genre.items():
             if template is None:
                 logger.warning(f'Enemy detection template not found: {name}')
                 exit(1)
-            if template.match(image):
+
+            short_name = name[6:] if name.startswith('Siren_') else name
+            scaling = scaling_dic.get(short_name, 1)
+            if scaling not in image_dic:
+                shape = tuple(np.round(np.array((60, 60)) * scaling).astype(int))
+                image_dic[scaling] = rgb2gray(self.relative_crop((-0.5, -1, 0.5, 0), shape=shape))
+
+            if template.match(image_dic[scaling]):
                 return name
 
         return None

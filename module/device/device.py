@@ -109,3 +109,11 @@ class Device(Screenshot, Control, AppControl):
 
         if self.config.ENABLE_GAME_STUCK_HANDLER:
             raise GameStuckError(f'Wait too long')
+
+    def app_start(self):
+        super().app_start()
+        self.stuck_record_clear()
+
+    def app_stop(self):
+        super().app_stop()
+        self.stuck_record_clear()
