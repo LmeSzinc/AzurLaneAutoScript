@@ -17,7 +17,7 @@ from module.ui.ui import UI, page_guild
 GUILD_RECORD = ('RewardRecord', 'guild')
 
 GUILD_EXCHANGE_LIMIT = Digit(OCR_GUILD_EXCHANGE_LIMIT, threshold=64)
-GUILD_EXCHANGE_INFO_2 = Digit(OCR_GUILD_EXCHANGE_INFO_2, lang='cnocr', letter=(148, 249, 99), threshold=64)
+GUILD_EXCHANGE_INFO = Digit(OCR_GUILD_EXCHANGE_INFO, lang='cnocr', letter=(148, 249, 99), threshold=64)
 
 GUILD_SIDEBAR = ButtonGrid(
     origin=(21, 118), delta=(0, 94.5), button_shape=(60, 75), grid_shape=(1, 5), name='GUILD_SIDEBAR')
@@ -124,7 +124,7 @@ class RewardGuild(UI):
             # Open window for OCR check inventory of target item
             self.ui_click(click_button=details[4], check_button=POPUP_CONFIRM,
                           appear_button=btn_guild_logistics_check, skip_first_screenshot=True)
-            item_inventory = GUILD_EXCHANGE_INFO_2.ocr(self.device.image)
+            item_inventory = GUILD_EXCHANGE_INFO.ocr(self.device.image)
 
             # Able to make the exchange?
             if details[3] <= item_inventory:
