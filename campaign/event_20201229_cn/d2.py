@@ -6,7 +6,7 @@ from .d1 import Config as ConfigBase
 
 MAP = CampaignMap('D2')
 MAP.shape = 'K7'
-MAP.camera_data = ['D2', 'D5', 'H2', 'H5']
+MAP.camera_data = ['D3', 'D5', 'H3', 'H5']
 MAP.camera_data_spawn_point = ['D2']
 MAP.map_data = """
     -- ++ -- ++ ++ ++ MB MB ++ ++ ++
@@ -27,7 +27,7 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 1, 'siren': 2},
+    {'battle': 0, 'enemy': 4, 'siren': 2},
     {'battle': 1, 'enemy': 1},
     {'battle': 2, 'enemy': 1, 'siren': 1},
     {'battle': 3, 'enemy': 1},
@@ -55,6 +55,9 @@ class Config(ConfigBase):
     MAP_HAS_FLEET_STEP = True
     MAP_HAS_AMBUSH = False
     # ===== End of generated config =====
+
+    MAP_SWIPE_MULTIPLY = 1.783
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.724
 
 
 class Campaign(CampaignBase):

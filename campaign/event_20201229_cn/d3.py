@@ -33,7 +33,7 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'siren': 2},
+    {'battle': 0, 'enemy': 4, 'siren': 2},
     {'battle': 1, 'enemy': 1},
     {'battle': 2, 'enemy': 1, 'siren': 1},
     {'battle': 3, 'enemy': 1},
@@ -56,7 +56,7 @@ A10, B10, C10, D10, E10, F10, G10, H10, I10, J10, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['BB', 'CV', 'Intruder']
+    MAP_SIREN_TEMPLATE = ['BBpurple', 'CVpurple', 'Intruder']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -65,20 +65,12 @@ class Config(ConfigBase):
     MAP_HAS_AMBUSH = False
     # ===== End of generated config =====
 
-    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (80, 255 - 24),
-        'width': (0.9, 10),
-        'prominence': 10,
-        'distance': 35,
+    MAP_SWIPE_MULTIPLY = 1.445
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.397
+    MAP_ENEMY_GENRE_DETECTION_SCALING = {
+        'BBpurple': 1.111,
+        'CVpurple': 1.111,
     }
-    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 24, 255),
-        'prominence': 10,
-        'distance': 50,
-        'width': (0, 10),
-        'wlen': 1000,
-    }
-
 
 
 class Campaign(CampaignBase):
