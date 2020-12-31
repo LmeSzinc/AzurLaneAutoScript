@@ -83,6 +83,7 @@ class Config:
     }
     MAP_SWIPE_MULTIPLY = 1.579
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.527
+    MAP_ENEMY_TEMPLATE = ['LightInvertedOrthant', 'MainInvertedOrthant', 'CarrierInvertedOrthant']
 
 
 class Campaign(CampaignBase):
@@ -90,6 +91,12 @@ class Campaign(CampaignBase):
 
     def battle_0(self):
         if self.clear_siren():
+            return True
+        if self.clear_enemy(scale=(1,)):
+            return True
+        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
+            return True
+        if self.clear_enemy(genre=['light', 'main', 'enemy']):
             return True
 
         return self.battle_default()
