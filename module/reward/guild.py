@@ -221,7 +221,7 @@ class RewardGuild(UI):
         choices = dict()
 
         for i, option in enumerate(options):
-            # Options sorted sequentially
+            # Options already sorted sequentially
             # Button indexes are in sync
             btn_key = f'GUILD_EXCHANGE_{i + 1}'
             btn = globals()[btn_key]
@@ -237,11 +237,12 @@ class RewardGuild(UI):
             if grade in GRADES:
                 item_weight = item_priority.index(grade)
                 item_cost = ITEM_TO_COST.get(grade)
+
                 plate_priority = grade_to_plate_priorities.get(grade)
-                for j, plate in enumerate(plate_priority):
-                    if plate in option:
-                        plate_weight = j
-                        break
+                plate_name = option[5:-2]
+                if plate_name in plate_priority:
+                    plate_weight = plate_priority.index(plate_name)
+
                 # Did weight update? If so, then valid
                 # Otherwise, configure to skip by set absurd cost
                 if plate_weight == len(DEFAULT_PLATE_PRIORITY):
