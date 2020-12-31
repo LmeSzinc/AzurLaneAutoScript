@@ -5,7 +5,7 @@ from module.logger import logger
 
 MAP = CampaignMap('C1')
 MAP.shape = 'I7'
-MAP.camera_data = ['D2', 'D5', 'F2', 'F5']
+MAP.camera_data = ['D2', 'D4', 'F2', 'F4']
 MAP.camera_data_spawn_point = ['D2', 'D5']
 MAP.map_data = """
     ++ -- MS -- ME -- -- ++ ++
@@ -26,7 +26,7 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 1, 'siren': 2},
+    {'battle': 0, 'enemy': 3, 'siren': 2},
     {'battle': 1, 'enemy': 1},
     {'battle': 2, 'enemy': 1},
     {'battle': 3, 'enemy': 1},
@@ -53,6 +53,20 @@ class Config:
     MAP_HAS_AMBUSH = False
     # ===== End of generated config =====
 
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (80, 255 - 24),
+        'width': (0.9, 10),
+        'prominence': 5,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 24, 255),
+        'prominence': 5,
+        'distance': 50,
+        'width': (0, 10),
+        'wlen': 1000,
+    }
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 180
     MAP_SWIPE_MULTIPLY = 1.827
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.766
     MAP_ENEMY_GENRE_DETECTION_SCALING = {
