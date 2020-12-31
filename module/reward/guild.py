@@ -114,7 +114,6 @@ class RewardGuild(UI):
             in: GUILD_LOGISTICS
             out: GUILD_LOGISTICS
         """
-        logger.info(choices)
         while len(choices):
             # Select minimum by order of details
             # First, item_weight then plate_weight then button_index
@@ -205,7 +204,6 @@ class RewardGuild(UI):
         # Scan the available exchange items that are selectable
         GUILD_EXCHANGE_ITEMS._load_image(self.device.image)
         name = [GUILD_EXCHANGE_ITEMS.match_template(item.image) for item in GUILD_EXCHANGE_ITEMS.items]
-        logger.info(f'{name}')
 
         # Turn all elements into str and lowercase them
         return [str(item).lower() for item in name]
@@ -220,7 +218,6 @@ class RewardGuild(UI):
             in: GUILD_LOGISTICS
             out: GUILD_LOGISTICS
         """
-        logger.info(options)
         # Contains the details of all options
         choices = dict()
 
@@ -308,7 +305,9 @@ class RewardGuild(UI):
             out: GUILD_LOBBY
         """
         # Transition to GUILD_LOBBY
-        self.guild_sidebar_ensure(5)
+        if not self.guild_sidebar_ensure(5):
+            logger.info('Ensurance has failed, please join a Guild first')
+            return
 
         confirm_timer = Timer(1.5, count=3).start()
         while 1:
@@ -472,6 +471,8 @@ class RewardGuild(UI):
         # correct sidebar
         self.ui_ensure(page_guild)
         is_affiliation_azur = self.guild_affiliation_ensure()
+        if is_affiliation_azur is None:
+            return False
 
         if logistics:
             self.guild_logistics(is_affiliation_azur)
