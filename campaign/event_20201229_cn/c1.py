@@ -55,6 +55,13 @@ class Config:
 
     MAP_SWIPE_MULTIPLY = 1.827
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.766
+    MAP_ENEMY_GENRE_DETECTION_SCALING = {
+        'DD': 1.111,
+        'CL': 1.111,
+        'CA': 1.111,
+        'CV': 1.111,
+        'BB': 1.111,
+    }
 
 
 class Campaign(CampaignBase):
