@@ -133,6 +133,7 @@ class RewardGuild(UI):
                 # Cancel window, remove this choice since inapplicable, then choose again
                 self.handle_guild_cancel('GUILD_EXCHANGE', btn_guild_logistics_check)
                 choices.pop(key)
+        logger.warning('Failed to exchange with any of the 3 available options')
         return False
 
     def _guild_exchange_priorities_helper(self, title, string_priority, default_priority):
@@ -243,9 +244,11 @@ class RewardGuild(UI):
                 if plate_name in plate_priority:
                     plate_weight = plate_priority.index(plate_name)
 
-                # Did weight update? If so, then valid
-                # Otherwise, configure to skip by set absurd cost
+                # Did weight update?
+                # If not, then this choice given less priority
+                # also set to absurd cost to avoid using
                 if plate_weight == len(DEFAULT_PLATE_PRIORITY):
+                    item_weight = len(DEFAULT_ITEM_PRIORITY)
                     item_cost = 999999999
 
             # Else normal item, check normally
@@ -255,6 +258,7 @@ class RewardGuild(UI):
                 item_cost = ITEM_TO_COST.get(option)
 
             choices[f'{i + 1}'] = [item_weight, plate_weight, i + 1, item_cost, btn]
+            logger.info(f'Choice #{i + 1} - Name: {option:15}, Weight: {item_weight}')
 
         return choices
 
@@ -400,7 +404,6 @@ class RewardGuild(UI):
             options = self._guild_exchange_scan()
             choices = self._guild_exchange_check(options, item_priority, grade_to_plate_priorities)
             if not self._guild_exchange_select(choices, btn_guild_logistics_check):
-                logger.warning('Failed to exchange with any of the 3 available options')
                 break
             self.ensure_no_info_bar()
 
