@@ -21,8 +21,8 @@ GUILD_EXCHANGE_INFO = Digit(OCR_GUILD_EXCHANGE_INFO, lang='cnocr', letter=(148, 
 
 GUILD_SIDEBAR = ButtonGrid(
     origin=(21, 118), delta=(0, 94.5), button_shape=(60, 75), grid_shape=(1, 5), name='GUILD_SIDEBAR')
-GUILD_EXCHANGE_GRIDS = ButtonGrid(origin=(470, 470), delta=(198.5, 0), button_shape=(83, 83), grid_shape=(3, 1))
-GUILD_EXCHANGE_ITEMS = ItemGrid(GUILD_EXCHANGE_GRIDS, {}, template_area=(40, 21, 89, 70), amount_area=(60, 71, 91, 92))
+EXCHANGE_GRIDS = ButtonGrid(origin=(470, 470), delta=(198.5, 0), button_shape=(83, 83), grid_shape=(3, 1))
+EXCHANGE_ITEMS = ItemGrid(EXCHANGE_GRIDS, {}, template_area=(40, 21, 89, 70), amount_area=(60, 71, 91, 92))
 
 ITEM_TO_COST = {
     't1': 20,
@@ -201,9 +201,9 @@ class RewardGuild(UI):
         """
 
         # Scan the available exchange items that are selectable
-        GUILD_EXCHANGE_ITEMS.load_template_folder('./assets/stats_basic')
-        GUILD_EXCHANGE_ITEMS._load_image(self.device.image)
-        name = [GUILD_EXCHANGE_ITEMS.match_template(item.image) for item in GUILD_EXCHANGE_ITEMS.items]
+        EXCHANGE_ITEMS.load_template_folder('./assets/stats_basic')
+        EXCHANGE_ITEMS._load_image(self.device.image)
+        name = [EXCHANGE_ITEMS.match_template(item.image) for item in EXCHANGE_ITEMS.items]
 
         # Turn all elements into str and lowercase them
         return [str(item).lower() for item in name]
