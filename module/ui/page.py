@@ -28,7 +28,7 @@ class Page:
         self.links[destination] = button
 
 
-if server.server in ['cn', 'en', 'jp']:
+if server.server in ['cn', 'en', 'jp', 'tw']:
     # Main
     page_main = Page(MAIN_CHECK)
     page_campaign_menu = Page(CAMPAIGN_MENU_CHECK)
