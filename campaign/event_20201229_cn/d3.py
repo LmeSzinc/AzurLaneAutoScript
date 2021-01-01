@@ -83,9 +83,9 @@ class Campaign(CampaignBase):
 
         if self.clear_siren():
             return True
-        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
+        if self.clear_enemy(scale=(2,), genre=['MainPurple', 'Enemy', 'CarrierPurple']):
             return True
-        if self.clear_enemy(genre=['light', 'main', 'enemy']):
+        if self.clear_enemy(genre=['MainPurple', 'Enemy', 'CarrierPurple']):
             return True
 
         return self.battle_default()
@@ -98,9 +98,9 @@ class Campaign(CampaignBase):
             return True
         if self.clear_enemy(scale=(1,)):
             return True
-        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
+        if self.clear_enemy(scale=(2,), genre=['MainPurple', 'Enemy', 'CarrierPurple']):
             return True
-        if self.clear_enemy(genre=['light', 'main', 'enemy']):
+        if self.clear_enemy(genre=['MainPurple', 'Enemy', 'CarrierPurple']):
             return True
 
         return self.battle_default()

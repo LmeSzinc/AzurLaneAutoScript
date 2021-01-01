@@ -5,7 +5,7 @@ from module.logger import logger
 
 MAP = CampaignMap('D1')
 MAP.shape = 'I8'
-MAP.camera_data = ['D3', 'D6', 'F3', 'F6']
+MAP.camera_data = ['D3', 'D6', 'F3', 'F6', 'D4', 'F4']
 MAP.camera_data_spawn_point = ['D6']
 MAP.map_data = """
     -- -- ++ -- -- ME ++ ++ ++
@@ -94,9 +94,9 @@ class Campaign(CampaignBase):
             return True
         if self.clear_enemy(scale=(1,)):
             return True
-        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
+        if self.clear_enemy(scale=(2,), genre=['LightInvertedOrthant', 'MainInvertedOrthant', 'Enemy', 'CarrierInvertedOrthant']):
             return True
-        if self.clear_enemy(genre=['light', 'main', 'enemy']):
+        if self.clear_enemy(genre=['LightInvertedOrthant', 'MainInvertedOrthant', 'Enemy', 'CarrierInvertedOrthant']):
             return True
 
         return self.battle_default()
