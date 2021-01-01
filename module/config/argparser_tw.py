@@ -314,6 +314,22 @@ def main(ini_name=''):
     reward_data_key = reward_parser.add_argument_group('作戰檔案', '如果已經領取則自動跳過', gooey_options={'label_color': '#931D03'})
     reward_data_key.add_argument('--啟用檔案密鑰收穫', default=default('--啟用檔案密鑰收穫'), help='領取作戰檔案的檔案密鑰', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
 
+    reward_guild = reward_parser.add_argument_group('Guild', 'Check Guild Logistics and Operations. Running for every reward loop.', gooey_options={'label_color': '#931D03'})
+    reward_guild.add_argument('--enable_guild_logistics', default=default('--enable_guild_logistics'), help='Enable logistics actions if applicable.', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    reward_guild.add_argument('--enable_guild_operations', default=default('--enable_guild_operations'), help='Not supported yet.', choices=['否'], gooey_options={'label_color': '#4B5F83'})
+    reward_guild.add_argument('--guild_interval', default=default('--guild_interval'),
+                             help='How many minutes to trigger checking. Recommend to set a time range, such as "10, 40"', gooey_options={'label_color': '#4B5F83'})
+    reward_guild_logistics_items = reward_guild.add_argument_group('Logistics item input', 'Available items: t1, t2, t3, oxycola, coolant, coins, oil, and merit. Omitting an item will skip it. Less error-prone with many specified', gooey_options={'label_color': '#4B5F83'})
+    reward_guild_logistics_items.add_argument('--guild_logistics_item_order_string', default=default('--guild_logistics_item_order_string'),
+                        gooey_options={'label_color': '#4B5F83'})
+    reward_guild_logistics_plates = reward_guild.add_argument_group('Logistics plate input', 'Available plates: torpedo, antiair, plane, gun, and general. Omitting a plate will skip it. Less error-prone with many specified', gooey_options={'label_color': '#4B5F83'})
+    reward_guild_logistics_plates.add_argument('--guild_logistics_plate_t1_order_string', default=default('--guild_logistics_plate_t1_order_string'),
+                        gooey_options={'label_color': '#4B5F83'})
+    reward_guild_logistics_plates.add_argument('--guild_logistics_plate_t2_order_string', default=default('--guild_logistics_plate_t2_order_string'),
+                        gooey_options={'label_color': '#4B5F83'})
+    reward_guild_logistics_plates.add_argument('--guild_logistics_plate_t3_order_string', default=default('--guild_logistics_plate_t3_order_string'),
+                        gooey_options={'label_color': '#4B5F83'})
+
     # ==========設備設定==========
     emulator_parser = subs.add_parser('設備設定')
     emulator = emulator_parser.add_argument_group('模擬器', '需要運行一次來保存選項, 會檢查遊戲是否啟動\n若啟動了遊戲, 觸發一次收菜', gooey_options={'label_color': '#931D03'})
