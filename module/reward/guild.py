@@ -5,11 +5,13 @@ import numpy as np
 from module.statistics.item import ItemGrid
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
+from module.base.mask import Mask
 from module.base.timer import Timer
-from module.base.utils import color_similarity_2d, ensure_time
+from module.base.utils import color_similarity_2d, ensure_time, area_offset
 from module.combat.assets import GET_ITEMS_1
 from module.handler.assets import POPUP_CONFIRM
 from module.reward.assets import *
+from module.template.assets import TEMPLATE_OPERATIONS_RED_DOT, TEMPLATE_OPERATIONS_ADD
 from module.logger import logger
 from module.ocr.ocr import Digit, Ocr
 from module.ui.ui import UI, page_guild
@@ -46,7 +48,160 @@ DEFAULT_PLATE_PRIORITY = [
 DEFAULT_ITEM_PRIORITY = ITEM_TO_COST.keys()
 GRADES = [s for s in DEFAULT_ITEM_PRIORITY if len(s) == 2]
 
+SWIPE_DISTANCE = 250
+SWIPE_RANDOM_RANGE = (-40, -20, 40, 20)
+
+MASK_OPERATIONS = Mask(file='./assets/mask/MASK_OPERATIONS.png')
+
 class RewardGuild(UI):
+    def _view_swipe(self, distance):
+        """
+        Perform swipe action, altered specifically
+        for Guild Operations map usage
+        """
+        swipe_count = 0
+        swipe_timer = Timer(5, count=10)
+        SWIPE_AREA.load_color(self.device.image)
+        while 1:
+            if not swipe_timer.started() or swipe_timer.reached():
+                swipe_timer.reset()
+                self.device.swipe(vector=(distance, 0), box=SWIPE_AREA.area, random_range=SWIPE_RANDOM_RANGE,
+                                  padding=0, duration=(0.1, 0.12), name='SWIPE')
+                self.device.sleep((1.7, 2)) # No assets to use to ensure whether screen has stabilized after swipe
+                swipe_count += 1
+
+            self.device.screenshot()
+            if SWIPE_AREA.match(self.device.image):
+                if swipe_count > 1:
+                    logger.info('Same view, page end')
+                    return False
+                continue
+
+            if not SWIPE_AREA.match(self.device.image):
+                logger.info('Different view, page continues')
+                return True
+
+    def view_forward(self):
+        """
+        Performs swipe forward
+        """
+        return self._view_swipe(distance=-SWIPE_DISTANCE)
+
+    def view_backward(self):
+        """
+        Performs swipe backward
+        """
+        return self._view_swipe(distance=SWIPE_DISTANCE)
+
+    def _guild_operations_enter(self):
+        """
+        Mask and then scan the current image to look
+        for active operations, noted by a red dot icon
+
+        Pages:
+            in: GUILD_OPERATIONS_MAP
+            out: GUILD_OPERATIONS_DISPATCH
+        """
+        # Apply mask to cover potential RED_DOTs that are not operations
+        image = MASK_OPERATIONS.apply(np.array(self.device.image))
+
+        # Scan image and must have similarity greater than 0.85
+        sim, point = TEMPLATE_OPERATIONS_RED_DOT.match_result(image)
+        if sim < 0.85:
+            logger.info('No active operations found in this area')
+            return False
+
+        # Target RED_DOT found, adjust the found point location
+        # for 2 separate clicks
+        # First, Expand operation for details click area
+        # Second, Open operation enter into dispatch GUI
+        expand_point = tuple(sum(x) for x in zip(point, (0, 25)))
+        open_point = tuple(sum(x) for x in zip(point, (-55, -95)))
+
+        # Use small area to reduce random click point
+        expand_button = area_offset(area=(-4, -4, 4, 4), offset=expand_point)
+        open_button = area_offset(area=(-4, -4, 4, 4), offset=open_point)
+
+        expand = Button(area=expand_button, color=(), button=expand_button, name='EXPAND_OPERATION')
+        open = Button(area=open_button, color=(), button=open_button, name='OPEN_OPERATION')
+
+        logger.info('Active operation found in this area, entering')
+        self.device.click(expand)
+        self.device.sleep((0.5, 0.8))
+        self.device.click(open)
+
+        return True
+
+    def _guild_operations_dispatch(self):
+        """
+        Executes the dispatch sequence
+
+        Pages:
+            in: GUILD_OPERATIONS_DISPATCH
+            out: GUILD_OPERATIONS_MAP
+        """
+        # Shorten retry_wait, often not clickable as soon as dispatch window is up
+        self.ui_click(click_button=GUILD_DISPATCH_QUICK, check_button=GUILD_DISPATCH_RECOMMEND,
+                      retry_wait=3)
+
+        # Already a dispatched fleet?
+        # If so, scan image to find point
+        # to transition to empty dispatch
+        must_confirm = False
+        if not self.appear(GUILD_DISPATCH_EMPTY):
+            must_confirm = True
+            sim, point = TEMPLATE_OPERATIONS_ADD.match_result(self.device.image)
+            # Use small area to reduce random click point
+            button = area_offset(area=(-2, -2, 24, 12), offset=point)
+            dispatch = Button(area=button, color=(), button=button, name='GUILD_DISPATCH_ADD')
+            self.ui_click(click_button=dispatch, check_button=GUILD_DISPATCH_EMPTY,
+                          appear_button=GUILD_DISPATCH_RECOMMEND, skip_first_screenshot=True)
+
+        # Currently at an empty fleet window, not entirely sure why need offset=False for this specific click
+        self.ui_click(click_button=GUILD_DISPATCH_RECOMMEND, check_button=GUILD_DISPATCH_FLEET,
+                      offset=False, skip_first_screenshot=True)
+
+        # Dispatch the fleet, depending on prior actions may need to handle confirm
+        # else close once and return to map
+        self.device.click(GUILD_DISPATCH_FLEET)
+        if must_confirm:
+            # GUI self closes the window in this scenario
+            self.handle_guild_confirm('GUILD_DISPATCH', GUILD_DISPATCH_IN_PROGRESS)
+        else:
+            # GUI does not self close the window in this scenario
+            # so have to click twice
+            self.device.click(GUILD_DISPATCH_CLOSE)
+            self.wait_until_appear(GUILD_DISPATCH_IN_PROGRESS)
+        self.ui_click(click_button=GUILD_DISPATCH_CLOSE, check_button=GUILD_OPERATIONS_ACTIVE_CHECK,
+                      appear_button=GUILD_DISPATCH_IN_PROGRESS, skip_first_screenshot=True)
+
+    def _guild_operations_scan(self, skip_first_screenshot=True):
+        """
+        Executes the scan operations map sequence
+        and additional events
+        Scanning for active operations
+        if found enters and dispatch fleet
+        otherwise swipes forward until
+        reached end of map
+
+        Pages:
+            in: GUILD_OPERATIONS_MAP
+            out: GUILD_OPERATIONS_MAP
+        """
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # Scan location for any active operations
+            if self._guild_operations_enter():
+                self._guild_operations_dispatch()
+                continue
+
+            if not self.view_forward():
+                break
+
     def _guild_sidebar_click(self, index):
         """
         Performs the calculations necessary
@@ -332,6 +487,46 @@ class RewardGuild(UI):
         else:
             return False
 
+    def guild_operations_ensure(self, skip_first_screenshot=True):
+        """
+        Determine which operations menu has loaded
+            0 - No ongoing operations, Officers/Elites/Leader must select one to begin
+            1 - Operations available, displaying a state diagram/web of operations
+            2 - Guild Raid Boss active
+            Otherwise None if unable to ensure or determine the menu at all
+
+        Pages:
+            in: GUILD_OPERATIONS_ANY
+            out: GUILD_OPERATIONS_ANY
+        """
+        if not self.guild_sidebar_ensure(1):
+            logger.info('Ensurance has failed, please join a Guild first')
+            return None
+
+        confirm_timer = Timer(1.5, count=3).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.appear(GUILD_BOSS_CHECK) or self.appear(GUILD_OPERATIONS_ACTIVE_CHECK):
+                if confirm_timer.reached():
+                    break
+            else:
+                confirm_timer.reset()
+
+        if self.appear(GUILD_OPERATIONS_INACTIVE_CHECK) and self.appear(GUILD_OPERATIONS_ACTIVE_CHECK):
+            return 0
+        elif self.appear(GUILD_OPERATIONS_ACTIVE_CHECK):
+            return 1
+        elif self.appear(GUILD_BOSS_CHECK):
+            return 2
+        else:
+            logger.warning('Operations menu is unrecognized')
+            return None
+
     def handle_guild_confirm(self, confirm_text, appear_button, skip_first_screenshot=True):
         """
         Execute confirm screen transitions
@@ -454,7 +649,37 @@ class RewardGuild(UI):
             self.guild_exchange(limit, btn_guild_logistics_check)
 
     def guild_operations(self, is_affiliation_azur=True):
-        pass
+        # Determine the mode of operations, currently 3 are available
+        operations_mode = self.guild_operations_ensure()
+        if operations_mode is None:
+            return
+
+        # Execute all operations actions
+        # 1) Collect Report Rewards if available
+        # 2) Based on mode:
+        #    - Operations inactive, nothing to do
+        #    - Operations active, scan, select, and then dispatch a fleet
+        #    - Guild Raid Boss active, nothing to do tentative
+        btn_guild_report_enter = GUILD_REPORT_ENTER_OPERATIONS if operations_mode < 2 else GUILD_REPORT_ENTER_BOSS
+        btn_guild_report_exit_check = GUILD_OPERATIONS_ACTIVE_CHECK if operations_mode < 2 else GUILD_BOSS_CHECK
+        self.ui_click(click_button=btn_guild_report_enter, check_button=GUILD_REPORT_CLOSE,
+                      skip_first_screenshot=True)
+        if self.appear_then_click(GUILD_REPORT_CLAIM):
+            self.handle_guild_confirm('GUILD_REPORT_REWARDS', GUILD_REPORT_CLAIMED)
+            self.ensure_no_info_bar()
+        self.ui_click(click_button=GUILD_REPORT_CLOSE, check_button=btn_guild_report_exit_check,
+                      appear_button=GUILD_REPORT_CLAIMED, skip_first_screenshot=True)
+
+        if operations_mode == 0:
+            logger.info('Operations are inactive, please contact your Elite/Officer/Leader seniors to begin an operation')
+            return
+        elif operations_mode == 1:
+            logger.info('Scanning for active operations and dispatching fleets')
+            self._guild_operations_scan()
+        else:
+            logger.info('Guild Raid Boss active, play manually to contribute higher score')
+            return
+
 
     def guild_run(self, logistics=True, operations=True):
         """
@@ -476,6 +701,11 @@ class RewardGuild(UI):
         is_affiliation_azur = self.guild_affiliation_ensure()
         if is_affiliation_azur is None:
             return False
+
+        # Operations checking is a longer process, if not
+        # up then don't bother with it
+        if not self.appear(GUILD_OPERATIONS_RED_DOT, offset=(30, 30)):
+            operations = False
 
         if logistics:
             self.guild_logistics(is_affiliation_azur)
