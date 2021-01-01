@@ -125,34 +125,16 @@ class MapData:
         self.name = data['name']
         self.profiles = data['profiles']
         self.map_id = data['id']
+
         try:
-            battle_count = max(data['boss_refresh'], max(data['enemy_refresh'].keys()))
-        except ValueError:
-            battle_count = 0
-        self.spawn_data = [{'battle': index} for index in range(battle_count + 1)]
-        try:
-            # spawn_data
-            for index, count in data['enemy_refresh'].items():
-                if count:
-                    spawn = self.spawn_data[index]
-                    spawn['enemy'] = spawn.get('enemy', 0) + count
-            if ''.join([str(item) for item in data['elite_refresh'].values()]) != '100':  # Some data is incorrect
-                for index, count in data['elite_refresh'].items():
-                    if count:
-                        spawn = self.spawn_data[index]
-                        spawn['enemy'] = spawn.get('enemy', 0) + count
-            for index, count in data['ai_refresh'].items():
-                if count:
-                    spawn = self.spawn_data[index]
-                    spawn['siren'] = spawn.get('siren', 0) + count
-            for index, count in data['box_refresh'].items():
-                if count:
-                    spawn = self.spawn_data[index]
-                    spawn['mystery'] = spawn.get('mystery', 0) + count
-            try:
-                self.spawn_data[data['boss_refresh']]['boss'] = 1
-            except IndexError:
-                pass
+            self.spawn_data = self.parse_spawn_data(data)
+            if data_loop is not None:
+                self.spawn_data_loop = self.parse_spawn_data(data_loop)
+                if len(self.spawn_data) == len(self.spawn_data_loop) \
+                        and all([s1 == s2 for s1, s2 in zip(self.spawn_data, self.spawn_data_loop)]):
+                    self.spawn_data_loop = None
+            else:
+                self.spawn_data_loop = None
 
             # map_data
             # {0: {0: 6, 1: 8, 2: False, 3: 0}, ...}
@@ -235,6 +217,38 @@ class MapData:
 
         return map_data
 
+    @staticmethod
+    def parse_spawn_data(data):
+        try:
+            battle_count = max(data['boss_refresh'], max(data['enemy_refresh'].keys()))
+        except ValueError:
+            battle_count = 0
+        spawn_data = [{'battle': index} for index in range(battle_count + 1)]
+
+        for index, count in data['enemy_refresh'].items():
+            if count:
+                spawn = spawn_data[index]
+                spawn['enemy'] = spawn.get('enemy', 0) + count
+        if ''.join([str(item) for item in data['elite_refresh'].values()]) != '100':  # Some data is incorrect
+            for index, count in data['elite_refresh'].items():
+                if count:
+                    spawn = spawn_data[index]
+                    spawn['enemy'] = spawn.get('enemy', 0) + count
+        for index, count in data['ai_refresh'].items():
+            if count:
+                spawn = spawn_data[index]
+                spawn['siren'] = spawn.get('siren', 0) + count
+        for index, count in data['box_refresh'].items():
+            if count:
+                spawn = spawn_data[index]
+                spawn['mystery'] = spawn.get('mystery', 0) + count
+        try:
+            spawn_data[data['boss_refresh']]['boss'] = 1
+        except IndexError:
+            pass
+
+        return spawn_data
+
     def map_file_name(self):
         name = self.chapter_name.replace('-', '_').lower()
         if name[0].isdigit():
@@ -297,6 +311,11 @@ class MapData:
         for battle in self.spawn_data:
             lines.append('    ' + str(battle) + ',')
         lines.append(']')
+        if self.spawn_data_loop is not None:
+            lines.append('MAP.spawn_data_loop = [')
+            for battle in self.spawn_data_loop:
+                lines.append('    ' + str(battle) + ',')
+            lines.append(']')
         for y in range(self.shape[1] + 1):
             lines.append(', '.join([location2node((x, y)) for x in range(self.shape[0] + 1)]) + ', \\')
         lines.append('    = MAP.flatten()')

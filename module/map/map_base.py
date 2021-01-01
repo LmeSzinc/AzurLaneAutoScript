@@ -20,6 +20,8 @@ class CampaignMap:
         self._land_based_data = []
         self._spawn_data = []
         self._spawn_data_stack = []
+        self._spawn_data_loop = []
+        self._spawn_data_use_loop = False
         self._camera_data = []
         self._camera_data_spawn_point = []
         self._map_covered = SelectedGrids([])
@@ -95,7 +97,7 @@ class CampaignMap:
             use_loop (bool): If at clearing mode.
                              clearing mode (Correct name) == fast forward (in old Alas) == loop (in lua files)
         """
-        has_loop = len(self.map_data_loop)
+        has_loop = bool(len(self.map_data_loop))
         logger.info(f'Load map_data, has_loop={has_loop}, use_loop={use_loop}')
         if has_loop and use_loop:
             self._load_map_data(self.map_data_loop)
@@ -164,7 +166,7 @@ class CampaignMap:
             block.set(is_mechanism_block=True)
 
     def load_mechanism(self, land_based=False):
-        logger.info(f'Load mechanism. land_base={land_based}')
+        logger.info(f'Load mechanism, land_base={land_based}')
         if land_based:
             self._load_land_base_data(self.land_based_data)
 
@@ -303,11 +305,42 @@ class CampaignMap:
 
     @property
     def spawn_data(self):
-        return self._spawn_data
+        """
+        Returns:
+            [list[dict]]:
+        """
+        if self._spawn_data_use_loop:
+            return self._spawn_data_loop
+        else:
+            return self._spawn_data
 
     @spawn_data.setter
     def spawn_data(self, data_list):
         self._spawn_data = data_list
+
+    @property
+    def spawn_data_loop(self):
+        return self._spawn_data_loop
+
+    @spawn_data_loop.setter
+    def spawn_data_loop(self, data_list):
+        self._spawn_data_loop = data_list
+
+    @property
+    def spawn_data_stack(self):
+        return self._spawn_data_stack
+
+    def load_spawn_data(self, use_loop=False):
+        has_loop = bool(len(self._spawn_data_loop))
+        logger.info(f'Load spawn_data, has_loop={has_loop}, use_loop={use_loop}')
+        if has_loop and use_loop:
+            self._spawn_data_use_loop = True
+            self._load_spawn_data(self._spawn_data_loop)
+        else:
+            self._spawn_data_use_loop = False
+            self._load_spawn_data(self._spawn_data)
+
+    def _load_spawn_data(self, data_list):
         spawn = {'battle': 0, 'enemy': 0, 'mystery': 0, 'siren': 0, 'boss': 0}
         for data in data_list:
             spawn['battle'] = data['battle']
@@ -316,10 +349,6 @@ class CampaignMap:
             spawn['siren'] += data.get('siren', 0)
             spawn['boss'] += data.get('boss', 0)
             self._spawn_data_stack.append(spawn.copy())
-
-    @property
-    def spawn_data_stack(self):
-        return self._spawn_data_stack
 
     @property
     def weight_data(self):

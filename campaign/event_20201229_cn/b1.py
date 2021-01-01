@@ -35,6 +35,13 @@ MAP.spawn_data = [
     {'battle': 4, 'enemy': 1, 'boss': 1},
     {'battle': 5, 'enemy': 1},
 ]
+MAP.spawn_data_loop = [
+    {'battle': 0, 'enemy': 2, 'siren': 1},
+    {'battle': 1, 'enemy': 1},
+    {'battle': 2, 'enemy': 1},
+    {'battle': 3, 'enemy': 1},
+    {'battle': 4, 'enemy': 1, 'boss': 1},
+]
 A1, B1, C1, D1, E1, F1, G1, H1, I1, \
 A2, B2, C2, D2, E2, F2, G2, H2, I2, \
 A3, B3, C3, D3, E3, F3, G3, H3, I3, \
