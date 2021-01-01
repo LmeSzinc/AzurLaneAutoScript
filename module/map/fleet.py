@@ -554,6 +554,7 @@ class Fleet(Camera, AmbushHandler):
         self.handle_map_green_config_cover()
         self.map.poor_map_data = self.config.POOR_MAP_DATA
         self.map.load_map_data(use_loop=self.map_is_clear_mode)
+        self.map.load_spawn_data(use_loop=self.map_is_clear_mode)
         self.map.load_mechanism(land_based=self.config.MAP_HAS_LAND_BASED)
         self.map.grid_connection_initial(
             wall=self.config.MAP_HAS_WALL,
