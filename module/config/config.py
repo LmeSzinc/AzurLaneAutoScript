@@ -431,6 +431,14 @@ class AzurLaneConfig:
 
     ENABLE_DATA_KEY_COLLECT = True
 
+    ENABLE_GUILD_LOGISTICS = False
+    ENABLE_GUILD_OPERATIONS = False
+    GUILD_INTERVAL = '40, 60' # str, such as '20', '10, 40'.
+    GUILD_LOGISTICS_ITEM_ORDER_STRING = 't1 > t2 > t3 > oxycola > coolant > coins > oil > merit'
+    GUILD_LOGISTICS_PLATE_T1_ORDER_STRING = 'torpedo > antiair > plane > gun > general'
+    GUILD_LOGISTICS_PLATE_T2_ORDER_STRING = 'torpedo > antiair > plane > gun > general'
+    GUILD_LOGISTICS_PLATE_T3_ORDER_STRING = 'torpedo > antiair > plane > gun > general'
+
     """
     module.research
     """
@@ -621,7 +629,8 @@ class AzurLaneConfig:
                      'enable_dorm_reward', 'enable_dorm_feed',
                      'enable_commission_reward', 'enable_tactical_reward', 'enable_daily_reward',
                      'enable_research_reward',
-                     'enable_data_key_collect', 'enable_train_meowfficer']:
+                     'enable_data_key_collect', 'enable_train_meowfficer',
+                     'enable_guild_logistics', 'enable_guild_operations']:
             self.__setattr__(attr.upper(), to_bool(option[attr]))
         if not option['commission_time_limit'].isdigit():
             self.COMMISSION_TIME_LIMIT = future_time(option['commission_time_limit'])
@@ -644,6 +653,11 @@ class AzurLaneConfig:
         self.RESEARCH_FILTER_PRESET = option['research_filter_preset']
         self.RESEARCH_FILTER_STRING = option['research_filter_string']
         self.BUY_MEOWFFICER = int(option['buy_meowfficer'])
+        self.GUILD_INTERVAL = option['guild_interval']
+        self.GUILD_LOGISTICS_ITEM_ORDER_STRING = option['guild_logistics_item_order_string']
+        self.GUILD_LOGISTICS_PLATE_T1_ORDER_STRING = option['guild_logistics_plate_t1_order_string']
+        self.GUILD_LOGISTICS_PLATE_T2_ORDER_STRING = option['guild_logistics_plate_t2_order_string']
+        self.GUILD_LOGISTICS_PLATE_T3_ORDER_STRING = option['guild_logistics_plate_t3_order_string']
 
         option = config['Main']
         self.CAMPAIGN_MODE = option['campaign_mode']
