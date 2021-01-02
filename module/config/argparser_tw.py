@@ -312,21 +312,16 @@ def main(ini_name=''):
     reward_meowfficer.add_argument('--買指揮喵', default=default('--買指揮喵'), help='從0到15, 不需要就填0', gooey_options={'label_color': '#4B5F83'})
     reward_meowfficer.add_argument('--訓練指揮喵', default=default('--訓練指揮喵'), help='啟用指揮喵訓練, 每天收一隻, 週日收穫全部', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
 
-    reward_guild = reward_parser.add_argument_group('Guild', 'Check Guild Logistics and Operations. Running for every reward loop.', gooey_options={'label_color': '#931D03'})
-    reward_guild.add_argument('--enable_guild_logistics', default=default('--enable_guild_logistics'), help='Enable logistics actions if applicable.', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    reward_guild.add_argument('--enable_guild_operations', default=default('--enable_guild_operations'), help='Not supported yet.', choices=['否'], gooey_options={'label_color': '#4B5F83'})
-    reward_guild.add_argument('--guild_interval', default=default('--guild_interval'),
-                             help='How many minutes to trigger checking. Recommend to set a time range, such as "10, 40"', gooey_options={'label_color': '#4B5F83'})
-    reward_guild_logistics_items = reward_guild.add_argument_group('Logistics item input', 'Available items: t1, t2, t3, oxycola, coolant, coins, oil, and merit. Omitting an item will skip it. Less error-prone with many specified', gooey_options={'label_color': '#4B5F83'})
-    reward_guild_logistics_items.add_argument('--guild_logistics_item_order_string', default=default('--guild_logistics_item_order_string'),
-                        gooey_options={'label_color': '#4B5F83'})
-    reward_guild_logistics_plates = reward_guild.add_argument_group('Logistics plate input', 'Available plates: torpedo, antiair, plane, gun, and general. Omitting a plate will skip it. Less error-prone with many specified', gooey_options={'label_color': '#4B5F83'})
-    reward_guild_logistics_plates.add_argument('--guild_logistics_plate_t1_order_string', default=default('--guild_logistics_plate_t1_order_string'),
-                        gooey_options={'label_color': '#4B5F83'})
-    reward_guild_logistics_plates.add_argument('--guild_logistics_plate_t2_order_string', default=default('--guild_logistics_plate_t2_order_string'),
-                        gooey_options={'label_color': '#4B5F83'})
-    reward_guild_logistics_plates.add_argument('--guild_logistics_plate_t3_order_string', default=default('--guild_logistics_plate_t3_order_string'),
-                        gooey_options={'label_color': '#4B5F83'})
+    reward_guild = reward_parser.add_argument_group('大艦隊', '檢查大艦隊後勤和大艦隊作戰', gooey_options={'label_color': '#931D03'})
+    reward_guild.add_argument('--啟用大艦隊後勤', default=default('--啟用大艦隊後勤'), help='領取大艦隊任務, 提交籌備物資, 領取艦隊獎勵', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    reward_guild.add_argument('--啟用大艦隊作戰', default=default('--啟用大艦隊作戰'), help='暫不支持', choices=['否'], gooey_options={'label_color': '#4B5F83'})
+    reward_guild.add_argument('--大艦隊收穫間隔', default=default('--大艦隊收穫間隔'), help='每隔多少分鐘觸發, 推薦使用時間區間, 比如"10, 40"', gooey_options={'label_color': '#4B5F83'})
+    reward_guild_logistics_items = reward_guild.add_argument_group('籌備物品提交順序', '可用字符: t1, t2, t3, oxycola, coolant, coins, oil, and merit. 省略某個字符來跳過該物品的提交', gooey_options={'label_color': '#4B5F83'})
+    reward_guild_logistics_items.add_argument('--物品提交順序', default=default('--物品提交順序'), gooey_options={'label_color': '#4B5F83'})
+    reward_guild_logistics_plates = reward_guild.add_argument_group('籌備部件提交順序', '可用字符: torpedo, antiair, plane, gun, and general. 省略某個字符來跳過該物品的提交', gooey_options={'label_color': '#4B5F83'})
+    reward_guild_logistics_plates.add_argument('--部件提交順序T1', default=default('--部件提交順序T1'), gooey_options={'label_color': '#4B5F83'})
+    reward_guild_logistics_plates.add_argument('--部件提交順序T2', default=default('--部件提交順序T2'), gooey_options={'label_color': '#4B5F83'})
+    reward_guild_logistics_plates.add_argument('--部件提交順序T3', default=default('--部件提交順序T3'), gooey_options={'label_color': '#4B5F83'})
 
     # ==========設備設定==========
     emulator_parser = subs.add_parser('設備設定')
