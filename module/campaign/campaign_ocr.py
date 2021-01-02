@@ -1,7 +1,5 @@
 import collections
 
-import numpy as np
-
 from module.base.base import ModuleBase
 from module.base.decorator import Config
 from module.base.utils import *
@@ -32,7 +30,7 @@ class CampaignOcr(ModuleBase):
                 return int(name)
             elif name in ['a', 'c', 'sp', 'ex_sp']:
                 return 1
-            elif name in ['b', 'd']:
+            elif name in ['b', 'd', 'ex_ex']:
                 return 2
 
     @staticmethod
@@ -56,6 +54,8 @@ class CampaignOcr(ModuleBase):
         """
         if name == 'sp':
             return 'ex_sp', '1'
+        elif name.startswith('extra'):
+            return 'ex_ex', '1'
         elif '-' in name:
             return name.split('-')
         elif name.startswith('sp'):
@@ -147,43 +147,10 @@ class CampaignOcr(ModuleBase):
         x_list = np.where(x_color[x_skip:] > 235)[0]
         if x_list is None or len(x_list) == 0:
             logger.warning('No interval between digit and text.')
-
-        area = (0, 0, x_list[0] + 1 + x_skip, image.shape[0])
+            area = (0, 0, image.shape[1], image.shape[0])
+        else:
+            area = (0, 0, x_list[0] + 1 + x_skip, image.shape[0])
         return np.array(area) + (-3, -7, 3, 7)
-
-    @staticmethod
-    def _name_separate(image):
-        """
-        Args:
-            image (np.ndarray): (height, width)
-
-        Returns:
-            list[np.ndarray]:
-        """
-        # Image.fromarray(image.astype('uint8'), mode='L').show()
-        x_skip = 2
-        interval = 5
-        x_color = np.convolve(np.mean(image, axis=0), np.ones(interval), 'valid') / interval
-        x_list = np.where(x_color[x_skip:] > 235)[0]
-        if x_list is None or len(x_list) == 0:
-            logger.warning('No interval between digit and text.')
-        image = image[:, :x_list[0] + 1 + x_skip]
-
-        dash_color_range = (220 - 3, 220 + 3)
-        dash_height_index = 9
-        mean = np.mean(image, axis=0)
-        # print(mean)
-        x_list = np.where(
-            (mean > dash_color_range[0])
-            & (mean < dash_color_range[1])
-            & (np.argmin(image, axis=0) == dash_height_index)
-        )[0]
-        if x_list is None or len(x_list) == 0:
-            logger.warning('No dash found between digits')
-        chapter = (0, 0, x_list[0] - 1, image.shape[0])
-        stage = (x_list[-1] + 1, 0, image.shape[1], image.shape[0])
-
-        return chapter, stage
 
     def _get_stage_name(self, image):
         self.stage_entrance = {}
@@ -191,7 +158,8 @@ class CampaignOcr(ModuleBase):
         if len(buttons) == 0:
             logger.warning('No stage found.')
 
-        ocr = Ocr(buttons, name='campaign', letter=(255, 255, 255), threshold=128, alphabet='0123456789ABCDEFSPHT-')
+        ocr = Ocr(buttons, name='campaign', letter=(255, 255, 255), threshold=128,
+                  alphabet='0123456789ABCDEFGHIJKLMNPQRSTUVWXYZ-')
         result = ocr.ocr(image)
         if not isinstance(result, list):
             result = [result]
