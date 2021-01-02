@@ -702,6 +702,11 @@ class RewardGuild(UI):
         if is_affiliation_azur is None:
             return False
 
+        # Logistics checking is short but if it isn't
+        # lit up, we can skip it to save on time
+        if not self.appear(GUILD_LOGISTICS_RED_DOT, offset=(30, 30)):
+            logistics = False
+
         # Operations checking is a longer process, if not
         # up then don't bother with it
         if not self.appear(GUILD_OPERATIONS_RED_DOT, offset=(30, 30)):
