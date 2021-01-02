@@ -247,6 +247,8 @@ def main(ini_name=''):
     reward_general.add_argument('--启用石油收获', default=default('--启用石油收获'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     reward_general.add_argument('--启用物资收获', default=default('--启用物资收获'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     reward_general.add_argument('--启用任务收获', default=default('--启用任务收获'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    reward_general.add_argument('--启用档案密钥收获', default=default('--启用档案密钥收获'), help='领取作战档案的档案密钥, 如果已经领取则自动跳过', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+
 
     reward_dorm = reward_parser.add_argument_group('后宅设置', '', gooey_options={'label_color': '#931D03'})
     reward_dorm.add_argument('--启用后宅收获', default=default('--启用后宅收获'), choices=['是', '否'], help='收获好感度和家具币', gooey_options={'label_color': '#4B5F83'})
@@ -311,24 +313,16 @@ def main(ini_name=''):
     reward_meowfficer.add_argument('--买指挥喵', default=default('--买指挥喵'), help='从0到15, 不需要就填0', gooey_options={'label_color': '#4B5F83'})
     reward_meowfficer.add_argument('--训练指挥喵', default=default('--训练指挥喵'), help='启用指挥喵训练, 每天收一只, 周日收获全部', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
 
-    reward_data_key = reward_parser.add_argument_group('作战档案', '如果已经领取则自动跳过', gooey_options={'label_color': '#931D03'})
-    reward_data_key.add_argument('--启用档案密钥收获', default=default('--启用档案密钥收获'), help='领取作战档案的档案密钥', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-
-    reward_guild = reward_parser.add_argument_group('Guild', 'Check Guild Logistics and Operations. Running for every reward loop.', gooey_options={'label_color': '#931D03'})
-    reward_guild.add_argument('--enable_guild_logistics', default=default('--enable_guild_logistics'), help='Enable logistics actions if applicable.', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    reward_guild.add_argument('--enable_guild_operations', default=default('--enable_guild_operations'), help='Not supported yet.', choices=['否'], gooey_options={'label_color': '#4B5F83'})
-    reward_guild.add_argument('--guild_interval', default=default('--guild_interval'),
-                             help='How many minutes to trigger checking. Recommend to set a time range, such as "10, 40"', gooey_options={'label_color': '#4B5F83'})
-    reward_guild_logistics_items = reward_guild.add_argument_group('Logistics item input', 'Available items: t1, t2, t3, oxycola, coolant, coins, oil, and merit. Omitting an item will skip it. Less error-prone with many specified', gooey_options={'label_color': '#4B5F83'})
-    reward_guild_logistics_items.add_argument('--guild_logistics_item_order_string', default=default('--guild_logistics_item_order_string'),
-                        gooey_options={'label_color': '#4B5F83'})
-    reward_guild_logistics_plates = reward_guild.add_argument_group('Logistics plate input', 'Available plates: torpedo, antiair, plane, gun, and general. Omitting a plate will skip it. Less error-prone with many specified', gooey_options={'label_color': '#4B5F83'})
-    reward_guild_logistics_plates.add_argument('--guild_logistics_plate_t1_order_string', default=default('--guild_logistics_plate_t1_order_string'),
-                        gooey_options={'label_color': '#4B5F83'})
-    reward_guild_logistics_plates.add_argument('--guild_logistics_plate_t2_order_string', default=default('--guild_logistics_plate_t2_order_string'),
-                        gooey_options={'label_color': '#4B5F83'})
-    reward_guild_logistics_plates.add_argument('--guild_logistics_plate_t3_order_string', default=default('--guild_logistics_plate_t3_order_string'),
-                        gooey_options={'label_color': '#4B5F83'})
+    reward_guild = reward_parser.add_argument_group('大舰队', '检查大舰队后勤和大舰队作战', gooey_options={'label_color': '#931D03'})
+    reward_guild.add_argument('--启用大舰队后勤', default=default('--启用大舰队后勤'), help='领取大舰队任务, 提交筹备物资, 领取舰队奖励', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    reward_guild.add_argument('--启用大舰队作战', default=default('--启用大舰队作战'), help='暂不支持', choices=['否'], gooey_options={'label_color': '#4B5F83'})
+    reward_guild.add_argument('--大舰队收获间隔', default=default('--大舰队收获间隔'), help='每隔多少分钟触发, 推荐使用时间区间, 比如"10, 40"', gooey_options={'label_color': '#4B5F83'})
+    reward_guild_logistics_items = reward_guild.add_argument_group('筹备物品提交顺序', '可用字符: t1, t2, t3, oxycola, coolant, coins, oil, and merit. 省略某个字符来跳过该物品的提交', gooey_options={'label_color': '#4B5F83'})
+    reward_guild_logistics_items.add_argument('--物品提交顺序', default=default('--物品提交顺序'), gooey_options={'label_color': '#4B5F83'})
+    reward_guild_logistics_plates = reward_guild.add_argument_group('筹备部件提交顺序', '可用字符: torpedo, antiair, plane, gun, and general. 省略某个字符来跳过该物品的提交', gooey_options={'label_color': '#4B5F83'})
+    reward_guild_logistics_plates.add_argument('--部件提交顺序T1', default=default('--部件提交顺序T1'), gooey_options={'label_color': '#4B5F83'})
+    reward_guild_logistics_plates.add_argument('--部件提交顺序T2', default=default('--部件提交顺序T2'), gooey_options={'label_color': '#4B5F83'})
+    reward_guild_logistics_plates.add_argument('--部件提交顺序T3', default=default('--部件提交顺序T3'), gooey_options={'label_color': '#4B5F83'})
 
     # ==========设备设置==========
     emulator_parser = subs.add_parser('设备设置')
