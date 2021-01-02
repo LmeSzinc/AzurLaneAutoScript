@@ -257,6 +257,7 @@ def main(ini_name=''):
     reward_general.add_argument('--enable_oil_reward', default=default('--enable_oil_reward'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
     reward_general.add_argument('--enable_coin_reward', default=default('--enable_coin_reward'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
     reward_general.add_argument('--enable_mission_reward', default=default('--enable_mission_reward'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_general.add_argument('--enable_data_key_collect', default=default('--enable_data_key_collect'), help='Enable collection of data key in war archives.', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
 
     reward_dorm = reward_parser.add_argument_group('Dorm', '', gooey_options={'label_color': '#931D03'})
     reward_dorm.add_argument('--enable_dorm_reward', default=default('--enable_dorm_reward'), choices=['yes', 'no'], help='Dorm collect coins and loves', gooey_options={'label_color': '#4B5F83'})
@@ -330,9 +331,6 @@ def main(ini_name=''):
     reward_meowfficer.add_argument('--enable_train_meowfficer', default=default('--enable_train_meowfficer'),
                                    help='Enable collection of trained meowfficer and queue all slots for training on Sunday.',
                                    choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
-
-    reward_data_key = reward_parser.add_argument_group('Data Key', 'If already collected, skip', gooey_options={'label_color': '#931D03'})
-    reward_data_key.add_argument('--enable_data_key_collect', default=default('--enable_data_key_collect'), help='Enable collection of data key in war archives.', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
 
     reward_guild = reward_parser.add_argument_group('Guild', 'Check Guild Logistics and Operations. Running for every reward loop.', gooey_options={'label_color': '#931D03'})
     reward_guild.add_argument('--enable_guild_logistics', default=default('--enable_guild_logistics'), help='Enable logistics actions if applicable.', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
