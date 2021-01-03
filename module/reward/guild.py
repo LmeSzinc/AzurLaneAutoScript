@@ -6,7 +6,7 @@ from module.statistics.item import ItemGrid
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.timer import Timer
-from module.base.utils import color_similarity_2d, ensure_time
+from module.base.utils import *
 from module.combat.assets import GET_ITEMS_1
 from module.handler.assets import POPUP_CONFIRM
 from module.reward.assets import *
@@ -430,7 +430,7 @@ class RewardGuild(UI):
                 break
             self.ensure_no_info_bar()
 
-    def guild_logistics(self, is_affiliation_azur=True):
+    def guild_logistics(self):
         """
         Execute all actions in logistics
 
@@ -440,19 +440,30 @@ class RewardGuild(UI):
         """
 
         # Transition to Logistics
-        # Additional wait time needed
-        # as ensure does not wait for
-        # page to load
-        btn_guild_logistics_check = GUILD_LOGISTICS_CHECK_AZUR if is_affiliation_azur else GUILD_LOGISTICS_CHECK_AXIS
         if not self.guild_sidebar_ensure(3):
             logger.info('Ensurance has failed, please join a Guild first')
             return
+
+        # Last screencapture should contain affiliation
+        # color in top-right where guild coins is
+        # Determine guild affiliation
+        color = get_color(self.device.image, GUILD_AFFILIATION_CHECK_IN_LOGISTICS.area)
+        if color_similar(color, (115, 146, 206)):
+            is_azur_affiliation  = True
+        elif color_similar(color, (206, 117, 115)):
+            is_azur_affiliation  = False
+        else:
+            logger.warning(f'Unknown guild affiliation color: {color}')
+            return
+
+        # Additional wait time needed to screencapture fully loaded page
+        btn_guild_logistics_check = GUILD_LOGISTICS_CHECK_AZUR if is_azur_affiliation  else GUILD_LOGISTICS_CHECK_AXIS
         self.wait_until_appear(btn_guild_logistics_check)
 
         # Acquire remaining buttons
-        btn_guild_mission_rewards = GUILD_MISSION_REWARDS_AZUR if is_affiliation_azur else GUILD_MISSION_REWARDS_AXIS
-        btn_guild_mission_accept = GUILD_MISSION_ACCEPT_AZUR if is_affiliation_azur else GUILD_MISSION_ACCEPT_AXIS
-        btn_guild_supply_rewards = GUILD_SUPPLY_REWARDS_AZUR if is_affiliation_azur else GUILD_SUPPLY_REWARDS_AXIS
+        btn_guild_mission_rewards = GUILD_MISSION_REWARDS_AZUR if is_azur_affiliation  else GUILD_MISSION_REWARDS_AXIS
+        btn_guild_mission_accept = GUILD_MISSION_ACCEPT_AZUR if is_azur_affiliation  else GUILD_MISSION_ACCEPT_AXIS
+        btn_guild_supply_rewards = GUILD_SUPPLY_REWARDS_AZUR if is_azur_affiliation  else GUILD_SUPPLY_REWARDS_AXIS
 
         # Execute all logistics actions
         # 1) Collect Mission Rewards if available
@@ -476,7 +487,7 @@ class RewardGuild(UI):
         if limit > 0:
             self.guild_exchange(limit, btn_guild_logistics_check)
 
-    def guild_operations(self, is_affiliation_azur=True):
+    def guild_operations(self):
         pass
 
     def guild_run(self, logistics=True, operations=True):
@@ -496,15 +507,12 @@ class RewardGuild(UI):
         # If already in page_guild will ensure
         # correct sidebar
         self.ui_ensure(page_guild)
-        is_affiliation_azur = self.guild_affiliation_ensure()
-        if is_affiliation_azur is None:
-            return False
 
         if logistics:
-            self.guild_logistics(is_affiliation_azur)
+            self.guild_logistics()
 
         if operations:
-            self.guild_operations(is_affiliation_azur)
+            self.guild_operations()
 
         self.ui_goto_main()
         return True
