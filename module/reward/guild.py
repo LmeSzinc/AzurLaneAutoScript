@@ -20,7 +20,7 @@ GUILD_EXCHANGE_LIMIT = Digit(OCR_GUILD_EXCHANGE_LIMIT, threshold=64)
 GUILD_EXCHANGE_INFO = Digit(OCR_GUILD_EXCHANGE_INFO, lang='cnocr', letter=(148, 249, 99), threshold=64)
 
 GUILD_SIDEBAR = ButtonGrid(
-    origin=(21, 118), delta=(0, 94.5), button_shape=(60, 75), grid_shape=(1, 5), name='GUILD_SIDEBAR')
+    origin=(21, 118), delta=(0, 94.5), button_shape=(60, 75), grid_shape=(1, 6), name='GUILD_SIDEBAR')
 EXCHANGE_GRIDS = ButtonGrid(origin=(470, 470), delta=(198.5, 0), button_shape=(83, 83), grid_shape=(3, 1))
 EXCHANGE_ITEMS = ItemGrid(EXCHANGE_GRIDS, {}, template_area=(40, 21, 89, 70), amount_area=(60, 71, 91, 92))
 
@@ -55,17 +55,26 @@ class RewardGuild(UI):
 
         Args:
             index (int):
-                5 for lobby.
-                4 for members.
+                leader sidebar
+                6 for lobby.
+                5 for members.
+                4 apply.
                 3 for logistics.
                 2 for tech.
                 1 for operations.
 
+                member sidebar
+                6 for lobby.
+                5 for members.
+                3/4 for logistics.
+                2 for tech
+                1 for operations
+
         Returns:
             bool: if changed.
         """
-        if index <= 0 or index > 5:
-            logger.warning(f'Sidebar index cannot be clicked, {index}, limit to 1 through 5 only')
+        if index <= 0 or index > 6:
+            logger.warning(f'Sidebar index cannot be clicked, {index}, limit to 1 through 6 only')
             return False
 
         current = 0
@@ -89,8 +98,13 @@ class RewardGuild(UI):
             current = 5 - current
         elif total == 5:
             current = 6 - current
+        elif total == 6:
+            current = 7 - current
         else:
             logger.warning('Guild sidebar total count error.')
+
+        if total == 5 and index >= 4:
+            index -= 1
 
         logger.attr('Guild_sidebar', f'{current}/{total}')
         if current == index:
@@ -270,17 +284,26 @@ class RewardGuild(UI):
 
         Args:
             index (int):
-                5 for lobby.
-                4 for members.
+                leader sidebar
+                6 for lobby.
+                5 for members.
+                4 apply.
                 3 for logistics.
                 2 for tech.
                 1 for operations.
 
+                member sidebar
+                6 for lobby.
+                5 for members.
+                3/4 for logistics.
+                2 for tech
+                1 for operations
+
         Returns:
             bool: sidebar click ensured or not
         """
-        if index <= 0 or index > 5:
-            logger.warning(f'Sidebar index cannot be ensured, {index}, limit 1 through 5 only')
+        if index <= 0 or index > 6:
+            logger.warning(f'Sidebar index cannot be ensured, {index}, limit 1 through 6 only')
             return False
 
         counter = 0
@@ -309,7 +332,7 @@ class RewardGuild(UI):
             out: GUILD_LOBBY
         """
         # Transition to GUILD_LOBBY
-        if not self.guild_sidebar_ensure(5):
+        if not self.guild_sidebar_ensure(6):
             logger.info('Ensurance has failed, please join a Guild first')
             return
 
