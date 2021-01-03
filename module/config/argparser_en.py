@@ -334,7 +334,7 @@ def main(ini_name=''):
 
     reward_guild = reward_parser.add_argument_group('Guild', 'Check Guild Logistics and Operations. Running for every reward loop.', gooey_options={'label_color': '#931D03'})
     reward_guild.add_argument('--enable_guild_logistics', default=default('--enable_guild_logistics'), help='Enable logistics actions if applicable.', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
-    reward_guild.add_argument('--enable_guild_operations', default=default('--enable_guild_operations'), help='Not supported yet.', choices=['no'], gooey_options={'label_color': '#4B5F83'})
+    reward_guild.add_argument('--enable_guild_operations', default=default('--enable_guild_operations'), help='Enable operations actions if applicable.', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
     reward_guild.add_argument('--guild_interval', default=default('--guild_interval'),
                              help='How many minutes to trigger checking. Recommend to set a time range, such as "10, 40"', gooey_options={'label_color': '#4B5F83'})
     reward_guild_logistics_items = reward_guild.add_argument_group('Logistics item input', 'Available items: t1, t2, t3, oxycola, coolant, coins, oil, and merit. Omitting an item will skip it. Less error-prone with many specified', gooey_options={'label_color': '#4B5F83'})
