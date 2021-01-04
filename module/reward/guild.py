@@ -548,5 +548,7 @@ class RewardGuild(UI):
         if not self.guild_run(logistics=do_logistics, operations=do_operations):
             return False
 
+        self.guild_interval_reset()
         self.config.record_save(option=('RewardRecord', 'guild'))
+
         return True
