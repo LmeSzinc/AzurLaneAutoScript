@@ -365,18 +365,16 @@ class RewardGuild(UI):
                 continue
 
             if self.handle_popup_confirm('GUILD_MISSION_ACCEPT'):
-                self.ensure_no_info_bar()
                 confirm_timer.reset()
                 continue
 
             if self.appear_then_click(GET_ITEMS_1, interval=2):
-                self.ensure_no_info_bar()
                 confirm_timer.reset()
                 continue
 
             # End
             if self.appear(btn_guild_logistics_check):
-                if confirm_timer.reached():
+                if not self.info_bar_count() and confirm_timer.reached():
                     break
             else:
                 confirm_timer.reset()
@@ -404,18 +402,16 @@ class RewardGuild(UI):
                 self.device.screenshot()
 
             if self.handle_popup_confirm('GUILD_EXCHANGE'):
-                self.ensure_no_info_bar()
                 confirm_timer.reset()
                 continue
 
             if self.appear_then_click(GET_ITEMS_1, interval=2):
-                self.ensure_no_info_bar()
                 confirm_timer.reset()
                 continue
 
             # End
             if self.appear(btn_guild_logistics_check):
-                if confirm_timer.reached():
+                if not self.info_bar_count() and confirm_timer.reached():
                     break
             else:
                 confirm_timer.reset()
