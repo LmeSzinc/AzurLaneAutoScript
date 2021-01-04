@@ -17,7 +17,6 @@ from module.ui.ui import UI, page_guild
 GUILD_RECORD = ('RewardRecord', 'guild')
 
 GUILD_EXCHANGE_LIMIT = Digit(OCR_GUILD_EXCHANGE_LIMIT, threshold=64)
-GUILD_EXCHANGE_INFO = Digit(OCR_GUILD_EXCHANGE_INFO, lang='cnocr', letter=(148, 249, 99), threshold=64)
 
 GUILD_SIDEBAR = ButtonGrid(
     origin=(21, 118), delta=(0, 94.5), button_shape=(60, 75), grid_shape=(1, 6), name='GUILD_SIDEBAR')
@@ -456,7 +455,7 @@ class RewardGuild(UI):
         # Last screencapture should contain affiliation
         # color in top-right where guild coins is
         # Determine guild affiliation
-        color = get_color(self.device.image, GUILD_AFFILIATION_CHECK_IN_LOGISTICS.area)
+        color = get_color(self.device.image, GUILD_AFFILIATION_CHECK_LOGISTICS.area)
         if color_similar(color, (115, 146, 206)):
             is_azur_affiliation  = True
         elif color_similar(color, (206, 117, 115)):
@@ -522,6 +521,8 @@ class RewardGuild(UI):
 
     def handle_guild(self):
         """
+        ALAS handler function for guild reward loop
+
         Returns:
             bool: If executed
         """
