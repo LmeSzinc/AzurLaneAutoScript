@@ -408,7 +408,7 @@ class RewardGuild(UI):
             # Item is exchangable?
             if details[3]:
                 # Able to make exchange, return True
-                self.handle_guild_exchange(details[4], is_azur_affiliation)
+                self._guild_exchange_item(details[4], is_azur_affiliation)
                 return True
             else:
                 # Remove this choice since inapplicable, then choose again
@@ -557,54 +557,7 @@ class RewardGuild(UI):
 
         return choices
 
-    def guild_sidebar_ensure(self, index, skip_first_screenshot=True):
-        """
-        Performs action to ensure the specified
-        index sidebar is transitioned into
-        Maximum of 3 attempts
-
-        Args:
-            index (int):
-                leader sidebar
-                6 for lobby.
-                5 for members.
-                4 apply.
-                3 for logistics.
-                2 for tech.
-                1 for operations.
-
-                member sidebar
-                6 for lobby.
-                5 for members.
-                3/4 for logistics.
-                2 for tech
-                1 for operations
-
-        Returns:
-            bool: sidebar click ensured or not
-        """
-        if index <= 0 or index > 6:
-            logger.warning(f'Sidebar index cannot be ensured, {index}, limit 1 through 6 only')
-            return False
-
-        counter = 0
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            if self._guild_sidebar_click(index):
-                if counter >= 2:
-                    logger.warning('Sidebar could not be ensured')
-                    return False
-                counter += 1
-                self.device.sleep((0.3, 0.5))
-                continue
-            else:
-                return True
-
-    def guild_operations_mode_ensure(self, skip_first_screenshot=True):
+    def _guild_operations_mode_ensure(self, skip_first_screenshot=True):
         """
         Determine which operations menu has loaded
             0 - No ongoing operations, Officers/Elites/Leader must select one to begin
@@ -652,7 +605,7 @@ class RewardGuild(UI):
             logger.warning('Operations interface is unrecognized')
             return None
 
-    def handle_guild_logistics(self, is_azur_affiliation=True, skip_first_screenshot=True):
+    def _guild_logistics_collect(self, is_azur_affiliation=True, skip_first_screenshot=True):
         """
         Execute collect/accept screen transitions within
         logistics
@@ -709,7 +662,7 @@ class RewardGuild(UI):
             else:
                 confirm_timer.reset()
 
-    def handle_guild_exchange(self, target_button, is_azur_affiliation=True, skip_first_screenshot=True):
+    def _guild_exchange_item(self, target_button, is_azur_affiliation=True, skip_first_screenshot=True):
         """
         Execute exchange screen transitions
 
@@ -746,7 +699,7 @@ class RewardGuild(UI):
             else:
                 confirm_timer.reset()
 
-    def guild_lobby_collect(self, skip_first_screenshot=True):
+    def _guild_lobby_collect(self, skip_first_screenshot=True):
         """
         Performs collect actions if report rewards
         are present in lobby
@@ -798,7 +751,7 @@ class RewardGuild(UI):
             else:
                 confirm_timer.reset()
 
-    def guild_exchange(self, limit=0, is_azur_affiliation=True):
+    def _guild_exchange(self, limit=0, is_azur_affiliation=True):
         """
         Performs sift check and executes the applicable
         exchanges, number performed based on limit
@@ -815,6 +768,53 @@ class RewardGuild(UI):
             choices = self._guild_exchange_check(options, item_priority, grade_to_plate_priorities)
             if not self._guild_exchange_select(choices, is_azur_affiliation):
                 break
+
+    def guild_sidebar_ensure(self, index, skip_first_screenshot=True):
+        """
+        Performs action to ensure the specified
+        index sidebar is transitioned into
+        Maximum of 3 attempts
+
+        Args:
+            index (int):
+                leader sidebar
+                6 for lobby.
+                5 for members.
+                4 apply.
+                3 for logistics.
+                2 for tech.
+                1 for operations.
+
+                member sidebar
+                6 for lobby.
+                5 for members.
+                3/4 for logistics.
+                2 for tech
+                1 for operations
+
+        Returns:
+            bool: sidebar click ensured or not
+        """
+        if index <= 0 or index > 6:
+            logger.warning(f'Sidebar index cannot be ensured, {index}, limit 1 through 6 only')
+            return False
+
+        counter = 0
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self._guild_sidebar_click(index):
+                if counter >= 2:
+                    logger.warning('Sidebar could not be ensured')
+                    return False
+                counter += 1
+                self.device.sleep((0.3, 0.5))
+                continue
+            else:
+                return True
 
     def guild_logistics(self):
         """
@@ -844,17 +844,17 @@ class RewardGuild(UI):
 
         # Handle logistics actions collect/accept
         # Exchange will be executed separately
-        self.handle_guild_logistics(is_azur_affiliation)
+        self._guild_logistics_collect(is_azur_affiliation)
 
         # Handle action exchange, determine color of digit based on affiliation
         GUILD_EXCHANGE_LIMIT.letter = (173, 182, 206) if is_azur_affiliation else (214, 113, 115)
         limit = GUILD_EXCHANGE_LIMIT.ocr(self.device.image)
         if limit > 0:
-            self.guild_exchange(limit, is_azur_affiliation)
+            self._guild_exchange(limit, is_azur_affiliation)
 
     def guild_operations(self, is_affiliation_azur=True):
         # Determine the mode of operations, currently 3 are available
-        operations_mode = self.guild_operations_mode_ensure()
+        operations_mode = self._guild_operations_mode_ensure()
         if operations_mode is None:
             return
 
@@ -894,7 +894,7 @@ class RewardGuild(UI):
         # after entering page_guild
         # If already in page guild but not lobby,
         # checked on next reward loop
-        self.guild_lobby_collect()
+        self._guild_lobby_collect()
 
         if logistics:
             self.guild_logistics()
