@@ -8,7 +8,7 @@ from module.base.decorator import cached_property
 from module.base.mask import Mask
 from module.base.timer import Timer
 from module.base.utils import *
-from module.combat.assets import GET_ITEMS_1
+from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3
 from module.handler.assets import POPUP_CONFIRM
 from module.reward.assets import *
 from module.template.assets import TEMPLATE_OPERATIONS_RED_DOT, TEMPLATE_OPERATIONS_ADD
@@ -646,7 +646,7 @@ class RewardGuild(UI):
         else:
             return False
 
-    def guild_operations_ensure(self, skip_first_screenshot=True):
+    def guild_operations_mode(self, skip_first_screenshot=True):
         """
         Determine which operations menu has loaded
             0 - No ongoing operations, Officers/Elites/Leader must select one to begin
@@ -668,6 +668,11 @@ class RewardGuild(UI):
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
+
+            if self.appear_then_click(GUILD_OPERATIONS_JOIN):
+                self.ensure_no_info_bar()
+                confirm_timer.reset()
+                continue
 
             # End
             if self.appear(GUILD_BOSS_CHECK) or self.appear(GUILD_OPERATIONS_ACTIVE_CHECK):
@@ -709,6 +714,14 @@ class RewardGuild(UI):
                 continue
 
             if self.appear_then_click(GET_ITEMS_1, offset=(30, 30), interval=1):
+                confirm_timer.reset()
+                continue
+
+            if self.appear_then_click(GET_ITEMS_2, offset=(30, 30), interval=1):
+                confirm_timer.reset()
+                continue
+
+            if self.appear_then_click(GET_ITEMS_3, offset=(30, 30), interval=1):
                 confirm_timer.reset()
                 continue
 
@@ -765,11 +778,11 @@ class RewardGuild(UI):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(GUILD_REPORT_REWARDS, interval=2):
+            if self.appear_then_click(GUILD_REPORT_AVAILABLE, interval=3):
                 confirm_timer.reset()
                 continue
 
-            if self.appear_then_click(GUILD_REPORT_CLAIM, interval=2):
+            if self.appear_then_click(GUILD_REPORT_CLAIM, interval=3):
                 confirm_timer.reset()
                 continue
 
@@ -777,7 +790,15 @@ class RewardGuild(UI):
                 confirm_timer.reset()
                 continue
 
-            if self.appear(GUILD_REPORT_CLAIMED, interval=2):
+            if self.appear_then_click(GET_ITEMS_2, offset=(30, 30), interval=1):
+                confirm_timer.reset()
+                continue
+
+            if self.appear_then_click(GET_ITEMS_3, offset=(30, 30), interval=1):
+                confirm_timer.reset()
+                continue
+
+            if self.appear(GUILD_REPORT_CLAIMED, interval=3):
                 self.device.click(GUILD_REPORT_CLOSE)
                 confirm_timer.reset()
                 continue
@@ -915,6 +936,8 @@ class RewardGuild(UI):
             return False
 
         self.guild_lobby_collect()
+
+        return
 
         # TODO May have reconsider using these assets
         # as these red dots can move based on whether
