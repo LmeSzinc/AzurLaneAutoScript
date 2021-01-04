@@ -23,8 +23,6 @@ GUILD_SIDEBAR = ButtonGrid(
     origin=(21, 118), delta=(0, 94.5), button_shape=(60, 75), grid_shape=(1, 6), name='GUILD_SIDEBAR')
 EXCHANGE_GRIDS = ButtonGrid(
     origin=(470, 470), delta=(198.5, 0), button_shape=(83, 83), grid_shape=(3, 1), name='EXCHANGE_GRID')
-EXCHANGE_ITEMS = ItemGrid(
-    EXCHANGE_GRIDS, {}, template_area=(40, 21, 89, 70), amount_area=(60, 71, 91, 92))
 
 DEFAULT_ITEM_PRIORITY = [
     't1',
@@ -211,9 +209,8 @@ class RewardGuild(UI):
         """
 
         # Scan the available exchange items that are selectable
-        EXCHANGE_ITEMS.load_template_folder('./assets/stats_basic')
-        EXCHANGE_ITEMS._load_image(self.device.image)
-        name = [EXCHANGE_ITEMS.match_template(item.image) for item in EXCHANGE_ITEMS.items]
+        self.EXCHANGE_ITEMS._load_image(self.device.image)
+        name = [self.EXCHANGE_ITEMS.match_template(item.image) for item in self.EXCHANGE_ITEMS.items]
         name = [str(item).lower() for item in name]
 
         # Loop EXCHANGE_GRIDS to detect for red text in bottom right area
@@ -515,6 +512,13 @@ class RewardGuild(UI):
     def guild_interval_reset(self):
         """ Call this method after guild run executed """
         del self.__dict__['guild_interval']
+
+    @cached_property
+    def EXCHANGE_ITEMS(self):
+        EXCHANGE_ITEMS = ItemGrid(
+            EXCHANGE_GRIDS, {}, template_area=(40, 21, 89, 70), amount_area=(60, 71, 91, 92))
+        EXCHANGE_ITEMS.load_template_folder('./assets/stats_basic')
+        return EXCHANGE_ITEMS
 
     def handle_guild(self):
         """
