@@ -117,7 +117,7 @@ class RewardGuild(UI):
             logger.warning(f'Target index {index} cannot be clicked')
         return True
 
-    def _guild_exchange_select(self, choices, btn_guild_logistics_check):
+    def _guild_exchange_select(self, choices, is_azur_affiliation=True):
         """
         Execute exchange action on choices
         The order of selection based on item weight
@@ -133,19 +133,13 @@ class RewardGuild(UI):
             key = min(choices, key=choices.get)
             details = choices.get(key)
 
-            # Open window for OCR check inventory of target item
-            self.ui_click(click_button=details[4], check_button=POPUP_CONFIRM,
-                          appear_button=btn_guild_logistics_check, skip_first_screenshot=True)
-            item_inventory = GUILD_EXCHANGE_INFO.ocr(self.device.image)
-
-            # Able to make the exchange?
-            if details[3] <= item_inventory:
-                # Confirm window, return True as exchange was successful
-                self.handle_guild_confirm('GUILD_EXCHANGE', btn_guild_logistics_check)
+            # Item is exchangable?
+            if details[3]:
+                # Able to make exchange, return True
+                self.handle_guild_exchange(details[4], is_azur_affiliation)
                 return True
             else:
-                # Cancel window, remove this choice since inapplicable, then choose again
-                self.handle_guild_cancel('GUILD_EXCHANGE', btn_guild_logistics_check)
+                # Remove this choice since inapplicable, then choose again
                 choices.pop(key)
         logger.warning('Failed to exchange with any of the 3 available options')
         return False
@@ -205,9 +199,10 @@ class RewardGuild(UI):
 
     def _guild_exchange_scan(self):
         """
-        Single image scan of available options
+        Image scan of available options
         to be exchanged. Summarizes matching
-        templates in a 1-D list
+        templates and whether red text present
+        in a list of tuples
 
         Pages:
             in: GUILD_LOGISTICS
@@ -218,9 +213,20 @@ class RewardGuild(UI):
         EXCHANGE_ITEMS.load_template_folder('./assets/stats_basic')
         EXCHANGE_ITEMS._load_image(self.device.image)
         name = [EXCHANGE_ITEMS.match_template(item.image) for item in EXCHANGE_ITEMS.items]
+        name = [str(item).lower() for item in name]
 
-        # Turn all elements into str and lowercase them
-        return [str(item).lower() for item in name]
+        # Loop EXCHANGE_GRIDS to detect for red text in bottom right area
+        # indicating player lacks inventory for that item
+        in_red_list = []
+        for button in EXCHANGE_GRIDS.buttons():
+            area = area_offset((35, 64, 83, 83), button.area[0:2])
+            if self.image_color_count(area, color=(255, 93, 90), threshold=221, count=20):
+                in_red_list.append(True)
+            else:
+                in_red_list.append(False)
+
+        # Zip contents of both lists into tuples
+        return zip(name, in_red_list)
 
     def _guild_exchange_check(self, options, item_priority, grade_to_plate_priorities):
         """
@@ -235,7 +241,7 @@ class RewardGuild(UI):
         # Contains the details of all options
         choices = dict()
 
-        for i, option in enumerate(options):
+        for i, (option, in_red) in enumerate(options):
             # Options already sorted sequentially
             # Button indexes are in sync
             btn_key = f'GUILD_EXCHANGE_{i + 1}'
@@ -244,35 +250,41 @@ class RewardGuild(UI):
             # Defaults set absurd values, which tells ALAS to skip option
             item_weight = len(DEFAULT_ITEM_PRIORITY)
             plate_weight = len(DEFAULT_PLATE_PRIORITY)
+            can_exchange = False
             item_cost = 999999999
 
-            # Plate perhaps, extract last
-            # 2 characters to ensure
-            grade = option[-2:]
-            if grade in GRADES:
-                item_weight = item_priority.index(grade)
-                item_cost = ITEM_TO_COST.get(grade)
+            # Player lacks inventory of this item
+            # so leave this choice under all defaults
+            # to skip
+            if not in_red:
+                # Plate perhaps, extract last
+                # 2 characters to ensure
+                grade = option[-2:]
+                if grade in GRADES:
+                    item_weight = item_priority.index(grade)
+                    can_exchange = True
 
-                plate_priority = grade_to_plate_priorities.get(grade)
-                plate_name = option[5:-2]
-                if plate_name in plate_priority:
-                    plate_weight = plate_priority.index(plate_name)
+                    plate_priority = grade_to_plate_priorities.get(grade)
+                    plate_name = option[5:-2]
+                    if plate_name in plate_priority:
+                        plate_weight = plate_priority.index(plate_name)
 
-                # Did weight update?
-                # If not, then this choice given less priority
-                # also set to absurd cost to avoid using
-                if plate_weight == len(DEFAULT_PLATE_PRIORITY):
-                    item_weight = len(DEFAULT_ITEM_PRIORITY)
-                    item_cost = 999999999
+                    # Did weight update?
+                    # If not, then this choice given less priority
+                    # also set to absurd cost to avoid using
+                    if plate_weight == len(DEFAULT_PLATE_PRIORITY):
+                        item_weight = len(DEFAULT_ITEM_PRIORITY)
+                        can_exchange = False
+                        item_cost = 999999999
 
-            # Else normal item, check normally
-            # Plates are skipped since only grade in priority
-            if option in item_priority:
-                item_weight = item_priority.index(option)
-                item_cost = ITEM_TO_COST.get(option)
+                # Else normal item, check normally
+                # Plates are skipped since only grade in priority
+                if option in item_priority:
+                    item_weight = item_priority.index(option)
+                    can_exchange = True
 
-            choices[f'{i + 1}'] = [item_weight, plate_weight, i + 1, item_cost, btn]
-            logger.info(f'Choice #{i + 1} - Name: {option:15}, Weight: {item_weight}')
+            choices[f'{i + 1}'] = [item_weight, plate_weight, i + 1, can_exchange, btn]
+            logger.info(f'Choice #{i + 1} - Name: {option:15}, Weight: {item_weight:3}, Exchangable: {can_exchange}')
 
         return choices
 
@@ -411,7 +423,97 @@ class RewardGuild(UI):
             else:
                 confirm_timer.reset()
 
-    def guild_exchange(self, limit, btn_guild_logistics_check):
+    def handle_guild_logistics(self, is_azur_affiliation=True, skip_first_screenshot=True):
+        """
+        Execute collect/accept screen transitions within
+        logistics
+
+        Pages:
+            in: LOGISTICS
+            out: LOGISTICS
+        """
+        # Guild affiliated assets (Azur or Axis) needed for apperance and clicking
+        btn_guild_logistics_check = GUILD_LOGISTICS_CHECK_AZUR if is_azur_affiliation else GUILD_LOGISTICS_CHECK_AXIS
+        btn_guild_mission_rewards = GUILD_MISSION_REWARDS_AZUR if is_azur_affiliation else GUILD_MISSION_REWARDS_AXIS
+        btn_guild_mission_accept = GUILD_MISSION_ACCEPT_AZUR if is_azur_affiliation else GUILD_MISSION_ACCEPT_AXIS
+        btn_guild_supply_rewards = GUILD_SUPPLY_REWARDS_AZUR if is_azur_affiliation else GUILD_SUPPLY_REWARDS_AXIS
+
+        confirm_timer = Timer(1.5, count=3).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear_then_click(btn_guild_mission_rewards, offset=(20, 20), interval=3):
+                confirm_timer.reset()
+                continue
+
+            if self.appear_then_click(btn_guild_mission_accept, offset=(20, 20), interval=3):
+                confirm_timer.reset()
+                continue
+
+            if self.appear_then_click(btn_guild_supply_rewards, offset=(20, 20), interval=3):
+                confirm_timer.reset()
+                continue
+
+            if self.handle_popup_confirm('GUILD_MISSION_ACCEPT'):
+                self.ensure_no_info_bar()
+                confirm_timer.reset()
+                continue
+
+            if self.appear_then_click(GET_ITEMS_1, interval=2):
+                self.ensure_no_info_bar()
+                confirm_timer.reset()
+                continue
+
+            # End
+            if self.appear(btn_guild_logistics_check):
+                if confirm_timer.reached():
+                    break
+            else:
+                confirm_timer.reset()
+
+    def handle_guild_exchange(self, target_button, is_azur_affiliation=True, skip_first_screenshot=True):
+        """
+        Execute exchange screen transitions
+
+        Pages:
+            in: ANY
+            out: ANY
+        """
+        # Guild affiliated assets (Azur or Axis) needed for apperance and clicking
+        btn_guild_logistics_check = GUILD_LOGISTICS_CHECK_AZUR if is_azur_affiliation  else GUILD_LOGISTICS_CHECK_AXIS
+
+        # Start the exchange process, not inserted
+        # into while to avoid potential multi-clicking
+        self.device.click(target_button)
+
+        confirm_timer = Timer(1.5, count=3).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.handle_popup_confirm('GUILD_EXCHANGE'):
+                self.ensure_no_info_bar()
+                confirm_timer.reset()
+                continue
+
+            if self.appear_then_click(GET_ITEMS_1, interval=2):
+                self.ensure_no_info_bar()
+                confirm_timer.reset()
+                continue
+
+            # End
+            if self.appear(btn_guild_logistics_check):
+                if confirm_timer.reached():
+                    break
+            else:
+                confirm_timer.reset()
+
+    def guild_exchange(self, limit=0, is_azur_affiliation=True):
         """
         Performs sift check and executes the applicable
         exchanges, number performed based on limit
@@ -426,9 +528,8 @@ class RewardGuild(UI):
         for num in range(limit):
             options = self._guild_exchange_scan()
             choices = self._guild_exchange_check(options, item_priority, grade_to_plate_priorities)
-            if not self._guild_exchange_select(choices, btn_guild_logistics_check):
+            if not self._guild_exchange_select(choices, is_azur_affiliation):
                 break
-            self.ensure_no_info_bar()
 
     def guild_logistics(self):
         """
@@ -456,36 +557,15 @@ class RewardGuild(UI):
             logger.warning(f'Unknown guild affiliation color: {color}')
             return
 
-        # Additional wait time needed to screencapture fully loaded page
-        btn_guild_logistics_check = GUILD_LOGISTICS_CHECK_AZUR if is_azur_affiliation  else GUILD_LOGISTICS_CHECK_AXIS
-        self.wait_until_appear(btn_guild_logistics_check)
+        # Handle logistics actions collect/accept
+        # Exchange will be executed separately
+        self.handle_guild_logistics(is_azur_affiliation)
 
-        # Acquire remaining buttons
-        btn_guild_mission_rewards = GUILD_MISSION_REWARDS_AZUR if is_azur_affiliation  else GUILD_MISSION_REWARDS_AXIS
-        btn_guild_mission_accept = GUILD_MISSION_ACCEPT_AZUR if is_azur_affiliation  else GUILD_MISSION_ACCEPT_AXIS
-        btn_guild_supply_rewards = GUILD_SUPPLY_REWARDS_AZUR if is_azur_affiliation  else GUILD_SUPPLY_REWARDS_AXIS
-
-        # Execute all logistics actions
-        # 1) Collect Mission Rewards if available
-        # 2) Accept Mission if available
-        # 3) Collect Supply Rewards if available
-        # 4) Contribute items if able
-        if self.appear_then_click(btn_guild_mission_rewards, offset=(20, 20)):
-            self.handle_guild_confirm('GUILD_MISSION_REWARDS', btn_guild_logistics_check)
-            self.ensure_no_info_bar()
-
-        if self.appear_then_click(btn_guild_mission_accept, offset=(20, 20)):
-            self.handle_guild_confirm('GUILD_MISSION_ACCEPT', btn_guild_logistics_check)
-            self.ensure_no_info_bar()
-
-        if self.appear_then_click(btn_guild_supply_rewards, offset=(20, 20)):
-            self.handle_guild_confirm('GUILD_SUPPLY_REWARDS', btn_guild_logistics_check)
-            self.ensure_no_info_bar()
-
-        GUILD_EXCHANGE_LIMIT.letter = (173, 182, 206) if is_affiliation_azur else (214, 113, 115)
+        # Handle action exchange, determine color of digit based on affiliation
+        GUILD_EXCHANGE_LIMIT.letter = (173, 182, 206) if is_azur_affiliation else (214, 113, 115)
         limit = GUILD_EXCHANGE_LIMIT.ocr(self.device.image)
         if limit > 0:
-            self.guild_exchange(limit, btn_guild_logistics_check)
+            self.guild_exchange(limit, is_azur_affiliation)
 
     def guild_operations(self):
         pass
