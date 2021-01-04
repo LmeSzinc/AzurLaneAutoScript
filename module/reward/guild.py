@@ -713,15 +713,15 @@ class RewardGuild(UI):
                 confirm_timer.reset()
                 continue
 
-            if self.appear_then_click(GET_ITEMS_1, offset=(30, 30), interval=1):
+            if self.appear_then_click(GET_ITEMS_1, offset=(30, 30), interval=2):
                 confirm_timer.reset()
                 continue
 
-            if self.appear_then_click(GET_ITEMS_2, offset=(30, 30), interval=1):
+            if self.appear_then_click(GET_ITEMS_2, offset=(30, 30), interval=2):
                 confirm_timer.reset()
                 continue
 
-            if self.appear_then_click(GET_ITEMS_3, offset=(30, 30), interval=1):
+            if self.appear_then_click(GET_ITEMS_3, offset=(30, 30), interval=2):
                 confirm_timer.reset()
                 continue
 
@@ -786,15 +786,15 @@ class RewardGuild(UI):
                 confirm_timer.reset()
                 continue
 
-            if self.appear_then_click(GET_ITEMS_1, offset=(30, 30), interval=1):
+            if self.appear_then_click(GET_ITEMS_1, offset=(30, 30), interval=2):
                 confirm_timer.reset()
                 continue
 
-            if self.appear_then_click(GET_ITEMS_2, offset=(30, 30), interval=1):
+            if self.appear_then_click(GET_ITEMS_2, offset=(30, 30), interval=2):
                 confirm_timer.reset()
                 continue
 
-            if self.appear_then_click(GET_ITEMS_3, offset=(30, 30), interval=1):
+            if self.appear_then_click(GET_ITEMS_3, offset=(30, 30), interval=2):
                 confirm_timer.reset()
                 continue
 
