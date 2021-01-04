@@ -877,7 +877,7 @@ class RewardGuild(UI):
 
     def guild_operations(self, is_affiliation_azur=True):
         # Determine the mode of operations, currently 3 are available
-        operations_mode = self.guild_operations_ensure()
+        operations_mode = self.guild_operations_mode()
         if operations_mode is None:
             return
 
@@ -936,8 +936,6 @@ class RewardGuild(UI):
             return False
 
         self.guild_lobby_collect()
-
-        return
 
         # TODO May have reconsider using these assets
         # as these red dots can move based on whether
