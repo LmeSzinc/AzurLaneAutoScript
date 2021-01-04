@@ -219,6 +219,7 @@ class RewardGuild(UI):
         """
         confirm_timer = Timer(1.5, count=3).start()
         close_timer = Timer(1.5, count=3).start()
+        add_timer = Timer(3, count=6)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -232,10 +233,12 @@ class RewardGuild(UI):
 
             sim, point = TEMPLATE_OPERATIONS_ADD.match_result(self.device.image)
             if sim > 0.85:
-                # Use small area to reduce random click point
-                button = area_offset(area=(-2, -2, 24, 12), offset=point)
-                dispatch_add = Button(area=button, color=(), button=button, name='GUILD_DISPATCH_ADD')
-                self.device.click(dispatch_add)
+                if not add_timer.started() or add_timer.reached():
+                    # Use small area to reduce random click point
+                    button = area_offset(area=(-2, -2, 24, 12), offset=point)
+                    dispatch_add = Button(area=button, color=(), button=button, name='GUILD_DISPATCH_ADD')
+                    self.device.click(dispatch_add)
+                    add_timer.reset()
                 confirm_timer.reset()
                 close_timer.reset()
                 continue
