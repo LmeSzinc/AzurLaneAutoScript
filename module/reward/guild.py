@@ -21,19 +21,21 @@ GUILD_EXCHANGE_INFO = Digit(OCR_GUILD_EXCHANGE_INFO, lang='cnocr', letter=(148, 
 
 GUILD_SIDEBAR = ButtonGrid(
     origin=(21, 118), delta=(0, 94.5), button_shape=(60, 75), grid_shape=(1, 6), name='GUILD_SIDEBAR')
-EXCHANGE_GRIDS = ButtonGrid(origin=(470, 470), delta=(198.5, 0), button_shape=(83, 83), grid_shape=(3, 1))
-EXCHANGE_ITEMS = ItemGrid(EXCHANGE_GRIDS, {}, template_area=(40, 21, 89, 70), amount_area=(60, 71, 91, 92))
+EXCHANGE_GRIDS = ButtonGrid(
+    origin=(470, 470), delta=(198.5, 0), button_shape=(83, 83), grid_shape=(3, 1), name='EXCHANGE_GRID')
+EXCHANGE_ITEMS = ItemGrid(
+    EXCHANGE_GRIDS, {}, template_area=(40, 21, 89, 70), amount_area=(60, 71, 91, 92))
 
-ITEM_TO_COST = {
-    't1': 20,
-    't2': 10,
-    't3': 5,
-    'oxycola': 20,
-    'coolant': 10,
-    'coins': 600,
-    'oil': 200,
-    'merit': 450
-}
+DEFAULT_ITEM_PRIORITY = [
+    't1',
+    't2',
+    't3',
+    'oxycola',
+    'coolant',
+    'coins',
+    'oil',
+    'merit'
+]
 
 DEFAULT_PLATE_PRIORITY = [
     'torpedo',
@@ -43,7 +45,6 @@ DEFAULT_PLATE_PRIORITY = [
     'general'
 ]
 
-DEFAULT_ITEM_PRIORITY = ITEM_TO_COST.keys()
 GRADES = [s for s in DEFAULT_ITEM_PRIORITY if len(s) == 2]
 
 class RewardGuild(UI):
@@ -251,7 +252,6 @@ class RewardGuild(UI):
             item_weight = len(DEFAULT_ITEM_PRIORITY)
             plate_weight = len(DEFAULT_PLATE_PRIORITY)
             can_exchange = False
-            item_cost = 999999999
 
             # Player lacks inventory of this item
             # so leave this choice under all defaults
@@ -275,7 +275,6 @@ class RewardGuild(UI):
                     if plate_weight == len(DEFAULT_PLATE_PRIORITY):
                         item_weight = len(DEFAULT_ITEM_PRIORITY)
                         can_exchange = False
-                        item_cost = 999999999
 
                 # Else normal item, check normally
                 # Plates are skipped since only grade in priority
@@ -334,94 +333,6 @@ class RewardGuild(UI):
                 continue
             else:
                 return True
-
-    def guild_affiliation_ensure(self, skip_first_screenshot=True):
-        """
-        Determine player's Guild affiliation
-
-        Pages:
-            in: GUILD_ANY
-            out: GUILD_LOBBY
-        """
-        # Transition to GUILD_LOBBY
-        if not self.guild_sidebar_ensure(6):
-            logger.info('Ensurance has failed, please join a Guild first')
-            return
-
-        confirm_timer = Timer(1.5, count=3).start()
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            # End
-            if self.appear(GUILD_AFFILIATION_CHECK_AZUR) or self.appear(GUILD_AFFILIATION_CHECK_AXIS):
-                if confirm_timer.reached():
-                    break
-            else:
-                confirm_timer.reset()
-
-        if self.appear(GUILD_AFFILIATION_CHECK_AZUR):
-            return True
-        else:
-            return False
-
-    def handle_guild_confirm(self, confirm_text, appear_button, skip_first_screenshot=True):
-        """
-        Execute confirm screen transitions
-
-        Pages:
-            in: ANY
-            out: ANY
-        """
-        confirm_timer = Timer(1.5, count=3).start()
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            if self.handle_popup_confirm(confirm_text):
-                confirm_timer.reset()
-                continue
-
-            if self.appear_then_click(GET_ITEMS_1, offset=(30, 30), interval=1):
-                confirm_timer.reset()
-                continue
-
-            # End
-            if self.appear(appear_button):
-                if confirm_timer.reached():
-                    break
-            else:
-                confirm_timer.reset()
-
-    def handle_guild_cancel(self, cancel_text, appear_button, skip_first_screenshot=True):
-        """
-        Execute cancel screen transitions
-
-        Pages:
-            in: ANY
-            out: ANY
-        """
-        confirm_timer = Timer(1.5, count=3).start()
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            if self.handle_popup_cancel(cancel_text):
-                confirm_timer.reset()
-                continue
-
-            # End
-            if self.appear(appear_button):
-                if confirm_timer.reached():
-                    break
-            else:
-                confirm_timer.reset()
 
     def handle_guild_logistics(self, is_azur_affiliation=True, skip_first_screenshot=True):
         """
