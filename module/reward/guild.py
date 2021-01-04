@@ -20,23 +20,22 @@ from module.ui.ui import UI, page_guild
 GUILD_RECORD = ('RewardRecord', 'guild')
 
 GUILD_EXCHANGE_LIMIT = Digit(OCR_GUILD_EXCHANGE_LIMIT, threshold=64)
-GUILD_EXCHANGE_INFO = Digit(OCR_GUILD_EXCHANGE_INFO, lang='cnocr', letter=(148, 249, 99), threshold=64)
 
 GUILD_SIDEBAR = ButtonGrid(
-    origin=(21, 118), delta=(0, 94.5), button_shape=(60, 75), grid_shape=(1, 5), name='GUILD_SIDEBAR')
-EXCHANGE_GRIDS = ButtonGrid(origin=(470, 470), delta=(198.5, 0), button_shape=(83, 83), grid_shape=(3, 1))
-EXCHANGE_ITEMS = ItemGrid(EXCHANGE_GRIDS, {}, template_area=(40, 21, 89, 70), amount_area=(60, 71, 91, 92))
+    origin=(21, 118), delta=(0, 94.5), button_shape=(60, 75), grid_shape=(1, 6), name='GUILD_SIDEBAR')
+EXCHANGE_GRIDS = ButtonGrid(
+    origin=(470, 470), delta=(198.5, 0), button_shape=(83, 83), grid_shape=(3, 1), name='EXCHANGE_GRID')
 
-ITEM_TO_COST = {
-    't1': 20,
-    't2': 10,
-    't3': 5,
-    'oxycola': 20,
-    'coolant': 10,
-    'coins': 600,
-    'oil': 200,
-    'merit': 450
-}
+DEFAULT_ITEM_PRIORITY = [
+    't1',
+    't2',
+    't3',
+    'oxycola',
+    'coolant',
+    'coins',
+    'oil',
+    'merit'
+]
 
 DEFAULT_PLATE_PRIORITY = [
     'torpedo',
@@ -46,7 +45,6 @@ DEFAULT_PLATE_PRIORITY = [
     'general'
 ]
 
-DEFAULT_ITEM_PRIORITY = ITEM_TO_COST.keys()
 GRADES = [s for s in DEFAULT_ITEM_PRIORITY if len(s) == 2]
 
 SWIPE_DISTANCE = 250
@@ -165,49 +163,6 @@ class RewardGuild(UI):
             return 1
         else:
             return 2
-
-    def _guild_operations_dispatch_deprecated(self):
-        """
-        Executes the dispatch sequence
-
-        Pages:
-            in: GUILD_OPERATIONS_DISPATCH
-            out: GUILD_OPERATIONS_MAP
-        """
-        # Shorten retry_wait, often not clickable as soon as dispatch window is up
-        self.ui_click(click_button=GUILD_DISPATCH_QUICK, check_button=GUILD_DISPATCH_RECOMMEND,
-                      retry_wait=3)
-
-        # Already a dispatched fleet?
-        # If so, scan image to find point
-        # to transition to empty dispatch
-        diff_exit = False
-        if not self.appear(GUILD_DISPATCH_EMPTY):
-            diff_exit = True
-            sim, point = TEMPLATE_OPERATIONS_ADD.match_result(self.device.image)
-            # Use small area to reduce random click point
-            button = area_offset(area=(-2, -2, 24, 12), offset=point)
-            dispatch_add = Button(area=button, color=(), button=button, name='GUILD_DISPATCH_ADD')
-            self.ui_click(click_button=dispatch_add, check_button=GUILD_DISPATCH_EMPTY,
-                          appear_button=GUILD_DISPATCH_RECOMMEND, skip_first_screenshot=True)
-
-        # Currently at an empty fleet window, not entirely sure why need offset=False for this specific click
-        self.ui_click(click_button=GUILD_DISPATCH_RECOMMEND, check_button=GUILD_DISPATCH_FLEET,
-                      offset=False, skip_first_screenshot=True)
-
-        # Dispatch the fleet, depending on prior actions may need to handle confirm
-        # else close once and return to map
-        self.device.click(GUILD_DISPATCH_FLEET)
-        if diff_exit:
-            # GUI self closes the window in this scenario
-            self.handle_guild_confirm('GUILD_DISPATCH', GUILD_DISPATCH_IN_PROGRESS)
-        else:
-            # GUI does not self close the window in this scenario
-            # so have to click twice
-            self.handle_guild_confirm('GUILD_DISPATCH', GUILD_DISPATCH_RECOMMEND)
-        self.ui_click(click_button=GUILD_DISPATCH_CLOSE, check_button=GUILD_OPERATIONS_ACTIVE_CHECK,
-                      retry_wait=2, skip_first_screenshot=True)
-        self.ensure_no_info_bar()
 
     def _guild_operations_dispatch(self, skip_first_screenshot=True):
         """
@@ -372,17 +327,26 @@ class RewardGuild(UI):
 
         Args:
             index (int):
-                5 for lobby.
-                4 for members.
+                leader sidebar
+                6 for lobby.
+                5 for members.
+                4 apply.
                 3 for logistics.
                 2 for tech.
                 1 for operations.
 
+                member sidebar
+                6 for lobby.
+                5 for members.
+                3/4 for logistics.
+                2 for tech
+                1 for operations
+
         Returns:
             bool: if changed.
         """
-        if index <= 0 or index > 5:
-            logger.warning(f'Sidebar index cannot be clicked, {index}, limit to 1 through 5 only')
+        if index <= 0 or index > 6:
+            logger.warning(f'Sidebar index cannot be clicked, {index}, limit to 1 through 6 only')
             return False
 
         current = 0
@@ -406,8 +370,13 @@ class RewardGuild(UI):
             current = 5 - current
         elif total == 5:
             current = 6 - current
+        elif total == 6:
+            current = 7 - current
         else:
             logger.warning('Guild sidebar total count error.')
+
+        if total == 5 and index >= 4:
+            index -= 1
 
         logger.attr('Guild_sidebar', f'{current}/{total}')
         if current == index:
@@ -420,7 +389,7 @@ class RewardGuild(UI):
             logger.warning(f'Target index {index} cannot be clicked')
         return True
 
-    def _guild_exchange_select(self, choices, btn_guild_logistics_check):
+    def _guild_exchange_select(self, choices, is_azur_affiliation=True):
         """
         Execute exchange action on choices
         The order of selection based on item weight
@@ -436,19 +405,13 @@ class RewardGuild(UI):
             key = min(choices, key=choices.get)
             details = choices.get(key)
 
-            # Open window for OCR check inventory of target item
-            self.ui_click(click_button=details[4], check_button=POPUP_CONFIRM,
-                          appear_button=btn_guild_logistics_check, skip_first_screenshot=True)
-            item_inventory = GUILD_EXCHANGE_INFO.ocr(self.device.image)
-
-            # Able to make the exchange?
-            if details[3] <= item_inventory:
-                # Confirm window, return True as exchange was successful
-                self.handle_guild_confirm('GUILD_EXCHANGE', btn_guild_logistics_check)
+            # Item is exchangable?
+            if details[3]:
+                # Able to make exchange, return True
+                self.handle_guild_exchange(details[4], is_azur_affiliation)
                 return True
             else:
-                # Cancel window, remove this choice since inapplicable, then choose again
-                self.handle_guild_cancel('GUILD_EXCHANGE', btn_guild_logistics_check)
+                # Remove this choice since inapplicable, then choose again
                 choices.pop(key)
         logger.warning('Failed to exchange with any of the 3 available options')
         return False
@@ -508,9 +471,10 @@ class RewardGuild(UI):
 
     def _guild_exchange_scan(self):
         """
-        Single image scan of available options
+        Image scan of available options
         to be exchanged. Summarizes matching
-        templates in a 1-D list
+        templates and whether red text present
+        in a list of tuples
 
         Pages:
             in: GUILD_LOGISTICS
@@ -518,12 +482,22 @@ class RewardGuild(UI):
         """
 
         # Scan the available exchange items that are selectable
-        EXCHANGE_ITEMS.load_template_folder('./assets/stats_basic')
-        EXCHANGE_ITEMS._load_image(self.device.image)
-        name = [EXCHANGE_ITEMS.match_template(item.image) for item in EXCHANGE_ITEMS.items]
+        self.EXCHANGE_ITEMS._load_image(self.device.image)
+        name = [self.EXCHANGE_ITEMS.match_template(item.image) for item in self.EXCHANGE_ITEMS.items]
+        name = [str(item).lower() for item in name]
 
-        # Turn all elements into str and lowercase them
-        return [str(item).lower() for item in name]
+        # Loop EXCHANGE_GRIDS to detect for red text in bottom right area
+        # indicating player lacks inventory for that item
+        in_red_list = []
+        for button in EXCHANGE_GRIDS.buttons():
+            area = area_offset((35, 64, 83, 83), button.area[0:2])
+            if self.image_color_count(area, color=(255, 93, 90), threshold=221, count=20):
+                in_red_list.append(True)
+            else:
+                in_red_list.append(False)
+
+        # Zip contents of both lists into tuples
+        return zip(name, in_red_list)
 
     def _guild_exchange_check(self, options, item_priority, grade_to_plate_priorities):
         """
@@ -538,7 +512,7 @@ class RewardGuild(UI):
         # Contains the details of all options
         choices = dict()
 
-        for i, option in enumerate(options):
+        for i, (option, in_red) in enumerate(options):
             # Options already sorted sequentially
             # Button indexes are in sync
             btn_key = f'GUILD_EXCHANGE_{i + 1}'
@@ -547,35 +521,39 @@ class RewardGuild(UI):
             # Defaults set absurd values, which tells ALAS to skip option
             item_weight = len(DEFAULT_ITEM_PRIORITY)
             plate_weight = len(DEFAULT_PLATE_PRIORITY)
-            item_cost = 999999999
+            can_exchange = False
 
-            # Plate perhaps, extract last
-            # 2 characters to ensure
-            grade = option[-2:]
-            if grade in GRADES:
-                item_weight = item_priority.index(grade)
-                item_cost = ITEM_TO_COST.get(grade)
+            # Player lacks inventory of this item
+            # so leave this choice under all defaults
+            # to skip
+            if not in_red:
+                # Plate perhaps, extract last
+                # 2 characters to ensure
+                grade = option[-2:]
+                if grade in GRADES:
+                    item_weight = item_priority.index(grade)
+                    can_exchange = True
 
-                plate_priority = grade_to_plate_priorities.get(grade)
-                plate_name = option[5:-2]
-                if plate_name in plate_priority:
-                    plate_weight = plate_priority.index(plate_name)
+                    plate_priority = grade_to_plate_priorities.get(grade)
+                    plate_name = option[5:-2]
+                    if plate_name in plate_priority:
+                        plate_weight = plate_priority.index(plate_name)
 
-                # Did weight update?
-                # If not, then this choice given less priority
-                # also set to absurd cost to avoid using
-                if plate_weight == len(DEFAULT_PLATE_PRIORITY):
-                    item_weight = len(DEFAULT_ITEM_PRIORITY)
-                    item_cost = 999999999
+                    # Did weight update?
+                    # If not, then this choice given less priority
+                    # also set to absurd cost to avoid using
+                    if plate_weight == len(DEFAULT_PLATE_PRIORITY):
+                        item_weight = len(DEFAULT_ITEM_PRIORITY)
+                        can_exchange = False
 
-            # Else normal item, check normally
-            # Plates are skipped since only grade in priority
-            if option in item_priority:
-                item_weight = item_priority.index(option)
-                item_cost = ITEM_TO_COST.get(option)
+                # Else normal item, check normally
+                # Plates are skipped since only grade in priority
+                if option in item_priority:
+                    item_weight = item_priority.index(option)
+                    can_exchange = True
 
-            choices[f'{i + 1}'] = [item_weight, plate_weight, i + 1, item_cost, btn]
-            logger.info(f'Choice #{i + 1} - Name: {option:15}, Weight: {item_weight}')
+            choices[f'{i + 1}'] = [item_weight, plate_weight, i + 1, can_exchange, btn]
+            logger.info(f'Choice #{i + 1} - Name: {option:15}, Weight: {item_weight:3}, Exchangable: {can_exchange}')
 
         return choices
 
@@ -587,17 +565,26 @@ class RewardGuild(UI):
 
         Args:
             index (int):
-                5 for lobby.
-                4 for members.
+                leader sidebar
+                6 for lobby.
+                5 for members.
+                4 apply.
                 3 for logistics.
                 2 for tech.
                 1 for operations.
 
+                member sidebar
+                6 for lobby.
+                5 for members.
+                3/4 for logistics.
+                2 for tech
+                1 for operations
+
         Returns:
             bool: sidebar click ensured or not
         """
-        if index <= 0 or index > 5:
-            logger.warning(f'Sidebar index cannot be ensured, {index}, limit 1 through 5 only')
+        if index <= 0 or index > 6:
+            logger.warning(f'Sidebar index cannot be ensured, {index}, limit 1 through 6 only')
             return False
 
         counter = 0
@@ -617,39 +604,7 @@ class RewardGuild(UI):
             else:
                 return True
 
-    def guild_affiliation_ensure(self, skip_first_screenshot=True):
-        """
-        Determine player's Guild affiliation
-
-        Pages:
-            in: GUILD_ANY
-            out: GUILD_LOBBY
-        """
-        # Transition to GUILD_LOBBY
-        if not self.guild_sidebar_ensure(5):
-            logger.info('Ensurance has failed, please join a Guild first')
-            return
-
-        confirm_timer = Timer(1.5, count=3).start()
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            # End
-            if self.appear(GUILD_AFFILIATION_CHECK_AZUR) or self.appear(GUILD_AFFILIATION_CHECK_AXIS):
-                if confirm_timer.reached():
-                    break
-            else:
-                confirm_timer.reset()
-
-        if self.appear(GUILD_AFFILIATION_CHECK_AZUR):
-            return True
-        else:
-            return False
-
-    def guild_operations_mode(self, skip_first_screenshot=True):
+    def guild_operations_mode_ensure(self, skip_first_screenshot=True):
         """
         Determine which operations menu has loaded
             0 - No ongoing operations, Officers/Elites/Leader must select one to begin
@@ -697,14 +652,21 @@ class RewardGuild(UI):
             logger.warning('Operations interface is unrecognized')
             return None
 
-    def handle_guild_confirm(self, confirm_text, appear_button, skip_first_screenshot=True):
+    def handle_guild_logistics(self, is_azur_affiliation=True, skip_first_screenshot=True):
         """
-        Execute confirm screen transitions
+        Execute collect/accept screen transitions within
+        logistics
 
         Pages:
-            in: ANY
-            out: ANY
+            in: LOGISTICS
+            out: LOGISTICS
         """
+        # Guild affiliated assets (Azur or Axis) needed for apperance and clicking
+        btn_guild_logistics_check = GUILD_LOGISTICS_CHECK_AZUR if is_azur_affiliation else GUILD_LOGISTICS_CHECK_AXIS
+        btn_guild_mission_rewards = GUILD_MISSION_REWARDS_AZUR if is_azur_affiliation else GUILD_MISSION_REWARDS_AXIS
+        btn_guild_mission_accept = GUILD_MISSION_ACCEPT_AZUR if is_azur_affiliation else GUILD_MISSION_ACCEPT_AXIS
+        btn_guild_supply_rewards = GUILD_SUPPLY_REWARDS_AZUR if is_azur_affiliation else GUILD_SUPPLY_REWARDS_AXIS
+
         confirm_timer = Timer(1.5, count=3).start()
         while 1:
             if skip_first_screenshot:
@@ -712,7 +674,19 @@ class RewardGuild(UI):
             else:
                 self.device.screenshot()
 
-            if self.handle_popup_confirm(confirm_text):
+            if self.appear_then_click(btn_guild_mission_rewards, offset=(20, 20), interval=3):
+                confirm_timer.reset()
+                continue
+
+            if self.appear_then_click(btn_guild_mission_accept, offset=(20, 20), interval=3):
+                confirm_timer.reset()
+                continue
+
+            if self.appear_then_click(btn_guild_supply_rewards, offset=(20, 20), interval=3):
+                confirm_timer.reset()
+                continue
+
+            if self.handle_popup_confirm('GUILD_MISSION_ACCEPT'):
                 confirm_timer.reset()
                 continue
 
@@ -729,20 +703,27 @@ class RewardGuild(UI):
                 continue
 
             # End
-            if self.appear(appear_button):
-                if confirm_timer.reached():
+            if self.appear(btn_guild_logistics_check):
+                if not self.info_bar_count() and confirm_timer.reached():
                     break
             else:
                 confirm_timer.reset()
 
-    def handle_guild_cancel(self, cancel_text, appear_button, skip_first_screenshot=True):
+    def handle_guild_exchange(self, target_button, is_azur_affiliation=True, skip_first_screenshot=True):
         """
-        Execute cancel screen transitions
+        Execute exchange screen transitions
 
         Pages:
             in: ANY
             out: ANY
         """
+        # Guild affiliated assets (Azur or Axis) needed for apperance and clicking
+        btn_guild_logistics_check = GUILD_LOGISTICS_CHECK_AZUR if is_azur_affiliation  else GUILD_LOGISTICS_CHECK_AXIS
+
+        # Start the exchange process, not inserted
+        # into while to avoid potential multi-clicking
+        self.device.click(target_button)
+
         confirm_timer = Timer(1.5, count=3).start()
         while 1:
             if skip_first_screenshot:
@@ -750,13 +731,17 @@ class RewardGuild(UI):
             else:
                 self.device.screenshot()
 
-            if self.handle_popup_cancel(cancel_text):
+            if self.handle_popup_confirm('GUILD_EXCHANGE'):
+                confirm_timer.reset()
+                continue
+
+            if self.appear_then_click(GET_ITEMS_1, interval=2):
                 confirm_timer.reset()
                 continue
 
             # End
-            if self.appear(appear_button):
-                if confirm_timer.reached():
+            if self.appear(btn_guild_logistics_check):
+                if not self.info_bar_count() and confirm_timer.reached():
                     break
             else:
                 confirm_timer.reset()
@@ -813,7 +798,7 @@ class RewardGuild(UI):
             else:
                 confirm_timer.reset()
 
-    def guild_exchange(self, limit, btn_guild_logistics_check):
+    def guild_exchange(self, limit=0, is_azur_affiliation=True):
         """
         Performs sift check and executes the applicable
         exchanges, number performed based on limit
@@ -828,11 +813,10 @@ class RewardGuild(UI):
         for num in range(limit):
             options = self._guild_exchange_scan()
             choices = self._guild_exchange_check(options, item_priority, grade_to_plate_priorities)
-            if not self._guild_exchange_select(choices, btn_guild_logistics_check):
+            if not self._guild_exchange_select(choices, is_azur_affiliation):
                 break
-            self.ensure_no_info_bar()
 
-    def guild_logistics(self, is_affiliation_azur=True):
+    def guild_logistics(self):
         """
         Execute all actions in logistics
 
@@ -842,65 +826,39 @@ class RewardGuild(UI):
         """
 
         # Transition to Logistics
-        # Additional wait time needed
-        # as ensure does not wait for
-        # page to load
-        btn_guild_logistics_check = GUILD_LOGISTICS_CHECK_AZUR if is_affiliation_azur else GUILD_LOGISTICS_CHECK_AXIS
         if not self.guild_sidebar_ensure(3):
             logger.info('Ensurance has failed, please join a Guild first')
             return
-        self.wait_until_appear(btn_guild_logistics_check)
 
-        # Acquire remaining buttons
-        btn_guild_mission_rewards = GUILD_MISSION_REWARDS_AZUR if is_affiliation_azur else GUILD_MISSION_REWARDS_AXIS
-        btn_guild_mission_accept = GUILD_MISSION_ACCEPT_AZUR if is_affiliation_azur else GUILD_MISSION_ACCEPT_AXIS
-        btn_guild_supply_rewards = GUILD_SUPPLY_REWARDS_AZUR if is_affiliation_azur else GUILD_SUPPLY_REWARDS_AXIS
+        # Last screencapture should contain affiliation
+        # color in top-right where guild coins is
+        # Determine guild affiliation
+        color = get_color(self.device.image, GUILD_AFFILIATION_CHECK_LOGISTICS.area)
+        if color_similar(color, (115, 146, 206)):
+            is_azur_affiliation  = True
+        elif color_similar(color, (206, 117, 115)):
+            is_azur_affiliation  = False
+        else:
+            logger.warning(f'Unknown guild affiliation color: {color}')
+            return
 
-        # Execute all logistics actions
-        # 1) Collect Mission Rewards if available
-        # 2) Accept Mission if available
-        # 3) Collect Supply Rewards if available
-        # 4) Contribute items if able
-        if self.appear_then_click(btn_guild_mission_rewards, offset=(20, 20)):
-            self.handle_guild_confirm('GUILD_MISSION_REWARDS', btn_guild_logistics_check)
-            self.ensure_no_info_bar()
+        # Handle logistics actions collect/accept
+        # Exchange will be executed separately
+        self.handle_guild_logistics(is_azur_affiliation)
 
-        if self.appear_then_click(btn_guild_mission_accept, offset=(20, 20)):
-            self.handle_guild_confirm('GUILD_MISSION_ACCEPT', btn_guild_logistics_check)
-            self.ensure_no_info_bar()
-
-        if self.appear_then_click(btn_guild_supply_rewards, offset=(20, 20)):
-            self.handle_guild_confirm('GUILD_SUPPLY_REWARDS', btn_guild_logistics_check)
-            self.ensure_no_info_bar()
-
-        GUILD_EXCHANGE_LIMIT.letter = (173, 182, 206) if is_affiliation_azur else (214, 113, 115)
+        # Handle action exchange, determine color of digit based on affiliation
+        GUILD_EXCHANGE_LIMIT.letter = (173, 182, 206) if is_azur_affiliation else (214, 113, 115)
         limit = GUILD_EXCHANGE_LIMIT.ocr(self.device.image)
         if limit > 0:
-            self.guild_exchange(limit, btn_guild_logistics_check)
+            self.guild_exchange(limit, is_azur_affiliation)
 
     def guild_operations(self, is_affiliation_azur=True):
         # Determine the mode of operations, currently 3 are available
-        operations_mode = self.guild_operations_mode()
+        operations_mode = self.guild_operations_mode_ensure()
         if operations_mode is None:
             return
 
-        # Deprecated, using self.guild_lobby_collect() instead for this part
-        # Execute all operations actions
-        # 1) Collect Report Rewards if available
-        # 2) Based on mode:
-        #    - Operations inactive, nothing to do
-        #    - Operations active, scan, select, and then dispatch a fleet
-        #    - Guild Raid Boss active, nothing to do tentative
-        #btn_guild_report_enter = GUILD_REPORT_ENTER_OPERATIONS if operations_mode < 2 else GUILD_REPORT_ENTER_BOSS
-        #btn_guild_report_exit_check = GUILD_OPERATIONS_ACTIVE_CHECK if operations_mode < 2 else GUILD_BOSS_CHECK
-        #self.ui_click(click_button=btn_guild_report_enter, check_button=GUILD_REPORT_CLOSE,
-        #              skip_first_screenshot=True)
-        #if self.appear_then_click(GUILD_REPORT_CLAIM):
-        #    self.handle_guild_confirm('GUILD_REPORT_REWARDS', GUILD_REPORT_CLAIMED)
-        #    self.ensure_no_info_bar()
-        #self.ui_click(click_button=GUILD_REPORT_CLOSE, check_button=btn_guild_report_exit_check,
-        #              appear_button=GUILD_REPORT_CLAIMED, skip_first_screenshot=True)
-
+        # Execute actions based on the detected mode
         if operations_mode == 0:
             return
         elif operations_mode == 1:
@@ -916,7 +874,6 @@ class RewardGuild(UI):
             else:
                 logger.info('Play manually to contribute higher score')
 
-
     def guild_run(self, logistics=True, operations=True):
         """
         Execute logistics and operations actions
@@ -930,34 +887,20 @@ class RewardGuild(UI):
             return False
 
         # By default, going to page_guild always
-        # opens in GUILD_LOBBY
-        # If already in page_guild will ensure
-        # correct sidebar
+        # opens into lobby
         self.ui_ensure(page_guild)
-        is_affiliation_azur = self.guild_affiliation_ensure()
-        if is_affiliation_azur is None:
-            return False
 
+        # Wait for possible report to be displayed
+        # after entering page_guild
+        # If already in page guild but not lobby,
+        # checked on next reward loop
         self.guild_lobby_collect()
 
-        # TODO May have reconsider using these assets
-        # as these red dots can move based on whether
-        # leader or not
-        # Logistics checking is short but if it isn't
-        # lit up, we can skip it to save on time
-        if not self.appear(GUILD_LOGISTICS_RED_DOT, offset=(30, 30)):
-            logistics = False
-
-        # Operations checking is a longer process, if not
-        # up then don't bother with it
-        if not self.appear(GUILD_OPERATIONS_RED_DOT, offset=(30, 30)):
-            operations = False
-
         if logistics:
-            self.guild_logistics(is_affiliation_azur)
+            self.guild_logistics()
 
         if operations:
-            self.guild_operations(is_affiliation_azur)
+            self.guild_operations()
 
         self.ui_goto_main()
         return True
@@ -970,8 +913,17 @@ class RewardGuild(UI):
         """ Call this method after guild run executed """
         del self.__dict__['guild_interval']
 
+    @cached_property
+    def EXCHANGE_ITEMS(self):
+        EXCHANGE_ITEMS = ItemGrid(
+            EXCHANGE_GRIDS, {}, template_area=(40, 21, 89, 70), amount_area=(60, 71, 91, 92))
+        EXCHANGE_ITEMS.load_template_folder('./assets/stats_basic')
+        return EXCHANGE_ITEMS
+
     def handle_guild(self):
         """
+        ALAS handler function for guild reward loop
+
         Returns:
             bool: If executed
         """
@@ -997,5 +949,7 @@ class RewardGuild(UI):
         if not self.guild_run(logistics=do_logistics, operations=do_operations):
             return False
 
+        self.guild_interval_reset()
         self.config.record_save(option=('RewardRecord', 'guild'))
+
         return True
