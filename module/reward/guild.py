@@ -9,7 +9,6 @@ from module.base.mask import Mask
 from module.base.timer import Timer
 from module.base.utils import *
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3
-from module.handler.assets import POPUP_CONFIRM
 from module.reward.assets import *
 from module.template.assets import TEMPLATE_OPERATIONS_RED_DOT, TEMPLATE_OPERATIONS_ADD
 from module.ui.assets import GUILD_CHECK
