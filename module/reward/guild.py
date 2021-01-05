@@ -14,7 +14,7 @@ from module.reward.assets import *
 from module.template.assets import TEMPLATE_OPERATIONS_RED_DOT, TEMPLATE_OPERATIONS_ADD
 from module.ui.assets import GUILD_CHECK
 from module.logger import logger
-from module.ocr.ocr import Digit, Ocr
+from module.ocr.ocr import Digit
 from module.ui.ui import UI, page_guild
 
 GUILD_RECORD = ('RewardRecord', 'guild')
