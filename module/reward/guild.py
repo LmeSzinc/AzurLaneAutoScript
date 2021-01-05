@@ -186,9 +186,10 @@ class RewardGuild(UI):
                 close_timer.reset()
                 continue
 
-            sim, point = TEMPLATE_OPERATIONS_ADD.match_result(self.device.image)
-            if sim > 0.85:
-                if not add_timer.started() or add_timer.reached():
+            # Pseudo interval timer for template match_result calls
+            if not add_timer.started() or add_timer.reached():
+                sim, point = TEMPLATE_OPERATIONS_ADD.match_result(self.device.image)
+                if sim > 0.85:
                     # Use small area to reduce random click point
                     button = area_offset(area=(-2, -2, 24, 12), offset=point)
                     dispatch_add = Button(area=button, color=(), button=button, name='GUILD_DISPATCH_ADD')
@@ -206,6 +207,9 @@ class RewardGuild(UI):
                 close_timer.reset()
 
             if self.handle_popup_confirm('GUILD_DISPATCH'):
+                # Explicit click since GUILD_DISPATCH_FLEET
+                # does not automatically turn into
+                # GUILD_DISPATCH_IN_PROGRESS after confirm
                 self.device.sleep((0.5, 0.8))
                 self.device.click(GUILD_DISPATCH_CLOSE)
                 confirm_timer.reset()
@@ -294,6 +298,9 @@ class RewardGuild(UI):
             if not is_loading:
                 if self.is_combat_loading():
                     is_loading = True
+                continue
+
+            if self.handle_combat_automation_confirm():
                 continue
 
             # End
