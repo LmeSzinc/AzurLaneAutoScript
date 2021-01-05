@@ -8,7 +8,6 @@ from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import *
 from module.combat.assets import GET_ITEMS_1
-from module.handler.assets import POPUP_CONFIRM
 from module.reward.assets import *
 from module.logger import logger
 from module.ocr.ocr import Digit
