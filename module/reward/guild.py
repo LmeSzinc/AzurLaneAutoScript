@@ -375,6 +375,8 @@ class RewardGuild(UI):
         else:
             logger.warning('Guild sidebar total count error.')
 
+        # This is a member sidebar, decrement
+        # the index by 1 if requested 4 or greater
         if total == 5 and index >= 4:
             index -= 1
 
