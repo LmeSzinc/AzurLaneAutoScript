@@ -92,7 +92,7 @@ class RewardGuild(UI):
         """
         return self._view_swipe(distance=SWIPE_DISTANCE)
 
-    def _guild_operations_ensure(self):
+    def _guild_operations_enter_ensure(self):
         """
         Specific helper to ensure operation has
         been opened. This occurs due to expansion,
@@ -159,7 +159,7 @@ class RewardGuild(UI):
         self.device.sleep((0.5, 0.8))
         self.device.click(open)
 
-        if self._guild_operations_ensure():
+        if self._guild_operations_enter_ensure():
             return 1
         else:
             return 2
