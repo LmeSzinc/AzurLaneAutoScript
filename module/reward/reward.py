@@ -13,7 +13,7 @@ from module.reward.dorm import RewardDorm
 from module.reward.meowfficer import RewardMeowfficer
 from module.reward.tactical_class import RewardTacticalClass
 from module.reward.data_key import RewardDataKey
-from module.reward.guild import RewardGuild
+from module.guild.guild_reward import RewardGuild
 from module.ui.page import *
 from module.update import Update
 
