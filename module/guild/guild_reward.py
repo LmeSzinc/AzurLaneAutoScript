@@ -38,6 +38,7 @@ class RewardGuild(GuildLobby, GuildLogistics, GuildOperations):
             self.guild_operations()
 
         self.ui_goto_main()
+
         return True
 
     def handle_guild(self):
