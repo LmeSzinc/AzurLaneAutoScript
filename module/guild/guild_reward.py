@@ -58,8 +58,8 @@ class RewardGuild(GuildLogistics, GuildOperations):
         logger.attr(f'{attr}', f'Record time: {guild_record}')
         logger.attr(f'{attr}', f'Next update: {update}')
         if now > update or self.appear(GUILD_RED_DOT, offset=(30, 30)):
-            do_logistics = True
-            do_operations = False
+            do_logistics = self.config.ENABLE_GUILD_LOGISTICS
+            do_operations = self.config.ENABLE_GUILD_OPERATIONS
 
         if not self.guild_run(logistics=do_logistics, operations=do_operations):
             return False
