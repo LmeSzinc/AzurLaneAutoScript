@@ -498,6 +498,7 @@ class RewardGuild(UI):
             self.guild_operations()
 
         self.ui_goto_main()
+
         return True
 
     @cached_property
