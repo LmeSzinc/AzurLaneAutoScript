@@ -326,7 +326,7 @@ class GuildLogistics(GuildBase):
 
         # Transition to Logistics
         if not self.guild_sidebar_ensure(3):
-            logger.info('Ensurance has failed, please join a Guild first')
+            logger.info('Logistics ensurance failed, try again on next reward loop')
             return
 
         # Last screencapture should contain affiliation

@@ -24,7 +24,7 @@ class GuildOperations(GuildBase):
             out: GUILD_OPERATIONS_ANY
         """
         if not self.guild_sidebar_ensure(1):
-            logger.info('Ensurance has failed, please join a Guild first')
+            logger.info('Operations ensurance failed, try again on next reward loop')
             return None
 
         confirm_timer = Timer(1.5, count=3).start()
@@ -34,14 +34,13 @@ class GuildOperations(GuildBase):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(GUILD_OPERATIONS_JOIN):
-                self.ensure_no_info_bar()
+            if self.appear_then_click(GUILD_OPERATIONS_JOIN, interval=3):
                 confirm_timer.reset()
                 continue
 
             # End
             if self.appear(GUILD_BOSS_CHECK) or self.appear(GUILD_OPERATIONS_ACTIVE_CHECK):
-                if confirm_timer.reached():
+                if not self.info_bar_count() and confirm_timer.reached():
                     break
             else:
                 confirm_timer.reset()
@@ -50,7 +49,7 @@ class GuildOperations(GuildBase):
             logger.info('Operations are inactive, please contact your Elite/Officer/Leader seniors to begin an operation')
             return 0
         elif self.appear(GUILD_OPERATIONS_ACTIVE_CHECK):
-            logger.info('Operations are active, proceed to scan for open missions and dispatching fleets')
+            logger.info('Operations are active, proceed to scan for open missions and dispatch fleets')
             return 1
         elif self.appear(GUILD_BOSS_CHECK):
             logger.info('Guild Raid Boss is active')
@@ -71,7 +70,7 @@ class GuildOperations(GuildBase):
             out: GUILD_OPERATIONS_MAP
         """
         confirm_timer = Timer(1.5, count=3).start()
-        verify_timeout = Timer(3, count=6).start()
+        verify_timeout = Timer(3, count=6)
         while 1:
             self.device.screenshot()
 
@@ -81,7 +80,9 @@ class GuildOperations(GuildBase):
                     return True
             else:
                 confirm_timer.reset()
-                if verify_timeout.reached():
+                if not verify_timeout.started():
+                    verify_timeout.reset()
+                elif verify_timeout.reached():
                     logger.info('Map shift detected, will commence rescan for operation')
                     return False
 
@@ -140,25 +141,26 @@ class GuildOperations(GuildBase):
             out: GUILD_OPERATIONS_MAP
         """
         confirm_timer = Timer(1.5, count=3).start()
-        close_timer = Timer(1.5, count=3).start()
-        add_timer = Timer(3, count=6)
+        add_timer = Timer(1.5, count=3)
+        close_timer = Timer(3, count=6).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(GUILD_DISPATCH_QUICK, interval=3):
+            if self.appear_then_click(GUILD_DISPATCH_QUICK, interval=5):
                 confirm_timer.reset()
                 close_timer.reset()
                 continue
 
-            if self.appear(GUILD_DISPATCH_EMPTY, interval=3):
+            if self.appear(GUILD_DISPATCH_EMPTY, interval=5):
                 self.device.click(GUILD_DISPATCH_RECOMMEND)
                 self.device.sleep((0.5, 0.8))
                 self.device.click(GUILD_DISPATCH_FLEET)
                 confirm_timer.reset()
                 close_timer.reset()
+                continue
 
             # Pseudo interval timer for template match_result calls
             if not add_timer.started() or add_timer.reached():
@@ -168,8 +170,8 @@ class GuildOperations(GuildBase):
                     button = area_offset(area=(-2, -2, 24, 12), offset=point)
                     dispatch_add = Button(area=button, color=(), button=button, name='GUILD_DISPATCH_ADD')
                     self.device.click(dispatch_add)
-                    add_timer.reset()
                     confirm_timer.reset()
+                    add_timer.reset()
                     close_timer.reset()
                     continue
                 add_timer.reset()
@@ -195,8 +197,7 @@ class GuildOperations(GuildBase):
 
             # End
             if self.appear(GUILD_OPERATIONS_ACTIVE_CHECK):
-                if confirm_timer.reached():
-                    self.ensure_no_info_bar()
+                if not self.info_bar_count() and confirm_timer.reached():
                     break
             else:
                 confirm_timer.reset()
@@ -231,7 +232,7 @@ class GuildOperations(GuildBase):
             if not self.view_forward():
                 break
 
-    def _guild_operations_boss_enter(self, skip_first_screenshot=True):
+    def _guild_operations_boss_combat(self, skip_first_screenshot=True):
         """
         Execute enter guild raid boss
 
@@ -249,15 +250,9 @@ class GuildOperations(GuildBase):
             if self.appear_then_click(GUILD_BOSS_ENTER, interval=3):
                 continue
 
-            if self.appear(GUILD_DISPATCH_RECOMMEND_2, interval=3):
-                # TODO: Make this conditional configurable indicating whether
-                # player has chosen to auto build the fleet from own dock
-                if False:
-                    self.device.click(GUILD_DISPATCH_RECOMMEND_2)
-                elif self.appear(GUILD_DISPATCH_EMPTY_2):
-                    logger.warning('Cannot continue, instructed to not auto-recommend')
-                    return False
-                continue
+            if self.appear(GUILD_DISPATCH_EMPTY_2, interval=3):
+                logger.warning('Fleet composition empty, cannot auto-battle Guild Raid Boss')
+                return False
 
             if self.appear_then_click(GUILD_DISPATCH_FLEET, interval=3):
                 continue
@@ -283,7 +278,7 @@ class GuildOperations(GuildBase):
             in: GUILD_OPERATIONS_BOSS
             out: GUILD_OPERATIONS_BOSS
         """
-        if not self._guild_operations_boss_enter():
+        if not self._guild_operations_boss_combat():
             return
         # TODO: Not as easily overridable, as can affect
         # children classes, uses different BATTLE_STATUS
@@ -306,12 +301,9 @@ class GuildOperations(GuildBase):
         elif operations_mode == 1:
             self._guild_operations_scan()
         else:
-            # TODO: Make this conditional configurable to player to enable check
-            if True:
-                if self.appear(GUILD_BOSS_AVAILABLE):
+            if self.appear(GUILD_BOSS_AVAILABLE):
+                if self.config.ENABLE_GUILD_OPERATIONS_BOSS_AUTO:
                     # self._guild_operations_boss()
-                    logger.info('Check TODO for _guild_operations_boss')
+                    pass
                 else:
-                    logger.info('Guild Raid Boss is already done')
-            else:
-                logger.info('Play manually to contribute higher score')
+                    logger.info('Auto-battle disabled, play manually to complete this Guild Task')
