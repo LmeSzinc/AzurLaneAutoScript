@@ -63,7 +63,7 @@ class RewardGuild(UI):
             if not swipe_timer.started() or swipe_timer.reached():
                 swipe_timer.reset()
                 self.device.swipe(vector=(distance, 0), box=SWIPE_AREA.area, random_range=SWIPE_RANDOM_RANGE,
-                                  padding=0, duration=(0.15, 0.25), name='SWIPE')
+                                  padding=0, duration=(0.22, 0.25), name=f'SWIPE_{swipe_count}')
                 self.device.sleep((1.8, 2.1)) # No assets to use to ensure whether screen has stabilized after swipe
                 swipe_count += 1
 
@@ -860,7 +860,7 @@ class RewardGuild(UI):
         if limit > 0:
             self._guild_exchange(limit, is_azur_affiliation)
 
-    def guild_operations(self, is_affiliation_azur=True):
+    def guild_operations(self):
         # Determine the mode of operations, currently 3 are available
         operations_mode = self._guild_operations_mode_ensure()
         if operations_mode is None:
