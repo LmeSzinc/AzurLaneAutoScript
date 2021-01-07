@@ -38,18 +38,16 @@ class GuildBase(UI):
                 swipe_timer.reset()
                 self.device.swipe(vector=(distance, 0), box=SWIPE_AREA.area, random_range=SWIPE_RANDOM_RANGE,
                                   padding=0, duration=(0.22, 0.25), name=f'SWIPE_{swipe_count}')
-                self.device.sleep((1.8, 2.1)) # No assets to use to ensure whether screen has stabilized after swipe
+                self.device.sleep((1.8, 2.1)) # No assets to use to ensure whether screen has stabilized after swipe, sleep instead
                 swipe_count += 1
 
             self.device.screenshot()
             if SWIPE_CHECK.match(self.device.image):
                 if swipe_count > 2:
-                    logger.info('Same view, page end')
                     return False
                 continue
 
             if not SWIPE_CHECK.match(self.device.image):
-                logger.info('Different view, page continues')
                 return True
 
     def view_forward(self):

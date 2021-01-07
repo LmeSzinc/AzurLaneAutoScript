@@ -46,13 +46,13 @@ class GuildOperations(GuildBase):
                 confirm_timer.reset()
 
         if self.appear(GUILD_OPERATIONS_INACTIVE_CHECK) and self.appear(GUILD_OPERATIONS_ACTIVE_CHECK):
-            logger.info('Operations are inactive, please contact your Elite/Officer/Leader seniors to begin an operation')
+            logger.info('Mode: Operations Inactive, please contact your Elite/Officer/Leader seniors to select an operation difficulty')
             return 0
         elif self.appear(GUILD_OPERATIONS_ACTIVE_CHECK):
-            logger.info('Operations are active, proceed to scan for open missions and dispatch fleets')
+            logger.info('Mode: Operations Active, may proceed to scan and dispatch fleets')
             return 1
         elif self.appear(GUILD_BOSS_CHECK):
-            logger.info('Guild Raid Boss is active')
+            logger.info('Mode: Guild Raid Boss')
             return 2
         else:
             logger.warning('Operations interface is unrecognized')
