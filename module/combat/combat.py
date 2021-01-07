@@ -165,8 +165,8 @@ class Combat(Level, HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall
         if self.appear_then_click(EMERGENCY_REPAIR_CONFIRM, offset=True):
             return True
         if self.appear(BATTLE_PREPARATION) and self.appear(EMERGENCY_REPAIR_AVAILABLE):
-            # When entering battle_preparation page (or after emergency repairing), the emergency icon is active by default, 
-            # even if nothing to use. After a short animation, everything shows as usual. Using fleet power number as a 
+            # When entering battle_preparation page (or after emergency repairing), the emergency icon is active by default,
+            # even if nothing to use. After a short animation, everything shows as usual. Using fleet power number as a
             # stable checker. First wait for it to be non-zero, then wait for it to be stable.
             self.wait_until_disappear(MAIN_FLEET_POWER_ZERO, offset=(20, 20))
             stable_checker = Button(area=MAIN_FLEET_POWER_ZERO.area, color=(), button=MAIN_FLEET_POWER_ZERO.button, name='STABLE_CHECKER')
@@ -250,6 +250,10 @@ class Combat(Level, HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall
             if not save_get_items:
                 self.device.sleep((0.25, 0.5))
             return True
+        if self.appear_then_click(BATTLE_STATUS_CF, screenshot=save_get_items, genre='status', interval=self.battle_status_click_interval):
+            if not save_get_items:
+                self.device.sleep((0.25, 0.5))
+            return True
 
         return False
 
@@ -266,12 +270,14 @@ class Combat(Level, HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall
             self.interval_reset(BATTLE_STATUS_S)
             self.interval_reset(BATTLE_STATUS_A)
             self.interval_reset(BATTLE_STATUS_B)
+            self.interval_reset(BATTLE_STATUS_CF)
             return True
         if self.appear_then_click(GET_ITEMS_2, screenshot=save_get_items, genre='get_items', offset=5,
                                   interval=self.battle_status_click_interval):
             self.interval_reset(BATTLE_STATUS_S)
             self.interval_reset(BATTLE_STATUS_A)
             self.interval_reset(BATTLE_STATUS_B)
+            self.interval_reset(BATTLE_STATUS_CF)
             return True
 
         return False
@@ -290,6 +296,9 @@ class Combat(Level, HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall
             self.device.sleep((0.25, 0.5))
             return True
         if self.appear_then_click(EXP_INFO_B):
+            self.device.sleep((0.25, 0.5))
+            return True
+        if self.appear_then_click(EXP_INFO_CF):
             self.device.sleep((0.25, 0.5))
             return True
 

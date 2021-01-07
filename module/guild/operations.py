@@ -232,15 +232,16 @@ class GuildOperations(GuildBase):
             if not self.view_forward():
                 break
 
-    def _guild_operations_boss_combat(self, skip_first_screenshot=True):
+    def _guild_operations_boss_preparation(self, skip_first_screenshot=True):
         """
-        Execute enter guild raid boss
+        Execute preperation sequence for guild raid boss
 
         Pages:
             in: GUILD_OPERATIONS_BOSS
             out: IN_BATTLE
         """
         is_loading = False
+        empty_timer = Timer(3, count=6)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -250,12 +251,21 @@ class GuildOperations(GuildBase):
             if self.appear_then_click(GUILD_BOSS_ENTER, interval=3):
                 continue
 
-            if self.appear(GUILD_DISPATCH_EMPTY_2, interval=3):
-                logger.warning('Fleet composition empty, cannot auto-battle Guild Raid Boss')
-                return False
+            if self.appear(GUILD_DISPATCH_EMPTY_2):
+                # Account for loading lag especially if using
+                # guild support
+                if not empty_timer.started():
+                    empty_timer.reset()
+                    continue
+                elif empty_timer.reached():
+                    logger.warning('Fleet composition empty, cannot auto-battle Guild Raid Boss')
+                    return False
 
-            if self.appear_then_click(GUILD_DISPATCH_FLEET, interval=3):
-                continue
+            if self.appear(GUILD_DISPATCH_FLEET, interval=3):
+                # Button does not appear greyed out even
+                # when empty fleet composition
+                if not self.appear(GUILD_DISPATCH_EMPTY_2):
+                    self.device.click(GUILD_DISPATCH_FLEET)
 
             # Only print once when detected
             if not is_loading:
@@ -270,21 +280,17 @@ class GuildOperations(GuildBase):
             if self.is_combat_executing():
                 return True
 
-    def _guild_operations_boss(self):
+    def _guild_operations_boss_combat(self):
         """
-        Battle against boss on auto
+        Execute combat sequence
+        If battle could not be prepared, exit
 
         Pages:
             in: GUILD_OPERATIONS_BOSS
             out: GUILD_OPERATIONS_BOSS
         """
-        if not self._guild_operations_boss_combat():
+        if not self._guild_operations_boss_preparation():
             return
-        # TODO: Not as easily overridable, as can affect
-        # children classes, uses different BATTLE_STATUS
-        # EXP_INFO assets
-        # Perhaps have to instantiate independent object
-        # Combat class for this
         self.combat_execute(auto='combat_auto')
         self.combat_status(expected_end='in_ui')
         logger.info('Guild Raid Boss has been repelled')
@@ -303,7 +309,6 @@ class GuildOperations(GuildBase):
         else:
             if self.appear(GUILD_BOSS_AVAILABLE):
                 if self.config.ENABLE_GUILD_OPERATIONS_BOSS_AUTO:
-                    # self._guild_operations_boss()
-                    pass
+                    self._guild_operations_boss_combat()
                 else:
                     logger.info('Auto-battle disabled, play manually to complete this Guild Task')
