@@ -323,6 +323,8 @@ def main(ini_name=''):
     reward_guild_logistics_plates.add_argument('--部件提交顺序T1', default=default('--部件提交顺序T1'), gooey_options={'label_color': '#4B5F83'})
     reward_guild_logistics_plates.add_argument('--部件提交顺序T2', default=default('--部件提交顺序T2'), gooey_options={'label_color': '#4B5F83'})
     reward_guild_logistics_plates.add_argument('--部件提交顺序T3', default=default('--部件提交顺序T3'), gooey_options={'label_color': '#4B5F83'})
+    reward_guild_operations_boss = reward_guild.add_argument_group('Operations guild raid boss input', '', gooey_options={'label_color': '#4B5F83'})
+    reward_guild_operations_boss.add_argument('--enable_guild_operations_boss_auto', default=default('--enable_guild_operations_boss_auto'), help='Enable auto-battle of guild raid boss.', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
 
     # ==========设备设置==========
     emulator_parser = subs.add_parser('设备设置')
