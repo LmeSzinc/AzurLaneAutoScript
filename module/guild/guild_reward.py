@@ -2,12 +2,13 @@ from datetime import datetime, timedelta
 
 from module.guild.assets import GUILD_RED_DOT
 from module.guild.base import GUILD_RECORD
+from module.guild.lobby import GuildLobby
 from module.guild.logistics import GuildLogistics
 from module.guild.operations import GuildOperations
 from module.logger import logger
 from module.ui.ui import page_guild
 
-class RewardGuild(GuildLogistics, GuildOperations):
+class RewardGuild(GuildLobby, GuildLogistics, GuildOperations):
     def guild_run(self, logistics=True, operations=True):
         """
         Execute logistics and operations actions
@@ -21,10 +22,14 @@ class RewardGuild(GuildLogistics, GuildOperations):
             return False
 
         # By default, going to page_guild always
-        # opens in GUILD_LOBBY
-        # If already in page_guild will ensure
-        # correct sidebar
+        # opens into lobby
         self.ui_ensure(page_guild)
+
+        # Wait for possible report to be displayed
+        # after entering page_guild
+        # If already in page guild but not lobby,
+        # checked on next reward loop
+        self.guild_lobby()
 
         if logistics:
             self.guild_logistics()

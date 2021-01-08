@@ -2,7 +2,9 @@ import numpy as np
 
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
+from module.base.timer import Timer
 from module.base.utils import *
+from module.guild.assets import SWIPE_CHECK, SWIPE_AREA
 from module.logger import logger
 from module.ui.ui import UI
 
@@ -10,6 +12,9 @@ GUILD_RECORD = ('RewardRecord', 'guild')
 
 GUILD_SIDEBAR = ButtonGrid(
     origin=(21, 118), delta=(0, 94.5), button_shape=(60, 75), grid_shape=(1, 6), name='GUILD_SIDEBAR')
+
+SWIPE_DISTANCE = 250
+SWIPE_RANDOM_RANGE = (-40, -20, 40, 20)
 
 class GuildBase(UI):
     @cached_property
@@ -19,6 +24,43 @@ class GuildBase(UI):
     def guild_interval_reset(self):
         """ Call this method after guild run executed """
         del self.__dict__['guild_interval']
+
+    def _view_swipe(self, distance):
+        """
+        Perform swipe action, altered specifically
+        for Guild Operations map usage
+        """
+        swipe_count = 0
+        swipe_timer = Timer(3, count=6)
+        SWIPE_CHECK.load_color(self.device.image)
+        while 1:
+            if not swipe_timer.started() or swipe_timer.reached():
+                swipe_timer.reset()
+                self.device.swipe(vector=(distance, 0), box=SWIPE_AREA.area, random_range=SWIPE_RANDOM_RANGE,
+                                  padding=0, duration=(0.22, 0.25), name=f'SWIPE_{swipe_count}')
+                self.device.sleep((1.8, 2.1)) # No assets to use to ensure whether screen has stabilized after swipe, sleep instead
+                swipe_count += 1
+
+            self.device.screenshot()
+            if SWIPE_CHECK.match(self.device.image):
+                if swipe_count > 2:
+                    return False
+                continue
+
+            if not SWIPE_CHECK.match(self.device.image):
+                return True
+
+    def view_forward(self):
+        """
+        Performs swipe forward
+        """
+        return self._view_swipe(distance=-SWIPE_DISTANCE)
+
+    def view_backward(self):
+        """
+        Performs swipe backward
+        """
+        return self._view_swipe(distance=SWIPE_DISTANCE)
 
     def _guild_sidebar_click(self, index):
         """
