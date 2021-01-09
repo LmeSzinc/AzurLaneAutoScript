@@ -8,8 +8,7 @@ from module.os_handler.map_event import MapEventHandler
 
 class AzurLaneDaemon(Combat, MapEventHandler):
     def daemon(self):
-        self.config.ENABLE_GAME_STUCK_HANDLER = False
-        self.device.config.ENABLE_GAME_STUCK_HANDLER = False
+        self.device.disable_stuck_detection()
 
         while 1:
             self.device.screenshot()

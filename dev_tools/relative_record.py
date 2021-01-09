@@ -16,7 +16,6 @@ class Config:
     """
     Paste the config of map file here
     """
-    ENABLE_GAME_STUCK_HANDLER = False
     pass
 
 
@@ -50,6 +49,7 @@ if __name__ == '__main__':
 
     cfg = AzurLaneConfig(CONFIG).merge(Config())
     al = ModuleBase(cfg)
+    al.device.disable_stuck_detection()
     view = View(cfg)
     al.device.screenshot()
     view.load(al.device.image)
