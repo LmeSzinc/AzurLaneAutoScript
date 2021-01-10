@@ -254,6 +254,7 @@ class GuildOperations(GuildBase):
 
         is_loading = False
         empty_timeout = Timer(3, count=6)
+        dispatch_count = 0
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -267,14 +268,19 @@ class GuildOperations(GuildBase):
                     empty_timeout.reset()
                     continue
                 elif empty_timeout.reached():
-                    logger.warning('Fleet composition empty, cannot auto-battle Guild Raid Boss')
+                    logger.warning('Fleet composition is empty, cannot auto-battle Guild Raid Boss')
                     return False
 
             if self.appear(GUILD_DISPATCH_FLEET, interval=3):
                 # Button does not appear greyed out even
                 # when empty fleet composition
                 if not self.appear(GUILD_DISPATCH_EMPTY_2):
-                    self.device.click(GUILD_DISPATCH_FLEET)
+                    if dispatch_count < 3:
+                        self.device.click(GUILD_DISPATCH_FLEET)
+                        dispatch_count += 1
+                    else:
+                        logger.warning('Fleet cannot be dispatched for auto-battle Guild Raid Boss, verify composition manually')
+                        return False
                 continue
 
             # Only print once when detected
@@ -300,10 +306,11 @@ class GuildOperations(GuildBase):
             out: GUILD_OPERATIONS_BOSS
         """
         if not self._guild_operations_boss_preparation():
-            return
+            return False
         self.combat_execute(auto='combat_auto')
         self.combat_status(expected_end='in_ui')
         logger.info('Guild Raid Boss has been repelled')
+        return True
 
     def guild_operations(self):
         # Determine the mode of operations, currently 3 are available
@@ -322,9 +329,12 @@ class GuildOperations(GuildBase):
         else:
             # Limit check for Guild Raid Boss to once a day
             if not self.config.record_executed_since(option=RECORD_OPTION_BOSS, since=RECORD_SINCE_BOSS):
+                skip_record = False
                 if self.appear(GUILD_BOSS_AVAILABLE):
-                    if self.config.ENABLE_GUILD_OPERATIONS_BOSS_AUTO:
-                        self._guild_operations_boss_combat()
+                    if self.config.ENABLE_GUILD_OPERATIONS_BOSS_AUTO and not self._guild_operations_boss_combat():
+                        skip_record = True
                     else:
                         logger.info('Auto-battle disabled, play manually to complete this Guild Task')
+
+                if not skip_record:
                     self.config.record_save(option=RECORD_OPTION_BOSS)
