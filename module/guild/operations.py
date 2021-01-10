@@ -245,24 +245,28 @@ class GuildOperations(GuildBase):
             in: GUILD_OPERATIONS_BOSS
             out: IN_BATTLE
         """
+        # Ensure in dispatch for Guild Raid Boss
+        self.ui_click(GUILD_BOSS_ENTER, check_button=GUILD_DISPATCH_RECOMMEND_2, skip_first_screenshot=True)
+
+        # If configured, auto recommend fleet composition
+        if self.config.ENABLE_GUILD_OPERATIONS_BOSS_RECOMMEND:
+            self.device.click(GUILD_DISPATCH_RECOMMEND_2)
+
         is_loading = False
-        empty_timer = Timer(3, count=6)
+        empty_timeout = Timer(3, count=6)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(GUILD_BOSS_ENTER, interval=3):
-                continue
-
             if self.appear(GUILD_DISPATCH_EMPTY_2):
                 # Account for loading lag especially if using
                 # guild support
-                if not empty_timer.started():
-                    empty_timer.reset()
+                if not empty_timeout.started():
+                    empty_timeout.reset()
                     continue
-                elif empty_timer.reached():
+                elif empty_timeout.reached():
                     logger.warning('Fleet composition empty, cannot auto-battle Guild Raid Boss')
                     return False
 
@@ -271,6 +275,7 @@ class GuildOperations(GuildBase):
                 # when empty fleet composition
                 if not self.appear(GUILD_DISPATCH_EMPTY_2):
                     self.device.click(GUILD_DISPATCH_FLEET)
+                continue
 
             # Only print once when detected
             if not is_loading:
