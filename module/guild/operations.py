@@ -8,6 +8,11 @@ from module.guild.base import GuildBase
 from module.logger import logger
 from module.template.assets import TEMPLATE_OPERATIONS_RED_DOT, TEMPLATE_OPERATIONS_ADD
 
+RECORD_OPTION_DISPATCH = ('RewardRecord', 'operations_dispatch')
+RECORD_SINCE_DISPATCH = (0, 6, 12, 18,)
+RECORD_OPTION_BOSS = ('RewardRecord', 'operations_boss')
+RECORD_SINCE_BOSS = (0,)
+
 MASK_OPERATIONS = Mask(file='./assets/mask/MASK_OPERATIONS.png')
 
 class GuildOperations(GuildBase):
@@ -305,10 +310,16 @@ class GuildOperations(GuildBase):
         if operations_mode == 0:
             return
         elif operations_mode == 1:
-            self._guild_operations_scan()
+            # Limit check for scanning operations to 4 times a day i.e. 6-hour intervals
+            if not self.config.record_executed_since(option=RECORD_OPTION_DISPATCH, since=RECORD_SINCE_DISPATCH):
+                self._guild_operations_scan()
+                self.config.record_save(option=RECORD_OPTION_DISPATCH)
         else:
-            if self.appear(GUILD_BOSS_AVAILABLE):
-                if self.config.ENABLE_GUILD_OPERATIONS_BOSS_AUTO:
-                    self._guild_operations_boss_combat()
-                else:
-                    logger.info('Auto-battle disabled, play manually to complete this Guild Task')
+            # Limit check for Guild Raid Boss to once a day
+            if not self.config.record_executed_since(option=RECORD_OPTION_BOSS, since=RECORD_SINCE_BOSS):
+                if self.appear(GUILD_BOSS_AVAILABLE):
+                    if self.config.ENABLE_GUILD_OPERATIONS_BOSS_AUTO:
+                        self._guild_operations_boss_combat()
+                    else:
+                        logger.info('Auto-battle disabled, play manually to complete this Guild Task')
+                    self.config.record_save(option=RECORD_OPTION_BOSS)

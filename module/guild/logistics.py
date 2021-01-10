@@ -9,6 +9,9 @@ from module.logger import logger
 from module.ocr.ocr import Digit
 from module.statistics.item import ItemGrid
 
+RECORD_OPTION = ('RewardRecord', 'logistics_exchange')
+RECORD_SINCE = (0,)
+
 GUILD_EXCHANGE_LIMIT = Digit(OCR_GUILD_EXCHANGE_LIMIT, threshold=64)
 
 EXCHANGE_GRIDS = ButtonGrid(
@@ -345,8 +348,11 @@ class GuildLogistics(GuildBase):
         # Exchange will be executed separately
         self._guild_logistics_collect(is_azur_affiliation)
 
-        # Handle action exchange, determine color of digit based on affiliation
-        GUILD_EXCHANGE_LIMIT.letter = (173, 182, 206) if is_azur_affiliation else (214, 113, 115)
-        limit = GUILD_EXCHANGE_LIMIT.ocr(self.device.image)
-        if limit > 0:
-            self._guild_exchange(limit, is_azur_affiliation)
+        # Limit check whether can exchange to once a day
+        if not self.config.record_executed_since(option=RECORD_OPTION, since=RECORD_SINCE):
+            # Handle action exchange, determine color of digit based on affiliation
+            GUILD_EXCHANGE_LIMIT.letter = (173, 182, 206) if is_azur_affiliation else (214, 113, 115)
+            limit = GUILD_EXCHANGE_LIMIT.ocr(self.device.image)
+            if limit > 0:
+                self._guild_exchange(limit, is_azur_affiliation)
+            self.config.record_save(option=RECORD_OPTION)
