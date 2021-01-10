@@ -110,6 +110,16 @@ class Device(Screenshot, Control, AppControl):
         if self.config.ENABLE_GAME_STUCK_HANDLER:
             raise GameStuckError(f'Wait too long')
 
+    def disable_stuck_detection(self):
+        """
+        Disable stuck detection and its handler. Usually uses in semi auto and debugging.
+        """
+        def empty_function(*arg, **kwargs):
+            return False
+
+        self.click_record_check = empty_function
+        self.stuck_record_check = empty_function
+
     def app_start(self):
         super().app_start()
         self.stuck_record_clear()

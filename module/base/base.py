@@ -9,15 +9,19 @@ class ModuleBase:
     def __init__(self, config, device=None):
         """
         Args:
-            config (AzurLaneConfig):
+            config (AzurLaneConfig, str):
             device (Device):
         """
-        self.config = config
-        self.interval_timer = {}
+        if isinstance(config, str):
+            self.config = AzurLaneConfig(config)
+        else:
+            self.config = config
         if device is not None:
             self.device = device
         else:
-            self.device = Device(config=config)
+            self.device = Device(config=self.config)
+
+        self.interval_timer = {}
 
     def appear(self, button, offset=0, interval=0, threshold=None):
         """

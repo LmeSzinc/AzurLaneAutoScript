@@ -6,8 +6,7 @@ from module.handler.ambush import MAP_AMBUSH_EVADE
 
 class AzurLaneDaemon(CampaignBase):
     def daemon(self):
-        self.config.ENABLE_GAME_STUCK_HANDLER = False
-        self.device.config.ENABLE_GAME_STUCK_HANDLER = False
+        self.device.disable_stuck_detection()
 
         while 1:
             self.device.screenshot()
