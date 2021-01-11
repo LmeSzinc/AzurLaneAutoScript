@@ -9,7 +9,7 @@ from module.logger import logger
 from module.template.assets import TEMPLATE_OPERATIONS_RED_DOT, TEMPLATE_OPERATIONS_ADD
 
 RECORD_OPTION_DISPATCH = ('RewardRecord', 'operations_dispatch')
-RECORD_SINCE_DISPATCH = (0, 6, 12, 18,)
+RECORD_SINCE_DISPATCH = (6, 12, 18, 21,)
 RECORD_OPTION_BOSS = ('RewardRecord', 'operations_boss')
 RECORD_SINCE_BOSS = (0,)
 

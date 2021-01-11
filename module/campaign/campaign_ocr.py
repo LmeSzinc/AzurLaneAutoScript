@@ -166,6 +166,10 @@ class CampaignOcr(ModuleBase):
         result = [self._campaign_ocr_result_process(res) for res in result]
 
         chapter = [self._campaign_separate_name(res)[0] for res in result]
+        chapter = list(filter(('').__ne__, chapter))
+        if not chapter:
+            raise CampaignNameError
+
         counter = collections.Counter(chapter)
         self.campaign_chapter = counter.most_common()[0][0]
 
