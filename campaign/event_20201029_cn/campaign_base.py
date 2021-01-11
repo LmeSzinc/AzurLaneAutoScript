@@ -30,6 +30,8 @@ class CampaignBase(CampaignBase_):
                 return 1
             elif name in ['b', 'd', 'ex_sp']:  # Difference
                 return 2
+            else:
+                raise CampaignNameError
 
     def campaign_set_chapter(self, name, mode='normal'):
         """

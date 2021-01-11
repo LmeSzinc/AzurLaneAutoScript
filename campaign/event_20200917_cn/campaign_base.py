@@ -75,6 +75,8 @@ class CampaignBase(CampaignBase_):
                 return 1
             elif name in ['b', 'd']:
                 return 2
+            else:
+                raise CampaignNameError
 
     def _campaign_ball_get(self):
         """
