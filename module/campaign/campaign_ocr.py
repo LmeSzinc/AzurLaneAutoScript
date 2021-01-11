@@ -32,6 +32,8 @@ class CampaignOcr(ModuleBase):
                 return 1
             elif name in ['b', 'd', 'ex_ex']:
                 return 2
+            else:
+                raise CampaignNameError
 
     @staticmethod
     def _campaign_ocr_result_process(result):
