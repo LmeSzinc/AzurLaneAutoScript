@@ -14,6 +14,7 @@ RECORD_OPTION_BOSS = ('RewardRecord', 'operations_boss')
 RECORD_SINCE_BOSS = (0,)
 
 MASK_OPERATIONS = Mask(file='./assets/mask/MASK_OPERATIONS.png')
+MASK_SIDEBAR_RED_DOT = Mask(file='./assets/mask/MASK_SIDEBAR_RED_DOT.png')
 
 class GuildOperations(GuildBase):
     def _guild_operations_mode_ensure(self, skip_first_screenshot=True):
@@ -62,6 +63,31 @@ class GuildOperations(GuildBase):
         else:
             logger.warning('Operations interface is unrecognized')
             return None
+
+    def _guild_operations_red_dot_present(self):
+        """
+        Helper function to perform an isolated scan
+        for the lower bottom left sidebar whether
+        a red dot is present.
+        The red dot could either be Tech
+        or Operations (Guild Master vs Member).
+
+        Pages:
+            in: GUILD_ANY
+            out: GUILD_ANY
+        """
+        # Apply mask to cover potential RED_DOTs that are operations or
+        # anywhere else for that matter
+        image = MASK_SIDEBAR_RED_DOT.apply(np.array(self.device.image))
+
+        # Scan image and must have similarity greater than 0.85
+        sim, point = TEMPLATE_OPERATIONS_RED_DOT.match_result(image)
+        if sim < 0.85:
+            return False
+
+        # Unsure whether this red dot is from the Tech or Operations
+        # sidebar. But for safety will check Operations anyway
+        return True
 
     def _guild_operations_enter_ensure(self):
         """
@@ -323,12 +349,12 @@ class GuildOperations(GuildBase):
             return
         elif operations_mode == 1:
             # Limit check for scanning operations to 4 times a day i.e. 6-hour intervals, 4th time reduced to 3-hour
-            if not self.config.record_executed_since(option=RECORD_OPTION_DISPATCH, since=RECORD_SINCE_DISPATCH):
+            if not self.config.record_executed_since(option=RECORD_OPTION_DISPATCH, since=RECORD_SINCE_DISPATCH) or self._guild_operations_red_dot_present():
                 self._guild_operations_scan()
                 self.config.record_save(option=RECORD_OPTION_DISPATCH)
         else:
             # Limit check for Guild Raid Boss to once a day
-            if not self.config.record_executed_since(option=RECORD_OPTION_BOSS, since=RECORD_SINCE_BOSS):
+            if not self.config.record_executed_since(option=RECORD_OPTION_BOSS, since=RECORD_SINCE_BOSS) or self._guild_operations_red_dot_present():
                 skip_record = False
                 if self.appear(GUILD_BOSS_AVAILABLE):
                     if self.config.ENABLE_GUILD_OPERATIONS_BOSS_AUTO:

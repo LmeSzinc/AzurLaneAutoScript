@@ -5,6 +5,7 @@ from module.base.utils import *
 from module.combat.assets import GET_ITEMS_1
 from module.guild.assets import *
 from module.guild.base import GuildBase
+from module.handler.assets import POPUP_CONFIRM
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.statistics.item import ItemGrid
@@ -249,7 +250,8 @@ class GuildLogistics(GuildBase):
 
         # Start the exchange process, not inserted
         # into while to avoid potential multi-clicking
-        self.device.click(target_button)
+        self.ui_click(target_button, check_button=POPUP_CONFIRM,
+                      appear_button=btn_guild_logistics_check, skip_first_screenshot=True)
 
         confirm_timer = Timer(1.5, count=3).start()
         while 1:

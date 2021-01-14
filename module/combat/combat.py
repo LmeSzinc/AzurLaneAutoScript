@@ -8,6 +8,7 @@ from module.combat.emotion import Emotion
 from module.combat.hp_balancer import HPBalancer
 from module.combat.level import Level
 from module.combat.submarine import SubmarineCall
+from module.guild.guild_info import InfoGuild
 from module.handler.enemy_searching import EnemySearchingHandler
 from module.logger import logger
 from module.map.assets import MAP_OFFENSIVE
@@ -16,7 +17,7 @@ from module.template.assets import TEMPLATE_COMBAT_LOADING
 from module.ui.assets import BACK_ARROW
 
 
-class Combat(Level, HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, CombatAuto, CombatManual):
+class Combat(Level, HPBalancer, EnemySearchingHandler, Retirement, InfoGuild, SubmarineCall, CombatAuto, CombatManual):
     _automation_set_timer = Timer(1)
     _emotion: Emotion
     battle_status_click_interval = 0
@@ -347,6 +348,8 @@ class Combat(Level, HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall
             if self.handle_urgent_commission(save_get_items=save_get_items):
                 continue
             if self.handle_story_skip():
+                continue
+            if self.handle_guild_info():
                 continue
 
             # End
