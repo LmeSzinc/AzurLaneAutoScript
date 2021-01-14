@@ -13,7 +13,10 @@ class MapEventHandler(InfoHandler):
         if self.appear(GET_ADAPTABILITY, interval=2):
             self.device.click(CLICK_SAFE_AREA)
             return True
-        if self.appear(GET_MEOWFFICER_ITEMS, interval=2):
+        if self.appear(GET_MEOWFFICER_ITEMS_1, interval=2):
+            self.device.click(CLICK_SAFE_AREA)
+            return True
+        if self.appear(GET_MEOWFFICER_ITEMS_2, interval=2):
             self.device.click(CLICK_SAFE_AREA)
             return True
 
