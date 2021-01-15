@@ -107,6 +107,9 @@ class OSAsh(AshCombat, UI):
             in: Any page
             out: page_os
         """
+        # If the main story in OS is not cleared, ASH_ENTRANCE is the first button counted from bottom right.
+        # When main story is cleared, ASH_ENTRANCE move to the second one.
+        # Here use an offset to handle that.
         entrance_offset = (200, 5)
         self.ui_ensure(page_os)
         self.ui_click(ASH_ENTRANCE, check_button=self.is_in_ash, offset=entrance_offset, skip_first_screenshot=True)
