@@ -374,6 +374,7 @@ def main(ini_name=''):
     daily.add_argument('--打共斗每日15次', default=default('--打共斗每日15次'), help='若当天有记录, 则跳过', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     daily.add_argument('--打活动图每日三倍PT', default=default('--打活动图每日三倍PT'), help='若当天有记录, 则跳过', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     daily.add_argument('--打活动每日SP图', default=default('--打活动每日SP图'), help='若当天有记录, 则跳过', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    daily.add_argument('--打大世界余烬信标支援', default=default('--打大世界余烬信标支援'), help='若当天有记录, 则跳过', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
 
     # 每日设置
     daily_task = daily_parser.add_argument_group('每日设置', '不支持潜艇每日', gooey_options={'label_color': '#931D03'})
@@ -411,6 +412,10 @@ def main(ini_name=''):
     raid_bonus.add_argument('--共斗困难', default=default('--共斗困难'), choices=['是', '否'], help='', gooey_options={'label_color': '#4B5F83'})
     raid_bonus.add_argument('--共斗普通', default=default('--共斗普通'), choices=['是', '否'], help='', gooey_options={'label_color': '#4B5F83'})
     raid_bonus.add_argument('--共斗简单', default=default('--共斗简单'), choices=['是', '否'], help='', gooey_options={'label_color': '#4B5F83'})
+
+    # 大世界每日设置
+    raid_bonus = daily_parser.add_argument_group('大世界设置', '', gooey_options={'label_color': '#931D03'})
+    raid_bonus.add_argument('--大世界信标支援强度', default=default('--大世界信标支援强度'), help='寻找大于等于此强度的信标', gooey_options={'label_color': '#4B5F83'})
 
     # # ==========每日活动图三倍PT==========
     # event_ab_parser = subs.add_parser('每日活动图三倍PT')

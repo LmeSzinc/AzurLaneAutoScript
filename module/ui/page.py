@@ -70,6 +70,11 @@ page_sp.link(button=GOTO_MAIN, destination=page_main)
 # page_sp.link(button=BACK_ARROW, destination=page_campaign)
 page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_EVENT, destination=page_sp)
 
+# Operation Siren
+page_os = Page(OS_CHECK)
+page_os.link(button=GOTO_MAIN, destination=page_main)
+page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_OS, destination=page_os)
+
 # War Archives
 # Don't enter page_archives from page_campaign
 page_archives = Page(WAR_ARCHIVES_CHECK)

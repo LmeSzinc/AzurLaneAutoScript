@@ -14,13 +14,13 @@ class UI(InfoHandler):
     ui_pages = [page_main, page_campaign_menu, page_campaign, page_fleet,
                 page_exercise, page_daily, page_event, page_sp, page_mission,
                 page_raid, page_reward, page_reshmenu, page_research, page_dormmenu, page_dorm, page_meowfficer,
-                page_archives, page_guild]
+                page_archives, page_guild, page_os]
     # All pages defined.
     ui_pages_all = [page_main, page_campaign_menu, page_campaign, page_fleet,
                     page_exercise, page_daily, page_event, page_sp, page_mission,
                     page_raid, page_commission, page_event_list, page_tactical, page_reward, page_unknown,
                     page_reshmenu, page_research, page_dormmenu, page_dorm, page_meowfficer, page_archives,
-                    page_guild]
+                    page_guild, page_os]
     ui_current: Page
 
     def ui_page_appear(self, page):
