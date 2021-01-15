@@ -107,8 +107,9 @@ class OSAsh(AshCombat, UI):
             in: Any page
             out: page_os
         """
+        entrance_offset = (200, 5)
         self.ui_ensure(page_os)
-        self.ui_click(ASH_ENTRANCE, check_button=self.is_in_ash, skip_first_screenshot=True)
+        self.ui_click(ASH_ENTRANCE, check_button=self.is_in_ash, offset=entrance_offset, skip_first_screenshot=True)
         SWITCH_BEACON.set('list', main=self)
 
         for _ in range(4):
@@ -124,7 +125,7 @@ class OSAsh(AshCombat, UI):
 
         self.device.sleep((0.5, 0.8))
         self.device.screenshot()
-        self.ui_click(ASH_QUIT, check_button=ASH_ENTRANCE, skip_first_screenshot=True)
+        self.ui_click(ASH_QUIT, check_button=ASH_ENTRANCE, offset=entrance_offset, skip_first_screenshot=True)
         return True
 
 
