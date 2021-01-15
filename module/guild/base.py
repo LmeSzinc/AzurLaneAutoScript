@@ -25,7 +25,7 @@ class GuildBase(UI):
         """ Call this method after guild run executed """
         del self.__dict__['guild_interval']
 
-    def _view_swipe(self, distance):
+    def _guild_view_swipe(self, distance):
         """
         Perform swipe action, altered specifically
         for Guild Operations map usage
@@ -50,17 +50,17 @@ class GuildBase(UI):
             if not SWIPE_CHECK.match(self.device.image):
                 return True
 
-    def view_forward(self):
+    def guild_view_forward(self):
         """
         Performs swipe forward
         """
-        return self._view_swipe(distance=-SWIPE_DISTANCE)
+        return self._guild_view_swipe(distance=-SWIPE_DISTANCE)
 
-    def view_backward(self):
+    def guild_view_backward(self):
         """
         Performs swipe backward
         """
-        return self._view_swipe(distance=SWIPE_DISTANCE)
+        return self._guild_view_swipe(distance=SWIPE_DISTANCE)
 
     def _guild_sidebar_click(self, index):
         """

@@ -260,7 +260,7 @@ class GuildOperations(GuildBase):
                     self._guild_operations_dispatch()
                 continue
 
-            if not self.view_forward():
+            if not self.guild_view_forward():
                 break
 
     def _guild_operations_boss_preparation(self, skip_first_screenshot=True):
