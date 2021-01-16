@@ -251,10 +251,6 @@ class Combat(Level, HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall
             if not save_get_items:
                 self.device.sleep((0.25, 0.5))
             return True
-        if self.appear_then_click(BATTLE_STATUS_CF, screenshot=save_get_items, genre='status', interval=self.battle_status_click_interval):
-            if not save_get_items:
-                self.device.sleep((0.25, 0.5))
-            return True
 
         return False
 
@@ -271,14 +267,12 @@ class Combat(Level, HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall
             self.interval_reset(BATTLE_STATUS_S)
             self.interval_reset(BATTLE_STATUS_A)
             self.interval_reset(BATTLE_STATUS_B)
-            self.interval_reset(BATTLE_STATUS_CF)
             return True
         if self.appear_then_click(GET_ITEMS_2, screenshot=save_get_items, genre='get_items', offset=5,
                                   interval=self.battle_status_click_interval):
             self.interval_reset(BATTLE_STATUS_S)
             self.interval_reset(BATTLE_STATUS_A)
             self.interval_reset(BATTLE_STATUS_B)
-            self.interval_reset(BATTLE_STATUS_CF)
             return True
 
         return False
@@ -297,9 +291,6 @@ class Combat(Level, HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall
             self.device.sleep((0.25, 0.5))
             return True
         if self.appear_then_click(EXP_INFO_B):
-            self.device.sleep((0.25, 0.5))
-            return True
-        if self.appear_then_click(EXP_INFO_CF):
             self.device.sleep((0.25, 0.5))
             return True
 
