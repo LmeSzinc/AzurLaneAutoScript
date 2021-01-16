@@ -9,6 +9,7 @@ from module.logger import logger
 from module.ui.assets import CAMPAIGN_CHECK, EVENT_CHECK, SP_CHECK
 from module.ui.ui import page_guild
 
+
 class RewardGuild(GuildLobby, GuildLogistics, GuildOperations):
     def guild_run(self, logistics=True, operations=True):
         """
@@ -57,15 +58,28 @@ class RewardGuild(GuildLobby, GuildLogistics, GuildOperations):
         do_logistics = False
         do_operations = False
 
-        # In page_campaign, event, or sp, force enter
-        # page_guild for possible mission trigger
-        # In page_main, enter iff red dot
+        # Check circumstances of handle_guild
+        # - Coming from campaign, event or sp due to guild popup
+        # - Reward Loop, enter if interval elapsed or iff red_dot present
         appear = [self.appear(check, offset=(20, 20)) for check in [CAMPAIGN_CHECK, EVENT_CHECK, SP_CHECK]]
-        if any(appear) or self.appear(GUILD_RED_DOT, offset=(30, 30)):
+        if any(appear):
             do_logistics = self.config.ENABLE_GUILD_LOGISTICS
             do_operations = self.config.ENABLE_GUILD_OPERATIONS
+        else:
+            now = datetime.now()
+            guild_record = datetime.strptime(self.config.config.get(*GUILD_RECORD), self.config.TIME_FORMAT)
+            update = guild_record + timedelta(seconds=self.guild_interval)
+            attr = f'{GUILD_RECORD[0]}_{GUILD_RECORD[1]}'
+            logger.attr(f'{attr}', f'Record time: {guild_record}')
+            logger.attr(f'{attr}', f'Next update: {update}')
+            if now > update or self.appear(GUILD_RED_DOT, offset=(30, 30)):
+                do_logistics = self.config.ENABLE_GUILD_LOGISTICS
+                do_operations = self.config.ENABLE_GUILD_OPERATIONS
 
         if not self.guild_run(logistics=do_logistics, operations=do_operations):
             return False
+
+        self.guild_interval_reset()
+        self.config.record_save(option=('RewardRecord', 'guild'))
 
         return True

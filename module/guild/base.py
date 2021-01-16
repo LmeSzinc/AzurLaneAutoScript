@@ -1,5 +1,3 @@
-import numpy as np
-
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.timer import Timer
@@ -15,6 +13,7 @@ GUILD_SIDEBAR = ButtonGrid(
 
 SWIPE_DISTANCE = 250
 SWIPE_RANDOM_RANGE = (-40, -20, 40, 20)
+
 
 class GuildBase(UI):
     @cached_property
@@ -38,7 +37,8 @@ class GuildBase(UI):
                 swipe_timer.reset()
                 self.device.swipe(vector=(distance, 0), box=SWIPE_AREA.area, random_range=SWIPE_RANDOM_RANGE,
                                   padding=0, duration=(0.22, 0.25), name=f'SWIPE_{swipe_count}')
-                self.device.sleep((1.8, 2.1)) # No assets to use to ensure whether screen has stabilized after swipe, sleep instead
+                self.device.sleep(
+                    (1.8, 2.1))  # No assets to use to ensure whether screen has stabilized after swipe, sleep instead
                 swipe_count += 1
 
             self.device.screenshot()

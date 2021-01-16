@@ -285,6 +285,9 @@ class UI(InfoHandler):
         # Research popup, lost connection popup
         if self.handle_popup_confirm('PAGE_REWARD'):
             return True
+        # Guild popup
+        if self.handle_guild_popup_cancel():
+            return True
 
         # Daily reset
         if self.appear_then_click(LOGIN_ANNOUNCE, offset=(30, 30), interval=5):
