@@ -20,6 +20,7 @@ class Combat(Level, HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall
     _automation_set_timer = Timer(1)
     _emotion: Emotion
     battle_status_click_interval = 0
+    _guild_triggered = False
 
     @property
     def emotion(self):
@@ -349,6 +350,7 @@ class Combat(Level, HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall
             if self.handle_story_skip():
                 continue
             if self.handle_guild_popup_cancel():
+                self._guild_triggered = True
                 continue
 
             # End
