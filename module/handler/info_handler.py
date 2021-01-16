@@ -124,7 +124,7 @@ class InfoHandler(ModuleBase):
     """
     def handle_guild_popup_confirm(self):
         if self.appear(GUILD_POPUP_CONFIRM, offset=self._popup_offset) \
-                and self.appear(GUILD_POPUP_CANCAL, offset=self._popup_offset, interval=2):
+                and self.appear(GUILD_POPUP_CANCEL, offset=self._popup_offset, interval=2):
             self.device.click(GUILD_POPUP_CONFIRM)
             return True
 
@@ -132,8 +132,8 @@ class InfoHandler(ModuleBase):
 
     def handle_guild_popup_cancel(self):
         if self.appear(GUILD_POPUP_CONFIRM, offset=self._popup_offset) \
-                and self.appear(GUILD_POPUP_CANCAL, offset=self._popup_offset, interval=2):
-            self.device.click(GUILD_POPUP_CANCAL)
+                and self.appear(GUILD_POPUP_CANCEL, offset=self._popup_offset, interval=2):
+            self.device.click(GUILD_POPUP_CANCEL)
             return True
 
         return False
