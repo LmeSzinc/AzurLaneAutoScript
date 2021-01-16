@@ -276,15 +276,7 @@ class GuildOperations(GuildBase):
             in: GUILD_OPERATIONS_BOSS
             out: IN_BATTLE
         """
-        # Ensure in dispatch for Guild Raid Boss
-        self.ui_click(GUILD_BOSS_ENTER, check_button=GUILD_DISPATCH_RECOMMEND_2, skip_first_screenshot=True)
-
-        # If configured, auto recommend fleet composition
-        if self.config.ENABLE_GUILD_OPERATIONS_BOSS_RECOMMEND:
-            self.device.click(GUILD_DISPATCH_RECOMMEND_2)
-
         is_loading = False
-        empty_timeout = Timer(3, count=6)
         dispatch_count = 0
         while 1:
             if skip_first_screenshot:
@@ -292,34 +284,30 @@ class GuildOperations(GuildBase):
             else:
                 self.device.screenshot()
 
-            if self.appear(GUILD_DISPATCH_EMPTY_2):
-                # Account for loading lag especially if using
-                # guild support
-                if not empty_timeout.started():
-                    empty_timeout.reset()
-                    continue
-                elif empty_timeout.reached():
-                    logger.warning('Fleet composition is empty, cannot auto-battle Guild Raid Boss')
-                    return False
+            if self.appear_then_click(GUILD_BOSS_ENTER, interval=3):
+                continue
 
             if self.appear(GUILD_DISPATCH_FLEET, interval=3):
                 # Button does not appear greyed out even
                 # when empty fleet composition
-                if not self.appear(GUILD_DISPATCH_EMPTY_2):
-                    if dispatch_count < 3:
-                        self.device.click(GUILD_DISPATCH_FLEET)
-                        dispatch_count += 1
-                    else:
-                        logger.warning(
-                            'Fleet cannot be dispatched for auto-battle Guild Raid Boss, verify composition manually')
-                        return False
+                if dispatch_count < 3:
+                    self.device.click(GUILD_DISPATCH_FLEET)
+                    dispatch_count += 1
+                else:
+                    logger.warning('Fleet composition error. Preloaded guild support selection may be '
+                                   'preventing dispatch. Suggestion: Enable Boss Recommend')
+                    return False
                 continue
+
+            if self.config.ENABLE_GUILD_OPERATIONS_BOSS_RECOMMEND:
+                if self.info_bar_count() and self.appear_then_click(GUILD_DISPATCH_RECOMMEND_2, interval=3):
+                    continue
 
             # Only print once when detected
             if not is_loading:
                 if az.is_combat_loading():
                     is_loading = True
-                continue
+                    continue
 
             if az.handle_combat_automation_confirm():
                 continue

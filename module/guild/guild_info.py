@@ -5,6 +5,7 @@ from module.guild.operations import GuildOperations
 from module.logger import logger
 from module.ui.assets import GUILD_CHECK
 
+
 class InfoGuild(GuildLogistics, GuildOperations):
     def guild_info_appear(self):
         """
@@ -70,7 +71,7 @@ class InfoGuild(GuildLogistics, GuildOperations):
     def _guild_info_handler(self):
         """
         Enters into Guild and scans the current image
-        to determine approriate action
+        to determine appropriate action
 
         Pages:
             in: ANY
