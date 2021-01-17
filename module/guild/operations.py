@@ -181,7 +181,7 @@ class GuildOperations(GuildBase):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(GUILD_DISPATCH_QUICK, interval=5):
+            if self.appear_then_click(GUILD_DISPATCH_QUICK, offset=(20, 20), interval=5):
                 confirm_timer.reset()
                 close_timer.reset()
                 continue
@@ -206,7 +206,6 @@ class GuildOperations(GuildBase):
                     add_timer.reset()
                     close_timer.reset()
                     continue
-                add_timer.reset()
 
             if self.handle_popup_confirm('GUILD_DISPATCH'):
                 # Explicit click since GUILD_DISPATCH_FLEET
@@ -224,8 +223,8 @@ class GuildOperations(GuildBase):
                 # dispatched, don't want to exit prematurely
                 if close_timer.reached_and_reset():
                     self.device.click(GUILD_DISPATCH_CLOSE)
-                confirm_timer.reset()
-                continue
+                    confirm_timer.reset()
+                    continue
 
             # End
             if self.appear(GUILD_OPERATIONS_ACTIVE_CHECK):
@@ -233,7 +232,6 @@ class GuildOperations(GuildBase):
                     break
             else:
                 confirm_timer.reset()
-                close_timer.reset()
 
     def _guild_operations_scan(self, skip_first_screenshot=True):
         """
