@@ -48,6 +48,46 @@ class GuildLogistics(GuildBase):
         item_grid.load_template_folder('./assets/stats_basic')
         return item_grid
 
+    def _guild_logistics_ensure(self):
+        """
+        Color sample the GUILD_LOGISTICS_ENSURE_CHECK
+        to determine whether is currently
+        visible or not
+
+        Pages:
+            in: GUILD_LOGISTICS
+            out: GUILD_LOGISTICS
+        """
+        # Axis (181, 97, 99) and Azur (148, 178, 255)
+        if self.image_color_count(GUILD_LOGISTICS_ENSURE_CHECK, color=(181, 97, 99), threshold=221, count=400) or \
+                self.image_color_count(GUILD_LOGISTICS_ENSURE_CHECK, color=(148, 178, 255), threshold=221, count=400):
+            return True
+        else:
+            return False
+
+    def _guild_logistics_azur_affiliation(self):
+        """
+        Color sample GUILD_AFFILIATION_COIN_STACK
+        (Guild coins area) to quickly ascertain
+        affiliation, if not present will likely
+        return None
+
+        Pages:
+            in: GUILD_LOGISTICS
+            out: GUILD_LOGISTICS
+        """
+        # Last screen capture expected to have
+        # guild coins display in top-right
+        # if not present, likely will return None
+        color = get_color(self.device.image, GUILD_AFFILIATION_COIN_STACK.area)
+        if color_similar(color, (115, 146, 206)):
+            return True
+        elif color_similar(color, (206, 117, 115)):
+            return False
+        else:
+            logger.warning(f'Unknown guild affiliation color: {color}')
+            return
+
     def _guild_logistics_mission_available(self):
         """
         Color sample the GUILD_MISSION area to determine
@@ -96,13 +136,7 @@ class GuildLogistics(GuildBase):
             in: GUILD_LOGISTICS
             out: GUILD_LOGISTICS
         """
-        # Quickly ascertain the affiliation for while loop terminator
-        is_azur_affiliation = self._guild_logistics_azur_affiliation()
-        if is_azur_affiliation is None:
-            return
-        btn_guild_logistics_check = GUILD_LOGISTICS_CHECK_AZUR if is_azur_affiliation else GUILD_LOGISTICS_CHECK_AXIS
-
-        # Various timers for button and
+        # Various timers for buttons and confirmation whether collection has ceased
         confirm_timer = Timer(3, count=6).start()
         mission_timer = Timer(1.5, count=3)
         supply_timer = Timer(1.5, count=3)
@@ -133,7 +167,7 @@ class GuildLogistics(GuildBase):
                 continue
 
             # End
-            if self.appear(btn_guild_logistics_check):
+            if self._guild_logistics_ensure():
                 if not self.info_bar_count() and confirm_timer.reached():
                     break
             else:
@@ -295,16 +329,10 @@ class GuildLogistics(GuildBase):
             in: ANY
             out: ANY
         """
-        # Quickly ascertain the affiliation for ui_click and while loop terminator
-        is_azur_affiliation = self._guild_logistics_azur_affiliation()
-        if is_azur_affiliation is None:
-            return False
-        btn_guild_logistics_check = GUILD_LOGISTICS_CHECK_AZUR if is_azur_affiliation else GUILD_LOGISTICS_CHECK_AXIS
-
         # Start the exchange process, not inserted
         # into while to avoid potential multi-clicking
         self.ui_click(target_button, check_button=POPUP_CONFIRM,
-                      appear_button=btn_guild_logistics_check, skip_first_screenshot=True)
+                      appear_button=self._guild_logistics_ensure, skip_first_screenshot=True)
 
         confirm_timer = Timer(1.5, count=3).start()
         while 1:
@@ -322,7 +350,7 @@ class GuildLogistics(GuildBase):
                 continue
 
             # End
-            if self.appear(btn_guild_logistics_check):
+            if self._guild_logistics_ensure():
                 if not self.info_bar_count() and confirm_timer.reached():
                     break
             else:
@@ -373,27 +401,6 @@ class GuildLogistics(GuildBase):
             if not self._guild_exchange_select(choices):
                 break
 
-    def _guild_logistics_azur_affiliation(self):
-        """
-        Helper method to quickly ascertain
-        affiliation iff in logistics
-
-        Pages:
-            in: GUILD_LOGISTICS
-            out: GUILD_LOGISTICS
-        """
-        # Last screen capture expected to have
-        # guild coins display in top-right
-        # if not present, likely will return None
-        color = get_color(self.device.image, GUILD_AFFILIATION_CHECK_LOGISTICS.area)
-        if color_similar(color, (115, 146, 206)):
-            return True
-        elif color_similar(color, (206, 117, 115)):
-            return False
-        else:
-            logger.warning(f'Unknown guild affiliation color: {color}')
-            return
-
     def guild_logistics(self):
         """
         Execute all actions in logistics
@@ -414,7 +421,7 @@ class GuildLogistics(GuildBase):
 
         # Limit check whether can exchange to once a day
         if not self.config.record_executed_since(option=RECORD_OPTION, since=RECORD_SINCE):
-            # Quickly ascertain affiliation, if unable to do not record and try again next loop
+            # Quickly ascertain affiliation, if unable to then do not record and try again next loop
             is_azur_affiliation = self._guild_logistics_azur_affiliation()
             if is_azur_affiliation is None:
                 return
