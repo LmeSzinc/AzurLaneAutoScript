@@ -60,17 +60,14 @@ class GuildLogistics(GuildBase):
             in: GUILD_LOGISTICS
             out: GUILD_LOGISTICS
         """
-        r, g, b = get_color(self.device.image, GUILD_MISSION_ACCEPT_AXIS.area)
+        r, g, b = get_color(self.device.image, GUILD_MISSION.area)
         if g > max(r, b) - 10:
-            logger.info('All Done')
             return False
         else:
             # Unfinished mission accept/collect range from about 240 to 322
-            if self.image_color_count(GUILD_MISSION_ACCEPT_AXIS, color=(255, 255, 255), threshold=180, count=400):
-                logger.info('Mission/Collect Available')
+            if self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=180, count=400):
                 return True
             else:
-                logger.info('Mission In Progress')
                 return False
 
     def _guild_logistics_supply_available(self):
@@ -84,12 +81,10 @@ class GuildLogistics(GuildBase):
             in: GUILD_LOGISTICS
             out: GUILD_LOGISTICS
         """
-        color = get_color(self.device.image, GUILD_SUPPLY_REWARDS_AXIS.area)
+        color = get_color(self.device.image, GUILD_SUPPLY.area)
         if np.max(color) > np.mean(color) + 25:
-            logger.info('Supply Available')
             return True
         else:
-            logger.info('Supply Unavailable')
             return False
 
     def _guild_logistics_collect(self, skip_first_screenshot=True):
@@ -118,13 +113,13 @@ class GuildLogistics(GuildBase):
                 self.device.screenshot()
 
             if (not mission_timer.started() or mission_timer.reached()) and self._guild_logistics_mission_available():
-                self.device.click(GUILD_MISSION_ACCEPT_AXIS)
+                self.device.click(GUILD_MISSION)
                 mission_timer.reset()
                 confirm_timer.reset()
                 continue
 
             if (not supply_timer.started() or supply_timer.reached()) and self._guild_logistics_supply_available():
-                self.device.click(GUILD_SUPPLY_REWARDS_AXIS)
+                self.device.click(GUILD_SUPPLY)
                 supply_timer.reset()
                 confirm_timer.reset()
                 continue
