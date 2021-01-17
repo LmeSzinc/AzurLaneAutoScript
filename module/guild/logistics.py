@@ -39,13 +39,14 @@ DEFAULT_PLATE_PRIORITY = [
 
 GRADES = [s for s in DEFAULT_ITEM_PRIORITY if len(s) == 2]
 
+
 class GuildLogistics(GuildBase):
     @cached_property
-    def EXCHANGE_ITEMS(self):
-        EXCHANGE_ITEMS = ItemGrid(
+    def exchange_items(self):
+        item_grid = ItemGrid(
             EXCHANGE_GRIDS, {}, template_area=(40, 21, 89, 70), amount_area=(60, 71, 91, 92))
-        EXCHANGE_ITEMS.load_template_folder('./assets/stats_basic')
-        return EXCHANGE_ITEMS
+        item_grid.load_template_folder('./assets/stats_basic')
+        return item_grid
 
     def _guild_logistics_collect(self, is_azur_affiliation=True, skip_first_screenshot=True):
         """
@@ -56,7 +57,7 @@ class GuildLogistics(GuildBase):
             in: LOGISTICS
             out: LOGISTICS
         """
-        # Guild affiliated assets (Azur or Axis) needed for apperance and clicking
+        # Guild affiliated assets (Azur or Axis) needed for appearance and clicking
         btn_guild_logistics_check = GUILD_LOGISTICS_CHECK_AZUR if is_azur_affiliation else GUILD_LOGISTICS_CHECK_AXIS
         btn_guild_mission_rewards = GUILD_MISSION_REWARDS_AZUR if is_azur_affiliation else GUILD_MISSION_REWARDS_AXIS
         btn_guild_mission_accept = GUILD_MISSION_ACCEPT_AZUR if is_azur_affiliation else GUILD_MISSION_ACCEPT_AXIS
@@ -109,7 +110,7 @@ class GuildLogistics(GuildBase):
         """
         # Parse the string to a list, perform any special processing when applicable
         priority_parsed = [s.strip().lower() for s in string_priority.split('>')]
-        priority_parsed = list(filter(('').__ne__, priority_parsed))
+        priority_parsed = list(filter(''.__ne__, priority_parsed))
         priority = priority_parsed.copy()
         [priority.remove(s) for s in priority_parsed if s not in default_priority]
 
@@ -130,16 +131,23 @@ class GuildLogistics(GuildBase):
             out: GUILD_LOGISTICS
         """
         # Items
-        item_priority = self._guild_exchange_priorities_helper('Item', self.config.GUILD_LOGISTICS_ITEM_ORDER_STRING, DEFAULT_ITEM_PRIORITY)
+        item_priority = self._guild_exchange_priorities_helper('Item', self.config.GUILD_LOGISTICS_ITEM_ORDER_STRING,
+                                                               DEFAULT_ITEM_PRIORITY)
 
         # T1 Grade Plates
-        t1_priority = self._guild_exchange_priorities_helper('T1 Plate', self.config.GUILD_LOGISTICS_PLATE_T1_ORDER_STRING, DEFAULT_PLATE_PRIORITY)
+        t1_priority = self._guild_exchange_priorities_helper('T1 Plate',
+                                                             self.config.GUILD_LOGISTICS_PLATE_T1_ORDER_STRING,
+                                                             DEFAULT_PLATE_PRIORITY)
 
         # T2 Grade Plates
-        t2_priority = self._guild_exchange_priorities_helper('T2 Plate', self.config.GUILD_LOGISTICS_PLATE_T2_ORDER_STRING, DEFAULT_PLATE_PRIORITY)
+        t2_priority = self._guild_exchange_priorities_helper('T2 Plate',
+                                                             self.config.GUILD_LOGISTICS_PLATE_T2_ORDER_STRING,
+                                                             DEFAULT_PLATE_PRIORITY)
 
         # T3 Grade Plates
-        t3_priority = self._guild_exchange_priorities_helper('T3 Plate', self.config.GUILD_LOGISTICS_PLATE_T3_ORDER_STRING, DEFAULT_PLATE_PRIORITY)
+        t3_priority = self._guild_exchange_priorities_helper('T3 Plate',
+                                                             self.config.GUILD_LOGISTICS_PLATE_T3_ORDER_STRING,
+                                                             DEFAULT_PLATE_PRIORITY)
 
         # Build dictionary
         grade_to_plate_priorities = dict()
@@ -162,8 +170,8 @@ class GuildLogistics(GuildBase):
         """
 
         # Scan the available exchange items that are selectable
-        self.EXCHANGE_ITEMS._load_image(self.device.image)
-        name = [self.EXCHANGE_ITEMS.match_template(item.image) for item in self.EXCHANGE_ITEMS.items]
+        self.exchange_items._load_image(self.device.image)
+        name = [self.exchange_items.match_template(item.image) for item in self.exchange_items.items]
         name = [str(item).lower() for item in name]
 
         # Loop EXCHANGE_GRIDS to detect for red text in bottom right area
@@ -181,7 +189,7 @@ class GuildLogistics(GuildBase):
 
     def _guild_exchange_check(self, options, item_priority, grade_to_plate_priorities):
         """
-        Sift through all exchangable options
+        Sift through all exchangeable options
         Record details on each to determine
         selection order
 
@@ -233,7 +241,7 @@ class GuildLogistics(GuildBase):
                     can_exchange = True
 
             choices[f'{i + 1}'] = [item_weight, plate_weight, i + 1, can_exchange, btn]
-            logger.info(f'Choice #{i + 1} - Name: {option:15}, Weight: {item_weight:3}, Exchangable: {can_exchange}')
+            logger.info(f'Choice #{i + 1} - Name: {option:15}, Weight: {item_weight:3}, Exchangeable: {can_exchange}')
 
         return choices
 
@@ -245,8 +253,8 @@ class GuildLogistics(GuildBase):
             in: ANY
             out: ANY
         """
-        # Guild affiliated assets (Azur or Axis) needed for apperance and clicking
-        btn_guild_logistics_check = GUILD_LOGISTICS_CHECK_AZUR if is_azur_affiliation  else GUILD_LOGISTICS_CHECK_AXIS
+        # Guild affiliated assets (Azur or Axis) needed for appearance and clicking
+        btn_guild_logistics_check = GUILD_LOGISTICS_CHECK_AZUR if is_azur_affiliation else GUILD_LOGISTICS_CHECK_AXIS
 
         # Start the exchange process, not inserted
         # into while to avoid potential multi-clicking
@@ -291,7 +299,7 @@ class GuildLogistics(GuildBase):
             key = min(choices, key=choices.get)
             details = choices.get(key)
 
-            # Item is exchangable?
+            # Item is exchangeable?
             if details[3]:
                 # Able to make exchange, return True
                 self._guild_exchange_item(details[4], is_azur_affiliation)
@@ -331,17 +339,17 @@ class GuildLogistics(GuildBase):
 
         # Transition to Logistics
         if not self.guild_sidebar_ensure(3):
-            logger.info('Logistics ensurance failed, try again on next reward loop')
+            logger.info('Logistics sidebar not ensured, try again on next reward loop')
             return
 
-        # Last screencapture should contain affiliation
+        # Last screen capture should contain affiliation
         # color in top-right where guild coins is
         # Determine guild affiliation
         color = get_color(self.device.image, GUILD_AFFILIATION_CHECK_LOGISTICS.area)
         if color_similar(color, (115, 146, 206)):
-            is_azur_affiliation  = True
+            is_azur_affiliation = True
         elif color_similar(color, (206, 117, 115)):
-            is_azur_affiliation  = False
+            is_azur_affiliation = False
         else:
             logger.warning(f'Unknown guild affiliation color: {color}')
             return
