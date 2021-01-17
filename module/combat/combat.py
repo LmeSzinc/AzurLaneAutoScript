@@ -97,6 +97,7 @@ class Combat(Level, HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall
             fleet_index (int):
         """
         logger.info('Combat preparation.')
+        skip_first_screenshot = True
 
         if emotion_reduce:
             self.emotion.wait(fleet=fleet_index)
@@ -104,7 +105,10 @@ class Combat(Level, HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall
             self.hp_balance()
 
         while 1:
-            self.device.screenshot()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
             if self.appear(BATTLE_PREPARATION):
                 if self.handle_combat_automation_set(auto=auto == 'combat_auto'):
