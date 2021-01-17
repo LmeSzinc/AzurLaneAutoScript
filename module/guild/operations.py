@@ -241,13 +241,13 @@ class GuildOperations(GuildBase):
         and additional events
         Scanning for active operations
         if found enters and dispatch fleet
-        otherwise swipes forward until
-        reached end of map
+        otherwise exits upon reaching timeout
 
         Pages:
             in: GUILD_OPERATIONS_MAP
             out: GUILD_OPERATIONS_MAP
         """
+        scan_timeout = Timer(1.5, count=3)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -259,9 +259,14 @@ class GuildOperations(GuildBase):
             if entered:
                 if entered == 1:
                     self._guild_operations_dispatch()
+                scan_timeout.reset()
                 continue
 
-            if not self.guild_view_forward():
+            # if not self.guild_view_forward():
+            #     break
+            if not scan_timeout.started():
+                scan_timeout.reset()
+            elif scan_timeout.reached():
                 break
 
     def _guild_operations_boss_preparation(self, az, skip_first_screenshot=True):
