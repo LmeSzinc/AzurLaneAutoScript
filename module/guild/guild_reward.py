@@ -60,4 +60,5 @@ class RewardGuild(GuildLobby, GuildLogistics, GuildOperations):
 
         self.guild_interval_reset()
         self.config.record_save(option=('RewardRecord', 'guild'))
+        self.ui_goto_main()
         return True

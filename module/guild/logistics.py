@@ -1,5 +1,5 @@
 from module.base.button import ButtonGrid
-from module.base.decorator import cached_property
+from module.base.decorator import cached_property, Config
 from module.base.timer import Timer
 from module.base.utils import *
 from module.combat.assets import GET_ITEMS_1
@@ -95,6 +95,49 @@ class GuildLogistics(GuildBase):
             if self._is_in_guild_logistics():
                 break
 
+    @Config.when(SERVER='en')
+    def _guild_logistics_mission_available(self):
+        """
+        Color sample the GUILD_MISSION area to determine
+        whether the button is enabled, mission already
+        in progress, or no more missions can be accepted
+
+        Used at least twice, 'Collect' and 'Accept'
+
+        Returns:
+            bool: If button active
+
+        Pages:
+            in: GUILD_LOGISTICS
+            out: GUILD_LOGISTICS
+        """
+        r, g, b = get_color(self.device.image, GUILD_MISSION.area)
+        if g > max(r, b) - 10:
+            # Green tick at the bottom right corner if guild mission finished
+            logger.info('Guild mission has finished this week')
+            self._guild_logistics_mission_finished = True
+            return False
+        # 0/300 in EN is bold and pure white, and Collect rewards is blue white, so reverse the if condition
+        elif self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=235, count=100):
+
+            logger.info('Guild mission button inactive')
+            return False
+        elif self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=180, count=50):
+            # white pixels less than 50
+            logger.info('Guild mission button active')
+            return False
+        else:
+            # No guild mission counter
+            logger.info('No guild mission found, mission of this week may not started')
+            if self.image_color_count(GUILD_MISSION_CHOOSE, color=(255, 255, 255), threshold=221, count=100):
+                # Guild mission choose available if user is guild master
+                logger.info('Guild mission choose found')
+                return True
+            else:
+                logger.info('Guild mission choose not found')
+                return False
+
+    @Config.when(SERVER=None)
     def _guild_logistics_mission_available(self):
         """
         Color sample the GUILD_MISSION area to determine
