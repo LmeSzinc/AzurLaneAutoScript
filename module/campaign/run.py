@@ -176,9 +176,9 @@ class CampaignRun(Reward):
                 self.campaign.fleet_checked_reset()
             if self.handle_reward():
                 self.campaign.fleet_checked_reset()
-            if self.campaign._guild_triggered:
+            if self.config.GUILD_POPUP_TRIGGERED:
                 self.handle_guild()
-                self.campaign._guild_triggered = False
+                self.config.GUILD_POPUP_TRIGGERED = False
                 self.campaign.fleet_checked_reset()
 
             # End

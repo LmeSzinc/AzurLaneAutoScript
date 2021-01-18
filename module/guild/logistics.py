@@ -123,7 +123,7 @@ class GuildLogistics(GuildBase):
             logger.info('Guild mission button inactive')
             return False
         elif self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=180, count=50):
-            # white pixels less than 50
+            # white pixels less than 50, but has blue-white pixels
             logger.info('Guild mission button active')
             return True
         else:
