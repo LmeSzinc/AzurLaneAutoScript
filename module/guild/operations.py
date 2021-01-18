@@ -181,15 +181,7 @@ class GuildOperations(GuildBase):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(GUILD_DISPATCH_QUICK, offset=(20, 20), interval=5):
-                confirm_timer.reset()
-                close_timer.reset()
-                continue
-
-            if self.appear(GUILD_DISPATCH_EMPTY, interval=5):
-                self.device.click(GUILD_DISPATCH_RECOMMEND)
-                self.device.sleep((0.5, 0.8))
-                self.device.click(GUILD_DISPATCH_FLEET)
+            if self.appear_then_click(GUILD_DISPATCH_QUICK, offset=(20, 20), interval=3):
                 confirm_timer.reset()
                 close_timer.reset()
                 continue
@@ -206,6 +198,17 @@ class GuildOperations(GuildBase):
                     add_timer.reset()
                     close_timer.reset()
                     continue
+
+            if self.appear(GUILD_DISPATCH_EMPTY, interval=3):
+                self.device.click(GUILD_DISPATCH_RECOMMEND)
+                confirm_timer.reset()
+                close_timer.reset()
+                continue
+
+            if self.appear_then_click(GUILD_DISPATCH_FLEET, offset=(20, 20), interval=3):
+                confirm_timer.reset()
+                close_timer.reset()
+                continue
 
             if self.handle_popup_confirm('GUILD_DISPATCH'):
                 # Explicit click since GUILD_DISPATCH_FLEET
