@@ -1,5 +1,3 @@
-import numpy as np
-
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.timer import Timer
@@ -16,6 +14,7 @@ GUILD_SIDEBAR = ButtonGrid(
 SWIPE_DISTANCE = 250
 SWIPE_RANDOM_RANGE = (-40, -20, 40, 20)
 
+
 class GuildBase(UI):
     @cached_property
     def guild_interval(self):
@@ -25,7 +24,7 @@ class GuildBase(UI):
         """ Call this method after guild run executed """
         del self.__dict__['guild_interval']
 
-    def _view_swipe(self, distance):
+    def _guild_view_swipe(self, distance):
         """
         Perform swipe action, altered specifically
         for Guild Operations map usage
@@ -38,7 +37,8 @@ class GuildBase(UI):
                 swipe_timer.reset()
                 self.device.swipe(vector=(distance, 0), box=SWIPE_AREA.area, random_range=SWIPE_RANDOM_RANGE,
                                   padding=0, duration=(0.22, 0.25), name=f'SWIPE_{swipe_count}')
-                self.device.sleep((1.8, 2.1)) # No assets to use to ensure whether screen has stabilized after swipe, sleep instead
+                self.device.sleep(
+                    (1.8, 2.1))  # No assets to use to ensure whether screen has stabilized after swipe, sleep instead
                 swipe_count += 1
 
             self.device.screenshot()
@@ -50,17 +50,17 @@ class GuildBase(UI):
             if not SWIPE_CHECK.match(self.device.image):
                 return True
 
-    def view_forward(self):
+    def guild_view_forward(self):
         """
         Performs swipe forward
         """
-        return self._view_swipe(distance=-SWIPE_DISTANCE)
+        return self._guild_view_swipe(distance=-SWIPE_DISTANCE)
 
-    def view_backward(self):
+    def guild_view_backward(self):
         """
         Performs swipe backward
         """
-        return self._view_swipe(distance=SWIPE_DISTANCE)
+        return self._guild_view_swipe(distance=SWIPE_DISTANCE)
 
     def _guild_sidebar_click(self, index):
         """

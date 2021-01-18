@@ -20,6 +20,7 @@ class Combat(Level, HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall
     _automation_set_timer = Timer(1)
     _emotion: Emotion
     battle_status_click_interval = 0
+    _guild_triggered = False
 
     @property
     def emotion(self):
@@ -254,10 +255,6 @@ class Combat(Level, HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall
             if not save_get_items:
                 self.device.sleep((0.25, 0.5))
             return True
-        if self.appear_then_click(BATTLE_STATUS_CF, screenshot=save_get_items, genre='status', interval=self.battle_status_click_interval):
-            if not save_get_items:
-                self.device.sleep((0.25, 0.5))
-            return True
 
         return False
 
@@ -274,14 +271,12 @@ class Combat(Level, HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall
             self.interval_reset(BATTLE_STATUS_S)
             self.interval_reset(BATTLE_STATUS_A)
             self.interval_reset(BATTLE_STATUS_B)
-            self.interval_reset(BATTLE_STATUS_CF)
             return True
         if self.appear_then_click(GET_ITEMS_2, screenshot=save_get_items, genre='get_items', offset=5,
                                   interval=self.battle_status_click_interval):
             self.interval_reset(BATTLE_STATUS_S)
             self.interval_reset(BATTLE_STATUS_A)
             self.interval_reset(BATTLE_STATUS_B)
-            self.interval_reset(BATTLE_STATUS_CF)
             return True
 
         return False
@@ -300,9 +295,6 @@ class Combat(Level, HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall
             self.device.sleep((0.25, 0.5))
             return True
         if self.appear_then_click(EXP_INFO_B):
-            self.device.sleep((0.25, 0.5))
-            return True
-        if self.appear_then_click(EXP_INFO_CF):
             self.device.sleep((0.25, 0.5))
             return True
 
@@ -353,6 +345,7 @@ class Combat(Level, HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall
             if self.handle_story_skip():
                 continue
             if self.handle_guild_popup_cancel():
+                self._guild_triggered = True
                 continue
 
             # End

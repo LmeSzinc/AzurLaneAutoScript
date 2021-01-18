@@ -176,6 +176,10 @@ class CampaignRun(Reward):
                 self.campaign.fleet_checked_reset()
             if self.handle_reward():
                 self.campaign.fleet_checked_reset()
+            if self.campaign._guild_triggered:
+                self.handle_guild()
+                self.campaign._guild_triggered = False
+                self.campaign.fleet_checked_reset()
 
             # End
             if total and self.run_count == total:

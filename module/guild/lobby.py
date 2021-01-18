@@ -4,6 +4,7 @@ from module.guild.assets import *
 from module.guild.base import GuildBase
 from module.ui.assets import GUILD_CHECK
 
+
 class GuildLobby(GuildBase):
     def _guild_lobby_collect(self, skip_first_screenshot=True):
         """

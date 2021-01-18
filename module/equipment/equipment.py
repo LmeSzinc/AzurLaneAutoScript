@@ -16,7 +16,7 @@ DETAIL_SIDEBAR = ButtonGrid(
 class Equipment(UI):
     equipment_has_take_on = False
 
-    def _view_swipe(self, distance, check_button=EQUIPMENT_OPEN):
+    def _equip_view_swipe(self, distance, check_button=EQUIPMENT_OPEN):
         swipe_count = 0
         swipe_timer = Timer(5, count=10)
         self.ensure_no_info_bar(timeout=3)
@@ -42,10 +42,10 @@ class Equipment(UI):
                 return True
 
     def equip_view_next(self, check_button=EQUIPMENT_OPEN):
-        return self._view_swipe(distance=-SWIPE_DISTANCE, check_button=check_button)
+        return self._equip_view_swipe(distance=-SWIPE_DISTANCE, check_button=check_button)
 
     def equip_view_prev(self, check_button=EQUIPMENT_OPEN):
-        return self._view_swipe(distance=SWIPE_DISTANCE, check_button=check_button)
+        return self._equip_view_swipe(distance=SWIPE_DISTANCE, check_button=check_button)
 
     def equip_enter(self, click_button, check_button=EQUIPMENT_OPEN, long_click=True):
         enter_timer = Timer(10)

@@ -324,9 +324,10 @@ def main(ini_name=''):
     reward_guild_logistics_plates.add_argument('--部件提交順序T3', default=default('--部件提交順序T3'), gooey_options={'label_color': '#4B5F83'})
     reward_guild_operations_boss = reward_guild.add_argument_group('Operations guild raid boss input', '', gooey_options={'label_color': '#4B5F83'})
     reward_guild_operations_boss.add_argument('--enable_guild_operations_boss_auto', default=default('--enable_guild_operations_boss_auto'),
-                                              help='Enable auto-battle of guild raid boss, fleet must already be composed beforehand with or without guild support.', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+                                              help='Enable auto-battle of guild raid boss. If fleet composition with or without guild support is incomplete, does not attempt. Enable boss recommend to bypass',
+                                              choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     reward_guild_operations_boss.add_argument('--enable_guild_operations_boss_recommend', default=default('--enable_guild_operations_boss_recommend'),
-                                              help='Enable auto-recommend a fleet composition for guild raid boss, all guild support is removed if any.', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+                                              help='Enable auto-recommend a fleet composition for guild raid boss, all guild support is removed if any', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
 
     # ==========設備設定==========
     emulator_parser = subs.add_parser('設備設定')
