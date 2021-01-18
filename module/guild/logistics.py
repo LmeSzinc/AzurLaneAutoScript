@@ -10,7 +10,9 @@ from module.ocr.ocr import Digit
 from module.statistics.item import ItemGrid
 
 EXCHANGE_GRIDS = ButtonGrid(
-    origin=(470, 470), delta=(198.5, 0), button_shape=(83, 83), grid_shape=(3, 1), name='EXCHANGE_GRID')
+    origin=(470, 470), delta=(198.5, 0), button_shape=(83, 83), grid_shape=(3, 1), name='EXCHANGE_GRIDS')
+EXCHANGE_BUTTONS = ButtonGrid(
+    origin=(440, 609), delta=(198.5, 0), button_shape=(144, 31), grid_shape=(3, 1), name='EXCHANGE_BUTTONS')
 
 DEFAULT_ITEM_PRIORITY = [
     't1',
@@ -339,8 +341,7 @@ class GuildLogistics(GuildBase):
         for i, (option, in_red) in enumerate(options):
             # Options already sorted sequentially
             # Button indexes are in sync
-            btn_key = f'GUILD_EXCHANGE_{i + 1}'
-            btn = globals()[btn_key]
+            btn = EXCHANGE_BUTTONS[i, 0]
 
             # Defaults set absurd values, which tells ALAS to skip option
             item_weight = len(DEFAULT_ITEM_PRIORITY)
