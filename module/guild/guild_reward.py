@@ -1,5 +1,7 @@
 from datetime import datetime, timedelta
 
+from module.base.decorator import cached_property
+from module.base.utils import ensure_time
 from module.guild.assets import GUILD_RED_DOT
 from module.guild.base import GUILD_RECORD
 from module.guild.lobby import GuildLobby
@@ -11,6 +13,14 @@ from module.ui.ui import page_guild
 
 
 class RewardGuild(GuildLobby, GuildLogistics, GuildOperations):
+    @cached_property
+    def guild_interval(self):
+        return int(ensure_time(self.config.GUILD_INTERVAL, precision=3) * 60)
+
+    def guild_interval_reset(self):
+        """ Call this method after guild run executed """
+        del self.__dict__['guild_interval']
+
     def guild_run(self, logistics=True, operations=True):
         """
         Execute logistics and operations actions

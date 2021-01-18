@@ -1,5 +1,4 @@
 from module.base.button import ButtonGrid
-from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import *
 from module.guild.assets import SWIPE_CHECK, SWIPE_AREA
@@ -16,14 +15,6 @@ SWIPE_RANDOM_RANGE = (-40, -20, 40, 20)
 
 
 class GuildBase(UI):
-    @cached_property
-    def guild_interval(self):
-        return int(ensure_time(self.config.GUILD_INTERVAL, precision=3) * 60)
-
-    def guild_interval_reset(self):
-        """ Call this method after guild run executed """
-        del self.__dict__['guild_interval']
-
     def _guild_view_swipe(self, distance):
         """
         Perform swipe action, altered specifically
@@ -156,6 +147,7 @@ class GuildBase(UI):
                 3/4 for logistics.
                 2 for tech
                 1 for operations
+            skip_first_screenshot (bool):
 
         Returns:
             bool: sidebar click ensured or not

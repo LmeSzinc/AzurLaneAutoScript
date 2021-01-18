@@ -370,6 +370,28 @@ def extract_white_letters(image, threshold=128):
     return cv2.multiply(cv2.add(maximum, cv2.subtract(maximum, minimum)), 255.0 / threshold)
 
 
+def color_mapping(image, max_multiply=2):
+    """
+    Mapping color to 0-255.
+    Minimum color to 0, maximum color to 255, multiply colors by 2 at max.
+
+    Args:
+        image (np.ndarray):
+        max_multiply (int, float):
+
+    Returns:
+        np.ndarray:
+    """
+    image = image.astype(float)
+    low, high = np.min(image), np.max(image)
+    multiply = min(255 / (high - low), max_multiply)
+    add = (255 - multiply * (low + high)) / 2
+    image = cv2.add(cv2.multiply(image, multiply), add)
+    image[image > 255] = 255
+    image[image < 0] = 0
+    return image.astype(np.uint8)
+
+
 def red_overlay_transparency(color1, color2, red=247):
     """Calculate the transparency of red overlay.
 
