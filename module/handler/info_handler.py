@@ -139,6 +139,25 @@ class InfoHandler(ModuleBase):
         return False
 
     """
+    Mission popup info
+    """
+    def handle_mission_popup_go(self):
+        if self.appear(MISSION_POPUP_ACK, offset=self._popup_offset) \
+                and self.appear(MISSION_POPUP_GO, offset=self._popup_offset, interval=2):
+            self.device.click(MISSION_POPUP_GO)
+            return True
+
+        return False
+
+    def handle_mission_popup_ack(self):
+        if self.appear(MISSION_POPUP_GO, offset=self._popup_offset) \
+                and self.appear(MISSION_POPUP_ACK, offset=self._popup_offset, interval=2):
+            self.device.click(MISSION_POPUP_ACK)
+            return True
+
+        return False
+
+    """
     Story
     """
     story_popup_timout = Timer(10, count=20)

@@ -184,6 +184,12 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
                     timeout.reset()
                     continue
 
+            if self.handle_mission_popup_ack():
+                click_timer.reset()
+                exit_timer.reset()
+                timeout.reset()
+                continue
+
             if self.story_skip():
                 click_timer.reset()
                 exit_timer.reset()
