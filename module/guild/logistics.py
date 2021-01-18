@@ -125,7 +125,7 @@ class GuildLogistics(GuildBase):
         elif self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=180, count=50):
             # white pixels less than 50
             logger.info('Guild mission button active')
-            return False
+            return True
         else:
             # No guild mission counter
             logger.info('No guild mission found, mission of this week may not started')
