@@ -35,6 +35,7 @@ class RewardGuild(GuildLobby, GuildLogistics, GuildOperations):
             return False
         if self.config.GUILD_POPUP_TRIGGERED:
             logger.info('Guild popup triggered')
+            _ = self.guild_interval  # Call guild_interval to avoid resetting before using
         else:
             now = datetime.now()
             guild_record = datetime.strptime(self.config.config.get(*GUILD_RECORD), self.config.TIME_FORMAT)
