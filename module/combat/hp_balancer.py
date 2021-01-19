@@ -3,17 +3,6 @@ from module.base.button import *
 from module.base.decorator import Config
 from module.logger import logger
 
-# Location of six HP bar.
-LOCATION = [
-    (36, 195),
-    (36, 295),
-    (36, 395),
-    (36, 497),
-    (36, 597),
-    (36, 697)
-]
-# HP bar size.
-SIZE = (67, 4)
 # Color that shows on HP bar.
 COLOR_HP_GREEN = (156, 235, 57)
 COLOR_HP_RED = (99, 44, 24)
@@ -61,22 +50,30 @@ class HPBalancer(ModuleBase):
         """
         self._hp_has_ship[self.fleet_current_index] = value
 
-    def _calculate_hp(self, location, size):
+    def _calculate_hp(self, area):
         """Calculate hp according to color.
 
         Args:
-            location (tuple): Upper right of HP bar. (x, y)
-            size (tuple): Size of HP bar. (x, y)
+            area (tuple):
 
         Returns:
             float: HP.
         """
-        area = np.append(np.array(location), np.array(location) + np.array(size))
         data = max(
             color_bar_percentage(self.device.image, area=area, prev_color=COLOR_HP_RED),
             color_bar_percentage(self.device.image, area=area, prev_color=COLOR_HP_GREEN)
         )
         return data
+
+    @Config.when(SERVER='en')
+    def _hp_grid(self):
+        # Location of six HP bar.
+        return ButtonGrid(origin=(35, 190), delta=(0, 100), button_shape=(66, 4), grid_shape=(1, 6))
+
+    @Config.when(SERVER=None)
+    def _hp_grid(self):
+        # Location of six HP bar.
+        return ButtonGrid(origin=(35, 206), delta=(0, 100), button_shape=(66, 4), grid_shape=(1, 6))
 
     def hp_get(self):
         """Get current HP from screenshot.
@@ -87,7 +84,7 @@ class HPBalancer(ModuleBase):
         Logs:
             [HP]  98% ____ ____  98%  98%  98%
         """
-        hp = [self._calculate_hp(loca, SIZE) for loca in LOCATION]
+        hp = [self._calculate_hp(button.area) for button in self._hp_grid().buttons()]
         scout = np.array(hp[3:]) * np.array(self.config.SCOUT_HP_WEIGHTS) / np.max(self.config.SCOUT_HP_WEIGHTS)
 
         self.hp = hp[:3] + scout.tolist()
