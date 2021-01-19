@@ -6,6 +6,9 @@ from module.device.device import Device
 
 
 class ModuleBase:
+    config: AzurLaneConfig
+    device: Device
+
     def __init__(self, config, device=None):
         """
         Args:
