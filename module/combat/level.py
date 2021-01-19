@@ -4,16 +4,13 @@ from module.base.decorator import Config
 from module.logger import logger
 from module.ocr.ocr import Digit
 
-LV_GRID_MAIN = ButtonGrid(origin=(58, 118), delta=(0, 100), button_shape=(46, 19), grid_shape=(1, 3))
-LV_GRID_VANGUARD = ButtonGrid(origin=(58, 420), delta=(0, 100), button_shape=(46, 19), grid_shape=(1, 3))
-LV_BUTTONS = LV_GRID_MAIN.buttons() + LV_GRID_VANGUARD.buttons()
 COLOR_WHITE = (255, 255, 255)
 COLOR_MASKED = (107, 105, 107)
 
 
 class Level(ModuleBase):
     _lv = []
-    _lv_before_battle=[]
+    _lv_before_battle = []
 
     @property
     def lv(self):
@@ -38,6 +35,14 @@ class Level(ModuleBase):
         self._lv = [-1] * 6
         self._lv_before_battle = [-1] * 6
 
+    @Config.when(SERVER='en')
+    def _lv_grid(self):
+        return ButtonGrid(origin=(58, 113), delta=(0, 100), button_shape=(46, 19), grid_shape=(1, 6))
+
+    @Config.when(SERVER=None)
+    def _lv_grid(self):
+        return ButtonGrid(origin=(58, 129), delta=(0, 100), button_shape=(46, 19), grid_shape=(1, 6))
+
     def lv_get(self, after_battle=False):
         """
         Args:
@@ -51,7 +56,7 @@ class Level(ModuleBase):
 
         self._lv_before_battle = self.lv if after_battle else [-1] * 6
 
-        ocr = LevelOcr(LV_BUTTONS)
+        ocr = LevelOcr(self._lv_grid().buttons())
         self.lv = ocr.ocr(self.device.image)
         logger.attr('LEVEL', ', '.join(str(data) for data in self.lv))
 
@@ -71,6 +76,7 @@ class Level(ModuleBase):
                 return True
 
         return False
+
 
 class LevelOcr(Digit):
     def pre_process(self, image):
@@ -94,10 +100,10 @@ class LevelOcr(Digit):
         image = cv2.subtract(image, (*bg, 0)).dot(luma_trans).round().astype(np.uint8)
         image = cv2.subtract(255, cv2.multiply(image, 255 / (255 - luma_bg)))
         # Find 'L' to strip 'LV.'.
-        # Ruturn an empty image if 'L' is not found.
+        # Return an empty image if 'L' is not found.
         letter_l = np.nonzero(image[2:15, :].max(axis=0) < 127)[0]
         if len(letter_l):
             first_digit = letter_l[0] + 17
-            if first_digit + 3 < LV_GRID_MAIN.button_shape[0]:
+            if first_digit + 3 < 46:  # LV_GRID_MAIN.button_shape[0] = 46
                 return image[:, first_digit:]
         return np.array([[255]], dtype=np.uint8)
