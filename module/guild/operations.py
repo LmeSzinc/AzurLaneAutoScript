@@ -1,38 +1,23 @@
-from module.base.mask import Mask
 from module.base.timer import Timer
 from module.base.utils import *
 from module.guild.assets import *
 from module.guild.base import GuildBase
 from module.logger import logger
-from module.template.assets import TEMPLATE_OPERATIONS_RED_DOT, TEMPLATE_OPERATIONS_ADD
+from module.map_detection.utils import Points
+from module.template.assets import TEMPLATE_OPERATIONS_RED_DOT
 
 RECORD_OPTION_DISPATCH = ('RewardRecord', 'operations_dispatch')
 RECORD_SINCE_DISPATCH = (6, 12, 18, 21,)
 RECORD_OPTION_BOSS = ('RewardRecord', 'operations_boss')
 RECORD_SINCE_BOSS = (0,)
 
-MASK_OPERATIONS = Mask(file='./assets/mask/MASK_OPERATIONS.png')
-MASK_SIDEBAR_RED_DOT = Mask(file='./assets/mask/MASK_SIDEBAR_RED_DOT.png')
-
 
 class GuildOperations(GuildBase):
-    def _guild_operations_mode_ensure(self, skip_first_screenshot=True):
+    def _guild_operations_ensure(self, skip_first_screenshot=True):
         """
-        Determine which operations menu has loaded
-            0 - No ongoing operations, Officers/Elites/Leader must select one to begin
-            1 - Operations available, displaying a state diagram/web of operations
-            2 - Guild Raid Boss active
-            Otherwise None if unable to ensure or determine the menu at all
-
-        Pages:
-            in: GUILD_OPERATIONS_ANY
-            out: GUILD_OPERATIONS_ANY
+        Ensure guild operation is loaded
+        After entering guild operation, background loaded first, then dispatch/boss
         """
-        if not self.guild_sidebar_ensure(1):
-            logger.info('Operations sidebar not ensured, try again on next reward loop')
-            return None
-
-        confirm_timer = Timer(1.5, count=3).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -40,16 +25,26 @@ class GuildOperations(GuildBase):
                 self.device.screenshot()
 
             if self.appear_then_click(GUILD_OPERATIONS_JOIN, interval=3):
-                confirm_timer.reset()
                 continue
 
             # End
-            if self.appear(GUILD_BOSS_CHECK) or self.appear(GUILD_OPERATIONS_ACTIVE_CHECK):
-                if not self.info_bar_count() and confirm_timer.reached():
+            if self.appear(GUILD_BOSS_ENTER) or self.appear(GUILD_OPERATIONS_ACTIVE_CHECK, offset=(20, 20)):
+                if not self.info_bar_count():
                     break
-            else:
-                confirm_timer.reset()
 
+    def _guild_operation_get_mode(self):
+        """
+        Returns:
+            int: Determine which operations menu has loaded
+                0 - No ongoing operations, Officers/Elites/Leader must select one to begin
+                1 - Operations available, displaying a state diagram/web of operations
+                2 - Guild Raid Boss active
+                Otherwise None if unable to ensure or determine the menu at all
+
+        Pages:
+            in: GUILD_OPERATIONS
+            out: GUILD_OPERATIONS
+        """
         if self.appear(GUILD_OPERATIONS_INACTIVE_CHECK) and self.appear(GUILD_OPERATIONS_ACTIVE_CHECK):
             logger.info(
                 'Mode: Operations Inactive, please contact your Elite/Officer/Leader seniors to select '
@@ -58,216 +53,206 @@ class GuildOperations(GuildBase):
         elif self.appear(GUILD_OPERATIONS_ACTIVE_CHECK):
             logger.info('Mode: Operations Active, may proceed to scan and dispatch fleets')
             return 1
-        elif self.appear(GUILD_BOSS_CHECK):
+        elif self.appear(GUILD_BOSS_ENTER):
             logger.info('Mode: Guild Raid Boss')
             return 2
         else:
             logger.warning('Operations interface is unrecognized')
             return None
 
-    def _guild_operations_red_dot_present(self):
+    def _guild_operation_get_entrance(self):
         """
-        Helper function to perform an isolated scan
-        for the lower bottom left sidebar whether
-        a red dot is present.
-        The red dot could either be Tech
-        or Operations (Guild Master vs Member).
+        Get 2 entrance button of guild dispatch
+        If operation is on the top, after clicking expand button, operation chain moves downward, and enter button
+        appears on the top. So we need to detect two buttons in real time.
+
+        Returns:
+            list[Button], list[Button]: Expand button, enter button
 
         Pages:
-            in: GUILD_ANY
-            out: GUILD_ANY
+            in: page_guild, guild operation, operation map (GUILD_OPERATIONS_ACTIVE_CHECK)
         """
-        # Apply mask to cover potential RED_DOTs that are operations or
-        # anywhere else for that matter
-        image = MASK_SIDEBAR_RED_DOT.apply(np.array(self.device.image))
+        # Where whole operation mission chain is
+        detection_area = (152, 135, 1280, 630)
+        # Offset inside to avoid clicking on edge
+        pad = 5
+
+        def point_to_entrance_1(point):
+            """ Get expand button """
+            area = area_limit(area_offset(area=(-257, 14, 12, 51), offset=point), detection_area)
+            return Button(area=area, color=(), button=area_pad(area, pad), name='DISPATCH_ENTRANCE_1')
+
+        def point_to_entrance_2(point):
+            """ Get enter button """
+            area = area_limit(area_offset(area=(-257, -109, 12, -1), offset=point), detection_area)
+            return Button(area=area, color=(), button=area_pad(area, pad), name='DISPATCH_ENTRANCE_2')
 
         # Scan image and must have similarity greater than 0.85
-        sim, point = TEMPLATE_OPERATIONS_RED_DOT.match_result(image)
-        if sim < 0.85:
-            return False
+        points = TEMPLATE_OPERATIONS_RED_DOT.match_multi(self.device.image.crop(detection_area))
+        points += detection_area[:2]
+        points = Points(points, config=self.config).group(threshold=5)
+        logger.info(f'Active operations found: {len(points)}')
 
-        # Unsure whether this red dot is from the Tech or Operations
-        # sidebar. But for safety will check Operations anyway
-        return True
+        return [point_to_entrance_1(point) for point in points], [point_to_entrance_2(point) for point in points]
 
-    def _guild_operations_enter_ensure(self):
+    def _guild_operations_dispatch_enter(self, skip_first_screenshot=True):
         """
-        Specific helper to ensure operation has
-        been opened. This occurs due to expansion,
-        this may shift the map far from how it was
-        originally
+        Returns:
+            bool: If entered
 
         Pages:
-            in: GUILD_OPERATIONS_MAP
-            out: GUILD_OPERATIONS_MAP
+            in: page_guild, guild operation, operation map (GUILD_OPERATIONS_ACTIVE_CHECK)
+                After entering guild operation, game will auto located to active operation.
+                It is the main operation on chain that will be located to, side operations will be ignored.
+            out: page_guild, guild operation, operation dispatch preparation (GUILD_DISPATCH_RECOMMEND)
         """
-        confirm_timer = Timer(1.5, count=3).start()
-        verify_timeout = Timer(3, count=6)
+        timer_1 = Timer(2)
+        timer_2 = Timer(2)
         while 1:
-            self.device.screenshot()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear(GUILD_OPERATIONS_ACTIVE_CHECK, offset=(20, 20)):
+                entrance_1, entrance_2 = self._guild_operation_get_entrance()
+                if not len(entrance_1):
+                    return False
+                if timer_1.reached():
+                    self.device.click(entrance_1[0])
+                    timer_1.reset()
+                    continue
+                if timer_2.reached():
+                    for button in entrance_2:
+                        # Enter button has a black area around Easy/Normal/Hard on the upper right
+                        # If operation not expanded, enter button is a background with Gaussian Blur
+                        if self.image_color_count(button, color=(0, 0, 0), threshold=235, count=50):
+                            self.device.click(button)
+                            timer_1.reset()
+                            timer_2.reset()
+                            break
+
+            if self.appear_then_click(GUILD_DISPATCH_QUICK, offset=(20, 20), interval=2):
+                timer_1.reset()
+                timer_2.reset()
+                continue
 
             # End
-            if self.appear(GUILD_DISPATCH_QUICK):
-                if confirm_timer.reached():
-                    return True
-            else:
-                confirm_timer.reset()
-                if not verify_timeout.started():
-                    verify_timeout.reset()
-                elif verify_timeout.reached():
-                    logger.info('Map shift detected, will commence rescan for operation')
-                    return False
+            if self.appear(GUILD_DISPATCH_RECOMMEND, offset=(20, 20)):
+                break
 
-    def _guild_operations_enter(self):
+        return True
+
+    def _guild_operations_get_dispatch(self):
         """
-        Mask and then scan the current image to look
-        for active operations, noted by a red dot icon
-            0 - Red dot not found at all
-            1 - Red dot found and entered into operation successfully
-            2 - Red dot found however due to map shift, operation could
-                not be entered, allow re-try next loop
+        Get the button to switch available dispatch
+
+        Returns:
+            Button: Button to switch available dispatch. None if red dot not found.
 
         Pages:
-            in: GUILD_OPERATIONS_MAP
-            out: GUILD_OPERATIONS_DISPATCH
+            in: page_guild, guild operation, operation dispatch preparation (GUILD_DISPATCH_RECOMMEND)
         """
-        # Apply mask to cover potential RED_DOTs that are not operations
-        image = MASK_OPERATIONS.apply(np.array(self.device.image))
+        # Where the fleet switches are. | 1 | | 2 | | +`|
+        detection_area = (540, 370, 740, 410)
+        # Color of the red dot: | +`|
+        dot_color = (255, 93, 90)
+        # Offset inside to avoid clicking on edge
+        pad = 2
 
-        # Scan image and must have similarity greater than 0.85
-        sim, point = TEMPLATE_OPERATIONS_RED_DOT.match_result(image)
-        if sim < 0.85:
-            logger.info('No active operations found in this area')
-            return 0
+        points = color_similarity_2d(self.device.image.crop(detection_area), color=dot_color)
+        points = np.array(np.where(points > 235)).T[:, ::-1]
+        if not len(points):
+            logger.info('No available dispatch')
+            return None
 
-        # Target RED_DOT found, adjust the found point location
-        # for 2 separate clicks
-        # First, Expand operation for details click area
-        # Second, Open operation enter into dispatch GUI
-        expand_point = tuple(sum(x) for x in zip(point, (0, 25)))
-        open_point = tuple(sum(x) for x in zip(point, (-55, -55)))
+        point = np.round(np.mean(points, axis=0)).astype(int) + detection_area[:2]
+        area = area_offset(area=(-25, 0, 0, 25), offset=point)
+        button = Button(area=area, color=(), button=area_pad(area, pad), name='DISPATCH_FLEET_SWITCH')
+        logger.info('Found available dispatch')
+        return button
 
-        # Use small area to reduce random click point
-        expand_button = area_offset(area=(-4, -4, 4, 4), offset=expand_point)
-        open_button = area_offset(area=(-4, -4, 4, 4), offset=open_point)
-
-        expand_click = Button(area=expand_button, color=(), button=expand_button, name='EXPAND_OPERATION')
-        open_click = Button(area=open_button, color=(), button=open_button, name='OPEN_OPERATION')
-
-        logger.info('Active operation found in this area, attempting to enter')
-        self.device.click(expand_click)
-        self.device.sleep((0.5, 0.8))
-        self.device.click(open_click)
-
-        if self._guild_operations_enter_ensure():
-            return 1
-        else:
-            return 2
-
-    def _guild_operations_dispatch(self, skip_first_screenshot=True):
+    def _guild_operations_dispatch_execute(self, skip_first_screenshot=True):
         """
         Executes the dispatch sequence
 
         Pages:
-            in: GUILD_OPERATIONS_DISPATCH
-            out: GUILD_OPERATIONS_MAP
+            in: page_guild, guild operation, operation dispatch preparation (GUILD_DISPATCH_RECOMMEND)
+            out: page_guild, guild operation, operation dispatch preparation (GUILD_DISPATCH_RECOMMEND)
         """
-        confirm_timer = Timer(1.5, count=3).start()
-        add_timer = Timer(1.5, count=3)
-        close_timer = Timer(3, count=6).start()
+        detect_timer = Timer(0.5, count=1)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(GUILD_DISPATCH_QUICK, offset=(20, 20), interval=3):
-                confirm_timer.reset()
-                close_timer.reset()
-                continue
-
-            # Pseudo interval timer for template match_result calls
-            if not add_timer.started() or add_timer.reached():
-                sim, point = TEMPLATE_OPERATIONS_ADD.match_result(self.device.image)
-                if sim > 0.85:
-                    # Use small area to reduce random click point
-                    button = area_offset(area=(-2, -2, 24, 12), offset=point)
-                    dispatch_add = Button(area=button, color=(), button=button, name='GUILD_DISPATCH_ADD')
-                    self.device.click(dispatch_add)
-                    confirm_timer.reset()
-                    add_timer.reset()
-                    close_timer.reset()
+            if detect_timer.reached() and self.appear(GUILD_DISPATCH_RECOMMEND, offset=(20, 20)):
+                button = self._guild_operations_get_dispatch()
+                if button is None:
+                    break
+                else:
+                    self.device.click(button)
+                    detect_timer.reset()
                     continue
 
-            if self.appear(GUILD_DISPATCH_EMPTY, interval=3):
+            if self.appear(GUILD_DISPATCH_FLEET_UNFILLED, interval=5):
+                # Don't use offset here, because GUILD_DISPATCH_FLEET_UNFILLED only has a difference in colors
+                # Use long interval because the game needs a few seconds to choose the ships
                 self.device.click(GUILD_DISPATCH_RECOMMEND)
-                confirm_timer.reset()
-                close_timer.reset()
+                detect_timer.reset()
                 continue
-
-            if self.appear_then_click(GUILD_DISPATCH_FLEET, offset=(20, 20), interval=3):
-                confirm_timer.reset()
-                close_timer.reset()
+            if self.appear_then_click(GUILD_DISPATCH_FLEET, interval=5):
+                # Don't use offset here, because GUILD_DISPATCH_FLEET only has a difference in colors
+                detect_timer.reset()
                 continue
-
             if self.handle_popup_confirm('GUILD_DISPATCH'):
-                # Explicit click since GUILD_DISPATCH_FLEET
-                # does not automatically turn into
-                # GUILD_DISPATCH_IN_PROGRESS after confirm
-                self.device.sleep((0.5, 0.8))
-                self.device.click(GUILD_DISPATCH_CLOSE)
-                confirm_timer.reset()
-                close_timer.reset()
+                detect_timer.reset()
                 continue
 
-            if self.appear(GUILD_DISPATCH_IN_PROGRESS):
-                # Independent timer used instead of interval
-                # Since can appear if at least 1 fleet already
-                # dispatched, don't want to exit prematurely
-                if close_timer.reached_and_reset():
-                    self.device.click(GUILD_DISPATCH_CLOSE)
-                    confirm_timer.reset()
-                    continue
+    def _guild_operations_dispatch_exit(self, skip_first_screenshot=True):
+        """
+        Exit to operation map
+
+        Pages:
+            in: page_guild, guild operation, operation dispatch preparation (GUILD_DISPATCH_RECOMMEND)
+            out: page_guild, guild operation, operation map (GUILD_OPERATIONS_ACTIVE_CHECK)
+        """
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear(GUILD_DISPATCH_RECOMMEND, offset=(20, 20), interval=2):
+                self.device.click(GUILD_DISPATCH_CLOSE)
+                continue
+            if self.appear(GUILD_DISPATCH_QUICK, offset=(20, 20), interval=2):
+                self.device.click(GUILD_DISPATCH_CLOSE)
+                continue
+            if self.appear(GUILD_DISPATCH_IN_PROGRESS, interval=2):
+                # No offset here, GUILD_DISPATCH_IN_PROGRESS is a colored button
+                self.device.click(GUILD_DISPATCH_CLOSE)
+                continue
 
             # End
             if self.appear(GUILD_OPERATIONS_ACTIVE_CHECK):
-                if not self.info_bar_count() and confirm_timer.reached():
-                    break
-            else:
-                confirm_timer.reset()
+                break
 
-    def _guild_operations_scan(self, skip_first_screenshot=True):
+    def _guild_operations_dispatch(self):
         """
-        Executes the scan operations map sequence
-        and additional events
-        Scanning for active operations
-        if found enters and dispatch fleet
-        otherwise exits upon reaching timeout
+        Run guild dispatch
 
         Pages:
-            in: GUILD_OPERATIONS_MAP
-            out: GUILD_OPERATIONS_MAP
+            in: page_guild, guild operation, operation map (GUILD_OPERATIONS_ACTIVE_CHECK)
+            out: page_guild, guild operation, operation map (GUILD_OPERATIONS_ACTIVE_CHECK)
         """
-        scan_timeout = Timer(1.5, count=3)
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
+        logger.hr('Guild dispatch')
+        for _ in range(3):
+            if self._guild_operations_dispatch_enter():
+                self._guild_operations_dispatch_execute()
+                self._guild_operations_dispatch_exit()
             else:
-                self.device.screenshot()
-
-            # Scan location for any active operations
-            entered = self._guild_operations_enter()
-            if entered:
-                if entered == 1:
-                    self._guild_operations_dispatch()
-                scan_timeout.reset()
-                continue
-
-            # if not self.guild_view_forward():
-            #     break
-            if not scan_timeout.started():
-                scan_timeout.reset()
-            elif scan_timeout.reached():
                 break
 
     def _guild_operations_boss_preparation(self, az, skip_first_screenshot=True):
@@ -342,8 +327,12 @@ class GuildOperations(GuildBase):
         return True
 
     def guild_operations(self):
+        if not self.guild_sidebar_ensure(1):
+            logger.info('Operations sidebar not ensured, try again on next reward loop')
+            return None
+        self._guild_operations_ensure()
         # Determine the mode of operations, currently 3 are available
-        operations_mode = self._guild_operations_mode_ensure()
+        operations_mode = self._guild_operation_get_mode()
         if operations_mode is None:
             return
 
@@ -352,16 +341,12 @@ class GuildOperations(GuildBase):
             return
         elif operations_mode == 1:
             # Limit check for scanning operations to 4 times a day i.e. 6-hour intervals, 4th time reduced to 3-hour
-            if not self.config.record_executed_since(option=RECORD_OPTION_DISPATCH,
-                                                     since=RECORD_SINCE_DISPATCH) or \
-                    self._guild_operations_red_dot_present():
-                self._guild_operations_scan()
+            if not self.config.record_executed_since(option=RECORD_OPTION_DISPATCH, since=RECORD_SINCE_DISPATCH):
+                self._guild_operations_dispatch()
                 self.config.record_save(option=RECORD_OPTION_DISPATCH)
         else:
             # Limit check for Guild Raid Boss to once a day
-            if not self.config.record_executed_since(option=RECORD_OPTION_BOSS,
-                                                     since=RECORD_SINCE_BOSS) or \
-                    self._guild_operations_red_dot_present():
+            if not self.config.record_executed_since(option=RECORD_OPTION_BOSS, since=RECORD_SINCE_BOSS):
                 skip_record = False
                 if self.appear(GUILD_BOSS_AVAILABLE):
                     if self.config.ENABLE_GUILD_OPERATIONS_BOSS_AUTO:

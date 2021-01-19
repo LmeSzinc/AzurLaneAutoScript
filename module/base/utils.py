@@ -126,6 +126,20 @@ def area_pad(area, pad=10):
     return tuple(np.array(area) + np.array([pad, pad, -pad, -pad]))
 
 
+def area_limit(area1, area2):
+    """
+    Limit an area in another area.
+
+    Args:
+        area1 (tuple): (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
+        area2 (tuple): (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
+
+    Returns:
+        tuple: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
+    """
+    return (max(area1[0], area2[0]), max(area1[1], area2[1]), min(area1[2], area2[2]), min(area1[3], area2[3]))
+
+
 def point_in_area(point, area, threshold=5):
     """
 
