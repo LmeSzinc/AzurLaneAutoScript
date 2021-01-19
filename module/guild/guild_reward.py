@@ -33,18 +33,21 @@ class RewardGuild(GuildLobby, GuildLogistics, GuildOperations):
         """
         if not self.config.ENABLE_GUILD_LOGISTICS and not self.config.ENABLE_GUILD_OPERATIONS:
             return False
-
-        now = datetime.now()
-        guild_record = datetime.strptime(self.config.config.get(*GUILD_RECORD), self.config.TIME_FORMAT)
-        update = guild_record + timedelta(seconds=self.guild_interval)
-        attr = f'{GUILD_RECORD[0]}_{GUILD_RECORD[1]}'
-        logger.attr(f'{attr}', f'Record time: {guild_record}')
-        logger.attr(f'{attr}', f'Next update: {update}')
-        if not now > update:
-            return False
-        self.ui_goto_main()
-        if not self.appear(GUILD_RED_DOT, offset=(30, 30)):
-            return False
+        if self.config.GUILD_POPUP_TRIGGERED:
+            logger.info('Guild popup triggered')
+        else:
+            now = datetime.now()
+            guild_record = datetime.strptime(self.config.config.get(*GUILD_RECORD), self.config.TIME_FORMAT)
+            update = guild_record + timedelta(seconds=self.guild_interval)
+            attr = f'{GUILD_RECORD[0]}_{GUILD_RECORD[1]}'
+            logger.attr(f'{attr}', f'Record time: {guild_record}')
+            logger.attr(f'{attr}', f'Next update: {update}')
+            if not now > update:
+                return False
+            # self.ui_goto_main()
+            if not self.appear(GUILD_RED_DOT, offset=(30, 30)):
+                logger.info('Guild red dot not appears, skip current check')
+                return False
 
         self.ui_ensure(page_guild)
         # Lobby

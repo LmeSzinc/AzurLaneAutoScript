@@ -222,6 +222,7 @@ class CampaignRun(Reward):
 
             # After run
             self.run_count += 1
+            self.config.GUILD_POPUP_TRIGGERED = self.campaign.config.GUILD_POPUP_TRIGGERED
             if self.config.STOP_IF_COUNT_GREATER_THAN > 0:
                 count = self.config.STOP_IF_COUNT_GREATER_THAN - self.run_count
                 count = 0 if count < 0 else count
