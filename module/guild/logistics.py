@@ -233,9 +233,11 @@ class GuildLogistics(GuildBase):
             # Handle all popups
             if self.handle_popup_confirm('GUILD_LOGISTICS'):
                 confirm_timer.reset()
+                exchange_interval.reset()
                 continue
             if self.appear_then_click(GET_ITEMS_1, interval=2):
                 confirm_timer.reset()
+                exchange_interval.reset()
                 continue
             if self.appear_then_click(GUILD_MISSION_SELECT, offset=(20, 20), interval=2):
                 # Select guild mission for guild leader
