@@ -314,7 +314,7 @@ def main(ini_name=''):
 
     reward_guild = reward_parser.add_argument_group('大艦隊', '檢查大艦隊後勤和大艦隊作戰', gooey_options={'label_color': '#931D03'})
     reward_guild.add_argument('--啟用大艦隊後勤', default=default('--啟用大艦隊後勤'), help='領取大艦隊任務, 提交籌備物資, 領取艦隊獎勵', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    reward_guild.add_argument('--啟用大艦隊作戰', default=default('--啟用大艦隊作戰'), help='暫不支持', choices=['否'], gooey_options={'label_color': '#4B5F83'})
+    reward_guild.add_argument('--啟用大艦隊作戰', default=default('--啟用大艦隊作戰'), help='執行大艦隊作戰派遣, 打大艦隊BOSS', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     reward_guild.add_argument('--大艦隊收穫間隔', default=default('--大艦隊收穫間隔'), help='每隔多少分鐘觸發, 推薦使用時間區間, 比如"10, 40"', gooey_options={'label_color': '#4B5F83'})
     reward_guild_logistics_items = reward_guild.add_argument_group('籌備物品提交順序', '可用字符: t1, t2, t3, oxycola, coolant, coins, oil, and merit. 省略某個字符來跳過該物品的提交', gooey_options={'label_color': '#4B5F83'})
     reward_guild_logistics_items.add_argument('--物品提交順序', default=default('--物品提交順序'), gooey_options={'label_color': '#4B5F83'})
