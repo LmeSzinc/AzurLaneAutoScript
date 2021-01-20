@@ -9,6 +9,9 @@ from module.logger import logger
 from module.ocr.ocr import Digit
 from module.statistics.item import ItemGrid
 
+RECORD_OPTION_LOGISTICS = ('RewardRecord', 'logistics')
+RECORD_SINCE_LOGISTICS = (0,)
+
 EXCHANGE_GRIDS = ButtonGrid(
     origin=(470, 470), delta=(198.5, 0), button_shape=(83, 83), grid_shape=(3, 1), name='EXCHANGE_GRIDS')
 EXCHANGE_BUTTONS = ButtonGrid(
