@@ -3,14 +3,13 @@ from datetime import datetime, timedelta
 from module.base.decorator import cached_property
 from module.base.utils import ensure_time
 from module.guild.assets import GUILD_RED_DOT
-from module.guild.base import GUILD_RECORD
 from module.guild.lobby import GuildLobby
 from module.guild.logistics import GuildLogistics, RECORD_OPTION_LOGISTICS, RECORD_SINCE_LOGISTICS
 from module.guild.operations import GuildOperations, RECORD_OPTION_DISPATCH, RECORD_SINCE_DISPATCH
 from module.logger import logger
 from module.ui.ui import page_guild
 
-RECORD_OPTION_GUILD = ('RewardRecord', 'guild')
+GUILD_RECORD = ('RewardRecord', 'guild')
 
 
 class RewardGuild(GuildLobby, GuildLogistics, GuildOperations):
@@ -49,7 +48,7 @@ class RewardGuild(GuildLobby, GuildLogistics, GuildOperations):
                 return False
             if not self.appear(GUILD_RED_DOT, offset=(30, 30)):
                 logger.info('Guild red dot not appears, skip current check')
-                self.config.record_save(option=RECORD_OPTION_GUILD)
+                self.config.record_save(option=GUILD_RECORD)
                 return False
 
         self.ui_ensure(page_guild)
@@ -73,6 +72,6 @@ class RewardGuild(GuildLobby, GuildLogistics, GuildOperations):
             self.guild_operations()
 
         self.guild_interval_reset()
-        self.config.record_save(option=RECORD_OPTION_GUILD)
+        self.config.record_save(option=GUILD_RECORD)
         self.ui_goto_main()
         return True
