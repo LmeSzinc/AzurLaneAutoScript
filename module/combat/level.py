@@ -39,6 +39,10 @@ class Level(ModuleBase):
     def _lv_grid(self):
         return ButtonGrid(origin=(58, 113), delta=(0, 100), button_shape=(46, 19), grid_shape=(1, 6))
 
+    @Config.when(SERVER='jp')
+    def _lv_grid(self):
+        return ButtonGrid(origin=(58, 128), delta=(0, 100), button_shape=(46, 19), grid_shape=(1, 6))
+
     @Config.when(SERVER=None)
     def _lv_grid(self):
         return ButtonGrid(origin=(58, 129), delta=(0, 100), button_shape=(46, 19), grid_shape=(1, 6))
