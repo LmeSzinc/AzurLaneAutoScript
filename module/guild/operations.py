@@ -1,3 +1,4 @@
+from module.base.button import ButtonGrid
 from module.base.timer import Timer
 from module.base.utils import *
 from module.guild.assets import *
@@ -146,31 +147,73 @@ class GuildOperations(GuildBase):
     def _guild_operations_get_dispatch(self):
         """
         Get the button to switch available dispatch
+        In previous version, this function detects the red dot on the switch.
+        But the red dot may not shows for unknown reason sometimes, so we detect the switch itself.
 
         Returns:
-            Button: Button to switch available dispatch. None if red dot not found.
+            Button: Button to switch available dispatch. None if already reach the most right fleet.
 
         Pages:
             in: page_guild, guild operation, operation dispatch preparation (GUILD_DISPATCH_RECOMMEND)
         """
-        # Where the fleet switches are. | 1 | | 2 | | +`|
-        detection_area = (540, 370, 740, 410)
-        # Color of the red dot: | +`|
-        dot_color = (255, 93, 90)
-        # Offset inside to avoid clicking on edge
-        pad = 2
+        # Fleet switch, for 4 situation
+        #          | 1 |
+        #       | 1 | | 2 |
+        #    | 1 | | 2 | | 3 |
+        # | 1 | | 2 | | 3 | | 4 |
+        #   0  1  2  3  4  5  6   buttons in switch_grid
+        switch_grid = ButtonGrid(origin=(573.5, 381), delta=(20.5, 0), button_shape=(11, 24), grid_shape=(7, 1))
+        # Color of inactive fleet switch
+        color_active = (74, 117, 222)
+        # Color of current fleet
+        color_inactive = (33, 48, 66)
 
-        points = color_similarity_2d(self.device.image.crop(detection_area), color=dot_color)
-        points = np.array(np.where(points > 235)).T[:, ::-1]
-        if not len(points):
-            logger.info('No available dispatch')
+        text = []
+        index = 0
+        button = None
+        for switch in switch_grid.buttons():
+            if self.image_color_count(switch, color=color_inactive, threshold=235, count=30):
+                index += 1
+                text.append(f'| {index} |')
+                button = switch
+            elif self.image_color_count(switch, color=color_active, threshold=235, count=30):
+                index += 1
+                text.append(f'[ {index} ]')
+                button = switch
+
+        # log example: | 1 | | 2 | [ 3 ]
+        text = ' '.join(text)
+        logger.attr('Dispatch_fleet', text)
+        if text.endswith(']'):
+            logger.info('Already at the most right fleet')
             return None
+        else:
+            return button
 
-        point = np.round(np.mean(points, axis=0)).astype(int) + detection_area[:2]
-        area = area_offset(area=(-25, 0, 0, 25), offset=point)
-        button = Button(area=area, color=(), button=area_pad(area, pad), name='DISPATCH_FLEET_SWITCH')
-        logger.info('Found available dispatch')
-        return button
+    def _guild_operations_dispatch_switch_fleet(self, skip_first_screenshot=True):
+        """
+        Switch to the fleet on most right
+
+        Pages:
+            in: page_guild, guild operation, operation dispatch preparation (GUILD_DISPATCH_RECOMMEND)
+            out: page_guild, guild operation, operation dispatch preparation (GUILD_DISPATCH_RECOMMEND)
+        """
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            button = self._guild_operations_get_dispatch()
+            if button is None:
+                break
+            elif point_in_area((640, 393), button.area):
+                logger.info('Dispatching the first fleet, skip switching')
+            else:
+                self.device.click(button)
+                # Wait for the click animation, which will mess up _guild_operations_get_dispatch()
+                self.device.sleep((0.5, 0.6))
+                continue
 
     def _guild_operations_dispatch_execute(self, skip_first_screenshot=True):
         """
@@ -180,35 +223,37 @@ class GuildOperations(GuildBase):
             in: page_guild, guild operation, operation dispatch preparation (GUILD_DISPATCH_RECOMMEND)
             out: page_guild, guild operation, operation dispatch preparation (GUILD_DISPATCH_RECOMMEND)
         """
-        detect_timer = Timer(0.5, count=1)
+        dispatched = False
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
 
-            if detect_timer.reached() and self.appear(GUILD_DISPATCH_RECOMMEND, offset=(20, 20)):
-                button = self._guild_operations_get_dispatch()
-                if button is None:
-                    break
-                else:
-                    self.device.click(button)
-                    detect_timer.reset()
-                    continue
-
             if self.appear(GUILD_DISPATCH_FLEET_UNFILLED, interval=5):
                 # Don't use offset here, because GUILD_DISPATCH_FLEET_UNFILLED only has a difference in colors
                 # Use long interval because the game needs a few seconds to choose the ships
                 self.device.click(GUILD_DISPATCH_RECOMMEND)
-                detect_timer.reset()
                 continue
-            if self.appear_then_click(GUILD_DISPATCH_FLEET, interval=5):
+            if not dispatched and self.appear_then_click(GUILD_DISPATCH_FLEET, interval=5):
                 # Don't use offset here, because GUILD_DISPATCH_FLEET only has a difference in colors
-                detect_timer.reset()
                 continue
             if self.handle_popup_confirm('GUILD_DISPATCH'):
-                detect_timer.reset()
+                dispatched = True
                 continue
+
+            # End
+            if self.appear(GUILD_DISPATCH_IN_PROGRESS):
+                # In first dispatch, it will show GUILD_DISPATCH_IN_PROGRESS
+                logger.info('Fleet dispatched, dispatch in progress')
+                break
+            if dispatched and self.appear(GUILD_DISPATCH_FLEET, interval=0):
+                # In the rest of the dispatch, it will show GUILD_DISPATCH_FLEET
+                # We can't ensure that fleet has dispatched,
+                # because GUILD_DISPATCH_FLEET also shows after clicking recommend before dispatching
+                # _guild_operations_dispatch() will retry it if haven't dispatched
+                logger.info('Fleet dispatched')
+                break
 
     def _guild_operations_dispatch_exit(self, skip_first_screenshot=True):
         """
@@ -248,12 +293,16 @@ class GuildOperations(GuildBase):
             out: page_guild, guild operation, operation map (GUILD_OPERATIONS_ACTIVE_CHECK)
         """
         logger.hr('Guild dispatch')
-        for _ in range(3):
+        for _ in range(5):
             if self._guild_operations_dispatch_enter():
+                self._guild_operations_dispatch_switch_fleet()
                 self._guild_operations_dispatch_execute()
                 self._guild_operations_dispatch_exit()
             else:
-                break
+                return True
+
+        logger.warning('Too many trials on guild operation dispatch')
+        return False
 
     def _guild_operations_boss_preparation(self, az, skip_first_screenshot=True):
         """
