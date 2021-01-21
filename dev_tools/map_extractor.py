@@ -83,7 +83,7 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     # Empyreal Tragicomedy
     'teluntuo': 'Trento',
     'lituoliao': 'Littorio',
-    'jianyu': 'swordfish',  # Not siren but movable enemy
+    'jianyu': 'Swordfish',  # Not siren but movable enemy
 }
 
 
@@ -120,7 +120,8 @@ class MapData:
         6: 'ME',
         8: 'MB',
         12: 'MS',
-        16: '__'
+        16: '__',
+        100: '++',  # Dock in Empyreal Tragicomedy
     }
 
     def __init__(self, data, data_loop):
@@ -260,13 +261,18 @@ class MapData:
             name = f'campaign_{name}'
         return name + '.py'
 
-    def get_file_lines(self):
+    def get_file_lines(self, has_modified_campaign_base):
         """
+        Args:
+            has_modified_campaign_base (bool): If target folder has modified campaign_base.py
+
         Returns:
             list(str): Python code in map file.
         """
         if IS_WAR_ARCHIVES:
             base_import = 'from ..campaign_war_archives.campaign_base import CampaignBase'
+        elif has_modified_campaign_base:
+            base_import = 'from .campaign_base import CampaignBase'
         else:
             base_import = 'from module.campaign.campaign_base import CampaignBase'
 
@@ -377,6 +383,9 @@ class MapData:
 
     def write(self, path):
         file = os.path.join(path, self.map_file_name())
+        has_modified_campaign_base = os.path.exists(os.path.join(path, 'campaign_base.py'))
+        if has_modified_campaign_base:
+            print('Using existing campaign_base.py')
         if os.path.exists(file):
             if OVERWRITE:
                 print(f'Delete file: {file}')
@@ -386,7 +395,7 @@ class MapData:
                 return False
         print(f'Extract: {file}')
         with open(file, 'w') as f:
-            for text in self.get_file_lines():
+            for text in self.get_file_lines(has_modified_campaign_base=has_modified_campaign_base):
                 f.write(text + '\n')
 
 
