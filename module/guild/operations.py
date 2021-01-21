@@ -395,10 +395,8 @@ class GuildOperations(GuildBase):
         if operations_mode == 0:
             return
         elif operations_mode == 1:
-            # Limit check for scanning operations to 4 times a day i.e. 6-hour intervals, 4th time reduced to 3-hour
-            if not self.config.record_executed_since(option=RECORD_OPTION_DISPATCH, since=RECORD_SINCE_DISPATCH):
-                self._guild_operations_dispatch()
-                self.config.record_save(option=RECORD_OPTION_DISPATCH)
+            self._guild_operations_dispatch()
+            self.config.record_save(option=RECORD_OPTION_DISPATCH)
         else:
             # Limit check for Guild Raid Boss to once a day
             if not self.config.record_executed_since(option=RECORD_OPTION_BOSS, since=RECORD_SINCE_BOSS):
