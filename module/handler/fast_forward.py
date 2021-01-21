@@ -10,6 +10,9 @@ fast_forward.add_status('off', check_button=FAST_FORWARD_OFF)
 fleet_lock = Switch('Fleet_Lock', offset=(5, 5))
 fleet_lock.add_status('on', check_button=FLEET_LOCKED)
 fleet_lock.add_status('off', check_button=FLEET_UNLOCKED)
+auto_search = Switch('Auto_Search', offset=(20, 20))
+auto_search.add_status('on', check_button=AUTO_SEARCH_ON)
+auto_search.add_status('off', check_button=AUTO_SEARCH_OFF)
 
 
 class FastForwardHandler(ModuleBase):
@@ -89,10 +92,33 @@ class FastForwardHandler(ModuleBase):
 
         return changed
 
+    def handle_auto_search(self):
+        """
+        Returns:
+            bool: If changed
+
+        Pages:
+            in: MAP_PREPARATION
+        """
+        # if not self.map_is_clear_mode:
+        #     return False
+
+        if not auto_search.appear(main=self):
+            logger.info('No auto search option.')
+            return False
+
+        status = 'on' if self.config.ENABLE_AUTO_SEARCH else 'off'
+        changed = auto_search.set(status=status, main=self)
+
+        return changed
+
     def get_map_clear_percentage(self):
         """
         Returns:
             float: 0 to 1.
+
+        Pages:
+            in: MAP_PREPARATION
         """
         return color_bar_percentage(self.device.image, area=MAP_CLEAR_PERCENTAGE.area, prev_color=(231, 170, 82))
 
