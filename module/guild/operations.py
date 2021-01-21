@@ -1,14 +1,11 @@
 from module.base.button import ButtonGrid
-from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import *
 from module.guild.assets import *
 from module.guild.base import GuildBase
-from module.handler.assets import INFO_BAR_DETECT
-from module.handler.info_handler import info_letter_preprocess
 from module.logger import logger
 from module.map_detection.utils import Points
-from module.template.assets import TEMPLATE_OPERATIONS_RED_DOT, TEMPLATE_OPERATIONS_INSUFFICIENT
+from module.template.assets import TEMPLATE_OPERATIONS_RED_DOT
 
 RECORD_OPTION_DISPATCH = ('RewardRecord', 'operations_dispatch')
 RECORD_SINCE_DISPATCH = (6, 12, 18, 21,)
@@ -17,36 +14,25 @@ RECORD_SINCE_BOSS = (0,)
 
 
 class GuildOperations(GuildBase):
-    @cached_property
-    def _load_operations_template(self):
-        TEMPLATE_OPERATIONS_INSUFFICIENT.image = info_letter_preprocess(TEMPLATE_OPERATIONS_INSUFFICIENT.image)
-        return True
-
     def _guild_operations_ensure(self, skip_first_screenshot=True):
         """
         Ensure guild operation is loaded
         After entering guild operation, background loaded first, then dispatch/boss
         """
-        _ = self._load_operations_template
         confirm_timer = Timer(1.5, count=3).start()
-        confirm_info = False
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(GUILD_OPERATIONS_JOIN, interval=3):
+            if self.appear(GUILD_OPERATIONS_JOIN, interval=3):
                 confirm_timer.reset()
-                continue
-
-            if self.info_bar_count() and not confirm_info:
-                image = info_letter_preprocess(np.array(self.device.image.crop(INFO_BAR_DETECT.area)))
-                if TEMPLATE_OPERATIONS_INSUFFICIENT.match(image) and not self.appear(GUILD_OPERATIONS_ACTIVE_CHECK, offset=(20, 20)):
-                    logger.info('Insufficient monthly attempts to join operation')
+                if self.image_color_count(GUILD_OPERATIONS_MONTHLY_COUNT, color=(255, 93, 90), threshold=221, count=20):
                     self.device.click(GUILD_OPERATIONS_CLICK_SAFE_AREA)
-                    confirm_info = True
-                    confirm_timer.reset()
+                else:
+                    self.device.click(GUILD_OPERATIONS_JOIN)
+                continue
 
             # End
             if self.appear(GUILD_BOSS_ENTER) or self.appear(GUILD_OPERATIONS_ACTIVE_CHECK, offset=(20, 20)):
