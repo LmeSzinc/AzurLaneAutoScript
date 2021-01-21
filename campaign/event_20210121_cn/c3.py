@@ -2,9 +2,9 @@ from .campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-from .a1 import Config as ConfigBase
+from .c1 import Config as ConfigBase
 
-MAP = CampaignMap('A3')
+MAP = CampaignMap('C3')
 MAP.shape = 'I7'
 MAP.camera_data = ['D2', 'D5', 'F2', 'F5']
 MAP.camera_data_spawn_point = ['F2']
@@ -13,9 +13,9 @@ MAP.map_data = """
     Me -- -- -- ++ -- -- ++ ++
     -- ME ME ME ++ -- -- -- SP
     -- -- -- __ -- -- -- -- --
-    -- MS -- -- MB -- ++ ++ --
-    -- -- ++ MS ME -- -- -- MS
-    -- ME ++ -- MB -- Me -- --
+    -- MS Me -- MB -- ++ ++ --
+    -- -- ++ MS -- -- -- -- MS
+    -- ME ++ -- MB -- ME -- --
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
@@ -31,8 +31,8 @@ MAP.spawn_data = [
     {'battle': 1, 'enemy': 1, 'siren': 1},
     {'battle': 2, 'enemy': 2, 'siren': 1},
     {'battle': 3, 'enemy': 1},
-    {'battle': 4, 'enemy': 2, 'boss': 1},
-    {'battle': 5, 'enemy': 1},
+    {'battle': 4, 'enemy': 2},
+    {'battle': 5, 'enemy': 1, 'boss': 1},
 ]
 A1, B1, C1, D1, E1, F1, G1, H1, I1, \
 A2, B2, C2, D2, E2, F2, G2, H2, I2, \
@@ -82,5 +82,5 @@ class Campaign(CampaignBase):
 
         return self.battle_default()
 
-    def battle_4(self):
-        return self.clear_boss()
+    def battle_5(self):
+        return self.fleet_boss.clear_boss()
