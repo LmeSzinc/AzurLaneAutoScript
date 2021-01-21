@@ -5,6 +5,9 @@ from module.os_handler.assets import *
 
 class MapEventHandler(InfoHandler):
     def handle_map_get_items(self):
+        if self.appear(IN_MAP):
+            return False
+
         if self.appear(GET_ITEMS_1, interval=2) \
                 or self.appear(GET_ITEMS_2, interval=2) \
                 or self.appear(GET_ITEMS_3, interval=2):
