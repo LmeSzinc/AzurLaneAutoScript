@@ -28,8 +28,7 @@ class FastForwardHandler(ModuleBase):
         Logs:
             | INFO | [Map_info] 98%, star_1, star_2, star_3, clear, 3_star, green, fast_forward
         """
-        self.map_clear_percentage = color_bar_percentage(
-            self.device.image, area=MAP_CLEAR_PERCENTAGE.area, prev_color=(231, 170, 82))
+        self.map_clear_percentage = self.get_map_clear_percentage()
         self.map_achieved_star_1 = self.appear(MAP_STAR_1)
         self.map_achieved_star_2 = self.appear(MAP_STAR_2)
         self.map_achieved_star_3 = self.appear(MAP_STAR_3)
