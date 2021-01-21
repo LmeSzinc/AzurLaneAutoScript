@@ -79,6 +79,11 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'xianghe': 'Shokaku',
     'ruihe': 'Zuikaku',
     'shitelasai': 'PeterStrasser',
+
+    # Empyreal Tragicomedy
+    'teluntuo': 'Trento',
+    'lituoliao': 'Littorio',
+    'jianyu': 'swordfish',  # Not siren but movable enemy
 }
 
 
