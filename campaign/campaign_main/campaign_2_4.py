@@ -2,7 +2,7 @@ from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-from campaign.campaign_main.campaign_2_1 import Config
+from campaign.campaign_main.campaign_2_1 import Config as ConfigBase
 
 
 MAP = CampaignMap()
@@ -32,6 +32,13 @@ A2, B2, C2, D2, E2, F2, G2, \
 A3, B3, C3, D3, E3, F3, G3, \
 A4, B4, C4, D4, E4, F4, G4, \
     = MAP.flatten()
+
+
+class Config(ConfigBase):
+    # Don't know why 2-4 is slimmer
+    # 2-1 is /_\ and 2-4 is like |_|
+    MID_DIFF_RANGE_H = (121 - 3, 121 + 3)
+    MID_DIFF_RANGE_V = (121 - 3, 121 + 3)
 
 
 class Campaign(CampaignBase):
