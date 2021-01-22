@@ -1,0 +1,145 @@
+from module.base.base import ModuleBase
+from module.base.button import ButtonGrid
+from module.handler.assets import *
+from module.logger import logger
+
+FLEET_SIDEBAR = ButtonGrid(
+    origin=(1177, 139), delta=(0, 110.5), button_shape=(55, 104), grid_shape=(1, 3), name='FLEET_SIDEBAR')
+AUTO_SEARCH_SETTINGS = [AUTO_SEARCH_SET_MOB, AUTO_SEARCH_SET_BOSS, AUTO_SEARCH_SET_ALL, AUTO_SEARCH_SET_STANDBY]
+dic_setting_name_to_index = {
+    'fleet1_mob_fleet2_boss': 0,
+    'fleet1_boss_fleet2_mob': 1,
+    'fleet1_all_fleet2_standby': 2,
+    'fleet1_standby_fleet2_all': 3,
+}
+dic_setting_index_to_name = {v: k for k, v in dic_setting_name_to_index.items()}
+
+
+class AutoSearchHandler(ModuleBase):
+    def _fleet_preparation_sidebar_click(self, index):
+        """
+        Args:
+            index (int):
+                1 for formation
+                2 for meowfficers
+                3 for auto search setting
+
+        Returns:
+            bool: If changed.
+        """
+        if index <= 0 or index > 3:
+            logger.warning(f'Sidebar index cannot be clicked, {index}, limit to 1 through 5 only')
+            return False
+
+        current = 0
+        total = 0
+
+        for idx, button in enumerate(FLEET_SIDEBAR.buttons()):
+            if self.image_color_count(button, color=(99, 235, 255), threshold=221, count=50):
+                current = idx + 1
+                total = idx + 1
+                continue
+            if self.image_color_count(button, color=(255, 255, 255), threshold=221, count=100):
+                total = idx + 1
+            else:
+                break
+
+        if not current:
+            logger.warning('No fleet sidebar active.')
+        logger.attr('Fleet_sidebar', f'{current}/{total}')
+        if current == index:
+            return False
+
+        self.device.click(FLEET_SIDEBAR[0, index - 1])
+        return True
+
+    def fleet_preparation_sidebar_ensure(self, index, skip_first_screenshot=True):
+        """
+        Args:
+            index (int):
+                1 for formation
+                2 for meowfficers
+                3 for auto search setting
+            skip_first_screenshot (bool):
+
+            Returns:
+                bool: whether sidebar could be ensured
+                      at most 3 attempts are made before
+                      return False otherwise True
+        """
+        if index <= 0 or index > 5:
+            logger.warning(f'Sidebar index cannot be ensured, {index}, limit 1 through 5 only')
+            return False
+
+        counter = 0
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self._fleet_preparation_sidebar_click(index):
+                if counter >= 2:
+                    logger.warning('Sidebar could not be ensured')
+                    return False
+                counter += 1
+                self.device.sleep((0.3, 0.5))
+                continue
+            else:
+                return True
+
+    def _auto_search_set_click(self, setting):
+        """
+        Args:
+            setting (str):
+
+        Returns:
+            bool: If clicked
+        """
+        active = None
+        for index, button in enumerate(AUTO_SEARCH_SETTINGS):
+            if self.image_color_count(button, color=(156, 255, 82), threshold=221, count=20):
+                active = index
+
+        if active is None:
+            logger.warning('No active auto search setting found')
+            active = 0
+        logger.attr('Auto_Search_Setting', dic_setting_index_to_name[active])
+
+        if setting not in dic_setting_name_to_index:
+            logger.warning(f'Unknown auto search setting: {setting}')
+        target_index = dic_setting_name_to_index[setting]
+        if active == target_index:
+            return False
+
+        self.device.click(AUTO_SEARCH_SETTINGS[target_index])
+        return True
+
+    def auto_search_setting_ensure(self, setting, skip_first_screenshot=True):
+        """
+        Args:
+            setting (str):
+                fleet1_mob_fleet2_boss, fleet1_boss_fleet2_mob, fleet1_all_fleet2_standby, fleet1_standby_fleet2_all
+            skip_first_screenshot (bool):
+
+            Returns:
+                bool: whether sidebar could be ensured
+                      at most 3 attempts are made before
+                      return False otherwise True
+        """
+        counter = 0
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self._auto_search_set_click(setting):
+                if counter >= 2:
+                    logger.warning('Auto search setting could not be ensured')
+                    return False
+                counter += 1
+                self.device.sleep((0.3, 0.5))
+                continue
+            else:
+                return True

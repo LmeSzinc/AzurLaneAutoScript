@@ -78,6 +78,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                 if self.config.ENABLE_FLEET_CONTROL:
                     if mode == 'normal' or mode == 'hard':
                         self.fleet_preparation()
+                        self.handle_auto_search_setting()
                 self.device.click(FLEET_PREPARATION)
                 fleet_timer.reset()
                 campaign_timer.reset()

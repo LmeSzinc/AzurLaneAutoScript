@@ -31,7 +31,12 @@ class AzurLaneConfig:
     """
     Fleet
     """
-    ENABLE_FLEET_CONTROL = True
+    ENABLE_FLEET_CONTROL = True  # Deprecated, must enable
+    ENABLE_MAP_FLEET_LOCK = True
+    ENABLE_FLEET_REVERSE_IN_HARD = False
+    ENABLE_AUTO_SEARCH = False
+    # fleet1_mob_fleet2_boss, fleet1_boss_fleet2_mob, fleet1_all_fleet2_standby, fleet1_standby_fleet2_all
+    AUTO_SEARCH_SETTING = 'fleet1_mob_fleet2_boss'
     # Fleet 1-6, if empty use 0.
     FLEET_1 = 1
     FLEET_2 = 2
@@ -68,7 +73,6 @@ class AzurLaneConfig:
     module.combat
     """
     ENABLE_SAVE_GET_ITEMS = True
-    ENABLE_MAP_FLEET_LOCK = True
     SUBMARINE_MODE = ''
     SUBMARINE_CALL_AT_BOSS = False
     COMBAT_SCREENSHOT_INTERVAL = 2
@@ -100,7 +104,6 @@ class AzurLaneConfig:
 
     ENABLE_STOP_CONDITION = True
     ENABLE_FAST_FORWARD = True
-    ENABLE_AUTO_SEARCH = False
     STOP_IF_OIL_LOWER_THAN = 5000
     STOP_IF_COUNT_GREATER_THAN = 0
     STOP_IF_TIME_REACH = 0
@@ -565,6 +568,9 @@ class AzurLaneConfig:
         self.STOP_IF_GET_SHIP = to_bool(option['if_get_ship'])
         # Fleet
         self.ENABLE_MAP_FLEET_LOCK = to_bool(option['enable_map_fleet_lock'])
+        self.ENABLE_FLEET_REVERSE_IN_HARD = to_bool(option['enable_fleet_reverse_in_hard'])
+        self.ENABLE_AUTO_SEARCH = to_bool(option['enable_auto_search'])
+        self.AUTO_SEARCH_SETTING = option['auto_search_setting']
         for n in ['1', '2']:
             self.__setattr__(f'FLEET_{n}', int(option[f'fleet_index_{n}']) if to_bool(option[f'fleet_index_{n}']) else 0)
             self.__setattr__(f'FLEET_{n}_FORMATION', int(option[f'fleet_formation_{n}'].split('_')[1]))

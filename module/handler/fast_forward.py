@@ -1,6 +1,6 @@
-from module.base.base import ModuleBase
 from module.base.utils import color_bar_percentage
 from module.handler.assets import *
+from module.handler.auto_search import AutoSearchHandler
 from module.logger import logger
 from module.ui.switch import Switch
 
@@ -15,7 +15,7 @@ auto_search.add_status('on', check_button=AUTO_SEARCH_ON)
 auto_search.add_status('off', check_button=AUTO_SEARCH_OFF)
 
 
-class FastForwardHandler(ModuleBase):
+class FastForwardHandler(AutoSearchHandler):
     map_clear_percentage = 0.
     map_achieved_star_1 = False
     map_achieved_star_2 = False
@@ -112,6 +112,21 @@ class FastForwardHandler(ModuleBase):
         changed = auto_search.set(status=status, main=self)
 
         return changed
+
+    def handle_auto_search_setting(self):
+        """
+        Returns:
+            bool: If changed
+
+        Pages:
+            in: FLEET_PREPARATION
+        """
+        if not self.map_is_clear_mode or not self.config.ENABLE_AUTO_SEARCH:
+            return False
+
+        self.fleet_preparation_sidebar_ensure(3)
+        self.auto_search_setting_ensure(self.config.AUTO_SEARCH_SETTING)
+        return True
 
     def get_map_clear_percentage(self):
         """
