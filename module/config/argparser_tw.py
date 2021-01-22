@@ -150,8 +150,7 @@ def main(ini_name=''):
     # stop.add_argument('--如果船塢已滿', default=default('--如果船塢已滿'), choices=['是', '否'])
 
     # 出擊艦隊
-    fleet = setting_parser.add_argument_group('出擊艦隊', '暫不支援備用道中隊, 非活動圖或周回模式會忽略步長設定', gooey_options={'label_color': '#931D03'})
-    fleet.add_argument('--啟用艦隊控制', default=default('--啟用艦隊控制'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    fleet = setting_parser.add_argument_group('出擊艦隊', '非活動圖或周回模式會忽略步長設定', gooey_options={'label_color': '#931D03'})
     fleet.add_argument('--啟用陣容鎖定', default=default('--啟用陣容鎖定'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
 
     f1 = fleet.add_argument_group('道中隊', gooey_options={'label_color': '#931D03'})
@@ -165,12 +164,6 @@ def main(ini_name=''):
     f2.add_argument('--艦隊陣型2', default=default('--艦隊陣型2'), choices=['單縱陣', '復縱陣', '輪型陣'], gooey_options={'label_color': '#4B5F83'})
     f2.add_argument('--自律模式2', default=default('--自律模式2'), choices=['自律', '手操', '中路站樁', '躲左下角'], gooey_options={'label_color': '#4B5F83'})
     f2.add_argument('--艦隊步長2', default=default('--艦隊步長2'), choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
-
-    f3 = fleet.add_argument_group('备用道中队', gooey_options={'label_color': '#931D03'})
-    f3.add_argument('--艦隊編號3', default=default('--艦隊編號3'), choices=['不使用', '1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
-    f3.add_argument('--艦隊陣型3', default=default('--艦隊陣型3'), choices=['單縱陣', '復縱陣', '輪型陣'], gooey_options={'label_color': '#4B5F83'})
-    f3.add_argument('--自律模式3', default=default('--自律模式3'), choices=['自律', '手操', '中路站樁', '躲左下角'], gooey_options={'label_color': '#4B5F83'})
-    f3.add_argument('--艦隊步長3', default=default('--艦隊步長3'), choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
 
     # 潛艇設定
     submarine = setting_parser.add_argument_group('潛艇設定', '僅支援：不使用、僅狩獵、每戰出擊', gooey_options={'label_color': '#931D03'})
@@ -191,11 +184,6 @@ def main(ini_name=''):
     e2.add_argument('--心情回復2', default=default('--心情回復2'), choices=['未放置於後宅', '後宅一樓', '後宅二樓'], gooey_options={'label_color': '#4B5F83'})
     e2.add_argument('--心情控制2', default=default('--心情控制2'), choices=['保持經驗加成', '防止綠臉', '防止黃臉', '防止紅臉'], gooey_options={'label_color': '#4B5F83'})
     e2.add_argument('--全員已婚2', default=default('--全員已婚2'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-
-    e3 = emotion.add_argument_group('備用道中隊', '會在主隊觸發心情控制時使用', gooey_options={'label_color': '#931D03'})
-    e3.add_argument('--心情回復3', default=default('--心情回復3'), choices=['未放置於後宅', '後宅一樓', '後宅二樓'], gooey_options={'label_color': '#4B5F83'})
-    e3.add_argument('--心情控制3', default=default('--心情控制3'), choices=['保持經驗加成', '防止綠臉', '防止黃臉', '防止紅臉'], gooey_options={'label_color': '#4B5F83'})
-    e3.add_argument('--全員已婚3', default=default('--全員已婚3'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
 
     # 血量平衡
     hp = setting_parser.add_argument_group('血量控制', '需關閉艦隊鎖定才能生效', gooey_options={'label_color': '#931D03'})

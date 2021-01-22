@@ -202,6 +202,3 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         self.fleet_switch_click()
         self.ensure_no_info_bar()  # The info_bar which shows "Changed to fleet 2", will block the ammo icon
         return True
-
-    def handle_spare_fleet(self):
-        pass

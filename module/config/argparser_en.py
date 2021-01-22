@@ -151,8 +151,7 @@ def main(ini_name=''):
     # stop.add_argument('--if_dock_full', default=default('--if_dock_full'), choices=['yes', 'no'])
 
     # 出击舰队
-    fleet = setting_parser.add_argument_group('Attack fleet', 'No support for alternate lane squadrons, inactive map or weekly mode will ignore the step setting', gooey_options={'label_color': '#931D03'})
-    fleet.add_argument('--enable_fleet_control', default=default('--enable_fleet_control'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    fleet = setting_parser.add_argument_group('Attack fleet', 'Fleet step enables only in event maps without clear mode', gooey_options={'label_color': '#931D03'})
     fleet.add_argument('--enable_map_fleet_lock', default=default('--enable_map_fleet_lock'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
 
     f1 = fleet.add_argument_group('Mob Fleet', 'Players can choose a formation before battle. Though it has no effect appearance-wise, the formations applies buffs to certain stats.\nLine Ahead: Increases Firepower and Torpedo by 15%, but reduces Evasion by 10% (Applies only to Vanguard fleet)\nDouble Line: Increases Evasion by 30%, but decreases Firepower and Torpedo by 5% (Applies only to Vanguard fleet)\nDiamond: Increases Anti-Air by 20% (no penalties, applies to entire fleet)', gooey_options={'label_color': '#4B5F83'})
@@ -166,12 +165,6 @@ def main(ini_name=''):
     f2.add_argument('--fleet_formation_2', default=default('--fleet_formation_2'), choices=['Line Ahead', 'Double Line', 'Diamond'], gooey_options={'label_color': '#4B5F83'})
     f2.add_argument('--fleet_auto_mode_2', default=default('--fleet_auto_mode_2'), choices=['combat_auto', 'combat_manual', 'stand_still_in_the_middle', 'hide_in_bottom_left'], gooey_options={'label_color': '#4B5F83'})
     f2.add_argument('--fleet_step_2', default=default('--fleet_step_2'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored', gooey_options={'label_color': '#4B5F83'})
-
-    f3 = fleet.add_argument_group('Alternate Mob Fleet', 'It hasnt been implemented yet', gooey_options={'label_color': '#4B5F83'})
-    f3.add_argument('--fleet_index_3', default=default('--fleet_index_3'), choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
-    f3.add_argument('--fleet_formation_3', default=default('--fleet_formation_3'), choices=['Line Ahead', 'Double Line', 'Diamond'], gooey_options={'label_color': '#4B5F83'})
-    f3.add_argument('--fleet_auto_mode_3', default=default('--fleet_auto_mode_3'), choices=['combat_auto', 'combat_manual', 'stand_still_in_the_middle', 'hide_in_bottom_left'], gooey_options={'label_color': '#4B5F83'})
-    f3.add_argument('--fleet_step_3', default=default('--fleet_step_3'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored', gooey_options={'label_color': '#4B5F83'})
 
     # 潜艇设置
     submarine = setting_parser.add_argument_group('Submarine settings', 'Only supported: hunt_only, do_not_use and every_combat', gooey_options={'label_color': '#931D03'})
@@ -192,11 +185,6 @@ def main(ini_name=''):
     e2.add_argument('--emotion_recover_2', default=default('--emotion_recover_2'), choices=['not_in_dormitory', 'dormitory_floor_1', 'dormitory_floor_2'], gooey_options={'label_color': '#4B5F83'})
     e2.add_argument('--emotion_control_2', default=default('--emotion_control_2'), choices=['keep_high_emotion', 'avoid_green_face', 'avoid_yellow_face', 'avoid_red_face'], gooey_options={'label_color': '#4B5F83'})
     e2.add_argument('--hole_fleet_married_2', default=default('--hole_fleet_married_2'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
-
-    e3 = emotion.add_argument_group('Alternate Mob Fleet', 'Will be used when the first team triggers mood control', gooey_options={'label_color': '#4B5F83'})
-    e3.add_argument('--emotion_recover_3', default=default('--emotion_recover_3'), choices=['not_in_dormitory', 'dormitory_floor_1', 'dormitory_floor_2'], gooey_options={'label_color': '#4B5F83'})
-    e3.add_argument('--emotion_control_3', default=default('--emotion_control_3'), choices=['keep_high_emotion', 'avoid_green_face', 'avoid_yellow_face', 'avoid_red_face'], gooey_options={'label_color': '#4B5F83'})
-    e3.add_argument('--hole_fleet_married_3', default=default('--hole_fleet_married_3'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
 
     # 血量平衡
     hp = setting_parser.add_argument_group('HP control', 'Fleet lock must be turned off to take effect', gooey_options={'label_color': '#931D03'})

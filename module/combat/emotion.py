@@ -29,7 +29,7 @@ class Emotion:
     #     self.update()
 
     def record(self):
-        for index in [1, 2, 3]:
+        for index in [1, 2]:
             logger.attr(f'Emotion fleet_{index}', self.emotion[config_name][f'fleet_{index}_emotion'])
         # self.emotion.write(codecs.open(self.config.CONFIG_FILE, "w+", "utf8"))
         self.config.save()
@@ -44,7 +44,7 @@ class Emotion:
         return 150 if self.recover_value(index) > 3 else 119
 
     def update(self):
-        for index in [1, 2, 3]:
+        for index in [1, 2]:
             savetime = datetime.strptime(self.emotion[config_name][f'fleet_{index}_savetime'], self.config.TIME_FORMAT)
             savetime = int(savetime.timestamp())
             recover_count = int(datetime.now().timestamp() // 360 - savetime // 360)
