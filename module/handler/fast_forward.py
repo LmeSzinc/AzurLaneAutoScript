@@ -57,6 +57,7 @@ class FastForwardHandler(ModuleBase):
         text = ', '.join([l for l, n in zip(log_names, names) if self.__getattribute__(n)])
         text = f'{int(self.map_clear_percentage * 100)}%, ' + text
         logger.attr('Map_info', text)
+        logger.attr('STOP_IF_MAP_REACH', self.config.STOP_IF_MAP_REACH)
 
     def handle_fast_forward(self):
         if not self.map_has_fast_forward:
