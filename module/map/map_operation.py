@@ -186,12 +186,15 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         return False
 
     def fleets_reversed(self):
-        return (self.config.FLEET_2 != 0) and (self.config.FLEET_2 < self.config.FLEET_1)
+        # return (self.config.FLEET_2 != 0) and (self.config.FLEET_2 < self.config.FLEET_1)
+        return self.map_is_hard_mode and self.config.ENABLE_FLEET_REVERSE_IN_HARD
 
     def handle_fleet_reverse(self):
         """
         The game chooses the fleet with a smaller index to be the first fleet,
         no matter what we choose in fleet preparation.
+
+        After the update of auto-search, the game no longer ignore user settings.
 
         Returns:
             bool: Fleet changed

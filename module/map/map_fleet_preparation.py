@@ -104,6 +104,7 @@ class FleetOperator:
 
 class FleetPreparation(ModuleBase):
     map_fleet_checked = False
+    map_is_hard_mode = False
 
     def fleet_preparation(self):
         """Change fleets.
@@ -114,7 +115,8 @@ class FleetPreparation(ModuleBase):
         logger.info(f'Using fleet: {[self.config.FLEET_1, self.config.FLEET_2, self.config.SUBMARINE]}')
         if self.map_fleet_checked:
             return False
-        if self.appear(FLEET_PREPARATION_HARD_1) or self.appear(FLEET_PREPARATION_HARD_2):
+        self.map_is_hard_mode = self.appear(FLEET_PREPARATION_HARD_1) or self.appear(FLEET_PREPARATION_HARD_2)
+        if self.map_is_hard_mode:
             logger.info('Hard Campaign. No fleet preparation')
             return False
 
@@ -147,17 +149,11 @@ class FleetPreparation(ModuleBase):
             return True
 
         # Using both fleets.
-        fleet_1.open()
-        selected = fleet_1.selected()
-        if self.config.FLEET_1 in selected and self.config.FLEET_2 in selected:
-            fleet_1.close()
-            self.map_fleet_checked = True
-            return True
-        else:
-            fleet_1.close()
-            if fleet_2.in_use():
-                fleet_2.clear()
-            fleet_1.ensure_to_be(self.config.FLEET_1)
-            fleet_2.ensure_to_be(self.config.FLEET_2)
-            self.map_fleet_checked = True
-            return True
+        # Force to set it again.
+        # Fleets may reversed, because AL no longer treat the fleet with smaller index as first fleet
+        if fleet_2.in_use():
+            fleet_2.clear()
+        fleet_1.ensure_to_be(self.config.FLEET_1)
+        fleet_2.ensure_to_be(self.config.FLEET_2)
+        self.map_fleet_checked = True
+        return True
