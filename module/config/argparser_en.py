@@ -154,7 +154,7 @@ def main(ini_name=''):
     fleet = setting_parser.add_argument_group('Attack fleet', 'Fleet step enables only in event maps without clear mode', gooey_options={'label_color': '#931D03'})
     fleet.add_argument('--enable_map_fleet_lock', default=default('--enable_map_fleet_lock'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
     fleet.add_argument('--enable_fleet_reverse_in_hard', default=default('--enable_fleet_reverse_in_hard'), choices=['yes', 'no'], help='Use fleet 2 for mobs, fleet 1 for boss, only enabled in hard mode and event hard', gooey_options={'label_color': '#4B5F83'})
-    fleet.add_argument('--enable_auto_search', default=default('--enable_auto_search'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    fleet.add_argument('--enable_auto_search', default=default('--enable_auto_search'), choices=['yes', 'no'], help='Under development, do not enable', gooey_options={'label_color': '#4B5F83'})
     fleet.add_argument('--auto_search_setting', default=default('--auto_search_setting'), choices=['fleet1_mob_fleet2_boss', 'fleet1_boss_fleet2_mob', 'fleet1_all_fleet2_standby', 'fleet1_standby_fleet2_all'], gooey_options={'label_color': '#4B5F83'})
 
     f1 = fleet.add_argument_group('Mob Fleet', 'Players can choose a formation before battle. Though it has no effect appearance-wise, the formations applies buffs to certain stats.\nLine Ahead: Increases Firepower and Torpedo by 15%, but reduces Evasion by 10% (Applies only to Vanguard fleet)\nDouble Line: Increases Evasion by 30%, but decreases Firepower and Torpedo by 5% (Applies only to Vanguard fleet)\nDiamond: Increases Anti-Air by 20% (no penalties, applies to entire fleet)', gooey_options={'label_color': '#4B5F83'})

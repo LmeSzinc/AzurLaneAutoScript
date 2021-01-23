@@ -153,7 +153,7 @@ def main(ini_name=''):
     fleet = setting_parser.add_argument_group('出击舰队', '非活动图或周回模式会忽略步长设置', gooey_options={'label_color': '#931D03'})
     fleet.add_argument('--启用阵容锁定', default=default('--启用阵容锁定'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     fleet.add_argument('--启用困难图舰队反转', default=default('--启用困难图舰队反转'), choices=['是', '否'], help='使用二队打道中, 一队打BOSS, 仅困难图和活动困难图生效', gooey_options={'label_color': '#4B5F83'})
-    fleet.add_argument('--启用自律寻敌', default=default('--启用自律寻敌'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    fleet.add_argument('--启用自律寻敌', default=default('--启用自律寻敌'), choices=['是', '否'], help='开发中, 请勿开启', gooey_options={'label_color': '#4B5F83'})
     fleet.add_argument('--自律寻敌设置', default=default('--自律寻敌设置'), choices=['一队道中二队BOSS', '一队BOSS二队道中', '一队全部二队待机', '一队待机二队全部'], gooey_options={'label_color': '#4B5F83'})
 
     f1 = fleet.add_argument_group('道中队', gooey_options={'label_color': '#931D03'})
