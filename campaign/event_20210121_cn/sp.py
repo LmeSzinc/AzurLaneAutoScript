@@ -65,7 +65,8 @@ class Campaign(CampaignBase):
 
     def battle_0(self):
         if self.map.select(is_siren=True):
-            self.fleet_2_protect()
+            if self.fleet_2_protect():
+                return True
         else:
             self.fleet_2_push_forward()
 
