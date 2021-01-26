@@ -319,7 +319,7 @@ class Combat(Level, HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall
         """
         Args:
             save_get_items (bool):
-            expected_end (str): with_searching, no_searching, in_stage.
+            expected_end (str, callable): with_searching, no_searching, in_stage.
         """
         logger.info('Combat status')
         logger.attr('expected_end', expected_end.__name__ if callable(expected_end) else expected_end)

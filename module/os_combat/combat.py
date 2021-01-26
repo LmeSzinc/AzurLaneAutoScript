@@ -3,10 +3,10 @@ from module.combat.combat import Combat as Combat_
 from module.logger import logger
 from module.os_combat.assets import *
 from module.os_handler.assets import *
-from module.os_handler.enemy_searching import EnemySearchingHandler
+from module.os_handler.map_event import MapEventHandler
 
 
-class Combat(Combat_, EnemySearchingHandler):
+class Combat(Combat_, MapEventHandler):
     def combat_appear(self):
         """
         Returns:
@@ -69,8 +69,8 @@ class Combat(Combat_, EnemySearchingHandler):
 
             # End
             if self.is_combat_executing():
-                if emotion_reduce:
-                    self.emotion.reduce(fleet_index)
+                # if emotion_reduce:
+                #     self.emotion.reduce(fleet_index)
                 break
 
     def handle_get_items(self, save_get_items=False):
@@ -94,3 +94,13 @@ class Combat(Combat_, EnemySearchingHandler):
             return True
 
         return False
+
+    def _os_combat_expected_end(self):
+        if self.handle_map_event():
+            return False
+
+        return self.is_in_map()
+
+    def combat_status(self, save_get_items=False, expected_end=None):
+        super().combat_status(save_get_items=False, expected_end=self._os_combat_expected_end)
+        self.ensure_no_map_event()

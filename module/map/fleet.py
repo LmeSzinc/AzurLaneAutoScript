@@ -164,6 +164,11 @@ class Fleet(Camera, AmbushHandler):
 
     movable_before: SelectedGrids
 
+    @property
+    def _walk_sight(self):
+        sight = self.map.camera_sight
+        return (sight[0], 0, sight[2], sight[3])
+
     def _goto(self, location, expected=''):
         """Goto a grid directly and handle ambush, air raid, mystery picked up, combat.
 
@@ -178,8 +183,7 @@ class Fleet(Camera, AmbushHandler):
         is_portal = self.map[location].is_portal
 
         while 1:
-            sight = self.map.camera_sight
-            self.in_sight(location, sight=(sight[0], 0, sight[2], sight[3]))
+            self.in_sight(location, sight=self._walk_sight)
             self.focus_to_grid_center()
             grid = self.convert_map_to_grid(location)
 
@@ -187,7 +191,8 @@ class Fleet(Camera, AmbushHandler):
             self.enemy_searching_color_initial()
             grid.__str__ = location
             result = 'nothing'
-            self.device.click(grid)
+            if not grid.predict_current_fleet():
+                self.device.click(grid)
             arrived = False
             # Wait to confirm fleet arrived. It does't appear immediately if fleet in combat.
             extra = 0
@@ -231,6 +236,9 @@ class Fleet(Camera, AmbushHandler):
                         self.map[location].is_cleared = True
 
                     self.handle_boss_appear_refocus()
+                    if self.config.MAP_FOCUS_ENEMY_AFTER_BATTLE:
+                        self.camera = location
+                        self.update()
                     grid = self.convert_map_to_grid(location)
                     walk_timeout.reset()
 

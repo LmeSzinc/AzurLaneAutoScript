@@ -239,6 +239,7 @@ class AzurLaneConfig:
     MAP_IS_ONE_TIME_STAGE = False
     MAP_HAS_PORTAL = False
     MAP_HAS_LAND_BASED = False
+    MAP_FOCUS_ENEMY_AFTER_BATTLE = False  # Operation siren
     MAP_ENEMY_TEMPLATE = ['Light', 'Main', 'Carrier', 'Treasure']
     MAP_SIREN_TEMPLATE = ['DD', 'CL', 'CA', 'BB', 'CV']
     MAP_ENEMY_GENRE_DETECTION_SCALING = {}  # Key: str, Template name, Value: float, scaling factor
