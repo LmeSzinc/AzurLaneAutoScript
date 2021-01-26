@@ -218,6 +218,10 @@ class AzurLaneAutoScript:
         az = AzurLaneDaemon(self.config, device=self.device)
         az.daemon()
 
+    def os_clear_map(self):
+        from module.campaign.os_run import OSCampaignRun
+        az = OSCampaignRun(self.config, device=self.device)
+        az.run()
 
 # alas = AzurLaneAutoScript()
 # alas.reward()

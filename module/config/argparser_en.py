@@ -563,6 +563,11 @@ def main(ini_name=''):
     os_semi = os_semi_parser.add_argument_group('os_semi_auto', 'Start and finish combat automatically', gooey_options={'label_color': '#931D03'})
     os_semi.add_argument('--enable_os_semi_story_skip', default=default('--enable_os_semi_story_skip'), choices=['yes', 'no'], help='Note that this will automatically choose the options in map events', gooey_options={'label_color': '#4B5F83'})
 
+    # ==========OS clear map==========
+    os_semi_parser = subs.add_parser('os_clear_map')
+    os_semi = os_semi_parser.add_argument_group('os_clear_map', 'Usage: Enter map manually and run\nRecommend to re-check map by hand after run', gooey_options={'label_color': '#931D03'})
+    os_semi.add_argument('--enable_os_meowfficer_searching', default=default('--enable_os_meowfficer_searching'), choices=['yes'], help='must enable', gooey_options={'label_color': '#4B5F83'})
+
     args = parser.parse_args()
 
     # Convert option from chinese to english.

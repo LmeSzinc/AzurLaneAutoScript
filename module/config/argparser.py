@@ -489,6 +489,11 @@ def main(ini_name=''):
     os_semi = os_semi_parser.add_argument_group('大世界辅助点击', '辅助点击战斗准备和战斗结算', gooey_options={'label_color': '#931D03'})
     os_semi.add_argument('--大世界跳过剧情', default=default('--大世界跳过剧情'), choices=['是', '否'], help='注意, 这会自动点击地图交互的选项', gooey_options={'label_color': '#4B5F83'})
 
+    # ==========OS clear map==========
+    os_semi_parser = subs.add_parser('大世界地图全清')
+    os_semi = os_semi_parser.add_argument_group('大世界地图全清', '使用方法: 先手动进入地图, 再运行\n运行结束后, 最好手动检查是否有遗漏', gooey_options={'label_color': '#931D03'})
+    os_semi.add_argument('--大世界踩猫点', default=default('--大世界踩猫点'), choices=['是'], help='必须开启', gooey_options={'label_color': '#4B5F83'})
+
     args = parser.parse_args()
 
     # Convert option from chinese to english.
