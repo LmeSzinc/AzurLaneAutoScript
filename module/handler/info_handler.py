@@ -123,8 +123,8 @@ class InfoHandler(ModuleBase):
     Guild popup info
     """
     def handle_guild_popup_confirm(self):
-        if self.appear(GUILD_POPUP_CONFIRM, offset=self._popup_offset) \
-                and self.appear(GUILD_POPUP_CANCEL, offset=self._popup_offset, interval=2):
+        if self.appear(GUILD_POPUP_CANCEL, offset=self._popup_offset) \
+                and self.appear(GUILD_POPUP_CONFIRM, offset=self._popup_offset, interval=2):
             self.device.click(GUILD_POPUP_CONFIRM)
             return True
 
