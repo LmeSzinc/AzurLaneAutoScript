@@ -137,10 +137,16 @@ class CampaignBase(CampaignUI, Map, AutoSearchCombat):
 
     @cached_property
     def _emotion_expected_reduce(self):
+        """
+        Returns:
+            tuple(int): Mob fleet emotion reduce, BOSS fleet emotion reduce
+        """
         for data in self.MAP.spawn_data:
             if 'boss' in data:
                 battle = data.get('battle')
                 reduce = (battle * 2, 2)
+                if self.config.AUTO_SEARCH_SETTING in ['fleet1_boss_fleet2_mob', 'fleet1_standby_fleet2_all']:
+                    reduce = (reduce[0] + reduce[1], 0)
                 return reduce
 
         logger.warning('No boss data found in spawn_data')
