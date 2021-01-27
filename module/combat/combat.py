@@ -8,7 +8,7 @@ from module.combat.emotion import Emotion
 from module.combat.hp_balancer import HPBalancer
 from module.combat.level import Level
 from module.combat.submarine import SubmarineCall
-from module.handler.enemy_searching import EnemySearchingHandler
+from module.handler.auto_search import AutoSearchHandler
 from module.logger import logger
 from module.map.assets import MAP_OFFENSIVE
 from module.retire.retirement import Retirement
@@ -16,7 +16,7 @@ from module.template.assets import TEMPLATE_COMBAT_LOADING
 from module.ui.assets import BACK_ARROW
 
 
-class Combat(Level, HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall, CombatAuto, CombatManual):
+class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatManual, AutoSearchHandler):
     _automation_set_timer = Timer(1)
     _emotion: Emotion
     battle_status_click_interval = 0
@@ -169,11 +169,14 @@ class Combat(Level, HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall
         if self.appear_then_click(EMERGENCY_REPAIR_CONFIRM, offset=True):
             return True
         if self.appear(BATTLE_PREPARATION) and self.appear(EMERGENCY_REPAIR_AVAILABLE):
-            # When entering battle_preparation page (or after emergency repairing), the emergency icon is active by default,
-            # even if nothing to use. After a short animation, everything shows as usual. Using fleet power number as a
-            # stable checker. First wait for it to be non-zero, then wait for it to be stable.
+            # When entering battle_preparation page (or after emergency repairing),
+            # the emergency icon is active by default, even if nothing to use.
+            # After a short animation, everything shows as usual.
+            # Using fleet power number as a stable checker.
+            # First wait for it to be non-zero, then wait for it to be stable.
             self.wait_until_disappear(MAIN_FLEET_POWER_ZERO, offset=(20, 20))
-            stable_checker = Button(area=MAIN_FLEET_POWER_ZERO.area, color=(), button=MAIN_FLEET_POWER_ZERO.button, name='STABLE_CHECKER')
+            stable_checker = Button(
+                area=MAIN_FLEET_POWER_ZERO.area, color=(), button=MAIN_FLEET_POWER_ZERO.button, name='STABLE_CHECKER')
             self.wait_until_stable(stable_checker)
             if not self.appear(EMERGENCY_REPAIR_AVAILABLE):
                 return False
@@ -226,7 +229,8 @@ class Combat(Level, HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall
                     continue
 
             # End
-            if self.handle_battle_status(save_get_items=save_get_items) or self.handle_get_items(save_get_items=save_get_items):
+            if self.handle_battle_status(save_get_items=save_get_items) \
+                    or self.handle_get_items(save_get_items=save_get_items):
                 self.device.screenshot_interval_set(0)
                 break
 
@@ -240,16 +244,19 @@ class Combat(Level, HPBalancer, EnemySearchingHandler, Retirement, SubmarineCall
         """
         if self.is_combat_executing():
             return False
-        if self.appear_then_click(BATTLE_STATUS_S, screenshot=save_get_items, genre='status', interval=self.battle_status_click_interval):
+        if self.appear_then_click(BATTLE_STATUS_S, screenshot=save_get_items, genre='status',
+                                  interval=self.battle_status_click_interval):
             if not save_get_items:
                 self.device.sleep((0.25, 0.5))
             return True
-        if self.appear_then_click(BATTLE_STATUS_A, screenshot=save_get_items, genre='status', interval=self.battle_status_click_interval):
+        if self.appear_then_click(BATTLE_STATUS_A, screenshot=save_get_items, genre='status',
+                                  interval=self.battle_status_click_interval):
             logger.warning('Battle status: A')
             if not save_get_items:
                 self.device.sleep((0.25, 0.5))
             return True
-        if self.appear_then_click(BATTLE_STATUS_B, screenshot=save_get_items, genre='status', interval=self.battle_status_click_interval):
+        if self.appear_then_click(BATTLE_STATUS_B, screenshot=save_get_items, genre='status',
+                                  interval=self.battle_status_click_interval):
             logger.warning('Battle Status B')
             if not save_get_items:
                 self.device.sleep((0.25, 0.5))

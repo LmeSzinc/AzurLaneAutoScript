@@ -25,6 +25,7 @@ class FastForwardHandler(AutoSearchHandler):
     map_is_green = False
     map_has_fast_forward = False
     map_is_clear_mode = False  # Clear mode == fast forward
+    map_is_auto_search = False
 
     def map_get_info(self):
         """
@@ -62,6 +63,7 @@ class FastForwardHandler(AutoSearchHandler):
     def handle_fast_forward(self):
         if not self.map_has_fast_forward:
             self.map_is_clear_mode = False
+            self.map_is_auto_search = False
             return False
 
         if self.config.ENABLE_FAST_FORWARD:
@@ -71,10 +73,12 @@ class FastForwardHandler(AutoSearchHandler):
             self.config.MAP_HAS_PORTAL = False
             self.config.MAP_HAS_LAND_BASED = False
             self.map_is_clear_mode = True
+            self.map_is_auto_search = self.config.ENABLE_AUTO_SEARCH
         else:
             # When disable fast forward, MAP_HAS_AMBUSH depends on map settings.
             # self.config.MAP_HAS_AMBUSH = True
             self.map_is_clear_mode = False
+            self.map_is_auto_search = False
             pass
 
         status = 'on' if self.config.ENABLE_FAST_FORWARD else 'off'
@@ -106,9 +110,10 @@ class FastForwardHandler(AutoSearchHandler):
 
         if not auto_search.appear(main=self):
             logger.info('No auto search option.')
+            self.map_is_auto_search = False
             return False
 
-        status = 'on' if self.config.ENABLE_AUTO_SEARCH else 'off'
+        status = 'on' if self.map_is_auto_search else 'off'
         changed = auto_search.set(status=status, main=self)
 
         return changed
@@ -121,7 +126,7 @@ class FastForwardHandler(AutoSearchHandler):
         Pages:
             in: FLEET_PREPARATION
         """
-        if not self.map_is_clear_mode or not self.config.ENABLE_AUTO_SEARCH:
+        if not self.map_is_auto_search:
             return False
 
         self.fleet_preparation_sidebar_ensure(3)

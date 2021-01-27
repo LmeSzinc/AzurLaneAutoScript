@@ -42,10 +42,7 @@ class RaidRun(Raid, CampaignRun):
                 logger.info(f'Count: [{self.run_count}]')
 
             # End
-            oil_backup, self.config.STOP_IF_OIL_LOWER_THAN = self.config.STOP_IF_OIL_LOWER_THAN, 0
-            triggered = self.triggered_stop_condition()
-            self.config.STOP_IF_OIL_LOWER_THAN = oil_backup
-            if triggered:
+            if self.triggered_stop_condition(oil_check=False):
                 break
 
             # UI ensure

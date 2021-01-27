@@ -82,7 +82,7 @@ class CampaignRun(Reward):
         backup2 = self.config.cover(SCREEN_SHOT_SAVE_FOLDER=folder)
         return [backup1, backup2]
 
-    def triggered_stop_condition(self):
+    def triggered_stop_condition(self, oil_check=True):
         """
         Returns:
             bool: If triggered a stop condition.
@@ -110,7 +110,7 @@ class CampaignRun(Reward):
             logger.hr('Triggered lv120 limit')
             return True
         # Oil limit
-        if self.config.STOP_IF_OIL_LOWER_THAN:
+        if oil_check and self.config.STOP_IF_OIL_LOWER_THAN:
             if OCR_OIL.ocr(self.device.image) < self.config.STOP_IF_OIL_LOWER_THAN:
                 logger.hr('Triggered oil limit')
                 return True
@@ -177,6 +177,7 @@ class CampaignRun(Reward):
             if self.handle_reward():
                 self.campaign.fleet_checked_reset()
             if self.config.GUILD_POPUP_TRIGGERED:
+                self.ensure_auto_search_exit()
                 self.handle_guild() # Will reset self.config.GUILD_POPUP_TRIGGERED afterwards
                 self.campaign.config.GUILD_POPUP_TRIGGERED = False
                 self.campaign.fleet_checked_reset()
@@ -197,6 +198,8 @@ class CampaignRun(Reward):
             self.campaign.device.image = self.device.image
             if self.campaign.is_in_map():
                 logger.info('Already in map, skip ensure_campaign_ui.')
+            elif self.campaign.is_in_auto_search_menu():
+                logger.info('In auto search menu, skip ensure_campaign_ui.')
             else:
                 self.campaign.ensure_campaign_ui(
                     name=self.stage,
@@ -209,7 +212,8 @@ class CampaignRun(Reward):
                     continue
 
             # End
-            if self.triggered_stop_condition():
+            if self.triggered_stop_condition(oil_check=not self.campaign.is_in_auto_search_menu()):
+                self.campaign.ensure_auto_search_exit()
                 break
 
             # Run

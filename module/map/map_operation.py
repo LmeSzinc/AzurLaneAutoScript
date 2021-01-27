@@ -1,5 +1,6 @@
 import numpy as np
 
+from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import color_similarity_2d
 from module.exception import CampaignEnd
@@ -16,6 +17,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
     map_cat_attack_timer = Timer(2)
     map_clear_percentage_prev = -1
     map_clear_percentage_timer = Timer(0.3, count=1)
+    _emotion_expected_reduce: tuple
 
     def fleet_switch_click(self):
         """
@@ -79,8 +81,14 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                     if mode == 'normal' or mode == 'hard':
                         self.fleet_preparation()
                         self.handle_auto_search_setting()
+                        self.handle_auto_search_emotion_wait()
                 self.device.click(FLEET_PREPARATION)
                 fleet_timer.reset()
+                campaign_timer.reset()
+                continue
+
+            # Auto search continue
+            if self.handle_auto_search_continue():
                 campaign_timer.reset()
                 continue
 
@@ -111,9 +119,13 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                 continue
 
             # End
-            if self.handle_in_map_with_enemy_searching():
-                self.handle_map_after_combat_story()
-                break
+            if self.map_is_auto_search:
+                if self.is_auto_search_running():
+                    break
+            else:
+                if self.handle_in_map_with_enemy_searching():
+                    self.handle_map_after_combat_story()
+                    break
 
         return True
 
@@ -167,6 +179,8 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                 continue
             if self.appear_then_click(WITHDRAW, interval=5):
                 continue
+            if self.handle_auto_search_exit():
+                continue
 
             # End
             if self.handle_in_stage():
@@ -186,9 +200,13 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
 
         return False
 
+    @property
     def fleets_reversed(self):
-        # return (self.config.FLEET_2 != 0) and (self.config.FLEET_2 < self.config.FLEET_1)
-        return self.map_is_hard_mode and self.config.ENABLE_FLEET_REVERSE_IN_HARD
+        if self.map_is_auto_search:
+            return self.config.AUTO_SEARCH_SETTING in ['fleet1_boss_fleet2_mob', 'fleet1_standby_fleet2_all']
+        else:
+            # return (self.config.FLEET_2 != 0) and (self.config.FLEET_2 < self.config.FLEET_1)
+            return self.map_is_hard_mode and self.config.ENABLE_FLEET_REVERSE_IN_HARD
 
     def handle_fleet_reverse(self):
         """
@@ -200,9 +218,46 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         Returns:
             bool: Fleet changed
         """
-        if not self.fleets_reversed():
+        if not self.fleets_reversed:
             return False
 
         self.fleet_switch_click()
         self.ensure_no_info_bar()  # The info_bar which shows "Changed to fleet 2", will block the ammo icon
         return True
+
+    @cached_property
+    def _emotion_expected_reduce(self):
+        """
+        Returns:
+            tuple(int): Mob fleet emotion reduce, BOSS fleet emotion reduce
+        """
+        default = (2, 2)
+        if hasattr(self, 'map'):
+            for data in self.map.spawn_data:
+                if 'boss' in data:
+                    battle = data.get('battle')
+                    reduce = (battle * 2, 2)
+                    if self.config.AUTO_SEARCH_SETTING in ['fleet1_boss_fleet2_mob', 'fleet1_standby_fleet2_all']:
+                        reduce = (reduce[0] + reduce[1], 0)
+                    return reduce
+
+            logger.warning('No boss data found in spawn_data')
+            return default
+        else:
+            logger.info('Unable to get _emotion_expected_reduce, because map is not loaded. Return default value.')
+            return default
+
+    def handle_auto_search_emotion_wait(self):
+        """
+        If enable auto search, wait emotion before entering.
+        In first run, wait before clicking FLEET_PREPARATION.
+        In second and subsequent run, wait before clicking AUTO_SEARCH_MENU_CONTINUE.
+        """
+        if not self.config.ENABLE_EMOTION_REDUCE:
+            return False
+
+        if hasattr(self, 'emotion'):
+            logger.info(f'Expected emotion reduce: {self._emotion_expected_reduce}')
+            self.emotion.wait(expected_reduce=self._emotion_expected_reduce)
+        else:
+            logger.info('Emotion instance not loaded, skip emotion wait')

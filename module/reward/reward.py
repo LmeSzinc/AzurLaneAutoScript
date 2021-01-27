@@ -91,6 +91,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
         if datetime.now() - self.config.REWARD_LAST_TIME < timedelta(seconds=self.reward_interval):
             return False
 
+        self.ensure_auto_search_exit()
         flag = self.reward()
 
         return flag
