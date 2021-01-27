@@ -128,6 +128,7 @@ class OSGridPredictor(GridPredictor):
         self.enemy_genre = self.predict_enemy_genre()
         self.enemy_scale = self.predict_enemy_scale()
         self.is_resource = self.predict_resource()
+        self.is_meowfficer = self.predict_meowfficer()  # This will increase the overall time cost about 100ms
         self.is_ally = self.predict_ally()
         self.is_akashi = self.predict_akashi()
         self.is_fleet = self.predict_current_fleet()
@@ -197,6 +198,10 @@ class OSGridPredictor(GridPredictor):
     def predict_resource(self):
         image = rgb2gray(self.relative_crop((-0.5, -1, 0.5, 0), shape=(60, 60)))
         return TEMPLATE_OS_Resource.match(image, similarity=0.85)
+
+    def predict_meowfficer(self):
+        image = rgb2gray(self.image_trans)
+        return TEMPLATE_OS_Meowfficer.match(image, similarity=0.85)
 
     def predict_ally(self):
         # Ally cargo ship in daily mission
