@@ -20,7 +20,7 @@ class CampaignHard(CampaignRun):
         chapter, stage = self.config.HARD_CAMPAIGN.split('-')
         name = f'campaign_{chapter}_{stage}'
         self.reward_backup_daily_reward_settings()
-        fleet_lock = self.config.cover(ENABLE_MAP_FLEET_LOCK=True)
+        fleet_lock = self.config.cover(ENABLE_MAP_FLEET_LOCK=True, ENABLE_AUTO_SEARCH=False)
 
         # Initial
         self.load_campaign(name='campaign_hard', folder='campaign_hard')  # Load campaign file

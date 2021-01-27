@@ -114,20 +114,36 @@ class CampaignBase(CampaignUI, Map, AutoSearchCombat):
 
     def run(self):
         logger.hr(self.ENTRANCE, level=2)
+
+        # Enter map
         if self.config.ENABLE_EMOTION_REDUCE:
-            self.emotion.wait()
+            if not self.map_is_auto_search:
+                self.emotion.wait()
+            else:
+                self.handle_auto_search_emotion_wait()
         self.ENTRANCE.area = self.ENTRANCE.button
         self.enter_map(self.ENTRANCE, mode=self.config.CAMPAIGN_MODE)
-        self.handle_map_fleet_lock()
-        self.map_init(self.MAP)
 
+        # Map init
+        if not self.map_is_auto_search:
+            self.handle_map_fleet_lock()
+            self.map_init(self.MAP)
+        else:
+            self.map = self.MAP
+            self.battle_count = 0
+
+        # Run
         for _ in range(20):
             try:
-                self.execute_a_battle()
+                if not self.map_is_auto_search:
+                    self.execute_a_battle()
+                else:
+                    self.auto_search_execute_a_battle()
             except CampaignEnd:
                 logger.hr('Campaign end')
                 return True
 
+        # Exception
         logger.warning('Battle function exhausted.')
         if self.config.ENABLE_EXCEPTION:
             raise ScriptError('Battle function exhausted.')
@@ -157,26 +173,3 @@ class CampaignBase(CampaignUI, Map, AutoSearchCombat):
         self.auto_search_moving()
         self.auto_search_combat(fleet_index=self.fleet_current_index)
         self.battle_count += 1
-
-    def run_auto_search(self):
-        logger.hr(self.ENTRANCE, level=2)
-        if self.config.ENABLE_EMOTION_REDUCE:
-            logger.info(f'Expected emotion reduce: {self._emotion_expected_reduce}')
-            self.emotion.wait(expected_reduce=self._emotion_expected_reduce)
-        self.ENTRANCE.area = self.ENTRANCE.button
-        self.enter_map(self.ENTRANCE, mode=self.config.CAMPAIGN_MODE)
-        self.battle_count = 0
-
-        for _ in range(20):
-            try:
-                self.auto_search_execute_a_battle()
-            except CampaignEnd:
-                logger.hr('Campaign end')
-                return True
-
-        logger.warning('Battle function exhausted.')
-        if self.config.ENABLE_EXCEPTION:
-            raise ScriptError('Battle function exhausted.')
-        else:
-            logger.warning('ScriptError, Battle function exhausted, Withdrawing because enable_exception = no')
-            self.withdraw()

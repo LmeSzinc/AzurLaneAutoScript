@@ -219,10 +219,7 @@ class CampaignRun(Reward):
 
             # Run
             try:
-                if self.campaign.config.ENABLE_AUTO_SEARCH:
-                    self.campaign.run_auto_search()
-                else:
-                    self.campaign.run()
+                self.campaign.run()
             except ScriptEnd as e:
                 logger.hr('Script end')
                 logger.info(str(e))

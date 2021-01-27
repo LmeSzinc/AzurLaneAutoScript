@@ -60,6 +60,9 @@ class AutoSearchCombat(Combat):
                 break
             if self.is_in_auto_search_menu():
                 raise CampaignEnd
+            if self.is_in_stage():
+                # Sometimes game is bugged, and auto search menu is not shown
+                raise CampaignEnd
 
     def auto_search_combat_execute(self, emotion_reduce, fleet_index):
         """
@@ -103,6 +106,9 @@ class AutoSearchCombat(Combat):
             if self.is_auto_search_running():
                 break
             if self.is_in_auto_search_menu():
+                raise CampaignEnd
+            if self.is_in_stage():
+                # Sometimes game is bugged, and auto search menu is not shown
                 raise CampaignEnd
 
     def auto_search_combat(self, emotion_reduce=None, fleet_index=1):
