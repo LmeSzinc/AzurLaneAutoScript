@@ -39,6 +39,9 @@ class CampaignHard(CampaignRun):
         logger.attr('Remain', remain)
         for n in range(remain):
             self.campaign.run()
+            if self.campaign.config.GUILD_POPUP_TRIGGERED:
+                self.config.GUILD_POPUP_TRIGGERED = True
+                self.campaign.config.GUILD_POPUP_TRIGGERED = False
 
         for backup in backups:
             backup.recover()

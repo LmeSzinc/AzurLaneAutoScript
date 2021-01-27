@@ -4,21 +4,22 @@ from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import ensure_time
 from module.combat.assets import *
+from module.guild.guild_reward import RewardGuild
 from module.handler.login import LoginHandler
 from module.logger import logger
 from module.research.research import RewardResearch
 from module.reward.assets import *
 from module.reward.commission import RewardCommission
+from module.reward.data_key import RewardDataKey
 from module.reward.dorm import RewardDorm
 from module.reward.meowfficer import RewardMeowfficer
 from module.reward.tactical_class import RewardTacticalClass
-from module.reward.data_key import RewardDataKey
-from module.guild.guild_reward import RewardGuild
 from module.ui.page import *
 from module.update import Update
 
 
-class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, RewardMeowfficer, RewardDataKey, RewardGuild, LoginHandler, Update):
+class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, RewardMeowfficer, RewardDataKey,
+             RewardGuild, LoginHandler, Update):
     @cached_property
     def reward_interval(self):
         """
@@ -120,7 +121,8 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
                     (self.config.ENABLE_OIL_REWARD and self.appear_then_click(OIL, interval=60))
                     or (self.config.ENABLE_COIN_REWARD and self.appear_then_click(COIN, interval=60))
                     or (self.config.ENABLE_COMMISSION_REWARD and self.appear_then_click(REWARD_1, interval=1))
-                    or (self.config.ENABLE_RESEARCH_REWARD and not self.config.ENABLE_SAVE_GET_ITEMS and self.appear_then_click(REWARD_3, interval=1))
+                    or (self.config.ENABLE_RESEARCH_REWARD and
+                        not self.config.ENABLE_SAVE_GET_ITEMS and self.appear_then_click(REWARD_3, interval=1))
             ):
                 exit_timer.reset()
                 click_timer.reset()
@@ -249,7 +251,8 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
                 az.run()
                 az.record_save()
                 count += 1
-                self.config.GUILD_POPUP_TRIGGERED = az.config.GUILD_POPUP_TRIGGERED
+                self.config.GUILD_POPUP_TRIGGERED = az.config.GUILD_POPUP_TRIGGERED \
+                    if not self.config.GUILD_POPUP_TRIGGERED else self.config.GUILD_POPUP_TRIGGERED
 
         if self.config.ENABLE_HARD_CAMPAIGN:
             from module.hard.hard import CampaignHard
@@ -258,18 +261,22 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
                 az.run()
                 az.record_save()
                 count += 1
+                self.config.GUILD_POPUP_TRIGGERED = az.config.GUILD_POPUP_TRIGGERED \
+                    if not self.config.GUILD_POPUP_TRIGGERED else self.config.GUILD_POPUP_TRIGGERED
 
         if self.config.ENABLE_EVENT_SP:
             from module.event.campaign_sp import CampaignSP
             az = CampaignSP(self.config, device=self.device)
             if az.run_event_daily_sp():
                 count += 1
+                self.config.GUILD_POPUP_TRIGGERED = az.config.GUILD_POPUP_TRIGGERED
 
         if self.config.ENABLE_EVENT_AB:
             from module.event.campaign_ab import CampaignAB
             az = CampaignAB(self.config, device=self.device)
             if az.run_event_daily():
                 count += 1
+                self.config.GUILD_POPUP_TRIGGERED = az.config.GUILD_POPUP_TRIGGERED
 
         if self.config.ENABLE_RAID_DAILY:
             from module.raid.daily import RaidDaily
