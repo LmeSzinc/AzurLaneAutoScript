@@ -249,6 +249,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
                 az.run()
                 az.record_save()
                 count += 1
+                self.config.GUILD_POPUP_TRIGGERED = az.config.GUILD_POPUP_TRIGGERED
 
         if self.config.ENABLE_HARD_CAMPAIGN:
             from module.hard.hard import CampaignHard
