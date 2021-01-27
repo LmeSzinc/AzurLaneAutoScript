@@ -1,6 +1,6 @@
-from module.base.base import ModuleBase
 from module.base.button import ButtonGrid
 from module.handler.assets import *
+from module.handler.enemy_searching import EnemySearchingHandler
 from module.logger import logger
 
 FLEET_SIDEBAR = ButtonGrid(
@@ -15,7 +15,7 @@ dic_setting_name_to_index = {
 dic_setting_index_to_name = {v: k for k, v in dic_setting_name_to_index.items()}
 
 
-class AutoSearchHandler(ModuleBase):
+class AutoSearchHandler(EnemySearchingHandler):
     def _fleet_preparation_sidebar_click(self, index):
         """
         Args:
@@ -143,3 +143,63 @@ class AutoSearchHandler(ModuleBase):
                 continue
             else:
                 return True
+
+    _auto_search_offset = (5, 5)
+
+    def is_auto_search_running(self):
+        """
+        Returns:
+            bool:
+        """
+        return self.appear(AUTO_SEARCH_MAP_OPTION_ON, offset=self._auto_search_offset) \
+               and self.appear(AUTO_SEARCH_MAP_OPTION_ON)
+
+    def handle_auto_search_map_option(self):
+        """
+        Ensure auto search option in map is ON
+
+        Returns:
+            bool: If clicked
+        """
+        if self.appear(AUTO_SEARCH_MAP_OPTION_OFF, offset=self._auto_search_offset) \
+                and self.appear_then_click(AUTO_SEARCH_MAP_OPTION_OFF, interval=2):
+            return True
+
+        return False
+
+    def is_in_auto_search_menu(self):
+        """
+        Returns:
+            bool:
+        """
+        return self.appear(AUTO_SEARCH_MENU_CONTINUE, offset=(20, 20))
+
+    def handle_auto_search_continue(self):
+        return self.appear_then_click(AUTO_SEARCH_MENU_CONTINUE, offset=(20, 20), interval=2)
+
+    def handle_auto_search_exit(self):
+        return self.appear_then_click(AUTO_SEARCH_MENU_EXIT, offset=(20, 20), interval=2)
+
+    def ensure_auto_search_exit(self, skip_first_screenshot=True):
+        """
+        Page:
+            in: is_in_auto_search_menu
+            out: page_campaign or page_event or page_sp
+        """
+        if not self.is_in_auto_search_menu():
+            return False
+
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.handle_auto_search_exit():
+                continue
+
+            # End
+            if self.is_in_stage():
+                break
+
+        return True

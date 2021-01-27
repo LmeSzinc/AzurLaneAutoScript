@@ -555,7 +555,7 @@ class Fleet(Camera, AmbushHandler):
             portal=self.config.MAP_HAS_PORTAL,
         )
 
-        self.handle_strategy(index=1 if not self.fleets_reversed() else 2)
+        self.handle_strategy(index=1 if not self.fleets_reversed else 2)
         self.update()
         if self.handle_fleet_reverse():
             self.handle_strategy(index=1)

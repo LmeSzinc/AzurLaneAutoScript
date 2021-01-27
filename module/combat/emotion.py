@@ -37,8 +37,9 @@ class Emotion:
     def recover_value(self, index):
         return self.config.__getattribute__('FLEET_%s_RECOVER_PER_HOUR' % index) // 10
 
-    def emotion_limit(self, index):
-        return self.config.__getattribute__('FLEET_%s_EMOTION_LIMIT' % index)
+    def emotion_limit(self, index, expected_reduce=2):
+        expected_reduce = max(0, expected_reduce - 2)
+        return self.config.__getattribute__('FLEET_%s_EMOTION_LIMIT' % index) + expected_reduce
 
     def recover_stop(self, index):
         return 150 if self.recover_value(index) > 3 else 119
@@ -67,16 +68,21 @@ class Emotion:
         self.total_reduced += 2
         self.record()
 
-    def recovered_time(self, fleet=(1, 2)):
+    def recovered_time(self, fleet=(1, 2), expected_reduce=(2, 2)):
         """
         Args:
             fleet (int, tuple):
+            expected_reduce (tuple):
         """
         if isinstance(fleet, int):
             fleet = (fleet,)
         recover_count = [
-            (self.emotion_limit(index) - int(self.emotion[config_name][f'fleet_{index}_emotion'])) \
-            // self.recover_value(index) for index in fleet]
+            (
+                self.emotion_limit(index, expected_reduce[index - 1])
+                - int(self.emotion[config_name][f'fleet_{index}_emotion'])
+            ) // self.recover_value(index)
+            for index in fleet
+        ]
         recover_count = max(recover_count)
         recover_timestamp = datetime.now().timestamp() // 360 + recover_count + 1
         return datetime.fromtimestamp(recover_timestamp * 360)
@@ -96,13 +102,14 @@ class Emotion:
     def emotion_recovered(self, fleet):
         pass
 
-    def wait(self, fleet=(1, 2)):
+    def wait(self, fleet=(1, 2), expected_reduce=(2, 2)):
         """
         Args:
             fleet (int, tuple):
+            expected_reduce (tuple):
         """
         self.update()
-        recovered_time = self.recovered_time(fleet=fleet)
+        recovered_time = self.recovered_time(fleet=fleet, expected_reduce=expected_reduce)
         while 1:
             if datetime.now() > recovered_time:
                 break
@@ -135,3 +142,6 @@ class Emotion:
             return True
 
         return False
+
+    def get_expected_reduce(self, ):
+        pass

@@ -84,6 +84,11 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                 campaign_timer.reset()
                 continue
 
+            # Auto search continue
+            if self.handle_auto_search_continue():
+                campaign_timer.reset()
+                continue
+
             # Retire
             if self.handle_retirement():
                 continue
@@ -111,9 +116,13 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                 continue
 
             # End
-            if self.handle_in_map_with_enemy_searching():
-                self.handle_map_after_combat_story()
-                break
+            if self.config.ENABLE_AUTO_SEARCH:
+                if self.is_auto_search_running():
+                    break
+            else:
+                if self.handle_in_map_with_enemy_searching():
+                    self.handle_map_after_combat_story()
+                    break
 
         return True
 
@@ -167,6 +176,8 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                 continue
             if self.appear_then_click(WITHDRAW, interval=5):
                 continue
+            if self.handle_auto_search_exit():
+                continue
 
             # End
             if self.handle_in_stage():
@@ -186,9 +197,13 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
 
         return False
 
+    @property
     def fleets_reversed(self):
-        # return (self.config.FLEET_2 != 0) and (self.config.FLEET_2 < self.config.FLEET_1)
-        return self.map_is_hard_mode and self.config.ENABLE_FLEET_REVERSE_IN_HARD
+        if self.config.ENABLE_AUTO_SEARCH:
+            return self.config.AUTO_SEARCH_SETTING in ['fleet1_boss_fleet2_mob', 'fleet1_standby_fleet2_all']
+        else:
+            # return (self.config.FLEET_2 != 0) and (self.config.FLEET_2 < self.config.FLEET_1)
+            return self.map_is_hard_mode and self.config.ENABLE_FLEET_REVERSE_IN_HARD
 
     def handle_fleet_reverse(self):
         """
@@ -200,7 +215,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         Returns:
             bool: Fleet changed
         """
-        if not self.fleets_reversed():
+        if not self.fleets_reversed:
             return False
 
         self.fleet_switch_click()

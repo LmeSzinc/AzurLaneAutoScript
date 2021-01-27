@@ -1,12 +1,13 @@
-from module.base.decorator import Config
+from module.base.decorator import Config, cached_property
 from module.campaign.campaign_ui import CampaignUI
+from module.combat.auto_search_combat import AutoSearchCombat
 from module.exception import CampaignEnd, ScriptError, MapEnemyMoved
 from module.logger import logger
 from module.map.map import Map
 from module.map.map_base import CampaignMap
 
 
-class CampaignBase(Map, CampaignUI):
+class CampaignBase(CampaignUI, Map, AutoSearchCombat):
     FUNCTION_NAME_BASE = 'battle_'
     MAP: CampaignMap
 
@@ -113,7 +114,8 @@ class CampaignBase(Map, CampaignUI):
 
     def run(self):
         logger.hr(self.ENTRANCE, level=2)
-        self.emotion.wait()
+        if self.config.ENABLE_EMOTION_REDUCE:
+            self.emotion.wait()
         self.ENTRANCE.area = self.ENTRANCE.button
         self.enter_map(self.ENTRANCE, mode=self.config.CAMPAIGN_MODE)
         self.handle_map_fleet_lock()
@@ -122,6 +124,46 @@ class CampaignBase(Map, CampaignUI):
         for _ in range(20):
             try:
                 self.execute_a_battle()
+            except CampaignEnd:
+                logger.hr('Campaign end')
+                return True
+
+        logger.warning('Battle function exhausted.')
+        if self.config.ENABLE_EXCEPTION:
+            raise ScriptError('Battle function exhausted.')
+        else:
+            logger.warning('ScriptError, Battle function exhausted, Withdrawing because enable_exception = no')
+            self.withdraw()
+
+    @cached_property
+    def _emotion_expected_reduce(self):
+        for data in self.MAP.spawn_data:
+            if 'boss' in data:
+                battle = data.get('battle')
+                reduce = (battle * 2, 2)
+                return reduce
+
+        logger.warning('No boss data found in spawn_data')
+        return (2, 2)
+
+    def auto_search_execute_a_battle(self):
+        logger.hr(f'{self.FUNCTION_NAME_BASE}{self.battle_count}', level=2)
+        self.auto_search_moving()
+        self.auto_search_combat(fleet_index=self.fleet_current_index)
+        self.battle_count += 1
+
+    def run_auto_search(self):
+        logger.hr(self.ENTRANCE, level=2)
+        if self.config.ENABLE_EMOTION_REDUCE:
+            logger.info(f'Expected emotion reduce: {self._emotion_expected_reduce}')
+            self.emotion.wait(expected_reduce=self._emotion_expected_reduce)
+        self.ENTRANCE.area = self.ENTRANCE.button
+        self.enter_map(self.ENTRANCE, mode=self.config.CAMPAIGN_MODE)
+        self.battle_count = 0
+
+        for _ in range(20):
+            try:
+                self.auto_search_execute_a_battle()
             except CampaignEnd:
                 logger.hr('Campaign end')
                 return True
