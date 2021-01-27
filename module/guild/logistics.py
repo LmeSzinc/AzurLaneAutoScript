@@ -275,8 +275,8 @@ class GuildLogistics(GuildBase):
                 # End
                 if not self.info_bar_count() and confirm_timer.reached():
                     break
-                if supply_checked and mission_checked and exchange_checked:
-                    break
+                # if supply_checked and mission_checked and exchange_checked:
+                #     break
             else:
                 confirm_timer.reset()
 
