@@ -48,7 +48,8 @@ class EnemySearchingHandler(InfoHandler):
 
         # campaign_extract_name_image in CampaignOcr.
         try:
-            if not len(self.campaign_extract_name_image(self.device.image)):
+            if hasattr(self, 'campaign_extract_name_image') \
+                    and not len(self.campaign_extract_name_image(self.device.image)):
                 return False
         except IndexError:
             return False
@@ -88,6 +89,12 @@ class EnemySearchingHandler(InfoHandler):
                 self.ensure_no_story()
                 timeout.limit = 10
                 timeout.reset()
+
+            if self.handle_guild_popup_cancel():
+                self.config.GUILD_POPUP_TRIGGERED = True
+                timeout.limit = 10
+                timeout.reset()
+                continue
 
             # End
             if self.enemy_searching_appear():

@@ -1,10 +1,9 @@
-from module.base.base import ModuleBase
 from module.base.button import ButtonGrid
+from module.base.decorator import Config
 from module.handler.assets import *
+from module.handler.enemy_searching import EnemySearchingHandler
 from module.logger import logger
 
-FLEET_SIDEBAR = ButtonGrid(
-    origin=(1177, 139), delta=(0, 110.5), button_shape=(55, 104), grid_shape=(1, 3), name='FLEET_SIDEBAR')
 AUTO_SEARCH_SETTINGS = [AUTO_SEARCH_SET_MOB, AUTO_SEARCH_SET_BOSS, AUTO_SEARCH_SET_ALL, AUTO_SEARCH_SET_STANDBY]
 dic_setting_name_to_index = {
     'fleet1_mob_fleet2_boss': 0,
@@ -15,7 +14,17 @@ dic_setting_name_to_index = {
 dic_setting_index_to_name = {v: k for k, v in dic_setting_name_to_index.items()}
 
 
-class AutoSearchHandler(ModuleBase):
+class AutoSearchHandler(EnemySearchingHandler):
+    @Config.when(SERVER='en')
+    def _fleet_sidebar(self):
+        return ButtonGrid(
+            origin=(1177, 138), delta=(0, 54), button_shape=(102, 43), grid_shape=(1, 3), name='FLEET_SIDEBAR')
+
+    @Config.when(SERVER='cn')
+    def _fleet_sidebar(self):
+        return ButtonGrid(
+            origin=(1177, 139), delta=(0, 110.5), button_shape=(55, 104), grid_shape=(1, 3), name='FLEET_SIDEBAR')
+
     def _fleet_preparation_sidebar_click(self, index):
         """
         Args:
@@ -34,7 +43,7 @@ class AutoSearchHandler(ModuleBase):
         current = 0
         total = 0
 
-        for idx, button in enumerate(FLEET_SIDEBAR.buttons()):
+        for idx, button in enumerate(self._fleet_sidebar().buttons()):
             if self.image_color_count(button, color=(99, 235, 255), threshold=221, count=50):
                 current = idx + 1
                 total = idx + 1
@@ -50,7 +59,7 @@ class AutoSearchHandler(ModuleBase):
         if current == index:
             return False
 
-        self.device.click(FLEET_SIDEBAR[0, index - 1])
+        self.device.click(self._fleet_sidebar()[0, index - 1])
         return True
 
     def fleet_preparation_sidebar_ensure(self, index, skip_first_screenshot=True):
@@ -143,3 +152,63 @@ class AutoSearchHandler(ModuleBase):
                 continue
             else:
                 return True
+
+    _auto_search_offset = (5, 5)
+
+    def is_auto_search_running(self):
+        """
+        Returns:
+            bool:
+        """
+        return self.appear(AUTO_SEARCH_MAP_OPTION_ON, offset=self._auto_search_offset) \
+               and self.appear(AUTO_SEARCH_MAP_OPTION_ON)
+
+    def handle_auto_search_map_option(self):
+        """
+        Ensure auto search option in map is ON
+
+        Returns:
+            bool: If clicked
+        """
+        if self.appear(AUTO_SEARCH_MAP_OPTION_OFF, offset=self._auto_search_offset) \
+                and self.appear_then_click(AUTO_SEARCH_MAP_OPTION_OFF, interval=2):
+            return True
+
+        return False
+
+    def is_in_auto_search_menu(self):
+        """
+        Returns:
+            bool:
+        """
+        return self.appear(AUTO_SEARCH_MENU_CONTINUE, offset=(20, 20))
+
+    def handle_auto_search_continue(self):
+        return self.appear_then_click(AUTO_SEARCH_MENU_CONTINUE, offset=(20, 20), interval=2)
+
+    def handle_auto_search_exit(self):
+        return self.appear_then_click(AUTO_SEARCH_MENU_EXIT, offset=(20, 20), interval=2)
+
+    def ensure_auto_search_exit(self, skip_first_screenshot=True):
+        """
+        Page:
+            in: is_in_auto_search_menu
+            out: page_campaign or page_event or page_sp
+        """
+        if not self.is_in_auto_search_menu():
+            return False
+
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.handle_auto_search_exit():
+                continue
+
+            # End
+            if self.is_in_stage():
+                break
+
+        return True

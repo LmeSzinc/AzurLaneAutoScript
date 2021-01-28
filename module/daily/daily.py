@@ -69,6 +69,12 @@ class Daily(Reward, DailyEquipment):
                 self.device.click(BACK_ARROW)
             return self.appear(DAILY_ENTER_CHECK) or self.appear(BACK_ARROW)
 
+        def daily_additional():
+            if self.handle_guild_popup_cancel():
+                self.config.GUILD_POPUP_TRIGGERED = True
+                return True
+            return False
+
         self.ui_click(click_button=DAILY_ENTER, check_button=daily_enter_check, appear_button=DAILY_CHECK)
         if self.appear(DAILY_LOCKED):
             logger.info('Daily locked')
@@ -80,13 +86,13 @@ class Daily(Reward, DailyEquipment):
         for n in range(remain):
             logger.hr(f'Count {n + 1}')
             self.ui_click(click_button=button, check_button=self.combat_appear, appear_button=daily_enter_check,
-                          additional=self.handle_combat_automation_confirm if not self.daily_auto_checked else None)
+                          additional=self.handle_combat_automation_confirm if not self.daily_auto_checked else daily_additional)
             self.daily_auto_checked = True
             self.ui_ensure_index(fleet, letter=OCR_DAILY_FLEET_INDEX, prev_button=DAILY_FLEET_PREV,
                                  next_button=DAILY_FLEET_NEXT, fast=False, skip_first_screenshot=True)
             self.combat(emotion_reduce=False, save_get_items=False, expected_end=daily_end, balance_hp=False)
 
-        self.ui_click(click_button=BACK_ARROW, check_button=DAILY_CHECK)
+        self.ui_click(click_button=BACK_ARROW, check_button=DAILY_CHECK, additional=daily_additional)
         self.device.sleep((1, 1.2))
         return True
 

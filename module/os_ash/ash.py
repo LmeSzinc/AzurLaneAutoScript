@@ -113,9 +113,9 @@ class OSAsh(AshCombat, UI):
         entrance_offset = (200, 5)
         self.ui_ensure(page_os)
         self.ui_click(ASH_ENTRANCE, check_button=self.is_in_ash, offset=entrance_offset, skip_first_screenshot=True)
-        SWITCH_BEACON.set('list', main=self)
 
         for _ in range(4):
+            SWITCH_BEACON.set('list', main=self)
             remain, _, _ = OCR_BEACON_REMAIN.ocr(self.device.image)
             if remain <= 0:
                 logger.info('Ash beacon exhausted')
