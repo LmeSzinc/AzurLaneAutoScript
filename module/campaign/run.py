@@ -236,4 +236,6 @@ class CampaignRun(Reward):
             if self.campaign.config.MAP_IS_ONE_TIME_STAGE:
                 if self.run_count >= 1:
                     logger.hr('Triggered one-time stage limit')
-                    return True
+                    break
+
+        self.campaign.ensure_auto_search_exit()
