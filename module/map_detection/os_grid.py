@@ -151,6 +151,10 @@ class OSGridPredictor(GridPredictor):
         return super().predict_current_fleet()
 
     def predict_sea(self):
+        color = cv2.mean(self.image_trans)
+        if not color[2] > max(color[0], color[1]) + 20:
+            return False
+
         area = area_pad((48, 48, 48 + 46, 48 + 46), pad=5)
         res = cv2.matchTemplate(ASSETS.tile_center_image, crop(self.image_homo, area=area), cv2.TM_CCOEFF_NORMED)
         _, sim, _, _ = cv2.minMaxLoc(res)

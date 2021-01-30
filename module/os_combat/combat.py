@@ -12,9 +12,9 @@ class Combat(Combat_, MapEventHandler):
         Returns:
             bool: If enter combat.
         """
-        # if self.config.ENABLE_MAP_FLEET_LOCK and not self.is_in_map():
-        #     if self.is_combat_loading():
-        #         return True
+        if not self.is_in_map():
+            if self.is_combat_loading():
+                return True
 
         if self.appear(BATTLE_PREPARATION):
             return True
