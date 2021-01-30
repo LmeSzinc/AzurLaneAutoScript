@@ -23,7 +23,7 @@ class CampaignWarArchives(CampaignRun, CampaignBase):
                 return False
         return super().handle_reward()
 
-    def triggered_stop_condition(self):
+    def triggered_stop_condition(self, oil_check=True):
         # Must be in archives campaign to OCR check
         if self.appear(WAR_ARCHIVES_CAMPAIGN_CHECK, offset=(20, 20)):
             # Check for 0 data keys left to use
@@ -34,7 +34,7 @@ class CampaignWarArchives(CampaignRun, CampaignBase):
                 return True
 
         # Else, check other stop conditions
-        return super().triggered_stop_condition()
+        return super().triggered_stop_condition(oil_check)
 
     def run(self, name=None, folder='campaign_main', total=0):
         backup = self.config.cover(USE_DATA_KEY=True)
