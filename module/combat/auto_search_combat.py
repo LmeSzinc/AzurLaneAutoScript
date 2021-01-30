@@ -74,13 +74,24 @@ class AutoSearchCombat(Combat):
             in: is_combat_loading()
             out: combat status
         """
-        logger.info('Auto Search combat execute')
+        logger.info('Auto search combat loading')
         self.device.screenshot_interval_set(self.config.COMBAT_SCREENSHOT_INTERVAL)
+        while 1:
+            self.device.screenshot()
+
+            if self.is_combat_executing():
+                break
+
+        logger.info('Auto Search combat execute')
+        self.submarine_call_reset()
         if emotion_reduce:
             self.emotion.reduce(fleet_index)
 
         while 1:
             self.device.screenshot()
+
+            if self.handle_submarine_call():
+                continue
 
             # End
             if self.appear(BATTLE_STATUS_S) or self.appear(BATTLE_STATUS_A) or self.appear(BATTLE_STATUS_B) \
