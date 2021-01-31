@@ -4,14 +4,16 @@ from module.logger import logger
 from module.map.fleet import Fleet
 from module.map.map_grids import SelectedGrids
 from module.os.camera import OSCamera
+from module.os_ash.ash import OSAsh
 from module.os_combat.combat import Combat
 
 
-class OSFleet(OSCamera, Combat, Fleet):
+class OSFleet(OSCamera, Combat, Fleet, OSAsh):
     def _goto(self, location, expected=''):
         super()._goto(location, expected)
         self.update_radar()
         self.map.show()
+        self.handle_ash_beacon_attack()
 
     def map_init(self, map_):
         logger.hr('Map init')

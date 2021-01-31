@@ -1,13 +1,18 @@
-from module.combat.combat import Combat, BATTLE_PREPARATION
+from module.base.timer import Timer
+from module.base.utils import color_bar_percentage
+from module.combat.combat import Combat, BATTLE_PREPARATION, GET_ITEMS_1
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
 from module.os_ash.assets import *
+from module.os_handler.assets import IN_MAP
 from module.ui.page import page_os
 from module.ui.switch import Switch
 from module.ui.ui import UI
 
 OCR_BEACON_REMAIN = DigitCounter(BEACON_REMAIN, threshold=256, name='OCR_ASH_REMAIN')
 OCR_BEACON_TIER = Digit(BEACON_TIER, name='OCR_ASH_TIER')
+OCR_ASH_COLLECT_STATUS = DigitCounter(
+    ASH_COLLECT_STATUS, letter=(235, 235, 235), threshold=160, name='OCR_ASH_COLLECT_STATUS')
 
 SWITCH_BEACON = Switch(name='Beacon', offset=(20, 20))
 SWITCH_BEACON.add_status('mine', BEACON_LIST)
@@ -60,11 +65,11 @@ class AshCombat(Combat):
         logger.info('Combat end.')
 
 
-class OSAsh(AshCombat, UI):
+class OSAsh(UI):
     def is_in_ash(self):
         return self.appear(ASH_CHECK, offset=(20, 20))
 
-    def ash_beacon_select(self, tier=15, trial=5):
+    def _ash_beacon_select(self, tier=15, trial=5):
         """
         Args:
             tier (int): Try to find a beacon with tier greater or equal argument tier.
@@ -110,6 +115,7 @@ class OSAsh(AshCombat, UI):
         # If the main story in OS is not cleared, ASH_ENTRANCE is the first button counted from bottom right.
         # When main story is cleared, ASH_ENTRANCE move to the second one.
         # Here use an offset to handle that.
+        ash_combat = AshCombat(self.config, self.device)
         entrance_offset = (200, 5)
         self.ui_ensure(page_os)
         self.ui_click(ASH_ENTRANCE, check_button=self.is_in_ash, offset=entrance_offset, skip_first_screenshot=True)
@@ -121,14 +127,132 @@ class OSAsh(AshCombat, UI):
                 logger.info('Ash beacon exhausted')
                 break
 
-            self.ash_beacon_select(tier=self.config.OS_ASH_ASSIST_TIER)
-            self.ui_click(ASH_START, check_button=BATTLE_PREPARATION, skip_first_screenshot=True)
-            self.combat(expected_end=self.is_in_ash)
+            self._ash_beacon_select(tier=self.config.OS_ASH_ASSIST_TIER)
+            self.ui_click(ASH_START, check_button=BATTLE_PREPARATION, offset=(30, 30), skip_first_screenshot=True)
+            ash_combat.combat(expected_end=self.is_in_ash)
             continue
 
         self.device.sleep((0.5, 0.8))
         self.device.screenshot()
         self.ui_click(ASH_QUIT, check_button=ASH_ENTRANCE, offset=entrance_offset, skip_first_screenshot=True)
+        return True
+
+    _ash_fully_collected = False
+
+    def ash_collect_status(self):
+        """
+        Returns:
+            int: 0 to 100.
+        """
+        if self._ash_fully_collected:
+            return 0
+        if not self.image_color_count(ASH_COLLECT_STATUS, color=(235, 235, 235), threshold=221, count=20):
+            logger.info('Ash beacon fully collected today')
+            self._ash_fully_collected = True
+            return 0
+
+        status, _, _ = OCR_ASH_COLLECT_STATUS.ocr(self.device.image)
+        if status < 0:
+            status = 0
+        if status > 100:
+            status = 100
+        return status
+
+    def _ash_enter_from_map(self, skip_first_screenshot=True):
+        """
+        Pages:
+            in: IN_MAP
+            out: is_in_ash
+        """
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear(IN_MAP, interval=2):
+                self.device.click(ASH_COLLECT_STATUS)
+                continue
+            if self.appear_then_click(ASH_ENTER_CONFIRM, offset=(20, 20), interval=2):
+                continue
+            if self.appear_then_click(BEACON_ENTER, offset=(20, 20), interval=2):
+                continue
+
+            # End:
+            if self.appear(ASH_START, offset=(30, 30)):
+                break
+
+    def _ash_help(self):
+        """
+        Request help from friends, guild and world.
+
+        Pages:
+            in: is_in_ash
+            out: is_in_ash
+        """
+        self.ui_click(click_button=HELP_ENTER, check_button=HELP_CONFIRM)
+        # Here use simple clicks. Dropping some clicks is acceptable, no need to confirm they are selected.
+        self.device.click(HELP_1)
+        self.device.sleep((0.1, 0.3))
+        self.device.click(HELP_2)
+        self.device.sleep((0.1, 0.3))
+        self.device.click(HELP_3)
+        self.ui_click(click_button=HELP_CONFIRM, check_button=HELP_ENTER)
+
+    def _ash_beacon_attack(self):
+        """
+        Attack ash beacon until it's killed.
+
+        Pages:
+            in: is_in_ash
+            out: is_in_ash
+        """
+        logger.info('Ash beacon attack')
+        confirm_timer = Timer(1, count=2).start()
+        ash_combat = AshCombat(self.config, self.device)
+
+        while 1:
+            self.device.screenshot()
+            percent = color_bar_percentage(
+                self.device.image, BEACON_HP_PERCENTAGE.area, prev_color=(181, 56, 57), threshold=15)
+            logger.attr('Ash_beacon_hp', f'{int(percent * 100)}%')
+
+            # End
+            if self.appear(BEACON_EMPTY, offset=(20, 20)):
+                if confirm_timer.reached():
+                    logger.info('Ash beacon attack finished')
+                    break
+            else:
+                confirm_timer.reset()
+
+            if self.appear_then_click(BEACON_REWARD, interval=2):
+                continue
+            if self.appear(GET_ITEMS_1, interval=2):
+                self.device.click(BEACON_REWARD)
+                continue
+            if self.appear(ASH_START, offset=(30, 30)):
+                self.ui_click(ASH_START, check_button=BATTLE_PREPARATION, offset=(30, 30), skip_first_screenshot=True)
+                ash_combat.combat(expected_end=self.is_in_ash)
+                continue
+
+    def handle_ash_beacon_attack(self):
+        """
+        Returns:
+            bool: If attacked.
+
+        Pages:
+            in: IN_MAP
+            out: IN_MAP
+        """
+        if not self.config.ENABLE_OS_ASH_ATTACK:
+            return False
+        if self.ash_collect_status() < 100:
+            return False
+
+        self._ash_enter_from_map()
+        self._ash_help()
+        self._ash_beacon_attack()
+        self.ui_click(ASH_QUIT, check_button=IN_MAP, skip_first_screenshot=True)
         return True
 
 

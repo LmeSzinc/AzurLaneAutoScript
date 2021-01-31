@@ -480,6 +480,11 @@ class AzurLaneConfig:
     """
     ENABLE_OS_SEMI_STORY_SKIP = True
 
+    """
+    module.os
+    """
+    ENABLE_OS_ASH_ATTACK = False
+
     def create_folder(self):
         for folder in [self.ASSETS_FOLDER, self.PERSPECTIVE_ERROR_LOG_FOLDER, self.ERROR_LOG_FOLDER]:
             if folder and not os.path.exists(folder):
