@@ -115,6 +115,8 @@ class InfoHandler(ModuleBase):
             return False
 
         if self.appear(USE_DATA_KEY, offset=(20, 20)):
+            self.device.click(USE_DATA_KEY_NOTIFIED)
+            self.device.sleep((0.5, 0.8))
             return self.handle_popup_confirm('USE_DATA_KEY')
 
         return False
