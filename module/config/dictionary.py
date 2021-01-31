@@ -231,7 +231,7 @@ dic_true_eng_to_eng = {
     'ammo_pick_up_124': 'ammo_pick_up_124',
     'default_serial_list': 'default_serial_list',
     'enable_os_semi_story_skip': 'enable_os_semi_story_skip',
-    'enable_os_meowfficer_searching': 'enable_os_meowfficer_searching',
+    'enable_os_ash_attack': 'enable_os_ash_attack',
 
     # Option
     'yes': 'yes',
@@ -507,7 +507,7 @@ dic_chi_to_eng = {
     '拣弹药124': 'ammo_pick_up_124',
     '默认serial列表': 'default_serial_list',
     '大世界跳过剧情': 'enable_os_semi_story_skip',
-    '大世界踩猫点': 'enable_os_meowfficer_searching',
+    '打大世界余烬信标': 'enable_os_ash_attack',
 
     # Option
     '是': 'yes',
@@ -783,7 +783,7 @@ dic_tchi_to_eng = {
     '撿彈藥124': 'ammo_pick_up_124',
     '默認serial列表': 'default_serial_list',
     '大世界跳過劇情': 'enable_os_semi_story_skip',
-    '大世界踩貓點': 'enable_os_meowfficer_searching',
+    '打大世界餘燼信標': 'enable_os_ash_attack',
 
     # Option
     '是': 'yes',

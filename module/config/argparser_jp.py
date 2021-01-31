@@ -566,7 +566,7 @@ def main(ini_name=''):
     # ==========OS clear map==========
     os_semi_parser = subs.add_parser('os_clear_map')
     os_semi = os_semi_parser.add_argument_group('os_clear_map', 'Usage: Enter map manually and run\nRecommend to re-check map by hand after run', gooey_options={'label_color': '#931D03'})
-    os_semi.add_argument('--enable_os_meowfficer_searching', default=default('--enable_os_meowfficer_searching'), choices=['yes'], help='must enable', gooey_options={'label_color': '#4B5F83'})
+    os_semi.add_argument('--enable_os_ash_attack', default=default('--enable_os_ash_attack'), choices=['yes', 'no'], help='Attack ash if beacon data is full', gooey_options={'label_color': '#4B5F83'})
 
     args = parser.parse_args()
 
