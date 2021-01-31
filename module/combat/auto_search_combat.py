@@ -1,3 +1,4 @@
+from module.base.timer import Timer
 from module.combat.assets import *
 from module.combat.combat import Combat
 from module.exception import CampaignEnd
@@ -7,6 +8,7 @@ from module.map.assets import *
 
 class AutoSearchCombat(Combat):
     fleets_reversed: bool  # Define in MapOperation
+    _auto_search_in_stage_timer = Timer(3, count=6)
 
     def get_fleet_current_index(self):
         """
@@ -23,6 +25,24 @@ class AutoSearchCombat(Combat):
         else:
             logger.warning('Unknown fleet current index, use 1 by default')
             return 1
+
+    def _handle_auto_search_menu_missing(self):
+        """
+        Sometimes game is bugged, auto search menu is not shown.
+        After BOSS battle, it enters campaign directly.
+        To handle this, if game in campaign for a certain time, it means auto search ends.
+
+        Returns:
+            bool: If triggered
+        """
+        if self.is_in_stage():
+            if self._auto_search_in_stage_timer.reached():
+                logger.info('Catch auto search menu missing')
+                return True
+        else:
+            self._auto_search_in_stage_timer.reset()
+
+        return False
 
     def auto_search_moving(self, skip_first_screenshot=True):
         """
@@ -60,8 +80,7 @@ class AutoSearchCombat(Combat):
                 break
             if self.is_in_auto_search_menu():
                 raise CampaignEnd
-            if self.is_in_stage():
-                # Sometimes game is bugged, and auto search menu is not shown
+            if self._handle_auto_search_menu_missing():
                 raise CampaignEnd
 
     def auto_search_combat_execute(self, emotion_reduce, fleet_index):
@@ -118,8 +137,7 @@ class AutoSearchCombat(Combat):
                 break
             if self.is_in_auto_search_menu():
                 raise CampaignEnd
-            if self.is_in_stage():
-                # Sometimes game is bugged, and auto search menu is not shown
+            if self._handle_auto_search_menu_missing():
                 raise CampaignEnd
 
     def auto_search_combat(self, emotion_reduce=None, fleet_index=1):
