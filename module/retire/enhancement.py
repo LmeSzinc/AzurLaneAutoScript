@@ -47,15 +47,14 @@ class Enhancement(Dock):
             self.dock_favourite_set(enable=True)
 
         self.dock_filter_enter()
-        self.dock_filter_set(category='extra', type='no_limit', enable=True)
-        self.dock_filter_set(category='extra', type='enhanceable', enable=True)
-        self.dock_filter_set(category='index', type='all', enable=True)
-        self.dock_filter_set(category='sort', type='lvl', enable=True)
-        self.dock_filter_set(category='faction', type='all', enable=True)
-        self.dock_filter_set(category='rarity', type='all', enable=True)
+        self.dock_filter_set(category='extra', filter_type='enhanceable', enable=True)
+        self.dock_filter_set(category='index', filter_type='all', enable=True)
+        self.dock_filter_set(category='sort', filter_type='level', enable=True)
+        self.dock_filter_set(category='faction', filter_type='all', enable=True)
+        self.dock_filter_set(category='rarity', filter_type='all', enable=True)
         if ship_type is not None:
             ship_type = str(ship_type)
-            self.dock_filter_set(category='index', type=ship_type, enable=True)
+            self.dock_filter_set(category='index', filter_type=ship_type, enable=True)
         self.dock_filter_confirm()
 
         if self.appear(DOCK_EMPTY, offset=(30, 30)):
@@ -73,8 +72,8 @@ class Enhancement(Dock):
         self.ui_back(DOCK_FILTER)
         self.dock_favourite_set(enable=False)
         self.dock_filter_enter()
-        self.dock_filter_set(category='extra', type='no_limit', enable=True)
-        self.dock_filter_set(category='index', type='all', enable=True)
+        self.dock_filter_set(category='extra', filter_type='no_limit', enable=True)
+        self.dock_filter_set(category='index', filter_type='all', enable=True)
         self.dock_filter_confirm()
 
     def _enhance_confirm(self, skip_first_screenshot=True):
@@ -207,7 +206,7 @@ class Enhancement(Dock):
 
         # Process ENHANCE_ORDER_STRING if any into ship_types
         ship_types = [s.strip().lower() for s in self.config.ENHANCE_ORDER_STRING.split('>')]
-        ship_types = list(filter(('').__ne__, ship_types))
+        ship_types = list(filter(''.__ne__, ship_types))
         if len(ship_types) == 0:
             ship_types = [None]
         logger.attr('Enhance Order', ship_types)
