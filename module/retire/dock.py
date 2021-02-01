@@ -73,6 +73,28 @@ CARD_GRIDS = ButtonGrid(
 CARD_RARITY_GRIDS = ButtonGrid(
     origin=(93, 76), delta=(164 + 2 / 3, 227), button_shape=(138, 5), grid_shape=(7, 2), name='RARITY')
 
+FILTER_SORT_GRIDS = ButtonGrid(
+    origin=(284, 109), delta=(157.5, 0), button_shape=(137, 38), grid_shape=(6, 1), name='FILTER_SORT')
+FILTER_SORT_TYPES = [['rarity', 'level', 'total', 'join', 'intimacy', 'stat']] # stat has extra grid, not worth pursuing
+
+FILTER_INDEX_GRIDS = ButtonGrid(
+    origin=(284, 183), delta=(157.5, 56.5), button_shape=(137, 38), grid_shape=(6, 2), name='FILTER_INDEX')
+FILTER_INDEX_TYPES = [['all', 'vanguard', 'main',   'dd', 'cl',     'ca'],
+                      ['bb',  'cv',       'repair', 'ss', 'others', 'na']]
+
+FILTER_FACTION_GRIDS = ButtonGrid(
+    origin=(284, 316), delta=(157.5, 56.5), button_shape=(137, 38), grid_shape=(6, 2), name='FILTER_FACTION')
+FILTER_FACTION_TYPES = [['all',      'eagle',    'royal', 'sakura', 'iron',  'dragon'],
+                        ['sardegna', 'northern', 'iris',  'vichya', 'other', 'na'    ]]
+
+FILTER_RARITY_GRIDS = ButtonGrid(
+    origin=(284, 449), delta=(157.5, 0), button_shape=(137, 38), grid_shape=(6, 1), name='FILTER_RARITY')
+FILTER_RARITY_TYPES = [['all', 'common', 'rare', 'elite', 'super_rare', 'ultra']]
+
+FILTER_EXTRA_GRIDS = ButtonGrid(
+    origin=(284, 522), delta=(157.5, 0), button_shape=(137, 38), grid_shape=(6, 1), name='FILTER_EXTRA')
+FILTER_EXTRA_TYPES = [['no_limit', 'has_skin', 'can_retrofit', 'enhanceable', 'special', 'na']]
+
 
 class Dock(Equipment):
     def handle_dock_cards_loading(self):
@@ -113,3 +135,72 @@ class Dock(Equipment):
             obj.set('on' if enable else 'off', main=self)
         except KeyError:
             raise ScriptError(f'{key} filter switch object does not exist in module/retire/dock.py')
+
+    def dock_filter_set_new(self, category, type, enable):
+        # Upper/Lower respectively for keying
+        category = category.upper()
+        type = type.lower()
+
+        # Build keys
+        key_1 = f'FILTER_{category}_GRIDS'
+        key_2 = f'FILTER_{category}_TYPES'
+
+        # Try to acquire key from globals()
+        try:
+            obj_1 = globals()[key_1]
+            obj_2 = globals()[key_2]
+        except KeyError:
+            raise ScriptError(f'Either {key_1} or {key_2} filter grid/type list does not exist in module/retire/dock.py')
+
+        # Internal helper methods
+        def get_2d_index(myList, v):
+            for i, x in enumerate(myList):
+                if v in x:
+                    return (x.index(v), i)
+            return (None, None)
+
+        def set_filter(button, color_check, skip_first_screenshot=True):
+            from module.base.timer import Timer
+
+            confirm_timer = Timer(1.5, count=3).start()
+            clicked_timeout = Timer(0.5, count=1)
+            clicked_threshold = 3
+            while 1:
+                if skip_first_screenshot:
+                    skip_first_screenshot = False
+                else:
+                    self.device.screenshot()
+
+                if clicked_timeout.reached():
+                    if not self.image_color_count(button, color=color_check, threshold=235, count=250) and clicked_threshold > 0:
+                        self.device.click(button)
+                        confirm_timer.reset()
+                        clicked_timeout.reset()
+                        clicked_threshold -= 1
+                        continue
+
+                if self.appear(DOCK_FILTER_CONFIRM):
+                    if confirm_timer.reached():
+                        break
+                else:
+                    confirm_timer.reset()
+
+        # Locate button in grid
+        x, y = get_2d_index(obj_2, type)
+        if x is None or y is None:
+            raise ScriptError(f'Type: {type} is not valid for filter type list {key_2}')
+        button = obj_1[x, y]
+
+        # Determine color of resulting button after click based on 'enable'
+        # Enable (On)   - Gold/Blue Color depends on category
+        # Disable (Off) - Grey regardless of category
+        if enable:
+            if category in ['SORT', 'INDEX']:
+                color_check = (181, 142, 90)
+            else:
+                color_check = (74, 117, 189)
+        else:
+            color_check = (115, 130, 148)
+
+        # Set filter of button
+        set_filter(button, color_check)
