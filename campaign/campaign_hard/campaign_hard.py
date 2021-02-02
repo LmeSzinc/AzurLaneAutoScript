@@ -14,27 +14,27 @@ class Config:
 
 
 class Campaign(CampaignBase, HardEquipment):
-    def run(self):
-        logger.hr(self.ENTRANCE, level=2)
-        self.enter_map(self.ENTRANCE, mode='hard')
-        self.map = self.MAP
-        self.map.reset()
-        self.hp_reset()
-        self.hp_get()
-
-        if self.config.FLEET_HARD == 1:
-            self.ensure_edge_insight(reverse=True)
-            self.full_scan_find_boss()
-        else:
-            self.fleet_switch_click()
-            self.ensure_no_info_bar()
-            self.ensure_edge_insight()
-            self.full_scan_find_boss()
-
-        try:
-            self.clear_boss()
-        except CampaignEnd:
-            logger.hr('Campaign end')
+    # def run(self):
+    #     logger.hr(self.ENTRANCE, level=2)
+    #     self.enter_map(self.ENTRANCE, mode='hard')
+    #     self.map = self.MAP
+    #     self.map.reset()
+    #     self.hp_reset()
+    #     self.hp_get()
+    #
+    #     if self.config.FLEET_HARD == 1:
+    #         self.ensure_edge_insight(reverse=True)
+    #         self.full_scan_find_boss()
+    #     else:
+    #         self.fleet_switch_click()
+    #         self.ensure_no_info_bar()
+    #         self.ensure_edge_insight()
+    #         self.full_scan_find_boss()
+    #
+    #     try:
+    #         self.clear_boss()
+    #     except CampaignEnd:
+    #         logger.hr('Campaign end')
 
     def fleet_preparation(self):
         self.equipment_take_on()
