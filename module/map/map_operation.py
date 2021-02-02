@@ -255,6 +255,8 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         """
         if not self.config.ENABLE_EMOTION_REDUCE:
             return False
+        if not self.config.ENABLE_AUTO_SEARCH:
+            return False
 
         if hasattr(self, 'emotion'):
             logger.info(f'Expected emotion reduce: {self._emotion_expected_reduce}')
