@@ -3,6 +3,7 @@ from module.base.decorator import cached_property, Config
 from module.base.timer import Timer
 from module.base.utils import *
 from module.combat.assets import GET_ITEMS_1
+from module.exception import GameStuckError
 from module.guild.assets import *
 from module.guild.base import GuildBase
 from module.logger import logger
@@ -226,6 +227,7 @@ class GuildLogistics(GuildBase):
         supply_checked = False
         mission_checked = False
         exchange_checked = False
+        exchange_count = 0
 
         while 1:
             if skip_first_screenshot:
@@ -269,6 +271,7 @@ class GuildLogistics(GuildBase):
                     if self._guild_exchange():
                         confirm_timer.reset()
                         exchange_interval.reset()
+                        exchange_count += 1
                         continue
                     else:
                         exchange_checked = True
@@ -277,6 +280,15 @@ class GuildLogistics(GuildBase):
                     break
                 # if supply_checked and mission_checked and exchange_checked:
                 #     break
+                if exchange_count >= 5:
+                    # If you run AL across days, then do guild exchange.
+                    # There will show an error, said time is not up.
+                    # Restart the game can't fix the problem.
+                    # To fix this, you have to enter guild logistics once, then restart.
+                    # If exchange for 5 times, this bug is considered to be triggered.
+                    logger.warning('Triggered guild logistics refresh bug')
+                    raise GameStuckError('Triggered guild logistics refresh bug')
+
             else:
                 confirm_timer.reset()
 
