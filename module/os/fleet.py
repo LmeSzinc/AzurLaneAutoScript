@@ -13,7 +13,11 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         super()._goto(location, expected)
         self.update_radar()
         self.map.show()
-        self.handle_ash_beacon_attack()
+
+        if self.handle_ash_beacon_attack():
+            # After ash attack, camera refocus to current fleet.
+            self.camera = location
+            self.update()
 
     def map_init(self, map_):
         logger.hr('Map init')
