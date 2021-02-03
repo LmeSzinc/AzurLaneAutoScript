@@ -239,6 +239,7 @@ class AzurLaneConfig:
     MAP_IS_ONE_TIME_STAGE = False
     MAP_HAS_PORTAL = False
     MAP_HAS_LAND_BASED = False
+    MAP_FOCUS_ENEMY_AFTER_BATTLE = False  # Operation siren
     MAP_ENEMY_TEMPLATE = ['Light', 'Main', 'Carrier', 'Treasure']
     MAP_SIREN_TEMPLATE = ['DD', 'CL', 'CA', 'BB', 'CV']
     MAP_ENEMY_GENRE_DETECTION_SCALING = {}  # Key: str, Template name, Value: float, scaling factor
@@ -478,6 +479,11 @@ class AzurLaneConfig:
     Os_semi_auto
     """
     ENABLE_OS_SEMI_STORY_SKIP = True
+
+    """
+    module.os
+    """
+    ENABLE_OS_ASH_ATTACK = True
 
     def create_folder(self):
         for folder in [self.ASSETS_FOLDER, self.PERSPECTIVE_ERROR_LOG_FOLDER, self.ERROR_LOG_FOLDER]:
@@ -745,6 +751,10 @@ class AzurLaneConfig:
         # OS semi auto
         option = config['Os_semi_auto']
         self.ENABLE_OS_SEMI_STORY_SKIP = to_bool(option['enable_os_semi_story_skip'])
+
+        # OS clear map
+        option = config['Os_clear_map']
+        self.ENABLE_OS_ASH_ATTACK = to_bool(option['enable_os_ash_attack'])
 
     def get_server_timezone(self):
         if self.SERVER == 'en':

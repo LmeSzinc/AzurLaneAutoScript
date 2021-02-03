@@ -46,6 +46,7 @@ dic_true_eng_to_eng = {
     'c12-2_leveling': 'c122_leveling',
     'c12-4_leveling': 'c124_leveling',
     'os_semi_auto': 'os_semi_auto',
+    'os_clear_map': 'os_clear_map',
 
     # Argument
     'enable_stop_condition': 'enable_stop_condition',
@@ -230,6 +231,7 @@ dic_true_eng_to_eng = {
     'ammo_pick_up_124': 'ammo_pick_up_124',
     'default_serial_list': 'default_serial_list',
     'enable_os_semi_story_skip': 'enable_os_semi_story_skip',
+    'enable_os_ash_attack': 'enable_os_ash_attack',
 
     # Option
     'yes': 'yes',
@@ -320,6 +322,7 @@ dic_chi_to_eng = {
     '12-2打中型练级': 'c122_leveling',
     '12-4打大型练级': 'c124_leveling',
     '大世界辅助点击': 'os_semi_auto',
+    '大世界地图全清': 'os_clear_map',
 
     # Argument
     '启用停止条件': 'enable_stop_condition',
@@ -504,6 +507,7 @@ dic_chi_to_eng = {
     '拣弹药124': 'ammo_pick_up_124',
     '默认serial列表': 'default_serial_list',
     '大世界跳过剧情': 'enable_os_semi_story_skip',
+    '打大世界余烬信标': 'enable_os_ash_attack',
 
     # Option
     '是': 'yes',
@@ -594,6 +598,7 @@ dic_tchi_to_eng = {
     '12-2打中型練級': 'c122_leveling',
     '12-4打大型練級': 'c124_leveling',
     '大世界輔助點擊': 'os_semi_auto',
+    '大世界地圖全清': 'os_clear_map',
 
     # Argument
     '啟用停止條件': 'enable_stop_condition',
@@ -778,6 +783,7 @@ dic_tchi_to_eng = {
     '撿彈藥124': 'ammo_pick_up_124',
     '默認serial列表': 'default_serial_list',
     '大世界跳過劇情': 'enable_os_semi_story_skip',
+    '打大世界餘燼信標': 'enable_os_ash_attack',
 
     # Option
     '是': 'yes',

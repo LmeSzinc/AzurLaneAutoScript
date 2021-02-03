@@ -75,6 +75,10 @@ class Camera(MapOperation):
 
         return False
 
+    def _view_init(self):
+        if not hasattr(self, 'view'):
+            self.view = View(self.config)
+
     def update(self, camera=True):
         """Update map image
 
@@ -86,8 +90,7 @@ class Camera(MapOperation):
             self.view.update(image=self.device.image)
             return True
 
-        if not hasattr(self, 'view'):
-            self.view = View(self.config)
+        self._view_init()
         try:
             self.view.load(self.device.image)
         except (MapDetectionError, AttributeError) as e:
@@ -143,7 +146,7 @@ class Camera(MapOperation):
     def show_camera(self):
         logger.attr_align('Camera', location2node(self.camera))
 
-    def ensure_edge_insight(self, reverse=False, preset=None):
+    def ensure_edge_insight(self, reverse=False, preset=None, swipe_limit=(3, 2)):
         """
         Swipe to bottom left until two edges insight.
         Edges are used to locate camera.
@@ -151,13 +154,16 @@ class Camera(MapOperation):
         Args:
             reverse (bool): Reverse swipes.
             preset (tuple(int)): Set in map swipe manually.
+            swipe_limit (tuple): (x, y). Limit swipe in (-x, -y, x, y).
 
         Returns:
             list[tuple]: Swipe record.
         """
-        logger.info('Ensure edge in sight.')
+        logger.info(f'Ensure edge in sight.')
         record = []
         self._correct_camera = True
+        x_swipe = -swipe_limit[0] if np.random.uniform() > 0.5 else swipe_limit[0]
+        y_swipe = -swipe_limit[1] if np.random.uniform() > 0.5 else swipe_limit[1]
 
         while 1:
             if len(record) == 0:
@@ -166,8 +172,8 @@ class Camera(MapOperation):
                     self.map_swipe(preset)
                     record.append(preset)
 
-            x = 0 if self.view.left_edge or self.view.right_edge else 3
-            y = 0 if self.view.lower_edge or self.view.upper_edge else 2
+            x = 0 if self.view.left_edge or self.view.right_edge else x_swipe
+            y = 0 if self.view.lower_edge or self.view.upper_edge else y_swipe
 
             if len(record) > 0:
                 # Swipe even if two edges insight, this will avoid some embarrassing camera position.

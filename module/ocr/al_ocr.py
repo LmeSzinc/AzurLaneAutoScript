@@ -177,6 +177,7 @@ class AlOcr(CnOcr):
         Args:
             img_list: List of numpy array, (height, width)
         """
+        self.init(*self._args)
         img_list = [(self._preprocess_img_array(img) * 255.0).astype(np.uint8) for img in img_list]
         img_list, img_widths = self._pad_arrays(img_list)
         image = cv2.hconcat(img_list)[0, :, :]

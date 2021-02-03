@@ -6,6 +6,7 @@ from module.logger import logger
 from module.map_detection.detector import MapDetector
 from module.map_detection.grid import Grid
 from module.map_detection.utils import *
+from module.map_detection.os_grid import OSGrid
 
 
 class View(MapDetector):
@@ -14,6 +15,15 @@ class View(MapDetector):
     center_loca: tuple
     center_offset: np.ndarray
     swipe_base: np.ndarray
+
+    def __init__(self, config, mode='main'):
+        """
+        Args:
+            config (AzurLaneConfig):
+            mode (str): 'main' for normal azur lane maps, 'os' for operation siren
+        """
+        super().__init__(config)
+        self.mode = mode
 
     def __iter__(self):
         return iter(self.grids.values())
@@ -43,9 +53,10 @@ class View(MapDetector):
 
         # Create local view map
         grids = {}
+        grid_class = OSGrid if self.mode == 'os' else Grid
         for loca, points in self.generate():
             if area_in_area(area1=corner2area(points), area2=self.config.DETECTING_AREA):
-                grids[loca] = Grid(location=loca, image=image, corner=points, config=self.config)
+                grids[loca] = grid_class(location=loca, image=image, corner=points, config=self.config)
 
         # Handle grids offset
         offset = np.min(list(grids.keys()), axis=0)

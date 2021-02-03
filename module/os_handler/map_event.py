@@ -1,11 +1,13 @@
+from module.base.timer import Timer
 from module.combat.assets import *
-from module.handler.info_handler import InfoHandler
+from module.handler.assets import *
 from module.os_handler.assets import *
+from module.os_handler.enemy_searching import EnemySearchingHandler
 
 
-class MapEventHandler(InfoHandler):
+class MapEventHandler(EnemySearchingHandler):
     def handle_map_get_items(self):
-        if self.appear(IN_MAP):
+        if self.is_in_map():
             return False
 
         if self.appear(GET_ITEMS_1, interval=2) \
@@ -33,3 +35,45 @@ class MapEventHandler(InfoHandler):
             return True
 
         return False
+
+    def handle_ash_popup(self):
+        name = 'ASH'
+        if self.appear(POPUP_CONFIRM, offset=self._popup_offset) \
+                and self.appear(POPUP_CANCEL, offset=self._popup_offset, interval=2) \
+                and self.image_color_count(ASH_POPUP_CHECK, color=(255, 93, 90), threshold=221, count=100):
+            POPUP_CANCEL.name = POPUP_CANCEL.name + '_' + name
+            self.device.click(POPUP_CANCEL)
+            POPUP_CANCEL.name = POPUP_CANCEL.name[:-len(name) - 1]
+            return True
+        else:
+            return False
+
+    def handle_map_event(self):
+        if self.handle_map_get_items():
+            return True
+        if self.handle_map_archives():
+            return True
+        if self.handle_guild_popup_cancel():
+            return True
+        if self.handle_ash_popup():
+            return True
+        if self.handle_story_skip():
+            return True
+
+        return False
+
+    def ensure_no_map_event(self, timeout=1.5):
+        confirm_timer = Timer(timeout, count=int(timeout / 0.5)).start()
+
+        while 1:
+            self.device.screenshot()
+
+            if self.handle_map_event():
+                confirm_timer.reset()
+                continue
+            if not self.is_in_map():
+                confirm_timer.reset()
+                continue
+
+            if confirm_timer.reached():
+                break

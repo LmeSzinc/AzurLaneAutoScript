@@ -240,7 +240,8 @@ class Perspective:
             image = self.image.copy()
         else:
             image = bg.copy()
-        image = Image.fromarray(image)
+        if isinstance(image, np.ndarray):
+            image = Image.fromarray(image)
         if expend:
             image = ImageOps.expand(image, border=expend, fill=0)
         draw = ImageDraw.Draw(image)

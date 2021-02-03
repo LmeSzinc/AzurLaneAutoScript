@@ -486,8 +486,13 @@ def main(ini_name=''):
 
     # ==========OS semi auto==========
     # os_semi_parser = subs.add_parser('大世界輔助點擊')
-    # os_semi = os_semi_parser.add_argument_group('大世界輔助點擊', '輔助點擊戰鬥準備和戰鬥結算', gooey_options={'label_color': '#931D03'})
+    # os_semi = os_semi_parser.add_argument_group('大世界輔助點擊', '自動點擊戰鬥準備和戰鬥結算\n僅推薦在普通海域和安全海域中開啟', gooey_options={'label_color': '#931D03'})
     # os_semi.add_argument('--大世界跳過劇情', default=default('--大世界跳過劇情'), choices=['是', '否'], help='注意, 這會自動點擊地圖交互的選項', gooey_options={'label_color': '#4B5F83'})
+
+    # ==========OS clear map==========
+    # os_semi_parser = subs.add_parser('大世界地圖全清')
+    # os_semi = os_semi_parser.add_argument_group('大世界地圖全清', '僅在安全海域中使用, 在普通海域使用時需要先執行空域搜索\n使用方法: 先手動進入地圖, 再運行\n運行結束後, 最好手動檢查是否有遺漏', gooey_options={'label_color': '#931D03'})
+    # os_semi.add_argument('--打大世界餘燼信標', default=default('--打大世界餘燼信標'), choices=['是', '否'], help='信標數據滿了之後, 打飛龍', gooey_options={'label_color': '#4B5F83'})
 
     args = parser.parse_args()
 

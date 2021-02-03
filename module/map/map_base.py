@@ -230,7 +230,7 @@ class CampaignMap:
         # logger.info('Showing grids:')
         logger.info('  ' + ' '.join([' ' + chr(x + 64 + 1) for x in range(self.shape[0] + 1)]))
         for y in range(self.shape[1] + 1):
-            text = str(y + 1) + ' ' + ' '.join(
+            text = str(y + 1).rjust(2) + ' ' + ' '.join(
                 [self[(x, y)].str if (x, y) in self else '  ' for x in range(self.shape[0] + 1)])
             logger.info(text)
 
@@ -390,14 +390,14 @@ class CampaignMap:
     def show_cost(self):
         logger.info('  ' + ' '.join(['   ' + chr(x + 64 + 1) for x in range(self.shape[0] + 1)]))
         for y in range(self.shape[1] + 1):
-            text = str(y + 1) + ' ' + ' '.join(
+            text = str(y + 1).rjust(2) + ' ' + ' '.join(
                 [str(self[(x, y)].cost).rjust(4) if (x, y) in self else '    ' for x in range(self.shape[0] + 1)])
             logger.info(text)
 
     def show_connection(self):
         logger.info('  ' + ' '.join([' ' + chr(x + 64 + 1) for x in range(self.shape[0] + 1)]))
         for y in range(self.shape[1] + 1):
-            text = str(y + 1) + ' ' + ' '.join(
+            text = str(y + 1).rjust(2) + ' ' + ' '.join(
                 [location2node(self[(x, y)].connection) if (x, y) in self and self[(x, y)].connection else '  ' for x in
                  range(self.shape[0] + 1)])
             logger.info(text)
@@ -452,6 +452,8 @@ class CampaignMap:
         """
         location_dict = sorted(location_dict.items(), key=lambda kv: (int(kv[1] == current),))
         for fleet, location in location_dict:
+            if location == ():
+                continue
             self.find_path_initial(location, has_ambush=has_ambush)
             attr = f'cost_{fleet}'
             for grid in self:

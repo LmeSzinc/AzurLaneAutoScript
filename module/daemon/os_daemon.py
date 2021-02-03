@@ -6,7 +6,7 @@ from module.os_combat.combat import Combat
 from module.os_handler.map_event import MapEventHandler
 
 
-class AzurLaneDaemon(Combat, MapEventHandler):
+class AzurLaneDaemon(Combat):
     def daemon(self):
         self.device.disable_stuck_detection()
 
@@ -45,8 +45,7 @@ class AzurLaneDaemon(Combat, MapEventHandler):
             if self.config.ENABLE_OS_SEMI_STORY_SKIP:
                 self.story_skip()
 
-            self.handle_map_get_items()
-            self.handle_map_archives()
+            self.handle_map_event()
 
             # End
             # No end condition, stop it manually.
