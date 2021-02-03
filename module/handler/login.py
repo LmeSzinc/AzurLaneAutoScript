@@ -45,6 +45,8 @@ class LoginHandler(Combat):
                     continue
             if self.handle_popup_confirm('LOGIN'):
                 continue
+            if self.handle_guild_popup_cancel():
+                continue
             if self.handle_urgent_commission(save_get_items=False):
                 continue
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=5):
