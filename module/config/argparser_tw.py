@@ -374,7 +374,7 @@ def main(ini_name=''):
     daily_task.add_argument('--每日艦隊快速換裝', default=default('--每日艦隊快速換裝'), help='打之前換裝備, 打完後卸裝備, 不需要就填0 \n半形逗號分割, 例如3, 1, 0, 1, 1, 0', gooey_options={'label_color': '#4B5F83'})
 
     # 困難設定
-    hard = daily_parser.add_argument_group('困難設定', '需要開啟週回模式, 暫時僅支援 10-4', gooey_options={'label_color': '#931D03'})
+    hard = daily_parser.add_argument_group('困難設定', '需要地圖達到週回模式', gooey_options={'label_color': '#931D03'})
     hard.add_argument('--困難地圖', default=default('--困難地圖'), help='比如 10-4', gooey_options={'label_color': '#4B5F83'})
     hard.add_argument('--困難艦隊', default=default('--困難艦隊'), choices=['1', '2'], gooey_options={'label_color': '#4B5F83'})
     hard.add_argument('--困難艦隊快速換裝', default=default('--困難艦隊快速換裝'), help='打之前換裝備, 打完後卸裝備, 不需要就填0\n半形逗號分割, 例如3, 1, 0, 1, 1, 0', gooey_options={'label_color': '#4B5F83'})

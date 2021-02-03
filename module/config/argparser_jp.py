@@ -425,11 +425,11 @@ def main(ini_name=''):
                             help='Change equipment before playing, unload equipment after playing, do not need to fill in 0 \ncomma, such as 3, 1, 0, 1, 1, 0', gooey_options={'label_color': '#4B5F83'})
 
     # 困难设置
-    hard = daily_parser.add_argument_group('Difficult setting', 'Need to turn on weekly mode', gooey_options={'label_color': '#931D03'})
+    hard = daily_parser.add_argument_group('Hard setting', 'Needs to reach clear mode before run', gooey_options={'label_color': '#931D03'})
     hard.add_argument('--hard_campaign', default=default('--hard_campaign'),
                       help='For example 10-4', gooey_options={'label_color': '#4B5F83'})
     hard.add_argument('--hard_fleet', default=default('--hard_fleet'),
-                      choices=['1', '2'], help='For 10-2 hard, Set Fleet 2', gooey_options={'label_color': '#4B5F83'})
+                      choices=['1', '2'], help='', gooey_options={'label_color': '#4B5F83'})
     hard.add_argument('--hard_equipment', default=default('--hard_equipment'),
                       help='Change equipment before playing, unload equipment after playing, do not need to fill in 0 \ncomma, such as 3, 1, 0, 1, 1, 0', gooey_options={'label_color': '#4B5F83'})
 

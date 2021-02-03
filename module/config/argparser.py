@@ -375,7 +375,7 @@ def main(ini_name=''):
     daily_task.add_argument('--每日舰队快速换装', default=default('--每日舰队快速换装'), help='打之前换装备, 打完后卸装备, 不需要就填0\n逗号分割, 例如 3, 1, 0, 1, 1, 0', gooey_options={'label_color': '#4B5F83'})
 
     # 困难设置
-    hard = daily_parser.add_argument_group('困难设置', '需要开启周回模式, 暂时仅支持 10-4', gooey_options={'label_color': '#931D03'})
+    hard = daily_parser.add_argument_group('困难设置', '需要地图达到周回模式', gooey_options={'label_color': '#931D03'})
     hard.add_argument('--困难地图', default=default('--困难地图'), help='比如 10-4', gooey_options={'label_color': '#4B5F83'})
     hard.add_argument('--困难舰队', default=default('--困难舰队'), choices=['1', '2'], gooey_options={'label_color': '#4B5F83'})
     hard.add_argument('--困难舰队快速换装', default=default('--困难舰队快速换装'), help='打之前换装备, 打完后卸装备, 不需要就填0\n逗号分割, 例如 3, 1, 0, 1, 1, 0', gooey_options={'label_color': '#4B5F83'})
