@@ -560,12 +560,12 @@ def main(ini_name=''):
 
     # ==========OS semi auto==========
     os_semi_parser = subs.add_parser('os_semi_auto')
-    os_semi = os_semi_parser.add_argument_group('os_semi_auto', 'Start and finish combat automatically', gooey_options={'label_color': '#931D03'})
+    os_semi = os_semi_parser.add_argument_group('os_semi_auto', 'Start and finish combat automatically\nOnly recommended to use in normal zones and safe zones', gooey_options={'label_color': '#931D03'})
     os_semi.add_argument('--enable_os_semi_story_skip', default=default('--enable_os_semi_story_skip'), choices=['yes', 'no'], help='Note that this will automatically choose the options in map events', gooey_options={'label_color': '#4B5F83'})
 
     # ==========OS clear map==========
     os_semi_parser = subs.add_parser('os_clear_map')
-    os_semi = os_semi_parser.add_argument_group('os_clear_map', 'Usage: Enter map manually and run\nRecommend to re-check map by hand after run', gooey_options={'label_color': '#931D03'})
+    os_semi = os_semi_parser.add_argument_group('os_clear_map', 'Only recommended to use in save zones. To use in normal zones, execute air search manually first.\nUsage: Enter map manually and run\nRecommend to re-check map manually after run', gooey_options={'label_color': '#931D03'})
     os_semi.add_argument('--enable_os_ash_attack', default=default('--enable_os_ash_attack'), choices=['yes', 'no'], help='Attack ash if beacon data is full', gooey_options={'label_color': '#4B5F83'})
 
     args = parser.parse_args()
