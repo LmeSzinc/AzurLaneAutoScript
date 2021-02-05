@@ -153,17 +153,17 @@ def main(ini_name=''):
     # 出击舰队
     fleet = setting_parser.add_argument_group('Attack fleet', 'Fleet step enables only in event maps without clear mode', gooey_options={'label_color': '#931D03'})
     fleet.add_argument('--enable_map_fleet_lock', default=default('--enable_map_fleet_lock'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
-    fleet.add_argument('--enable_fleet_reverse_in_hard', default=default('--enable_fleet_reverse_in_hard'), choices=['yes', 'no'], help='Use fleet 2 for mobs, fleet 1 for boss, only enabled in hard mode and event hard', gooey_options={'label_color': '#4B5F83'})
+    fleet.add_argument('--enable_fleet_reverse_in_hard', default=default('--enable_fleet_reverse_in_hard'), choices=['yes', 'no'], help='Use fleet 2 for mobs, fleet 1 for boss, only enabled in hard mode and event hard. If enable auto search, this option will be disabled', gooey_options={'label_color': '#4B5F83'})
     fleet.add_argument('--enable_auto_search', default=default('--enable_auto_search'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
     fleet.add_argument('--auto_search_setting', default=default('--auto_search_setting'), choices=['fleet1_mob_fleet2_boss', 'fleet1_boss_fleet2_mob', 'fleet1_all_fleet2_standby', 'fleet1_standby_fleet2_all'], gooey_options={'label_color': '#4B5F83'})
 
-    f1 = fleet.add_argument_group('Mob Fleet', 'Players can choose a formation before battle. Though it has no effect appearance-wise, the formations applies buffs to certain stats.\nLine Ahead: Increases Firepower and Torpedo by 15%, but reduces Evasion by 10% (Applies only to Vanguard fleet)\nDouble Line: Increases Evasion by 30%, but decreases Firepower and Torpedo by 5% (Applies only to Vanguard fleet)\nDiamond: Increases Anti-Air by 20% (no penalties, applies to entire fleet)', gooey_options={'label_color': '#4B5F83'})
+    f1 = fleet.add_argument_group('Mob Fleet', 'Players can choose a formation before battle. Though it has no effect appearance-wise, the formations applies buffs to certain stats.\nLine Ahead: Increases Firepower and Torpedo by 15%, but reduces Evasion by 10% (Applies only to Vanguard fleet)\nDouble Line: Increases Evasion by 30%, but decreases Firepower and Torpedo by 5% (Applies only to Vanguard fleet)\nDiamond: Increases Anti-Air by 20% (no penalties, applies to entire fleet).\nIf enable auto search, this is fleet 1', gooey_options={'label_color': '#4B5F83'})
     f1.add_argument('--fleet_index_1', default=default('--fleet_index_1'), choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
     f1.add_argument('--fleet_formation_1', default=default('--fleet_formation_1'), choices=['Line Ahead', 'Double Line', 'Diamond'], gooey_options={'label_color': '#4B5F83'})
     f1.add_argument('--fleet_auto_mode_1', default=default('--fleet_auto_mode_1'), choices=['combat_auto', 'combat_manual', 'stand_still_in_the_middle', 'hide_in_bottom_left'], gooey_options={'label_color': '#4B5F83'})
     f1.add_argument('--fleet_step_1', default=default('--fleet_step_1'), choices=['1', '2', '3', '4', '5', '6'], help='In event map, fleet has limit on moving, so fleet_step is how far can a fleet goes in one operation, if map cleared, it will be ignored', gooey_options={'label_color': '#4B5F83'})
 
-    f2 = fleet.add_argument_group('Boss Fleet', gooey_options={'label_color': '#4B5F83'})
+    f2 = fleet.add_argument_group('Boss Fleet', 'If enable auto search, this is fleet 2', gooey_options={'label_color': '#4B5F83'})
     f2.add_argument('--fleet_index_2', default=default('--fleet_index_2'), choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
     f2.add_argument('--fleet_formation_2', default=default('--fleet_formation_2'), choices=['Line Ahead', 'Double Line', 'Diamond'], gooey_options={'label_color': '#4B5F83'})
     f2.add_argument('--fleet_auto_mode_2', default=default('--fleet_auto_mode_2'), choices=['combat_auto', 'combat_manual', 'stand_still_in_the_middle', 'hide_in_bottom_left'], gooey_options={'label_color': '#4B5F83'})

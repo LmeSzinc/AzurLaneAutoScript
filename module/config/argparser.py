@@ -152,17 +152,17 @@ def main(ini_name=''):
     # 出击舰队
     fleet = setting_parser.add_argument_group('出击舰队', '非活动图或周回模式会忽略步长设置', gooey_options={'label_color': '#931D03'})
     fleet.add_argument('--启用阵容锁定', default=default('--启用阵容锁定'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    fleet.add_argument('--启用困难图舰队反转', default=default('--启用困难图舰队反转'), choices=['是', '否'], help='使用二队打道中, 一队打BOSS, 仅困难图和活动困难图生效', gooey_options={'label_color': '#4B5F83'})
+    fleet.add_argument('--启用困难图舰队反转', default=default('--启用困难图舰队反转'), choices=['是', '否'], help='使用二队打道中, 一队打BOSS, 仅困难图和活动困难图生效, 开启自律寻敌时此项不生效', gooey_options={'label_color': '#4B5F83'})
     fleet.add_argument('--启用自律寻敌', default=default('--启用自律寻敌'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     fleet.add_argument('--自律寻敌设置', default=default('--自律寻敌设置'), choices=['一队道中二队BOSS', '一队BOSS二队道中', '一队全部二队待机', '一队待机二队全部'], gooey_options={'label_color': '#4B5F83'})
 
-    f1 = fleet.add_argument_group('道中队', gooey_options={'label_color': '#931D03'})
+    f1 = fleet.add_argument_group('道中队', '开启自律寻敌时, 这是一队', gooey_options={'label_color': '#931D03'})
     f1.add_argument('--舰队编号1', default=default('--舰队编号1'), choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
     f1.add_argument('--舰队阵型1', default=default('--舰队阵型1'), choices=['单纵阵', '复纵阵', '轮形阵'], gooey_options={'label_color': '#4B5F83'})
     f1.add_argument('--自律模式1', default=default('--自律模式1'), choices=['自律', '手操', '中路站桩', '躲左下角'], gooey_options={'label_color': '#4B5F83'})
     f1.add_argument('--舰队步长1', default=default('--舰队步长1'), choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
 
-    f2 = fleet.add_argument_group('BOSS队', gooey_options={'label_color': '#931D03'})
+    f2 = fleet.add_argument_group('BOSS队', '开启自律寻敌时, 这是二队', gooey_options={'label_color': '#931D03'})
     f2.add_argument('--舰队编号2', default=default('--舰队编号2'), choices=['不使用', '1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
     f2.add_argument('--舰队阵型2', default=default('--舰队阵型2'), choices=['单纵阵', '复纵阵', '轮形阵'], gooey_options={'label_color': '#4B5F83'})
     f2.add_argument('--自律模式2', default=default('--自律模式2'), choices=['自律', '手操', '中路站桩', '躲左下角'], gooey_options={'label_color': '#4B5F83'})
