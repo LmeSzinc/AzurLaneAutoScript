@@ -38,8 +38,8 @@ class Combat(Combat_, MapEventHandler):
 
         # if emotion_reduce:
         #     self.emotion.wait(fleet=fleet_index)
-        if balance_hp:
-            self.hp_balance()
+        # if balance_hp:
+        #     self.hp_balance()
 
         while 1:
             if skip_first_screenshot:

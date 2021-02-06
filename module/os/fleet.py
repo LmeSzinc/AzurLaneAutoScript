@@ -75,6 +75,9 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
     def hp_get(self):
         pass
 
+    def hp_withdraw_triggered(self):
+        return False
+
     def lv_get(self, after_battle=False):
         pass
 
