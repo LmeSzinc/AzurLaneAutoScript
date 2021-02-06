@@ -42,7 +42,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         )
 
         # self.handle_strategy(index=1 if not self.fleets_reversed() else 2)
-        self.update()
+        # self.update()
         # if self.handle_fleet_reverse():
         #     self.handle_strategy(index=1)
         self.hp_reset()
@@ -71,6 +71,12 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
     def handle_ambush(self):
         # Treat map events as ambush, to trigger walk retrying
         return self.handle_map_event()
+
+    def hp_get(self):
+        pass
+
+    def lv_get(self, after_battle=False):
+        pass
 
     def get_sea_grids(self):
         """
