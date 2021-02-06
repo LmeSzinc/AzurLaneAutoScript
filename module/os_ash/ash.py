@@ -150,9 +150,14 @@ class OSAsh(UI):
         if self._ash_fully_collected:
             return 0
         if not self.image_color_count(ASH_COLLECT_STATUS, color=(235, 235, 235), threshold=221, count=20):
-            logger.info('Ash beacon fully collected today')
-            self._ash_fully_collected = True
-            return 0
+            if self.image_color_count(ASH_COLLECT_STATUS, color=(82, 85, 82), threshold=235, count=50):
+                logger.info('Ash beacon fully collected today')
+                self._ash_fully_collected = True
+                return 0
+            else:
+                # If OS daily mission received or finished, the popup will cover beacon status.
+                logger.info('Ash beacon status is covered, will check next time')
+                return 0
 
         status, _, _ = OCR_ASH_COLLECT_STATUS.ocr(self.device.image)
         if status < 0:
