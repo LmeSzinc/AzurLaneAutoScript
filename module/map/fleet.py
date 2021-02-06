@@ -49,6 +49,13 @@ class Fleet(Camera, AmbushHandler):
         else:
             return self.fleet_1_location
 
+    @fleet_current.setter
+    def fleet_current(self, value):
+        if self.fleet_current_index == 2:
+            self.fleet_2_location = value
+        else:
+            self.fleet_1_location = value
+
     @property
     def fleet_boss(self):
         if self.config.FLEET_BOSS == 2 or self.config.FLEET_2:
@@ -185,7 +192,7 @@ class Fleet(Camera, AmbushHandler):
         while 1:
             self.in_sight(location, sight=self._walk_sight)
             self.focus_to_grid_center()
-            grid = self.convert_map_to_grid(location)
+            grid = self.convert_global_to_local(location)
 
             self.ambush_color_initial()
             self.enemy_searching_color_initial()
@@ -239,7 +246,7 @@ class Fleet(Camera, AmbushHandler):
                     if self.config.MAP_FOCUS_ENEMY_AFTER_BATTLE:
                         self.camera = location
                         self.update()
-                    grid = self.convert_map_to_grid(location)
+                    grid = self.convert_global_to_local(location)
                     walk_timeout.reset()
 
                 # Ambush
@@ -468,7 +475,7 @@ class Fleet(Camera, AmbushHandler):
         while queue:
             queue = queue.sort_by_camera_distance(self.camera)
             self.in_sight(queue[0], sight=(-1, 0, 1, 2))
-            grid = self.convert_map_to_grid(queue[0])
+            grid = self.convert_global_to_local(queue[0])
             if grid.predict_fleet():
                 if grid.predict_current_fleet():
                     self.fleet_1 = queue[0].location
@@ -515,12 +522,12 @@ class Fleet(Camera, AmbushHandler):
             else:
                 fleets = fleets.sort_by_camera_distance(self.camera)
                 self.in_sight(fleets[0], sight=(-1, 0, 1, 2))
-                if self.convert_map_to_grid(fleets[0]).predict_current_fleet():
+                if self.convert_global_to_local(fleets[0]).predict_current_fleet():
                     self.fleet_1 = fleets[0].location
                     self.fleet_2 = fleets[1].location
                 else:
                     self.in_sight(fleets[1], sight=(-1, 0, 1, 2))
-                    if self.convert_map_to_grid(fleets[1]).predict_current_fleet():
+                    if self.convert_global_to_local(fleets[1]).predict_current_fleet():
                         self.fleet_1 = fleets[1].location
                         self.fleet_2 = fleets[0].location
                     else:

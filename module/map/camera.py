@@ -290,14 +290,15 @@ class Camera(MapOperation):
             x = 0
         self.focus_to((self.camera[0] + x, self.camera[1] + y))
 
-    def convert_map_to_grid(self, location):
-        """If self.grids doesn't contain this location, focus camera on the location and re-convert it.
+    def convert_global_to_local(self, location):
+        """
+        If self.grids doesn't contain this location, focus camera on the location and re-convert it.
 
         Args:
-            location: Grid instance in self.map.
+            location: Grid instance in self.map
 
         Returns:
-            Grid: Grid instance in self.grids.
+            Grid: Grid instance in self.view
         """
         location = location_ensure(location)
 
@@ -315,6 +316,34 @@ class Camera(MapOperation):
             self.focus_to(location)
             local = np.array(location) - self.camera + self.view.center_loca
             return self.view[local]
+
+    def convert_local_to_global(self, location):
+        """
+        If self.map doesn't contain this location, camera might be wrong, correct camera and re-convert it.
+
+        Args:
+            location: Grid instance in self.view
+
+        Returns:
+            Grid: Grid instance in self.map
+        """
+        location = location_ensure(location)
+
+        global_ = np.array(location) + self.camera - self.view.center_loca
+        logger.info('Global %s (camera=%s) <- Local %s (center=%s)' % (
+            location2node(global_),
+            location2node(self.camera),
+            location2node(location),
+            location2node(self.view.center_loca)
+        ))
+
+        if global_ in self.map:
+            return self.map[global_]
+        else:
+            logger.warning('Convert local to global Failed.')
+            self.ensure_edge_insight(reverse=True)
+            global_ = np.array(location) + self.camera - self.view.center_loca
+            return self.map[global_]
 
     def full_scan_find_boss(self):
         logger.info('Full scan find boss.')
