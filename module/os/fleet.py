@@ -99,4 +99,8 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 continue
             sea.append(self.map[location])
 
-        return SelectedGrids(sea).sort_by_camera_distance(self.fleet_current)
+        if len(self.fleet_current):
+            center = self.fleet_current
+        else:
+            center = self.camera
+        return SelectedGrids(sea).sort_by_camera_distance(center)
