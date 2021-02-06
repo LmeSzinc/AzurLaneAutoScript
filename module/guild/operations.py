@@ -102,6 +102,39 @@ class GuildOperations(GuildBase):
 
         return [point_to_entrance_1(point) for point in points], [point_to_entrance_2(point) for point in points]
 
+    def _guild_operations_dispatch_swipe(self, skip_first_screenshot=True):
+        """
+        Although AL will auto focus to active dispatch, but it's bugged.
+        It can't reach the operations behind.
+        So this method will swipe behind, and focus to active dispatch.
+        Force to use minitouch, because uiautomator2 will need longer swipes.
+
+        Returns:
+            bool: If found active dispatch.
+        """
+        # Where whole operation mission chain is
+        detection_area = (152, 135, 1280, 630)
+
+        for _ in range(5):
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            entrance_1, entrance_2 = self._guild_operation_get_entrance()
+            if len(entrance_1):
+                return True
+
+            backup = self.config.cover(DEVICE_CONTROL_METHOD='minitouch')
+            p1, p2 = random_rectangle_vector(
+                (-600, 0), box=detection_area, random_range=(-50, -50, 50, 50), padding=20)
+            self.device.drag(p1, p2, segments=2, shake=(0, 25), point_random=(0, 0, 0, 0), shake_random=(0, -5, 0, 5))
+            backup.recover()
+            self.device.sleep(0.3)
+
+        logger.warning('Failed to find active operation dispatch')
+        return False
+
     def _guild_operations_dispatch_enter(self, skip_first_screenshot=True):
         """
         Returns:
@@ -299,6 +332,9 @@ class GuildOperations(GuildBase):
             out: page_guild, guild operation, operation map (GUILD_OPERATIONS_ACTIVE_CHECK)
         """
         logger.hr('Guild dispatch')
+        if not self._guild_operations_dispatch_swipe():
+            return False
+
         for _ in range(5):
             if self._guild_operations_dispatch_enter():
                 self._guild_operations_dispatch_switch_fleet()
