@@ -3,10 +3,11 @@ import time
 from module.base.utils import *
 from module.exception import MapDetectionError
 from module.logger import logger
+from module.map.map_grids import SelectedGrids
 from module.map_detection.detector import MapDetector
 from module.map_detection.grid import Grid
-from module.map_detection.utils import *
 from module.map_detection.os_grid import OSGrid
+from module.map_detection.utils import *
 
 
 class View(MapDetector):
@@ -106,3 +107,22 @@ class View(MapDetector):
         for grid in self:
             grid.reset()
             grid.image = image
+
+    def select(self, **kwargs):
+        """
+        Args:
+            **kwargs: Attributes of Grid.
+
+        Returns:
+            SelectedGrids:
+        """
+        result = []
+        for grid in self:
+            flag = True
+            for k, v in kwargs.items():
+                if grid.__getattribute__(k) != v:
+                    flag = False
+            if flag:
+                result.append(grid)
+
+        return SelectedGrids(result)
