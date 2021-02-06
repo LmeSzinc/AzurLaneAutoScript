@@ -80,6 +80,16 @@ class InfoHandler(ModuleBase):
         else:
             return False
 
+    def handle_popup_single(self, name=''):
+        if self.appear(GET_MISSION, offset=self._popup_offset, interval=2):
+            prev_name = GET_MISSION.name
+            GET_MISSION.name = POPUP_CONFIRM.name + '_' + name
+            self.device.click(GET_MISSION)
+            GET_MISSION.name = prev_name
+            return True
+
+        return False
+
     def handle_urgent_commission(self, save_get_items=None):
         """
         Args:

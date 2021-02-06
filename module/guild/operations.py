@@ -369,6 +369,12 @@ class GuildOperations(GuildBase):
             if self.appear_then_click(GUILD_BOSS_ENTER, interval=3):
                 continue
 
+            if self.handle_popup_single('FLEET_UPDATED'):
+                logger.info('Fleet composition altered, may still be dispatch-able. However'
+                            'fellow guild members have updated their support line up.'
+                            'Suggestion: Enable Boss Recommend')
+                continue
+
             if self.appear(GUILD_DISPATCH_FLEET, interval=3):
                 # Button does not appear greyed out even
                 # when empty fleet composition

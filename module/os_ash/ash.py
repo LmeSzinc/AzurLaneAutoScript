@@ -69,6 +69,9 @@ class OSAsh(UI):
     def is_in_ash(self):
         return self.appear(ASH_CHECK, offset=(20, 20))
 
+    def is_in_map(self):
+        return self.appear(IN_MAP, offset=(200, 5))
+
     def _ash_beacon_select(self, tier=15, trial=5):
         """
         Args:
@@ -166,17 +169,19 @@ class OSAsh(UI):
     def _ash_enter_from_map(self, skip_first_screenshot=True):
         """
         Pages:
-            in: IN_MAP
+            in: is_in_map
             out: is_in_ash
         """
+        in_map_timeout = Timer(2, count=3)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
 
-            if self.appear(IN_MAP, interval=2):
+            if in_map_timeout.reached() and self.is_in_map():
                 self.device.click(ASH_COLLECT_STATUS)
+                in_map_timeout.reset()
                 continue
             if self.appear_then_click(ASH_ENTER_CONFIRM, offset=(20, 20), interval=2):
                 continue
@@ -246,8 +251,8 @@ class OSAsh(UI):
             bool: If attacked.
 
         Pages:
-            in: IN_MAP
-            out: IN_MAP
+            in: is_in_map
+            out: is_in_map
         """
         if not self.config.ENABLE_OS_ASH_ATTACK:
             return False
@@ -257,7 +262,7 @@ class OSAsh(UI):
         self._ash_enter_from_map()
         self._ash_help()
         self._ash_beacon_attack()
-        self.ui_click(ASH_QUIT, check_button=IN_MAP, skip_first_screenshot=True)
+        self.ui_click(ASH_QUIT, check_button=self.is_in_map, skip_first_screenshot=True)
         return True
 
 
