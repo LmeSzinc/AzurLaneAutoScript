@@ -223,7 +223,7 @@ class GuildLogistics(GuildBase):
         """
         logger.hr('Guild logistics')
         confirm_timer = Timer(1.5, count=3).start()
-        exchange_interval = Timer(0.5, count=1)
+        exchange_interval = Timer(1.5, count=3)
         supply_checked = False
         mission_checked = False
         exchange_checked = False
