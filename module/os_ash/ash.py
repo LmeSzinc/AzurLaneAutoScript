@@ -4,7 +4,7 @@ from module.combat.combat import Combat, BATTLE_PREPARATION, GET_ITEMS_1
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
 from module.os_ash.assets import *
-from module.os_handler.assets import IN_MAP, IN_MAP_OBSCURED
+from module.os_handler.assets import IN_MAP
 from module.ui.page import page_os
 from module.ui.switch import Switch
 from module.ui.ui import UI
@@ -70,7 +70,7 @@ class OSAsh(UI):
         return self.appear(ASH_CHECK, offset=(20, 20))
 
     def is_in_map(self):
-        return self.appear(IN_MAP) or self.appear(IN_MAP_OBSCURED)
+        return self.appear(IN_MAP, offset=(200, 5))
 
     def _ash_beacon_select(self, tier=15, trial=5):
         """
