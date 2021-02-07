@@ -2,7 +2,6 @@ from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-from campaign.campaign_main.campaign_12_4_leveling import Config
 
 
 MAP = CampaignMap()
@@ -35,6 +34,24 @@ A6, B6, C6, D6, E6, F6, G6, H6, \
     = MAP.flatten()
 
 road_main = RoadGrids([F4, H4])
+
+
+class Config:
+    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 30
+    EDGE_LINES_HOUGHLINES_THRESHOLD = 30
+    COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.2
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (150, 255 - 24),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 24, 255),
+        'prominence': 10,
+        'distance': 50,
+        'wlen': 1000,
+    }
 
 
 class Campaign(CampaignBase):

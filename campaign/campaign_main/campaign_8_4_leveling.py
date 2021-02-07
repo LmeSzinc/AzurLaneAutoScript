@@ -1,5 +1,10 @@
 from .campaign_8_4 import *
+from .campaign_8_4 import Config as ConfigBase
 from .campaign_8_4 import Campaign as CampaignBase
+
+
+class Config(ConfigBase):
+    ENABLE_AUTO_SEARCH = False
 
 
 class Campaign(CampaignBase):

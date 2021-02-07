@@ -2,7 +2,7 @@ from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-from campaign.campaign_main.campaign_12_4_leveling import Config
+from campaign.campaign_main.campaign_12_1 import Config as ConfigBase
 
 
 MAP = CampaignMap()
@@ -35,6 +35,10 @@ A5, B5, C5, D5, E5, F5, G5, H5, I5, \
 A6, B6, C6, D6, E6, F6, G6, H6, I6, \
 A7, B7, C7, D7, E7, F7, G7, H7, I7, \
     = MAP.flatten()
+
+
+class Config(ConfigBase):
+    ENABLE_AUTO_SEARCH = False
 
 
 class Campaign(CampaignBase):

@@ -2,6 +2,7 @@ from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
+from campaign.campaign_main.campaign_12_1 import Config as ConfigBase
 
 
 MAP = CampaignMap('12-4')
@@ -51,13 +52,8 @@ A8, B8, C8, D8, E8, F8, G8, H8, I8, J8, K8, \
 # ROAD_MAIN = RoadGrids([[B6, C5]])
 
 
-class Config:
-    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (120, 255 - 40),
-        'width': 2,
-        'prominence': 10,
-        'distance': 35,
-    }
+class Config(ConfigBase):
+    ENABLE_AUTO_SEARCH = False
 
 
 class Campaign(CampaignBase):

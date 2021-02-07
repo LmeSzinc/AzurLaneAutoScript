@@ -14,6 +14,7 @@ A1, B1, C1, D1, E1, F1, G1, \
 
 class Config(ConfigBase):
     ENABLE_FAST_FORWARD = False
+    ENABLE_AUTO_SEARCH = False
     AMBUSH_EVADE = False
 
 

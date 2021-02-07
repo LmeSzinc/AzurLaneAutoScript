@@ -2,7 +2,8 @@ from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-from campaign.campaign_main.campaign_7_2 import Config, MAP
+from campaign.campaign_main.campaign_7_2 import MAP
+from campaign.campaign_main.campaign_7_2 import Config as ConfigBase
 
 # MAP.in_map_swipe_preset_data = (-1, 0)
 
@@ -16,6 +17,10 @@ ROAD_MAIN = RoadGrids([A3, [C3, B4, C5], [F1, G2, G3]])
 GRIDS_FOR_FASTER = SelectedGrids([A3, C3, E3, G3])
 FLEET_2_STEP_ON = SelectedGrids([A3, G3, C3, E3])
 # MAP.camera_data_spawn_point = ['A1']
+
+
+class Config(ConfigBase):
+    ENABLE_AUTO_SEARCH = False
 
 
 class Campaign(CampaignBase):
