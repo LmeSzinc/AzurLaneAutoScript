@@ -209,7 +209,7 @@ def main(ini_name=''):
     retire.add_argument('--retire_amount', default=default('--retire_amount'), choices=['retire_all', 'retire_10'], gooey_options={'label_color': '#4B5F83'})
     retire.add_argument('--enhance_favourite', default=default('--enhance_favourite'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
     retire.add_argument('--enhance_order_string', default=default('--enhance_order_string'),
-                        help='Use example format "cv > bb > ..." may omit a ship type category altogether to skip otherwise leave blank to not apply any filter. Using \'?\' will have ALAS select a category at random, may use multiple in same string',
+                        help='Use example format "cv > bb > ..." may omit a ship type category altogether to skip otherwise insert at least one white space character to not apply an index filter. Using \'?\' will have ALAS select a category at random, may use multiple in same string',
                         gooey_options={'label_color': '#4B5F83'})
     retire.add_argument('--enhance_check_per_category', default=default('--enhance_check_per_category'),
                         help='How many ships at maximum are viewed before moving onto the next category, ships that are \'in battle\' do not count towards this number and are skipped to the next available ship for enhancement',
