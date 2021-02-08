@@ -43,10 +43,15 @@ class OSMapOperation(MapOperation):
 
         logger.info(f'Map name processed: {name}')
         name = name.lower()
+        if 'nvcity' in name: # NY City Port read as 'V' rather than 'Y'
+            name = 'nycity'
 
         for index, chapter in DIC_OS_MAP.items():
             cmp_name = chapter['en'].translate(dict.fromkeys(map(ord, whitespace)))
             cmp_name = cmp_name.lower()
+            if 'é' in cmp_name: # Méditerranée name maps
+                cmp_name = cmp_name.replace('é', 'e')
+
             if name == cmp_name:
                 self.os_map_name = chapter['en']
                 logger.info(
