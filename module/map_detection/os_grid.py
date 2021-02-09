@@ -155,11 +155,11 @@ class OSGridPredictor(GridPredictor):
         if not color[2] > max(color[0], color[1]) + 20:
             return False
 
-        area = area_pad((48, 48, 48 + 46, 48 + 46), pad=5)
-        res = cv2.matchTemplate(ASSETS.tile_center_image, crop(self.image_homo, area=area), cv2.TM_CCOEFF_NORMED)
-        _, sim, _, _ = cv2.minMaxLoc(res)
-        if sim > 0.8:
-            return True
+        # area = area_pad((48, 48, 48 + 46, 48 + 46), pad=5)
+        # res = cv2.matchTemplate(ASSETS.tile_center_image, crop(self.image_homo, area=area), cv2.TM_CCOEFF_NORMED)
+        # _, sim, _, _ = cv2.minMaxLoc(res)
+        # if sim > 0.8:
+        #     return True
 
         # tile = 135
         # corner = 25
@@ -171,7 +171,7 @@ class OSGridPredictor(GridPredictor):
         #     if sim > 0.8:
         #         return True
 
-        return False
+        return True
 
     def predict_enemy_scale(self):
         """
