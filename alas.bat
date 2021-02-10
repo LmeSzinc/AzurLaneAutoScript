@@ -1074,7 +1074,7 @@ if %LAST_LOCAL_GIT% == %sha% (
    echo. && echo == ^| Deleting older .PNG under Log folder, it may take while, it depends on the amount of files you have...
    forfiles /P %logFolder% /S /M *.png /D -3 /C "cmd /c del @PATH" 2>nul
    popup.exe
-   rem if %AutoMode%=="enable" goto Run_UpdateAlas
+   if %AutoMode%=="enable" goto Run_UpdateAlas
    choice /t 10 /c yn /d y /m "There is an update for ALAS. Download now?"
    if errorlevel 2 goto :eof
    if errorlevel 1 goto Run_UpdateAlas
