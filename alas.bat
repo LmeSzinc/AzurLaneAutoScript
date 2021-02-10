@@ -264,7 +264,7 @@ if "%KeepLocalChanges%"=="disable" (
    %gitBin% pull %source% %Branch%
    %gitBin% stash pop
    echo == DONE!
-   if %AutoMode%=="enable" ( 
+   if "%AutoMode%"=="enable" ( 
    echo. & echo == Press any key to proceed to %DefaultServer%
    goto %DefaultServer% )
    echo == Press any key to proceed
@@ -1071,10 +1071,7 @@ if %LAST_LOCAL_GIT% == %sha% (
    echo == ^| Local commit date:     ^| %GIT_CTIME%
    echo == ^| Current Local Branch:  ^| %BRANCH%
    echo =======================================================================================================================
-   echo. && echo == ^| Deleting older .PNG under Log folder, it may take while, it depends on the amount of files you have...
-   forfiles /P %logFolder% /S /M *.png /D -3 /C "cmd /c del @PATH" 2>nul
-   popup.exe
-   if %AutoMode%=="enable" goto Run_UpdateAlas
+   if "%AutoMode%"=="enable" goto Run_UpdateAlas 
    choice /t 10 /c yn /d y /m "There is an update for ALAS. Download now?"
    if errorlevel 2 goto :eof
    if errorlevel 1 goto Run_UpdateAlas
