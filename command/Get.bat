@@ -14,6 +14,8 @@ rem ================= FUNCTIONS =================
 
 :Import_Deploy
 
+set FirstRun=no && call command\Config.bat FirstRun %FirstRun%
+
 :: %cd%: "%root%"
 :: Get %Language% , %Region% , %SystemType%
 :Import_Main
@@ -30,7 +32,14 @@ if exist config\alas.ini (
 if exist config\template.ini (
     for /f "tokens=3 delims= " %%i in ('findstr /i "serial" config\template.ini') do ( set "SerialTemplate=%%i" )
 )
-if exist config\deploy.ini (
+if exist config\deploy.ini ( goto CheckFields )
+:CheckFields
+    findstr /i "AutoMode" config\deploy.ini>nul
+    if "%errorlevel%" == "1" ( ( echo AutoMode = disable)>>config\deploy.ini )
+    for /f "tokens=3 delims= " %%i in ('findstr /i "AutoMode" config\deploy.ini') do ( set "AutoMode=%%i" )
+    findstr /i "DefaultServer" config\deploy.ini>nul
+    if "%errorlevel%" == "1"  ( ( echo DefaultServer = disable)>>config\deploy.ini )
+    for /f "tokens=3 delims= " %%i in ('findstr /i "DefaultServer" config\deploy.ini') do ( set "DefaultServer=%%i" )
     for /f "tokens=3 delims= " %%i in ('findstr /i "Language" config\deploy.ini') do ( set "Language=%%i" )
     for /f "tokens=3 delims= " %%i in ('findstr /i "Region" config\deploy.ini') do ( set "Region=%%i" )
     for /f "tokens=3 delims= " %%i in ('findstr /i "SystemType" config\deploy.ini') do ( set "SystemType=%%i" )
@@ -42,9 +51,6 @@ if exist config\deploy.ini (
     for /f "tokens=3 delims= " %%i in ('findstr /i "AdbConnect" config\deploy.ini') do ( set "AdbConnect=%%i" )
     for /f "tokens=3 delims= " %%i in ('findstr /i "Serial" config\deploy.ini') do ( set "SerialDeploy=%%i" )
     for /f "tokens=3 delims= " %%i in ('findstr /i "AdbKillServer" config\deploy.ini') do ( set "KillServer=%%i" )
-) else (
-    call command\LanguageSet.bat
-    )
 goto :eof
 
 :Import_Serial

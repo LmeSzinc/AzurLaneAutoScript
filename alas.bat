@@ -67,12 +67,13 @@ echo ===========================================================================
 :: Uncomment to debug the configuration that imported from "config\deploy.ini"
 rem echo == ^| Language: %Language% & echo Region: %Region% & echo SystemType: %SystemType%
 rem echo == ^| http_proxy: %http_proxy% & echo https_proxy: %https_proxy%
-echo ^| DeployMode: %DeployMode%
-rem echo == ^| KeepLocalChanges: %KeepLocalChanges%
-rem echo == ^| RealtimeMode: %RealtimeMode%
+echo == ^| DeployMode: %DeployMode%
+echo == ^| KeepLocalChanges: %KeepLocalChanges%
+echo == ^| RealtimeMode: %RealtimeMode%
+echo == ^| AutoMode: %AutoMode%
 rem echo == ^| FirstRun: %FirstRun%
-echo ^| IsUsingGit: %IsUsingGit%
-echo ^| Serial: %SerialDeploy%
+echo == ^| IsUsingGit: %IsUsingGit%
+echo == ^| Serial: %SerialDeploy%
 setLocal EnableDelayedExpansion
 set "STR=^| Alas Run Tool %Version% ^|"
 set "SIZE=119"
@@ -90,6 +91,8 @@ call echo %%equal:~0,%SIZE%%%
 endLocal
 echo.
 echo =======================================================================================================================
+if "%AutoMode%"=="enable" ( echo. && echo AutoMode is On, to disable go to config/deploy.ini and disable && goto %DefaultServer% )
+
 echo. & echo  [*] Select your Server/GUI Language
       echo    ^|
       echo    ^|-- [1] EN
@@ -222,6 +225,7 @@ echo ===========================================================================
 echo == Branch in use: %Branch%
 echo == KeepLocalChanges is: %KeepLocalChanges%
 echo =======================================================================================================================
+if "%AutoMode%"=="enable" ( goto proceed_alas )
 set opt6_opt4_choice=0
 echo. & echo == Change default Branch (master/dev), please enter T;
 echo == To proceed update using Branch: %Branch%, please enter Y;
@@ -246,6 +250,9 @@ if "%KeepLocalChanges%"=="disable" (
    %gitBin% reset --hard %source%/%Branch%
    %gitBin% pull --ff-only %source% %Branch%
    echo == DONE!
+   if %AutoMode%=="enable" ( 
+   echo. & echo == Press any key to proceed to %DefaultServer%
+   goto %DefaultServer% )
    echo == Press any key to proceed
    pause > NUL
    goto Updater_menu
@@ -256,6 +263,9 @@ if "%KeepLocalChanges%"=="disable" (
    %gitBin% pull %source% %Branch%
    %gitBin% stash pop
    echo == DONE!
+   if %AutoMode%=="enable" ( 
+   echo. & echo == Press any key to proceed to %DefaultServer%
+   goto %DefaultServer% )
    echo == Press any key to proceed
    pause > NUL
    goto Updater_menu
@@ -303,6 +313,7 @@ echo. & echo  [7] (Disable/Enable) ADB connect at each start
 echo. & echo  [8] Replace ADB from chinese emulators
 echo. & echo  [9] Why can't I toggle certain settings above?
 echo. & echo  [10] Reset Settings
+echo. & echo  [11] (Disable/Enable) AutoMode
 echo. & echo.
 echo =======================================================================================================================
 set opt2_choice=-1
@@ -319,6 +330,7 @@ if "%opt2_choice%"=="7" goto settings_ADBconnect
 if "%opt2_choice%"=="8" goto menu_ReplaceAdb
 if "%opt2_choice%"=="9" goto Reset_setting
 if "%opt2_choice%"=="10" goto Reset_setting
+if "%opt2_choice%"=="11" goto AutoMode
 echo Please input a valid option.
 goto ReturnToSetting
 
@@ -336,6 +348,28 @@ goto ReturnToSetting
 :Realtime_mode
 call command\Config.bat RealtimeMode
 if "%FirstRun%"=="yes" ( set FirstRun=no && call command\Config.bat FirstRun %FirstRun% )
+goto PleaseRerun
+
+:AutoMode
+echo. & echo  [*] Select your DEFAULT Server/GUI Language
+      echo    ^|
+      echo    ^|-- [1] EN
+      echo    ^|
+      echo    ^|-- [2] CN
+      echo    ^|
+      echo    ^|-- [3] JP
+      echo    ^|
+      echo    ^|-- [4] TW
+      echo.
+echo =======================================================================================================================
+set choice=0
+set /p choice= Please input the option and press ENTER:
+echo =======================================================================================================================
+if "%choice%"=="1" set DefaultServer=en && call command\Config.bat DefaultServer %DefaultServer%
+if "%choice%"=="2" set DefaultServer=cn && call command\Config.bat DefaultServer %DefaultServer%
+if "%choice%"=="3" set DefaultServer=jp && call command\Config.bat DefaultServer %DefaultServer%
+if "%choice%"=="4" set DefaultServer=tw && call command\Config.bat DefaultServer %DefaultServer%
+call command\Config.bat AutoMode
 goto PleaseRerun
 
 :Keep_local_changes
@@ -520,6 +554,7 @@ for %%i in %process% do (
 goto :eof
 
 :ProcessFound
+echo =======================================================================================================================
 ECHO == %1 is running
 echo =======================================================================================================================
 if "%1"=="dnplayer.exe" goto process_ldplayer
@@ -1007,6 +1042,10 @@ set GIT_SHA1=%%A
 call :gmTime GIT_CTIME %%B
 )
 
+:AutoRoutine
+goto %DefaultServer%
+
+
 :time_parsed
 if %LAST_LOCAL_GIT% == %sha% (
    echo =======================================================================================================================
@@ -1017,8 +1056,8 @@ if %LAST_LOCAL_GIT% == %sha% (
    echo == ^| Local commit date:      ^| %GIT_CTIME%
    echo == ^| Current Local Branch:   ^| %BRANCH%
    echo =======================================================================================================================
-   echo == Your ALAS is updated, Press any to continue...
-   pause > NUL
+   echo == Your ALAS is updated, Press any to continue or wait...
+   timeout /t 5 >nul
    goto :eof
 ) else (
    echo =======================================================================================================================
@@ -1030,6 +1069,7 @@ if %LAST_LOCAL_GIT% == %sha% (
    echo == ^| Current Local Branch:  ^| %BRANCH%
    echo =======================================================================================================================
    popup.exe
+   rem if %AutoMode%=="enable" goto Run_UpdateAlas
    choice /t 10 /c yn /d y /m "There is an update for ALAS. Download now?"
    if errorlevel 2 goto :eof
    if errorlevel 1 goto Run_UpdateAlas

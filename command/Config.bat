@@ -23,7 +23,9 @@ rem ================= FUNCTIONS =================
 cd toolkit
 if NOT exist %cfg_Deploy% (
     REM Set to default
-    ( echo Language = %Language%
+    ( echo AutoMode = disable
+    echo DefaultServer = disable
+    echo Language = %Language%
     echo Region = %Region%
     echo SystemType = %SystemType%
     echo NetTest = disable
@@ -146,6 +148,14 @@ for /f "delims=" %%i in (%cfg_Deploy%.bak) do (
 )
 goto :eof
 
+:Config_DefaultServer
+for /f "delims=" %%i in (%cfg_Deploy%.bak) do (
+    set "cfg_Content=%%i"
+    echo %%i | findstr "DefaultServer" >NUL && ( set "cfg_Content=DefaultServer = %DefaultServer%" )
+    echo !cfg_Content!>>%cfg_Deploy%
+)
+goto :eof
+
 :Config_KeepLocalChanges
 for /f "delims=" %%i in (%cfg_Deploy%.bak) do (
     set "cfg_Temp=%%i"
@@ -209,6 +219,19 @@ for /f "delims=" %%i in (%cfg_Deploy%.bak) do (
 if "%cfg_State%"=="disable" (
     echo Bluestacks Beta realtime connection mode: Disable ^(DEFAULT^)
 ) else echo Bluestacks Beta realtime connection mode: Enable
+goto :eof
+
+:Config_AutoMode
+for /f "delims=" %%i in (%cfg_Deploy%.bak) do (
+    set "cfg_Temp=%%i"
+    set "cfg_Content=!cfg_Temp!"
+    if "!cfg_Temp!"=="AutoMode = disable" ( set "cfg_Content=AutoMode = enable" && set "cfg_State=enable" )
+    if "!cfg_Temp!"=="AutoMode = enable" ( set "cfg_Content=AutoMode = disable" && set "cfg_State=disable" )
+    echo !cfg_Content!>>%cfg_Deploy%
+)
+if "%cfg_State%"=="disable" (
+    echo AzurLaneAutoScript Auto StartUp Mode: Disable ^(DEFAULT^)
+) else echo AzurLaneAutoScript Auto StartUp Mode: Enable
 goto :eof
 
 :Config_Serial
