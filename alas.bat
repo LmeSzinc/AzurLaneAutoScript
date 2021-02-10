@@ -57,7 +57,6 @@ call command\Get.bat DeployMode
 :: Start of Deployment
 if "%IsUsingGit%"=="yes" if "%DeployMode%"=="unknown" ( xcopy /Y toolkit\config .git\ > NUL )
 call :UpdateChecker_Alas
-forfiles /P %logFolder% /S /M *.png /D -3 /C "cmd /c del @PATH" 2>nul
 title ^| Alas Run Tool V3 ^| Branch: %BRANCH% ^| Git hash: %LAST_LOCAL_GIT% ^| commit date: %GIT_CTIME% ^|
 
 rem ================= Menu =================
@@ -1058,6 +1057,8 @@ if %LAST_LOCAL_GIT% == %sha% (
    echo == ^| Local commit date:      ^| %GIT_CTIME%
    echo == ^| Current Local Branch:   ^| %BRANCH%
    echo =======================================================================================================================
+   echo. && echo == ^| Deleting older .PNG under Log folder, it may take while, it depends on the amount of files you have...
+   forfiles /P %logFolder% /S /M *.png /D -3 /C "cmd /c del @PATH" 2>nul
    echo == Your ALAS is updated, Press any to continue or wait...
    timeout /t 5 >nul
    goto :eof
@@ -1070,6 +1071,8 @@ if %LAST_LOCAL_GIT% == %sha% (
    echo == ^| Local commit date:     ^| %GIT_CTIME%
    echo == ^| Current Local Branch:  ^| %BRANCH%
    echo =======================================================================================================================
+   echo. && echo == ^| Deleting older .PNG under Log folder, it may take while, it depends on the amount of files you have...
+   forfiles /P %logFolder% /S /M *.png /D -3 /C "cmd /c del @PATH" 2>nul
    popup.exe
    rem if %AutoMode%=="enable" goto Run_UpdateAlas
    choice /t 10 /c yn /d y /m "There is an update for ALAS. Download now?"
