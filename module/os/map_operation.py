@@ -63,6 +63,27 @@ class OSMapOperation(MapOperation):
         logger.warning('Unknown OS map')
         exit(1)
 
+    @Config.when(SERVER='jp')
+    def get_map_shape(self):
+        # For JP only
+        ocr = Ocr(MAP_NAME, lang='jp', letter=(214, 231, 255), threshold=127, name='OCR_OS_MAP_NAME')
+        name = ocr.ocr(self.device.image)
+        # Use '安' to split because there's no char '-' in jp ocr.
+        # Kanji '一' and '力' are not used, while Katakana 'ー' and 'カ' are misread as Kanji sometimes.
+        name = name.split('安')[0].rstrip('安全海域').replace('一', 'ー').replace('力', 'カ')
+        logger.info(f'Map name processed: {name}')
+        for index, chapter in DIC_OS_MAP.items():
+            if name == chapter['jp']:
+                self.os_map_name = name
+                logger.info(
+                    f"Current OS map: {chapter['jp']}, "
+                    f"id: {index}, shape: {chapter['shape']}, hazard_level: {chapter['hazard_level']}"
+                )
+                return chapter['shape']
+
+        logger.warning('Unknown OS map')
+        exit(1)
+
     @Config.when(SERVER=None)
     def get_map_shape(self):
         # For CN only
