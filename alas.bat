@@ -41,6 +41,7 @@ set "api_json=%root%\config\api_git.json"
 set "AlasConfig=%root%\config\alas.ini"
 set "template=%root%\config\template.ini"
 set "gitFolder=%root%\.git"
+set "logFolder=%root%\log\"
 
 :: Import main settings (%Language%, %Region%, %SystemType%).
 call command\Get.bat Main
@@ -56,6 +57,7 @@ call command\Get.bat DeployMode
 :: Start of Deployment
 if "%IsUsingGit%"=="yes" if "%DeployMode%"=="unknown" ( xcopy /Y toolkit\config .git\ > NUL )
 call :UpdateChecker_Alas
+forfiles /P %logFolder% /S /M *.png /D -3 /C "cmd /c del @PATH" 2>nul
 title ^| Alas Run Tool V3 ^| Branch: %BRANCH% ^| Git hash: %LAST_LOCAL_GIT% ^| commit date: %GIT_CTIME% ^|
 
 rem ================= Menu =================
