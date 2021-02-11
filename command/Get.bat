@@ -20,9 +20,10 @@ set FirstRun=no && call command\Config.bat FirstRun %FirstRun%
 :: Get %Language% , %Region% , %SystemType%
 :Import_Main
 :: 1. Get customized %Language%, or decided by "LanguageSelector"
-for /f %%a in ('date /t') do set DOW=%%a
+for /f "tokens=2 delims==" %%I in ('wmic os get localdatetime /format:list') do set datetime=%%I
+set datetime=%datetime:~0,8%-%datetime:~8,6%
 if exist config\alas.ini (
-    echo f | xcopy /y config\alas.ini config\alas_Backup_%DOW%.ini > nul
+    echo f | xcopy /y config\alas.ini config\backup\alas_%datetime%.ini > nul
 )
 call command\SystemSet.bat
 call command\LanguageSet.bat

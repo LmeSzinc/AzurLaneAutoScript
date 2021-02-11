@@ -1,5 +1,6 @@
 ### AzurLaneAutoScript
 log
+config/backup/*
 config/*.ini
 !config/template.ini
 *.pyw
