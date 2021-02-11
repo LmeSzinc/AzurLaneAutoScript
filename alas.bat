@@ -250,7 +250,7 @@ if /i "%opt6_opt4_choice%"=="T" (
 )
 :proceed_alas
 echo == ^| Updating requirements.txt
-CALL pip install -r requirements.txt
+CALL pip install numpy==1.16.6 scipy==1.4.1 pillow opencv-python scikit-image==0.16.2 lz4 tqdm requests==2.18.4 uiautomator2==2.9.2 retrying mxnet==1.6.0 cnocr==1.2.2 gooey colored win10toast-persist
 echo == ^| requirements.txt updated!
 if "%KeepLocalChanges%"=="disable" (
    echo == ^| GIT Found in %gitBin% Proceeding
