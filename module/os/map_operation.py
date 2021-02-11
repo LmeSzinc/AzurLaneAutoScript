@@ -41,16 +41,18 @@ class OSMapOperation(MapOperation):
         if '-' in name:
             name = name.split('-')[0]
 
-        logger.info(f'Map name processed: {name}')
-        name = name.lower()
+        if 'é' in name: # Méditerranée name maps
+            name = name.replace('é', 'e')
+
         if 'nvcity' in name: # NY City Port read as 'V' rather than 'Y'
             name = 'nycity'
+
+        name = name.lower()
+        logger.info(f'Map name processed: {name}')
 
         for index, chapter in DIC_OS_MAP.items():
             cmp_name = chapter['en'].translate(dict.fromkeys(map(ord, whitespace)))
             cmp_name = cmp_name.lower()
-            if 'é' in cmp_name: # Méditerranée name maps
-                cmp_name = cmp_name.replace('é', 'e')
 
             if name == cmp_name:
                 self.os_map_name = chapter['en']
