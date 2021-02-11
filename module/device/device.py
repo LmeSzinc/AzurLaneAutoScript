@@ -9,12 +9,9 @@ from module.exception import GameStuckError
 from module.handler.assets import GET_MISSION
 from module.logger import logger
 import sys
-if sys.platform == 'win32':
-    from win10toast_persist import ToastNotifier
 
 
 class Device(Screenshot, Control, AppControl):
-    toaster = ToastNotifier()
     _screen_size_checked = False
     stuck_record = set()
     stuck_timer = Timer(60, count=60).start()
@@ -23,8 +20,9 @@ class Device(Screenshot, Control, AppControl):
 
     def send_notification(self, title, message):
         if self.config.ENABLE_NOTIFICATIONS and sys.platform == 'win32':
+            from win10toast_persist import ToastNotifier
             notify = ToastNotifier()
-            notify.show_toast(title, message, icon_path='assets\gooey\icon.ico', duration=None)
+            notify.show_toast(title, message, icon_path='assets/gooey/icon.ico', duration=None)
 
     def handle_night_commission(self, hour=21, threshold=30):
         """
