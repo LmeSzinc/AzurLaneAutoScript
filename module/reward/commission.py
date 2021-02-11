@@ -1,7 +1,6 @@
 import re
 from datetime import datetime, timedelta
 
-import jellyfish
 from scipy import signal
 
 from module.base.decorator import Config
@@ -289,6 +288,7 @@ class Commission:
         """
         # if self.is_doa_commission():
         #     return 'doa_daily'
+        import jellyfish
         min_key = ''
         min_distance = 100
         string = re.sub(r'[\x00-\x7F]', '', string)
