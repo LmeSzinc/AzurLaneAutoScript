@@ -71,7 +71,7 @@ cd "%root%"
 cls
 echo =======================================================================================================================
 :: Uncomment to debug the configuration that imported from "config\deploy.ini"
-rem echo == ^| Language: %Language% & echo Region: %Region% & echo SystemType: %SystemType%
+echo == ^| Language: %Language% & echo == ^| Region: %Region% & echo == ^| SystemType: %SystemType%
 rem echo == ^| http_proxy: %http_proxy% & echo https_proxy: %https_proxy%
 echo == ^| DeployMode: %DeployMode%
 echo == ^| KeepLocalChanges: %KeepLocalChanges%
@@ -249,8 +249,9 @@ if /i "%opt6_opt4_choice%"=="T" (
    goto ReturnToMenu
 )
 :proceed_alas
+if "%Region%"=="cn" set "pip_option=--index-url=https://pypi.tuna.tsinghua.edu.cn/simple"
 echo == ^| Updating requirements.txt
-CALL pip install numpy==1.16.6 scipy==1.4.1 pillow opencv-python scikit-image==0.16.2 lz4 tqdm requests==2.18.4 uiautomator2==2.9.2 retrying mxnet==1.6.0 cnocr==1.2.2 gooey colored win10toast-persist jellyfish
+call pip install -r requirements.txt %pip_option% --no-warn-script-location > toolkit\Log\pip_update_log_%datetime%.log
 echo == ^| requirements.txt updated!
 if "%KeepLocalChanges%"=="disable" (
    echo == ^| GIT Found in %gitBin% Proceeding
@@ -262,9 +263,11 @@ if "%KeepLocalChanges%"=="disable" (
    if "%AutoMode%"=="enable" ( 
    echo. & echo == ^| Press any key to proceed to %DefaultServer%
    goto %DefaultServer% )
+   else (
    echo == ^| Press any key to proceed
    pause > NUL
    goto Updater_menu
+   )
 ) else (
    echo == ^| GIT Found in %gitBin% Proceeding
    echo == ^| Updating from %source% repository..
@@ -284,6 +287,7 @@ if "%KeepLocalChanges%"=="disable" (
 echo. & echo == ^| Please re-run this batch to make the settings take effect.
 echo == ^| Please re-run the "alas.bat" to make the settings take effect.
 goto PleaseRerun
+
 
 :update_toolkit
 echo == is not done yet
@@ -666,7 +670,7 @@ echo ===========================================================================
 set opt55_choice=-1
 set /p opt55_choice= Please input the index number of option and press ENTER:
 echo. & echo.
-if "%opt55_choice%"=="1" call :Serial_setting
+if "%opt55_choice%"=="1" goto Serial_setting
 if "%opt55_choice%"=="2" goto Settings_NoxSerial
 if "%opt55_choice%"=="3" goto Realtime_mode
 if "%opt55_choice%"=="4" goto Settings_MemuSerial
