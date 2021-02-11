@@ -1,7 +1,7 @@
 import re
 from datetime import datetime, timedelta
 
-import Levenshtein
+import jellyfish
 from scipy import signal
 
 from module.base.decorator import Config
@@ -294,7 +294,7 @@ class Commission:
         string = re.sub(r'[\x00-\x7F]', '', string)
         for key, value in dictionary_jp.items():
             for keyword in value:
-                distance = Levenshtein.distance(keyword, string)
+                distance = jellyfish.levenshtein_distance(keyword, string)
                 if distance < min_distance:
                     min_key = key
                     min_distance = distance

@@ -12,5 +12,6 @@ mxnet==1.6.0
 cnocr==1.2.2
 gooey
 colored
-python-Levenshtein
+# python-Levenshtein
 win10toast-persist
+jellyfish
