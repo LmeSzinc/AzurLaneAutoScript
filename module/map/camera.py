@@ -1,5 +1,6 @@
 import numpy as np
 
+from module.combat.assets import GET_ITEMS_1
 from module.exception import MapDetectionError, CampaignEnd
 from module.handler.assets import IN_MAP, GAME_TIPS
 from module.logger import logger
@@ -97,6 +98,10 @@ class Camera(MapOperation):
             if self.info_bar_count():
                 logger.info('Perspective error cause by info bar. Waiting.')
                 self.handle_info_bar()
+                return self.update(camera=camera)
+            elif self.appear(GET_ITEMS_1):
+                logger.warning('Items got. Trying handling mystery.')
+                self.handle_mystery()
                 return self.update(camera=camera)
             elif self.is_in_stage():
                 logger.warning('Image is in stage')
