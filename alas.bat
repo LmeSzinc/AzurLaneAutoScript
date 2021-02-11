@@ -22,6 +22,7 @@ set "Version=3.0"
 set "lastUpdated=2020-08-27"
 :: Remote repo
 set "Remoterepo=https://raw.githubusercontent.com/LmeSzinc/AzurLaneAutoScript/master/toolkit"
+set "Requirements=https://raw.githubusercontent.com/LmeSzinc/AzurLaneAutoScript/master/requirements.txt"
 
 rem ================= Preparation =================
 
@@ -249,9 +250,9 @@ if /i "%opt6_opt4_choice%"=="T" (
    goto ReturnToMenu
 )
 :proceed_alas
-if "%Region%"=="cn" set "pip_option=--index-url=https://pypi.tuna.tsinghua.edu.cn/simple"
+if "%Region%"=="cn" set "pip_option=--index-url=https://pypi.tuna.tsinghua.edu.cn/simple" && set "requirements=https://gitee.com/lmeszinc/AzurLaneAutoScript/raw/master/requirements.txt"
 echo == ^| Updating requirements.txt
-call pip install -r requirements.txt %pip_option% --no-warn-script-location > toolkit\Log\pip_update_log_%datetime%.log
+call pip install -r %requirements% %pip_option% --no-warn-script-location > toolkit\Log\pip_update_log_%datetime%.log
 echo == ^| requirements.txt updated!
 if "%KeepLocalChanges%"=="disable" (
    echo == ^| GIT Found in %gitBin% Proceeding
