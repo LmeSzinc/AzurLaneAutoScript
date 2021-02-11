@@ -33,7 +33,9 @@ echo mxnet: %log_mxnetVer%
 echo cnocr: %log_cnocrVer%
 echo gooey: %log_gooeyVer%
 echo colored: %log_coloredVer%
-echo Python Levenshtein: %log_LevenshteinVer%) >> %deploy_log_file%
+echo Python Levenshtein: %log_LevenshteinVer%
+echo win10toast-persist: %log_win10toast-persist%
+echo jellyfish : %log_jellyfish%) >> %deploy_log_file%
 call :Log_common
 goto :eof
 
@@ -102,6 +104,10 @@ for /f "tokens=2 delims=-" %%i in ('dir /b "colored*.dist-info"') do ( set "log_
 set "log_coloredVer=%log_coloredVer:.dist=%"
 for /f "tokens=2 delims=-" %%i in ('dir /b "python_Levenshtein*.dist-info"') do ( set "log_LevenshteinVer=%%i" )
 set "log_LevenshteinVer=%log_LevenshteinVer:.dist=%"
+for /f "tokens=2 delims=-" %%i in ('dir /b "jellyfish*.dist-info"') do ( set "log_jellyfishVer=%%i" )
+set "log_jellyfishVer=%log_jellyfishVer:.dist=%"
+for /f "tokens=2 delims=-" %%i in ('dir /b "pwin10toast_persist*.dist-info"') do ( set "log_win10toast-persistVer=%%i" )
+set "log_win10toast-persistVer=%log_win10toast-persistVer:.dist=%"
 popd
 goto :eof
 
