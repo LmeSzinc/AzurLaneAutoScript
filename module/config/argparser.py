@@ -133,9 +133,7 @@ def main(ini_name=''):
 
     # 选择关卡
     stage = setting_parser.add_argument_group('关卡设置', '需要运行一次来保存选项', gooey_options={'label_color': '#931D03'})
-    stage.add_argument('--enable_notifications', default=default('--enable_notifications'), choices=['yes', 'no'],
-                       help='If enabled will send toast notifications, Windows 10 Only.',
-                       gooey_options={'label_color': '#4B5F83'})
+    stage.add_argument('--启用弹窗提醒', default=default('--启用弹窗提醒'), choices=['是', '否'], help='开启弹窗提醒, 仅 windows10 可用', gooey_options={'label_color': '#4B5F83'})
     stage.add_argument('--启用停止条件', default=default('--启用停止条件'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     stage.add_argument('--启用异常处理', default=default('--启用异常处理'), choices=['是', '否'], help='处理部分异常, 运行出错时撤退', gooey_options={'label_color': '#4B5F83'})
     stage.add_argument('--使用周回模式', default=default('--使用周回模式'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
