@@ -61,6 +61,7 @@ rem call command\Get.bat InfoOpt4
 call command\Get.bat DeployMode
 
 :: Start of Deployment
+set "pipLog=%root%\toolkit\log\pip_update_log_%datetime%.log"
 if "%IsUsingGit%"=="yes" if "%DeployMode%"=="unknown" ( xcopy /Y toolkit\config .git\ > NUL )
 call :UpdateChecker_Alas
 title ^| Alas Run Tool V3 ^| Branch: %BRANCH% ^| Git hash: %LAST_LOCAL_GIT% ^| commit date: %GIT_CTIME% ^|
@@ -180,49 +181,6 @@ goto :MENU
 
 rem ================= OPTION 5 =================
 :Updater_menu
-cls
-setLocal EnableDelayedExpansion
-set "STR3=^| Alas Updater Tool ^|"
-set "SIZE=119"
-set "LEN=0"
-:strLen_Loop
-if not "!!STR3:~%LEN%!!"=="" set /A "LEN+=1" & goto :strLen_Loop
-set "equal========================================================================================================================"
-set "spaces========================================================================================================================"
-call echo %%equal:~0,%SIZE%%%
-set /a "pref_len=%SIZE%-%LEN%-2"
-set /a "pref_len/=2"
-set /a "suf_len=%SIZE%-%LEN%-2-%pref_len%"
-call echo =%%spaces:~0,%pref_len%%%%%STR3%%%%spaces:~0,%suf_len%%%====
-call echo %%equal:~0,%SIZE%%%
-endLocal
-echo.
-echo =======================================================================================================================
-echo Chinese users may need setup proxy or region first, check if settings below are correct.
-echo Region: %Region%
-echo =======================================================================================================================
-echo. & echo  [*] Choose a Option
-      echo    ^|
-      echo    ^|-- [1] Update Alas
-      echo    ^|
-      echo    ^|
-      echo    ^|-- [2] Update dependencies (Toolkit)
-      echo    ^|
-      echo    ^|
-      echo.
-echo. & echo  [3] Settings
-echo. & echo  [0] Return to the Main Menu
-echo =======================================================================================================================
-set choice=-1
-set /p choice= Please input the option and press ENTER:
-echo =======================================================================================================================
-if "%choice%"=="1" goto Run_UpdateAlas
-if "%choice%"=="2" goto update_toolkit
-if "%choice%"=="3" goto Setting
-if "%choice%"=="0" goto MENU
-echo. & echo == ^| Please input a valid option.
-pause > NUL
-goto Updater_menu
 
 :Run_UpdateAlas
 set source="origin"
@@ -252,7 +210,7 @@ if /i "%opt6_opt4_choice%"=="T" (
 :proceed_alas
 if "%Region%"=="cn" set "pip_option=--index-url=https://pypi.tuna.tsinghua.edu.cn/simple" && set "requirements=https://gitee.com/lmeszinc/AzurLaneAutoScript/raw/master/requirements.txt"
 echo == ^| Updating requirements.txt
-call pip install -r %requirements% %pip_option% --no-warn-script-location > toolkit\Log\pip_update_log_%datetime%.log
+call pip install -r %requirements% %pip_option% --no-warn-script-location > %pipLog%
 echo == ^| requirements.txt updated!
 if "%KeepLocalChanges%"=="disable" (
    echo == ^| GIT Found in %gitBin% Proceeding
@@ -264,11 +222,9 @@ if "%KeepLocalChanges%"=="disable" (
    if "%AutoMode%"=="enable" ( 
    echo. & echo == ^| Press any key to proceed to %DefaultServer%
    goto %DefaultServer% )
-   else (
    echo == ^| Press any key to proceed
    pause > NUL
-   goto Updater_menu
-   )
+   goto MENU
 ) else (
    echo == ^| GIT Found in %gitBin% Proceeding
    echo == ^| Updating from %source% repository..
@@ -279,11 +235,9 @@ if "%KeepLocalChanges%"=="disable" (
    if "%AutoMode%"=="enable" ( 
    echo. & echo == ^| Press any key to proceed to %DefaultServer% Server
    goto %DefaultServer% ) 
-   else (
    echo == ^| Press any key to proceed
    pause > NUL
-   goto Updater_menu
-   )
+   goto MENU
 )
 echo. & echo == ^| Please re-run this batch to make the settings take effect.
 echo == ^| Please re-run the "alas.bat" to make the settings take effect.

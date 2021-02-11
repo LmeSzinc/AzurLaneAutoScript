@@ -25,6 +25,9 @@ set datetime=%datetime:~0,8%-%datetime:~8,6%
 if exist config\alas.ini (
     echo f | xcopy /y config\alas.ini config\backup\alas_%datetime%.ini > nul
 )
+if not exist toolkit\log (
+    md toolkit\log > nul
+)
 call command\SystemSet.bat
 call command\LanguageSet.bat
 if exist config\alas.ini (
