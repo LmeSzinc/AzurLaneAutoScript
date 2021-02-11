@@ -43,6 +43,11 @@ set "template=%root%\config\template.ini"
 set "gitFolder=%root%\.git"
 set "logFolder=%root%\log\"
 
+set "_pyBin=%root%\toolkit"
+set "_GitBin=%root%\toolkit\Git\mingw64\bin"
+set "_adbBin=%root%\toolkit\Lib\site-packages\adbutils\binaries"
+set "PATH=%root%\toolkit\alias;%root%\toolkit\command;%_pyBin%;%_pyBin%\Scripts;%_GitBin%;%_adbBin%;%PATH%"
+
 :: Import main settings (%Language%, %Region%, %SystemType%).
 call command\Get.bat Main
 :: Import the Proxy setting and apply. Then show more info in Option6.
@@ -214,7 +219,7 @@ if "%choice%"=="1" goto Run_UpdateAlas
 if "%choice%"=="2" goto update_toolkit
 if "%choice%"=="3" goto Setting
 if "%choice%"=="0" goto MENU
-echo. & echo == Please input a valid option.
+echo. & echo == ^| Please input a valid option.
 pause > NUL
 goto Updater_menu
 
@@ -223,14 +228,14 @@ set source="origin"
 if "%Region%"=="cn" set "source=gitee"
 echo. & echo.
 echo =======================================================================================================================
-echo == Branch in use: %Branch%
-echo == KeepLocalChanges is: %KeepLocalChanges%
+echo == ^| Branch in use: %Branch%
+echo == ^| KeepLocalChanges is: %KeepLocalChanges%
 echo =======================================================================================================================
 if "%AutoMode%"=="enable" ( goto proceed_alas )
 set opt6_opt4_choice=0
-echo. & echo == Change default Branch (master/dev), please enter T;
-echo == To proceed update using Branch: %Branch%, please enter Y;
-echo == Back to Updater menu, please enter N;
+echo. & echo == ^| Change default Branch (master/dev), please enter T;
+echo == ^| To proceed update using Branch: %Branch%, please enter Y;
+echo == ^| Back to Updater menu, please enter N;
 set /p opt6_opt4_choice= Press ENTER to cancel:
 echo.
 if /i "%opt6_opt4_choice%"=="T" (
@@ -240,39 +245,44 @@ if /i "%opt6_opt4_choice%"=="T" (
 ) else if /i "%opt6_opt4_choice%"=="N" (
    goto ReturnToMenu
 ) else (
-   echo == Invalid input. Cancelled.
+   echo == ^| Invalid input. Cancelled.
    goto ReturnToMenu
 )
 :proceed_alas
+echo == ^| Updating requirements.txt
+CALL pip install -r requirements.txt
+echo == ^| requirements.txt updated!
 if "%KeepLocalChanges%"=="disable" (
-   echo == GIT Found in %gitBin% Proceeding
-   echo == Updating from %source% repository..
+   echo == ^| GIT Found in %gitBin% Proceeding
+   echo == ^| Updating from %source% repository..
    %gitBin% fetch %source% %Branch%
    %gitBin% reset --hard %source%/%Branch%
    %gitBin% pull --ff-only %source% %Branch%
-   echo == DONE!
-   if %AutoMode%=="enable" ( 
-   echo. & echo == Press any key to proceed to %DefaultServer%
+   echo == ^| DONE!
+   if "%AutoMode%"=="enable" ( 
+   echo. & echo == ^| Press any key to proceed to %DefaultServer%
    goto %DefaultServer% )
-   echo == Press any key to proceed
+   echo == ^| Press any key to proceed
    pause > NUL
    goto Updater_menu
 ) else (
-   echo == GIT Found in %gitBin% Proceeding
-   echo == Updating from %source% repository..
+   echo == ^| GIT Found in %gitBin% Proceeding
+   echo == ^| Updating from %source% repository..
    %gitBin% stash
    %gitBin% pull %source% %Branch%
    %gitBin% stash pop
-   echo == DONE!
+   echo == ^| DONE!
    if "%AutoMode%"=="enable" ( 
-   echo. & echo == Press any key to proceed to %DefaultServer%
-   goto %DefaultServer% )
-   echo == Press any key to proceed
+   echo. & echo == ^| Press any key to proceed to %DefaultServer% Server
+   goto %DefaultServer% ) 
+   else (
+   echo == ^| Press any key to proceed
    pause > NUL
    goto Updater_menu
+   )
 )
-echo. & echo Please re-run this batch to make the settings take effect.
-echo Please re-run the "alas.bat" to make the settings take effect.
+echo. & echo == ^| Please re-run this batch to make the settings take effect.
+echo == ^| Please re-run the "alas.bat" to make the settings take effect.
 goto PleaseRerun
 
 :update_toolkit

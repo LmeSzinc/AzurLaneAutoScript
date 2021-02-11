@@ -49,6 +49,7 @@ dic_true_eng_to_eng = {
     'os_clear_map': 'os_clear_map',
 
     # Argument
+    'enable_notifications' : 'enable_notifications',
     'enable_stop_condition': 'enable_stop_condition',
     'enable_exception': 'enable_exception',
     'enable_fast_forward': 'enable_fast_forward',
@@ -325,6 +326,7 @@ dic_chi_to_eng = {
     '大世界地图全清': 'os_clear_map',
 
     # Argument
+    'enable_notifications' : 'enable_notifications',
     '启用停止条件': 'enable_stop_condition',
     '启用异常处理': 'enable_exception',
     '使用周回模式': 'enable_fast_forward',
@@ -601,6 +603,7 @@ dic_tchi_to_eng = {
     '大世界地圖全清': 'os_clear_map',
 
     # Argument
+    'enable_notifications' : 'enable_notifications',
     '啟用停止條件': 'enable_stop_condition',
     '啟用異常處理': 'enable_exception',
     '使用周回模式': 'enable_fast_forward',

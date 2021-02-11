@@ -20,8 +20,9 @@ set FirstRun=no && call command\Config.bat FirstRun %FirstRun%
 :: Get %Language% , %Region% , %SystemType%
 :Import_Main
 :: 1. Get customized %Language%, or decided by "LanguageSelector"
+for /f %%a in ('date /t') do set DOW=%%a
 if exist config\alas.ini (
-    echo f | xcopy /y config\alas.ini config\alas_backup.ini > nul
+    echo f | xcopy /y config\alas.ini config\alas_Backup_%DOW%.ini > nul
 )
 call command\SystemSet.bat
 call command\LanguageSet.bat

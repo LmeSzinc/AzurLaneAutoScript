@@ -22,6 +22,7 @@ class AzurLaneConfig:
     start_time = datetime.now()
 
     UPDATE_CHECK = True
+    ENABLE_NOTIFICATIONS = True
     UPDATE_METHOD = 'api'  # web, api
     UPDATE_PROXY = ''
     GITHUB_TOKEN = ''
@@ -558,6 +559,7 @@ class AzurLaneConfig:
 
         option = config['Setting']
         # Stop condition
+        self.ENABLE_NOTIFICATIONS = to_bool(option['enable_notifications'])
         self.ENABLE_STOP_CONDITION = to_bool(option['enable_stop_condition'])
         self.ENABLE_EXCEPTION = to_bool(option['enable_exception'])
         self.ENABLE_FAST_FORWARD = to_bool(option['enable_fast_forward'])
