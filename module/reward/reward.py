@@ -244,6 +244,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
                 az.run()
                 az.record_save()
                 count += 1
+                self.device.send_notification('AzurLaneAutoScript', 'Exercise daily finished.')
 
         if self.config.ENABLE_DAILY_MISSION:
             from module.daily.daily import Daily
@@ -252,6 +253,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
                 az.run()
                 az.record_save()
                 count += 1
+                self.device.send_notification('AzurLaneAutoScript', 'Daily raid finished.')
                 self.config.GUILD_POPUP_TRIGGERED = az.config.GUILD_POPUP_TRIGGERED \
                     if not self.config.GUILD_POPUP_TRIGGERED else self.config.GUILD_POPUP_TRIGGERED
 
@@ -262,6 +264,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
                 az.run()
                 az.record_save()
                 count += 1
+                self.device.send_notification('AzurLaneAutoScript', 'Daily hard campaign finished.')
                 self.config.GUILD_POPUP_TRIGGERED = az.config.GUILD_POPUP_TRIGGERED \
                     if not self.config.GUILD_POPUP_TRIGGERED else self.config.GUILD_POPUP_TRIGGERED
 
@@ -270,6 +273,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
             az = CampaignSP(self.config, device=self.device)
             if az.run_event_daily_sp():
                 count += 1
+                self.device.send_notification('AzurLaneAutoScript', 'Daily event SP finished.')
                 self.config.GUILD_POPUP_TRIGGERED = az.config.GUILD_POPUP_TRIGGERED
 
         if self.config.ENABLE_EVENT_AB:
@@ -277,6 +281,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
             az = CampaignAB(self.config, device=self.device)
             if az.run_event_daily():
                 count += 1
+                self.device.send_notification('AzurLaneAutoScript', 'Daily event AB finished.')
                 self.config.GUILD_POPUP_TRIGGERED = az.config.GUILD_POPUP_TRIGGERED
 
         if self.config.ENABLE_RAID_DAILY:
@@ -286,6 +291,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
                 az.run()
                 az.record_save()
                 count += 1
+                self.device.send_notification('AzurLaneAutoScript', 'Daily event RAID finished.')
 
         if self.config.ENABLE_OS_ASH_ASSIST:
             from module.os_ash.ash import AshDaily
@@ -297,6 +303,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
                 # count += 1
 
         logger.attr('Daily_executed', f'{count}/{total}')
+        self.device.send_notification('AzurLaneAutoScript', 'All daily missions has finished.')
         return count
 
     _daily_reward_setting_backup = None
