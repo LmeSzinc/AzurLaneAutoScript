@@ -145,6 +145,13 @@ class AutoSearchCombat(Combat):
             if self.handle_exp_info():
                 exp_info = True
                 continue
+            if self.handle_urgent_commission(save_get_items=save_get_items):
+                continue
+            if self.handle_story_skip():
+                continue
+            if self.handle_guild_popup_cancel():
+                self.config.GUILD_POPUP_TRIGGERED = True
+                continue
             if self.handle_auto_search_map_option():
                 continue
 
