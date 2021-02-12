@@ -168,6 +168,6 @@ class AutoSearchCombat(Combat):
 
         self.device.stuck_record_clear()
         self.auto_search_combat_execute(emotion_reduce=emotion_reduce, fleet_index=fleet_index)
-        self.auto_search_combat_status()
+        self.auto_search_combat_status(save_get_items=save_get_items)
 
         logger.info('Combat end.')
