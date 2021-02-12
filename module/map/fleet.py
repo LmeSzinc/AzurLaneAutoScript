@@ -198,7 +198,7 @@ class Fleet(Camera, AmbushHandler):
             self.enemy_searching_color_initial()
             grid.__str__ = location
             result = 'nothing'
-            if not grid.predict_current_fleet():
+            if not (grid.predict_fleet() and grid.predict_current_fleet()):
                 self.device.click(grid)
             arrived = False
             # Wait to confirm fleet arrived. It does't appear immediately if fleet in combat.
