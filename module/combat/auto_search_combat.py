@@ -119,18 +119,34 @@ class AutoSearchCombat(Combat):
                 self.device.screenshot_interval_set(0)
                 break
 
-    def auto_search_combat_status(self, skip_first_screenshot=True):
+    def auto_search_combat_status(self, save_get_items=False, skip_first_screenshot=True):
         """
         Pages:
             in: any
             out: is_auto_search_running()
         """
         logger.info('Auto Search combat status')
+        exp_info = False  # This is for the white screen bug in game
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
+
+            # Combat status
+            if not exp_info and self.handle_get_ship(save_get_items=save_get_items):
+                continue
+            if self.handle_get_items(save_get_items=save_get_items):
+                continue
+            if self.handle_battle_status(save_get_items=save_get_items):
+                continue
+            if self.handle_popup_confirm():
+                continue
+            if self.handle_exp_info():
+                exp_info = True
+                continue
+            if self.handle_auto_search_map_option():
+                continue
 
             # End
             if self.is_auto_search_running():
@@ -140,7 +156,7 @@ class AutoSearchCombat(Combat):
             if self._handle_auto_search_menu_missing():
                 raise CampaignEnd
 
-    def auto_search_combat(self, emotion_reduce=None, fleet_index=1):
+    def auto_search_combat(self, emotion_reduce=None, save_get_items=None, fleet_index=1):
         """
         Execute a combat.
 
@@ -148,6 +164,7 @@ class AutoSearchCombat(Combat):
         It's not the fleet index in fleet preparation or auto search setting.
         """
         emotion_reduce = emotion_reduce if emotion_reduce is not None else self.config.ENABLE_EMOTION_REDUCE
+        save_get_items = save_get_items if save_get_items is not None else self.config.ENABLE_SAVE_GET_ITEMS
 
         self.device.stuck_record_clear()
         self.auto_search_combat_execute(emotion_reduce=emotion_reduce, fleet_index=fleet_index)
