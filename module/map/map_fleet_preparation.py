@@ -77,6 +77,8 @@ class FleetOperator:
             # goes wrong even if the clear button is clicked multiple times.
             # If we sleep, the info bar of auto search will pop up, then we may
             # have to waste a few seconds for it to disappear in in_use().
+
+            # Cropping FLEET_*_IN_USE to avoid detecting info_bar, also do the trick.
             self.main.device.screenshot()
 
     def open(self):
