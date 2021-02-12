@@ -3,7 +3,8 @@ from PIL import ImageStat
 
 from module.base.base import ModuleBase
 from module.base.button import Button
-from module.base.utils import area_offset
+from module.base.utils import area_offset, area_cross_area
+from module.handler.assets import INFO_BAR_1
 from module.logger import logger
 from module.map.assets import *
 
@@ -68,31 +69,60 @@ class FleetOperator:
         return self.main.appear(self._choose)
 
     def clear(self):
-        self.main.device.click(self._clear)
-        self.main.device.sleep(self.FLEET_PREPARE_OPERATION_SLEEP)
+        while 1:
+            if not self.in_use():
+                break
+            self.main.device.click(self._clear)
+            # No need to sleep because the game reacts quickly here, and nothing
+            # goes wrong even if the clear button is clicked multiple times.
+            # If we sleep, the info bar of auto search will pop up, then we may
+            # have to waste a few seconds for it to disappear in in_use().
+            self.main.device.screenshot()
 
     def open(self):
-        self.main.device.click(self._choose)
-        self.main.device.sleep(self.FLEET_PREPARE_OPERATION_SLEEP)
-        self.main.device.screenshot()
+        while 1:
+            if self.bar_opened():
+                break
+            self.main.device.click(self._choose)
+            # The fleet bar won't open or close immediately after the click,
+            # so we need to sleep a while and wait for it.
+            # Call sleep() in close() and click() below for the same reason.
+            self.main.device.sleep(self.FLEET_PREPARE_OPERATION_SLEEP)
+            self.main.device.screenshot()
 
     def close(self):
-        self.main.device.click(self._choose)
-        self.main.device.sleep(self.FLEET_PREPARE_OPERATION_SLEEP)
-        self.main.device.screenshot()
+        while 1:
+            if not self.bar_opened():
+                break
+            self.main.device.click(self._choose)
+            self.main.device.sleep(self.FLEET_PREPARE_OPERATION_SLEEP)
+            self.main.device.screenshot()
 
     def click(self, index):
-        self.main.device.click(self.get_button(index))
-        self.main.device.sleep(self.FLEET_PREPARE_OPERATION_SLEEP)
-        self.main.device.screenshot()
+        while 1:
+            if not self.bar_opened():
+                if self.in_use():
+                    break
+                self.open()
+            self.main.device.click(self.get_button(index))
+            self.main.device.sleep(self.FLEET_PREPARE_OPERATION_SLEEP)
+            self.main.device.screenshot()
 
     def selected(self):
         data = self.parse_fleet_bar(self.main.device.image.crop(self._bar.area))
         return data
 
     def in_use(self):
+        # Handle the info bar of auto search info.
+        if area_cross_area(self._in_use.area, INFO_BAR_1.area):
+            self.main.handle_info_bar()
         image = np.array(self.main.device.image.crop(self._in_use.area).convert('L'))
         return np.std(image.flatten(), ddof=1) > self.FLEET_IN_USE_STD
+
+    def bar_opened(self):
+        # Check the brightness of the rightest column of the bar area.
+        luma = np.array(self.main.device.image.crop(self._bar.area).convert('L'))[:, -1]
+        return np.sum(luma > 127) / luma.size > 0.5
 
     def ensure_to_be(self, index):
         self.open()
@@ -132,8 +162,7 @@ class FleetPreparation(ModuleBase):
             if self.config.SUBMARINE:
                 submarine.ensure_to_be(self.config.SUBMARINE)
             else:
-                if submarine.in_use():
-                    submarine.clear()
+                submarine.clear()
 
         # No need, this may clear FLEET_2 by mistake, clear FLEET_2 in map config.
         # if not fleet_2.allow():
@@ -142,8 +171,7 @@ class FleetPreparation(ModuleBase):
         # Not using fleet 2.
         if not self.config.FLEET_2:
             if fleet_2.allow():
-                if fleet_2.in_use():
-                    fleet_2.clear()
+                fleet_2.clear()
             fleet_1.ensure_to_be(self.config.FLEET_1)
             self.map_fleet_checked = True
             return True
@@ -151,8 +179,7 @@ class FleetPreparation(ModuleBase):
         # Using both fleets.
         # Force to set it again.
         # Fleets may reversed, because AL no longer treat the fleet with smaller index as first fleet
-        if fleet_2.in_use():
-            fleet_2.clear()
+        fleet_2.clear()
         fleet_1.ensure_to_be(self.config.FLEET_1)
         fleet_2.ensure_to_be(self.config.FLEET_2)
         self.map_fleet_checked = True
