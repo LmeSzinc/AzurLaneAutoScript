@@ -73,12 +73,8 @@ class FleetOperator:
             if not self.in_use():
                 break
             self.main.device.click(self._clear)
-            # No need to sleep because the game reacts quickly here, and nothing
-            # goes wrong even if the clear button is clicked multiple times.
-            # If we sleep, the info bar of auto search will pop up, then we may
-            # have to waste a few seconds for it to disappear in in_use().
-
-            # Cropping FLEET_*_IN_USE to avoid detecting info_bar, also do the trick.
+            # Call sleep() to avoid double-clicking.
+            self.main.device.sleep(self.FLEET_PREPARE_OPERATION_SLEEP)
             self.main.device.screenshot()
 
     def open(self):
@@ -116,8 +112,11 @@ class FleetOperator:
 
     def in_use(self):
         # Handle the info bar of auto search info.
-        if area_cross_area(self._in_use.area, INFO_BAR_1.area):
-            self.main.handle_info_bar()
+        # if area_cross_area(self._in_use.area, INFO_BAR_1.area):
+        #     self.main.handle_info_bar()
+
+        # Cropping FLEET_*_IN_USE to avoid detecting info_bar, also do the trick.
+        # It also avoids wasting time on handling the info_bar.
         image = np.array(self.main.device.image.crop(self._in_use.area).convert('L'))
         return np.std(image.flatten(), ddof=1) > self.FLEET_IN_USE_STD
 
