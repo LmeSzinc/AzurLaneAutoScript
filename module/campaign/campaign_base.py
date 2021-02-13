@@ -141,7 +141,7 @@ class CampaignBase(CampaignUI, Map, AutoSearchCombat):
                     self.auto_search_execute_a_battle()
             except CampaignEnd:
                 logger.hr('Campaign end')
-                self.device.send_notification('AzurLaneAutoScript', 'Campaign end')
+                self.device.send_notification('AzurLaneAutoScript', 'Map cleared')
                 return True
 
         # Exception

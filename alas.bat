@@ -62,6 +62,7 @@ call command\Get.bat DeployMode
 
 :: Start of Deployment
 set "pipLog=%root%\toolkit\log\pip_update_log_%datetime%.log"
+set "pipLogFolder=%root%\toolkit\log\"
 if "%IsUsingGit%"=="yes" if "%DeployMode%"=="unknown" ( xcopy /Y toolkit\config .git\ > NUL )
 call :UpdateChecker_Alas
 title ^| Alas Run Tool V3 ^| Branch: %BRANCH% ^| Git hash: %LAST_LOCAL_GIT% ^| commit date: %GIT_CTIME% ^|
@@ -219,12 +220,9 @@ if "%KeepLocalChanges%"=="disable" (
    %gitBin% reset --hard %source%/%Branch%
    %gitBin% pull --ff-only %source% %Branch%
    echo == ^| DONE!
-   if "%AutoMode%"=="enable" ( 
-   echo. & echo == ^| Press any key to proceed to %DefaultServer%
-   goto %DefaultServer% )
-   echo == ^| Press any key to proceed
-   pause > NUL
-   goto MENU
+   echo. & echo == ^| Please re-run this batch to make the settings take effect.
+   echo == ^| Please re-run the "alas.bat" to make the settings take effect.
+   goto PleaseRerun
 ) else (
    echo == ^| GIT Found in %gitBin% Proceeding
    echo == ^| Updating from %source% repository..
@@ -232,16 +230,11 @@ if "%KeepLocalChanges%"=="disable" (
    %gitBin% pull %source% %Branch%
    %gitBin% stash pop
    echo == ^| DONE!
-   if "%AutoMode%"=="enable" ( 
-   echo. & echo == ^| Press any key to proceed to %DefaultServer% Server
-   goto %DefaultServer% ) 
-   echo == ^| Press any key to proceed
-   pause > NUL
-   goto MENU
+   echo == ^| DONE!
+   echo. & echo == ^| Please re-run this batch to make the settings take effect.
+   echo == ^| Please re-run the "alas.bat" to make the settings take effect.
+   goto PleaseRerun
 )
-echo. & echo == ^| Please re-run this batch to make the settings take effect.
-echo == ^| Please re-run the "alas.bat" to make the settings take effect.
-goto PleaseRerun
 
 
 :update_toolkit
@@ -882,23 +875,36 @@ goto :eof
 :CheckBsBeta
 call :process_checker
 if "%RealtimeMode%"=="disable" ( goto AdbConnect )
-for /f skip^=1^ tokens^=17^ delims^=^" %%a in ('tasklist /fi "imagename eq bluestacks.exe" /fo:csv /v /fi "status ne NOT RESPONDING"') do ( set WINDOW=%%a )
-rem set WINDOW=%WINDOW:"=%
-set WINDOW=%WINDOW: =%
-if not "%WINDOW%"=="BlueStacks" (
-   set WINDOW=%WINDOW:~10,1%
-   echo == BlueStacks instance %WINDOW% detected
-) else (
-   echo == Bluestacks instance 1 detected
-)
-if "%WINDOW%"=="BlueStacks" (
-   set folderName=Android 
-   ) else ( 
-      set folderName=Android_%WINDOW% 
-      )
+if Not "%DefaultBluestacksInstance%"=="unknown" ( goto CheckBsBeta2)
+echo =======================================================================================================================
+echo == ^| Please input which instance of your Bluestacks Hyper-V Beta you will use
+echo == ^| if you have only one Bluestacks Hyper-V Beta instance type 0 or press Enter
+echo == ^| the first instance will always be 0, and the subsequent ones will follow the numerical order
+echo =======================================================================================================================
+set DefaultBluestacksInstance=0
+set /p DefaultBluestacksInstance= Please input the instance of your Bluestacks Hyper-V Beta
+call command\Config.bat DefaultBluestacksInstance %DefaultBluestacksInstance%
+rem if /i "%DefaultBluestacksInstance%"=="C" ( goto Emulator_Setup )
+echo =======================================================================================================================
+rem for /f skip^=1^ tokens^=17^ delims^=^" %%a in ('tasklist /fi "imagename eq bluestacks.exe" /fo:csv /v /fi "status ne NOT RESPONDING"') do ( set WINDOW=%%a )
+rem rem set WINDOW=%WINDOW:"=%
+rem set WINDOW=%WINDOW: =%
+rem if not "%WINDOW%"=="BlueStacks" (
+rem    set WINDOW=%WINDOW:~10,1%
+rem    echo == BlueStacks instance %WINDOW% detected
+rem ) else (
+rem    echo == Bluestacks instance 1 detected
+rem )
+rem if "%WINDOW%"=="BlueStacks" (
+rem    set folderName=Android 
+rem    ) else ( 
+rem       set folderName=Android_%WINDOW% 
+rem       )
+:CheckBsBeta2
+if "%DefaultBluestacksInstance%"=="0" ( set folderName=Android ) else ( set folderName=Android_%DefaultBluestacksInstance% )
 set HYPERVREG=HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_bgp64_hyperv\Guests\%folderName%\Config
 set HYPERVREG=%HYPERVREG: =%
-echo == Connecting with realtime mode...
+echo == ^| Connecting with realtime mode...
 
 for /f "tokens=3" %%a in ('reg query %HYPERVREG% /v BstAdbPort') do (set /a port = %%a)
 set SerialRealtime=127.0.0.1:%port%
@@ -906,7 +912,7 @@ echo ===========================================================================
 if "%KillServer%"=="enable" (
    %adbBin% kill-server > nul 2>&1
    )
-echo == connecting at %SerialRealtime%
+echo == ^| connecting at %SerialRealtime% in Bluestacks instance: %DefaultBluestacksInstance%
 %adbBin% connect %SerialRealtime% > nul
 if "%FirstRun%"=="yes" (
    call command\Config.bat Serial %SerialRealtime%
@@ -918,12 +924,12 @@ if "%FirstRun%"=="yes" (
    call command\Config.bat Serial %SerialRealtime%
 )
 echo =======================================================================================================================
-echo == Old Serial:      %SerialAlas%
-echo == New Serial:      %SerialRealtime%
+echo == ^| Old Serial:      %SerialAlas%
+echo == ^| New Serial:      %SerialRealtime%
 echo =======================================================================================================================
 %pyBin% -m uiautomator2 init
 echo =======================================================================================================================
-echo == The connection was Successful on SERIAL: %SerialRealtime%
+echo == ^| The connection was Successful on SERIAL: %SerialRealtime%
 goto :eof
 
 rem ================= FUNCTIONS =================
@@ -1027,7 +1033,7 @@ if %LAST_LOCAL_GIT% == %sha% (
    echo == ^| Current Local Branch:   ^| %BRANCH%
    echo =======================================================================================================================
    echo. && echo == ^| Deleting older .PNG under Log folder, it may take while, it depends on the amount of files you have...
-   forfiles /P %logFolder% /S /M *.png /D -3 /C "cmd /c del @PATH" 2>nul
+   forfiles /P %logFolder% /S /M *.png /D -3 /C "cmd /c del @PATH" 2>nul && forfiles /P %pipLogFolder% /S /M *.log /D -7 /C "cmd /c del @PATH" 2>nul
    echo == Your ALAS is updated, Press any to continue or wait...
    timeout /t 5 >nul
    goto :eof

@@ -31,6 +31,7 @@ if NOT exist %cfg_Deploy% (
     echo NetTest = disable
     echo KeepLocalChanges = disable
     echo RealtimeMode = disable
+    echo DefaultBluestacksInstance = unknown
     echo AdbConnect = enable
     echo AdbKillServer = enable
     echo Serial = %SerialDeploy%
@@ -152,6 +153,15 @@ goto :eof
 for /f "delims=" %%i in (%cfg_Deploy%.bak) do (
     set "cfg_Content=%%i"
     echo %%i | findstr "DefaultServer" >NUL && ( set "cfg_Content=DefaultServer = %DefaultServer%" )
+    echo !cfg_Content!>>%cfg_Deploy%
+)
+goto :eof
+
+
+:Config_DefaultBluestacksInstance
+for /f "delims=" %%i in (%cfg_Deploy%.bak) do (
+    set "cfg_Content=%%i"
+    echo %%i | findstr "DefaultBluestacksInstance" >NUL && ( set "cfg_Content=DefaultBluestacksInstance = %DefaultBluestacksInstance%" )
     echo !cfg_Content!>>%cfg_Deploy%
 )
 goto :eof
