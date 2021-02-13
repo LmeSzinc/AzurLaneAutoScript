@@ -237,7 +237,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                 if 'boss' in data:
                     battle = data.get('battle')
                     reduce = (battle * 2, 2)
-                    if self.config.AUTO_SEARCH_SETTING in ['fleet1_boss_fleet2_mob', 'fleet1_standby_fleet2_all']:
+                    if self.config.AUTO_SEARCH_SETTING in ['fleet1_all_fleet2_standby', 'fleet1_standby_fleet2_all']:
                         reduce = (reduce[0] + reduce[1], 0)
                     return reduce
 
