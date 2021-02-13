@@ -59,7 +59,9 @@ class OSChapter:
         for index, chapter in data.items():
             if not isinstance(index, int) or index >= 200:
                 continue
-            out[index] = chapter['name']
+            name = chapter['name']
+            name = name.replace('é', 'e')  # OCR can't recognise letter "é"
+            out[index] = name
 
         return out
 
