@@ -4,7 +4,7 @@ from PIL import ImageStat
 from module.base.base import ModuleBase
 from module.base.button import Button
 from module.base.utils import area_offset, area_cross_area
-from module.handler.assets import INFO_BAR_1
+# from module.handler.assets import INFO_BAR_1
 from module.logger import logger
 from module.map.assets import *
 
