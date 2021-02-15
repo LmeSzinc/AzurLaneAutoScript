@@ -303,7 +303,6 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
                 # count += 1
 
         logger.attr('Daily_executed', f'{count}/{total}')
-        self.device.send_notification('AzurLaneAutoScript', 'All daily missions has finished.')
         return count
 
     _daily_reward_setting_backup = None
