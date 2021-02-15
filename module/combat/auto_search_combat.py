@@ -132,6 +132,9 @@ class AutoSearchCombat(Combat):
             else:
                 self.device.screenshot()
 
+            if self.handle_get_ship():
+                continue
+
             # End
             if self.is_auto_search_running():
                 break
