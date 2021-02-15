@@ -4,7 +4,7 @@
 **| [English](README_en.md) | Chinese |**
 
 # AzurLaneAutoScript
-![GitHub All Releases](https://img.shields.io/github/downloads/whoamikyo/AzurLaneAutoScript/total)
+![GitHub LmeSzinc Releases](https://img.shields.io/github/downloads/LmeSzinc/AzurLaneAutoScript/total)
 
 #### Discord
 [![](https://img.shields.io/discord/720789890354249748?logo=discord)](https://discord.gg/AQN6GeJ)
