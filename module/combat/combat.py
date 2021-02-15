@@ -7,6 +7,7 @@ from module.combat.combat_manual import CombatManual
 from module.combat.emotion import Emotion
 from module.combat.hp_balancer import HPBalancer
 from module.combat.level import Level
+from module.exception import GameStuckError
 from module.combat.submarine import SubmarineCall
 from module.handler.auto_search import AutoSearchHandler
 from module.logger import logger
@@ -246,21 +247,34 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             return False
         if self.appear_then_click(BATTLE_STATUS_S, screenshot=save_get_items, genre='status',
                                   interval=self.battle_status_click_interval):
+            logger.warning('Battle status: S')
+            self.device.send_notification('AzurLaneAutoScript', 'Battle status: S')
             if not save_get_items:
                 self.device.sleep((0.25, 0.5))
             return True
         if self.appear_then_click(BATTLE_STATUS_A, screenshot=save_get_items, genre='status',
                                   interval=self.battle_status_click_interval):
             logger.warning('Battle status: A')
+            self.device.send_notification('AzurLaneAutoScript', 'Battle status: A')
             if not save_get_items:
                 self.device.sleep((0.25, 0.5))
             return True
         if self.appear_then_click(BATTLE_STATUS_B, screenshot=save_get_items, genre='status',
                                   interval=self.battle_status_click_interval):
             logger.warning('Battle Status B')
+            self.device.send_notification('AzurLaneAutoScript', 'Battle status: B')
             if not save_get_items:
                 self.device.sleep((0.25, 0.5))
             return True
+        if self.appear_then_click(BATTLE_STATUS_C, screenshot=save_get_items, genre='status',
+                                  interval=self.battle_status_click_interval):
+            logger.warning('Battle Status C')
+            self.device.send_notification('AzurLaneAutoScript', 'Battle status: C')
+            raise GameStuckError('AzurLaneAutoScript', 'Battle status: C')
+        if self.appear_then_click(BATTLE_STATUS_D, screenshot=save_get_items, genre='status',
+                                  interval=self.battle_status_click_interval):
+            logger.warning('Battle Status D')
+            raise GameStuckError('Battle Status D')
 
         return False
 
