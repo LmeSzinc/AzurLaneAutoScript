@@ -141,6 +141,50 @@ class GuildLogistics(GuildBase):
                 logger.info('Guild mission choose not found')
                 return False
 
+    @Config.when(SERVER='jp')
+    def _guild_logistics_mission_available(self):
+        """
+        Color sample the GUILD_MISSION area to determine
+        whether the button is enabled, mission already
+        in progress, or no more missions can be accepted
+
+        Used at least twice, 'Collect' and 'Accept'
+
+        Returns:
+            bool: If button active
+
+        Pages:
+            in: GUILD_LOGISTICS
+            out: GUILD_LOGISTICS
+        """
+        r, g, b = get_color(self.device.image, GUILD_MISSION.area)
+        if g > max(r, b) - 10:
+            # Green tick at the bottom right corner if guild mission finished
+            logger.info('Guild mission has finished this week')
+            self._guild_logistics_mission_finished = True
+            return False
+        elif self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=254, count=50):
+            # 0/300 in JP is (255, 255, 255)
+            logger.info('Guild mission button inactive')
+            return False
+        elif self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=180, count=400):
+            # (255, 255, 255) less than 50, but has many blue-white pixels
+            logger.info('Guild mission button active')
+            return True
+        elif not self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=180, count=50):
+            # No guild mission counter
+            logger.info('No guild mission found, mission of this week may not started')
+            if self.image_color_count(GUILD_MISSION_CHOOSE, color=(255, 255, 255), threshold=221, count=100):
+                # Guild mission choose available if user is guild master
+                logger.info('Guild mission choose found')
+                return True
+            else:
+                logger.info('Guild mission choose not found')
+                return False
+        else:
+            logger.info('Unknown guild mission condition. Skipped.')
+            return False
+
     @Config.when(SERVER=None)
     def _guild_logistics_mission_available(self):
         """
