@@ -62,7 +62,9 @@ class GridPredictor:
         self.enemy_genre = self.predict_enemy_genre()
         self.is_boss = self.predict_boss()
         self.is_submarine = self.predict_submarine()
-        if not self.is_submarine:
+        if self.is_submarine:
+            self.is_fleet = False
+        else:
             self.is_fleet = self.predict_fleet()
         self.is_mystery = self.predict_mystery()
         self.is_current_fleet = self.predict_current_fleet()
@@ -220,7 +222,15 @@ class GridPredictor:
 
     def predict_current_fleet(self):
         count = self.relative_hsv_count(area=(-0.5, -3.5, 0.5, -2.5), h=(141 - 3, 141 + 10), shape=(50, 50))
-        return count > 600
+        if count < 600:
+            return False
+
+        image = self.relative_crop((-0.5, -3.5, 0.5, -2.5), shape=(60, 60))
+        image = color_similarity_2d(image, color=(24, 255, 107))
+        if not TEMPLATE_FLEET_CURRENT.match(image):
+            return False
+
+        return True
 
     def predict_sea(self):
         area = area_pad((48, 48, 48 + 46, 48 + 46), pad=5)
@@ -240,3 +250,38 @@ class GridPredictor:
                 return True
 
         return False
+
+    @cached_property
+    def _image_similar_piece(self):
+        return rgb2gray(self.relative_crop(area=(-0.5, -0.5, 0.5, 0.5), shape=(60, 60)))
+
+    @cached_property
+    def _image_similar_full(self):
+        return rgb2gray(self.relative_crop(area=(-0.6, -0.6, 0.6, 0.6), shape=(72, 72)))
+
+    is_os: int
+
+    @cached_property
+    def is_in_detecting_area(self, area=(-0.5, -0.5, 0.5, 0.5)):
+        area = self._image_center + np.array(area) * self._image_a
+        area = area_offset(area, offset=DETECTING_AREA[:2])
+        mask = UI_MASK_OS if self.is_os else UI_MASK
+        color = cv2.mean(crop(mask.image, area=np.rint(area).astype(int)))
+        return color[0] > 235
+
+    def is_similar_to(self, grid, threshold=0.9):
+        """
+        Args:
+            grid (GridPredictor): Another Grid instance.
+            threshold (float): 0 to 1.
+
+        Returns:
+            bool: If current grid is similar to another.
+        """
+        if not self.is_in_detecting_area or not grid.is_in_detecting_area:
+            return False
+        piece_1 = self._image_similar_piece
+        piece_2 = grid._image_similar_full
+        res = cv2.matchTemplate(piece_2, piece_1, cv2.TM_CCOEFF_NORMED)
+        _, similarity, _, point = cv2.minMaxLoc(res)
+        return similarity > threshold

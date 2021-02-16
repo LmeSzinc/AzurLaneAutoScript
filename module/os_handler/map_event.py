@@ -57,6 +57,8 @@ class MapEventHandler(EnemySearchingHandler):
             return True
         if self.handle_ash_popup():
             return True
+        if self.handle_urgent_commission(save_get_items=False):
+            return True
         if self.handle_story_skip():
             return True
 

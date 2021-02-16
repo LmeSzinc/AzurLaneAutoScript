@@ -23,6 +23,7 @@ class GridInfo:
     | MA         | may_ammo       | fleet can get ammo here |
     | MS         | may_siren      | Siren/Elite enemy spawn |
     """
+    is_os = False
 
     # is_sea --
     is_land = False  # ++

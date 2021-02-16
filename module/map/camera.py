@@ -1,3 +1,5 @@
+import copy
+
 import numpy as np
 
 from module.combat.assets import GET_ITEMS_1
@@ -15,11 +17,14 @@ class Camera(MapOperation):
     map: CampaignMap
     camera = (0, 0)
     _correct_camera = False
+    _prev_view = None
+    _prev_swipe = None
 
-    def _map_swipe(self, vector):
+    def _map_swipe(self, vector, box=(123, 159, 1193, 628)):
         """
         Args:
-            vector(tuple, np.ndarray): float
+            vector (tuple, np.ndarray): float
+            box (tuple): Area that allows to swipe.
 
         Returns:
             bool: if camera moved.
@@ -35,7 +40,7 @@ class Camera(MapOperation):
             vector = distance * vector
 
             vector = -vector
-            self.device.swipe(vector, name=name)
+            self.device.swipe(vector, name=name, box=box)
             self.device.sleep(0.3)
             self.update()
         else:
@@ -52,8 +57,9 @@ class Camera(MapOperation):
             bool: if camera moved.
         """
         logger.info('Map swipe: %s' % str(vector))
+        self._prev_view = copy.copy(self.view)
+        self._prev_swipe = vector
         vector = np.array(vector)
-        self.camera = tuple(vector + self.camera)
         vector = np.array([0.5, 0.5]) - self.view.center_offset + vector
         self._map_swipe(vector)
 
@@ -122,6 +128,15 @@ class Camera(MapOperation):
             else:
                 raise e
 
+        if self._prev_view is not None and np.linalg.norm(self._prev_swipe) > 0:
+            swipe = self._prev_view.predict_swipe(self.view)
+            if swipe is not None:
+                self._prev_swipe = swipe
+            self.camera = tuple(np.add(self.camera, self._prev_swipe))
+            self._prev_view = None
+            self._prev_swipe = None
+            self.show_camera()
+
         if not self._correct_camera:
             self.show_camera()
             return False
@@ -189,7 +204,7 @@ class Camera(MapOperation):
             if x == 0 and y == 0:
                 break
 
-        self._correct_camera = False
+        # self._correct_camera = False
 
         if reverse:
             logger.info('Reverse swipes.')
@@ -210,17 +225,11 @@ class Camera(MapOperation):
         location = location_ensure(location)
         logger.info('Focus to: %s' % location2node(location))
 
-        vector = np.array(location) - self.camera
-        vector, sign = np.abs(vector), np.sign(vector)
         while 1:
+            vector = np.array(location) - self.camera
+            swipe = tuple(np.min([np.abs(vector), swipe_limit], axis=0) * np.sign(vector))
+            self.map_swipe(swipe)
 
-            swipe = (
-                vector[0] if vector[0] < swipe_limit[0] else swipe_limit[0],
-                vector[1] if vector[1] < swipe_limit[1] else swipe_limit[1]
-            )
-            self.map_swipe(tuple(sign * swipe))
-
-            vector -= swipe
             if np.all(np.abs(vector) <= 0):
                 break
 

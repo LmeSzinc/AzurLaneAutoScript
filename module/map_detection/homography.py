@@ -299,7 +299,7 @@ class Homography:
         logger.attr_align('tile_rectangle', f'{len(location)} rectangles ({message})')
         return message != 'bad match'
 
-    def detect_edges(self, image, hough_th=120, theta_th=0.005, edge_th=5):
+    def detect_edges(self, image, hough_th=120, theta_th=0.005, edge_th=9):
         """
         Detect map edges
 

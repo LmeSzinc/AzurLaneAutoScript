@@ -12,30 +12,8 @@ class OSCamera(OSMapOperation, Camera):
     radar: Radar
     fleet_current: tuple
 
-    def _map_swipe(self, vector):
-        """
-        Args:
-            vector(tuple, np.ndarray): float
-
-        Returns:
-            bool: if camera moved.
-        """
-        vector = np.array(vector)
-        name = 'MAP_SWIPE_' + '_'.join([str(int(round(x))) for x in vector])
-        if np.any(np.abs(vector) > self.config.MAP_SWIPE_DROP):
-            # Map grid fit
-            if self.config.DEVICE_CONTROL_METHOD == 'minitouch':
-                distance = self.view.swipe_base * self.config.MAP_SWIPE_MULTIPLY_MINITOUCH
-            else:
-                distance = self.view.swipe_base * self.config.MAP_SWIPE_MULTIPLY
-            vector = distance * vector
-
-            vector = -vector
-            self.device.swipe(vector, name=name, box=(234, 123, 998, 633))
-            self.device.sleep(0.3)
-            self.update()
-        else:
-            self.update(camera=False)
+    def _map_swipe(self, vector, box=(234, 123, 998, 633)):
+        return super()._map_swipe(vector, box=box)
 
     def _view_init(self):
         if not hasattr(self, 'view'):
@@ -71,8 +49,8 @@ class OSCamera(OSMapOperation, Camera):
             x = 0
         return x == 0 and y == 0
 
-    def ensure_edge_insight(self, reverse=False, preset=None, swipe_limit=(4, 3)):
-        return super().ensure_edge_insight(reverse=reverse, preset=preset, swipe_limit=swipe_limit)
-
-    def focus_to(self, location, swipe_limit=(4, 3)):
-        return super().focus_to(location, swipe_limit=swipe_limit)
+    # def ensure_edge_insight(self, reverse=False, preset=None, swipe_limit=(4, 3)):
+    #     return super().ensure_edge_insight(reverse=reverse, preset=preset, swipe_limit=swipe_limit)
+    #
+    # def focus_to(self, location, swipe_limit=(4, 3)):
+    #     return super().focus_to(location, swipe_limit=swipe_limit)
