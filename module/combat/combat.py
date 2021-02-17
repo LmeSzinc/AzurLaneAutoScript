@@ -247,7 +247,6 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             return False
         if self.appear_then_click(BATTLE_STATUS_S, screenshot=save_get_items, genre='status',
                                   interval=self.battle_status_click_interval):
-            self.device.send_notification('AzurLaneAutoScript', 'Battle status: S')
             if not save_get_items:
                 self.device.sleep((0.25, 0.5))
             return True
