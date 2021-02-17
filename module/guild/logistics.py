@@ -268,6 +268,7 @@ class GuildLogistics(GuildBase):
         logger.hr('Guild logistics')
         confirm_timer = Timer(1.5, count=3).start()
         exchange_interval = Timer(1.5, count=3)
+        click_interval = Timer(0.5, count=1)
         supply_checked = False
         mission_checked = False
         exchange_checked = False
@@ -298,14 +299,18 @@ class GuildLogistics(GuildBase):
             if self._is_in_guild_logistics():
                 # Supply
                 if not supply_checked and self._guild_logistics_supply_available():
-                    self.device.click(GUILD_SUPPLY)
+                    if click_interval.reached():
+                        self.device.click(GUILD_SUPPLY)
+                        click_interval.reset()
                     confirm_timer.reset()
                     continue
                 else:
                     supply_checked = True
                 # Mission
                 if not mission_checked and self._guild_logistics_mission_available():
-                    self.device.click(GUILD_MISSION)
+                    if click_interval.reached():
+                        self.device.click(GUILD_MISSION)
+                        click_interval.reset()
                     confirm_timer.reset()
                     continue
                 else:
