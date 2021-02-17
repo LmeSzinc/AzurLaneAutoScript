@@ -66,7 +66,8 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         return sight
 
     def handle_mystery(self, button=None):
-        return False
+        # Treat map events as mystery, may walk into unexpected object on path
+        return self.handle_map_event()
 
     def handle_ambush(self):
         # Treat map events as ambush, to trigger walk retrying
