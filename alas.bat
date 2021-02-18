@@ -209,16 +209,16 @@ if /i "%opt6_opt4_choice%"=="T" (
    goto ReturnToMenu
 )
 :proceed_alas
-if "%Region%"=="cn" set "pip_option=--index-url=https://pypi.tuna.tsinghua.edu.cn/simple" && set "requirements=https://gitee.com/lmeszinc/AzurLaneAutoScript/raw/master/requirements.txt"
-echo == ^| Updating requirements.txt
-call pip install -r %requirements% %pip_option% --no-warn-script-location > %pipLog%
-echo == ^| requirements.txt updated!
 if "%KeepLocalChanges%"=="disable" (
    echo == ^| GIT Found in %gitBin% Proceeding
    echo == ^| Updating from %source% repository..
    %gitBin% fetch %source% %Branch%
    %gitBin% reset --hard %source%/%Branch%
    %gitBin% pull --ff-only %source% %Branch%
+   if "%Region%"=="cn" set "pip_option=--index-url=https://pypi.tuna.tsinghua.edu.cn/simple"
+   echo == ^| Updating requirements.txt
+   call pip install -r requirements.txt %pip_option% --no-warn-script-location > %pipLog%
+   echo == ^| requirements.txt updated!
    echo == ^| DONE!
    echo. & echo == ^| Please re-run this batch to make the settings take effect.
    echo == ^| Please re-run the "alas.bat" to make the settings take effect.
@@ -229,7 +229,10 @@ if "%KeepLocalChanges%"=="disable" (
    %gitBin% stash
    %gitBin% pull %source% %Branch%
    %gitBin% stash pop
-   echo == ^| DONE!
+   if "%Region%"=="cn" set "pip_option=--index-url=https://pypi.tuna.tsinghua.edu.cn/simple"
+   echo == ^| Updating requirements.txt
+   call pip install -r requirements.txt %pip_option% --no-warn-script-location > %pipLog%
+   echo == ^| requirements.txt updated!
    echo == ^| DONE!
    echo. & echo == ^| Please re-run this batch to make the settings take effect.
    echo == ^| Please re-run the "alas.bat" to make the settings take effect.
