@@ -86,6 +86,11 @@ def insert_swipe(p0, p3, speed=15):
         point = p0 * (1 - t) ** 3 + 3 * p1 * t * (1 - t) ** 2 + 3 * p2 * t ** 2 * (1 - t) + p3 * t ** 3
         points.append(point.astype(np.int).tolist())
 
+    # Delete nearing points
+    distance = np.linalg.norm(np.subtract(points[1:], points[0]), axis=1)
+    mask = np.append(True, distance > 10)
+    points = np.array(points)[mask].tolist()
+
     return points
 
 
