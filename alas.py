@@ -45,6 +45,14 @@ class AzurLaneAutoScript:
                 az = LoginHandler(self.config, device=self.device)
                 az.handle_game_stuck()
                 continue
+            except LogisticsRefreshBugHandler as e:
+                logger.warning(e)
+                self.save_error_log()
+                az = LoginHandler(self.config, device=self.device)
+                az.device.app_stop()
+                time.sleep(600)
+                az.app_ensure_start()
+                continue
             except Exception as e:
                 logger.exception(e)
                 self.save_error_log()
