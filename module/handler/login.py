@@ -86,7 +86,7 @@ class LoginHandler(Combat):
                 continue
 
         logger.warning('Login failed more than 3')
-        self.device.send_notification('AzurLaneAutoScript', 'Login failed more than 3')
+        self.device.send_notification('ScriptError', 'Login failed more than 3')
         raise ScriptError('Login failed more than 3')
 
     def app_restart(self):
@@ -128,7 +128,7 @@ class LoginHandler(Combat):
     def handle_game_stuck(self):
         logger.warning(f'{self.config.PACKAGE_NAME} will be restart in 10 seconds')
         logger.warning('If you are playing by hand, please stop Alas')
-        self.device.send_notification('AzurLaneAutoScript', 'Game stucked, will be restart in 10 seconds')
+        self.device.send_notification('Game stucked', 'will be restart in 10 seconds')
         self.device.sleep(10)
 
         self.app_restart()

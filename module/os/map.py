@@ -95,7 +95,7 @@ class OSMap(OSFleet, Map):
 
         self.clear_remain_grids()
         logger.info('Full clear end')
-        self.device.send_notification('AzurLaneAutoScript', 'Operation Siren Full clear end')
+        self.device.send_notification('Operation Siren', 'Full clear end')
 
     def run(self):
         self.device.screenshot()
