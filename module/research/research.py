@@ -318,6 +318,7 @@ class RewardResearch(ResearchSelector):
 
         self.ui_goto(page_reshmenu, skip_first_screenshot=True)
         self.ui_click(RESHMENU_GOTO_RESEARCH, check_button=research_check, skip_first_screenshot=True)
+        self.device.send_notification('Research Start', 'Research receive')
         self.ensure_research_stable()
 
     @Config.when(SERVER=None)
