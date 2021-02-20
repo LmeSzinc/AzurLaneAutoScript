@@ -94,11 +94,23 @@ class OSMap(OSFleet, Map):
             queue = queue[1:]
 
         self.clear_remain_grids()
+        self.clear_akashi()
         logger.info('Full clear end')
         self.device.send_notification('AzurLaneAutoScript', 'Operation Siren Full clear end')
 
+    def clear_akashi(self):
+        grids = self.map.select(is_akashi=True)
+        if grids:
+            logger.info(f'Found Akashi in {grids}')
+        else:
+            logger.info('No Akashi in this map')
+            return False
+
+        return True
+
     def run(self):
         self.device.screenshot()
+        self.handle_siren_platform()
         map_ = OSCampaignMap()
         map_.shape = self.get_map_shape()
         self.map_init(map_)

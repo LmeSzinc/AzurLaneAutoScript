@@ -1,6 +1,7 @@
 from module.base.timer import Timer
 from module.combat.assets import *
 from module.handler.assets import *
+from module.logger import logger
 from module.os_handler.assets import *
 from module.os_handler.enemy_searching import EnemySearchingHandler
 
@@ -47,6 +48,46 @@ class MapEventHandler(EnemySearchingHandler):
             return True
         else:
             return False
+
+    def handle_siren_platform(self):
+        """
+        Handle siren platform notice after entering map
+
+        Returns:
+            bool: If handled
+        """
+        if not self.handle_story_skip():
+            return False
+
+        logger.info('Handle siren platform')
+        timeout = Timer(self.MAP_ENEMY_SEARCHING_TIMEOUT_SECOND).start()
+        appeared = False
+        while 1:
+            self.device.screenshot()
+            if self.is_in_map():
+                timeout.start()
+            else:
+                timeout.reset()
+
+            if self.handle_story_skip():
+                timeout.reset()
+                continue
+
+            # End
+            if self.enemy_searching_appear():
+                appeared = True
+            else:
+                if appeared:
+                    self.handle_enemy_flashing()
+                    self.device.sleep(1)
+                    logger.info('Enemy searching appeared.')
+                    break
+                self.enemy_searching_color_initial()
+            if timeout.reached():
+                logger.info('Enemy searching timeout.')
+                break
+
+        return True
 
     def handle_map_event(self):
         if self.handle_map_get_items():
