@@ -31,7 +31,7 @@ class EnemySearchingHandler(InfoHandler):
         if self.is_in_stage():
             if self.in_stage_timer.reached():
                 logger.info('In stage.')
-                self.device.send_notification('AzurLaneAutoScript', 'Map cleared')
+                self.device.send_notification('Sortie finished', 'Map cleared')
                 self.ensure_no_info_bar(timeout=1.2)
                 raise CampaignEnd('In stage.')
             else:

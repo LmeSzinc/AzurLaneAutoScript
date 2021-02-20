@@ -20,9 +20,13 @@ class Device(Screenshot, Control, AppControl):
 
     def send_notification(self, title, message):
         if self.config.ENABLE_NOTIFICATIONS and sys.platform == 'win32':
-            from win10toast_persist import ToastNotifier
-            notify = ToastNotifier()
-            notify.show_toast(title, message, icon_path='assets/gooey/icon.ico', duration=None)
+            from notifypy import Notify
+            notification = Notify()
+            notification.title = title
+            notification.message = message
+            notification.application_name = "AzurLaneAutoScript"
+            notification.icon = "assets/gooey/icon.ico"
+            notification.send(block=False)
 
     def handle_night_commission(self, hour=21, threshold=30):
         """

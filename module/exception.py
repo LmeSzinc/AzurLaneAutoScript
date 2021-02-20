@@ -29,6 +29,8 @@ class ScriptEnd(Exception):
 class GameStuckError(Exception):
     pass
 
+class LogisticsRefreshBugHandler(Exception):
+    pass
 
 class GameTooManyClickError(Exception):
     pass

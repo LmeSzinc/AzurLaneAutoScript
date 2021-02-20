@@ -269,7 +269,7 @@ class Fleet(Camera, AmbushHandler):
                     continue
 
                 if self.handle_walk_out_of_step():
-                    self.device.send_notification('AzurLaneAutoScript', 'Walk out of step error, please check GUI.')
+                    self.device.send_notification('MapWalkError', 'Walk out of step error, please check GUI.')
                     raise MapWalkError('walk_out_of_step')
 
                 # Arrive

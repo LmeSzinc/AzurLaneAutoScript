@@ -57,6 +57,7 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
                     success = True
                     end = True
                     logger.info("Exercise LOST")
+                    self.device.send_notification('Exercises', 'Exercise LOST')
                     continue
             if self.appear_then_click(GET_ITEMS_1):
                 continue

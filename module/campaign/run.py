@@ -90,40 +90,40 @@ class CampaignRun(Reward):
         # Run count limit
         if self.run_count >= self.config.STOP_IF_COUNT_GREATER_THAN > 0:
             logger.hr('Triggered count stop')
-            self.device.send_notification('AzurLaneAutoScript', 'Triggered count stop')
+            self.device.send_notification('Triggered Stop Condition', 'Triggered count stop')
             return True
         # Run time limit
         if self.config.STOP_IF_TIME_REACH and datetime.now() > self.config.STOP_IF_TIME_REACH:
             logger.hr('Triggered time limit')
-            self.device.send_notification('AzurLaneAutoScript', 'Triggered time limit')
+            self.device.send_notification('Triggered Stop Condition', 'Triggered time limit')
             self.config.config.set('Setting', 'if_time_reach', '0')
             self.config.save()
             return True
         # Dock full limit
         if self.config.STOP_IF_DOCK_FULL and self.campaign.config.DOCK_FULL_TRIGGERED:
             logger.hr('Triggered dock full limit')
-            self.device.send_notification('AzurLaneAutoScript', 'Triggered dock full limit')
+            self.device.send_notification('Triggered Stop Condition', 'Triggered dock full limit')
             return True
         # Emotion limit
         if self.config.STOP_IF_TRIGGER_EMOTION_LIMIT and self.campaign.config.EMOTION_LIMIT_TRIGGERED:
             logger.hr('Triggered emotion limit')
-            self.device.send_notification('AzurLaneAutoScript', 'Triggered emotion limit')
+            self.device.send_notification('Triggered Stop Condition', 'Triggered emotion limit')
             return True
         # Lv120 limit
         if self.config.STOP_IF_REACH_LV120 and self.campaign.config.LV120_TRIGGERED:
             logger.hr('Triggered lv120 limit')
-            self.device.send_notification('AzurLaneAutoScript', 'Triggered lv120 limit')
+            self.device.send_notification('Triggered Stop Condition', 'Triggered lv120 limit')
             return True
         # Oil limit
         if oil_check and self.config.STOP_IF_OIL_LOWER_THAN:
             if OCR_OIL.ocr(self.device.image) < self.config.STOP_IF_OIL_LOWER_THAN:
                 logger.hr('Triggered oil limit')
-                self.device.send_notification('AzurLaneAutoScript', 'Triggered oil limit')
+                self.device.send_notification('Triggered Stop Condition', 'Triggered oil limit')
                 return True
         # If Get a New Ship
         if self.config.STOP_IF_GET_SHIP and self.campaign.config.GET_SHIP_TRIGGERED:
             logger.hr('Triggered get ship')
-            self.device.send_notification('AzurLaneAutoScript', 'Triggered get ship')
+            self.device.send_notification('Triggered Stop Condition', 'Triggered get ship')
             return True
 
         return False
@@ -138,7 +138,7 @@ class CampaignRun(Reward):
         if not self.campaign.config.IGNORE_LOW_EMOTION_WARN:
             if self.campaign.emotion.triggered_bug():
                 logger.hr('Triggered restart avoid emotion bug')
-                self.device.send_notification('AzurLaneAutoScript', 'Triggered restart avoid emotion bug')
+                self.device.send_notification('Triggered App Restart', 'Triggered restart avoid emotion bug')
                 return True
 
         return False

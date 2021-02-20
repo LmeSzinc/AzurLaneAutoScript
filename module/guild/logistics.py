@@ -3,7 +3,7 @@ from module.base.decorator import cached_property, Config
 from module.base.timer import Timer
 from module.base.utils import *
 from module.combat.assets import GET_ITEMS_1
-from module.exception import GameStuckError
+from module.exception import LogisticsRefreshBugHandler
 from module.guild.assets import *
 from module.guild.base import GuildBase
 from module.logger import logger
@@ -336,7 +336,7 @@ class GuildLogistics(GuildBase):
                     # To fix this, you have to enter guild logistics once, then restart.
                     # If exchange for 5 times, this bug is considered to be triggered.
                     logger.warning('Triggered guild logistics refresh bug')
-                    raise GameStuckError('Triggered guild logistics refresh bug')
+                    raise LogisticsRefreshBugHandler('Triggered guild logistics refresh bug')
 
             else:
                 confirm_timer.reset()

@@ -96,7 +96,7 @@ class OSMap(OSFleet, Map):
         self.clear_remain_grids()
         self.clear_akashi()
         logger.info('Full clear end')
-        self.device.send_notification('AzurLaneAutoScript', 'Operation Siren Full clear end')
+        self.device.send_notification('Operation Siren', 'Full clear end')
 
     def clear_akashi(self):
         grids = self.map.select(is_akashi=True)
