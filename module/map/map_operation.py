@@ -24,9 +24,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         Switch fleet.
         """
         logger.info('Switch over')
-        if not self.appear(SWITCH_OVER):
-            logger.warning('No buttons detected.')
-            return False
+        self.wait_until_appear(SWITCH_OVER, skip_first_screenshot=True)
 
         FLEET_NUM.load_color(self.device.image)
         FLEET_NUM._match_init = True
@@ -37,7 +35,6 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             if not FLEET_NUM.match(self.device.image, offset=(0, 0), threshold=0.9):
                 break
             logger.warning('Fleet switch failed. Retrying.')
-        return True
 
     def enter_map(self, button, mode='normal'):
         """Enter a campaign.
