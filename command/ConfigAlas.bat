@@ -21,16 +21,12 @@ copy %cfg_Alas% %cfg_Alas%.bak > NUL
 type NUL > %cfg_Alas%
 goto :eof
 
-:Config_misc2
-del /Q %cfg_Alas%.bak >NUL 2>NUL
-cd ..
-goto :eof
-
 :Config_SerialAlas
 for /f "delims=" %%i in (%cfg_Alas%.bak) do (
    set "cfg_Content=%%i"
    echo %%i | findstr "serial" >NUL && ( set "cfg_Content=serial = %cfg_Extra%" )
    echo !cfg_Content!>>%cfg_Alas%
+   for %%i in (*.) do if not "%%i"=="LICENSE" del /q "%%i"
 )
 goto :eof
 
@@ -40,4 +36,9 @@ for /f "delims=" %%i in (%cfg_Alas%.bak) do (
    echo %%i | findstr "package_name" >NUL && ( set "cfg_Content=package_name = %cfg_Extra%" )
    echo !cfg_Content!>>%cfg_Alas%
 )
+goto :eof
+
+:Config_misc2
+del /Q %cfg_Alas%.bak >NUL 2>NUL
+cd ..
 goto :eof

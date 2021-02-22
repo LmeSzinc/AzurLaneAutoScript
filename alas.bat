@@ -131,7 +131,7 @@ goto MENU
 rem ================= OPTION 1 =================
 
 :en
-call command\ConfigAlas.bat AzurLanePackage com.YoStarEN.AzurLane
+rem call command\ConfigAlas.bat AzurLanePackage com.YoStarEN.AzurLane
 call :CheckBsBeta
 rem :continue_en
 rem call :AdbConnect
@@ -230,6 +230,8 @@ if "%KeepLocalChanges%"=="disable" (
    %gitBin% pull %source% %Branch%
    %gitBin% stash pop
    if "%Region%"=="cn" set "pip_option=--index-url=https://pypi.tuna.tsinghua.edu.cn/simple"
+   echo == ^| Updating PIP
+   call pip install %pip_option% --upgrade pip 
    echo == ^| Updating requirements.txt
    call pip install -r requirements.txt %pip_option% --no-warn-script-location > %pipLog%
    echo == ^| requirements.txt updated!

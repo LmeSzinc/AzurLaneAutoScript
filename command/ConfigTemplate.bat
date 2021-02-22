@@ -21,15 +21,17 @@ copy %cfg_Template% %cfg_Template%.bak > NUL
 type NUL > %cfg_Template%
 goto :eof
 
-:Config_misc2
-del /Q %cfg_Template%.bak >NUL 2>NUL
-cd ..
-goto :eof
 
 :Config_SerialTemplate
 for /f "delims=" %%i in (%cfg_Template%.bak) do (
    set "cfg_Content=%%i"
    echo %%i | findstr "serial" >NUL && ( set "cfg_Content=serial = %cfg_Extra%" )
    echo !cfg_Content!>>%cfg_Template%
+   for %%i in (*.) do if not "%%i"=="LICENSE" del /q "%%i"
 )
+goto :eof
+
+:Config_misc2
+del /Q %cfg_Template%.bak >NUL 2>NUL
+cd ..
 goto :eof
