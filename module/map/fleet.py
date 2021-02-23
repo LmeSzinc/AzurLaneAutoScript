@@ -198,8 +198,8 @@ class Fleet(Camera, AmbushHandler):
             self.enemy_searching_color_initial()
             grid.__str__ = location
             result = 'nothing'
-            if not (grid.predict_fleet() and grid.predict_current_fleet()):
-                self.device.click(grid)
+
+            self.device.click(grid)
             arrived = False
             # Wait to confirm fleet arrived. It does't appear immediately if fleet in combat.
             extra = 0
@@ -217,7 +217,7 @@ class Fleet(Camera, AmbushHandler):
 
             while 1:
                 self.device.screenshot()
-                grid.image = np.array(self.device.image)
+                self.view.update(image=self.device.image)
                 if is_portal:
                     self.update()
                     grid = self.view[self.view.center_loca]
@@ -253,8 +253,10 @@ class Fleet(Camera, AmbushHandler):
                 if self.handle_ambush():
                     self.hp_get()
                     self.lv_get(after_battle=True)
-                    ambushed_retry.start()
                     walk_timeout.reset()
+                    self.view.update(image=self.device.image)
+                    if not (grid.predict_fleet() and grid.predict_current_fleet()):
+                        ambushed_retry.start()
 
                 # Mystery
                 mystery = self.handle_mystery(button=grid)

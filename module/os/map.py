@@ -33,7 +33,7 @@ class OSMap(OSFleet, Map):
             logger.hr('Clear all resource')
             logger.info(f'Grids: {grids}')
             logger.info(f'Clear object {grids[0]}')
-            self.goto(grids[0])
+            self.goto(grids[0], expected=self._get_goto_expected(grids[0]))
             self.handle_meowfficer_searching()
 
         logger.warning('Too many objects to clear, stopped')

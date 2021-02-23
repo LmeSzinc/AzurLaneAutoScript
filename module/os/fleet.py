@@ -65,12 +65,45 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         sight = (-4, -1, 3, 2)
         return sight
 
-    def handle_mystery(self, button=None):
-        return False
+    _os_map_event_handled = False
+
+    def ambush_color_initial(self):
+        self._os_map_event_handled = False
 
     def handle_ambush(self):
-        # Treat map events as ambush, to trigger walk retrying
-        return self.handle_map_event()
+        """
+        Treat map events as ambush, to trigger walk retrying
+        """
+        if self.handle_map_get_items():
+            self._os_map_event_handled = True
+            return True
+        elif self.handle_map_event():
+            self.ensure_no_map_event()
+            self._os_map_event_handled = True
+            return True
+        else:
+            return False
+
+    def handle_mystery(self, button=None):
+        """
+        After handle_ambush, if fleet has arrived, treat it as mystery, otherwise just ambush.
+        """
+        if self._os_map_event_handled and button.predict_fleet() and button.predict_current_fleet():
+            return 'get_item'
+        else:
+            return False
+
+    @staticmethod
+    def _get_goto_expected(grid):
+        """
+        Argument `expected` used in _goto()
+        """
+        if grid.is_enemy:
+            return 'combat'
+        elif grid.is_resource or grid.is_meowfficer or grid.is_exclamation:
+            return 'mystery'
+        else:
+            return ''
 
     def hp_get(self):
         pass
