@@ -232,7 +232,7 @@ class InfoHandler(ModuleBase):
 
     def ensure_no_story(self, skip_first_screenshot=True):
         logger.info('Ensure no story')
-        story_timer = Timer(5, count=10).start()
+        story_timer = Timer(3, count=6).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
