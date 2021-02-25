@@ -76,6 +76,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         """
         if self.handle_map_get_items():
             self._os_map_event_handled = True
+            self.device.screenshot()
             return True
         elif self.handle_map_event():
             self.ensure_no_map_event()
