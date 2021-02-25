@@ -82,9 +82,15 @@ def insert_swipe(p0, p3, speed=15):
 
     # Generate cubic Bézier curve
     points = []
+    prev = (-100, -100)
     for t in ts:
         point = p0 * (1 - t) ** 3 + 3 * p1 * t * (1 - t) ** 2 + 3 * p2 * t ** 2 * (1 - t) + p3 * t ** 3
-        points.append(point.astype(np.int).tolist())
+        point = point.astype(np.int).tolist()
+        if np.linalg.norm(np.subtract(point, prev)) < 10:
+            continue
+
+        points.append(point)
+        prev = point
 
     # Delete nearing points
     distance = np.linalg.norm(np.subtract(points[1:], points[0]), axis=1)
