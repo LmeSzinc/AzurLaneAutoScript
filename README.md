@@ -21,11 +21,11 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)** and **[@nona
 
 > **Event Announcement 活动公告**
 >
-> [CN] 支持活动「负象限作战」.
+> [CN] 支持活动「破晓冰华」.
 >
-> [EN] Support event "Inverted Orthant".
+> [EN] Support event "Khorovod of Dawn's Rime".
 >
-> [JP] Support event 「虚畳なりし限象」.
+> [JP] Support event 「暁射す氷華の嵐」.
 
 ![gui](doc/README.assets/gui.png)
 
