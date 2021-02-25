@@ -23,6 +23,7 @@ dic_event = {
         '假日航线': 'event_20201126_cn',
         '负象限作战': 'event_20201229_cn',
         '复刻神圣的悲喜剧': 'event_20210121_cn',
+        '破晓冰华': 'event_20210225_cn',
     },
     'en': {
         'Northern_Overture': 'event_20200227_cn',
@@ -46,6 +47,7 @@ dic_event = {
         'The_Enigma_and_the_Shark_Rerun': 'event_20200806_cn',
         'Inverted_Orthant': 'event_20201229_cn',
         'Empyreal_Tragicomedy_Rerun': 'event_20210121_cn',
+        'Khorovod_of_Dawns_Rime': 'event_20210225_cn',
     },
     'jp': {
         '凍絶の北海': 'event_20200227_cn',
@@ -66,6 +68,7 @@ dic_event = {
         'バケーションレーン': 'event_20201126_cn',
         '虚畳なりし限象': 'event_20201229_cn',
         '悲歎せし焔海の詩（復刻）': 'event_20210121_cn',
+        '暁射す氷華の嵐': 'event_20210225_cn',
     },
     'tw': {
         '特別演習埃塞克斯級': 'raid_20200624',
