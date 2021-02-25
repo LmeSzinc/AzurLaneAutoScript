@@ -31,11 +31,40 @@ def camera_1d(shape, sight):
     return out
 
 
-def camera_2d(shape, sight):
-    x = camera_1d(shape=shape[0], sight=[sight[0], sight[2]])
-    y = camera_1d(shape=shape[1], sight=[sight[1], sight[3]])
-    out = np.array(np.meshgrid(x, y)).T.reshape(-1, 2)
+def camera_2d(area, sight):
+    """
+    Args:
+        area (tuple[int]): Active area on map. (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
+                           For example: If map shape is I9, but row 1, row 9, line A and line I is empty,
+                           area is (1, 1, 8, 8)
+        sight (tuple[int]): Camera sight. (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
+
+    Returns:
+        list[tuple]: List of camera location.
+    """
+    x = camera_1d(shape=area[2] - area[0], sight=[sight[0], sight[2]])
+    y = camera_1d(shape=area[3] - area[1], sight=[sight[1], sight[3]])
+    out = np.array(np.meshgrid(x, y)).T.reshape(-1, 2) + area[:2]
     return [tuple(c) for c in out]
+
+
+def get_map_active_area(grids):
+    """
+    Args:
+        grids (dict): Key: tuple, location, Value: GridInfo or object with __str__ method.
+
+    Returns:
+        area (tuple): (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
+    """
+
+    def is_active(g):
+        g = g.str if isinstance(g, GridInfo) else str(g)
+        return g != '--' and g != '++'
+
+    locations = [loca for loca, grid in grids.items() if is_active(grid)]
+    bottom_right = np.max(locations, axis=0)
+    upper_left = np.min(locations, axis=0)
+    return np.append(upper_left, bottom_right)
 
 
 def camera_spawn_point(camera_list, sp_list):

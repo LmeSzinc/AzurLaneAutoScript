@@ -1,11 +1,9 @@
 import os
 import re
 
-import numpy as np
-
 from dev_tools.slpp import slpp
 from module.base.utils import location2node
-from module.map.map_base import camera_2d, camera_spawn_point
+from module.map.utils import *
 
 """
 This an auto-tool to extract map files used in Alas.
@@ -296,7 +294,7 @@ class MapData:
         # Map
         lines.append(f'MAP = CampaignMap(\'{self.chapter_name}\')')
         lines.append(f'MAP.shape = \'{location2node(self.shape)}\'')
-        camera_data = camera_2d(self.shape, sight=(-3, -1, 3, 2))
+        camera_data = camera_2d(get_map_active_area(self.map_data), sight=(-3, -1, 3, 2))
         lines.append(
             f'MAP.camera_data = {[location2node(loca) for loca in camera_data]}')
         camera_sp = camera_spawn_point(camera_data, sp_list=[k for k, v in self.map_data.items() if v == 'SP'])
