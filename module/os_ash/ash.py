@@ -5,6 +5,7 @@ from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
 from module.os_ash.assets import *
 from module.os_handler.assets import IN_MAP
+from module.ui.assets import BACK_ARROW
 from module.ui.page import page_os
 from module.ui.switch import Switch
 from module.ui.ui import UI
@@ -37,6 +38,9 @@ class AshCombat(Combat):
                                   interval=self.battle_status_click_interval):
             if not save_get_items:
                 self.device.sleep((0.25, 0.5))
+            return True
+        if self.appear(BATTLE_PREPARATION, offset=(30, 30)):
+            self.device.click(BACK_ARROW)
             return True
 
         return False
@@ -213,6 +217,9 @@ class OSAsh(UI):
         """
         Attack ash beacon until it's killed.
 
+        Returns:
+            bool: If all beacon finished
+
         Pages:
             in: is_in_ash
             out: is_in_ash
@@ -231,7 +238,13 @@ class OSAsh(UI):
             if self.appear(BEACON_EMPTY, offset=(20, 20)):
                 if confirm_timer.reached():
                     logger.info('Ash beacon attack finished')
-                    break
+                    return True
+            elif self.appear(BEACON_ENTER, offset=(20, 20)):
+                # If previous beacon is not completed, the previous beacon is attacked in this round.
+                # Then found a new beacon, after attack.
+                if confirm_timer.reached():
+                    logger.info('Ash beacon attack finished, but found another beacon')
+                    return False
             else:
                 confirm_timer.reset()
 
@@ -259,9 +272,13 @@ class OSAsh(UI):
         if self.ash_collect_status() < 100:
             return False
 
-        self._ash_enter_from_map()
-        self._ash_help()
-        self._ash_beacon_attack()
+        for _ in range(3):
+            self._ash_enter_from_map()
+            self._ash_help()
+            finish = self._ash_beacon_attack()
+            if finish:
+                break
+
         self.ui_click(ASH_QUIT, check_button=self.is_in_map, skip_first_screenshot=True)
         return True
 
