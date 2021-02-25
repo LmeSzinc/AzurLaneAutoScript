@@ -115,6 +115,10 @@ class Control(MiniTouch):
         logger.info(
             'Swipe %s -> %s, %s' % (point2str(*start), point2str(*end), duration)
         )
+        if np.linalg.norm(np.subtract(start, end)) < 10:
+            # Should swipe a certain distabce, otherwise AL will treat it as click.
+            # uiautomator2 should >= 6px, minitouch should >= 5px
+            logger.info('Swipe distance < 10px, dropped')
         fx, fy, tx, ty = np.append(start, end).tolist()
 
         method = self.config.DEVICE_CONTROL_METHOD

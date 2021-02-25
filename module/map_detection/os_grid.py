@@ -6,6 +6,8 @@ from module.template.assets import *
 
 
 class OSGridInfo(GridInfo):
+    is_os = True
+
     is_enemy = False  # Red gun
     is_resource = False  # green box to get items
     is_exclamation = False  # Yellow exclamation mark '!'
@@ -131,7 +133,8 @@ class OSGridPredictor(GridPredictor):
         self.is_meowfficer = self.predict_meowfficer()  # This will increase the overall time cost about 100ms
         self.is_ally = self.predict_ally()
         self.is_akashi = self.predict_akashi()
-        self.is_fleet = self.predict_current_fleet()
+        self.is_current_fleet = self.predict_current_fleet()
+        self.is_fleet = self.is_current_fleet
 
         if self.enemy_genre:
             self.is_enemy = True
@@ -152,14 +155,14 @@ class OSGridPredictor(GridPredictor):
 
     def predict_sea(self):
         color = cv2.mean(self.image_trans)
-        if not color[2] > max(color[0], color[1]) + 20:
+        if not min(color[1], color[2]) > color[0] + 20:
             return False
 
-        # area = area_pad((48, 48, 48 + 46, 48 + 46), pad=5)
-        # res = cv2.matchTemplate(ASSETS.tile_center_image, crop(self.image_homo, area=area), cv2.TM_CCOEFF_NORMED)
-        # _, sim, _, _ = cv2.minMaxLoc(res)
-        # if sim > 0.8:
-        #     return True
+        area = area_pad((48, 48, 48 + 46, 48 + 46), pad=5)
+        res = cv2.matchTemplate(ASSETS.tile_center_image, crop(self.image_homo, area=area), cv2.TM_CCOEFF_NORMED)
+        _, sim, _, _ = cv2.minMaxLoc(res)
+        if sim > 0.8:
+            return True
 
         # tile = 135
         # corner = 25
@@ -171,7 +174,7 @@ class OSGridPredictor(GridPredictor):
         #     if sim > 0.8:
         #         return True
 
-        return True
+        return False
 
     def predict_enemy_scale(self):
         """

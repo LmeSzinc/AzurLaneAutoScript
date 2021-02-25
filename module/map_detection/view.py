@@ -1,3 +1,4 @@
+import collections
 import time
 
 from module.base.utils import *
@@ -40,9 +41,11 @@ class View(MapDetector):
             text = ' '.join([self[(x, y)].str if (x, y) in self else '..' for x in range(self.shape[0] + 1)])
             logger.info(text)
 
-    @staticmethod
-    def _image_clear_ui(image):
-        return cv2.copyTo(image, ASSETS.ui_mask_in_map)
+    def _image_clear_ui(self, image):
+        if self.mode == 'os':
+            return cv2.copyTo(image, ASSETS.ui_mask_os_in_map)
+        else:
+            return cv2.copyTo(image, ASSETS.ui_mask_in_map)
 
     def load(self, image):
         """
@@ -50,6 +53,7 @@ class View(MapDetector):
             image:
         """
         image = self._image_clear_ui(np.array(image))
+        self.image = image
         super().load(image)
 
         # Create local view map
@@ -126,3 +130,56 @@ class View(MapDetector):
                 result.append(grid)
 
         return SelectedGrids(result)
+
+    def predict_swipe(self, prev):
+        """
+        Args:
+            prev (View): View instance after swipe.
+
+        Returns:
+            tuple[int]: (x, y). Or None if unable to predict.
+
+        Log:
+            Map swipe predict: (2, 0) (0.023s, current fleet match)
+        """
+        start_time = time.time()
+        offset = np.subtract(self.center_loca, prev.center_loca)
+        for grid in self:
+            grid.is_fleet = grid.predict_fleet()
+            grid.is_current_fleet = grid.predict_current_fleet()
+        for grid in prev:
+            grid.is_fleet = grid.predict_fleet()
+            grid.is_current_fleet = grid.predict_current_fleet()
+
+        # If able to find current fleet, use it to predict swipe
+        current_fleet = self.select(is_fleet=True, is_current_fleet=True)
+        previous_fleet = prev.select(is_fleet=True, is_current_fleet=True)
+        if len(current_fleet) == 1 and len(previous_fleet) == 1:
+            diff = np.subtract(current_fleet[0].location, previous_fleet[0].location) - offset
+            # print(current_fleet[0].location, previous_fleet[0].location, offset, diff)
+            diff = tuple(diff.tolist())
+            logger.info(f'Map swipe predict: {diff} ({float2str(time.time() - start_time) + "s"}, current fleet match)')
+            return diff
+
+        # Brute force to find swipe
+        swipes = []
+        for current_loca, current_piece in self.grids.items():
+            for previous_loca, previous_piece in prev.grids.items():
+                if current_piece.is_similar_to(previous_piece):
+                    diff = np.subtract(current_loca, previous_loca) - offset
+                    swipes.append(tuple(diff.tolist()))
+                    # print(current_loca, previous_loca, offset, diff)
+
+        counter = collections.Counter(swipes)
+        diff = counter.most_common()
+        # print(diff)
+        if len(diff) == 1 \
+                or len(diff) >= 2 and diff[0][1] > diff[1][1]:
+            logger.info(f'Map swipe predict: {diff[0][0]} '
+                        f'({float2str(time.time() - start_time) + "s"}, {diff[0][1]} matches)')
+            return diff[0][0]
+
+        # Unable to predict
+        logger.info(f'Map swipe predict: None '
+                    f'({float2str(time.time() - start_time) + "s"}, no match)')
+        return None
