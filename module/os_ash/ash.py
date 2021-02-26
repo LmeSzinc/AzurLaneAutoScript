@@ -191,6 +191,8 @@ class OSAsh(UI):
                 continue
             if self.appear_then_click(BEACON_ENTER, offset=(20, 20), interval=2):
                 continue
+            if self._handle_ash_beacon_reward():
+                continue
 
             # End:
             if self.appear(ASH_START, offset=(30, 30)):
@@ -212,6 +214,19 @@ class OSAsh(UI):
         self.device.sleep((0.1, 0.3))
         self.device.click(HELP_3)
         self.ui_click(click_button=HELP_CONFIRM, check_button=HELP_ENTER)
+
+    def _handle_ash_beacon_reward(self):
+        """
+        Returns:
+            bool: If clicked
+        """
+        if self.appear_then_click(BEACON_REWARD, interval=2):
+            return True
+        if self.appear(GET_ITEMS_1, interval=2):
+            self.device.click(BEACON_REWARD)
+            return True
+
+        return False
 
     def _ash_beacon_attack(self):
         """
@@ -248,10 +263,7 @@ class OSAsh(UI):
             else:
                 confirm_timer.reset()
 
-            if self.appear_then_click(BEACON_REWARD, interval=2):
-                continue
-            if self.appear(GET_ITEMS_1, interval=2):
-                self.device.click(BEACON_REWARD)
+            if self._handle_ash_beacon_reward():
                 continue
             if self.appear(ASH_START, offset=(30, 30)):
                 self.ui_click(ASH_START, check_button=BATTLE_PREPARATION, offset=(30, 30), skip_first_screenshot=True)
