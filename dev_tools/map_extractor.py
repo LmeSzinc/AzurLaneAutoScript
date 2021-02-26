@@ -30,7 +30,7 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'sairenquzhu_M': 'DD',
     'sairenqingxun_M': 'CL',
     'sairenzhongxun_M': 'CAred',
-    'sairenzhanlie_M': 'BB',
+    'sairenzhanlie_M': 'BBred',
     'sairenhangmu_M': 'CV',
     'sairenqianting_M': 'SS',
 
