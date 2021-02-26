@@ -56,7 +56,7 @@ A10, B10, C10, D10, E10, F10, G10, \
 
 class Config:
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['BB', 'CV']
+    MAP_SIREN_TEMPLATE = ['BBred', 'CV']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -81,12 +81,14 @@ class Config:
         # 'width': (0, 7),
         'wlen': 1000
     }
+    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
+    EDGE_LINES_HOUGHLINES_THRESHOLD = 40
     MAP_ENEMY_GENRE_DETECTION_SCALING = {
-        'CL': 1.111,
-        'CLred': 1.111,
-        'BB': 1.111,
+        'BBred': 1.111,
         'CV': 1.111,
     }
+    MAP_SWIPE_MULTIPLY = 1.492
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.442
 
 
 class Campaign(CampaignBase):
