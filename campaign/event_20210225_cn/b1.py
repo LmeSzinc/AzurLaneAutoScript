@@ -72,11 +72,11 @@ class Config:
     }
     MAP_ENEMY_GENRE_DETECTION_SCALING = {
         'CL': 1.111,
-        'CAred': 1.11,
-        'BB': 1.111,
-        'CV': 1.111,
+        'CAred': 1.111,
+        'BBred': 1.111,
     }
-
+    MAP_SWIPE_MULTIPLY = 1.771
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.712
 
 class Campaign(CampaignBase):
     MAP = MAP
