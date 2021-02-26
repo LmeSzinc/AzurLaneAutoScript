@@ -1,11 +1,9 @@
-import numpy as np
-from scipy import signal
-
 from module.base.button import Button, ButtonGrid
-from module.base.timer import Timer, time_range_active
-from module.base.utils import area_offset, get_color, color_similar, color_similarity_2d
+from module.base.timer import Timer
+from module.base.utils import *
 from module.exception import ScriptError
 from module.logger import logger
+from module.map_detection.utils import Points
 from module.reward.assets import *
 from module.ui.assets import TACTICAL_CHECK
 from module.ui.ui import UI, page_tactical, page_reward
@@ -158,24 +156,30 @@ class BookGroup:
 class RewardTacticalClass(UI):
     def _tactical_animation_running(self):
         """
+        Detect the white dash line under student cards.
+        If student learning in progress or position haven't been unlocked, there will be a white line under the card.
+        The card with animation running, white line become gray.
+
         Returns:
             bool: If showing skill points increasing animation.
         """
-        color_height = np.mean(self.device.image.crop((922, 0, 1036, 720)).convert('L'), axis=1)
-        parameters = {'height': 200}
-        peaks, _ = signal.find_peaks(color_height, **parameters)
-        peaks = [y for y in peaks if y > 67 + 243]
-
-        if not len(peaks):
+        # Area of the white line under student cards.
+        area = (360, 680, 1280, 700)
+        mask = color_similarity_2d(self.image_area(area), color=(255, 255, 255)) > 235
+        points = np.array(np.where(mask)).T
+        # Width of card is 200 px
+        points = Points(points, config=self.config).group(threshold=210)
+        card = len(points)
+        if card == 0:
             logger.warning('No student card found.')
-        for y in peaks:
-            student_area = (447, y - 243, 1244, y)
-            area = area_offset((677, 172, 761, 183), student_area[0:2])
-            # Normal: 160, In skill-increasing animation: 109
-            if np.mean(get_color(self.device.image, area)) < 135:
-                return True
-
-        return False
+            return False
+        elif card == 3:
+            return True
+        elif card == 4:
+            return False
+        else:
+            logger.warning(f'Unexpected amount of student cards: {card}')
+            return False
 
     def _tactical_books_get(self):
         """

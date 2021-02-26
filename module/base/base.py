@@ -112,9 +112,12 @@ class ModuleBase:
         """Extract the area from image.
 
         Args:
-            button(Button): Button instance.
+            button(Button, tuple): Button instance or area tuple.
         """
-        return self.device.image.crop(button.area)
+        if isinstance(button, Button):
+            return self.device.image.crop(button.area)
+        else:
+            return self.device.image.crop(button)
 
     def image_color_count(self, button, color, threshold=221, count=50):
         """
