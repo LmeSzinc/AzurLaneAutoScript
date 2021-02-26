@@ -34,12 +34,11 @@ class AshCombat(Combat):
         """
         if self.is_combat_executing():
             return False
-        if self.appear_then_click(BATTLE_STATUS, screenshot=save_get_items, genre='status',
-                                  interval=self.battle_status_click_interval):
+        if self.appear_then_click(BATTLE_STATUS, screenshot=save_get_items, genre='status', interval=3):
             if not save_get_items:
                 self.device.sleep((0.25, 0.5))
             return True
-        if self.appear(BATTLE_PREPARATION, offset=(30, 30)):
+        if self.appear(BATTLE_PREPARATION, offset=(30, 30), interval=3):
             self.device.click(BACK_ARROW)
             return True
 
