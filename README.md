@@ -11,13 +11,15 @@
 
 ### QQ群 1087735381
 
-Alas, an Azur Lane automation tool with GUI (Support CN, EN, JP, able to support other servers).
+Alas, an Azur Lane automation tool with GUI (Support CN, EN, JP, TW, able to support other servers).
 
-Alas, 一个带GUI的碧蓝航线脚本 (支持国服, 国际服, 日服, 可以支持其他服务器).
+Alas, 一个带GUI的碧蓝航线脚本 (支持国服, 国际服, 日服, 台服, 可以支持其他服务器).
 
 EN support, Thanks **[@whoamikyo](https://github.com/whoamikyo)**
 
-JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)** and **[@noname94](https://github.com/noname94)** some features might not work.
+JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)** and **[@noname94](https://github.com/noname94)** , some features might not work.
+
+TW support, Thanks **[@Zorachristine](https://github.com/Zorachristine)** , some features might not work.
 
 > **Event Announcement 活动公告**
 >
@@ -44,6 +46,8 @@ JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)** and **[@nona
 - **委托收派** 出击时自动切出去收获, 支持收派委托, 收派科研, 收派战术学院, 收任务
 
 - **特定模式出击** 7-2三战拣垃圾, 12图练级. 1-1刷好感, 打潜艇图.
+
+- **大世界** 安全海域下当前地图短猫相接.
 
 - **其他小功能**
 
