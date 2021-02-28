@@ -62,6 +62,9 @@ class Campaign(CampaignBase):
         if self.fleet_2_push_forward():
             return True
 
+        if self.clear_enemy(scale=(2, 3), genre=['main', 'carrier', 'light']):
+            return True
+
         return self.battle_default()
 
     def battle_5(self):
