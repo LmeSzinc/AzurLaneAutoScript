@@ -252,7 +252,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             return True
         if self.appear_then_click(BATTLE_STATUS_A, screenshot=save_get_items, genre='status',
                                   interval=self.battle_status_click_interval):
-            logger.warning('Battle status: A')
+            logger.warning('Battle status A')
             self.device.send_notification('Battle finished', 'Battle status: A')
             if not save_get_items:
                 self.device.sleep((0.25, 0.5))
@@ -268,11 +268,12 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                                   interval=self.battle_status_click_interval):
             logger.warning('Battle Status C')
             self.device.send_notification('Battle finished', 'Battle status: C')
-            raise GameStuckError('Battle status: C')
+            # raise GameStuckError('Battle status C')
         if self.appear_then_click(BATTLE_STATUS_D, screenshot=save_get_items, genre='status',
                                   interval=self.battle_status_click_interval):
             logger.warning('Battle Status D')
-            raise GameStuckError('Battle Status D')
+            self.device.send_notification('Battle finished', 'Battle status: D')
+            # raise GameStuckError('Battle Status D')
 
         return False
 
