@@ -104,6 +104,7 @@ class CampaignBase(CampaignUI, Map, AutoSearchCombat):
 
         if not result:
             logger.warning('ScriptError, No combat executed.')
+            self.device.send_notification('ScriptError', 'No combat executed, please check GUI.')
             if self.config.ENABLE_EXCEPTION:
                 raise ScriptError('No combat executed.')
             else:
