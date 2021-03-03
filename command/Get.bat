@@ -33,6 +33,7 @@ call command\LanguageSet.bat
 if exist config\alas.ini (
     for /f "tokens=3 delims= " %%i in ('findstr /i "github_token" config\alas.ini') do ( set "GithubToken=%%i" )
     for /f "tokens=3 delims= " %%i in ('findstr /i "serial" config\alas.ini') do ( set "SerialAlas=%%i" )
+    for /f "tokens=3 delims= " %%i in ('findstr /i "package_name" config\alas.ini') do ( set "PackageName=%%i" )
 )
 if exist config\template.ini (
     for /f "tokens=3 delims= " %%i in ('findstr /i "serial" config\template.ini') do ( set "SerialTemplate=%%i" )

@@ -928,6 +928,10 @@ if "%FirstRun%"=="yes" (
    set FirstRun=no
    call command\Config.bat FirstRun %FirstRun%
 )
+if "%SerialRealtime%"=="%SerialAlas%" if "%PackageName%"=="com.YoStarEN.AzurLane" if "%GUI%"=="EN" ( 
+   echo == ^| The serial has not been changed since the last time
+   goto ShowSerial
+   )
 if "%GUI%"=="EN" (
    call command\ConfigAlas.bat SerialAlas %SerialRealtime%
    call command\ConfigAlas.bat AzurLanePackage com.YoStarEN.AzurLane
@@ -936,6 +940,8 @@ if "%GUI%"=="EN" (
    call command\ConfigAlas.bat SerialAlas %SerialRealtime%
    call command\Config.bat Serial %SerialRealtime%
 )
+:ShowSerial
+for %%i in (*.) do if not "%%i"=="LICENSE" del /q "%%i"
 echo =======================================================================================================================
 echo == ^| Old Serial:      %SerialAlas%
 echo == ^| New Serial:      %SerialRealtime%
