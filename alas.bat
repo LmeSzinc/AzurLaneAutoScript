@@ -131,7 +131,7 @@ goto MENU
 rem ================= OPTION 1 =================
 
 :en
-rem call command\ConfigAlas.bat AzurLanePackage com.YoStarEN.AzurLane
+set "GUI=EN"
 call :CheckBsBeta
 rem :continue_en
 rem call :AdbConnect
@@ -146,6 +146,7 @@ goto :MENU
 rem ================= OPTION 2 =================
 
 :cn
+set "GUI=CN"
 call :CheckBsBeta
 rem call :AdbConnect
 echo =======================================================================================================================
@@ -158,6 +159,7 @@ goto :MENU
 
 rem ================= OPTION 3 =================
 :jp
+set "GUI=JP"
 call :CheckBsBeta
 rem call :AdbConnect
 echo =======================================================================================================================
@@ -170,6 +172,7 @@ goto :MENU
 
 rem ================= OPTION 4 =================
 :tw
+set "GUI=TW"
 call :CheckBsBeta
 rem call :AdbConnect
 echo =======================================================================================================================
@@ -924,6 +927,11 @@ if "%FirstRun%"=="yes" (
    call command\ConfigTemplate.bat SerialTemplate %SerialRealtime%
    set FirstRun=no
    call command\Config.bat FirstRun %FirstRun%
+)
+if "%GUI%"=="EN" (
+   call command\ConfigAlas.bat SerialAlas %SerialRealtime%
+   call command\ConfigAlas.bat AzurLanePackage com.YoStarEN.AzurLane
+   call command\Config.bat Serial %SerialRealtime%
 ) else (
    call command\ConfigAlas.bat SerialAlas %SerialRealtime%
    call command\Config.bat Serial %SerialRealtime%
