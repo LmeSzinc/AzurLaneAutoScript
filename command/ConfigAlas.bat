@@ -47,12 +47,12 @@ goto :eof
 :Config_misc2
 if "%RealtimeMode%"=="disable" goto :eof
 for /f %%a in ('type "%cfg_Alas%"^|find "" /v /c') do set /a count=%%a
-if %count% LSS 255 (
+if %count% LSS 254 (
    if "%FirstLoop%"=="True" (
       echo == ^| Do you want continue in loop? && echo. && echo == ^| if the loop persist, screenshot that window and looking for whoamikyo on discord.
       pause >nul
    )
-   echo %cfg_Alas% has less than 255 lines
+   echo %cfg_Alas% has less than 254 lines
    copy %cfg_Alas_temp% %cfg_Alas% > NUL
    set "FirstLoop=True"
    call command\ConfigAlas.bat SerialAlas %SerialRealtime%
