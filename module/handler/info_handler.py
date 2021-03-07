@@ -197,9 +197,10 @@ class InfoHandler(ModuleBase):
         x_min, x_max = np.min(x_count), np.max(x_count)
 
         parameters = {
-            # Option is 300 x 50.
+            # Option is 300`320px x 50~52px.
             'height': 280,
-            'width': 35,
+            'width': 45,
+            'distance': 50,
             # Chooses the relative height at which the peak width is measured as a percentage of its prominence.
             # 1.0 calculates the width of the peak at its lowest contour line,
             # while 0.5 evaluates at half the prominence height.
