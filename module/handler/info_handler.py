@@ -1,5 +1,9 @@
+from scipy import signal
+
 from module.base.base import ModuleBase
+from module.base.button import Button
 from module.base.timer import Timer
+from module.base.utils import *
 from module.handler.assets import *
 from module.logger import logger
 
@@ -175,6 +179,48 @@ class InfoHandler(ModuleBase):
     story_popup_timout = Timer(10, count=20)
     map_has_fast_forward = False  # Will be override in fast_forward.py
 
+    # Area to detect the options, should include at least 3 options.
+    _story_option_area = (730, 188, 1140, 480)
+    # Background color of the left part of the option.
+    _story_option_color = (99, 121, 156)
+    _story_option_timer = Timer(2)
+
+    def _story_option_buttons(self):
+        """
+        Returns:
+            list[Button]: List of story options, from upper to bottom. If no option found, return an empty list.
+        """
+        image = color_similarity_2d(self.image_area(self._story_option_area), color=self._story_option_color) > 225
+        x_count = np.where(np.sum(image, axis=0) > 40)[0]
+        if not len(x_count):
+            return []
+        x_min, x_max = np.min(x_count), np.max(x_count)
+
+        parameters = {
+            # Option is 300`320px x 50~52px.
+            'height': 280,
+            'width': 45,
+            'distance': 50,
+            # Chooses the relative height at which the peak width is measured as a percentage of its prominence.
+            # 1.0 calculates the width of the peak at its lowest contour line,
+            # while 0.5 evaluates at half the prominence height.
+            # Must be at least 0.
+            'rel_height': 5,
+        }
+        y_count = np.sum(image, axis=1)
+        peaks, properties = signal.find_peaks(y_count, **parameters)
+        buttons = []
+        total = len(peaks)
+        if not total:
+            return []
+        for n, bases in enumerate(zip(properties['left_bases'], properties['right_bases'])):
+            area = (x_min, bases[0], x_max, bases[1])
+            area = area_pad(area_offset(area, offset=self._story_option_area[:2]), pad=5)
+            buttons.append(
+                Button(area=area, color=self._story_option_color, button=area, name=f'STORY_OPTION_{n + 1}_OF_{total}'))
+
+        return buttons
+
     def story_skip(self):
         if self.story_popup_timout.started() and not self.story_popup_timout.reached():
             if self.handle_popup_confirm('STORY_SKIP'):
@@ -185,36 +231,15 @@ class InfoHandler(ModuleBase):
         if self.appear(STORY_LETTER_BLACK) and self.appear_then_click(STORY_LETTERS_ONLY, offset=True, interval=2):
             self.story_popup_timout.reset()
             return True
-        if self.appear_then_click(STORY_CHOOSE, offset=True, interval=2):
-            self.story_popup_timout.reset()
-            self.interval_reset(STORY_SKIP)
-            self.interval_reset(STORY_LETTERS_ONLY)
-            return True
-        if self.appear_then_click(STORY_CHOOSE_2, offset=True, interval=2):
-            self.story_popup_timout.reset()
-            self.interval_reset(STORY_SKIP)
-            self.interval_reset(STORY_LETTERS_ONLY)
-            return True
-        if self.appear_then_click(STORY_CHOOSE_LONG_3, offset=True, interval=2):
-            self.story_popup_timout.reset()
-            self.interval_reset(STORY_SKIP)
-            self.interval_reset(STORY_LETTERS_ONLY)
-            return True
-        if self.appear_then_click(STORY_CHOOSE_LONG, offset=True, interval=2):
-            self.story_popup_timout.reset()
-            self.interval_reset(STORY_SKIP)
-            self.interval_reset(STORY_LETTERS_ONLY)
-            return True
-        if self.appear_then_click(STORY_CHOOSE_LONG_2, offset=True, interval=2):
-            self.story_popup_timout.reset()
-            self.interval_reset(STORY_SKIP)
-            self.interval_reset(STORY_LETTERS_ONLY)
-            return True
-        if self.appear_then_click(STORY_CHOOSE_SHORT_2, offset=True, interval=2):
-            self.story_popup_timout.reset()
-            self.interval_reset(STORY_SKIP)
-            self.interval_reset(STORY_LETTERS_ONLY)
-            return True
+        if self._story_option_timer.reached() and self.appear(STORY_SKIP, offset=True, interval=0):
+            options = self._story_option_buttons()
+            if len(options):
+                self.device.click(options[0])
+                self._story_option_timer.reset()
+                self.story_popup_timout.reset()
+                self.interval_reset(STORY_SKIP)
+                self.interval_reset(STORY_LETTERS_ONLY)
+                return True
         if self.appear_then_click(STORY_SKIP, offset=True, interval=2):
             self.story_popup_timout.reset()
             return True
