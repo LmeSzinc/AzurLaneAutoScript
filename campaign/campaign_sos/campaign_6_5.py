@@ -59,7 +59,7 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
-        if self.clear_enemy(scale=(2, 3), genre=['main', 'carrier', 'light']):
+        if self.clear_enemy(scale=(2, 3), genre=['light', 'carrier', 'enemy', 'main']):
             return True
 
         return self.battle_default()

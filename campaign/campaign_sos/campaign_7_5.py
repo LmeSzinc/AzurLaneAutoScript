@@ -62,7 +62,7 @@ class Campaign(CampaignBase):
         if self.fleet_2_push_forward():
             return True
 
-        if self.clear_enemy(scale=(2, 3), genre=['main', 'carrier', 'light']):
+        if self.clear_enemy(scale=(2, 3), genre=['light', 'carrier', 'enemy', 'main']):
             return True
 
         return self.battle_default()
