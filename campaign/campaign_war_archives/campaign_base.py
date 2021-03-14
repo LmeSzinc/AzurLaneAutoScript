@@ -87,7 +87,7 @@ class CampaignBase(CampaignBase_):
                 self.ui_click(archives_entrance, appear_button=WAR_ARCHIVES_CHECK, check_button=WAR_ARCHIVES_CAMPAIGN_CHECK,
                             skip_first_screenshot=True)
             else:
-                raise ScriptEnd
+                raise ScriptEnd('War Archives Entrance could not be found, respective server may not yet support this campaign')
         self.handle_stage_icon_spawn()
 
         # Subsequent runs all set False
