@@ -1,13 +1,10 @@
-import numpy as np
-
 from campaign.campaign_war_archives.campaign_base import CampaignBase
 from module.campaign.run import CampaignRun
 from module.logger import logger
 from module.ocr.ocr import DigitCounter
-from module.war_archives.assets import OCR_DATA_KEY_CAMPAIGN, WAR_ARCHIVES_CAMPAIGN_CHECK, WAR_ARCHIVES_CAMPAIGN_TIMER
+from module.war_archives.assets import OCR_DATA_KEY_CAMPAIGN, WAR_ARCHIVES_CAMPAIGN_CHECK
 
 DATA_KEY_CAMPAIGN = DigitCounter(OCR_DATA_KEY_CAMPAIGN, letter=(255, 247, 247), threshold=64)
-WAR_ARCHIVES_CAMPAIGN_TIMER_THRESHOLD = 102
 
 
 class CampaignWarArchives(CampaignRun, CampaignBase):
