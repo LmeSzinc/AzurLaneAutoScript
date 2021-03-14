@@ -1,7 +1,7 @@
 from module.base.button import Button
-from module.base.utils import area_offset, get_color
+from module.base.utils import area_offset, get_color, random_rectangle_vector
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
-from module.exception import CampaignNameError
+from module.exception import CampaignNameError, ScriptEnd
 from module.ui.assets import WAR_ARCHIVES_CHECK
 from module.ui.page import page_archives
 from module.ui.switch import Switch
@@ -22,10 +22,6 @@ class CampaignBase(CampaignBase_):
         Create entrance button to target archive campaign
         using a template acquired by event folder name
 
-        TODO: Each server have different selectable campaign
-              Need something similar to commission to scroll
-              or turn page. CN/JP have more than 4 atm.
-
         Args:
             name(str): event folder name
         """
@@ -39,6 +35,36 @@ class CampaignBase(CampaignBase_):
         color = get_color(self.device.image, button)
         entrance = Button(area=button, color=color, button=button, name=name)
         return entrance
+
+    def _search_archives_entrance(self, name, skip_first_screenshot=True):
+        """
+        Search for entrance using mini-touch scroll down
+        at center
+        Fixed number of scrolls until give up, may need to
+        increase as more war archives campaigns are added
+        """
+        detection_area = (565, 125, 700, 675)
+
+        for _ in range(5):
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            try:
+                return self._get_archives_entrance(name)
+            except:
+                pass
+
+            backup = self.config.cover(DEVICE_CONTROL_METHOD='minitouch')
+            p1, p2 = random_rectangle_vector(
+                (0, -225), box=detection_area, random_range=(-50, -50, 50, 50), padding=20)
+            self.device.drag(p1, p2, segments=2, shake=(0, 25), point_random=(0, 0, 0, 0), shake_random=(0, -5, 0, 5))
+            backup.recover()
+            self.device.sleep(0.3)
+
+        logger.warning('Failed to find archives entrance')
+        return None
 
     def ui_goto_archives_campaign(self, mode='ex'):
         """
@@ -56,9 +82,12 @@ class CampaignBase(CampaignBase_):
             WAR_ARCHIVES_SWITCH.set(mode, main=self)
             self.handle_stage_icon_spawn()
 
-            archives_entrance = self._get_archives_entrance(self.config.WAR_ARCHIVES_NAME)
-            self.ui_click(archives_entrance, appear_button=WAR_ARCHIVES_CHECK, check_button=WAR_ARCHIVES_CAMPAIGN_CHECK,
-                          skip_first_screenshot=True)
+            archives_entrance = self._search_archives_entrance(self.config.WAR_ARCHIVES_NAME)
+            if archives_entrance is not None:
+                self.ui_click(archives_entrance, appear_button=WAR_ARCHIVES_CHECK, check_button=WAR_ARCHIVES_CAMPAIGN_CHECK,
+                            skip_first_screenshot=True)
+            else:
+                raise ScriptEnd
         self.handle_stage_icon_spawn()
 
         # Subsequent runs all set False
