@@ -1,7 +1,8 @@
 from module.base.button import Button
 from module.base.utils import area_offset, get_color, random_rectangle_vector
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
-from module.exception import CampaignNameError, ScriptEnd
+from module.exception import ScriptEnd
+from module.logger import logger
 from module.ui.assets import WAR_ARCHIVES_CHECK
 from module.ui.page import page_archives
 from module.ui.switch import Switch
@@ -29,7 +30,7 @@ class CampaignBase(CampaignBase_):
 
         sim, point = template.match_result(self.device.image)
         if sim < 0.85:
-            raise CampaignNameError
+            return None
 
         button = area_offset(area=(-12, -12, 44, 32), offset=point)
         color = get_color(self.device.image, button)
@@ -51,10 +52,9 @@ class CampaignBase(CampaignBase_):
             else:
                 self.device.screenshot()
 
-            try:
-                return self._get_archives_entrance(name)
-            except:
-                pass
+            entrance = self._get_archives_entrance(name)
+            if entrance is not None:
+                return entrance
 
             backup = self.config.cover(DEVICE_CONTROL_METHOD='minitouch')
             p1, p2 = random_rectangle_vector(
@@ -82,12 +82,14 @@ class CampaignBase(CampaignBase_):
             WAR_ARCHIVES_SWITCH.set(mode, main=self)
             self.handle_stage_icon_spawn()
 
-            archives_entrance = self._search_archives_entrance(self.config.WAR_ARCHIVES_NAME)
-            if archives_entrance is not None:
-                self.ui_click(archives_entrance, appear_button=WAR_ARCHIVES_CHECK, check_button=WAR_ARCHIVES_CAMPAIGN_CHECK,
-                            skip_first_screenshot=True)
+            entrance = self._search_archives_entrance(self.config.WAR_ARCHIVES_NAME)
+            if entrance is not None:
+                self.ui_click(entrance, appear_button=WAR_ARCHIVES_CHECK, check_button=WAR_ARCHIVES_CAMPAIGN_CHECK,
+                              skip_first_screenshot=True)
+                self.handle_stage_icon_spawn()
             else:
-                raise ScriptEnd('War Archives Entrance could not be found, respective server may not yet support this campaign')
+                raise ScriptEnd(
+                    'War Archives Entrance could not be found, respective server may not yet support this campaign')
         self.handle_stage_icon_spawn()
 
         # Subsequent runs all set False
