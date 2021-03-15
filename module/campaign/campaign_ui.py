@@ -116,7 +116,9 @@ class CampaignUI(UI, CampaignOcr):
                 self.ENTRANCE = self.campaign_get_entrance(name=name)
                 return True
             except CampaignNameError:
-                continue
+                pass
+
+            self.device.screenshot()
 
         logger.warning('Campaign name error')
         raise ScriptEnd('Campaign name error')
