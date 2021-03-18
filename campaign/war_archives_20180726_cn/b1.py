@@ -3,18 +3,33 @@ from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
 
-
-MAP = CampaignMap('b1')
+MAP = CampaignMap('B1')
 MAP.shape = 'H6'
-MAP.map_data = '''
+MAP.camera_data = ['D2', 'D4', 'E2', 'E4']
+MAP.camera_data_spawn_point = ['D4']
+MAP.map_data = """
     ++ ++ ++ -- -- -- -- MB
-    -- -- -- -- __ ME ME --
+    -- -- -- -- __ Me Me --
     ME -- ME ++ ++ ME -- --
     SP -- ME ++ ++ MS ME --
     ME -- -- -- -- -- -- --
-    SP -- -- ME -- ME -- MB
-'''
-
+    SP -- -- ME -- Me -- MB
+"""
+MAP.weight_data = """
+    50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50
+"""
+MAP.spawn_data = [
+    {'battle': 0, 'enemy': 2, 'siren': 1},
+    {'battle': 1, 'enemy': 1},
+    {'battle': 2, 'enemy': 2},
+    {'battle': 3, 'enemy': 1},
+    {'battle': 4, 'enemy': 2, 'boss': 1},
+]
 A1, B1, C1, D1, E1, F1, G1, H1, \
 A2, B2, C2, D2, E2, F2, G2, H2, \
 A3, B3, C3, D3, E3, F3, G3, H3, \
@@ -23,17 +38,17 @@ A5, B5, C5, D5, E5, F5, G5, H5, \
 A6, B6, C6, D6, E6, F6, G6, H6, \
     = MAP.flatten()
 
-class Config:
-    SUBMARINE = 0
-    FLEET_BOSS = 0
 
-    POOR_MAP_DATA = True
-    MAP_HAS_AMBUSH = False
-    MAP_HAS_FLEET_STEP = True
-    MAP_HAS_MOVABLE_ENEMY = True
+class Config:
+    # ===== Start of generated config =====
+    MAP_SIREN_TEMPLATE = ['CL', 'CA']
+    MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
-    MAP_HAS_DYNAMIC_RED_BORDER = True
-    MAP_SIREN_COUNT = 1
+    MAP_HAS_MOVABLE_ENEMY = True
+    MAP_HAS_MAP_STORY = False
+    MAP_HAS_FLEET_STEP = True
+    MAP_HAS_AMBUSH = False
+    # ===== End of generated config =====
 
     TRUST_EDGE_LINES = True
 
@@ -54,3 +69,11 @@ class Config:
 class Campaign(CampaignBase):
     MAP = MAP
 
+    def battle_0(self):
+        if self.clear_siren():
+            return True
+
+        return self.battle_default()
+
+    def battle_4(self):
+        return self.clear_boss()
