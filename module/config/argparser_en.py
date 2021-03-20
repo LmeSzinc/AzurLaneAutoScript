@@ -545,6 +545,28 @@ def main(ini_name=''):
     c_7_2.add_argument('--boss_fleet_step_on_a3', default=default('--boss_fleet_step_on_a3'),
                        choices=['yes', 'no'], help='A3 has enemies, G3, C3, E3', gooey_options={'label_color': '#4B5F83'})
 
+    # ==========efficiency_farming==========
+    efficiency_parser = subs.add_parser('efficiency_farming')
+    efficiency = efficiency_parser.add_argument_group('efficiency_farming',
+                       'Option for high-efficiency combat logistics plan usage, a fixed number of campaigns are '
+                       'executed before resting and starting again to accomodate the double emotion reduce.\nMost '
+                       'useful for war_archives as only 1 data key is used per campaign.',
+                       gooey_options={'label_color': '#931D03'})
+    efficiency.add_argument('--efficiency_module', default=default('--efficiency_module'),
+                       choices=['Main_campaign', 'event', 'war_archives'],
+                       help='Campaign type to apply high-efficiency combat logistics plan. Current campaign settings '
+                            'are referenced, re-run target module to change those settings',
+                       gooey_options={'label_color': '#4B5F83'})
+    efficiency.add_argument('--efficiency_count', default=default('--efficiency_count'),
+                       help='Number of campaigns per session', gooey_options={'label_color': '#4B5F83'})
+    efficiency.add_argument('--efficiency_rest_interval', default=default('--efficiency_rest_interval'),
+                       help='How many minutes to wait before starting the next session, Recommend to set a time '
+                            'range, such as "10, 40"',
+                       gooey_options={'label_color': '#4B5F83'})
+    efficiency.add_argument('--efficiency_skip_first_run', default=default('--efficiency_skip_first_run'),
+                       choices=['yes', 'no'], help='Skip first run execution, wait until next session',
+                       gooey_options={'label_color': '#4B5F83'})
+
     # ==========c122_leveling==========
     c_12_2_parser = subs.add_parser('c12-2_leveling')
     c_12_2 = c_12_2_parser.add_argument_group('12-2 enemy search settings', '', gooey_options={'label_color': '#931D03'})

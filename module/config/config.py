@@ -465,6 +465,15 @@ class AzurLaneConfig:
     C72_BOSS_FLEET_STEP_ON_A3 = True
 
     """
+    Efficiency_farming
+    """
+    EFFICIENCY_SKIP_FIRST_RUN = False
+    EFFICIENCY_MODULE = 'war_archives'
+    EFFICIENCY_COUNT = 2
+    EFFICIENCY_REST_INTERVAL = 40, 45
+    ENABLE_EFFICIENCY = False
+
+    """
     C_12_2_leveling
     """
     C122_S3_TOLERANCE = 0
@@ -739,6 +748,12 @@ class AzurLaneConfig:
         self.C72_BOSS_FLEET_STEP_ON_A3 = to_bool(option['boss_fleet_step_on_a3'])
         if self.COMMAND.lower() == 'c72_mystery_farming' and not self.C72_BOSS_FLEET_STEP_ON_A3:
             self.FLEET_2 = 0
+
+        # Efficiency_farming
+        option = config['Efficiency_farming']
+        self.EFFICIENCY_MODULE = option['efficiency_module']
+        self.EFFICIENCY_COUNT = int(option['efficiency_count'])
+        self.EFFICIENCY_SKIP_FIRST_RUN = to_bool(option['efficiency_skip_first_run'])
 
         # C_12_2_leveling
         option = config['C122_leveling']

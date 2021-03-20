@@ -203,6 +203,11 @@ class AzurLaneAutoScript:
         az.run('campaign_7_2_mystery_farming')
         self.reward_when_finished()
 
+    def efficiency_farming(self):
+        from module.efficiency.run import EfficiencyRun
+        az = EfficiencyRun(self.config, device=self.device)
+        az.run()
+
     def c124_leveling(self):
         from module.campaign.run import CampaignRun
         az = CampaignRun(self.config, device=self.device)

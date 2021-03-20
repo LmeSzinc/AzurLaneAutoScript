@@ -3,6 +3,7 @@ import numpy as np
 from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import color_similarity_2d
+from module.efficiency.assets import *
 from module.exception import CampaignEnd
 from module.exception import ScriptEnd
 from module.handler.fast_forward import FastForwardHandler
@@ -77,6 +78,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             if fleet_timer.reached() and self.appear(FLEET_PREPARATION):
                 if self.config.ENABLE_FLEET_CONTROL:
                     if mode == 'normal' or mode == 'hard':
+                        self.handle_efficiency_check()
                         self.fleet_preparation()
                         self.handle_auto_search_setting()
                         self.handle_auto_search_emotion_wait()
@@ -261,3 +263,19 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             self.emotion.wait(expected_reduce=self._emotion_expected_reduce)
         else:
             logger.info('Emotion instance not loaded, skip emotion wait')
+
+    def handle_efficiency_check(self):
+        """
+        If efficiency module, enable the setting
+        otherwise all others disable if applicable
+        Ensure no info bar is present afterwards
+        """
+        if not self.appear(FLEET_PREPARATION):
+            return False
+
+        enabled = self.image_color_count(EFFICIENCY_SET_CHECK, color=(156, 255, 82), threshold=221, count=20)
+        if (self.config.ENABLE_EFFICIENCY and not enabled) or (not self.config.ENABLE_EFFICIENCY and enabled):
+            self.device.click(EFFICIENCY_SET_CHECK)
+            self.device.sleep((0.5, 0.8))
+        self.ensure_no_info_bar()
+

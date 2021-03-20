@@ -43,6 +43,7 @@ dic_true_eng_to_eng = {
     'semi_auto': 'semi_auto',
     'c1-1_affinity_farming': 'c11_affinity_farming',
     'c7-2_mystery_farming': 'c72_mystery_farming',
+    'efficiency_farming': 'efficiency_farming',
     'c12-2_leveling': 'c122_leveling',
     'c12-4_leveling': 'c124_leveling',
     'os_semi_auto': 'os_semi_auto',
@@ -233,6 +234,10 @@ dic_true_eng_to_eng = {
     'default_serial_list': 'default_serial_list',
     'enable_os_semi_story_skip': 'enable_os_semi_story_skip',
     'enable_os_ash_attack': 'enable_os_ash_attack',
+    'efficiency_module': 'efficiency_module',
+    'efficiency_count': 'efficiency_count',
+    'efficiency_rest_interval': 'efficiency_rest_interval',
+    'efficiency_skip_first_run': 'efficiency_skip_first_run',
 
     # Option
     'yes': 'yes',
@@ -320,6 +325,7 @@ dic_chi_to_eng = {
     '半自动辅助点击': 'semi_auto',
     '1-1伏击刷好感': 'c11_affinity_farming',
     '7-2三战拣垃圾': 'c72_mystery_farming',
+    'efficiency_farming': 'efficiency_farming',
     '12-2打中型练级': 'c122_leveling',
     '12-4打大型练级': 'c124_leveling',
     '大世界辅助点击': 'os_semi_auto',
@@ -510,6 +516,10 @@ dic_chi_to_eng = {
     '默认serial列表': 'default_serial_list',
     '大世界跳过剧情': 'enable_os_semi_story_skip',
     '打大世界余烬信标': 'enable_os_ash_attack',
+    'efficiency_module': 'efficiency_module',
+    'efficiency_count': 'efficiency_count',
+    'efficiency_rest_interval': 'efficiency_rest_interval',
+    'efficiency_skip_first_run': 'efficiency_skip_first_run',
 
     # Option
     '是': 'yes',
@@ -597,6 +607,7 @@ dic_tchi_to_eng = {
     '半自動輔助點擊': 'semi_auto',
     '1-1伏擊刷好感': 'c11_affinity_farming',
     '7-2三戰撿垃圾': 'c72_mystery_farming',
+    'efficiency_farming': 'efficiency_farming',
     '12-2打中型練級': 'c122_leveling',
     '12-4打大型練級': 'c124_leveling',
     '大世界輔助點擊': 'os_semi_auto',
@@ -787,6 +798,10 @@ dic_tchi_to_eng = {
     '默認serial列表': 'default_serial_list',
     '大世界跳過劇情': 'enable_os_semi_story_skip',
     '打大世界餘燼信標': 'enable_os_ash_attack',
+    'efficiency_module': 'efficiency_module',
+    'efficiency_count': 'efficiency_count',
+    'efficiency_rest_interval': 'efficiency_rest_interval',
+    'efficiency_skip_first_run': 'efficiency_skip_first_run',
 
     # Option
     '是': 'yes',
