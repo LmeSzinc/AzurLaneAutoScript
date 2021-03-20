@@ -134,7 +134,8 @@ class OSAsh(UI):
                 break
 
             self._ash_beacon_select(tier=self.config.OS_ASH_ASSIST_TIER)
-            self.ui_click(ASH_START, check_button=BATTLE_PREPARATION, offset=(30, 30), skip_first_screenshot=True)
+            self.ui_click(ASH_START, check_button=BATTLE_PREPARATION, offset=(30, 30),
+                          additional=ash_combat.handle_combat_automation_confirm, skip_first_screenshot=True)
             ash_combat.combat(expected_end=self.is_in_ash)
             continue
 
@@ -265,7 +266,8 @@ class OSAsh(UI):
             if self._handle_ash_beacon_reward():
                 continue
             if self.appear(ASH_START, offset=(30, 30)):
-                self.ui_click(ASH_START, check_button=BATTLE_PREPARATION, offset=(30, 30), skip_first_screenshot=True)
+                self.ui_click(ASH_START, check_button=BATTLE_PREPARATION, offset=(30, 30),
+                              additional=ash_combat.handle_combat_automation_confirm, skip_first_screenshot=True)
                 ash_combat.combat(expected_end=self.is_in_ash)
                 continue
 
