@@ -278,4 +278,3 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             self.device.click(EFFICIENCY_SET_CHECK)
             self.device.sleep((0.5, 0.8))
         self.ensure_no_info_bar()
-
