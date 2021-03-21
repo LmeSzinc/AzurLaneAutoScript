@@ -752,7 +752,7 @@ class AzurLaneConfig:
         # Efficiency_farming
         option = config['Efficiency_farming']
         self.EFFICIENCY_MODULE = option['efficiency_module']
-        self.EFFICIENCY_COUNT = int(option['efficiency_count'])'
+        self.EFFICIENCY_COUNT = int(option['efficiency_count'])
         self.EFFICIENCY_REST_INTERVAL = option['efficiency_rest_interval']
         self.EFFICIENCY_SKIP_FIRST_RUN = to_bool(option['efficiency_skip_first_run'])
 
