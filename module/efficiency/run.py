@@ -81,5 +81,6 @@ class EfficiencyRun(Reward):
                     az.run(self.config.WAR_ARCHIVES_STAGE, folder=self.config.WAR_ARCHIVES_NAME)
 
                 backup.recover()
+                self.config.GUILD_POPUP_TRIGGERED = az.config.GUILD_POPUP_TRIGGERED
 
             self.reward_until_next_session()
