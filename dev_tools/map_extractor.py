@@ -354,7 +354,7 @@ class MapData:
         if self.MAP_HAS_LAND_BASED:
             lines.append(f'    MAP_HAS_LAND_BASED = {self.MAP_HAS_LAND_BASED}')
         for n in range(1, 4):
-            if not self.__getattribute__(f'STAR_REQUIRE_{n}'):
+            if self.__getattribute__(f'STAR_REQUIRE_{n}') != n:
                 lines.append(f'    STAR_REQUIRE_{n} = 0')
         lines.append('    # ===== End of generated config =====')
         lines.append('')
