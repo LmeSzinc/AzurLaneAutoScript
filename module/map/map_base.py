@@ -594,14 +594,15 @@ class CampaignMap:
         missing['enemy'] -= battle_count - siren_count
         missing['mystery'] -= mystery_count
         missing['siren'] -= siren_count
-        missing['carrier'] = carrier_count - self.select(is_enemy=True, may_enemy=False).count
+        missing['carrier'] = carrier_count - self.select(is_enemy=True, may_enemy=False).count \
+            if mode == 'carrier' else 0
         for grid in self:
             for attr in ['enemy', 'mystery', 'siren', 'boss']:
                 if grid.__getattribute__('is_' + attr):
                     missing[attr] -= 1
 
         for upper in self.map_covered:
-            if upper.may_enemy and not upper.is_enemy:
+            if (upper.may_enemy or mode == 'movable') and not upper.is_enemy:
                 may['enemy'] += 1
             if upper.may_mystery and not upper.is_mystery:
                 may['mystery'] += 1

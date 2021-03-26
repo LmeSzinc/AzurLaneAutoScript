@@ -218,6 +218,13 @@ class GridInfo:
                 if info.enemy_genre and not (info.enemy_genre == 'Enemy' and self.enemy_genre):
                     self.enemy_genre = info.enemy_genre
                 return True
+            elif (mode == 'movable' or self.is_movable) and not self.is_land:
+                self.is_enemy = True
+                if info.enemy_scale:
+                    self.enemy_scale = info.enemy_scale
+                if info.enemy_genre and not (info.enemy_genre == 'Enemy' and self.enemy_genre):
+                    self.enemy_genre = info.enemy_genre
+                return True
             else:
                 return False
         if info.is_mystery:

@@ -113,12 +113,15 @@ class Fleet(Camera, AmbushHandler):
         if not self.config.MAP_HAS_MOVABLE_ENEMY:
             return False
         if not self.map.select(is_siren=True):
-            self.enemy_round = {}
+            if self.config.MAP_HAS_MOVABLE_NORMAL_ENEMY and not self.map.select(is_enemy=True):
+                self.enemy_round = {}
         try:
             data = self.map.spawn_data[self.battle_count]
         except IndexError:
             data = {}
         enemy = data.get('siren', 0)
+        if self.config.MAP_HAS_MOVABLE_NORMAL_ENEMY:
+            enemy += data.get('enemy', 0)
         if enemy > 0:
             r = self.round
             self.enemy_round[r] = self.enemy_round.get(r, 0) + enemy
@@ -129,6 +132,24 @@ class Fleet(Camera, AmbushHandler):
         """
         self.round = 0
         self.enemy_round = {}
+
+    @property
+    def round_enemy_turn(self):
+        """
+        Returns:
+            tuple[int]: Enemy moves once after player move X times.
+                        It's a tuple because different enemy may have different X.
+        """
+        if self.config.MAP_HAS_MOVABLE_ENEMY:
+            if self.config.MAP_HAS_MOVABLE_NORMAL_ENEMY:
+                return tuple(set((list(self.config.MOVABLE_ENEMY_TURN) + list(self.config.MOVABLE_NORMAL_ENEMY_TURN))))
+            else:
+                return self.config.MOVABLE_ENEMY_TURN
+        else:
+            if self.config.MAP_HAS_MOVABLE_NORMAL_ENEMY:
+                return self.config.MOVABLE_NORMAL_ENEMY_TURN
+            else:
+                return tuple()
 
     @property
     def round_is_new(self):
@@ -146,7 +167,7 @@ class Fleet(Camera, AmbushHandler):
         if not self.config.MAP_HAS_MOVABLE_ENEMY:
             return False
         for enemy in self.enemy_round.keys():
-            for turn in self.config.MOVABLE_ENEMY_TURN:
+            for turn in self.round_enemy_turn:
                 if self.round - enemy > 0 and (self.round - enemy) % turn == 0:
                     return True
 
@@ -162,7 +183,7 @@ class Fleet(Camera, AmbushHandler):
             return 0
         count = 0
         for enemy, c in self.enemy_round.items():
-            for turn in self.config.MOVABLE_ENEMY_TURN:
+            for turn in self.round_enemy_turn:
                 if self.round + 1 - enemy > 0 and (self.round + 1 - enemy) % turn == 0:
                     count += c
                     break
@@ -170,6 +191,7 @@ class Fleet(Camera, AmbushHandler):
         return count * self.config.MAP_SIREN_MOVE_WAIT
 
     movable_before: SelectedGrids
+    movable_before_normal: SelectedGrids
 
     @property
     def _walk_sight(self):
@@ -185,6 +207,7 @@ class Fleet(Camera, AmbushHandler):
         location = location_ensure(location)
         result_mystery = ''
         self.movable_before = self.map.select(is_siren=True)
+        self.movable_before_normal = self.map.select(is_enemy=True)
         if self.hp_withdraw_triggered():
             self.withdraw()
         is_portal = self.map[location].is_portal
@@ -412,18 +435,45 @@ class Fleet(Camera, AmbushHandler):
             enemy_cleared (bool): True if cleared an enemy and need to scan spawn enemies.
                                   False if just a simple walk and only need to scan movable enemies.
         """
-        before = self.movable_before
-        for grid in before:
-            grid.wipe_out()
+        if self.config.MAP_HAS_MOVABLE_NORMAL_ENEMY:
+            if self.config.MAP_HAS_MOVABLE_ENEMY:
+                for grid in self.movable_before:
+                    grid.wipe_out()
+                for grid in self.movable_before_normal:
+                    grid.wipe_out()
+                self.full_scan(mode='movable')
+                self.track_movable(enemy_cleared=enemy_cleared, siren=True)
+                self.track_movable(enemy_cleared=enemy_cleared, siren=False)
+            else:
+                for grid in self.movable_before_normal:
+                    grid.wipe_out()
+                self.full_scan(mode='movable')
+                self.track_movable(enemy_cleared=enemy_cleared, siren=False)
 
-        self.full_scan(queue=None if enemy_cleared else before, must_scan=before, mode='movable')
+        elif self.config.MAP_HAS_MOVABLE_ENEMY:
+            for grid in self.movable_before:
+                grid.wipe_out()
+            self.full_scan(queue=None if enemy_cleared else self.movable_before,
+                           must_scan=self.movable_before, mode='movable')
+            self.track_movable(enemy_cleared=enemy_cleared, siren=True)
 
+    def track_movable(self, enemy_cleared=True, siren=True):
+        """
+        Track enemy moving and predict missing enemies.
+
+        Args:
+            enemy_cleared (bool): True if cleared an enemy and need to scan spawn enemies.
+                                  False if just a simple walk and only need to scan movable enemies.
+            siren (bool): True if track sirens, false if track normal enemies
+        """
         # Track siren moving
-        after = self.map.select(is_siren=True)
-        step = self.config.MOVABLE_ENEMY_FLEET_STEP
+        before = self.movable_before if siren else self.movable_before_normal
+        after = self.map.select(is_siren=True) if siren else self.map.select(is_enemy=True)
+        step = self.config.MOVABLE_ENEMY_FLEET_STEP if siren else 1
+        spawn = self.map.select(may_siren=True) if siren else self.map.select(may_enemy=True)
         matched_before, matched_after = match_movable(
             before=before.location,
-            spawn=self.map.select(may_siren=True).location,
+            spawn=spawn.location,
             after=after.location,
             fleets=[self.fleet_current] if enemy_cleared else [],
             fleet_step=step
@@ -443,29 +493,37 @@ class Fleet(Camera, AmbushHandler):
         diff = before.delete(matched_before)
         _, missing = self.map.missing_get(
             self.battle_count, self.mystery_count, self.siren_count, self.carrier_count, mode='normal')
-        if diff and missing['siren'] != 0:
+        missing = missing['siren'] if siren else missing['enemy']
+        if diff and missing != 0:
             logger.warning(f'Movable enemy tracking lost: {diff}')
             covered = self.map.grid_covered(self.map[self.fleet_current], location=[(0, -2)])
             if self.fleet_1_location:
                 covered = covered.add(self.map.grid_covered(self.map[self.fleet_1_location], location=[(0, -1)]))
             if self.fleet_2_location:
                 covered = covered.add(self.map.grid_covered(self.map[self.fleet_2_location], location=[(0, -1)]))
-            for grid in after:
-                covered = covered.add(self.map.grid_covered(grid))
+            if siren:
+                for grid in after:
+                    covered = covered.add(self.map.grid_covered(grid))
+            else:
+                for grid in self.map.select(is_siren=True):
+                    covered = covered.add(self.map.grid_covered(grid))
             logger.attr('enemy_covered', covered)
             accessible = SelectedGrids([])
             for grid in diff:
                 self.map.find_path_initial(grid, has_ambush=False)
-                accessible = accessible.add(self.map.select(cost=0)) \
-                    .add(self.map.select(cost=1)).add(self.map.select(cost=2))
+                accessible = accessible.add(self.map.select(cost=0)).add(self.map.select(cost=1))
+                if siren:
+                    accessible = accessible.add(self.map.select(cost=2))
             self.map.find_path_initial(self.fleet_current, has_ambush=self.config.MAP_HAS_AMBUSH)
             logger.attr('enemy_accessible', accessible)
             predict = accessible.intersect(covered).select(is_sea=True, is_fleet=False)
             logger.info(f'Movable enemy predict: {predict}')
+            matched_after = matched_after.add(predict)
             for grid in predict:
-                grid.is_siren = True
+                if siren:
+                    grid.is_siren = True
                 grid.is_enemy = True
-        elif missing['siren'] == 0:
+        elif missing == 0:
             logger.info(f'Movable enemy tracking drop: {diff}')
 
         for grid in matched_after:

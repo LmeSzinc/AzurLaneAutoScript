@@ -55,6 +55,7 @@ class AzurLaneConfig:
 
     MOVABLE_ENEMY_FLEET_STEP = 2
     MOVABLE_ENEMY_TURN = (2,)
+    MOVABLE_NORMAL_ENEMY_TURN = (1,)
 
     """
     module.assets
@@ -232,6 +233,7 @@ class AzurLaneConfig:
     MAP_HAS_AMBUSH = True
     MAP_HAS_FLEET_STEP = False
     MAP_HAS_MOVABLE_ENEMY = False
+    MAP_HAS_MOVABLE_NORMAL_ENEMY = False
     MAP_HAS_SIREN = False
     MAP_HAS_DYNAMIC_RED_BORDER = False
     MAP_HAS_MAP_STORY = False  # event_20200521_cn(穹顶下的圣咏曲) adds after-combat story.
@@ -260,6 +262,7 @@ class AzurLaneConfig:
     # Swipe distance in map grid lower than this will be dropped,
     # because a closing swipe will be treat as a click in game.
     MAP_SWIPE_DROP = 0.15
+    MAP_SWIPE_PREDICT = True
 
     """
     module.retire
