@@ -49,4 +49,5 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20201229   | event 20201229 cn        | Inverted Orthant               | 负象限作战             | Inverted Orthant                 | 虚畳なりし限象                       | -                  |
 | 20210121   | event 20210121 cn        | Empyreal Tragicomedy           | 复刻神圣的悲喜剧       | Empyreal Tragicomedy Rerun       | 悲歎せし焔海の詩（復刻）             | -                  |
 | 20210225   | event 20210225 cn        | Khorovod of Dawn's Rime        | 破晓冰华               | Khorovod of Dawn's Rime          | 暁射す氷華の嵐                       | -                  |
-| 20210225   | event 20210225 tw        | Northern Overture              | -                      | -                                |-                                     | 北境序曲           |
+| 20210225   | event 20210225 tw        | Northern Overture              | -                      | -                                | -                                    | 北境序曲           |
+| 20210325   | event 20210325 cn        | Ashen Simulacrum               | 复刻箱庭疗法           | Ashen Simulacrum Rerun           | 開かれし紺碧の砂箱（復刻）           | -                  |

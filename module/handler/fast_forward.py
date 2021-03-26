@@ -70,6 +70,7 @@ class FastForwardHandler(AutoSearchHandler):
             self.config.MAP_HAS_AMBUSH = False
             self.config.MAP_HAS_FLEET_STEP = False
             self.config.MAP_HAS_MOVABLE_ENEMY = False
+            self.config.MAP_HAS_MOVABLE_NORMAL_ENEMY = False
             self.config.MAP_HAS_PORTAL = False
             self.config.MAP_HAS_LAND_BASED = False
             self.map_is_clear_mode = True

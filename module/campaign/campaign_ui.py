@@ -92,11 +92,11 @@ class CampaignUI(UI, CampaignOcr):
                 self.campaign_ensure_mode('hard')
                 self.campaign_ensure_chapter(index=chapter)
 
-        elif chapter in 'abcd' or chapter == 'ex_sp':
+        elif chapter in ['a', 'b', 'c', 'd', 'ex_sp', 'as', 'bs', 'cs', 'ds']:
             self.ui_goto_event()
-            if chapter in 'ab':
+            if chapter in ['a', 'b', 'as', 'bs']:
                 self.campaign_ensure_mode('normal')
-            elif chapter in 'cd':
+            elif chapter in ['c', 'd', 'cs', 'ds']:
                 self.campaign_ensure_mode('hard')
             elif chapter == 'ex_sp':
                 self.campaign_ensure_mode('ex')
