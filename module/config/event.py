@@ -24,6 +24,7 @@ dic_event = {
         '负象限作战': 'event_20201229_cn',
         '复刻神圣的悲喜剧': 'event_20210121_cn',
         '破晓冰华': 'event_20210225_cn',
+        '复刻箱庭疗法': 'event_20210325_cn',
     },
     'en': {
         'Northern_Overture': 'event_20200227_cn',
@@ -48,6 +49,7 @@ dic_event = {
         'Inverted_Orthant': 'event_20201229_cn',
         'Empyreal_Tragicomedy_Rerun': 'event_20210121_cn',
         'Khorovod_of_Dawns_Rime': 'event_20210225_cn',
+        'Ashen_Simulacrum_Rerun': 'event_20210325_cn',
     },
     'jp': {
         '凍絶の北海': 'event_20200227_cn',
@@ -69,6 +71,7 @@ dic_event = {
         '虚畳なりし限象': 'event_20201229_cn',
         '悲歎せし焔海の詩（復刻）': 'event_20210121_cn',
         '暁射す氷華の嵐': 'event_20210225_cn',
+        '開かれし紺碧の砂箱（復刻）': 'event_20210325_cn',
     },
     'tw': {
         '特別演習埃塞克斯級': 'raid_20200624',
