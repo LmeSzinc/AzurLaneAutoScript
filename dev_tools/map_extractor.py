@@ -82,6 +82,13 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'teluntuo': 'Trento',
     'lituoliao': 'Littorio',
     'jianyu': 'Swordfish',  # Not siren but movable enemy
+
+    # Ashen Simulacrum
+    'shengdiyage': 'SanDiego',
+    'weiqita': 'Wichita',
+    'yalisangna': 'Arizona',
+    'liekexingdun': 'Lexington',
+    'tiaoyu': 'Dace',
 }
 
 
