@@ -45,11 +45,16 @@ class CampaignBase(CampaignBase_):
         """
         detection_area = (565, 125, 700, 675)
 
-        for _ in range(5):
+        for _ in range(10):
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
+
+            # Drag may result in accidental exit, recover
+            # before starting next search attempt
+            while not self.appear(WAR_ARCHIVES_CHECK):
+                self.ui_ensure(destination=page_archives)
 
             entrance = self._get_archives_entrance(name)
             if entrance is not None:
