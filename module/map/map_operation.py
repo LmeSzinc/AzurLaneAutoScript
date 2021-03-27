@@ -277,10 +277,11 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         # 1) Enabled but impossible to turn on
         # 2) Enabled and able to turn on but get_expected_reduce cached as 2
         if self.config.ENABLE_2X_BOOK and not self.appear(BOOK_ENABLE_CHECK):
-            self.emotion.get_expected_reduce_reset()
-            backup = self.config.cover(ENABLE_2X_BOOK=False)
-            self.emotion.get_expected_reduce
-            backup.recover()
+            if self.emotion.get_expected_reduce == 4:
+                self.emotion.get_expected_reduce_reset()
+                backup = self.config.cover(ENABLE_2X_BOOK=False)
+                self.emotion.get_expected_reduce
+                backup.recover()
             return False
         elif self.config.ENABLE_2X_BOOK and self.appear(BOOK_ENABLE_CHECK) and self.emotion.get_expected_reduce == 2:
             self.emotion.get_expected_reduce_reset()
