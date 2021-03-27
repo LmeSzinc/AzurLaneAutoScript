@@ -56,6 +56,7 @@ class Config:
     MAP_SWIPE_PREDICT = False
     MAP_SIREN_MOVE_WAIT = 0.7
 
+
 class Campaign(CampaignBase):
     MAP = MAP
 

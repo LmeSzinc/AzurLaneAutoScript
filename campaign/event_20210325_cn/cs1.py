@@ -56,6 +56,7 @@ class Config:
 
     MAP_IS_ONE_TIME_STAGE = True
 
+
 class Campaign(CampaignBase):
     MAP = MAP
 

@@ -54,7 +54,7 @@ class Config:
     MAP_HAS_AMBUSH = False
     # ===== End of generated config =====
 
-    MOVABLE_ENEMY_TURN = (2,)
+    MOVABLE_ENEMY_TURN = (2, 3)
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (150, 255 - 24),
         'width': (1.5, 10),
@@ -69,6 +69,7 @@ class Config:
     }
     HOMO_EDGE_HOUGHLINES_THRESHOLD = 120
     HOMO_EDGE_COLOR_RANGE = (0, 12)
+
 
 class Campaign(CampaignBase):
     MAP = MAP

@@ -58,6 +58,7 @@ class Config(ConfigBase):
 
     MOVABLE_ENEMY_TURN = (2, 3)
 
+
 class Campaign(CampaignBase):
     MAP = MAP
 
