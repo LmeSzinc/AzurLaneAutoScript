@@ -55,6 +55,22 @@ class Config:
     MAP_HAS_MOVABLE_NORMAL_ENEMY = True
     MAP_SWIPE_PREDICT = False
     MAP_SIREN_MOVE_WAIT = 0.7
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (150, 255 - 24),
+        'width': (1.5, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 24, 255),
+        'prominence': 10,
+        'distance': 50,
+        'wlen': 1000
+    }
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 120
+    HOMO_EDGE_COLOR_RANGE = (0, 12)
+    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
+    EDGE_LINES_HOUGHLINES_THRESHOLD = 40
 
 
 class Campaign(CampaignBase):

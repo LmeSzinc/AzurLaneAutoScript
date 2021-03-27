@@ -55,6 +55,8 @@ class Config:
     # ===== End of generated config =====
 
     MAP_IS_ONE_TIME_STAGE = True
+    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
+    EDGE_LINES_HOUGHLINES_THRESHOLD = 40
 
 
 class Campaign(CampaignBase):

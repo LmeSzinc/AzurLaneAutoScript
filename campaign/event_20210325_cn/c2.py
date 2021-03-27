@@ -27,8 +27,7 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    # {'battle': 0, 'enemy': 4, 'siren': 2},
-    {'battle': 0, 'enemy': 2, 'siren': 2},
+    {'battle': 0, 'enemy': 4, 'siren': 2},
     {'battle': 1, 'enemy': 1},
     {'battle': 2, 'enemy': 2},
     {'battle': 3, 'enemy': 1},
@@ -68,4 +67,4 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_4(self):
-        return self.fleet_boss.clear_boss()
+        return self.clear_boss()
