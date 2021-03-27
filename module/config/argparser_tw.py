@@ -137,6 +137,7 @@ def main(ini_name=''):
     stage.add_argument('--啟用停止條件', default=default('--啟用停止條件'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     stage.add_argument('--啟用異常處理', default=default('--啟用異常處理'), choices=['是', '否'], help='處理部分異常, 執行出錯時撤退', gooey_options={'label_color': '#4B5F83'})
     stage.add_argument('--使用周回模式', default=default('--使用周回模式'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    stage.add_argument('--enable_2x_book', default=default('--enable_2x_book'), choices=['是', '否'], help='Enable or disable 2x book (spends 2x oil/emotion for 2x item drops)', gooey_options={'label_color': '#4B5F83'})
 
     stop = stage.add_argument_group('停止條件', '出發後不會馬上停止, 會先完成目前出擊, 不需要就填0', gooey_options={'label_color': '#931D03'})
     stop.add_argument('--如果出擊數大於', default=default('--如果出擊數大於'), help='會沿用先前設定, 完成出擊將扣除次數, 直至為零', gooey_options={'label_color': '#4B5F83'})
