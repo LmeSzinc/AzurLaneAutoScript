@@ -10,7 +10,7 @@ server.server = 'cn'  # Don't need to edit, it's used to avoid error.
 
 from module.base.utils import *
 from module.map_detection.utils import *
-from dev_tools.debug_tools.relative_record import FOLDER, NAME
+from dev_tools.relative_record import FOLDER, NAME
 
 """
 Generate better siren template with brute-force.
