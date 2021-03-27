@@ -155,7 +155,8 @@ class Emotion:
         Returns:
             int:
         """
-        if self.config.ENABLE_2X_BOOK:
+        if self.config.ENABLE_2X_BOOK and \
+           self.config.COMMAND in ['Main', 'Event', 'War_archives']:
             return 4
         else:
             return 2
