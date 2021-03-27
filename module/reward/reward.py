@@ -254,8 +254,6 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
                 az.record_save()
                 count += 1
                 self.device.send_notification('Daily Mission', 'Daily raid finished.')
-                self.config.GUILD_POPUP_TRIGGERED = az.config.GUILD_POPUP_TRIGGERED \
-                    if not self.config.GUILD_POPUP_TRIGGERED else self.config.GUILD_POPUP_TRIGGERED
 
         if self.config.ENABLE_HARD_CAMPAIGN:
             from module.hard.hard import CampaignHard
@@ -265,8 +263,6 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
                 az.record_save()
                 count += 1
                 self.device.send_notification('Daily Hard', 'Daily hard campaign finished.')
-                self.config.GUILD_POPUP_TRIGGERED = az.config.GUILD_POPUP_TRIGGERED \
-                    if not self.config.GUILD_POPUP_TRIGGERED else self.config.GUILD_POPUP_TRIGGERED
 
         if self.config.ENABLE_EVENT_SP:
             from module.event.campaign_sp import CampaignSP
@@ -274,7 +270,6 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
             if az.run_event_daily_sp():
                 count += 1
                 self.device.send_notification('Daily Event SP', 'Daily event SP finished.')
-                self.config.GUILD_POPUP_TRIGGERED = az.config.GUILD_POPUP_TRIGGERED
 
         if self.config.ENABLE_EVENT_AB:
             from module.event.campaign_ab import CampaignAB
@@ -282,7 +277,6 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
             if az.run_event_daily():
                 count += 1
                 self.device.send_notification('Daily Event AB', 'Daily event AB finished.')
-                self.config.GUILD_POPUP_TRIGGERED = az.config.GUILD_POPUP_TRIGGERED
 
         if self.config.ENABLE_RAID_DAILY:
             from module.raid.daily import RaidDaily
