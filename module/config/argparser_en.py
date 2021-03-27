@@ -140,6 +140,7 @@ def main(ini_name=''):
     stage.add_argument('--enable_stop_condition', default=default('--enable_stop_condition'), choices=['yes', 'no'], help='If enabled will start reward loop when triggered any filter below', gooey_options={'label_color': '#4B5F83'})
     stage.add_argument('--enable_exception', default=default('--enable_exception'), choices=['yes', 'no'], help='Enable or disable some exceptions, ALAS will withdraw from the map when it occurs instead of stopping', gooey_options={'label_color': '#4B5F83'})
     stage.add_argument('--enable_fast_forward', default=default('--enable_fast_forward'), choices=['yes', 'no'], help='Enable or disable clearing mode', gooey_options={'label_color': '#4B5F83'})
+    stage.add_argument('--enable_2x_book', default=default('--enable_2x_book'), choices=['yes', 'no'], help='Enable or disable 2x book (spends 2x oil/emotion for 2x item drops)', gooey_options={'label_color': '#4B5F83'})
 
     stop = stage.add_argument_group('Stop condition', 'After triggering, it will not stop immediately. It will complete the current attack first, Set 0 to disable', gooey_options={'label_color': '#4B5F83'})
     stop.add_argument('--if_count_greater_than', default=default('--if_count_greater_than'), help='How many map completions\n until ALAS enter in Reward loop.', gooey_options={'label_color': '#4B5F83'})

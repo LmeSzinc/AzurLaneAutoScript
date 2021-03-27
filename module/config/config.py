@@ -23,6 +23,7 @@ class AzurLaneConfig:
 
     UPDATE_CHECK = True
     ENABLE_NOTIFICATIONS = True
+    ENABLE_2X_BOOK = False
     UPDATE_METHOD = 'api'  # web, api
     UPDATE_PROXY = ''
     GITHUB_TOKEN = ''
@@ -566,6 +567,7 @@ class AzurLaneConfig:
         self.ENABLE_STOP_CONDITION = to_bool(option['enable_stop_condition'])
         self.ENABLE_EXCEPTION = to_bool(option['enable_exception'])
         self.ENABLE_FAST_FORWARD = to_bool(option['enable_fast_forward'])
+        self.ENABLE_2X_BOOK = to_bool(option['enable_2x_book'])
         self.STOP_IF_COUNT_GREATER_THAN = int(option['if_count_greater_than'])
         if not option['if_time_reach'].isdigit():
             self.STOP_IF_TIME_REACH = future_time(option['if_time_reach'])

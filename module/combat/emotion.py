@@ -37,8 +37,10 @@ class Emotion:
     def recover_value(self, index):
         return self.config.__getattribute__('FLEET_%s_RECOVER_PER_HOUR' % index) // 10
 
-    def emotion_limit(self, index, expected_reduce=2):
-        expected_reduce = max(0, expected_reduce - 2)
+    def emotion_limit(self, index, expected_reduce=None):
+        if expected_reduce is None:
+            expected_reduce = self.get_expected_reduce
+        expected_reduce = max(0, expected_reduce - self.get_expected_reduce)
         return self.config.__getattribute__('FLEET_%s_EMOTION_LIMIT' % index) + expected_reduce
 
     def recover_stop(self, index):
@@ -64,16 +66,18 @@ class Emotion:
         logger.hr('Emotion reduce')
         self.update()
         self.emotion[config_name][f'fleet_{index}_emotion'] = str(int(
-            self.emotion[config_name][f'fleet_{index}_emotion']) - 2)
-        self.total_reduced += 2
+            self.emotion[config_name][f'fleet_{index}_emotion']) - self.get_expected_reduce)
+        self.total_reduced += self.get_expected_reduce
         self.record()
 
-    def recovered_time(self, fleet=(1, 2), expected_reduce=(2, 2)):
+    def recovered_time(self, fleet=(1, 2), expected_reduce=None):
         """
         Args:
             fleet (int, tuple):
-            expected_reduce (tuple):
+            expected_reduce (tuple, None):
         """
+        if expected_reduce is None:
+            expected_reduce = (self.get_expected_reduce, self.get_expected_reduce)
         if isinstance(fleet, int):
             fleet = (fleet,)
         recover_count = [
@@ -102,12 +106,14 @@ class Emotion:
     def emotion_recovered(self, fleet):
         pass
 
-    def wait(self, fleet=(1, 2), expected_reduce=(2, 2)):
+    def wait(self, fleet=(1, 2), expected_reduce=None):
         """
         Args:
             fleet (int, tuple):
-            expected_reduce (tuple):
+            expected_reduce (tuple, None):
         """
+        if expected_reduce is None:
+            expected_reduce = (self.get_expected_reduce, self.get_expected_reduce)
         self.update()
         recovered_time = self.recovered_time(fleet=fleet, expected_reduce=expected_reduce)
         while 1:
@@ -143,5 +149,17 @@ class Emotion:
 
         return False
 
-    def get_expected_reduce(self, ):
-        pass
+    @cached_property
+    def get_expected_reduce(self):
+        """
+        Returns:
+            int:
+        """
+        if self.config.ENABLE_2X_BOOK:
+            return 4
+        else:
+            return 2
+
+    def get_expected_reduce_reset(self):
+        """ Call this method if need to be reset. """
+        del self.__dict__['get_expected_reduce']
