@@ -1,6 +1,7 @@
 import os
 
 from PIL import Image
+from tqdm import tqdm
 
 import module.config.server as server
 
@@ -21,13 +22,16 @@ class Config:
 
 """
 Usage:
-    Enter map, and find a siren.
-    Manually count the siren is in which node, in local map view.
-    Run relative_record.py first, to get enough images.
-    Zoom-in one of those image, find an area where things don't rotate too much.
-    Run relative_record_gif.py, to generate gif template file.
-    Copy to assets/<server>/template
-    Use new templates in config, like this:
+    - Enter map, and find a siren.
+    - Manually count the siren is in which node, in local map view.
+    - Run relative_record.py first, to get enough images.
+    - Run relative_record_gif2.py, to generate gif template file.
+    - Find one suitable template in <FOLDER>/<NAME>_gif. It should:
+        Not contain the face of siren, only contain the body.
+        Not contain sea surface as background.
+        Contain less frames if possible.
+    - Copy to assets/<server>/template, run button_extract.py
+    - Use new templates in config, like this:
         MAP_HAS_SIREN = True
         MAP_SIREN_TEMPLATE = ['U73', 'U81']
 
@@ -56,15 +60,18 @@ if __name__ == '__main__':
     grid = view[node2location(NODE.upper())]
 
     print('Please check if it is cropping the right area')
+    print('If yes, wait until screenshot progress complete')
+    print('If no, stop process, change `NODE`, run again')
     image = rgb2gray(grid.relative_crop((-0.5, -1, 0.5, 0), shape=(60, 60)))
     image = Image.fromarray(image, mode='L').show()
 
     images = []
-    for n in range(300):
-        print(n)
+    for n in tqdm(range(300)):
         images.append(al.device.screenshot())
     for n, image in enumerate(images):
         grid.image = np.array(image)
         image = rgb2gray(grid.relative_crop((-0.5, -1, 0.5, 0), shape=(60, 60)))
         image = Image.fromarray(image, mode='L')
         image.save(os.path.join(FOLDER, NAME, f'{n}.png'))
+
+    print('relative_record done')
