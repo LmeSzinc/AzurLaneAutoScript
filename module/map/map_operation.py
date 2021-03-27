@@ -77,6 +77,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             if fleet_timer.reached() and self.appear(FLEET_PREPARATION):
                 if self.config.ENABLE_FLEET_CONTROL:
                     if mode == 'normal' or mode == 'hard':
+                        self.handle_2x_book_setting()
                         self.fleet_preparation()
                         self.handle_auto_search_setting()
                         self.handle_auto_search_emotion_wait()
@@ -261,3 +262,31 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             self.emotion.wait(expected_reduce=self._emotion_expected_reduce)
         else:
             logger.info('Emotion instance not loaded, skip emotion wait')
+
+    def handle_2x_book_setting(self):
+        """
+        Handles 2x book setting if applicable
+        """
+        if not hasattr(self, 'emotion'):
+            logger.info('Emotion instance not loaded, cannot handle 2x book setting')
+            return False
+        if not self.appear(FLEET_PREPARATION):
+            return False
+
+        # Odd Cases:
+        # 1) Enabled but impossible to turn on
+        # 2) Enabled and able to turn on but get_expected_reduce cached as 2
+        if self.config.ENABLE_2X_BOOK and not self.appear(BOOK_ENABLE_CHECK):
+            self.emotion.get_expected_reduce_reset()
+            backup = self.config.cover(ENABLE_2X_BOOK=False)
+            self.emotion.get_expected_reduce
+            backup.recover()
+            return False
+        elif self.config.ENABLE_2X_BOOK and self.appear(BOOK_ENABLE_CHECK) and self.emotion.get_expected_reduce == 2:
+            self.emotion.get_expected_reduce_reset()
+
+        enabled = self.image_color_count(BOOK_ENABLE_BOX, color=(156, 255, 82), threshold=221, count=20)
+        if (self.config.ENABLE_2X_BOOK and not enabled) or (not self.config.ENABLE_2X_BOOK and enabled):
+            self.device.click(BOOK_ENABLE_BOX)
+            self.device.sleep((0.5, 0.8))
+        self.ensure_no_info_bar()
