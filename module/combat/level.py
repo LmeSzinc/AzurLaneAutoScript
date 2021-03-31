@@ -37,7 +37,7 @@ class Level(ModuleBase):
 
     @Config.when(SERVER='en')
     def _lv_grid(self):
-        return ButtonGrid(origin=(58, 113), delta=(0, 100), button_shape=(46, 19), grid_shape=(1, 6))
+        return ButtonGrid(origin=(56, 113), delta=(0, 100), button_shape=(46, 19), grid_shape=(1, 6))
 
     @Config.when(SERVER='jp')
     def _lv_grid(self):
@@ -45,7 +45,7 @@ class Level(ModuleBase):
 
     @Config.when(SERVER=None)
     def _lv_grid(self):
-        return ButtonGrid(origin=(58, 129), delta=(0, 100), button_shape=(46, 19), grid_shape=(1, 6))
+        return ButtonGrid(origin=(58, 128), delta=(0, 100), button_shape=(46, 19), grid_shape=(1, 6))
 
     def lv_get(self, after_battle=False):
         """
@@ -60,7 +60,7 @@ class Level(ModuleBase):
 
         self._lv_before_battle = self.lv if after_battle else [-1] * 6
 
-        ocr = LevelOcr(self._lv_grid().buttons())
+        ocr = LevelOcr(self._lv_grid().buttons(), name='LevelOcr')
         self.lv = ocr.ocr(self.device.image)
         logger.attr('LEVEL', ', '.join(str(data) for data in self.lv))
 
@@ -105,7 +105,7 @@ class LevelOcr(Digit):
         image = cv2.subtract(255, cv2.multiply(image, 255 / (255 - luma_bg)))
         # Find 'L' to strip 'LV.'.
         # Return an empty image if 'L' is not found.
-        letter_l = np.nonzero(image[2:15, :].max(axis=0) < 127)[0]
+        letter_l = np.nonzero(image[9:15, :].max(axis=0) < 127)[0]
         if len(letter_l):
             first_digit = letter_l[0] + 17
             if first_digit + 3 < 46:  # LV_GRID_MAIN.button_shape[0] = 46
