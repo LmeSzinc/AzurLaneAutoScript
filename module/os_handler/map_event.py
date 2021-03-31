@@ -90,6 +90,10 @@ class MapEventHandler(EnemySearchingHandler):
         return True
 
     def handle_map_event(self):
+        """
+        Returns:
+            bool: If clicked to handle any map event.
+        """
         if self.handle_map_get_items():
             return True
         if self.handle_map_archives():
@@ -105,18 +109,31 @@ class MapEventHandler(EnemySearchingHandler):
 
         return False
 
-    def ensure_no_map_event(self, timeout=1.5):
-        confirm_timer = Timer(timeout, count=int(timeout / 0.5)).start()
+    _os_in_map_confirm_timer = Timer(1.5, count=3)
+
+    def handle_os_in_map(self):
+        """
+        Returns:
+            bool: If is in map and confirmed.
+        """
+        if self.is_in_map():
+            if self._os_in_map_confirm_timer.reached():
+                return True
+            else:
+                return False
+        else:
+            self._os_in_map_confirm_timer.reset()
+            return False
+
+    def ensure_no_map_event(self):
+        self._os_in_map_confirm_timer.reset()
 
         while 1:
             self.device.screenshot()
 
             if self.handle_map_event():
-                confirm_timer.reset()
-                continue
-            if not self.is_in_map():
-                confirm_timer.reset()
                 continue
 
-            if confirm_timer.reached():
+            # End
+            if self.handle_os_in_map():
                 break
