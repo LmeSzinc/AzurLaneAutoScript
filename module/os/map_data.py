@@ -45,7 +45,7 @@ DIC_OS_MAP = {
     83: {'shape': 'J10', 'hazard_level': 2, 'cn': 'NA海域西C', 'en': 'NA Ocean W Sector C', 'jp': 'NA海域西C'},
     84: {'shape': 'J10', 'hazard_level': 2, 'cn': 'NA海域西D', 'en': 'NA Ocean W Sector D', 'jp': 'NA海域西D'},
     85: {'shape': 'L17', 'hazard_level': 4, 'cn': 'NA海域西E', 'en': 'NA Ocean W Sector E', 'jp': 'NA海域西E'},
-    91: {'shape': 'N14', 'hazard_level': 4, 'cn': 'NA海域西北A', 'en': 'NA Ocean NW Sector A', 'jp': 'NA海域西北A'},
+    91: {'shape': 'N14', 'hazard_level': 4, 'cn': 'NA海域西北A', 'en': 'NA Ocean NW Sector A', 'jp': 'NA海域北西A'},
     92: {'shape': 'J10', 'hazard_level': 2, 'cn': 'NA海域西北B', 'en': 'NA Ocean NW Sector B', 'jp': 'NA海域北西B'},
     93: {'shape': 'J10', 'hazard_level': 2, 'cn': 'NA海域西北C', 'en': 'NA Ocean NW Sector C', 'jp': 'NA海域北西C'},
     94: {'shape': 'L12', 'hazard_level': 3, 'cn': 'NA海域西北D', 'en': 'NA Ocean NW Sector D', 'jp': 'NA海域北西D'},
