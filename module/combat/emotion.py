@@ -11,6 +11,7 @@ config_name = 'EmotionRecord'
 
 class Emotion:
     total_reduced = 0
+    map_is_2x_book = False
 
     def __init__(self, config):
         """
@@ -149,18 +150,14 @@ class Emotion:
 
         return False
 
-    @cached_property
+    @property
     def get_expected_reduce(self):
         """
         Returns:
             int:
         """
-        if self.config.ENABLE_2X_BOOK and \
-           self.config.COMMAND in ['Main', 'Event', 'War_archives']:
+        if self.map_is_2x_book and \
+           self.config.COMMAND.lower() in ['main', 'event', 'war_archives']:
             return 4
         else:
             return 2
-
-    def get_expected_reduce_reset(self):
-        """ Call this method if need to be reset. """
-        del self.__dict__['get_expected_reduce']
