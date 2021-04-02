@@ -7,7 +7,6 @@ from module.combat.combat_manual import CombatManual
 from module.combat.emotion import Emotion
 from module.combat.hp_balancer import HPBalancer
 from module.combat.level import Level
-from module.exception import GameStuckError
 from module.combat.submarine import SubmarineCall
 from module.handler.auto_search import AutoSearchHandler
 from module.logger import logger
@@ -77,7 +76,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         Returns:
             bool:
         """
-        return self.appear(PAUSE) and np.max(self.device.image.crop(PAUSE_DOUBLE_CHECK.area)) < 153
+        return self.appear(PAUSE) and np.max(self.image_area(PAUSE_DOUBLE_CHECK)) < 153
 
     def ensure_combat_oil_loaded(self):
         self.wait_until_stable(COMBAT_OIL_LOADING)

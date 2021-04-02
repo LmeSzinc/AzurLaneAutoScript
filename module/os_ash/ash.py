@@ -34,7 +34,8 @@ class AshCombat(Combat):
         """
         if self.is_combat_executing():
             return False
-        if self.appear_then_click(BATTLE_STATUS, screenshot=save_get_items, genre='status', interval=3):
+        if self.appear_then_click(BATTLE_STATUS, offset=(20, 20),
+                                  screenshot=save_get_items, genre='status', interval=3):
             if not save_get_items:
                 self.device.sleep((0.25, 0.5))
             return True

@@ -30,7 +30,7 @@ class CampaignOcr(ModuleBase):
                 return int(name)
             elif name in ['a', 'c', 'as', 'cs', 'sp', 'ex_sp']:
                 return 1
-            elif name in ['b', 'd', 'bs', 'cs', 'ex_ex']:
+            elif name in ['b', 'd', 'bs', 'ds', 'ex_ex']:
                 return 2
             else:
                 raise CampaignNameError

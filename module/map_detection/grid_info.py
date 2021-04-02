@@ -138,7 +138,7 @@ class GridInfo:
 
     @property
     def is_sea(self):
-        return False if self.is_land or self.is_enemy or self.is_boss else True
+        return False if self.is_land or self.is_enemy or self.is_siren or self.is_boss else True
 
     @property
     def may_carrier(self):

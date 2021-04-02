@@ -6,6 +6,10 @@ from module.os_handler.assets import *
 from module.os_handler.map_event import MapEventHandler
 
 
+class ContinuousCombat(Exception):
+    pass
+
+
 class Combat(Combat_, MapEventHandler):
     def combat_appear(self):
         """
@@ -98,9 +102,31 @@ class Combat(Combat_, MapEventHandler):
     def _os_combat_expected_end(self):
         if self.handle_map_event():
             return False
+        if self.combat_appear():
+            raise ContinuousCombat
 
-        return self.is_in_map()
+        return self.handle_os_in_map()
 
     def combat_status(self, save_get_items=False, expected_end=None):
         super().combat_status(save_get_items=False, expected_end=self._os_combat_expected_end)
-        self.ensure_no_map_event()
+
+    def combat(self, *args, **kwargs):
+        """
+        This handle continuous combat in operation siren.
+
+        In siren scanning device, there are 2 ambush enemies with no interval.
+        Fleet goto siren scanning device, attack one enemy, skip TB, attack another.
+        Function `combat` has to confirm that combat was finished, and is_in_map.
+        When handling siren scanning device, it will stuck in the second combat.
+        This function inherits it and detect the second combat.
+        """
+        for count in range(3):
+            if count >= 2:
+                logger.warning('Too many continuous combat')
+
+            try:
+                super().combat(*args, **kwargs)
+                break
+            except ContinuousCombat:
+                logger.info('Continuous combat detected')
+                continue

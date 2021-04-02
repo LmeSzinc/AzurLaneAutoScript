@@ -330,6 +330,7 @@ class ResearchProject:
         if len(parts) == 3:
             prefix, number, suffix = parts
             number = number.replace('D', '0').replace('O', '0').replace('S', '5')
+            prefix = prefix.strip('I1')
             return '-'.join([prefix, number, suffix])
         return name
 
