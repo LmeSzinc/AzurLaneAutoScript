@@ -314,6 +314,9 @@ def main(ini_name=''):
     reward_guild_logistics_plates.add_argument('--部件提交順序T1', default=default('--部件提交順序T1'), gooey_options={'label_color': '#4B5F83'})
     reward_guild_logistics_plates.add_argument('--部件提交順序T2', default=default('--部件提交順序T2'), gooey_options={'label_color': '#4B5F83'})
     reward_guild_logistics_plates.add_argument('--部件提交順序T3', default=default('--部件提交順序T3'), gooey_options={'label_color': '#4B5F83'})
+    reward_guild_operations_join = reward_guild.add_argument_group('Operations guild join threshold',
+                        'Enter between 0 and 1\nEx) \'0.5\' join if current progress roughly less than half or \'1\' join regardless of progress', gooey_options={'label_color': '#4B5F83'})
+    reward_guild_operations_join.add_argument('--guild_operations_join_threshold', default=default('--guild_operations_join_threshold'), gooey_options={'label_color': '#4B5F83'})
     reward_guild_operations_boss = reward_guild.add_argument_group('Operations guild raid boss input', '', gooey_options={'label_color': '#4B5F83'})
     reward_guild_operations_boss.add_argument('--啟用大艦隊BOSS出擊', default=default('--啟用大艦隊BOSS出擊'), help='自動打大艦隊BOSS, 需要預先在遊戲內設置隊伍', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     reward_guild_operations_boss.add_argument('--啟用大艦隊BOSS隊伍推薦', default=default('--啟用大艦隊BOSS隊伍推薦'), help='使用遊戲自動推薦的隊伍打BOSS', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})

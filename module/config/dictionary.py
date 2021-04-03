@@ -161,6 +161,7 @@ dic_true_eng_to_eng = {
     'guild_logistics_plate_t1_order_string': 'guild_logistics_plate_t1_order_string',
     'guild_logistics_plate_t2_order_string': 'guild_logistics_plate_t2_order_string',
     'guild_logistics_plate_t3_order_string': 'guild_logistics_plate_t3_order_string',
+    'guild_operations_join_threshold': 'guild_operations_join_threshold',
     'enable_guild_operations_boss_auto': 'enable_guild_operations_boss_auto',
     'enable_guild_operations_boss_recommend': 'enable_guild_operations_boss_recommend',
     'serial': 'serial',
