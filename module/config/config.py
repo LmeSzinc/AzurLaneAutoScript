@@ -447,6 +447,27 @@ class AzurLaneConfig:
     SOS_FLEETS_CHAPTER_10 = [4, 6, 1]
 
     """
+    module.os.globe_detection
+    """
+    OS_GLOBE_HOMO_STORAGE = ((4, 3), ((445, 180), (879, 180), (376, 497), (963, 497)))
+    OS_GLOBE_DETECTING_AREA = (0, 0, 1280, 720)
+    OS_GLOBE_GLOBAL_PAD = 700
+    OS_GLOBE_FIND_PEAKS_PARAMETERS = {
+        'height': 100,
+        # 'width': (0.9, 5),
+        'prominence': 20,
+        'distance': 35,
+        'wlen': 500,
+    }
+    OS_LOCAL_FIND_PEAKS_PARAMETERS = {
+        'height': 50,
+        # 'width': (0.9, 5),
+        'prominence': 20,
+        'distance': 35,
+        'wlen': 500,
+    }
+
+    """
     module.war_archives
     """
     USE_DATA_KEY = False
