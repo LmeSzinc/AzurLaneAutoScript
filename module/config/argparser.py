@@ -137,6 +137,7 @@ def main(ini_name=''):
     stage.add_argument('--启用停止条件', default=default('--启用停止条件'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     stage.add_argument('--启用异常处理', default=default('--启用异常处理'), choices=['是', '否'], help='处理部分异常, 运行出错时撤退', gooey_options={'label_color': '#4B5F83'})
     stage.add_argument('--使用周回模式', default=default('--使用周回模式'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    stage.add_argument('--enable_2x_book', default=default('--enable_2x_book'), choices=['是', '否'], help='Enable or disable 2x book (spends 2x oil/emotion for 2x item drops)', gooey_options={'label_color': '#4B5F83'})
 
     stop = stage.add_argument_group('停止条件', '触发后不会马上停止会先完成当前出击, 不需要就填0', gooey_options={'label_color': '#931D03'})
     stop.add_argument('--如果出击次数大于', default=default('--如果出击次数大于'), help='会沿用先前设置, 完成出击将扣除次数, 直至清零', gooey_options={'label_color': '#4B5F83'})
@@ -315,6 +316,9 @@ def main(ini_name=''):
     reward_guild_logistics_plates.add_argument('--部件提交顺序T1', default=default('--部件提交顺序T1'), gooey_options={'label_color': '#4B5F83'})
     reward_guild_logistics_plates.add_argument('--部件提交顺序T2', default=default('--部件提交顺序T2'), gooey_options={'label_color': '#4B5F83'})
     reward_guild_logistics_plates.add_argument('--部件提交顺序T3', default=default('--部件提交顺序T3'), gooey_options={'label_color': '#4B5F83'})
+    reward_guild_operations_join = reward_guild.add_argument_group('Operations guild join threshold',
+                        'Enter between 0 and 1\nEx) \'0.5\' join if current progress roughly less than half or \'1\' join regardless of progress', gooey_options={'label_color': '#4B5F83'})
+    reward_guild_operations_join.add_argument('--guild_operations_join_threshold', default=default('--guild_operations_join_threshold'), gooey_options={'label_color': '#4B5F83'})
     reward_guild_operations_boss = reward_guild.add_argument_group('大舰队BOSS', '', gooey_options={'label_color': '#4B5F83'})
     reward_guild_operations_boss.add_argument('--启用大舰队BOSS出击', default=default('--启用大舰队BOSS出击'), help='自动打大舰队BOSS, 需要预先在游戏内设置队伍', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     reward_guild_operations_boss.add_argument('--启用大舰队BOSS队伍推荐', default=default('--启用大舰队BOSS队伍推荐'), help='使用游戏自动推荐的队伍打BOSS', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})

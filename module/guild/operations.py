@@ -5,7 +5,10 @@ from module.guild.assets import *
 from module.guild.base import GuildBase
 from module.logger import logger
 from module.map_detection.utils import Points
+from module.ocr.ocr import DigitCounter
 from module.template.assets import TEMPLATE_OPERATIONS_RED_DOT
+
+GUILD_OPERATIONS_PROGRESS = DigitCounter(OCR_GUILD_OPERATIONS_PROGRESS, letter=(255, 247, 247), threshold=64)
 
 RECORD_OPTION_DISPATCH = ('RewardRecord', 'operations_dispatch')
 RECORD_SINCE_DISPATCH = (6, 12, 18, 21,)
@@ -29,9 +32,17 @@ class GuildOperations(GuildBase):
             if self.appear(GUILD_OPERATIONS_JOIN, interval=3):
                 confirm_timer.reset()
                 if self.image_color_count(GUILD_OPERATIONS_MONTHLY_COUNT, color=(255, 93, 90), threshold=221, count=20):
+                    logger.info('Unable to join operation, no more monthly attempts left')
                     self.device.click(GUILD_OPERATIONS_CLICK_SAFE_AREA)
                 else:
-                    self.device.click(GUILD_OPERATIONS_JOIN)
+                    current, remain, total = GUILD_OPERATIONS_PROGRESS.ocr(self.device.image)
+                    threshold = total * self.config.GUILD_OPERATIONS_JOIN_THRESHOLD
+                    if current <= threshold:
+                        logger.info(f'Joining Operation, current progress less than threshold ({threshold:.2f})')
+                        self.device.click(GUILD_OPERATIONS_JOIN)
+                    else:
+                        logger.info(f'Refrain from joining operation, current progress exceeds threshold ({threshold:.2f})')
+                        self.device.click(GUILD_OPERATIONS_CLICK_SAFE_AREA)
                 continue
             if self.handle_popup_single('FLEET_UPDATED'):
                 logger.info('Fleet composition altered, may still be dispatch-able. However '

@@ -158,16 +158,17 @@ class CampaignBase(CampaignUI, Map, AutoSearchCombat):
         Returns:
             tuple(int): Mob fleet emotion reduce, BOSS fleet emotion reduce
         """
+        default = (self.emotion.get_expected_reduce, self.emotion.get_expected_reduce)
         for data in self.MAP.spawn_data:
             if 'boss' in data:
                 battle = data.get('battle')
-                reduce = (battle * 2, 2)
+                reduce = (battle * default[0], default[1])
                 if self.config.AUTO_SEARCH_SETTING in ['fleet1_all_fleet2_standby', 'fleet1_standby_fleet2_all']:
                     reduce = (reduce[0] + reduce[1], 0)
                 return reduce
 
         logger.warning('No boss data found in spawn_data')
-        return (2, 2)
+        return default
 
     def auto_search_execute_a_battle(self):
         logger.hr(f'{self.FUNCTION_NAME_BASE}{self.battle_count}', level=2)

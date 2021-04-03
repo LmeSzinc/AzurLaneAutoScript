@@ -23,6 +23,7 @@ class AzurLaneConfig:
 
     UPDATE_CHECK = True
     ENABLE_NOTIFICATIONS = True
+    ENABLE_2X_BOOK = False
     UPDATE_METHOD = 'api'  # web, api
     UPDATE_PROXY = ''
     GITHUB_TOKEN = ''
@@ -419,6 +420,7 @@ class AzurLaneConfig:
     GUILD_LOGISTICS_PLATE_T1_ORDER_STRING = 'torpedo > antiair > plane > gun > general'
     GUILD_LOGISTICS_PLATE_T2_ORDER_STRING = 'torpedo > antiair > plane > gun > general'
     GUILD_LOGISTICS_PLATE_T3_ORDER_STRING = 'torpedo > antiair > plane > gun > general'
+    GUILD_OPERATIONS_JOIN_THRESHOLD = 1
     ENABLE_GUILD_OPERATIONS_BOSS_AUTO = False
     ENABLE_GUILD_OPERATIONS_BOSS_RECOMMEND = False
 
@@ -566,6 +568,7 @@ class AzurLaneConfig:
         self.ENABLE_STOP_CONDITION = to_bool(option['enable_stop_condition'])
         self.ENABLE_EXCEPTION = to_bool(option['enable_exception'])
         self.ENABLE_FAST_FORWARD = to_bool(option['enable_fast_forward'])
+        self.ENABLE_2X_BOOK = to_bool(option['enable_2x_book'])
         self.STOP_IF_COUNT_GREATER_THAN = int(option['if_count_greater_than'])
         if not option['if_time_reach'].isdigit():
             self.STOP_IF_TIME_REACH = future_time(option['if_time_reach'])
@@ -655,6 +658,7 @@ class AzurLaneConfig:
         self.GUILD_LOGISTICS_PLATE_T1_ORDER_STRING = option['guild_logistics_plate_t1_order_string']
         self.GUILD_LOGISTICS_PLATE_T2_ORDER_STRING = option['guild_logistics_plate_t2_order_string']
         self.GUILD_LOGISTICS_PLATE_T3_ORDER_STRING = option['guild_logistics_plate_t3_order_string']
+        self.GUILD_OPERATIONS_JOIN_THRESHOLD = float(option['guild_operations_join_threshold'])
 
         option = config['Main']
         self.CAMPAIGN_MODE = option['campaign_mode']
