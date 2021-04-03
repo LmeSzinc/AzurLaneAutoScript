@@ -13,6 +13,9 @@ fleet_lock.add_status('off', check_button=FLEET_UNLOCKED)
 auto_search = Switch('Auto_Search', offset=(20, 20))
 auto_search.add_status('on', check_button=AUTO_SEARCH_ON)
 auto_search.add_status('off', check_button=AUTO_SEARCH_OFF)
+book = Switch('2x Book', offset=(20, 20))
+book.add_status('on', check_button=BOOK_ON)
+book.add_status('off', check_button=BOOK_OFF)
 
 
 class FastForwardHandler(AutoSearchHandler):
@@ -26,6 +29,7 @@ class FastForwardHandler(AutoSearchHandler):
     map_has_fast_forward = False
     map_is_clear_mode = False  # Clear mode == fast forward
     map_is_auto_search = False
+    map_is_2x_book = False
 
     def map_get_info(self):
         """
@@ -64,6 +68,7 @@ class FastForwardHandler(AutoSearchHandler):
         if not self.map_has_fast_forward:
             self.map_is_clear_mode = False
             self.map_is_auto_search = False
+            self.map_is_2x_book = False
             return False
 
         if self.config.ENABLE_FAST_FORWARD:
@@ -75,11 +80,13 @@ class FastForwardHandler(AutoSearchHandler):
             self.config.MAP_HAS_LAND_BASED = False
             self.map_is_clear_mode = True
             self.map_is_auto_search = self.config.ENABLE_AUTO_SEARCH
+            self.map_is_2x_book = self.config.ENABLE_2X_BOOK
         else:
             # When disable fast forward, MAP_HAS_AMBUSH depends on map settings.
             # self.config.MAP_HAS_AMBUSH = True
             self.map_is_clear_mode = False
             self.map_is_auto_search = False
+            self.map_is_2x_book = False
             pass
 
         status = 'on' if self.config.ENABLE_FAST_FORWARD else 'off'
@@ -166,3 +173,23 @@ class FastForwardHandler(AutoSearchHandler):
                 return True
 
         return False
+
+    def handle_2x_book_setting(self):
+        """
+        Handles 2x book setting if applicable
+        """
+        if not hasattr(self, 'emotion'):
+            logger.info('Emotion instance not loaded, cannot handle 2x book setting')
+            return False
+
+        if not book.appear(main=self):
+            logger.info('No 2x book option.')
+            self.map_is_2x_book = False
+            self.emotion.map_is_2x_book = self.map_is_2x_book
+            return False
+
+        self.emotion.map_is_2x_book = self.map_is_2x_book
+        status = 'on' if self.map_is_2x_book else 'off'
+
+        book.set(status=status, main=self)
+        self.ensure_no_info_bar()

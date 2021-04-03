@@ -77,6 +77,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             if fleet_timer.reached() and self.appear(FLEET_PREPARATION):
                 if self.config.ENABLE_FLEET_CONTROL:
                     if mode == 'normal' or mode == 'hard':
+                        self.handle_2x_book_setting()
                         self.fleet_preparation()
                         self.handle_auto_search_setting()
                         self.handle_auto_search_emotion_wait()
@@ -229,12 +230,12 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         Returns:
             tuple(int): Mob fleet emotion reduce, BOSS fleet emotion reduce
         """
-        default = (2, 2)
+        default = (self.emotion.get_expected_reduce, self.emotion.get_expected_reduce)
         if hasattr(self, 'map'):
             for data in self.map.spawn_data:
                 if 'boss' in data:
                     battle = data.get('battle')
-                    reduce = (battle * 2, 2)
+                    reduce = (battle * default[0], default[1])
                     if self.config.AUTO_SEARCH_SETTING in ['fleet1_all_fleet2_standby', 'fleet1_standby_fleet2_all']:
                         reduce = (reduce[0] + reduce[1], 0)
                     return reduce
