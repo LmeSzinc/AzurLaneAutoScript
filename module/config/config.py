@@ -419,7 +419,7 @@ class AzurLaneConfig:
     GUILD_LOGISTICS_PLATE_T1_ORDER_STRING = 'torpedo > antiair > plane > gun > general'
     GUILD_LOGISTICS_PLATE_T2_ORDER_STRING = 'torpedo > antiair > plane > gun > general'
     GUILD_LOGISTICS_PLATE_T3_ORDER_STRING = 'torpedo > antiair > plane > gun > general'
-    GUILD_OPERATIONS_JOIN_THRESHOLD = 0.5
+    GUILD_OPERATIONS_JOIN_THRESHOLD = 1
     ENABLE_GUILD_OPERATIONS_BOSS_AUTO = False
     ENABLE_GUILD_OPERATIONS_BOSS_RECOMMEND = False
 
