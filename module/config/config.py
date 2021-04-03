@@ -419,6 +419,7 @@ class AzurLaneConfig:
     GUILD_LOGISTICS_PLATE_T1_ORDER_STRING = 'torpedo > antiair > plane > gun > general'
     GUILD_LOGISTICS_PLATE_T2_ORDER_STRING = 'torpedo > antiair > plane > gun > general'
     GUILD_LOGISTICS_PLATE_T3_ORDER_STRING = 'torpedo > antiair > plane > gun > general'
+    GUILD_OPERATIONS_JOIN_THRESHOLD = 0.5
     ENABLE_GUILD_OPERATIONS_BOSS_AUTO = False
     ENABLE_GUILD_OPERATIONS_BOSS_RECOMMEND = False
 
@@ -655,6 +656,7 @@ class AzurLaneConfig:
         self.GUILD_LOGISTICS_PLATE_T1_ORDER_STRING = option['guild_logistics_plate_t1_order_string']
         self.GUILD_LOGISTICS_PLATE_T2_ORDER_STRING = option['guild_logistics_plate_t2_order_string']
         self.GUILD_LOGISTICS_PLATE_T3_ORDER_STRING = option['guild_logistics_plate_t3_order_string']
+        self.GUILD_OPERATIONS_JOIN_THRESHOLD = float(option['guild_operations_join_threshold'])
 
         option = config['Main']
         self.CAMPAIGN_MODE = option['campaign_mode']
