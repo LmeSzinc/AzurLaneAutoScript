@@ -148,7 +148,8 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
     def port_goto(self, skip_init=False):
         """
-        Goto the port in current zone. Should be called in allay ports only.
+        Goto the port in current zone.
+        Should be called in Azur Lane ports only. Shouldn't be called in Red Axis ports or zones with enemies.
 
         Args:
             skip_init:

@@ -1,13 +1,15 @@
 from module.base.decorator import Config
 from module.base.utils import *
+from module.exception import ScriptError
 from module.logger import logger
 from module.map.map_operation import MapOperation
 from module.ocr.ocr import Ocr
 from module.os.assets import *
 from module.os.globe_zone import Zone, ZoneManager
-from module.exception import ScriptError
+from module.os_handler.port import PortHandler
 
-class OSMapOperation(MapOperation, ZoneManager):
+
+class OSMapOperation(MapOperation, PortHandler, ZoneManager):
     zone: Zone
 
     def is_meowfficer_searching(self):
