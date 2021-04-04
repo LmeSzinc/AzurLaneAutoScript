@@ -1,5 +1,6 @@
 import numpy as np
 
+from module.exception import ScriptError
 from module.logger import logger
 from module.os.map_data import DIC_OS_MAP
 
@@ -74,6 +75,7 @@ class ZoneManager:
         Returns:
             Zone:
         """
+        self._load_zone_info()
         if region is None:
             zones = list(self.zones.values())
         else:
@@ -89,14 +91,16 @@ class ZoneManager:
         Returns:
             Zone:
         """
+        self._load_zone_info()
         if isinstance(name, Zone):
             return name
         elif isinstance(name, int):
             return self.zones[name]
-        elif name.isdigit():
+        elif isinstance(name, str) and name.isdigit():
             return self.zones[name]
         else:
             for m in self.zones.values():
                 if name == m.cn or name == m.en or name == m.jp:
                     return m
             logger.warning(f'Unable to find OS globe zone: {name}')
+            raise ScriptError(f'Unable to find OS globe zone: {name}')

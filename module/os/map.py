@@ -141,17 +141,22 @@ class OSMap(OSFleet, Map, GlobeCamera):
             zone (str, int, Zone): Name in CN/EN/JP, zone id, or Zone instance.
 
         Pages:
-            in: IN_MAP
+            in: IN_MAP or IN_GLOBE
             out: IN_MAP
         """
+        zone = self.name_to_zone(zone)
+        logger.hr(f'Globe goto: {zone}')
         # IN_MAP
         self.device.screenshot()
-        self.map_init()
-        self.ensure_edge_insight()
-        button = self._get_map_outside_button()
-        self.ui_click(button,
-                      appear_button=self.is_in_map, check_button=self.is_zone_pinned, skip_first_screenshot=True)
+        if self.is_in_map():
+            self.map_init()
+            self.ensure_edge_insight()
+            button = self._get_map_outside_button()
+            self.ui_click(button,
+                          appear_button=self.is_in_map, check_button=self.is_zone_pinned, skip_first_screenshot=True)
         # IN_GLOBE
+        if not self.is_in_globe():
+            logger.warning('Not in os globe map')
         self.ensure_no_zone_pinned()
         self.globe_update()
         self.globe_focus_to(zone)

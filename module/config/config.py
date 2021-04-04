@@ -451,7 +451,8 @@ class AzurLaneConfig:
     """
     OS_GLOBE_HOMO_STORAGE = ((4, 3), ((445, 180), (879, 180), (376, 497), (963, 497)))
     OS_GLOBE_DETECTING_AREA = (0, 0, 1280, 720)
-    OS_GLOBE_GLOBAL_PAD = 700
+    OS_GLOBE_IMAGE_PAD = 700
+    OS_GLOBE_IMAGE_RESIZE = 0.5
     OS_GLOBE_FIND_PEAKS_PARAMETERS = {
         'height': 100,
         # 'width': (0.9, 5),

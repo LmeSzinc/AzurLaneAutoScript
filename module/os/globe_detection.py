@@ -50,9 +50,11 @@ class GlobeDetection:
         # Load GLOBE_MAP
         image = np.array(Image.open(GLOBE_MAP))
         image = self.find_peaks(image, para=self.config.OS_GLOBE_FIND_PEAKS_PARAMETERS)
-        pad = self.config.OS_GLOBE_GLOBAL_PAD
+        pad = self.config.OS_GLOBE_IMAGE_PAD
         image = np.pad(image, ((pad, pad), (pad, pad)), mode='constant', constant_values=0)
-        self.globe = image.astype(np.uint8)
+        image = image.astype(np.uint8)
+        image = cv2.resize(image, None, fx=self.config.OS_GLOBE_IMAGE_RESIZE, fy=self.config.OS_GLOBE_IMAGE_RESIZE)
+        self.globe = image
 
         # Load homography
         backup = self.config.cover(
@@ -100,7 +102,6 @@ class GlobeDetection:
         Returns:
             np.ndarray: Image without perspective, like normal 2D maps.
         """
-
         image = cv2.warpPerspective(image, self.homography.homo_data, self.homography.homo_size)
         return image
 
@@ -115,10 +116,12 @@ class GlobeDetection:
         image = np.array(image)
         local = self.find_peaks(self.perspective_transform(image), para=self.config.OS_LOCAL_FIND_PEAKS_PARAMETERS)
         local = local.astype(np.uint8)
+        local = cv2.resize(local, None, fx=self.config.OS_GLOBE_IMAGE_RESIZE, fy=self.config.OS_GLOBE_IMAGE_RESIZE)
 
         result = cv2.matchTemplate(self.globe, local, cv2.TM_CCOEFF_NORMED)
         _, similarity, _, loca = cv2.minMaxLoc(result)
-        loca = tuple(self.homo_center + loca - self.config.OS_GLOBE_GLOBAL_PAD)
+        loca = np.array(loca) / self.config.OS_GLOBE_IMAGE_RESIZE
+        loca = tuple(self.homo_center + loca - self.config.OS_GLOBE_IMAGE_PAD)
         self.center_loca = loca
 
         time_cost = round(time.time() - start_time, 3)

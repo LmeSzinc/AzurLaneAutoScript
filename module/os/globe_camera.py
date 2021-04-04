@@ -126,6 +126,7 @@ class GlobeCamera(GlobeOperation, ZoneManager):
             out: IN_GLOBE, zone selected, ZONE_ENTRANCE
         """
         zone = self.name_to_zone(zone)
+        logger.info(f'Globe focus_to: {zone}')
 
         interval = Timer(2, count=2)
         while 1:
