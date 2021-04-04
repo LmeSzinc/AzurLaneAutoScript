@@ -35,27 +35,28 @@ class PortHandler(UI):
             in: PORT_CHECK
             out: PORT_CHECK
         """
+        if not self.appear(PORT_MISSION_RED_DOT):
+            logger.info('No available missions in this port')
+            return False
+
         self.ui_click(PORT_GOTO_MISSION, appear_button=PORT_CHECK, check_button=PORT_MISSION_CHECK,
                       skip_first_screenshot=True)
 
-        if self.appear(PORT_MISSION_RED_DOT):
-            confirm_timer = Timer(1.5, count=3)
-            skip_first_screenshot = True
-            while 1:
-                if skip_first_screenshot:
-                    skip_first_screenshot = False
-                else:
-                    self.device.screenshot()
+        confirm_timer = Timer(1.5, count=3)
+        skip_first_screenshot = True
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
-                if self.appear_then_click(PORT_MISSION_ACCEPT, offset=(20, 20), interval=0.35):
-                    confirm_timer.reset()
-                    continue
-                else:
-                    # End
-                    if confirm_timer.reached():
-                        break
-        else:
-            logger.info('No available missions in this port')
+            if self.appear_then_click(PORT_MISSION_ACCEPT, offset=(20, 20), interval=0.2):
+                confirm_timer.reset()
+                continue
+            else:
+                # End
+                if confirm_timer.reached():
+                    break
 
         self.ui_back(appear_button=PORT_MISSION_CHECK, check_button=PORT_CHECK, skip_first_screenshot=True)
 
