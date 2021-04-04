@@ -21,8 +21,9 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             self.update()
 
     def map_init(self, map_=None):
+        self.get_current_zone()
         map_ = OSCampaignMap()
-        map_.shape = self.get_map_shape()
+        map_.shape = self.zone.shape
 
         logger.hr('Map init')
         self.fleet_1_location = ()

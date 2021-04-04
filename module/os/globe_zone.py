@@ -91,6 +91,10 @@ class ZoneManager:
         Returns:
             Zone:
         """
+        def parse_name(n):
+            n = str(n).replace(' ', '').lower()
+            return n
+
         self._load_zone_info()
         if isinstance(name, Zone):
             return name
@@ -99,8 +103,9 @@ class ZoneManager:
         elif isinstance(name, str) and name.isdigit():
             return self.zones[name]
         else:
-            for m in self.zones.values():
-                if name == m.cn or name == m.en or name == m.jp:
-                    return m
+            name = parse_name(name)
+            for zone in self.zones.values():
+                if name == parse_name(zone.cn) or name == parse_name(zone.en) or name == parse_name(zone.jp):
+                    return zone
             logger.warning(f'Unable to find OS globe zone: {name}')
             raise ScriptError(f'Unable to find OS globe zone: {name}')
