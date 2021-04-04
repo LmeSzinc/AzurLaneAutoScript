@@ -18,13 +18,12 @@ class GlobeOperation(MapEventHandler):
         Returns:
             Button:
         """
-        for button in ZONE_TYPES:
-            if self.appear(button, offset=(20, 20)):
-                offset = np.subtract(button.button, button._button)[:2]
-                for change in ASSETS_PINNED_ZONE:
-                    change._button_offset = area_offset(change._button, offset=offset)
+        for zone in ZONE_TYPES:
+            if self.appear(zone, offset=(20, 20)):
+                for button in ASSETS_PINNED_ZONE:
+                    button.load_offset(zone)
 
-                return button
+                return zone
 
         return None
 

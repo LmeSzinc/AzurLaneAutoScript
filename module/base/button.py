@@ -88,6 +88,16 @@ class Button:
         self.image = np.array(image.crop(self.area))
         return self.color
 
+    def load_offset(self, button):
+        """
+        Load offset from another button.
+
+        Args:
+            button (Button):
+        """
+        offset = np.subtract(button.button, button._button)[:2]
+        self._button_offset = area_offset(self._button, offset=offset)
+
     def ensure_template(self):
         """
         Load asset image.
