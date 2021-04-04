@@ -3,6 +3,7 @@ import numpy as np
 from module.logger import logger
 from module.map.fleet import Fleet
 from module.map.map_grids import SelectedGrids
+from module.map.utils import location_ensure
 from module.os.camera import OSCamera
 from module.os.map_base import OSCampaignMap
 from module.os_ash.ash import OSAsh
@@ -144,3 +145,29 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         else:
             center = self.camera
         return SelectedGrids(sea).sort_by_camera_distance(center)
+
+    def port_goto(self, skip_init=False):
+        """
+        Goto the port in current zone. Should be called in allay ports only.
+
+        Args:
+            skip_init:
+
+        Returns:
+            bool: If executed.
+        """
+        if not skip_init:
+            self.device.screenshot()
+            self.map_init()
+
+        dic_port = {0: 'C6', 1: 'H8', 2: 'E4', 3: 'H7'}
+        list_surround = [(-1, -1), (0, -1), (1, -1), (-1, 0), (1, 0), (-1, 1), (-1, 0), (-1, 1)]
+
+        if self.zone.zone_id not in dic_port:
+            logger.warning(f'Current zone do not have a port, zone={self.zone}')
+            return False
+
+        port = self.map[location_ensure(dic_port[self.zone.zone_id])]
+        grids = self.map.grid_covered(port, location=list_surround).sort_by_camera_distance(self.camera)
+        self.goto(grids[0])
+        return True

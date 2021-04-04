@@ -5,7 +5,7 @@ from module.map.map_operation import MapOperation
 from module.ocr.ocr import Ocr
 from module.os.assets import *
 from module.os.globe_zone import Zone, ZoneManager
-
+from module.exception import ScriptError
 
 class OSMapOperation(MapOperation, ZoneManager):
     zone: Zone
@@ -73,6 +73,10 @@ class OSMapOperation(MapOperation, ZoneManager):
         Returns:
             Zone:
         """
+        if not self.is_in_map():
+            logger.warning('Trying to get zone name, but not in OS map')
+            raise ScriptError('Trying to get zone name, but not in OS map')
+
         name = self.get_zone_name()
         logger.info(f'Map name processed: {name}')
         self.zone = self.name_to_zone(name)
