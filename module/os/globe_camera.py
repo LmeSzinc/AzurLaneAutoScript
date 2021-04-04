@@ -146,19 +146,3 @@ class GlobeCamera(GlobeOperation, ZoneManager):
                 if pinned_zone == zone:
                     logger.attr('Globe_pinned', pinned_zone)
                     break
-
-    def globe_goto(self, zone):
-        """
-        Args:
-            zone (str, int, Zone): Name in CN/EN/JP, zone id, or Zone instance.
-
-        Pages:
-            in: IN_GLOBE or IN_MAP
-            out: IN_MAP
-        """
-        pass
-
-
-# g = GlobeCamera('alas')
-# g.globe_update()
-# g.globe_focus_to('NY')

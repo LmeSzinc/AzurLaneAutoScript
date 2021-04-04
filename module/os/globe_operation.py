@@ -1,15 +1,15 @@
+from module.base.timer import Timer
 from module.base.utils import *
 from module.logger import logger
 from module.map_detection.utils import *
 from module.os.assets import *
-from module.ui.ui import UI
-from module.base.timer import Timer
+from module.os_handler.map_event import MapEventHandler
 
 ZONE_TYPES = [ZONE_DANGEROUS, ZONE_SAFE, ZONE_OBSCURED, ZONE_LOGGER, ZONE_STRONGHOLD]
 ASSETS_PINNED_ZONE = ZONE_TYPES + [ZONE_ENTRANCE, ZONE_SWITCH, ZONE_PINNED]
 
 
-class GlobeOperation(UI):
+class GlobeOperation(MapEventHandler):
     def is_in_globe(self):
         return self.appear(IN_GLOBE, offset=(20, 20))
 

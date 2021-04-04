@@ -1,11 +1,10 @@
 import numpy as np
 
-from module.logger import logger
 from module.map.camera import Camera
 from module.map.map_base import location_ensure
 from module.map_detection.view import View
-from module.os.radar import Radar
 from module.os.map_operation import OSMapOperation
+from module.os.radar import Radar
 
 
 class OSCamera(OSMapOperation, Camera):

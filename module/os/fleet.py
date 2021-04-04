@@ -4,6 +4,7 @@ from module.logger import logger
 from module.map.fleet import Fleet
 from module.map.map_grids import SelectedGrids
 from module.os.camera import OSCamera
+from module.os.map_base import OSCampaignMap
 from module.os_ash.ash import OSAsh
 from module.os_combat.combat import Combat
 
@@ -19,7 +20,10 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             self.camera = location
             self.update()
 
-    def map_init(self, map_):
+    def map_init(self, map_=None):
+        map_ = OSCampaignMap()
+        map_.shape = self.get_map_shape()
+
         logger.hr('Map init')
         self.fleet_1_location = ()
         self.fleet_2_location = ()

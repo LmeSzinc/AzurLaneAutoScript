@@ -1,11 +1,12 @@
 from module.logger import logger
 from module.map.map import Map
 from module.map.map_grids import SelectedGrids
+from module.os.assets import *
 from module.os.fleet import OSFleet
-from module.os.map_base import OSCampaignMap
+from module.os.globe_camera import GlobeCamera
 
 
-class OSMap(OSFleet, Map):
+class OSMap(OSFleet, Map, GlobeCamera):
     def clear_all_objects(self, grid=None):
         """Method to clear all objects around specific grid.
 
@@ -111,7 +112,50 @@ class OSMap(OSFleet, Map):
     def run(self):
         self.device.screenshot()
         self.handle_siren_platform()
-        map_ = OSCampaignMap()
-        map_.shape = self.get_map_shape()
-        self.map_init(map_)
+        self.map_init()
         self.full_clear()
+
+    def _get_map_outside_button(self):
+        """
+        Returns:
+            Button: Click outside of map.
+        """
+        if self.view.left_edge:
+            edge = self.view.backend.left_edge
+            area = (113, 185, edge.get_x(290), 290)
+        elif self.view.right_edge:
+            edge = self.view.backend.right_edge
+            area = (edge.get_x(360), 360, 1280, 560)
+        else:
+            logger.warning('No left edge or right edge')
+            return None
+
+        button = Button(area=area, color=(), button=area, name='MAP_OUTSIDE')
+        return button
+
+    def globe_goto(self, zone):
+        """
+        Goto another zone in OS.
+
+        Args:
+            zone (str, int, Zone): Name in CN/EN/JP, zone id, or Zone instance.
+
+        Pages:
+            in: IN_MAP
+            out: IN_MAP
+        """
+        # IN_MAP
+        self.device.screenshot()
+        self.map_init()
+        self.ensure_edge_insight()
+        button = self._get_map_outside_button()
+        self.ui_click(button,
+                      appear_button=self.is_in_map, check_button=self.is_zone_pinned, skip_first_screenshot=True)
+        # IN_GLOBE
+        self.ensure_no_zone_pinned()
+        self.globe_update()
+        self.globe_focus_to(zone)
+        self.ui_click(ZONE_ENTRANCE, appear_button=self.is_zone_pinned, check_button=self.is_in_map,
+                      skip_first_screenshot=True, additional=self.handle_map_event)
+        # IN_MAP
+        pass
