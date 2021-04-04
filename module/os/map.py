@@ -115,24 +115,6 @@ class OSMap(OSFleet, Map, GlobeCamera):
         self.map_init()
         self.full_clear()
 
-    def _get_map_outside_button(self):
-        """
-        Returns:
-            Button: Click outside of map.
-        """
-        if self.view.left_edge:
-            edge = self.view.backend.left_edge
-            area = (113, 185, edge.get_x(290), 290)
-        elif self.view.right_edge:
-            edge = self.view.backend.right_edge
-            area = (edge.get_x(360), 360, 1280, 560)
-        else:
-            logger.warning('No left edge or right edge')
-            return None
-
-        button = Button(area=area, color=(), button=area, name='MAP_OUTSIDE')
-        return button
-
     def globe_goto(self, zone):
         """
         Goto another zone in OS.

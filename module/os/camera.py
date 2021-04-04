@@ -1,5 +1,7 @@
 import numpy as np
 
+from module.base.button import Button
+from module.logger import logger
 from module.map.camera import Camera
 from module.map.map_base import location_ensure
 from module.map_detection.view import View
@@ -53,3 +55,21 @@ class OSCamera(OSMapOperation, Camera):
     #
     # def focus_to(self, location, swipe_limit=(4, 3)):
     #     return super().focus_to(location, swipe_limit=swipe_limit)
+
+    def _get_map_outside_button(self):
+        """
+        Returns:
+            Button: Click outside of map.
+        """
+        if self.view.left_edge:
+            edge = self.view.backend.left_edge
+            area = (113, 185, edge.get_x(290), 290)
+        elif self.view.right_edge:
+            edge = self.view.backend.right_edge
+            area = (edge.get_x(360), 360, 1280, 560)
+        else:
+            logger.warning('No left edge or right edge')
+            return None
+
+        button = Button(area=area, color=(), button=area, name='MAP_OUTSIDE')
+        return button
