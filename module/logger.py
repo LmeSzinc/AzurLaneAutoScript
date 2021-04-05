@@ -4,11 +4,19 @@ import os
 import sys
 from collections import deque
 
+
+def empty_function(*args, **kwargs):
+    pass
+
+
+# cnocr will set root logger in cnocr.utils
+# Delete logging.basicConfig to avoid logging the same message twice.
+logging.basicConfig = empty_function
 logging.raiseExceptions = True  # Set True if wanna see encode errors on console
 
 # Logger init
 logger_debug = False
-logger = logging.getLogger()
+logger = logging.getLogger('alas')
 logger.setLevel(logging.DEBUG if logger_debug else logging.INFO)
 formatter = logging.Formatter(fmt='%(asctime)s.%(msecs)03d | %(levelname)s | %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
