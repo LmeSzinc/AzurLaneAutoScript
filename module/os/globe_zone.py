@@ -52,6 +52,7 @@ class Zone:
 
 class ZoneManager:
     _zone_loaded = False
+    _list_azur_lane_port = [0, 1, 2, 3]
     zones = {}
 
     def _load_zone_info(self):
@@ -91,10 +92,6 @@ class ZoneManager:
         Returns:
             Zone:
         """
-        def parse_name(n):
-            n = str(n).replace(' ', '').lower()
-            return n
-
         self._load_zone_info()
         if isinstance(name, Zone):
             return name
@@ -103,9 +100,43 @@ class ZoneManager:
         elif isinstance(name, str) and name.isdigit():
             return self.zones[name]
         else:
+            def parse_name(n):
+                n = str(n).replace(' ', '').lower()
+                return n
+
             name = parse_name(name)
             for zone in self.zones.values():
                 if name == parse_name(zone.cn) or name == parse_name(zone.en) or name == parse_name(zone.jp):
                     return zone
             logger.warning(f'Unable to find OS globe zone: {name}')
             raise ScriptError(f'Unable to find OS globe zone: {name}')
+
+    def zone_is_azur_lane_port(self, zone):
+        """
+        Args:
+            zone (str, int, Zone): Name in CN/EN/JP, zone id, or Zone instance.
+
+        Returns:
+            bool:
+        """
+        zone = self.name_to_zone(zone)
+        return zone.zone_id in self._list_azur_lane_port
+
+    def zone_nearest_azur_lane_port(self, zone):
+        """
+        Args:
+            zone (str, int, Zone): Name in CN/EN/JP, zone id, or Zone instance.
+
+        Returns:
+            Zone:
+        """
+        zone = self.name_to_zone(zone)
+        ports = [self.name_to_zone(port) for port in self._list_azur_lane_port]
+        # In same region
+        for port in ports:
+            if zone.region == port.region:
+                return port
+        # In different region
+        distance = np.linalg.norm(np.subtract([port.location for port in ports], zone.location), axis=1)
+        port = ports[int(np.argmin(distance))]
+        return port

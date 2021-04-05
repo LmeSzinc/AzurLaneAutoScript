@@ -26,10 +26,17 @@ class PortHandler(UI):
         """
         self.ui_back(appear_button=PORT_CHECK, check_button=PORT_ENTER,
                      skip_first_screenshot=skip_first_screenshot)
+        # Buttons at the bottom has an animation to show
+        self.device.sleep(0.3)
+        self.device.screenshot()
 
     def port_mission_accept(self):
         """
         Accept all missions in port.
+
+        Returns:
+            bool: True if all missions accepted or no mission found.
+                  False if unable to accept more missions.
 
         Pages:
             in: PORT_CHECK
@@ -37,13 +44,14 @@ class PortHandler(UI):
         """
         if not self.appear(PORT_MISSION_RED_DOT):
             logger.info('No available missions in this port')
-            return False
+            return True
 
         self.ui_click(PORT_GOTO_MISSION, appear_button=PORT_CHECK, check_button=PORT_MISSION_CHECK,
                       skip_first_screenshot=True)
 
         confirm_timer = Timer(1.5, count=3)
         skip_first_screenshot = True
+        success = True
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -56,9 +64,16 @@ class PortHandler(UI):
             else:
                 # End
                 if confirm_timer.reached():
+                    success = True
                     break
 
+            if self.info_bar_count():
+                logger.info('Unable to accept missions, because reached the maximum number of missions')
+                success = False
+                break
+
         self.ui_back(appear_button=PORT_MISSION_CHECK, check_button=PORT_CHECK, skip_first_screenshot=True)
+        return success
 
     def port_supply_buy(self):
         """

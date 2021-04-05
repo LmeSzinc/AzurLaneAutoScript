@@ -22,6 +22,8 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             self.update()
 
     def map_init(self, map_=None):
+        if hasattr(self, 'zone') and self.zone is not None:
+            return False
         self.get_current_zone()
         map_ = OSCampaignMap()
         map_.shape = self.zone.shape
@@ -146,7 +148,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             center = self.camera
         return SelectedGrids(sea).sort_by_camera_distance(center)
 
-    def port_goto(self, skip_init=False):
+    def port_goto(self, init=False):
         """
         Goto the port in current zone.
         Should be called in Azur Lane ports only. Shouldn't be called in Red Axis ports or zones with enemies.
@@ -157,7 +159,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         Returns:
             bool: If executed.
         """
-        if not skip_init:
+        if init:
             self.device.screenshot()
             self.map_init()
 
