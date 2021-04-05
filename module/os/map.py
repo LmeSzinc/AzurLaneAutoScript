@@ -116,12 +116,15 @@ class OSMap(OSFleet, Map, GlobeCamera):
         self.map_init()
         self.full_clear()
 
-    def globe_goto(self, zone):
+    def globe_goto(self, zone, types=('SAFE', 'DANGEROUS')):
         """
         Goto another zone in OS.
 
         Args:
             zone (str, int, Zone): Name in CN/EN/JP, zone id, or Zone instance.
+            types (tuple[str], list[str], str): Zone types, or a list of them.
+                Available types: DANGEROUS, SAFE, OBSCURE, LOGGER, STRONGHOLD.
+                Try the the first selection in type list, if not available, try the next one.
 
         Pages:
             in: IN_MAP or IN_GLOBE
@@ -142,6 +145,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
         self.ensure_no_zone_pinned()
         self.globe_update()
         self.globe_focus_to(zone)
+        self.zone_type_select(types=types)
         self.ui_click(ZONE_ENTRANCE, appear_button=self.is_zone_pinned, check_button=self.is_in_map,
                       skip_first_screenshot=True, additional=self.handle_map_event)
         # IN_MAP

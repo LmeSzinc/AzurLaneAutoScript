@@ -3,13 +3,14 @@ from module.base.utils import *
 from module.logger import logger
 from module.map_detection.utils import *
 from module.os.assets import *
-from module.os_handler.map_event import MapEventHandler
+from module.ui.ui import UI
 
 ZONE_TYPES = [ZONE_DANGEROUS, ZONE_SAFE, ZONE_OBSCURED, ZONE_LOGGER, ZONE_STRONGHOLD]
+ZONE_SELECT = [SELECT_DANGEROUS, SELECT_SAFE, SELECT_OBSCURE, SELECT_LOGGER, SELECT_STRONGHOLD]
 ASSETS_PINNED_ZONE = ZONE_TYPES + [ZONE_ENTRANCE, ZONE_SWITCH, ZONE_PINNED]
 
 
-class GlobeOperation(MapEventHandler):
+class GlobeOperation(UI):
     def is_in_globe(self):
         return self.appear(IN_GLOBE, offset=(20, 20))
 
@@ -86,3 +87,60 @@ class GlobeOperation(MapEventHandler):
             return False
         else:
             logger.warning(f'Unexpected zone switch, white block: {count}')
+
+    _zone_select_offset = (20, 200)
+
+    def get_zone_select(self):
+        """
+        Returns:
+            list[Button]:
+        """
+        return [select for select in ZONE_SELECT if self.appear(select, offset=self._zone_select_offset)]
+
+    def is_in_zone_select(self):
+        """
+        Returns:
+            bool:
+        """
+        return len(self.get_zone_select()) > 0
+
+    def zone_type_select(self, types=('SAFE', 'DANGEROUS')):
+        """
+        Args:
+            types (tuple[str], list[str], str): Zone types, or a list of them.
+                Available types: DANGEROUS, SAFE, OBSCURE, LOGGER, STRONGHOLD.
+                Try the the first selection in type list, if not available, try the next one.
+                Do nothing if no selection satisfied input.
+
+        Returns:
+            bool: If success.
+        """
+        if isinstance(types, str):
+            types = [types]
+
+        def get_button(selection_):
+            for typ in types:
+                typ = 'SELECT_' + typ
+                for sele in selection_:
+                    if typ == sele.name:
+                        return sele
+            return None
+
+        for _ in range(3):
+            self.ui_click(ZONE_SWITCH, check_button=self.is_in_zone_select, skip_first_screenshot=True)
+
+            selection = self.get_zone_select()
+            logger.attr('Zone_selection', selection)
+            button = get_button(selection)
+            if button is None:
+                logger.warning('No such zone type to select, fallback to default')
+                types = ('SAFE', 'DANGEROUS')
+                button = get_button(selection)
+
+            self.ui_click(button, check_button=self.is_zone_pinned, offset=self._zone_select_offset,
+                          skip_first_screenshot=True)
+            if button.name.split('_')[1] == self.get_zone_pinned().name.split('_')[1]:
+                return True
+
+        logger.warning('Failed to select zone type after 3 trial')
+        return False

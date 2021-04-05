@@ -28,8 +28,13 @@ class OperationSiren(OSMap):
                           skip_first_screenshot=True)
         elif self.is_in_globe():
             self.ui_click(IN_GLOBE, check_button=self.is_in_map, skip_first_screenshot=True)
+            # Zone header has an animation to show.
+            self.device.sleep(0.3)
+            self.device.screenshot()
         else:
             self.ui_ensure(page_os)
+            self.ui_click(ZONE_ENTRANCE, appear_button=self.is_zone_pinned, check_button=self.is_in_map,
+                          skip_first_screenshot=True)
 
         self.map_init()
 
