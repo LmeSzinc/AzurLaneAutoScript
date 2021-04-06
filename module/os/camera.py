@@ -61,15 +61,17 @@ class OSCamera(OSMapOperation, Camera):
         Returns:
             Button: Click outside of map.
         """
-        if self.view.left_edge:
-            edge = self.view.backend.left_edge
-            area = (113, 185, edge.get_x(290), 290)
-        elif self.view.right_edge:
-            edge = self.view.backend.right_edge
-            area = (edge.get_x(360), 360, 1280, 560)
-        else:
-            logger.warning('No left edge or right edge')
-            return None
+        for _ in range(2):
+            if self.view.left_edge:
+                edge = self.view.backend.left_edge
+                area = (113, 185, edge.get_x(290), 290)
+            elif self.view.right_edge:
+                edge = self.view.backend.right_edge
+                area = (edge.get_x(360), 360, 1280, 560)
+            else:
+                logger.info('No left edge or right edge')
+                self.ensure_edge_insight()
+                continue
 
-        button = Button(area=area, color=(), button=area, name='MAP_OUTSIDE')
-        return button
+            button = Button(area=area, color=(), button=area, name='MAP_OUTSIDE')
+            return button

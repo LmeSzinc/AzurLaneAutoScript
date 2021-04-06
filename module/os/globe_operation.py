@@ -114,7 +114,15 @@ class GlobeOperation(UI):
 
         Returns:
             bool: If success.
+
+        Pages:
+            in: is_zone_pinned
+            out: is_zone_pinned
         """
+        if not self.zone_has_switch():
+            logger.info('Zone has no type to select, skip')
+            return True
+
         if isinstance(types, str):
             types = [types]
 

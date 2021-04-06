@@ -17,6 +17,9 @@ class PortHandler(UI):
             out: PORT_CHECK
         """
         self.ui_click(PORT_ENTER, check_button=PORT_CHECK, skip_first_screenshot=skip_first_screenshot)
+        # Buttons at the bottom has an animation to show
+        self.device.sleep(0.3)
+        self.device.screenshot()
 
     def port_quit(self, skip_first_screenshot=True):
         """
