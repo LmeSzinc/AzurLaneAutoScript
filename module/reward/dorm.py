@@ -156,6 +156,14 @@ class RewardDorm(UI):
             self.device.minitouch_builder.up().commit()
             self.device.minitouch_send()
 
+        while 1:
+            self.device.screenshot()
+            if self.handle_popup_cancel('dorm_feed'):
+                continue
+            # End
+            if self.appear(DORM_FEED_CHECK, offset=(20, 20)):
+                break
+
     def _dorm_feed_once(self):
         """
         Returns:
