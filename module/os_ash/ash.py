@@ -4,8 +4,8 @@ from module.combat.combat import Combat, BATTLE_PREPARATION, GET_ITEMS_1
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
 from module.os_ash.assets import *
+from module.os.assets import MAP_OVERVIEW
 from module.os_handler.assets import IN_MAP
-from module.template.assets import TEMPLATE_OS_Overview
 from module.ui.assets import BACK_ARROW
 from module.ui.page import page_os
 from module.ui.switch import Switch
@@ -89,18 +89,13 @@ class OSAsh(UI):
 
     def _ash_beacon_enter_from_map(self, offset=(200, 5), skip_first_screenshot=True):
         confirm_timer = Timer(1.5, count=3).start()
-        in_map_interval = Timer(3, count=1)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
 
-            if self.is_in_map() and in_map_interval.reached():
-                entrance = self.get_overview_entrance()
-                if entrance is not None:
-                    self.device.click(entrance)
-                    in_map_interval.reset()
+            if self.appear_then_click(MAP_OVERVIEW, offset=offset, interval=3):
                 confirm_timer.reset()
                 continue
 
