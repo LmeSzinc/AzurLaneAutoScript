@@ -13,9 +13,12 @@ fleet_lock.add_status('off', check_button=FLEET_UNLOCKED)
 auto_search = Switch('Auto_Search', offset=(20, 20))
 auto_search.add_status('on', check_button=AUTO_SEARCH_ON)
 auto_search.add_status('off', check_button=AUTO_SEARCH_OFF)
-book = Switch('2x Book', offset=(20, 20))
-book.add_status('on', check_button=BOOK_ON)
-book.add_status('off', check_button=BOOK_OFF)
+book_prep = Switch('2x Book Prep', offset=(20, 20))
+book_prep.add_status('on', check_button=BOOK_ON_PREP)
+book_prep.add_status('off', check_button=BOOK_OFF_PREP)
+book_auto = Switch('2x Book Auto', offset=(20,20))
+book_auto.add_status('on', check_button=BOOK_ON_AUTO)
+book_auto.add_status('off', check_button=BOOK_OFF_AUTO)
 
 
 class FastForwardHandler(AutoSearchHandler):
@@ -141,6 +144,18 @@ class FastForwardHandler(AutoSearchHandler):
         self.auto_search_setting_ensure(self.config.AUTO_SEARCH_SETTING)
         return True
 
+    def handle_auto_search_continue(self):
+        """
+        Override AutoSearchHandler definition
+        for 2x book handling if needed
+        """
+        if self.appear(AUTO_SEARCH_MENU_CONTINUE, offset=(20, 20), interval=2):
+            self.map_is_2x_book = self.config.ENABLE_2X_BOOK
+            self.handle_2x_book_setting(mode='auto')
+            self.device.click(AUTO_SEARCH_MENU_CONTINUE)
+            return True
+        return False
+
     def get_map_clear_percentage(self):
         """
         Returns:
@@ -174,7 +189,7 @@ class FastForwardHandler(AutoSearchHandler):
 
         return False
 
-    def handle_2x_book_setting(self):
+    def handle_2x_book_setting(self, mode='prep'):
         """
         Handles 2x book setting if applicable
         """
@@ -182,8 +197,13 @@ class FastForwardHandler(AutoSearchHandler):
             logger.info('Emotion instance not loaded, cannot handle 2x book setting')
             return False
 
+        if mode == 'prep':
+            book = book_prep
+        else:
+            book = book_auto
+
         if not book.appear(main=self):
-            logger.info('No 2x book option.')
+            logger.info(f'No 2x book option, mode={mode}.')
             self.map_is_2x_book = False
             self.emotion.map_is_2x_book = self.map_is_2x_book
             return False
