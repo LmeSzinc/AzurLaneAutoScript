@@ -77,14 +77,43 @@ class OSAsh(UI):
     def is_in_map(self):
         return self.appear(IN_MAP, offset=(200, 5))
 
-    def _ash_beacon_enter_from_map(self):
+    def get_overview_entrance(self):
         sim, point = TEMPLATE_OS_Overview.match_result(self.device.image)
+        if sim < 0.85:
+            return None
+
         button = area_offset(area=(-12, -12, 44, 32), offset=point)
         color = get_color(self.device.image, button)
         entrance = Button(area=button, color=color, button=button, name="MAP_OVERVIEW")
-        self.ui_click(entrance, appear_button=self.is_in_map,
-                     check_button=ASH_ENTRANCE, offset=(200, 5),
-                     skip_first_screenshot=True)
+        return entrance
+
+    def _ash_beacon_enter_from_map(self, offset=(200, 5), skip_first_screenshot=True):
+        confirm_timer = Timer(1.5, count=3).start()
+        in_map_interval = Timer(3, count=1)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.is_in_map() and in_map_interval.reached():
+                entrance = self.get_overview_entrance()
+                if entrance is not None:
+                    self.device.click(entrance)
+                    in_map_interval.reset()
+                confirm_timer.reset()
+                continue
+
+            if self.appear_then_click(ASH_ENTRANCE, offset=offset, interval=3):
+                confirm_timer.reset()
+                continue
+
+            # End
+            if self.is_in_ash():
+                if confirm_timer.reached():
+                    break
+            else:
+                confirm_timer.reset()
 
     def _ash_beacon_select(self, tier=15, trial=5):
         """
@@ -135,8 +164,7 @@ class OSAsh(UI):
         ash_combat = AshCombat(self.config, self.device)
         entrance_offset = (200, 5)
         self.ui_ensure(page_os)
-        self._ash_beacon_enter_from_map()
-        self.ui_click(ASH_ENTRANCE, check_button=self.is_in_ash, offset=entrance_offset, skip_first_screenshot=True)
+        self._ash_beacon_enter_from_map(offset=entrance_offset, skip_first_screenshot=True)
 
         for _ in range(4):
             SWITCH_BEACON.set('list', main=self)
