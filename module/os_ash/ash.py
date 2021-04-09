@@ -77,16 +77,6 @@ class OSAsh(UI):
     def is_in_map(self):
         return self.appear(IN_MAP, offset=(200, 5))
 
-    def get_overview_entrance(self):
-        sim, point = TEMPLATE_OS_Overview.match_result(self.device.image)
-        if sim < 0.85:
-            return None
-
-        button = area_offset(area=(-12, -12, 44, 32), offset=point)
-        color = get_color(self.device.image, button)
-        entrance = Button(area=button, color=color, button=button, name="MAP_OVERVIEW")
-        return entrance
-
     def _ash_beacon_enter_from_map(self, offset=(200, 5), skip_first_screenshot=True):
         confirm_timer = Timer(1.5, count=3).start()
         while 1:
