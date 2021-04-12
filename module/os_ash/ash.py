@@ -10,6 +10,7 @@ from module.ui.assets import BACK_ARROW
 from module.ui.page import page_os
 from module.ui.switch import Switch
 from module.ui.ui import UI
+from module.combat.assets import GET_ITEMS_1,GET_ITEMS_2,GET_ITEMS_3
 
 OCR_BEACON_REMAIN = DigitCounter(BEACON_REMAIN, threshold=256, name='OCR_ASH_REMAIN')
 OCR_BEACON_TIER = Digit(BEACON_TIER, name='OCR_ASH_TIER')
@@ -86,6 +87,18 @@ class OSAsh(UI):
                 self.device.screenshot()
 
             if self.appear_then_click(MAP_OVERVIEW, offset=offset, interval=3):
+                confirm_timer.reset()
+                continue
+
+            if self.appear_then_click(GET_ITEMS_1, offset=offset, interval=2):
+                confirm_timer.reset()
+                continue
+
+            if self.appear_then_click(GET_ITEMS_2, offset=offset, interval=2):
+                confirm_timer.reset()
+                continue
+
+            if self.appear_then_click(GET_ITEMS_3, offset=offset, interval=2):
                 confirm_timer.reset()
                 continue
 
