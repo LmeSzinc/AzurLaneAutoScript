@@ -78,7 +78,16 @@ class OSAsh(UI):
         return self.appear(IN_MAP, offset=(200, 5))
 
     def _ash_beacon_enter_from_map(self, offset=(200, 5), skip_first_screenshot=True):
-        confirm_timer = Timer(1.5, count=3).start()
+        """
+        Args:
+            offset:
+            skip_first_screenshot:
+
+        Pages:
+            in: IN_MAP
+            out: is_in_ash
+        """
+        confirm_timer = Timer(1, count=2).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -88,8 +97,10 @@ class OSAsh(UI):
             if self.appear_then_click(MAP_OVERVIEW, offset=offset, interval=3):
                 confirm_timer.reset()
                 continue
-
             if self.appear_then_click(ASH_ENTRANCE, offset=offset, interval=3):
+                confirm_timer.reset()
+                continue
+            if self._handle_ash_beacon_reward():
                 confirm_timer.reset()
                 continue
 
