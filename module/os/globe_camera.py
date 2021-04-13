@@ -29,7 +29,7 @@ class GlobeCamera(GlobeOperation, ZoneManager):
         center = self.camera_to_zone(self.globe.center_loca)
         logger.attr('Globe_center', center)
 
-    def globe_swipe(self, vector, box=(0, 80, 1280, 720)):
+    def globe_swipe(self, vector, box=(0, 200, 1000, 620)):
         """
         Args:
             vector (tuple, np.ndarray): float
@@ -98,7 +98,7 @@ class GlobeCamera(GlobeOperation, ZoneManager):
         button = Button(area=area, color=(), button=area, name=f'ZONE_{zone.zone_id}')
         return button
 
-    def globe_in_sight(self, zone, swipe_limit=(620, 340), sight=(50, 50, 1230, 670)):
+    def globe_in_sight(self, zone, swipe_limit=(620, 340), sight=(0, 200, 1000, 620)):
         """
         Args:
             zone (str, int, Zone): Name in CN/EN/JP, zone id, or Zone instance.

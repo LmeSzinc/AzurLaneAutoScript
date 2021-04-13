@@ -20,23 +20,18 @@ class OperationSiren(OSMap):
         if self.is_in_map():
             logger.info('Already in os map')
         elif self.ui_page_appear(page_os):
-            if not self.is_zone_pinned():
-                self.ui_goto_main()
-                self.ui_goto(page_os, skip_first_screenshot=True)
-
-            self.ui_click(ZONE_ENTRANCE, appear_button=self.is_zone_pinned, check_button=self.is_in_map,
-                          skip_first_screenshot=True)
-        elif self.is_in_globe():
-            self.ui_click(IN_GLOBE, check_button=self.is_in_map, skip_first_screenshot=True)
+            if self.is_in_globe():
+                self.os_globe_goto_map()
+                # Zone header has an animation to show.
+                self.device.sleep(0.3)
+                self.device.screenshot()
+        else:
+            self.ui_ensure(page_os)
             # Zone header has an animation to show.
             self.device.sleep(0.3)
             self.device.screenshot()
-        else:
-            self.ui_ensure(page_os)
-            self.ui_click(ZONE_ENTRANCE, appear_button=self.is_zone_pinned, check_button=self.is_in_map,
-                          skip_first_screenshot=True)
 
-        self.map_init()
+        # self.map_init()
 
     def os_port_daily(self, mission=True, supply=True):
         """
@@ -65,6 +60,7 @@ class OperationSiren(OSMap):
             port = self.name_to_zone(port)
             logger.hr(f'OS port daily in {port}', level=2)
             self.globe_goto(port)
+            self.map_init()
             self.port_goto()
             self.port_enter()
             if mission and mission_success:

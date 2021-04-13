@@ -134,23 +134,20 @@ class OSMap(OSFleet, Map, GlobeCamera):
         logger.hr(f'Globe goto: {zone}')
         # IN_MAP
         if self.is_in_map():
-            self.map_init()
-            button = self._get_map_outside_button()
-            self.ui_click(button,
-                          appear_button=self.is_in_map, check_button=self.is_zone_pinned, skip_first_screenshot=True)
+            self.os_map_goto_globe()
         # IN_GLOBE
         if not self.is_in_globe():
             logger.warning('Trying to move in globe, but not in os globe map')
             raise ScriptError('Trying to move in globe, but not in os globe map')
-        self.ensure_no_zone_pinned()
         self.globe_update()
         self.globe_focus_to(zone)
         self.zone_type_select(types=types)
         self.ui_click(ZONE_ENTRANCE, appear_button=self.is_zone_pinned, check_button=self.is_in_map,
                       skip_first_screenshot=True, additional=self.handle_map_event)
         # IN_MAP
-        del self.zone
-        self.map_init()
+        if hasattr(self, 'zone'):
+            del self.zone
+        # self.map_init()
 
     def fleet_repair(self, revert=True):
         """
@@ -165,6 +162,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
             logger.info('Already in azur lane port')
         else:
             self.globe_goto(self.zone_nearest_azur_lane_port(self.zone))
+            self.map_init()
 
         self.port_goto()
         self.port_enter()

@@ -3,6 +3,7 @@ from module.base.utils import *
 from module.logger import logger
 from module.map_detection.utils import *
 from module.os.assets import *
+from module.os_handler.map_event import MapEventHandler
 from module.ui.ui import UI
 
 ZONE_TYPES = [ZONE_DANGEROUS, ZONE_SAFE, ZONE_OBSCURED, ZONE_LOGGER, ZONE_STRONGHOLD]
@@ -10,9 +11,9 @@ ZONE_SELECT = [SELECT_DANGEROUS, SELECT_SAFE, SELECT_OBSCURE, SELECT_LOGGER, SEL
 ASSETS_PINNED_ZONE = ZONE_TYPES + [ZONE_ENTRANCE, ZONE_SWITCH, ZONE_PINNED]
 
 
-class GlobeOperation(UI):
+class GlobeOperation(UI, MapEventHandler):
     def is_in_globe(self):
-        return self.appear(IN_GLOBE, offset=(20, 20))
+        return self.appear(GLOBE_GOTO_MAP, offset=(20, 20))
 
     def get_zone_pinned(self):
         """
@@ -152,3 +153,21 @@ class GlobeOperation(UI):
 
         logger.warning('Failed to select zone type after 3 trial')
         return False
+
+    def os_globe_goto_map(self, skip_first_screenshot=True):
+        """
+        Pages:
+            in: is_in_globe
+            out: is_in_map
+        """
+        return self.ui_click(GLOBE_GOTO_MAP, check_button=self.is_in_map, offset=(200, 5),
+                             skip_first_screenshot=skip_first_screenshot)
+
+    def os_map_goto_globe(self, skip_first_screenshot=True):
+        """
+        Pages:
+            in: is_in_map
+            out: is_in_globe
+        """
+        self.ui_click(MAP_GOTO_GLOBE, check_button=self.is_in_globe, offset=(200, 5),
+                      skip_first_screenshot=skip_first_screenshot)
