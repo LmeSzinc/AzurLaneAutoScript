@@ -1,9 +1,10 @@
 from module.base.timer import Timer
-from module.base.utils import color_bar_percentage
+from module.base.utils import color_bar_percentage, area_offset, get_color
 from module.combat.combat import Combat, BATTLE_PREPARATION, GET_ITEMS_1
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
 from module.os_ash.assets import *
+from module.os.assets import MAP_OVERVIEW
 from module.os_handler.assets import IN_MAP
 from module.ui.assets import BACK_ARROW
 from module.ui.page import page_os
@@ -76,6 +77,29 @@ class OSAsh(UI):
     def is_in_map(self):
         return self.appear(IN_MAP, offset=(200, 5))
 
+    def _ash_beacon_enter_from_map(self, offset=(200, 5), skip_first_screenshot=True):
+        confirm_timer = Timer(1.5, count=3).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear_then_click(MAP_OVERVIEW, offset=offset, interval=3):
+                confirm_timer.reset()
+                continue
+
+            if self.appear_then_click(ASH_ENTRANCE, offset=offset, interval=3):
+                confirm_timer.reset()
+                continue
+
+            # End
+            if self.is_in_ash():
+                if confirm_timer.reached():
+                    break
+            else:
+                confirm_timer.reset()
+
     def _ash_beacon_select(self, tier=15, trial=5):
         """
         Args:
@@ -125,7 +149,7 @@ class OSAsh(UI):
         ash_combat = AshCombat(self.config, self.device)
         entrance_offset = (200, 5)
         self.ui_ensure(page_os)
-        self.ui_click(ASH_ENTRANCE, check_button=self.is_in_ash, offset=entrance_offset, skip_first_screenshot=True)
+        self._ash_beacon_enter_from_map(offset=entrance_offset, skip_first_screenshot=True)
 
         for _ in range(4):
             SWITCH_BEACON.set('list', main=self)

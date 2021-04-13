@@ -77,7 +77,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             if fleet_timer.reached() and self.appear(FLEET_PREPARATION):
                 if self.config.ENABLE_FLEET_CONTROL:
                     if mode == 'normal' or mode == 'hard':
-                        self.handle_2x_book_setting()
+                        self.handle_2x_book_setting(mode='prep')
                         self.fleet_preparation()
                         self.handle_auto_search_setting()
                         self.handle_auto_search_emotion_wait()
