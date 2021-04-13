@@ -135,6 +135,19 @@ class Button:
 
         return similarity > threshold
 
+    def match_appear_on(self, image, threshold=10):
+        """
+        Args:
+            image: Screenshot.
+            threshold: Default to 10.
+
+        Returns:
+            bool:
+        """
+        diff = np.subtract(self.button, self._button)[:2]
+        area = area_offset(self.area, offset=diff)
+        return color_similar(color1=get_color(image, area), color2=self.color, threshold=threshold)
+
 
 class ButtonGrid:
     def __init__(self, origin, delta, button_shape, grid_shape, name=None):

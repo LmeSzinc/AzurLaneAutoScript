@@ -1,10 +1,10 @@
-from module.exception import ScriptError
+from module.exception import CampaignEnd
 from module.logger import logger
 from module.map.map import Map
 from module.map.map_grids import SelectedGrids
-from module.os.assets import *
 from module.os.fleet import OSFleet
 from module.os.globe_camera import GlobeCamera
+from module.ui.assets import OS_CHECK
 
 
 class OSMap(OSFleet, Map, GlobeCamera):
@@ -116,58 +116,30 @@ class OSMap(OSFleet, Map, GlobeCamera):
         self.map_init()
         self.full_clear()
 
-    def globe_goto(self, zone, types=('SAFE', 'DANGEROUS')):
-        """
-        Goto another zone in OS.
+    def os_auto_search_daemon(self):
+        logger.hr('OS auto search', level=2)
+        while 1:
+            self.device.screenshot()
 
-        Args:
-            zone (str, int, Zone): Name in CN/EN/JP, zone id, or Zone instance.
-            types (tuple[str], list[str], str): Zone types, or a list of them.
-                Available types: DANGEROUS, SAFE, OBSCURE, LOGGER, STRONGHOLD.
-                Try the the first selection in type list, if not available, try the next one.
+            if self.is_in_map():
+                self.device.stuck_record_clear()
+            if self.combat_appear():
+                self.auto_search_combat()
+            if self.handle_os_auto_search_map_option():
+                continue
+            if self.handle_ash_popup():
+                continue
 
-        Pages:
-            in: IN_MAP or IN_GLOBE
-            out: IN_MAP
-        """
-        zone = self.name_to_zone(zone)
-        logger.hr(f'Globe goto: {zone}')
-        # IN_MAP
-        if self.is_in_map():
-            self.os_map_goto_globe()
-        # IN_GLOBE
-        if not self.is_in_globe():
-            logger.warning('Trying to move in globe, but not in os globe map')
-            raise ScriptError('Trying to move in globe, but not in os globe map')
-        self.globe_update()
-        self.globe_focus_to(zone)
-        self.zone_type_select(types=types)
-        self.ui_click(ZONE_ENTRANCE, appear_button=self.is_zone_pinned, check_button=self.is_in_map,
-                      skip_first_screenshot=True, additional=self.handle_map_event)
-        # IN_MAP
-        if hasattr(self, 'zone'):
-            del self.zone
-        # self.map_init()
+    def run_auto_search(self):
+        for _ in range(3):
+            try:
+                self.os_auto_search_daemon()
+            except CampaignEnd:
+                logger.info('Get OS auto search reward')
+                self.wait_until_appear(OS_CHECK, offset=(20, 20))
+                logger.info('OS auto search finished')
 
-    def fleet_repair(self, revert=True):
-        """
-        Repair fleets in nearest port.
-
-        Args:
-            revert (bool): If go back to previous zone.
-        """
-        logger.hr('OS fleet repair')
-        prev = self.zone
-        if self.zone_is_azur_lane_port(self.zone):
-            logger.info('Already in azur lane port')
-        else:
-            self.globe_goto(self.zone_nearest_azur_lane_port(self.zone))
-            self.map_init()
-
-        self.port_goto()
-        self.port_enter()
-        self.port_dock_repair()
-        self.port_quit()
-
-        if revert and prev != self.zone:
-            self.globe_goto(prev)
+            if self.handle_ash_beacon_attack():
+                continue
+            else:
+                break

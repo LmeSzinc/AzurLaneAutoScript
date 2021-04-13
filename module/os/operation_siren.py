@@ -1,5 +1,6 @@
 import numpy as np
 
+from module.exception import ScriptError
 from module.logger import logger
 from module.os.assets import *
 from module.os.map import OSMap
@@ -32,6 +33,62 @@ class OperationSiren(OSMap):
             self.device.screenshot()
 
         # self.map_init()
+
+    def globe_goto(self, zone, types=('SAFE', 'DANGEROUS')):
+        """
+        Goto another zone in OS.
+
+        Args:
+            zone (str, int, Zone): Name in CN/EN/JP, zone id, or Zone instance.
+            types (tuple[str], list[str], str): Zone types, or a list of them.
+                Available types: DANGEROUS, SAFE, OBSCURE, LOGGER, STRONGHOLD.
+                Try the the first selection in type list, if not available, try the next one.
+
+        Pages:
+            in: IN_MAP or IN_GLOBE
+            out: IN_MAP
+        """
+        zone = self.name_to_zone(zone)
+        logger.hr(f'Globe goto: {zone}')
+        # IN_MAP
+        if self.is_in_map():
+            self.os_map_goto_globe()
+        # IN_GLOBE
+        if not self.is_in_globe():
+            logger.warning('Trying to move in globe, but not in os globe map')
+            raise ScriptError('Trying to move in globe, but not in os globe map')
+        self.globe_update()
+        self.globe_focus_to(zone)
+        self.zone_type_select(types=types)
+        self.ui_click(ZONE_ENTRANCE, appear_button=self.is_zone_pinned, check_button=self.is_in_map,
+                      skip_first_screenshot=True, additional=self.handle_map_event)
+        # IN_MAP
+        if hasattr(self, 'zone'):
+            del self.zone
+        # self.map_init()
+
+    def fleet_repair(self, revert=True):
+        """
+        Repair fleets in nearest port.
+
+        Args:
+            revert (bool): If go back to previous zone.
+        """
+        logger.hr('OS fleet repair')
+        prev = self.zone
+        if self.zone_is_azur_lane_port(self.zone):
+            logger.info('Already in azur lane port')
+        else:
+            self.globe_goto(self.zone_nearest_azur_lane_port(self.zone))
+            self.map_init()
+
+        self.port_goto()
+        self.port_enter()
+        self.port_dock_repair()
+        self.port_quit()
+
+        if revert and prev != self.zone:
+            self.globe_goto(prev)
 
     def os_port_daily(self, mission=True, supply=True):
         """
