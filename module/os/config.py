@@ -16,7 +16,7 @@ class OSConfig:
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 40),
         'width': (1.5, 10),
-        'prominence': 10,
+        'prominence': 35,
         'distance': 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
