@@ -14,6 +14,7 @@ class OSCampaignRun(OSMapOperation):
 
         config = self.config.merge(OSConfig())
         self.campaign = OperationSiren(config=config, device=self.device)
+        self.campaign.os_init()
 
         self.campaign_loaded = True
         return True

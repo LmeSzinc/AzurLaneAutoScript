@@ -20,18 +20,20 @@ class OperationSiren(OSMap):
         self.device.screenshot()
         if self.is_in_map():
             logger.info('Already in os map')
-        elif self.ui_page_appear(page_os):
-            if self.is_in_globe():
-                self.os_globe_goto_map()
-                # Zone header has an animation to show.
-                self.device.sleep(0.3)
-                self.device.screenshot()
+        elif self.is_in_globe():
+            self.os_globe_goto_map()
+            # Zone header has an animation to show.
+            self.device.sleep(0.3)
+            self.device.screenshot()
         else:
+            if self.ui_page_appear(page_os):
+                self.ui_goto_main()
             self.ui_ensure(page_os)
             # Zone header has an animation to show.
             self.device.sleep(0.3)
             self.device.screenshot()
 
+        self.get_current_zone()
         # self.map_init()
 
     def globe_goto(self, zone, types=('SAFE', 'DANGEROUS')):
@@ -65,6 +67,7 @@ class OperationSiren(OSMap):
         # IN_MAP
         if hasattr(self, 'zone'):
             del self.zone
+        self.get_current_zone()
         # self.map_init()
 
     def fleet_repair(self, revert=True):
@@ -129,3 +132,17 @@ class OperationSiren(OSMap):
                 return False
 
         return True
+
+    def os_finish_daily_mission(self):
+        """
+        Finish all daily mission in Operation Siren.
+        Suggest to run os_port_daily to accept missions first.
+        """
+        logger.info('OS finish daily mission')
+        while 1:
+            zone = self.os_get_next_mission()
+            if zone is None:
+                break
+
+            self.globe_goto(zone)
+            self.run_auto_search()

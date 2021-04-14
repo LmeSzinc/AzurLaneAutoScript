@@ -135,6 +135,11 @@ class GlobeOperation(UI, MapEventHandler):
                         return sele
             return None
 
+        pinned = self.get_zone_pinned().name.split('_')[1]
+        if pinned in types:
+            logger.info(f'Already selected at {pinned}')
+            return True
+
         for _ in range(3):
             self.ui_click(ZONE_SWITCH, check_button=self.is_in_zone_select, skip_first_screenshot=True)
 

@@ -5,11 +5,12 @@ from module.logger import logger
 from module.map.map_operation import MapOperation
 from module.ocr.ocr import Ocr
 from module.os.assets import *
-from module.os.globe_zone import Zone, ZoneManager
+from module.os.globe_zone import Zone
+from module.os_handler.mission import MissionHandler
 from module.os_handler.port import PortHandler
 
 
-class OSMapOperation(MapOperation, PortHandler, ZoneManager):
+class OSMapOperation(MapOperation, MissionHandler, PortHandler):
     zone: Zone
 
     def is_meowfficer_searching(self):
