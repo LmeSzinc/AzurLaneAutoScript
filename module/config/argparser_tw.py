@@ -134,7 +134,7 @@ def main(ini_name=''):
     # 選擇關卡
     stage = setting_parser.add_argument_group('關卡設定', '需要執行一次來保存選項', gooey_options={'label_color': '#931D03'})
     stage.add_argument('--啟用彈窗提醒', default=default('--啟用彈窗提醒'), choices=['是', '否'], help='開啟彈窗提醒，僅windows10可用', gooey_options={'label_color': '#4B5F83'})
-    stage.add_argument('--啟用停止條件', default=default('--啟用停止條件'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    # stage.add_argument('--啟用停止條件', default=default('--啟用停止條件'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     stage.add_argument('--啟用異常處理', default=default('--啟用異常處理'), choices=['是', '否'], help='處理部分異常, 執行出錯時撤退', gooey_options={'label_color': '#4B5F83'})
     stage.add_argument('--使用周回模式', default=default('--使用周回模式'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     stage.add_argument('--enable_2x_book', default=default('--enable_2x_book'), choices=['是', '否'], help='Enable or disable 2x book (spends 2x oil/emotion for 2x item drops)', gooey_options={'label_color': '#4B5F83'})
