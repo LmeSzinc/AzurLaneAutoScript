@@ -11,6 +11,7 @@ class RadarGrid:
     is_question = False  # White question mark '?'
     is_ally = False  # Ally cargo ship in daily mission, yellow '!' on radar
     is_akashi = False  # White question mark '?'
+    is_port = False
 
     enemy_scale = 0
     enemy_genre = None  # Light, Main, Carrier, Treasure, Enemy(unknown)
@@ -23,7 +24,8 @@ class RadarGrid:
         'EX': 'is_exclamation',
         'ME': 'is_meowfficer',
         'QU': 'is_question',
-        'FL': 'is_fleet',
+        # 'FL': 'is_fleet',
+        'PO': 'is_port',
     }
 
     def __init__(self, location, image, center, config):
@@ -61,13 +63,15 @@ class RadarGrid:
         self.is_exclamation = False
         self.is_meowfficer = False
         self.is_question = False
+        self.is_port = False
+
         self.is_ally = False
         self.is_akashi = False
 
         self.enemy_scale = 0
         self.enemy_genre = None
 
-        self.is_fleet = False
+        # self.is_fleet = False
 
     def predict(self):
         if self.is_fleet:
@@ -77,6 +81,7 @@ class RadarGrid:
         self.is_resource = self.predict_resource()
         self.is_meowfficer = self.predict_meowfficer()
         self.is_exclamation = self.predict_exclamation()
+        self.is_port = self.predict_port()
 
         if self.enemy_genre:
             self.is_enemy = True
@@ -113,7 +118,7 @@ class RadarGrid:
         return self.image_color_count(area=(-3, -3, 3, 3), color=(66, 231, 165), threshold=221, count=10)
 
     def predict_meowfficer(self):
-        return self.image_color_count(area=(-3, -0, 3, 6), color=(33, 186, 255), threshold=221, count=10)
+        return self.image_color_count(area=(-3, 0, 3, 6), color=(33, 186, 255), threshold=221, count=10)
 
     def predict_exclamation(self):
         return self.image_color_count(area=(-3, -3, 3, 3), color=(255, 203, 49), threshold=221, count=10)
@@ -121,12 +126,15 @@ class RadarGrid:
     def predict_boss(self):
         return self.image_color_count(area=(-3, -3, 3, 3), color=(147, 12, 8), threshold=221, count=10)
 
+    def predict_port(self):
+        return self.image_color_count(area=(-3, -3, 3, 3), color=(255, 255, 255), threshold=235, count=10)
+
 
 class Radar:
     grids: dict
     center_loca = (0, 0)
 
-    def __init__(self, config, center=(1158, 226), delta=(11.7, 11.7), radius=5.15):
+    def __init__(self, config, center=(1140, 226), delta=(11.7, 11.7), radius=5.15):
         """
         Args:
             config:
