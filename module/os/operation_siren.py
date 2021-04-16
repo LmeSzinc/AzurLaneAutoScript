@@ -59,6 +59,7 @@ class OperationSiren(OSMap):
         if not self.is_in_globe():
             logger.warning('Trying to move in globe, but not in os globe map')
             raise ScriptError('Trying to move in globe, but not in os globe map')
+        self.ensure_no_zone_pinned()
         self.globe_update()
         self.globe_focus_to(zone)
         self.zone_type_select(types=types)

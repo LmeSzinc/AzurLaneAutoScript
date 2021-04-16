@@ -90,6 +90,11 @@ class MissionHandler(UI, MapEventHandler, ZoneManager):
             self.device.sleep(0.5)
             self.device.screenshot()
             zone = self.get_mission_zone()
+            if zone.zone_id == 154:
+                # Reconfirm if zone is [154|NA海域中心|NA OCEAN CENTRAL SECTOR|NA海域中心]
+                self.device.sleep(1)
+                self.device.screenshot()
+                zone = self.get_mission_zone()
             self.ui_click(MISSION_CHECKOUT, appear_button=MISSION_MAP_CHECK, check_button=MISSION_CHECK,
                           skip_first_screenshot=True)
             logger.info(f'OS mission in {zone}')

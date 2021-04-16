@@ -44,7 +44,9 @@ class GlobeOperation(UI, MapEventHandler):
             bool: If handled.
         """
         if self.is_zone_pinned():
-            self.device.click(ZONE_PINNED)
+            # A click does not disable pinned zone, a swipe does.
+            self.device.swipe((50, -50), box=area_pad(ZONE_PINNED.area, pad=-80), random_range=(-10, -10, 10, 10),
+                              padding=0, name='PINNED_DISABLE')
             return True
 
         return False
