@@ -49,7 +49,7 @@ dic_true_eng_to_eng = {
     'os_clear_map': 'os_clear_map',
 
     # Argument
-    'enable_notifications' : 'enable_notifications',
+    'enable_notifications': 'enable_notifications',
     'enable_stop_condition': 'enable_stop_condition',
     'enable_exception': 'enable_exception',
     'enable_fast_forward': 'enable_fast_forward',
@@ -185,6 +185,7 @@ dic_true_eng_to_eng = {
     'enable_os_ash_assist': 'enable_os_ash_assist',
     'tactical_training': 'daily_mission_1',
     'fierce_assault': 'daily_mission_2',
+    'supply_line_disruption': 'daily_mission_3',
     'escort_mission': 'daily_mission_4',
     'advance_mission': 'daily_mission_5',
     'daily_fleet': 'daily_fleet',
@@ -328,7 +329,7 @@ dic_chi_to_eng = {
     '大世界地图全清': 'os_clear_map',
 
     # Argument
-    '启用弹窗提醒' : 'enable_notifications',
+    '启用弹窗提醒': 'enable_notifications',
     '启用停止条件': 'enable_stop_condition',
     '启用异常处理': 'enable_exception',
     '使用周回模式': 'enable_fast_forward',
@@ -464,6 +465,7 @@ dic_chi_to_eng = {
     '打大世界余烬信标支援': 'enable_os_ash_assist',
     '战术研修': 'daily_mission_1',
     '斩首行动': 'daily_mission_2',
+    '破交作战': 'daily_mission_3',
     '商船护航': 'daily_mission_4',
     '海域突进': 'daily_mission_5',
     '每日舰队': 'daily_fleet',
@@ -607,7 +609,7 @@ dic_tchi_to_eng = {
     '大世界地圖全清': 'os_clear_map',
 
     # Argument
-    '啟用彈窗提醒' : 'enable_notifications',
+    '啟用彈窗提醒': 'enable_notifications',
     '啟用停止條件': 'enable_stop_condition',
     '啟用異常處理': 'enable_exception',
     '使用周回模式': 'enable_fast_forward',
@@ -743,6 +745,7 @@ dic_tchi_to_eng = {
     '打大世界餘燼信標支援': 'enable_os_ash_assist',
     '戰術研修': 'daily_mission_1',
     '斬首行動': 'daily_mission_2',
+    '破交作戰': 'daily_mission_3',
     '商船護航': 'daily_mission_4',
     '海域突進': 'daily_mission_5',
     '每日艦隊': 'daily_fleet',

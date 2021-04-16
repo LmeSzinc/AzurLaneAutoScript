@@ -670,7 +670,7 @@ class AzurLaneConfig:
             self.__setattr__(f'ENABLE_{n.upper()}', option[f'enable_{n}'])
         # Daily mission
         self.ENABLE_DAILY_MISSION = to_bool(option['enable_daily_mission'])
-        for n in [1, 2, 4, 5]:
+        for n in [1, 2, 3, 4, 5]:
             self.DAILY_CHOOSE[n] = dic_daily[option[f'daily_mission_{n}']]
         if option['daily_fleet'].isdigit():
             self.FLEET_DAILY = [int(option['daily_fleet'])] * 4 + [0]

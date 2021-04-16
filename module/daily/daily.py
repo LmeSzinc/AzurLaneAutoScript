@@ -92,6 +92,11 @@ class Daily(Reward, DailyEquipment):
             result = self.daily_enter(button)
             if not result:
                 break
+            if self.daily_current == 3:
+                logger.info('Submarine daily skip not unlocked, skip')
+                self.ui_click(click_button=BACK_ARROW, check_button=daily_enter_check, skip_first_screenshot=True)
+                break
+            # Execute classic daily run
             self.ui_ensure_index(fleet, letter=OCR_DAILY_FLEET_INDEX, prev_button=DAILY_FLEET_PREV,
                                  next_button=DAILY_FLEET_NEXT, fast=False, skip_first_screenshot=True)
             self.combat(emotion_reduce=False, save_get_items=False, expected_end=daily_end, balance_hp=False)
@@ -177,12 +182,12 @@ class Daily(Reward, DailyEquipment):
             # 1 战术研修, 2 斩首行动, 3 破交作战, 4 商船护送, 5 海域突进
             if self.daily_current > 5:
                 break
-            if self.daily_current == 3:
-                logger.info('Skip submarine daily.')
-                self.daily_check()
-                self.next()
-                continue
-            if not fleets[self.daily_current]:
+            # if self.daily_current == 3:
+            #     logger.info('Skip submarine daily.')
+            #     self.daily_check()
+            #     self.next()
+            #     continue
+            if not fleets[self.daily_current] and self.daily_current != 3:
                 logger.info(f'No fleet set on daily_current: {self.daily_current}, skip')
                 self.daily_check()
                 self.next()
