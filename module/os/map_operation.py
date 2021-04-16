@@ -63,7 +63,7 @@ class OSMapOperation(MapOperation, MissionHandler, PortHandler):
     @Config.when(SERVER=None)
     def get_zone_name(self):
         # For CN only
-        ocr = Ocr(MAP_NAME, lang='cnocr', letter=(235, 235, 235), threshold=160, name='OCR_OS_MAP_NAME')
+        ocr = Ocr(MAP_NAME, lang='cnocr', letter=(214, 231, 255), threshold=127, name='OCR_OS_MAP_NAME')
         name = ocr.ocr(self.device.image)
         if '-' in name:
             name = name.split('-')[0]

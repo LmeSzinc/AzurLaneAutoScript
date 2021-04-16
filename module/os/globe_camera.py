@@ -2,7 +2,7 @@ from module.base.timer import Timer
 from module.base.utils import *
 from module.logger import logger
 from module.os.assets import *
-from module.os.globe_detection import GlobeDetection
+from module.os.globe_detection import GlobeDetection, GLOBE_MAP_SHAPE
 from module.os.globe_operation import GlobeOperation
 from module.os.globe_zone import Zone, ZoneManager
 
@@ -111,7 +111,11 @@ class GlobeCamera(GlobeOperation, ZoneManager):
             if point_in_area(self.globe2screen([zone.location])[0], area=sight):
                 break
 
-            vector = np.array(zone.location) - self.globe_camera
+            area = (400, 200, GLOBE_MAP_SHAPE[0] - 400, GLOBE_MAP_SHAPE[1] - 250)
+            loca = zone.location
+            loca = np.max([loca, area[:2]], axis=0)
+            loca = np.min([loca, area[2:]], axis=0)
+            vector = np.array(loca) - self.globe_camera
             swipe = tuple(np.min([np.abs(vector), swipe_limit], axis=0) * np.sign(vector))
             self.globe_swipe(swipe)
 
@@ -130,7 +134,7 @@ class GlobeCamera(GlobeOperation, ZoneManager):
         interval = Timer(2, count=2)
         while 1:
             if self.handle_zone_pinned():
-                self.device.screenshot()
+                self.globe_update()
                 continue
 
             self.globe_in_sight(zone)

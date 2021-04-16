@@ -4,6 +4,7 @@ from module.base.decorator import cached_property
 from module.exception import ScriptError
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
+from module.os.globe_detection import GLOBE_MAP_SHAPE
 from module.os.map_data import DIC_OS_MAP
 
 
@@ -41,7 +42,7 @@ class Zone:
         Convert coordinates in world_chapter_colormask.lua to os_globe_map.png
         """
         point = np.multiply(point, 1.25)
-        point = np.array((point[0], 1694 - point[1]))  # 1694 is the height of os_globe_map.png
+        point = np.array((point[0], GLOBE_MAP_SHAPE[1] - point[1]))  # 1694 is the height of os_globe_map.png
         return point
 
     def __str__(self):

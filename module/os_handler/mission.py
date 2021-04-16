@@ -1,6 +1,7 @@
 from module.base.timer import Timer
 from module.base.utils import *
 from module.logger import logger
+from module.os.globe_detection import GLOBE_MAP_SHAPE
 from module.os.globe_zone import Zone, ZoneManager
 from module.os_handler.assets import *
 from module.os_handler.map_event import MapEventHandler
@@ -29,7 +30,7 @@ class MissionHandler(UI, MapEventHandler, ZoneManager):
         point = np.mean(points, axis=0) + (0, -3)
         # Location of zone.
         # (2570, 1694) is the shape of os_globe_map.png
-        point *= np.array((2570, 1694)) / np.subtract(area[2:], area[:2])
+        point *= np.array(GLOBE_MAP_SHAPE) / np.subtract(area[2:], area[:2])
 
         zone = self.camera_to_zone(point)
         return zone
