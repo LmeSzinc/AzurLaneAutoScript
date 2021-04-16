@@ -1,7 +1,9 @@
 import numpy as np
 
+from module.base.decorator import cached_property
 from module.exception import ScriptError
 from module.logger import logger
+from module.map.map_grids import SelectedGrids
 from module.os.map_data import DIC_OS_MAP
 
 
@@ -22,10 +24,16 @@ class Zone:
     # 1 for upper-left, 2 for upper-right, 3 for bottom-left, 4 for bottom-right, 5 for center
     region: int
 
-    def __init__(self, data):
+    is_port: int
+    is_azur_port: int
+
+    def __init__(self, zone_id, data):
+        self.zone_id = zone_id
         self.__dict__.update(data)
         self.location = self.point_convert(self.area_pos)
         self.mission = self.point_convert(np.add(self.area_pos, self.offset_pos))
+        self.is_port = self.zone_id in [0, 1, 2, 3, 4, 5, 6, 7]
+        self.is_azur_port = self.zone_id in [0, 1, 2, 3]
 
     @staticmethod
     def point_convert(point):
@@ -51,21 +59,13 @@ class Zone:
 
 
 class ZoneManager:
-    _zone_loaded = False
-    _list_azur_lane_port = [0, 1, 2, 3]
-    zones = {}
-
-    def _load_zone_info(self):
-        if self._zone_loaded:
-            return False
-
-        self.zones = {}
-        for index, info in DIC_OS_MAP.items():
-            info['zone_id'] = index
-            self.zones[index] = Zone(info)
-
-        self._zone_loaded = True
-        return True
+    @cached_property
+    def zones(self):
+        """
+        Returns:
+            SelectedGrids:
+        """
+        return SelectedGrids([Zone(zone_id, info) for zone_id, info in DIC_OS_MAP.items()])
 
     def camera_to_zone(self, camera, region=None):
         """
@@ -76,13 +76,12 @@ class ZoneManager:
         Returns:
             Zone:
         """
-        self._load_zone_info()
         if region is None:
-            zones = list(self.zones.values())
+            zones = self.zones
         else:
-            zones = [z for z in self.zones.values() if z.region == region]
-        distance = np.linalg.norm(np.subtract([z.location for z in zones], camera), axis=1)
-        return zones[int(np.argmin(distance))]
+            zones = self.zones.select(region=region)
+        zones = zones.sort_by_camera_distance(camera=camera)
+        return zones[0]
 
     def name_to_zone(self, name):
         """
@@ -92,37 +91,25 @@ class ZoneManager:
         Returns:
             Zone:
         """
-        self._load_zone_info()
         if isinstance(name, Zone):
             return name
         elif isinstance(name, int):
-            return self.zones[name]
+            return self.zones.select(zone_id=name)[0]
         elif isinstance(name, str) and name.isdigit():
-            return self.zones[name]
+            return self.zones.select(zone_id=int(name))[0]
         else:
             def parse_name(n):
                 n = str(n).replace(' ', '').lower()
                 return n
 
             name = parse_name(name)
-            for zone in self.zones.values():
+            for zone in self.zones:
                 if name == parse_name(zone.cn) or name == parse_name(zone.en) or name == parse_name(zone.jp):
                     return zone
             logger.warning(f'Unable to find OS globe zone: {name}')
             raise ScriptError(f'Unable to find OS globe zone: {name}')
 
-    def zone_is_azur_lane_port(self, zone):
-        """
-        Args:
-            zone (str, int, Zone): Name in CN/EN/JP, zone id, or Zone instance.
-
-        Returns:
-            bool:
-        """
-        zone = self.name_to_zone(zone)
-        return zone.zone_id in self._list_azur_lane_port
-
-    def zone_nearest_azur_lane_port(self, zone):
+    def zone_nearest_azur_port(self, zone):
         """
         Args:
             zone (str, int, Zone): Name in CN/EN/JP, zone id, or Zone instance.
@@ -131,12 +118,23 @@ class ZoneManager:
             Zone:
         """
         zone = self.name_to_zone(zone)
-        ports = [self.name_to_zone(port) for port in self._list_azur_lane_port]
+        ports = self.zones.select(is_azur_port=True)
         # In same region
         for port in ports:
             if zone.region == port.region:
                 return port
         # In different region
-        distance = np.linalg.norm(np.subtract([port.location for port in ports], zone.location), axis=1)
-        port = ports[int(np.argmin(distance))]
-        return port
+        ports = ports.sort_by_camera_distance(camera=tuple(zone.location))
+        return ports[0]
+
+    def zone_select(self, **kwargs):
+        """
+        Similar to `self.zone.select(**kwargs)`, but delete zones in region 5.
+
+        Args:
+            **kwargs: Properties of zone.
+
+        Returns:
+            SelectedGrids: SelectedGrids containing zone objects.
+        """
+        return self.zones.select(**kwargs).delete(self.zones.select(region=5))

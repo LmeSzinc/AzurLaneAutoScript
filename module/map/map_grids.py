@@ -154,6 +154,26 @@ class SelectedGrids:
         grids = tuple(np.array(self.grids)[np.argsort(diff)])
         return SelectedGrids(grids)
 
+    def sort_by_clock_degree(self, center=(0, 0), start=(0, 1), clockwise=True):
+        """
+        Args:
+            center (tuple): Origin point.
+            start (tuple): Start coordinate, this point will be considered as theta=0.
+            clockwise (bool): True for clockwise, false for counterclockwise.
+
+        Returns:
+            SelectedGrids:
+        """
+        vector = np.subtract(self.location, center)
+        theta = np.arctan2(vector[:, 1], vector[:, 0]) / np.pi * 180
+        vector = np.subtract(start, center)
+        theta = theta - np.arctan2(vector[1], vector[0]) / np.pi * 180
+        if not clockwise:
+            theta = -theta
+        theta[theta < 0] += 360
+        grids = tuple(np.array(self.grids)[np.argsort(theta)])
+        return SelectedGrids(grids)
+
 
 class RoadGrids:
     def __init__(self, grids):

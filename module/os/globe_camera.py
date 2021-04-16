@@ -16,7 +16,6 @@ class GlobeCamera(GlobeOperation, ZoneManager):
         Call this method before doing anything.
         """
         if not hasattr(self, 'globe'):
-            self._load_zone_info()
             self.globe = GlobeDetection(self.config)
             self.globe.load_globe_map()
 

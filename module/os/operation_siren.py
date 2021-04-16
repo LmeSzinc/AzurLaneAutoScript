@@ -2,6 +2,7 @@ import numpy as np
 
 from module.exception import ScriptError
 from module.logger import logger
+from module.map.map_grids import SelectedGrids
 from module.os.assets import *
 from module.os.map import OSMap
 from module.ui.ui import page_os
@@ -80,10 +81,10 @@ class OperationSiren(OSMap):
         """
         logger.hr('OS fleet repair')
         prev = self.zone
-        if self.zone_is_azur_lane_port(self.zone):
-            logger.info('Already in azur lane port')
+        if self.zone.is_azur_port:
+            logger.info('Already in azur port')
         else:
-            self.globe_goto(self.zone_nearest_azur_lane_port(self.zone))
+            self.globe_goto(self.zone_nearest_azur_port(self.zone))
 
         self.port_goto2()
         self.port_enter()
@@ -137,11 +138,26 @@ class OperationSiren(OSMap):
         Finish all daily mission in Operation Siren.
         Suggest to run os_port_daily to accept missions first.
         """
-        logger.info('OS finish daily mission')
+        logger.hr('OS finish daily mission', level=1)
         while 1:
             zone = self.os_get_next_mission()
             if zone is None:
                 break
 
             self.globe_goto(zone)
+            self.run_auto_search()
+
+    def os_meowfficer_farming(self, hazard_level=5):
+        """
+        Args:
+            hazard_level (int): 1 to 6. Recommend 3 or 5 for higher meowfficer searching point per action points.
+        """
+        logger.hr(f'OS meowfficer farming, hazard_level={hazard_level}', level=1)
+        while 1:
+            # (1252, 1012) is the coordinate of zone 134 (the center zone) in os_globe_map.png
+            zones = self.zone_select(hazard_level=hazard_level) \
+                .delete(SelectedGrids([self.zone])) \
+                .sort_by_clock_degree(center=(1252, 1012), start=self.zone.location)
+
+            self.globe_goto(zones[0])
             self.run_auto_search()
