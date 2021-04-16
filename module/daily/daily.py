@@ -132,8 +132,12 @@ class Daily(Reward, DailyEquipment):
             if self.handle_get_items(save_get_items=False):
                 reward_received = True
                 continue
-            if self.appear_then_click(DAILY_SKIP, offset=(20, 20), interval=5):
-                continue
+            if self.config.USE_DAILY_SKIP:
+                if self.appear_then_click(DAILY_SKIP, offset=(20, 20), interval=5):
+                    continue
+            else:
+                if self.appear_then_click(DAILY_NORMAL_RUN, offset=(20, 20), interval=5):
+                    continue
             if self.handle_combat_automation_confirm():
                 continue
             if self.handle_daily_additional():

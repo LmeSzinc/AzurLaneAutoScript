@@ -417,7 +417,9 @@ def main(ini_name=''):
                        help='If there is a record after refreshing, skip', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
 
     # 每日设置
-    daily_task = daily_parser.add_argument_group('Daily settings', 'Use daily skip if available, if daily skip not unlocked, run as normal', gooey_options={'label_color': '#931D03'})
+    daily_task = daily_parser.add_argument_group('Daily settings', '', gooey_options={'label_color': '#931D03'})
+    daily_task.add_argument('--use_daily_skip', default=default('--use_daily_skip'), help='Use daily skip if available',
+                            choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
     daily_task.add_argument('--tactical_training', default=default('--tactical_training'),
                             choices=['daily_air', 'daily_gun', 'daily_torpedo'], gooey_options={'label_color': '#4B5F83'})
     daily_task.add_argument('--fierce_assault', default=default('--fierce_assault'),

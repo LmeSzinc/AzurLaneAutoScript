@@ -371,7 +371,8 @@ def main(ini_name=''):
     daily.add_argument('--打大世界余烬信标支援', default=default('--打大世界余烬信标支援'), help='若当天有记录, 则跳过', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
 
     # 每日设置
-    daily_task = daily_parser.add_argument_group('每日设置', '解锁每日扫荡后使用扫荡, 未解锁时正常出击', gooey_options={'label_color': '#931D03'})
+    daily_task = daily_parser.add_argument_group('每日设置', '', gooey_options={'label_color': '#931D03'})
+    daily_task.add_argument('--使用每日扫荡', default=default('--使用每日扫荡'), help='每日扫荡可用时使用扫荡', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     daily_task.add_argument('--战术研修', default=default('--战术研修'), choices=['航空', '炮击', '雷击'], gooey_options={'label_color': '#4B5F83'})
     daily_task.add_argument('--斩首行动', default=default('--斩首行动'), choices=['第一个', '第二个', '第三个'], gooey_options={'label_color': '#4B5F83'})
     daily_task.add_argument('--破交作战', default=default('--破交作战'), choices=['第一个', '第二个', '第三个'], help='需要解锁扫荡, 未解锁时跳过', gooey_options={'label_color': '#4B5F83'})
