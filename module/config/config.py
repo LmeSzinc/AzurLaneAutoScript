@@ -171,6 +171,7 @@ class AzurLaneConfig:
     module.daily
     """
     ENABLE_DAILY_MISSION = True
+    USE_DAILY_SKIP = True
     # Order of FLEET_DAILY
     # 0 商船护送, 1 海域突进, 2 斩首行动, 3 战术研修, 4 破交作战
     # 0 Escort Mission, 1 Advance Mission, 2 Fierce Assault, 3 Tactical Training, 4 Supply Line Disruption
@@ -670,6 +671,7 @@ class AzurLaneConfig:
             self.__setattr__(f'ENABLE_{n.upper()}', option[f'enable_{n}'])
         # Daily mission
         self.ENABLE_DAILY_MISSION = to_bool(option['enable_daily_mission'])
+        self.USE_DAILY_SKIP = to_bool(option['use_daily_skip'])
         for n in [1, 2, 3, 4, 5]:
             self.DAILY_CHOOSE[n] = dic_daily[option[f'daily_mission_{n}']]
         if option['daily_fleet'].isdigit():
