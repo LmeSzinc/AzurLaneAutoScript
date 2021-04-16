@@ -83,9 +83,8 @@ class OperationSiren(OSMap):
             logger.info('Already in azur lane port')
         else:
             self.globe_goto(self.zone_nearest_azur_lane_port(self.zone))
-            self.map_init()
 
-        self.port_goto()
+        self.port_goto2()
         self.port_enter()
         self.port_dock_repair()
         self.port_quit()
@@ -120,8 +119,7 @@ class OperationSiren(OSMap):
             port = self.name_to_zone(port)
             logger.hr(f'OS port daily in {port}', level=2)
             self.globe_goto(port)
-            self.map_init()
-            self.port_goto()
+            self.port_goto2()
             self.port_enter()
             if mission and mission_success:
                 mission_success &= self.port_mission_accept()

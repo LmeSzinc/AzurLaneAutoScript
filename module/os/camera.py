@@ -1,6 +1,7 @@
 import numpy as np
 
 from module.base.button import Button
+from module.base.decorator import cached_property
 from module.logger import logger
 from module.map.camera import Camera
 from module.map.map_base import location_ensure
@@ -75,3 +76,25 @@ class OSCamera(OSMapOperation, Camera):
 
             button = Button(area=area, color=(), button=area, name='MAP_OUTSIDE')
             return button
+
+    @cached_property
+    def os_default_view(self):
+        """
+        Returns:
+            View:
+        """
+        def empty(*args, **kwargs):
+            pass
+
+        storage = ((10, 7), [(110.307, 103.657), (1012.311, 103.657), (-32.959, 600.567), (1113.057, 600.567)])
+        view = View(self.config, mode='os')
+        view.detector_set_backend('homography')
+        view.backend.load_homography(storage=storage)
+        view.backend.load = empty
+        view.backend.left_edge = None
+        view.backend.right_edge = None
+        view.backend.upper_edge = None
+        view.backend.lower_edge = None
+        view.backend.homo_loca = (53, 60)
+
+        return view

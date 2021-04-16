@@ -1,11 +1,13 @@
 import numpy as np
 
+from module.base.timer import Timer
 from module.logger import logger
 from module.map.fleet import Fleet
 from module.map.map_grids import SelectedGrids
 from module.map.utils import location_ensure
 from module.os.camera import OSCamera
 from module.os.map_base import OSCampaignMap
+from module.os.radar import Radar
 from module.os_ash.ash import OSAsh
 from module.os_combat.combat import Combat
 
@@ -151,7 +153,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         Should be called in Azur Lane ports only. Shouldn't be called in Red Axis ports or zones with enemies.
 
         Args:
-            skip_init:
+            init:
 
         Returns:
             bool: If executed.
@@ -171,3 +173,39 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         grids = self.map.grid_covered(port, location=list_surround).sort_by_camera_distance(self.camera)
         self.goto(grids[0])
         return True
+
+    def port_goto2(self):
+        """
+        A simple and poor implement to goto port. Searching port on radar.
+
+        In OpSi, camera always focus to fleet when fleet is moving which mess up `self.goto()`.
+        In most situation, we use auto search to clear a map in OpSi, and classic methods are deprecated.
+        But we still need to move fleet toward port, this method is for this situation.
+        """
+        if not hasattr(self, 'radar'):
+            self.radar = Radar(self.config)
+        view = self.os_default_view
+
+        while 1:
+            port = self.radar.port_predict(self.device.image)
+            view.load(self.device.image)
+            logger.info(f'Port route at {port}')
+            if np.linalg.norm(port) == 0:
+                logger.info('Arrive port')
+                break
+
+            port = view[np.add(port, view.center_loca)]
+            self.device.click(port)
+            prev = (0, 0)
+            confirm_timer = Timer(1, count=2).start()
+            while 1:
+                self.device.screenshot()
+
+                self.radar.port_predict(self.device.image)
+                if np.linalg.norm(np.subtract(self.radar.port_loca, prev)) < 1:
+                    if confirm_timer.reached():
+                        break
+                else:
+                    confirm_timer.reset()
+
+                prev = self.radar.port_loca
