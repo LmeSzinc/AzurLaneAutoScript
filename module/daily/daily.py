@@ -19,7 +19,6 @@ RECORD_SINCE = (0,)
 class Daily(Reward, DailyEquipment):
     daily_current: int
     daily_checked: list
-    daily_auto_checked = False
 
     def is_active(self):
         color = get_color(image=self.device.image, area=DAILY_ACTIVE.area)
@@ -49,6 +48,12 @@ class Daily(Reward, DailyEquipment):
         self._wait_daily_switch()
         self.device.screenshot()
 
+    def handle_daily_additional(self):
+        if self.handle_guild_popup_cancel():
+            self.config.GUILD_POPUP_TRIGGERED = True
+            return True
+        return False
+
     def daily_execute(self, remain, fleet):
         """
         Args:
@@ -57,6 +62,10 @@ class Daily(Reward, DailyEquipment):
 
         Returns:
             bool: True if success, False if daily locked.
+
+        Pages:
+            in: page_daily
+            out: page_daily
         """
         logger.hr(f'Daily {self.daily_current}')
         logger.attr('Fleet', fleet)
@@ -69,13 +78,8 @@ class Daily(Reward, DailyEquipment):
                 self.device.click(BACK_ARROW)
             return self.appear(DAILY_ENTER_CHECK) or self.appear(BACK_ARROW)
 
-        def daily_additional():
-            if self.handle_guild_popup_cancel():
-                self.config.GUILD_POPUP_TRIGGERED = True
-                return True
-            return False
-
-        self.ui_click(click_button=DAILY_ENTER, check_button=daily_enter_check, appear_button=DAILY_CHECK)
+        self.ui_click(click_button=DAILY_ENTER, check_button=daily_enter_check, appear_button=DAILY_CHECK,
+                      skip_first_screenshot=True)
         if self.appear(DAILY_LOCKED):
             logger.info('Daily locked')
             self.ui_click(click_button=BACK_ARROW, check_button=DAILY_CHECK)
@@ -85,16 +89,66 @@ class Daily(Reward, DailyEquipment):
         button = DAILY_MISSION_LIST[self.config.DAILY_CHOOSE[self.daily_current] - 1]
         for n in range(remain):
             logger.hr(f'Count {n + 1}')
-            self.ui_click(click_button=button, check_button=self.combat_appear, appear_button=daily_enter_check,
-                          additional=self.handle_combat_automation_confirm if not self.daily_auto_checked else daily_additional)
-            self.daily_auto_checked = True
+            result = self.daily_enter(button)
+            if not result:
+                break
+            if self.daily_current == 3:
+                logger.info('Submarine daily skip not unlocked, skip')
+                self.ui_click(click_button=BACK_ARROW, check_button=daily_enter_check, skip_first_screenshot=True)
+                break
+            # Execute classic daily run
             self.ui_ensure_index(fleet, letter=OCR_DAILY_FLEET_INDEX, prev_button=DAILY_FLEET_PREV,
                                  next_button=DAILY_FLEET_NEXT, fast=False, skip_first_screenshot=True)
             self.combat(emotion_reduce=False, save_get_items=False, expected_end=daily_end, balance_hp=False)
 
-        self.ui_click(click_button=BACK_ARROW, check_button=DAILY_CHECK, additional=daily_additional)
+        self.ui_click(click_button=BACK_ARROW, check_button=DAILY_CHECK, additional=self.handle_daily_additional,
+                      skip_first_screenshot=True)
         self.device.sleep((1, 1.2))
         return True
+
+    def daily_enter(self, button, skip_first_screenshot=True):
+        """
+        Args:
+            button (Button): Daily entrance
+            skip_first_screenshot (bool):
+
+        Returns:
+            bool: True if combat appear. False if daily skip unlocked, skipped daily, received rewards.
+
+        Pages:
+            in: DAILY_ENTER_CHECK
+            out: DAILY_ENTER_CHECK or combat_appear
+        """
+        reward_received = False
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear(DAILY_ENTER_CHECK, interval=5):
+                self.device.click(button)
+                continue
+            if self.handle_get_items(save_get_items=False):
+                reward_received = True
+                continue
+            if self.appear_then_click(DAILY_SKIP, offset=(20, 20), interval=5):
+                continue
+            if self.handle_combat_automation_confirm():
+                continue
+            if self.handle_daily_additional():
+                continue
+            if self.handle_popup_confirm('DAILY_SKIP'):
+                continue
+
+            # End
+            if self.appear(DAILY_SKIP, offset=(20, 20)):
+                if reward_received:
+                    return False
+                if self.info_bar_count():
+                    return False
+            if self.combat_appear():
+                return True
 
     def daily_check(self, n=None):
         if not n:
@@ -128,12 +182,12 @@ class Daily(Reward, DailyEquipment):
             # 1 战术研修, 2 斩首行动, 3 破交作战, 4 商船护送, 5 海域突进
             if self.daily_current > 5:
                 break
-            if self.daily_current == 3:
-                logger.info('Skip submarine daily.')
-                self.daily_check()
-                self.next()
-                continue
-            if not fleets[self.daily_current]:
+            # if self.daily_current == 3:
+            #     logger.info('Skip submarine daily.')
+            #     self.daily_check()
+            #     self.next()
+            #     continue
+            if not fleets[self.daily_current] and self.daily_current != 3:
                 logger.info(f'No fleet set on daily_current: {self.daily_current}, skip')
                 self.daily_check()
                 self.next()
