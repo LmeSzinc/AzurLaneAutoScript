@@ -137,6 +137,7 @@ class ActionPointHandler(UI):
         current, _, _ = OCR_ACTION_POINT_BUY_REMAIN.ocr(self.device.image)
         if current == 0:
             logger.info('Reach the limit to buy action points this week')
+            return False
         cost = ACTION_POINTS_BUY[current]
         oil = self._action_point_amount[0]
         logger.info(f'Buy action points will cost {cost}, current oil: {oil}, preserve: {preserve}')
