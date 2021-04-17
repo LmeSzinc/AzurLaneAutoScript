@@ -521,9 +521,11 @@ class AzurLaneConfig:
 
     ENABLE_OS_ACTION_POINT_BUY = False
     OS_ACTION_POINT_PRESERVE = 200
+    # 1 to 6. Recommend 3 or 5 for higher meowfficer searching point per action points ratio.
+    ENABLE_OS_MEOWFFICER_FARMING_LEVEL = 5
     ENABLE_OS_AKASHI_SHOP_BUY = True
-    # action_point, purple_point, repair_box
-    OS_ASKSHI_SHOP_BUY_STRING = 'action_point > purple_point'
+    # ActionPoint, PurpleCoins, RepairPack, TuringSample
+    OS_ASKSHI_SHOP_BUY_STRING = 'ActionPoint > PurpleCoins'
 
     def create_folder(self):
         for folder in [self.ASSETS_FOLDER, self.PERSPECTIVE_ERROR_LOG_FOLDER, self.ERROR_LOG_FOLDER]:

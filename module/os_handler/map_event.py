@@ -8,22 +8,22 @@ from module.os_handler.enemy_searching import EnemySearchingHandler
 
 
 class MapEventHandler(EnemySearchingHandler):
-    def handle_map_get_items(self):
+    def handle_map_get_items(self, interval=2):
         if self.is_in_map():
             return False
 
-        if self.appear(GET_ITEMS_1, interval=2) \
-                or self.appear(GET_ITEMS_2, interval=2) \
-                or self.appear(GET_ITEMS_3, interval=2):
+        if self.appear(GET_ITEMS_1, interval=interval) \
+                or self.appear(GET_ITEMS_2, interval=interval) \
+                or self.appear(GET_ITEMS_3, interval=interval):
             self.device.click(CLICK_SAFE_AREA)
             return True
-        if self.appear(GET_ADAPTABILITY, interval=2):
+        if self.appear(GET_ADAPTABILITY, interval=interval):
             self.device.click(CLICK_SAFE_AREA)
             return True
-        if self.appear(GET_MEOWFFICER_ITEMS_1, interval=2):
+        if self.appear(GET_MEOWFFICER_ITEMS_1, interval=interval):
             self.device.click(CLICK_SAFE_AREA)
             return True
-        if self.appear(GET_MEOWFFICER_ITEMS_2, interval=2):
+        if self.appear(GET_MEOWFFICER_ITEMS_2, interval=interval):
             self.device.click(CLICK_SAFE_AREA)
             return True
 

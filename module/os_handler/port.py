@@ -1,6 +1,7 @@
 from module.base.timer import Timer
 from module.logger import logger
 from module.os_handler.assets import *
+from module.os_handler.shop import ShopHandler
 from module.ui.ui import UI
 
 # Azur Lane ports have PORT_GOTO_MISSION, PORT_GOTO_SUPPLY, PORT_GOTO_DOCK.
@@ -9,7 +10,7 @@ from module.ui.ui import UI
 PORT_CHECK = PORT_GOTO_SUPPLY
 
 
-class PortHandler(UI):
+class PortHandler(UI, ShopHandler):
     def port_enter(self, skip_first_screenshot=True):
         """
         Pages:
@@ -82,16 +83,24 @@ class PortHandler(UI):
         """
         Buy supply in port.
 
+        Returns:
+            bool: True if success to buy any or no items found.
+                False if not enough coins to buy any.
+
         Pages:
             in: PORT_CHECK
             out: PORT_CHECK
         """
         self.ui_click(PORT_GOTO_SUPPLY, appear_button=PORT_CHECK, check_button=PORT_SUPPLY_CHECK,
                       skip_first_screenshot=True)
+        # Port items has an animation to show
+        self.device.sleep(0.5)
+        self.device.screenshot()
 
-        pass
+        success = self.handle_port_supply_buy()
 
         self.ui_back(appear_button=PORT_SUPPLY_CHECK, check_button=PORT_CHECK, skip_first_screenshot=True)
+        return success
 
     def port_dock_repair(self):
         """
