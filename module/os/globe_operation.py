@@ -154,7 +154,8 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             return True
 
         for _ in range(3):
-            self.ui_click(ZONE_SWITCH, check_button=self.is_in_zone_select, skip_first_screenshot=True)
+            self.ui_click(ZONE_SWITCH, appear_button=self.is_zone_pinned, check_button=self.is_in_zone_select,
+                          skip_first_screenshot=True)
 
             selection = self.get_zone_select()
             logger.attr('Zone_selection', selection)
