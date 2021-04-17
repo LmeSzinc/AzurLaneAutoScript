@@ -16,7 +16,7 @@ auto_search.add_status('off', check_button=AUTO_SEARCH_OFF)
 book_prep = Switch('2x Book Prep', offset=(20, 20))
 book_prep.add_status('on', check_button=BOOK_ON_PREP)
 book_prep.add_status('off', check_button=BOOK_OFF_PREP)
-book_auto = Switch('2x Book Auto', offset=(20,20))
+book_auto = Switch('2x Book Auto', offset=(20, 20))
 book_auto.add_status('on', check_button=BOOK_ON_AUTO)
 book_auto.add_status('off', check_button=BOOK_OFF_AUTO)
 
@@ -46,7 +46,7 @@ class FastForwardHandler(AutoSearchHandler):
         self.map_is_clear = self.map_clear_percentage > 0.95
         self.map_is_3_star = self.map_achieved_star_1 and self.map_achieved_star_2 and self.map_achieved_star_3
         self.map_is_green = self.appear(MAP_GREEN)
-        self.map_has_fast_forward = self.map_is_3_star and self.map_is_green and fast_forward.appear(main=self)
+        self.map_has_fast_forward = self.map_is_clear and fast_forward.appear(main=self)
 
         # Override config
         if self.map_achieved_star_1:
