@@ -173,6 +173,9 @@ class ActionPointHandler(UI):
         if not self._is_in_action_point():
             return False
 
+        # AP boxes have an animation to show
+        self.device.sleep(0.3)
+        self.device.screenshot()
         cost = self.action_point_get_cost(zone, pinned)
         for _ in range(12):
             # End
