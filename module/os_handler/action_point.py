@@ -175,9 +175,10 @@ class ActionPointHandler(UI):
 
         # AP boxes have an animation to show
         self.device.sleep(0.3)
-        self.device.screenshot()
         cost = self.action_point_get_cost(zone, pinned)
         for _ in range(12):
+            self.device.screenshot()
+
             # End
             if self.action_point_get_current() < self.config.OS_ACTION_POINT_PRESERVE:
                 logger.info(f'Reach the limit of action points, preserve={self.config.OS_ACTION_POINT_PRESERVE}')
