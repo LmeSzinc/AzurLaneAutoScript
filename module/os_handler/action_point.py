@@ -134,11 +134,9 @@ class ActionPointHandler(UI):
             bool: If reach the limit to buy action points this week
         """
         self.action_point_set_button(0)
-        if not self.image_color_count(ACTION_POINT_BUY_REMAIN, color=(148, 251, 99), threshold=180, count=20):
-            logger.info('Reach the limit to buy action points this week')
-            return False
-
         current, _, _ = OCR_ACTION_POINT_BUY_REMAIN.ocr(self.device.image)
+        if current == 0:
+            logger.info('Reach the limit to buy action points this week')
         cost = ACTION_POINTS_BUY[current]
         oil = self._action_point_amount[0]
         logger.info(f'Buy action points will cost {cost}, current oil: {oil}, preserve: {preserve}')
