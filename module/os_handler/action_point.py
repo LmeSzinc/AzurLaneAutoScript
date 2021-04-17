@@ -8,8 +8,9 @@ from module.ui.assets import OS_CHECK
 from module.ui.ui import UI
 
 OCR_ACTION_POINT_REMAIN = Digit(ACTION_POINT_REMAIN, letter=(255, 219, 66), name='OCR_ACTION_POINT_REMAIN')
+# Letters in ACTION_POINT_BUY_REMAIN are not the numeric fonts usually used in azur lane.
 OCR_ACTION_POINT_BUY_REMAIN = DigitCounter(
-    ACTION_POINT_BUY_REMAIN, letter=(148, 251, 99), name='OCR_ACTION_POINT_BUY_REMAIN')
+    ACTION_POINT_BUY_REMAIN, letter=(148, 247, 99), lang='cnocr', name='OCR_ACTION_POINT_BUY_REMAIN')
 ACTION_POINT_GRID = ButtonGrid(
     origin=(323, 274), delta=(173, 0), button_shape=(115, 115), grid_shape=(4, 1), name='ACTION_POINT_GRID')
 ACTION_POINT_ITEMS = ItemGrid(ACTION_POINT_GRID, templates={}, amount_area=(43, 89, 113, 113))
