@@ -22,3 +22,7 @@ class OSCampaignRun(OSMapOperation):
     def run(self):
         self.load_campaign()
         self.campaign.run()
+
+    def run_operation_siren(self):
+        self.load_campaign()
+        self.campaign.operation_siren()

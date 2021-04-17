@@ -70,9 +70,9 @@ class ShopHandler(MapEventHandler):
         self.shop_get_coins()
         items = self.shop_get_items(name=True)
         try:
-            selection = self.config.OS_ASKSHI_SHOP_BUY_STRING.replace(' ', '').split('>')
+            selection = self.config.OS_ASKSHI_SHOP_PRIORITY.replace(' ', '').split('>')
         except Exception:
-            logger.warning(f'Invalid OS akashi buy filter string: {self.config.OS_ASKSHI_SHOP_BUY_STRING}')
+            logger.warning(f'Invalid OS akashi buy filter string: {self.config.OS_ASKSHI_SHOP_PRIORITY}')
             return None
 
         for select in selection:

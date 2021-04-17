@@ -47,6 +47,7 @@ dic_true_eng_to_eng = {
     'c12-4_leveling': 'c124_leveling',
     'os_semi_auto': 'os_semi_auto',
     'os_clear_map': 'os_clear_map',
+    'os_fully_auto': 'os_fully_auto',
 
     # Argument
     'enable_notifications': 'enable_notifications',
@@ -236,7 +237,18 @@ dic_true_eng_to_eng = {
     'ammo_pick_up_124': 'ammo_pick_up_124',
     'default_serial_list': 'default_serial_list',
     'enable_os_semi_story_skip': 'enable_os_semi_story_skip',
+    'do_os_in_daily': 'do_os_in_daily',
+    'enable_os_mission_accept': 'enable_os_mission_accept',
+    'enable_os_mission_finish': 'enable_os_mission_finish',
+    'enable_os_supply_buy': 'enable_os_supply_buy',
     'enable_os_ash_attack': 'enable_os_ash_attack',
+    'enable_os_obscure_finish': 'enable_os_obscure_finish',
+    'enable_os_meowfficer_farming': 'enable_os_meowfficer_farming',
+    'os_meowfficer_farming_level': 'os_meowfficer_farming_level',
+    'enable_os_action_point_buy': 'enable_os_action_point_buy',
+    'os_action_point_preserve': 'os_action_point_preserve',
+    'enable_os_akashi_shop_buy': 'enable_os_akashi_shop_buy',
+    'os_akashi_shop_priority': 'os_akashi_shop_priority',
 
     # Option
     'yes': 'yes',
@@ -328,6 +340,7 @@ dic_chi_to_eng = {
     '12-4打大型练级': 'c124_leveling',
     '大世界辅助点击': 'os_semi_auto',
     '大世界地图全清': 'os_clear_map',
+    '大世界全自动': 'os_fully_auto',
 
     # Argument
     '启用弹窗提醒': 'enable_notifications',
@@ -517,7 +530,18 @@ dic_chi_to_eng = {
     '拣弹药124': 'ammo_pick_up_124',
     '默认serial列表': 'default_serial_list',
     '大世界跳过剧情': 'enable_os_semi_story_skip',
+    '在每日中完成大世界': 'do_os_in_daily',
+    '大世界接每日任务': 'enable_os_mission_accept',
+    '大世界完成每日': 'enable_os_mission_finish',
+    '大世界港口补给': 'enable_os_supply_buy',
     '打大世界余烬信标': 'enable_os_ash_attack',
+    '打大世界隐秘海域': 'enable_os_obscure_finish',
+    '大世界短猫相接': 'enable_os_meowfficer_farming',
+    '短猫相接侵蚀等级': 'os_meowfficer_farming_level',
+    '大世界买行动力': 'enable_os_action_point_buy',
+    '大世界行动力保留': 'os_action_point_preserve',
+    '明石商店购买': 'enable_os_akashi_shop_buy',
+    '明石商店优先级': 'os_akashi_shop_priority',
 
     # Option
     '是': 'yes',
@@ -609,6 +633,7 @@ dic_tchi_to_eng = {
     '12-4打大型練級': 'c124_leveling',
     '大世界輔助點擊': 'os_semi_auto',
     '大世界地圖全清': 'os_clear_map',
+    '大世界全自動': 'os_fully_auto',
 
     # Argument
     '啟用彈窗提醒': 'enable_notifications',
@@ -798,7 +823,18 @@ dic_tchi_to_eng = {
     '撿彈藥124': 'ammo_pick_up_124',
     '默認serial列表': 'default_serial_list',
     '大世界跳過劇情': 'enable_os_semi_story_skip',
+    '在每日中完成大世界': 'do_os_in_daily',
+    '大世界接每日任務': 'enable_os_mission_accept',
+    '大世界完成每日': 'enable_os_mission_finish',
+    '大世界港口補給': 'enable_os_supply_buy',
     '打大世界餘燼信標': 'enable_os_ash_attack',
+    '打大世界隱秘海域': 'enable_os_obscure_finish',
+    '大世界短貓相接': 'enable_os_meowfficer_farming',
+    '短貓相接侵蝕等級': 'os_meowfficer_farming_level',
+    '大世界買行動力': 'enable_os_action_point_buy',
+    '大世界行動力保留': 'os_action_point_preserve',
+    '明石商店購買': 'enable_os_akashi_shop_buy',
+    '明石商店優先級': 'os_akashi_shop_priority',
 
     # Option
     '是': 'yes',

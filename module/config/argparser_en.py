@@ -575,9 +575,33 @@ def main(ini_name=''):
     os_semi.add_argument('--enable_os_semi_story_skip', default=default('--enable_os_semi_story_skip'), choices=['yes', 'no'], help='Note that this will automatically choose the options in map events', gooey_options={'label_color': '#4B5F83'})
 
     # ==========OS clear map==========
-    os_semi_parser = subs.add_parser('os_clear_map')
-    os_semi = os_semi_parser.add_argument_group('os_clear_map', 'Only recommended to use in save zones. To use in normal zones, execute air search manually first.\nUsage: Enter map manually and run\nRecommend to re-check map manually after run', gooey_options={'label_color': '#931D03'})
-    os_semi.add_argument('--enable_os_ash_attack', default=default('--enable_os_ash_attack'), choices=['yes', 'no'], help='Attack ash if beacon data is full', gooey_options={'label_color': '#4B5F83'})
+    # os_semi_parser = subs.add_parser('os_clear_map')
+    # os_semi = os_semi_parser.add_argument_group('os_clear_map', 'Only recommended to use in save zones. To use in normal zones, execute air search manually first.\nUsage: Enter map manually and run\nRecommend to re-check map manually after run', gooey_options={'label_color': '#931D03'})
+    # os_semi.add_argument('--enable_os_ash_attack', default=default('--enable_os_ash_attack'), choices=['yes', 'no'], help='Attack ash if beacon data is full', gooey_options={'label_color': '#4B5F83'})
+
+    # ==========OS fully auto==========
+    os_parser = subs.add_parser('OS fully auto')
+    os = os_parser.add_argument_group('OS fully auto', 'Run sequence: Accept dailies and buy supplies > do dailies > do obscre zone > meowfficer farming\nPort shop is a limited pool of items. Poors have the same items, but appear randomly. Buy all if you want good items\nShop priority format: ActionPoint > PurpleCoins > TuringSample > RepairPack', gooey_options={'label_color': '#931D03'})
+    os.add_argument('--do_os_in_daily', default=default('--do_os_in_daily'), choices=['yes', 'no'], help='[Developing]Do OS as a part of daily', gooey_options={'label_color': '#4B5F83'})
+
+    os_daily = os.add_argument_group('OS daily', '', gooey_options={'label_color': '#931D03'})
+    os_daily.add_argument('--enable_os_mission_accept', default=default('--enable_os_mission_accept'), choices=['yes', 'no'], help='Accept all missions in port', gooey_options={'label_color': '#4B5F83'})
+    os_daily.add_argument('--enable_os_mission_finish', default=default('--enable_os_mission_finish'), choices=['yes', 'no'], help='Goto the zone of daily and clear', gooey_options={'label_color': '#4B5F83'})
+    os_daily.add_argument('--enable_os_supply_buy', default=default('--enable_os_supply_buy'), choices=['yes', 'no'], help='Buy all daily supplies', gooey_options={'label_color': '#4B5F83'})
+    os_daily.add_argument('--enable_os_ash_attack', default=default('--enable_os_ash_attack'), choices=['yes', 'no'], help='Attack ash if beacon data is full', gooey_options={'label_color': '#4B5F83'})
+
+    os_farm = os.add_argument_group('Operation Siren', '', gooey_options={'label_color': '#931D03'})
+    os_farm.add_argument('--enable_os_obscure_finish', default=default('--enable_os_obscure_finish'), choices=['yes', 'no'], help='[Developing]Clear all obscured zones', gooey_options={'label_color': '#4B5F83'})
+    os_farm.add_argument('--enable_os_meowfficer_farming', default=default('--enable_os_meowfficer_farming'), choices=['yes', 'no'], help='Do meowfficer searching point farming', gooey_options={'label_color': '#4B5F83'})
+    os_farm.add_argument('--os_meowfficer_farming_level', default=default('--os_meowfficer_farming_level'), choices=['1', '2', '3', '4', '5', '6'], help='Corruption 3 and 5 have higher meowfficer point per action point. Corruption 5 is recommended', gooey_options={'label_color': '#4B5F83'})
+
+    os_setting = os.add_argument_group('OS setting', '', gooey_options={'label_color': '#931D03'})
+    os_setting.add_argument('--enable_os_action_point_buy', default=default('--enable_os_action_point_buy'), choices=['yes', 'no'], help='Use oil to buy action points, buy first then use AP boxes', gooey_options={'label_color': '#4B5F83'})
+    os_setting.add_argument('--os_action_point_preserve', default=default('--os_action_point_preserve'), help='Include AP boxes, stop if lower than this', gooey_options={'label_color': '#4B5F83'})
+
+    os_shop = os.add_argument_group('OS shop', '', gooey_options={'label_color': '#931D03'})
+    os_shop.add_argument('--enable_os_akashi_shop_buy', default=default('--enable_os_akashi_shop_buy'), choices=['yes', 'no'], help='[Developing]', gooey_options={'label_color': '#4B5F83'})
+    os_shop.add_argument('--os_akashi_shop_priority', default=default('--os_akashi_shop_priority'), help='', gooey_options={'label_color': '#4B5F83'})
 
     args = parser.parse_args()
 

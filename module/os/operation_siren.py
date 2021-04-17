@@ -3,8 +3,8 @@ import numpy as np
 from module.exception import ScriptError
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
-from module.os.assets import *
 from module.os.map import OSMap
+from module.os_handler.action_point import ActionPointLimit
 from module.ui.ui import page_os
 
 
@@ -149,14 +149,28 @@ class OperationSiren(OSMap):
     def os_meowfficer_farming(self, hazard_level=5):
         """
         Args:
-            hazard_level (int): 1 to 6. Recommend 3 or 5 for higher meowfficer searching point per action points.
+            hazard_level (int): 1 to 6. Recommend 3 or 5 for higher meowfficer searching point per action points ratio.
         """
         logger.hr(f'OS meowfficer farming, hazard_level={hazard_level}', level=1)
         while 1:
             # (1252, 1012) is the coordinate of zone 134 (the center zone) in os_globe_map.png
             zones = self.zone_select(hazard_level=hazard_level) \
                 .delete(SelectedGrids([self.zone])) \
+                .delete(SelectedGrids(self.zones.select(is_port=True))) \
                 .sort_by_clock_degree(center=(1252, 1012), start=self.zone.location)
 
             self.globe_goto(zones[0])
             self.run_auto_search()
+
+    def operation_siren(self):
+        try:
+            if self.config.ENABLE_OS_MISSION_ACCEPT or self.config.ENABLE_OS_SUPPLY_BUY:
+                self.os_port_daily(mission=self.config.ENABLE_OS_MISSION_ACCEPT, supply=self.config.ENABLE_OS_SUPPLY_BUY)
+            if self.config.ENABLE_OS_MISSION_FINISH:
+                self.os_finish_daily_mission()
+            if self.config.ENABLE_OS_OBSCURE_FINISH:
+                pass
+            if self.config.ENABLE_OS_MEOWFFICER_FARMING:
+                self.os_meowfficer_farming(hazard_level=self.config.OS_MEOWFFICER_FARMING_LEVEL)
+        except ActionPointLimit:
+            pass

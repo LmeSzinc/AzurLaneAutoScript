@@ -512,9 +512,10 @@ class AzurLaneConfig:
     """
     module.os
     """
+    DO_OS_IN_DAILY = False
     ENABLE_OS_ASH_ATTACK = True
-    ENABLE_OS_MISSION_RECEIVE = True
-    ENABLE_OS_PORT_BUY = True
+    ENABLE_OS_MISSION_ACCEPT = True
+    ENABLE_OS_SUPPLY_BUY = True
     ENABLE_OS_MISSION_FINISH = True
     ENABLE_OS_OBSCURE_FINISH = True
     ENABLE_OS_MEOWFFICER_FARMING = True
@@ -522,10 +523,10 @@ class AzurLaneConfig:
     ENABLE_OS_ACTION_POINT_BUY = False
     OS_ACTION_POINT_PRESERVE = 200
     # 1 to 6. Recommend 3 or 5 for higher meowfficer searching point per action points ratio.
-    ENABLE_OS_MEOWFFICER_FARMING_LEVEL = 5
+    OS_MEOWFFICER_FARMING_LEVEL = 5
     ENABLE_OS_AKASHI_SHOP_BUY = True
     # ActionPoint, PurpleCoins, RepairPack, TuringSample
-    OS_ASKSHI_SHOP_BUY_STRING = 'ActionPoint > PurpleCoins'
+    OS_ASKSHI_SHOP_PRIORITY = 'ActionPoint > PurpleCoins'
 
     def create_folder(self):
         for folder in [self.ASSETS_FOLDER, self.PERSPECTIVE_ERROR_LOG_FOLDER, self.ERROR_LOG_FOLDER]:
@@ -801,6 +802,16 @@ class AzurLaneConfig:
         # OS clear map
         option = config['Os_clear_map']
         self.ENABLE_OS_ASH_ATTACK = to_bool(option['enable_os_ash_attack'])
+
+        # OS fully auto
+        option = config['Os_fully_auto']
+        for attr in ['do_os_in_daily', 'enable_os_mission_accept', 'enable_os_mission_finish', 'enable_os_supply_buy',
+                     'enable_os_ash_attack', 'enable_os_obscure_finish', 'enable_os_meowfficer_farming',
+                     'enable_os_action_point_buy', 'enable_os_akashi_shop_buy']:
+            self.__setattr__(attr.upper(), to_bool(option[attr]))
+        self.OS_MEOWFFICER_FARMING_LEVEL = int(option['os_meowfficer_farming_level'])
+        self.OS_ACTION_POINT_PRESERVE = int(option['os_action_point_preserve'])
+        self.OS_ASKSHI_SHOP_PRIORITY = option['os_akashi_shop_priority']
 
     def get_server_timezone(self):
         if self.SERVER == 'en':
