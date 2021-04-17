@@ -64,8 +64,7 @@ class OperationSiren(OSMap):
         self.globe_update()
         self.globe_focus_to(zone)
         self.zone_type_select(types=types)
-        self.ui_click(ZONE_ENTRANCE, appear_button=self.is_zone_pinned, check_button=self.is_in_map,
-                      skip_first_screenshot=True, additional=self.handle_map_event)
+        self.globe_enter(zone)
         # IN_MAP
         if hasattr(self, 'zone'):
             del self.zone

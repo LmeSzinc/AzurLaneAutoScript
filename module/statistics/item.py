@@ -154,20 +154,25 @@ class ItemGrid:
 
         return new
 
-    def predict(self, image):
+    def predict(self, image, name=True, amount=True):
         """
         Args:
             image: Pillow image
+            name (bool): If predict item name.
+            amount (bool): If predict item amount.
 
         Returns:
             list[Item]:
         """
         self._load_image(image)
-        amount = [crop(item.image, area=self.amount_area) for item in self.items]
-        amount = self.amount_ocr.ocr(amount, direct_ocr=True)
-        name = [self.match_template(item.image) for item in self.items]
-        for item, a, n in zip(self.items, amount, name):
-            item.amount = a
-            item.name = n
+        if amount:
+            amount_list = [crop(item.image, area=self.amount_area) for item in self.items]
+            amount_list = self.amount_ocr.ocr(amount_list, direct_ocr=True)
+            for item, a in zip(self.items, amount_list):
+                item.amount = a
+        if name:
+            name_list = [self.match_template(item.image) for item in self.items]
+            for item, n in zip(self.items, name_list):
+                item.name = n
 
         return self.items

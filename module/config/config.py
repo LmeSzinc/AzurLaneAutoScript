@@ -513,6 +513,17 @@ class AzurLaneConfig:
     module.os
     """
     ENABLE_OS_ASH_ATTACK = True
+    ENABLE_OS_MISSION_RECEIVE = True
+    ENABLE_OS_PORT_BUY = True
+    ENABLE_OS_MISSION_FINISH = True
+    ENABLE_OS_OBSCURE_FINISH = True
+    ENABLE_OS_MEOWFFICER_FARMING = True
+
+    ENABLE_OS_ACTION_POINT_BUY = False
+    OS_ACTION_POINT_PRESERVE = 200
+    ENABLE_OS_AKASHI_SHOP_BUY = True
+    # action_point, purple_point, repair_box
+    OS_ASKSHI_SHOP_BUY_STRING = 'action_point > purple_point'
 
     def create_folder(self):
         for folder in [self.ASSETS_FOLDER, self.PERSPECTIVE_ERROR_LOG_FOLDER, self.ERROR_LOG_FOLDER]:

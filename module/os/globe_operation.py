@@ -3,15 +3,15 @@ from module.base.utils import *
 from module.logger import logger
 from module.map_detection.utils import *
 from module.os.assets import *
+from module.os_handler.action_point import ActionPointHandler
 from module.os_handler.map_event import MapEventHandler
-from module.ui.ui import UI
 
 ZONE_TYPES = [ZONE_DANGEROUS, ZONE_SAFE, ZONE_OBSCURED, ZONE_LOGGER, ZONE_STRONGHOLD]
 ZONE_SELECT = [SELECT_DANGEROUS, SELECT_SAFE, SELECT_OBSCURE, SELECT_LOGGER, SELECT_STRONGHOLD]
 ASSETS_PINNED_ZONE = ZONE_TYPES + [ZONE_ENTRANCE, ZONE_SWITCH, ZONE_PINNED]
 
 
-class GlobeOperation(UI, MapEventHandler):
+class GlobeOperation(ActionPointHandler, MapEventHandler):
     def is_in_globe(self):
         return self.appear(GLOBE_GOTO_MAP, offset=(20, 20))
 
@@ -35,6 +35,17 @@ class GlobeOperation(UI, MapEventHandler):
             bool:
         """
         return self.get_zone_pinned() is not None
+
+    @staticmethod
+    def pinned_to_name(button):
+        """
+        Args:
+            button (Button):
+
+        Returns:
+            str: DANGEROUS, SAFE, OBSCURE, LOGGER, STRONGHOLD.
+        """
+        return button.name.split('_')[1]
 
     def handle_zone_pinned(self):
         """
@@ -137,7 +148,7 @@ class GlobeOperation(UI, MapEventHandler):
                         return sele
             return None
 
-        pinned = self.get_zone_pinned().name.split('_')[1]
+        pinned = self.pinned_to_name(self.get_zone_pinned())
         if pinned in types:
             logger.info(f'Already selected at {pinned}')
             return True
@@ -155,7 +166,7 @@ class GlobeOperation(UI, MapEventHandler):
 
             self.ui_click(button, check_button=self.is_zone_pinned, offset=self._zone_select_offset,
                           skip_first_screenshot=True)
-            if button.name.split('_')[1] == self.get_zone_pinned().name.split('_')[1]:
+            if self.pinned_to_name(button) == self.pinned_to_name(self.get_zone_pinned()):
                 return True
 
         logger.warning('Failed to select zone type after 3 trial')
@@ -178,3 +189,41 @@ class GlobeOperation(UI, MapEventHandler):
         """
         self.ui_click(MAP_GOTO_GLOBE, check_button=self.is_in_globe, offset=(200, 5),
                       skip_first_screenshot=skip_first_screenshot)
+
+    def globe_enter(self, zone, skip_first_screenshot=True):
+        """
+        Args:
+            zone (Zone): Zone to enter.
+
+        Pages:
+            in: is_zone_pinned
+            out: is_in_map
+        """
+        click_timer = Timer(3)
+        confirm_timer = Timer(1, count=2).start()
+        pinned = None
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            if pinned is None:
+                pinned = self.pinned_to_name(self.get_zone_pinned())
+
+            # End
+            if self.is_in_map():
+                if confirm_timer.reached():
+                    break
+            else:
+                confirm_timer.reset()
+
+            if self.is_zone_pinned() and click_timer.reached():
+                self.device.click(ZONE_ENTRANCE)
+                click_timer.reset()
+                continue
+            if self.handle_action_point(zone=zone, pinned=pinned):
+                continue
+            if self.handle_map_event():
+                continue
+            if self.handle_popup_confirm('GLOBE_ENTER'):
+                continue
