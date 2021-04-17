@@ -194,6 +194,7 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
         """
         Args:
             zone (Zone): Zone to enter.
+            skip_first_screenshot (bool):
 
         Pages:
             in: is_zone_pinned

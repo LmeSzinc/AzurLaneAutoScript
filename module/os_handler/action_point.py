@@ -117,6 +117,7 @@ class ActionPointHandler(UI):
                 return True
             else:
                 self.device.click(ACTION_POINT_GRID[index, 0])
+                self.device.sleep(0.3)
 
         logger.warning('Failed to set action point button after 3 trial')
         return False
@@ -188,8 +189,9 @@ class ActionPointHandler(UI):
             if self.config.ENABLE_OS_ACTION_POINT_BUY:
                 self.action_point_buy(preserve=self.config.STOP_IF_OIL_LOWER_THAN)
             for index in [3, 2, 1]:
-                self.action_point_set_button(index)
-                self.action_point_use()
+                if self._action_point_amount[index] > 0:
+                    self.action_point_set_button(index)
+                    self.action_point_use()
 
         logger.warning('Failed to get action points after 12 trial')
         return False
