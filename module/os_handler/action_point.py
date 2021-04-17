@@ -12,7 +12,7 @@ OCR_ACTION_POINT_BUY_REMAIN = DigitCounter(
     ACTION_POINT_BUY_REMAIN, letter=(148, 251, 99), name='OCR_ACTION_POINT_BUY_REMAIN')
 ACTION_POINT_GRID = ButtonGrid(
     origin=(323, 274), delta=(173, 0), button_shape=(115, 115), grid_shape=(4, 1), name='ACTION_POINT_GRID')
-ACTION_POINT_ITEMS = ItemGrid(ACTION_POINT_GRID, templates={}, amount_area=(30, 71, 91, 92))
+ACTION_POINT_ITEMS = ItemGrid(ACTION_POINT_GRID, templates={}, amount_area=(43, 89, 113, 113))
 ACTION_POINTS_COST = {
     1: 5,
     2: 10,
@@ -191,10 +191,11 @@ class ActionPointHandler(UI):
             # Get more action points
             if self.config.ENABLE_OS_ACTION_POINT_BUY:
                 self.action_point_buy(preserve=self.config.STOP_IF_OIL_LOWER_THAN)
-            for index in [3, 2, 1]:
-                if self._action_point_amount[index] > 0:
-                    self.action_point_set_button(index)
-                    self.action_point_use()
+            box = [index for index in [3, 2, 1] if self._action_point_amount[index] > 0]
+            if len(box):
+                self.action_point_set_button(box[0])
+                self.action_point_use()
+                continue
 
         logger.warning('Failed to get action points after 12 trial')
         return False
