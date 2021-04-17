@@ -580,7 +580,7 @@ def main(ini_name=''):
     # os_semi.add_argument('--enable_os_ash_attack', default=default('--enable_os_ash_attack'), choices=['yes', 'no'], help='Attack ash if beacon data is full', gooey_options={'label_color': '#4B5F83'})
 
     # ==========OS fully auto==========
-    os_parser = subs.add_parser('OS fully auto')
+    os_parser = subs.add_parser('os_fully_auto')
     os = os_parser.add_argument_group('OS fully auto', 'Run sequence: Accept dailies and buy supplies > do dailies > do obscre zone > meowfficer farming\nPort shop is a limited pool of items. Poors have the same items, but appear randomly. Buy all if you want good items\nShop priority format: ActionPoint > PurpleCoins > TuringSample > RepairPack', gooey_options={'label_color': '#931D03'})
     os.add_argument('--do_os_in_daily', default=default('--do_os_in_daily'), choices=['yes', 'no'], help='[Developing]Do OS as a part of daily', gooey_options={'label_color': '#4B5F83'})
 

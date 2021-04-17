@@ -41,13 +41,13 @@ class OSMapOperation(MapOperation, MissionHandler, PortHandler):
         ocr = Ocr(MAP_NAME, lang='cnocr', letter=(214, 235, 235), threshold=96, name='OCR_OS_MAP_NAME')
         name = ocr.ocr(self.device.image)
         name = name.translate(dict.fromkeys(map(ord, whitespace)))
+        name = name.lower()
         if '-' in name:
             name = name.split('-')[0]
         if 'é' in name:  # Méditerranée name maps
             name = name.replace('é', 'e')
         if 'nvcity' in name:  # NY City Port read as 'V' rather than 'Y'
             name = 'nycity'
-        name = name.lower()
         return name
 
     @Config.when(SERVER='jp')
