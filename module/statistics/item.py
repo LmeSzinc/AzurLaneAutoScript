@@ -62,7 +62,12 @@ class Item:
         self._name = value
 
     def __str__(self):
-        return f'{self.name}_x{self.amount}'
+        if self.name != 'DefaultItem' and self.cost == 'DefaultCost':
+            return f'{self.name}_x{self.amount}'
+        elif self.name == 'DefaultItem' and self.cost != 'DefaultCost':
+            return f'{self.cost}_x{self.price}'
+        else:
+            return f'{self.name}_x{self.amount}_{self.cost}_x{self.price}'
 
     @property
     def button(self):
