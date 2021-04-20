@@ -143,6 +143,10 @@ class ModuleBase:
         if button.name in self.interval_timer:
             self.interval_timer[button.name].reset()
 
+    def interval_clear(self, button):
+        if button.name in self.interval_timer:
+            self.interval_timer[button.name].clear()
+
     _image_file = ''
 
     @property

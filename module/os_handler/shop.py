@@ -42,21 +42,14 @@ class ShopHandler(UI, MapEventHandler):
         Returns:
             list[Item]:
         """
-
-        def item_name(item):
-            if name:
-                return f'{item.name}_x{item.amount}_{item.cost}_x{item.price}'
-            else:
-                return f'{item.cost}_x{item.price}'
-
         self.shop_items.predict(self.device.image, name=name, amount=name, cost=True, price=True)
 
         items = self.shop_items.items
         if len(items):
-            min_row = np.min([item.button[1] for item in items])
-            row = [item_name(item) for item in items if item.button[1] == min_row]
+            min_row = self.shop_items.grids[0, 0].area[1]
+            row = [str(item) for item in items if item.button[1] == min_row]
             logger.info(f'Shop row 1: {row}')
-            row = [item_name(item) for item in items if item.button[1] != min_row]
+            row = [str(item) for item in items if item.button[1] != min_row]
             logger.info(f'Shop row 2: {row}')
             return items
         else:
@@ -70,6 +63,17 @@ class ShopHandler(UI, MapEventHandler):
         """
         self.shop_get_coins()
         items = self.shop_get_items(name=True)
+        # Shop supplies do not appear immediately, need to confirm if shop is empty.
+        for _ in range(2):
+            if not len(items):
+                logger.info('Empty akashi shop, confirming')
+                self.device.sleep(0.5)
+                self.device.screenshot()
+                items = self.shop_get_items(name=True)
+                continue
+            else:
+                break
+
         try:
             selection = self.config.OS_ASKSHI_SHOP_PRIORITY.replace(' ', '').split('>')
         except Exception:
@@ -111,11 +115,44 @@ class ShopHandler(UI, MapEventHandler):
 
         return None
 
-    def shop_buy(self, select_func, skip_first_screenshot=True):
+    def shop_buy_execute(self, button, skip_first_screenshot=True):
+        """
+        Args:
+            button: Item to buy
+            skip_first_screenshot:
+
+        Pages:
+            in: PORT_SUPPLY_CHECK
+        """
+        success = False
+        self.interval_clear(PORT_SUPPLY_CHECK)
+        self.interval_clear(SHOP_BUY_CONFIRM)
+
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear(PORT_SUPPLY_CHECK, offset=(20, 20), interval=3):
+                self.device.click(button)
+                continue
+            if self.appear_then_click(SHOP_BUY_CONFIRM, offset=(20, 20), interval=3):
+                self.interval_reset(PORT_SUPPLY_CHECK)
+                continue
+            if self.handle_map_get_items(interval=1):
+                self.interval_reset(PORT_SUPPLY_CHECK)
+                success = True
+                continue
+
+            # End
+            if success and self.appear(PORT_SUPPLY_CHECK, offset=(20, 20)):
+                break
+
+    def shop_buy(self, select_func):
         """
         Args:
             select_func:
-            skip_first_screenshot:
 
         Returns:
             int: Items bought.
@@ -124,28 +161,17 @@ class ShopHandler(UI, MapEventHandler):
             in: PORT_SUPPLY_CHECK
         """
         count = 0
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
+        for _ in range(12):
+            button = select_func()
+            if button is None:
+                logger.info('Shop buy finished')
+                return count
             else:
-                self.device.screenshot()
-
-            if self.appear(PORT_SUPPLY_CHECK, offset=(20, 20), interval=0.5):
-                button = select_func()
-                if button is None:
-                    break
-                else:
-                    self.device.click(button)
-                    count += 1
-                    continue
-
-            if self.handle_map_get_items(interval=0.5):
-                self.interval_reset(PORT_SUPPLY_CHECK)
-                continue
-            if self.appear_then_click(SHOP_BUY_CONFIRM, offset=(20, 20), interval=0.5):
-                self.interval_reset(PORT_SUPPLY_CHECK)
+                self.shop_buy_execute(button)
+                count += 1
                 continue
 
+        logger.warning('Too many items to buy, stopped')
         return count
 
     def handle_port_supply_buy(self):

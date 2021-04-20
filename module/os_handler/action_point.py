@@ -36,32 +36,45 @@ class ActionPointLimit(Exception):
 
 
 class ActionPointHandler(UI):
-    _action_point_amount = [0, 0, 0, 0]
+    _action_point_box = [0, 0, 0, 0]
     _action_point_current = 0
+    _action_point_total = 0
 
     def _is_in_action_point(self):
         return self.appear(ACTION_POINT_USE, offset=(20, 20))
 
-    def action_point_use(self):
-        # Find the button, button may be movable.
-        self.appear(ACTION_POINT_USE, offset=(20, 20))
-        self.device.click(ACTION_POINT_USE)
+    def action_point_use(self, skip_first_screenshot=True):
+        prev = self._action_point_current
+        self.interval_clear(ACTION_POINT_USE)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
-    def action_point_get_current(self):
+            if self.appear_then_click(ACTION_POINT_USE, offset=(20, 20), interval=3):
+                self.device.sleep(0.3)
+                continue
+
+            self.action_point_update()
+            if self._action_point_current > prev:
+                break
+
+    def action_point_update(self):
         """
         Returns:
             int: Total action points, including ap boxes.
         """
         items = ACTION_POINT_ITEMS.predict(self.device.image, name=False, amount=True)
-        amount = [item.amount for item in items]
+        box = [item.amount for item in items]
         current = OCR_ACTION_POINT_REMAIN.ocr(self.device.image)
-        action_point = np.sum(np.array(amount) * (0, 20, 50, 200)) + current
-        oil = amount[0]
+        total = np.sum(np.array(box) * (0, 20, 50, 200)) + current
+        oil = box[0]
 
-        logger.info(f'Action points: {action_point}, oil: {oil}')
+        logger.info(f'Action points: {current}({total}), oil: {oil}')
         self._action_point_current = current
-        self._action_point_amount = amount
-        return action_point
+        self._action_point_box = box
+        self._action_point_total = total
 
     @staticmethod
     def action_point_get_cost(zone, pinned):
@@ -131,7 +144,7 @@ class ActionPointHandler(UI):
             preserve (int): Oil to preserve.
 
         Returns:
-            bool: If reach the limit to buy action points this week
+            bool: If bought
         """
         self.action_point_set_button(0)
         current, _, _ = OCR_ACTION_POINT_BUY_REMAIN.ocr(self.device.image)
@@ -139,13 +152,14 @@ class ActionPointHandler(UI):
             logger.info('Reach the limit to buy action points this week')
             return False
         cost = ACTION_POINTS_BUY[current]
-        oil = self._action_point_amount[0]
+        oil = self._action_point_box[0]
         logger.info(f'Buy action points will cost {cost}, current oil: {oil}, preserve: {preserve}')
         if oil >= cost + preserve:
             self.action_point_use()
+            return True
         else:
             logger.info('Not enough oil to buy')
-        return True
+            return False
 
     def action_point_quit(self, skip_first_screenshot=True):
         """
@@ -175,12 +189,15 @@ class ActionPointHandler(UI):
 
         # AP boxes have an animation to show
         self.device.sleep(0.3)
+        self.device.screenshot()
+        self.action_point_update()
         cost = self.action_point_get_cost(zone, pinned)
         for _ in range(12):
-            self.device.screenshot()
-
             # End
-            if self.action_point_get_current() < self.config.OS_ACTION_POINT_PRESERVE:
+            if self._action_point_total < self.config.OS_ACTION_POINT_PRESERVE:
+                if self.config.ENABLE_OS_ACTION_POINT_BUY:
+                    if self.action_point_buy(preserve=self.config.STOP_IF_OIL_LOWER_THAN):
+                        continue
                 logger.info(f'Reach the limit of action points, preserve={self.config.OS_ACTION_POINT_PRESERVE}')
                 self.action_point_quit()
                 raise ActionPointLimit
@@ -191,8 +208,9 @@ class ActionPointHandler(UI):
 
             # Get more action points
             if self.config.ENABLE_OS_ACTION_POINT_BUY:
-                self.action_point_buy(preserve=self.config.STOP_IF_OIL_LOWER_THAN)
-            box = [index for index in [3, 2, 1] if self._action_point_amount[index] > 0]
+                if self.action_point_buy(preserve=self.config.STOP_IF_OIL_LOWER_THAN):
+                    continue
+            box = [index for index in [3, 2, 1] if self._action_point_box[index] > 0]
             if len(box):
                 self.action_point_set_button(box[0])
                 self.action_point_use()

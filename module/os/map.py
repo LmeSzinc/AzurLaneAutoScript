@@ -137,14 +137,20 @@ class OSMap(OSFleet, Map, GlobeCamera):
         self.map_init()
         self.full_clear()
 
+    _auto_search_battle_count = 0
+
     def os_auto_search_daemon(self):
         logger.hr('OS auto search', level=2)
+        self._auto_search_battle_count = 0
+
         while 1:
             self.device.screenshot()
 
             if self.is_in_map():
                 self.device.stuck_record_clear()
             if self.combat_appear():
+                self._auto_search_battle_count += 1
+                logger.attr('battle_count', self._auto_search_battle_count)
                 self.auto_search_combat()
             if self.handle_os_auto_search_map_option():
                 continue
@@ -169,3 +175,5 @@ class OSMap(OSFleet, Map, GlobeCamera):
                 continue
             else:
                 break
+
+        self.clear_akashi2()
