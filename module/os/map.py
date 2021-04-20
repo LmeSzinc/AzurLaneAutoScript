@@ -110,6 +110,27 @@ class OSMap(OSFleet, Map, GlobeCamera):
 
         return True
 
+    def clear_akashi2(self):
+        """
+        Handle Akashi's shop after auto search.
+        After auto search, fleet will near akashi.
+        This method detect where akashi stands, enter shop, buy items and exit.
+        """
+        if not self.config.ENABLE_OS_AKASHI_SHOP_BUY:
+            return False
+
+        view = self.os_default_view
+        view.load(self.device.image)
+        view.predict()
+        grids = view.select(is_akashi=True)
+        if not len(grids):
+            logger.info('No Akashi in this map')
+            return False
+
+        logger.info(f'Found Akashi in {grids}')
+        self.handle_akashi_supply_buy(grids[0])
+        return True
+
     def run(self):
         self.device.screenshot()
         self.handle_siren_platform()
@@ -129,8 +150,13 @@ class OSMap(OSFleet, Map, GlobeCamera):
                 continue
             if self.handle_ash_popup():
                 continue
+            if self.handle_story_skip():
+                # Auto search can not handle siren searching device.
+                continue
 
     def run_auto_search(self):
+        self.handle_ash_beacon_attack()
+
         for _ in range(3):
             try:
                 self.os_auto_search_daemon()

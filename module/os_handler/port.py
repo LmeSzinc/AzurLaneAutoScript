@@ -2,7 +2,6 @@ from module.base.timer import Timer
 from module.logger import logger
 from module.os_handler.assets import *
 from module.os_handler.shop import ShopHandler
-from module.ui.ui import UI
 
 # Azur Lane ports have PORT_GOTO_MISSION, PORT_GOTO_SUPPLY, PORT_GOTO_DOCK.
 # Red axis ports have PORT_GOTO_SUPPLY.
@@ -10,7 +9,7 @@ from module.ui.ui import UI
 PORT_CHECK = PORT_GOTO_SUPPLY
 
 
-class PortHandler(UI, ShopHandler):
+class PortHandler(ShopHandler):
     def port_enter(self, skip_first_screenshot=True):
         """
         Pages:

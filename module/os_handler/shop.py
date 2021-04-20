@@ -6,12 +6,13 @@ from module.ocr.ocr import Digit
 from module.os_handler.assets import *
 from module.os_handler.map_event import MapEventHandler
 from module.statistics.item import ItemGrid, Item
+from module.ui.ui import UI
 
 OCR_SHOP_YELLOW_COINS = Digit(SHOP_YELLOW_COINS, letter=(239, 239, 239), name='OCR_SHOP_YELLOW_COINS')
 OCR_SHOP_PURPLE_COINS = Digit(SHOP_PURPLE_COINS, letter=(255, 255, 255), name='OCR_SHOP_PURPLE_COINS')
 
 
-class ShopHandler(MapEventHandler):
+class ShopHandler(UI, MapEventHandler):
     _shop_yellow_coins = 0
     _shop_purple_coins = 0
 
@@ -158,3 +159,17 @@ class ShopHandler(MapEventHandler):
         """
         count = self.shop_buy(select_func=self.shop_get_item_to_buy_in_port)
         return count > 0 or len(self.shop_items.items) == 0
+
+    def handle_akashi_supply_buy(self, grid):
+        """
+        Args:
+            grid: Grid where akashi stands.
+
+        Pages:
+            in: is_in_map
+            out: is_in_map
+        """
+        self.ui_click(grid, appear_button=self.is_in_map, check_button=PORT_SUPPLY_CHECK,
+                      additional=self.handle_story_skip, skip_first_screenshot=True)
+        self.shop_buy(select_func=self.shop_get_item_to_buy_in_akashi)
+        self.ui_back(appear_button=PORT_SUPPLY_CHECK, check_button=self.is_in_map, skip_first_screenshot=True)

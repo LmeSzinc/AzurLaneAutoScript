@@ -37,6 +37,8 @@ class OperationSiren(OSMap):
         self.get_current_zone()
         # self.map_init()
 
+        self.run_auto_search()
+
     def globe_goto(self, zone, types=('SAFE', 'DANGEROUS')):
         """
         Goto another zone in OS.
