@@ -201,7 +201,7 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             in: is_zone_pinned
             out: is_in_map
         """
-        click_timer = Timer(3)
+        click_timer = Timer(10)
         confirm_timer = Timer(1, count=2).start()
         pinned = None
         while 1:

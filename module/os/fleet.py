@@ -1,6 +1,5 @@
-import numpy as np
-
 from module.base.timer import Timer
+from module.base.utils import *
 from module.logger import logger
 from module.map.fleet import Fleet
 from module.map.map_grids import SelectedGrids
@@ -194,6 +193,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 logger.info('Arrive port')
                 break
 
+            port = point_limit(port, area=(-4, -2, 3, 2))
             port = view[np.add(port, view.center_loca)]
             self.device.click(port)
             prev = (0, 0)

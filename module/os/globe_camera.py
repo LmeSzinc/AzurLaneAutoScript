@@ -112,9 +112,7 @@ class GlobeCamera(GlobeOperation, ZoneManager):
                 break
 
             area = (400, 200, GLOBE_MAP_SHAPE[0] - 400, GLOBE_MAP_SHAPE[1] - 250)
-            loca = zone.location
-            loca = np.max([loca, area[:2]], axis=0)
-            loca = np.min([loca, area[2:]], axis=0)
+            loca = point_limit(zone.location, area=area)
             vector = np.array(loca) - self.globe_camera
             swipe = tuple(np.min([np.abs(vector), swipe_limit], axis=0) * np.sign(vector))
             self.globe_swipe(swipe)
