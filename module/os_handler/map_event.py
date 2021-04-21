@@ -160,12 +160,12 @@ class MapEventHandler(EnemySearchingHandler):
         Returns:
             bool: If clicked.
         """
-        if self.appear(AUTO_SEARCH_MAP_OPTION_OFF, offset=(5, 50), interval=3) \
-                and AUTO_SEARCH_MAP_OPTION_OFF.match_appear_on(self.device.image):
-            self.device.click(AUTO_SEARCH_MAP_OPTION_OFF)
+        if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 50), interval=3) \
+                and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image):
+            self.device.click(AUTO_SEARCH_OS_MAP_OPTION_OFF)
             return True
-        if self.appear(AUTO_SEARCH_MAP_OPTION_OFF, offset=(5, 50)) \
-                and AUTO_SEARCH_MAP_OPTION_OFF.match_appear_on(self.device.image) \
+        if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 50)) \
+                and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image) \
                 and self.info_bar_count() >= 2:
             raise CampaignEnd
         if self.appear(AUTO_SEARCH_REWARD, offset=(20, 20)):
