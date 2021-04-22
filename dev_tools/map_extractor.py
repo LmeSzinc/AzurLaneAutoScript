@@ -89,6 +89,14 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'yalisangna': 'Arizona',
     'liekexingdun': 'Lexington',
     'tiaoyu': 'Dace',
+
+    # Daedalian Hymn
+    'geluosite': 'Gloucester',
+    'yueke': 'York',
+    'yanzhan': 'Warspite',
+    'naerxun': 'Nelson',
+    'kewei': 'Formidable',
+    'guanghui': 'Illustrious',
 }
 
 
