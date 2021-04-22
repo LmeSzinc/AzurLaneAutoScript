@@ -39,7 +39,7 @@ class OperationSiren(OSMap):
 
         self.run_auto_search()
 
-    def globe_goto(self, zone, types=('SAFE', 'DANGEROUS')):
+    def globe_goto(self, zone, types=('SAFE', 'DANGEROUS'), refresh=False):
         """
         Goto another zone in OS.
 
@@ -48,6 +48,9 @@ class OperationSiren(OSMap):
             types (tuple[str], list[str], str): Zone types, or a list of them.
                 Available types: DANGEROUS, SAFE, OBSCURE, LOGGER, STRONGHOLD.
                 Try the the first selection in type list, if not available, try the next one.
+            refresh (bool): If already at target zone,
+                set false to skip zone switching,
+                set true to re-enter current zone to refresh.
 
         Pages:
             in: IN_MAP or IN_GLOBE
@@ -55,6 +58,13 @@ class OperationSiren(OSMap):
         """
         zone = self.name_to_zone(zone)
         logger.hr(f'Globe goto: {zone}')
+        if self.zone == zone:
+            if refresh:
+                logger.info('Goto another zone to refresh current zone')
+                self.globe_goto(self.zone_nearest_azur_port(self.zone), types=('SAFE', 'DANGEROUS'), refresh=False)
+            else:
+                logger.info('Already at target zone')
+                return False
         # IN_MAP
         if self.is_in_map():
             self.os_map_goto_globe()
@@ -145,7 +155,7 @@ class OperationSiren(OSMap):
             if zone is None:
                 break
 
-            self.globe_goto(zone)
+            self.globe_goto(zone, refresh=True)
             self.run_auto_search()
 
     def os_meowfficer_farming(self, hazard_level=5):

@@ -223,7 +223,7 @@ class OSAsh(UI):
                 self.device.click(ASH_COLLECT_STATUS)
                 in_map_timeout.reset()
                 continue
-            if self.appear_then_click(ASH_ENTER_CONFIRM, offset=(20, 20), interval=2):
+            if self.appear_then_click(ASH_ENTER_CONFIRM, offset=(30, 50), interval=2):
                 continue
             if self.appear_then_click(BEACON_ENTER, offset=(20, 20), interval=2):
                 continue

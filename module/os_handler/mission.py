@@ -8,6 +8,10 @@ from module.os_handler.map_event import MapEventHandler
 from module.ui.ui import UI
 
 
+class MissionAtCurrentZone(Exception):
+    pass
+
+
 class MissionHandler(UI, MapEventHandler, ZoneManager):
     _os_mission_submitted = False
 
@@ -81,13 +85,24 @@ class MissionHandler(UI, MapEventHandler, ZoneManager):
             in: is_in_map
             out: is_in_map
         """
+        def handle_mission_at_current_zone():
+            if self.info_bar_count():
+                raise MissionAtCurrentZone
+
         self.os_mission_enter()
         if not self._os_mission_submitted:
             self.os_mission_submit()
             self._os_mission_submitted = True
 
         if self.appear(MISSION_CHECKOUT):
-            self.ui_click(MISSION_CHECKOUT, check_button=MISSION_MAP_CHECK, skip_first_screenshot=True)
+            try:
+                self.ui_click(MISSION_CHECKOUT, check_button=MISSION_MAP_CHECK,
+                              additional=handle_mission_at_current_zone, skip_first_screenshot=True)
+            except MissionAtCurrentZone:
+                logger.info('Mission at current zone')
+                self.os_mission_quit()
+                return self.zone
+
             self.device.sleep(0.5)
             self.device.screenshot()
             zone = self.get_mission_zone()

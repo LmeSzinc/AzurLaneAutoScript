@@ -60,6 +60,8 @@ class Zone:
 
 
 class ZoneManager:
+    zone: Zone
+
     @cached_property
     def zones(self):
         """
@@ -119,7 +121,7 @@ class ZoneManager:
             Zone:
         """
         zone = self.name_to_zone(zone)
-        ports = self.zones.select(is_azur_port=True)
+        ports = self.zones.select(is_azur_port=True).delete(SelectedGrids([self.zone]))
         # In same region
         for port in ports:
             if zone.region == port.region:
