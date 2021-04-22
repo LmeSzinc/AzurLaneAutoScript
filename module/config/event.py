@@ -25,6 +25,7 @@ dic_event = {
         '复刻神圣的悲喜剧': 'event_20210121_cn',
         '破晓冰华': 'event_20210225_cn',
         '复刻箱庭疗法': 'event_20210325_cn',
+        '复兴的赞美诗': 'event_20210422_cn',
     },
     'en': {
         'Northern_Overture': 'event_20200227_cn',
@@ -50,6 +51,7 @@ dic_event = {
         'Empyreal_Tragicomedy_Rerun': 'event_20210121_cn',
         'Khorovod_of_Dawns_Rime': 'event_20210225_cn',
         'Ashen_Simulacrum_Rerun': 'event_20210325_cn',
+        'Daedalian_Hymn': 'event_20210422_cn',
     },
     'jp': {
         '凍絶の北海': 'event_20200227_cn',
@@ -72,6 +74,7 @@ dic_event = {
         '悲歎せし焔海の詩（復刻）': 'event_20210121_cn',
         '暁射す氷華の嵐': 'event_20210225_cn',
         '開かれし紺碧の砂箱（復刻）': 'event_20210325_cn',
+        '讃える復興の迷路': 'event_20210422_cn',
     },
     'tw': {
         '特別演習埃塞克斯級': 'raid_20200624',
