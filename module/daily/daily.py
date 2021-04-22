@@ -151,6 +151,9 @@ class Daily(Reward, DailyEquipment):
                     return False
                 if self.info_bar_count():
                     return False
+            if self.appear(DAILY_ENTER_CHECK):
+                if self.info_bar_count():
+                    return False
             if self.combat_appear():
                 return True
 
