@@ -113,7 +113,10 @@ class Fleet(Camera, AmbushHandler):
         if not self.config.MAP_HAS_MOVABLE_ENEMY:
             return False
         if not self.map.select(is_siren=True):
-            if self.config.MAP_HAS_MOVABLE_NORMAL_ENEMY and not self.map.select(is_enemy=True):
+            if self.config.MAP_HAS_MOVABLE_NORMAL_ENEMY:
+                if not self.map.select(is_enemy=True):
+                    self.enemy_round = {}
+            else:
                 self.enemy_round = {}
         try:
             data = self.map.spawn_data[self.battle_count]
@@ -179,16 +182,47 @@ class Fleet(Camera, AmbushHandler):
         Returns:
             float: Seconds to wait enemies moving.
         """
-        if not self.config.MAP_HAS_MOVABLE_ENEMY:
-            return 0
-        count = 0
-        for enemy, c in self.enemy_round.items():
-            for turn in self.round_enemy_turn:
-                if self.round + 1 - enemy > 0 and (self.round + 1 - enemy) % turn == 0:
-                    count += c
-                    break
+        second = 0
+        if self.config.MAP_HAS_MOVABLE_ENEMY:
+            count = 0
+            for enemy, c in self.enemy_round.items():
+                for turn in self.round_enemy_turn:
+                    if self.round + 1 - enemy > 0 and (self.round + 1 - enemy) % turn == 0:
+                        count += c
+                        break
+            second += count * self.config.MAP_SIREN_MOVE_WAIT
 
-        return count * self.config.MAP_SIREN_MOVE_WAIT
+        if self.config.MAP_HAS_MAZE:
+            if (self.round + 1) % 3 == 0:
+                second += 1.0
+
+        return second
+
+    @property
+    def round_maze_changed(self):
+        """
+        Returns:
+            bool: If maze changed at the start of this round.
+        """
+        if not self.config.MAP_HAS_MAZE:
+            return False
+        return self.round != 0 and self.round % 3 == 0
+
+    def maze_active_on(self, grid):
+        """
+        Args:
+            grid:
+
+        Returns:
+            bool: If maze wall is on a the specific grid.
+        """
+        if not self.config.MAP_HAS_MAZE:
+            return False
+
+        grid = self.map[location_ensure(grid)]
+        if not grid.is_maze:
+            return False
+        return self.round % self.map.maze_round in grid.maze_round
 
     movable_before: SelectedGrids
     movable_before_normal: SelectedGrids
@@ -353,14 +387,26 @@ class Fleet(Camera, AmbushHandler):
             self.full_scan_movable(enemy_cleared=result == 'combat')
             self.find_path_initial()
             raise MapEnemyMoved
+        if self.round_maze_changed:
+            self.find_path_initial()
+            raise MapEnemyMoved
         self.find_path_initial()
 
     def goto(self, location, optimize=True, expected=''):
         # self.device.sleep(1000)
         location = location_ensure(location)
-        if (self.config.MAP_HAS_AMBUSH or self.config.MAP_HAS_FLEET_STEP or self.config.MAP_HAS_PORTAL) and optimize:
+        if optimize and (self.config.MAP_HAS_AMBUSH or self.config.MAP_HAS_FLEET_STEP or self.config.MAP_HAS_PORTAL
+                         or self.config.MAP_HAS_MAZE):
             nodes = self.map.find_path(location, step=self.fleet_step)
             for node in nodes:
+                if self.maze_active_on(node):
+                    logger.info(f'Maze is active on {node}, bouncing to wait')
+                    for _ in range(10):
+                        grids = self.map[node].maze_nearby.delete(self.map.select(is_fleet=True))
+                        if grids.select(is_enemy=False):
+                            grids = grids.select(is_enemy=False)
+                        grids = grids.sort('cost')
+                        self._goto(grids[0], expected='')
                 try:
                     self._goto(node, expected=expected if node == nodes[-1] else '')
                 except MapWalkError:
@@ -625,10 +671,13 @@ class Fleet(Camera, AmbushHandler):
         self.map.poor_map_data = self.config.POOR_MAP_DATA
         self.map.load_map_data(use_loop=self.map_is_clear_mode)
         self.map.load_spawn_data(use_loop=self.map_is_clear_mode)
-        self.map.load_mechanism(land_based=self.config.MAP_HAS_LAND_BASED)
         self.map.grid_connection_initial(
             wall=self.config.MAP_HAS_WALL,
             portal=self.config.MAP_HAS_PORTAL,
+        )
+        self.map.load_mechanism(
+            land_based=self.config.MAP_HAS_LAND_BASED,
+            maze=self.config.MAP_HAS_MAZE,
         )
 
         self.handle_strategy(index=1 if not self.fleets_reversed else 2)

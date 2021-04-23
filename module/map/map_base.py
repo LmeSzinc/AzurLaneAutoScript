@@ -18,6 +18,8 @@ class CampaignMap:
         self._wall_data = ''
         self._portal_data = []
         self._land_based_data = []
+        self._maze_data = []
+        self.maze_round = 9
         self._spawn_data = []
         self._spawn_data_stack = []
         self._spawn_data_loop = []
@@ -165,10 +167,34 @@ class CampaignMap:
             trigger.set(is_mechanism_trigger=True, mechanism_trigger=trigger, mechanism_block=block)
             block.set(is_mechanism_block=True)
 
-    def load_mechanism(self, land_based=False):
-        logger.info(f'Load mechanism, land_base={land_based}')
+    @property
+    def maze_data(self):
+        return self._maze_data
+
+    @maze_data.setter
+    def maze_data(self, data):
+        self._maze_data = data
+
+    def _load_maze_data(self, data):
+        """
+        Args:
+            data (list): Such as [('D5', 'I4', 'J6'), ('C4', 'E4', 'D8'), ('C2', 'G2', 'G6')]
+        """
+        self._maze_data = data
+        self.maze_round = len(data) * 3
+        for index, maze in enumerate(data):
+            maze = self.to_selected(maze)
+            maze.set(is_maze=True, maze_round=tuple(list(range(index * 3, index * 3 + 3))))
+            for grid in maze:
+                self.find_path_initial(grid, has_ambush=False)
+                grid.maze_nearby = self.select(cost=1).add(self.select(cost=2)).select(is_land=False)
+
+    def load_mechanism(self, land_based=False, maze=False):
+        logger.info(f'Load mechanism, land_base={land_based}, maze={maze}')
         if land_based:
             self._load_land_base_data(self.land_based_data)
+        if maze:
+            self._load_maze_data(self.maze_data)
 
     def grid_connection_initial(self, wall=False, portal=False):
         """
@@ -555,9 +581,13 @@ class CampaignMap:
         portal_path = []
         index = [0]
         for i, loca in enumerate(zip(path[:-1], path[1:])):
-            if self[loca[0]].is_portal and self[loca[0]].portal_link == loca[1]:
+            grid = self[loca[0]]
+            if grid.is_portal and grid.portal_link == loca[1]:
                 index += [i, i + 1]
-        index.append(len(path))
+            if grid.is_maze and i != 0:
+                index += [i]
+        if len(path) not in index:
+            index.append(len(path))
         for start, end in zip(index[:-1], index[1:]):
             if end - start == 1 and self[path[start]].is_portal and self[path[start]].portal_link == path[end]:
                 continue
