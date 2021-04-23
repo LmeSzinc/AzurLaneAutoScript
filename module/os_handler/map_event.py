@@ -168,6 +168,6 @@ class MapEventHandler(EnemySearchingHandler):
                 and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image) \
                 and self.info_bar_count() >= 2:
             raise CampaignEnd
-        if self.appear(AUTO_SEARCH_REWARD, offset=(20, 20)):
+        if self.appear(AUTO_SEARCH_REWARD, offset=(20, 50)):
             self.os_auto_search_quit()
             raise CampaignEnd

@@ -7,6 +7,10 @@ from module.os.map import OSMap
 from module.os_handler.action_point import ActionPointLimit
 from module.ui.ui import page_os
 
+RECORD_MISSION_ACCEPT = ('DailyRecord', 'os_mission_accept')
+RECORD_MISSION_FINISH = ('DailyRecord', 'os_mission_finish')
+RECORD_SUPPLY_BUY = ('DailyRecord', 'os_supply_buy')
+
 
 class OperationSiren(OSMap):
     def os_init(self):
@@ -158,13 +162,24 @@ class OperationSiren(OSMap):
             self.globe_goto(zone, refresh=True)
             self.run_auto_search()
 
-    def os_meowfficer_farming(self, hazard_level=5):
+    def os_meowfficer_farming(self, hazard_level=5, daily=False):
         """
         Args:
             hazard_level (int): 1 to 6. Recommend 3 or 5 for higher meowfficer searching point per action points ratio.
+            daily (bool): If false, loop until AP lower than OS_ACTION_POINT_PRESERVE.
+                If True, loop until run out of AP (not including boxes).
+                If True and ENABLE_OS_ASH_ATTACK, loop until ash beacon fully collected today,
+                    then loop until run out of AP (not including boxes).
         """
         logger.hr(f'OS meowfficer farming, hazard_level={hazard_level}', level=1)
         while 1:
+            if daily:
+                if self.config.ENABLE_OS_ASH_ATTACK:
+                    if self._ash_fully_collected:
+                        self.config.OS_ACTION_POINT_BOX_USE = False
+                else:
+                    self.config.OS_ACTION_POINT_BOX_USE = False
+
             # (1252, 1012) is the coordinate of zone 134 (the center zone) in os_globe_map.png
             zones = self.zone_select(hazard_level=hazard_level) \
                 .delete(SelectedGrids([self.zone])) \
@@ -174,15 +189,38 @@ class OperationSiren(OSMap):
             self.globe_goto(zones[0])
             self.run_auto_search()
 
-    def operation_siren(self):
+    def _operation_siren(self, daily=False):
+        mission = self.config.ENABLE_OS_MISSION_ACCEPT \
+                  and not self.config.record_executed_since(option=RECORD_MISSION_ACCEPT, since=(0,))
+        supply = self.config.ENABLE_OS_SUPPLY_BUY \
+                 and not self.config.record_executed_since(option=RECORD_SUPPLY_BUY, since=(0,))
+        if mission or supply:
+            if self.os_port_daily(mission=mission, supply=supply):
+                if mission:
+                    self.config.record_save(RECORD_MISSION_ACCEPT)
+                if supply:
+                    self.config.record_save(RECORD_SUPPLY_BUY)
+
+        if self.config.ENABLE_OS_MISSION_FINISH \
+                and not self.config.record_executed_since(option=RECORD_MISSION_FINISH, since=(0,)):
+            if self.os_finish_daily_mission():
+                self.config.record_save(RECORD_MISSION_FINISH)
+
+        if self.config.ENABLE_OS_OBSCURE_FINISH:
+            pass
+
+        if self.config.ENABLE_OS_MEOWFFICER_FARMING:
+            self.os_meowfficer_farming(hazard_level=self.config.OS_MEOWFFICER_FARMING_LEVEL, daily=daily)
+
+    def operation_siren(self, daily=False):
+        if daily:
+            # Force to use AP boxes
+            backup = self.config.cover(OS_ACTION_POINT_PRESERVE=40)
+
         try:
-            if self.config.ENABLE_OS_MISSION_ACCEPT or self.config.ENABLE_OS_SUPPLY_BUY:
-                self.os_port_daily(mission=self.config.ENABLE_OS_MISSION_ACCEPT, supply=self.config.ENABLE_OS_SUPPLY_BUY)
-            if self.config.ENABLE_OS_MISSION_FINISH:
-                self.os_finish_daily_mission()
-            if self.config.ENABLE_OS_OBSCURE_FINISH:
-                pass
-            if self.config.ENABLE_OS_MEOWFFICER_FARMING:
-                self.os_meowfficer_farming(hazard_level=self.config.OS_MEOWFFICER_FARMING_LEVEL)
+            self._operation_siren(daily=daily)
         except ActionPointLimit:
             pass
+
+        if daily:
+            backup.recover()

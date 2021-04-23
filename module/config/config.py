@@ -522,6 +522,7 @@ class AzurLaneConfig:
 
     ENABLE_OS_ACTION_POINT_BUY = False
     OS_ACTION_POINT_PRESERVE = 200
+    OS_ACTION_POINT_BOX_USE = True
     # 1 to 6. Recommend 3 or 5 for higher meowfficer searching point per action points ratio.
     OS_MEOWFFICER_FARMING_LEVEL = 5
     ENABLE_OS_AKASHI_SHOP_BUY = True

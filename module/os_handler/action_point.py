@@ -68,7 +68,9 @@ class ActionPointHandler(UI):
         items = ACTION_POINT_ITEMS.predict(self.device.image, name=False, amount=True)
         box = [item.amount for item in items]
         current = OCR_ACTION_POINT_REMAIN.ocr(self.device.image)
-        total = np.sum(np.array(box) * (0, 20, 50, 200)) + current
+        total = current
+        if self.config.OS_ACTION_POINT_BOX_USE:
+            total += np.sum(np.array(box) * (0, 20, 50, 200))
         oil = box[0]
 
         logger.info(f'Action points: {current}({total}), oil: {oil}')
