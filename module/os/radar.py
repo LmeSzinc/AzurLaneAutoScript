@@ -133,7 +133,8 @@ class RadarGrid:
 
     def predict_question(self):
         return self.image_color_count(area=(0, -7, 6, 0), color=(255, 255, 255), threshold=235, count=10) \
-               and self.image_color_count(area=(-4, -7, 2, 0), color=(255, 255, 255), threshold=235, count=10)
+               and self.image_color_count(area=(-4, -7, 2, 0), color=(255, 255, 255), threshold=235, count=10) \
+               and self.image_color_count(area=(-2, 0, 4, 7), color=(255, 255, 255), threshold=235, count=5)
 
 
 class Radar:
