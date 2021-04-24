@@ -23,11 +23,11 @@ TW support, Thanks **[@Zorachristine](https://github.com/Zorachristine)** , some
 
 > **Event Announcement 活动公告**
 >
-> [CN] 支持活动「破晓冰华」.
+> [CN] 支持活动「复兴的赞美诗」, 可以处理地图迷宫.
 >
-> [EN] Support event "Khorovod of Dawn's Rime".
+> [EN] Support event "Daedalian Hymn", able to handle map maze.
 >
-> [JP] Support event 「暁射す氷華の嵐」.
+> [JP] Support event 「讃える復興の迷路」, able to handle map maze.
 
 ![gui](doc/README.assets/gui.png)
 
@@ -37,7 +37,7 @@ TW support, Thanks **[@Zorachristine](https://github.com/Zorachristine)** , some
 
 - **主线图出击** 针对复杂地图优化, 降低BOSS队被堵住而多打一战的可能性, 能处理伏击空袭
 
-- **活动图出击** 支持在非周回模式下运行, 能处理移动距离限制, 光之壁, 传送门, 岸防炮, 地图解谜
+- **活动图出击** 支持在非周回模式下运行, 能处理移动距离限制, 光之壁, 传送门, 岸防炮, 地图解谜, 地图迷宫
 
 - **每日任务** 半小时左右一套做完, 重复运行时会跳过当天做过的
 

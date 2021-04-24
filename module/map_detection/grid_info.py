@@ -46,6 +46,9 @@ class GridInfo:
     is_siren = False  # SI
     is_portal = False
     portal_link = ()
+    is_maze = False
+    maze_round = (0, 1, 2)
+    maze_nearby = None  # SelectedGrids
 
     enemy_scale = 0
     enemy_genre = None  # Light, Main, Carrier, Treasure, Enemy(unknown)
