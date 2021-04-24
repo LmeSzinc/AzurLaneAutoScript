@@ -159,6 +159,8 @@ class Combat(Combat_, MapEventHandler):
             # End
             if self.is_combat_executing():
                 continue
+            if handle_map_event():
+                continue
             if self.is_in_map():
                 self.device.screenshot_interval_set(0)
                 break
