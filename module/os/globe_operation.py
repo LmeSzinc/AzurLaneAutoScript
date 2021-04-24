@@ -191,6 +191,21 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
         self.ui_click(MAP_GOTO_GLOBE, check_button=self.is_in_globe, offset=(200, 5),
                       skip_first_screenshot=skip_first_screenshot)
 
+        confirm_timer = Timer(1, count=2).start()
+        unpinned = 0
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.handle_zone_pinned():
+                unpinned += 1
+                confirm_timer.reset()
+            else:
+                if unpinned and confirm_timer.reached():
+                    break
+
     def globe_enter(self, zone, skip_first_screenshot=True):
         """
         Args:

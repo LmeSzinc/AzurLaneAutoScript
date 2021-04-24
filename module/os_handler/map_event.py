@@ -140,7 +140,7 @@ class MapEventHandler(EnemySearchingHandler):
                 break
 
     def os_auto_search_quit(self):
-        confirm_timer = Timer(1, count=2)
+        confirm_timer = Timer(1, count=2).start()
         while 1:
             self.device.screenshot()
 
