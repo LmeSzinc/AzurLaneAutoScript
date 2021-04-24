@@ -24,9 +24,9 @@ class RadarGrid:
         'RE': 'is_resource',
         'EX': 'is_exclamation',
         'ME': 'is_meowfficer',
+        'PO': 'is_port',
         'QU': 'is_question',
         # 'FL': 'is_fleet',
-        'PO': 'is_port',
     }
 
     def __init__(self, location, image, center, config):
@@ -83,6 +83,7 @@ class RadarGrid:
         self.is_meowfficer = self.predict_meowfficer()
         self.is_exclamation = self.predict_exclamation()
         self.is_port = self.predict_port()
+        self.is_question = self.predict_question()
 
         if self.enemy_genre:
             self.is_enemy = True
@@ -129,6 +130,10 @@ class RadarGrid:
 
     def predict_port(self):
         return self.image_color_count(area=(-3, -3, 3, 3), color=(255, 255, 255), threshold=235, count=10)
+
+    def predict_question(self):
+        return self.image_color_count(area=(0, -7, 6, 0), color=(255, 255, 255), threshold=235, count=10) \
+               and self.image_color_count(area=(-4, -7, 2, 0), color=(255, 255, 255), threshold=235, count=10)
 
 
 class Radar:
@@ -258,3 +263,18 @@ class Radar:
         if port is None:
             port = self.port_outside_to_inside(self.predict_port_outside(image))
         return port
+
+    def predict_akashi(self, image):
+        """
+        Args:
+            image: Screenshot.
+
+        Returns:
+            tuple: Grid location of akashi on radar, or None if no akashi found.
+        """
+        self.predict(image)
+        for location in [(0, 1), (-1, 0), (1, 0), (0, -1)]:
+            if self[location].is_question:
+                return location
+
+        return None

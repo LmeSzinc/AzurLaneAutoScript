@@ -1,3 +1,5 @@
+import numpy as np
+
 from module.exception import CampaignEnd
 from module.logger import logger
 from module.map.map import Map
@@ -115,20 +117,25 @@ class OSMap(OSFleet, Map, GlobeCamera):
         Handle Akashi's shop after auto search.
         After auto search, fleet will near akashi.
         This method detect where akashi stands, enter shop, buy items and exit.
+
+        Returns:
+            bool: If found and handled.
         """
         if not self.config.ENABLE_OS_AKASHI_SHOP_BUY:
             return False
-
-        view = self.os_default_view
-        view.load(self.device.image)
-        view.predict()
-        grids = view.select(is_akashi=True)
-        if not len(grids):
-            logger.info('No Akashi in this map')
+        if self.zone.is_port:
+            logger.info('Current zone is a port, do not have akashi')
             return False
 
-        logger.info(f'Found Akashi in {grids}')
-        self.handle_akashi_supply_buy(grids[0])
+        grid = self.radar.predict_akashi(self.device.image)
+        if grid is None:
+            logger.info('No akashi on this map')
+            return False
+
+        logger.info(f'Found Akashi on {grid}')
+        view = self.os_default_view
+        grid = view[np.add(grid, view.center_loca)]
+        self.handle_akashi_supply_buy(grid)
         return True
 
     def run(self):

@@ -6,7 +6,6 @@ from module.map.map_grids import SelectedGrids
 from module.map.utils import location_ensure
 from module.os.camera import OSCamera
 from module.os.map_base import OSCampaignMap
-from module.os.radar import Radar
 from module.os_ash.ash import OSAsh
 from module.os_combat.combat import Combat
 
@@ -181,8 +180,6 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         In most situation, we use auto search to clear a map in OpSi, and classic methods are deprecated.
         But we still need to move fleet toward port, this method is for this situation.
         """
-        if not hasattr(self, 'radar'):
-            self.radar = Radar(self.config)
         view = self.os_default_view
 
         while 1:

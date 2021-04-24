@@ -21,12 +21,18 @@ class OSCamera(OSMapOperation, Camera):
         if not hasattr(self, 'view'):
             self.view = View(self.config, mode='os')
 
+    @cached_property
+    def radar(self):
+        """
+        Returns:
+            Radar:
+        """
+        return Radar(self.config)
+
     def update_radar(self):
         """
         Scan radar and merge it into map
         """
-        if not hasattr(self, 'radar'):
-            self.radar = Radar(self.config)
         self.radar.predict(self.device.image)
         self.map.update(self.radar, camera=self.fleet_current)
 
@@ -96,5 +102,6 @@ class OSCamera(OSMapOperation, Camera):
         view.backend.upper_edge = None
         view.backend.lower_edge = None
         view.backend.homo_loca = (53, 60)
+        view.load(self.device.image)
 
         return view
