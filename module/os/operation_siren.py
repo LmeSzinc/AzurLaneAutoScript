@@ -152,6 +152,9 @@ class OperationSiren(OSMap):
         """
         Finish all daily mission in Operation Siren.
         Suggest to run os_port_daily to accept missions first.
+
+        Returns:
+            bool: True if all finished.
         """
         logger.hr('OS finish daily mission', level=1)
         while 1:
@@ -161,6 +164,8 @@ class OperationSiren(OSMap):
 
             self.globe_goto(zone, refresh=True)
             self.run_auto_search()
+
+        return True
 
     def os_meowfficer_farming(self, hazard_level=5, daily=False):
         """
