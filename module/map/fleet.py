@@ -101,7 +101,7 @@ class Fleet(Camera, AmbushHandler):
         """
         Call this method after fleet arrived.
         """
-        if not self.config.MAP_HAS_MOVABLE_ENEMY:
+        if not self.config.MAP_HAS_MOVABLE_ENEMY and not self.config.MAP_HAS_MAZE:
             return False
         self.round += 1
         logger.info(f'Round: {self.round}, enemy_round: {self.enemy_round}')
@@ -400,7 +400,7 @@ class Fleet(Camera, AmbushHandler):
             nodes = self.map.find_path(location, step=self.fleet_step)
             for node in nodes:
                 if self.maze_active_on(node):
-                    logger.info(f'Maze is active on {node}, bouncing to wait')
+                    logger.info(f'Maze is active on {location2node(node)}, bouncing to wait')
                     for _ in range(10):
                         grids = self.map[node].maze_nearby.delete(self.map.select(is_fleet=True))
                         if grids.select(is_enemy=False):
