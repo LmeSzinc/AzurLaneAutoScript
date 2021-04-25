@@ -145,6 +145,9 @@ class Enhancement(Dock):
             else:
                 self.device.screenshot()
 
+            if self.handle_popup_confirm('ENHANCE'):
+                continue
+
             # Respond accordingly based on info_bar information
             if self.info_bar_count():
                 image = info_letter_preprocess(np.array(self.device.image.crop(INFO_BAR_DETECT.area)))
