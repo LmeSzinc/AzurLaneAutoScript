@@ -239,6 +239,7 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
                 click_timer.reset()
                 continue
             if self.handle_action_point(zone=zone, pinned=pinned):
+                click_timer.clear()
                 continue
             if self.handle_map_event():
                 continue
