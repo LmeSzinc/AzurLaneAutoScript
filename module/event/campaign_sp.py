@@ -22,7 +22,7 @@ class CampaignSP(CampaignRun):
         self.reward_backup_daily_reward_settings()
 
         fleet_1, fleet_2 = (2, 1) if self.config.EVENT_SP_MOB_FLEET == 2 else (1, 2)
-        backup = self.config.cover(FLEET_1=fleet_1, FLEET_2=fleet_2)
+        backup = self.config.cover(FLEET_1=fleet_1, FLEET_2=fleet_2, ENABLE_FLEET_REVERSE_IN_HARD=False)
 
         if not self.config.record_executed_since(option=RECORD_OPTION, since=RECORD_SINCE):
             self.run(name='sp', folder=self.config.EVENT_NAME_AB, total=1)
