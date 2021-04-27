@@ -504,7 +504,7 @@ def main(ini_name=''):
     # ==========OS fully auto==========
     os_parser = subs.add_parser('大世界全自动')
     os = os_parser.add_argument_group('大世界全自动', '运行顺序: 接每日买补给 > 做每日 > 打隐秘海域 > 短猫相接\n港口补给是有限池, 总量恒定随机出现, 想要买好东西需要全买\n商店优先级格式: ActionPoint > PurpleCoins > TuringSample > RepairPack', gooey_options={'label_color': '#931D03'})
-    os.add_argument('--在每日中完成大世界', default=default('--在每日中完成大世界'), choices=['是', '否'], help='[开发中]将大世界全自动作为每日的一部分来完成', gooey_options={'label_color': '#4B5F83'})
+    os.add_argument('--在每日中完成大世界', default=default('--在每日中完成大世界'), choices=['是', '否'], help='将大世界全自动作为每日的一部分来完成', gooey_options={'label_color': '#4B5F83'})
 
     os_daily = os.add_argument_group('大世界每日', '', gooey_options={'label_color': '#931D03'})
     os_daily.add_argument('--大世界接每日任务', default=default('--大世界接每日任务'), choices=['是', '否'], help='在港口领取每日任务', gooey_options={'label_color': '#4B5F83'})
@@ -522,7 +522,7 @@ def main(ini_name=''):
     os_setting.add_argument('--大世界行动力保留', default=default('--大世界行动力保留'), help='低于此值后停止, 含行动力箱子', gooey_options={'label_color': '#4B5F83'})
 
     os_shop = os.add_argument_group('大世界商店', '', gooey_options={'label_color': '#931D03'})
-    os_shop.add_argument('--明石商店购买', default=default('--明石商店购买'), choices=['是', '否'], help='[开发中]', gooey_options={'label_color': '#4B5F83'})
+    os_shop.add_argument('--明石商店购买', default=default('--明石商店购买'), choices=['是', '否'], help='', gooey_options={'label_color': '#4B5F83'})
     os_shop.add_argument('--明石商店优先级', default=default('--明石商店优先级'), help='', gooey_options={'label_color': '#4B5F83'})
 
     args = parser.parse_args()

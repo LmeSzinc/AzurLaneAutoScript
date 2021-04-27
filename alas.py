@@ -235,6 +235,7 @@ class AzurLaneAutoScript:
         from module.campaign.os_run import OSCampaignRun
         az = OSCampaignRun(self.config, device=self.device)
         az.run_operation_siren()
+        self.reward_when_finished()
 
 # alas = AzurLaneAutoScript()
 # alas.reward()

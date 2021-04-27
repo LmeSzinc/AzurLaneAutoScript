@@ -195,6 +195,10 @@ class OperationSiren(OSMap):
             self.run_auto_search()
 
     def _operation_siren(self, daily=False):
+        """
+        Raises:
+            ActionPointLimit:
+        """
         mission = self.config.ENABLE_OS_MISSION_ACCEPT \
                   and not self.config.record_executed_since(option=RECORD_MISSION_ACCEPT, since=(0,))
         supply = self.config.ENABLE_OS_SUPPLY_BUY \
@@ -206,8 +210,9 @@ class OperationSiren(OSMap):
                 if supply:
                     self.config.record_save(RECORD_SUPPLY_BUY)
 
-        if self.config.ENABLE_OS_MISSION_FINISH \
-                and not self.config.record_executed_since(option=RECORD_MISSION_FINISH, since=(0,)):
+        finish = self.config.ENABLE_OS_MISSION_FINISH \
+                 and not self.config.record_executed_since(option=RECORD_MISSION_FINISH, since=(0,))
+        if finish:
             if self.os_finish_daily_mission():
                 self.config.record_save(RECORD_MISSION_FINISH)
 
@@ -217,15 +222,24 @@ class OperationSiren(OSMap):
         if self.config.ENABLE_OS_MEOWFFICER_FARMING:
             self.os_meowfficer_farming(hazard_level=self.config.OS_MEOWFFICER_FARMING_LEVEL, daily=daily)
 
-    def operation_siren(self, daily=False):
-        if daily:
-            # Force to use AP boxes
-            backup = self.config.cover(OS_ACTION_POINT_PRESERVE=40)
-
+    def operation_siren(self):
         try:
-            self._operation_siren(daily=daily)
+            self._operation_siren(daily=False)
         except ActionPointLimit:
             pass
 
-        if daily:
-            backup.recover()
+    def operation_siren_daily(self):
+        """
+        Returns:
+            bool: If executed.
+        """
+        # Force to use AP boxes
+        backup = self.config.cover(OS_ACTION_POINT_PRESERVE=40)
+
+        try:
+            self._operation_siren(daily=True)
+        except ActionPointLimit:
+            pass
+
+        backup.recover()
+        return True

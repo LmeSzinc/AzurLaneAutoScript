@@ -582,7 +582,7 @@ def main(ini_name=''):
     # ==========OS fully auto==========
     os_parser = subs.add_parser('os_fully_auto')
     os = os_parser.add_argument_group('OS fully auto', 'Run sequence: Accept dailies and buy supplies > do dailies > do obscre zone > meowfficer farming\nPort shop is a limited pool of items. Poors have the same items, but appear randomly. Buy all if you want good items\nShop priority format: ActionPoint > PurpleCoins > TuringSample > RepairPack', gooey_options={'label_color': '#931D03'})
-    os.add_argument('--do_os_in_daily', default=default('--do_os_in_daily'), choices=['yes', 'no'], help='[Developing]Do OS as a part of daily', gooey_options={'label_color': '#4B5F83'})
+    os.add_argument('--do_os_in_daily', default=default('--do_os_in_daily'), choices=['yes', 'no'], help='Do OS as a part of daily', gooey_options={'label_color': '#4B5F83'})
 
     os_daily = os.add_argument_group('OS daily', '', gooey_options={'label_color': '#931D03'})
     os_daily.add_argument('--enable_os_mission_accept', default=default('--enable_os_mission_accept'), choices=['yes', 'no'], help='Accept all missions in port', gooey_options={'label_color': '#4B5F83'})
@@ -600,7 +600,7 @@ def main(ini_name=''):
     os_setting.add_argument('--os_action_point_preserve', default=default('--os_action_point_preserve'), help='Include AP boxes, stop if lower than this', gooey_options={'label_color': '#4B5F83'})
 
     os_shop = os.add_argument_group('OS shop', '', gooey_options={'label_color': '#931D03'})
-    os_shop.add_argument('--enable_os_akashi_shop_buy', default=default('--enable_os_akashi_shop_buy'), choices=['yes', 'no'], help='[Developing]', gooey_options={'label_color': '#4B5F83'})
+    os_shop.add_argument('--enable_os_akashi_shop_buy', default=default('--enable_os_akashi_shop_buy'), choices=['yes', 'no'], help='', gooey_options={'label_color': '#4B5F83'})
     os_shop.add_argument('--os_akashi_shop_priority', default=default('--os_akashi_shop_priority'), help='', gooey_options={'label_color': '#4B5F83'})
 
     args = parser.parse_args()
