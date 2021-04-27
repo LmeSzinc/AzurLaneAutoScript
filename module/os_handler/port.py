@@ -27,7 +27,7 @@ class PortHandler(ShopHandler):
             in: PORT_CHECK
             out: IN_MAP
         """
-        self.ui_back(appear_button=PORT_CHECK, check_button=PORT_ENTER,
+        self.ui_back(appear_button=PORT_CHECK, check_button=self.is_in_map,
                      skip_first_screenshot=skip_first_screenshot)
         # Buttons at the bottom has an animation to show
         self.device.sleep(0.3)

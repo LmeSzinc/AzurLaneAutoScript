@@ -1,6 +1,7 @@
 from module.base.timer import Timer
 from module.base.utils import *
 from module.logger import logger
+from module.map_detection.utils import fit_points
 from module.os.globe_detection import GLOBE_MAP_SHAPE
 from module.os.globe_zone import Zone, ZoneManager
 from module.os_handler.assets import *
@@ -27,16 +28,12 @@ class MissionHandler(UI, MapEventHandler, ZoneManager):
         if not len(points):
             logger.warning('Unable to find mission on OS mission map')
 
-        # Points at the bottom of the `!`
-        y = points[:, 1]
-        points = points[np.where(y == np.max(y))[0], :]
-        # Center of the `!` on 2D game map
-        point = np.mean(points, axis=0) + (0, -3)
+        point = fit_points(points, mod=(1000, 1000), encourage=5) + (0, 11)
         # Location of zone.
         # (2570, 1694) is the shape of os_globe_map.png
         point *= np.array(GLOBE_MAP_SHAPE) / np.subtract(area[2:], area[:2])
 
-        zone = self.camera_to_zone(point)
+        zone = self.camera_to_zone(tuple(point))
         return zone
 
     def os_mission_enter(self, skip_first_screenshot=True):
@@ -44,7 +41,7 @@ class MissionHandler(UI, MapEventHandler, ZoneManager):
                       skip_first_screenshot=skip_first_screenshot)
 
     def os_mission_quit(self, skip_first_screenshot=True):
-        self.ui_click(MISSION_QUIT, check_button=MISSION_ENTER, offset=(200, 5),
+        self.ui_click(MISSION_QUIT, check_button=self.is_in_map, offset=(200, 5),
                       skip_first_screenshot=skip_first_screenshot)
 
     def os_mission_submit(self, skip_first_screenshot=True):
@@ -63,7 +60,7 @@ class MissionHandler(UI, MapEventHandler, ZoneManager):
                 self.device.screenshot()
 
             # End
-            if self.appear(MISSION_CHECK, offset=(20, 20)) and not self.appear(MISSION_FINISH):
+            if self.appear(MISSION_CHECK, offset=(20, 20)) and not self.appear(MISSION_FINISH, offset=(20, 20)):
                 if confirm_timer.reached():
                     break
             else:
