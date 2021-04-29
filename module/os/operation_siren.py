@@ -204,6 +204,9 @@ class OperationSiren(OSMap):
         supply = self.config.ENABLE_OS_SUPPLY_BUY \
                  and not self.config.record_executed_since(option=RECORD_SUPPLY_BUY, since=(0,))
         if mission or supply:
+            # Force to clear all missions before accepting.
+            # Because players can only hold 7 mission, and unable to accept the same mission twice.
+            self.os_finish_daily_mission()
             if self.os_port_daily(mission=mission, supply=supply):
                 if mission:
                     self.config.record_save(RECORD_MISSION_ACCEPT)
