@@ -88,6 +88,16 @@ class Button:
         self.image = np.array(image.crop(self.area))
         return self.color
 
+    def load_offset(self, button):
+        """
+        Load offset from another button.
+
+        Args:
+            button (Button):
+        """
+        offset = np.subtract(button.button, button._button)[:2]
+        self._button_offset = area_offset(self._button, offset=offset)
+
     def ensure_template(self):
         """
         Load asset image.
@@ -124,6 +134,19 @@ class Button:
         self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
 
         return similarity > threshold
+
+    def match_appear_on(self, image, threshold=10):
+        """
+        Args:
+            image: Screenshot.
+            threshold: Default to 10.
+
+        Returns:
+            bool:
+        """
+        diff = np.subtract(self.button, self._button)[:2]
+        area = area_offset(self.area, offset=diff)
+        return color_similar(color1=get_color(image, area), color2=self.color, threshold=threshold)
 
 
 class ButtonGrid:

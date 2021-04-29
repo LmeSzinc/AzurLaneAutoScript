@@ -140,6 +140,20 @@ def area_limit(area1, area2):
     return (max(area1[0], area2[0]), max(area1[1], area2[1]), min(area1[2], area2[2]), min(area1[3], area2[3]))
 
 
+def point_limit(point, area):
+    """
+    Limit point in an area.
+
+    Args:
+        point: (x, y).
+        area: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
+
+    Returns:
+        tuple: (x, y).
+    """
+    return (min(max(point[0], area[0]), area[2]), min(max(point[1], area[1]), area[3]))
+
+
 def point_in_area(point, area, threshold=5):
     """
 

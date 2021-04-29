@@ -44,7 +44,7 @@ class MapDetector:
     def load(self, image):
         """
         Args:
-            image (np.ndarray): Shape (720, 1280, 3)
+            image: Shape (720, 1280, 3)
         """
         self.backend.load(image)
 

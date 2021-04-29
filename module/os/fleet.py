@@ -1,9 +1,11 @@
-import numpy as np
-
+from module.base.timer import Timer
+from module.base.utils import *
 from module.logger import logger
 from module.map.fleet import Fleet
 from module.map.map_grids import SelectedGrids
+from module.map.utils import location_ensure
 from module.os.camera import OSCamera
+from module.os.map_base import OSCampaignMap
 from module.os_ash.ash import OSAsh
 from module.os_combat.combat import Combat
 
@@ -19,7 +21,10 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             self.camera = location
             self.update()
 
-    def map_init(self, map_):
+    def map_init(self, map_=None):
+        map_ = OSCampaignMap()
+        map_.shape = self.zone.shape
+
         logger.hr('Map init')
         self.fleet_1_location = ()
         self.fleet_2_location = ()
@@ -139,3 +144,65 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         else:
             center = self.camera
         return SelectedGrids(sea).sort_by_camera_distance(center)
+
+    def port_goto(self, init=False):
+        """
+        Goto the port in current zone.
+        Should be called in Azur Lane ports only. Shouldn't be called in Red Axis ports or zones with enemies.
+
+        Args:
+            init:
+
+        Returns:
+            bool: If executed.
+        """
+        if init:
+            self.device.screenshot()
+            self.map_init()
+
+        dic_port = {0: 'C6', 1: 'H8', 2: 'E4', 3: 'H7'}
+        list_surround = [(-1, -1), (0, -1), (1, -1), (-1, 0), (1, 0), (-1, 1), (-1, 0), (-1, 1)]
+
+        if self.zone.zone_id not in dic_port:
+            logger.warning(f'Current zone do not have a port, zone={self.zone}')
+            return False
+
+        port = self.map[location_ensure(dic_port[self.zone.zone_id])]
+        grids = self.map.grid_covered(port, location=list_surround).sort_by_camera_distance(self.camera)
+        self.goto(grids[0])
+        return True
+
+    def port_goto2(self):
+        """
+        A simple and poor implement to goto port. Searching port on radar.
+
+        In OpSi, camera always focus to fleet when fleet is moving which mess up `self.goto()`.
+        In most situation, we use auto search to clear a map in OpSi, and classic methods are deprecated.
+        But we still need to move fleet toward port, this method is for this situation.
+        """
+        view = self.os_default_view
+
+        while 1:
+            port = self.radar.port_predict(self.device.image)
+            view.load(self.device.image)
+            logger.info(f'Port route at {port}')
+            if np.linalg.norm(port) == 0:
+                logger.info('Arrive port')
+                break
+
+            port = point_limit(port, area=(-4, -2, 3, 2))
+            port = view[np.add(port, view.center_loca)]
+            self.device.click(port)
+            prev = (0, 0)
+            confirm_timer = Timer(1, count=2).start()
+            while 1:
+                self.device.screenshot()
+
+                self.radar.port_predict(self.device.image)
+                if np.linalg.norm(np.subtract(self.radar.port_loca, prev)) < 1:
+                    if confirm_timer.reached():
+                        break
+                else:
+                    confirm_timer.reset()
+
+                prev = self.radar.port_loca

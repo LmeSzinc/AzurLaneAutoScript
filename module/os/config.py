@@ -16,7 +16,7 @@ class OSConfig:
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 40),
         'width': (1.5, 10),
-        'prominence': 10,
+        'prominence': 35,
         'distance': 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
@@ -25,8 +25,8 @@ class OSConfig:
         'distance': 50,
         'wlen': 1000
     }
-    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 120
-    EDGE_LINES_HOUGHLINES_THRESHOLD = 120
+    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 75
+    EDGE_LINES_HOUGHLINES_THRESHOLD = 75
 
     MAP_ENEMY_GENRE_DETECTION_SCALING = {
         'DD': 0.8,

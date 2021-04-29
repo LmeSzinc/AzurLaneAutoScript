@@ -1,10 +1,10 @@
 from module.base.timer import Timer
-from module.base.utils import color_bar_percentage, area_offset, get_color
+from module.base.utils import color_bar_percentage
 from module.combat.combat import Combat, BATTLE_PREPARATION, GET_ITEMS_1
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
+from module.os.assets import MAP_GOTO_GLOBE
 from module.os_ash.assets import *
-from module.os.assets import MAP_OVERVIEW
 from module.os_handler.assets import IN_MAP
 from module.ui.assets import BACK_ARROW
 from module.ui.page import page_os
@@ -94,7 +94,7 @@ class OSAsh(UI):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(MAP_OVERVIEW, offset=offset, interval=3):
+            if self.appear_then_click(MAP_GOTO_GLOBE, offset=offset, interval=3):
                 confirm_timer.reset()
                 continue
             if self.appear_then_click(ASH_ENTRANCE, offset=offset, interval=3):
@@ -223,7 +223,7 @@ class OSAsh(UI):
                 self.device.click(ASH_COLLECT_STATUS)
                 in_map_timeout.reset()
                 continue
-            if self.appear_then_click(ASH_ENTER_CONFIRM, offset=(20, 20), interval=2):
+            if self.appear_then_click(ASH_ENTER_CONFIRM, offset=(30, 50), interval=2):
                 continue
             if self.appear_then_click(BEACON_ENTER, offset=(20, 20), interval=2):
                 continue

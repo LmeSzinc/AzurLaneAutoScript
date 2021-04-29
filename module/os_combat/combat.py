@@ -130,3 +130,39 @@ class Combat(Combat_, MapEventHandler):
             except ContinuousCombat:
                 logger.info('Continuous combat detected')
                 continue
+
+    def auto_search_combat(self):
+        """
+        Pages:
+            in: is_combat_loading()
+            out: combat status
+        """
+        logger.info('Auto search combat loading')
+        self.device.screenshot_interval_set(self.config.COMBAT_SCREENSHOT_INTERVAL)
+        while 1:
+            self.device.screenshot()
+
+            if self.is_combat_executing():
+                break
+
+        logger.info('Auto Search combat execute')
+        self.submarine_call_reset()
+
+        while 1:
+            self.device.screenshot()
+
+            if self.handle_submarine_call():
+                continue
+            if self.handle_os_auto_search_map_option():
+                continue
+
+            # End
+            if self.is_combat_executing():
+                continue
+            if self.handle_map_event():
+                continue
+            if self.is_in_map():
+                self.device.screenshot_interval_set(0)
+                break
+
+        logger.info('Combat end.')

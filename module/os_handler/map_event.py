@@ -1,5 +1,6 @@
 from module.base.timer import Timer
 from module.combat.assets import *
+from module.exception import CampaignEnd
 from module.handler.assets import *
 from module.logger import logger
 from module.os_handler.assets import *
@@ -7,22 +8,22 @@ from module.os_handler.enemy_searching import EnemySearchingHandler
 
 
 class MapEventHandler(EnemySearchingHandler):
-    def handle_map_get_items(self):
+    def handle_map_get_items(self, interval=2):
         if self.is_in_map():
             return False
 
-        if self.appear(GET_ITEMS_1, interval=2) \
-                or self.appear(GET_ITEMS_2, interval=2) \
-                or self.appear(GET_ITEMS_3, interval=2):
+        if self.appear(GET_ITEMS_1, interval=interval) \
+                or self.appear(GET_ITEMS_2, interval=interval) \
+                or self.appear(GET_ITEMS_3, interval=interval):
             self.device.click(CLICK_SAFE_AREA)
             return True
-        if self.appear(GET_ADAPTABILITY, interval=2):
+        if self.appear(GET_ADAPTABILITY, interval=interval):
             self.device.click(CLICK_SAFE_AREA)
             return True
-        if self.appear(GET_MEOWFFICER_ITEMS_1, interval=2):
+        if self.appear(GET_MEOWFFICER_ITEMS_1, interval=interval):
             self.device.click(CLICK_SAFE_AREA)
             return True
-        if self.appear(GET_MEOWFFICER_ITEMS_2, interval=2):
+        if self.appear(GET_MEOWFFICER_ITEMS_2, interval=interval):
             self.device.click(CLICK_SAFE_AREA)
             return True
 
@@ -137,3 +138,36 @@ class MapEventHandler(EnemySearchingHandler):
             # End
             if self.handle_os_in_map():
                 break
+
+    def os_auto_search_quit(self):
+        confirm_timer = Timer(1, count=2).start()
+        while 1:
+            self.device.screenshot()
+
+            if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(20, 20), interval=1):
+                confirm_timer.reset()
+                continue
+
+            # End
+            if self.is_in_map():
+                if confirm_timer.reached():
+                    break
+            else:
+                confirm_timer.reset()
+
+    def handle_os_auto_search_map_option(self):
+        """
+        Returns:
+            bool: If clicked.
+        """
+        if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 50), interval=3) \
+                and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image):
+            self.device.click(AUTO_SEARCH_OS_MAP_OPTION_OFF)
+            return True
+        if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 50)) \
+                and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image) \
+                and self.info_bar_count() >= 2:
+            raise CampaignEnd
+        if self.appear(AUTO_SEARCH_REWARD, offset=(20, 50)):
+            self.os_auto_search_quit()
+            raise CampaignEnd

@@ -1,11 +1,15 @@
+import numpy as np
+
+from module.exception import CampaignEnd
 from module.logger import logger
 from module.map.map import Map
 from module.map.map_grids import SelectedGrids
 from module.os.fleet import OSFleet
-from module.os.map_base import OSCampaignMap
+from module.os.globe_camera import GlobeCamera
+from module.ui.assets import OS_CHECK
 
 
-class OSMap(OSFleet, Map):
+class OSMap(OSFleet, Map, GlobeCamera):
     def clear_all_objects(self, grid=None):
         """Method to clear all objects around specific grid.
 
@@ -108,10 +112,75 @@ class OSMap(OSFleet, Map):
 
         return True
 
+    def clear_akashi2(self):
+        """
+        Handle Akashi's shop after auto search.
+        After auto search, fleet will near akashi.
+        This method detect where akashi stands, enter shop, buy items and exit.
+
+        Returns:
+            bool: If found and handled.
+        """
+        if not self.config.ENABLE_OS_AKASHI_SHOP_BUY:
+            return False
+        if self.zone.is_port:
+            logger.info('Current zone is a port, do not have akashi')
+            return False
+
+        grid = self.radar.predict_akashi(self.device.image)
+        if grid is None:
+            logger.info('No akashi on this map')
+            return False
+
+        logger.info(f'Found Akashi on {grid}')
+        view = self.os_default_view
+        grid = view[np.add(grid, view.center_loca)]
+        self.handle_akashi_supply_buy(grid)
+        return True
+
     def run(self):
         self.device.screenshot()
         self.handle_siren_platform()
-        map_ = OSCampaignMap()
-        map_.shape = self.get_map_shape()
-        self.map_init(map_)
+        self.map_init()
         self.full_clear()
+
+    _auto_search_battle_count = 0
+
+    def os_auto_search_daemon(self):
+        logger.hr('OS auto search', level=2)
+        self._auto_search_battle_count = 0
+
+        while 1:
+            self.device.screenshot()
+
+            if self.is_in_map():
+                self.device.stuck_record_clear()
+            if self.combat_appear():
+                self._auto_search_battle_count += 1
+                logger.attr('battle_count', self._auto_search_battle_count)
+                self.auto_search_combat()
+            if self.handle_os_auto_search_map_option():
+                continue
+            if self.handle_ash_popup():
+                continue
+            if self.handle_story_skip():
+                # Auto search can not handle siren searching device.
+                continue
+
+    def run_auto_search(self):
+        self.handle_ash_beacon_attack()
+
+        for _ in range(3):
+            try:
+                self.os_auto_search_daemon()
+            except CampaignEnd:
+                logger.info('Get OS auto search reward')
+                self.wait_until_appear(OS_CHECK, offset=(20, 20))
+                logger.info('OS auto search finished')
+
+            if self.handle_ash_beacon_attack():
+                continue
+            else:
+                break
+
+        self.clear_akashi2()

@@ -1,3 +1,5 @@
+from PIL import Image
+
 from module.base.button import Button
 from module.base.timer import Timer
 from module.base.utils import *
@@ -140,3 +142,27 @@ class ModuleBase:
     def interval_reset(self, button):
         if button.name in self.interval_timer:
             self.interval_timer[button.name].reset()
+
+    def interval_clear(self, button):
+        if button.name in self.interval_timer:
+            self.interval_timer[button.name].clear()
+
+    _image_file = ''
+
+    @property
+    def image_file(self):
+        return self._image_file
+
+    @image_file.setter
+    def image_file(self, value):
+        """
+        For development.
+        Load image from local file system and set it to self.device.image
+        Test an image without taking a screenshot from emulator.
+        """
+        if isinstance(value, np.ndarray):
+            value = Image.fromarray(value)
+        elif isinstance(value, str):
+            value = Image.open(value).convert('RGB')
+
+        self.device.image = value

@@ -167,13 +167,14 @@ class Perspective:
         return image
 
     @staticmethod
-    def find_peaks(image, is_horizontal, param, pad=0):
+    def find_peaks(image, is_horizontal, param, pad=0, mask=None):
         """
         Args:
             image(np.ndarray): Processed screenshot.
             is_horizontal(bool): True if detects horizontal lines.
             param(dict): Parameters use in scipy.signal.find_peaks.
             pad(int):
+            mask(np.ndarray, None):
 
         Returns:
             np.ndarray:
@@ -191,7 +192,8 @@ class Perspective:
             out = out[:, :-pad]
         if is_horizontal:
             out = out.T
-        out &= ASSETS.ui_mask_stroke
+        if mask is not None:
+            out &= mask
         return out
 
     def hough_lines(self, image, is_horizontal, threshold, theta):
@@ -224,7 +226,7 @@ class Perspective:
         """
         Method that wraps find_peaks and hough_lines
         """
-        peaks = self.find_peaks(image, is_horizontal=is_horizontal, param=param, pad=pad)
+        peaks = self.find_peaks(image, is_horizontal=is_horizontal, param=param, pad=pad, mask=ASSETS.ui_mask_stroke)
         # self.show_array(peaks)
         lines = self.hough_lines(peaks, is_horizontal=is_horizontal, threshold=threshold, theta=theta)
         # self.draw(lines, Image.fromarray(peaks.astype(np.uint8), mode='L'))

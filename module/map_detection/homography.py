@@ -109,11 +109,12 @@ class Homography:
         else:
             raise MapDetectionError('No data feed to load_homography, please input at least one.')
 
-    def find_homography(self, size, src_pts):
+    def find_homography(self, size, src_pts, overflow=True):
         """
         Args:
             size (tuple): (x, y)
             src_pts (list[tuple]): [upper-left, upper-right, bottom-left, bottom-right]
+            overflow (bool): True if get full transformed image, false if get valid area only.
         """
         self.homo_storage = (size, [(x, y) for x, y in np.round(src_pts, 3)])
         logger.attr('homo_storage', self.homo_storage)
@@ -126,9 +127,15 @@ class Homography:
         # Re-generate to align image to upper-left
         area = area2corner(self.config.DETECTING_AREA) - self.config.DETECTING_AREA[:2]
         transformed = perspective_transform(area, data=homo)
-        transformed -= np.min(transformed, axis=0)
+        if overflow:
+            transformed -= np.min(transformed, axis=0)
+            size = np.ceil(np.max(transformed, axis=0)).astype(int)
+        else:
+            x0, y0, x1, y1, x2, y2, x3, y3 = transformed.flatten()
+            inner = np.array((max(x0, x2), max(y0, y1), min(x1, x3), min(y2, y3)))
+            transformed -= inner[:2]
+            size = np.ceil(inner[2:] - inner[:2]).astype(int)
         homo = cv2.getPerspectiveTransform(area.astype(np.float32), transformed.astype(np.float32))
-        size = np.ceil(np.max(transformed, axis=0)).astype(int)
 
         self.homo_data = homo
         self.homo_invt = cv2.invert(homo)[1]

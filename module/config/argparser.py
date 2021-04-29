@@ -497,9 +497,33 @@ def main(ini_name=''):
     os_semi.add_argument('--大世界跳过剧情', default=default('--大世界跳过剧情'), choices=['是', '否'], help='注意, 这会自动点击地图交互的选项', gooey_options={'label_color': '#4B5F83'})
 
     # ==========OS clear map==========
-    os_semi_parser = subs.add_parser('大世界地图全清')
-    os_semi = os_semi_parser.add_argument_group('大世界地图全清', '仅在安全海域中使用, 在普通海域使用时需要先执行空域搜索\n使用方法: 先手动进入地图, 再运行\n运行结束后, 最好手动检查是否有遗漏', gooey_options={'label_color': '#931D03'})
-    os_semi.add_argument('--打大世界余烬信标', default=default('--打大世界余烬信标'), choices=['是', '否'], help='信标数据满了之后, 打飞龙', gooey_options={'label_color': '#4B5F83'})
+    # os_semi_parser = subs.add_parser('大世界地图全清')
+    # os_semi = os_semi_parser.add_argument_group('大世界地图全清', '仅在安全海域中使用, 在普通海域使用时需要先执行空域搜索\n使用方法: 先手动进入地图, 再运行\n运行结束后, 最好手动检查是否有遗漏', gooey_options={'label_color': '#931D03'})
+    # os_semi.add_argument('--打大世界余烬信标', default=default('--打大世界余烬信标'), choices=['是', '否'], help='信标数据满了之后, 打飞龙', gooey_options={'label_color': '#4B5F83'})
+
+    # ==========OS fully auto==========
+    os_parser = subs.add_parser('大世界全自动')
+    os = os_parser.add_argument_group('大世界全自动', '运行顺序: 接每日买补给 > 做每日 > 打隐秘海域 > 短猫相接\n港口补给是有限池, 总量恒定随机出现, 想要买好东西需要全买\n商店优先级格式: ActionPoint > PurpleCoins > TuringSample > RepairPack', gooey_options={'label_color': '#931D03'})
+    os.add_argument('--在每日中完成大世界', default=default('--在每日中完成大世界'), choices=['是', '否'], help='将大世界全自动作为每日的一部分来完成', gooey_options={'label_color': '#4B5F83'})
+
+    os_daily = os.add_argument_group('大世界每日', '', gooey_options={'label_color': '#931D03'})
+    os_daily.add_argument('--大世界接每日任务', default=default('--大世界接每日任务'), choices=['是', '否'], help='在港口领取每日任务', gooey_options={'label_color': '#4B5F83'})
+    os_daily.add_argument('--大世界完成每日', default=default('--大世界完成每日'), choices=['是', '否'], help='前往每日的海域, 并清理', gooey_options={'label_color': '#4B5F83'})
+    os_daily.add_argument('--大世界港口补给', default=default('--大世界港口补给'), choices=['是', '否'], help='买光所有的港口补给', gooey_options={'label_color': '#4B5F83'})
+    os_daily.add_argument('--打大世界余烬信标', default=default('--打大世界余烬信标'), choices=['是', '否'], help='信标数据满了之后, 打飞龙', gooey_options={'label_color': '#4B5F83'})
+
+    os_farm = os.add_argument_group('打大世界', '', gooey_options={'label_color': '#931D03'})
+    os_farm.add_argument('--打大世界隐秘海域', default=default('--打大世界隐秘海域'), choices=['是', '否'], help='[开发中]清理所有隐秘海域', gooey_options={'label_color': '#4B5F83'})
+    os_farm.add_argument('--大世界短猫相接', default=default('--大世界短猫相接'), choices=['是', '否'], help='反复打图拣猫点', gooey_options={'label_color': '#4B5F83'})
+    os_farm.add_argument('--短猫相接侵蚀等级', default=default('--短猫相接侵蚀等级'), choices=['1', '2', '3', '4', '5', '6'], help='侵蚀3和5有更高的猫点/行动力比, 建议选侵蚀5', gooey_options={'label_color': '#4B5F83'})
+
+    os_setting = os.add_argument_group('大世界设置', '', gooey_options={'label_color': '#931D03'})
+    os_setting.add_argument('--大世界买行动力', default=default('--大世界买行动力'), choices=['是', '否'], help='用石油买行动力, 先买再开箱子', gooey_options={'label_color': '#4B5F83'})
+    os_setting.add_argument('--大世界行动力保留', default=default('--大世界行动力保留'), help='低于此值后停止, 含行动力箱子', gooey_options={'label_color': '#4B5F83'})
+
+    os_shop = os.add_argument_group('大世界商店', '', gooey_options={'label_color': '#931D03'})
+    os_shop.add_argument('--明石商店购买', default=default('--明石商店购买'), choices=['是', '否'], help='', gooey_options={'label_color': '#4B5F83'})
+    os_shop.add_argument('--明石商店优先级', default=default('--明石商店优先级'), help='', gooey_options={'label_color': '#4B5F83'})
 
     args = parser.parse_args()
 

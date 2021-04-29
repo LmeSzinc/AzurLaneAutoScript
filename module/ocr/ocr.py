@@ -79,8 +79,7 @@ class Ocr:
     def ocr(self, image, direct_ocr=False):
         start_time = time.time()
 
-        if self.alphabet is not None:
-            self.cnocr.set_cand_alphabet(self.alphabet)
+        self.cnocr.set_cand_alphabet(self.alphabet)
         if direct_ocr:
             image_list = [self.pre_process(np.array(i)) for i in image]
         else:

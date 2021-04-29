@@ -1,6 +1,7 @@
 from module.base.utils import *
 from module.config.config import AzurLaneConfig
 from module.logger import logger
+from module.map_detection.utils import fit_points
 
 
 class RadarGrid:
@@ -11,6 +12,7 @@ class RadarGrid:
     is_question = False  # White question mark '?'
     is_ally = False  # Ally cargo ship in daily mission, yellow '!' on radar
     is_akashi = False  # White question mark '?'
+    is_port = False
 
     enemy_scale = 0
     enemy_genre = None  # Light, Main, Carrier, Treasure, Enemy(unknown)
@@ -22,8 +24,9 @@ class RadarGrid:
         'RE': 'is_resource',
         'EX': 'is_exclamation',
         'ME': 'is_meowfficer',
+        'PO': 'is_port',
         'QU': 'is_question',
-        'FL': 'is_fleet',
+        # 'FL': 'is_fleet',
     }
 
     def __init__(self, location, image, center, config):
@@ -61,13 +64,15 @@ class RadarGrid:
         self.is_exclamation = False
         self.is_meowfficer = False
         self.is_question = False
+        self.is_port = False
+
         self.is_ally = False
         self.is_akashi = False
 
         self.enemy_scale = 0
         self.enemy_genre = None
 
-        self.is_fleet = False
+        # self.is_fleet = False
 
     def predict(self):
         if self.is_fleet:
@@ -77,6 +82,8 @@ class RadarGrid:
         self.is_resource = self.predict_resource()
         self.is_meowfficer = self.predict_meowfficer()
         self.is_exclamation = self.predict_exclamation()
+        self.is_port = self.predict_port()
+        self.is_question = self.predict_question()
 
         if self.enemy_genre:
             self.is_enemy = True
@@ -113,7 +120,7 @@ class RadarGrid:
         return self.image_color_count(area=(-3, -3, 3, 3), color=(66, 231, 165), threshold=221, count=10)
 
     def predict_meowfficer(self):
-        return self.image_color_count(area=(-3, -0, 3, 6), color=(33, 186, 255), threshold=221, count=10)
+        return self.image_color_count(area=(-3, 0, 3, 6), color=(33, 186, 255), threshold=221, count=10)
 
     def predict_exclamation(self):
         return self.image_color_count(area=(-3, -3, 3, 3), color=(255, 203, 49), threshold=221, count=10)
@@ -121,12 +128,21 @@ class RadarGrid:
     def predict_boss(self):
         return self.image_color_count(area=(-3, -3, 3, 3), color=(147, 12, 8), threshold=221, count=10)
 
+    def predict_port(self):
+        return self.image_color_count(area=(-3, -3, 3, 3), color=(255, 255, 255), threshold=235, count=10)
+
+    def predict_question(self):
+        return self.image_color_count(area=(0, -7, 6, 0), color=(255, 255, 255), threshold=235, count=10) \
+               and self.image_color_count(area=(-4, -7, 2, 0), color=(255, 255, 255), threshold=235, count=10) \
+               and self.image_color_count(area=(-2, 0, 4, 7), color=(255, 255, 255), threshold=235, count=5)
+
 
 class Radar:
     grids: dict
     center_loca = (0, 0)
+    port_loca = (0, 0)
 
-    def __init__(self, config, center=(1158, 226), delta=(11.7, 11.7), radius=5.15):
+    def __init__(self, config, center=(1140, 226), delta=(11.7, 11.7), radius=5.15):
         """
         Args:
             config:
@@ -136,6 +152,8 @@ class Radar:
         """
         self.grids = {}
         self.config = config
+        self.center = center
+        self.delta = delta
 
         center = np.array(center)
         delta = np.array(delta)
@@ -174,3 +192,90 @@ class Radar:
             grid.image = image
             grid.reset()
             grid.predict()
+
+    def predict_port_outside(self, image):
+        """
+        Args:
+            image: Screenshot.
+
+        Returns:
+            np.ndarray: Coordinate of the center of port icon, relative to radar center.
+                Such as [57.70732954 50.89636818].
+        """
+        radius = (15, 82)
+        image = image.crop(area_offset((-radius[1], -radius[1], radius[1], radius[1]), self.center))
+        # image.show()
+        points = np.where(color_similarity_2d(image, color=(255, 255, 255)) > 250)
+        points = np.array(points).T[:, ::-1] - (radius[1], radius[1])
+        distance = np.linalg.norm(points, axis=1)
+        points = points[np.all([distance < radius[1], distance > radius[0]], axis=0)]
+        point = fit_points(points, mod=(1000, 1000), encourage=5)
+        point[point > 500] -= 1000
+        self.port_loca = point
+        return point
+
+    def predict_port_inside(self, image):
+        """
+        Args:
+            image: Screenshot.
+
+        Returns:
+            np.ndarray: Grid location of port on radar. Such as [3 -1].
+        """
+        self.predict(image)
+        for grid in self:
+            if grid.is_port:
+                # Goto the nearby grid of port
+                location = np.array(grid.location) - np.sign(grid.location) * (1, 1)
+                self.port_loca = location
+                return location
+
+        return None
+
+    @staticmethod
+    def port_outside_to_inside(point):
+        """
+        Convert `predict_port_outside` result to `predict_port_inside`
+
+        Args:
+            point (np.ndarray): Coordinate of the center of port icon, relative to radar center.
+
+        Returns:
+            np.ndarray: Grid location of port on radar.
+        """
+        sight = (-4, -2, 3, 2)
+        grids = [(x, y) for x in range(sight[0], sight[2] + 1) for y in [sight[1], sight[3]]] \
+                + [(x, y) for x in [sight[0], sight[2]] for y in range(sight[1] + 1, sight[3])]
+        grids = np.array([loca for loca in grids])
+        distance = np.linalg.norm(grids, axis=1)
+        degree = np.sum(grids * point, axis=1) / distance / np.linalg.norm(point)
+        grid = grids[np.argmax(degree)]
+        return grid
+
+    def port_predict(self, image):
+        """
+        Args:
+            image: Screenshot.
+
+        Returns:
+            np.ndarray: Grid location of port on radar, or a grid location that can approach port.
+        """
+        port = self.predict_port_inside(image)
+        if port is None:
+            port = self.port_outside_to_inside(self.predict_port_outside(image))
+        return port
+
+    def predict_akashi(self, image):
+        """
+        Args:
+            image: Screenshot.
+
+        Returns:
+            tuple: Grid location of akashi on radar, or None if no akashi found.
+        """
+        self.predict(image)
+        for location in [(0, 1), (-1, 0), (1, 0), (0, -1)]:
+            if self[location].is_question:
+                return location
+
+        return None

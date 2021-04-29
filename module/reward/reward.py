@@ -296,6 +296,12 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
                 # Ash assist doesn't finish any daily mission, so not counted in.
                 # count += 1
 
+        if self.config.DO_OS_IN_DAILY:
+            from module.campaign.os_run import OSCampaignRun
+            az = OSCampaignRun(self.config, device=self.device)
+            if not az.record_executed_since():
+                az.run_daily()
+
         logger.attr('Daily_executed', f'{count}/{total}')
         return count
 

@@ -3,6 +3,7 @@ import re
 
 from dev_tools.slpp import slpp
 from module.base.utils import location2node
+from module.os.map_data import DIC_OS_MAP
 from module.logger import logger  # Change folder automatically
 
 
@@ -49,8 +50,18 @@ class OSChapter:
         # hazard_level
         new = {}
         for index, chapter in self.chapter.items():
-            new[index] = {'shape': chapter['shape'], 'hazard_level': chapter['hazard_level'], 'cn': chapter['cn'], 'en': chapter['en'], 'jp': chapter['jp']}
+            new[index] = {
+                # The structure of world_chapter_template.lua has changed, so load the old map data
+                'shape': chapter.get('shape', DIC_OS_MAP[index]['shape']),
+                'hazard_level': chapter['hazard_level'],
+                'cn': chapter['cn'],
+                'en': chapter['en'],
+                'jp': chapter['jp']
+            }
         self.chapter = new
+
+        for index, data in self.extract_map_position().items():
+            self.chapter[index].update(data)
 
     def extract_chapter_name(self, server):
         folder = os.path.join(self.folder, server, 'sharecfg')
@@ -84,6 +95,27 @@ class OSChapter:
         y = [grid[0] for grid in grids.values()]
         x = [grid[1] for grid in grids.values()]
         return (max(x) - min(x), max(y) - min(y))
+
+    def extract_map_position(self, server='zh-CN'):
+        folder = os.path.join(self.folder, server, 'sharecfg')
+        data = load_lua(folder, 'world_chapter_colormask.lua', prefix=43)
+        out = {}
+        for chapter in data.values():
+            if 'serial_number' not in chapter:
+                continue
+            else:
+                index = int(chapter['serial_number'])
+                if index < 10:
+                    index -= 1
+                out[index] = {}
+
+            area = chapter['area_pos']
+            out[index]['area_pos'] = (area[0], area[1])
+            offset = chapter['offset_pos']
+            out[index]['offset_pos'] = (offset[0], offset[1])
+            out[index]['region'] = chapter['regions']
+
+        return out
 
     def encode(self):
         lines = []

@@ -353,7 +353,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 continue
             if self.handle_battle_status(save_get_items=save_get_items):
                 continue
-            if self.handle_popup_confirm():
+            if self.handle_popup_confirm('combat_status'):
                 continue
             if self.handle_exp_info():
                 exp_info = True
