@@ -157,6 +157,7 @@ class OperationSiren(OSMap):
             bool: True if all finished.
         """
         logger.hr('OS finish daily mission', level=1)
+        backup = self.config.cover(OS_ACTION_POINT_BOX_USE=True)
         while 1:
             zone = self.os_get_next_mission()
             if zone is None:
@@ -165,6 +166,7 @@ class OperationSiren(OSMap):
             self.globe_goto(zone, refresh=True)
             self.run_auto_search()
 
+        backup.recover()
         return True
 
     def os_meowfficer_farming(self, hazard_level=5, daily=False):
