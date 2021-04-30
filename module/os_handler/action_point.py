@@ -56,6 +56,9 @@ class ActionPointHandler(UI):
                 self.device.sleep(0.3)
                 continue
 
+            if self.handle_popup_confirm():
+                continue
+
             self.action_point_update()
             if self._action_point_current > prev:
                 break
