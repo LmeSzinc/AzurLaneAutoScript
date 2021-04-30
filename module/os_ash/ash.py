@@ -103,6 +103,10 @@ class OSAsh(UI):
             if self._handle_ash_beacon_reward():
                 confirm_timer.reset()
                 continue
+            if self.handle_popup_confirm('GOTO_GLOBE'):
+                # Popup: Leaving current zone will terminate meowfficer searching
+                confirm_timer.reset()
+                continue
 
             # End
             if self.is_in_ash():
