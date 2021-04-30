@@ -221,5 +221,10 @@ class ActionPointHandler(UI):
                 self.action_point_use()
                 continue
 
+            if sum(self._action_point_box[1:]) <= 0:
+                logger.info('No more action point boxes')
+                self.action_point_quit()
+                raise ActionPointLimit
+
         logger.warning('Failed to get action points after 12 trial')
         return False
