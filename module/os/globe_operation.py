@@ -206,6 +206,10 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
                 if unpinned and confirm_timer.reached():
                     break
 
+            if self.handle_popup_confirm('GOTO_GLOBE'):
+                # Popup: Leaving current zone will terminate meowfficer searching
+                continue
+
     def globe_enter(self, zone, skip_first_screenshot=True):
         """
         Args:
