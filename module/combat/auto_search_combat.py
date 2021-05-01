@@ -98,6 +98,9 @@ class AutoSearchCombat(Combat):
         while 1:
             self.device.screenshot()
 
+            if self.handle_combat_automation_confirm():
+                continue
+
             if self.is_combat_executing():
                 break
 
