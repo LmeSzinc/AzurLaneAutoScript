@@ -66,7 +66,7 @@ class MissionHandler(UI, MapEventHandler, ZoneManager):
             else:
                 confirm_timer.reset()
 
-            if self.appear_then_click(MISSION_FINISH, interval=1):
+            if self.appear_then_click(MISSION_FINISH, offset=(20, 20), interval=1):
                 continue
             if self.handle_popup_confirm('MISSION_FINISH'):
                 continue
@@ -91,7 +91,7 @@ class MissionHandler(UI, MapEventHandler, ZoneManager):
             self.os_mission_submit()
             self._os_mission_submitted = True
 
-        if self.appear(MISSION_CHECKOUT):
+        if self.appear(MISSION_CHECKOUT, offset=(20, 20)):
             try:
                 self.ui_click(MISSION_CHECKOUT, check_button=MISSION_MAP_CHECK,
                               additional=handle_mission_at_current_zone, skip_first_screenshot=True)
