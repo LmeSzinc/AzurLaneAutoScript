@@ -52,7 +52,7 @@ class MissionHandler(UI, MapEventHandler, ZoneManager):
             in: MISSION_CHECK
             out: MISSION_CHECK
         """
-        confirm_timer = Timer(1, count=2).start()
+        confirm_timer = Timer(2, count=6).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
