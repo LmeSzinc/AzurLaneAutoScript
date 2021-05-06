@@ -37,19 +37,11 @@ class MissionHandler(UI, MapEventHandler, ZoneManager):
         return zone
 
     def os_mission_enter(self, skip_first_screenshot=True):
-        self.ui_click(MISSION_ENTER, check_button=MISSION_CHECK, offset=(200, 5),
-                      skip_first_screenshot=skip_first_screenshot)
-
-    def os_mission_quit(self, skip_first_screenshot=True):
-        self.ui_click(MISSION_QUIT, check_button=self.is_in_map, offset=(200, 5),
-                      skip_first_screenshot=skip_first_screenshot)
-
-    def os_mission_submit(self, skip_first_screenshot=True):
         """
-        Submit items and finish missions.
+        Enter mission list and claim mission reward.
 
         Pages:
-            in: MISSION_CHECK
+            in: MISSION_ENTER
             out: MISSION_CHECK
         """
         confirm_timer = Timer(2, count=6).start()
@@ -59,19 +51,39 @@ class MissionHandler(UI, MapEventHandler, ZoneManager):
             else:
                 self.device.screenshot()
 
+            if self.appear_then_click(MISSION_ENTER, offset=(200, 5), interval=5):
+                confirm_timer.reset()
+                continue
+            if self.appear_then_click(MISSION_FINISH, offset=(20, 20), interval=2):
+                confirm_timer.reset()
+                continue
+            if self.handle_popup_confirm('MISSION_FINISH'):
+                confirm_timer.reset()
+                continue
+            if self.handle_map_get_items():
+                confirm_timer.reset()
+                continue
+            if self.handle_info_bar():
+                confirm_timer.reset()
+                continue
+
             # End
-            if self.appear(MISSION_CHECK, offset=(20, 20)) and not self.appear(MISSION_FINISH, offset=(20, 20)):
+            if self.appear(MISSION_CHECK, offset=(20, 20)) \
+                    and not self.appear(MISSION_FINISH, offset=(20, 20)) \
+                    and not self.appear(MISSION_CHECKOUT, offset=(20, 20)):
+                # No mission found, wait to confirm. Missions might not be loaded so fast.
                 if confirm_timer.reached():
                     break
+            elif self.appear(MISSION_CHECK, offset=(20, 20)) \
+                    and self.appear(MISSION_CHECKOUT, offset=(20, 20)):
+                # Found one mission.
+                break
             else:
                 confirm_timer.reset()
 
-            if self.appear_then_click(MISSION_FINISH, offset=(20, 20), interval=1):
-                continue
-            if self.handle_popup_confirm('MISSION_FINISH'):
-                continue
-            if self.handle_map_get_items():
-                continue
+    def os_mission_quit(self, skip_first_screenshot=True):
+        self.ui_click(MISSION_QUIT, check_button=self.is_in_map, offset=(200, 5),
+                      skip_first_screenshot=skip_first_screenshot)
 
     def os_get_next_mission(self):
         """
@@ -87,9 +99,6 @@ class MissionHandler(UI, MapEventHandler, ZoneManager):
                 raise MissionAtCurrentZone
 
         self.os_mission_enter()
-        if not self._os_mission_submitted:
-            self.os_mission_submit()
-            self._os_mission_submitted = True
 
         if self.appear(MISSION_CHECKOUT, offset=(20, 20)):
             try:
