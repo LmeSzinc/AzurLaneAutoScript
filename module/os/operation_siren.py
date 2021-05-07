@@ -166,11 +166,10 @@ class OperationSiren(OSMap):
         logger.hr('OS finish daily mission', level=1)
         backup = self.config.cover(OS_ACTION_POINT_BOX_USE=True)
         while 1:
-            zone = self.os_get_next_mission()
-            if zone is None:
+            result = self.os_get_next_mission2()
+            if not result:
                 break
 
-            self.globe_goto(zone, refresh=True)
             self.run_auto_search()
 
         backup.recover()
