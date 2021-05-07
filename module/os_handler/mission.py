@@ -3,17 +3,16 @@ from module.base.utils import *
 from module.logger import logger
 from module.map_detection.utils import fit_points
 from module.os.globe_detection import GLOBE_MAP_SHAPE
+from module.os.globe_operation import GlobeOperation
 from module.os.globe_zone import Zone, ZoneManager
 from module.os_handler.assets import *
-from module.os_handler.map_event import MapEventHandler
-from module.ui.ui import UI
 
 
 class MissionAtCurrentZone(Exception):
     pass
 
 
-class MissionHandler(UI, MapEventHandler, ZoneManager):
+class MissionHandler(GlobeOperation, ZoneManager):
     _os_mission_submitted = False
 
     def get_mission_zone(self):
@@ -37,21 +36,14 @@ class MissionHandler(UI, MapEventHandler, ZoneManager):
         return zone
 
     def os_mission_enter(self, skip_first_screenshot=True):
-        self.ui_click(MISSION_ENTER, check_button=MISSION_CHECK, offset=(200, 5),
-                      skip_first_screenshot=skip_first_screenshot)
-
-    def os_mission_quit(self, skip_first_screenshot=True):
-        self.ui_click(MISSION_QUIT, check_button=self.is_in_map, offset=(200, 5),
-                      skip_first_screenshot=skip_first_screenshot)
-
-    def os_mission_submit(self, skip_first_screenshot=True):
         """
-        Submit items and finish missions.
+        Enter mission list and claim mission reward.
 
         Pages:
-            in: MISSION_CHECK
+            in: MISSION_ENTER
             out: MISSION_CHECK
         """
+        logger.info('OS mission enter')
         confirm_timer = Timer(2, count=6).start()
         while 1:
             if skip_first_screenshot:
@@ -59,19 +51,40 @@ class MissionHandler(UI, MapEventHandler, ZoneManager):
             else:
                 self.device.screenshot()
 
+            if self.appear_then_click(MISSION_ENTER, offset=(200, 5), interval=5):
+                confirm_timer.reset()
+                continue
+            if self.appear_then_click(MISSION_FINISH, offset=(20, 20), interval=2):
+                confirm_timer.reset()
+                continue
+            if self.handle_popup_confirm('MISSION_FINISH'):
+                confirm_timer.reset()
+                continue
+            if self.handle_map_get_items():
+                confirm_timer.reset()
+                continue
+            if self.handle_info_bar():
+                confirm_timer.reset()
+                continue
+
             # End
-            if self.appear(MISSION_CHECK, offset=(20, 20)) and not self.appear(MISSION_FINISH, offset=(20, 20)):
+            if self.appear(MISSION_CHECK, offset=(20, 20)) \
+                    and not self.appear(MISSION_FINISH, offset=(20, 20)) \
+                    and not self.appear(MISSION_CHECKOUT, offset=(20, 20)):
+                # No mission found, wait to confirm. Missions might not be loaded so fast.
                 if confirm_timer.reached():
                     break
+            elif self.appear(MISSION_CHECK, offset=(20, 20)) \
+                    and self.appear(MISSION_CHECKOUT, offset=(20, 20)):
+                # Found one mission.
+                break
             else:
                 confirm_timer.reset()
 
-            if self.appear_then_click(MISSION_FINISH, offset=(20, 20), interval=1):
-                continue
-            if self.handle_popup_confirm('MISSION_FINISH'):
-                continue
-            if self.handle_map_get_items():
-                continue
+    def os_mission_quit(self, skip_first_screenshot=True):
+        logger.info('OS mission quit')
+        self.ui_click(MISSION_QUIT, check_button=self.is_in_map, offset=(200, 5),
+                      skip_first_screenshot=skip_first_screenshot)
 
     def os_get_next_mission(self):
         """
@@ -82,14 +95,12 @@ class MissionHandler(UI, MapEventHandler, ZoneManager):
             in: is_in_map
             out: is_in_map
         """
+
         def handle_mission_at_current_zone():
             if self.info_bar_count():
                 raise MissionAtCurrentZone
 
         self.os_mission_enter()
-        if not self._os_mission_submitted:
-            self.os_mission_submit()
-            self._os_mission_submitted = True
 
         if self.appear(MISSION_CHECKOUT, offset=(20, 20)):
             try:
@@ -117,3 +128,36 @@ class MissionHandler(UI, MapEventHandler, ZoneManager):
 
         self.os_mission_quit()
         return zone
+
+    def os_get_next_mission2(self):
+        """
+        Another method to get os mission. The old one is outdated.
+        After clicking MISSION_CHECKOUT, AL switch to target zone directly instead of showing a meaningless map.
+        If already at target zone, show info bar and close mission list.
+
+        Returns:
+            bool: If has entered mission zone.
+        """
+        self.os_mission_enter()
+
+        if not self.appear(MISSION_CHECKOUT, offset=(20, 20)):
+            self.os_mission_quit()
+            return False
+
+        logger.info('Checkout os mission')
+        skip_first_screenshot = True
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear_then_click(MISSION_CHECKOUT, offset=(20, 20), interval=2):
+                continue
+            if self.is_zone_pinned():
+                logger.info('Pinned at mission zone')
+                self.globe_enter(zone=self.name_to_zone(72))
+                return True
+            if self.is_in_map() and self.info_bar_count():
+                logger.info('Already at mission zone')
+                return True

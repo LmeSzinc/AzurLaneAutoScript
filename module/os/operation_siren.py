@@ -43,7 +43,7 @@ class OperationSiren(OSMap):
 
         self.run_auto_search()
 
-    def globe_goto(self, zone, types=('SAFE', 'DANGEROUS'), refresh=False):
+    def globe_goto(self, zone, types=('SAFE', 'DANGEROUS'), refresh=False, stop_if_safe=False):
         """
         Goto another zone in OS.
 
@@ -79,6 +79,12 @@ class OperationSiren(OSMap):
         # self.ensure_no_zone_pinned()
         self.globe_update()
         self.globe_focus_to(zone)
+        if stop_if_safe:
+            pinned = self.pinned_to_name(self.get_zone_pinned())
+            if pinned == 'SAFE':
+                logger.info('Zone is safe, stopped')
+                self.ensure_no_zone_pinned()
+                return False
         self.zone_type_select(types=types)
         self.globe_enter(zone)
         # IN_MAP
@@ -86,6 +92,7 @@ class OperationSiren(OSMap):
             del self.zone
         self.get_current_zone()
         # self.map_init()
+        return True
 
     def fleet_repair(self, revert=True):
         """
@@ -159,11 +166,10 @@ class OperationSiren(OSMap):
         logger.hr('OS finish daily mission', level=1)
         backup = self.config.cover(OS_ACTION_POINT_BOX_USE=True)
         while 1:
-            zone = self.os_get_next_mission()
-            if zone is None:
+            result = self.os_get_next_mission2()
+            if not result:
                 break
 
-            self.globe_goto(zone, refresh=True)
             self.run_auto_search()
 
         backup.recover()
@@ -195,6 +201,33 @@ class OperationSiren(OSMap):
 
             self.globe_goto(zones[0])
             self.run_auto_search()
+
+    def _clear_os_world(self):
+        for hazard_level in range(1, 7):
+            zones = self.zone_select(hazard_level=hazard_level) \
+                .delete(SelectedGrids(self.zones.select(is_port=True))) \
+                .sort_by_clock_degree(center=(1252, 1012), start=self.zone.location)
+
+            for zone in zones:
+                if not self.globe_goto(zone, stop_if_safe=True):
+                    continue
+                self.run_auto_search()
+
+    def clear_os_world(self):
+        """
+        Returns:
+            bool: If executed.
+        """
+        # Force to use AP boxes
+        backup = self.config.cover(OS_ACTION_POINT_PRESERVE=40, OS_ACTION_POINT_BOX_USE=True)
+
+        try:
+            self._clear_os_world()
+        except ActionPointLimit:
+            pass
+
+        backup.recover()
+        return True
 
     def _operation_siren(self, daily=False):
         """
