@@ -27,7 +27,6 @@ class Equipment(UI):
                 swipe_timer.reset()
                 self.device.swipe(vector=(distance, 0), box=SWIPE_AREA.area, random_range=SWIPE_RANDOM_RANGE,
                                   padding=0, duration=(0.1, 0.12), name='EQUIP_SWIPE')
-                self.device.sleep((0.5, 0.8))
                 self.wait_until_appear(check_button)
                 swipe_count += 1
 
