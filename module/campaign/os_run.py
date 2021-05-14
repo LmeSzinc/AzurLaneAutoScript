@@ -43,3 +43,7 @@ class OSCampaignRun(OSMapOperation):
     def run_daily(self):
         self.load_campaign()
         self.campaign.operation_siren_daily()
+
+    def run_clear_os_world(self):
+        self.load_campaign()
+        self.campaign.clear_os_world()

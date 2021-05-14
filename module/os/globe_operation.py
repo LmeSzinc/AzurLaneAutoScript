@@ -118,13 +118,16 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
         """
         return len(self.get_zone_select()) > 0
 
-    def zone_type_select(self, types=('SAFE', 'DANGEROUS')):
+    def zone_type_select(self, types=('SAFE', 'DANGEROUS'), exclusive=False):
         """
         Args:
             types (tuple[str], list[str], str): Zone types, or a list of them.
                 Available types: DANGEROUS, SAFE, OBSCURE, LOGGER, STRONGHOLD.
                 Try the the first selection in type list, if not available, try the next one.
                 Do nothing if no selection satisfied input.
+            exclusive (bool): If target type not found, default to fallback to return to
+                pinned state however return 'False' to indicate did not perform intended
+                selection
 
         Returns:
             bool: If success.
@@ -153,6 +156,7 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             logger.info(f'Already selected at {pinned}')
             return True
 
+        found = True
         for _ in range(3):
             self.ui_click(ZONE_SWITCH, appear_button=self.is_zone_pinned, check_button=self.is_in_zone_select,
                           skip_first_screenshot=True)
@@ -164,9 +168,12 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
                 logger.warning('No such zone type to select, fallback to default')
                 types = ('SAFE', 'DANGEROUS')
                 button = get_button(selection)
+                found = False
 
             self.ui_click(button, check_button=self.is_zone_pinned, offset=self._zone_select_offset,
                           skip_first_screenshot=True)
+            if exclusive and not found:
+                return False
             if self.pinned_to_name(button) == self.pinned_to_name(self.get_zone_pinned()):
                 return True
 

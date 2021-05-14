@@ -81,11 +81,13 @@ class OperationSiren(OSMap):
         self.globe_focus_to(zone)
         if stop_if_safe:
             pinned = self.pinned_to_name(self.get_zone_pinned())
-            if pinned == 'SAFE':
+            if pinned == 'SAFE' or \
+              (self.zone_has_switch() and self.zone_type_select(types='SAFE', exclusive=True)):
                 logger.info('Zone is safe, stopped')
                 self.ensure_no_zone_pinned()
                 return False
-        self.zone_type_select(types=types)
+        else:
+            self.zone_type_select(types=types)
         self.globe_enter(zone)
         # IN_MAP
         if hasattr(self, 'zone'):
@@ -203,7 +205,7 @@ class OperationSiren(OSMap):
             self.run_auto_search()
 
     def _clear_os_world(self):
-        for hazard_level in range(1, 7):
+        for hazard_level in range(1, self.config.OS_WORLD_MAX_LEVEL):
             zones = self.zone_select(hazard_level=hazard_level) \
                 .delete(SelectedGrids(self.zones.select(is_port=True))) \
                 .sort_by_clock_degree(center=(1252, 1012), start=self.zone.location)
@@ -212,6 +214,7 @@ class OperationSiren(OSMap):
                 if not self.globe_goto(zone, stop_if_safe=True):
                     continue
                 self.run_auto_search()
+                self._repair_after(self.config.OS_WORLD_REPAIR_AFTER_CLEAR)
 
     def clear_os_world(self):
         """
@@ -221,6 +224,7 @@ class OperationSiren(OSMap):
         # Force to use AP boxes
         backup = self.config.cover(OS_ACTION_POINT_PRESERVE=40, OS_ACTION_POINT_BOX_USE=True)
 
+        self.fleet_repair(revert=False)
         try:
             self._clear_os_world()
         except ActionPointLimit:
@@ -281,3 +285,12 @@ class OperationSiren(OSMap):
 
         backup.recover()
         return True
+
+    _zone_complete = 0
+
+    def _repair_after(self, threshold):
+        self._zone_complete += 1
+        if self._zone_complete >= threshold:
+            self.get_current_zone()
+            self.fleet_repair(revert=False)
+            self._zone_complete = 0

@@ -511,6 +511,12 @@ class AzurLaneConfig:
     ENABLE_OS_SEMI_STORY_SKIP = True
 
     """
+    Os_world_clear
+    """
+    OS_WORLD_MAX_LEVEL = 4
+    OS_WORLD_REPAIR_AFTER_CLEAR = 3
+
+    """
     module.os
     """
     DO_OS_IN_DAILY = False
@@ -804,6 +810,11 @@ class AzurLaneConfig:
         # OS clear map
         option = config['Os_clear_map']
         self.ENABLE_OS_ASH_ATTACK = to_bool(option['enable_os_ash_attack'])
+
+        # OS clear world
+        option = config['Os_world_clear']
+        self.OS_WORLD_MAX_LEVEL = int(option['os_world_max_level']) + 1
+        self.OS_WORLD_REPAIR_AFTER_CLEAR = int(option['os_world_repair_after_clear'])
 
         # OS fully auto
         option = config['Os_fully_auto']

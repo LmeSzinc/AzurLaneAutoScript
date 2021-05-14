@@ -237,6 +237,8 @@ dic_true_eng_to_eng = {
     'ammo_pick_up_124': 'ammo_pick_up_124',
     'default_serial_list': 'default_serial_list',
     'enable_os_semi_story_skip': 'enable_os_semi_story_skip',
+    'os_world_max_level': 'os_world_max_level',
+    'os_world_repair_after_clear': 'os_world_repair_after_clear',
     'do_os_in_daily': 'do_os_in_daily',
     'enable_os_mission_accept': 'enable_os_mission_accept',
     'enable_os_mission_finish': 'enable_os_mission_finish',
