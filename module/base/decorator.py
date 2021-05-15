@@ -43,7 +43,13 @@ class Config:
             if name not in cls.func_list:
                 cls.func_list[name] = [data]
             else:
-                cls.func_list[name].append(data)
+                override = False
+                for record in cls.func_list[name]:
+                    if record['options'] == data['options']:
+                        record['func'] = data['func']
+                        override = True
+                if not override:
+                    cls.func_list[name].append(data)
 
             @wraps(func)
             def wrapper(self, *args, **kwargs):

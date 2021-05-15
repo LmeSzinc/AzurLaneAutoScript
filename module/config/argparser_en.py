@@ -581,14 +581,22 @@ def main(ini_name=''):
 
     # ==========OS clear world==========
     os_world_parser = subs.add_parser('os_world_clear')
-    os_world = os_world_parser.add_argument_group('os_world_clear', 'Explore all unsafe zones and turn into safe', gooey_options={'label_color': '#931D03'})
-    os_world.add_argument('--os_world_max_level', default=default('--os_world_max_level'),
-                          help='Stop unsafe exploration after completing all zones of at '
-                               'least the configured hazard level. '
-                               'Recommended 4 or lower for single fleet clear, 5 and higher '
-                               'tend to be more difficult depending on adaptibility numbers',
+    os_world = os_world_parser.add_argument_group('OS world clear', 'Explore all unsafe zones between configured range inclusive and turn into safe\n'
+                                                        'Captains should configure approriately based on current adaptibility numbers and needs',
+                                                        gooey_options={'label_color': '#931D03'})
+    os_world.add_argument('--os_world_min_level', default=default('--os_world_min_level'),
+                          help='No less than 1\n'
+                          'Use same number in both fields for exactly 1 range',
                           gooey_options={'label_color': '#4B5F83'})
-    os_world.add_argument('--os_world_repair_after_clear', default=default('--os_world_repair_after_clear'), help='Number of zone clears before retreating to port for repair', gooey_options={'label_color': '#4B5F83'})
+    os_world.add_argument('--os_world_max_level', default=default('--os_world_max_level'),
+                          help='No higher than 7\n'
+                               'Recommend 4 or lower for single fleet clear, 5 and higher '
+                               'can be difficult with low adaptibility',
+                          gooey_options={'label_color': '#4B5F83'})
+    os_world.add_argument('--enable_os_world_repair', default=default('--enable_os_world_repair'), choices=['yes', 'no'],
+                          help='Enable retreat to nearest azur port for repair if any one ship in fleet below configured threshold',
+                          gooey_options={'label_color': '#4B5F83'})
+    os_world.add_argument('--os_world_repair_threshold', default=default('--os_world_repair_threshold'), help='Limit between 0 and 1', gooey_options={'label_color': '#4B5F83'})
 
     # ==========OS fully auto==========
     os_parser = subs.add_parser('os_fully_auto')

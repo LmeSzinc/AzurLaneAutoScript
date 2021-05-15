@@ -40,6 +40,7 @@ class OperationSiren(OSMap):
 
         self.get_current_zone()
         # self.map_init()
+        self.hp_reset()
 
         self.run_auto_search()
 
@@ -117,6 +118,17 @@ class OperationSiren(OSMap):
 
         if revert and prev != self.zone:
             self.globe_goto(prev)
+
+    def need_repair(self, enabled, threshold):
+        if enabled:
+            self.hp_get()
+            check = [round(data, 2) <= threshold if use else False for data, use in zip(self.hp, self.hp_has_ship)]
+            if any(check):
+                logger.info(f'At least one ship below configured threshold {threshold}, retreating to nearest azur port')
+                self.fleet_repair(revert=False)
+                self.hp_reset()
+            else:
+                logger.info('All ships fairly in good condition, continue OS exploration')
 
     def os_port_daily(self, mission=True, supply=True):
         """
@@ -205,7 +217,7 @@ class OperationSiren(OSMap):
             self.run_auto_search()
 
     def _clear_os_world(self):
-        for hazard_level in range(1, self.config.OS_WORLD_MAX_LEVEL):
+        for hazard_level in range(self.config.OS_WORLD_MIN_LEVEL, self.config.OS_WORLD_MAX_LEVEL):
             zones = self.zone_select(hazard_level=hazard_level) \
                 .delete(SelectedGrids(self.zones.select(is_port=True))) \
                 .sort_by_clock_degree(center=(1252, 1012), start=self.zone.location)
@@ -214,7 +226,8 @@ class OperationSiren(OSMap):
                 if not self.globe_goto(zone, stop_if_safe=True):
                     continue
                 self.run_auto_search()
-                self._repair_after(self.config.OS_WORLD_REPAIR_AFTER_CLEAR)
+                self.need_repair(self.config.ENABLE_OS_WORLD_REPAIR,
+                                 self.config.OS_WORLD_REPAIR_THRESHOLD)
 
     def clear_os_world(self):
         """
@@ -224,7 +237,8 @@ class OperationSiren(OSMap):
         # Force to use AP boxes
         backup = self.config.cover(OS_ACTION_POINT_PRESERVE=40, OS_ACTION_POINT_BOX_USE=True)
 
-        self.fleet_repair(revert=False)
+        self.need_repair(self.config.ENABLE_OS_WORLD_REPAIR,
+                         self.config.OS_WORLD_REPAIR_THRESHOLD)
         try:
             self._clear_os_world()
         except ActionPointLimit:
@@ -285,12 +299,3 @@ class OperationSiren(OSMap):
 
         backup.recover()
         return True
-
-    _zone_complete = 0
-
-    def _repair_after(self, threshold):
-        self._zone_complete += 1
-        if self._zone_complete >= threshold:
-            self.get_current_zone()
-            self.fleet_repair(revert=False)
-            self._zone_complete = 0
