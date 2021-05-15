@@ -581,9 +581,10 @@ def main(ini_name=''):
 
     # ==========OS clear world==========
     os_world_parser = subs.add_parser('os_world_clear')
-    os_world = os_world_parser.add_argument_group('OS world clear', 'Explore all unsafe zones between configured range inclusive and turn into safe\n'
-                                                        'Captains should configure approriately based on current adaptibility numbers and needs',
-                                                        gooey_options={'label_color': '#931D03'})
+    os_world = os_world_parser.add_argument_group('OS world clear',
+                                                  'Explore all unsafe zones between configured range inclusive and turn into safe\n'
+                                                  'Captains should configure approriately based on current adaptibility numbers and needs',
+                                                  gooey_options={'label_color': '#931D03'})
     os_world.add_argument('--os_world_min_level', default=default('--os_world_min_level'),
                           help='No less than 1\n'
                           'Use same number in both fields for exactly 1 range',
@@ -618,8 +619,8 @@ def main(ini_name=''):
     os_setting.add_argument('--enable_os_action_point_buy', default=default('--enable_os_action_point_buy'), choices=['yes', 'no'], help='Use oil to buy action points, buy first then use AP boxes', gooey_options={'label_color': '#4B5F83'})
     os_setting.add_argument('--os_action_point_preserve', default=default('--os_action_point_preserve'), help='Include AP boxes, stop if lower than this', gooey_options={'label_color': '#4B5F83'})
     os_setting.add_argument('--enable_os_setting_repair', default=default('--enable_os_setting_repair'), choices=['yes', 'no'],
-                          help='Enable retreat to nearest azur port for repair if any one ship in fleet below configured threshold',
-                          gooey_options={'label_color': '#4B5F83'})
+                            help='Enable retreat to nearest azur port for repair if any one ship in fleet below configured threshold',
+                            gooey_options={'label_color': '#4B5F83'})
     os_setting.add_argument('--os_setting_repair_threshold', default=default('--os_setting_repair_threshold'), help='Limit between 0 and 1', gooey_options={'label_color': '#4B5F83'})
 
     os_shop = os.add_argument_group('OS shop', '', gooey_options={'label_color': '#931D03'})
