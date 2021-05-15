@@ -531,6 +531,8 @@ class AzurLaneConfig:
 
     ENABLE_OS_ACTION_POINT_BUY = False
     OS_ACTION_POINT_PRESERVE = 200
+    ENABLE_OS_SETTING_REPAIR = True
+    OS_SETTING_REPAIR_THRESHOLD = 0.4
     OS_ACTION_POINT_BOX_USE = True
     # 1 to 6. Recommend 3 or 5 for higher meowfficer searching point per action points ratio.
     OS_MEOWFFICER_FARMING_LEVEL = 5
@@ -828,6 +830,8 @@ class AzurLaneConfig:
             self.__setattr__(attr.upper(), to_bool(option[attr]))
         self.OS_MEOWFFICER_FARMING_LEVEL = int(option['os_meowfficer_farming_level'])
         self.OS_ACTION_POINT_PRESERVE = int(option['os_action_point_preserve'])
+        self.ENABLE_OS_SETTING_REPAIR = to_bool(option['enable_os_setting_repair'])
+        self.OS_SETTING_REPAIR_THRESHOLD = float(option['os_setting_repair_threshold'])
         self.OS_ASKSHI_SHOP_PRIORITY = option['os_akashi_shop_priority']
 
     def get_server_timezone(self):

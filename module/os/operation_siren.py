@@ -185,6 +185,8 @@ class OperationSiren(OSMap):
                 break
 
             self.run_auto_search()
+            self.need_repair(self.config.ENABLE_OS_SETTING_REPAIR,
+                             self.config.OS_SETTING_REPAIR_THRESHOLD)
 
         backup.recover()
         return True
@@ -215,6 +217,8 @@ class OperationSiren(OSMap):
 
             self.globe_goto(zones[0])
             self.run_auto_search()
+            self.need_repair(self.config.ENABLE_OS_SETTING_REPAIR,
+                             self.config.OS_SETTING_REPAIR_THRESHOLD)
 
     def _clear_os_world(self):
         for hazard_level in range(self.config.OS_WORLD_MIN_LEVEL, self.config.OS_WORLD_MAX_LEVEL):
@@ -265,6 +269,9 @@ class OperationSiren(OSMap):
                     self.config.record_save(RECORD_MISSION_ACCEPT)
                 if supply:
                     self.config.record_save(RECORD_SUPPLY_BUY)
+
+        self.need_repair(self.config.ENABLE_OS_SETTING_REPAIR,
+                         self.config.OS_SETTING_REPAIR_THRESHOLD)
 
         finish = self.config.ENABLE_OS_MISSION_FINISH \
                  and not self.config.record_executed_since(option=RECORD_MISSION_FINISH, since=(0,))

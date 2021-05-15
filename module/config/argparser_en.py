@@ -617,6 +617,10 @@ def main(ini_name=''):
     os_setting = os.add_argument_group('OS setting', '', gooey_options={'label_color': '#931D03'})
     os_setting.add_argument('--enable_os_action_point_buy', default=default('--enable_os_action_point_buy'), choices=['yes', 'no'], help='Use oil to buy action points, buy first then use AP boxes', gooey_options={'label_color': '#4B5F83'})
     os_setting.add_argument('--os_action_point_preserve', default=default('--os_action_point_preserve'), help='Include AP boxes, stop if lower than this', gooey_options={'label_color': '#4B5F83'})
+    os_setting.add_argument('--enable_os_setting_repair', default=default('--enable_os_setting_repair'), choices=['yes', 'no'],
+                          help='Enable retreat to nearest azur port for repair if any one ship in fleet below configured threshold',
+                          gooey_options={'label_color': '#4B5F83'})
+    os_setting.add_argument('--os_setting_repair_threshold', default=default('--os_setting_repair_threshold'), help='Limit between 0 and 1', gooey_options={'label_color': '#4B5F83'})
 
     os_shop = os.add_argument_group('OS shop', '', gooey_options={'label_color': '#931D03'})
     os_shop.add_argument('--enable_os_akashi_shop_buy', default=default('--enable_os_akashi_shop_buy'), choices=['yes', 'no'], help='', gooey_options={'label_color': '#4B5F83'})

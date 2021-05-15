@@ -251,6 +251,8 @@ dic_true_eng_to_eng = {
     'os_meowfficer_farming_level': 'os_meowfficer_farming_level',
     'enable_os_action_point_buy': 'enable_os_action_point_buy',
     'os_action_point_preserve': 'os_action_point_preserve',
+    'enable_os_setting_repair': 'enable_os_setting_repair',
+    'os_setting_repair_threshold': 'os_setting_repair_threshold',
     'enable_os_akashi_shop_buy': 'enable_os_akashi_shop_buy',
     'os_akashi_shop_priority': 'os_akashi_shop_priority',
 
