@@ -818,7 +818,7 @@ class AzurLaneConfig:
         # OS clear world
         option = config['Os_world_clear']
         self.OS_WORLD_MIN_LEVEL = int(option['os_world_min_level'])
-        self.OS_WORLD_MAX_LEVEL = int(option['os_world_max_level']) + 1
+        self.OS_WORLD_MAX_LEVEL = int(option['os_world_max_level'])
         self.ENABLE_OS_WORLD_REPAIR = to_bool(option['enable_os_world_repair'])
         self.OS_WORLD_REPAIR_THRESHOLD = float(option['os_world_repair_threshold'])
 

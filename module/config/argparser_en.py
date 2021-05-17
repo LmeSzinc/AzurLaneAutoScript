@@ -582,17 +582,21 @@ def main(ini_name=''):
     # ==========OS clear world==========
     os_world_parser = subs.add_parser('os_world_clear')
     os_world = os_world_parser.add_argument_group('OS world clear',
+                                                  'Must clear story mode of all available chapters and '
+                                                  'purchase the OS logger item in main supply shop for '
+                                                  '5k oil before using this module\n\n'
                                                   'Explore all unsafe zones between configured range inclusive and turn into safe\n'
-                                                  'Captains should configure approriately based on current adaptibility numbers and needs',
+                                                  'Captains should configure approriately based on current adaptibility numbers '
+                                                  'and fleet formation',
                                                   gooey_options={'label_color': '#931D03'})
     os_world.add_argument('--os_world_min_level', default=default('--os_world_min_level'),
-                          help='No less than 1\n'
-                          'Use same number in both fields for exactly 1 range',
+                          help='Use same number in both fields for exactly 1 range',
+                          choices=['1', '2', '3', '4', '5', '6'],
                           gooey_options={'label_color': '#4B5F83'})
     os_world.add_argument('--os_world_max_level', default=default('--os_world_max_level'),
-                          help='No higher than 7\n'
-                               'Recommend 4 or lower for single fleet clear, 5 and higher '
+                          help='Recommend 4 or lower for single fleet clear, 5 and higher '
                                'can be difficult with low adaptibility',
+                          choices=['1', '2', '3', '4', '5', '6'],
                           gooey_options={'label_color': '#4B5F83'})
     os_world.add_argument('--enable_os_world_repair', default=default('--enable_os_world_repair'), choices=['yes', 'no'],
                           help='Enable retreat to nearest azur port for repair if any one ship in fleet below configured threshold',

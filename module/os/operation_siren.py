@@ -221,7 +221,7 @@ class OperationSiren(OSMap):
                              self.config.OS_SETTING_REPAIR_THRESHOLD)
 
     def _clear_os_world(self):
-        for hazard_level in range(self.config.OS_WORLD_MIN_LEVEL, self.config.OS_WORLD_MAX_LEVEL):
+        for hazard_level in range(self.config.OS_WORLD_MIN_LEVEL, (self.config.OS_WORLD_MAX_LEVEL + 1)):
             zones = self.zone_select(hazard_level=hazard_level) \
                 .delete(SelectedGrids(self.zones.select(is_port=True))) \
                 .sort_by_clock_degree(center=(1252, 1012), start=self.zone.location)
