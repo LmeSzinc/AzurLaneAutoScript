@@ -186,6 +186,7 @@ class OperationSiren(OSMap):
             if not result:
                 break
 
+            self.get_current_zone()
             self.run_auto_search()
             self.handle_fleet_repair(self.config.ENABLE_OS_SETTING_REPAIR,
                                      self.config.OS_SETTING_REPAIR_THRESHOLD,
