@@ -187,7 +187,7 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
         """
         if self.pinned_to_name(self.get_zone_pinned()) == 'SAFE':
             return True
-        else:
+        elif self.zone_has_switch():
             self.ui_click(ZONE_SWITCH, appear_button=self.is_zone_pinned, check_button=self.is_in_zone_select,
                                 skip_first_screenshot=True)
             flag = SELECT_SAFE in self.get_zone_select()
@@ -195,6 +195,9 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             self.ui_click(button, check_button=self.is_zone_pinned, offset=self._zone_select_offset,
                             skip_first_screenshot=True)
             return flag
+        else:
+            # No zone_switch, already on DANGEROUS
+            return False
 
     def os_globe_goto_map(self, skip_first_screenshot=True):
         """
