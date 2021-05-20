@@ -239,8 +239,6 @@ dic_true_eng_to_eng = {
     'enable_os_semi_story_skip': 'enable_os_semi_story_skip',
     'os_world_min_level': 'os_world_min_level',
     'os_world_max_level': 'os_world_max_level',
-    'enable_os_world_repair': 'enable_os_world_repair',
-    'os_world_repair_threshold': 'os_world_repair_threshold',
     'do_os_in_daily': 'do_os_in_daily',
     'enable_os_mission_accept': 'enable_os_mission_accept',
     'enable_os_mission_finish': 'enable_os_mission_finish',
@@ -251,8 +249,7 @@ dic_true_eng_to_eng = {
     'os_meowfficer_farming_level': 'os_meowfficer_farming_level',
     'enable_os_action_point_buy': 'enable_os_action_point_buy',
     'os_action_point_preserve': 'os_action_point_preserve',
-    'enable_os_setting_repair': 'enable_os_setting_repair',
-    'os_setting_repair_threshold': 'os_setting_repair_threshold',
+    'os_repair_threshold': 'os_repair_threshold',
     'enable_os_akashi_shop_buy': 'enable_os_akashi_shop_buy',
     'os_akashi_shop_priority': 'os_akashi_shop_priority',
 

@@ -117,20 +117,21 @@ class OperationSiren(OSMap):
         if revert and prev != self.zone:
             self.globe_goto(prev)
 
-    def handle_fleet_repair(self, enabled, threshold, revert=True):
-        if enabled:
+    def handle_fleet_repair(self, revert=True):
+        if self.config.OS_REPAIR_THRESHOLD > 0:
             self.hp_get()
-            check = [round(data, 2) <= threshold if use else False for data, use in zip(self.hp, self.hp_has_ship)]
+            check = [round(data, 2) <= self.config.OS_REPAIR_THRESHOLD if use
+                    else False for data, use in zip(self.hp, self.hp_has_ship)]
             if any(check):
                 logger.info('At least one ship is below threshold '
-                           f'{str(int(threshold * 100))}%, retreating '
-                            'to nearest azur port for repairs')
+                           f'{str(int(self.config.OS_REPAIR_THRESHOLD * 100))}%, '
+                            'retreating to nearest azur port for repairs')
                 self.fleet_repair(revert=revert)
                 self.hp_reset()
             else:
                 logger.info('No ship found to be below threshold '
-                           f'{str(int(threshold * 100))}%, continue '
-                            'OS exploration')
+                           f'{str(int(self.config.OS_REPAIR_THRESHOLD * 100))}%, '
+                            'continue OS exploration')
 
     def os_port_daily(self, mission=True, supply=True):
         """
@@ -188,9 +189,7 @@ class OperationSiren(OSMap):
 
             self.get_current_zone()
             self.run_auto_search()
-            self.handle_fleet_repair(self.config.ENABLE_OS_SETTING_REPAIR,
-                                     self.config.OS_SETTING_REPAIR_THRESHOLD,
-                                     revert=False)
+            self.handle_fleet_repair(revert=False)
 
         backup.recover()
         return True
@@ -221,9 +220,7 @@ class OperationSiren(OSMap):
 
             self.globe_goto(zones[0])
             self.run_auto_search()
-            self.handle_fleet_repair(self.config.ENABLE_OS_SETTING_REPAIR,
-                                     self.config.OS_SETTING_REPAIR_THRESHOLD,
-                                     revert=False)
+            self.handle_fleet_repair(revert=False)
 
     def _clear_os_world(self):
         for hazard_level in range(self.config.OS_WORLD_MIN_LEVEL, (self.config.OS_WORLD_MAX_LEVEL + 1)):
@@ -235,9 +232,7 @@ class OperationSiren(OSMap):
                 if not self.globe_goto(zone, stop_if_safe=True):
                     continue
                 self.run_auto_search()
-                self.handle_fleet_repair(self.config.ENABLE_OS_WORLD_REPAIR,
-                                         self.config.OS_WORLD_REPAIR_THRESHOLD,
-                                         revert=False)
+                self.handle_fleet_repair(revert=False)
 
     def clear_os_world(self):
         """
@@ -247,9 +242,8 @@ class OperationSiren(OSMap):
         # Force to use AP boxes
         backup = self.config.cover(OS_ACTION_POINT_PRESERVE=40, OS_ACTION_POINT_BOX_USE=True)
 
-        # Before start, repair if any ship is below
-        # a fixed threshold of 85% as precaution
-        self.handle_fleet_repair(True, 0.85, revert=False)
+        # Fleet repairs before starting if needed
+        self.handle_fleet_repair(revert=False)
 
         try:
             self._clear_os_world()
@@ -278,9 +272,8 @@ class OperationSiren(OSMap):
                 if supply:
                     self.config.record_save(RECORD_SUPPLY_BUY)
 
-        # Before start, repair if any ship is below
-        # a fixed threshold of 85% as precaution
-        self.handle_fleet_repair(True, 0.85, revert=False)
+        # Fleet repairs before starting if needed
+        self.handle_fleet_repair(revert=False)
 
         finish = self.config.ENABLE_OS_MISSION_FINISH \
                  and not self.config.record_executed_since(option=RECORD_MISSION_FINISH, since=(0,))
