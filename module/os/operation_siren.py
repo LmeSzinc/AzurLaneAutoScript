@@ -85,8 +85,7 @@ class OperationSiren(OSMap):
                 logger.info('Zone is safe, stopped')
                 self.ensure_no_zone_pinned()
                 return False
-        else:
-            self.zone_type_select(types=types)
+        self.zone_type_select(types=types)
         self.globe_enter(zone)
         # IN_MAP
         if hasattr(self, 'zone'):
