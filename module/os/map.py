@@ -163,9 +163,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
                 self._auto_search_battle_count += 1
                 logger.attr('battle_count', self._auto_search_battle_count)
                 self.auto_search_combat()
-            if self.handle_ash_popup():
-                continue
-            if self.handle_story_skip():
+            if self.handle_map_event():
                 # Auto search can not handle siren searching device.
                 continue
 
