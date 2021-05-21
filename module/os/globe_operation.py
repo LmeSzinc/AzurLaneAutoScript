@@ -6,7 +6,7 @@ from module.os.assets import *
 from module.os_handler.action_point import ActionPointHandler
 from module.os_handler.map_event import MapEventHandler
 
-ZONE_TYPES = [ZONE_DANGEROUS, ZONE_SAFE, ZONE_OBSCURED, ZONE_LOGGER, ZONE_STRONGHOLD]
+ZONE_TYPES = [ZONE_DANGEROUS, ZONE_SAFE, ZONE_OBSCURE, ZONE_LOGGER, ZONE_STRONGHOLD]
 ZONE_SELECT = [SELECT_DANGEROUS, SELECT_SAFE, SELECT_OBSCURE, SELECT_LOGGER, SELECT_STRONGHOLD]
 ASSETS_PINNED_ZONE = ZONE_TYPES + [ZONE_ENTRANCE, ZONE_SWITCH, ZONE_PINNED]
 
@@ -172,6 +172,32 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
 
         logger.warning('Failed to select zone type after 3 trial')
         return False
+
+    def zone_has_safe(self):
+        """
+        Checks and selects if zone has SAFE otherwise selects DANGEROUS
+        which is guaranteed to be present in every zone
+
+        Returns:
+            bool: If SAFE is present.
+
+        Pages:
+            in: is_zone_pinned
+            out: is_zone_pinned
+        """
+        if self.pinned_to_name(self.get_zone_pinned()) == 'SAFE':
+            return True
+        elif self.zone_has_switch():
+            self.ui_click(ZONE_SWITCH, appear_button=self.is_zone_pinned, check_button=self.is_in_zone_select,
+                                skip_first_screenshot=True)
+            flag = SELECT_SAFE in self.get_zone_select()
+            button = SELECT_SAFE if flag else SELECT_DANGEROUS
+            self.ui_click(button, check_button=self.is_zone_pinned, offset=self._zone_select_offset,
+                            skip_first_screenshot=True)
+            return flag
+        else:
+            # No zone_switch, already on DANGEROUS
+            return False
 
     def os_globe_goto_map(self, skip_first_screenshot=True):
         """

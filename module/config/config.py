@@ -511,6 +511,12 @@ class AzurLaneConfig:
     ENABLE_OS_SEMI_STORY_SKIP = True
 
     """
+    Os_world_clear
+    """
+    OS_WORLD_MIN_LEVEL = 1
+    OS_WORLD_MAX_LEVEL = 4
+
+    """
     module.os
     """
     DO_OS_IN_DAILY = False
@@ -523,6 +529,7 @@ class AzurLaneConfig:
 
     ENABLE_OS_ACTION_POINT_BUY = False
     OS_ACTION_POINT_PRESERVE = 200
+    OS_REPAIR_THRESHOLD = 0.4
     OS_ACTION_POINT_BOX_USE = True
     # 1 to 6. Recommend 3 or 5 for higher meowfficer searching point per action points ratio.
     OS_MEOWFFICER_FARMING_LEVEL = 5
@@ -805,6 +812,11 @@ class AzurLaneConfig:
         option = config['Os_clear_map']
         self.ENABLE_OS_ASH_ATTACK = to_bool(option['enable_os_ash_attack'])
 
+        # OS clear world
+        option = config['Os_world_clear']
+        self.OS_WORLD_MIN_LEVEL = int(option['os_world_min_level'])
+        self.OS_WORLD_MAX_LEVEL = int(option['os_world_max_level'])
+
         # OS fully auto
         option = config['Os_fully_auto']
         for attr in ['do_os_in_daily', 'enable_os_mission_accept', 'enable_os_mission_finish', 'enable_os_supply_buy',
@@ -813,6 +825,7 @@ class AzurLaneConfig:
             self.__setattr__(attr.upper(), to_bool(option[attr]))
         self.OS_MEOWFFICER_FARMING_LEVEL = int(option['os_meowfficer_farming_level'])
         self.OS_ACTION_POINT_PRESERVE = int(option['os_action_point_preserve'])
+        self.OS_REPAIR_THRESHOLD = float(option['os_repair_threshold'])
         self.OS_ASKSHI_SHOP_PRIORITY = option['os_akashi_shop_priority']
 
     def get_server_timezone(self):
