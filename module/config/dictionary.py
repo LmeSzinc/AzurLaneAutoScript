@@ -533,6 +533,8 @@ dic_chi_to_eng = {
     '拣弹药124': 'ammo_pick_up_124',
     '默认serial列表': 'default_serial_list',
     '大世界跳过剧情': 'enable_os_semi_story_skip',
+    'os_world_min_level': 'os_world_min_level',
+    'os_world_max_level': 'os_world_max_level',
     '在每日中完成大世界': 'do_os_in_daily',
     '大世界接每日任务': 'enable_os_mission_accept',
     '大世界完成每日': 'enable_os_mission_finish',
@@ -543,6 +545,7 @@ dic_chi_to_eng = {
     '短猫相接侵蚀等级': 'os_meowfficer_farming_level',
     '大世界买行动力': 'enable_os_action_point_buy',
     '大世界行动力保留': 'os_action_point_preserve',
+    'os_repair_threshold': 'os_repair_threshold',
     '明石商店购买': 'enable_os_akashi_shop_buy',
     '明石商店优先级': 'os_akashi_shop_priority',
 
@@ -826,6 +829,8 @@ dic_tchi_to_eng = {
     '撿彈藥124': 'ammo_pick_up_124',
     '默認serial列表': 'default_serial_list',
     '大世界跳過劇情': 'enable_os_semi_story_skip',
+    'os_world_min_level': 'os_world_min_level',
+    'os_world_max_level': 'os_world_max_level',
     '在每日中完成大世界': 'do_os_in_daily',
     '大世界接每日任務': 'enable_os_mission_accept',
     '大世界完成每日': 'enable_os_mission_finish',
@@ -836,6 +841,7 @@ dic_tchi_to_eng = {
     '短貓相接侵蝕等級': 'os_meowfficer_farming_level',
     '大世界買行動力': 'enable_os_action_point_buy',
     '大世界行動力保留': 'os_action_point_preserve',
+    'os_repair_threshold': 'os_repair_threshold',
     '明石商店購買': 'enable_os_akashi_shop_buy',
     '明石商店優先級': 'os_akashi_shop_priority',
 

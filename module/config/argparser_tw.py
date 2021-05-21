@@ -501,6 +501,26 @@ def main(ini_name=''):
     # os_semi = os_semi_parser.add_argument_group('大世界地圖全清', '僅在安全海域中使用, 在普通海域使用時需要先執行空域搜索\n使用方法: 先手動進入地圖, 再運行\n運行結束後, 最好手動檢查是否有遺漏', gooey_options={'label_color': '#931D03'})
     # os_semi.add_argument('--打大世界餘燼信標', default=default('--打大世界餘燼信標'), choices=['是', '否'], help='信標數據滿了之後, 打飛龍', gooey_options={'label_color': '#4B5F83'})
 
+    # ==========OS clear world==========
+    os_world_parser = subs.add_parser('os_world_clear')
+    os_world = os_world_parser.add_argument_group('OS world clear',
+                                                  'Must clear story mode of all available chapters and '
+                                                  'purchase the OS logger item in main supply shop for '
+                                                  '5k oil before using this module\n\n'
+                                                  'Explore all unsafe zones between configured range inclusive and turn into safe\n'
+                                                  'Captains should configure approriately based on current adaptibility numbers '
+                                                  'and fleet formation',
+                                                  gooey_options={'label_color': '#931D03'})
+    os_world.add_argument('--os_world_min_level', default=default('--os_world_min_level'),
+                          help='Use same number in both fields for exactly 1 range',
+                          choices=['1', '2', '3', '4', '5', '6'],
+                          gooey_options={'label_color': '#4B5F83'})
+    os_world.add_argument('--os_world_max_level', default=default('--os_world_max_level'),
+                          help='Recommend 4 or lower for single fleet clear, 5 and higher '
+                               'can be difficult with low adaptibility',
+                          choices=['1', '2', '3', '4', '5', '6'],
+                          gooey_options={'label_color': '#4B5F83'})
+
     # ==========OS fully auto==========
     os_parser = subs.add_parser('大世界全自動')
     os = os_parser.add_argument_group('大世界全自動', '運行順序: 接每日買補給 > 做每日 > 打隱秘海域 > 短貓相接\n港口補給是有限池, 總量恆定隨機出現, 想要買好東西需要全買\n商店優先級格式: ActionPoint > PurpleCoins > TuringSample > RepairPack', gooey_options={'label_color': '#931D03'})
