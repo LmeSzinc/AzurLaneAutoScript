@@ -137,7 +137,7 @@ def main(ini_name=''):
     # stage.add_argument('--启用停止条件', default=default('--启用停止条件'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     stage.add_argument('--启用异常处理', default=default('--启用异常处理'), choices=['是', '否'], help='处理部分异常, 运行出错时撤退', gooey_options={'label_color': '#4B5F83'})
     stage.add_argument('--使用周回模式', default=default('--使用周回模式'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    stage.add_argument('--enable_2x_book', default=default('--enable_2x_book'), choices=['是', '否'], help='Enable or disable 2x book (spends 2x oil/emotion for 2x item drops)', gooey_options={'label_color': '#4B5F83'})
+    stage.add_argument('--使用作战指令书', default=default('--使用作战指令书'), choices=['是', '否'], help='使用高效作战指令书, 两倍消耗两次掉落结算', gooey_options={'label_color': '#4B5F83'})
 
     stop = stage.add_argument_group('停止条件', '触发后不会马上停止会先完成当前出击, 不需要就填0', gooey_options={'label_color': '#931D03'})
     stop.add_argument('--如果出击次数大于', default=default('--如果出击次数大于'), help='会沿用先前设置, 完成出击将扣除次数, 直至清零', gooey_options={'label_color': '#4B5F83'})
@@ -309,6 +309,7 @@ def main(ini_name=''):
     reward_guild = reward_parser.add_argument_group('大舰队', '检查大舰队后勤和大舰队作战', gooey_options={'label_color': '#931D03'})
     reward_guild.add_argument('--启用大舰队后勤', default=default('--启用大舰队后勤'), help='领取大舰队任务, 提交筹备物资, 领取舰队奖励', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     reward_guild.add_argument('--启用大舰队作战', default=default('--启用大舰队作战'), help='执行大舰队作战派遣, 打大舰队BOSS', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    reward_guild.add_argument('--大舰队作战参加阈值', default=default('--大舰队作战参加阈值'), help='从0到1. 比如\'0.5\' 表示只在作战进度 未达到一半时加入, \'1\'表示 不管进度直接加入', gooey_options={'label_color': '#4B5F83'})
     reward_guild.add_argument('--大舰队收获间隔', default=default('--大舰队收获间隔'), help='每隔多少分钟触发, 推荐使用时间区间, 比如"10, 40"', gooey_options={'label_color': '#4B5F83'})
     reward_guild_logistics_items = reward_guild.add_argument_group('筹备物品提交顺序', '可用字符: t1, t2, t3, oxycola, coolant, coins, oil, and merit. 省略某个字符来跳过该物品的提交', gooey_options={'label_color': '#4B5F83'})
     reward_guild_logistics_items.add_argument('--物品提交顺序', default=default('--物品提交顺序'), gooey_options={'label_color': '#4B5F83'})
@@ -316,9 +317,6 @@ def main(ini_name=''):
     reward_guild_logistics_plates.add_argument('--部件提交顺序T1', default=default('--部件提交顺序T1'), gooey_options={'label_color': '#4B5F83'})
     reward_guild_logistics_plates.add_argument('--部件提交顺序T2', default=default('--部件提交顺序T2'), gooey_options={'label_color': '#4B5F83'})
     reward_guild_logistics_plates.add_argument('--部件提交顺序T3', default=default('--部件提交顺序T3'), gooey_options={'label_color': '#4B5F83'})
-    reward_guild_operations_join = reward_guild.add_argument_group('Operations guild join threshold',
-                        'Enter between 0 and 1\nEx) \'0.5\' join if current progress roughly less than half or \'1\' join regardless of progress', gooey_options={'label_color': '#4B5F83'})
-    reward_guild_operations_join.add_argument('--guild_operations_join_threshold', default=default('--guild_operations_join_threshold'), gooey_options={'label_color': '#4B5F83'})
     reward_guild_operations_boss = reward_guild.add_argument_group('大舰队BOSS', '', gooey_options={'label_color': '#4B5F83'})
     reward_guild_operations_boss.add_argument('--启用大舰队BOSS出击', default=default('--启用大舰队BOSS出击'), help='自动打大舰队BOSS, 需要预先在游戏内设置队伍', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     reward_guild_operations_boss.add_argument('--启用大舰队BOSS队伍推荐', default=default('--启用大舰队BOSS队伍推荐'), help='使用游戏自动推荐的队伍打BOSS', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
@@ -502,24 +500,14 @@ def main(ini_name=''):
     # os_semi.add_argument('--打大世界余烬信标', default=default('--打大世界余烬信标'), choices=['是', '否'], help='信标数据满了之后, 打飞龙', gooey_options={'label_color': '#4B5F83'})
 
     # ==========OS clear world==========
-    os_world_parser = subs.add_parser('os_world_clear')
-    os_world = os_world_parser.add_argument_group('OS world clear',
-                                                  'Must clear story mode of all available chapters and '
-                                                  'purchase the OS logger item in main supply shop for '
-                                                  '5k oil before using this module\n\n'
-                                                  'Explore all unsafe zones between configured range inclusive and turn into safe\n'
-                                                  'Captains should configure approriately based on current adaptibility numbers '
-                                                  'and fleet formation',
+    os_world_parser = subs.add_parser('大世界每月全清')
+    os_world = os_world_parser.add_argument_group('大世界每月全清',
+                                                  '在运行之前, 必须通关大世界主线, 购买并使用战役信息记录仪 (5000油道具)\n'
+                                                  '这个模块将从低侵蚀到高侵蚀地清理海域\n'
+                                                  '请确保你的舰队和适应性足够对付高侵蚀海域',
                                                   gooey_options={'label_color': '#931D03'})
-    os_world.add_argument('--os_world_min_level', default=default('--os_world_min_level'),
-                          help='Use same number in both fields for exactly 1 range',
-                          choices=['1', '2', '3', '4', '5', '6'],
-                          gooey_options={'label_color': '#4B5F83'})
-    os_world.add_argument('--os_world_max_level', default=default('--os_world_max_level'),
-                          help='Recommend 4 or lower for single fleet clear, 5 and higher '
-                               'can be difficult with low adaptibility',
-                          choices=['1', '2', '3', '4', '5', '6'],
-                          gooey_options={'label_color': '#4B5F83'})
+    os_world.add_argument('--大世界全清侵蚀下限', default=default('--大世界全清侵蚀下限'), help='上限和下限一样时, 只清理特定侵蚀等级', choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
+    os_world.add_argument('--大世界全清侵蚀上限', default=default('--大世界全清侵蚀上限'), help='', choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
 
     # ==========OS fully auto==========
     os_parser = subs.add_parser('大世界全自动')
@@ -540,6 +528,7 @@ def main(ini_name=''):
     os_setting = os.add_argument_group('大世界设置', '', gooey_options={'label_color': '#931D03'})
     os_setting.add_argument('--大世界买行动力', default=default('--大世界买行动力'), choices=['是', '否'], help='用石油买行动力, 先买再开箱子', gooey_options={'label_color': '#4B5F83'})
     os_setting.add_argument('--大世界行动力保留', default=default('--大世界行动力保留'), help='低于此值后停止, 含行动力箱子', gooey_options={'label_color': '#4B5F83'})
+    os_setting.add_argument('--大世界修船阈值', default=default('--大世界修船阈值'), help='任意一艘船血量低于此值时, 前往最近港口修理. 从0到1.', gooey_options={'label_color': '#4B5F83'})
 
     os_shop = os.add_argument_group('大世界商店', '', gooey_options={'label_color': '#931D03'})
     os_shop.add_argument('--明石商店购买', default=default('--明石商店购买'), choices=['是', '否'], help='', gooey_options={'label_color': '#4B5F83'})

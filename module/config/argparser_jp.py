@@ -330,6 +330,7 @@ def main(ini_name=''):
     reward_guild = reward_parser.add_argument_group('Guild', 'Check Guild Logistics and Operations. Running for every reward loop.', gooey_options={'label_color': '#931D03'})
     reward_guild.add_argument('--enable_guild_logistics', default=default('--enable_guild_logistics'), help='Enable logistics actions if applicable.', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
     reward_guild.add_argument('--enable_guild_operations', default=default('--enable_guild_operations'), help='', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_guild.add_argument('--guild_operations_join_threshold', default=default('--guild_operations_join_threshold'), help='Enter between 0 and 1\nEx) \'0.5\' join if current progress roughly less than half or \'1\' join regardless of progress', gooey_options={'label_color': '#4B5F83'})
     reward_guild.add_argument('--guild_interval', default=default('--guild_interval'),
                              help='How many minutes to trigger checking. Recommend to set a time range, such as "10, 40"', gooey_options={'label_color': '#4B5F83'})
     reward_guild_logistics_items = reward_guild.add_argument_group('Logistics item input', 'Available items: t1, t2, t3, oxycola, coolant, coins, oil, and merit. Omitting an item will skip it. Less error-prone with many specified', gooey_options={'label_color': '#4B5F83'})
@@ -342,9 +343,6 @@ def main(ini_name=''):
                         gooey_options={'label_color': '#4B5F83'})
     reward_guild_logistics_plates.add_argument('--guild_logistics_plate_t3_order_string', default=default('--guild_logistics_plate_t3_order_string'),
                         gooey_options={'label_color': '#4B5F83'})
-    reward_guild_operations_join = reward_guild.add_argument_group('Operations guild join threshold',
-                        'Enter between 0 and 1\nEx) \'0.5\' join if current progress roughly less than half or \'1\' join regardless of progress', gooey_options={'label_color': '#4B5F83'})
-    reward_guild_operations_join.add_argument('--guild_operations_join_threshold', default=default('--guild_operations_join_threshold'), gooey_options={'label_color': '#4B5F83'})
     reward_guild_operations_boss = reward_guild.add_argument_group('Operations guild raid boss input', '', gooey_options={'label_color': '#4B5F83'})
     reward_guild_operations_boss.add_argument('--enable_guild_operations_boss_auto', default=default('--enable_guild_operations_boss_auto'),
                                               help='Enable auto-battle of guild raid boss. If fleet composition with or without guild support is incomplete, does not attempt. Enable boss recommend to bypass',
@@ -618,6 +616,7 @@ def main(ini_name=''):
     os_setting = os.add_argument_group('OS setting', '', gooey_options={'label_color': '#931D03'})
     os_setting.add_argument('--enable_os_action_point_buy', default=default('--enable_os_action_point_buy'), choices=['yes', 'no'], help='Use oil to buy action points, buy first then use AP boxes', gooey_options={'label_color': '#4B5F83'})
     os_setting.add_argument('--os_action_point_preserve', default=default('--os_action_point_preserve'), help='Include AP boxes, stop if lower than this', gooey_options={'label_color': '#4B5F83'})
+    os_setting.add_argument('--os_repair_threshold', default=default('--os_repair_threshold'), help='Retreat to nearest azur port for repairs if any ship\'s HP in fleet is below configured threshold after zone clear, limit between 0 and 1', gooey_options={'label_color': '#4B5F83'})
 
     os_shop = os.add_argument_group('OS shop', '', gooey_options={'label_color': '#931D03'})
     os_shop.add_argument('--enable_os_akashi_shop_buy', default=default('--enable_os_akashi_shop_buy'), choices=['yes', 'no'], help='', gooey_options={'label_color': '#4B5F83'})
