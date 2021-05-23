@@ -47,7 +47,7 @@ dic_true_eng_to_eng = {
     'c12-4_leveling': 'c124_leveling',
     'os_semi_auto': 'os_semi_auto',
     'os_clear_map': 'os_clear_map',
-    'os_clear_world': 'os_clear_world',
+    'os_clear_world': 'os_world_clear',
     'os_fully_auto': 'os_fully_auto',
 
     # Argument
@@ -344,7 +344,7 @@ dic_chi_to_eng = {
     '12-4打大型练级': 'c124_leveling',
     '大世界辅助点击': 'os_semi_auto',
     '大世界地图全清': 'os_clear_map',
-    '大世界每月全清': 'os_clear_world',
+    '大世界每月全清': 'os_world_clear',
     '大世界全自动': 'os_fully_auto',
 
     # Argument
@@ -641,7 +641,7 @@ dic_tchi_to_eng = {
     '12-4打大型練級': 'c124_leveling',
     '大世界輔助點擊': 'os_semi_auto',
     '大世界地圖全清': 'os_clear_map',
-    '大世界每月全清': 'os_clear_world',
+    '大世界每月全清': 'os_world_clear',
     '大世界全自動': 'os_fully_auto',
 
     # Argument
