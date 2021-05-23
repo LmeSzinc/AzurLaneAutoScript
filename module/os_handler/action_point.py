@@ -1,5 +1,6 @@
 from module.base.button import ButtonGrid
 from module.base.utils import *
+import module.config.server as server
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
 from module.os_handler.assets import *
@@ -8,9 +9,14 @@ from module.ui.assets import OS_CHECK
 from module.ui.ui import UI
 
 OCR_ACTION_POINT_REMAIN = Digit(ACTION_POINT_REMAIN, letter=(255, 219, 66), name='OCR_ACTION_POINT_REMAIN')
-# Letters in ACTION_POINT_BUY_REMAIN are not the numeric fonts usually used in azur lane.
-OCR_ACTION_POINT_BUY_REMAIN = DigitCounter(
-    ACTION_POINT_BUY_REMAIN, letter=(148, 247, 99), lang='cnocr', name='OCR_ACTION_POINT_BUY_REMAIN')
+if server.server != 'jp':
+    # Letters in ACTION_POINT_BUY_REMAIN are not the numeric fonts usually used in azur lane.
+    OCR_ACTION_POINT_BUY_REMAIN = DigitCounter(
+        ACTION_POINT_BUY_REMAIN, letter=(148, 247, 99), lang='cnocr', name='OCR_ACTION_POINT_BUY_REMAIN')
+else:
+    # The color of the digits ACTION_POINT_BUY_REMAIN is white in JP, which is light green in CN and EN.
+    OCR_ACTION_POINT_BUY_REMAIN = DigitCounter(
+        ACTION_POINT_BUY_REMAIN, letter=(255, 255, 255), lang='cnocr', name='OCR_ACTION_POINT_BUY_REMAIN')
 ACTION_POINT_GRID = ButtonGrid(
     origin=(323, 274), delta=(173, 0), button_shape=(115, 115), grid_shape=(4, 1), name='ACTION_POINT_GRID')
 ACTION_POINT_ITEMS = ItemGrid(ACTION_POINT_GRID, templates={}, amount_area=(43, 89, 113, 113))
