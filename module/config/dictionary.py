@@ -47,7 +47,7 @@ dic_true_eng_to_eng = {
     'c12-4_leveling': 'c124_leveling',
     'os_semi_auto': 'os_semi_auto',
     'os_clear_map': 'os_clear_map',
-    'os_clear_world': 'os_world_clear',
+    'os_world_clear': 'os_world_clear',
     'os_fully_auto': 'os_fully_auto',
 
     # Argument
