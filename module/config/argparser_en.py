@@ -584,7 +584,7 @@ def main(ini_name=''):
                                                   'purchase the OS logger item in main supply shop for '
                                                   '5k oil before using this module\n\n'
                                                   'Explore all unsafe zones between configured range inclusive and turn into safe\n'
-                                                  'Captains should configure approriately based on current adaptibility numbers '
+                                                  'Captains should configure appropriately based on current adaptibility numbers '
                                                   'and fleet formation',
                                                   gooey_options={'label_color': '#931D03'})
     os_world.add_argument('--os_world_min_level', default=default('--os_world_min_level'),
