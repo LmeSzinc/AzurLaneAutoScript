@@ -114,10 +114,18 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         else:
             return ''
 
-    @Config.when(SERVER='en')
     def _hp_grid(self):
-        # Location of six HP bar.
-        return ButtonGrid(origin=(35, 205), delta=(0, 100), button_shape=(66, 3), grid_shape=(1, 6))
+        hp_grid = super()._hp_grid()
+
+        # Location of six HP bar, according to respective server for os
+        if self.config.SERVER == 'en':
+            hp_grid = ButtonGrid(origin=(35, 205), delta=(0, 100), button_shape=(66, 3), grid_shape=(1, 6))
+        elif self.config.SERVER == 'jp':
+            pass
+        else:
+            pass
+
+        return hp_grid
 
     def hp_withdraw_triggered(self):
         return False
