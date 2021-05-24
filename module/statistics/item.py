@@ -20,7 +20,7 @@ class AmountOcr(Digit):
         return image.astype(np.uint8)
 
 
-AMOUNT_OCR = AmountOcr([], threshold=64, name='Amount_ocr')
+AMOUNT_OCR = AmountOcr([], threshold=96, name='Amount_ocr')
 PRICE_OCR = Digit([], letter=(255, 223, 57), threshold=128, name='Price_ocr')
 
 
