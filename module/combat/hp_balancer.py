@@ -65,7 +65,7 @@ class HPBalancer(ModuleBase):
         )
         return data
 
-    @Config.when(SERVER='en')
+    @Config.when(SERVER='en', OS_RUNNING=False)
     def _hp_grid(self):
         # Location of six HP bar.
         return ButtonGrid(origin=(35, 190), delta=(0, 100), button_shape=(66, 4), grid_shape=(1, 6))

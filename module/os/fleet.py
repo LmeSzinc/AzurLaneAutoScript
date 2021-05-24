@@ -114,7 +114,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         else:
             return ''
 
-    @Config.when(SERVER='en')
+    @Config.when(SERVER='en', OS_RUNNING=True)
     def _hp_grid(self):
         # Location of six HP bar.
         return ButtonGrid(origin=(35, 205), delta=(0, 100), button_shape=(66, 3), grid_shape=(1, 6))

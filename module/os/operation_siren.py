@@ -238,8 +238,8 @@ class OperationSiren(OSMap):
         Returns:
             bool: If executed.
         """
-        # Force to use AP boxes
-        backup = self.config.cover(OS_ACTION_POINT_PRESERVE=40, OS_ACTION_POINT_BOX_USE=True)
+        # Force to use AP boxes and switch to use _hp_grid from os/fleet.py rather than combat/hp_balancer.py
+        backup = self.config.cover(OS_ACTION_POINT_PRESERVE=40, OS_ACTION_POINT_BOX_USE=True, OS_RUNNING=True)
 
         # Fleet repairs before starting if needed
         self.handle_fleet_repair(revert=False)
@@ -287,18 +287,23 @@ class OperationSiren(OSMap):
             self.os_meowfficer_farming(hazard_level=self.config.OS_MEOWFFICER_FARMING_LEVEL, daily=daily)
 
     def operation_siren(self):
+        # Switch to use _hp_grid from os/fleet.py rather than combat/hp_balancer.py
+        backup = self.config.cover(OS_RUNNING=True)
+
         try:
             self._operation_siren(daily=False)
         except ActionPointLimit:
             pass
+
+        backup.recover()
 
     def operation_siren_daily(self):
         """
         Returns:
             bool: If executed.
         """
-        # Force to use AP boxes
-        backup = self.config.cover(OS_ACTION_POINT_PRESERVE=40)
+        # Force to use AP boxes and switch to use _hp_grid from os/fleet.py rather than combat/hp_balancer.py
+        backup = self.config.cover(OS_ACTION_POINT_PRESERVE=40, OS_RUNNING=True)
 
         try:
             self._operation_siren(daily=True)
