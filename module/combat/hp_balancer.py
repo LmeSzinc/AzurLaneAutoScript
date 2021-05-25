@@ -65,20 +65,14 @@ class HPBalancer(ModuleBase):
         )
         return data
 
-    @Config.when(SERVER='en')
     def _hp_grid(self):
-        # Location of six HP bar.
-        return ButtonGrid(origin=(35, 190), delta=(0, 100), button_shape=(66, 4), grid_shape=(1, 6))
-
-    @Config.when(SERVER='jp')
-    def _hp_grid(self):
-        # Location of six HP bar.
-        return ButtonGrid(origin=(35, 205), delta=(0, 100), button_shape=(66, 4), grid_shape=(1, 6))
-
-    @Config.when(SERVER=None)
-    def _hp_grid(self):
-        # Location of six HP bar.
-        return ButtonGrid(origin=(35, 206), delta=(0, 100), button_shape=(66, 4), grid_shape=(1, 6))
+        # Location of six HP bar, according to respective server for campaign
+        if self.config.SERVER == 'en':
+            return ButtonGrid(origin=(35, 190), delta=(0, 100), button_shape=(66, 4), grid_shape=(1, 6))
+        elif self.config.SERVER == 'jp':
+            return ButtonGrid(origin=(35, 205), delta=(0, 100), button_shape=(66, 4), grid_shape=(1, 6))
+        else:
+            return ButtonGrid(origin=(35, 206), delta=(0, 100), button_shape=(66, 4), grid_shape=(1, 6))
 
     def hp_get(self):
         """Get current HP from screenshot.
