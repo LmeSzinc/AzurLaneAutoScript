@@ -201,7 +201,8 @@ class RewardResearch(ResearchSelector):
                 continue
 
             # End
-            if self.appear(RESEARCH_STOP):
+            if self.appear(RESEARCH_STOP, offset=(20, 20)):
+                # RESEARCH_STOP is a semi-transparent button, color will vary depending on the background.
                 self.research_detail_quit()
                 self.ensure_no_info_bar(timeout=3)  # Research started
                 return True
