@@ -2,9 +2,9 @@ from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-from .a1 import Config as ConfigBase
+from .c1 import Config as ConfigBase
 
-MAP = CampaignMap('A2')
+MAP = CampaignMap('C2')
 MAP.shape = 'H8'
 MAP.camera_data = ['D2', 'D6', 'E2', 'E6']
 MAP.camera_data_spawn_point = ['E6', 'D6']
@@ -29,9 +29,9 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 2, 'siren': 1},
+    {'battle': 0, 'enemy': 2, 'siren': 2},
     {'battle': 1, 'enemy': 1},
-    {'battle': 2, 'enemy': 1},
+    {'battle': 2, 'enemy': 2},
     {'battle': 3, 'enemy': 1},
     {'battle': 4, 'enemy': 1, 'boss': 1},
 ]
@@ -48,7 +48,7 @@ A8, B8, C8, D8, E8, F8, G8, H8, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['DD']
+    MAP_SIREN_TEMPLATE = ['Atlanta', 'CA']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -73,6 +73,12 @@ class Campaign(CampaignBase):
 
     def battle_0(self):
         if self.clear_siren():
+            return True
+        if self.clear_enemy(scale=(1,)):
+            return True
+        if self.clear_enemy(scale=(2,)):
+            return True
+        if self.clear_enemy(scale=(3,)):
             return True
 
         return self.battle_default()
