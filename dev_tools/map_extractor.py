@@ -97,6 +97,13 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'naerxun': 'Nelson',
     'kewei': 'Formidable',
     'guanghui': 'Illustrious',
+
+    # Mirror Involution
+    # Note: In this event, sirens are covered by fog
+    'duwei': 'Dewey',
+    'haman': 'Hammann',
+    'yatelanda': 'Atlanta',
+    'beianpudun': 'Northampton',
 }
 
 
@@ -525,7 +532,7 @@ SELECT = False
 OVERWRITE = True
 IS_WAR_ARCHIVES = False
 
-DATA = load_lua(FILE, 'chapter_template.lua', prefix=36)
+DATA = load_lua_by_function(FILE, 'chapter_template.lua')
 DATA_LOOP = load_lua(FILE, 'chapter_template_loop.lua', prefix=41)
 MAP_EVENT_LIST = load_lua(FILE, 'map_event_list.lua', prefix=34)
 MAP_EVENT_TEMPLATE = load_lua(FILE, 'map_event_template.lua', prefix=38)
