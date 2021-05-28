@@ -15,7 +15,7 @@ Alas, an Azur Lane automation tool with GUI (Support CN, EN, JP, TW, able to sup
 
 Alas, 一个带GUI的碧蓝航线脚本 (支持国服, 国际服, 日服, 台服, 可以支持其他服务器).
 
-EN support, Thanks **[@whoamikyo](https://github.com/whoamikyo)**
+EN support, Thanks **[@whoamikyo](https://github.com/whoamikyo)** and **[nEEtdo0d](https://github.com/nEEtdo0d)**.
 
 JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)** and **[@noname94](https://github.com/noname94)** , some features might not work.
 
@@ -23,11 +23,11 @@ TW support, Thanks **[@Zorachristine](https://github.com/Zorachristine)** , some
 
 > **Event Announcement 活动公告**
 >
-> [CN] 支持活动「复兴的赞美诗」, 可以处理地图迷宫.
+> [CN] 支持活动「镜位螺旋」.
 >
-> [EN] Support event "Daedalian Hymn", able to handle map maze.
+> [EN] Support event "Mirror Involution".
 >
-> [JP] Support event 「讃える復興の迷路」, able to handle map maze.
+> [JP] Support event 「照らす螺旋の鏡海」.
 
 ![gui](doc/README.assets/gui.png)
 
@@ -41,13 +41,15 @@ TW support, Thanks **[@Zorachristine](https://github.com/Zorachristine)** , some
 
 - **每日任务** 半小时左右一套做完, 重复运行时会跳过当天做过的
 
-  每日任务(不支持潜艇每日). 困难图. 演习(自动SL), 活动图每日三倍PT, 共斗活动每天15把
+  每日任务, 困难图, 演习(自动SL), 活动每日AB图+SP图, 共斗活动每天15把
 
 - **委托收派** 出击时自动切出去收获, 支持收派委托, 收派科研, 收派战术学院, 收任务
 
 - **特定模式出击** 7-2三战拣垃圾, 12图练级. 1-1刷好感, 打潜艇图.
 
 - **大世界全自动** 一条龙完成: 接大世界每日, 买空港口商店, 做大世界每日, 短猫相接直到完成两次余烬信标.
+
+  每月重置后清理所有危险海域.
 
 - **其他小功能**
 

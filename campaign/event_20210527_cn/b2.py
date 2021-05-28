@@ -2,21 +2,21 @@ from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-from .c1 import Config as ConfigBase
+from .b1 import Config as ConfigBase
 
-MAP = CampaignMap('C3')
+MAP = CampaignMap('B2')
 MAP.shape = 'J8'
 MAP.camera_data = ['D2', 'D6', 'G2', 'G6']
-MAP.camera_data_spawn_point = ['G6', 'D6']
+MAP.camera_data_spawn_point = ['G6']
 MAP.map_data = """
-    ++ ++ -- ++ ++ -- -- ME ++ ++
-    -- -- MB -- ME -- MS -- ++ ++
-    -- ME -- ME MS Me -- ME -- --
-    -- ++ -- ++ -- __ -- Me -- MS
-    ME ++ -- ++ ME Me ++ -- ME --
-    -- -- -- Me -- -- ME -- -- --
-    -- ME -- -- SP ++ -- ++ SP ++
-    -- ++ ++ ++ -- SP -- SP -- ++
+    ++ ++ -- ME -- -- MS ++ ++ ++
+    ++ ++ -- ++ ++ -- -- -- -- ME
+    -- Me -- -- ME -- Me -- ++ --
+    ME ++ MS MB -- -- ME -- ++ --
+    -- ++ -- -- ME __ -- MS ++ ME
+    -- ++ -- Me -- -- Me -- -- --
+    ME -- ME -- -- ++ ++ -- -- SP
+    ++ ++ ++ MS -- ME -- -- SP ++
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50
@@ -29,12 +29,12 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 2, 'siren': 2},
+    {'battle': 0, 'enemy': 2, 'siren': 1},
     {'battle': 1, 'enemy': 1},
     {'battle': 2, 'enemy': 2},
     {'battle': 3, 'enemy': 1},
-    {'battle': 4, 'enemy': 1},
-    {'battle': 5, 'boss': 1},
+    {'battle': 4, 'enemy': 2},
+    {'battle': 5, 'enemy': 1, 'boss': 1},
 ]
 A1, B1, C1, D1, E1, F1, G1, H1, I1, J1, \
 A2, B2, C2, D2, E2, F2, G2, H2, I2, J2, \
@@ -49,7 +49,7 @@ A8, B8, C8, D8, E8, F8, G8, H8, I8, J8, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['Northampton', 'CA', 'BB']
+    MAP_SIREN_TEMPLATE = ['Atlanta', 'CL']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -58,8 +58,8 @@ class Config(ConfigBase):
     MAP_HAS_AMBUSH = False
     # ===== End of generated config =====
 
-    MAP_SWIPE_MULTIPLY = 1.512
-    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.462
+    MAP_SWIPE_MULTIPLY = 1.523
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.472
 
 
 class Campaign(CampaignBase):
@@ -67,12 +67,6 @@ class Campaign(CampaignBase):
 
     def battle_0(self):
         if self.clear_siren():
-            return True
-        if self.clear_enemy(scale=(1,)):
-            return True
-        if self.clear_enemy(scale=(2,)):
-            return True
-        if self.clear_enemy(scale=(3,)):
             return True
 
         return self.battle_default()
