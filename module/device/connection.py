@@ -14,6 +14,7 @@ class Connection:
         r'.\adb\adb.exe',
         r'.\toolkit\Lib\site-packages\adbutils\binaries\adb.exe',
         r'.\python\Lib\site-packages\adbutils\binaries\adb.exe',
+        '/usr/bin/adb'
     ]
 
     def __init__(self, config):
@@ -56,7 +57,10 @@ class Connection:
         # Use shell=True to disable console window when using GUI.
         # Although, there's still a window when you stop running in GUI, which cause by gooey.
         # To disable it, edit gooey/gui/util/taskkill.py
-        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
+        if self.adb_binary == '/usr/bin/adb':
+            process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=False)
+        else:
+            process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
         return process.communicate(timeout=10)[0]
 
     def adb_shell(self, cmd, serial=None):
