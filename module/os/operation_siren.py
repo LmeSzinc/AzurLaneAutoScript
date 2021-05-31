@@ -126,11 +126,11 @@ class OperationSiren(OSMap):
                            f'{str(int(self.config.OS_REPAIR_THRESHOLD * 100))}%, '
                             'retreating to nearest azur port for repairs')
                 self.fleet_repair(revert=revert)
-                self.hp_reset()
             else:
                 logger.info('No ship found to be below threshold '
                            f'{str(int(self.config.OS_REPAIR_THRESHOLD * 100))}%, '
                             'continue OS exploration')
+            self.hp_reset()
 
     def os_port_daily(self, mission=True, supply=True):
         """
