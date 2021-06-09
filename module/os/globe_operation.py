@@ -214,7 +214,14 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             in: is_in_map
             out: is_in_globe
         """
-        self.ui_click(MAP_GOTO_GLOBE, check_button=self.is_in_globe, offset=(200, 5),
+        def additional():
+            # Popup: Leaving current zone will terminate meowfficer searching.
+            # Searching reward will be shown after entering another zone.
+            if self.handle_popup_confirm('GOTO_GLOBE'):
+                return True
+            return False
+
+        self.ui_click(MAP_GOTO_GLOBE, check_button=self.is_in_globe, offset=(200, 5), additional=additional,
                       skip_first_screenshot=skip_first_screenshot)
 
         confirm_timer = Timer(1, count=2).start()
@@ -231,10 +238,6 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             else:
                 if unpinned and confirm_timer.reached():
                     break
-
-            if self.handle_popup_confirm('GOTO_GLOBE'):
-                # Popup: Leaving current zone will terminate meowfficer searching
-                continue
 
     def globe_enter(self, zone, skip_first_screenshot=True):
         """
