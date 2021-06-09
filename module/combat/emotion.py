@@ -141,12 +141,17 @@ class Emotion:
         """
         The game does not calculate emotion correctly, which is a bug in AzurLane.
         After a long run, we have to restart the game to update it.
+
+        In 2021.06, Azur Lane is able to display emotion in dock.
+        Although there's no evidence to prove that game client can calculate emotion correctly now,
+        but we believe that the bug was fixed.
+        So disable this function and not trigger restart anymore.
         """
-        logger.attr('Emotion_bug', f'{self.total_reduced}/{self.bug_threshold}')
-        if self.total_reduced >= self.bug_threshold:
-            self.total_reduced = 0
-            self.bug_threshold_reset()
-            return True
+        # logger.attr('Emotion_bug', f'{self.total_reduced}/{self.bug_threshold}')
+        # if self.total_reduced >= self.bug_threshold:
+        #     self.total_reduced = 0
+        #     self.bug_threshold_reset()
+        #     return True
 
         return False
 
