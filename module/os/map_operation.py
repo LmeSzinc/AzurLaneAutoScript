@@ -57,7 +57,8 @@ class OSMapOperation(MapOperation, MissionHandler, PortHandler):
         name = ocr.ocr(self.device.image)
         # Use '安' to split because there's no char '-' in jp ocr.
         # Kanji '一' and '力' are not used, while Katakana 'ー' and 'カ' are misread as Kanji sometimes.
-        name = name.split('安')[0].rstrip('安全海域').replace('一', 'ー').replace('力', 'カ')
+        # Katakana 'ペ' may be misread as Hiragana 'ぺ'.
+        name = name.split('安')[0].rstrip('安全海域').replace('一', 'ー').replace('力', 'カ').replace('ぺ', 'ペ')
         return name
 
     @Config.when(SERVER=None)
