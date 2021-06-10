@@ -12,7 +12,7 @@ class FleetOperator:
     FLEET_BAR_SHAPE_Y = 33
     FLEET_BAR_MARGIN_Y = 9
     FLEET_BAR_ACTIVE_STD = 45  # Active: 67, inactive: 12.
-    FLEET_IN_USE_STD = 20  # In use 52, not in use (3, 6).
+    FLEET_IN_USE_STD = 27  # In use 52, not in use (3, 6).
     FLEET_PREPARE_OPERATION_SLEEP = (0.25, 0.35)
 
     def __init__(self, choose, bar, clear, in_use, main):
