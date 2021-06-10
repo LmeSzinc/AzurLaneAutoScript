@@ -23,7 +23,7 @@ class AutoSearchHandler(EnemySearchingHandler):
     @Config.when(SERVER=None)
     def _fleet_sidebar(self):
         return ButtonGrid(
-            origin=(1177, 139), delta=(0, 110.5), button_shape=(55, 104), grid_shape=(1, 3), name='FLEET_SIDEBAR')
+            origin=(1185, 125), delta=(0, 109), button_shape=(53, 104), grid_shape=(1, 3), name='FLEET_SIDEBAR')
 
     def _fleet_preparation_sidebar_click(self, index):
         """
