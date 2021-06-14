@@ -44,7 +44,7 @@ SELECT_PRIORITY = {
     'ibuki': 2,
     'izumo': 3,
     'roon': 4,
-    'saintlouis': 6,
+    'saintlouis': 5,
     'seattle': 0,
     'georgia': 1,
     'kitakaze': 2,
