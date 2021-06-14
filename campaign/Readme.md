@@ -56,3 +56,4 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20210429   | event 20210429 tw        | Ink Stained Steel Sakura       | -                      | -                                | -                                    | 復刻墨染的鋼鐵之花 |
 | 20210527   | event 20210527 tw        | Microlayer Medley              | -                      | -                                | -                                    | 微層混合           |
 | 20210527   | event 20210527 cn        | Mirror Involution              | 镜位螺旋               | Mirror Involution                | 照らす螺旋の鏡海                     | -                  |
+| 20210610   | event 20210610 tw        | The Way Home in the Night      | -                      | -                                | -                                    | 夜幕下的歸途       |

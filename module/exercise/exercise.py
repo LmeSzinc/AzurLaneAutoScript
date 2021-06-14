@@ -132,7 +132,7 @@ class Exercise(ExerciseCombat):
 
     def record_save(self):
         self.config.config.set(*RECORD_COUNT, str(self.opponent_change_count))
-        if self.remain <= self.config.EXERCISE_PRESERVE:
+        if self.remain <= self.config.EXERCISE_PRESERVE or self.opponent_change_count >= 5:
             return self.config.record_save(option=RECORD_OPTION)
         else:
             self.config.save()
