@@ -25,3 +25,23 @@ class GeneralShop(ShopBase):
         shop_general_items.load_template_folder('./assets/general_shop')
         shop_general_items.load_cost_template_folder('./assets/shop_cost')
         return shop_general_items
+
+    def shop_check_item_general(self, item):
+        """
+        Args:
+            item: Item to check
+
+        Returns:
+            bool:
+        """
+        if item.cost == 'Coins':
+            if item.price > self._shop_gold_coins:
+                return False
+            return True
+
+        if self.config.SHOP_GENERAL_GEMS_ENABLED:
+            if item.cost == 'Gems':
+                if item.price > self._shop_gems:
+                    return False
+                return True
+        return False

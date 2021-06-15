@@ -64,17 +64,17 @@ SELECT_PRIORITY_LIMIT = 1
 
 # Known Secondary Grid Sizes
 SELECT_GRID_3X1 = ButtonGrid(
-    origin=(412, 208), delta=(158, 0), button_shape=(119, 119), grid_shape=(3, 1),
+    origin=(412, 258), delta=(158, 0), button_shape=(119, 19), grid_shape=(3, 1),
     name='SHOP_SELECT_GRID_3X1')
 
 SELECT_GRID_4X1 = ButtonGrid(
-    origin=(334, 208), delta=(158, 0), button_shape=(119, 119), grid_shape=(4, 1),
+    origin=(334, 258), delta=(158, 0), button_shape=(119, 19), grid_shape=(4, 1),
     name='SHOP_SELECT_GRID_4X1')
 
 SELECT_GRID_5X1 = ButtonGrid(
-    origin=(256, 208), delta=(158, 0), button_shape=(119, 119), grid_shape=(5, 1),
+    origin=(256, 258), delta=(158, 0), button_shape=(119, 19), grid_shape=(5, 1),
     name='SHOP_SELECT_GRID_5X1')
 
 SELECT_GRID_6X1 = ButtonGrid(
-    origin=(256, 208), delta=(158, 0), button_shape=(119, 119), grid_shape=(5, 1),
+    origin=(256, 258), delta=(158, 0), button_shape=(119, 19), grid_shape=(6, 1),
     name='SHOP_SELECT_GRID_6X1')

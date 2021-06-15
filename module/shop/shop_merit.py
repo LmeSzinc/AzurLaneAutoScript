@@ -17,6 +17,10 @@ class MeritShop(ShopBase):
 
     @cached_property
     def shop_merit_grid(self):
+        """
+        Returns:
+            ButtonGrid:
+        """
         shop_grid = ButtonGrid(
             origin=(477, 365), delta=(156, 0), button_shape=(96, 96), grid_shape=(5, 1), name='SHOP_MERIT_GRID')
         return shop_grid
@@ -25,10 +29,24 @@ class MeritShop(ShopBase):
     def shop_merit_items(self):
         """
         Returns:
-            ItemGrid:
+            ShopItemGrid:
         """
         shop_grid = self.shop_merit_grid
         shop_merit_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
         shop_merit_items.load_template_folder('./assets/merit_shop')
         shop_merit_items.load_cost_template_folder('./assets/shop_cost')
         return shop_merit_items
+
+    def shop_check_item_merit(self, item):
+        """
+        Args:
+            item: Item to check
+
+        Returns:
+            bool:
+        """
+        if item.cost == 'Merit':
+            if item.price > self._shop_merit:
+                return False
+            return True
+        return False

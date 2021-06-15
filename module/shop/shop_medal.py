@@ -17,6 +17,10 @@ class MedalShop(ShopBase):
 
     @cached_property
     def shop_medal_grid(self):
+        """
+        Returns:
+            ButtonGrid:
+        """
         shop_grid = ButtonGrid(
             origin=(197, 193), delta=(224, 191), button_shape=(100, 101), grid_shape=(3, 2), name='SHOP_MEDAL_GRID')
         return shop_grid
@@ -32,3 +36,17 @@ class MedalShop(ShopBase):
         shop_medal_items.load_template_folder('./assets/medal_shop')
         shop_medal_items.load_cost_template_folder('./assets/shop_cost')
         return shop_medal_items
+
+    def shop_check_item_medal(self, item):
+        """
+        Args:
+            item: Item to check
+
+        Returns:
+            bool:
+        """
+        if item.cost == 'Medal':
+            if item.price > self._shop_medal:
+                return False
+            return True
+        return False
