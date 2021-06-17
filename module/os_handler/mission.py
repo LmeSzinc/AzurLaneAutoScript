@@ -149,13 +149,23 @@ class MissionHandler(GlobeOperation, ZoneManager):
 
         logger.info('Checkout os mission')
         skip_first_screenshot = True
+
+        # Count mission_checkout click times
+        # If too many, means only coin missions left
+        mission_checkout_count = 0
+
         while 1:
+            if mission_checkout_count >= 10:
+                logger.info('Only incompletable coin missions left')
+                return False
+
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
 
             if self.appear_then_click(MISSION_CHECKOUT, offset=(20, 20), interval=2):
+                mission_checkout_count = mission_checkout_count +1
                 continue
             if self.is_zone_pinned():
                 logger.info('Pinned at mission zone')
