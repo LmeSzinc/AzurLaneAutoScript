@@ -6,7 +6,7 @@ from module.logger import logger
 from module.ocr.ocr import Digit
 from module.shop.assets import *
 from module.shop.base import ShopBase, ShopItemGrid
-from module.shop.shop_guild_select import *
+from module.shop.shop_guild_globals import *
 from module.ui.assets import BACK_ARROW
 
 OCR_SHOP_GUILD_COINS = Digit(SHOP_GUILD_COINS, letter=(255, 255, 255), name='OCR_SHOP_GUILD_COINS')
@@ -20,7 +20,7 @@ class GuildItemGrid(ShopItemGrid):
         # Loop again, to add 'secondary_grid' attr
         # only applicable to GuildShop items
         for item in self.items:
-            name = item.name[0:-2].lower()
+            name = item.name[:-2].lower()
             if name in SELECT_ITEMS:
                 item.secondary_grid = name
             else:
@@ -190,6 +190,11 @@ class GuildShop(ShopBase):
                 continue
             if self.appear(GET_ITEMS_1, interval=1):
                 self.device.click(SHOP_CLICK_SAFE_AREA)
+                self.interval_reset(BACK_ARROW)
+                success = True
+                continue
+            if self.info_bar_count():
+                self.ensure_no_info_bar()
                 self.interval_reset(BACK_ARROW)
                 success = True
                 continue

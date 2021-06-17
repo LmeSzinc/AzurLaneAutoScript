@@ -6,7 +6,7 @@ SELECT_ITEMS = [
     'box',
     'retrofit',
     'plate',
-    'priority',
+    'pr',
 ]
 
 # Known Secondary Grid Items by Category
@@ -38,7 +38,7 @@ SELECT_PLATE = {
     'plane': 4,
 }
 
-SELECT_PRIORITY = {
+SELECT_PR = {
     'neptune': 0,
     'monarch': 1,
     'ibuki': 2,
@@ -60,7 +60,7 @@ SELECT_BOOK_LIMIT = 3
 SELECT_BOX_LIMIT = 1
 SELECT_RETROFIT_LIMIT = 2
 SELECT_PLATE_LIMIT = 5
-SELECT_PRIORITY_LIMIT = 1
+SELECT_PR_LIMIT = 1
 
 # Known Secondary Grid Sizes
 SELECT_GRID_3X1 = ButtonGrid(
@@ -76,5 +76,5 @@ SELECT_GRID_5X1 = ButtonGrid(
     name='SHOP_SELECT_GRID_5X1')
 
 SELECT_GRID_6X1 = ButtonGrid(
-    origin=(256, 258), delta=(158, 0), button_shape=(119, 19), grid_shape=(6, 1),
+    origin=(176, 258), delta=(158, 0), button_shape=(119, 19), grid_shape=(6, 1),
     name='SHOP_SELECT_GRID_6X1')

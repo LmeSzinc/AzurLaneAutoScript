@@ -22,7 +22,7 @@ class MedalShop(ShopBase):
             ButtonGrid:
         """
         shop_grid = ButtonGrid(
-            origin=(197, 193), delta=(224, 191), button_shape=(100, 101), grid_shape=(3, 2), name='SHOP_MEDAL_GRID')
+            origin=(197, 193), delta=(224, 191), button_shape=(101, 101), grid_shape=(3, 2), name='SHOP_MEDAL_GRID')
         return shop_grid
 
     @cached_property

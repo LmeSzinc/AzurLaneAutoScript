@@ -5,6 +5,7 @@ from module.combat.assets import GET_ITEMS_1
 from module.logger import logger
 from module.reward.tactical_class import Book
 from module.shop.assets import *
+from module.shop.base_globals import *
 from module.statistics.item import ItemGrid
 from module.ui.assets import BACK_ARROW
 from module.ui.ui import UI
@@ -15,8 +16,15 @@ class ShopItemGrid(ItemGrid):
         super().predict(image, name, amount, cost, price)
 
         for item in self.items:
-            name = item.name[0:4].lower()
-            if 'book' in name:
+            # Every item is given a new attr 'alt_name'
+            # a list of alternative / equivalent names
+            # for the item in question
+            item.alt_name = [item.name, item.name[:-2]]
+
+            if item.name in ITEM_NO_TIERS:
+                item.alt_name.remove(item.name[:-2])
+
+            if 'Book' in item.name:
                 # Created to just not access protected variable
                 # accessor returns tuple, not button itself
                 btn = Button(item.button, None, item.button)
@@ -26,8 +34,23 @@ class ShopItemGrid(ItemGrid):
                 # For some shops, book may be grey thus invalid
                 # but does not matter within this context
                 book = Book(image, btn)
-                item.name = f'{item.name[0:-2]}T{book.tier}'
+                item.name = f'{item.name[:-2]}T{book.tier}'
+                item.alt_name = ['Book', item.name, item.name[:-2], f'Book{book.tier}']
 
+            if 'Plate' in item.name:
+                item.alt_name.extend(['Plate', f'Plate{item.name[-2:]}'])
+
+            if 'Retrofit' in item.name:
+                item.alt_name.extend(['Retrofit', f'Retrofit{item.name[-2:]}'])
+
+            if 'PR' in item.name or 'DR' in item.name:
+                item.alt_name = [
+                                    f'{item.name[:2]}BP',
+                                    f'{item.name[:2]}{BP_SERIES[f"{item.name[2:-2].lower()}"]}BP',
+                                ]
+
+            # Clear out duplicates in 'alt_name'
+            item.alt_name = list(set(item.alt_name))
         return self.items
 
 
@@ -86,7 +109,7 @@ class ShopBase(UI):
         """
         Args:
             item: Item to check
-            key: String identifies shop_icheck_item_x
+            key: String identifies shop_check_item_x
 
         Returns:
             Item:
@@ -118,8 +141,13 @@ class ShopBase(UI):
             return None
 
         for select in selection:
+            # 'Choice Ship' purchases are not supported
+            # Bulin purchases are through alternative func
+            if 'ship' in select.lower():
+                continue
+
             for item in items:
-                if select not in item.name:
+                if select not in item.alt_name:
                     continue
                 if not self.shop_check_item(item, key=shop_type):
                     continue
@@ -131,7 +159,7 @@ class ShopBase(UI):
     def shop_buy_execute(self, item, skip_first_screenshot=True):
         """
         Args:
-            item: Item to click and buy
+            item: Item/Button to click and buy
             skip_first_screenshot: bool
 
         Returns:
@@ -155,6 +183,11 @@ class ShopBase(UI):
                 continue
             if self.appear(GET_ITEMS_1, interval=1):
                 self.device.click(SHOP_CLICK_SAFE_AREA)
+                self.interval_reset(BACK_ARROW)
+                success = True
+                continue
+            if self.info_bar_count():
+                self.ensure_no_info_bar()
                 self.interval_reset(BACK_ARROW)
                 success = True
                 continue
