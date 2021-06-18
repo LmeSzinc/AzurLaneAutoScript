@@ -156,7 +156,8 @@ class MissionHandler(GlobeOperation, ZoneManager):
 
         while 1:
             if mission_checkout_count >= 10:
-                logger.info('Only incompletable coin missions left')
+                logger.info('Only incompletable OS coin missions left')
+                self.os_mission_quit()
                 return False
 
             if skip_first_screenshot:
