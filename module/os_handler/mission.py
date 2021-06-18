@@ -143,7 +143,7 @@ class MissionHandler(GlobeOperation, ZoneManager):
         """
         self.os_mission_enter()
 
-        if not self.appear(MISSION_CHECKOUT, offset=(20, 20)):
+        if not MISSION_CHECKOUT.match_appear_on(self.device.image):
             self.os_mission_quit()
             return False
 
