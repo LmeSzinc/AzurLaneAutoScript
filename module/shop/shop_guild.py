@@ -32,7 +32,7 @@ class GuildItemGrid(ShopItemGrid):
 class GuildShop(ShopBase):
     _shop_guild_coins = 0
 
-    def shop_get_guild_currency(self):
+    def shop_guild_get_currency(self):
         self._shop_guild_coins = OCR_SHOP_GUILD_COINS.ocr(self.device.image)
         logger.info(f'Guild coins: {self._shop_guild_coins}')
 
@@ -47,6 +47,20 @@ class GuildShop(ShopBase):
         shop_guild_items.load_template_folder('./assets/guild_shop')
         shop_guild_items.load_cost_template_folder('./assets/shop_cost')
         return shop_guild_items
+
+    def shop_guild_check_item(self, item):
+        """
+        Args:
+            item: Item to check
+
+        Returns:
+            bool:
+        """
+        if item.cost == 'GuildCoins':
+            if item.price > self._shop_guild_coins:
+                return False
+            return True
+        return False
 
     def shop_get_select(self, category='none', choice='none'):
         """
@@ -202,17 +216,3 @@ class GuildShop(ShopBase):
             # End
             if success and self.appear(BACK_ARROW, offset=(20, 20)):
                 break
-
-    def shop_check_item_guild(self, item):
-        """
-        Args:
-            item: Item to check
-
-        Returns:
-            bool:
-        """
-        if item.cost == 'GuildCoins':
-            if item.price > self._shop_guild_coins:
-                return False
-            return True
-        return False

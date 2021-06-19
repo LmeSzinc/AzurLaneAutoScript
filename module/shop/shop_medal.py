@@ -11,7 +11,7 @@ OCR_SHOP_MEDAL = Digit(SHOP_MEDAL, letter=(239, 239, 239), name='OCR_SHOP_MEDAL'
 class MedalShop(ShopBase):
     _shop_medal = 0
 
-    def shop_get_medal_currency(self):
+    def shop_medal_get_currency(self):
         self._shop_medal = OCR_SHOP_MEDAL.ocr(self.device.image)
         logger.info(f'Medal: {self._shop_medal}')
 
@@ -37,7 +37,7 @@ class MedalShop(ShopBase):
         shop_medal_items.load_cost_template_folder('./assets/shop_cost')
         return shop_medal_items
 
-    def shop_check_item_medal(self, item):
+    def shop_medal_check_item(self, item):
         """
         Args:
             item: Item to check

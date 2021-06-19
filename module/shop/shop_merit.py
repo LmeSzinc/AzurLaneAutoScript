@@ -11,7 +11,7 @@ OCR_SHOP_MERIT = Digit(SHOP_MERIT, letter=(239, 239, 239), name='OCR_SHOP_MERIT'
 class MeritShop(ShopBase):
     _shop_merit = 0
 
-    def shop_get_merit_currency(self):
+    def shop_merit_get_currency(self):
         self._shop_merit = OCR_SHOP_MERIT.ocr(self.device.image)
         logger.info(f'Merit: {self._shop_merit}')
 
@@ -37,7 +37,7 @@ class MeritShop(ShopBase):
         shop_merit_items.load_cost_template_folder('./assets/shop_cost')
         return shop_merit_items
 
-    def shop_check_item_merit(self, item):
+    def shop_merit_check_item(self, item):
         """
         Args:
             item: Item to check

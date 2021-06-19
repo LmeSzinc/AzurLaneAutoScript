@@ -12,7 +12,7 @@ class GeneralShop(ShopBase):
     _shop_gold_coins = 0
     _shop_gems = 0
 
-    def shop_get_general_currency(self):
+    def shop_general_get_currency(self):
         self._shop_gold_coins = OCR_SHOP_GOLD_COINS.ocr(self.device.image)
         self._shop_gems = OCR_SHOP_GEMS.ocr(self.device.image)
         logger.info(f'Gold coins: {self._shop_gold_coins}, Gems: {self._shop_gems}')
@@ -29,7 +29,7 @@ class GeneralShop(ShopBase):
         shop_general_items.load_cost_template_folder('./assets/shop_cost')
         return shop_general_items
 
-    def shop_check_item_general(self, item):
+    def shop_general_check_item(self, item):
         """
         Args:
             item: Item to check

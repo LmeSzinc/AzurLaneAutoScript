@@ -72,9 +72,9 @@ class ShopBase(UI):
                  for shop
         """
         try:
-            self.__getattribute__(f'shop_get_{key}_currency')()
+            self.__getattribute__(f'shop_{key}_get_currency')()
         except AttributeError:
-            logger.warn(f'shop_get_currency --> Missing func shop_get_{key}_currency')
+            logger.warn(f'shop_get_currency --> Missing func shop_{key}_get_currency')
 
     def shop_get_items(self, key='general'):
         """
@@ -109,15 +109,15 @@ class ShopBase(UI):
         """
         Args:
             item: Item to check
-            key: String identifies shop_check_item_x
+            key: String identifies shop_check_x_item
 
         Returns:
-            Item:
+            bool:
         """
         try:
-            return self.__getattribute__(f'shop_check_item_{key}')(item)
+            return self.__getattribute__(f'shop_{key}_check_item')(item)
         except AttributeError:
-            logger.warn(f'shop_check_item --> Missing func shop_check_{key}_item')
+            logger.warn(f'shop_check_item --> Missing func shop_{key}_check_item')
             return False
 
     def shop_get_item_to_buy(self, shop_type='general', selection=''):
@@ -134,6 +134,7 @@ class ShopBase(UI):
 
         try:
             selection = selection.replace(' ', '').split('>')
+            selection = list(filter(''.__ne__, selection))
         except AttributeError:
             logger.warning('shop_get_item_to_buy --> Invalid filter string '
                            f'was provided for {shop_type}: {selection}')
