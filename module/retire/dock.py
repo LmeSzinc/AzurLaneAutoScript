@@ -33,7 +33,7 @@ FILTER_RARITY_TYPES = [['all', 'common', 'rare', 'elite', 'super_rare', 'ultra']
 
 FILTER_EXTRA_GRIDS = ButtonGrid(
     origin=(284, 522), delta=(157.5, 0), button_shape=(137, 38), grid_shape=(6, 1), name='FILTER_EXTRA')
-FILTER_EXTRA_TYPES = [['no_limit', 'has_skin', 'can_retrofit', 'enhanceable', 'special', 'not_available']]
+FILTER_EXTRA_TYPES = [['no_limit', 'has_skin', 'can_retrofit', 'enhanceable', 'special', 'pledge_outfit']]
 
 CARD_GRIDS = ButtonGrid(
     origin=(93, 76), delta=(164 + 2 / 3, 227), button_shape=(138, 204), grid_shape=(7, 2), name='CARD')

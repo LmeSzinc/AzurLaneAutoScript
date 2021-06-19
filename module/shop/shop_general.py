@@ -5,14 +5,17 @@ from module.shop.assets import *
 from module.shop.base import ShopBase, ShopItemGrid
 
 OCR_SHOP_GOLD_COINS = Digit(SHOP_GOLD_COINS, letter=(239, 239, 239), name='OCR_SHOP_GOLD_COINS')
+OCR_SHOP_GEMS = Digit(SHOP_GEMS, letter=(255, 243, 82), name='OCR_SHOP_GEMS')
 
 
 class GeneralShop(ShopBase):
     _shop_gold_coins = 0
+    _shop_gems = 0
 
-    def shop_get_gold_coins(self):
+    def shop_get_general_currency(self):
         self._shop_gold_coins = OCR_SHOP_GOLD_COINS.ocr(self.device.image)
-        logger.info(f'Gold coins: {self._shop_gold_coins}')
+        self._shop_gems = OCR_SHOP_GEMS.ocr(self.device.image)
+        logger.info(f'Gold coins: {self._shop_gold_coins}, Gems: {self._shop_gems}')
 
     @cached_property
     def shop_general_items(self):

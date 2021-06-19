@@ -35,7 +35,7 @@ class ShopItemGrid(ItemGrid):
                 # but does not matter within this context
                 book = Book(image, btn)
                 item.name = f'{item.name[:-2]}T{book.tier}'
-                item.alt_name = ['Book', item.name, item.name[:-2], f'Book{book.tier}']
+                item.alt_name = ['Book', item.name, item.name[:-2], f'BookT{book.tier}']
 
             if 'Plate' in item.name:
                 item.alt_name.extend(['Plate', f'Plate{item.name[-2:]}'])
@@ -62,19 +62,19 @@ class ShopBase(UI):
             ButtonGrid:
         """
         shop_grid = ButtonGrid(
-            origin=(477, 152), delta=(156, 214), button_shape=(96, 96), grid_shape=(5, 2), name='SHOP_GRID')
+            origin=(477, 152), delta=(156, 214), button_shape=(96, 97), grid_shape=(5, 2), name='SHOP_GRID')
         return shop_grid
 
-    def shop_get_currency(self, key='gold_coins'):
+    def shop_get_currency(self, key='general'):
         """
         Args:
             key: String identifies func to acquire currency
-                 in wallet for shop
+                 for shop
         """
         try:
-            self.__getattribute__(f'shop_get_{key}')()
+            self.__getattribute__(f'shop_get_{key}_currency')()
         except AttributeError:
-            logger.warn(f'shop_get_currency --> Missing func shop_get_{key}')
+            logger.warn(f'shop_get_currency --> Missing func shop_get_{key}_currency')
 
     def shop_get_items(self, key='general'):
         """
@@ -120,17 +120,16 @@ class ShopBase(UI):
             logger.warn(f'shop_check_item --> Missing func shop_check_{key}_item')
             return False
 
-    def shop_get_item_to_buy(self, shop_type='general', currency='gold_coins', selection=''):
+    def shop_get_item_to_buy(self, shop_type='general', selection=''):
         """
         Args:
             shop_type: String assists with shop_get_items
-            currency: String assists with shop_get_currency
             selection: String user configured value, items desired
 
         Returns:
             Item:
         """
-        self.shop_get_currency(key=currency)
+        self.shop_get_currency(key=shop_type)
         items = self.shop_get_items(key=shop_type)
 
         try:
@@ -196,11 +195,10 @@ class ShopBase(UI):
             if success and self.appear(BACK_ARROW, offset=(20, 20)):
                 break
 
-    def shop_buy(self, shop_type='general', currency='gold_coins', selection=''):
+    def shop_buy(self, shop_type='general', selection=''):
         """
         Args:
             shop_type: String assists with shop_get_item_to_buy
-            currency: String assists with shop_get_item_to_buy
             selection: String user configured value, items desired
 
         Returns:
@@ -208,7 +206,7 @@ class ShopBase(UI):
         """
         count = 0
         for _ in range(12):
-            item = self.shop_get_item_to_buy(shop_type, currency, selection)
+            item = self.shop_get_item_to_buy(shop_type, selection)
             if item is None:
                 logger.info('Shop buy finished')
                 return count

@@ -32,7 +32,7 @@ class GuildItemGrid(ShopItemGrid):
 class GuildShop(ShopBase):
     _shop_guild_coins = 0
 
-    def shop_get_guild_coins(self):
+    def shop_get_guild_currency(self):
         self._shop_guild_coins = OCR_SHOP_GUILD_COINS.ocr(self.device.image)
         logger.info(f'Guild coins: {self._shop_guild_coins}')
 
@@ -69,10 +69,10 @@ class GuildShop(ShopBase):
             shop_select_grid = SELECT_GRID_3X1
         elif category == 'box' or \
                 category == 'retrofit' or \
-                (category == 'priority' and
+                (category == 'pr' and
                  (self.appear(SHOP_SELECT_PR2) or self.appear(SHOP_SELECT_PR3))):
             shop_select_grid = SELECT_GRID_4X1
-        elif category == 'priority' and self.appear(SHOP_SELECT_PR1):
+        elif category == 'pr' and self.appear(SHOP_SELECT_PR1):
             shop_select_grid = SELECT_GRID_6X1
         else:
             shop_select_grid = SELECT_GRID_5X1

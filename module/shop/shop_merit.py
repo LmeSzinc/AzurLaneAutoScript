@@ -11,7 +11,7 @@ OCR_SHOP_MERIT = Digit(SHOP_MERIT, letter=(239, 239, 239), name='OCR_SHOP_MERIT'
 class MeritShop(ShopBase):
     _shop_merit = 0
 
-    def shop_get_merit(self):
+    def shop_get_merit_currency(self):
         self._shop_merit = OCR_SHOP_MERIT.ocr(self.device.image)
         logger.info(f'Merit: {self._shop_merit}')
 
