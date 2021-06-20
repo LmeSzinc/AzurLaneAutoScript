@@ -95,17 +95,13 @@ class MissionHandler(GlobeOperation, ZoneManager):
             in: is_in_map
             out: is_in_map
         """
-
         def handle_mission_at_current_zone():
             if self.info_bar_count():
                 raise MissionAtCurrentZone
 
         self.os_mission_enter()
 
-        # If not having enough items to claim a mission,
-        # there will still be MISSION_CHECKOUT, but button is transparent.
-        # So here needs to use both template matching and color detection.
-        if MISSION_CHECKOUT.match_appear_on(self.device.image):
+        if self.appear(MISSION_CHECKOUT, offset=(20, 20)):
             try:
                 self.ui_click(MISSION_CHECKOUT, check_button=MISSION_MAP_CHECK,
                               additional=handle_mission_at_current_zone, skip_first_screenshot=True)
@@ -143,7 +139,11 @@ class MissionHandler(GlobeOperation, ZoneManager):
         """
         self.os_mission_enter()
 
-        if not self.appear(MISSION_CHECKOUT, offset=(20, 20)):
+        if not self.appear(MISSION_CHECKOUT, offset=(20, 20)) \
+                and MISSION_CHECKOUT.match_appear_on(self.device.image):
+            # If not having enough items to claim a mission,
+            # there will still be MISSION_CHECKOUT, but button is transparent.
+            # So here needs to use both template matching and color detection.
             self.os_mission_quit()
             return False
 
