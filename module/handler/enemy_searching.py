@@ -37,7 +37,7 @@ class EnemySearchingHandler(InfoHandler):
             else:
                 return False
         else:
-            if self.appear(MAP_PREPARATION) or self.appear(FLEET_PREPARATION):
+            if self.appear(MAP_PREPARATION, offset=(20, 20)) or self.appear(FLEET_PREPARATION, offset=(20, 20)):
                 self.device.click(MAP_PREPARATION_CANCEL)
             self.in_stage_timer.reset()
             return False
@@ -92,7 +92,6 @@ class EnemySearchingHandler(InfoHandler):
                 timeout.reset()
 
             if self.handle_guild_popup_cancel():
-                self.config.GUILD_POPUP_TRIGGERED = True
                 timeout.limit = 10
                 timeout.reset()
                 continue

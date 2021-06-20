@@ -37,9 +37,9 @@ class AzurLaneDaemon(CampaignBase):
 
             # Map preparation
             if self.config.ENABLE_SEMI_MAP_PREPARATION:
-                if self.appear_then_click(MAP_PREPARATION, interval=2):
+                if self.appear_then_click(MAP_PREPARATION, offset=(20, 20), interval=2):
                     continue
-                if self.appear_then_click(FLEET_PREPARATION, interval=2):
+                if self.appear_then_click(FLEET_PREPARATION, offset=(20, 20), interval=2):
                     continue
 
             # Retire

@@ -147,6 +147,9 @@ class MapEventHandler(EnemySearchingHandler):
             if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(20, 20), interval=1):
                 confirm_timer.reset()
                 continue
+            if self.handle_map_event():
+                confirm_timer.reset()
+                continue
 
             # End
             if self.is_in_map():

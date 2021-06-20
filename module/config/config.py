@@ -416,7 +416,6 @@ class AzurLaneConfig:
     """
     ENABLE_GUILD_LOGISTICS = False
     ENABLE_GUILD_OPERATIONS = False
-    GUILD_POPUP_TRIGGERED = False
     GUILD_INTERVAL = '40, 60' # str, such as '20', '10, 40'.
     GUILD_LOGISTICS_ITEM_ORDER_STRING = 't1 > t2 > t3 > oxycola > coolant > coins > oil > merit'
     GUILD_LOGISTICS_PLATE_T1_ORDER_STRING = 'torpedo > antiair > plane > gun > general'

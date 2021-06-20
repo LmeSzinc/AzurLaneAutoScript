@@ -50,7 +50,6 @@ class Daily(Reward, DailyEquipment):
 
     def handle_daily_additional(self):
         if self.handle_guild_popup_cancel():
-            self.config.GUILD_POPUP_TRIGGERED = True
             return True
         return False
 

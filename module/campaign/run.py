@@ -184,11 +184,6 @@ class CampaignRun(Reward):
                 self.campaign.fleet_checked_reset()
             if self.handle_reward():
                 self.campaign.fleet_checked_reset()
-            if self.config.GUILD_POPUP_TRIGGERED:
-                self.ensure_auto_search_exit()
-                self.handle_guild() # Will reset self.config.GUILD_POPUP_TRIGGERED afterwards
-                self.campaign.config.GUILD_POPUP_TRIGGERED = False
-                self.campaign.fleet_checked_reset()
 
             # End
             if total and self.run_count == total:
@@ -234,7 +229,6 @@ class CampaignRun(Reward):
 
             # After run
             self.run_count += 1
-            self.config.GUILD_POPUP_TRIGGERED = self.campaign.config.GUILD_POPUP_TRIGGERED
             if self.config.STOP_IF_COUNT_GREATER_THAN > 0:
                 count = self.config.STOP_IF_COUNT_GREATER_THAN - self.run_count
                 count = 0 if count < 0 else count
