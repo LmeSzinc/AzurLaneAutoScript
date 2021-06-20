@@ -136,7 +136,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             else:
                 self.device.screenshot()
 
-            if self.appear(MAP_PREPARATION) or self.appear(FLEET_PREPARATION):
+            if self.appear(MAP_PREPARATION, offset=(20, 20)) or self.appear(FLEET_PREPARATION, offset=(20, 20)):
                 self.device.click(MAP_PREPARATION_CANCEL)
                 continue
 
@@ -150,7 +150,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         Returns:
             bool: If MAP_PREPARATION and tha animation of map information finished
         """
-        if not self.appear(MAP_PREPARATION):
+        if not self.appear(MAP_PREPARATION, offset=(20, 20)):
             self.map_clear_percentage_prev = -1
             self.map_clear_percentage_timer.reset()
             return False

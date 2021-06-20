@@ -82,14 +82,14 @@ class Campaign(CampaignBase, HardEquipment):
                 continue
 
             # Map preparation
-            if map_timer.reached() and self.appear(MAP_PREPARATION):
+            if map_timer.reached() and self.appear(MAP_PREPARATION, offset=(20, 20)):
                 self.device.click(MAP_PREPARATION)
                 map_timer.reset()
                 campaign_timer.reset()
                 continue
 
             # Fleet preparation
-            if fleet_timer.reached() and self.appear(FLEET_PREPARATION):
+            if fleet_timer.reached() and self.appear(FLEET_PREPARATION, offset=(20, 20)):
                 self.equipment_take_off()
                 self.ui_back(check_button=CAMPAIGN_CHECK, appear_button=FLEET_PREPARATION)
                 break
