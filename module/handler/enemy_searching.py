@@ -92,7 +92,6 @@ class EnemySearchingHandler(InfoHandler):
                 timeout.reset()
 
             if self.handle_guild_popup_cancel():
-                self.config.GUILD_POPUP_TRIGGERED = True
                 timeout.limit = 10
                 timeout.reset()
                 continue
