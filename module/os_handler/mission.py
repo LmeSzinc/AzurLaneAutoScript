@@ -139,8 +139,7 @@ class MissionHandler(GlobeOperation, ZoneManager):
         """
         self.os_mission_enter()
 
-        if not self.appear(MISSION_CHECKOUT, offset=(20, 20)) \
-                and MISSION_CHECKOUT.match_appear_on(self.device.image):
+        if not (self.appear(MISSION_CHECKOUT, offset=(20, 20)) and MISSION_CHECKOUT.match_appear_on(self.device.image)):
             # If not having enough items to claim a mission,
             # there will still be MISSION_CHECKOUT, but button is transparent.
             # So here needs to use both template matching and color detection.
