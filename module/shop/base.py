@@ -218,33 +218,3 @@ class ShopBase(UI):
 
         logger.warning('Too many items to buy, stopped')
         return count
-
-    def shop_refresh(self, skip_first_screenshot=True):
-        """
-        Args:
-            skip_first_screenshot: bool
-
-        Returns:
-            None: exits appropriately therefore successful
-        """
-        exit_timer = Timer(3, count=6).start()
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            if self.appear_then_click(SHOP_REFRESH, interval=3):
-                exit_timer.reset()
-                continue
-            if self.handle_popup_confirm('SHOP_REFRESH_CONFIRM'):
-                exit_timer.reset()
-                continue
-
-            # End
-            if self.appear(BACK_ARROW, offset=(20, 20)):
-                if exit_timer.reached():
-                    break
-            else:
-                exit_timer.reset()
-        self.ensure_no_info_bar()
