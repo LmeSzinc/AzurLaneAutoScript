@@ -1,15 +1,53 @@
 from module.base.button import ButtonGrid
+from module.base.timer import Timer
 from module.base.utils import random_rectangle_vector
 from module.logger import logger
 from module.shop.assets import *
 from module.ui.page import page_munitions
 from module.ui.ui import UI
 
+SHOP_LOAD_ENSURE_BUTTONS = [SHOP_GENERAL_CHECK, SHOP_GUILD_CHECK,
+                            SHOP_MERIT_CHECK, SHOP_PROTOTYPE_CHECK,
+                            SHOP_CORE_CHECK]
+
 SHOP_BOTTOMBAR = ButtonGrid(
     origin=(393, 637), delta=(182, 0), button_shape=(45, 15), grid_shape=(5, 1), name='SHOP_BOTTOMBAR')
 
 
 class ShopUI(UI):
+    def shop_load_ensure(self, skip_first_screenshot=True):
+        """
+        Switching between bottombar clicks for some
+        takes a bit of processing before fully loading
+        like guild logistics
+
+        Args:
+            skip_first_screenshot (bool):
+
+        Returns:
+            bool: Whether expected assets loaded completely
+        """
+        verify_timeout = Timer(3, count=6)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            result = [self.appear(button) for button in SHOP_LOAD_ENSURE_BUTTONS]
+            logger.info(result)
+            if any(result):
+                return True
+
+            # Failed to End, start timeout and subsequent
+            # loops check if taking longer than expected
+            if not verify_timeout.started():
+                verify_timeout.reset()
+            elif verify_timeout.reached():
+                logger.warn('Wait for loaded assets is incomplete, ensure not guaranteed')
+                return False
+
     def _shop_bottombar_click(self, index):
         """
         Performs the calculations necessary
@@ -97,9 +135,11 @@ class ShopUI(UI):
                     logger.warning('Bottombar could not be ensured')
                     return False
                 counter += 1
-                self.device.sleep((0.3, 0.5))
+                self.device.sleep((0.5, 0.8))
                 continue
             else:
+                if not self.shop_load_ensure():
+                    return False
                 return True
 
     def shop_refresh(self, skip_first_screenshot=True):

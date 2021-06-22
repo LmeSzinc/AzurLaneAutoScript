@@ -1,6 +1,6 @@
 from module.base.button import Button, ButtonGrid
-from module.base.timer import Timer
 from module.base.decorator import cached_property
+from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1
 from module.logger import logger
 from module.reward.tactical_class import Book
@@ -142,7 +142,6 @@ class ShopBase(UI):
 
         for select in selection:
             # 'Choice Ship' purchases are not supported
-            # Bulin purchases are through alternative func
             if 'ship' in select.lower():
                 continue
 

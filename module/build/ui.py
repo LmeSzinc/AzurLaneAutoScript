@@ -1,10 +1,13 @@
+import numpy as np
 from module.base.button import ButtonGrid
+from module.base.timer import Timer
 from module.base.utils import *
-from module.logger import logger
 from module.build.assets import *
+from module.logger import logger
 from module.ui.page import page_build
 from module.ui.ui import UI
-import numpy as np
+
+BUILD_LOAD_ENSURE_BUTTONS = [SHOP_MEDAL_CHECK, BUILD_SUBMIT_ORDERS, BUILD_FINISH_ORDERS]
 
 BUILD_SIDEBAR = ButtonGrid(
     origin=(21, 126), delta=(0, 98), button_shape=(60, 80), grid_shape=(1, 5), name='BUILD_SIDEBAR')
@@ -17,34 +20,37 @@ SHOP_BOTTOMBAR = ButtonGrid(
 
 
 class BuildUI(UI):
-    def build_shop_ensure(self, skip_first_screenshot=True):
+    def build_load_ensure(self, skip_first_screenshot=True):
         """
-        Ensure build shop is loaded
-        After entering build shop, shop medal grid
-        does not appear immediately, must wait
+        Switching between sidebar clicks for some
+        takes a bit of processing before fully loading
+        like guild logistics
 
         Args:
             skip_first_screenshot (bool):
+
+        Returns:
+            bool: Whether expected assets loaded completely
         """
+        verify_timeout = Timer(3, count=6)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
 
-            if self.appear(SHOP_MEDAL_CHECK):
-                break
+            # End
+            result = [self.appear(button) for button in BUILD_LOAD_ENSURE_BUTTONS]
+            if any(result):
+                return True
 
-    def build_orders_ensure(self, skip_first_screenshot=True):
-        """
-        Ensure build orders is loaded
-        After entering build orders, assets
-        do not appear immediately, must wait
-
-        Args:
-            skip_first_screenshot (bool):
-        """
-        pass
+            # Failed to End, start timeout and subsequent
+            # loops check if taking longer than expected
+            if not verify_timeout.started():
+                verify_timeout.reset()
+            elif verify_timeout.reached():
+                logger.warn('Wait for loaded assets is incomplete, ensure not guaranteed')
+                return False
 
     def _build_sidebar_click(self, index):
         """
@@ -157,9 +163,11 @@ class BuildUI(UI):
                     logger.warning('Sidebar could not be ensured')
                     return False
                 counter += 1
-                self.device.sleep((0.3, 0.5))
+                self.device.sleep((0.5, 0.8))
                 continue
             else:
+                if not self.build_load_ensure():
+                    return False
                 return True
 
     def _build_bottombar_click(self, index, grid):
@@ -268,7 +276,6 @@ class BuildUI(UI):
                 logger.warning(f'Bottombar index for shop sidebar cannot be ensured, {index}, limit 1 through 2 only')
                 return False
             bottombar = SHOP_BOTTOMBAR
-            self.build_shop_ensure()
 
         counter = 0
         while 1:
@@ -293,6 +300,9 @@ class BuildUI(UI):
         sidebar and bottombar when necessary
         Some options may have significant load times
         until interactable
+
+        Returns:
+            bool: If successful
         """
         self.ui_ensure(destination=page_build)
 
