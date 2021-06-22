@@ -1,7 +1,7 @@
 from module.base.button import Button, ButtonGrid
 from module.base.decorator import cached_property
 from module.base.timer import Timer
-from module.combat.assets import GET_ITEMS_1
+from module.combat.assets import GET_ITEMS_1, GET_SHIP
 from module.logger import logger
 from module.reward.tactical_class import Book
 from module.shop.assets import *
@@ -45,6 +45,7 @@ class ShopItemGrid(ItemGrid):
 
             if 'PR' in item.name or 'DR' in item.name:
                 item.alt_name = [
+                                    item.name,
                                     f'{item.name[:2]}BP',
                                     f'{item.name[:2]}{BP_SERIES[f"{item.name[2:-2].lower()}"]}BP',
                                 ]
@@ -178,6 +179,10 @@ class ShopBase(UI):
                 self.device.click(item)
                 continue
             if self.appear_then_click(SHOP_BUY_CONFIRM, offset=(20, 20), interval=3):
+                self.interval_reset(BACK_ARROW)
+                continue
+            if self.appear(GET_SHIP, interval=1):
+                self.device.click(SHOP_CLICK_SAFE_AREA)
                 self.interval_reset(BACK_ARROW)
                 continue
             if self.appear(GET_ITEMS_1, interval=1):

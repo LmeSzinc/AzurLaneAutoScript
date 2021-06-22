@@ -1,7 +1,7 @@
 from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import area_offset, get_color
-from module.combat.assets import GET_ITEMS_1
+from module.combat.assets import GET_ITEMS_1, GET_SHIP
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.shop.assets import *
@@ -31,7 +31,7 @@ class GuildItemGrid(ShopItemGrid):
             name = item.name[:-2].lower()
             if name in SELECT_ITEMS:
                 item.secondary_grid = name
-                if name != 'pr':
+                if name != 'pr' and name != 'dr':
                     item.additional = item.name[-2:]
 
         return self.items
@@ -218,9 +218,13 @@ class GuildShop(ShopBase):
             if self.appear(BACK_ARROW, offset=(20, 20), interval=3):
                 self.device.click(item)
                 continue
-            # if self.appear_then_click(SHOP_BUY_CONFIRM, offset=(20, 20), interval=3):
-            #    self.interval_reset(BACK_ARROW)
-            #    continue
+            if self.appear_then_click(SHOP_BUY_CONFIRM, offset=(20, 20), interval=3):
+                self.interval_reset(BACK_ARROW)
+                continue
+            if self.appear(GET_SHIP, interval=1):
+                self.device.click(SHOP_CLICK_SAFE_AREA)
+                self.interval_reset(BACK_ARROW)
+                continue
             if self.appear(SHOP_SELECT_CHECK, interval=3):
                 if not self.shop_buy_select_execute(item):
                     logger.warn('Failed to purchase secondary grid item, may need re-configure settings')

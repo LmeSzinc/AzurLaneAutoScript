@@ -7,6 +7,7 @@ SELECT_ITEMS = [
     'retrofit',
     'plate',
     'pr',
+    'dr',
 ]
 
 # Known Secondary Grid Items by Category
@@ -55,12 +56,19 @@ SELECT_PR = {
     'champagne': 3,
 }
 
+SELECT_DR = {
+    'azuma': 0,
+    'friedrich': 1,
+    'drake': 0,
+}
+
 # Known Secondary Grid Items Limits
 SELECT_BOOK_LIMIT = 3
 SELECT_BOX_LIMIT = 1
 SELECT_RETROFIT_LIMIT = 2
 SELECT_PLATE_LIMIT = 5
 SELECT_PR_LIMIT = 1
+SELECT_DR_LIMIT = 1
 
 # Known Secondary Grid Sizes
 SELECT_GRID_3X1 = ButtonGrid(
