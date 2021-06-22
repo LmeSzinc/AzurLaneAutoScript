@@ -21,7 +21,7 @@ class AmountOcr(Digit):
 
 
 AMOUNT_OCR = AmountOcr([], threshold=96, name='Amount_ocr')
-PRICE_OCR = Digit([], letter=(255, 223, 57), threshold=128, name='Price_ocr')
+PRICE_OCR = Digit([], letter=(255, 223, 57), threshold=64, name='Price_ocr')
 
 
 class Item:
