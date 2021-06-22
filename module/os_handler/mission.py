@@ -70,13 +70,17 @@ class MissionHandler(GlobeOperation, ZoneManager):
             # End
             if self.appear(MISSION_CHECK, offset=(20, 20)) \
                     and not self.appear(MISSION_FINISH, offset=(20, 20)) \
-                    and not self.appear(MISSION_CHECKOUT, offset=(20, 20)):
+                    and not (self.appear(MISSION_CHECKOUT, offset=(20, 20))
+                             and MISSION_CHECKOUT.match_appear_on(self.device.image)):
                 # No mission found, wait to confirm. Missions might not be loaded so fast.
                 if confirm_timer.reached():
+                    logger.info('No OS mission found.')
                     break
             elif self.appear(MISSION_CHECK, offset=(20, 20)) \
-                    and self.appear(MISSION_CHECKOUT, offset=(20, 20)):
+                    and (self.appear(MISSION_CHECKOUT, offset=(20, 20))
+                         and MISSION_CHECKOUT.match_appear_on(self.device.image)):
                 # Found one mission.
+                logger.info('Found at least one OS missions.')
                 break
             else:
                 confirm_timer.reset()
