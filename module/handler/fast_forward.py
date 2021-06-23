@@ -206,7 +206,7 @@ class FastForwardHandler(AutoSearchHandler):
                 self.device.screenshot()
 
             if clicked_timeout.reached():
-                enabled = self.image_color_count(BOOK_ENABLE_BOX, color=(156, 255, 82), threshold=221, count=20)
+                enabled = self.image_color_count(button, color=(156, 255, 82), threshold=221, count=20)
                 if ((status == 'on' and not enabled) or (status == 'off' and enabled)) \
                         and clicked_threshold > 0:
                     self.device.click(button)
