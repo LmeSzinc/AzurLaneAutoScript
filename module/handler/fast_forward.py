@@ -1,3 +1,4 @@
+from module.base.timer import Timer
 from module.base.utils import color_bar_percentage
 from module.handler.assets import *
 from module.handler.auto_search import AutoSearchHandler
@@ -13,12 +14,6 @@ fleet_lock.add_status('off', check_button=FLEET_UNLOCKED)
 auto_search = Switch('Auto_Search', offset=(20, 20))
 auto_search.add_status('on', check_button=AUTO_SEARCH_ON)
 auto_search.add_status('off', check_button=AUTO_SEARCH_OFF)
-book_prep = Switch('2x Book Prep')
-book_prep.add_status('on', check_button=BOOK_ON_PREP)
-book_prep.add_status('off', check_button=BOOK_OFF_PREP)
-book_auto = Switch('2x Book Auto')
-book_auto.add_status('on', check_button=BOOK_ON_AUTO)
-book_auto.add_status('off', check_button=BOOK_OFF_AUTO)
 
 
 class FastForwardHandler(AutoSearchHandler):
@@ -190,20 +185,60 @@ class FastForwardHandler(AutoSearchHandler):
 
         return False
 
+    def set_2x_book_setting(self, status, button, skip_first_screenshot=True):
+        """
+        Re-try mechanism to set appropriate 2x book setting
+        with corresponding status and button
+        Limits to 3 attempts
+
+        Args:
+            status (string): on or off
+            button (Button): button to click and
+                             image color count against
+            skip_first_screenshot (bool): namesake
+        """
+        clicked_timeout = Timer(0.5, count=1)
+        clicked_threshold = 3
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if clicked_timeout.reached():
+                enabled = self.image_color_count(BOOK_ENABLE_BOX, color=(156, 255, 82), threshold=221, count=20)
+                if ((status == 'on' and not enabled) or (status == 'off' and enabled)) \
+                        and clicked_threshold > 0:
+                    self.device.click(button)
+                    clicked_timeout.reset()
+                    clicked_threshold -= 1
+                    continue
+                else:
+                    break
+
     def handle_2x_book_setting(self, mode='prep'):
         """
         Handles 2x book setting if applicable
+
+        Args:
+            mode (string): prep or auto, assume
+                           auto if not prep
+
+        Returns:
+            bool: If successful
         """
         if not hasattr(self, 'emotion'):
             logger.info('Emotion instance not loaded, cannot handle 2x book setting')
             return False
 
         if mode == 'prep':
-            book = book_prep
+            book_check = BOOK_CHECK_PREP
+            book_box = BOOK_BOX_PREP
         else:
-            book = book_auto
+            book_check = BOOK_CHECK_AUTO
+            book_box = BOOK_BOX_AUTO
 
-        if not book.appear(main=self):
+        if not self.appear(book_check):
             logger.info(f'No 2x book option, mode={mode}.')
             self.map_is_2x_book = False
             self.emotion.map_is_2x_book = self.map_is_2x_book
@@ -212,5 +247,6 @@ class FastForwardHandler(AutoSearchHandler):
         self.emotion.map_is_2x_book = self.map_is_2x_book
         status = 'on' if self.map_is_2x_book else 'off'
 
-        book.set(status=status, main=self)
+        self.set_2x_book_setting(status, book_box)
         self.ensure_no_info_bar()
+        return True
