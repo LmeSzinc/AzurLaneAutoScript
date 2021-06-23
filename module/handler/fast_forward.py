@@ -185,7 +185,7 @@ class FastForwardHandler(AutoSearchHandler):
 
         return False
 
-    def set_2x_book_setting(self, status, button, skip_first_screenshot=True):
+    def set_2x_book_status(self, status, button, skip_first_screenshot=True):
         """
         Re-try mechanism to set appropriate 2x book setting
         with corresponding status and button
@@ -225,7 +225,7 @@ class FastForwardHandler(AutoSearchHandler):
                            auto if not prep
 
         Returns:
-            bool: If successful
+            bool: If handled to completion
         """
         if not hasattr(self, 'emotion'):
             logger.info('Emotion instance not loaded, cannot handle 2x book setting')
@@ -247,6 +247,6 @@ class FastForwardHandler(AutoSearchHandler):
         self.emotion.map_is_2x_book = self.map_is_2x_book
         status = 'on' if self.map_is_2x_book else 'off'
 
-        self.set_2x_book_setting(status, book_box)
+        self.set_2x_book_status(status, book_box)
         self.ensure_no_info_bar()
         return True
