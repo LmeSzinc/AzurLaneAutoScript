@@ -185,6 +185,38 @@ class FastForwardHandler(AutoSearchHandler):
 
         return False
 
+    def ensure_2x_book_appear(self, button, skip_first_screenshot=True):
+        """
+        Ensure whether 2x book setting is available
+        Check image can take a few moments before appearing
+        onto screen
+
+        Args:
+            button (Button): button to ensure whether appeared
+                             or not
+
+        Returns:
+            bool: if button asset eventually appears
+        """
+        confirm_timer = Timer(1.5, count=3).start()
+        verify_timeout = Timer(3, count=6)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear(button):
+                if confirm_timer.reached():
+                    return True
+            else:
+                confirm_timer.reset()
+                if not verify_timeout.started():
+                    verify_timeout.reset()
+                elif verify_timeout.reached():
+                    return False
+
+
     def set_2x_book_status(self, status, button, skip_first_screenshot=True):
         """
         Re-try mechanism to set appropriate 2x book setting
@@ -238,7 +270,7 @@ class FastForwardHandler(AutoSearchHandler):
             book_check = BOOK_CHECK_AUTO
             book_box = BOOK_BOX_AUTO
 
-        if not self.appear(book_check):
+        if not self.ensure_2x_book_appear(book_check):
             logger.info(f'No 2x book option, mode={mode}.')
             self.map_is_2x_book = False
             self.emotion.map_is_2x_book = self.map_is_2x_book
