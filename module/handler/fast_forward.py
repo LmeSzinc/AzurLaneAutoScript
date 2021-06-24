@@ -185,7 +185,7 @@ class FastForwardHandler(AutoSearchHandler):
 
         return False
 
-    def ensure_2x_book_appear(self, button, skip_first_screenshot=True):
+    def _ensure_2x_book_appear(self, button, skip_first_screenshot=True):
         """
         Ensure whether 2x book setting is available
         Check image can take a few moments before appearing
@@ -217,7 +217,7 @@ class FastForwardHandler(AutoSearchHandler):
                     return False
 
 
-    def set_2x_book_status(self, status, button, skip_first_screenshot=True):
+    def _set_2x_book_status(self, status, button, skip_first_screenshot=True):
         """
         Re-try mechanism to set appropriate 2x book setting
         with corresponding status and button
@@ -270,7 +270,7 @@ class FastForwardHandler(AutoSearchHandler):
             book_check = BOOK_CHECK_AUTO
             book_box = BOOK_BOX_AUTO
 
-        if not self.ensure_2x_book_appear(book_check):
+        if not self._ensure_2x_book_appear(book_check):
             logger.info(f'No 2x book option, mode={mode}.')
             self.map_is_2x_book = False
             self.emotion.map_is_2x_book = self.map_is_2x_book
@@ -279,6 +279,6 @@ class FastForwardHandler(AutoSearchHandler):
         self.emotion.map_is_2x_book = self.map_is_2x_book
         status = 'on' if self.map_is_2x_book else 'off'
 
-        self.set_2x_book_status(status, book_box)
+        self._set_2x_book_status(status, book_box)
         self.ensure_no_info_bar()
         return True
