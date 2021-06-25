@@ -2,9 +2,9 @@ from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-from .a1 import Config as ConfigBase
+from .c1 import Config as ConfigBase
 
-MAP = CampaignMap('A2')
+MAP = CampaignMap('C2')
 MAP.shape = 'G7'
 MAP.camera_data = ['D2', 'D5']
 MAP.camera_data_spawn_point = ['D5']
@@ -27,7 +27,7 @@ MAP.weight_data = """
     50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 2, 'siren': 1},
+    {'battle': 0, 'enemy': 2, 'siren': 2},
     {'battle': 1, 'enemy': 1},
     {'battle': 2, 'enemy': 2},
     {'battle': 3, 'enemy': 1},
@@ -46,8 +46,8 @@ A7, B7, C7, D7, E7, F7, G7, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['Hibiki']
-    MOVABLE_ENEMY_TURN = (2,)
+    MAP_SIREN_TEMPLATE = ['Kinu', 'Maya', 'Ise']
+    MOVABLE_ENEMY_TURN = (2, 3)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
     MAP_HAS_MAP_STORY = False
