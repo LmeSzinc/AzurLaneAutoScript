@@ -104,6 +104,14 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'haman': 'Hammann',
     'yatelanda': 'Atlanta',
     'beianpudun': 'Northampton',
+
+    # Swirling Cherry Blossoms
+    'xia': 'Kasumi',
+    'xiang': 'Hibiki',
+    'guinu': 'Kinu',
+    'moye': 'Maya',
+    'yishi': 'Ise',
+    'sunying': 'Junyo',
 }
 
 

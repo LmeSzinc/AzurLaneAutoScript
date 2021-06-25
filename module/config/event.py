@@ -27,6 +27,7 @@ dic_event = {
         '复刻箱庭疗法': 'event_20210325_cn',
         '复兴的赞美诗': 'event_20210422_cn',
         '镜位螺旋': 'event_20210527_cn',
+        '复刻浮樱影华': 'event_20210624_cn',
     },
     'en': {
         'Northern_Overture': 'event_20200227_cn',
@@ -54,6 +55,7 @@ dic_event = {
         'Ashen_Simulacrum_Rerun': 'event_20210325_cn',
         'Daedalian_Hymn': 'event_20210422_cn',
         'Mirror_Involution': 'event_20210527_cn',
+        'Swirling_Cherry_Blossoms_Rerun': 'event_20210624_cn',
     },
     'jp': {
         '凍絶の北海': 'event_20200227_cn',
@@ -78,6 +80,7 @@ dic_event = {
         '開かれし紺碧の砂箱（復刻）': 'event_20210325_cn',
         '讃える復興の迷路': 'event_20210422_cn',
         '照らす螺旋の鏡海': 'event_20210527_cn',
+        '翳りし満ちる影の華(復刻)': 'event_20210624_cn',
     },
     'tw': {
         '特別演習埃塞克斯級': 'raid_20200624',
@@ -87,6 +90,7 @@ dic_event = {
         '復刻墨染的鋼鐵之花': 'event_20210429_tw',
         '微層混合': 'event_20210527_tw',
         '夜幕下的歸途': 'event_20210610_tw',
+        '穹頂下的聖詠曲': 'event_20210624_tw',
     },
 }
 
