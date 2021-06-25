@@ -2,51 +2,47 @@ from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-from .a1 import Config as ConfigBase
 
-MAP = CampaignMap('A2')
-MAP.shape = 'G7'
-MAP.camera_data = ['D2', 'D5']
-MAP.camera_data_spawn_point = ['D5']
+MAP = CampaignMap('C1')
+MAP.shape = 'H6'
+MAP.camera_data = ['D2', 'D4', 'E2', 'E4']
+MAP.camera_data_spawn_point = ['D4']
 MAP.map_data = """
-    -- ME MS MS -- -- --
-    ME ++ MB -- ME ME --
-    MB MB -- MS -- ++ ++
-    -- -- ME ++ ME ++ ++
-    Me __ ME ++ Me -- MS
-    Me -- -- -- -- ++ ++
-    ME -- SP SP -- ME --
+    -- ++ ME ME -- -- ME --
+    Me ++ -- ME -- Me ME ++
+    ME -- __ ++ ++ -- -- MB
+    -- Me -- ME ++ -- MS MB
+    SP -- ME -- ME -- -- MB
+    SP SP -- -- -- -- ME ++
 """
 MAP.weight_data = """
-    50 50 50 50 50 50 50
-    50 50 50 50 50 50 50
-    50 50 50 50 50 50 50
-    50 50 50 50 50 50 50
-    50 50 50 50 10 50 50
-    50 50 50 50 50 50 50
-    50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 2, 'siren': 1},
+    {'battle': 0, 'enemy': 2, 'siren': 2},
     {'battle': 1, 'enemy': 1},
     {'battle': 2, 'enemy': 2},
     {'battle': 3, 'enemy': 1},
     {'battle': 4, 'enemy': 2, 'boss': 1},
     {'battle': 5, 'enemy': 1},
 ]
-A1, B1, C1, D1, E1, F1, G1, \
-A2, B2, C2, D2, E2, F2, G2, \
-A3, B3, C3, D3, E3, F3, G3, \
-A4, B4, C4, D4, E4, F4, G4, \
-A5, B5, C5, D5, E5, F5, G5, \
-A6, B6, C6, D6, E6, F6, G6, \
-A7, B7, C7, D7, E7, F7, G7, \
+A1, B1, C1, D1, E1, F1, G1, H1, \
+A2, B2, C2, D2, E2, F2, G2, H2, \
+A3, B3, C3, D3, E3, F3, G3, H3, \
+A4, B4, C4, D4, E4, F4, G4, H4, \
+A5, B5, C5, D5, E5, F5, G5, H5, \
+A6, B6, C6, D6, E6, F6, G6, H6, \
     = MAP.flatten()
 
 
-class Config(ConfigBase):
+class Config:
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['Hibiki']
+    MAP_SIREN_TEMPLATE = ['Kinu', 'Maya']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True

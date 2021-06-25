@@ -325,11 +325,17 @@ class Homography:
 
         lines = lines[:, 0, :]
         rho, theta = lines[:, 0], lines[:, 1]
+        area = self.config.DETECTING_AREA
+        area = area2corner([0, 0, *np.subtract(area[2:], area[:2])])
+        area = np.mean(area.reshape((2, 2, 2)), axis=0)
+        area = perspective_transform(area, self.homo_data)
+        mid_left, _, mid_right, _ = area.flatten()
 
         hori = lines[(np.deg2rad(90 - theta_th) < theta) & (theta < np.deg2rad(90 + theta_th))]
         hori = Lines(hori, is_horizontal=True, config=self.config).group()
         vert = lines[(theta < np.deg2rad(theta_th)) | (np.deg2rad(180 - theta_th) < theta)]
         vert = [[-rho, theta - np.pi] if rho < 0 else [rho, theta] for rho, theta in vert]
+        vert = [[rho, theta] for rho, theta in vert if mid_left < rho < mid_right]
         vert = Lines(vert, is_horizontal=False, config=self.config).group()
 
         self._map_edge_count = (len(vert), len(hori))
