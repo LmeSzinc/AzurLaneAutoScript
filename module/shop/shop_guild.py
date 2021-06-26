@@ -84,7 +84,7 @@ class GuildShop(ShopBase):
         try:
             choices = globals()[f'SELECT_{category.upper()}']
         except KeyError:
-            logger.warn(f'shop_get_select --> Missing SELECT_{category.upper()}')
+            logger.warning(f'shop_get_select --> Missing SELECT_{category.upper()}')
             return None
 
         # Retrieve the correct SELECT_GRID based on category
@@ -110,14 +110,14 @@ class GuildShop(ShopBase):
             shop_select_grid = SELECT_GRID_5X1
 
         if shop_select_grid is None:
-            logger.warn(f'shop_get_select --> No grid applicable to category \'{category}\'')
+            logger.warning(f'shop_get_select --> No grid applicable to category \'{category}\'')
             return None
 
         # Utilize known fixed location for correct item
         if choice in choices:
             return shop_select_grid.buttons()[choices.get(choice)]
 
-        logger.warn(f'shop_get_select --> Missing \'{choice}\' in SELECT_{category.upper()}')
+        logger.warning(f'shop_get_select --> Missing \'{choice}\' in SELECT_{category.upper()}')
         return None
 
     def shop_buy_select_execute(self, item):
@@ -130,7 +130,7 @@ class GuildShop(ShopBase):
         """
         # Base Case - Must have 'secondary_grid' attr and must not be None
         if not hasattr(item, 'secondary_grid') or item.secondary_grid is None:
-            logger.warn('shop_buy_select_execute --> Detected secondary '
+            logger.warning('shop_buy_select_execute --> Detected secondary '
                         'prompt but item not classified of having this option')
             self.device.click(SHOP_CLICK_SAFE_AREA)  # Close secondary prompt
             return False
@@ -142,11 +142,11 @@ class GuildShop(ShopBase):
             limit = globals()[f'SELECT_{category.upper()}_LIMIT']
             choice = getattr(self.config, f'SHOP_GUILD_{category.upper()}{additional.upper()}')
         except KeyError:
-            logger.warn(f'shop_buy_select_execute --> Missing SELECT_{category.upper()}_LIMIT')
+            logger.warning(f'shop_buy_select_execute --> Missing SELECT_{category.upper()}_LIMIT')
             self.device.click(SHOP_CLICK_SAFE_AREA)  # Close secondary prompt
             return False
         except AttributeError:
-            logger.warn(f'shop_buy_select_execute --> Missing Config SHOP_GUILD_{category.upper()}')
+            logger.warning(f'shop_buy_select_execute --> Missing Config SHOP_GUILD_{category.upper()}')
             self.device.click(SHOP_CLICK_SAFE_AREA)  # Close secondary prompt
             return False
 
@@ -197,6 +197,9 @@ class GuildShop(ShopBase):
 
     def shop_buy_execute(self, item, skip_first_screenshot=True):
         """
+        Extended from 'ShopBase' to include handling of
+        purchases in items that have a secondary_grid
+
         Args:
             item: Item to click and buy
             skip_first_screenshot: bool
@@ -227,7 +230,7 @@ class GuildShop(ShopBase):
                 continue
             if self.appear(SHOP_SELECT_CHECK, interval=3):
                 if not self.shop_buy_select_execute(item):
-                    logger.warn('Failed to purchase secondary grid item, may need re-configure settings')
+                    logger.warning('Failed to purchase secondary grid item, may need re-configure settings')
                     exit(1)
                 self.interval_reset(BACK_ARROW)
                 self.interval_reset(SHOP_SELECT_CHECK)
@@ -237,8 +240,7 @@ class GuildShop(ShopBase):
                 self.interval_reset(BACK_ARROW)
                 success = True
                 continue
-            if self.info_bar_count():
-                self.ensure_no_info_bar()
+            if self.handle_info_bar():
                 self.interval_reset(BACK_ARROW)
                 success = True
                 continue

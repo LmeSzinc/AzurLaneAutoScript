@@ -75,7 +75,7 @@ class ShopBase(UI):
         try:
             self.__getattribute__(f'shop_{key}_get_currency')()
         except AttributeError:
-            logger.warn(f'shop_get_currency --> Missing func shop_{key}_get_currency')
+            logger.warning(f'shop_get_currency --> Missing func shop_{key}_get_currency')
 
     def shop_get_items(self, key='general'):
         """
@@ -89,7 +89,7 @@ class ShopBase(UI):
         try:
             item_grid = self.__getattribute__(f'shop_{key}_items')
         except AttributeError:
-            logger.warn(f'shop_get_items --> Missing cached_property shop_{key}_items')
+            logger.warning(f'shop_get_items --> Missing cached_property shop_{key}_items')
             return []
 
         item_grid.predict(self.device.image, name=True, amount=False, cost=True, price=True)
@@ -118,7 +118,7 @@ class ShopBase(UI):
         try:
             return self.__getattribute__(f'shop_{key}_check_item')(item)
         except AttributeError:
-            logger.warn(f'shop_check_item --> Missing func shop_{key}_check_item')
+            logger.warning(f'shop_check_item --> Missing func shop_{key}_check_item')
             return False
 
     def shop_get_item_to_buy(self, shop_type='general', selection=''):
@@ -190,8 +190,7 @@ class ShopBase(UI):
                 self.interval_reset(BACK_ARROW)
                 success = True
                 continue
-            if self.info_bar_count():
-                self.ensure_no_info_bar()
+            if self.handle_info_bar():
                 self.interval_reset(BACK_ARROW)
                 success = True
                 continue

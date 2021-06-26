@@ -45,7 +45,7 @@ class ShopUI(UI):
             if not verify_timeout.started():
                 verify_timeout.reset()
             elif verify_timeout.reached():
-                logger.warn('Wait for loaded assets is incomplete, ensure not guaranteed')
+                logger.warning('Wait for loaded assets is incomplete, ensure not guaranteed')
                 return False
 
     def _shop_bottombar_click(self, index):
@@ -170,7 +170,7 @@ class ShopUI(UI):
                     break
             else:
                 exit_timer.reset()
-        self.ensure_no_info_bar()
+        self.handle_info_bar()
 
     def _shop_swipe(self, skip_first_screenshot=True):
         """
