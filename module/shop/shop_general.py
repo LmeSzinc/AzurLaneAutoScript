@@ -42,7 +42,7 @@ class GeneralShop(ShopBase):
                 return False
             return True
 
-        if self.config.SHOP_GENERAL_GEMS_ENABLED:
+        if self.config.ENABLE_SHOP_GENERAL_GEMS:
             if item.cost == 'Gems':
                 if item.price > self._shop_gems:
                     return False

@@ -32,7 +32,8 @@ class BuildUI(UI):
         Returns:
             bool: Whether expected assets loaded completely
         """
-        verify_timeout = Timer(3, count=6)
+        confirm_timer = Timer(1.5, count=3).start()
+        ensure_timeout = Timer(3, count=6).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -40,16 +41,17 @@ class BuildUI(UI):
                 self.device.screenshot()
 
             # End
-            result = [self.appear(button) for button in BUILD_LOAD_ENSURE_BUTTONS]
-            if any(result):
-                return True
+            results = [self.appear(button) for button in BUILD_LOAD_ENSURE_BUTTONS]
+            if any(results):
+                if confirm_timer.reached():
+                    return True
+                ensure_timeout.reset()
+            else:
+                confirm_timer.reset()
 
-            # Failed to End, start timeout and subsequent
-            # loops check if taking longer than expected
-            if not verify_timeout.started():
-                verify_timeout.reset()
-            elif verify_timeout.reached():
-                logger.warn('Wait for loaded assets is incomplete, ensure not guaranteed')
+            # Exception
+            if ensure_timeout.reached():
+                logger.warning('Wait for loaded assets is incomplete, ensure not guaranteed')
                 return False
 
     def _build_sidebar_click(self, index):
@@ -300,6 +302,10 @@ class BuildUI(UI):
         sidebar and bottombar when necessary
         Some options may have significant load times
         until interactable
+
+        Args:
+            sidebar_index (int): refer to build_sidebar_ensure
+            bottombar_index (int): refer to build_bottombar_ensure
 
         Returns:
             bool: If successful

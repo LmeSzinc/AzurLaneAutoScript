@@ -4,6 +4,7 @@ from module.base.utils import random_rectangle_vector
 from module.logger import logger
 from module.shop.assets import *
 from module.ui.page import page_munitions
+from module.ui.assets import BACK_ARROW
 from module.ui.ui import UI
 
 SHOP_LOAD_ENSURE_BUTTONS = [SHOP_GENERAL_CHECK, SHOP_GUILD_CHECK,
@@ -27,7 +28,8 @@ class ShopUI(UI):
         Returns:
             bool: Whether expected assets loaded completely
         """
-        verify_timeout = Timer(3, count=6)
+        confirm_timer = Timer(1.5, count=3).start()
+        ensure_timeout = Timer(3, count=6).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -35,16 +37,16 @@ class ShopUI(UI):
                 self.device.screenshot()
 
             # End
-            result = [self.appear(button) for button in SHOP_LOAD_ENSURE_BUTTONS]
-            logger.info(result)
-            if any(result):
-                return True
+            results = [self.appear(button) for button in SHOP_LOAD_ENSURE_BUTTONS]
+            if any(results):
+                if confirm_timer.reached():
+                    return True
+                ensure_timeout.reset()
+            else:
+                confirm_timer.reset()
 
-            # Failed to End, start timeout and subsequent
-            # loops check if taking longer than expected
-            if not verify_timeout.started():
-                verify_timeout.reset()
-            elif verify_timeout.reached():
+            # Exception
+            if ensure_timeout.reached():
                 logger.warning('Wait for loaded assets is incomplete, ensure not guaranteed')
                 return False
 
