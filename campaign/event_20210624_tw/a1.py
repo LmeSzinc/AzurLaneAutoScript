@@ -50,6 +50,21 @@ class Config:
     MAP_HAS_AMBUSH = False
     # ===== End of generated config =====
 
+    TRUST_EDGE_LINES = False
+    COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.5
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (100, 255 - 24),
+        'width': 1,
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 24, 255),
+        'prominence': 2,
+        'distance': 50,
+        'wlen': 1000
+    }
+
 
 class Campaign(CampaignBase):
     MAP = MAP

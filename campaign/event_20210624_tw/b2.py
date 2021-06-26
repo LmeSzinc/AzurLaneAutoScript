@@ -26,6 +26,21 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50 50 50
 """
+MAP.wall_data = """
+    ·   · | ·   ·   ·   ·   ·   ·   ·   ·   · ,
+          +                                   ,
+    ·   ·   ·   ·   ·   ·   ·   ·   ·   · | · ,
+          +       +   +               +   +   ,
+    ·   · | ·   · | · | ·   ·   ·   · | ·   · ,
+          +---+---+   |               |   +   ,
+    ·   ·   · | ·   · | ·   ·   ·   · | · | · ,
+              +---+   +---+       +---+   +-- ,
+    ·   ·   ·   ·   ·   ·   ·   ·   ·   ·   · ,
+                                              ,
+    ·   ·   ·   ·   ·   ·   ·   ·   ·   ·   · ,
+                                              ,
+    ·   ·   ·   ·   ·   ·   ·   ·   ·   ·   · ,
+"""
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 2, 'siren': 1},
     {'battle': 1, 'enemy': 1},
@@ -46,7 +61,7 @@ A7, B7, C7, D7, E7, F7, G7, H7, I7, J7, K7, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['wokelan', 'aerjiliya']
+    MAP_SIREN_TEMPLATE = ['Vauquelin', 'Algerie']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True

@@ -32,6 +32,27 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50 50 50 50 50 50
 """
+MAP.wall_data = """
+    ·   ·   ·   ·   · | ·   ·   ·   · | ·   ·   ·   ·   · ,
+          +-----------+               +-----------+       ,
+    ·   · | ·   ·   · | ·   ·   ·   · | ·   ·   · | ·   · ,
+          |           |               |           |       ,
+    ·   · | ·   ·   · | ·   ·   ·   · | ·   ·   · | ·   · ,
+          +---+       +---+       +----+       +---+       ,
+    ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+              |                               |           ,
+    ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+              |                               |           ,
+    ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+              |                               |            ,
+    ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+              |                               |           ,
+    ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+              |                               |           ,
+    ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+              +-----------+       +-----------+           ,
+    ·   ·   ·   ·   ·   · | ·   · | ·   ·   ·   ·   ·   · ,
+"""
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 2, 'siren': 2},
     {'battle': 1, 'enemy': 1},
@@ -56,7 +77,7 @@ A10, B10, C10, D10, E10, F10, G10, H10, I10, J10, K10, L10, M10, N10, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['wokelan', 'jialisuoniye']
+    MAP_SIREN_TEMPLATE = ['Vauquelin', 'LaGalissonniere']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -72,8 +93,22 @@ class Campaign(CampaignBase):
     def battle_0(self):
         if self.clear_siren():
             return True
+        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
+            return True
+        if self.clear_enemy(scale=(3,), genre=['light', 'main', 'enemy', 'carrier']):
+            return True
+
+        return self.battle_default()
+
+    def battle_5(self):
+        if self.clear_enemy(scale=(1,)):
+            return True
+        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
+            return True
+        if self.clear_enemy(genre=['light', 'main']):
+            return True
 
         return self.battle_default()
 
     def battle_6(self):
-        return self.fleet_boss.clear_boss()
+        return self.fleet_2.brute_clear_boss()

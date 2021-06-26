@@ -53,7 +53,7 @@ A9, B9, C9, D9, E9, F9, G9, H9, I9, J9, K9, \
 
 class Config:
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['wokelan', 'jialisuoniye', 'aerjiliya']
+    MAP_SIREN_TEMPLATE = ['Vauquelin', 'LaGalissonniere', 'Algerie']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
