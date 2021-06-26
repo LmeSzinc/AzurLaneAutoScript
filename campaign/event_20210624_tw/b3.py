@@ -32,6 +32,27 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50 50 50 50 50 50
 """
+MAP.wall_data = """
+    ·   ·   ·   ·   · | ·   ·   ·   · | ·   ·   ·   ·   · ,
+          +-----------+               +-----------+       ,
+    ·   · | ·   ·   · | ·   ·   ·   · | ·   ·   · | ·   · ,
+          |           |               |           |       ,
+    ·   · | ·   ·   · | ·   ·   ·   · | ·   ·   · | ·   · ,
+          +---+       +---+       +----+       +---+       ,
+    ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+              |                               |           ,
+    ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+              |                               |           ,
+    ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+              |                               |            ,
+    ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+              |                               |           ,
+    ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+              |                               |           ,
+    ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+              +-----------+       +-----------+           ,
+    ·   ·   ·   ·   ·   · | ·   · | ·   ·   ·   ·   ·   · ,
+"""
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 2, 'siren': 2},
     {'battle': 1, 'enemy': 1},
@@ -55,7 +76,7 @@ A10, B10, C10, D10, E10, F10, G10, H10, I10, J10, K10, L10, M10, N10, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['wokelan', 'jialisuoniye']
+    MAP_SIREN_TEMPLATE = ['Vauquelin', 'LaGalissonniere']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -63,6 +84,8 @@ class Config(ConfigBase):
     MAP_HAS_FLEET_STEP = True
     MAP_HAS_AMBUSH = False
     # ===== End of generated config =====
+
+    MAP_HAS_WALL = True
 
 
 class Campaign(CampaignBase):

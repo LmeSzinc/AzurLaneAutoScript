@@ -51,7 +51,7 @@ A9, B9, C9, D9, E9, F9, \
 
 class Config:
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['jialisuoniye', 'aerjiliya']
+    MAP_SIREN_TEMPLATE = ['LaGalissonniere', 'Algerie']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -60,12 +60,34 @@ class Config:
     MAP_HAS_AMBUSH = False
     # ===== End of generated config =====
 
+    TRUST_EDGE_LINES = False
+    COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.5
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (100, 255 - 16),
+        'width': 1,
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 16, 255),
+        'prominence': 2,
+        'distance': 50,
+        'wlen': 1000
+    }
+    DETECTION_BACKEND = 'perspective'
+
 
 class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
         if self.clear_siren():
+            return True
+        if self.clear_enemy(scale=(1,)):
+            return True
+        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
+            return True
+        if self.clear_enemy(genre=['light', 'main']):
             return True
 
         return self.battle_default()
