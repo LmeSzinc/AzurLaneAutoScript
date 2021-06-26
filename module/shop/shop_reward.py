@@ -98,6 +98,7 @@ class RewardShop(BuildUI, ShopUI, GeneralShop, GuildShop, MedalShop, MeritShop):
 
         if not self.ui_goto_shop():
             logger.warning('Failed to arrive at expected shop interface, try again next time')
+            self.ui_goto_main()
             return False
 
         if shop_records['general']:
