@@ -64,6 +64,7 @@ class Config:
         'distance': 50,
         'wlen': 1000
     }
+    DETECTION_BACKEND = 'perspective'
 
 
 class Campaign(CampaignBase):

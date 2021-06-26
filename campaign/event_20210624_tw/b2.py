@@ -70,6 +70,8 @@ class Config(ConfigBase):
     MAP_HAS_AMBUSH = False
     # ===== End of generated config =====
 
+    MAP_HAS_WALL = True
+
 
 class Campaign(CampaignBase):
     MAP = MAP
