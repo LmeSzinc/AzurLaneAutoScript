@@ -222,17 +222,17 @@ class FastForwardHandler(AutoSearchHandler):
                 break
 
             if clicked_timeout.reached():
-                if self.appear(check_button):
+                if self.appear(check_button, offset=(100, 50)):
                     enabled = self.image_color_count(box_button, color=(156, 255, 82), threshold=221, count=20)
-                    if ((status == 'on' and enabled) or (status == 'off' and not enabled)):
+                    if (status == 'on' and enabled) or (status == 'off' and not enabled):
                         return True
-                    if ((status == 'on' and not enabled) or (status == 'off' and enabled)):
+                    if (status == 'on' and not enabled) or (status == 'off' and enabled):
                         self.device.click(box_button)
 
                 clicked_timeout.reset()
                 clicked_threshold -= 1
 
-        logger.warn(f'Wait time has expired; Cannot set 2x book setting')
+        logger.warning(f'Wait time has expired; Cannot set 2x book setting')
         return False
 
     def handle_2x_book_setting(self, mode='prep'):
@@ -266,5 +266,5 @@ class FastForwardHandler(AutoSearchHandler):
             self.map_is_2x_book = False
             self.emotion.map_is_2x_book = self.map_is_2x_book
 
-        self.ensure_no_info_bar()
+        self.handle_info_bar()
         return True
