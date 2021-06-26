@@ -61,8 +61,11 @@ class SLPP(object):
     def decode(self, text):
         if not text or not isinstance(text, six.string_types):
             return
-        reg = re.compile('--.*$', re.M)
-        text = reg.sub('', text, 0)
+        # Game scripts don't have comments
+        # Deleting comments may cause error. This will be treat as comment, for example.
+        # `profiles = "现世与梦境夹缝中的蝴蝶，狂风与巨浪蹂躏中的小舟。跨越虚无，驱散黑暗，为重樱带来希望和未来吧---------- ",`
+        # reg = re.compile('--.*$', re.M)
+        # text = reg.sub('', text, 0)
         self.text = text
         self.at, self.ch, self.depth = 0, '', 0
         self.len = len(text)

@@ -15,19 +15,19 @@ Alas, an Azur Lane automation tool with GUI (Support CN, EN, JP, TW, able to sup
 
 Alas, 一个带GUI的碧蓝航线脚本 (支持国服, 国际服, 日服, 台服, 可以支持其他服务器).
 
-EN support, Thanks **[@whoamikyo](https://github.com/whoamikyo)** and **[nEEtdo0d](https://github.com/nEEtdo0d)**.
+EN support, Thanks **[@whoamikyo](https://github.com/whoamikyo)** and **[@nEEtdo0d](https://github.com/nEEtdo0d)**.
 
-JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)** and **[@noname94](https://github.com/noname94)** , some features might not work.
+JP support, Thanks **[@ferina8-14](https://github.com/ferina8-14)**, **[@noname94](https://github.com/noname94)** and **[@railzy](https://github.com/railzy)** , some features might not work.
 
 TW support, Thanks **[@Zorachristine](https://github.com/Zorachristine)** , some features might not work.
 
 > **Event Announcement 活动公告**
 >
-> [CN] 支持活动「镜位螺旋」.
+> [CN] 支持活动「复刻浮樱影华」.
 >
-> [EN] Support event "Mirror Involution".
+> [EN] Support event "Swirling Cherry Blossoms Rerun".
 >
-> [JP] Support event 「照らす螺旋の鏡海」.
+> [JP] Support event 「翳りし満ちる影の華(復刻)」.
 
 ![gui](doc/README.assets/gui.png)
 

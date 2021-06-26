@@ -57,3 +57,5 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20210527   | event 20210527 tw        | Microlayer Medley              | -                      | -                                | -                                    | 微層混合           |
 | 20210527   | event 20210527 cn        | Mirror Involution              | 镜位螺旋               | Mirror Involution                | 照らす螺旋の鏡海                     | -                  |
 | 20210610   | event 20210610 tw        | The Way Home in the Night      | -                      | -                                | -                                    | 夜幕下的歸途       |
+| 20210624   | event 20210624 tw        | Skybound Oratorio              | -                      | -                                | -                                    | 穹頂下的聖詠曲     |
+| 20210624   | event 20210624 cn        | Swirling Cherry Blossoms       | 复刻浮樱影华           | Swirling Cherry Blossoms Rerun   | 翳りし満ちる影の華(復刻)             | -                  |
