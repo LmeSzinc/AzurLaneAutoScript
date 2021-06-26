@@ -263,10 +263,10 @@ class ItemGrid:
                 item.price = p
 
         # Delete wrong results
-        items = [item for item in self.items if not (amount and item.amount <= 0) and not (price and item.price <= 0)]
+        items = [item for item in self.items if not (price and item.price <= 0)]
         diff = len(self.items) - len(items)
         if diff > 0:
-            logger.warning(f'Ignore {diff} items, because amount <= 0 or price <= 0')
+            logger.warning(f'Ignore {diff} items, because price <= 0')
             self.items = items
 
         return self.items
