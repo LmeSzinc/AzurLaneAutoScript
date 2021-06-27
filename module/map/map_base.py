@@ -233,8 +233,8 @@ class CampaignMap:
             for loca in (hori - (0, 1)) // (4, 2):
                 disconnect.append([loca, loca + (0, 1)])
             for g1, g2 in disconnect:
-                g1 = self[g1]
-                g2 = self[g2]
+                g1 = tuple(g1.tolist())
+                g2 = tuple(g2.tolist())
                 self.grid_connection[g1].remove(g2)
                 self.grid_connection[g2].remove(g1)
 

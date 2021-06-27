@@ -12,6 +12,7 @@ from module.logger import logger
 from module.ocr.ocr import Ocr
 from module.reward.assets import *
 from module.ui.page import page_reward, page_commission, CAMPAIGN_CHECK
+from module.ui.scroll import Scroll
 from module.ui.switch import Switch
 from module.ui.ui import UI
 
@@ -66,6 +67,7 @@ dictionary_jp = {
 COMMISSION_SWITCH = Switch('Commission_switch', is_selector=True)
 COMMISSION_SWITCH.add_status('daily', COMMISSION_DAILY)
 COMMISSION_SWITCH.add_status('urgent', COMMISSION_URGENT)
+COMMISSION_SCROLL = Scroll(COMMISSION_SCROLL_AREA, color=(247, 211, 66), name='COMMISSION_SCROLL')
 
 
 class Commission:
@@ -518,24 +520,10 @@ class RewardCommission(UI, InfoHandler):
         self.device.sleep(0.3)
         self.device.screenshot()
 
-    def _commission_swipe_to_top(self, bar_padding_y=10):
-        if self.appear(COMMISSION_SCROLL_TOP):
-            # Already at top
+    def _commission_swipe_to_top(self):
+        if not COMMISSION_SCROLL.appear(main=self):
             return False
-
-        mean = np.mean(self.device.image.crop(COMMISSION_SCROLL.area), axis=1)
-        bar = np.where(color_similar_1d(mean, color=(247, 211, 66)))[0]
-        if len(bar) < bar_padding_y * 2:
-            # No scroll found.
-            return False
-
-        bar = (COMMISSION_SCROLL.area[0], np.min(bar) + bar_padding_y,
-               COMMISSION_SCROLL.area[2], np.max(bar) - bar_padding_y)
-        p1 = random_rectangle_point(bar)
-        p2 = random_rectangle_point(COMMISSION_SCROLL_TOP.area)
-        self.device.drag(p1, p2, shake=(15, 0), point_random=(0, 0, 0, 0))
-        self.device.sleep(0.3)
-        self.device.screenshot()
+        COMMISSION_SCROLL.set_top(main=self, skip_first_screenshot=True)
         return True
 
     def _commission_scan_list(self):
@@ -543,9 +531,7 @@ class RewardCommission(UI, InfoHandler):
         commission.merge(self.device.image)
         if commission.count <= 3:
             return commission
-        mean = np.mean(self.device.image.crop(COMMISSION_SCROLL.area), axis=1)
-        bar = np.where(color_similar_1d(mean, color=(247, 211, 66)))[0]
-        if len(bar) < 10 * 2:
+        if not COMMISSION_SCROLL.appear(main=self):
             return commission
 
         prev = commission.count
@@ -555,7 +541,7 @@ class RewardCommission(UI, InfoHandler):
             if commission.count - prev <= 0:
                 break
             prev = commission.count
-            if self.appear(COMMISSION_SCROLL_BOTTOM):
+            if COMMISSION_SCROLL.at_bottom(main=self):
                 break
 
         return commission
