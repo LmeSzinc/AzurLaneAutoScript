@@ -8,7 +8,10 @@ from module.handler.assets import *
 from module.logger import logger
 from module.map.assets import *
 from module.ui.assets import *
+from module.ui.scroll import Scroll
 from module.ui.ui import MAIN_CHECK
+
+USER_AGREEMENT_SCROLL = Scroll(USER_AGREEMENT_SCROLL, color=(182, 189, 202), name='USER_AGREEMENT_SCROLL')
 
 
 class LoginHandler(Combat):
@@ -28,6 +31,8 @@ class LoginHandler(Combat):
             if self.handle_get_items(save_get_items=False):
                 continue
             if self.handle_get_ship():
+                continue
+            if self.handle_user_agreement():
                 continue
             if self.appear_then_click(LOGIN_ANNOUNCE, offset=(30, 30), interval=5):
                 continue
@@ -133,3 +138,20 @@ class LoginHandler(Combat):
 
         self.app_restart()
         self.ensure_no_unfinished_campaign()
+
+    def handle_user_agreement(self):
+        """
+        For CN only.
+        CN client is bugged. User Agreement and Privacy Policy may popup again even you have agreed with it.
+        This method scrolls to the bottom and click AGREE.
+
+        Returns:
+            bool: If handled.
+        """
+        if server.server == 'cn':
+            if self.appear(USER_AGREEMENT_CONFIRM, offset=(50, 50), interval=2):
+                USER_AGREEMENT_SCROLL.set_bottom(main=self)
+                self.device.click(USER_AGREEMENT_CONFIRM)
+                return True
+
+        return False
