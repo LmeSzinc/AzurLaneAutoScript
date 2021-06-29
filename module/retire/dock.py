@@ -1,6 +1,7 @@
 from module.base.button import ButtonGrid
 from module.equipment.equipment import Equipment
 from module.exception import ScriptError
+from module.logger import logger
 from module.retire.assets import *
 from module.ui.switch import Switch
 
@@ -33,7 +34,7 @@ FILTER_RARITY_TYPES = [['all', 'common', 'rare', 'elite', 'super_rare', 'ultra']
 
 FILTER_EXTRA_GRIDS = ButtonGrid(
     origin=(284, 522), delta=(157.5, 0), button_shape=(137, 38), grid_shape=(6, 1), name='FILTER_EXTRA')
-FILTER_EXTRA_TYPES = [['no_limit', 'has_skin', 'can_retrofit', 'enhanceable', 'special', 'not_available']]
+FILTER_EXTRA_TYPES = [['no_limit', 'has_skin', 'can_retrofit', 'enhanceable', 'special', 'oath_skin']]
 
 CARD_GRIDS = ButtonGrid(
     origin=(93, 76), delta=(164 + 2 / 3, 227), button_shape=(138, 204), grid_shape=(7, 2), name='CARD')
@@ -130,3 +131,78 @@ class Dock(Equipment):
 
         # Set filter of button
         set_filter(btn, cc)
+
+    def dock_filter_set_faster_execute(self, sort='level', index='all', faction='all', rarity='all', extra='no_limit',
+                                       skip_first_screenshot=True):
+        """
+        A faster filter set function.
+
+        Args:
+            sort (str, list):
+            index (str, list):
+            faction (str, list):
+            rarity (str, list):
+            extra (str, list):
+            skip_first_screenshot:
+
+        Returns:
+            bool: If success.
+
+        Pages:
+            in: DOCK_FILTER_CONFIRM
+        """
+        # [[button_1, need_enable_1], ...]
+        list_filter = []
+        for category in ['sort', 'index', 'faction', 'rarity', 'extra']:
+            require = locals()[category]
+            require = require if isinstance(require, list) else [require]
+            grids = globals()[f'FILTER_{category.upper()}_GRIDS']
+            names = globals()[f'FILTER_{category.upper()}_TYPES']
+            for x, y, button in grids.generate():
+                name = names[y][x]
+                list_filter.append([button, name in require])
+
+        for _ in range(5):
+            logger.info(
+                f'Setting dock filter, sort={sort}, index={index}, faction={faction}, rarity={rarity}, extra={extra}')
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            change_count = 0
+            for button, enable in list_filter:
+                active = self.image_color_count(button, color=(181, 142, 90), threshold=235, count=250) \
+                         or self.image_color_count(button, color=(74, 117, 189), threshold=235, count=250)
+                if enable and not active:
+                    self.device.click(button)
+                    self.device.sleep((0.1, 0.2))
+                    change_count += 1
+
+            # End
+            if change_count == 0:
+                return True
+
+        logger.warning('Failed to set all dock filters after 5 trial, assuming current filters are correct.')
+        return False
+
+    def dock_filter_set_faster(self, sort='level', index='all', faction='all', rarity='all', extra='no_limit'):
+        """
+        A faster filter set function.
+
+        Args:
+            sort (str, list): ['rarity', 'level', 'total', 'join', 'intimacy', 'stat']
+            index (str, list): [['all', 'vanguard', 'main', 'dd', 'cl', 'ca'],
+                                ['bb', 'cv', 'repair', 'ss', 'others', 'not_available']]
+            faction (str, list): [['all', 'eagle', 'royal', 'sakura', 'iron', 'dragon'],
+                                  ['sardegna', 'northern', 'iris', 'vichya', 'other', 'not_available']]
+            rarity (str, list): [['all', 'common', 'rare', 'elite', 'super_rare', 'ultra']]
+            extra (str, list): [['no_limit', 'has_skin', 'can_retrofit', 'enhanceable', 'special', 'oath_skin']]
+
+        Pages:
+            in: page_dock
+        """
+        self.dock_filter_enter()
+        self.dock_filter_set_faster_execute()  # Reset filter
+        self.dock_filter_set_faster_execute(sort=sort, index=index, faction=faction, rarity=rarity, extra=extra)
+        self.dock_filter_confirm()
