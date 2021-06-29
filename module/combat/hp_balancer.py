@@ -83,7 +83,7 @@ class HPBalancer(ModuleBase):
         Logs:
             [HP]  98% ____ ____  98%  98%  98%
         """
-        hp = [self._calculate_hp(button.area) for button in self._hp_grid().buttons()]
+        hp = [self._calculate_hp(button.area) for button in self._hp_grid().buttons]
         scout = np.array(hp[3:]) * np.array(self.config.SCOUT_HP_WEIGHTS) / np.max(self.config.SCOUT_HP_WEIGHTS)
 
         self.hp = hp[:3] + scout.tolist()

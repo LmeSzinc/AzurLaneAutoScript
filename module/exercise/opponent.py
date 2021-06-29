@@ -52,8 +52,8 @@ class Opponent:
             list[int]: Fleet level, such as [120, 120, 120, 120, 120, 120].
         """
         level = []
-        level += ButtonGrid(origin=(130, 259), delta=(168, 0), button_shape=(58, 21), grid_shape=(3, 1), name='LEVEL').buttons()
-        level += ButtonGrid(origin=(832, 259), delta=(168, 0), button_shape=(58, 21), grid_shape=(3, 1), name='LEVEL').buttons()
+        level += ButtonGrid(origin=(130, 259), delta=(168, 0), button_shape=(58, 21), grid_shape=(3, 1), name='LEVEL').buttons
+        level += ButtonGrid(origin=(832, 259), delta=(168, 0), button_shape=(58, 21), grid_shape=(3, 1), name='LEVEL').buttons
 
         level = Level(level, name='LEVEL', letter=(255, 255, 255), threshold=128)
         result = level.ocr(image)

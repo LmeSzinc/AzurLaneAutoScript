@@ -41,7 +41,7 @@ class GuildBase(UI):
         current = 0
         total = 0
 
-        for idx, button in enumerate(GUILD_SIDEBAR.buttons()):
+        for idx, button in enumerate(GUILD_SIDEBAR.buttons):
             image = np.array(self.image_area(button))
             if np.sum(image[:, :, 0] > 235) > 100:
                 current = idx + 1

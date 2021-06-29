@@ -121,7 +121,7 @@ class ItemGrid:
             image: Pillow image
         """
         self.items = []
-        for button in self.grids.buttons():
+        for button in self.grids.buttons:
             item = Item(image, button)
             if item.is_valid:
                 self.items.append(item)

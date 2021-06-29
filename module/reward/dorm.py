@@ -24,7 +24,7 @@ COLLECT_RECORD = ('RewardRecord', 'dorm_collect')
 FOOD = ButtonGrid(origin=(298, 375), delta=(156, 0), button_shape=(112, 66), grid_shape=(6, 1), name='FOOD')
 FOOD_AMOUNT = ButtonGrid(
     origin=(343, 411), delta=(156, 0), button_shape=(70, 33), grid_shape=(6, 1), name='FOOD_AMOUNT')
-OCR_FOOD = Digit(FOOD_AMOUNT.buttons(), letter=(255, 255, 255), threshold=128, name='OCR_DORM_FOOD')
+OCR_FOOD = Digit(FOOD_AMOUNT.buttons, letter=(255, 255, 255), threshold=128, name='OCR_DORM_FOOD')
 OCR_FILL = DigitCounter(OCR_DORM_FILL, letter=(255, 247, 247), threshold=128, name='OCR_DORM_FILL')
 
 
@@ -175,7 +175,7 @@ class RewardDorm(UI):
         self.device.screenshot()
         self.handle_info_bar()
 
-        has_food = [self._dorm_has_food(button) for button in FOOD.buttons()]
+        has_food = [self._dorm_has_food(button) for button in FOOD.buttons]
         amount = OCR_FOOD.ocr(self.device.image)
         amount = [a if hf else 0 for a, hf in zip(amount, has_food)]
         food = [Food(feed=f, amount=a) for f, a in zip(FOOD_FEED_AMOUNT, amount)]

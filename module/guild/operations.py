@@ -226,7 +226,7 @@ class GuildOperations(GuildBase):
         text = []
         index = 0
         button = None
-        for switch in switch_grid.buttons():
+        for switch in switch_grid.buttons:
             if self.image_color_count(switch, color=color_inactive, threshold=235, count=30):
                 index += 1
                 text.append(f'| {index} |')

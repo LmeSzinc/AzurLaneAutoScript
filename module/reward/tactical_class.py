@@ -197,7 +197,7 @@ class RewardTacticalClass(UI):
         for n in range(10):
             self.device.screenshot()
             self.handle_info_bar()  # info_bar appears when get ship in Launch Ceremony commissions
-            books = BookGroup([Book(self.device.image, button) for button in BOOKS_GRID.buttons()]).select(valid=True)
+            books = BookGroup([Book(self.device.image, button) for button in BOOKS_GRID.buttons]).select(valid=True)
             logger.attr('Book_count', len(books))
             for index in range(1, 4):
                 logger.info(f'Book_T{index}: {books.select(tier=index)}')

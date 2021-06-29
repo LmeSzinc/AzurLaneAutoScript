@@ -1,11 +1,11 @@
+import numpy as np
+
 from module.base.button import ButtonGrid
 from module.base.timer import Timer
+from module.base.utils import color_similarity_2d
 from module.equipment.assets import *
-from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.ui.ui import UI
-from module.base.utils import color_similarity_2d
-import numpy as np
 
 SWIPE_DISTANCE = 250
 SWIPE_RANDOM_RANGE = (-40, -20, 40, 20)
@@ -84,7 +84,7 @@ class Equipment(UI):
         current = 0
         total = 0
 
-        for idx, button in enumerate(DETAIL_SIDEBAR.buttons()):
+        for idx, button in enumerate(DETAIL_SIDEBAR.buttons):
             image = np.array(self.device.image.crop(button.area))
             if np.sum(image[:, :, 0] > 235) > 100:
                 current = idx + 1

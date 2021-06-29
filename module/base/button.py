@@ -1,10 +1,10 @@
 import os
 import traceback
 
-import cv2
 from PIL import Image
 
 import module.config.server as server
+from module.base.decorator import cached_property
 from module.base.utils import *
 
 
@@ -171,5 +171,37 @@ class ButtonGrid:
             for x in range(self.grid_shape[0]):
                 yield x, y, self[x, y]
 
+    @cached_property
     def buttons(self):
         return list([button for _, _, button in self.generate()])
+
+    def crop(self, area, name=None):
+        """
+        Args:
+            area (tuple): Area related to self.origin
+            name (str): Name of the new ButtonGrid instance.
+
+        Returns:
+            ButtonGrid:
+        """
+        if name is None:
+            name = self._name + '_CROP'
+        origin = self.origin + area[:2]
+        button_shape = np.subtract(area[2:], area[:2])
+        return ButtonGrid(
+            origin=origin, delta=self.delta, button_shape=button_shape, grid_shape=self.grid_shape, name=name)
+
+    def move(self, vector, name=None):
+        """
+        Args:
+            vector (tuple): Move vector.
+            name (str): Name of the new ButtonGrid instance.
+
+        Returns:
+            ButtonGrid:
+        """
+        if name is None:
+            name = self._name + '_MOVE'
+        origin = self.origin + vector
+        return ButtonGrid(
+            origin=origin, delta=self.delta, button_shape=self.button_shape, grid_shape=self.grid_shape, name=name)
