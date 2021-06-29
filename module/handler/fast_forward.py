@@ -149,6 +149,7 @@ class FastForwardHandler(AutoSearchHandler):
             self.map_is_2x_book = self.config.ENABLE_2X_BOOK
             self.handle_2x_book_setting(mode='auto')
             self.device.click(AUTO_SEARCH_MENU_CONTINUE)
+            self.interval_reset(AUTO_SEARCH_MENU_CONTINUE)
             return True
         return False
 
