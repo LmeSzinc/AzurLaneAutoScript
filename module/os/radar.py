@@ -1,7 +1,12 @@
+from PIL import Image
+
+from module.base.mask import Mask
 from module.base.utils import *
 from module.config.config import AzurLaneConfig
 from module.logger import logger
 from module.map_detection.utils import fit_points
+
+MASK_RADAR = Mask('./assets/mask/MASK_OS_RADAR.png')
 
 
 class RadarGrid:
@@ -132,9 +137,7 @@ class RadarGrid:
         return self.image_color_count(area=(-3, -3, 3, 3), color=(255, 255, 255), threshold=235, count=10)
 
     def predict_question(self):
-        return self.image_color_count(area=(0, -7, 6, 0), color=(255, 255, 255), threshold=235, count=10) \
-               and self.image_color_count(area=(-4, -7, 2, 0), color=(255, 255, 255), threshold=235, count=10) \
-               and self.image_color_count(area=(-2, 0, 4, 7), color=(255, 255, 255), threshold=235, count=5)
+        return self.image_color_count(area=(0, -7, 6, 0), color=(255, 255, 255), threshold=235, count=10)
 
 
 class Radar:
@@ -170,6 +173,10 @@ class Radar:
         return iter(self.grids.values())
 
     def __getitem__(self, item):
+        """
+        Returns:
+            RadarGrid:
+        """
         return self.grids[tuple(item)]
 
     def __contains__(self, item):
@@ -188,6 +195,7 @@ class Radar:
         Returns:
 
         """
+        image = Image.fromarray(MASK_RADAR.apply(image))
         for grid in self:
             grid.image = image
             grid.reset()
@@ -275,7 +283,8 @@ class Radar:
         """
         self.predict(image)
         for location in [(0, 1), (-1, 0), (1, 0), (0, -1)]:
-            if self[location].is_question:
+            grid = self[location]
+            if grid.is_question and not grid.predict_port():
                 return location
 
         return None
