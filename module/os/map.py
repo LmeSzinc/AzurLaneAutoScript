@@ -133,6 +133,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
             return False
 
         logger.info(f'Found Akashi on {grid}')
+        self.handle_info_bar()
         view = self.os_default_view
         grid = view[np.add(grid, view.center_loca)]
         self.handle_akashi_supply_buy(grid)
