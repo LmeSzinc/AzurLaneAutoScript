@@ -4,7 +4,6 @@ from module.equipment.assets import *
 from module.equipment.fleet_equipment import OCR_FLEET_INDEX
 from module.retire.dock import *
 from module.ui.page import page_fleet
-from module.logger import logger
 
 
 class GemsFarming(CampaignRun):
@@ -61,3 +60,50 @@ class GemsFarming(CampaignRun):
             self.dock_filter_set_faster()
             self.ui_back(check_button=page_fleet.check_button)
             return False
+
+    _trigger_lv32 = False
+
+    def triggered_stop_condition(self, oil_check=True):
+        # Lv32 limit
+        if self.config.STOP_IF_REACH_LV32 and self.campaign.config.LV32_TRIGGERED:
+            self._trigger_lv32 = True
+            logger.hr('Triggered lv32 limit')
+            return True
+
+        return super().triggered_stop_condition(oil_check=oil_check)
+
+    def run(self, name, folder='campaign_main', total=0):
+        name = name.lower()
+        if not name[0].isdigit():
+            folder = self.config.EVENT_NAME
+        else:
+            name = 'campaign_' + name.replace('-', '_')
+
+        while 1:
+            backup = self.config.cover(
+                STOP_IF_REACH_LV32=True,
+                FLEET_1=self.config.GEMS_FLEET_1,
+                FLEET_2=self.config.GEMS_FLEET_2,
+                FLEET_BOSS=1,
+                SUBMARINE=0,
+                FLEET_1_FORMATION=1,
+                FLEET_2_FORMATION=1,
+                FLEET_1_AUTO_MODE='combat_auto',
+                FLEET_2_AUTO_MODE='combat_auto',
+                ENABLE_MAP_FLEET_LOCK=True,
+                ENABLE_AUTO_SEARCH=False,
+                ENABLE_2X_BOOK=False,
+                STOP_IF_MAP_REACH='no',
+                ENABLE_EMOTION_REDUCE=False,
+                IGNORE_LOW_EMOTION_WARN=True,
+            )
+            self._trigger_lv32 = False
+            super().run(name=name, folder=folder, total=total)
+            backup.recover()
+
+            # End
+            if self._trigger_lv32:
+                self.flagship_change()
+                continue
+            else:
+                break
