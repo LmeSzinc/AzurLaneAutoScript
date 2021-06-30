@@ -1,6 +1,8 @@
 import re
 from datetime import datetime, timedelta
 
+from PIL import Image
+
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.filter import Filter
@@ -8,7 +10,6 @@ from module.base.mask import Mask
 from module.base.timer import Timer
 from module.base.utils import *
 from module.logger import logger
-from module.map_detection.utils import Points
 from module.ocr.ocr import Digit, DigitCounter
 from module.reward.assets import *
 from module.template.assets import TEMPLATE_DORM_COIN, TEMPLATE_DORM_LOVE
@@ -51,21 +52,18 @@ class RewardDorm(UI):
             out: page_dorm, with info_bar
         """
         image = MASK_DORM.apply(np.array(self.device.image))
-        love_points = Points(TEMPLATE_DORM_LOVE.match_multi(image)).group()
-        coin_points = Points(TEMPLATE_DORM_COIN.match_multi(image)).group()
-        logger.info(f'Dorm loves: {len(love_points)}, Dorm coins: {len(coin_points)}')
+        image = Image.fromarray(image)
+        loves = TEMPLATE_DORM_LOVE.match_multi(image, name='DORM_LOVE')
+        coins = TEMPLATE_DORM_COIN.match_multi(image, name='DORM_COIN')
+        logger.info(f'Dorm loves: {len(loves)}, Dorm coins: {len(coins)}')
 
         count = 0
-        for point in love_points:
-            button = tuple(np.append(point, point + TEMPLATE_DORM_LOVE.size))
-            button = Button(area=button, color=(), button=button, name='DORM_LOVE')
+        for button in loves:
             count += 1
             # Disable click record check, because may have too many coins or loves.
             self.device.click(button, record_check=False)
             self.device.sleep((0.5, 0.8))
-        for point in coin_points:
-            button = tuple(np.append(point, point + TEMPLATE_DORM_LOVE.size))
-            button = Button(area=button, color=(), button=button, name='DORM_COIN')
+        for button in coins:
             count += 1
             self.device.click(button, record_check=False)
             self.device.sleep((0.5, 0.8))
