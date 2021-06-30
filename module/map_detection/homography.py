@@ -9,6 +9,7 @@ from module.exception import MapDetectionError
 from module.logger import logger
 from module.map_detection.perspective import Perspective
 from module.map_detection.utils import *
+from module.map_detection.utils_assets import *
 
 
 class Homography:

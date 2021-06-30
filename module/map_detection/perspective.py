@@ -10,6 +10,7 @@ from module.config.config import AzurLaneConfig
 from module.exception import MapDetectionError
 from module.logger import logger
 from module.map_detection.utils import *
+from module.map_detection.utils_assets import *
 
 warnings.filterwarnings("ignore")
 
