@@ -113,7 +113,7 @@ class GuildOperations(GuildBase):
         # Scan image and must have similarity greater than 0.85
         points = TEMPLATE_OPERATIONS_RED_DOT.match_multi(self.device.image.crop(detection_area))
         points += detection_area[:2]
-        points = Points(points, config=self.config).group(threshold=5)
+        points = Points(points).group(threshold=5)
         logger.info(f'Active operations found: {len(points)}')
 
         return [point_to_entrance_1(point) for point in points], [point_to_entrance_2(point) for point in points]

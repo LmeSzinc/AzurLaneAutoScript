@@ -51,8 +51,8 @@ class RewardDorm(UI):
             out: page_dorm, with info_bar
         """
         image = MASK_DORM.apply(np.array(self.device.image))
-        love_points = Points(TEMPLATE_DORM_LOVE.match_multi(image), config=self.config).group()
-        coin_points = Points(TEMPLATE_DORM_COIN.match_multi(image), config=self.config).group()
+        love_points = Points(TEMPLATE_DORM_LOVE.match_multi(image)).group()
+        coin_points = Points(TEMPLATE_DORM_COIN.match_multi(image)).group()
         logger.info(f'Dorm loves: {len(love_points)}, Dorm coins: {len(coin_points)}')
 
         count = 0

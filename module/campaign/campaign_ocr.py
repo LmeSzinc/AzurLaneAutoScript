@@ -86,7 +86,7 @@ class CampaignOcr(ModuleBase):
         digits = []
         stage_image = image if stage_image is None else stage_image
         result = template.match_multi(stage_image, similarity=0.85)
-        result = Points(result, config=self.config).group()
+        result = Points(result).group()
 
         for point in result:
             button = tuple(np.append(point, point + template.size))

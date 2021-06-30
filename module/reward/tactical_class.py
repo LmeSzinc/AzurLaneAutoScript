@@ -168,7 +168,7 @@ class RewardTacticalClass(UI):
         mask = color_similarity_2d(self.image_area(area), color=(255, 255, 255)) > 235
         points = np.array(np.where(mask)).T
         # Width of card is 200 px
-        points = Points(points, config=self.config).group(threshold=210)
+        points = Points(points).group(threshold=210)
         card = len(points)
         if card == 0:
             logger.warning('No student card found.')
