@@ -1,12 +1,13 @@
 import os
 
-import cv2
 import imageio
 import numpy as np
 from PIL import Image
 
 import module.config.server as server
+from module.base.button import Button
 from module.base.decorator import cached_property
+from module.base.utils import *
 
 
 class Template:
@@ -76,12 +77,16 @@ class Template:
             image:
 
         Returns:
-            bool: If matches.
+            float: Similarity
+            Button:
         """
         res = cv2.matchTemplate(np.array(image), self.image, cv2.TM_CCOEFF_NORMED)
         _, sim, _, point = cv2.minMaxLoc(res)
         # print(self.file, sim)
-        return sim, point
+
+        area = area_offset(area=(0, 0, *self.size), offset=point)
+        button = Button(area=area, color=get_color(image, area), button=area, name=f'MATCH_RESULT')
+        return sim, button
 
     def match_multi(self, image, similarity=0.85):
         """

@@ -20,11 +20,9 @@ class CampaignBase(CampaignBase_):
         if '-5' not in name:
             return super().campaign_get_entrance(name)
 
-        sim, point = TEMPLATE_STAGE_SOS.match_result(self.device.image)
+        sim, button = TEMPLATE_STAGE_SOS.match_result(self.device.image)
         if sim < 0.85:
             raise CampaignNameError
 
-        button = area_offset(area=(-12, -12, 44, 32), offset=point)
-        color = get_color(self.device.image, button)
-        entrance = Button(area=button, color=color, button=button, name=name)
+        entrance = button.crop((-12, -12, 44, 32), image=self.device.image, name=name)
         return entrance

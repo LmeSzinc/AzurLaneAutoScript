@@ -148,6 +148,48 @@ class Button:
         area = area_offset(self.area, offset=diff)
         return color_similar(color1=get_color(image, area), color2=self.color, threshold=threshold)
 
+    def crop(self, area, image=None, name=None):
+        """
+        Get a new button by relative coordinates.
+
+        Args:
+            area (tuple):
+            image: Pillow image. If provided, load color and image from it.
+            name (str):
+
+        Returns:
+            Button:
+        """
+        if name is None:
+            name = self.name
+        new_area = area_offset(area, offset=self.area[:2])
+        new_button = area_offset(area, offset=self.button[:2])
+        button = Button(area=new_area, color=self.color, button=new_button, file=self.file, name=name)
+        if image is not None:
+            button.load_color(image)
+        return button
+
+    def move(self, vector, image=None, name=None):
+        """
+        Move button.
+
+        Args:
+            vector (tuple):
+            image: Pillow image. If provided, load color and image from it.
+            name (str):
+
+        Returns:
+            Button:
+        """
+        if name is None:
+            name = self.name
+        new_area = area_offset(self.area, offset=vector)
+        new_button = area_offset(self.button, offset=vector)
+        button = Button(area=new_area, color=self.color, button=new_button, file=self.file, name=name)
+        if image is not None:
+            button.load_color(image)
+        return button
+
 
 class ButtonGrid:
     def __init__(self, origin, delta, button_shape, grid_shape, name=None):
@@ -185,7 +227,7 @@ class ButtonGrid:
             ButtonGrid:
         """
         if name is None:
-            name = self._name + '_CROP'
+            name = self._name
         origin = self.origin + area[:2]
         button_shape = np.subtract(area[2:], area[:2])
         return ButtonGrid(
@@ -201,7 +243,7 @@ class ButtonGrid:
             ButtonGrid:
         """
         if name is None:
-            name = self._name + '_MOVE'
+            name = self._name
         origin = self.origin + vector
         return ButtonGrid(
             origin=origin, delta=self.delta, button_shape=self.button_shape, grid_shape=self.grid_shape, name=name)
