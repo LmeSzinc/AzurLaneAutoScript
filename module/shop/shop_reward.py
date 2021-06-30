@@ -1,5 +1,6 @@
 from module.build.ui import BuildUI
 from module.logger import logger
+from module.shop.assets import SHOP_REFRESH
 from module.shop.shop_general import GeneralShop
 from module.shop.shop_guild import GuildShop
 from module.shop.shop_medal import MedalShop
@@ -14,8 +15,6 @@ RECORD_SHOP_MEDAL_OPTION = ('RewardRecord', 'shop_medal')
 RECORD_SHOP_MEDAL_SINCE = (0,)
 RECORD_SHOP_MERIT_OPTION = ('RewardRecord', 'shop_merit')
 RECORD_SHOP_MERIT_SINCE = (0,)
-
-SHOP_TYPE_LIST = ['general', 'guild', 'medal', 'merit']
 
 
 class RewardShop(BuildUI, ShopUI, GeneralShop, GuildShop, MedalShop, MeritShop):
@@ -39,33 +38,36 @@ class RewardShop(BuildUI, ShopUI, GeneralShop, GuildShop, MedalShop, MeritShop):
             return False
         return True
 
-    def _shop_record_since(self):
+    def _shop_record_since(self, shop_type_list):
         """
         Helper func to scan shop records
         determining whether need to transition
         to pages
 
+        Args:
+            shop_type_list (list):
+                list of strings representing
+                shop to check against
+
         Returns:
             bool: If shop_run successful
         """
         shop_records = {}
-        for shop_type in SHOP_TYPE_LIST:
+        for shop_type in shop_type_list:
+            shop_records[shop_type] = False
             try:
                 since = globals()[f'RECORD_SHOP_{shop_type.upper()}_SINCE']
                 option = globals()[f'RECORD_SHOP_{shop_type.upper()}_OPTION']
             except KeyError:
-                logger.warning(f'_shop_record_since --> Missing shop records to verify')
+                logger.warning('_shop_record_since --> Missing shop records '
+                               f'for shop {shop_type} to verify')
                 continue
 
-            result = False
             if not self.config.record_executed_since(option=option, since=since):
                 if self._shop_visit(shop_type=shop_type):
-                    result = True
-                self.config.record_save(option=option)
-            shop_records[shop_type] = result
+                    shop_records[shop_type] = True
 
         return shop_records
-
 
     def _shop_repeat(self, shop_type='general'):
         """
@@ -76,50 +78,67 @@ class RewardShop(BuildUI, ShopUI, GeneralShop, GuildShop, MedalShop, MeritShop):
             refresh = getattr(self.config, f'ENABLE_SHOP_{shop_type.upper()}_REFRESH')
         except AttributeError:
             logger.warning(f'_shop_repeat --> Missing necessary Configs')
+            return
 
         for _ in range(2):
             self.shop_buy(shop_type=shop_type, selection=selection)
-            if refresh:
-                self.shop_refresh()
-            else:
-                break
+            if refresh and self.shop_refresh():
+                continue
+            break
 
     def shop_run(self):
         """
         Runs shop browse operations
 
         Returns:
-            bool: If shop_run successful
+            bool: If shop attempted to run
+                  thereby transition to respective
+                  pages. If no transition took place,
+                  then did not run
         """
-        shop_records = self._shop_record_since()
-        if not any(shop_records.values()):
-            logger.info('No shops to visit according to records')
-            return True
+        shop_ran = False
+        shop_records = self._shop_record_since(['general', 'guild', 'merit'])
+        if any(shop_records.values()):
+            shop_ran = True
+            if not self.ui_goto_shop():
+                logger.warning('Failed to arrive at expected shop '
+                               'interface, try again next time')
+                return shop_ran
 
-        if not self.ui_goto_shop():
-            logger.warning('Failed to arrive at expected shop interface, try again next time')
-            self.ui_goto_main()
-            return False
+            if shop_records['general']:
+                if self.shop_bottombar_ensure(1):
+                    self._shop_repeat(shop_type='general')
+                    self.config.record_save(option=RECORD_SHOP_GENERAL_OPTION)
 
-        if shop_records['general']:
-            self.shop_bottombar_ensure(1)
-            self._shop_repeat(shop_type='general')
+            if shop_records['merit']:
+                if self.shop_bottombar_ensure(2):
+                    self._shop_repeat(shop_type='merit')
+                    self.config.record_save(option=RECORD_SHOP_MERIT_OPTION)
 
-        if shop_records['merit']:
-            self.shop_bottombar_ensure(2)
-            self._shop_repeat(shop_type='merit')
+            if shop_records['guild']:
+                if self.shop_bottombar_ensure(5):
+                    self._shop_repeat(shop_type='guild')
+                    self.config.record_save(option=RECORD_SHOP_GUILD_OPTION)
 
-        if shop_records['guild']:
-            self.shop_bottombar_ensure(5)
-            self._shop_repeat(shop_type='guild')
+        shop_records = self._shop_record_since(['medal'])
+        if any(shop_records.values()):
+            shop_ran = True
+            if shop_records['medal']:
+                record_save = True
+                for _ in range(1, 3):
+                    if self.ui_goto_build(2, _):
+                        self.shop_buy(shop_type='medal',
+                                      selection=self.config.SHOP_MEDAL_SELECTION)
+                    else:
+                        logger.warning('Failed to arrive at expected '
+                                       'build interface with sidebarindex=2, '
+                                       f'bottombarindex={_}, try again '
+                                       'next time')
+                        record_save = False
+                if record_save:
+                    self.config.record_save(option=RECORD_SHOP_MEDAL_OPTION)
 
-        if shop_records['medal']:
-            for _ in range(1, 3):
-                if self.ui_goto_build(2, _):
-                    self.shop_buy(shop_type='medal', selection=self.config.SHOP_MEDAL_SELECTION)
-
-        self.ui_goto_main()
-        return True
+        return shop_ran
 
     def handle_shop(self):
         """
@@ -128,4 +147,7 @@ class RewardShop(BuildUI, ShopUI, GeneralShop, GuildShop, MedalShop, MeritShop):
         if not self.config.ENABLE_SHOP_BROWSE:
             return False
 
-        return self.shop_run()
+        if self.shop_run():
+            self.ui_goto_main()
+
+        return True

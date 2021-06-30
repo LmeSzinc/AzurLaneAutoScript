@@ -3,8 +3,8 @@ from module.base.timer import Timer
 from module.base.utils import random_rectangle_vector
 from module.logger import logger
 from module.shop.assets import *
-from module.ui.page import page_munitions
 from module.ui.assets import BACK_ARROW
+from module.ui.page import page_munitions
 from module.ui.ui import UI
 
 SHOP_LOAD_ENSURE_BUTTONS = [SHOP_GENERAL_CHECK, SHOP_GUILD_CHECK,
@@ -150,8 +150,12 @@ class ShopUI(UI):
             skip_first_screenshot: bool
 
         Returns:
-            None: exits appropriately therefore successful
+            bool: If refreshed
         """
+        refreshed = False
+        if not self.appear(SHOP_REFRESH):
+            return refreshed
+
         exit_timer = Timer(3, count=6).start()
         while 1:
             if skip_first_screenshot:
@@ -164,6 +168,7 @@ class ShopUI(UI):
                 continue
             if self.handle_popup_confirm('SHOP_REFRESH_CONFIRM'):
                 exit_timer.reset()
+                refreshed = True
                 continue
 
             # End
@@ -172,7 +177,9 @@ class ShopUI(UI):
                     break
             else:
                 exit_timer.reset()
+
         self.handle_info_bar()
+        return refreshed
 
     def _shop_swipe(self, skip_first_screenshot=True):
         """

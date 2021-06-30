@@ -131,7 +131,7 @@ class GuildShop(ShopBase):
         # Base Case - Must have 'secondary_grid' attr and must not be None
         if not hasattr(item, 'secondary_grid') or item.secondary_grid is None:
             logger.warning('shop_buy_select_execute --> Detected secondary '
-                        'prompt but item not classified of having this option')
+                           'prompt but item not classified of having this option')
             self.device.click(SHOP_CLICK_SAFE_AREA)  # Close secondary prompt
             return False
 
@@ -230,7 +230,9 @@ class GuildShop(ShopBase):
                 continue
             if self.appear(SHOP_SELECT_CHECK, interval=3):
                 if not self.shop_buy_select_execute(item):
-                    logger.warning('Failed to purchase secondary grid item, may need re-configure settings')
+                    logger.warning('Failed to purchase secondary '
+                                   'grid item, report with logs/screencaptures '
+                                   'if encountered')
                     exit(1)
                 self.interval_reset(BACK_ARROW)
                 self.interval_reset(SHOP_SELECT_CHECK)
