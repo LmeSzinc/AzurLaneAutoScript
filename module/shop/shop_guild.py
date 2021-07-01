@@ -9,7 +9,7 @@ from module.shop.base import ShopBase, ShopItemGrid
 from module.shop.shop_guild_globals import *
 from module.ui.assets import BACK_ARROW
 
-SHOP_SELECT_PRS = [SHOP_SELECT_PR1, SHOP_SELECT_PR2, SHOP_SELECT_PR3]
+SHOP_SELECT_PR = [SHOP_SELECT_PR1, SHOP_SELECT_PR2, SHOP_SELECT_PR3]
 
 OCR_SHOP_GUILD_COINS = Digit(SHOP_GUILD_COINS, letter=(255, 255, 255), name='OCR_SHOP_GUILD_COINS')
 OCR_SHOP_SELECT_TOTAL_PRICE = Digit(SHOP_SELECT_TOTAL_PRICE, letter=(255, 255, 255), name='OCR_SHOP_SELECT_TOTAL_PRICE')
@@ -97,7 +97,7 @@ class GuildShop(ShopBase):
             # Determine series of PR is displayed
             # Position of successful appearance
             # determines correct shop_select_grid
-            results = [self.appear(button, offset=(20, 20)) for button in SHOP_SELECT_PRS]
+            results = [self.appear(button, offset=(20, 20)) for button in SHOP_SELECT_PR]
             for idx, result in enumerate(results):
                 if result:
                     choice = choice[idx]
