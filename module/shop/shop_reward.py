@@ -46,11 +46,13 @@ class RewardShop(BuildUI, ShopUI, GeneralShop, GuildShop, MedalShop, MeritShop):
 
         Args:
             shop_type_list (list):
-                list of strings representing
-                shop to check against
+                list of strings, each
+                representing shop to
+                check against
 
         Returns:
-            bool: If shop_run successful
+            dict: shop (key)  --> bool
+                  If shop(s) should be page transitioned to
         """
         shop_records = {}
         for shop_type in shop_type_list:

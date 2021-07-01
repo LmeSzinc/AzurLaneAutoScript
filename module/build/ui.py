@@ -46,8 +46,8 @@ class BuildUI(UI):
                 if confirm_timer.reached():
                     return True
                 ensure_timeout.reset()
-            else:
-                confirm_timer.reset()
+                continue
+            confirm_timer.reset()
 
             # Exception
             if ensure_timeout.reached():

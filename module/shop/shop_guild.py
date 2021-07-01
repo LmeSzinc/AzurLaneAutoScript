@@ -17,6 +17,10 @@ OCR_SHOP_SELECT_TOTAL_PRICE = Digit(SHOP_SELECT_TOTAL_PRICE, letter=(255, 255, 2
 
 class GuildItemGrid(ShopItemGrid):
     def predict(self, image, name=True, amount=True, cost=False, price=False):
+        """
+        Overridden to iterate and add attribute for items classified as having
+        secondary grid and additional information
+        """
         super().predict(image, name, amount, cost, price)
 
         # Loop again for Guild Shop items
@@ -41,6 +45,9 @@ class GuildShop(ShopBase):
     _shop_guild_coins = 0
 
     def shop_guild_get_currency(self):
+        """
+        Ocr shop guild currency
+        """
         self._shop_guild_coins = OCR_SHOP_GUILD_COINS.ocr(self.device.image)
         logger.info(f'Guild coins: {self._shop_guild_coins}')
 
@@ -62,7 +69,7 @@ class GuildShop(ShopBase):
             item: Item to check
 
         Returns:
-            bool:
+            bool: whether item can be bought
         """
         if item.cost == 'GuildCoins':
             if item.price > self._shop_guild_coins:

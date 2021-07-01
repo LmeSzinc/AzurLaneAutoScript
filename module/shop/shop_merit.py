@@ -12,6 +12,9 @@ class MeritShop(ShopBase):
     _shop_merit = 0
 
     def shop_merit_get_currency(self):
+        """
+        Ocr shop merit currency
+        """
         self._shop_merit = OCR_SHOP_MERIT.ocr(self.device.image)
         logger.info(f'Merit: {self._shop_merit}')
 

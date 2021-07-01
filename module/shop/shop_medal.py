@@ -12,6 +12,9 @@ class MedalShop(ShopBase):
     _shop_medal = 0
 
     def shop_medal_get_currency(self):
+        """
+        Ocr shop medal currency
+        """
         self._shop_medal = OCR_SHOP_MEDAL.ocr(self.device.image)
         logger.info(f'Medal: {self._shop_medal}')
 

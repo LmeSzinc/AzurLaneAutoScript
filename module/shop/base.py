@@ -13,6 +13,10 @@ from module.ui.ui import UI
 
 class ShopItemGrid(ItemGrid):
     def predict(self, image, name=True, amount=True, cost=False, price=False):
+        """
+        Overridden to iterate, corrects 'Book' type items and add additional
+        attributes used to generalize identification
+        """
         super().predict(image, name, amount, cost, price)
 
         for item in self.items:

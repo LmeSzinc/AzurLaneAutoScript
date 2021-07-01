@@ -13,6 +13,9 @@ class GeneralShop(ShopBase):
     _shop_gems = 0
 
     def shop_general_get_currency(self):
+        """
+        Ocr shop general currency
+        """
         self._shop_gold_coins = OCR_SHOP_GOLD_COINS.ocr(self.device.image)
         self._shop_gems = OCR_SHOP_GEMS.ocr(self.device.image)
         logger.info(f'Gold coins: {self._shop_gold_coins}, Gems: {self._shop_gems}')
@@ -35,7 +38,7 @@ class GeneralShop(ShopBase):
             item: Item to check
 
         Returns:
-            bool:
+            bool: whether item can be bought
         """
         if item.cost == 'Coins':
             if item.price > self._shop_gold_coins:
