@@ -137,7 +137,7 @@ class GuildShop(ShopBase):
 
         # Proceed and verify required components can be acquired
         category = item.secondary_grid
-        additional = '' if item.additional is None else item.additional
+        additional = '' if item.additional is None else f'_{item.additional}'
         try:
             limit = globals()[f'SELECT_{category.upper()}_LIMIT']
             choice = getattr(self.config, f'SHOP_GUILD_{category.upper()}{additional.upper()}')
