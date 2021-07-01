@@ -104,6 +104,8 @@ class GemsFarming(CampaignRun):
             # End
             if self._trigger_lv32:
                 self.flagship_change()
+                self._trigger_lv32 = False
+                self.campaign.config.LV32_TRIGGERED = False
                 continue
             else:
                 break
