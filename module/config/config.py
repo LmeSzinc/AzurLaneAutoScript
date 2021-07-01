@@ -444,9 +444,8 @@ class AzurLaneConfig:
     ENABLE_SHOP_GENERAL_REFRESH = False
     SHOP_GUILD_SELECTION = ''
     ENABLE_SHOP_GUILD_REFRESH = False
-    SHOP_GUILD_BOX_T2 = 'eagle'
     SHOP_GUILD_BOX_T3 = 'eagle'
-    SHOP_GUILD_BOOK_T1 = 'red'
+    SHOP_GUILD_BOX_T4 = 'eagle'
     SHOP_GUILD_BOOK_T2 = 'red'
     SHOP_GUILD_BOOK_T3 = 'red'
     SHOP_GUILD_RETROFIT_T2 = 'dd'
@@ -734,9 +733,8 @@ class AzurLaneConfig:
         self.GUILD_OPERATIONS_JOIN_THRESHOLD = float(option['guild_operations_join_threshold'])
         self.SHOP_GENERAL_SELECTION = option['shop_general_selection']
         self.SHOP_GUILD_SELECTION = option['shop_guild_selection']
-        self.SHOP_GUILD_BOX_T2 = option['shop_guild_box_t2']
         self.SHOP_GUILD_BOX_T3 = option['shop_guild_box_t3']
-        self.SHOP_GUILD_BOOK_T1 = option['shop_guild_book_t1']
+        self.SHOP_GUILD_BOX_T4 = option['shop_guild_box_t4']
         self.SHOP_GUILD_BOOK_T2 = option['shop_guild_book_t2']
         self.SHOP_GUILD_BOOK_T3 = option['shop_guild_book_t3']
         self.SHOP_GUILD_RETROFIT_T2 = option['shop_guild_retrofit_t2']
