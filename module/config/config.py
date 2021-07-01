@@ -436,6 +436,33 @@ class AzurLaneConfig:
     RESEARCH_USE_PART = True
 
     """
+    module.shop
+    """
+    ENABLE_SHOP_BROWSE = False
+    SHOP_GENERAL_SELECTION = ''
+    ENABLE_SHOP_GENERAL_GEMS = False
+    ENABLE_SHOP_GENERAL_REFRESH = False
+    SHOP_GUILD_SELECTION = ''
+    ENABLE_SHOP_GUILD_REFRESH = False
+    SHOP_GUILD_BOX_T2 = 'eagle'
+    SHOP_GUILD_BOX_T3 = 'eagle'
+    SHOP_GUILD_BOOK_T1 = 'red'
+    SHOP_GUILD_BOOK_T2 = 'red'
+    SHOP_GUILD_BOOK_T3 = 'red'
+    SHOP_GUILD_RETROFIT_T2 = 'dd'
+    SHOP_GUILD_RETROFIT_T3 = 'dd'
+    SHOP_GUILD_PLATE_T2 = 'general'
+    SHOP_GUILD_PLATE_T3 = 'general'
+    SHOP_GUILD_PLATE_T4 = 'general'
+    SHOP_GUILD_PR1 = 'neptune'
+    SHOP_GUILD_PR2 = 'seattle'
+    SHOP_GUILD_PR3 = 'cheshire'
+    SHOP_GUILD_PR = [SHOP_GUILD_PR1, SHOP_GUILD_PR2, SHOP_GUILD_PR3]
+    SHOP_MEDAL_SELECTION = ''
+    SHOP_MERIT_SELECTION = ''
+    ENABLE_SHOP_MERIT_REFRESH = False
+
+    """
     module.sos
     """
     SOS_FLEETS_CHAPTER_3 = [4, 0]
@@ -675,7 +702,8 @@ class AzurLaneConfig:
                      'enable_commission_reward', 'enable_tactical_reward', 'enable_daily_reward',
                      'enable_research_reward',
                      'enable_data_key_collect', 'enable_train_meowfficer',
-                     'enable_guild_logistics', 'enable_guild_operations', 'enable_guild_operations_boss_auto', 'enable_guild_operations_boss_recommend']:
+                     'enable_guild_logistics', 'enable_guild_operations', 'enable_guild_operations_boss_auto', 'enable_guild_operations_boss_recommend',
+                     'enable_shop_browse', 'enable_shop_general_gems', 'enable_shop_general_refresh', 'enable_shop_guild_refresh', 'enable_shop_merit_refresh']:
             self.__setattr__(attr.upper(), to_bool(option[attr]))
         if not option['commission_time_limit'].isdigit():
             self.COMMISSION_TIME_LIMIT = future_time(option['commission_time_limit'])
@@ -704,6 +732,24 @@ class AzurLaneConfig:
         self.GUILD_LOGISTICS_PLATE_T2_ORDER_STRING = option['guild_logistics_plate_t2_order_string']
         self.GUILD_LOGISTICS_PLATE_T3_ORDER_STRING = option['guild_logistics_plate_t3_order_string']
         self.GUILD_OPERATIONS_JOIN_THRESHOLD = float(option['guild_operations_join_threshold'])
+        self.SHOP_GENERAL_SELECTION = option['shop_general_selection']
+        self.SHOP_GUILD_SELECTION = option['shop_guild_selection']
+        self.SHOP_GUILD_BOX_T2 = option['shop_guild_box_t2']
+        self.SHOP_GUILD_BOX_T3 = option['shop_guild_box_t3']
+        self.SHOP_GUILD_BOOK_T1 = option['shop_guild_book_t1']
+        self.SHOP_GUILD_BOOK_T2 = option['shop_guild_book_t2']
+        self.SHOP_GUILD_BOOK_T3 = option['shop_guild_book_t3']
+        self.SHOP_GUILD_RETROFIT_T2 = option['shop_guild_retrofit_t2']
+        self.SHOP_GUILD_RETROFIT_T3 = option['shop_guild_retrofit_t3']
+        self.SHOP_GUILD_PLATE_T2 = option['shop_guild_plate_t2']
+        self.SHOP_GUILD_PLATE_T3 = option['shop_guild_plate_t3']
+        self.SHOP_GUILD_PLATE_T4 = option['shop_guild_plate_t4']
+        self.SHOP_GUILD_PR1 = option['shop_guild_pr1']
+        self.SHOP_GUILD_PR2 = option['shop_guild_pr2']
+        self.SHOP_GUILD_PR3 = option['shop_guild_pr3']
+        self.SHOP_GUILD_PR = [getattr(self, f'SHOP_GUILD_PR{_}') for _ in range(1, 4)]
+        self.SHOP_MEDAL_SELECTION = option['shop_medal_selection']
+        self.SHOP_MERIT_SELECTION = option['shop_merit_selection']
 
         option = config['Main']
         self.CAMPAIGN_MODE = option['campaign_mode']
