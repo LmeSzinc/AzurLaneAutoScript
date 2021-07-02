@@ -353,7 +353,7 @@ def main(ini_name=''):
     reward_shop = reward_parser.add_argument_group('Shop', 'Browse and purchase selectable items in shops: General, Guild, Medal, and Merit. '
                                                    'Running for every reward loop.\n\n'
                                                    'Enter selection inputs as "item_1 > item_2 > ..." '
-                                                   'or empty (single whitespace) to skip shop\n\n'
+                                                   'or empty (single whitespace at the minimum) to skip shop\n\n'
                                                    'Each item is required to be in upper camel case, '
                                                    'listed below are available items in the exemplified format:\n'
                                                    'Box(T[1-4])?, Book(color)?(T[1-3])?, Food(T[1-6])?, '
@@ -362,7 +362,7 @@ def main(ini_name=''):
                                                    'Cubes, Chips i.e. Cognitive, and Drill\n\n'
                                                    'Multiple variants of each should be used to omit specific items',
                                                     gooey_options={'label_color': '#931D03'})
-    reward_shop.add_argument('--enable_shop_browse', default=default('--enable_shop_browse'), help='Enable browse shops.', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop.add_argument('--enable_shop_buy', default=default('--enable_shop_buy'), help='Enable browse and item purchases in shops.', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
     reward_shop_general = reward_shop.add_argument_group('General item selection', gooey_options={'label_color': '#4B5F83'})
     reward_shop_general.add_argument('--shop_general_selection', default=default('--shop_general_selection'), gooey_options={'label_color': '#4B5F83'})
     reward_shop_general.add_argument('--enable_shop_general_gems', default=default('--enable_shop_general_gems'), help='Enable to use gems.', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
@@ -389,7 +389,7 @@ def main(ini_name=''):
     reward_shop_medal.add_argument('--shop_medal_selection', default=default('--shop_medal_selection'), gooey_options={'label_color': '#4B5F83'})
     reward_shop_merit = reward_shop.add_argument_group('Merit item selection', gooey_options={'label_color': '#4B5F83'})
     reward_shop_merit.add_argument('--shop_merit_selection', default=default('--shop_merit_selection'), gooey_options={'label_color': '#4B5F83'})
-    reward_shop_merit.add_argument('--enable_shop_merit_refresh', default=default('--enable_shop_merit_refresh'), help='Enable refresh (uses gems).', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_merit.add_argument('--enable_shop_merit_refresh', default=default('--enable_shop_merit_refresh'), help='Enable refresh (uses gems implicitly).', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
 
     # ==========emulator==========
     emulator_parser = subs.add_parser('emulator')

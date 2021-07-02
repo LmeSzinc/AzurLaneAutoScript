@@ -146,7 +146,7 @@ class RewardShop(BuildUI, ShopUI, GeneralShop, GuildShop, MedalShop, MeritShop):
         """
         Handles shop browse operations
         """
-        if not self.config.ENABLE_SHOP_BROWSE:
+        if not self.config.ENABLE_SHOP_BUY:
             return False
 
         if self.shop_run():

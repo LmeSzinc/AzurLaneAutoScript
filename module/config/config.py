@@ -438,7 +438,7 @@ class AzurLaneConfig:
     """
     module.shop
     """
-    ENABLE_SHOP_BROWSE = False
+    ENABLE_SHOP_BUY = False
     SHOP_GENERAL_SELECTION = ''
     ENABLE_SHOP_GENERAL_GEMS = False
     ENABLE_SHOP_GENERAL_REFRESH = False
@@ -702,7 +702,7 @@ class AzurLaneConfig:
                      'enable_research_reward',
                      'enable_data_key_collect', 'enable_train_meowfficer',
                      'enable_guild_logistics', 'enable_guild_operations', 'enable_guild_operations_boss_auto', 'enable_guild_operations_boss_recommend',
-                     'enable_shop_browse', 'enable_shop_general_gems', 'enable_shop_general_refresh', 'enable_shop_guild_refresh', 'enable_shop_merit_refresh']:
+                     'enable_shop_buy', 'enable_shop_general_gems', 'enable_shop_general_refresh', 'enable_shop_guild_refresh', 'enable_shop_merit_refresh']:
             self.__setattr__(attr.upper(), to_bool(option[attr]))
         if not option['commission_time_limit'].isdigit():
             self.COMMISSION_TIME_LIMIT = future_time(option['commission_time_limit'])

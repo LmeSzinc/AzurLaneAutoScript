@@ -253,6 +253,7 @@ dic_true_eng_to_eng = {
     'os_repair_threshold': 'os_repair_threshold',
     'enable_os_akashi_shop_buy': 'enable_os_akashi_shop_buy',
     'os_akashi_shop_priority': 'os_akashi_shop_priority',
+    'enable_shop_buy': 'enable_shop_buy',
 
     # Option
     'yes': 'yes',
