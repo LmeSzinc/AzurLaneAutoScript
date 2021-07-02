@@ -238,9 +238,7 @@ class GuildShop(ShopBase):
             if self.appear(SHOP_SELECT_CHECK, interval=3):
                 if not self.shop_buy_select_execute(item):
                     logger.warning('Failed to purchase secondary '
-                                   'grid item, report with logs/screencaptures '
-                                   'if encountered')
-                    exit(1)
+                                   'grid item')
                 self.interval_reset(BACK_ARROW)
                 self.interval_reset(SHOP_SELECT_CHECK)
                 continue

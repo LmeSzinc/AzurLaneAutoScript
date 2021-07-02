@@ -153,9 +153,6 @@ class ShopUI(UI):
             bool: If refreshed
         """
         refreshed = False
-        if not self.appear(SHOP_REFRESH):
-            return refreshed
-
         exit_timer = Timer(3, count=6).start()
         while 1:
             if skip_first_screenshot:
