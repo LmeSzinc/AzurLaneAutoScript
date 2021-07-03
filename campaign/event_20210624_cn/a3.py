@@ -17,12 +17,12 @@ MAP.map_data = """
     -- ME ++ -- SP SP Me -- --
 """
 MAP.weight_data = """
+    50 50 50 50 50 50 90 50 50
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
+    50 90 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 2, 'siren': 1},
@@ -64,9 +64,11 @@ class Campaign(CampaignBase):
             return True
         if self.clear_enemy(scale=(1,)):
             return True
-        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
+        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy']):
             return True
         if self.clear_enemy(genre=['light', 'main']):
+            return True
+        if self.clear_enemy(scale=[2, 3]):
             return True
 
         return self.battle_default()

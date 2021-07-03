@@ -211,7 +211,7 @@ class FastForwardHandler(AutoSearchHandler):
                 or 2x book setting is absent
 
         """
-        clicked_timeout = Timer(3, count=6)
+        confirm_timer = Timer(1).start()
         clicked_threshold = 3
         while 1:
             if skip_first_screenshot:
@@ -222,16 +222,18 @@ class FastForwardHandler(AutoSearchHandler):
             if clicked_threshold < 0:
                 break
 
-            if self.appear(check_button, offset=(100, 50)):
-                if clicked_timeout.reached():
-                    enabled = self.image_color_count(box_button, color=(156, 255, 82), threshold=221, count=20)
-                    if (status == 'on' and enabled) or (status == 'off' and not enabled):
-                        return True
-                    if (status == 'on' and not enabled) or (status == 'off' and enabled):
-                        self.device.click(box_button)
+            if self.appear(check_button, offset=(100, 50), interval=3):
+                enabled = self.image_color_count(box_button, color=(156, 255, 82), threshold=221, count=20)
+                if (status == 'on' and enabled) or (status == 'off' and not enabled):
+                    return True
+                if (status == 'on' and not enabled) or (status == 'off' and enabled):
+                    self.device.click(box_button)
 
-                    clicked_timeout.reset()
-                    clicked_threshold -= 1
+                clicked_threshold -= 1
+
+            if confirm_timer.reached():
+                logger.info('Map do not have 2x book setting')
+                return True
 
         logger.warning(f'Wait time has expired; Cannot set 2x book setting')
         return False
@@ -248,6 +250,8 @@ class FastForwardHandler(AutoSearchHandler):
             bool:
                 If handled to completion
         """
+        if not self.map_is_clear_mode:
+            return False
         if not hasattr(self, 'emotion'):
             logger.info('Emotion instance not loaded, cannot handle 2x book setting')
             return False
