@@ -222,16 +222,16 @@ class FastForwardHandler(AutoSearchHandler):
             if clicked_threshold < 0:
                 break
 
-            if clicked_timeout.reached():
-                if self.appear(check_button, offset=(100, 50)):
+            if self.appear(check_button, offset=(100, 50)):
+                if clicked_timeout.reached():
                     enabled = self.image_color_count(box_button, color=(156, 255, 82), threshold=221, count=20)
                     if (status == 'on' and enabled) or (status == 'off' and not enabled):
                         return True
                     if (status == 'on' and not enabled) or (status == 'off' and enabled):
                         self.device.click(box_button)
 
-                clicked_timeout.reset()
-                clicked_threshold -= 1
+                    clicked_timeout.reset()
+                    clicked_threshold -= 1
 
         logger.warning(f'Wait time has expired; Cannot set 2x book setting')
         return False
