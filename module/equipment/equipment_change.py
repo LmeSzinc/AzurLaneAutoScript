@@ -33,13 +33,13 @@ class EquipmentChange(Equipment):
             while 1:
                 self.device.screenshot()
 
-                if(self.appear(EQUIPMENT_OPEN, interval=3)):
+                if self.appear(EQUIPMENT_OPEN, interval=3):
                     self.device.click(EQUIP_INFO_BAR[(index, 0)])
                     # time.sleep(1)
                     continue
-                if(self.appear_then_click(UPGRADE_ENTER, interval=3)):
+                if self.appear_then_click(UPGRADE_ENTER, interval=3):
                     continue
-                if(self.appear(UPGRADE_ENTER_CHECK, interval=3)):
+                if self.appear(UPGRADE_ENTER_CHECK, interval=3):
                     self.wait_until_stable(EQUIP_SAVE)
                     self.equip_list[index] = self.image_area(EQUIP_SAVE)
                     self.device.click(UPGRADE_QUIT)
@@ -61,8 +61,6 @@ class EquipmentChange(Equipment):
 
             enter_button = globals()[
                 'EQUIP_TAKE_ON_{index}'.format(index=index)]
-            check_button = globals()[
-                'EQUIP_TAKE_ON_{index}_CHECK'.format(index=index)]
 
             while 1:
                 self.device.screenshot()
@@ -72,7 +70,7 @@ class EquipmentChange(Equipment):
                     self.wait_until_stable(UPGRADE_QUIT)
                     continue
 
-                if self.appear(check_button):
+                if TEMPLATE_EQUIP_TAKE_ON_CHECK.match(self.device.image.crop(enter_button.area), similarity=0.5):
                     break
 
     @Config.when(DEVICE_CONTROL_METHOD='minitouch')
@@ -119,16 +117,9 @@ class EquipmentChange(Equipment):
         in: 仓库
         do: 找
         '''
-        self.wait_until_stable(EQUIP_STABLE_AREA, skip_first_screenshot=False)
+        self.wait_until_stable(UPGRADE_QUIT, skip_first_screenshot=False)
 
-        while 1:
-            self.device.screenshot()
-
-            if self.appear_then_click(EQUIPPING_ON, interval=2):
-                continue
-            if self.appear(EQUIPPING_OFF, interval=2):
-                self.wait_until_stable(EQUIP_STABLE_AREA)
-                break
+        self.equipping_set(False)
 
         res = cv2.matchTemplate(np.array(self.device.screenshot()), np.array(
             self.equip_list[index]), cv2.TM_CCOEFF_NORMED)
