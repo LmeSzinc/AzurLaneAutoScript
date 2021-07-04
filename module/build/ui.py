@@ -13,10 +13,10 @@ BUILD_SIDEBAR = ButtonGrid(
     origin=(21, 126), delta=(0, 98), button_shape=(60, 80), grid_shape=(1, 5), name='BUILD_SIDEBAR')
 
 BUILD_BOTTOMBAR = ButtonGrid(
-    origin=(133, 612), delta=(208, 0), button_shape=(203, 51), grid_shape=(4, 1), name='BUILD_BOTTOMBAR')
+    origin=(262, 615), delta=(209, 0), button_shape=(70, 49), grid_shape=(4, 1), name='BUILD_BOTTOMBAR')
 
 SHOP_BOTTOMBAR = ButtonGrid(
-    origin=(436, 636), delta=(208.5, 0), button_shape=(203, 51), grid_shape=(2, 1), name='SHOP_BOTTOMBAR')
+    origin=(569, 637), delta=(208, 0), button_shape=(70, 49), grid_shape=(2, 1), name='SHOP_BOTTOMBAR')
 
 
 class BuildUI(UI):
@@ -208,7 +208,7 @@ class BuildUI(UI):
                 current = idx + 1
                 total = idx + 1
                 continue
-            if np.sum(color_similarity_2d(image, color=(214, 235, 255)) > 221) > 100:
+            if np.sum(color_similarity_2d(image, color=(189, 231, 247)) > 221) > 100:
                 total = idx + 1
             else:
                 break

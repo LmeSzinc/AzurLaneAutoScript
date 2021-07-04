@@ -1,6 +1,7 @@
+import numpy as np
 from module.base.button import ButtonGrid
 from module.base.timer import Timer
-from module.base.utils import random_rectangle_vector
+from module.base.utils import *
 from module.logger import logger
 from module.shop.assets import *
 from module.ui.assets import BACK_ARROW
@@ -75,9 +76,15 @@ class ShopUI(UI):
         total = 0
 
         for idx, button in enumerate(SHOP_BOTTOMBAR.buttons()):
-            total = idx + 1
-            if self.image_color_count(button, color=(33, 195, 239), threshold=235, count=30):
-                current = total
+            image = np.array(self.image_area(button))
+            if np.sum(image[:, :, 0] > 235) > 100:
+                current = idx + 1
+                total = idx + 1
+                continue
+            if np.sum(color_similarity_2d(image, color=(107, 121, 132)) > 221) > 100:
+                total = idx + 1
+            else:
+                break
 
         if not current:
             # No current, may appear erroneous but
