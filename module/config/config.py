@@ -283,6 +283,9 @@ class AzurLaneConfig:
     RETIRE_R = False
     RETIRE_SR = False
     RETIRE_SSR = False
+    RETIRE_KEEP_COMMON_CV = True
+    RETIRE_COMMON_CV = 'BOGUE'
+    COMMON_CV_THRESHOLD = 0.9
 
     """
     module.map_detection

@@ -6,6 +6,8 @@ from module.exception import ScriptError
 from module.logger import logger
 from module.retire.assets import *
 from module.retire.enhancement import Enhancement
+from module.ocr.ocr import Digit
+
 
 CARD_GRIDS = ButtonGrid(
     origin=(93, 76), delta=(164 + 2 / 3, 227), button_shape=(138, 204), grid_shape=(7, 2), name='CARD')
@@ -19,6 +21,8 @@ CARD_RARITY_COLORS = {
     'SSR': (248, 223, 107)
     # Not support marriage cards.
 }
+OCR_RETIRE_SELECTED = Digit(
+    RETIRE_COIN, threshold=64, name='OCR_RETIRE_SELECTED')
 
 
 class Retirement(Enhancement):
@@ -121,7 +125,10 @@ class Retirement(Enhancement):
                     continue
             if self.appear_then_click(SHIP_CONFIRM, offset=(30, 30), interval=2):
                 continue
-            if self.appear_then_click(SHIP_CONFIRM_2, offset=(30, 30), interval=2):
+            if self.appear(SHIP_CONFIRM_2, offset=(30, 30), interval=2):
+                if self.config.RETIRE_KEEP_COMMON_CV and not self.HAVE_KEEPED_CV:
+                    self.keep_one_common_cv()
+                self.device.click(SHIP_CONFIRM_2)
                 continue
             if self.appear_then_click(EQUIP_CONFIRM, offset=(30, 30), interval=2):
                 continue
@@ -175,6 +182,9 @@ class Retirement(Enhancement):
         end = False
         total = 0
 
+        if self.config.RETIRE_KEEP_COMMON_CV:
+            self.HAVE_KEEPED_CV = False
+
         while 1:
             self.handle_info_bar()
 
@@ -218,6 +228,9 @@ class Retirement(Enhancement):
         self._retirement_set_sort_method('ASC')
         self._retirement_set_common_ship_filter()
         total = 0
+
+        if self.config.RETIRE_KEEP_COMMON_CV:
+            self.HAVE_KEEPED_CV = False
 
         while amount:
             selected = self._retirement_choose(amount=10 if amount > 10 else amount, target_rarity=rarity)
@@ -275,3 +288,60 @@ class Retirement(Enhancement):
         self.config.DOCK_FULL_TRIGGERED = True
 
         return total
+
+    def _retire_select_one(self, button, skip_first_screenshot=True):
+        """
+        Args:
+            button (Button): Ship button to select
+            skip_first_screenshot:
+        """
+        before = OCR_RETIRE_SELECTED.ocr(self.device.image)
+        for _ in range(0,5):
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            self.device.click(button)
+            self.wait_until_stable(RETIRE_COIN)
+
+            current = OCR_RETIRE_SELECTED.ocr(self.device.image)
+            if current != before:
+                return True
+        return False
+
+    def get_common_rarity_cv(self, offset=(30, 30)):
+        """
+        Returns:
+            Button:
+        """
+        # TODO use alConfig
+        template = globals()[f'TEMPLATE_{self.config.RETIRE_COMMON_CV}_RETIRE']
+        sim, point = template.match_result(self.device.image)
+
+        if sim > self.config.COMMON_CV_THRESHOLD:
+            return Button(button=(
+            point[0], point[1], point[0]+offset[0], point[1]+offset[1]), color=None, area=None)
+
+        return None
+
+    def keep_one_common_cv(self):
+        button = self.get_common_rarity_cv()
+        if button is not None:
+            if self._retire_select_one(button):
+                self.HAVE_KEEPED_CV = True
+            else:
+                logger.warning('No ship retired, exit')
+                logger.info(
+                    'This may happens because some filters are set in dock')
+                exit(1)
+        
+
+if __name__ == '__main__':
+    from module.config.config import AzurLaneConfig
+    from module.device.device import Device
+    config = AzurLaneConfig('alas_cn')
+    az = Retirement(config, Device(config=config))
+    az.device.screenshot()
+    az.device.image.show()
+    az.retire_ships()
