@@ -2,11 +2,11 @@ from module.base.button import ButtonGrid
 from module.base.decorator import Config
 from module.base.utils import get_color, color_similar
 from module.combat.assets import GET_ITEMS_1
-from module.exception import ScriptError
 from module.logger import logger
 from module.retire.assets import *
 from module.retire.enhancement import Enhancement
-from module.ocr.ocr import Digit
+from module.base.timer import Timer
+
 
 
 CARD_GRIDS = ButtonGrid(
@@ -21,10 +21,6 @@ CARD_RARITY_COLORS = {
     'SSR': (248, 223, 107)
     # Not support marriage cards.
 }
-OCR_RETIRE_SELECTED = Digit(
-    RETIRE_COIN, threshold=64, name='OCR_RETIRE_SELECTED')
-
-
 class Retirement(Enhancement):
     _unable_to_enhance = False
 
@@ -295,18 +291,20 @@ class Retirement(Enhancement):
             button (Button): Ship button to select
             skip_first_screenshot:
         """
-        before = OCR_RETIRE_SELECTED.ocr(self.device.image)
-        for _ in range(0,5):
+
+        retire_coin_timer = Timer(2)
+        RETIRE_COIN.load_color(self.device.image)
+
+        while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
+            if self.appear(SHIP_CONFIRM_2, offset=(30, 30), interval=3):
+                self.device.click(button)
+                continue
 
-            self.device.click(button)
-            self.wait_until_stable(RETIRE_COIN)
-
-            current = OCR_RETIRE_SELECTED.ocr(self.device.image)
-            if current != before:
+            if retire_coin_timer.reached() and not self.appear(RETIRE_COIN, threshold=0.97):
                 return True
         return False
 
@@ -316,10 +314,12 @@ class Retirement(Enhancement):
             Button:
         """
         # TODO use alConfig
-        template = globals()[f'TEMPLATE_{self.config.RETIRE_COMMON_CV}_RETIRE']
-        sim, point = template.match_result(self.device.image)
-
+        template = globals()[f'TEMPLATE_{self.config.COMMON_CV_NAME}']
+        sim, point = template.match_result(self.device.image.resize(size=(1189, 669)))
+        print(sim)
+        
         if sim > self.config.COMMON_CV_THRESHOLD:
+            point = (point[0]*155//144, point[1]*155//144)
             return Button(button=(
             point[0], point[1], point[0]+offset[0], point[1]+offset[1]), color=None, area=None)
 
@@ -328,7 +328,7 @@ class Retirement(Enhancement):
     def keep_one_common_cv(self):
         button = self.get_common_rarity_cv()
         if button is not None:
-            if self._retire_select_one(button):
+            if self._retire_select_one(button, skip_first_screenshot=False):
                 self.HAVE_KEEPED_CV = True
             else:
                 logger.warning('No ship retired, exit')
@@ -343,5 +343,5 @@ if __name__ == '__main__':
     config = AzurLaneConfig('alas_cn')
     az = Retirement(config, Device(config=config))
     az.device.screenshot()
-    az.device.image.show()
+
     az.retire_ships()

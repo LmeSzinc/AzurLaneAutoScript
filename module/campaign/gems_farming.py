@@ -37,31 +37,74 @@ class GemsFarming(CampaignRun, EquipmentChange):
 
         self.equipment_take_on()
 
-    def _ship_change_confirm(self, point, offset=(30, 30)):
+    def _ship_change_confirm(self, button):
 
-        self.dock_select_one(Button(button=(
-            point[0], point[1], point[0]+offset[0], point[1]+offset[1]), color=None, area=None))
+        self.dock_select_one(button)
         self.dock_filter_set_faster()
         self.dock_select_confirm(check_button=page_fleet.check_button)
 
     def get_common_rarity_cv(self):
         """
         Returns:
-            Point:
+            Button:
         """
-        # TODO use alConfig
-        sim, point = TEMPLATE_BOGUE.match_result(self.device.screenshot())
+        DOCK_SCROLL.total -= 14  # The bottom of the scroll is covered.
+        if DOCK_SCROLL.appear(main=self):
+            DOCK_SCROLL.set_bottom(main=self, skip_first_screenshot=True)
+            level_grids = CARD_BOTTOM_LEVEL_GRIDS
+            card_grids = CARD_BOTTOM_GRIDS
+        else:
+            level_grids = CARD_LEVEL_GRIDS
+            card_grids = CARD_GRIDS
+        DOCK_SCROLL.total += 14  # Revert
 
-        if sim > SIM_VALUE:
-            return point
 
-        for _ in range(0, 15):
-            self._equipment_swipe()
+        ocr = LevelOcr(level_grids.buttons, name='DOCK_LEVEL_OCR')
+        list_level = ocr.ocr(self.device.image)
 
-            sim, point = TEMPLATE_BOGUE.match_result(self.device.screenshot())
+        for button, level in zip(card_grids.buttons, list_level):
+            if level == 1:
+                template = globals()[f'TEMPLATE_{self.config.COMMON_CV_NAME}']
+                if template.match(self.device.image.crop(button.area), similarity=SIM_VALUE):
+                    return button
 
-            if sim > SIM_VALUE:
-                return point
+        return None
+
+    def get_common_rarity_dd(self):
+        """
+        Returns:
+            Button:
+        """
+        DOCK_SCROLL.total -= 14  # The bottom of the scroll is covered.
+        if DOCK_SCROLL.appear(main=self):
+            DOCK_SCROLL.set_bottom(main=self, skip_first_screenshot=True)
+            level_grids = CARD_BOTTOM_LEVEL_GRIDS
+            card_grids = CARD_BOTTOM_GRIDS
+        else:
+            level_grids = CARD_LEVEL_GRIDS
+            card_grids = CARD_GRIDS
+        DOCK_SCROLL.total += 14  # Revert
+
+        if DOCK_SCROLL.appear(main=self):
+            DOCK_SCROLL.set_bottom(main=self, skip_first_screenshot=True)
+            emotion_grids = CARD_BOTTOM_EMOTION_GRIDS
+        else:
+            emotion_grids = CARD_EMOTION_GRIDS
+        DOCK_SCROLL.total += 14  # Revert
+
+
+        ocr = LevelOcr(level_grids.buttons, name='DOCK_LEVEL_OCR')
+        list_level = ocr.ocr(self.device.image)
+        print(list_level)
+
+        for button, level in zip(card_grids.buttons, list_level):
+            if level == 1:
+                self.device.image.crop(button.area).show()
+                template = globals()[f'TEMPLATE_{self.config.COMMON_CV_NAME}']
+                sim, _ = template.match_result(self.device.image.crop(button.area))
+                print(sim)
+                if template.match(self.device.image.crop(button.area), similarity=SIM_VALUE):
+                    return button
 
         return None
 

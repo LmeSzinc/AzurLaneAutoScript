@@ -57,20 +57,25 @@ class EquipmentChange(Equipment):
 
         self.equip_sidebar_ensure(2)
 
+        self.ensure_no_info_bar(1)
+
         for index in range(0, 5):
 
             enter_button = globals()[
                 'EQUIP_TAKE_ON_{index}'.format(index=index)]
 
             while 1:
+
                 self.device.screenshot()
 
-                if self.appear_then_click(enter_button, interval=5):
+                if self.appear(enter_button, offset=(5,5), threshold=0.90, interval=2):
+                    self.device.click(enter_button)
                     self._find_equip(index)
                     self.wait_until_stable(UPGRADE_QUIT)
                     continue
 
-                if TEMPLATE_EQUIP_TAKE_ON_CHECK.match(self.device.image.crop(enter_button.area), similarity=0.5):
+                if self.info_bar_count():
+                    self.ensure_no_info_bar(1)
                     break
 
     @Config.when(DEVICE_CONTROL_METHOD='minitouch')

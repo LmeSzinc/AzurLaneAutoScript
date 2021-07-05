@@ -42,8 +42,10 @@ CARD_GRIDS = ButtonGrid(
     origin=(93, 76), delta=(164 + 2 / 3, 227), button_shape=(138, 204), grid_shape=(7, 2), name='CARD')
 CARD_RARITY_GRIDS = CARD_GRIDS.crop(area=(0, 0, 138, 5), name='RARITY')
 CARD_LEVEL_GRIDS = CARD_GRIDS.crop(area=(80, 4, 138, 27), name='LEVEL')
+CARD_EMOTION_GRIDS = CARD_GRIDS.crop(area=(25, 30, 49, 48), name='EMOTION')
 CARD_BOTTOM_GRIDS = CARD_GRIDS.move(vector=(0, 94), name='CARD')
 CARD_BOTTOM_LEVEL_GRIDS = CARD_LEVEL_GRIDS.move(vector=(0, 94), name='LEVEL')
+CARD_BOTTOM_EMOTION_GRIDS = CARD_EMOTION_GRIDS.move(vector=(0, 94), name='EMOTION')
 DOCK_SCROLL = Scroll(DOCK_SCROLL, color=(247, 211, 66), name='DOCK_SCROLL')
 
 OCR_DOCK_SELECTED = DigitCounter(DOCK_SELECTED, threshold=64, name='OCR_DOCK_SELECTED')
