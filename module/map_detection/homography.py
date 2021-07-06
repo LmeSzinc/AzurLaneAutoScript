@@ -9,6 +9,7 @@ from module.exception import MapDetectionError
 from module.logger import logger
 from module.map_detection.perspective import Perspective
 from module.map_detection.utils import *
+from module.map_detection.utils_assets import *
 
 
 class Homography:
@@ -332,11 +333,11 @@ class Homography:
         mid_left, _, mid_right, _ = area.flatten()
 
         hori = lines[(np.deg2rad(90 - theta_th) < theta) & (theta < np.deg2rad(90 + theta_th))]
-        hori = Lines(hori, is_horizontal=True, config=self.config).group()
+        hori = Lines(hori, is_horizontal=True).group()
         vert = lines[(theta < np.deg2rad(theta_th)) | (np.deg2rad(180 - theta_th) < theta)]
         vert = [[-rho, theta - np.pi] if rho < 0 else [rho, theta] for rho, theta in vert]
         vert = [[rho, theta] for rho, theta in vert if mid_left < rho < mid_right]
-        vert = Lines(vert, is_horizontal=False, config=self.config).group()
+        vert = Lines(vert, is_horizontal=False).group()
 
         self._map_edge_count = (len(vert), len(hori))
 
@@ -383,12 +384,12 @@ class Homography:
             grids[loca] = points
         shape = np.max(list(grids.keys()), axis=0)
 
-        hori = Points([640, grids[(0, 0)][1, 1]], config=self.config).link(None, is_horizontal=True)
+        hori = Points([640, grids[(0, 0)][1, 1]]).link(None, is_horizontal=True)
         for y in range(shape[1] + 1):
-            hori = hori.add(Points([640, grids[(0, y)][3, 1]], config=self.config).link(None, is_horizontal=True))
-        vert = Points(grids[(0, 0)][1], config=self.config).link(grids[(0, shape[1])][3])
+            hori = hori.add(Points([640, grids[(0, y)][3, 1]]).link(None, is_horizontal=True))
+        vert = Points(grids[(0, 0)][1]).link(grids[(0, shape[1])][3])
         for x in range(shape[0] + 1):
-            vert = vert.add(Points(grids[(x, 0)][1], config=self.config).link(grids[(x, shape[1])][3]))
+            vert = vert.add(Points(grids[(x, 0)][1]).link(grids[(x, shape[1])][3]))
         return hori, vert
 
     def draw(self, lines=None, bg=None, expend=0):

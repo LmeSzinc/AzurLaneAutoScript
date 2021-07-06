@@ -100,23 +100,21 @@ class GuildOperations(GuildBase):
         # Offset inside to avoid clicking on edge
         pad = 5
 
-        def point_to_entrance_1(point):
-            """ Get expand button """
-            area = area_limit(area_offset(area=(-257, 14, 12, 51), offset=point), detection_area)
-            return Button(area=area, color=(), button=area_pad(area, pad), name='DISPATCH_ENTRANCE_1')
+        list_expand = []
+        list_enter = []
+        dots = TEMPLATE_OPERATIONS_RED_DOT.match_multi(self.image_area(detection_area), threshold=5)
+        logger.info(f'Active operations found: {len(dots)}')
+        for button in dots:
+            button = button.move(vector=detection_area[:2])
+            expand = button.crop(area=(-257, 14, 12, 51), name='DISPATCH_ENTRANCE_1')
+            enter = button.crop(area=(-257, -109, 12, -1), name='DISPATCH_ENTRANCE_2')
+            for b in [expand, enter]:
+                b.area = area_limit(b.area, detection_area)
+                b._button = area_pad(b.area, pad)
+            list_expand.append(expand)
+            list_enter.append(enter)
 
-        def point_to_entrance_2(point):
-            """ Get enter button """
-            area = area_limit(area_offset(area=(-257, -109, 12, -1), offset=point), detection_area)
-            return Button(area=area, color=(), button=area_pad(area, pad), name='DISPATCH_ENTRANCE_2')
-
-        # Scan image and must have similarity greater than 0.85
-        points = TEMPLATE_OPERATIONS_RED_DOT.match_multi(self.device.image.crop(detection_area))
-        points += detection_area[:2]
-        points = Points(points, config=self.config).group(threshold=5)
-        logger.info(f'Active operations found: {len(points)}')
-
-        return [point_to_entrance_1(point) for point in points], [point_to_entrance_2(point) for point in points]
+        return list_expand, list_enter
 
     def _guild_operations_dispatch_swipe(self, skip_first_screenshot=True):
         """

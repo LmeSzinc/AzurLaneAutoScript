@@ -140,6 +140,19 @@ def area_limit(area1, area2):
     return (max(area1[0], area2[0]), max(area1[1], area2[1]), min(area1[2], area2[2]), min(area1[3], area2[3]))
 
 
+def area_size(area):
+    """
+    Area size or shape.
+
+    Args:
+        area (tuple): (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
+
+    Returns:
+        tuple: (x, y).
+    """
+    return (area[2] - area[0], area[3] - area[1])
+
+
 def point_limit(point, area):
     """
     Limit point in an area.

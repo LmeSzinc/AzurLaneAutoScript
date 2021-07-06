@@ -112,12 +112,17 @@ class Retirement(Enhancement):
         else:
             return False
 
-    def _retirement_confirm(self):
+    def _retirement_confirm(self, skip_first_screenshot=True):
         executed = False
+        backup, self._popup_offset = self._popup_offset, (20, 50)
         while 1:
-            self.device.screenshot()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
             if self.config.RETIRE_SR or self.config.RETIRE_SSR or self.config.RETIREMENT_METHOD == 'one_click_retire':
-                if self.appear_then_click(SR_SSR_CONFIRM, offset=(10, 50), interval=2):
+                if self.handle_popup_confirm('RETIRE_SR_SSR'):
                     continue
             if self.appear_then_click(SHIP_CONFIRM, offset=(30, 30), interval=2):
                 continue
@@ -143,6 +148,8 @@ class Retirement(Enhancement):
                 self.handle_info_bar()
                 self.device.screenshot()
                 break
+
+        self._popup_offset = backup
 
     def retirement_appear(self):
         return self.appear(RETIRE_APPEAR_1, offset=30) \
