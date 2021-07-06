@@ -1,5 +1,6 @@
 from module.campaign.run import CampaignRun
 from module.combat.level import LevelOcr
+from module.ocr.ocr import Digit
 from module.equipment.assets import *
 from module.equipment.fleet_equipment import OCR_FLEET_INDEX
 from module.retire.dock import *
@@ -48,25 +49,28 @@ class GemsFarming(CampaignRun, EquipmentChange):
         Returns:
             Button:
         """
-        DOCK_SCROLL.total -= 14  # The bottom of the scroll is covered.
-        if DOCK_SCROLL.appear(main=self):
-            DOCK_SCROLL.set_bottom(main=self, skip_first_screenshot=True)
-            level_grids = CARD_BOTTOM_LEVEL_GRIDS
-            card_grids = CARD_BOTTOM_GRIDS
-        else:
-            level_grids = CARD_LEVEL_GRIDS
-            card_grids = CARD_GRIDS
-        DOCK_SCROLL.total += 14  # Revert
 
+        level_grids = CARD_LEVEL_GRIDS
+        card_grids = CARD_GRIDS
+
+        template = globals()[f'TEMPLATE_{self.config.COMMON_CV_NAME}']
+
+        self.dock_sort_method_dsc_set()
 
         ocr = LevelOcr(level_grids.buttons, name='DOCK_LEVEL_OCR')
         list_level = ocr.ocr(self.device.image)
 
         for button, level in zip(card_grids.buttons, list_level):
-            if level == 1:
-                template = globals()[f'TEMPLATE_{self.config.COMMON_CV_NAME}']
-                if template.match(self.device.image.crop(button.area), similarity=SIM_VALUE):
-                    return button
+            if level == 1 and template.match(self.device.image.crop(button.area), similarity=SIM_VALUE):
+                return button
+
+        self.dock_sort_method_dsc_set(False)
+
+        list_level = ocr.ocr(self.device.image)
+
+        for button, level in zip(card_grids.buttons, list_level):
+            if level == 1 and template.match(self.device.image.crop(button.area), similarity=SIM_VALUE):
+                return button
 
         return None
 
@@ -75,36 +79,21 @@ class GemsFarming(CampaignRun, EquipmentChange):
         Returns:
             Button:
         """
-        DOCK_SCROLL.total -= 14  # The bottom of the scroll is covered.
-        if DOCK_SCROLL.appear(main=self):
-            DOCK_SCROLL.set_bottom(main=self, skip_first_screenshot=True)
-            level_grids = CARD_BOTTOM_LEVEL_GRIDS
-            card_grids = CARD_BOTTOM_GRIDS
-        else:
-            level_grids = CARD_LEVEL_GRIDS
-            card_grids = CARD_GRIDS
-        DOCK_SCROLL.total += 14  # Revert
 
-        if DOCK_SCROLL.appear(main=self):
-            DOCK_SCROLL.set_bottom(main=self, skip_first_screenshot=True)
-            emotion_grids = CARD_BOTTOM_EMOTION_GRIDS
-        else:
-            emotion_grids = CARD_EMOTION_GRIDS
-        DOCK_SCROLL.total += 14  # Revert
+        level_grids = CARD_LEVEL_GRIDS
+        card_grids = CARD_GRIDS
+        emotion_grids = CARD_EMOTION_GRIDS
 
 
-        ocr = LevelOcr(level_grids.buttons, name='DOCK_LEVEL_OCR')
-        list_level = ocr.ocr(self.device.image)
-        print(list_level)
+        level_ocr = LevelOcr(level_grids.buttons, name='DOCK_LEVEL_OCR', threshold=64)
+        list_level = level_ocr.ocr(self.device.image)
+        emotion_ocr = Digit(emotion_grids.buttons, name='DOCK_EMOTION_OCR', threshold=176)
+        list_emotion = emotion_ocr.ocr(self.device.image)
 
-        for button, level in zip(card_grids.buttons, list_level):
-            if level == 1:
+        for button, level, emotion in zip(card_grids.buttons, list_level, list_emotion):
+            if level == 100 and emotion == 150:
                 self.device.image.crop(button.area).show()
-                template = globals()[f'TEMPLATE_{self.config.COMMON_CV_NAME}']
-                sim, _ = template.match_result(self.device.image.crop(button.area))
-                print(sim)
-                if template.match(self.device.image.crop(button.area), similarity=SIM_VALUE):
-                    return button
+                return button
 
         return None
 
@@ -142,4 +131,4 @@ if __name__ == '__main__':
     config = AzurLaneConfig('alas_cn')
     az = GemsFarming(config, Device(config=config))
     az.device.screenshot()
-    az.flagship_change()
+    az.get_common_rarity_dd()
