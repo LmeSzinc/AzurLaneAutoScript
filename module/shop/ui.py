@@ -1,19 +1,18 @@
 import numpy as np
 from module.base.button import ButtonGrid
+from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import *
 from module.logger import logger
 from module.shop.assets import *
 from module.ui.assets import BACK_ARROW
 from module.ui.page import page_munitions
+from module.ui.page_bar import PageBar
 from module.ui.ui import UI
 
 SHOP_LOAD_ENSURE_BUTTONS = [SHOP_GENERAL_CHECK, SHOP_GUILD_CHECK,
                             SHOP_MERIT_CHECK, SHOP_PROTOTYPE_CHECK,
                             SHOP_CORE_CHECK]
-
-SHOP_BOTTOMBAR = ButtonGrid(
-    origin=(393, 637), delta=(182, 0), button_shape=(45, 15), grid_shape=(5, 1), name='SHOP_BOTTOMBAR')
 
 
 class ShopUI(UI):
@@ -51,11 +50,30 @@ class ShopUI(UI):
                 logger.warning('Wait for loaded assets is incomplete, ensure not guaranteed')
                 return False
 
-    def _shop_bottombar_click(self, index):
+    @cached_property
+    def _shop_bottombar(self):
         """
-        Performs the calculations necessary
-        to determine the index location on
-        bottombar and then click at that location
+        shop_bottombar 5 options
+            guild.
+            prototype.
+            core.
+            merit.
+            general.
+        """
+        shop_bottombar = ButtonGrid(
+            origin=(393, 637), delta=(182, 0),
+            button_shape=(45, 15), grid_shape=(5, 1),
+            name='SHOP_BOTTOMBAR')
+
+        return PageBar(grid=shop_bottombar,
+                       inactive_color=(107, 121, 132),
+                       is_reversed=False,
+                       name='shop_bottombar')
+
+    def shop_bottombar_ensure(self, index):
+        """
+        Ensure able to transition to page and
+        page has loaded to completion
 
         Args:
             index (int):
@@ -64,92 +82,14 @@ class ShopUI(UI):
                 3 for core.
                 2 for merit.
                 1 for general.
-
-        Returns:
-            bool: if changed.
-        """
-        if index <= 0 or index > 5:
-            logger.warning(f'Bottombar index cannot be clicked, {index}, limit to 1 through 5 only')
-            return False
-
-        current = 0
-        total = 0
-
-        for idx, button in enumerate(SHOP_BOTTOMBAR.buttons()):
-            image = np.array(self.image_area(button))
-            if np.sum(image[:, :, 0] > 235) > 100:
-                current = idx + 1
-                total = idx + 1
-                continue
-            if np.sum(color_similarity_2d(image, color=(107, 121, 132)) > 221) > 100:
-                total = idx + 1
-            else:
-                break
-
-        if not current:
-            # No current, may appear erroneous but
-            # able to recover
-            logger.info('No shop bottombar active.')
-        if total == 3:
-            current = 4 - current
-        elif total == 4:
-            current = 5 - current
-        elif total == 5:
-            current = 6 - current
-        else:
-            logger.warning('Shop bottombar total count error.')
-
-        logger.attr('Shop_bottombar', f'{current}/{total}')
-        if current == index:
-            return False
-
-        diff = total - index
-        if diff >= 0:
-            self.device.click(SHOP_BOTTOMBAR[diff, 0])
-        else:
-            logger.warning(f'Target index {index} cannot be clicked')
-        return True
-
-    def shop_bottombar_ensure(self, index, skip_first_screenshot=True):
-        """
-        Performs action to ensure the specified
-        index bottombar is transitioned into
-        Maximum of 3 attempts
-
-        Args:
-            index (int):
-                5 for guild.
-                4 for prototype.
-                3 for core.
-                2 for merit.
-                1 for general.
-            skip_first_screenshot (bool):
 
         Returns:
             bool: bottombar click ensured or not
         """
-        if index <= 0 or index > 5:
-            logger.warning(f'Bottombar index cannot be ensured, {index}, limit 1 through 5 only')
-            return False
-
-        counter = 0
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            if self._shop_bottombar_click(index):
-                if counter >= 2:
-                    logger.warning('Bottombar could not be ensured')
-                    return False
-                counter += 1
-                self.device.sleep((0.5, 0.8))
-                continue
-            else:
-                if not self.shop_load_ensure():
-                    return False
-                return True
+        if self._shop_bottombar.ensure(self, index) \
+                and self.shop_load_ensure():
+            return True
+        return False
 
     def shop_refresh(self, skip_first_screenshot=True):
         """
@@ -205,7 +145,7 @@ class ShopUI(UI):
                 self.device.screenshot()
 
             if self.appear(SHOP_GUILD_SWIPE_END, offset=(5, 5)) or \
-               self.appear(SHOP_GENERAL_SWIPE_END, offset=(5, 5)):
+                    self.appear(SHOP_GENERAL_SWIPE_END, offset=(5, 5)):
                 return True
 
             backup = self.config.cover(DEVICE_CONTROL_METHOD='minitouch')

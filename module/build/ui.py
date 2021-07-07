@@ -1,22 +1,15 @@
 import numpy as np
 from module.base.button import ButtonGrid
+from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import *
 from module.build.assets import *
 from module.logger import logger
 from module.ui.page import page_build
+from module.ui.page_bar import PageBar
 from module.ui.ui import UI
 
 BUILD_LOAD_ENSURE_BUTTONS = [SHOP_MEDAL_CHECK, BUILD_SUBMIT_ORDERS, BUILD_FINISH_ORDERS]
-
-BUILD_SIDEBAR = ButtonGrid(
-    origin=(21, 126), delta=(0, 98), button_shape=(60, 80), grid_shape=(1, 5), name='BUILD_SIDEBAR')
-
-BUILD_BOTTOMBAR = ButtonGrid(
-    origin=(262, 615), delta=(209, 0), button_shape=(70, 49), grid_shape=(4, 1), name='BUILD_BOTTOMBAR')
-
-SHOP_BOTTOMBAR = ButtonGrid(
-    origin=(569, 637), delta=(208, 0), button_shape=(70, 49), grid_shape=(2, 1), name='SHOP_BOTTOMBAR')
 
 
 class BuildUI(UI):
@@ -54,11 +47,42 @@ class BuildUI(UI):
                 logger.warning('Wait for loaded assets is incomplete, ensure not guaranteed')
                 return False
 
-    def _build_sidebar_click(self, index):
+    @cached_property
+    def _build_sidebar(self):
         """
-        Performs the calculations necessary
-        to determine the index location on
-        sidebar and then click at that location
+        limited_sidebar 5 options
+            build.
+            limited_build.
+            orders.
+            shop.
+            retire.
+
+        regular_sidebar 4 options
+            build.
+            orders.
+            shop.
+            retire.
+        """
+        build_sidebar = ButtonGrid(
+            origin=(21, 126), delta=(0, 98),
+            button_shape=(60, 80), grid_shape=(1, 5),
+            name='BUILD_SIDEBAR')
+
+        def additional(total, index):
+            if total == 4 and index >= 4:
+                index -= 1
+            return index
+
+        return PageBar(grid=build_sidebar,
+                       inactive_color=(140, 162, 181),
+                       additional=additional,
+                       is_reversed=False,
+                       name='build_sidebar')
+
+    def build_sidebar_ensure(self, index):
+        """
+        Ensure able to transition to page and
+        page has loaded to completion
 
         Args:
             index (int):
@@ -76,225 +100,97 @@ class BuildUI(UI):
                 1   for retire.
 
         Returns:
-            bool: if changed.
+            bool: bottombar click ensured or not
         """
-        if index <= 0 or index > 5:
-            logger.warning(f'Sidebar index cannot be clicked, {index}, limit to 1 through 5 only')
-            return False
-
-        current = 0
-        total = 0
-
-        for idx, button in enumerate(BUILD_SIDEBAR.buttons()):
-            image = np.array(self.image_area(button))
-            if np.sum(image[:, :, 0] > 235) > 100:
-                current = idx + 1
-                total = idx + 1
-                continue
-            if np.sum(color_similarity_2d(image, color=(140, 162, 181)) > 221) > 100:
-                total = idx + 1
-            else:
-                break
-        if not current:
-            logger.warning('No build sidebar active.')
-        if total == 3:
-            current = 4 - current
-        elif total == 4:
-            current = 5 - current
-        elif total == 5:
-            current = 6 - current
-        else:
-            logger.warning('Build sidebar total count error.')
-
-        # This is a regular sidebar, decrement
-        # the index by 1 if requested 4 or greater
-        if total == 4 and index >= 4:
-            index -= 1
-
-        logger.attr('Build_sidebar', f'{current}/{total}')
-        if current == index:
-            return False
-
-        diff = total - index
         if index == 1:
-            logger.warning('Retire sidebar option is not supported')
-        elif diff >= 0:
-            self.device.click(BUILD_SIDEBAR[0, diff])
-        else:
-            logger.warning(f'Target index {index} cannot be clicked')
-        return True
-
-    def build_sidebar_ensure(self, index, skip_first_screenshot=True):
-        """
-        Performs action to ensure the specified
-        index sidebar is transitioned into
-        Maximum of 3 attempts
-
-        Args:
-            index (int):
-                limited sidebar
-                5 for build.
-                3 for limited_build.
-                4 for orders.
-                2 for exchange.
-                1 for retire.
-
-                regular sidebar
-                5   for build.
-                3/4 for orders.
-                2   for exchange.
-                1   for retire.
-            skip_first_screenshot (bool):
-
-        Returns:
-            bool: sidebar click ensured or not
-        """
-        if index <= 0 or index > 5:
-            logger.warning(f'Sidebar index cannot be ensured, {index}, limit 1 through 5 only')
+            logger.warning('Transitions to "retire" is not supported')
             return False
 
-        counter = 0
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
+        if self._build_sidebar.ensure(self, index) \
+                and self.build_load_ensure():
+            return True
+        return False
 
-            if self._build_sidebar_click(index):
-                if counter >= 2:
-                    logger.warning('Sidebar could not be ensured')
-                    return False
-                counter += 1
-                self.device.sleep((0.5, 0.8))
-                continue
-            else:
-                if not self.build_load_ensure():
-                    return False
-                return True
-
-    def _build_bottombar_click(self, index, grid):
+    @cached_property
+    def _construct_bottombar(self):
         """
-        Performs the calculations necessary
-        to determine the index location on
-        bottombar and then click at that location
+        construct_bottombar 4 options
+            event.
+            light.
+            heavy.
+            special.
+        """
+        construct_bottombar = ButtonGrid(
+            origin=(262, 615), delta=(209, 0),
+            button_shape=(70, 49), grid_shape=(4, 1),
+            name='CONSTRUCT_BOTTOMBAR')
+
+        def additional(total, index):
+            if total == 3 and index >= 2:
+                index -= 1
+            return index
+
+        return PageBar(grid=construct_bottombar,
+                       inactive_color=(189, 231, 247),
+                       additional=additional,
+                       is_reversed=True,
+                       name='construct_bottombar')
+
+    @cached_property
+    def _exchange_bottombar(self):
+        """
+        exchange_bottombar 2 options
+            ships.
+            items.
+        """
+        exchange_bottombar = ButtonGrid(
+            origin=(569, 637), delta=(208, 0),
+            button_shape=(70, 49), grid_shape=(2, 1),
+            name='EXCHANGE_BOTTOMBAR')
+
+        return PageBar(grid=exchange_bottombar,
+                       inactive_color=(189, 231, 247),
+                       is_reversed=True,
+                       name='exchange_bottombar')
+
+    def _build_bottombar(self, is_construct=True):
+        """
+        Return corresponding PageBar type based on
+        parameter 'is_construct'
+
+        Returns:
+            PageBar
+        """
+        if is_construct:
+            return self._construct_bottombar
+        else:
+            return self._exchange_bottombar
+
+    def build_bottombar_ensure(self, index, is_construct=True):
+        """
+        Ensure able to transition to page and
+        page has loaded to completion
 
         Args:
             index (int):
-                build_sidebar
+                construct_bottombar
                 1 for event.
                 2 for light.
                 3 for heavy.
                 4 for special.
 
-                shop_sidebar
+                exchange_bottombar
                 1 for ships.
                 2 for items.
-
-        Returns:
-            bool: if changed.
-        """
-        if index <= 0 or index > 4:
-            logger.warning(f'Bottombar index cannot be clicked, {index}, limit to 1 through 4 only')
-            return False
-
-        current = 0
-        total = 0
-
-        buttons = grid.buttons()
-        buttons.reverse()
-        for idx, button in enumerate(buttons):
-            image = np.array(self.image_area(button))
-            if np.sum(image[:, :, 0] > 235) > 100:
-                current = idx + 1
-                total = idx + 1
-                continue
-            if np.sum(color_similarity_2d(image, color=(189, 231, 247)) > 221) > 100:
-                total = idx + 1
-            else:
-                break
-        if not current:
-            logger.warning('No build bottombar active.')
-        if total == 2:
-            current = 3 - current
-        elif total == 3:
-            current = 4 - current
-        elif total == 4:
-            current = 5 - current
-        else:
-            logger.warning('Build bottombar total count error.')
-
-        if total == 3 and index >= 2:
-            index -= 1
-
-        logger.attr('Build_bottombar', f'{current}/{total}')
-        if current == index:
-            return False
-
-        diff = total - index
-        if diff >= 0:
-            self.device.click(buttons[diff])
-        else:
-            logger.warning(f'Target index {index} cannot be clicked')
-        return True
-
-    def build_bottombar_ensure(self, sidebar_index, bottombar_index, skip_first_screenshot=True):
-        """
-        Performs action to ensure the specified
-        index bottombar is transitioned into
-        Maximum of 3 attempts
-
-        Args:
-            sidebar_index (int):
-                only allow 5 (build) or 2 (shop), the only UIs which have a bottombar
-
-            bottombar_index (int):
-                build_sidebar
-                1 for event.
-                2 for light.
-                3 for heavy.
-                4 for special.
-
-                shop_sidebar
-                1 for ships.
-                2 for items.
-            skip_first_screenshot (bool):
+            is_construct (bool):
 
         Returns:
             bool: bottombar click ensured or not
         """
-        if sidebar_index != 5 and sidebar_index != 2:
-            return False
-
-        if not self.build_sidebar_ensure(sidebar_index):
-            return False
-
-        if sidebar_index == 5:
-            if bottombar_index <= 0 or bottombar_index > 4:
-                logger.warning(f'Bottombar index for build sidebar cannot be ensured, {index}, limit 1 through 4 only')
-                return False
-            bottombar = BUILD_BOTTOMBAR
-        else:
-            if bottombar_index <= 0 or bottombar_index > 2:
-                logger.warning(f'Bottombar index for shop sidebar cannot be ensured, {index}, limit 1 through 2 only')
-                return False
-            bottombar = SHOP_BOTTOMBAR
-
-        counter = 0
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            if self._build_bottombar_click(bottombar_index, bottombar):
-                if counter >= 2:
-                    logger.warning('Bottombar could not be ensured')
-                    return False
-                counter += 1
-                self.device.sleep((0.5, 0.8))
-                continue
-            else:
-                return True
+        if self._build_bottombar(is_construct).ensure(self, index) \
+                and self.build_load_ensure():
+            return True
+        return False
 
     def ui_goto_build(self, sidebar_index, bottombar_index):
         """
@@ -313,7 +209,9 @@ class BuildUI(UI):
         self.ui_ensure(destination=page_build)
 
         if sidebar_index == 5 or sidebar_index == 2:
-            if not self.build_bottombar_ensure(sidebar_index, bottombar_index):
+            is_construct = True if sidebar_index == 5 else False
+            if not self.build_sidebar_ensure(sidebar_index) \
+                    or not self.build_bottombar_ensure(bottombar_index, is_construct):
                 return False
         elif not self.build_sidebar_ensure(sidebar_index):
             return False

@@ -133,8 +133,8 @@ class RewardShop(BuildUI, ShopUI, GeneralShop, GuildShop, MedalShop, MeritShop):
                                       selection=self.config.SHOP_MEDAL_SELECTION)
                     else:
                         logger.warning('Failed to arrive at expected '
-                                       'build interface with sidebarindex=2, '
-                                       f'bottombarindex={_}, try again '
+                                       'build interface with sidebar_index=2, '
+                                       f'bottombar_index={_}, try again '
                                        'next time')
                         record_save = False
                 if record_save:
