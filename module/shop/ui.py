@@ -67,7 +67,6 @@ class ShopUI(UI):
 
         return PageBar(grid=shop_bottombar,
                        inactive_color=(107, 121, 132),
-                       is_reversed=False,
                        name='shop_bottombar')
 
     def shop_bottombar_ensure(self, index):

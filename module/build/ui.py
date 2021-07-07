@@ -76,7 +76,6 @@ class BuildUI(UI):
         return PageBar(grid=build_sidebar,
                        inactive_color=(140, 162, 181),
                        additional=additional,
-                       is_reversed=False,
                        name='build_sidebar')
 
     def build_sidebar_ensure(self, index):
