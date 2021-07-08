@@ -36,7 +36,7 @@ class RaidDaily(RaidRun):
         name = name if name else self.config.RAID_NAME
         self.ui_ensure(page_raid)
 
-        if True:
+        if self.config.RAID_HARD:
             remain = self.get_remain(mode='hard')
             if remain > 0:
                 super().run(name=name, mode='hard', total=remain)
@@ -52,7 +52,3 @@ class RaidDaily(RaidRun):
                 super().run(name=name, mode='easy', total=remain)
 
         self.reward_recover_daily_reward_settings()
-
-
-az =RaidDaily('alas')
-az.run()
