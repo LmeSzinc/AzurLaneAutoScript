@@ -212,14 +212,14 @@ class FastForwardHandler(AutoSearchHandler):
 
         """
         confirm_timer = Timer(1).start()
-        clicked_threshold = 3
+        clicked_threshold = 0
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
 
-            if clicked_threshold < 0:
+            if clicked_threshold > 3:
                 break
 
             if self.appear(check_button, offset=(100, 50), interval=3):
@@ -229,11 +229,11 @@ class FastForwardHandler(AutoSearchHandler):
                 if (status == 'on' and not enabled) or (status == 'off' and enabled):
                     self.device.click(box_button)
 
-                clicked_threshold -= 1
+                clicked_threshold += 1
 
-            if confirm_timer.reached():
+            if not clicked_threshold and confirm_timer.reached():
                 logger.info('Map do not have 2x book setting')
-                return True
+                return False
 
         logger.warning(f'Wait time has expired; Cannot set 2x book setting')
         return False

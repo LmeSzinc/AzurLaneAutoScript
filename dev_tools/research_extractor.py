@@ -65,7 +65,7 @@ class TechnologyTemplate:
         item = load_lua(folder, 'item_data_statistics.lua', prefix=40)
         task = load_lua(folder, 'task_data_template.lua', prefix=38)
 
-        self.projects = []
+        self.projects = {}
         for key, value in tech.items():
             if key == 'all':
                 continue
@@ -77,7 +77,9 @@ class TechnologyTemplate:
             for i in project.output:
                 i.name = item[i.id]['name'].strip()
 
-            self.projects.append(project)
+            key = (project.series, project.name)
+            if key not in self.projects:
+                self.projects[key] = project
 
     def encode(self):
         lines = []
@@ -85,7 +87,7 @@ class TechnologyTemplate:
         lines.append("# Don't modified it manually.")
         lines.append('')
         lines.append('LIST_RESEARCH_PROJECT = [')
-        for project in self.projects:
+        for project in self.projects.values():
             lines.append('    ' + project.encode() + ',')
         lines.append(']')
 
