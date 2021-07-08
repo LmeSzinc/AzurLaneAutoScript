@@ -36,7 +36,13 @@ FILTER = Filter(FILTER_REGEX, FILTER_ATTR, FILTER_PRESET)
 def get_research_series(image):
     """
     Get research series using a simple color detection.
-    May not be able to detect 'IV' and 'V' in the future research series.
+    Counting white lines to detect Roman numerals.
+
+    -------               --- --   --
+     | | |   --> 3 lines   |   \   /   --> 3 lines
+     | | |                 |   \   /
+     | | |   --> 3 lines   |    \ /    --> 2 lines
+    -------               ---    v
 
     Args:
         image (PIL.Image.Image):
@@ -45,18 +51,22 @@ def get_research_series(image):
         list[int]: Such as [1, 1, 1, 2, 3]
     """
     result = []
-    parameters = {'height': 200}
+    # Set 'prominence = 50' to ignore possible noise.
+    parameters = {'height': 200, 'prominence': 50}
 
     for button in RESEARCH_SERIES:
-        im = np.array(image.crop(button.area).resize((46, 25)).convert('L'))
-        mid = np.mean(im[8:17, :], axis=0)
-        peaks, _ = signal.find_peaks(mid, **parameters)
-        series = len(peaks)
-        if 1 <= series <= 3:
-            result.append(series)
+        im = color_similarity_2d(image.crop(button.area).resize((46, 25)), color=(255, 255, 255))
+        peaks = [len(signal.find_peaks(row, **parameters)[0]) for row in im[2:-2]]
+        upper, lower = max(peaks), min(peaks)
+        # print(upper, lower)
+        if upper == lower and 1 <= upper <= 3:
+            series = upper
+        elif upper == 3 and lower == 2:
+            series = 4
         else:
-            result.append(0)
-            logger.warning(f'Unknown research series: button={button}, series={series}')
+            series = 0
+            logger.warning(f'Unknown research series: button={button}, upper={upper}, lower={lower}')
+        result.append(series)
 
     return result
 
@@ -126,16 +136,22 @@ def get_research_series_jp(image):
     Returns:
         series (string):
     """
-    # Set 'prominence = 15' to ignore possible noise.
-    parameters = {'height': 200, 'prominence': 15}
+    # Set 'prominence = 50' to ignore possible noise.
+    parameters = {'height': 200, 'prominence': 50}
+
     area = SERIES_DETAIL.area
-    im = np.array(image.crop(area).resize((46, 25)).convert('L'))
-    mid = np.mean(im[8:17, :], axis=0)
-    peaks, _ = signal.find_peaks(mid, **parameters)
-    series = len(peaks)
-    if not 1 <= series <= 3:
-        logger.warning(f'Unknown research series: series={series}')
+    im = color_similarity_2d(image.crop(area).resize((46, 25)), color=(255, 255, 255))
+    peaks = [len(signal.find_peaks(row, **parameters)[0]) for row in im[2:-2]]
+    upper, lower = max(peaks), min(peaks)
+    # print(upper, lower)
+    if upper == lower and 1 <= upper <= 3:
+        series = upper
+    elif upper == 3 and lower == 2:
+        series = 4
+    else:
         series = 0
+        logger.warning(f'Unknown research series: upper={upper}, lower={lower}')
+
     return f'S{series}'
 
 
