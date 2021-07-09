@@ -73,10 +73,9 @@ class BuildUI(UI):
                 index -= 1
             return index
 
-        return PageBar(grid=build_sidebar,
+        return PageBar(grids=build_sidebar,
                        inactive_color=(140, 162, 181),
-                       additional=additional,
-                       name='build_sidebar')
+                       additional=additional)
 
     def build_sidebar_ensure(self, index):
         """
@@ -129,11 +128,10 @@ class BuildUI(UI):
                 index -= 1
             return index
 
-        return PageBar(grid=construct_bottombar,
+        return PageBar(grids=construct_bottombar,
                        inactive_color=(189, 231, 247),
                        additional=additional,
-                       is_reversed=True,
-                       name='construct_bottombar')
+                       is_reversed=True)
 
     @cached_property
     def _exchange_bottombar(self):
@@ -147,10 +145,9 @@ class BuildUI(UI):
             button_shape=(70, 49), grid_shape=(2, 1),
             name='EXCHANGE_BOTTOMBAR')
 
-        return PageBar(grid=exchange_bottombar,
+        return PageBar(grids=exchange_bottombar,
                        inactive_color=(189, 231, 247),
-                       is_reversed=True,
-                       name='exchange_bottombar')
+                       is_reversed=True)
 
     def _build_bottombar(self, is_construct=True):
         """

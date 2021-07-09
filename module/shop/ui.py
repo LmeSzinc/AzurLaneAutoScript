@@ -9,6 +9,7 @@ from module.ui.assets import BACK_ARROW
 from module.ui.page import page_munitions
 from module.ui.page_bar import PageBar
 from module.ui.ui import UI
+from module.ui.navbar import NavBar
 
 SHOP_LOAD_ENSURE_BUTTONS = [SHOP_GENERAL_CHECK, SHOP_GUILD_CHECK,
                             SHOP_MERIT_CHECK, SHOP_PROTOTYPE_CHECK,
@@ -65,9 +66,8 @@ class ShopUI(UI):
             button_shape=(45, 15), grid_shape=(5, 1),
             name='SHOP_BOTTOMBAR')
 
-        return PageBar(grid=shop_bottombar,
-                       inactive_color=(107, 121, 132),
-                       name='shop_bottombar')
+        return PageBar(grids=shop_bottombar,
+                       inactive_color=(107, 121, 132))
 
     def shop_bottombar_ensure(self, index):
         """
