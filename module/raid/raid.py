@@ -1,14 +1,80 @@
+import numpy as np
+
 from module.campaign.run import OCR_OIL
 from module.combat.assets import *
 from module.combat.combat import Combat
 from module.logger import logger
 from module.map.map_operation import MapOperation
+from module.ocr.ocr import DigitCounter
 from module.raid.assets import *
 from module.ui.assets import RAID_CHECK
 
 
 class OilExhausted(Exception):
     pass
+
+
+class RaidCounter(DigitCounter):
+    def pre_process(self, image):
+        image = super().pre_process(image)
+        image = np.pad(image, ((2, 2), (0, 0)), mode='constant', constant_values=255)
+        return image
+
+
+def raid_name_shorten(name):
+    """
+    Args:
+        name (str): Raid name, such as raid_20200624, raid_20210708.
+
+    Returns:
+        str: Prefix of button name, such as ESSEX, SURUGA.
+    """
+    if name == 'raid_20200624':
+        return 'ESSEX'
+    elif name == 'raid_20210708':
+        return 'SURUGA'
+    else:
+        logger.warning(f'Unknown raid name: {name}')
+        exit(1)
+
+
+def raid_entrance(raid, mode):
+    """
+    Args:
+        raid (str): Raid name, such as raid_20200624, raid_20210708.
+        mode (str): easy, normal, hard
+
+    Returns:
+        Button:
+    """
+    key = f'{raid_name_shorten(raid)}_RAID_{mode.upper()}'
+    try:
+        return globals()[key]
+    except KeyError:
+        logger.warning(f'Raid entrance asset not exists: {key}')
+        exit(1)
+
+
+def raid_ocr(raid, mode):
+    """
+    Args:
+        raid (str): Raid name, such as raid_20200624, raid_20210708.
+        mode (str): easy, normal, hard
+
+    Returns:
+        RaidCounter:
+    """
+    raid = raid_name_shorten(raid)
+    key = f'{raid}_OCR_REMAIN_{mode.upper()}'
+    try:
+        button = globals()[key]
+        if raid == 'ESSEX':
+            return RaidCounter(button, letter=(57, 52, 255), threshold=128)
+        elif raid == 'SURUGA':
+            return RaidCounter(button, letter=(49, 48, 49), threshold=128)
+    except KeyError:
+        logger.warning(f'Raid entrance asset not exists: {key}')
+        exit(1)
 
 
 class Raid(MapOperation, Combat):
@@ -72,31 +138,13 @@ class Raid(MapOperation, Combat):
 
         return False
 
-    @staticmethod
-    def raid_entrance(mode):
-        """
-        Args:
-            mode (str): easy, normal, hard
-
-        Returns:
-            Button:
-        """
-        if mode == 'easy':
-            return RAID_EASY
-        elif mode == 'normal':
-            return RAID_NORMAL
-        elif mode == 'hard':
-            return RAID_HARD
-        else:
-            logger.warning(f'Unknown raid mode: {mode}')
-            exit(1)
-
     def raid_enter(self, mode):
         logger.hr('Raid Enter')
+        entrance = raid_entrance(raid=self.config.RAID_NAME, mode=mode)
         while 1:
             self.device.screenshot()
 
-            if self.appear_then_click(self.raid_entrance(mode), offset=(10, 10), interval=5):
+            if self.appear_then_click(entrance, offset=(10, 10), interval=5):
                 continue
             if self.appear_then_click(RAID_FLEET_PREPARATION, interval=5):
                 continue

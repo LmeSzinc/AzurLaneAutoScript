@@ -1,17 +1,10 @@
 from module.logger import logger
-from module.ocr.ocr import Digit
-from module.raid.assets import *
+from module.raid.raid import raid_ocr
 from module.raid.run import RaidRun
 from module.ui.page import page_raid
 
 RECORD_OPTION = ('DailyRecord', 'raid')
 RECORD_SINCE = (0,)
-
-LETTER = (57, 52, 255)
-THRESHOLD = 128
-OCR_EASY = Digit(OCR_REMAIN_EASY, letter=LETTER, threshold=THRESHOLD)
-OCR_NORMAL = Digit(OCR_REMAIN_NORMAL, letter=LETTER, threshold=THRESHOLD)
-OCR_HARD = Digit(OCR_REMAIN_HARD, letter=LETTER, threshold=THRESHOLD)
 
 
 class RaidDaily(RaidRun):
@@ -23,17 +16,8 @@ class RaidDaily(RaidRun):
         Returns:
             int:
         """
-        if mode == 'easy':
-            ocr = OCR_EASY
-        elif mode == 'normal':
-            ocr = OCR_NORMAL
-        elif mode == 'hard':
-            ocr = OCR_HARD
-        else:
-            logger.warning(f'Unknown raid mode: {mode}')
-            exit(1)
-
-        remain = ocr.ocr(self.device.image)
+        ocr = raid_ocr(raid=self.config.RAID_NAME, mode=mode)
+        remain, _, _ = ocr.ocr(self.device.image)
         logger.attr(f'{mode.capitalize()} Remain', remain)
         return remain
 

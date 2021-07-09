@@ -321,6 +321,12 @@ class UI(InfoHandler):
 
         return False
 
+    def ui_additional_page_meowfficer(self):
+        if self.appear_then_click(MEOWFFICER_INFO, offset=(30, 30), interval=5):
+            return True
+
+        return False
+
     # def ui_additional_page_commission(self):
     #     # Event commission in Vacation Lane.
     #     if self.appear(GAME_TIPS, offset=(20, 20), interval=1):
