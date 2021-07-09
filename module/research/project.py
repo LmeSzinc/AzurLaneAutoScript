@@ -26,7 +26,7 @@ FILTER_REGEX = re.compile('(s[1234])?'
                           '(neptune|monarch|ibuki|izumo|roon|saintlouis'
                           '|seattle|georgia|kitakaze|azuma|friedrich'
                           '|gascogne|champagne|cheshire|drake|mainz|odin'
-                          '|anchorage|hakuryu|agir|augustvonparseval|marcopolo)?'
+                          '|anchorage|hakuryu|agir|august|marcopolo)?'
                           '(dr|pry)?'
                           '([bcdeghqt])?'
                           '-?'
@@ -288,7 +288,7 @@ class ResearchProject:
         '(neptune|monarch|ibuki|izumo|roon|saintlouis'
         '|seattle|georgia|kitakaze|azuma|friedrich'
         '|gascogne|champagne|cheshire|drake|mainz|odin'
-        '|anchorage|hakuryu|agir|augustvonparseval|marcopolo)')
+        '|anchorage|hakuryu|agir|august|marcopolo)')
     REGEX_INPUT = re.compile('(coin|cube|part)')
     DR_SHIP = ['azuma', 'friedrich', 'drake', 'hakuryu', 'agir']
 
@@ -390,7 +390,7 @@ class ResearchProjectJp:
     SHIP_S1 = ['neptune', 'monarch', 'ibuki', 'izumo', 'roon', 'saintlouis']
     SHIP_S2 = ['seattle', 'georgia', 'kitakaze', 'azuma', 'friedrich', 'gascogne']
     SHIP_S3 = ['champagne', 'cheshire', 'drake', 'mainz', 'odin']
-    SHIP_S4 = ['anchorage', 'hakuryu', 'agir', 'augustvonparseval', 'marcopolo']
+    SHIP_S4 = ['anchorage', 'hakuryu', 'agir', 'august', 'marcopolo']
     SHIP_ALL = SHIP_S1 + SHIP_S2 + SHIP_S3 + SHIP_S4
     DR_SHIP = ['azuma', 'friedrich', 'drake', 'hakuryu', 'agir']
 

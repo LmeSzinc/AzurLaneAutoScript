@@ -59,13 +59,51 @@ class Project:
         return str(data)
 
 
+# Key: chinese, value: english
+DIC_TRANSLATION = {
+    '蓝图：安克雷奇': 'Blueprint - Anchorage',
+    '蓝图：{namecode:204}': 'Blueprint - Hakuryuu',
+    '蓝图：埃吉尔': 'Blueprint - Ägir',
+    '蓝图：奥古斯特·冯·帕塞瓦尔': 'Blueprint - August von Parseval',
+    '蓝图：马可波罗': 'Blueprint - Marco Polo',
+}
+
+
+def set_translation(cn, en):
+    if len(cn) and len(en):
+        if cn not in DIC_TRANSLATION:
+            DIC_TRANSLATION[cn] = en
+
+
 class TechnologyTemplate:
     def __init__(self, folder):
+        self.projects = self.load_projects(os.path.join(folder, 'zh-CN', 'sharecfg'))
+        en_projects = self.load_projects(os.path.join(folder, 'en-US', 'sharecfg'))
+
+        for key, project in self.projects.items():
+            if key not in en_projects:
+                continue
+            en_project = en_projects[key]
+            set_translation(cn=project.task.name, en=en_project.task.name)
+            for item, en_item in zip(project.input, en_project.input):
+                set_translation(cn=item.name, en=en_item.name)
+            for item, en_item in zip(project.output, en_project.output):
+                set_translation(cn=item.name, en=en_item.name)
+
+        for project in self.projects.values():
+            project.task.name = DIC_TRANSLATION.get(project.task.name, project.task.name)
+            for item in project.input:
+                # Change Ägir to Agir
+                item.name = DIC_TRANSLATION.get(item.name, item.name).replace('Ä', 'A')
+            for item in project.output:
+                item.name = DIC_TRANSLATION.get(item.name, item.name).replace('Ä', 'A')
+
+    def load_projects(self, folder):
         tech = load_lua(folder, 'technology_data_template.lua', prefix=44)
         item = load_lua(folder, 'item_data_statistics.lua', prefix=40)
         task = load_lua(folder, 'task_data_template.lua', prefix=38)
 
-        self.projects = {}
+        projects = {}
         for key, value in tech.items():
             if key == 'all':
                 continue
@@ -78,8 +116,10 @@ class TechnologyTemplate:
                 i.name = item[i.id]['name'].strip()
 
             key = (project.series, project.name)
-            if key not in self.projects:
-                self.projects[key] = project
+            if key not in projects:
+                projects[key] = project
+
+        return projects
 
     def encode(self):
         lines = []
@@ -105,7 +145,7 @@ This an auto-tool to extract research projects used in Alas.
 
 Git clone https://github.com/Dimbreath/AzurLaneData, to get the decrypted scripts.
 Arguments:
-    FILE:  Path to sharecfg, '<your_folder>/<server>/sharecfg'
+    FILE:  Path to AzurLaneData, '<your_folder>/AzurLaneData'
     SAVE:  File to save, 'module/research/project_data.py'
 """
 FOLDER = ''
