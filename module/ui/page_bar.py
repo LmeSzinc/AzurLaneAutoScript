@@ -4,7 +4,7 @@ from module.logger import logger
 
 
 class PageBar:
-    def __init__(self, grid, inactive_color, additional=None, is_reversed=False, name='page_bar'):
+    def __init__(self, grid, inactive_color, additional=None, is_reversed=False, name=None):
         """
         Args:
             grid (ButtonGrid):
@@ -22,7 +22,7 @@ class PageBar:
         self.inactive_color = inactive_color
         self.additional = additional
         self.is_reversed = is_reversed
-        self.name = name
+        self.name = name if not None else grid.name
 
         self.grid_shape = self.grid.grid_shape
         self.is_vertical = True if self.grid_shape[1] > self.grid_shape[0] else False
