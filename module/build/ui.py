@@ -94,7 +94,7 @@ class BuildUI(UI):
                 1     for retire.
 
         Returns:
-            bool: bottombar click ensured or not
+            bool: if side_navbar set ensured
         """
         retire_upper = 5 if self._build_side_navbar.get_total(main=self) == 5 else 4
         if upper == retire_upper or bottom == 1:
@@ -191,7 +191,7 @@ class BuildUI(UI):
             is_construct (bool):
 
         Returns:
-            bool: bottombar click ensured or not
+            bool: if bottom_navbar set ensured
         """
         build_bottom_navbar = self._build_bottom_navbar(is_construct)
         if is_construct and build_bottom_navbar.get_total(main=self) == 3:

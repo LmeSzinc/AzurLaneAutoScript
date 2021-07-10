@@ -89,7 +89,7 @@ class ShopUI(UI):
                 1 for general.
 
         Returns:
-            bool: bottombar click ensured or not
+            bool: if bottom_navbar set ensured
         """
         if self._shop_bottom_navbar.set(self, left=left, right=right) \
                 and self.shop_load_ensure():
