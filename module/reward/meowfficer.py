@@ -264,7 +264,7 @@ class RewardMeowfficer(UI):
         if not buy and not train:
             return False
 
-        self.ui_ensure(page_meowfficer)
+        self.ui_ensure(page_meowfficer, confirm_wait=3)
 
         if buy:
             self.meow_buy()

@@ -111,10 +111,13 @@ class UI(InfoHandler):
             else:
                 exit(1)
 
-    def ui_goto(self, destination, skip_first_screenshot=False):
+    def ui_goto(self, destination, confirm_wait=1, skip_first_screenshot=False):
         """
         Args:
             destination (Page):
+            confirm_wait (int, float):
+                for pages with additional
+                which need longer confirmation
             skip_first_screenshot (bool):
         """
         for page in self.ui_pages_all:
@@ -161,6 +164,7 @@ class UI(InfoHandler):
                 click_button=p1.links[p2],
                 check_button=p2.check_button,
                 additional=self.__getattribute__(additional) if hasattr(self, additional) else None,
+                confirm_wait=confirm_wait,
                 offset=(20, 20),
                 skip_first_screenshot=skip_first_screenshot)
             self.ui_current = p2
@@ -170,10 +174,13 @@ class UI(InfoHandler):
         for page in visited:
             page.parent = None
 
-    def ui_ensure(self, destination):
+    def ui_ensure(self, destination, confirm_wait=1):
         """
         Args:
             destination (Page):
+            confirm_wait (int, float):
+                for pages with additional
+                which need longer confirmation
         """
         logger.hr('UI ensure')
         self.ui_get_current_page()
@@ -182,7 +189,7 @@ class UI(InfoHandler):
             return False
         else:
             logger.info('Goto %s' % destination)
-            self.ui_goto(destination)
+            self.ui_goto(destination, confirm_wait=confirm_wait)
             return True
 
     def ui_goto_main(self):

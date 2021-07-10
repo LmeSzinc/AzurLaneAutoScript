@@ -227,7 +227,7 @@ class RewardDorm(UI):
             if not feed:
                 self.ui_goto_main()
                 return
-        self.ui_goto(page_dorm, skip_first_screenshot=True)
+        self.ui_goto(page_dorm, confirm_wait=3, skip_first_screenshot=True)
 
         if collect:
             self._dorm_receive()
