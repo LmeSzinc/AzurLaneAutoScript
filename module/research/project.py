@@ -59,7 +59,7 @@ def get_research_series(image):
 
     for button in RESEARCH_SERIES:
         im = color_similarity_2d(image.crop(button.area).resize((46, 25)), color=(255, 255, 255))
-        peaks = [len(signal.find_peaks(row, **parameters)[0]) for row in im[2:-2]]
+        peaks = [len(signal.find_peaks(row, **parameters)[0]) for row in im[5:-5]]
         upper, lower = max(peaks), min(peaks)
         # print(upper, lower)
         if upper == lower and 1 <= upper <= 3:
