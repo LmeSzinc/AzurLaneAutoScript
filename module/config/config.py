@@ -129,7 +129,7 @@ class AzurLaneConfig:
     """
     gems_farming
     """
-    GEMS_STAGE = 'A3'
+    GEMS_STAGE = '2-4'
     GEMS_FLEET_1 = 3
     GEMS_FLEET_2 = 5
 
@@ -810,6 +810,12 @@ class AzurLaneConfig:
         self.C124_NON_S3_ENTER_TOLERANCE = int(option['non_s3_enemy_enter_tolerance'])
         self.C124_NON_S3_WITHDRAW_TOLERANCE = int(option['non_s3_enemy_withdraw_tolerance'])
         self.C124_AMMO_PICK_UP = int(option['ammo_pick_up_124'])
+
+        # Gems_farming
+        option = config['Gems_farming']
+        self.GEMS_STAGE = option['gems_stage']
+        self.GEMS_FLEET_1 = int(option['gems_fleet_1'])
+        self.GEMS_FLEET_2 = int(option['gems_fleet_2'])
 
         # OS semi auto
         option = config['Os_semi_auto']
