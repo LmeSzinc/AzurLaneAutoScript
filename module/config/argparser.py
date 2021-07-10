@@ -221,6 +221,7 @@ def main(ini_name=''):
     # 掉落记录
     drop = setting_parser.add_argument_group('掉落记录', '保存掉落物品的截图, 启用后会放缓结算时的点击速度', gooey_options={'label_color': '#931D03'})
     drop.add_argument('--启用掉落记录', default=default('--启用掉落记录'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    drop.add_argument('--启用AzurStat', default=default('--启用AzurStat'), choices=['是', '否'], help='将掉落截图上传至 azurstats.lyoko.io, 目前只支持科研统计', gooey_options={'label_color': '#4B5F83'})
     drop.add_argument('--掉落保存目录', default=default('--掉落保存目录'), gooey_options={'label_color': '#4B5F83'})
 
     # clear = setting_parser.add_argument_group('开荒模式', '未开荒地图会在完成后停止, 已开荒的地图会忽略选项, 无脑开就完事了')
@@ -292,7 +293,7 @@ def main(ini_name=''):
     # reward_tactical.add_argument('--技能书夜间优先使用同类型', default=default('--技能书夜间优先使用同类型'), choices=['是', '否'])
     reward_tactical.add_argument('--如果无技能书可用', default=default('--如果无技能书可用'), choices=['停止学习', '使用第一本'], gooey_options={'label_color': '#4B5F83'})
 
-    reward_research = reward_parser.add_argument_group('科研项目', '科研预设选择为自定义时, 须先阅读 doc/filter_string_en_cn.md', gooey_options={'label_color': '#931D03'})
+    reward_research = reward_parser.add_argument_group('科研项目', '科研预设选择为自定义时, 须先阅读 doc/filter_string_en_cn.md\n科研项目的选择将同时满足投入和产出设定\n正在进行科研统计，打开出击设置-掉落记录-启用AzurStat并保存，将自动上传', gooey_options={'label_color': '#931D03'})
     reward_research.add_argument('--启用科研项目收获', default=default('--启用科研项目收获'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     research_input = reward_research.add_argument_group('科研投入', '', gooey_options={'label_color': '#931D03'})
     research_input.add_argument('--科研项目使用魔方', default=default('--科研项目使用魔方'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
