@@ -104,6 +104,7 @@ dic_true_eng_to_eng = {
     # 'retire_sr': 'retire_sr',
     # 'retire_ssr': 'retire_ssr',
     'enable_drop_screenshot': 'enable_drop_screenshot',
+    'enable_azurstat': 'enable_azurstat',
     'drop_screenshot_folder': 'drop_screenshot_folder',
     # 'enable_map_clear_mode': 'enable_map_clear_mode',
     # 'clear_mode_stop_condition': 'clear_mode_stop_condition',
@@ -318,6 +319,7 @@ dic_true_eng_to_eng = {
 
     # Research filter preset
     'customized': 'customized',
+    'series_4': 'series_4',
     'series_3': 'series_3',
     'series_3_than_2': 'series_3_than_2',
     'series_3_fastest': 'series_3_fastest',
@@ -401,6 +403,7 @@ dic_chi_to_eng = {
     # '退役紫皮': 'retire_sr',
     # '退役金皮': 'retire_ssr',
     '启用掉落记录': 'enable_drop_screenshot',
+    '启用AzurStat': 'enable_azurstat',
     '掉落保存目录': 'drop_screenshot_folder',
     # '启用开荒': 'enable_map_clear_mode',
     # '开荒停止条件': 'clear_mode_stop_condition',
@@ -615,6 +618,7 @@ dic_chi_to_eng = {
 
     # Research filter preset
     '自定义': 'customized',
+    '四期': 'series_4',
     '三期': 'series_3',
     '三期兼顾二期': 'series_3_than_2',
     '三期最快': 'series_3_fastest',
@@ -698,6 +702,7 @@ dic_tchi_to_eng = {
     # '退役紫皮': 'retire_sr',
     # '退役金皮': 'retire_ssr',
     '啟用掉落記錄': 'enable_drop_screenshot',
+    '啟用AzurStat': 'enable_azurstat',
     '掉落保存目錄': 'drop_screenshot_folder',
     # '啟用開荒': 'enable_map_clear_mode',
     # '開荒停止條件': 'clear_mode_stop_condition',
@@ -912,6 +917,7 @@ dic_tchi_to_eng = {
 
     # Research filter preset
     '自定義': 'customized',
+    '四期': 'series_4',
     '三期': 'series_3',
     '三期兼顧二期': 'series_3_than_2',
     '三期最快': 'series_3_fastest',

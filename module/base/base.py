@@ -5,11 +5,13 @@ from module.base.timer import Timer
 from module.base.utils import *
 from module.config.config import AzurLaneConfig
 from module.device.device import Device
+from module.statistics.azurstats import AzurStats
 
 
 class ModuleBase:
     config: AzurLaneConfig
     device: Device
+    stat: AzurStats
 
     def __init__(self, config, device=None):
         """
@@ -25,6 +27,7 @@ class ModuleBase:
             self.device = device
         else:
             self.device = Device(config=self.config)
+        self.stat = AzurStats(config=self.config)
 
         self.interval_timer = {}
 
