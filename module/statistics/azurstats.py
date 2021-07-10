@@ -29,7 +29,7 @@ def pack(img_list):
 
 class AzurStats:
     API = 'https://azurstats.lyoko.io/api/upload/'
-    TIMEOUT = 10
+    TIMEOUT = 20
 
     def __init__(self, config):
         """
@@ -54,7 +54,7 @@ class AzurStats:
             return False
 
     def clear(self):
-        self.images = {}
+        self.images = []
 
     def _user_agent(self):
         return f'Alas ({self.config.AZURSTAT_ID})'

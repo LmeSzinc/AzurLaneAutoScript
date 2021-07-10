@@ -5,6 +5,7 @@ from module.base.timer import Timer
 from module.base.utils import *
 from module.config.config import AzurLaneConfig
 from module.device.device import Device
+from module.logger import logger
 from module.statistics.azurstats import AzurStats
 
 
@@ -94,8 +95,9 @@ class ModuleBase:
             if not self.appear(button, offset=offset):
                 break
 
-    def wait_until_stable(self, button, timer=Timer(0.3, count=1), skip_first_screenshot=True):
+    def wait_until_stable(self, button, timer=Timer(0.3, count=1), timeout=Timer(5, count=10), skip_first_screenshot=True):
         button._match_init = False
+        timeout.start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -112,6 +114,10 @@ class ModuleBase:
             else:
                 button.load_color(self.device.image)
                 button._match_init = True
+
+            if timeout.reached():
+                logger.warning(f'wait_until_stable({button}) timeout')
+                break
 
     def image_area(self, button):
         """Extract the area from image.
