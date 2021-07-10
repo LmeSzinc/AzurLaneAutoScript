@@ -310,7 +310,7 @@ def main(ini_name=''):
     reward_tactical.add_argument('--tactical_if_no_book_satisfied', default=default('--tactical_if_no_book_satisfied'),
                                  choices=['cancel_tactical', 'use_the_first_book'], gooey_options={'label_color': '#4B5F83'})
 
-    reward_research = reward_parser.add_argument_group('Research', 'If set research_filter_preset=customized, read https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_en first', gooey_options={'label_color': '#931D03'})
+    reward_research = reward_parser.add_argument_group('Research', 'If set research_filter_preset=customized, read https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_en first\nThe selection of research projects will satiesfy both input and output settings\nCarrying out research statistics, turn on setting - Drop record - enable_azurstat and save, to upload data automatically', gooey_options={'label_color': '#931D03'})
     reward_research.add_argument('--enable_research_reward', default=default('--enable_research_reward'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
     research_input = reward_research.add_argument_group('Research input', '', gooey_options={'label_color': '#4B5F83'})
     research_input.add_argument('--research_use_cube', default=default('--research_use_cube'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})

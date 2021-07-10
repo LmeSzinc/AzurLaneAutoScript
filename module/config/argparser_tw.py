@@ -292,7 +292,7 @@ def main(ini_name=''):
     # reward_tactical.add_argument('--技能書夜間優先使用同類型', default=default('--技能書夜間優先使用同類型'), choices=['是', '否'])
     reward_tactical.add_argument('--如果無技能書可用', default=default('--如果無技能書可用'), choices=['停止學習', '使用第一本'], gooey_options={'label_color': '#4B5F83'})
 
-    reward_research = reward_parser.add_argument_group('科研項目', '科研預設選擇為自定義時, 須先閱讀 doc/filter_string_en_cn.md', gooey_options={'label_color': '#931D03'})
+    reward_research = reward_parser.add_argument_group('科研項目', '科研預設選擇為自定義時, 須先閱讀 doc/filter_string_en_cn.md\n科研項目的選擇將同時滿足投入和產出設定\n正在進行科研統計，打開出擊設置-掉落記錄-啟用AzurStat並保存，將自動上傳', gooey_options={'label_color': '#931D03'})
     reward_research.add_argument('--啟用科研項目收穫', default=default('--啟用科研項目收穫'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83' })
     research_input = reward_research.add_argument_group('科研投入', '', gooey_options={'label_color': '#931D03'})
     research_input.add_argument('--科研項目使用魔方', default=default('--科研項目使用魔方'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83' })

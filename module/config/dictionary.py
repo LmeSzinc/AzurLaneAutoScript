@@ -319,6 +319,7 @@ dic_true_eng_to_eng = {
 
     # Research filter preset
     'customized': 'customized',
+    'series_4': 'series_4',
     'series_3': 'series_3',
     'series_3_than_2': 'series_3_than_2',
     'series_3_fastest': 'series_3_fastest',
@@ -617,6 +618,7 @@ dic_chi_to_eng = {
 
     # Research filter preset
     '自定义': 'customized',
+    '四期': 'series_4',
     '三期': 'series_3',
     '三期兼顾二期': 'series_3_than_2',
     '三期最快': 'series_3_fastest',
@@ -915,6 +917,7 @@ dic_tchi_to_eng = {
 
     # Research filter preset
     '自定義': 'customized',
+    '四期': 'series_4',
     '三期': 'series_3',
     '三期兼顧二期': 'series_3_than_2',
     '三期最快': 'series_3_fastest',
