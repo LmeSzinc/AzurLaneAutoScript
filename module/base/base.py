@@ -95,7 +95,7 @@ class ModuleBase:
             if not self.appear(button, offset=offset):
                 break
 
-    def wait_until_stable(self, button, timer=Timer(0.3, count=1), timeout=Timer(5), skip_first_screenshot=True):
+    def wait_until_stable(self, button, timer=Timer(0.3, count=1), timeout=Timer(5, count=10), skip_first_screenshot=True):
         button._match_init = False
         timeout.start()
         while 1:
