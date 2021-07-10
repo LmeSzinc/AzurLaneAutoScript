@@ -145,7 +145,7 @@ class FastForwardHandler(AutoSearchHandler):
         Override AutoSearchHandler definition
         for 2x book handling if needed
         """
-        if self.appear(AUTO_SEARCH_MENU_CONTINUE, offset=(20, 20), interval=2):
+        if self.appear(AUTO_SEARCH_MENU_CONTINUE, offset=self._auto_search_menu_offset, interval=2):
             self.map_is_2x_book = self.config.ENABLE_2X_BOOK
             self.handle_2x_book_setting(mode='auto')
             self.device.click(AUTO_SEARCH_MENU_CONTINUE)
@@ -222,8 +222,9 @@ class FastForwardHandler(AutoSearchHandler):
             if clicked_threshold > 3:
                 break
 
-            if self.appear(check_button, offset=(100, 50), interval=3):
-                enabled = self.image_color_count(box_button, color=(156, 255, 82), threshold=221, count=20)
+            if self.appear(check_button, offset=self._auto_search_menu_offset, interval=3):
+                box_button.load_offset(check_button)
+                enabled = self.image_color_count(box_button.button, color=(156, 255, 82), threshold=221, count=20)
                 if (status == 'on' and enabled) or (status == 'off' and not enabled):
                     return True
                 if (status == 'on' and not enabled) or (status == 'off' and enabled):

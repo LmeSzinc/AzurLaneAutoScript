@@ -154,6 +154,7 @@ class AutoSearchHandler(EnemySearchingHandler):
                 return True
 
     _auto_search_offset = (5, 5)
+    _auto_search_menu_offset = (200, 20)
 
     def is_auto_search_running(self):
         """
@@ -181,13 +182,13 @@ class AutoSearchHandler(EnemySearchingHandler):
         Returns:
             bool:
         """
-        return self.appear(AUTO_SEARCH_MENU_CONTINUE, offset=(20, 20))
+        return self.appear(AUTO_SEARCH_MENU_CONTINUE, offset=self._auto_search_menu_offset)
 
     def handle_auto_search_continue(self):
-        return self.appear_then_click(AUTO_SEARCH_MENU_CONTINUE, offset=(20, 20), interval=2)
+        return self.appear_then_click(AUTO_SEARCH_MENU_CONTINUE, offset=self._auto_search_menu_offset, interval=2)
 
     def handle_auto_search_exit(self):
-        return self.appear_then_click(AUTO_SEARCH_MENU_EXIT, offset=(20, 20), interval=2)
+        return self.appear_then_click(AUTO_SEARCH_MENU_EXIT, offset=self._auto_search_menu_offset, interval=2)
 
     def ensure_auto_search_exit(self, skip_first_screenshot=True):
         """
