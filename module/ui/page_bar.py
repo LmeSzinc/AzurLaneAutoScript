@@ -24,7 +24,7 @@ class PageBar:
         self.is_reversed = is_reversed
         self.name = name if not None else grids._name
 
-        self.grid_shape = self.grid.grid_shape
+        self.grid_shape = self.grids.grid_shape
         self.is_vertical = True if self.grid_shape[1] > self.grid_shape[0] else False
         self.total = self.grid_shape[0] * self.grid_shape[1]
 
