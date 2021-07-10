@@ -6,10 +6,9 @@ from module.base.utils import *
 from module.logger import logger
 from module.shop.assets import *
 from module.ui.assets import BACK_ARROW
+from module.ui.navbar import Navbar
 from module.ui.page import page_munitions
-from module.ui.page_bar import PageBar
 from module.ui.ui import UI
-from module.ui.navbar import NavBar
 
 SHOP_LOAD_ENSURE_BUTTONS = [SHOP_GENERAL_CHECK, SHOP_GUILD_CHECK,
                             SHOP_MERIT_CHECK, SHOP_PROTOTYPE_CHECK,
@@ -52,30 +51,37 @@ class ShopUI(UI):
                 return False
 
     @cached_property
-    def _shop_bottombar(self):
+    def _shop_bottom_navbar(self):
         """
-        shop_bottombar 5 options
+        shop_bottom_navbar 5 options
             guild.
             prototype.
             core.
             merit.
             general.
         """
-        shop_bottombar = ButtonGrid(
-            origin=(393, 637), delta=(182, 0),
-            button_shape=(45, 15), grid_shape=(5, 1),
-            name='SHOP_BOTTOMBAR')
+        shop_bottom_navbar = ButtonGrid(
+            origin=(399, 619), delta=(182, 0),
+            button_shape=(56, 42), grid_shape=(5, 1),
+            name='SHOP_BOTTOM_NAVBAR')
 
-        return PageBar(grids=shop_bottombar,
-                       inactive_color=(107, 121, 132))
+        return Navbar(grids=shop_bottom_navbar,
+                      active_color=(33, 195, 239),
+                      inactive_color=(181, 178, 181))
 
-    def shop_bottombar_ensure(self, index):
+    def shop_bottom_navbar_ensure(self, left=None, right=None):
         """
         Ensure able to transition to page and
         page has loaded to completion
 
         Args:
-            index (int):
+            left (int):
+                1 for guild.
+                4 for prototype.
+                3 for core.
+                2 for merit.
+                1 for general.
+            right (int):
                 5 for guild.
                 4 for prototype.
                 3 for core.
@@ -85,7 +91,7 @@ class ShopUI(UI):
         Returns:
             bool: bottombar click ensured or not
         """
-        if self._shop_bottombar.ensure(self, index) \
+        if self._shop_bottom_navbar.set(self, left=left, right=right) \
                 and self.shop_load_ensure():
             return True
         return False
@@ -126,7 +132,7 @@ class ShopUI(UI):
 
     def _shop_swipe(self, skip_first_screenshot=True):
         """
-        Swipes bottombar one way, right only
+        Swipes bottom navbar one way, right only
 
         Args:
             bool: skip_first_screenshot

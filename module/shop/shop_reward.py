@@ -108,17 +108,17 @@ class RewardShop(BuildUI, ShopUI, GeneralShop, GuildShop, MedalShop, MeritShop):
                 return shop_ran
 
             if shop_records['general']:
-                if self.shop_bottombar_ensure(1):
+                if self.shop_bottom_navbar_ensure(left=5):
                     self._shop_repeat(shop_type='general')
                     self.config.record_save(option=RECORD_SHOP_GENERAL_OPTION)
 
             if shop_records['merit']:
-                if self.shop_bottombar_ensure(2):
+                if self.shop_bottom_navbar_ensure(left=4):
                     self._shop_repeat(shop_type='merit')
                     self.config.record_save(option=RECORD_SHOP_MERIT_OPTION)
 
             if shop_records['guild']:
-                if self.shop_bottombar_ensure(5):
+                if self.shop_bottom_navbar_ensure(left=1):
                     self._shop_repeat(shop_type='guild')
                     self.config.record_save(option=RECORD_SHOP_GUILD_OPTION)
 
@@ -126,16 +126,20 @@ class RewardShop(BuildUI, ShopUI, GeneralShop, GuildShop, MedalShop, MeritShop):
         if any(shop_records.values()):
             shop_ran = True
             if shop_records['medal']:
+                self.ui_goto_build()
+
                 record_save = True
+                if not self.build_side_navbar_ensure(bottom=2):
+                    return shop_ran
+
                 for _ in range(1, 3):
-                    if self.ui_goto_build(2, _):
+                    if self.build_bottom_navbar_ensure(left=_, is_construct=False):
                         self.shop_buy(shop_type='medal',
                                       selection=self.config.SHOP_MEDAL_SELECTION)
                     else:
                         logger.warning('Failed to arrive at expected '
-                                       'build interface with sidebar_index=2, '
-                                       f'bottombar_index={_}, try again '
-                                       'next time')
+                                       'build interface for medal exchanges, '
+                                       f'left={_}, try again next time')
                         record_save = False
                 if record_save:
                     self.config.record_save(option=RECORD_SHOP_MEDAL_OPTION)

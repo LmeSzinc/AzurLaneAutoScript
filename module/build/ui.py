@@ -5,8 +5,8 @@ from module.base.timer import Timer
 from module.base.utils import *
 from module.build.assets import *
 from module.logger import logger
+from module.ui.navbar import Navbar
 from module.ui.page import page_build
-from module.ui.page_bar import PageBar
 from module.ui.ui import UI
 
 BUILD_LOAD_ENSURE_BUTTONS = [SHOP_MEDAL_CHECK, BUILD_SUBMIT_ORDERS, BUILD_FINISH_ORDERS]
@@ -48,7 +48,7 @@ class BuildUI(UI):
                 return False
 
     @cached_property
-    def _build_sidebar(self):
+    def _build_side_navbar(self):
         """
         limited_sidebar 5 options
             build.
@@ -63,153 +63,149 @@ class BuildUI(UI):
             shop.
             retire.
         """
-        build_sidebar = ButtonGrid(
+        build_side_navbar = ButtonGrid(
             origin=(21, 126), delta=(0, 98),
             button_shape=(60, 80), grid_shape=(1, 5),
-            name='BUILD_SIDEBAR')
+            name='BUILD_SIDE_NAVBAR')
 
-        def additional(total, index):
-            if total == 4 and index >= 4:
-                index -= 1
-            return index
+        return Navbar(grids=build_side_navbar,
+                      active_color=(247, 255, 173),
+                      inactive_color=(140, 162, 181))
 
-        return PageBar(grids=build_sidebar,
-                       inactive_color=(140, 162, 181),
-                       additional=additional)
-
-    def build_sidebar_ensure(self, index):
+    def build_side_navbar_ensure(self, upper=None, bottom=None):
         """
         Ensure able to transition to page and
         page has loaded to completion
 
         Args:
-            index (int):
-                limited sidebar
-                5 for build.
-                4 for limited_build.
-                3 for orders.
-                2 for shop.
-                1 for retire.
-
-                regular sidebar
-                5   for build.
-                3/4 for orders.
-                2   for shop.
-                1   for retire.
+            upper (int):
+            limited|regular
+                1     for build.
+                2|N/A for limited_build.
+                3|2   for orders.
+                4|3   for shop.
+                5|4   for retire.
+            bottom (int):
+            limited|regular
+                5|4   for build.
+                4|N/A for limited_build.
+                3     for orders.
+                2     for shop.
+                1     for retire.
 
         Returns:
             bool: bottombar click ensured or not
         """
-        if index == 1:
+        retire_upper = 5 if self._build_side_navbar.get_total(main=self) == 5 else 4
+        if upper == retire_upper or bottom == 1:
             logger.warning('Transitions to "retire" is not supported')
             return False
 
-        if self._build_sidebar.ensure(self, index) \
+        if self._build_side_navbar.set(self, upper=upper, bottom=bottom) \
                 and self.build_load_ensure():
             return True
         return False
 
     @cached_property
-    def _construct_bottombar(self):
+    def _construct_bottom_navbar(self):
         """
-        construct_bottombar 4 options
-            event.
-            light.
-            heavy.
-            special.
+        limited 4 options
+            build.
+            limited_build.
+            orders.
+            shop.
+            retire.
+
+        regular 3 options
+            build.
+            orders.
+            shop.
+            retire.
         """
-        construct_bottombar = ButtonGrid(
+        construct_bottom_navbar = ButtonGrid(
             origin=(262, 615), delta=(209, 0),
             button_shape=(70, 49), grid_shape=(4, 1),
-            name='CONSTRUCT_BOTTOMBAR')
+            name='CONSTRUCT_BOTTOM_NAVBAR')
 
-        def additional(total, index):
-            if total == 3 and index >= 2:
-                index -= 1
-            return index
-
-        return PageBar(grids=construct_bottombar,
-                       inactive_color=(189, 231, 247),
-                       additional=additional,
-                       is_reversed=True)
+        return Navbar(grids=construct_bottom_navbar,
+                      active_color=(247, 227, 148),
+                      inactive_color=(189, 231, 247))
 
     @cached_property
-    def _exchange_bottombar(self):
+    def _exchange_bottom_navbar(self):
         """
-        exchange_bottombar 2 options
+        2 options
             ships.
             items.
         """
-        exchange_bottombar = ButtonGrid(
+        exchange_bottom_navbar = ButtonGrid(
             origin=(569, 637), delta=(208, 0),
             button_shape=(70, 49), grid_shape=(2, 1),
-            name='EXCHANGE_BOTTOMBAR')
+            name='EXCHANGE_BOTTOM_NAVBAR')
 
-        return PageBar(grids=exchange_bottombar,
-                       inactive_color=(189, 231, 247),
-                       is_reversed=True)
+        return Navbar(grids=exchange_bottom_navbar,
+                      active_color=(247, 227, 148),
+                      inactive_color=(189, 231, 247))
 
-    def _build_bottombar(self, is_construct=True):
+    def _build_bottom_navbar(self, is_construct=True):
         """
-        Return corresponding PageBar type based on
+        Return corresponding Navbar type based on
         parameter 'is_construct'
 
         Returns:
-            PageBar
+            Navbar
         """
         if is_construct:
-            return self._construct_bottombar
+            return self._construct_bottom_navbar
         else:
-            return self._exchange_bottombar
+            return self._exchange_bottom_navbar
 
-    def build_bottombar_ensure(self, index, is_construct=True):
+    def build_bottom_navbar_ensure(self, left=None, right=None, is_construct=True):
         """
         Ensure able to transition to page and
         page has loaded to completion
 
         Args:
-            index (int):
-                construct_bottombar
-                1 for event.
-                2 for light.
-                3 for heavy.
-                4 for special.
+            left (int):
+                construct_bottom_navbar
+                limited|regular
+                1|N/A for event.
+                2|1   for light.
+                3|2   for heavy.
+                4|3   for special.
 
-                exchange_bottombar
-                1 for ships.
-                2 for items.
+                exchange_bottom_navbar
+                1     for ships.
+                2     for items.
+            right (int):
+                construct_bottom_navbar
+                limited|regular
+                4|N/A for event.
+                3     for light.
+                2     for heavy.
+                1     for special.
+
+                exchange_bottom_navbar
+                2     for ships.
+                1     for items.
             is_construct (bool):
 
         Returns:
             bool: bottombar click ensured or not
         """
-        if self._build_bottombar(is_construct).ensure(self, index) \
+        build_bottom_navbar = self._build_bottom_navbar(is_construct)
+        if is_construct and build_bottom_navbar.get_total(main=self) == 3:
+            if left == 1 or right == 4:
+                logger.info('Construct event not available, default to light')
+                left = 1
+                right = None
+            if left >= 4:
+                left = 3
+
+        if build_bottom_navbar.set(self, left=left, right=right) \
                 and self.build_load_ensure():
             return True
         return False
 
-    def ui_goto_build(self, sidebar_index, bottombar_index):
-        """
-        Ensures ui is at desired position/option utilizes
-        sidebar and bottombar when necessary
-        Some options may have significant load times
-        until interactable
-
-        Args:
-            sidebar_index (int): refer to build_sidebar_ensure
-            bottombar_index (int): refer to build_bottombar_ensure
-
-        Returns:
-            bool: If successful
-        """
-        self.ui_ensure(destination=page_build)
-
-        if sidebar_index == 5 or sidebar_index == 2:
-            is_construct = True if sidebar_index == 5 else False
-            if not self.build_sidebar_ensure(sidebar_index) \
-                    or not self.build_bottombar_ensure(bottombar_index, is_construct):
-                return False
-        elif not self.build_sidebar_ensure(sidebar_index):
-            return False
-
-        return True
+    def ui_goto_build(self):
+        self.ui_ensure(page_build)
