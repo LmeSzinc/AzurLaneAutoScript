@@ -228,7 +228,7 @@ def main(ini_name=''):
     # 掉落记录
     drop = setting_parser.add_argument_group('Drop record', 'Save screenshots of dropped items, which will slow down the click speed when settlement is enabled', gooey_options={'label_color': '#931D03'})
     drop.add_argument('--enable_drop_screenshot', default=default('--enable_drop_screenshot'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
-    drop.add_argument('--enable_azurstat', default=default('--enable_azurstat'), choices=['yes', 'no'], help='Upload drop screenshots to azurstats.lyoko.io, only supports research now, , requires enable_drop_screenshot', gooey_options={'label_color': '#4B5F83'})
+    drop.add_argument('--enable_azurstat', default=default('--enable_azurstat'), choices=['yes', 'no'], help='Upload drop screenshots to azurstats.lyoko.io, only supports research now', gooey_options={'label_color': '#4B5F83'})
     drop.add_argument('--drop_screenshot_folder', default=default('--drop_screenshot_folder'), gooey_options={'label_color': '#4B5F83'})
 
     # clear = setting_parser.add_argument_group('Wasteland mode', 'Unopened maps will stop after completion. Opened maps will ignore options, and its done if you do not open up')

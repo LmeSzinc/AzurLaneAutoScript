@@ -106,8 +106,8 @@ class RewardResearch(ResearchSelector):
         executed = False
         if save_get_items:
             self.device.save_screenshot('research_project', interval=0, to_base_folder=True)
-            self.stat.add(self.device.image)
-            self.stat.upload()
+        self.stat.add(self.device.image)
+        self.stat.upload()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -228,7 +228,7 @@ class RewardResearch(ResearchSelector):
                 if self._research_has_finished_at(RESEARCH_STATUS[self._research_finished_index]):
                     if save_get_items:
                         self.device.save_screenshot('research_project', interval=0, to_base_folder=True)
-                        self.stat.add(self.device.image)
+                    self.stat.add(self.device.image)
                     self.device.click(RESEARCH_ENTRANCE[self._research_finished_index])
                     continue
 
@@ -241,8 +241,8 @@ class RewardResearch(ResearchSelector):
                 if save_get_items:
                     self.device.screenshot()
                     self.device.save_screenshot('research_items', to_base_folder=True)
-                    self.stat.add(self.device.image)
-                    self.stat.upload()
+                self.stat.add(self.device.image)
+                self.stat.upload()
                 self.device.click(GET_ITEMS_RESEARCH_SAVE)
                 executed = True
                 continue
@@ -255,8 +255,8 @@ class RewardResearch(ResearchSelector):
                 if save_get_items:
                     self.device.screenshot()
                     self.device.save_screenshot('research_items', to_base_folder=True)
-                    self.stat.add(self.device.image)
-                    self.stat.upload()
+                self.stat.add(self.device.image)
+                self.stat.upload()
                 self.device.click(GET_ITEMS_RESEARCH_SAVE)
                 executed = True
                 continue
@@ -266,14 +266,16 @@ class RewardResearch(ResearchSelector):
                 if not self.appear(GET_ITEMS_3, interval=0):
                     continue
                 self.device.sleep(3)
-                if save_get_items:
+                if save_get_items or self.config.ENABLE_AZURSTAT:
                     self.device.screenshot()
-                    self.device.save_screenshot('research_items', to_base_folder=True)
+                    if save_get_items:
+                        self.device.save_screenshot('research_items', to_base_folder=True)
                     self.stat.add(self.device.image)
                     self.device.swipe((0, 250), box=ITEMS_3_SWIPE.area, random_range=(-10, -10, 10, 10), padding=0)
                     self.device.sleep(2)
                     self.device.screenshot()
-                    self.device.save_screenshot('research_items', interval=0, to_base_folder=True)
+                    if save_get_items:
+                        self.device.save_screenshot('research_items', interval=0, to_base_folder=True)
                     self.stat.add(self.device.image)
                     self.stat.upload()
                 self.device.click(GET_ITEMS_RESEARCH_SAVE)
