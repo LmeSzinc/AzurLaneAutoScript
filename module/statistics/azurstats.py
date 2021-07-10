@@ -54,7 +54,7 @@ class AzurStats:
             return False
 
     def clear(self):
-        self.images = {}
+        self.images = []
 
     def _user_agent(self):
         return f'Alas ({self.config.AZURSTAT_ID})'
