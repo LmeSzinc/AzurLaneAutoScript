@@ -215,7 +215,7 @@ class RewardResearch(ResearchSelector):
 
     def research_receive(self, skip_first_screenshot=True, save_get_items=False):
         logger.info('Research receive')
-        timeout = Timer(40)
+        timeout = Timer(40).start()
         executed = False
 
         while 1:
