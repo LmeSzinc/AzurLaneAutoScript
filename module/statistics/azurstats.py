@@ -29,7 +29,7 @@ def pack(img_list):
 
 class AzurStats:
     API = 'https://azurstats.lyoko.io/api/upload/'
-    TIMEOUT = 10
+    TIMEOUT = 20
 
     def __init__(self, config):
         """

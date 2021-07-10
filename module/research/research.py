@@ -215,6 +215,7 @@ class RewardResearch(ResearchSelector):
 
     def research_receive(self, skip_first_screenshot=True, save_get_items=False):
         logger.info('Research receive')
+        timeout = Timer(40)
         executed = False
 
         while 1:
@@ -285,6 +286,9 @@ class RewardResearch(ResearchSelector):
             # End
             if executed and self._in_research():
                 self.ensure_research_stable()
+                break
+            if timeout.reached():
+                logger.warning(f'research_receive timeout, executed={executed}, _in_research={self._in_research()}')
                 break
 
         self.device.screenshot_interval_set(0.1)
