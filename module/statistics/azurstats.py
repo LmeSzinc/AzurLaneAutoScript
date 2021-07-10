@@ -68,6 +68,7 @@ class AzurStats:
         logger.info(f'Uploading screenshots to AzurStat, amount: {amount}')
         if amount == 0:
             logger.warning(f'Image upload failed, no images to upload')
+            return False
         image = pack(self.images)
         output = io.BytesIO()
         image.save(output, format='png')
@@ -83,7 +84,7 @@ class AzurStats:
             return False
 
         if resp.status_code == 200:
-            print(resp.text)
+            # print(resp.text)
             info = json.loads(resp.text)
             code = info.get("code", 500)
             if code == 200:
