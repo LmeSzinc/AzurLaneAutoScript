@@ -351,6 +351,47 @@ def main(ini_name=''):
     reward_guild_operations_boss.add_argument('--enable_guild_operations_boss_recommend', default=default('--enable_guild_operations_boss_recommend'),
                                               help='Enable auto-recommend a fleet composition for guild raid boss, all guild support is removed if any', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
 
+    reward_shop = reward_parser.add_argument_group('Shop', 'Browse and purchase selectable items in shops: General, Guild, Medal, and Merit. '
+                                                   'Running for every reward loop.\n\n'
+                                                   'Enter selection inputs as "item_1 > item_2 > ..." '
+                                                   'or empty (single whitespace at the minimum) to skip shop\n\n'
+                                                   'Each item is required to be in upper camel case, '
+                                                   'listed below are available items in the exemplified format:\n'
+                                                   'Box(T[1-4])?, Book(color)?(T[1-3])?, Food(T[1-6])?, '
+                                                   'Plate(type)?(T[1-4]), Retrofit(type)?(T[1-3])?, Bulin(T[1-2])\n'
+                                                   'PR(name or series)?BP, DR(name or series)?BP, \n'
+                                                   'Cubes, Chips i.e. Cognitive, and Drill\n\n'
+                                                   'Multiple variants of each should be used to omit specific items',
+                                                    gooey_options={'label_color': '#931D03'})
+    reward_shop.add_argument('--enable_shop_buy', default=default('--enable_shop_buy'), help='Enable browse and item purchases in shops.', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_general = reward_shop.add_argument_group('General item selection', gooey_options={'label_color': '#4B5F83'})
+    reward_shop_general.add_argument('--shop_general_selection', default=default('--shop_general_selection'), gooey_options={'label_color': '#4B5F83'})
+    reward_shop_general.add_argument('--enable_shop_general_gems', default=default('--enable_shop_general_gems'), help='Enable to use gems.', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_general.add_argument('--enable_shop_general_refresh', default=default('--enable_shop_general_refresh'), help='Enable refresh (uses gems implicitly).', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild = reward_shop.add_argument_group('Guild item selection', 'Box, Book, Retrofit, and Plate '
+                                                       'only supports grade i.e. T[digit] optionally, PRBP exclusively.\n'
+                                                       'Below selectors are used to customize specifics',
+                                                       gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--shop_guild_selection', default=default('--shop_guild_selection'), gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--enable_shop_guild_refresh', default=default('--enable_shop_guild_refresh'), help='Enable refresh (uses guild coins).', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--shop_guild_box_t3', default=default('--shop_guild_box_t3'), choices=['eagle', 'royal', 'sakura', 'ironblood'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--shop_guild_box_t4', default=default('--shop_guild_box_t4'), choices=['eagle', 'royal', 'sakura', 'ironblood'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--shop_guild_book_t2', default=default('--shop_guild_book_t2'), choices=['red', 'blue', 'yellow'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--shop_guild_book_t3', default=default('--shop_guild_book_t3'), choices=['red', 'blue', 'yellow'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--shop_guild_retrofit_t2', default=default('--shop_guild_retrofit_t2'), choices=['dd', 'cl', 'bb', 'cv'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--shop_guild_retrofit_t3', default=default('--shop_guild_retrofit_t3'), choices=['dd', 'cl', 'bb', 'cv'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--shop_guild_plate_t2', default=default('--shop_guild_plate_t2'), choices=['general', 'gun', 'torpedo', 'antiair', 'plane'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--shop_guild_plate_t3', default=default('--shop_guild_plate_t3'), choices=['general', 'gun', 'torpedo', 'antiair', 'plane'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--shop_guild_plate_t4', default=default('--shop_guild_plate_t4'), choices=['general', 'gun', 'torpedo', 'antiair', 'plane'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--shop_guild_pr1', default=default('--shop_guild_pr1'), choices=['neptune', 'monarch', 'ibuki', 'izumo', 'roon', 'saintlouis'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--shop_guild_pr2', default=default('--shop_guild_pr2'), choices=['seattle', 'georgia', 'kitakaze', 'gascogne'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--shop_guild_pr3', default=default('--shop_guild_pr3'), choices=['cheshire', 'mainz', 'odin', 'champagne'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_medal = reward_shop.add_argument_group('Medal item selection', gooey_options={'label_color': '#4B5F83'})
+    reward_shop_medal.add_argument('--shop_medal_selection', default=default('--shop_medal_selection'), gooey_options={'label_color': '#4B5F83'})
+    reward_shop_merit = reward_shop.add_argument_group('Merit item selection', gooey_options={'label_color': '#4B5F83'})
+    reward_shop_merit.add_argument('--shop_merit_selection', default=default('--shop_merit_selection'), gooey_options={'label_color': '#4B5F83'})
+    reward_shop_merit.add_argument('--enable_shop_merit_refresh', default=default('--enable_shop_merit_refresh'), help='Enable refresh (uses gems implicitly).', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+
     # ==========emulator==========
     emulator_parser = subs.add_parser('emulator')
     emulator = emulator_parser.add_argument_group('Emulator', 'Need to Press start to save your settings, it will check whether the game is started \nIf the game has not started, it will be started', gooey_options={'label_color': '#931D03'})
