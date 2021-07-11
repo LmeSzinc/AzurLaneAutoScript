@@ -1,7 +1,6 @@
 from random import choice
 
 import numpy as np
-
 from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1
@@ -144,7 +143,7 @@ class Enhancement(Dock):
                 return False, ship_count
 
             if skip_until_ensured:
-                if not self.equip_sidebar_ensure(index=4):
+                if not self.equip_side_navbar_ensure(bottom=4):
                     continue
                 self.wait_until_appear(ENHANCE_RECOMMEND, offset=(5, 5), skip_first_screenshot=True)
                 skip_until_ensured = False

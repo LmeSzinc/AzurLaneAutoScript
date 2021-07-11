@@ -552,7 +552,7 @@ class GuildLogistics(GuildBase):
             out: page_guild, GUILD_LOGISTICS
         """
         # Transition to Logistics
-        if not self.guild_sidebar_ensure(3):
+        if not self.guild_side_navbar_ensure(bottom=3):
             logger.info('Logistics sidebar not ensured, try again on next reward loop')
             return False
         self._guild_logistics_ensure()
