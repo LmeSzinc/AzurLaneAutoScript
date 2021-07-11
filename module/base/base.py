@@ -97,7 +97,7 @@ class ModuleBase:
 
     def wait_until_stable(self, button, timer=Timer(0.3, count=1), timeout=Timer(5, count=10), skip_first_screenshot=True):
         button._match_init = False
-        timeout.start()
+        timeout.reset()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
