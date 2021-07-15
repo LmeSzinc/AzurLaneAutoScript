@@ -149,8 +149,8 @@ class ShopUI(UI):
             else:
                 self.device.screenshot()
 
-            if self.appear(SHOP_GUILD_SWIPE_END, offset=(5, 5)) or \
-                    self.appear(SHOP_GENERAL_SWIPE_END, offset=(5, 5)):
+            if self.appear(SHOP_GUILD_SWIPE_END, offset=(15, 5)) or \
+                    self.appear(SHOP_GENERAL_SWIPE_END, offset=(15, 5)):
                 return True
 
             backup = self.config.cover(DEVICE_CONTROL_METHOD='minitouch')
