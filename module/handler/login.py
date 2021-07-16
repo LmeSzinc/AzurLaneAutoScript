@@ -151,7 +151,7 @@ class LoginHandler(Combat):
             bool: If handled.
         """
         if server.server == 'cn':
-            if self.appear(USER_AGREEMENT_CONFIRM, offset=(50, 50), interval=2):
+            if self.appear(USER_AGREEMENT_CONFIRM, interval=2):
                 USER_AGREEMENT_SCROLL.set_bottom(main=self)
                 self.device.click(USER_AGREEMENT_CONFIRM)
                 return True
