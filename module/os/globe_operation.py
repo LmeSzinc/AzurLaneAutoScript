@@ -1,7 +1,6 @@
 from module.base.timer import Timer
 from module.base.utils import *
 from module.logger import logger
-from module.map_detection.utils import *
 from module.os.assets import *
 from module.os_handler.action_point import ActionPointHandler
 from module.os_handler.map_event import MapEventHandler
@@ -81,26 +80,31 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
         Switch is an icon of 4 block, one block in white. White block keeps rotating.
         If detected one white block, consider this is a zone switch.
 
+        2021.07.15 ZONE_SWITCH was downscaled and added text "Change Zone".
+            So ZONE_SWITCH changed to detect "Change Zone"
+
         Returns:
             bool: If current zone has switch.
         """
-        image = self.image_area(ZONE_SWITCH)
-        center = np.array(image.size) / 2
-        count = 0
-        for corner in area2corner((0, 0, *image.size)):
-            area = (min(corner[0], center[0]), min(corner[1], center[1]),
-                    max(corner[0], center[0]), max(corner[1], center[1]))
-            area = area_pad(area, pad=2)
-            color = np.mean(get_color(image, area))
-            if color > 235:
-                count += 1
+        # image = self.image_area(ZONE_SWITCH)
+        # center = np.array(image.size) / 2
+        # count = 0
+        # for corner in area2corner((0, 0, *image.size)):
+        #     area = (min(corner[0], center[0]), min(corner[1], center[1]),
+        #             max(corner[0], center[0]), max(corner[1], center[1]))
+        #     area = area_pad(area, pad=2)
+        #     color = np.mean(get_color(image, area))
+        #     if color > 235:
+        #         count += 1
+        #
+        # if count == 1:
+        #     return True
+        # elif count == 0:
+        #     return False
+        # else:
+        #     logger.warning(f'Unexpected zone switch, white block: {count}')
 
-        if count == 1:
-            return True
-        elif count == 0:
-            return False
-        else:
-            logger.warning(f'Unexpected zone switch, white block: {count}')
+        return self.appear(ZONE_SWITCH, offset=(5, 5))
 
     _zone_select_offset = (20, 200)
 
