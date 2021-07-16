@@ -51,6 +51,12 @@ class Button:
     def __eq__(self, other):
         return str(self) == str(other)
 
+    def __hash__(self):
+        return hash(self.name)
+
+    def __bool__(self):
+        return True
+
     @property
     def button(self):
         if self._button_offset is None:

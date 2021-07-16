@@ -1,6 +1,5 @@
 import numpy as np
 
-from module.base.decorator import Config
 from module.base.timer import Timer
 from module.base.utils import get_color, rgb2gray
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3
@@ -19,36 +18,6 @@ class RewardResearch(ResearchSelector):
 
     def ensure_research_stable(self):
         self.wait_until_stable(STABLE_CHECKER)
-
-    def wait_until_get_items_stable(self, timeout=Timer(1, count=2).start(), skip_first_screenshot=True):
-        """
-        Items in research are shown one by one, row by row,
-        which will mis-detect GET_ITEMS_2 as GET_ITEMS_1, or mis-detect GET_ITEMS_3 as GET_ITEMS_1.
-
-        Pages:
-            in: GET_ITEMS_<any>
-            out: GET_ITEMS_<stabled>
-        """
-        prev = ''
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            name = ''
-            for button in [GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3]:
-                if self.appear(button):
-                    name = button.name
-                    break
-
-            # End
-            if len(name) and name == prev:
-                if timeout.reached():
-                    break
-            else:
-                timeout.reset()
-            prev = name
 
     def _in_research(self):
         return self.appear(RESEARCH_CHECK, offset=(20, 20))
@@ -167,6 +136,8 @@ class RewardResearch(ResearchSelector):
         logger.info('No research project started')
         return True
 
+    research_project_started = None
+
     def research_project_start(self, index, skip_first_screenshot=True):
         """
         Args:
@@ -179,6 +150,7 @@ class RewardResearch(ResearchSelector):
         logger.info(f'Research project: {index}')
         available = False
         click_timer = Timer(10)
+        self.research_project_started = self.projects[index]
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -214,85 +186,73 @@ class RewardResearch(ResearchSelector):
                 return False
 
     def research_receive(self, skip_first_screenshot=True, save_get_items=False):
-        logger.info('Research receive')
-        timeout = Timer(40).start()
-        executed = False
+        """
+        Args:
+            skip_first_screenshot:
+            save_get_items:
 
+        Pages:
+            in: page_research, stable, with project finished.
+            out: page_research
+        """
+        logger.info('Research receive')
+
+        def get_items():
+            for b in [GET_ITEMS_3, GET_ITEMS_2, GET_ITEMS_1]:
+                if self.appear(b, offset=(5, 0)):
+                    return b
+            return None
+
+        # Take screenshots of project list
+        if save_get_items:
+            self.device.save_screenshot('research_project', interval=0, to_base_folder=True)
+        self.stat.add(self.device.image)
+
+        # Click finished project, to GET_ITEMS_*
+        confirm_timer = Timer(1.5, count=5)
+        record_button = None
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
-                self.device.screenshot_interval_set(0.5)
                 self.device.screenshot()
 
             if self.appear(RESEARCH_CHECK, interval=10):
                 if self._research_has_finished_at(RESEARCH_STATUS[self._research_finished_index]):
-                    if save_get_items:
-                        self.device.save_screenshot('research_project', interval=0, to_base_folder=True)
-                    self.stat.add(self.device.image)
                     self.device.click(RESEARCH_ENTRANCE[self._research_finished_index])
-                    continue
 
-            if self.appear(GET_ITEMS_1, interval=5):
-                self.wait_until_get_items_stable()
-                logger.info('Get items 1 stabled')
-                if not self.appear(GET_ITEMS_1, interval=0):
-                    continue
-                self.device.sleep(2)
-                if save_get_items:
-                    self.device.screenshot()
-                    self.device.save_screenshot('research_items', to_base_folder=True)
-                self.stat.add(self.device.image)
-                self.stat.upload()
-                self.device.click(GET_ITEMS_RESEARCH_SAVE)
-                executed = True
-                continue
-            if self.appear(GET_ITEMS_2, interval=5):
-                self.wait_until_get_items_stable()
-                logger.info('Get items 2 stabled')
-                if not self.appear(GET_ITEMS_2, interval=0):
-                    continue
-                self.device.sleep(2)
-                if save_get_items:
-                    self.device.screenshot()
-                    self.device.save_screenshot('research_items', to_base_folder=True)
-                self.stat.add(self.device.image)
-                self.stat.upload()
-                self.device.click(GET_ITEMS_RESEARCH_SAVE)
-                executed = True
-                continue
-            if self.appear(GET_ITEMS_3, interval=5):
-                self.wait_until_get_items_stable()
-                logger.info('Get items 3 stabled')
-                if not self.appear(GET_ITEMS_3, interval=0):
-                    continue
-                self.device.sleep(3)
-                if save_get_items or self.config.ENABLE_AZURSTAT:
-                    self.device.screenshot()
-                    if save_get_items:
-                        self.device.save_screenshot('research_items', to_base_folder=True)
-                    self.stat.add(self.device.image)
-                    self.device.swipe((0, 250), box=ITEMS_3_SWIPE.area, random_range=(-10, -10, 10, 10), padding=0)
-                    self.device.sleep(2)
-                    self.device.screenshot()
-                    if save_get_items:
-                        self.device.save_screenshot('research_items', interval=0, to_base_folder=True)
-                    self.stat.add(self.device.image)
-                    self.stat.upload()
-                self.device.click(GET_ITEMS_RESEARCH_SAVE)
-                executed = True
-                continue
+            appear_button = get_items()
+            if appear_button is not None:
+                if appear_button == record_button:
+                    if confirm_timer.reached():
+                        break
+                else:
+                    logger.info(f'{appear_button} appeared')
+                    record_button = appear_button
+                    confirm_timer.reset()
 
-            # End
-            if executed and self._in_research():
-                self.ensure_research_stable()
-                break
-            if timeout.reached():
-                logger.warning(f'research_receive timeout, executed={executed}, _in_research={self._in_research()}')
-                break
-
-        self.device.screenshot_interval_set(0.1)
+        # Take screenshots of items
+        button = get_items()
+        if button == GET_ITEMS_1 or button == GET_ITEMS_2:
+            if save_get_items:
+                self.device.save_screenshot('research_items', to_base_folder=True)
+            self.stat.add(self.device.image)
+        elif button == GET_ITEMS_3:
+            if save_get_items:
+                self.device.save_screenshot('research_items', to_base_folder=True)
+            self.stat.add(self.device.image)
+            self.device.swipe((0, 250), box=ITEMS_3_SWIPE.area, random_range=(-10, -10, 10, 10), padding=0)
+            self.device.sleep(2)
+            self.device.screenshot()
+            if save_get_items:
+                self.device.save_screenshot('research_items', interval=0, to_base_folder=True)
+            self.stat.add(self.device.image)
+        self.stat.upload()
         self.stat.clear()
+
+        # Close GET_ITEMS_*, to project list
+        self.ui_click(appear_button=get_items, click_button=GET_ITEMS_RESEARCH_SAVE, check_button=self._in_research,
+                      skip_first_screenshot=True)
 
     def research_reward(self):
         """
