@@ -318,28 +318,6 @@ class RewardResearch(ResearchSelector):
             if result:
                 break
 
-    @Config.when(SERVER='en')
-    def ui_ensure_research(self):
-        """
-        In EN, the title of page_reshmenu and page_research are "Technology",
-        so RESEARCH_CHECK in EN uses "Resets daily in midnight".
-        However it's loaded faster then other objects in page_research.
-        To handle this, check both "Technology" and "Resets daily in midnight".
-
-        Pages:
-            in: Any page
-            out: page_research
-        """
-
-        def research_check():
-            return self.appear(RESEARCH_CHECK, offset=(20, 20)) and self.appear(RESEARCH_TITLE, offset=(20, 20))
-
-        self.ui_goto(page_reshmenu, skip_first_screenshot=True)
-        self.ui_click(RESHMENU_GOTO_RESEARCH, check_button=research_check, skip_first_screenshot=True)
-        self.device.send_notification('Research Start', 'Research receive')
-        self.ensure_research_stable()
-
-    @Config.when(SERVER=None)
     def ui_ensure_research(self):
         """
         Pages:
@@ -347,6 +325,7 @@ class RewardResearch(ResearchSelector):
             out: page_research
         """
         self.ui_goto(page_research, skip_first_screenshot=True)
+        self.device.send_notification('Research Start', 'Research receive')
         self.ensure_research_stable()
 
     def handle_research_reward(self):
