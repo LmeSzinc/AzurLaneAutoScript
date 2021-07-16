@@ -16,7 +16,7 @@ class RaidDaily(RaidRun):
         Returns:
             int:
         """
-        ocr = raid_ocr(raid=self.config.RAID_NAME, mode=mode)
+        ocr = raid_ocr(raid=self.config.RAID_DAILY_NAME, mode=mode)
         remain, _, _ = ocr.ocr(self.device.image)
         logger.attr(f'{mode.capitalize()} Remain', remain)
         return remain
@@ -33,7 +33,7 @@ class RaidDaily(RaidRun):
             name (str): Raid name, such as 'raid_20200624'
         """
         self.reward_backup_daily_reward_settings()
-        name = name if name else self.config.RAID_NAME
+        name = name if name else self.config.RAID_DAILY_NAME
         self.ui_ensure(page_raid)
 
         if self.config.RAID_HARD:

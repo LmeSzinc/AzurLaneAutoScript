@@ -50,7 +50,7 @@ class RaidRun(Raid, CampaignRun):
 
             # Run
             try:
-                self.raid_execute_once(mode=mode if mode else self.config.RAID_MODE)
+                self.raid_execute_once(mode=mode if mode else self.config.RAID_MODE, raid=name)
             except OilExhausted:
                 self.ui_goto_main()
                 break
