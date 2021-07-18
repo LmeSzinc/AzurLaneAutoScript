@@ -164,7 +164,8 @@ page_shop.link(button=GOTO_MAIN, destination=page_main)
 
 # Munitions
 page_munitions = Page(MUNITIONS_CHECK)
-#page_shop.link(button=SHOP_GOTO_MUNITIONS, destination=page_munitions)
+# Prefer latter path since defaults to shop_general on load, stable background color
+# page_shop.link(button=SHOP_GOTO_MUNITIONS, destination=page_munitions)
 page_academy.link(button=ACADEMY_GOTO_MUNITIONS, destination=page_munitions)
 page_munitions.link(button=GOTO_MAIN, destination=page_main)
 
