@@ -63,9 +63,7 @@ TW support, Thanks **[@Zorachristine](https://github.com/Zorachristine)** , some
 
 ## 安装 Installation
 
-详见 [中文安装教程](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Installation_cn)
-
-包含傻瓜式安装教程, 傻瓜式更新教程和高级用户安装教程.
+详见 [中文安装教程](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Installation_cn_manual)
 
 
 

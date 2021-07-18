@@ -55,13 +55,16 @@ def get_research_series(image):
     """
     result = []
     # Set 'prominence = 50' to ignore possible noise.
-    parameters = {'height': 200, 'prominence': 50}
+    # 2021.07.18 Letter IV is now smaller than I, II, III, since the maintenance in 07.15.
+    #   The "/" of the "V" in IV become darker because of anti-aliasing.
+    #   So lower height to 160 to have a better detection.
+    parameters = {'height': 160, 'prominence': 50}
 
     for button in RESEARCH_SERIES:
         im = color_similarity_2d(image.crop(button.area).resize((46, 25)), color=(255, 255, 255))
         peaks = [len(signal.find_peaks(row, **parameters)[0]) for row in im[5:-5]]
         upper, lower = max(peaks), min(peaks)
-        # print(upper, lower)
+        # print(peaks)
         if upper == lower and 1 <= upper <= 3:
             series = upper
         elif upper == 3 and lower == 2:

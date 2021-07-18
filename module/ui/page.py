@@ -125,9 +125,14 @@ page_main.link(button=MAIN_GOTO_RAID, destination=page_raid)
 page_research = Page(RESEARCH_CHECK)
 page_research.link(button=GOTO_MAIN, destination=page_main)
 
+# Shipyard
+page_shipyard = Page(SHIPYARD_CHECK)
+page_shipyard.link(button=GOTO_MAIN, destination=page_main)
+
 # Research menu
 page_reshmenu = Page(RESHMENU_CHECK)
 page_reshmenu.link(button=RESHMENU_GOTO_RESEARCH, destination=page_research)
+page_reshmenu.link(button=RESHMENU_GOTO_SHIPYARD, destination=page_shipyard)
 page_reshmenu.link(button=GOTO_MAIN, destination=page_main)
 page_main.link(button=MAIN_GOTO_RESHMENU, destination=page_reshmenu)
 
