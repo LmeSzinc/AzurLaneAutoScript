@@ -252,6 +252,79 @@ class RewardMeowfficer(UI):
 
         return collected
 
+    def meow_chores(self, skip_first_screenshot=True):
+        """
+        Loop through all chore mechanics to
+        get fort xp points
+
+        Args:
+            skip_first_screenshot (bool): Skip first
+            screen shot or not
+
+        Pages:
+            in: MEOWFFICER_FORT
+            out: MEOWFFICER_FORT
+        """
+        check_timer = Timer(1, count=2)
+        confirm_timer = Timer(1.5, count=3).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear(MEOWFFICER_FORT_GET_XP_1) or \
+                    self.appear(MEOWFFICER_FORT_GET_XP_2):
+                check_timer.reset()
+                confirm_timer.reset()
+                continue
+
+            if self.appear(GET_ITEMS_1, interval=5):
+                self.device.click(MEOWFFICER_FORT_CHECK)
+                check_timer.reset()
+                confirm_timer.reset()
+                continue
+
+            if check_timer.reached():
+                is_chore = self.image_color_count(
+                    MEOWFFICER_FORT_CHORE, color=(247, 186, 90),
+                    threshold=235, count=50)
+                check_timer.reset()
+                if is_chore:
+                    self.device.click(MEOWFFICER_FORT_CHORE)
+                    confirm_timer.reset()
+                    continue
+
+            # End
+            if confirm_timer.reached():
+                break
+
+    def meow_fort(self):
+        """
+        Performs fort chores if available,
+        applies to every meowfficer simultaneously
+
+        Pages:
+            in: page_meowfficer
+            out: page_meowfficer
+        """
+        # Check for fort red notification
+        if not self.appear(MEOWFFICER_FORT_RED_DOT):
+            return False
+
+        # Enter MEOWFFICER_FORT window
+        self.ui_click(MEOWFFICER_FORT_ENTER,
+                      check_button=MEOWFFICER_FORT_CHECK, skip_first_screenshot=True)
+
+        # Perform fort chore operations
+        self.meow_chores()
+
+        # Exit back into page_meowfficer
+        self.ui_click(MEOWFFICER_GOTO_DORM,
+                      check_button=MEOWFFICER_FORT_ENTER, appear_button=MEOWFFICER_FORT_CHECK, offset=None)
+
+        return True
+
     def meow_run(self, buy=True, train=True):
         """
         Execute buy and train operations
