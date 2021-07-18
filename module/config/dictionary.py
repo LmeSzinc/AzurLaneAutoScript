@@ -157,6 +157,7 @@ dic_true_eng_to_eng = {
     'research_filter_string': 'research_filter_string',
     'buy_meowfficer': 'buy_meowfficer',
     'enable_train_meowfficer': 'enable_train_meowfficer',
+    'do_fort_chores_meowfficer': 'do_fort_chores_meowfficer',
     'enable_data_key_collect': 'enable_data_key_collect',
     'enable_guild_logistics': 'enable_guild_logistics',
     'enable_guild_operations': 'enable_guild_operations',

@@ -325,16 +325,16 @@ class RewardMeowfficer(UI):
 
         return True
 
-    def meow_run(self, buy=True, train=True):
+    def meow_run(self, buy=True, train=True, fort=True):
         """
-        Execute buy and train operations
+        Execute buy, train, and fort operations
         if enabled by arguments
 
         Pages:
             in: Any page
             out: page_main
         """
-        if not buy and not train:
+        if not buy and not train and not fort:
             return False
 
         self.ui_ensure(page_meowfficer)
@@ -344,6 +344,9 @@ class RewardMeowfficer(UI):
 
         if train:
             self.meow_train()
+
+        if fort:
+            self.meow_fort()
 
         self.ui_goto_main()
         return True
@@ -356,7 +359,9 @@ class RewardMeowfficer(UI):
         if self.config.record_executed_since(option=('RewardRecord', 'meowfficer'), since=(0,)):
             return False
 
-        if not self.meow_run(buy=self.config.BUY_MEOWFFICER >= 1, train=self.config.ENABLE_TRAIN_MEOWFFICER):
+        if not self.meow_run(buy=self.config.BUY_MEOWFFICER >= 1,
+                             train=self.config.ENABLE_TRAIN_MEOWFFICER,
+                             fort=self.config.DO_FORT_CHORES_MEOWFFICER):
             return False
 
         self.config.record_save(option=('RewardRecord', 'meowfficer'))
