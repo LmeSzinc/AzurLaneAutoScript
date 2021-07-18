@@ -32,13 +32,24 @@ class Control(MiniTouch):
 
         Returns:
             bool:
+
+        Raises:
+            GameTooManyClickError:
         """
-        if sum([1 if str(prev) == str(button) else 0 for prev in self.click_record]) >= 12:
-            logger.warning(f'Too many click for a button: {button}')
+        self.click_record.append(str(button))
+
+        count = {}
+        for key in self.click_record:
+            count[key] = count.get(key, 0) + 1
+        count = sorted(count.items(), key=lambda item: item[1])
+        if count[0][1] >= 12:
+            logger.warning(f'Too many click for a button: {count[0][0]}')
             logger.info(f'History click: {[str(prev) for prev in self.click_record]}')
-            raise GameTooManyClickError(f'Too many click for a button: {button}')
-        else:
-            self.click_record.append(str(button))
+            raise GameTooManyClickError(f'Too many click for a button: {count[0][0]}')
+        if len(count) >= 2 and count[0][1] >= 6 and count[1][1] >= 6:
+            logger.warning(f'Too many click between 2 buttons: {count[0][0]}, {count[1][0]}')
+            logger.info(f'History click: {[str(prev) for prev in self.click_record]}')
+            raise GameTooManyClickError(f'Too many click between 2 buttons: {count[0][0]}, {count[1][0]}')
 
         return False
 

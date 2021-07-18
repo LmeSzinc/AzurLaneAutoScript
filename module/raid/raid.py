@@ -138,9 +138,9 @@ class Raid(MapOperation, Combat):
 
         return False
 
-    def raid_enter(self, mode):
+    def raid_enter(self, mode, raid):
         logger.hr('Raid Enter')
-        entrance = raid_entrance(raid=self.config.RAID_NAME, mode=mode)
+        entrance = raid_entrance(raid=raid, mode=mode)
         while 1:
             self.device.screenshot()
 
@@ -156,8 +156,8 @@ class Raid(MapOperation, Combat):
     def raid_expected_end(self):
         return self.appear(RAID_CHECK, offset=(30, 30))
 
-    def raid_execute_once(self, mode):
+    def raid_execute_once(self, mode, raid):
         logger.hr('Raid Execute')
-        self.raid_enter(mode=mode)
+        self.raid_enter(mode=mode, raid=raid)
         self.combat(balance_hp=False, expected_end=self.raid_expected_end)
         logger.hr('Raid End')

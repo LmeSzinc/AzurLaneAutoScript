@@ -9,6 +9,8 @@ import requests
 from module.config.config import AzurLaneConfig
 from module.logger import logger
 from module.statistics.utils import *
+from requests.adapters import HTTPAdapter
+
 
 
 def pack(img_list):
@@ -77,8 +79,11 @@ class AzurStats:
         now = int(time.time() * 1000)
         data = {'file': (f'{now}.png', output, 'image/png')}
         headers = {'user-agent': self._user_agent()}
+        session = requests.Session()
+        session.mount('http://', HTTPAdapter(max_retries=5))
+        session.mount('https://', HTTPAdapter(max_retries=5))
         try:
-            resp = requests.post(self.API, files=data, headers=headers, timeout=self.TIMEOUT)
+            resp = session.post(self.API, files=data, headers=headers, timeout=self.TIMEOUT)
         except Exception as e:
             logger.warning(f'Image upload failed, {e}')
             return False
