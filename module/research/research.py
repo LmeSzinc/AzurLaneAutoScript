@@ -95,6 +95,7 @@ class RewardResearch(ResearchSelector):
                 self.ensure_research_stable()
                 break
 
+        self._research_project_offset = 0
         return True
 
     def research_select(self, priority, save_get_items=False):
@@ -178,7 +179,7 @@ class RewardResearch(ResearchSelector):
             if self.appear(RESEARCH_STOP, offset=(20, 20)):
                 # RESEARCH_STOP is a semi-transparent button, color will vary depending on the background.
                 self.research_detail_quit()
-                self.ensure_no_info_bar(timeout=3)  # Research started
+                # self.ensure_no_info_bar(timeout=3)  # Research started
                 return True
             if not available and max_rgb <= 235 and self.appear(RESEARCH_UNAVAILABLE, offset=(5, 20)):
                 logger.info('Not enough resources to start this project')
