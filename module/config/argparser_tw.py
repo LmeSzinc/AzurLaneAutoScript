@@ -305,6 +305,7 @@ def main(ini_name=''):
     reward_meowfficer = reward_parser.add_argument_group('商店購買', '如果已經買過則自動跳過', gooey_options={'label_color': '#931D03'})
     reward_meowfficer.add_argument('--買指揮喵', default=default('--買指揮喵'), help='從0到15, 不需要就填0', gooey_options={'label_color': '#4B5F83'})
     reward_meowfficer.add_argument('--訓練指揮喵', default=default('--訓練指揮喵'), help='啟用指揮喵訓練, 每天收一隻, 週日收穫全部', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    reward_meowfficer.add_argument('--do_fort_chores_meowfficer', default=default('--do_fort_chores_meowfficer'), help='Do meowfficer comf-fort chores (clean, feed, and play) to get xp.', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
 
     reward_guild = reward_parser.add_argument_group('大艦隊', '檢查大艦隊後勤和大艦隊作戰', gooey_options={'label_color': '#931D03'})
     reward_guild.add_argument('--啟用大艦隊後勤', default=default('--啟用大艦隊後勤'), help='領取大艦隊任務, 提交籌備物資, 領取艦隊獎勵', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
