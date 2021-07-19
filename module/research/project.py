@@ -17,6 +17,7 @@ from module.ui.ui import UI
 
 RESEARCH_ENTRANCE = [ENTRANCE_1, ENTRANCE_2, ENTRANCE_3, ENTRANCE_4, ENTRANCE_5]
 RESEARCH_SERIES = [SERIES_1, SERIES_2, SERIES_3, SERIES_4, SERIES_5]
+RESEARCH_STATUS = [STATUS_1, STATUS_2, STATUS_3, STATUS_4, STATUS_5]
 OCR_RESEARCH = [OCR_RESEARCH_1, OCR_RESEARCH_2, OCR_RESEARCH_3, OCR_RESEARCH_4, OCR_RESEARCH_5]
 OCR_RESEARCH = Ocr(OCR_RESEARCH, name='RESEARCH', threshold=64, alphabet='0123456789BCDEGHQTMIULRF-')
 RESEARCH_DETAIL_GENRE = [DETAIL_GENRE_B, DETAIL_GENRE_C, DETAIL_GENRE_D, DETAIL_GENRE_E, DETAIL_GENRE_G,
@@ -89,6 +90,32 @@ def get_research_name(image):
     for name in OCR_RESEARCH.ocr(image):
         names.append(name)
     return names
+
+
+def get_research_finished(image):
+    """
+    Args:
+        image: Pillow image
+
+    Returns:
+        int: Index of the finished project, 0 to 4. Return None if no project finished.
+    """
+    for index in [2, 1, 3, 0, 4]:
+        button = RESEARCH_STATUS[index]
+        color = get_color(image, button.area)
+        if max(color) - min(color) < 40:
+            logger.warning(f'Unexpected color: {color}')
+            continue
+        color_index = np.argmax(color)  # R, G, B
+        if color_index == 1:
+            return index  # Green
+        elif color_index == 2:
+            continue  # Blue
+        else:
+            logger.warning(f'Unexpected color: {color}')
+            continue
+
+    return None
 
 
 def parse_time(string):
