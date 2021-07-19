@@ -87,8 +87,6 @@ def get_research_name(image):
     """
     names = []
     for name in OCR_RESEARCH.ocr(image):
-        # S3 D-022-MI (S3-Drake-0.5) detected as 'D-022-ML', because of Drake's white cloth.
-        name = name.replace('ML', 'MI').replace('MIL', 'MI')
         names.append(name)
     return names
 
@@ -304,6 +302,8 @@ class ResearchProject:
         self.valid = True
         # self.config = config
         self.name = self.check_name(name)
+        if self.name != name:
+            logger.info(f'Research name {name} is revised to {self.name}')
         self.series = f'S{series}'
         self.genre = ''
         self.duration = '24'
@@ -341,8 +341,7 @@ class ResearchProject:
         else:
             return f'{self.series} {self.name} (Invalid)'
 
-    @staticmethod
-    def check_name(name):
+    def check_name(self, name):
         """
         Args:
             name (str):
@@ -356,7 +355,15 @@ class ResearchProject:
             prefix, number, suffix = parts
             number = number.replace('D', '0').replace('O', '0').replace('S', '5')
             prefix = prefix.strip('I1')
+            # S3 D-022-MI (S3-Drake-0.5) detected as 'D-022-ML', because of Drake's white cloth.
+            suffix = suffix.replace('ML', 'MI').replace('MIL', 'MI')
+            # S4 D-063-UL (S4-hakuryu-0.5) detected as 'D-063-0C'
+            suffix = suffix.replace('0C', 'UL').replace('UC', 'UL')
             return '-'.join([prefix, number, suffix])
+        elif len(parts) == 2:
+            # Trying to insert '-', for results like H339-MI
+            if name[0].isalpha() and name[1].isdigit():
+                return self.check_name(f'{name[0]}-{name[1:]}')
         return name
 
     def get_data(self, name, series):
