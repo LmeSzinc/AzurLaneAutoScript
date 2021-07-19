@@ -296,8 +296,11 @@ class RewardMeowfficer(UI):
                     continue
 
             # End
-            if confirm_timer.reached():
-                break
+            if self.appear(MEOWFFICER_FORT_CHECK, offset=(20, 20)):
+                if confirm_timer.reached():
+                    break
+            else:
+                confirm_timer.reset()
 
     def meow_fort(self):
         """
