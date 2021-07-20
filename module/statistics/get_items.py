@@ -20,7 +20,7 @@ def merge_get_items(item_list_1, item_list_2):
     Returns:
         list[Item]:
     """
-    pass
+    return list(set(item_list_1 + item_list_2))
 
 
 class GetItemsStatistics:
@@ -51,11 +51,9 @@ class GetItemsStatistics:
         elif GET_ITEMS_3.match(image, offset=(5, 0)):
             ITEM_GROUP.grids = ITEM_GRIDS_3
         else:
-            from PIL import Image
-            Image.fromarray(GET_ITEMS_1.image).show()
             raise ImageError('Stat image is not a get_items image')
 
-    def stats_get_items(self, image):
+    def stats_get_items(self, image, **kwargs):
         """
         Args:
             image: Pillow image.
@@ -68,7 +66,7 @@ class GetItemsStatistics:
         if ITEM_GROUP.grids is None:
             return []
         else:
-            ITEM_GROUP.predict(image)
+            ITEM_GROUP.predict(image, **kwargs)
             return ITEM_GROUP.items
 
     def load_template_folder(self, folder):
