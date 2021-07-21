@@ -90,7 +90,10 @@ class AzurLaneAutoScript:
 
     def setting(self):
         for key, value in self.config.config['Setting'].items():
-            print(f'{key} = {value}')
+            if key == 'azurstat_id':
+                print(f'{key} = <sensitive_infomation>')
+            else:
+                print(f'{key} = {value}')
 
         logger.hr('Settings saved')
         self.update_check()
@@ -113,7 +116,7 @@ class AzurLaneAutoScript:
     def emulator(self):
         for key, value in self.config.config['Emulator'].items():
             if key == 'github_token':
-                print(f'{key} = {"<sensitive_infomation>"}')
+                print(f'{key} = <sensitive_infomation>')
             else:
                 print(f'{key} = {value}')
 
