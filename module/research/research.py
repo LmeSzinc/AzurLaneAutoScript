@@ -1,15 +1,12 @@
 import numpy as np
 
 from module.base.timer import Timer
-from module.base.utils import get_color, rgb2gray
+from module.base.utils import rgb2gray
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3
 from module.logger import logger
 from module.research.assets import *
-from module.research.project import ResearchSelector
+from module.research.project import ResearchSelector, RESEARCH_ENTRANCE, get_research_finished
 from module.ui.page import *
-
-RESEARCH_ENTRANCE = [ENTRANCE_1, ENTRANCE_2, ENTRANCE_3, ENTRANCE_4, ENTRANCE_5]
-RESEARCH_STATUS = [STATUS_1, STATUS_2, STATUS_3, STATUS_4, STATUS_5]
 
 
 class RewardResearch(ResearchSelector):
@@ -22,25 +19,16 @@ class RewardResearch(ResearchSelector):
     def _in_research(self):
         return self.appear(RESEARCH_CHECK, offset=(20, 20))
 
-    def _research_has_finished_at(self, button):
+    def _research_has_finished_at(self, index):
         """
         Args:
-            button (Button):
+            index (int): Index of research project, 0 to 4
 
         Returns:
             bool: True if a research finished
         """
-        color = get_color(self.device.image, button.area)
-        if np.max(color) - np.min(color) < 40:
-            logger.warning(f'Unexpected color: {color}')
-        index = np.argmax(color)  # R, G, B
-        if index == 1:
-            return True  # Green
-        elif index == 2:
-            return False  # Blue
-        else:
-            logger.warning(f'Unexpected color: {color}')
-            return False
+        finish = get_research_finished(self.device.image)
+        return finish == index
 
     def research_has_finished(self):
         """
@@ -50,13 +38,13 @@ class RewardResearch(ResearchSelector):
         Returns:
             bool: True if a research finished
         """
-        for index, button in enumerate(RESEARCH_STATUS):
-            if self._research_has_finished_at(button):
-                logger.attr('Research_finished', index)
-                self._research_finished_index = index
-                return True
-
-        return False
+        index = get_research_finished(self.device.image)
+        if index is not None:
+            logger.attr('Research_finished', index)
+            self._research_finished_index = index
+            return True
+        else:
+            return False
 
     def research_reset(self, skip_first_screenshot=True, save_get_items=False):
         """
@@ -219,7 +207,7 @@ class RewardResearch(ResearchSelector):
                 self.device.screenshot()
 
             if self.appear(RESEARCH_CHECK, interval=10):
-                if self._research_has_finished_at(RESEARCH_STATUS[self._research_finished_index]):
+                if self._research_has_finished_at(self._research_finished_index):
                     self.device.click(RESEARCH_ENTRANCE[self._research_finished_index])
 
             appear_button = get_items()

@@ -17,6 +17,7 @@ from module.ui.ui import UI
 
 RESEARCH_ENTRANCE = [ENTRANCE_1, ENTRANCE_2, ENTRANCE_3, ENTRANCE_4, ENTRANCE_5]
 RESEARCH_SERIES = [SERIES_1, SERIES_2, SERIES_3, SERIES_4, SERIES_5]
+RESEARCH_STATUS = [STATUS_1, STATUS_2, STATUS_3, STATUS_4, STATUS_5]
 OCR_RESEARCH = [OCR_RESEARCH_1, OCR_RESEARCH_2, OCR_RESEARCH_3, OCR_RESEARCH_4, OCR_RESEARCH_5]
 OCR_RESEARCH = Ocr(OCR_RESEARCH, name='RESEARCH', threshold=64, alphabet='0123456789BCDEGHQTMIULRF-')
 RESEARCH_DETAIL_GENRE = [DETAIL_GENRE_B, DETAIL_GENRE_C, DETAIL_GENRE_D, DETAIL_GENRE_E, DETAIL_GENRE_G,
@@ -87,10 +88,34 @@ def get_research_name(image):
     """
     names = []
     for name in OCR_RESEARCH.ocr(image):
-        # S3 D-022-MI (S3-Drake-0.5) detected as 'D-022-ML', because of Drake's white cloth.
-        name = name.replace('ML', 'MI').replace('MIL', 'MI')
         names.append(name)
     return names
+
+
+def get_research_finished(image):
+    """
+    Args:
+        image: Pillow image
+
+    Returns:
+        int: Index of the finished project, 0 to 4. Return None if no project finished.
+    """
+    for index in [2, 1, 3, 0, 4]:
+        button = RESEARCH_STATUS[index]
+        color = get_color(image, button.area)
+        if max(color) - min(color) < 40:
+            logger.warning(f'Unexpected color: {color}')
+            continue
+        color_index = np.argmax(color)  # R, G, B
+        if color_index == 1:
+            return index  # Green
+        elif color_index == 2:
+            continue  # Blue
+        else:
+            logger.warning(f'Unexpected color: {color}')
+            continue
+
+    return None
 
 
 def parse_time(string):
@@ -304,6 +329,8 @@ class ResearchProject:
         self.valid = True
         # self.config = config
         self.name = self.check_name(name)
+        if self.name != name:
+            logger.info(f'Research name {name} is revised to {self.name}')
         self.series = f'S{series}'
         self.genre = ''
         self.duration = '24'
@@ -341,8 +368,7 @@ class ResearchProject:
         else:
             return f'{self.series} {self.name} (Invalid)'
 
-    @staticmethod
-    def check_name(name):
+    def check_name(self, name):
         """
         Args:
             name (str):
@@ -356,7 +382,15 @@ class ResearchProject:
             prefix, number, suffix = parts
             number = number.replace('D', '0').replace('O', '0').replace('S', '5')
             prefix = prefix.strip('I1')
+            # S3 D-022-MI (S3-Drake-0.5) detected as 'D-022-ML', because of Drake's white cloth.
+            suffix = suffix.replace('ML', 'MI').replace('MIL', 'MI')
+            # S4 D-063-UL (S4-hakuryu-0.5) detected as 'D-063-0C'
+            suffix = suffix.replace('0C', 'UL').replace('UC', 'UL')
             return '-'.join([prefix, number, suffix])
+        elif len(parts) == 2:
+            # Trying to insert '-', for results like H339-MI
+            if name[0].isalpha() and name[1].isdigit():
+                return self.check_name(f'{name[0]}-{name[1:]}')
         return name
 
     def get_data(self, name, series):
