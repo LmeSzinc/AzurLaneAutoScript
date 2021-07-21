@@ -16,12 +16,12 @@ OCR_SHOP_SELECT_TOTAL_PRICE = Digit(SHOP_SELECT_TOTAL_PRICE, letter=(255, 255, 2
 
 
 class GuildItemGrid(ShopItemGrid):
-    def predict(self, image, name=True, amount=True, cost=False, price=False):
+    def predict(self, image, name=True, amount=True, cost=False, price=False, tag=False):
         """
         Overridden to iterate and add attribute for items classified as having
         secondary grid and additional information
         """
-        super().predict(image, name, amount, cost, price)
+        super().predict(image, name, amount, cost, price, tag)
 
         # Loop again for Guild Shop items
         # Add attr 'secondary_grid' used to flag and id

@@ -12,12 +12,12 @@ from module.ui.ui import UI
 
 
 class ShopItemGrid(ItemGrid):
-    def predict(self, image, name=True, amount=True, cost=False, price=False):
+    def predict(self, image, name=True, amount=True, cost=False, price=False, tag=False):
         """
         Overridden to iterate, corrects 'Book' type items and add additional
         attributes used to generalize identification
         """
-        super().predict(image, name, amount, cost, price)
+        super().predict(image, name, amount, cost, price, tag)
 
         for item in self.items:
             # Every item is given a new attr 'alt_name'
@@ -96,7 +96,7 @@ class ShopBase(UI):
             logger.warning(f'shop_get_items --> Missing cached_property shop_{key}_items')
             return []
 
-        item_grid.predict(self.device.image, name=True, amount=False, cost=True, price=True)
+        item_grid.predict(self.device.image, name=True, amount=False, cost=True, price=True, tag=False)
 
         items = item_grid.items
         if len(items):
