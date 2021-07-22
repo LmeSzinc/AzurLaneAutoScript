@@ -1,8 +1,21 @@
 import codecs
 import configparser
+import random
 import shutil
+import string
 
 from module.logger import logger
+
+
+def random_id(length=32):
+    """
+    Args:
+        length (int):
+
+    Returns:
+        str: Random azurstat id.
+    """
+    return ''.join(random.sample(string.ascii_lowercase + string.digits, length))
 
 
 def update_config_from_template(config, file):
@@ -37,6 +50,9 @@ def update_config_from_template(config, file):
             if not template.has_option(section, option):
                 config.remove_option(section, option)
                 changed = True
+    # AzueStat id
+    if config['Setting']['azurstat_id'] == '':
+        config['Setting']['azurstat_id'] = random_id()
     # Save
     if changed:
         config.write(codecs.open(file, "w+", "utf8"))

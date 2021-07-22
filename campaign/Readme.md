@@ -59,3 +59,5 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20210610   | event 20210610 tw        | The Way Home in the Night      | -                      | -                                | -                                    | 夜幕下的歸途       |
 | 20210624   | event 20210624 tw        | Skybound Oratorio              | -                      | -                                | -                                    | 穹頂下的聖詠曲     |
 | 20210624   | event 20210624 cn        | Swirling Cherry Blossoms       | 复刻浮樱影华           | Swirling Cherry Blossoms Rerun   | 翳りし満ちる影の華(復刻)             | -                  |
+| 20210708   | raid 20210708            | Cross Wave                     | 复刻穿越彼方的水线     | Cross Wave rerun                 | 交錯する新たな波 (復刻)              | -                  |
+| 20210708   | event 20200903 en        | Stars of the Shimmering Fjord  | -                      | -                                | -                                    | 峽灣間的星辰       |

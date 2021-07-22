@@ -129,7 +129,7 @@ class AzurLaneConfig:
     """
     gems_farming
     """
-    GEMS_STAGE = 'A3'
+    GEMS_STAGE = '2-4'
     GEMS_FLEET_1 = 3
     GEMS_FLEET_2 = 5
 
@@ -547,6 +547,12 @@ class AzurLaneConfig:
     # ActionPoint, PurpleCoins, RepairPack, TuringSample
     OS_ASKSHI_SHOP_PRIORITY = 'ActionPoint > PurpleCoins'
 
+    """
+    module.statistics
+    """
+    ENABLE_AZURSTAT = False
+    AZURSTAT_ID = ''
+
     def create_folder(self):
         for folder in [self.ASSETS_FOLDER, self.PERSPECTIVE_ERROR_LOG_FOLDER, self.ERROR_LOG_FOLDER]:
             if folder and not os.path.exists(folder):
@@ -667,6 +673,8 @@ class AzurLaneConfig:
         self.LOW_HP_WITHDRAW_THRESHOLD = float(option['low_hp_withdraw_threshold'])
         self.ENABLE_SAVE_GET_ITEMS = to_bool(option['enable_drop_screenshot'])
         self.SCREEN_SHOT_SAVE_FOLDER_BASE = option['drop_screenshot_folder']
+        self.ENABLE_AZURSTAT = to_bool(option['enable_azurstat'])
+        self.AZURSTAT_ID = option['azurstat_id']
         # Retirement
         self.ENABLE_RETIREMENT = to_bool(option['enable_retirement'])
         self.RETIREMENT_METHOD = option['retire_method']
@@ -813,6 +821,12 @@ class AzurLaneConfig:
         self.C124_NON_S3_ENTER_TOLERANCE = int(option['non_s3_enemy_enter_tolerance'])
         self.C124_NON_S3_WITHDRAW_TOLERANCE = int(option['non_s3_enemy_withdraw_tolerance'])
         self.C124_AMMO_PICK_UP = int(option['ammo_pick_up_124'])
+
+        # Gems_farming
+        option = config['Gems_farming']
+        self.GEMS_STAGE = option['gems_stage']
+        self.GEMS_FLEET_1 = int(option['gems_fleet_1'])
+        self.GEMS_FLEET_2 = int(option['gems_fleet_2'])
 
         # OS semi auto
         option = config['Os_semi_auto']
