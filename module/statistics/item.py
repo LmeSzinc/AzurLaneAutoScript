@@ -45,6 +45,7 @@ class Item:
         self.amount = 1
         self.cost = 'DefaultCost'
         self.price = 0
+        self.tag = None
 
     @property
     def name(self):
@@ -63,11 +64,16 @@ class Item:
 
     def __str__(self):
         if self.name != 'DefaultItem' and self.cost == 'DefaultCost':
-            return f'{self.name}_x{self.amount}'
+            name = f'{self.name}_x{self.amount}'
         elif self.name == 'DefaultItem' and self.cost != 'DefaultCost':
-            return f'{self.cost}_x{self.price}'
+            name = f'{self.cost}_x{self.price}'
         else:
-            return f'{self.name}_x{self.amount}_{self.cost}_x{self.price}'
+            name = f'{self.name}_x{self.amount}_{self.cost}_x{self.price}'
+
+        if self.tag is not None:
+            name = f'{name}_{self.tag}'
+
+        return name
 
     @property
     def button(self):
@@ -76,13 +82,19 @@ class Item:
     def crop(self, area):
         return self.image_raw.crop(area_offset(area, offset=self._button.area[:2]))
 
+    def __eq__(self, other):
+        return self.name == other
+
+    def __hash__(self):
+        return hash(self.name)
+
 
 class ItemGrid:
     similarity = 0.92
     cost_similarity = 0.75
 
     def __init__(self, grids, templates, template_area=(40, 21, 89, 70), amount_area=(60, 71, 91, 92),
-                 cost_area=(6, 123, 84, 166), price_area=(52, 132, 132, 156)):
+                 cost_area=(6, 123, 84, 166), price_area=(52, 132, 132, 156), tag_area=(81, 4, 91, 8)):
         """
         Args:
             grids (ButtonGrid):
@@ -91,6 +103,7 @@ class ItemGrid:
             amount_area (tuple):
             cost_area (tuple):
             price_area (tuple):
+            tag_area (tuple):
         """
         self.amount_ocr = AMOUNT_OCR
         self.price_ocr = PRICE_OCR
@@ -99,7 +112,9 @@ class ItemGrid:
         self.amount_area = amount_area
         self.cost_area = cost_area
         self.price_area = price_area
+        self.tag_area = tag_area
 
+        self.colors = {}
         self.templates = {}
         self.templates_hit = {}
         self.next_template_index = len(self.templates.keys())
@@ -136,7 +151,9 @@ class ItemGrid:
             if name in self.templates:
                 continue
             image = load_image(image)
-            self.templates[name] = crop(np.array(image), area=self.template_area)
+            image = crop(np.array(image), area=self.template_area)
+            self.colors[name] = cv2.mean(image)[:3]
+            self.templates[name] = image
             self.templates_hit[name] = 0
             self.next_template_index += 1
 
@@ -165,18 +182,22 @@ class ItemGrid:
             str: Template name.
         """
         image = np.array(image)
+        color = cv2.mean(crop(image, self.template_area))[:3]
         names = np.array(list(self.templates.keys()))[np.argsort(list(self.templates_hit.values()))][::-1]
         for name in names:
-            res = cv2.matchTemplate(image, self.templates[name], cv2.TM_CCOEFF_NORMED)
-            _, similarity, _, _ = cv2.minMaxLoc(res)
-            if similarity > self.similarity:
-                self.templates_hit[name] += 1
-                return name
+            if color_similar(color1=color, color2=self.colors[name], threshold=30):
+                res = cv2.matchTemplate(image, self.templates[name], cv2.TM_CCOEFF_NORMED)
+                _, similarity, _, _ = cv2.minMaxLoc(res)
+                if similarity > self.similarity:
+                    self.templates_hit[name] += 1
+                    return name
 
         self.next_template_index += 1
         name = str(self.next_template_index)
         logger.info(f'New template: {name}')
-        self.templates[name] = crop(image, self.template_area)
+        image = crop(image, self.template_area)
+        self.colors[name] = cv2.mean(image)[:3]
+        self.templates[name] = image
         self.templates_hit[name] = self.templates_hit.get(name, 0) + 1
         return name
 
@@ -228,7 +249,19 @@ class ItemGrid:
         # If not cost template matched, consider this item is empty.
         return None
 
-    def predict(self, image, name=True, amount=True, cost=False, price=False):
+    @staticmethod
+    def predict_tag(image):
+        """
+        Args:
+            image: Pillow image. tag_area of the item.
+            Replace this method to predict tags.
+
+        Returns:
+            str: Tags are like `catchup`, `bonus`. Default to None
+        """
+        return None
+
+    def predict(self, image, name=True, amount=True, cost=False, price=False, tag=False):
         """
         Args:
             image: Pillow image
@@ -236,6 +269,7 @@ class ItemGrid:
             amount (bool): If predict item amount.
             cost (bool): If predict the cost to buy item.
             price (bool): If predict item price.
+            tag (bool): If predict item tag. Tags are like `catchup`, `bonus`.
 
         Returns:
             list[Item]:
@@ -261,6 +295,10 @@ class ItemGrid:
             price_list = self.price_ocr.ocr(price_list, direct_ocr=True)
             for item, p in zip(self.items, price_list):
                 item.price = p
+        if tag:
+            tag_list = [self.predict_tag(item.crop(self.tag_area)) for item in self.items]
+            for item, t in zip(self.items, tag_list):
+                item.tag = t
 
         # Delete wrong results
         items = [item for item in self.items if not (price and item.price <= 0)]
