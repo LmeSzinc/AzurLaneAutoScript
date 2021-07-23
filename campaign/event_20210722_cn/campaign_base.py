@@ -87,3 +87,8 @@ class CampaignBase(CampaignBase_):
                 return True
 
         return False
+
+    def campaign_match_multi(self, *args, **kwargs):
+        # Lower campaign match threshold to 0.8, in order to detect 50% clear SP3
+        kwargs['similarity'] = 0.8
+        return super().campaign_match_multi(*args, **kwargs)
