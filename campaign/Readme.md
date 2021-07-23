@@ -61,3 +61,4 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20210624   | event 20210624 cn        | Swirling Cherry Blossoms       | 复刻浮樱影华           | Swirling Cherry Blossoms Rerun   | 翳りし満ちる影の華(復刻)             | -                  |
 | 20210708   | raid 20210708            | Cross Wave                     | 复刻穿越彼方的水线     | Cross Wave rerun                 | 交錯する新たな波 (復刻)              | -                  |
 | 20210708   | event 20200903 en        | Stars of the Shimmering Fjord  | -                      | -                                | -                                    | 峽灣間的星辰       |
+| 20210722   | event 20210722 cn        | Azur Anthem                    | 响彻碧海的偶像歌       | Azur Anthem                      | 海に響くアイドルの歌                 | -                  |

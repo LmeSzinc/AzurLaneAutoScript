@@ -29,6 +29,7 @@ dic_event = {
         '镜位螺旋': 'event_20210527_cn',
         '复刻浮樱影华': 'event_20210624_cn',
         '复刻穿越彼方的水线': 'raid_20210708',
+        '响彻碧海的偶像歌': 'event_20210722_cn',
     },
     'en': {
         'Northern_Overture': 'event_20200227_cn',
@@ -58,6 +59,7 @@ dic_event = {
         'Mirror_Involution': 'event_20210527_cn',
         'Swirling_Cherry_Blossoms_Rerun': 'event_20210624_cn',
         'Cross_Wave_rerun': 'raid_20210708',
+        'Azur_Anthem': 'event_20210722_cn',
     },
     'jp': {
         '凍絶の北海': 'event_20200227_cn',
@@ -84,6 +86,7 @@ dic_event = {
         '照らす螺旋の鏡海': 'event_20210527_cn',
         '翳りし満ちる影の華(復刻)': 'event_20210624_cn',
         '交錯する新たな波 (復刻)': 'raid_20210708',
+        '海に響くアイドルの歌': 'event_20210722_cn',
     },
     'tw': {
         '特別演習埃塞克斯級': 'raid_20200624',

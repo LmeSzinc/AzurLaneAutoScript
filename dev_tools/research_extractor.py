@@ -4,11 +4,12 @@ from dev_tools.slpp import slpp
 from module.logger import logger  # Change folder automatically
 
 
-def load_lua(folder, file, prefix):
+def load_lua(folder, file):
     with open(os.path.join(folder, file), 'r', encoding='utf-8') as f:
         text = f.read()
     print('Loading technology_data_template')
-    result = slpp.decode(text[prefix:])
+    text = '{' + text.split('\n', 2)[2]
+    result = slpp.decode(text)
     print(f'{len(result.keys())} items loaded')
     return result
 
@@ -99,9 +100,9 @@ class TechnologyTemplate:
                 item.name = DIC_TRANSLATION.get(item.name, item.name).replace('Ä', 'A')
 
     def load_projects(self, folder):
-        tech = load_lua(folder, 'technology_data_template.lua', prefix=44)
-        item = load_lua(folder, 'item_data_statistics.lua', prefix=40)
-        task = load_lua(folder, 'task_data_template.lua', prefix=38)
+        tech = load_lua(folder, 'technology_data_template.lua')
+        item = load_lua(folder, 'item_data_statistics.lua')
+        task = load_lua(folder, 'task_data_template.lua')
 
         projects = {}
         for key, value in tech.items():

@@ -124,8 +124,8 @@ class Commission:
             2: 'pending'
         }
         color = get_color(self.image, area)
-        # if self.genre == 'doa_daily':
-        #     color -= [50, 30, 20]
+        if self.genre == 'event_daily':
+            color -= [50, 30, 20]
         self.status = dic[int(np.argmax(color))]
 
     @Config.when(SERVER='jp')
@@ -164,8 +164,8 @@ class Commission:
             2: 'pending'
         }
         color = get_color(self.image, area)
-        # if self.genre == 'doa_daily':
-        #     color -= [50, 30, 20]
+        if self.genre == 'event_daily':
+            color -= [50, 30, 20]
         self.status = dic[int(np.argmax(color))]
 
     @Config.when(SERVER='cn')
@@ -204,8 +204,8 @@ class Commission:
             2: 'pending'
         }
         color = get_color(self.image, area)
-        # if self.genre == 'doa_daily':
-        #     color -= [50, 30, 20]
+        if self.genre == 'event_daily':
+            color -= [50, 30, 20]
         self.status = dic[int(np.argmax(color))]
 
     def __str__(self):
@@ -268,8 +268,8 @@ class Commission:
             str: Commission genre, such as 'urgent_gem'.
         """
         # string = string.replace(' ', '').replace('-', '')
-        # if self.is_doa_commission():
-        #     return 'doa_daily'
+        if self.is_event_commission():
+            return 'event_daily'
         for key, value in dictionary_en.items():
             for keyword in value:
                 if keyword in string:
@@ -288,8 +288,8 @@ class Commission:
         Returns:
             str: Commission genre, such as 'urgent_gem'.
         """
-        # if self.is_doa_commission():
-        #     return 'doa_daily'
+        if self.is_event_commission():
+            return 'event_daily'
         import jellyfish
         min_key = ''
         min_distance = 100
@@ -316,8 +316,8 @@ class Commission:
         Returns:
             str: Commission genre, such as 'urgent_gem'.
         """
-        # if self.is_doa_commission():
-        #     return 'doa_daily'
+        if self.is_event_commission():
+            return 'event_daily'
         for key, value in dictionary_cn.items():
             for keyword in value:
                 if keyword in string:
@@ -327,15 +327,20 @@ class Commission:
         self.valid = False
         return ''
 
-    # def is_doa_commission(self):
-    #     """
-    #     Event commission in Vacation Lane, with pink area on the left.
-    #
-    #     Returns:
-    #         bool:
-    #     """
-    #     area = area_offset((5, 5, 30, 30), self.area[0:2])
-    #     return color_similar(color1=get_color(self.image, area), color2=(239, 166, 231))
+    def is_event_commission(self):
+        """
+        Returns:
+            bool:
+        """
+        # Event commission in Vacation Lane, with pink area on the left.
+        # area = area_offset((5, 5, 30, 30), self.area[0:2])
+        # return color_similar(color1=get_color(self.image, area), color2=(239, 166, 231))
+
+        # 2021.07.22 Event commissions in The Idol Master event, with
+        area = area_offset((5, 5, 30, 30), self.area[0:2])
+        return color_similar(color1=get_color(self.image, area), color2=(235, 173, 161))
+
+        # return False
 
 
 class CommissionGroup:
@@ -429,9 +434,9 @@ class RewardCommission(UI, InfoHandler):
         # Count Commission
         commission = daily.commission + urgent.commission
         self.max_commission = 4
-        # for comm in commission:
-        #     if comm.genre == 'doa_daily':
-        #         self.max_commission = 5
+        for comm in commission:
+            if comm.genre == 'event_daily':
+                self.max_commission = 5
         running_count = int(
             np.sum([1 for c in commission if c.status == 'running']))
         logger.attr('Running', running_count)

@@ -85,6 +85,31 @@ def camera_spawn_point(camera_list, sp_list):
     return list(set(camera_sp))
 
 
+def random_direction(direction):
+    """
+    Choose a random direction from string. Missing axis will be random, and '' for all random.
+
+    Args:
+        direction (str): 'upper-left', 'upper-right', 'bottom-left',
+        'bottom-right', or 'upper', 'bottom', 'left', 'right', etc.
+
+    Returns:
+        tuple(int): Such as (-1, 1) for bottom-left
+    """
+    direction = direction.lower()
+    x = 1 if np.random.uniform() > 0.5 else -1
+    y = 1 if np.random.uniform() > 0.5 else -1
+    if 'left' in direction:
+        x = -1
+    elif 'right' in direction:
+        x = 1
+    if 'upper' in direction:
+        y = -1
+    elif 'bottom' in direction:
+        y = 1
+    return (x, y)
+
+
 def combine(before, after, limit):
     after += [limit]
     for b in before:
