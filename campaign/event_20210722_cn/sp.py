@@ -9,8 +9,8 @@ MAP.camera_data = ['D2', 'D6']
 MAP.camera_data_spawn_point = ['D6']
 MAP.map_data = """
     ++ ++ ++ MB ++ ++ ++
-    ME -- -- -- -- -- ME
-    ++ ++ -- -- -- ++ ++
+    ME -- MS -- MS -- ME
+    ++ ++ -- MS -- ++ ++
     ++ ME -- ++ -- ME ++
     ++ ++ -- ++ -- ++ ++
     ++ ++ -- __ -- ++ ++
@@ -28,7 +28,7 @@ MAP.weight_data = """
     50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0},
+    {'battle': 0, 'siren': 3},
     {'battle': 1, 'enemy': 1},
     {'battle': 2, 'enemy': 1},
     {'battle': 3, 'enemy': 2},
@@ -58,13 +58,19 @@ class Config:
     STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
 
-
+    MAP_HAS_SIREN = True
+    MAP_SIREN_TEMPLATE = ['AzusaMiura', 'ChihayaKisaragi', 'IoriMinase']
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
+    HOMO_EDGE_COLOR_RANGE = (0, 12)
 
 
 class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
+        if self.clear_siren():
+            return True
+
         return self.battle_default()
 
     def battle_7(self):

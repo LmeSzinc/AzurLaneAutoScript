@@ -19,6 +19,29 @@ class CampaignBase(CampaignBase_):
     """
 
     @staticmethod
+    def _campaign_separate_name(name):
+        """
+        Args:
+            name (str): Stage name in lowercase, such as 7-2, d3, sp3.
+
+        Returns:
+            tuple[str]: Campaign_name and stage index in lowercase, Such as ['7', '2'], ['d', '3'], ['sp', '3'].
+        """
+        if name == 'vsp' or name == 'sp':  # Difference
+            return 'ex_sp', '1'
+        elif name.startswith('extra'):
+            return 'ex_ex', '1'
+        elif '-' in name:
+            return name.split('-')
+        elif name.startswith('sp'):
+            return 'sp', name[-1]
+        elif name[-1].isdigit():
+            return name[:-1], name[-1]
+
+        logger.warning(f'Unknown stage name: {name}')
+        return name[0], name[1:]
+
+    @staticmethod
     def _campaign_get_chapter_index(name):
         """
         Args:
@@ -73,6 +96,11 @@ class CampaignBase(CampaignBase_):
 
         else:
             logger.warning(f'Unknown campaign chapter: {name}')
+
+    def campaign_get_entrance(self, name):
+        if name == 'sp':
+            name = 'vsp'
+        return super().campaign_get_entrance(name)
 
     def is_event_animation(self):
         """
