@@ -6,7 +6,8 @@ from module.combat.assets import GET_ITEMS_1
 from module.exception import MapDetectionError, CampaignEnd
 from module.handler.assets import IN_MAP, GAME_TIPS
 from module.logger import logger
-from module.map.map_base import CampaignMap, location2node, location_ensure
+from module.map.map_base import CampaignMap, location2node
+from module.map.utils import location_ensure, random_direction
 from module.map.map_operation import MapOperation
 from module.map_detection.grid import Grid
 from module.map_detection.view import View
@@ -183,8 +184,7 @@ class Camera(MapOperation):
         logger.info(f'Ensure edge in sight.')
         record = []
         self._correct_camera = True
-        x_swipe = -swipe_limit[0] if np.random.uniform() > 0.5 else swipe_limit[0]
-        y_swipe = -swipe_limit[1] if np.random.uniform() > 0.5 else swipe_limit[1]
+        x_swipe, y_swipe = np.multiply(swipe_limit, random_direction(self.config.MAP_ENSURE_EDGE_INSIGHT_CORNER))
 
         while 1:
             if len(record) == 0:

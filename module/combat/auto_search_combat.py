@@ -143,6 +143,8 @@ class AutoSearchCombat(Combat):
 
             if self.handle_get_ship():
                 continue
+            if self.handle_popup_confirm('AUTO_SEARCH_COMBAT_STATUS'):
+                continue
 
             # End
             if self.is_auto_search_running():

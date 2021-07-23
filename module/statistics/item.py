@@ -45,7 +45,7 @@ class Item:
         self.amount = 1
         self.cost = 'DefaultCost'
         self.price = 0
-        self.tag = ''
+        self.tag = None
 
     @property
     def name(self):
@@ -70,7 +70,7 @@ class Item:
         else:
             name = f'{self.name}_x{self.amount}_{self.cost}_x{self.price}'
 
-        if len(self.tag):
+        if self.tag is not None:
             name = f'{name}_{self.tag}'
 
         return name
@@ -94,7 +94,7 @@ class ItemGrid:
     cost_similarity = 0.75
 
     def __init__(self, grids, templates, template_area=(40, 21, 89, 70), amount_area=(60, 71, 91, 92),
-                 cost_area=(6, 123, 84, 166), price_area=(52, 132, 132, 156), tag_area=(81, 1, 91, 8)):
+                 cost_area=(6, 123, 84, 166), price_area=(52, 132, 132, 156), tag_area=(81, 4, 91, 8)):
         """
         Args:
             grids (ButtonGrid):
@@ -185,7 +185,7 @@ class ItemGrid:
         color = cv2.mean(crop(image, self.template_area))[:3]
         names = np.array(list(self.templates.keys()))[np.argsort(list(self.templates_hit.values()))][::-1]
         for name in names:
-            if color_similar(color1=color, color2=self.colors[name]):
+            if color_similar(color1=color, color2=self.colors[name], threshold=30):
                 res = cv2.matchTemplate(image, self.templates[name], cv2.TM_CCOEFF_NORMED)
                 _, similarity, _, _ = cv2.minMaxLoc(res)
                 if similarity > self.similarity:
@@ -257,9 +257,9 @@ class ItemGrid:
             Replace this method to predict tags.
 
         Returns:
-            str: Tags are like `catchup`, `bonus`. Default to ''
+            str: Tags are like `catchup`, `bonus`. Default to None
         """
-        return ''
+        return None
 
     def predict(self, image, name=True, amount=True, cost=False, price=False, tag=False):
         """

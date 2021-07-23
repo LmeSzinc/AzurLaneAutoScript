@@ -69,7 +69,7 @@ class CampaignOcr(ModuleBase):
         return name[0], name[1:]
 
     def campaign_match_multi(self, template, image, stage_image=None, name_offset=(75, 9), name_size=(60, 16),
-                             name_letter=(255, 255, 255), name_thresh=128):
+                             name_letter=(255, 255, 255), name_thresh=128, similarity=0.85):
         """
         Args:
             template (Template):
@@ -85,7 +85,7 @@ class CampaignOcr(ModuleBase):
         """
         digits = []
         stage_image = image if stage_image is None else stage_image
-        result = template.match_multi(stage_image, similarity=0.85)
+        result = template.match_multi(stage_image, similarity=similarity)
         result = Points(result, config=self.config).group()
 
         for point in result:

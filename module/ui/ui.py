@@ -6,6 +6,7 @@ from module.handler.assets import *
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.ocr.ocr import Ocr
+from module.reward.assets import COMMISSION_DAILY
 from module.ui.page import *
 
 
@@ -328,10 +329,10 @@ class UI(InfoHandler):
 
         return False
 
-    # def ui_additional_page_commission(self):
-    #     # Event commission in Vacation Lane.
-    #     if self.appear(GAME_TIPS, offset=(20, 20), interval=1):
-    #         self.device.click(COMMISSION_DAILY)
-    #         return True
-    #
-    #     return False
+    def ui_additional_page_commission(self):
+        # Event commission in Vacation Lane.
+        if self.appear(GAME_TIPS, offset=(20, 20), interval=1):
+            self.device.click(COMMISSION_DAILY)
+            return True
+
+        return False
