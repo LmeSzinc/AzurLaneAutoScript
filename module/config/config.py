@@ -266,6 +266,10 @@ class AzurLaneConfig:
     # because a closing swipe will be treat as a click in game.
     MAP_SWIPE_DROP = 0.15
     MAP_SWIPE_PREDICT = True
+    # Corner to ensure in ensure_edge_insight.
+    # Value can be 'upper-left', 'upper-right', 'bottom-left', 'bottom-right', or 'upper', 'bottom', 'left', 'right'
+    # Missing axis will be random, and '' for all random
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = ''
 
     """
     module.retire
