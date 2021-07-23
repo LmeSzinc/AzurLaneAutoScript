@@ -133,13 +133,14 @@ class GuildLogistics(GuildBase):
         else:
             # No guild mission counter
             logger.info('No guild mission found, mission of this week may not started')
-            if self.image_color_count(GUILD_MISSION_CHOOSE, color=(255, 255, 255), threshold=221, count=100):
-                # Guild mission choose available if user is guild master
-                logger.info('Guild mission choose found')
-                return True
-            else:
-                logger.info('Guild mission choose not found')
-                return False
+            return False
+            # if self.image_color_count(GUILD_MISSION_CHOOSE, color=(255, 255, 255), threshold=221, count=100):
+            #     # Guild mission choose available if user is guild master
+            #     logger.info('Guild mission choose found')
+            #     return True
+            # else:
+            #     logger.info('Guild mission choose not found')
+            #     return False
 
     @Config.when(SERVER='jp')
     def _guild_logistics_mission_available(self):
@@ -175,6 +176,7 @@ class GuildLogistics(GuildBase):
             # No guild mission counter
             logger.info('No guild mission found, mission of this week may not started')
             # Guild mission choose in JP server disabled until we get the screenshot.
+            return False
             # if self.image_color_count(GUILD_MISSION_CHOOSE, color=(255, 255, 255), threshold=221, count=100):
             #     # Guild mission choose available if user is guild master
             #     logger.info('Guild mission choose found')
@@ -215,13 +217,14 @@ class GuildLogistics(GuildBase):
         elif not self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=180, count=50):
             # No guild mission counter
             logger.info('No guild mission found, mission of this week may not started')
-            if self.image_color_count(GUILD_MISSION_CHOOSE, color=(255, 255, 255), threshold=221, count=100):
-                # Guild mission choose available if user is guild master
-                logger.info('Guild mission choose found')
-                return True
-            else:
-                logger.info('Guild mission choose not found')
-                return False
+            return False
+            # if self.image_color_count(GUILD_MISSION_CHOOSE, color=(255, 255, 255), threshold=221, count=100):
+            #     # Guild mission choose available if user is guild master
+            #     logger.info('Guild mission choose found')
+            #     return True
+            # else:
+            #     logger.info('Guild mission choose not found')
+            #     return False
         else:
             logger.info('Guild mission button inactive')
             return False
