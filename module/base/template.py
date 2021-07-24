@@ -1,12 +1,13 @@
 import os
 
-import cv2
 import imageio
-import numpy as np
 from PIL import Image
 
 import module.config.server as server
+from module.base.button import Button
 from module.base.decorator import cached_property
+from module.base.utils import *
+from module.map_detection.utils import Points
 
 
 class Template:
@@ -17,6 +18,7 @@ class Template:
         """
         self.server = server.server
         self.file = file[self.server] if isinstance(file, dict) else file
+        self.name = os.path.splitext(os.path.basename(self.file))[0].upper()
         self.is_gif = os.path.splitext(self.file)[1] == '.gif'
         self._image = None
 
@@ -70,28 +72,53 @@ class Template:
             # print(self.file, sim)
             return sim > similarity
 
-    def match_result(self, image):
+    def _point_to_button(self, point, image=None, name=None):
+        """
+        Args:
+            point:
+            image: Pillow image. If provided, load color and image from it.
+            name (str):
+
+        Returns:
+            Button:
+        """
+        if name is None:
+            name = self.name
+        area = area_offset(area=(0, 0, *self.size), offset=point)
+        button = Button(area=area, color=(), button=area, name=name)
+        if image is not None:
+            button.load_color(image)
+        return button
+
+    def match_result(self, image, name=None):
         """
         Args:
             image:
+            name (str):
 
         Returns:
-            bool: If matches.
+            float: Similarity
+            Button:
         """
         res = cv2.matchTemplate(np.array(image), self.image, cv2.TM_CCOEFF_NORMED)
         _, sim, _, point = cv2.minMaxLoc(res)
         # print(self.file, sim)
-        return sim, point
 
-    def match_multi(self, image, similarity=0.85):
+        button = self._point_to_button(point, image=image, name=name)
+        return sim, button
+
+    def match_multi(self, image, similarity=0.85, threshold=3, name=None):
         """
         Args:
             image:
             similarity (float): 0 to 1.
+            threshold (int): Distance to delete nearby results.
+            name (str):
 
         Returns:
-            np.ndarray: np.array([[x0, y0], [x1, y1])
+            list[Button]:
         """
+        raw = image
         if self.is_gif:
             result = []
             image = np.array(image)
@@ -99,11 +126,10 @@ class Template:
                 res = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
                 res = np.array(np.where(res > similarity)).T[:, ::-1].tolist()
                 result += res
-
-            return result
-
         else:
             result = cv2.matchTemplate(np.array(image), self.image, cv2.TM_CCOEFF_NORMED)
             result = np.array(np.where(result > similarity)).T[:, ::-1]
 
-            return result
+        # result: np.array([[x0, y0], [x1, y1], ...)
+        result = Points(result).group(threshold=threshold)
+        return [self._point_to_button(point, image=raw, name=name) for point in result]

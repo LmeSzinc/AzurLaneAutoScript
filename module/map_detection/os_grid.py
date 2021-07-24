@@ -1,6 +1,6 @@
 from module.base.utils import *
 from module.map_detection.grid import Grid, GridInfo, GridPredictor
-from module.map_detection.utils import *
+from module.map_detection.utils_assets import ASSETS
 from module.os.radar import RadarGrid
 from module.template.assets import *
 

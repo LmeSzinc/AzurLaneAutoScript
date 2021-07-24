@@ -95,6 +95,7 @@ class AzurLaneConfig:
     module.combat.level
     """
     LV120_TRIGGERED = False
+    LV32_TRIGGERED = False
 
     """
     module.campaign
@@ -113,6 +114,7 @@ class AzurLaneConfig:
     STOP_IF_TRIGGER_EMOTION_LIMIT = False
     STOP_IF_DOCK_FULL = False
     STOP_IF_REACH_LV120 = False
+    STOP_IF_REACH_LV32 = False
     STOP_IF_MAP_REACH = 'no'  # no, map_100, map_3_star, map_green_without_3_star, map_green
     STOP_IF_GET_SHIP = False
 
@@ -123,6 +125,13 @@ class AzurLaneConfig:
     STAR_REQUIRE_3 = 3
     # In Dreamwaker's Butterfly (event_20200917) add new stage entrance icons, called `blue`.
     STAGE_ENTRANCE = ['normal']  # normal, blue, half
+
+    """
+    gems_farming
+    """
+    GEMS_STAGE = '2-4'
+    GEMS_FLEET_1 = 3
+    GEMS_FLEET_2 = 5
 
     """
     module.event
@@ -294,7 +303,6 @@ class AzurLaneConfig:
     SCREEN_SIZE = (1280, 720)
     DETECTING_AREA = (123, 55, 1280, 720)
     SCREEN_CENTER = (SCREEN_SIZE[0] / 2, SCREEN_SIZE[1] / 2)
-    MID_Y = SCREEN_CENTER[1]
     DETECTION_BACKEND = 'homography'
     # In event_20200723_cn B3D3, Grid have 1.2x width, images on the grid still remain the same.
     GRID_IMAGE_A_MULTIPLY = 1.0
@@ -859,6 +867,12 @@ class AzurLaneConfig:
         self.C124_NON_S3_ENTER_TOLERANCE = int(option['non_s3_enemy_enter_tolerance'])
         self.C124_NON_S3_WITHDRAW_TOLERANCE = int(option['non_s3_enemy_withdraw_tolerance'])
         self.C124_AMMO_PICK_UP = int(option['ammo_pick_up_124'])
+
+        # Gems_farming
+        option = config['Gems_farming']
+        self.GEMS_STAGE = option['gems_stage']
+        self.GEMS_FLEET_1 = int(option['gems_fleet_1'])
+        self.GEMS_FLEET_2 = int(option['gems_fleet_2'])
 
         # OS semi auto
         option = config['Os_semi_auto']

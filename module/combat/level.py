@@ -55,17 +55,18 @@ class Level(ModuleBase):
         Returns:
             list[int]:
         """
-        if not self.config.STOP_IF_REACH_LV120:
+        if not self.config.STOP_IF_REACH_LV120 and not self.config.STOP_IF_REACH_LV32:
             return [-1] * 6
 
         self._lv_before_battle = self.lv if after_battle else [-1] * 6
 
-        ocr = LevelOcr(self._lv_grid().buttons(), name='LevelOcr')
+        ocr = LevelOcr(self._lv_grid().buttons, name='LevelOcr')
         self.lv = ocr.ocr(self.device.image)
         logger.attr('LEVEL', ', '.join(str(data) for data in self.lv))
 
         if after_battle:
             self.lv120_triggered()
+            self.lv32_triggered()
 
         return self.lv
 
@@ -78,6 +79,17 @@ class Level(ModuleBase):
                 logger.info(f'Position {i} LV.120 Reached')
                 self.config.LV120_TRIGGERED = True
                 return True
+
+        return False
+
+    def lv32_triggered(self):
+        if not self.config.STOP_IF_REACH_LV32:
+            return False
+
+        if self.lv[0] >= 32:
+            logger.info(f'Position 0 LV.32 Reached')
+            self.config.LV32_TRIGGERED = True
+            return True
 
         return False
 
