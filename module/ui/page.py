@@ -151,3 +151,25 @@ page_dorm.link(button=DORM_GOTO_MAIN, destination=page_main)
 page_meowfficer = Page(MEOWFFICER_CHECK)
 page_dormmenu.link(button=DORMMENU_GOTO_MEOWFFICER, destination=page_meowfficer)
 page_meowfficer.link(button=MEOWFFICER_GOTO_DORM, destination=page_main)
+
+# Academy
+page_academy = Page(ACADEMY_CHECK)
+page_dormmenu.link(button=DORMMENU_GOTO_ACADEMY, destination=page_academy)
+page_academy.link(button=GOTO_MAIN, destination=page_main)
+
+# Shop
+page_shop = Page(SHOP_CHECK)
+page_main.link(button=MAIN_GOTO_SHOP, destination=page_shop)
+page_shop.link(button=GOTO_MAIN, destination=page_main)
+
+# Munitions
+page_munitions = Page(MUNITIONS_CHECK)
+# Prefer latter path since defaults to shop_general on load, stable background color
+# page_shop.link(button=SHOP_GOTO_MUNITIONS, destination=page_munitions)
+page_academy.link(button=ACADEMY_GOTO_MUNITIONS, destination=page_munitions)
+page_munitions.link(button=GOTO_MAIN, destination=page_main)
+
+# Build / Construct
+page_build = Page(BUILD_CHECK)
+page_main.link(button=MAIN_GOTO_BUILD, destination=page_build)
+page_build.link(button=GOTO_MAIN, destination=page_main)
