@@ -404,6 +404,7 @@ class AzurLaneConfig:
 
     BUY_MEOWFFICER = 0  # 0 to 15.
     ENABLE_TRAIN_MEOWFFICER = False
+    DO_FORT_CHORES_MEOWFFICER = False
 
     ENABLE_DORM_FEED = True
     ENABLE_DORM_REWARD = True
@@ -712,8 +713,8 @@ class AzurLaneConfig:
                      'enable_dorm_reward', 'enable_dorm_feed',
                      'enable_commission_reward', 'enable_tactical_reward', 'enable_daily_reward',
                      'enable_research_reward',
-                     'enable_data_key_collect', 'enable_train_meowfficer',
-                     'enable_guild_logistics', 'enable_guild_operations', 'enable_guild_operations_boss_auto', 'enable_guild_operations_boss_recommend',
+                     'enable_data_key_collect', 'enable_train_meowfficer', 'do_fort_chores_meowfficer',
+                     'enable_guild_logistics', 'enable_guild_operations', 'enable_guild_operations_boss_auto', 'enable_guild_operations_boss_recommend']:
                      'enable_shop_buy', 'enable_shop_general_gems', 'enable_shop_general_refresh', 'enable_shop_guild_refresh', 'enable_shop_merit_refresh']:
             self.__setattr__(attr.upper(), to_bool(option[attr]))
         if not option['commission_time_limit'].isdigit():

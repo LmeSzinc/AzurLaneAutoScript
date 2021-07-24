@@ -327,6 +327,9 @@ def main(ini_name=''):
     reward_meowfficer.add_argument('--enable_train_meowfficer', default=default('--enable_train_meowfficer'),
                                    help='Enable collection of trained meowfficer and queue all slots for training on Sunday.',
                                    choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_meowfficer.add_argument('--do_fort_chores_meowfficer', default=default('--do_fort_chores_meowfficer'),
+                                   help='Do meowfficer comf-fort chores (clean, feed, and play) to get xp.',
+                                   choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
 
     reward_guild = reward_parser.add_argument_group('Guild', 'Check Guild Logistics and Operations. Running for every reward loop.', gooey_options={'label_color': '#931D03'})
     reward_guild.add_argument('--enable_guild_logistics', default=default('--enable_guild_logistics'), help='Enable logistics actions if applicable.', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
