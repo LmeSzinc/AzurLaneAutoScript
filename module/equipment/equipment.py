@@ -1,10 +1,7 @@
-import numpy as np
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.timer import Timer
-from module.base.utils import color_similarity_2d
 from module.equipment.assets import *
-from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.ui.navbar import Navbar
 from module.ui.ui import UI
@@ -87,9 +84,7 @@ class Equipment(UI):
             detail.
         """
         equip_side_navbar = ButtonGrid(
-            origin=(21, 126), delta=(0, 98),
-            button_shape=(60, 80), grid_shape=(1, 5),
-            name='EQUIPMENT_SIDE_NAVBAR')
+            origin=(21, 118), delta=(0, 94.5), button_shape=(60, 75), grid_shape=(1, 5), name='DETAIL_SIDEBAR')
 
         return Navbar(grids=equip_side_navbar,
                       active_color=(247, 255, 173),
