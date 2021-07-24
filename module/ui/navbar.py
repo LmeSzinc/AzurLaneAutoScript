@@ -37,7 +37,7 @@ class Navbar:
         """
         total = []
         active = []
-        for index, button in enumerate(self.grids.buttons()):
+        for index, button in enumerate(self.grids.buttons):
             if main.image_color_count(
                     button, color=self.active_color, threshold=self.active_threshold, count=self.active_count):
                 total.append(index)
@@ -139,6 +139,6 @@ class Navbar:
                 return True
 
             if interval.reached():
-                main.device.click(self.grids.buttons()[index])
+                main.device.click(self.grids.buttons[index])
                 main.device.sleep((0.1, 0.2))
                 interval.reset()

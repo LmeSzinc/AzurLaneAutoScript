@@ -122,7 +122,7 @@ class GuildShop(ShopBase):
 
         # Utilize known fixed location for correct item
         if choice in choices:
-            return shop_select_grid.buttons()[choices.get(choice)]
+            return shop_select_grid.buttons[choices.get(choice)]
 
         logger.warning(f'shop_get_select --> Missing \'{choice}\' in SELECT_{category.upper()}')
         return None

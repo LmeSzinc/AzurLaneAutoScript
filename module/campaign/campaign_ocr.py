@@ -85,19 +85,14 @@ class CampaignOcr(ModuleBase):
         """
         digits = []
         stage_image = image if stage_image is None else stage_image
-        result = template.match_multi(stage_image, similarity=similarity)
-        result = Points(result, config=self.config).group()
-
-        for point in result:
-            button = tuple(np.append(point, point + template.size))
-            point = point + name_offset
-            name = image.crop(np.append(point, point + name_size))
-            name = extract_letters(name, letter=name_letter, threshold=name_thresh)
-            stage = self._extract_stage_name(name)
-
-            area = area_offset(stage, point)
-            color = get_color(image, button)
-            digits.append(Button(area=area, color=color, button=button, name='stage'))
+        result = template.match_multi(stage_image, similarity=similarity, name='STAGE')
+        name_area = (name_offset[0], name_offset[1], name_offset[0] + name_size[0], name_offset[1] + name_size[1])
+        for button in result:
+            button_name = button.crop(area=name_area, image=image)
+            name = extract_letters(button_name.image, letter=name_letter, threshold=name_thresh)
+            button_name = button_name.crop(area=self._extract_stage_name(name))
+            button.area = button_name.area
+            digits.append(button)
 
         return digits
 

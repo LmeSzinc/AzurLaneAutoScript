@@ -334,17 +334,17 @@ def main(ini_name=''):
                                                    'Cubes, Chips i.e. Cognitive, and Drill\n\n'
                                                    'Multiple variants of each should be used to omit specific items',
                                                     gooey_options={'label_color': '#931D03'})
-    reward_shop.add_argument('--enable_shop_buy', default=default('--enable_shop_buy'), help='Enable browse and item purchases in shops.', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop.add_argument('--enable_shop_buy', default=default('--enable_shop_buy'), help='Enable browse and item purchases in shops.', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     reward_shop_general = reward_shop.add_argument_group('General item selection', gooey_options={'label_color': '#4B5F83'})
     reward_shop_general.add_argument('--shop_general_selection', default=default('--shop_general_selection'), gooey_options={'label_color': '#4B5F83'})
-    reward_shop_general.add_argument('--enable_shop_general_gems', default=default('--enable_shop_general_gems'), help='Enable to use gems.', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
-    reward_shop_general.add_argument('--enable_shop_general_refresh', default=default('--enable_shop_general_refresh'), help='Enable refresh (uses gems implicitly).', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_general.add_argument('--enable_shop_general_gems', default=default('--enable_shop_general_gems'), help='Enable to use gems.', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_general.add_argument('--enable_shop_general_refresh', default=default('--enable_shop_general_refresh'), help='Enable refresh (uses gems implicitly).', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     reward_shop_guild = reward_shop.add_argument_group('Guild item selection', 'Box, Book, Retrofit, and Plate '
                                                        'only supports grade i.e. T[digit] optionally, PRBP exclusively.\n'
                                                        'Below selectors are used to customize specifics',
                                                        gooey_options={'label_color': '#4B5F83'})
     reward_shop_guild.add_argument('--shop_guild_selection', default=default('--shop_guild_selection'), gooey_options={'label_color': '#4B5F83'})
-    reward_shop_guild.add_argument('--enable_shop_guild_refresh', default=default('--enable_shop_guild_refresh'), help='Enable refresh (uses guild coins).', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--enable_shop_guild_refresh', default=default('--enable_shop_guild_refresh'), help='Enable refresh (uses guild coins).', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     reward_shop_guild.add_argument('--shop_guild_box_t3', default=default('--shop_guild_box_t3'), choices=['eagle', 'royal', 'sakura', 'ironblood'], gooey_options={'label_color': '#4B5F83'})
     reward_shop_guild.add_argument('--shop_guild_box_t4', default=default('--shop_guild_box_t4'), choices=['eagle', 'royal', 'sakura', 'ironblood'], gooey_options={'label_color': '#4B5F83'})
     reward_shop_guild.add_argument('--shop_guild_book_t2', default=default('--shop_guild_book_t2'), choices=['red', 'blue', 'yellow'], gooey_options={'label_color': '#4B5F83'})
@@ -361,7 +361,7 @@ def main(ini_name=''):
     reward_shop_medal.add_argument('--shop_medal_selection', default=default('--shop_medal_selection'), gooey_options={'label_color': '#4B5F83'})
     reward_shop_merit = reward_shop.add_argument_group('Merit item selection', gooey_options={'label_color': '#4B5F83'})
     reward_shop_merit.add_argument('--shop_merit_selection', default=default('--shop_merit_selection'), gooey_options={'label_color': '#4B5F83'})
-    reward_shop_merit.add_argument('--enable_shop_merit_refresh', default=default('--enable_shop_merit_refresh'), help='Enable refresh (uses gems implicitly).', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_merit.add_argument('--enable_shop_merit_refresh', default=default('--enable_shop_merit_refresh'), help='Enable refresh (uses gems implicitly).', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
 
     # ==========設備設定==========
     emulator_parser = subs.add_parser('設備設定')
