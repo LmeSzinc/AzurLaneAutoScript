@@ -99,13 +99,14 @@ class GemsFarming(CampaignRun):
             )
             self._trigger_lv32 = False
             super().run(name=name, folder=folder, total=total)
-            backup.recover()
 
             # End
             if self._trigger_lv32:
                 self.flagship_change()
                 self._trigger_lv32 = False
                 self.campaign.config.LV32_TRIGGERED = False
+                backup.recover()
                 continue
             else:
+                backup.recover()
                 break
