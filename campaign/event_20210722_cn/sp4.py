@@ -6,7 +6,7 @@ from .sp1 import Config as ConfigBase
 
 MAP = CampaignMap('SP4')
 MAP.shape = 'I8'
-MAP.camera_data = ['D2', 'D6', 'F2', 'F6']
+MAP.camera_data = ['D2', 'D4', 'D6', 'F2', 'F4', 'F6']
 MAP.camera_data_spawn_point = ['F6', 'D6']
 MAP.map_data = """
     ++ ++ ++ ME -- ME ++ ++ ++
@@ -21,11 +21,11 @@ MAP.map_data = """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
+    50 50 40 10 50 10 40 50 50
+    50 50 45 20 50 20 45 50 50
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
+    50 50 40 50 50 50 40 50 50
     50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
@@ -61,13 +61,40 @@ class Config(ConfigBase):
     MAP_SWIPE_MULTIPLY = 1.541
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.490
     MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
+    DETECTION_BACKEND = 'perspective'
+    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
+    EDGE_LINES_HOUGHLINES_THRESHOLD = 40
+    TRUST_EDGE_LINES = False
+    TRUST_EDGE_LINES_THRESHOLD = 7
+
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (80, 255 - 24),
+        'width': (1.5, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 10, 255),
+        'width': (1.5, 10),
+        'prominence': 10,
+        'distance': 50,
+        'wlen': 1000
+    }
 
 
 class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
-        if self.clear_siren():
+        self.fleet_2_push_forward()
+
+        if self.clear_siren(genre=('Siren_AzusaMiura', 'Siren_IoriMinase')):
+            return True
+        if self.clear_enemy(scale=(1,)):
+            return True
+        if self.clear_enemy(scale=(2,)):
+            return True
+        if self.clear_enemy(scale=(3,)):
             return True
 
         return self.battle_default()
