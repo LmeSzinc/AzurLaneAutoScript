@@ -26,8 +26,8 @@ class GuildBase(UI):
             operations.
         """
         guild_side_navbar = ButtonGrid(
-            origin=(21, 126), delta=(0, 98),
-            button_shape=(60, 80), grid_shape=(1, 5),
+            origin=(21, 118), delta=(0, 94.5),
+            button_shape=(60, 75), grid_shape=(1, 6),
             name='GUILD_SIDE_NAVBAR')
 
         return Navbar(grids=guild_side_navbar,
