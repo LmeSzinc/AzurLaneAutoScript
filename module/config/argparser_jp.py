@@ -612,6 +612,20 @@ def main(ini_name=''):
     c_12_4.add_argument('--ammo_pick_up_124', default=default('--ammo_pick_up_124'),
                         choices=['2', '3', '4', '5'], help='How many battles before pick ammo, the recommended is 3', gooey_options={'label_color': '#4B5F83'})
 
+    gems_parser = subs.add_parser('gems_farming')
+    gems = gems_parser.add_argument_group('Gems farming',
+        """Warning: This is not an efficient way to farm gems, not a high-yield way to farm coins either.
+         Players who have recently played Azur Lane are easy to be superstitious about 0LB and low consumption, while ignoring character leveling.
+         Running this function will only make you feel fulfilled, and your account actually get no improvements.
+         Only F2P players can obtain meaningful income through this function. I hope you can treat this rationally.
+
+        This function will replace the flagship with a Lv1 0LB CVL after the flagship level 32
+        About drop mechanism of urgent commissions, read (in Chinese Simplified) https://bbs.nga.cn/read.php?tid=27134956""",
+        gooey_options={'label_color': '#931D03'})
+    gems.add_argument('--gems_fleet_1', default=default('--gems_fleet_1'), help='This fleet will do all the bateles, should contains 0LB DD and 0LB CVL with level under 35', choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
+    gems.add_argument('--gems_fleet_2', default=default('--gems_fleet_2'), help='This fleet will provide supports, should contains New Jerssy and Shinano', choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
+    gems.add_argument('--gems_stage', default=default('--gems_stage'), help='Such as 2-4, A3, SP2\nUrgent commissions per oil: A3 > A1 > 2-4 > 2-1. Event maps are recommended if available. Will pickup mystery in 2-1 for more coins', gooey_options={'label_color': '#4B5F83'})
+
     # ==========OS semi auto==========
     os_semi_parser = subs.add_parser('os_semi_auto')
     os_semi = os_semi_parser.add_argument_group('os_semi_auto', 'Start and finish combat automatically\nOnly recommended to use in normal zones and safe zones', gooey_options={'label_color': '#931D03'})

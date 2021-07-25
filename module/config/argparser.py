@@ -532,6 +532,21 @@ def main(ini_name=''):
     c_12_4.add_argument('--非大型敌人撤退忍耐', default=default('--非大型敌人撤退忍耐'), choices=['0', '1', '2', '10'], help='没有大型之后还会打多少战, 不挑敌人选10', gooey_options={'label_color': '#4B5F83'})
     c_12_4.add_argument('--拣弹药124', default=default('--拣弹药124'), choices=['2', '3', '4', '5'], help='多少战后拣弹药', gooey_options={'label_color': '#4B5F83'})
 
+    # ==========Gems farming==========
+    gems_parser = subs.add_parser('紧急委托刷钻石')
+    gems = gems_parser.add_argument_group('紧急委托刷钻石',
+        """警告: 这不是一个能高效获取钻石的方法, 也不是一个有高收益的刷物资方法
+        玩碧蓝航线不久的玩家, 很容易迷信零破和低耗等, 而忽视了角色养成
+        运行这个功能只会让你自己感觉很充实, 而你的帐号实际零提升
+        能通过这个功能获取有效收益的, 只有零氪玩家, 希望你能理性看待它
+
+        这个功能将在旗舰32级之后, 将旗舰更换为1级白皮零破航母
+        关于紧急委托刷新机制, 可阅读 https://bbs.nga.cn/read.php?tid=27134956""",
+        gooey_options={'label_color': '#931D03'})
+    gems.add_argument('--刷钻石一队', default=default('--刷钻石一队'), help='这队会完成所有的战斗, 前排应当为百级零破驱逐带输出装, 后排应该为35级以下白皮零破航母', choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
+    gems.add_argument('--刷钻石二队', default=default('--刷钻石二队'), help='这队会提供跨队支援, 应该有新泽西和信浓', choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
+    gems.add_argument('--刷钻石关卡', default=default('--刷钻石关卡'), help='例如 2-4, A3, SP2\n委托油耗比: A3 > A1 > 2-4 > 2-1, 有活动图时建议选活动图, 2-1会拣问号有更多物资', gooey_options={'label_color': '#4B5F83'})
+
     # ==========OS semi auto==========
     os_semi_parser = subs.add_parser('大世界辅助点击')
     os_semi = os_semi_parser.add_argument_group('大世界辅助点击', '自动点击战斗准备和战斗结算\n仅推荐在普通海域和安全海域中开启', gooey_options={'label_color': '#931D03'})

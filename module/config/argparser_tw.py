@@ -532,6 +532,21 @@ def main(ini_name=''):
     c_12_4.add_argument('--非大型敵人撤退忍耐', default=default('--非大型敵人撤退忍耐'), choices=['0', '1', '2', '10'], help ='沒有大型之後還會打多少戰, 不挑敵人選10', gooey_options={'label_color': '#4B5F83'})
     c_12_4.add_argument('--撿彈藥124', default=default('--撿彈藥124'), choices=['2', '3', '4', '5'], help='多少戰後撿彈藥', gooey_options={'label_color': '#4B5F83'})
 
+    # ==========Gems farming==========
+    gems_parser = subs.add_parser('緊急委託刷鑽石')
+    gems = gems_parser.add_argument_group('緊急委託刷鑽石',
+         """警告: 這不是一個能高效獲取鑽石的方法, 也不是一個有高收益的刷物資方法
+        玩碧藍航線不久的玩家, 很容易迷信零破和低耗等, 而忽視了角色養成
+        運行這個功能只會讓你自己感覺很充實, 而你的帳號實際零提升
+        能通過這個功能獲取有效收益的, 只有零氪玩家, 希望你能理性看待它
+
+        這個功能將在旗艦32級之後, 將旗艦更換為1級白皮零破航母
+        關於緊急委託刷新機制, 可閱讀 https://bbs.nga.cn/read.php?tid=27134956""",
+        gooey_options={'label_color': '#931D03'})
+    gems.add_argument('--刷鑽石一隊', default=default('--刷鑽石一隊'), help='這隊會完成所有的戰鬥, 前排應當為百級零破驅逐帶輸出裝, 後排應該為35級以下白皮零破航母', choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
+    gems.add_argument('--刷鑽石二隊', default=default('--刷鑽石二隊'), help='這隊會提供跨隊支援, 應該有新澤西和信濃', choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
+    gems.add_argument('--刷鑽石關卡', default=default('--刷鑽石關卡'), help='例如 2-4, A3, SP2\n委託油耗比: A3 > A1 > 2-4 > 2-1, 有活動圖時建議選活動圖, 2-1會揀問號有更多物資', gooey_options={'label_color': '#4B5F83'})
+
     # ==========OS semi auto==========
     os_semi_parser = subs.add_parser('大世界輔助點擊')
     os_semi = os_semi_parser.add_argument_group('大世界輔助點擊', '自動點擊戰鬥準備和戰鬥結算\n僅推薦在普通海域和安全海域中開啟', gooey_options={'label_color': '#931D03'})
