@@ -342,6 +342,7 @@ class AzurLaneConfig:
     HORIZONTAL_LINES_THETA_THRESHOLD = 0.005
     VERTICAL_LINES_THETA_THRESHOLD = 18
     TRUST_EDGE_LINES = False  # True to use edge to crop inner, false to use inner to crop edge
+    TRUST_EDGE_LINES_THRESHOLD = 5
     # Parameters for perspective calculating
     VANISH_POINT_RANGE = ((540, 740), (-3000, -1000))
     DISTANCE_POINT_X_RANGE = ((-3200, -1600),)

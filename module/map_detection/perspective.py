@@ -106,8 +106,9 @@ class Perspective:
         edge_h = edge_h.group()
         edge_v = edge_v.group()
         if not self.config.TRUST_EDGE_LINES:
-            edge_h = edge_h.delete(inner_h)  # Experimental, reduce edge lines.
-            edge_v = edge_v.delete(inner_v)
+            # Experimental, reduce edge lines.
+            edge_h = edge_h.delete(inner_h, threshold=self.config.TRUST_EDGE_LINES_THRESHOLD)
+            edge_v = edge_v.delete(inner_v, threshold=self.config.TRUST_EDGE_LINES_THRESHOLD)
         self.horizontal = horizontal
         self.vertical = vertical
 
