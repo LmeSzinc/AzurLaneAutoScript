@@ -364,6 +364,14 @@ def main(ini_name=''):
     reward_shop_merit.add_argument('--shop_merit_selection', default=default('--shop_merit_selection'), gooey_options={'label_color': '#4B5F83'})
     reward_shop_merit.add_argument('--enable_shop_merit_refresh', default=default('--enable_shop_merit_refresh'), help='Enable refresh (uses gems implicitly).', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
 
+    reward_shipyard = reward_parser.add_argument_group('Shipyard', 'Buy daily discounted PR/DR BPs.', gooey_options={'label_color': '#931D03'})
+    reward_shipyard.add_argument('--buy_shipyard_bp', default=default('--buy_shipyard_bp'), help='Number to buy altogether.', gooey_options={'label_color': '#4B5F83'})
+    reward_shipyard.add_argument('--shipyard_series', default=default('--shipyard_series'), help='Select PR/DR research series.', choices=['1', '2', '3', '4'], gooey_options={'label_color': '#4B5F83'})
+    reward_shipyard.add_argument('--shipyard_index', default=default('--shipyard_index'),
+        help='Ship location in bottom Face Navbar.\nThe display of ships are ordered by whether unlocked/developed, '
+             'so players must first verify the location themselves before selecting.\nleftmost = 0, rightmost = 5',
+        choices=['0', '1', '2', '3', '4', '5'], gooey_options={'label_color': '#4B5F83'})
+
     # ==========设备设置==========
     emulator_parser = subs.add_parser('设备设置')
     emulator = emulator_parser.add_argument_group('模拟器', '需要运行一次来保存选项, 会检查游戏是否启动\n若启动了游戏, 触发一次收菜', gooey_options={'label_color': '#931D03'})

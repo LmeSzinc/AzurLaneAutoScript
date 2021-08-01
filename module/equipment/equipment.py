@@ -84,7 +84,7 @@ class Equipment(UI):
             detail.
         """
         equip_side_navbar = ButtonGrid(
-            origin=(21, 118), delta=(0, 94.5), button_shape=(60, 75), grid_shape=(1, 5), name='DETAIL_SIDEBAR')
+            origin=(21, 118), delta=(0, 94.5), button_shape=(60, 75), grid_shape=(1, 5), name='DETAIL_SIDE_NAVBAR')
 
         return Navbar(grids=equip_side_navbar,
                       active_color=(247, 255, 173),
