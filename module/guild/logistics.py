@@ -427,7 +427,7 @@ class GuildLogistics(GuildBase):
         # Loop EXCHANGE_GRIDS to detect for red text in bottom right area
         # indicating player lacks inventory for that item
         in_red_list = []
-        for button in EXCHANGE_GRIDS.buttons():
+        for button in EXCHANGE_GRIDS.buttons:
             area = area_offset((35, 64, 83, 83), button.area[0:2])
             if self.image_color_count(area, color=(255, 93, 90), threshold=221, count=20):
                 in_red_list.append(True)
@@ -555,7 +555,7 @@ class GuildLogistics(GuildBase):
             out: page_guild, GUILD_LOGISTICS
         """
         # Transition to Logistics
-        if not self.guild_sidebar_ensure(3):
+        if not self.guild_side_navbar_ensure(bottom=3):
             logger.info('Logistics sidebar not ensured, try again on next reward loop')
             return False
         self._guild_logistics_ensure()

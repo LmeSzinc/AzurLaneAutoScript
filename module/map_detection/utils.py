@@ -1,63 +1,9 @@
-import cv2
 import numpy as np
 from scipy import optimize
 
-from module.base.decorator import cached_property
-from module.base.mask import Mask
-from module.base.utils import crop
-
-UI_MASK = Mask(file='./assets/mask/MASK_MAP_UI.png')
-UI_MASK_OS = Mask(file='./assets/mask/MASK_OS_MAP_UI.png')
-TILE_CENTER = Mask(file='./assets/map_detection/TILE_CENTER.png')
-TILE_CORNER = Mask(file='./assets/map_detection/TILE_CORNER.png')
-DETECTING_AREA = (123, 55, 1280, 720)
-
-
-class Assets:
-    @cached_property
-    def ui_mask(self):
-        return UI_MASK.image
-
-    @cached_property
-    def ui_mask_stroke(self):
-        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
-        image = cv2.erode(self.ui_mask, kernel).astype('uint8')
-        return image
-
-    @cached_property
-    def ui_mask_in_map(self):
-        area = np.append(np.subtract(0, DETECTING_AREA[:2]), self.ui_mask.shape[::-1])
-        # area = (-123, -55, 1157, 665)
-        return crop(self.ui_mask, area)
-
-    @cached_property
-    def ui_mask_os_in_map(self):
-        area = np.append(np.subtract(0, DETECTING_AREA[:2]), self.ui_mask.shape[::-1])
-        # area = (-123, -55, 1157, 665)
-        return crop(UI_MASK_OS.image, area)
-
-    @cached_property
-    def tile_center_image(self):
-        return TILE_CENTER.image
-
-    @cached_property
-    def tile_corner_image(self):
-        return TILE_CORNER.image
-
-    @cached_property
-    def tile_corner_image_list(self):
-        # [upper-left, upper-right, bottom-left, bottom-right]
-        return [cv2.flip(self.tile_corner_image, -1),
-                cv2.flip(self.tile_corner_image, 0),
-                cv2.flip(self.tile_corner_image, 1),
-                self.tile_corner_image]
-
-
-ASSETS = Assets()
-
 
 class Points:
-    def __init__(self, points, config):
+    def __init__(self, points):
         if points is None or len(points) == 0:
             self._bool = False
             self.points = None
@@ -67,7 +13,6 @@ class Points:
             if len(self.points.shape) == 1:
                 self.points = np.array([self.points])
             self.x, self.y = self.points.T
-        self.config = config
 
     def __str__(self):
         return str(self.points)
@@ -90,13 +35,13 @@ class Points:
     def link(self, point, is_horizontal=False):
         if is_horizontal:
             lines = [[y, np.pi / 2] for y in self.y]
-            return Lines(lines, is_horizontal=True, config=self.config)
+            return Lines(lines, is_horizontal=True)
         else:
             x, y = point
             theta = -np.arctan((self.x - x) / (self.y - y))
             rho = self.x * np.cos(theta) + self.y * np.sin(theta)
             lines = np.array([rho, theta]).T
-            return Lines(lines, is_horizontal=False, config=self.config)
+            return Lines(lines, is_horizontal=False)
 
     def mean(self):
         if not self:
@@ -115,7 +60,7 @@ class Points:
         while len(points):
             p0, p1 = points[0], points[1:]
             distance = np.sum(np.abs(p1 - p0), axis=1)
-            new = Points(np.append(p1[distance <= threshold], [p0], axis=0), config=self.config).mean().tolist()
+            new = Points(np.append(p1[distance <= threshold], [p0], axis=0)).mean().tolist()
             groups.append(new)
             points = p1[distance > threshold]
 
@@ -123,7 +68,9 @@ class Points:
 
 
 class Lines:
-    def __init__(self, lines, is_horizontal, config):
+    MID_Y = 360
+
+    def __init__(self, lines, is_horizontal):
         if lines is None or len(lines) == 0:
             self._bool = False
             self.lines = None
@@ -134,7 +81,6 @@ class Lines:
                 self.lines = np.array([self.lines])
             self.rho, self.theta = self.lines.T
         self.is_horizontal = is_horizontal
-        self.config = config
 
     def __str__(self):
         return str(self.lines)
@@ -143,7 +89,7 @@ class Lines:
         return iter(self.lines)
 
     def __getitem__(self, item):
-        return Lines(self.lines[item], is_horizontal=self.is_horizontal, config=self.config)
+        return Lines(self.lines[item], is_horizontal=self.is_horizontal)
 
     def __len__(self):
         if self:
@@ -171,7 +117,7 @@ class Lines:
         else:
             x = np.mean(self.mid)
             theta = np.mean(self.theta)
-            rho = x * np.cos(theta) + self.config.MID_Y * np.sin(theta)
+            rho = x * np.cos(theta) + self.MID_Y * np.sin(theta)
             return np.array((rho, theta))
 
     @property
@@ -181,7 +127,7 @@ class Lines:
         if self.is_horizontal:
             return self.rho
         else:
-            return (self.rho - self.config.MID_Y * self.sin) / self.cos
+            return (self.rho - self.MID_Y * self.sin) / self.cos
 
     def get_x(self, y):
         return (self.rho - y * self.sin) / self.cos
@@ -195,7 +141,7 @@ class Lines:
         if not self:
             return other
         lines = np.append(self.lines, other.lines, axis=0)
-        return Lines(lines, is_horizontal=self.is_horizontal, config=self.config)
+        return Lines(lines, is_horizontal=self.is_horizontal)
 
     def move(self, x, y):
         if not self:
@@ -204,13 +150,13 @@ class Lines:
             self.lines[:, 0] += y
         else:
             self.lines[:, 0] += x * self.cos + y * self.sin
-        return Lines(self.lines, is_horizontal=self.is_horizontal, config=self.config)
+        return Lines(self.lines, is_horizontal=self.is_horizontal)
 
     def sort(self):
         if not self:
             return self
         lines = self.lines[np.argsort(self.mid)]
-        return Lines(lines, is_horizontal=self.is_horizontal, config=self.config)
+        return Lines(lines, is_horizontal=self.is_horizontal)
 
     def group(self, threshold=3):
         if not self:
@@ -232,8 +178,8 @@ class Lines:
                 group.append(line)
             prev = mid
         regrouped += [group]
-        regrouped = np.vstack([Lines(r, is_horizontal=self.is_horizontal, config=self.config).mean for r in regrouped])
-        return Lines(regrouped, is_horizontal=self.is_horizontal, config=self.config)
+        regrouped = np.vstack([Lines(r, is_horizontal=self.is_horizontal).mean for r in regrouped])
+        return Lines(regrouped, is_horizontal=self.is_horizontal)
 
     def distance_to_point(self, point):
         x, y = point
@@ -249,7 +195,7 @@ class Lines:
 
     def cross(self, other):
         points = np.vstack(self.cross_two_lines(self, other))
-        points = Points(points, config=self.config)
+        points = Points(points)
         return points
 
     def delete(self, other, threshold=3):
@@ -263,7 +209,7 @@ class Lines:
                 continue
             lines.append(line)
 
-        return Lines(lines, is_horizontal=self.is_horizontal, config=self.config)
+        return Lines(lines, is_horizontal=self.is_horizontal)
 
 
 def area2corner(area):

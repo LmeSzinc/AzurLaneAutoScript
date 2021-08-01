@@ -168,7 +168,7 @@ class RewardTacticalClass(UI):
         mask = color_similarity_2d(self.image_area(area), color=(255, 255, 255)) > 235
         points = np.array(np.where(mask)).T
         # Width of card is 200 px
-        points = Points(points, config=self.config).group(threshold=210)
+        points = Points(points).group(threshold=210)
         card = len(points)
         if card == 0:
             logger.warning('No student card found.')
@@ -197,7 +197,7 @@ class RewardTacticalClass(UI):
         for n in range(10):
             self.device.screenshot()
             self.handle_info_bar()  # info_bar appears when get ship in Launch Ceremony commissions
-            books = BookGroup([Book(self.device.image, button) for button in BOOKS_GRID.buttons()]).select(valid=True)
+            books = BookGroup([Book(self.device.image, button) for button in BOOKS_GRID.buttons]).select(valid=True)
             logger.attr('Book_count', len(books))
             for index in range(1, 4):
                 logger.info(f'Book_T{index}: {books.select(tier=index)}')

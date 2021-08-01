@@ -10,6 +10,7 @@ from module.config.config import AzurLaneConfig
 from module.exception import MapDetectionError
 from module.logger import logger
 from module.map_detection.utils import *
+from module.map_detection.utils_assets import *
 
 warnings.filterwarnings("ignore")
 
@@ -211,7 +212,7 @@ class Perspective:
         """
         lines = cv2.HoughLines(image, 1, np.pi / 180, threshold)
         if lines is None:
-            return Lines(None, is_horizontal=is_horizontal, config=self.config)
+            return Lines(None, is_horizontal=is_horizontal)
         else:
             lines = lines[:, 0, :]
         if is_horizontal:
@@ -220,8 +221,8 @@ class Perspective:
             lines = lines[(lines[:, 1] < np.deg2rad(theta)) | (np.deg2rad(180 - theta) < lines[:, 1])]
             lines = [[-rho, theta - np.pi] if rho < 0 else [rho, theta] for rho, theta in lines]
         # if len(lines) > 0:
-        #     return Lines(lines, is_horizontal=is_horizontal, config=self.config)
-        return Lines(lines, is_horizontal=is_horizontal, config=self.config)
+        #     return Lines(lines, is_horizontal=is_horizontal)
+        return Lines(lines, is_horizontal=is_horizontal)
 
     def detect_lines(self, image, is_horizontal, param, threshold, theta, pad=0):
         """
@@ -309,12 +310,12 @@ class Perspective:
         encourage = self.config.COINCIDENT_POINT_ENCOURAGE_DISTANCE ** 2
 
         def convert_to_x(ys):
-            return Points([[self.config.SCREEN_CENTER[0], y] for y in ys], config=self.config) \
+            return Points([[self.config.SCREEN_CENTER[0], y] for y in ys]) \
                 .link(right_distant_point) \
                 .mid
 
         def convert_to_y(xs):
-            return Points([[x, self.config.SCREEN_CENTER[1]] for x in xs], config=self.config) \
+            return Points([[x, self.config.SCREEN_CENTER[1]] for x in xs]) \
                 .link(right_distant_point) \
                 .get_y(x=self.config.SCREEN_CENTER[0])
 
@@ -346,7 +347,7 @@ class Perspective:
                 rho = mid * np.cos(theta)
                 lines.append([rho, theta])
         # Fitting mid
-        coincident = Lines(np.vstack(lines), is_horizontal=False, config=self.config)
+        coincident = Lines(np.vstack(lines), is_horizontal=False)
         # print(np.round(np.sort(coincident.get_x(128))).astype(int))
         mid_diff_range = self.config.MID_DIFF_RANGE_H if is_horizontal else self.config.MID_DIFF_RANGE_V
         coincident_point_range = ((-abs(self.config.ERROR_LINES_TOLERANCE[0]) * mid_diff_range[1], 200), mid_diff_range)
@@ -363,12 +364,12 @@ class Perspective:
         if is_horizontal:
             border = Points(
                 [[self.config.SCREEN_CENTER[0], self.config.DETECTING_AREA[1]],
-                 [self.config.SCREEN_CENTER[0], self.config.DETECTING_AREA[3]]], config=self.config) \
+                 [self.config.SCREEN_CENTER[0], self.config.DETECTING_AREA[3]]]) \
                 .link(right_distant_point) \
                 .mid
         else:
             border = Points(
-                [self.config.DETECTING_AREA[0:2], self.config.DETECTING_AREA[1:3][::-1]], config=self.config) \
+                [self.config.DETECTING_AREA[0:2], self.config.DETECTING_AREA[1:3][::-1]]) \
                 .link(self.vanish_point) \
                 .mid
 
@@ -407,19 +408,19 @@ class Perspective:
 
         # mid to lines
         if lines.is_horizontal:
-            lines = Points([[self.config.SCREEN_CENTER[0], y] for y in clean], config=self.config) \
+            lines = Points([[self.config.SCREEN_CENTER[0], y] for y in clean]) \
                 .link(None, is_horizontal=True)
-            lower = Points([self.config.SCREEN_CENTER[0], lower], config=self.config).link(None, is_horizontal=True) \
-                if lower else Lines(None, config=self.config, is_horizontal=True)
-            upper = Points([self.config.SCREEN_CENTER[0], upper], config=self.config).link(None, is_horizontal=True) \
-                if upper else Lines(None, config=self.config, is_horizontal=True)
+            lower = Points([self.config.SCREEN_CENTER[0], lower]).link(None, is_horizontal=True) \
+                if lower else Lines(None, is_horizontal=True)
+            upper = Points([self.config.SCREEN_CENTER[0], upper]).link(None, is_horizontal=True) \
+                if upper else Lines(None, is_horizontal=True)
         else:
-            lines = Points([[x, self.config.SCREEN_CENTER[1]] for x in clean], config=self.config) \
+            lines = Points([[x, self.config.SCREEN_CENTER[1]] for x in clean]) \
                 .link(self.vanish_point)
-            lower = Points([lower, self.config.SCREEN_CENTER[1]], config=self.config).link(self.vanish_point) \
-                if lower else Lines(None, config=self.config, is_horizontal=False)
-            upper = Points([upper, self.config.SCREEN_CENTER[1]], config=self.config).link(self.vanish_point) \
-                if upper else Lines(None, config=self.config, is_horizontal=False)
+            lower = Points([lower, self.config.SCREEN_CENTER[1]]).link(self.vanish_point) \
+                if lower else Lines(None, is_horizontal=False)
+            upper = Points([upper, self.config.SCREEN_CENTER[1]]).link(self.vanish_point) \
+                if upper else Lines(None, is_horizontal=False)
 
         return lines, lower, upper
 

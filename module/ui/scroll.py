@@ -124,14 +124,14 @@ class Scroll:
                 if abs(position - current) < self.drag_threshold:
                     break
 
-                p1 = random_rectangle_point(self.position_to_screen(current, random_range=random_range))
+                p1 = random_rectangle_point(self.position_to_screen(current))
                 p2 = random_rectangle_point(self.position_to_screen(position, random_range=random_range))
                 main.device.drag(p1, p2, shake=(0, 0), point_random=(0, 0, 0, 0), shake_random=(0, 0, 0, 0))
                 main.device.sleep(0.3)
                 self.drag_interval.reset()
 
-    def set_top(self, main, skip_first_screenshot=True):
-        return self.set(0.00, main=main, random_range=(-0.1, 0), skip_first_screenshot=skip_first_screenshot)
+    def set_top(self, main, random_range=(-0.2, -0.1), skip_first_screenshot=True):
+        return self.set(0.00, main=main, random_range=random_range, skip_first_screenshot=skip_first_screenshot)
 
-    def set_bottom(self, main, skip_first_screenshot=True):
-        return self.set(1.00, main=main, random_range=(0, 0.1), skip_first_screenshot=skip_first_screenshot)
+    def set_bottom(self, main, random_range=(0.1, 0.2), skip_first_screenshot=True):
+        return self.set(1.00, main=main, random_range=random_range, skip_first_screenshot=skip_first_screenshot)
