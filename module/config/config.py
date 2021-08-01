@@ -467,6 +467,13 @@ class AzurLaneConfig:
     ENABLE_SHOP_MERIT_REFRESH = False
 
     """
+    module.shipyard
+    """
+    SHIPYARD_SERIES = 1
+    SHIPYARD_INDEX = 0
+    BUY_SHIPYARD_BP = 2
+
+    """
     module.sos
     """
     SOS_FLEETS_CHAPTER_3 = [4, 0]
@@ -761,6 +768,9 @@ class AzurLaneConfig:
         self.SHOP_GUILD_PR = [getattr(self, f'SHOP_GUILD_PR{_}') for _ in range(1, 4)]
         self.SHOP_MEDAL_SELECTION = option['shop_medal_selection']
         self.SHOP_MERIT_SELECTION = option['shop_merit_selection']
+        self.BUY_SHIPYARD_BP = int(option['buy_shipyard_bp'])
+        self.SHIPYARD_SERIES = int(option['shipyard_series'])
+        self.SHIPYARD_INDEX = int(option['shipyard_index'])
 
         option = config['Main']
         self.CAMPAIGN_MODE = option['campaign_mode']
