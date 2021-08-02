@@ -15,16 +15,18 @@ PRBP_BUY_PRIZE = {
 
 
 class RewardShipyard(ShipyardUI, GeneralShop):
-    def _shipyard_buy_calc(self, start, count):
+    def _shipyard_calculate(self, start, count, pay=False):
         """
-        Calculates the maximum up to the
-        configured number of BPs based
-        on current gold acquired from
-        page_main
+        Calculates the maximum number
+        of BPs based on current parameters
+        and _shop_gold_coins amount
+
+        Submits payment if 'pay' set to True
 
         Args:
             start (int): BUY_PRIZE key to resume at
             count (int): Total remaining to buy
+            pay (bool): Finalize payment to _shop_gold_coins
 
         Returns:
             int, int
@@ -36,20 +38,41 @@ class RewardShipyard(ShipyardUI, GeneralShop):
             return start, count
 
         total = 0
+        i = start
         for i in range(start, (start + count)):
             cost = [v for k, v in PRBP_BUY_PRIZE.items() if i in k]
             if not len(cost):
                 cost = [1500]
 
             if (total + cost[0]) > self._shop_gold_coins:
-                logger.info(f'Can only buy up to {(i - start)} '
-                            f'of the {count} BPs configured')
-                self._shop_gold_coins -= total
+                if pay:
+                    self._shop_gold_coins -= total
+                else:
+                    logger.info(f'Can only buy up to {(i - start)} '
+                                f'of the {count} BPs')
                 return i, i - start
             total += cost[0]
 
-        logger.info(f'Can buy all {count} BPs')
+        if pay:
+            self._shop_gold_coins -= total
+        else:
+            logger.info(f'Can buy all {count} BPs')
         return i + 1, count
+
+    def _shipyard_buy_calc(self, start, count):
+        """
+        Shorthand for _shipyard_calculate all information
+        is relevant
+        """
+        return self._shipyard_calculate(start, count, pay=False)
+
+    def _shipyard_pay_calc(self, start, count):
+        """
+        Shorthand for _shipyard_calculate partial
+        information is relevant but most importantly
+        finalize payment to _shop_gold_coins
+        """
+        return self._shipyard_calculate(start, count, pay=True)
 
     def _shipyard_buy(self, count):
         """
@@ -59,7 +82,8 @@ class RewardShipyard(ShipyardUI, GeneralShop):
         Args:
             count (int): Total to buy
         """
-        start, count = self._shipyard_buy_calc(1, count)
+        prev = 1
+        start, count = self._shipyard_buy_calc(prev, count)
         while count > 0:
             if not self._shipyard_buy_enter() or \
                     self._shipyard_appear_max():
@@ -68,7 +92,13 @@ class RewardShipyard(ShipyardUI, GeneralShop):
             remain = self._shipyard_ensure_index(count)
             if remain is None:
                 break
-            self._shipyard_buy_confirm('BUY_BP')
+            self._shipyard_buy_confirm('BP_BUY')
+
+            # Pay for actual amount bought based on 'remain'
+            # which also updates 'start' as a result
+            # Save into 'prev' for next _shipyard_pay_calc
+            start, _ = self._shipyard_pay_calc(prev, (count - remain))
+            prev = start
 
             start, count = self._shipyard_buy_calc(start, remain)
 
@@ -86,7 +116,7 @@ class RewardShipyard(ShipyardUI, GeneralShop):
             remain = self._shipyard_ensure_index(count)
             if remain is None:
                 break
-            self._shipyard_buy_confirm('USE_BP')
+            self._shipyard_buy_confirm('BP_USE')
 
             count = self._shipyard_get_bp_count(index)
 
