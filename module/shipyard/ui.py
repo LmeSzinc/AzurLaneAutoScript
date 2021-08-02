@@ -8,14 +8,15 @@ from module.ui.ui import UI
 class ShipyardUI(UI):
     def _shipyard_appear_max(self):
         """
-        Shorthand for appear relating to 'FATE' interface
-        specifically if a ship can no longer be strengthened
+        Shorthand for appear if a ship can no longer
+        be strengthened either in 'DEV' or 'FATE'
+        interface
 
         Returns:
-            bool if FATE assets appear on screen
+            bool if appear
         """
         if self.appear(SHIPYARD_PROGRESS_DEV, offset=(20, 20)) or \
-            self.appear(SHIPYARD_PROGRESS_FATE, offset=(20, 20)):
+                self.appear(SHIPYARD_PROGRESS_FATE, offset=(20, 20)):
             logger.info('Ship at full strength for current level, '
                         'no more BPs can be consumed')
             return True
@@ -161,7 +162,7 @@ class ShipyardUI(UI):
             bool whether successful
         """
         return self._shipyard_set_series(series, skip_first_screenshot) and \
-               self._shipyard_set_index(index, skip_first_screenshot)
+            self._shipyard_set_index(index, skip_first_screenshot)
 
     def _shipyard_get_ship(self, skip_first_screenshot=True):
         """
@@ -240,7 +241,7 @@ class ShipyardUI(UI):
             # End
             if success and \
                 (self.appear(SHIPYARD_UI_CHECK, offset=(20, 20)) or
-                self.appear(SHIPYARD_IN_FATE, offset=(20, 20))):
+                 self.appear(SHIPYARD_IN_FATE, offset=(20, 20))):
                 break
 
     def _shipyard_buy_enter(self):
