@@ -84,7 +84,7 @@ class ShipyardUI(UI):
             Ocr'ed count for index
         """
         # Base Case
-        if index < 0 or index > len(SHIPYARD_BP_COUNT_GRID.buttons()):
+        if index < 0 or index >= len(SHIPYARD_BP_COUNT_GRID.buttons()):
             logger.warning(f'Cannot parse for count from index {index}')
             return -1
 
@@ -102,7 +102,7 @@ class ShipyardUI(UI):
             bool whether successful
         """
         # Base Case
-        if series <= 0 or series > len(SHIPYARD_SERIES_GRID.buttons()):
+        if series <= 0 or series >= len(SHIPYARD_SERIES_GRID.buttons()):
             logger.warning(f'Research Series {series} is not selectable')
             return False
 
@@ -126,7 +126,7 @@ class ShipyardUI(UI):
             bool whether successful
         """
         # Base Case
-        if index < 0 or index > len(SHIPYARD_FACE_GRID.buttons()):
+        if index < 0 or index >= len(SHIPYARD_FACE_GRID.buttons()):
             logger.warning(f'Ship Index {index} is not selectable')
             return False
 
