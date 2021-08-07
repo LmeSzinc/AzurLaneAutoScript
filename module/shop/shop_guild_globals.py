@@ -54,12 +54,17 @@ SELECT_PR = {
     'mainz': 1,
     'odin': 2,
     'champagne': 3,
+    'anchorage': 0,
+    'august': 1,
+    'marcopolo': 2,
 }
 
 SELECT_DR = {
     'azuma': 0,
     'friedrich': 1,
     'drake': 0,
+    'agir': 0,
+    'hakuryu': 1,
 }
 
 # Known Secondary Grid Items Limits

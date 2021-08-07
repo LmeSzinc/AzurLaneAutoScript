@@ -3,17 +3,17 @@ from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import *
-from module.build.assets import *
+from module.gacha.assets import *
 from module.logger import logger
 from module.ui.navbar import Navbar
 from module.ui.page import page_build
 from module.ui.ui import UI
 
-BUILD_LOAD_ENSURE_BUTTONS = [SHOP_MEDAL_CHECK, BUILD_SUBMIT_ORDERS, BUILD_FINISH_ORDERS]
+GACHA_LOAD_ENSURE_BUTTONS = [SHOP_MEDAL_CHECK, BUILD_SUBMIT_ORDERS, BUILD_FINISH_ORDERS]
 
 
-class BuildUI(UI):
-    def build_load_ensure(self, skip_first_screenshot=True):
+class GachaUI(UI):
+    def gacha_load_ensure(self, skip_first_screenshot=True):
         """
         Switching between sidebar clicks for some
         takes a bit of processing before fully loading
@@ -34,7 +34,7 @@ class BuildUI(UI):
                 self.device.screenshot()
 
             # End
-            results = [self.appear(button) for button in BUILD_LOAD_ENSURE_BUTTONS]
+            results = [self.appear(button) for button in GACHA_LOAD_ENSURE_BUTTONS]
             if any(results):
                 if confirm_timer.reached():
                     return True
@@ -48,7 +48,7 @@ class BuildUI(UI):
                 return False
 
     @cached_property
-    def _build_side_navbar(self):
+    def _gacha_side_navbar(self):
         """
         limited_sidebar 5 options
             build.
@@ -63,16 +63,16 @@ class BuildUI(UI):
             shop.
             retire.
         """
-        build_side_navbar = ButtonGrid(
+        gacha_side_navbar = ButtonGrid(
             origin=(21, 126), delta=(0, 98),
             button_shape=(60, 80), grid_shape=(1, 5),
-            name='BUILD_SIDE_NAVBAR')
+            name='GACHA_SIDE_NAVBAR')
 
-        return Navbar(grids=build_side_navbar,
+        return Navbar(grids=gacha_side_navbar,
                       active_color=(247, 255, 173),
                       inactive_color=(140, 162, 181))
 
-    def build_side_navbar_ensure(self, upper=None, bottom=None):
+    def gacha_side_navbar_ensure(self, upper=None, bottom=None):
         """
         Ensure able to transition to page and
         page has loaded to completion
@@ -96,13 +96,13 @@ class BuildUI(UI):
         Returns:
             bool: if side_navbar set ensured
         """
-        retire_upper = 5 if self._build_side_navbar.get_total(main=self) == 5 else 4
+        retire_upper = 5 if self._gacha_side_navbar.get_total(main=self) == 5 else 4
         if upper == retire_upper or bottom == 1:
             logger.warning('Transitions to "retire" is not supported')
             return False
 
-        if self._build_side_navbar.set(self, upper=upper, bottom=bottom) \
-                and self.build_load_ensure():
+        if self._gacha_side_navbar.set(self, upper=upper, bottom=bottom) \
+                and self.gacha_load_ensure():
             return True
         return False
 
@@ -147,20 +147,20 @@ class BuildUI(UI):
                       active_color=(247, 227, 148),
                       inactive_color=(189, 231, 247))
 
-    def _build_bottom_navbar(self, is_construct=True):
+    def _gacha_bottom_navbar(self, is_build=True):
         """
         Return corresponding Navbar type based on
-        parameter 'is_construct'
+        parameter 'is_build'
 
         Returns:
             Navbar
         """
-        if is_construct:
+        if is_build:
             return self._construct_bottom_navbar
         else:
             return self._exchange_bottom_navbar
 
-    def build_bottom_navbar_ensure(self, left=None, right=None, is_construct=True):
+    def gacha_bottom_navbar_ensure(self, left=None, right=None, is_build=True):
         """
         Ensure able to transition to page and
         page has loaded to completion
@@ -188,13 +188,13 @@ class BuildUI(UI):
                 exchange_bottom_navbar
                 2     for ships.
                 1     for items.
-            is_construct (bool):
+            is_build (bool):
 
         Returns:
             bool: if bottom_navbar set ensured
         """
-        build_bottom_navbar = self._build_bottom_navbar(is_construct)
-        if is_construct and build_bottom_navbar.get_total(main=self) == 3:
+        gacha_bottom_navbar = self._gacha_bottom_navbar(is_build)
+        if is_build and gacha_bottom_navbar.get_total(main=self) == 3:
             if left == 1 or right == 4:
                 logger.info('Construct event not available, default to light')
                 left = 1
@@ -202,10 +202,10 @@ class BuildUI(UI):
             if left >= 4:
                 left = 3
 
-        if build_bottom_navbar.set(self, left=left, right=right) \
-                and self.build_load_ensure():
+        if gacha_bottom_navbar.set(self, left=left, right=right) \
+                and self.gacha_load_ensure():
             return True
         return False
 
-    def ui_goto_build(self):
+    def ui_goto_gacha(self):
         self.ui_ensure(page_build)
