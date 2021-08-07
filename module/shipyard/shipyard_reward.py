@@ -126,7 +126,8 @@ class RewardShipyard(ShipyardUI, GeneralShop):
 
         Args:
             series (int): 1-4 inclusively, button location
-            index (int): 0-5 inclusively, button location
+            index (int): 1-6 inclusively, button location
+                         some series are restricted to 1-5
             count (int): number to buy after use
 
         Returns:
@@ -144,8 +145,8 @@ class RewardShipyard(ShipyardUI, GeneralShop):
         self.shop_get_currency(key='general')
 
         self.ui_ensure(page_shipyard)
-        self.shipyard_set_focus(series=series, index=index)
-        if not self._shipyard_buy_enter() or \
+        if not self.shipyard_set_focus(series=series, index=index) or \
+            not self._shipyard_buy_enter() or \
                 self._shipyard_appear_max():
             return True
 

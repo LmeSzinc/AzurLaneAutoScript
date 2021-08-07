@@ -1,7 +1,9 @@
+from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.logger import logger
 from module.shipyard.assets import *
 from module.shipyard.ui_globals import *
+from module.ui.navbar import Navbar
 from module.ui.ui import UI
 
 
@@ -102,7 +104,7 @@ class ShipyardUI(UI):
             bool whether successful
         """
         # Base Case
-        if series <= 0 or series >= len(SHIPYARD_SERIES_GRID.buttons()):
+        if series <= 0 or series > len(SHIPYARD_SERIES_GRID.buttons()):
             logger.warning(f'Research Series {series} is not selectable')
             return False
 
@@ -116,42 +118,45 @@ class ShipyardUI(UI):
 
         return True
 
-    def _shipyard_set_index(self, index=0, skip_first_screenshot=True):
+    @cached_property
+    def _shipyard_bottom_navbar(self):
         """
+        Shipyard bottom nav bar used to switch between ships within a selected series
+        Location varies on own's research progress, so users
+        must verify the index for themselves
+        """
+        return Navbar(grids=SHIPYARD_FACE_GRID,
+                      active_color=(33, 113, 222), active_threshold=221, active_count=50,
+                      inactive_color=(49, 60, 82), inactive_threshold=221, inactive_count=50)
+
+    def shipyard_bottom_navbar_ensure(self, left=None, right=None, skip_first_screenshot=True):
+        """
+        Ensure transition to target ship's page in interface
+        according to index
+
         Args:
-            index (int): Target index to set view
+            left (int):
+            right (int):
             skip_first_screenshot (bool):
 
         Returns:
-            bool whether successful
+            bool, whether Navbar was successfully set
         """
-        # Base Case
-        if index < 0 or index >= len(SHIPYARD_FACE_GRID.buttons()):
-            logger.warning(f'Ship Index {index} is not selectable')
-            return False
+        if left is None and right is not None:
+            left = right
+            right = None
+        if left is not None:
+            if left <= 0 or left > len(SHIPYARD_FACE_GRID.buttons()):
+                logger.warning(f'Index for bottom Navbar {left} is not selectable')
+                return False
 
-        click_timer = Timer(3, count=6)
-        confirm_timer = Timer(1, count=2).start()
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
+        ensured = False
+        if self._shipyard_bottom_navbar.set(self, left=left, right=right, skip_first_screenshot=skip_first_screenshot):
+            ensured = True
+        self.wait_until_appear(SHIPYARD_UI_CHECK)
+        return ensured
 
-            if click_timer.reached():
-                self.device.click(SHIPYARD_FACE_GRID.buttons()[index])
-                click_timer.reset()
-                continue
-
-            if self.appear(SHIPYARD_UI_CHECK, offset=(20, 20)):
-                if confirm_timer.reached():
-                    break
-            else:
-                confirm_timer.reset()
-
-        return True
-
-    def shipyard_set_focus(self, series=1, index=0, skip_first_screenshot=True):
+    def shipyard_set_focus(self, series=1, index=1, skip_first_screenshot=True):
         """
         Args:
             series (int): Target research series to set view
@@ -161,8 +166,11 @@ class ShipyardUI(UI):
         Returns:
             bool whether successful
         """
+        if series > 2 and index > 5:
+            logger.warning(f'Research Series {series} is limited to indexes 1-5, cannot set focus to index {index}')
+            return False
         return self._shipyard_set_series(series, skip_first_screenshot) and \
-            self._shipyard_set_index(index, skip_first_screenshot)
+            self.shipyard_bottom_navbar_ensure(left=index, skip_first_screenshot=skip_first_screenshot)
 
     def _shipyard_get_ship(self, skip_first_screenshot=True):
         """
