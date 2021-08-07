@@ -14,12 +14,13 @@ from module.reward.data_key import RewardDataKey
 from module.reward.dorm import RewardDorm
 from module.reward.meowfficer import RewardMeowfficer
 from module.reward.tactical_class import RewardTacticalClass
+from module.shop.shop_reward import RewardShop
 from module.ui.page import *
 from module.update import Update
 
 
 class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, RewardMeowfficer, RewardDataKey,
-             RewardGuild, LoginHandler, Update):
+             RewardGuild, RewardShop, LoginHandler, Update):
     @cached_property
     def reward_interval(self):
         """
@@ -74,6 +75,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
         self.handle_meowfficer()
         self.handle_data_key()
         self.handle_guild()
+        self.handle_shop()
         self._reward_mission()
 
         self.config.REWARD_LAST_TIME = datetime.now()
@@ -111,6 +113,11 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
 
             for button in [EXP_INFO_S_REWARD, GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3, GET_SHIP]:
                 if self.appear(button, interval=1):
+                    self.ensure_no_info_bar(timeout=1)
+                    if self.config.ENABLE_SAVE_GET_ITEMS:
+                        self.device.save_screenshot('commission_items', to_base_folder=True, interval=0)
+                    self.stat.add(self.device.image)
+
                     REWARD_SAVE_CLICK.name = button.name
                     self.device.click(REWARD_SAVE_CLICK)
                     click_timer.reset()
@@ -140,6 +147,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
             if exit_timer.reached():
                 break
 
+        self.stat.upload()
         return reward
 
     def _reward_mission(self):

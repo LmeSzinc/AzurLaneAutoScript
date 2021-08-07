@@ -539,7 +539,7 @@ class ResearchSelector(UI):
         """
         for pos in range(5):
             proj_sorted.append(projects[(pos + 2) % 5])
-        
+
         self.projects = proj_sorted
 
     @Config.when(SERVER=None)
@@ -559,7 +559,8 @@ class ResearchSelector(UI):
     def research_sort_filter(self):
         """
         Returns:
-            list: A list of str and int, such as [2, 3, 0, 'reset']
+            list: A list of ResearchProject objects and preset strings,
+                such as [object, object, object, 'reset']
         """
         # Load filter string
         preset = self.config.RESEARCH_FILTER_PRESET
@@ -576,25 +577,24 @@ class ResearchSelector(UI):
         priority = self._research_check_filter(priority)
 
         # Log
-        logger.attr(
-            'Filter_sort',
-            ' > '.join([str(self.projects[index]) if isinstance(index, int) else index for index in priority]))
+        logger.attr('Filter_sort', ' > '.join([str(project) for project in priority]))
         return priority
 
     def _research_check_filter(self, priority):
         """
         Args:
-            priority (list): A list of str and int, such as [2, 3, 0, 'reset']
+            priority (list): A list of ResearchProject objects and preset strings,
+                such as [object, object, object, 'reset']
 
         Returns:
-            list: A list of str and int, such as [2, 3, 0, 'reset']
+            list: A list of ResearchProject objects and preset strings,
+                such as [object, object, object, 'reset']
         """
         out = []
-        for index in priority:
-            if isinstance(index, str):
-                out.append(index)
+        for proj in priority:
+            if isinstance(proj, str):
+                out.append(proj)
                 continue
-            proj = self.projects[index]
             if not proj.valid:
                 continue
             if (not self.config.RESEARCH_USE_CUBE and proj.need_cube) \
@@ -609,33 +609,31 @@ class ResearchSelector(UI):
             if (proj.genre.upper() == 'B') \
                     or (proj.genre.upper() == 'E' and str(proj.duration) != '6'):
                 continue
-            out.append(index)
+            out.append(proj)
         return out
 
     def research_sort_shortest(self):
         """
         Returns:
-            list: A list of str and int, such as [2, 3, 0, 'reset']
+            list: A list of ResearchProject objects and preset strings,
+                such as [object, object, object, 'reset']
         """
         FILTER.load(FILTER_STRING_SHORTEST)
         priority = FILTER.apply(self.projects)
         priority = self._research_check_filter(priority)
 
-        logger.attr(
-            'Shortest_sort',
-            ' > '.join([str(self.projects[index]) if isinstance(index, int) else index for index in priority]))
+        logger.attr('Filter_sort', ' > '.join([str(project) for project in priority]))
         return priority
 
     def research_sort_cheapest(self):
         """
         Returns:
-            list: A list of str and int, such as [2, 3, 0, 'reset']
+            list: A list of ResearchProject objects and preset strings,
+                such as [object, object, object, 'reset']
         """
         FILTER.load(FILTER_STRING_CHEAPEST)
         priority = FILTER.apply(self.projects)
         priority = self._research_check_filter(priority)
 
-        logger.attr(
-            'Cheapest_sort',
-            ' > '.join([str(self.projects[index]) if isinstance(index, int) else index for index in priority]))
+        logger.attr('Filter_sort', ' > '.join([str(project) for project in priority]))
         return priority

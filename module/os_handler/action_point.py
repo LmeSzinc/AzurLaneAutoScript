@@ -112,7 +112,7 @@ class ActionPointHandler(UI):
         Returns:
             int: 0 to 3. 0 for oil, 1 for 20 ap box, 2 for 50 ap box, 3 for 100 ap box.
         """
-        for index, item in enumerate(ACTION_POINT_GRID.buttons()):
+        for index, item in enumerate(ACTION_POINT_GRID.buttons):
             area = item.area
             color = get_color(self.device.image, area=(area[0], area[3] + 5, area[2], area[3] + 10))
             # Active button will turn blue.

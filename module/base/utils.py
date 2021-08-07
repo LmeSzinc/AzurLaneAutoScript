@@ -94,6 +94,10 @@ def ensure_time(second, n=3, precision=3):
             lower, upper = second.replace(' ', '').split(',')
             lower, upper = int(lower), int(upper)
             return ensure_time((lower, upper), n=n, precision=precision)
+        if '-' in second:
+            lower, upper = second.replace(' ', '').split('-')
+            lower, upper = int(lower), int(upper)
+            return ensure_time((lower, upper), n=n, precision=precision)
         else:
             return int(second)
     else:
@@ -138,6 +142,19 @@ def area_limit(area1, area2):
         tuple: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
     """
     return (max(area1[0], area2[0]), max(area1[1], area2[1]), min(area1[2], area2[2]), min(area1[3], area2[3]))
+
+
+def area_size(area):
+    """
+    Area size or shape.
+
+    Args:
+        area (tuple): (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
+
+    Returns:
+        tuple: (x, y).
+    """
+    return (area[2] - area[0], area[3] - area[1])
 
 
 def point_limit(point, area):

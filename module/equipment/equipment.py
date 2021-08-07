@@ -1,16 +1,13 @@
 from module.base.button import ButtonGrid
+from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.equipment.assets import *
-from module.handler.info_handler import InfoHandler
 from module.logger import logger
+from module.ui.navbar import Navbar
 from module.ui.ui import UI
-from module.base.utils import color_similarity_2d
-import numpy as np
 
 SWIPE_DISTANCE = 250
 SWIPE_RANDOM_RANGE = (-40, -20, 40, 20)
-DETAIL_SIDEBAR = ButtonGrid(
-    origin=(21, 118), delta=(0, 94.5), button_shape=(60, 75), grid_shape=(1, 5), name='DETAIL_SIDEBAR')
 
 
 class Equipment(UI):
@@ -21,7 +18,8 @@ class Equipment(UI):
         swipe_timer = Timer(5, count=10)
         self.ensure_no_info_bar(timeout=3)
         SWIPE_CHECK.load_color(self.device.image)
-        SWIPE_CHECK._match_init = True # Disable ensure_template() on match(), allows ship to be properly determined whether different or not
+        SWIPE_CHECK._match_init = True  # Disable ensure_template() on match(), allows ship to be properly determined
+        # whether actually different or not
         while 1:
             if not swipe_timer.started() or swipe_timer.reached():
                 swipe_timer.reset()
@@ -64,95 +62,69 @@ class Equipment(UI):
             if self.appear(check_button):
                 break
 
-    def _equip_sidebar_click(self, index):
+    @cached_property
+    def _equip_side_navbar(self):
         """
+        pry_sidebar 3 options
+            research.
+            equipment.
+            detail.
+
+        regular_sidebar 4 options
+            enhancement.
+            limit break.
+            equipment.
+            detail.
+
+        retrofit_sidebar 5 options
+            retrofit.
+            enhancement.
+            limit break.
+            equipment.
+            detail.
+        """
+        equip_side_navbar = ButtonGrid(
+            origin=(21, 118), delta=(0, 94.5), button_shape=(60, 75), grid_shape=(1, 5), name='DETAIL_SIDEBAR')
+
+        return Navbar(grids=equip_side_navbar,
+                      active_color=(247, 255, 173),
+                      inactive_color=(140, 162, 181))
+
+    def equip_side_navbar_ensure(self, upper=None, bottom=None):
+        """
+        Ensure able to transition to page
+        Whether page has completely loaded is handled
+        separately and optionally
+
         Args:
-            index (int):
-                5 for retrofit.
-                4 for enhancement.
-                3 for limit break.
-                2 for gem / equipment.
-                1 for detail.
+            upper (int):
+                pry|regular|retrofit
+                1|N/A|N/A for research.
+                N/A|N/A|1 for retrofit.
+                N/A|1|2   for enhancement.
+                N/A|2|3   for limit break.
+                2|3|4     for equipment.
+                3|4|5     for detail.
+            bottom (int):
+                pry|regular|retrofit
+                3|N/A|N/A for research.
+                N/A|N/A|5 for retrofit.
+                N/A|4|4   for enhancement.
+                N/A|3|3   for limit break.
+                2         for equipment.
+                1         for detail.
 
         Returns:
-            bool: if changed.
+            bool: if side_navbar set ensured
         """
-        if index <= 0 or index > 5:
-            logger.warning(f'Sidebar index cannot be clicked, {index}, limit to 1 through 5 only')
-            return False
+        if self._equip_side_navbar.get_total(main=self) == 3:
+            if upper == 1 or bottom == 3:
+                logger.warning('Transitions to "research" is not supported')
+                return False
 
-        current = 0
-        total = 0
-
-        for idx, button in enumerate(DETAIL_SIDEBAR.buttons()):
-            image = np.array(self.device.image.crop(button.area))
-            if np.sum(image[:, :, 0] > 235) > 100:
-                current = idx + 1
-                total = idx + 1
-                continue
-            if np.sum(color_similarity_2d(image, color=(140, 162, 181)) > 221) > 100:
-                total = idx + 1
-            else:
-                break
-        if not current:
-            logger.warning('No ship details sidebar active.')
-        if total == 3:
-            current = 4 - current
-        elif total == 4:
-            current = 5 - current
-        elif total == 5:
-            current = 6 - current
-        else:
-            logger.warning('Ship details sidebar total count error.')
-
-        logger.attr('Detail_sidebar', f'{current}/{total}')
-        if current == index:
-            return False
-
-        diff = total - index
-        if total == 3 and index == 3:
-            logger.warning('Ship is PRY, equipment research not supported')
-        elif diff >= 0:
-            self.device.click(DETAIL_SIDEBAR[0, diff])
-        else:
-            logger.warning(f'Target index {index} cannot be clicked for this ship')
-        return True
-
-    def equip_sidebar_ensure(self, index, skip_first_screenshot=True):
-        """
-        Args:
-            index (int):
-                5 for retrofit.
-                4 for enhancement.
-                3 for limit break.
-                2 for gem / equipment.
-                1 for detail.
-
-            Returns:
-                bool: whether sidebar could be ensured
-                      at most 3 attempts are made before
-                      return False otherwise True
-        """
-        if index <= 0 or index > 5:
-            logger.warning(f'Sidebar index cannot be ensured, {index}, limit 1 through 5 only')
-            return False
-
-        counter = 0
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            if self._equip_sidebar_click(index):
-                if counter >= 2:
-                    logger.warning('Sidebar could not be ensured')
-                    return False
-                counter += 1
-                self.device.sleep((0.3, 0.5))
-                continue
-            else:
-                return True
+        if self._equip_side_navbar.set(self, upper=upper, bottom=bottom):
+            return True
+        return False
 
     def _equip_take_off_one(self):
         bar_timer = Timer(5)

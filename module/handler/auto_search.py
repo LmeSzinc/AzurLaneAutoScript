@@ -43,7 +43,7 @@ class AutoSearchHandler(EnemySearchingHandler):
         current = 0
         total = 0
 
-        for idx, button in enumerate(self._fleet_sidebar().buttons()):
+        for idx, button in enumerate(self._fleet_sidebar().buttons):
             if self.image_color_count(button, color=(99, 235, 255), threshold=221, count=50):
                 current = idx + 1
                 total = idx + 1

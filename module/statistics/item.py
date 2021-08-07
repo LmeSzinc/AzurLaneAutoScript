@@ -55,11 +55,13 @@ class Item:
     def name(self, value):
         """
         Args:
-            value (str): Item name, Camel-Case, such as 'PlateGeneralT3'. Suffix in name will be ignore.
+            value (str): Item name, such as 'PlateGeneralT3'. Suffix in name will be ignore.
                 For example, 'Javelin' and 'Javelin_2' are different templates, but have same output name 'Javelin'.
         """
         if '_' in value:
-            value = value.split('_')[0]
+            pre, suffix = value.rsplit('_', 1)
+            if suffix.isdigit():
+                value = pre
         self._name = value
 
     def __str__(self):
@@ -136,7 +138,7 @@ class ItemGrid:
             image: Pillow image
         """
         self.items = []
-        for button in self.grids.buttons():
+        for button in self.grids.buttons:
             item = Item(image, button)
             if item.is_valid:
                 self.items.append(item)

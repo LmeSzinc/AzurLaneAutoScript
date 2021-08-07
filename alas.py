@@ -218,6 +218,12 @@ class AzurLaneAutoScript:
         az.run('campaign_12_2_leveling')
         self.reward_when_finished()
 
+    def gems_farming(self):
+        from module.campaign.gems_farming import GemsFarming
+        az = GemsFarming(self.config, device=self.device)
+        az.run(self.config.GEMS_STAGE)
+        self.reward_when_finished()
+
     def retire(self):
         from module.retire.retirement import Retirement
         az = Retirement(self.config, device=self.device)

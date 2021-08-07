@@ -95,6 +95,7 @@ class AzurLaneConfig:
     module.combat.level
     """
     LV120_TRIGGERED = False
+    LV32_TRIGGERED = False
 
     """
     module.campaign
@@ -113,6 +114,7 @@ class AzurLaneConfig:
     STOP_IF_TRIGGER_EMOTION_LIMIT = False
     STOP_IF_DOCK_FULL = False
     STOP_IF_REACH_LV120 = False
+    STOP_IF_REACH_LV32 = False
     STOP_IF_MAP_REACH = 'no'  # no, map_100, map_3_star, map_green_without_3_star, map_green
     STOP_IF_GET_SHIP = False
 
@@ -123,6 +125,13 @@ class AzurLaneConfig:
     STAR_REQUIRE_3 = 3
     # In Dreamwaker's Butterfly (event_20200917) add new stage entrance icons, called `blue`.
     STAGE_ENTRANCE = ['normal']  # normal, blue, half
+
+    """
+    gems_farming
+    """
+    GEMS_STAGE = '2-4'
+    GEMS_FLEET_1 = 3
+    GEMS_FLEET_2 = 5
 
     """
     module.event
@@ -294,7 +303,6 @@ class AzurLaneConfig:
     SCREEN_SIZE = (1280, 720)
     DETECTING_AREA = (123, 55, 1280, 720)
     SCREEN_CENTER = (SCREEN_SIZE[0] / 2, SCREEN_SIZE[1] / 2)
-    MID_Y = SCREEN_CENTER[1]
     DETECTION_BACKEND = 'homography'
     # In event_20200723_cn B3D3, Grid have 1.2x width, images on the grid still remain the same.
     GRID_IMAGE_A_MULTIPLY = 1.0
@@ -405,6 +413,7 @@ class AzurLaneConfig:
 
     BUY_MEOWFFICER = 0  # 0 to 15.
     ENABLE_TRAIN_MEOWFFICER = False
+    DO_FORT_CHORES_MEOWFFICER = False
 
     ENABLE_DORM_FEED = True
     ENABLE_DORM_REWARD = True
@@ -439,6 +448,32 @@ class AzurLaneConfig:
     RESEARCH_USE_CUBE = True
     RESEARCH_USE_COIN = True
     RESEARCH_USE_PART = True
+
+    """
+    module.shop
+    """
+    ENABLE_SHOP_BUY = False
+    SHOP_GENERAL_SELECTION = ''
+    ENABLE_SHOP_GENERAL_GEMS = False
+    ENABLE_SHOP_GENERAL_REFRESH = False
+    SHOP_GUILD_SELECTION = ''
+    ENABLE_SHOP_GUILD_REFRESH = False
+    SHOP_GUILD_BOX_T3 = 'eagle'
+    SHOP_GUILD_BOX_T4 = 'eagle'
+    SHOP_GUILD_BOOK_T2 = 'red'
+    SHOP_GUILD_BOOK_T3 = 'red'
+    SHOP_GUILD_RETROFIT_T2 = 'dd'
+    SHOP_GUILD_RETROFIT_T3 = 'dd'
+    SHOP_GUILD_PLATE_T2 = 'general'
+    SHOP_GUILD_PLATE_T3 = 'general'
+    SHOP_GUILD_PLATE_T4 = 'general'
+    SHOP_GUILD_PR1 = 'neptune'
+    SHOP_GUILD_PR2 = 'seattle'
+    SHOP_GUILD_PR3 = 'cheshire'
+    SHOP_GUILD_PR = [SHOP_GUILD_PR1, SHOP_GUILD_PR2, SHOP_GUILD_PR3]
+    SHOP_MEDAL_SELECTION = ''
+    SHOP_MERIT_SELECTION = ''
+    ENABLE_SHOP_MERIT_REFRESH = False
 
     """
     module.sos
@@ -687,8 +722,9 @@ class AzurLaneConfig:
                      'enable_dorm_reward', 'enable_dorm_feed',
                      'enable_commission_reward', 'enable_tactical_reward', 'enable_daily_reward',
                      'enable_research_reward',
-                     'enable_data_key_collect', 'enable_train_meowfficer',
-                     'enable_guild_logistics', 'enable_guild_operations', 'enable_guild_operations_boss_auto', 'enable_guild_operations_boss_recommend']:
+                     'enable_data_key_collect', 'enable_train_meowfficer', 'do_fort_chores_meowfficer',
+                     'enable_guild_logistics', 'enable_guild_operations', 'enable_guild_operations_boss_auto', 'enable_guild_operations_boss_recommend',
+                     'enable_shop_buy', 'enable_shop_general_gems', 'enable_shop_general_refresh', 'enable_shop_guild_refresh', 'enable_shop_merit_refresh']:
             self.__setattr__(attr.upper(), to_bool(option[attr]))
         if not option['commission_time_limit'].isdigit():
             self.COMMISSION_TIME_LIMIT = future_time(option['commission_time_limit'])
@@ -717,6 +753,23 @@ class AzurLaneConfig:
         self.GUILD_LOGISTICS_PLATE_T2_ORDER_STRING = option['guild_logistics_plate_t2_order_string']
         self.GUILD_LOGISTICS_PLATE_T3_ORDER_STRING = option['guild_logistics_plate_t3_order_string']
         self.GUILD_OPERATIONS_JOIN_THRESHOLD = float(option['guild_operations_join_threshold'])
+        self.SHOP_GENERAL_SELECTION = option['shop_general_selection']
+        self.SHOP_GUILD_SELECTION = option['shop_guild_selection']
+        self.SHOP_GUILD_BOX_T3 = option['shop_guild_box_t3']
+        self.SHOP_GUILD_BOX_T4 = option['shop_guild_box_t4']
+        self.SHOP_GUILD_BOOK_T2 = option['shop_guild_book_t2']
+        self.SHOP_GUILD_BOOK_T3 = option['shop_guild_book_t3']
+        self.SHOP_GUILD_RETROFIT_T2 = option['shop_guild_retrofit_t2']
+        self.SHOP_GUILD_RETROFIT_T3 = option['shop_guild_retrofit_t3']
+        self.SHOP_GUILD_PLATE_T2 = option['shop_guild_plate_t2']
+        self.SHOP_GUILD_PLATE_T3 = option['shop_guild_plate_t3']
+        self.SHOP_GUILD_PLATE_T4 = option['shop_guild_plate_t4']
+        self.SHOP_GUILD_PR1 = option['shop_guild_pr1']
+        self.SHOP_GUILD_PR2 = option['shop_guild_pr2']
+        self.SHOP_GUILD_PR3 = option['shop_guild_pr3']
+        self.SHOP_GUILD_PR = [getattr(self, f'SHOP_GUILD_PR{_}') for _ in range(1, 4)]
+        self.SHOP_MEDAL_SELECTION = option['shop_medal_selection']
+        self.SHOP_MERIT_SELECTION = option['shop_merit_selection']
 
         option = config['Main']
         self.CAMPAIGN_MODE = option['campaign_mode']
@@ -815,6 +868,12 @@ class AzurLaneConfig:
         self.C124_NON_S3_ENTER_TOLERANCE = int(option['non_s3_enemy_enter_tolerance'])
         self.C124_NON_S3_WITHDRAW_TOLERANCE = int(option['non_s3_enemy_withdraw_tolerance'])
         self.C124_AMMO_PICK_UP = int(option['ammo_pick_up_124'])
+
+        # Gems_farming
+        option = config['Gems_farming']
+        self.GEMS_STAGE = option['gems_stage']
+        self.GEMS_FLEET_1 = int(option['gems_fleet_1'])
+        self.GEMS_FLEET_2 = int(option['gems_fleet_2'])
 
         # OS semi auto
         option = config['Os_semi_auto']

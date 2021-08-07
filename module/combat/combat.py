@@ -63,9 +63,9 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         Returns:
             bool:
         """
-        similarity, location = TEMPLATE_COMBAT_LOADING.match_result(self.device.image.crop((0, 620, 1280, 720)))
+        similarity, button = TEMPLATE_COMBAT_LOADING.match_result(self.device.image.crop((0, 620, 1280, 720)))
         if similarity > 0.85:
-            loading = (location[0] + 38 - LOADING_BAR.area[0]) / (LOADING_BAR.area[2] - LOADING_BAR.area[0])
+            loading = (button.area[0] + 38 - LOADING_BAR.area[0]) / (LOADING_BAR.area[2] - LOADING_BAR.area[0])
             logger.attr('Loading', f'{int(loading * 100)}%')
             return True
         else:

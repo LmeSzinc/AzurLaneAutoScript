@@ -27,13 +27,11 @@ class CampaignBase(CampaignBase_):
         """
         template = dic_archives_template[name]
 
-        sim, point = template.match_result(self.device.image)
+        sim, button = template.match_result(self.device.image)
         if sim < 0.85:
             return None
 
-        button = area_offset(area=(-12, -12, 44, 32), offset=point)
-        color = get_color(self.device.image, button)
-        entrance = Button(area=button, color=color, button=button, name=name)
+        entrance = button.crop((-12, -12, 44, 32), image=self.device.image, name=name)
         return entrance
 
     def _search_archives_entrance(self, name, skip_first_screenshot=True):

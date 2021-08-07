@@ -1,6 +1,8 @@
 import re
 from datetime import datetime, timedelta
 
+from PIL import Image
+
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.filter import Filter
@@ -8,7 +10,6 @@ from module.base.mask import Mask
 from module.base.timer import Timer
 from module.base.utils import *
 from module.logger import logger
-from module.map_detection.utils import Points
 from module.ocr.ocr import Digit, DigitCounter
 from module.reward.assets import *
 from module.template.assets import TEMPLATE_DORM_COIN, TEMPLATE_DORM_LOVE
@@ -24,7 +25,7 @@ COLLECT_RECORD = ('RewardRecord', 'dorm_collect')
 FOOD = ButtonGrid(origin=(298, 375), delta=(156, 0), button_shape=(112, 66), grid_shape=(6, 1), name='FOOD')
 FOOD_AMOUNT = ButtonGrid(
     origin=(343, 411), delta=(156, 0), button_shape=(70, 33), grid_shape=(6, 1), name='FOOD_AMOUNT')
-OCR_FOOD = Digit(FOOD_AMOUNT.buttons(), letter=(255, 255, 255), threshold=128, name='OCR_DORM_FOOD')
+OCR_FOOD = Digit(FOOD_AMOUNT.buttons, letter=(255, 255, 255), threshold=128, name='OCR_DORM_FOOD')
 OCR_FILL = DigitCounter(OCR_DORM_FILL, letter=(255, 247, 247), threshold=128, name='OCR_DORM_FILL')
 
 
@@ -33,9 +34,15 @@ class Food:
         self.feed = feed
         self.amount = amount
 
+    def __str__(self):
+        return f'Food_{self.feed}'
+
+    def __eq__(self, other):
+        return str(self) == str(other)
+
 
 FOOD_FEED_AMOUNT = [1000, 2000, 3000, 5000, 10000, 20000]
-FOOD_FILTER = Filter(regex=re.compile('(\d+)'), attr=['feed'], preset=[])
+FOOD_FILTER = Filter(regex=re.compile('(\d+)'), attr=['feed'])
 
 
 class RewardDorm(UI):
@@ -51,21 +58,18 @@ class RewardDorm(UI):
             out: page_dorm, with info_bar
         """
         image = MASK_DORM.apply(np.array(self.device.image))
-        love_points = Points(TEMPLATE_DORM_LOVE.match_multi(image), config=self.config).group()
-        coin_points = Points(TEMPLATE_DORM_COIN.match_multi(image), config=self.config).group()
-        logger.info(f'Dorm loves: {len(love_points)}, Dorm coins: {len(coin_points)}')
+        image = Image.fromarray(image)
+        loves = TEMPLATE_DORM_LOVE.match_multi(image, name='DORM_LOVE')
+        coins = TEMPLATE_DORM_COIN.match_multi(image, name='DORM_COIN')
+        logger.info(f'Dorm loves: {len(loves)}, Dorm coins: {len(coins)}')
 
         count = 0
-        for point in love_points:
-            button = tuple(np.append(point, point + TEMPLATE_DORM_LOVE.size))
-            button = Button(area=button, color=(), button=button, name='DORM_LOVE')
+        for button in loves:
             count += 1
             # Disable click record check, because may have too many coins or loves.
             self.device.click(button, record_check=False)
             self.device.sleep((0.5, 0.8))
-        for point in coin_points:
-            button = tuple(np.append(point, point + TEMPLATE_DORM_LOVE.size))
-            button = Button(area=button, color=(), button=button, name='DORM_COIN')
+        for button in coins:
             count += 1
             self.device.click(button, record_check=False)
             self.device.sleep((0.5, 0.8))
@@ -175,7 +179,7 @@ class RewardDorm(UI):
         self.device.screenshot()
         self.handle_info_bar()
 
-        has_food = [self._dorm_has_food(button) for button in FOOD.buttons()]
+        has_food = [self._dorm_has_food(button) for button in FOOD.buttons]
         amount = OCR_FOOD.ocr(self.device.image)
         amount = [a if hf else 0 for a, hf in zip(amount, has_food)]
         food = [Food(feed=f, amount=a) for f, a in zip(FOOD_FEED_AMOUNT, amount)]
@@ -183,11 +187,11 @@ class RewardDorm(UI):
         logger.info(f'Dorm food: {[f.amount for f in food]}, to fill: {fill}')
 
         FOOD_FILTER.load(self.config.DORM_FEED_FILTER)
-        for index in FOOD_FILTER.apply(food):
-            selected = food[index]
+        for selected in FOOD_FILTER.apply(food):
+            button = FOOD.buttons[food.index(selected)]
             if selected.amount > 0 and fill > selected.feed:
                 count = min(fill // selected.feed, selected.amount)
-                self._dorm_feed_click(button=FOOD[index, 0], count=count)
+                self._dorm_feed_click(button=button, count=count)
                 return True
 
         return False

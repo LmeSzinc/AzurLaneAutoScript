@@ -89,7 +89,8 @@ class RewardResearch(ResearchSelector):
     def research_select(self, priority, save_get_items=False):
         """
         Args:
-            priority (list): A list of str and int, such as [2, 3, 0, 'reset']
+            priority (list): A list of ResearchProject objects and preset strings,
+                such as [object, object, object, 'reset']
             save_get_items (bool):
 
         Returns:
@@ -116,7 +117,7 @@ class RewardResearch(ResearchSelector):
                     logger.warning(f'Unknown select method: {project}')
                 return True
             else:
-                # priority example: [2, 3, 0]
+                # priority example: [ResearchProject, ResearchProject,]
                 if self.research_project_start(project):
                     return True
                 else:
@@ -127,19 +128,25 @@ class RewardResearch(ResearchSelector):
 
     research_project_started = None
 
-    def research_project_start(self, index, skip_first_screenshot=True):
+    def research_project_start(self, project, skip_first_screenshot=True):
         """
         Args:
-            index (int): 0 to 4.
+            project (ResearchProject):
             skip_first_screenshot:
 
         Returns:
             bool: If start success.
         """
+        logger.info(f'Research project: {project}')
+        if project in self.projects:
+            index = self.projects.index(project)
+        else:
+            logger.warning(f'The project to start: {project} is not in known projects')
+            return False
         logger.info(f'Research project: {index}')
         available = False
         click_timer = Timer(10)
-        self.research_project_started = self.projects[index]
+        self.research_project_started = project
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
