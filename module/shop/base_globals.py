@@ -18,9 +18,15 @@ BP_SERIES = {
     'odin': 3,
     'champagne': 3,
     'drake': 3,
+    'anchorage': 4,
+    'august': 4,
+    'marcopolo': 4,
+    'agir': 4,
+    'hakuryu': 4,
     '1': 1,
     '2': 2,
     '3': 3,
+    '4': 4,
     '': '',
 }
 

@@ -1,4 +1,4 @@
-from module.build.ui import BuildUI
+from module.gacha.ui import GachaUI
 from module.logger import logger
 from module.shop.shop_general import GeneralShop
 from module.shop.shop_guild import GuildShop
@@ -16,7 +16,7 @@ RECORD_SHOP_MERIT_OPTION = ('RewardRecord', 'shop_merit')
 RECORD_SHOP_MERIT_SINCE = (0,)
 
 
-class RewardShop(BuildUI, ShopUI, GeneralShop, GuildShop, MedalShop, MeritShop):
+class RewardShop(GachaUI, ShopUI, GeneralShop, GuildShop, MedalShop, MeritShop):
     def _shop_visit(self, shop_type='general'):
         """
         Helper func to determine whether worth visiting and browsing the shop
@@ -125,14 +125,14 @@ class RewardShop(BuildUI, ShopUI, GeneralShop, GuildShop, MedalShop, MeritShop):
         if any(shop_records.values()):
             shop_ran = True
             if shop_records['medal']:
-                self.ui_goto_build()
+                self.ui_goto_gacha()
 
                 record_save = True
-                if not self.build_side_navbar_ensure(bottom=2):
+                if not self.gacha_side_navbar_ensure(bottom=2):
                     return shop_ran
 
                 for _ in range(1, 3):
-                    if self.build_bottom_navbar_ensure(left=_, is_construct=False):
+                    if self.gacha_bottom_navbar_ensure(left=_, is_build=False):
                         self.shop_buy(shop_type='medal',
                                       selection=self.config.SHOP_MEDAL_SELECTION)
                     else:
