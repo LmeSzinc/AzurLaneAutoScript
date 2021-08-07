@@ -34,9 +34,15 @@ class Food:
         self.feed = feed
         self.amount = amount
 
+    def __str__(self):
+        return f'Food_{self.feed}'
+
+    def __eq__(self, other):
+        return str(self) == str(other)
+
 
 FOOD_FEED_AMOUNT = [1000, 2000, 3000, 5000, 10000, 20000]
-FOOD_FILTER = Filter(regex=re.compile('(\d+)'), attr=['feed'], preset=[])
+FOOD_FILTER = Filter(regex=re.compile('(\d+)'), attr=['feed'])
 
 
 class RewardDorm(UI):
@@ -181,11 +187,11 @@ class RewardDorm(UI):
         logger.info(f'Dorm food: {[f.amount for f in food]}, to fill: {fill}')
 
         FOOD_FILTER.load(self.config.DORM_FEED_FILTER)
-        for index in FOOD_FILTER.apply(food):
-            selected = food[index]
+        for selected in FOOD_FILTER.apply(food):
+            button = FOOD.buttons[food.index(selected)]
             if selected.amount > 0 and fill > selected.feed:
                 count = min(fill // selected.feed, selected.amount)
-                self._dorm_feed_click(button=FOOD[index, 0], count=count)
+                self._dorm_feed_click(button=button, count=count)
                 return True
 
         return False

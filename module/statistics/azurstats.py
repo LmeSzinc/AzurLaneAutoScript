@@ -58,6 +58,10 @@ class AzurStats:
     def clear(self):
         self.images = []
 
+    @property
+    def count(self):
+        return len(self.images)
+
     def _user_agent(self):
         return f'Alas ({self.config.AZURSTAT_ID})'
 
@@ -69,7 +73,7 @@ class AzurStats:
         amount = len(self.images)
         logger.info(f'Uploading screenshots to AzurStat, amount: {amount}')
         if amount == 0:
-            logger.warning(f'Image upload failed, no images to upload')
+            # logger.warning(f'Image upload failed, no images to upload')
             return False
         image = pack(self.images)
         output = io.BytesIO()
