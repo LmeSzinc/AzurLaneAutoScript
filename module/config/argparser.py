@@ -369,8 +369,8 @@ def main(ini_name=''):
     reward_shipyard.add_argument('--shipyard_series', default=default('--shipyard_series'), help='Select PR/DR research series.', choices=['1', '2', '3', '4'], gooey_options={'label_color': '#4B5F83'})
     reward_shipyard.add_argument('--shipyard_index', default=default('--shipyard_index'),
         help='Ship location in bottom Face Navbar.\nThe display of ships are ordered by whether unlocked/developed, '
-             'so players must first verify the location themselves before selecting.\nleftmost = 0, rightmost = 5',
-        choices=['0', '1', '2', '3', '4', '5'], gooey_options={'label_color': '#4B5F83'})
+             'so players must first verify the location themselves before selecting.\nleftmost = 1, rightmost = 6',
+        choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
 
     # ==========设备设置==========
     emulator_parser = subs.add_parser('设备设置')
