@@ -115,13 +115,13 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
             for button in [EXP_INFO_S_REWARD, GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3, GET_SHIP]:
                 if self.appear(button, interval=1):
                     if button == EXP_INFO_S_REWARD and drop_screenshots == 0:
-                        self.handle_info_bar()
+                        self.ensure_no_info_bar()
                         drop_screenshots = 1
                         if self.config.ENABLE_SAVE_GET_ITEMS:
                             self.device.save_screenshot('commission_info', to_base_folder=True, interval=0)
                         self.stat.add(self.device.image)
                     if button in [GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3] and drop_screenshots == 1:
-                        self.handle_info_bar()
+                        self.ensure_no_info_bar()
                         drop_screenshots = 0
                         if self.config.ENABLE_SAVE_GET_ITEMS:
                             self.device.save_screenshot('commission_items', to_base_folder=True, interval=0)
