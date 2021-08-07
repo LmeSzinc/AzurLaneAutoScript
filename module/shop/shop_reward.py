@@ -1,6 +1,5 @@
 from module.build.ui import BuildUI
 from module.logger import logger
-from module.shop.assets import SHOP_REFRESH
 from module.shop.shop_general import GeneralShop
 from module.shop.shop_guild import GuildShop
 from module.shop.shop_medal import MedalShop

@@ -1,4 +1,3 @@
-import numpy as np
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.timer import Timer
@@ -37,7 +36,7 @@ class ShopUI(UI):
                 self.device.screenshot()
 
             # End
-            results = [self.appear(button) for button in SHOP_LOAD_ENSURE_BUTTONS]
+            results = [self.appear(button, offset=(100, 50)) for button in SHOP_LOAD_ENSURE_BUTTONS]
             if any(results):
                 if confirm_timer.reached():
                     return True
@@ -135,7 +134,7 @@ class ShopUI(UI):
         Swipes bottom navbar one way, right only
 
         Args:
-            bool: skip_first_screenshot
+            skip_first_screenshot (bool):
 
         Returns:
             bool: True if detected correct exit
