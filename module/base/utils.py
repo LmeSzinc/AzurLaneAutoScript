@@ -94,6 +94,10 @@ def ensure_time(second, n=3, precision=3):
             lower, upper = second.replace(' ', '').split(',')
             lower, upper = int(lower), int(upper)
             return ensure_time((lower, upper), n=n, precision=precision)
+        if '-' in second:
+            lower, upper = second.replace(' ', '').split('-')
+            lower, upper = int(lower), int(upper)
+            return ensure_time((lower, upper), n=n, precision=precision)
         else:
             return int(second)
     else:
