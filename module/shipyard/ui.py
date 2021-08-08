@@ -85,14 +85,15 @@ class ShipyardUI(UI):
         Returns:
             Ocr'ed count for index
         """
+        # index(config.SHIPYARD_INDEX) start from 1
         # Base Case
-        if index < 0 or index >= len(SHIPYARD_BP_COUNT_GRID.buttons):
+        if index <= 0 or index > len(SHIPYARD_BP_COUNT_GRID.buttons):
             logger.warning(f'Cannot parse for count from index {index}')
             return -1
 
         result = OCR_SHIPYARD_BP_COUNT_GRID.ocr(self.device.image)
 
-        return result[index]
+        return result[index - 1]
 
     def _shipyard_set_series(self, series=1, skip_first_screenshot=True):
         """
