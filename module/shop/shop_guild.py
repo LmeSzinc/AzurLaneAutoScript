@@ -1,6 +1,6 @@
+from module.base.decorator import Config
 from module.base.decorator import cached_property
 from module.base.timer import Timer
-from module.base.utils import area_offset, get_color
 from module.combat.assets import GET_ITEMS_1, GET_SHIP
 from module.logger import logger
 from module.ocr.ocr import Digit
@@ -52,6 +52,20 @@ class GuildShop(ShopBase):
         logger.info(f'Guild coins: {self._shop_guild_coins}')
 
     @cached_property
+    @Config.when(SERVER='cn')
+    def shop_guild_items(self):
+        """
+        Returns:
+            GuildItemGrid:
+        """
+        shop_grid = self.shop_grid
+        shop_guild_items = GuildItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
+        shop_guild_items.load_template_folder('./assets/guild_shop_cn')
+        shop_guild_items.load_cost_template_folder('./assets/shop_cost')
+        return shop_guild_items
+
+    @cached_property
+    @Config.when(SERVER=None)
     def shop_guild_items(self):
         """
         Returns:
@@ -161,6 +175,7 @@ class GuildShop(ShopBase):
         # This results in plus/minus appearing, click until those appear
         select = self.shop_get_select(category, choice)
         click_timer = Timer(3, count=6)
+        select_offset = (500, 400)
         while 1:
             if select is not None:
                 if click_timer.reached():
@@ -171,18 +186,12 @@ class GuildShop(ShopBase):
                 return False
 
             # Scan for plus/minus locations varies based on grid and item selected
+            # After searching within an offset, buttons move to the actual location automatically
             self.device.screenshot()
-            sim0, point0 = TEMPLATE_PLUS.match_result(self.device.image)
-            sim1, point1 = TEMPLATE_MINUS.match_result(self.device.image)
-            if sim0 < 0.85 or sim1 < 0.85:
+            if self.appear(SELECT_MINUS, offset=select_offset) and self.appear(SELECT_PLUS, offset=select_offset):
+                break
+            else:
                 continue
-
-            for index, name in enumerate(['PLUS', 'MINUS']):
-                button = area_offset(area=(-12, -12, 44, 32), offset=locals()[f'point{index}'])
-                color = get_color(self.device.image, button)
-                locals()[name] = Button(area=button, color=color, button=button, name=f'{name}')
-
-            break
 
         # Total number to purchase altogether
         while 1:
@@ -197,8 +206,8 @@ class GuildShop(ShopBase):
             total_price = OCR_SHOP_SELECT_TOTAL_PRICE.ocr(image)
             return int(total_price / item.price)
 
-        self.ui_ensure_index(limit, letter=total_price_to_count, prev_button=locals()['MINUS'],
-                             next_button=locals()['PLUS'], skip_first_screenshot=True)
+        self.ui_ensure_index(limit, letter=total_price_to_count, prev_button=SELECT_MINUS, next_button=SELECT_PLUS,
+                             skip_first_screenshot=True)
         self.device.click(SHOP_BUY_CONFIRM_SELECT)
         return True
 
@@ -217,7 +226,7 @@ class GuildShop(ShopBase):
         success = False
         self.interval_clear(BACK_ARROW)
         self.interval_clear(SHOP_BUY_CONFIRM)
-        self.interval_clear(SHOP_SELECT_CHECK)
+        self.interval_clear(SHOP_BUY_CONFIRM_SELECT)
 
         while 1:
             if skip_first_screenshot:
@@ -235,12 +244,12 @@ class GuildShop(ShopBase):
                 self.device.click(SHOP_CLICK_SAFE_AREA)
                 self.interval_reset(BACK_ARROW)
                 continue
-            if self.appear(SHOP_SELECT_CHECK, interval=3):
+            if self.appear(SHOP_BUY_CONFIRM_SELECT, offset=(20, 20), interval=3):
                 if not self.shop_buy_select_execute(item):
                     logger.warning('Failed to purchase secondary '
                                    'grid item')
                 self.interval_reset(BACK_ARROW)
-                self.interval_reset(SHOP_SELECT_CHECK)
+                self.interval_reset(SHOP_BUY_CONFIRM_SELECT)
                 continue
             if self.appear(GET_ITEMS_1, interval=1):
                 self.device.click(SHOP_CLICK_SAFE_AREA)
