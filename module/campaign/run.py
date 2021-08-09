@@ -166,6 +166,8 @@ class CampaignRun(Reward):
         """
         if folder == 'event_20201126_cn' and name == 'vsp':
             name = 'sp'
+        if folder == 'event_20210723_cn' and name == 'vsp':
+            name = 'sp'
 
         return name, folder
 

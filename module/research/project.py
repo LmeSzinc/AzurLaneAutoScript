@@ -17,6 +17,7 @@ from module.ui.ui import UI
 
 RESEARCH_ENTRANCE = [ENTRANCE_1, ENTRANCE_2, ENTRANCE_3, ENTRANCE_4, ENTRANCE_5]
 RESEARCH_SERIES = [SERIES_1, SERIES_2, SERIES_3, SERIES_4, SERIES_5]
+RESEARCH_STATUS = [STATUS_1, STATUS_2, STATUS_3, STATUS_4, STATUS_5]
 OCR_RESEARCH = [OCR_RESEARCH_1, OCR_RESEARCH_2, OCR_RESEARCH_3, OCR_RESEARCH_4, OCR_RESEARCH_5]
 OCR_RESEARCH = Ocr(OCR_RESEARCH, name='RESEARCH', threshold=64, alphabet='0123456789BCDEGHQTMIULRF-')
 RESEARCH_DETAIL_GENRE = [DETAIL_GENRE_B, DETAIL_GENRE_C, DETAIL_GENRE_D, DETAIL_GENRE_E, DETAIL_GENRE_G,
@@ -55,13 +56,16 @@ def get_research_series(image):
     """
     result = []
     # Set 'prominence = 50' to ignore possible noise.
-    parameters = {'height': 200, 'prominence': 50}
+    # 2021.07.18 Letter IV is now smaller than I, II, III, since the maintenance in 07.15.
+    #   The "/" of the "V" in IV become darker because of anti-aliasing.
+    #   So lower height to 160 to have a better detection.
+    parameters = {'height': 160, 'prominence': 50}
 
     for button in RESEARCH_SERIES:
         im = color_similarity_2d(image.crop(button.area).resize((46, 25)), color=(255, 255, 255))
-        peaks = [len(signal.find_peaks(row, **parameters)[0]) for row in im[2:-2]]
+        peaks = [len(signal.find_peaks(row, **parameters)[0]) for row in im[5:-5]]
         upper, lower = max(peaks), min(peaks)
-        # print(upper, lower)
+        # print(peaks)
         if upper == lower and 1 <= upper <= 3:
             series = upper
         elif upper == 3 and lower == 2:
@@ -84,10 +88,34 @@ def get_research_name(image):
     """
     names = []
     for name in OCR_RESEARCH.ocr(image):
-        # S3 D-022-MI (S3-Drake-0.5) detected as 'D-022-ML', because of Drake's white cloth.
-        name = name.replace('ML', 'MI').replace('MIL', 'MI')
         names.append(name)
     return names
+
+
+def get_research_finished(image):
+    """
+    Args:
+        image: Pillow image
+
+    Returns:
+        int: Index of the finished project, 0 to 4. Return None if no project finished.
+    """
+    for index in [2, 1, 3, 0, 4]:
+        button = RESEARCH_STATUS[index]
+        color = get_color(image, button.area)
+        if max(color) - min(color) < 40:
+            logger.warning(f'Unexpected color: {color}')
+            continue
+        color_index = np.argmax(color)  # R, G, B
+        if color_index == 1:
+            return index  # Green
+        elif color_index == 2:
+            continue  # Blue
+        else:
+            logger.warning(f'Unexpected color: {color}')
+            continue
+
+    return None
 
 
 def parse_time(string):
@@ -301,6 +329,8 @@ class ResearchProject:
         self.valid = True
         # self.config = config
         self.name = self.check_name(name)
+        if self.name != name:
+            logger.info(f'Research name {name} is revised to {self.name}')
         self.series = f'S{series}'
         self.genre = ''
         self.duration = '24'
@@ -338,8 +368,7 @@ class ResearchProject:
         else:
             return f'{self.series} {self.name} (Invalid)'
 
-    @staticmethod
-    def check_name(name):
+    def check_name(self, name):
         """
         Args:
             name (str):
@@ -353,7 +382,15 @@ class ResearchProject:
             prefix, number, suffix = parts
             number = number.replace('D', '0').replace('O', '0').replace('S', '5')
             prefix = prefix.strip('I1')
+            # S3 D-022-MI (S3-Drake-0.5) detected as 'D-022-ML', because of Drake's white cloth.
+            suffix = suffix.replace('ML', 'MI').replace('MIL', 'MI')
+            # S4 D-063-UL (S4-hakuryu-0.5) detected as 'D-063-0C'
+            suffix = suffix.replace('0C', 'UL').replace('UC', 'UL')
             return '-'.join([prefix, number, suffix])
+        elif len(parts) == 2:
+            # Trying to insert '-', for results like H339-MI
+            if name[0].isalpha() and name[1].isdigit():
+                return self.check_name(f'{name[0]}-{name[1:]}')
         return name
 
     def get_data(self, name, series):
@@ -502,7 +539,7 @@ class ResearchSelector(UI):
         """
         for pos in range(5):
             proj_sorted.append(projects[(pos + 2) % 5])
-        
+
         self.projects = proj_sorted
 
     @Config.when(SERVER=None)
@@ -522,7 +559,8 @@ class ResearchSelector(UI):
     def research_sort_filter(self):
         """
         Returns:
-            list: A list of str and int, such as [2, 3, 0, 'reset']
+            list: A list of ResearchProject objects and preset strings,
+                such as [object, object, object, 'reset']
         """
         # Load filter string
         preset = self.config.RESEARCH_FILTER_PRESET
@@ -539,25 +577,24 @@ class ResearchSelector(UI):
         priority = self._research_check_filter(priority)
 
         # Log
-        logger.attr(
-            'Filter_sort',
-            ' > '.join([str(self.projects[index]) if isinstance(index, int) else index for index in priority]))
+        logger.attr('Filter_sort', ' > '.join([str(project) for project in priority]))
         return priority
 
     def _research_check_filter(self, priority):
         """
         Args:
-            priority (list): A list of str and int, such as [2, 3, 0, 'reset']
+            priority (list): A list of ResearchProject objects and preset strings,
+                such as [object, object, object, 'reset']
 
         Returns:
-            list: A list of str and int, such as [2, 3, 0, 'reset']
+            list: A list of ResearchProject objects and preset strings,
+                such as [object, object, object, 'reset']
         """
         out = []
-        for index in priority:
-            if isinstance(index, str):
-                out.append(index)
+        for proj in priority:
+            if isinstance(proj, str):
+                out.append(proj)
                 continue
-            proj = self.projects[index]
             if not proj.valid:
                 continue
             if (not self.config.RESEARCH_USE_CUBE and proj.need_cube) \
@@ -572,33 +609,31 @@ class ResearchSelector(UI):
             if (proj.genre.upper() == 'B') \
                     or (proj.genre.upper() == 'E' and str(proj.duration) != '6'):
                 continue
-            out.append(index)
+            out.append(proj)
         return out
 
     def research_sort_shortest(self):
         """
         Returns:
-            list: A list of str and int, such as [2, 3, 0, 'reset']
+            list: A list of ResearchProject objects and preset strings,
+                such as [object, object, object, 'reset']
         """
         FILTER.load(FILTER_STRING_SHORTEST)
         priority = FILTER.apply(self.projects)
         priority = self._research_check_filter(priority)
 
-        logger.attr(
-            'Shortest_sort',
-            ' > '.join([str(self.projects[index]) if isinstance(index, int) else index for index in priority]))
+        logger.attr('Filter_sort', ' > '.join([str(project) for project in priority]))
         return priority
 
     def research_sort_cheapest(self):
         """
         Returns:
-            list: A list of str and int, such as [2, 3, 0, 'reset']
+            list: A list of ResearchProject objects and preset strings,
+                such as [object, object, object, 'reset']
         """
         FILTER.load(FILTER_STRING_CHEAPEST)
         priority = FILTER.apply(self.projects)
         priority = self._research_check_filter(priority)
 
-        logger.attr(
-            'Cheapest_sort',
-            ' > '.join([str(self.projects[index]) if isinstance(index, int) else index for index in priority]))
+        logger.attr('Filter_sort', ' > '.join([str(project) for project in priority]))
         return priority

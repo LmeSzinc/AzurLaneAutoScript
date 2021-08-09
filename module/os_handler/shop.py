@@ -12,17 +12,17 @@ OCR_SHOP_YELLOW_COINS = Digit(SHOP_YELLOW_COINS, letter=(239, 239, 239), name='O
 OCR_SHOP_PURPLE_COINS = Digit(SHOP_PURPLE_COINS, letter=(255, 255, 255), name='OCR_SHOP_PURPLE_COINS')
 
 
-class ShopHandler(UI, MapEventHandler):
+class OSShopHandler(UI, MapEventHandler):
     _shop_yellow_coins = 0
     _shop_purple_coins = 0
 
-    def shop_get_coins(self):
+    def os_shop_get_coins(self):
         self._shop_yellow_coins = OCR_SHOP_YELLOW_COINS.ocr(self.device.image)
         self._shop_purple_coins = OCR_SHOP_PURPLE_COINS.ocr(self.device.image)
         logger.info(f'Yellow coins: {self._shop_yellow_coins}, purple coins: {self._shop_purple_coins}')
 
     @cached_property
-    def shop_items(self):
+    def os_shop_items(self):
         """
         Returns:
             ItemGrid:
@@ -34,7 +34,7 @@ class ShopHandler(UI, MapEventHandler):
         shop_items.load_cost_template_folder('./assets/os_shop_cost')
         return shop_items
 
-    def shop_get_items(self, name=True):
+    def os_shop_get_items(self, name=True):
         """
         Args:
             name (bool): If detect item name. True if detect akashi shop, false if detect port shop.
@@ -42,11 +42,11 @@ class ShopHandler(UI, MapEventHandler):
         Returns:
             list[Item]:
         """
-        self.shop_items.predict(self.device.image, name=name, amount=name, cost=True, price=True)
+        self.os_shop_items.predict(self.device.image, name=name, amount=name, cost=True, price=True)
 
-        items = self.shop_items.items
+        items = self.os_shop_items.items
         if len(items):
-            min_row = self.shop_items.grids[0, 0].area[1]
+            min_row = self.os_shop_items.grids[0, 0].area[1]
             row = [str(item) for item in items if item.button[1] == min_row]
             logger.info(f'Shop row 1: {row}')
             row = [str(item) for item in items if item.button[1] != min_row]
@@ -56,20 +56,20 @@ class ShopHandler(UI, MapEventHandler):
             logger.info('No shop items found')
             return []
 
-    def shop_get_item_to_buy_in_akashi(self):
+    def os_shop_get_item_to_buy_in_akashi(self):
         """
         Returns:
             Item:
         """
-        self.shop_get_coins()
-        items = self.shop_get_items(name=True)
+        self.os_shop_get_coins()
+        items = self.os_shop_get_items(name=True)
         # Shop supplies do not appear immediately, need to confirm if shop is empty.
         for _ in range(2):
             if not len(items):
                 logger.info('Empty akashi shop, confirming')
                 self.device.sleep(0.5)
                 self.device.screenshot()
-                items = self.shop_get_items(name=True)
+                items = self.os_shop_get_items(name=True)
                 continue
             else:
                 break
@@ -95,13 +95,13 @@ class ShopHandler(UI, MapEventHandler):
 
         return None
 
-    def shop_get_item_to_buy_in_port(self):
+    def os_shop_get_item_to_buy_in_port(self):
         """
         Returns:
             Item:
         """
-        self.shop_get_coins()
-        items = self.shop_get_items(name=False)
+        self.os_shop_get_coins()
+        items = self.os_shop_get_items(name=False)
 
         for item in items:
             if item.cost == 'YellowCoins':
@@ -115,7 +115,7 @@ class ShopHandler(UI, MapEventHandler):
 
         return None
 
-    def shop_buy_execute(self, button, skip_first_screenshot=True):
+    def os_shop_buy_execute(self, button, skip_first_screenshot=True):
         """
         Args:
             button: Item to buy
@@ -149,7 +149,7 @@ class ShopHandler(UI, MapEventHandler):
             if success and self.appear(PORT_SUPPLY_CHECK, offset=(20, 20)):
                 break
 
-    def shop_buy(self, select_func):
+    def os_shop_buy(self, select_func):
         """
         Args:
             select_func:
@@ -167,7 +167,7 @@ class ShopHandler(UI, MapEventHandler):
                 logger.info('Shop buy finished')
                 return count
             else:
-                self.shop_buy_execute(button)
+                self.os_shop_buy_execute(button)
                 count += 1
                 continue
 
@@ -183,8 +183,8 @@ class ShopHandler(UI, MapEventHandler):
         Pages:
             in: PORT_SUPPLY_CHECK
         """
-        count = self.shop_buy(select_func=self.shop_get_item_to_buy_in_port)
-        return count > 0 or len(self.shop_items.items) == 0
+        count = self.os_shop_buy(select_func=self.os_shop_get_item_to_buy_in_port)
+        return count > 0 or len(self.os_shop_items.items) == 0
 
     def handle_akashi_supply_buy(self, grid):
         """
@@ -197,5 +197,5 @@ class ShopHandler(UI, MapEventHandler):
         """
         self.ui_click(grid, appear_button=self.is_in_map, check_button=PORT_SUPPLY_CHECK,
                       additional=self.handle_story_skip, skip_first_screenshot=True)
-        self.shop_buy(select_func=self.shop_get_item_to_buy_in_akashi)
+        self.os_shop_buy(select_func=self.os_shop_get_item_to_buy_in_akashi)
         self.ui_back(appear_button=PORT_SUPPLY_CHECK, check_button=self.is_in_map, skip_first_screenshot=True)

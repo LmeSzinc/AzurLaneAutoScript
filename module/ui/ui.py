@@ -6,6 +6,7 @@ from module.handler.assets import *
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.ocr.ocr import Ocr
+from module.reward.assets import COMMISSION_DAILY
 from module.ui.page import *
 
 
@@ -13,14 +14,14 @@ class UI(InfoHandler):
     # Pages that Alas supported.
     ui_pages = [page_main, page_campaign_menu, page_campaign, page_fleet,
                 page_exercise, page_daily, page_event, page_sp, page_mission,
-                page_raid, page_reward, page_reshmenu, page_research, page_dormmenu, page_dorm, page_meowfficer,
-                page_archives, page_guild, page_os]
+                page_raid, page_reward, page_reshmenu, page_research, page_shipyard, page_dormmenu, page_dorm, page_meowfficer,
+                page_archives, page_guild, page_os, page_academy, page_shop, page_munitions, page_build]
     # All pages defined.
     ui_pages_all = [page_main, page_campaign_menu, page_campaign, page_fleet,
                     page_exercise, page_daily, page_event, page_sp, page_mission,
                     page_raid, page_commission, page_event_list, page_tactical, page_reward, page_unknown,
-                    page_reshmenu, page_research, page_dormmenu, page_dorm, page_meowfficer, page_archives,
-                    page_guild, page_os]
+                    page_reshmenu, page_research, page_shipyard, page_dormmenu, page_dorm, page_meowfficer, page_archives,
+                    page_guild, page_os, page_academy, page_shop, page_munitions, page_build]
     ui_current: Page
 
     def ui_page_appear(self, page):
@@ -300,7 +301,8 @@ class UI(InfoHandler):
             return True
         if self.appear(EVENT_LIST_CHECK, offset=(30, 30), interval=5) \
                 or self.appear(RESHMENU_CHECK, offset=(30, 30), interval=5) \
-                or self.appear(RESEARCH_CHECK, offset=(30, 30), interval=5):
+                or self.appear(RESEARCH_CHECK, offset=(30, 30), interval=5) \
+                or self.appear(SHIPYARD_CHECK, offset=(30, 30), interval=5):
             self.device.click(GOTO_MAIN)
             self._ui_additional_reward_goto_main_timer.reset()
             return True
@@ -327,10 +329,10 @@ class UI(InfoHandler):
 
         return False
 
-    # def ui_additional_page_commission(self):
-    #     # Event commission in Vacation Lane.
-    #     if self.appear(GAME_TIPS, offset=(20, 20), interval=1):
-    #         self.device.click(COMMISSION_DAILY)
-    #         return True
-    #
-    #     return False
+    def ui_additional_page_commission(self):
+        # Event commission in Vacation Lane.
+        if self.appear(GAME_TIPS, offset=(20, 20), interval=1):
+            self.device.click(COMMISSION_DAILY)
+            return True
+
+        return False

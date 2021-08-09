@@ -275,6 +275,10 @@ class AzurLaneConfig:
     # because a closing swipe will be treat as a click in game.
     MAP_SWIPE_DROP = 0.15
     MAP_SWIPE_PREDICT = True
+    # Corner to ensure in ensure_edge_insight.
+    # Value can be 'upper-left', 'upper-right', 'bottom-left', 'bottom-right', or 'upper', 'bottom', 'left', 'right'
+    # Missing axis will be random, and '' for all random
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = ''
 
     """
     module.retire
@@ -349,6 +353,7 @@ class AzurLaneConfig:
     HORIZONTAL_LINES_THETA_THRESHOLD = 0.005
     VERTICAL_LINES_THETA_THRESHOLD = 18
     TRUST_EDGE_LINES = False  # True to use edge to crop inner, false to use inner to crop edge
+    TRUST_EDGE_LINES_THRESHOLD = 5
     # Parameters for perspective calculating
     VANISH_POINT_RANGE = ((540, 740), (-3000, -1000))
     DISTANCE_POINT_X_RANGE = ((-3200, -1600),)
@@ -397,7 +402,7 @@ class AzurLaneConfig:
         'expire_longer_than_6': -11,
         'duration_shorter_than_2': 11,
         'duration_longer_than_6': -11,
-        'doa_daily': 500,
+        'event_daily': 500,
     }
     COMMISSION_TIME_LIMIT = 0
 
@@ -411,6 +416,7 @@ class AzurLaneConfig:
 
     BUY_MEOWFFICER = 0  # 0 to 15.
     ENABLE_TRAIN_MEOWFFICER = False
+    DO_FORT_CHORES_MEOWFFICER = False
 
     ENABLE_DORM_FEED = True
     ENABLE_DORM_REWARD = True
@@ -445,6 +451,39 @@ class AzurLaneConfig:
     RESEARCH_USE_CUBE = True
     RESEARCH_USE_COIN = True
     RESEARCH_USE_PART = True
+
+    """
+    module.shop
+    """
+    ENABLE_SHOP_BUY = False
+    SHOP_GENERAL_SELECTION = ''
+    ENABLE_SHOP_GENERAL_GEMS = False
+    ENABLE_SHOP_GENERAL_REFRESH = False
+    SHOP_GUILD_SELECTION = ''
+    ENABLE_SHOP_GUILD_REFRESH = False
+    SHOP_GUILD_BOX_T3 = 'eagle'
+    SHOP_GUILD_BOX_T4 = 'eagle'
+    SHOP_GUILD_BOOK_T2 = 'red'
+    SHOP_GUILD_BOOK_T3 = 'red'
+    SHOP_GUILD_RETROFIT_T2 = 'dd'
+    SHOP_GUILD_RETROFIT_T3 = 'dd'
+    SHOP_GUILD_PLATE_T2 = 'general'
+    SHOP_GUILD_PLATE_T3 = 'general'
+    SHOP_GUILD_PLATE_T4 = 'general'
+    SHOP_GUILD_PR1 = 'neptune'
+    SHOP_GUILD_PR2 = 'seattle'
+    SHOP_GUILD_PR3 = 'cheshire'
+    SHOP_GUILD_PR = [SHOP_GUILD_PR1, SHOP_GUILD_PR2, SHOP_GUILD_PR3]
+    SHOP_MEDAL_SELECTION = ''
+    SHOP_MERIT_SELECTION = ''
+    ENABLE_SHOP_MERIT_REFRESH = False
+
+    """
+    module.shipyard
+    """
+    SHIPYARD_SERIES = 1
+    SHIPYARD_INDEX = 0
+    BUY_SHIPYARD_BP = 2
 
     """
     module.sos
@@ -693,8 +732,9 @@ class AzurLaneConfig:
                      'enable_dorm_reward', 'enable_dorm_feed',
                      'enable_commission_reward', 'enable_tactical_reward', 'enable_daily_reward',
                      'enable_research_reward',
-                     'enable_data_key_collect', 'enable_train_meowfficer',
-                     'enable_guild_logistics', 'enable_guild_operations', 'enable_guild_operations_boss_auto', 'enable_guild_operations_boss_recommend']:
+                     'enable_data_key_collect', 'enable_train_meowfficer', 'do_fort_chores_meowfficer',
+                     'enable_guild_logistics', 'enable_guild_operations', 'enable_guild_operations_boss_auto', 'enable_guild_operations_boss_recommend',
+                     'enable_shop_buy', 'enable_shop_general_gems', 'enable_shop_general_refresh', 'enable_shop_guild_refresh', 'enable_shop_merit_refresh']:
             self.__setattr__(attr.upper(), to_bool(option[attr]))
         if not option['commission_time_limit'].isdigit():
             self.COMMISSION_TIME_LIMIT = future_time(option['commission_time_limit'])
@@ -723,6 +763,26 @@ class AzurLaneConfig:
         self.GUILD_LOGISTICS_PLATE_T2_ORDER_STRING = option['guild_logistics_plate_t2_order_string']
         self.GUILD_LOGISTICS_PLATE_T3_ORDER_STRING = option['guild_logistics_plate_t3_order_string']
         self.GUILD_OPERATIONS_JOIN_THRESHOLD = float(option['guild_operations_join_threshold'])
+        self.SHOP_GENERAL_SELECTION = option['shop_general_selection']
+        self.SHOP_GUILD_SELECTION = option['shop_guild_selection']
+        self.SHOP_GUILD_BOX_T3 = option['shop_guild_box_t3']
+        self.SHOP_GUILD_BOX_T4 = option['shop_guild_box_t4']
+        self.SHOP_GUILD_BOOK_T2 = option['shop_guild_book_t2']
+        self.SHOP_GUILD_BOOK_T3 = option['shop_guild_book_t3']
+        self.SHOP_GUILD_RETROFIT_T2 = option['shop_guild_retrofit_t2']
+        self.SHOP_GUILD_RETROFIT_T3 = option['shop_guild_retrofit_t3']
+        self.SHOP_GUILD_PLATE_T2 = option['shop_guild_plate_t2']
+        self.SHOP_GUILD_PLATE_T3 = option['shop_guild_plate_t3']
+        self.SHOP_GUILD_PLATE_T4 = option['shop_guild_plate_t4']
+        self.SHOP_GUILD_PR1 = option['shop_guild_pr1']
+        self.SHOP_GUILD_PR2 = option['shop_guild_pr2']
+        self.SHOP_GUILD_PR3 = option['shop_guild_pr3']
+        self.SHOP_GUILD_PR = [getattr(self, f'SHOP_GUILD_PR{_}') for _ in range(1, 4)]
+        self.SHOP_MEDAL_SELECTION = option['shop_medal_selection']
+        self.SHOP_MERIT_SELECTION = option['shop_merit_selection']
+        self.BUY_SHIPYARD_BP = int(option['buy_shipyard_bp'])
+        self.SHIPYARD_SERIES = int(option['shipyard_series'])
+        self.SHIPYARD_INDEX = int(option['shipyard_index'])
 
         option = config['Main']
         self.CAMPAIGN_MODE = option['campaign_mode']

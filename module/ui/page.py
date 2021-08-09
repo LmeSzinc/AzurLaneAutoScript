@@ -125,9 +125,14 @@ page_main.link(button=MAIN_GOTO_RAID, destination=page_raid)
 page_research = Page(RESEARCH_CHECK)
 page_research.link(button=GOTO_MAIN, destination=page_main)
 
+# Shipyard
+page_shipyard = Page(SHIPYARD_CHECK)
+page_shipyard.link(button=GOTO_MAIN, destination=page_main)
+
 # Research menu
 page_reshmenu = Page(RESHMENU_CHECK)
 page_reshmenu.link(button=RESHMENU_GOTO_RESEARCH, destination=page_research)
+page_reshmenu.link(button=RESHMENU_GOTO_SHIPYARD, destination=page_shipyard)
 page_reshmenu.link(button=GOTO_MAIN, destination=page_main)
 page_main.link(button=MAIN_GOTO_RESHMENU, destination=page_reshmenu)
 
@@ -146,3 +151,25 @@ page_dorm.link(button=DORM_GOTO_MAIN, destination=page_main)
 page_meowfficer = Page(MEOWFFICER_CHECK)
 page_dormmenu.link(button=DORMMENU_GOTO_MEOWFFICER, destination=page_meowfficer)
 page_meowfficer.link(button=MEOWFFICER_GOTO_DORM, destination=page_main)
+
+# Academy
+page_academy = Page(ACADEMY_CHECK)
+page_dormmenu.link(button=DORMMENU_GOTO_ACADEMY, destination=page_academy)
+page_academy.link(button=GOTO_MAIN, destination=page_main)
+
+# Shop
+page_shop = Page(SHOP_CHECK)
+page_main.link(button=MAIN_GOTO_SHOP, destination=page_shop)
+page_shop.link(button=GOTO_MAIN, destination=page_main)
+
+# Munitions
+page_munitions = Page(MUNITIONS_CHECK)
+# Prefer latter path since defaults to shop_general on load, stable background color
+# page_shop.link(button=SHOP_GOTO_MUNITIONS, destination=page_munitions)
+page_academy.link(button=ACADEMY_GOTO_MUNITIONS, destination=page_munitions)
+page_munitions.link(button=GOTO_MAIN, destination=page_main)
+
+# Build / Construct
+page_build = Page(BUILD_CHECK)
+page_main.link(button=MAIN_GOTO_BUILD, destination=page_build)
+page_build.link(button=GOTO_MAIN, destination=page_main)

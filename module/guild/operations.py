@@ -38,10 +38,12 @@ class GuildOperations(GuildBase):
                     current, remain, total = GUILD_OPERATIONS_PROGRESS.ocr(self.device.image)
                     threshold = total * self.config.GUILD_OPERATIONS_JOIN_THRESHOLD
                     if current <= threshold:
-                        logger.info(f'Joining Operation, current progress less than threshold ({threshold:.2f})')
+                        logger.info('Joining Operation, current progress less than '
+                                    f'threshold ({threshold:.2f})')
                         self.device.click(GUILD_OPERATIONS_JOIN)
                     else:
-                        logger.info(f'Refrain from joining operation, current progress exceeds threshold ({threshold:.2f})')
+                        logger.info('Refrain from joining operation, current progress exceeds '
+                                    f'threshold ({threshold:.2f})')
                         self.device.click(GUILD_OPERATIONS_CLICK_SAFE_AREA)
                 continue
             if self.handle_popup_single('FLEET_UPDATED'):
@@ -426,13 +428,27 @@ class GuildOperations(GuildBase):
 
         if not self._guild_operations_boss_preparation(az):
             return False
+        backup = self.config.cover(SUBMARINE=1, SUBMARINE_MODE='every_combat')
         az.combat_execute(auto='combat_auto')
+        backup.recover()
         az.combat_status(expected_end='in_ui')
         logger.info('Guild Raid Boss has been repelled')
         return True
 
+    def _guild_operations_boss_available(self):
+        """
+        Returns:
+            bool:
+        """
+        appear = self.image_color_count(GUILD_BOSS_AVAILABLE, color=(140, 243, 99), threshold=221, count=10)
+        if appear:
+            logger.info('Guild boss available')
+        else:
+            logger.info('Guild boss not available')
+        return appear
+
     def guild_operations(self):
-        if not self.guild_sidebar_ensure(1):
+        if not self.guild_side_navbar_ensure(bottom=1):
             logger.info('Operations sidebar not ensured, try again on next reward loop')
             return None
         self._guild_operations_ensure()
@@ -451,7 +467,7 @@ class GuildOperations(GuildBase):
             # Limit check for Guild Raid Boss to once a day
             if not self.config.record_executed_since(option=RECORD_OPTION_BOSS, since=RECORD_SINCE_BOSS):
                 skip_record = False
-                if self.appear(GUILD_BOSS_AVAILABLE):
+                if self._guild_operations_boss_available():
                     if self.config.ENABLE_GUILD_OPERATIONS_BOSS_AUTO:
                         if not self._guild_operations_boss_combat():
                             skip_record = True

@@ -124,6 +124,9 @@ class Retirement(Enhancement):
             if self.config.RETIRE_SR or self.config.RETIRE_SSR or self.config.RETIREMENT_METHOD == 'one_click_retire':
                 if self.handle_popup_confirm('RETIRE_SR_SSR'):
                     continue
+                if self.config.SERVER == 'en' and \
+                        self.appear_then_click(SR_SSR_CONFIRM, offset=self._popup_offset, interval=2):
+                    continue
             if self.appear_then_click(SHIP_CONFIRM, offset=(30, 30), interval=2):
                 continue
             if self.appear(SHIP_CONFIRM_2, offset=(30, 30), interval=2):
@@ -153,8 +156,8 @@ class Retirement(Enhancement):
 
     def retirement_appear(self):
         return self.appear(RETIRE_APPEAR_1, offset=30) \
-            and self.appear(RETIRE_APPEAR_2, offset=30) \
-            and self.appear(RETIRE_APPEAR_3, offset=30)
+               and self.appear(RETIRE_APPEAR_2, offset=30) \
+               and self.appear(RETIRE_APPEAR_3, offset=30)
 
     def _retirement_quit_check_func(self):
         return not self.appear(IN_RETIREMENT_CHECK)
@@ -286,6 +289,11 @@ class Retirement(Enhancement):
         self.handle_dock_cards_loading()
 
         total = self.retire_ships()
+        if not total:
+            logger.warning('No ship retired, trying to reset dock filter and disable favourite, then retire again')
+            self.dock_filter_set_faster()
+            self.dock_favourite_set(enable=False)
+            total = self.retire_ships()
 
         self._retirement_quit()
         self.config.DOCK_FULL_TRIGGERED = True

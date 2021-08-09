@@ -228,7 +228,7 @@ def main(ini_name=''):
     # 掉落记录
     drop = setting_parser.add_argument_group('Drop record', 'Save screenshots of dropped items, which will slow down the click speed when settlement is enabled', gooey_options={'label_color': '#931D03'})
     drop.add_argument('--enable_drop_screenshot', default=default('--enable_drop_screenshot'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
-    drop.add_argument('--enable_azurstat', default=default('--enable_azurstat'), choices=['yes', 'no'], help='Upload drop screenshots to azurstats.lyoko.io, only supports research now, , requires enable_drop_screenshot', gooey_options={'label_color': '#4B5F83'})
+    drop.add_argument('--enable_azurstat', default=default('--enable_azurstat'), choices=['yes', 'no'], help='Upload drop screenshots to azurstats.lyoko.io, only supports research now', gooey_options={'label_color': '#4B5F83'})
     drop.add_argument('--drop_screenshot_folder', default=default('--drop_screenshot_folder'), gooey_options={'label_color': '#4B5F83'})
 
     # clear = setting_parser.add_argument_group('Wasteland mode', 'Unopened maps will stop after completion. Opened maps will ignore options, and its done if you do not open up')
@@ -310,7 +310,7 @@ def main(ini_name=''):
     reward_tactical.add_argument('--tactical_if_no_book_satisfied', default=default('--tactical_if_no_book_satisfied'),
                                  choices=['cancel_tactical', 'use_the_first_book'], gooey_options={'label_color': '#4B5F83'})
 
-    reward_research = reward_parser.add_argument_group('Research', 'If set research_filter_preset=customized, read https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_en first', gooey_options={'label_color': '#931D03'})
+    reward_research = reward_parser.add_argument_group('Research', 'If set research_filter_preset=customized, read https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_en first\nThe selection of research projects will satiesfy both input and output settings\nCarrying out research statistics, turn on setting - Drop record - enable_azurstat and save, to upload data automatically', gooey_options={'label_color': '#931D03'})
     reward_research.add_argument('--enable_research_reward', default=default('--enable_research_reward'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
     research_input = reward_research.add_argument_group('Research input', '', gooey_options={'label_color': '#4B5F83'})
     research_input.add_argument('--research_use_cube', default=default('--research_use_cube'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
@@ -326,6 +326,9 @@ def main(ini_name=''):
     reward_meowfficer.add_argument('--buy_meowfficer', default=default('--buy_meowfficer'), help='From 0 to 15. If no need, fill 0.', gooey_options={'label_color': '#4B5F83'})
     reward_meowfficer.add_argument('--enable_train_meowfficer', default=default('--enable_train_meowfficer'),
                                    help='Enable collection of trained meowfficer and queue all slots for training on Sunday.',
+                                   choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_meowfficer.add_argument('--do_fort_chores_meowfficer', default=default('--do_fort_chores_meowfficer'),
+                                   help='Do meowfficer comf-fort chores (clean, feed, and play) to get xp.',
                                    choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
 
     reward_guild = reward_parser.add_argument_group('Guild', 'Check Guild Logistics and Operations. Running for every reward loop.', gooey_options={'label_color': '#931D03'})
@@ -350,6 +353,55 @@ def main(ini_name=''):
                                               choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
     reward_guild_operations_boss.add_argument('--enable_guild_operations_boss_recommend', default=default('--enable_guild_operations_boss_recommend'),
                                               help='Enable auto-recommend a fleet composition for guild raid boss, all guild support is removed if any', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+
+    reward_shop = reward_parser.add_argument_group('Shop', 'Browse and purchase selectable items in shops: General, Guild, Medal, and Merit. '
+                                                   'Running for every reward loop.\n\n'
+                                                   'Enter selection inputs as "item_1 > item_2 > ..." '
+                                                   'or empty (single whitespace at the minimum) to skip shop\n\n'
+                                                   'Each item is required to be in upper camel case, '
+                                                   'listed below are available items in the exemplified format:\n'
+                                                   'Box(T[1-4])?, Book(color)?(T[1-3])?, Food(T[1-6])?, '
+                                                   'Plate(type)?(T[1-4]), Retrofit(type)?(T[1-3])?, Bulin(T[1-2])\n'
+                                                   'PR(name or series)?BP, DR(name or series)?BP, \n'
+                                                   'Cubes, Chips i.e. Cognitive, and Drill\n\n'
+                                                   'Multiple variants of each should be used to omit specific items',
+                                                    gooey_options={'label_color': '#931D03'})
+    reward_shop.add_argument('--enable_shop_buy', default=default('--enable_shop_buy'), help='Enable browse and item purchases in shops.', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_general = reward_shop.add_argument_group('General item selection', gooey_options={'label_color': '#4B5F83'})
+    reward_shop_general.add_argument('--shop_general_selection', default=default('--shop_general_selection'), gooey_options={'label_color': '#4B5F83'})
+    reward_shop_general.add_argument('--enable_shop_general_gems', default=default('--enable_shop_general_gems'), help='Enable to use gems.', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_general.add_argument('--enable_shop_general_refresh', default=default('--enable_shop_general_refresh'), help='Enable refresh (uses gems implicitly).', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild = reward_shop.add_argument_group('Guild item selection', 'Box, Book, Retrofit, and Plate '
+                                                       'only supports grade i.e. T[digit] optionally, PRBP exclusively.\n'
+                                                       'Below selectors are used to customize specifics',
+                                                       gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--shop_guild_selection', default=default('--shop_guild_selection'), gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--enable_shop_guild_refresh', default=default('--enable_shop_guild_refresh'), help='Enable refresh (uses guild coins).', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--shop_guild_box_t3', default=default('--shop_guild_box_t3'), choices=['eagle', 'royal', 'sakura', 'ironblood'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--shop_guild_box_t4', default=default('--shop_guild_box_t4'), choices=['eagle', 'royal', 'sakura', 'ironblood'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--shop_guild_book_t2', default=default('--shop_guild_book_t2'), choices=['red', 'blue', 'yellow'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--shop_guild_book_t3', default=default('--shop_guild_book_t3'), choices=['red', 'blue', 'yellow'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--shop_guild_retrofit_t2', default=default('--shop_guild_retrofit_t2'), choices=['dd', 'cl', 'bb', 'cv'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--shop_guild_retrofit_t3', default=default('--shop_guild_retrofit_t3'), choices=['dd', 'cl', 'bb', 'cv'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--shop_guild_plate_t2', default=default('--shop_guild_plate_t2'), choices=['general', 'gun', 'torpedo', 'antiair', 'plane'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--shop_guild_plate_t3', default=default('--shop_guild_plate_t3'), choices=['general', 'gun', 'torpedo', 'antiair', 'plane'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--shop_guild_plate_t4', default=default('--shop_guild_plate_t4'), choices=['general', 'gun', 'torpedo', 'antiair', 'plane'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--shop_guild_pr1', default=default('--shop_guild_pr1'), choices=['neptune', 'monarch', 'ibuki', 'izumo', 'roon', 'saintlouis'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--shop_guild_pr2', default=default('--shop_guild_pr2'), choices=['seattle', 'georgia', 'kitakaze', 'gascogne'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--shop_guild_pr3', default=default('--shop_guild_pr3'), choices=['cheshire', 'mainz', 'odin', 'champagne'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_medal = reward_shop.add_argument_group('Medal item selection', gooey_options={'label_color': '#4B5F83'})
+    reward_shop_medal.add_argument('--shop_medal_selection', default=default('--shop_medal_selection'), gooey_options={'label_color': '#4B5F83'})
+    reward_shop_merit = reward_shop.add_argument_group('Merit item selection', gooey_options={'label_color': '#4B5F83'})
+    reward_shop_merit.add_argument('--shop_merit_selection', default=default('--shop_merit_selection'), gooey_options={'label_color': '#4B5F83'})
+    reward_shop_merit.add_argument('--enable_shop_merit_refresh', default=default('--enable_shop_merit_refresh'), help='Enable refresh (uses gems implicitly).', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+
+    reward_shipyard = reward_parser.add_argument_group('Shipyard', 'Buy daily discounted PR/DR BPs.', gooey_options={'label_color': '#931D03'})
+    reward_shipyard.add_argument('--buy_shipyard_bp', default=default('--buy_shipyard_bp'), help='Number to buy altogether.', gooey_options={'label_color': '#4B5F83'})
+    reward_shipyard.add_argument('--shipyard_series', default=default('--shipyard_series'), help='Select PR/DR research series.', choices=['1', '2', '3', '4'], gooey_options={'label_color': '#4B5F83'})
+    reward_shipyard.add_argument('--shipyard_index', default=default('--shipyard_index'),
+        help='Ship location in bottom Face Navbar.\nThe display of ships are ordered by whether unlocked/developed, '
+             'so players must first verify the location themselves before selecting.\nleftmost = 1, rightmost = 6',
+        choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
 
     # ==========emulator==========
     emulator_parser = subs.add_parser('emulator')
@@ -567,6 +619,20 @@ def main(ini_name=''):
                         choices=['0', '1', '2', '10'], help='How many battles will be fought after there is no large scale enemy', gooey_options={'label_color': '#4B5F83'})
     c_12_4.add_argument('--ammo_pick_up_124', default=default('--ammo_pick_up_124'),
                         choices=['2', '3', '4', '5'], help='How many battles before pick ammo, the recommended is 3', gooey_options={'label_color': '#4B5F83'})
+
+    gems_parser = subs.add_parser('gems_farming')
+    gems = gems_parser.add_argument_group('Gems farming',
+        """Warning: This is not an efficient way to farm gems, not a high-yield way to farm coins either.
+         Players who have recently played Azur Lane are easy to be superstitious about 0LB and low consumption, while ignoring character leveling.
+         Running this function will only make you feel fulfilled, and your account actually get no improvements.
+         Only F2P players can obtain meaningful income through this function. I hope you can treat this rationally.
+
+        This function will replace the flagship with a Lv1 0LB CVL after the flagship level 32
+        About drop mechanism of urgent commissions, read (in Chinese Simplified) https://bbs.nga.cn/read.php?tid=27134956""",
+        gooey_options={'label_color': '#931D03'})
+    gems.add_argument('--gems_fleet_1', default=default('--gems_fleet_1'), help='This fleet will do all the bateles, should contains 0LB DD and 0LB CVL with level under 35', choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
+    gems.add_argument('--gems_fleet_2', default=default('--gems_fleet_2'), help='This fleet will provide supports, should contains New Jerssy and Shinano', choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
+    gems.add_argument('--gems_stage', default=default('--gems_stage'), help='Such as 2-4, A3, SP2\nUrgent commissions per oil: A3 > A1 > 2-4 > 2-1. Event maps are recommended if available. Will pickup mystery in 2-1 for more coins', gooey_options={'label_color': '#4B5F83'})
 
     # ==========OS semi auto==========
     os_semi_parser = subs.add_parser('os_semi_auto')

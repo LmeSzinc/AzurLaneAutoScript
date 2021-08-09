@@ -9,6 +9,8 @@ import requests
 from module.config.config import AzurLaneConfig
 from module.logger import logger
 from module.statistics.utils import *
+from requests.adapters import HTTPAdapter
+
 
 
 def pack(img_list):
@@ -29,7 +31,7 @@ def pack(img_list):
 
 class AzurStats:
     API = 'https://azurstats.lyoko.io/api/upload/'
-    TIMEOUT = 10
+    TIMEOUT = 20
 
     def __init__(self, config):
         """
@@ -54,7 +56,11 @@ class AzurStats:
             return False
 
     def clear(self):
-        self.images = {}
+        self.images = []
+
+    @property
+    def count(self):
+        return len(self.images)
 
     def _user_agent(self):
         return f'Alas ({self.config.AZURSTAT_ID})'
@@ -67,7 +73,7 @@ class AzurStats:
         amount = len(self.images)
         logger.info(f'Uploading screenshots to AzurStat, amount: {amount}')
         if amount == 0:
-            logger.warning(f'Image upload failed, no images to upload')
+            # logger.warning(f'Image upload failed, no images to upload')
             return False
         image = pack(self.images)
         output = io.BytesIO()
@@ -77,8 +83,11 @@ class AzurStats:
         now = int(time.time() * 1000)
         data = {'file': (f'{now}.png', output, 'image/png')}
         headers = {'user-agent': self._user_agent()}
+        session = requests.Session()
+        session.mount('http://', HTTPAdapter(max_retries=5))
+        session.mount('https://', HTTPAdapter(max_retries=5))
         try:
-            resp = requests.post(self.API, files=data, headers=headers, timeout=self.TIMEOUT)
+            resp = session.post(self.API, files=data, headers=headers, timeout=self.TIMEOUT)
         except Exception as e:
             logger.warning(f'Image upload failed, {e}')
             return False

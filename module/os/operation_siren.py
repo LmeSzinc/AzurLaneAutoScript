@@ -5,6 +5,7 @@ from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.os.map import OSMap
 from module.os_handler.action_point import ActionPointLimit
+from module.reward.reward import Reward
 from module.ui.ui import page_os
 
 RECORD_MISSION_ACCEPT = ('DailyRecord', 'os_mission_accept')
@@ -12,7 +13,7 @@ RECORD_MISSION_FINISH = ('DailyRecord', 'os_mission_finish')
 RECORD_SUPPLY_BUY = ('DailyRecord', 'os_supply_buy')
 
 
-class OperationSiren(OSMap):
+class OperationSiren(Reward, OSMap):
     def os_init(self):
         """
         Call this method before doing any Operation functions.
@@ -132,6 +133,13 @@ class OperationSiren(OSMap):
                             'continue OS exploration')
             self.hp_reset()
 
+    def handle_reward(self):
+        backup = self.config.cover(DO_OS_IN_DAILY=False)
+        if super().handle_reward():
+            logger.hr('OS re-init')
+            self.os_init()
+        backup.recover()
+
     def os_port_daily(self, mission=True, supply=True):
         """
         Accept all missions and buy all supplies in all ports.
@@ -204,6 +212,7 @@ class OperationSiren(OSMap):
         """
         logger.hr(f'OS meowfficer farming, hazard_level={hazard_level}', level=1)
         while 1:
+            self.handle_reward()
             if daily:
                 if self.config.ENABLE_OS_ASH_ATTACK:
                     if self._ash_fully_collected:
@@ -228,6 +237,7 @@ class OperationSiren(OSMap):
                 .sort_by_clock_degree(center=(1252, 1012), start=self.zone.location)
 
             for zone in zones:
+                self.handle_reward()
                 if not self.globe_goto(zone, stop_if_safe=True):
                     continue
                 self.run_auto_search()
