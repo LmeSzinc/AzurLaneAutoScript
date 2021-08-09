@@ -1,3 +1,4 @@
+from numpy.core.fromnumeric import sort
 from module.campaign.run import CampaignRun
 from module.combat.level import LevelOcr
 from module.ocr.ocr import Digit
@@ -121,7 +122,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
         self.ui_click(FLEET_ENTER_FLAGSHIP,
                       appear_button=page_fleet.check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
         self.dock_filter_set_faster(
-            index='cv', rarity='common', extra='enhanceable')
+            index='cv', rarity='common', extra='enhanceable', sort='total')
         self.dock_favourite_set(False)
 
         self.device.screenshot()
@@ -222,4 +223,5 @@ if __name__ == '__main__':
     az = GemsFarming(config, Device(config=config))
     az.device.screenshot()
     # az.flagship_change()
+    az.flagship_change()
     az.vanguard_change()

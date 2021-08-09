@@ -66,7 +66,7 @@ class Dock(Equipment):
         self.ui_back(check_button=self._dock_quit_check_func, skip_first_screenshot=True)
 
     def dock_sort_method_dsc_set(self, enable=True):
-        if dock_sorting.set('on' if enable else 'off', main=self):
+        if dock_sorting.set('Descending' if enable else 'Ascending', main=self):
             self.handle_dock_cards_loading()
 
     def dock_filter_enter(self):
