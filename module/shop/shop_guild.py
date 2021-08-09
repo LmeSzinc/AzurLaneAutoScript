@@ -60,8 +60,8 @@ class GuildShop(ShopBase):
         """
         shop_grid = self.shop_grid
         shop_guild_items = GuildItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        shop_guild_items.load_template_folder('./assets/guild_shop_cn')
-        shop_guild_items.load_cost_template_folder('./assets/shop_cost')
+        shop_guild_items.load_template_folder('./assets/shop/guild_cn')
+        shop_guild_items.load_cost_template_folder('./assets/shop/cost')
         return shop_guild_items
 
     @cached_property
@@ -73,8 +73,8 @@ class GuildShop(ShopBase):
         """
         shop_grid = self.shop_grid
         shop_guild_items = GuildItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        shop_guild_items.load_template_folder('./assets/guild_shop')
-        shop_guild_items.load_cost_template_folder('./assets/shop_cost')
+        shop_guild_items.load_template_folder('./assets/shop/guild')
+        shop_guild_items.load_cost_template_folder('./assets/shop/cost')
         return shop_guild_items
 
     def shop_guild_check_item(self, item):
@@ -186,7 +186,7 @@ class GuildShop(ShopBase):
                 return False
 
             # Scan for plus/minus locations varies based on grid and item selected
-            # After searching within an offset, buttons move to the actual location automatically
+            # After searching within an offset, buttons move to the actual location automatically.
             self.device.screenshot()
             if self.appear(SELECT_MINUS, offset=select_offset) and self.appear(SELECT_PLUS, offset=select_offset):
                 break

@@ -36,8 +36,8 @@ class MedalShop(ShopBase):
         """
         shop_grid = self.shop_medal_grid
         shop_medal_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        shop_medal_items.load_template_folder('./assets/medal_shop')
-        shop_medal_items.load_cost_template_folder('./assets/shop_cost')
+        shop_medal_items.load_template_folder('./assets/shop/medal')
+        shop_medal_items.load_cost_template_folder('./assets/shop/cost')
         shop_medal_items.similarity = 0.88  # Lower the threshold for consistent matches of PR/DRBP
         return shop_medal_items
 

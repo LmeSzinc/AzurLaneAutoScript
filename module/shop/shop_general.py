@@ -28,8 +28,8 @@ class GeneralShop(ShopBase):
         """
         shop_grid = self.shop_grid
         shop_general_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        shop_general_items.load_template_folder('./assets/general_shop')
-        shop_general_items.load_cost_template_folder('./assets/shop_cost')
+        shop_general_items.load_template_folder('./assets/shop/general')
+        shop_general_items.load_cost_template_folder('./assets/shop/cost')
         return shop_general_items
 
     def shop_general_check_item(self, item):
