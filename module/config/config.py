@@ -129,9 +129,12 @@ class AzurLaneConfig:
     """
     gems_farming
     """
+    GEMS_AUTO_SEARCH_FARMING = False
     GEMS_STAGE = '2-4'
     GEMS_FLEET_1 = 3
     GEMS_FLEET_2 = 5
+    GEMS_LEVEL_CHECK = False
+    GEMS_EMOTION_TRIGGRED = False
 
     """
     module.event

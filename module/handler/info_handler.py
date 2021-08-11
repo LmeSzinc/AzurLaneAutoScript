@@ -1,3 +1,5 @@
+from module.exception import CampaignEnd
+from campaign.campaign_hard.campaign_hard import Config
 from scipy import signal
 
 from module.base.base import ModuleBase
@@ -113,6 +115,18 @@ class InfoHandler(ModuleBase):
                 self.device.save_screenshot('get_mission')
             self.device.click(GET_MISSION)
         return appear
+
+    @Config.when(GEMS_AUTO_SEARCH_FARMING = True)
+    def handle_combat_low_emotion(self):
+        if not self.config.IGNORE_LOW_EMOTION_WARN:
+            return False
+
+        self.config.GEMS_EMOTION_TRIGGRED = True
+        self.handle_popup_confirm('IGNORE_LOW_EMOTION')
+
+        raise CampaignEnd
+
+
 
     def handle_combat_low_emotion(self):
         if not self.config.IGNORE_LOW_EMOTION_WARN:

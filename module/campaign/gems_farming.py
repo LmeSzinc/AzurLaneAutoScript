@@ -1,3 +1,4 @@
+from campaign.campaign_hard.campaign_hard import Config
 from numpy.core.fromnumeric import sort
 from module.campaign.run import CampaignRun
 from module.combat.level import LevelOcr
@@ -139,6 +140,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
             return False
     
     _trigger_lv32 = False
+    _trigger_emotion = False
 
     def triggered_stop_condition(self, oil_check=True):
         # Lv32 limit
@@ -146,8 +148,57 @@ class GemsFarming(CampaignRun, EquipmentChange):
             self._trigger_lv32 = True
             logger.hr('Triggered lv32 limit')
             return True
+        
+        if self.config.GEMS_AUTO_SEARCH_FARMING and self.campaign.config.GEMS_EMOTION_TRIGGRED:
+            self._trigger_emotion = True
+            logger.hr('Triggered emotion limit')
+            return True
 
         return super().triggered_stop_condition(oil_check=oil_check)
+
+    @Config.when(GEMS_AUTO_SEARCH_FARMING = True)
+    def run(self, name, folder='campaign_main', total=0):
+        name = name.lower()
+        if not name[0].isdigit():
+            folder = self.config.EVENT_NAME
+        else:
+            name = 'campaign_' + name.replace('-', '_')
+
+        while 1:
+            backup = self.config.cover(
+                STOP_IF_REACH_LV32=True,
+                FLEET_1=self.config.GEMS_FLEET_1,
+                FLEET_2=self.config.GEMS_FLEET_2,
+                FLEET_BOSS=1,
+                SUBMARINE=0,
+                FLEET_1_FORMATION=1,
+                FLEET_2_FORMATION=1,
+                FLEET_1_AUTO_MODE='combat_auto',
+                FLEET_2_AUTO_MODE='combat_auto',
+                ENABLE_MAP_FLEET_LOCK=True,
+                ENABLE_AUTO_SEARCH=True,
+                ENABLE_2X_BOOK=False,
+                STOP_IF_MAP_REACH='no',
+                ENABLE_EMOTION_REDUCE=False,
+                IGNORE_LOW_EMOTION_WARN=True,
+                GEMS_AUTO_SEARCH_FARMING = True,
+            )
+            self._trigger_lv32 = False
+            
+            super().run(name=name, folder=folder, total=total)
+
+            # End
+            if self._trigger_lv32 or self._trigger_emotion:
+                self.flagship_change()
+                self.vanguard_change()
+                self._trigger_lv32 = False
+                self._trigger_emotion = False
+                self.campaign.config.LV32_TRIGGERED = False
+                self.campaign.config.GEMS_LEVEL_CHECK = False
+                continue
+            else:
+                backup.recover()
+                break
 
     def run(self, name, folder='campaign_main', total=0):
         name = name.lower()
@@ -175,6 +226,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
                 IGNORE_LOW_EMOTION_WARN=True,
             )
             self._trigger_lv32 = False
+            
             super().run(name=name, folder=folder, total=total)
 
             # End

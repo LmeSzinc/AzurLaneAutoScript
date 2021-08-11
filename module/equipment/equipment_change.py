@@ -26,7 +26,7 @@ class EquipmentChange(Equipment):
 
         self.device.screenshot()
 
-        self.equip_sidebar_ensure(1)
+        self.equip_side_navbar_ensure(bottom=1)
 
         for index in range(0, 5):
 
@@ -55,7 +55,7 @@ class EquipmentChange(Equipment):
         '''
         self.device.screenshot()
 
-        self.equip_sidebar_ensure(2)
+        self.equip_side_navbar_ensure(bottom=2)
 
         self.ensure_no_info_bar(1)
 

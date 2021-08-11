@@ -1,3 +1,4 @@
+from campaign.campaign_hard.campaign_hard import Config
 from module.base.timer import Timer
 from module.base.utils import color_bar_percentage
 from module.handler.assets import *
@@ -139,6 +140,21 @@ class FastForwardHandler(AutoSearchHandler):
         self.fleet_preparation_sidebar_ensure(3)
         self.auto_search_setting_ensure(self.config.AUTO_SEARCH_SETTING)
         return True
+
+    @Config.when(GEMS_LEVEL_CHECK = True)
+    def handle_auto_search_continue(self):
+        """
+        Override AutoSearchHandler definition
+        for 2x book handling if needed
+        """
+        if self.appear(AUTO_SEARCH_MENU_QUIT, offset=self._auto_search_menu_offset, interval=2):
+            self.map_is_2x_book = self.config.ENABLE_2X_BOOK
+            self.handle_2x_book_setting(mode='auto')
+            self.device.click(AUTO_SEARCH_MENU_QUIT)
+            self.interval_reset(AUTO_SEARCH_MENU_QUIT)
+            return True
+        return False
+
 
     def handle_auto_search_continue(self):
         """

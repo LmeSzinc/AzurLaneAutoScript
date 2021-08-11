@@ -177,6 +177,18 @@ class FleetPreparation(ModuleBase):
         submarine = FleetOperator(
             choose=SUBMARINE_CHOOSE, bar=SUBMARINE_BAR, clear=SUBMARINE_CLEAR, in_use=SUBMARINE_IN_USE, main=self)
 
+        if self.config.GEMS_AUTO_SEARCH_FARMING:
+            from module.combat.level import LevelOcr
+            level_ocr = LevelOcr((427, 161, 470, 181))
+            flag_ship_level = level_ocr.ocr(self.device.image)
+            if flag_ship_level > 32:
+                self.config.LV32_TRIGGERED = True
+                self.config.GEMS_LEVEL_CHECK = False
+            elif flag_ship_level > 22:
+                self.config.GEMS_LEVEL_CHECK = True
+            
+
+
         # Submarine.
         if submarine.allow():
             if self.config.SUBMARINE:
