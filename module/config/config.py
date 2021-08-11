@@ -892,7 +892,6 @@ class AzurLaneConfig:
         self.GEMS_STAGE = option['gems_stage']
         self.GEMS_FLEET_1 = int(option['gems_fleet_1'])
         self.GEMS_FLEET_2 = int(option['gems_fleet_2'])
-        self.GEMS_LEVEL_CHECK = option['gems_level_check']
 
 
         # OS semi auto
