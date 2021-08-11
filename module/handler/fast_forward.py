@@ -1,4 +1,5 @@
-from campaign.campaign_hard.campaign_hard import Config
+from module.base.decorator import Config
+from module.config.config import AzurLaneConfig
 from module.base.timer import Timer
 from module.base.utils import color_bar_percentage
 from module.handler.assets import *
@@ -141,7 +142,7 @@ class FastForwardHandler(AutoSearchHandler):
         self.auto_search_setting_ensure(self.config.AUTO_SEARCH_SETTING)
         return True
 
-    @Config.when(GEMS_LEVEL_CHECK = True)
+    @Config.when(GEMS_LEVEL_CHECK=True)
     def handle_auto_search_continue(self):
         """
         Override AutoSearchHandler definition

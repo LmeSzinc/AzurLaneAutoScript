@@ -1,5 +1,6 @@
 from module.exception import CampaignEnd
-from campaign.campaign_hard.campaign_hard import Config
+from module.config.config import AzurLaneConfig
+from module.base.decorator import Config
 from scipy import signal
 
 from module.base.base import ModuleBase

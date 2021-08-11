@@ -129,10 +129,10 @@ class AzurLaneConfig:
     """
     gems_farming
     """
-    GEMS_AUTO_SEARCH_FARMING = False
+    GEMS_AUTO_SEARCH_FARMING = True
     GEMS_STAGE = '2-4'
-    GEMS_FLEET_1 = 3
-    GEMS_FLEET_2 = 5
+    GEMS_FLEET_1 = 1
+    GEMS_FLEET_2 = 6
     GEMS_LEVEL_CHECK = False
     GEMS_EMOTION_TRIGGRED = False
 
@@ -682,6 +682,7 @@ class AzurLaneConfig:
         self.STOP_IF_TRIGGER_EMOTION_LIMIT = to_bool(option['if_trigger_emotion_control'])
         self.STOP_IF_DOCK_FULL = to_bool(option['if_dock_full'])
         self.STOP_IF_REACH_LV120 = to_bool(option['if_reach_lv120'])
+        self.STOP_IF_REACH_LV32 = to_bool(option['if_reach_lv32'])
         self.STOP_IF_MAP_REACH = option['if_map_reach']
         self.STOP_IF_GET_SHIP = to_bool(option['if_get_ship'])
         # Fleet
@@ -887,9 +888,12 @@ class AzurLaneConfig:
 
         # Gems_farming
         option = config['Gems_farming']
+        self.GEMS_AUTO_SEARCH_FARMING = option['gems_auto_search_farming']
         self.GEMS_STAGE = option['gems_stage']
         self.GEMS_FLEET_1 = int(option['gems_fleet_1'])
         self.GEMS_FLEET_2 = int(option['gems_fleet_2'])
+        self.GEMS_LEVEL_CHECK = option['gems_level_check']
+
 
         # OS semi auto
         option = config['Os_semi_auto']
