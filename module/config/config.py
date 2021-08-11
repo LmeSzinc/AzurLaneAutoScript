@@ -888,7 +888,7 @@ class AzurLaneConfig:
 
         # Gems_farming
         option = config['Gems_farming']
-        self.GEMS_AUTO_SEARCH_FARMING = option['gems_auto_search_farming']
+        self.GEMS_AUTO_SEARCH_FARMING = to_bool(option['gems_auto_search_farming'])
         self.GEMS_STAGE = option['gems_stage']
         self.GEMS_FLEET_1 = int(option['gems_fleet_1'])
         self.GEMS_FLEET_2 = int(option['gems_fleet_2'])

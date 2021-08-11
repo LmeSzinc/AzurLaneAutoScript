@@ -189,7 +189,6 @@ class GemsFarming(CampaignRun, EquipmentChange):
 
             # End
             if self._trigger_lv32 or self._trigger_emotion:
-                print(self._trigger_lv32, self._trigger_emotion)
                 self.flagship_change()
                 self.vanguard_change()
                 self._trigger_lv32 = False
@@ -202,45 +201,47 @@ class GemsFarming(CampaignRun, EquipmentChange):
                 backup.recover()
                 break
 
-    # def run(self, name, folder='campaign_main', total=0):
-    #     name = name.lower()
-    #     if not name[0].isdigit():
-    #         folder = self.config.EVENT_NAME
-    #     else:
-    #         name = 'campaign_' + name.replace('-', '_')
+    @Config.when(GEMS_AUTO_SEARCH_FARMING=False)          
+    def run(self, name, folder='campaign_main', total=0):
 
-    #     while 1:
-    #         backup = self.config.cover(
-    #             STOP_IF_REACH_LV32=True,
-    #             FLEET_1=self.config.GEMS_FLEET_1,
-    #             FLEET_2=self.config.GEMS_FLEET_2,
-    #             FLEET_BOSS=1,
-    #             SUBMARINE=0,
-    #             FLEET_1_FORMATION=1,
-    #             FLEET_2_FORMATION=1,
-    #             FLEET_1_AUTO_MODE='combat_auto',
-    #             FLEET_2_AUTO_MODE='combat_auto',
-    #             ENABLE_MAP_FLEET_LOCK=True,
-    #             ENABLE_AUTO_SEARCH=False,
-    #             ENABLE_2X_BOOK=False,
-    #             STOP_IF_MAP_REACH='no',
-    #             ENABLE_EMOTION_REDUCE=False,
-    #             IGNORE_LOW_EMOTION_WARN=True,
-    #         )
-    #         self._trigger_lv32 = False
+        name = name.lower()
+        if not name[0].isdigit():
+            folder = self.config.EVENT_NAME
+        else:
+            name = 'campaign_' + name.replace('-', '_')
+
+        while 1:
+            backup = self.config.cover(
+                STOP_IF_REACH_LV32=True,
+                FLEET_1=self.config.GEMS_FLEET_1,
+                FLEET_2=self.config.GEMS_FLEET_2,
+                FLEET_BOSS=1,
+                SUBMARINE=0,
+                FLEET_1_FORMATION=1,
+                FLEET_2_FORMATION=1,
+                FLEET_1_AUTO_MODE='combat_auto',
+                FLEET_2_AUTO_MODE='combat_auto',
+                ENABLE_MAP_FLEET_LOCK=True,
+                ENABLE_AUTO_SEARCH=False,
+                ENABLE_2X_BOOK=False,
+                STOP_IF_MAP_REACH='no',
+                ENABLE_EMOTION_REDUCE=False,
+                IGNORE_LOW_EMOTION_WARN=True,
+            )
+            self._trigger_lv32 = False
             
-    #         super().run(name=name, folder=folder, total=total)
+            super().run(name=name, folder=folder, total=total)
 
-    #         # End
-    #         if self._trigger_lv32:
-    #             self.flagship_change()
-    #             self._trigger_lv32 = False
-    #             self.campaign.config.LV32_TRIGGERED = False
-    #             backup.recover()
-    #             continue
-    #         else:
-    #             backup.recover()
-    #             break
+            # End
+            if self._trigger_lv32:
+                self.flagship_change()
+                self._trigger_lv32 = False
+                self.campaign.config.LV32_TRIGGERED = False
+                backup.recover()
+                continue
+            else:
+                backup.recover()
+                break
        
     def vanguard_change_execute(self):
         """
