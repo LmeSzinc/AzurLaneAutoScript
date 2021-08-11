@@ -85,11 +85,9 @@ class GuildShop(ShopBase):
         Returns:
             bool: whether item can be bought
         """
-        if item.cost == 'GuildCoins':
-            if item.price > self._shop_guild_coins:
-                return False
-            return True
-        return False
+        if item.price > self._shop_guild_coins:
+            return False
+        return True
 
     def shop_get_select(self, category, choice):
         """

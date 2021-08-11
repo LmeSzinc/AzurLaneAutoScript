@@ -70,8 +70,6 @@ class MedalShop(ShopBase):
         Returns:
             bool:
         """
-        if item.cost == 'Medal':
-            if item.price > self._shop_medal:
-                return False
-            return True
-        return False
+        if item.price > self._shop_medal:
+            return False
+        return True

@@ -38,8 +38,6 @@ class MeritShop(ShopBase):
         Returns:
             bool:
         """
-        if item.cost == 'Merit':
-            if item.price > self._shop_merit:
-                return False
-            return True
-        return False
+        if item.price > self._shop_merit:
+            return False
+        return True
