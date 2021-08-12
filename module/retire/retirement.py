@@ -323,15 +323,13 @@ class Retirement(Enhancement):
                 return True
         return False
 
-    def get_common_rarity_cv(self, offset=(30, 30)):
+    def retirement_get_common_rarity_cv(self, offset=(30, 30)):
         """
         Returns:
             Button:
         """
-        # TODO use alConfig
         template = globals()[f'TEMPLATE_{self.config.COMMON_CV_NAME}']
         sim, button = template.match_result(self.device.image.resize(size=(1189, 669)))
-        print(sim)
         
         if sim > self.config.COMMON_CV_THRESHOLD:
             button.area = tuple(_*155//144 for _ in button.area)
@@ -341,16 +339,17 @@ class Retirement(Enhancement):
         return None
 
     def keep_one_common_cv(self):
-        button = self.get_common_rarity_cv()
+        button = self.retirement_get_common_rarity_cv()
         if button is not None:
             if self._retire_select_one(button, skip_first_screenshot=False):
                 self.HAVE_KEEPED_CV = True
+
             else:
                 logger.warning('No ship retired, exit')
                 logger.info(
                     'This may happens because some filters are set in dock')
                 exit(1)
-        
+    
 
 if __name__ == '__main__':
     from module.config.config import AzurLaneConfig

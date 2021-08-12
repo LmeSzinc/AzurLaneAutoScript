@@ -1,5 +1,5 @@
 from module.base.decorator import Config
-from module.map.assets import FLEET_PREPARATION
+from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
 from module.config.config import AzurLaneConfig
 from module.campaign.run import CampaignRun
 from module.handler.assets import AUTO_SEARCH_MENU_EXIT, AUTO_SEARCH_MENU_CONTINUE
@@ -207,10 +207,18 @@ class GemsFarming(CampaignRun, EquipmentChange):
         if self.handle_popup_cancel('IGNORE_LOW_EMOTION'):
             self.config.GEMS_EMOTION_TRIGGRED = True
             logger.hr('Emotion withdraw')
-            if self.campaign.is_in_map():
-                self.campaign.withdraw()
-            elif self.appear(FLEET_PREPARATION, offset=(20, 20)):
-                self.campaign.enter_map_cancel()
+
+            while 1:
+                self.device.screenshot()
+
+                print(self.is_in_map(), self.appear(FLEET_PREPARATION))
+                if self.is_in_map():
+                    self.withdraw()
+                    break
+
+                if self.appear(FLEET_PREPARATION) or self.appear(MAP_PREPARATION):
+                    self.enter_map_cancel()
+                    break
         else:
             return False
 
@@ -311,4 +319,5 @@ if __name__ == '__main__':
     config = AzurLaneConfig('alas_cn')
     az = GemsFarming(config, Device(config=config))
     az.device.screenshot()
-    az.run('2-4')
+    # az.run('2-4')
+    az.retire_ships()

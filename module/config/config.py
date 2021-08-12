@@ -722,6 +722,7 @@ class AzurLaneConfig:
         self.ENABLE_RETIREMENT = to_bool(option['enable_retirement'])
         self.RETIREMENT_METHOD = option['retire_method']
         self.RETIRE_AMOUNT = option['retire_amount'].split('_')[1]
+        self.RETIRE_KEEP_COMMON_CV = to_bool(option['retire_keep_common_cv'])
         self.ENHANCE_FAVOURITE = to_bool(option['enhance_favourite'])
         self.ENHANCE_ORDER_STRING = option['enhance_order_string']
         self.ENHANCE_CHECK_PER_CATEGORY = int(option['enhance_check_per_category'])
