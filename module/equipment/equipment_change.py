@@ -1,14 +1,15 @@
 from module.base.button import ButtonGrid
 from module.base.decorator import Config
 from module.base.utils import *
-
-from module.equipment.equipment import Equipment
 from module.equipment.assets import *
-
+from module.equipment.equipment import Equipment
+from module.ui.scroll import Scroll
 
 EQUIP_INFO_BAR = ButtonGrid(
     origin=(723, 111), delta=(94, 0), button_shape=(76, 76), grid_shape=(5, 1), name="EQUIP_INFO_BAR"
 )
+
+EQUIPMENT_SCROLL = Scroll(EQUIP_SCROLL, color=(247, 211, 66), name='EQUIP_SCROLL')
 
 SIM_VALUE = 0.90
 
@@ -135,7 +136,6 @@ class EquipmentChange(Equipment):
             return
 
         for _ in range(0, 15):
-            print(_)
             self._equipment_swipe()
 
             res = cv2.matchTemplate(np.array(self.device.screenshot()), np.array(
