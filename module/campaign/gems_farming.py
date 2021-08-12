@@ -75,32 +75,36 @@ class GemsFarming(CampaignRun, EquipmentChange):
         self.equip_enter(button)
 
     def flagship_change(self):
-        self._ship_detail_enter(FLEET_ENTER_FLAGSHIP)
-        self.record_equipment()
-        self._equip_take_off_one()
+        if self.config.GEMS_FLAG_SHIP_EQUIP_CHANGE:
+            self._ship_detail_enter(FLEET_ENTER_FLAGSHIP)
+            self.record_equipment()
+            self._equip_take_off_one()
 
         self._fleet_detail_enter()
 
         self.flagship_change_execute()
 
-        self._ship_detail_enter(FLEET_ENTER_FLAGSHIP)
-        self._equip_take_off_one()
+        if self.config.GEMS_FLAG_SHIP_EQUIP_CHANGE:
+            self._ship_detail_enter(FLEET_ENTER_FLAGSHIP)
+            self._equip_take_off_one()
 
-        self.equipment_take_on()
+            self.equipment_take_on()
     
     def vanguard_change(self):
-        self._ship_detail_enter(FLEET_ENTER)
-        self.record_equipment()
-        self._equip_take_off_one()
+        if self.config.GEMS_VANGUARD_SHIP_EQUIP_CHANGE:
+            self._ship_detail_enter(FLEET_ENTER)
+            self.record_equipment()
+            self._equip_take_off_one()
 
         self._fleet_detail_enter()
 
         self.vanguard_change_execute()
 
-        self._ship_detail_enter(FLEET_ENTER)
-        self._equip_take_off_one()
+        if self.config.GEMS_VANGUARD_SHIP_EQUIP_CHANGE:
+            self._ship_detail_enter(FLEET_ENTER)
+            self._equip_take_off_one()
 
-        self.equipment_take_on()
+            self.equipment_take_on()
 
     def _ship_change_confirm(self, button):
 
@@ -330,4 +334,6 @@ if __name__ == '__main__':
     config = AzurLaneConfig('alas_cn')
     az = GemsFarming(config, Device(config=config))
     az.device.screenshot()
-    az.run('2-4')
+    print(az.config.GEMS_FLAG_SHIP_EQUIP_CHANGE, az.config.GEMS_VANGUARD_SHIP_EQUIP_CHANGE)
+    az.flagship_change()
+    az.vanguard_change()

@@ -134,6 +134,8 @@ class AzurLaneConfig:
     GEMS_FLEET_2 = 6
     GEMS_LEVEL_CHECK = False
     GEMS_EMOTION_TRIGGRED = False
+    GEMS_FLAG_SHIP_EQUIP_CHANGE = False
+    GEMS_VANGUARD_SHIP_EQUIP_CHANGE = True
 
     """
     module.event
@@ -891,6 +893,10 @@ class AzurLaneConfig:
         self.GEMS_STAGE = option['gems_stage']
         self.GEMS_FLEET_1 = int(option['gems_fleet_1'])
         self.GEMS_FLEET_2 = int(option['gems_fleet_2'])
+        self.GEMS_FLAG_SHIP_EQUIP_CHANGE = to_bool(option['gems_flag_ship_equip_change'])
+        self.GEMS_VANGUARD_SHIP_EQUIP_CHANGE = to_bool(option['gems_vanguard_ship_equip_change'])
+        
+
 
 
         # OS semi auto
