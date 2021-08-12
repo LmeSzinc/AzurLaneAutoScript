@@ -73,11 +73,8 @@ class EquipmentChange(Equipment):
                     self.device.click(enter_button)
                     self._find_equip(index)
                     self.wait_until_stable(UPGRADE_QUIT)
-                    continue
-
-                if self.info_bar_count():
-                    self.ensure_no_info_bar(1)
                     break
+
 
     @Config.when(DEVICE_CONTROL_METHOD='minitouch')
     def _equipment_swipe(self, distance=190):
@@ -99,20 +96,23 @@ class EquipmentChange(Equipment):
         self.device.sleep(0.3)
         self.device.screenshot()
 
-    def _equip_equipment(self, index, point, offset=(100, 100)):
+    def _equip_equipment(self, point, offset=(100, 100)):
         '''
         in: 仓库
         do：装，退
         '''
 
+        have_equipped = False
+
         while 1:
             self.device.screenshot()
 
-            if self.appear(EQUIPPING_OFF, interval=5):
+            if not have_equipped and self.appear(EQUIPPING_OFF, interval=5):
                 self.device.click(
                     Button(button=(point[0], point[1], point[0]+offset[0], point[1]+offset[1]), color=None, area=None))
+                have_equipped = True
                 continue
-            if self.appear_then_click(EQUIP_CONFIRM, interval=3):
+            if have_equipped and self.appear_then_click(EQUIP_CONFIRM, interval=2):
                 continue
             if self.info_bar_count():
                 self.wait_until_stable(UPGRADE_QUIT)
@@ -132,7 +132,7 @@ class EquipmentChange(Equipment):
         _, sim, _, point = cv2.minMaxLoc(res)
 
         if sim > SIM_VALUE:
-            self._equip_equipment(index, point)
+            self._equip_equipment(point)
             return
 
         for _ in range(0, 15):
@@ -143,7 +143,7 @@ class EquipmentChange(Equipment):
             _, sim, _, point = cv2.minMaxLoc(res)
 
             if sim > SIM_VALUE:
-                self._equip_equipment(index, point)
+                self._equip_equipment(point)
                 break
             if self.appear(EQUIPMENT_SCROLL_BOTTOM):
                 print(23333)
