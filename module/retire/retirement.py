@@ -330,13 +330,13 @@ class Retirement(Enhancement):
         """
         # TODO use alConfig
         template = globals()[f'TEMPLATE_{self.config.COMMON_CV_NAME}']
-        sim, point = template.match_result(self.device.image.resize(size=(1189, 669)))
+        sim, button = template.match_result(self.device.image.resize(size=(1189, 669)))
         print(sim)
         
         if sim > self.config.COMMON_CV_THRESHOLD:
-            point = (point[0]*155//144, point[1]*155//144)
-            return Button(button=(
-            point[0], point[1], point[0]+offset[0], point[1]+offset[1]), color=None, area=None)
+            button.area = tuple(_*155//144 for _ in button.area)
+
+            return button
 
         return None
 
