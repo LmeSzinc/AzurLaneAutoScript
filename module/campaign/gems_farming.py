@@ -1,6 +1,8 @@
 from module.base.decorator import Config
+from module.map.assets import FLEET_PREPARATION
 from module.config.config import AzurLaneConfig
 from module.campaign.run import CampaignRun
+from module.handler.assets import AUTO_SEARCH_MENU_EXIT, AUTO_SEARCH_MENU_CONTINUE
 from module.combat.level import LevelOcr
 from module.ocr.ocr import Digit
 from module.equipment.assets import *
@@ -155,6 +157,35 @@ class GemsFarming(CampaignRun, EquipmentChange):
             return True
 
         return super().triggered_stop_condition(oil_check=oil_check)
+
+    @Config.when(GEMS_LEVEL_CHECK=True)
+    def handle_auto_search_continue(self):
+        """
+        Override AutoSearchHandler definition
+        for 2x book handling if needed
+        """
+        if self.appear(AUTO_SEARCH_MENU_EXIT, offset=self._auto_search_menu_offset, interval=2):
+            self.map_is_2x_book = self.config.ENABLE_2X_BOOK
+            self.handle_2x_book_setting(mode='auto')
+            self.device.click(AUTO_SEARCH_MENU_EXIT)
+            self.interval_reset(AUTO_SEARCH_MENU_EXIT)
+            return True
+        return False
+
+    @Config.when(GEMS_AUTO_SEARCH_FARMING=True)
+    def handle_combat_low_emotion(self):
+        if not self.config.IGNORE_LOW_EMOTION_WARN:
+            return False
+        if self.handle_popup_cancel('IGNORE_LOW_EMOTION'):
+            self.config.GEMS_EMOTION_TRIGGRED = True
+            logger.hr('Emotion withdraw')
+            if self.campaign.is_in_map():
+                self.campaign.withdraw()
+            elif self.appear(FLEET_PREPARATION, offset=(20, 20)):
+                self.campaign.enter_map_cancel()
+        else:
+            return False
+
 
     @Config.when(GEMS_AUTO_SEARCH_FARMING=True)
     def run(self, name, folder='campaign_main', total=0):

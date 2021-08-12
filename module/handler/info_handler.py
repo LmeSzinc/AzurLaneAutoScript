@@ -1,4 +1,3 @@
-from module.exception import EmotionWithdraw
 from module.config.config import AzurLaneConfig
 from module.base.decorator import Config
 from scipy import signal
@@ -116,18 +115,6 @@ class InfoHandler(ModuleBase):
                 self.device.save_screenshot('get_mission')
             self.device.click(GET_MISSION)
         return appear
-
-    @Config.when(GEMS_AUTO_SEARCH_FARMING=True)
-    def handle_combat_low_emotion(self):
-        if not self.config.IGNORE_LOW_EMOTION_WARN:
-            return False
-
-        if self.handle_popup_cancel('IGNORE_LOW_EMOTION'):
-            self.config.GEMS_EMOTION_TRIGGRED = True
-            raise EmotionWithdraw
-        else:
-            return False
-
 
     @Config.when(GEMS_AUTO_SEARCH_FARMING=False)
     def handle_combat_low_emotion(self):

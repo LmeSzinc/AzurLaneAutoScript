@@ -38,7 +38,3 @@ class GameTooManyClickError(Exception):
 
 class GameNotRunningError(Exception):
     pass
-
-
-class EmotionWithdraw(Exception):
-    pass

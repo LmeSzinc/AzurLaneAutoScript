@@ -6,7 +6,7 @@ from datetime import datetime
 from module.campaign.assets import *
 from module.campaign.campaign_base import CampaignBase
 from module.config.config import AzurLaneConfig, ConfigBackup
-from module.exception import EmotionWithdraw, ScriptEnd
+from module.exception import ScriptEnd
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.reward.reward import Reward
@@ -228,10 +228,6 @@ class CampaignRun(Reward):
                 logger.hr('Script end')
                 logger.info(str(e))
                 break
-            except EmotionWithdraw:
-                logger.hr('Emotion withdraw')
-
-
 
             # After run
             self.run_count += 1
