@@ -122,9 +122,8 @@ class InfoHandler(ModuleBase):
         if not self.config.IGNORE_LOW_EMOTION_WARN:
             return False
 
-        self.config.GEMS_EMOTION_TRIGGRED = True
         if self.handle_popup_cancel('IGNORE_LOW_EMOTION'):
-
+            self.config.GEMS_EMOTION_TRIGGRED = True
             raise EmotionWithdraw
         else:
             return False
