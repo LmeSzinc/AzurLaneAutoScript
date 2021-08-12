@@ -1,4 +1,5 @@
 from module.base.decorator import Config
+from module.campaign.campaign_base import CampaignBase
 from module.campaign.run import CampaignRun
 from module.combat.level import LevelOcr
 from module.config.config import AzurLaneConfig
@@ -10,7 +11,6 @@ from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
 from module.ocr.ocr import Digit
 from module.retire.dock import *
 from module.ui.page import page_fleet
-from module.campaign.campaign_base import CampaignBase
 
 SIM_VALUE = 0.95
 
@@ -48,7 +48,7 @@ class GemsCampaignOverride(CampaignBase):
                     self.withdraw()
                     break
 
-                if self.appear(FLEET_PREPARATION) or self.appear(MAP_PREPARATION):
+                if self.appear(FLEET_PREPARATION, offset=(20, 20), interval=2) or self.appear(MAP_PREPARATION, offset=(20, 20), interval=2):
                     self.enter_map_cancel()
                     break
         else:
@@ -320,7 +320,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
             else:
                 backup.recover()
                 break
-       
+
 
 
 
