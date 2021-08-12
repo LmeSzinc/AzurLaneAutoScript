@@ -1,3 +1,4 @@
+from module.base.timer import Timer
 from module.base.button import ButtonGrid
 from module.equipment.equipment import Equipment
 from module.exception import ScriptError
@@ -222,19 +223,23 @@ class Dock(Equipment):
             button (Button): Ship button to select
             skip_first_screenshot:
         """
-        before, _, _ = OCR_DOCK_SELECTED.ocr(self.device.image)
+        ocr_check_timer = Timer(1)
+
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
+            
 
-            if self.appear(DOCK_CHECK, interval=3):
+            if self.appear(DOCK_CHECK, interval=2):
                 self.device.click(button)
 
-            current, _, _ = OCR_DOCK_SELECTED.ocr(self.device.image)
-            if current > before:
-                break
+            if ocr_check_timer.reached():
+                ocr_check_timer.reset()
+                current, _, _ = OCR_DOCK_SELECTED.ocr(self.device.image)
+                if current > 0:
+                    break
 
     def dock_select_confirm(self, check_button, skip_first_screenshot=True):
         return self.ui_click(SHIP_CONFIRM, check_button=check_button, offset=(200, 50),

@@ -20,7 +20,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
 
     def _fleet_detail_enter(self):
         self.ui_ensure(page_fleet)
-        self.ui_ensure_index(self.config.FLEET_1, letter=OCR_FLEET_INDEX,
+        self.ui_ensure_index(self.config.GEMS_FLEET_1, letter=OCR_FLEET_INDEX,
                              next_button=FLEET_NEXT, prev_button=FLEET_PREV)
 
     def _ship_detail_enter(self, button):
@@ -137,6 +137,34 @@ class GemsFarming(CampaignRun, EquipmentChange):
             return True
         else:
             logger.info('Change flagship failed, no CV in common rarity.')
+            self.dock_filter_set_faster()
+            self.ui_back(check_button=page_fleet.check_button)
+            return False
+
+    def vanguard_change_execute(self):
+        """
+        Returns:
+            bool: If success.
+
+        Pages:
+            in: page_fleet
+            out: page_fleet
+        """
+        self.ui_click(FLEET_ENTER,
+                      appear_button=page_fleet.check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
+        self.dock_filter_set_faster(
+            index='dd', rarity='common', faction='eagle')
+        self.dock_favourite_set(False)
+
+        self.device.screenshot()
+        ship = self.get_common_rarity_dd()
+        if ship is not None:
+            self._ship_change_confirm(ship)
+
+            logger.info('Change vanguard ship success')
+            return True
+        else:
+            logger.info('Change vanguard ship failed, no DD in common rarity.')
             self.dock_filter_set_faster()
             self.ui_back(check_button=page_fleet.check_button)
             return False
@@ -274,33 +302,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
                 backup.recover()
                 break
        
-    def vanguard_change_execute(self):
-        """
-        Returns:
-            bool: If success.
 
-        Pages:
-            in: page_fleet
-            out: page_fleet
-        """
-        self.ui_click(FLEET_ENTER,
-                      appear_button=page_fleet.check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
-        self.dock_filter_set_faster(
-            index='dd', rarity='common', faction='eagle')
-        self.dock_favourite_set(False)
-
-        self.device.screenshot()
-        ship = self.get_common_rarity_dd()
-        if ship is not None:
-            self._ship_change_confirm(ship)
-
-            logger.info('Change vanguard ship success')
-            return True
-        else:
-            logger.info('Change vanguard ship failed, no DD in common rarity.')
-            self.dock_filter_set_faster()
-            self.ui_back(check_button=page_fleet.check_button)
-            return False
 
 
 if __name__ == '__main__':
@@ -309,5 +311,4 @@ if __name__ == '__main__':
     config = AzurLaneConfig('alas_cn')
     az = GemsFarming(config, Device(config=config))
     az.device.screenshot()
-    # az.flagship_change()
     az.run('2-4')

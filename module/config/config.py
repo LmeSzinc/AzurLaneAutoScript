@@ -626,7 +626,6 @@ class AzurLaneConfig:
 
     def load_config_file(self, name='alas'):
         self.CONFIG_FILE = f'./config/{name}.ini'
-        print(self.CONFIG_FILE)
         self.config = get_config(ini_name=name)
         self.load_from_config(self.config)
         self.config_check()
