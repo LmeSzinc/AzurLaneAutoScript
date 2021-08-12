@@ -179,7 +179,7 @@ class FleetPreparation(ModuleBase):
 
         if self.config.GEMS_AUTO_SEARCH_FARMING:
             from module.combat.level import LevelOcr
-            level_ocr = LevelOcr(buttons=(427, 161, 470, 181), name='FLAG SHIP LEVEL')
+            level_ocr = LevelOcr(buttons=FLEET_1_FLAG_SHIP_LEVEL, name='FLAG SHIP LEVEL')
             flag_ship_level = level_ocr.ocr(self.device.image)
             if flag_ship_level > 32:
                 self.config.LV32_TRIGGERED = True
