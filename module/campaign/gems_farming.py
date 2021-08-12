@@ -186,6 +186,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
 
         return super().triggered_stop_condition(oil_check=oil_check)
 
+
     @Config.when(GEMS_LEVEL_CHECK=True)
     def handle_auto_search_continue(self):
         """
@@ -319,5 +320,4 @@ if __name__ == '__main__':
     config = AzurLaneConfig('alas_cn')
     az = GemsFarming(config, Device(config=config))
     az.device.screenshot()
-    # az.run('2-4')
-    az.retire_ships()
+    az.run('2-4')

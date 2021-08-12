@@ -79,6 +79,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                     if mode == 'normal' or mode == 'hard':
                         self.handle_2x_book_setting(mode='prep')
                         self.fleet_preparation()
+                        self.check_flag_ship_level()
                         self.handle_auto_search_setting()
                         self.handle_auto_search_emotion_wait()
                 self.device.click(FLEET_PREPARATION)

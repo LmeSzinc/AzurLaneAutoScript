@@ -8,6 +8,9 @@ from module.base.utils import area_offset, color_similarity_2d
 from module.logger import logger
 from module.map.assets import *
 
+from module.combat.level import LevelOcr
+
+
 
 class FleetOperator:
     FLEET_BAR_SHAPE_Y = 33
@@ -177,18 +180,6 @@ class FleetPreparation(ModuleBase):
         submarine = FleetOperator(
             choose=SUBMARINE_CHOOSE, bar=SUBMARINE_BAR, clear=SUBMARINE_CLEAR, in_use=SUBMARINE_IN_USE, main=self)
 
-        if self.config.GEMS_AUTO_SEARCH_FARMING:
-            from module.combat.level import LevelOcr
-            level_ocr = LevelOcr(buttons=FLEET_1_FLAG_SHIP_LEVEL, name='FLAG SHIP LEVEL')
-            flag_ship_level = level_ocr.ocr(self.device.image)
-            if flag_ship_level > 32:
-                self.config.LV32_TRIGGERED = True
-                self.config.GEMS_LEVEL_CHECK = False
-            elif flag_ship_level > 22:
-                self.config.GEMS_LEVEL_CHECK = True
-            
-
-
         # Submarine.
         if submarine.allow():
             if self.config.SUBMARINE:
@@ -216,3 +207,18 @@ class FleetPreparation(ModuleBase):
         fleet_2.ensure_to_be(self.config.FLEET_2)
         self.map_fleet_checked = True
         return True
+
+    def check_flag_ship_level(self):
+        '''
+        check flag ship level
+        turn LV32_TRIGGERED true if in GEMS_AUTO_SEARCH_FARMING
+        '''
+        level_ocr = LevelOcr(buttons=FLEET_1_FLAG_SHIP_LEVEL, name='FLAG SHIP LEVEL')
+        flag_ship_level = level_ocr.ocr(self.device.image)
+
+        if self.config.GEMS_AUTO_SEARCH_FARMING:
+            if flag_ship_level > 32:
+                self.config.LV32_TRIGGERED = True
+                self.config.GEMS_LEVEL_CHECK = False
+            elif flag_ship_level > 22:
+                self.config.GEMS_LEVEL_CHECK = True
