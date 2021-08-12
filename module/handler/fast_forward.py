@@ -153,7 +153,6 @@ class FastForwardHandler(AutoSearchHandler):
             self.handle_2x_book_setting(mode='auto')
             self.device.click(AUTO_SEARCH_MENU_QUIT)
             self.interval_reset(AUTO_SEARCH_MENU_CONTINUE)
-            self.device.sleep(22)
             return True
         return False
 
