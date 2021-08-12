@@ -226,7 +226,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
             logger.hr('Triggered lv32 limit')
             return True
         
-        if self.config.GEMS_AUTO_SEARCH_FARMING and self.campaign.config.GEMS_EMOTION_TRIGGRED:
+        if self.config.ENABLE_AUTO_SEARCH and self.campaign.config.GEMS_EMOTION_TRIGGRED:
             self._trigger_emotion = True
             logger.hr('Triggered emotion limit')
             return True
@@ -235,7 +235,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
 
 
 
-    @Config.when(GEMS_AUTO_SEARCH_FARMING=True)
+    @Config.when(ENABLE_AUTO_SEARCH=True)
     def run(self, name, folder='campaign_main', total=0):
         name = name.lower()
         if not name[0].isdigit():
@@ -260,7 +260,6 @@ class GemsFarming(CampaignRun, EquipmentChange):
                 STOP_IF_MAP_REACH='no',
                 ENABLE_EMOTION_REDUCE=False,
                 IGNORE_LOW_EMOTION_WARN=True,
-                GEMS_AUTO_SEARCH_FARMING = True,
             )
             self._trigger_lv32 = False
             
@@ -280,7 +279,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
                 backup.recover()
                 break
 
-    @Config.when(GEMS_AUTO_SEARCH_FARMING=False)          
+    @Config.when(ENABLE_AUTO_SEARCH=False)          
     def run(self, name, folder='campaign_main', total=0):
 
         name = name.lower()
