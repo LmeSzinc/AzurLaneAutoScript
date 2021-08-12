@@ -142,7 +142,6 @@ class FastForwardHandler(AutoSearchHandler):
         self.auto_search_setting_ensure(self.config.AUTO_SEARCH_SETTING)
         return True
 
-    @Config.when(GEMS_LEVEL_CHECK=False)
     def handle_auto_search_continue(self):
         """
         Override AutoSearchHandler definition

@@ -1,22 +1,69 @@
 from module.base.decorator import Config
-from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
-from module.config.config import AzurLaneConfig
 from module.campaign.run import CampaignRun
-from module.handler.assets import AUTO_SEARCH_MENU_EXIT, AUTO_SEARCH_MENU_CONTINUE
 from module.combat.level import LevelOcr
-from module.ocr.ocr import Digit
+from module.config.config import AzurLaneConfig
 from module.equipment.assets import *
+from module.equipment.equipment_change import EquipmentChange
 from module.equipment.fleet_equipment import OCR_FLEET_INDEX
+from module.handler.assets import AUTO_SEARCH_MENU_EXIT
+from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
+from module.ocr.ocr import Digit
 from module.retire.dock import *
 from module.ui.page import page_fleet
-
-
-from module.equipment.equipment_change import EquipmentChange
+from module.campaign.campaign_base import CampaignBase
 
 SIM_VALUE = 0.95
 
+class GemsCampaignOverride(CampaignBase):
+
+    def handle_auto_search_continue(self):
+        """
+        Override AutoSearchHandler definition
+        for 2x book handling if needed
+        """
+        if self.config.GEMS_LEVEL_CHECK:
+            if self.appear(AUTO_SEARCH_MENU_EXIT, offset=self._auto_search_menu_offset, interval=2):
+                self.map_is_2x_book = self.config.ENABLE_2X_BOOK
+                self.handle_2x_book_setting(mode='auto')
+                self.device.click(AUTO_SEARCH_MENU_EXIT)
+                self.interval_reset(AUTO_SEARCH_MENU_EXIT)
+                return True
+            return False
+            
+        else:
+            return super().handle_auto_search_continue()
+        
+
+    def handle_combat_low_emotion(self):
+        if not self.config.IGNORE_LOW_EMOTION_WARN:
+            return False
+        if self.handle_popup_cancel('IGNORE_LOW_EMOTION'):
+            self.config.GEMS_EMOTION_TRIGGRED = True
+            logger.hr('Emotion withdraw')
+
+            while 1:
+                self.device.screenshot()
+
+                if self.is_in_map():
+                    self.withdraw()
+                    break
+
+                if self.appear(FLEET_PREPARATION) or self.appear(MAP_PREPARATION):
+                    self.enter_map_cancel()
+                    break
+        else:
+            return False
+    
 
 class GemsFarming(CampaignRun, EquipmentChange):
+
+    def load_campaign(self, name, folder='campaign_main'):
+        super().load_campaign(name, folder)
+
+        class GemsCampaign(GemsCampaignOverride, self.module.Campaign):
+            pass
+
+        self.campaign = GemsCampaign(device=self.device, config=self.config)
 
     def _fleet_detail_enter(self):
         self.ui_ensure(page_fleet)
@@ -186,42 +233,6 @@ class GemsFarming(CampaignRun, EquipmentChange):
 
         return super().triggered_stop_condition(oil_check=oil_check)
 
-
-    @Config.when(GEMS_LEVEL_CHECK=True)
-    def handle_auto_search_continue(self):
-        """
-        Override AutoSearchHandler definition
-        for 2x book handling if needed
-        """
-        if self.appear(AUTO_SEARCH_MENU_EXIT, offset=self._auto_search_menu_offset, interval=2):
-            self.map_is_2x_book = self.config.ENABLE_2X_BOOK
-            self.handle_2x_book_setting(mode='auto')
-            self.device.click(AUTO_SEARCH_MENU_EXIT)
-            self.interval_reset(AUTO_SEARCH_MENU_EXIT)
-            return True
-        return False
-
-    @Config.when(GEMS_AUTO_SEARCH_FARMING=True)
-    def handle_combat_low_emotion(self):
-        if not self.config.IGNORE_LOW_EMOTION_WARN:
-            return False
-        if self.handle_popup_cancel('IGNORE_LOW_EMOTION'):
-            self.config.GEMS_EMOTION_TRIGGRED = True
-            logger.hr('Emotion withdraw')
-
-            while 1:
-                self.device.screenshot()
-
-                print(self.is_in_map(), self.appear(FLEET_PREPARATION))
-                if self.is_in_map():
-                    self.withdraw()
-                    break
-
-                if self.appear(FLEET_PREPARATION) or self.appear(MAP_PREPARATION):
-                    self.enter_map_cancel()
-                    break
-        else:
-            return False
 
 
     @Config.when(GEMS_AUTO_SEARCH_FARMING=True)
