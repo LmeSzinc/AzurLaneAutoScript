@@ -32,7 +32,7 @@ class EquipmentChange(Equipment):
 
             while 1:
                 if skip_first_screenshot:
-                    pass
+                    skip_first_screenshot = False
                 else:
                     self.device.screenshot()
 
@@ -68,7 +68,7 @@ class EquipmentChange(Equipment):
             while 1:
 
                 if skip_first_screenshot:
-                    pass
+                    skip_first_screenshot = False
                 else:
                     self.device.screenshot()
 
@@ -99,7 +99,7 @@ class EquipmentChange(Equipment):
         self.device.sleep(0.3)
         self.device.screenshot()
 
-    def _equip_equipment(self, point, offset=(100, 100)):
+    def _equip_equipment(self, point, offset=(100, 100), skip_first_screenshot=True):
         '''
         Equip Equipment then back to ship details
         Pages:
@@ -110,7 +110,11 @@ class EquipmentChange(Equipment):
         have_equipped = False
 
         while 1:
-            self.device.screenshot()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+                
 
             if not have_equipped and self.appear(EQUIPPING_OFF, interval=5):
                 self.device.click(
