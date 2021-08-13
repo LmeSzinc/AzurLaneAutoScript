@@ -301,7 +301,7 @@ class AzurLaneConfig:
     RETIRE_SR = False
     RETIRE_SSR = False
     RETIRE_KEEP_COMMON_CV = True
-    COMMON_CV_NAME = 'HERMES'
+    COMMON_CV_NAME = 'ANY'
     COMMON_CV_THRESHOLD = 0.9
 
     """

@@ -121,7 +121,10 @@ class GemsFarming(CampaignRun, EquipmentChange):
         level_grids = CARD_LEVEL_GRIDS
         card_grids = CARD_GRIDS
 
-        if self.config.COMMON_CV_NAME == 'any':
+        if self.config.COMMON_CV_NAME == 'ANY':
+            
+            self.dock_sort_method_dsc_set()
+
             level_ocr = LevelOcr(level_grids.buttons, name='DOCK_LEVEL_OCR', threshold=64)
             list_level = level_ocr.ocr(self.device.image)
             for button, level in list(zip(card_grids.buttons, list_level))[::-1]:

@@ -28,7 +28,12 @@ class EquipmentChange(Equipment):
 
         self.equip_side_navbar_ensure(bottom=1)
 
-        for index in range(0, 5):
+        if self.config.COMMON_CV_NAME == 'ANY':
+            index_list = range(3,5)
+        else:
+            index_list = range(0,5)
+
+        for index in index_list:
 
             while 1:
                 if skip_first_screenshot:
@@ -60,7 +65,12 @@ class EquipmentChange(Equipment):
 
         self.ensure_no_info_bar(1)
 
-        for index in range(0, 5):
+        if self.config.COMMON_CV_NAME == 'ANY':
+            index_list = range(3,5)
+        else:
+            index_list = range(0,5)
+
+        for index in index_list:
 
             enter_button = globals()[
                 'EQUIP_TAKE_ON_{index}'.format(index=index)]
