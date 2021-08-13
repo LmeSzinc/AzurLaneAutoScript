@@ -17,9 +17,20 @@ SIM_VALUE = 0.90
 
 class EquipmentChange(Equipment):
 
-    def __init__(self, config, device):
-        super().__init__(config, device=device)
-        self.equip_list = {}
+    equip_list = {}
+    equipping_list = [0, 1, 2, 3, 4]
+
+    def get_equiping_list(self):
+        '''
+        Pages:
+            in: ship's equipments details
+        '''
+        self.device.screenshot()
+        for index in range(0, 5):
+            enter_button = globals()[
+                'EQUIP_TAKE_ON_{index}'.format(index=index)]
+            if self.appear(enter_button, offset=(5, 5)):
+                self.equipping_list.remove(index)
 
     def record_equipment(self, index_list=range(0, 5), skip_first_screenshot=True):
         '''
@@ -27,28 +38,30 @@ class EquipmentChange(Equipment):
         Notice: The equipment icons in the upgrade page are the same size as the icons in the equipment status
         '''
 
+        self.equip_side_navbar_ensure(bottom=2)
+        self.get_equiping_list()
         self.equip_side_navbar_ensure(bottom=1)
 
         for index in index_list:
+            if index in self.equipping_list:
+                while 1:
+                    if skip_first_screenshot:
+                        skip_first_screenshot = False
+                    else:
+                        self.device.screenshot()
 
-            while 1:
-                if skip_first_screenshot:
-                    skip_first_screenshot = False
-                else:
-                    self.device.screenshot()
-
-                if self.appear(EQUIPMENT_OPEN, interval=3):
-                    self.device.click(EQUIP_INFO_BAR[(index, 0)])
-                    # time.sleep(1)
-                    continue
-                if self.appear_then_click(UPGRADE_ENTER, interval=3):
-                    continue
-                if self.appear(UPGRADE_ENTER_CHECK, interval=3):
-                    self.wait_until_stable(EQUIP_SAVE)
-                    self.equip_list[index] = self.image_area(EQUIP_SAVE)
-                    self.device.click(UPGRADE_QUIT)
-                    self.wait_until_stable(UPGRADE_QUIT)
-                    break
+                    if self.appear(EQUIPMENT_OPEN, interval=3):
+                        self.device.click(EQUIP_INFO_BAR[(index, 0)])
+                        # time.sleep(1)
+                        continue
+                    if self.appear_then_click(UPGRADE_ENTER, interval=3):
+                        continue
+                    if self.appear(UPGRADE_ENTER_CHECK, interval=3):
+                        self.wait_until_stable(EQUIP_SAVE)
+                        self.equip_list[index] = self.image_area(EQUIP_SAVE)
+                        self.device.click(UPGRADE_QUIT)
+                        self.wait_until_stable(UPGRADE_QUIT)
+                        break
 
     def equipment_take_on(self, index_list=range(0, 5), skip_first_screenshot=True):
         '''
@@ -60,14 +73,16 @@ class EquipmentChange(Equipment):
         self.ensure_no_info_bar(1)
 
         for index in index_list:
+            if index in self.equipping_list:
+                enter_button = globals()[
+                    'EQUIP_TAKE_ON_{index}'.format(index=index)]
 
-            enter_button = globals()[
-                'EQUIP_TAKE_ON_{index}'.format(index=index)]
+                self.ui_click(enter_button, check_button=EQUIPPING_ON,
+                              skip_first_screenshot=skip_first_screenshot, offset=(5, 5))
+                self._find_equip(index)
+                self.wait_until_stable(UPGRADE_QUIT)
 
-            self.ui_click(enter_button, check_button=EQUIPPING_ON,
-                          skip_first_screenshot=skip_first_screenshot, offset=(5, 5))
-            self._find_equip(index)
-            self.wait_until_stable(UPGRADE_QUIT)
+        self.equipping_list = [0, 1, 2, 3, 4]
 
     @Config.when(DEVICE_CONTROL_METHOD='minitouch')
     def _equipment_swipe(self, distance=190):
