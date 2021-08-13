@@ -75,9 +75,15 @@ class GemsFarming(CampaignRun, EquipmentChange):
         self.equip_enter(button)
 
     def flagship_change(self):
+
+        if self.config.COMMON_CV_NAME == 'ANY':
+            index_list = range(3,5)
+        else:
+            index_list = range(0,5)
+
         if self.config.GEMS_FLAG_SHIP_EQUIP_CHANGE:
             self._ship_detail_enter(FLEET_ENTER_FLAGSHIP)
-            self.record_equipment()
+            self.record_equipment(index_list=index_list)
             self._equip_take_off_one()
 
         self._fleet_detail_enter()
@@ -88,9 +94,10 @@ class GemsFarming(CampaignRun, EquipmentChange):
             self._ship_detail_enter(FLEET_ENTER_FLAGSHIP)
             self._equip_take_off_one()
 
-            self.equipment_take_on()
+            self.equipment_take_on(index_list=index_list)
     
     def vanguard_change(self):
+        
         if self.config.GEMS_VANGUARD_SHIP_EQUIP_CHANGE:
             self._ship_detail_enter(FLEET_ENTER)
             self.record_equipment()
@@ -122,8 +129,8 @@ class GemsFarming(CampaignRun, EquipmentChange):
         card_grids = CARD_GRIDS
 
         if self.config.COMMON_CV_NAME == 'ANY':
-            
-            self.dock_sort_method_dsc_set()
+
+            self.dock_sort_method_dsc_set(False)
 
             level_ocr = LevelOcr(level_grids.buttons, name='DOCK_LEVEL_OCR', threshold=64)
             list_level = level_ocr.ocr(self.device.image)

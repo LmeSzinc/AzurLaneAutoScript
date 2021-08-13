@@ -20,7 +20,7 @@ class EquipmentChange(Equipment):
         super().__init__(config, device=device)
         self.equip_list = {}
 
-    def record_equipment(self, skip_first_screenshot=True):
+    def record_equipment(self, index_list=range(0,5), skip_first_screenshot=True):
         '''
         Record equipment through upgrade page
         Notice: The equipment icons in the upgrade page are the same size as the icons in the equipment status
@@ -28,10 +28,6 @@ class EquipmentChange(Equipment):
 
         self.equip_side_navbar_ensure(bottom=1)
 
-        if self.config.COMMON_CV_NAME == 'ANY':
-            index_list = range(3,5)
-        else:
-            index_list = range(0,5)
 
         for index in index_list:
 
@@ -56,7 +52,7 @@ class EquipmentChange(Equipment):
 
 
 
-    def equipment_take_on(self, skip_first_screenshot=True):
+    def equipment_take_on(self, index_list=range(0,5), skip_first_screenshot=True):
         '''
         Equip the equipment previously recorded
         '''
@@ -65,28 +61,16 @@ class EquipmentChange(Equipment):
 
         self.ensure_no_info_bar(1)
 
-        if self.config.COMMON_CV_NAME == 'ANY':
-            index_list = range(3,5)
-        else:
-            index_list = range(0,5)
 
         for index in index_list:
 
             enter_button = globals()[
                 'EQUIP_TAKE_ON_{index}'.format(index=index)]
 
-            while 1:
+            self.ui_click(enter_button, check_button=EQUIPPING_ON, skip_first_screenshot=skip_first_screenshot, offset=(5, 5))
+            self._find_equip(index)
+            self.wait_until_stable(UPGRADE_QUIT)
 
-                if skip_first_screenshot:
-                    skip_first_screenshot = False
-                else:
-                    self.device.screenshot()
-
-                if self.ui_click(enter_button, check_button=EQUIPPING_ON, skip_first_screenshot=True, offset=(5, 5)):
-                    self.device.click(enter_button)
-                    self._find_equip(index)
-                    self.wait_until_stable(UPGRADE_QUIT)
-                    break
 
 
     @Config.when(DEVICE_CONTROL_METHOD='minitouch')
