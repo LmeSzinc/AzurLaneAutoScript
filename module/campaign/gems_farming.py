@@ -282,6 +282,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
                 STOP_IF_MAP_REACH='no',
                 ENABLE_EMOTION_REDUCE=False,
                 IGNORE_LOW_EMOTION_WARN=True,
+                AUTO_SEARCH_SETTING='fleet1_all_fleet2_standby',
             )
             self._trigger_lv32 = False
 
