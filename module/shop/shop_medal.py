@@ -1,4 +1,5 @@
 from module.base.button import ButtonGrid
+from module.base.decorator import Config
 from module.base.decorator import cached_property
 from module.logger import logger
 from module.ocr.ocr import Digit
@@ -29,15 +30,35 @@ class MedalShop(ShopBase):
         return shop_grid
 
     @cached_property
+    @Config.when(SERVER='jp')
+    def shop_medal_items(self):
+        """
+        Returns:
+            ShopItemGrid:
+        """
+        # JP has thinner letters, increase threshold to 128
+        price_ocr = Digit([], letter=(255, 223, 57), threshold=128, name='Price_ocr')
+        shop_grid = self.shop_medal_grid
+        shop_medal_items = ShopItemGrid(
+            shop_grid, templates={}, amount_area=(60, 74, 96, 95), price_area=(52, 135, 132, 162))
+        shop_medal_items.load_template_folder('./assets/shop/medal')
+        shop_medal_items.load_cost_template_folder('./assets/shop/cost')
+        shop_medal_items.similarity = 0.88  # Lower the threshold for consistent matches of PR/DRBP
+        shop_medal_items.price_ocr = price_ocr
+        return shop_medal_items
+
+    @cached_property
+    @Config.when(SERVER=None)
     def shop_medal_items(self):
         """
         Returns:
             ShopItemGrid:
         """
         shop_grid = self.shop_medal_grid
-        shop_medal_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        shop_medal_items.load_template_folder('./assets/medal_shop')
-        shop_medal_items.load_cost_template_folder('./assets/shop_cost')
+        shop_medal_items = ShopItemGrid(
+            shop_grid, templates={}, amount_area=(60, 74, 96, 95), price_area=(52, 134, 132, 162))
+        shop_medal_items.load_template_folder('./assets/shop/medal')
+        shop_medal_items.load_cost_template_folder('./assets/shop/cost')
         shop_medal_items.similarity = 0.88  # Lower the threshold for consistent matches of PR/DRBP
         return shop_medal_items
 
@@ -49,8 +70,6 @@ class MedalShop(ShopBase):
         Returns:
             bool:
         """
-        if item.cost == 'Medal':
-            if item.price > self._shop_medal:
-                return False
-            return True
-        return False
+        if item.price > self._shop_medal:
+            return False
+        return True

@@ -1,6 +1,5 @@
-from module.base.button import Button, ButtonGrid
+from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
-from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1, GET_SHIP
 from module.logger import logger
 from module.reward.tactical_class import Book
@@ -96,7 +95,14 @@ class ShopBase(UI):
             logger.warning(f'shop_get_items --> Missing cached_property shop_{key}_items')
             return []
 
-        item_grid.predict(self.device.image, name=True, amount=False, cost=True, price=True, tag=False)
+        item_grid.predict(
+            self.device.image,
+            name=True,
+            amount=False,
+            cost=True if key == 'general' else False,
+            price=True,
+            tag=False
+        )
 
         items = item_grid.items
         if len(items):

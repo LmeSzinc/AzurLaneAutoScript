@@ -26,8 +26,8 @@ class MeritShop(ShopBase):
         """
         shop_grid = self.shop_grid
         shop_merit_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        shop_merit_items.load_template_folder('./assets/merit_shop')
-        shop_merit_items.load_cost_template_folder('./assets/shop_cost')
+        shop_merit_items.load_template_folder('./assets/shop/merit')
+        shop_merit_items.load_cost_template_folder('./assets/shop/cost')
         return shop_merit_items
 
     def shop_merit_check_item(self, item):
@@ -38,8 +38,6 @@ class MeritShop(ShopBase):
         Returns:
             bool:
         """
-        if item.cost == 'Merit':
-            if item.price > self._shop_merit:
-                return False
-            return True
-        return False
+        if item.price > self._shop_merit:
+            return False
+        return True

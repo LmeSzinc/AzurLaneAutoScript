@@ -146,7 +146,6 @@ class RewardResearch(ResearchSelector):
         logger.info(f'Research project: {index}')
         available = False
         click_timer = Timer(10)
-        self.research_project_started = project
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -175,10 +174,12 @@ class RewardResearch(ResearchSelector):
                 # RESEARCH_STOP is a semi-transparent button, color will vary depending on the background.
                 self.research_detail_quit()
                 # self.ensure_no_info_bar(timeout=3)  # Research started
+                self.research_project_started = project
                 return True
             if not available and max_rgb <= 235 and self.appear(RESEARCH_UNAVAILABLE, offset=(5, 20)):
                 logger.info('Not enough resources to start this project')
                 self.research_detail_quit()
+                self.research_project_started = None
                 return False
 
     def research_receive(self, skip_first_screenshot=True, save_get_items=False):

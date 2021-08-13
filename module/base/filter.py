@@ -37,11 +37,12 @@ class Filter:
         out = []
         for raw, filter in zip(self.filter_raw, self.filter):
             if self.is_preset(raw):
-                out.append(raw)
+                if raw not in out:
+                    out.append(raw)
             else:
                 for index, obj in enumerate(objs):
-                    if self.apply_filter_to_obj(obj=obj, filter=filter) and index not in out:
-                        out.append(objs[index])
+                    if self.apply_filter_to_obj(obj=obj, filter=filter) and obj not in out:
+                        out.append(obj)
 
         return out
 

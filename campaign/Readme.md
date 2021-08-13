@@ -63,3 +63,4 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20210708   | event 20200903 en        | Stars of the Shimmering Fjord  | -                      | -                                | -                                    | 峽灣間的星辰       |
 | 20210722   | event 20210722 cn        | Azur Anthem                    | 响彻碧海的偶像歌       | Azur Anthem                      | 海に響くアイドルの歌                 | -                  |
 | 20210729   | event 20200723 cn        | Aurora Noctis                  | -                      | -                                | -                                    | 永夜幻光           |
+| 20210812   | event 20200806 cn        | The Enigma and the Shark       | -                      | -                                | -                                    | 最重要的寶物       |

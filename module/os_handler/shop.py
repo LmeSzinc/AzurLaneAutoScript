@@ -30,8 +30,8 @@ class OSShopHandler(UI, MapEventHandler):
         shop_grid = ButtonGrid(
             origin=(237, 219), delta=(189, 224), button_shape=(98, 98), grid_shape=(4, 2), name='SHOP_GRID')
         shop_items = ItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        shop_items.load_template_folder('./assets/os_shop')
-        shop_items.load_cost_template_folder('./assets/os_shop_cost')
+        shop_items.load_template_folder('./assets/shop/os')
+        shop_items.load_cost_template_folder('./assets/shop/os_cost')
         return shop_items
 
     def os_shop_get_items(self, name=True):
