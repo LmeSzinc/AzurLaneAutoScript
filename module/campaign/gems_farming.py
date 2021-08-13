@@ -16,23 +16,6 @@ SIM_VALUE = 0.95
 
 class GemsCampaignOverride(CampaignBase):
 
-    def handle_auto_search_continue(self):
-        """
-        Override AutoSearchHandler definition
-        for 2x book handling if needed
-        """
-        if self.config.GEMS_LEVEL_CHECK:
-            if self.appear(AUTO_SEARCH_MENU_EXIT, offset=self._auto_search_menu_offset, interval=2):
-                self.map_is_2x_book = self.config.ENABLE_2X_BOOK
-                self.handle_2x_book_setting(mode='auto')
-                self.device.click(AUTO_SEARCH_MENU_EXIT)
-                self.interval_reset(AUTO_SEARCH_MENU_EXIT)
-                return True
-            return False
-            
-        else:
-            return super().handle_auto_search_continue()
-        
 
     def handle_combat_low_emotion(self):
         if not self.config.IGNORE_LOW_EMOTION_WARN:
@@ -97,7 +80,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
             self.equipment_take_on(index_list=index_list)
     
     def vanguard_change(self):
-        
+
         if self.config.GEMS_VANGUARD_SHIP_EQUIP_CHANGE:
             self._ship_detail_enter(FLEET_ENTER)
             self.record_equipment()
@@ -296,7 +279,6 @@ class GemsFarming(CampaignRun, EquipmentChange):
                 self._trigger_emotion = False
                 self.campaign.config.LV32_TRIGGERED = False
                 self.campaign.config.GEMS_EMOTION_TRIGGRED = False
-                self.campaign.config.GEMS_LEVEL_CHECK = False
                 continue
             else:
                 backup.recover()

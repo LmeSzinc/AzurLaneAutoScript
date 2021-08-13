@@ -207,18 +207,3 @@ class FleetPreparation(ModuleBase):
         fleet_2.ensure_to_be(self.config.FLEET_2)
         self.map_fleet_checked = True
         return True
-
-    def check_flag_ship_level(self):
-        '''
-        check flag ship level
-        turn LV32_TRIGGERED true if in ENABLE_AUTO_SEARCH
-        '''
-        level_ocr = LevelOcr(buttons=FLEET_1_FLAG_SHIP_LEVEL, name='FLAG SHIP LEVEL')
-        flag_ship_level = level_ocr.ocr(self.device.image)
-
-        if self.config.ENABLE_AUTO_SEARCH:
-            if flag_ship_level > 32:
-                self.config.LV32_TRIGGERED = True
-                self.config.GEMS_LEVEL_CHECK = False
-            elif flag_ship_level > 22:
-                self.config.GEMS_LEVEL_CHECK = True
