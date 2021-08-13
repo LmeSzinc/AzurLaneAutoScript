@@ -246,4 +246,4 @@ adb_port.ini
 !popup.exe
 *.zip
 console.bat
-.vscode/settings.json
+.vscode/*
