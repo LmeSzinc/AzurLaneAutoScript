@@ -121,26 +121,35 @@ class GemsFarming(CampaignRun, EquipmentChange):
         level_grids = CARD_LEVEL_GRIDS
         card_grids = CARD_GRIDS
 
-        template = globals()[f'TEMPLATE_{self.config.COMMON_CV_NAME}']
+        if self.config.COMMON_CV_NAME == 'any':
+            level_ocr = LevelOcr(level_grids.buttons, name='DOCK_LEVEL_OCR', threshold=64)
+            list_level = level_ocr.ocr(self.device.image)
+            for button, level in list(zip(card_grids.buttons, list_level))[::-1]:
+                if level == 1:
+                    return button
 
-        self.dock_sort_method_dsc_set()
+            return None
+        else:
+            template = globals()[f'TEMPLATE_{self.config.COMMON_CV_NAME}']
 
-        ocr = LevelOcr(level_grids.buttons, name='DOCK_LEVEL_OCR')
-        list_level = ocr.ocr(self.device.image)
+            self.dock_sort_method_dsc_set()
 
-        for button, level in zip(card_grids.buttons, list_level):
-            if level == 1 and template.match(self.device.image.crop(button.area), similarity=SIM_VALUE):
-                return button
+            ocr = LevelOcr(level_grids.buttons, name='DOCK_LEVEL_OCR')
+            list_level = ocr.ocr(self.device.image)
 
-        self.dock_sort_method_dsc_set(False)
+            for button, level in zip(card_grids.buttons, list_level):
+                if level == 1 and template.match(self.device.image.crop(button.area), similarity=SIM_VALUE):
+                    return button
 
-        list_level = ocr.ocr(self.device.image)
+            self.dock_sort_method_dsc_set(False)
 
-        for button, level in zip(card_grids.buttons, list_level):
-            if level == 1 and template.match(self.device.image.crop(button.area), similarity=SIM_VALUE):
-                return button
+            list_level = ocr.ocr(self.device.image)
 
-        return None
+            for button, level in zip(card_grids.buttons, list_level):
+                if level == 1 and template.match(self.device.image.crop(button.area), similarity=SIM_VALUE):
+                    return button
+
+            return None
 
     def get_common_rarity_dd(self):
         """
@@ -334,6 +343,4 @@ if __name__ == '__main__':
     config = AzurLaneConfig('alas_cn')
     az = GemsFarming(config, Device(config=config))
     az.device.screenshot()
-    print(az.config.GEMS_FLAG_SHIP_EQUIP_CHANGE, az.config.GEMS_VANGUARD_SHIP_EQUIP_CHANGE)
-    az.flagship_change()
-    az.vanguard_change()
+    az.run('2-4')

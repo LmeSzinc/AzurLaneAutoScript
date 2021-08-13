@@ -20,19 +20,21 @@ class EquipmentChange(Equipment):
         super().__init__(config, device=device)
         self.equip_list = {}
 
-    def record_equipment(self):
+    def record_equipment(self, skip_first_screenshot=True):
         '''
-        通过强化界面记录装备
+        Record equipment through upgrade page
+        Notice: The equipment icons in the upgrade page are the same size as the icons in the equipment status
         '''
-
-        self.device.screenshot()
 
         self.equip_side_navbar_ensure(bottom=1)
 
         for index in range(0, 5):
 
             while 1:
-                self.device.screenshot()
+                if skip_first_screenshot:
+                    pass
+                else:
+                    self.device.screenshot()
 
                 if self.appear(EQUIPMENT_OPEN, interval=3):
                     self.device.click(EQUIP_INFO_BAR[(index, 0)])
@@ -47,14 +49,12 @@ class EquipmentChange(Equipment):
                     self.wait_until_stable(UPGRADE_QUIT)
                     break
 
-            # self.equip_list[index].show()
-            # print(index)
 
-    def equipment_take_on(self):
+
+    def equipment_take_on(self, skip_first_screenshot=True):
         '''
-        通过之前记录的装备装备回来
+        Equip the equipment previously recorded
         '''
-        self.device.screenshot()
 
         self.equip_side_navbar_ensure(bottom=2)
 
@@ -67,9 +67,12 @@ class EquipmentChange(Equipment):
 
             while 1:
 
-                self.device.screenshot()
+                if skip_first_screenshot:
+                    pass
+                else:
+                    self.device.screenshot()
 
-                if self.appear(enter_button, offset=(5,5), threshold=0.90, interval=2):
+                if self.ui_click(enter_button, check_button=EQUIPPING_ON, skip_first_screenshot=True, offset=(5, 5)):
                     self.device.click(enter_button)
                     self._find_equip(index)
                     self.wait_until_stable(UPGRADE_QUIT)
@@ -98,8 +101,10 @@ class EquipmentChange(Equipment):
 
     def _equip_equipment(self, point, offset=(100, 100)):
         '''
-        in: 仓库
-        do：装，退
+        Equip Equipment then back to ship details
+        Pages:
+            in: EQUIPMENT STATUS
+            out: SHIP_SIDEBAR_EQUIPMENT
         '''
 
         have_equipped = False
@@ -120,8 +125,9 @@ class EquipmentChange(Equipment):
 
     def _find_equip(self, index):
         '''
-        in: 仓库
-        do: 找
+        Find the equipment previously recorded 
+        Pages:
+            in: EQUIPMENT STATUS
         '''
         self.wait_until_stable(UPGRADE_QUIT, skip_first_screenshot=False)
 

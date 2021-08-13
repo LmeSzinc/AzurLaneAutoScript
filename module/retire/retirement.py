@@ -323,20 +323,33 @@ class Retirement(Enhancement):
                 return True
         return False
 
-    def retirement_get_common_rarity_cv(self, offset=(30, 30)):
+    def retirement_get_common_rarity_cv(self):
         """
         Returns:
             Button:
         """
-        template = globals()[f'TEMPLATE_{self.config.COMMON_CV_NAME}']
-        sim, button = template.match_result(self.device.image.resize(size=(1189, 669)))
-        
-        if sim > self.config.COMMON_CV_THRESHOLD:
-            button.area = tuple(_*155//144 for _ in button.area)
+        if self.config.COMMON_CV_NAME == 'any':
+            for commen_cv_name in ['BOGUE', 'HERMES', 'LANGLEY', 'RANGER']:
+                template = globals()[f'TEMPLATE_{commen_cv_name}']
+                sim, button = template.match_result(self.device.image.resize(size=(1189, 669)))
 
-            return button
+                if sim > self.config.COMMON_CV_THRESHOLD:
+                    button.button = tuple(_*155//144 for _ in button.button)
 
-        return None
+                    return button
+
+                return None  
+        else:
+            
+            template = globals()[f'TEMPLATE_{self.config.COMMON_CV_NAME}']
+            sim, button = template.match_result(self.device.image.resize(size=(1189, 669)))
+
+            if sim > self.config.COMMON_CV_THRESHOLD:
+                button.button = tuple(_*155//144 for _ in button.button)
+
+                return button
+
+            return None
 
     def keep_one_common_cv(self):
         button = self.retirement_get_common_rarity_cv()
