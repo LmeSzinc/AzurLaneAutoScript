@@ -69,10 +69,10 @@ class GemsFarming(CampaignRun, EquipmentChange):
     def flagship_change(self):
         '''
         Change flagship and flagship's equipment 
-        If config.COMMON_CV_NAME == 'ANY', only change auxiliary equipment
+        If config.COMMON_CV_NAME == 'any', only change auxiliary equipment
         '''
 
-        if self.config.COMMON_CV_NAME == 'ANY':
+        if self.config.COMMON_CV_NAME == 'any':
             index_list = range(3, 5)
         else:
             index_list = range(0, 5)
@@ -120,7 +120,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
     def get_common_rarity_cv(self):
         """
         Get a common rarity cv by config.COMMON_CV_NAME
-        If config.COMMON_CV_NAME == 'ANY', return a common lv1 cv
+        If config.COMMON_CV_NAME == 'any', return a common lv1 cv
         Returns:
             Button:
         """
@@ -128,7 +128,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
         level_grids = CARD_LEVEL_GRIDS
         card_grids = CARD_GRIDS
 
-        if self.config.COMMON_CV_NAME == 'ANY':
+        if self.config.COMMON_CV_NAME == 'any':
 
             self.dock_sort_method_dsc_set(False)
 
@@ -141,7 +141,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
 
             return None
         else:
-            template = globals()[f'TEMPLATE_{self.config.COMMON_CV_NAME}']
+            template = globals()[f'TEMPLATE_{self.config.COMMON_CV_NAME.upper()}']
 
             self.dock_sort_method_dsc_set()
 
@@ -267,6 +267,8 @@ class GemsFarming(CampaignRun, EquipmentChange):
             name = 'campaign_' + name.replace('-', '_')
 
         while 1:
+            # Backup config file 
+            # while cover ENABLE_AUTO_SEARCH
             backup = self.config.cover(
                 STOP_IF_REACH_LV32=True,
                 FLEET_1=self.config.GEMS_FLEET_1,
@@ -283,6 +285,8 @@ class GemsFarming(CampaignRun, EquipmentChange):
                 ENABLE_EMOTION_REDUCE=False,
                 IGNORE_LOW_EMOTION_WARN=True,
                 AUTO_SEARCH_SETTING='fleet1_all_fleet2_standby',
+                ENABLE_AUTO_SEARCH = self.config.GEMS_ENABLE_AUTO_SEARCH,
+                RETIRE_KEEP_COMMON_CV=True,
             )
             self._trigger_lv32 = False
 

@@ -328,7 +328,7 @@ class Retirement(Enhancement):
         Returns:
             Button:
         """
-        if self.config.COMMON_CV_NAME == 'ANY':
+        if self.config.COMMON_CV_NAME == 'any':
             for commen_cv_name in ['BOGUE', 'HERMES', 'LANGLEY', 'RANGER']:
                 template = globals()[f'TEMPLATE_{commen_cv_name}']
                 sim, button = template.match_result(self.device.image.resize(size=(1189, 669)))
@@ -341,7 +341,7 @@ class Retirement(Enhancement):
                 return None  
         else:
             
-            template = globals()[f'TEMPLATE_{self.config.COMMON_CV_NAME}']
+            template = globals()[f'TEMPLATE_{self.config.COMMON_CV_NAME.upper()}']
             sim, button = template.match_result(self.device.image.resize(size=(1189, 669)))
 
             if sim > self.config.COMMON_CV_THRESHOLD:

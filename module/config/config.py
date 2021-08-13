@@ -136,6 +136,9 @@ class AzurLaneConfig:
     GEMS_FLAG_SHIP_EQUIP_CHANGE = False
     GEMS_VANGUARD_SHIP_EQUIP_CHANGE = True
     GEMS_LOW_EMOTION_WITHDRAW = True
+    GEMS_ENABLE_AUTO_SEARCH = True
+    COMMON_CV_NAME = 'any'
+
 
     """
     module.event
@@ -300,8 +303,7 @@ class AzurLaneConfig:
     RETIRE_R = False
     RETIRE_SR = False
     RETIRE_SSR = False
-    RETIRE_KEEP_COMMON_CV = True
-    COMMON_CV_NAME = 'ANY'
+    RETIRE_KEEP_COMMON_CV = False
     COMMON_CV_THRESHOLD = 0.9
 
     """
@@ -723,7 +725,6 @@ class AzurLaneConfig:
         self.ENABLE_RETIREMENT = to_bool(option['enable_retirement'])
         self.RETIREMENT_METHOD = option['retire_method']
         self.RETIRE_AMOUNT = option['retire_amount'].split('_')[1]
-        self.RETIRE_KEEP_COMMON_CV = to_bool(option['retire_keep_common_cv'])
         self.ENHANCE_FAVOURITE = to_bool(option['enhance_favourite'])
         self.ENHANCE_ORDER_STRING = option['enhance_order_string']
         self.ENHANCE_CHECK_PER_CATEGORY = int(option['enhance_check_per_category'])
@@ -896,8 +897,8 @@ class AzurLaneConfig:
         self.GEMS_FLAG_SHIP_EQUIP_CHANGE = to_bool(option['gems_flag_ship_equip_change'])
         self.GEMS_VANGUARD_SHIP_EQUIP_CHANGE = to_bool(option['gems_vanguard_ship_equip_change'])
         self.GEMS_LOW_EMOTION_WITHDRAW = to_bool(option['gems_low_emotion_withdraw'])
-        
-
+        self.GEMS_ENABLE_AUTO_SEARCH = to_bool(option['gems_enable_auto_search'])
+        self.COMMON_CV_NAME = option['common_cv_name']
 
 
         # OS semi auto
