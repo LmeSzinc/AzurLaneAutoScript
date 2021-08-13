@@ -16,6 +16,10 @@ SIM_VALUE = 0.95
 class GemsCampaignOverride(CampaignBase):
 
     def handle_combat_low_emotion(self):
+        '''
+        Overwrite info_handler.handle_combat_low_emotion()
+        If GEMS_LOW_EMOTION_WITHDRAW is True, withdraw combat and change flag ship
+        '''
         if self.config.GEMS_LOW_EMOTION_WITHDRAW:
             if not self.config.IGNORE_LOW_EMOTION_WARN:
                 return False
@@ -51,6 +55,9 @@ class GemsFarming(CampaignRun, EquipmentChange):
         self.campaign = GemsCampaign(device=self.device, config=self.config)
 
     def _fleet_detail_enter(self):
+        '''
+        Enter GEMS_FLEET_1 page
+        '''
         self.ui_ensure(page_fleet)
         self.ui_ensure_index(self.config.GEMS_FLEET_1, letter=OCR_FLEET_INDEX,
                              next_button=FLEET_NEXT, prev_button=FLEET_PREV)
@@ -60,6 +67,10 @@ class GemsFarming(CampaignRun, EquipmentChange):
         self.equip_enter(button)
 
     def flagship_change(self):
+        '''
+        Change flagship and flagship's equipment 
+        If config.COMMON_CV_NAME == 'ANY', only change auxiliary equipment
+        '''
 
         if self.config.COMMON_CV_NAME == 'ANY':
             index_list = range(3, 5)
@@ -82,7 +93,9 @@ class GemsFarming(CampaignRun, EquipmentChange):
             self.equipment_take_on(index_list=index_list)
 
     def vanguard_change(self):
-
+        '''
+        Change flagship and flagship's equipment 
+        '''
         if self.config.GEMS_VANGUARD_SHIP_EQUIP_CHANGE:
             self._ship_detail_enter(FLEET_ENTER)
             self.record_equipment()
@@ -106,6 +119,8 @@ class GemsFarming(CampaignRun, EquipmentChange):
 
     def get_common_rarity_cv(self):
         """
+        Get a common rarity cv by config.COMMON_CV_NAME
+        If config.COMMON_CV_NAME == 'ANY', return a common lv1 cv
         Returns:
             Button:
         """
@@ -149,6 +164,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
 
     def get_common_rarity_dd(self):
         """
+        Get a common rarity dd with level is 100 and emotion is 150
         Returns:
             Button:
         """
@@ -277,7 +293,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
 
                 if self.config.GEMS_LOW_EMOTION_WITHDRAW:
                     self.vanguard_change()
-                    
+
                 self._trigger_lv32 = False
                 self._trigger_emotion = False
                 self.campaign.config.LV32_TRIGGERED = False

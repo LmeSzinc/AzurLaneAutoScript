@@ -9,7 +9,8 @@ EQUIP_INFO_BAR = ButtonGrid(
     origin=(723, 111), delta=(94, 0), button_shape=(76, 76), grid_shape=(5, 1), name="EQUIP_INFO_BAR"
 )
 
-EQUIPMENT_SCROLL = Scroll(EQUIP_SCROLL, color=(247, 211, 66), name='EQUIP_SCROLL')
+EQUIPMENT_SCROLL = Scroll(EQUIP_SCROLL, color=(
+    247, 211, 66), name='EQUIP_SCROLL')
 
 SIM_VALUE = 0.90
 
@@ -20,14 +21,13 @@ class EquipmentChange(Equipment):
         super().__init__(config, device=device)
         self.equip_list = {}
 
-    def record_equipment(self, index_list=range(0,5), skip_first_screenshot=True):
+    def record_equipment(self, index_list=range(0, 5), skip_first_screenshot=True):
         '''
         Record equipment through upgrade page
         Notice: The equipment icons in the upgrade page are the same size as the icons in the equipment status
         '''
 
         self.equip_side_navbar_ensure(bottom=1)
-
 
         for index in index_list:
 
@@ -50,9 +50,7 @@ class EquipmentChange(Equipment):
                     self.wait_until_stable(UPGRADE_QUIT)
                     break
 
-
-
-    def equipment_take_on(self, index_list=range(0,5), skip_first_screenshot=True):
+    def equipment_take_on(self, index_list=range(0, 5), skip_first_screenshot=True):
         '''
         Equip the equipment previously recorded
         '''
@@ -61,17 +59,15 @@ class EquipmentChange(Equipment):
 
         self.ensure_no_info_bar(1)
 
-
         for index in index_list:
 
             enter_button = globals()[
                 'EQUIP_TAKE_ON_{index}'.format(index=index)]
 
-            self.ui_click(enter_button, check_button=EQUIPPING_ON, skip_first_screenshot=skip_first_screenshot, offset=(5, 5))
+            self.ui_click(enter_button, check_button=EQUIPPING_ON,
+                          skip_first_screenshot=skip_first_screenshot, offset=(5, 5))
             self._find_equip(index)
             self.wait_until_stable(UPGRADE_QUIT)
-
-
 
     @Config.when(DEVICE_CONTROL_METHOD='minitouch')
     def _equipment_swipe(self, distance=190):
@@ -108,7 +104,6 @@ class EquipmentChange(Equipment):
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
-                
 
             if not have_equipped and self.appear(EQUIPPING_OFF, interval=5):
                 self.device.click(
