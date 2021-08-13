@@ -9,6 +9,7 @@ from module.map.assets import *
 class AutoSearchCombat(Combat):
     fleets_reversed: bool  # Define in MapOperation
     _auto_search_in_stage_timer = Timer(3, count=6)
+    _auto_search_confirm_low_emotion = False
 
     def get_fleet_current_index(self):
         """
@@ -74,6 +75,7 @@ class AutoSearchCombat(Combat):
             if self.handle_auto_search_map_option():
                 continue
             if self.handle_combat_low_emotion():
+                self._auto_search_confirm_low_emotion = True
                 continue
 
             # End
@@ -81,6 +83,40 @@ class AutoSearchCombat(Combat):
                 break
             if self.is_in_auto_search_menu() or self._handle_auto_search_menu_missing():
                 raise CampaignEnd
+
+    def handle_auto_search_low_emotion_combat_status(self, save_get_items=False):
+        """
+        Args:
+            save_get_items (bool):
+            expected_end (str, callable): with_searching, no_searching, in_stage.
+        """
+        logger.info('Combat status')
+        exp_info = False  # This is for the white screen bug in game
+        while 1:
+            self.device.screenshot()
+
+            # Combat status
+            if not exp_info and self.handle_get_ship(save_get_items=save_get_items):
+                continue
+            if self.handle_get_items(save_get_items=save_get_items):
+                continue
+            if self.handle_battle_status(save_get_items=save_get_items):
+                continue
+            if self.handle_popup_confirm('combat_status'):
+                continue
+            if self.handle_exp_info():
+                exp_info = True
+                continue
+            if self.handle_urgent_commission(save_get_items=save_get_items):
+                continue
+            if self.handle_story_skip():
+                continue
+            if self.handle_guild_popup_cancel():
+                continue
+
+             # End
+            if self.is_in_map():
+                break
 
     def auto_search_combat_execute(self, emotion_reduce, fleet_index):
         """
@@ -116,6 +152,12 @@ class AutoSearchCombat(Combat):
 
             if self.handle_submarine_call():
                 continue
+
+            #Handle low emotion combat
+            if self._auto_search_confirm_low_emotion:
+                self._auto_search_confirm_low_emotion = False
+                self.handle_auto_search_low_emotion_combat_status()
+                break
 
             # End
             if self.is_in_auto_search_menu() or self._handle_auto_search_menu_missing():
