@@ -145,36 +145,39 @@ class AutoSearchCombat(Combat):
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
-
-            #Handle low emotion combat
-            # Combat status
-            if not exp_info and self.handle_get_ship(save_get_items=False):
-                continue
-            if self.handle_get_items(save_get_items=False):
-                continue
-            if self.handle_battle_status(save_get_items=False):
-                continue
-            if self.handle_popup_confirm('combat_status'):
-                continue
-            if self.handle_exp_info():
-                exp_info = True
-                continue
-            if self.handle_urgent_commission(save_get_items=False):
-                continue
-            if self.handle_story_skip():
-                continue
-            if self.handle_guild_popup_cancel():
-                continue
-
+            
             if self.handle_get_ship():
                 continue
             if self.handle_popup_confirm('AUTO_SEARCH_COMBAT_STATUS'):
                 continue
+            if self.handle_auto_search_map_option():
+                self._auto_search_confirm_low_emotion = False
+                continue
+
+            # Handle low emotion combat
+            # Combat status
+            if self._auto_search_confirm_low_emotion:
+                if not exp_info and self.handle_get_ship(save_get_items=False):
+                    continue
+                if self.handle_get_items(save_get_items=False):
+                    continue
+                if self.handle_battle_status(save_get_items=False):
+                    continue
+                if self.handle_popup_confirm('combat_status'):
+                    continue
+                if self.handle_exp_info():
+                    exp_info = True
+                    continue
+                if self.handle_urgent_commission(save_get_items=False):
+                    continue
+                if self.handle_story_skip():
+                    continue
+                if self.handle_guild_popup_cancel():
+                    continue
 
             # End
             if self.is_auto_search_running():
-                break
-            if self.handle_auto_search_map_option():
+                self._auto_search_confirm_low_emotion = False
                 break
             if self.is_in_auto_search_menu() or self._handle_auto_search_menu_missing():
                 raise CampaignEnd

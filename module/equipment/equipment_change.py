@@ -20,11 +20,14 @@ class EquipmentChange(Equipment):
     equip_list = {}
     equipping_list = [0, 1, 2, 3, 4]
 
-    def get_equiping_list(self):
+    def get_equiping_list(self, skip_first_screenshot=True):
         '''
         Pages:
             in: ship's equipments details
         '''
+        if skip_first_screenshot:
+            pass
+        else:
         self.device.screenshot()
         for index in range(0, 5):
             enter_button = globals()[
@@ -57,11 +60,9 @@ class EquipmentChange(Equipment):
                     if self.appear_then_click(UPGRADE_ENTER, interval=3):
                         continue
                     if self.appear(UPGRADE_ENTER_CHECK, interval=3):
-                        self.wait_until_stable(EQUIP_SAVE)
                         self.equip_list[index] = self.image_area(EQUIP_SAVE)
                         self.ui_click(
                             click_button=UPGRADE_QUIT, check_button=EQUIPMENT_OPEN, appear_button=UPGRADE_ENTER_CHECK, skip_first_screenshot=True)
-                        self.wait_until_stable(UPGRADE_QUIT)
                         break
 
     def equipment_take_on(self, index_list=range(0, 5), skip_first_screenshot=True):
@@ -79,9 +80,8 @@ class EquipmentChange(Equipment):
                     'EQUIP_TAKE_ON_{index}'.format(index=index)]
 
                 self.ui_click(enter_button, check_button=EQUIPPING_ON,
-                              skip_first_screenshot=skip_first_screenshot, offset=(5, 5))
+                                skip_first_screenshot=skip_first_screenshot, offset=(5, 5))
                 self._find_equip(index)
-                self.wait_until_stable(UPGRADE_QUIT)
 
         self.equipping_list = [0, 1, 2, 3, 4]
 
@@ -129,7 +129,6 @@ class EquipmentChange(Equipment):
             if have_equipped and self.appear_then_click(EQUIP_CONFIRM, interval=2):
                 continue
             if self.info_bar_count():
-                self.wait_until_stable(UPGRADE_QUIT)
                 break
 
     def _find_equip(self, index):
@@ -138,7 +137,6 @@ class EquipmentChange(Equipment):
         Pages:
             in: EQUIPMENT STATUS
         '''
-        self.wait_until_stable(UPGRADE_QUIT, skip_first_screenshot=False)
 
         self.equipping_set(False)
 

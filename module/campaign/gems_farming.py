@@ -30,6 +30,9 @@ class GemsCampaignOverride(CampaignBase):
                 while 1:
                     self.device.screenshot()
 
+                    if self.handle_popup_cancel('IGNORE_LOW_EMOTION'):
+                        continue
+
                     if self.is_in_map():
                         self.withdraw()
                         break
@@ -37,8 +40,6 @@ class GemsCampaignOverride(CampaignBase):
                     if self.appear(FLEET_PREPARATION, offset=(20, 20), interval=2) or self.appear(MAP_PREPARATION, offset=(20, 20), interval=2):
                         self.enter_map_cancel()
                         break
-                return True
-            else:
                 return False
         else:
             return super().handle_combat_low_emotion()
@@ -60,7 +61,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
         '''
         self.ui_ensure(page_fleet)
         self.ui_ensure_index(self.config.GEMS_FLEET_1, letter=OCR_FLEET_INDEX,
-                             next_button=FLEET_NEXT, prev_button=FLEET_PREV)
+                             next_button=FLEET_NEXT, prev_button=FLEET_PREV, skip_first_screenshot=True)
 
     def _ship_detail_enter(self, button):
         self._fleet_detail_enter()
@@ -94,7 +95,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
 
     def vanguard_change(self):
         '''
-        Change flagship and flagship's equipment 
+        Change vanguard and vanguard's equipment 
         '''
         if self.config.GEMS_VANGUARD_SHIP_EQUIP_CHANGE:
             self._ship_detail_enter(FLEET_ENTER)
@@ -141,7 +142,8 @@ class GemsFarming(CampaignRun, EquipmentChange):
 
             return None
         else:
-            template = globals()[f'TEMPLATE_{self.config.COMMON_CV_NAME.upper()}']
+            template = globals()[
+                f'TEMPLATE_{self.config.COMMON_CV_NAME.upper()}']
 
             self.dock_sort_method_dsc_set()
 
@@ -267,7 +269,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
             name = 'campaign_' + name.replace('-', '_')
 
         while 1:
-            # Backup config file 
+            # Backup config file
             # while cover ENABLE_AUTO_SEARCH
             backup = self.config.cover(
                 STOP_IF_REACH_LV32=True,
@@ -285,7 +287,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
                 ENABLE_EMOTION_REDUCE=False,
                 IGNORE_LOW_EMOTION_WARN=True,
                 AUTO_SEARCH_SETTING='fleet1_all_fleet2_standby',
-                ENABLE_AUTO_SEARCH = self.config.GEMS_ENABLE_AUTO_SEARCH,
+                ENABLE_AUTO_SEARCH=self.config.GEMS_ENABLE_AUTO_SEARCH,
                 RETIRE_KEEP_COMMON_CV=True,
             )
             self._trigger_lv32 = False
