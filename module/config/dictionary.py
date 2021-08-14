@@ -266,6 +266,11 @@ dic_true_eng_to_eng = {
     'gems_fleet_1': 'gems_fleet_1',
     'gems_fleet_2': 'gems_fleet_2',
     'gems_stage': 'gems_stage',
+    'gems_enable_auto_search': 'gems_enable_auto_search',
+    'gems_low_emotion_withdraw': 'gems_low_emotion_withdraw',
+    'gems_flag_ship_equip_change': 'gems_flag_ship_equip_change',
+    'gems_vanguard_ship_equip_change': 'gems_vanguard_ship_equip_change',
+    'common_cv_name': 'common_cv_name',
     'default_serial_list': 'default_serial_list',
     'enable_os_semi_story_skip': 'enable_os_semi_story_skip',
     'os_world_min_level': 'os_world_min_level',
@@ -379,6 +384,11 @@ dic_true_eng_to_eng = {
     'azuma': 'azuma',
     'friedrich': 'friedrich',
     'drake': 'drake',
+    'langley': 'langley', 
+    'bogue': 'bogue', 
+    'ranger': 'ranger', 
+    'hermes': 'hermes',
+    'any': 'any',
 
     # Research filter preset
     'customized': 'customized',
