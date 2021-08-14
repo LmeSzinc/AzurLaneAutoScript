@@ -335,9 +335,7 @@ class Retirement(Enhancement):
                 sim, button = template.match_result(self.device.image.resize(size=(1189, 669)))
 
                 if sim > self.config.COMMON_CV_THRESHOLD:
-                    button.button = tuple(_*155//144 for _ in button.button)
-
-                    return button
+                    return Button(button=tuple(_*155//144 for _ in button.button), area=button.area, color=button.color)
 
                 return None  
         else:
@@ -346,9 +344,7 @@ class Retirement(Enhancement):
             sim, button = template.match_result(self.device.image.resize(size=(1189, 669)))
 
             if sim > self.config.COMMON_CV_THRESHOLD:
-                button.button = tuple(_*155//144 for _ in button.button)
-
-                return button
+                return Button(button=tuple(_*155//144 for _ in button.button), area=button.area, color=button.color)
 
             return None
 
@@ -371,5 +367,5 @@ if __name__ == '__main__':
     config = AzurLaneConfig('alas_cn')
     az = Retirement(config, Device(config=config))
     az.device.screenshot()
-
+    az.config.RETIRE_KEEP_COMMON_CV = True
     az.retire_ships()
