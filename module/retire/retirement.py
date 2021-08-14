@@ -124,7 +124,7 @@ class Retirement(Enhancement):
             if self.config.RETIRE_SR or self.config.RETIRE_SSR or self.config.RETIREMENT_METHOD == 'one_click_retire':
                 if self.handle_popup_confirm('RETIRE_SR_SSR'):
                     continue
-                if self.config.SERVER == 'en' and \
+                if (self.config.SERVER == 'en' or self.config.SERVER == 'jp') and \
                         self.appear_then_click(SR_SSR_CONFIRM, offset=self._popup_offset, interval=2):
                     continue
             if self.appear_then_click(SHIP_CONFIRM, offset=(30, 30), interval=2):
