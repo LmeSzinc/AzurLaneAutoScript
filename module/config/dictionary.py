@@ -1010,6 +1010,11 @@ dic_tchi_to_eng = {
     '刷鑽石一隊': 'gems_fleet_1',
     '刷鑽石二隊': 'gems_fleet_2',
     '刷鑽石關卡': 'gems_stage',
+    '启用自律寻敌': 'gems_enable_auto_search',
+    '启用红脸撤退': 'gems_low_emotion_withdraw',
+    '更换旗舰装备': 'gems_flag_ship_equip_change',
+    '更换前排装备': 'gems_vanguard_ship_equip_change',
+    '指定旗舰航母': 'common_cv_name',
     '默認serial列表': 'default_serial_list',
     '大世界跳過劇情': 'enable_os_semi_story_skip',
     '大世界全清侵蝕下限': 'os_world_min_level',
@@ -1123,6 +1128,11 @@ dic_tchi_to_eng = {
     'azuma': 'azuma',
     'friedrich': 'friedrich',
     'drake': 'drake',
+    '兰利': 'langley', 
+    '博格': 'bogue', 
+    '突击者': 'ranger', 
+    '竞技神': 'hermes',
+    '任意航母': 'any',
 
     # Research filter preset
     '自定義': 'customized',
