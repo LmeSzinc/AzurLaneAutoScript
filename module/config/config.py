@@ -685,7 +685,6 @@ class AzurLaneConfig:
         self.STOP_IF_TRIGGER_EMOTION_LIMIT = to_bool(option['if_trigger_emotion_control'])
         self.STOP_IF_DOCK_FULL = to_bool(option['if_dock_full'])
         self.STOP_IF_REACH_LV120 = to_bool(option['if_reach_lv120'])
-        self.STOP_IF_REACH_LV32 = to_bool(option['if_reach_lv32'])
         self.STOP_IF_MAP_REACH = option['if_map_reach']
         self.STOP_IF_GET_SHIP = to_bool(option['if_get_ship'])
         # Fleet
