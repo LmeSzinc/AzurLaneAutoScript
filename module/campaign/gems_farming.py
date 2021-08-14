@@ -1,10 +1,10 @@
 from module.campaign.campaign_base import CampaignBase
 from module.campaign.run import CampaignRun
 from module.combat.level import LevelOcr
-from module.config.config import AzurLaneConfig
 from module.equipment.assets import *
 from module.equipment.equipment_change import EquipmentChange
 from module.equipment.fleet_equipment import OCR_FLEET_INDEX
+from module.logger import logger
 from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
 from module.ocr.ocr import Digit
 from module.retire.dock import *
@@ -25,7 +25,7 @@ class GemsCampaignOverride(CampaignBase):
                 return False
             if self.handle_popup_cancel('IGNORE_LOW_EMOTION'):
                 self.config.GEMS_EMOTION_TRIGGRED = True
-                logger.hr('Emotion withdraw')
+                logger.hr('EMOTION WITHDRAW')
 
                 while 1:
                     self.device.screenshot()
@@ -77,8 +77,9 @@ class GemsFarming(CampaignRun, EquipmentChange):
             index_list = range(3, 5)
         else:
             index_list = range(0, 5)
-
+        logger.hr('CHANGING FLAGSHIP.')
         if self.config.GEMS_FLAG_SHIP_EQUIP_CHANGE:
+            logger.info('Record flagship equipment.')
             self._ship_detail_enter(FLEET_ENTER_FLAGSHIP)
             self.record_equipment(index_list=index_list)
             self._equip_take_off_one()
@@ -88,6 +89,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
         self.flagship_change_execute()
 
         if self.config.GEMS_FLAG_SHIP_EQUIP_CHANGE:
+            logger.info('Record flagship equipment.')
             self._ship_detail_enter(FLEET_ENTER_FLAGSHIP)
             self._equip_take_off_one()
 
@@ -97,7 +99,9 @@ class GemsFarming(CampaignRun, EquipmentChange):
         '''
         Change vanguard and vanguard's equipment 
         '''
+        logger.hr('CHANGING VANGUARD.')
         if self.config.GEMS_VANGUARD_SHIP_EQUIP_CHANGE:
+            logger.info('Record vanguard equipment.')
             self._ship_detail_enter(FLEET_ENTER)
             self.record_equipment()
             self._equip_take_off_one()
@@ -107,6 +111,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
         self.vanguard_change_execute()
 
         if self.config.GEMS_VANGUARD_SHIP_EQUIP_CHANGE:
+            logger.info('Equip vanguard equipment.')
             self._ship_detail_enter(FLEET_ENTER)
             self._equip_take_off_one()
 
@@ -128,8 +133,10 @@ class GemsFarming(CampaignRun, EquipmentChange):
 
         level_grids = CARD_LEVEL_GRIDS
         card_grids = CARD_GRIDS
+        logger.hr('FINDING FLAGSHIP')
 
         if self.config.COMMON_CV_NAME == 'any':
+            logger.info('')
 
             self.dock_sort_method_dsc_set(False)
 
@@ -153,7 +160,8 @@ class GemsFarming(CampaignRun, EquipmentChange):
             for button, level in zip(card_grids.buttons, list_level):
                 if level == 1 and template.match(self.device.image.crop(button.area), similarity=SIM_VALUE):
                     return button
-
+                    
+            logger.info('No specific CV was found, try reversed order.')
             self.dock_sort_method_dsc_set(False)
 
             list_level = ocr.ocr(self.device.image)
@@ -170,6 +178,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
         Returns:
             Button:
         """
+        logger.hr('FINDING VANGUARD')
 
         level_grids = CARD_LEVEL_GRIDS
         card_grids = CARD_GRIDS
@@ -251,12 +260,12 @@ class GemsFarming(CampaignRun, EquipmentChange):
         # Lv32 limit
         if self.config.STOP_IF_REACH_LV32 and self.campaign.config.LV32_TRIGGERED:
             self._trigger_lv32 = True
-            logger.hr('Triggered lv32 limit')
+            logger.hr('TRIGGERED LV32 LIMIT')
             return True
 
         if self.config.ENABLE_AUTO_SEARCH and self.campaign.config.GEMS_EMOTION_TRIGGRED:
             self._trigger_emotion = True
-            logger.hr('Triggered emotion limit')
+            logger.hr('TRIGGERED EMOTION LIMIT')
             return True
 
         return super().triggered_stop_condition(oil_check=oil_check)
@@ -310,11 +319,3 @@ class GemsFarming(CampaignRun, EquipmentChange):
                 backup.recover()
                 break
 
-
-if __name__ == '__main__':
-    from module.config.config import AzurLaneConfig
-    from module.device.device import Device
-    config = AzurLaneConfig('alas_cn')
-    az = GemsFarming(config, Device(config=config))
-    az.device.screenshot()
-    az.run('2-4')
