@@ -59,7 +59,8 @@ class EquipmentChange(Equipment):
                     if self.appear(UPGRADE_ENTER_CHECK, interval=3):
                         self.wait_until_stable(EQUIP_SAVE)
                         self.equip_list[index] = self.image_area(EQUIP_SAVE)
-                        self.device.click(UPGRADE_QUIT)
+                        self.ui_click(
+                            click_button=UPGRADE_QUIT, check_button=EQUIPMENT_OPEN, appear_button=UPGRADE_ENTER_CHECK, skip_first_screenshot=True)
                         self.wait_until_stable(UPGRADE_QUIT)
                         break
 
