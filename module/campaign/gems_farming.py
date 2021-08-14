@@ -41,7 +41,7 @@ class GemsCampaignOverride(CampaignBase):
             else:
                 return False
         else:
-            super().handle_combat_low_emotion()
+            return super().handle_combat_low_emotion()
 
 
 class GemsFarming(CampaignRun, EquipmentChange):
