@@ -121,12 +121,6 @@ class Retirement(Enhancement):
             else:
                 self.device.screenshot()
 
-            if self.config.RETIRE_SR or self.config.RETIRE_SSR or self.config.RETIREMENT_METHOD == 'one_click_retire':
-                if self.handle_popup_confirm('RETIRE_SR_SSR'):
-                    continue
-                if self.config.SERVER == 'en' and \
-                        self.appear_then_click(SR_SSR_CONFIRM, offset=self._popup_offset, interval=2):
-                    continue
             if self.appear_then_click(SHIP_CONFIRM, offset=(30, 30), interval=2):
                 continue
             if self.appear_then_click(SHIP_CONFIRM_2, offset=(30, 30), interval=2):
@@ -140,6 +134,12 @@ class Retirement(Enhancement):
                 self.device.click(GET_ITEMS_1_RETIREMENT_SAVE)
                 self.interval_reset(SHIP_CONFIRM)
                 continue
+            if self.config.RETIRE_SR or self.config.RETIRE_SSR or self.config.RETIREMENT_METHOD == 'one_click_retire':
+                if self.handle_popup_confirm('RETIRE_SR_SSR'):
+                    continue
+                if (self.config.SERVER == 'en' or self.config.SERVER == 'jp') and \
+                        self.appear_then_click(SR_SSR_CONFIRM, offset=self._popup_offset, interval=2):
+                    continue            
 
             # End
             if executed and self.appear(IN_RETIREMENT_CHECK):
