@@ -172,7 +172,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
             False otherwise due to timeout
         """
         # Reset any existing interval for the following assets
-        [self.interval_reset(asset) for asset in [GET_ITEMS_1, GET_ITEMS_2, MISSION_MULTI, MISSION_SINGLE, GET_SHIP]]
+        [self.interval_clear(asset) for asset in [GET_ITEMS_1, GET_ITEMS_2, MISSION_MULTI, MISSION_SINGLE, GET_SHIP]]
 
         # Basic timers for certain scenarios
         exit_timer = Timer(2)
@@ -213,17 +213,17 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
                 timeout.reset()
                 continue
 
+            if self.story_skip():
+                exit_timer.reset()
+                click_timer.reset()
+                timeout.reset()
+                continue
+
             if self.handle_popup_confirm('REWARD_MISSION'):
                 exit_timer.reset()
                 click_timer.reset()
                 timeout.reset()
                 reward = True
-                continue
-
-            if self.story_skip():
-                exit_timer.reset()
-                click_timer.reset()
-                timeout.reset()
                 continue
 
             # End
