@@ -3,6 +3,7 @@ from module.base.decorator import Config
 from module.base.utils import *
 from module.equipment.assets import *
 from module.equipment.equipment import Equipment
+from module.logger import logger
 from module.ui.scroll import Scroll
 
 EQUIP_INFO_BAR = ButtonGrid(
@@ -25,28 +26,31 @@ class EquipmentChange(Equipment):
         Pages:
             in: ship's equipments details
         '''
+        logger.info("Get equipping list")
         if skip_first_screenshot:
             pass
         else:
-        self.device.screenshot()
+            self.device.screenshot()
         for index in range(0, 5):
             enter_button = globals()[
                 'EQUIP_TAKE_ON_{index}'.format(index=index)]
             if self.appear(enter_button, offset=(5, 5)):
                 self.equipping_list.remove(index)
+        logger.info(f"Equipping list: {self.equipping_list}")
 
     def record_equipment(self, index_list=range(0, 5), skip_first_screenshot=True):
         '''
         Record equipment through upgrade page
         Notice: The equipment icons in the upgrade page are the same size as the icons in the equipment status
         '''
-
+        logger.info('RECORD EQUIPMENT')
         self.equip_side_navbar_ensure(bottom=2)
         self.get_equiping_list()
         self.equip_side_navbar_ensure(bottom=1)
 
         for index in index_list:
             if index in self.equipping_list:
+                logger.info(f'Record {index}')
                 while 1:
                     if skip_first_screenshot:
                         skip_first_screenshot = False
@@ -55,7 +59,6 @@ class EquipmentChange(Equipment):
 
                     if self.appear(EQUIPMENT_OPEN, interval=3):
                         self.device.click(EQUIP_INFO_BAR[(index, 0)])
-                        # time.sleep(1)
                         continue
                     if self.appear_then_click(UPGRADE_ENTER, interval=3):
                         continue
@@ -69,18 +72,19 @@ class EquipmentChange(Equipment):
         '''
         Equip the equipment previously recorded
         '''
-
+        logger.info('Take on equipment')
         self.equip_side_navbar_ensure(bottom=2)
 
         self.ensure_no_info_bar(1)
 
         for index in index_list:
             if index in self.equipping_list:
+                logger.info(f'Take on {index}')
                 enter_button = globals()[
                     'EQUIP_TAKE_ON_{index}'.format(index=index)]
 
                 self.ui_click(enter_button, check_button=EQUIPPING_ON,
-                                skip_first_screenshot=skip_first_screenshot, offset=(5, 5))
+                              skip_first_screenshot=skip_first_screenshot, offset=(5, 5))
                 self._find_equip(index)
 
         self.equipping_list = [0, 1, 2, 3, 4]
@@ -108,6 +112,7 @@ class EquipmentChange(Equipment):
     def _equip_equipment(self, point, offset=(100, 100), skip_first_screenshot=True):
         '''
         Equip Equipment then back to ship details
+        Confirm the popup
         Pages:
             in: EQUIPMENT STATUS
             out: SHIP_SIDEBAR_EQUIPMENT
@@ -159,7 +164,7 @@ class EquipmentChange(Equipment):
                 self._equip_equipment(point)
                 break
             if self.appear(EQUIPMENT_SCROLL_BOTTOM):
-                print(23333)
+                logger.warning('No recorded equipment was found.')
                 break
 
         return
