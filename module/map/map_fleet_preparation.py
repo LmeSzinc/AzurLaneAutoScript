@@ -8,9 +8,6 @@ from module.base.utils import area_offset, color_similarity_2d
 from module.logger import logger
 from module.map.assets import *
 
-from module.combat.level import LevelOcr
-
-
 
 class FleetOperator:
     FLEET_BAR_SHAPE_Y = 33

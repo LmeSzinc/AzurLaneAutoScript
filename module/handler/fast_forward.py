@@ -1,5 +1,3 @@
-from module.base.decorator import Config
-from module.config.config import AzurLaneConfig
 from module.base.timer import Timer
 from module.base.utils import color_bar_percentage
 from module.handler.assets import *
