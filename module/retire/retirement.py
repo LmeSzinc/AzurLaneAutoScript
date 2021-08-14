@@ -23,6 +23,7 @@ CARD_RARITY_COLORS = {
 }
 class Retirement(Enhancement):
     _unable_to_enhance = False
+    _have_keeped_cv = True
 
     def _retirement_choose(self, amount=10, target_rarity=('N',)):
         """
@@ -130,7 +131,7 @@ class Retirement(Enhancement):
             if self.appear_then_click(SHIP_CONFIRM, offset=(30, 30), interval=2):
                 continue
             if self.appear(SHIP_CONFIRM_2, offset=(30, 30), interval=2):
-                if self.config.RETIRE_KEEP_COMMON_CV and not self.HAVE_KEEPED_CV:
+                if self.config.RETIRE_KEEP_COMMON_CV and not self._have_keeped_cv:
                     self.keep_one_common_cv()
                 self.device.click(SHIP_CONFIRM_2)
                 continue
@@ -189,7 +190,7 @@ class Retirement(Enhancement):
         total = 0
 
         if self.config.RETIRE_KEEP_COMMON_CV:
-            self.HAVE_KEEPED_CV = False
+            self._have_keeped_cv= False
 
         while 1:
             self.handle_info_bar()
@@ -236,7 +237,7 @@ class Retirement(Enhancement):
         total = 0
 
         if self.config.RETIRE_KEEP_COMMON_CV:
-            self.HAVE_KEEPED_CV = False
+            self._have_keeped_cv= False
 
         while amount:
             selected = self._retirement_choose(amount=10 if amount > 10 else amount, target_rarity=rarity)
@@ -355,7 +356,7 @@ class Retirement(Enhancement):
         button = self.retirement_get_common_rarity_cv()
         if button is not None:
             if self._retire_select_one(button, skip_first_screenshot=False):
-                self.HAVE_KEEPED_CV = True
+                self._have_keeped_cv= True
 
             else:
                 logger.warning('No ship retired, exit')
