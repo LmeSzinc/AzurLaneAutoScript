@@ -360,12 +360,3 @@ class Retirement(Enhancement):
                     'This may happens because some filters are set in dock')
                 exit(1)
     
-
-if __name__ == '__main__':
-    from module.config.config import AzurLaneConfig
-    from module.device.device import Device
-    config = AzurLaneConfig('alas_cn')
-    az = Retirement(config, Device(config=config))
-    az.device.screenshot()
-    az.config.RETIRE_KEEP_COMMON_CV = True
-    az.retire_ships()
