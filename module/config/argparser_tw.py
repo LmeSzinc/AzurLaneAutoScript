@@ -553,6 +553,11 @@ def main(ini_name=''):
         gooey_options={'label_color': '#931D03'})
     gems.add_argument('--刷鑽石一隊', default=default('--刷鑽石一隊'), help='這隊會完成所有的戰鬥, 前排應當為百級零破驅逐帶輸出裝, 後排應該為35級以下白皮零破航母', choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
     gems.add_argument('--刷鑽石二隊', default=default('--刷鑽石二隊'), help='這隊會提供跨隊支援, 應該有新澤西和信濃', choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
+    gems.add_argument('--啟用自律尋敵', default=default('--啟用自律尋敵'), help='這會暫時覆蓋原本的自律尋敵設置', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    gems.add_argument('--啟用紅臉撤退', default=default('--啟用紅臉撤退'), help='紅臉時撤退，同時更換前排和後排。\n換前排通過找一艘150心情等級100的白鷹白皮驅逐完成，所以盡量保證有足夠多的驅逐在後排休息。\n不啟用將不更換前排', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    gems.add_argument('--更換旗艦裝備', default=default('--更換旗艦裝備'), help='換船時更換旗艦裝備，這通過記錄之前的裝備完成。\n只會更換正在裝備中的欄位，即使是白裝也會更換。\n如果指定了旗艦，則會更換全部5個裝備，未指定旗艦只會更換設備。', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    gems.add_argument('--更換前排裝備', default=default('--更換前排裝備'), help='換船時更換前排裝備，這通過記錄之前的裝備完成。\n只會更換正在裝備中的欄位，即使是白裝也會更換。', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    gems.add_argument('--指定旗艦航母', default=default('--指定旗艦航母'), help='指定旗艦用某搜特定的航母，\n這在刷a3等有難度的圖會很有用。', choices=['蘭利', '博格', '突擊者', '競技神', '任意航母'], gooey_options={'label_color': '#4B5F83'})    
     gems.add_argument('--刷鑽石關卡', default=default('--刷鑽石關卡'), help='例如 2-4, A3, SP2\n委託油耗比: A3 > A1 > 2-4 > 2-1, 有活動圖時建議選活動圖, 2-1會揀問號有更多物資', gooey_options={'label_color': '#4B5F83'})
 
     # ==========OS semi auto==========

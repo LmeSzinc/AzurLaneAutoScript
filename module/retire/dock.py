@@ -1,3 +1,4 @@
+from module.base.timer import Timer
 from module.base.button import ButtonGrid
 from module.equipment.equipment import Equipment
 from module.exception import ScriptError
@@ -41,9 +42,11 @@ FILTER_EXTRA_TYPES = [['no_limit', 'has_skin', 'can_retrofit', 'enhanceable', 's
 CARD_GRIDS = ButtonGrid(
     origin=(93, 76), delta=(164 + 2 / 3, 227), button_shape=(138, 204), grid_shape=(7, 2), name='CARD')
 CARD_RARITY_GRIDS = CARD_GRIDS.crop(area=(0, 0, 138, 5), name='RARITY')
-CARD_LEVEL_GRIDS = CARD_GRIDS.crop(area=(80, 4, 138, 27), name='LEVEL')
+CARD_LEVEL_GRIDS = CARD_GRIDS.crop(area=(77, 5, 138, 27), name='LEVEL')
+CARD_EMOTION_GRIDS = CARD_GRIDS.crop(area=(23, 29, 48, 52), name='EMOTION')
 CARD_BOTTOM_GRIDS = CARD_GRIDS.move(vector=(0, 94), name='CARD')
 CARD_BOTTOM_LEVEL_GRIDS = CARD_LEVEL_GRIDS.move(vector=(0, 94), name='LEVEL')
+CARD_BOTTOM_EMOTION_GRIDS = CARD_EMOTION_GRIDS.move(vector=(0, 94), name='EMOTION')
 DOCK_SCROLL = Scroll(DOCK_SCROLL, color=(247, 211, 66), name='DOCK_SCROLL')
 
 OCR_DOCK_SELECTED = DigitCounter(DOCK_SELECTED, threshold=64, name='OCR_DOCK_SELECTED')
@@ -64,7 +67,7 @@ class Dock(Equipment):
         self.ui_back(check_button=self._dock_quit_check_func, skip_first_screenshot=True)
 
     def dock_sort_method_dsc_set(self, enable=True):
-        if dock_sorting.set('on' if enable else 'off', main=self):
+        if dock_sorting.set('Descending' if enable else 'Ascending', main=self):
             self.handle_dock_cards_loading()
 
     def dock_filter_enter(self):
@@ -220,19 +223,23 @@ class Dock(Equipment):
             button (Button): Ship button to select
             skip_first_screenshot:
         """
-        before, _, _ = OCR_DOCK_SELECTED.ocr(self.device.image)
+        ocr_check_timer = Timer(1)
+
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
+            
 
-            if self.appear(DOCK_CHECK, interval=3):
+            if self.appear(DOCK_CHECK, interval=2):
                 self.device.click(button)
 
-            current, _, _ = OCR_DOCK_SELECTED.ocr(self.device.image)
-            if current > before:
-                break
+            if ocr_check_timer.reached():
+                ocr_check_timer.reset()
+                current, _, _ = OCR_DOCK_SELECTED.ocr(self.device.image)
+                if current > 0:
+                    break
 
     def dock_select_confirm(self, check_button, skip_first_screenshot=True):
         return self.ui_click(SHIP_CONFIRM, check_button=check_button, offset=(200, 50),

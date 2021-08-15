@@ -5,6 +5,12 @@ from module.equipment.assets import *
 from module.logger import logger
 from module.ui.navbar import Navbar
 from module.ui.ui import UI
+from module.ui.switch import Switch
+
+
+equipping_filter = Switch('Equiping_filter')
+equipping_filter.add_status('on', check_button=EQUIPPING_ON)
+equipping_filter.add_status('off', check_button=EQUIPPING_OFF)
 
 SWIPE_DISTANCE = 250
 SWIPE_RANDOM_RANGE = (-40, -20, 40, 20)
@@ -12,6 +18,10 @@ SWIPE_RANDOM_RANGE = (-40, -20, 40, 20)
 
 class Equipment(UI):
     equipment_has_take_on = False
+
+    def equipping_set(self, enable=False):
+        if equipping_filter.set('on' if enable else 'off', main=self):
+            self.wait_until_stable(SWIPE_AREA)
 
     def _equip_view_swipe(self, distance, check_button=EQUIPMENT_OPEN):
         swipe_count = 0

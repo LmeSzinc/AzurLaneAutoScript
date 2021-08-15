@@ -2,10 +2,12 @@ from module.base.button import ButtonGrid
 from module.base.decorator import Config
 from module.base.utils import get_color, color_similar
 from module.combat.assets import GET_ITEMS_1
-from module.exception import ScriptError
 from module.logger import logger
 from module.retire.assets import *
 from module.retire.enhancement import Enhancement
+from module.base.timer import Timer
+
+
 
 CARD_GRIDS = ButtonGrid(
     origin=(93, 76), delta=(164 + 2 / 3, 227), button_shape=(138, 204), grid_shape=(7, 2), name='CARD')
@@ -19,10 +21,9 @@ CARD_RARITY_COLORS = {
     'SSR': (248, 223, 107)
     # Not support marriage cards.
 }
-
-
 class Retirement(Enhancement):
     _unable_to_enhance = False
+    _have_keeped_cv = True
 
     def _retirement_choose(self, amount=10, target_rarity=('N',)):
         """
@@ -123,7 +124,10 @@ class Retirement(Enhancement):
 
             if self.appear_then_click(SHIP_CONFIRM, offset=(30, 30), interval=2):
                 continue
-            if self.appear_then_click(SHIP_CONFIRM_2, offset=(30, 30), interval=2):
+            if self.appear(SHIP_CONFIRM_2, offset=(30, 30), interval=2):
+                if self.config.RETIRE_KEEP_COMMON_CV and not self._have_keeped_cv:
+                    self.keep_one_common_cv()
+                self.device.click(SHIP_CONFIRM_2)
                 continue
             if self.appear_then_click(EQUIP_CONFIRM, offset=(30, 30), interval=2):
                 continue
@@ -185,6 +189,9 @@ class Retirement(Enhancement):
         end = False
         total = 0
 
+        if self.config.RETIRE_KEEP_COMMON_CV:
+            self._have_keeped_cv= False
+
         while 1:
             self.handle_info_bar()
 
@@ -228,6 +235,9 @@ class Retirement(Enhancement):
         self._retirement_set_sort_method('ASC')
         self._retirement_set_common_ship_filter()
         total = 0
+
+        if self.config.RETIRE_KEEP_COMMON_CV:
+            self._have_keeped_cv= False
 
         while amount:
             selected = self._retirement_choose(amount=10 if amount > 10 else amount, target_rarity=rarity)
@@ -290,3 +300,63 @@ class Retirement(Enhancement):
         self.config.DOCK_FULL_TRIGGERED = True
 
         return total
+
+    def _retire_select_one(self, button, skip_first_screenshot=True):
+        """
+        Args:
+            button (Button): Ship button to select
+            skip_first_screenshot:
+        """
+
+        retire_coin_timer = Timer(2)
+        RETIRE_COIN.load_color(self.device.image)
+
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            if self.appear(SHIP_CONFIRM_2, offset=(30, 30), interval=3):
+                self.device.click(button)
+                continue
+
+            if retire_coin_timer.reached() and not self.appear(RETIRE_COIN, threshold=0.97):
+                return True
+        return False
+
+    def retirement_get_common_rarity_cv(self):
+        """
+        Returns:
+            Button:
+        """
+        if self.config.COMMON_CV_NAME == 'any':
+            for commen_cv_name in ['BOGUE', 'HERMES', 'LANGLEY', 'RANGER']:
+                template = globals()[f'TEMPLATE_{commen_cv_name}']
+                sim, button = template.match_result(self.device.image.resize(size=(1189, 669)))
+
+                if sim > self.config.COMMON_CV_THRESHOLD:
+                    return Button(button=tuple(_*155//144 for _ in button.button), area=button.area, color=button.color)
+
+                return None  
+        else:
+            
+            template = globals()[f'TEMPLATE_{self.config.COMMON_CV_NAME.upper()}']
+            sim, button = template.match_result(self.device.image.resize(size=(1189, 669)))
+
+            if sim > self.config.COMMON_CV_THRESHOLD:
+                return Button(button=tuple(_*155//144 for _ in button.button), area=button.area, color=button.color)
+
+            return None
+
+    def keep_one_common_cv(self):
+        button = self.retirement_get_common_rarity_cv()
+        if button is not None:
+            if self._retire_select_one(button, skip_first_screenshot=False):
+                self._have_keeped_cv= True
+
+            else:
+                logger.warning('No ship retired, exit')
+                logger.info(
+                    'This may happens because some filters are set in dock')
+                exit(1)
+    

@@ -130,8 +130,15 @@ class AzurLaneConfig:
     gems_farming
     """
     GEMS_STAGE = '2-4'
-    GEMS_FLEET_1 = 3
-    GEMS_FLEET_2 = 5
+    GEMS_FLEET_1 = 1
+    GEMS_FLEET_2 = 6
+    GEMS_EMOTION_TRIGGRED = False
+    GEMS_FLAG_SHIP_EQUIP_CHANGE = False
+    GEMS_VANGUARD_SHIP_EQUIP_CHANGE = True
+    GEMS_LOW_EMOTION_WITHDRAW = True
+    GEMS_ENABLE_AUTO_SEARCH = True
+    COMMON_CV_NAME = 'any'
+
 
     """
     module.event
@@ -296,6 +303,8 @@ class AzurLaneConfig:
     RETIRE_R = False
     RETIRE_SR = False
     RETIRE_SSR = False
+    RETIRE_KEEP_COMMON_CV = False
+    COMMON_CV_THRESHOLD = 0.9
 
     """
     module.map_detection
@@ -884,6 +893,12 @@ class AzurLaneConfig:
         self.GEMS_STAGE = option['gems_stage']
         self.GEMS_FLEET_1 = int(option['gems_fleet_1'])
         self.GEMS_FLEET_2 = int(option['gems_fleet_2'])
+        self.GEMS_FLAG_SHIP_EQUIP_CHANGE = to_bool(option['gems_flag_ship_equip_change'])
+        self.GEMS_VANGUARD_SHIP_EQUIP_CHANGE = to_bool(option['gems_vanguard_ship_equip_change'])
+        self.GEMS_LOW_EMOTION_WITHDRAW = to_bool(option['gems_low_emotion_withdraw'])
+        self.GEMS_ENABLE_AUTO_SEARCH = to_bool(option['gems_enable_auto_search'])
+        self.COMMON_CV_NAME = option['common_cv_name']
+
 
         # OS semi auto
         option = config['Os_semi_auto']
