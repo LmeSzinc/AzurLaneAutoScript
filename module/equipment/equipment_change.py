@@ -165,6 +165,8 @@ class EquipmentChange(Equipment):
                 break
             if self.appear(EQUIPMENT_SCROLL_BOTTOM):
                 logger.warning('No recorded equipment was found.')
+                self.ui_back(check_button=globals()[
+                             f'EQUIP_TAKE_ON_{index}'], appear_button=EQUIPPING_OFF)
                 break
 
         return
