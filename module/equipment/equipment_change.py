@@ -38,7 +38,7 @@ class EquipmentChange(Equipment):
                 self.equipping_list.remove(index)
         logger.info(f"Equipping list: {self.equipping_list}")
 
-    def record_equipment(self, index_list=range(0, 5), skip_first_screenshot=True):
+    def record_equipment(self, index_list=range(0, 5)):
         '''
         Record equipment through upgrade page
         Notice: The equipment icons in the upgrade page are the same size as the icons in the equipment status
