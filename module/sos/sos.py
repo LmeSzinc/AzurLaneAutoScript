@@ -44,7 +44,7 @@ class CampaignSos(CampaignRun, CampaignBase):
         self._sos_signal_swipe()
         self.device.sleep(1)
         confirm_timer = Timer(1.5, count=3).start()
-        for _ in range(12):
+        for _ in range(65):
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
