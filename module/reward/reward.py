@@ -193,7 +193,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
             for button in [MISSION_MULTI, MISSION_SINGLE]:
                 if not click_timer.reached():
                     continue
-                if self.appear_then_click(button, interval=interval):
+                if self.appear_then_click(button, offset=(0, 200), interval=interval):
                     exit_timer.reset()
                     click_timer.reset()
                     timeout.reset()
@@ -251,9 +251,9 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
         self.reward_side_navbar_ensure(upper=5)
 
         # Serves as first _reward_mission_collect call
-        # Uses shorter interval to account for
-        # behavior differences
-        reward = self._reward_mission_collect(reward=False, interval=0.5)
+        # Uses no interval to account for
+        # behavior differences and avoid premature exit
+        reward = self._reward_mission_collect(reward=False, interval=0)
 
         self.reward_side_navbar_ensure(upper=1)
         return reward
