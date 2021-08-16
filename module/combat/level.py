@@ -9,8 +9,8 @@ COLOR_MASKED = (107, 105, 107)
 
 
 class Level(ModuleBase):
-    _lv = []
-    _lv_before_battle = []
+    _lv = [-1, -1, -1, -1, -1, -1]
+    _lv_before_battle = [-1, -1, -1, -1, -1, -1]
 
     @property
     def lv(self):

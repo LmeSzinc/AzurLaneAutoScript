@@ -132,6 +132,8 @@ class CampaignBase(CampaignUI, Map, AutoSearchCombat):
         else:
             self.map = self.MAP
             self.battle_count = 0
+            self.lv_reset()
+            self.lv_get()
 
         # Run
         for _ in range(20):
