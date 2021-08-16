@@ -318,4 +318,3 @@ class GemsFarming(CampaignRun, EquipmentChange):
             else:
                 backup.recover()
                 break
-

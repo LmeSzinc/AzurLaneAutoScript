@@ -38,7 +38,7 @@ class EquipmentChange(Equipment):
                 self.equipping_list.remove(index)
         logger.info(f"Equipping list: {self.equipping_list}")
 
-    def record_equipment(self, index_list=range(0, 5), skip_first_screenshot=True):
+    def record_equipment(self, index_list=range(0, 5)):
         '''
         Record equipment through upgrade page
         Notice: The equipment icons in the upgrade page are the same size as the icons in the equipment status
@@ -51,22 +51,17 @@ class EquipmentChange(Equipment):
         for index in index_list:
             if index in self.equipping_list:
                 logger.info(f'Record {index}')
-                while 1:
-                    if skip_first_screenshot:
-                        skip_first_screenshot = False
-                    else:
-                        self.device.screenshot()
-
-                    if self.appear(EQUIPMENT_OPEN, interval=3):
-                        self.device.click(EQUIP_INFO_BAR[(index, 0)])
-                        continue
-                    if self.appear_then_click(UPGRADE_ENTER, interval=3):
-                        continue
-                    if self.appear(UPGRADE_ENTER_CHECK, interval=3):
-                        self.equip_list[index] = self.image_area(EQUIP_SAVE)
-                        self.ui_click(
-                            click_button=UPGRADE_QUIT, check_button=EQUIPMENT_OPEN, appear_button=UPGRADE_ENTER_CHECK, skip_first_screenshot=True)
-                        break
+                logger.info('Enter equipment info')
+                self.ui_click(appear_button=EQUIPMENT_OPEN, click_button=EQUIP_INFO_BAR[(
+                    index, 0)], check_button=UPGRADE_ENTER)
+                logger.info('Enter upgrade inform')
+                self.ui_click(click_button=UPGRADE_ENTER,
+                              check_button=UPGRADE_ENTER_CHECK, skip_first_screenshot=True)
+                logger.info('Save equipment tamplate')
+                self.equip_list[index] = self.image_area(EQUIP_SAVE)
+                logger.info('Quit upgrade inform')
+                self.ui_click(
+                    click_button=UPGRADE_QUIT, check_button=EQUIPMENT_OPEN, appear_button=UPGRADE_ENTER_CHECK, skip_first_screenshot=True)
 
     def equipment_take_on(self, index_list=range(0, 5), skip_first_screenshot=True):
         '''
@@ -109,7 +104,7 @@ class EquipmentChange(Equipment):
         self.device.sleep(0.3)
         self.device.screenshot()
 
-    def _equip_equipment(self, point, offset=(100, 100), skip_first_screenshot=True):
+    def _equip_equipment(self, point, offset=(100, 100)):
         '''
         Equip Equipment then back to ship details
         Confirm the popup
@@ -117,24 +112,12 @@ class EquipmentChange(Equipment):
             in: EQUIPMENT STATUS
             out: SHIP_SIDEBAR_EQUIPMENT
         '''
-
-        have_equipped = False
-
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            if not have_equipped and self.appear(EQUIPPING_OFF, interval=5):
-                self.device.click(
-                    Button(button=(point[0], point[1], point[0]+offset[0], point[1]+offset[1]), color=None, area=None))
-                have_equipped = True
-                continue
-            if have_equipped and self.appear_then_click(EQUIP_CONFIRM, interval=2):
-                continue
-            if self.info_bar_count():
-                break
+        logger.info('Equip equipment')
+        self.ui_click(appear_button=EQUIPPING_OFF, click_button=Button(button=(
+            point[0], point[1], point[0]+offset[0], point[1]+offset[1]), color=None, area=None), check_button=EQUIP_CONFIRM)
+        logger.info('Equip confirm')
+        self.ui_click(click_button=EQUIP_CONFIRM,
+                      check_button=SHIP_INFO_EQUIPMENT_CHECK)
 
     def _find_equip(self, index):
         '''
