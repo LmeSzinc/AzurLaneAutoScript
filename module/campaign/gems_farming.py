@@ -319,3 +319,10 @@ class GemsFarming(CampaignRun, EquipmentChange):
                 backup.recover()
                 break
 
+if __name__ == '__main__':
+    from module.config.config import AzurLaneConfig
+    from module.device.device import Device
+    config = AzurLaneConfig('alas_cn')
+    az = GemsFarming(config, Device(config=config))
+    az.device.screenshot()
+    az.vanguard_change()
