@@ -488,15 +488,10 @@ def main(ini_name=''):
     # ==========潜艇图==========
     sos_parser = subs.add_parser('潜艇图')
     sos = sos_parser.add_argument_group(
-        '潜艇图设置', '设置每张潜艇图的队伍, 顺序: 一队二队潜艇队\n例如 "4, 6", "4, 0", "4, 6, 1"\n填0跳过不打', gooey_options={'label_color': '#931D03'})
-    sos.add_argument('--第3章潜艇图队伍', default=default('--第3章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--第4章潜艇图队伍', default=default('--第4章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--第5章潜艇图队伍', default=default('--第5章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--第6章潜艇图队伍', default=default('--第6章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--第7章潜艇图队伍', default=default('--第7章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--第8章潜艇图队伍', default=default('--第8章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--第9章潜艇图队伍', default=default('--第9章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--第10章潜艇图队伍', default=default('--第10章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
+        '潜艇图设置', '', gooey_options={'label_color': '#931D03'})
+    sos.add_argument('--潜艇图队伍', default=default('--潜艇图队伍'), help='设置潜艇图的队伍, 顺序: 一队二队潜艇队\n例如 "4, 6", "4, 0", "4, 6, 1"\n填0跳过不打', gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--可选_不是打末章而是', default=default('--可选_不是打末章而是'), help='默认为x=0(扫主线最后一章),\n可设置扫描信号时选(x=1)倒数第二章 或(x=2)倒数第三章\n注意: 不会理会其他位置已经扫描出的信号', choices=['0', '1', '2'], gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--可选_攒若干才打', default=default('--可选_攒若干才打'), help='默认为x=0,\n在积攒次数至少到这个数值时才打\n注意: 不会算入已经扫描出的信号', gooey_options={'label_color': '#4B5F83'})
 
     # ==========作战档案==========
     war_archives_parser = subs.add_parser('作战档案')
