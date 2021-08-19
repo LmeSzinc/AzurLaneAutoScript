@@ -61,7 +61,7 @@ dic_event = {
         'Swirling_Cherry_Blossoms_Rerun': 'event_20210624_cn',
         'Cross_Wave_rerun': 'raid_20210708',
         'Azur_Anthem': 'event_20210722_cn',
-        'Microlayer_Medley_Rerun': 'event_20210819_cn',
+        'Microlayer_Medley_Rerun': 'event_20210809_cn',
     },
     'jp': {
         '凍絶の北海': 'event_20200227_cn',
@@ -89,7 +89,7 @@ dic_event = {
         '翳りし満ちる影の華(復刻)': 'event_20210624_cn',
         '交錯する新たな波 (復刻)': 'raid_20210708',
         '海に響くアイドルの歌': 'event_20210722_cn',
-        '闇靄払う銀翼（復刻）': 'event_20210819_cn',
+        '闇靄払う銀翼（復刻）': 'event_20210809_cn',
     },
     'tw': {
         '特別演習埃塞克斯級': 'raid_20200624',
