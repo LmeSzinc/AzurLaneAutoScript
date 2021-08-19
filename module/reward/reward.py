@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 
+from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import ensure_time
@@ -16,6 +17,7 @@ from module.reward.meowfficer import RewardMeowfficer
 from module.reward.tactical_class import RewardTacticalClass
 from module.shipyard.shipyard_reward import RewardShipyard
 from module.shop.shop_reward import RewardShop
+from module.ui.navbar import Navbar
 from module.ui.page import *
 from module.update import Update
 
@@ -157,6 +159,117 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
         self.stat.upload()
         return reward
 
+    def _reward_mission_collect(self, interval=1):
+        """
+        Streamline handling of mission rewards for
+        both 'all' and 'weekly' pages
+
+        Args:
+            interval (int): Configure the interval for
+                            assets involved
+
+        Returns:
+            bool, if encountered at least 1 GET_ITEMS_*
+        """
+        # Reset any existing interval for the following assets
+        [self.interval_clear(asset) for asset in [GET_ITEMS_1, GET_ITEMS_2, MISSION_MULTI, MISSION_SINGLE, GET_SHIP]]
+
+        # Basic timers for certain scenarios
+        exit_timer = Timer(2)
+        click_timer = Timer(1)
+        timeout = Timer(10)
+        exit_timer.start()
+        timeout.start()
+
+        reward = False
+        while 1:
+            self.device.screenshot()
+
+            for button in [GET_ITEMS_1, GET_ITEMS_2]:
+                if self.appear_then_click(button, offset=(30, 30), interval=interval):
+                    exit_timer.reset()
+                    timeout.reset()
+                    reward = True
+                    continue
+
+            for button in [MISSION_MULTI, MISSION_SINGLE]:
+                if not click_timer.reached():
+                    continue
+                if self.appear_then_click(button, offset=(0, 200), interval=interval):
+                    exit_timer.reset()
+                    click_timer.reset()
+                    timeout.reset()
+                    continue
+
+            if not self.appear(MISSION_CHECK):
+                if self.appear_then_click(GET_SHIP, interval=interval):
+                    exit_timer.reset()
+                    click_timer.reset()
+                    timeout.reset()
+                    continue
+
+            if self.handle_mission_popup_ack():
+                exit_timer.reset()
+                click_timer.reset()
+                timeout.reset()
+                continue
+
+            if self.story_skip():
+                exit_timer.reset()
+                click_timer.reset()
+                timeout.reset()
+                continue
+
+            if self.handle_popup_confirm('MISSION_REWARD'):
+                exit_timer.reset()
+                click_timer.reset()
+                timeout.reset()
+                continue
+
+            # End
+            if reward and exit_timer.reached():
+                break
+            if timeout.reached():
+                logger.warning('Wait get items timeout.')
+                break
+
+        return reward
+
+    def _reward_mission_all(self):
+        """
+        Collects all page mission rewards
+
+        Returns:
+            bool, if handled
+        """
+        self.reward_side_navbar_ensure(upper=1)
+
+        if not self.appear(MISSION_MULTI) and \
+            not self.appear(MISSION_SINGLE):
+            return False
+
+        # Uses default interval to account for
+        # behavior differences and avoid
+        # premature exit
+        return self._reward_mission_collect()
+
+    def _reward_mission_weekly(self):
+        """
+        Collects weekly page mission rewards
+
+        Returns:
+            bool, if handled
+        """
+        if not self.appear(MISSION_WEEKLY_RED_DOT):
+            return False
+
+        self.reward_side_navbar_ensure(upper=5)
+
+        # Uses no interval to account for
+        # behavior differences and avoid
+        # premature exit
+        return self._reward_mission_collect(interval=0)
+
     def _reward_mission(self):
         """
         Returns:
@@ -172,56 +285,10 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
 
         self.ui_goto(page_mission, skip_first_screenshot=True)
 
-        reward = False
-        exit_timer = Timer(2)
-        click_timer = Timer(1)
-        timeout = Timer(10)
-        exit_timer.start()
-        timeout.start()
-        while 1:
-            self.device.screenshot()
-
-            for button in [GET_ITEMS_1, GET_ITEMS_2]:
-                if self.appear_then_click(button, offset=(30, 30), interval=1):
-                    exit_timer.reset()
-                    timeout.reset()
-                    reward = True
-                    continue
-
-            for button in [MISSION_MULTI, MISSION_SINGLE]:
-                if not click_timer.reached():
-                    continue
-                if self.appear_then_click(button, interval=1):
-                    exit_timer.reset()
-                    click_timer.reset()
-                    timeout.reset()
-                    continue
-
-            if not self.appear(MISSION_CHECK):
-                if self.appear_then_click(GET_SHIP, interval=1):
-                    click_timer.reset()
-                    exit_timer.reset()
-                    timeout.reset()
-                    continue
-
-            if self.handle_mission_popup_ack():
-                click_timer.reset()
-                exit_timer.reset()
-                timeout.reset()
-                continue
-
-            if self.story_skip():
-                click_timer.reset()
-                exit_timer.reset()
-                timeout.reset()
-                continue
-
-            # End
-            if reward and exit_timer.reached():
-                break
-            if timeout.reached():
-                logger.warning('Wait get items timeout.')
-                break
+        # Handle all then weekly, key is both use
+        # different intervals
+        reward = self._reward_mission_all()
+        reward |= self._reward_mission_weekly()
 
         self.ui_goto(page_main, skip_first_screenshot=True)
         return reward
@@ -338,3 +405,52 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
 
     def reward_recover_daily_reward_settings(self):
         self._daily_reward_setting_backup.recover()
+
+    @cached_property
+    def _reward_side_navbar(self):
+        """
+        side_navbar options:
+           all.
+           main.
+           side.
+           daily.
+           weekly.
+           event.
+        """
+        reward_side_navbar = ButtonGrid(
+            origin=(21, 118), delta=(0, 94.5),
+            button_shape=(60, 75), grid_shape=(1, 6),
+            name='REWARD_SIDE_NAVBAR')
+
+        return Navbar(grids=reward_side_navbar,
+                      active_color=(247, 255, 173),
+                      inactive_color=(140, 162, 181))
+
+    def reward_side_navbar_ensure(self, upper=None, bottom=None):
+        """
+        Ensure able to transition to page
+        Whether page has completely loaded is handled
+        separately and optionally
+
+        Args:
+            upper (int):
+                1  for all.
+                2  for main.
+                3  for side.
+                4  for daily.
+                5  for weekly.
+                6  for event.
+            bottom (int):
+                6  for all.
+                5  for main.
+                4  for side.
+                3  for daily.
+                2  for weekly.
+                1  for event.
+
+        Returns:
+            bool: if side_navbar set ensured
+        """
+        if self._reward_side_navbar.set(self, upper=upper, bottom=bottom):
+            return True
+        return False

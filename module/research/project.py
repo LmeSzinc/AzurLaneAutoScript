@@ -339,6 +339,7 @@ class ResearchProject:
         self.need_coin = False
         self.need_cube = False
         self.need_part = False
+        self.task = ''
 
         matched = False
         for data in self.get_data(name=self.name, series=series):
@@ -346,6 +347,7 @@ class ResearchProject:
             self.data = data
             self.genre = data['name'][0]
             self.duration = str(data['time'] / 3600).rstrip('.0')
+            self.task = data['task']
             for item in data['input']:
                 result = re.search(self.REGEX_INPUT, item['name'].replace(' ', '').lower())
                 if result:
@@ -442,6 +444,7 @@ class ResearchProjectJp:
         self.need_coin = False
         self.need_cube = False
         self.need_part = False
+        self.task = ''
 
     def check_valid(self):
         self.valid = False
@@ -606,9 +609,15 @@ class ResearchSelector(UI):
             #   You may get nothing after a day of running, because you didn't complete the precondition.
             # - Low income from B series research.
             #   Gold B-4 basically equivalent to C-12, but needs a lot of oil.
-            if (proj.genre.upper() == 'B') \
-                    or (proj.genre.upper() == 'E' and str(proj.duration) != '6'):
+            # 2021.08.19 Allow E-2 to disassemble tech boxes, but JP still remains the same.
+            if proj.genre.upper() == 'B':
                 continue
+            if self.config.SERVER == 'jp':
+                if proj.genre.upper() == 'E' and str(proj.duration) != '6':
+                    continue
+            else:
+                if proj.genre.upper() == 'E' and proj.task != '':
+                    continue
             out.append(proj)
         return out
 
