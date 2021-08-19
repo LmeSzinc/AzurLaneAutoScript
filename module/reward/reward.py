@@ -239,7 +239,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
         """
         self.reward_side_navbar_ensure(upper=1)
 
-        if not self.appear(MISSION_MULTI) or \
+        if not self.appear(MISSION_MULTI) and \
             not self.appear(MISSION_SINGLE):
             return False
 
