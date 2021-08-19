@@ -54,7 +54,7 @@ class Config:
     # ===== End of generated config =====
 
     DETECTION_BACKEND = 'perspective'
-    COINCIDENT_POINT_ENCOURAGE_DISTANCE = 9
+    COINCIDENT_POINT_ENCOURAGE_DISTANCE = 5
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (50, 255 - 80),
         'width': 1,
