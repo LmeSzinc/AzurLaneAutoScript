@@ -71,6 +71,7 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'longqibing': 'Carabiniere',
     'sairenquzhu_ii': 'DD',
     'sairenqingxun_ii': 'CL',
+    'sairenzhongxun_ii': 'CA',
     'sairenzhanlie_ii': 'BB',
     'sairenhangmu_ii': 'CV',
     'qinraozhe': 'Intruder',
