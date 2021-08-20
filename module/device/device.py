@@ -15,7 +15,7 @@ class Device(Screenshot, Control, AppControl):
     _screen_size_checked = False
     stuck_record = set()
     stuck_timer = Timer(60, count=60).start()
-    stuck_timer_long = Timer(720, count=720).start()
+    stuck_timer_long = Timer(300, count=300).start()
     stuck_long_wait_list = ['BATTLE_STATUS_S', 'PAUSE']
 
     def send_notification(self, title, message):

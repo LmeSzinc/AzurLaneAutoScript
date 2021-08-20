@@ -70,9 +70,6 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
-        boss = self.map.select(is_boss=True)
-        if boss:
-            return self.fleet_1.clear_boss()
         if self.clear_enemy(scale=(2, 3), genre=['light', 'carrier', 'enemy', 'main']):
             return True
 
@@ -82,4 +79,4 @@ class Campaign(CampaignBase):
         if not self.config.FLEET_2:
             return self.fleet_1.clear_boss()
         else:
-            return self.fleet_1.clear_boss()
+            return self.fleet_2.clear_boss()

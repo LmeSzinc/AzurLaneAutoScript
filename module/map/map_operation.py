@@ -123,11 +123,6 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                     break
             else:
                 if self.handle_in_map_with_enemy_searching():
-                    ###self addition
-                    if self.config.ENABLE_AUTO_SEARCH:
-                        self.map_is_auto_search = True
-                        break
-                    ###
                     self.handle_map_after_combat_story()
                     break
 

@@ -112,19 +112,8 @@ class Screenshot(AScreenCap):
         interval = max(interval, 0.1)
         if interval != self._screenshot_interval_timer.limit:
             if self.config.ENABLE_AUTO_SEARCH:
-                # interval = min(interval, 1.0)
-                # logger.info(f'Screenshot interval set to {interval}s, limited to 1.0s if enable auto search')
-                ###self modify
-                if interval == 0.6:
-                    logger.info(f'Screenshot interval in reward set 0.6s')
-                    logger.info('for self use a-2')
-                elif interval == 0.1:
-                    logger.info(f'Screenshot interval set to 0.1s')
-                else:
-                    interval = 3.0
-                    logger.info(f'Screenshot interval limited to 3.0s')
-                ###
-            
+                interval = min(interval, 1.0)
+                logger.info(f'Screenshot interval set to {interval}s, limited to 1.0s if enable auto search')
             else:
                 logger.info(f'Screenshot interval set to {interval}s')
             self._screenshot_interval_timer.limit = interval

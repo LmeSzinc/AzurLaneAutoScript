@@ -488,10 +488,15 @@ def main(ini_name=''):
     # ==========潜艇图==========
     sos_parser = subs.add_parser('潜艇图')
     sos = sos_parser.add_argument_group(
-        '潜艇图设置', '', gooey_options={'label_color': '#931D03'})
-    sos.add_argument('--潜艇图队伍', default=default('--潜艇图队伍'), help='设置潜艇图的队伍, 顺序: 一队二队潜艇队\n例如 "4, 6", "4, 0", "4, 6, 1"\n填0跳过不打', gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--可选_不是打末章而是', default=default('--可选_不是打末章而是'), help='默认为x=0(扫主线最后一章),\n可设置扫描信号时选(x=1)倒数第二章 或(x=2)倒数第三章\n注意: 不会理会其他位置已经扫描出的信号', choices=['0', '1', '2'], gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--可选_攒若干才打', default=default('--可选_攒若干才打'), help='默认为x=0,\n在积攒次数至少到这个数值时才打\n注意: 不会算入已经扫描出的信号', gooey_options={'label_color': '#4B5F83'})
+        '潜艇图设置', '设置每张潜艇图的队伍, 顺序: 一队二队潜艇队\n例如 "4, 6", "4, 0", "4, 6, 1"\n填0跳过不打', gooey_options={'label_color': '#931D03'})
+    sos.add_argument('--第3章潜艇图队伍', default=default('--第3章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--第4章潜艇图队伍', default=default('--第4章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--第5章潜艇图队伍', default=default('--第5章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--第6章潜艇图队伍', default=default('--第6章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--第7章潜艇图队伍', default=default('--第7章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--第8章潜艇图队伍', default=default('--第8章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--第9章潜艇图队伍', default=default('--第9章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
+    sos.add_argument('--第10章潜艇图队伍', default=default('--第10章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
 
     # ==========作战档案==========
     war_archives_parser = subs.add_parser('作战档案')
@@ -548,7 +553,7 @@ def main(ini_name=''):
         gooey_options={'label_color': '#931D03'})
     gems.add_argument('--刷钻石一队', default=default('--刷钻石一队'), help='这队会完成所有的战斗, 前排应当为百级零破驱逐带输出装, 后排应该为35级以下白皮零破航母', choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
     gems.add_argument('--刷钻石二队', default=default('--刷钻石二队'), help='这队会提供跨队支援, 应该有新泽西和信浓', choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
-    gems.add_argument('--启用自律寻敌', default=default('--启用自律寻敌'), help='这会暂时覆盖原本的自律寻敌设置', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    gems.add_argument('--自律寻敌刷钻石', default=default('--自律寻敌刷钻石'), help='这会暂时覆盖原本的自律寻敌设置', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     gems.add_argument('--启用红脸撤退', default=default('--启用红脸撤退'), help='红脸时撤退，同时更换前排和后排。\n换前排通过找一艘150心情等级100的白鹰白皮驱逐完成，所以尽量保证有足够多的驱逐在后排休息。\n不启用将不更换前排', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     gems.add_argument('--更换旗舰装备', default=default('--更换旗舰装备'), help='换船时更换旗舰装备，这通过记录之前的装备完成。\n只会更换正在装备中的栏位，即使是白装也会更换。\n如果指定了旗舰，则会更换全部5个装备，未指定旗舰只会更换设备。', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     gems.add_argument('--更换前排装备', default=default('--更换前排装备'), help='换船时更换前排装备，这通过记录之前的装备完成。\n只会更换正在装备中的栏位，即使是白装也会更换。', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})

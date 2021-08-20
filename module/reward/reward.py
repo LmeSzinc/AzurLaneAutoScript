@@ -43,11 +43,6 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
         if not self.config.ENABLE_REWARD:
             return False
 
-        ###self addition
-        self.device.screenshot_interval_set(0.6)
-        logger.info('for self use a-1')
-        ###
-
         logger.hr('Reward start')
         self.ui_goto_main()
 
