@@ -57,7 +57,7 @@ class Config:
     COINCIDENT_POINT_ENCOURAGE_DISTANCE = 5
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (50, 255 - 80),
-        'width': 1,
+        'width': (0, 7),
         'prominence': 10,
         'distance': 35,
     }
@@ -65,7 +65,7 @@ class Config:
         'height': (255 - 80, 255),
         'prominence': 10,
         'distance': 50,
-        'width': (0, 7),
+        # 'width': (0, 7),
         'wlen': 1000
     }
 

@@ -54,6 +54,24 @@ class Config:
     MAP_HAS_AMBUSH = False
     # ===== End of generated config =====
 
+    DETECTION_BACKEND = 'perspective'
+    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
+    EDGE_LINES_HOUGHLINES_THRESHOLD = 40
+    COINCIDENT_POINT_ENCOURAGE_DISTANCE = 5
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (100, 255 - 60),
+        'width': (0, 7),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 60, 255),
+        'prominence': 2,
+        'distance': 50,
+        # 'width': (0, 7),
+        'wlen': 1000
+    }
+
 
 class Campaign(CampaignBase):
     MAP = MAP
