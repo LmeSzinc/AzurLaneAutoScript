@@ -224,6 +224,10 @@ def main(ini_name=''):
     drop.add_argument('--启用AzurStat', default=default('--启用AzurStat'), choices=['是', '否'], help='将掉落截图上传至 azurstats.lyoko.io, 目前只支持科研统计', gooey_options={'label_color': '#4B5F83'})
     drop.add_argument('--掉落保存目录', default=default('--掉落保存目录'), gooey_options={'label_color': '#4B5F83'})
 
+    # 抗雾设置
+    anti_fog_setting = setting_parser.add_argument_group('抗雾设置', '在索敌地图中含有雾气视觉效果时请开启', gooey_options={'label_color': '#931D03'})
+    anti_fog_setting.add_argument('--启用抗雾', default=default('--启用抗雾'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+
     # clear = setting_parser.add_argument_group('开荒模式', '未开荒地图会在完成后停止, 已开荒的地图会忽略选项, 无脑开就完事了')
     # clear.add_argument('--启用开荒', default=default('--启用开荒'), choices=['是', '否'])
     # clear.add_argument('--开荒停止条件', default=default('--开荒停止条件'), choices=['地图通关', '地图三星', '地图绿海'])

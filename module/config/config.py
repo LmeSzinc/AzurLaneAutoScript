@@ -98,6 +98,11 @@ class AzurLaneConfig:
     LV32_TRIGGERED = False
 
     """
+    module.map_detection.anti_fog
+    """
+    ANTI_FOG_SETTING = False
+
+    """
     module.campaign
     """
     CAMPAIGN_NAME = 'default'
@@ -729,6 +734,9 @@ class AzurLaneConfig:
         self.ENHANCE_CHECK_PER_CATEGORY = int(option['enhance_check_per_category'])
         for r in ['n', 'r']:
             self.__setattr__(f'RETIRE_{r.upper()}', to_bool(option[f'retire_{r}']))
+
+        # Anti_fog
+        self.ANTI_FOG_SETTING = to_bool(option['anti_fog_setting'])
 
         # Reward
         option = config['Reward']

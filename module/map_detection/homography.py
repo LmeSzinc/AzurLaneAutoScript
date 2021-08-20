@@ -2,7 +2,7 @@ import time
 
 import numpy as np
 from PIL import Image, ImageDraw, ImageOps
-from module.map_detection.fogt import enh_unfog
+from module.map_detection.anti_fog import enh_unfog
 
 from module.base.utils import *
 from module.config.config import AzurLaneConfig
@@ -80,7 +80,8 @@ class Homography:
         if not self.homo_loaded:
             self.load_homography(storage=self.config.HOMO_STORAGE, image=image)
 
-        image = enh_unfog(image)
+        if self.config.ANTI_FOG_SETTING:
+            image = enh_unfog(image)
 
         self.detect(image)
 
