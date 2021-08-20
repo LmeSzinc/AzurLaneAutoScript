@@ -4,6 +4,7 @@ import warnings
 import numpy as np
 from PIL import Image, ImageOps, ImageDraw
 from scipy import signal
+from module.map_detection.fogt import enh_unfog
 
 from module.base.utils import *
 from module.config.config import AzurLaneConfig
@@ -65,6 +66,7 @@ class Perspective:
         """
         start_time = time.time()
         self.image = image
+        image = enh_unfog(image)
 
         # Image initialisation
         image = self.load_image(image)
