@@ -80,14 +80,17 @@ class Connection:
         self.adb_command(cmd, serial)
 
     def _adb_connect(self, serial):
-        for _ in range(3):
-            msg = self.adb_command(['connect', serial]).decode("utf-8").strip()
-            logger.info(msg)
-            if 'already' in msg:
-                return True
-
-        logger.warning(f'Failed to connect {serial} after 3 trial.')
-        return False
+        if 'emulator' in serial:
+            return True
+        else:
+            for _ in range(3):
+                msg = self.adb_command(['connect', serial]).decode("utf-8").strip()
+                logger.info(msg)
+                if 'already' in msg:
+                    return True
+                else:
+                    logger.warning(f'Failed to connect {serial} after 3 trial.')
+                    return False
 
     def connect(self, serial):
         """Connect to a device.
