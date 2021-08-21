@@ -20,6 +20,7 @@ class Scroll:
             name (str):
         """
         if isinstance(area, Button):
+            name = area.name
             area = area.area
         self.area = area
         self.color = color

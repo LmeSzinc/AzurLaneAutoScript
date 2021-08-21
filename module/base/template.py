@@ -86,7 +86,7 @@ class Template:
             name = self.name
         area = area_offset(area=(0, 0, *self.size), offset=point)
         button = Button(area=area, color=(), button=area, name=name)
-        if image is not None:
+        if isinstance(image, Image.Image):
             button.load_color(image)
         return button
 

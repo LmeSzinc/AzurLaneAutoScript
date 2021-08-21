@@ -592,6 +592,10 @@ class AzurLaneConfig:
     # ActionPoint, PurpleCoins, RepairPack, TuringSample
     OS_ASKSHI_SHOP_PRIORITY = 'ActionPoint > PurpleCoins'
 
+    OS_OBSCURE_FORCE_RUN = False
+    OS_OBSCURE_SUBMARINE_CALL = True
+    OS_OBSCURE_USE_LOGGER = True
+
     """
     module.statistics
     """
@@ -899,7 +903,6 @@ class AzurLaneConfig:
         self.GEMS_ENABLE_AUTO_SEARCH = to_bool(option['gems_enable_auto_search'])
         self.COMMON_CV_NAME = option['common_cv_name']
 
-
         # OS semi auto
         option = config['Os_semi_auto']
         self.ENABLE_OS_SEMI_STORY_SKIP = to_bool(option['enable_os_semi_story_skip'])
@@ -917,7 +920,8 @@ class AzurLaneConfig:
         option = config['Os_fully_auto']
         for attr in ['do_os_in_daily', 'enable_os_mission_accept', 'enable_os_mission_finish', 'enable_os_supply_buy',
                      'enable_os_ash_attack', 'enable_os_obscure_finish', 'enable_os_meowfficer_farming',
-                     'enable_os_action_point_buy', 'enable_os_akashi_shop_buy']:
+                     'enable_os_action_point_buy', 'enable_os_akashi_shop_buy',
+                     'os_obscure_use_logger', 'os_obscure_submarine_call', 'os_obscure_force_run']:
             self.__setattr__(attr.upper(), to_bool(option[attr]))
         self.OS_MEOWFFICER_FARMING_LEVEL = int(option['os_meowfficer_farming_level'])
         self.OS_ACTION_POINT_PRESERVE = int(option['os_action_point_preserve'])

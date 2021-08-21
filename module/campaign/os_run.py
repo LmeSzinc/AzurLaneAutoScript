@@ -1,6 +1,10 @@
+from datetime import datetime
+
+from module.logger import logger
 from module.os.config import OSConfig
 from module.os.map_operation import OSMapOperation
 from module.os.operation_siren import OperationSiren, RECORD_MISSION_ACCEPT, RECORD_SUPPLY_BUY, RECORD_MISSION_FINISH
+from module.os.operation_siren import RECORD_OBSCURE_FINISH
 
 
 class OSCampaignRun(OSMapOperation):
@@ -47,3 +51,18 @@ class OSCampaignRun(OSMapOperation):
     def run_clear_os_world(self):
         self.load_campaign()
         self.campaign.clear_os_world()
+
+    def os_obscure_next_run_reached(self):
+        record = datetime.strptime(self.config.config.get(*RECORD_OBSCURE_FINISH), self.config.TIME_FORMAT)
+        now = datetime.now().replace(microsecond=0)
+        attr = '_'.join(RECORD_OBSCURE_FINISH)
+        logger.attr(f'{attr}', f'Current time: {now}')
+        logger.attr(f'{attr}', f'Next run: {record}')
+        return now > record
+
+    def run_obscure_clear(self):
+        if not self.os_obscure_next_run_reached():
+            return False
+
+        self.load_campaign()
+        self.campaign.os_obscure_finish()

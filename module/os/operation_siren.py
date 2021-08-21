@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 import numpy as np
 
 from module.exception import ScriptError
@@ -11,6 +13,7 @@ from module.ui.ui import page_os
 RECORD_MISSION_ACCEPT = ('DailyRecord', 'os_mission_accept')
 RECORD_MISSION_FINISH = ('DailyRecord', 'os_mission_finish')
 RECORD_SUPPLY_BUY = ('DailyRecord', 'os_supply_buy')
+RECORD_OBSCURE_FINISH = ('DailyRecord', 'os_obscure_finish')
 
 
 class OperationSiren(Reward, OSMap):
@@ -261,6 +264,51 @@ class OperationSiren(Reward, OSMap):
 
         backup.recover()
         return True
+
+    def clear_obscure(self):
+        """
+        Returns:
+            bool: If executed
+
+        Raises:
+            ActionPointLimit:
+        """
+        logger.hr('OS clear obscure zone', level=1)
+        result = self.os_get_next_obscure(use_logger=self.config.OS_OBSCURE_USE_LOGGER)
+        if not result:
+            # No obscure coordinates, delay next run to tomorrow.
+            record = self.config.get_server_last_update(since=(0,)) + timedelta(days=1)
+            self.config.config.set(*RECORD_OBSCURE_FINISH, record)
+            self.config.save()
+            return False
+
+        self.get_current_zone()
+        self.os_order_execute(recon_scan=True, submarine_call=self.config.OS_OBSCURE_SUBMARINE_CALL)
+
+        # Delay next run 30min or 60min.
+        delta = 60 if self.config.OS_OBSCURE_SUBMARINE_CALL else 30
+        record = datetime.strftime(datetime.now() + timedelta(minutes=delta), self.config.TIME_FORMAT)
+        self.config.config.set(*RECORD_OBSCURE_FINISH, record)
+        self.config.save()
+
+        self.run_auto_search()
+        self.map_exit()
+        self.handle_fleet_repair(revert=False)
+        return True
+
+    def os_obscure_finish(self):
+        if self.config.OS_OBSCURE_FORCE_RUN:
+            logger.info('OS obscure finish is under force run')
+
+        while 1:
+            try:
+                result = self.clear_obscure()
+            except ActionPointLimit:
+                break
+            if not result:
+                break
+            if not self.config.OS_OBSCURE_FORCE_RUN:
+                break
 
     def _operation_siren(self, daily=False):
         """
