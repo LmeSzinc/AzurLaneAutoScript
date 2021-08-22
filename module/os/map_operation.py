@@ -117,7 +117,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
             else:
                 confirm_timer.reset()
 
-            if self.appear_then_click(MAP_EXIT, offset=(20, 20), interval=3):
+            if self.appear_then_click(MAP_EXIT, offset=(20, 20), interval=5):
                 continue
             if self.handle_popup_confirm('MAP_EXIT'):
                 continue
