@@ -1,16 +1,18 @@
 from module.base.decorator import Config
+from module.base.timer import Timer
 from module.base.utils import *
 from module.exception import ScriptError
 from module.logger import logger
-from module.map.map_operation import MapOperation
 from module.ocr.ocr import Ocr
 from module.os.assets import *
 from module.os.globe_zone import Zone
+from module.os_handler.map_order import MapOrderHandler
 from module.os_handler.mission import MissionHandler
 from module.os_handler.port import PortHandler
+from module.os_handler.storage import StorageHandler
 
 
-class OSMapOperation(MapOperation, MissionHandler, PortHandler):
+class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandler):
     zone: Zone
 
     def is_meowfficer_searching(self):
@@ -86,3 +88,40 @@ class OSMapOperation(MapOperation, MissionHandler, PortHandler):
         self.zone = self.name_to_zone(name)
         logger.attr('Zone', self.zone)
         return self.zone
+
+    def map_exit(self, skip_first_screenshot=True):
+        """
+        Exit from an obscure zone, abyssal zone, or stronghold.
+
+        Args:
+            skip_first_screenshot:
+
+        Pages:
+            in: is_in_map
+            out: is_in_map, zone that you came from
+        """
+        logger.hr('Map exit')
+        confirm_timer = Timer(1, count=2)
+        changed = False
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if changed and self.is_in_map():
+                if confirm_timer.reached():
+                    break
+            else:
+                confirm_timer.reset()
+
+            if self.appear_then_click(MAP_EXIT, offset=(20, 20), interval=3):
+                continue
+            if self.handle_popup_confirm('MAP_EXIT'):
+                changed = True
+                continue
+            if self.handle_map_event():
+                continue
+
+        self.get_current_zone()

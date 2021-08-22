@@ -694,6 +694,12 @@ def main(ini_name=''):
     os_shop.add_argument('--enable_os_akashi_shop_buy', default=default('--enable_os_akashi_shop_buy'), choices=['yes', 'no'], help='', gooey_options={'label_color': '#4B5F83'})
     os_shop.add_argument('--os_akashi_shop_priority', default=default('--os_akashi_shop_priority'), help='', gooey_options={'label_color': '#4B5F83'})
 
+    obscure = os_parser.add_argument_group('Obscure zone', 'Clear all obscure zones. Default run interval is at least 30 minutes, to ensure recon scan cool down\nThis requires "do_os_in_daily" and "enable_daily_reward"', gooey_options={'label_color': '#931D03'})
+    obscure.add_argument('--os_obscure_use_logger', default=default('--os_obscure_use_logger'), choices=['yes', 'no'], help='Open all loggers in storage', gooey_options={'label_color': '#4B5F83'})
+    obscure.add_argument('--os_obscure_submarine_call', default=default('--os_obscure_submarine_call'), choices=['yes', 'no'], help='Call submarine in obscure zones, this will increase run interval to 60min', gooey_options={'label_color': '#4B5F83'})
+    obscure.add_argument('--os_obscure_force_run', default=default('--os_obscure_force_run'), choices=['yes', 'no'], help='Ignore run interval, force to do recon scan, this will cost extra action points', gooey_options={'label_color': '#4B5F83'})
+
+
     args = parser.parse_args()
 
     # Convert option from chinese to english.

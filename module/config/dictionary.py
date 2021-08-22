@@ -288,6 +288,9 @@ dic_true_eng_to_eng = {
     'os_repair_threshold': 'os_repair_threshold',
     'enable_os_akashi_shop_buy': 'enable_os_akashi_shop_buy',
     'os_akashi_shop_priority': 'os_akashi_shop_priority',
+    'os_obscure_use_logger': 'os_obscure_use_logger',
+    'os_obscure_submarine_call': 'os_obscure_submarine_call',
+    'os_obscure_force_run': 'os_obscure_force_run',
     'enable_shop_buy': 'enable_shop_buy',
 
     # Option
@@ -384,9 +387,9 @@ dic_true_eng_to_eng = {
     'azuma': 'azuma',
     'friedrich': 'friedrich',
     'drake': 'drake',
-    'langley': 'langley', 
-    'bogue': 'bogue', 
-    'ranger': 'ranger', 
+    'langley': 'langley',
+    'bogue': 'bogue',
+    'ranger': 'ranger',
     'hermes': 'hermes',
     'any': 'any',
 
@@ -660,6 +663,9 @@ dic_chi_to_eng = {
     '大世界修船阈值': 'os_repair_threshold',
     '明石商店购买': 'enable_os_akashi_shop_buy',
     '明石商店优先级': 'os_akashi_shop_priority',
+    '隐秘海域使用坐标': 'os_obscure_use_logger',
+    '隐秘海域呼叫潜艇': 'os_obscure_submarine_call',
+    '隐秘海域强制运行': 'os_obscure_force_run',
     'enable_shop_buy': 'enable_shop_buy',
 
     # Option
@@ -756,9 +762,9 @@ dic_chi_to_eng = {
     'azuma': 'azuma',
     'friedrich': 'friedrich',
     'drake': 'drake',
-    '兰利': 'langley', 
-    '博格': 'bogue', 
-    '突击者': 'ranger', 
+    '兰利': 'langley',
+    '博格': 'bogue',
+    '突击者': 'ranger',
     '竞技神': 'hermes',
     '任意航母': 'any',
 
@@ -1032,6 +1038,9 @@ dic_tchi_to_eng = {
     '大世界修船閾值': 'os_repair_threshold',
     '明石商店購買': 'enable_os_akashi_shop_buy',
     '明石商店優先級': 'os_akashi_shop_priority',
+    '隱秘海域使用坐標': 'os_obscure_use_logger',
+    '隱秘海域呼叫潛艇': 'os_obscure_submarine_call',
+    '隱秘海域強制運行': 'os_obscure_force_run',
     'enable_shop_buy': 'enable_shop_buy',
 
     # Option
@@ -1128,9 +1137,9 @@ dic_tchi_to_eng = {
     'azuma': 'azuma',
     'friedrich': 'friedrich',
     'drake': 'drake',
-    '蘭利': 'langley', 
-    '博格': 'bogue', 
-    '突擊者': 'ranger', 
+    '蘭利': 'langley',
+    '博格': 'bogue',
+    '突擊者': 'ranger',
     '競技神': 'hermes',
     '任意航母': 'any',
 

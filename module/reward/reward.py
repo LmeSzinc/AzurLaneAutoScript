@@ -316,6 +316,11 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
         count = 0
         total = 6
 
+        if self.config.ENABLE_OS_OBSCURE_FINISH:
+            from module.campaign.os_run import OSCampaignRun
+            az = OSCampaignRun(self.config, device=self.device)
+            az.run_obscure_clear()
+
         if self.config.ENABLE_EXERCISE:
             from module.exercise.exercise import Exercise
             az = Exercise(self.config, device=self.device)

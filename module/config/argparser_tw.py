@@ -605,6 +605,12 @@ def main(ini_name=''):
     os_shop.add_argument('--明石商店購買', default=default('--明石商店購買'), choices=['是', '否'], help='', gooey_options={'label_color': '#4B5F83'})
     os_shop.add_argument('--明石商店優先級', default=default('--明石商店優先級'), help='', gooey_options={'label_color': '#4B5F83'})
 
+    obscure = os_parser.add_argument_group('隱秘海域', '清理所有隱秘海域，默認運行間隔為至少30分鐘，以保證空域搜索冷卻\n需要開啟"在每日中完成大世界"和"啟用每日收穫"', gooey_options={'label_color': '#931D03'})
+    obscure.add_argument('--隱秘海域使用坐標', default=default('--隱秘海域使用坐標'), choices=['是', '否'], help='打开仓库里的所有坐标', gooey_options={'label_color': '#4B5F83'})
+    obscure.add_argument('--隱秘海域呼叫潛艇', default=default('--隱秘海域呼叫潛艇'), choices=['是', '否'], help='在隐秘海域中呼叫潜艇，开启后运行间隔增加至60分钟', gooey_options={'label_color': '#4B5F83'})
+    obscure.add_argument('--隱秘海域強制運行', default=default('--隱秘海域強制運行'), choices=['是', '否'], help='无视运行间隔，强制执行空域搜索，这将带来额外的行动力消耗', gooey_options={'label_color': '#4B5F83'})
+
+
     args = parser.parse_args()
 
     # Convert option from chinese to english.
