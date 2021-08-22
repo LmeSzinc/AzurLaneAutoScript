@@ -339,7 +339,8 @@ class OperationSiren(Reward, OSMap):
                 self.config.record_save(RECORD_MISSION_FINISH)
 
         if self.config.ENABLE_OS_OBSCURE_FINISH:
-            pass
+            if self.config.OS_OBSCURE_FORCE_RUN:
+                self.os_obscure_finish()
 
         if self.config.ENABLE_OS_MEOWFFICER_FARMING:
             self.os_meowfficer_farming(hazard_level=self.config.OS_MEOWFFICER_FARMING_LEVEL, daily=daily)
