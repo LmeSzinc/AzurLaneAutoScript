@@ -119,9 +119,9 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
             if self.appear_then_click(MAP_EXIT, offset=(20, 20), interval=3):
                 continue
             if self.handle_popup_confirm('MAP_EXIT'):
-                changed = True
                 continue
             if self.handle_map_event():
+                changed = True
                 continue
 
         self.get_current_zone()
