@@ -190,7 +190,8 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
             for button in [MISSION_MULTI, MISSION_SINGLE]:
                 if not click_timer.reached():
                     continue
-                if self.appear_then_click(button, offset=(0, 200), interval=interval):
+                if self.appear(button, offset=(0, 200), interval=interval) and button.match_appear_on(self.device.image):
+                    self.device.click(button)
                     exit_timer.reset()
                     click_timer.reset()
                     timeout.reset()
