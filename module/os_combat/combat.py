@@ -142,7 +142,15 @@ class Combat(Combat_, MapEventHandler):
         while 1:
             self.device.screenshot()
 
+            if self.handle_combat_automation_confirm():
+                continue
+
+            # End
+            if self.handle_os_auto_search_map_option():
+                break
             if self.is_combat_executing():
+                break
+            if self.is_in_map():
                 break
 
         logger.info('Auto Search combat execute')
