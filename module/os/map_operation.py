@@ -120,8 +120,10 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
             if self.appear_then_click(MAP_EXIT, offset=(20, 20), interval=5):
                 continue
             if self.handle_popup_confirm('MAP_EXIT'):
+                self.interval_reset(MAP_EXIT)
                 continue
             if self.handle_map_event():
+                self.interval_reset(MAP_EXIT)
                 changed = True
                 continue
 

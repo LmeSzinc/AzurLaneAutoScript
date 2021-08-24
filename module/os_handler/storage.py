@@ -51,15 +51,18 @@ class StorageHandler(GlobeOperation, ZoneManager):
             else:
                 self.device.screenshot()
 
-            if self.appear(STORAGE_CHECK, offset=(20, 20), interval=3):
+            if self.appear(STORAGE_CHECK, offset=(20, 20), interval=5):
                 self.device.click(button)
                 continue
-            if self.appear_then_click(STORAGE_USE, offset=(180, 30), interval=3):
+            if self.appear_then_click(STORAGE_USE, offset=(180, 30), interval=5):
+                self.interval_reset(STORAGE_CHECK)
                 continue
-            if self.appear_then_click(GET_ITEMS_1, interval=3):
+            if self.appear_then_click(GET_ITEMS_1, interval=5):
+                self.interval_reset(STORAGE_CHECK)
                 success = True
                 continue
-            if self.appear_then_click(GET_ITEMS_2, interval=3):
+            if self.appear_then_click(GET_ITEMS_2, interval=5):
+                self.interval_reset(STORAGE_CHECK)
                 success = True
                 continue
 
@@ -113,10 +116,13 @@ class StorageHandler(GlobeOperation, ZoneManager):
             else:
                 self.device.screenshot()
 
-            if self.appear(STORAGE_CHECK, offset=(30, 30), interval=3):
+            if self.appear(STORAGE_CHECK, offset=(30, 30), interval=5):
                 self.device.click(button)
-            if self.appear_then_click(STORAGE_COORDINATE_CHECKOUT, offset=(30, 30), interval=3):
+            if self.appear_then_click(STORAGE_COORDINATE_CHECKOUT, offset=(30, 30), interval=5):
+                self.interval_reset(STORAGE_CHECK)
                 continue
+
+            # End
             if self.is_zone_pinned():
                 break
 
