@@ -1,4 +1,3 @@
-from module.ui.assets import MEOWFFICER_INFO
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1
 from module.handler.assets import INFO_BAR_1
@@ -47,20 +46,8 @@ class RewardMeowfficer(UI):
             count = coins // BUY_PRIZE + int(remain == BUY_MAX)
             logger.warning(f'Current coins only enough to buy {count}')
 
-        skip_first_screenshot = True
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-            
-            if self.appear(MEOWFFICER_BUY):
-                break
-
-            self.appear_then_click(MEOWFFICER_BUY_ENTER)
-
-            self.appear_then_click(MEOWFFICER_INFO)
-
+        self.ui_click(MEOWFFICER_BUY_ENTER, check_button=MEOWFFICER_BUY,
+                      additional=self.ui_additional_page_meowfficer, skip_first_screenshot=True)
         self.ui_ensure_index(count, letter=MEOWFFICER_CHOOSE, prev_button=MEOWFFICER_BUY_PREV,
                              next_button=MEOWFFICER_BUY_NEXT, skip_first_screenshot=True)
         return True
@@ -244,19 +231,8 @@ class RewardMeowfficer(UI):
         collected = False
 
         # Enter MEOWFFICER_TRAIN window
-        skip_first_screenshot = True
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-            
-            if self.appear(MEOWFFICER_TRAIN_START):
-                break
-            
-            self.appear_then_click(MEOWFFICER_TRAIN_ENTER)
-
-            self.appear_then_click(MEOWFFICER_INFO)
+        self.ui_click(MEOWFFICER_TRAIN_ENTER, check_button=MEOWFFICER_TRAIN_START,
+                      additional=self.ui_additional_page_meowfficer, skip_first_screenshot=True)
 
         # If today is Sunday, then collect all remainder otherwise just collect one
         # Once collected, should be back in MEOWFFICER_TRAIN window
@@ -341,19 +317,8 @@ class RewardMeowfficer(UI):
             return False
 
         # Enter MEOWFFICER_FORT window
-        skip_first_screenshot = True
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-            
-            if self.appear(MEOWFFICER_FORT_CHECK):
-                break
-            
-            self.appear_then_click(MEOWFFICER_FORT_ENTER)
-
-            self.appear_then_click(MEOWFFICER_INFO)
+        self.ui_click(MEOWFFICER_FORT_ENTER, check_button=MEOWFFICER_FORT_CHECK,
+                      additional=self.ui_additional_page_meowfficer, skip_first_screenshot=True)
 
         # Perform fort chore operations
         self.meow_chores()
