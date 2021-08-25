@@ -81,7 +81,15 @@ class Connection:
 
     def _adb_connect(self, serial):
         if 'emulator' in serial:
-            return True
+            emulinkstats = self.adb_command(['devices']).decode("utf-8").strip().replace('List of devices attached', '')
+            if 'device' in emulinkstats:
+                logger.info('Connected emulator detected')
+                logger.info('devices state: ' + emulinkstats.replace('\n', '').replace('\r', ''))
+                return True
+            else:
+                logger.warning('No connected emulator detected')
+                logger.info('devices state' + emulinkstats.replace('\n', '').replace('\r', ''))
+                return False
         else:
             for _ in range(3):
                 msg = self.adb_command(['connect', serial]).decode("utf-8").strip()
