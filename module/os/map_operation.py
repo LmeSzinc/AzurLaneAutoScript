@@ -57,10 +57,11 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         # For JP only
         ocr = Ocr(MAP_NAME, lang='jp', letter=(214, 231, 255), threshold=127, name='OCR_OS_MAP_NAME')
         name = ocr.ocr(self.device.image)
-        # Use '安' to split because there's no char '-' in jp ocr.
+        # Remove '安全海域' or '秘密海域' at the end of jp ocr.
+        name = name.rstrip('安全海域秘密海域')
         # Kanji '一' and '力' are not used, while Katakana 'ー' and 'カ' are misread as Kanji sometimes.
         # Katakana 'ペ' may be misread as Hiragana 'ぺ'.
-        name = name.split('安')[0].rstrip('安全海域').replace('一', 'ー').replace('力', 'カ').replace('ぺ', 'ペ')
+        name = name.replace('一', 'ー').replace('力', 'カ').replace('ぺ', 'ペ')
         return name
 
     @Config.when(SERVER=None)
@@ -116,12 +117,14 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
             else:
                 confirm_timer.reset()
 
-            if self.appear_then_click(MAP_EXIT, offset=(20, 20), interval=3):
+            if self.appear_then_click(MAP_EXIT, offset=(20, 20), interval=5):
                 continue
             if self.handle_popup_confirm('MAP_EXIT'):
-                changed = True
+                self.interval_reset(MAP_EXIT)
                 continue
             if self.handle_map_event():
+                self.interval_reset(MAP_EXIT)
+                changed = True
                 continue
 
         self.get_current_zone()

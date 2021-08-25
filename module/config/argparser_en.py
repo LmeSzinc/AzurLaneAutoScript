@@ -682,7 +682,7 @@ def main(ini_name=''):
     os_daily.add_argument('--enable_os_ash_attack', default=default('--enable_os_ash_attack'), choices=['yes', 'no'], help='Attack ash if beacon data is full', gooey_options={'label_color': '#4B5F83'})
 
     os_farm = os.add_argument_group('Operation Siren', '', gooey_options={'label_color': '#931D03'})
-    os_farm.add_argument('--enable_os_obscure_finish', default=default('--enable_os_obscure_finish'), choices=['yes', 'no'], help='[Developing]Clear all obscured zones', gooey_options={'label_color': '#4B5F83'})
+    os_farm.add_argument('--enable_os_obscure_finish', default=default('--enable_os_obscure_finish'), choices=['yes', 'no'], help='Clear all obscured zones', gooey_options={'label_color': '#4B5F83'})
     os_farm.add_argument('--enable_os_meowfficer_farming', default=default('--enable_os_meowfficer_farming'), choices=['yes', 'no'], help='Do meowfficer searching point farming', gooey_options={'label_color': '#4B5F83'})
     os_farm.add_argument('--os_meowfficer_farming_level', default=default('--os_meowfficer_farming_level'), choices=['1', '2', '3', '4', '5', '6'], help='Corruption 3 and 5 have higher meowfficer point per action point. Corruption 5 is recommended', gooey_options={'label_color': '#4B5F83'})
 
@@ -695,7 +695,7 @@ def main(ini_name=''):
     os_shop.add_argument('--enable_os_akashi_shop_buy', default=default('--enable_os_akashi_shop_buy'), choices=['yes', 'no'], help='', gooey_options={'label_color': '#4B5F83'})
     os_shop.add_argument('--os_akashi_shop_priority', default=default('--os_akashi_shop_priority'), help='', gooey_options={'label_color': '#4B5F83'})
 
-    obscure = os_parser.add_argument_group('Obscure zone', 'Clear all obscure zones. Default run interval is at least 30 minutes, to ensure recon scan cool down\nThis requires "do_os_in_daily" and "enable_daily_reward"', gooey_options={'label_color': '#931D03'})
+    obscure = os_parser.add_argument_group('Obscure zone', 'Clear all obscure zones. Default run interval is at least 30 minutes, to ensure recon scan cool down\nThis requires "enable_daily_reward"', gooey_options={'label_color': '#931D03'})
     obscure.add_argument('--os_obscure_use_logger', default=default('--os_obscure_use_logger'), choices=['yes', 'no'], help='Open all loggers in storage', gooey_options={'label_color': '#4B5F83'})
     obscure.add_argument('--os_obscure_submarine_call', default=default('--os_obscure_submarine_call'), choices=['yes', 'no'], help='Call submarine in obscure zones, this will increase run interval to 60min', gooey_options={'label_color': '#4B5F83'})
     obscure.add_argument('--os_obscure_force_run', default=default('--os_obscure_force_run'), choices=['yes', 'no'], help='Ignore run interval, force to do recon scan, this will cost extra action points', gooey_options={'label_color': '#4B5F83'})

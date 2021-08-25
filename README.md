@@ -23,11 +23,11 @@ TW support, Thanks **[@Zorachristine](https://github.com/Zorachristine)** , some
 
 > **Event Announcement 活动公告**
 >
-> [CN] 支持活动「复刻浮樱影华」.
+> [CN] 支持活动「复刻微层混合」.
 >
-> [EN] Support event "Swirling Cherry Blossoms Rerun".
+> [EN] Support event "Microlayer Medley Rerun".
 >
-> [JP] Support event 「翳りし満ちる影の華(復刻)」.
+> [JP] Support event 「闇靄払う銀翼（復刻）」.
 
 ![gui](doc/README.assets/gui.png)
 
@@ -45,9 +45,13 @@ TW support, Thanks **[@Zorachristine](https://github.com/Zorachristine)** , some
 
 - **委托收派** 出击时自动切出去收获, 支持收派委托, 收派科研, 收派战术学院, 收任务
 
-- **特定模式出击** 7-2三战拣垃圾, 12图练级. 1-1刷好感, 打潜艇图.
+  大舰队作战派遣, 提交物资, 打大舰队BOSS
+
+- **特定模式出击** 7-2三战拣垃圾, 12图练级. 1-1刷好感, 打潜艇图, 低级图刷委托并更换低级白皮轻航为旗舰.
 
 - **大世界全自动** 一条龙完成: 接大世界每日, 买空港口商店, 做大世界每日, 短猫相接直到完成两次余烬信标.
+
+  清理隐秘海域，每30分钟触发以保证空域搜索冷却. 明石商店购买.
 
   每月重置后清理所有危险海域.
 
@@ -57,6 +61,10 @@ TW support, Thanks **[@Zorachristine](https://github.com/Zorachristine)** , some
 
   血量监控, 低血量撤退, 先锋血量平衡(自动更换承伤位和保护位)
 
+  商店扫货, 在通用商店, 军需商店, 舰队商店, 勋章兑换中购买特定物品
+  
+  每天买猫, 猫窝摸猫
+  
   掉落截图记录, 掉率统计, 科研统计
 
 

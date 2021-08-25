@@ -71,6 +71,13 @@ class InfoHandler(ModuleBase):
             self.device.click(POPUP_CONFIRM)
             POPUP_CONFIRM.name = POPUP_CONFIRM.name[:-len(name) - 1]
             return True
+        elif self.appear(POPUP_CANCEL_2, offset=self._popup_offset) \
+                and self.appear(POPUP_CONFIRM_2, offset=self._popup_offset, interval=2):
+            prev_name = POPUP_CONFIRM_2.name
+            POPUP_CONFIRM_2.name = POPUP_CONFIRM.name + '_' + name
+            self.device.click(POPUP_CONFIRM_2)
+            POPUP_CONFIRM_2.name = prev_name
+            return True
         else:
             return False
 
@@ -80,6 +87,13 @@ class InfoHandler(ModuleBase):
             POPUP_CANCEL.name = POPUP_CANCEL.name + '_' + name
             self.device.click(POPUP_CANCEL)
             POPUP_CANCEL.name = POPUP_CANCEL.name[:-len(name) - 1]
+            return True
+        elif self.appear(POPUP_CONFIRM_2, offset=self._popup_offset) \
+                and self.appear(POPUP_CANCEL_2, offset=self._popup_offset, interval=2):
+            prev_name = POPUP_CANCEL_2.name
+            POPUP_CANCEL_2.name = POPUP_CANCEL.name + '_' + name
+            self.device.click(POPUP_CANCEL_2)
+            POPUP_CANCEL_2.name = prev_name
             return True
         else:
             return False

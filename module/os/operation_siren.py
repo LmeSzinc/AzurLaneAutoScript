@@ -278,6 +278,7 @@ class OperationSiren(Reward, OSMap):
         if not result:
             # No obscure coordinates, delay next run to tomorrow.
             record = self.config.get_server_last_update(since=(0,)) + timedelta(days=1)
+            record = datetime.strftime(record, self.config.TIME_FORMAT)
             self.config.config.set(*RECORD_OBSCURE_FINISH, record)
             self.config.save()
             return False
@@ -287,7 +288,8 @@ class OperationSiren(Reward, OSMap):
 
         # Delay next run 30min or 60min.
         delta = 60 if self.config.OS_OBSCURE_SUBMARINE_CALL else 30
-        record = datetime.strftime(datetime.now() + timedelta(minutes=delta), self.config.TIME_FORMAT)
+        record = datetime.now() + timedelta(minutes=delta)
+        record = datetime.strftime(record, self.config.TIME_FORMAT)
         self.config.config.set(*RECORD_OBSCURE_FINISH, record)
         self.config.save()
 
@@ -339,7 +341,8 @@ class OperationSiren(Reward, OSMap):
                 self.config.record_save(RECORD_MISSION_FINISH)
 
         if self.config.ENABLE_OS_OBSCURE_FINISH:
-            pass
+            if self.config.OS_OBSCURE_FORCE_RUN:
+                self.os_obscure_finish()
 
         if self.config.ENABLE_OS_MEOWFFICER_FARMING:
             self.os_meowfficer_farming(hazard_level=self.config.OS_MEOWFFICER_FARMING_LEVEL, daily=daily)

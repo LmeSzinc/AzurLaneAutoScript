@@ -46,7 +46,8 @@ class RewardMeowfficer(UI):
             count = coins // BUY_PRIZE + int(remain == BUY_MAX)
             logger.warning(f'Current coins only enough to buy {count}')
 
-        self.ui_click(MEOWFFICER_BUY_ENTER, check_button=MEOWFFICER_BUY, skip_first_screenshot=True)
+        self.ui_click(MEOWFFICER_BUY_ENTER, check_button=MEOWFFICER_BUY,
+                      additional=self.ui_additional_page_meowfficer, skip_first_screenshot=True)
         self.ui_ensure_index(count, letter=MEOWFFICER_CHOOSE, prev_button=MEOWFFICER_BUY_PREV,
                              next_button=MEOWFFICER_BUY_NEXT, skip_first_screenshot=True)
         return True
@@ -230,8 +231,8 @@ class RewardMeowfficer(UI):
         collected = False
 
         # Enter MEOWFFICER_TRAIN window
-        self.ui_click(MEOWFFICER_TRAIN_ENTER,
-                      check_button=MEOWFFICER_TRAIN_START, skip_first_screenshot=True)
+        self.ui_click(MEOWFFICER_TRAIN_ENTER, check_button=MEOWFFICER_TRAIN_START,
+                      additional=self.ui_additional_page_meowfficer, skip_first_screenshot=True)
 
         # If today is Sunday, then collect all remainder otherwise just collect one
         # Once collected, should be back in MEOWFFICER_TRAIN window
@@ -316,8 +317,8 @@ class RewardMeowfficer(UI):
             return False
 
         # Enter MEOWFFICER_FORT window
-        self.ui_click(MEOWFFICER_FORT_ENTER,
-                      check_button=MEOWFFICER_FORT_CHECK, skip_first_screenshot=True)
+        self.ui_click(MEOWFFICER_FORT_ENTER, check_button=MEOWFFICER_FORT_CHECK,
+                      additional=self.ui_additional_page_meowfficer, skip_first_screenshot=True)
 
         # Perform fort chore operations
         self.meow_chores()

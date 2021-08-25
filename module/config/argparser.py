@@ -592,7 +592,7 @@ def main(ini_name=''):
     os_daily.add_argument('--打大世界余烬信标', default=default('--打大世界余烬信标'), choices=['是', '否'], help='信标数据满了之后, 打飞龙', gooey_options={'label_color': '#4B5F83'})
 
     os_farm = os.add_argument_group('打大世界', '', gooey_options={'label_color': '#931D03'})
-    os_farm.add_argument('--打大世界隐秘海域', default=default('--打大世界隐秘海域'), choices=['是', '否'], help='[开发中]清理所有隐秘海域', gooey_options={'label_color': '#4B5F83'})
+    os_farm.add_argument('--打大世界隐秘海域', default=default('--打大世界隐秘海域'), choices=['是', '否'], help='清理所有隐秘海域', gooey_options={'label_color': '#4B5F83'})
     os_farm.add_argument('--大世界短猫相接', default=default('--大世界短猫相接'), choices=['是', '否'], help='反复打图拣猫点', gooey_options={'label_color': '#4B5F83'})
     os_farm.add_argument('--短猫相接侵蚀等级', default=default('--短猫相接侵蚀等级'), choices=['1', '2', '3', '4', '5', '6'], help='侵蚀3和5有更高的猫点/行动力比, 建议选侵蚀5', gooey_options={'label_color': '#4B5F83'})
 
@@ -605,7 +605,7 @@ def main(ini_name=''):
     os_shop.add_argument('--明石商店购买', default=default('--明石商店购买'), choices=['是', '否'], help='', gooey_options={'label_color': '#4B5F83'})
     os_shop.add_argument('--明石商店优先级', default=default('--明石商店优先级'), help='', gooey_options={'label_color': '#4B5F83'})
 
-    obscure = os_parser.add_argument_group('隐秘海域', '清理所有隐秘海域，默认运行间隔为至少30分钟，以保证空域搜索冷却\n需要开启"在每日中完成大世界"和"启用每日收获"', gooey_options={'label_color': '#931D03'})
+    obscure = os_parser.add_argument_group('隐秘海域', '清理所有隐秘海域，默认运行间隔为至少30分钟，以保证空域搜索冷却\n需要开启"启用每日收获"', gooey_options={'label_color': '#931D03'})
     obscure.add_argument('--隐秘海域使用坐标', default=default('--隐秘海域使用坐标'), choices=['是', '否'], help='打开仓库里的所有坐标', gooey_options={'label_color': '#4B5F83'})
     obscure.add_argument('--隐秘海域呼叫潜艇', default=default('--隐秘海域呼叫潜艇'), choices=['是', '否'], help='在隐秘海域中呼叫潜艇，开启后运行间隔增加至60分钟', gooey_options={'label_color': '#4B5F83'})
     obscure.add_argument('--隐秘海域强制运行', default=default('--隐秘海域强制运行'), choices=['是', '否'], help='无视运行间隔，强制执行空域搜索，这将带来额外的行动力消耗', gooey_options={'label_color': '#4B5F83'})
