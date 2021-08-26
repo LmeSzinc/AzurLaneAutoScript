@@ -303,10 +303,10 @@ def main(ini_name=''):
     research_output.add_argument('--科研项目选择预设', default=default('--科研项目选择预设'), choices=research_preset, gooey_options={'label_color': '#4B5F83'})
     research_output.add_argument('--科研过滤字符串', default=default('--科研过滤字符串'), help='仅在科研预设选择为自定义时启用', gooey_options={'label_color': '#4B5F83'})
 
-    reward_meowfficer = reward_parser.add_argument_group('商店购买', '如果已经买过则自动跳过', gooey_options={'label_color': '#931D03'})
+    reward_meowfficer = reward_parser.add_argument_group('指挥喵', '如果已经买过则自动跳过', gooey_options={'label_color': '#931D03'})
     reward_meowfficer.add_argument('--买指挥喵', default=default('--买指挥喵'), help='从0到15, 不需要就填0', gooey_options={'label_color': '#4B5F83'})
     reward_meowfficer.add_argument('--训练指挥喵', default=default('--训练指挥喵'), help='启用指挥喵训练, 每天收一只, 周日收获全部', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    reward_meowfficer.add_argument('--do_fort_chores_meowfficer', default=default('--do_fort_chores_meowfficer'), help='Do meowfficer comf-fort chores (clean, feed, and play) to get xp.', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    reward_meowfficer.add_argument('--喵窝互动', default=default('--喵窝互动'), help='启用喵窝互动（清扫, 喂食和逗猫）', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
 
     reward_guild = reward_parser.add_argument_group('大舰队', '检查大舰队后勤和大舰队作战', gooey_options={'label_color': '#931D03'})
     reward_guild.add_argument('--启用大舰队后勤', default=default('--启用大舰队后勤'), help='领取大舰队任务, 提交筹备物资, 领取舰队奖励', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
@@ -323,53 +323,40 @@ def main(ini_name=''):
     reward_guild_operations_boss.add_argument('--启用大舰队BOSS出击', default=default('--启用大舰队BOSS出击'), help='自动打大舰队BOSS, 需要预先在游戏内设置队伍', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     reward_guild_operations_boss.add_argument('--启用大舰队BOSS队伍推荐', default=default('--启用大舰队BOSS队伍推荐'), help='使用游戏自动推荐的队伍打BOSS', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
 
-    reward_shop = reward_parser.add_argument_group('Shop', 'Browse and purchase selectable items in shops: General, Guild, Medal, and Merit. '
-                                                   'Running for every reward loop.\n\n'
-                                                   'Enter selection inputs as "item_1 > item_2 > ..." '
-                                                   'or empty (single whitespace at the minimum) to skip shop\n\n'
-                                                   'Each item is required to be in upper camel case, '
-                                                   'listed below are available items in the exemplified format:\n'
-                                                   'Box(T[1-4])?, Book(color)?(T[1-3])?, Food(T[1-6])?, '
-                                                   'Plate(type)?(T[1-4]), Retrofit(type)?(T[1-3])?, Bulin(T[1-2])\n'
-                                                   'PR(name or series)?BP, DR(name or series)?BP, \n'
-                                                   'Cubes, Chips i.e. Cognitive, and Drill\n\n'
-                                                   'Multiple variants of each should be used to omit specific items',
+    reward_shop = reward_parser.add_argument_group('商店购买', '在每次收获时购买各补给商店内的物品。\n'
+                                                   '过滤字符串的编写须阅读 wiki/reward_shop_filter_string',
                                                     gooey_options={'label_color': '#931D03'})
-    reward_shop.add_argument('--enable_shop_buy', default=default('--enable_shop_buy'), help='Enable browse and item purchases in shops.', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    reward_shop_general = reward_shop.add_argument_group('General item selection', gooey_options={'label_color': '#4B5F83'})
-    reward_shop_general.add_argument('--shop_general_selection', default=default('--shop_general_selection'), gooey_options={'label_color': '#4B5F83'})
-    reward_shop_general.add_argument('--enable_shop_general_gems', default=default('--enable_shop_general_gems'), help='Enable to use gems.', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    reward_shop_general.add_argument('--enable_shop_general_refresh', default=default('--enable_shop_general_refresh'), help='Enable refresh (uses gems implicitly).', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    reward_shop_guild = reward_shop.add_argument_group('Guild item selection', 'Box, Book, Retrofit, and Plate '
-                                                       'only supports grade i.e. T[digit] optionally, PRBP exclusively.\n'
-                                                       'Below selectors are used to customize specifics',
-                                                       gooey_options={'label_color': '#4B5F83'})
-    reward_shop_guild.add_argument('--shop_guild_selection', default=default('--shop_guild_selection'), gooey_options={'label_color': '#4B5F83'})
-    reward_shop_guild.add_argument('--enable_shop_guild_refresh', default=default('--enable_shop_guild_refresh'), help='Enable refresh (uses guild coins).', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    reward_shop_guild.add_argument('--shop_guild_box_t3', default=default('--shop_guild_box_t3'), choices=['eagle', 'royal', 'sakura', 'ironblood'], gooey_options={'label_color': '#4B5F83'})
-    reward_shop_guild.add_argument('--shop_guild_box_t4', default=default('--shop_guild_box_t4'), choices=['eagle', 'royal', 'sakura', 'ironblood'], gooey_options={'label_color': '#4B5F83'})
-    reward_shop_guild.add_argument('--shop_guild_book_t2', default=default('--shop_guild_book_t2'), choices=['red', 'blue', 'yellow'], gooey_options={'label_color': '#4B5F83'})
-    reward_shop_guild.add_argument('--shop_guild_book_t3', default=default('--shop_guild_book_t3'), choices=['red', 'blue', 'yellow'], gooey_options={'label_color': '#4B5F83'})
-    reward_shop_guild.add_argument('--shop_guild_retrofit_t2', default=default('--shop_guild_retrofit_t2'), choices=['dd', 'cl', 'bb', 'cv'], gooey_options={'label_color': '#4B5F83'})
-    reward_shop_guild.add_argument('--shop_guild_retrofit_t3', default=default('--shop_guild_retrofit_t3'), choices=['dd', 'cl', 'bb', 'cv'], gooey_options={'label_color': '#4B5F83'})
-    reward_shop_guild.add_argument('--shop_guild_plate_t2', default=default('--shop_guild_plate_t2'), choices=['general', 'gun', 'torpedo', 'antiair', 'plane'], gooey_options={'label_color': '#4B5F83'})
-    reward_shop_guild.add_argument('--shop_guild_plate_t3', default=default('--shop_guild_plate_t3'), choices=['general', 'gun', 'torpedo', 'antiair', 'plane'], gooey_options={'label_color': '#4B5F83'})
-    reward_shop_guild.add_argument('--shop_guild_plate_t4', default=default('--shop_guild_plate_t4'), choices=['general', 'gun', 'torpedo', 'antiair', 'plane'], gooey_options={'label_color': '#4B5F83'})
-    reward_shop_guild.add_argument('--shop_guild_pr1', default=default('--shop_guild_pr1'), choices=['neptune', 'monarch', 'ibuki', 'izumo', 'roon', 'saintlouis'], gooey_options={'label_color': '#4B5F83'})
-    reward_shop_guild.add_argument('--shop_guild_pr2', default=default('--shop_guild_pr2'), choices=['seattle', 'georgia', 'kitakaze', 'gascogne'], gooey_options={'label_color': '#4B5F83'})
-    reward_shop_guild.add_argument('--shop_guild_pr3', default=default('--shop_guild_pr3'), choices=['cheshire', 'mainz', 'odin', 'champagne'], gooey_options={'label_color': '#4B5F83'})
-    reward_shop_medal = reward_shop.add_argument_group('Medal item selection', gooey_options={'label_color': '#4B5F83'})
-    reward_shop_medal.add_argument('--shop_medal_selection', default=default('--shop_medal_selection'), gooey_options={'label_color': '#4B5F83'})
-    reward_shop_merit = reward_shop.add_argument_group('Merit item selection', gooey_options={'label_color': '#4B5F83'})
-    reward_shop_merit.add_argument('--shop_merit_selection', default=default('--shop_merit_selection'), gooey_options={'label_color': '#4B5F83'})
-    reward_shop_merit.add_argument('--enable_shop_merit_refresh', default=default('--enable_shop_merit_refresh'), help='Enable refresh (uses gems implicitly).', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop.add_argument('--启用商店购买', default=default('--启用商店购买'), help='购买各补给商店内的物品', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_general = reward_shop.add_argument_group('军火商', gooey_options={'label_color': '#4B5F83'})
+    reward_shop_general.add_argument('--军火商过滤字符串', default=default('--军火商过滤字符串'), gooey_options={'label_color': '#4B5F83'})
+    reward_shop_general.add_argument('--军火商使用钻石', default=default('--军火商使用钻石'), help='使用钻石购买物品', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_general.add_argument('--启用军火商刷新', default=default('--启用军火商刷新'), help='刷新商品列表（需要使用钻石）', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild = reward_shop.add_argument_group('舰队商店', gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--舰队商店过滤字符串', default=default('--舰队商店过滤字符串'), gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--启用舰队商店刷新', default=default('--启用舰队商店刷新'), help='刷新商品列表（使用舰队币）', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--舰队商店紫箱', default=default('--舰队商店紫箱'), choices=['白鹰', '皇家', '重樱', '铁血'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--舰队商店金箱', default=default('--舰队商店金箱'), choices=['白鹰', '皇家', '重樱', '铁血'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--舰队商店紫书', default=default('--舰队商店紫书'), choices=['红书', '蓝书', '黄书'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--舰队商店金书', default=default('--舰队商店金书'), choices=['红书', '蓝书', '黄书'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--舰队商店紫改造图纸', default=default('--舰队商店紫改造图纸'), choices=['驱逐', '巡洋', '战列', '航母'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--舰队商店金改造图纸', default=default('--舰队商店金改造图纸'), choices=['驱逐', '巡洋', '战列', '航母'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--舰队商店蓝强化部件', default=default('--舰队商店蓝强化部件'), choices=['通用', '主炮', '鱼雷', '防空炮', '舰载机'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--舰队商店紫强化部件', default=default('--舰队商店紫强化部件'), choices=['通用', '主炮', '鱼雷', '防空炮', '舰载机'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--舰队商店金强化部件', default=default('--舰队商店金强化部件'), choices=['通用', '主炮', '鱼雷', '防空炮', '舰载机'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--舰队商店一期科研图纸', default=default('--舰队商店一期科研图纸'), choices=['海王星', '君主', '伊吹', '出云', '罗恩', '路易九世'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--舰队商店二期科研图纸', default=default('--舰队商店二期科研图纸'), choices=['西雅图', '佐治亚', '北风', '加斯科涅'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_guild.add_argument('--舰队商店三期科研图纸', default=default('--舰队商店三期科研图纸'), choices=['柴郡', '美因茨', '奥丁', '香槟'], gooey_options={'label_color': '#4B5F83'})
+    reward_shop_medal = reward_shop.add_argument_group('兑换商店', gooey_options={'label_color': '#4B5F83'})
+    reward_shop_medal.add_argument('--兑换商店过滤字符串', default=default('--兑换商店过滤字符串'), gooey_options={'label_color': '#4B5F83'})
+    reward_shop_merit = reward_shop.add_argument_group('军需商店', gooey_options={'label_color': '#4B5F83'})
+    reward_shop_merit.add_argument('--军需商店过滤字符串', default=default('--军需商店过滤字符串'), gooey_options={'label_color': '#4B5F83'})
+    reward_shop_merit.add_argument('--启用军需商店刷新', default=default('--启用军需商店刷新'), help='刷新商品列表（需要使用钻石）', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
 
-    reward_shipyard = reward_parser.add_argument_group('Shipyard', 'Buy daily discounted PR/DR BPs.', gooey_options={'label_color': '#931D03'})
-    reward_shipyard.add_argument('--buy_shipyard_bp', default=default('--buy_shipyard_bp'), help='Number to buy altogether.', gooey_options={'label_color': '#4B5F83'})
-    reward_shipyard.add_argument('--shipyard_series', default=default('--shipyard_series'), help='Select PR/DR research series.', choices=['1', '2', '3', '4'], gooey_options={'label_color': '#4B5F83'})
-    reward_shipyard.add_argument('--shipyard_index', default=default('--shipyard_index'),
-        help='Ship location in bottom Face Navbar.\nThe display of ships are ordered by whether unlocked/developed, '
-             'so players must first verify the location themselves before selecting.\nleftmost = 1, rightmost = 6',
+    reward_shipyard = reward_parser.add_argument_group('开发船坞', '购买打折的科研图纸', gooey_options={'label_color': '#931D03'})
+    reward_shipyard.add_argument('--购买蓝图', default=default('--购买蓝图'), help='一次性购买的蓝图数量', gooey_options={'label_color': '#4B5F83'})
+    reward_shipyard.add_argument('--科研期数', default=default('--科研期数'), help='选择开发的科研期数', choices=['1', '2', '3', '4'], gooey_options={'label_color': '#4B5F83'})
+    reward_shipyard.add_argument('--舰船索引', default=default('--舰船索引'),
+        help='要开发的舰船在开发船坞界面底部的位置。最左边为1，最右边为6。',
         choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
 
     # ==========设备设置==========
