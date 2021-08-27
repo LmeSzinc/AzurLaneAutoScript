@@ -474,16 +474,23 @@ def main(ini_name=''):
 
     # ==========潛艇圖==========
     sos_parser = subs.add_parser('潛艇圖')
-    sos = sos_parser.add_argument_group(
-        '潛艇圖設定', '設定每張潛艇圖的隊伍, 順序: 一隊二隊潛艇隊\n例如"4, 6", "4, 0", "4, 6, 1"\n填0跳過不打', gooey_options={'label_color': '#931D03'})
-    sos.add_argument('--第3章潛艇圖隊伍', default=default('--第3章潛艇圖隊伍'), gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--第4章潛艇圖隊伍', default=default('--第4章潛艇圖隊伍'), gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--第5章潛艇圖隊伍', default=default('--第5章潛艇圖隊伍'), gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--第6章潛艇圖隊伍', default=default('--第6章潛艇圖隊伍'), gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--第7章潛艇圖隊伍', default=default('--第7章潛艇圖隊伍'), gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--第8章潛艇圖隊伍', default=default('--第8章潛艇圖隊伍'), gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--第9章潛艇圖隊伍', default=default('--第9章潛艇圖隊伍'), gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--第10章潛艇圖隊伍', default=default('--第10章潛艇圖隊伍'), gooey_options={'label_color': '#4B5F83'})
+    # sos = sos_parser.add_argument_group(
+    #     '潛艇圖設定', '設定每張潛艇圖的隊伍, 順序: 一隊二隊潛艇隊\n例如"4, 6", "4, 0", "4, 6, 1"\n填0跳過不打', gooey_options={'label_color': '#931D03'})
+    # sos.add_argument('--第3章潛艇圖隊伍', default=default('--第3章潛艇圖隊伍'), gooey_options={'label_color': '#4B5F83'})
+    # sos.add_argument('--第4章潛艇圖隊伍', default=default('--第4章潛艇圖隊伍'), gooey_options={'label_color': '#4B5F83'})
+    # sos.add_argument('--第5章潛艇圖隊伍', default=default('--第5章潛艇圖隊伍'), gooey_options={'label_color': '#4B5F83'})
+    # sos.add_argument('--第6章潛艇圖隊伍', default=default('--第6章潛艇圖隊伍'), gooey_options={'label_color': '#4B5F83'})
+    # sos.add_argument('--第7章潛艇圖隊伍', default=default('--第7章潛艇圖隊伍'), gooey_options={'label_color': '#4B5F83'})
+    # sos.add_argument('--第8章潛艇圖隊伍', default=default('--第8章潛艇圖隊伍'), gooey_options={'label_color': '#4B5F83'})
+    # sos.add_argument('--第9章潛艇圖隊伍', default=default('--第9章潛艇圖隊伍'), gooey_options={'label_color': '#4B5F83'})
+    # sos.add_argument('--第10章潛艇圖隊伍', default=default('--第10章潛艇圖隊伍'), gooey_options={'label_color': '#4B5F83'})
+    sos_set = sos_parser.add_argument_group('潛艇圖設置', '', gooey_options={'label_color': '#931D03'})
+    sos_set.add_argument('--在每日中加入潛艇圖', default=default('--在每日中加入潛艇圖'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    sos_set.add_argument('--SOS前往章節', default=default('--SOS前往章節'), choices=['3', '4', '5', '6', '7', '8', '9', '10', '11'], help='選擇要前往的潛艇圖章節', gooey_options={'label_color': '#4B5F83'})
+    sos_fleet = sos_set.add_argument_group('潛艇圖隊伍設置', '', gooey_options={'label_color': '#931D03'})
+    sos_fleet.add_argument('--潛艇圖道中隊', default=default('--潛艇圖道中隊'), choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
+    sos_fleet.add_argument('--潛艇圖boss隊', default=default('--潛艇圖boss隊'), choices=['0', '1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
+    sos_fleet.add_argument('--潛艇圖潛艇隊', default=default('--潛艇圖潛艇隊'), choices=['0', '1', '2'], gooey_options={'label_color': '#4B5F83'})
 
     # ==========作戰檔案==========
     war_archives_parser = subs.add_parser('作戰檔案')

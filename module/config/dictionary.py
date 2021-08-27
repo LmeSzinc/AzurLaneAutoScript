@@ -250,6 +250,11 @@ dic_true_eng_to_eng = {
     'sos_fleets_chapter_8': 'sos_fleets_chapter_8',
     'sos_fleets_chapter_9': 'sos_fleets_chapter_9',
     'sos_fleets_chapter_10': 'sos_fleets_chapter_10',
+    'do_sos_in_daily': 'do_sos_in_daily',
+    'sos_chapter': 'sos_chapter',
+    'sos_fleet_1': 'sos_fleet_1',
+    'sos_fleet_2': 'sos_fleet_2',
+    'sos_submarine': 'sos_submarine',
     'war_archives_name': 'war_archives_name',
     'war_archives_stage': 'war_archives_stage',
     'raid_name': 'raid_name',
@@ -401,7 +406,6 @@ dic_true_eng_to_eng = {
     'free_research_only': 'free_research_only',
     'cubes_to_chips': 'cubes_to_chips',
 }
-
 dic_chi_to_eng = {
     # Function
     '出击设置': 'setting',
@@ -624,6 +628,11 @@ dic_chi_to_eng = {
     '第8章潜艇图队伍': 'sos_fleets_chapter_8',
     '第9章潜艇图队伍': 'sos_fleets_chapter_9',
     '第10章潜艇图队伍': 'sos_fleets_chapter_10',
+    '在每日中加入潜艇图': 'do_sos_in_daily',
+    '前往潜艇图章节': 'sos_chapter',
+    '潜艇图道中队': 'sos_fleet_1',
+    '潜艇图boss队': 'sos_fleet_2',
+    '潜艇图潜艇队': 'sos_submarine',
     '作战档案活动': 'war_archives_name',
     '作战档案地图': 'war_archives_stage',
     '共斗名称': 'raid_name',
@@ -998,6 +1007,11 @@ dic_tchi_to_eng = {
     '第8章潛艇圖隊伍': 'sos_fleets_chapter_8',
     '第9章潛艇圖隊伍': 'sos_fleets_chapter_9',
     '第10章潛艇圖隊伍': 'sos_fleets_chapter_10',
+    '在每日中加入潛艇圖': 'do_sos_in_daily',
+    '前往章節': 'sos_chapter',
+    '潛艇圖道中隊': 'sos_fleet_1',
+    '潛艇圖boss隊': 'sos_fleet_2',
+    '潛艇圖潛艇隊': 'sos_submarine',
     '作戰檔案活動': 'war_archives_name',
     '作戰檔案地圖': 'war_archives_stage',
     '共鬥名稱': 'raid_name',
