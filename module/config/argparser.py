@@ -474,19 +474,9 @@ def main(ini_name=''):
 
     # ==========潜艇图==========
     sos_parser = subs.add_parser('潜艇图')
-    # sos = sos_parser.add_argument_group(
-    #     '潜艇图设置', '设置每张潜艇图的队伍, 顺序: 一队二队潜艇队\n例如 "4, 6", "4, 0", "4, 6, 1"\n填0跳过不打', gooey_options={'label_color': '#931D03'})
-    # sos.add_argument('--第3章潜艇图队伍', default=default('--第3章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
-    # sos.add_argument('--第4章潜艇图队伍', default=default('--第4章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
-    # sos.add_argument('--第5章潜艇图队伍', default=default('--第5章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
-    # sos.add_argument('--第6章潜艇图队伍', default=default('--第6章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
-    # sos.add_argument('--第7章潜艇图队伍', default=default('--第7章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
-    # sos.add_argument('--第8章潜艇图队伍', default=default('--第8章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
-    # sos.add_argument('--第9章潜艇图队伍', default=default('--第9章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
-    # sos.add_argument('--第10章潜艇图队伍', default=default('--第10章潜艇图队伍'), gooey_options={'label_color': '#4B5F83'})
     sos_set = sos_parser.add_argument_group('潜艇图设置', '', gooey_options={'label_color': '#931D03'})
     sos_set.add_argument('--在每日中加入潜艇图', default=default('--在每日中加入潜艇图'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    sos_set.add_argument('--前往潜艇图章节', default=default('--前往潜艇图章节'), choices=['3', '4', '5', '6', '7', '8', '9', '10', '11'], help='选择要前往的潜艇图章节', gooey_options={'label_color': '#4B5F83'})
+    sos_set.add_argument('--前往潜艇图章节', default=default('--前往潜艇图章节'), choices=['3', '4', '5', '6', '7', '8', '9', '10'], help='选择要前往的潜艇图章节', gooey_options={'label_color': '#4B5F83'})
     sos_fleet = sos_set.add_argument_group('潜艇图队伍设置','', gooey_options={'label_color': '#931D03'})
     sos_fleet.add_argument('--潜艇图道中队', default=default('--潜艇图道中队'), choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
     sos_fleet.add_argument('--潜艇图boss队', default=default('--潜艇图boss队'), choices=['0', '1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})

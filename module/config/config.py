@@ -494,14 +494,6 @@ class AzurLaneConfig:
     """
     module.sos
     """
-    SOS_FLEETS_CHAPTER_3 = [4, 0]
-    SOS_FLEETS_CHAPTER_4 = [4, 0]
-    SOS_FLEETS_CHAPTER_5 = [4, 0]
-    SOS_FLEETS_CHAPTER_6 = [4, 0]
-    SOS_FLEETS_CHAPTER_7 = [4, 6]
-    SOS_FLEETS_CHAPTER_8 = [4, 6]
-    SOS_FLEETS_CHAPTER_9 = [5, 6, 1]
-    SOS_FLEETS_CHAPTER_10 = [4, 6, 1]
     DO_SOS_IN_DAILY = False
     SOS_CHAPTER = 3
     SOS_FLEET_1 = 5
@@ -854,10 +846,8 @@ class AzurLaneConfig:
 
         # Sos
         option = config['Sos']
-        for chapter in range(3, 11):
-            self.__setattr__(f'SOS_FLEETS_CHAPTER_{chapter}', to_list(option[f'sos_fleets_chapter_{chapter}']))
         self.DO_SOS_IN_DAILY = to_bool(option['do_sos_in_daily'])
-        self.SOS_CHAPTER = option['sos_chapter']
+        self.SOS_CHAPTER = int(option['sos_chapter'])
         self.SOS_FLEET_1 = int(option['sos_fleet_1'])
         self.SOS_FLEET_2 = int(option['sos_fleet_2'])
         self.SOS_SUBMARINE = int(option['sos_submarine'])
