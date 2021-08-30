@@ -11,11 +11,11 @@ MAP.camera_data_spawn_point = ['F5', 'D5']
 MAP.map_data = """
     MB -- ME ++ ++ -- -- ++ MB
     -- ++ ME -- ME -- Me ME --
-    ME -- Me -- ++ Me ++ ME MB
-    -- Me -- ++ -- -- -- ++ ++
+    ME ME ME -- ++ ME -- ME MB
+    ME ME -- ++ ME -- -- ++ ++
     ++ -- ME -- ME ME -- ++ ++
-    -- ME -- ME ++ ++ ME -- SP
-    MB ME ++ -- SP SP -- -- SP
+    ME ME -- ME ++ ++ ME -- SP
+    MB ME ++ ME -- ME -- -- SP
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
