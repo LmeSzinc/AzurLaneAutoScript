@@ -349,6 +349,15 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
                 count += 1
                 self.device.send_notification('Daily Hard', 'Daily hard campaign finished.')
 
+        if self.config.DO_SOS_IN_DAILY:
+            from module.sos.sos import CampaignSos
+            az = CampaignSos(self.config, device=self.device)
+            if not az.record_executed_since():
+                az.run()
+                az.record_save()
+                count += 1
+                self.device.send_notification('Daily Sos', 'Daily sos campaign finished.')
+
         if self.config.ENABLE_EVENT_SP:
             from module.event.campaign_sp import CampaignSP
             az = CampaignSP(self.config, device=self.device)

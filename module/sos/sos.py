@@ -5,12 +5,69 @@ from module.campaign.run import CampaignRun
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.sos.assets import *
+from module.template.assets import *
 from module.ui.assets import CAMPAIGN_CHECK
+from module.ui.scroll import Scroll
 
 OCR_SOS_SIGNAL = Digit(OCR_SIGNAL, letter=(255, 255, 255), threshold=128, name='OCR_SOS_SIGNAL')
+SOS_SCROLL = Scroll(SOS_SCROLL_AREA, color=(164, 173, 189), name='SOS_SCROLL')
+RECORD_OPTION = ('DailyRecord', 'sos')
+RECORD_SINCE = (0,)
 
 
 class CampaignSos(CampaignRun, CampaignBase):
+
+    def _find_target_chapter(self, chapter):
+        """
+        find the target chapter search button or goto button.
+
+        Args:
+            chapter (int): SOS target chapter
+        Returns:
+            Button: signal search button or goto button of the target chapter
+        """
+        signal_search_buttons = TEMPLATE_SIGNAL_SEARCH.match_multi(self.device.image)
+        sos_goto_buttons = TEMPLATE_SIGNAL_GOTO.match_multi(self.device.image)
+        all_buttons = sos_goto_buttons + signal_search_buttons
+        if all_buttons is None:
+            return None
+        chapter_buttons = [button.crop([-403, 8, -381, 35]) for button in all_buttons]
+        ocr_chapters = Digit(chapter_buttons, letter=[132, 230, 115], threshold=128, name='OCR_SOS_CHAPTER')
+        chapter_list = ocr_chapters.ocr(self.device.image)
+        if chapter in chapter_list:
+            return all_buttons[chapter_list.index(chapter)]
+        else:
+            return None
+
+    def _sos_signal_select(self, chapter, skip_first_screenshot=True):
+        """
+        select a SOS signal
+
+        Pages:
+            in: page_campaign
+            out: page_campaign
+        """
+        logger.hr(f'Select chapter {chapter} signal ')
+        self.ui_click(SIGNAL_SEARCH_ENTER, appear_button=CAMPAIGN_CHECK, check_button=SIGNAL_LIST_CHECK,
+                      skip_first_screenshot=True)
+        if chapter in [3, 4, 5]:
+            positions = [0.0, 0.5, 1.0]
+        elif chapter in [6, 7, 8]:
+            positions = [0.5, 1.0, 0.0]
+        elif chapter in [9, 10]:
+            positions = [1.0, 0.5, 0.0]
+        for scroll_position in positions:
+            SOS_SCROLL.set(scroll_position, main=self)
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            target_button = self._find_target_chapter(chapter)
+            if target_button is not None:
+                self.ui_click(target_button, appear_button=SIGNAL_LIST_CHECK, check_button=CAMPAIGN_CHECK,
+                              skip_first_screenshot=True)
+                break
+
     def _sos_signal_confirm(self, skip_first_screenshot=True):
         """
         Search a SOS signal, wait for searching animation, cancel popup.
@@ -58,7 +115,6 @@ class CampaignSos(CampaignRun, CampaignBase):
         for n in range(12):
             self.device.screenshot()
             remain = OCR_SOS_SIGNAL.ocr(self.device.image)
-
             if remain > 0:
                 self.ui_click(SIGNAL_SEARCH_ENTER, appear_button=CAMPAIGN_CHECK, check_button=SIGNAL_SEARCH,
                               skip_first_screenshot=True)
@@ -129,22 +185,32 @@ class CampaignSos(CampaignRun, CampaignBase):
             folder (str): Default to 'campaign_sos'.
             total (int): Default to 1, because SOS stages can only run once.
         """
-        for chapter in range(3, 11):
-            self.ui_weigh_anchor()
-            self._sos_signal_search()
-
-            fleets = self.config.__getattribute__(f'SOS_FLEETS_CHAPTER_{chapter}')
-            fleet_1 = fleets[0]
-            fleet_2 = fleets[1] if len(fleets) >= 2 else 0
-            submarine = fleets[2] if len(fleets) >= 3 else 0
-            if not fleet_1:
-                logger.info(f'Skip SOS in chapter {chapter}')
-                continue
-            if not self._sos_is_appear_at_chapter(chapter):
-                continue
-
-            backup = self.config.cover(FLEET_1=fleet_1, FLEET_2=fleet_2, SUBMARINE=submarine, FLEET_BOSS=1 if not fleet_2 else 2)
+        logger.hr('Campaign SOS', level=1)
+        self.ui_weigh_anchor()
+        remain = OCR_SOS_SIGNAL.ocr(self.device.image)
+        logger.attr('SOS signal', remain)
+        if remain == 0:
+            logger.info(f'No SOS signal, End SOS signal search')
+            return True
+        fleet_1 = self.config.SOS_FLEET_1
+        fleet_2 = self.config.SOS_FLEET_2
+        submarine = self.config.SOS_SUBMARINE
+        chapter = self.config.SOS_CHAPTER
+        backup = self.config.cover(FLEET_1=fleet_1, FLEET_2=fleet_2, SUBMARINE=submarine,
+                                   FLEET_BOSS=1 if not fleet_2 else 2)
+        while 1:
+            self._sos_signal_select(chapter)
             super().run(f'campaign_{chapter}_5', folder=folder, total=total)
-            backup.recover()
+            remain = OCR_SOS_SIGNAL.ocr(self.device.image)
+            logger.attr('remain', remain)
+            if remain < 1:
+                break
+        backup.recover()
+        logger.info(f'All SOS signals cleared')
+        return True
 
-        return False
+    def record_executed_since(self):
+        return self.config.record_executed_since(option=RECORD_OPTION, since=RECORD_SINCE)
+
+    def record_save(self):
+        return self.config.record_save(option=RECORD_OPTION)

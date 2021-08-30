@@ -559,16 +559,13 @@ def main(ini_name=''):
 
     # ==========sos==========
     sos_parser = subs.add_parser('sos')
-    sos = sos_parser.add_argument_group(
-        'sos settings', 'Set fleets for SOS maps, order: fleet_1, fleet_2, submarine_fleet\nsuch as "4, 6", "4, 0", "4, 6, 1"\nFill 0 to skip a map', gooey_options={'label_color': '#931D03'})
-    sos.add_argument('--sos_fleets_chapter_3', default=default('--sos_fleets_chapter_3'), gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--sos_fleets_chapter_4', default=default('--sos_fleets_chapter_4'), gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--sos_fleets_chapter_5', default=default('--sos_fleets_chapter_5'), gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--sos_fleets_chapter_6', default=default('--sos_fleets_chapter_6'), gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--sos_fleets_chapter_7', default=default('--sos_fleets_chapter_7'), gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--sos_fleets_chapter_8', default=default('--sos_fleets_chapter_8'), gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--sos_fleets_chapter_9', default=default('--sos_fleets_chapter_9'), gooey_options={'label_color': '#4B5F83'})
-    sos.add_argument('--sos_fleets_chapter_10', default=default('--sos_fleets_chapter_10'), gooey_options={'label_color': '#4B5F83'})
+    sos_set = sos_parser.add_argument_group('sos_set', '', gooey_options={'label_color': '#931D03'})
+    sos_set.add_argument('--do_sos_in_daily', default=default('--do_sos_in_daily'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    sos_set.add_argument('--sos_chapter', default=default('--sos_chapter'), choices=['3', '4', '5', '6', '7', '8', '9', '10'], help='choices sos chapter', gooey_options={'label_color': '#4B5F83'})
+    sos_fleet = sos_set.add_argument_group('sos_fleet_set','', gooey_options={'label_color': '#931D03'})
+    sos_fleet.add_argument('--sos_fleet_1', default=default('--sos_fleet_1'), choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
+    sos_fleet.add_argument('--sos_fleet_2', default=default('--sos_fleet_2'), choices=['0', '1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
+    sos_fleet.add_argument('--sos_submarine', default=default('--sos_submarine'), choices=['0', '1', '2'], gooey_options={'label_color': '#4B5F83'})
 
     # ==========war_archives==========
     war_archives_parser = subs.add_parser('war_archives')
