@@ -266,6 +266,14 @@ class RewardResearch(ResearchSelector):
         else:
             logger.info('No research has finished')
 
+        # In JP server, if received finished project was at the 4th(mid-right) entrance,
+        # positions of projects will not change while entering the 4th entrance.
+        # Re-enter page_research to fix it
+        if self.config.SERVER == 'jp':
+            if self._research_finished_index == 3:
+                self.ui_goto_main()
+                self.ui_ensure_research()
+
         self._research_project_offset = 0
 
         for _ in range(2):
