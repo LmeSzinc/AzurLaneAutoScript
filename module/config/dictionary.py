@@ -1000,7 +1000,7 @@ dic_tchi_to_eng = {
     '第9章潛艇圖隊伍': 'sos_fleets_chapter_9',
     '第10章潛艇圖隊伍': 'sos_fleets_chapter_10',
     '在每日中加入潛艇圖': 'do_sos_in_daily',
-    '前往章節': 'sos_chapter',
+    'SOS前往章節': 'sos_chapter',
     '潛艇圖道中隊': 'sos_fleet_1',
     '潛艇圖boss隊': 'sos_fleet_2',
     '潛艇圖潛艇隊': 'sos_submarine',
