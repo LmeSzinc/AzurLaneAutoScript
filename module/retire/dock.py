@@ -17,27 +17,27 @@ favourite_filter.add_status('on', check_button=COMMON_SHIP_FILTER_ENABLE)
 favourite_filter.add_status('off', check_button=COMMON_SHIP_FILTER_DISABLE)
 
 FILTER_SORT_GRIDS = ButtonGrid(
-    origin=(284, 109), delta=(157.5, 0), button_shape=(137, 38), grid_shape=(6, 1), name='FILTER_SORT')
+    origin=(284, 60), delta=(157.5, 0), button_shape=(137, 38), grid_shape=(6, 1), name='FILTER_SORT')
 FILTER_SORT_TYPES = [
     ['rarity', 'level', 'total', 'join', 'intimacy', 'stat']]  # stat has extra grid, not worth pursuing
 
 FILTER_INDEX_GRIDS = ButtonGrid(
-    origin=(284, 183), delta=(157.5, 56.5), button_shape=(137, 38), grid_shape=(6, 2), name='FILTER_INDEX')
+    origin=(284, 134), delta=(157.5, 56.5), button_shape=(137, 38), grid_shape=(6, 2), name='FILTER_INDEX')
 FILTER_INDEX_TYPES = [['all', 'vanguard', 'main', 'dd', 'cl', 'ca'],
                       ['bb', 'cv', 'repair', 'ss', 'others', 'not_available']]
 
 FILTER_FACTION_GRIDS = ButtonGrid(
-    origin=(284, 316), delta=(157.5, 56.5), button_shape=(137, 38), grid_shape=(6, 2), name='FILTER_FACTION')
+    origin=(284, 267), delta=(157.5, 56.5), button_shape=(137, 38), grid_shape=(6, 2), name='FILTER_FACTION')
 FILTER_FACTION_TYPES = [['all', 'eagle', 'royal', 'sakura', 'iron', 'dragon'],
                         ['sardegna', 'northern', 'iris', 'vichya', 'other', 'not_available']]
 
 FILTER_RARITY_GRIDS = ButtonGrid(
-    origin=(284, 449), delta=(157.5, 0), button_shape=(137, 38), grid_shape=(6, 1), name='FILTER_RARITY')
+    origin=(284, 400), delta=(157.5, 0), button_shape=(137, 38), grid_shape=(6, 1), name='FILTER_RARITY')
 FILTER_RARITY_TYPES = [['all', 'common', 'rare', 'elite', 'super_rare', 'ultra']]
 
 FILTER_EXTRA_GRIDS = ButtonGrid(
-    origin=(284, 522), delta=(157.5, 0), button_shape=(137, 38), grid_shape=(6, 1), name='FILTER_EXTRA')
-FILTER_EXTRA_TYPES = [['no_limit', 'has_skin', 'can_retrofit', 'enhanceable', 'special', 'oath_skin']]
+    origin=(284, 473), delta=(157.5, 0), button_shape=(137, 38), grid_shape=(6, 1), name='FILTER_EXTRA')
+FILTER_EXTRA_TYPES = [['no_limit', 'has_skin', 'can_retrofit', 'enhanceable', 'can_limit_break', 'not_level_max']]
 
 CARD_GRIDS = ButtonGrid(
     origin=(93, 76), delta=(164 + 2 / 3, 227), button_shape=(138, 204), grid_shape=(7, 2), name='CARD')
@@ -230,7 +230,6 @@ class Dock(Equipment):
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
-            
 
             if self.appear(DOCK_CHECK, interval=2):
                 self.device.click(button)
