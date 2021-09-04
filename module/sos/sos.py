@@ -24,6 +24,11 @@ class CampaignSos(CampaignRun, CampaignBase):
         return [-330, 8, -285, 45]
 
     @cached_property
+    @Config.when(SERVER='jp')
+    def _sos_chapter_crop(self):
+        return [-430, 8, -382, 45]
+
+    @cached_property
     @Config.when(SERVER=None)
     def _sos_chapter_crop(self):
         return [-403, 8, -381, 35]
