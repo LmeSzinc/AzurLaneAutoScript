@@ -73,7 +73,7 @@ class Enhancement(Dock):
             in: page_ship_enhance
             out: page_dock
         """
-        self.ui_back(DOCK_FILTER)
+        self.ui_back(DOCK_CHECK)
         self.dock_favourite_set(enable=False)
         # self.dock_filter_enter()
         # self.dock_filter_set(category='extra', filter_type='no_limit', enable=True)
@@ -253,7 +253,7 @@ class Enhancement(Dock):
                 total += 10
                 if total >= self._retire_amount:
                     break
-            self.ui_back(DOCK_FILTER)
+            self.ui_back(DOCK_CHECK)
 
         self._enhance_quit()
         return total
@@ -267,7 +267,7 @@ class Enhancement(Dock):
         Returns:
             int: enhance turn count
         """
-        self.ui_click(RETIRE_APPEAR_3, check_button=DOCK_FILTER, skip_first_screenshot=True)
+        self.ui_click(RETIRE_APPEAR_3, check_button=DOCK_CHECK, skip_first_screenshot=True)
         self.handle_dock_cards_loading()
 
         total = self.enhance_ships()

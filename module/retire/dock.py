@@ -17,27 +17,28 @@ favourite_filter.add_status('on', check_button=COMMON_SHIP_FILTER_ENABLE)
 favourite_filter.add_status('off', check_button=COMMON_SHIP_FILTER_DISABLE)
 
 FILTER_SORT_GRIDS = ButtonGrid(
-    origin=(284, 60), delta=(157.5, 0), button_shape=(137, 38), grid_shape=(6, 1), name='FILTER_SORT')
+    origin=(284, 60), delta=(158, 0), button_shape=(137, 38), grid_shape=(6, 1), name='FILTER_SORT')
 FILTER_SORT_TYPES = [
     ['rarity', 'level', 'total', 'join', 'intimacy', 'stat']]  # stat has extra grid, not worth pursuing
 
 FILTER_INDEX_GRIDS = ButtonGrid(
-    origin=(284, 134), delta=(157.5, 56.5), button_shape=(137, 38), grid_shape=(6, 2), name='FILTER_INDEX')
+    origin=(284, 133), delta=(158, 57), button_shape=(137, 38), grid_shape=(6, 2), name='FILTER_INDEX')
 FILTER_INDEX_TYPES = [['all', 'vanguard', 'main', 'dd', 'cl', 'ca'],
                       ['bb', 'cv', 'repair', 'ss', 'others', 'not_available']]
 
 FILTER_FACTION_GRIDS = ButtonGrid(
-    origin=(284, 267), delta=(157.5, 56.5), button_shape=(137, 38), grid_shape=(6, 2), name='FILTER_FACTION')
+    origin=(284, 267), delta=(158, 57), button_shape=(137, 38), grid_shape=(6, 2), name='FILTER_FACTION')
 FILTER_FACTION_TYPES = [['all', 'eagle', 'royal', 'sakura', 'iron', 'dragon'],
                         ['sardegna', 'northern', 'iris', 'vichya', 'other', 'not_available']]
 
 FILTER_RARITY_GRIDS = ButtonGrid(
-    origin=(284, 400), delta=(157.5, 0), button_shape=(137, 38), grid_shape=(6, 1), name='FILTER_RARITY')
+    origin=(284, 400), delta=(158, 0), button_shape=(137, 38), grid_shape=(6, 1), name='FILTER_RARITY')
 FILTER_RARITY_TYPES = [['all', 'common', 'rare', 'elite', 'super_rare', 'ultra']]
 
 FILTER_EXTRA_GRIDS = ButtonGrid(
-    origin=(284, 473), delta=(157.5, 0), button_shape=(137, 38), grid_shape=(6, 1), name='FILTER_EXTRA')
-FILTER_EXTRA_TYPES = [['no_limit', 'has_skin', 'can_retrofit', 'enhanceable', 'can_limit_break', 'not_level_max']]
+    origin=(284, 473), delta=(158, 57), button_shape=(137, 38), grid_shape=(6, 2), name='FILTER_EXTRA')
+FILTER_EXTRA_TYPES = [['no_limit', 'has_skin', 'can_retrofit', 'enhanceable', 'can_limit_break', 'not_level_max'],
+                      ['special', 'oath_skin', 'not_available', 'not_available', 'not_available', 'not_available']]
 
 CARD_GRIDS = ButtonGrid(
     origin=(93, 76), delta=(164 + 2 / 3, 227), button_shape=(138, 204), grid_shape=(7, 2), name='CARD')
@@ -71,10 +72,10 @@ class Dock(Equipment):
             self.handle_dock_cards_loading()
 
     def dock_filter_enter(self):
-        self.ui_click(DOCK_FILTER, check_button=DOCK_FILTER_CONFIRM, skip_first_screenshot=True)
+        self.ui_click(DOCK_FILTER, appear_button=DOCK_CHECK, check_button=DOCK_FILTER_CONFIRM, skip_first_screenshot=True)
 
     def dock_filter_confirm(self):
-        self.ui_click(DOCK_FILTER_CONFIRM, check_button=DOCK_FILTER, skip_first_screenshot=True)
+        self.ui_click(DOCK_FILTER_CONFIRM, check_button=DOCK_CHECK, skip_first_screenshot=True)
         self.handle_dock_cards_loading()
 
     def dock_filter_set(self, category, filter_type, enable):
@@ -207,7 +208,8 @@ class Dock(Equipment):
             faction (str, list): [['all', 'eagle', 'royal', 'sakura', 'iron', 'dragon'],
                                   ['sardegna', 'northern', 'iris', 'vichya', 'other', 'not_available']]
             rarity (str, list): [['all', 'common', 'rare', 'elite', 'super_rare', 'ultra']]
-            extra (str, list): [['no_limit', 'has_skin', 'can_retrofit', 'enhanceable', 'special', 'oath_skin']]
+            extra (str, list): [['no_limit', 'has_skin', 'can_retrofit', 'enhanceable', 'can_limit_break', 'not_level_max'],
+                                ['special', 'oath_skin', 'not_available', 'not_available', 'not_available', 'not_available']]
 
         Pages:
             in: page_dock
