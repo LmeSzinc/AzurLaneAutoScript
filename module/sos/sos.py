@@ -41,7 +41,6 @@ class CampaignSos(CampaignRun, CampaignBase):
         signal_search_buttons = TEMPLATE_SIGNAL_SEARCH.match_multi(self.device.image)
         sos_goto_buttons = TEMPLATE_SIGNAL_GOTO.match_multi(self.device.image)
         all_buttons = sos_goto_buttons + signal_search_buttons
-        logger.info(all_buttons)
         if not len(all_buttons):
             logger.info('No SOS chapter found')
             return None
@@ -76,7 +75,7 @@ class CampaignSos(CampaignRun, CampaignBase):
                       skip_first_screenshot=True)
 
         detection_area = (620, 285, 720, 485)
-        for _ in range(0, 3):
+        for _ in range(0, 5):
             target_button = self._find_target_chapter(chapter)
             if target_button is not None:
                 self._sos_signal_confirm(entrance=target_button)
@@ -87,7 +86,7 @@ class CampaignSos(CampaignRun, CampaignBase):
                 (0, -200), box=detection_area, random_range=(-50, -50, 50, 50), padding=20)
             self.device.drag(p1, p2, segments=2, shake=(0, 25), point_random=(0, 0, 0, 0), shake_random=(0, -5, 0, 5))
             backup.recover()
-            self.device.sleep(0.3)
+            self.device.sleep((0.6, 1))
             self.device.screenshot()
         return False
 
@@ -188,12 +187,15 @@ class CampaignSos(CampaignRun, CampaignBase):
                 remain = OCR_SOS_SIGNAL.ocr(self.device.image)
                 logger.attr('remain', remain)
                 if remain < 1:
+                    logger.info(f'All SOS signals cleared')
                     break
             else:
+                self.ui_click(SIGNAL_SEARCH_CLOSE, appear_button=SIGNAL_LIST_CHECK, check_button=CAMPAIGN_CHECK,
+                              skip_first_screenshot=True)
+                logger.warn(f'Failed to clear SOS signals, cannot locate chapter {chapter}')
                 break
 
         backup.recover()
-        logger.info(f'All SOS signals cleared')
         return True
 
     def record_executed_since(self):
