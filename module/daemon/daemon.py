@@ -43,7 +43,8 @@ class AzurLaneDaemon(CampaignBase):
                     continue
 
             # Retire
-            pass
+            if self.handle_retirement():
+                continue
 
             # Emotion
             pass
