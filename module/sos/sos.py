@@ -1,5 +1,7 @@
 from campaign.campaign_sos.campaign_base import CampaignBase
-from module.base.utils import area_pad
+from module.base.decorator import Config
+from module.base.decorator import cached_property
+from module.base.utils import area_pad, random_rectangle_vector
 from module.campaign.run import CampaignRun
 from module.logger import logger
 from module.ocr.ocr import Digit
@@ -16,6 +18,16 @@ RECORD_SINCE = (0,)
 
 class CampaignSos(CampaignRun, CampaignBase):
 
+    @cached_property
+    @Config.when(SERVER='en')
+    def _sos_chapter_crop(self):
+        return [-330, 8, -285, 45]
+
+    @cached_property
+    @Config.when(SERVER=None)
+    def _sos_chapter_crop(self):
+        return [-403, 8, -381, 35]
+
     def _find_target_chapter(self, chapter):
         """
         find the target chapter search button or goto button.
@@ -29,11 +41,12 @@ class CampaignSos(CampaignRun, CampaignBase):
         signal_search_buttons = TEMPLATE_SIGNAL_SEARCH.match_multi(self.device.image)
         sos_goto_buttons = TEMPLATE_SIGNAL_GOTO.match_multi(self.device.image)
         all_buttons = sos_goto_buttons + signal_search_buttons
+        logger.info(all_buttons)
         if not len(all_buttons):
             logger.info('No SOS chapter found')
             return None
 
-        chapter_buttons = [button.crop([-403, 8, -381, 35]) for button in all_buttons]
+        chapter_buttons = [button.crop(self._sos_chapter_crop) for button in all_buttons]
         ocr_chapters = Digit(chapter_buttons, letter=[132, 230, 115], threshold=128, name='OCR_SOS_CHAPTER')
         chapter_list = ocr_chapters.ocr(self.device.image)
         if chapter in chapter_list:
@@ -43,6 +56,7 @@ class CampaignSos(CampaignRun, CampaignBase):
             logger.info('Target SOS chapter not found')
             return None
 
+    @Config.when(SERVER='en')
     def _sos_signal_select(self, chapter):
         """
         select a SOS signal
@@ -53,6 +67,44 @@ class CampaignSos(CampaignRun, CampaignBase):
         Pages:
             in: page_campaign
             out: page_campaign, in target chapter
+
+        Returns:
+            bool: whether select successful
+        """
+        logger.hr(f'Select chapter {chapter} signal ')
+        self.ui_click(SIGNAL_SEARCH_ENTER, appear_button=CAMPAIGN_CHECK, check_button=SIGNAL_LIST_CHECK,
+                      skip_first_screenshot=True)
+
+        detection_area = (620, 285, 720, 485)
+        for _ in range(0, 3):
+            target_button = self._find_target_chapter(chapter)
+            if target_button is not None:
+                self._sos_signal_confirm(entrance=target_button)
+                return True
+
+            backup = self.config.cover(DEVICE_CONTROL_METHOD='minitouch')
+            p1, p2 = random_rectangle_vector(
+                (0, -200), box=detection_area, random_range=(-50, -50, 50, 50), padding=20)
+            self.device.drag(p1, p2, segments=2, shake=(0, 25), point_random=(0, 0, 0, 0), shake_random=(0, -5, 0, 5))
+            backup.recover()
+            self.device.sleep(0.3)
+            self.device.screenshot()
+        return False
+
+    @Config.when(SERVER=None)
+    def _sos_signal_select(self, chapter):
+        """
+        select a SOS signal
+
+        Args:
+            chapter (int): 3 to 10.
+
+        Pages:
+            in: page_campaign
+            out: page_campaign, in target chapter
+
+        Returns:
+            bool: whether select successful
         """
         logger.hr(f'Select chapter {chapter} signal ')
         self.ui_click(SIGNAL_SEARCH_ENTER, appear_button=CAMPAIGN_CHECK, check_button=SIGNAL_LIST_CHECK,
@@ -72,7 +124,8 @@ class CampaignSos(CampaignRun, CampaignBase):
             target_button = self._find_target_chapter(chapter)
             if target_button is not None:
                 self._sos_signal_confirm(entrance=target_button)
-                break
+                return True
+        return False
 
     def _sos_signal_confirm(self, entrance, skip_first_screenshot=True):
         """
@@ -92,11 +145,12 @@ class CampaignSos(CampaignRun, CampaignBase):
             else:
                 self.device.screenshot()
 
-            image = self.image_area(area_pad(entrance.area, pad=-30))
-            if TEMPLATE_SIGNAL_SEARCH.match(image):
-                self.device.click(entrance)
-            if TEMPLATE_SIGNAL_GOTO.match(image):
-                self.device.click(entrance)
+            if self.appear(SIGNAL_LIST_CHECK, offset=(20, 20), interval=2):
+                image = self.image_area(area_pad(entrance.area, pad=-30))
+                if TEMPLATE_SIGNAL_SEARCH.match(image):
+                    self.device.click(entrance)
+                if TEMPLATE_SIGNAL_GOTO.match(image):
+                    self.device.click(entrance)
 
             # End
             if self.appear(CAMPAIGN_CHECK, offset=(20, 20)):
@@ -129,11 +183,13 @@ class CampaignSos(CampaignRun, CampaignBase):
         )
 
         while 1:
-            self._sos_signal_select(chapter)
-            super().run(f'campaign_{chapter}_5', folder=folder, total=total)
-            remain = OCR_SOS_SIGNAL.ocr(self.device.image)
-            logger.attr('remain', remain)
-            if remain < 1:
+            if self._sos_signal_select(chapter):
+                super().run(f'campaign_{chapter}_5', folder=folder, total=total)
+                remain = OCR_SOS_SIGNAL.ocr(self.device.image)
+                logger.attr('remain', remain)
+                if remain < 1:
+                    break
+            else:
                 break
 
         backup.recover()
