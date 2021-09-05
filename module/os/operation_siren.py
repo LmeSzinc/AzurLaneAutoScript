@@ -5,6 +5,7 @@ import numpy as np
 from module.exception import ScriptError
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
+from module.os.assets import MAP_EXIT
 from module.os.map import OSMap
 from module.os_handler.action_point import ActionPointLimit
 from module.reward.reward import Reward
@@ -26,6 +27,8 @@ class OperationSiren(Reward, OSMap):
             out: IN_MAP
         """
         logger.hr('OS init')
+
+        # UI switching
         self.device.screenshot()
         if self.is_in_map():
             logger.info('Already in os map')
@@ -42,11 +45,18 @@ class OperationSiren(Reward, OSMap):
             self.device.sleep(0.3)
             self.device.screenshot()
 
+        # Init
         self.get_current_zone()
         # self.map_init()
         self.hp_reset()
 
+        # Clear current zone
         self.run_auto_search()
+
+        # Exit from special zones types, only SAFE and DANGEROUS are acceptable.
+        if self.appear(MAP_EXIT, offset=(20, 20)):
+            logger.warning('OS is in a special zone type, while SAFE and DANGEROUS are acceptable')
+            self.map_exit()
 
     def globe_goto(self, zone, types=('SAFE', 'DANGEROUS'), refresh=False, stop_if_safe=False):
         """
