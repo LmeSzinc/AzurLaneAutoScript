@@ -162,7 +162,7 @@ class Homography:
         image_trans = cv2.warpPerspective(image, self.homo_data, self.homo_size)
 
         # Edge detection
-        image_edge = cv2.Canny(image_trans, 100, 150)
+        image_edge = cv2.Canny(image_trans, *self.config.HOMO_CANNY_THRESHOLD)
         image_edge = cv2.bitwise_and(image_edge, self.ui_mask_homo_stroke)
         kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
         image_edge = cv2.morphologyEx(image_edge, cv2.MORPH_CLOSE, kernel)

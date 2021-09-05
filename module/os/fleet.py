@@ -1,5 +1,4 @@
 from module.base.button import *
-from module.base.decorator import Config
 from module.base.timer import Timer
 from module.base.utils import *
 from module.logger import logger
@@ -192,19 +191,25 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         In most situation, we use auto search to clear a map in OpSi, and classic methods are deprecated.
         But we still need to move fleet toward port, this method is for this situation.
         """
-        view = self.os_default_view
-
         while 1:
+            # Calculate destination
             port = self.radar.port_predict(self.device.image)
-            view.load(self.device.image)
             logger.info(f'Port route at {port}')
             if np.linalg.norm(port) == 0:
                 logger.info('Arrive port')
                 break
 
+            # Update local view
+            self.update_os()
+            self.view.predict()
+            self.view.show()
+
+            # Click way point
             port = point_limit(port, area=(-4, -2, 3, 2))
-            port = view[np.add(port, view.center_loca)]
+            port = self.convert_radar_to_local(port)
             self.device.click(port)
+
+            # Wait until arrived
             prev = (0, 0)
             confirm_timer = Timer(1, count=2).start()
             while 1:
