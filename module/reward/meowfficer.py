@@ -53,7 +53,7 @@ class RewardMeowfficer(UI):
         return True
 
     def handle_meow_popup_confirm(self):
-        if self.appear_then_click(MEOWFFICER_CONFIRM, offset=(20, 20), interval=5):
+        if self.appear_then_click(MEOWFFICER_CONFIRM, offset=(40, 20), interval=5):
             return True
         else:
             return False
@@ -116,7 +116,7 @@ class RewardMeowfficer(UI):
             else:
                 self.device.screenshot()
 
-            if self.appear(MEOWFFICER_STATUS, interval=1):
+            if self.appear(MEOWFFICER_STATUS, offset=(20, 20), interval=1):
                 self.device.multi_click(MEOWFFICER_TRAIN_CLICK_SAFE_AREA, 2)
                 confirm_timer.reset()
                 continue
