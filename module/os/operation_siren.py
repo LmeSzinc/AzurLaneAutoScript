@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 
 import numpy as np
 
+from module.exception import MapWalkError
 from module.exception import ScriptError
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
@@ -107,6 +108,25 @@ class OperationSiren(Reward, OSMap):
         self.get_current_zone()
         # self.map_init()
         return True
+
+    def port_goto2(self):
+        """
+        Wraps `port_goto2()`, handle walk_out_of_step
+
+        Returns:
+            bool: If success
+        """
+        for _ in range(3):
+            try:
+                super().port_goto2()
+                return True
+            except MapWalkError:
+                pass
+
+            logger.info('Goto another port then re-enter')
+            prev = self.zone
+            self.globe_goto(self.zone_nearest_azur_port(self.zone))
+            self.globe_goto(prev)
 
     def fleet_repair(self, revert=True):
         """
