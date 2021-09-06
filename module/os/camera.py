@@ -141,7 +141,14 @@ class OSCamera(OSMapOperation, Camera):
                            f'Assuming camera center is current fleet: {location2node(self.view.center_loca)}')
             center = self.view.center_loca
 
-        local = self.view[np.add(location, center)]
+        try:
+            local = self.view[np.add(location, center)]
+        except KeyError:
+            logger.warning(f'Convert radar to local, but target grid not in local view. '
+                           f'Assuming camera center is current fleet: {location2node(self.view.center_loca)}')
+            center = self.view.center_loca
+            local = self.view[np.add(location, center)]
+
         logger.info('Radar %s -> Local %s (fleet=%s)' % (
             str(location),
             location2node(local.location),
