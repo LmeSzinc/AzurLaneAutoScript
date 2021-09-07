@@ -324,6 +324,7 @@ class AzurLaneConfig:
     # [upper-left, upper-right, bottom-left, bottom-right]
     HOMO_CORNER_OFFSET_LIST = [(-42, -42), (68, -42), (-42, 69), (69, 69)]
 
+    HOMO_CANNY_THRESHOLD = (100, 150)
     HOMO_CENTER_GOOD_THRESHOLD = 0.9
     HOMO_CENTER_THRESHOLD = 0.8
     HOMO_CORNER_THRESHOLD = 0.8

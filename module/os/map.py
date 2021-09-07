@@ -1,5 +1,3 @@
-import numpy as np
-
 from module.exception import CampaignEnd
 from module.logger import logger
 from module.map.map import Map
@@ -134,8 +132,12 @@ class OSMap(OSFleet, Map, GlobeCamera):
 
         logger.info(f'Found Akashi on {grid}')
         self.handle_info_bar()
-        view = self.os_default_view
-        grid = view[np.add(grid, view.center_loca)]
+
+        self.update_os()
+        self.view.predict()
+        self.view.show()
+
+        grid = self.convert_radar_to_local(grid)
         self.handle_akashi_supply_buy(grid)
         return True
 

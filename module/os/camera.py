@@ -2,9 +2,10 @@ import numpy as np
 
 from module.base.button import Button
 from module.base.decorator import cached_property
+from module.exception import MapDetectionError
 from module.logger import logger
 from module.map.camera import Camera
-from module.map.map_base import location_ensure
+from module.map.map_base import location_ensure, location2node
 from module.map_detection.view import View
 from module.os.map_operation import OSMapOperation
 from module.os.radar import Radar
@@ -19,7 +20,11 @@ class OSCamera(OSMapOperation, Camera):
 
     def _view_init(self):
         if not hasattr(self, 'view'):
-            self.view = View(self.config, mode='os')
+            storage = ((10, 7), [(110.307, 103.657), (1012.311, 103.657), (-32.959, 600.567), (1113.057, 600.567)])
+            view = View(self.config, mode='os')
+            view.detector_set_backend('homography')
+            view.backend.load_homography(storage=storage)
+            self.view = view
 
     @cached_property
     def radar(self):
@@ -83,25 +88,70 @@ class OSCamera(OSMapOperation, Camera):
             button = Button(area=area, color=(), button=area, name='MAP_OUTSIDE')
             return button
 
-    @cached_property
-    def os_default_view(self):
+    def update_os(self):
         """
+        Similar to `Camera.update()`, but for OPSI.
+        """
+        # self.device.screenshot()
+        self._view_init()
+
+        try:
+            self.view.load(self.device.image)
+        except (MapDetectionError, AttributeError) as e:
+            logger.warning(e)
+            logger.warning('Assuming camera is focused on grid center')
+
+            def empty(*args, **kwargs):
+                pass
+
+            backup, self.view.backend.load = self.view.backend.load, empty
+            self.view.backend.homo_loca = (53, 60)
+            self.view.load(self.device.image)
+            self.view.backend.load = backup
+
+    def convert_radar_to_local(self, location):
+        """
+        Converts the coordinate on radar to the coordinate of local map view,
+        also handles a rare game bug.
+
+        Usually, OPSI camera focus on current fleet, which is (5, 4) in local view.
+        The convert should be `local = view[np.add(radar, view.center_loca)]`
+        However, Azur Lane may bugged, not focusing current.
+        In this case, the convert should base on fleet position.
+
+        Args:
+            location: (x, y), Position on radar.
+
         Returns:
-            View:
+            OSGrid: Grid instance in self.view
         """
-        def empty(*args, **kwargs):
-            pass
+        location = location_ensure(location)
 
-        storage = ((10, 7), [(110.307, 103.657), (1012.311, 103.657), (-32.959, 600.567), (1113.057, 600.567)])
-        view = View(self.config, mode='os')
-        view.detector_set_backend('homography')
-        view.backend.load_homography(storage=storage)
-        view.backend.load = empty
-        view.backend.left_edge = None
-        view.backend.right_edge = None
-        view.backend.upper_edge = None
-        view.backend.lower_edge = None
-        view.backend.homo_loca = (53, 60)
-        view.load(self.device.image)
+        fleets = self.view.select(is_current_fleet=True)
+        if fleets.count == 1:
+            center = fleets[0].location
+        elif fleets.count > 1:
+            logger.warning(f'Convert radar to local, but found multiple current fleets: {fleets}')
+            distance = np.linalg.norm(np.subtract(fleets.location, self.view.center_loca))
+            center = fleets.grids[np.argmin(distance)].location
+            logger.warning(
+                f'Assuming the nearest fleet to camera canter is current fleet: {location2node(center)}')
+        else:
+            logger.warning(f'Convert radar to local, but current fleet not found. '
+                           f'Assuming camera center is current fleet: {location2node(self.view.center_loca)}')
+            center = self.view.center_loca
 
-        return view
+        try:
+            local = self.view[np.add(location, center)]
+        except KeyError:
+            logger.warning(f'Convert radar to local, but target grid not in local view. '
+                           f'Assuming camera center is current fleet: {location2node(self.view.center_loca)}')
+            center = self.view.center_loca
+            local = self.view[np.add(location, center)]
+
+        logger.info('Radar %s -> Local %s (fleet=%s)' % (
+            str(location),
+            location2node(local.location),
+            location2node(self.view.center_loca)
+        ))
+        return local
