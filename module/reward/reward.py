@@ -403,7 +403,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
 
     def reward_backup_daily_reward_settings(self):
         """
-        Method to avoid event_daily_ab calls reward, and reward calls event_daily_ab itself again.
+        Method to avoid event_daily_ab and sos calls reward, and reward calls event_daily_ab or daily_sos itself again.
         """
         self._daily_reward_setting_backup = self.config.cover(
             ENABLE_DAILY_REWARD=False,
