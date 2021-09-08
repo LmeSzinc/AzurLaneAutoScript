@@ -175,6 +175,9 @@ class CampaignSos(CampaignRun, CampaignBase):
             logger.info(f'No SOS signal, End SOS signal search')
             return True
 
+        # avoid sos calls daily_sos and causes error.
+        self.reward_backup_daily_reward_settings()
+        
         fleet_1 = self.config.SOS_FLEET_1
         fleet_2 = self.config.SOS_FLEET_2
         submarine = self.config.SOS_SUBMARINE
@@ -201,6 +204,7 @@ class CampaignSos(CampaignRun, CampaignBase):
                 break
 
         backup.recover()
+        self.reward_recover_daily_reward_settings()
         return True
 
     def record_executed_since(self):
