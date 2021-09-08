@@ -1,0 +1,43 @@
+Alas:
+  _info:
+    Menu: Alas
+  Scheduler:
+    Command: alas
+    NextRun: 2020-01-01 00:00:00
+    SuccessInterval: 0
+    FailureInterval: 120
+    ServerUpdate: 00:00
+  Emulator:
+    Serial:
+      value: 127.0.0.1:62001
+      option:
+        - 127.0.0.1:5555
+        - 127.0.0.1:21503
+        - 127.0.0.1:62001
+Main:
+  _info:
+    Menu: Main
+  Scheduler:
+    Command: main
+    NextRun: 2020-01-01 00:00:00
+    SuccessInterval: 0
+    FailureInterval: 120
+    ServerUpdate: 00:00
+Commission:
+  _info:
+    Menu: Reward
+  Scheduler:
+    Command: commission
+    NextRun: 2020-01-01 00:00:00
+    SuccessInterval: 10-40
+    FailureInterval: 10-40
+    ServerUpdate: 00:00
+Research:
+  _info:
+    Menu: Reward
+  Scheduler:
+    Command: research
+    NextRun: 2020-01-01 00:00:00
+    SuccessInterval: 10-40
+    FailureInterval: 10-40
+    ServerUpdate: 00:00

@@ -1,0 +1,30 @@
+Alas:
+  Scheduler:
+    Command: Alas
+    NextRun: 2020-01-01 00:00:00
+    SuccessInterval: 0
+    FailureInterval: 120
+    ServerUpdate: 00:00
+  Emulator:
+    Serial: 127.0.0.1:62001
+Main:
+  Scheduler:
+    Command: Main
+    NextRun: 2020-01-01 00:00:00
+    SuccessInterval: 0
+    FailureInterval: 1222
+    ServerUpdate: 00:00
+Commission:
+  Scheduler:
+    Command: Commission
+    NextRun: 2020-01-01 00:00:00
+    SuccessInterval: 10-40
+    FailureInterval: 10-40
+    ServerUpdate: 00:00
+Research:
+  Scheduler:
+    Command: Research
+    NextRun: 2020-01-01 00:00:00
+    SuccessInterval: 10-40
+    FailureInterval: 10-40
+    ServerUpdate: 00:00

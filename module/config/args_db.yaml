@@ -1,0 +1,382 @@
+_default:
+  '1':
+    func: Alas
+    group: _info
+    arg: _info
+    lang: zh-CN
+    name: Alas._info._info.name
+    help: Alas._info._info.help
+    type: ''
+    value: ''
+    row: 1
+    option: {}
+  '2':
+    func: Alas
+    group: _info
+    arg: Menu
+    lang: zh-CN
+    name: Alas._info.Menu.name
+    help: Alas._info.Menu.help
+    type: input
+    value: Alas
+    row: 1
+    option: {}
+  '3':
+    func: Alas
+    group: Scheduler
+    arg: _info
+    lang: zh-CN
+    name: Alas.Scheduler._info.name
+    help: Alas.Scheduler._info.help
+    type: ''
+    value: ''
+    row: 1
+    option: {}
+  '4':
+    func: Alas
+    group: Scheduler
+    arg: Command
+    lang: zh-CN
+    name: Alas.Scheduler.Command.name
+    help: Alas.Scheduler.Command.help
+    type: input
+    value: Alas
+    row: 1
+    option: {}
+  '5':
+    func: Alas
+    group: Scheduler
+    arg: NextRun
+    lang: zh-CN
+    name: Alas.Scheduler.NextRun.name
+    help: 'Will not run before this time. To run immediately, delete this.
+
+      Format: "YY-MM-DD hh:mm:ss". Default to "2020-01-01 00:00:00"'
+    type: input
+    value: 2020-01-01 00:00:00
+    row: 1
+    option: {}
+  '6':
+    func: Alas
+    group: Scheduler
+    arg: SuccessInterval
+    lang: zh-CN
+    name: Alas.Scheduler.SuccessInterval.name
+    help: Alas.Scheduler.SuccessInterval.help
+    type: input
+    value: 0
+    row: 1
+    option: {}
+  '7':
+    func: Alas
+    group: Scheduler
+    arg: FailureInterval
+    lang: zh-CN
+    name: Alas.Scheduler.FailureInterval.name
+    help: Alas.Scheduler.FailureInterval.help
+    type: input
+    value: 120
+    row: 1
+    option: {}
+  '8':
+    func: Alas
+    group: Scheduler
+    arg: ServerUpdate
+    lang: zh-CN
+    name: Alas.Scheduler.ServerUpdate.name
+    help: Alas.Scheduler.ServerUpdate.help
+    type: input
+    value: 00:00
+    row: 1
+    option: {}
+  '9':
+    func: Alas
+    group: Emulator
+    arg: _info
+    lang: zh-CN
+    name: Alas.Emulator._info.name
+    help: Alas.Emulator._info.help
+    type: ''
+    value: ''
+    row: 1
+    option: {}
+  '10':
+    func: Alas
+    group: Emulator
+    arg: Serial
+    lang: zh-CN
+    name: Alas.Emulator.Serial.name
+    help: Alas.Emulator.Serial.help
+    type: input
+    value: 127.0.0.1:62001
+    row: 1
+    option:
+      127.0.0.1:5555: 127.0.0.1:5555
+      127.0.0.1:21503: 127.0.0.1:21503
+      127.0.0.1:62001: 127.0.0.1:62001
+  '11':
+    func: Main
+    group: _info
+    arg: _info
+    lang: zh-CN
+    name: 主线图
+    help: 中文
+    type: ''
+    value: ''
+    row: 1
+    option: {}
+  '12':
+    func: Main
+    group: _info
+    arg: Menu
+    lang: zh-CN
+    name: Main._info.Menu.name
+    help: Main._info.Menu.help
+    type: input
+    value: Main
+    row: 1
+    option: {}
+  '13':
+    func: Main
+    group: Scheduler
+    arg: _info
+    lang: zh-CN
+    name: Scheduler
+    help: Scheduler settings
+    type: ''
+    value: ''
+    row: 1
+    option: {}
+  '14':
+    func: Main
+    group: Scheduler
+    arg: Command
+    lang: zh-CN
+    name: Command
+    help: Main.Scheduler.Command.help
+    type: input
+    value: Main
+    row: 1
+    option: {}
+  '15':
+    func: Main
+    group: Scheduler
+    arg: NextRun
+    lang: zh-CN
+    name: Next Run Time
+    help: 'Will not run before this time. To run immediately, delete this.
+
+      Format: "YY-MM-DD hh:mm:ss". Default to "2020-01-01 00:00:00"'
+    type: input
+    value: 2020-01-01 00:00:00
+    row: 1
+    option: {}
+  '16':
+    func: Main
+    group: Scheduler
+    arg: SuccessInterval
+    lang: zh-CN
+    name: Main.Scheduler.SuccessInterval.name
+    help: Main.Scheduler.SuccessInterval.help
+    type: input
+    value: 0
+    row: 1
+    option: {}
+  '17':
+    func: Main
+    group: Scheduler
+    arg: FailureInterval
+    lang: zh-CN
+    name: Main.Scheduler.FailureInterval.name
+    help: Main.Scheduler.FailureInterval.help
+    type: input
+    value: 120
+    row: 1
+    option: {}
+  '18':
+    func: Main
+    group: Scheduler
+    arg: ServerUpdate
+    lang: zh-CN
+    name: Main.Scheduler.ServerUpdate.name
+    help: Main.Scheduler.ServerUpdate.help
+    type: input
+    value: 00:00
+    row: 1
+    option: {}
+  '19':
+    func: Commission
+    group: _info
+    arg: _info
+    lang: zh-CN
+    name: Commission._info._info.name
+    help: Commission._info._info.help
+    type: ''
+    value: ''
+    row: 1
+    option: {}
+  '20':
+    func: Commission
+    group: _info
+    arg: Menu
+    lang: zh-CN
+    name: Commission._info.Menu.name
+    help: Commission._info.Menu.help
+    type: input
+    value: Reward
+    row: 1
+    option: {}
+  '21':
+    func: Commission
+    group: Scheduler
+    arg: _info
+    lang: zh-CN
+    name: Commission.Scheduler._info.name
+    help: Commission.Scheduler._info.help
+    type: ''
+    value: ''
+    row: 1
+    option: {}
+  '22':
+    func: Commission
+    group: Scheduler
+    arg: Command
+    lang: zh-CN
+    name: Commission.Scheduler.Command.name
+    help: Commission.Scheduler.Command.help
+    type: input
+    value: Commission
+    row: 1
+    option: {}
+  '23':
+    func: Commission
+    group: Scheduler
+    arg: NextRun
+    lang: zh-CN
+    name: Commission.Scheduler.NextRun.name
+    help: Commission.Scheduler.NextRun.help
+    type: input
+    value: 2020-01-01 00:00:00
+    row: 1
+    option: {}
+  '24':
+    func: Commission
+    group: Scheduler
+    arg: SuccessInterval
+    lang: zh-CN
+    name: Commission.Scheduler.SuccessInterval.name
+    help: Commission.Scheduler.SuccessInterval.help
+    type: input
+    value: 10-40
+    row: 1
+    option: {}
+  '25':
+    func: Commission
+    group: Scheduler
+    arg: FailureInterval
+    lang: zh-CN
+    name: Commission.Scheduler.FailureInterval.name
+    help: Commission.Scheduler.FailureInterval.help
+    type: input
+    value: 10-40
+    row: 1
+    option: {}
+  '26':
+    func: Commission
+    group: Scheduler
+    arg: ServerUpdate
+    lang: zh-CN
+    name: Commission.Scheduler.ServerUpdate.name
+    help: Commission.Scheduler.ServerUpdate.help
+    type: input
+    value: 00:00
+    row: 1
+    option: {}
+  '27':
+    func: Research
+    group: _info
+    arg: _info
+    lang: zh-CN
+    name: Research._info._info.name
+    help: Research._info._info.help
+    type: ''
+    value: ''
+    row: 1
+    option: {}
+  '28':
+    func: Research
+    group: _info
+    arg: Menu
+    lang: zh-CN
+    name: Research._info.Menu.name
+    help: Research._info.Menu.help
+    type: input
+    value: Reward
+    row: 1
+    option: {}
+  '29':
+    func: Research
+    group: Scheduler
+    arg: _info
+    lang: zh-CN
+    name: Research.Scheduler._info.name
+    help: Research.Scheduler._info.help
+    type: ''
+    value: ''
+    row: 1
+    option: {}
+  '30':
+    func: Research
+    group: Scheduler
+    arg: Command
+    lang: zh-CN
+    name: Research.Scheduler.Command.name
+    help: Research.Scheduler.Command.help
+    type: input
+    value: Research
+    row: 1
+    option: {}
+  '31':
+    func: Research
+    group: Scheduler
+    arg: NextRun
+    lang: zh-CN
+    name: Research.Scheduler.NextRun.name
+    help: Research.Scheduler.NextRun.help
+    type: input
+    value: 2020-01-01 00:00:00
+    row: 1
+    option: {}
+  '32':
+    func: Research
+    group: Scheduler
+    arg: SuccessInterval
+    lang: zh-CN
+    name: Research.Scheduler.SuccessInterval.name
+    help: Research.Scheduler.SuccessInterval.help
+    type: input
+    value: 10-40
+    row: 1
+    option: {}
+  '33':
+    func: Research
+    group: Scheduler
+    arg: FailureInterval
+    lang: zh-CN
+    name: Research.Scheduler.FailureInterval.name
+    help: Research.Scheduler.FailureInterval.help
+    type: input
+    value: 10-40
+    row: 1
+    option: {}
+  '34':
+    func: Research
+    group: Scheduler
+    arg: ServerUpdate
+    lang: zh-CN
+    name: Research.Scheduler.ServerUpdate.name
+    help: Research.Scheduler.ServerUpdate.help
+    type: input
+    value: 00:00
+    row: 1
+    option: {}

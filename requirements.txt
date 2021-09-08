@@ -16,3 +16,6 @@ colored
 # win10toast-persist
 notify-py
 jellyfish
+tinydb
+yaml
+inflection

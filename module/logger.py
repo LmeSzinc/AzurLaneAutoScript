@@ -21,8 +21,9 @@ logger.setLevel(logging.DEBUG if logger_debug else logging.INFO)
 formatter = logging.Formatter(fmt='%(asctime)s.%(msecs)03d | %(levelname)s | %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
 # Add console logger
-console = logging.StreamHandler()
+console = logging.StreamHandler(stream=sys.stdout)
 console.setFormatter(formatter)
+console.flush = sys.stdout.flush
 logger.addHandler(console)
 
 # Ensure running in Alas root folder
