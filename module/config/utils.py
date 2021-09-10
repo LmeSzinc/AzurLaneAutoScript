@@ -177,20 +177,21 @@ def path_to_arg(string):
         string (str): Such as `Scheduler.ServerUpdate`
 
     Returns:
-        str: Such as `SCHEDULER__SERVER_UPDATE`
+        str: Such as `Scheduler_ServerUpdate`
     """
-    return inflection.underscore(string.replace('.', '__')).upper()
+    return string.replace('.', '_')
 
 
-def dict_to_kv(dictionary):
+def dict_to_kv(dictionary, allow_none=True):
     """
     Args:
         dictionary: Such as `{'path': 'Scheduler.ServerUpdate', 'value': True}`
+        allow_none (bool):
 
     Returns:
         str: Such as `path='Scheduler.ServerUpdate', value=True`
     """
-    return ', '.join([f'{k}={repr(v)}' for k, v in dictionary.items()])
+    return ', '.join([f'{k}={repr(v)}' for k, v in dictionary.items() if allow_none or v is not None])
 
 
 def server_timezone():

@@ -8,6 +8,7 @@ from module.device.screenshot import Screenshot
 from module.exception import GameStuckError
 from module.handler.assets import GET_MISSION
 from module.logger import logger
+from module.config.utils import get_server_next_update
 import sys
 
 
@@ -28,20 +29,19 @@ class Device(Screenshot, Control, AppControl):
             notification.icon = "assets/gooey/icon.ico"
             notification.send(block=False)
 
-    def handle_night_commission(self, hour=21, threshold=30):
+    def handle_night_commission(self, daily_trigger='21:00', threshold=30):
         """
         Args:
-            hour (int): Hour that night commission refresh.
+            daily_trigger (int): Time for commission refresh.
             threshold (int): Seconds around refresh time.
 
         Returns:
             bool: If handled.
         """
-        update = self.config.get_server_last_update(since=(hour,))
-        now = datetime.now().time()
-        if now < (update - timedelta(seconds=threshold)).time():
-            return False
-        if now > (update + timedelta(seconds=threshold)).time():
+        update = get_server_next_update(daily_trigger=daily_trigger)
+        now = datetime.now()
+        diff = (update.timestamp() - now.timestamp()) % 86400
+        if threshold < diff < 86400 - threshold:
             return False
 
         if GET_MISSION.match(self.image, offset=True):

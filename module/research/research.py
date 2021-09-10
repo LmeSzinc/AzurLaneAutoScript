@@ -5,13 +5,14 @@ from module.base.utils import rgb2gray
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3
 from module.logger import logger
 from module.research.assets import *
-from module.research.project import ResearchSelector, RESEARCH_ENTRANCE, get_research_finished
+from module.research.project import ResearchSelector, RESEARCH_ENTRANCE, get_research_finished, ResearchProject
 from module.ui.page import *
 
 
 class RewardResearch(ResearchSelector):
     _research_project_offset = 0
     _research_finished_index = 2
+    research_project_started = None  # ResearchProject
 
     def ensure_research_stable(self):
         self.wait_until_stable(STABLE_CHECKER)
@@ -126,8 +127,6 @@ class RewardResearch(ResearchSelector):
         logger.info('No research project started')
         return True
 
-    research_project_started = None
-
     def research_project_start(self, project, skip_first_screenshot=True):
         """
         Args:
@@ -191,6 +190,10 @@ class RewardResearch(ResearchSelector):
         Pages:
             in: page_research, stable, with project finished.
             out: page_research
+
+        Returns:
+            bool: True if success to receive rewards.
+                  False if project requirements are not satisfied.
         """
         logger.info('Research receive')
 
@@ -217,6 +220,12 @@ class RewardResearch(ResearchSelector):
             if self.appear(RESEARCH_CHECK, interval=10):
                 if self._research_has_finished_at(self._research_finished_index):
                     self.device.click(RESEARCH_ENTRANCE[self._research_finished_index])
+
+            if self.appear(RESEARCH_STOP, offset=(20, 20)):
+                logger.info('The research time is up, but requirements are not satisfied')
+                self.research_project_started = None
+                self.research_detail_quit()
+                return False
 
             appear_button = get_items()
             if appear_button is not None:
@@ -250,6 +259,7 @@ class RewardResearch(ResearchSelector):
         # Close GET_ITEMS_*, to project list
         self.ui_click(appear_button=get_items, click_button=GET_ITEMS_RESEARCH_SAVE, check_button=self._in_research,
                       skip_first_screenshot=True)
+        return True
 
     def research_reward(self):
         """
@@ -258,11 +268,16 @@ class RewardResearch(ResearchSelector):
 
         Pages:
             in: page_research, stable.
-            out: page_research, has research project information, but it's still page_research.
+            out: page_research, with research project information, but it's still page_research.
+
+        Returns:
+            bool: If success to receive old project and start a new project.
         """
         logger.hr('Research start')
         if self.research_has_finished():
-            self.research_receive(save_get_items=self.config.ENABLE_SAVE_GET_ITEMS)
+            success = self.research_receive(save_get_items=self.config.ENABLE_SAVE_GET_ITEMS)
+            if not success:
+                return False
         else:
             logger.info('No research has finished')
 
@@ -283,6 +298,8 @@ class RewardResearch(ResearchSelector):
             if result:
                 break
 
+        return True
+
     def ui_ensure_research(self):
         """
         Pages:
@@ -290,7 +307,6 @@ class RewardResearch(ResearchSelector):
             out: page_research
         """
         self.ui_goto(page_research, skip_first_screenshot=True)
-        self.device.send_notification('Research Start', 'Research receive')
         self.ensure_research_stable()
 
     def handle_research_reward(self):
@@ -311,3 +327,25 @@ class RewardResearch(ResearchSelector):
 
         self.ui_goto(page_reward, skip_first_screenshot=True)
         return True
+
+    def run(self):
+        """
+        Pages:
+            in: Any page
+            out: page_research, with research project information, but it's still page_research.
+        """
+        self.ui_get_current_page()
+        self.ui_ensure_research()
+        success = self.research_reward()
+
+        project = self.research_project_started
+        if success:
+            if project is not None:
+                # Success to start a project
+                self.config.delay_next_run(minute=project.duration * 60)
+            else:
+                # No project satisfies current filter
+                self.config.delay_next_run(server_update=True)
+        else:
+            # Project requirements are not satisfied
+            self.config.delay_next_run(success=False)

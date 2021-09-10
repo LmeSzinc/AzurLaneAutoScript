@@ -24,7 +24,7 @@ class Connection:
         """
         logger.hr('Device')
         self.config = config
-        self.serial = str(self.config.SERIAL)
+        self.serial = str(self.config.Emulator_Serial)
         self.device = self.connect(self.serial)
         self.disable_uiautomator2_auto_quit()
         # if self.config.DEVICE_SCREENSHOT_METHOD == 'aScreenCap':

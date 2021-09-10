@@ -35,6 +35,7 @@ class Argument:
     option = ()
 
     has_option = False
+    has_bind = False
 
     def __init__(self, path, value, option=()):
         self.path_arg = path
@@ -49,14 +50,16 @@ class Argument:
         self.path_func = func
         self.path = f'{self.path_func}.{self.path_arg}'
         self.value = value
+        self.has_bind = True
 
-    def __str__(self):
+    def __repr__(self):
         return f'Argument(value={repr(self.value)}, path={repr(self.path)})'
 
-    __repr__ = __str__
+    def __str__(self):
+        return str(self.value)
 
     def __bool__(self):
-        return self.get('enable')
+        return bool(self.value)
 
     def __hash__(self):
         return hash(self.path)

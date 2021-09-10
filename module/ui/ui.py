@@ -101,8 +101,8 @@ class UI(InfoHandler):
             logger.warning(f'Unrecognized ui_current, using previous: {self.ui_current}')
         else:
             logger.info('Unable to goto page_main')
-            logger.attr('DEVICE_SCREENSHOT_METHOD', self.config.DEVICE_SCREENSHOT_METHOD)
-            logger.attr('DEVICE_CONTROL_METHOD', self.config.DEVICE_CONTROL_METHOD)
+            logger.attr('EMULATOR__SCREENSHOT_METHOD', self.config.EMULATOR__SCREENSHOT_METHOD)
+            logger.attr('EMULATOR__CONTROL_METHOD', self.config.EMULATOR__CONTROL_METHOD)
             logger.attr('SERVER', self.config.SERVER)
             logger.warning('Starting from current page is not supported')
             logger.warning(f'Supported page: {[str(page) for page in self.ui_pages]}')

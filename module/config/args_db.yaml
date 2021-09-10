@@ -8,7 +8,6 @@ _default:
     help: Alas._info._info.help
     type: ''
     value: ''
-    row: 1
     option: {}
   '2':
     func: Alas
@@ -19,7 +18,6 @@ _default:
     help: Alas._info.Menu.help
     type: input
     value: Alas
-    row: 1
     option: {}
   '3':
     func: Alas
@@ -30,18 +28,16 @@ _default:
     help: Alas.Scheduler._info.help
     type: ''
     value: ''
-    row: 1
     option: {}
   '4':
     func: Alas
     group: Scheduler
-    arg: Command
+    arg: Enable
     lang: zh-CN
-    name: Alas.Scheduler.Command.name
-    help: Alas.Scheduler.Command.help
+    name: Alas.Scheduler.Enable.name
+    help: Alas.Scheduler.Enable.help
     type: input
-    value: Alas
-    row: 1
+    value: false
     option: {}
   '5':
     func: Alas
@@ -49,14 +45,21 @@ _default:
     arg: NextRun
     lang: zh-CN
     name: Alas.Scheduler.NextRun.name
-    help: 'Will not run before this time. To run immediately, delete this.
-
-      Format: "YY-MM-DD hh:mm:ss". Default to "2020-01-01 00:00:00"'
+    help: Alas.Scheduler.NextRun.help
     type: input
     value: 2020-01-01 00:00:00
-    row: 1
     option: {}
   '6':
+    func: Alas
+    group: Scheduler
+    arg: Command
+    lang: zh-CN
+    name: Alas.Scheduler.Command.name
+    help: Alas.Scheduler.Command.help
+    type: input
+    value: research
+    option: {}
+  '7':
     func: Alas
     group: Scheduler
     arg: SuccessInterval
@@ -65,9 +68,8 @@ _default:
     help: Alas.Scheduler.SuccessInterval.help
     type: input
     value: 0
-    row: 1
     option: {}
-  '7':
+  '8':
     func: Alas
     group: Scheduler
     arg: FailureInterval
@@ -76,9 +78,8 @@ _default:
     help: Alas.Scheduler.FailureInterval.help
     type: input
     value: 120
-    row: 1
     option: {}
-  '8':
+  '9':
     func: Alas
     group: Scheduler
     arg: ServerUpdate
@@ -87,9 +88,8 @@ _default:
     help: Alas.Scheduler.ServerUpdate.help
     type: input
     value: 00:00
-    row: 1
     option: {}
-  '9':
+  '10':
     func: Alas
     group: Emulator
     arg: _info
@@ -98,9 +98,8 @@ _default:
     help: Alas.Emulator._info.help
     type: ''
     value: ''
-    row: 1
     option: {}
-  '10':
+  '11':
     func: Alas
     group: Emulator
     arg: Serial
@@ -108,24 +107,135 @@ _default:
     name: Alas.Emulator.Serial.name
     help: Alas.Emulator.Serial.help
     type: input
-    value: 127.0.0.1:62001
-    row: 1
+    value: 127.0.0.1:5555
+    option: {}
+  '12':
+    func: Alas
+    group: Emulator
+    arg: PackageName
+    lang: zh-CN
+    name: Alas.Emulator.PackageName.name
+    help: Alas.Emulator.PackageName.help
+    type: input
+    value: com.bilibili.azurlane
+    option: {}
+  '13':
+    func: Alas
+    group: Emulator
+    arg: ScreenshotMethod
+    lang: zh-CN
+    name: Alas.Emulator.ScreenshotMethod.name
+    help: Alas.Emulator.ScreenshotMethod.help
+    type: input
+    value: ADB
     option:
-      127.0.0.1:5555: 127.0.0.1:5555
-      127.0.0.1:21503: 127.0.0.1:21503
-      127.0.0.1:62001: 127.0.0.1:62001
-  '11':
+      ADB: ADB
+      uiautomator2: uiautomator2
+      aScreenCap: aScreenCap
+  '14':
+    func: Alas
+    group: Emulator
+    arg: ControlMethod
+    lang: zh-CN
+    name: Alas.Emulator.ControlMethod.name
+    help: Alas.Emulator.ControlMethod.help
+    type: input
+    value: minitouch
+    option:
+      ADB: ADB
+      uiautomator2: uiautomator2
+      minitouch: minitouch
+  '15':
+    func: Alas
+    group: Error
+    arg: _info
+    lang: zh-CN
+    name: Alas.Error._info.name
+    help: Alas.Error._info.help
+    type: ''
+    value: ''
+    option: {}
+  '16':
+    func: Alas
+    group: Error
+    arg: HandleError
+    lang: zh-CN
+    name: Alas.Error.HandleError.name
+    help: Alas.Error.HandleError.help
+    type: input
+    value: true
+    option: {}
+  '17':
+    func: Alas
+    group: Error
+    arg: SaveError
+    lang: zh-CN
+    name: Alas.Error.SaveError.name
+    help: Alas.Error.SaveError.help
+    type: input
+    value: true
+    option: {}
+  '18':
+    func: Alas
+    group: Error
+    arg: ScreenshotLength
+    lang: zh-CN
+    name: Alas.Error.ScreenshotLength.name
+    help: Alas.Error.ScreenshotLength.help
+    type: input
+    value: 1
+    option: {}
+  '19':
+    func: Alas
+    group: DropRecord
+    arg: _info
+    lang: zh-CN
+    name: Alas.DropRecord._info.name
+    help: Alas.DropRecord._info.help
+    type: ''
+    value: ''
+    option: {}
+  '20':
+    func: Alas
+    group: DropRecord
+    arg: SaveScreenshot
+    lang: zh-CN
+    name: Alas.DropRecord.SaveScreenshot.name
+    help: Alas.DropRecord.SaveScreenshot.help
+    type: input
+    value: false
+    option: {}
+  '21':
+    func: Alas
+    group: DropRecord
+    arg: SaveFolder
+    lang: zh-CN
+    name: Alas.DropRecord.SaveFolder.name
+    help: Alas.DropRecord.SaveFolder.help
+    type: input
+    value: ./screenshot
+    option: {}
+  '22':
+    func: Alas
+    group: DropRecord
+    arg: UploadAzurStats
+    lang: zh-CN
+    name: Alas.DropRecord.UploadAzurStats.name
+    help: Alas.DropRecord.UploadAzurStats.help
+    type: input
+    value: false
+    option: {}
+  '23':
     func: Main
     group: _info
     arg: _info
     lang: zh-CN
-    name: 主线图
-    help: 中文
+    name: Main._info._info.name
+    help: Main._info._info.help
     type: ''
     value: ''
-    row: 1
     option: {}
-  '12':
+  '24':
     func: Main
     group: _info
     arg: Menu
@@ -134,44 +244,48 @@ _default:
     help: Main._info.Menu.help
     type: input
     value: Main
-    row: 1
     option: {}
-  '13':
+  '25':
     func: Main
     group: Scheduler
     arg: _info
     lang: zh-CN
-    name: Scheduler
-    help: Scheduler settings
+    name: Main.Scheduler._info.name
+    help: Main.Scheduler._info.help
     type: ''
     value: ''
-    row: 1
     option: {}
-  '14':
+  '26':
     func: Main
     group: Scheduler
-    arg: Command
+    arg: Enable
     lang: zh-CN
-    name: Command
-    help: Main.Scheduler.Command.help
+    name: Main.Scheduler.Enable.name
+    help: Main.Scheduler.Enable.help
     type: input
-    value: Main
-    row: 1
+    value: main
     option: {}
-  '15':
+  '27':
     func: Main
     group: Scheduler
     arg: NextRun
     lang: zh-CN
-    name: Next Run Time
-    help: 'Will not run before this time. To run immediately, delete this.
-
-      Format: "YY-MM-DD hh:mm:ss". Default to "2020-01-01 00:00:00"'
+    name: Main.Scheduler.NextRun.name
+    help: Main.Scheduler.NextRun.help
     type: input
     value: 2020-01-01 00:00:00
-    row: 1
     option: {}
-  '16':
+  '28':
+    func: Main
+    group: Scheduler
+    arg: Command
+    lang: zh-CN
+    name: Main.Scheduler.Command.name
+    help: Main.Scheduler.Command.help
+    type: input
+    value: research
+    option: {}
+  '29':
     func: Main
     group: Scheduler
     arg: SuccessInterval
@@ -180,9 +294,8 @@ _default:
     help: Main.Scheduler.SuccessInterval.help
     type: input
     value: 0
-    row: 1
     option: {}
-  '17':
+  '30':
     func: Main
     group: Scheduler
     arg: FailureInterval
@@ -191,9 +304,8 @@ _default:
     help: Main.Scheduler.FailureInterval.help
     type: input
     value: 120
-    row: 1
     option: {}
-  '18':
+  '31':
     func: Main
     group: Scheduler
     arg: ServerUpdate
@@ -202,9 +314,8 @@ _default:
     help: Main.Scheduler.ServerUpdate.help
     type: input
     value: 00:00
-    row: 1
     option: {}
-  '19':
+  '32':
     func: Commission
     group: _info
     arg: _info
@@ -213,9 +324,8 @@ _default:
     help: Commission._info._info.help
     type: ''
     value: ''
-    row: 1
     option: {}
-  '20':
+  '33':
     func: Commission
     group: _info
     arg: Menu
@@ -224,9 +334,8 @@ _default:
     help: Commission._info.Menu.help
     type: input
     value: Reward
-    row: 1
     option: {}
-  '21':
+  '34':
     func: Commission
     group: Scheduler
     arg: _info
@@ -235,20 +344,18 @@ _default:
     help: Commission.Scheduler._info.help
     type: ''
     value: ''
-    row: 1
     option: {}
-  '22':
+  '35':
     func: Commission
     group: Scheduler
-    arg: Command
+    arg: Enable
     lang: zh-CN
-    name: Commission.Scheduler.Command.name
-    help: Commission.Scheduler.Command.help
+    name: Commission.Scheduler.Enable.name
+    help: Commission.Scheduler.Enable.help
     type: input
-    value: Commission
-    row: 1
+    value: commission
     option: {}
-  '23':
+  '36':
     func: Commission
     group: Scheduler
     arg: NextRun
@@ -257,9 +364,18 @@ _default:
     help: Commission.Scheduler.NextRun.help
     type: input
     value: 2020-01-01 00:00:00
-    row: 1
     option: {}
-  '24':
+  '37':
+    func: Commission
+    group: Scheduler
+    arg: Command
+    lang: zh-CN
+    name: Commission.Scheduler.Command.name
+    help: Commission.Scheduler.Command.help
+    type: input
+    value: research
+    option: {}
+  '38':
     func: Commission
     group: Scheduler
     arg: SuccessInterval
@@ -268,9 +384,8 @@ _default:
     help: Commission.Scheduler.SuccessInterval.help
     type: input
     value: 10-40
-    row: 1
     option: {}
-  '25':
+  '39':
     func: Commission
     group: Scheduler
     arg: FailureInterval
@@ -279,9 +394,8 @@ _default:
     help: Commission.Scheduler.FailureInterval.help
     type: input
     value: 10-40
-    row: 1
     option: {}
-  '26':
+  '40':
     func: Commission
     group: Scheduler
     arg: ServerUpdate
@@ -290,9 +404,8 @@ _default:
     help: Commission.Scheduler.ServerUpdate.help
     type: input
     value: 00:00
-    row: 1
     option: {}
-  '27':
+  '41':
     func: Research
     group: _info
     arg: _info
@@ -301,9 +414,8 @@ _default:
     help: Research._info._info.help
     type: ''
     value: ''
-    row: 1
     option: {}
-  '28':
+  '42':
     func: Research
     group: _info
     arg: Menu
@@ -312,9 +424,8 @@ _default:
     help: Research._info.Menu.help
     type: input
     value: Reward
-    row: 1
     option: {}
-  '29':
+  '43':
     func: Research
     group: Scheduler
     arg: _info
@@ -323,20 +434,18 @@ _default:
     help: Research.Scheduler._info.help
     type: ''
     value: ''
-    row: 1
     option: {}
-  '30':
+  '44':
     func: Research
     group: Scheduler
-    arg: Command
+    arg: Enable
     lang: zh-CN
-    name: Research.Scheduler.Command.name
-    help: Research.Scheduler.Command.help
+    name: Research.Scheduler.Enable.name
+    help: Research.Scheduler.Enable.help
     type: input
-    value: Research
-    row: 1
+    value: true
     option: {}
-  '31':
+  '45':
     func: Research
     group: Scheduler
     arg: NextRun
@@ -345,9 +454,18 @@ _default:
     help: Research.Scheduler.NextRun.help
     type: input
     value: 2020-01-01 00:00:00
-    row: 1
     option: {}
-  '32':
+  '46':
+    func: Research
+    group: Scheduler
+    arg: Command
+    lang: zh-CN
+    name: Research.Scheduler.Command.name
+    help: Research.Scheduler.Command.help
+    type: input
+    value: research
+    option: {}
+  '47':
     func: Research
     group: Scheduler
     arg: SuccessInterval
@@ -356,9 +474,8 @@ _default:
     help: Research.Scheduler.SuccessInterval.help
     type: input
     value: 10-40
-    row: 1
     option: {}
-  '33':
+  '48':
     func: Research
     group: Scheduler
     arg: FailureInterval
@@ -367,9 +484,8 @@ _default:
     help: Research.Scheduler.FailureInterval.help
     type: input
     value: 10-40
-    row: 1
     option: {}
-  '34':
+  '49':
     func: Research
     group: Scheduler
     arg: ServerUpdate
@@ -378,5 +494,78 @@ _default:
     help: Research.Scheduler.ServerUpdate.help
     type: input
     value: 00:00
-    row: 1
+    option: {}
+  '50':
+    func: Research
+    group: ResearchInput
+    arg: _info
+    lang: zh-CN
+    name: Research.ResearchInput._info.name
+    help: Research.ResearchInput._info.help
+    type: ''
+    value: ''
+    option: {}
+  '51':
+    func: Research
+    group: ResearchInput
+    arg: UseCube
+    lang: zh-CN
+    name: Research.ResearchInput.UseCube.name
+    help: Research.ResearchInput.UseCube.help
+    type: input
+    value: false
+    option: {}
+  '52':
+    func: Research
+    group: ResearchInput
+    arg: UseCoin
+    lang: zh-CN
+    name: Research.ResearchInput.UseCoin.name
+    help: Research.ResearchInput.UseCoin.help
+    type: input
+    value: true
+    option: {}
+  '53':
+    func: Research
+    group: ResearchInput
+    arg: UsePart
+    lang: zh-CN
+    name: Research.ResearchInput.UsePart.name
+    help: Research.ResearchInput.UsePart.help
+    type: input
+    value: true
+    option: {}
+  '54':
+    func: Research
+    group: ResearchOutput
+    arg: _info
+    lang: zh-CN
+    name: Research.ResearchOutput._info.name
+    help: Research.ResearchOutput._info.help
+    type: ''
+    value: ''
+    option: {}
+  '55':
+    func: Research
+    group: ResearchOutput
+    arg: PresetFilter
+    lang: zh-CN
+    name: Research.ResearchOutput.PresetFilter.name
+    help: Research.ResearchOutput.PresetFilter.help
+    type: input
+    value: series_4
+    option:
+      custom: custom
+      series_4: series_4
+      series_3: series_3
+      series_3_than_2: series_3_than_2
+  '56':
+    func: Research
+    group: ResearchOutput
+    arg: CustomFilter
+    lang: zh-CN
+    name: Research.ResearchOutput.CustomFilter.name
+    help: Research.ResearchOutput.CustomFilter.help
+    type: input
+    value: 0.5 > reset > shortest
     option: {}

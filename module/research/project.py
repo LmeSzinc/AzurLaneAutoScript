@@ -566,13 +566,13 @@ class ResearchSelector(UI):
                 such as [object, object, object, 'reset']
         """
         # Load filter string
-        preset = self.config.RESEARCH_FILTER_PRESET
-        if preset == 'customized':
-            string = self.config.RESEARCH_FILTER_STRING
+        preset = self.config.ResearchOutput_PresetFilter
+        if preset == 'custom':
+            string = self.config.ResearchOutput_CustomFilter
         else:
             if preset not in DICT_FILTER_PRESET:
                 logger.warning(f'Preset not found: {preset}, use default preset')
-                preset = 'series_3_than_2'
+                preset = 'series_4'
             string = DICT_FILTER_PRESET[preset]
 
         FILTER.load(string)
@@ -600,9 +600,9 @@ class ResearchSelector(UI):
                 continue
             if not proj.valid:
                 continue
-            if (not self.config.RESEARCH_USE_CUBE and proj.need_cube) \
-                    or (not self.config.RESEARCH_USE_COIN and proj.need_coin) \
-                    or (not self.config.RESEARCH_USE_PART and proj.need_part):
+            if (not self.config.ResearchInput_UseCube and proj.need_cube) \
+                    or (not self.config.ResearchInput_UseCoin and proj.need_coin) \
+                    or (not self.config.ResearchInput_UsePart and proj.need_part):
                 continue
             # Reasons to ignore B series and E-2:
             # - Can't guarantee research condition satisfied.
@@ -611,6 +611,8 @@ class ResearchSelector(UI):
             #   Gold B-4 basically equivalent to C-12, but needs a lot of oil.
             # 2021.08.19 Allow E-2 to disassemble tech boxes, but JP still remains the same.
             if proj.genre.upper() == 'B':
+                continue
+            if proj.genre.upper() == 'T':
                 continue
             if self.config.SERVER == 'jp':
                 if proj.genre.upper() == 'E' and str(proj.duration) != '6':

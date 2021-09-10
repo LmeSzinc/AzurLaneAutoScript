@@ -12,15 +12,30 @@ class GeneratedConfig:
     """
 
     # Func `Alas`
-    SCHEDULER__COMMAND = Argument(value='Alas', path='Scheduler.Command')
-    SCHEDULER__NEXT_RUN = Argument(value=datetime.datetime(2020, 1, 1, 0, 0), path='Scheduler.NextRun')
-    SCHEDULER__SUCCESS_INTERVAL = Argument(value=0, path='Scheduler.SuccessInterval')
-    SCHEDULER__FAILURE_INTERVAL = Argument(value=120, path='Scheduler.FailureInterval')
-    SCHEDULER__SERVER_UPDATE = Argument(value='00:00', path='Scheduler.ServerUpdate')
-    EMULATOR__SERIAL = Argument(value='127.0.0.1:62001', path='Emulator.Serial', option=('127.0.0.1:5555', '127.0.0.1:21503', '127.0.0.1:62001'))
+    Scheduler_Enable = Argument(value=False, path='Scheduler.Enable')
+    Scheduler_NextRun = Argument(value=datetime.datetime(2020, 1, 1, 0, 0), path='Scheduler.NextRun')
+    Scheduler_Command = Argument(value='research', path='Scheduler.Command')
+    Scheduler_SuccessInterval = Argument(value=0, path='Scheduler.SuccessInterval')
+    Scheduler_FailureInterval = Argument(value=120, path='Scheduler.FailureInterval')
+    Scheduler_ServerUpdate = Argument(value='00:00', path='Scheduler.ServerUpdate')
+    Emulator_Serial = Argument(value='127.0.0.1:5555', path='Emulator.Serial')
+    Emulator_PackageName = Argument(value='com.bilibili.azurlane', path='Emulator.PackageName')
+    Emulator_ScreenshotMethod = Argument(value='ADB', path='Emulator.ScreenshotMethod', option=('ADB', 'uiautomator2', 'aScreenCap'))
+    Emulator_ControlMethod = Argument(value='minitouch', path='Emulator.ControlMethod', option=('ADB', 'uiautomator2', 'minitouch'))
+    Error_HandleError = Argument(value=True, path='Error.HandleError')
+    Error_SaveError = Argument(value=True, path='Error.SaveError')
+    Error_ScreenshotLength = Argument(value=1, path='Error.ScreenshotLength')
+    DropRecord_SaveScreenshot = Argument(value=False, path='DropRecord.SaveScreenshot')
+    DropRecord_SaveFolder = Argument(value='./screenshot', path='DropRecord.SaveFolder')
+    DropRecord_UploadAzurStats = Argument(value=False, path='DropRecord.UploadAzurStats')
 
     # Func `Main`
 
     # Func `Commission`
 
     # Func `Research`
+    ResearchInput_UseCube = Argument(value=False, path='ResearchInput.UseCube')
+    ResearchInput_UseCoin = Argument(value=True, path='ResearchInput.UseCoin')
+    ResearchInput_UsePart = Argument(value=True, path='ResearchInput.UsePart')
+    ResearchOutput_PresetFilter = Argument(value='series_4', path='ResearchOutput.PresetFilter', option=('custom', 'series_4', 'series_3', 'series_3_than_2'))
+    ResearchOutput_CustomFilter = Argument(value='0.5 > reset > shortest', path='ResearchOutput.CustomFilter')

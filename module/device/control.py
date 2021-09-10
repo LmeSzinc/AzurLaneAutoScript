@@ -66,14 +66,13 @@ class Control(MiniTouch):
         logger.info(
             'Click %s @ %s' % (point2str(x, y), button)
         )
-        method = self.config.DEVICE_CONTROL_METHOD
+        method = self.config.Emulator_ControlMethod
         if method == 'minitouch':
             self._click_minitouch(x, y)
         elif method == 'uiautomator2':
             self._click_uiautomator2(x, y)
         else:
             self._click_adb(x, y)
-        self.sleep(self.config.SLEEP_AFTER_CLICK)
 
     @retry()
     def _click_uiautomator2(self, x, y):
@@ -132,7 +131,7 @@ class Control(MiniTouch):
             logger.info('Swipe distance < 10px, dropped')
         fx, fy, tx, ty = np.append(start, end).tolist()
 
-        method = self.config.DEVICE_CONTROL_METHOD
+        method = self.config.Emulator_ControlMethod
         if method == 'minitouch':
             self._swipe_minitouch(fx, fy, tx, ty)
         else:
@@ -179,7 +178,7 @@ class Control(MiniTouch):
 
     def drag(self, p1, p2, segments=1, shake=(0, 15), point_random=(-10, -10, 10, 10), shake_random=(-5, -5, 5, 5),
              swipe_duration=0.25, shake_duration=0.1):
-        method = self.config.DEVICE_CONTROL_METHOD
+        method = self.config.Emulator_ControlMethod
         if method == 'minitouch':
             self._drag_minitouch(p1, p2, point_random=point_random)
         else:

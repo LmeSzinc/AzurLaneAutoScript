@@ -73,6 +73,5 @@ def attr_align(name, text, front='', align=22):
 logger.hr = hr
 logger.attr = attr
 logger.attr_align = attr_align
-logger.screenshot_deque = deque(maxlen=60)
 
 logger.hr('Start', level=0)

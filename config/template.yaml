@@ -1,30 +1,52 @@
 Alas:
   Scheduler:
-    Command: Alas
+    Enable: false
     NextRun: 2020-01-01 00:00:00
+    Command: alas
     SuccessInterval: 0
     FailureInterval: 120
     ServerUpdate: 00:00
   Emulator:
-    Serial: 127.0.0.1:62001
+    Serial: 127.0.0.1:5555
+    PackageName: com.bilibili.azurlane
+    ScreenshotMethod: ADB
+    ControlMethod: minitouch
+  Error:
+    Handle: true
+    Save: true
+    ScreenshotLength: 1
+  DropRecord:
+    Save: false
+    Folder: ./screenshot
+    Upload: false
 Main:
   Scheduler:
-    Command: Main
+    Enable: true
     NextRun: 2020-01-01 00:00:00
+    Command: main
     SuccessInterval: 0
-    FailureInterval: 1222
+    FailureInterval: 120
     ServerUpdate: 00:00
 Commission:
   Scheduler:
-    Command: Commission
+    Enable: true
     NextRun: 2020-01-01 00:00:00
+    Command: commission
     SuccessInterval: 10-40
     FailureInterval: 10-40
     ServerUpdate: 00:00
 Research:
   Scheduler:
-    Command: Research
+    Enable: true
     NextRun: 2020-01-01 00:00:00
+    Command: research
     SuccessInterval: 10-40
     FailureInterval: 10-40
     ServerUpdate: 00:00
+  ResearchInput:
+    Cube: false
+    Coin: true
+    Part: true
+  ResearchOutput:
+    Preset: series_4
+    Filter: 0.5 > reset > shortest

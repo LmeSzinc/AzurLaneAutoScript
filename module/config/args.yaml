@@ -2,24 +2,42 @@ Alas:
   _info:
     Menu: Alas
   Scheduler:
-    Command: alas
+    Enable: false
     NextRun: 2020-01-01 00:00:00
+    Command: research
     SuccessInterval: 0
     FailureInterval: 120
     ServerUpdate: 00:00
   Emulator:
-    Serial:
-      value: 127.0.0.1:62001
+    Serial: 127.0.0.1:5555
+    PackageName: com.bilibili.azurlane
+    ScreenshotMethod:
+      value: ADB
       option:
-        - 127.0.0.1:5555
-        - 127.0.0.1:21503
-        - 127.0.0.1:62001
+        - ADB
+        - uiautomator2
+        - aScreenCap
+    ControlMethod:
+      value: minitouch
+      option:
+        - ADB
+        - uiautomator2
+        - minitouch
+  Error:
+    HandleError: true
+    SaveError: true
+    ScreenshotLength: 1
+  DropRecord:
+    SaveScreenshot: false
+    SaveFolder: ./screenshot
+    UploadAzurStats: false
 Main:
   _info:
     Menu: Main
   Scheduler:
-    Command: main
+    Enable: main
     NextRun: 2020-01-01 00:00:00
+    Command: research
     SuccessInterval: 0
     FailureInterval: 120
     ServerUpdate: 00:00
@@ -27,8 +45,9 @@ Commission:
   _info:
     Menu: Reward
   Scheduler:
-    Command: commission
+    Enable: commission
     NextRun: 2020-01-01 00:00:00
+    Command: research
     SuccessInterval: 10-40
     FailureInterval: 10-40
     ServerUpdate: 00:00
@@ -36,8 +55,22 @@ Research:
   _info:
     Menu: Reward
   Scheduler:
-    Command: research
+    Enable: true
     NextRun: 2020-01-01 00:00:00
+    Command: research
     SuccessInterval: 10-40
     FailureInterval: 10-40
     ServerUpdate: 00:00
+  ResearchInput:
+    UseCube: false
+    UseCoin: true
+    UsePart: true
+  ResearchOutput:
+    PresetFilter:
+      value: series_4
+      option:
+        - custom
+        - series_4
+        - series_3
+        - series_3_than_2
+    CustomFilter: 0.5 > reset > shortest

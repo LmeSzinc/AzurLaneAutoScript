@@ -89,14 +89,14 @@ def request_to_query(request):
     Returns:
 
     """
-    func = request.get('task', None)
+    func = request.get('func', None)
     group = request.get('group', None)
     arg = request.get('arg', None)
     lang = request.get('lang', None)
 
     query = None
     if func:
-        query = where('task') == func if query is None else query & (where('task') == func)
+        query = where('func') == func if query is None else query & (where('func') == func)
     if group:
         query = where('group') == group if query is None else query & (where('group') == group)
     if arg:
@@ -113,9 +113,9 @@ def data_to_path(data):
         data (dict):
 
     Returns:
-        str: <task>.<group>.<arg>
+        str: <func>.<group>.<arg>
     """
-    return '.'.join([data.get(attr, '') for attr in ['task', 'group', 'arg']])
+    return '.'.join([data.get(attr, '') for attr in ['func', 'group', 'arg']])
 
 
 class Database:
@@ -176,7 +176,7 @@ class Database:
         data = read_file(filepath_arg())
 
         for data in self._data_iter(data):
-            res = old.search((where('task') == data['task'])
+            res = old.search((where('func') == data['func'])
                              & (where('group') == data['group'])
                              & (where('arg') == data['arg'])
                              & (where('lang') == data['lang']))
@@ -186,21 +186,23 @@ class Database:
 
         new.storage.save()
         self.update_config('template')
+        del self.__dict__['db']
 
     def update_code(self):
+        logger.info('Updating generated code')
         visited_path = set()
         visited_func = set()
         lines = CONFIG_IMPORT
         args = self.db.search(request_to_query({'lang': 'zh-CN'}))
         for arg in args:
-            if arg['task'] not in visited_func:
+            if arg['func'] not in visited_func:
                 lines.append('')
-                lines.append(f'    # Func `{arg["task"]}`')
-                visited_func.add(arg['task'])
+                lines.append(f'    # Func `{arg["func"]}`')
+                visited_func.add(arg['func'])
             path = f'{arg["group"]}.{arg["arg"]}'
             if path in visited_path or '_info' in path:
                 continue
-            data = {'value': parse_value(str(arg["value"]), data=arg), 'path': path}
+            data = {'value': parse_value(arg["value"], data=arg), 'path': path}
             if arg['option']:
                 data['option'] = tuple(list(arg['option'].keys()))
             lines.append(f'    {path_to_arg(path)} = Argument({dict_to_kv(data)})')
@@ -218,7 +220,7 @@ class Database:
             for replace in [None, 'arg', 'group']:
                 if replace:
                     raw[replace] = '_info'
-                key = (raw['task'], raw['group'], raw['arg'], raw['lang'])
+                key = (raw['func'], raw['group'], raw['arg'], raw['lang'])
                 if key not in visited:
                     visited.add(key)
                     out.append(copy.copy(raw))
@@ -229,7 +231,7 @@ class Database:
                 for arg, value in group_data.items():
                     for lang in self.lang:
                         data = {
-                            'task': func,
+                            'func': func,
                             'group': group,
                             'arg': arg,
                             'lang': lang,
@@ -250,7 +252,7 @@ class Database:
             dict: Updated row to insert to args_db.yaml
         """
         data = {
-            'task': '',
+            'func': '',
             'group': '',
             'arg': '',
             'lang': '',
@@ -258,7 +260,6 @@ class Database:
             'help': '',
             'type': 'input',
             'value': '',
-            'row': 1,
             'option': {},
         }
         data.update(args)
@@ -306,16 +307,16 @@ class Database:
     def select_db(self, request):
         """
         Args:
-            request (dict): Such as {"config": "alas", "task": "Main", "group": "Scheduler"}
+            request (dict): Such as {"config": "alas", "func": "Main", "group": "Scheduler"}
 
         Returns:
             dict:
         """
-        func = request.get('task', None)
+        func = request.get('func', None)
         group = request.get('group', None)
         arg = request.get('arg', None)
 
-        assert func or group or arg, 'Must fill one of `task`, `group` or `arg` in request'
+        assert func or group or arg, 'Must fill one of `func`, `group` or `arg` in request'
 
         result = self.db.search(request_to_query(request))
 
@@ -327,19 +328,19 @@ class Database:
     def select_config(self, request):
         """
         Args:
-            request (dict): Such as {"config": "alas", "task": "Main", "group": "Scheduler"}
+            request (dict): Such as {"config": "alas", "func": "Main", "group": "Scheduler"}
 
         Returns:
             dict:
         """
-        func = request.get('task', None)
+        func = request.get('func', None)
         group = request.get('group', None)
         arg = request.get('arg', None)
         config = request.get('config', None)
-        assert func, 'Must fill `task` in request'
+        assert func, 'Must fill `func` in request'
         assert config, 'Must fill `config` in request'
         if group:
-            assert func, 'Must fill `task` in request, if `group filled`'
+            assert func, 'Must fill `func` in request, if `group filled`'
         if arg:
             assert func, 'Must fill `group` in request, if `arg filled`'
 
@@ -351,14 +352,14 @@ class Database:
         return response
 
     def select_function(self, request):
-        func = request.get('task', None)
+        func = request.get('func', None)
         lang = request.get('lang', None)
         config = request.get('config', None)
-        assert func, 'Must fill `task` in request'
+        assert func, 'Must fill `func` in request'
         assert lang, 'Must fill `lang` in request'
         assert config, 'Must fill `config` in request'
 
-        request = {'task': func, 'lang': lang, 'config': config}
+        request = {'func': func, 'lang': lang, 'config': config}
         database = self.select_db(request)
         config = self.select_config(request)
 
@@ -379,13 +380,13 @@ class Database:
         Returns:
 
         """
-        func = request.get('task', None)
+        func = request.get('func', None)
         group = request.get('group', None)
         arg = request.get('arg', None)
         lang = request.get('lang', None)
         value = request.get('value', None)
         config = request.get('config', None)
-        assert func and group and arg and lang, 'Must fill all of `task`, `group`,  `arg` and `lang` in request'
+        assert func and group and arg and lang, 'Must fill all of `func`, `group`,  `arg` and `lang` in request'
         assert value is not None, 'Must fill `value` in request'
         assert config, 'Must fill `config` in request'
 
@@ -396,21 +397,21 @@ class Database:
             value = default['value']
         deep_set(self.config(config), keys=path, value=value)
 
-        response = self.select_function({'task': func, 'lang': lang, 'config': config})
+        response = self.select_function({'func': func, 'lang': lang, 'config': config})
         write_file(filepath_config(config), data=self.config(config))
         return response
 
     def upsert_db(self, request):
-        func = request.get('task', None)
+        func = request.get('func', None)
         group = request.get('group', None)
         arg = request.get('arg', None)
         lang = request.get('lang', None)
         config = request.get('config', None)
-        assert func and group and arg and lang, 'Must fill all of `task`, `group`,  `arg` and `lang` in request'
+        assert func and group and arg and lang, 'Must fill all of `func`, `group`,  `arg` and `lang` in request'
 
         self.db.update(request, request_to_query(request))
         self.db.storage.save()
-        response = self.select_function({'task': func, 'lang': lang, 'config': config})
+        response = self.select_function({'func': func, 'lang': lang, 'config': config})
         return response
 
     def select_menu(self, request):
@@ -433,13 +434,13 @@ if __name__ == '__main__':
     m.update_db()
     m.update_code()
 
-    # res = m.select_db({'task': 'Main', 'group': 'Scheduler'})
+    # res = m.select_db({'func': 'Main', 'group': 'Scheduler'})
     # print(res)
-    # res = m.select_config({"config": "alas", "task": "Alas", "group": "Scheduler"})
+    # res = m.select_config({"config": "alas", "func": "Alas", "group": "Scheduler"})
     # print(res)
-    # res = m.select_function({"config": "alas", "lang": "zh-CN", "task": "Alas", "group": "Scheduler"})
+    # res = m.select_function({"config": "alas", "lang": "zh-CN", "func": "Alas", "group": "Scheduler"})
     # print(res)
-    # res = m.upsert_config({"config": "alas", "lang": "zh-CN", "task": "Alas", "group": "Scheduler", "arg": "FailureInterval", "value": '12222'})
+    # res = m.upsert_config({"config": "alas", "lang": "zh-CN", "func": "Alas", "group": "Scheduler", "arg": "FailureInterval", "value": '12222'})
     # print(res)
 
     # res = m.select_db({'group': '_info', 'lang': 'zh-CN'})

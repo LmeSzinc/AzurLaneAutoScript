@@ -20,6 +20,7 @@ class Filter:
         self.filter = []
 
     def load(self, string):
+        string = str(string)
         self.filter_raw = [f.strip(' \t\r\n') for f in string.split('>')]
         self.filter = [self.parse_filter(f) for f in self.filter_raw]
 
