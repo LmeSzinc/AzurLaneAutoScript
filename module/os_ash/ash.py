@@ -46,6 +46,56 @@ class AshCombat(Combat):
 
         return False
 
+    def combat_preparation(self, balance_hp=False, emotion_reduce=False, auto='combat_auto', fleet_index=1):
+        """
+        Args:
+            balance_hp (bool):
+            emotion_reduce (bool):
+            auto (str):
+            fleet_index (int):
+        """
+        logger.info('Combat preparation.')
+        skip_first_screenshot = True
+
+        if emotion_reduce:
+            self.emotion.wait(fleet=fleet_index)
+        if balance_hp:
+            self.hp_balance()
+
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear(BATTLE_PREPARATION):
+                if self.handle_combat_automation_set(auto=auto == 'combat_auto'):
+                    continue
+            if self.handle_retirement():
+                continue
+            if self.handle_combat_low_emotion():
+                continue
+            if balance_hp and self.handle_emergency_repair_use():
+                continue
+            if self.appear_then_click(BATTLE_PREPARATION, interval=2):
+                continue
+            if self.handle_combat_automation_confirm():
+                continue
+            if self.handle_story_skip():
+                continue
+
+            # End
+            if self.is_combat_executing():
+                if emotion_reduce:
+                    self.emotion.reduce(fleet_index)
+                break
+
+            # If ash beacon is outdated, game with exit preparation page and return to beacon select page
+            if self.appear(ASH_START, offset=(30, 30)):
+                return False
+                    
+        return True
+
     def combat(self, balance_hp=False, emotion_reduce=False, auto_mode='combat_auto', call_submarine_at_boss=False,
                save_get_items=False, expected_end=None, fleet_index=1):
         """
@@ -59,8 +109,9 @@ class AshCombat(Combat):
         save_get_items = save_get_items if save_get_items is not None else self.config.ENABLE_SAVE_GET_ITEMS
         self.battle_status_click_interval = 7 if save_get_items else 0
 
-        self.combat_preparation(
-            balance_hp=balance_hp, emotion_reduce=emotion_reduce, auto=auto_mode, fleet_index=fleet_index)
+        if not self.combat_preparation(
+            balance_hp=balance_hp, emotion_reduce=emotion_reduce, auto=auto_mode, fleet_index=fleet_index):
+            return False
         self.combat_execute(
             auto=auto_mode, call_submarine_at_boss=call_submarine_at_boss, save_get_items=save_get_items)
         self.combat_status(
@@ -68,6 +119,7 @@ class AshCombat(Combat):
         # self.handle_map_after_combat_story()
 
         logger.info('Combat end.')
+        return True
 
 
 class OSAsh(UI):
@@ -173,10 +225,12 @@ class OSAsh(UI):
                 logger.info('Ash beacon exhausted')
                 break
 
-            self._ash_beacon_select(tier=self.config.OS_ASH_ASSIST_TIER)
-            self.ui_click(ASH_START, check_button=BATTLE_PREPARATION, offset=(30, 30),
-                          additional=ash_combat.handle_combat_automation_confirm, skip_first_screenshot=True)
-            ash_combat.combat(expected_end=self.is_in_ash)
+            while 1:
+                self._ash_beacon_select(tier=self.config.OS_ASH_ASSIST_TIER)
+                self.ui_click(ASH_START, check_button=BATTLE_PREPARATION, offset=(30, 30),
+                            additional=ash_combat.handle_combat_automation_confirm, skip_first_screenshot=True)
+                if ash_combat.combat(expected_end=self.is_in_ash):
+                    break
             continue
 
         self.device.sleep((0.5, 0.8))
