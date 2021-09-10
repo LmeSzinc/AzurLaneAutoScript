@@ -92,6 +92,7 @@ class AshCombat(Combat):
 
             # If ash beacon is outdated, game with exit preparation page and return to beacon select page
             if self.appear(ASH_START, offset=(30, 30)):
+                logger.info("Failed to start this ash beacon combat, select another beacon.")
                 return False
                     
         return True
