@@ -702,3 +702,13 @@ class RewardCommission(UI, InfoHandler):
             bool: If any commission finished.
         """
         return self.appear(CAMPAIGN_CHECK) and self.appear(COMMISSION_NOTICE_AT_CAMPAIGN)
+
+    def run(self):
+        # self.ui_get_current_page()
+        # self.ui_goto(page_commission)
+        # self._commission_ensure_mode('urgent')
+        self.device.screenshot()
+        COMMISSION_SCROLL.next_page(main=self)
+        COMMISSION_SCROLL.next_page(main=self)
+        COMMISSION_SCROLL.next_page(main=self)
+        self.device.sleep(100)

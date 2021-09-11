@@ -10,6 +10,7 @@ from module.exception import *
 from module.handler.login import LoginHandler
 from module.logger import logger
 from module.research.research import RewardResearch
+from module.reward.commission import RewardCommission
 
 
 class AzurLaneAutoScript:
@@ -76,7 +77,7 @@ class AzurLaneAutoScript:
         RewardResearch(config=self.config, device=self.device).run()
 
     def commission(self):
-        self.device.sleep(2)
+        RewardCommission(config=self.config, device=self.device).run()
 
     def loop(self):
         while 1:
