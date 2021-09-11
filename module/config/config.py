@@ -4,7 +4,6 @@ import time
 
 from module.base.filter import Filter
 from module.base.utils import ensure_time
-from module.config.argument import Argument
 from module.config.config_generated import GeneratedConfig
 from module.config.config_manual import ManualConfig
 from module.config.utils import *
@@ -17,33 +16,34 @@ class TaskEnd(Exception):
 
 class Function:
     def __init__(self, data):
+        self.enable = deep_get(data, keys='Scheduler.Enable', default=False)
         self.command = deep_get(data, keys='Scheduler.Command', default='Unknown')
         self.next_run = deep_get(data, keys='Scheduler.NextRun', default=datetime(2020, 1, 1, 0, 0))
 
 
 class AzurLaneConfig(ManualConfig, GeneratedConfig):
+    # This will read ./config/<config_name>.yaml
     config_name = ''
+    # Raw json data in yaml file.
     data = {}
+    # Task to run and bind.
+    # Task means the name of the function to run in AzurLaneAutoScript class.
     task = ''
-    _modified = {}
+    # Modified arguments. Key: Argument name in GeneratedConfig. Value: Modified value.
+    # All variable modifications will be record here and saved in method `save()`.
+    modified = {}
+    # Key: Argument name in GeneratedConfig. Value: Path in `data`.
+    bound = {}
+    # If write after every variable modification.
     auto_update = True
 
     def __setattr__(self, key, value):
-        arg = self.__getattribute__(key)
-        if isinstance(arg, Argument):
-            arg.set(value)
-            self._modified[arg] = value
+        if key in self.bound:
+            self.modified[key] = value
             if self.auto_update:
                 self.update()
         else:
             super().__setattr__(key, value)
-
-    # def __getattribute__(self, item):
-    #     arg = super().__getattribute__(item)
-    #     if isinstance(arg, Argument):
-    #         if not arg.has_bind:
-    #             logger.warning(f'Access unbound argument: {item}')
-    #     return arg
 
     def __init__(self, config_name, task=None):
         self.config_name = config_name
@@ -66,6 +66,7 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
 
         # Bind arguments
         visited = set()
+        self.bound = {}
         for func in func_list:
             func_data = self.data.get(func, {})
             for group, group_data in func_data.items():
@@ -73,8 +74,9 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
                     path = f'{group}.{arg}'
                     if path in visited:
                         continue
-                    arg = super().__getattribute__(path_to_arg(path))
-                    arg.bind(func=func, value=value)
+                    arg = path_to_arg(path)
+                    self.__setattr__(arg, value)
+                    self.bound[arg] = f'{func}.{path}'
                     visited.add(path)
 
     def get_next(self):
@@ -110,16 +112,17 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
             exit(1)
 
     def save(self):
-        if not self._modified:
+        if not self.modified:
             return False
 
-        for arg, value in self._modified.items():
-            deep_set(self.data, keys=arg.path, value=value)
-            arg.set(value)
+        modified = {}
+        for arg, value in self.modified.items():
+            path = self.bound[arg]
+            deep_set(self.data, keys=path, value=value)
+            modified[path] = value
 
-        modified = {k.path: v for k, v in self._modified.items()}
         logger.info(f'Save config {filepath_config(self.config_name)}, {dict_to_kv(modified)}')
-        self._modified = {}
+        self.modified = {}
         write_file(filepath_config(self.config_name), data=self.data)
 
     def update(self):
@@ -150,11 +153,11 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
 
         run = []
         if success is not None:
-            interval = self.Scheduler_SuccessInterval.value if success else self.Scheduler_FailureInterval.value
+            interval = self.Scheduler_SuccessInterval if success else self.Scheduler_FailureInterval
             run.append(datetime.now() + ensure_delta(interval))
         if server_update is not None:
             if server_update is True:
-                server_update = self.Scheduler_ServerUpdate.value
+                server_update = self.Scheduler_ServerUpdate
             run.append(get_server_next_update(server_update))
         elif target:
             if isinstance(target, str):
@@ -166,7 +169,7 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
         if len(run):
             run = min(run).replace(microsecond=0)
             kv = dict_to_kv(
-                {'success': success, 'server_update': server_update, 'target': target, 'minute':minute},
+                {'success': success, 'server_update': server_update, 'target': target, 'minute': minute},
                 allow_none=False)
             logger.info(f'Delay task {self.task} to {run} ({kv})')
             self.Scheduler_NextRun = run

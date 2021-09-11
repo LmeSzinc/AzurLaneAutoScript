@@ -566,9 +566,9 @@ class ResearchSelector(UI):
                 such as [object, object, object, 'reset']
         """
         # Load filter string
-        preset = self.config.ResearchOutput_PresetFilter.value
+        preset = self.config.ResearchOutput_PresetFilter
         if preset == 'custom':
-            string = self.config.ResearchOutput_CustomFilter.value
+            string = self.config.ResearchOutput_CustomFilter
         else:
             if preset not in DICT_FILTER_PRESET:
                 logger.warning(f'Preset not found: {preset}, use default preset')
