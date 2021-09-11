@@ -235,6 +235,8 @@ class RewardResearch(ResearchSelector):
                 self.device.save_screenshot('research_items', to_base_folder=True)
             self.stat.add(self.device.image)
         elif button == GET_ITEMS_3:
+            self.device.sleep(1.5)
+            self.device.screenshot()
             if save_get_items:
                 self.device.save_screenshot('research_items', to_base_folder=True)
             self.stat.add(self.device.image)
