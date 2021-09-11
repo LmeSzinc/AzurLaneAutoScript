@@ -17,6 +17,11 @@ class ManualConfig:
     """
 
     """
+    module.assets
+    """
+    ASSETS_FOLDER = './assets'
+
+    """
     module.base
     """
     COLOR_SIMILAR_THRESHOLD = 10

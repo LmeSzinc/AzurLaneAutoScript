@@ -9,7 +9,7 @@ from module.config.config_generated import GeneratedConfig
 from module.config.config_manual import ManualConfig
 from module.config.utils import *
 from module.logger import logger
-from module.config.db import Database
+
 
 class TaskEnd(Exception):
     pass
@@ -45,10 +45,14 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
     #             logger.warning(f'Access unbound argument: {item}')
     #     return arg
 
-    def __init__(self, config_name):
+    def __init__(self, config_name, task=None):
         self.config_name = config_name
-        Database().update_config(config_name)
-        self.update()
+        self.load()
+        if task is None:
+            task = self.get_next()
+        self.bind(task)
+        logger.info(f'Bind task {task}')
+        self.task = task
 
     def load(self):
         self.data = read_file(filepath_config(self.config_name))
@@ -58,8 +62,7 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
         Args:
             func (str): Function to run
         """
-        self.task = func
-        func_list = ['Alas', func]
+        func_list = [func, 'Alas']
 
         # Bind arguments
         visited = set()
@@ -147,11 +150,11 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
 
         run = []
         if success is not None:
-            interval = self.SCHEDULER__SUCCESS_INTERVAL.value if success else self.SCHEDULER__FAILURE_INTERVAL.value
+            interval = self.Scheduler_SuccessInterval.value if success else self.Scheduler_FailureInterval.value
             run.append(datetime.now() + ensure_delta(interval))
         if server_update is not None:
             if server_update is True:
-                server_update = self.SCHEDULER__SERVER_UPDATE.value
+                server_update = self.Scheduler_ServerUpdate.value
             run.append(get_server_next_update(server_update))
         elif target:
             if isinstance(target, str):
@@ -166,6 +169,6 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
                 {'success': success, 'server_update': server_update, 'target': target, 'minute':minute},
                 allow_none=False)
             logger.info(f'Delay task {self.task} to {run} ({kv})')
-            self.SCHEDULER__NEXT_RUN = run
+            self.Scheduler_NextRun = run
         else:
             logger.warning('Missing argument in delay_next_run, should set at least one')

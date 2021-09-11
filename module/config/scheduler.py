@@ -1,8 +1,10 @@
 import time
 
+import inflection
 from cached_property import cached_property
 
 from module.config.config import AzurLaneConfig, TaskEnd
+from module.config.db import Database
 from module.device.device import Device
 from module.exception import *
 from module.handler.login import LoginHandler
@@ -13,11 +15,11 @@ from module.research.research import RewardResearch
 class AzurLaneAutoScript:
     def __init__(self, config_name='alas'):
         self.config_name = config_name
+        Database().update_config(config_name)
 
     @cached_property
     def config(self):
         config = AzurLaneConfig(config_name=self.config_name)
-        config.bind(config.get_next())
         return config
 
     @cached_property
@@ -26,7 +28,6 @@ class AzurLaneAutoScript:
         return device
 
     def run(self, command):
-        logger.attr('Command', command)
         while 1:
             try:
                 self.__getattribute__(command)()
@@ -74,9 +75,15 @@ class AzurLaneAutoScript:
     def research(self):
         RewardResearch(config=self.config, device=self.device).run()
 
+    def commission(self):
+        self.device.sleep(2)
+
     def loop(self):
         while 1:
-            success = self.run(self.config.task)
+            logger.info(f'Scheduler: Start task: {self.config.task}')
+            success = self.run(inflection.underscore(self.config.task))
+
+            logger.info(f'Scheduler: End task: {self.config.task}')
             del self.__dict__['config']
 
             if not success:

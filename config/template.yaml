@@ -12,13 +12,13 @@ Alas:
     ScreenshotMethod: ADB
     ControlMethod: minitouch
   Error:
-    Handle: true
-    Save: true
+    HandleError: true
+    SaveError: true
     ScreenshotLength: 1
   DropRecord:
-    Save: false
-    Folder: ./screenshot
-    Upload: false
+    SaveScreenshot: false
+    SaveFolder: ./screenshot
+    UploadAzurStats: false
 Main:
   Scheduler:
     Enable: true
@@ -44,9 +44,9 @@ Research:
     FailureInterval: 10-40
     ServerUpdate: 00:00
   ResearchInput:
-    Cube: false
-    Coin: true
-    Part: true
+    UseCube: false
+    UseCoin: true
+    UsePart: true
   ResearchOutput:
-    Preset: series_4
-    Filter: 0.5 > reset > shortest
+    PresetFilter: series_4
+    CustomFilter: 0.5 > reset > shortest

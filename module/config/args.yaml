@@ -4,7 +4,7 @@ Alas:
   Scheduler:
     Enable: false
     NextRun: 2020-01-01 00:00:00
-    Command: research
+    Command: Alas
     SuccessInterval: 0
     FailureInterval: 120
     ServerUpdate: 00:00
@@ -37,7 +37,7 @@ Main:
   Scheduler:
     Enable: main
     NextRun: 2020-01-01 00:00:00
-    Command: research
+    Command: Main
     SuccessInterval: 0
     FailureInterval: 120
     ServerUpdate: 00:00
@@ -47,7 +47,7 @@ Commission:
   Scheduler:
     Enable: commission
     NextRun: 2020-01-01 00:00:00
-    Command: research
+    Command: Commission
     SuccessInterval: 10-40
     FailureInterval: 10-40
     ServerUpdate: 00:00
@@ -57,7 +57,7 @@ Research:
   Scheduler:
     Enable: true
     NextRun: 2020-01-01 00:00:00
-    Command: research
+    Command: Research
     SuccessInterval: 10-40
     FailureInterval: 10-40
     ServerUpdate: 00:00

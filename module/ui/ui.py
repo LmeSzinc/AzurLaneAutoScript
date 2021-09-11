@@ -101,8 +101,8 @@ class UI(InfoHandler):
             logger.warning(f'Unrecognized ui_current, using previous: {self.ui_current}')
         else:
             logger.info('Unable to goto page_main')
-            logger.attr('EMULATOR__SCREENSHOT_METHOD', self.config.EMULATOR__SCREENSHOT_METHOD)
-            logger.attr('EMULATOR__CONTROL_METHOD', self.config.EMULATOR__CONTROL_METHOD)
+            logger.attr('EMULATOR__SCREENSHOT_METHOD', self.config.Emulator_ScreenshotMethod)
+            logger.attr('EMULATOR__CONTROL_METHOD', self.config.Emulator_ControlMethod)
             logger.attr('SERVER', self.config.SERVER)
             logger.warning('Starting from current page is not supported')
             logger.warning(f'Supported page: {[str(page) for page in self.ui_pages]}')
@@ -157,11 +157,11 @@ class UI(InfoHandler):
 
         # Click
         for p1, p2 in zip(route[:-1], route[1:]):
-            additional = f'ui_additional_{str(p2)}'
             self.ui_click(
                 click_button=p1.links[p2],
                 check_button=p2.check_button,
-                additional=self.__getattribute__(additional) if hasattr(self, additional) else None,
+                additional=self.ui_additional,
+                confirm_wait=0,
                 offset=(20, 20),
                 skip_first_screenshot=skip_first_screenshot)
             self.ui_current = p2
@@ -258,81 +258,50 @@ class UI(InfoHandler):
         return self.ui_click(click_button=BACK_ARROW, check_button=check_button, appear_button=appear_button,
                              offset=offset, retry_wait=retry_wait, skip_first_screenshot=skip_first_screenshot)
 
-    def ui_additional_page_main(self):
+    def ui_additional(self):
+        """
+        Handle all annoying popups during UI switching.
+        """
         # Research popup, lost connection popup
-        if self.handle_popup_confirm('PAGE_MAIN'):
+        if self.handle_popup_confirm('UI_ADDITIONAL'):
             return True
+
         # Guild popup
         if self.handle_guild_popup_cancel():
             return True
 
         # Daily reset
-        if self.appear_then_click(LOGIN_ANNOUNCE, offset=(30, 30), interval=5):
+        if self.appear_then_click(LOGIN_ANNOUNCE, offset=(30, 30), interval=3):
             return True
-        if self.appear_then_click(GET_ITEMS_1, offset=(30, 30), interval=5):
+        if self.appear_then_click(GET_ITEMS_1, offset=(30, 30), interval=3):
             return True
-        if self.appear_then_click(GET_SHIP, interval=5):
+        if self.appear_then_click(GET_SHIP, interval=3):
             return True
-        if self.appear_then_click(LOGIN_RETURN_SIGN, offset=(30, 30), interval=5):
+        if self.appear_then_click(LOGIN_RETURN_SIGN, offset=(30, 30), interval=3):
             return True
-        if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=5):
-            return True
-
-        return False
-
-    _ui_additional_reward_goto_main_timer = Timer(5, count=5)
-
-    def ui_additional_page_reward(self):
-        # Research popup, lost connection popup
-        if self.handle_popup_confirm('PAGE_REWARD'):
-            return True
-        # Guild popup
-        if self.handle_guild_popup_cancel():
-            return True
-
-        # Daily reset
-        if self.appear_then_click(LOGIN_ANNOUNCE, offset=(30, 30), interval=5):
-            return True
-        if self.appear_then_click(GET_ITEMS_1, offset=(30, 30), interval=5):
-            return True
-        if self.appear_then_click(GET_SHIP, interval=5):
-            return True
-        if self.appear_then_click(LOGIN_RETURN_SIGN, offset=(30, 30), interval=5):
-            return True
-        if self.appear(EVENT_LIST_CHECK, offset=(30, 30), interval=5) \
-                or self.appear(RESHMENU_CHECK, offset=(30, 30), interval=5) \
-                or self.appear(RESEARCH_CHECK, offset=(30, 30), interval=5) \
-                or self.appear(SHIPYARD_CHECK, offset=(30, 30), interval=5):
+        if self.appear(EVENT_LIST_CHECK, offset=(30, 30), interval=3):
             self.device.click(GOTO_MAIN)
-            self._ui_additional_reward_goto_main_timer.reset()
-            return True
-        if not self._ui_additional_reward_goto_main_timer.reached():
-            if self.appear(MAIN_CHECK, offset=(30, 30), interval=5):
-                self.device.click(MAIN_GOTO_REWARD)
-                return True
-
-        return False
-
-    def ui_additional_page_dorm(self):
-        if self.appear_then_click(DORM_INFO, offset=(30, 30), interval=5):
-            return True
-        if self.appear_then_click(DORM_FEED_CANCEL, offset=(30, 30), interval=5):
-            return True
-        if self.appear_then_click(DORM_TROPHY_CONFIRM, offset=(30, 30), interval=5):
             return True
 
-        return False
-
-    def ui_additional_page_meowfficer(self):
-        if self.appear_then_click(MEOWFFICER_INFO, offset=(30, 30), interval=5):
+        # Mistaken click
+        if self.appear(PLAYER_CHECK, offset=(30, 30), interval=3):
+            self.device.click(GOTO_MAIN)
             return True
 
-        return False
-
-    def ui_additional_page_commission(self):
+        # Game tips
         # Event commission in Vacation Lane.
-        if self.appear(GAME_TIPS, offset=(20, 20), interval=1):
-            self.device.click(COMMISSION_DAILY)
+        if self.appear(GAME_TIPS, offset=(30, 30), interval=3):
+            self.device.click(GOTO_MAIN)
             return True
 
-        return False
+        # Dorm popup
+        if self.appear_then_click(DORM_INFO, offset=(30, 30), interval=3):
+            return True
+        if self.appear_then_click(DORM_FEED_CANCEL, offset=(30, 30), interval=3):
+            return True
+        if self.appear_then_click(DORM_TROPHY_CONFIRM, offset=(30, 30), interval=3):
+            return True
+
+        # Meowfficer popup
+        if self.appear_then_click(MEOWFFICER_INFO, offset=(30, 30), interval=3):
+            return True

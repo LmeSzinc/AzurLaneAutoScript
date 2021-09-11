@@ -7,6 +7,10 @@ from module.logger import logger
 from module.research.assets import *
 from module.research.project import ResearchSelector, RESEARCH_ENTRANCE, get_research_finished, ResearchProject
 from module.ui.page import *
+from module.ocr.ocr import Duration
+
+
+OCR_DURATION = Duration(DURATION_REMAIN, letter=(255, 255, 255), threshold=64, name='DURATION_REMAIN')
 
 
 class RewardResearch(ResearchSelector):
@@ -275,7 +279,7 @@ class RewardResearch(ResearchSelector):
         """
         logger.hr('Research start')
         if self.research_has_finished():
-            success = self.research_receive(save_get_items=self.config.ENABLE_SAVE_GET_ITEMS)
+            success = self.research_receive(save_get_items=self.config.DropRecord_SaveScreenshot)
             if not success:
                 return False
         else:
@@ -294,11 +298,37 @@ class RewardResearch(ResearchSelector):
         for _ in range(2):
             self.research_detect(self.device.image)
             priority = self.research_sort_filter()
-            result = self.research_select(priority, save_get_items=self.config.ENABLE_SAVE_GET_ITEMS)
+            result = self.research_select(priority, save_get_items=self.config.DropRecord_SaveScreenshot)
             if result:
                 break
 
         return True
+
+    def research_get_remain(self):
+        """
+        Get remain duration of current project (the one in the middle).
+
+        Returns:
+            bool: True if success
+                  False if project requirements are not satisfied.
+
+        Pages:
+            in: page_research, stable.
+            out: page_research, stable.
+        """
+        logger.info('Research get remain')
+        self.research_detect(self.device.image)
+        remain = OCR_DURATION.ocr(self.device.image)
+        logger.info(f'Research project remain: {remain}')
+
+        if remain.total_seconds() > 0:
+            project = self.projects[2]
+            project.duration = remain.total_seconds() / 3600
+            self.research_project_started = project
+            return True
+        else:
+            self.research_project_started = None
+            return False
 
     def ui_ensure_research(self):
         """
@@ -335,14 +365,19 @@ class RewardResearch(ResearchSelector):
             out: page_research, with research project information, but it's still page_research.
         """
         self.ui_get_current_page()
-        self.ui_ensure_research()
-        success = self.research_reward()
+        self.ui_goto(page_reward, skip_first_screenshot=True)
+        if self.appear(RESEARCH_FINISHED) or self.appear(RESEARCH_PENDING, offset=(20, 20)):
+            self.ui_ensure_research()
+            success = self.research_reward()
+        else:
+            self.ui_ensure_research()
+            success = self.research_get_remain()
 
         project = self.research_project_started
         if success:
             if project is not None:
                 # Success to start a project
-                self.config.delay_next_run(minute=project.duration * 60)
+                self.config.delay_next_run(minute=float(project.duration) * 60)
             else:
                 # No project satisfies current filter
                 self.config.delay_next_run(server_update=True)
