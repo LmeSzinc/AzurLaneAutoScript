@@ -9,7 +9,6 @@ from module.research.project import ResearchSelector, RESEARCH_ENTRANCE, get_res
 from module.ui.page import *
 from module.ocr.ocr import Duration
 
-
 OCR_DURATION = Duration(DURATION_REMAIN, letter=(255, 255, 255), threshold=64, name='DURATION_REMAIN')
 
 
@@ -51,11 +50,10 @@ class RewardResearch(ResearchSelector):
         else:
             return False
 
-    def research_reset(self, skip_first_screenshot=True, save_get_items=False):
+    def research_reset(self, skip_first_screenshot=True):
         """
         Args:
             skip_first_screenshot (bool):
-            save_get_items (bool):
 
         Returns:
             bool: If reset success.
@@ -66,10 +64,11 @@ class RewardResearch(ResearchSelector):
 
         logger.info('Research reset')
         executed = False
-        if save_get_items:
-            self.device.save_screenshot('research_project', interval=0, to_base_folder=True)
-        self.stat.add(self.device.image)
-        self.stat.upload()
+        with self.stat.new(genre='research',
+                           save=self.config.DropRecord_SaveResearch,
+                           upload=self.config.DropRecord_UploadResearch) as record:
+            record.add(self.device.image)
+
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -91,12 +90,11 @@ class RewardResearch(ResearchSelector):
         self._research_project_offset = 0
         return True
 
-    def research_select(self, priority, save_get_items=False):
+    def research_select(self, priority):
         """
         Args:
             priority (list): A list of ResearchProject objects and preset strings,
                 such as [object, object, object, 'reset']
-            save_get_items (bool):
 
         Returns:
             bool: False if have been reset
@@ -107,7 +105,7 @@ class RewardResearch(ResearchSelector):
         for project in priority:
             # priority example: ['reset', 'shortest']
             if project == 'reset':
-                if self.research_reset(save_get_items=save_get_items):
+                if self.research_reset():
                     return False
                 else:
                     continue
@@ -115,9 +113,9 @@ class RewardResearch(ResearchSelector):
             if isinstance(project, str):
                 # priority example: ['shortest']
                 if project == 'shortest':
-                    self.research_select(self.research_sort_shortest(), save_get_items=save_get_items)
+                    self.research_select(self.research_sort_shortest())
                 elif project == 'cheapest':
-                    self.research_select(self.research_sort_cheapest(), save_get_items=save_get_items)
+                    self.research_select(self.research_sort_cheapest())
                 else:
                     logger.warning(f'Unknown select method: {project}')
                 return True
@@ -185,11 +183,10 @@ class RewardResearch(ResearchSelector):
                 self.research_project_started = None
                 return False
 
-    def research_receive(self, skip_first_screenshot=True, save_get_items=False):
+    def research_receive(self, skip_first_screenshot=True):
         """
         Args:
             skip_first_screenshot:
-            save_get_items:
 
         Pages:
             in: page_research, stable, with project finished.
@@ -207,58 +204,54 @@ class RewardResearch(ResearchSelector):
                     return b
             return None
 
-        # Take screenshots of project list
-        if save_get_items:
-            self.device.save_screenshot('research_project', interval=0, to_base_folder=True)
-        self.stat.add(self.device.image)
+        with self.stat.new(genre='research',
+                           save=self.config.DropRecord_SaveResearch,
+                           upload=self.config.DropRecord_UploadResearch) as record:
+            # Take screenshots of project list
+            record.add(self.device.image)
 
-        # Click finished project, to GET_ITEMS_*
-        confirm_timer = Timer(1.5, count=5)
-        record_button = None
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            if self.appear(RESEARCH_CHECK, interval=10):
-                if self._research_has_finished_at(self._research_finished_index):
-                    self.device.click(RESEARCH_ENTRANCE[self._research_finished_index])
-
-            if self.appear(RESEARCH_STOP, offset=(20, 20)):
-                logger.info('The research time is up, but requirements are not satisfied')
-                self.research_project_started = None
-                self.research_detail_quit()
-                return False
-
-            appear_button = get_items()
-            if appear_button is not None:
-                if appear_button == record_button:
-                    if confirm_timer.reached():
-                        break
+            # Click finished project, to GET_ITEMS_*
+            confirm_timer = Timer(1.5, count=5)
+            record_button = None
+            while 1:
+                if skip_first_screenshot:
+                    skip_first_screenshot = False
                 else:
-                    logger.info(f'{appear_button} appeared')
-                    record_button = appear_button
-                    confirm_timer.reset()
+                    self.device.screenshot()
 
-        # Take screenshots of items
-        button = get_items()
-        if button == GET_ITEMS_1 or button == GET_ITEMS_2:
-            if save_get_items:
-                self.device.save_screenshot('research_items', to_base_folder=True)
-            self.stat.add(self.device.image)
-        elif button == GET_ITEMS_3:
-            if save_get_items:
-                self.device.save_screenshot('research_items', to_base_folder=True)
-            self.stat.add(self.device.image)
-            self.device.swipe((0, 250), box=ITEMS_3_SWIPE.area, random_range=(-10, -10, 10, 10), padding=0)
-            self.device.sleep(2)
-            self.device.screenshot()
-            if save_get_items:
-                self.device.save_screenshot('research_items', interval=0, to_base_folder=True)
-            self.stat.add(self.device.image)
-        self.stat.upload()
-        self.stat.clear()
+                if self.appear(RESEARCH_CHECK, interval=10):
+                    if self._research_has_finished_at(self._research_finished_index):
+                        self.device.click(RESEARCH_ENTRANCE[self._research_finished_index])
+
+                if self.appear(RESEARCH_STOP, offset=(20, 20)):
+                    logger.info('The research time is up, but requirements are not satisfied')
+                    self.research_project_started = None
+                    self.research_detail_quit()
+                    return False
+
+                appear_button = get_items()
+                if appear_button is not None:
+                    if appear_button == record_button:
+                        if confirm_timer.reached():
+                            break
+                    else:
+                        logger.info(f'{appear_button} appeared')
+                        record_button = appear_button
+                        confirm_timer.reset()
+
+            # Take screenshots of items
+            if record:
+                button = get_items()
+                if button == GET_ITEMS_1 or button == GET_ITEMS_2:
+                    record.add(self.device.image)
+                elif button == GET_ITEMS_3:
+                    self.device.sleep(1.5)
+                    self.device.screenshot()
+                    record.add(self.device.image)
+                    self.device.swipe((0, 250), box=ITEMS_3_SWIPE.area, random_range=(-10, -10, 10, 10), padding=0)
+                    self.device.sleep(2)
+                    self.device.screenshot()
+                    record.add(self.device.image)
 
         # Close GET_ITEMS_*, to project list
         self.ui_click(appear_button=get_items, click_button=GET_ITEMS_RESEARCH_SAVE, check_button=self._in_research,
@@ -279,7 +272,7 @@ class RewardResearch(ResearchSelector):
         """
         logger.hr('Research start')
         if self.research_has_finished():
-            success = self.research_receive(save_get_items=self.config.DropRecord_SaveScreenshot)
+            success = self.research_receive()
             if not success:
                 return False
         else:
@@ -298,7 +291,7 @@ class RewardResearch(ResearchSelector):
         for _ in range(2):
             self.research_detect(self.device.image)
             priority = self.research_sort_filter()
-            result = self.research_select(priority, save_get_items=self.config.DropRecord_SaveScreenshot)
+            result = self.research_select(priority)
             if result:
                 break
 
@@ -338,25 +331,6 @@ class RewardResearch(ResearchSelector):
         """
         self.ui_goto(page_research, skip_first_screenshot=True)
         self.ensure_research_stable()
-
-    def handle_research_reward(self):
-        """
-        Pages:
-            in: page_reward
-            out: page_research or page_reward
-        """
-        if not self.config.ENABLE_RESEARCH_REWARD:
-            return False
-
-        if not self.appear(RESEARCH_FINISHED) and not self.appear(RESEARCH_PENDING, offset=(20, 20)):
-            logger.info('No research finished or pending')
-            return False
-
-        self.ui_ensure_research()
-        self.research_reward()
-
-        self.ui_goto(page_reward, skip_first_screenshot=True)
-        return True
 
     def run(self):
         """

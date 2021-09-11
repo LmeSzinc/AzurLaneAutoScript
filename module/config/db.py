@@ -301,8 +301,27 @@ class Database:
             value = parse_value(value, data=arg)
             deep_set(new, keys=path, value=value)
 
+        new = self._check_config(new, is_template=config_name == 'template')
         write_file(file, data=new)
         return new
+
+    def _check_config(self, data, is_template=False):
+        """
+        Check a user config
+
+        Args:
+            data (dict):
+            is_template (bool):
+
+        Returns:
+            dict:
+        """
+        if is_template:
+            deep_set(data, 'Alas.DropRecord.AzurStatsID', None)
+        else:
+            deep_default(data, 'Alas.DropRecord.AzurStatsID', random_id())
+
+        return data
 
     def select_db(self, request):
         """

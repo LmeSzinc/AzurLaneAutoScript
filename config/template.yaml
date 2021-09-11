@@ -16,9 +16,13 @@ Alas:
     SaveError: true
     ScreenshotLength: 1
   DropRecord:
-    SaveScreenshot: false
     SaveFolder: ./screenshot
-    UploadAzurStats: false
+    AzurStatsID: null
+    SaveResearch: false
+    UploadResearch: false
+    SaveCommission: false
+    UploadCommission: false
+    SaveCombat: false
 Main:
   Scheduler:
     Enable: true

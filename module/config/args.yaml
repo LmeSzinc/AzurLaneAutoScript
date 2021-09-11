@@ -28,9 +28,13 @@ Alas:
     SaveError: true
     ScreenshotLength: 1
   DropRecord:
-    SaveScreenshot: false
-    SaveFolder: ./screenshot
-    UploadAzurStats: false
+    SaveFolder: ./screenshots
+    AzurStatsID: null
+    SaveResearch: false
+    UploadResearch: false
+    SaveCommission: false
+    UploadCommission: false
+    SaveCombat: false
 Main:
   _info:
     Menu: Main

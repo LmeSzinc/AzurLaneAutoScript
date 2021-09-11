@@ -14,7 +14,7 @@ class GeneratedConfig:
     # Func `Alas`
     Scheduler_Enable = Argument(value=False, path='Scheduler.Enable')
     Scheduler_NextRun = Argument(value=datetime.datetime(2020, 1, 1, 0, 0), path='Scheduler.NextRun')
-    Scheduler_Command = Argument(value='research', path='Scheduler.Command')
+    Scheduler_Command = Argument(value='Alas', path='Scheduler.Command')
     Scheduler_SuccessInterval = Argument(value=0, path='Scheduler.SuccessInterval')
     Scheduler_FailureInterval = Argument(value=120, path='Scheduler.FailureInterval')
     Scheduler_ServerUpdate = Argument(value='00:00', path='Scheduler.ServerUpdate')
@@ -25,9 +25,13 @@ class GeneratedConfig:
     Error_HandleError = Argument(value=True, path='Error.HandleError')
     Error_SaveError = Argument(value=True, path='Error.SaveError')
     Error_ScreenshotLength = Argument(value=1, path='Error.ScreenshotLength')
-    DropRecord_SaveScreenshot = Argument(value=False, path='DropRecord.SaveScreenshot')
     DropRecord_SaveFolder = Argument(value='./screenshot', path='DropRecord.SaveFolder')
-    DropRecord_UploadAzurStats = Argument(value=False, path='DropRecord.UploadAzurStats')
+    DropRecord_AzurStatsID = Argument(value=None, path='DropRecord.AzurStatsID')
+    DropRecord_SaveResearch = Argument(value=False, path='DropRecord.SaveResearch')
+    DropRecord_UploadResearch = Argument(value=False, path='DropRecord.UploadResearch')
+    DropRecord_SaveCommission = Argument(value=False, path='DropRecord.SaveCommission')
+    DropRecord_UploadCommission = Argument(value=False, path='DropRecord.UploadCommission')
+    DropRecord_SaveCombat = Argument(value=False, path='DropRecord.SaveCombat')
 
     # Func `Main`
 

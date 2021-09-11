@@ -57,7 +57,7 @@ _default:
     name: Alas.Scheduler.Command.name
     help: Alas.Scheduler.Command.help
     type: input
-    value: research
+    value: Alas
     option: {}
   '7':
     func: Alas
@@ -198,16 +198,6 @@ _default:
   '20':
     func: Alas
     group: DropRecord
-    arg: SaveScreenshot
-    lang: zh-CN
-    name: Alas.DropRecord.SaveScreenshot.name
-    help: Alas.DropRecord.SaveScreenshot.help
-    type: input
-    value: false
-    option: {}
-  '21':
-    func: Alas
-    group: DropRecord
     arg: SaveFolder
     lang: zh-CN
     name: Alas.DropRecord.SaveFolder.name
@@ -215,17 +205,67 @@ _default:
     type: input
     value: ./screenshot
     option: {}
+  '21':
+    func: Alas
+    group: DropRecord
+    arg: AzurStatsID
+    lang: zh-CN
+    name: Alas.DropRecord.AzurStatsID.name
+    help: Alas.DropRecord.AzurStatsID.help
+    type: input
+    value: null
+    option: {}
   '22':
     func: Alas
     group: DropRecord
-    arg: UploadAzurStats
+    arg: SaveResearch
     lang: zh-CN
-    name: Alas.DropRecord.UploadAzurStats.name
-    help: Alas.DropRecord.UploadAzurStats.help
+    name: Alas.DropRecord.SaveResearch.name
+    help: Alas.DropRecord.SaveResearch.help
     type: input
     value: false
     option: {}
   '23':
+    func: Alas
+    group: DropRecord
+    arg: UploadResearch
+    lang: zh-CN
+    name: Alas.DropRecord.UploadResearch.name
+    help: Alas.DropRecord.UploadResearch.help
+    type: input
+    value: false
+    option: {}
+  '24':
+    func: Alas
+    group: DropRecord
+    arg: SaveCommission
+    lang: zh-CN
+    name: Alas.DropRecord.SaveCommission.name
+    help: Alas.DropRecord.SaveCommission.help
+    type: input
+    value: false
+    option: {}
+  '25':
+    func: Alas
+    group: DropRecord
+    arg: UploadCommission
+    lang: zh-CN
+    name: Alas.DropRecord.UploadCommission.name
+    help: Alas.DropRecord.UploadCommission.help
+    type: input
+    value: false
+    option: {}
+  '26':
+    func: Alas
+    group: DropRecord
+    arg: SaveCombat
+    lang: zh-CN
+    name: Alas.DropRecord.SaveCombat.name
+    help: Alas.DropRecord.SaveCombat.help
+    type: input
+    value: false
+    option: {}
+  '27':
     func: Main
     group: _info
     arg: _info
@@ -235,7 +275,7 @@ _default:
     type: ''
     value: ''
     option: {}
-  '24':
+  '28':
     func: Main
     group: _info
     arg: Menu
@@ -245,7 +285,7 @@ _default:
     type: input
     value: Main
     option: {}
-  '25':
+  '29':
     func: Main
     group: Scheduler
     arg: _info
@@ -255,7 +295,7 @@ _default:
     type: ''
     value: ''
     option: {}
-  '26':
+  '30':
     func: Main
     group: Scheduler
     arg: Enable
@@ -265,7 +305,7 @@ _default:
     type: input
     value: main
     option: {}
-  '27':
+  '31':
     func: Main
     group: Scheduler
     arg: NextRun
@@ -275,7 +315,7 @@ _default:
     type: input
     value: 2020-01-01 00:00:00
     option: {}
-  '28':
+  '32':
     func: Main
     group: Scheduler
     arg: Command
@@ -283,9 +323,9 @@ _default:
     name: Main.Scheduler.Command.name
     help: Main.Scheduler.Command.help
     type: input
-    value: research
+    value: Main
     option: {}
-  '29':
+  '33':
     func: Main
     group: Scheduler
     arg: SuccessInterval
@@ -295,7 +335,7 @@ _default:
     type: input
     value: 0
     option: {}
-  '30':
+  '34':
     func: Main
     group: Scheduler
     arg: FailureInterval
@@ -305,7 +345,7 @@ _default:
     type: input
     value: 120
     option: {}
-  '31':
+  '35':
     func: Main
     group: Scheduler
     arg: ServerUpdate
@@ -315,7 +355,7 @@ _default:
     type: input
     value: 00:00
     option: {}
-  '32':
+  '36':
     func: Commission
     group: _info
     arg: _info
@@ -325,7 +365,7 @@ _default:
     type: ''
     value: ''
     option: {}
-  '33':
+  '37':
     func: Commission
     group: _info
     arg: Menu
@@ -335,7 +375,7 @@ _default:
     type: input
     value: Reward
     option: {}
-  '34':
+  '38':
     func: Commission
     group: Scheduler
     arg: _info
@@ -345,7 +385,7 @@ _default:
     type: ''
     value: ''
     option: {}
-  '35':
+  '39':
     func: Commission
     group: Scheduler
     arg: Enable
@@ -355,7 +395,7 @@ _default:
     type: input
     value: commission
     option: {}
-  '36':
+  '40':
     func: Commission
     group: Scheduler
     arg: NextRun
@@ -365,7 +405,7 @@ _default:
     type: input
     value: 2020-01-01 00:00:00
     option: {}
-  '37':
+  '41':
     func: Commission
     group: Scheduler
     arg: Command
@@ -373,9 +413,9 @@ _default:
     name: Commission.Scheduler.Command.name
     help: Commission.Scheduler.Command.help
     type: input
-    value: research
+    value: Commission
     option: {}
-  '38':
+  '42':
     func: Commission
     group: Scheduler
     arg: SuccessInterval
@@ -385,7 +425,7 @@ _default:
     type: input
     value: 10-40
     option: {}
-  '39':
+  '43':
     func: Commission
     group: Scheduler
     arg: FailureInterval
@@ -395,7 +435,7 @@ _default:
     type: input
     value: 10-40
     option: {}
-  '40':
+  '44':
     func: Commission
     group: Scheduler
     arg: ServerUpdate
@@ -405,7 +445,7 @@ _default:
     type: input
     value: 00:00
     option: {}
-  '41':
+  '45':
     func: Research
     group: _info
     arg: _info
@@ -415,7 +455,7 @@ _default:
     type: ''
     value: ''
     option: {}
-  '42':
+  '46':
     func: Research
     group: _info
     arg: Menu
@@ -425,7 +465,7 @@ _default:
     type: input
     value: Reward
     option: {}
-  '43':
+  '47':
     func: Research
     group: Scheduler
     arg: _info
@@ -435,7 +475,7 @@ _default:
     type: ''
     value: ''
     option: {}
-  '44':
+  '48':
     func: Research
     group: Scheduler
     arg: Enable
@@ -445,7 +485,7 @@ _default:
     type: input
     value: true
     option: {}
-  '45':
+  '49':
     func: Research
     group: Scheduler
     arg: NextRun
@@ -455,7 +495,7 @@ _default:
     type: input
     value: 2020-01-01 00:00:00
     option: {}
-  '46':
+  '50':
     func: Research
     group: Scheduler
     arg: Command
@@ -463,9 +503,9 @@ _default:
     name: Research.Scheduler.Command.name
     help: Research.Scheduler.Command.help
     type: input
-    value: research
+    value: Research
     option: {}
-  '47':
+  '51':
     func: Research
     group: Scheduler
     arg: SuccessInterval
@@ -475,7 +515,7 @@ _default:
     type: input
     value: 10-40
     option: {}
-  '48':
+  '52':
     func: Research
     group: Scheduler
     arg: FailureInterval
@@ -485,7 +525,7 @@ _default:
     type: input
     value: 10-40
     option: {}
-  '49':
+  '53':
     func: Research
     group: Scheduler
     arg: ServerUpdate
@@ -495,7 +535,7 @@ _default:
     type: input
     value: 00:00
     option: {}
-  '50':
+  '54':
     func: Research
     group: ResearchInput
     arg: _info
@@ -505,7 +545,7 @@ _default:
     type: ''
     value: ''
     option: {}
-  '51':
+  '55':
     func: Research
     group: ResearchInput
     arg: UseCube
@@ -515,7 +555,7 @@ _default:
     type: input
     value: false
     option: {}
-  '52':
+  '56':
     func: Research
     group: ResearchInput
     arg: UseCoin
@@ -525,7 +565,7 @@ _default:
     type: input
     value: true
     option: {}
-  '53':
+  '57':
     func: Research
     group: ResearchInput
     arg: UsePart
@@ -535,7 +575,7 @@ _default:
     type: input
     value: true
     option: {}
-  '54':
+  '58':
     func: Research
     group: ResearchOutput
     arg: _info
@@ -545,7 +585,7 @@ _default:
     type: ''
     value: ''
     option: {}
-  '55':
+  '59':
     func: Research
     group: ResearchOutput
     arg: PresetFilter
@@ -559,7 +599,7 @@ _default:
       series_4: series_4
       series_3: series_3
       series_3_than_2: series_3_than_2
-  '56':
+  '60':
     func: Research
     group: ResearchOutput
     arg: CustomFilter

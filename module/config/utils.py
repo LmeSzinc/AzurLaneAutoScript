@@ -1,8 +1,9 @@
 import json
 import os
+import random
+import string
 from datetime import datetime, timedelta, timezone
 
-import inflection
 import yaml
 
 import module.config.server as server
@@ -228,3 +229,14 @@ def get_server_next_update(daily_trigger):
         trigger.append(future)
     update = sorted(trigger)[0]
     return update
+
+
+def random_id(length=32):
+    """
+    Args:
+        length (int):
+
+    Returns:
+        str: Random azurstat id.
+    """
+    return ''.join(random.sample(string.ascii_lowercase + string.digits, length))
