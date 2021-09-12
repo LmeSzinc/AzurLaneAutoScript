@@ -78,6 +78,11 @@ class MapOrderHandler(MapOperation, ActionPointHandler, EnemySearchingHandler, Z
             if self.handle_map_cat_attack():
                 continue
             if self.handle_action_point(zone=assume_zone, pinned='OBSCURE'):
+                # After clicking action point cancel, Azur Lane closes map order, instead of staying there.
+                # So re-enter map order, and re-executing the order.
+                self.order_enter()
+                confirm_timer.reset()
+                missing_timer.reset()
                 continue
 
     def os_order_execute(self, recon_scan=True, submarine_call=True):
