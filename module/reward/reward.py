@@ -411,6 +411,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
             FLEET_2_AUTO_MODE='combat_auto',
             ENABLE_FAST_FORWARD=True,
             STOP_IF_MAP_REACH='no',
+            STOP_IF_OIL_LOWER_THAN=0,
         )
 
     def reward_recover_daily_reward_settings(self):
