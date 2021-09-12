@@ -338,8 +338,7 @@ class RewardResearch(ResearchSelector):
             in: Any page
             out: page_research, with research project information, but it's still page_research.
         """
-        self.ui_get_current_page()
-        self.ui_goto(page_reward, skip_first_screenshot=True)
+        self.ui_ensure(page_reward)
         if self.appear(RESEARCH_FINISHED) or self.appear(RESEARCH_PENDING, offset=(20, 20)):
             self.ui_ensure_research()
             success = self.research_reward()

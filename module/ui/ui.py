@@ -6,22 +6,22 @@ from module.handler.assets import *
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.ocr.ocr import Ocr
-from module.reward.assets import COMMISSION_DAILY
 from module.ui.page import *
 
 
 class UI(InfoHandler):
-    # Pages that Alas supported.
-    ui_pages = [page_main, page_campaign_menu, page_campaign, page_fleet,
-                page_exercise, page_daily, page_event, page_sp, page_mission,
-                page_raid, page_reward, page_reshmenu, page_research, page_shipyard, page_dormmenu, page_dorm, page_meowfficer,
-                page_archives, page_guild, page_os, page_academy, page_shop, page_munitions, page_build]
     # All pages defined.
-    ui_pages_all = [page_main, page_campaign_menu, page_campaign, page_fleet,
-                    page_exercise, page_daily, page_event, page_sp, page_mission,
-                    page_raid, page_commission, page_event_list, page_tactical, page_reward, page_unknown,
-                    page_reshmenu, page_research, page_shipyard, page_dormmenu, page_dorm, page_meowfficer, page_archives,
-                    page_guild, page_os, page_academy, page_shop, page_munitions, page_build]
+    ui_pages = [
+        page_unknown,
+        page_main, page_fleet, page_guild, page_mission, page_event_list,
+        page_campaign_menu, page_campaign, page_exercise, page_daily,
+        page_event, page_sp, page_raid, page_archives,
+        page_reward, page_commission, page_tactical,
+        page_reshmenu, page_research, page_shipyard,
+        page_dormmenu, page_dorm, page_meowfficer,
+        page_academy, page_shop, page_munitions, page_build,
+        page_os
+    ]
     ui_current: Page
 
     def ui_page_appear(self, page):
@@ -83,20 +83,34 @@ class UI(InfoHandler):
                 if additional():
                     continue
 
-    def ui_get_current_page(self):
-        self.device.screenshot()
+    def ui_get_current_page(self, skip_first_screenshot=True):
+        """
+        Args:
+            skip_first_screenshot:
+
+        Returns:
+            Page:
+        """
+        if not skip_first_screenshot or not hasattr(self.device, 'image') or self.device.image is None:
+            self.device.screenshot()
+
+        # Known pages
         for page in self.ui_pages:
+            if page.check_button is None:
+                continue
             if self.ui_page_appear(page=page):
                 logger.attr('UI', page.name)
                 self.ui_current = page
                 return page
 
+        # Unknown page but able to handle
         logger.info('Unknown ui page')
         if self.appear_then_click(GOTO_MAIN, offset=(20, 20)):
             logger.info('Goto page_main')
             self.ui_current = page_unknown
             self.ui_goto(page_main, skip_first_screenshot=True)
 
+        # Unknown page, need manual switching
         if hasattr(self, 'ui_current'):
             logger.warning(f'Unrecognized ui_current, using previous: {self.ui_current}')
         else:
@@ -112,78 +126,83 @@ class UI(InfoHandler):
             else:
                 exit(1)
 
-    def ui_goto(self, destination, skip_first_screenshot=False):
+    def ui_goto(self, destination, offset=(20, 20), confirm_wait=0, skip_first_screenshot=True):
         """
         Args:
             destination (Page):
-            skip_first_screenshot (bool):
+            offset:
+            confirm_wait:
+            skip_first_screenshot:
         """
-        for page in self.ui_pages_all:
+        # Reset connection
+        for page in self.ui_pages:
             page.parent = None
-        # Iter
-        visited = [self.ui_current]
+
+        # Create connection
+        visited = [destination]
         visited = set(visited)
         while 1:
             new = visited.copy()
             for page in visited:
-                for link in page.links.keys():
+                for link in self.ui_pages:
                     if link in visited:
                         continue
-                    link.parent = page
-                    new.add(link)
+                    if page in link.links:
+                        link.parent = page
+                        new.add(link)
             if len(new) == len(visited):
                 break
             visited = new
 
-        # Find path
-        if destination.parent is None:
-            return []
-        route = [destination]
+        logger.hr(f'UI goto {destination}')
+        confirm_timer = Timer(confirm_wait, count=int(confirm_wait // 0.5)).start()
         while 1:
-            destination = destination.parent
-            if destination is not None:
-                route.append(destination)
+            if skip_first_screenshot:
+                skip_first_screenshot = False
             else:
-                break
-            if len(route) > 30:
-                logger.warning('UI route too long')
-                logger.warning(str(route))
-                exit(1)
+                self.device.screenshot()
 
-        route.reverse()
-        if len(route) < 2:
-            logger.warning('No page route found.')
-        logger.attr('UI route', ' - '.join([p.name for p in route]))
+            # Destination page
+            if self.appear(destination.check_button, offset=offset):
+                if confirm_timer.reached():
+                    break
+            else:
+                confirm_timer.reset()
 
-        # Click
-        for p1, p2 in zip(route[:-1], route[1:]):
-            self.ui_click(
-                click_button=p1.links[p2],
-                check_button=p2.check_button,
-                additional=self.ui_additional,
-                confirm_wait=0,
-                offset=(20, 20),
-                skip_first_screenshot=skip_first_screenshot)
-            self.ui_current = p2
-            skip_first_screenshot = True
+            # Other pages
+            for page in visited:
+                if page.parent is None or page.check_button is None:
+                    continue
+                if self.appear(page.check_button, offset=offset, interval=3):
+                    self.device.click(page.links[page.parent])
+                    confirm_timer.reset()
+                    break
 
-        # Reset
-        for page in visited:
+            # Additional
+            if self.ui_additional():
+                continue
+
+        # Reset connection
+        for page in self.ui_pages:
             page.parent = None
 
-    def ui_ensure(self, destination):
+    def ui_ensure(self, destination, skip_first_screenshot=True):
         """
         Args:
             destination (Page):
+            skip_first_screenshot:
+
+        Returns:
+            bool: If UI switched.
         """
         logger.hr('UI ensure')
-        self.ui_get_current_page()
+        self.ui_get_current_page(skip_first_screenshot=skip_first_screenshot)
         if self.ui_current == destination:
             logger.info('Already at %s' % destination)
             return False
         else:
             logger.info('Goto %s' % destination)
-            self.ui_goto(destination)
+            self.ui_goto(destination, skip_first_screenshot=True)
             return True
 
     def ui_goto_main(self):
