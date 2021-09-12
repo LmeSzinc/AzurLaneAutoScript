@@ -139,10 +139,10 @@ def main(ini_name=''):
     stage.add_argument('--使用周回模式', default=default('--使用周回模式'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     stage.add_argument('--使用作战指令书', default=default('--使用作战指令书'), choices=['是', '否'], help='使用高效作战指令书, 两倍消耗两次掉落结算', gooey_options={'label_color': '#4B5F83'})
 
-    stop = stage.add_argument_group('停止条件', '触发后不会马上停止会先完成当前出击, 不需要就填0', gooey_options={'label_color': '#931D03'})
+    stop = stage.add_argument_group('停止条件', '触发后不会马上停止会先完成当前出击, 完成出击后进入收获循环, 不需要就填0', gooey_options={'label_color': '#931D03'})
     stop.add_argument('--如果出击次数大于', default=default('--如果出击次数大于'), help='会沿用先前设置, 完成出击将扣除次数, 直至清零', gooey_options={'label_color': '#4B5F83'})
     stop.add_argument('--如果时间超过', default=default('--如果时间超过'), help='使用未来24小时内的时间, 会沿用先前设置, 触发后清零. 建议提前10分钟左右, 以完成当前出击. 格式 14:59', gooey_options={'label_color': '#4B5F83'})
-    stop.add_argument('--如果石油低于', default=default('--如果石油低于'), gooey_options={'label_color': '#4B5F83'})
+    stop.add_argument('--如果石油低于', default=default('--如果石油低于'), help='需要合理设置以避免石油不足导致出错\n执行每日任务时将忽略此设置，建议最小设置为保证满足完成每日任务所需的石油量', gooey_options={'label_color': '#4B5F83'})
     stop.add_argument('--如果获得新船', default=default('--如果获得新船'), choices=['是', '否'],
                       help='获得新船后进入收获循环',
                       gooey_options={'label_color': '#4B5F83'})
@@ -479,7 +479,7 @@ def main(ini_name=''):
     sos_set.add_argument('--前往潜艇图章节', default=default('--前往潜艇图章节'), choices=['3', '4', '5', '6', '7', '8', '9', '10'], help='选择要前往的潜艇图章节', gooey_options={'label_color': '#4B5F83'})
     sos_fleet = sos_set.add_argument_group('潜艇图队伍设置','', gooey_options={'label_color': '#931D03'})
     sos_fleet.add_argument('--潜艇图道中队', default=default('--潜艇图道中队'), choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
-    sos_fleet.add_argument('--潜艇图boss队', default=default('--潜艇图boss队'), choices=['0', '1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
+    sos_fleet.add_argument('--潜艇图boss队', default=default('--潜艇图boss队'), choices=['0', '1', '2', '3', '4', '5', '6'], help='如果boss队与道中队使用同一队，boss队选0', gooey_options={'label_color': '#4B5F83'})
     sos_fleet.add_argument('--潜艇图潜艇队', default=default('--潜艇图潜艇队'), choices=['0', '1', '2'], gooey_options={'label_color': '#4B5F83'})
 
     # ==========作战档案==========

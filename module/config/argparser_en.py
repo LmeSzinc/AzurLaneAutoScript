@@ -145,7 +145,7 @@ def main(ini_name=''):
     stop = stage.add_argument_group('Stop condition', 'After triggering, it will not stop immediately. It will complete the current attack first, Set 0 to disable', gooey_options={'label_color': '#4B5F83'})
     stop.add_argument('--if_count_greater_than', default=default('--if_count_greater_than'), help='How many map completions\n until ALAS enter in Reward loop.', gooey_options={'label_color': '#4B5F83'})
     stop.add_argument('--if_time_reach', default=default('--if_time_reach'), help='How many time in minutes run ALAS until stop\n. It is recommended about\n 10 minutes to complete the current attack. Format 14:59', gooey_options={'label_color': '#4B5F83'})
-    stop.add_argument('--if_oil_lower_than', default=default('--if_oil_lower_than'), help='Will enter in reward loop when\ntriggered Oil limit', gooey_options={'label_color': '#4B5F83'})
+    stop.add_argument('--if_oil_lower_than', default=default('--if_oil_lower_than'), help='Will enter in reward loop when triggered Oil limit\nThis setting will be ignored in daily reward', gooey_options={'label_color': '#4B5F83'})
     stop.add_argument('--if_get_ship', default=default('--if_get_ship'), choices=['yes', 'no'],
                       help='Will enter in reward loop when\nget a new ship',
                       gooey_options={'label_color': '#4B5F83'})
@@ -564,7 +564,7 @@ def main(ini_name=''):
     sos_set.add_argument('--sos_chapter', default=default('--sos_chapter'), choices=['3', '4', '5', '6', '7', '8', '9', '10'], help='choices sos chapter', gooey_options={'label_color': '#4B5F83'})
     sos_fleet = sos_set.add_argument_group('sos_fleet_set','', gooey_options={'label_color': '#931D03'})
     sos_fleet.add_argument('--sos_fleet_1', default=default('--sos_fleet_1'), choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
-    sos_fleet.add_argument('--sos_fleet_2', default=default('--sos_fleet_2'), choices=['0', '1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
+    sos_fleet.add_argument('--sos_fleet_2', default=default('--sos_fleet_2'), choices=['0', '1', '2', '3', '4', '5', '6'], help='Choose 0 if you want to use the same fleet as sos_fleet_1', gooey_options={'label_color': '#4B5F83'})
     sos_fleet.add_argument('--sos_submarine', default=default('--sos_submarine'), choices=['0', '1', '2'], gooey_options={'label_color': '#4B5F83'})
 
     # ==========war_archives==========
