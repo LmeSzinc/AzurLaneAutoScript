@@ -79,6 +79,19 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
                     self.bound[arg] = f'{func}.{path}'
                     visited.add(path)
 
+    def _func_check(self, function):
+        """
+        Args:
+            function (Function):
+
+        Returns:
+            bool:
+        """
+        if not function.enable:
+            return False
+
+        return True
+
     def get_next(self):
         pending = []
         waiting = []
@@ -92,7 +105,7 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
         if pending:
             f = Filter(regex=r'(.*)', attr=['command'])
             f.load(self.SCHEDULER_PRIORITY)
-            pending = f.apply(pending)
+            pending = f.apply(pending, func=self._func_check)
             pending = [f.command for f in pending]
             if pending:
                 logger.info(f'Pending tasks: {pending}')
@@ -103,7 +116,7 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
         if waiting:
             waiting = sorted(waiting, key=operator.attrgetter('next_run'))[0]
             logger.info('No task pending')
-            logger.info(f'Wait until {waiting.next_run} for task {waiting.command}')
+            logger.info(f'Wait until {waiting.next_run} for task `{waiting.command}`')
 
             time.sleep(waiting.next_run.timestamp() - datetime.now().timestamp() + 1)
             return self.get_next()
@@ -171,7 +184,7 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
             kv = dict_to_kv(
                 {'success': success, 'server_update': server_update, 'target': target, 'minute': minute},
                 allow_none=False)
-            logger.info(f'Delay task {self.task} to {run} ({kv})')
+            logger.info(f'Delay task `{self.task}` to {run} ({kv})')
             self.Scheduler_NextRun = run
         else:
             logger.warning('Missing argument in delay_next_run, should set at least one')

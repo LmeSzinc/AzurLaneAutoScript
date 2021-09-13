@@ -117,6 +117,7 @@ class Scroll:
             skip_first_screenshot:
         """
         logger.info(f'{self.name} set to {position}')
+        self.drag_interval.clear()
         if position == 0:
             random_range = np.subtract(0, self.edge_add)
         if position == 1:
@@ -128,11 +129,11 @@ class Scroll:
             else:
                 main.device.screenshot()
 
-            if self.drag_interval.reached():
-                current = self.cal_position(main)
-                if abs(position - current) < self.drag_threshold:
-                    break
+            current = self.cal_position(main)
+            if abs(position - current) < self.drag_threshold:
+                break
 
+            if self.drag_interval.reached():
                 p1 = random_rectangle_point(self.position_to_screen(current), n=1)
                 p2 = random_rectangle_point(self.position_to_screen(position, random_range=random_range), n=1)
                 main.device.drag(p1, p2, shake=(0, 0), point_random=(0, 0, 0, 0), shake_random=(0, 0, 0, 0))

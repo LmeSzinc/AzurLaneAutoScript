@@ -23,7 +23,7 @@ class GeneratedConfig:
     Error_HandleError = True
     Error_SaveError = True
     Error_ScreenshotLength = 1
-    DropRecord_SaveFolder = './screenshot'
+    DropRecord_SaveFolder = './screenshots'
     DropRecord_AzurStatsID = None
     DropRecord_SaveResearch = False
     DropRecord_UploadResearch = False
@@ -34,6 +34,8 @@ class GeneratedConfig:
     # Func `Main`
 
     # Func `Commission`
+    Commission_DoMajorCommission = False
+    Commission_CommissionFilter = 'DailyEvent\n> Gem-8 > Gem-4 > Gem-2\n> Box-6 > Box-3 > Box-1\n> DailyCube-0:30 > UrgentCube-1:30 > DailyCube-1:30 > UrgentCube-1:40 > UrgentCube-2:15\n> UrgentCube-3 > DailyCube-3 > UrgentCube-4 > UrgentCube-6\n> Major\n> DailyRescource > DailyChip\n> UrgentBook-2:30 > UrgentBook-2 > UrgentBook-1:20 > UrgentBook-1:40\n> Daily-0:20 > Daily-0:30 > Daily-1:00 > Daily-1:30 > Daily-2:00\n> NightOil > NightCube\n> shortest'
 
     # Func `Research`
     ResearchInput_UseCube = False

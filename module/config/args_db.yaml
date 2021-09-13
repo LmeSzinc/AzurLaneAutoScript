@@ -203,7 +203,7 @@ _default:
     name: Alas.DropRecord.SaveFolder.name
     help: Alas.DropRecord.SaveFolder.help
     type: input
-    value: ./screenshot
+    value: ./screenshots
     option: {}
   '21':
     func: Alas
@@ -446,6 +446,56 @@ _default:
     value: 00:00
     option: {}
   '45':
+    func: Commission
+    group: Commission
+    arg: _info
+    lang: zh-CN
+    name: Commission.Commission._info.name
+    help: Commission.Commission._info.help
+    type: ''
+    value: ''
+    option: {}
+  '46':
+    func: Commission
+    group: Commission
+    arg: DoMajorCommission
+    lang: zh-CN
+    name: Commission.Commission.DoMajorCommission.name
+    help: Commission.Commission.DoMajorCommission.help
+    type: input
+    value: false
+    option: {}
+  '47':
+    func: Commission
+    group: Commission
+    arg: CommissionFilter
+    lang: zh-CN
+    name: Commission.Commission.CommissionFilter.name
+    help: Commission.Commission.CommissionFilter.help
+    type: input
+    value: 'DailyEvent
+
+      > Gem-8 > Gem-4 > Gem-2
+
+      > Box-6 > Box-3 > Box-1
+
+      > DailyCube-0:30 > UrgentCube-1:30 > DailyCube-1:30 > UrgentCube-1:40 > UrgentCube-2:15
+
+      > UrgentCube-3 > DailyCube-3 > UrgentCube-4 > UrgentCube-6
+
+      > Major
+
+      > DailyRescource > DailyChip
+
+      > UrgentBook-2:30 > UrgentBook-2 > UrgentBook-1:20 > UrgentBook-1:40
+
+      > Daily-0:20 > Daily-0:30 > Daily-1:00 > Daily-1:30 > Daily-2:00
+
+      > NightOil > NightCube
+
+      > shortest'
+    option: {}
+  '48':
     func: Research
     group: _info
     arg: _info
@@ -455,7 +505,7 @@ _default:
     type: ''
     value: ''
     option: {}
-  '46':
+  '49':
     func: Research
     group: _info
     arg: Menu
@@ -465,7 +515,7 @@ _default:
     type: input
     value: Reward
     option: {}
-  '47':
+  '50':
     func: Research
     group: Scheduler
     arg: _info
@@ -475,7 +525,7 @@ _default:
     type: ''
     value: ''
     option: {}
-  '48':
+  '51':
     func: Research
     group: Scheduler
     arg: Enable
@@ -485,7 +535,7 @@ _default:
     type: input
     value: true
     option: {}
-  '49':
+  '52':
     func: Research
     group: Scheduler
     arg: NextRun
@@ -495,7 +545,7 @@ _default:
     type: input
     value: 2020-01-01 00:00:00
     option: {}
-  '50':
+  '53':
     func: Research
     group: Scheduler
     arg: Command
@@ -505,7 +555,7 @@ _default:
     type: input
     value: Research
     option: {}
-  '51':
+  '54':
     func: Research
     group: Scheduler
     arg: SuccessInterval
@@ -515,7 +565,7 @@ _default:
     type: input
     value: 10-40
     option: {}
-  '52':
+  '55':
     func: Research
     group: Scheduler
     arg: FailureInterval
@@ -525,7 +575,7 @@ _default:
     type: input
     value: 10-40
     option: {}
-  '53':
+  '56':
     func: Research
     group: Scheduler
     arg: ServerUpdate
@@ -535,7 +585,7 @@ _default:
     type: input
     value: 00:00
     option: {}
-  '54':
+  '57':
     func: Research
     group: ResearchInput
     arg: _info
@@ -545,7 +595,7 @@ _default:
     type: ''
     value: ''
     option: {}
-  '55':
+  '58':
     func: Research
     group: ResearchInput
     arg: UseCube
@@ -555,7 +605,7 @@ _default:
     type: input
     value: false
     option: {}
-  '56':
+  '59':
     func: Research
     group: ResearchInput
     arg: UseCoin
@@ -565,7 +615,7 @@ _default:
     type: input
     value: true
     option: {}
-  '57':
+  '60':
     func: Research
     group: ResearchInput
     arg: UsePart
@@ -575,7 +625,7 @@ _default:
     type: input
     value: true
     option: {}
-  '58':
+  '61':
     func: Research
     group: ResearchOutput
     arg: _info
@@ -585,7 +635,7 @@ _default:
     type: ''
     value: ''
     option: {}
-  '59':
+  '62':
     func: Research
     group: ResearchOutput
     arg: PresetFilter
@@ -599,7 +649,7 @@ _default:
       series_4: series_4
       series_3: series_3
       series_3_than_2: series_3_than_2
-  '60':
+  '63':
     func: Research
     group: ResearchOutput
     arg: CustomFilter

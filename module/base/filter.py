@@ -27,10 +27,13 @@ class Filter:
     def is_preset(self, filter):
         return filter in self.preset
 
-    def apply(self, objs):
+    def apply(self, objs, func=None):
         """
         Args:
-            objs (list[object]):
+            objs (list): List of objects and strings
+            func (callable): A function to filter object.
+                Function should receive an object as arguments, and return a bool.
+                True means add it to output.
 
         Returns:
             list: A list of objects and preset strings, such as [object, object, object, 'reset']
@@ -44,6 +47,17 @@ class Filter:
                 for index, obj in enumerate(objs):
                     if self.apply_filter_to_obj(obj=obj, filter=filter) and obj not in out:
                         out.append(obj)
+
+        if func is not None:
+            objs, out = out, []
+            for obj in objs:
+                if isinstance(obj, str):
+                    out.append(obj)
+                elif func(obj):
+                    out.append(obj)
+                else:
+                    # Drop this object
+                    pass
 
         return out
 

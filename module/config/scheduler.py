@@ -3,6 +3,7 @@ import time
 import inflection
 from cached_property import cached_property
 
+from module.commission.commission import RewardCommission
 from module.config.config import AzurLaneConfig, TaskEnd
 from module.config.db import Database
 from module.device.device import Device
@@ -10,7 +11,6 @@ from module.exception import *
 from module.handler.login import LoginHandler
 from module.logger import logger
 from module.research.research import RewardResearch
-from module.reward.commission import RewardCommission
 
 
 class AzurLaneAutoScript:

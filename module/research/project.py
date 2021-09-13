@@ -576,52 +576,46 @@ class ResearchSelector(UI):
             string = DICT_FILTER_PRESET[preset]
 
         FILTER.load(string)
-        priority = FILTER.apply(self.projects)
-        priority = self._research_check_filter(priority)
+        priority = FILTER.apply(self.projects, func=self._research_check)
 
         # Log
         logger.attr('Filter_sort', ' > '.join([str(project) for project in priority]))
         return priority
 
-    def _research_check_filter(self, priority):
+    def _research_check(self, project):
         """
         Args:
-            priority (list): A list of ResearchProject objects and preset strings,
-                such as [object, object, object, 'reset']
+            project (ResearchProject):
 
         Returns:
-            list: A list of ResearchProject objects and preset strings,
-                such as [object, object, object, 'reset']
+            bool:
         """
-        out = []
-        for proj in priority:
-            if isinstance(proj, str):
-                out.append(proj)
-                continue
-            if not proj.valid:
-                continue
-            if (not self.config.ResearchInput_UseCube and proj.need_cube) \
-                    or (not self.config.ResearchInput_UseCoin and proj.need_coin) \
-                    or (not self.config.ResearchInput_UsePart and proj.need_part):
-                continue
-            # Reasons to ignore B series and E-2:
-            # - Can't guarantee research condition satisfied.
-            #   You may get nothing after a day of running, because you didn't complete the precondition.
-            # - Low income from B series research.
-            #   Gold B-4 basically equivalent to C-12, but needs a lot of oil.
-            # 2021.08.19 Allow E-2 to disassemble tech boxes, but JP still remains the same.
-            if proj.genre.upper() == 'B':
-                continue
-            if proj.genre.upper() == 'T':
-                continue
-            if self.config.SERVER == 'jp':
-                if proj.genre.upper() == 'E' and str(proj.duration) != '6':
-                    continue
-            else:
-                if proj.genre.upper() == 'E' and proj.task != '':
-                    continue
-            out.append(proj)
-        return out
+        if not project.valid:
+            return False
+        if (not self.config.ResearchInput_UseCube and project.need_cube) \
+                or (not self.config.ResearchInput_UseCoin and project.need_coin) \
+                or (not self.config.ResearchInput_UsePart and project.need_part):
+            return False
+        # Reasons to ignore B series and E-2:
+        # - Can't guarantee research condition satisfied.
+        #   You may get nothing after a day of running, because you didn't complete the precondition.
+        # - Low income from B series research.
+        #   Gold B-4 basically equivalent to C-12, but needs a lot of oil.
+
+        if project.genre.upper() == 'B':
+            return False
+        # T series require commission
+        if project.genre.upper() == 'T':
+            return False
+        # 2021.08.19 Allow E-2 to disassemble tech boxes, but JP still remains the same.
+        if self.config.SERVER == 'jp':
+            if project.genre.upper() == 'E' and str(project.duration) != '6':
+                return False
+        else:
+            if project.genre.upper() == 'E' and project.task != '':
+                return False
+
+        return True
 
     def research_sort_shortest(self):
         """
@@ -630,8 +624,7 @@ class ResearchSelector(UI):
                 such as [object, object, object, 'reset']
         """
         FILTER.load(FILTER_STRING_SHORTEST)
-        priority = FILTER.apply(self.projects)
-        priority = self._research_check_filter(priority)
+        priority = FILTER.apply(self.projects, func=self._research_check)
 
         logger.attr('Filter_sort', ' > '.join([str(project) for project in priority]))
         return priority
@@ -643,8 +636,7 @@ class ResearchSelector(UI):
                 such as [object, object, object, 'reset']
         """
         FILTER.load(FILTER_STRING_CHEAPEST)
-        priority = FILTER.apply(self.projects)
-        priority = self._research_check_filter(priority)
+        priority = FILTER.apply(self.projects, func=self._research_check)
 
         logger.attr('Filter_sort', ' > '.join([str(project) for project in priority]))
         return priority

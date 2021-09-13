@@ -95,6 +95,31 @@ class SelectedGrids:
             for key, value in kwargs.items():
                 grid.__setattr__(key, value)
 
+    def get(self, attr):
+        """
+        Get an attribute from each grid.
+
+        Args:
+            attr: Attribute name.
+
+        Returns:
+            list:
+        """
+        return [grid.__getattribute__(attr) for grid in self.grids]
+
+    def call(self, func, **kwargs):
+        """
+        Call a function in reach grid, and get results.
+
+        Args:
+            func (str): Function name to call.
+            **kwargs:
+
+        Returns:
+            list:
+        """
+        return [grid.__getattribute__(func)(**kwargs) for grid in self]
+
     def add(self, grids):
         """
         Args:
@@ -105,6 +130,23 @@ class SelectedGrids:
         """
         return SelectedGrids(list(set(self.grids + grids.grids)))
 
+    def add_by_eq(self, grids):
+        """
+        Another `add()` method, but de-duplicates with `__eq__` instead of `__hash__`.
+
+        Args:
+            grids(SelectedGrids):
+
+        Returns:
+            SelectedGrids:
+        """
+        new = []
+        for grid in self.grids + grids.grids:
+            if grid not in new:
+                new.append(grid)
+
+        return SelectedGrids(new)
+
     def intersect(self, grids):
         """
         Args:
@@ -114,6 +156,23 @@ class SelectedGrids:
             SelectedGrids:
         """
         return SelectedGrids(list(set(self.grids).intersection(set(grids.grids))))
+
+    def intersect_by_ed(self, grids):
+        """
+        Another `intersect()` method, but de-duplicates with `__eq__` instead of `__hash__`.
+
+        Args:
+            grids(SelectedGrids):
+
+        Returns:
+            SelectedGrids:
+        """
+        new = []
+        for grid in self.grids:
+            if grid in grids.grids:
+                new.append(grid)
+
+        return SelectedGrids(new)
 
     def delete(self, grids):
         """
