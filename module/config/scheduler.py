@@ -11,6 +11,7 @@ from module.exception import *
 from module.handler.login import LoginHandler
 from module.logger import logger
 from module.research.research import RewardResearch
+from module.tactical.tactical_class import RewardTacticalClass
 
 
 class AzurLaneAutoScript:
@@ -78,6 +79,9 @@ class AzurLaneAutoScript:
 
     def commission(self):
         RewardCommission(config=self.config, device=self.device).run()
+
+    def tactical(self):
+        RewardTacticalClass(config=self.config, device=self.device).run()
 
     def loop(self):
         while 1:

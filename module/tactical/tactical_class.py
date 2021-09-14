@@ -1,19 +1,30 @@
+import re
+from datetime import datetime
+
 from module.base.button import Button, ButtonGrid
+from module.base.filter import Filter
 from module.base.timer import Timer
 from module.base.utils import *
 from module.exception import ScriptError
 from module.logger import logger
+from module.map.map_grids import SelectedGrids
 from module.map_detection.utils import Points
-from module.reward.assets import *
+from module.ocr.ocr import Duration
+from module.tactical.assets import *
 from module.ui.assets import TACTICAL_CHECK
 from module.ui.ui import UI, page_tactical, page_reward
 
-GENRE_NAME_DICT = {
-    1: 'Offensive',  # red
-    2: 'Defensive',  # blue
-    3: 'Support',  # yellow
-}
 BOOKS_GRID = ButtonGrid(origin=(239, 288), delta=(140, 120), button_shape=(98, 98), grid_shape=(6, 2))
+BOOK_FILTER = Filter(
+    regex=re.compile(
+        '(same)?'
+        '(red|blue|yellow)?'
+        '-?'
+        '(t[123])?'
+    ),
+    attr=('same_str', 'genre_str', 'tier_str'),
+    preset=('first')
+)
 
 
 class Book:
@@ -21,6 +32,11 @@ class Book:
         1: (214, 69, 74),  # Offensive, red
         2: (115, 178, 255),  # Defensive, blue
         3: (247, 190, 99),  # Support, yellow
+    }
+    genre_name = {
+        1: 'Red',  # Offensive, red
+        2: 'Blue',  # Defensive, blue
+        3: 'Yellow',  # Support, yellow
     }
     color_tier = {
         1: (104, 181, 238),  # T1, blue
@@ -53,6 +69,9 @@ class Book:
         self.exp = bool(np.sum(color > 221) > 50)
 
         self.valid = bool(self.genre and self.tier)
+        self.genre_str = self.genre_name.get(self.genre, "unknown")
+        self.tier_str = f'T{self.tier}' if self.tier else 'Tn'
+        self.same_str = 'same' if self.exp else 'unknown'
 
     def check_selected(self, image):
         """
@@ -65,95 +84,17 @@ class Book:
         return True if np.mean(im) > 127 else False
         
     def __str__(self):
-        # Example: Defensive_T3_Exp
-        text = f'{GENRE_NAME_DICT.get(self.genre, "Unknown")}_T{self.tier}'
+        # Example: Red_T3_Exp
+        text = f'{self.genre_str}_{self.tier_str}'
         if self.exp:
             text += '_Exp'
         return text
 
 
-class BookGroup:
-    def __init__(self, books):
-        """
-        Args:
-            books (list[Book]):
-        """
-        self.books = books
-
-    def __iter__(self):
-        return iter(self.books)
-
-    def __len__(self):
-        return len(self.books)
-
-    def __bool__(self):
-        return len(self.books) > 0
-
-    def __getitem__(self, item):
-        return self.books[item]
-
-    def __str__(self):
-        # return str([str(grid) for grid in self])
-        return '[' + ', '.join([str(grid) for grid in self]) + ']'
-
-    def select(self, **kwargs):
-        """
-        Args:
-            **kwargs: Attributes of Grid.
-
-        Returns:
-            SelectedGrids:
-        """
-        result = []
-        for grid in self.books:
-            flag = True
-            for k, v in kwargs.items():
-                if grid.__getattribute__(k) != v:
-                    flag = False
-            if flag:
-                result.append(grid)
-
-        return BookGroup(result)
-
-    def add(self, books):
-        """
-        Args:
-            books(BookGroup):
-
-        Returns:
-            BookGroup:
-        """
-        return BookGroup(self.books + books.books)
-
-    def choose(self, tier_max, tier_min, exp=True):
-        """
-        Args:
-            tier_max (int): Max tier to choose, 1 to 3.
-            tier_min (int): Min tier to choose, 1 to 3.
-            exp (bool): True to choose books with exp bonus, False to choose other books in the same tier.
-
-        Returns:
-            Book:
-        """
-        tier = tier_max
-        while tier >= tier_min:
-            books = self.select(tier=tier)
-            books_with_exp = books.select(exp=True)
-            tier -= 1
-
-            if exp and not books_with_exp:
-                continue
-            if books_with_exp:
-                books = books_with_exp
-            if books:
-                logger.attr('Book_choose', books[0])
-                return books[0]
-
-        logger.info('No book choose')
-        return None
-
-
 class RewardTacticalClass(UI):
+    books: SelectedGrids
+    tactical_finish = []
+
     def _tactical_animation_running(self):
         """
         Detect the white dash line under student cards.
@@ -181,7 +122,7 @@ class RewardTacticalClass(UI):
             logger.warning(f'Unexpected amount of student cards: {card}')
             return False
 
-    def _tactical_books_get(self):
+    def _tactical_books_get(self, skip_first_screenshot=True):
         """
         Get books. Handle loadings, wait 10 times at max.
         When TACTICAL_CLASS_START appears, game may stuck in loading, wait and retry detection.
@@ -195,12 +136,17 @@ class RewardTacticalClass(UI):
             out: TACTICAL_CLASS_START
         """
         for n in range(10):
-            self.device.screenshot()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
             self.handle_info_bar()  # info_bar appears when get ship in Launch Ceremony commissions
-            books = BookGroup([Book(self.device.image, button) for button in BOOKS_GRID.buttons]).select(valid=True)
+
+            books = SelectedGrids([Book(self.device.image, button) for button in BOOKS_GRID.buttons]).select(valid=True)
+            self.books = books
             logger.attr('Book_count', len(books))
-            for index in range(1, 4):
-                logger.info(f'Book_T{index}: {books.select(tier=index)}')
+            logger.attr('Books', str(books))
 
             # End
             if books:
@@ -215,44 +161,62 @@ class RewardTacticalClass(UI):
     def _tactical_books_choose(self):
         """
         Choose tactical book according to config.
-        """
-        books = self._tactical_books_get()
-        book = books.choose(tier_max=self.config.TACTICAL_BOOK_TIER_MAX,
-                            tier_min=self.config.TACTICAL_BOOK_TIER_MIN,
-                            exp=self.config.TACTICAL_EXP_FIRST)
 
-        if book is not None:
-            while 1:
-                self.device.click(book.button)
-                self.device.screenshot()
-                if book.check_selected(self.device.image):
-                    break
-            self.device.click(TACTICAL_CLASS_START)
-        else:
-            # cancel_tactical, use_the_first_book
-            if self.config.TACTICAL_IF_NO_BOOK_SATISFIED == 'use_the_first_book':
+        Pages:
+            in: TACTICAL_CLASS_START
+            out: Unknown, may TACTICAL_CLASS_START, page_tactical, or _tactical_animation_running
+        """
+        self._tactical_books_get()
+        BOOK_FILTER.load(self.config.Tactical_TacticalFilter)
+        books = BOOK_FILTER.apply(self.books.grids)
+        logger.attr('Book_sort', ' > '.join([str(book) for book in books]))
+
+        if len(books):
+            book = books[0]
+            if str(book) != 'first':
+                while 1:
+                    self.device.click(book.button)
+                    self.device.screenshot()
+                    if book.check_selected(self.device.image):
+                        break
+                self.device.click(TACTICAL_CLASS_START)
+            else:
                 logger.info('Choose first book')
                 self.device.click(books[0].button)
                 self.device.sleep((0.3, 0.5))
                 self.device.click(TACTICAL_CLASS_START)
-            else:
-                logger.info('Cancel tactical')
-                self.device.click(TACTICAL_CLASS_CANCEL)
+        else:
+            logger.info('Cancel tactical')
+            self.device.click(TACTICAL_CLASS_CANCEL)
+
+    def _tactical_get_finish(self):
+        """
+        Get the future finish time.
+        """
+        logger.hr('Tactical get finish')
+        grids = ButtonGrid(
+            origin=(421, 596), delta=(223, 0), button_shape=(139, 27), grid_shape=(4, 1), name='TACTICAL_REMAIN')
+        ocr = Duration(grids.buttons, letter=(148, 255, 99), name='TACTICAL_REMAIN')
+        remains = ocr.ocr(self.device.image)
+        now = datetime.now()
+        self.tactical_finish = [(now + remain).replace(microsecond=0) for remain in remains if remain.total_seconds()]
+        logger.info(f'Tactical finish: {[str(f) for f in self.tactical_finish]}')
 
     def _tactical_class_receive(self, skip_first_screenshot=True):
-        """Remember to make sure current page is page_reward before calls.
+        """
+        Receive tactical rewards and fill books.
 
         Args:
             skip_first_screenshot (bool):
 
         Returns:
             bool: If rewarded.
-        """
-        if not self.appear(REWARD_2):
-            logger.info('No tactical class reward.')
-            return False
 
-        logger.hr('Tactical class receive')
+        Pages:
+            in: page_reward, TACTICAL_CLASS_START
+            out: page_tactical
+        """
+        logger.hr('Tactical class receive', level=1)
         tactical_class_timout = Timer(10, count=10).start()
         tactical_animation_timer = Timer(2, count=3).start()
         while 1:
@@ -292,15 +256,26 @@ class RewardTacticalClass(UI):
                 logger.info('Tactical reward timeout.')
                 break
 
-        self.ui_goto(page_reward, skip_first_screenshot=True)
         return True
 
-    def handle_tactical_class(self):
+    def run(self):
         """
-        Returns:
-            bool: If rewarded.
+        Pages:
+            in: Any
+            out: page_tactical
         """
-        if not self.config.ENABLE_TACTICAL_REWARD:
-            return False
+        self.ui_ensure(page_reward)
 
-        return self._tactical_class_receive()
+        if self.appear(REWARD_2):
+            self._tactical_class_receive()
+            self._tactical_get_finish()
+        else:
+            logger.info('No tactical class reward.')
+            self.ui_goto(page_tactical, skip_first_screenshot=True)
+            self._tactical_get_finish()
+
+        if self.tactical_finish:
+            self.config.delay_next_run(target=self.tactical_finish)
+        else:
+            logger.info('No tactical running')
+            self.config.delay_next_run(success=False)

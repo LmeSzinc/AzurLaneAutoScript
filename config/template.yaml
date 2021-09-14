@@ -62,6 +62,24 @@ Commission:
       > NightOil > NightCube
 
       > shortest'
+Tactical:
+  Scheduler:
+    Enable: true
+    NextRun: 2020-01-01 00:00:00
+    Command: Tactical
+    SuccessInterval: 10-40
+    FailureInterval: 10-40
+    ServerUpdate: 00:00
+  Tactical:
+    TacticalFilter: 'SameT3 > SameT2 > SameT1
+
+      > BlueT2 > YellowT2 > RedT2
+
+      > BlueT3 > YellowT3 > RedT3
+
+      > BlueT1 > YellowT1 > RedT1
+
+      > first'
 Research:
   Scheduler:
     Enable: true
@@ -70,10 +88,9 @@ Research:
     SuccessInterval: 10-40
     FailureInterval: 10-40
     ServerUpdate: 00:00
-  ResearchInput:
+  Research:
     UseCube: false
     UseCoin: true
     UsePart: true
-  ResearchOutput:
     PresetFilter: series_4
     CustomFilter: 0.5 > reset > shortest

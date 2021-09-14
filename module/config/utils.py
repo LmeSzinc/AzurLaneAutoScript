@@ -230,6 +230,28 @@ def get_server_next_update(daily_trigger):
     return update
 
 
+def nearest_future(future, interval=120):
+    """
+    Get the neatest future time.
+    Return the last one if two things will finish within `interval`.
+
+    Args:
+        future (list[datetime.datetime]):
+        interval (int): Seconds
+
+    Returns:
+        datetime.datetime:
+    """
+    future = [datetime.fromisoformat(f) if isinstance(f, str) else f for f in future ]
+    future = sorted(future)
+    next_run = future[0]
+    for finish in future:
+        if finish - next_run < timedelta(seconds=interval):
+            next_run = finish
+
+    return next_run
+
+
 def random_id(length=32):
     """
     Args:

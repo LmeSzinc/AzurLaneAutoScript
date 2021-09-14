@@ -494,6 +494,124 @@ value: 'DailyEvent
   > shortest'
 option: {}
 ---
+func: Tactical
+group: _info
+arg: _info
+lang: zh-TW
+name: Tactical._info._info.name
+help: Tactical._info._info.help
+type: ''
+value: ''
+option: {}
+---
+func: Tactical
+group: _info
+arg: Menu
+lang: zh-TW
+name: Tactical._info.Menu.name
+help: Tactical._info.Menu.help
+type: input
+value: Reward
+option: {}
+---
+func: Tactical
+group: Scheduler
+arg: _info
+lang: zh-TW
+name: Tactical.Scheduler._info.name
+help: Tactical.Scheduler._info.help
+type: ''
+value: ''
+option: {}
+---
+func: Tactical
+group: Scheduler
+arg: Enable
+lang: zh-TW
+name: Tactical.Scheduler.Enable.name
+help: Tactical.Scheduler.Enable.help
+type: input
+value: true
+option: {}
+---
+func: Tactical
+group: Scheduler
+arg: NextRun
+lang: zh-TW
+name: Tactical.Scheduler.NextRun.name
+help: Tactical.Scheduler.NextRun.help
+type: input
+value: 2020-01-01 00:00:00
+option: {}
+---
+func: Tactical
+group: Scheduler
+arg: Command
+lang: zh-TW
+name: Tactical.Scheduler.Command.name
+help: Tactical.Scheduler.Command.help
+type: input
+value: Tactical
+option: {}
+---
+func: Tactical
+group: Scheduler
+arg: SuccessInterval
+lang: zh-TW
+name: Tactical.Scheduler.SuccessInterval.name
+help: Tactical.Scheduler.SuccessInterval.help
+type: input
+value: 10-40
+option: {}
+---
+func: Tactical
+group: Scheduler
+arg: FailureInterval
+lang: zh-TW
+name: Tactical.Scheduler.FailureInterval.name
+help: Tactical.Scheduler.FailureInterval.help
+type: input
+value: 10-40
+option: {}
+---
+func: Tactical
+group: Scheduler
+arg: ServerUpdate
+lang: zh-TW
+name: Tactical.Scheduler.ServerUpdate.name
+help: Tactical.Scheduler.ServerUpdate.help
+type: input
+value: 00:00
+option: {}
+---
+func: Tactical
+group: Tactical
+arg: _info
+lang: zh-TW
+name: Tactical.Tactical._info.name
+help: Tactical.Tactical._info.help
+type: ''
+value: ''
+option: {}
+---
+func: Tactical
+group: Tactical
+arg: TacticalFilter
+lang: zh-TW
+name: Tactical.Tactical.TacticalFilter.name
+help: Tactical.Tactical.TacticalFilter.help
+type: input
+value: 'SameT3 > SameT2 > SameT1
+
+  > BlueT2 > YellowT2 > RedT2
+
+  > BlueT3 > YellowT3 > RedT3
+
+  > BlueT1 > YellowT1 > RedT1
+
+  > first'
+option: {}
+---
 func: Research
 group: _info
 arg: _info
@@ -585,61 +703,51 @@ value: 00:00
 option: {}
 ---
 func: Research
-group: ResearchInput
+group: Research
 arg: _info
 lang: zh-TW
-name: Research.ResearchInput._info.name
-help: Research.ResearchInput._info.help
+name: Research.Research._info.name
+help: Research.Research._info.help
 type: ''
 value: ''
 option: {}
 ---
 func: Research
-group: ResearchInput
+group: Research
 arg: UseCube
 lang: zh-TW
-name: Research.ResearchInput.UseCube.name
-help: Research.ResearchInput.UseCube.help
+name: Research.Research.UseCube.name
+help: Research.Research.UseCube.help
 type: input
 value: false
 option: {}
 ---
 func: Research
-group: ResearchInput
+group: Research
 arg: UseCoin
 lang: zh-TW
-name: Research.ResearchInput.UseCoin.name
-help: Research.ResearchInput.UseCoin.help
+name: Research.Research.UseCoin.name
+help: Research.Research.UseCoin.help
 type: input
 value: true
 option: {}
 ---
 func: Research
-group: ResearchInput
+group: Research
 arg: UsePart
 lang: zh-TW
-name: Research.ResearchInput.UsePart.name
-help: Research.ResearchInput.UsePart.help
+name: Research.Research.UsePart.name
+help: Research.Research.UsePart.help
 type: input
 value: true
 option: {}
 ---
 func: Research
-group: ResearchOutput
-arg: _info
-lang: zh-TW
-name: Research.ResearchOutput._info.name
-help: Research.ResearchOutput._info.help
-type: ''
-value: ''
-option: {}
----
-func: Research
-group: ResearchOutput
+group: Research
 arg: PresetFilter
 lang: zh-TW
-name: Research.ResearchOutput.PresetFilter.name
-help: Research.ResearchOutput.PresetFilter.help
+name: Research.Research.PresetFilter.name
+help: Research.Research.PresetFilter.help
 type: input
 value: series_4
 option:
@@ -649,11 +757,11 @@ option:
   series_3_than_2: series_3_than_2
 ---
 func: Research
-group: ResearchOutput
+group: Research
 arg: CustomFilter
 lang: zh-TW
-name: Research.ResearchOutput.CustomFilter.name
-help: Research.ResearchOutput.CustomFilter.help
+name: Research.Research.CustomFilter.name
+help: Research.Research.CustomFilter.help
 type: input
 value: 0.5 > reset > shortest
 option: {}

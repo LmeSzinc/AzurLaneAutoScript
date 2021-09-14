@@ -566,9 +566,9 @@ class ResearchSelector(UI):
                 such as [object, object, object, 'reset']
         """
         # Load filter string
-        preset = self.config.ResearchOutput_PresetFilter
+        preset = self.config.Research_PresetFilter
         if preset == 'custom':
-            string = self.config.ResearchOutput_CustomFilter
+            string = self.config.Research_CustomFilter
         else:
             if preset not in DICT_FILTER_PRESET:
                 logger.warning(f'Preset not found: {preset}, use default preset')
@@ -592,9 +592,9 @@ class ResearchSelector(UI):
         """
         if not project.valid:
             return False
-        if (not self.config.ResearchInput_UseCube and project.need_cube) \
-                or (not self.config.ResearchInput_UseCoin and project.need_coin) \
-                or (not self.config.ResearchInput_UsePart and project.need_part):
+        if (not self.config.Research_UseCube and project.need_cube) \
+                or (not self.config.Research_UseCoin and project.need_coin) \
+                or (not self.config.Research_UsePart and project.need_part):
             return False
         # Reasons to ignore B series and E-2:
         # - Can't guarantee research condition satisfied.

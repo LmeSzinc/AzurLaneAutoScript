@@ -156,7 +156,7 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
             server_update (bool, list, str):
                 If True, delay to nearest Scheduler.ServerUpdate
                 If type is list or str, delay to such server update
-            target (datetime.datetime, str):
+            target (datetime.datetime, str, list):
                 Delay to such time.
             minute (int, float, tuple):
                 Delay several minutes.
@@ -173,8 +173,8 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
                 server_update = self.Scheduler_ServerUpdate
             run.append(get_server_next_update(server_update))
         elif target:
-            if isinstance(target, str):
-                target = datetime.fromisoformat(target)
+            target = [target] if not isinstance(target, list) else target
+            target = nearest_future(target)
             run.append(target)
         else:
             run.append(datetime.now() + ensure_delta(minute))

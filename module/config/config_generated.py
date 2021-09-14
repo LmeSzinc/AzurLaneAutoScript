@@ -37,9 +37,12 @@ class GeneratedConfig:
     Commission_DoMajorCommission = False
     Commission_CommissionFilter = 'DailyEvent\n> Gem-8 > Gem-4 > Gem-2\n> Box-6 > Box-3 > Box-1\n> DailyCube-0:30 > UrgentCube-1:30 > DailyCube-1:30 > UrgentCube-1:40 > UrgentCube-2:15\n> UrgentCube-3 > DailyCube-3 > UrgentCube-4 > UrgentCube-6\n> Major\n> DailyRescource > DailyChip\n> UrgentBook-2:30 > UrgentBook-2 > UrgentBook-1:20 > UrgentBook-1:40\n> Daily-0:20 > Daily-0:30 > Daily-1:00 > Daily-1:30 > Daily-2:00\n> NightOil > NightCube\n> shortest'
 
+    # Func `Tactical`
+    Tactical_TacticalFilter = 'SameT3 > SameT2 > SameT1\n> BlueT2 > YellowT2 > RedT2\n> BlueT3 > YellowT3 > RedT3\n> BlueT1 > YellowT1 > RedT1\n> first'
+
     # Func `Research`
-    ResearchInput_UseCube = False
-    ResearchInput_UseCoin = True
-    ResearchInput_UsePart = True
-    ResearchOutput_PresetFilter = 'series_4'
-    ResearchOutput_CustomFilter = '0.5 > reset > shortest'
+    Research_UseCube = False
+    Research_UseCoin = True
+    Research_UsePart = True
+    Research_PresetFilter = 'series_4'
+    Research_CustomFilter = '0.5 > reset > shortest'
