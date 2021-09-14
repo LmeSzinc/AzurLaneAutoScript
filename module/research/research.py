@@ -196,7 +196,7 @@ class RewardResearch(ResearchSelector):
             bool: True if success to receive rewards.
                   False if project requirements are not satisfied.
         """
-        logger.info('Research receive')
+        logger.hr('Research receive', level=2)
 
         def get_items():
             for b in [GET_ITEMS_3, GET_ITEMS_2, GET_ITEMS_1]:
@@ -270,7 +270,7 @@ class RewardResearch(ResearchSelector):
         Returns:
             bool: If success to receive old project and start a new project.
         """
-        logger.hr('Research start')
+        logger.hr('Research reward', level=1)
         if self.research_has_finished():
             success = self.research_receive()
             if not success:
@@ -289,6 +289,7 @@ class RewardResearch(ResearchSelector):
         self._research_project_offset = 0
 
         for _ in range(2):
+            logger.hr('Research select', level=1)
             self.research_detect(self.device.image)
             priority = self.research_sort_filter()
             result = self.research_select(priority)
@@ -309,7 +310,7 @@ class RewardResearch(ResearchSelector):
             in: page_research, stable.
             out: page_research, stable.
         """
-        logger.info('Research get remain')
+        logger.hr('Research get remain')
         self.research_detect(self.device.image)
         remain = OCR_DURATION.ocr(self.device.image)
         logger.info(f'Research project remain: {remain}')

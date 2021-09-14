@@ -134,6 +134,7 @@ class AzurStats:
             os.makedirs(folder, exist_ok=True)
             file = os.path.join(folder, f'{timestamp}.png')
             image.save(file)
+            logger.info(f'Image save success, file: {file}')
             return True
         except Exception as e:
             logger.exception(e)

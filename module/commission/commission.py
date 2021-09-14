@@ -1,5 +1,3 @@
-from datetime import timedelta
-
 from scipy import signal
 
 from module.base.timer import Timer
@@ -364,12 +362,14 @@ class RewardCommission(UI, InfoHandler):
         return reward
 
     def run(self):
+        """
+        Pages:
+            in: Any
+            out: page_commission
+        """
         self.ui_ensure(page_reward)
         self.commission_receive()
 
-        # if not self.image_color_count(COMMISSION_HAS_PENDING, color=(74, 199, 173), threshold=221, count=40):
-        #     logger.info('No commission pending')
-        #     return False
         self.ui_goto(page_commission, skip_first_screenshot=True)
         # info_bar appears when get ship in Launch Ceremony commissions
         # This is a game bug, the info_bar shows get ship, will appear over and over again, until you click get_ship.
@@ -380,12 +380,7 @@ class RewardCommission(UI, InfoHandler):
         future_finish = sorted([f for f in total.get('finish_time') if f is not None])
         logger.info(f'Commission finish: {[str(f) for f in future_finish]}')
         if len(future_finish):
-            next_run = future_finish[0]
-            for finish in future_finish:
-                if finish - next_run < timedelta(minutes=2):
-                    # Check the last one if two commissions will finish within 2 min.
-                    next_run = finish
-            self.config.delay_next_run(target=next_run)
+            self.config.delay_next_run(target=future_finish)
         else:
             logger.info('No commission running')
             self.config.delay_next_run(success=False)
