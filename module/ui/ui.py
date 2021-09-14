@@ -302,7 +302,8 @@ class UI(InfoHandler):
         if self.appear(EVENT_LIST_CHECK, offset=(30, 30), interval=5) \
                 or self.appear(RESHMENU_CHECK, offset=(30, 30), interval=5) \
                 or self.appear(RESEARCH_CHECK, offset=(30, 30), interval=5) \
-                or self.appear(SHIPYARD_CHECK, offset=(30, 30), interval=5):
+                or self.appear(SHIPYARD_CHECK, offset=(30, 30), interval=5) \
+                or self.appear(META_CHECK, offset=(30, 30), interval=5):
             self.device.click(GOTO_MAIN)
             self._ui_additional_reward_goto_main_timer.reset()
             return True
