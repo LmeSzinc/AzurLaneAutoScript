@@ -17,5 +17,5 @@ colored
 notify-py
 jellyfish
 tinydb
-yaml
+pyyaml
 inflection
