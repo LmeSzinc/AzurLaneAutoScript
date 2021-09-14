@@ -94,7 +94,7 @@ class AshCombat(Combat):
             if self.appear(ASH_START, offset=(30, 30)):
                 logger.info("Failed to start this ash beacon combat, select another beacon.")
                 return False
-                    
+
         return True
 
     def combat(self, balance_hp=False, emotion_reduce=False, auto_mode='combat_auto', call_submarine_at_boss=False,
@@ -193,7 +193,7 @@ class OSAsh(UI):
         # Select beacon
         for _ in range(trial):
             current = OCR_BEACON_TIER.ocr(self.device.image)
-            if current == tier:
+            if current >= tier:
                 return True
             else:
                 self.device.click(BEACON_NEXT)
