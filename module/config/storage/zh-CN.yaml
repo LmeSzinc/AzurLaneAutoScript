@@ -1,0 +1,659 @@
+func: Alas
+group: _info
+arg: _info
+lang: zh-CN
+name: Alas._info._info.name
+help: Alas._info._info.help
+type: ''
+value: ''
+option: {}
+---
+func: Alas
+group: _info
+arg: Menu
+lang: zh-CN
+name: Alas._info.Menu.name
+help: Alas._info.Menu.help
+type: input
+value: Alas
+option: {}
+---
+func: Alas
+group: Scheduler
+arg: _info
+lang: zh-CN
+name: Alas.Scheduler._info.name
+help: Alas.Scheduler._info.help
+type: ''
+value: ''
+option: {}
+---
+func: Alas
+group: Scheduler
+arg: Enable
+lang: zh-CN
+name: Alas.Scheduler.Enable.name
+help: Alas.Scheduler.Enable.help
+type: input
+value: false
+option: {}
+---
+func: Alas
+group: Scheduler
+arg: NextRun
+lang: zh-CN
+name: Alas.Scheduler.NextRun.name
+help: Alas.Scheduler.NextRun.help
+type: input
+value: 2020-01-01 00:00:00
+option: {}
+---
+func: Alas
+group: Scheduler
+arg: Command
+lang: zh-CN
+name: Alas.Scheduler.Command.name
+help: Alas.Scheduler.Command.help
+type: input
+value: Alas
+option: {}
+---
+func: Alas
+group: Scheduler
+arg: SuccessInterval
+lang: zh-CN
+name: Alas.Scheduler.SuccessInterval.name
+help: Alas.Scheduler.SuccessInterval.help
+type: input
+value: 0
+option: {}
+---
+func: Alas
+group: Scheduler
+arg: FailureInterval
+lang: zh-CN
+name: Alas.Scheduler.FailureInterval.name
+help: Alas.Scheduler.FailureInterval.help
+type: input
+value: 120
+option: {}
+---
+func: Alas
+group: Scheduler
+arg: ServerUpdate
+lang: zh-CN
+name: Alas.Scheduler.ServerUpdate.name
+help: Alas.Scheduler.ServerUpdate.help
+type: input
+value: 00:00
+option: {}
+---
+func: Alas
+group: Emulator
+arg: _info
+lang: zh-CN
+name: Alas.Emulator._info.name
+help: Alas.Emulator._info.help
+type: ''
+value: ''
+option: {}
+---
+func: Alas
+group: Emulator
+arg: Serial
+lang: zh-CN
+name: Alas.Emulator.Serial.name
+help: Alas.Emulator.Serial.help
+type: input
+value: 127.0.0.1:5555
+option: {}
+---
+func: Alas
+group: Emulator
+arg: PackageName
+lang: zh-CN
+name: Alas.Emulator.PackageName.name
+help: Alas.Emulator.PackageName.help
+type: input
+value: com.bilibili.azurlane
+option: {}
+---
+func: Alas
+group: Emulator
+arg: ScreenshotMethod
+lang: zh-CN
+name: Alas.Emulator.ScreenshotMethod.name
+help: Alas.Emulator.ScreenshotMethod.help
+type: input
+value: ADB
+option:
+  ADB: ADB
+  uiautomator2: uiautomator2
+  aScreenCap: aScreenCap
+---
+func: Alas
+group: Emulator
+arg: ControlMethod
+lang: zh-CN
+name: Alas.Emulator.ControlMethod.name
+help: Alas.Emulator.ControlMethod.help
+type: input
+value: minitouch
+option:
+  ADB: ADB
+  uiautomator2: uiautomator2
+  minitouch: minitouch
+---
+func: Alas
+group: Error
+arg: _info
+lang: zh-CN
+name: Alas.Error._info.name
+help: Alas.Error._info.help
+type: ''
+value: ''
+option: {}
+---
+func: Alas
+group: Error
+arg: HandleError
+lang: zh-CN
+name: Alas.Error.HandleError.name
+help: Alas.Error.HandleError.help
+type: input
+value: true
+option: {}
+---
+func: Alas
+group: Error
+arg: SaveError
+lang: zh-CN
+name: Alas.Error.SaveError.name
+help: Alas.Error.SaveError.help
+type: input
+value: true
+option: {}
+---
+func: Alas
+group: Error
+arg: ScreenshotLength
+lang: zh-CN
+name: Alas.Error.ScreenshotLength.name
+help: Alas.Error.ScreenshotLength.help
+type: input
+value: 1
+option: {}
+---
+func: Alas
+group: DropRecord
+arg: _info
+lang: zh-CN
+name: Alas.DropRecord._info.name
+help: Alas.DropRecord._info.help
+type: ''
+value: ''
+option: {}
+---
+func: Alas
+group: DropRecord
+arg: SaveFolder
+lang: zh-CN
+name: Alas.DropRecord.SaveFolder.name
+help: Alas.DropRecord.SaveFolder.help
+type: input
+value: ./screenshots
+option: {}
+---
+func: Alas
+group: DropRecord
+arg: AzurStatsID
+lang: zh-CN
+name: Alas.DropRecord.AzurStatsID.name
+help: Alas.DropRecord.AzurStatsID.help
+type: input
+value: null
+option: {}
+---
+func: Alas
+group: DropRecord
+arg: SaveResearch
+lang: zh-CN
+name: Alas.DropRecord.SaveResearch.name
+help: Alas.DropRecord.SaveResearch.help
+type: input
+value: false
+option: {}
+---
+func: Alas
+group: DropRecord
+arg: UploadResearch
+lang: zh-CN
+name: Alas.DropRecord.UploadResearch.name
+help: Alas.DropRecord.UploadResearch.help
+type: input
+value: false
+option: {}
+---
+func: Alas
+group: DropRecord
+arg: SaveCommission
+lang: zh-CN
+name: Alas.DropRecord.SaveCommission.name
+help: Alas.DropRecord.SaveCommission.help
+type: input
+value: false
+option: {}
+---
+func: Alas
+group: DropRecord
+arg: UploadCommission
+lang: zh-CN
+name: Alas.DropRecord.UploadCommission.name
+help: Alas.DropRecord.UploadCommission.help
+type: input
+value: false
+option: {}
+---
+func: Alas
+group: DropRecord
+arg: SaveCombat
+lang: zh-CN
+name: Alas.DropRecord.SaveCombat.name
+help: Alas.DropRecord.SaveCombat.help
+type: input
+value: false
+option: {}
+---
+func: Main
+group: _info
+arg: _info
+lang: zh-CN
+name: Main._info._info.name
+help: Main._info._info.help
+type: ''
+value: ''
+option: {}
+---
+func: Main
+group: _info
+arg: Menu
+lang: zh-CN
+name: Main._info.Menu.name
+help: Main._info.Menu.help
+type: input
+value: Main
+option: {}
+---
+func: Main
+group: Scheduler
+arg: _info
+lang: zh-CN
+name: Main.Scheduler._info.name
+help: Main.Scheduler._info.help
+type: ''
+value: ''
+option: {}
+---
+func: Main
+group: Scheduler
+arg: Enable
+lang: zh-CN
+name: Main.Scheduler.Enable.name
+help: Main.Scheduler.Enable.help
+type: input
+value: false
+option: {}
+---
+func: Main
+group: Scheduler
+arg: NextRun
+lang: zh-CN
+name: Main.Scheduler.NextRun.name
+help: Main.Scheduler.NextRun.help
+type: input
+value: 2020-01-01 00:00:00
+option: {}
+---
+func: Main
+group: Scheduler
+arg: Command
+lang: zh-CN
+name: Main.Scheduler.Command.name
+help: Main.Scheduler.Command.help
+type: input
+value: Main
+option: {}
+---
+func: Main
+group: Scheduler
+arg: SuccessInterval
+lang: zh-CN
+name: Main.Scheduler.SuccessInterval.name
+help: Main.Scheduler.SuccessInterval.help
+type: input
+value: 0
+option: {}
+---
+func: Main
+group: Scheduler
+arg: FailureInterval
+lang: zh-CN
+name: Main.Scheduler.FailureInterval.name
+help: Main.Scheduler.FailureInterval.help
+type: input
+value: 120
+option: {}
+---
+func: Main
+group: Scheduler
+arg: ServerUpdate
+lang: zh-CN
+name: Main.Scheduler.ServerUpdate.name
+help: Main.Scheduler.ServerUpdate.help
+type: input
+value: 00:00
+option: {}
+---
+func: Commission
+group: _info
+arg: _info
+lang: zh-CN
+name: Commission._info._info.name
+help: Commission._info._info.help
+type: ''
+value: ''
+option: {}
+---
+func: Commission
+group: _info
+arg: Menu
+lang: zh-CN
+name: Commission._info.Menu.name
+help: Commission._info.Menu.help
+type: input
+value: Reward
+option: {}
+---
+func: Commission
+group: Scheduler
+arg: _info
+lang: zh-CN
+name: Commission.Scheduler._info.name
+help: Commission.Scheduler._info.help
+type: ''
+value: ''
+option: {}
+---
+func: Commission
+group: Scheduler
+arg: Enable
+lang: zh-CN
+name: Commission.Scheduler.Enable.name
+help: Commission.Scheduler.Enable.help
+type: input
+value: true
+option: {}
+---
+func: Commission
+group: Scheduler
+arg: NextRun
+lang: zh-CN
+name: Commission.Scheduler.NextRun.name
+help: Commission.Scheduler.NextRun.help
+type: input
+value: 2020-01-01 00:00:00
+option: {}
+---
+func: Commission
+group: Scheduler
+arg: Command
+lang: zh-CN
+name: Commission.Scheduler.Command.name
+help: Commission.Scheduler.Command.help
+type: input
+value: Commission
+option: {}
+---
+func: Commission
+group: Scheduler
+arg: SuccessInterval
+lang: zh-CN
+name: Commission.Scheduler.SuccessInterval.name
+help: Commission.Scheduler.SuccessInterval.help
+type: input
+value: 10-40
+option: {}
+---
+func: Commission
+group: Scheduler
+arg: FailureInterval
+lang: zh-CN
+name: Commission.Scheduler.FailureInterval.name
+help: Commission.Scheduler.FailureInterval.help
+type: input
+value: 10-40
+option: {}
+---
+func: Commission
+group: Scheduler
+arg: ServerUpdate
+lang: zh-CN
+name: Commission.Scheduler.ServerUpdate.name
+help: Commission.Scheduler.ServerUpdate.help
+type: input
+value: 00:00
+option: {}
+---
+func: Commission
+group: Commission
+arg: _info
+lang: zh-CN
+name: Commission.Commission._info.name
+help: Commission.Commission._info.help
+type: ''
+value: ''
+option: {}
+---
+func: Commission
+group: Commission
+arg: DoMajorCommission
+lang: zh-CN
+name: Commission.Commission.DoMajorCommission.name
+help: Commission.Commission.DoMajorCommission.help
+type: input
+value: false
+option: {}
+---
+func: Commission
+group: Commission
+arg: CommissionFilter
+lang: zh-CN
+name: Commission.Commission.CommissionFilter.name
+help: Commission.Commission.CommissionFilter.help
+type: input
+value: 'DailyEvent
+
+  > Gem-8 > Gem-4 > Gem-2
+
+  > Box-6 > Box-3 > Box-1
+
+  > DailyCube-0:30 > UrgentCube-1:30 > DailyCube-1:30 > UrgentCube-1:40 > UrgentCube-2:15
+
+  > UrgentCube-3 > DailyCube-3 > UrgentCube-4 > UrgentCube-6
+
+  > Major
+
+  > DailyRescource > DailyChip
+
+  > UrgentBook-2:30 > UrgentBook-2 > UrgentBook-1:20 > UrgentBook-1:40
+
+  > Daily-0:20 > Daily-0:30 > Daily-1:00 > Daily-1:30 > Daily-2:00
+
+  > NightOil > NightCube
+
+  > shortest'
+option: {}
+---
+func: Research
+group: _info
+arg: _info
+lang: zh-CN
+name: Research._info._info.name
+help: Research._info._info.help
+type: ''
+value: ''
+option: {}
+---
+func: Research
+group: _info
+arg: Menu
+lang: zh-CN
+name: Research._info.Menu.name
+help: Research._info.Menu.help
+type: input
+value: Reward
+option: {}
+---
+func: Research
+group: Scheduler
+arg: _info
+lang: zh-CN
+name: Research.Scheduler._info.name
+help: Research.Scheduler._info.help
+type: ''
+value: ''
+option: {}
+---
+func: Research
+group: Scheduler
+arg: Enable
+lang: zh-CN
+name: Research.Scheduler.Enable.name
+help: Research.Scheduler.Enable.help
+type: input
+value: true
+option: {}
+---
+func: Research
+group: Scheduler
+arg: NextRun
+lang: zh-CN
+name: Research.Scheduler.NextRun.name
+help: Research.Scheduler.NextRun.help
+type: input
+value: 2020-01-01 00:00:00
+option: {}
+---
+func: Research
+group: Scheduler
+arg: Command
+lang: zh-CN
+name: Research.Scheduler.Command.name
+help: Research.Scheduler.Command.help
+type: input
+value: Research
+option: {}
+---
+func: Research
+group: Scheduler
+arg: SuccessInterval
+lang: zh-CN
+name: Research.Scheduler.SuccessInterval.name
+help: Research.Scheduler.SuccessInterval.help
+type: input
+value: 10-40
+option: {}
+---
+func: Research
+group: Scheduler
+arg: FailureInterval
+lang: zh-CN
+name: Research.Scheduler.FailureInterval.name
+help: Research.Scheduler.FailureInterval.help
+type: input
+value: 10-40
+option: {}
+---
+func: Research
+group: Scheduler
+arg: ServerUpdate
+lang: zh-CN
+name: Research.Scheduler.ServerUpdate.name
+help: Research.Scheduler.ServerUpdate.help
+type: input
+value: 00:00
+option: {}
+---
+func: Research
+group: ResearchInput
+arg: _info
+lang: zh-CN
+name: Research.ResearchInput._info.name
+help: Research.ResearchInput._info.help
+type: ''
+value: ''
+option: {}
+---
+func: Research
+group: ResearchInput
+arg: UseCube
+lang: zh-CN
+name: Research.ResearchInput.UseCube.name
+help: Research.ResearchInput.UseCube.help
+type: input
+value: false
+option: {}
+---
+func: Research
+group: ResearchInput
+arg: UseCoin
+lang: zh-CN
+name: Research.ResearchInput.UseCoin.name
+help: Research.ResearchInput.UseCoin.help
+type: input
+value: true
+option: {}
+---
+func: Research
+group: ResearchInput
+arg: UsePart
+lang: zh-CN
+name: Research.ResearchInput.UsePart.name
+help: Research.ResearchInput.UsePart.help
+type: input
+value: true
+option: {}
+---
+func: Research
+group: ResearchOutput
+arg: _info
+lang: zh-CN
+name: Research.ResearchOutput._info.name
+help: Research.ResearchOutput._info.help
+type: ''
+value: ''
+option: {}
+---
+func: Research
+group: ResearchOutput
+arg: PresetFilter
+lang: zh-CN
+name: Research.ResearchOutput.PresetFilter.name
+help: Research.ResearchOutput.PresetFilter.help
+type: input
+value: series_4
+option:
+  custom: custom
+  series_4: series_4
+  series_3: series_3
+  series_3_than_2: series_3_than_2
+---
+func: Research
+group: ResearchOutput
+arg: CustomFilter
+lang: zh-CN
+name: Research.ResearchOutput.CustomFilter.name
+help: Research.ResearchOutput.CustomFilter.help
+type: input
+value: 0.5 > reset > shortest
+option: {}

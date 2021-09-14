@@ -39,7 +39,7 @@ Main:
   _info:
     Menu: Main
   Scheduler:
-    Enable: main
+    Enable: false
     NextRun: 2020-01-01 00:00:00
     Command: Main
     SuccessInterval: 0
@@ -49,7 +49,7 @@ Commission:
   _info:
     Menu: Reward
   Scheduler:
-    Enable: commission
+    Enable: true
     NextRun: 2020-01-01 00:00:00
     Command: Commission
     SuccessInterval: 10-40

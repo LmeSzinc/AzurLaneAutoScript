@@ -29,16 +29,30 @@ class ManualStorage(MemoryStorage):
     Use `load()` and `save()` to read/write file,
     while TinyDB uses `read()` and `write()`, which are in memory.
     """
-
     def load(self):
         if self.memory:
             return self.memory
-        else:
-            self.memory = read_file(filepath_db())
-            return self.memory
+
+        out = []
+        for lang in LANGUAGES:
+            data = read_file(filepath_db(lang))
+            if isinstance(data, list):
+                out += data
+
+        data = {}
+        for index, row in enumerate(out):
+            data[index] = row
+        self.memory = {'_default': data}
+        return self.memory
 
     def save(self):
-        write_file(filepath_db(), self.memory)
+        """
+        Save TinyDB database to separated files
+        `./module/config/storage/{lang}.yaml`
+        """
+        out = list(self.memory['_default'].values())
+        for lang in LANGUAGES:
+            write_file(filepath_db(lang), [row for row in out if row['lang'] == lang])
 
 
 def parse_value(value, data):
@@ -117,9 +131,6 @@ def data_to_path(data):
 
 
 class Database:
-    # lang = ['zh-CN', 'en-US', 'zh-TW']
-    lang = ['zh-CN']
-
     def __init__(self):
         self._config = {}
         self._config_updated = set()
@@ -183,8 +194,8 @@ class Database:
             new.insert(res)
 
         new.storage.save()
-        self.update_config('template')
         del self.__dict__['db']
+        self.update_config('template')
 
     def update_code(self):
         logger.info('Updating generated code')
@@ -224,7 +235,7 @@ class Database:
         for func, func_data in args.items():
             for group, group_data in func_data.items():
                 for arg, value in group_data.items():
-                    for lang in self.lang:
+                    for lang in LANGUAGES:
                         data = {
                             'func': func,
                             'group': group,
@@ -459,5 +470,3 @@ if __name__ == '__main__':
 
     # res = m.select_db({'group': '_info', 'lang': 'zh-CN'})
     # print(json.dumps(res, indent=2, ensure_ascii=True, sort_keys=False, default=str))
-
-

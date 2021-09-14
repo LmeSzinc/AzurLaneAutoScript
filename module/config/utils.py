@@ -8,21 +8,20 @@ import yaml
 
 import module.config.server as server
 
-# LANGUAGES = ['zh-CN', 'en-US', 'zh-TW']
-LANGUAGES = ['zh-CN']
-FOLDER_CONFIG = './config'
+LANGUAGES = ['zh-CN', 'en-US', 'zh-TW']
+# LANGUAGES = ['zh-CN']
 
 
 def filepath_arg():
     return './module/config/args.yaml'
 
 
-def filepath_db():
-    return './module/config/args_db.yaml'
+def filepath_db(lang):
+    return os.path.join('./module/config/storage', f'{lang}.yaml')
 
 
 def filepath_config(filename):
-    return os.path.join(FOLDER_CONFIG, filename + '.yaml')
+    return os.path.join('./config', f'{filename}.yaml')
 
 
 def filepath_code():
