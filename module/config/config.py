@@ -172,11 +172,11 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
             if server_update is True:
                 server_update = self.Scheduler_ServerUpdate
             run.append(get_server_next_update(server_update))
-        elif target:
+        if target is not None:
             target = [target] if not isinstance(target, list) else target
             target = nearest_future(target)
             run.append(target)
-        else:
+        if minute is not None:
             run.append(datetime.now() + ensure_delta(minute))
 
         if len(run):
