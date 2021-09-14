@@ -18,14 +18,14 @@ MAP.map_data = """
     -- ME Me ME -- -- ++ ++ -- ME --
 """
 MAP.weight_data = """
+    50 50 90 90 90 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50 50 50
+    90 50 50 50 50 50 50 50 50 90 50
+    90 90 50 50 50 50 50 50 50 90 50
 """
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 3},
@@ -66,33 +66,44 @@ class Config(ConfigBase):
         'wlen': 1000,
     }
 
-step_on = SelectedGrids([A7, B1, B7, C7, D2, D3, G7, J2, K4, K6])
-road_main = RoadGrids([A7, B1, B7, C7, D2, D3, [G7, J2], K4, K6])
+#step_on = SelectedGrids([A7, B1, B7, C7, D2, D3, G7, J2, K4, K6])
+#road_main = RoadGrids([A7, B1, B7, C7, D2, D3, [G7, J2], K4, K6])
 
 class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
-        if self.fleet_2_step_on(step_on, roadblocks=[road_main]):
-            return True
+#        if self.fleet_2_step_on(step_on, roadblocks=[road_main]):
+#            return True
 
-        if self.clear_roadblocks([road_main]):
+#        if self.clear_roadblocks([road_main]):
+#           return True
+#        if self.clear_potential_roadblocks([road_main]):
+#            return True
+        if self.clear_enemy(scale=(2,), genre=['carrier']): # While your fleet is good on ammo it can handle carrier fleets, so i force it to fight some during the first 2 battles.
             return True
-        if self.clear_potential_roadblocks([road_main]):
+        if self.clear_enemy(scale=(3,), genre=['light', 'main', 'enemy']):
             return True
 
         return self.battle_default()
 
     def battle_3(self):
-        if self.fleet_2_step_on(step_on, roadblocks=[road_main]):
-            return True
+#        if self.fleet_2_step_on(step_on, roadblocks=[road_main]):
+#            return True
 
-        if self.fleet_boss_index == 1:
+#        if self.fleet_boss_index == 1:
+#            self.pick_up_ammo()
+
+        if self.battle_count >= 3:
             self.pick_up_ammo()
 
-        if self.clear_roadblocks([road_main]):
+#        if self.clear_roadblocks([road_main]):
+#            return True
+#        if self.clear_potential_roadblocks([road_main]):
+#            return True
+        if self.clear_enemy(scale=(3,2,1), genre=['light', 'main', 'enemy']):
             return True
-        if self.clear_potential_roadblocks([road_main]):
+        if self.clear_enemy(scale=(2,), genre=['carrier']):
             return True
 
         return self.battle_default()
