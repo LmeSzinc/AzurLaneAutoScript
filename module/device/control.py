@@ -178,6 +178,9 @@ class Control(MiniTouch):
 
     def drag(self, p1, p2, segments=1, shake=(0, 15), point_random=(-10, -10, 10, 10), shake_random=(-5, -5, 5, 5),
              swipe_duration=0.25, shake_duration=0.1):
+        logger.info(
+            'Drag %s -> %s' % (point2str(*p1), point2str(*p2))
+        )
         method = self.config.Emulator_ControlMethod
         if method == 'minitouch':
             self._drag_minitouch(p1, p2, point_random=point_random)
