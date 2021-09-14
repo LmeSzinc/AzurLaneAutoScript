@@ -3,6 +3,8 @@ log
 config/backup/*
 config/*.ini
 !config/template.ini
+config/*.yaml
+!config/template.yaml
 *.pyw
 !alas_cn.pyw
 !alas_en.pyw

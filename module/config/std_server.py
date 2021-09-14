@@ -8,7 +8,7 @@ from module.config.db import Database
 sys.stdin.reconfigure(encoding='utf-8')
 
 
-class WebsocketServer(Database):
+class StdServer(Database):
     def response_error(self, msg):
         self.response({'query': 'error', 'data': str(msg)})
 
@@ -72,6 +72,6 @@ class WebsocketServer(Database):
 
 
 if __name__ == '__main__':
-    server = WebsocketServer()
+    server = StdServer()
     res = server.parse('{"query":"upsert_db","data":{"task":"Main","group":"_info","arg":"_info","lang":"zh-CN","name":"中文","help":"Main._info._info.help","type":"","value":"","row":1,"option":{},"config":"alas"}}')
     print(res)
