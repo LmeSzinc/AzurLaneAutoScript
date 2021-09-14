@@ -142,7 +142,7 @@ def main(ini_name=''):
     stop = stage.add_argument_group('停止條件', '出發後不會馬上停止, 會先完成目前出擊, 不需要就填0', gooey_options={'label_color': '#931D03'})
     stop.add_argument('--如果出擊數大於', default=default('--如果出擊數大於'), help='會沿用先前設定, 完成出擊將扣除次數, 直至為零', gooey_options={'label_color': '#4B5F83'})
     stop.add_argument('--如果時間超過', default=default('--如果時間超過'), help='使用未來24小時內的時間, 會沿用先前設定, 觸發後清零, 建議提前10分鐘左右, 以完成目前出擊。格式 14:59', gooey_options={'label_color': '#4B5F83'})
-    stop.add_argument('--如果石油低於', default=default('--如果石油低於'), gooey_options={'label_color': '#4B5F83'})
+    stop.add_argument('--如果石油低於', default=default('--如果石油低於'), help='需要合理設置以避免石油不足導致出錯\n執行每日任務時將忽略此設置，建議最小設置為保證滿足完成每日任務所需的石油量', gooey_options={'label_color': '#4B5F83'})
     stop.add_argument('--如果獲得新船', default=default('--如果獲得新船'), choices=['是', '否'],
                       help='獲得新船後進入收穫循環',
                       gooey_options={'label_color': '#4B5F83'})
@@ -479,7 +479,7 @@ def main(ini_name=''):
     sos_set.add_argument('--SOS前往章節', default=default('--SOS前往章節'), choices=['3', '4', '5', '6', '7', '8', '9', '10'], help='選擇要前往的潛艇圖章節', gooey_options={'label_color': '#4B5F83'})
     sos_fleet = sos_set.add_argument_group('潛艇圖隊伍設置', '', gooey_options={'label_color': '#931D03'})
     sos_fleet.add_argument('--潛艇圖道中隊', default=default('--潛艇圖道中隊'), choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
-    sos_fleet.add_argument('--潛艇圖boss隊', default=default('--潛艇圖boss隊'), choices=['0', '1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
+    sos_fleet.add_argument('--潛艇圖boss隊', default=default('--潛艇圖boss隊'), choices=['0', '1', '2', '3', '4', '5', '6'], help='如果boss隊與道中隊使用同一隊，boss隊選0', gooey_options={'label_color': '#4B5F83'})
     sos_fleet.add_argument('--潛艇圖潛艇隊', default=default('--潛艇圖潛艇隊'), choices=['0', '1', '2'], gooey_options={'label_color': '#4B5F83'})
 
     # ==========作戰檔案==========
