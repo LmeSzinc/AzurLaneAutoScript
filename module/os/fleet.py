@@ -127,7 +127,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
         return hp_grid
 
-    def hp_withdraw_triggered(self):
+    def hp_retreat_triggered(self):
         return False
 
     def lv_get(self, after_battle=False):

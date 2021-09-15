@@ -23,7 +23,7 @@ class SubmarineCall(ModuleBase):
         """
         if self.submarine_call_flag:
             return False
-        if not self.config.SUBMARINE or self.config.SUBMARINE_MODE in ['do_not_use', 'hunt_only']:
+        if not self.config.Submarine_Fleet or self.config.Submarine_Mode in ['do_not_use', 'hunt_only']:
             self.submarine_call_flag = True
             return False
         if self.submarine_call_timer.reached():

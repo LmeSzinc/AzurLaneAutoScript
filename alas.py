@@ -3,6 +3,7 @@ import time
 import inflection
 from cached_property import cached_property
 
+from module.campaign.run import CampaignRun
 from module.commission.commission import RewardCommission
 from module.config.config import AzurLaneConfig, TaskEnd
 from module.config.db import Database
@@ -12,6 +13,7 @@ from module.handler.login import LoginHandler
 from module.logger import logger
 from module.research.research import RewardResearch
 from module.tactical.tactical_class import RewardTacticalClass
+from module.ui.ui import UI, page_main
 
 
 class AzurLaneAutoScript:
@@ -33,6 +35,7 @@ class AzurLaneAutoScript:
         while 1:
             try:
                 self.__getattribute__(command)()
+                UI(config=self.config, device=self.device).ui_ensure(page_main)
                 return True
             except TaskEnd:
                 return True
@@ -82,6 +85,12 @@ class AzurLaneAutoScript:
 
     def tactical(self):
         RewardTacticalClass(config=self.config, device=self.device).run()
+
+    def main(self):
+        CampaignRun(config=self.config, device=self.device).run(
+            'campaign_' + self.config.Campaign_Name.lower().replace('-', '_'),
+            folder='campaign_main',
+            mode=self.config.Campaign_Mode)
 
     def loop(self):
         while 1:

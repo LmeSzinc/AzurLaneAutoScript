@@ -28,7 +28,7 @@ class LoginHandler(Combat):
         while 1:
             self.device.screenshot()
 
-            if self.handle_get_items(save_get_items=False):
+            if self.handle_get_items():
                 continue
             if self.handle_get_ship():
                 continue
@@ -54,7 +54,7 @@ class LoginHandler(Combat):
                 continue
             if self.handle_guild_popup_cancel():
                 continue
-            if self.handle_urgent_commission(save_get_items=False):
+            if self.handle_urgent_commission():
                 continue
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=5):
                 continue

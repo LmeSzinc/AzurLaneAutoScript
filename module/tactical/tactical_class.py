@@ -231,7 +231,7 @@ class RewardTacticalClass(UI):
             if self.handle_popup_confirm():
                 tactical_class_timout.reset()
                 continue
-            if self.handle_urgent_commission(save_get_items=False):
+            if self.handle_urgent_commission():
                 # Only one button in the middle, when skill reach max level.
                 tactical_class_timout.reset()
                 continue
@@ -266,7 +266,7 @@ class RewardTacticalClass(UI):
         """
         self.ui_ensure(page_reward)
 
-        if self.appear(REWARD_2):
+        if self.appear(REWARD_2, offset=(50, 20)):
             self._tactical_class_receive()
             self._tactical_get_finish()
         else:
@@ -275,7 +275,7 @@ class RewardTacticalClass(UI):
             self._tactical_get_finish()
 
         if self.tactical_finish:
-            self.config.delay_next_run(target=self.tactical_finish)
+            self.config.task_delay(target=self.tactical_finish)
         else:
             logger.info('No tactical running')
-            self.config.delay_next_run(success=False)
+            self.config.task_delay(success=False)

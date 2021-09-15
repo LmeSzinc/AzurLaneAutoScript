@@ -1,3 +1,4 @@
+import copy
 import datetime
 import operator
 import time
@@ -29,7 +30,7 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
     # Task to run and bind.
     # Task means the name of the function to run in AzurLaneAutoScript class.
     task = ''
-    # Modified arguments. Key: Argument name in GeneratedConfig. Value: Modified value.
+    # Modified arguments. Key: Argument path in yaml file. Value: Modified value.
     # All variable modifications will be record here and saved in method `save()`.
     modified = {}
     # Key: Argument name in GeneratedConfig. Value: Path in `data`.
@@ -39,7 +40,8 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
 
     def __setattr__(self, key, value):
         if key in self.bound:
-            self.modified[key] = value
+            path = self.bound[key]
+            self.modified[path] = value
             if self.auto_update:
                 self.update()
         else:
@@ -62,7 +64,7 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
         Args:
             func (str): Function to run
         """
-        func_list = [func, 'Alas']
+        func_list = [func, 'General', 'Alas']
 
         # Bind arguments
         visited = set()
@@ -128,13 +130,10 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
         if not self.modified:
             return False
 
-        modified = {}
-        for arg, value in self.modified.items():
-            path = self.bound[arg]
+        for path, value in self.modified.items():
             deep_set(self.data, keys=path, value=value)
-            modified[path] = value
 
-        logger.info(f'Save config {filepath_config(self.config_name)}, {dict_to_kv(modified)}')
+        logger.info(f'Save config {filepath_config(self.config_name)}, {dict_to_kv(self.modified)}')
         self.modified = {}
         write_file(filepath_config(self.config_name), data=self.data)
 
@@ -143,7 +142,7 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
         self.bind(self.task)
         self.save()
 
-    def delay_next_run(self, success=None, server_update=None, target=None, minute=None):
+    def task_delay(self, success=None, server_update=None, target=None, minute=None):
         """
         Set Scheduler.NextRun
         Should set at least one arguments.
@@ -161,6 +160,7 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
             minute (int, float, tuple):
                 Delay several minutes.
         """
+
         def ensure_delta(delay):
             return timedelta(seconds=int(ensure_time(delay, precision=3) * 60))
 
@@ -188,3 +188,100 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
             self.Scheduler_NextRun = run
         else:
             logger.warning('Missing argument in delay_next_run, should set at least one')
+
+    def task_call(self, task):
+        """
+        Call another task to run.
+
+        That task will run when current task finished.
+        But it might not be run because:
+        - Other tasks should run first according to SCHEDULER_PRIORITY
+        - Task is disabled by user
+
+        Args:
+            task (str): Task name to call, such as `Restart`
+        """
+        path = f'{task}.Scheduler.NextRun'
+        if deep_get(self.data, keys=path, default=None) is None:
+            logger.warning(f'Task to call: `{task}` does not exist in user config')
+        else:
+            self.modified[path] = datetime.now().replace(microsecond=0)
+            self.update()
+
+    def task_stop(self, message=''):
+        """
+        Stop current task
+
+        Raises:
+            TaskEnd:
+        """
+        if message:
+            raise TaskEnd(message)
+        else:
+            raise TaskEnd
+
+    @property
+    def campaign_name(self):
+        """
+        Sub-directory name when saving drop record.
+        """
+        name = self.Campaign_Name.lower().replace('-', '_')
+        if name[0].isdigit():
+            name = 'campaign_' + str(name)
+        if self.Campaign_Mode == 'hard':
+            name += '_hard'
+        return name
+
+    """
+    The following configs and methods are used to be compatible with the old.
+    """
+
+    def merge(self, other):
+        """
+        Args:
+            other (AzurLaneConfig, Config):
+
+        Returns:
+            AzurLaneConfig
+        """
+        config = copy.copy(self)
+        for attr in dir(config):
+            if attr.endswith('__'):
+                continue
+            if hasattr(other, attr):
+                value = other.__getattribute__(attr)
+                if value is not None:
+                    config.__setattr__(attr, value)
+
+        return config
+
+    @property
+    def DEVICE_SCREENSHOT_METHOD(self):
+        return self.Emulator_ScreenshotMethod
+
+    @property
+    def DEVICE_CONTROL_METHOD(self):
+        return self.Emulator_ControlMethod
+
+    @property
+    def FLEET_1(self):
+        return self.Fleet_Fleet1
+
+    @property
+    def FLEET_2(self):
+        return self.Fleet_Fleet2
+
+    _fleet_boss = 0
+
+    @property
+    def FLEET_BOSS(self):
+        if self._fleet_boss:
+            return self._fleet_boss
+        if self.Fleet_FleetOrder == 'fleet1_mob_fleet2_boss':
+            return 2
+        else:
+            return 1
+
+    @FLEET_BOSS.setter
+    def FLEET_BOSS(self, value):
+        self._fleet_boss = value

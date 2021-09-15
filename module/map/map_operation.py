@@ -66,8 +66,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                 self.handle_auto_search()
                 if self.triggered_map_stop():
                     self.enter_map_cancel()
-                    self.device.send_notification('Reach condition:', self.config.STOP_IF_MAP_REACH)
-                    raise ScriptEnd(f'Reach condition: {self.config.STOP_IF_MAP_REACH}')
+                    raise ScriptEnd(f'Reach condition: {self.config.StopCondition_MapAchievement}')
                 self.device.click(MAP_PREPARATION)
                 map_timer.reset()
                 campaign_timer.reset()
@@ -75,12 +74,11 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
 
             # Fleet preparation
             if fleet_timer.reached() and self.appear(FLEET_PREPARATION, offset=(20, 20)):
-                if self.config.ENABLE_FLEET_CONTROL:
-                    if mode == 'normal' or mode == 'hard':
-                        self.handle_2x_book_setting(mode='prep')
-                        self.fleet_preparation()
-                        self.handle_auto_search_setting()
-                        self.handle_auto_search_emotion_wait()
+                if mode == 'normal' or mode == 'hard':
+                    self.handle_2x_book_setting(mode='prep')
+                    self.fleet_preparation()
+                    self.handle_auto_search_setting()
+                    self.handle_auto_search_emotion_wait()
                 self.device.click(FLEET_PREPARATION)
                 fleet_timer.reset()
                 campaign_timer.reset()
@@ -202,10 +200,11 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
     @property
     def fleets_reversed(self):
         if self.map_is_auto_search:
-            return self.config.AUTO_SEARCH_SETTING in ['fleet1_boss_fleet2_mob', 'fleet1_standby_fleet2_all']
+            return self.config.Fleet_AutoSearchFleetOrder in ['fleet1_boss_fleet2_mob', 'fleet1_standby_fleet2_all']
         else:
             # return (self.config.FLEET_2 != 0) and (self.config.FLEET_2 < self.config.FLEET_1)
-            return self.map_is_hard_mode and self.config.ENABLE_FLEET_REVERSE_IN_HARD
+            return self.map_is_hard_mode \
+                   and self.config.Fleet_FleetOrder in ['fleet1_boss_fleet2_mob', 'fleet1_standby_fleet2_all']
 
     def handle_fleet_reverse(self):
         """
@@ -236,7 +235,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                 if 'boss' in data:
                     battle = data.get('battle')
                     reduce = (battle * default[0], default[1])
-                    if self.config.AUTO_SEARCH_SETTING in ['fleet1_all_fleet2_standby', 'fleet1_standby_fleet2_all']:
+                    if self.config.Fleet_AutoSearchFleetOrder in ['fleet1_all_fleet2_standby', 'fleet1_standby_fleet2_all']:
                         reduce = (reduce[0] + reduce[1], 0)
                     return reduce
 
@@ -252,9 +251,9 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         In first run, wait before clicking FLEET_PREPARATION.
         In second and subsequent run, wait before clicking AUTO_SEARCH_MENU_CONTINUE.
         """
-        if not self.config.ENABLE_EMOTION_REDUCE:
+        if not self.config.Emotion_CalculateEmotion:
             return False
-        if not self.config.ENABLE_AUTO_SEARCH:
+        if not self.config.Campaign_UseAutoSearch:
             return False
 
         if hasattr(self, 'emotion'):

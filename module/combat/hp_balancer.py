@@ -1,6 +1,7 @@
 from module.base.base import ModuleBase
 from module.base.button import *
 from module.base.decorator import Config
+from module.config.utils import to_list
 from module.logger import logger
 
 # Color that shows on HP bar.
@@ -84,7 +85,8 @@ class HPBalancer(ModuleBase):
             [HP]  98% ____ ____  98%  98%  98%
         """
         hp = [self._calculate_hp(button.area) for button in self._hp_grid().buttons]
-        scout = np.array(hp[3:]) * np.array(self.config.SCOUT_HP_WEIGHTS) / np.max(self.config.SCOUT_HP_WEIGHTS)
+        weight = to_list(self.config.HpControl_HpBalanceWeight)
+        scout = np.array(hp[3:]) * np.array(weight) / np.max(weight)
 
         self.hp = hp[:3] + scout.tolist()
         if self.fleet_current_index not in self._hp_has_ship:
@@ -92,7 +94,7 @@ class HPBalancer(ModuleBase):
 
         logger.attr('HP', ' '.join(
             [str(int(data * 100)).rjust(3) + '%' if use else '____' for data, use in zip(hp, self.hp_has_ship)]))
-        if np.sum(np.abs(np.diff(self.config.SCOUT_HP_WEIGHTS))) > 0:
+        if np.sum(np.abs(np.diff(weight))) > 0:
             logger.attr('HP_weight', ' '.join([str(int(data * 100)).rjust(3) + '%' for data in self.hp]))
 
         return self.hp
@@ -117,7 +119,7 @@ class HPBalancer(ModuleBase):
 
     def _expected_scout_order(self, hp):
         count = np.count_nonzero(hp)
-        threshold = self.config.SCOUT_HP_DIFFERENCE_THRESHOLD
+        threshold = self.config.HpControl_HpBalanceThreshold
 
         if count == 3:
             descending = np.sort(hp)[::-1]
@@ -211,7 +213,7 @@ class HPBalancer(ModuleBase):
             pass
 
     def hp_balance(self):
-        if self.config.ENABLE_MAP_FLEET_LOCK:
+        if self.config.Campaign_UseFleetLock:
             return False
 
         target = self._expected_scout_order(self.hp[3:])
@@ -221,11 +223,11 @@ class HPBalancer(ModuleBase):
 
         return True
 
-    def hp_withdraw_triggered(self):
-        if self.config.ENABLE_LOW_HP_WITHDRAW:
+    def hp_retreat_triggered(self):
+        if self.config.HpControl_UseLowHpRetreat:
             hp = np.array(self.hp)[self.hp_has_ship]
-            if np.any(hp < self.config.LOW_HP_WITHDRAW_THRESHOLD):
-                logger.info('Low HP withdraw triggered.')
+            if np.any(hp < self.config.HpControl_LowHpRetreatThreshold):
+                logger.info('Low HP retreat triggered.')
                 return True
 
         return False

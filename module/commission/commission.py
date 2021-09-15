@@ -380,7 +380,7 @@ class RewardCommission(UI, InfoHandler):
         future_finish = sorted([f for f in total.get('finish_time') if f is not None])
         logger.info(f'Commission finish: {[str(f) for f in future_finish]}')
         if len(future_finish):
-            self.config.delay_next_run(target=future_finish)
+            self.config.task_delay(target=future_finish)
         else:
             logger.info('No commission running')
-            self.config.delay_next_run(success=False)
+            self.config.task_delay(success=False)

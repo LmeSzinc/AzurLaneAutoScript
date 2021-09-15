@@ -351,10 +351,10 @@ class RewardResearch(ResearchSelector):
         if success:
             if project is not None:
                 # Success to start a project
-                self.config.delay_next_run(minute=float(project.duration) * 60)
+                self.config.task_delay(minute=float(project.duration) * 60)
             else:
                 # No project satisfies current filter
-                self.config.delay_next_run(server_update=True)
+                self.config.task_delay(server_update=True)
         else:
             # Project requirements are not satisfied
-            self.config.delay_next_run(success=False)
+            self.config.task_delay(success=False)

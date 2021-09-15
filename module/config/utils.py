@@ -9,6 +9,8 @@ import yaml
 import module.config.server as server
 
 LANGUAGES = ['zh-CN', 'en-US', 'zh-TW']
+
+
 # LANGUAGES = ['zh-CN']
 
 
@@ -242,7 +244,7 @@ def nearest_future(future, interval=120):
     Returns:
         datetime.datetime:
     """
-    future = [datetime.fromisoformat(f) if isinstance(f, str) else f for f in future ]
+    future = [datetime.fromisoformat(f) if isinstance(f, str) else f for f in future]
     future = sorted(future)
     next_run = future[0]
     for finish in future:
@@ -261,3 +263,10 @@ def random_id(length=32):
         str: Random azurstat id.
     """
     return ''.join(random.sample(string.ascii_lowercase + string.digits, length))
+
+
+def to_list(string):
+    if string.isdigit():
+        return []
+    out = [int(letter.strip()) for letter in string.split(',')]
+    return out

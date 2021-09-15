@@ -18,11 +18,12 @@ class GeneratedConfig:
     Scheduler_ServerUpdate = '00:00'
     Emulator_Serial = '127.0.0.1:5555'
     Emulator_PackageName = 'com.bilibili.azurlane'
-    Emulator_ScreenshotMethod = 'ADB'
-    Emulator_ControlMethod = 'minitouch'
+    Emulator_ScreenshotMethod = 'ADB'  # ADB, uiautomator2, aScreenCap
+    Emulator_ControlMethod = 'minitouch'  # ADB, uiautomator2, minitouch
     Error_HandleError = True
     Error_SaveError = True
     Error_ScreenshotLength = 1
+    Optimization_CombatScreenshotInterval = 2
     DropRecord_SaveFolder = './screenshots'
     DropRecord_AzurStatsID = None
     DropRecord_SaveResearch = False
@@ -31,7 +32,63 @@ class GeneratedConfig:
     DropRecord_UploadCommission = False
     DropRecord_SaveCombat = False
 
+    # Func `General`
+    Retirement_Enable = True
+    Retirement_RetireMode = 'one_click_retire'  # one_click_retire, enhance, old_retire
+    Retirement_RetireAmount = 'retire_all'  # retire_all, retire_10
+    Retirement_EnhanceFavourite = False
+    Retirement_EnhanceFilter = None
+    Retirement_EnhanceCheckPerCategory = 2
+    Retirement_OldRetireN = True
+    Retirement_OldRetireR = True
+    Retirement_OldRetireSR = False
+    Retirement_OldRetireSSR = False
+
     # Func `Main`
+    Campaign_Name = '7-2'
+    Campaign_Mode = 'normal'  # normal, hard
+    Campaign_UseClearMode = True
+    Campaign_UseFleetLock = True
+    Campaign_UseAutoSearch = False
+    Campaign_Use2xBook = False
+    Campaign_AmbushEvade = True
+    StopCondition_RunCount = 0
+    StopCondition_OilLimit = 1000
+    StopCondition_MapAchievement = 'non_stop'  # non_stop, 100_percent_clear, map_3_stars, threat_safe, threat_safe_without_3_stars
+    StopCondition_GetNewShip = False
+    StopCondition_ReachLevel120 = False
+    Fleet_Fleet1 = 1  # 1, 2, 3, 4, 5, 6
+    Fleet_Fleet1Formation = 'double_line'  # line_ahead, double_line, diamond
+    Fleet_Fleet1Mode = 'combat_auto'  # combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left
+    Fleet_Fleet1Step = 3  # 2, 3, 4, 5
+    Fleet_Fleet2 = 2  # 0, 1, 2, 3, 4, 5, 6
+    Fleet_Fleet2Formation = 'double_line'  # line_ahead, double_line, diamond
+    Fleet_Fleet2Mode = 'combat_auto'  # combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left
+    Fleet_Fleet2Step = 2  # 2, 3, 4, 5
+    Fleet_FleetOrder = 'fleet1_mob_fleet2_boss'  # fleet1_mob_fleet2_boss, fleet1_all_fleet2_standby
+    Fleet_AutoSearchFleetOrder = 'fleet1_mob_fleet2_boss'  # fleet1_mob_fleet2_boss, fleet1_boss_fleet2_mob, fleet1_all_fleet2_standby, fleet1_standby_fleet2_all
+    Submarine_Fleet = 0  # 0, 1, 2
+    Submarine_Mode = 'do_not_use'  # do_not_use, hunt_only, every_combat
+    Emotion_CalculateEmotion = True
+    Emotion_IgnoreLowEmotionWarn = False
+    Emotion_Fleet1 = 119
+    Emotion_Fleet1RecordTime = datetime.datetime(2020, 1, 1, 0, 0)
+    Emotion_Fleet1Control = 'prevent_yellow_face'  # keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face
+    Emotion_Fleet1Recover = 'not_in_dormitory'  # not_in_dormitory, dormitory_floor_1, dormitory_floor_2
+    Emotion_Fleet1Oath = False
+    Emotion_Fleet2 = 119
+    Emotion_Fleet2RecordTime = datetime.datetime(2020, 1, 1, 0, 0)
+    Emotion_Fleet2Control = 'prevent_yellow_face'  # keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face
+    Emotion_Fleet2Recover = 'not_in_dormitory'  # not_in_dormitory, dormitory_floor_1, dormitory_floor_2
+    Emotion_Fleet2Oath = False
+    HpControl_UseHpBalance = False
+    HpControl_UseEmergencyRepair = False
+    HpControl_UseLowHpRetreat = False
+    HpControl_HpBalanceThreshold = 0.2
+    HpControl_HpBalanceWeight = '1000, 1000, 1000'
+    HpControl_RepairUseSingleThreshold = 0.3
+    HpControl_RepairUseMultiThreshold = 0.6
+    HpControl_LowHpRetreatThreshold = 0.3
 
     # Func `Commission`
     Commission_DoMajorCommission = False
@@ -44,5 +101,5 @@ class GeneratedConfig:
     Research_UseCube = False
     Research_UseCoin = True
     Research_UsePart = True
-    Research_PresetFilter = 'series_4'
+    Research_PresetFilter = 'series_4'  # custom, series_4, series_3, series_3_than_2
     Research_CustomFilter = '0.5 > reset > shortest'

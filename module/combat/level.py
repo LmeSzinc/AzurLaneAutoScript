@@ -55,7 +55,7 @@ class Level(ModuleBase):
         Returns:
             list[int]:
         """
-        if not self.config.STOP_IF_REACH_LV120 and not self.config.STOP_IF_REACH_LV32:
+        if not self.config.StopCondition_ReachLevel120 and not self.config.STOP_IF_REACH_LV32:
             return [-1] * 6
 
         self._lv_before_battle = self.lv if after_battle else [-1] * 6
@@ -71,7 +71,7 @@ class Level(ModuleBase):
         return self.lv
 
     def lv120_triggered(self):
-        if not self.config.STOP_IF_REACH_LV120:
+        if not self.config.StopCondition_ReachLevel120:
             return False
 
         for i in range(6):

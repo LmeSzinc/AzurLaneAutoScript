@@ -208,31 +208,6 @@ class UI(InfoHandler):
     def ui_goto_main(self):
         return self.ui_ensure(destination=page_main)
 
-    def handle_stage_icon_spawn(self):
-        self.device.sleep((1, 1.2))
-        self.device.screenshot()
-
-    def ui_weigh_anchor(self):
-        if self.ui_ensure(destination=page_campaign):
-            self.handle_stage_icon_spawn()
-            return True
-        else:
-            return False
-
-    def ui_goto_event(self):
-        if self.ui_ensure(destination=page_event):
-            self.handle_stage_icon_spawn()
-            return True
-        else:
-            return False
-
-    def ui_goto_sp(self):
-        if self.ui_ensure(destination=page_sp):
-            self.handle_stage_icon_spawn()
-            return True
-        else:
-            return False
-
     def ui_ensure_index(self, index, letter, next_button, prev_button, skip_first_screenshot=False, fast=True,
                         interval=(0.2, 0.3), step_sleep=(0.2, 0.3), finish_sleep=(0.5, 0.8)):
         """

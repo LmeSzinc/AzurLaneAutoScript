@@ -20,32 +20,31 @@ class MysteryHandler(StrategyHandler, EnemySearchingHandler):
         if button is None or area_in_area(button.button, MYSTERY_ITEM.area, threshold=20):
             button = MYSTERY_ITEM
 
-        if self.appear(GET_ITEMS_1):
-            logger.attr('Mystery', 'Get item')
-            self._save_mystery_image()
-            self.device.click(button)
-            self.device.sleep(0.5)
-            self.device.screenshot()
-            self.handle_opened_strategy_bar()
-            return 'get_item'
+        with self.stat.new(
+                genre=self.config.campaign_name, save=self.config.DropRecord_SaveCombat, upload=False
+        ) as drop:
+            if self.appear(GET_ITEMS_1):
+                logger.attr('Mystery', 'Get item')
+                drop.add(self.device.image)
+                self.device.click(button)
+                self.device.sleep(0.5)
+                self.device.screenshot()
+                self.strategy_close()
+                return 'get_item'
 
-        if self.info_bar_count():
-            if self._get_ammo_log_timer.reached() and self.appear(GET_AMMO):
-                logger.attr('Mystery', 'Get ammo')
-                self._get_ammo_log_timer.reset()
-                self._save_mystery_image()
-                return 'get_ammo'
+            if self.info_bar_count():
+                if self._get_ammo_log_timer.reached() and self.appear(GET_AMMO):
+                    logger.attr('Mystery', 'Get ammo')
+                    self._get_ammo_log_timer.reset()
+                    drop.add(self.device.image)
+                    return 'get_ammo'
 
-        if self.config.MAP_MYSTERY_HAS_CARRIER:
-            if self.is_in_map() and self.enemy_searching_appear():
-                logger.attr('Mystery', 'Get carrier')
-                self.carrier_count += 1
-                self._save_mystery_image()
-                self.handle_in_map_with_enemy_searching()
-                return 'get_carrier'
+            if self.config.MAP_MYSTERY_HAS_CARRIER:
+                if self.is_in_map() and self.enemy_searching_appear():
+                    logger.attr('Mystery', 'Get carrier')
+                    self.carrier_count += 1
+                    drop.add(self.device.image)
+                    self.handle_in_map_with_enemy_searching()
+                    return 'get_carrier'
 
-        return False
-
-    def _save_mystery_image(self):
-        if self.config.ENABLE_SAVE_GET_ITEMS:
-            self.device.save_screenshot('mystery')
+            return False

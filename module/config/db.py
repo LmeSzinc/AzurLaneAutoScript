@@ -211,7 +211,10 @@ class Database:
             path = f'{arg["group"]}.{arg["arg"]}'
             if path in visited_path or '_info' in path:
                 continue
-            lines.append(f'    {path_to_arg(path)} = {repr(parse_value(arg["value"], data=arg))}')
+            option = ', '.join([str(opt) for opt in arg['option'].keys()])
+            if option:
+                option = f'  # {option}'
+            lines.append(f'    {path_to_arg(path)} = {repr(parse_value(arg["value"], data=arg))}{option}')
             visited_path.add(path)
 
         with open(filepath_code(), 'w') as f:

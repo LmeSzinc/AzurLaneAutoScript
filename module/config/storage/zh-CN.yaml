@@ -185,6 +185,26 @@ value: 1
 option: {}
 ---
 func: Alas
+group: Optimization
+arg: _info
+lang: zh-CN
+name: Alas.Optimization._info.name
+help: Alas.Optimization._info.help
+type: ''
+value: ''
+option: {}
+---
+func: Alas
+group: Optimization
+arg: CombatScreenshotInterval
+lang: zh-CN
+name: Alas.Optimization.CombatScreenshotInterval.name
+help: Alas.Optimization.CombatScreenshotInterval.help
+type: input
+value: 2
+option: {}
+---
+func: Alas
 group: DropRecord
 arg: _info
 lang: zh-CN
@@ -260,6 +280,211 @@ arg: SaveCombat
 lang: zh-CN
 name: Alas.DropRecord.SaveCombat.name
 help: Alas.DropRecord.SaveCombat.help
+type: input
+value: false
+option: {}
+---
+func: General
+group: _info
+arg: _info
+lang: zh-CN
+name: General._info._info.name
+help: General._info._info.help
+type: ''
+value: ''
+option: {}
+---
+func: General
+group: _info
+arg: Menu
+lang: zh-CN
+name: General._info.Menu.name
+help: General._info.Menu.help
+type: input
+value: Alas
+option: {}
+---
+func: General
+group: Scheduler
+arg: _info
+lang: zh-CN
+name: General.Scheduler._info.name
+help: General.Scheduler._info.help
+type: ''
+value: ''
+option: {}
+---
+func: General
+group: Scheduler
+arg: Enable
+lang: zh-CN
+name: General.Scheduler.Enable.name
+help: General.Scheduler.Enable.help
+type: input
+value: false
+option: {}
+---
+func: General
+group: Scheduler
+arg: NextRun
+lang: zh-CN
+name: General.Scheduler.NextRun.name
+help: General.Scheduler.NextRun.help
+type: input
+value: 2020-01-01 00:00:00
+option: {}
+---
+func: General
+group: Scheduler
+arg: Command
+lang: zh-CN
+name: General.Scheduler.Command.name
+help: General.Scheduler.Command.help
+type: input
+value: Alas
+option: {}
+---
+func: General
+group: Scheduler
+arg: SuccessInterval
+lang: zh-CN
+name: General.Scheduler.SuccessInterval.name
+help: General.Scheduler.SuccessInterval.help
+type: input
+value: 0
+option: {}
+---
+func: General
+group: Scheduler
+arg: FailureInterval
+lang: zh-CN
+name: General.Scheduler.FailureInterval.name
+help: General.Scheduler.FailureInterval.help
+type: input
+value: 120
+option: {}
+---
+func: General
+group: Scheduler
+arg: ServerUpdate
+lang: zh-CN
+name: General.Scheduler.ServerUpdate.name
+help: General.Scheduler.ServerUpdate.help
+type: input
+value: 00:00
+option: {}
+---
+func: General
+group: Retirement
+arg: _info
+lang: zh-CN
+name: General.Retirement._info.name
+help: General.Retirement._info.help
+type: ''
+value: ''
+option: {}
+---
+func: General
+group: Retirement
+arg: Enable
+lang: zh-CN
+name: General.Retirement.Enable.name
+help: General.Retirement.Enable.help
+type: input
+value: true
+option: {}
+---
+func: General
+group: Retirement
+arg: RetireMode
+lang: zh-CN
+name: General.Retirement.RetireMode.name
+help: General.Retirement.RetireMode.help
+type: input
+value: one_click_retire
+option:
+  one_click_retire: one_click_retire
+  enhance: enhance
+  old_retire: old_retire
+---
+func: General
+group: Retirement
+arg: RetireAmount
+lang: zh-CN
+name: General.Retirement.RetireAmount.name
+help: General.Retirement.RetireAmount.help
+type: input
+value: retire_all
+option:
+  retire_all: retire_all
+  retire_10: retire_10
+---
+func: General
+group: Retirement
+arg: EnhanceFavourite
+lang: zh-CN
+name: General.Retirement.EnhanceFavourite.name
+help: General.Retirement.EnhanceFavourite.help
+type: input
+value: false
+option: {}
+---
+func: General
+group: Retirement
+arg: EnhanceFilter
+lang: zh-CN
+name: General.Retirement.EnhanceFilter.name
+help: General.Retirement.EnhanceFilter.help
+type: input
+value: ''
+option: {}
+---
+func: General
+group: Retirement
+arg: EnhanceCheckPerCategory
+lang: zh-CN
+name: General.Retirement.EnhanceCheckPerCategory.name
+help: General.Retirement.EnhanceCheckPerCategory.help
+type: input
+value: 2
+option: {}
+---
+func: General
+group: Retirement
+arg: OldRetireN
+lang: zh-CN
+name: General.Retirement.OldRetireN.name
+help: General.Retirement.OldRetireN.help
+type: input
+value: true
+option: {}
+---
+func: General
+group: Retirement
+arg: OldRetireR
+lang: zh-CN
+name: General.Retirement.OldRetireR.name
+help: General.Retirement.OldRetireR.help
+type: input
+value: true
+option: {}
+---
+func: General
+group: Retirement
+arg: OldRetireSR
+lang: zh-CN
+name: General.Retirement.OldRetireSR.name
+help: General.Retirement.OldRetireSR.help
+type: input
+value: false
+option: {}
+---
+func: General
+group: Retirement
+arg: OldRetireSSR
+lang: zh-CN
+name: General.Retirement.OldRetireSSR.name
+help: General.Retirement.OldRetireSSR.help
 type: input
 value: false
 option: {}
@@ -352,6 +577,574 @@ name: Main.Scheduler.ServerUpdate.name
 help: Main.Scheduler.ServerUpdate.help
 type: input
 value: 00:00
+option: {}
+---
+func: Main
+group: Campaign
+arg: _info
+lang: zh-CN
+name: Main.Campaign._info.name
+help: Main.Campaign._info.help
+type: ''
+value: ''
+option: {}
+---
+func: Main
+group: Campaign
+arg: Name
+lang: zh-CN
+name: Main.Campaign.Name.name
+help: Main.Campaign.Name.help
+type: input
+value: 7-2
+option: {}
+---
+func: Main
+group: Campaign
+arg: Mode
+lang: zh-CN
+name: Main.Campaign.Mode.name
+help: Main.Campaign.Mode.help
+type: input
+value: normal
+option:
+  normal: normal
+  hard: hard
+---
+func: Main
+group: Campaign
+arg: UseClearMode
+lang: zh-CN
+name: Main.Campaign.UseClearMode.name
+help: Main.Campaign.UseClearMode.help
+type: input
+value: true
+option: {}
+---
+func: Main
+group: Campaign
+arg: UseFleetLock
+lang: zh-CN
+name: Main.Campaign.UseFleetLock.name
+help: Main.Campaign.UseFleetLock.help
+type: input
+value: true
+option: {}
+---
+func: Main
+group: Campaign
+arg: UseAutoSearch
+lang: zh-CN
+name: Main.Campaign.UseAutoSearch.name
+help: Main.Campaign.UseAutoSearch.help
+type: input
+value: false
+option: {}
+---
+func: Main
+group: Campaign
+arg: Use2xBook
+lang: zh-CN
+name: Main.Campaign.Use2xBook.name
+help: Main.Campaign.Use2xBook.help
+type: input
+value: false
+option: {}
+---
+func: Main
+group: Campaign
+arg: AmbushEvade
+lang: zh-CN
+name: Main.Campaign.AmbushEvade.name
+help: Main.Campaign.AmbushEvade.help
+type: input
+value: true
+option: {}
+---
+func: Main
+group: StopCondition
+arg: _info
+lang: zh-CN
+name: Main.StopCondition._info.name
+help: Main.StopCondition._info.help
+type: ''
+value: ''
+option: {}
+---
+func: Main
+group: StopCondition
+arg: RunCount
+lang: zh-CN
+name: Main.StopCondition.RunCount.name
+help: Main.StopCondition.RunCount.help
+type: input
+value: 0
+option: {}
+---
+func: Main
+group: StopCondition
+arg: OilLimit
+lang: zh-CN
+name: Main.StopCondition.OilLimit.name
+help: Main.StopCondition.OilLimit.help
+type: input
+value: 1000
+option: {}
+---
+func: Main
+group: StopCondition
+arg: MapAchievement
+lang: zh-CN
+name: Main.StopCondition.MapAchievement.name
+help: Main.StopCondition.MapAchievement.help
+type: input
+value: non_stop
+option:
+  non_stop: non_stop
+  100_percent_clear: 100_percent_clear
+  map_3_stars: map_3_stars
+  threat_safe: threat_safe
+  threat_safe_without_3_stars: threat_safe_without_3_stars
+---
+func: Main
+group: StopCondition
+arg: GetNewShip
+lang: zh-CN
+name: Main.StopCondition.GetNewShip.name
+help: Main.StopCondition.GetNewShip.help
+type: input
+value: false
+option: {}
+---
+func: Main
+group: StopCondition
+arg: ReachLevel120
+lang: zh-CN
+name: Main.StopCondition.ReachLevel120.name
+help: Main.StopCondition.ReachLevel120.help
+type: input
+value: false
+option: {}
+---
+func: Main
+group: Fleet
+arg: _info
+lang: zh-CN
+name: Main.Fleet._info.name
+help: Main.Fleet._info.help
+type: ''
+value: ''
+option: {}
+---
+func: Main
+group: Fleet
+arg: Fleet1
+lang: zh-CN
+name: Main.Fleet.Fleet1.name
+help: Main.Fleet.Fleet1.help
+type: input
+value: 1
+option:
+  1: 1
+  2: 2
+  3: 3
+  4: 4
+  5: 5
+  6: 6
+---
+func: Main
+group: Fleet
+arg: Fleet1Formation
+lang: zh-CN
+name: Main.Fleet.Fleet1Formation.name
+help: Main.Fleet.Fleet1Formation.help
+type: input
+value: double_line
+option:
+  line_ahead: line_ahead
+  double_line: double_line
+  diamond: diamond
+---
+func: Main
+group: Fleet
+arg: Fleet1Mode
+lang: zh-CN
+name: Main.Fleet.Fleet1Mode.name
+help: Main.Fleet.Fleet1Mode.help
+type: input
+value: combat_auto
+option:
+  combat_auto: combat_auto
+  combat_manual: combat_manual
+  stand_still_in_the_middle: stand_still_in_the_middle
+  hide_in_bottom_left: hide_in_bottom_left
+---
+func: Main
+group: Fleet
+arg: Fleet1Step
+lang: zh-CN
+name: Main.Fleet.Fleet1Step.name
+help: Main.Fleet.Fleet1Step.help
+type: input
+value: 3
+option:
+  2: 2
+  3: 3
+  4: 4
+  5: 5
+---
+func: Main
+group: Fleet
+arg: Fleet2
+lang: zh-CN
+name: Main.Fleet.Fleet2.name
+help: Main.Fleet.Fleet2.help
+type: input
+value: 2
+option:
+  0: 0
+  1: 1
+  2: 2
+  3: 3
+  4: 4
+  5: 5
+  6: 6
+---
+func: Main
+group: Fleet
+arg: Fleet2Formation
+lang: zh-CN
+name: Main.Fleet.Fleet2Formation.name
+help: Main.Fleet.Fleet2Formation.help
+type: input
+value: double_line
+option:
+  line_ahead: line_ahead
+  double_line: double_line
+  diamond: diamond
+---
+func: Main
+group: Fleet
+arg: Fleet2Mode
+lang: zh-CN
+name: Main.Fleet.Fleet2Mode.name
+help: Main.Fleet.Fleet2Mode.help
+type: input
+value: combat_auto
+option:
+  combat_auto: combat_auto
+  combat_manual: combat_manual
+  stand_still_in_the_middle: stand_still_in_the_middle
+  hide_in_bottom_left: hide_in_bottom_left
+---
+func: Main
+group: Fleet
+arg: Fleet2Step
+lang: zh-CN
+name: Main.Fleet.Fleet2Step.name
+help: Main.Fleet.Fleet2Step.help
+type: input
+value: 2
+option:
+  2: 2
+  3: 3
+  4: 4
+  5: 5
+---
+func: Main
+group: Fleet
+arg: FleetOrder
+lang: zh-CN
+name: Main.Fleet.FleetOrder.name
+help: Main.Fleet.FleetOrder.help
+type: input
+value: fleet1_mob_fleet2_boss
+option:
+  fleet1_mob_fleet2_boss: fleet1_mob_fleet2_boss
+  fleet1_all_fleet2_standby: fleet1_all_fleet2_standby
+---
+func: Main
+group: Fleet
+arg: AutoSearchFleetOrder
+lang: zh-CN
+name: Main.Fleet.AutoSearchFleetOrder.name
+help: Main.Fleet.AutoSearchFleetOrder.help
+type: input
+value: fleet1_mob_fleet2_boss
+option:
+  fleet1_mob_fleet2_boss: fleet1_mob_fleet2_boss
+  fleet1_boss_fleet2_mob: fleet1_boss_fleet2_mob
+  fleet1_all_fleet2_standby: fleet1_all_fleet2_standby
+  fleet1_standby_fleet2_all: fleet1_standby_fleet2_all
+---
+func: Main
+group: Submarine
+arg: _info
+lang: zh-CN
+name: Main.Submarine._info.name
+help: Main.Submarine._info.help
+type: ''
+value: ''
+option: {}
+---
+func: Main
+group: Submarine
+arg: Fleet
+lang: zh-CN
+name: Main.Submarine.Fleet.name
+help: Main.Submarine.Fleet.help
+type: input
+value: 0
+option:
+  0: 0
+  1: 1
+  2: 2
+---
+func: Main
+group: Submarine
+arg: Mode
+lang: zh-CN
+name: Main.Submarine.Mode.name
+help: Main.Submarine.Mode.help
+type: input
+value: do_not_use
+option:
+  do_not_use: do_not_use
+  hunt_only: hunt_only
+  every_combat: every_combat
+---
+func: Main
+group: Emotion
+arg: _info
+lang: zh-CN
+name: Main.Emotion._info.name
+help: Main.Emotion._info.help
+type: ''
+value: ''
+option: {}
+---
+func: Main
+group: Emotion
+arg: CalculateEmotion
+lang: zh-CN
+name: Main.Emotion.CalculateEmotion.name
+help: Main.Emotion.CalculateEmotion.help
+type: input
+value: true
+option: {}
+---
+func: Main
+group: Emotion
+arg: IgnoreLowEmotionWarn
+lang: zh-CN
+name: Main.Emotion.IgnoreLowEmotionWarn.name
+help: Main.Emotion.IgnoreLowEmotionWarn.help
+type: input
+value: false
+option: {}
+---
+func: Main
+group: Emotion
+arg: Fleet1
+lang: zh-CN
+name: Main.Emotion.Fleet1.name
+help: Main.Emotion.Fleet1.help
+type: input
+value: 119
+option: {}
+---
+func: Main
+group: Emotion
+arg: Fleet1RecordTime
+lang: zh-CN
+name: Main.Emotion.Fleet1RecordTime.name
+help: Main.Emotion.Fleet1RecordTime.help
+type: input
+value: 2020-01-01 00:00:00
+option: {}
+---
+func: Main
+group: Emotion
+arg: Fleet1Control
+lang: zh-CN
+name: Main.Emotion.Fleet1Control.name
+help: Main.Emotion.Fleet1Control.help
+type: input
+value: prevent_yellow_face
+option:
+  keep_exp_bonus: keep_exp_bonus
+  prevent_green_face: prevent_green_face
+  prevent_yellow_face: prevent_yellow_face
+  prevent_red_face: prevent_red_face
+---
+func: Main
+group: Emotion
+arg: Fleet1Recover
+lang: zh-CN
+name: Main.Emotion.Fleet1Recover.name
+help: Main.Emotion.Fleet1Recover.help
+type: input
+value: not_in_dormitory
+option:
+  not_in_dormitory: not_in_dormitory
+  dormitory_floor_1: dormitory_floor_1
+  dormitory_floor_2: dormitory_floor_2
+---
+func: Main
+group: Emotion
+arg: Fleet1Oath
+lang: zh-CN
+name: Main.Emotion.Fleet1Oath.name
+help: Main.Emotion.Fleet1Oath.help
+type: input
+value: false
+option: {}
+---
+func: Main
+group: Emotion
+arg: Fleet2
+lang: zh-CN
+name: Main.Emotion.Fleet2.name
+help: Main.Emotion.Fleet2.help
+type: input
+value: 119
+option: {}
+---
+func: Main
+group: Emotion
+arg: Fleet2RecordTime
+lang: zh-CN
+name: Main.Emotion.Fleet2RecordTime.name
+help: Main.Emotion.Fleet2RecordTime.help
+type: input
+value: 2020-01-01 00:00:00
+option: {}
+---
+func: Main
+group: Emotion
+arg: Fleet2Control
+lang: zh-CN
+name: Main.Emotion.Fleet2Control.name
+help: Main.Emotion.Fleet2Control.help
+type: input
+value: prevent_yellow_face
+option:
+  keep_exp_bonus: keep_exp_bonus
+  prevent_green_face: prevent_green_face
+  prevent_yellow_face: prevent_yellow_face
+  prevent_red_face: prevent_red_face
+---
+func: Main
+group: Emotion
+arg: Fleet2Recover
+lang: zh-CN
+name: Main.Emotion.Fleet2Recover.name
+help: Main.Emotion.Fleet2Recover.help
+type: input
+value: not_in_dormitory
+option:
+  not_in_dormitory: not_in_dormitory
+  dormitory_floor_1: dormitory_floor_1
+  dormitory_floor_2: dormitory_floor_2
+---
+func: Main
+group: Emotion
+arg: Fleet2Oath
+lang: zh-CN
+name: Main.Emotion.Fleet2Oath.name
+help: Main.Emotion.Fleet2Oath.help
+type: input
+value: false
+option: {}
+---
+func: Main
+group: HpControl
+arg: _info
+lang: zh-CN
+name: Main.HpControl._info.name
+help: Main.HpControl._info.help
+type: ''
+value: ''
+option: {}
+---
+func: Main
+group: HpControl
+arg: UseHpBalance
+lang: zh-CN
+name: Main.HpControl.UseHpBalance.name
+help: Main.HpControl.UseHpBalance.help
+type: input
+value: false
+option: {}
+---
+func: Main
+group: HpControl
+arg: UseEmergencyRepair
+lang: zh-CN
+name: Main.HpControl.UseEmergencyRepair.name
+help: Main.HpControl.UseEmergencyRepair.help
+type: input
+value: false
+option: {}
+---
+func: Main
+group: HpControl
+arg: UseLowHpRetreat
+lang: zh-CN
+name: Main.HpControl.UseLowHpRetreat.name
+help: Main.HpControl.UseLowHpRetreat.help
+type: input
+value: false
+option: {}
+---
+func: Main
+group: HpControl
+arg: HpBalanceThreshold
+lang: zh-CN
+name: Main.HpControl.HpBalanceThreshold.name
+help: Main.HpControl.HpBalanceThreshold.help
+type: input
+value: 0.2
+option: {}
+---
+func: Main
+group: HpControl
+arg: HpBalanceWeight
+lang: zh-CN
+name: Main.HpControl.HpBalanceWeight.name
+help: Main.HpControl.HpBalanceWeight.help
+type: input
+value: 1000, 1000, 1000
+option: {}
+---
+func: Main
+group: HpControl
+arg: RepairUseSingleThreshold
+lang: zh-CN
+name: Main.HpControl.RepairUseSingleThreshold.name
+help: Main.HpControl.RepairUseSingleThreshold.help
+type: input
+value: 0.3
+option: {}
+---
+func: Main
+group: HpControl
+arg: RepairUseMultiThreshold
+lang: zh-CN
+name: Main.HpControl.RepairUseMultiThreshold.name
+help: Main.HpControl.RepairUseMultiThreshold.help
+type: input
+value: 0.6
+option: {}
+---
+func: Main
+group: HpControl
+arg: LowHpRetreatThreshold
+lang: zh-CN
+name: Main.HpControl.LowHpRetreatThreshold.name
+help: Main.HpControl.LowHpRetreatThreshold.help
+type: input
+value: 0.3
 option: {}
 ---
 func: Commission

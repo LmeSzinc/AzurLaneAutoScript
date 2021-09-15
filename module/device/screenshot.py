@@ -8,7 +8,7 @@ from PIL import Image
 from cached_property import cached_property
 from retrying import retry
 
-from module.base.timer import Timer
+from module.base.timer import Timer, timer
 from module.device.ascreencap import AScreenCap
 from module.logger import logger
 
@@ -52,7 +52,7 @@ class Screenshot(AScreenCap):
         return self._process_screenshot(screenshot)
 
     # @retry(wait_fixed=5000, stop_max_attempt_number=10)
-    # @timer
+    @timer
     def screenshot(self):
         """
         Returns:
@@ -117,9 +117,9 @@ class Screenshot(AScreenCap):
     def screenshot_interval_set(self, interval):
         interval = max(interval, 0.1)
         if interval != self._screenshot_interval_timer.limit:
-            if self.config.ENABLE_AUTO_SEARCH:
+            if self.config.Campaign_UseAutoSearch:
                 interval = min(interval, 1.0)
-                logger.info(f'Screenshot interval set to {interval}s, limited to 1.0s if enable auto search')
+                logger.info(f'Screenshot interval set to {interval}s, limited to 1.0s in auto search')
             else:
                 logger.info(f'Screenshot interval set to {interval}s')
             self._screenshot_interval_timer.limit = interval
