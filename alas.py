@@ -3,6 +3,7 @@ import time
 import inflection
 from cached_property import cached_property
 
+from module.campaign.gems_farming import GemsFarming
 from module.campaign.run import CampaignRun
 from module.commission.commission import RewardCommission
 from module.config.config import AzurLaneConfig, TaskEnd
@@ -88,8 +89,14 @@ class AzurLaneAutoScript:
 
     def main(self):
         CampaignRun(config=self.config, device=self.device).run(
-            'campaign_' + self.config.Campaign_Name.lower().replace('-', '_'),
-            folder='campaign_main',
+            name=self.config.Campaign_Name,
+            folder=self.config.Campaign_Event,
+            mode=self.config.Campaign_Mode)
+
+    def gems_farming(self):
+        GemsFarming(config=self.config, device=self.device).run(
+            name=self.config.Campaign_Name,
+            folder=self.config.Campaign_Event,
             mode=self.config.Campaign_Mode)
 
     def loop(self):

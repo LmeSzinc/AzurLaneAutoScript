@@ -4,10 +4,10 @@ from module.combat.combat import Combat
 from module.exception import CampaignEnd
 from module.logger import logger
 from module.map.assets import *
+from module.map.map_operation import MapOperation
 
 
-class AutoSearchCombat(Combat):
-    fleets_reversed: bool  # Define in MapOperation
+class AutoSearchCombat(MapOperation, Combat):
     _auto_search_in_stage_timer = Timer(3, count=6)
     _auto_search_confirm_low_emotion = False
 
@@ -76,6 +76,8 @@ class AutoSearchCombat(Combat):
                 continue
             if self.handle_combat_low_emotion():
                 self._auto_search_confirm_low_emotion = True
+                continue
+            if self.handle_map_cat_attack():
                 continue
 
             # End

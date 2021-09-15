@@ -601,6 +601,16 @@ option: {}
 ---
 func: Main
 group: Campaign
+arg: Event
+lang: en-US
+name: Main.Campaign.Event.name
+help: Main.Campaign.Event.help
+type: input
+value: campaign_main
+option: {}
+---
+func: Main
+group: Campaign
 arg: Mode
 lang: en-US
 name: Main.Campaign.Mode.name
@@ -1143,6 +1153,749 @@ arg: LowHpRetreatThreshold
 lang: en-US
 name: Main.HpControl.LowHpRetreatThreshold.name
 help: Main.HpControl.LowHpRetreatThreshold.help
+type: input
+value: 0.3
+option: {}
+---
+func: GemsFarming
+group: _info
+arg: _info
+lang: en-US
+name: GemsFarming._info._info.name
+help: GemsFarming._info._info.help
+type: ''
+value: ''
+option: {}
+---
+func: GemsFarming
+group: _info
+arg: Menu
+lang: en-US
+name: GemsFarming._info.Menu.name
+help: GemsFarming._info.Menu.help
+type: input
+value: Main
+option: {}
+---
+func: GemsFarming
+group: Scheduler
+arg: _info
+lang: en-US
+name: GemsFarming.Scheduler._info.name
+help: GemsFarming.Scheduler._info.help
+type: ''
+value: ''
+option: {}
+---
+func: GemsFarming
+group: Scheduler
+arg: Enable
+lang: en-US
+name: GemsFarming.Scheduler.Enable.name
+help: GemsFarming.Scheduler.Enable.help
+type: input
+value: false
+option: {}
+---
+func: GemsFarming
+group: Scheduler
+arg: NextRun
+lang: en-US
+name: GemsFarming.Scheduler.NextRun.name
+help: GemsFarming.Scheduler.NextRun.help
+type: input
+value: 2020-01-01 00:00:00
+option: {}
+---
+func: GemsFarming
+group: Scheduler
+arg: Command
+lang: en-US
+name: GemsFarming.Scheduler.Command.name
+help: GemsFarming.Scheduler.Command.help
+type: input
+value: Main
+option: {}
+---
+func: GemsFarming
+group: Scheduler
+arg: SuccessInterval
+lang: en-US
+name: GemsFarming.Scheduler.SuccessInterval.name
+help: GemsFarming.Scheduler.SuccessInterval.help
+type: input
+value: 0
+option: {}
+---
+func: GemsFarming
+group: Scheduler
+arg: FailureInterval
+lang: en-US
+name: GemsFarming.Scheduler.FailureInterval.name
+help: GemsFarming.Scheduler.FailureInterval.help
+type: input
+value: 120
+option: {}
+---
+func: GemsFarming
+group: Scheduler
+arg: ServerUpdate
+lang: en-US
+name: GemsFarming.Scheduler.ServerUpdate.name
+help: GemsFarming.Scheduler.ServerUpdate.help
+type: input
+value: 00:00
+option: {}
+---
+func: GemsFarming
+group: GemsFarming
+arg: _info
+lang: en-US
+name: GemsFarming.GemsFarming._info.name
+help: GemsFarming.GemsFarming._info.help
+type: ''
+value: ''
+option: {}
+---
+func: GemsFarming
+group: GemsFarming
+arg: FlagshipChange
+lang: en-US
+name: GemsFarming.GemsFarming.FlagshipChange.name
+help: GemsFarming.GemsFarming.FlagshipChange.help
+type: input
+value: true
+option: {}
+---
+func: GemsFarming
+group: GemsFarming
+arg: FlagshipEquipChange
+lang: en-US
+name: GemsFarming.GemsFarming.FlagshipEquipChange.name
+help: GemsFarming.GemsFarming.FlagshipEquipChange.help
+type: input
+value: false
+option: {}
+---
+func: GemsFarming
+group: GemsFarming
+arg: VanguardChange
+lang: en-US
+name: GemsFarming.GemsFarming.VanguardChange.name
+help: GemsFarming.GemsFarming.VanguardChange.help
+type: input
+value: false
+option: {}
+---
+func: GemsFarming
+group: GemsFarming
+arg: VanguardEquipChange
+lang: en-US
+name: GemsFarming.GemsFarming.VanguardEquipChange.name
+help: GemsFarming.GemsFarming.VanguardEquipChange.help
+type: input
+value: false
+option: {}
+---
+func: GemsFarming
+group: GemsFarming
+arg: LowEmotionRetreat
+lang: en-US
+name: GemsFarming.GemsFarming.LowEmotionRetreat.name
+help: GemsFarming.GemsFarming.LowEmotionRetreat.help
+type: input
+value: true
+option: {}
+---
+func: GemsFarming
+group: GemsFarming
+arg: CommonCV
+lang: en-US
+name: GemsFarming.GemsFarming.CommonCV.name
+help: GemsFarming.GemsFarming.CommonCV.help
+type: input
+value: any
+option:
+  any: any
+  langley: langley
+  bogue: bogue
+  ranger: ranger
+  hermes: hermes
+---
+func: GemsFarming
+group: Campaign
+arg: _info
+lang: en-US
+name: GemsFarming.Campaign._info.name
+help: GemsFarming.Campaign._info.help
+type: ''
+value: ''
+option: {}
+---
+func: GemsFarming
+group: Campaign
+arg: Name
+lang: en-US
+name: GemsFarming.Campaign.Name.name
+help: GemsFarming.Campaign.Name.help
+type: input
+value: 2-4
+option: {}
+---
+func: GemsFarming
+group: Campaign
+arg: Event
+lang: en-US
+name: GemsFarming.Campaign.Event.name
+help: GemsFarming.Campaign.Event.help
+type: input
+value: campaign_main
+option: {}
+---
+func: GemsFarming
+group: Campaign
+arg: Mode
+lang: en-US
+name: GemsFarming.Campaign.Mode.name
+help: GemsFarming.Campaign.Mode.help
+type: input
+value: normal
+option:
+  normal: normal
+  hard: hard
+---
+func: GemsFarming
+group: Campaign
+arg: UseClearMode
+lang: en-US
+name: GemsFarming.Campaign.UseClearMode.name
+help: GemsFarming.Campaign.UseClearMode.help
+type: input
+value: true
+option: {}
+---
+func: GemsFarming
+group: Campaign
+arg: UseFleetLock
+lang: en-US
+name: GemsFarming.Campaign.UseFleetLock.name
+help: GemsFarming.Campaign.UseFleetLock.help
+type: input
+value: true
+option: {}
+---
+func: GemsFarming
+group: Campaign
+arg: UseAutoSearch
+lang: en-US
+name: GemsFarming.Campaign.UseAutoSearch.name
+help: GemsFarming.Campaign.UseAutoSearch.help
+type: input
+value: true
+option: {}
+---
+func: GemsFarming
+group: Campaign
+arg: Use2xBook
+lang: en-US
+name: GemsFarming.Campaign.Use2xBook.name
+help: GemsFarming.Campaign.Use2xBook.help
+type: input
+value: false
+option: {}
+---
+func: GemsFarming
+group: Campaign
+arg: AmbushEvade
+lang: en-US
+name: GemsFarming.Campaign.AmbushEvade.name
+help: GemsFarming.Campaign.AmbushEvade.help
+type: input
+value: true
+option: {}
+---
+func: GemsFarming
+group: StopCondition
+arg: _info
+lang: en-US
+name: GemsFarming.StopCondition._info.name
+help: GemsFarming.StopCondition._info.help
+type: ''
+value: ''
+option: {}
+---
+func: GemsFarming
+group: StopCondition
+arg: RunCount
+lang: en-US
+name: GemsFarming.StopCondition.RunCount.name
+help: GemsFarming.StopCondition.RunCount.help
+type: input
+value: 0
+option: {}
+---
+func: GemsFarming
+group: StopCondition
+arg: OilLimit
+lang: en-US
+name: GemsFarming.StopCondition.OilLimit.name
+help: GemsFarming.StopCondition.OilLimit.help
+type: input
+value: 1000
+option: {}
+---
+func: GemsFarming
+group: StopCondition
+arg: MapAchievement
+lang: en-US
+name: GemsFarming.StopCondition.MapAchievement.name
+help: GemsFarming.StopCondition.MapAchievement.help
+type: input
+value: non_stop
+option:
+  non_stop: non_stop
+  100_percent_clear: 100_percent_clear
+  map_3_stars: map_3_stars
+  threat_safe: threat_safe
+  threat_safe_without_3_stars: threat_safe_without_3_stars
+---
+func: GemsFarming
+group: StopCondition
+arg: GetNewShip
+lang: en-US
+name: GemsFarming.StopCondition.GetNewShip.name
+help: GemsFarming.StopCondition.GetNewShip.help
+type: input
+value: false
+option: {}
+---
+func: GemsFarming
+group: StopCondition
+arg: ReachLevel120
+lang: en-US
+name: GemsFarming.StopCondition.ReachLevel120.name
+help: GemsFarming.StopCondition.ReachLevel120.help
+type: input
+value: false
+option: {}
+---
+func: GemsFarming
+group: Fleet
+arg: _info
+lang: en-US
+name: GemsFarming.Fleet._info.name
+help: GemsFarming.Fleet._info.help
+type: ''
+value: ''
+option: {}
+---
+func: GemsFarming
+group: Fleet
+arg: Fleet1
+lang: en-US
+name: GemsFarming.Fleet.Fleet1.name
+help: GemsFarming.Fleet.Fleet1.help
+type: input
+value: 1
+option:
+  1: 1
+  2: 2
+  3: 3
+  4: 4
+  5: 5
+  6: 6
+---
+func: GemsFarming
+group: Fleet
+arg: Fleet1Formation
+lang: en-US
+name: GemsFarming.Fleet.Fleet1Formation.name
+help: GemsFarming.Fleet.Fleet1Formation.help
+type: input
+value: line_ahead
+option:
+  line_ahead: line_ahead
+  double_line: double_line
+  diamond: diamond
+---
+func: GemsFarming
+group: Fleet
+arg: Fleet1Mode
+lang: en-US
+name: GemsFarming.Fleet.Fleet1Mode.name
+help: GemsFarming.Fleet.Fleet1Mode.help
+type: input
+value: combat_auto
+option:
+  combat_auto: combat_auto
+  combat_manual: combat_manual
+  stand_still_in_the_middle: stand_still_in_the_middle
+  hide_in_bottom_left: hide_in_bottom_left
+---
+func: GemsFarming
+group: Fleet
+arg: Fleet1Step
+lang: en-US
+name: GemsFarming.Fleet.Fleet1Step.name
+help: GemsFarming.Fleet.Fleet1Step.help
+type: input
+value: 3
+option:
+  2: 2
+  3: 3
+  4: 4
+  5: 5
+---
+func: GemsFarming
+group: Fleet
+arg: Fleet2
+lang: en-US
+name: GemsFarming.Fleet.Fleet2.name
+help: GemsFarming.Fleet.Fleet2.help
+type: input
+value: 2
+option:
+  0: 0
+  1: 1
+  2: 2
+  3: 3
+  4: 4
+  5: 5
+  6: 6
+---
+func: GemsFarming
+group: Fleet
+arg: Fleet2Formation
+lang: en-US
+name: GemsFarming.Fleet.Fleet2Formation.name
+help: GemsFarming.Fleet.Fleet2Formation.help
+type: input
+value: line_ahead
+option:
+  line_ahead: line_ahead
+  double_line: double_line
+  diamond: diamond
+---
+func: GemsFarming
+group: Fleet
+arg: Fleet2Mode
+lang: en-US
+name: GemsFarming.Fleet.Fleet2Mode.name
+help: GemsFarming.Fleet.Fleet2Mode.help
+type: input
+value: combat_auto
+option:
+  combat_auto: combat_auto
+  combat_manual: combat_manual
+  stand_still_in_the_middle: stand_still_in_the_middle
+  hide_in_bottom_left: hide_in_bottom_left
+---
+func: GemsFarming
+group: Fleet
+arg: Fleet2Step
+lang: en-US
+name: GemsFarming.Fleet.Fleet2Step.name
+help: GemsFarming.Fleet.Fleet2Step.help
+type: input
+value: 2
+option:
+  2: 2
+  3: 3
+  4: 4
+  5: 5
+---
+func: GemsFarming
+group: Fleet
+arg: FleetOrder
+lang: en-US
+name: GemsFarming.Fleet.FleetOrder.name
+help: GemsFarming.Fleet.FleetOrder.help
+type: input
+value: fleet1_mob_fleet2_boss
+option:
+  fleet1_mob_fleet2_boss: fleet1_mob_fleet2_boss
+  fleet1_all_fleet2_standby: fleet1_all_fleet2_standby
+---
+func: GemsFarming
+group: Fleet
+arg: AutoSearchFleetOrder
+lang: en-US
+name: GemsFarming.Fleet.AutoSearchFleetOrder.name
+help: GemsFarming.Fleet.AutoSearchFleetOrder.help
+type: input
+value: fleet1_mob_fleet2_boss
+option:
+  fleet1_mob_fleet2_boss: fleet1_mob_fleet2_boss
+  fleet1_boss_fleet2_mob: fleet1_boss_fleet2_mob
+  fleet1_all_fleet2_standby: fleet1_all_fleet2_standby
+  fleet1_standby_fleet2_all: fleet1_standby_fleet2_all
+---
+func: GemsFarming
+group: Submarine
+arg: _info
+lang: en-US
+name: GemsFarming.Submarine._info.name
+help: GemsFarming.Submarine._info.help
+type: ''
+value: ''
+option: {}
+---
+func: GemsFarming
+group: Submarine
+arg: Fleet
+lang: en-US
+name: GemsFarming.Submarine.Fleet.name
+help: GemsFarming.Submarine.Fleet.help
+type: input
+value: 0
+option:
+  0: 0
+  1: 1
+  2: 2
+---
+func: GemsFarming
+group: Submarine
+arg: Mode
+lang: en-US
+name: GemsFarming.Submarine.Mode.name
+help: GemsFarming.Submarine.Mode.help
+type: input
+value: do_not_use
+option:
+  do_not_use: do_not_use
+  hunt_only: hunt_only
+  every_combat: every_combat
+---
+func: GemsFarming
+group: Emotion
+arg: _info
+lang: en-US
+name: GemsFarming.Emotion._info.name
+help: GemsFarming.Emotion._info.help
+type: ''
+value: ''
+option: {}
+---
+func: GemsFarming
+group: Emotion
+arg: CalculateEmotion
+lang: en-US
+name: GemsFarming.Emotion.CalculateEmotion.name
+help: GemsFarming.Emotion.CalculateEmotion.help
+type: input
+value: true
+option: {}
+---
+func: GemsFarming
+group: Emotion
+arg: IgnoreLowEmotionWarn
+lang: en-US
+name: GemsFarming.Emotion.IgnoreLowEmotionWarn.name
+help: GemsFarming.Emotion.IgnoreLowEmotionWarn.help
+type: input
+value: false
+option: {}
+---
+func: GemsFarming
+group: Emotion
+arg: Fleet1
+lang: en-US
+name: GemsFarming.Emotion.Fleet1.name
+help: GemsFarming.Emotion.Fleet1.help
+type: input
+value: 119
+option: {}
+---
+func: GemsFarming
+group: Emotion
+arg: Fleet1RecordTime
+lang: en-US
+name: GemsFarming.Emotion.Fleet1RecordTime.name
+help: GemsFarming.Emotion.Fleet1RecordTime.help
+type: input
+value: 2020-01-01 00:00:00
+option: {}
+---
+func: GemsFarming
+group: Emotion
+arg: Fleet1Control
+lang: en-US
+name: GemsFarming.Emotion.Fleet1Control.name
+help: GemsFarming.Emotion.Fleet1Control.help
+type: input
+value: prevent_yellow_face
+option:
+  keep_exp_bonus: keep_exp_bonus
+  prevent_green_face: prevent_green_face
+  prevent_yellow_face: prevent_yellow_face
+  prevent_red_face: prevent_red_face
+---
+func: GemsFarming
+group: Emotion
+arg: Fleet1Recover
+lang: en-US
+name: GemsFarming.Emotion.Fleet1Recover.name
+help: GemsFarming.Emotion.Fleet1Recover.help
+type: input
+value: not_in_dormitory
+option:
+  not_in_dormitory: not_in_dormitory
+  dormitory_floor_1: dormitory_floor_1
+  dormitory_floor_2: dormitory_floor_2
+---
+func: GemsFarming
+group: Emotion
+arg: Fleet1Oath
+lang: en-US
+name: GemsFarming.Emotion.Fleet1Oath.name
+help: GemsFarming.Emotion.Fleet1Oath.help
+type: input
+value: false
+option: {}
+---
+func: GemsFarming
+group: Emotion
+arg: Fleet2
+lang: en-US
+name: GemsFarming.Emotion.Fleet2.name
+help: GemsFarming.Emotion.Fleet2.help
+type: input
+value: 119
+option: {}
+---
+func: GemsFarming
+group: Emotion
+arg: Fleet2RecordTime
+lang: en-US
+name: GemsFarming.Emotion.Fleet2RecordTime.name
+help: GemsFarming.Emotion.Fleet2RecordTime.help
+type: input
+value: 2020-01-01 00:00:00
+option: {}
+---
+func: GemsFarming
+group: Emotion
+arg: Fleet2Control
+lang: en-US
+name: GemsFarming.Emotion.Fleet2Control.name
+help: GemsFarming.Emotion.Fleet2Control.help
+type: input
+value: prevent_yellow_face
+option:
+  keep_exp_bonus: keep_exp_bonus
+  prevent_green_face: prevent_green_face
+  prevent_yellow_face: prevent_yellow_face
+  prevent_red_face: prevent_red_face
+---
+func: GemsFarming
+group: Emotion
+arg: Fleet2Recover
+lang: en-US
+name: GemsFarming.Emotion.Fleet2Recover.name
+help: GemsFarming.Emotion.Fleet2Recover.help
+type: input
+value: not_in_dormitory
+option:
+  not_in_dormitory: not_in_dormitory
+  dormitory_floor_1: dormitory_floor_1
+  dormitory_floor_2: dormitory_floor_2
+---
+func: GemsFarming
+group: Emotion
+arg: Fleet2Oath
+lang: en-US
+name: GemsFarming.Emotion.Fleet2Oath.name
+help: GemsFarming.Emotion.Fleet2Oath.help
+type: input
+value: false
+option: {}
+---
+func: GemsFarming
+group: HpControl
+arg: _info
+lang: en-US
+name: GemsFarming.HpControl._info.name
+help: GemsFarming.HpControl._info.help
+type: ''
+value: ''
+option: {}
+---
+func: GemsFarming
+group: HpControl
+arg: UseHpBalance
+lang: en-US
+name: GemsFarming.HpControl.UseHpBalance.name
+help: GemsFarming.HpControl.UseHpBalance.help
+type: input
+value: false
+option: {}
+---
+func: GemsFarming
+group: HpControl
+arg: UseEmergencyRepair
+lang: en-US
+name: GemsFarming.HpControl.UseEmergencyRepair.name
+help: GemsFarming.HpControl.UseEmergencyRepair.help
+type: input
+value: false
+option: {}
+---
+func: GemsFarming
+group: HpControl
+arg: UseLowHpRetreat
+lang: en-US
+name: GemsFarming.HpControl.UseLowHpRetreat.name
+help: GemsFarming.HpControl.UseLowHpRetreat.help
+type: input
+value: false
+option: {}
+---
+func: GemsFarming
+group: HpControl
+arg: HpBalanceThreshold
+lang: en-US
+name: GemsFarming.HpControl.HpBalanceThreshold.name
+help: GemsFarming.HpControl.HpBalanceThreshold.help
+type: input
+value: 0.2
+option: {}
+---
+func: GemsFarming
+group: HpControl
+arg: HpBalanceWeight
+lang: en-US
+name: GemsFarming.HpControl.HpBalanceWeight.name
+help: GemsFarming.HpControl.HpBalanceWeight.help
+type: input
+value: 1000, 1000, 1000
+option: {}
+---
+func: GemsFarming
+group: HpControl
+arg: RepairUseSingleThreshold
+lang: en-US
+name: GemsFarming.HpControl.RepairUseSingleThreshold.name
+help: GemsFarming.HpControl.RepairUseSingleThreshold.help
+type: input
+value: 0.3
+option: {}
+---
+func: GemsFarming
+group: HpControl
+arg: RepairUseMultiThreshold
+lang: en-US
+name: GemsFarming.HpControl.RepairUseMultiThreshold.name
+help: GemsFarming.HpControl.RepairUseMultiThreshold.help
+type: input
+value: 0.6
+option: {}
+---
+func: GemsFarming
+group: HpControl
+arg: LowHpRetreatThreshold
+lang: en-US
+name: GemsFarming.HpControl.LowHpRetreatThreshold.name
+help: GemsFarming.HpControl.LowHpRetreatThreshold.help
 type: input
 value: 0.3
 option: {}

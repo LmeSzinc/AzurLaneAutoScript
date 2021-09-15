@@ -46,6 +46,7 @@ class GeneratedConfig:
 
     # Func `Main`
     Campaign_Name = '7-2'
+    Campaign_Event = 'campaign_main'
     Campaign_Mode = 'normal'  # normal, hard
     Campaign_UseClearMode = True
     Campaign_UseFleetLock = True
@@ -89,6 +90,14 @@ class GeneratedConfig:
     HpControl_RepairUseSingleThreshold = 0.3
     HpControl_RepairUseMultiThreshold = 0.6
     HpControl_LowHpRetreatThreshold = 0.3
+
+    # Func `GemsFarming`
+    GemsFarming_FlagshipChange = True
+    GemsFarming_FlagshipEquipChange = False
+    GemsFarming_VanguardChange = False
+    GemsFarming_VanguardEquipChange = False
+    GemsFarming_LowEmotionRetreat = True
+    GemsFarming_CommonCV = 'any'  # any, langley, bogue, ranger, hermes
 
     # Func `Commission`
     Commission_DoMajorCommission = False

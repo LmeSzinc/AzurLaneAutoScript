@@ -54,6 +54,7 @@ Main:
     ServerUpdate: 00:00
   Campaign:
     Name: 7-2
+    Event: campaign_main
     Mode: normal
     UseClearMode: true
     UseFleetLock: true
@@ -75,6 +76,72 @@ Main:
     Fleet2Formation: double_line
     Fleet2Mode: combat_auto
     Fleet2Step: 3
+    FleetOrder: fleet1_mob_fleet2_boss
+    AutoSearchFleetOrder: fleet1_mob_fleet2_boss
+  Submarine:
+    Fleet: 0
+    Mode: do_not_use
+  Emotion:
+    CalculateEmotion: true
+    IgnoreLowEmotionWarn: false
+    Fleet1: 119
+    Fleet1RecordTime: 2020-01-01 00:00:00
+    Fleet1Control: prevent_yellow_face
+    Fleet1Recover: not_in_dormitory
+    Fleet1Oath: false
+    Fleet2: 119
+    Fleet2RecordTime: 2020-01-01 00:00:00
+    Fleet2Control: prevent_yellow_face
+    Fleet2Recover: not_in_dormitory
+    Fleet2Oath: false
+  HpControl:
+    UseHpBalance: false
+    UseEmergencyRepair: false
+    UseLowHpRetreat: false
+    HpBalanceThreshold: 0.2
+    HpBalanceWeight: 1000, 1000, 1000
+    RepairUseSingleThreshold: 0.3
+    RepairUseMultiThreshold: 0.6
+    LowHpRetreatThreshold: 0.3
+GemsFarming:
+  Scheduler:
+    Enable: false
+    NextRun: 2020-01-01 00:00:00
+    Command: Main
+    SuccessInterval: 0
+    FailureInterval: 120
+    ServerUpdate: 00:00
+  GemsFarming:
+    FlagshipChange: true
+    FlagshipEquipChange: false
+    VanguardChange: false
+    VanguardEquipChange: false
+    LowEmotionRetreat: true
+    CommonCV: any
+  Campaign:
+    Name: 2-4
+    Event: campaign_main
+    Mode: normal
+    UseClearMode: true
+    UseFleetLock: true
+    UseAutoSearch: true
+    Use2xBook: false
+    AmbushEvade: true
+  StopCondition:
+    RunCount: 0
+    OilLimit: 1000
+    MapAchievement: non_stop
+    GetNewShip: false
+    ReachLevel120: false
+  Fleet:
+    Fleet1: 1
+    Fleet1Formation: line_ahead
+    Fleet1Mode: combat_auto
+    Fleet1Step: 3
+    Fleet2: 2
+    Fleet2Formation: line_ahead
+    Fleet2Mode: combat_auto
+    Fleet2Step: 2
     FleetOrder: fleet1_mob_fleet2_boss
     AutoSearchFleetOrder: fleet1_mob_fleet2_boss
   Submarine:

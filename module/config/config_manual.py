@@ -57,6 +57,11 @@ class ManualConfig:
     MINITOUCH_FILEPATH_REMOTE = '/data/local/tmp/minitouch'
 
     """
+    module.campaign.gems_farming
+    """
+    GEMS_EMOTION_TRIGGRED = False
+
+    """
     module.map.fleet
     """
     MAP_HAS_AMBUSH = True

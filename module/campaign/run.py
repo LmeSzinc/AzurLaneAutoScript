@@ -70,19 +70,23 @@ class CampaignRun(UI):
         if self.run_limit and self.config.StopCondition_RunCount <= 0:
             logger.hr('Triggered stop condition: Run count')
             self.config.StopCondition_RunCount = 0
+            self.config.Scheduler_Enable = False
             return True
         # Lv120 limit
         if self.config.StopCondition_ReachLevel120 and self.campaign.config.LV120_TRIGGERED:
             logger.hr('Triggered stop condition: Reach level 120')
+            self.config.Scheduler_Enable = False
             return True
         # Oil limit
         if oil_check and self.config.StopCondition_OilLimit:
             if OCR_OIL.ocr(self.device.image) < self.config.StopCondition_OilLimit:
                 logger.hr('Triggered stop condition: Oil limit')
+                self.config.Scheduler_Enable = False
                 return True
         # If Get a New Ship
         if self.config.StopCondition_GetNewShip and self.campaign.config.GET_SHIP_TRIGGERED:
             logger.hr('Triggered stop condition: Get new ship')
+            self.config.Scheduler_Enable = False
             return True
 
         return False
@@ -120,6 +124,8 @@ class CampaignRun(UI):
         Returns:
             str, str: name, folder
         """
+        if name[0].isdigit():
+            name = 'campaign_' + name.lower().replace('-', '_')
         if folder == 'event_20201126_cn' and name == 'vsp':
             name = 'sp'
         if folder == 'event_20210723_cn' and name == 'vsp':
@@ -171,7 +177,6 @@ class CampaignRun(UI):
             # End
             if self.triggered_stop_condition(oil_check=not self.campaign.is_in_auto_search_menu()):
                 self.campaign.ensure_auto_search_exit()
-                self.config.Scheduler_Enable = False
                 break
 
             # Run
