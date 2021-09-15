@@ -95,7 +95,7 @@ class AutoSearchCombat(Combat):
             out: combat status
         """
         logger.info('Auto search combat loading')
-        self.device.screenshot_interval_set(self.config.COMBAT_SCREENSHOT_INTERVAL)
+        self.device.screenshot_interval_set(self.config.Optimization_CombatScreenshotInterval)
         while 1:
             self.device.screenshot()
 
@@ -138,14 +138,14 @@ class AutoSearchCombat(Combat):
             out: is_auto_search_running()
         """
         logger.info('Auto Search combat status')
-        exp_info = False # This is for the white screen bug in game
+        exp_info = False  # This is for the white screen bug in game
 
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
-            
+
             if self.handle_get_ship():
                 continue
             if self.handle_popup_confirm('AUTO_SEARCH_COMBAT_STATUS'):
@@ -157,18 +157,18 @@ class AutoSearchCombat(Combat):
             # Handle low emotion combat
             # Combat status
             if self._auto_search_confirm_low_emotion:
-                if not exp_info and self.handle_get_ship(save_get_items=False):
+                if not exp_info and self.handle_get_ship():
                     continue
-                if self.handle_get_items(save_get_items=False):
+                if self.handle_get_items():
                     continue
-                if self.handle_battle_status(save_get_items=False):
+                if self.handle_battle_status():
                     continue
                 if self.handle_popup_confirm('combat_status'):
                     continue
                 if self.handle_exp_info():
                     exp_info = True
                     continue
-                if self.handle_urgent_commission(save_get_items=False):
+                if self.handle_urgent_commission():
                     continue
                 if self.handle_story_skip():
                     continue
@@ -189,7 +189,7 @@ class AutoSearchCombat(Combat):
         Note that fleet index == 1 is mob fleet, 2 is boss fleet.
         It's not the fleet index in fleet preparation or auto search setting.
         """
-        emotion_reduce = emotion_reduce if emotion_reduce is not None else self.config.ENABLE_EMOTION_REDUCE
+        emotion_reduce = emotion_reduce if emotion_reduce is not None else self.config.Emotion_CalculateEmotion
 
         self.device.stuck_record_clear()
         self.auto_search_combat_execute(emotion_reduce=emotion_reduce, fleet_index=fleet_index)

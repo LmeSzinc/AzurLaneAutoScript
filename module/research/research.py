@@ -340,7 +340,7 @@ class RewardResearch(ResearchSelector):
             out: page_research, with research project information, but it's still page_research.
         """
         self.ui_ensure(page_reward)
-        if self.appear(RESEARCH_FINISHED) or self.appear(RESEARCH_PENDING, offset=(20, 20)):
+        if self.appear(RESEARCH_FINISHED, offset=(50, 20)) or self.appear(RESEARCH_PENDING, offset=(50, 20)):
             self.ui_ensure_research()
             success = self.research_reward()
         else:

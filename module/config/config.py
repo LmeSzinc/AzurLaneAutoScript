@@ -220,19 +220,21 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
         else:
             raise TaskEnd
 
-    def task_switch(self):
+    def task_switched(self):
         """
         Check if needs to switch task.
 
         Raises:
-            TaskEnd: If task switched
+            bool: If task switched
         """
         prev = self.task
         self.load()
         new = self.get_next()
         if prev != new:
             logger.info(f'Switch task `{prev}` to `{new}`')
-            self.task_stop()
+            return True
+        else:
+            return False
 
     @property
     def campaign_name(self):

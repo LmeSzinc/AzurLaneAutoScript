@@ -138,7 +138,7 @@ class FastForwardHandler(AutoSearchHandler):
             return False
 
         self.fleet_preparation_sidebar_ensure(3)
-        self.auto_search_setting_ensure(self.config.Campaign_UseAutoSearch)
+        self.auto_search_setting_ensure(self.config.Fleet_AutoSearchFleetOrder)
         return True
 
     def handle_auto_search_continue(self):

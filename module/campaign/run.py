@@ -192,6 +192,8 @@ class CampaignRun(UI):
                     logger.hr('Triggered one-time stage limit')
                     break
             # Scheduler
-            self.config.task_switch()
+            if self.config.task_switched():
+                self.campaign.ensure_auto_search_exit()
+                self.config.task_stop()
 
         self.campaign.ensure_auto_search_exit()

@@ -106,7 +106,7 @@ class UI(InfoHandler):
 
         # Unknown page but able to handle
         logger.info('Unknown ui page')
-        if self.appear_then_click(GOTO_MAIN, offset=(20, 20)):
+        if self.appear_then_click(GOTO_MAIN, offset=(20, 20)) or self.ui_additional():
             logger.info('Goto page_main')
             self.ui_current = page_unknown
             self.ui_goto(page_main, skip_first_screenshot=True)
