@@ -21,6 +21,7 @@ class CampaignRun(UI):
     config: AzurLaneConfig
     campaign: CampaignBase
     run_count: int
+    run_limit: int
 
     def load_campaign(self, name, folder='campaign_main'):
         """
@@ -66,7 +67,7 @@ class CampaignRun(UI):
             bool: If triggered a stop condition.
         """
         # Run count limit
-        if self.config.StopCondition_RunCount <= 0:
+        if self.run_limit and self.config.StopCondition_RunCount <= 0:
             logger.hr('Triggered stop condition: Run count')
             self.config.StopCondition_RunCount = 0
             return True
@@ -137,6 +138,7 @@ class CampaignRun(UI):
         name, folder = self.handle_stage_name(name, folder)
         self.load_campaign(name, folder=folder)
         self.run_count = 0
+        self.run_limit = self.config.StopCondition_RunCount
         while 1:
             # End
             if total and self.run_count == total:
@@ -189,5 +191,7 @@ class CampaignRun(UI):
                 if self.run_count >= 1:
                     logger.hr('Triggered one-time stage limit')
                     break
+            # Scheduler
+            self.config.task_switch()
 
         self.campaign.ensure_auto_search_exit()
