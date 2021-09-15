@@ -254,15 +254,18 @@ class RewardCommission(UI, InfoHandler):
 
         return True
 
-    def _commission_find_and_start(self, comm):
+    def _commission_find_and_start(self, comm, is_urgent=False):
         """
         Args:
             comm (Commission):
+            is_urgent (bool):
         """
         logger.hr('Commission find and start')
         logger.info(f'Finding commission {comm}')
         for _ in range(15):
             new = self._commission_detect(self.device.image)
+            if is_urgent:
+                new.call('convert_to_night')  # Convert extra commission to night
             if comm in new:
                 # Update commission position.
                 # In different scans, they have the same information, but have different locations.
@@ -295,16 +298,16 @@ class RewardCommission(UI, InfoHandler):
                 self._commission_ensure_mode('daily')
                 self._commission_swipe_to_top()
                 self.handle_info_bar()
-                self._commission_find_and_start(comm)
-                comm.convert_to_running()
+                if self._commission_find_and_start(comm, is_urgent=False):
+                    comm.convert_to_running()
                 self._commission_mode_reset()
         if self.urgent_choose:
             for comm in self.urgent_choose:
                 self._commission_ensure_mode('urgent')
                 self._commission_swipe_to_top()
                 self.handle_info_bar()
-                self._commission_find_and_start(comm)
-                comm.convert_to_running()
+                if self._commission_find_and_start(comm, is_urgent=True):
+                    comm.convert_to_running()
                 self._commission_mode_reset()
         if not self.daily_choose and not self.urgent_choose:
             logger.info('No commission chose')
