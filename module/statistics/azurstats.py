@@ -47,12 +47,25 @@ class DropImage:
         """
         Args:
             image: Pillow image.
-
-        Returns:
-            bool: If added.
         """
         if self:
             self.images.append(image)
+
+    def handle_add(self, main, before=None):
+        """
+        Handle wait before and after adding screenshot.
+
+        Args:
+            main (ModuleBase):
+            before (int, float, tuple): Sleep before adding.
+        """
+        if before is None:
+            before = main.config.WAIT_BEFORE_SAVING_SCREEN_SHOT
+
+        if self:
+            main.device.sleep(before)
+            main.device.screenshot()
+            self.add(main.device.image)
 
     def __bool__(self):
         return self.save or self.upload

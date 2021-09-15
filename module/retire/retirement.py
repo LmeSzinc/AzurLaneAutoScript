@@ -1,11 +1,10 @@
 from module.base.button import ButtonGrid
-from module.base.decorator import Config
+from module.base.timer import Timer
 from module.base.utils import get_color, color_similar
 from module.combat.assets import GET_ITEMS_1
 from module.logger import logger
 from module.retire.assets import *
 from module.retire.enhancement import Enhancement
-from module.base.timer import Timer
 
 CARD_GRIDS = ButtonGrid(
     origin=(93, 76), delta=(164 + 2 / 3, 227), button_shape=(138, 204), grid_shape=(7, 2), name='CARD')
@@ -181,8 +180,7 @@ class Retirement(Enhancement):
             rarity.add('SSR')
         return rarity
 
-    @Config.when(RETIREMENT_METHOD='one_click_retire')
-    def retire_ships(self, amount=None, rarity=None):
+    def retire_ships_one_click(self, amount=None):
         logger.hr('Retirement')
         logger.info('Using one click retirement.')
         self._retirement_set_common_ship_filter()
@@ -218,8 +216,7 @@ class Retirement(Enhancement):
         logger.info(f'Total retired round: {total // 10}')
         return total
 
-    @Config.when(RETIREMENT_METHOD='old_retire')
-    def retire_ships(self, amount=None, rarity=None):
+    def retire_ships_old(self, amount=None, rarity=None):
         """
         Args:
             amount (int): Amount of cards retire. 0 to 2000.
@@ -264,39 +261,54 @@ class Retirement(Enhancement):
             return False
 
         if self._unable_to_enhance:
-            self.config.RETIREMENT_METHOD = 'one_click_retire'
-            total = self._retire_handler()
-            self.config.RETIREMENT_METHOD = 'enhance'
-            self._unable_to_enhance = False
-            if not total:
-                logger.warning('No ship retired, exit')
-                logger.info('This may happens because wrong options of one click retirement in game')
-                exit(1)
-        elif 'retire' in self.config.RETIREMENT_METHOD or self._unable_to_enhance:
-            total = self._retire_handler()
-            self._unable_to_enhance = False
-            if not total:
-                logger.warning('No ship retired, exit')
-                logger.info('This may happens because some filters are set in dock')
-                exit(1)
-        else:
+            self._retire_handler(mode='one_click_retire')
+        elif self.config.Retirement_RetireMode == 'enhance':
             total = self._enhance_handler()
             if not total:
                 logger.info('No ship to enhance, but dock full, will try retire')
                 self._unable_to_enhance = True
+        else:
+            self._retire_handler()
+            self._unable_to_enhance = False
 
         return True
 
-    def _retire_handler(self):
+    def _retire_handler(self, mode=None):
+        """
+        Args:
+            mode (str): `one_click_retire` or `old_retire`
+
+        Returns:
+            int: Amount of retired ships
+        """
+        if mode is None:
+            mode = self.config.Retirement_RetireMode
         self.ui_click(RETIRE_APPEAR_1, check_button=IN_RETIREMENT_CHECK, skip_first_screenshot=True)
         self.handle_dock_cards_loading()
 
-        total = self.retire_ships()
-        if not total:
-            logger.warning('No ship retired, trying to reset dock filter and disable favourite, then retire again')
-            self.dock_filter_set_faster()
-            self.dock_favourite_set(enable=False)
-            total = self.retire_ships()
+        if mode == 'one_click_retire':
+            total = self.retire_ships_one_click()
+            if not total:
+                logger.warning('No ship retired, trying to reset dock filter and disable favourite, then retire again')
+                self.dock_filter_set_faster()
+                self.dock_favourite_set(enable=False)
+                total = self.retire_ships_one_click()
+            if not total:
+                logger.warning('No ship retired, exit')
+                logger.warning('Please configure your one-click-retire in game, '
+                               'make sure it can select ships to retire')
+                exit(1)
+        elif mode == 'old_retire':
+            total = self.retire_ships_old()
+            if not total:
+                logger.warning('No ship retired, exit')
+                logger.warning('Please configure your retirement settings in Alas, '
+                               'make sure it can select ships to retire')
+                exit(1)
+        else:
+            logger.warning(f'Unknown retire mode: {self.config.Retirement_RetireMode}')
+            total = 0
+            exit(1)
 
         self._retirement_quit()
         self.config.DOCK_FULL_TRIGGERED = True

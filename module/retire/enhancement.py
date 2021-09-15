@@ -17,11 +17,11 @@ VALID_SHIP_TYPES = ['dd', 'ss', 'cl', 'ca', 'bb', 'cv', 'repair', 'others']
 class Enhancement(Dock):
     @property
     def _retire_amount(self):
-        if self.config.RETIRE_AMOUNT == 'all':
+        if self.config.Retirement_RetireAmount == 'retire_all':
             return 2000
-        if self.config.RETIRE_AMOUNT == '10':
+        if self.config.Retirement_RetireAmount == 'retire_10':
             return 10
-        return 10
+        return 2000
 
     @cached_property
     def _load_enhance_template(self):
@@ -155,7 +155,7 @@ class Enhancement(Dock):
 
             # Respond accordingly based on info_bar information
             if self.info_bar_count():
-                image = info_letter_preprocess(np.array(self.device.image.crop(INFO_BAR_DETECT.area)))
+                image = info_letter_preprocess(np.array(self.image_area(INFO_BAR_DETECT)))
                 if TEMPLATE_ENHANCE_SUCCESS.match(image):
                     enhanced = True
                 elif TEMPLATE_ENHANCE_FAILED.match(image):
@@ -207,13 +207,13 @@ class Enhancement(Dock):
             int: total enhanced
         """
         if favourite is None:
-            favourite = self.config.ENHANCE_FAVOURITE
+            favourite = self.config.Retirement_EnhanceFavourite
 
         logger.hr('Enhancement by type')
         total = 0
 
         # Process ENHANCE_ORDER_STRING if any into ship_types
-        ship_types = [s.strip().lower() for s in self.config.ENHANCE_ORDER_STRING.split('>')]
+        ship_types = [s.strip().lower() for s in self.config.Retirement_EnhanceFavourite.split('>')]
         ship_types = list(filter(''.__ne__, ship_types))
         if len(ship_types) == 0:
             ship_types = [None]
@@ -244,7 +244,7 @@ class Enhancement(Dock):
                 logger.hr(f'Dock Empty by ship type {ship_type}')
                 continue
 
-            current_count = self.config.ENHANCE_CHECK_PER_CATEGORY
+            current_count = self.config.Retirement_EnhanceCheckPerCategory
             while 1:
                 choose_result, current_count = self._enhance_choose(ship_count=current_count)
                 if not choose_result:

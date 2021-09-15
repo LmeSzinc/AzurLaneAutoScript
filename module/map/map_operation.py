@@ -50,79 +50,82 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         checked_in_map = False
         self.stage_entrance = button
 
-        while 1:
-            self.device.screenshot()
+        with self.stat.new(
+                genre=self.config.campaign_name, save=self.config.DropRecord_SaveCombat, upload=False
+        ) as drop:
+            while 1:
+                self.device.screenshot()
 
-            if not checked_in_map and self.is_in_map():
-                logger.info('Already in map, skip enter_map.')
-                return False
-            else:
-                checked_in_map = True
+                if not checked_in_map and self.is_in_map():
+                    logger.info('Already in map, skip enter_map.')
+                    return False
+                else:
+                    checked_in_map = True
 
-            # Map preparation
-            if map_timer.reached() and self.handle_map_preparation():
-                self.map_get_info()
-                self.handle_fast_forward()
-                self.handle_auto_search()
-                if self.triggered_map_stop():
-                    self.enter_map_cancel()
-                    raise ScriptEnd(f'Reach condition: {self.config.StopCondition_MapAchievement}')
-                self.device.click(MAP_PREPARATION)
-                map_timer.reset()
-                campaign_timer.reset()
-                continue
+                # Map preparation
+                if map_timer.reached() and self.handle_map_preparation():
+                    self.map_get_info()
+                    self.handle_fast_forward()
+                    self.handle_auto_search()
+                    if self.triggered_map_stop():
+                        self.enter_map_cancel()
+                        raise ScriptEnd(f'Reach condition: {self.config.StopCondition_MapAchievement}')
+                    self.device.click(MAP_PREPARATION)
+                    map_timer.reset()
+                    campaign_timer.reset()
+                    continue
 
-            # Fleet preparation
-            if fleet_timer.reached() and self.appear(FLEET_PREPARATION, offset=(20, 20)):
-                if mode == 'normal' or mode == 'hard':
-                    self.handle_2x_book_setting(mode='prep')
-                    self.fleet_preparation()
-                    self.handle_auto_search_setting()
-                    self.handle_auto_search_emotion_wait()
-                self.device.click(FLEET_PREPARATION)
-                fleet_timer.reset()
-                campaign_timer.reset()
-                continue
+                # Fleet preparation
+                if fleet_timer.reached() and self.appear(FLEET_PREPARATION, offset=(20, 20)):
+                    if mode == 'normal' or mode == 'hard':
+                        self.handle_2x_book_setting(mode='prep')
+                        self.fleet_preparation()
+                        self.handle_auto_search_setting()
+                        self.handle_auto_search_emotion_wait()
+                    self.device.click(FLEET_PREPARATION)
+                    fleet_timer.reset()
+                    campaign_timer.reset()
+                    continue
 
-            # Auto search continue
-            if self.handle_auto_search_continue():
-                campaign_timer.reset()
-                continue
+                # Auto search continue
+                if self.handle_auto_search_continue():
+                    campaign_timer.reset()
+                    continue
 
-            # Retire
-            if self.handle_retirement():
-                continue
+                # Retire
+                if self.handle_retirement():
+                    continue
 
-            # Use Data Key
-            if self.handle_use_data_key():
-                continue
+                # Use Data Key
+                if self.handle_use_data_key():
+                    continue
 
-            # Emotion
-            if self.handle_combat_low_emotion():
-                continue
+                # Emotion
+                if self.handle_combat_low_emotion():
+                    continue
 
-            # Urgent commission
-            if self.handle_urgent_commission():
-                continue
+                # Urgent commission
+                if self.handle_urgent_commission(drop=drop):
+                    continue
 
-            # Story skip
-            if self.handle_story_skip():
-                campaign_timer.reset()
-                continue
+                # Story skip
+                if self.handle_story_skip():
+                    campaign_timer.reset()
+                    continue
 
-            # Enter campaign
-            if campaign_timer.reached() and self.appear_then_click(button):
-                campaign_timer.reset()
-                continue
+                # Enter campaign
+                if campaign_timer.reached() and self.appear_then_click(button):
+                    campaign_timer.reset()
+                    continue
 
-            # End
-            if self.map_is_auto_search:
-                if self.is_auto_search_running():
-                    break
-            else:
-                if self.handle_in_map_with_enemy_searching():
-                    self.handle_map_after_combat_story()
-                    break
+                # End
+                if self.map_is_auto_search:
+                    if self.is_auto_search_running():
+                        break
+                else:
+                    if self.handle_in_map_with_enemy_searching():
+                        self.handle_map_after_combat_story()
+                        break
 
         return True
 

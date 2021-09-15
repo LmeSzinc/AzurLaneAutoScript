@@ -248,40 +248,47 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         """
         if self.is_combat_executing():
             return False
-        if self.appear_then_click(BATTLE_STATUS_S, interval=self.battle_status_click_interval):
+        if self.appear(BATTLE_STATUS_S, interval=self.battle_status_click_interval):
             if drop:
-                drop.add(self.device.image)
+                drop.handle_add(self)
             else:
                 self.device.sleep((0.25, 0.5))
+            self.device.click(BATTLE_STATUS_S)
             return True
-        if self.appear_then_click(BATTLE_STATUS_A, interval=self.battle_status_click_interval):
+        if self.appear(BATTLE_STATUS_A, interval=self.battle_status_click_interval):
             logger.warning('Battle status A')
             if drop:
-                drop.add(self.device.image)
+                drop.handle_add(self)
             else:
                 self.device.sleep((0.25, 0.5))
+            self.device.click(BATTLE_STATUS_A)
             return True
-        if self.appear_then_click(BATTLE_STATUS_B, interval=self.battle_status_click_interval):
+        if self.appear(BATTLE_STATUS_B, interval=self.battle_status_click_interval):
             logger.warning('Battle Status B')
             if drop:
-                drop.add(self.device.image)
+                drop.handle_add(self)
             else:
                 self.device.sleep((0.25, 0.5))
+            self.device.click(BATTLE_STATUS_B)
             return True
-        if self.appear_then_click(BATTLE_STATUS_C, interval=self.battle_status_click_interval):
+        if self.appear(BATTLE_STATUS_C, interval=self.battle_status_click_interval):
             logger.warning('Battle Status C')
             # raise GameStuckError('Battle status C')
             if drop:
-                drop.add(self.device.image)
+                drop.handle_add(self)
             else:
                 self.device.sleep((0.25, 0.5))
-        if self.appear_then_click(BATTLE_STATUS_D, interval=self.battle_status_click_interval):
+            self.device.click(BATTLE_STATUS_C)
+            return True
+        if self.appear(BATTLE_STATUS_D, interval=self.battle_status_click_interval):
             logger.warning('Battle Status D')
             # raise GameStuckError('Battle Status D')
             if drop:
-                drop.add(self.device.image)
+                drop.handle_add(self)
             else:
                 self.device.sleep((0.25, 0.5))
+            self.device.click(BATTLE_STATUS_D)
+            return True
 
         return False
 
@@ -293,14 +300,18 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         Returns:
             bool:
         """
-        if self.appear_then_click(GET_ITEMS_1, offset=5, interval=self.battle_status_click_interval):
-            drop.add(self.device.image)
+        if self.appear(GET_ITEMS_1, offset=5, interval=self.battle_status_click_interval):
+            if drop:
+                drop.handle_add(self)
+            self.device.click(GET_ITEMS_1)
             self.interval_reset(BATTLE_STATUS_S)
             self.interval_reset(BATTLE_STATUS_A)
             self.interval_reset(BATTLE_STATUS_B)
             return True
-        if self.appear_then_click(GET_ITEMS_2, offset=5, interval=self.battle_status_click_interval):
-            drop.add(self.device.image)
+        if self.appear(GET_ITEMS_2, offset=5, interval=self.battle_status_click_interval):
+            if drop:
+                drop.handle_add(self)
+            self.device.click(GET_ITEMS_1)
             self.interval_reset(BATTLE_STATUS_S)
             self.interval_reset(BATTLE_STATUS_A)
             self.interval_reset(BATTLE_STATUS_B)
@@ -338,7 +349,8 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         if self.appear_then_click(GET_SHIP):
             if self.appear(NEW_SHIP, interval=1):
                 logger.info('Get a new SHIP')
-                drop.add(self.device.image)
+                if drop:
+                    drop.handle_add(self)
                 self.config.GET_SHIP_TRIGGERED = True
             return True
 

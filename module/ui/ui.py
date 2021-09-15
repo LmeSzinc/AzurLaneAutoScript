@@ -5,6 +5,7 @@ from module.exception import GameNotRunningError
 from module.handler.assets import *
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
+from module.map.assets import *
 from module.ocr.ocr import Ocr
 from module.ui.page import *
 
@@ -299,3 +300,13 @@ class UI(InfoHandler):
         # Meowfficer popup
         if self.appear_then_click(MEOWFFICER_INFO, offset=(30, 30), interval=3):
             return True
+
+        # Campaign preparation
+        if self.appear(MAP_PREPARATION, offset=(20, 20), interval=3) \
+                or self.appear(FLEET_PREPARATION, offset=(20, 20), interval=3):
+            self.device.click(MAP_PREPARATION_CANCEL)
+            return True
+        if self.appear_then_click(AUTO_SEARCH_MENU_EXIT, offset=(200, 20), interval=3):
+            return True
+
+        return False
