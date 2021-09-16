@@ -60,7 +60,7 @@ A9, B9, C9, D9, E9, F9, G9, H9, I9, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['1562305', '1562306', '1562307']
+    MAP_SIREN_TEMPLATE = ['CL', 'CA', 'BB']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -73,9 +73,14 @@ class Config(ConfigBase):
 
 class Campaign(CampaignBase):
     MAP = MAP
+    machine_fortress_cleared = False
 
     def battle_0(self):
         if self.clear_siren():
+            return True
+        if not self.machine_fortress_cleared:
+            self.clear_chosen_enemy(E5)
+            self.machine_fortress_cleared = True
             return True
 
         return self.battle_default()
