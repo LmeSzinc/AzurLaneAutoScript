@@ -78,7 +78,8 @@ class Campaign(CampaignBase):
     def battle_0(self):
         if self.clear_siren():
             return True
-        if not self.machine_fortress_cleared and self.clear_chosen_enemy(E5):
+        if not self.machine_fortress_cleared:
+            self.clear_chosen_enemy(E5)
             self.machine_fortress_cleared = True
             return True
 

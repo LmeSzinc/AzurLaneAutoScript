@@ -53,7 +53,8 @@ class Config:
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
-    # DETECTION_BACKEND = 'perspective'
+    MAP_SWIPE_PREDICT = False
+    DETECTION_BACKEND = 'perspective'
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 40),
         'width': (0.9, 10),
