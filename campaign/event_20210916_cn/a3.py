@@ -71,9 +71,13 @@ class Config(ConfigBase):
 
 class Campaign(CampaignBase):
     MAP = MAP
+    machine_fortress_cleared = False
 
     def battle_0(self):
         if self.clear_siren():
+            return True
+        if not self.machine_fortress_cleared and self.clear_chosen_enemy(E5):
+            self.machine_fortress_cleared = True
             return True
 
         return self.battle_default()
