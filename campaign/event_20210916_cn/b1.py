@@ -63,6 +63,7 @@ class Config:
     MAP_HAS_MAP_STORY = True
     MAP_HAS_FLEET_STEP = True
     MAP_HAS_AMBUSH = False
+    MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
 

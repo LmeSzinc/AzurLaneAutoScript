@@ -67,7 +67,8 @@ class GridPredictor:
             self.is_fleet = False
         else:
             self.is_fleet = self.predict_fleet()
-        self.is_mystery = self.predict_mystery()
+        if self.config.MAP_HAS_MYSTERY:
+            self.is_mystery = self.predict_mystery()
         self.is_current_fleet = self.predict_current_fleet()
         # self.is_caught_by_siren = self.predict_caught_by_siren()
 

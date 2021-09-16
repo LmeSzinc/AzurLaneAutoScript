@@ -222,6 +222,7 @@ class MapData:
             self.MAP_HAS_MAP_STORY = len(data['story_refresh_boss']) > 0
             self.MAP_HAS_FLEET_STEP = bool(data['is_limit_move'])
             self.MAP_HAS_AMBUSH = bool(data['is_ambush']) or bool(data['is_air_attack'])
+            self.MAP_HAS_MYSTERY = sum([b.get('mystery', 0) for b in self.spawn_data]) > 0
             self.MAP_HAS_PORTAL = bool(len(self.portal))
             self.MAP_HAS_LAND_BASED = bool(len(self.land_based))
             for n in range(1, 4):
@@ -380,6 +381,7 @@ class MapData:
         lines.append(f'    MAP_HAS_MAP_STORY = {self.MAP_HAS_MAP_STORY}')
         lines.append(f'    MAP_HAS_FLEET_STEP = {self.MAP_HAS_FLEET_STEP}')
         lines.append(f'    MAP_HAS_AMBUSH = {self.MAP_HAS_AMBUSH}')
+        lines.append(f'    MAP_HAS_MYSTERY = {self.MAP_HAS_MYSTERY}')
         if self.MAP_HAS_PORTAL:
             lines.append(f'    MAP_HAS_PORTAL = {self.MAP_HAS_PORTAL}')
         if self.MAP_HAS_LAND_BASED:

@@ -57,6 +57,7 @@ class Config:
     MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = False
     MAP_HAS_AMBUSH = False
+    MAP_HAS_MYSTERY = False
     STAR_REQUIRE_1 = 0
     STAR_REQUIRE_2 = 0
     STAR_REQUIRE_3 = 0
