@@ -1,4 +1,4 @@
-from module.campaign.campaign_base import CampaignBase
+from .campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
@@ -54,7 +54,6 @@ class Config:
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
     MAP_SWIPE_PREDICT = False
-    DETECTION_BACKEND = 'perspective'
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 40),
         'width': (0.9, 10),

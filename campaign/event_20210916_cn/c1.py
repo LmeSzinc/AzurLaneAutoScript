@@ -1,4 +1,4 @@
-from module.campaign.campaign_base import CampaignBase
+from .campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
@@ -60,7 +60,7 @@ class Config:
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
-    DETECTION_BACKEND = 'perspective'
+
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (120, 255 - 40),
         'width': (1.5, 10),
@@ -73,6 +73,7 @@ class Config:
         'distance': 50,
         'wlen': 1000
     }
+    HOMO_CANNY_THRESHOLD = (50, 50)
     MAP_ENEMY_GENRE_DETECTION_SCALING = {
         'DD': 1.111,
         'CL': 1.111,

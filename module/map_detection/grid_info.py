@@ -1,5 +1,4 @@
 from module.base.utils import location2node
-from module.logger import logger
 
 
 class GridInfo:
@@ -68,6 +67,8 @@ class GridInfo:
     connection = None
     weight = 1
 
+    manual_siren = False
+
     location = None
 
     def decode(self, text):
@@ -100,7 +101,7 @@ class GridInfo:
             if self.__getattribute__(value):
                 return key
 
-        if self.is_siren:
+        if self.is_siren or self.manual_siren:
             name = self.enemy_genre[6:8].upper() if self.enemy_genre else 'SU'
             return name if name else 'SU'
 
@@ -141,7 +142,7 @@ class GridInfo:
 
     @property
     def is_sea(self):
-        return False if self.is_land or self.is_enemy or self.is_siren or self.is_boss else True
+        return False if self.is_land or self.is_enemy or self.is_siren or self.manual_siren or self.is_boss else True
 
     @property
     def may_carrier(self):
@@ -256,6 +257,7 @@ class GridInfo:
         self.is_boss = False
         self.is_ammo = False
         self.is_siren = False
+        self.manual_siren = False
         self.is_caught_by_siren = False
         self.is_carrier = False
         self.is_movable = False

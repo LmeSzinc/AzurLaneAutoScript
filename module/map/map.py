@@ -422,12 +422,15 @@ class Map(Fleet):
 
         if self.config.FLEET_2:
             kwargs['sort'] = ('weight', 'cost_2')
-        grids = self.map.select(is_siren=True)
+        grids = self.map.select(is_siren=True).add(self.map.select(manual_siren=True))
         grids = self.select_grids(grids, **kwargs)
 
         if grids:
             logger.hr('Clear siren')
             self.show_select_grids(grids, **kwargs)
+            if grids[0].manual_siren:
+                # Manual sirens are not spawning sirens, shouldn't siren_count
+                self.siren_count -= 1
             self.clear_chosen_enemy(grids[0], expected='siren')
             return True
 

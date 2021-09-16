@@ -667,7 +667,7 @@ class Fleet(Camera, AmbushHandler):
         self.ammo_count = 3
         self.map = map_
         self.map.reset()
-        self.handle_map_green_config_cover()
+        self.handle_clear_mode_config_cover()
         self.map.poor_map_data = self.config.POOR_MAP_DATA
         self.map.load_map_data(use_loop=self.map_is_clear_mode)
         self.map.load_spawn_data(use_loop=self.map_is_clear_mode)
@@ -696,8 +696,8 @@ class Fleet(Camera, AmbushHandler):
         self.round_reset()
         self.round_battle()
 
-    def handle_map_green_config_cover(self):
-        if not self.map_is_green:
+    def handle_clear_mode_config_cover(self):
+        if not self.map_is_clear_mode:
             return False
 
         if self.config.POOR_MAP_DATA and self.map.is_map_data_poor:

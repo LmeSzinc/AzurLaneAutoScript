@@ -1,4 +1,4 @@
-from module.campaign.campaign_base import CampaignBase
+from .campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
@@ -6,7 +6,7 @@ from .c1 import Config as ConfigBase
 
 MAP = CampaignMap('C3')
 MAP.shape = 'I9'
-MAP.camera_data = ['D2', 'D6', 'D7', 'F2', 'F6', 'F7']
+MAP.camera_data = ['D2', 'D5', 'D7', 'F2', 'F5', 'F7']
 MAP.camera_data_spawn_point = ['F2', 'F6']
 MAP.map_data = """
     -- ME ME ++ ++ ++ ME ME ++
@@ -73,14 +73,10 @@ class Config(ConfigBase):
 
 class Campaign(CampaignBase):
     MAP = MAP
-    machine_fortress_cleared = False
+    MACHINE_FORTRESS = E5
 
     def battle_0(self):
         if self.clear_siren():
-            return True
-        if not self.machine_fortress_cleared:
-            self.clear_chosen_enemy(E5)
-            self.machine_fortress_cleared = True
             return True
 
         return self.battle_default()

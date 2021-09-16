@@ -1,4 +1,4 @@
-from module.campaign.campaign_base import CampaignBase
+from .campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
@@ -68,14 +68,10 @@ class Config(ConfigBase):
 
 class Campaign(CampaignBase):
     MAP = MAP
-    machine_fortress_cleared = False
+    MACHINE_FORTRESS = F5
 
     def battle_0(self):
         if self.clear_siren():
-            return True
-        if not self.machine_fortress_cleared:
-            self.clear_chosen_enemy(F5)
-            self.machine_fortress_cleared = True
             return True
 
         return self.battle_default()
