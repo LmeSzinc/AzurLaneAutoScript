@@ -61,6 +61,7 @@ class Config:
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
+    MAP_SWIPE_PREDICT = False
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (120, 255 - 40),
         'width': (1.5, 10),

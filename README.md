@@ -23,11 +23,11 @@ TW support, Thanks **[@Zorachristine](https://github.com/Zorachristine)** , some
 
 > **Event Announcement 活动公告**
 >
-> [CN] 支持活动「复刻微层混合」.
+> [CN] 支持活动「碧海光粼」.
 >
-> [EN] Support event "Microlayer Medley Rerun".
+> [EN] Support event "Upon the Shimmering Blue".
 >
-> [JP] Support event 「闇靄払う銀翼（復刻）」.
+> [JP] Support event 「駆けよ 碧海の吹き風」.
 
 ![gui](doc/README.assets/gui.png)
 
