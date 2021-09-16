@@ -5,6 +5,7 @@ import os
 from module.campaign.assets import *
 from module.campaign.campaign_base import CampaignBase
 from module.config.config import AzurLaneConfig
+from module.exception import RequestHumanTakeover
 from module.exception import ScriptEnd
 from module.logger import logger
 from module.ocr.ocr import Digit
@@ -53,7 +54,11 @@ class CampaignRun(UI):
             else:
                 files = [f[:-3] for f in os.listdir(folder) if f[-3:] == '.py']
                 logger.warning(f'Existing files: {files}')
-            exit(1)
+
+            logger.critical('Please update Alas')
+            logger.critical('If file is still missing after update, '
+                            'contact developers, or make map files yourself using dev_tools/map_extractor.py')
+            raise RequestHumanTakeover
 
         config = copy.copy(self.config).merge(self.module.Config())
         device = self.device

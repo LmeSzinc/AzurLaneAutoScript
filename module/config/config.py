@@ -8,6 +8,7 @@ from module.base.utils import ensure_time
 from module.config.config_generated import GeneratedConfig
 from module.config.config_manual import ManualConfig
 from module.config.utils import *
+from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 
 
@@ -123,8 +124,9 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
             time.sleep(waiting.next_run.timestamp() - datetime.now().timestamp() + 1)
             return self.get_next()
         else:
-            logger.warning('No task waiting or pending')
-            exit(1)
+            logger.critical('No task waiting or pending')
+            logger.critical('Please enable at least one task')
+            raise RequestHumanTakeover
 
     def save(self):
         if not self.modified:
@@ -187,7 +189,7 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
             logger.info(f'Delay task `{self.task}` to {run} ({kv})')
             self.Scheduler_NextRun = run
         else:
-            logger.warning('Missing argument in delay_next_run, should set at least one')
+            raise ScriptError('Missing argument in delay_next_run, should set at least one')
 
     def task_call(self, task):
         """
@@ -203,9 +205,12 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
         """
         path = f'{task}.Scheduler.NextRun'
         if deep_get(self.data, keys=path, default=None) is None:
-            logger.warning(f'Task to call: `{task}` does not exist in user config')
+            raise ScriptError(f'Task to call: `{task}` does not exist in user config')
         else:
             self.modified[path] = datetime.now().replace(microsecond=0)
+            if task == 'Restart':
+                # Restart is forced to enable
+                self.modified[f'{task}.Scheduler.Enable'] = True
             self.update()
 
     def task_stop(self, message=''):

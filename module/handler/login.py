@@ -3,7 +3,7 @@ from datetime import datetime
 import module.config.server as server
 from module.base.timer import Timer
 from module.combat.combat import Combat
-from module.exception import GameTooManyClickError, ScriptError
+from module.exception import GameTooManyClickError, GameStuckError, RequestHumanTakeover
 from module.handler.assets import *
 from module.logger import logger
 from module.map.assets import *
@@ -79,36 +79,30 @@ class LoginHandler(Combat):
             bool: If login success
 
         Raises:
-            ScriptError: If login failed more than 3
+            RequestHumanTakeover: If login failed more than 3
         """
         for _ in range(3):
             self.device.stuck_record_clear()
             try:
                 self._handle_app_login()
                 return True
-            except GameTooManyClickError as e:
+            except (GameTooManyClickError, GameStuckError) as e:
                 logger.warning(e)
                 self.device.app_stop()
                 self.device.app_start()
                 continue
 
-        logger.warning('Login failed more than 3')
-        self.device.send_notification('ScriptError', 'Login failed more than 3')
-        raise ScriptError('Login failed more than 3')
+        logger.critical('Login failed more than 3')
+        logger.critical('Azur Lane server may be under maintenance, or you may lost network connection')
+        raise RequestHumanTakeover
 
     def app_restart(self):
         logger.hr('App restart')
         self.device.app_stop()
         self.device.app_start()
         self.handle_app_login()
-
-    def app_ensure_start(self):
-        if not self.device.app_is_running():
-            self.device.app_start()
-            self.handle_app_login()
-            return True
-
-        return False
+        self.ensure_no_unfinished_campaign()
+        self.config.Scheduler_Enable = False
 
     def ensure_no_unfinished_campaign(self, confirm_wait=3):
         """
@@ -131,15 +125,6 @@ class LoginHandler(Combat):
         self.ui_click(MAIN_GOTO_CAMPAIGN, check_button=in_campaign, additional=ensure_campaign_retreat,
                       confirm_wait=confirm_wait, skip_first_screenshot=True)
         self.ui_goto_main()
-
-    def handle_game_stuck(self):
-        logger.warning(f'{self.config.PACKAGE_NAME} will be restart in 10 seconds')
-        logger.warning('If you are playing by hand, please stop Alas')
-        self.device.send_notification('Game stucked', 'will be restart in 10 seconds')
-        self.device.sleep(10)
-
-        self.app_restart()
-        self.ensure_no_unfinished_campaign()
 
     def handle_user_agreement(self):
         """

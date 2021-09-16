@@ -340,6 +340,7 @@ class GuildLogistics(GuildBase):
                     # To fix this, you have to enter guild logistics once, then restart.
                     # If exchange for 5 times, this bug is considered to be triggered.
                     logger.warning('Triggered guild logistics refresh bug')
+                    logger.warning('This is a bug in Azur Lane, Alas will close game and wait 600 seconds')
                     raise LogisticsRefreshBugHandler('Triggered guild logistics refresh bug')
 
             else:

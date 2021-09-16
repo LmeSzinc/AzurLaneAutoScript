@@ -489,6 +489,96 @@ type: input
 value: false
 option: {}
 ---
+func: Restart
+group: _info
+arg: _info
+lang: en-US
+name: Restart._info._info.name
+help: Restart._info._info.help
+type: ''
+value: ''
+option: {}
+---
+func: Restart
+group: _info
+arg: Menu
+lang: en-US
+name: Restart._info.Menu.name
+help: Restart._info.Menu.help
+type: input
+value: Alas
+option: {}
+---
+func: Restart
+group: Scheduler
+arg: _info
+lang: en-US
+name: Restart.Scheduler._info.name
+help: Restart.Scheduler._info.help
+type: ''
+value: ''
+option: {}
+---
+func: Restart
+group: Scheduler
+arg: Enable
+lang: en-US
+name: Restart.Scheduler.Enable.name
+help: Restart.Scheduler.Enable.help
+type: input
+value: false
+option: {}
+---
+func: Restart
+group: Scheduler
+arg: NextRun
+lang: en-US
+name: Restart.Scheduler.NextRun.name
+help: Restart.Scheduler.NextRun.help
+type: input
+value: 2020-01-01 00:00:00
+option: {}
+---
+func: Restart
+group: Scheduler
+arg: Command
+lang: en-US
+name: Restart.Scheduler.Command.name
+help: Restart.Scheduler.Command.help
+type: input
+value: Restart
+option: {}
+---
+func: Restart
+group: Scheduler
+arg: SuccessInterval
+lang: en-US
+name: Restart.Scheduler.SuccessInterval.name
+help: Restart.Scheduler.SuccessInterval.help
+type: input
+value: 0
+option: {}
+---
+func: Restart
+group: Scheduler
+arg: FailureInterval
+lang: en-US
+name: Restart.Scheduler.FailureInterval.name
+help: Restart.Scheduler.FailureInterval.help
+type: input
+value: 0
+option: {}
+---
+func: Restart
+group: Scheduler
+arg: ServerUpdate
+lang: en-US
+name: Restart.Scheduler.ServerUpdate.name
+help: Restart.Scheduler.ServerUpdate.help
+type: input
+value: 00:00
+option: {}
+---
 func: Main
 group: _info
 arg: _info
@@ -1611,7 +1701,7 @@ lang: en-US
 name: GemsFarming.Fleet.FleetOrder.name
 help: GemsFarming.Fleet.FleetOrder.help
 type: input
-value: fleet1_mob_fleet2_boss
+value: fleet1_all_fleet2_standby
 option:
   fleet1_mob_fleet2_boss: fleet1_mob_fleet2_boss
   fleet1_all_fleet2_standby: fleet1_all_fleet2_standby
@@ -1623,7 +1713,7 @@ lang: en-US
 name: GemsFarming.Fleet.AutoSearchFleetOrder.name
 help: GemsFarming.Fleet.AutoSearchFleetOrder.help
 type: input
-value: fleet1_mob_fleet2_boss
+value: fleet1_all_fleet2_standby
 option:
   fleet1_mob_fleet2_boss: fleet1_mob_fleet2_boss
   fleet1_boss_fleet2_mob: fleet1_boss_fleet2_mob

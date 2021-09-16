@@ -44,6 +44,8 @@ class GeneratedConfig:
     Retirement_OldRetireSR = False
     Retirement_OldRetireSSR = False
 
+    # Func `Restart`
+
     # Func `Main`
     Campaign_Name = '7-2'
     Campaign_Event = 'campaign_main'

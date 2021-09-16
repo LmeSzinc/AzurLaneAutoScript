@@ -1,15 +1,14 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from module.base.timer import Timer
 from module.base.utils import get_color
+from module.config.utils import get_server_next_update
 from module.device.app import AppControl
 from module.device.control import Control
 from module.device.screenshot import Screenshot
-from module.exception import GameStuckError
+from module.exception import GameStuckError, RequestHumanTakeover
 from module.handler.assets import GET_MISSION
 from module.logger import logger
-from module.config.utils import get_server_next_update
-import sys
 
 
 class Device(Screenshot, Control, AppControl):
@@ -17,17 +16,18 @@ class Device(Screenshot, Control, AppControl):
     stuck_record = set()
     stuck_timer = Timer(60, count=60).start()
     stuck_timer_long = Timer(300, count=300).start()
-    stuck_long_wait_list = ['BATTLE_STATUS_S', 'PAUSE']
+    stuck_long_wait_list = ['BATTLE_STATUS_S', 'PAUSE', 'LOGIN_CHECK']
 
     def send_notification(self, title, message):
-        if self.config.ENABLE_NOTIFICATIONS and sys.platform == 'win32':
-            from notifypy import Notify
-            notification = Notify()
-            notification.title = title
-            notification.message = message
-            notification.application_name = "AzurLaneAutoScript"
-            notification.icon = "assets/gooey/icon.ico"
-            notification.send(block=False)
+        # if self.config.ENABLE_NOTIFICATIONS and sys.platform == 'win32':
+        #     from notifypy import Notify
+        #     notification = Notify()
+        #     notification.title = title
+        #     notification.message = message
+        #     notification.application_name = "AzurLaneAutoScript"
+        #     notification.icon = "assets/gooey/icon.ico"
+        #     notification.send(block=False)
+        pass
 
     def handle_night_commission(self, daily_trigger='21:00', threshold=30):
         """
@@ -79,21 +79,20 @@ class Device(Screenshot, Control, AppControl):
         # Check screen size
         width, height = self.image.size
         logger.attr('Screen_size', f'{width}x{height}')
-        if width == 1280 and height == 720:
-            return True
-        else:
-            logger.warning(f'Not supported screen size: {width}x{height}')
-            logger.warning('Alas requires 1280x720')
-            logger.hr('Script end')
-            exit(1)
+        if not (width == 1280 and height == 720):
+            logger.critical(f'Resolution not supported: {width}x{height}')
+            logger.critical('Please set emulator resolution to 1280x720')
+            raise RequestHumanTakeover
 
         # Check screen color
         # May get a pure black screenshot on some emulators.
         color = get_color(self.image, area=(0, 0, 1280, 720))
         if sum(color) < 1:
-            logger.warning('Received a pure black screenshot')
-            logger.warning(f'Color: {color}')
-            exit(1)
+            logger.critical(f'Received pure black screenshots from emulator, color: {color}')
+            logger.critical(f'Screenshot method `{self.config.Emulator_ScreenshotMethod}` '
+                            f'may not work on emulator `{self.serial}`')
+            logger.critical('Please use other screenshot methods')
+            raise RequestHumanTakeover
 
     def stuck_record_add(self, button):
         self.stuck_record.add(str(button))
@@ -118,8 +117,7 @@ class Device(Screenshot, Control, AppControl):
         logger.warning(f'Waiting for {self.stuck_record}')
         self.stuck_record_clear()
 
-        if self.config.ENABLE_GAME_STUCK_HANDLER:
-            raise GameStuckError(f'Wait too long')
+        raise GameStuckError(f'Wait too long')
 
     def disable_stuck_detection(self):
         """

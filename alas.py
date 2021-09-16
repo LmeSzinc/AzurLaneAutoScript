@@ -1,4 +1,7 @@
+import os
+import re
 import time
+from datetime import datetime
 
 import inflection
 from cached_property import cached_property
@@ -11,7 +14,8 @@ from module.config.db import Database
 from module.device.device import Device
 from module.exception import *
 from module.handler.login import LoginHandler
-from module.logger import logger
+from module.handler.sensitive_info import handle_sensitive_image, handle_sensitive_logs
+from module.logger import logger, log_file
 from module.research.research import RewardResearch
 from module.tactical.tactical_class import RewardTacticalClass
 from module.ui.ui import UI, page_main
@@ -33,50 +37,68 @@ class AzurLaneAutoScript:
         return device
 
     def run(self, command):
-        while 1:
-            try:
-                self.__getattribute__(command)()
-                UI(config=self.config, device=self.device).ui_ensure(page_main)
-                return True
-            except TaskEnd:
-                return True
-            except GameNotRunningError as e:
-                logger.warning(e)
-                az = LoginHandler(self.config, device=self.device)
-                az.app_restart()
-                az.ensure_no_unfinished_campaign()
-                continue
-            except GameTooManyClickError as e:
-                logger.warning(e)
-                self.save_error_log()
-                az = LoginHandler(self.config, device=self.device)
-                az.handle_game_stuck()
-                continue
-            except GameStuckError as e:
-                logger.warning(e)
-                self.save_error_log()
-                az = LoginHandler(self.config, device=self.device)
-                az.handle_game_stuck()
-                continue
-            except LogisticsRefreshBugHandler as e:
-                logger.warning(e)
-                self.save_error_log()
-                az = LoginHandler(self.config, device=self.device)
-                az.device.app_stop()
-                time.sleep(600)
-                az.app_ensure_start()
-                continue
-            except Exception as e:
-                logger.exception(e)
-                self.save_error_log()
-                return False
+        try:
+            self.__getattribute__(command)()
+            UI(config=self.config, device=self.device).ui_ensure(page_main)
+            return True
+        except TaskEnd:
+            return True
+        except GameNotRunningError as e:
+            logger.warning(e)
+            self.config.task_call('Restart')
+            return True
+        except (GameStuckError, GameTooManyClickError) as e:
+            logger.warning(e)
+            self.save_error_log()
+            logger.warning(f'Game stuck, {self.config.Emulator_PackageName} will be restarted in 10 seconds')
+            logger.warning('If you are playing by hand, please stop Alas')
+            self.config.task_call('Restart')
+            self.device.sleep(10)
+            return False
+        except LogisticsRefreshBugHandler as e:
+            logger.warning(e)
+            self.save_error_log()
+            self.config.task_call('Restart')
+            self.device.sleep(10)
+            return False
+        except ScriptError as e:
+            logger.critical(e)
+            logger.critical('This is likely to be a mistake of developers, but sometimes just random issues')
+            exit(1)
+        except RequestHumanTakeover:
+            logger.critical('Request human takeover')
+            exit(1)
+        except Exception as e:
+            logger.exception(e)
+            self.save_error_log()
+            return False
 
     def save_error_log(self):
         """
         Save last 60 screenshots in ./log/error/<timestamp>
         Save logs to ./log/error/<timestamp>/log.txt
         """
-        pass
+        if self.config.Error_SaveError:
+            folder = f'./log/error/{int(time.time() * 1000)}'
+            logger.warning(f'Saving error: {folder}')
+            os.mkdir(folder)
+            for data in self.device.screenshot_deque:
+                image_time = datetime.strftime(data['time'], '%Y-%m-%d_%H-%M-%S-%f')
+                image = handle_sensitive_image(data['image'])
+                image.save(f'{folder}/{image_time}.png')
+            with open(log_file, 'r', encoding='utf-8') as f:
+                lines = f.readlines()
+                start = 0
+                for index, line in enumerate(lines):
+                    if re.search('\+-{15,}\+', line):
+                        start = index
+                lines = lines[start - 2:]
+                lines = handle_sensitive_logs(lines)
+            with open(f'{folder}/log.txt', 'w', encoding='utf-8') as f:
+                f.writelines(lines)
+
+    def restart(self):
+        LoginHandler(self.config, device=self.device).app_restart()
 
     def research(self):
         RewardResearch(config=self.config, device=self.device).run()
@@ -102,12 +124,19 @@ class AzurLaneAutoScript:
     def loop(self):
         while 1:
             logger.info(f'Scheduler: Start task `{self.config.task}`')
+            logger.hr(self.config.task, level=0)
             success = self.run(inflection.underscore(self.config.task))
 
             logger.info(f'Scheduler: End task `{self.config.task}`')
-            del self.__dict__['config']
 
-            if not success:
+            if success:
+                del self.__dict__['config']
+                continue
+            elif self.config.Error_HandleError:
+                # self.config.task_delay(success=False)
+                del self.__dict__['config']
+                continue
+            else:
                 break
 
 

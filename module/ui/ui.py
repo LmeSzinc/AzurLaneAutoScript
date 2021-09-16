@@ -1,7 +1,7 @@
 from module.base.button import Button
 from module.base.timer import Timer
 from module.combat.assets import *
-from module.exception import GameNotRunningError
+from module.exception import GameNotRunningError, RequestHumanTakeover
 from module.handler.assets import *
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
@@ -125,7 +125,8 @@ class UI(InfoHandler):
             if not self.device.app_is_running():
                 raise GameNotRunningError('Game not running')
             else:
-                exit(1)
+                logger.critical('Please switch to a supported page before starting Alas')
+                raise RequestHumanTakeover
 
     def ui_goto(self, destination, offset=(20, 20), confirm_wait=0, skip_first_screenshot=True):
         """
@@ -259,6 +260,8 @@ class UI(InfoHandler):
         """
         # Research popup, lost connection popup
         if self.handle_popup_confirm('UI_ADDITIONAL'):
+            return True
+        if self.handle_urgent_commission():
             return True
 
         # Guild popup

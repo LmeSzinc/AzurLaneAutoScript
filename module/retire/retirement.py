@@ -2,6 +2,7 @@ from module.base.button import ButtonGrid
 from module.base.timer import Timer
 from module.base.utils import get_color, color_similar
 from module.combat.assets import GET_ITEMS_1
+from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 from module.retire.assets import *
 from module.retire.enhancement import Enhancement
@@ -294,21 +295,19 @@ class Retirement(Enhancement):
                 self.dock_favourite_set(enable=False)
                 total = self.retire_ships_one_click()
             if not total:
-                logger.warning('No ship retired, exit')
-                logger.warning('Please configure your one-click-retire in game, '
-                               'make sure it can select ships to retire')
-                exit(1)
+                logger.critical('No ship retired')
+                logger.critical('Please configure your one-click-retire in game, '
+                                'make sure it can select ships to retire')
+                raise RequestHumanTakeover
         elif mode == 'old_retire':
             total = self.retire_ships_old()
             if not total:
-                logger.warning('No ship retired, exit')
-                logger.warning('Please configure your retirement settings in Alas, '
-                               'make sure it can select ships to retire')
-                exit(1)
+                logger.critical('No ship retired')
+                logger.critical('Please configure your retirement settings in Alas, '
+                                'make sure it can select ships to retire')
+                raise RequestHumanTakeover
         else:
-            logger.warning(f'Unknown retire mode: {self.config.Retirement_RetireMode}')
-            total = 0
-            exit(1)
+            raise ScriptError(f'Unknown retire mode: {self.config.Retirement_RetireMode}')
 
         self._retirement_quit()
         self.config.DOCK_FULL_TRIGGERED = True
@@ -366,11 +365,5 @@ class Retirement(Enhancement):
     def keep_one_common_cv(self):
         button = self.retirement_get_common_rarity_cv()
         if button is not None:
-            if self._retire_select_one(button, skip_first_screenshot=False):
-                self._have_keeped_cv = True
-
-            else:
-                logger.warning('No ship retired, exit')
-                logger.info(
-                    'This may happens because some filters are set in dock')
-                exit(1)
+            self._retire_select_one(button, skip_first_screenshot=False)
+            self._have_keeped_cv = True

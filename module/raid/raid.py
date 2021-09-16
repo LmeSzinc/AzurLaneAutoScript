@@ -3,6 +3,7 @@ import numpy as np
 from module.campaign.run import OCR_OIL
 from module.combat.assets import *
 from module.combat.combat import Combat
+from module.exception import ScriptError
 from module.logger import logger
 from module.map.map_operation import MapOperation
 from module.ocr.ocr import DigitCounter
@@ -34,8 +35,7 @@ def raid_name_shorten(name):
     elif name == 'raid_20210708':
         return 'SURUGA'
     else:
-        logger.warning(f'Unknown raid name: {name}')
-        exit(1)
+        raise ScriptError(f'Unknown raid name: {name}')
 
 
 def raid_entrance(raid, mode):
@@ -51,8 +51,7 @@ def raid_entrance(raid, mode):
     try:
         return globals()[key]
     except KeyError:
-        logger.warning(f'Raid entrance asset not exists: {key}')
-        exit(1)
+        raise ScriptError(f'Raid entrance asset not exists: {key}')
 
 
 def raid_ocr(raid, mode):
@@ -73,8 +72,7 @@ def raid_ocr(raid, mode):
         elif raid == 'SURUGA':
             return RaidCounter(button, letter=(49, 48, 49), threshold=128)
     except KeyError:
-        logger.warning(f'Raid entrance asset not exists: {key}')
-        exit(1)
+        raise ScriptError(f'Raid entrance asset not exists: {key}')
 
 
 class Raid(MapOperation, Combat):

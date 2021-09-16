@@ -1,6 +1,6 @@
-from module.base.button import Button
-from module.base.utils import area_offset, get_color, random_rectangle_vector
+from module.base.utils import random_rectangle_vector
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
+from module.exception import RequestHumanTakeover
 from module.logger import logger
 from module.ui.assets import WAR_ARCHIVES_CHECK
 from module.ui.page import page_archives
@@ -90,10 +90,9 @@ class CampaignBase(CampaignBase_):
                               skip_first_screenshot=True)
                 self.handle_stage_icon_spawn()
             else:
-                logger.warning(
-                    'Respective server may not yet support the chosen War Archives campaign, check back in the next '
-                    'app update')
-                exit(1)
+                logger.critical('Respective server may not yet support the chosen War Archives campaign, '
+                                'check back in the next app update')
+                raise RequestHumanTakeover
 
         # Subsequent runs all set False
         if self.first_run:
