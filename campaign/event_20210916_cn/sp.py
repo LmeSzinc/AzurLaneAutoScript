@@ -27,6 +27,7 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50
 """
+MAP.fortress_data = [('D4', 'D6', 'C5', 'E5'), 'E4']
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 3},
     {'battle': 1},
@@ -50,10 +51,10 @@ A8, B8, C8, D8, E8, F8, G8, H8, \
 
 class Config:
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['1564301', '1564302', '1564303']
-    MOVABLE_ENEMY_TURN = (2,)
-    MAP_HAS_SIREN = True
-    MAP_HAS_MOVABLE_ENEMY = True
+    # MAP_SIREN_TEMPLATE = ['1564301', '1564302', '1564303']
+    # MOVABLE_ENEMY_TURN = (2,)
+    # MAP_HAS_SIREN = True
+    # MAP_HAS_MOVABLE_ENEMY = True
     MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = False
     MAP_HAS_AMBUSH = False
@@ -62,6 +63,35 @@ class Config:
     STAR_REQUIRE_2 = 0
     STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
+
+    MAP_IS_ONE_TIME_STAGE = True
+    MAP_HAS_FORTRESS = True
+    MAP_SWIPE_PREDICT = False
+    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
+    EDGE_LINES_HOUGHLINES_THRESHOLD = 40
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (80, 255 - 40),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 24, 255),
+        'prominence': 10,
+        'distance': 50,
+        # 'width': (0, 7),
+        'wlen': 1000
+    }
+    HOMO_CANNY_THRESHOLD = (60, 60)
+    # MAP_ENEMY_GENRE_DETECTION_SCALING = {
+    #     'DD': 1.111,
+    #     'CL': (1, 1.111),
+    #     'CA': (1, 1.111),
+    #     'CV': 1.111,
+    #     'BB': 1.111,
+    # }
+    MAP_SWIPE_MULTIPLY = 1.527
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.476
 
 
 class Campaign(CampaignBase):

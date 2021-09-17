@@ -417,7 +417,7 @@ class Map(Fleet):
         Returns:
             bool: True if clear an enemy.
         """
-        if not self.config.MAP_HAS_SIREN:
+        if not self.config.MAP_HAS_SIREN and not self.config.MAP_HAS_FORTRESS:
             return False
 
         if self.config.FLEET_2:
