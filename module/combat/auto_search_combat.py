@@ -112,14 +112,24 @@ class AutoSearchCombat(MapOperation, Combat):
 
         logger.info('Auto Search combat execute')
         self.submarine_call_reset()
+        self.combat_auto_reset()
+        self.combat_manual_reset()
         if emotion_reduce:
             self.emotion.reduce(fleet_index)
+        auto = self.config.Fleet_Fleet1Mode if fleet_index == 1 else self.config.Fleet_Fleet2Mode
 
         while 1:
             self.device.screenshot()
 
             if self.handle_submarine_call():
                 continue
+            if self.handle_combat_auto(auto):
+                continue
+            if self.handle_combat_manual(auto):
+                continue
+            if auto != 'combat_auto' and self.auto_mode_checked and self.is_combat_executing():
+                if self.handle_combat_weapon_release():
+                    continue
 
             # End
             if self.is_in_auto_search_menu() or self._handle_auto_search_menu_missing():

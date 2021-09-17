@@ -285,7 +285,7 @@ Commission:
       DailyEvent
       > Gem-8 > Gem-4 > Gem-2
       > Box-6 > Box-3 > Box-1
-      > DailyCube-0:30 > UrgentCube-1:30 > DailyCube-1:30 > UrgentCube-1:40 > UrgentCube-2:15
+      > DailyCube-0:30 > UrgentCube-1:30 > DailyCube-1:30 > UrgentCube-1:45 > UrgentCube-2:15
       > UrgentCube-3 > DailyCube-3 > UrgentCube-4 > UrgentCube-6
       > Major
       > DailyRescource > DailyChip
