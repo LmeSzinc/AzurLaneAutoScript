@@ -30,6 +30,7 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
 """
+MAP.fortress_data = ['E5', 'B5']
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 1, 'siren': 1},
     {'battle': 1, 'enemy': 1},
@@ -67,6 +68,8 @@ class Config(ConfigBase):
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
+
+    MAP_HAS_FORTRESS = True
 
 
 class Campaign(CampaignBase):

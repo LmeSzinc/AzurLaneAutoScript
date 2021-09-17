@@ -28,6 +28,7 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50 50
 """
+MAP.fortress_data = ['I7', 'C7']
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 1, 'siren': 1},
     {'battle': 1, 'enemy': 1},
@@ -66,6 +67,10 @@ class Config(ConfigBase):
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
+
+    MAP_HAS_FORTRESS = True
+    MAP_SWIPE_MULTIPLY = 1.794
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.734
 
 
 class Campaign(CampaignBase):

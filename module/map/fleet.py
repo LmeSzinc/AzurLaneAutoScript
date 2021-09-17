@@ -678,6 +678,7 @@ class Fleet(Camera, AmbushHandler):
         self.map.load_mechanism(
             land_based=self.config.MAP_HAS_LAND_BASED,
             maze=self.config.MAP_HAS_MAZE,
+            fortress=self.config.MAP_HAS_FORTRESS
         )
 
         self.handle_strategy(index=1 if not self.fleets_reversed else 2)

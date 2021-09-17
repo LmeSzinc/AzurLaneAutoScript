@@ -6,7 +6,7 @@ from .b1 import Config as ConfigBase
 
 MAP = CampaignMap('B3')
 MAP.shape = 'I9'
-MAP.camera_data = ['D2', 'D6', 'D7', 'F2', 'F6', 'F7']
+MAP.camera_data = ['D2', 'D5', 'F3', 'F5', 'F7']
 MAP.camera_data_spawn_point = ['D7']
 MAP.map_data = """
     ++ ME ++ ++ ++ ++ ++ -- ++
@@ -30,6 +30,7 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
 """
+MAP.fortress_data = [('B5', 'E2', 'H5', 'E8'), 'G3']
 MAP.spawn_data = [
     {'battle': 0, 'siren': 2},
     {'battle': 1, 'enemy': 1},
@@ -70,10 +71,13 @@ class Config(ConfigBase):
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
+    MAP_HAS_FORTRESS = True
+    MAP_SWIPE_MULTIPLY = 1.469
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.420
+
 
 class Campaign(CampaignBase):
     MAP = MAP
-    MACHINE_FORTRESS = [B5, E2, H5, E8]
 
     def battle_0(self):
         if self.clear_siren():
@@ -82,4 +86,7 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_5(self):
+        if self.clear_siren():
+            return True
+
         return self.fleet_boss.clear_boss()

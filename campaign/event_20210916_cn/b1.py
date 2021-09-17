@@ -27,6 +27,7 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50 50
 """
+MAP.fortress_data = ['G3', 'C7']
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 1, 'siren': 1},
     {'battle': 1, 'enemy': 1},
@@ -66,10 +67,35 @@ class Config:
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
+    MAP_HAS_FORTRESS = True
+    MAP_SWIPE_PREDICT = False
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (80, 255 - 40),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 24, 255),
+        'prominence': 10,
+        'distance': 50,
+        # 'width': (0, 7),
+        'wlen': 1000
+    }
+    HOMO_CANNY_THRESHOLD = (60, 60)
+    MAP_ENEMY_GENRE_DETECTION_SCALING = {
+        'DD': 1.111,
+        'CL': 1.111,
+        'CA': 1.111,
+        'CV': 1.111,
+        'BB': 1.111,
+    }
+    MAP_SWIPE_MULTIPLY = 1.752
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.694
+
 
 class Campaign(CampaignBase):
     MAP = MAP
-    MACHINE_FORTRESS = [G3]
 
     def battle_0(self):
         if self.clear_siren():

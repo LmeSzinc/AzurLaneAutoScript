@@ -28,6 +28,7 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50
 """
+MAP.fortress_data = ['F5', 'G1']
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 1, 'siren': 1},
     {'battle': 1, 'enemy': 1},
@@ -65,10 +66,11 @@ class Config(ConfigBase):
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
+    MAP_HAS_FORTRESS = True
+
 
 class Campaign(CampaignBase):
     MAP = MAP
-    MACHINE_FORTRESS = [F5]
 
     def battle_0(self):
         if self.clear_siren():
