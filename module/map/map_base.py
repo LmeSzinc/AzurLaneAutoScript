@@ -20,7 +20,7 @@ class CampaignMap:
         self._land_based_data = []
         self._maze_data = []
         self.maze_round = 9
-        self._fortress_data = []
+        self._fortress_data = [(), ()]
         self._spawn_data = []
         self._spawn_data_stack = []
         self._spawn_data_loop = []
