@@ -6,8 +6,8 @@ from .c1 import Config as ConfigBase
 
 MAP = CampaignMap('C3')
 MAP.shape = 'I9'
-MAP.camera_data = ['D2', 'D5', 'D7', 'F2', 'F5', 'F7']
-MAP.camera_data_spawn_point = ['F2', 'F6']
+MAP.camera_data = ['E2', 'E5', 'E7', 'D5']
+MAP.camera_data_spawn_point = ['F5']
 MAP.map_data = """
     -- ME ME ++ ++ ++ ME ME ++
     ++ ++ -- -- -- MS -- -- ++
@@ -20,6 +20,7 @@ MAP.map_data = """
     -- ME ME ++ ++ ++ ME ME ++
 """
 MAP.weight_data = """
+    50 60 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
@@ -27,8 +28,7 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
+    50 60 50 50 50 50 50 50 50
 """
 MAP.fortress_data = ['E5', 'B5']
 MAP.spawn_data = [
