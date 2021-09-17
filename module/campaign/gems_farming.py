@@ -53,7 +53,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
         class GemsCampaign(GemsCampaignOverride, self.module.Campaign):
             pass
 
-        self.campaign = GemsCampaign(device=self.device, config=self.config)
+        self.campaign = GemsCampaign(device=self.campaign.device, config=self.campaign.config)
 
     def _fleet_detail_enter(self):
         '''
