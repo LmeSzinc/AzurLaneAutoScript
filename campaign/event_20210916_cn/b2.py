@@ -57,7 +57,7 @@ A8, B8, C8, D8, E8, F8, G8, H8, I8, J8, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['1561303', '1561304']
+    MAP_SIREN_TEMPLATE = ['DD', 'CL']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -70,6 +70,7 @@ class Config(ConfigBase):
 
 class Campaign(CampaignBase):
     MAP = MAP
+    MACHINE_FORTRESS = [I7]
 
     def battle_0(self):
         if self.clear_siren():
