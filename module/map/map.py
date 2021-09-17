@@ -417,18 +417,22 @@ class Map(Fleet):
         Returns:
             bool: True if clear an enemy.
         """
-        if not self.config.MAP_HAS_SIREN:
+        if not self.config.MAP_HAS_SIREN and not self.config.MAP_HAS_FORTRESS:
             return False
 
         if self.config.FLEET_2:
             kwargs['sort'] = ('weight', 'cost_2')
-        grids = self.map.select(is_siren=True)
+        grids = self.map.select(is_siren=True).add(self.map.select(is_fortress=True))
         grids = self.select_grids(grids, **kwargs)
 
         if grids:
             logger.hr('Clear siren')
             self.show_select_grids(grids, **kwargs)
-            self.clear_chosen_enemy(grids[0], expected='siren')
+            if grids[0].is_fortress:
+                expected = 'fortress'
+            else:
+                expected = 'siren'
+            self.clear_chosen_enemy(grids[0], expected=expected)
             return True
 
         return False

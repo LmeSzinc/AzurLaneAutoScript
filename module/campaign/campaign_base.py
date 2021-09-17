@@ -55,7 +55,10 @@ class CampaignBase(CampaignUI, Map, AutoSearchCombat):
         if self.battle_count >= 3:
             self.pick_up_ammo()
 
-        remain = self.map.select(is_enemy=True, is_boss=False)
+        remain = self.map.select(is_enemy=True) \
+            .add(self.map.select(is_siren=True)) \
+            .add(self.map.select(is_fortress=True)) \
+            .delete(self.map.select(is_boss=True))
         logger.info(f'Enemy remain: {remain}')
         if remain.count > 0:
             if self.clear_siren():

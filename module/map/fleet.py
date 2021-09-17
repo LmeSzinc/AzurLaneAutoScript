@@ -427,6 +427,10 @@ class Fleet(Camera, AmbushHandler):
         if self.config.FLEET_2:
             location_dict[2] = self.fleet_2_location
         location_dict[1] = self.fleet_1_location
+        # Release fortress block
+        if self.config.MAP_HAS_FORTRESS:
+            if not self.map.select(is_fortress=True):
+                self.map.select(is_mechanism_block=True).set(is_mechanism_block=False)
         self.map.find_path_initial_multi_fleet(
             location_dict, current=self.fleet_current, has_ambush=self.config.MAP_HAS_AMBUSH)
 
@@ -664,7 +668,7 @@ class Fleet(Camera, AmbushHandler):
         self.ammo_count = 3
         self.map = map_
         self.map.reset()
-        self.handle_map_green_config_cover()
+        self.handle_clear_mode_config_cover()
         self.map.poor_map_data = self.config.POOR_MAP_DATA
         self.map.load_map_data(use_loop=self.map_is_clear_mode)
         self.map.load_spawn_data(use_loop=self.map_is_clear_mode)
@@ -675,6 +679,7 @@ class Fleet(Camera, AmbushHandler):
         self.map.load_mechanism(
             land_based=self.config.MAP_HAS_LAND_BASED,
             maze=self.config.MAP_HAS_MAZE,
+            fortress=self.config.MAP_HAS_FORTRESS
         )
 
         self.handle_strategy(index=1 if not self.fleets_reversed else 2)
@@ -693,12 +698,13 @@ class Fleet(Camera, AmbushHandler):
         self.round_reset()
         self.round_battle()
 
-    def handle_map_green_config_cover(self):
-        if not self.map_is_threat_safe:
+    def handle_clear_mode_config_cover(self):
+        if not self.map_is_clear_mode:
             return False
 
         if self.config.POOR_MAP_DATA and self.map.is_map_data_poor:
             self.config.POOR_MAP_DATA = False
+        self.map.fortress_data = [(), ()]
 
         return True
 

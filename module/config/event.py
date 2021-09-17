@@ -31,6 +31,7 @@ dic_event = {
         '复刻穿越彼方的水线': 'raid_20210708',
         '响彻碧海的偶像歌': 'event_20210722_cn',
         '复刻微层混合': 'event_20210819_cn',
+        '碧海光粼': 'event_20210916_cn',
     },
     'en': {
         'Northern_Overture': 'event_20200227_cn',
@@ -62,6 +63,7 @@ dic_event = {
         'Cross_Wave_rerun': 'raid_20210708',
         'Azur_Anthem': 'event_20210722_cn',
         'Microlayer_Medley_Rerun': 'event_20210819_cn',
+        'Upon_the_Shimmering_Blue': 'event_20210916_cn',
     },
     'jp': {
         '凍絶の北海': 'event_20200227_cn',
@@ -90,6 +92,7 @@ dic_event = {
         '交錯する新たな波 (復刻)': 'raid_20210708',
         '海に響くアイドルの歌': 'event_20210722_cn',
         '闇靄払う銀翼（復刻）': 'event_20210819_cn',
+        '駆けよ 碧海の吹き風': 'event_20210916_cn',
     },
     'tw': {
         '特別演習埃塞克斯級': 'raid_20200624',

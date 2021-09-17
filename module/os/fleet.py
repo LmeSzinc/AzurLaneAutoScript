@@ -38,7 +38,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         self.ammo_count = 3
         self.map = map_
         self.map.reset()
-        self.handle_map_green_config_cover()
+        self.handle_clear_mode_config_cover()
         self.map.poor_map_data = self.config.POOR_MAP_DATA
         self.map.load_map_data(use_loop=self.map_is_clear_mode)
         self.map.load_spawn_data(use_loop=self.map_is_clear_mode)

@@ -212,16 +212,17 @@ class MapData:
             for siren_id in data['ai_expedition_list'].values():
                 if siren_id == 1:
                     continue
-                exped_data = EXPECTATION_DATA[siren_id]
-                name = exped_data['icon']
+                exped_data = EXPECTATION_DATA.get(siren_id, {})
+                name = exped_data.get('icon', str(siren_id))
                 name = DIC_SIREN_NAME_CHI_TO_ENG.get(name, name)
                 if name not in self.MAP_SIREN_TEMPLATE:
                     self.MAP_SIREN_TEMPLATE.append(name)
-                self.MOVABLE_ENEMY_TURN.add(int(exped_data['ai_mov']))
+                self.MOVABLE_ENEMY_TURN.add(int(exped_data.get('ai_mov', 2)))
             self.MAP_HAS_MOVABLE_ENEMY = bool(len(self.MOVABLE_ENEMY_TURN))
             self.MAP_HAS_MAP_STORY = len(data['story_refresh_boss']) > 0
             self.MAP_HAS_FLEET_STEP = bool(data['is_limit_move'])
             self.MAP_HAS_AMBUSH = bool(data['is_ambush']) or bool(data['is_air_attack'])
+            self.MAP_HAS_MYSTERY = sum([b.get('mystery', 0) for b in self.spawn_data]) > 0
             self.MAP_HAS_PORTAL = bool(len(self.portal))
             self.MAP_HAS_LAND_BASED = bool(len(self.land_based))
             for n in range(1, 4):
@@ -380,6 +381,7 @@ class MapData:
         lines.append(f'    MAP_HAS_MAP_STORY = {self.MAP_HAS_MAP_STORY}')
         lines.append(f'    MAP_HAS_FLEET_STEP = {self.MAP_HAS_FLEET_STEP}')
         lines.append(f'    MAP_HAS_AMBUSH = {self.MAP_HAS_AMBUSH}')
+        lines.append(f'    MAP_HAS_MYSTERY = {self.MAP_HAS_MYSTERY}')
         if self.MAP_HAS_PORTAL:
             lines.append(f'    MAP_HAS_PORTAL = {self.MAP_HAS_PORTAL}')
         if self.MAP_HAS_LAND_BASED:

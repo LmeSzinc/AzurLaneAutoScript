@@ -68,7 +68,8 @@ class GridPredictor:
             self.is_fleet = False
         else:
             self.is_fleet = self.predict_fleet()
-        self.is_mystery = self.predict_mystery()
+        if self.config.MAP_HAS_MYSTERY:
+            self.is_mystery = self.predict_mystery()
         self.is_current_fleet = self.predict_current_fleet()
         # self.is_caught_by_siren = self.predict_caught_by_siren()
 
@@ -170,12 +171,14 @@ class GridPredictor:
 
             short_name = name[6:] if name.startswith('Siren_') else name
             scaling = scaling_dic.get(short_name, 1)
-            if scaling not in image_dic:
-                shape = tuple(np.round(np.array((60, 60)) * scaling).astype(int))
-                image_dic[scaling] = rgb2gray(self.relative_crop((-0.5, -1, 0.5, 0), shape=shape))
+            scaling = (scaling,) if not isinstance(scaling, tuple) else scaling
+            for scale in scaling:
+                if scale not in image_dic:
+                    shape = tuple(np.round(np.array((60, 60)) * scale).astype(int))
+                    image_dic[scale] = rgb2gray(self.relative_crop((-0.5, -1, 0.5, 0), shape=shape))
 
-            if template.match(image_dic[scaling]):
-                return name
+                if template.match(image_dic[scale]):
+                    return name
 
         return None
 

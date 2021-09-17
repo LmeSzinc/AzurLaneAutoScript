@@ -78,6 +78,7 @@ class FastForwardHandler(AutoSearchHandler):
             self.config.MAP_HAS_PORTAL = False
             self.config.MAP_HAS_LAND_BASED = False
             self.config.MAP_HAS_MAZE = False
+            self.config.MAP_HAS_FORTRESS = False
             self.map_is_clear_mode = True
             self.map_is_auto_search = self.config.Campaign_UseAutoSearch
             self.map_is_2x_book = self.config.Campaign_Use2xBook
