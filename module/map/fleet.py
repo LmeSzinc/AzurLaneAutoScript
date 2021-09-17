@@ -707,6 +707,7 @@ class Fleet(Camera, AmbushHandler):
 
         if self.config.POOR_MAP_DATA and self.map.is_map_data_poor:
             self.config.POOR_MAP_DATA = False
+        self.map.fortress_data = [(), ()]
 
         return True
 
