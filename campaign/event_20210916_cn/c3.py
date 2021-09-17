@@ -73,7 +73,7 @@ class Config(ConfigBase):
 
 class Campaign(CampaignBase):
     MAP = MAP
-    MACHINE_FORTRESS = E5
+    MACHINE_FORTRESS = [E5]
 
     def battle_0(self):
         if self.clear_siren():
