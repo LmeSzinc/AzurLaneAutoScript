@@ -430,6 +430,10 @@ class Fleet(Camera, AmbushHandler):
         if self.config.FLEET_2:
             location_dict[2] = self.fleet_2_location
         location_dict[1] = self.fleet_1_location
+        # Release fortress block
+        if self.config.MAP_HAS_FORTRESS:
+            if not self.map.select(is_fortress=True):
+                self.map.select(is_mechanism_block=True).set(is_mechanism_block=False)
         self.map.find_path_initial_multi_fleet(
             location_dict, current=self.fleet_current, has_ambush=self.config.MAP_HAS_AMBUSH)
 
