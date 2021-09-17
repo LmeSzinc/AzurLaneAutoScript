@@ -77,8 +77,8 @@ class Config:
     HOMO_CANNY_THRESHOLD = (50, 50)
     MAP_ENEMY_GENRE_DETECTION_SCALING = {
         'DD': 1.111,
-        'CL': 1.111,
-        'CA': 1.111,
+        'CL': (1, 1.111),
+        'CA': (1, 1.111),
         'CV': 1.111,
         'BB': 1.111,
     }
