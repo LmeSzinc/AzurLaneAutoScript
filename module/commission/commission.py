@@ -219,7 +219,7 @@ class RewardCommission(UI, InfoHandler):
             in: page_commission
             out: page_commission, info_bar, commission details unfold
         """
-        logger.hr(f'Start commission')
+        logger.hr(f'Start commission', level=2)
         self.interval_clear(COMMISSION_ADVICE)
         self.interval_clear(COMMISSION_START)
         comm_timer = Timer(7)
@@ -227,6 +227,7 @@ class RewardCommission(UI, InfoHandler):
         while 1:
             if comm_timer.reached():
                 self.device.click(comm.button)
+                self.device.sleep(0.3)
                 comm_timer.reset()
 
             if self.handle_popup_confirm():

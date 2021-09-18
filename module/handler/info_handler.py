@@ -130,8 +130,9 @@ class InfoHandler(ModuleBase):
             return False
 
         result = self.handle_popup_confirm('IGNORE_LOW_EMOTION')
-        # Avoid clicking AUTO_SEARCH_MAP_OPTION_OFF
-        self.interval_reset(AUTO_SEARCH_MAP_OPTION_OFF)
+        if result:
+            # Avoid clicking AUTO_SEARCH_MAP_OPTION_OFF
+            self.interval_reset(AUTO_SEARCH_MAP_OPTION_OFF)
         return result
 
     def handle_use_data_key(self):
