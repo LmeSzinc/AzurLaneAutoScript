@@ -488,7 +488,7 @@ def main(ini_name=''):
         '作戰檔案設置', '輸入地圖名稱, 然後選擇對應的活動', gooey_options={'label_color': '#931D03'})
     war_archives.add_argument('--作戰檔案地圖', default=default('--作戰檔案地圖'), help='輸入地圖名稱, 不分大小寫, 例如D3, SP3, HT6', gooey_options={'label_color': '#4B5F83'})
     war_archives.add_argument('--作戰檔案活動', default=default('--作戰檔案活動'), choices=archives_folder, help='在下拉菜單中選擇活動', gooey_options={'label_color': '#4B5F83'})
-    war_archives.add_argument('--do_war_archives_in_daily', default=default('--do_war_archives_in_daily'), choices=['是', '否'], help='Adds to daily, 4 runs for a target campaign to account for acquisition of data keys', gooey_options={'label_color': '#4B5F83'})
+    war_archives.add_argument('--在每日中加入作戰檔案', default=default('--在每日中加入作戰檔案'), choices=['是', '否'], help='添加至每日任務，每天會打四次選定的地圖', gooey_options={'label_color': '#4B5F83'})
 
     # ==========共鬥活動==========
     raid_parser = subs.add_parser('共鬥活動')
