@@ -86,7 +86,7 @@ class RewardShipyard(ShipyardUI, GeneralShop):
         start, count = self._shipyard_buy_calc(prev, count)
         while count > 0:
             if not self._shipyard_buy_enter() or \
-                    self._shipyard_appear_max():
+                    self._shipyard_cannot_strengthen():
                 break
 
             remain = self._shipyard_ensure_index(count)
@@ -110,7 +110,7 @@ class RewardShipyard(ShipyardUI, GeneralShop):
         count = self._shipyard_get_bp_count(index)
         while count > 0:
             if not self._shipyard_buy_enter() or \
-                    self._shipyard_appear_max():
+                    self._shipyard_cannot_strengthen():
                 break
 
             remain = self._shipyard_ensure_index(count)
@@ -147,7 +147,7 @@ class RewardShipyard(ShipyardUI, GeneralShop):
         self.ui_ensure(page_shipyard)
         if not self.shipyard_set_focus(series=series, index=index) or \
             not self._shipyard_buy_enter() or \
-                self._shipyard_appear_max():
+                self._shipyard_cannot_strengthen():
             return True
 
         self._shipyard_use(index=index)
