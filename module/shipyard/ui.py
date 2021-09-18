@@ -109,7 +109,7 @@ class ShipyardUI(UI):
             logger.warning(f'Research Series {series} is not selectable')
             return False
 
-        self.ui_click(SHIPYARD_SERIES_SELECT_ENTER,
+        self.ui_click(SHIPYARD_SERIES_SELECT_ENTER, appear_button=SHIPYARD_UI_CHECK,
                       check_button=SHIPYARD_SERIES_SELECT_CHECK,
                       skip_first_screenshot=skip_first_screenshot)
         series_button = SHIPYARD_SERIES_GRID.buttons[series - 1]
