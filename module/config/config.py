@@ -531,6 +531,7 @@ class AzurLaneConfig:
     USE_DATA_KEY = False
     WAR_ARCHIVES_NAME = ''
     WAR_ARCHIVES_STAGE = ''
+    DO_WAR_ARCHIVES_IN_DAILY = False
 
     """
     module.os_ash
@@ -859,6 +860,7 @@ class AzurLaneConfig:
         option = config['War_archives']
         self.WAR_ARCHIVES_NAME = option['war_archives_name']
         self.WAR_ARCHIVES_STAGE = option['war_archives_stage'].lower()
+        self.DO_WAR_ARCHIVES_IN_DAILY = to_bool(option['do_war_archives_in_daily'])
 
         # Raid
         option = config['Raid']
