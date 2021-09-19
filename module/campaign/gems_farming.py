@@ -8,7 +8,8 @@ from module.logger import logger
 from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
 from module.ocr.ocr import Digit
 from module.retire.dock import *
-from module.ui.page import page_fleet
+from module.ui.page import page_fleet, page_main
+from module.exception import CampaignEnd
 
 SIM_VALUE = 0.95
 
@@ -40,7 +41,7 @@ class GemsCampaignOverride(CampaignBase):
                     if self.appear(FLEET_PREPARATION, offset=(20, 20), interval=2) or self.appear(MAP_PREPARATION, offset=(20, 20), interval=2):
                         self.enter_map_cancel()
                         break
-                return False
+                raise CampaignEnd('Emotion withdraw')
         else:
             return super().handle_combat_low_emotion()
 
@@ -95,6 +96,8 @@ class GemsFarming(CampaignRun, EquipmentChange):
 
             self.equipment_take_on(index_list=index_list)
 
+        self.ui_ensure(page_main)
+
     def vanguard_change(self):
         '''
         Change vanguard and vanguard's equipment 
@@ -116,6 +119,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
             self._equip_take_off_one()
 
             self.equipment_take_on()
+        self.ui_ensure(page_main)
 
     def _ship_change_confirm(self, button):
 
@@ -160,7 +164,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
             for button, level in zip(card_grids.buttons, list_level):
                 if level == 1 and template.match(self.device.image.crop(button.area), similarity=SIM_VALUE):
                     return button
-                    
+
             logger.info('No specific CV was found, try reversed order.')
             self.dock_sort_method_dsc_set(False)
 
@@ -279,7 +283,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
 
         while 1:
             # Backup config file
-            # while cover ENABLE_AUTO_SEARCH
+            # will cover ENABLE_AUTO_SEARCH
             backup = self.config.cover(
                 STOP_IF_REACH_LV32=True,
                 FLEET_1=self.config.GEMS_FLEET_1,
