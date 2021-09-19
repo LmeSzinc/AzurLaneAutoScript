@@ -96,6 +96,8 @@ class GemsFarming(CampaignRun, EquipmentChange):
 
             self.equipment_take_on(index_list=index_list)
 
+        self.ui_ensure(page_main)
+
     def vanguard_change(self):
         '''
         Change vanguard and vanguard's equipment 
@@ -117,6 +119,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
             self._equip_take_off_one()
 
             self.equipment_take_on()
+        self.ui_ensure(page_main)
 
     def _ship_change_confirm(self, button):
 
@@ -161,7 +164,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
             for button, level in zip(card_grids.buttons, list_level):
                 if level == 1 and template.match(self.device.image.crop(button.area), similarity=SIM_VALUE):
                     return button
-                    
+
             logger.info('No specific CV was found, try reversed order.')
             self.dock_sort_method_dsc_set(False)
 
@@ -319,10 +322,3 @@ class GemsFarming(CampaignRun, EquipmentChange):
             else:
                 backup.recover()
                 break
-if __name__ == '__main__':
-    from module.config.config import AzurLaneConfig
-    from module.device.device import Device
-    config = AzurLaneConfig('alas_cn')
-    az = GemsFarming(config, Device(config=config))
-    az.device.screenshot()
-    az.run('2-4')

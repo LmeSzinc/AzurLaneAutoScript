@@ -10,6 +10,10 @@ EQUIP_INFO_BAR = ButtonGrid(
     origin=(723, 111), delta=(94, 0), button_shape=(76, 76), grid_shape=(5, 1), name="EQUIP_INFO_BAR"
 )
 
+EQUIPMENT_GRID = ButtonGrid(
+    origin=(725, 155), delta=(95, 0), button_shape=(31, 31), grid_shape=(5, 1),
+    name='EQUIPMENT_GRID')
+
 EQUIPMENT_SCROLL = Scroll(EQUIP_SCROLL, color=(
     247, 211, 66), name='EQUIP_SCROLL')
 
@@ -24,18 +28,20 @@ class EquipmentChange(Equipment):
     def get_equiping_list(self, skip_first_screenshot=True):
         '''
         Pages:
-            in: ship's equipments details
+            in: ship's details
         '''
         logger.info("Get equipping list")
         if skip_first_screenshot:
             pass
         else:
             self.device.screenshot()
-        for index in range(0, 5):
-            enter_button = globals()[
-                'EQUIP_TAKE_ON_{index}'.format(index=index)]
-            if self.appear(enter_button, offset=(5, 5)):
+        index = 0
+        for button in EQUIPMENT_GRID.buttons:
+            crop_image = np.array(self.device.image.crop(button.area))
+            edge_value = abs(np.mean(cv2.Sobel(crop_image,3, 1, 1)))
+            if edge_value < 0.1:
                 self.equipping_list.remove(index)
+            index += 1
         logger.info(f"Equipping list: {self.equipping_list}")
 
     def record_equipment(self, index_list=range(0, 5)):
@@ -44,9 +50,8 @@ class EquipmentChange(Equipment):
         Notice: The equipment icons in the upgrade page are the same size as the icons in the equipment status
         '''
         logger.info('RECORD EQUIPMENT')
-        self.equip_side_navbar_ensure(bottom=2)
-        self.get_equiping_list()
         self.equip_side_navbar_ensure(bottom=1)
+        self.get_equiping_list()
 
         for index in index_list:
             if index in self.equipping_list:
