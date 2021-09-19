@@ -8,7 +8,8 @@ from module.logger import logger
 from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
 from module.ocr.ocr import Digit
 from module.retire.dock import *
-from module.ui.page import page_fleet
+from module.ui.page import page_fleet, page_main
+from module.exception import CampaignEnd
 
 SIM_VALUE = 0.95
 
@@ -40,7 +41,7 @@ class GemsCampaignOverride(CampaignBase):
                     if self.appear(FLEET_PREPARATION, offset=(20, 20), interval=2) or self.appear(MAP_PREPARATION, offset=(20, 20), interval=2):
                         self.enter_map_cancel()
                         break
-                return False
+                raise CampaignEnd('Emotion withdraw')
         else:
             return super().handle_combat_low_emotion()
 
@@ -53,7 +54,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
         class GemsCampaign(GemsCampaignOverride, self.module.Campaign):
             pass
 
-        self.campaign = GemsCampaign(device=self.campaign.device, config=self.campaign.config)
+        self.campaign = GemsCampaign(device=self.device, config=self.config)
 
     def _fleet_detail_enter(self):
         '''
@@ -279,7 +280,7 @@ class GemsFarming(CampaignRun, EquipmentChange):
 
         while 1:
             # Backup config file
-            # while cover ENABLE_AUTO_SEARCH
+            # will cover ENABLE_AUTO_SEARCH
             backup = self.config.cover(
                 STOP_IF_REACH_LV32=True,
                 FLEET_1=self.config.GEMS_FLEET_1,
@@ -318,3 +319,10 @@ class GemsFarming(CampaignRun, EquipmentChange):
             else:
                 backup.recover()
                 break
+if __name__ == '__main__':
+    from module.config.config import AzurLaneConfig
+    from module.device.device import Device
+    config = AzurLaneConfig('alas_cn')
+    az = GemsFarming(config, Device(config=config))
+    az.device.screenshot()
+    az.run('2-4')
