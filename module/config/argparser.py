@@ -488,6 +488,7 @@ def main(ini_name=''):
         '作战档案设置', '输入地图名称, 然后选择对应的活动', gooey_options={'label_color': '#931D03'})
     war_archives.add_argument('--作战档案地图', default=default('--作战档案地图'), help='输入地图名称, 不分大小写, 例如 D3, SP3, HT6', gooey_options={'label_color': '#4B5F83'})
     war_archives.add_argument('--作战档案活动', default=default('--作战档案活动'), choices=archives_folder, help='在下拉菜单中选择活动', gooey_options={'label_color': '#4B5F83'})
+    war_archives.add_argument('--在每日中加入作战档案', default=default('--在每日中加入作战档案'), choices=['是', '否'], help='添加至每日任务，每天会打四次选定的地图', gooey_options={'label_color': '#4B5F83'})
 
     # ==========共斗活动==========
     raid_parser = subs.add_parser('共斗活动')
@@ -541,7 +542,7 @@ def main(ini_name=''):
     gems.add_argument('--启用红脸撤退', default=default('--启用红脸撤退'), help='红脸时撤退，同时更换前排和后排。\n换前排通过找一艘150心情等级100的白鹰白皮驱逐完成，所以尽量保证有足够多的驱逐在后排休息。\n不启用将不更换前排', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     gems.add_argument('--更换旗舰装备', default=default('--更换旗舰装备'), help='换船时更换旗舰装备，这通过记录之前的装备完成。\n只会更换正在装备中的栏位，即使是白装也会更换。\n如果指定了旗舰，则会更换全部5个装备，未指定旗舰只会更换设备。', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     gems.add_argument('--更换前排装备', default=default('--更换前排装备'), help='换船时更换前排装备，这通过记录之前的装备完成。\n只会更换正在装备中的栏位，即使是白装也会更换。', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    gems.add_argument('--指定旗舰航母', default=default('--指定旗舰航母'), help='指定旗舰用某搜特定的航母，\n这在刷a3等有难度的图会很有用。', choices=['兰利', '博格', '突击者', '竞技神', '任意航母'], gooey_options={'label_color': '#4B5F83'})    
+    gems.add_argument('--指定旗舰航母', default=default('--指定旗舰航母'), help='指定旗舰用某搜特定的航母，\n这在刷a3等有难度的图会很有用。', choices=['兰利', '博格', '突击者', '竞技神', '任意航母'], gooey_options={'label_color': '#4B5F83'})
     gems.add_argument('--刷钻石关卡', default=default('--刷钻石关卡'), help='例如 2-4, A3, SP2\n委托油耗比: A3 > A1 > 2-4 > 2-1, 有活动图时建议选活动图, 2-1会拣问号有更多物资', gooey_options={'label_color': '#4B5F83'})
 
     # ==========OS semi auto==========

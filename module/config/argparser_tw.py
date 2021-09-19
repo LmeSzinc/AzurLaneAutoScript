@@ -488,6 +488,7 @@ def main(ini_name=''):
         '作戰檔案設置', '輸入地圖名稱, 然後選擇對應的活動', gooey_options={'label_color': '#931D03'})
     war_archives.add_argument('--作戰檔案地圖', default=default('--作戰檔案地圖'), help='輸入地圖名稱, 不分大小寫, 例如D3, SP3, HT6', gooey_options={'label_color': '#4B5F83'})
     war_archives.add_argument('--作戰檔案活動', default=default('--作戰檔案活動'), choices=archives_folder, help='在下拉菜單中選擇活動', gooey_options={'label_color': '#4B5F83'})
+    war_archives.add_argument('--在每日中加入作戰檔案', default=default('--在每日中加入作戰檔案'), choices=['是', '否'], help='添加至每日任務，每天會打四次選定的地圖', gooey_options={'label_color': '#4B5F83'})
 
     # ==========共鬥活動==========
     raid_parser = subs.add_parser('共鬥活動')
@@ -541,7 +542,7 @@ def main(ini_name=''):
     gems.add_argument('--啟用紅臉撤退', default=default('--啟用紅臉撤退'), help='紅臉時撤退，同時更換前排和後排。\n換前排通過找一艘150心情等級100的白鷹白皮驅逐完成，所以盡量保證有足夠多的驅逐在後排休息。\n不啟用將不更換前排', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     gems.add_argument('--更換旗艦裝備', default=default('--更換旗艦裝備'), help='換船時更換旗艦裝備，這通過記錄之前的裝備完成。\n只會更換正在裝備中的欄位，即使是白裝也會更換。\n如果指定了旗艦，則會更換全部5個裝備，未指定旗艦只會更換設備。', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     gems.add_argument('--更換前排裝備', default=default('--更換前排裝備'), help='換船時更換前排裝備，這通過記錄之前的裝備完成。\n只會更換正在裝備中的欄位，即使是白裝也會更換。', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
-    gems.add_argument('--指定旗艦航母', default=default('--指定旗艦航母'), help='指定旗艦用某搜特定的航母，\n這在刷a3等有難度的圖會很有用。', choices=['蘭利', '博格', '突擊者', '競技神', '任意航母'], gooey_options={'label_color': '#4B5F83'})    
+    gems.add_argument('--指定旗艦航母', default=default('--指定旗艦航母'), help='指定旗艦用某搜特定的航母，\n這在刷a3等有難度的圖會很有用。', choices=['蘭利', '博格', '突擊者', '競技神', '任意航母'], gooey_options={'label_color': '#4B5F83'})
     gems.add_argument('--刷鑽石關卡', default=default('--刷鑽石關卡'), help='例如 2-4, A3, SP2\n委託油耗比: A3 > A1 > 2-4 > 2-1, 有活動圖時建議選活動圖, 2-1會揀問號有更多物資', gooey_options={'label_color': '#4B5F83'})
 
     # ==========OS semi auto==========

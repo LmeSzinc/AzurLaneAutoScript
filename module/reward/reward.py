@@ -372,6 +372,12 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
                 count += 1
                 self.device.send_notification('Daily Event AB', 'Daily event AB finished.')
 
+        if self.config.DO_WAR_ARCHIVES_IN_DAILY:
+            from module.war_archives.war_archives import CampaignWarArchives
+            az = CampaignWarArchives(self.config, device=self.device)
+            if az.run_war_archives_daily():
+                self.device.send_notification('Daily War Archives', 'Daily war archives campaigns finished.')
+
         if self.config.ENABLE_RAID_DAILY:
             from module.raid.daily import RaidDaily
             az = RaidDaily(self.config, device=self.device)
