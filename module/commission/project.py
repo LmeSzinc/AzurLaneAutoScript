@@ -31,9 +31,21 @@ SHORTEST_FILTER = """
 """
 
 
+class SuffixOcr(Ocr):
+    def pre_process(self, image):
+        image = super().pre_process(image)
+
+        left = np.where(np.min(image[5:-5, :], axis=0) < 85)[0]
+        if len(left):
+            image = image[:, left[-1] - 15:]
+
+        return image
+
+
 class Commission:
     button: Button
     name: str
+    suffix: str
     genre: str
     status: str
     duration: timedelta
@@ -70,6 +82,10 @@ class Commission:
         self.button = button
         self.name = ocr.ocr(self.image)
         self.genre = self.commission_name_parse(self.name.upper())
+
+        # Suffix
+        ocr = SuffixOcr(button, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='IV')
+        self.suffix = self.beautify_name(ocr.ocr(self.image))
 
         # Duration time
         area = area_offset((290, 68, 390, 95), self.area[0:2])
@@ -111,6 +127,10 @@ class Commission:
         self.name = ocr.ocr(self.image)
         self.genre = self.commission_name_parse(self.name)
 
+        # Suffix
+        ocr = SuffixOcr(button, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='IV')
+        self.suffix = self.beautify_name(ocr.ocr(self.image))
+
         # Duration time
         area = area_offset((290, 68, 390, 95), self.area[0:2])
         button = Button(area=area, color=(), button=area, name='DURATION')
@@ -151,6 +171,10 @@ class Commission:
         self.name = ocr.ocr(self.image)
         self.genre = self.commission_name_parse(self.name)
 
+        # Suffix
+        ocr = SuffixOcr(button, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='IV')
+        self.suffix = self.beautify_name(ocr.ocr(self.image))
+
         # Duration time
         area = area_offset((290, 68, 390, 95), self.area[0:2])
         button = Button(area=area, color=(), button=area, name='DURATION')
@@ -184,11 +208,14 @@ class Commission:
     def __str__(self):
         if self.valid:
             if self.expire:
-                return f'{self.name} (Genre: {self.genre}, Status: {self.status}, Duration: {self.duration}, Expire: {self.expire})'
+                return f'{self.name} | {self.suffix} ' \
+                    f'(Genre: {self.genre}, Status: {self.status}, Duration: {self.duration}, Expire: {self.expire})'
             else:
-                return f'{self.name} (Genre: {self.genre}, Status: {self.status}, Duration: {self.duration})'
+                return f'{self.name} | {self.suffix} ' \
+                    f'(Genre: {self.genre}, Status: {self.status}, Duration: {self.duration})'
         else:
-            return f'{self.name} (Invalid)'
+            return f'{self.name} | {self.suffix} ' \
+                f'(Invalid)'
 
     def __eq__(self, other):
         """
@@ -212,6 +239,8 @@ class Commission:
         if self.expire and other.expire:
             if (other.expire < self.expire - threshold) or (other.expire > self.expire + threshold):
                 return False
+        if self.suffix != other.suffix:
+            return False
 
         return True
 
@@ -336,3 +365,14 @@ class Commission:
             return (self.create_time + self.duration).replace(microsecond=0)
         else:
             return None
+
+    @staticmethod
+    def beautify_name(name):
+        name = name.strip()
+        name = re.sub(r'VI$', 'Ⅵ', name)
+        name = re.sub(r'IV$', 'Ⅳ', name)
+        name = re.sub(r'V$', 'Ⅴ', name)
+        name = re.sub(r'III$', 'Ⅲ', name)
+        name = re.sub(r'II$', 'Ⅱ', name)
+        name = re.sub(r'I$', 'Ⅰ', name)
+        return name
