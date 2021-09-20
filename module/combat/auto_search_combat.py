@@ -130,6 +130,8 @@ class AutoSearchCombat(MapOperation, Combat):
             if auto != 'combat_auto' and self.auto_mode_checked and self.is_combat_executing():
                 if self.handle_combat_weapon_release():
                     continue
+            if self.handle_popup_confirm('AUTO_SEARCH_COMBAT_EXECUTE'):
+                continue
 
             # End
             if self.is_in_auto_search_menu() or self._handle_auto_search_menu_missing():
