@@ -288,7 +288,7 @@ Commission:
       > DailyCube-0:30 > UrgentCube-1:30 > DailyCube-1:30 > UrgentCube-1:45 > UrgentCube-2:15
       > UrgentCube-3 > DailyCube-3 > UrgentCube-4 > UrgentCube-6
       > Major
-      > DailyRescource > DailyChip
+      > DailyResource > DailyChip
       > UrgentBook-2:30 > UrgentBook-2 > UrgentBook-1:20 > UrgentBook-1:40
       > Daily-0:20 > Daily-0:30 > Daily-1:00 > Daily-1:30 > Daily-2:00
       > NightOil > NightCube

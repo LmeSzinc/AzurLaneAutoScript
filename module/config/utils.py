@@ -14,6 +14,17 @@ LANGUAGES = ['zh-CN', 'en-US', 'zh-TW']
 # LANGUAGES = ['zh-CN']
 
 
+# https://stackoverflow.com/questions/8640959/how-can-i-control-what-scalar-form-pyyaml-uses-for-my-data/15423007
+def str_presenter(dumper, data):
+    if len(data.splitlines()) > 1:  # check for multiline string
+        return dumper.represent_scalar('tag:yaml.org,2002:str', data, style='|')
+    return dumper.represent_scalar('tag:yaml.org,2002:str', data)
+
+
+yaml.add_representer(str, str_presenter)
+yaml.representer.SafeRepresenter.add_representer(str, str_presenter)
+
+
 def filepath_arg():
     return './module/config/args.yaml'
 

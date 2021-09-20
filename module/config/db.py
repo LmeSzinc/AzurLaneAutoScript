@@ -3,7 +3,6 @@ import copy
 from tinydb import TinyDB, where
 from tinydb.storages import MemoryStorage
 
-from module.base.decorator import cached_property
 from module.base.timer import timer
 from module.config.utils import *
 from module.logger import logger
@@ -134,15 +133,8 @@ class Database:
     def __init__(self):
         self._config = {}
         self._config_updated = set()
-
-    @cached_property
-    def db(self):
-        """
-        Get database.
-        """
-        db = TinyDB(storage=ManualStorage)
-        db.storage.load()
-        return db
+        self.db = TinyDB(storage=ManualStorage)
+        self.update_db()
 
     def config(self, config_name):
         """
@@ -193,9 +185,7 @@ class Database:
             res = self._data_merge(old=res, args=data)
             new.insert(res)
 
-        new.storage.save()
-        del self.__dict__['db']
-        self.update_config('template')
+        self.db = new
 
     def update_code(self):
         logger.info('Updating generated code')
@@ -292,10 +282,11 @@ class Database:
         return data
 
     @timer
-    def update_config(self, config_name):
+    def update_config(self, config_name, preserve=True):
         """
         Args:
             config_name (str):
+            preserve (bool): Preserve values from old config.
         """
         file = filepath_config(config_name)
         logger.info(f'Updating user config: {file}')
@@ -306,8 +297,11 @@ class Database:
             if arg['group'] == '_info' or arg['arg'] == '_info':
                 continue
             path = data_to_path(arg)
-            value = deep_get(old, keys=path, default=arg['value'])
-            value = parse_value(value, data=arg)
+            if preserve:
+                value = deep_get(old, keys=path, default=arg['value'])
+                value = parse_value(value, data=arg)
+            else:
+                value = arg['value']
             deep_set(new, keys=path, value=value)
 
         new = self._check_config(new, is_template=config_name == 'template')
@@ -459,7 +453,7 @@ class Database:
 
 if __name__ == '__main__':
     m = Database()
-    m.update_db()
+    m.update_config('template', preserve=False)
     m.update_code()
 
     # res = m.select_db({'func': 'Main', 'group': 'Scheduler'})

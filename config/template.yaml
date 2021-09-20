@@ -38,7 +38,7 @@ General:
     RetireMode: one_click_retire
     RetireAmount: retire_all
     EnhanceFavourite: false
-    EnhanceFilter: null
+    EnhanceFilter: ''
     EnhanceCheckPerCategory: 2
     OldRetireN: true
     OldRetireR: true
@@ -54,7 +54,7 @@ Restart:
     ServerUpdate: 00:00
 Main:
   Scheduler:
-    Enable: main
+    Enable: false
     NextRun: 2020-01-01 00:00:00
     Command: Main
     SuccessInterval: 0
@@ -80,10 +80,10 @@ Main:
     Fleet1Formation: double_line
     Fleet1Mode: combat_auto
     Fleet1Step: 3
-    Fleet2: 1
+    Fleet2: 2
     Fleet2Formation: double_line
     Fleet2Mode: combat_auto
-    Fleet2Step: 3
+    Fleet2Step: 2
     FleetOrder: fleet1_mob_fleet2_boss
     AutoSearchFleetOrder: fleet1_mob_fleet2_boss
   Submarine:
@@ -150,8 +150,8 @@ GemsFarming:
     Fleet2Formation: line_ahead
     Fleet2Mode: combat_auto
     Fleet2Step: 2
-    FleetOrder: fleet1_mob_fleet2_boss
-    AutoSearchFleetOrder: fleet1_mob_fleet2_boss
+    FleetOrder: fleet1_all_fleet2_standby
+    AutoSearchFleetOrder: fleet1_all_fleet2_standby
   Submarine:
     Fleet: 0
     Mode: do_not_use
@@ -179,7 +179,7 @@ GemsFarming:
     LowHpRetreatThreshold: 0.3
 Commission:
   Scheduler:
-    Enable: commission
+    Enable: true
     NextRun: 2020-01-01 00:00:00
     Command: Commission
     SuccessInterval: 10-40
@@ -187,27 +187,18 @@ Commission:
     ServerUpdate: 00:00
   Commission:
     DoMajorCommission: false
-    CommissionFilter: 'DailyEvent
-
+    CommissionFilter: |-
+      DailyEvent
       > Gem-8 > Gem-4 > Gem-2
-
       > Box-6 > Box-3 > Box-1
-
-      > DailyCube-0:30 > UrgentCube-1:30 > DailyCube-1:30 > UrgentCube-1:40 > UrgentCube-2:15
-
+      > DailyCube-0:30 > UrgentCube-1:30 > DailyCube-1:30 > UrgentCube-1:45 > UrgentCube-2:15
       > UrgentCube-3 > DailyCube-3 > UrgentCube-4 > UrgentCube-6
-
       > Major
-
-      > DailyRescource > DailyChip
-
+      > DailyResource > DailyChip
       > UrgentBook-2:30 > UrgentBook-2 > UrgentBook-1:20 > UrgentBook-1:40
-
       > Daily-0:20 > Daily-0:30 > Daily-1:00 > Daily-1:30 > Daily-2:00
-
       > NightOil > NightCube
-
-      > shortest'
+      > shortest
 Tactical:
   Scheduler:
     Enable: true
@@ -217,15 +208,12 @@ Tactical:
     FailureInterval: 10-40
     ServerUpdate: 00:00
   Tactical:
-    TacticalFilter: 'SameT3 > SameT2 > SameT1
-
+    TacticalFilter: |-
+      SameT3 > SameT2 > SameT1
       > BlueT2 > YellowT2 > RedT2
-
       > BlueT3 > YellowT3 > RedT3
-
       > BlueT1 > YellowT1 > RedT1
-
-      > first'
+      > first
 Research:
   Scheduler:
     Enable: true
