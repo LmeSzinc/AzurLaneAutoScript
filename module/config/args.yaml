@@ -332,3 +332,17 @@ Research:
         - series_3
         - series_3_than_2
     CustomFilter: 0.5 > reset > shortest
+Reward:
+  _info:
+    Menu: Reward
+  Scheduler:
+    Enable: true
+    NextRun: 2020-01-01 00:00:00
+    Command: Reward
+    SuccessInterval: 40-60
+    FailureInterval: 40-60
+    ServerUpdate: 00:00
+  Reward:
+    CollectOil: true
+    CollectCoin: true
+    CollectMission: true

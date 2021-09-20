@@ -114,3 +114,8 @@ class GeneratedConfig:
     Research_UsePart = True
     Research_PresetFilter = 'series_4'  # custom, series_4, series_3, series_3_than_2
     Research_CustomFilter = '0.5 > reset > shortest'
+
+    # Func `Reward`
+    Reward_CollectOil = True
+    Reward_CollectCoin = True
+    Reward_CollectMission = True

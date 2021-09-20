@@ -17,6 +17,7 @@ from module.handler.login import LoginHandler
 from module.handler.sensitive_info import handle_sensitive_image, handle_sensitive_logs
 from module.logger import logger, log_file
 from module.research.research import RewardResearch
+from module.reward.reward import Reward
 from module.tactical.tactical_class import RewardTacticalClass
 
 
@@ -106,6 +107,9 @@ class AzurLaneAutoScript:
 
     def tactical(self):
         RewardTacticalClass(config=self.config, device=self.device).run()
+
+    def reward(self):
+        Reward(config=self.config, device=self.device).run()
 
     def main(self):
         CampaignRun(config=self.config, device=self.device).run(

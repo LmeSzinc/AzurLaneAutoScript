@@ -6,7 +6,7 @@ class ManualConfig:
 
     SCHEDULER_PRIORITY = """
     Restart
-    > Research > Commission > Tactical > Dorm > Task
+    > Research > Commission > Tactical > Dorm > Reward
     > GuildLogistics > GuildOperation
     > Meowfficer > Gacha > Shop
     > OpsiObscure
