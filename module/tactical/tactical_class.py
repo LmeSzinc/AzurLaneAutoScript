@@ -11,7 +11,7 @@ from module.map.map_grids import SelectedGrids
 from module.map_detection.utils import Points
 from module.ocr.ocr import Duration
 from module.tactical.assets import *
-from module.ui.assets import TACTICAL_CHECK
+from module.ui.assets import TACTICAL_CHECK, REWARD_GOTO_TACTICAL
 from module.ui.ui import UI, page_tactical, page_reward
 
 BOOKS_GRID = ButtonGrid(origin=(239, 288), delta=(140, 120), button_shape=(98, 98), grid_shape=(6, 2))
@@ -196,8 +196,13 @@ class RewardTacticalClass(UI):
         logger.hr('Tactical get finish')
         grids = ButtonGrid(
             origin=(421, 596), delta=(223, 0), button_shape=(139, 27), grid_shape=(4, 1), name='TACTICAL_REMAIN')
-        ocr = Duration(grids.buttons, letter=(148, 255, 99), name='TACTICAL_REMAIN')
+        is_running = [self.image_color_count(button, color=(148, 255, 99), count=50) for button in grids.buttons]
+        logger.info(f'Tactical status: {["running" if s else "empty" for s in is_running]}')
+
+        buttons = [b for b, s in zip(grids.buttons, is_running) if s]
+        ocr = Duration(buttons, letter=(148, 255, 99), name='TACTICAL_REMAIN')
         remains = ocr.ocr(self.device.image)
+
         now = datetime.now()
         self.tactical_finish = [(now + remain).replace(microsecond=0) for remain in remains if remain.total_seconds()]
         logger.info(f'Tactical finish: {[str(f) for f in self.tactical_finish]}')
@@ -226,6 +231,9 @@ class RewardTacticalClass(UI):
                 self.device.screenshot()
 
             if self.appear_then_click(REWARD_2, interval=1):
+                tactical_class_timout.reset()
+                continue
+            if self.appear_then_click(REWARD_GOTO_TACTICAL, offset=(20, 20), interval=1):
                 tactical_class_timout.reset()
                 continue
             if self.handle_popup_confirm():

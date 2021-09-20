@@ -232,6 +232,9 @@ class Commission:
             return False
         if self.genre != other.genre or self.status != other.status:
             return False
+        if self.category_str == 'daily':
+            if self.suffix != other.suffix:
+                return False
         if (other.duration < self.duration - threshold) or (other.duration > self.duration + threshold):
             return False
         if (not self.expire and other.expire) or (self.expire and not other.expire):
@@ -239,8 +242,6 @@ class Commission:
         if self.expire and other.expire:
             if (other.expire < self.expire - threshold) or (other.expire > self.expire + threshold):
                 return False
-        if self.suffix != other.suffix:
-            return False
 
         return True
 
