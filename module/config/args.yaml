@@ -332,6 +332,20 @@ Research:
         - series_3
         - series_3_than_2
     CustomFilter: 0.5 > reset > shortest
+Dorm:
+  _info:
+    Menu: Reward
+  Scheduler:
+    Enable: true
+    NextRun: 2020-01-01 00:00:00
+    Command: Dorm
+    SuccessInterval: 278-360
+    FailureInterval: 278-360
+    ServerUpdate: 00:00
+  Dorm:
+    Collect: true
+    Feed: true
+    FeedFilter: 20000 > 10000 > 5000 > 3000 > 2000 > 1000
 Reward:
   _info:
     Menu: Reward

@@ -228,6 +228,18 @@ Research:
     UsePart: true
     PresetFilter: series_4
     CustomFilter: 0.5 > reset > shortest
+Dorm:
+  Scheduler:
+    Enable: true
+    NextRun: 2020-01-01 00:00:00
+    Command: Dorm
+    SuccessInterval: 278-360
+    FailureInterval: 278-360
+    ServerUpdate: 00:00
+  Dorm:
+    Collect: true
+    Feed: true
+    FeedFilter: 20000 > 10000 > 5000 > 3000 > 2000 > 1000
 Reward:
   Scheduler:
     Enable: true

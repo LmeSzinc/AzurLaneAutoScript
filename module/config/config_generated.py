@@ -115,6 +115,11 @@ class GeneratedConfig:
     Research_PresetFilter = 'series_4'  # custom, series_4, series_3, series_3_than_2
     Research_CustomFilter = '0.5 > reset > shortest'
 
+    # Func `Dorm`
+    Dorm_Collect = True
+    Dorm_Feed = True
+    Dorm_FeedFilter = '20000 > 10000 > 5000 > 3000 > 2000 > 1000'
+
     # Func `Reward`
     Reward_CollectOil = True
     Reward_CollectCoin = True

@@ -1,17 +1,15 @@
 import re
-from datetime import datetime, timedelta
 
 from PIL import Image
 
 from module.base.button import ButtonGrid
-from module.base.decorator import cached_property
 from module.base.filter import Filter
 from module.base.mask import Mask
 from module.base.timer import Timer
 from module.base.utils import *
+from module.dorm.assets import *
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
-from module.reward.assets import *
 from module.template.assets import TEMPLATE_DORM_COIN, TEMPLATE_DORM_LOVE
 from module.ui.assets import DORM_CHECK, DORM_TROPHY_CONFIRM, DORM_INFO
 from module.ui.page import page_dorm, page_dormmenu
@@ -186,7 +184,7 @@ class RewardDorm(UI):
         _, fill, _ = OCR_FILL.ocr(self.device.image)
         logger.info(f'Dorm food: {[f.amount for f in food]}, to fill: {fill}')
 
-        FOOD_FILTER.load(self.config.DORM_FEED_FILTER)
+        FOOD_FILTER.load(self.config.Dorm_FeedFilter)
         for selected in FOOD_FILTER.apply(food):
             button = FOOD.buttons[food.index(selected)]
             if selected.amount > 0 and fill > selected.feed:
@@ -218,10 +216,9 @@ class RewardDorm(UI):
         """
         Pages:
             in: Any page
-            out: page_main
+            out: page_dorm
         """
         if not feed and not collect:
-            self.ui_goto_main()
             return
 
         self.ui_ensure(page_dormmenu)
@@ -229,7 +226,6 @@ class RewardDorm(UI):
             logger.info('Nothing to collect. Dorm collecting skipped.')
             collect = False
             if not feed:
-                self.ui_goto_main()
                 return
         self.ui_goto(page_dorm, skip_first_screenshot=True)
 
@@ -243,69 +239,15 @@ class RewardDorm(UI):
             self.ui_click(click_button=DORM_FEED_ENTER, appear_button=DORM_FEED_CHECK, check_button=DORM_CHECK,
                           skip_first_screenshot=True)
 
-        self.ui_goto_main()
-
-    @cached_property
-    def dorm_feed_interval(self):
-        return int(ensure_time(self.config.DORM_FEED_INTERVAL, precision=3) * 60)
-
-    def dorm_feed_interval_reset(self):
-        """ Call this method after dorm feed executed """
-        del self.__dict__['dorm_feed_interval']
-
-    @cached_property
-    def dorm_collect_interval(self):
-        return int(ensure_time(self.config.DORM_COLLECT_INTERVAL, precision=3) * 60)
-
-    def dorm_collect_interval_reset(self):
-        """ Call this method after dorm collect executed """
-        del self.__dict__['dorm_collect_interval']
-
-    def handle_dorm(self):
+    def run(self):
         """
-        Returns:
-            bool: If executed.
+        Pages:
+            in: Any page
+            out: page_dorm
         """
-        # Base case check
-        if not self.config.ENABLE_DORM_REWARD:
-            return False
+        if not self.config.Dorm_Feed and not self.config.Dorm_Collect:
+            self.config.Scheduler_Enable = False
+            self.config.task_stop()
 
-        # Record check, create configured flags for dorm_run
-        now = datetime.now()
-        do_collect = False
-        collect_record = datetime.strptime(self.config.config.get(*COLLECT_RECORD), self.config.TIME_FORMAT)
-        update = collect_record + timedelta(seconds=self.dorm_collect_interval)
-        attr = f'{COLLECT_RECORD[0]}_{COLLECT_RECORD[1]}'
-        logger.attr(f'{attr}', f'Record time: {collect_record}')
-        logger.attr(f'{attr}', f'Next update: {update}')
-        if now > update:
-            do_collect = True
-
-        do_feed = False
-        if self.config.ENABLE_DORM_FEED:
-            feed_record = datetime.strptime(self.config.config.get(*FEED_RECORD), self.config.TIME_FORMAT)
-            update = feed_record + timedelta(seconds=self.dorm_feed_interval)
-            attr = f'{FEED_RECORD[0]}_{FEED_RECORD[1]}'
-            logger.attr(f'{attr}', f'Record time: {feed_record}')
-            logger.attr(f'{attr}', f'Next update: {update}')
-
-            if now > update:
-                do_feed = True
-
-        # Neither, no need to do dorm_run
-        if not do_collect and not do_feed:
-            return False
-
-        # Execute dorm_run with configured flags
-        self.dorm_run(feed=do_feed, collect=do_collect)
-
-        # Record into config if executed
-        if do_collect:
-            self.dorm_collect_interval_reset()
-            self.config.record_save(COLLECT_RECORD)
-
-        if do_feed:
-            self.dorm_feed_interval_reset()
-            self.config.record_save(FEED_RECORD)
-
-        return True
+        self.dorm_run(feed=self.config.Dorm_Feed, collect=self.config.Dorm_Collect)
+        self.config.task_delay(success=True)

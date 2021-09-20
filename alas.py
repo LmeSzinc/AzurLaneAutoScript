@@ -12,6 +12,7 @@ from module.commission.commission import RewardCommission
 from module.config.config import AzurLaneConfig, TaskEnd
 from module.config.db import Database
 from module.device.device import Device
+from module.dorm.dorm import RewardDorm
 from module.exception import *
 from module.handler.login import LoginHandler
 from module.handler.sensitive_info import handle_sensitive_image, handle_sensitive_logs
@@ -107,6 +108,9 @@ class AzurLaneAutoScript:
 
     def tactical(self):
         RewardTacticalClass(config=self.config, device=self.device).run()
+
+    def dorm(self):
+        RewardDorm(config=self.config, device=self.device).run()
 
     def reward(self):
         Reward(config=self.config, device=self.device).run()
