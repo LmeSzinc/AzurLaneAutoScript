@@ -118,6 +118,8 @@ class AutoSearchCombat(Combat):
 
             if self.handle_submarine_call():
                 continue
+            if self.handle_popup_confirm('AUTO_SEARCH_COMBAT_EXECUTE'):
+                continue
 
             # End
             if self.is_in_auto_search_menu() or self._handle_auto_search_menu_missing():
@@ -145,7 +147,7 @@ class AutoSearchCombat(Combat):
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
-            
+
             if self.handle_get_ship():
                 continue
             if self.handle_popup_confirm('AUTO_SEARCH_COMBAT_STATUS'):

@@ -227,6 +227,8 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             else:
                 if self.handle_submarine_call():
                     continue
+            if self.handle_popup_confirm('COMBAT_EXECUTE'):
+                continue
 
             # End
             if self.handle_battle_status(save_get_items=save_get_items) \
