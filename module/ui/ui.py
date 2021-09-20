@@ -278,19 +278,19 @@ class UI(InfoHandler):
         if self.appear_then_click(LOGIN_RETURN_SIGN, offset=(30, 30), interval=3):
             return True
         if self.appear(EVENT_LIST_CHECK, offset=(30, 30), interval=3):
-            self.device.click(GOTO_MAIN)
-            return True
+            if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
+                return True
 
         # Mistaken click
         if self.appear(PLAYER_CHECK, offset=(30, 30), interval=3):
-            self.device.click(GOTO_MAIN)
-            return True
+            if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
+                return True
 
         # Game tips
         # Event commission in Vacation Lane.
         if self.appear(GAME_TIPS, offset=(30, 30), interval=3):
-            self.device.click(GOTO_MAIN)
-            return True
+            if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
+                return True
 
         # Dorm popup
         if self.appear_then_click(DORM_INFO, offset=(30, 30), interval=3):
