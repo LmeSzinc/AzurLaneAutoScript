@@ -274,6 +274,10 @@ class RewardTacticalClass(UI):
             self.ui_goto(page_tactical, skip_first_screenshot=True)
             self._tactical_get_finish()
 
+        # Can't stay in page_tactical
+        # There will be popups after tactical finished
+        self.ui_goto(page_reward)
+
         if self.tactical_finish:
             self.config.task_delay(target=self.tactical_finish)
         else:

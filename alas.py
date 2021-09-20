@@ -18,7 +18,6 @@ from module.handler.sensitive_info import handle_sensitive_image, handle_sensiti
 from module.logger import logger, log_file
 from module.research.research import RewardResearch
 from module.tactical.tactical_class import RewardTacticalClass
-from module.ui.ui import UI, page_main
 
 
 class AzurLaneAutoScript:
@@ -39,7 +38,6 @@ class AzurLaneAutoScript:
     def run(self, command):
         try:
             self.__getattribute__(command)()
-            UI(config=self.config, device=self.device).ui_ensure(page_main)
             return True
         except TaskEnd:
             return True

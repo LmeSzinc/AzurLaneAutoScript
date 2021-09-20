@@ -104,6 +104,9 @@ class Button:
         offset = np.subtract(button.button, button._button)[:2]
         self._button_offset = area_offset(self._button, offset=offset)
 
+    def clear_offset(self):
+        self._button_offset = None
+
     def ensure_template(self):
         """
         Load asset image.
