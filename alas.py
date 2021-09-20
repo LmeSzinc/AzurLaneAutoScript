@@ -20,6 +20,7 @@ from module.logger import logger, log_file
 from module.research.research import RewardResearch
 from module.reward.reward import Reward
 from module.tactical.tactical_class import RewardTacticalClass
+from module.guild.guild_reward import RewardGuild
 
 
 class AzurLaneAutoScript:
@@ -114,6 +115,9 @@ class AzurLaneAutoScript:
 
     def reward(self):
         Reward(config=self.config, device=self.device).run()
+
+    def guild(self):
+        RewardGuild(config=self.config, device=self.device).run()
 
     def main(self):
         CampaignRun(config=self.config, device=self.device).run(

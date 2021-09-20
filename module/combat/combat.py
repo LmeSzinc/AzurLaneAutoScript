@@ -196,11 +196,11 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
 
         return False
 
-    def combat_execute(self, auto='combat_auto', call_submarine_at_boss=False, drop=None):
+    def combat_execute(self, auto='combat_auto', submarine='do_not_use', drop=None):
         """
         Args:
-            auto (str): Combat auto mode.
-            call_submarine_at_boss (bool):
+            auto (str): ['combat_auto', 'combat_manual', 'stand_still_in_the_middle', 'hide_in_bottom_left']
+            submarine (str): ['do_not_use', 'hunt_only', 'every_combat']
             drop (DropImage):
         """
         logger.info('Combat execute')
@@ -226,11 +226,8 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             if auto != 'combat_auto' and self.auto_mode_checked and self.is_combat_executing():
                 if self.handle_combat_weapon_release():
                     continue
-            if call_submarine_at_boss:
-                pass
-            else:
-                if self.handle_submarine_call():
-                    continue
+            if self.handle_submarine_call(submarine):
+                continue
             if self.handle_popup_confirm('COMBAT_EXECUTE'):
                 continue
 
@@ -408,7 +405,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 if expected_end():
                     break
 
-    def combat(self, balance_hp=None, emotion_reduce=None, auto_mode=None, call_submarine_at_boss=None,
+    def combat(self, balance_hp=None, emotion_reduce=None, auto_mode=None, submarine_mode=None,
                save_get_items=None, expected_end=None, fleet_index=1):
         """
         Execute a combat.
@@ -418,7 +415,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             balance_hp (bool):
             emotion_reduce (bool):
             auto_mode (str): combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left
-            call_submarine_at_boss (bool):
+            submarine_mode (str): do_not_use, hunt_only, every_combat
             save_get_items (bool):
             expected_end (str, callable):
             fleet_index (int): 1 or 2
@@ -427,7 +424,9 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         emotion_reduce = emotion_reduce if emotion_reduce is not None else self.config.Emotion_CalculateEmotion
         if auto_mode is None:
             auto_mode = self.config.Fleet_Fleet1Mode if fleet_index == 1 else self.config.Fleet_Fleet2Mode
-        call_submarine_at_boss = call_submarine_at_boss if call_submarine_at_boss is not None else False
+        if submarine_mode is None:
+            if self.config.Submarine_Fleet:
+                submarine_mode = self.config.Submarine_Mode
         self.battle_status_click_interval = 7 if save_get_items else 0
 
         # if not hasattr(self, 'emotion'):
@@ -441,7 +440,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             self.combat_preparation(
                 balance_hp=balance_hp, emotion_reduce=emotion_reduce, auto=auto_mode, fleet_index=fleet_index)
             self.combat_execute(
-                auto=auto_mode, call_submarine_at_boss=call_submarine_at_boss, drop=drop)
+                auto=auto_mode, submarine=submarine_mode, drop=drop)
             self.combat_status(
                 drop=drop, expected_end=expected_end)
             self.handle_map_after_combat_story()

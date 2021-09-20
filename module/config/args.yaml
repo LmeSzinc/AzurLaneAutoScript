@@ -238,7 +238,7 @@ GemsFarming:
       option: [0, 1, 2]
     Mode:
       value: do_not_use
-      option: ['do_not_use','hunt_only', 'every_combat']
+      option: ['do_not_use', 'hunt_only', 'every_combat']
   Emotion:
     CalculateEmotion: true
     IgnoreLowEmotionWarn: false
@@ -360,3 +360,25 @@ Reward:
     CollectOil: true
     CollectCoin: true
     CollectMission: true
+Guild:
+  _info:
+    Menu: Reward
+  Scheduler:
+    Enable: false
+    NextRun: 2020-01-01 00:00:00
+    Command: Guild
+    SuccessInterval: 40-60
+    FailureInterval: 40-60
+    ServerUpdate: 00:00, 12:00, 18:00, 21:00
+  Logistics:
+    Enable: true
+    ExchangeFilter: |-
+      PlateTorpedoT1 > PlateAntiAirT1 > PlatePlaneT1 > PlateGunT1 > PlateGeneralT1
+      > PlateTorpedoT2 > PlateAntiAirT2 > PlatePlaneT2 > PlateGunT2 > PlateGeneralT2
+      > PlateTorpedoT3 > PlateAntiAirT3 > PlatePlaneT3 > PlateGunT3 > PlateGeneralT3
+      > OxyCola > Coolant > Merit > Coins > Oil
+  Operation:
+    Enable: true
+    JoinThreshold: 1
+    AttackBoss: true
+    BossFleetRecommend: false
