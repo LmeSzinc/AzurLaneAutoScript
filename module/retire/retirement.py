@@ -335,7 +335,7 @@ class Retirement(Enhancement):
                 sim, button = template.match_result(self.device.image.resize(size=(1189, 669)))
 
                 if sim > self.config.COMMON_CV_THRESHOLD:
-                    return Button(button=tuple(_*155//144 for _ in button.button), area=button.area, color=button.color)
+                    return Button(button=tuple(_*155//144 for _ in button.button), area=button.area, color=button.color, name=f'TEMPLATE_{commen_cv_name}_RETIRE')
 
                 return None  
         else:
@@ -344,7 +344,7 @@ class Retirement(Enhancement):
             sim, button = template.match_result(self.device.image.resize(size=(1189, 669)))
 
             if sim > self.config.COMMON_CV_THRESHOLD:
-                return Button(button=tuple(_*155//144 for _ in button.button), area=button.area, color=button.color)
+                return Button(button=tuple(_*155//144 for _ in button.button), area=button.area, color=button.color, name=f'TEMPLATE_{self.config.COMMON_CV_NAME.upper()}_RETIRE')
 
             return None
 
