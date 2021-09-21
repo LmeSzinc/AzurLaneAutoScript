@@ -14,13 +14,14 @@ from module.config.db import Database
 from module.device.device import Device
 from module.dorm.dorm import RewardDorm
 from module.exception import *
+from module.guild.guild_reward import RewardGuild
 from module.handler.login import LoginHandler
 from module.handler.sensitive_info import handle_sensitive_image, handle_sensitive_logs
 from module.logger import logger, log_file
+from module.meowfficer.meowfficer import RewardMeowfficer
 from module.research.research import RewardResearch
 from module.reward.reward import Reward
 from module.tactical.tactical_class import RewardTacticalClass
-from module.guild.guild_reward import RewardGuild
 
 
 class AzurLaneAutoScript:
@@ -113,11 +114,14 @@ class AzurLaneAutoScript:
     def dorm(self):
         RewardDorm(config=self.config, device=self.device).run()
 
+    def guild(self):
+        RewardGuild(config=self.config, device=self.device).run()
+
     def reward(self):
         Reward(config=self.config, device=self.device).run()
 
-    def guild(self):
-        RewardGuild(config=self.config, device=self.device).run()
+    def meowfficer(self):
+        RewardMeowfficer(config=self.config, device=self.device).run()
 
     def main(self):
         CampaignRun(config=self.config, device=self.device).run(

@@ -346,20 +346,6 @@ Dorm:
     Collect: true
     Feed: true
     FeedFilter: 20000 > 10000 > 5000 > 3000 > 2000 > 1000
-Reward:
-  _info:
-    Menu: Reward
-  Scheduler:
-    Enable: true
-    NextRun: 2020-01-01 00:00:00
-    Command: Reward
-    SuccessInterval: 40-60
-    FailureInterval: 40-60
-    ServerUpdate: 00:00
-  Reward:
-    CollectOil: true
-    CollectCoin: true
-    CollectMission: true
 Guild:
   _info:
     Menu: Reward
@@ -382,3 +368,31 @@ Guild:
     JoinThreshold: 1
     AttackBoss: true
     BossFleetRecommend: false
+Reward:
+  _info:
+    Menu: Reward
+  Scheduler:
+    Enable: true
+    NextRun: 2020-01-01 00:00:00
+    Command: Reward
+    SuccessInterval: 40-60
+    FailureInterval: 40-60
+    ServerUpdate: 00:00
+  Reward:
+    CollectOil: true
+    CollectCoin: true
+    CollectMission: true
+Meowfficer:
+  _info:
+    Menu: Reward
+  Scheduler:
+    Enable: false
+    NextRun: 2020-01-01 00:00:00
+    Command: Meowfficer
+    SuccessInterval: 120
+    FailureInterval: 120
+    ServerUpdate: 00:00
+  Meowfficer:
+    BuyAmount: 1
+    TrainMeowfficer: false
+    FortChoreMeowfficer: true

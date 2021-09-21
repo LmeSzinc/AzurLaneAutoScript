@@ -1,9 +1,10 @@
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1
+from module.config.utils import get_server_next_update
 from module.handler.assets import INFO_BAR_1
 from module.logger import logger
+from module.meowfficer.assets import *
 from module.ocr.ocr import Digit, DigitCounter
-from module.reward.assets import *
 from module.ui.ui import UI, page_meowfficer, MEOWFFICER_GOTO_DORM
 
 BUY_MAX = 15
@@ -47,7 +48,7 @@ class RewardMeowfficer(UI):
             logger.warning(f'Current coins only enough to buy {count}')
 
         self.ui_click(MEOWFFICER_BUY_ENTER, check_button=MEOWFFICER_BUY,
-                      additional=self.ui_additional_page_meowfficer, skip_first_screenshot=True)
+                      additional=self.ui_additional, skip_first_screenshot=True)
         self.ui_ensure_index(count, letter=MEOWFFICER_CHOOSE, prev_button=MEOWFFICER_BUY_PREV,
                              next_button=MEOWFFICER_BUY_NEXT, skip_first_screenshot=True)
         return True
@@ -176,7 +177,7 @@ class RewardMeowfficer(UI):
             out: page_meowfficer
         """
         for _ in range(3):
-            if self.meow_choose(count=self.config.BUY_MEOWFFICER):
+            if self.meow_choose(count=self.config.Meowfficer_BuyAmount):
                 self.meow_confirm()
             else:
                 return True
@@ -227,12 +228,12 @@ class RewardMeowfficer(UI):
         logger.attr('Meowfficer_capacity_remain', remain)
 
         # Helper variables
-        is_sunday = self.config.get_server_last_update((0,)).weekday() == 6
+        is_sunday = get_server_next_update(self.config.Scheduler_ServerUpdate).weekday() == 0
         collected = False
 
         # Enter MEOWFFICER_TRAIN window
         self.ui_click(MEOWFFICER_TRAIN_ENTER, check_button=MEOWFFICER_TRAIN_START,
-                      additional=self.ui_additional_page_meowfficer, skip_first_screenshot=True)
+                      additional=self.ui_additional, skip_first_screenshot=True)
 
         # If today is Sunday, then collect all remainder otherwise just collect one
         # Once collected, should be back in MEOWFFICER_TRAIN window
@@ -318,7 +319,7 @@ class RewardMeowfficer(UI):
 
         # Enter MEOWFFICER_FORT window
         self.ui_click(MEOWFFICER_FORT_ENTER, check_button=MEOWFFICER_FORT_CHECK,
-                      additional=self.ui_additional_page_meowfficer, skip_first_screenshot=True)
+                      additional=self.ui_additional, skip_first_screenshot=True)
 
         # Perform fort chore operations
         self.meow_chores()
@@ -329,44 +330,28 @@ class RewardMeowfficer(UI):
 
         return True
 
-    def meow_run(self, buy=True, train=True, fort=True):
+    def run(self):
         """
         Execute buy, train, and fort operations
         if enabled by arguments
 
         Pages:
             in: Any page
-            out: page_main
+            out: page_meowfficer
         """
-        if not buy and not train and not fort:
-            return False
+        if self.config.Meowfficer_BuyAmount <= 0 \
+                and not self.config.Meowfficer_TrainMeowfficer \
+                and not self.config.Meowfficer_FortChoreMeowfficer:
+            self.config.Scheduler_Enable = False
+            self.config.task_stop()
 
         self.ui_ensure(page_meowfficer)
 
-        if buy:
+        if self.config.Meowfficer_BuyAmount > 0:
             self.meow_buy()
-
-        if train:
+        if self.config.Meowfficer_TrainMeowfficer:
             self.meow_train()
-
-        if fort:
+        if self.config.Meowfficer_FortChoreMeowfficer:
             self.meow_fort()
 
-        self.ui_goto_main()
-        return True
-
-    def handle_meowfficer(self):
-        """
-        Returns:
-            bool: If executed
-        """
-        if self.config.record_executed_since(option=('RewardRecord', 'meowfficer'), since=(0,)):
-            return False
-
-        if not self.meow_run(buy=self.config.BUY_MEOWFFICER >= 1,
-                             train=self.config.ENABLE_TRAIN_MEOWFFICER,
-                             fort=self.config.DO_FORT_CHORES_MEOWFFICER):
-            return False
-
-        self.config.record_save(option=('RewardRecord', 'meowfficer'))
-        return True
+        self.config.task_delay(server_update=True)
