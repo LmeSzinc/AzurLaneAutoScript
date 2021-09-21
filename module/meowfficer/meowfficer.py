@@ -5,7 +5,8 @@ from module.handler.assets import INFO_BAR_1
 from module.logger import logger
 from module.meowfficer.assets import *
 from module.ocr.ocr import Digit, DigitCounter
-from module.ui.ui import UI, page_meowfficer, MEOWFFICER_GOTO_DORM
+from module.ui.assets import MEOWFFICER_GOTO_DORM, MEOWFFICER_INFO
+from module.ui.ui import UI, page_meowfficer
 
 BUY_MAX = 15
 BUY_PRIZE = 1500
@@ -48,10 +49,16 @@ class RewardMeowfficer(UI):
             logger.warning(f'Current coins only enough to buy {count}')
 
         self.ui_click(MEOWFFICER_BUY_ENTER, check_button=MEOWFFICER_BUY,
-                      additional=self.ui_additional, skip_first_screenshot=True)
+                      additional=self.meow_additional, skip_first_screenshot=True)
         self.ui_ensure_index(count, letter=MEOWFFICER_CHOOSE, prev_button=MEOWFFICER_BUY_PREV,
                              next_button=MEOWFFICER_BUY_NEXT, skip_first_screenshot=True)
         return True
+
+    def meow_additional(self):
+        if self.appear_then_click(MEOWFFICER_INFO, offset=(30, 30), interval=3):
+            return True
+
+        return False
 
     def handle_meow_popup_confirm(self):
         if self.appear_then_click(MEOWFFICER_CONFIRM, offset=(40, 20), interval=5):
@@ -233,7 +240,7 @@ class RewardMeowfficer(UI):
 
         # Enter MEOWFFICER_TRAIN window
         self.ui_click(MEOWFFICER_TRAIN_ENTER, check_button=MEOWFFICER_TRAIN_START,
-                      additional=self.ui_additional, skip_first_screenshot=True)
+                      additional=self.meow_additional, skip_first_screenshot=True)
 
         # If today is Sunday, then collect all remainder otherwise just collect one
         # Once collected, should be back in MEOWFFICER_TRAIN window
@@ -319,7 +326,7 @@ class RewardMeowfficer(UI):
 
         # Enter MEOWFFICER_FORT window
         self.ui_click(MEOWFFICER_FORT_ENTER, check_button=MEOWFFICER_FORT_CHECK,
-                      additional=self.ui_additional, skip_first_screenshot=True)
+                      additional=self.meow_additional, skip_first_screenshot=True)
 
         # Perform fort chore operations
         self.meow_chores()

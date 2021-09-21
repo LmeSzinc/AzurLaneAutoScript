@@ -73,7 +73,7 @@ class AzurLaneAutoScript:
         except Exception as e:
             logger.exception(e)
             self.save_error_log()
-            return False
+            exit(1)
 
     def save_error_log(self):
         """
