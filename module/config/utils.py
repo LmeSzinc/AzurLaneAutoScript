@@ -5,6 +5,7 @@ import string
 from datetime import datetime, timedelta, timezone
 
 import yaml
+from tinydb import where
 
 import module.config.server as server
 
@@ -182,17 +183,117 @@ def deep_default(d, keys, value):
     return d
 
 
-def path_to_arg(string):
+def parse_value(value, data):
+    """
+    Convert a string to float, int, datetime, if possible.
+
+    Args:
+        value (str):
+        data (dict):
+
+    Returns:
+
+    """
+    option = data['option']
+    if option:
+        if value not in option:
+            return data['value']
+    if isinstance(value, str):
+        if value == '':
+            return None
+        if '.' in value:
+            try:
+                return float(value)
+            except ValueError:
+                pass
+        else:
+            try:
+                return int(value)
+            except ValueError:
+                pass
+        try:
+            return datetime.fromisoformat(value)
+        except ValueError:
+            pass
+
+    return value
+
+
+def data_to_type(data):
+    """
+    | Condition                            | Type     |
+    | ------------------------------------ | -------- |
+    | Value is bool                        | checkbox |
+    | Arg has options                      | select   |
+    | `Filter` is in name (in data['arg']) | textarea |
+    | Rest of the args                     | input    |
+
+    Args:
+        data (dict):
+
+    Returns:
+        str:
+    """
+    if isinstance(data['value'], bool):
+        return 'checkbox'
+    elif data['option']:
+        return 'select'
+    elif 'Filter' in data['arg']:
+        return 'textarea'
+    else:
+        return 'input'
+
+
+def request_to_query(request):
+    """
+    Converts a request in dict to TinyDB query conditions.
+
+    Args:
+        request (dict):
+
+    Returns:
+
+    """
+    func = request.get('func', None)
+    group = request.get('group', None)
+    arg = request.get('arg', None)
+    lang = request.get('lang', None)
+
+    query = None
+    if func:
+        query = where('func') == func if query is None else query & (where('func') == func)
+    if group:
+        query = where('group') == group if query is None else query & (where('group') == group)
+    if arg:
+        query = where('arg') == arg if query is None else query & (where('arg') == arg)
+    if lang:
+        query = where('lang') == lang if query is None else query & (where('lang') == lang)
+
+    return query
+
+
+def data_to_path(data):
+    """
+    Args:
+        data (dict):
+
+    Returns:
+        str: <func>.<group>.<arg>
+    """
+    return '.'.join([data.get(attr, '') for attr in ['func', 'group', 'arg']])
+
+
+def path_to_arg(path):
     """
     Convert dictionary keys in .yaml files to argument names in config.
 
     Args:
-        string (str): Such as `Scheduler.ServerUpdate`
+        path (str): Such as `Scheduler.ServerUpdate`
 
     Returns:
         str: Such as `Scheduler_ServerUpdate`
     """
-    return string.replace('.', '_')
+    return path.replace('.', '_')
 
 
 def dict_to_kv(dictionary, allow_none=True):
@@ -276,8 +377,8 @@ def random_id(length=32):
     return ''.join(random.sample(string.ascii_lowercase + string.digits, length))
 
 
-def to_list(string):
-    if string.isdigit():
+def to_list(text):
+    if text.isdigit():
         return []
-    out = [int(letter.strip()) for letter in string.split(',')]
+    out = [int(letter.strip()) for letter in text.split(',')]
     return out

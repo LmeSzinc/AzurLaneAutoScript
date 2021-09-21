@@ -1,6 +1,6 @@
 import copy
 
-from tinydb import TinyDB, where
+from tinydb import TinyDB
 from tinydb.storages import MemoryStorage
 
 from module.base.timer import timer
@@ -54,87 +54,13 @@ class ManualStorage(MemoryStorage):
             write_file(filepath_db(lang), [row for row in out if row['lang'] == lang])
 
 
-def parse_value(value, data):
-    """
-    Convert a string to float, int, datetime, if possible.
-
-    Args:
-        value (str):
-        data (dict):
-
-    Returns:
-
-    """
-    option = data['option']
-    if option:
-        if value not in option:
-            return data['value']
-    if isinstance(value, str):
-        if value == '':
-            return None
-        if '.' in value:
-            try:
-                return float(value)
-            except ValueError:
-                pass
-        else:
-            try:
-                return int(value)
-            except ValueError:
-                pass
-        try:
-            return datetime.fromisoformat(value)
-        except ValueError:
-            pass
-
-    return value
-
-
-def request_to_query(request):
-    """
-    Converts a request in dict to TinyDB query conditions.
-
-    Args:
-        request (dict):
-
-    Returns:
-
-    """
-    func = request.get('func', None)
-    group = request.get('group', None)
-    arg = request.get('arg', None)
-    lang = request.get('lang', None)
-
-    query = None
-    if func:
-        query = where('func') == func if query is None else query & (where('func') == func)
-    if group:
-        query = where('group') == group if query is None else query & (where('group') == group)
-    if arg:
-        query = where('arg') == arg if query is None else query & (where('arg') == arg)
-    if lang:
-        query = where('lang') == lang if query is None else query & (where('lang') == lang)
-
-    return query
-
-
-def data_to_path(data):
-    """
-    Args:
-        data (dict):
-
-    Returns:
-        str: <func>.<group>.<arg>
-    """
-    return '.'.join([data.get(attr, '') for attr in ['func', 'group', 'arg']])
-
-
 class Database:
     def __init__(self):
         self._config = {}
         self._config_updated = set()
         self.db = TinyDB(storage=ManualStorage)
         self.update_db()
+        # self.db.storage.save()
 
     def config(self, config_name):
         """
@@ -257,7 +183,7 @@ class Database:
             'lang': '',
             'name': '',
             'help': '',
-            'type': 'input',
+            'type': '',
             'value': '',
             'option': {},
         }
@@ -268,6 +194,9 @@ class Database:
             v = old.get(attr, '')
             v = v if v else f'{key}.{attr}'
             data[attr] = v
+        # Type
+        if not data['type']:
+            data['type'] = data_to_type(data)
         # Update option
         option = data['option']
         if option:
