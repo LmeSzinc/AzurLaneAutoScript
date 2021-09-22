@@ -15,6 +15,7 @@ from module.daily.daily import Daily
 from module.device.device import Device
 from module.dorm.dorm import RewardDorm
 from module.exception import *
+from module.exercise.exercise import Exercise
 from module.guild.guild_reward import RewardGuild
 from module.handler.login import LoginHandler
 from module.handler.sensitive_info import handle_sensitive_image, handle_sensitive_logs
@@ -130,6 +131,9 @@ class AzurLaneAutoScript:
 
     def hard(self):
         CampaignHard(config=self.config, device=self.device).run()
+
+    def exercise(self):
+        Exercise(config=self.config, device=self.device).run()
 
     def main(self):
         CampaignRun(config=self.config, device=self.device).run(

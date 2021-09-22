@@ -152,4 +152,13 @@ class GeneratedConfig:
 
     # Func `Hard`
     Hard_HardStage = '11-4'
-    Hard_HardFleet = 1
+    Hard_HardFleet = 1  # 1, 2
+
+    # Func `Exercise`
+    Exercise_OpponentChooseMode = 'max_exp'  # max_exp, easiest, leftmost, easiest_else_exp
+    Exercise_OpponentTrial = 1
+    Exercise_ExercisePreserve = 0
+    Exercise_LowHpThreshold = 0.4
+    Exercise_LowHpConfirmWait = 0.1
+    OpponentRefresh_Count = 0
+    OpponentRefresh_Record = datetime.datetime(2020, 1, 1, 0, 0)

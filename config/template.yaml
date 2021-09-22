@@ -314,3 +314,20 @@ Hard:
   Hard:
     HardStage: 11-4
     HardFleet: 1
+Exercise:
+  Scheduler:
+    Enable: false
+    NextRun: 2020-01-01 00:00:00
+    Command: Exercise
+    SuccessInterval: 120
+    FailureInterval: 120
+    ServerUpdate: 00:00, 12:00, 18:00
+  Exercise:
+    OpponentChooseMode: max_exp
+    OpponentTrial: 1
+    ExercisePreserve: 0
+    LowHpThreshold: 0.4
+    LowHpConfirmWait: 0.1
+  OpponentRefresh:
+    Count: 0
+    Record: 2020-01-01 00:00:00

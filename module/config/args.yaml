@@ -398,7 +398,7 @@ Meowfficer:
     FortChoreMeowfficer: true
 Daily:
   _info:
-    Menu: Reward
+    Menu: Daily
   Scheduler:
     Enable: false
     NextRun: 2020-01-01 00:00:00
@@ -437,7 +437,7 @@ Daily:
       option: ['no', 'first', 'second', 'third']
 Hard:
   _info:
-    Menu: Reward
+    Menu: Daily
   Scheduler:
     Enable: false
     NextRun: 2020-01-01 00:00:00
@@ -450,3 +450,24 @@ Hard:
     HardFleet:
       value: 1
       option: [1, 2]
+Exercise:
+  _info:
+    Menu: Daily
+  Scheduler:
+    Enable: false
+    NextRun: 2020-01-01 00:00:00
+    Command: Exercise
+    SuccessInterval: 120
+    FailureInterval: 120
+    ServerUpdate: 00:00, 12:00, 18:00
+  Exercise:
+    OpponentChooseMode:
+      value: max_exp
+      option: ['max_exp', 'easiest', 'leftmost', 'easiest_else_exp']
+    OpponentTrial: 1
+    ExercisePreserve: 0
+    LowHpThreshold: 0.4
+    LowHpConfirmWait: 0.1
+  OpponentRefresh:
+    Count: 0
+    Record: 2020-01-01 00:00:00

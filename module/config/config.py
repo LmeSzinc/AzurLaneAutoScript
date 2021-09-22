@@ -161,6 +161,23 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
             self.overridden[arg] = value
             super().__setattr__(arg, value)
 
+    def set_record(self, **kwargs):
+        """
+        Args:
+            **kwargs: For example, `Emotion1_Value=150`
+                will set `Emotion1_Value=150` and `Emotion1_Record=now()`
+        """
+        self.auto_update = False
+
+        for arg, value in kwargs.items():
+            group, _ = arg.split('_', 1)
+            record = f'{group}_Record'
+            self.__setattr__(arg, value)
+            self.__setattr__(record, datetime.now().replace(microsecond=0))
+
+        self.update()
+        self.auto_update = True
+
     def task_delay(self, success=None, server_update=None, target=None, minute=None):
         """
         Set Scheduler.NextRun

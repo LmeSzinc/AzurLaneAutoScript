@@ -15,7 +15,7 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
         Returns:
             bool:
         """
-        return self.appear(PAUSE) and np.max(self.device.image.crop(PAUSE_DOUBLE_CHECK.area)) < 153
+        return self.appear(PAUSE) and np.max(self.image_area(PAUSE_DOUBLE_CHECK)) < 153
 
     def _combat_preparation(self):
         logger.info('Combat preparation')
@@ -23,7 +23,7 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
             self.device.screenshot()
             if self.appear(BATTLE_PREPARATION):
 
-                self.equipment_take_on()
+                # self.equipment_take_on()
                 pass
 
                 self.device.click(BATTLE_PREPARATION)
@@ -39,7 +39,7 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
             bool: True if wins. False if quit.
         """
         logger.info('Combat execute')
-        self.low_hp_confirm_timer = Timer(self.config.LOW_HP_CONFIRM_WAIT, count=2).start()
+        self.low_hp_confirm_timer = Timer(self.config.Exercise_LowHpConfirmWait, count=2).start()
         show_hp_timer = Timer(5)
         success = True
         end = False
@@ -139,7 +139,7 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
         """
         self._choose_opponent(opponent)
 
-        for n in range(1, self.config.OPPONENT_CHALLENGE_TRIAL + 1):
+        for n in range(1, self.config.Exercise_OpponentTrial + 1):
             logger.hr('Try: %s' % n)
             self._combat_preparation()
             success = self._combat_execute()
