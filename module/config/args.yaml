@@ -435,3 +435,18 @@ Daily:
     SupplyLineDisruption:
       value: 'second'
       option: ['no', 'first', 'second', 'third']
+Hard:
+  _info:
+    Menu: Reward
+  Scheduler:
+    Enable: false
+    NextRun: 2020-01-01 00:00:00
+    Command: Hard
+    SuccessInterval: 120
+    FailureInterval: 120
+    ServerUpdate: 00:00
+  Hard:
+    HardStage: 11-4
+    HardFleet:
+      value: 1
+      option: [1, 2]

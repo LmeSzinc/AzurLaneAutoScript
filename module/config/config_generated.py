@@ -149,3 +149,7 @@ class GeneratedConfig:
     Daily_TacticalTraining = 'second'  # no, first, second, third
     Daily_TacticalTrainingFleet = 5  # 1, 2, 3, 4, 5, 6
     Daily_SupplyLineDisruption = 'second'  # no, first, second, third
+
+    # Func `Hard`
+    Hard_HardStage = '11-4'
+    Hard_HardFleet = 1

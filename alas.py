@@ -11,18 +11,19 @@ from module.campaign.run import CampaignRun
 from module.commission.commission import RewardCommission
 from module.config.config import AzurLaneConfig, TaskEnd
 from module.config.db import Database
+from module.daily.daily import Daily
 from module.device.device import Device
 from module.dorm.dorm import RewardDorm
 from module.exception import *
 from module.guild.guild_reward import RewardGuild
 from module.handler.login import LoginHandler
 from module.handler.sensitive_info import handle_sensitive_image, handle_sensitive_logs
+from module.hard.hard import CampaignHard
 from module.logger import logger, log_file
 from module.meowfficer.meowfficer import RewardMeowfficer
 from module.research.research import RewardResearch
 from module.reward.reward import Reward
 from module.tactical.tactical_class import RewardTacticalClass
-from module.daily.daily import Daily
 
 
 class AzurLaneAutoScript:
@@ -126,6 +127,9 @@ class AzurLaneAutoScript:
 
     def daily(self):
         Daily(config=self.config, device=self.device).run()
+
+    def hard(self):
+        CampaignHard(config=self.config, device=self.device).run()
 
     def main(self):
         CampaignRun(config=self.config, device=self.device).run(

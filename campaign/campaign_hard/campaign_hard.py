@@ -36,8 +36,8 @@ class Campaign(CampaignBase, HardEquipment):
     #     except CampaignEnd:
     #         logger.hr('Campaign end')
 
-    def fleet_preparation(self):
-        self.equipment_take_on()
+    # def fleet_preparation(self):
+    #     self.equipment_take_on()
 
     def _expected_combat_end(self, expected):
         return 'in_stage'

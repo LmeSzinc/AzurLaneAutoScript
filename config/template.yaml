@@ -303,3 +303,14 @@ Daily:
     TacticalTraining: second
     TacticalTrainingFleet: 5
     SupplyLineDisruption: second
+Hard:
+  Scheduler:
+    Enable: false
+    NextRun: 2020-01-01 00:00:00
+    Command: Hard
+    SuccessInterval: 120
+    FailureInterval: 120
+    ServerUpdate: 00:00
+  Hard:
+    HardStage: 11-4
+    HardFleet: 1

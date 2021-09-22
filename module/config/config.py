@@ -38,6 +38,9 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
     bound = {}
     # If write after every variable modification.
     auto_update = True
+    # Force override variables
+    # Key: Argument name in GeneratedConfig. Value: Modified value.
+    overridden = {}
 
     def __setattr__(self, key, value):
         if key in self.bound:
@@ -78,9 +81,13 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
                     if path in visited:
                         continue
                     arg = path_to_arg(path)
-                    self.__setattr__(arg, value)
+                    super().__setattr__(arg, value)
                     self.bound[arg] = f'{func}.{path}'
                     visited.add(path)
+
+        # Override arguments
+        for arg, value in self.overridden.items():
+            super().__setattr__(arg, value)
 
     def _func_check(self, function):
         """
@@ -143,6 +150,16 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
         self.load()
         self.bind(self.task)
         self.save()
+
+    def override(self, **kwargs):
+        """
+        Override anything you want.
+        Variables stall remain overridden even config is reloaded from yaml file.
+        Note that this method is irreversible.
+        """
+        for arg, value in kwargs.items():
+            self.overridden[arg] = value
+            super().__setattr__(arg, value)
 
     def task_delay(self, success=None, server_update=None, target=None, minute=None):
         """
