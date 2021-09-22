@@ -120,6 +120,11 @@ class GeneratedConfig:
     Dorm_Feed = True
     Dorm_FeedFilter = '20000 > 10000 > 5000 > 3000 > 2000 > 1000'
 
+    # Func `Meowfficer`
+    Meowfficer_BuyAmount = 1
+    Meowfficer_TrainMeowfficer = False
+    Meowfficer_FortChoreMeowfficer = True
+
     # Func `Guild`
     Logistics_Enable = True
     Logistics_ExchangeFilter = 'PlateTorpedoT1 > PlateAntiAirT1 > PlatePlaneT1 > PlateGunT1 > PlateGeneralT1\n> PlateTorpedoT2 > PlateAntiAirT2 > PlatePlaneT2 > PlateGunT2 > PlateGeneralT2\n> PlateTorpedoT3 > PlateAntiAirT3 > PlatePlaneT3 > PlateGunT3 > PlateGeneralT3\n> OxyCola > Coolant > Merit > Coins > Oil'
@@ -132,11 +137,6 @@ class GeneratedConfig:
     Reward_CollectOil = True
     Reward_CollectCoin = True
     Reward_CollectMission = True
-
-    # Func `Meowfficer`
-    Meowfficer_BuyAmount = 1
-    Meowfficer_TrainMeowfficer = False
-    Meowfficer_FortChoreMeowfficer = True
 
     # Func `Daily`
     Daily_UseDailySkip = True

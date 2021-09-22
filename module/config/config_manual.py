@@ -6,12 +6,11 @@ class ManualConfig:
 
     SCHEDULER_PRIORITY = """
     Restart
-    > Research > Commission > Tactical > Dorm > Guild > Reward
-    > Meowfficer > Gacha > Shop
-    > OpsiObscure
-    > Exercise > Daily > Hard > OpsiAsh
-    > Sos > EventDaily > RaidDaily > WarArchieves
-    > OpsiShop > OpsiDaily > OpsiFarm
+    > Research > Commission > Tactical > Dorm > Meowfficer > Guild > Reward
+    > Gacha > Shop > Shipyard
+    > OpsiObscure > Exercise > Daily > Hard > OpsiAsh
+    > Sos > EventSp > EventAb > RaidDaily > WarArchieves
+    > OpsiExplore > OpsiDaily > OpsiMeowfficerFarming
     > Event > Raid > Main > GemsFarming
     """
 
