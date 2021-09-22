@@ -137,3 +137,15 @@ class GeneratedConfig:
     Meowfficer_BuyAmount = 1
     Meowfficer_TrainMeowfficer = False
     Meowfficer_FortChoreMeowfficer = True
+
+    # Func `Daily`
+    Daily_UseDailySkip = True
+    Daily_EscortMission = 'first'  # no, first, second, third
+    Daily_EscortMissionFleet = 5  # 1, 2, 3, 4, 5, 6
+    Daily_AdvanceMission = 'first'  # no, first, second, third
+    Daily_AdvanceMissionFleet = 5  # 1, 2, 3, 4, 5, 6
+    Daily_FierceAssault = 'first'  # no, first, second, third
+    Daily_FierceAssaultFleet = 5  # 1, 2, 3, 4, 5, 6
+    Daily_TacticalTraining = 'second'  # no, first, second, third
+    Daily_TacticalTrainingFleet = 5  # 1, 2, 3, 4, 5, 6
+    Daily_SupplyLineDisruption = 'second'  # no, first, second, third

@@ -22,6 +22,7 @@ from module.meowfficer.meowfficer import RewardMeowfficer
 from module.research.research import RewardResearch
 from module.reward.reward import Reward
 from module.tactical.tactical_class import RewardTacticalClass
+from module.daily.daily import Daily
 
 
 class AzurLaneAutoScript:
@@ -122,6 +123,9 @@ class AzurLaneAutoScript:
 
     def meowfficer(self):
         RewardMeowfficer(config=self.config, device=self.device).run()
+
+    def daily(self):
+        Daily(config=self.config, device=self.device).run()
 
     def main(self):
         CampaignRun(config=self.config, device=self.device).run(

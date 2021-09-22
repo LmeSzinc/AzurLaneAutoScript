@@ -276,7 +276,7 @@ Meowfficer:
   Scheduler:
     Enable: false
     NextRun: 2020-01-01 00:00:00
-    Command: Reward
+    Command: Meowfficer
     SuccessInterval: 120
     FailureInterval: 120
     ServerUpdate: 00:00
@@ -284,3 +284,22 @@ Meowfficer:
     BuyAmount: 1
     TrainMeowfficer: false
     FortChoreMeowfficer: true
+Daily:
+  Scheduler:
+    Enable: false
+    NextRun: 2020-01-01 00:00:00
+    Command: Daily
+    SuccessInterval: 120
+    FailureInterval: 120
+    ServerUpdate: 00:00
+  Daily:
+    UseDailySkip: true
+    EscortMission: first
+    EscortMissionFleet: 5
+    AdvanceMission: first
+    AdvanceMissionFleet: 5
+    FierceAssault: first
+    FierceAssaultFleet: 5
+    TacticalTraining: second
+    TacticalTrainingFleet: 5
+    SupplyLineDisruption: second

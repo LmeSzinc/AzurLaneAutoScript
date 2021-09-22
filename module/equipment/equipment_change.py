@@ -7,21 +7,14 @@ from module.logger import logger
 from module.ui.scroll import Scroll
 
 EQUIP_INFO_BAR = ButtonGrid(
-    origin=(723, 111), delta=(94, 0), button_shape=(76, 76), grid_shape=(5, 1), name="EQUIP_INFO_BAR"
-)
-
+    origin=(723, 111), delta=(94, 0), button_shape=(76, 76), grid_shape=(5, 1), name="EQUIP_INFO_BAR")
 EQUIPMENT_GRID = ButtonGrid(
-    origin=(725, 155), delta=(95, 0), button_shape=(31, 31), grid_shape=(5, 1),
-    name='EQUIPMENT_GRID')
-
-EQUIPMENT_SCROLL = Scroll(EQUIP_SCROLL, color=(
-    247, 211, 66), name='EQUIP_SCROLL')
-
+    origin=(725, 155), delta=(95, 0), button_shape=(31, 31), grid_shape=(5, 1), name='EQUIPMENT_GRID')
+EQUIPMENT_SCROLL = Scroll(EQUIP_SCROLL, color=(247, 211, 66), name='EQUIP_SCROLL')
 SIM_VALUE = 0.90
 
 
 class EquipmentChange(Equipment):
-
     equip_list = {}
     equipping_list = [0, 1, 2, 3, 4]
 
@@ -38,7 +31,7 @@ class EquipmentChange(Equipment):
         index = 0
         for button in EQUIPMENT_GRID.buttons:
             crop_image = np.array(self.device.image.crop(button.area))
-            edge_value = abs(np.mean(cv2.Sobel(crop_image,3, 1, 1)))
+            edge_value = abs(np.mean(cv2.Sobel(crop_image, 3, 1, 1)))
             if edge_value < 0.1:
                 self.equipping_list.remove(index)
             index += 1
@@ -66,7 +59,8 @@ class EquipmentChange(Equipment):
                 self.equip_list[index] = self.image_area(EQUIP_SAVE)
                 logger.info('Quit upgrade inform')
                 self.ui_click(
-                    click_button=UPGRADE_QUIT, check_button=EQUIPMENT_OPEN, appear_button=UPGRADE_ENTER_CHECK, skip_first_screenshot=True)
+                    click_button=UPGRADE_QUIT, check_button=EQUIPMENT_OPEN, appear_button=UPGRADE_ENTER_CHECK,
+                    skip_first_screenshot=True)
 
     def equipment_take_on(self, index_list=range(0, 5), skip_first_screenshot=True):
         '''
@@ -118,11 +112,11 @@ class EquipmentChange(Equipment):
             out: SHIP_SIDEBAR_EQUIPMENT
         '''
         logger.info('Equip equipment')
-        self.ui_click(appear_button=EQUIPPING_OFF, click_button=Button(button=(
-            point[0], point[1], point[0]+offset[0], point[1]+offset[1]), color=None, area=None), check_button=EQUIP_CONFIRM)
+        button = Button(area=(), color=(), button=(point[0], point[1], point[0] + offset[0], point[1] + offset[1]),
+                        name='EQUIPMENT')
+        self.ui_click(appear_button=EQUIPPING_OFF, click_button=button, check_button=EQUIP_CONFIRM)
         logger.info('Equip confirm')
-        self.ui_click(click_button=EQUIP_CONFIRM,
-                      check_button=SHIP_INFO_EQUIPMENT_CHECK)
+        self.ui_click(click_button=EQUIP_CONFIRM, check_button=SHIP_INFO_EQUIPMENT_CHECK)
 
     def _find_equip(self, index):
         '''
@@ -153,8 +147,7 @@ class EquipmentChange(Equipment):
                 break
             if self.appear(EQUIPMENT_SCROLL_BOTTOM):
                 logger.warning('No recorded equipment was found.')
-                self.ui_back(check_button=globals()[
-                             f'EQUIP_TAKE_ON_{index}'], appear_button=EQUIPPING_OFF)
+                self.ui_back(check_button=globals()[f'EQUIP_TAKE_ON_{index}'], appear_button=EQUIPPING_OFF)
                 break
 
         return

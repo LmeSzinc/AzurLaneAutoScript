@@ -377,8 +377,17 @@ def random_id(length=32):
     return ''.join(random.sample(string.ascii_lowercase + string.digits, length))
 
 
-def to_list(text):
+def to_list(text, length=1):
+    """
+    Args:
+        text (str): Such as `1, 2, 3`
+        length (int): If there's only one digit, return a list expanded to given length,
+            i.e. text='3', length=5, returns `[3, 3, 3, 3, 3]`
+
+    Returns:
+        list[int]:
+    """
     if text.isdigit():
-        return []
+        return [int(text)] * length
     out = [int(letter.strip()) for letter in text.split(',')]
     return out

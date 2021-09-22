@@ -396,3 +396,42 @@ Meowfficer:
     BuyAmount: 1
     TrainMeowfficer: false
     FortChoreMeowfficer: true
+Daily:
+  _info:
+    Menu: Reward
+  Scheduler:
+    Enable: false
+    NextRun: 2020-01-01 00:00:00
+    Command: Daily
+    SuccessInterval: 120
+    FailureInterval: 120
+    ServerUpdate: 00:00
+  Daily:
+    UseDailySkip: true
+    EscortMission:
+      value: 'first'
+      option: ['no', 'first', 'second', 'third']
+    EscortMissionFleet:
+      value: 5
+      option: [1, 2, 3, 4, 5, 6]
+    AdvanceMission:
+      value: 'first'
+      option: ['no', 'first', 'second', 'third']
+    AdvanceMissionFleet:
+      value: 5
+      option: [1, 2, 3, 4, 5, 6]
+    FierceAssault:
+      value: 'first'
+      option: ['no', 'first', 'second', 'third']
+    FierceAssaultFleet:
+      value: 5
+      option: [1, 2, 3, 4, 5, 6]
+    TacticalTraining:
+      value: 'second'
+      option: ['no', 'first', 'second', 'third']
+    TacticalTrainingFleet:
+      value: 5
+      option: [1, 2, 3, 4, 5, 6]
+    SupplyLineDisruption:
+      value: 'second'
+      option: ['no', 'first', 'second', 'third']
