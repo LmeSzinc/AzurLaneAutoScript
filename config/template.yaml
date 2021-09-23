@@ -284,6 +284,46 @@ Reward:
     CollectOil: true
     CollectCoin: true
     CollectMission: true
+Shop:
+  Scheduler:
+    Enable: false
+    NextRun: 2020-01-01 00:00:00
+    Command: Shop
+    SuccessInterval: 40-60
+    FailureInterval: 40-60
+    ServerUpdate: 00:00, 12:00, 18:00
+  GeneralShop:
+    UseGems: false
+    Refresh: false
+    Filter: |-
+      BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2
+      > Cube
+      > FoodT6 > FoodT5
+  GuildShop:
+    Refresh: true
+    Filter: PlateT4 > BookT3 > PRBP > CatT3 > Chips > Retrofit > FoodT6 > FoodT5 >
+      CatT2 > BoxT4
+    BOX_T3: ironblood
+    BOX_T4: ironblood
+    BOOK_T2: red
+    BOOK_T3: red
+    RETROFIT_T2: cl
+    RETROFIT_T3: cl
+    PLATE_T2: general
+    PLATE_T3: general
+    PLATE_T4: gun
+    PR1: neptune
+    PR2: seattle
+    PR3: champagne
+  MedalShop:
+    Filter: |-
+      DR > PRY
+      > BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2
+      > BulinT2 > RetrofitT3 > PlateGeneralT3
+      > FoodT6 > FoodT5
+  MeritShop:
+    Refresh: false
+    Filter: Cube > BulinT2
 Daily:
   Scheduler:
     Enable: false

@@ -1,6 +1,4 @@
-from datetime import timedelta
-
-from module.config.utils import get_server_next_update
+from module.config.utils import get_server_last_update
 from module.exercise.assets import *
 from module.exercise.combat import ExerciseCombat
 from module.logger import logger
@@ -98,7 +96,7 @@ class Exercise(ExerciseCombat):
             int:
         """
         record = self.config.OpponentRefresh_Record
-        update = get_server_next_update('00:00') - timedelta(days=1)
+        update = get_server_last_update('00:00')
         if record.date() == update.date():
             # Same Day
             return self.config.OpponentRefresh_Count

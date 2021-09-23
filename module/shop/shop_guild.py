@@ -172,13 +172,13 @@ class GuildShop(ShopBase):
         additional = '' if item.additional is None else f'_{item.additional}'
         try:
             limit = globals()[f'SELECT_{category.upper()}_LIMIT']
-            choice = getattr(self.config, f'SHOP_GUILD_{category.upper()}{additional.upper()}')
+            choice = getattr(self.config, f'GuildShop_{category.upper()}{additional.upper()}')
         except KeyError:
             logger.warning(f'shop_buy_select_execute --> Missing SELECT_{category.upper()}_LIMIT')
             self.device.click(SHOP_CLICK_SAFE_AREA)  # Close secondary prompt
             return False
         except AttributeError:
-            logger.warning(f'shop_buy_select_execute --> Missing Config SHOP_GUILD_{category.upper()}')
+            logger.warning(f'shop_buy_select_execute --> Missing Config GuildShop_{category.upper()}{additional.upper()}')
             self.device.click(SHOP_CLICK_SAFE_AREA)  # Close secondary prompt
             return False
 

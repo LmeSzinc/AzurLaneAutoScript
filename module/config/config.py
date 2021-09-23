@@ -340,3 +340,7 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
     @FLEET_BOSS.setter
     def FLEET_BOSS(self, value):
         self._fleet_boss = value
+
+    @property
+    def GuildShop_PR(self):
+        return [self.GuildShop_PR1, self.GuildShop_PR2, self.GuildShop_PR3]

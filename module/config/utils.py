@@ -344,6 +344,29 @@ def get_server_next_update(daily_trigger):
     return update
 
 
+def get_server_last_update(daily_trigger):
+    """
+    Args:
+        daily_trigger (list[str], str): [ "00:00", "12:00", "18:00",]
+
+    Returns:
+        datetime.datetime
+    """
+    if isinstance(daily_trigger, str):
+        daily_trigger = daily_trigger.replace(' ', '').split(',')
+    d = datetime.now(timezone.utc).astimezone()
+    diff = d.utcoffset() // timedelta(seconds=1) // 3600 - server_timezone()
+    trigger = []
+    for t in daily_trigger:
+        h, m = [int(x) for x in t.split(':')]
+        h = (h + diff) % 24
+        past = datetime.now().replace(hour=h, minute=m, second=0, microsecond=0)
+        past = past - timedelta(days=1) if past > datetime.now() else past
+        trigger.append(past)
+    update = sorted(trigger, reverse=True)[0]
+    return update
+
+
 def nearest_future(future, interval=120):
     """
     Get the neatest future time.

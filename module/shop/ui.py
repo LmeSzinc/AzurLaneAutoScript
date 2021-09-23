@@ -152,11 +152,11 @@ class ShopUI(UI):
                     self.appear(SHOP_GENERAL_SWIPE_END, offset=(15, 5)):
                 return True
 
-            backup = self.config.cover(DEVICE_CONTROL_METHOD='minitouch')
+            # backup = self.config.cover(DEVICE_CONTROL_METHOD='minitouch')
             p1, p2 = random_rectangle_vector(
                 (480, 0), box=detection_area, random_range=(-50, -50, 50, 50), padding=20)
             self.device.drag(p1, p2, segments=2, shake=(0, 25), point_random=(0, 0, 0, 0), shake_random=(0, -5, 0, 5))
-            backup.recover()
+            # backup.recover()
             self.device.sleep(0.3)
 
         return False

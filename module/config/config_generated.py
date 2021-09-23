@@ -138,6 +138,28 @@ class GeneratedConfig:
     Reward_CollectCoin = True
     Reward_CollectMission = True
 
+    # Func `Shop`
+    GeneralShop_UseGems = False
+    GeneralShop_Refresh = False
+    GeneralShop_Filter = 'BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2\n> Cube\n> FoodT6 > FoodT5'
+    GuildShop_Refresh = True
+    GuildShop_Filter = 'PlateT4 > BookT3 > PRBP > CatT3 > Chips > Retrofit > FoodT6 > FoodT5 > CatT2 > BoxT4'
+    GuildShop_BOX_T3 = 'ironblood'  # eagle, royal, sakura, ironblood
+    GuildShop_BOX_T4 = 'ironblood'  # eagle, royal, sakura, ironblood
+    GuildShop_BOOK_T2 = 'red'  # red, blue, yellow
+    GuildShop_BOOK_T3 = 'red'  # red, blue, yellow
+    GuildShop_RETROFIT_T2 = 'cl'  # dd, cl, bb, cv
+    GuildShop_RETROFIT_T3 = 'cl'  # dd, cl, bb, cv
+    GuildShop_PLATE_T2 = 'general'  # general, gun, torpedo, antiair, plane
+    GuildShop_PLATE_T3 = 'general'  # general, gun, torpedo, antiair, plane
+    GuildShop_PLATE_T4 = 'gun'  # general, gun, torpedo, antiair, plane
+    GuildShop_PR1 = 'neptune'  # neptune, monarch, ibuki, izumo, roon, saintlouis
+    GuildShop_PR2 = 'seattle'  # seattle, georgia, kitakaze, gascogne
+    GuildShop_PR3 = 'champagne'  # champagne, anchorage, august, marcopolo
+    MedalShop_Filter = 'DR > PRY\n> BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2\n> BulinT2 > RetrofitT3 > PlateGeneralT3\n> FoodT6 > FoodT5'
+    MeritShop_Refresh = False
+    MeritShop_Filter = 'Cube > BulinT2'
+
     # Func `Daily`
     Daily_UseDailySkip = True
     Daily_EscortMission = 'first'  # no, first, second, third

@@ -24,6 +24,7 @@ from module.logger import logger, log_file
 from module.meowfficer.meowfficer import RewardMeowfficer
 from module.research.research import RewardResearch
 from module.reward.reward import Reward
+from module.shop.shop_reward import RewardShop
 from module.tactical.tactical_class import RewardTacticalClass
 
 
@@ -117,14 +118,17 @@ class AzurLaneAutoScript:
     def dorm(self):
         RewardDorm(config=self.config, device=self.device).run()
 
+    def meowfficer(self):
+        RewardMeowfficer(config=self.config, device=self.device).run()
+
     def guild(self):
         RewardGuild(config=self.config, device=self.device).run()
 
     def reward(self):
         Reward(config=self.config, device=self.device).run()
 
-    def meowfficer(self):
-        RewardMeowfficer(config=self.config, device=self.device).run()
+    def shop(self):
+        RewardShop(config=self.config, device=self.device).run()
 
     def daily(self):
         Daily(config=self.config, device=self.device).run()
