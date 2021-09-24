@@ -143,7 +143,7 @@ class GeneratedConfig:
     GeneralShop_Refresh = False
     GeneralShop_Filter = 'BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2\n> Cube\n> FoodT6 > FoodT5'
     GuildShop_Refresh = True
-    GuildShop_Filter = 'PlateT4 > BookT3 > PRBP > CatT3 > Chips > Retrofit > FoodT6 > FoodT5 > CatT2 > BoxT4'
+    GuildShop_Filter = 'PlateT4 > BookT3 > PRBP > CatT3 > Chips > BookT2 > Retrofit > FoodT6 > FoodT5 > CatT2 > BoxT4'
     GuildShop_BOX_T3 = 'ironblood'  # eagle, royal, sakura, ironblood
     GuildShop_BOX_T4 = 'ironblood'  # eagle, royal, sakura, ironblood
     GuildShop_BOOK_T2 = 'red'  # red, blue, yellow
@@ -158,7 +158,12 @@ class GeneratedConfig:
     GuildShop_PR3 = 'champagne'  # champagne, anchorage, august, marcopolo
     MedalShop_Filter = 'DR > PRY\n> BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2\n> BulinT2 > RetrofitT3 > PlateGeneralT3\n> FoodT6 > FoodT5'
     MeritShop_Refresh = False
-    MeritShop_Filter = 'Cube > BulinT2'
+    MeritShop_Filter = 'Cube'
+
+    # Func `Shipyard`
+    Shipyard_ResearchSeries = 1
+    Shipyard_ShipIndex = 0
+    Shipyard_BuyAmount = 2
 
     # Func `Daily`
     Daily_UseDailySkip = True

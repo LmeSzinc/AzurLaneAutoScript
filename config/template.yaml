@@ -301,8 +301,8 @@ Shop:
       > FoodT6 > FoodT5
   GuildShop:
     Refresh: true
-    Filter: PlateT4 > BookT3 > PRBP > CatT3 > Chips > Retrofit > FoodT6 > FoodT5 >
-      CatT2 > BoxT4
+    Filter: PlateT4 > BookT3 > PRBP > CatT3 > Chips > BookT2 > Retrofit > FoodT6 >
+      FoodT5 > CatT2 > BoxT4
     BOX_T3: ironblood
     BOX_T4: ironblood
     BOOK_T2: red
@@ -323,7 +323,19 @@ Shop:
       > FoodT6 > FoodT5
   MeritShop:
     Refresh: false
-    Filter: Cube > BulinT2
+    Filter: Cube
+Shipyard:
+  Scheduler:
+    Enable: false
+    NextRun: 2020-01-01 00:00:00
+    Command: Shipyard
+    SuccessInterval: 120
+    FailureInterval: 120
+    ServerUpdate: 04:00
+  Shipyard:
+    ResearchSeries: 1
+    ShipIndex: 0
+    BuyAmount: 2
 Daily:
   Scheduler:
     Enable: false

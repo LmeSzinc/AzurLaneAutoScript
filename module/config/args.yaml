@@ -462,7 +462,21 @@ Shop:
   MeritShop:
     Refresh: false
     Filter: |-
-      Cube > BulinT2
+      Cube
+Shipyard:
+  _info:
+    Menu: Reward
+  Scheduler:
+    Enable: false
+    NextRun: 2020-01-01 00:00:00
+    Command: Shipyard
+    SuccessInterval: 120
+    FailureInterval: 120
+    ServerUpdate: 04:00
+  Shipyard:
+    ResearchSeries: 1
+    ShipIndex: 0
+    BuyAmount: 2
 Daily:
   _info:
     Menu: Daily
