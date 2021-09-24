@@ -20,25 +20,30 @@ SWITCH_BEACON = Switch(name='Beacon', offset=(20, 20))
 SWITCH_BEACON.add_status('mine', BEACON_LIST)
 SWITCH_BEACON.add_status('list', BEACON_MY)
 
-RECORD_OPTION = ('DailyRecord', 'ash')
-RECORD_SINCE = (0,)
+
+class AshBeaconFinished(Exception):
+    pass
 
 
 class AshCombat(Combat):
-    def handle_battle_status(self, save_get_items=False):
+    def handle_battle_status(self, drop=None):
         """
         Args:
-            save_get_items (bool):
+            drop (DropImage):
 
         Returns:
             bool:
         """
         if self.is_combat_executing():
             return False
-        if self.appear_then_click(BATTLE_STATUS, offset=(20, 20),
-                                  screenshot=save_get_items, genre='status', interval=3):
-            if not save_get_items:
+        if super().handle_battle_status(drop=drop):
+            return True
+        if self.appear(BATTLE_STATUS, interval=self.battle_status_click_interval):
+            if drop:
+                drop.handle_add(self)
+            else:
                 self.device.sleep((0.25, 0.5))
+            self.device.click(BATTLE_STATUS)
             return True
         if self.appear(BATTLE_PREPARATION, offset=(30, 30), interval=3):
             self.device.click(BACK_ARROW)
@@ -46,81 +51,25 @@ class AshCombat(Combat):
 
         return False
 
-    def combat_preparation(self, balance_hp=False, emotion_reduce=False, auto='combat_auto', fleet_index=1):
-        """
-        Args:
-            balance_hp (bool):
-            emotion_reduce (bool):
-            auto (str):
-            fleet_index (int):
-        """
-        logger.info('Combat preparation.')
-        skip_first_screenshot = True
+    def handle_battle_preparation(self):
+        if super().handle_battle_preparation():
+            return True
 
-        if emotion_reduce:
-            self.emotion.wait(fleet=fleet_index)
-        if balance_hp:
-            self.hp_balance()
+        # If ash beacon is outdated, game with exit preparation page and return to beacon select page
+        if self.appear(ASH_START, offset=(30, 30)):
+            logger.info("Ash beacon outdated, select another beacon.")
+            raise AshBeaconFinished
+        if self.appear(BEACON_REWARD):
+            logger.info("Ash beacon already finished.")
+            raise AshBeaconFinished
 
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
+        return False
 
-            if self.appear(BATTLE_PREPARATION):
-                if self.handle_combat_automation_set(auto=auto == 'combat_auto'):
-                    continue
-            if self.handle_retirement():
-                continue
-            if self.handle_combat_low_emotion():
-                continue
-            if balance_hp and self.handle_emergency_repair_use():
-                continue
-            if self.appear_then_click(BATTLE_PREPARATION, interval=2):
-                continue
-            if self.handle_combat_automation_confirm():
-                continue
-            if self.handle_story_skip():
-                continue
-
-            # End
-            if self.is_combat_executing():
-                if emotion_reduce:
-                    self.emotion.reduce(fleet_index)
-                break
-
-            # If ash beacon is outdated, game with exit preparation page and return to beacon select page
-            if self.appear(ASH_START, offset=(30, 30)):
-                logger.info("Failed to start this ash beacon combat, select another beacon.")
-                return False
-
-        return True
-
-    def combat(self, balance_hp=False, emotion_reduce=False, auto_mode='combat_auto', call_submarine_at_boss=False,
-               save_get_items=False, expected_end=None, fleet_index=1):
-        """
-        Execute a combat.
-        """
-        balance_hp = balance_hp if balance_hp is not None else self.config.ENABLE_HP_BALANCE
-        emotion_reduce = emotion_reduce if emotion_reduce is not None else self.config.ENABLE_EMOTION_REDUCE
-        if auto_mode is None:
-            auto_mode = self.config.FLEET_1_AUTO_MODE if fleet_index == 1 else self.config.FLEET_2_AUTO_MODE
-        call_submarine_at_boss = call_submarine_at_boss if call_submarine_at_boss is not None else self.config.SUBMARINE_CALL_AT_BOSS
-        save_get_items = save_get_items if save_get_items is not None else self.config.ENABLE_SAVE_GET_ITEMS
-        self.battle_status_click_interval = 7 if save_get_items else 0
-
-        if not self.combat_preparation(
-            balance_hp=balance_hp, emotion_reduce=emotion_reduce, auto=auto_mode, fleet_index=fleet_index):
-            return False
-        self.combat_execute(
-            auto=auto_mode, call_submarine_at_boss=call_submarine_at_boss, save_get_items=save_get_items)
-        self.combat_status(
-            save_get_items=save_get_items, expected_end=expected_end)
-        # self.handle_map_after_combat_story()
-
-        logger.info('Combat end.')
-        return True
+    def combat(self, *args, **kwargs):
+        try:
+            super().combat(*args, **kwargs)
+        except AshBeaconFinished:
+            pass
 
 
 class OSAsh(UI):
@@ -227,9 +176,9 @@ class OSAsh(UI):
                 break
 
             while 1:
-                self._ash_beacon_select(tier=self.config.OS_ASH_ASSIST_TIER)
+                self._ash_beacon_select(tier=self.config.OpsiAshAssist_Tier)
                 self.ui_click(ASH_START, check_button=BATTLE_PREPARATION, offset=(30, 30),
-                            additional=ash_combat.handle_combat_automation_confirm, skip_first_screenshot=True)
+                              additional=ash_combat.handle_combat_automation_confirm, skip_first_screenshot=True)
                 if ash_combat.combat(expected_end=self.is_in_ash):
                     break
             continue
@@ -391,12 +340,14 @@ class OSAsh(UI):
         return True
 
 
-class AshDaily(OSAsh):
-    def record_executed_since(self):
-        return self.config.record_executed_since(option=RECORD_OPTION, since=RECORD_SINCE)
-
-    def record_save(self):
-        return self.config.record_save(option=RECORD_OPTION)
-
+class AshBeaconAssist(OSAsh):
     def run(self):
-        return self.ash_beacon_assist()
+        """
+        Run daily ash beacon assist.
+
+        Pages:
+            in: Any page
+            out: page_os
+        """
+        self.ash_beacon_assist()
+        self.config.task_delay(server_update=True)

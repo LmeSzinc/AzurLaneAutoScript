@@ -27,6 +27,7 @@ from module.reward.reward import Reward
 from module.shop.shop_reward import RewardShop
 from module.sos.sos import CampaignSos
 from module.tactical.tactical_class import RewardTacticalClass
+from module.os_ash.ash import AshBeaconAssist
 
 
 class AzurLaneAutoScript:
@@ -142,6 +143,9 @@ class AzurLaneAutoScript:
 
     def sos(self):
         CampaignSos(config=self.config, device=self.device).run()
+
+    def opsi_ash(self):
+        AshBeaconAssist(config=self.config, device=self.device).run()
 
     def main(self):
         CampaignRun(config=self.config, device=self.device).run(

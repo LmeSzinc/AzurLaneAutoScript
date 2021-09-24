@@ -192,3 +192,6 @@ class GeneratedConfig:
 
     # Func `Sos`
     Sos_Chapter = 3  # 3, 4, 5, 6, 7, 8, 9, 10
+
+    # Func `OpsiAsh`
+    OpsiAshAssist_Tier = 15

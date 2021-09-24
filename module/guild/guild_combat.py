@@ -13,6 +13,8 @@ class GuildCombat(Combat):
         """
         if self.is_combat_executing():
             return False
+        if super().handle_battle_status(drop=drop):
+            return True
         if self.appear(BATTLE_STATUS_CF, interval=self.battle_status_click_interval):
             if drop:
                 drop.handle_add(self)

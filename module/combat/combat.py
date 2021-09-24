@@ -120,7 +120,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 continue
             if balance_hp and self.handle_emergency_repair_use():
                 continue
-            if self.appear_then_click(BATTLE_PREPARATION, interval=2):
+            if self.handle_battle_preparation():
                 continue
             if self.handle_combat_automation_confirm():
                 continue
@@ -132,6 +132,16 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 if emotion_reduce:
                     self.emotion.reduce(fleet_index)
                 break
+
+    def handle_battle_preparation(self):
+        """
+        Returns:
+            bool:
+        """
+        if self.appear_then_click(BATTLE_PREPARATION, interval=2):
+            return True
+
+        return False
 
     def handle_combat_automation_set(self, auto):
         """

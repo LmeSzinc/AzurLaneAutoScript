@@ -441,3 +441,13 @@ Sos:
     RepairUseSingleThreshold: 0.3
     RepairUseMultiThreshold: 0.6
     LowHpRetreatThreshold: 0.3
+OpsiAsh:
+  Scheduler:
+    Enable: false
+    NextRun: 2020-01-01 00:00:00
+    Command: OpsiAsh
+    SuccessInterval: 0
+    FailureInterval: 120
+    ServerUpdate: 00:00
+  OpsiAshAssist:
+    Tier: 15
