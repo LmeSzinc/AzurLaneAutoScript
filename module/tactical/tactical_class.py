@@ -23,7 +23,7 @@ BOOK_FILTER = Filter(
         '(t[123])?'
     ),
     attr=('same_str', 'genre_str', 'tier_str'),
-    preset=('first')
+    preset=('first',)
 )
 
 
@@ -135,7 +135,8 @@ class RewardTacticalClass(UI):
             in: TACTICAL_CLASS_START
             out: TACTICAL_CLASS_START
         """
-        for n in range(10):
+        prev = SelectedGrids([])
+        for n in range(1, 16):
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
@@ -145,18 +146,20 @@ class RewardTacticalClass(UI):
 
             books = SelectedGrids([Book(self.device.image, button) for button in BOOKS_GRID.buttons]).select(valid=True)
             self.books = books
-            logger.attr('Book_count', len(books))
+            logger.attr('Book_count', books.count)
             logger.attr('Books', str(books))
 
             # End
-            if books:
+            if books and books.count == prev.count:
                 return books
             else:
-                self.device.sleep(3)
+                prev = books
+                if n % 3 == 0:
+                    self.device.sleep(3)
                 continue
 
         logger.warning('No book found.')
-        raise ScriptError('No book found, after 10 attempts.')
+        raise ScriptError('No book found, after 15 attempts.')
 
     def _tactical_books_choose(self):
         """
