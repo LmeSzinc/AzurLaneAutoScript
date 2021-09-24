@@ -152,7 +152,7 @@ class CampaignRun(UI):
         self.run_limit = self.config.StopCondition_RunCount
         while 1:
             # End
-            if total and self.run_count == total:
+            if total and self.run_count >= total:
                 break
 
             # Log

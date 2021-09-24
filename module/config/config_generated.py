@@ -189,3 +189,6 @@ class GeneratedConfig:
     Exercise_LowHpConfirmWait = 0.1
     OpponentRefresh_Count = 0
     OpponentRefresh_Record = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Func `Sos`
+    Sos_Chapter = 3  # 3, 4, 5, 6, 7, 8, 9, 10

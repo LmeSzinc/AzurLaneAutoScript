@@ -334,8 +334,11 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
     def FLEET_BOSS(self):
         if self._fleet_boss:
             return self._fleet_boss
-        if self.Fleet_FleetOrder == 'fleet1_mob_fleet2_boss':
-            return 2
+        if self.Fleet_Fleet2:
+            if self.Fleet_FleetOrder == 'fleet1_mob_fleet2_boss':
+                return 2
+            else:
+                return 1
         else:
             return 1
 
