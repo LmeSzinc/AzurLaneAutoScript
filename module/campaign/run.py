@@ -170,6 +170,7 @@ class CampaignRun(UI):
             elif self.campaign.is_in_auto_search_menu():
                 logger.info('In auto search menu, skip ensure_campaign_ui.')
             else:
+                self.ui_get_current_page()
                 self.campaign.ensure_campaign_ui(
                     name=self.stage,
                     mode=mode

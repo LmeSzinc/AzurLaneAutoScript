@@ -101,7 +101,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         skip_first_screenshot = True
 
         if emotion_reduce:
-            self.emotion.wait(fleet=fleet_index)
+            self.emotion.wait(fleet_index=fleet_index)
         if balance_hp:
             self.hp_balance()
 

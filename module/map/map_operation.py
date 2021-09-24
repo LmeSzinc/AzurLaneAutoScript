@@ -81,7 +81,6 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                         self.handle_2x_book_setting(mode='prep')
                         self.fleet_preparation()
                         self.handle_auto_search_setting()
-                        self.handle_auto_search_emotion_wait()
                     self.device.click(FLEET_PREPARATION)
                     fleet_timer.reset()
                     campaign_timer.reset()
@@ -225,42 +224,3 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         self.fleet_switch_click()
         self.ensure_no_info_bar()  # The info_bar which shows "Changed to fleet 2", will block the ammo icon
         return True
-
-    @cached_property
-    def _emotion_expected_reduce(self):
-        """
-        Returns:
-            tuple(int): Mob fleet emotion reduce, BOSS fleet emotion reduce
-        """
-        default = (self.emotion.get_expected_reduce, self.emotion.get_expected_reduce)
-        if hasattr(self, 'map'):
-            for data in self.map.spawn_data:
-                if 'boss' in data:
-                    battle = data.get('battle')
-                    reduce = (battle * default[0], default[1])
-                    if self.config.Fleet_AutoSearchFleetOrder in ['fleet1_all_fleet2_standby', 'fleet1_standby_fleet2_all']:
-                        reduce = (reduce[0] + reduce[1], 0)
-                    return reduce
-
-            logger.warning('No boss data found in spawn_data')
-            return default
-        else:
-            logger.info('Unable to get _emotion_expected_reduce, because map is not loaded. Return default value.')
-            return default
-
-    def handle_auto_search_emotion_wait(self):
-        """
-        If enable auto search, wait emotion before entering.
-        In first run, wait before clicking FLEET_PREPARATION.
-        In second and subsequent run, wait before clicking AUTO_SEARCH_MENU_CONTINUE.
-        """
-        if not self.config.Emotion_CalculateEmotion:
-            return False
-        if not self.config.Campaign_UseAutoSearch:
-            return False
-
-        if hasattr(self, 'emotion'):
-            logger.info(f'Expected emotion reduce: {self._emotion_expected_reduce}')
-            self.emotion.wait(expected_reduce=self._emotion_expected_reduce)
-        else:
-            logger.info('Emotion instance not loaded, skip emotion wait')

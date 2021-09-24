@@ -16,7 +16,7 @@ class Map(Fleet):
         expected = f'combat_{expected}' if expected else 'combat'
         self.show_fleet()
         if self.config.Emotion_CalculateEmotion and self.config.Campaign_UseFleetLock:
-            self.emotion.wait(fleet=self.fleet_current_index)
+            self.emotion.wait(fleet_index=self.fleet_current_index)
         self.goto(grid, expected=expected)
 
         self.full_scan()

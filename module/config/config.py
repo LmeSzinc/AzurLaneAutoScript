@@ -63,6 +63,9 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
     def load(self):
         self.data = read_file(filepath_config(self.config_name))
 
+        for path, value in self.modified.items():
+            deep_set(self.data, keys=path, value=value)
+
     def bind(self, func):
         """
         Args:
@@ -170,8 +173,7 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
         self.auto_update = False
 
         for arg, value in kwargs.items():
-            group, _ = arg.split('_', 1)
-            record = f'{group}_Record'
+            record = arg.replace('Value', 'Record')
             self.__setattr__(arg, value)
             self.__setattr__(record, datetime.now().replace(microsecond=0))
 

@@ -120,10 +120,7 @@ class CampaignBase(CampaignUI, Map, AutoSearchCombat):
 
         # Enter map
         if self.config.Emotion_CalculateEmotion:
-            if not self.map_is_auto_search:
-                self.emotion.wait()
-            else:
-                self.handle_auto_search_emotion_wait()
+            self.emotion.check_reduce(self._map_battle)
         self.ENTRANCE.area = self.ENTRANCE.button
         self.enter_map(self.ENTRANCE, mode=self.config.Campaign_Mode)
 
@@ -157,22 +154,20 @@ class CampaignBase(CampaignUI, Map, AutoSearchCombat):
             raise ScriptError('Battle function exhausted.')
 
     @cached_property
-    def _emotion_expected_reduce(self):
+    def _map_battle(self):
         """
         Returns:
-            tuple(int): Mob fleet emotion reduce, BOSS fleet emotion reduce
+            int: Battle on this map.
         """
-        default = (self.emotion.get_expected_reduce, self.emotion.get_expected_reduce)
         for data in self.MAP.spawn_data:
             if 'boss' in data:
-                battle = data.get('battle')
-                reduce = (battle * default[0], default[1])
-                if self.config.Fleet_AutoSearchFleetOrder in ['fleet1_all_fleet2_standby', 'fleet1_standby_fleet2_all']:
-                    reduce = (reduce[0] + reduce[1], 0)
-                return reduce
+                if 'battle' in data:
+                    return data['battle'] + 1
+                else:
+                    logger.warning('No battle count in spawn_data')
 
         logger.warning('No boss data found in spawn_data')
-        return default
+        return 0
 
     def auto_search_execute_a_battle(self):
         logger.hr(f'{self.FUNCTION_NAME_BASE}{self.battle_count}', level=2)

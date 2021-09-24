@@ -136,8 +136,8 @@ Main:
   Emotion:
     CalculateEmotion: true
     IgnoreLowEmotionWarn: false
-    Fleet1: 119
-    Fleet1RecordTime: 2020-01-01 00:00:00
+    Fleet1Value: 119
+    Fleet1Record: 2020-01-01 00:00:00
     Fleet1Control:
       value: prevent_yellow_face
       option: ['keep_exp_bonus', 'prevent_green_face', 'prevent_yellow_face', 'prevent_red_face']
@@ -145,8 +145,8 @@ Main:
       value: not_in_dormitory
       option: ['not_in_dormitory', 'dormitory_floor_1', 'dormitory_floor_2']
     Fleet1Oath: false
-    Fleet2: 119
-    Fleet2RecordTime: 2020-01-01 00:00:00
+    Fleet2Value: 119
+    Fleet2Record: 2020-01-01 00:00:00
     Fleet2Control:
       value: prevent_yellow_face
       option: ['keep_exp_bonus', 'prevent_green_face', 'prevent_yellow_face', 'prevent_red_face']
@@ -242,8 +242,8 @@ GemsFarming:
   Emotion:
     CalculateEmotion: true
     IgnoreLowEmotionWarn: false
-    Fleet1: 119
-    Fleet1RecordTime: 2020-01-01 00:00:00
+    Fleet1Value: 119
+    Fleet1Record: 2020-01-01 00:00:00
     Fleet1Control:
       value: prevent_yellow_face
       option: ['keep_exp_bonus', 'prevent_green_face', 'prevent_yellow_face', 'prevent_red_face']
@@ -251,8 +251,8 @@ GemsFarming:
       value: not_in_dormitory
       option: ['not_in_dormitory', 'dormitory_floor_1', 'dormitory_floor_2']
     Fleet1Oath: false
-    Fleet2: 119
-    Fleet2RecordTime: 2020-01-01 00:00:00
+    Fleet2Value: 119
+    Fleet2Record: 2020-01-01 00:00:00
     Fleet2Control:
       value: prevent_yellow_face
       option: ['keep_exp_bonus', 'prevent_green_face', 'prevent_yellow_face', 'prevent_red_face']

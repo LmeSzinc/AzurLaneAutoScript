@@ -92,13 +92,13 @@ Main:
   Emotion:
     CalculateEmotion: true
     IgnoreLowEmotionWarn: false
-    Fleet1: 119
-    Fleet1RecordTime: 2020-01-01 00:00:00
+    Fleet1Value: 119
+    Fleet1Record: 2020-01-01 00:00:00
     Fleet1Control: prevent_yellow_face
     Fleet1Recover: not_in_dormitory
     Fleet1Oath: false
-    Fleet2: 119
-    Fleet2RecordTime: 2020-01-01 00:00:00
+    Fleet2Value: 119
+    Fleet2Record: 2020-01-01 00:00:00
     Fleet2Control: prevent_yellow_face
     Fleet2Recover: not_in_dormitory
     Fleet2Oath: false
@@ -158,13 +158,13 @@ GemsFarming:
   Emotion:
     CalculateEmotion: true
     IgnoreLowEmotionWarn: false
-    Fleet1: 119
-    Fleet1RecordTime: 2020-01-01 00:00:00
+    Fleet1Value: 119
+    Fleet1Record: 2020-01-01 00:00:00
     Fleet1Control: prevent_yellow_face
     Fleet1Recover: not_in_dormitory
     Fleet1Oath: false
-    Fleet2: 119
-    Fleet2RecordTime: 2020-01-01 00:00:00
+    Fleet2Value: 119
+    Fleet2Record: 2020-01-01 00:00:00
     Fleet2Control: prevent_yellow_face
     Fleet2Recover: not_in_dormitory
     Fleet2Oath: false
