@@ -219,7 +219,6 @@ class RewardCommission(UI, InfoHandler):
             in: page_commission
             out: page_commission, info_bar, commission details unfold
         """
-        logger.hr(f'Start commission', level=2)
         self.interval_clear(COMMISSION_ADVICE)
         self.interval_clear(COMMISSION_START)
         comm_timer = Timer(7)
@@ -261,7 +260,7 @@ class RewardCommission(UI, InfoHandler):
             comm (Commission):
             is_urgent (bool):
         """
-        logger.hr('Commission find and start')
+        logger.hr('Commission find and start', level=2)
         logger.info(f'Finding commission {comm}')
         for _ in range(15):
             new = self._commission_detect(self.device.image)

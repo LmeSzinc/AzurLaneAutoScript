@@ -43,13 +43,38 @@ class SuffixOcr(Ocr):
 
 
 class Commission:
+    # Button to enter commission start
     button: Button
+    # OCR result
     name: str
+    # If success to parse commission name
+    valid: bool
+    # Suffix in roman numerals
+    # May be wrong if commission does not have a suffix
+    # Value: ⅠⅡⅢⅤⅣⅥ
     suffix: str
+    # Genre name in project_data.py
+    # Value: major_comm, daily_resource, urgent_cube, ...
     genre: str
+    # Status of commission
+    # Value: finished, running, pending
     status: str
+    # Duration to run this commission
     duration: timedelta
+    # Expire, only in urgent commission, None in others
     expire: timedelta
+    # Category for filter
+    # Value: major|daily|extra|urgent|night
+    category_str: str
+    # Genre for filter
+    # Value: resource|chip|event|drill|part|cube|oil|book|retrofit|box|gem|ship
+    genre_str: str
+    # Duration in hours
+    # Value: 0.5, 1, 1.16, 2.5, ...
+    duration_hour: str
+    # Duration in HH:MM
+    # Value: 1:30, 1:45, 2:00, 8:00, 12:00, ...
+    duration_hm: str
 
     def __init__(self, image, y, config):
         self.config = config
@@ -235,6 +260,12 @@ class Commission:
         if self.category_str == 'daily':
             if self.suffix != other.suffix:
                 return False
+        if self.genre == 'urgent_box':
+            for tag in ['NYB', 'BIW']:
+                if tag in self.name.upper() and tag not in other.name.upper():
+                    return False
+                if tag not in self.name.upper() and tag in other.name.upper():
+                    return False
         if (other.duration < self.duration - threshold) or (other.duration > self.duration + threshold):
             return False
         if (not self.expire and other.expire) or (self.expire and not other.expire):
