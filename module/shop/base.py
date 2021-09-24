@@ -144,7 +144,7 @@ class ShopBase(UI):
         items = self.shop_get_items(key=shop_type)
 
         try:
-            selection = selection.replace(' ', '').split('>')
+            selection = selection.replace(' ', '').replace('\n', '').split('>')
             selection = list(filter(''.__ne__, selection))
         except AttributeError:
             logger.warning('shop_get_item_to_buy --> Invalid filter string '
