@@ -24,23 +24,7 @@ class Function:
 
 
 class AzurLaneConfig(ManualConfig, GeneratedConfig):
-    # This will read ./config/<config_name>.yaml
-    config_name = ''
-    # Raw json data in yaml file.
-    data = {}
-    # Task to run and bind.
-    # Task means the name of the function to run in AzurLaneAutoScript class.
-    task = ''
-    # Modified arguments. Key: Argument path in yaml file. Value: Modified value.
-    # All variable modifications will be record here and saved in method `save()`.
-    modified = {}
-    # Key: Argument name in GeneratedConfig. Value: Path in `data`.
     bound = {}
-    # If write after every variable modification.
-    auto_update = True
-    # Force override variables
-    # Key: Argument name in GeneratedConfig. Value: Modified value.
-    overridden = {}
 
     def __setattr__(self, key, value):
         if key in self.bound:
@@ -52,7 +36,22 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
             super().__setattr__(key, value)
 
     def __init__(self, config_name, task=None):
+        # This will read ./config/<config_name>.yaml
         self.config_name = config_name
+        # Raw json data in yaml file.
+        self.data = {}
+        # Modified arguments. Key: Argument path in yaml file. Value: Modified value.
+        # All variable modifications will be record here and saved in method `save()`.
+        self.modified = {}
+        # Key: Argument name in GeneratedConfig. Value: Path in `data`.
+        self.bound = {}
+        # If write after every variable modification.
+        self.auto_update = True
+        # Force override variables
+        # Key: Argument name in GeneratedConfig. Value: Modified value.
+        self.overridden = {}
+        # Task to run and bind.
+        # Task means the name of the function to run in AzurLaneAutoScript class.
         self.load()
         if task is None:
             task = self.get_next()
@@ -92,19 +91,6 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
         for arg, value in self.overridden.items():
             super().__setattr__(arg, value)
 
-    def _func_check(self, function):
-        """
-        Args:
-            function (Function):
-
-        Returns:
-            bool:
-        """
-        if not function.enable:
-            return False
-
-        return True
-
     def get_next(self):
         pending = []
         waiting = []
@@ -118,7 +104,7 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
         if pending:
             f = Filter(regex=r'(.*)', attr=['command'])
             f.load(self.SCHEDULER_PRIORITY)
-            pending = f.apply(pending, func=self._func_check)
+            pending = f.apply(pending, func=lambda x: x.enable)
             pending = [f.command for f in pending]
             if pending:
                 logger.info(f'Pending tasks: {pending}')
@@ -249,7 +235,8 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
                 self.modified[f'{task}.Scheduler.Enable'] = True
             self.update()
 
-    def task_stop(self, message=''):
+    @staticmethod
+    def task_stop(message=''):
         """
         Stop current task
 

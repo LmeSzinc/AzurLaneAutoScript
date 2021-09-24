@@ -162,13 +162,12 @@ class AzurLaneAutoScript:
             success = self.run(inflection.underscore(self.config.task))
 
             logger.info(f'Scheduler: End task `{self.config.task}`')
+            del self.__dict__['config']
 
             if success:
-                del self.__dict__['config']
                 continue
             elif self.config.Error_HandleError:
                 # self.config.task_delay(success=False)
-                del self.__dict__['config']
                 continue
             else:
                 break
