@@ -160,6 +160,11 @@ class MissionHandler(GlobeOperation, ZoneManager):
 
             if self.appear_then_click(MISSION_CHECKOUT, offset=(20, 20), interval=2):
                 continue
+            if self.handle_popup_confirm('OS_MISSION_CHECKOUT'):
+                # Popup: Submarine will retreat after exiting current zone.
+                continue
+
+            # End
             if self.is_zone_pinned():
                 logger.info('Pinned at mission zone')
                 self.globe_enter(zone=self.name_to_zone(72))
