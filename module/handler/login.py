@@ -102,7 +102,7 @@ class LoginHandler(Combat):
         self.device.app_start()
         self.handle_app_login()
         self.ensure_no_unfinished_campaign()
-        self.config.Scheduler_Enable = False
+        self.config.task_delay(server_update=True)
 
     def ensure_no_unfinished_campaign(self, confirm_wait=3):
         """

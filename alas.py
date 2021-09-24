@@ -160,13 +160,20 @@ class AzurLaneAutoScript:
             mode=self.config.Campaign_Mode)
 
     def loop(self):
+        is_first = True
         while 1:
+            if is_first and self.config.task == 'Restart':
+                logger.info('Skip task `Restart` at scheduler start')
+                self.config.task_delay(server_update=True)
+                del self.__dict__['config']
+
             logger.info(f'Scheduler: Start task `{self.config.task}`')
             logger.hr(self.config.task, level=0)
             success = self.run(inflection.underscore(self.config.task))
 
             logger.info(f'Scheduler: End task `{self.config.task}`')
             del self.__dict__['config']
+            is_first = False
 
             if success:
                 continue
