@@ -61,14 +61,16 @@ page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_DAILY, destination=page_daily)
 # Event
 page_event = Page(EVENT_CHECK)
 page_event.link(button=GOTO_MAIN, destination=page_main)
-# page_event.link(button=BACK_ARROW, destination=page_campaign)
+page_event.link(button=BACK_ARROW, destination=page_campaign)
 page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_EVENT, destination=page_event)
+page_campaign.link(button=CAMPAIGN_GOTO_EVENT, destination=page_event)
 
 # SP
 page_sp = Page(SP_CHECK)
 page_sp.link(button=GOTO_MAIN, destination=page_main)
-# page_sp.link(button=BACK_ARROW, destination=page_campaign)
+page_sp.link(button=BACK_ARROW, destination=page_campaign)
 page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_EVENT, destination=page_sp)
+page_campaign.link(button=CAMPAIGN_GOTO_EVENT, destination=page_sp)
 
 # Operation Siren
 page_os = Page(OS_CHECK)

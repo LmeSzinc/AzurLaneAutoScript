@@ -53,12 +53,16 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
         self.overridden = {}
         # Task to run and bind.
         # Task means the name of the function to run in AzurLaneAutoScript class.
-        self.load()
-        if task is None:
-            task = self.get_next()
-        self.bind(task)
-        logger.info(f'Bind task {task}')
-        self.task = task
+        if config_name == 'template':
+            self.auto_update = False
+            self.task = 'template'
+        else:
+            self.load()
+            if task is None:
+                task = self.get_next()
+            self.bind(task)
+            logger.info(f'Bind task {task}')
+            self.task = task
 
     def load(self):
         self.data = self.read_file(self.config_name)
