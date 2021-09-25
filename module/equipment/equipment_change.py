@@ -16,7 +16,7 @@ SIM_VALUE = 0.90
 
 class EquipmentChange(Equipment):
     equip_list = {}
-    equipping_list = [0, 1, 2, 3, 4]
+    equipping_list = []
 
     def get_equiping_list(self, skip_first_screenshot=True):
         '''
@@ -29,11 +29,12 @@ class EquipmentChange(Equipment):
         else:
             self.device.screenshot()
         index = 0
+        self.equipping_list = []
         for button in EQUIPMENT_GRID.buttons:
             crop_image = np.array(self.device.image.crop(button.area))
             edge_value = abs(np.mean(cv2.Sobel(crop_image, 3, 1, 1)))
-            if edge_value < 0.1:
-                self.equipping_list.remove(index)
+            if edge_value > 0.1:
+                self.equipping_list.append(index)
             index += 1
         logger.info(f"Equipping list: {self.equipping_list}")
 
@@ -80,8 +81,6 @@ class EquipmentChange(Equipment):
                 self.ui_click(enter_button, check_button=EQUIPPING_ON,
                               skip_first_screenshot=skip_first_screenshot, offset=(5, 5))
                 self._find_equip(index)
-
-        self.equipping_list = [0, 1, 2, 3, 4]
 
     @Config.when(DEVICE_CONTROL_METHOD='minitouch')
     def _equipment_swipe(self, distance=190):
