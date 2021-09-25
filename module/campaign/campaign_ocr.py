@@ -91,6 +91,8 @@ class CampaignOcr(ModuleBase):
             button_name = button.crop(area=name_area, image=image)
             name = extract_letters(button_name.image, letter=name_letter, threshold=name_thresh)
             button_name = button_name.crop(area=self._extract_stage_name(name))
+            if not len(button.color):
+                button.load_color(image)
             button.area = button_name.area
             digits.append(button)
 
