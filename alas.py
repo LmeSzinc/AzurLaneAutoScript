@@ -153,6 +153,12 @@ class AzurLaneAutoScript:
             folder=self.config.Campaign_Event,
             mode=self.config.Campaign_Mode)
 
+    def c72_mystery_farming(self):
+        CampaignRun(config=self.config, device=self.device).run(
+            name='campaign_7_2_mystery_farming',
+            folder='campaign_main',
+            mode='normal')
+
     def gems_farming(self):
         GemsFarming(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name,

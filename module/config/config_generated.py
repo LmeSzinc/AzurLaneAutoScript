@@ -93,6 +93,9 @@ class GeneratedConfig:
     HpControl_RepairUseMultiThreshold = 0.6
     HpControl_LowHpRetreatThreshold = 0.3
 
+    # Func `C72MysteryFarming`
+    C72MysteryFarming_StepOnA3 = True
+
     # Func `GemsFarming`
     GemsFarming_FlagshipChange = True
     GemsFarming_FlagshipEquipChange = False
