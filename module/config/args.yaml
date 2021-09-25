@@ -475,7 +475,7 @@ Guild:
       PlateTorpedoT1 > PlateAntiAirT1 > PlatePlaneT1 > PlateGunT1 > PlateGeneralT1
       > PlateTorpedoT2 > PlateAntiAirT2 > PlatePlaneT2 > PlateGunT2 > PlateGeneralT2
       > PlateTorpedoT3 > PlateAntiAirT3 > PlatePlaneT3 > PlateGunT3 > PlateGeneralT3
-      > OxyCola > Coolant > Merit > Coins > Oil
+      > OxyCola > Coolant > Merit > Coin > Oil
   Operation:
     Enable: true
     JoinThreshold: 1
@@ -515,7 +515,7 @@ Shop:
   GuildShop:
     Refresh: true
     Filter: |-
-      PlateT4 > BookT3 > PRBP > CatT3 > Chips > BookT2 > Retrofit > FoodT6 > FoodT5 > CatT2 > BoxT4
+      PlateT4 > BookT3 > PRBP > CatT3 > Chip > BookT2 > Retrofit > FoodT6 > FoodT5 > CatT2 > BoxT4
     BOX_T3:
       value: ironblood
       option: [eagle, royal, sakura, ironblood]
@@ -556,7 +556,7 @@ Shop:
     Filter: |-
       DR > PRY
       > BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2
-      > BulinT2 > RetrofitT3 > PlateGeneralT3
+      > RetrofitT3 > PlateGeneralT3
       > FoodT6 > FoodT5
   MeritShop:
     Refresh: false

@@ -130,7 +130,7 @@ class GeneratedConfig:
 
     # Func `Guild`
     Logistics_Enable = True
-    Logistics_ExchangeFilter = 'PlateTorpedoT1 > PlateAntiAirT1 > PlatePlaneT1 > PlateGunT1 > PlateGeneralT1\n> PlateTorpedoT2 > PlateAntiAirT2 > PlatePlaneT2 > PlateGunT2 > PlateGeneralT2\n> PlateTorpedoT3 > PlateAntiAirT3 > PlatePlaneT3 > PlateGunT3 > PlateGeneralT3\n> OxyCola > Coolant > Merit > Coins > Oil'
+    Logistics_ExchangeFilter = 'PlateTorpedoT1 > PlateAntiAirT1 > PlatePlaneT1 > PlateGunT1 > PlateGeneralT1\n> PlateTorpedoT2 > PlateAntiAirT2 > PlatePlaneT2 > PlateGunT2 > PlateGeneralT2\n> PlateTorpedoT3 > PlateAntiAirT3 > PlatePlaneT3 > PlateGunT3 > PlateGeneralT3\n> OxyCola > Coolant > Merit > Coin > Oil'
     Operation_Enable = True
     Operation_JoinThreshold = 1
     Operation_AttackBoss = True
@@ -146,7 +146,7 @@ class GeneratedConfig:
     GeneralShop_Refresh = False
     GeneralShop_Filter = 'BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2\n> Cube\n> FoodT6 > FoodT5'
     GuildShop_Refresh = True
-    GuildShop_Filter = 'PlateT4 > BookT3 > PRBP > CatT3 > Chips > BookT2 > Retrofit > FoodT6 > FoodT5 > CatT2 > BoxT4'
+    GuildShop_Filter = 'PlateT4 > BookT3 > PRBP > CatT3 > Chip > BookT2 > Retrofit > FoodT6 > FoodT5 > CatT2 > BoxT4'
     GuildShop_BOX_T3 = 'ironblood'  # eagle, royal, sakura, ironblood
     GuildShop_BOX_T4 = 'ironblood'  # eagle, royal, sakura, ironblood
     GuildShop_BOOK_T2 = 'red'  # red, blue, yellow
@@ -159,7 +159,7 @@ class GeneratedConfig:
     GuildShop_PR1 = 'neptune'  # neptune, monarch, ibuki, izumo, roon, saintlouis
     GuildShop_PR2 = 'seattle'  # seattle, georgia, kitakaze, gascogne
     GuildShop_PR3 = 'champagne'  # champagne, anchorage, august, marcopolo
-    MedalShop_Filter = 'DR > PRY\n> BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2\n> BulinT2 > RetrofitT3 > PlateGeneralT3\n> FoodT6 > FoodT5'
+    MedalShop_Filter = 'DR > PRY\n> BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3 > PlateGeneralT3\n> FoodT6 > FoodT5'
     MeritShop_Refresh = False
     MeritShop_Filter = 'Cube'
 
