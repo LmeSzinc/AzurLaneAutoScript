@@ -217,6 +217,11 @@ class ConfigUpdater:
         for path, _ in deep_iter(self.args, depth=3):
             deep_load(path)
 
+        if config_name =='template':
+            deep_set(new, 'Alas.DropRecord.AzurStatsID', None)
+        else:
+            deep_default(new, 'Alas.DropRecord.AzurStatsID', random_id())
+
         return new
 
     @timer

@@ -92,6 +92,12 @@ Exercise:
 Sos:
   - Scheduler
   - Sos
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
 
 # ==================== Opsi ====================
 

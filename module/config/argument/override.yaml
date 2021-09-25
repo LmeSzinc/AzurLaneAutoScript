@@ -29,6 +29,7 @@ C72MysteryFarming:
     MapAchievement: non_stop
     GetNewShip: false
   Fleet:
+    FleetOrder: fleet1_all_fleet2_standby
     AutoSearchFleetOrder: fleet1_all_fleet2_standby
   Submarine:
     Fleet: 0
@@ -112,6 +113,20 @@ Sos:
     SuccessInterval: 30
     FailureInterval: 30
     ServerUpdate: 00:00
+  Campaign:
+    Name: dynamic
+    Event: campaign_main
+    Mode: normal
+    UseClearMode: true
+    UseFleetLock: true
+    UseAutoSearch: false
+    Use2xBook: false
+    AmbushEvade: true
+  StopCondition:
+    MapAchievement: non_stop
+    GetNewShip: false
+  Fleet:
+    AutoSearchFleetOrder: fleet1_all_fleet2_standby
 
 # ==================== Opsi ====================
 
