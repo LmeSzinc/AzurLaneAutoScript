@@ -231,8 +231,8 @@ class ActionPointHandler(UI):
         for _ in range(12):
             # End
             if self._action_point_total < self.config.OS_ACTION_POINT_PRESERVE:
-                if self.config.ENABLE_OS_ACTION_POINT_BUY:
-                    if self.action_point_buy(preserve=self.config.STOP_IF_OIL_LOWER_THAN):
+                if self.config.OpsiGeneral_BuyActionPoint:
+                    if self.action_point_buy(preserve=self.config.OpsiGeneral_OilLimit):
                         continue
                 logger.info(f'Reach the limit of action points, preserve={self.config.OS_ACTION_POINT_PRESERVE}')
                 self.action_point_quit()
@@ -243,8 +243,8 @@ class ActionPointHandler(UI):
                 return True
 
             # Get more action points
-            if self.config.ENABLE_OS_ACTION_POINT_BUY:
-                if self.action_point_buy(preserve=self.config.STOP_IF_OIL_LOWER_THAN):
+            if self.config.OpsiGeneral_BuyActionPoint:
+                if self.action_point_buy(preserve=self.config.OpsiGeneral_OilLimit):
                     continue
             box = [index for index in [3, 2, 1] if self._action_point_box[index] > 0]
             if len(box):

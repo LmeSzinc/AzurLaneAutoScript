@@ -22,14 +22,6 @@
       "SaveCommission": false,
       "UploadCommission": false,
       "SaveCombat": false
-    },
-    "Scheduler": {
-      "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
-      "Command": "Alas",
-      "SuccessInterval": 0,
-      "FailureInterval": 120,
-      "ServerUpdate": "00:00"
     }
   },
   "General": {
@@ -44,9 +36,6 @@
       "OldRetireR": true,
       "OldRetireSR": false,
       "OldRetireSSR": false
-    },
-    "Scheduler": {
-      "Command": "General"
     }
   },
   "Restart": {
@@ -164,7 +153,7 @@
       "Fleet2Formation": "double_line",
       "Fleet2Mode": "combat_auto",
       "Fleet2Step": 2,
-      "FleetOrder": "fleet1_mob_fleet2_boss",
+      "FleetOrder": "fleet1_all_fleet2_standby",
       "AutoSearchFleetOrder": "fleet1_all_fleet2_standby"
     },
     "Submarine": {
@@ -320,8 +309,8 @@
       "Enable": false,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "Dorm",
-      "SuccessInterval": 30,
-      "FailureInterval": 30,
+      "SuccessInterval": 278,
+      "FailureInterval": 278,
       "ServerUpdate": "00:00"
     },
     "Dorm": {
@@ -501,7 +490,7 @@
       "Chapter": 3
     },
     "Campaign": {
-      "Name": "dynamic_value",
+      "Name": "dynamic",
       "Event": "campaign_main",
       "Mode": "normal",
       "UseClearMode": true,
@@ -558,6 +547,16 @@
       "LowHpRetreatThreshold": 0.3
     }
   },
+  "OpsiGeneral": {
+    "OpsiGeneral": {
+      "AshAttack": true,
+      "BuyActionPoint": false,
+      "OilLimit": 1000,
+      "RepairThreshold": 0.4,
+      "BuyAkashiShop": true,
+      "AkashiShopFilter": "ActionPoint > PurpleCoins"
+    }
+  },
   "OpsiAshAssist": {
     "Scheduler": {
       "Enable": false,
@@ -569,6 +568,62 @@
     },
     "OpsiAshAssist": {
       "Tier": 15
+    }
+  },
+  "OpsiExplore": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "OpsiExplore",
+      "SuccessInterval": 0,
+      "FailureInterval": 0,
+      "ServerUpdate": "00:00"
+    },
+    "OpsiExplore": {
+      "LastZone": 0
+    }
+  },
+  "OpsiDaily": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "OpsiDaily",
+      "SuccessInterval": 30,
+      "FailureInterval": 30,
+      "ServerUpdate": "00:00"
+    },
+    "OpsiDaily": {
+      "BuySupply": true,
+      "DoMission": true
+    }
+  },
+  "OpsiObscure": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "OpsiObscure",
+      "SuccessInterval": 30,
+      "FailureInterval": 30,
+      "ServerUpdate": "00:00"
+    },
+    "OpsiObscure": {
+      "UseLogger": true,
+      "CallSubmarine": true,
+      "ForceRun": false
+    }
+  },
+  "OpsiMeowfficerFarming": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "OpsiMeowfficerFarming",
+      "SuccessInterval": 30,
+      "FailureInterval": 30,
+      "ServerUpdate": "00:00"
+    },
+    "OpsiMeowfficerFarming": {
+      "ActionPointPreserve": 500,
+      "HazardLevel": 5
     }
   }
 }

@@ -76,6 +76,8 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
             func (str): Function to run
         """
         func_list = [func, 'General', 'Alas']
+        if 'opsi' in func.lower():
+            func_list.append('OpsiGeneral')
 
         # Bind arguments
         visited = set()
@@ -269,6 +271,16 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
         else:
             return False
 
+    def check_task_switch(self, message=''):
+        """
+        Stop current task
+
+        Raises:
+            TaskEnd:
+        """
+        if self.task_switched():
+            self.task_stop(message=message)
+
     @property
     def campaign_name(self):
         """
@@ -341,3 +353,43 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
     @property
     def GuildShop_PR(self):
         return [self.GuildShop_PR1, self.GuildShop_PR2, self.GuildShop_PR3]
+
+    def temporary(self, **kwargs):
+        """
+        Cover some settings, and recover later.
+
+        Usage:
+        backup = self.config.cover(ENABLE_DAILY_REWARD=False)
+        # do_something()
+        backup.recover()
+
+        Args:
+            **kwargs:
+
+        Returns:
+            ConfigBackup:
+        """
+        backup = ConfigBackup(config=self)
+        backup.cover(**kwargs)
+        return backup
+
+
+class ConfigBackup:
+    def __init__(self, config):
+        """
+        Args:
+            config (AzurLaneConfig):
+        """
+        self.config = config
+        self.backup = {}
+        self.kwargs = {}
+
+    def cover(self, **kwargs):
+        self.kwargs = kwargs
+        for key, value in kwargs.items():
+            self.backup[key] = self.config.__getattribute__(key)
+            self.config.__setattr__(key, value)
+
+    def recover(self):
+        for key, value in self.backup.items():
+            self.config.__setattr__(key, value)

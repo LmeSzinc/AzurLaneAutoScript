@@ -45,7 +45,7 @@
     "Optimization": {
       "CombatScreenshotInterval": {
         "type": "input",
-        "value": 2
+        "value": 1.0
       }
     },
     "DropRecord": {
@@ -76,32 +76,6 @@
       "SaveCombat": {
         "type": "checkbox",
         "value": false
-      }
-    },
-    "Scheduler": {
-      "Enable": {
-        "type": "checkbox",
-        "value": false
-      },
-      "NextRun": {
-        "type": "input",
-        "value": "2020-01-01 00:00:00"
-      },
-      "Command": {
-        "type": "disable",
-        "value": "Alas"
-      },
-      "SuccessInterval": {
-        "type": "input",
-        "value": 0
-      },
-      "FailureInterval": {
-        "type": "input",
-        "value": 120
-      },
-      "ServerUpdate": {
-        "type": "input",
-        "value": "00:00"
       }
     }
   },
@@ -155,12 +129,6 @@
       "OldRetireSSR": {
         "type": "checkbox",
         "value": false
-      }
-    },
-    "Scheduler": {
-      "Command": {
-        "value": "General",
-        "type": "disable"
       }
     }
   },
@@ -701,8 +669,8 @@
         ]
       },
       "FleetOrder": {
-        "type": "select",
-        "value": "fleet1_mob_fleet2_boss",
+        "type": "disable",
+        "value": "fleet1_all_fleet2_standby",
         "option": [
           "fleet1_mob_fleet2_boss",
           "fleet1_all_fleet2_standby"
@@ -1347,11 +1315,11 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 30
+        "value": 278
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 30
+        "value": 278
       },
       "ServerUpdate": {
         "type": "disable",
@@ -2030,7 +1998,7 @@
     "Campaign": {
       "Name": {
         "type": "disable",
-        "value": "dynamic_value"
+        "value": "dynamic"
       },
       "Event": {
         "type": "disable",
@@ -2324,6 +2292,34 @@
       }
     }
   },
+  "OpsiGeneral": {
+    "OpsiGeneral": {
+      "AshAttack": {
+        "type": "checkbox",
+        "value": true
+      },
+      "BuyActionPoint": {
+        "type": "checkbox",
+        "value": false
+      },
+      "OilLimit": {
+        "type": "input",
+        "value": 1000
+      },
+      "RepairThreshold": {
+        "type": "input",
+        "value": 0.4
+      },
+      "BuyAkashiShop": {
+        "type": "checkbox",
+        "value": true
+      },
+      "AkashiShopFilter": {
+        "type": "textarea",
+        "value": "ActionPoint > PurpleCoins"
+      }
+    }
+  },
   "OpsiAshAssist": {
     "Scheduler": {
       "Enable": {
@@ -2355,6 +2351,166 @@
       "Tier": {
         "type": "input",
         "value": 15
+      }
+    }
+  },
+  "OpsiExplore": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "input",
+        "value": "2020-01-01 00:00:00"
+      },
+      "Command": {
+        "type": "disable",
+        "value": "OpsiExplore"
+      },
+      "SuccessInterval": {
+        "type": "disable",
+        "value": 0
+      },
+      "FailureInterval": {
+        "type": "disable",
+        "value": 0
+      },
+      "ServerUpdate": {
+        "type": "disable",
+        "value": "00:00"
+      }
+    },
+    "OpsiExplore": {
+      "LastZone": {
+        "type": "input",
+        "value": 0
+      }
+    }
+  },
+  "OpsiDaily": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "input",
+        "value": "2020-01-01 00:00:00"
+      },
+      "Command": {
+        "type": "disable",
+        "value": "OpsiDaily"
+      },
+      "SuccessInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "FailureInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "ServerUpdate": {
+        "type": "disable",
+        "value": "00:00"
+      }
+    },
+    "OpsiDaily": {
+      "BuySupply": {
+        "type": "checkbox",
+        "value": true
+      },
+      "DoMission": {
+        "type": "checkbox",
+        "value": true
+      }
+    }
+  },
+  "OpsiObscure": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "input",
+        "value": "2020-01-01 00:00:00"
+      },
+      "Command": {
+        "type": "disable",
+        "value": "OpsiObscure"
+      },
+      "SuccessInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "FailureInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "ServerUpdate": {
+        "type": "disable",
+        "value": "00:00"
+      }
+    },
+    "OpsiObscure": {
+      "UseLogger": {
+        "type": "checkbox",
+        "value": true
+      },
+      "CallSubmarine": {
+        "type": "checkbox",
+        "value": true
+      },
+      "ForceRun": {
+        "type": "checkbox",
+        "value": false
+      }
+    }
+  },
+  "OpsiMeowfficerFarming": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "input",
+        "value": "2020-01-01 00:00:00"
+      },
+      "Command": {
+        "type": "disable",
+        "value": "OpsiMeowfficerFarming"
+      },
+      "SuccessInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "FailureInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "ServerUpdate": {
+        "type": "disable",
+        "value": "00:00"
+      }
+    },
+    "OpsiMeowfficerFarming": {
+      "ActionPointPreserve": {
+        "type": "input",
+        "value": 500
+      },
+      "HazardLevel": {
+        "type": "select",
+        "value": 5,
+        "option": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
       }
     }
   }

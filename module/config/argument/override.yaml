@@ -62,8 +62,8 @@ Research:
     ServerUpdate: 00:00
 Dorm:
   Scheduler:
-    SuccessInterval: 30
-    FailureInterval: 30
+    SuccessInterval: 278
+    FailureInterval: 278
     ServerUpdate: 00:00
 Meowfficer:
   Scheduler:
@@ -131,6 +131,26 @@ Sos:
 # ==================== Opsi ====================
 
 OpsiAshAssist:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+OpsiExplore:
+  Scheduler:
+    SuccessInterval: 0
+    FailureInterval: 0
+    ServerUpdate: 00:00
+OpsiDaily:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+OpsiObscure:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+OpsiMeowfficerFarming:
   Scheduler:
     SuccessInterval: 30
     FailureInterval: 30

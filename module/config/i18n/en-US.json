@@ -76,9 +76,29 @@
       "name": "_menu.Sos.name",
       "help": "_menu.Sos.help"
     },
+    "OpsiGeneral": {
+      "name": "_menu.OpsiGeneral.name",
+      "help": "_menu.OpsiGeneral.help"
+    },
     "OpsiAshAssist": {
       "name": "_menu.OpsiAshAssist.name",
       "help": "_menu.OpsiAshAssist.help"
+    },
+    "OpsiExplore": {
+      "name": "_menu.OpsiExplore.name",
+      "help": "_menu.OpsiExplore.help"
+    },
+    "OpsiDaily": {
+      "name": "_menu.OpsiDaily.name",
+      "help": "_menu.OpsiDaily.help"
+    },
+    "OpsiObscure": {
+      "name": "_menu.OpsiObscure.name",
+      "help": "_menu.OpsiObscure.help"
+    },
+    "OpsiMeowfficerFarming": {
+      "name": "_menu.OpsiMeowfficerFarming.name",
+      "help": "_menu.OpsiMeowfficerFarming.help"
     }
   },
   "Scheduler": {
@@ -1068,6 +1088,98 @@
     "Tier": {
       "name": "OpsiAshAssist.Tier.name",
       "help": "OpsiAshAssist.Tier.help"
+    }
+  },
+  "OpsiGeneral": {
+    "_info": {
+      "name": "OpsiGeneral._info.name",
+      "help": "OpsiGeneral._info.help"
+    },
+    "AshAttack": {
+      "name": "OpsiGeneral.AshAttack.name",
+      "help": "OpsiGeneral.AshAttack.help"
+    },
+    "BuyActionPoint": {
+      "name": "OpsiGeneral.BuyActionPoint.name",
+      "help": "OpsiGeneral.BuyActionPoint.help"
+    },
+    "OilLimit": {
+      "name": "OpsiGeneral.OilLimit.name",
+      "help": "OpsiGeneral.OilLimit.help"
+    },
+    "RepairThreshold": {
+      "name": "OpsiGeneral.RepairThreshold.name",
+      "help": "OpsiGeneral.RepairThreshold.help"
+    },
+    "BuyAkashiShop": {
+      "name": "OpsiGeneral.BuyAkashiShop.name",
+      "help": "OpsiGeneral.BuyAkashiShop.help"
+    },
+    "AkashiShopFilter": {
+      "name": "OpsiGeneral.AkashiShopFilter.name",
+      "help": "OpsiGeneral.AkashiShopFilter.help"
+    }
+  },
+  "OpsiExplore": {
+    "_info": {
+      "name": "OpsiExplore._info.name",
+      "help": "OpsiExplore._info.help"
+    },
+    "LastZone": {
+      "name": "OpsiExplore.LastZone.name",
+      "help": "OpsiExplore.LastZone.help"
+    }
+  },
+  "OpsiDaily": {
+    "_info": {
+      "name": "OpsiDaily._info.name",
+      "help": "OpsiDaily._info.help"
+    },
+    "BuySupply": {
+      "name": "OpsiDaily.BuySupply.name",
+      "help": "OpsiDaily.BuySupply.help"
+    },
+    "DoMission": {
+      "name": "OpsiDaily.DoMission.name",
+      "help": "OpsiDaily.DoMission.help"
+    }
+  },
+  "OpsiObscure": {
+    "_info": {
+      "name": "OpsiObscure._info.name",
+      "help": "OpsiObscure._info.help"
+    },
+    "UseLogger": {
+      "name": "OpsiObscure.UseLogger.name",
+      "help": "OpsiObscure.UseLogger.help"
+    },
+    "CallSubmarine": {
+      "name": "OpsiObscure.CallSubmarine.name",
+      "help": "OpsiObscure.CallSubmarine.help"
+    },
+    "ForceRun": {
+      "name": "OpsiObscure.ForceRun.name",
+      "help": "OpsiObscure.ForceRun.help"
+    }
+  },
+  "OpsiMeowfficerFarming": {
+    "_info": {
+      "name": "OpsiMeowfficerFarming._info.name",
+      "help": "OpsiMeowfficerFarming._info.help"
+    },
+    "ActionPointPreserve": {
+      "name": "OpsiMeowfficerFarming.ActionPointPreserve.name",
+      "help": "OpsiMeowfficerFarming.ActionPointPreserve.help"
+    },
+    "HazardLevel": {
+      "name": "OpsiMeowfficerFarming.HazardLevel.name",
+      "help": "OpsiMeowfficerFarming.HazardLevel.help",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
     }
   }
 }

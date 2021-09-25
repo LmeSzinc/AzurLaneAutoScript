@@ -28,7 +28,7 @@ from module.reward.reward import Reward
 from module.shop.shop_reward import RewardShop
 from module.sos.sos import CampaignSos
 from module.tactical.tactical_class import RewardTacticalClass
-
+from module.campaign.os_run import OSCampaignRun
 
 class AzurLaneAutoScript:
     def __init__(self, config_name='alas'):
@@ -144,8 +144,20 @@ class AzurLaneAutoScript:
     def sos(self):
         CampaignSos(config=self.config, device=self.device).run()
 
-    def opsi_ash(self):
+    def opsi_ash_assist(self):
         AshBeaconAssist(config=self.config, device=self.device).run()
+
+    def opsi_explore(self):
+        OSCampaignRun(config=self.config, device=self.device).opsi_explore()
+
+    def opsi_daily(self):
+        OSCampaignRun(config=self.config, device=self.device).opsi_daily()
+
+    def opsi_obscure(self):
+        OSCampaignRun(config=self.config, device=self.device).opsi_obscure()
+
+    def opsi_meowfficer_farming(self):
+        OSCampaignRun(config=self.config, device=self.device).opsi_meowfficer_farming()
 
     def main(self):
         CampaignRun(config=self.config, device=self.device).run(
@@ -155,9 +167,9 @@ class AzurLaneAutoScript:
 
     def c72_mystery_farming(self):
         CampaignRun(config=self.config, device=self.device).run(
-            name='campaign_7_2_mystery_farming',
-            folder='campaign_main',
-            mode='normal')
+            name=self.config.Campaign_Name,
+            folder=self.config.Campaign_Event,
+            mode=self.config.Campaign_Mode)
 
     def gems_farming(self):
         GemsFarming(config=self.config, device=self.device).run(

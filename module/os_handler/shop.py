@@ -75,9 +75,9 @@ class OSShopHandler(UI, MapEventHandler):
                 break
 
         try:
-            selection = self.config.OS_ASKSHI_SHOP_PRIORITY.replace(' ', '').split('>')
+            selection = self.config.OpsiGeneral_AkashiShopFilter.replace(' ', '').replace('\n', '').split('>')
         except Exception:
-            logger.warning(f'Invalid OS akashi buy filter string: {self.config.OS_ASKSHI_SHOP_PRIORITY}')
+            logger.warning(f'Invalid OS akashi buy filter string: {self.config.OpsiGeneral_AkashiShopFilter}')
             return None
 
         for select in selection:

@@ -103,11 +103,11 @@ class MapOrderHandler(MapOperation, ActionPointHandler, EnemySearchingHandler, Z
             in: is_in_map
             out: is_in_map
         """
-        backup = self.config.cover(OS_ACTION_POINT_PRESERVE=0, OS_ACTION_POINT_BOX_USE=True)
+        # backup = self.config.cover(OS_ACTION_POINT_PRESERVE=0, OS_ACTION_POINT_BOX_USE=True)
 
         if recon_scan:
             self.order_execute(ORDER_SCAN)
         if submarine_call:
             self.order_execute(ORDER_SUBMARINE)
 
-        backup.recover()
+        # backup.recover()

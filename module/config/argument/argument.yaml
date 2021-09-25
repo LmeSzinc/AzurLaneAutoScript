@@ -25,7 +25,7 @@ Error:
   SaveError: true
   ScreenshotLength: 1
 Optimization:
-  CombatScreenshotInterval: 2
+  CombatScreenshotInterval: 1.0
 DropRecord:
   SaveFolder: ./screenshots
   AzurStatsID: null
@@ -326,4 +326,26 @@ Sos:
 # ==================== Opsi ====================
 
 OpsiAshAssist:
-    Tier: 15
+  Tier: 15
+OpsiGeneral:
+  AshAttack: true
+  BuyActionPoint: false
+  OilLimit: 1000
+  RepairThreshold: 0.4
+  BuyAkashiShop: true
+  AkashiShopFilter: |-
+    ActionPoint > PurpleCoins
+OpsiExplore:
+  LastZone: 0
+OpsiDaily:
+  BuySupply: true
+  DoMission: true
+OpsiObscure:
+  UseLogger: true
+  CallSubmarine: true
+  ForceRun: false
+OpsiMeowfficerFarming:
+  ActionPointPreserve: 500
+  HazardLevel:
+    value: 5
+    option: [1, 2, 3, 4, 5, 6]

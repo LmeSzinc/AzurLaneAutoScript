@@ -9,7 +9,6 @@ Alas:
   - Error
   - Optimization
   - DropRecord
-  - Scheduler
 General:
   - Retirement
 Restart:
@@ -101,6 +100,20 @@ Sos:
 
 # ==================== Opsi ====================
 
+OpsiGeneral:
+  - OpsiGeneral
 OpsiAshAssist:
   - Scheduler
   - OpsiAshAssist
+OpsiExplore:
+  - Scheduler
+  - OpsiExplore
+OpsiDaily:
+  - Scheduler
+  - OpsiDaily
+OpsiObscure:
+  - Scheduler
+  - OpsiObscure
+OpsiMeowfficerFarming:
+  - Scheduler
+  - OpsiMeowfficerFarming

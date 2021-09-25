@@ -109,8 +109,9 @@ class ConfigGenerator:
 
         # Set command
         for task in self.task.keys():
-            deep_set(data, keys=f'{task}.Scheduler.Command.value', value=task)
-            deep_set(data, keys=f'{task}.Scheduler.Command.type', value='disable')
+            if deep_get(data, keys=f'{task}.Scheduler.Command'):
+                deep_set(data, keys=f'{task}.Scheduler.Command.value', value=task)
+                deep_set(data, keys=f'{task}.Scheduler.Command.type', value='disable')
 
         write_file(filepath_args(), data)
         return data

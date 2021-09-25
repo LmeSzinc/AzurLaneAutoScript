@@ -179,7 +179,7 @@ class OSAsh(UI):
                 self._ash_beacon_select(tier=self.config.OpsiAshAssist_Tier)
                 self.ui_click(ASH_START, check_button=BATTLE_PREPARATION, offset=(30, 30),
                               additional=ash_combat.handle_combat_automation_confirm, skip_first_screenshot=True)
-                if ash_combat.combat(expected_end=self.is_in_ash):
+                if ash_combat.combat(expected_end=self.is_in_ash, save_get_items=False, emotion_reduce=False):
                     break
             continue
 
@@ -312,7 +312,7 @@ class OSAsh(UI):
             if self.appear(ASH_START, offset=(30, 30)):
                 self.ui_click(ASH_START, check_button=BATTLE_PREPARATION, offset=(30, 30),
                               additional=ash_combat.handle_combat_automation_confirm, skip_first_screenshot=True)
-                ash_combat.combat(expected_end=self.is_in_ash)
+                ash_combat.combat(expected_end=self.is_in_ash, save_get_items=False, emotion_reduce=False)
                 continue
 
     def handle_ash_beacon_attack(self):
@@ -324,7 +324,7 @@ class OSAsh(UI):
             in: is_in_map
             out: is_in_map
         """
-        if not self.config.ENABLE_OS_ASH_ATTACK:
+        if not self.config.OpsiGeneral_AshAttack:
             return False
         if self.ash_collect_status() < 100:
             return False

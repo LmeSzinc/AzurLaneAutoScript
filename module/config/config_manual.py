@@ -8,7 +8,7 @@ class ManualConfig:
     Restart
     > Research > Commission > Tactical > Dorm > Meowfficer > Guild > Reward
     > Gacha > Shop > Shipyard
-    > OpsiObscure > Exercise > Daily > Hard > OpsiAsh
+    > OpsiObscure > Exercise > Daily > Hard > OpsiAshAssist
     > Sos > EventSp > EventAb > RaidDaily > WarArchieves
     > OpsiExplore > OpsiDaily > OpsiMeowfficerFarming
     > Event > Raid > Main
@@ -170,6 +170,63 @@ class ManualConfig:
     ERROR_LINES_TOLERANCE = (-10, 10)
     MID_DIFF_RANGE_H = (129 - 3, 129 + 3)
     MID_DIFF_RANGE_V = (129 - 3, 129 + 3)
+
+    """
+    module.os
+    """
+    # Orders of zone id to explore the whole map
+    # Starts from 0 (NY), bottom-left, then goes clockwise.
+    # CL1 and CL2
+    # CL3
+    # CL4
+    # CL5
+    # CL6
+    OS_EXPLORE_FILTER = """
+    44 > 24 > 22 > 31 > 21 > 23
+    > 83 > 43 > 81 > 84 > 92 > 93
+    > 131 > 134 > 132 > 122 > 112
+    
+    > 33 > 34 > 32 > 25
+    > 41 > 105 > 95 > 94
+    > 141 > 143 > 123 > 125 > 114 > 113 > 111 > 135 > 133
+    > 65 > 62 > 66
+    
+    > 14 > 42
+    > 85 > 82 > 91 > 104 > 103
+    > 142
+    > 61 > 52 > 51 > 53 > 54 > 63 > 64
+    
+    > 13 > 12
+    > 101 > 102
+    > 144 > 124
+    > 71 > 73
+    
+    > 11 > 106 > 121 > 72
+    """
+    OS_ACTION_POINT_BOX_USE = True
+    OS_ACTION_POINT_PRESERVE = 0
+
+    """
+    module.os.globe_detection
+    """
+    OS_GLOBE_HOMO_STORAGE = ((4, 3), ((445, 180), (879, 180), (376, 497), (963, 497)))
+    OS_GLOBE_DETECTING_AREA = (0, 0, 1280, 720)
+    OS_GLOBE_IMAGE_PAD = 700
+    OS_GLOBE_IMAGE_RESIZE = 0.5
+    OS_GLOBE_FIND_PEAKS_PARAMETERS = {
+        'height': 100,
+        # 'width': (0.9, 5),
+        'prominence': 20,
+        'distance': 35,
+        'wlen': 500,
+    }
+    OS_LOCAL_FIND_PEAKS_PARAMETERS = {
+        'height': 50,
+        # 'width': (0.9, 5),
+        'prominence': 20,
+        'distance': 35,
+        'wlen': 500,
+    }
 
     """
     module.retire

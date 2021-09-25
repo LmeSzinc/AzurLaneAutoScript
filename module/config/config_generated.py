@@ -29,7 +29,7 @@ class GeneratedConfig:
     Error_ScreenshotLength = 1
 
     # Group `Optimization`
-    Optimization_CombatScreenshotInterval = 2
+    Optimization_CombatScreenshotInterval = 1.0
 
     # Group `DropRecord`
     DropRecord_SaveFolder = './screenshots'
@@ -222,3 +222,27 @@ class GeneratedConfig:
 
     # Group `OpsiAshAssist`
     OpsiAshAssist_Tier = 15
+
+    # Group `OpsiGeneral`
+    OpsiGeneral_AshAttack = True
+    OpsiGeneral_BuyActionPoint = False
+    OpsiGeneral_OilLimit = 1000
+    OpsiGeneral_RepairThreshold = 0.4
+    OpsiGeneral_BuyAkashiShop = True
+    OpsiGeneral_AkashiShopFilter = 'ActionPoint > PurpleCoins'
+
+    # Group `OpsiExplore`
+    OpsiExplore_LastZone = 0
+
+    # Group `OpsiDaily`
+    OpsiDaily_BuySupply = True
+    OpsiDaily_DoMission = True
+
+    # Group `OpsiObscure`
+    OpsiObscure_UseLogger = True
+    OpsiObscure_CallSubmarine = True
+    OpsiObscure_ForceRun = False
+
+    # Group `OpsiMeowfficerFarming`
+    OpsiMeowfficerFarming_ActionPointPreserve = 500
+    OpsiMeowfficerFarming_HazardLevel = 5  # 1, 2, 3, 4, 5, 6

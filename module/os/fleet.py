@@ -217,7 +217,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             # Wait until arrived
             prev = (0, 0)
             confirm_timer = Timer(1, count=2).start()
-            backup = self.config.cover(MAP_HAS_FLEET_STEP=True)
+            backup = self.config.temporary(MAP_HAS_FLEET_STEP=True)
             while 1:
                 self.device.screenshot()
 
