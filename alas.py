@@ -10,7 +10,7 @@ from module.campaign.gems_farming import GemsFarming
 from module.campaign.run import CampaignRun
 from module.commission.commission import RewardCommission
 from module.config.config import AzurLaneConfig, TaskEnd
-from module.config.db import Database
+from module.config.config_updater import ConfigUpdater
 from module.daily.daily import Daily
 from module.device.device import Device
 from module.dorm.dorm import RewardDorm
@@ -22,18 +22,18 @@ from module.handler.sensitive_info import handle_sensitive_image, handle_sensiti
 from module.hard.hard import CampaignHard
 from module.logger import logger, log_file
 from module.meowfficer.meowfficer import RewardMeowfficer
+from module.os_ash.ash import AshBeaconAssist
 from module.research.research import RewardResearch
 from module.reward.reward import Reward
 from module.shop.shop_reward import RewardShop
 from module.sos.sos import CampaignSos
 from module.tactical.tactical_class import RewardTacticalClass
-from module.os_ash.ash import AshBeaconAssist
 
 
 class AzurLaneAutoScript:
     def __init__(self, config_name='alas'):
         self.config_name = config_name
-        Database().update_config(config_name)
+        ConfigUpdater().update_config(config_name)
 
     @cached_property
     def config(self):

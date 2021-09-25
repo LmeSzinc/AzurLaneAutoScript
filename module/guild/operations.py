@@ -30,7 +30,7 @@ class GuildOperations(GuildBase):
                     self.device.click(GUILD_OPERATIONS_CLICK_SAFE_AREA)
                 else:
                     current, remain, total = GUILD_OPERATIONS_PROGRESS.ocr(self.device.image)
-                    threshold = total * self.config.Operation_JoinThreshold
+                    threshold = total * self.config.GuildOperation_JoinThreshold
                     if current <= threshold:
                         logger.info('Joining Operation, current progress less than '
                                     f'threshold ({threshold:.2f})')
@@ -389,7 +389,7 @@ class GuildOperations(GuildBase):
                     return False
                 continue
 
-            if self.config.Operation_BossFleetRecommend:
+            if self.config.GuildOperation_BossFleetRecommend:
                 if self.info_bar_count() and self.appear_then_click(GUILD_DISPATCH_RECOMMEND_2, interval=3):
                     continue
 
@@ -451,7 +451,7 @@ class GuildOperations(GuildBase):
             result = True
         elif operations_mode == 2:
             if self._guild_operations_boss_available():
-                if self.config.Operation_AttackBoss:
+                if self.config.GuildOperation_AttackBoss:
                     result = self._guild_operations_boss_combat()
                 else:
                     logger.info('Auto-battle disabled, play manually to complete this Guild Task')

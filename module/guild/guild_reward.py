@@ -16,7 +16,7 @@ class RewardGuild(GuildLobby, GuildLogistics, GuildOperations):
             in: page_main
             out: page_main
         """
-        if not self.config.Logistics_Enable and not self.config.Operation_Enable:
+        if not self.config.GuildLogistics_Enable and not self.config.GuildOperation_Enable:
             self.config.Scheduler_Enable = False
             self.config.task_stop()
 
@@ -27,11 +27,11 @@ class RewardGuild(GuildLobby, GuildLogistics, GuildOperations):
         self.guild_lobby()
 
         # Logistics
-        if self.config.Logistics_Enable:
+        if self.config.GuildLogistics_Enable:
             success &= self.guild_logistics()
 
         # Operation
-        if self.config.Operation_Enable:
+        if self.config.GuildOperation_Enable:
             success &= self.guild_operations()
 
         self.ui_goto(page_main)

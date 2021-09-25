@@ -1,0 +1,100 @@
+# --------------------
+# Define argument group of tasks.
+# --------------------
+
+# ==================== Alas ====================
+
+Alas:
+  - Emulator
+  - Error
+  - Optimization
+  - DropRecord
+  - Scheduler
+General:
+  - Retirement
+Restart:
+  - Scheduler
+
+# ==================== Farm ====================
+
+Main:
+  - Scheduler
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+C72MysteryFarming:
+  - Scheduler
+  - C72MysteryFarming
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+GemsFarming:
+  - Scheduler
+  - GemsFarming
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+
+# ==================== Reward ====================
+
+Commission:
+  - Scheduler
+  - Commission
+Tactical:
+  - Scheduler
+  - Tactical
+Research:
+  - Scheduler
+  - Research
+Dorm:
+  - Scheduler
+  - Dorm
+Meowfficer:
+  - Scheduler
+  - Meowfficer
+Guild:
+  - Scheduler
+  - GuildLogistics
+  - GuildOperation
+Reward:
+  - Scheduler
+  - Reward
+Shop:
+  - Scheduler
+  - GeneralShop
+  - GuildShop
+  - MedalShop
+  - MeritShop
+Shipyard:
+  - Scheduler
+  - Shipyard
+
+# ==================== Daily ====================
+
+Daily:
+  - Scheduler
+  - Daily
+Hard:
+  - Scheduler
+  - Hard
+Exercise:
+  - Scheduler
+  - Exercise
+Sos:
+  - Scheduler
+  - Sos
+
+# ==================== Opsi ====================
+
+OpsiAshAssist:
+  - Scheduler
+  - OpsiAshAssist

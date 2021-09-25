@@ -1,0 +1,122 @@
+# --------------------
+# Define non-modifiable values
+# --------------------
+
+# ==================== Alas ====================
+
+Restart:
+  Scheduler:
+    SuccessInterval: 0
+    FailureInterval: 0
+    ServerUpdate: 00:00
+
+# ==================== Farm ====================
+
+Main:
+  Campaign:
+    Event: campaign_main
+C72MysteryFarming:
+  Campaign:
+    Name: campaign_7_2_mystery_farming
+    Event: campaign_main
+    Mode: normal
+    UseClearMode: true
+    UseFleetLock: true
+    UseAutoSearch: false
+    Use2xBook: false
+    AmbushEvade: true
+  StopCondition:
+    MapAchievement: non_stop
+    GetNewShip: false
+  Fleet:
+    AutoSearchFleetOrder: fleet1_all_fleet2_standby
+  Submarine:
+    Fleet: 0
+    Mode: do_not_use
+GemsFarming:
+  Campaign:
+    Mode: normal
+    Use2xBook: false
+    AmbushEvade: true
+  StopCondition:
+    MapAchievement: non_stop
+    GetNewShip: false
+
+# ==================== Reward ====================
+
+Commission:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+Tactical:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+Research:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+Dorm:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+Meowfficer:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+Guild:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00, 12:00, 18:00, 21:00
+Reward:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+Shop:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00, 12:00, 18:00
+Shipyard:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 04:00
+
+# ==================== Daily ====================
+
+Daily:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+Hard:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+Exercise:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+Sos:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+
+# ==================== Opsi ====================
+
+OpsiAshAssist:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00

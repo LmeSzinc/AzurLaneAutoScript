@@ -18,7 +18,7 @@ class Exercise(ExerciseCombat):
         self.opponent_change_count += 1
 
         logger.attr("Change_opponent_count", self.opponent_change_count)
-        self.config.set_record(OpponentRefresh_Count=self.opponent_change_count)
+        self.config.set_record(Exercise_OpponentRefreshValue=self.opponent_change_count)
 
         self.ensure_no_info_bar(timeout=3)
 
@@ -95,14 +95,14 @@ class Exercise(ExerciseCombat):
         Returns:
             int:
         """
-        record = self.config.OpponentRefresh_Record
+        record = self.config.Exercise_OpponentRefreshRecord
         update = get_server_last_update('00:00')
         if record.date() == update.date():
             # Same Day
-            return self.config.OpponentRefresh_Count
+            return self.config.Exercise_OpponentRefreshValue
         else:
             # New Day
-            self.config.set_record(OpponentRefresh_Count=0)
+            self.config.set_record(Exercise_OpponentRefreshValue=0)
             return 0
 
     def run(self):
@@ -127,7 +127,7 @@ class Exercise(ExerciseCombat):
         # self.equipment_take_off_when_finished()
 
         # Scheduler
-        self.config.set_record(OpponentRefresh_Count=self.opponent_change_count)
+        self.config.set_record(Exercise_OpponentRefreshValue=self.opponent_change_count)
         if self.remain <= self.config.Exercise_ExercisePreserve or self.opponent_change_count >= 5:
             self.config.task_delay(server_update=True)
         else:

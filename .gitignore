@@ -5,6 +5,8 @@ config/*.ini
 !config/template.ini
 config/*.yaml
 !config/template.yaml
+config/*.json
+!config/template.json
 *.pyw
 !alas_cn.pyw
 !alas_en.pyw

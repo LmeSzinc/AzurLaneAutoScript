@@ -182,7 +182,6 @@ class CampaignRun(UI):
 
             # End
             if self.triggered_stop_condition(oil_check=not self.campaign.is_in_auto_search_menu()):
-                self.campaign.ensure_auto_search_exit()
                 break
 
             # Run
@@ -197,6 +196,9 @@ class CampaignRun(UI):
             self.run_count += 1
             if self.config.StopCondition_RunCount:
                 self.config.StopCondition_RunCount -= 1
+            # End
+            if self.triggered_stop_condition(oil_check=False):
+                break
             # One-time stage limit
             if self.campaign.config.MAP_IS_ONE_TIME_STAGE:
                 if self.run_count >= 1:

@@ -7,6 +7,7 @@ from module.base.filter import Filter
 from module.base.utils import ensure_time
 from module.config.config_generated import GeneratedConfig
 from module.config.config_manual import ManualConfig
+from module.config.config_updater import ConfigUpdater
 from module.config.utils import *
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
@@ -23,7 +24,7 @@ class Function:
         self.next_run = deep_get(data, keys='Scheduler.NextRun', default=datetime(2020, 1, 1, 0, 0))
 
 
-class AzurLaneConfig(ManualConfig, GeneratedConfig):
+class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
     bound = {}
 
     def __setattr__(self, key, value):
@@ -60,7 +61,7 @@ class AzurLaneConfig(ManualConfig, GeneratedConfig):
         self.task = task
 
     def load(self):
-        self.data = read_file(filepath_config(self.config_name))
+        self.data = self.read_file(self.config_name)
 
         for path, value in self.modified.items():
             deep_set(self.data, keys=path, value=value)

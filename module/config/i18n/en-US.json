@@ -1,0 +1,1073 @@
+{
+  "_menu": {
+    "Alas": {
+      "name": "_menu.Alas.name",
+      "help": "_menu.Alas.help"
+    },
+    "General": {
+      "name": "_menu.General.name",
+      "help": "_menu.General.help"
+    },
+    "Restart": {
+      "name": "_menu.Restart.name",
+      "help": "_menu.Restart.help"
+    },
+    "Main": {
+      "name": "_menu.Main.name",
+      "help": "_menu.Main.help"
+    },
+    "C72MysteryFarming": {
+      "name": "_menu.C72MysteryFarming.name",
+      "help": "_menu.C72MysteryFarming.help"
+    },
+    "GemsFarming": {
+      "name": "_menu.GemsFarming.name",
+      "help": "_menu.GemsFarming.help"
+    },
+    "Commission": {
+      "name": "_menu.Commission.name",
+      "help": "_menu.Commission.help"
+    },
+    "Tactical": {
+      "name": "_menu.Tactical.name",
+      "help": "_menu.Tactical.help"
+    },
+    "Research": {
+      "name": "_menu.Research.name",
+      "help": "_menu.Research.help"
+    },
+    "Dorm": {
+      "name": "_menu.Dorm.name",
+      "help": "_menu.Dorm.help"
+    },
+    "Meowfficer": {
+      "name": "_menu.Meowfficer.name",
+      "help": "_menu.Meowfficer.help"
+    },
+    "Guild": {
+      "name": "_menu.Guild.name",
+      "help": "_menu.Guild.help"
+    },
+    "Reward": {
+      "name": "_menu.Reward.name",
+      "help": "_menu.Reward.help"
+    },
+    "Shop": {
+      "name": "_menu.Shop.name",
+      "help": "_menu.Shop.help"
+    },
+    "Shipyard": {
+      "name": "_menu.Shipyard.name",
+      "help": "_menu.Shipyard.help"
+    },
+    "Daily": {
+      "name": "_menu.Daily.name",
+      "help": "_menu.Daily.help"
+    },
+    "Hard": {
+      "name": "_menu.Hard.name",
+      "help": "_menu.Hard.help"
+    },
+    "Exercise": {
+      "name": "_menu.Exercise.name",
+      "help": "_menu.Exercise.help"
+    },
+    "Sos": {
+      "name": "_menu.Sos.name",
+      "help": "_menu.Sos.help"
+    },
+    "OpsiAshAssist": {
+      "name": "_menu.OpsiAshAssist.name",
+      "help": "_menu.OpsiAshAssist.help"
+    }
+  },
+  "Scheduler": {
+    "_info": {
+      "name": "Scheduler._info.name",
+      "help": "Scheduler._info.help"
+    },
+    "Enable": {
+      "name": "Scheduler.Enable.name",
+      "help": "Scheduler.Enable.help"
+    },
+    "NextRun": {
+      "name": "Scheduler.NextRun.name",
+      "help": "Scheduler.NextRun.help"
+    },
+    "Command": {
+      "name": "Scheduler.Command.name",
+      "help": "Scheduler.Command.help"
+    },
+    "SuccessInterval": {
+      "name": "Scheduler.SuccessInterval.name",
+      "help": "Scheduler.SuccessInterval.help"
+    },
+    "FailureInterval": {
+      "name": "Scheduler.FailureInterval.name",
+      "help": "Scheduler.FailureInterval.help"
+    },
+    "ServerUpdate": {
+      "name": "Scheduler.ServerUpdate.name",
+      "help": "Scheduler.ServerUpdate.help"
+    }
+  },
+  "Emulator": {
+    "_info": {
+      "name": "Emulator._info.name",
+      "help": "Emulator._info.help"
+    },
+    "Serial": {
+      "name": "Emulator.Serial.name",
+      "help": "Emulator.Serial.help"
+    },
+    "PackageName": {
+      "name": "Emulator.PackageName.name",
+      "help": "Emulator.PackageName.help"
+    },
+    "ScreenshotMethod": {
+      "name": "Emulator.ScreenshotMethod.name",
+      "help": "Emulator.ScreenshotMethod.help",
+      "ADB": "ADB",
+      "uiautomator2": "uiautomator2",
+      "aScreenCap": "aScreenCap"
+    },
+    "ControlMethod": {
+      "name": "Emulator.ControlMethod.name",
+      "help": "Emulator.ControlMethod.help",
+      "ADB": "ADB",
+      "uiautomator2": "uiautomator2",
+      "minitouch": "minitouch"
+    }
+  },
+  "Error": {
+    "_info": {
+      "name": "Error._info.name",
+      "help": "Error._info.help"
+    },
+    "HandleError": {
+      "name": "Error.HandleError.name",
+      "help": "Error.HandleError.help"
+    },
+    "SaveError": {
+      "name": "Error.SaveError.name",
+      "help": "Error.SaveError.help"
+    },
+    "ScreenshotLength": {
+      "name": "Error.ScreenshotLength.name",
+      "help": "Error.ScreenshotLength.help"
+    }
+  },
+  "Optimization": {
+    "_info": {
+      "name": "Optimization._info.name",
+      "help": "Optimization._info.help"
+    },
+    "CombatScreenshotInterval": {
+      "name": "Optimization.CombatScreenshotInterval.name",
+      "help": "Optimization.CombatScreenshotInterval.help"
+    }
+  },
+  "DropRecord": {
+    "_info": {
+      "name": "DropRecord._info.name",
+      "help": "DropRecord._info.help"
+    },
+    "SaveFolder": {
+      "name": "DropRecord.SaveFolder.name",
+      "help": "DropRecord.SaveFolder.help"
+    },
+    "AzurStatsID": {
+      "name": "DropRecord.AzurStatsID.name",
+      "help": "DropRecord.AzurStatsID.help"
+    },
+    "SaveResearch": {
+      "name": "DropRecord.SaveResearch.name",
+      "help": "DropRecord.SaveResearch.help"
+    },
+    "UploadResearch": {
+      "name": "DropRecord.UploadResearch.name",
+      "help": "DropRecord.UploadResearch.help"
+    },
+    "SaveCommission": {
+      "name": "DropRecord.SaveCommission.name",
+      "help": "DropRecord.SaveCommission.help"
+    },
+    "UploadCommission": {
+      "name": "DropRecord.UploadCommission.name",
+      "help": "DropRecord.UploadCommission.help"
+    },
+    "SaveCombat": {
+      "name": "DropRecord.SaveCombat.name",
+      "help": "DropRecord.SaveCombat.help"
+    }
+  },
+  "Retirement": {
+    "_info": {
+      "name": "Retirement._info.name",
+      "help": "Retirement._info.help"
+    },
+    "Enable": {
+      "name": "Retirement.Enable.name",
+      "help": "Retirement.Enable.help"
+    },
+    "RetireMode": {
+      "name": "Retirement.RetireMode.name",
+      "help": "Retirement.RetireMode.help",
+      "one_click_retire": "one_click_retire",
+      "enhance": "enhance",
+      "old_retire": "old_retire"
+    },
+    "RetireAmount": {
+      "name": "Retirement.RetireAmount.name",
+      "help": "Retirement.RetireAmount.help",
+      "retire_all": "retire_all",
+      "retire_10": "retire_10"
+    },
+    "EnhanceFavourite": {
+      "name": "Retirement.EnhanceFavourite.name",
+      "help": "Retirement.EnhanceFavourite.help"
+    },
+    "EnhanceFilter": {
+      "name": "Retirement.EnhanceFilter.name",
+      "help": "Retirement.EnhanceFilter.help"
+    },
+    "EnhanceCheckPerCategory": {
+      "name": "Retirement.EnhanceCheckPerCategory.name",
+      "help": "Retirement.EnhanceCheckPerCategory.help"
+    },
+    "OldRetireN": {
+      "name": "Retirement.OldRetireN.name",
+      "help": "Retirement.OldRetireN.help"
+    },
+    "OldRetireR": {
+      "name": "Retirement.OldRetireR.name",
+      "help": "Retirement.OldRetireR.help"
+    },
+    "OldRetireSR": {
+      "name": "Retirement.OldRetireSR.name",
+      "help": "Retirement.OldRetireSR.help"
+    },
+    "OldRetireSSR": {
+      "name": "Retirement.OldRetireSSR.name",
+      "help": "Retirement.OldRetireSSR.help"
+    }
+  },
+  "Campaign": {
+    "_info": {
+      "name": "Campaign._info.name",
+      "help": "Campaign._info.help"
+    },
+    "Name": {
+      "name": "Campaign.Name.name",
+      "help": "Campaign.Name.help"
+    },
+    "Event": {
+      "name": "Campaign.Event.name",
+      "help": "Campaign.Event.help"
+    },
+    "Mode": {
+      "name": "Campaign.Mode.name",
+      "help": "Campaign.Mode.help",
+      "normal": "normal",
+      "hard": "hard"
+    },
+    "UseClearMode": {
+      "name": "Campaign.UseClearMode.name",
+      "help": "Campaign.UseClearMode.help"
+    },
+    "UseFleetLock": {
+      "name": "Campaign.UseFleetLock.name",
+      "help": "Campaign.UseFleetLock.help"
+    },
+    "UseAutoSearch": {
+      "name": "Campaign.UseAutoSearch.name",
+      "help": "Campaign.UseAutoSearch.help"
+    },
+    "Use2xBook": {
+      "name": "Campaign.Use2xBook.name",
+      "help": "Campaign.Use2xBook.help"
+    },
+    "AmbushEvade": {
+      "name": "Campaign.AmbushEvade.name",
+      "help": "Campaign.AmbushEvade.help"
+    }
+  },
+  "StopCondition": {
+    "_info": {
+      "name": "StopCondition._info.name",
+      "help": "StopCondition._info.help"
+    },
+    "RunCount": {
+      "name": "StopCondition.RunCount.name",
+      "help": "StopCondition.RunCount.help"
+    },
+    "OilLimit": {
+      "name": "StopCondition.OilLimit.name",
+      "help": "StopCondition.OilLimit.help"
+    },
+    "MapAchievement": {
+      "name": "StopCondition.MapAchievement.name",
+      "help": "StopCondition.MapAchievement.help",
+      "non_stop": "non_stop",
+      "100_percent_clear": "100_percent_clear",
+      "map_3_stars": "map_3_stars",
+      "threat_safe": "threat_safe",
+      "threat_safe_without_3_stars": "threat_safe_without_3_stars"
+    },
+    "GetNewShip": {
+      "name": "StopCondition.GetNewShip.name",
+      "help": "StopCondition.GetNewShip.help"
+    },
+    "ReachLevel120": {
+      "name": "StopCondition.ReachLevel120.name",
+      "help": "StopCondition.ReachLevel120.help"
+    }
+  },
+  "Fleet": {
+    "_info": {
+      "name": "Fleet._info.name",
+      "help": "Fleet._info.help"
+    },
+    "Fleet1": {
+      "name": "Fleet.Fleet1.name",
+      "help": "Fleet.Fleet1.help",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    },
+    "Fleet1Formation": {
+      "name": "Fleet.Fleet1Formation.name",
+      "help": "Fleet.Fleet1Formation.help",
+      "line_ahead": "line_ahead",
+      "double_line": "double_line",
+      "diamond": "diamond"
+    },
+    "Fleet1Mode": {
+      "name": "Fleet.Fleet1Mode.name",
+      "help": "Fleet.Fleet1Mode.help",
+      "combat_auto": "combat_auto",
+      "combat_manual": "combat_manual",
+      "stand_still_in_the_middle": "stand_still_in_the_middle",
+      "hide_in_bottom_left": "hide_in_bottom_left"
+    },
+    "Fleet1Step": {
+      "name": "Fleet.Fleet1Step.name",
+      "help": "Fleet.Fleet1Step.help",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5"
+    },
+    "Fleet2": {
+      "name": "Fleet.Fleet2.name",
+      "help": "Fleet.Fleet2.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    },
+    "Fleet2Formation": {
+      "name": "Fleet.Fleet2Formation.name",
+      "help": "Fleet.Fleet2Formation.help",
+      "line_ahead": "line_ahead",
+      "double_line": "double_line",
+      "diamond": "diamond"
+    },
+    "Fleet2Mode": {
+      "name": "Fleet.Fleet2Mode.name",
+      "help": "Fleet.Fleet2Mode.help",
+      "combat_auto": "combat_auto",
+      "combat_manual": "combat_manual",
+      "stand_still_in_the_middle": "stand_still_in_the_middle",
+      "hide_in_bottom_left": "hide_in_bottom_left"
+    },
+    "Fleet2Step": {
+      "name": "Fleet.Fleet2Step.name",
+      "help": "Fleet.Fleet2Step.help",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5"
+    },
+    "FleetOrder": {
+      "name": "Fleet.FleetOrder.name",
+      "help": "Fleet.FleetOrder.help",
+      "fleet1_mob_fleet2_boss": "fleet1_mob_fleet2_boss",
+      "fleet1_all_fleet2_standby": "fleet1_all_fleet2_standby"
+    },
+    "AutoSearchFleetOrder": {
+      "name": "Fleet.AutoSearchFleetOrder.name",
+      "help": "Fleet.AutoSearchFleetOrder.help",
+      "fleet1_mob_fleet2_boss": "fleet1_mob_fleet2_boss",
+      "fleet1_boss_fleet2_mob": "fleet1_boss_fleet2_mob",
+      "fleet1_all_fleet2_standby": "fleet1_all_fleet2_standby",
+      "fleet1_standby_fleet2_all": "fleet1_standby_fleet2_all"
+    }
+  },
+  "Submarine": {
+    "_info": {
+      "name": "Submarine._info.name",
+      "help": "Submarine._info.help"
+    },
+    "Fleet": {
+      "name": "Submarine.Fleet.name",
+      "help": "Submarine.Fleet.help",
+      "0": "0",
+      "1": "1",
+      "2": "2"
+    },
+    "Mode": {
+      "name": "Submarine.Mode.name",
+      "help": "Submarine.Mode.help",
+      "do_not_use": "do_not_use",
+      "hunt_only": "hunt_only",
+      "every_combat": "every_combat"
+    }
+  },
+  "Emotion": {
+    "_info": {
+      "name": "Emotion._info.name",
+      "help": "Emotion._info.help"
+    },
+    "CalculateEmotion": {
+      "name": "Emotion.CalculateEmotion.name",
+      "help": "Emotion.CalculateEmotion.help"
+    },
+    "IgnoreLowEmotionWarn": {
+      "name": "Emotion.IgnoreLowEmotionWarn.name",
+      "help": "Emotion.IgnoreLowEmotionWarn.help"
+    },
+    "Fleet1Value": {
+      "name": "Emotion.Fleet1Value.name",
+      "help": "Emotion.Fleet1Value.help"
+    },
+    "Fleet1Record": {
+      "name": "Emotion.Fleet1Record.name",
+      "help": "Emotion.Fleet1Record.help"
+    },
+    "Fleet1Control": {
+      "name": "Emotion.Fleet1Control.name",
+      "help": "Emotion.Fleet1Control.help",
+      "keep_exp_bonus": "keep_exp_bonus",
+      "prevent_green_face": "prevent_green_face",
+      "prevent_yellow_face": "prevent_yellow_face",
+      "prevent_red_face": "prevent_red_face"
+    },
+    "Fleet1Recover": {
+      "name": "Emotion.Fleet1Recover.name",
+      "help": "Emotion.Fleet1Recover.help",
+      "not_in_dormitory": "not_in_dormitory",
+      "dormitory_floor_1": "dormitory_floor_1",
+      "dormitory_floor_2": "dormitory_floor_2"
+    },
+    "Fleet1Oath": {
+      "name": "Emotion.Fleet1Oath.name",
+      "help": "Emotion.Fleet1Oath.help"
+    },
+    "Fleet2Value": {
+      "name": "Emotion.Fleet2Value.name",
+      "help": "Emotion.Fleet2Value.help"
+    },
+    "Fleet2Record": {
+      "name": "Emotion.Fleet2Record.name",
+      "help": "Emotion.Fleet2Record.help"
+    },
+    "Fleet2Control": {
+      "name": "Emotion.Fleet2Control.name",
+      "help": "Emotion.Fleet2Control.help",
+      "keep_exp_bonus": "keep_exp_bonus",
+      "prevent_green_face": "prevent_green_face",
+      "prevent_yellow_face": "prevent_yellow_face",
+      "prevent_red_face": "prevent_red_face"
+    },
+    "Fleet2Recover": {
+      "name": "Emotion.Fleet2Recover.name",
+      "help": "Emotion.Fleet2Recover.help",
+      "not_in_dormitory": "not_in_dormitory",
+      "dormitory_floor_1": "dormitory_floor_1",
+      "dormitory_floor_2": "dormitory_floor_2"
+    },
+    "Fleet2Oath": {
+      "name": "Emotion.Fleet2Oath.name",
+      "help": "Emotion.Fleet2Oath.help"
+    }
+  },
+  "HpControl": {
+    "_info": {
+      "name": "HpControl._info.name",
+      "help": "HpControl._info.help"
+    },
+    "UseHpBalance": {
+      "name": "HpControl.UseHpBalance.name",
+      "help": "HpControl.UseHpBalance.help"
+    },
+    "UseEmergencyRepair": {
+      "name": "HpControl.UseEmergencyRepair.name",
+      "help": "HpControl.UseEmergencyRepair.help"
+    },
+    "UseLowHpRetreat": {
+      "name": "HpControl.UseLowHpRetreat.name",
+      "help": "HpControl.UseLowHpRetreat.help"
+    },
+    "HpBalanceThreshold": {
+      "name": "HpControl.HpBalanceThreshold.name",
+      "help": "HpControl.HpBalanceThreshold.help"
+    },
+    "HpBalanceWeight": {
+      "name": "HpControl.HpBalanceWeight.name",
+      "help": "HpControl.HpBalanceWeight.help"
+    },
+    "RepairUseSingleThreshold": {
+      "name": "HpControl.RepairUseSingleThreshold.name",
+      "help": "HpControl.RepairUseSingleThreshold.help"
+    },
+    "RepairUseMultiThreshold": {
+      "name": "HpControl.RepairUseMultiThreshold.name",
+      "help": "HpControl.RepairUseMultiThreshold.help"
+    },
+    "LowHpRetreatThreshold": {
+      "name": "HpControl.LowHpRetreatThreshold.name",
+      "help": "HpControl.LowHpRetreatThreshold.help"
+    }
+  },
+  "C72MysteryFarming": {
+    "_info": {
+      "name": "C72MysteryFarming._info.name",
+      "help": "C72MysteryFarming._info.help"
+    },
+    "StepOnA3": {
+      "name": "C72MysteryFarming.StepOnA3.name",
+      "help": "C72MysteryFarming.StepOnA3.help"
+    }
+  },
+  "GemsFarming": {
+    "_info": {
+      "name": "GemsFarming._info.name",
+      "help": "GemsFarming._info.help"
+    },
+    "FlagshipChange": {
+      "name": "GemsFarming.FlagshipChange.name",
+      "help": "GemsFarming.FlagshipChange.help"
+    },
+    "FlagshipEquipChange": {
+      "name": "GemsFarming.FlagshipEquipChange.name",
+      "help": "GemsFarming.FlagshipEquipChange.help"
+    },
+    "VanguardChange": {
+      "name": "GemsFarming.VanguardChange.name",
+      "help": "GemsFarming.VanguardChange.help"
+    },
+    "VanguardEquipChange": {
+      "name": "GemsFarming.VanguardEquipChange.name",
+      "help": "GemsFarming.VanguardEquipChange.help"
+    },
+    "LowEmotionRetreat": {
+      "name": "GemsFarming.LowEmotionRetreat.name",
+      "help": "GemsFarming.LowEmotionRetreat.help"
+    },
+    "CommonCV": {
+      "name": "GemsFarming.CommonCV.name",
+      "help": "GemsFarming.CommonCV.help",
+      "any": "any",
+      "langley": "langley",
+      "bogue": "bogue",
+      "ranger": "ranger",
+      "hermes": "hermes"
+    }
+  },
+  "Commission": {
+    "_info": {
+      "name": "Commission._info.name",
+      "help": "Commission._info.help"
+    },
+    "DoMajorCommission": {
+      "name": "Commission.DoMajorCommission.name",
+      "help": "Commission.DoMajorCommission.help"
+    },
+    "CommissionFilter": {
+      "name": "Commission.CommissionFilter.name",
+      "help": "Commission.CommissionFilter.help"
+    }
+  },
+  "Tactical": {
+    "_info": {
+      "name": "Tactical._info.name",
+      "help": "Tactical._info.help"
+    },
+    "TacticalFilter": {
+      "name": "Tactical.TacticalFilter.name",
+      "help": "Tactical.TacticalFilter.help"
+    }
+  },
+  "Research": {
+    "_info": {
+      "name": "Research._info.name",
+      "help": "Research._info.help"
+    },
+    "UseCube": {
+      "name": "Research.UseCube.name",
+      "help": "Research.UseCube.help"
+    },
+    "UseCoin": {
+      "name": "Research.UseCoin.name",
+      "help": "Research.UseCoin.help"
+    },
+    "UsePart": {
+      "name": "Research.UsePart.name",
+      "help": "Research.UsePart.help"
+    },
+    "PresetFilter": {
+      "name": "Research.PresetFilter.name",
+      "help": "Research.PresetFilter.help",
+      "custom": "custom",
+      "series_4": "series_4",
+      "series_3": "series_3",
+      "series_3_than_2": "series_3_than_2"
+    },
+    "CustomFilter": {
+      "name": "Research.CustomFilter.name",
+      "help": "Research.CustomFilter.help"
+    }
+  },
+  "Dorm": {
+    "_info": {
+      "name": "Dorm._info.name",
+      "help": "Dorm._info.help"
+    },
+    "Collect": {
+      "name": "Dorm.Collect.name",
+      "help": "Dorm.Collect.help"
+    },
+    "Feed": {
+      "name": "Dorm.Feed.name",
+      "help": "Dorm.Feed.help"
+    },
+    "FeedFilter": {
+      "name": "Dorm.FeedFilter.name",
+      "help": "Dorm.FeedFilter.help"
+    }
+  },
+  "Meowfficer": {
+    "_info": {
+      "name": "Meowfficer._info.name",
+      "help": "Meowfficer._info.help"
+    },
+    "BuyAmount": {
+      "name": "Meowfficer.BuyAmount.name",
+      "help": "Meowfficer.BuyAmount.help"
+    },
+    "TrainMeowfficer": {
+      "name": "Meowfficer.TrainMeowfficer.name",
+      "help": "Meowfficer.TrainMeowfficer.help"
+    },
+    "FortChoreMeowfficer": {
+      "name": "Meowfficer.FortChoreMeowfficer.name",
+      "help": "Meowfficer.FortChoreMeowfficer.help"
+    }
+  },
+  "GuildLogistics": {
+    "_info": {
+      "name": "GuildLogistics._info.name",
+      "help": "GuildLogistics._info.help"
+    },
+    "Enable": {
+      "name": "GuildLogistics.Enable.name",
+      "help": "GuildLogistics.Enable.help"
+    },
+    "ExchangeFilter": {
+      "name": "GuildLogistics.ExchangeFilter.name",
+      "help": "GuildLogistics.ExchangeFilter.help"
+    }
+  },
+  "GuildOperation": {
+    "_info": {
+      "name": "GuildOperation._info.name",
+      "help": "GuildOperation._info.help"
+    },
+    "Enable": {
+      "name": "GuildOperation.Enable.name",
+      "help": "GuildOperation.Enable.help"
+    },
+    "JoinThreshold": {
+      "name": "GuildOperation.JoinThreshold.name",
+      "help": "GuildOperation.JoinThreshold.help"
+    },
+    "AttackBoss": {
+      "name": "GuildOperation.AttackBoss.name",
+      "help": "GuildOperation.AttackBoss.help"
+    },
+    "BossFleetRecommend": {
+      "name": "GuildOperation.BossFleetRecommend.name",
+      "help": "GuildOperation.BossFleetRecommend.help"
+    }
+  },
+  "Reward": {
+    "_info": {
+      "name": "Reward._info.name",
+      "help": "Reward._info.help"
+    },
+    "CollectOil": {
+      "name": "Reward.CollectOil.name",
+      "help": "Reward.CollectOil.help"
+    },
+    "CollectCoin": {
+      "name": "Reward.CollectCoin.name",
+      "help": "Reward.CollectCoin.help"
+    },
+    "CollectMission": {
+      "name": "Reward.CollectMission.name",
+      "help": "Reward.CollectMission.help"
+    }
+  },
+  "GeneralShop": {
+    "_info": {
+      "name": "GeneralShop._info.name",
+      "help": "GeneralShop._info.help"
+    },
+    "UseGems": {
+      "name": "GeneralShop.UseGems.name",
+      "help": "GeneralShop.UseGems.help"
+    },
+    "Refresh": {
+      "name": "GeneralShop.Refresh.name",
+      "help": "GeneralShop.Refresh.help"
+    },
+    "Filter": {
+      "name": "GeneralShop.Filter.name",
+      "help": "GeneralShop.Filter.help"
+    }
+  },
+  "GuildShop": {
+    "_info": {
+      "name": "GuildShop._info.name",
+      "help": "GuildShop._info.help"
+    },
+    "Refresh": {
+      "name": "GuildShop.Refresh.name",
+      "help": "GuildShop.Refresh.help"
+    },
+    "Filter": {
+      "name": "GuildShop.Filter.name",
+      "help": "GuildShop.Filter.help"
+    },
+    "BOX_T3": {
+      "name": "GuildShop.BOX_T3.name",
+      "help": "GuildShop.BOX_T3.help",
+      "eagle": "eagle",
+      "royal": "royal",
+      "sakura": "sakura",
+      "ironblood": "ironblood"
+    },
+    "BOX_T4": {
+      "name": "GuildShop.BOX_T4.name",
+      "help": "GuildShop.BOX_T4.help",
+      "eagle": "eagle",
+      "royal": "royal",
+      "sakura": "sakura",
+      "ironblood": "ironblood"
+    },
+    "BOOK_T2": {
+      "name": "GuildShop.BOOK_T2.name",
+      "help": "GuildShop.BOOK_T2.help",
+      "red": "red",
+      "blue": "blue",
+      "yellow": "yellow"
+    },
+    "BOOK_T3": {
+      "name": "GuildShop.BOOK_T3.name",
+      "help": "GuildShop.BOOK_T3.help",
+      "red": "red",
+      "blue": "blue",
+      "yellow": "yellow"
+    },
+    "RETROFIT_T2": {
+      "name": "GuildShop.RETROFIT_T2.name",
+      "help": "GuildShop.RETROFIT_T2.help",
+      "dd": "dd",
+      "cl": "cl",
+      "bb": "bb",
+      "cv": "cv"
+    },
+    "RETROFIT_T3": {
+      "name": "GuildShop.RETROFIT_T3.name",
+      "help": "GuildShop.RETROFIT_T3.help",
+      "dd": "dd",
+      "cl": "cl",
+      "bb": "bb",
+      "cv": "cv"
+    },
+    "PLATE_T2": {
+      "name": "GuildShop.PLATE_T2.name",
+      "help": "GuildShop.PLATE_T2.help",
+      "general": "general",
+      "gun": "gun",
+      "torpedo": "torpedo",
+      "antiair": "antiair",
+      "plane": "plane"
+    },
+    "PLATE_T3": {
+      "name": "GuildShop.PLATE_T3.name",
+      "help": "GuildShop.PLATE_T3.help",
+      "general": "general",
+      "gun": "gun",
+      "torpedo": "torpedo",
+      "antiair": "antiair",
+      "plane": "plane"
+    },
+    "PLATE_T4": {
+      "name": "GuildShop.PLATE_T4.name",
+      "help": "GuildShop.PLATE_T4.help",
+      "general": "general",
+      "gun": "gun",
+      "torpedo": "torpedo",
+      "antiair": "antiair",
+      "plane": "plane"
+    },
+    "PR1": {
+      "name": "GuildShop.PR1.name",
+      "help": "GuildShop.PR1.help",
+      "neptune": "neptune",
+      "monarch": "monarch",
+      "ibuki": "ibuki",
+      "izumo": "izumo",
+      "roon": "roon",
+      "saintlouis": "saintlouis"
+    },
+    "PR2": {
+      "name": "GuildShop.PR2.name",
+      "help": "GuildShop.PR2.help",
+      "seattle": "seattle",
+      "georgia": "georgia",
+      "kitakaze": "kitakaze",
+      "gascogne": "gascogne"
+    },
+    "PR3": {
+      "name": "GuildShop.PR3.name",
+      "help": "GuildShop.PR3.help",
+      "champagne": "champagne",
+      "anchorage": "anchorage",
+      "august": "august",
+      "marcopolo": "marcopolo"
+    }
+  },
+  "MedalShop": {
+    "_info": {
+      "name": "MedalShop._info.name",
+      "help": "MedalShop._info.help"
+    },
+    "Filter": {
+      "name": "MedalShop.Filter.name",
+      "help": "MedalShop.Filter.help"
+    }
+  },
+  "MeritShop": {
+    "_info": {
+      "name": "MeritShop._info.name",
+      "help": "MeritShop._info.help"
+    },
+    "Refresh": {
+      "name": "MeritShop.Refresh.name",
+      "help": "MeritShop.Refresh.help"
+    },
+    "Filter": {
+      "name": "MeritShop.Filter.name",
+      "help": "MeritShop.Filter.help"
+    }
+  },
+  "Shipyard": {
+    "_info": {
+      "name": "Shipyard._info.name",
+      "help": "Shipyard._info.help"
+    },
+    "ResearchSeries": {
+      "name": "Shipyard.ResearchSeries.name",
+      "help": "Shipyard.ResearchSeries.help"
+    },
+    "ShipIndex": {
+      "name": "Shipyard.ShipIndex.name",
+      "help": "Shipyard.ShipIndex.help"
+    },
+    "BuyAmount": {
+      "name": "Shipyard.BuyAmount.name",
+      "help": "Shipyard.BuyAmount.help"
+    }
+  },
+  "Daily": {
+    "_info": {
+      "name": "Daily._info.name",
+      "help": "Daily._info.help"
+    },
+    "UseDailySkip": {
+      "name": "Daily.UseDailySkip.name",
+      "help": "Daily.UseDailySkip.help"
+    },
+    "EscortMission": {
+      "name": "Daily.EscortMission.name",
+      "help": "Daily.EscortMission.help",
+      "no": "no",
+      "first": "first",
+      "second": "second",
+      "third": "third"
+    },
+    "EscortMissionFleet": {
+      "name": "Daily.EscortMissionFleet.name",
+      "help": "Daily.EscortMissionFleet.help",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    },
+    "AdvanceMission": {
+      "name": "Daily.AdvanceMission.name",
+      "help": "Daily.AdvanceMission.help",
+      "no": "no",
+      "first": "first",
+      "second": "second",
+      "third": "third"
+    },
+    "AdvanceMissionFleet": {
+      "name": "Daily.AdvanceMissionFleet.name",
+      "help": "Daily.AdvanceMissionFleet.help",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    },
+    "FierceAssault": {
+      "name": "Daily.FierceAssault.name",
+      "help": "Daily.FierceAssault.help",
+      "no": "no",
+      "first": "first",
+      "second": "second",
+      "third": "third"
+    },
+    "FierceAssaultFleet": {
+      "name": "Daily.FierceAssaultFleet.name",
+      "help": "Daily.FierceAssaultFleet.help",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    },
+    "TacticalTraining": {
+      "name": "Daily.TacticalTraining.name",
+      "help": "Daily.TacticalTraining.help",
+      "no": "no",
+      "first": "first",
+      "second": "second",
+      "third": "third"
+    },
+    "TacticalTrainingFleet": {
+      "name": "Daily.TacticalTrainingFleet.name",
+      "help": "Daily.TacticalTrainingFleet.help",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    },
+    "SupplyLineDisruption": {
+      "name": "Daily.SupplyLineDisruption.name",
+      "help": "Daily.SupplyLineDisruption.help",
+      "no": "no",
+      "first": "first",
+      "second": "second",
+      "third": "third"
+    }
+  },
+  "Hard": {
+    "_info": {
+      "name": "Hard._info.name",
+      "help": "Hard._info.help"
+    },
+    "HardStage": {
+      "name": "Hard.HardStage.name",
+      "help": "Hard.HardStage.help"
+    },
+    "HardFleet": {
+      "name": "Hard.HardFleet.name",
+      "help": "Hard.HardFleet.help",
+      "1": "1",
+      "2": "2"
+    }
+  },
+  "Exercise": {
+    "_info": {
+      "name": "Exercise._info.name",
+      "help": "Exercise._info.help"
+    },
+    "OpponentChooseMode": {
+      "name": "Exercise.OpponentChooseMode.name",
+      "help": "Exercise.OpponentChooseMode.help",
+      "max_exp": "max_exp",
+      "easiest": "easiest",
+      "leftmost": "leftmost",
+      "easiest_else_exp": "easiest_else_exp"
+    },
+    "OpponentTrial": {
+      "name": "Exercise.OpponentTrial.name",
+      "help": "Exercise.OpponentTrial.help"
+    },
+    "ExercisePreserve": {
+      "name": "Exercise.ExercisePreserve.name",
+      "help": "Exercise.ExercisePreserve.help"
+    },
+    "LowHpThreshold": {
+      "name": "Exercise.LowHpThreshold.name",
+      "help": "Exercise.LowHpThreshold.help"
+    },
+    "LowHpConfirmWait": {
+      "name": "Exercise.LowHpConfirmWait.name",
+      "help": "Exercise.LowHpConfirmWait.help"
+    },
+    "OpponentRefreshValue": {
+      "name": "Exercise.OpponentRefreshValue.name",
+      "help": "Exercise.OpponentRefreshValue.help"
+    },
+    "OpponentRefreshRecord": {
+      "name": "Exercise.OpponentRefreshRecord.name",
+      "help": "Exercise.OpponentRefreshRecord.help"
+    }
+  },
+  "Sos": {
+    "_info": {
+      "name": "Sos._info.name",
+      "help": "Sos._info.help"
+    },
+    "Chapter": {
+      "name": "Sos.Chapter.name",
+      "help": "Sos.Chapter.help",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9",
+      "10": "10"
+    }
+  },
+  "OpsiAshAssist": {
+    "_info": {
+      "name": "OpsiAshAssist._info.name",
+      "help": "OpsiAshAssist._info.help"
+    },
+    "Tier": {
+      "name": "OpsiAshAssist.Tier.name",
+      "help": "OpsiAshAssist.Tier.help"
+    }
+  }
+}

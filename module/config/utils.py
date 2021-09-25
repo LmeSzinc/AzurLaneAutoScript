@@ -26,16 +26,20 @@ yaml.add_representer(str, str_presenter)
 yaml.representer.SafeRepresenter.add_representer(str, str_presenter)
 
 
-def filepath_arg():
-    return './module/config/args.yaml'
+def filepath_args():
+    return './module/config/structure/args.json'
 
 
-def filepath_db(lang):
-    return os.path.join('./module/config/storage', f'{lang}.yaml')
+def filepath_argument(filename):
+    return f'./module/config/argument/{filename}.yaml'
+
+
+def filepath_i18n(lang):
+    return os.path.join('./module/config/i18n', f'{lang}.json')
 
 
 def filepath_config(filename):
-    return os.path.join('./config', f'{filename}.yaml')
+    return os.path.join('./config', f'{filename}.json')
 
 
 def filepath_code():
@@ -183,6 +187,28 @@ def deep_default(d, keys, value):
     return d
 
 
+def deep_iter(data, depth=0, current_depth=1):
+    """
+    Iter a dictionary safely.
+
+    Args:
+        data (dict):
+        depth (int): Maximum depth to iter
+        current_depth (int):
+
+    Returns:
+        list: Key path
+        Any:
+    """
+    if isinstance(data, dict) \
+            and (depth and current_depth <= depth):
+        for key, value in data.items():
+            for child_path, child_value in deep_iter(value, depth=depth, current_depth=current_depth + 1):
+                yield [key] + child_path, child_value
+    else:
+        yield [], data
+
+
 def parse_value(value, data):
     """
     Convert a string to float, int, datetime, if possible.
@@ -194,13 +220,16 @@ def parse_value(value, data):
     Returns:
 
     """
-    option = data['option']
-    if option:
-        if value not in option:
+    if 'option' in data:
+        if value not in data['option']:
             return data['value']
     if isinstance(value, str):
         if value == '':
             return None
+        if value == 'true' or value == 'True':
+            return True
+        if value == 'false' or value == 'False':
+            return False
         if '.' in value:
             try:
                 return float(value)
@@ -219,7 +248,7 @@ def parse_value(value, data):
     return value
 
 
-def data_to_type(data):
+def data_to_type(data, **kwargs):
     """
     | Condition                            | Type     |
     | ------------------------------------ | -------- |
@@ -230,15 +259,17 @@ def data_to_type(data):
 
     Args:
         data (dict):
+        kwargs: Any additional properties
 
     Returns:
         str:
     """
-    if isinstance(data['value'], bool):
+    kwargs.update(data)
+    if isinstance(kwargs['value'], bool):
         return 'checkbox'
-    elif data['option']:
+    elif 'option' in kwargs and kwargs['option']:
         return 'select'
-    elif 'Filter' in data['arg']:
+    elif 'Filter' in kwargs['arg']:
         return 'textarea'
     else:
         return 'input'

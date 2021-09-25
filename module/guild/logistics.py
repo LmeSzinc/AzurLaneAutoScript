@@ -378,7 +378,7 @@ class GuildLogistics(GuildBase):
             return False
 
         items = self._guild_exchange_scan()
-        EXCHANGE_FILTER.load(self.config.Logistics_ExchangeFilter)
+        EXCHANGE_FILTER.load(self.config.GuildLogistics_ExchangeFilter)
         selected = EXCHANGE_FILTER.apply(items, func=lambda item: item.enough)
         logger.attr('Exchange_sort', ' > '.join([str(item.name) for item in selected]))
 
