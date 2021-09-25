@@ -5,7 +5,6 @@ import string
 from datetime import datetime, timedelta, timezone
 
 import yaml
-from tinydb import where
 
 import module.config.server as server
 
@@ -273,34 +272,6 @@ def data_to_type(data, **kwargs):
         return 'textarea'
     else:
         return 'input'
-
-
-def request_to_query(request):
-    """
-    Converts a request in dict to TinyDB query conditions.
-
-    Args:
-        request (dict):
-
-    Returns:
-
-    """
-    func = request.get('func', None)
-    group = request.get('group', None)
-    arg = request.get('arg', None)
-    lang = request.get('lang', None)
-
-    query = None
-    if func:
-        query = where('func') == func if query is None else query & (where('func') == func)
-    if group:
-        query = where('group') == group if query is None else query & (where('group') == group)
-    if arg:
-        query = where('arg') == arg if query is None else query & (where('arg') == arg)
-    if lang:
-        query = where('lang') == lang if query is None else query & (where('lang') == lang)
-
-    return query
 
 
 def data_to_path(data):

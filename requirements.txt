@@ -11,11 +11,6 @@ retrying
 mxnet==1.6.0
 cnocr==1.2.2
 gooey
-colored
-# python-Levenshtein
-# win10toast-persist
-notify-py
 jellyfish
-tinydb
 pyyaml
 inflection

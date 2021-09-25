@@ -18,17 +18,6 @@ class Device(Screenshot, Control, AppControl):
     stuck_timer_long = Timer(300, count=300).start()
     stuck_long_wait_list = ['BATTLE_STATUS_S', 'PAUSE', 'LOGIN_CHECK']
 
-    def send_notification(self, title, message):
-        # if self.config.ENABLE_NOTIFICATIONS and sys.platform == 'win32':
-        #     from notifypy import Notify
-        #     notification = Notify()
-        #     notification.title = title
-        #     notification.message = message
-        #     notification.application_name = "AzurLaneAutoScript"
-        #     notification.icon = "assets/gooey/icon.ico"
-        #     notification.send(block=False)
-        pass
-
     def handle_night_commission(self, daily_trigger='21:00', threshold=30):
         """
         Args:
