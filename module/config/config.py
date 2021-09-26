@@ -1,4 +1,3 @@
-import copy
 import datetime
 import operator
 import time
@@ -305,7 +304,10 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
         Returns:
             AzurLaneConfig
         """
-        config = copy.copy(self)
+        # Since all tasks run independently, there's no need to separate configs
+        # config = copy.copy(self)
+        config = self
+
         for attr in dir(config):
             if attr.endswith('__'):
                 continue
