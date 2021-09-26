@@ -81,3 +81,7 @@ class Campaign(CampaignBase):
 
         if not self.map.select(is_mystery=True):
             self.withdraw()
+
+    @property
+    def _map_battle(self):
+        return 3
