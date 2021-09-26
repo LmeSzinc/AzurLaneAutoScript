@@ -229,6 +229,8 @@ class OperationSiren(Reward, OSMap):
         if self.config.OpsiDaily_DoMission:
             self.os_finish_daily_mission()
 
+        self.config.task_delay(server_update=True)
+
     def os_meowfficer_farming(self):
         """
         Recommend 3 or 5 for higher meowfficer searching point per action points ratio.
@@ -253,12 +255,26 @@ class OperationSiren(Reward, OSMap):
             self.config.check_task_switch()
 
     def os_explore(self):
+        """
+        Explore all dangerous zones at the beginning of month.
+        """
+        def end():
+            logger.info('OS explore finished')
+            logger.info('To run again, set OpsiExplore.Scheduler.Enable=True, OpsiExplore.OpsiExplore.LastZone=0')
+            with self.config.multi_set():
+                self.config.Scheduler_Enable = False
+                self.config.OpsiExplore_LastZone = 0
+                self.config.task_delay(minute=0)
+            self.config.task_stop()
+
         logger.hr('OS explore', level=1)
         order = [int(f.strip(' \t\r\n')) for f in self.config.OS_EXPLORE_FILTER.split('>')]
         if self.config.OpsiExplore_LastZone in order:
             order = order[order.index(self.config.OpsiExplore_LastZone) + 1:]
         else:
             logger.warning(f'Invalid OpsiExplore_LastZone={self.config.OpsiExplore_LastZone}, re-explore')
+        if not len(order):
+            end()
 
         for zone in order:
             if not self.globe_goto(zone, stop_if_safe=True):
@@ -274,6 +290,8 @@ class OperationSiren(Reward, OSMap):
             logger.info(f'Zone cleared: {self.name_to_zone(zone)}')
             self.handle_fleet_repair(revert=False)
             self.config.check_task_switch()
+            if zone == order[-1]:
+                end()
 
     def clear_obscure(self):
         """

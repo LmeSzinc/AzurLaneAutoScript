@@ -107,7 +107,7 @@ Exercise:
   Scheduler:
     SuccessInterval: 30
     FailureInterval: 30
-    ServerUpdate: 00:00
+    ServerUpdate: 00:00, 12:00, 18:00
 Sos:
   Scheduler:
     SuccessInterval: 30
@@ -147,8 +147,8 @@ OpsiDaily:
     ServerUpdate: 00:00
 OpsiObscure:
   Scheduler:
-    SuccessInterval: 30
-    FailureInterval: 30
+    SuccessInterval: 60
+    FailureInterval: 60
     ServerUpdate: 00:00
 OpsiMeowfficerFarming:
   Scheduler:

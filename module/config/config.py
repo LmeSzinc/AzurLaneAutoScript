@@ -162,15 +162,22 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
             **kwargs: For example, `Emotion1_Value=150`
                 will set `Emotion1_Value=150` and `Emotion1_Record=now()`
         """
-        self.auto_update = False
+        with self.multi_set():
+            for arg, value in kwargs.items():
+                record = arg.replace('Value', 'Record')
+                self.__setattr__(arg, value)
+                self.__setattr__(record, datetime.now().replace(microsecond=0))
 
-        for arg, value in kwargs.items():
-            record = arg.replace('Value', 'Record')
-            self.__setattr__(arg, value)
-            self.__setattr__(record, datetime.now().replace(microsecond=0))
+    def multi_set(self):
+        """
+        Set multiple arguments but save once.
 
-        self.update()
-        self.auto_update = True
+        Examples:
+            with self.config.multi_set():
+                self.config.foo1 = 1
+                self.config.foo2 = 2
+        """
+        return MultiSetWrapper(main=self)
 
     def task_delay(self, success=None, server_update=None, target=None, minute=None):
         """
@@ -395,3 +402,20 @@ class ConfigBackup:
     def recover(self):
         for key, value in self.backup.items():
             self.config.__setattr__(key, value)
+
+
+class MultiSetWrapper:
+    def __init__(self, main):
+        """
+        Args:
+            main (AzurLaneConfig):
+        """
+        self.main = main
+
+    def __enter__(self):
+        self.main.auto_update = False
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.main.update()
+        self.main.auto_update = True

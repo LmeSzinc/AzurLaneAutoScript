@@ -127,8 +127,9 @@ class Exercise(ExerciseCombat):
         # self.equipment_take_off_when_finished()
 
         # Scheduler
-        self.config.set_record(Exercise_OpponentRefreshValue=self.opponent_change_count)
-        if self.remain <= self.config.Exercise_ExercisePreserve or self.opponent_change_count >= 5:
-            self.config.task_delay(server_update=True)
-        else:
-            self.config.task_delay(success=False)
+        with self.config.multi_set():
+            self.config.set_record(Exercise_OpponentRefreshValue=self.opponent_change_count)
+            if self.remain <= self.config.Exercise_ExercisePreserve or self.opponent_change_count >= 5:
+                self.config.task_delay(server_update=True)
+            else:
+                self.config.task_delay(success=False)

@@ -23,7 +23,6 @@ class OSCampaignRun(OSMapOperation):
         self.load_campaign()
         try:
             self.campaign.os_explore()
-            self.config.task_delay(server_update=True)
         except ActionPointLimit:
             self.campaign.config.task_delay(minute=360)
 
@@ -31,7 +30,6 @@ class OSCampaignRun(OSMapOperation):
         self.load_campaign()
         try:
             self.campaign.os_daily()
-            self.config.task_delay(server_update=True)
         except ActionPointLimit:
             self.campaign.config.task_delay(minute=360)
 
@@ -39,7 +37,6 @@ class OSCampaignRun(OSMapOperation):
         self.load_campaign()
         try:
             self.campaign.os_meowfficer_farming()
-            self.config.task_delay(server_update=True)
         except ActionPointLimit:
             self.campaign.config.task_delay(server_update=True)
 
@@ -47,6 +44,5 @@ class OSCampaignRun(OSMapOperation):
         self.load_campaign()
         try:
             self.campaign.os_obscure()
-            self.config.task_delay(server_update=True)
         except ActionPointLimit:
             self.campaign.config.task_delay(minute=360)

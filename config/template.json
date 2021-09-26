@@ -465,7 +465,7 @@
       "Command": "Exercise",
       "SuccessInterval": 30,
       "FailureInterval": 30,
-      "ServerUpdate": "00:00"
+      "ServerUpdate": "00:00, 12:00, 18:00"
     },
     "Exercise": {
       "OpponentChooseMode": "max_exp",
@@ -602,8 +602,8 @@
       "Enable": false,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "OpsiObscure",
-      "SuccessInterval": 30,
-      "FailureInterval": 30,
+      "SuccessInterval": 60,
+      "FailureInterval": 60,
       "ServerUpdate": "00:00"
     },
     "OpsiObscure": {
