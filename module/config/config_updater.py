@@ -156,34 +156,67 @@ class ConfigGenerator:
         """
         new = {}
         old = read_file(filepath_i18n(lang))
+
+        def deep_load(keys, default=True, words=('name', 'help')):
+            for word in words:
+                k = keys + [str(word)]
+                d = ".".join(k) if default else str(word)
+                value = deep_get(old, keys=k, default=d)
+                deep_set(new, keys=k, value=value)
+
+        for path, data in deep_iter(self.menu, depth=2):
+            func, group = path
+            deep_load(['Menu', func])
+            deep_load(['Menu', group])
+            for task in data:
+                deep_load([func, task])
+
         visited_group = set()
-
-        def deep_load(keys, default=None):
-            if default is None:
-                default = ".".join(keys)
-            value = deep_get(old, keys=keys, default=default)
-            deep_set(new, keys=keys, value=value)
-
-        for func in self.args.keys():
-            for word in ['name', 'help']:
-                deep_load(['_menu', func, word])
-
         for path, data in deep_iter(self.argument, depth=2):
             if path[0] not in visited_group:
-                for word in ['name', 'help']:
-                    deep_load([path[0], '_info', word])
+                deep_load([path[0], '_info'])
                 visited_group.add(path[0])
-            for word in ['name', 'help']:
-                deep_load(path + [word])
+            deep_load(path)
             if 'option' in data:
-                for word in data['option']:
-                    deep_load(path + [word], default=str(word))
+                deep_load(path, words=data['option'], default=False)
 
         write_file(filepath_i18n(lang), new)
+
+    @cached_property
+    def menu(self):
+        """
+        Generate menu definations
+
+        task.yaml --> menu.json
+
+        """
+        data = {}
+
+        # Task menu
+        group = ''
+        tasks = []
+        with open(filepath_argument('task'), 'r', encoding='utf-8') as f:
+            for line in f.readlines():
+                line = line.strip('\n')
+                if '=====' in line:
+                    group = line.strip('#=- ')
+                    if tasks:
+                        deep_set(data, keys=f'Task.{group}', value=tasks)
+                    tasks = []
+                if group:
+                    if line.endswith(':'):
+                        tasks.append(line.strip('\n=-#: '))
+        if tasks:
+            deep_set(data, keys=f'Task.{group}', value=tasks)
+
+        # Write
+        write_file(filepath_args('menu'), data)
+        return data
 
     @timer
     def generate(self):
         _ = self.args
+        _ = self.menu
         self.generate_code()
         for lang in LANGUAGES:
             self.generate_i18n(lang)
@@ -218,7 +251,7 @@ class ConfigUpdater:
         for path, _ in deep_iter(self.args, depth=3):
             deep_load(path)
 
-        if config_name =='template':
+        if config_name == 'template':
             deep_set(new, 'Alas.DropRecord.AzurStatsID', None)
         else:
             deep_default(new, 'Alas.DropRecord.AzurStatsID', random_id())
@@ -234,8 +267,8 @@ if __name__ == '__main__':
     """
     Process the whole config generation.
     
-                 task.yaml -+              +-> For GUI generation
-             argument.yaml -+-> args.json -+-> config_generated.py
+                 task.yaml -+----------------> menu.json
+             argument.yaml -+-> args.json ---> config_generated.py
              override.yaml -+       |
                                     |
     (old) i18n/<lang>.json ---------\========> i18n/<lang>.json

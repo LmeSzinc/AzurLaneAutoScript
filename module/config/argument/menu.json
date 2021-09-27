@@ -1,0 +1,33 @@
+{
+  "Task": {
+    "Farm": [
+      "Alas",
+      "General",
+      "Restart"
+    ],
+    "Reward": [
+      "Main",
+      "C72MysteryFarming",
+      "GemsFarming"
+    ],
+    "Daily": [
+      "Commission",
+      "Tactical",
+      "Research",
+      "Dorm",
+      "Meowfficer",
+      "Guild",
+      "Reward",
+      "Shop",
+      "Shipyard"
+    ],
+    "Opsi": [
+      "OpsiGeneral",
+      "OpsiAshAssist",
+      "OpsiExplore",
+      "OpsiDaily",
+      "OpsiObscure",
+      "OpsiMeowfficerFarming"
+    ]
+  }
+}

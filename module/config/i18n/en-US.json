@@ -1,104 +1,110 @@
 {
-  "_menu": {
-    "Alas": {
-      "name": "_menu.Alas.name",
-      "help": "_menu.Alas.help"
+  "Menu": {
+    "Task": {
+      "name": "Menu.Task.name",
+      "help": "Menu.Task.help"
     },
-    "General": {
-      "name": "_menu.General.name",
-      "help": "_menu.General.help"
-    },
-    "Restart": {
-      "name": "_menu.Restart.name",
-      "help": "_menu.Restart.help"
-    },
-    "Main": {
-      "name": "_menu.Main.name",
-      "help": "_menu.Main.help"
-    },
-    "C72MysteryFarming": {
-      "name": "_menu.C72MysteryFarming.name",
-      "help": "_menu.C72MysteryFarming.help"
-    },
-    "GemsFarming": {
-      "name": "_menu.GemsFarming.name",
-      "help": "_menu.GemsFarming.help"
-    },
-    "Commission": {
-      "name": "_menu.Commission.name",
-      "help": "_menu.Commission.help"
-    },
-    "Tactical": {
-      "name": "_menu.Tactical.name",
-      "help": "_menu.Tactical.help"
-    },
-    "Research": {
-      "name": "_menu.Research.name",
-      "help": "_menu.Research.help"
-    },
-    "Dorm": {
-      "name": "_menu.Dorm.name",
-      "help": "_menu.Dorm.help"
-    },
-    "Meowfficer": {
-      "name": "_menu.Meowfficer.name",
-      "help": "_menu.Meowfficer.help"
-    },
-    "Guild": {
-      "name": "_menu.Guild.name",
-      "help": "_menu.Guild.help"
+    "Farm": {
+      "name": "Menu.Farm.name",
+      "help": "Menu.Farm.help"
     },
     "Reward": {
-      "name": "_menu.Reward.name",
-      "help": "_menu.Reward.help"
-    },
-    "Shop": {
-      "name": "_menu.Shop.name",
-      "help": "_menu.Shop.help"
-    },
-    "Shipyard": {
-      "name": "_menu.Shipyard.name",
-      "help": "_menu.Shipyard.help"
+      "name": "Menu.Reward.name",
+      "help": "Menu.Reward.help"
     },
     "Daily": {
-      "name": "_menu.Daily.name",
-      "help": "_menu.Daily.help"
+      "name": "Menu.Daily.name",
+      "help": "Menu.Daily.help"
     },
-    "Hard": {
-      "name": "_menu.Hard.name",
-      "help": "_menu.Hard.help"
+    "Opsi": {
+      "name": "Menu.Opsi.name",
+      "help": "Menu.Opsi.help"
+    }
+  },
+  "Task": {
+    "Alas": {
+      "name": "Task.Alas.name",
+      "help": "Task.Alas.help"
     },
-    "Exercise": {
-      "name": "_menu.Exercise.name",
-      "help": "_menu.Exercise.help"
+    "General": {
+      "name": "Task.General.name",
+      "help": "Task.General.help"
     },
-    "Sos": {
-      "name": "_menu.Sos.name",
-      "help": "_menu.Sos.help"
+    "Restart": {
+      "name": "Task.Restart.name",
+      "help": "Task.Restart.help"
+    },
+    "Main": {
+      "name": "Task.Main.name",
+      "help": "Task.Main.help"
+    },
+    "C72MysteryFarming": {
+      "name": "Task.C72MysteryFarming.name",
+      "help": "Task.C72MysteryFarming.help"
+    },
+    "GemsFarming": {
+      "name": "Task.GemsFarming.name",
+      "help": "Task.GemsFarming.help"
+    },
+    "Commission": {
+      "name": "Task.Commission.name",
+      "help": "Task.Commission.help"
+    },
+    "Tactical": {
+      "name": "Task.Tactical.name",
+      "help": "Task.Tactical.help"
+    },
+    "Research": {
+      "name": "Task.Research.name",
+      "help": "Task.Research.help"
+    },
+    "Dorm": {
+      "name": "Task.Dorm.name",
+      "help": "Task.Dorm.help"
+    },
+    "Meowfficer": {
+      "name": "Task.Meowfficer.name",
+      "help": "Task.Meowfficer.help"
+    },
+    "Guild": {
+      "name": "Task.Guild.name",
+      "help": "Task.Guild.help"
+    },
+    "Reward": {
+      "name": "Task.Reward.name",
+      "help": "Task.Reward.help"
+    },
+    "Shop": {
+      "name": "Task.Shop.name",
+      "help": "Task.Shop.help"
+    },
+    "Shipyard": {
+      "name": "Task.Shipyard.name",
+      "help": "Task.Shipyard.help"
     },
     "OpsiGeneral": {
-      "name": "_menu.OpsiGeneral.name",
-      "help": "_menu.OpsiGeneral.help"
+      "name": "Task.OpsiGeneral.name",
+      "help": "Task.OpsiGeneral.help"
     },
     "OpsiAshAssist": {
-      "name": "_menu.OpsiAshAssist.name",
-      "help": "_menu.OpsiAshAssist.help"
+      "name": "Task.OpsiAshAssist.name",
+      "help": "Task.OpsiAshAssist.help"
     },
     "OpsiExplore": {
-      "name": "_menu.OpsiExplore.name",
-      "help": "_menu.OpsiExplore.help"
+      "name": "Task.OpsiExplore.name",
+      "help": "Task.OpsiExplore.help"
     },
     "OpsiDaily": {
-      "name": "_menu.OpsiDaily.name",
-      "help": "_menu.OpsiDaily.help"
+      "name": "Task.OpsiDaily.name",
+      "help": "Task.OpsiDaily.help"
     },
     "OpsiObscure": {
-      "name": "_menu.OpsiObscure.name",
-      "help": "_menu.OpsiObscure.help"
+      "name": "Task.OpsiObscure.name",
+      "help": "Task.OpsiObscure.help"
     },
     "OpsiMeowfficerFarming": {
-      "name": "_menu.OpsiMeowfficerFarming.name",
-      "help": "_menu.OpsiMeowfficerFarming.help"
+      "name": "Task.OpsiMeowfficerFarming.name",
+      "help": "Task.OpsiMeowfficerFarming.help"
     }
   },
   "Scheduler": {

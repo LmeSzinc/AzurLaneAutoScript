@@ -25,8 +25,8 @@ yaml.add_representer(str, str_presenter)
 yaml.representer.SafeRepresenter.add_representer(str, str_presenter)
 
 
-def filepath_args():
-    return './module/config/argument/args.json'
+def filepath_args(filename='args'):
+    return f'./module/config/argument/{filename}.json'
 
 
 def filepath_argument(filename):
