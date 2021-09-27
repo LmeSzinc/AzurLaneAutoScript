@@ -403,6 +403,21 @@ def main(ini_name=''):
              'so players must first verify the location themselves before selecting.\nleftmost = 1, rightmost = 6',
         choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
 
+    reward_gacha = reward_parser.add_argument_group('Gacha',
+        'Submit build order for daily achievement. Previous orders will be dequeued '
+        'before submitting to allow maximum inputs and drills will be used if any '
+        'are still in progress',
+        gooey_options={'label_color': '#931D03'})
+    reward_gacha.add_argument('--buy_gacha_order', default=default('--buy_gacha_order'),
+        choices=['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'], help='Number to buy altogether.',
+        gooey_options={'label_color': '#4B5F83'})
+    reward_gacha.add_argument('--gacha_pool_target', default=default('--gacha_pool_target'),
+        choices=['light', 'heavy', 'special', 'event', 'wishing_well'], help='Target build pool to gacha in.',
+        gooey_options={'label_color': '#4B5F83'})
+    reward_gacha.add_argument('--drill_after_gacha', default=default('--drill_after_gacha'),
+        choices=['yes', 'no'], help='Use drills after submission.',
+        gooey_options={'label_color': '#4B5F83'})
+
     # ==========emulator==========
     emulator_parser = subs.add_parser('emulator')
     emulator = emulator_parser.add_argument_group('Emulator', 'Need to Press start to save your settings, it will check whether the game is started \nIf the game has not started, it will be started', gooey_options={'label_color': '#931D03'})

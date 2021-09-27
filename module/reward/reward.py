@@ -5,6 +5,7 @@ from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import ensure_time
 from module.combat.assets import *
+from module.gacha.gacha_reward import RewardGacha
 from module.guild.guild_reward import RewardGuild
 from module.handler.login import LoginHandler
 from module.logger import logger
@@ -23,7 +24,7 @@ from module.update import Update
 
 
 class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, RewardMeowfficer, RewardDataKey,
-             RewardGuild, RewardShop, RewardShipyard, LoginHandler, Update):
+             RewardGuild, RewardShop, RewardShipyard, RewardGacha, LoginHandler, Update):
     @cached_property
     def reward_interval(self):
         """
@@ -80,6 +81,7 @@ class Reward(RewardCommission, RewardTacticalClass, RewardResearch, RewardDorm, 
         self.handle_guild()
         self.handle_shop()
         self.handle_shipyard()
+        self.handle_gacha()
         self._reward_mission()
 
         self.config.REWARD_LAST_TIME = datetime.now()
