@@ -359,6 +359,21 @@ def main(ini_name=''):
         help='要开发的舰船在开发船坞界面底部的位置。最左边为1，最右边为6。',
         choices=['1', '2', '3', '4', '5', '6'], gooey_options={'label_color': '#4B5F83'})
 
+    reward_gacha = reward_parser.add_argument_group('Gacha',
+        'Submit build order for daily achievement. Previous orders will be dequeued '
+        'before submitting to allow maximum inputs and drills will be used if any '
+        'are still in progress',
+        gooey_options={'label_color': '#931D03'})
+    reward_gacha.add_argument('--buy_gacha_order', default=default('--buy_gacha_order'),
+        choices=['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'], help='Number to buy altogether.',
+        gooey_options={'label_color': '#4B5F83'})
+    reward_gacha.add_argument('--gacha_pool_target', default=default('--gacha_pool_target'),
+        choices=['light', 'heavy', 'special', 'event', 'wishing_well'], help='Target build pool to gacha in.',
+        gooey_options={'label_color': '#4B5F83'})
+    reward_gacha.add_argument('--drill_after_gacha', default=default('--drill_after_gacha'),
+        choices=['是', '否'], help='Use drills after submission.',
+        gooey_options={'label_color': '#4B5F83'})
+
     # ==========设备设置==========
     emulator_parser = subs.add_parser('设备设置')
     emulator = emulator_parser.add_argument_group('模拟器', '需要运行一次来保存选项, 会检查游戏是否启动\n若启动了游戏, 触发一次收菜', gooey_options={'label_color': '#931D03'})
