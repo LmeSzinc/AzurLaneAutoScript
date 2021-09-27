@@ -495,6 +495,13 @@ class AzurLaneConfig:
     BUY_SHIPYARD_BP = 2
 
     """
+    module.gacha
+    """
+    BUY_GACHA_ORDER = 0
+    GACHA_POOL_TARGET = 'light'
+    DRILL_AFTER_GACHA = False
+
+    """
     module.sos
     """
     DO_SOS_IN_DAILY = False
@@ -745,7 +752,8 @@ class AzurLaneConfig:
                      'enable_research_reward',
                      'enable_data_key_collect', 'enable_train_meowfficer', 'do_fort_chores_meowfficer',
                      'enable_guild_logistics', 'enable_guild_operations', 'enable_guild_operations_boss_auto', 'enable_guild_operations_boss_recommend',
-                     'enable_shop_buy', 'enable_shop_general_gems', 'enable_shop_general_refresh', 'enable_shop_guild_refresh', 'enable_shop_merit_refresh']:
+                     'enable_shop_buy', 'enable_shop_general_gems', 'enable_shop_general_refresh', 'enable_shop_guild_refresh', 'enable_shop_merit_refresh',
+                     'drill_after_gacha']:
             self.__setattr__(attr.upper(), to_bool(option[attr]))
         if not option['commission_time_limit'].isdigit():
             self.COMMISSION_TIME_LIMIT = future_time(option['commission_time_limit'])
@@ -794,6 +802,8 @@ class AzurLaneConfig:
         self.BUY_SHIPYARD_BP = int(option['buy_shipyard_bp'])
         self.SHIPYARD_SERIES = int(option['shipyard_series'])
         self.SHIPYARD_INDEX = int(option['shipyard_index'])
+        self.BUY_GACHA_ORDER = int(option['buy_gacha_order'])
+        self.GACHA_POOL_TARGET = option['gacha_pool_target']
 
         option = config['Main']
         self.CAMPAIGN_MODE = option['campaign_mode']
