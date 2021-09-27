@@ -1,11 +1,11 @@
 {
   "Task": {
-    "Farm": [
+    "Alas": [
       "Alas",
       "General",
       "Restart"
     ],
-    "Reward": [
+    "Farm": [
       "Main",
       "Event",
       "Raid",
@@ -15,7 +15,7 @@
       "C124LargeLeveling",
       "GemsFarming"
     ],
-    "Daily": [
+    "Reward": [
       "Commission",
       "Tactical",
       "Research",
@@ -25,6 +25,12 @@
       "Reward",
       "Shop",
       "Shipyard"
+    ],
+    "Daily": [
+      "Daily",
+      "Hard",
+      "Exercise",
+      "Sos"
     ],
     "Opsi": [
       "OpsiGeneral",

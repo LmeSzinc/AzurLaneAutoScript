@@ -4,6 +4,10 @@
       "name": "Menu.Task.name",
       "help": "Menu.Task.help"
     },
+    "Alas": {
+      "name": "Menu.Alas.name",
+      "help": "Menu.Alas.help"
+    },
     "Farm": {
       "name": "Menu.Farm.name",
       "help": "Menu.Farm.help"
@@ -101,6 +105,22 @@
     "Shipyard": {
       "name": "Task.Shipyard.name",
       "help": "Task.Shipyard.help"
+    },
+    "Daily": {
+      "name": "Task.Daily.name",
+      "help": "Task.Daily.help"
+    },
+    "Hard": {
+      "name": "Task.Hard.name",
+      "help": "Task.Hard.help"
+    },
+    "Exercise": {
+      "name": "Task.Exercise.name",
+      "help": "Task.Exercise.help"
+    },
+    "Sos": {
+      "name": "Task.Sos.name",
+      "help": "Task.Sos.help"
     },
     "OpsiGeneral": {
       "name": "Task.OpsiGeneral.name",

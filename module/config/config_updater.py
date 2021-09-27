@@ -199,9 +199,9 @@ class ConfigGenerator:
             for line in f.readlines():
                 line = line.strip('\n')
                 if '=====' in line:
-                    group = line.strip('#=- ')
                     if tasks:
                         deep_set(data, keys=f'Task.{group}', value=tasks)
+                    group = line.strip('#=- ')
                     tasks = []
                 if group:
                     if line.endswith(':'):
