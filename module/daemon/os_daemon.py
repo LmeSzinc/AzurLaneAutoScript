@@ -1,12 +1,10 @@
-from module.campaign.campaign_base import CampaignBase
-from module.daemon.assets import *
 from module.exception import *
-from module.os_combat.assets import *
+from module.logger import logger
 from module.os_combat.combat import Combat, ContinuousCombat
-from module.os_handler.map_event import MapEventHandler
+from module.os_handler.port import PortHandler, PORT_ENTER
 
 
-class AzurLaneDaemon(Combat):
+class AzurLaneDaemon(Combat, PortHandler):
     def daemon(self):
         self.device.disable_stuck_detection()
 
@@ -46,6 +44,14 @@ class AzurLaneDaemon(Combat):
                 self.story_skip()
 
             self.handle_map_event()
+
+            # Port repair
+            if self.appear(PORT_ENTER, offset=(20, 20), interval=30):
+                self.port_enter()
+                self.port_dock_repair()
+                self.port_quit()
+                self.interval_reset(PORT_ENTER)
+                logger.info('Port repair finished, move your fleet out of the port in 30s to avoid repairing again')
 
             # End
             # No end condition, stop it manually.
