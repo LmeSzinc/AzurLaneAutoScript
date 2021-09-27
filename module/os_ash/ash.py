@@ -309,6 +309,8 @@ class OSAsh(UI):
 
             if self._handle_ash_beacon_reward():
                 continue
+            if self.appear(BATTLE_PREPARATION, offset=(30, 30), interval=2):
+                self.device.click(BACK_ARROW)
             if self.appear(ASH_START, offset=(30, 30)):
                 self.ui_click(ASH_START, check_button=BATTLE_PREPARATION, offset=(30, 30),
                               additional=ash_combat.handle_combat_automation_confirm, skip_first_screenshot=True)
