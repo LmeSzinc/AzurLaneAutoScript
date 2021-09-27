@@ -20,6 +20,7 @@ class GeneratedConfig:
     # Group `Emulator`
     Emulator_Serial = '127.0.0.1:5555'
     Emulator_PackageName = 'com.bilibili.azurlane'
+    Emulator_Server = 'cn'  # cn, en, jp, tw
     Emulator_ScreenshotMethod = 'ADB'  # ADB, uiautomator2, aScreenCap
     Emulator_ControlMethod = 'minitouch'  # ADB, uiautomator2, minitouch
 
@@ -109,8 +110,24 @@ class GeneratedConfig:
     HpControl_RepairUseMultiThreshold = 0.6
     HpControl_LowHpRetreatThreshold = 0.3
 
+    # Group `Raid`
+    Raid_Event = 'raid_20200624'
+    Raid_Mode = 'hard'  # easy, normal, hard
+    Raid_UseTicket = False
+
+    # Group `C11AffinityFarming`
+    C11AffinityFarming_RunCount = 32
+
     # Group `C72MysteryFarming`
     C72MysteryFarming_StepOnA3 = True
+
+    # Group `C122MediumLeveling`
+    C122MediumLeveling_LargeEnemyTolerance = 1  # 0, 1, 2, 10
+
+    # Group `C124LargeLeveling`
+    C124LargeLeveling_NonLargeEnterTolerance = 1  # 0, 1, 2
+    C124LargeLeveling_NonLargeRetreatTolerance = 1  # 0, 1, 2, 10
+    C124LargeLeveling_PickupAmmo = 3  # 3, 4, 5
 
     # Group `GemsFarming`
     GemsFarming_FlagshipChange = True
@@ -194,15 +211,15 @@ class GeneratedConfig:
 
     # Group `Daily`
     Daily_UseDailySkip = True
-    Daily_EscortMission = 'first'  # no, first, second, third
+    Daily_EscortMission = 'first'  # skip, first, second, third
     Daily_EscortMissionFleet = 5  # 1, 2, 3, 4, 5, 6
-    Daily_AdvanceMission = 'first'  # no, first, second, third
+    Daily_AdvanceMission = 'first'  # skip, first, second, third
     Daily_AdvanceMissionFleet = 5  # 1, 2, 3, 4, 5, 6
-    Daily_FierceAssault = 'first'  # no, first, second, third
+    Daily_FierceAssault = 'first'  # skip, first, second, third
     Daily_FierceAssaultFleet = 5  # 1, 2, 3, 4, 5, 6
-    Daily_TacticalTraining = 'second'  # no, first, second, third
+    Daily_TacticalTraining = 'second'  # skip, first, second, third
     Daily_TacticalTrainingFleet = 5  # 1, 2, 3, 4, 5, 6
-    Daily_SupplyLineDisruption = 'second'  # no, first, second, third
+    Daily_SupplyLineDisruption = 'second'  # skip, first, second, third
 
     # Group `Hard`
     Hard_HardStage = '11-4'

@@ -12,8 +12,6 @@ from module.ui.ui import page_daily, page_campaign_menu, BACK_ARROW, DAILY_CHECK
 DAILY_MISSION_LIST = [DAILY_MISSION_1, DAILY_MISSION_2, DAILY_MISSION_3]
 OCR_REMAIN = Digit(OCR_REMAIN, threshold=128, alphabet='0123')
 OCR_DAILY_FLEET_INDEX = Digit(OCR_DAILY_FLEET_INDEX, letter=(90, 154, 255), threshold=128, alphabet='123456')
-RECORD_OPTION = ('DailyRecord', 'daily')
-RECORD_SINCE = (0,)
 
 
 class Daily(Combat, DailyEquipment):
@@ -81,7 +79,7 @@ class Daily(Combat, DailyEquipment):
             0
         ]
         dic = {
-            'no': 0,
+            'skip': 0,
             'first': 1,
             'second': 2,
             'third': 3,

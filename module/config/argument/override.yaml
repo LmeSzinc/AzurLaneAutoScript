@@ -15,6 +15,31 @@ Restart:
 Main:
   Campaign:
     Event: campaign_main
+Event:
+  Campaign:
+    Mode: normal
+    AmbushEvade: true
+C11AffinityFarming:
+  Campaign:
+    Name: campaign_1_1_affinity_farming
+    Event: campaign_main
+    Mode: normal
+    UseClearMode: false
+    UseFleetLock: true
+    UseAutoSearch: false
+    Use2xBook: false
+    AmbushEvade: false
+  StopCondition:
+    RunCount: 0
+    MapAchievement: non_stop
+    GetNewShip: false
+    ReachLevel120: false
+  Fleet:
+    FleetOrder: fleet1_all_fleet2_standby
+    AutoSearchFleetOrder: fleet1_all_fleet2_standby
+  Submarine:
+    Fleet: 0
+    Mode: do_not_use
 C72MysteryFarming:
   Campaign:
     Name: campaign_7_2_mystery_farming
@@ -34,6 +59,34 @@ C72MysteryFarming:
   Submarine:
     Fleet: 0
     Mode: do_not_use
+C122MediumLeveling:
+  Campaign:
+    Name: campaign_12_2_leveling
+    Event: campaign_main
+    Mode: normal
+    UseClearMode: true
+    UseFleetLock: true
+    UseAutoSearch: false
+    AmbushEvade: true
+  StopCondition:
+    MapAchievement: non_stop
+  Fleet:
+    FleetOrder: fleet1_all_fleet2_standby
+    AutoSearchFleetOrder: fleet1_all_fleet2_standby
+C124LargeLeveling:
+  Campaign:
+    Name: campaign_12_4_leveling
+    Event: campaign_main
+    Mode: normal
+    UseClearMode: true
+    UseFleetLock: true
+    UseAutoSearch: false
+    AmbushEvade: true
+  StopCondition:
+    MapAchievement: non_stop
+  Fleet:
+    FleetOrder: fleet1_all_fleet2_standby
+    AutoSearchFleetOrder: fleet1_all_fleet2_standby
 GemsFarming:
   Campaign:
     Mode: normal

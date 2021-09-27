@@ -14,12 +14,15 @@ Scheduler:
 Emulator:
   Serial: 127.0.0.1:5555
   PackageName: com.bilibili.azurlane
+  Server:
+    value: cn
+    option: [cn, en, jp, tw]
   ScreenshotMethod:
     value: ADB
-    option: ['ADB', 'uiautomator2', 'aScreenCap']
+    option: [ADB, uiautomator2, aScreenCap]
   ControlMethod:
     value: minitouch
-    option: ['ADB', 'uiautomator2', 'minitouch']
+    option: [ADB, uiautomator2, minitouch]
 Error:
   HandleError: true
   SaveError: true
@@ -38,12 +41,12 @@ Retirement:
   Enable: true
   RetireMode:
     value: one_click_retire
-    option: ['one_click_retire', 'enhance', 'old_retire']
+    option: [one_click_retire, enhance, old_retire]
   RetireAmount:
     value: retire_all
-    option: ['retire_all', 'retire_10']
+    option: [retire_all, retire_10]
   EnhanceFavourite: false
-  EnhanceFilter: ''
+  EnhanceFilter:
   EnhanceCheckPerCategory: 2
   OldRetireN: true
   OldRetireR: true
@@ -57,7 +60,7 @@ Campaign:
   Event: campaign_main
   Mode:
     value: normal
-    option: ['normal', 'hard']
+    option: [normal, hard]
   UseClearMode: true
   UseFleetLock: true
   UseAutoSearch: false
@@ -68,7 +71,7 @@ StopCondition:
   OilLimit: 1000
   MapAchievement:
     value: non_stop
-    option: ['non_stop', '100_percent_clear', 'map_3_stars', 'threat_safe', 'threat_safe_without_3_stars']
+    option: [non_stop, 100_percent_clear, map_3_stars, threat_safe, threat_safe_without_3_stars]
   GetNewShip: false
   ReachLevel120: false
 Fleet:
@@ -77,10 +80,10 @@ Fleet:
     option: [1, 2, 3, 4, 5, 6]
   Fleet1Formation:
     value: double_line
-    option: ['line_ahead', 'double_line', 'diamond']
+    option: [line_ahead, double_line, diamond]
   Fleet1Mode:
     value: combat_auto
-    option: ['combat_auto', 'combat_manual', 'stand_still_in_the_middle', 'hide_in_bottom_left']
+    option: [combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left]
   Fleet1Step:
     value: 3
     option: [2, 3, 4, 5]
@@ -89,26 +92,26 @@ Fleet:
     option: [0, 1, 2, 3, 4, 5, 6]
   Fleet2Formation:
     value: double_line
-    option: ['line_ahead', 'double_line', 'diamond']
+    option: [line_ahead, double_line, diamond]
   Fleet2Mode:
     value: combat_auto
-    option: ['combat_auto', 'combat_manual', 'stand_still_in_the_middle', 'hide_in_bottom_left']
+    option: [combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left]
   Fleet2Step:
     value: 2
     option: [2, 3, 4, 5]
   FleetOrder:
     value: fleet1_mob_fleet2_boss
-    option: ['fleet1_mob_fleet2_boss', 'fleet1_all_fleet2_standby']
+    option: [fleet1_mob_fleet2_boss, fleet1_all_fleet2_standby]
   AutoSearchFleetOrder:
     value: fleet1_mob_fleet2_boss
-    option: ['fleet1_mob_fleet2_boss', 'fleet1_boss_fleet2_mob', 'fleet1_all_fleet2_standby', 'fleet1_standby_fleet2_all']
+    option: [fleet1_mob_fleet2_boss, fleet1_boss_fleet2_mob, fleet1_all_fleet2_standby, fleet1_standby_fleet2_all]
 Submarine:
   Fleet:
     value: 0
     option: [0, 1, 2]
   Mode:
     value: do_not_use
-    option: ['do_not_use','hunt_only', 'every_combat']
+    option: [do_not_use,hunt_only, every_combat]
 Emotion:
   CalculateEmotion: true
   IgnoreLowEmotionWarn: false
@@ -116,19 +119,19 @@ Emotion:
   Fleet1Record: 2020-01-01 00:00:00
   Fleet1Control:
     value: prevent_yellow_face
-    option: ['keep_exp_bonus', 'prevent_green_face', 'prevent_yellow_face', 'prevent_red_face']
+    option: [keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face]
   Fleet1Recover:
     value: not_in_dormitory
-    option: ['not_in_dormitory', 'dormitory_floor_1', 'dormitory_floor_2']
+    option: [not_in_dormitory, dormitory_floor_1, dormitory_floor_2]
   Fleet1Oath: false
   Fleet2Value: 119
   Fleet2Record: 2020-01-01 00:00:00
   Fleet2Control:
     value: prevent_yellow_face
-    option: ['keep_exp_bonus', 'prevent_green_face', 'prevent_yellow_face', 'prevent_red_face']
+    option: [keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face]
   Fleet2Recover:
     value: not_in_dormitory
-    option: ['not_in_dormitory', 'dormitory_floor_1', 'dormitory_floor_2']
+    option: [not_in_dormitory, dormitory_floor_1, dormitory_floor_2]
   Fleet2Oath: false
 HpControl:
   UseHpBalance: false
@@ -139,8 +142,30 @@ HpControl:
   RepairUseSingleThreshold: 0.3
   RepairUseMultiThreshold: 0.6
   LowHpRetreatThreshold: 0.3
+Raid:
+  Event: raid_20200624
+  Mode:
+    value: hard
+    option: [easy, normal, hard]
+  UseTicket: false
+C11AffinityFarming:
+  RunCount: 32
 C72MysteryFarming:
   StepOnA3: true
+C122MediumLeveling:
+  LargeEnemyTolerance:
+    value: 1
+    option: [0, 1, 2, 10]
+C124LargeLeveling:
+  NonLargeEnterTolerance:
+    value: 1
+    option: [0, 1, 2]
+  NonLargeRetreatTolerance:
+    value: 1
+    option: [0, 1, 2, 10]
+  PickupAmmo:
+    value: 3
+    option: [3, 4, 5]
 GemsFarming:
   FlagshipChange: true
   FlagshipEquipChange: false
@@ -149,7 +174,7 @@ GemsFarming:
   LowEmotionRetreat: true
   CommonCV:
     value: any
-    option: ['any', 'langley', 'bogue', 'ranger', 'hermes']
+    option: [any, langley, bogue, ranger, hermes]
 
 # ==================== Reward ====================
 
@@ -277,32 +302,32 @@ Shipyard:
 Daily:
   UseDailySkip: true
   EscortMission:
-    value: 'first'
-    option: ['no', 'first', 'second', 'third']
+    value: first
+    option: [skip, first, second, third]
   EscortMissionFleet:
     value: 5
     option: [1, 2, 3, 4, 5, 6]
   AdvanceMission:
-    value: 'first'
-    option: ['no', 'first', 'second', 'third']
+    value: first
+    option: [skip, first, second, third]
   AdvanceMissionFleet:
     value: 5
     option: [1, 2, 3, 4, 5, 6]
   FierceAssault:
-    value: 'first'
-    option: ['no', 'first', 'second', 'third']
+    value: first
+    option: [skip, first, second, third]
   FierceAssaultFleet:
     value: 5
     option: [1, 2, 3, 4, 5, 6]
   TacticalTraining:
-    value: 'second'
-    option: ['no', 'first', 'second', 'third']
+    value: second
+    option: [skip, first, second, third]
   TacticalTrainingFleet:
     value: 5
     option: [1, 2, 3, 4, 5, 6]
   SupplyLineDisruption:
-    value: 'second'
-    option: ['no', 'first', 'second', 'third']
+    value: second
+    option: [skip, first, second, third]
 Hard:
   HardStage: 11-4
   HardFleet:
@@ -311,7 +336,7 @@ Hard:
 Exercise:
   OpponentChooseMode:
     value: max_exp
-    option: ['max_exp', 'easiest', 'leftmost', 'easiest_else_exp']
+    option: [max_exp, easiest, leftmost, easiest_else_exp]
   OpponentTrial: 1
   ExercisePreserve: 0
   LowHpThreshold: 0.4

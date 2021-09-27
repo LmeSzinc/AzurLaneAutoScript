@@ -6,29 +6,13 @@ from datetime import datetime
 import inflection
 from cached_property import cached_property
 
-from module.campaign.gems_farming import GemsFarming
-from module.campaign.run import CampaignRun
-from module.commission.commission import RewardCommission
+import module.config.server as server
 from module.config.config import AzurLaneConfig, TaskEnd
 from module.config.config_updater import ConfigUpdater
-from module.daily.daily import Daily
-from module.device.device import Device
-from module.dorm.dorm import RewardDorm
+from module.config.utils import deep_get
 from module.exception import *
-from module.exercise.exercise import Exercise
-from module.guild.guild_reward import RewardGuild
-from module.handler.login import LoginHandler
-from module.handler.sensitive_info import handle_sensitive_image, handle_sensitive_logs
-from module.hard.hard import CampaignHard
 from module.logger import logger, log_file
-from module.meowfficer.meowfficer import RewardMeowfficer
-from module.os_ash.ash import AshBeaconAssist
-from module.research.research import RewardResearch
-from module.reward.reward import Reward
-from module.shop.shop_reward import RewardShop
-from module.sos.sos import CampaignSos
-from module.tactical.tactical_class import RewardTacticalClass
-from module.campaign.os_run import OSCampaignRun
+
 
 class AzurLaneAutoScript:
     def __init__(self, config_name='alas'):
@@ -38,10 +22,13 @@ class AzurLaneAutoScript:
     @cached_property
     def config(self):
         config = AzurLaneConfig(config_name=self.config_name)
+        # Set server before loading any buttons.
+        server.server = deep_get(config.data, keys='Alas.Emulator.Server', default='cn')
         return config
 
     @cached_property
     def device(self):
+        from module.device.device import Device
         device = Device(config=self.config)
         return device
 
@@ -86,6 +73,7 @@ class AzurLaneAutoScript:
         Save last 60 screenshots in ./log/error/<timestamp>
         Save logs to ./log/error/<timestamp>/log.txt
         """
+        from module.handler.sensitive_info import handle_sensitive_image, handle_sensitive_logs
         if self.config.Error_SaveError:
             folder = f'./log/error/{int(time.time() * 1000)}'
             logger.warning(f'Saving error: {folder}')
@@ -106,76 +94,115 @@ class AzurLaneAutoScript:
                 f.writelines(lines)
 
     def restart(self):
+        from module.handler.login import LoginHandler
         LoginHandler(self.config, device=self.device).app_restart()
 
     def research(self):
+        from module.research.research import RewardResearch
         RewardResearch(config=self.config, device=self.device).run()
 
     def commission(self):
+        from module.commission.commission import RewardCommission
         RewardCommission(config=self.config, device=self.device).run()
 
     def tactical(self):
+        from module.tactical.tactical_class import RewardTacticalClass
         RewardTacticalClass(config=self.config, device=self.device).run()
 
     def dorm(self):
+        from module.dorm.dorm import RewardDorm
         RewardDorm(config=self.config, device=self.device).run()
 
     def meowfficer(self):
+        from module.meowfficer.meowfficer import RewardMeowfficer
         RewardMeowfficer(config=self.config, device=self.device).run()
 
     def guild(self):
+        from module.guild.guild_reward import RewardGuild
         RewardGuild(config=self.config, device=self.device).run()
 
     def reward(self):
+        from module.reward.reward import Reward
         Reward(config=self.config, device=self.device).run()
 
     def shop(self):
+        from module.shop.shop_reward import RewardShop
         RewardShop(config=self.config, device=self.device).run()
 
     def daily(self):
+        from module.daily.daily import Daily
         Daily(config=self.config, device=self.device).run()
 
     def hard(self):
+        from module.hard.hard import CampaignHard
         CampaignHard(config=self.config, device=self.device).run()
 
     def exercise(self):
+        from module.exercise.exercise import Exercise
         Exercise(config=self.config, device=self.device).run()
 
     def sos(self):
+        from module.sos.sos import CampaignSos
         CampaignSos(config=self.config, device=self.device).run()
 
     def opsi_ash_assist(self):
+        from module.os_ash.ash import AshBeaconAssist
         AshBeaconAssist(config=self.config, device=self.device).run()
 
     def opsi_explore(self):
+        from module.campaign.os_run import OSCampaignRun
         OSCampaignRun(config=self.config, device=self.device).opsi_explore()
 
     def opsi_daily(self):
+        from module.campaign.os_run import OSCampaignRun
         OSCampaignRun(config=self.config, device=self.device).opsi_daily()
 
     def opsi_obscure(self):
+        from module.campaign.os_run import OSCampaignRun
         OSCampaignRun(config=self.config, device=self.device).opsi_obscure()
 
     def opsi_meowfficer_farming(self):
+        from module.campaign.os_run import OSCampaignRun
         OSCampaignRun(config=self.config, device=self.device).opsi_meowfficer_farming()
 
     def main(self):
+        from module.campaign.run import CampaignRun
         CampaignRun(config=self.config, device=self.device).run(
-            name=self.config.Campaign_Name,
-            folder=self.config.Campaign_Event,
-            mode=self.config.Campaign_Mode)
+            name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
+
+    def event(self):
+        from module.campaign.run import CampaignRun
+        CampaignRun(config=self.config, device=self.device).run(
+            name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
+
+    def raid(self):
+        from module.raid.run import RaidRun
+        RaidRun(config=self.config, device=self.device).run()
+
+    def c11_affinity_farming(self):
+        from module.campaign.run import CampaignRun
+        CampaignRun(config=self.config, device=self.device).run(
+            name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
     def c72_mystery_farming(self):
+        from module.campaign.run import CampaignRun
         CampaignRun(config=self.config, device=self.device).run(
-            name=self.config.Campaign_Name,
-            folder=self.config.Campaign_Event,
-            mode=self.config.Campaign_Mode)
+            name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
+
+    def c122_medium_leveling(self):
+        from module.campaign.run import CampaignRun
+        CampaignRun(config=self.config, device=self.device).run(
+            name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
+
+    def c124_large_leveling(self):
+        from module.campaign.run import CampaignRun
+        CampaignRun(config=self.config, device=self.device).run(
+            name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
     def gems_farming(self):
+        from module.campaign.gems_farming import GemsFarming
         GemsFarming(config=self.config, device=self.device).run(
-            name=self.config.Campaign_Name,
-            folder=self.config.Campaign_Event,
-            mode=self.config.Campaign_Mode)
+            name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
     def loop(self):
         is_first = True

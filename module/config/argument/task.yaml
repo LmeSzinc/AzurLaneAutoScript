@@ -24,9 +24,49 @@ Main:
   - Submarine
   - Emotion
   - HpControl
+Event:
+  - Scheduler
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+Raid:
+  - Scheduler
+  - Raid
+  - StopCondition
+  - Emotion
+C11AffinityFarming:
+  - Scheduler
+  - C11AffinityFarming
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
 C72MysteryFarming:
   - Scheduler
   - C72MysteryFarming
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+C122MediumLeveling:
+  - Scheduler
+  - C122MediumLeveling
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+C124LargeLeveling:
+  - Scheduler
+  - C124LargeLeveling
   - Campaign
   - StopCondition
   - Fleet

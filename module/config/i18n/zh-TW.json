@@ -38,9 +38,29 @@
       "name": "Task.Main.name",
       "help": "Task.Main.help"
     },
+    "Event": {
+      "name": "Task.Event.name",
+      "help": "Task.Event.help"
+    },
+    "Raid": {
+      "name": "Task.Raid.name",
+      "help": "Task.Raid.help"
+    },
+    "C11AffinityFarming": {
+      "name": "Task.C11AffinityFarming.name",
+      "help": "Task.C11AffinityFarming.help"
+    },
     "C72MysteryFarming": {
       "name": "Task.C72MysteryFarming.name",
       "help": "Task.C72MysteryFarming.help"
+    },
+    "C122MediumLeveling": {
+      "name": "Task.C122MediumLeveling.name",
+      "help": "Task.C122MediumLeveling.help"
+    },
+    "C124LargeLeveling": {
+      "name": "Task.C124LargeLeveling.name",
+      "help": "Task.C124LargeLeveling.help"
     },
     "GemsFarming": {
       "name": "Task.GemsFarming.name",
@@ -149,6 +169,14 @@
     "PackageName": {
       "name": "Emulator.PackageName.name",
       "help": "Emulator.PackageName.help"
+    },
+    "Server": {
+      "name": "Emulator.Server.name",
+      "help": "Emulator.Server.help",
+      "cn": "cn",
+      "en": "en",
+      "jp": "jp",
+      "tw": "tw"
     },
     "ScreenshotMethod": {
       "name": "Emulator.ScreenshotMethod.name",
@@ -562,6 +590,37 @@
       "help": "HpControl.LowHpRetreatThreshold.help"
     }
   },
+  "Raid": {
+    "_info": {
+      "name": "Raid._info.name",
+      "help": "Raid._info.help"
+    },
+    "Event": {
+      "name": "Raid.Event.name",
+      "help": "Raid.Event.help"
+    },
+    "Mode": {
+      "name": "Raid.Mode.name",
+      "help": "Raid.Mode.help",
+      "easy": "easy",
+      "normal": "normal",
+      "hard": "hard"
+    },
+    "UseTicket": {
+      "name": "Raid.UseTicket.name",
+      "help": "Raid.UseTicket.help"
+    }
+  },
+  "C11AffinityFarming": {
+    "_info": {
+      "name": "C11AffinityFarming._info.name",
+      "help": "C11AffinityFarming._info.help"
+    },
+    "RunCount": {
+      "name": "C11AffinityFarming.RunCount.name",
+      "help": "C11AffinityFarming.RunCount.help"
+    }
+  },
   "C72MysteryFarming": {
     "_info": {
       "name": "C72MysteryFarming._info.name",
@@ -570,6 +629,48 @@
     "StepOnA3": {
       "name": "C72MysteryFarming.StepOnA3.name",
       "help": "C72MysteryFarming.StepOnA3.help"
+    }
+  },
+  "C122MediumLeveling": {
+    "_info": {
+      "name": "C122MediumLeveling._info.name",
+      "help": "C122MediumLeveling._info.help"
+    },
+    "LargeEnemyTolerance": {
+      "name": "C122MediumLeveling.LargeEnemyTolerance.name",
+      "help": "C122MediumLeveling.LargeEnemyTolerance.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "10": "10"
+    }
+  },
+  "C124LargeLeveling": {
+    "_info": {
+      "name": "C124LargeLeveling._info.name",
+      "help": "C124LargeLeveling._info.help"
+    },
+    "NonLargeEnterTolerance": {
+      "name": "C124LargeLeveling.NonLargeEnterTolerance.name",
+      "help": "C124LargeLeveling.NonLargeEnterTolerance.help",
+      "0": "0",
+      "1": "1",
+      "2": "2"
+    },
+    "NonLargeRetreatTolerance": {
+      "name": "C124LargeLeveling.NonLargeRetreatTolerance.name",
+      "help": "C124LargeLeveling.NonLargeRetreatTolerance.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "10": "10"
+    },
+    "PickupAmmo": {
+      "name": "C124LargeLeveling.PickupAmmo.name",
+      "help": "C124LargeLeveling.PickupAmmo.help",
+      "3": "3",
+      "4": "4",
+      "5": "5"
     }
   },
   "GemsFarming": {
@@ -936,7 +1037,7 @@
     "EscortMission": {
       "name": "Daily.EscortMission.name",
       "help": "Daily.EscortMission.help",
-      "no": "no",
+      "skip": "skip",
       "first": "first",
       "second": "second",
       "third": "third"
@@ -954,7 +1055,7 @@
     "AdvanceMission": {
       "name": "Daily.AdvanceMission.name",
       "help": "Daily.AdvanceMission.help",
-      "no": "no",
+      "skip": "skip",
       "first": "first",
       "second": "second",
       "third": "third"
@@ -972,7 +1073,7 @@
     "FierceAssault": {
       "name": "Daily.FierceAssault.name",
       "help": "Daily.FierceAssault.help",
-      "no": "no",
+      "skip": "skip",
       "first": "first",
       "second": "second",
       "third": "third"
@@ -990,7 +1091,7 @@
     "TacticalTraining": {
       "name": "Daily.TacticalTraining.name",
       "help": "Daily.TacticalTraining.help",
-      "no": "no",
+      "skip": "skip",
       "first": "first",
       "second": "second",
       "third": "third"
@@ -1008,7 +1109,7 @@
     "SupplyLineDisruption": {
       "name": "Daily.SupplyLineDisruption.name",
       "help": "Daily.SupplyLineDisruption.help",
-      "no": "no",
+      "skip": "skip",
       "first": "first",
       "second": "second",
       "third": "third"
