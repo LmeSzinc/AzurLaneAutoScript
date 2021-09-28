@@ -5,6 +5,7 @@ from module.gacha.ui import GachaUI
 from module.handler.assets import STORY_SKIP, POPUP_CONFIRM
 from module.logger import logger
 from module.ocr.ocr import Digit
+from module.retire.retirement import Retirement
 from module.shop.shop_general import GeneralShop
 
 RECORD_GACHA_OPTION = ('RewardRecord', 'gacha')
@@ -14,7 +15,7 @@ OCR_BUILD_SUBMIT_COUNT = Digit(BUILD_SUBMIT_COUNT, letter=(255, 247, 247), thres
 OCR_BUILD_SUBMIT_WW_COUNT = Digit(BUILD_SUBMIT_WW_COUNT, letter=(255, 247, 247), threshold=64)
 
 
-class RewardGacha(GachaUI, GeneralShop):
+class RewardGacha(GachaUI, GeneralShop, Retirement):
     build_cube_count = 0
 
     def gacha_prep(self, target):
@@ -186,7 +187,6 @@ class RewardGacha(GachaUI, GeneralShop):
         # Transition appropriate screens
         # and end up in Gacha/Build page
         confirm_timer = Timer(1, count=2).start()
-        flush_threshold = 4
         confirm_mode = True  # Drill, Lock Ship
         while 1:
             if skip_first_screenshot:
@@ -195,12 +195,10 @@ class RewardGacha(GachaUI, GeneralShop):
                 self.device.screenshot()
 
             if self.appear_then_click(BUILD_FINISH_ORDERS, interval=3):
-                if flush_threshold > 0:
-                    flush_threshold -= 1
-                else:
-                    logger.error('Cannot flush queue after several '
-                                 'attempts, dock is likely full.')
-                    exit(1)
+                confirm_timer.reset()
+                continue
+
+            if self.handle_retirement():
                 confirm_timer.reset()
                 continue
 
