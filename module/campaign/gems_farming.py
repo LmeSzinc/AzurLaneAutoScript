@@ -305,7 +305,13 @@ class GemsFarming(CampaignRun, EquipmentChange):
             )
             self._trigger_lv32 = False
 
-            super().run(name=name, folder=folder, total=total)
+            try:
+                super().run(name=name, folder=folder, total=total)
+            except CampaignEnd as e:
+                if e.args[0] == 'Emotion withdraw':
+                    self._trigger_emotion = True
+                else:
+                    raise e
 
             # End
             if self._trigger_lv32 or self._trigger_emotion:
