@@ -86,7 +86,6 @@ class CampaignRun(UI):
         if oil_check and self.config.StopCondition_OilLimit:
             if OCR_OIL.ocr(self.device.image) < self.config.StopCondition_OilLimit:
                 logger.hr('Triggered stop condition: Oil limit')
-                self.config.Scheduler_Enable = False
                 self.config.task_delay(minute=(120, 240))
                 return True
         # If Get a New Ship
