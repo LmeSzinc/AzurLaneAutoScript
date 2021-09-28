@@ -367,7 +367,7 @@ def main(ini_name=''):
         choices=['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'], help='Number to buy altogether.',
         gooey_options={'label_color': '#4B5F83'})
     reward_gacha.add_argument('--gacha_pool_target', default=default('--gacha_pool_target'),
-        choices=['light', 'heavy', 'special', 'event', 'wishing_well'], help='Target build pool to gacha in.',
+        choices=['light', 'heavy', 'special', 'event'], help='Target build pool to gacha in.',
         gooey_options={'label_color': '#4B5F83'})
     reward_gacha.add_argument('--drill_after_gacha', default=default('--drill_after_gacha'),
         choices=['是', '否'], help='Use drills after submission.',
