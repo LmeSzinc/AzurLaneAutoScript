@@ -6,7 +6,7 @@ scikit-image==0.16.2
 lz4
 tqdm
 requests<2.19.0,>=2.18.4
-uiautomator2==2.9.2
+uiautomator2==2.16.7
 retrying
 mxnet==1.6.0
 cnocr==1.2.2

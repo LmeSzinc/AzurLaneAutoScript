@@ -107,6 +107,13 @@ nox_player = VirtualBoxEmulator(
     vbox_path="./BignoxVMS",
     vbox_name='.*.vbox$'
 )
+nox_player_64 = VirtualBoxEmulator(
+    name="Nox64",
+    root_path=".",
+    adb_path=["./adb.exe", "./nox_adb.exe"],
+    vbox_path="./BignoxVMS",
+    vbox_name='.*.vbox$'
+)
 # LDPlayer 雷电模拟器
 ld_player = VirtualBoxEmulator(
     name="LDPlayer",
@@ -141,7 +148,14 @@ mumu_player = VirtualBoxEmulator(
 
 
 class EmulatorConnect:
-    SUPPORTED_EMULATORS = [nox_player, ld_player, ld_player_4, memu_player, mumu_player]
+    SUPPORTED_EMULATORS = [
+        nox_player,
+        nox_player_64,
+        ld_player,
+        ld_player_4,
+        memu_player,
+        mumu_player
+    ]
 
     def __init__(self, adb='adb.exe'):
         self.adb_binary = adb
@@ -244,5 +258,6 @@ class EmulatorConnect:
         self.brute_force_connect()
 
 
-# emu = EmulatorConnect()
-# print(emu.brute_force_connect())
+if __name__ == '__main__':
+    emu = EmulatorConnect()
+    print(emu.brute_force_connect())
