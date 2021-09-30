@@ -234,6 +234,7 @@ GuildOperation:
 Reward:
   CollectOil: true
   CollectCoin: true
+  CollectExp: true
   CollectMission: true
 GeneralShop:
   UseGems: false
@@ -284,7 +285,7 @@ GuildShop:
     option: [champagne, anchorage, august, marcopolo]
 MedalShop:
   Filter: |-
-    DR > PRY
+    DRBP > PRYBP
     > BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2
     > RetrofitT3 > PlateGeneralT3
     > FoodT6 > FoodT5

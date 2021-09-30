@@ -174,6 +174,7 @@ class GeneratedConfig:
     # Group `Reward`
     Reward_CollectOil = True
     Reward_CollectCoin = True
+    Reward_CollectExp = True
     Reward_CollectMission = True
 
     # Group `GeneralShop`
@@ -198,7 +199,7 @@ class GeneratedConfig:
     GuildShop_PR3 = 'champagne'  # champagne, anchorage, august, marcopolo
 
     # Group `MedalShop`
-    MedalShop_Filter = 'DR > PRY\n> BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3 > PlateGeneralT3\n> FoodT6 > FoodT5'
+    MedalShop_Filter = 'DRBP > PRYBP\n> BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3 > PlateGeneralT3\n> FoodT6 > FoodT5'
 
     # Group `MeritShop`
     MeritShop_Refresh = False

@@ -130,8 +130,8 @@ Guild:
     ServerUpdate: 00:00, 12:00, 18:00, 21:00
 Reward:
   Scheduler:
-    SuccessInterval: 30
-    FailureInterval: 30
+    SuccessInterval: 60-120
+    FailureInterval: 60-120
     ServerUpdate: 00:00
 Shop:
   Scheduler:

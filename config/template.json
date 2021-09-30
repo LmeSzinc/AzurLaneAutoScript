@@ -675,13 +675,14 @@
       "Enable": false,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "Reward",
-      "SuccessInterval": 30,
-      "FailureInterval": 30,
+      "SuccessInterval": "60-120",
+      "FailureInterval": "60-120",
       "ServerUpdate": "00:00"
     },
     "Reward": {
       "CollectOil": true,
       "CollectCoin": true,
+      "CollectExp": true,
       "CollectMission": true
     }
   },

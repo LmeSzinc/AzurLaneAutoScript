@@ -867,6 +867,10 @@
       "name": "Reward.CollectCoin.name",
       "help": "Reward.CollectCoin.help"
     },
+    "CollectExp": {
+      "name": "Reward.CollectExp.name",
+      "help": "Reward.CollectExp.help"
+    },
     "CollectMission": {
       "name": "Reward.CollectMission.name",
       "help": "Reward.CollectMission.help"

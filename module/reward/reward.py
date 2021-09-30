@@ -10,11 +10,12 @@ from module.ui.ui import UI
 
 
 class Reward(UI):
-    def reward_receive(self, oil, coin, skip_first_screenshot=True):
+    def reward_receive(self, oil, coin, exp, skip_first_screenshot=True):
         """
         Args:
             oil (bool):
             coin (bool):
+            exp (bool):
             skip_first_screenshot (bool):
 
         Returns:
@@ -24,7 +25,7 @@ class Reward(UI):
             in: page_reward
             out: page_reward, with info_bar if received
         """
-        if not oil and not coin:
+        if not oil and not coin and not exp:
             return False
 
         logger.hr('Reward receive')
@@ -40,6 +41,9 @@ class Reward(UI):
                 confirm_timer.reset()
                 continue
             if coin and self.appear_then_click(COIN, interval=60):
+                confirm_timer.reset()
+                continue
+            if exp and self.appear_then_click(EXP, interval=60):
                 confirm_timer.reset()
                 continue
 
@@ -244,7 +248,10 @@ class Reward(UI):
             out: page_main or page_mission, may have info_bar
         """
         self.ui_ensure(page_reward)
-        self.reward_receive(oil=self.config.Reward_CollectOil, coin=self.config.Reward_CollectCoin)
+        self.reward_receive(
+            oil=self.config.Reward_CollectOil,
+            coin=self.config.Reward_CollectCoin,
+            exp=self.config.Reward_CollectExp)
         self.ui_goto(page_main)
         self.reward_mission()
 

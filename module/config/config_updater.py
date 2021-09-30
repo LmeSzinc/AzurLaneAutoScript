@@ -93,8 +93,9 @@ class ConfigGenerator:
                 logger.warning(f'`{".".join(path)}` is not a existing argument')
                 continue
             # Check type
+            # But allow `Interval` to be different
             old_value = old.get('value', None) if isinstance(old, dict) else old
-            if type(value) != type(old_value):
+            if type(value) != type(old_value) and path[2] not in ['SuccessInterval', 'FailureInterval']:
                 logger.warning(
                     f'`{value}` ({type(value)}) and `{".".join(path)}` ({type(old_value)}) are in different types')
                 continue
