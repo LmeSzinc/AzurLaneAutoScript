@@ -9,7 +9,7 @@ from module.ui.navbar import Navbar
 from module.ui.page import page_build
 from module.ui.ui import UI
 
-GACHA_LOAD_ENSURE_BUTTONS = [SHOP_MEDAL_CHECK, BUILD_SUBMIT_ORDERS, BUILD_FINISH_ORDERS]
+GACHA_LOAD_ENSURE_BUTTONS = [SHOP_MEDAL_CHECK, BUILD_SUBMIT_ORDERS, BUILD_SUBMIT_WW_ORDERS, BUILD_FINISH_ORDERS, BUILD_WW_CHECK]
 
 
 class GachaUI(UI):
