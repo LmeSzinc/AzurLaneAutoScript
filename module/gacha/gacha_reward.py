@@ -18,12 +18,13 @@ OCR_BUILD_SUBMIT_WW_COUNT = Digit(BUILD_SUBMIT_WW_COUNT, letter=(255, 247, 247),
 class RewardGacha(GachaUI, GeneralShop, Retirement):
     build_cube_count = 0
 
-    def gacha_prep(self, target):
+    def gacha_prep(self, target, skip_first_scrrenshot=True):
         """
         Initiate preparation to submit build orders.
 
         Args:
             target (int): Number of build orders to submit
+            skip_first_scrrenshot (bool):
 
         Returns:
             bool: True if prep complete otherwise False.
@@ -41,7 +42,7 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
 
         # Ensure correct page to be able to prep in
         if not self.appear(BUILD_SUBMIT_ORDERS) \
-           and not self.appear(BUILD_SUBMIT_WW_ORDERS):
+                and not self.appear(BUILD_SUBMIT_WW_ORDERS):
             return False
 
         # Use 'appear' to update actual position of assets
@@ -50,7 +51,10 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
         ocr_submit = None
         index_offset = (40, 20)
         while 1:
-            self.device.screenshot()
+            if skip_first_scrrenshot:
+                skip_first_scrrenshot = False
+            else:
+                self.device.screenshot()
 
             if self.appear_then_click(BUILD_SUBMIT_ORDERS, interval=3):
                 ocr_submit = OCR_BUILD_SUBMIT_COUNT
@@ -64,7 +68,7 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
 
             # End
             if self.appear(BUILD_PLUS, offset=index_offset) \
-               and self.appear(BUILD_MINUS, offset=index_offset):
+                    and self.appear(BUILD_MINUS, offset=index_offset):
                 if confirm_timer.reached():
                     break
 
@@ -225,6 +229,30 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
                 if confirm_timer.reached():
                     break
 
+    def gacha_submit(self, skip_first_screenshot=True):
+        """
+        Pages:
+            in: POPUP_CONFIRM
+            out: BUILD_FINISH_ORDERS
+        """
+        logger.info('Submit gacha')
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear(POPUP_CONFIRM, offset=(20, 80)):
+                # Alter asset name for click
+                POPUP_CONFIRM.name = POPUP_CONFIRM.name + '_' + 'GACHA_ORDER'
+                self.device.click(POPUP_CONFIRM)
+                POPUP_CONFIRM.name = POPUP_CONFIRM.name[:-len('GACHA_ORDER') - 1]
+                continue
+
+            # End
+            if self.appear(BUILD_FINISH_ORDERS):
+                break
+
     def gacha_run(self):
         """
         Run gacha operations to submit build orders.
@@ -268,16 +296,11 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
         # Cannot use handle_popup_confirm, this window
         # lacks POPUP_CANCEL
         result = False
-        if self.gacha_prep(buy_count) \
-           and self.appear(POPUP_CONFIRM, offset=self._popup_offset):
-            # Alter asset name for click
-            POPUP_CONFIRM.name = POPUP_CONFIRM.name + '_' + 'GACHA_ORDER'
-            self.device.click(POPUP_CONFIRM)
-            POPUP_CONFIRM.name = POPUP_CONFIRM.name[:-len('GACHA_ORDER') - 1]
+        if self.gacha_prep(buy_count):
+            self.gacha_submit()
 
             # If configured to use drill after build
             if self.config.DRILL_AFTER_GACHA:
-                self.gacha_load_ensure(skip_first_screenshot=False)
                 self.gacha_flush_queue()
 
             result = True
