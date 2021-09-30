@@ -271,6 +271,9 @@ class OperationSiren(Reward, OSMap):
         order = [int(f.strip(' \t\r\n')) for f in self.config.OS_EXPLORE_FILTER.split('>')]
         if self.config.OpsiExplore_LastZone in order:
             order = order[order.index(self.config.OpsiExplore_LastZone) + 1:]
+        elif self.config.OpsiExplore_LastZone == 0:
+            # First run
+            pass
         else:
             logger.warning(f'Invalid OpsiExplore_LastZone={self.config.OpsiExplore_LastZone}, re-explore')
         if not len(order):
@@ -283,7 +286,7 @@ class OperationSiren(Reward, OSMap):
                 continue
 
             logger.hr(f'OS explore {zone}', level=1)
-            self.os_order_execute(recon_scan=True)
+            self.os_order_execute(recon_scan=True, submarine_call=False)
             self.config.task_delay(minute=30)
             self.run_auto_search()
             self.config.OpsiExplore_LastZone = zone
