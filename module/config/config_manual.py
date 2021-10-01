@@ -8,11 +8,12 @@ class ManualConfig:
     Restart
     > Research > Commission > Tactical > Dorm > Meowfficer > Guild > Reward
     > Gacha > Shop > Shipyard
-    > OpsiObscure > Exercise > Daily > Hard > OpsiAshAssist
-    > Sos > EventSp > EventAb > RaidDaily > WarArchieves
-    > OpsiExplore > OpsiDaily > OpsiMeowfficerFarming
+    > OpsiExplore > OpsiObscure
+    > Exercise > Daily > Hard > OpsiAshAssist
+    > Sos > EventSp > EventAb > RaidDaily > WarArchives
+    > OpsiDaily > OpsiMeowfficerFarming
     > Event > Raid > Main
-    > C11AffinityFarming > C124Leveling > C122Leveling > C72MysteryFarming > GemsFarming
+    > C124Leveling > C122Leveling > C11AffinityFarming > C72MysteryFarming > GemsFarming
     """
 
     """
@@ -188,7 +189,7 @@ class ManualConfig:
     
     > 33 > 34 > 32 > 25
     > 41 > 105 > 95 > 94
-    > 141 > 143 > 123 > 125 > 114 > 113 > 111 > 135 > 133
+    > 141 > 143 > 133 > 135 > 111 > 113 > 114 > 125 > 123
     > 65 > 62 > 66
     
     > 14 > 42
