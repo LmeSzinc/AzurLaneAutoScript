@@ -13,7 +13,7 @@
       "ScreenshotLength": 1
     },
     "Optimization": {
-      "CombatScreenshotInterval": 2
+      "CombatScreenshotInterval": 1.0
     },
     "DropRecord": {
       "SaveFolder": "./screenshots",
@@ -717,7 +717,7 @@
       "PR3": "champagne"
     },
     "MedalShop": {
-      "Filter": "DR > PRY\n> BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3 > PlateGeneralT3\n> FoodT6 > FoodT5"
+      "Filter": "DRBP > PRYBP\n> BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3 > PlateGeneralT3\n> FoodT6 > FoodT5"
     },
     "MeritShop": {
       "Refresh": false,

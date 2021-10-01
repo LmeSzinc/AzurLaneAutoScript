@@ -9,9 +9,19 @@ import yaml
 import module.config.server as server
 
 LANGUAGES = ['zh-CN', 'en-US', 'zh-TW']
-
-
-# LANGUAGES = ['zh-CN']
+SERVER_TO_LANG = {
+    'cn': 'zh-CN',
+    'en': 'en-US',
+    'jp': 'ja-JP',
+    'tw': 'zh-TW',
+}
+LANG_TO_SERVER = {v: k for k, v in SERVER_TO_LANG.items()}
+SERVER_TO_TIMEZONE = {
+    'cn': 8,
+    'en': -7,
+    'jp': 9,
+    'tw': 8,
+}
 
 
 # https://stackoverflow.com/questions/8640959/how-can-i-control-what-scalar-form-pyyaml-uses-for-my-data/15423007
@@ -105,7 +115,7 @@ def write_file(file, data):
                                sort_keys=False)
     elif ext == '.json':
         with open(file, mode='w', encoding='utf-8') as f:
-            s = json.dumps(data, indent=2, ensure_ascii=True, sort_keys=False, default=str)
+            s = json.dumps(data, indent=2, ensure_ascii=False, sort_keys=False, default=str)
             f.write(s)
     else:
         print(f'Unsupported config file extension: {ext}')
@@ -311,16 +321,7 @@ def dict_to_kv(dictionary, allow_none=True):
 
 
 def server_timezone():
-    if server.server == 'en':
-        return -7
-    elif server.server == 'cn':
-        return 8
-    elif server.server == 'jp':
-        return 9
-    elif server.server == 'tw':
-        return 8
-    else:
-        return 8
+    return SERVER_TO_TIMEZONE.get(server.server, 8)
 
 
 def get_server_next_update(daily_trigger):

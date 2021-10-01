@@ -1,3 +1,4 @@
+import re
 from copy import deepcopy
 
 from cached_property import cached_property
@@ -18,6 +19,38 @@ class GeneratedConfig:
     Auto generated configuration
     """
 '''.strip().split('\n')
+ARCHIVES_PREFIX = {
+    'cn': '档案_',
+    'en': 'archives_',
+    'jp': 'archives_',
+    'tw': '檔案_'
+}
+
+
+class Event:
+    def __init__(self, text):
+        self.date, self.directory, self.name, self.cn, self.en, self.jp, self.tw \
+            = [x.strip() for x in text.strip('| \n').split('|')]
+
+        self.directory = self.directory.replace(' ', '_')
+        self.cn = self.cn.replace('、', '')
+        self.en = self.en.replace(',', '').replace('\'', '').replace('\\', '')
+        self.jp = self.jp.replace('、', '')
+        self.tw = self.tw.replace('、', '')
+        self.is_war_archives = self.directory.startswith('war_archives')
+        self.is_raid = self.directory.startswith('raid_')
+        for server in ARCHIVES_PREFIX.keys():
+            if self.__getattribute__(server) == '-':
+                self.__setattr__(server, None)
+            else:
+                if self.is_war_archives:
+                    self.__setattr__(server, ARCHIVES_PREFIX[server] + self.__getattribute__(server))
+
+    def __str__(self):
+        return self.directory
+
+    def __eq__(self, other):
+        return str(self) == str(other)
 
 
 class ConfigGenerator:
@@ -114,7 +147,6 @@ class ConfigGenerator:
                 deep_set(data, keys=f'{task}.Scheduler.Command.value', value=task)
                 deep_set(data, keys=f'{task}.Scheduler.Command.type', value='disable')
 
-        write_file(filepath_args(), data)
         return data
 
     @timer
@@ -164,14 +196,14 @@ class ConfigGenerator:
                 d = ".".join(k) if default else str(word)
                 value = deep_get(old, keys=k, default=d)
                 deep_set(new, keys=k, value=value)
-
+        # Menu
         for path, data in deep_iter(self.menu, depth=2):
             func, group = path
             deep_load(['Menu', func])
             deep_load(['Menu', group])
             for task in data:
                 deep_load([func, task])
-
+        # Arguments
         visited_group = set()
         for path, data in deep_iter(self.argument, depth=2):
             if path[0] not in visited_group:
@@ -180,13 +212,20 @@ class ConfigGenerator:
             deep_load(path)
             if 'option' in data:
                 deep_load(path, words=data['option'], default=False)
+        # Event names
+        for event in deep_get(self.args, keys=f'Event.Campaign.Event.option'):
+            if isinstance(event, Event):
+                name = event.__getattribute__(LANG_TO_SERVER[lang])
+                if not name:
+                    name = '-'
+                deep_set(new, keys=f'Campaign.Event.{event}', value=name)
 
         write_file(filepath_i18n(lang), new)
 
     @cached_property
     def menu(self):
         """
-        Generate menu definations
+        Generate menu definitions
 
         task.yaml --> menu.json
 
@@ -210,14 +249,61 @@ class ConfigGenerator:
         if tasks:
             deep_set(data, keys=f'Task.{group}', value=tasks)
 
-        # Write
-        write_file(filepath_args('menu'), data)
         return data
+
+    @cached_property
+    @timer
+    def event(self):
+        """
+        Returns:
+            list[Event]: From latest to oldest
+        """
+        events = []
+        with open('./campaign/Readme.md', encoding='utf-8') as f:
+            for text in f.readlines():
+                if re.search('\d{8}', text):
+                    event = Event(text)
+                    events.append(event)
+
+        return events[::-1]
+
+    def insert_event(self):
+        """
+        Insert event information into `self.args`.
+
+        ./campaign/Readme.md -----+
+                                  v
+                   args.json -----+-----> args.json
+        """
+        for event in self.event:
+            for server_ in ARCHIVES_PREFIX.keys():
+                name = event.__getattribute__(server_)
+
+                def insert(key):
+                    options = deep_get(self.args, keys=f'{key}.Campaign.Event.option')
+                    if event not in options:
+                        options.append(event)
+                    if name:
+                        deep_default(self.args, keys=f'{key}.Campaign.Event.{server_}', value=event)
+
+                if name:
+                    if event.is_raid:
+                        # insert('Raid')
+                        pass
+                    elif event.is_war_archives:
+                        # insert('WarArchives')
+                        pass
+                    else:
+                        insert('Event')
 
     @timer
     def generate(self):
         _ = self.args
         _ = self.menu
+        _ = self.event
+        self.insert_event()
+        write_file(filepath_args(), self.args)
+        write_file(filepath_args('menu'), self.menu)
         self.generate_code()
         for lang in LANGUAGES:
             self.generate_i18n(lang)
@@ -240,11 +326,12 @@ class ConfigUpdater:
         """
         new = {}
         old = read_file(filepath_config(config_name))
+        is_template = config_name == 'template'
 
         def deep_load(keys):
             data = deep_get(self.args, keys=keys, default={})
             value = deep_get(old, keys=keys, default=data['value'])
-            if value is None or data['type'] == 'disable':
+            if value is None or data['type'] == 'disable' or is_template:
                 value = data['value']
             value = parse_value(value, data=data)
             deep_set(new, keys=keys, value=value)
@@ -252,10 +339,15 @@ class ConfigUpdater:
         for path, _ in deep_iter(self.args, depth=3):
             deep_load(path)
 
-        if config_name == 'template':
+        # AzurStatsID
+        if is_template:
             deep_set(new, 'Alas.DropRecord.AzurStatsID', None)
         else:
             deep_default(new, 'Alas.DropRecord.AzurStatsID', random_id())
+        # Update to latest event
+        if not is_template:
+            server_ = deep_get(new, 'Alas.Emulator.Server', 'cn')
+            deep_set(new, keys='Event.Campaign.Event', value=deep_get(self.args, f'Event.Campaign.Event.{server_}'))
 
         return new
 

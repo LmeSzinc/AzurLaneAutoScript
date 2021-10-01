@@ -55,7 +55,7 @@ class GeneratedConfig:
 
     # Group `Campaign`
     Campaign_Name = '7-2'
-    Campaign_Event = 'campaign_main'
+    Campaign_Event = 'campaign_main'  # campaign_main
     Campaign_Mode = 'normal'  # normal, hard
     Campaign_UseClearMode = True
     Campaign_UseFleetLock = True

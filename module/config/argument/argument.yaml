@@ -57,7 +57,9 @@ Retirement:
 
 Campaign:
   Name: 7-2
-  Event: campaign_main
+  Event:
+    value: campaign_main
+    option: [campaign_main]
   Mode:
     value: normal
     option: [normal, hard]
