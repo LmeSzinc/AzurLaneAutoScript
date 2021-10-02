@@ -279,7 +279,7 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
 
         # Transition to appropriate target construction pool
         # Returns appropriate costs for gacha as well
-        actual_pool = self.gacha_goto_pool(self.config.GACHA_POOL_TARGET)
+        actual_pool = self.gacha_goto_pool(self.config.Gacha_Pool)
 
         # Determine appropriate cost based on gacha_goto_pool
         gold_cost = 600
@@ -290,7 +290,7 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
 
         # Calculate rolls allowed based on
         # configurations and resources
-        buy_count = self.gacha_calculate(self.config.BUY_GACHA_ORDER, gold_cost, cube_cost)
+        buy_count = self.gacha_calculate(self.config.Gacha_Amount, gold_cost, cube_cost)
 
         # Submit 'buy_count' and execute if capable
         # Cannot use handle_popup_confirm, this window
@@ -300,28 +300,20 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
             self.gacha_submit()
 
             # If configured to use drill after build
-            if self.config.DRILL_AFTER_GACHA:
+            if self.config.Gacha_UseDrill:
                 self.gacha_flush_queue()
 
             result = True
 
         return result
 
-    def handle_gacha(self):
+    def run(self):
         """
         Handle gacha operations if configured to do so.
 
-        Returns:
-            bool: True if called gacha_run otherwise False
+        Pages:
+            in: Any page
+            out: page_build
         """
-        if self.config.record_executed_since(RECORD_GACHA_OPTION, since=RECORD_GACHA_SINCE):
-            return False
-
-        if self.config.BUY_GACHA_ORDER <= 0:
-            return False
-
-        if self.gacha_run():
-            self.config.record_save(option=RECORD_GACHA_OPTION)
-            self.ui_goto_main()
-
-        return True
+        self.gacha_run()
+        self.config.task_delay(server_update=True)

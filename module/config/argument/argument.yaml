@@ -300,6 +300,14 @@ Shipyard:
   ResearchSeries: 1
   ShipIndex: 0
   BuyAmount: 2
+Gacha:
+  Pool:
+    value: light
+    option: [light, heavy, special, event, wishing_well]
+  Amount:
+    value: 1
+    option: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  UseDrill: false
 
 # ==================== Daily ====================
 

@@ -106,6 +106,10 @@
       "name": "Task.Shipyard.name",
       "help": "Task.Shipyard.help"
     },
+    "Gacha": {
+      "name": "Task.Gacha.name",
+      "help": "Task.Gacha.help"
+    },
     "Daily": {
       "name": "Task.Daily.name",
       "help": "Task.Daily.help"
@@ -1084,6 +1088,39 @@
     "BuyAmount": {
       "name": "Shipyard.BuyAmount.name",
       "help": "Shipyard.BuyAmount.help"
+    }
+  },
+  "Gacha": {
+    "_info": {
+      "name": "Gacha._info.name",
+      "help": "Gacha._info.help"
+    },
+    "Pool": {
+      "name": "Gacha.Pool.name",
+      "help": "Gacha.Pool.help",
+      "light": "light",
+      "heavy": "heavy",
+      "special": "special",
+      "event": "event",
+      "wishing_well": "wishing_well"
+    },
+    "Amount": {
+      "name": "Gacha.Amount.name",
+      "help": "Gacha.Amount.help",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9",
+      "10": "10"
+    },
+    "UseDrill": {
+      "name": "Gacha.UseDrill.name",
+      "help": "Gacha.UseDrill.help"
     }
   },
   "Daily": {

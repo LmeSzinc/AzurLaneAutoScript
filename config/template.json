@@ -739,6 +739,21 @@
       "BuyAmount": 2
     }
   },
+  "Gacha": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "Gacha",
+      "SuccessInterval": 30,
+      "FailureInterval": 30,
+      "ServerUpdate": "00:00"
+    },
+    "Gacha": {
+      "Pool": "light",
+      "Amount": 1,
+      "UseDrill": false
+    }
+  },
   "Daily": {
     "Scheduler": {
       "Enable": false,

@@ -3281,6 +3281,67 @@
       }
     }
   },
+  "Gacha": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "input",
+        "value": "2020-01-01 00:00:00"
+      },
+      "Command": {
+        "type": "disable",
+        "value": "Gacha"
+      },
+      "SuccessInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "FailureInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "ServerUpdate": {
+        "type": "disable",
+        "value": "00:00"
+      }
+    },
+    "Gacha": {
+      "Pool": {
+        "type": "select",
+        "value": "light",
+        "option": [
+          "light",
+          "heavy",
+          "special",
+          "event",
+          "wishing_well"
+        ]
+      },
+      "Amount": {
+        "type": "select",
+        "value": 1,
+        "option": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ]
+      },
+      "UseDrill": {
+        "type": "checkbox",
+        "value": false
+      }
+    }
+  },
   "Daily": {
     "Scheduler": {
       "Enable": {

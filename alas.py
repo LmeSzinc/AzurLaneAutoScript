@@ -129,6 +129,14 @@ class AzurLaneAutoScript:
         from module.shop.shop_reward import RewardShop
         RewardShop(config=self.config, device=self.device).run()
 
+    def shipyard(self):
+        from module.shipyard.shipyard_reward import RewardShipyard
+        RewardShipyard(config=self.config, device=self.device).run()
+
+    def gacha(self):
+        from module.gacha.gacha_reward import RewardGacha
+        RewardGacha(config=self.config, device=self.device).run()
+
     def daily(self):
         from module.daily.daily import Daily
         Daily(config=self.config, device=self.device).run()

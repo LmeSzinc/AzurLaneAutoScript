@@ -116,6 +116,9 @@ Shop:
 Shipyard:
   - Scheduler
   - Shipyard
+Gacha:
+  - Scheduler
+  - Gacha
 
 # ==================== Daily ====================
 

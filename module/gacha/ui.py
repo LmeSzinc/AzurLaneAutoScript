@@ -25,7 +25,6 @@ class GachaUI(UI):
         Returns:
             bool: Whether expected assets loaded completely
         """
-        confirm_timer = Timer(1.5, count=3).start()
         ensure_timeout = Timer(3, count=6).start()
         while 1:
             if skip_first_screenshot:
@@ -36,11 +35,7 @@ class GachaUI(UI):
             # End
             results = [self.appear(button) for button in GACHA_LOAD_ENSURE_BUTTONS]
             if any(results):
-                if confirm_timer.reached():
-                    return True
-                ensure_timeout.reset()
-                continue
-            confirm_timer.reset()
+                break
 
             # Exception
             if ensure_timeout.reached():
