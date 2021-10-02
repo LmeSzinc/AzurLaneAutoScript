@@ -26,6 +26,7 @@ class Book:
         1: (104, 181, 238),  # T1, blue
         2: (151, 129, 203),  # T2, purple
         3: (235, 208, 120),  # T3, gold
+        4: (225, 181, 212),  # T4, rainbow
     }
 
     def __init__(self, image, button):
@@ -63,7 +64,7 @@ class Book:
         check_area = tuple([area[0], area[3] + 2, area[2], area[3] + 4])
         im = np.array(image.crop(check_area).convert('L'))
         return True if np.mean(im) > 127 else False
-        
+
     def __str__(self):
         # Example: Defensive_T3_Exp
         text = f'{GENRE_NAME_DICT.get(self.genre, "Unknown")}_T{self.tier}'
@@ -128,8 +129,8 @@ class BookGroup:
     def choose(self, tier_max, tier_min, exp=True):
         """
         Args:
-            tier_max (int): Max tier to choose, 1 to 3.
-            tier_min (int): Min tier to choose, 1 to 3.
+            tier_max (int): Max tier to choose, 1 to 4.
+            tier_min (int): Min tier to choose, 1 to 4.
             exp (bool): True to choose books with exp bonus, False to choose other books in the same tier.
 
         Returns:
@@ -199,7 +200,7 @@ class RewardTacticalClass(UI):
             self.handle_info_bar()  # info_bar appears when get ship in Launch Ceremony commissions
             books = BookGroup([Book(self.device.image, button) for button in BOOKS_GRID.buttons]).select(valid=True)
             logger.attr('Book_count', len(books))
-            for index in range(1, 4):
+            for index in range(1, 5):
                 logger.info(f'Book_T{index}: {books.select(tier=index)}')
 
             # End
