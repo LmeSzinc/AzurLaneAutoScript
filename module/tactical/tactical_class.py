@@ -42,6 +42,7 @@ class Book:
         1: (104, 181, 238),  # T1, blue
         2: (151, 129, 203),  # T2, purple
         3: (235, 208, 120),  # T3, gold
+        4: (225, 181, 212),  # T4, rainbow
     }
 
     def __init__(self, image, button):
@@ -205,6 +206,7 @@ class RewardTacticalClass(UI):
         buttons = [b for b, s in zip(grids.buttons, is_running) if s]
         ocr = Duration(buttons, letter=(148, 255, 99), name='TACTICAL_REMAIN')
         remains = ocr.ocr(self.device.image)
+        remains = [remains] if not isinstance(remains, list) else remains
 
         now = datetime.now()
         self.tactical_finish = [(now + remain).replace(microsecond=0) for remain in remains if remain.total_seconds()]

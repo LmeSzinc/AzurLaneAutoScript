@@ -196,9 +196,10 @@ Commission:
     > shortest
 Tactical:
   TacticalFilter: |-
-    SameT3 > SameT2 > SameT1
+    SameT4 > SameT3 > SameT2 > SameT1
     > BlueT2 > YellowT2 > RedT2
     > BlueT3 > YellowT3 > RedT3
+    > BlueT4 > YellowT4 > RedT4
     > BlueT1 > YellowT1 > RedT1
     > first
 Research:
