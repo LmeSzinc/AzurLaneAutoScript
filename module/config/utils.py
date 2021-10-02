@@ -8,7 +8,7 @@ import yaml
 
 import module.config.server as server
 
-LANGUAGES = ['zh-CN', 'en-US', 'zh-TW']
+LANGUAGES = ['zh-CN', 'en-US', 'ja-JP', 'zh-TW']
 SERVER_TO_LANG = {
     'cn': 'zh-CN',
     'en': 'en-US',

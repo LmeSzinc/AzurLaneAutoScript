@@ -20,10 +20,10 @@ class GeneratedConfig:
     """
 '''.strip().split('\n')
 ARCHIVES_PREFIX = {
-    'cn': '档案_',
-    'en': 'archives_',
-    'jp': 'archives_',
-    'tw': '檔案_'
+    'cn': '档案 ',
+    'en': 'archives ',
+    'jp': '檔案 ',
+    'tw': '檔案 '
 }
 
 
@@ -39,12 +39,12 @@ class Event:
         self.tw = self.tw.replace('、', '')
         self.is_war_archives = self.directory.startswith('war_archives')
         self.is_raid = self.directory.startswith('raid_')
-        for server in ARCHIVES_PREFIX.keys():
-            if self.__getattribute__(server) == '-':
-                self.__setattr__(server, None)
+        for server_ in ARCHIVES_PREFIX.keys():
+            if self.__getattribute__(server_) == '-':
+                self.__setattr__(server_, None)
             else:
                 if self.is_war_archives:
-                    self.__setattr__(server, ARCHIVES_PREFIX[server] + self.__getattribute__(server))
+                    self.__setattr__(server_, ARCHIVES_PREFIX[server_] + self.__getattribute__(server_))
 
     def __str__(self):
         return self.directory
@@ -213,12 +213,21 @@ class ConfigGenerator:
             if 'option' in data:
                 deep_load(path, words=data['option'], default=False)
         # Event names
-        for event in deep_get(self.args, keys=f'Event.Campaign.Event.option'):
-            if isinstance(event, Event):
+        # Names come from SameLanguageServer > en > cn > jp > tw
+        events = {}
+        for event in self.event:
+            if lang in LANG_TO_SERVER:
                 name = event.__getattribute__(LANG_TO_SERVER[lang])
-                if not name:
-                    name = '-'
-                deep_set(new, keys=f'Campaign.Event.{event}', value=name)
+                if name:
+                    deep_default(events, keys=event.directory, value=name)
+        for server_ in ['en', 'cn', 'jp', 'tw']:
+            for event in self.event:
+                name = event.__getattribute__(server_)
+                if name:
+                    deep_default(events, keys=event.directory, value=name)
+        for event in self.event:
+            name = events.get(event.directory, event.directory)
+            deep_set(new, keys=f'Campaign.Event.{event.directory}', value=name)
 
         write_file(filepath_i18n(lang), new)
 
