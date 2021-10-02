@@ -240,6 +240,7 @@ def main(ini_name=''):
     reward_general = reward_parser.add_argument_group('日常收获', '', gooey_options={'label_color': '#931D03'})
     reward_general.add_argument('--启用石油收获', default=default('--启用石油收获'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     reward_general.add_argument('--启用物资收获', default=default('--启用物资收获'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    reward_general.add_argument('--enable_exp_reward', default=default('--enable_exp_reward'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     reward_general.add_argument('--启用任务收获', default=default('--启用任务收获'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     reward_general.add_argument('--启用档案密钥收获', default=default('--启用档案密钥收获'), help='领取作战档案的档案密钥, 如果已经领取则自动跳过', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
 

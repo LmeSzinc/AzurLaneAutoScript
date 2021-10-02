@@ -252,6 +252,7 @@ def main(ini_name=''):
     reward_general = reward_parser.add_argument_group('General', '', gooey_options={'label_color': '#931D03'})
     reward_general.add_argument('--enable_oil_reward', default=default('--enable_oil_reward'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
     reward_general.add_argument('--enable_coin_reward', default=default('--enable_coin_reward'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
+    reward_general.add_argument('--enable_exp_reward', default=default('--enable_exp_reward'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
     reward_general.add_argument('--enable_mission_reward', default=default('--enable_mission_reward'), choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
     reward_general.add_argument('--enable_data_key_collect', default=default('--enable_data_key_collect'), help='Enable collection of data key in war archives.', choices=['yes', 'no'], gooey_options={'label_color': '#4B5F83'})
 

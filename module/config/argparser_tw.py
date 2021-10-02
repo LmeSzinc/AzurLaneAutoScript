@@ -240,6 +240,7 @@ def main(ini_name=''):
     reward_general = reward_parser.add_argument_group('日常收穫', '', gooey_options={'label_color': '#931D03'})
     reward_general.add_argument('--啟用石油收穫', default=default('--啟用石油收穫'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     reward_general.add_argument('--啟用物資收穫', default=default('--啟用物資收穫'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
+    reward_general.add_argument('--enable_exp_reward', default=default('--enable_exp_reward'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     reward_general.add_argument('--啟用任務收穫', default=default('--啟用任務收穫'), choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
     reward_general.add_argument('--啟用檔案密鑰收穫', default=default('--啟用檔案密鑰收穫'), help='領取作戰檔案的檔案密鑰', choices=['是', '否'], gooey_options={'label_color': '#4B5F83'})
 
