@@ -388,6 +388,7 @@ class AzurLaneConfig:
     ENABLE_DAILY_REWARD = False
     ENABLE_OIL_REWARD = True
     ENABLE_COIN_REWARD = True
+    ENABLE_EXP_REWARD = True
     ENABLE_MISSION_REWARD = True
     ENABLE_COMMISSION_REWARD = True
     ENABLE_TACTICAL_REWARD = True
@@ -746,7 +747,7 @@ class AzurLaneConfig:
         option = config['Reward']
         self.REWARD_INTERVAL = option['reward_interval']
         self.REWARD_STOP_GAME_DURING_INTERVAL = to_bool(option['reward_stop_game_during_interval'])
-        for attr in ['enable_reward', 'enable_oil_reward', 'enable_coin_reward', 'enable_mission_reward',
+        for attr in ['enable_reward', 'enable_oil_reward', 'enable_coin_reward', 'enable_exp_reward', 'enable_mission_reward',
                      'enable_dorm_reward', 'enable_dorm_feed',
                      'enable_commission_reward', 'enable_tactical_reward', 'enable_daily_reward',
                      'enable_research_reward',
