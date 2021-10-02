@@ -168,20 +168,17 @@ class OSAsh(UI):
         self.ui_ensure(page_os)
         self._ash_beacon_enter_from_map(offset=entrance_offset, skip_first_screenshot=True)
 
-        for _ in range(4):
+        for _ in range(10):
             SWITCH_BEACON.set('list', main=self)
             remain, _, _ = OCR_BEACON_REMAIN.ocr(self.device.image)
             if remain <= 0:
                 logger.info('Ash beacon exhausted')
                 break
 
-            while 1:
-                self._ash_beacon_select(tier=self.config.OpsiAshAssist_Tier)
-                self.ui_click(ASH_START, check_button=BATTLE_PREPARATION, offset=(30, 30),
-                              additional=ash_combat.handle_combat_automation_confirm, skip_first_screenshot=True)
-                if ash_combat.combat(expected_end=self.is_in_ash, save_get_items=False, emotion_reduce=False):
-                    break
-            continue
+            self._ash_beacon_select(tier=self.config.OpsiAshAssist_Tier)
+            self.ui_click(ASH_START, check_button=BATTLE_PREPARATION, offset=(30, 30),
+                          additional=ash_combat.handle_combat_automation_confirm, skip_first_screenshot=True)
+            ash_combat.combat(expected_end=self.is_in_ash, save_get_items=False, emotion_reduce=False)
 
         self.device.sleep((0.5, 0.8))
         self.device.screenshot()
