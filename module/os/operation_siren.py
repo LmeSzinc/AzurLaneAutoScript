@@ -172,7 +172,8 @@ class OperationSiren(Reward, OSMap):
             supply (bool): If needs to buy supplies.
 
         Returns:
-            bool: True if all finished.
+            bool: True if all mission received.
+            bool: True if all supplies bought.
         """
         logger.hr('OS port daily', level=1)
         if np.random.uniform() > 0.5:
@@ -195,10 +196,8 @@ class OperationSiren(Reward, OSMap):
             if supply and supply_success:
                 supply_success &= self.port_supply_buy()
             self.port_quit()
-            if not ((mission and mission_success) or (supply and supply_success)):
-                return False
 
-        return True
+        return mission_success, supply_success
 
     def os_finish_daily_mission(self):
         """
@@ -221,13 +220,20 @@ class OperationSiren(Reward, OSMap):
         return True
 
     def os_daily(self):
-        if self.config.OpsiDaily_DoMission or self.config.OpsiDaily_BuySupply:
-            self.os_finish_daily_mission()
-            self.config.check_task_switch()
-            self.os_port_daily(mission=self.config.OpsiDaily_DoMission, supply=self.config.OpsiDaily_BuySupply)
+        while 1:
+            mission_success = True
+            if self.config.OpsiDaily_DoMission or self.config.OpsiDaily_BuySupply:
+                self.os_finish_daily_mission()
+                self.config.check_task_switch()
+                # If unable to receive more dailies, finish them and try again.
+                mission_success, _ = self.os_port_daily(
+                    mission=self.config.OpsiDaily_DoMission, supply=self.config.OpsiDaily_BuySupply)
 
-        if self.config.OpsiDaily_DoMission:
-            self.os_finish_daily_mission()
+            if self.config.OpsiDaily_DoMission:
+                self.os_finish_daily_mission()
+
+            if mission_success:
+                break
 
         self.config.task_delay(server_update=True)
 
