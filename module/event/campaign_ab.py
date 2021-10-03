@@ -26,7 +26,7 @@ class EventStage:
 class CampaignAB(CampaignRun):
     def run(self):
         stages = [EventStage(file) for file in os.listdir(f'./campaign/{self.config.Campaign_Event}')]
-        logger.attr('Stage', stages)
+        logger.attr('Stage', [str(stage) for stage in stages])
         logger.attr('StageFilter', self.config.EventAb_StageFilter)
         STAGE_FILTER.load(self.config.EventAb_StageFilter)
         stages = STAGE_FILTER.apply(stages)
