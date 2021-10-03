@@ -1,106 +1,106 @@
 {
   "Menu": {
     "Task": {
-      "name": "Menu.Task.name",
-      "help": "Menu.Task.help"
+      "name": "",
+      "help": ""
     },
     "Alas": {
-      "name": "Menu.Alas.name",
-      "help": "Menu.Alas.help"
+      "name": "Alas",
+      "help": ""
     },
     "Farm": {
-      "name": "Menu.Farm.name",
-      "help": "Menu.Farm.help"
+      "name": "出击",
+      "help": ""
     },
     "Reward": {
-      "name": "Menu.Reward.name",
-      "help": "Menu.Reward.help"
+      "name": "收获",
+      "help": ""
     },
     "Daily": {
-      "name": "Menu.Daily.name",
-      "help": "Menu.Daily.help"
+      "name": "日常",
+      "help": ""
     },
     "Opsi": {
-      "name": "Menu.Opsi.name",
-      "help": "Menu.Opsi.help"
+      "name": "大世界",
+      "help": ""
     }
   },
   "Task": {
     "Alas": {
-      "name": "Task.Alas.name",
-      "help": "Task.Alas.help"
+      "name": "Alas",
+      "help": ""
     },
     "General": {
-      "name": "Task.General.name",
-      "help": "Task.General.help"
+      "name": "常规",
+      "help": ""
     },
     "Restart": {
-      "name": "Task.Restart.name",
-      "help": "Task.Restart.help"
+      "name": "重启",
+      "help": ""
     },
     "Main": {
-      "name": "Task.Main.name",
-      "help": "Task.Main.help"
+      "name": "主线图",
+      "help": ""
     },
     "Event": {
-      "name": "Task.Event.name",
-      "help": "Task.Event.help"
+      "name": "活动图",
+      "help": ""
     },
     "Raid": {
-      "name": "Task.Raid.name",
-      "help": "Task.Raid.help"
+      "name": "共斗",
+      "help": ""
     },
     "C11AffinityFarming": {
-      "name": "Task.C11AffinityFarming.name",
-      "help": "Task.C11AffinityFarming.help"
+      "name": "1-1 刷好感",
+      "help": ""
     },
     "C72MysteryFarming": {
-      "name": "Task.C72MysteryFarming.name",
-      "help": "Task.C72MysteryFarming.help"
+      "name": "7-2 三战捡垃圾",
+      "help": ""
     },
     "C122MediumLeveling": {
-      "name": "Task.C122MediumLeveling.name",
-      "help": "Task.C122MediumLeveling.help"
+      "name": "12-2 打中型练级",
+      "help": ""
     },
     "C124LargeLeveling": {
-      "name": "Task.C124LargeLeveling.name",
-      "help": "Task.C124LargeLeveling.help"
+      "name": "12-4 打大型练级",
+      "help": ""
     },
     "GemsFarming": {
-      "name": "Task.GemsFarming.name",
-      "help": "Task.GemsFarming.help"
+      "name": "紧急委托刷钻石",
+      "help": ""
     },
     "Commission": {
-      "name": "Task.Commission.name",
-      "help": "Task.Commission.help"
+      "name": "委托",
+      "help": "委托"
     },
     "Tactical": {
-      "name": "Task.Tactical.name",
-      "help": "Task.Tactical.help"
+      "name": "战术学院",
+      "help": "战术学院"
     },
     "Research": {
-      "name": "Task.Research.name",
-      "help": "Task.Research.help"
+      "name": "科研",
+      "help": "科研"
     },
     "Dorm": {
-      "name": "Task.Dorm.name",
-      "help": "Task.Dorm.help"
+      "name": "后宅",
+      "help": ""
     },
     "Meowfficer": {
-      "name": "Task.Meowfficer.name",
-      "help": "Task.Meowfficer.help"
+      "name": "指挥喵",
+      "help": "指挥喵"
     },
     "Guild": {
-      "name": "Task.Guild.name",
-      "help": "Task.Guild.help"
+      "name": "大舰队",
+      "help": ""
     },
     "Reward": {
-      "name": "Task.Reward.name",
-      "help": "Task.Reward.help"
+      "name": "收获",
+      "help": "收获"
     },
     "Shop": {
-      "name": "Task.Shop.name",
-      "help": "Task.Shop.help"
+      "name": "Task.Reward.help",
+      "help": "商店"
     },
     "Shipyard": {
       "name": "Task.Shipyard.name",
@@ -111,58 +111,58 @@
       "help": "Task.Gacha.help"
     },
     "Daily": {
-      "name": "Task.Daily.name",
-      "help": "Task.Daily.help"
+      "name": "每日任务",
+      "help": "每日任务"
     },
     "Hard": {
-      "name": "Task.Hard.name",
-      "help": "Task.Hard.help"
+      "name": "困难图",
+      "help": ""
     },
     "Exercise": {
-      "name": "Task.Exercise.name",
-      "help": "Task.Exercise.help"
+      "name": "演习",
+      "help": ""
     },
     "Sos": {
-      "name": "Task.Sos.name",
-      "help": "Task.Sos.help"
+      "name": "潜艇图",
+      "help": ""
     },
     "OpsiGeneral": {
-      "name": "Task.OpsiGeneral.name",
-      "help": "Task.OpsiGeneral.help"
+      "name": "大世界",
+      "help": ""
     },
     "OpsiAshAssist": {
-      "name": "Task.OpsiAshAssist.name",
-      "help": "Task.OpsiAshAssist.help"
+      "name": "信标",
+      "help": ""
     },
     "OpsiExplore": {
-      "name": "Task.OpsiExplore.name",
-      "help": "Task.OpsiExplore.help"
+      "name": "每月全清",
+      "help": ""
     },
     "OpsiDaily": {
-      "name": "Task.OpsiDaily.name",
-      "help": "Task.OpsiDaily.help"
+      "name": "每日任务",
+      "help": ""
     },
     "OpsiObscure": {
-      "name": "Task.OpsiObscure.name",
-      "help": "Task.OpsiObscure.help"
+      "name": "隐秘海域",
+      "help": ""
     },
     "OpsiMeowfficerFarming": {
-      "name": "Task.OpsiMeowfficerFarming.name",
-      "help": "Task.OpsiMeowfficerFarming.help"
+      "name": "短猫相接",
+      "help": ""
     }
   },
   "Scheduler": {
     "_info": {
-      "name": "Scheduler._info.name",
-      "help": "Scheduler._info.help"
+      "name": "调度器",
+      "help": ""
     },
     "Enable": {
-      "name": "Scheduler.Enable.name",
-      "help": "Scheduler.Enable.help"
+      "name": "启用该功能",
+      "help": "将这个任务加入调度器"
     },
     "NextRun": {
-      "name": "Scheduler.NextRun.name",
-      "help": "Scheduler.NextRun.help"
+      "name": "下次运行时间",
+      "help": ""
     },
     "Command": {
       "name": "Scheduler.Command.name",
@@ -183,52 +183,52 @@
   },
   "Emulator": {
     "_info": {
-      "name": "Emulator._info.name",
-      "help": "Emulator._info.help"
+      "name": "设备设置",
+      "help": ""
     },
     "Serial": {
-      "name": "Emulator.Serial.name",
-      "help": "Emulator.Serial.help"
+      "name": "设备",
+      "help": "设备的 Serial，例如127.0.0.1:5555"
     },
     "PackageName": {
-      "name": "Emulator.PackageName.name",
-      "help": "Emulator.PackageName.help"
+      "name": "包名",
+      "help": ""
     },
     "Server": {
-      "name": "Emulator.Server.name",
-      "help": "Emulator.Server.help",
-      "cn": "cn",
-      "en": "en",
-      "jp": "jp",
-      "tw": "tw"
+      "name": "游戏服务器",
+      "help": "",
+      "cn": "国服",
+      "en": "国际服",
+      "jp": "日服",
+      "tw": "台服"
     },
     "ScreenshotMethod": {
-      "name": "Emulator.ScreenshotMethod.name",
-      "help": "Emulator.ScreenshotMethod.help",
-      "ADB": "ADB",
-      "uiautomator2": "uiautomator2",
-      "aScreenCap": "aScreenCap"
+      "name": "设备截图方案",
+      "help": "速度: aScreenCap >> uiautomator2 > ADB",
+      "ADB": "ADB ",
+      "uiautomator2": "uiautomator2 ",
+      "aScreenCap": "aScreenCap "
     },
     "ControlMethod": {
-      "name": "Emulator.ControlMethod.name",
-      "help": "Emulator.ControlMethod.help",
-      "ADB": "ADB",
-      "uiautomator2": "uiautomator2",
-      "minitouch": "minitouch"
+      "name": "设备控制方案",
+      "help": "速度: minitouch >> uiautomator2 >> ADB",
+      "ADB": "ADB ",
+      "uiautomator2": "uiautomator2 ",
+      "minitouch": "minitouch "
     }
   },
   "Error": {
     "_info": {
-      "name": "Error._info.name",
-      "help": "Error._info.help"
+      "name": "调试设置",
+      "help": ""
     },
     "HandleError": {
-      "name": "Error.HandleError.name",
-      "help": "Error.HandleError.help"
+      "name": "启用异常处理",
+      "help": "处理部分异常，运行出错时撤退"
     },
     "SaveError": {
-      "name": "Error.SaveError.name",
-      "help": "Error.SaveError.help"
+      "name": "出错时保存 Log 和截图",
+      "help": ""
     },
     "ScreenshotLength": {
       "name": "Error.ScreenshotLength.name",
@@ -241,107 +241,107 @@
       "help": "Optimization._info.help"
     },
     "CombatScreenshotInterval": {
-      "name": "Optimization.CombatScreenshotInterval.name",
-      "help": "Optimization.CombatScreenshotInterval.help"
+      "name": "战斗中截图间隔",
+      "help": "战斗中放慢截图速度，降低CPU使用"
     }
   },
   "DropRecord": {
     "_info": {
-      "name": "DropRecord._info.name",
-      "help": "DropRecord._info.help"
+      "name": "掉落记录",
+      "help": "保存掉落物品的截图，启用后会放缓结算时的点击速度"
     },
     "SaveFolder": {
-      "name": "DropRecord.SaveFolder.name",
-      "help": "DropRecord.SaveFolder.help"
+      "name": "掉落保存目录",
+      "help": ""
     },
     "AzurStatsID": {
-      "name": "DropRecord.AzurStatsID.name",
+      "name": "AzurStat ID",
       "help": "DropRecord.AzurStatsID.help"
     },
     "SaveResearch": {
-      "name": "DropRecord.SaveResearch.name",
-      "help": "DropRecord.SaveResearch.help"
+      "name": "启用科研截图保存",
+      "help": ""
     },
     "UploadResearch": {
-      "name": "DropRecord.UploadResearch.name",
-      "help": "DropRecord.UploadResearch.help"
+      "name": "启用科研截图上传",
+      "help": ""
     },
     "SaveCommission": {
-      "name": "DropRecord.SaveCommission.name",
-      "help": "DropRecord.SaveCommission.help"
+      "name": "启用委托截图保存",
+      "help": ""
     },
     "UploadCommission": {
-      "name": "DropRecord.UploadCommission.name",
-      "help": "DropRecord.UploadCommission.help"
+      "name": "启用委托截图上传",
+      "help": ""
     },
     "SaveCombat": {
-      "name": "DropRecord.SaveCombat.name",
-      "help": "DropRecord.SaveCombat.help"
+      "name": "启用战斗掉落截图保存",
+      "help": ""
     }
   },
   "Retirement": {
     "_info": {
-      "name": "Retirement._info.name",
-      "help": "Retirement._info.help"
+      "name": "退役设置",
+      "help": ""
     },
     "Enable": {
-      "name": "Retirement.Enable.name",
-      "help": "Retirement.Enable.help"
+      "name": "启用退役",
+      "help": ""
     },
     "RetireMode": {
-      "name": "Retirement.RetireMode.name",
-      "help": "Retirement.RetireMode.help",
-      "one_click_retire": "one_click_retire",
-      "enhance": "enhance",
-      "old_retire": "old_retire"
+      "name": "退役方案",
+      "help": "若选择强化，强化材料不足时将使用一键退役",
+      "one_click_retire": "一键退役",
+      "enhance": "强化",
+      "old_retire": "传统退役"
     },
     "RetireAmount": {
-      "name": "Retirement.RetireAmount.name",
-      "help": "Retirement.RetireAmount.help",
-      "retire_all": "retire_all",
-      "retire_10": "retire_10"
+      "name": "退役数量",
+      "help": "",
+      "retire_all": "退役全部",
+      "retire_10": "退役10个"
     },
     "EnhanceFavourite": {
-      "name": "Retirement.EnhanceFavourite.name",
-      "help": "Retirement.EnhanceFavourite.help"
+      "name": "强化常用角色",
+      "help": ""
     },
     "EnhanceFilter": {
-      "name": "Retirement.EnhanceFilter.name",
-      "help": "Retirement.EnhanceFilter.help"
+      "name": "强化过滤字符串",
+      "help": "格式: \"cv > bb > ...\"，\n留空则使用默认强化方式"
     },
     "EnhanceCheckPerCategory": {
-      "name": "Retirement.EnhanceCheckPerCategory.name",
-      "help": "Retirement.EnhanceCheckPerCategory.help"
+      "name": "每分类强化数量",
+      "help": "每个舰船分类最多强化多少舰船，\n在战斗中的舰船会被跳过且不计入"
     },
     "OldRetireN": {
-      "name": "Retirement.OldRetireN.name",
-      "help": "Retirement.OldRetireN.help"
+      "name": "退役白皮",
+      "help": "N"
     },
     "OldRetireR": {
-      "name": "Retirement.OldRetireR.name",
-      "help": "Retirement.OldRetireR.help"
+      "name": "退役蓝皮",
+      "help": "R"
     },
     "OldRetireSR": {
-      "name": "Retirement.OldRetireSR.name",
-      "help": "Retirement.OldRetireSR.help"
+      "name": "退役紫皮",
+      "help": "SR"
     },
     "OldRetireSSR": {
-      "name": "Retirement.OldRetireSSR.name",
-      "help": "Retirement.OldRetireSSR.help"
+      "name": "退役金皮",
+      "help": "SSR"
     }
   },
   "Campaign": {
     "_info": {
-      "name": "Campaign._info.name",
-      "help": "Campaign._info.help"
+      "name": "选择关卡",
+      "help": ""
     },
     "Name": {
-      "name": "Campaign.Name.name",
-      "help": "Campaign.Name.help"
+      "name": "关卡名称",
+      "help": "例如 7-2"
     },
     "Event": {
-      "name": "Campaign.Event.name",
-      "help": "Campaign.Event.help",
+      "name": "活动名称",
+      "help": "",
       "campaign_main": "campaign_main",
       "event_20200917_cn": "蝶海梦花",
       "event_20210916_cn": "碧海光粼",
@@ -392,26 +392,26 @@
       "war_archives_20181020_en": "档案 努力希望和计划"
     },
     "Mode": {
-      "name": "Campaign.Mode.name",
-      "help": "Campaign.Mode.help",
-      "normal": "normal",
-      "hard": "hard"
+      "name": "关卡模式",
+      "help": "",
+      "normal": "普通",
+      "hard": "困难"
     },
     "UseClearMode": {
-      "name": "Campaign.UseClearMode.name",
-      "help": "Campaign.UseClearMode.help"
+      "name": "启用周回模式",
+      "help": ""
     },
     "UseFleetLock": {
-      "name": "Campaign.UseFleetLock.name",
-      "help": "Campaign.UseFleetLock.help"
+      "name": "启用阵容锁定",
+      "help": ""
     },
     "UseAutoSearch": {
-      "name": "Campaign.UseAutoSearch.name",
-      "help": "Campaign.UseAutoSearch.help"
+      "name": "启用自律寻敌",
+      "help": ""
     },
     "Use2xBook": {
-      "name": "Campaign.Use2xBook.name",
-      "help": "Campaign.Use2xBook.help"
+      "name": "使用高效作战指令书",
+      "help": "两倍石油消耗，两次掉落结算"
     },
     "AmbushEvade": {
       "name": "Campaign.AmbushEvade.name",
@@ -420,267 +420,267 @@
   },
   "StopCondition": {
     "_info": {
-      "name": "StopCondition._info.name",
-      "help": "StopCondition._info.help"
+      "name": "停止条件",
+      "help": "触发后不会马上停止，会先完成当前出击。不需要就填0"
     },
     "RunCount": {
-      "name": "StopCondition.RunCount.name",
-      "help": "StopCondition.RunCount.help"
+      "name": "出击次数大于 X 时停止",
+      "help": "会沿用先前设置，完成出击将扣除次数，直至清零"
     },
     "OilLimit": {
-      "name": "StopCondition.OilLimit.name",
-      "help": "StopCondition.OilLimit.help"
+      "name": "石油低于 X 时停止",
+      "help": ""
     },
     "MapAchievement": {
-      "name": "StopCondition.MapAchievement.name",
-      "help": "StopCondition.MapAchievement.help",
-      "non_stop": "non_stop",
-      "100_percent_clear": "100_percent_clear",
-      "map_3_stars": "map_3_stars",
-      "threat_safe": "threat_safe",
-      "threat_safe_without_3_stars": "threat_safe_without_3_stars"
+      "name": "如果地图开荒",
+      "help": "",
+      "non_stop": "否",
+      "100_percent_clear": "地图通关",
+      "map_3_stars": "地图三星",
+      "threat_safe": "地图绿海",
+      "threat_safe_without_3_stars": "地图绿海不打三星"
     },
     "GetNewShip": {
-      "name": "StopCondition.GetNewShip.name",
-      "help": "StopCondition.GetNewShip.help"
+      "name": "如果获得新船",
+      "help": ""
     },
     "ReachLevel120": {
-      "name": "StopCondition.ReachLevel120.name",
-      "help": "StopCondition.ReachLevel120.help"
+      "name": "如果到达120级",
+      "help": "当有舰船从119级升至120级时停止"
     }
   },
   "Fleet": {
     "_info": {
-      "name": "Fleet._info.name",
-      "help": "Fleet._info.help"
+      "name": "出击舰队",
+      "help": ""
     },
     "Fleet1": {
-      "name": "Fleet.Fleet1.name",
-      "help": "Fleet.Fleet1.help",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6"
+      "name": "舰队编号1",
+      "help": "",
+      "1": "1 ",
+      "2": "2 ",
+      "3": "3 ",
+      "4": "4 ",
+      "5": "5 ",
+      "6": "6 "
     },
     "Fleet1Formation": {
-      "name": "Fleet.Fleet1Formation.name",
-      "help": "Fleet.Fleet1Formation.help",
-      "line_ahead": "line_ahead",
-      "double_line": "double_line",
-      "diamond": "diamond"
+      "name": "舰队阵型1",
+      "help": "",
+      "line_ahead": "单纵阵",
+      "double_line": "复纵阵",
+      "diamond": "轮形阵"
     },
     "Fleet1Mode": {
-      "name": "Fleet.Fleet1Mode.name",
-      "help": "Fleet.Fleet1Mode.help",
-      "combat_auto": "combat_auto",
-      "combat_manual": "combat_manual",
-      "stand_still_in_the_middle": "stand_still_in_the_middle",
-      "hide_in_bottom_left": "hide_in_bottom_left"
+      "name": "自律模式1",
+      "help": "",
+      "combat_auto": "自律战斗",
+      "combat_manual": "手操",
+      "stand_still_in_the_middle": "中路站桩",
+      "hide_in_bottom_left": "躲左下角"
     },
     "Fleet1Step": {
-      "name": "Fleet.Fleet1Step.name",
-      "help": "Fleet.Fleet1Step.help",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5"
+      "name": "舰队步长1",
+      "help": "出击不限制步长的关卡会忽略此设置",
+      "2": "2 ",
+      "3": "3 ",
+      "4": "4 ",
+      "5": "5 "
     },
     "Fleet2": {
-      "name": "Fleet.Fleet2.name",
-      "help": "Fleet.Fleet2.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6"
+      "name": "舰队编号2",
+      "help": "",
+      "0": "0 ",
+      "1": "1 ",
+      "2": "2 ",
+      "3": "3 ",
+      "4": "4 ",
+      "5": "5 ",
+      "6": "6 "
     },
     "Fleet2Formation": {
-      "name": "Fleet.Fleet2Formation.name",
-      "help": "Fleet.Fleet2Formation.help",
-      "line_ahead": "line_ahead",
-      "double_line": "double_line",
-      "diamond": "diamond"
+      "name": "舰队阵型2",
+      "help": "",
+      "line_ahead": "复纵阵",
+      "double_line": "复纵阵",
+      "diamond": "轮形阵"
     },
     "Fleet2Mode": {
-      "name": "Fleet.Fleet2Mode.name",
-      "help": "Fleet.Fleet2Mode.help",
-      "combat_auto": "combat_auto",
-      "combat_manual": "combat_manual",
-      "stand_still_in_the_middle": "stand_still_in_the_middle",
-      "hide_in_bottom_left": "hide_in_bottom_left"
+      "name": "自律模式2",
+      "help": "",
+      "combat_auto": "自律战斗",
+      "combat_manual": "手操",
+      "stand_still_in_the_middle": "中路站桩",
+      "hide_in_bottom_left": "躲左下角"
     },
     "Fleet2Step": {
-      "name": "Fleet.Fleet2Step.name",
-      "help": "Fleet.Fleet2Step.help",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5"
+      "name": "舰队步长2",
+      "help": "出击不限制步长的关卡会忽略此设置",
+      "2": "2 ",
+      "3": "3 ",
+      "4": "4 ",
+      "5": "5 "
     },
     "FleetOrder": {
       "name": "Fleet.FleetOrder.name",
-      "help": "Fleet.FleetOrder.help",
-      "fleet1_mob_fleet2_boss": "fleet1_mob_fleet2_boss",
-      "fleet1_all_fleet2_standby": "fleet1_all_fleet2_standby"
+      "help": "",
+      "fleet1_mob_fleet2_boss": "一队道中二队boss",
+      "fleet1_all_fleet2_standby": "一队全清二队待机"
     },
     "AutoSearchFleetOrder": {
-      "name": "Fleet.AutoSearchFleetOrder.name",
-      "help": "Fleet.AutoSearchFleetOrder.help",
-      "fleet1_mob_fleet2_boss": "fleet1_mob_fleet2_boss",
-      "fleet1_boss_fleet2_mob": "fleet1_boss_fleet2_mob",
-      "fleet1_all_fleet2_standby": "fleet1_all_fleet2_standby",
-      "fleet1_standby_fleet2_all": "fleet1_standby_fleet2_all"
+      "name": "自律寻敌设置",
+      "help": "",
+      "fleet1_mob_fleet2_boss": "一队道中二队boss",
+      "fleet1_boss_fleet2_mob": "一队boss二队道中",
+      "fleet1_all_fleet2_standby": "一队全清二队待机",
+      "fleet1_standby_fleet2_all": "一队待机二队全清"
     }
   },
   "Submarine": {
     "_info": {
-      "name": "Submarine._info.name",
-      "help": "Submarine._info.help"
+      "name": "潜艇设置",
+      "help": ""
     },
     "Fleet": {
-      "name": "Submarine.Fleet.name",
-      "help": "Submarine.Fleet.help",
-      "0": "0",
-      "1": "1",
-      "2": "2"
+      "name": "潜艇舰队编号",
+      "help": "",
+      "0": "不使用",
+      "1": "1 ",
+      "2": "2 "
     },
     "Mode": {
-      "name": "Submarine.Mode.name",
-      "help": "Submarine.Mode.help",
-      "do_not_use": "do_not_use",
-      "hunt_only": "hunt_only",
-      "every_combat": "every_combat"
+      "name": "潜艇出击方案",
+      "help": "",
+      "do_not_use": "不使用",
+      "hunt_only": "仅狩猎",
+      "every_combat": "每战出击"
     }
   },
   "Emotion": {
     "_info": {
-      "name": "Emotion._info.name",
-      "help": "Emotion._info.help"
+      "name": "心情设置",
+      "help": ""
     },
     "CalculateEmotion": {
-      "name": "Emotion.CalculateEmotion.name",
-      "help": "Emotion.CalculateEmotion.help"
+      "name": "启用心情消耗",
+      "help": ""
     },
     "IgnoreLowEmotionWarn": {
-      "name": "Emotion.IgnoreLowEmotionWarn.name",
-      "help": "Emotion.IgnoreLowEmotionWarn.help"
+      "name": "无视红脸出击警告",
+      "help": ""
     },
     "Fleet1Value": {
-      "name": "Emotion.Fleet1Value.name",
-      "help": "Emotion.Fleet1Value.help"
+      "name": "道中队心情值",
+      "help": ""
     },
     "Fleet1Record": {
-      "name": "Emotion.Fleet1Record.name",
-      "help": "Emotion.Fleet1Record.help"
+      "name": "道中队心情记录时间",
+      "help": ""
     },
     "Fleet1Control": {
-      "name": "Emotion.Fleet1Control.name",
-      "help": "Emotion.Fleet1Control.help",
-      "keep_exp_bonus": "keep_exp_bonus",
-      "prevent_green_face": "prevent_green_face",
-      "prevent_yellow_face": "prevent_yellow_face",
-      "prevent_red_face": "prevent_red_face"
+      "name": "道中队心情控制条件",
+      "help": "",
+      "keep_exp_bonus": "保持经验加成 (>120)",
+      "prevent_green_face": "防止绿脸",
+      "prevent_yellow_face": "防止黄脸 (>30)",
+      "prevent_red_face": "防止红脸 (>0)"
     },
     "Fleet1Recover": {
-      "name": "Emotion.Fleet1Recover.name",
-      "help": "Emotion.Fleet1Recover.help",
-      "not_in_dormitory": "not_in_dormitory",
-      "dormitory_floor_1": "dormitory_floor_1",
-      "dormitory_floor_2": "dormitory_floor_2"
+      "name": "道中队心情回复",
+      "help": "",
+      "not_in_dormitory": "未放置于后宅 (20/h)",
+      "dormitory_floor_1": "后宅一层 (40/h)",
+      "dormitory_floor_2": "后宅二层 (50/h)"
     },
     "Fleet1Oath": {
-      "name": "Emotion.Fleet1Oath.name",
-      "help": "Emotion.Fleet1Oath.help"
+      "name": "道中队全员已婚",
+      "help": "额外增加 10/h 心情回复速度"
     },
     "Fleet2Value": {
-      "name": "Emotion.Fleet2Value.name",
-      "help": "Emotion.Fleet2Value.help"
+      "name": "Boss队心情值",
+      "help": ""
     },
     "Fleet2Record": {
-      "name": "Emotion.Fleet2Record.name",
-      "help": "Emotion.Fleet2Record.help"
+      "name": "Boss队心情记录时间",
+      "help": ""
     },
     "Fleet2Control": {
-      "name": "Emotion.Fleet2Control.name",
-      "help": "Emotion.Fleet2Control.help",
-      "keep_exp_bonus": "keep_exp_bonus",
-      "prevent_green_face": "prevent_green_face",
-      "prevent_yellow_face": "prevent_yellow_face",
-      "prevent_red_face": "prevent_red_face"
+      "name": "Boss队心情控制条件",
+      "help": "",
+      "keep_exp_bonus": "保持经验加成 (>120)",
+      "prevent_green_face": "防止绿脸",
+      "prevent_yellow_face": "防止黄脸 (>30)",
+      "prevent_red_face": "防止红脸 (>0)"
     },
     "Fleet2Recover": {
-      "name": "Emotion.Fleet2Recover.name",
-      "help": "Emotion.Fleet2Recover.help",
-      "not_in_dormitory": "not_in_dormitory",
-      "dormitory_floor_1": "dormitory_floor_1",
-      "dormitory_floor_2": "dormitory_floor_2"
+      "name": "Boss队心情回复速度",
+      "help": "",
+      "not_in_dormitory": "未放置于后宅 (20/h)",
+      "dormitory_floor_1": "后宅一层 (40/h)",
+      "dormitory_floor_2": "后宅二层 (50/h)"
     },
     "Fleet2Oath": {
-      "name": "Emotion.Fleet2Oath.name",
-      "help": "Emotion.Fleet2Oath.help"
+      "name": "Boss队全员已婚",
+      "help": "额外增加 10/h 心情回复速度"
     }
   },
   "HpControl": {
     "_info": {
-      "name": "HpControl._info.name",
-      "help": "HpControl._info.help"
+      "name": "血量控制",
+      "help": "需要关闭阵容锁定才能生效"
     },
     "UseHpBalance": {
-      "name": "HpControl.UseHpBalance.name",
-      "help": "HpControl.UseHpBalance.help"
+      "name": "启用血量平衡",
+      "help": ""
     },
     "UseEmergencyRepair": {
-      "name": "HpControl.UseEmergencyRepair.name",
-      "help": "HpControl.UseEmergencyRepair.help"
+      "name": "使用维修工具",
+      "help": ""
     },
     "UseLowHpRetreat": {
-      "name": "HpControl.UseLowHpRetreat.name",
-      "help": "HpControl.UseLowHpRetreat.help"
+      "name": "启用低血量撤退",
+      "help": ""
     },
     "HpBalanceThreshold": {
-      "name": "HpControl.HpBalanceThreshold.name",
-      "help": "HpControl.HpBalanceThreshold.help"
+      "name": "先锋血量平衡阈值",
+      "help": "血量差值大于阈值时换位"
     },
     "HpBalanceWeight": {
-      "name": "HpControl.HpBalanceWeight.name",
-      "help": "HpControl.HpBalanceWeight.help"
+      "name": "先锋血量权重",
+      "help": "先锋肉度有差别时应修改，格式\n1000, 1000, 1000"
     },
     "RepairUseSingleThreshold": {
-      "name": "HpControl.RepairUseSingleThreshold.name",
-      "help": "HpControl.RepairUseSingleThreshold.help"
+      "name": "紧急维修单人阈值",
+      "help": "单人血量低于阈值时使用"
     },
     "RepairUseMultiThreshold": {
-      "name": "HpControl.RepairUseMultiThreshold.name",
-      "help": "HpControl.RepairUseMultiThreshold.help"
+      "name": "紧急维修全队阈值",
+      "help": "前排全部或后排全部低于阈值时使用"
     },
     "LowHpRetreatThreshold": {
-      "name": "HpControl.LowHpRetreatThreshold.name",
-      "help": "HpControl.LowHpRetreatThreshold.help"
+      "name": "低血量撤退阈值",
+      "help": "任意一人血量低于阈值时撤退"
     }
   },
   "Raid": {
     "_info": {
-      "name": "Raid._info.name",
-      "help": "Raid._info.help"
+      "name": "共斗",
+      "help": ""
     },
     "Event": {
-      "name": "Raid.Event.name",
-      "help": "Raid.Event.help"
+      "name": "共斗活动名",
+      "help": ""
     },
     "Mode": {
-      "name": "Raid.Mode.name",
-      "help": "Raid.Mode.help",
-      "easy": "easy",
-      "normal": "normal",
-      "hard": "hard"
+      "name": "难度",
+      "help": "",
+      "easy": "简单",
+      "normal": "普通",
+      "hard": "困难"
     },
     "UseTicket": {
       "name": "Raid.UseTicket.name",
-      "help": "Raid.UseTicket.help"
+      "help": ""
     }
   },
   "C11AffinityFarming": {

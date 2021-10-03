@@ -1,168 +1,168 @@
 {
   "Menu": {
     "Task": {
-      "name": "Menu.Task.name",
-      "help": "Menu.Task.help"
+      "name": "",
+      "help": ""
     },
     "Alas": {
-      "name": "Menu.Alas.name",
-      "help": "Menu.Alas.help"
+      "name": "Alas",
+      "help": ""
     },
     "Farm": {
-      "name": "Menu.Farm.name",
-      "help": "Menu.Farm.help"
+      "name": "Farm",
+      "help": ""
     },
     "Reward": {
-      "name": "Menu.Reward.name",
-      "help": "Menu.Reward.help"
+      "name": "Reward",
+      "help": ""
     },
     "Daily": {
-      "name": "Menu.Daily.name",
-      "help": "Menu.Daily.help"
+      "name": "Daily",
+      "help": ""
     },
     "Opsi": {
-      "name": "Menu.Opsi.name",
-      "help": "Menu.Opsi.help"
+      "name": "Opsi",
+      "help": ""
     }
   },
   "Task": {
     "Alas": {
-      "name": "Task.Alas.name",
-      "help": "Task.Alas.help"
+      "name": "Alas",
+      "help": ""
     },
     "General": {
-      "name": "Task.General.name",
-      "help": "Task.General.help"
+      "name": "General",
+      "help": ""
     },
     "Restart": {
-      "name": "Task.Restart.name",
-      "help": "Task.Restart.help"
+      "name": "Restart",
+      "help": ""
     },
     "Main": {
-      "name": "Task.Main.name",
-      "help": "Task.Main.help"
+      "name": "Main",
+      "help": ""
     },
     "Event": {
-      "name": "Task.Event.name",
-      "help": "Task.Event.help"
+      "name": "Event",
+      "help": ""
     },
     "Raid": {
-      "name": "Task.Raid.name",
-      "help": "Task.Raid.help"
+      "name": "Raid",
+      "help": ""
     },
     "C11AffinityFarming": {
-      "name": "Task.C11AffinityFarming.name",
-      "help": "Task.C11AffinityFarming.help"
+      "name": "C1-1 Affinity Farming",
+      "help": ""
     },
     "C72MysteryFarming": {
-      "name": "Task.C72MysteryFarming.name",
-      "help": "Task.C72MysteryFarming.help"
+      "name": "C7-2 Mystery Farming",
+      "help": ""
     },
     "C122MediumLeveling": {
-      "name": "Task.C122MediumLeveling.name",
-      "help": "Task.C122MediumLeveling.help"
+      "name": "C12-2 Leveling",
+      "help": ""
     },
     "C124LargeLeveling": {
-      "name": "Task.C124LargeLeveling.name",
-      "help": "Task.C124LargeLeveling.help"
+      "name": "C12-4 Leveling",
+      "help": ""
     },
     "GemsFarming": {
-      "name": "Task.GemsFarming.name",
-      "help": "Task.GemsFarming.help"
+      "name": "Gems Farming",
+      "help": ""
     },
     "Commission": {
-      "name": "Task.Commission.name",
-      "help": "Task.Commission.help"
+      "name": "Commission",
+      "help": ""
     },
     "Tactical": {
-      "name": "Task.Tactical.name",
-      "help": "Task.Tactical.help"
+      "name": "Tactical",
+      "help": ""
     },
     "Research": {
-      "name": "Task.Research.name",
-      "help": "Task.Research.help"
+      "name": "Research",
+      "help": ""
     },
     "Dorm": {
-      "name": "Task.Dorm.name",
-      "help": "Task.Dorm.help"
+      "name": "Dorm",
+      "help": ""
     },
     "Meowfficer": {
-      "name": "Task.Meowfficer.name",
-      "help": "Task.Meowfficer.help"
+      "name": "Meowfficer",
+      "help": ""
     },
     "Guild": {
-      "name": "Task.Guild.name",
-      "help": "Task.Guild.help"
+      "name": "Guild",
+      "help": ""
     },
     "Reward": {
-      "name": "Task.Reward.name",
-      "help": "Task.Reward.help"
+      "name": "Reward",
+      "help": ""
     },
     "Shop": {
-      "name": "Task.Shop.name",
-      "help": "Task.Shop.help"
+      "name": "Shop",
+      "help": ""
     },
     "Shipyard": {
-      "name": "Task.Shipyard.name",
-      "help": "Task.Shipyard.help"
+      "name": "Shipyard",
+      "help": ""
     },
     "Gacha": {
-      "name": "Task.Gacha.name",
-      "help": "Task.Gacha.help"
+      "name": "Gacha",
+      "help": ""
     },
     "Daily": {
-      "name": "Task.Daily.name",
-      "help": "Task.Daily.help"
+      "name": "Daily",
+      "help": ""
     },
     "Hard": {
-      "name": "Task.Hard.name",
-      "help": "Task.Hard.help"
+      "name": "Hard",
+      "help": ""
     },
     "Exercise": {
-      "name": "Task.Exercise.name",
-      "help": "Task.Exercise.help"
+      "name": "Exercise",
+      "help": ""
     },
     "Sos": {
-      "name": "Task.Sos.name",
-      "help": "Task.Sos.help"
+      "name": "Sos",
+      "help": ""
     },
     "OpsiGeneral": {
-      "name": "Task.OpsiGeneral.name",
-      "help": "Task.OpsiGeneral.help"
+      "name": "Opsi General",
+      "help": ""
     },
     "OpsiAshAssist": {
-      "name": "Task.OpsiAshAssist.name",
-      "help": "Task.OpsiAshAssist.help"
+      "name": "Opsi Ash Assist",
+      "help": ""
     },
     "OpsiExplore": {
-      "name": "Task.OpsiExplore.name",
-      "help": "Task.OpsiExplore.help"
+      "name": "Opsi Explore",
+      "help": ""
     },
     "OpsiDaily": {
-      "name": "Task.OpsiDaily.name",
-      "help": "Task.OpsiDaily.help"
+      "name": "Opsi Daily",
+      "help": ""
     },
     "OpsiObscure": {
-      "name": "Task.OpsiObscure.name",
-      "help": "Task.OpsiObscure.help"
+      "name": "Opsi Obscure",
+      "help": ""
     },
     "OpsiMeowfficerFarming": {
-      "name": "Task.OpsiMeowfficerFarming.name",
-      "help": "Task.OpsiMeowfficerFarming.help"
+      "name": "Opsi Meowfficer Farming",
+      "help": ""
     }
   },
   "Scheduler": {
     "_info": {
-      "name": "Scheduler._info.name",
-      "help": "Scheduler._info.help"
+      "name": "Schedular",
+      "help": ""
     },
     "Enable": {
-      "name": "Scheduler.Enable.name",
-      "help": "Scheduler.Enable.help"
+      "name": "Enable task",
+      "help": "Join this task to scheduler"
     },
     "NextRun": {
-      "name": "Scheduler.NextRun.name",
-      "help": "Scheduler.NextRun.help"
+      "name": "Next run",
+      "help": ""
     },
     "Command": {
       "name": "Scheduler.Command.name",
@@ -183,38 +183,38 @@
   },
   "Emulator": {
     "_info": {
-      "name": "Emulator._info.name",
-      "help": "Emulator._info.help"
+      "name": "Emulator",
+      "help": ""
     },
     "Serial": {
-      "name": "Emulator.Serial.name",
-      "help": "Emulator.Serial.help"
+      "name": "Serial",
+      "help": ""
     },
     "PackageName": {
-      "name": "Emulator.PackageName.name",
-      "help": "Emulator.PackageName.help"
+      "name": "Package name",
+      "help": ""
     },
     "Server": {
-      "name": "Emulator.Server.name",
-      "help": "Emulator.Server.help",
-      "cn": "cn",
-      "en": "en",
-      "jp": "jp",
-      "tw": "tw"
+      "name": "Game server",
+      "help": "",
+      "cn": "CN",
+      "en": "EN",
+      "jp": "JP",
+      "tw": "TW"
     },
     "ScreenshotMethod": {
-      "name": "Emulator.ScreenshotMethod.name",
-      "help": "Emulator.ScreenshotMethod.help",
-      "ADB": "ADB",
-      "uiautomator2": "uiautomator2",
-      "aScreenCap": "aScreenCap"
+      "name": "Screenshot method",
+      "help": "Speed: aScreenCap >> uiautomator2 > ADB",
+      "ADB": "ADB ",
+      "uiautomator2": "uiautomator2 ",
+      "aScreenCap": "aScreenCap "
     },
     "ControlMethod": {
-      "name": "Emulator.ControlMethod.name",
-      "help": "Emulator.ControlMethod.help",
-      "ADB": "ADB",
-      "uiautomator2": "uiautomator2",
-      "minitouch": "minitouch"
+      "name": "Control method",
+      "help": "Speed: minitouch >> uiautomator2 >> ADB",
+      "ADB": "ADB ",
+      "uiautomator2": "uiautomator2 ",
+      "minitouch": "minitouch "
     }
   },
   "Error": {
