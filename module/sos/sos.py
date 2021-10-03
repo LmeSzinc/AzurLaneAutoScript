@@ -187,7 +187,10 @@ class CampaignSos(CampaignRun, CampaignBase):
                 name = f'campaign_{self.config.Sos_Chapter}_5'
                 self.config.override(Campaign_Name=name)
                 super().run(name, folder=folder, mode=mode, total=total)
-                continue
+                if self.run_count > 0:
+                    continue
+                else:
+                    self.config.task_stop()
             else:
                 self.ui_click(SIGNAL_SEARCH_CLOSE, appear_button=SIGNAL_LIST_CHECK, check_button=CAMPAIGN_CHECK,
                               skip_first_screenshot=True)
