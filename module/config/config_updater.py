@@ -297,13 +297,14 @@ class ConfigGenerator:
 
                 if name:
                     if event.is_raid:
-                        # insert('Raid')
-                        pass
+                        insert('Raid')
+                        insert('RaidDaily')
                     elif event.is_war_archives:
-                        # insert('WarArchives')
-                        pass
+                        insert('WarArchives')
                     else:
                         insert('Event')
+                        insert('EventAb')
+                        insert('EventSp')
 
     @timer
     def generate(self):
@@ -356,7 +357,10 @@ class ConfigUpdater:
         # Update to latest event
         if not is_template:
             server_ = deep_get(new, 'Alas.Emulator.Server', 'cn')
-            deep_set(new, keys='Event.Campaign.Event', value=deep_get(self.args, f'Event.Campaign.Event.{server_}'))
+            for task in ['Event', 'EventAb', 'EventSp', 'Raid', 'RaidDaily', 'WarArchives']:
+                deep_set(new,
+                         keys=f'{task}.Campaign.Event',
+                         value=deep_get(self.args, f'{task}.Campaign.Event.{server_}'))
 
         return new
 

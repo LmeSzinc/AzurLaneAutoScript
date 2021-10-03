@@ -19,6 +19,20 @@ Event:
   Campaign:
     Mode: normal
     AmbushEvade: true
+Raid:
+  Campaign:
+    Name: dynamic
+    Mode: normal
+    UseClearMode: true
+    UseFleetLock: true
+    UseAutoSearch: false
+    Use2xBook: false
+    AmbushEvade: true
+  StopCondition:
+    RunCount: 0
+    MapAchievement: non_stop
+    GetNewShip: false
+    ReachLevel120: false
 C11AffinityFarming:
   Campaign:
     Name: campaign_1_1_affinity_farming
@@ -185,6 +199,57 @@ Sos:
     GetNewShip: false
   Fleet:
     AutoSearchFleetOrder: fleet1_all_fleet2_standby
+EventAb:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+  Campaign:
+    Name: dynamic
+    Mode: normal
+    AmbushEvade: true
+  StopCondition:
+    RunCount: 0
+    MapAchievement: non_stop
+    GetNewShip: false
+    ReachLevel120: false
+EventSp:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+  Campaign:
+    Name: sp
+    Mode: normal
+    AmbushEvade: true
+  StopCondition:
+    RunCount: 0
+    MapAchievement: non_stop
+    GetNewShip: false
+    ReachLevel120: false
+RaidDaily:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+  Campaign:
+    Name: dynamic
+    Mode: normal
+    UseClearMode: true
+    UseFleetLock: true
+    UseAutoSearch: false
+    Use2xBook: false
+    AmbushEvade: true
+  StopCondition:
+    RunCount: 0
+    MapAchievement: non_stop
+    GetNewShip: false
+    ReachLevel120: false
+WarArchives:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
 
 # ==================== Opsi ====================
 

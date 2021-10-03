@@ -111,7 +111,6 @@ class GeneratedConfig:
     HpControl_LowHpRetreatThreshold = 0.3
 
     # Group `Raid`
-    Raid_Event = 'raid_20200624'
     Raid_Mode = 'hard'  # easy, normal, hard
     Raid_UseTicket = False
 
@@ -242,6 +241,13 @@ class GeneratedConfig:
 
     # Group `Sos`
     Sos_Chapter = 3  # 3, 4, 5, 6, 7, 8, 9, 10
+
+    # Group `EventAb`
+    EventAb_StageFilter = 'A1 > A2 > A3 > B1 > B2 > B3'
+    EventAb_LastStage = 0
+
+    # Group `RaidDaily`
+    RaidDaily_StageFilter = 'hard > normal > easy'
 
     # Group `OpsiAshAssist`
     OpsiAshAssist_Tier = 15

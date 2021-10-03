@@ -126,6 +126,22 @@
       "name": "Task.Sos.name",
       "help": "Task.Sos.help"
     },
+    "EventAb": {
+      "name": "Task.EventAb.name",
+      "help": "Task.EventAb.help"
+    },
+    "EventSp": {
+      "name": "Task.EventSp.name",
+      "help": "Task.EventSp.help"
+    },
+    "RaidDaily": {
+      "name": "Task.RaidDaily.name",
+      "help": "Task.RaidDaily.help"
+    },
+    "WarArchives": {
+      "name": "Task.WarArchives.name",
+      "help": "Task.WarArchives.help"
+    },
     "OpsiGeneral": {
       "name": "Task.OpsiGeneral.name",
       "help": "Task.OpsiGeneral.help"
@@ -666,10 +682,6 @@
     "_info": {
       "name": "Raid._info.name",
       "help": "Raid._info.help"
-    },
-    "Event": {
-      "name": "Raid.Event.name",
-      "help": "Raid.Event.help"
     },
     "Mode": {
       "name": "Raid.Mode.name",
@@ -1294,6 +1306,30 @@
       "8": "8",
       "9": "9",
       "10": "10"
+    }
+  },
+  "EventAb": {
+    "_info": {
+      "name": "EventAb._info.name",
+      "help": "EventAb._info.help"
+    },
+    "StageFilter": {
+      "name": "EventAb.StageFilter.name",
+      "help": "EventAb.StageFilter.help"
+    },
+    "LastStage": {
+      "name": "EventAb.LastStage.name",
+      "help": "EventAb.LastStage.help"
+    }
+  },
+  "RaidDaily": {
+    "_info": {
+      "name": "RaidDaily._info.name",
+      "help": "RaidDaily._info.help"
+    },
+    "StageFilter": {
+      "name": "RaidDaily.StageFilter.name",
+      "help": "RaidDaily.StageFilter.help"
     }
   },
   "OpsiAshAssist": {

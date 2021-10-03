@@ -31,7 +31,11 @@
       "Daily",
       "Hard",
       "Exercise",
-      "Sos"
+      "Sos",
+      "EventAb",
+      "EventSp",
+      "RaidDaily",
+      "WarArchives"
     ],
     "Opsi": [
       "OpsiGeneral",

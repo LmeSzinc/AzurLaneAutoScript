@@ -153,6 +153,14 @@ class AzurLaneAutoScript:
         from module.sos.sos import CampaignSos
         CampaignSos(config=self.config, device=self.device).run()
 
+    def event_ab(self):
+        from module.event.campaign_ab import CampaignAB
+        CampaignAB(config=self.config, device=self.device).run()
+
+    def event_sp(self):
+        from module.event.campaign_sp import CampaignSP
+        CampaignSP(config=self.config, device=self.device).run()
+
     def opsi_ash_assist(self):
         from module.os_ash.ash import AshBeaconAssist
         AshBeaconAssist(config=self.config, device=self.device).run()

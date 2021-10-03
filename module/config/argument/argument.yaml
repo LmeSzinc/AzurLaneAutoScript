@@ -113,7 +113,7 @@ Submarine:
     option: [0, 1, 2]
   Mode:
     value: do_not_use
-    option: [do_not_use,hunt_only, every_combat]
+    option: [do_not_use, hunt_only, every_combat]
 Emotion:
   CalculateEmotion: true
   IgnoreLowEmotionWarn: false
@@ -145,7 +145,6 @@ HpControl:
   RepairUseMultiThreshold: 0.6
   LowHpRetreatThreshold: 0.3
 Raid:
-  Event: raid_20200624
   Mode:
     value: hard
     option: [easy, normal, hard]
@@ -359,6 +358,13 @@ Sos:
   Chapter:
     value: 3
     option: [3, 4, 5, 6, 7, 8, 9, 10]
+EventAb:
+  StageFilter: |-
+    A1 > A2 > A3 > B1 > B2 > B3
+  LastStage: 0
+RaidDaily:
+  StageFilter: |-
+    hard > normal > easy
 
 # ==================== Opsi ====================
 
