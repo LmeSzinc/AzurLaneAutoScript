@@ -323,11 +323,15 @@ class AlasGUI:
         toast('Not implemented', position='right', color='error')
 
 
+    def stop(self):
+        self.alive = False
 
     def run(self):
         # setup gui
         set_env(title="Alas", output_animation=False)
         add_css(filepath_css('alas'))
+        self.alive = True
+        defer_call(self.stop)
         self.aside = output().style("container-aside")
         self.menu = output().style("container-menu")
         self.contents = output().style("container-contents")
