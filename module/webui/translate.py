@@ -32,16 +32,16 @@ def translate():
         "en-US": {},
         "ja-JP": {},
     }
-
-    list_path = [] # Menu.Task.name
-    list_group = [] # Menu
-    list_arg = [] # Task
-    list_key = [] # name
-    for l, _ in deep_iter(dict_lang['zh-CN'], depth=3):
-        list_path.append('.'.join(l))
-        list_group.append(l[0])
-        list_arg.append(l[1])
-        list_key.append(l[2])
+    
+    list_path = []  # Menu.Task.name
+    list_group = []  # Menu
+    list_arg = []  # Task
+    list_key = []  # name
+    for L, _ in deep_iter(dict_lang['zh-CN'], depth=3):
+        list_path.append('.'.join(L))
+        list_group.append(L[0])
+        list_arg.append(L[1])
+        list_key.append(L[2])
     total = len(list_path)
 
     class V:
@@ -84,10 +84,10 @@ def translate():
             V.idx = list_key.index(key, V.arg_idx)
             V.key_idx = V.idx
             V.keys = list(dict_lang["zh-CN"][V.group][V.arg].keys())
-        
+
         update_form()
-        
-    def next():
+
+    def next_key():
         if V.idx + 1 > total:
             V.idx = -1
 
@@ -104,33 +104,33 @@ def translate():
                 if V.idx + 1 > total:
                     V.idx = 0
                     break
-        
-        
-        
+
         (V.group, V.arg, V.key) = tuple(list_path[V.idx].split('.'))
         V.group_idx = list_group.index(V.group)
         V.arg_idx = list_arg.index(V.arg, V.group_idx)
         V.args = list(dict_lang["zh-CN"][V.group].keys())
         V.key_idx = list_key.index(V.key, V.arg_idx)
         V.keys = list(dict_lang["zh-CN"][V.group][V.arg].keys())
-    
 
     def update_form():
         input_update('arg', options=V.args, value=V.arg)
         input_update('key', options=V.keys, value=V.key)
-        for l in LANGUAGES:
-            input_update(l, value=deep_get(dict_lang[l], f'{V.group}.{V.arg}.{V.key}', 'Key not found!'))
-        
-        old = deep_get(dict_lang[V.lang], f'{V.group}.{V.arg}.{V.key}', 'Key not found!')
+        for L in LANGUAGES:
+            input_update(L, value=deep_get(
+                dict_lang[L], f'{V.group}.{V.arg}.{V.key}', 'Key not found!'))
+
+        old = deep_get(dict_lang[V.lang],
+                       f'{V.group}.{V.arg}.{V.key}', 'Key not found!')
         input_update(V.lang,
-                value=None if V.clear else old,
-                help_text=f'{V.group}.{V.arg}.{V.key}',
-                placeholder=old,
-        )
+                     value=None if V.clear else old,
+                     help_text=f'{V.group}.{V.arg}.{V.key}',
+                     placeholder=old,
+                     )
 
     def get_inputs():
         out = []
-        old = deep_get(dict_lang[V.lang], f'{V.group}.{V.arg}.{V.key}', 'Key not found!')
+        old = deep_get(dict_lang[V.lang],
+                       f'{V.group}.{V.arg}.{V.key}', 'Key not found!')
         out.append(
             input(
                 name=V.lang,
@@ -138,29 +138,35 @@ def translate():
                 value=None if V.clear else old,
                 help_text=f'{V.group}.{V.arg}.{V.key}',
                 placeholder=old,
-                # datalist=[old]
             )
         )
         out.append(
-            select(name='group', label='Group', options=V.groups, value=V.group, onchange=lambda g:update_var(group=g), required=True)
+            select(name='group', label='Group', options=V.groups, value=V.group,
+                   onchange=lambda g: update_var(group=g), required=True)
         )
         out.append(
-            select(name='arg', label='Arg', options=V.args, value=V.arg, onchange=lambda a:update_var(arg=a), required=True)
+            select(name='arg', label='Arg', options=V.args, value=V.arg,
+                   onchange=lambda a: update_var(arg=a), required=True)
         )
         out.append(
-            select(name='key', label='Key', options=V.keys, value=V.key, onchange=lambda k:update_var(key=k), required=True)
+            select(name='key', label='Key', options=V.keys, value=V.key,
+                   onchange=lambda k: update_var(key=k), required=True)
         )
         _LANGUAGES = LANGUAGES.copy()
         _LANGUAGES.remove(V.lang)
-        for l in _LANGUAGES:
+        for L in _LANGUAGES:
             out.append(
-                input(name=l, label=l, readonly=True ,value=deep_get(dict_lang[l], f'{V.group}.{V.arg}.{V.key}', 'Key not found!'))
+                input(name=L, label=L, readonly=True, value=deep_get(
+                    dict_lang[L], f'{V.group}.{V.arg}.{V.key}', 'Key not found!'))
             )
         out.append(
             actions(name='action', buttons=[
-                {"label": "Next", "value": 'Next', "type": "submit", "color": "success"},
-                {"label": "Next without save", "value": 'Skip', "type": "submit", "color": "secondary"},
-                {"label": "Submit", "value": "Submit", "type": "submit", "color": "primary"},
+                {"label": "Next", "value": 'Next',
+                    "type": "submit", "color": "success"},
+                {"label": "Next without save", "value": 'Skip',
+                    "type": "submit", "color": "secondary"},
+                {"label": "Submit", "value": "Submit",
+                    "type": "submit", "color": "primary"},
                 {"label": "Quit and save", "type": "cancel", "color": "secondary"},
             ])
         )
@@ -168,11 +174,11 @@ def translate():
         return out
 
     def save():
-        for lang in LANGUAGES:
-            d = read_file(filepath_i18n(lang))
-            for k in modified[lang].keys():
-                deep_set(d, k, modified[lang][k])
-            write_file(filepath_i18n(lang), d)
+        for LANG in LANGUAGES:
+            d = read_file(filepath_i18n(LANG))
+            for k in modified[LANG].keys():
+                deep_set(d, k, modified[LANG][k])
+            write_file(filepath_i18n(LANG), d)
     defer_call(save)
 
     def loop():
@@ -184,23 +190,30 @@ def translate():
 
             if data['action'] == 'Next':
 
-                modified[V.lang][f'{V.group}.{V.arg}.{V.key}'] = data[V.lang].replace("\\n", "\n")
-                deep_set(dict_lang[V.lang], f'{V.group}.{V.arg}.{V.key}', data[V.lang].replace("\\n", "\n"))
-                next()
+                modified[V.lang][f'{V.group}.{V.arg}.{V.key}'] = data[V.lang].replace(
+                    "\\n", "\n")
+                deep_set(dict_lang[V.lang], f'{V.group}.{V.arg}.{V.key}', data[V.lang].replace(
+                    "\\n", "\n"))
+                next_key()
             if data['action'] == 'Skip':
-                next()
+                next_key()
             elif data['action'] == 'Submit':
 
-                modified[V.lang][f'{V.group}.{V.arg}.{V.key}'] = data[V.lang].replace("\\n", "\n")
-                deep_set(dict_lang[V.lang], f'{V.group}.{V.arg}.{V.key}', data[V.lang].replace("\\n", "\n"))
+                modified[V.lang][f'{V.group}.{V.arg}.{V.key}'] = data[V.lang].replace(
+                    "\\n", "\n")
+                deep_set(dict_lang[V.lang], f'{V.group}.{V.arg}.{V.key}', data[V.lang].replace(
+                    "\\n", "\n"))
                 continue
 
     def setting():
         data = input_group(inputs=[
-            select(name='language', label='Language', options=LANGUAGES, value=V.lang, required=True),
+            select(name='language', label='Language',
+                   options=LANGUAGES, value=V.lang, required=True),
             checkbox(name='check', label='Other settings', options=[
-                {"label": 'Button [Next] only shows untranslated key', 'value': 'untranslated', 'selected': V.untranslated_only},
-                {"label": 'Do not fill input with old value (only effect the language you selected)', "value": "clear", "selected": V.clear}
+                {"label": 'Button [Next] only shows untranslated key',
+                    'value': 'untranslated', 'selected': V.untranslated_only},
+                {"label": 'Do not fill input with old value (only effect the language you selected)',
+                 "value": "clear", "selected": V.clear}
             ])
         ])
         V.lang = data['language']
@@ -211,6 +224,6 @@ def translate():
         {"label": "Start", "value": "start"},
         {"label": "Setting", "value": "setting"}
     ], onclick=[loop, setting])
-    next()
+    next_key()
     setting()
     hold()
