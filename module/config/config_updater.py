@@ -366,7 +366,9 @@ class ConfigUpdater:
 
     @timer
     def update_config(self, config_name):
-        write_file(filepath_config(config_name), self.read_file(config_name))
+        data = self.read_file(config_name)
+        write_file(filepath_config(config_name), data)
+        return data
 
 
 if __name__ == '__main__':

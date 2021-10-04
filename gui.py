@@ -1,3 +1,4 @@
+import argparse
 import logging
 import queue
 import time
@@ -6,8 +7,11 @@ from multiprocessing import Manager, Process
 from pywebio.exceptions import *
 from pywebio.session import *
 
+from module.logger import logger  # Change folder
+
 import module.webui.lang as lang
 from module.config.utils import *
+from module.config.config_updater import ConfigUpdater
 from module.webui.lang import _t, t
 from module.webui.translate import translate
 from module.webui.utils import (Icon, QueueHandler, add_css, filepath_css,
@@ -16,6 +20,7 @@ from module.webui.utils import ThreadWithException as Thread
 from module.webui.widgets import *
 
 all_alas = {}
+config_updater = ConfigUpdater()
 
 
 def get_alas(config_name):
@@ -193,7 +198,7 @@ class AlasGUI:
 
         self.contents.append(menu_alas)
 
-        config = read_file(filepath_config(self.alas_name))
+        config = config_updater.update_config(self.alas_name)
 
         for group, arg_dict in deep_iter(ALAS_ARGS[task], depth=1):
             group = group[0]
@@ -206,6 +211,7 @@ class AlasGUI:
                 arg = arg[0]
                 arg_type = d['type']
                 value = deep_get(config, f'{task}.{group}.{arg}', d['value'])
+                value = str(value) if isinstance(value, datetime) else value
 
                 # Option
                 options = deep_get(d, 'option', None)
@@ -438,19 +444,24 @@ class AlasGUI:
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Alas web service')
+    parser.add_argument("-d", "--debug", action="store_true",
+                        help="show log")
+    parser.add_argument('-p', '--port', type=int, default=80,
+                        help='Port to listen. Default to 80')
+    parser.add_argument('-b', '--backend', type=str, default='starlette',
+                        help='Backend framework of web server, starlette or tornado. Default to starlette')
+    args = parser.parse_args()
+
     def index():
         AlasGUI().run()
 
-    port = 80
-    debug = False
-    backend = 'starlette'
-
-    if backend == 'starlette':
+    if args.backend == 'starlette':
         from pywebio.platform.fastapi import start_server
     else:
         from pywebio.platform.tornado import start_server
 
-    start_server([index, translate], port=port, debug=debug)
+    start_server([index, translate], port=args.port, debug=args.debug)
 
     for alas in all_alas.values():
         alas.stop()
