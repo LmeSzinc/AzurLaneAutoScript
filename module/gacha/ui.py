@@ -199,7 +199,7 @@ class GachaUI(UI):
                 logger.info('Construct event not available, default to light')
                 left = 1
                 right = None
-            if left >= 4:
+            if left == 4:
                 left = 3
 
         if gacha_bottom_navbar.set(self, left=left, right=right) \
