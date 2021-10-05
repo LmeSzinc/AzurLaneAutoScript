@@ -5,6 +5,7 @@
 #    pip-compile --output-file=requirements.txt requirements-in.txt
 #
 adbutils==0.11.0          # via uiautomator2
+aiofiles==0.7.0           # via -r requirements-in.txt
 anyio==1.3.1              # via -r requirements-in.txt
 apkutils2==1.0.0          # via adbutils
 asgiref==3.4.1            # via uvicorn

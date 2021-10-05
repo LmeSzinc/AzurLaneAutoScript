@@ -16,3 +16,4 @@ pywebio
 starlette==0.14.2
 anyio==1.3.1
 uvicorn[standard]
+aiofiles
