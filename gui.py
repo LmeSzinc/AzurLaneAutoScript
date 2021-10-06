@@ -96,9 +96,9 @@ idx_to_path = {}
 
 def shorten_path():
     i = 0
-    for L, _ in deep_iter(ALAS_ARGS, depth=3):
-        path_to_idx['.'.join(L)] = f'a{i}'
-        idx_to_path[f'a{i}'] = '.'.join(L)
+    for list_path, _ in deep_iter(ALAS_ARGS, depth=3):
+        path_to_idx['.'.join(list_path)] = f'a{i}'
+        idx_to_path[f'a{i}'] = '.'.join(list_path)
         i += 1
 
 
@@ -191,22 +191,22 @@ class AlasGUI:
 
         group_area = output()
         navigator = output()
-        menu_alas = put_row([
+        content_alas = put_row([
             None,
             group_area,
             navigator,
         ], size=".5fr minmax(25rem, 5fr) 2fr")
 
-        self.contents.append(menu_alas)
+        self.contents.append(content_alas)
 
         config = config_updater.update_config(self.alas_name)
 
         for group, arg_dict in deep_iter(ALAS_ARGS[task], depth=1):
             group = group[0]
-            arg_help = t(f"{group}._info.help")
-            if arg_help == "" or not arg_help:
-                arg_help = None
-            arg_group = put_group(t(f"{group}._info.name"), arg_help)
+            group_help = t(f"{group}._info.help")
+            if group_help == "" or not group_help:
+                group_help = None
+            arg_group = put_group(t(f"{group}._info.name"), group_help)
             group_area.append(output(arg_group))
             for arg, d in deep_iter(arg_dict, depth=1):
                 arg = arg[0]
@@ -218,11 +218,11 @@ class AlasGUI:
                 options = deep_get(d, 'option', None)
                 if options:
                     option = []
-                    for o in options:
-                        d = {"label": t(f"{group}.{arg}.{o}"), "value": o}
-                        if value == o:
-                            d["selected"] = True
-                        option.append(d)
+                    for opt in options:
+                        o = {"label": t(f"{group}.{arg}.{opt}"), "value": opt}
+                        if value == opt:
+                            o["selected"] = True
+                        option.append(o)
                 else:
                     option = None
 
@@ -269,10 +269,10 @@ class AlasGUI:
 
     def _alas_thread_wait_config_change(self):
         paths = []
-        for L, d in deep_iter(ALAS_ARGS, depth=3):
+        for path, d in deep_iter(ALAS_ARGS, depth=3):
             if d['type'] == 'disable':
                 continue
-            paths.append(path_to_idx['.'.join(L)])
+            paths.append(path_to_idx['.'.join(path)])
         while True:
             try:
                 self.modified_config_queue.put(pin_wait_change(paths))
@@ -422,8 +422,7 @@ class AlasGUI:
 
         # temporary buttons, there is no setting page now :(
         self.contents.append(
-            put_text("Select your language").style("text-align: center"))
-        self.contents.append(
+            put_text("Select your language").style("text-align: center"),
             put_buttons(
                 ["zh-CN", "zh-TW", "en-US", "ja-JP"],
                 onclick=lambda s: lang.set_language(s, True)

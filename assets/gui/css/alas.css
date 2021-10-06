@@ -67,6 +67,10 @@ footer {
     border-color: #4E4C97;
 }
 
+.toastify-center, .toastify-right, .toastify-left{
+    margin-top: 3.3125rem;
+}
+
 .pywebio {
     padding-top: 0px;
     padding-bottom: 0px;
