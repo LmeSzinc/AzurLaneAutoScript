@@ -69,6 +69,9 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
                 continue
             # Last D rank screen
             if self.appear_then_click(OPTS_INFO_D, offset=(30, 30)):
+                success = True
+                end = True
+                logger.info("Exercise LOST")
                 continue
 
             # Quit
