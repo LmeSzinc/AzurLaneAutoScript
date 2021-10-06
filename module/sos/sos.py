@@ -177,7 +177,7 @@ class CampaignSos(CampaignRun, CampaignBase):
 
         # avoid sos calls daily_sos and causes error.
         self.reward_backup_daily_reward_settings()
-        
+
         fleet_1 = self.config.SOS_FLEET_1
         fleet_2 = self.config.SOS_FLEET_2
         submarine = self.config.SOS_SUBMARINE
@@ -192,6 +192,8 @@ class CampaignSos(CampaignRun, CampaignBase):
         while 1:
             if self._sos_signal_select(chapter):
                 super().run(f'campaign_{chapter}_5', folder=folder, total=total)
+                if not self.appear(CAMPAIGN_CHECK, offset=(20, 20)):
+                    self.ui_weigh_anchor()
                 remain = OCR_SOS_SIGNAL.ocr(self.device.image)
                 logger.attr('remain', remain)
                 if remain < 1:
