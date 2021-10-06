@@ -10,9 +10,9 @@ from module.ui.ui import UI
 OPPONENT = ButtonGrid(origin=(104, 77), delta=(244, 0), button_shape=(212, 304), grid_shape=(4, 1))
 
 # Mode 'easiest' constants
-# MAX_LVL_SUM = Max Fleet Size (6) * Max Lvl (120)
+# MAX_LVL_SUM = Max Fleet Size (6) * Max Lvl (125)
 # PWR_FACTOR used to make overall PWR manageable
-MAX_LVL_SUM = 720
+MAX_LVL_SUM = 750
 PWR_FACTOR = 100
 
 
