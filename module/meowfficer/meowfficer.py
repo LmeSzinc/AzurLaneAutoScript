@@ -114,7 +114,7 @@ class RewardMeowfficer(UI):
             out: MEOWFFICER_TRAIN
         """
         # Used to account for the cat box opening animation
-        self.wait_until_appear(MEOWFFICER_STATUS)
+        self.wait_until_appear(MEOWFFICER_STATUS, offset=(40, 40))
 
         # Loop through possible screen transitions
         confirm_timer = Timer(1.5, count=3).start()
@@ -124,7 +124,7 @@ class RewardMeowfficer(UI):
             else:
                 self.device.screenshot()
 
-            if self.appear(MEOWFFICER_STATUS, offset=(20, 20), interval=1):
+            if self.appear(MEOWFFICER_STATUS, offset=(40, 40), interval=1):
                 self.device.multi_click(MEOWFFICER_TRAIN_CLICK_SAFE_AREA, 2)
                 confirm_timer.reset()
                 continue
