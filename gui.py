@@ -10,8 +10,9 @@ from pywebio.session import *
 from module.logger import logger  # Change folder
 
 import module.webui.lang as lang
-from module.config.utils import *
 from module.config.config_updater import ConfigUpdater
+from module.config.utils import *
+from module.logger import logger  # Change folder
 from module.webui.lang import _t, t
 from module.webui.translate import translate
 from module.webui.utils import (Icon, QueueHandler, add_css, filepath_css,
@@ -138,9 +139,9 @@ class AlasGUI:
         # TODO: generate this from config
         self.aside.append(
             put_icon_buttons(Icon.RUN, buttons=[
-                             {"label": "Alas", "value": "alas", "color": "aside"}], onclick=self.ui_alas),
+                {"label": "Alas", "value": "alas", "color": "aside"}], onclick=self.ui_alas),
             put_icon_buttons(Icon.RUN, buttons=[
-                             {"label": "Alas2", "value": "alas2", "color": "aside"}], onclick=self.ui_alas),
+                {"label": "Alas2", "value": "alas2", "color": "aside"}], onclick=self.ui_alas),
         )
 
     def kill_thread(self):
@@ -289,8 +290,7 @@ class AlasGUI:
             while True:
                 try:
                     d = self.modified_config_queue.get(timeout=1)
-                    modified[idx_to_path[d['name']]
-                             ] = parse_pin_value(d['value'])
+                    modified[idx_to_path[d['name']]] = parse_pin_value(d['value'])
                 except queue.Empty:
                     config = read_file(filepath_config(self.alas_name))
                     for k in modified.keys():
@@ -401,6 +401,7 @@ class AlasGUI:
             def _disable():
                 lang.TRANSLATE_MODE = False
                 run_js("location.reload();")
+
             toast(_t("Gui.Toast.DisableTranslateMode"), duration=0, position='right', onclick=_disable)
 
         # show something
@@ -461,9 +462,9 @@ if __name__ == "__main__":
     else:
         from pywebio.platform.tornado import start_server
 
-    start_server([index, translate], port=args.port, debug=args.debug)
-
-    for alas in all_alas.values():
-        alas.stop()
-
-    print("Alas closed.")
+    try:
+        start_server([index, translate], port=args.port, debug=args.debug)
+    finally:
+        for alas in all_alas.values():
+            alas.stop()
+        logger.info("Alas closed.")

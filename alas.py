@@ -229,6 +229,7 @@ class AzurLaneAutoScript:
                 del self.__dict__['config']
 
             logger.info(f'Scheduler: Start task `{self.config.task}`')
+            self.device.screenshot()
             logger.hr(self.config.task, level=0)
             success = self.run(inflection.underscore(self.config.task))
 
