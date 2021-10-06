@@ -1,8 +1,6 @@
-import numpy as np
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.timer import Timer
-from module.base.utils import *
 from module.gacha.assets import *
 from module.logger import logger
 from module.ui.navbar import Navbar
@@ -35,7 +33,7 @@ class GachaUI(UI):
             # End
             results = [self.appear(button) for button in GACHA_LOAD_ENSURE_BUTTONS]
             if any(results):
-                break
+                return True
 
             # Exception
             if ensure_timeout.reached():
