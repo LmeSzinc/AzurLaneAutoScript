@@ -234,7 +234,7 @@ class RewardDorm(UI):
 
         if feed:
             self.ui_click(click_button=DORM_FEED_ENTER, appear_button=DORM_CHECK, check_button=DORM_FEED_CHECK,
-                          skip_first_screenshot=True)
+                          additional=self.ui_additional, skip_first_screenshot=True)
             self._dorm_feed()
             self.ui_click(click_button=DORM_FEED_ENTER, appear_button=DORM_FEED_CHECK, check_button=DORM_CHECK,
                           skip_first_screenshot=True)
