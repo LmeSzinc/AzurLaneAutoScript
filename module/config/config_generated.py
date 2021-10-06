@@ -195,7 +195,7 @@ class GeneratedConfig:
     GuildShop_PLATE_T4 = 'gun'  # general, gun, torpedo, antiair, plane
     GuildShop_PR1 = 'neptune'  # neptune, monarch, ibuki, izumo, roon, saintlouis
     GuildShop_PR2 = 'seattle'  # seattle, georgia, kitakaze, gascogne
-    GuildShop_PR3 = 'champagne'  # champagne, anchorage, august, marcopolo
+    GuildShop_PR3 = 'cheshire'  # cheshire, mainz, odin, champagne
 
     # Group `MedalShop`
     MedalShop_Filter = 'DRBP > PRYBP\n> BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3 > PlateGeneralT3\n> FoodT6 > FoodT5'

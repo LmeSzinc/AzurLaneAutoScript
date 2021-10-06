@@ -283,8 +283,8 @@ GuildShop:
     value: seattle
     option: [seattle, georgia, kitakaze, gascogne]
   PR3:
-    value: champagne
-    option: [champagne, anchorage, august, marcopolo]
+    value: cheshire
+    option: [cheshire, mainz, odin, champagne]
 MedalShop:
   Filter: |-
     DRBP > PRYBP

@@ -723,7 +723,7 @@
       "PLATE_T4": "gun",
       "PR1": "neptune",
       "PR2": "seattle",
-      "PR3": "champagne"
+      "PR3": "cheshire"
     },
     "MedalShop": {
       "Filter": "DRBP > PRYBP\n> BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3 > PlateGeneralT3\n> FoodT6 > FoodT5"

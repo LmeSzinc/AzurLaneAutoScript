@@ -533,7 +533,6 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "campaign_main",
           "event_20200917_cn",
           "event_20210916_cn",
           "event_20210722_cn",
@@ -915,7 +914,6 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "campaign_main",
           "raid_20210708",
           "raid_20200624"
         ],
@@ -2486,8 +2484,48 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "campaign_main"
-        ]
+          "campaign_main",
+          "event_20200917_cn",
+          "event_20210916_cn",
+          "event_20210722_cn",
+          "event_20210819_cn",
+          "event_20200806_cn",
+          "event_20200723_cn",
+          "event_20200903_en",
+          "event_20210624_cn",
+          "event_20210624_tw",
+          "event_20210610_tw",
+          "event_20210527_cn",
+          "event_20210527_tw",
+          "event_20210429_tw",
+          "event_20210422_cn",
+          "event_20210415_tw",
+          "event_20210325_cn",
+          "event_20210225_tw",
+          "event_20210225_cn",
+          "event_20210121_cn",
+          "event_20201229_cn",
+          "event_20201126_cn",
+          "event_20201012_cn",
+          "event_20200312_cn",
+          "event_20201029_cn",
+          "event_20201002_en",
+          "event_20200820_cn",
+          "event_20200716_en",
+          "event_20200611_en",
+          "event_20200603_en",
+          "event_20200603_cn",
+          "event_20200521_en",
+          "event_20200521_cn",
+          "event_20200507_cn",
+          "event_20200423_cn",
+          "event_20200326_cn",
+          "event_20200227_cn"
+        ],
+        "tw": "event_20200917_cn",
+        "cn": "event_20210916_cn",
+        "en": "event_20210916_cn",
+        "jp": "event_20210916_cn"
       },
       "Mode": {
         "type": "disable",
@@ -3256,12 +3294,12 @@
       },
       "PR3": {
         "type": "select",
-        "value": "champagne",
+        "value": "cheshire",
         "option": [
-          "champagne",
-          "anchorage",
-          "august",
-          "marcopolo"
+          "cheshire",
+          "mainz",
+          "odin",
+          "champagne"
         ]
       }
     },
@@ -4012,7 +4050,6 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "campaign_main",
           "event_20200917_cn",
           "event_20210916_cn",
           "event_20210722_cn",
@@ -4379,7 +4416,6 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "campaign_main",
           "event_20200917_cn",
           "event_20210916_cn",
           "event_20210722_cn",
@@ -4752,7 +4788,6 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "campaign_main",
           "raid_20210708",
           "raid_20200624"
         ],
@@ -4928,7 +4963,6 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "campaign_main",
           "war_archives_20180726_cn",
           "war_archives_20180607_cn",
           "war_archives_20190221_en",

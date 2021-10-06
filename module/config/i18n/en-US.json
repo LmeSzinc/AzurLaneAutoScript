@@ -1065,10 +1065,10 @@
     "PR3": {
       "name": "GuildShop.PR3.name",
       "help": "GuildShop.PR3.help",
-      "champagne": "champagne",
-      "anchorage": "anchorage",
-      "august": "august",
-      "marcopolo": "marcopolo"
+      "cheshire": "cheshire",
+      "mainz": "mainz",
+      "odin": "odin",
+      "champagne": "champagne"
     }
   },
   "MedalShop": {

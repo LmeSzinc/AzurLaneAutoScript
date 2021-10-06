@@ -305,6 +305,13 @@ class ConfigGenerator:
                         insert('Event')
                         insert('EventAb')
                         insert('EventSp')
+                        insert('GemsFarming')
+
+        # Remove campaign_main from event list
+        for task in ['Event', 'EventAb', 'EventSp', 'Raid', 'RaidDaily', 'WarArchives']:
+            options = deep_get(self.args, keys=f'{task}.Campaign.Event.option')
+            options = [option for option in options if option != 'campaign_main']
+            deep_set(self.args, keys=f'{task}.Campaign.Event.option', value=options)
 
     @timer
     def generate(self):
@@ -357,7 +364,7 @@ class ConfigUpdater:
         # Update to latest event
         if not is_template:
             server_ = deep_get(new, 'Alas.Emulator.Server', 'cn')
-            for task in ['Event', 'EventAb', 'EventSp', 'Raid', 'RaidDaily', 'WarArchives']:
+            for task in ['Event', 'EventAb', 'EventSp', 'Raid', 'RaidDaily']:
                 deep_set(new,
                          keys=f'{task}.Campaign.Event',
                          value=deep_get(self.args, f'{task}.Campaign.Event.{server_}'))
