@@ -72,6 +72,6 @@ uvicorn[standard]==0.15.0  # via -r requirements-in.txt
 watchgod==0.7             # via uvicorn
 websockets==10.0          # via uvicorn
 whichcraft==0.6.1         # via adbutils, uiautomator2
-wrapt==1.12.1             # via deprecated
+wrapt==1.13.1             # via -r requirements-in.txt, deprecated
 xmltodict==0.12.0         # via apkutils2
 zipp==3.6.0               # via importlib-metadata
