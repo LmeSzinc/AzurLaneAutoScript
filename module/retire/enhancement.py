@@ -213,9 +213,12 @@ class Enhancement(Dock):
         total = 0
 
         # Process ENHANCE_ORDER_STRING if any into ship_types
-        ship_types = [s.strip().lower() for s in self.config.Retirement_EnhanceFavourite.split('>')]
-        ship_types = list(filter(''.__ne__, ship_types))
-        if len(ship_types) == 0:
+        if self.config.Retirement_EnhanceFilter is not None:
+            ship_types = [s.strip().lower() for s in self.config.Retirement_EnhanceFilter.split('>')]
+            ship_types = list(filter(''.__ne__, ship_types))
+            if len(ship_types) == 0:
+                ship_types = [None]
+        else:
             ship_types = [None]
         logger.attr('Enhance Order', ship_types)
 
