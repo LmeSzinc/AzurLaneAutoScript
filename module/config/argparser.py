@@ -535,6 +535,8 @@ def main(ini_name=''):
     c_12_2_parser = subs.add_parser('12-2打中型练级')
     c_12_2 = c_12_2_parser.add_argument_group('12-2索敌设置', '', gooey_options={'label_color': '#931D03'})
     c_12_2.add_argument('--大型敌人忍耐', default=default('--大型敌人忍耐'), choices=['0', '1', '2', '10'], help='最多打多少战大型敌人, 不挑敌人选10', gooey_options={'label_color': '#4B5F83'})
+    c_12_2.add_argument('--战斗数122', default=default('--战斗数122'), choices=['1', '2', '3', '4', '5'], help='最多打多少敌人', gooey_options={'label_color': '#4B5F83'})
+    c_12_2.add_argument('--低血量撤退122', default=default('--低血量撤退122'), choices=['是', '否'], help='低血量撤退', gooey_options={'label_color': '#4B5F83'})
 
     # ==========12-4打大型练级==========
     c_12_4_parser = subs.add_parser('12-4打大型练级')

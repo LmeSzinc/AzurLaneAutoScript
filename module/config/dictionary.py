@@ -650,6 +650,8 @@ dic_chi_to_eng = {
     '刷好感战斗场数': 'affinity_battle_count',
     'BOSS队踩A3': 'boss_fleet_step_on_a3',
     '大型敌人忍耐': 's3_enemy_tolerance',
+    '战斗数122': 'battle_num_122',
+    '低血量撤退122': 'low_hp_withdraw_122',
     '非大型敌人进图忍耐': 'non_s3_enemy_enter_tolerance',
     '非大型敌人撤退忍耐': 'non_s3_enemy_withdraw_tolerance',
     '拣弹药124': 'ammo_pick_up_124',

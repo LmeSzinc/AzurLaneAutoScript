@@ -48,7 +48,10 @@ class Campaign(CampaignBase):
     def check_s3_enemy(self):
         if self.battle_count == 0:
             self.s3_enemy_count = 0
-        elif self.battle_count >= 5:
+        elif self.battle_count >= self.config.C122_BATTLE_NUM:
+            self.withdraw()
+
+        if self.config.C122_LOW_HP_WITHDRAW and self.hp_withdraw_triggered():
             self.withdraw()
 
         current = self.map.select(is_enemy=True, enemy_scale=2)\

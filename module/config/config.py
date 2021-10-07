@@ -561,6 +561,8 @@ class AzurLaneConfig:
     C_12_2_leveling
     """
     C122_S3_TOLERANCE = 0
+    C122_BATTLE_NUM = 5
+    C122_LOW_HP_WITHDRAW = False
 
     """
     C_12_4_leveling
@@ -901,6 +903,8 @@ class AzurLaneConfig:
         # C_12_2_leveling
         option = config['C122_leveling']
         self.C122_S3_TOLERANCE = int(option['s3_enemy_tolerance'])
+        self.C122_BATTLE_NUM = int(option['battle_num_122'])
+        self.C122_LOW_HP_WITHDRAW = to_bool(option['low_hp_withdraw_122'])
 
         # C_12_4_leveling
         option = config['C124_leveling']
