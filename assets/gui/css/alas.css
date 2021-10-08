@@ -212,10 +212,6 @@ textarea {
     border-top: 10px solid lightgrey;
 }
 
-*[style*="container-aside"] {
-    overflow-y: auto;
-}
-
 *[style*="container-main"] {
     margin-top: .5rem;
     overflow-y: auto;

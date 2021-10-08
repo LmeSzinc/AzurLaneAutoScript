@@ -5,9 +5,7 @@ import time
 from multiprocessing import Manager, Process
 
 from pywebio.exceptions import *
-from pywebio.session import *
-
-from module.logger import logger  # Change folder
+from pywebio.session import defer_call, go_app, register_thread, set_env
 
 import module.webui.lang as lang
 from module.config.config_updater import ConfigUpdater
@@ -15,9 +13,10 @@ from module.config.utils import *
 from module.logger import logger  # Change folder
 from module.webui.lang import _t, t
 from module.webui.translate import translate
-from module.webui.utils import (Icon, QueueHandler, add_css, filepath_css,
-                                get_output, parse_pin_value)
+from module.webui.utils import Icon, QueueHandler
 from module.webui.utils import ThreadWithException as Thread
+from module.webui.utils import (add_css, filepath_css, get_output,
+                                parse_pin_value)
 from module.webui.widgets import *
 
 all_alas = {}
@@ -273,9 +272,12 @@ class AlasGUI:
             if d['type'] == 'disable':
                 continue
             paths.append(path_to_idx['.'.join(path)])
-        while True:
+        while self.alive:
             try:
-                self.modified_config_queue.put(pin_wait_change(paths))
+                val = pin_wait_change(paths, timeout=10)
+                if val is None:
+                    continue
+                self.modified_config_queue.put(val)
             except SessionClosedException:
                 break
 
@@ -297,7 +299,7 @@ class AlasGUI:
                         deep_set(config, k, modified[k])
                     write_file(filepath_config(self.alas_name), config)
                     toast(t("Gui.Toast.ConfigSaved"),
-                          duration=1, position='right')
+                          duration=1, position='right', color='success')
                     break
 
     def _alas_thread_put_log(self):
@@ -323,6 +325,7 @@ class AlasGUI:
     def dev_set_menu(self):
         self.menu.reset()
         self.contents.reset()
+        self.title.reset(f"{t('Gui.Aside.Develop')}")
         self.kill_thread()
 
         self.menu.append(
@@ -332,7 +335,8 @@ class AlasGUI:
             ], onclick=[self.dev_translate]),
 
             # put_buttons([
-            #     {"label": t("Gui.MenuDevelop.Something"), "value": "Something", "color": "menu"}
+            #     {"label": t("Gui.MenuDevelop.Something"),
+            #      "value": "Something", "color": "menu"}
             # ], onclick=[self.dev_something]),
         )
 
@@ -409,15 +413,13 @@ class AlasGUI:
             put_markdown("""
             ## AzurLaneAutoScript
             This new UI is still under development.
-            if you encounter any error or find a bug,
-            [create new issue](https://github.com/LmeSzinc/AzurLaneAutoScript/issues/new/choose)
-            or `@18870#0856` in discord with error logs.
-            You may found logs in python console or browser console (`F12`-`console`)
+            if you encounter any error or find a bug, [create new issue](https://github.com/LmeSzinc/AzurLaneAutoScript/issues/new/choose) or `@18870#0856` in discord with error logs.
+            You may found logs in python console or browser console (`Ctrl`+`Shift`+`I` - `Console`)
             ![](https://i.loli.net/2021/10/03/5pNYoS8EFcvrhIs.png)
             ![](https://i.loli.net/2021/10/03/5xCaATjl6oK7S1f.png)
 
             ## Join in translation
-            Go `Develop` - `Translate`, or [here](./?app=translate)
+            Go `Develop` - `Translate`
             """, strip_indent=12)).style('welcome')))
 
         # temporary buttons, there is no setting page now :(
@@ -440,15 +442,13 @@ class AlasGUI:
         register_thread(_thread_save_config)
         _thread_save_config.start()
 
-        hold()
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Alas web service')
     parser.add_argument("-d", "--debug", action="store_true",
                         help="show log")
-    parser.add_argument('-p', '--port', type=int, default=80,
-                        help='Port to listen. Default to 80')
+    parser.add_argument('-p', '--port', type=int, default=22267,
+                        help='Port to listen. Default to 22267')
     parser.add_argument('-b', '--backend', type=str, default='starlette',
                         help='Backend framework of web server, starlette or tornado. Default to starlette')
     args = parser.parse_args()

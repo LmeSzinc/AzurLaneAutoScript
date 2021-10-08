@@ -3,6 +3,7 @@
 from module.config.utils import (LANGUAGES, deep_get, deep_iter, deep_set,
                                  filepath_i18n, read_file, write_file)
 import module.webui.lang as lang
+from pywebio import config
 from pywebio.input import (actions, checkbox, input, input_group, input_update,
                            select)
 from pywebio.output import put_buttons, put_markdown
@@ -14,6 +15,7 @@ def translate():
         Translate Alas
     """
     set_env(output_animation=False)
+    config(css_style=r"footer{display:none;}")
 
     put_markdown("""
         # Translate
