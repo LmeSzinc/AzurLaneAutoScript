@@ -69,18 +69,18 @@ class Campaign(CampaignBase):
         current = self.map.select(is_enemy=True, enemy_scale=3).count
         logger.attr('S3_enemy', current)
 
-        if self.battle_count == self.config.C124_NON_S3_ENTER_TOLERANCE \
-                and self.config.C124_NON_S3_WITHDRAW_TOLERANCE < 10:
+        if self.battle_count == self.config.C124LargeLeveling_NonLargeEnterTolerance \
+                and self.config.C124LargeLeveling_NonLargeRetreatTolerance < 10:
             if self.s3_enemy_count + current == 0:
                 self.withdraw()
-        elif self.battle_count > self.config.C124_NON_S3_ENTER_TOLERANCE:
-            if self.non_s3_enemy_count >= self.config.C124_NON_S3_WITHDRAW_TOLERANCE and current == 0:
+        elif self.battle_count > self.config.C124LargeLeveling_NonLargeEnterTolerance:
+            if self.non_s3_enemy_count >= self.config.C124LargeLeveling_NonLargeRetreatTolerance and current == 0:
                 self.withdraw()
 
     def battle_0(self):
         self.check_s3_enemy()
 
-        if self.battle_count >= self.config.C124_AMMO_PICK_UP:
+        if self.battle_count >= self.config.C124LargeLeveling_PickupAmmo:
             self.pick_up_ammo()
 
         if self.clear_enemy(scale=(3,), genre=['light', 'carrier', 'enemy', 'treasure', 'main']):

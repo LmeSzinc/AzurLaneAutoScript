@@ -56,7 +56,7 @@ class Campaign(CampaignBase):
             .count
         logger.attr('S2_enemy', current)
 
-        if self.s3_enemy_count >= self.config.C122_S3_TOLERANCE and current == 0:
+        if self.s3_enemy_count >= self.config.C122MediumLeveling_LargeEnemyTolerance and current == 0:
             self.withdraw()
 
     def battle_0(self):

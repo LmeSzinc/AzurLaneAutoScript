@@ -13,7 +13,7 @@ class ManualConfig:
     > Sos > EventSp > EventAb > RaidDaily > WarArchives
     > OpsiDaily > OpsiMeowfficerFarming
     > Event > Raid > Main
-    > C124Leveling > C122Leveling > C11AffinityFarming > C72MysteryFarming > GemsFarming
+    > C124LargeLeveling > C122MediumLeveling > C11AffinityFarming > C72MysteryFarming > GemsFarming
     """
 
     """
