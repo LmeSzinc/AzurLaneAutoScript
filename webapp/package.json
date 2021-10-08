@@ -1,5 +1,5 @@
 {
-  "name": "vite-electron-builder",
+  "name": "alas",
   "private": true,
   "engines": {
     "node": ">=v14.14",
@@ -9,7 +9,7 @@
   "scripts": {
     "build": "node scripts/build.js",
     "precompile": "cross-env MODE=production npm run build",
-    "compile": "electron-builder build --config electron-builder.config.js --dir --config.asar=false",
+    "compile": "electron-builder build --config electron-builder.config.js --dir",
     "pretest": "npm run build",
     "test": "node tests/app.spec.js",
     "watch": "node scripts/watch.js",
@@ -47,8 +47,11 @@
     "vue-tsc": "0.3.0"
   },
   "dependencies": {
-    "electron-updater": "4.6.0",
+    "@ant-design/icons-vue": "^6.0.1",
+    "python-shell": "^3.0.0",
+    "tree-kill": "^1.2.2",
     "vue": "3.2.19",
-    "vue-router": "4.0.11"
+    "vue-router": "4.0.11",
+    "yaml": "^1.10.2"
   }
 }

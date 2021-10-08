@@ -1,7 +1,8 @@
-import {app, BrowserWindow} from 'electron';
-import {join} from 'path';
+import {app, BrowserWindow, ipcMain, globalShortcut} from 'electron';
 import {URL} from 'url';
-
+import {PyShell} from '/@/pyshell';
+import {webuiArgs, webuiPath} from '/@/config';
+const path = require('path');
 
 const isSingleInstance = app.requestSingleInstanceLock();
 
@@ -24,14 +25,29 @@ if (import.meta.env.MODE === 'development') {
     .catch(e => console.error('Failed install extension:', e));
 }
 
+/**
+ * Load deploy settings and start Alas web server.
+ */
+let alas = new PyShell(webuiPath, webuiArgs);
+alas.end(function (err: string) {
+  // if (err) throw err;
+});
+
+
 let mainWindow: BrowserWindow | null = null;
 
 const createWindow = async () => {
   mainWindow = new BrowserWindow({
+    width: 1280,
+    height: 880,
     show: false, // Use 'ready-to-show' event to show window
+    frame: false,
+    icon: path.join(__dirname, './buildResources/icon.ico'),
     webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,   // Spectron tests can't work with contextIsolation: true
       nativeWindowOpen: true,
-      preload: join(__dirname, '../../preload/dist/index.cjs'),
+      // preload: join(__dirname, '../../preload/dist/index.cjs'),
     },
   });
 
@@ -44,9 +60,38 @@ const createWindow = async () => {
   mainWindow.on('ready-to-show', () => {
     mainWindow?.show();
 
+    // Hide menu
+    const {Menu} = require('electron');
+    Menu.setApplicationMenu(null);
+
     if (import.meta.env.MODE === 'development') {
       mainWindow?.webContents.openDevTools();
     }
+  });
+
+  // Dev tools
+  globalShortcut.register('Ctrl+Shift+I', function () {
+    if (mainWindow?.webContents.isDevToolsOpened()) {
+      mainWindow?.webContents.closeDevTools()
+    } else {
+      mainWindow?.webContents.openDevTools()
+    }
+  });
+
+  // Minimize, maximize, close window.
+  ipcMain.on('window-min', function () {
+    mainWindow?.minimize();
+  });
+  ipcMain.on('window-max', function () {
+    if (mainWindow?.isMaximized()) {
+      mainWindow?.restore();
+    } else {
+      mainWindow?.maximize();
+    }
+  });
+  ipcMain.on('window-close', function () {
+    alas.kill();
+    setTimeout(() => mainWindow?.close(), 500); // Wait taskkill to finish
   });
 
   /**
@@ -57,7 +102,6 @@ const createWindow = async () => {
   const pageUrl = import.meta.env.MODE === 'development' && import.meta.env.VITE_DEV_SERVER_URL !== undefined
     ? import.meta.env.VITE_DEV_SERVER_URL
     : new URL('../renderer/dist/index.html', 'file://' + __dirname).toString();
-
 
   await mainWindow.loadURL(pageUrl);
 };

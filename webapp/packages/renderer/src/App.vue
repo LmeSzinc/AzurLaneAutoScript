@@ -1,31 +1,31 @@
 <template>
-  <img
-    alt="Vue logo"
-    src="../assets/logo.svg"
-    width="300"
-  >
-  <app-navigation />
-  <router-view />
+  <div id="app">
+    <app-header></app-header>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
-import AppNavigation from '/@/components/AppNavigation.vue';
-export default defineComponent({
-  name: 'App',
-  components: {
-    AppNavigation,
-  },
-});
+  import {defineComponent} from 'vue';
+  import AppHeader from '/@/components/AppHeader.vue'
+
+  export default defineComponent({
+    name: 'App',
+    components: {
+      AppHeader
+    },
+  });
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  #app {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+  }
 </style>
