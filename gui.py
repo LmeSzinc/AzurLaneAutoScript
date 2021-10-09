@@ -71,8 +71,10 @@ class Alas:
             toast(t("Gui.Toast.AlasIsRunning"), position='right', color='warn')
 
     def stop(self):
-        self.process.terminate()
-        self.thd_log_queue_handler.stop()
+        if self.process.is_alive():
+            self.process.terminate()
+        if self.thd_log_queue_handler.is_alive():
+            self.thd_log_queue_handler.stop()
 
     def _thread_log_queue_handler(self):
         while self.process.is_alive():

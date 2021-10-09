@@ -3,6 +3,7 @@ import os
 import random
 import string
 from datetime import datetime, timedelta, timezone
+from filelock import FileLock
 
 import yaml
 
@@ -66,7 +67,6 @@ def read_file(file):
     Returns:
         dict, list:
     """
-    print(f'read: {file}')
     folder = os.path.dirname(file)
     if not os.path.exists(folder):
         os.mkdir(folder)
@@ -75,20 +75,23 @@ def read_file(file):
         return {}
 
     _, ext = os.path.splitext(file)
-    if ext == '.yaml':
-        with open(file, mode='r', encoding='utf-8') as f:
-            s = f.read()
-            data = list(yaml.safe_load_all(s))
-            if len(data) == 1:
-                data = data[0]
-            return data
-    elif ext == '.json':
-        with open(file, mode='r', encoding='utf-8') as f:
-            s = f.read()
-            return json.loads(s)
-    else:
-        print(f'Unsupported config file extension: {ext}')
-        return {}
+    lock = FileLock(f"{file}.lock")
+    with lock:
+        print(f'read: {file}')
+        if ext == '.yaml':
+            with open(file, mode='r', encoding='utf-8') as f:
+                s = f.read()
+                data = list(yaml.safe_load_all(s))
+                if len(data) == 1:
+                    data = data[0]
+                return data
+        elif ext == '.json':
+            with open(file, mode='r', encoding='utf-8') as f:
+                s = f.read()
+                return json.loads(s)
+        else:
+            print(f'Unsupported config file extension: {ext}')
+            return {}
 
 
 def write_file(file, data):
@@ -99,26 +102,28 @@ def write_file(file, data):
         file (str):
         data (dict, list):
     """
-    print(f'write: {file}')
     folder = os.path.dirname(file)
     if not os.path.exists(folder):
         os.mkdir(folder)
 
     _, ext = os.path.splitext(file)
-    if ext == '.yaml':
-        with open(file, mode='w', encoding='utf-8') as f:
-            if isinstance(data, list):
-                yaml.safe_dump_all(data, f, default_flow_style=False, encoding='utf-8', allow_unicode=True,
-                                   sort_keys=False)
-            else:
-                yaml.safe_dump(data, f, default_flow_style=False, encoding='utf-8', allow_unicode=True,
-                               sort_keys=False)
-    elif ext == '.json':
-        with open(file, mode='w', encoding='utf-8') as f:
-            s = json.dumps(data, indent=2, ensure_ascii=False, sort_keys=False, default=str)
-            f.write(s)
-    else:
-        print(f'Unsupported config file extension: {ext}')
+    lock = FileLock(f"{file}.lock")
+    with lock:
+        print(f'write: {file}')
+        if ext == '.yaml':
+            with open(file, mode='w', encoding='utf-8') as f:
+                if isinstance(data, list):
+                    yaml.safe_dump_all(data, f, default_flow_style=False, encoding='utf-8', allow_unicode=True,
+                                    sort_keys=False)
+                else:
+                    yaml.safe_dump(data, f, default_flow_style=False, encoding='utf-8', allow_unicode=True,
+                                sort_keys=False)
+        elif ext == '.json':
+            with open(file, mode='w', encoding='utf-8') as f:
+                s = json.dumps(data, indent=2, ensure_ascii=False, sort_keys=False, default=str)
+                f.write(s)
+        else:
+            print(f'Unsupported config file extension: {ext}')
 
 
 def iter_folder(folder, ext=None):
