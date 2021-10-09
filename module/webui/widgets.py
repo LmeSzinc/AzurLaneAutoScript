@@ -16,8 +16,8 @@ class ScrollableCode:
 
         self.id = ''.join(random.choice(string.ascii_letters)
                           for _ in range(10))
-        self._html = '<pre id="%s"><code style="white-space:break-spaces;"></code></pre>' % self.id
-        self.output = output(put_html(self._html))
+        self.html = '<pre id="%s"><code style="white-space:break-spaces;"></code></pre>' % self.id
+        self.output = output(put_html(self.html))
 
     def append(self, text):
         if text:
@@ -27,11 +27,11 @@ class ScrollableCode:
                 self.scroll()
 
     def scroll(self):
-        run_js("""$("#{dom_id}").animate({{scrollTop: $("#{dom_id}").prop("scrollHeight")}}, 0);
+        run_js(r"""$("\#{dom_id}").animate({{scrollTop: $("\#{dom_id}").prop("scrollHeight")}}, 0);
         """.format(dom_id=self.id))
 
     def reset(self):
-        self.output.reset(put_html(self._html))
+        self.output.reset(put_html(self.html))
 
     def set_scroll(self, b):
         # use for lambda callback function

@@ -1,8 +1,11 @@
 import ctypes
-
-from module.webui.widgets import *
+from functools import wraps
 import threading
 
+from pywebio.input import PASSWORD
+
+from module.webui.widgets import *
+from pywebio.input import input_group, input
 from pywebio.session import run_js
 
 
@@ -106,3 +109,11 @@ def parse_pin_value(val):
             return int(v)
         else:
             return v
+
+def login(password):
+    pwd = input(label='Please login below.', type=PASSWORD, placeholder='PASSWORD')
+    if pwd == password:
+        return True
+    else:
+        toast('Wrong password!', color='error')
+        return False

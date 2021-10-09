@@ -5,7 +5,7 @@ import time
 from multiprocessing import Manager, Process
 
 from pywebio.exceptions import *
-from pywebio.session import defer_call, go_app, register_thread, set_env
+from pywebio.session import defer_call, go_app, register_thread, set_env, info
 
 import module.webui.lang as lang
 from module.config.config_updater import ConfigUpdater
@@ -16,7 +16,7 @@ from module.webui.translate import translate
 from module.webui.utils import Icon, QueueHandler
 from module.webui.utils import ThreadWithException as Thread
 from module.webui.utils import (add_css, filepath_css, get_output,
-                                parse_pin_value)
+                                parse_pin_value, login)
 from module.webui.widgets import *
 
 all_alas = {}
@@ -246,7 +246,7 @@ class AlasGUI:
 
         self.contents.append(
             put_column([
-                put_html(self.logs._html),
+                self.logs.output,
                 put_buttons(
                     buttons=['Start', 'Stop', 'Scroll ON', 'Scroll OFF'],
                     onclick=[
@@ -451,9 +451,16 @@ if __name__ == "__main__":
                         help='Port to listen. Default to 22267')
     parser.add_argument('-b', '--backend', type=str, default='starlette',
                         help='Backend framework of web server, starlette or tornado. Default to starlette')
+    parser.add_argument('-k', '--key', type=str, default='',
+                        help='Password of alas. No password by default')
     args = parser.parse_args()
 
     def index():
+        if args.key != '' and not login(args.key):
+            logger.warning(f"{info.user_ip} login failed.")
+            time.sleep(2)
+            run_js('location.reload();')
+            return
         AlasGUI().run()
 
     if args.backend == 'starlette':
