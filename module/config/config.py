@@ -326,6 +326,10 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
         return config
 
     @property
+    def SERVER(self):
+        return self.Emulator_Server
+
+    @property
     def DEVICE_SCREENSHOT_METHOD(self):
         return self.Emulator_ScreenshotMethod
 
