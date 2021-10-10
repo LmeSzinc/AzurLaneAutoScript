@@ -198,7 +198,7 @@ class GeneratedConfig:
     GuildShop_PR3 = 'cheshire'  # cheshire, mainz, odin, champagne
 
     # Group `MedalShop`
-    MedalShop_Filter = 'DRBP > PRYBP\n> BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3 > PlateGeneralT3\n> FoodT6 > FoodT5'
+    MedalShop_Filter = 'DRBP > PRBP\n> BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3 > PlateGeneralT3\n> FoodT6 > FoodT5'
 
     # Group `MeritShop`
     MeritShop_Refresh = False

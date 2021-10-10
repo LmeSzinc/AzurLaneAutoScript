@@ -287,7 +287,7 @@ GuildShop:
     option: [cheshire, mainz, odin, champagne]
 MedalShop:
   Filter: |-
-    DRBP > PRYBP
+    DRBP > PRBP
     > BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2
     > RetrofitT3 > PlateGeneralT3
     > FoodT6 > FoodT5
