@@ -41,62 +41,13 @@ def _t(s, lang=None):
         return s
 
 
-# temporary dictionary
-dic_eng_to_chi = {
-    "Gui.Aside.Install": "安装",
-    "Gui.Aside.Develop": "开发",
-    "Gui.Aside.Performance": "性能",
-    "Gui.Aside.Setting": "设置",
-    "Gui.Button.ScrollON": "自动滚动 开",
-    "Gui.Button.ScrollOFF": "自动滚动 关",
-    "Gui.Button.ClearLog": "清空日志",
-    "Gui.Toast.DisableTranslateMode": "点击这里关闭翻译模式",
-    "Gui.Toast.ConfigSaved": "设置已保存",
-    "Gui.Toast.AlasIsRunning": "调度器已在运行中",
-    "Gui.MenuAlas.Overview": "总览",
-    "Gui.MenuAlas.Log": "运行日志",
-    "Gui.MenuDevelop.Translate": "翻译"
-}
-
-
-dic_eng = {
-    "Gui.Aside.Install": "Install",
-    "Gui.Aside.Develop": "Develop",
-    "Gui.Aside.Performance": "Perf.",
-    "Gui.Aside.Setting": "Settings",
-    "Gui.Button.ScrollON": "Scroll ON",
-    "Gui.Button.ScrollOFF": "Scroll OFF",
-    "Gui.Button.ClearLog": "Clear Log",
-    "Gui.Toast.DisableTranslateMode": "Click here to disable translate mode",
-    "Gui.Toast.ConfigSaved": "Config saved",
-    "Gui.Toast.AlasIsRunning": "Scheduler is running",
-    "Gui.MenuAlas.Overview": "Overview",
-    "Gui.MenuAlas.Log": "Logs",
-    "Gui.MenuDevelop.Translate": "Translate"
-}
-
-dic_tchi = {}
-dic_jp = {}
-
-dic_eng_to_eng = {key: key for key in dic_eng_to_chi}
-dic_eng_to_eng.update(dic_eng)
-
-dic_eng_to_jp = dic_eng_to_eng.copy()
-dic_eng_to_jp.update(dic_jp)
-
-dic_eng_to_tchi = dic_eng_to_chi.copy()
-dic_eng_to_tchi.update(dic_tchi)
-
-dic_lang = {
-    "zh-CN": dic_eng_to_chi,
-    "zh-TW": dic_eng_to_tchi,
-    "en-US": dic_eng_to_eng,
-    "ja-JP": dic_eng_to_jp,
-}
+dic_lang = {}
 
 
 def reload():
     for lang in LANGUAGES:
+        if lang not in dic_lang:
+            dic_lang[lang] = {}
         for path, v in deep_iter(read_file(filepath_i18n(lang)), depth=3):
             dic_lang[lang]['.'.join(path)] = v
 

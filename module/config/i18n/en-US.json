@@ -1433,5 +1433,30 @@
       "5": "5",
       "6": "6"
     }
+  },
+  "Gui": {
+    "Aside": {
+      "Install": "Install",
+      "Develop": "Develop",
+      "Performance": "Perf.",
+      "Setting": "Settings"
+    },
+    "Button": {
+      "ScrollON": "Scroll ON",
+      "ScrollOFF": "Scroll OFF",
+      "ClearLog": "Clear Log"
+    },
+    "Toast": {
+      "DisableTranslateMode": "Click here to disable translate mode",
+      "ConfigSaved": "Config saved",
+      "AlasIsRunning": "Scheduler is already running"
+    },
+    "MenuAlas": {
+      "Overview": "Overview",
+      "Log": "Logs"
+    },
+    "MenuDevelop": {
+      "Translate": "Translate"
+    }
   }
 }

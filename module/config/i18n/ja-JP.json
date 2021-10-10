@@ -1433,5 +1433,30 @@
       "5": "5",
       "6": "6"
     }
+  },
+  "Gui": {
+    "Aside": {
+      "Install": "Gui.Aside.Install",
+      "Develop": "Gui.Aside.Develop",
+      "Performance": "Gui.Aside.Performance",
+      "Setting": "Gui.Aside.Setting"
+    },
+    "Button": {
+      "ScrollON": "Gui.Button.ScrollON",
+      "ScrollOFF": "Gui.Button.ScrollOFF",
+      "ClearLog": "Gui.Button.ClearLog"
+    },
+    "Toast": {
+      "DisableTranslateMode": "Gui.Toast.DisableTranslateMode",
+      "ConfigSaved": "Gui.Toast.ConfigSaved",
+      "AlasIsRunning": "Gui.Toast.AlasIsRunning"
+    },
+    "MenuAlas": {
+      "Overview": "Gui.MenuAlas.Overview",
+      "Log": "Gui.MenuAlas.Log"
+    },
+    "MenuDevelop": {
+      "Translate": "Gui.MenuDevelop.Translate"
+    }
   }
 }

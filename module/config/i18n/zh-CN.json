@@ -169,7 +169,7 @@
   },
   "Scheduler": {
     "_info": {
-      "name": "调度器设置",
+      "name": "任务设置",
       "help": ""
     },
     "Enable": {
@@ -517,7 +517,7 @@
     "Fleet2Formation": {
       "name": "二队阵型",
       "help": "",
-      "line_ahead": "复纵阵",
+      "line_ahead": "单纵阵",
       "double_line": "复纵阵",
       "diamond": "轮形阵"
     },
@@ -1432,6 +1432,31 @@
       "4": "4",
       "5": "5",
       "6": "6"
+    }
+  },
+  "Gui": {
+    "Aside": {
+      "Install": "安装",
+      "Develop": "开发",
+      "Performance": "性能",
+      "Setting": "设置"
+    },
+    "Button": {
+      "ScrollON": "自动滚动 开",
+      "ScrollOFF": "自动滚动 关",
+      "ClearLog": "清空日志"
+    },
+    "Toast": {
+      "DisableTranslateMode": "点击这里关闭翻译模式",
+      "ConfigSaved": "设置已保存",
+      "AlasIsRunning": "调度器已在运行中"
+    },
+    "MenuAlas": {
+      "Overview": "总览",
+      "Log": "运行日志"
+    },
+    "MenuDevelop": {
+      "Translate": "翻译"
     }
   }
 }

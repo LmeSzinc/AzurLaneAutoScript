@@ -99,6 +99,14 @@ class ConfigGenerator:
         return read_file(filepath_argument('override'))
 
     @cached_property
+    def gui(self):
+        """
+        <i18n_group>:
+            <i18n_key>: value, value is None
+        """
+        return read_file(filepath_argument('gui'))
+
+    @cached_property
     @timer
     def args(self):
         """
@@ -196,6 +204,7 @@ class ConfigGenerator:
                 d = ".".join(k) if default else str(word)
                 value = deep_get(old, keys=k, default=d)
                 deep_set(new, keys=k, value=value)
+
         # Menu
         for path, data in deep_iter(self.menu, depth=2):
             func, group = path
@@ -228,6 +237,10 @@ class ConfigGenerator:
         for event in self.event:
             name = events.get(event.directory, event.directory)
             deep_set(new, keys=f'Campaign.Event.{event.directory}', value=name)
+        # GUI i18n
+        for path, _ in deep_iter(self.gui, depth=2):
+            group, key = path
+            deep_load(keys=['Gui', group], words=(key,))
 
         write_file(filepath_i18n(lang), new)
 
@@ -385,8 +398,9 @@ if __name__ == '__main__':
                  task.yaml -+----------------> menu.json
              argument.yaml -+-> args.json ---> config_generated.py
              override.yaml -+       |
-                                    |
-    (old) i18n/<lang>.json ---------\========> i18n/<lang>.json
+                  gui.yaml --------\|
+                                   ||
+    (old) i18n/<lang>.json --------\\========> i18n/<lang>.json
     (old)    template.json ---------\========> template.json
     """
     ConfigGenerator().generate()
