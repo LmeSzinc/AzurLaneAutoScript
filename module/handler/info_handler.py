@@ -144,8 +144,23 @@ class InfoHandler(ModuleBase):
             return False
 
         if self.appear(USE_DATA_KEY, offset=(20, 20)):
-            self.device.click(USE_DATA_KEY_NOTIFIED)
-            self.device.sleep((0.5, 0.8))
+            skip_first_screenshot = True
+            while 1:
+                if skip_first_screenshot:
+                    skip_first_screenshot = False
+                else:
+                    self.device.screenshot()
+
+                enabled = self.image_color_count(USE_DATA_KEY_NOTIFIED,
+                    color=(140, 207, 66), threshold=180, count=10)
+                if enabled:
+                    break
+
+                if self.appear(USE_DATA_KEY, interval=5):
+                    self.device.click(USE_DATA_KEY_NOTIFIED)
+                    continue
+
+            self.config.USE_DATA_KEY = False  # Reset on success as task can be stopped before can be recovered
             return self.handle_popup_confirm('USE_DATA_KEY')
 
         return False

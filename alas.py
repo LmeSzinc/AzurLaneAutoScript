@@ -153,6 +153,11 @@ class AzurLaneAutoScript:
         from module.sos.sos import CampaignSos
         CampaignSos(config=self.config, device=self.device).run()
 
+    def war_archives(self):
+        from module.war_archives.war_archives import CampaignWarArchives
+        CampaignWarArchives(config=self.config, device=self.device).run(
+            name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
+
     def event_ab(self):
         from module.event.campaign_ab import CampaignAB
         CampaignAB(config=self.config, device=self.device).run()

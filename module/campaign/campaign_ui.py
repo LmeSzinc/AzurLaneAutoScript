@@ -93,7 +93,7 @@ class CampaignUI(UI, CampaignOcr):
                 self.campaign_ensure_chapter(index=chapter)
 
         elif chapter in ['a', 'b', 'c', 'd', 'ex_sp', 'as', 'bs', 'cs', 'ds']:
-            self.ui_goto(page_event)
+            self.ui_goto_event()
             if chapter in ['a', 'b', 'as', 'bs']:
                 self.campaign_ensure_mode('normal')
             elif chapter in ['c', 'd', 'cs', 'ds']:
@@ -103,7 +103,7 @@ class CampaignUI(UI, CampaignOcr):
             self.campaign_ensure_chapter(index=chapter)
 
         elif chapter == 'sp':
-            self.ui_goto(page_sp)
+            self.ui_goto_sp()
             self.campaign_ensure_chapter(index=chapter)
 
         else:
