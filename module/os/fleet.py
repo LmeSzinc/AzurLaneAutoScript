@@ -6,6 +6,7 @@ from module.logger import logger
 from module.map.fleet import Fleet
 from module.map.map_grids import SelectedGrids
 from module.map.utils import location_ensure
+from module.os.assets import TEMPLATE_EMPTY_HP
 from module.os.camera import OSCamera
 from module.os.map_base import OSCampaignMap
 from module.os_ash.ash import OSAsh
@@ -129,6 +130,25 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
     def hp_retreat_triggered(self):
         return False
+
+    def hp_get(self):
+        """
+        Calculate current HP, also detects the wrench (Ship died, need to repair)
+        """
+        super().hp_get()
+        ship_icon = self._hp_grid().crop((0, -67, 67, 0))
+        need_repair = [TEMPLATE_EMPTY_HP.match(self.image_area(button)) for button in ship_icon.buttons]
+        logger.attr('Repair icon', need_repair)
+
+        for index, repair in enumerate(need_repair):
+            if repair:
+                self._hp_has_ship[self.fleet_current_index][index] = True
+                self._hp[self.fleet_current_index][index] = 0
+
+        logger.attr('HP', ' '.join(
+            [str(int(data * 100)).rjust(3) + '%' if use else '____' for data, use in zip(self.hp, self.hp_has_ship)]))
+
+        return self.hp
 
     def lv_get(self, after_battle=False):
         pass
