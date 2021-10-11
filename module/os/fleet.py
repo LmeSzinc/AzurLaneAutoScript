@@ -133,7 +133,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
     def hp_get(self):
         """
-        Calculate current HP, also detects
+        Calculate current HP, also detects the wrench (Ship died, need to repair)
         """
         super().hp_get()
         ship_icon = self._hp_grid().crop((0, -67, 67, 0))
@@ -147,8 +147,6 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
         logger.attr('HP', ' '.join(
             [str(int(data * 100)).rjust(3) + '%' if use else '____' for data, use in zip(self.hp, self.hp_has_ship)]))
-        if np.sum(np.abs(np.diff(self.config.SCOUT_HP_WEIGHTS))) > 0:
-            logger.attr('HP_weight', ' '.join([str(int(data * 100)).rjust(3) + '%' for data in self.hp]))
 
         return self.hp
 
