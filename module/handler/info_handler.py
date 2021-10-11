@@ -156,7 +156,7 @@ class InfoHandler(ModuleBase):
                 if enabled:
                     break
 
-                if self.appear(USE_DATA_KEY, interval=5):
+                if self.appear(USE_DATA_KEY, offset=(20, 20), interval=5):
                     self.device.click(USE_DATA_KEY_NOTIFIED)
                     continue
 
