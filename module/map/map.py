@@ -15,8 +15,8 @@ class Map(Fleet):
         logger.info('Clear enemy: %s' % grid)
         expected = f'combat_{expected}' if expected else 'combat'
         self.show_fleet()
-        if self.config.ENABLE_EMOTION_REDUCE and self.config.ENABLE_MAP_FLEET_LOCK:
-            self.emotion.wait(fleet=self.fleet_current_index)
+        if self.config.Emotion_CalculateEmotion and self.config.Campaign_UseFleetLock:
+            self.emotion.wait(fleet_index=self.fleet_current_index)
         self.goto(grid, expected=expected)
 
         self.full_scan()

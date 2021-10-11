@@ -23,8 +23,8 @@ class Campaign(CampaignBase):
     affinity_battle = 0
 
     def battle_default(self):
-        while self.affinity_battle < self.config.C11_AFFINITY_BATTLE_COUNT:
-            logger.attr('Affinity_battle', f'{self.affinity_battle}/{self.config.C11_AFFINITY_BATTLE_COUNT}')
+        while self.affinity_battle < self.config.C11AffinityFarming_RunCount:
+            logger.attr('Affinity_battle', f'{self.affinity_battle}/{self.config.C11AffinityFarming_RunCount}')
             self.goto(C1)
             self.affinity_battle += 1
             self.goto(D1 if np.random.uniform() < 0.7 else B1)

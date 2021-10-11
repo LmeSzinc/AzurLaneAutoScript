@@ -98,7 +98,6 @@ class OSMap(OSFleet, Map, GlobeCamera):
         self.clear_remain_grids()
         self.clear_akashi()
         logger.info('Full clear end')
-        self.device.send_notification('Operation Siren', 'Full clear end')
 
     def clear_akashi(self):
         grids = self.map.select(is_akashi=True)
@@ -119,7 +118,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
         Returns:
             bool: If found and handled.
         """
-        if not self.config.ENABLE_OS_AKASHI_SHOP_BUY:
+        if not self.config.OpsiGeneral_BuyAkashiShop:
             return False
         if self.zone.is_port:
             logger.info('Current zone is a port, do not have akashi')

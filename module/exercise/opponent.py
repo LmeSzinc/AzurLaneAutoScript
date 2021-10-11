@@ -110,12 +110,15 @@ class OpponentChoose(UI):
             self.ui_click(click_button=BACK_ARROW, check_button=NEW_OPPONENT,
                           appear_button=EXERCISE_PREPARATION, skip_first_screenshot=True)
 
-    def _opponent_sort(self):
+    def _opponent_sort(self, method="max_exp"):
         """
+        Args:
+            method: EXERCISE_CHOOSE_MODE
+
         Returns:
             list[int]: List of opponent index, such as [2, 1, 0, 3].
                        Attack one by one.
         """
-        order = np.argsort([- x.get_priority(self.config.EXERCISE_CHOOSE_MODE) for x in self.opponents])
+        order = np.argsort([- x.get_priority(method) for x in self.opponents])
         logger.attr('Order', str(order))
         return order

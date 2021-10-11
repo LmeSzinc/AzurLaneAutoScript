@@ -107,12 +107,11 @@ class CampaignBase(CampaignUI, Map, AutoSearchCombat):
 
         if not result:
             logger.warning('ScriptError, No combat executed.')
-            self.device.send_notification('ScriptError', 'No combat executed, please check GUI.')
-            if self.config.ENABLE_EXCEPTION:
-                raise ScriptError('No combat executed.')
+            if self.config.Error_HandleError:
+                logger.warning('ScriptError, No combat executed, Withdrawing')
             else:
-                logger.warning('ScriptError, Withdrawing because enable_exception = no')
                 self.withdraw()
+                raise ScriptError('No combat executed.')
 
         return result
 
@@ -120,13 +119,10 @@ class CampaignBase(CampaignUI, Map, AutoSearchCombat):
         logger.hr(self.ENTRANCE, level=2)
 
         # Enter map
-        if self.config.ENABLE_EMOTION_REDUCE:
-            if not self.map_is_auto_search:
-                self.emotion.wait()
-            else:
-                self.handle_auto_search_emotion_wait()
+        if self.config.Emotion_CalculateEmotion:
+            self.emotion.check_reduce(self._map_battle)
         self.ENTRANCE.area = self.ENTRANCE.button
-        self.enter_map(self.ENTRANCE, mode=self.config.CAMPAIGN_MODE)
+        self.enter_map(self.ENTRANCE, mode=self.config.Campaign_Mode)
 
         # Map init
         if not self.map_is_auto_search:
@@ -151,29 +147,27 @@ class CampaignBase(CampaignUI, Map, AutoSearchCombat):
 
         # Exception
         logger.warning('Battle function exhausted.')
-        if self.config.ENABLE_EXCEPTION:
-            raise ScriptError('Battle function exhausted.')
-        else:
-            logger.warning('ScriptError, Battle function exhausted, Withdrawing because enable_exception = no')
+        if self.config.Error_HandleError:
+            logger.warning('ScriptError, Battle function exhausted, Withdrawing')
             self.withdraw()
+        else:
+            raise ScriptError('Battle function exhausted.')
 
     @cached_property
-    def _emotion_expected_reduce(self):
+    def _map_battle(self):
         """
         Returns:
-            tuple(int): Mob fleet emotion reduce, BOSS fleet emotion reduce
+            int: Battle on this map.
         """
-        default = (self.emotion.get_expected_reduce, self.emotion.get_expected_reduce)
         for data in self.MAP.spawn_data:
             if 'boss' in data:
-                battle = data.get('battle')
-                reduce = (battle * default[0], default[1])
-                if self.config.AUTO_SEARCH_SETTING in ['fleet1_all_fleet2_standby', 'fleet1_standby_fleet2_all']:
-                    reduce = (reduce[0] + reduce[1], 0)
-                return reduce
+                if 'battle' in data:
+                    return data['battle'] + 1
+                else:
+                    logger.warning('No battle count in spawn_data')
 
         logger.warning('No boss data found in spawn_data')
-        return default
+        return 0
 
     def auto_search_execute_a_battle(self):
         logger.hr(f'{self.FUNCTION_NAME_BASE}{self.battle_count}', level=2)

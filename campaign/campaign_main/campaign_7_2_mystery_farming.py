@@ -27,7 +27,7 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
-        if self.config.C72_BOSS_FLEET_STEP_ON_A3:
+        if self.config.C72MysteryFarming_StepOnA3:
             if self.fleet_2_step_on(FLEET_2_STEP_ON, roadblocks=[ROAD_MAIN]):
                 return True
 
@@ -59,7 +59,7 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_3(self):
-        if self.config.C72_BOSS_FLEET_STEP_ON_A3:
+        if self.config.C72MysteryFarming_StepOnA3:
             ignore = None
             if self.fleet_at(A3, fleet=2):
                 ignore = SelectedGrids([A2])
@@ -81,3 +81,7 @@ class Campaign(CampaignBase):
 
         if not self.map.select(is_mystery=True):
             self.withdraw()
+
+    @property
+    def _map_battle(self):
+        return 3

@@ -1,12 +1,136 @@
 from datetime import datetime
 from time import sleep
 
+import numpy as np
+
 from module.base.decorator import cached_property
 from module.base.utils import random_normal_distribution_int
 from module.config.config import AzurLaneConfig
+from module.exception import ScriptError, ScriptEnd
 from module.logger import logger
 
-config_name = 'EmotionRecord'
+DIC_LIMIT = {
+    'keep_exp_bonus': 120,
+    'prevent_green_face': 40,
+    'prevent_yellow_face': 30,
+    'prevent_red_face': 2,
+}
+DIC_RECOVER = {
+    'not_in_dormitory': 20,
+    'dormitory_floor_1': 40,
+    'dormitory_floor_2': 50,
+}
+DIC_RECOVER_MAX = {
+    'not_in_dormitory': 119,
+    'dormitory_floor_1': 150,
+    'dormitory_floor_2': 150,
+}
+OATH_RECOVER = 10
+
+
+class FleetEmotion:
+    def __init__(self, config, fleet):
+        """
+        Args:
+            config (AzurLaneConfig):
+            fleet (int): Fleet index
+        """
+        self.config = config
+        self.fleet = fleet
+        self.current = 0
+
+    @property
+    def value(self):
+        """
+        Returns:
+            int: 0 to 150
+        """
+        return getattr(self.config, f'Emotion_Fleet{self.fleet}Value')
+
+    @property
+    def value_name(self):
+        """
+        Returns:
+            str:
+        """
+        return f'Emotion_Fleet{self.fleet}Value'
+
+    @property
+    def record(self):
+        """
+        Returns:
+            datetime.datetime:
+        """
+        return getattr(self.config, f'Emotion_Fleet{self.fleet}Record')
+
+    @property
+    def recover(self):
+        """
+        Returns:
+            str: not_in_dormitory, dormitory_floor_1, dormitory_floor_2
+        """
+        return getattr(self.config, f'Emotion_Fleet{self.fleet}Recover')
+
+    @property
+    def control(self):
+        """
+        Returns:
+            str: keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face
+        """
+        return getattr(self.config, f'Emotion_Fleet{self.fleet}Control')
+
+    @property
+    def oath(self):
+        """
+        Returns:
+            bool: If all ships oath.
+        """
+        return getattr(self.config, f'Emotion_Fleet{self.fleet}Oath')
+
+    @property
+    def speed(self):
+        """
+        Returns:
+            int: Recover speed per 6 min.
+        """
+        speed = DIC_RECOVER[self.recover]
+        if self.oath:
+            speed += OATH_RECOVER
+        return speed // 10
+
+    @property
+    def limit(self):
+        """
+        Returns:
+            int: Minimum emotion value to control
+        """
+        return DIC_LIMIT[self.control]
+
+    @property
+    def max(self):
+        """
+        Returns:
+            int: Maximum emotion value
+        """
+        return DIC_RECOVER_MAX[self.recover]
+
+    def update(self):
+        recover_count = int(int(datetime.now().timestamp()) // 360 - int(self.record.timestamp()) // 360)
+        recover_count = max(recover_count, 0)
+        self.current = min(max(self.value, 0) + self.speed * recover_count, self.max)
+
+    def get_recovered(self, expected_reduce=0):
+        """
+        Args:
+            expected_reduce (int):
+
+        Returns:
+            datetime.datetime: When will emotion >= control limit.
+                If already recovered, return time in the past.
+        """
+        recover_count = (self.limit + expected_reduce - self.current) // self.speed
+        recovered = (int(datetime.now().timestamp()) // 360 + recover_count + 1) * 360
+        return datetime.fromtimestamp(recovered)
 
 
 class Emotion:
@@ -19,111 +143,122 @@ class Emotion:
             config (AzurLaneConfig):
         """
         self.config = config
-        self.emotion = self.config.config
-        # self.load()
-        self.update()
-        self.record()
-
-    # def load(self):
-    #     logger.hr('Emotion load')
-    #     self.emotion.read_file(codecs.open(self.config.EMOTION_LOG, "r", "utf8"))
-    #     self.update()
-
-    def record(self):
-        for index in [1, 2]:
-            logger.attr(f'Emotion fleet_{index}', self.emotion[config_name][f'fleet_{index}_emotion'])
-        # self.emotion.write(codecs.open(self.config.CONFIG_FILE, "w+", "utf8"))
-        self.config.save()
-
-    def recover_value(self, index):
-        return self.config.__getattribute__('FLEET_%s_RECOVER_PER_HOUR' % index) // 10
-
-    def emotion_limit(self, index, expected_reduce=None):
-        if expected_reduce is None:
-            expected_reduce = self.get_expected_reduce
-        expected_reduce = max(0, expected_reduce - self.get_expected_reduce)
-        return self.config.__getattribute__('FLEET_%s_EMOTION_LIMIT' % index) + expected_reduce
-
-    def recover_stop(self, index):
-        return 150 if self.recover_value(index) > 3 else 119
+        self.fleet_1 = FleetEmotion(self.config, fleet=1)
+        self.fleet_2 = FleetEmotion(self.config, fleet=2)
+        self.fleets = [self.fleet_1, self.fleet_2]
 
     def update(self):
-        for index in [1, 2]:
-            savetime = datetime.strptime(self.emotion[config_name][f'fleet_{index}_savetime'], self.config.TIME_FORMAT)
-            savetime = int(savetime.timestamp())
-            recover_count = int(datetime.now().timestamp() // 360 - savetime // 360)
-            recover_count = 0 if recover_count < 0 else recover_count
+        """
+        Update emotion value. This should be called before doing anything.
+        """
+        for fleet in self.fleets:
+            fleet.update()
 
-            value = self.emotion.getint(config_name, f'fleet_{index}_emotion')
+    def record(self):
+        """
+        Save current emotion value to config.
+        """
+        value = {}
+        for fleet in self.fleets:
+            value[fleet.value_name] = fleet.current
 
-            value += self.recover_value(index=index) * recover_count
-            if value > self.recover_stop(index=index):
-                value = self.recover_stop(index)
-            self.emotion[config_name][f'fleet_{index}_emotion'] = str(value)
-            self.emotion[config_name][f'fleet_{index}_savetime'] = str(
-                datetime.strftime(datetime.now(), self.config.TIME_FORMAT))
+        self.config.set_record(**value)
 
-    def reduce(self, index):
+    def show(self):
+        for fleet in self.fleets:
+            logger.attr(f'Emotion fleet_{fleet.fleet}', fleet.value)
+
+    @property
+    def reduce_per_battle(self):
+        if self.map_is_2x_book:
+            return 4
+        else:
+            return 2
+
+    def check_reduce(self, battle):
+        """
+        Check emotion before entering a campaign.
+
+        Args:
+            battle (int): Battles in this campaign
+
+        Raise:
+            ScriptEnd: Delay current task to prevent emotion control in the future.
+        """
+        if self.config.Campaign_UseAutoSearch:
+            method = self.config.Fleet_AutoSearchFleetOrder
+            if method == 'fleet1_mob_fleet2_boss':
+                battle = (battle - 1, 1)
+            elif method == 'fleet1_boss_fleet2_mob':
+                battle = (1, battle - 1)
+            elif method == 'fleet1_all_fleet2_standby':
+                battle = (battle, 0)
+            elif method == 'fleet1_standby_fleet2_all':
+                battle = (0, battle)
+            else:
+                raise ScriptError(f'Unknown AutoSearchFleetOrder: {method}')
+        else:
+            boss = self.config.FLEET_BOSS
+            if boss == 1:
+                battle = (battle, 0)
+            elif boss == 2:
+                battle = (battle - 1, 1)
+            else:
+                raise ScriptError(f'Unknown FLEET_BOSS: {boss}')
+
+        battle = tuple(np.array(battle) * self.reduce_per_battle)
+        logger.info(f'Expect emotion reduce: {battle}')
+
+        self.update()
+        self.record()
+        self.show()
+        recovered = max([f.get_recovered(b) for f, b in zip(self.fleets, battle)])
+        if recovered > datetime.now():
+            logger.info('Delay current task to prevent emotion control in the future')
+            self.config.task_delay(target=recovered)
+            raise ScriptEnd('Emotion control')
+
+    def wait(self, fleet_index):
+        """
+        Wait emotion of specific fleet.
+        Should be called before entering any battles.
+
+        Args:
+            fleet_index (int): 1 or 2.
+        """
+        self.update()
+        self.record()
+        self.show()
+        fleet = self.fleets[fleet_index - 1]
+        recovered = fleet.get_recovered(expected_reduce=self.reduce_per_battle)
+        if recovered > datetime.now():
+            logger.hr('Emotion wait')
+            logger.info(f'Emotion of fleet {fleet_index} will recover to {fleet.limit} at {recovered}')
+
+            while 1:
+                if datetime.now() > recovered:
+                    break
+
+                logger.attr('Wait until', recovered)
+                sleep(60)
+
+    def reduce(self, fleet_index):
+        """
+        Reduce emotion of specific fleet.
+        Should be called after battle executing.
+        On server side, emotion is reduced once battle loading finished.
+
+        Args:
+            fleet_index (int): 1 or 2.
+        """
         logger.hr('Emotion reduce')
         self.update()
-        self.emotion[config_name][f'fleet_{index}_emotion'] = str(int(
-            self.emotion[config_name][f'fleet_{index}_emotion']) - self.get_expected_reduce)
-        self.total_reduced += self.get_expected_reduce
+
+        fleet = self.fleets[fleet_index - 1]
+        fleet.current -= self.reduce_per_battle
+        self.total_reduced += self.reduce_per_battle
         self.record()
-
-    def recovered_time(self, fleet=(1, 2), expected_reduce=None):
-        """
-        Args:
-            fleet (int, tuple):
-            expected_reduce (tuple, None):
-        """
-        if expected_reduce is None:
-            expected_reduce = (self.get_expected_reduce, self.get_expected_reduce)
-        if isinstance(fleet, int):
-            fleet = (fleet,)
-        recover_count = [
-            (
-                self.emotion_limit(index, expected_reduce[index - 1])
-                - int(self.emotion[config_name][f'fleet_{index}_emotion'])
-            ) // self.recover_value(index)
-            for index in fleet
-        ]
-        recover_count = max(recover_count)
-        recover_timestamp = datetime.now().timestamp() // 360 + recover_count + 1
-        return datetime.fromtimestamp(recover_timestamp * 360)
-
-    def emotion_triggered(self, fleet):
-        """
-        Args:
-            fleet (int, list):
-
-        Returns:
-            bool:
-        """
-        if not isinstance(fleet, list):
-            fleet = [fleet]
-        return datetime.now() > self.recovered_time(fleet=fleet)
-
-    def emotion_recovered(self, fleet):
-        pass
-
-    def wait(self, fleet=(1, 2), expected_reduce=None):
-        """
-        Args:
-            fleet (int, tuple):
-            expected_reduce (tuple, None):
-        """
-        if expected_reduce is None:
-            expected_reduce = (self.get_expected_reduce, self.get_expected_reduce)
-        self.update()
-        recovered_time = self.recovered_time(fleet=fleet, expected_reduce=expected_reduce)
-        while 1:
-            if datetime.now() > recovered_time:
-                break
-
-            logger.attr('Emotion recovered', recovered_time)
-            self.config.EMOTION_LIMIT_TRIGGERED = True
-            sleep(60)
+        self.show()
 
     @cached_property
     def bug_threshold(self):
@@ -139,25 +274,15 @@ class Emotion:
 
     def triggered_bug(self):
         """
-        The game does not calculate emotion correctly, which is a bug in AzurLane.
-        After a long run, we have to restart the game to update it.
+        Azur Lane client does not calculate emotion correctly, which is a bug.
+        After a long run, we have to restart game client and let the client update it.
         """
         logger.attr('Emotion_bug', f'{self.total_reduced}/{self.bug_threshold}')
         if self.total_reduced >= self.bug_threshold:
+            logger.info('Azur Lane client does not calculate emotion correctly, which is a bug. '
+                        'After a long run, we have to restart game client and let the client update it.')
             self.total_reduced = 0
             self.bug_threshold_reset()
             return True
-
-        return False
-
-    @property
-    def get_expected_reduce(self):
-        """
-        Returns:
-            int:
-        """
-        if self.map_is_2x_book and \
-           self.config.COMMAND.lower() in ['main', 'event', 'war_archives']:
-            return 4
         else:
-            return 2
+            return False

@@ -1,5 +1,6 @@
 from module.base.utils import *
 from module.config.config import AzurLaneConfig
+from module.exception import ScriptError
 from module.logger import logger
 from module.map_detection.utils import *
 from module.map_detection.utils_assets import *
@@ -164,7 +165,9 @@ class GridPredictor:
         for name, template in self.template_enemy_genre.items():
             if template is None:
                 logger.warning(f'Enemy detection template not found: {name}')
-                exit(1)
+                logger.warning('Please create it with dev_tools/relative_record.py or dev_tools/relative_crop.py, '
+                               'then place it under ./assets/<server>/template')
+                raise ScriptError(f'Enemy detection template not found: {name}')
 
             short_name = name[6:] if name.startswith('Siren_') else name
             scaling = scaling_dic.get(short_name, 1)

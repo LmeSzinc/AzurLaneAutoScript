@@ -1,13 +1,11 @@
 from module.base.button import ButtonGrid
-from module.base.decorator import Config
+from module.base.timer import Timer
 from module.base.utils import get_color, color_similar
 from module.combat.assets import GET_ITEMS_1
+from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 from module.retire.assets import *
 from module.retire.enhancement import Enhancement
-from module.base.timer import Timer
-
-
 
 CARD_GRIDS = ButtonGrid(
     origin=(93, 76), delta=(164 + 2 / 3, 227), button_shape=(138, 204), grid_shape=(7, 2), name='CARD')
@@ -21,6 +19,8 @@ CARD_RARITY_COLORS = {
     'SSR': (248, 223, 107)
     # Not support marriage cards.
 }
+
+
 class Retirement(Enhancement):
     _unable_to_enhance = False
     _have_keeped_cv = True
@@ -138,14 +138,16 @@ class Retirement(Enhancement):
                 self.device.click(GET_ITEMS_1_RETIREMENT_SAVE)
                 self.interval_reset(SHIP_CONFIRM)
                 continue
-            if self.config.RETIRE_SR or self.config.RETIRE_SSR or self.config.RETIREMENT_METHOD == 'one_click_retire':
+            if self.config.Retirement_OldRetireSR \
+                    or self.config.Retirement_OldRetireSSR \
+                    or self.config.Retirement_RetireMode == 'one_click_retire':
                 if self.handle_popup_confirm('RETIRE_SR_SSR'):
                     continue
                 if (self.config.SERVER == 'en' or self.config.SERVER == 'jp') and \
                         self.appear_then_click(SR_SSR_CONFIRM, offset=self._popup_offset, interval=2):
-                    continue            
+                    continue
 
-            # End
+                    # End
             if executed and self.appear(IN_RETIREMENT_CHECK):
                 # self._handle_retirement_cards_loading()
                 # self.device.screenshot()
@@ -169,18 +171,17 @@ class Retirement(Enhancement):
     @property
     def _retire_rarity(self):
         rarity = set()
-        if self.config.RETIRE_N:
+        if self.config.Retirement_OldRetireN:
             rarity.add('N')
-        if self.config.RETIRE_R:
+        if self.config.Retirement_OldRetireR:
             rarity.add('R')
-        if self.config.RETIRE_SR:
+        if self.config.Retirement_OldRetireSR:
             rarity.add('SR')
-        if self.config.RETIRE_SSR:
+        if self.config.Retirement_OldRetireSSR:
             rarity.add('SSR')
         return rarity
 
-    @Config.when(RETIREMENT_METHOD='one_click_retire')
-    def retire_ships(self, amount=None, rarity=None):
+    def retire_ships_one_click(self, amount=None):
         logger.hr('Retirement')
         logger.info('Using one click retirement.')
         self._retirement_set_common_ship_filter()
@@ -190,7 +191,7 @@ class Retirement(Enhancement):
         total = 0
 
         if self.config.RETIRE_KEEP_COMMON_CV:
-            self._have_keeped_cv= False
+            self._have_keeped_cv = False
 
         while 1:
             self.handle_info_bar()
@@ -216,8 +217,7 @@ class Retirement(Enhancement):
         logger.info(f'Total retired round: {total // 10}')
         return total
 
-    @Config.when(RETIREMENT_METHOD='old_retire')
-    def retire_ships(self, amount=None, rarity=None):
+    def retire_ships_old(self, amount=None, rarity=None):
         """
         Args:
             amount (int): Amount of cards retire. 0 to 2000.
@@ -237,7 +237,7 @@ class Retirement(Enhancement):
         total = 0
 
         if self.config.RETIRE_KEEP_COMMON_CV:
-            self._have_keeped_cv= False
+            self._have_keeped_cv = False
 
         while amount:
             selected = self._retirement_choose(amount=10 if amount > 10 else amount, target_rarity=rarity)
@@ -256,45 +256,58 @@ class Retirement(Enhancement):
         return total
 
     def handle_retirement(self):
-        if not self.config.ENABLE_RETIREMENT:
+        if not self.config.Retirement_Enable:
             return False
         if not self.retirement_appear():
             return False
 
         if self._unable_to_enhance:
-            self.config.RETIREMENT_METHOD = 'one_click_retire'
-            total = self._retire_handler()
-            self.config.RETIREMENT_METHOD = 'enhance'
-            self._unable_to_enhance = False
-            if not total:
-                logger.warning('No ship retired, exit')
-                logger.info('This may happens because wrong options of one click retirement in game')
-                exit(1)
-        elif 'retire' in self.config.RETIREMENT_METHOD or self._unable_to_enhance:
-            total = self._retire_handler()
-            self._unable_to_enhance = False
-            if not total:
-                logger.warning('No ship retired, exit')
-                logger.info('This may happens because some filters are set in dock')
-                exit(1)
-        else:
+            self._retire_handler(mode='one_click_retire')
+        elif self.config.Retirement_RetireMode == 'enhance':
             total = self._enhance_handler()
             if not total:
                 logger.info('No ship to enhance, but dock full, will try retire')
                 self._unable_to_enhance = True
+        else:
+            self._retire_handler()
+            self._unable_to_enhance = False
 
         return True
 
-    def _retire_handler(self):
+    def _retire_handler(self, mode=None):
+        """
+        Args:
+            mode (str): `one_click_retire` or `old_retire`
+
+        Returns:
+            int: Amount of retired ships
+        """
+        if mode is None:
+            mode = self.config.Retirement_RetireMode
         self.ui_click(RETIRE_APPEAR_1, check_button=IN_RETIREMENT_CHECK, skip_first_screenshot=True)
         self.handle_dock_cards_loading()
 
-        total = self.retire_ships()
-        if not total:
-            logger.warning('No ship retired, trying to reset dock filter and disable favourite, then retire again')
-            self.dock_filter_set_faster()
-            self.dock_favourite_set(enable=False)
-            total = self.retire_ships()
+        if mode == 'one_click_retire':
+            total = self.retire_ships_one_click()
+            if not total:
+                logger.warning('No ship retired, trying to reset dock filter and disable favourite, then retire again')
+                self.dock_filter_set_faster()
+                self.dock_favourite_set(enable=False)
+                total = self.retire_ships_one_click()
+            if not total:
+                logger.critical('No ship retired')
+                logger.critical('Please configure your one-click-retire in game, '
+                                'make sure it can select ships to retire')
+                raise RequestHumanTakeover
+        elif mode == 'old_retire':
+            total = self.retire_ships_old()
+            if not total:
+                logger.critical('No ship retired')
+                logger.critical('Please configure your retirement settings in Alas, '
+                                'make sure it can select ships to retire')
+                raise RequestHumanTakeover
+        else:
+            raise ScriptError(f'Unknown retire mode: {self.config.Retirement_RetireMode}')
 
         self._retirement_quit()
         self.config.DOCK_FULL_TRIGGERED = True
@@ -329,34 +342,29 @@ class Retirement(Enhancement):
         Returns:
             Button:
         """
-        if self.config.COMMON_CV_NAME == 'any':
+        if self.config.GemsFarming_CommonCV == 'any':
             for commen_cv_name in ['BOGUE', 'HERMES', 'LANGLEY', 'RANGER']:
                 template = globals()[f'TEMPLATE_{commen_cv_name}']
                 sim, button = template.match_result(self.device.image.resize(size=(1189, 669)))
 
                 if sim > self.config.COMMON_CV_THRESHOLD:
-                    return Button(button=tuple(_*155//144 for _ in button.button), area=button.area, color=button.color, name=f'TEMPLATE_{commen_cv_name}_RETIRE')
+                    return Button(button=tuple(_*155//144 for _ in button.button), area=button.area, color=button.color,
+                                  name=f'TEMPLATE_{commen_cv_name}_RETIRE')
 
-                return None  
+                return None
         else:
-            
-            template = globals()[f'TEMPLATE_{self.config.COMMON_CV_NAME.upper()}']
+
+            template = globals()[f'TEMPLATE_{self.config.GemsFarming_CommonCV.upper()}']
             sim, button = template.match_result(self.device.image.resize(size=(1189, 669)))
 
             if sim > self.config.COMMON_CV_THRESHOLD:
-                return Button(button=tuple(_*155//144 for _ in button.button), area=button.area, color=button.color, name=f'TEMPLATE_{self.config.COMMON_CV_NAME.upper()}_RETIRE')
+                return Button(button=tuple(_*155//144 for _ in button.button), area=button.area, color=button.color,
+                              name=f'TEMPLATE_{self.config.GemsFarming_CommonCV.upper()}_RETIRE')
 
             return None
 
     def keep_one_common_cv(self):
         button = self.retirement_get_common_rarity_cv()
         if button is not None:
-            if self._retire_select_one(button, skip_first_screenshot=False):
-                self._have_keeped_cv= True
-
-            else:
-                logger.warning('No ship retired, exit')
-                logger.info(
-                    'This may happens because some filters are set in dock')
-                exit(1)
-    
+            self._retire_select_one(button, skip_first_screenshot=False)
+            self._have_keeped_cv = True

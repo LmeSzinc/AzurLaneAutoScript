@@ -1,7 +1,5 @@
 import itertools
 
-import numpy as np
-
 from module.base.timer import Timer
 from module.exception import MapWalkError, MapEnemyMoved
 from module.handler.ambush import AmbushHandler
@@ -75,9 +73,9 @@ class Fleet(Camera, AmbushHandler):
         if not self.config.MAP_HAS_FLEET_STEP:
             return 0
         if self.fleet_current_index == 2:
-            return self.config.FLEET_2_STEP
+            return self.config.Fleet_Fleet2Step
         else:
-            return self.config.FLEET_1_STEP
+            return self.config.Fleet_Fleet1Step
 
     def fleet_switch(self):
         self.fleet_switch_click()
@@ -242,7 +240,7 @@ class Fleet(Camera, AmbushHandler):
         result_mystery = ''
         self.movable_before = self.map.select(is_siren=True)
         self.movable_before_normal = self.map.select(is_enemy=True)
-        if self.hp_withdraw_triggered():
+        if self.hp_retreat_triggered():
             self.withdraw()
         is_portal = self.map[location].is_portal
 
@@ -260,7 +258,7 @@ class Fleet(Camera, AmbushHandler):
             arrived = False
             # Wait to confirm fleet arrived. It does't appear immediately if fleet in combat.
             extra = 0
-            if self.config.SUBMARINE_MODE == 'hunt_only':
+            if self.config.Submarine_Mode == 'hunt_only':
                 extra += 4.5
             if self.config.MAP_HAS_LAND_BASED and grid.is_mechanism_trigger:
                 extra += grid.mechanism_wait
@@ -280,7 +278,7 @@ class Fleet(Camera, AmbushHandler):
                     grid = self.view[self.view.center_loca]
 
                 # Combat
-                if self.config.ENABLE_MAP_FLEET_LOCK and not self.is_in_map():
+                if self.config.Campaign_UseFleetLock and not self.is_in_map():
                     if self.handle_retirement():
                         self.map_offensive()
                         walk_timeout.reset()
@@ -328,7 +326,6 @@ class Fleet(Camera, AmbushHandler):
                     continue
 
                 if self.handle_walk_out_of_step():
-                    self.device.send_notification('MapWalkError', 'Walk out of step error, please check GUI.')
                     raise MapWalkError('walk_out_of_step')
 
                 # Arrive

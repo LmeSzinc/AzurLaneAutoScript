@@ -1,0 +1,25 @@
+# Translations web gui
+# This will insert to `config/i18n/{lang}.json`, under key `Gui`
+
+Aside:
+  Install:
+  Develop:
+  Performance:
+  Setting:
+
+Button:
+  ScrollON:
+  ScrollOFF:
+  ClearLog:
+
+Toast:
+  DisableTranslateMode:
+  ConfigSaved:
+  AlasIsRunning:
+
+MenuAlas:
+  Overview:
+  Log:
+
+MenuDevelop:
+  Translate:

@@ -57,7 +57,7 @@ class HpDaemon(ModuleBase):
     def _at_low_hp(self, image):
         self.attacker_hp = self._calculate_hp(image, area=ATTACKER_HP_AREA.area, reverse=True)
         self.defender_hp = self._calculate_hp(image, area=DEFENDER_HP_AREA.area, reverse=False)
-        if 0.01 < self.attacker_hp <= self.config.LOW_HP_THRESHOLD:
+        if 0.01 < self.attacker_hp <= self.config.Exercise_LowHpThreshold:
             if self.low_hp_confirm_timer.reached() and self.low_hp_confirm_timer.current() < 300:
                 self._show_hp(self.low_hp_confirm_timer.current())
                 return True

@@ -5,7 +5,6 @@ from module.base.decorator import Config
 from module.base.utils import *
 from module.exception import CampaignNameError
 from module.logger import logger
-from module.map_detection.utils import Points
 from module.ocr.ocr import Ocr
 from module.template.assets import *
 
@@ -155,7 +154,8 @@ class CampaignOcr(ModuleBase):
         self.stage_entrance = {}
         buttons = self.campaign_extract_name_image(image)
         if len(buttons) == 0:
-            logger.warning('No stage found.')
+            logger.info('No stage found.')
+            raise CampaignNameError
 
         ocr = Ocr(buttons, name='campaign', letter=(255, 255, 255), threshold=128,
                   alphabet='0123456789ABCDEFGHIJKLMNPQRSTUVWXYZ-')

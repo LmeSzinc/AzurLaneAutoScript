@@ -1,10 +1,9 @@
+import re
 import time
-
-from PIL import Image
+from datetime import timedelta
 
 from module.base.button import Button
 from module.base.utils import *
-from module.exception import ScriptError
 from module.logger import logger
 from module.ocr.al_ocr import AlOcr
 
@@ -17,7 +16,8 @@ OCR_MODEL = {
     # Font: Impact, AgencyFB-Regular, MStiffHeiHK-UltraBold
     # Charset: 0123456789ABCDEFGHIJKLMNPQRSTUVWXYZ:/- (Letter 'O' and <space> is not included)
     # _num_classes: 39
-    'azur_lane': AlOcr(model_name='densenet-lite-gru', model_epoch=15, root='./bin/cnocr_models/azur_lane', name='azur_lane'),
+    'azur_lane': AlOcr(model_name='densenet-lite-gru', model_epoch=15, root='./bin/cnocr_models/azur_lane',
+                       name='azur_lane'),
 
     # Folder: ./bin/cnocr_models/cnocr
     # Size: 9.51MB
@@ -100,6 +100,10 @@ class Ocr:
 
 
 class Digit(Ocr):
+    """
+    Do OCR on a digit, such as `45`.
+    Method ocr() returns int, or a list of int.
+    """
     def __init__(self, buttons, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='0123456789',
                  name=None):
         super().__init__(buttons, lang=lang, letter=letter, threshold=threshold, alphabet=alphabet, name=name)
@@ -119,6 +123,7 @@ class DigitCounter(Ocr):
     def ocr(self, image, direct_ocr=False):
         """
         DigitCounter only support doing OCR on one button.
+        Do OCR on a counter, such as `14/15`.
 
         Args:
             image:
@@ -138,3 +143,49 @@ class DigitCounter(Ocr):
         except (IndexError, ValueError):
             logger.warning(f'Unexpected ocr result: {result_list}')
             return 0, 0, 0
+
+
+class Duration(Ocr):
+    def __init__(self, buttons, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='0123456789:',
+                 name=None):
+        super().__init__(buttons, lang=lang, letter=letter, threshold=threshold, alphabet=alphabet, name=name)
+
+    def after_process(self, result):
+        result = super().after_process(result)
+        result = result.replace('D', '0')  # Poor OCR
+        return result
+
+    def ocr(self, image, direct_ocr=False):
+        """
+        Do OCR on a duration, such as `01:30:00`.
+
+        Args:
+            image:
+            direct_ocr:
+
+        Returns:
+            list, datetime.timedelta: timedelta object, or a list of it.
+        """
+        result_list = super().ocr(image, direct_ocr=direct_ocr)
+        if not isinstance(result_list, list):
+            result_list = [result_list]
+        result_list = [self.parse_time(result) for result in result_list]
+        if len(self.buttons) == 1:
+            result_list = result_list[0]
+        return result_list
+
+    def parse_time(self, string):
+        """
+        Args:
+            string (str): `01:30:00`
+
+        Returns:
+            datetime.timedelta:
+        """
+        result = re.search('(\d+):(\d+):(\d+)', string)
+        if result:
+            result = [int(s) for s in result.groups()]
+            return timedelta(hours=result[0], minutes=result[1], seconds=result[2])
+        else:
+            logger.warning(f'Invalid duration: {string}')
+            return timedelta(hours=0, minutes=0, seconds=0)

@@ -1,0 +1,49 @@
+{
+  "Task": {
+    "Alas": [
+      "Alas",
+      "General",
+      "Restart"
+    ],
+    "Farm": [
+      "Main",
+      "Event",
+      "Raid",
+      "C11AffinityFarming",
+      "C72MysteryFarming",
+      "C122MediumLeveling",
+      "C124LargeLeveling",
+      "GemsFarming"
+    ],
+    "Reward": [
+      "Commission",
+      "Tactical",
+      "Research",
+      "Dorm",
+      "Meowfficer",
+      "Guild",
+      "Reward",
+      "Shop",
+      "Shipyard",
+      "Gacha"
+    ],
+    "Daily": [
+      "Daily",
+      "Hard",
+      "Exercise",
+      "Sos",
+      "EventAb",
+      "EventSp",
+      "RaidDaily",
+      "WarArchives"
+    ],
+    "Opsi": [
+      "OpsiGeneral",
+      "OpsiAshAssist",
+      "OpsiExplore",
+      "OpsiDaily",
+      "OpsiObscure",
+      "OpsiMeowfficerFarming"
+    ]
+  }
+}

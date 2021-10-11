@@ -1,0 +1,280 @@
+# --------------------
+# Define non-modifiable values
+# --------------------
+
+# ==================== Alas ====================
+
+Restart:
+  Scheduler:
+    SuccessInterval: 0
+    FailureInterval: 0
+    ServerUpdate: 00:00
+
+# ==================== Farm ====================
+
+Main:
+  Campaign:
+    Event: campaign_main
+Event:
+  Campaign:
+    Mode: normal
+    AmbushEvade: true
+Raid:
+  Campaign:
+    Name: dynamic
+    Mode: normal
+    UseClearMode: true
+    UseFleetLock: true
+    UseAutoSearch: false
+    Use2xBook: false
+    AmbushEvade: true
+  StopCondition:
+    RunCount: 0
+    MapAchievement: non_stop
+    GetNewShip: false
+    ReachLevel120: false
+C11AffinityFarming:
+  Campaign:
+    Name: campaign_1_1_affinity_farming
+    Event: campaign_main
+    Mode: normal
+    UseClearMode: false
+    UseFleetLock: true
+    UseAutoSearch: false
+    Use2xBook: false
+    AmbushEvade: false
+  StopCondition:
+    RunCount: 0
+    MapAchievement: non_stop
+    GetNewShip: false
+    ReachLevel120: false
+  Fleet:
+    FleetOrder: fleet1_all_fleet2_standby
+    AutoSearchFleetOrder: fleet1_all_fleet2_standby
+  Submarine:
+    Fleet: 0
+    Mode: do_not_use
+C72MysteryFarming:
+  Campaign:
+    Name: campaign_7_2_mystery_farming
+    Event: campaign_main
+    Mode: normal
+    UseClearMode: true
+    UseFleetLock: true
+    UseAutoSearch: false
+    Use2xBook: false
+    AmbushEvade: true
+  StopCondition:
+    MapAchievement: non_stop
+    GetNewShip: false
+  Fleet:
+    FleetOrder: fleet1_all_fleet2_standby
+    AutoSearchFleetOrder: fleet1_all_fleet2_standby
+  Submarine:
+    Fleet: 0
+    Mode: do_not_use
+C122MediumLeveling:
+  Campaign:
+    Name: campaign_12_2_leveling
+    Event: campaign_main
+    Mode: normal
+    UseClearMode: true
+    UseFleetLock: true
+    UseAutoSearch: false
+    AmbushEvade: true
+  StopCondition:
+    MapAchievement: non_stop
+  Fleet:
+    FleetOrder: fleet1_all_fleet2_standby
+    AutoSearchFleetOrder: fleet1_all_fleet2_standby
+C124LargeLeveling:
+  Campaign:
+    Name: campaign_12_4_leveling
+    Event: campaign_main
+    Mode: normal
+    UseClearMode: true
+    UseFleetLock: true
+    UseAutoSearch: false
+    AmbushEvade: true
+  StopCondition:
+    MapAchievement: non_stop
+  Fleet:
+    FleetOrder: fleet1_all_fleet2_standby
+    AutoSearchFleetOrder: fleet1_all_fleet2_standby
+GemsFarming:
+  Campaign:
+    Mode: normal
+    Use2xBook: false
+    AmbushEvade: true
+  StopCondition:
+    MapAchievement: non_stop
+    GetNewShip: false
+
+# ==================== Reward ====================
+
+Commission:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+Tactical:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+Research:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+Dorm:
+  Scheduler:
+    SuccessInterval: 278
+    FailureInterval: 278
+    ServerUpdate: 00:00
+Meowfficer:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+Guild:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00, 12:00, 18:00, 21:00
+Reward:
+  Scheduler:
+    SuccessInterval: 60-120
+    FailureInterval: 60-120
+    ServerUpdate: 00:00
+Shop:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00, 12:00, 18:00
+Shipyard:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 04:00
+Gacha:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+
+# ==================== Daily ====================
+
+Daily:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+Hard:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+Exercise:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00, 12:00, 18:00
+Sos:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+  Campaign:
+    Name: dynamic
+    Event: campaign_main
+    Mode: normal
+    UseClearMode: true
+    UseFleetLock: true
+    UseAutoSearch: false
+    Use2xBook: false
+    AmbushEvade: true
+  StopCondition:
+    MapAchievement: non_stop
+    GetNewShip: false
+  Fleet:
+    AutoSearchFleetOrder: fleet1_all_fleet2_standby
+EventAb:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+  Campaign:
+    Name: dynamic
+    Mode: normal
+    AmbushEvade: true
+  StopCondition:
+    RunCount: 0
+    MapAchievement: non_stop
+    GetNewShip: false
+    ReachLevel120: false
+EventSp:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+  Campaign:
+    Name: sp
+    Mode: normal
+    AmbushEvade: true
+  StopCondition:
+    RunCount: 0
+    MapAchievement: non_stop
+    GetNewShip: false
+    ReachLevel120: false
+RaidDaily:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+  Campaign:
+    Name: dynamic
+    Mode: normal
+    UseClearMode: true
+    UseFleetLock: true
+    UseAutoSearch: false
+    Use2xBook: false
+    AmbushEvade: true
+  StopCondition:
+    RunCount: 0
+    MapAchievement: non_stop
+    GetNewShip: false
+    ReachLevel120: false
+WarArchives:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+
+# ==================== Opsi ====================
+
+OpsiAshAssist:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+OpsiExplore:
+  Scheduler:
+    SuccessInterval: 0
+    FailureInterval: 0
+    ServerUpdate: 00:00
+OpsiDaily:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+OpsiObscure:
+  Scheduler:
+    SuccessInterval: 60
+    FailureInterval: 60
+    ServerUpdate: 00:00
+OpsiMeowfficerFarming:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00

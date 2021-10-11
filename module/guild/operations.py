@@ -4,16 +4,10 @@ from module.base.utils import *
 from module.guild.assets import *
 from module.guild.base import GuildBase
 from module.logger import logger
-from module.map_detection.utils import Points
 from module.ocr.ocr import DigitCounter
 from module.template.assets import TEMPLATE_OPERATIONS_RED_DOT
 
 GUILD_OPERATIONS_PROGRESS = DigitCounter(OCR_GUILD_OPERATIONS_PROGRESS, letter=(255, 247, 247), threshold=64)
-
-RECORD_OPTION_DISPATCH = ('RewardRecord', 'operations_dispatch')
-RECORD_SINCE_DISPATCH = (6, 12, 18, 21,)
-RECORD_OPTION_BOSS = ('RewardRecord', 'operations_boss')
-RECORD_SINCE_BOSS = (0,)
 
 
 class GuildOperations(GuildBase):
@@ -36,7 +30,7 @@ class GuildOperations(GuildBase):
                     self.device.click(GUILD_OPERATIONS_CLICK_SAFE_AREA)
                 else:
                     current, remain, total = GUILD_OPERATIONS_PROGRESS.ocr(self.device.image)
-                    threshold = total * self.config.GUILD_OPERATIONS_JOIN_THRESHOLD
+                    threshold = total * self.config.GuildOperation_JoinThreshold
                     if current <= threshold:
                         logger.info('Joining Operation, current progress less than '
                                     f'threshold ({threshold:.2f})')
@@ -141,11 +135,9 @@ class GuildOperations(GuildBase):
             if len(entrance_1):
                 return True
 
-            backup = self.config.cover(DEVICE_CONTROL_METHOD='minitouch')
             p1, p2 = random_rectangle_vector(
                 (-600, 0), box=detection_area, random_range=(-50, -50, 50, 50), padding=20)
             self.device.drag(p1, p2, segments=2, shake=(0, 25), point_random=(0, 0, 0, 0), shake_random=(0, -5, 0, 5))
-            backup.recover()
             self.device.sleep(0.3)
 
         logger.warning('Failed to find active operation dispatch')
@@ -397,7 +389,7 @@ class GuildOperations(GuildBase):
                     return False
                 continue
 
-            if self.config.ENABLE_GUILD_OPERATIONS_BOSS_RECOMMEND:
+            if self.config.GuildOperation_BossFleetRecommend:
                 if self.info_bar_count() and self.appear_then_click(GUILD_DISPATCH_RECOMMEND_2, interval=3):
                     continue
 
@@ -428,9 +420,7 @@ class GuildOperations(GuildBase):
 
         if not self._guild_operations_boss_preparation(az):
             return False
-        backup = self.config.cover(SUBMARINE=1, SUBMARINE_MODE='every_combat')
-        az.combat_execute(auto='combat_auto')
-        backup.recover()
+        az.combat_execute(auto='combat_auto', submarine='every_combat')
         az.combat_status(expected_end='in_ui')
         logger.info('Guild Raid Boss has been repelled')
         return True
@@ -448,31 +438,28 @@ class GuildOperations(GuildBase):
         return appear
 
     def guild_operations(self):
-        if not self.guild_side_navbar_ensure(bottom=1):
-            logger.info('Operations sidebar not ensured, try again on next reward loop')
-            return None
+        self.guild_side_navbar_ensure(bottom=1)
         self._guild_operations_ensure()
         # Determine the mode of operations, currently 3 are available
         operations_mode = self._guild_operation_get_mode()
-        if operations_mode is None:
-            return
 
         # Execute actions based on the detected mode
         if operations_mode == 0:
-            return
+            result = True
         elif operations_mode == 1:
             self._guild_operations_dispatch()
-            self.config.record_save(option=RECORD_OPTION_DISPATCH)
+            result = True
+        elif operations_mode == 2:
+            if self._guild_operations_boss_available():
+                if self.config.GuildOperation_AttackBoss:
+                    result = self._guild_operations_boss_combat()
+                else:
+                    logger.info('Auto-battle disabled, play manually to complete this Guild Task')
+                    result = True
+            else:
+                result = True
         else:
-            # Limit check for Guild Raid Boss to once a day
-            if not self.config.record_executed_since(option=RECORD_OPTION_BOSS, since=RECORD_SINCE_BOSS):
-                skip_record = False
-                if self._guild_operations_boss_available():
-                    if self.config.ENABLE_GUILD_OPERATIONS_BOSS_AUTO:
-                        if not self._guild_operations_boss_combat():
-                            skip_record = True
-                    else:
-                        logger.info('Auto-battle disabled, play manually to complete this Guild Task')
+            result = False
 
-                if not skip_record:
-                    self.config.record_save(option=RECORD_OPTION_BOSS)
+        logger.info(f'Guild operation run success: {result}')
+        return result

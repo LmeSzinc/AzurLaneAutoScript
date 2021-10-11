@@ -1,5 +1,8 @@
+import re
+
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property, Config
+from module.base.filter import Filter
 from module.base.timer import Timer
 from module.base.utils import *
 from module.combat.assets import GET_ITEMS_1
@@ -10,34 +13,11 @@ from module.logger import logger
 from module.ocr.ocr import Digit
 from module.statistics.item import ItemGrid
 
-RECORD_OPTION_LOGISTICS = ('RewardRecord', 'logistics')
-RECORD_SINCE_LOGISTICS = (0,)
-
 EXCHANGE_GRIDS = ButtonGrid(
     origin=(470, 470), delta=(198.5, 0), button_shape=(83, 83), grid_shape=(3, 1), name='EXCHANGE_GRIDS')
 EXCHANGE_BUTTONS = ButtonGrid(
     origin=(440, 609), delta=(198.5, 0), button_shape=(144, 31), grid_shape=(3, 1), name='EXCHANGE_BUTTONS')
-
-DEFAULT_ITEM_PRIORITY = [
-    't1',
-    't2',
-    't3',
-    'oxycola',
-    'coolant',
-    'coins',
-    'oil',
-    'merit'
-]
-
-DEFAULT_PLATE_PRIORITY = [
-    'torpedo',
-    'antiair',
-    'plane',
-    'gun',
-    'general'
-]
-
-GRADES = [s for s in DEFAULT_ITEM_PRIORITY if len(s) == 2]
+EXCHANGE_FILTER = Filter(regex=re.compile('^(.*?)$'), attr=('name',))
 
 
 class ExchangeLimitOcr(Digit):
@@ -340,6 +320,7 @@ class GuildLogistics(GuildBase):
                     # To fix this, you have to enter guild logistics once, then restart.
                     # If exchange for 5 times, this bug is considered to be triggered.
                     logger.warning('Triggered guild logistics refresh bug')
+                    logger.warning('This is a bug in Azur Lane, Alas will close game and wait 600 seconds')
                     raise LogisticsRefreshBugHandler('Triggered guild logistics refresh bug')
 
             else:
@@ -347,179 +328,37 @@ class GuildLogistics(GuildBase):
 
         logger.info(f'supply_checked: {supply_checked}, mission_checked: {mission_checked}, '
                     f'exchange_checked: {exchange_checked}, mission_finished: {self._guild_logistics_mission_finished}')
-        return all([supply_checked, mission_checked, exchange_checked, self._guild_logistics_mission_finished])
-
-    @staticmethod
-    def _guild_exchange_priorities_helper(title, string_priority, default_priority):
-        """
-        Helper for _guild_exchange_priorities for repeated usage
-
-        Use defaults if configurations are found
-        invalid in any manner
-
-        Pages:
-            in: GUILD_LOGISTICS
-            out: GUILD_LOGISTICS
-        """
-        # Parse the string to a list, perform any special processing when applicable
-        priority_parsed = [s.strip().lower() for s in string_priority.split('>')]
-        priority_parsed = list(filter(''.__ne__, priority_parsed))
-        priority = priority_parsed.copy()
-        [priority.remove(s) for s in priority_parsed if s not in default_priority]
-
-        # If after all that processing, result is empty list, then use default
-        if len(priority) == 0:
-            priority = default_priority
-
-        # logger.info(f'{title:10}: {priority}')
-        return priority
-
-    def _guild_exchange_priorities(self):
-        """
-        Set up priorities lists and dictionaries
-        based on configurations
-
-        Pages:
-            in: GUILD_LOGISTICS
-            out: GUILD_LOGISTICS
-        """
-        # Items
-        item_priority = self._guild_exchange_priorities_helper(
-            'Item', self.config.GUILD_LOGISTICS_ITEM_ORDER_STRING, DEFAULT_ITEM_PRIORITY)
-
-        # T1 Grade Plates
-        t1_priority = self._guild_exchange_priorities_helper(
-            'T1 Plate', self.config.GUILD_LOGISTICS_PLATE_T1_ORDER_STRING, DEFAULT_PLATE_PRIORITY)
-
-        # T2 Grade Plates
-        t2_priority = self._guild_exchange_priorities_helper(
-            'T2 Plate', self.config.GUILD_LOGISTICS_PLATE_T2_ORDER_STRING, DEFAULT_PLATE_PRIORITY)
-
-        # T3 Grade Plates
-        t3_priority = self._guild_exchange_priorities_helper(
-            'T3 Plate', self.config.GUILD_LOGISTICS_PLATE_T3_ORDER_STRING, DEFAULT_PLATE_PRIORITY)
-
-        # Build dictionary
-        grade_to_plate_priorities = dict()
-        grade_to_plate_priorities['t1'] = t1_priority
-        grade_to_plate_priorities['t2'] = t2_priority
-        grade_to_plate_priorities['t3'] = t3_priority
-
-        return item_priority, grade_to_plate_priorities
+        # Azur Lane receives new guild missions now
+        # No longer consider `self._guild_logistics_mission_finished` as a check
+        return all([supply_checked, mission_checked, exchange_checked])
 
     def _guild_exchange_scan(self):
         """
-        Image scan of available options
-        to be exchanged. Summarizes matching
-        templates and whether red text present
-        in a list of tuples
+        Image scan of available options.
+        Not exchangeable items are tagged enough=False.
+
+        Returns:
+            list[Item]:
 
         Pages:
             in: GUILD_LOGISTICS
             out: GUILD_LOGISTICS
         """
-
         # Scan the available exchange items that are selectable
-        self.exchange_items._load_image(self.device.image)
-        name = [self.exchange_items.match_template(item.image) for item in self.exchange_items.items]
-        name = [str(item).lower() for item in name]
+        items = self.exchange_items.predict(self.device.image, name=True, amount=False)
 
         # Loop EXCHANGE_GRIDS to detect for red text in bottom right area
         # indicating player lacks inventory for that item
-        in_red_list = []
-        for button in EXCHANGE_GRIDS.buttons:
+        for item, button in zip(items, EXCHANGE_GRIDS.buttons):
             area = area_offset((35, 64, 83, 83), button.area[0:2])
             if self.image_color_count(area, color=(255, 93, 90), threshold=221, count=20):
-                in_red_list.append(True)
+                item.enough = False
             else:
-                in_red_list.append(False)
+                item.enough = True
 
-        # Zip contents of both lists into tuples
-        return zip(name, in_red_list)
-
-    @staticmethod
-    def _guild_exchange_check(options, item_priority, grade_to_plate_priorities):
-        """
-        Sift through all exchangeable options
-        Record details on each to determine
-        selection order
-
-        Pages:
-            in: GUILD_LOGISTICS
-            out: GUILD_LOGISTICS
-        """
-        # Contains the details of all options
-        choices = dict()
-
-        for i, (option, in_red) in enumerate(options):
-            # Options already sorted sequentially
-            # Button indexes are in sync
-            btn = EXCHANGE_BUTTONS[i, 0]
-
-            # Defaults set absurd values, which tells ALAS to skip option
-            item_weight = len(DEFAULT_ITEM_PRIORITY)
-            plate_weight = len(DEFAULT_PLATE_PRIORITY)
-            can_exchange = False
-
-            # Player lacks inventory of this item
-            # so leave this choice under all defaults
-            # to skip
-            if not in_red:
-                # Plate perhaps, extract last
-                # 2 characters to ensure
-                grade = option[-2:]
-                if grade in GRADES:
-                    item_weight = item_priority.index(grade)
-                    can_exchange = True
-
-                    plate_priority = grade_to_plate_priorities.get(grade)
-                    plate_name = option[5:-2]
-                    if plate_name in plate_priority:
-                        plate_weight = plate_priority.index(plate_name)
-
-                    # Did weight update?
-                    # If not, then this choice given less priority
-                    # also set to absurd cost to avoid using
-                    if plate_weight == len(DEFAULT_PLATE_PRIORITY):
-                        item_weight = len(DEFAULT_ITEM_PRIORITY)
-                        can_exchange = False
-
-                # Else normal item, check normally
-                # Plates are skipped since only grade in priority
-                if option in item_priority:
-                    item_weight = item_priority.index(option)
-                    can_exchange = True
-
-            choices[f'{i + 1}'] = [item_weight, plate_weight, i + 1, can_exchange, btn]
-            logger.info(f'Choice #{i + 1} - Name: {option:15}, Weight: {item_weight:3}, Exchangeable: {can_exchange}')
-
-        return choices
-
-    def _guild_exchange_select(self, choices):
-        """
-        Execute exchange action on choices
-        The order of selection based on item weight
-        If none are applicable, return False
-
-        Pages:
-            in: GUILD_LOGISTICS
-            out: GUILD_LOGISTICS
-        """
-        while len(choices):
-            # Select minimum by order of details
-            # First, item_weight then plate_weight then button_index
-            key = min(choices, key=choices.get)
-            details = choices.get(key)
-
-            # Item is exchangeable and exchange was a success
-            if details[3]:
-                self.device.click(details[4])
-                return True
-            else:
-                # Remove this choice since inapplicable, then choose again
-                choices.pop(key)
-        logger.warning('Failed to exchange with any of the 3 available options')
-        return False
+        text = [str(item.name) if item.enough else str(item.name) + ' (not enough)' for item in items]
+        logger.info(f'Exchange items: {", ".join(text)}')
+        return items
 
     def _guild_exchange(self):
         """
@@ -528,19 +367,28 @@ class GuildLogistics(GuildBase):
         If unable to exchange at all, loop terminates
         prematurely
 
+        Returns:
+            bool: If clicked.
+
         Pages:
             in: GUILD_LOGISTICS
             out: GUILD_LOGISTICS
         """
-        item_priority, grade_to_plate_priorities = self._guild_exchange_priorities()
         if not GUILD_EXCHANGE_LIMIT.ocr(self.device.image) > 0:
             return False
 
-        options = self._guild_exchange_scan()
-        choices = self._guild_exchange_check(options, item_priority, grade_to_plate_priorities)
-        if self._guild_exchange_select(choices):
+        items = self._guild_exchange_scan()
+        EXCHANGE_FILTER.load(self.config.GuildLogistics_ExchangeFilter)
+        selected = EXCHANGE_FILTER.apply(items, func=lambda item: item.enough)
+        logger.attr('Exchange_sort', ' > '.join([str(item.name) for item in selected]))
+
+        if len(selected):
+            button = EXCHANGE_BUTTONS.buttons[items.index(selected[0])]
+            # Just bored click, will retry in self._guild_logistics_collect
+            self.device.click(button)
             return True
         else:
+            logger.warning('No guild exchange items satisfy current filter, or not having enough resources')
             return False
 
     def guild_logistics(self):
@@ -554,15 +402,9 @@ class GuildLogistics(GuildBase):
             in: page_guild
             out: page_guild, GUILD_LOGISTICS
         """
-        # Transition to Logistics
-        if not self.guild_side_navbar_ensure(bottom=3):
-            logger.info('Logistics sidebar not ensured, try again on next reward loop')
-            return False
+        self.guild_side_navbar_ensure(bottom=3)
         self._guild_logistics_ensure()
 
-        # Run
-        checked = self._guild_logistics_collect()
-        if checked:
-            logger.info('All guild logistics finished today, skip checking them today')
-
-        return checked
+        result = self._guild_logistics_collect()
+        logger.info(f'Guild logistics run success: {result}')
+        return result

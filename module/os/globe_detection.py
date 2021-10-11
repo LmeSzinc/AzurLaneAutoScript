@@ -58,7 +58,7 @@ class GlobeDetection:
         self.globe = image
 
         # Load homography
-        backup = self.config.cover(
+        backup = self.config.temporary(
             HOMO_STORAGE=self.config.OS_GLOBE_HOMO_STORAGE, DETECTING_AREA=self.config.OS_GLOBE_DETECTING_AREA)
         self.homography.find_homography(*self.config.HOMO_STORAGE, overflow=False)
         self.homo_center = self.screen2globe([self.config.SCREEN_CENTER])[0].astype(int)

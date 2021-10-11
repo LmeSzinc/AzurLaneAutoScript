@@ -5,12 +5,11 @@ import time
 import cv2
 import numpy as np
 import requests
+from requests.adapters import HTTPAdapter
 
 from module.config.config import AzurLaneConfig
 from module.logger import logger
 from module.statistics.utils import *
-from requests.adapters import HTTPAdapter
-
 
 
 def pack(img_list):
@@ -29,6 +28,56 @@ def pack(img_list):
     return image
 
 
+class DropImage:
+    def __init__(self, stat, genre, save, upload):
+        """
+        Args:
+            stat (AzurStats):
+            genre:
+            save:
+            upload:
+        """
+        self.stat = stat
+        self.genre = str(genre)
+        self.save = bool(save)
+        self.upload = bool(upload)
+        self.images = []
+
+    def add(self, image):
+        """
+        Args:
+            image: Pillow image.
+        """
+        if self:
+            self.images.append(image)
+
+    def handle_add(self, main, before=None):
+        """
+        Handle wait before and after adding screenshot.
+
+        Args:
+            main (ModuleBase):
+            before (int, float, tuple): Sleep before adding.
+        """
+        if before is None:
+            before = main.config.WAIT_BEFORE_SAVING_SCREEN_SHOT
+
+        if self:
+            main.device.sleep(before)
+            main.device.screenshot()
+            self.add(main.device.image)
+
+    def __bool__(self):
+        return self.save or self.upload
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if self:
+            self.stat.commit(images=self.images, genre=self.genre, save=self.save, upload=self.upload)
+
+
 class AzurStats:
     API = 'https://azurstats.lyoko.io/api/upload/'
     TIMEOUT = 20
@@ -39,49 +88,25 @@ class AzurStats:
             config (AzurLaneConfig):
         """
         self.config = config
-        self.images = []
-
-    def add(self, image):
-        """
-        Args:
-            image: Pillow image.
-
-        Returns:
-            bool: If added.
-        """
-        if self.config.ENABLE_AZURSTAT:
-            self.images.append(image)
-            return True
-        else:
-            return False
-
-    def clear(self):
-        self.images = []
-
-    @property
-    def count(self):
-        return len(self.images)
 
     def _user_agent(self):
-        return f'Alas ({self.config.AZURSTAT_ID})'
+        return f'Alas ({str(self.config.DropRecord_AzurStatsID)})'
 
-    def _upload(self):
+    def _upload(self, image, genre, timestamp):
         """
+        Args:
+            image: Image to upload.
+            genre (str):
+            timestamp (int): Millisecond timestamp.
+
         Returns:
             bool: If success
         """
-        amount = len(self.images)
-        logger.info(f'Uploading screenshots to AzurStat, amount: {amount}')
-        if amount == 0:
-            # logger.warning(f'Image upload failed, no images to upload')
-            return False
-        image = pack(self.images)
         output = io.BytesIO()
         image.save(output, format='png')
         output.seek(0)
 
-        now = int(time.time() * 1000)
-        data = {'file': (f'{now}.png', output, 'image/png')}
+        data = {'file': (f'{timestamp}.png', output, 'image/png')}
         headers = {'user-agent': self._user_agent()}
         session = requests.Session()
         session.mount('http://', HTTPAdapter(max_retries=5))
@@ -107,14 +132,62 @@ class AzurStats:
                        f'status_code: {resp.status_code}, returns: {resp.text}')
         return False
 
-    def upload(self):
+    def _save(self, image, genre, timestamp):
         """
+        Args:
+            image: Image to save.
+            genre (str): Name of sub folder.
+            timestamp (int): Millisecond timestamp.
+
         Returns:
             bool: If success
         """
-        if not self.config.ENABLE_AZURSTAT:
+        try:
+            folder = os.path.join(str(self.config.DropRecord_SaveFolder), genre)
+            os.makedirs(folder, exist_ok=True)
+            file = os.path.join(folder, f'{timestamp}.png')
+            image.save(file)
+            logger.info(f'Image save success, file: {file}')
+            return True
+        except Exception as e:
+            logger.exception(e)
+
+        return False
+
+    def commit(self, images, genre, save=False, upload=False):
+        """
+        Args:
+            images (list): List of pillow images
+            genre (str):
+            save (bool): If save image to local file system.
+            upload (bool): If upload image to Azur Stats.
+
+        Returns:
+            bool: If commit.
+        """
+        if len(images) == 0:
             return False
 
-        self._upload()
-        self.clear()
+        save, upload = bool(save), bool(upload)
+        logger.info(f'Drop record commit, genre={genre}, amount={len(images)}, save={save}, upload={upload}')
+        image = pack(images)
+        now = int(time.time() * 1000)
+
+        if save:
+            self._save(image, genre=genre, timestamp=now)
+        if upload:
+            self._upload(image, genre=genre, timestamp=now)
+
         return True
+
+    def new(self, genre, save=False, upload=False):
+        """
+        Args:
+            genre (str):
+            save (bool): If save image to local file system.
+            upload (bool): If upload image to Azur Stats.
+
+        Returns:
+            DropImage:
+        """
+        return DropImage(stat=self, genre=genre, save=save, upload=upload)

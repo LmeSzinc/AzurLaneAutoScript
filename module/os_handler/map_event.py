@@ -103,7 +103,7 @@ class MapEventHandler(EnemySearchingHandler):
             return True
         if self.handle_ash_popup():
             return True
-        if self.handle_urgent_commission(save_get_items=False):
+        if self.handle_urgent_commission():
             return True
         if self.handle_story_skip():
             return True
@@ -166,8 +166,10 @@ class MapEventHandler(EnemySearchingHandler):
         if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 50)) \
                 and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image) \
                 and self.info_bar_count() >= 2:
+            self.device.screenshot_interval_set(0.1)
             raise CampaignEnd
         if self.appear(AUTO_SEARCH_REWARD, offset=(20, 50)):
+            self.device.screenshot_interval_set(0.1)
             self.os_auto_search_quit()
             raise CampaignEnd
         if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 50), interval=3) \

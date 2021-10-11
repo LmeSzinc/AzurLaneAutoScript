@@ -8,6 +8,7 @@ from cnocr.cn_ocr import data_dir, read_charset, check_model_name, load_module, 
 from cnocr.fit.ctc_metrics import CtcMetrics
 from cnocr.hyperparams.cn_hyperparams import CnHyperparams as Hyperparams
 
+from module.exception import RequestHumanTakeover
 from module.logger import logger
 
 
@@ -115,7 +116,9 @@ class AlOcr(CnOcr):
         # Disable auto downloading cnocr models when model not found.
         # get_model_file(model_dir)
         logger.warning(f'Ocr model not prepared: {model_dir}')
-        exit(1)
+        logger.warning(f'Required files: {model_files}')
+        logger.critical('Please check if required files of pre-trained OCR model exist')
+        raise RequestHumanTakeover
 
     def _get_module(self, context):
         network, self._hp = gen_network(self._model_name, self._hp, self._net_prefix)

@@ -1,7 +1,6 @@
 import os
 import subprocess
 
-import requests
 import uiautomator2 as u2
 
 from module.config.config import AzurLaneConfig
@@ -24,9 +23,10 @@ class Connection:
         """
         logger.hr('Device')
         self.config = config
-        self.serial = str(self.config.SERIAL)
+        self.serial = str(self.config.Emulator_Serial)
         self.device = self.connect(self.serial)
-        self.disable_uiautomator2_auto_quit()
+        # Set from 3min to 7days
+        self.device.set_new_command_timeout(604800)
         # if self.config.DEVICE_SCREENSHOT_METHOD == 'aScreenCap':
         #     self._ascreencap_init()
 
@@ -108,7 +108,3 @@ class Connection:
         except AssertionError:
             logger.warning('AssertionError when connecting emulator with uiautomator2.')
             logger.warning('If you are using BlueStacks, you need to enable ADB in the settings of your emulator.')
-
-    def disable_uiautomator2_auto_quit(self, port=7912, expire=3000000):
-        self.adb_forward(['tcp:%s' % port, 'tcp:%s' % port])
-        requests.post('http://127.0.0.1:%s/newCommandTimeout' % port, data=str(expire))

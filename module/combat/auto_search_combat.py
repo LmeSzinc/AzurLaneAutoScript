@@ -4,10 +4,10 @@ from module.combat.combat import Combat
 from module.exception import CampaignEnd
 from module.logger import logger
 from module.map.assets import *
+from module.map.map_operation import MapOperation
 
 
-class AutoSearchCombat(Combat):
-    fleets_reversed: bool  # Define in MapOperation
+class AutoSearchCombat(MapOperation, Combat):
     _auto_search_in_stage_timer = Timer(3, count=6)
     _auto_search_confirm_low_emotion = False
 
@@ -77,6 +77,8 @@ class AutoSearchCombat(Combat):
             if self.handle_combat_low_emotion():
                 self._auto_search_confirm_low_emotion = True
                 continue
+            if self.handle_map_cat_attack():
+                continue
 
             # End
             if self.is_combat_loading():
@@ -95,7 +97,7 @@ class AutoSearchCombat(Combat):
             out: combat status
         """
         logger.info('Auto search combat loading')
-        self.device.screenshot_interval_set(self.config.COMBAT_SCREENSHOT_INTERVAL)
+        self.device.screenshot_interval_set(self.config.Optimization_CombatScreenshotInterval)
         while 1:
             self.device.screenshot()
 
@@ -110,14 +112,24 @@ class AutoSearchCombat(Combat):
 
         logger.info('Auto Search combat execute')
         self.submarine_call_reset()
+        self.combat_auto_reset()
+        self.combat_manual_reset()
         if emotion_reduce:
             self.emotion.reduce(fleet_index)
+        auto = self.config.Fleet_Fleet1Mode if fleet_index == 1 else self.config.Fleet_Fleet2Mode
 
         while 1:
             self.device.screenshot()
 
             if self.handle_submarine_call():
                 continue
+            if self.handle_combat_auto(auto):
+                continue
+            if self.handle_combat_manual(auto):
+                continue
+            if auto != 'combat_auto' and self.auto_mode_checked and self.is_combat_executing():
+                if self.handle_combat_weapon_release():
+                    continue
             if self.handle_popup_confirm('AUTO_SEARCH_COMBAT_EXECUTE'):
                 continue
 
@@ -140,7 +152,7 @@ class AutoSearchCombat(Combat):
             out: is_auto_search_running()
         """
         logger.info('Auto Search combat status')
-        exp_info = False # This is for the white screen bug in game
+        exp_info = False  # This is for the white screen bug in game
 
         while 1:
             if skip_first_screenshot:
@@ -159,18 +171,18 @@ class AutoSearchCombat(Combat):
             # Handle low emotion combat
             # Combat status
             if self._auto_search_confirm_low_emotion:
-                if not exp_info and self.handle_get_ship(save_get_items=False):
+                if not exp_info and self.handle_get_ship():
                     continue
-                if self.handle_get_items(save_get_items=False):
+                if self.handle_get_items():
                     continue
-                if self.handle_battle_status(save_get_items=False):
+                if self.handle_battle_status():
                     continue
                 if self.handle_popup_confirm('combat_status'):
                     continue
                 if self.handle_exp_info():
                     exp_info = True
                     continue
-                if self.handle_urgent_commission(save_get_items=False):
+                if self.handle_urgent_commission():
                     continue
                 if self.handle_story_skip():
                     continue
@@ -191,7 +203,7 @@ class AutoSearchCombat(Combat):
         Note that fleet index == 1 is mob fleet, 2 is boss fleet.
         It's not the fleet index in fleet preparation or auto search setting.
         """
-        emotion_reduce = emotion_reduce if emotion_reduce is not None else self.config.ENABLE_EMOTION_REDUCE
+        emotion_reduce = emotion_reduce if emotion_reduce is not None else self.config.Emotion_CalculateEmotion
 
         self.device.stuck_record_clear()
         self.auto_search_combat_execute(emotion_reduce=emotion_reduce, fleet_index=fleet_index)

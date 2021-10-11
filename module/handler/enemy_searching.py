@@ -14,7 +14,7 @@ class EnemySearchingHandler(InfoHandler):
     in_stage_timer = Timer(0.5, count=2)
     stage_entrance = None
 
-    map_is_clear = False  # Will be override in fast_forward.py
+    map_is_100_percent_clear = False  # Will be override in fast_forward.py
 
     def enemy_searching_color_initial(self):
         MAP_ENEMY_SEARCHING.load_color(self.device.image)
@@ -31,7 +31,6 @@ class EnemySearchingHandler(InfoHandler):
         if self.is_in_stage():
             if self.in_stage_timer.reached():
                 logger.info('In stage.')
-                self.device.send_notification('Sortie finished', 'Map cleared')
                 self.ensure_no_info_bar(timeout=1.2)
                 raise CampaignEnd('In stage.')
             else:

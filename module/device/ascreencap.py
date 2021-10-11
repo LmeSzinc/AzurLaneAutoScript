@@ -6,6 +6,7 @@ import numpy as np
 from PIL import Image
 
 from module.device.connection import Connection
+from module.exception import RequestHumanTakeover
 from module.logger import logger
 
 
@@ -25,9 +26,9 @@ class AScreenCap(Connection):
 
         filepath = os.path.join(self.config.ASCREENCAP_FILEPATH_LOCAL, arc, 'ascreencap')
         if int(sdk) not in range(21, 26) or not os.path.exists(filepath):
-            logger.warning('No suitable version of aScreenCap lib is available')
-            logger.info('Please use ADB or uiautomator2 screenshot instead')
-            exit(1)
+            logger.critical('No suitable version of aScreenCap lib available for this device')
+            logger.critical('Please use ADB or uiautomator2 for screenshots instead')
+            raise RequestHumanTakeover
 
         logger.info(f'pushing {filepath}')
         self.adb_push([filepath, self.config.ASCREENCAP_FILEPATH_REMOTE])

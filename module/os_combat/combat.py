@@ -138,7 +138,7 @@ class Combat(Combat_, MapEventHandler):
             out: combat status
         """
         logger.info('Auto search combat loading')
-        self.device.screenshot_interval_set(self.config.COMBAT_SCREENSHOT_INTERVAL)
+        self.device.screenshot_interval_set(self.config.Optimization_CombatScreenshotInterval)
         while 1:
             self.device.screenshot()
 

@@ -193,11 +193,11 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             return True
         elif self.zone_has_switch():
             self.ui_click(ZONE_SWITCH, appear_button=self.is_zone_pinned, check_button=self.is_in_zone_select,
-                                skip_first_screenshot=True)
+                          skip_first_screenshot=True)
             flag = SELECT_SAFE in self.get_zone_select()
             button = SELECT_SAFE if flag else SELECT_DANGEROUS
             self.ui_click(button, check_button=self.is_zone_pinned, offset=self._zone_select_offset,
-                            skip_first_screenshot=True)
+                          skip_first_screenshot=True)
             return flag
         else:
             # No zone_switch, already on DANGEROUS
@@ -218,6 +218,7 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             in: is_in_map
             out: is_in_globe
         """
+
         def additional():
             # Popup: Leaving current zone will terminate meowfficer searching.
             # Searching reward will be shown after entering another zone.

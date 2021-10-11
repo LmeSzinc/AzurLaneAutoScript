@@ -8,9 +8,9 @@ from module.template.assets import TEMPLATE_FORMATION_1, TEMPLATE_FORMATION_2, T
 from module.ui.switch import Switch
 
 formation = Switch('Formation', offset=120)
-formation.add_status('1', check_button=FORMATION_1)
-formation.add_status('2', check_button=FORMATION_2)
-formation.add_status('3', check_button=FORMATION_3)
+formation.add_status('line_ahead', check_button=FORMATION_1)
+formation.add_status('double_line', check_button=FORMATION_2)
+formation.add_status('diamond', check_button=FORMATION_3)
 
 submarine_hunt = Switch('Submarine_hunt', offset=120)
 submarine_hunt.add_status('on', check_button=SUBMARINE_HUNT_ON)
@@ -88,6 +88,7 @@ class StrategyHandler(InfoHandler):
         return False
 
     def strategy_open(self):
+        logger.info('Strategy open')
         while 1:
             if self.appear(IN_MAP, interval=5) and not self.appear(STRATEGY_OPENED, offset=120):
                 self.device.click(STRATEGY_OPEN)
@@ -99,6 +100,7 @@ class StrategyHandler(InfoHandler):
             self.device.screenshot()
 
     def strategy_close(self):
+        logger.info('Strategy close')
         while 1:
             if self.appear_then_click(STRATEGY_OPENED, offset=120, interval=5):
                 self.device.sleep(0.5)
@@ -139,12 +141,10 @@ class StrategyHandler(InfoHandler):
         Returns:
             bool: If changed.
         """
-        if not self.config.ENABLE_FLEET_CONTROL:
-            return False
         if self.__getattribute__(f'fleet_{index}_formation_fixed'):
             return False
-        expected_formation = self.config.__getattribute__(f'FLEET_{index}_FORMATION')
-        if self._strategy_get_from_map_buff() == expected_formation and not self.config.SUBMARINE:
+        expected_formation = self.config.__getattribute__(f'Fleet_Fleet{index}Formation')
+        if self._strategy_get_from_map_buff() == expected_formation and not self.config.Submarine_Fleet:
             logger.info('Skip strategy bar check.')
             self.__setattr__(f'fleet_{index}_formation_fixed', True)
             return False
@@ -152,7 +152,7 @@ class StrategyHandler(InfoHandler):
         self.strategy_set_execute(
             formation_index=expected_formation,
             sub_view=False,
-            sub_hunt=bool(self.config.SUBMARINE) and self.config.SUBMARINE_MODE == 'hunt_only'
+            sub_hunt=bool(self.config.Submarine_Fleet) and self.config.Submarine_Mode == 'hunt_only'
         )
         self.__setattr__(f'fleet_{index}_formation_fixed', True)
         return True
@@ -162,15 +162,15 @@ class StrategyHandler(InfoHandler):
         Returns:
             int: Formation index.
         """
-        image = np.array(self.device.image.crop(MAP_BUFF.area))
+        image = np.array(self.image_area(MAP_BUFF))
         if TEMPLATE_FORMATION_2.match(image):
-            buff = 2
+            buff = 'double_line'
         elif TEMPLATE_FORMATION_1.match(image):
-            buff = 1
+            buff = 'line_ahead'
         elif TEMPLATE_FORMATION_3.match(image):
-            buff = 3
+            buff = 'diamond'
         else:
-            buff = 0
+            buff = 'unknown'
 
         logger.attr('Map_buff', buff)
         return buff

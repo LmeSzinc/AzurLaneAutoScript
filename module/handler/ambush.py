@@ -56,7 +56,7 @@ class AmbushHandler(Combat):
         self.wait_until_appear_then_click(MAP_AMBUSH_EVADE)
 
         self.wait_until_appear(INFO_BAR_1)
-        image = info_letter_preprocess(np.array(self.device.image.crop(INFO_BAR_DETECT.area)))
+        image = info_letter_preprocess(np.array(self.image_area(INFO_BAR_DETECT)))
 
         if TEMPLATE_AMBUSH_EVADE_SUCCESS.match(image):
             logger.attr('Ambush_evade', 'success')
@@ -91,7 +91,7 @@ class AmbushHandler(Combat):
         self.combat(expected_end='no_searching')
 
     def _handle_ambush(self):
-        if self.config.AMBUSH_EVADE:
+        if self.config.Campaign_AmbushEvade:
             return self._handle_ambush_evade()
         else:
             return self._handle_ambush_attack()
@@ -120,7 +120,7 @@ class AmbushHandler(Combat):
             return False
 
         _ = self._load_walk_template
-        image = info_letter_preprocess(np.array(self.device.image.crop(INFO_BAR_DETECT.area)))
+        image = info_letter_preprocess(np.array(self.image_area(INFO_BAR_DETECT)))
         if TEMPLATE_MAP_WALK_OUT_OF_STEP.match(image):
             logger.warning('Map walk out of step.')
             self.handle_info_bar()

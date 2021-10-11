@@ -127,7 +127,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
         return hp_grid
 
-    def hp_withdraw_triggered(self):
+    def hp_retreat_triggered(self):
         return False
 
     def lv_get(self, after_battle=False):
@@ -217,7 +217,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             # Wait until arrived
             prev = (0, 0)
             confirm_timer = Timer(1, count=2).start()
-            backup = self.config.cover(MAP_HAS_FLEET_STEP=True)
+            backup = self.config.temporary(MAP_HAS_FLEET_STEP=True)
             while 1:
                 self.device.screenshot()
 

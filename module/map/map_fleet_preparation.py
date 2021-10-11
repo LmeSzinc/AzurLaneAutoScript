@@ -161,7 +161,7 @@ class FleetPreparation(ModuleBase):
         Returns:
             bool: True if changed.
         """
-        logger.info(f'Using fleet: {[self.config.FLEET_1, self.config.FLEET_2, self.config.SUBMARINE]}')
+        logger.info(f'Using fleet: {[self.config.Fleet_Fleet1, self.config.Fleet_Fleet2, self.config.Submarine_Fleet]}')
         if self.map_fleet_checked:
             return False
 
@@ -179,8 +179,8 @@ class FleetPreparation(ModuleBase):
 
         # Submarine.
         if submarine.allow():
-            if self.config.SUBMARINE:
-                submarine.ensure_to_be(self.config.SUBMARINE)
+            if self.config.Submarine_Fleet:
+                submarine.ensure_to_be(self.config.Submarine_Fleet)
             else:
                 submarine.clear()
 
@@ -189,10 +189,10 @@ class FleetPreparation(ModuleBase):
         #     self.config.FLEET_2 = 0
 
         # Not using fleet 2.
-        if not self.config.FLEET_2:
+        if not self.config.Fleet_Fleet2:
             if fleet_2.allow():
                 fleet_2.clear()
-            fleet_1.ensure_to_be(self.config.FLEET_1)
+            fleet_1.ensure_to_be(self.config.Fleet_Fleet1)
             self.map_fleet_checked = True
             return True
 
@@ -200,7 +200,7 @@ class FleetPreparation(ModuleBase):
         # Force to set it again.
         # Fleets may reversed, because AL no longer treat the fleet with smaller index as first fleet
         fleet_2.clear()
-        fleet_1.ensure_to_be(self.config.FLEET_1)
-        fleet_2.ensure_to_be(self.config.FLEET_2)
+        fleet_1.ensure_to_be(self.config.Fleet_Fleet1)
+        fleet_2.ensure_to_be(self.config.Fleet_Fleet2)
         self.map_fleet_checked = True
         return True

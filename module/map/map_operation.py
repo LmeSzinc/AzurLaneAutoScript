@@ -50,81 +50,81 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         checked_in_map = False
         self.stage_entrance = button
 
-        while 1:
-            self.device.screenshot()
+        with self.stat.new(
+                genre=self.config.campaign_name, save=self.config.DropRecord_SaveCombat, upload=False
+        ) as drop:
+            while 1:
+                self.device.screenshot()
 
-            if not checked_in_map and self.is_in_map():
-                logger.info('Already in map, skip enter_map.')
-                return False
-            else:
-                checked_in_map = True
+                if not checked_in_map and self.is_in_map():
+                    logger.info('Already in map, skip enter_map.')
+                    return False
+                else:
+                    checked_in_map = True
 
-            # Map preparation
-            if map_timer.reached() and self.handle_map_preparation():
-                self.map_get_info()
-                self.handle_fast_forward()
-                self.handle_auto_search()
-                if self.triggered_map_stop():
-                    self.enter_map_cancel()
-                    self.device.send_notification('Reach condition:', self.config.STOP_IF_MAP_REACH)
-                    raise ScriptEnd(f'Reach condition: {self.config.STOP_IF_MAP_REACH}')
-                self.device.click(MAP_PREPARATION)
-                map_timer.reset()
-                campaign_timer.reset()
-                continue
+                # Map preparation
+                if map_timer.reached() and self.handle_map_preparation():
+                    self.map_get_info()
+                    self.handle_fast_forward()
+                    self.handle_auto_search()
+                    if self.triggered_map_stop():
+                        self.enter_map_cancel()
+                        raise ScriptEnd(f'Reach condition: {self.config.StopCondition_MapAchievement}')
+                    self.device.click(MAP_PREPARATION)
+                    map_timer.reset()
+                    campaign_timer.reset()
+                    continue
 
-            # Fleet preparation
-            if fleet_timer.reached() and self.appear(FLEET_PREPARATION, offset=(20, 20)):
-                if self.config.ENABLE_FLEET_CONTROL:
+                # Fleet preparation
+                if fleet_timer.reached() and self.appear(FLEET_PREPARATION, offset=(20, 20)):
                     if mode == 'normal' or mode == 'hard':
                         self.handle_2x_book_setting(mode='prep')
                         self.fleet_preparation()
                         self.handle_auto_search_setting()
-                        self.handle_auto_search_emotion_wait()
-                self.device.click(FLEET_PREPARATION)
-                fleet_timer.reset()
-                campaign_timer.reset()
-                continue
+                    self.device.click(FLEET_PREPARATION)
+                    fleet_timer.reset()
+                    campaign_timer.reset()
+                    continue
 
-            # Auto search continue
-            if self.handle_auto_search_continue():
-                campaign_timer.reset()
-                continue
+                # Auto search continue
+                if self.handle_auto_search_continue():
+                    campaign_timer.reset()
+                    continue
 
-            # Retire
-            if self.handle_retirement():
-                continue
+                # Retire
+                if self.handle_retirement():
+                    continue
 
-            # Use Data Key
-            if self.handle_use_data_key():
-                continue
+                # Use Data Key
+                if self.handle_use_data_key():
+                    continue
 
-            # Emotion
-            if self.handle_combat_low_emotion():
-                continue
+                # Emotion
+                if self.handle_combat_low_emotion():
+                    continue
 
-            # Urgent commission
-            if self.handle_urgent_commission():
-                continue
+                # Urgent commission
+                if self.handle_urgent_commission(drop=drop):
+                    continue
 
-            # Story skip
-            if self.handle_story_skip():
-                campaign_timer.reset()
-                continue
+                # Story skip
+                if self.handle_story_skip():
+                    campaign_timer.reset()
+                    continue
 
-            # Enter campaign
-            if campaign_timer.reached() and self.appear_then_click(button):
-                campaign_timer.reset()
-                continue
+                # Enter campaign
+                if campaign_timer.reached() and self.appear_then_click(button):
+                    campaign_timer.reset()
+                    continue
 
-            # End
-            if self.map_is_auto_search:
-                if self.is_auto_search_running():
-                    break
-            else:
-                if self.handle_in_map_with_enemy_searching():
-                    self.handle_map_after_combat_story()
-                    break
+                # End
+                if self.map_is_auto_search:
+                    if self.is_auto_search_running():
+                        break
+                else:
+                    if self.handle_in_map_with_enemy_searching():
+                        self.handle_map_after_combat_story()
+                        break
 
         return True
 
@@ -202,10 +202,11 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
     @property
     def fleets_reversed(self):
         if self.map_is_auto_search:
-            return self.config.AUTO_SEARCH_SETTING in ['fleet1_boss_fleet2_mob', 'fleet1_standby_fleet2_all']
+            return self.config.Fleet_AutoSearchFleetOrder in ['fleet1_boss_fleet2_mob', 'fleet1_standby_fleet2_all']
         else:
             # return (self.config.FLEET_2 != 0) and (self.config.FLEET_2 < self.config.FLEET_1)
-            return self.map_is_hard_mode and self.config.ENABLE_FLEET_REVERSE_IN_HARD
+            return self.map_is_hard_mode \
+                   and self.config.Fleet_FleetOrder in ['fleet1_boss_fleet2_mob', 'fleet1_standby_fleet2_all']
 
     def handle_fleet_reverse(self):
         """
@@ -223,42 +224,3 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         self.fleet_switch_click()
         self.ensure_no_info_bar()  # The info_bar which shows "Changed to fleet 2", will block the ammo icon
         return True
-
-    @cached_property
-    def _emotion_expected_reduce(self):
-        """
-        Returns:
-            tuple(int): Mob fleet emotion reduce, BOSS fleet emotion reduce
-        """
-        default = (self.emotion.get_expected_reduce, self.emotion.get_expected_reduce)
-        if hasattr(self, 'map'):
-            for data in self.map.spawn_data:
-                if 'boss' in data:
-                    battle = data.get('battle')
-                    reduce = (battle * default[0], default[1])
-                    if self.config.AUTO_SEARCH_SETTING in ['fleet1_all_fleet2_standby', 'fleet1_standby_fleet2_all']:
-                        reduce = (reduce[0] + reduce[1], 0)
-                    return reduce
-
-            logger.warning('No boss data found in spawn_data')
-            return default
-        else:
-            logger.info('Unable to get _emotion_expected_reduce, because map is not loaded. Return default value.')
-            return default
-
-    def handle_auto_search_emotion_wait(self):
-        """
-        If enable auto search, wait emotion before entering.
-        In first run, wait before clicking FLEET_PREPARATION.
-        In second and subsequent run, wait before clicking AUTO_SEARCH_MENU_CONTINUE.
-        """
-        if not self.config.ENABLE_EMOTION_REDUCE:
-            return False
-        if not self.config.ENABLE_AUTO_SEARCH:
-            return False
-
-        if hasattr(self, 'emotion'):
-            logger.info(f'Expected emotion reduce: {self._emotion_expected_reduce}')
-            self.emotion.wait(expected_reduce=self._emotion_expected_reduce)
-        else:
-            logger.info('Emotion instance not loaded, skip emotion wait')

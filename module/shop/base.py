@@ -2,10 +2,10 @@ from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.combat.assets import GET_ITEMS_1, GET_SHIP
 from module.logger import logger
-from module.reward.tactical_class import Book
 from module.shop.assets import *
 from module.shop.base_globals import *
 from module.statistics.item import ItemGrid
+from module.tactical.tactical_class import Book
 from module.ui.assets import BACK_ARROW
 from module.ui.ui import UI
 
@@ -144,7 +144,7 @@ class ShopBase(UI):
         items = self.shop_get_items(key=shop_type)
 
         try:
-            selection = selection.replace(' ', '').split('>')
+            selection = selection.replace(' ', '').replace('\n', '').split('>')
             selection = list(filter(''.__ne__, selection))
         except AttributeError:
             logger.warning('shop_get_item_to_buy --> Invalid filter string '
@@ -218,6 +218,7 @@ class ShopBase(UI):
         Returns:
             int:
         """
+        logger.hr(f'{shop_type} shop buy', level=2)
         count = 0
         for _ in range(12):
             item = self.shop_get_item_to_buy(shop_type, selection)

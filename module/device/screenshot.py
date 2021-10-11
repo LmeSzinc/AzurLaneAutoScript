@@ -1,12 +1,14 @@
 import os
 import time
+from collections import deque
 from datetime import datetime
 from io import BytesIO
 
 from PIL import Image
+from cached_property import cached_property
 from retrying import retry
 
-from module.base.timer import Timer
+from module.base.timer import Timer, timer
 from module.device.ascreencap import AScreenCap
 from module.logger import logger
 
@@ -49,8 +51,8 @@ class Screenshot(AScreenCap):
         screenshot = self.adb_shell(['screencap', '-p'])
         return self._process_screenshot(screenshot)
 
-    @retry(wait_fixed=5000, stop_max_attempt_number=10)
-    # @timer
+    # @retry(wait_fixed=5000, stop_max_attempt_number=10)
+    @timer
     def screenshot(self):
         """
         Returns:
@@ -58,7 +60,7 @@ class Screenshot(AScreenCap):
         """
         self._screenshot_interval_timer.wait()
         self._screenshot_interval_timer.reset()
-        method = self.config.DEVICE_SCREENSHOT_METHOD
+        method = self.config.Emulator_ControlMethod
 
         if method == 'aScreenCap':
             self.image = self._screenshot_ascreencap()
@@ -68,10 +70,14 @@ class Screenshot(AScreenCap):
             self.image = self._screenshot_adb()
 
         self.image.load()
-        if self.config.ENABLE_ERROR_LOG_AND_SCREENSHOT_SAVE:
-            logger.screenshot_deque.append({'time': datetime.now(), 'image': self.image})
+        if self.config.Error_SaveError:
+            self.screenshot_deque.append({'time': datetime.now(), 'image': self.image})
 
         return self.image
+
+    @cached_property
+    def screenshot_deque(self):
+        return deque(maxlen=int(self.config.Error_ScreenshotLength))
 
     def save_screenshot(self, genre='items', interval=None, to_base_folder=False):
         """Save a screenshot. Use millisecond timestamp as file name.
@@ -111,9 +117,9 @@ class Screenshot(AScreenCap):
     def screenshot_interval_set(self, interval):
         interval = max(interval, 0.1)
         if interval != self._screenshot_interval_timer.limit:
-            if self.config.ENABLE_AUTO_SEARCH:
+            if self.config.Campaign_UseAutoSearch:
                 interval = min(interval, 1.0)
-                logger.info(f'Screenshot interval set to {interval}s, limited to 1.0s if enable auto search')
+                logger.info(f'Screenshot interval set to {interval}s, limited to 1.0s in auto search')
             else:
                 logger.info(f'Screenshot interval set to {interval}s')
             self._screenshot_interval_timer.limit = interval
