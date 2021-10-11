@@ -58,11 +58,11 @@ class CampaignBase(CampaignBase_):
             if entrance is not None:
                 return entrance
 
-            backup = self.config.cover(DEVICE_CONTROL_METHOD='minitouch')
+            # backup = self.config.cover(DEVICE_CONTROL_METHOD='minitouch')
             p1, p2 = random_rectangle_vector(
                 (0, -275), box=detection_area, random_range=(-50, -50, 50, 50), padding=20)
             self.device.drag(p1, p2, segments=2, shake=(0, 25), point_random=(0, 0, 0, 0), shake_random=(0, -5, 0, 5))
-            backup.recover()
+            # backup.recover()
             self.device.sleep(0.3)
 
         logger.warning('Failed to find archives entrance')
@@ -82,13 +82,11 @@ class CampaignBase(CampaignBase_):
             result = self.ui_ensure(destination=page_archives)
 
             WAR_ARCHIVES_SWITCH.set(mode, main=self)
-            self.handle_stage_icon_spawn()
 
-            entrance = self._search_archives_entrance(self.config.WAR_ARCHIVES_NAME)
+            entrance = self._search_archives_entrance(self.config.Campaign_Event)
             if entrance is not None:
                 self.ui_click(entrance, appear_button=WAR_ARCHIVES_CHECK, check_button=WAR_ARCHIVES_CAMPAIGN_CHECK,
                               skip_first_screenshot=True)
-                self.handle_stage_icon_spawn()
             else:
                 logger.critical('Respective server may not yet support the chosen War Archives campaign, '
                                 'check back in the next app update')

@@ -211,6 +211,12 @@ class UI(InfoHandler):
     def ui_goto_main(self):
         return self.ui_ensure(destination=page_main)
 
+    def ui_goto_event(self):
+        return self.ui_ensure(destination=page_event)
+
+    def ui_goto_sp(self):
+        return self.ui_ensure(destination=page_sp)
+
     def ui_ensure_index(self, index, letter, next_button, prev_button, skip_first_screenshot=False, fast=True,
                         interval=(0.2, 0.3), step_sleep=(0.2, 0.3), finish_sleep=(0.5, 0.8)):
         """
