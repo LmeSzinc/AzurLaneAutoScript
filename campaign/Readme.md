@@ -68,3 +68,4 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20210826   | event 20210722 cn        | Azur Anthem                    | -                      | -                                | -                                    | 響徹碧海的偶像歌   |
 | 20210916   | event 20210916 cn        | Upon the Shimmering Blue       | 碧海光粼               | Upon the Shimmering Blue         | 駆けよ 碧海の吹き風                  | -                  |
 | 20210923   | event 20200917 cn        | Dreamwaker's Butterfly         | -                      | -                                | -                                    | 蝶海夢花           |
+| 20211008   | event 20201012 cn        | Sundered Blue                  | -                      | -                                | -                                    | 劃破海空之翼       |

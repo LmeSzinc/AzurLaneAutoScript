@@ -95,8 +95,10 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
                 continue
 
             # End
-            if end and self._in_exercise() or self.appear(BATTLE_PREPARATION):
+            if self._in_exercise() or self.appear(BATTLE_PREPARATION, offset=(20, 20)):
                 logger.hr('Combat end')
+                if not end:
+                    logger.warning('Combat ended without end conditions detected')
                 break
 
         return success
