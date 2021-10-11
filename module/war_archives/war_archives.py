@@ -25,3 +25,6 @@ class CampaignWarArchives(CampaignRun, CampaignBase):
         super().run(name, folder, mode, total)
         backup.recover()
         self.ui_goto_main()  # Go to main, as remaining in page can throw off Event task
+
+        # Scheduler
+        self.config.task_delay(server_update=True)
