@@ -171,7 +171,7 @@ textarea {
     overflow-y: auto;
 }
 
-*[style*="container-contents"] {
+*[style*="container-content"] {
     background-color: whitesmoke;
     margin: 0px .5rem; overflow-y: auto;
     overflow-x: auto;

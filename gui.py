@@ -117,10 +117,40 @@ class AlasGUI:
         self.alive = True
         self.aside = output().style("container-aside")
         self.menu = output().style("container-menu")
-        self.contents = output().style("container-contents")
+        self.content = output().style("container-content")
         self.title = output().style("title-text-title")
+        self.header = put_row([
+            put_html(Icon.ALAS).style("title-icon-alas"),
+            put_text("Alas").style("title-text-alas"),
+            self.title,
+        ], size="5.6rem 11.75rem minmax(8rem, 65rem)").style("container-title")
+
+        self.asides = put_column([
+            self.aside,
+            None,
+            put_icon_buttons(
+                Icon.SETTING,
+                buttons=[
+                    {"label": t("Gui.Aside.Setting"),
+                    "value": "setting", "color": "aside"}],
+                onclick=[self.ui_setting],
+            ).style("aside-icon-setting"),
+        ], size="auto 1fr auto").style("container-aside")
+
+        self.contents = put_row([
+            self.asides,
+            self.menu,
+            self.content,
+        ], size="auto 12rem 1fr").style("container-main")
+
+        self.main_area = output(
+            put_column([
+                self.header,
+                self.contents,
+            ], size="auto 1fr").style("container-all")
+        ).style("container-gui")
+        
         self.logs = ScrollableCode()
-        self.main_area = output()
 
     def set_aside(self):
         self.aside.reset()
@@ -158,7 +188,7 @@ class AlasGUI:
         Set menu for alas
         """
         self.menu.reset()
-        self.contents.reset()
+        self.content.reset()
         self.kill_thread()
 
         self.menu.append(
@@ -170,7 +200,7 @@ class AlasGUI:
             #     {"label": t("Gui.MenuAlas.Log"), "value": "Log", "color": "menu"}
             # ], onclick=[self.alas_log]),
         )
-        for key, l in deep_iter(ALAS_MENU, depth=2):
+        for key, tasks in deep_iter(ALAS_MENU, depth=2):
             # path = '.'.join(key)
             menu = key[1]
             self.menu.append(
@@ -178,7 +208,7 @@ class AlasGUI:
                              [put_buttons([
                                  {"label": t(f'Task.{task}.name'),
                                   "value": task, "color": "menu"}
-                             ], onclick=self.alas_set_group) for task in l]
+                             ], onclick=self.alas_set_group) for task in tasks]
                              )
             )
 
@@ -187,7 +217,7 @@ class AlasGUI:
         Set arg groups from dict
         """
         self.title.reset(f"{self.alas_name} - {t(f'Task.{task}.name')}")
-        self.contents.reset()
+        self.content.reset()
         self.kill_thread()
 
         group_area = output()
@@ -198,7 +228,7 @@ class AlasGUI:
             navigator,
         ], size=".5fr minmax(25rem, 5fr) 2fr")
 
-        self.contents.append(content_alas)
+        self.content.append(content_alas)
 
         config = config_updater.update_config(self.alas_name)
 
@@ -243,10 +273,10 @@ class AlasGUI:
 
     def alas_overview(self):
         self.title.reset(f"{self.alas_name} - {t(f'Gui.MenuAlas.Overview')}")
-        self.contents.reset()
+        self.content.reset()
         self.kill_thread()
 
-        self.contents.append(
+        self.content.append(
             put_column([
                 self.logs.output,
                 put_buttons(
@@ -326,7 +356,7 @@ class AlasGUI:
 
     def dev_set_menu(self):
         self.menu.reset()
-        self.contents.reset()
+        self.content.reset()
         self.title.reset(f"{t('Gui.Aside.Develop')}")
         self.kill_thread()
 
@@ -375,32 +405,7 @@ class AlasGUI:
         set_env(title="Alas", output_animation=False)
         add_css(filepath_css('alas'))
         defer_call(self.stop)
-
-        self.main_area = output(
-            put_column([
-                put_row([
-                    put_html(Icon.ALAS).style("title-icon-alas"),
-                    put_text("Alas").style("title-text-alas"),
-                    self.title,
-                ], size="5.6rem 11.75rem minmax(8rem, 65rem)").style("container-title"),
-                put_row([
-                    put_column([
-                        self.aside,
-                        None,
-                        put_icon_buttons(
-                            Icon.SETTING,
-                            buttons=[
-                                {"label": t("Gui.Aside.Setting"),
-                                 "value": "setting", "color": "aside"}],
-                            onclick=[self.ui_setting],
-                        ).style("aside-icon-setting"),
-                    ], size="auto 1fr auto").style("container-aside"),
-                    self.menu,
-                    self.contents,
-                ], size="auto 12rem 1fr").style("container-main"),
-            ], size="auto 1fr").style("container-all")
-        ).style("container-gui")
-        put_row(self.main_area)  # output an OutputHandler()
+        self.main_area.show()
         self.set_aside()
 
         if lang.TRANSLATE_MODE:
@@ -411,7 +416,7 @@ class AlasGUI:
             toast(_t("Gui.Toast.DisableTranslateMode"), duration=0, position='right', onclick=_disable)
 
         # show something
-        self.contents.append(output(output(
+        self.content.append(output(output(
             put_markdown("""
             ## AzurLaneAutoScript
             This new UI is still under development.
@@ -425,7 +430,7 @@ class AlasGUI:
             """, strip_indent=12)).style('welcome')))
 
         # temporary buttons, there is no setting page now :(
-        self.contents.append(
+        self.content.append(
             put_text("Select your language").style("text-align: center"),
             put_buttons(
                 ["zh-CN", "zh-TW", "en-US", "ja-JP"],
