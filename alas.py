@@ -75,6 +75,8 @@ class AzurLaneAutoScript:
         """
         from module.handler.sensitive_info import handle_sensitive_image, handle_sensitive_logs
         if self.config.Error_SaveError:
+            if not os.path.exists('./log/error'):
+                os.mkdir('./log/error')
             folder = f'./log/error/{int(time.time() * 1000)}'
             logger.warning(f'Saving error: {folder}')
             os.mkdir(folder)
