@@ -238,7 +238,7 @@ class AlasGUI:
             if group_help == "" or not group_help:
                 group_help = None
             arg_group = put_group(t(f"{group}._info.name"), group_help)
-            group_area.append(output(arg_group))
+            group_area.append(arg_group)
             for arg, d in deep_iter(arg_dict, depth=1):
                 arg = arg[0]
                 arg_type = d['type']
@@ -262,14 +262,14 @@ class AlasGUI:
                 if arg_help == "" or not arg_help:
                     arg_help = None
 
-                arg_group.append(output(get_output(
+                arg_group.append(get_output(
                     arg_type=arg_type,
                     name=path_to_idx[f"{task}.{group}.{arg}"],
                     title=t(f"{group}.{arg}.name"),
                     arg_help=arg_help,
                     value=value,
                     options=option,
-                )))
+                ))
 
     def alas_overview(self):
         self.title.reset(f"{self.alas_name} - {t(f'Gui.MenuAlas.Overview')}")
