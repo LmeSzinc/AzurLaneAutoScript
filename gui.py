@@ -329,9 +329,11 @@ class AlasGUI:
                     config = read_file(filepath_config(self.alas_name))
                     for k in modified.keys():
                         deep_set(config, k, modified[k])
+                    logger.info(f'Save config {filepath_config(self.alas_name)}, {dict_to_kv(modified)}')
                     write_file(filepath_config(self.alas_name), config)
                     toast(t("Gui.Toast.ConfigSaved"),
                           duration=1, position='right', color='success')
+                    modified = {}
                     break
 
     def _alas_thread_put_log(self):
