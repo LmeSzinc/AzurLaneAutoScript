@@ -114,3 +114,9 @@ def login(password):
     else:
         toast('Wrong password!', color='error')
         return False
+
+def active_button(position, value):
+    run_js(f"""
+    $("button.btn-{position}").removeClass("btn-{position}-active");
+    $("div[style*='--{position}-{value}--']>button").addClass("btn-{position}-active");
+    """)

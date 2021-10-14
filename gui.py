@@ -5,7 +5,7 @@ import time
 from multiprocessing import Manager, Process
 
 from pywebio.exceptions import *
-from pywebio.session import defer_call, go_app, register_thread, set_env, info
+from pywebio.session import defer_call, go_app, info, register_thread, set_env
 
 import module.webui.lang as lang
 from module.config.config_updater import ConfigUpdater
@@ -15,8 +15,8 @@ from module.webui.lang import _t, t
 from module.webui.translate import translate
 from module.webui.utils import Icon, QueueHandler
 from module.webui.utils import ThreadWithException as Thread
-from module.webui.utils import (add_css, filepath_css, get_output,
-                                parse_pin_value, login)
+from module.webui.utils import (active_button, add_css, filepath_css,
+                                get_output, login, parse_pin_value)
 from module.webui.widgets import *
 
 all_alas = {}
@@ -73,7 +73,7 @@ class Alas:
     def stop(self):
         if self.process.is_alive():
             self.process.terminate()
-            self.log.append("Scheduler stopped.")
+            self.log.append("Scheduler stopped.\n")
         if self.thd_log_queue_handler.is_alive():
             self.thd_log_queue_handler.stop()
 
@@ -111,7 +111,6 @@ class AlasGUI:
     alas: Alas
 
     def __init__(self):
-        lang.reload()
         self.modified_config_queue = queue.Queue()
         self._thread_kill_after_leave = []
         self.alas_name = 'alas'
@@ -196,6 +195,7 @@ class AlasGUI:
         """
         if self._status == status:
             return
+        self._status = status
         
         if status == 1:
             s = put_row([
@@ -235,10 +235,10 @@ class AlasGUI:
             put_buttons([
                 {"label": t("Gui.MenuAlas.Overview"),
                  "value": "Overview", "color": "menu"}
-            ], onclick=[self.alas_overview]),
+            ], onclick=[self.alas_overview]).style(f'--menu-Overview--'),
             # put_buttons([
             #     {"label": t("Gui.MenuAlas.Log"), "value": "Log", "color": "menu"}
-            # ], onclick=[self.alas_log]),
+            # ], onclick=[self.alas_log]).style(f'--menu-Log--'),
         )
         for key, tasks in deep_iter(ALAS_MENU, depth=2):
             # path = '.'.join(key)
@@ -248,9 +248,11 @@ class AlasGUI:
                              [put_buttons([
                                  {"label": t(f'Task.{task}.name'),
                                   "value": task, "color": "menu"}
-                             ], onclick=self.alas_set_group) for task in tasks]
+                             ], onclick=self.alas_set_group).style(f'--menu-{task}--') for task in tasks]
                              )
             )
+        
+        self.alas_overview()
 
     def alas_set_group(self, task):
         """
@@ -259,6 +261,7 @@ class AlasGUI:
         self.title.reset(f"{self.alas_name} - {t(f'Task.{task}.name')}")
         self.content.reset()
         self.kill_thread()
+        active_button('menu', task)
 
         group_area = output()
         navigator = output()
@@ -315,6 +318,7 @@ class AlasGUI:
         self.title.reset(f"{self.alas_name} - {t(f'Gui.MenuAlas.Overview')}")
         self.content.reset()
         self.kill_thread()
+        active_button('menu', 'Overview')
 
         self.content.append(
             put_column([
@@ -337,6 +341,8 @@ class AlasGUI:
 
     def alas_log(self):
         toast('Not implemented', position='right', color='error')
+        return
+        active_button('menu', 'Log')
 
     def _alas_thread_wait_config_change(self):
         paths = []
@@ -356,6 +362,7 @@ class AlasGUI:
         while self.alive:
             try:
                 d = self.modified_config_queue.get(timeout=10)
+                config_name = self.alas_name
             except queue.Empty:
                 continue
             modified[idx_to_path[d['name']]] = parse_pin_value(d['value'])
@@ -364,11 +371,11 @@ class AlasGUI:
                     d = self.modified_config_queue.get(timeout=1)
                     modified[idx_to_path[d['name']]] = parse_pin_value(d['value'])
                 except queue.Empty:
-                    config = read_file(filepath_config(self.alas_name))
+                    config = read_file(filepath_config())
                     for k in modified.keys():
                         deep_set(config, k, modified[k])
-                    logger.info(f'Save config {filepath_config(self.alas_name)}, {dict_to_kv(modified)}')
-                    write_file(filepath_config(self.alas_name), config)
+                    logger.info(f'Save config {filepath_config(config_name)}, {dict_to_kv(modified)}')
+                    write_file(filepath_config(config_name), config)
                     toast(t("Gui.Toast.ConfigSaved"),
                           duration=1, position='right', color='success')
                     modified = {}
@@ -396,7 +403,7 @@ class AlasGUI:
         if hasattr(self, 'alas'):
             if self.alas.process.is_alive():
                 self.set_status(1)
-            elif len(self.alas.log) == 0 or self.alas.log[-1] == "Scheduler stopped.":
+            elif len(self.alas.log) == 0 or self.alas.log[-1] == "Scheduler stopped.\n":
                 self.set_status(2)
             else:
                 self.set_status(-1)
@@ -420,12 +427,12 @@ class AlasGUI:
             put_buttons([
                 {"label": t("Gui.MenuDevelop.Translate"),
                  "value": "Translate", "color": "menu"}
-            ], onclick=[self.dev_translate]),
+            ], onclick=[self.dev_translate]).style(f'--menu-Translate--'),
 
             # put_buttons([
             #     {"label": t("Gui.MenuDevelop.Something"),
             #      "value": "Something", "color": "menu"}
-            # ], onclick=[self.dev_something]),
+            # ], onclick=[self.dev_something]).style(f'--menu-Something--'),
         )
 
     def dev_translate(self):
@@ -435,11 +442,9 @@ class AlasGUI:
 
     # Aside UI route
 
-    def ui_install(self):
-        toast('Not implemented', position='right', color='error')
-
     def ui_develop(self):
         self.dev_set_menu()
+        active_button('aside', 'develop')
 
     def ui_performance(self):
         toast('Not implemented', position='right', color='error')
@@ -449,10 +454,13 @@ class AlasGUI:
         self.alas = get_alas(config_name)
         self.title.reset(f"{self.alas_name}")
         self.alas_update_status()
+        active_button('aside', config_name)
         self.alas_set_menu()
 
     def ui_setting(self):
         toast('Not implemented', position='right', color='error')
+        return
+        active_button('aside', 'setting')
 
     def stop(self):
         self.alive = False
@@ -466,6 +474,7 @@ class AlasGUI:
         self.set_aside()
 
         if lang.TRANSLATE_MODE:
+            lang.reload()
             def _disable():
                 lang.TRANSLATE_MODE = False
                 run_js("location.reload();")

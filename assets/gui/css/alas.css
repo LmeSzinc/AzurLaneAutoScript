@@ -40,7 +40,7 @@ footer {
     text-align: left;
 }
 
-.btn-menu:hover {
+.btn-menu:hover, .btn-menu-active {
     font-weight: bold;
     border-left: .125rem solid;
     padding-right: .625rem;
@@ -61,7 +61,7 @@ footer {
     transition: border .1s ease-in-out, padding .1s ease-in-out
 }
 
-.btn-aside:hover {
+.btn-aside:hover, .btn-aside-active {
     border-left: 4px solid;
     padding-left: 3px;
     border-color: #4E4C97;

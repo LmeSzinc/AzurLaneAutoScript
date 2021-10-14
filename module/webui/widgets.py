@@ -39,11 +39,12 @@ class ScrollableCode:
 
 
 # aside buttons
-def put_icon_buttons(icon_html, *args, **kwargs):
+def put_icon_buttons(icon_html, buttons, onclick):
+    value = buttons[0]['value']
     return put_column([
         output(put_html(icon_html)).style(
             "z-index: 1; margin-left: 8px;text-align: center"),
-        put_buttons(*args, **kwargs).style("z-index: 2;")
+        put_buttons(buttons, onclick).style(f"z-index: 2; --aside-{value}--;")
     ], size="0")
 
 
