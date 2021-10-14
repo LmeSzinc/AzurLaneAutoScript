@@ -77,6 +77,10 @@ class AutoSearchCombat(Combat):
             if self.handle_combat_low_emotion():
                 self._auto_search_confirm_low_emotion = True
                 continue
+            if self.handle_map_cat_attack():
+                continue
+            if self.handle_vote_popup():
+                continue
 
             # End
             if self.is_combat_loading():
@@ -101,6 +105,8 @@ class AutoSearchCombat(Combat):
 
             if self.handle_combat_automation_confirm():
                 continue
+            if self.handle_vote_popup():
+                continue
 
             # End
             if self.is_in_auto_search_menu() or self._handle_auto_search_menu_missing():
@@ -119,6 +125,8 @@ class AutoSearchCombat(Combat):
             if self.handle_submarine_call():
                 continue
             if self.handle_popup_confirm('AUTO_SEARCH_COMBAT_EXECUTE'):
+                continue
+            if self.handle_vote_popup():
                 continue
 
             # End
