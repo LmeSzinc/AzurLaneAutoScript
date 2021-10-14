@@ -371,7 +371,7 @@ class AlasGUI:
                     d = self.modified_config_queue.get(timeout=1)
                     modified[idx_to_path[d['name']]] = parse_pin_value(d['value'])
                 except queue.Empty:
-                    config = read_file(filepath_config())
+                    config = read_file(filepath_config(config_name))
                     for k in modified.keys():
                         deep_set(config, k, modified[k])
                     logger.info(f'Save config {filepath_config(config_name)}, {dict_to_kv(modified)}')
