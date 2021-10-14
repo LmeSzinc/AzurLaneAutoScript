@@ -42,6 +42,7 @@ class OperationSiren(Reward, OSMap):
         self.get_current_zone()
         # self.map_init()
         self.hp_reset()
+        self.handle_fleet_repair(revert=False)
 
         # Clear current zone
         self.run_auto_search()
