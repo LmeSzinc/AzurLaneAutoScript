@@ -188,6 +188,8 @@ class AutoSearchCombat(MapOperation, Combat):
                     continue
                 if self.handle_guild_popup_cancel():
                     continue
+                if self.handle_vote_popup():
+                    continue
 
             # End
             if self.is_auto_search_running():

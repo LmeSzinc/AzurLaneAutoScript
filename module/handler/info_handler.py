@@ -165,6 +165,15 @@ class InfoHandler(ModuleBase):
 
         return False
 
+    def handle_vote_popup(self):
+        """
+        Dismiss vote pop-ups.
+
+        Returns:
+            bool:
+        """
+        return self.appear_then_click(VOTE_CANCEL, offset=(20, 20), interval=2)
+
     """
     Guild popup info
     """
