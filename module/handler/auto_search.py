@@ -187,8 +187,21 @@ class AutoSearchHandler(EnemySearchingHandler):
     def handle_auto_search_continue(self):
         return self.appear_then_click(AUTO_SEARCH_MENU_CONTINUE, offset=self._auto_search_menu_offset, interval=2)
 
-    def handle_auto_search_exit(self):
-        return self.appear_then_click(AUTO_SEARCH_MENU_EXIT, offset=self._auto_search_menu_offset, interval=2)
+    def handle_auto_search_exit(self, drop=None):
+        """
+        Args:
+            drop (DropImage):
+
+        Returns:
+            bool
+        """
+        if self.appear(AUTO_SEARCH_MENU_EXIT, offset=self._auto_search_menu_offset, interval=2):
+            if drop:
+                drop.handle_add(main=self)
+            self.device.click(AUTO_SEARCH_MENU_EXIT)
+            return True
+        else:
+            return False
 
     def ensure_auto_search_exit(self, skip_first_screenshot=True):
         """

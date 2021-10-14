@@ -63,6 +63,7 @@ class DropImage:
             before = main.config.WAIT_BEFORE_SAVING_SCREEN_SHOT
 
         if self:
+            main.handle_info_bar()
             main.device.sleep(before)
             main.device.screenshot()
             self.add(main.device.image)
