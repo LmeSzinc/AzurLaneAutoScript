@@ -197,7 +197,7 @@ class AutoSearchHandler(EnemySearchingHandler):
         """
         if self.appear(AUTO_SEARCH_MENU_EXIT, offset=self._auto_search_menu_offset, interval=2):
             if drop:
-                drop.handle_add(main=self)
+                drop.handle_add(main=self, before=2.5)
             self.device.click(AUTO_SEARCH_MENU_EXIT)
             return True
         else:
