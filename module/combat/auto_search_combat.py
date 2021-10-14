@@ -79,6 +79,8 @@ class AutoSearchCombat(MapOperation, Combat):
                 continue
             if self.handle_map_cat_attack():
                 continue
+            if self.handle_vote_popup():
+                continue
 
             # End
             if self.is_combat_loading():
@@ -102,6 +104,8 @@ class AutoSearchCombat(MapOperation, Combat):
             self.device.screenshot()
 
             if self.handle_combat_automation_confirm():
+                continue
+            if self.handle_vote_popup():
                 continue
 
             # End
@@ -131,6 +135,8 @@ class AutoSearchCombat(MapOperation, Combat):
                 if self.handle_combat_weapon_release():
                     continue
             if self.handle_popup_confirm('AUTO_SEARCH_COMBAT_EXECUTE'):
+                continue
+            if self.handle_vote_popup():
                 continue
 
             # End
