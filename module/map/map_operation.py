@@ -1,6 +1,5 @@
 import numpy as np
 
-from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import color_similarity_2d
 from module.exception import CampaignEnd
@@ -69,6 +68,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                     self.handle_auto_search()
                     if self.triggered_map_stop():
                         self.enter_map_cancel()
+                        self.config.Scheduler_Enable = False
                         raise ScriptEnd(f'Reach condition: {self.config.StopCondition_MapAchievement}')
                     self.device.click(MAP_PREPARATION)
                     map_timer.reset()
