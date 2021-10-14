@@ -242,7 +242,7 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
             else:
                 self.device.screenshot()
 
-            if self.appear(POPUP_CONFIRM, offset=(20, 80)):
+            if self.appear(POPUP_CONFIRM, offset=(20, 80), interval=3):
                 # Alter asset name for click
                 POPUP_CONFIRM.name = POPUP_CONFIRM.name + '_' + 'GACHA_ORDER'
                 self.device.click(POPUP_CONFIRM)
