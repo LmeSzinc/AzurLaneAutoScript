@@ -17,6 +17,11 @@ Toast:
   ConfigSaved:
   AlasIsRunning:
 
+Status:
+  Running:
+  Inactive:
+  Warning:
+
 MenuAlas:
   Overview:
   Log:

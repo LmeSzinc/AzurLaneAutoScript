@@ -359,6 +359,7 @@
       "name": "活动名称",
       "help": "自动选择至最新的活动",
       "campaign_main": "主线图",
+      "event_20201012_cn": "划破海空之翼",
       "event_20200917_cn": "蝶海梦花",
       "event_20210916_cn": "碧海光粼",
       "event_20210722_cn": "响彻碧海的偶像歌",
@@ -381,7 +382,6 @@
       "event_20210121_cn": "复刻神圣的悲喜剧",
       "event_20201229_cn": "负象限作战",
       "event_20201126_cn": "假日航线",
-      "event_20201012_cn": "划破海空之翼",
       "event_20200312_cn": "复刻斯图尔特的硝烟",
       "event_20201029_cn": "激唱的UNIVERSE",
       "event_20201002_en": "Counterattack Within the Fjord",
@@ -1450,6 +1450,11 @@
       "DisableTranslateMode": "点击这里关闭翻译模式",
       "ConfigSaved": "设置已保存",
       "AlasIsRunning": "调度器已在运行中"
+    },
+    "Status": {
+      "Running": "运行中",
+      "Inactive": "闲置",
+      "Warning": "发生错误"
     },
     "MenuAlas": {
       "Overview": "总览",

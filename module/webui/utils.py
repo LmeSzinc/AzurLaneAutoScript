@@ -1,11 +1,8 @@
 import ctypes
-from functools import wraps
 import threading
 
-from pywebio.input import PASSWORD
-
 from module.webui.widgets import *
-from pywebio.input import input_group, input
+from pywebio.input import PASSWORD, input
 from pywebio.session import run_js
 
 

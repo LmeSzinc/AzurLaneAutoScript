@@ -359,6 +359,7 @@
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
+      "event_20201012_cn": "奔る彩帆の青",
       "event_20200917_cn": "刹那觀る胡蝶の夢",
       "event_20210916_cn": "駆けよ 碧海の吹き風",
       "event_20210722_cn": "海に響くアイドルの歌",
@@ -381,7 +382,6 @@
       "event_20210121_cn": "悲歎せし焔海の詩（復刻）",
       "event_20201229_cn": "虚畳なりし限象",
       "event_20201126_cn": "バケーションレーン",
-      "event_20201012_cn": "奔る彩帆の青",
       "event_20200312_cn": "南洋に靡く硝煙（復刻）",
       "event_20201029_cn": "激唱のユニバース",
       "event_20201002_en": "Counterattack Within the Fjord",
@@ -1450,6 +1450,11 @@
       "DisableTranslateMode": "Gui.Toast.DisableTranslateMode",
       "ConfigSaved": "Gui.Toast.ConfigSaved",
       "AlasIsRunning": "Gui.Toast.AlasIsRunning"
+    },
+    "Status": {
+      "Running": "Gui.Status.Running",
+      "Inactive": "Gui.Status.Inactive",
+      "Warning": "Gui.Status.Warning"
     },
     "MenuAlas": {
       "Overview": "Gui.MenuAlas.Overview",

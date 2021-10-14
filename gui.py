@@ -73,6 +73,7 @@ class Alas:
     def stop(self):
         if self.process.is_alive():
             self.process.terminate()
+            self.log.append("Scheduler stopped.")
         if self.thd_log_queue_handler.is_alive():
             self.thd_log_queue_handler.stop()
 
@@ -119,11 +120,14 @@ class AlasGUI:
         self.menu = output().style("container-menu")
         self.content = output().style("container-content")
         self.title = output().style("title-text-title")
+        self.status = output().style("title-status")
+        self._status = 0
         self.header = put_row([
             put_html(Icon.ALAS).style("title-icon-alas"),
             put_text("Alas").style("title-text-alas"),
+            self.status,
             self.title,
-        ], size="5.6rem 11.75rem minmax(8rem, 65rem)").style("container-title")
+        ], size="5.6rem 3.75rem 8rem minmax(8rem, 65rem)").style("container-title")
 
         self.asides = put_column([
             self.aside,
@@ -180,6 +184,42 @@ class AlasGUI:
 
         for thd in self._thread_kill_after_leave:
             thd.stop()
+
+    def set_status(self, status:int):
+        """
+        Args:
+            status (int): 
+                1 (running),
+                2 (not running),
+                -1 (warning, stop unexpectedly),
+                0 (hide)
+        """
+        if self._status == status:
+            return
+        
+        if status == 1:
+            s = put_row([
+                put_loading(color='success').style("width:1.5rem;height:1.5rem;border:.2em solid currentColor;border-right-color:transparent;"),
+                None,
+                put_text(t("Gui.Status.Running"))
+            ], size='auto 2px 1fr')
+        elif status == 2:
+            s = put_row([
+                put_loading(color='secondary').style("width:1.5rem;height:1.5rem;border:.2em solid currentColor;"),
+                None,
+                put_text(t("Gui.Status.Inactive"))
+            ], size='auto 2px 1fr')
+        elif status == -1:
+            s = put_row([
+                put_loading(shape='grow', color='warning').style("width:1.5rem;height:1.5rem;"),
+                None,
+                put_text(t("Gui.Status.Warning"))
+            ], size='auto 2px 1fr')
+        else:
+            s = ''
+        
+        self.status.reset(s)
+
 
     # Alas
 
@@ -306,9 +346,7 @@ class AlasGUI:
             paths.append(path_to_idx['.'.join(path)])
         while self.alive:
             try:
-                val = pin_wait_change(paths, timeout=10)
-                if val is None:
-                    continue
+                val = pin_wait_change(paths)
                 self.modified_config_queue.put(val)
             except SessionClosedException:
                 break
@@ -354,6 +392,22 @@ class AlasGUI:
                 self.lines += idx - last_idx
                 last_idx = idx
 
+    def alas_update_status(self):
+        if hasattr(self, 'alas'):
+            if self.alas.process.is_alive():
+                self.set_status(1)
+            elif len(self.alas.log) == 0 or self.alas.log[-1] == "Scheduler stopped.":
+                self.set_status(2)
+            else:
+                self.set_status(-1)
+        else:
+            self.set_status(0)
+
+    def _alas_thread_refresh_status(self):
+        while self.alive:
+            self.alas_update_status()
+            time.sleep(5)
+
     # Develop
 
     def dev_set_menu(self):
@@ -394,6 +448,7 @@ class AlasGUI:
         self.alas_name = config_name
         self.alas = get_alas(config_name)
         self.title.reset(f"{self.alas_name}")
+        self.alas_update_status()
         self.alas_set_menu()
 
     def ui_setting(self):
@@ -447,9 +502,16 @@ class AlasGUI:
         _thread_wait_config_change.start()
 
         # save config
-        _thread_save_config = Thread(target=self._alas_thread_update_config)
+        _thread_save_config = Thread(
+            target=self._alas_thread_update_config)
         register_thread(_thread_save_config)
         _thread_save_config.start()
+
+        # refresh status
+        _thread_refresh_status = Thread(
+            target=self._alas_thread_refresh_status)
+        register_thread(_thread_refresh_status)
+        _thread_refresh_status.start()
 
 
 if __name__ == "__main__":

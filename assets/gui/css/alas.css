@@ -197,6 +197,10 @@ textarea {
     overflow: hidden;
 }
 
+*[style*="title-status"] {
+    margin-top: 1rem;
+}
+
 *[style*="container-title"] {
     border-bottom: 1px solid;
     border-color: lightgrey;
