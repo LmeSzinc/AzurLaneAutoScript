@@ -366,6 +366,10 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 continue
             if self.handle_guild_popup_cancel():
                 continue
+            if self.handle_vote_popup():
+                continue
+            if self.handle_auto_search_exit():
+                continue
 
             # End
             if self.handle_in_stage():
