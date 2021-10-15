@@ -86,11 +86,15 @@ class EnemySearchingHandler(InfoHandler):
 
             if self.handle_in_stage():
                 return True
+
+            if self.handle_vote_popup():
+                timeout.limit = 10
+                timeout.reset()
+                continue
             if self.handle_story_skip():
                 self.ensure_no_story()
                 timeout.limit = 10
                 timeout.reset()
-
             if self.handle_guild_popup_cancel():
                 timeout.limit = 10
                 timeout.reset()
