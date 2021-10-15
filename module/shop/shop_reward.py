@@ -1,3 +1,4 @@
+from module.config.utils import get_server_last_update
 from module.gacha.ui import GachaUI
 from module.logger import logger
 from module.shop.shop_general import GeneralShop
@@ -53,7 +54,7 @@ class RewardShop(GachaUI, ShopUI, GeneralShop, GuildShop, MedalShop, MeritShop):
             if self.shop_bottom_navbar_ensure(left=5):
                 self._shop_repeat(shop_type='general')
 
-        if self.config.Scheduler_NextRun.hour == 0:
+        if self.config.Scheduler_NextRun.hour == get_server_last_update('00:00').hour:
             if self._shop_visit('merit'):
                 logger.hr('Merit shop', level=1)
                 if self.shop_bottom_navbar_ensure(left=4):
@@ -77,6 +78,7 @@ class RewardShop(GachaUI, ShopUI, GeneralShop, GuildShop, MedalShop, MeritShop):
                                            'build interface for medal exchanges, '
                                            f'left={_}, try again next time')
         else:
-            logger.info(f'Next run {self.config.Scheduler_NextRun} is not at 00:00, skip merit, guild and medal shops')
+            logger.info(f'Next run {self.config.Scheduler_NextRun} is not at 00:00 (server time), '
+                        f'skip merit, guild and medal shops')
 
         self.config.task_delay(server_update=True)
