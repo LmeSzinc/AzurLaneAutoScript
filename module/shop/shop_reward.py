@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta, timezone
 from module.gacha.ui import GachaUI
 from module.logger import logger
 from module.shop.shop_general import GeneralShop
@@ -5,6 +6,7 @@ from module.shop.shop_guild import GuildShop
 from module.shop.shop_medal import MedalShop
 from module.shop.shop_merit import MeritShop
 from module.shop.ui import ShopUI
+from module.config.utils import server_timezone
 
 
 class RewardShop(GachaUI, ShopUI, GeneralShop, GuildShop, MedalShop, MeritShop):
@@ -44,7 +46,20 @@ class RewardShop(GachaUI, ShopUI, GeneralShop, GuildShop, MedalShop, MeritShop):
             if refresh and self.shop_refresh():
                 continue
             break
-
+    
+    def shop_skip_check(self):
+        local_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        tz = timezone(timedelta(hours=server_timezone())) 
+        server_time = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
+        #logger.info(f'local_time = {local_time}')
+        #logger.info(f'server_time = {server_time}')
+        local_time = datetime.strptime(local_time, '%Y-%m-%d %H:%M:%S')
+        server_time = datetime.strptime(server_time, '%Y-%m-%d %H:%M:%S')
+        result = self.config.Scheduler_NextRun + (server_time - local_time)
+        if result.hour == 0:
+            return True
+        return False
+        
     def run(self):
         self.ui_goto_shop()
 
@@ -53,7 +68,7 @@ class RewardShop(GachaUI, ShopUI, GeneralShop, GuildShop, MedalShop, MeritShop):
             if self.shop_bottom_navbar_ensure(left=5):
                 self._shop_repeat(shop_type='general')
 
-        if self.config.Scheduler_NextRun.hour == 0:
+        if shop_skip_check == True:
             if self._shop_visit('merit'):
                 logger.hr('Merit shop', level=1)
                 if self.shop_bottom_navbar_ensure(left=4):
