@@ -68,7 +68,22 @@ class EnemySearchingHandler(InfoHandler):
         """
         return False
 
-    def handle_in_map_with_enemy_searching(self):
+    def handle_auto_search_exit(self, drop=None):
+        """
+        A placeholder, will be override in AutoSearchHandler.
+        AutoSearchHandler inherits EnemySearchingHandler,
+        but handle_in_map_with_enemy_searching() requires handle_auto_search_exit() to handle unexpected situation.
+        """
+        return False
+
+    def handle_in_map_with_enemy_searching(self, drop=None):
+        """
+        Args:
+            drop (DropImage):
+
+        Returns:
+            bool: If handled.
+        """
         if not self.is_in_map():
             return False
 
@@ -83,13 +98,21 @@ class EnemySearchingHandler(InfoHandler):
             else:
                 timeout.reset()
 
+            # Stage might ends,
+            # although here expects an enemy searching animation.
             if self.handle_in_stage():
                 return True
+            if self.handle_auto_search_exit(drop=drop):
+                continue
+
+            if self.handle_vote_popup():
+                timeout.limit = 10
+                timeout.reset()
+                continue
             if self.handle_story_skip():
                 self.ensure_no_story()
                 timeout.limit = 10
                 timeout.reset()
-
             if self.handle_guild_popup_cancel():
                 timeout.limit = 10
                 timeout.reset()

@@ -404,12 +404,12 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             if self.handle_in_stage():
                 break
             if expected_end is None:
-                if self.handle_in_map_with_enemy_searching():
+                if self.handle_in_map_with_enemy_searching(drop=drop):
                     break
             if isinstance(expected_end, str):
                 if expected_end == 'in_stage' and self.handle_in_stage():
                     break
-                if expected_end == 'with_searching' and self.handle_in_map_with_enemy_searching():
+                if expected_end == 'with_searching' and self.handle_in_map_with_enemy_searching(drop=drop):
                     break
                 if expected_end == 'no_searching' and self.handle_in_map_no_enemy_searching():
                     break
