@@ -120,6 +120,9 @@ Shipyard:
 Gacha:
   - Scheduler
   - Gacha
+DataKey:
+  - Scheduler
+  - DataKey
 
 # ==================== Daily ====================
 

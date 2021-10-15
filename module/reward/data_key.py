@@ -78,7 +78,7 @@ class RewardDataKey(UI):
             self._data_key_collect_confirm()
             continue
 
-        logger.warning('Too many tries on data key collection, skip and try again on next reward loop')
+        logger.warning('Too many tries on data key collection, skip and try again on next task run')
         self.ui_goto_main()
         return False
 
@@ -91,14 +91,7 @@ class RewardDataKey(UI):
             in: page_any
             out: page_main
         """
-        if not self.config.ENABLE_DATA_KEY_COLLECT:
-            return False
-
-        if self.config.record_executed_since(option=RECORD_OPTION, since=RECORD_SINCE):
-            return False
-
         if not self.data_key_collect():
-            return False
-
-        self.config.record_save(option=RECORD_OPTION)
-        return True
+            self.config.task_delay(success=False)
+        else:
+            self.config.task_delay(server_update=True)

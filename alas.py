@@ -139,6 +139,10 @@ class AzurLaneAutoScript:
         from module.gacha.gacha_reward import RewardGacha
         RewardGacha(config=self.config, device=self.device).run()
 
+    def data_key(self):
+        from module.reward.data_key import RewardDataKey
+        RewardDataKey(config=self.config, device=self.device).run()
+
     def daily(self):
         from module.daily.daily import Daily
         Daily(config=self.config, device=self.device).run()
