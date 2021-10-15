@@ -68,7 +68,7 @@ class RewardShop(GachaUI, ShopUI, GeneralShop, GuildShop, MedalShop, MeritShop):
             if self.shop_bottom_navbar_ensure(left=5):
                 self._shop_repeat(shop_type='general')
 
-        if shop_skip_check == True:
+        if shop_skip_check() == True:
             if self._shop_visit('merit'):
                 logger.hr('Merit shop', level=1)
                 if self.shop_bottom_navbar_ensure(left=4):
