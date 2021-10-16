@@ -570,6 +570,11 @@ class AzurLaneConfig:
     C124_AMMO_PICK_UP = 3
 
     """
+    C_13_4_farming
+    """
+    C134_AMMO_PICK_UP = 3
+
+    """
     Os_semi_auto
     """
     ENABLE_OS_SEMI_STORY_SKIP = True
@@ -907,6 +912,10 @@ class AzurLaneConfig:
         self.C124_NON_S3_ENTER_TOLERANCE = int(option['non_s3_enemy_enter_tolerance'])
         self.C124_NON_S3_WITHDRAW_TOLERANCE = int(option['non_s3_enemy_withdraw_tolerance'])
         self.C124_AMMO_PICK_UP = int(option['ammo_pick_up_124'])
+
+        # C_13_4_farming
+        option = config['C134_farming']
+        self.C134_AMMO_PICK_UP = int(option['ammo_pick_up_134'])
 
         # Gems_farming
         option = config['Gems_farming']

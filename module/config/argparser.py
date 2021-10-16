@@ -543,6 +543,11 @@ def main(ini_name=''):
     c_12_4.add_argument('--非大型敌人撤退忍耐', default=default('--非大型敌人撤退忍耐'), choices=['0', '1', '2', '10'], help='没有大型之后还会打多少战, 不挑敌人选10', gooey_options={'label_color': '#4B5F83'})
     c_12_4.add_argument('--拣弹药124', default=default('--拣弹药124'), choices=['2', '3', '4', '5'], help='多少战后拣弹药', gooey_options={'label_color': '#4B5F83'})
 
+    # ==========13-4倒油==========
+    c_13_4_parser = subs.add_parser('13-4倒油')
+    c_13_4 = c_13_4_parser.add_argument_group('13-4索敌设置', '需保证队伍有较高强度', gooey_options={'label_color': '#931D03'})
+    c_13_4.add_argument('--拣弹药124', default=default('--拣弹药124'), choices=['2', '3', '4', '5'], help='多少战后拣弹药', gooey_options={'label_color': '#4B5F83'})
+
     # ==========Gems farming==========
     gems_parser = subs.add_parser('紧急委托刷钻石')
     gems = gems_parser.add_argument_group('紧急委托刷钻石',

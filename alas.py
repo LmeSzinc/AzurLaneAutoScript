@@ -212,6 +212,12 @@ class AzurLaneAutoScript:
         az.run('campaign_12_4_leveling')
         self.reward_when_finished()
 
+    def c134_farming(self):
+        from module.campaign.run import CampaignRun
+        az = CampaignRun(self.config, device=self.device)
+        az.run('campaign_13_4_farming')
+        self.reward_when_finished()
+
     def c122_leveling(self):
         from module.campaign.run import CampaignRun
         az = CampaignRun(self.config, device=self.device)
