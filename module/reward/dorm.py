@@ -102,20 +102,20 @@ class RewardDorm(UI):
             self.device.minitouch_send()
 
         # Collect
-        for n in range(3):
+        _dorm_receive_attempt = 0
+        while 1:
             self.device.screenshot()
-            # Close trophies info
-            if self.appear(DORM_TROPHY_CONFIRM, offset=(30, 30)):
-                self.ui_click(DORM_TROPHY_CONFIRM, check_button=DORM_CHECK, skip_first_screenshot=True)
-                self.device.screenshot()
-            # Close DORM_INFO. Usually, it was handled in ui_ensure(), but sometimes not.
-            if self.appear(DORM_INFO, offset=(30, 30)):
-                self.ui_click(DORM_INFO, check_button=DORM_CHECK, skip_first_screenshot=True)
-                self.device.screenshot()
 
-            if self._dorm_receive_click():
-                self.ensure_no_info_bar()
+            # Handle page_dorm popups
+            if self.ui_additional_page_dorm():
                 continue
+
+            # End
+            # - If max _dorm_receive_attempt (3+) reached
+            # - If _dorm_receive_click returns 0 (no coins/loves clicked)
+            if _dorm_receive_attempt < 3 and self._dorm_receive_click():
+                self.ensure_no_info_bar()
+                _dorm_receive_attempt += 1
             else:
                 break
 
@@ -238,7 +238,7 @@ class RewardDorm(UI):
 
         if feed:
             self.ui_click(click_button=DORM_FEED_ENTER, appear_button=DORM_CHECK, check_button=DORM_FEED_CHECK,
-                          skip_first_screenshot=True)
+                          additional=self.ui_additional_page_dorm, skip_first_screenshot=True)
             self._dorm_feed()
             self.ui_click(click_button=DORM_FEED_ENTER, appear_button=DORM_FEED_CHECK, check_button=DORM_CHECK,
                           skip_first_screenshot=True)
