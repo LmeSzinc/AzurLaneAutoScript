@@ -293,6 +293,10 @@ class UI(InfoHandler):
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
                 return True
 
+        # Story
+        if self.handle_story_skip():
+            return True
+
         # Game tips
         # Event commission in Vacation Lane.
         if self.appear(GAME_TIPS, offset=(30, 30), interval=3):

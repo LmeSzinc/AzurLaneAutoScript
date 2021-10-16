@@ -11,7 +11,7 @@ from module.config.config import AzurLaneConfig, TaskEnd
 from module.config.config_updater import ConfigUpdater
 from module.config.utils import deep_get
 from module.exception import *
-from module.logger import logger, log_file
+from module.logger import logger
 
 
 class AzurLaneAutoScript:
@@ -84,7 +84,7 @@ class AzurLaneAutoScript:
                 image_time = datetime.strftime(data['time'], '%Y-%m-%d_%H-%M-%S-%f')
                 image = handle_sensitive_image(data['image'])
                 image.save(f'{folder}/{image_time}.png')
-            with open(log_file, 'r', encoding='utf-8') as f:
+            with open(logger.log_file, 'r', encoding='utf-8') as f:
                 lines = f.readlines()
                 start = 0
                 for index, line in enumerate(lines):
@@ -232,6 +232,9 @@ class AzurLaneAutoScript:
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
     def loop(self):
+        logger.info(f'Start scheduler loop: {self.config_name}')
+        logger.set_file_logger(self.config_name)
+
         is_first = True
         while 1:
             if is_first and self.config.task == 'Restart':

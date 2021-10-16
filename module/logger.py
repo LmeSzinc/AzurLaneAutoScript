@@ -31,16 +31,22 @@ os.chdir(os.path.join(os.path.dirname(__file__), '../'))
 
 # Add file logger
 pyw_name = os.path.splitext(os.path.basename(sys.argv[0]))[0]
-if '_' in pyw_name:
-    pyw_name = '_'.join(pyw_name.split('_')[:-1])
-log_file = f'./log/{datetime.date.today()}_{pyw_name}.txt'
-try:
-    file = logging.FileHandler(log_file, encoding='utf-8')
-except FileNotFoundError:
-    os.mkdir('./log')
-    file = logging.FileHandler(log_file, encoding='utf-8')
-file.setFormatter(formatter)
-logger.addHandler(file)
+
+
+def set_file_logger(name=pyw_name):
+    if '_' in name:
+        name = name.split('_', 1)[0]
+    log_file = f'./log/{datetime.date.today()}_{name}.txt'
+    try:
+        file = logging.FileHandler(log_file, encoding='utf-8')
+    except FileNotFoundError:
+        os.mkdir('./log')
+        file = logging.FileHandler(log_file, encoding='utf-8')
+    file.setFormatter(formatter)
+
+    logger.handlers = [h for h in logger.handlers if not isinstance(h, logging.FileHandler)]
+    logger.addHandler(file)
+    logger.log_file = log_file
 
 
 def hr(title, level=3):
@@ -73,5 +79,8 @@ def attr_align(name, text, front='', align=22):
 logger.hr = hr
 logger.attr = attr
 logger.attr_align = attr_align
+logger.set_file_logger = set_file_logger
+logger.log_file: str
 
+logger.set_file_logger()
 logger.hr('Start', level=0)

@@ -99,6 +99,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         """
         logger.info('Combat preparation.')
         skip_first_screenshot = True
+        interval_set = False
 
         if emotion_reduce:
             self.emotion.wait(fleet_index=fleet_index)
@@ -126,6 +127,10 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 continue
             if self.handle_story_skip():
                 continue
+            if not interval_set:
+                if self.is_combat_loading():
+                    self.device.screenshot_interval_set(self.config.Optimization_CombatScreenshotInterval)
+                    interval_set = True
 
             # End
             if self.is_combat_executing():
@@ -219,7 +224,6 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         self.combat_manual_reset()
         confirm_timer = Timer(10)
         confirm_timer.start()
-        self.device.screenshot_interval_set(self.config.Optimization_CombatScreenshotInterval)
 
         while 1:
             self.device.screenshot()

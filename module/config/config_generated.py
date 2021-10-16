@@ -67,6 +67,7 @@ class GeneratedConfig:
     StopCondition_RunCount = 0
     StopCondition_OilLimit = 1000
     StopCondition_MapAchievement = 'non_stop'  # non_stop, 100_percent_clear, map_3_stars, threat_safe, threat_safe_without_3_stars
+    StopCondition_StageIncrease = False
     StopCondition_GetNewShip = False
     StopCondition_ReachLevel120 = False
 

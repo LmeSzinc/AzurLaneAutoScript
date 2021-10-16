@@ -3,7 +3,7 @@ import numpy as np
 from module.base.timer import Timer
 from module.base.utils import color_similarity_2d
 from module.exception import CampaignEnd
-from module.exception import ScriptEnd
+from module.exception import ScriptEnd, RequestHumanTakeover
 from module.handler.fast_forward import FastForwardHandler
 from module.handler.mystery import MysteryHandler
 from module.logger import logger
@@ -35,17 +35,21 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                 break
             logger.warning('Fleet switch failed. Retrying.')
 
-    def enter_map(self, button, mode='normal'):
+    def enter_map(self, button, mode='normal', skip_first_screenshot=True):
         """Enter a campaign.
 
         Args:
             button: Campaign to enter.
             mode (str): 'normal' or 'hard' or 'cd'
+            skip_first_screenshot (bool):
         """
         logger.hr('Enter map')
         campaign_timer = Timer(5)
         map_timer = Timer(5)
         fleet_timer = Timer(5)
+        campaign_click = 0
+        map_click = 0
+        fleet_click = 0
         checked_in_map = False
         self.stage_entrance = button
 
@@ -53,8 +57,26 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                 genre=self.config.campaign_name, save=self.config.DropRecord_SaveCombat, upload=False
         ) as drop:
             while 1:
-                self.device.screenshot()
+                if skip_first_screenshot:
+                    skip_first_screenshot = False
+                else:
+                    self.device.screenshot()
 
+                # Check errors
+                if campaign_click > 5:
+                    logger.critical(f"Failed to enter {button}, too many click on {button}")
+                    logger.critical("Possible reason: You haven't reached the commander level to unlock this stage.")
+                    raise RequestHumanTakeover
+                if fleet_click > 5:
+                    logger.critical(f"Failed to enter {button}, too many click on FLEET_PREPARATION")
+                    logger.critical("Possible reason: "
+                                    "Your fleets haven't satisfied the stat restrictions of this stage.")
+                    logger.critical("Possible reason: "
+                                    "This stage can only be farmed once a day, "
+                                    "but it's the second time that you are entering")
+                    raise RequestHumanTakeover
+
+                # Already in map
                 if not checked_in_map and self.is_in_map():
                     logger.info('Already in map, skip enter_map.')
                     return False
@@ -68,9 +90,10 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                     self.handle_auto_search()
                     if self.triggered_map_stop():
                         self.enter_map_cancel()
-                        self.config.Scheduler_Enable = False
+                        self.handle_map_stop()
                         raise ScriptEnd(f'Reach condition: {self.config.StopCondition_MapAchievement}')
                     self.device.click(MAP_PREPARATION)
+                    map_click += 1
                     map_timer.reset()
                     campaign_timer.reset()
                     continue
@@ -82,6 +105,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                         self.fleet_preparation()
                         self.handle_auto_search_setting()
                     self.device.click(FLEET_PREPARATION)
+                    fleet_click += 1
                     fleet_timer.reset()
                     campaign_timer.reset()
                     continue
@@ -114,6 +138,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
 
                 # Enter campaign
                 if campaign_timer.reached() and self.appear_then_click(button):
+                    campaign_click += 1
                     campaign_timer.reset()
                     continue
 
