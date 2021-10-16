@@ -110,6 +110,10 @@
       "name": "每日抽卡",
       "help": ""
     },
+    "DataKey": {
+      "name": "Task.DataKey.name",
+      "help": "Task.DataKey.help"
+    },
     "Daily": {
       "name": "每日任务",
       "help": ""

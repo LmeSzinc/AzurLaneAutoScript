@@ -110,6 +110,10 @@
       "name": "Gacha",
       "help": ""
     },
+    "DataKey": {
+      "name": "Task.DataKey.name",
+      "help": "Task.DataKey.help"
+    },
     "Daily": {
       "name": "Daily",
       "help": ""
