@@ -110,6 +110,10 @@
       "name": "Gacha",
       "help": ""
     },
+    "DataKey": {
+      "name": "DataKey",
+      "help": ""
+    },
     "Daily": {
       "name": "Daily",
       "help": ""
@@ -127,20 +131,20 @@
       "help": ""
     },
     "EventAb": {
-      "name": "Task.EventAb.name",
-      "help": "Task.EventAb.help"
+      "name": "EventAB",
+      "help": ""
     },
     "EventSp": {
-      "name": "Task.EventSp.name",
-      "help": "Task.EventSp.help"
+      "name": "EventSP",
+      "help": ""
     },
     "RaidDaily": {
-      "name": "Task.RaidDaily.name",
-      "help": "Task.RaidDaily.help"
+      "name": "RaidDaily",
+      "help": ""
     },
     "WarArchives": {
-      "name": "Task.WarArchives.name",
-      "help": "Task.WarArchives.help"
+      "name": "WarArchives",
+      "help": ""
     },
     "OpsiGeneral": {
       "name": "Opsi General",
@@ -169,7 +173,7 @@
   },
   "Scheduler": {
     "_info": {
-      "name": "Schedular",
+      "name": "Scheduler",
       "help": ""
     },
     "Enable": {

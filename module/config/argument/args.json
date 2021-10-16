@@ -3455,6 +3455,34 @@
       }
     }
   },
+  "DataKey": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "input",
+        "value": "2020-01-01 00:00:00"
+      },
+      "Command": {
+        "type": "disable",
+        "value": "DataKey"
+      },
+      "SuccessInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "FailureInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "ServerUpdate": {
+        "type": "disable",
+        "value": "00:00"
+      }
+    }
+  },
   "Daily": {
     "Scheduler": {
       "Enable": {

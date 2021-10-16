@@ -25,7 +25,8 @@
       "Reward",
       "Shop",
       "Shipyard",
-      "Gacha"
+      "Gacha",
+      "DataKey"
     ],
     "Daily": [
       "Daily",

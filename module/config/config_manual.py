@@ -7,7 +7,7 @@ class ManualConfig:
     SCHEDULER_PRIORITY = """
     Restart
     > Research > Commission > Tactical > Dorm > Meowfficer > Guild > Reward
-    > Gacha > Shop > Shipyard
+    > Gacha > Shop > Shipyard > DataKey
     > OpsiExplore > OpsiObscure
     > Exercise > Daily > Hard > OpsiAshAssist
     > Sos > EventSp > EventAb > RaidDaily > WarArchives
@@ -186,22 +186,22 @@ class ManualConfig:
     44 > 24 > 22 > 31 > 21 > 23
     > 83 > 43 > 81 > 84 > 92 > 93
     > 131 > 134 > 132 > 122 > 112
-    
+
     > 33 > 34 > 32 > 25
     > 41 > 105 > 95 > 94
     > 141 > 143 > 133 > 135 > 111 > 113 > 114 > 125 > 123
     > 65 > 62 > 66
-    
+
     > 14 > 42
     > 85 > 82 > 91 > 104 > 103
     > 142
     > 61 > 52 > 51 > 53 > 54 > 63 > 64
-    
+
     > 13 > 12
     > 101 > 102
     > 144 > 124
     > 71 > 73
-    
+
     > 11 > 106 > 121 > 72
     """
     OS_ACTION_POINT_BOX_USE = True
