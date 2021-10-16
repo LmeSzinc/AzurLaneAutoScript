@@ -114,10 +114,10 @@ def write_file(file, data):
             with open(file, mode='w', encoding='utf-8') as f:
                 if isinstance(data, list):
                     yaml.safe_dump_all(data, f, default_flow_style=False, encoding='utf-8', allow_unicode=True,
-                                    sort_keys=False)
+                                       sort_keys=False)
                 else:
                     yaml.safe_dump(data, f, default_flow_style=False, encoding='utf-8', allow_unicode=True,
-                                sort_keys=False)
+                                   sort_keys=False)
         elif ext == '.json':
             with open(file, mode='w', encoding='utf-8') as f:
                 s = json.dumps(data, indent=2, ensure_ascii=False, sort_keys=False, default=str)
@@ -130,7 +130,7 @@ def iter_folder(folder, ext=None):
     """
     Args:
         folder (str):
-        ext (str): File extension
+        ext (str): File extension, such as `.yaml`
 
     Yields:
         str: Absolute path of files
@@ -142,6 +142,19 @@ def iter_folder(folder, ext=None):
                 yield os.path.join(folder, file)
         else:
             yield os.path.join(folder, file)
+
+
+def alas_instance():
+    """
+    Returns:
+        list[str]: Name of all Alas instances, except `template`.
+    """
+    out = []
+    for file in os.listdir('./config'):
+        name, extension = os.path.splitext(file)
+        if name != 'template' and extension == '.json':
+            out.append(name)
+    return out
 
 
 def deep_get(d, keys, default=None):

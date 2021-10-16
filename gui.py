@@ -152,7 +152,7 @@ class AlasGUI:
                 self.contents,
             ], size="auto 1fr").style("container-all")
         ).style("container-gui")
-        
+
         self.logs = ScrollableCode()
 
     def set_aside(self):
@@ -170,12 +170,11 @@ class AlasGUI:
             #     "Gui.Aside.Performance"), "value": "performance", "color": "aside"}], onclick=[self.ui_performance]),
         )
 
-        # TODO: generate this from config
         self.aside.append(
-            put_icon_buttons(Icon.RUN, buttons=[
-                {"label": "Alas", "value": "alas", "color": "aside"}], onclick=self.ui_alas),
-            put_icon_buttons(Icon.RUN, buttons=[
-                {"label": "Alas2", "value": "alas2", "color": "aside"}], onclick=self.ui_alas),
+            *[put_icon_buttons(
+                Icon.RUN, buttons=[{"label": name, "value": name, "color": "aside"}],
+                onclick=self.ui_alas)
+                for name in alas_instance()]
         )
 
     def kill_thread(self):
@@ -196,7 +195,7 @@ class AlasGUI:
         if self._status == status:
             return
         self._status = status
-        
+
         if status == 1:
             s = put_row([
                 put_loading(color='success').style("width:1.5rem;height:1.5rem;border:.2em solid currentColor;border-right-color:transparent;"),
@@ -217,7 +216,7 @@ class AlasGUI:
             ], size='auto 2px 1fr')
         else:
             s = ''
-        
+
         self.status.reset(s)
 
 
@@ -251,7 +250,7 @@ class AlasGUI:
                              ], onclick=self.alas_set_group).style(f'--menu-{task}--') for task in tasks]
                              )
             )
-        
+
         self.alas_overview()
 
     def alas_set_group(self, task):
