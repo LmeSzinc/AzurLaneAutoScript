@@ -456,6 +456,10 @@
       "threat_safe": "threat_safe",
       "threat_safe_without_3_stars": "threat_safe_without_3_stars"
     },
+    "StageIncrease": {
+      "name": "StopCondition.StageIncrease.name",
+      "help": "StopCondition.StageIncrease.help"
+    },
     "GetNewShip": {
       "name": "StopCondition.GetNewShip.name",
       "help": "StopCondition.GetNewShip.help"

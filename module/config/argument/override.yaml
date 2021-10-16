@@ -31,6 +31,7 @@ Raid:
   StopCondition:
     RunCount: 0
     MapAchievement: non_stop
+    StageIncrease: false
     GetNewShip: false
     ReachLevel120: false
 C11AffinityFarming:
@@ -46,6 +47,7 @@ C11AffinityFarming:
   StopCondition:
     RunCount: 0
     MapAchievement: non_stop
+    StageIncrease: false
     GetNewShip: false
     ReachLevel120: false
   Fleet:
@@ -66,6 +68,7 @@ C72MysteryFarming:
     AmbushEvade: true
   StopCondition:
     MapAchievement: non_stop
+    StageIncrease: false
     GetNewShip: false
   Fleet:
     FleetOrder: fleet1_all_fleet2_standby
@@ -84,6 +87,7 @@ C122MediumLeveling:
     AmbushEvade: true
   StopCondition:
     MapAchievement: non_stop
+    StageIncrease: false
   Fleet:
     FleetOrder: fleet1_all_fleet2_standby
     AutoSearchFleetOrder: fleet1_all_fleet2_standby
@@ -98,6 +102,7 @@ C124LargeLeveling:
     AmbushEvade: true
   StopCondition:
     MapAchievement: non_stop
+    StageIncrease: false
   Fleet:
     FleetOrder: fleet1_all_fleet2_standby
     AutoSearchFleetOrder: fleet1_all_fleet2_standby
@@ -108,6 +113,7 @@ GemsFarming:
     AmbushEvade: true
   StopCondition:
     MapAchievement: non_stop
+    StageIncrease: false
     GetNewShip: false
 
 # ==================== Reward ====================
@@ -196,6 +202,7 @@ Sos:
     AmbushEvade: true
   StopCondition:
     MapAchievement: non_stop
+    StageIncrease: false
     GetNewShip: false
   Fleet:
     AutoSearchFleetOrder: fleet1_all_fleet2_standby
@@ -211,6 +218,7 @@ EventAb:
   StopCondition:
     RunCount: 0
     MapAchievement: non_stop
+    StageIncrease: false
     GetNewShip: false
     ReachLevel120: false
 EventSp:
@@ -225,6 +233,7 @@ EventSp:
   StopCondition:
     RunCount: 0
     MapAchievement: non_stop
+    StageIncrease: false
     GetNewShip: false
     ReachLevel120: false
 RaidDaily:
@@ -243,6 +252,7 @@ RaidDaily:
   StopCondition:
     RunCount: 0
     MapAchievement: non_stop
+    StageIncrease: false
     GetNewShip: false
     ReachLevel120: false
 WarArchives:

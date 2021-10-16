@@ -72,6 +72,7 @@
       "RunCount": 0,
       "OilLimit": 1000,
       "MapAchievement": "non_stop",
+      "StageIncrease": false,
       "GetNewShip": false,
       "ReachLevel120": false
     },
@@ -139,6 +140,7 @@
       "RunCount": 0,
       "OilLimit": 1000,
       "MapAchievement": "non_stop",
+      "StageIncrease": false,
       "GetNewShip": false,
       "ReachLevel120": false
     },
@@ -210,6 +212,7 @@
       "RunCount": 0,
       "OilLimit": 1000,
       "MapAchievement": "non_stop",
+      "StageIncrease": false,
       "GetNewShip": false,
       "ReachLevel120": false
     },
@@ -254,6 +257,7 @@
       "RunCount": 0,
       "OilLimit": 1000,
       "MapAchievement": "non_stop",
+      "StageIncrease": false,
       "GetNewShip": false,
       "ReachLevel120": false
     },
@@ -324,6 +328,7 @@
       "RunCount": 0,
       "OilLimit": 1000,
       "MapAchievement": "non_stop",
+      "StageIncrease": false,
       "GetNewShip": false,
       "ReachLevel120": false
     },
@@ -394,6 +399,7 @@
       "RunCount": 0,
       "OilLimit": 1000,
       "MapAchievement": "non_stop",
+      "StageIncrease": false,
       "GetNewShip": false,
       "ReachLevel120": false
     },
@@ -466,6 +472,7 @@
       "RunCount": 0,
       "OilLimit": 1000,
       "MapAchievement": "non_stop",
+      "StageIncrease": false,
       "GetNewShip": false,
       "ReachLevel120": false
     },
@@ -541,6 +548,7 @@
       "RunCount": 0,
       "OilLimit": 1000,
       "MapAchievement": "non_stop",
+      "StageIncrease": false,
       "GetNewShip": false,
       "ReachLevel120": false
     },
@@ -844,6 +852,7 @@
       "RunCount": 0,
       "OilLimit": 1000,
       "MapAchievement": "non_stop",
+      "StageIncrease": false,
       "GetNewShip": false,
       "ReachLevel120": false
     },
@@ -915,6 +924,7 @@
       "RunCount": 0,
       "OilLimit": 1000,
       "MapAchievement": "non_stop",
+      "StageIncrease": false,
       "GetNewShip": false,
       "ReachLevel120": false
     },
@@ -982,6 +992,7 @@
       "RunCount": 0,
       "OilLimit": 1000,
       "MapAchievement": "non_stop",
+      "StageIncrease": false,
       "GetNewShip": false,
       "ReachLevel120": false
     },
@@ -1052,6 +1063,7 @@
       "RunCount": 0,
       "OilLimit": 1000,
       "MapAchievement": "non_stop",
+      "StageIncrease": false,
       "GetNewShip": false,
       "ReachLevel120": false
     },
@@ -1093,6 +1105,7 @@
       "RunCount": 0,
       "OilLimit": 1000,
       "MapAchievement": "non_stop",
+      "StageIncrease": false,
       "GetNewShip": false,
       "ReachLevel120": false
     },

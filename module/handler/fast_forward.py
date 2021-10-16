@@ -29,6 +29,30 @@ class FastForwardHandler(AutoSearchHandler):
     map_is_auto_search = False
     map_is_2x_book = False
 
+    STAGE_INCREASE = [
+        """
+        1-1 > 1-2 > 1-3 > 1-4
+        > 2-1 > 2-2 > 2-3 > 2-4
+        > 3-1 > 3-2 > 3-3 > 3-4
+        > 4-1 > 4-2 > 4-3 > 4-4
+        > 5-1 > 5-2 > 5-3 > 5-4
+        > 6-1 > 6-2 > 6-3 > 6-4
+        > 7-1 > 7-2 > 7-3 > 7-4
+        > 8-1 > 8-2 > 8-3 > 8-4
+        > 9-1 > 9-2 > 9-3 > 9-4
+        > 10-1 > 10-2 > 10-3 > 10-4
+        > 11-1 > 11-2 > 11-3 > 11-4
+        > 12-1 > 12-2 > 12-3 > 12-4
+        > 13-1 > 13-2 > 13-3 > 13-4
+        > 14-1 > 14-2 > 14-3 > 14-4
+        """,
+        'A1 > A2 > A3',
+        'B1 > B2 > B3',
+        'C1 > C2 > C3',
+        'D1 > D2 > D3',
+        'SP1 > SP2 > SP3 > SP4',
+    ]
+
     def map_get_info(self):
         """
         Logs:
@@ -165,6 +189,29 @@ class FastForwardHandler(AutoSearchHandler):
         """
         return color_bar_percentage(self.device.image, area=MAP_CLEAR_PERCENTAGE.area, prev_color=(231, 170, 82))
 
+    def campaign_name_increase(self, name):
+        """
+        Increase name to its next stage.
+
+        Args:
+            name (str):
+
+        Returns:
+            str: Name of next stage, or origin name if unable to increase.
+        """
+        name = name.upper()
+        for increase in self.STAGE_INCREASE:
+            increase = [i.strip(' \t\r\n') for i in increase.split('>')]
+            if name in increase:
+                index = increase.index(name) + 1
+                if index < len(increase):
+                    return increase[index]
+                else:
+                    logger.info('Stage increase reach end')
+                    return name
+
+        return name
+
     def triggered_map_stop(self):
         """
         Returns:
@@ -187,6 +234,23 @@ class FastForwardHandler(AutoSearchHandler):
                 return True
 
         return False
+
+    def handle_map_stop(self):
+        """
+        Modify configs after reaching a stop condition.
+        Disable current task or increase stage.
+        """
+        if self.config.StopCondition_StageIncrease:
+            prev_stage = self.config.Campaign_Name
+            next_stage = self.campaign_name_increase(prev_stage)
+            if next_stage != prev_stage:
+                logger.info(f'Stage {prev_stage} increases to {next_stage}')
+                self.config.Campaign_Name = next_stage
+            else:
+                logger.info(f'Stage {prev_stage} cannot increase, stop at current stage')
+                self.config.Scheduler_Enable = False
+        else:
+            self.config.Scheduler_Enable = False
 
     def _set_2x_book_status(self, status, check_button, box_button, skip_first_screenshot=True):
         """

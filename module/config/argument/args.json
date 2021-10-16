@@ -258,6 +258,10 @@
           "threat_safe_without_3_stars"
         ]
       },
+      "StageIncrease": {
+        "type": "checkbox",
+        "value": false
+      },
       "GetNewShip": {
         "type": "checkbox",
         "value": false
@@ -624,6 +628,10 @@
           "threat_safe_without_3_stars"
         ]
       },
+      "StageIncrease": {
+        "type": "checkbox",
+        "value": false
+      },
       "GetNewShip": {
         "type": "checkbox",
         "value": false
@@ -971,6 +979,10 @@
           "threat_safe_without_3_stars"
         ]
       },
+      "StageIncrease": {
+        "type": "disable",
+        "value": false
+      },
       "GetNewShip": {
         "type": "disable",
         "value": false
@@ -1146,6 +1158,10 @@
           "threat_safe",
           "threat_safe_without_3_stars"
         ]
+      },
+      "StageIncrease": {
+        "type": "disable",
+        "value": false
       },
       "GetNewShip": {
         "type": "disable",
@@ -1479,6 +1495,10 @@
           "threat_safe",
           "threat_safe_without_3_stars"
         ]
+      },
+      "StageIncrease": {
+        "type": "disable",
+        "value": false
       },
       "GetNewShip": {
         "type": "disable",
@@ -1818,6 +1838,10 @@
           "threat_safe",
           "threat_safe_without_3_stars"
         ]
+      },
+      "StageIncrease": {
+        "type": "disable",
+        "value": false
       },
       "GetNewShip": {
         "type": "checkbox",
@@ -2175,6 +2199,10 @@
           "threat_safe",
           "threat_safe_without_3_stars"
         ]
+      },
+      "StageIncrease": {
+        "type": "disable",
+        "value": false
       },
       "GetNewShip": {
         "type": "checkbox",
@@ -2575,6 +2603,10 @@
           "threat_safe",
           "threat_safe_without_3_stars"
         ]
+      },
+      "StageIncrease": {
+        "type": "disable",
+        "value": false
       },
       "GetNewShip": {
         "type": "disable",
@@ -3765,6 +3797,10 @@
           "threat_safe_without_3_stars"
         ]
       },
+      "StageIncrease": {
+        "type": "disable",
+        "value": false
+      },
       "GetNewShip": {
         "type": "disable",
         "value": false
@@ -4141,6 +4177,10 @@
           "threat_safe_without_3_stars"
         ]
       },
+      "StageIncrease": {
+        "type": "disable",
+        "value": false
+      },
       "GetNewShip": {
         "type": "disable",
         "value": false
@@ -4507,6 +4547,10 @@
           "threat_safe_without_3_stars"
         ]
       },
+      "StageIncrease": {
+        "type": "disable",
+        "value": false
+      },
       "GetNewShip": {
         "type": "disable",
         "value": false
@@ -4845,6 +4889,10 @@
           "threat_safe_without_3_stars"
         ]
       },
+      "StageIncrease": {
+        "type": "disable",
+        "value": false
+      },
       "GetNewShip": {
         "type": "disable",
         "value": false
@@ -5026,6 +5074,10 @@
           "threat_safe",
           "threat_safe_without_3_stars"
         ]
+      },
+      "StageIncrease": {
+        "type": "checkbox",
+        "value": false
       },
       "GetNewShip": {
         "type": "checkbox",
