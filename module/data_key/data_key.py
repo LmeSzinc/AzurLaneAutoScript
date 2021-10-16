@@ -2,7 +2,7 @@ from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1
 from module.logger import logger
 from module.ocr.ocr import DigitCounter
-from module.reward.assets import OCR_DATA_KEY, DATA_KEY_COLLECT, DATA_KEY_COLLECTED
+from module.data_key.assets import OCR_DATA_KEY, DATA_KEY_COLLECT, DATA_KEY_COLLECTED
 from module.ui.assets import WAR_ARCHIVES_CHECK
 from module.ui.ui import UI, page_archives
 from module.war_archives.assets import WAR_ARCHIVES_EX_ON
@@ -82,10 +82,9 @@ class RewardDataKey(UI):
         self.ui_goto_main()
         return False
 
-    def handle_data_key(self):
+    def run(self):
         """
-        Returns:
-            bool: If executed.
+        Handle data_key operations if configured to do so.
 
         Pages:
             in: page_any

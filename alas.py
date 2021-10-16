@@ -140,7 +140,7 @@ class AzurLaneAutoScript:
         RewardGacha(config=self.config, device=self.device).run()
 
     def data_key(self):
-        from module.reward.data_key import RewardDataKey
+        from module.data_key.data_key import RewardDataKey
         RewardDataKey(config=self.config, device=self.device).run()
 
     def daily(self):
