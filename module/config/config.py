@@ -345,6 +345,18 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
     def FLEET_2(self):
         return self.Fleet_Fleet2
 
+    @FLEET_2.setter
+    def FLEET_2(self, value):
+        self.override(Fleet_Fleet2=value)
+
+    @property
+    def SUBMARINE(self):
+        return self.Submarine_Fleet
+
+    @SUBMARINE.setter
+    def SUBMARINE(self, value):
+        self.override(Fleet_Fleet2=value)
+
     _fleet_boss = 0
 
     @property
