@@ -163,6 +163,8 @@ class AutoSearchCombat(Combat):
             if self.handle_auto_search_map_option():
                 self._auto_search_confirm_low_emotion = False
                 continue
+            if self.handle_vote_popup():
+                continue
 
             # Handle low emotion combat
             # Combat status
@@ -183,8 +185,6 @@ class AutoSearchCombat(Combat):
                 if self.handle_story_skip():
                     continue
                 if self.handle_guild_popup_cancel():
-                    continue
-                if self.handle_vote_popup():
                     continue
 
             # End
