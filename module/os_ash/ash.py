@@ -55,10 +55,8 @@ class AshCombat(Combat):
         if super().handle_battle_preparation():
             return True
 
-        # If ash beacon is outdated, game with exit preparation page and return to beacon select page
-        if self.appear(ASH_START, offset=(30, 30)):
-            logger.info("Ash beacon outdated, select another beacon.")
-            raise AshBeaconFinished
+        if self.appear_then_click(ASH_START, offset=(30, 30)):
+            return True
         if self.appear(BEACON_REWARD):
             logger.info("Ash beacon already finished.")
             raise AshBeaconFinished
@@ -309,8 +307,6 @@ class OSAsh(UI):
             if self.appear(BATTLE_PREPARATION, offset=(30, 30), interval=2):
                 self.device.click(BACK_ARROW)
             if self.appear(ASH_START, offset=(30, 30)):
-                self.ui_click(ASH_START, check_button=BATTLE_PREPARATION, offset=(30, 30),
-                              additional=ash_combat.handle_combat_automation_confirm, skip_first_screenshot=True)
                 ash_combat.combat(expected_end=self.is_in_ash, save_get_items=False, emotion_reduce=False)
                 continue
 
