@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 
 import numpy as np
 
+from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3
 from module.exception import MapWalkError
 from module.exception import ScriptError
 from module.logger import logger
@@ -47,7 +48,19 @@ class OperationSiren(Reward, OSMap):
             self.device.screenshot()
 
         # Init
-        self.get_current_zone()
+        _get_current_zone_success = False
+        for _ in range(5):
+            try:
+                self.get_current_zone()
+                _get_current_zone_success = True
+                break
+            except:
+                self.handle_map_event()
+            finally:
+                self.device.screenshot()
+        if not _get_current_zone_success:
+            self.get_current_zone()
+
         # self.map_init()
         self.hp_reset()
 
