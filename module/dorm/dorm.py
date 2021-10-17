@@ -108,6 +108,12 @@ class RewardDorm(UI):
             if self.ui_additional():
                 continue
 
+            # DORM_CHECK on screen before attempt
+            # Stacked popup may fail detection as
+            # may be in progress of appearing
+            if not self.appear(DORM_CHECK):
+                continue
+
             # End
             # - If max _dorm_receive_attempt (3+) reached
             # - If _dorm_receive_click returns 0 (no coins/loves clicked)
