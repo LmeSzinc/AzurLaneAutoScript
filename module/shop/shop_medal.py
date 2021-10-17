@@ -62,6 +62,16 @@ class MedalShop(ShopBase):
         shop_medal_items.similarity = 0.88  # Lower the threshold for consistent matches of PR/DRBP
         return shop_medal_items
 
+    @cached_property
+    def shop_medal_default_price(self):
+        """
+        return default price shows when shop items loading is not finished
+
+        Returns:
+            int
+        """
+        return 5000
+
     def shop_medal_check_item(self, item):
         """
         Args:
