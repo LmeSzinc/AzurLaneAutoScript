@@ -127,7 +127,7 @@ class ShopBase(UI):
                 tag=False
             )
 
-            if self.shop_items_loading_finished(item_grid.items):
+            if self.shop_items_loading_finished(item_grid.items, key):
                 break
 
             self.device.screenshot()
