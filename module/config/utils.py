@@ -154,6 +154,10 @@ def alas_instance():
         name, extension = os.path.splitext(file)
         if name != 'template' and extension == '.json':
             out.append(name)
+
+    if not len(out):
+        out = ['alas']
+
     return out
 
 
