@@ -232,8 +232,8 @@ class AzurLaneAutoScript:
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
     def loop(self):
-        logger.info(f'Start scheduler loop: {self.config_name}')
         logger.set_file_logger(self.config_name)
+        logger.info(f'Start scheduler loop: {self.config_name}')
 
         is_first = True
         while 1:
@@ -243,6 +243,7 @@ class AzurLaneAutoScript:
                 del self.__dict__['config']
 
             logger.info(f'Scheduler: Start task `{self.config.task}`')
+            self.device.stuck_record_clear()
             self.device.screenshot()
             logger.hr(self.config.task, level=0)
             success = self.run(inflection.underscore(self.config.task))

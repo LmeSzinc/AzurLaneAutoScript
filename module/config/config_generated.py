@@ -31,6 +31,8 @@ class GeneratedConfig:
 
     # Group `Optimization`
     Optimization_CombatScreenshotInterval = 1.0
+    Optimization_TaskHoardingDuration = 0
+    Optimization_CloseGameDuringWait = False
 
     # Group `DropRecord`
     DropRecord_SaveFolder = './screenshots'

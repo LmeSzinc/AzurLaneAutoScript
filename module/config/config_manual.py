@@ -50,8 +50,6 @@ class ManualConfig:
     """
     module.device
     """
-    SERIAL = ''
-    PACKAGE_NAME = ''
     ASCREENCAP_FILEPATH_LOCAL = './bin/ascreencap'
     ASCREENCAP_FILEPATH_REMOTE = '/data/local/tmp/ascreencap'
     MINITOUCH_FILEPATH_REMOTE = '/data/local/tmp/minitouch'

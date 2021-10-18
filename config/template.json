@@ -13,7 +13,9 @@
       "ScreenshotLength": 1
     },
     "Optimization": {
-      "CombatScreenshotInterval": 1.0
+      "CombatScreenshotInterval": 1.0,
+      "TaskHoardingDuration": 0,
+      "CloseGameDuringWait": false
     },
     "DropRecord": {
       "SaveFolder": "./screenshots",

@@ -56,6 +56,14 @@
       "CombatScreenshotInterval": {
         "type": "input",
         "value": 1.0
+      },
+      "TaskHoardingDuration": {
+        "type": "input",
+        "value": 0
+      },
+      "CloseGameDuringWait": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "DropRecord": {

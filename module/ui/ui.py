@@ -322,5 +322,7 @@ class UI(InfoHandler):
             return True
         if self.appear_then_click(AUTO_SEARCH_MENU_EXIT, offset=(200, 20), interval=3):
             return True
+        if self.appear_then_click(WITHDRAW, offset=(20, 20), interval=1.5):
+            return True
 
         return False

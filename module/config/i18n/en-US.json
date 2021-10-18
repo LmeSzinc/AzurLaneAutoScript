@@ -263,6 +263,14 @@
     "CombatScreenshotInterval": {
       "name": "Optimization.CombatScreenshotInterval.name",
       "help": "Optimization.CombatScreenshotInterval.help"
+    },
+    "TaskHoardingDuration": {
+      "name": "Optimization.TaskHoardingDuration.name",
+      "help": "Optimization.TaskHoardingDuration.help"
+    },
+    "CloseGameDuringWait": {
+      "name": "Optimization.CloseGameDuringWait.name",
+      "help": "Optimization.CloseGameDuringWait.help"
     }
   },
   "DropRecord": {
