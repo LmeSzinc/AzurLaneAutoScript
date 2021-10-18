@@ -32,8 +32,9 @@ class Fleet(Camera, AmbushHandler):
 
     @property
     def fleet_2(self):
-        if self.fleet_current_index != 2:
-            self.fleet_switch()
+        if self.config.FLEET_2 and self.config.FLEET_BOSS == 2:
+            if self.fleet_current_index != 2:
+                self.fleet_switch()
         return self
 
     @fleet_2.setter
