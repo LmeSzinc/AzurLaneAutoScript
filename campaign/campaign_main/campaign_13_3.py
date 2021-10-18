@@ -55,19 +55,17 @@ class Campaign(CampaignBase):
     def battle_0(self):
         if self.clear_siren():
             return True
-        if self.clear_enemy(scale=(2,), genre=['carrier']): # While your fleet is good on ammo it can handle carrier fleets, so i force it to fight some during the first 2 battles.
+        if self.clear_filter_enemy('2L > 2M > 3L > 2E > 3E > 2C > 3C > 3M', preserve=1):
             return True
-        if self.clear_enemy(scale=(3,2), genre=['light', 'main', 'enemy']):
-            return True
+
         return self.battle_default()
 
-    def battle_2(self):
+    def battle_5(self):
         if self.clear_siren():
             return True
-        if self.clear_enemy(scale=(3,2), genre=['light', 'main', 'enemy']):
+        if self.clear_filter_enemy('2L > 2M > 3L > 2E > 3E > 2C > 3C > 3M', preserve=0):
             return True
-        if self.clear_enemy(scale=(2,), genre=['carrier']):
-            return True
+
         return self.battle_default()
 
     def battle_6(self):

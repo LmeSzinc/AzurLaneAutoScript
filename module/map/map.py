@@ -1,8 +1,13 @@
+import re
+
+from module.base.filter import Filter
 from module.exception import MapEnemyMoved
 from module.logger import logger
 from module.map.fleet import Fleet
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.map_detection.grid_info import GridInfo
+
+ENEMY_FILTER = Filter(regex=re.compile('^(.*?)$'), attr=('str',))
 
 
 class Map(Fleet):
@@ -584,4 +589,31 @@ class Map(Fleet):
                 continue
 
         logger.warning('fleet_2_protect no siren approaching')
+        return False
+
+    def clear_filter_enemy(self, string, preserve=0):
+        """
+        Args:
+            string (str): Filter to select enemies, from easy to hard
+            preserve (int): Preserve several easiest enemies for battle without ammo.
+                When run out of ammo, use 0 to clear those preserved enemies.
+
+        Returns:
+            bool: If clear an enemy.
+        """
+        ENEMY_FILTER.load(string)
+        grids = self.map.select(is_enemy=True)
+        if not grids:
+            return False
+
+        grids = ENEMY_FILTER.apply(grids.sort('weight', 'cost').grids)
+        logger.info(f'Filter enemy: {grids}, preserve={preserve}')
+        if preserve:
+            grids = grids[preserve:]
+
+        if grids:
+            logger.hr('Clear filter enemy')
+            self.clear_chosen_enemy(grids[0])
+            return True
+
         return False

@@ -42,14 +42,21 @@ A6, B6, C6, D6, E6, F6, G6, H6, \
 
 
 class Config:
-    pass
+    MAP_SWIPE_MULTIPLY = 1.519
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.469
 
 
 class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
-        if self.clear_siren():
+        if self.clear_filter_enemy('2L > 2M > 3L > 2E > 3E > 2C > 3C > 3M', preserve=1):
+            return True
+
+        return self.battle_default()
+
+    def battle_5(self):
+        if self.clear_filter_enemy('2L > 2M > 3L > 2E > 3E > 2C > 3C > 3M', preserve=0):
             return True
 
         return self.battle_default()

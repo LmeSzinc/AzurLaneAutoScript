@@ -47,8 +47,8 @@ A7, B7, C7, D7, E7, F7, G7, H7, I7, J7, K7, \
 A8, B8, C8, D8, E8, F8, G8, H8, I8, J8, K8, \
     = MAP.flatten()
 
-class Config(ConfigBase):
 
+class Config(ConfigBase):
     INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
     EDGE_LINES_HOUGHLINES_THRESHOLD = 40
     COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.5
@@ -66,44 +66,23 @@ class Config(ConfigBase):
         'wlen': 1000,
     }
 
-#step_on = SelectedGrids([A7, B1, B7, C7, D2, D3, G7, J2, K4, K6])
-#road_main = RoadGrids([A7, B1, B7, C7, D2, D3, [G7, J2], K4, K6])
+
+# step_on = SelectedGrids([A7, B1, B7, C7, D2, D3, G7, J2, K4, K6])
+# road_main = RoadGrids([A7, B1, B7, C7, D2, D3, [G7, J2], K4, K6])
 
 class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
-#        if self.fleet_2_step_on(step_on, roadblocks=[road_main]):
-#            return True
-
-#        if self.clear_roadblocks([road_main]):
-#           return True
-#        if self.clear_potential_roadblocks([road_main]):
-#            return True
-        if self.clear_enemy(scale=(2,), genre=['carrier']): # While your fleet is good on ammo it can handle carrier fleets, so i force it to fight some during the first 2 battles.
-            return True
-        if self.clear_enemy(scale=(3,), genre=['light', 'main', 'enemy']):
+        if self.clear_filter_enemy('2L > 2M > 3L > 2E > 3E > 2C > 3C > 3M', preserve=0):
             return True
 
         return self.battle_default()
 
     def battle_3(self):
-#        if self.fleet_2_step_on(step_on, roadblocks=[road_main]):
-#            return True
+        self.pick_up_ammo()
 
-#        if self.fleet_boss_index == 1:
-#            self.pick_up_ammo()
-
-        if self.battle_count >= 3:
-            self.pick_up_ammo()
-
-#        if self.clear_roadblocks([road_main]):
-#            return True
-#        if self.clear_potential_roadblocks([road_main]):
-#            return True
-        if self.clear_enemy(scale=(3,2,1), genre=['light', 'main', 'enemy']):
-            return True
-        if self.clear_enemy(scale=(2,1), genre=['carrier']):
+        if self.clear_filter_enemy('2L > 2M > 3L > 2E > 3E > 2C > 3C > 3M', preserve=0):
             return True
 
         return self.battle_default()
