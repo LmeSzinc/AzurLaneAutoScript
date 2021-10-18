@@ -80,6 +80,28 @@ class ShopBase(UI):
         except AttributeError:
             logger.warning(f'shop_get_currency --> Missing func shop_{key}_get_currency')
 
+    def shop_items_loading_finished(self, items, key='medal'):
+        """
+        Check if shop items loading is finished. If not, the game shows some default items.
+
+        Args:
+            items: list[Item]
+            key: String identifies which shop
+
+        Returns:
+            bool:
+        """
+        # Use default price to check
+        try:
+            default_price = self.__getattribute__(f'shop_{key}_default_price')
+        except AttributeError:
+            return True
+
+        for item in items:
+            if int(item.price) == default_price:
+                return False
+        return True
+
     def shop_get_items(self, key='general'):
         """
         Args:
@@ -95,14 +117,20 @@ class ShopBase(UI):
             logger.warning(f'shop_get_items --> Missing cached_property shop_{key}_items')
             return []
 
-        item_grid.predict(
-            self.device.image,
-            name=True,
-            amount=False,
-            cost=True if key == 'general' else False,
-            price=True,
-            tag=False
-        )
+        while 1:
+            item_grid.predict(
+                self.device.image,
+                name=True,
+                amount=False,
+                cost=True if key == 'general' else False,
+                price=True,
+                tag=False
+            )
+
+            if self.shop_items_loading_finished(item_grid.items, key):
+                break
+
+            self.device.screenshot()
 
         items = item_grid.items
         if len(items):
