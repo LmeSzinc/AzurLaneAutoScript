@@ -602,7 +602,7 @@ class Map(Fleet):
             bool: If clear an enemy.
         """
         ENEMY_FILTER.load(string)
-        grids = self.map.select(is_enemy=True)
+        grids = self.map.select(is_enemy=True, is_accessible=True)
         if not grids:
             return False
 

@@ -52,6 +52,8 @@ class Config:
         'distance': 50,
         'wlen': 1000,
     }
+    MAP_SWIPE_MULTIPLY = 1.493
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.443
 
 
 class Campaign(CampaignBase):
