@@ -101,8 +101,9 @@ class LoginHandler(Combat):
         logger.hr('App restart')
         self.device.app_stop()
 
-        if self.config.Scheduler_NextRun > datetime.now():
-            target = self.config.Scheduler_NextRun - timedelta(seconds=5)
+        now = datetime.now()
+        target = self.config.Scheduler_NextRun
+        if target > now:
             task = 'unknown'
             for waiting in self.config.waiting_task:
                 if waiting.command != 'Restart':
@@ -110,7 +111,7 @@ class LoginHandler(Combat):
                     break
 
             logger.info(f'{self.config.Emulator_PackageName} will be started at {target} for task `{task}`')
-            time.sleep(target.timestamp() - datetime.now().timestamp())
+            time.sleep(target.timestamp() - now.timestamp() + 1)
 
         self.device.app_start()
         self.handle_app_login()
@@ -123,6 +124,7 @@ class LoginHandler(Combat):
             in: page_main
             out: page_main
         """
+
         def ensure_campaign_retreat():
             if self.appear_then_click(WITHDRAW, offset=(30, 30), interval=5):
                 return True
