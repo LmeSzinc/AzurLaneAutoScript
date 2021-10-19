@@ -23,7 +23,7 @@ class Function:
         self.next_run = deep_get(data, keys='Scheduler.NextRun', default=datetime(2020, 1, 1, 0, 0))
 
     def __str__(self):
-        return f'<{self.command} ({self.enable}, {str(self.next_run)})>'
+        return f'{self.command} ({self.enable}, {str(self.next_run)})'
 
     __repr__ = __str__
 
@@ -44,6 +44,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
             super().__setattr__(key, value)
 
     def __init__(self, config_name, task=None):
+        logger.attr('Server', server.server)
         # This will read ./config/<config_name>.json
         self.config_name = config_name
         # Raw json data in yaml file.
@@ -58,9 +59,11 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
         # Force override variables
         # Key: Argument name in GeneratedConfig. Value: Modified value.
         self.overridden = {}
-        # Scheduler queue, will be updated in `get_next()`, list of Function objects
-        self.waiting_task = []
+        # Scheduler queue, will be updated in `get_next_task()`, list of Function objects
+        # pending_task: Run time has been reached, but haven't been run due to task scheduling.
+        # waiting_task: Run time haven't been reached, wait needed.
         self.pending_task = []
+        self.waiting_task = []
         # Task to run and bind.
         # Task means the name of the function to run in AzurLaneAutoScript class.
         if config_name == 'template':
@@ -107,55 +110,71 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
         for arg, value in self.overridden.items():
             super().__setattr__(arg, value)
 
+    @property
+    def hoarding(self):
+        return timedelta(minutes=deep_get(self.data, keys='Alas.Optimization.TaskHoardingDuration', default=0))
+
+    @property
+    def close_game(self):
+        return deep_get(self.data, keys='Alas.Optimization.CloseGameDuringWait', default=False)
+
+    def get_next_task(self):
+        """
+        Calculate tasks, set pending_task and waiting_task
+        """
+        pending = []
+        waiting = []
+        now = datetime.now()
+        if AzurLaneConfig.is_hoarding_task:
+            now -= self.hoarding
+        for func in self.data.values():
+            func = Function(func)
+            if func.next_run < now:
+                pending.append(func)
+            else:
+                waiting.append(func)
+
+        if pending:
+            f = Filter(regex=r'(.*)', attr=['command'])
+            f.load(self.SCHEDULER_PRIORITY)
+            pending = f.apply(pending, func=lambda x: x.enable)
+        if waiting:
+            waiting = sorted(waiting, key=operator.attrgetter('next_run'))
+
+        self.pending_task = pending
+        self.waiting_task = waiting
+
     def get_next(self):
         """
         Returns:
             str: Command to run
         """
-        pending = []
-        waiting = []
-        now = datetime.now()
-        hoarding = timedelta(minutes=deep_get(self.data, keys='Alas.Optimization.TaskHoardingDuration', default=0))
-        close_game = deep_get(self.data, keys='Alas.Optimization.CloseGameDuringWait', default=False)
-        for func in self.data.values():
-            func = Function(func)
-            if func.next_run + hoarding < now:
-                pending.append(func)
-            else:
-                waiting.append(func)
+        self.get_next_task()
 
-        self.pending_task = pending
-        if pending:
+        if self.pending_task:
             AzurLaneConfig.is_hoarding_task = False
-            f = Filter(regex=r'(.*)', attr=['command'])
-            f.load(self.SCHEDULER_PRIORITY)
-            pending = f.apply(pending, func=lambda x: x.enable)
-            pending = [f.command for f in pending]
-            if pending:
-                logger.info(f'Pending tasks: {pending}')
-                self.pending_task = pending
-                task = pending[0]
-                logger.attr('Task', task)
-                return task
+            pending = [f.command for f in self.pending_task]
+            logger.info(f'Pending tasks: {pending}')
+            self.pending_task = pending
+            task = pending[0]
+            logger.attr('Task', task)
+            return task
         else:
             AzurLaneConfig.is_hoarding_task = True
 
-        self.waiting_task = waiting
-        if waiting:
-            waiting = sorted(waiting, key=operator.attrgetter('next_run'))
-            self.waiting_task = waiting
-            waiting = waiting[0]
-            target = (waiting.next_run + hoarding).replace(microsecond=0)
+        if self.waiting_task:
+            task = self.waiting_task[0]
+            target = (task.next_run + self.hoarding).replace(microsecond=0)
             logger.info('No task pending')
-            logger.info(f'Wait until {target} for task `{waiting.command}`')
-            if close_game:
+            logger.info(f'Wait until {target} for task `{task.command}`')
+            if self.close_game:
                 self.modified['Restart.Scheduler.Enable'] = True
                 self.modified['Restart.Scheduler.NextRun'] = target
                 self.task = 'Restart'
                 self.update()
                 return 'Restart'
             else:
-                time.sleep(waiting.next_run.timestamp() - datetime.now().timestamp() + 1)
+                time.sleep(task.next_run.timestamp() - datetime.now().timestamp() + 1)
                 return self.get_next()
         else:
             logger.critical('No task waiting or pending')
@@ -467,3 +486,9 @@ class MultiSetWrapper:
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.main.update()
         self.main.auto_update = True
+
+cfg = AzurLaneConfig('alas')
+cfg.get_next_task()
+print(cfg.pending_task)
+print(cfg.waiting_task)
+print(cfg.task)
