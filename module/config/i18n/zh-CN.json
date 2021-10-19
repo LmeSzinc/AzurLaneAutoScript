@@ -111,8 +111,8 @@
       "help": ""
     },
     "DataKey": {
-      "name": "Task.DataKey.name",
-      "help": "Task.DataKey.help"
+      "name": "档案密钥",
+      "help": ""
     },
     "Daily": {
       "name": "每日任务",
@@ -1122,7 +1122,7 @@
     },
     "ShipIndex": {
       "name": "舰船序号",
-      "help": "从左往右数，从0开始"
+      "help": "从左往右数，从1开始"
     },
     "BuyAmount": {
       "name": "购买数量",
