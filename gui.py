@@ -7,16 +7,18 @@ from multiprocessing import Manager, Process
 from pywebio.exceptions import *
 from pywebio.session import defer_call, go_app, info, register_thread, set_env
 
+from module.logger import logger  # Change folder
 import module.webui.lang as lang
+from module.config.config import AzurLaneConfig, Function
 from module.config.config_updater import ConfigUpdater
 from module.config.utils import *
-from module.logger import logger  # Change folder
 from module.webui.lang import _t, t
 from module.webui.translate import translate
 from module.webui.utils import Icon, QueueHandler
 from module.webui.utils import ThreadWithException as Thread
-from module.webui.utils import (active_button, add_css, filepath_css,
-                                get_output, login, parse_pin_value)
+from module.webui.utils import (active_button, add_css, collapse_menu,
+                                expand_menu, filepath_css, get_output, login,
+                                parse_pin_value)
 from module.webui.widgets import *
 
 all_alas = {}
@@ -111,11 +113,14 @@ class AlasGUI:
     alas: Alas
 
     def __init__(self):
+        # modified keys, return values of pin_wait_change()
         self.modified_config_queue = queue.Queue()
+        # list of threads, kill all when call `kill_thread()`
         self._thread_kill_after_leave = []
-        self.alas_name = 'alas'
+        # alas config name
+        self.alas_name = ''
         self.alive = True
-        self.aside = output().style("container-aside")
+        self.aside = output()
         self.menu = output().style("container-menu")
         self.content = output().style("container-content")
         self.title = output().style("title-text-title")
@@ -126,7 +131,7 @@ class AlasGUI:
             put_text("Alas").style("title-text-alas"),
             self.status,
             self.title,
-        ], size="5.6rem 3.75rem 8rem minmax(8rem, 65rem)").style("container-title")
+        ], size="5.6rem 3.75rem 8rem minmax(5rem, 65rem)").style("container-title")
 
         self.asides = put_column([
             self.aside,
@@ -140,11 +145,19 @@ class AlasGUI:
             ).style("aside-icon-setting"),
         ], size="auto 1fr auto").style("container-aside")
 
-        self.contents = put_row([
-            self.asides,
-            self.menu,
-            self.content,
-        ], size="auto 12rem 1fr").style("container-main")
+        if info.user_agent.is_mobile:
+            self.contents = put_row([
+                self.asides,
+                self.menu,
+                None,
+                self.content,
+            ], size="auto auto 1fr").style("container-main")
+        else:
+            self.contents = put_row([
+                self.asides,
+                self.menu,
+                self.content,
+            ], size="auto auto 1fr").style("container-main")
 
         self.main_area = output(
             put_column([
@@ -153,7 +166,11 @@ class AlasGUI:
             ], size="auto 1fr").style("container-all")
         ).style("container-gui")
 
-        self.logs = ScrollableCode()
+        self.alas_logs = ScrollableCode()
+        self.alas_running = output().style("container-overview-task")
+        self.alas_pending = output().style("container-overview-task")
+        self.alas_waiting = output().style("container-overview-task")
+        
 
     def set_aside(self):
         self.aside.reset()
@@ -235,9 +252,10 @@ class AlasGUI:
                 {"label": t("Gui.MenuAlas.Overview"),
                  "value": "Overview", "color": "menu"}
             ], onclick=[self.alas_overview]).style(f'--menu-Overview--'),
-            # put_buttons([
-            #     {"label": t("Gui.MenuAlas.Log"), "value": "Log", "color": "menu"}
-            # ], onclick=[self.alas_log]).style(f'--menu-Log--'),
+            put_buttons([
+                {"label": t("Gui.MenuAlas.Log"),
+                 "value": "Log", "color": "menu"}
+            ], onclick=[self.alas_log]).style(f'--menu-Log--'),
         )
         for key, tasks in deep_iter(ALAS_MENU, depth=2):
             # path = '.'.join(key)
@@ -257,18 +275,23 @@ class AlasGUI:
         """
         Set arg groups from dict
         """
-        self.title.reset(f"{self.alas_name} - {t(f'Task.{task}.name')}")
+        self.title.reset(f"{t(f'Task.{task}.name')}")
         self.content.reset()
         self.kill_thread()
         active_button('menu', task)
+        collapse_menu()
 
         group_area = output()
         navigator = output()
-        content_alas = put_row([
-            None,
-            group_area,
-            navigator,
-        ], size=".5fr minmax(25rem, 5fr) 2fr")
+
+        if info.user_agent.is_mobile:
+            content_alas = group_area
+        else:
+            content_alas = put_row([
+                None,
+                group_area,
+                navigator,
+            ], size=".5fr minmax(25rem, 5fr) 2fr")
 
         self.content.append(content_alas)
 
@@ -304,6 +327,11 @@ class AlasGUI:
                 if arg_help == "" or not arg_help:
                     arg_help = None
 
+                if info.user_agent.is_mobile:
+                    width = '8rem'
+                else:
+                    width = '12rem'
+
                 arg_group.append(get_output(
                     arg_type=arg_type,
                     name=path_to_idx[f"{task}.{group}.{arg}"],
@@ -311,24 +339,133 @@ class AlasGUI:
                     arg_help=arg_help,
                     value=value,
                     options=option,
+                    width=width,
                 ))
 
     def alas_overview(self):
-        self.title.reset(f"{self.alas_name} - {t(f'Gui.MenuAlas.Overview')}")
+        self.title.reset(f"{t(f'Gui.MenuAlas.Overview')}")
         self.content.reset()
         self.kill_thread()
         active_button('menu', 'Overview')
+        collapse_menu()
+
+        scheduler = put_row([
+            put_text(t("Gui.Overview.Scheduler")).style(
+                "font-size: 1.5rem; margin: 0 .5rem 0;"),
+            None,
+            put_buttons(
+                buttons=[
+                    {"label": t("Gui.Button.Start"), 
+                    "value": "Start", "color": "scheduler-on"},
+                    {"label": t("Gui.Button.Stop"), 
+                    "value": "Stop", "color": "scheduler-off"},
+                ],
+                onclick=[
+                    self.alas.start,
+                    self.alas.stop,
+                ]
+            )
+        ], size="auto 1fr auto").style("container-overview-group")
+
+        log = put_row([
+            put_text(t("Gui.Overview.Log")).style(
+                "font-size: 1.5rem; margin: 0 .5rem 0;"),
+            None,
+            put_buttons(
+                buttons=[
+                    {"label": t("Gui.Button.ScrollON"), 
+                    "value": "ScrollON", "color": "scheduler-on"},
+                    {"label": t("Gui.Button.ScrollOFF"), 
+                    "value": "ScrollOFF", "color": "scheduler-on"},
+                ],
+                onclick=[
+                    lambda: self.alas_logs.set_scroll(True),
+                    lambda: self.alas_logs.set_scroll(False),
+                ]
+            )
+        ], size="auto 1fr auto").style("container-overview-group")
+
+        running = put_column([
+            put_text(t("Gui.Overview.Running")).style("group-title"),
+            put_html('<hr class="hr-group">'),
+            self.alas_running,
+        ], size="auto auto 1fr").style("container-overview-group")
+
+        pending = put_column([
+            put_text(t("Gui.Overview.Pending")).style("group-title"),
+            put_html('<hr class="hr-group">'),
+            self.alas_pending,
+        ], size="auto auto 1fr").style("container-overview-group")
+
+        waiting = put_column([
+            put_text(t("Gui.Overview.Waiting")).style("group-title"),
+            put_html('<hr class="hr-group">'),
+            self.alas_waiting,
+        ], size="auto auto 1fr").style("container-overview-group")
+
+        if info.user_agent.is_mobile:
+            self.content.append(
+                put_column([
+                    scheduler,
+                    running,
+                    pending,
+                    waiting,
+                ], size="auto 7.25rem 12.5rem 12.5rem"),
+                put_column([
+                    log,
+                    self.alas_logs.output
+                ], size="auto 1fr").style("height: 100%; overflow-y: auto")
+            )
+        else:
+            self.content.append(
+                put_row([
+                    put_column([
+                        scheduler,
+                        running,
+                        pending,
+                        waiting,
+                    ], size="auto 7.25rem minmax(7.25rem, 13rem) minmax(7.25rem, 1fr)"
+                    ).style("height: 100%; overflow-y: auto"),
+                    put_column([
+                        log,
+                        self.alas_logs.output
+                    ], size="auto 1fr").style("height: 100%; overflow-y: auto"),
+                ], size="minmax(16rem, 20rem) minmax(24rem, 1fr)"
+                ).style("height: 100%; overflow-y: auto"),
+            )
+
+        thd_task = Thread(target=self._alas_thread_refresh_overiew_tasks)
+        register_thread(thd_task)
+        thd_task.start()
+        self._thread_kill_after_leave.append(thd_task)
+
+        thd_log = Thread(target=self._alas_thread_put_log)
+        register_thread(thd_log)
+        thd_log.start()
+        self._thread_kill_after_leave.append(thd_log)
+
+    def alas_log(self):
+        self.title.reset(f"{t(f'Gui.MenuAlas.Log')}")
+        self.content.reset()
+        self.kill_thread()
+        active_button('menu', 'Log')
+        collapse_menu()
 
         self.content.append(
             put_column([
-                self.logs.output,
+                self.alas_logs.output,
                 put_buttons(
-                    buttons=['Start', 'Stop', 'Scroll ON', 'Scroll OFF'],
+                    buttons=[
+                        {'label': t('Gui.Button.Start'), 'value': 'Start'},
+                        {'label': t('Gui.Button.Stop'), 'value': 'Stop'},
+                        {'label': t('Gui.Button.ScrollON'), 'value': 'ScrollON'},
+                        {'label': t('Gui.Button.ScrollOFF'), 'value': 'ScrollOFF'},
+                    ],
                     onclick=[
                         self.alas.start,
                         self.alas.stop,
-                        lambda: self.logs.set_scroll(True),
-                        lambda: self.logs.set_scroll(False)
+                        lambda: self.alas_logs.set_scroll(True),
+                        lambda: self.alas_logs.set_scroll(False)
                     ]
                 ),
             ], size="auto 3rem").style("height: 100%")
@@ -337,11 +474,6 @@ class AlasGUI:
         register_thread(thd)
         thd.start()
         self._thread_kill_after_leave.append(thd)
-
-    def alas_log(self):
-        toast('Not implemented', position='right', color='error')
-        return
-        active_button('menu', 'Log')
 
     def _alas_thread_wait_config_change(self):
         paths = []
@@ -382,7 +514,7 @@ class AlasGUI:
 
     def _alas_thread_put_log(self):
         last_idx = len(self.alas.log)
-        self.logs.append(''.join(self.alas.log))
+        self.alas_logs.append(''.join(self.alas.log))
         self.lines = 0
         time.sleep(1)
         while True:
@@ -392,7 +524,7 @@ class AlasGUI:
                 last_idx -= self.alas.log_reduce_length
             if idx != last_idx:
                 try:
-                    self.logs.append(''.join(self.alas.log[last_idx:idx]))
+                    self.alas_logs.append(''.join(self.alas.log[last_idx:idx]))
                 except SessionNotFoundException:
                     break
                 self.lines += idx - last_idx
@@ -414,11 +546,65 @@ class AlasGUI:
             self.alas_update_status()
             time.sleep(5)
 
+    def alas_update_overiew_tasks(self):
+        self.alas_config.load()
+        self.alas_config.get_next_task()
+
+        if len(self.alas_config.pending_task) >= 1:
+            if self.alas.process.is_alive():
+                running = self.alas_config.pending_task[:1]
+                pending = self.alas_config.pending_task[1:]
+            else:
+                running = []
+                pending = self.alas_config.pending_task[:]
+        else:
+            running = []
+            pending = []
+        waiting = self.alas_config.waiting_task
+
+        def box(func:Function):
+            return put_row([
+                put_column([
+                    put_text(t(f'Task.{func.command}.name')).style("arg-title"),
+                    put_text(str(func.next_run)).style("arg-help"),
+                ], size="auto auto"),
+                put_button(
+                    label=t("Gui.Button.Setting"),
+                    onclick=lambda: self.alas_set_group(func.command),
+                    color="scheduler-on"
+                ),
+            ], size="1fr auto").style("container-args")
+        
+        no_task_style = "text-align:center; font-size: 0.875rem; color: darkgrey;"
+
+        if running:
+            self.alas_running.reset(*[box(task) for task in running])
+        else:
+            self.alas_running.reset(
+                put_text(t("Gui.Overview.NoTask")).style(no_task_style)
+            )
+        if pending:
+            self.alas_pending.reset(*[box(task) for task in pending])
+        else:
+            self.alas_pending.reset(
+                put_text(t("Gui.Overview.NoTask")).style(no_task_style)
+            )
+        if waiting:
+            self.alas_waiting.reset(*[box(task) for task in waiting])
+        else:
+            self.alas_waiting.reset(
+                put_text(t("Gui.Overview.NoTask")).style(no_task_style)
+            )
+
+    def _alas_thread_refresh_overiew_tasks(self):
+        while self.alive:
+            self.alas_update_overiew_tasks()
+            time.sleep(20)
+
     # Develop
 
     def dev_set_menu(self):
         self.menu.reset()
-        self.content.reset()
         self.title.reset(f"{t('Gui.Aside.Develop')}")
         self.kill_thread()
 
@@ -442,16 +628,22 @@ class AlasGUI:
     # Aside UI route
 
     def ui_develop(self):
+        expand_menu()
         self.dev_set_menu()
         active_button('aside', 'develop')
+        self.alas_name = ''
 
     def ui_performance(self):
         toast('Not implemented', position='right', color='error')
 
     def ui_alas(self, config_name):
+        if config_name == self.alas_name:
+            expand_menu()
+            return
         self.alas_name = config_name
         self.alas = get_alas(config_name)
-        self.title.reset(f"{self.alas_name}")
+        self.alas_config = AzurLaneConfig(config_name, '')
+        self.title.reset()
         self.alas_update_status()
         active_button('aside', config_name)
         self.alas_set_menu()
@@ -459,9 +651,12 @@ class AlasGUI:
     def ui_setting(self):
         toast('Not implemented', position='right', color='error')
         return
+        expand_menu()
         active_button('aside', 'setting')
+        self.alas_name = ''
 
     def stop(self):
+        self.kill_thread()
         self.alive = False
 
     def run(self):
@@ -471,6 +666,9 @@ class AlasGUI:
         defer_call(self.stop)
         self.main_area.show()
         self.set_aside()
+        collapse_menu()
+        if info.user_agent.is_mobile:
+            add_css(filepath_css('alas-mobile'))
 
         if lang.TRANSLATE_MODE:
             lang.reload()

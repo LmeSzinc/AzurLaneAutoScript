@@ -45,6 +45,7 @@ footer {
     border-left: .125rem solid;
     padding-right: .625rem;
     border-color: #4E4C97;
+    color: #4E4C97;
 }
 
 .btn-aside {
@@ -65,6 +66,25 @@ footer {
     border-left: 4px solid;
     padding-left: 3px;
     border-color: #4E4C97;
+    color: #4E4C97;
+}
+
+.btn-scheduler-on {
+    border: 1px solid lightgray;
+    border-radius: 0;
+    margin: 0;
+}
+
+.btn-scheduler-off {
+    border: 1px solid lightgray;
+    border-radius: 0;
+    margin: 0;
+    background-color: #4E4C97;
+    color: white;
+}
+
+.btn-scheduler-off:hover {
+    color: white;
 }
 
 .toastify-center, .toastify-right, .toastify-left{
@@ -157,25 +177,34 @@ textarea {
     margin-bottom: 0px !important;
 }
 
+.container-log {
+    border: 1px solid lightgray;
+    border-radius: 0 !important;
+    margin: .5rem !important;
+    background-color: white !important;
+}
+
 *[style*="container-aside"] {
     padding-left: .125rem;
     padding-right: .325rem;
     overflow-y: auto;
+    border-right: 1px solid lightgray;
 }
 
 *[style*="container-menu"] {
-    border-left: 1px solid lightgrey;
     border-right: 1px solid lightgrey;
     padding-left: .5rem;
     padding-top: .75rem;
     overflow-y: auto;
+    min-width: 12rem;
 }
 
 *[style*="container-content"] {
-    background-color: whitesmoke;
-    margin: 0px .5rem; overflow-y: auto;
-    overflow-x: auto;
+    background-color: #F9F9F9;
+    margin: 0px .5rem;
+    overflow: auto;
     max-width: 65rem;
+    padding: .75rem
 }
 
 *[style*="title-icon-alas"] {
@@ -207,13 +236,8 @@ textarea {
 }
 
 *[style*="aside-icon-setting"] {
-    padding: .5rem .325rem 0 .125rem;
+    padding-top: .5rem;
     border-top: 1px solid lightgrey;
-}
-
-*[style*="aside-icon-settings"] {
-    padding: .5rem .325rem 0 .125rem;
-    border-top: 10px solid lightgrey;
 }
 
 *[style*="container-main"] {
@@ -244,8 +268,21 @@ textarea {
     background-color: white;
     margin-top: .75rem;
     margin-bottom: .25rem;
-    padding: 1rem 1rem 1rem 1rem;
+    padding: 1rem;
     border: 1px solid lightgray;
+}
+
+*[style*="container-overview-group"] {
+    background-color: white;
+    margin: .5rem;
+    padding: .5rem;
+    border: 1px solid lightgray;
+    overflow-y: auto;
+}
+
+*[style*="container-overview-task"] {
+    overflow-y: auto;
+    height: 100%;
 }
 
 *[style*="container-args"] {
@@ -283,8 +320,4 @@ textarea {
     margin: 2rem;
     padding: 1rem 1rem 1rem 1rem;
     border: 1px solid lightgray;
-}
-
-*[style*="container-full_log"] {
-    height: 80%;
 }

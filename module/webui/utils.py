@@ -120,3 +120,15 @@ def active_button(position, value):
     $("button.btn-{position}").removeClass("btn-{position}-active");
     $("div[style*='--{position}-{value}--']>button").addClass("btn-{position}-active");
     """)
+
+def collapse_menu():
+    run_js(f"""
+        $("[style*=container-menu]").addClass("container-menu-collapsed");
+        $(".container-content-collapsed").removeClass("container-content-collapsed");
+    """)
+
+def expand_menu():
+    run_js(f"""
+        $(".container-menu-collapsed").removeClass("container-menu-collapsed");
+        $("[style*=container-content]").addClass("container-content-collapsed");
+    """)

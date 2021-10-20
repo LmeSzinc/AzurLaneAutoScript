@@ -8,9 +8,12 @@ Aside:
   Setting:
 
 Button:
+  Start:
+  Stop:
   ScrollON:
   ScrollOFF:
   ClearLog:
+  Setting:
 
 Toast:
   DisableTranslateMode:
@@ -28,3 +31,11 @@ MenuAlas:
 
 MenuDevelop:
   Translate:
+
+Overview:
+  Scheduler:
+  Log:
+  Running:
+  Pending:
+  Waiting:
+  NoTask:

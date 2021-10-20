@@ -1,0 +1,12 @@
+.container-menu-collapsed {
+    display: none;
+}
+
+.container-content-collapsed {
+    display: none;
+}
+
+*[style*="container-content"] {
+    padding: .25rem;
+    margin: 0px .25rem;
+}

@@ -16,7 +16,8 @@ class ScrollableCode:
 
         self.id = ''.join(random.choice(string.ascii_letters)
                           for _ in range(10))
-        self.html = '<pre id="%s"><code style="white-space:break-spaces;"></code></pre>' % self.id
+        self.html = """<pre id="%s" class="container-log"><code style="white-space:break-spaces;"></code></pre>"""\
+            % self.id
         self.output = put_html(self.html)
 
     def append(self, text):

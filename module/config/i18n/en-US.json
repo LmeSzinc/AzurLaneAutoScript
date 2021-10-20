@@ -1458,9 +1458,12 @@
       "Setting": "Settings"
     },
     "Button": {
-      "ScrollON": "Scroll ON",
-      "ScrollOFF": "Scroll OFF",
-      "ClearLog": "Clear Log"
+      "Start": "Start",
+      "Stop": "Stop",
+      "ScrollON": "Auto Scroll ON",
+      "ScrollOFF": "OFF",
+      "ClearLog": "Clear Log",
+      "Setting": "Setting"
     },
     "Toast": {
       "DisableTranslateMode": "Click here to disable translate mode",
@@ -1478,6 +1481,14 @@
     },
     "MenuDevelop": {
       "Translate": "Translate"
+    },
+    "Overview": {
+      "Scheduler": "Scheduler",
+      "Log": "Log",
+      "Running": "Running",
+      "Pending": "Pending",
+      "Waiting": "Waiting",
+      "NoTask": "No Task"
     }
   }
 }

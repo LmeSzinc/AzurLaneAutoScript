@@ -1458,9 +1458,12 @@
       "Setting": "Gui.Aside.Setting"
     },
     "Button": {
+      "Start": "Gui.Button.Start",
+      "Stop": "Gui.Button.Stop",
       "ScrollON": "Gui.Button.ScrollON",
       "ScrollOFF": "Gui.Button.ScrollOFF",
-      "ClearLog": "Gui.Button.ClearLog"
+      "ClearLog": "Gui.Button.ClearLog",
+      "Setting": "Gui.Button.Setting"
     },
     "Toast": {
       "DisableTranslateMode": "Gui.Toast.DisableTranslateMode",
@@ -1478,6 +1481,14 @@
     },
     "MenuDevelop": {
       "Translate": "Gui.MenuDevelop.Translate"
+    },
+    "Overview": {
+      "Scheduler": "Gui.Overview.Scheduler",
+      "Log": "Gui.Overview.Log",
+      "Running": "Gui.Overview.Running",
+      "Pending": "Gui.Overview.Pending",
+      "Waiting": "Gui.Overview.Waiting",
+      "NoTask": "Gui.Overview.NoTask"
     }
   }
 }
