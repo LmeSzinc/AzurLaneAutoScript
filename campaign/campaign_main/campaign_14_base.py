@@ -1,6 +1,7 @@
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.logger import logger
 
+
 class Config:
     HOMO_EDGE_COLOR_RANGE = (0, 12)
     MAP_SWIPE_MULTIPLY = 1.537
@@ -17,6 +18,13 @@ class CampaignBase(CampaignBase_):
         self.picked_light_house = []
         self.picked_flare = []
 
+    def handle_mystery_items(self, button=None, drop=None):
+        """
+        Handle get flares, but not counted as mystery.
+        """
+        super().handle_mystery_items(button=button, drop=None)
+        return False
+
     def pick_up_flare(self, grid):
         """
         Args:
@@ -31,7 +39,7 @@ class CampaignBase(CampaignBase_):
         elif grid.is_accessible:
             logger.info(f'Pick up flares on {grid}')
             # get_items shows after flares picked up.
-            self.clear_chosen_mystery(grid)
+            self.goto(grid)
             self.picked_flare.append(grid)
         else:
             logger.info(f'Flares {grid} not accessible, will check in next battle')

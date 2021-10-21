@@ -17,34 +17,76 @@ class MysteryHandler(StrategyHandler, EnemySearchingHandler):
             button (optional): Button to click when get_items.
                 Can be destination grid which makes the bot more like human.
         """
-        if button is None or area_in_area(button.button, MYSTERY_ITEM.area, threshold=20):
-            button = MYSTERY_ITEM
-
         with self.stat.new(
                 genre=self.config.campaign_name, save=self.config.DropRecord_SaveCombat, upload=False
         ) as drop:
-            if self.appear(GET_ITEMS_1):
-                logger.attr('Mystery', 'Get item')
-                drop.add(self.device.image)
-                self.device.click(button)
-                self.device.sleep(0.5)
-                self.device.screenshot()
-                self.strategy_close()
+            if self.handle_mystery_items(button=button, drop=drop):
                 return 'get_item'
-
-            if self.info_bar_count():
-                if self._get_ammo_log_timer.reached() and self.appear(GET_AMMO):
-                    logger.attr('Mystery', 'Get ammo')
-                    self._get_ammo_log_timer.reset()
-                    drop.add(self.device.image)
-                    return 'get_ammo'
-
-            if self.config.MAP_MYSTERY_HAS_CARRIER:
-                if self.is_in_map() and self.enemy_searching_appear():
-                    logger.attr('Mystery', 'Get carrier')
-                    self.carrier_count += 1
-                    drop.add(self.device.image)
-                    self.handle_in_map_with_enemy_searching()
-                    return 'get_carrier'
+            if self.handle_mystery_ammo(drop=drop):
+                return 'get_ammo'
+            if self.handle_mystery_carrier(drop=drop):
+                return 'get_carrier'
 
             return False
+
+    def handle_mystery_items(self, button=None, drop=None):
+        """
+        Args:
+            button: Button to click when get_items.
+                Can be destination grid which makes the bot more like human.
+            drop (DropImage):
+
+        Returns:
+            bool: If handled.
+        """
+        if button is None or area_in_area(button.button, MYSTERY_ITEM.area, threshold=20):
+            button = MYSTERY_ITEM
+
+        if self.appear(GET_ITEMS_1):
+            logger.attr('Mystery', 'Get item')
+            if drop:
+                drop.add(self.device.image)
+            self.device.click(button)
+            self.device.sleep(0.5)
+            self.device.screenshot()
+            self.strategy_close()
+            return True
+
+        return False
+
+    def handle_mystery_ammo(self, drop=None):
+        """
+        Args:
+            drop (DropImage):
+
+        Returns:
+            bool: If handled.
+        """
+        if self.info_bar_count():
+            if self._get_ammo_log_timer.reached() and self.appear(GET_AMMO):
+                logger.attr('Mystery', 'Get ammo')
+                self._get_ammo_log_timer.reset()
+                if drop:
+                    drop.add(self.device.image)
+                return True
+
+        return False
+
+    def handle_mystery_carrier(self, drop=None):
+        """
+        Args:
+            drop (DropImage):
+
+        Returns:
+            bool: If handled.
+        """
+        if self.config.MAP_MYSTERY_HAS_CARRIER:
+            if self.is_in_map() and self.enemy_searching_appear():
+                logger.attr('Mystery', 'Get carrier')
+                self.carrier_count += 1
+                if drop:
+                    drop.add(self.device.image)
+                self.handle_in_map_with_enemy_searching()
+                return True
+
+        return False

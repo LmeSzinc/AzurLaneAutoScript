@@ -123,7 +123,7 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_6(self):
-        self.pick_up_light_house(A8)
+        self.pick_up_light_house(A9)
         self.pick_up_ammo()
         self.pick_up_flare(H9)
 
