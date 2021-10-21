@@ -1,4 +1,7 @@
+import numpy as np
+
 from module.base.timer import Timer
+from module.base.utils import color_similarity_2d
 from module.logger import logger
 from module.map.assets import MAP_CAT_ATTACK
 from module.map.map_operation import MapOperation
