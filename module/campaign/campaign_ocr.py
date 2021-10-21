@@ -142,7 +142,7 @@ class CampaignOcr(ModuleBase):
         x_skip = 10
         interval = 5
         x_color = np.convolve(np.mean(image, axis=0), np.ones(interval), 'valid') / interval
-        x_list = np.where(x_color[x_skip:] > 235)[0]
+        x_list = np.where(x_color[x_skip:] > 240)[0]
         if x_list is None or len(x_list) == 0:
             logger.warning('No interval between digit and text.')
             area = (0, 0, image.shape[1], image.shape[0])

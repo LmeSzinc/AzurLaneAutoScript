@@ -4,6 +4,8 @@ import re
 from dev_tools.slpp import slpp
 from module.base.utils import location2node
 from module.map.utils import *
+from dev_tools.utils import LuaLoader
+from module.logger import logger
 
 """
 This an auto-tool to extract map files used in Alas.
@@ -523,10 +525,9 @@ class ChapterTemplate:
 """
 This an auto-tool to extract map files used in Alas.
 
-Git clone https://github.com/Dimbreath/AzurLaneData, to get the decrypted scripts.
+Git clone https://github.com/AzurLaneTools/AzurLaneLuaScripts, to get the decrypted scripts.
 Arguments:
-    FILE:            Folder contains `chapter_template.lua` and `expedition_data_template.lua`,
-                     Such as '<your_folder>/<server>/sharecfg'
+    FILE:            Path to your AzurLaneLuaScripts directory
     FOLDER:          Folder to save, './campaign/test'
     KEYWORD:         A keyword in map name, such as '短兵相接' (7-2, zh-CN), 'Counterattack!' (3-4, en-US)
                      Or map id, such as 702 (7-2), 1140017 (Iris of Light and Dark D2)
@@ -543,11 +544,12 @@ SELECT = False
 OVERWRITE = True
 IS_WAR_ARCHIVES = False
 
-DATA = load_lua_by_function(FILE, 'chapter_template.lua')
-DATA_LOOP = load_lua(FILE, 'chapter_template_loop.lua', prefix=41)
-MAP_EVENT_LIST = load_lua(FILE, 'map_event_list.lua', prefix=34)
-MAP_EVENT_TEMPLATE = load_lua(FILE, 'map_event_template.lua', prefix=38)
-EXPECTATION_DATA = load_lua_by_function(FILE, 'expedition_data_template.lua')
+LOADER = LuaLoader(FILE, server='CN')
+DATA = LOADER.load('./sharecfg/chapter_template.lua')
+DATA_LOOP = LOADER.load('./sharecfg/chapter_template_loop.lua')
+MAP_EVENT_LIST = LOADER.load('./sharecfg/map_event_list.lua')
+MAP_EVENT_TEMPLATE = LOADER.load('./sharecfg/map_event_template.lua')
+EXPECTATION_DATA = LOADER.load('./sharecfgdata/expedition_data_template.lua')
 
 ct = ChapterTemplate()
 ct.extract(ct.get_chapter_by_name(KEYWORD, select=SELECT), folder=FOLDER)
