@@ -330,9 +330,11 @@ class Fleet(Camera, AmbushHandler):
                     raise MapWalkError('walk_out_of_step')
 
                 # Arrive
-                if self.is_in_map() and \
-                        (grid.predict_fleet() or
-                         (walk_timeout.reached() and grid.predict_current_fleet())):
+                if self.is_in_map() and (
+                        grid.predict_fleet()
+                        or (self.config.MAP_WALK_USE_CURRENT_FLEET and grid.predict_current_fleet())
+                        or (walk_timeout.reached() and grid.predict_current_fleet())
+                ):
                     if not arrive_timer.started():
                         logger.info(f'Arrive {location2node(location)}')
                     arrive_timer.start()
@@ -658,7 +660,24 @@ class Fleet(Camera, AmbushHandler):
         return self.fleet_current
 
     def map_init(self, map_):
+        """
+        This method should be called after entering a map and before doing any operations.
+
+        Args:
+            map_ (CampaignMap):
+        """
         logger.hr('Map init')
+        self.map_data_init(map_)
+        self.map_control_init()
+
+    def map_data_init(self, map_):
+        """
+        Init map data according to settings and map status.
+        Just data processing, no screenshots and clicks.
+
+        Args:
+            map_ (CampaignMap):
+        """
         self.fleet_1_location = ()
         self.fleet_2_location = ()
         self.fleet_current_index = 1
@@ -683,6 +702,11 @@ class Fleet(Camera, AmbushHandler):
             fortress=self.config.MAP_HAS_FORTRESS
         )
 
+    def map_control_init(self):
+        """
+        Preparation before operations.
+        Such as select strategy, calculate hp and level, init camera position, do first map scan.
+        """
         self.handle_strategy(index=1 if not self.fleets_reversed else 2)
         self.update()
         if self.handle_fleet_reverse():

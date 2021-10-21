@@ -24,31 +24,18 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             self.camera = location
             self.update()
 
-    def map_init(self, map_=None):
+    def map_data_init(self, map_=None):
+        """
+        Create new map object, and use the shape of current zone
+        """
         map_ = OSCampaignMap()
         map_.shape = self.zone.shape
+        super().map_data_init(map_)
 
-        logger.hr('Map init')
-        self.fleet_1_location = ()
-        self.fleet_2_location = ()
-        self.fleet_current_index = 1
-        self.battle_count = 0
-        self.mystery_count = 0
-        self.carrier_count = 0
-        self.siren_count = 0
-        self.ammo_count = 3
-        self.map = map_
-        self.map.reset()
-        self.handle_clear_mode_config_cover()
-        self.map.poor_map_data = self.config.POOR_MAP_DATA
-        self.map.load_map_data(use_loop=self.map_is_clear_mode)
-        self.map.load_spawn_data(use_loop=self.map_is_clear_mode)
-        self.map.load_mechanism(land_based=self.config.MAP_HAS_LAND_BASED)
-        self.map.grid_connection_initial(
-            wall=self.config.MAP_HAS_WALL,
-            portal=self.config.MAP_HAS_PORTAL,
-        )
-
+    def map_control_init(self):
+        """
+        Remove non-exist things like strategy, round.
+        """
         # self.handle_strategy(index=1 if not self.fleets_reversed() else 2)
         # self.update()
         # if self.handle_fleet_reverse():

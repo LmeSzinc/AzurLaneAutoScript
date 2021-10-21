@@ -1,7 +1,8 @@
-from module.campaign.campaign_base import CampaignBase
+from .campaign_14_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
+from .campaign_14_base import Config as ConfigBase
 
 MAP = CampaignMap('14-1')
 MAP.shape = 'H7'
@@ -17,16 +18,16 @@ MAP.map_data = """
     MB ME -- ++ ++ SP SP ME
 """
 MAP.weight_data = """
-    50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50
+    50 50 50 70 60 60 60 60
+    50 50 50 60 60 60 60 60
+    50 50 50 60 60 60 60 60
+    50 50 50 50 60 60 60 60
+    50 50 50 50 50 50 60 60
+    50 50 50 50 50 50 50 60
     50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 2, 'mystery': 1},
+    {'battle': 0, 'enemy': 2},
     {'battle': 1, 'enemy': 2},
     {'battle': 2, 'enemy': 2},
     {'battle': 3, 'enemy': 1},
@@ -44,16 +45,16 @@ A7, B7, C7, D7, E7, F7, G7, H7, \
     = MAP.flatten()
 
 
-class Config:
+class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['0']
-    MOVABLE_ENEMY_TURN = (2,)
-    MAP_HAS_SIREN = True
-    MAP_HAS_MOVABLE_ENEMY = True
+    # MAP_SIREN_TEMPLATE = ['0']
+    # MOVABLE_ENEMY_TURN = (2,)
+    # MAP_HAS_SIREN = True
+    # MAP_HAS_MOVABLE_ENEMY = True
     MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = False
     MAP_HAS_AMBUSH = True
-    MAP_HAS_MYSTERY = True
+    # MAP_HAS_MYSTERY = True
     # ===== End of generated config =====
 
 
@@ -61,10 +62,22 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
-        if self.clear_siren():
+        self.pick_up_light_house(E3)
+
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
+            return True
+
+        return self.battle_default()
+
+    def battle_5(self):
+        self.pick_up_light_house(E3)
+
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
 
         return self.battle_default()
 
     def battle_6(self):
+        self.fleet_boss.pick_up_flare(C5)
+
         return self.fleet_boss.clear_boss()

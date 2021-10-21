@@ -1,8 +1,8 @@
-from module.campaign.campaign_base import CampaignBase
+from .campaign_14_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-from .14-1 import Config as ConfigBase
+from .campaign_14_base import Config as ConfigBase
 
 MAP = CampaignMap('14-3')
 MAP.shape = 'J8'
@@ -14,22 +14,22 @@ MAP.map_data = """
     MB -- ME ME -- -- SP SP ME Me
     -- __ -- ++ -- ME Me -- ME --
     MB -- Me MM -- ME -- Me ++ ++
-    ME -- Me ME -- Me ME -- ME ++
+    ME -- Me ME -- Me ME ME ME ++
     ++ -- ME __ ME Me ++ Me ME --
     MB -- MB MB -- ++ ++ -- ME --
 """
 MAP.weight_data = """
-    50 50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50 50
+    50 50 40 40 40 50 50 50 50 50
+    50 50 40 40 40 50 50 50 50 50
+    50 50 40 40 50 50 50 50 50 50
+    50 50 40 40 50 50 50 50 50 50
+    50 50 40 40 50 50 50 50 50 50
+    50 50 40 40 50 50 50 50 50 50
+    50 50 40 40 40 50 50 50 50 50
+    50 50 40 40 40 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 3, 'mystery': 1},
+    {'battle': 0, 'enemy': 4},
     {'battle': 1, 'enemy': 3},
     {'battle': 2, 'enemy': 2},
     {'battle': 3, 'enemy': 1},
@@ -50,14 +50,14 @@ A8, B8, C8, D8, E8, F8, G8, H8, I8, J8, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['0']
-    MOVABLE_ENEMY_TURN = (2,)
-    MAP_HAS_SIREN = True
-    MAP_HAS_MOVABLE_ENEMY = True
+    # MAP_SIREN_TEMPLATE = ['0']
+    # MOVABLE_ENEMY_TURN = (2,)
+    # MAP_HAS_SIREN = True
+    # MAP_HAS_MOVABLE_ENEMY = True
     MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = False
     MAP_HAS_AMBUSH = True
-    MAP_HAS_MYSTERY = True
+    # MAP_HAS_MYSTERY = True
     # ===== End of generated config =====
 
 
@@ -65,10 +65,22 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
-        if self.clear_siren():
+        self.pick_up_light_house(J7)
+
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
+            return True
+
+        return self.battle_default()
+
+    def battle_5(self):
+        self.pick_up_light_house(J7)
+
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
 
         return self.battle_default()
 
     def battle_6(self):
+        self.fleet_boss.pick_up_flare(D5)
+
         return self.fleet_boss.clear_boss()

@@ -105,6 +105,8 @@ class ManualConfig:
     # Value can be 'upper-left', 'upper-right', 'bottom-left', 'bottom-right', or 'upper', 'bottom', 'left', 'right'
     # Missing axis will be random, and '' for all random
     MAP_ENSURE_EDGE_INSIGHT_CORNER = ''
+    # Use the green arrow on current fleet to decide if fleet arrived a certain grid
+    MAP_WALK_USE_CURRENT_FLEET = False
 
     """
     module.map_detection

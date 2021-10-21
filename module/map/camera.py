@@ -168,7 +168,7 @@ class Camera(MapOperation):
     def show_camera(self):
         logger.attr_align('Camera', location2node(self.camera))
 
-    def ensure_edge_insight(self, reverse=False, preset=None, swipe_limit=(3, 2)):
+    def ensure_edge_insight(self, reverse=False, preset=None, swipe_limit=(4, 3)):
         """
         Swipe to bottom left until two edges insight.
         Edges are used to locate camera.
@@ -216,7 +216,7 @@ class Camera(MapOperation):
 
         return record
 
-    def focus_to(self, location, swipe_limit=(3, 2)):
+    def focus_to(self, location, swipe_limit=(4, 3)):
         """Focus camera on a grid
 
         Args:

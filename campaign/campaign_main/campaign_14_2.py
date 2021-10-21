@@ -1,8 +1,8 @@
-from module.campaign.campaign_base import CampaignBase
+from .campaign_14_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-from .14-1 import Config as ConfigBase
+from .campaign_14_base import Config as ConfigBase
 
 MAP = CampaignMap('14-2')
 MAP.shape = 'I8'
@@ -19,17 +19,17 @@ MAP.map_data = """
     ME -- -- -- ME ME ++ ++ ME
 """
 MAP.weight_data = """
+    50 50 50 60 60 60 50 50 50
+    50 50 50 60 60 50 50 50 50
+    50 50 50 60 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 60 70
+    50 50 50 50 50 50 50 60 80
+    50 50 50 50 50 50 50 50 90
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 3, 'mystery': 1},
+    {'battle': 0, 'enemy': 3},
     {'battle': 1, 'enemy': 2},
     {'battle': 2, 'enemy': 2},
     {'battle': 3, 'enemy': 1},
@@ -46,18 +46,20 @@ A6, B6, C6, D6, E6, F6, G6, H6, I6, \
 A7, B7, C7, D7, E7, F7, G7, H7, I7, \
 A8, B8, C8, D8, E8, F8, G8, H8, I8, \
     = MAP.flatten()
+road_H7 = RoadGrids([[G6, G7, H6], [G6, G7, H7]])
+road_A5 = RoadGrids([[A4, B5]])
 
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['0']
-    MOVABLE_ENEMY_TURN = (2,)
-    MAP_HAS_SIREN = True
-    MAP_HAS_MOVABLE_ENEMY = True
+    # MAP_SIREN_TEMPLATE = ['0']
+    # MOVABLE_ENEMY_TURN = (2,)
+    # MAP_HAS_SIREN = True
+    # MAP_HAS_MOVABLE_ENEMY = True
     MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = False
     MAP_HAS_AMBUSH = True
-    MAP_HAS_MYSTERY = True
+    # MAP_HAS_MYSTERY = True
     # ===== End of generated config =====
 
 
@@ -65,7 +67,23 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
-        if self.clear_siren():
+        # 14-2 do not have light house
+
+        if not self.picked_flare and H7.is_accessible and A5.is_accessible:
+            self.fleet_boss.pick_up_flare(H7)
+            self.fleet_boss.pick_up_flare(A5)
+            self.fleet_boss.goto(D6)
+            self.fleet_1.switch_to()
+
+        if self.clear_roadblocks([road_A5, road_H7], weakest=True):
+            return True
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
+            return True
+
+        return self.battle_default()
+
+    def battle_5(self):
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
 
         return self.battle_default()

@@ -62,6 +62,7 @@ class GridInfo:
     mechanism_block = None  # SelectedGrids
     mechanism_wait = 2  # Seconds to wait the mechanism unlock animation
     is_fortress = False  # Machine fortress
+    is_flare = False
     cost = 9999
     cost_1 = 9999
     cost_2 = 9999

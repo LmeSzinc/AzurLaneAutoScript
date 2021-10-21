@@ -581,7 +581,7 @@ class CampaignMap:
         for left, right in zip(res[:-1], res[1:]):
             for index in list(range(left, right, step))[1:]:
                 way_node = self[route[index]]
-                if way_node.is_fleet or way_node.is_portal:
+                if way_node.is_fleet or way_node.is_portal or way_node.is_flare:
                     logger.info(f'Path_node_avoid: {way_node}')
                     if (index > 1) and (index - 1 not in res):
                         inserted.append(index - 1)
