@@ -1,5 +1,6 @@
 from module.base.timer import Timer
 from module.logger import logger
+from module.map.assets import MAP_CAT_ATTACK
 from module.map.map_operation import MapOperation
 from module.os.globe_zone import ZoneManager
 from module.os_handler.action_point import ActionPointHandler
@@ -111,3 +112,20 @@ class MapOrderHandler(MapOperation, ActionPointHandler, EnemySearchingHandler, Z
             self.order_execute(ORDER_SUBMARINE)
 
         # backup.recover()
+
+    def handle_map_cat_attack(self):
+        """
+        Click to skip the animation when cat attacks.
+
+        Overridden as button position matches with
+        MAP_EXIT for OpSi
+        """
+        if not self.map_cat_attack_timer.reached():
+            return False
+        if np.sum(color_similarity_2d(self.image_area(MAP_CAT_ATTACK), (255, 231, 123)) > 221) > 100:
+            logger.info('Skip map cat attack')
+            self.device.click(CLICK_SAFE_AREA)
+            self.map_cat_attack_timer.reset()
+            return True
+
+        return False
