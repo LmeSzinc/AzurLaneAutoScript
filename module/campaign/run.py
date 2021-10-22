@@ -5,6 +5,7 @@ import os
 from module.campaign.assets import *
 from module.campaign.campaign_base import CampaignBase
 from module.config.config import AzurLaneConfig
+from module.config.utils import deep_get
 from module.exception import RequestHumanTakeover
 from module.exception import ScriptEnd
 from module.logger import logger
@@ -138,6 +139,23 @@ class CampaignRun(UI):
 
         return name, folder
 
+    def handle_commission_notice(self):
+        """
+        Check commission notice.
+        If found, stop current task and call commission.
+
+        Raises:
+            TaskEnd: If found commission notice.
+
+        Pages:
+            in: page_campaign
+        """
+        if deep_get(self.config.data, keys='Commission.Scheduler.Enable', default=False):
+            if self.campaign.commission_notice_show_at_campaign():
+                logger.info('Commission notice found')
+                self.config.task_call('Commission')
+                self.config.task_stop('Commission notice found')
+
     def run(self, name, folder='campaign_main', mode='normal', total=0):
         """
         Args:
@@ -175,10 +193,7 @@ class CampaignRun(UI):
                     name=self.stage,
                     mode=mode
                 )
-            if self.campaign.commission_notice_show_at_campaign():
-                logger.info('Commission notice found')
-                self.config.task_call('Commission')
-                self.config.task_stop('Commission notice found')
+            self.handle_commission_notice()
 
             # End
             if self.triggered_stop_condition(oil_check=not self.campaign.is_in_auto_search_menu()):
