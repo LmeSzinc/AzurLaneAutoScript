@@ -113,7 +113,7 @@ footer {
 }
 
 .hr-group {
-    margin-top: 0 !important;
+    margin-top: .25rem !important;
     margin-bottom: .25rem !important;
 }
 
@@ -180,7 +180,8 @@ textarea {
 .container-log {
     border: 1px solid lightgray;
     border-radius: 0 !important;
-    margin: .5rem !important;
+    margin: .46875rem !important;
+    padding: 1rem !important;
     background-color: white !important;
 }
 
@@ -233,6 +234,7 @@ textarea {
 *[style*="container-title"] {
     border-bottom: 1px solid;
     border-color: lightgrey;
+    grid-template-columns: 5.6rem 3.75rem 8rem minmax(5rem, 65rem) !important;
 }
 
 *[style*="aside-icon-setting"] {
@@ -264,6 +266,11 @@ textarea {
     margin: 0 .25rem 0 .25rem !important;
 }
 
+*[style*="group-overview-title"] {
+    font-size: 1.25rem;
+    margin: auto .5rem auto !important;
+}
+
 *[style*="container-group"] {
     background-color: white;
     margin-top: .75rem;
@@ -274,8 +281,8 @@ textarea {
 
 *[style*="container-overview-group"] {
     background-color: white;
-    margin: .5rem;
-    padding: .5rem;
+    margin: 0.46875rem;
+    padding: 0.625rem;
     border: 1px solid lightgray;
     overflow-y: auto;
 }

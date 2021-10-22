@@ -275,7 +275,7 @@ class AlasGUI(Frame):
 
         scheduler = put_row([
             put_text(t("Gui.Overview.Scheduler")).style(
-                "font-size: 1.5rem; margin: 0 .5rem 0;"),
+                "font-size: 1.25rem; margin: auto .5rem auto;"),
             None,
             put_buttons(
                 buttons=[
@@ -293,7 +293,7 @@ class AlasGUI(Frame):
 
         log = put_row([
             put_text(t("Gui.Overview.Log")).style(
-                "font-size: 1.5rem; margin: 0 .5rem 0;"),
+                "font-size: 1.25rem; margin: auto .5rem auto;"),
             None,
             put_buttons(
                 buttons=[
@@ -313,19 +313,19 @@ class AlasGUI(Frame):
         ], size="auto 1fr auto").style("container-overview-group")
 
         running = put_column([
-            put_text(t("Gui.Overview.Running")).style("group-title"),
+            put_text(t("Gui.Overview.Running")).style("group-overview-title"),
             put_html('<hr class="hr-group">'),
             self.alas_running,
         ], size="auto auto 1fr").style("container-overview-group")
 
         pending = put_column([
-            put_text(t("Gui.Overview.Pending")).style("group-title"),
+            put_text(t("Gui.Overview.Pending")).style("group-overview-title"),
             put_html('<hr class="hr-group">'),
             self.alas_pending,
         ], size="auto auto 1fr").style("container-overview-group")
 
         waiting = put_column([
-            put_text(t("Gui.Overview.Waiting")).style("group-title"),
+            put_text(t("Gui.Overview.Waiting")).style("group-overview-title"),
             put_html('<hr class="hr-group">'),
             self.alas_waiting,
         ], size="auto auto 1fr").style("container-overview-group")
@@ -337,7 +337,7 @@ class AlasGUI(Frame):
                     running,
                     pending,
                     waiting,
-                ], size="auto 7.25rem 12.5rem 12.5rem"),
+                ], size="auto 7.75rem 13rem 13rem"),
                 put_column([
                     log,
                     self.alas_logs.output
@@ -351,7 +351,7 @@ class AlasGUI(Frame):
                         running,
                         pending,
                         waiting,
-                    ], size="auto 7.25rem minmax(7.25rem, 13rem) minmax(7.25rem, 1fr)"
+                    ], size="auto 7.75rem minmax(7.75rem, 13rem) minmax(7.75rem, 1fr)"
                     ).style("height: 100%; overflow-y: auto"),
                     put_column([
                         log,
@@ -486,7 +486,7 @@ class AlasGUI(Frame):
 
     # Develop
     def dev_set_menu(self) -> None:
-        self.init_menu(name="Develop")
+        self.init_menu(collapse_menu=False, name="Develop")
 
         self.menu.append(
             put_buttons([

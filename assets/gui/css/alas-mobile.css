@@ -10,3 +10,7 @@
     padding: .25rem;
     margin: 0px .25rem;
 }
+
+.container-log {
+    font-size: .75rem !important;
+}
