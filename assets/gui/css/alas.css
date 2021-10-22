@@ -126,8 +126,12 @@ input[type="text"], select {
     height: auto !important;
 }
 
-input[type="text"]:focus, select:focus {
+input[type="text"]:not([readonly="readonly"]):focus, select:focus {
     box-shadow: 0px 1px 0px darkblue !important;
+}
+
+input[readonly="readonly"]:focus {
+    box-shadow: initial;
 }
 
 input[type="range"] {

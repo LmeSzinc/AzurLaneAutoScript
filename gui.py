@@ -230,10 +230,12 @@ class AlasGUI(Frame):
             if group_help == "" or not group_help:
                 group_help = None
             arg_group = put_group(t(f"{group}._info.name"), group_help)
-            group_area.append(arg_group)
+            list_arg = []
             for arg, d in deep_iter(arg_dict, depth=1):
                 arg = arg[0]
                 arg_type = d['type']
+                if arg_type == 'disable':
+                    continue
                 value = deep_get(config, f'{task}.{group}.{arg}', d['value'])
                 value = str(value) if isinstance(value, datetime) else value
 
@@ -259,7 +261,7 @@ class AlasGUI(Frame):
                 else:
                     width = '12rem'
 
-                arg_group.append(get_output(
+                list_arg.append(get_output(
                     arg_type=arg_type,
                     name=path_to_idx[f"{task}.{group}.{arg}"],
                     title=t(f"{group}.{arg}.name"),
@@ -268,6 +270,9 @@ class AlasGUI(Frame):
                     options=option,
                     width=width,
                 ))
+            if list_arg:
+                group_area.append(arg_group)
+                arg_group.append(*list_arg)
 
     def alas_overview(self) -> None:
         self.init_menu(name="Overview")
