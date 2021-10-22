@@ -174,8 +174,6 @@ class OSAsh(UI):
                 break
 
             self._ash_beacon_select(tier=self.config.OpsiAshAssist_Tier)
-            self.ui_click(ASH_START, check_button=BATTLE_PREPARATION, offset=(30, 30),
-                          additional=ash_combat.handle_combat_automation_confirm, skip_first_screenshot=True)
             ash_combat.combat(expected_end=self.is_in_ash, save_get_items=False, emotion_reduce=False)
 
         self.device.sleep((0.5, 0.8))
