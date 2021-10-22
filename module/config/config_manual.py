@@ -100,13 +100,19 @@ class ManualConfig:
     # Swipe distance in map grid lower than this will be dropped,
     # because a closing swipe will be treat as a click in game.
     MAP_SWIPE_DROP = 0.15
+    # Swipes may stop in middle, due to emulator stuck.
+    # Predict actual swipe distance to correct camera.
     MAP_SWIPE_PREDICT = True
+    MAP_SWIPE_PREDICT_WITH_CURRENT_FLEET = True
+    MAP_SWIPE_PREDICT_WITH_SEA_GRIDS = True
     # Corner to ensure in ensure_edge_insight.
     # Value can be 'upper-left', 'upper-right', 'bottom-left', 'bottom-right', or 'upper', 'bottom', 'left', 'right'
     # Missing axis will be random, and '' for all random
     MAP_ENSURE_EDGE_INSIGHT_CORNER = ''
     # Use the green arrow on current fleet to decide if fleet arrived a certain grid
     MAP_WALK_USE_CURRENT_FLEET = False
+    # Optimize walk path, reducing ambushes
+    MAP_WALK_OPTIMIZE = True
 
     """
     module.map_detection

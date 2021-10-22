@@ -7,9 +7,14 @@ class Config:
     MAP_SWIPE_MULTIPLY = 1.537
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.486
 
+    # Disabled because having errors
+    MAP_SWIPE_PREDICT_WITH_SEA_GRIDS = False
+    # Ambushes can be avoid by having more DDs.
+    MAP_WALK_OPTIMIZE = False
+
 
 class CampaignBase(CampaignBase_):
-    ENEMY_FILTER = '1T > 1M > 1E > 1L > 2T > 2M > 2E > 2L > 3T > 3M > 3E > 3L'
+    ENEMY_FILTER = '1T > 1L > 1E > 1M > 2T > 2L > 2E > 2M > 3T > 3L > 3E > 3M'
     picked_light_house = []
     picked_flare = []
 

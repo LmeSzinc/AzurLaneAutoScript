@@ -148,7 +148,7 @@ class GridPredictor:
         red = color_similarity_2d(image, (255, 130, 132))
         yellow = color_similarity_2d(image, (255, 235, 156))
 
-        if TEMPLATE_ENEMY_L.match(red):
+        if TEMPLATE_ENEMY_L.match(red, similarity=0.75):
             scale = 3
         elif TEMPLATE_ENEMY_M.match(yellow):
             scale = 2

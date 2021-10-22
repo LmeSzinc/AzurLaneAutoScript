@@ -236,6 +236,8 @@ class Fleet(Camera, AmbushHandler):
 
         Args:
             location (tuple, str, GridInfo): Destination.
+            expected (str): Expected result on destination grid, such as 'combat', 'combat_siren', 'mystery'.
+                Will give a waring if arrive with unexpected result.
         """
         location = location_ensure(location)
         result_mystery = ''
@@ -392,9 +394,20 @@ class Fleet(Camera, AmbushHandler):
             raise MapEnemyMoved
         self.find_path_initial()
 
-    def goto(self, location, optimize=True, expected=''):
-        # self.device.sleep(1000)
+    def goto(self, location, optimize=None, expected=''):
+        """
+        Args:
+            location (tuple, str, GridInfo): Destination.
+            optimize (bool): Optimize walk path, reducing ambushes.
+                If None, loads MAP_WALK_OPTIMIZE
+            expected (str): Expected result on destination grid, such as 'combat', 'combat_siren', 'mystery'.
+                Will give a waring if arrive with unexpected result.
+        """
         location = location_ensure(location)
+        if optimize is None:
+            optimize = self.config.MAP_WALK_OPTIMIZE
+
+        # self.device.sleep(1000)
         if optimize and (self.config.MAP_HAS_AMBUSH or self.config.MAP_HAS_FLEET_STEP or self.config.MAP_HAS_PORTAL
                          or self.config.MAP_HAS_MAZE):
             nodes = self.map.find_path(location, step=self.fleet_step)

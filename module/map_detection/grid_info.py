@@ -210,7 +210,10 @@ class GridInfo:
         if info.is_enemy:
             if not self.is_land and (self.may_enemy or self.is_carrier):
                 self.is_enemy = True
-                if info.enemy_scale:
+                if info.enemy_scale and not (self.enemy_scale):
+                    self.enemy_scale = info.enemy_scale
+                if info.enemy_scale == 3 and info.enemy_scale == 2:
+                    # But allow 3 overwrites 2
                     self.enemy_scale = info.enemy_scale
                 if info.enemy_genre and not (info.enemy_genre == 'Enemy' and self.enemy_genre):
                     self.enemy_genre = info.enemy_genre

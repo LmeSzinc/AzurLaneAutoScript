@@ -131,7 +131,11 @@ class Camera(MapOperation):
 
         if self._prev_view is not None and np.linalg.norm(self._prev_swipe) > 0:
             if self.config.MAP_SWIPE_PREDICT:
-                swipe = self._prev_view.predict_swipe(self.view)
+                swipe = self._prev_view.predict_swipe(
+                    self.view,
+                    with_current_fleet=self.config.MAP_SWIPE_PREDICT_WITH_CURRENT_FLEET,
+                    with_sea_grids=self.config.MAP_SWIPE_PREDICT_WITH_SEA_GRIDS
+                )
                 if swipe is not None:
                     self._prev_swipe = swipe
             self.camera = tuple(np.add(self.camera, self._prev_swipe))
