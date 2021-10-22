@@ -235,7 +235,7 @@ def get_research_cost_jp(image):
     area_template = (0, 0, 78, 57)
     folder = './assets/stats_basic'
     templates = load_folder(folder)
-    costs = {'coins': False, 'cubes': False, 'plate': False}
+    costs = {'coin': False, 'cube': False, 'plate': False}
     for name, template in templates.items():
         template = load_image(template).resize(size=size_template).crop(area_template)
         sim = match_template(image=image,
@@ -251,8 +251,8 @@ def get_research_cost_jp(image):
                 continue
 
     # Rename keys to be the same as attrs of ResearchProjectJp.    
-    costs['need_coin'] = costs.pop('coins')
-    costs['need_cube'] = costs.pop('cubes')
+    costs['need_coin'] = costs.pop('coin')
+    costs['need_cube'] = costs.pop('cube')
     costs['need_part'] = costs.pop('plate')
     return costs
 
