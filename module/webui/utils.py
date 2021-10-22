@@ -1,9 +1,13 @@
 import ctypes
+import operator
 import threading
+import time
+from typing import Generator
 
+from module.logger import logger
 from module.webui.widgets import *
 from pywebio.input import PASSWORD, input
-from pywebio.session import run_js
+from pywebio.session import register_thread, run_js
 
 
 class QueueHandler:
@@ -18,7 +22,7 @@ class QueueHandler:
         self.queue.put(s[11:] + '\n')
 
 
-class ThreadWithException(threading.Thread):
+class Thread(threading.Thread):
     # https://www.geeksforgeeks.org/python-different-ways-to-kill-a-thread/
     def __init__(self, *args, **kwargs):
         threading.Thread.__init__(self, *args, **kwargs)
@@ -38,6 +42,124 @@ class ThreadWithException(threading.Thread):
         if res > 1:
             ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id, 0)
             print('Exception raise failure')
+
+
+class Task:
+    def __init__(self, g: Generator, delay: float, next_run: float = None) -> None:
+        self.g = g
+        self.delay = delay
+        self.next_run = next_run if next_run else time.time()
+
+    def __str__(self) -> str:
+        return f'<{self.g.__name__} (delay={self.delay})>'
+
+    def __next__(self) -> None:
+        return next(self.g)
+
+    __repr__ = __str__
+
+
+class TaskHandler:
+    def __init__(self) -> None:
+        # List of background running task
+        self.tasks: List[Task] = []
+        # List of task name to be removed
+        self.pending_remove_tasks: List[Task] = []
+        # Task running thread
+        self._thread = Thread()
+        self._lock = threading.Lock()
+
+    def add(self, g: Generator, delay: float, pending_delete: bool = False) -> None:
+        """
+        Add a task running background.
+        Another way of `self.add_task()`.
+        """
+        self.add_task(Task(g, delay), pending_delete=pending_delete)
+
+    def add_task(self, task: Task, pending_delete: bool = False) -> None:
+        """
+        Add a task running background.
+        """
+        if task in self.tasks:
+            logger.warning(f"Task {task} already in tasks list.")
+            return
+        logger.info(f"Add task {task}")
+        with self._lock:
+            self.tasks.append(task)
+        if pending_delete:
+            self.pending_remove_tasks.append(task)
+
+    def _remove_task(self, task: Task) -> None:
+        if task in self.tasks:
+            self.tasks.remove(task)
+            logger.info(f"Task {task} removed.")
+        else:
+            logger.warning(
+                f"Failed to remove task {task}. Current tasks list: {self.tasks}")
+
+    def remove_task(self, task: Task, nowait: bool = False) -> None:
+        """
+        Remove a task in `self.tasks`.
+        Args:
+            task:
+            nowait: if True, remove it right now, 
+                    otherwise remove when call `self.remove_pending_task`
+        """
+        if nowait:
+            with self._lock:
+                self._remove_task(task)
+        else:
+            self.pending_remove_tasks.append(task)
+
+    def remove_pending_task(self) -> None:
+        """
+        Remove all pending remove tasks.
+        """
+        with self._lock:
+            for task in self.pending_remove_tasks:
+                self._remove_task(task)
+            self.pending_remove_tasks = []
+
+    def loop(self) -> None:
+        """
+        Start task loop.
+        You **should** run this function in an individual thread.
+        """
+        while True:
+            if self.tasks:
+                with self._lock:
+                    self.tasks.sort(key=operator.attrgetter('next_run'))
+                    task = self.tasks[0]
+                if task.next_run < time.time():
+                    start_time = time.time()
+                    next(task)
+                    end_time = time.time()
+                    task.next_run += task.delay
+                    with self._lock:
+                        for task in self.tasks:
+                            task.next_run += end_time - start_time
+                else:
+                    time.sleep(0.05)
+            else:
+                time.sleep(0.5)
+
+    def start(self) -> None:
+        """
+        Start task handler.
+        """
+        logger.info("Start task handler")
+        if self._thread.is_alive():
+            logger.warning("Task handler already running!")
+            return
+        self._thread = Thread(target=self.loop)
+        register_thread(self._thread)
+        self._thread.start()
+
+    def stop(self) -> None:
+        self.remove_pending_task()
+        if self._thread.is_alive():
+            self._thread.stop()
+        logger.info("Finish task handler")
 
 
 def filepath_css(filename):
@@ -107,6 +229,7 @@ def parse_pin_value(val):
         else:
             return v
 
+
 def login(password):
     pwd = input(label='Please login below.', type=PASSWORD, placeholder='PASSWORD')
     if pwd == password:
@@ -115,20 +238,25 @@ def login(password):
         toast('Wrong password!', color='error')
         return False
 
-def active_button(position, value):
-    run_js(f"""
-    $("button.btn-{position}").removeClass("btn-{position}-active");
-    $("div[style*='--{position}-{value}--']>button").addClass("btn-{position}-active");
-    """)
 
-def collapse_menu():
-    run_js(f"""
-        $("[style*=container-menu]").addClass("container-menu-collapsed");
-        $(".container-content-collapsed").removeClass("container-content-collapsed");
-    """)
+if __name__ == '__main__':
+    def gen(x):
+        n = 0
+        while True:
+            n += x
+            print(n)
+            yield n
 
-def expand_menu():
-    run_js(f"""
-        $(".container-menu-collapsed").removeClass("container-menu-collapsed");
-        $("[style*=container-content]").addClass("container-content-collapsed");
-    """)
+    th = TaskHandler()
+    th.start()
+
+    t1 = Task(gen(1), delay=1)
+    t2 = Task(gen(-2), delay=3)
+
+    th.add_task(t1)
+    th.add_task(t2)
+
+    time.sleep(5)
+    th.remove_task(t2, nowait=True)
+    time.sleep(5)
+    th.stop()

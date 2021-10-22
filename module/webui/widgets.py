@@ -1,5 +1,6 @@
 import random
 import string
+from typing import Callable, Dict, List
 
 from pywebio.output import *
 from pywebio.pin import *
@@ -11,36 +12,36 @@ class ScrollableCode:
         https://github.com/pywebio/PyWebIO/discussions/21
     """
 
-    def __init__(self, keep_bottom=True) -> None:
+    def __init__(self, keep_bottom: bool = True) -> None:
         self.keep_bottom = keep_bottom
 
         self.id = ''.join(random.choice(string.ascii_letters)
                           for _ in range(10))
         self.html = """<pre id="%s" class="container-log"><code style="white-space:break-spaces;"></code></pre>"""\
             % self.id
-        self.output = put_html(self.html)
+        self.output = output(put_html(self.html)).style("display: grid; overflow-y: auto;")
 
-    def append(self, text):
+    def append(self, text: str) -> None:
         if text:
             run_js("""$("#{dom_id}>code").append(text);
             """.format(dom_id=self.id), text=str(text))
             if self.keep_bottom:
                 self.scroll()
 
-    def scroll(self):
+    def scroll(self) -> None:
         run_js(r"""$("\#{dom_id}").animate({{scrollTop: $("\#{dom_id}").prop("scrollHeight")}}, 0);
         """.format(dom_id=self.id))
 
-    def reset(self):
+    def reset(self) -> None:
         self.output.reset(put_html(self.html))
 
-    def set_scroll(self, b):
+    def set_scroll(self, b: bool) -> None:
         # use for lambda callback function
         self.keep_bottom = b
 
 
 # aside buttons
-def put_icon_buttons(icon_html, buttons, onclick):
+def put_icon_buttons(icon_html: str, buttons: List[Dict[str, str]], onclick: Callable[[], None]):
     value = buttons[0]['value']
     return put_column([
         output(put_html(icon_html)).style(
@@ -49,9 +50,15 @@ def put_icon_buttons(icon_html, buttons, onclick):
     ], size="0")
 
 
-
 # args input widget
-def put_input_(name, title, help=None, value='', width="12rem", readonly=None):
+def put_input_(
+    name: str,
+    title: str, 
+    help: str = None, 
+    value: str = '', 
+    width: str = "12rem", 
+    readonly: bool = None
+):
     if help:
         left = put_column([
             put_text(title).style("arg-title"),
@@ -66,7 +73,13 @@ def put_input_(name, title, help=None, value='', width="12rem", readonly=None):
     ], size=f"1fr {width}").style("container-args")
 
 
-def put_select_(name, title, help=None, options=[], width="12rem"):
+def put_select_(
+    name: str, 
+    title: str, 
+    help: str = None, 
+    options: List[str] = [], 
+    width: str = "12rem"
+):
     if help:
         left = put_column([
             put_text(title).style("arg-title"),
@@ -81,7 +94,13 @@ def put_select_(name, title, help=None, options=[], width="12rem"):
     ], size=f"1fr {width}").style("container-args")
 
 
-def put_textarea_(name, title, help=None, value='', readonly=None):
+def put_textarea_(
+    name: str, 
+    title: str, 
+    help: str = None, 
+    value: str = '', 
+    readonly: bool = None
+):
     if help:
         return put_column([
             put_text(title).style("arg-title"),
@@ -97,7 +116,13 @@ def put_textarea_(name, title, help=None, value='', readonly=None):
         ], size="auto auto").style("container-args")
 
 
-def put_checkbox_(name, title, help=None, value=False, width="12rem"):
+def put_checkbox_(
+    name: str,
+    title: str, 
+    help: str = None, 
+    value: bool = False, 
+    width: str = "12rem", 
+):
     # Not real checkbox, use as a switch (on/off)
     if help:
         left = put_column([
@@ -117,7 +142,7 @@ def put_checkbox_(name, title, help=None, value=False, width="12rem"):
 
 
 # arg block
-def put_group(title, help=None):
+def put_group(title, help: str = None):
     return output(
         put_text(title).style("group-title"),
         put_text(help).style("group-help"),
