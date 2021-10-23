@@ -1,15 +1,20 @@
 from module.base.timer import Timer
+from module.campaign.assets import OCR_OIL
 from module.combat.assets import *
 from module.combat.combat import Combat
 from module.exception import CampaignEnd
 from module.logger import logger
 from module.map.assets import *
 from module.map.map_operation import MapOperation
+from module.ocr.ocr import Digit
+
+OCR_OIL = Digit(OCR_OIL, name='OCR_OIL', letter=(247, 247, 247), threshold=128)
 
 
 class AutoSearchCombat(MapOperation, Combat):
     _auto_search_in_stage_timer = Timer(3, count=6)
     _auto_search_confirm_low_emotion = False
+    auto_search_oil_limit_triggered = False
 
     def get_fleet_current_index(self):
         """
@@ -54,6 +59,7 @@ class AutoSearchCombat(MapOperation, Combat):
         logger.info('Auto search moving')
         self.device.stuck_record_clear()
         fleet_log = False
+        check_oil = False
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -70,6 +76,15 @@ class AutoSearchCombat(MapOperation, Combat):
                 elif fleet_current_index != self.fleet_current_index:
                     logger.info(f'Fleet: {index}, fleet_current_index: {fleet_current_index}')
                 self.fleet_current_index = fleet_current_index
+                if not check_oil:
+                    oil = OCR_OIL.ocr(self.device.image)
+                    if oil == 0:
+                        logger.warning('Oil not found')
+                    else:
+                        if oil < self.config.StopCondition_OilLimit:
+                            logger.info('Reach oil limit')
+                            self.auto_search_oil_limit_triggered = True
+                        check_oil = True
             if self.handle_retirement():
                 continue
             if self.handle_auto_search_map_option():
