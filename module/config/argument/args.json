@@ -1549,7 +1549,7 @@
       },
       "FleetOrder": {
         "type": "disable",
-        "value": "fleet1_all_fleet2_standby",
+        "value": "fleet1_mob_fleet2_boss",
         "option": [
           "fleet1_mob_fleet2_boss",
           "fleet1_all_fleet2_standby"
@@ -1557,7 +1557,7 @@
       },
       "AutoSearchFleetOrder": {
         "type": "disable",
-        "value": "fleet1_all_fleet2_standby",
+        "value": "fleet1_mob_fleet2_boss",
         "option": [
           "fleet1_mob_fleet2_boss",
           "fleet1_boss_fleet2_mob",

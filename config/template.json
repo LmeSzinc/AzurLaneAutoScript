@@ -329,8 +329,8 @@
       "Fleet2Formation": "double_line",
       "Fleet2Mode": "combat_auto",
       "Fleet2Step": 2,
-      "FleetOrder": "fleet1_all_fleet2_standby",
-      "AutoSearchFleetOrder": "fleet1_all_fleet2_standby"
+      "FleetOrder": "fleet1_mob_fleet2_boss",
+      "AutoSearchFleetOrder": "fleet1_mob_fleet2_boss"
     },
     "Submarine": {
       "Fleet": 0,
