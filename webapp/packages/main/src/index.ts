@@ -77,6 +77,13 @@ const createWindow = async () => {
       mainWindow?.webContents.openDevTools()
     }
   });
+  // Refresh
+  globalShortcut.register('Ctrl+R', function () {
+    mainWindow?.reload()
+  });
+  globalShortcut.register('Ctrl+Shift+R', function () {
+    mainWindow?.reload()
+  });
 
   // Minimize, maximize, close window.
   ipcMain.on('window-min', function () {

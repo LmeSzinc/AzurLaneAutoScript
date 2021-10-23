@@ -48,6 +48,7 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.0.1",
+    "electron-updater": "4.6.0",
     "python-shell": "^3.0.0",
     "tree-kill": "^1.2.2",
     "vue": "3.2.19",
