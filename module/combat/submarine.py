@@ -41,9 +41,11 @@ class SubmarineCall(ModuleBase):
         elif self.submarine_call_click_timer.reached():
             if self.appear_then_click(SUBMARINE_READY):
                 logger.info('Call submarine')
+                self.submarine_call_click_timer.reset()
                 return True
             else:
                 logger.info('Incorrect submarine icon')
                 self.device.click(SUBMARINE_READY)
                 logger.info('Call submarine')
+                self.submarine_call_click_timer.reset()
                 return True
