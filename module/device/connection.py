@@ -86,11 +86,10 @@ class Connection:
             for _ in range(3):
                 msg = self.adb_command(['connect', serial]).decode("utf-8").strip()
                 logger.info(msg)
-                if 'already' in msg:
+                if 'connected' in msg:
                     return True
-                else:
-                    logger.warning(f'Failed to connect {serial} after 3 trial.')
-                    return False
+            logger.warning(f'Failed to connect {serial} after 3 trial.')
+            return False
 
     def connect(self, serial):
         """Connect to a device.
