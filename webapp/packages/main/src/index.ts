@@ -2,6 +2,7 @@ import {app, BrowserWindow, ipcMain, globalShortcut} from 'electron';
 import {URL} from 'url';
 import {PyShell} from '/@/pyshell';
 import {webuiArgs, webuiPath} from '/@/config';
+
 const path = require('path');
 
 const isSingleInstance = app.requestSingleInstanceLock();
@@ -100,7 +101,10 @@ const createWindow = async () => {
     alas.kill();
     setTimeout(() => mainWindow?.close(), 500); // Wait taskkill to finish
   });
+};
 
+
+function loadURL() {
   /**
    * URL for main window.
    * Vite dev server for development.
@@ -110,8 +114,21 @@ const createWindow = async () => {
     ? import.meta.env.VITE_DEV_SERVER_URL
     : new URL('../renderer/dist/index.html', 'file://' + __dirname).toString();
 
-  await mainWindow.loadURL(pageUrl);
-};
+  mainWindow?.loadURL(pageUrl);
+}
+
+
+alas.on('stderr', function (message: string) {
+  /**
+   * Receive logs, judge if Alas is ready
+   * For starlette backend, there will have:
+   * `INFO:     Uvicorn running on http://0.0.0.0:22267 (Press CTRL+C to quit)`
+   */
+  if (message.includes('running on')) {
+    alas.removeAllListeners('stderr');
+    loadURL()
+  }
+});
 
 
 app.on('second-instance', () => {
