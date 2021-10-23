@@ -53,9 +53,6 @@ C11AffinityFarming:
   Fleet:
     FleetOrder: fleet1_all_fleet2_standby
     AutoSearchFleetOrder: fleet1_all_fleet2_standby
-  Submarine:
-    Fleet: 0
-    Mode: do_not_use
 C72MysteryFarming:
   Campaign:
     Name: campaign_7_2_mystery_farming
@@ -206,9 +203,11 @@ Sos:
     Use2xBook: false
     AmbushEvade: true
   StopCondition:
+    RunCount: 0
     MapAchievement: non_stop
     StageIncrease: false
     GetNewShip: false
+    ReachLevel120: false
   Fleet:
     AutoSearchFleetOrder: fleet1_all_fleet2_standby
 EventAb:
@@ -219,6 +218,7 @@ EventAb:
   Campaign:
     Name: dynamic
     Mode: normal
+    Use2xBook: false
     AmbushEvade: true
   StopCondition:
     RunCount: 0
@@ -265,6 +265,9 @@ WarArchives:
     SuccessInterval: 30
     FailureInterval: 30
     ServerUpdate: 00:00
+  Campaign:
+    Mode: normal
+    AmbushEvade: true
 
 # ==================== Opsi ====================
 

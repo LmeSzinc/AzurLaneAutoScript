@@ -1283,26 +1283,6 @@
         ]
       }
     },
-    "Submarine": {
-      "Fleet": {
-        "type": "disable",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2
-        ]
-      },
-      "Mode": {
-        "type": "disable",
-        "value": "do_not_use",
-        "option": [
-          "do_not_use",
-          "hunt_only",
-          "every_combat"
-        ]
-      }
-    },
     "Emotion": {
       "CalculateEmotion": {
         "type": "checkbox",
@@ -1373,40 +1353,6 @@
       "Fleet2Oath": {
         "type": "checkbox",
         "value": false
-      }
-    },
-    "HpControl": {
-      "UseHpBalance": {
-        "type": "checkbox",
-        "value": false
-      },
-      "UseEmergencyRepair": {
-        "type": "checkbox",
-        "value": false
-      },
-      "UseLowHpRetreat": {
-        "type": "checkbox",
-        "value": false
-      },
-      "HpBalanceThreshold": {
-        "type": "input",
-        "value": 0.2
-      },
-      "HpBalanceWeight": {
-        "type": "input",
-        "value": "1000, 1000, 1000"
-      },
-      "RepairUseSingleThreshold": {
-        "type": "input",
-        "value": 0.3
-      },
-      "RepairUseMultiThreshold": {
-        "type": "input",
-        "value": 0.6
-      },
-      "LowHpRetreatThreshold": {
-        "type": "input",
-        "value": 0.3
       }
     }
   },
@@ -2728,26 +2674,6 @@
         ]
       }
     },
-    "Submarine": {
-      "Fleet": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2
-        ]
-      },
-      "Mode": {
-        "type": "select",
-        "value": "do_not_use",
-        "option": [
-          "do_not_use",
-          "hunt_only",
-          "every_combat"
-        ]
-      }
-    },
     "Emotion": {
       "CalculateEmotion": {
         "type": "checkbox",
@@ -2818,40 +2744,6 @@
       "Fleet2Oath": {
         "type": "checkbox",
         "value": false
-      }
-    },
-    "HpControl": {
-      "UseHpBalance": {
-        "type": "checkbox",
-        "value": false
-      },
-      "UseEmergencyRepair": {
-        "type": "checkbox",
-        "value": false
-      },
-      "UseLowHpRetreat": {
-        "type": "checkbox",
-        "value": false
-      },
-      "HpBalanceThreshold": {
-        "type": "input",
-        "value": 0.2
-      },
-      "HpBalanceWeight": {
-        "type": "input",
-        "value": "1000, 1000, 1000"
-      },
-      "RepairUseSingleThreshold": {
-        "type": "input",
-        "value": 0.3
-      },
-      "RepairUseMultiThreshold": {
-        "type": "input",
-        "value": 0.6
-      },
-      "LowHpRetreatThreshold": {
-        "type": "input",
-        "value": 0.3
       }
     }
   },
@@ -3815,7 +3707,7 @@
     },
     "StopCondition": {
       "RunCount": {
-        "type": "input",
+        "type": "disable",
         "value": 0
       },
       "OilLimit": {
@@ -3842,7 +3734,7 @@
         "value": false
       },
       "ReachLevel120": {
-        "type": "checkbox",
+        "type": "disable",
         "value": false
       }
     },
@@ -4185,7 +4077,7 @@
         "value": false
       },
       "Use2xBook": {
-        "type": "checkbox",
+        "type": "disable",
         "value": false
       },
       "AmbushEvade": {
@@ -5063,7 +4955,7 @@
         "tw": "war_archives_20180726_cn"
       },
       "Mode": {
-        "type": "select",
+        "type": "disable",
         "value": "normal",
         "option": [
           "normal",
@@ -5087,7 +4979,7 @@
         "value": false
       },
       "AmbushEvade": {
-        "type": "checkbox",
+        "type": "disable",
         "value": true
       }
     },

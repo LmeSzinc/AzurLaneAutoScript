@@ -44,9 +44,7 @@ C11AffinityFarming:
   - Campaign
   - StopCondition
   - Fleet
-  - Submarine
   - Emotion
-  - HpControl
 C72MysteryFarming:
   - Scheduler
   - C72MysteryFarming
@@ -80,9 +78,7 @@ GemsFarming:
   - Campaign
   - StopCondition
   - Fleet
-  - Submarine
   - Emotion
-  - HpControl
 
 # ==================== Reward ====================
 
