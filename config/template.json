@@ -275,10 +275,6 @@
       "FleetOrder": "fleet1_all_fleet2_standby",
       "AutoSearchFleetOrder": "fleet1_all_fleet2_standby"
     },
-    "Submarine": {
-      "Fleet": 0,
-      "Mode": "do_not_use"
-    },
     "Emotion": {
       "CalculateEmotion": true,
       "IgnoreLowEmotionWarn": false,
@@ -292,16 +288,6 @@
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
-    },
-    "HpControl": {
-      "UseHpBalance": false,
-      "UseEmergencyRepair": false,
-      "UseLowHpRetreat": false,
-      "HpBalanceThreshold": 0.2,
-      "HpBalanceWeight": "1000, 1000, 1000",
-      "RepairUseSingleThreshold": 0.3,
-      "RepairUseMultiThreshold": 0.6,
-      "LowHpRetreatThreshold": 0.3
     }
   },
   "C72MysteryFarming": {
@@ -566,10 +552,6 @@
       "FleetOrder": "fleet1_mob_fleet2_boss",
       "AutoSearchFleetOrder": "fleet1_mob_fleet2_boss"
     },
-    "Submarine": {
-      "Fleet": 0,
-      "Mode": "do_not_use"
-    },
     "Emotion": {
       "CalculateEmotion": true,
       "IgnoreLowEmotionWarn": false,
@@ -583,16 +565,6 @@
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
-    },
-    "HpControl": {
-      "UseHpBalance": false,
-      "UseEmergencyRepair": false,
-      "UseLowHpRetreat": false,
-      "HpBalanceThreshold": 0.2,
-      "HpBalanceWeight": "1000, 1000, 1000",
-      "RepairUseSingleThreshold": 0.3,
-      "RepairUseMultiThreshold": 0.6,
-      "LowHpRetreatThreshold": 0.3
     }
   },
   "Commission": {
