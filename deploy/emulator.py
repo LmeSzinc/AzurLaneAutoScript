@@ -4,8 +4,9 @@ import re
 import subprocess
 import winreg
 import shutil
+import filecmp
 
-from module.deploy.utils import cached_property
+from deploy.utils import cached_property
 
 asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
 
@@ -51,7 +52,16 @@ class VirtualBoxEmulator:
 
     @cached_property
     def adb_backup(self):
-        return [f'{a}.bak' for a in self.adb_binary]
+        files = []
+        for adb in self.adb_binary:
+            for n in range(10):
+                backup = f'{adb}.bak{n}' if n else f'{adb}.bak'
+                if os.path.exists(backup):
+                    continue
+                else:
+                    files.append(backup)
+                    break
+        return files
 
     @cached_property
     def serial(self):
@@ -86,17 +96,31 @@ class VirtualBoxEmulator:
             adb (str): Absolute path to adb.exe
         """
         for ori, bak in zip(self.adb_binary, self.adb_backup):
-            if not os.path.exists(bak):
-                print(f'Replacing {ori}')
-                shutil.move(ori, bak)
-                shutil.copy(adb, ori)
+            print(f'Replacing {ori}')
+            if os.path.exists(ori):
+                if filecmp.cmp(adb, ori, shallow=True):
+                    print(f'{adb} is same as {ori}, skip')
+                else:
+                    print(f'{ori} -----> {bak}')
+                    shutil.move(ori, bak)
+                    print(f'{adb} -----> {ori}')
+                    shutil.copy(adb, ori)
+            else:
+                print(f'{ori} not exists, skip')
 
     def adb_recover(self):
         """ Revert adb replacement """
-        for ori, bak in zip(self.adb_binary, self.adb_backup):
-            if os.path.exists(ori):
-                os.remove(ori)
-            shutil.move(bak, ori)
+        for ori in self.adb_binary:
+            print(f'Recovering {ori}')
+            bak = f'{ori}.bak'
+            if os.path.exists(bak):
+                print(f'Delete {ori}')
+                if os.path.exists(ori):
+                    os.remove(ori)
+                print(f'{bak} -----> {ori}')
+                shutil.move(bak, ori)
+            else:
+                print(f'Not exists {bak}, skip')
 
 
 # NoxPlayer 夜神模拟器
@@ -199,6 +223,7 @@ class EmulatorConnect:
             if status == 'device':
                 devices.append(serial)
 
+        print(f'Devices: {devices}')
         return devices
 
     def adb_kill(self):

@@ -1,0 +1,74 @@
+Deploy:
+  Git:
+    # URL of AzurLaneAutoScript repository
+    # [CN user] Use 'https://gitee.com/LmeSzinc/AzurLaneAutoScript' for faster and more stable download
+    # [Other] Use 'https://github.com/LmeSzinc/AzurLaneAutoScript'
+    Repository: 'https://github.com/LmeSzinc/AzurLaneAutoScript'
+    # Brunch of Alas
+    # [Developer] Use 'dev', 'app', etc, to try new features
+    # [Other] Use 'master', the stable brunch
+    Brunch: 'app'
+    # Filepath of git executable `git.exe`
+    # [Easy installer] Use './toolkit/Git/mingw64/bin/git.exe'
+    # [Other] Use you own git
+    GitExecutable: './toolkit/Git/mingw64/bin/git.exe'
+    # Set git proxy
+    # [CN user] Use your local http proxy (http://127.0.0.1:{port}) or socks5 proxy (socks5://127.0.0.1:{port})
+    # [Other] Use null
+    GitProxy: null
+    # Update Alas at startup
+    # [In most cases] Use true
+    AutoUpdate: true
+    # Whether to keep local changes during update
+    # User settings, logs and screenshots will be kept, no mather this is true or false
+    # [Developer] Use true, if you modified the code
+    # [Other] Use false
+    KeepLocalChanges: false
+
+  Python:
+    # Filepath of python executable `python.exe`
+    # [Easy installer] Use './toolkit/python.exe'
+    # [Other] Use you own python, and its version should be 3.7.6 64bit
+    PythonExecutable: './toolkit/python.exe'
+    # URL of pypi mirror
+    # [CN user] Use 'http://pypi.douban.com/simple/' for faster and more stable download
+    # [Other] Use null
+    PypiMirror: null
+    # Install dependencies at startup
+    # [In most cases] Use true
+    InstallDependencies: true
+
+  Adb:
+    # Filepath of ADB executable `adb.exe`
+    # [Easy installer] Use './toolkit/Lib/site-packages/adbutils/binaries/adb.exe'
+    # [Other] Use you own latest ADB, but not the ADB in your emulator
+    AdbExecutable: './toolkit/Lib/site-packages/adbutils/binaries/adb.exe'
+    # Whether to replace ADB
+    # Chinese emulators (NoxPlayer, LDPlayer, MemuPlayer, MuMuPlayer) use their own ADB, instead of the latest.
+    # Different ADB servers will terminate each other at startup, resulting in disconnection.
+    # For compatibility, we have to replace them all.
+    # This will do:
+    #   1. Terminate current ADB server
+    #   2. Rename ADB from all emulators to *.bak and replace them by the AdbExecutable set above
+    #   3. Brute-force connect to all available emulator instances
+    # [In most cases] Use true
+    # [In few cases] Use false, if you have other programs using ADB.
+    ReplaceAdb: true
+    # Brute-force connect to all available emulator instances
+    # [In most cases] Use true
+    AutoConnect: true
+    # Re-install uiautomator2
+    # [In most cases] Use true
+    InstallUiautomator2: true
+
+  Webui:
+    # --port. Port to listen
+    # You will be able to access webui via `http://127.0.0.1:{port}`
+    # [In most cases] Default to 22267
+    WebuiPort: 22267
+    # Language to use on web ui
+    # 'zh-CN' for Chinese simplified
+    # 'en-US' for English
+    # 'ja-JP' for Japanese
+    # 'zh-TW' for Chinese traditional
+    Language: 'en-US'

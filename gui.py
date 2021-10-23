@@ -5,15 +5,16 @@ import time
 from multiprocessing import Manager, Process
 from multiprocessing.managers import SyncManager
 
-import filelock
 from pywebio.exceptions import *
 from pywebio.session import go_app, info, register_thread, set_env
+
+# This must be the first to import
+from module.logger import logger  # Change folder
 
 import module.webui.lang as lang
 from module.config.config import AzurLaneConfig, Function
 from module.config.config_updater import ConfigUpdater
 from module.config.utils import *
-from module.logger import logger  # Change folder
 from module.webui.base import Frame
 from module.webui.lang import _t, t
 from module.webui.translate import translate
@@ -559,6 +560,15 @@ class AlasGUI(Frame):
 
             toast(_t("Gui.Toast.DisableTranslateMode"), duration=0, position='right', onclick=_disable)
 
+        # temporary buttons, there is no setting page now :(
+        self.content.append(
+            put_text("Select your language").style("text-align: center"),
+            put_buttons(
+                ["zh-CN", "zh-TW", "en-US", "ja-JP"],
+                onclick=lambda s: lang.set_language(s, True)
+            ).style("text-align: center")
+        )
+
         # show something
         self.content.append(output(output(
             put_markdown("""
@@ -572,15 +582,6 @@ class AlasGUI(Frame):
             ## Join in translation
             Go `Develop` - `Translate`
             """, strip_indent=12)).style('welcome')))
-
-        # temporary buttons, there is no setting page now :(
-        self.content.append(
-            put_text("Select your language").style("text-align: center"),
-            put_buttons(
-                ["zh-CN", "zh-TW", "en-US", "ja-JP"],
-                onclick=lambda s: lang.set_language(s, True)
-            ).style("text-align: center")
-        )
 
         # detect config change
         _thread_wait_config_change = Thread(
@@ -615,7 +616,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     Alas.manager = Manager()
-    
+
+
     def index():
         if args.key != '' and not login(args.key):
             logger.warning(f"{info.user_ip} login failed.")
