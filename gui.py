@@ -5,6 +5,7 @@ import time
 from multiprocessing import Manager, Process
 from multiprocessing.managers import SyncManager
 
+import filelock
 from pywebio.exceptions import *
 from pywebio.session import go_app, info, register_thread, set_env
 
@@ -17,11 +18,11 @@ from module.webui.base import Frame
 from module.webui.lang import _t, t
 from module.webui.translate import translate
 from module.webui.utils import (Icon, QueueHandler, Thread, add_css,
-                                 filepath_css, get_output, login,
-                                 parse_pin_value)
+                                filepath_css, get_output, login,
+                                parse_pin_value)
 from module.webui.widgets import *
 
-all_alas = {}
+all_alas: Dict[str, "Alas"] = {}
 config_updater = ConfigUpdater()
 
 
@@ -74,11 +75,13 @@ class Alas:
             toast(t("Gui.Toast.AlasIsRunning"), position='right', color='warn')
 
     def stop(self) -> None:
-        if self.process.is_alive():
-            self.process.terminate()
-            self.log.append("Scheduler stopped.\n")
-        if self.thd_log_queue_handler.is_alive():
-            self.thd_log_queue_handler.stop()
+        lock = FileLock(f"{filepath_config(self.config_name)}.lock")
+        with lock:
+            if self.process.is_alive():
+                self.process.terminate()
+                self.log.append("Scheduler stopped.\n")
+            if self.thd_log_queue_handler.is_alive():
+                self.thd_log_queue_handler.stop()
 
     def _thread_log_queue_handler(self) -> None:
         while self.process.is_alive():
@@ -95,8 +98,8 @@ ALAS_ARGS = read_file(filepath_args('args'))
 # Using full path name will transfer ~16KB per command,
 # may lag when remote control or in bad internet condition.
 # Use ~4KB after doing this.
-path_to_idx = {}
-idx_to_path = {}
+path_to_idx: Dict[str, str] = {}
+idx_to_path: Dict[str, str] = {}
 
 
 def shorten_path() -> None:

@@ -1,3 +1,6 @@
+from typing import Dict
+
+import module.logger  # Change folder
 from module.config.utils import *
 
 LANG = 'zh-CN'
@@ -41,7 +44,7 @@ def _t(s, lang=None):
         return s
 
 
-dic_lang = {}
+dic_lang: Dict[str, Dict[str, str]] = {}
 
 
 def reload():
