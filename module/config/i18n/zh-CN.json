@@ -208,11 +208,11 @@
     },
     "Serial": {
       "name": "模拟器 Serial",
-      "help": "例如 127.0.0.1:5555, 127.0.0.1:62001"
+      "help": "模拟器默认 Serial：\n蓝叠模拟器 127.0.0.1:5555\n夜神模拟器 127.0.0.1:62001\n夜神模拟器64位 127.0.0.1:59865\nMuMu模拟器 127.0.0.1:7555\n逍遥模拟器 127.0.0.1:21503\n雷电模拟器 emulator-5554 或 127.0.0.1:5555\n如果你有多个模拟器，它们的 Serial 将不是默认的，可以在 console.bat 中执行 `adb devices` 查询"
     },
     "PackageName": {
       "name": "游戏包名",
-      "help": "国服 com.bilibili.azurlane\n国际服 com.YoStarEN.AzurLane\n日服 com.YoStarJP.AzurLane\n国服渠道服需要自行搜索"
+      "help": "国服 com.bilibili.azurlane\n国际服 com.YoStarEN.AzurLane\n日服 com.YoStarJP.AzurLane\n台服 com.hkmanjuu.azurlane.gp\n国服渠道服需要自行查找"
     },
     "Server": {
       "name": "游戏服务器",
@@ -224,7 +224,7 @@
     },
     "ScreenshotMethod": {
       "name": "模拟器截图方案",
-      "help": "速度: aScreenCap >>> uiautomator2 ~= ADB\n建议选 ADB",
+      "help": "速度: aScreenCap > uiautomator2 ~= ADB\n建议选 ADB",
       "ADB": "ADB ",
       "uiautomator2": "uiautomator2 ",
       "aScreenCap": "aScreenCap "

@@ -208,11 +208,11 @@
     },
     "Serial": {
       "name": "Serial",
-      "help": "127.0.0.1:5555, 127.0.0.1:62001, or refer to chosen emulaor's API"
+      "help": "Default serial of emulators:\nBlueStacks 127.0.0.1:5555\nNoxPlayer 127.0.0.1:62001\nNoxPlayer64bit 127.0.0.1:59865\nMuMuPlayer 127.0.0.1:7555\nMemuPlayer 127.0.0.1:21503\nLDPlayer emulator-5554 or 127.0.0.1:5555\nIf you have multiple emulator instances, their won't use the defaults. Open console.bat and run `adb devices` to find them."
     },
     "PackageName": {
       "name": "Package Name",
-      "help": "com.bilibili.azurlane (CN), com.YoStarEN.AzurLane, com.YoStarJP.AzurLane, and etc. if none of these please refer to your AppStore"
+      "help": "com.bilibili.azurlane (CN)\ncom.YoStarEN.AzurLane (EN)\ncom.YoStarJP.AzurLane (JP)\ncom.hkmanjuu.azurlane.gp (TW)\nIf none of these please refer to your AppStore"
     },
     "Server": {
       "name": "Game Server",
@@ -224,14 +224,14 @@
     },
     "ScreenshotMethod": {
       "name": "Screenshot Method",
-      "help": "Speed: aScreenCap >> uiautomator2 > ADB",
+      "help": "Speed: aScreenCap > uiautomator2 ~= ADB\nADB is recommended",
       "ADB": "ADB ",
       "uiautomator2": "uiautomator2 ",
       "aScreenCap": "aScreenCap "
     },
     "ControlMethod": {
       "name": "Control Method",
-      "help": "Speed: minitouch >> uiautomator2 >> ADB",
+      "help": "Speed: minitouch >>> uiautomator2 ~= ADB\nminitouch is recommended",
       "ADB": "ADB ",
       "uiautomator2": "uiautomator2 ",
       "minitouch": "minitouch "
@@ -265,12 +265,12 @@
       "help": "Frequency of screenshots in seconds taken during battle, can help reduce CPU"
     },
     "TaskHoardingDuration": {
-      "name": "Optimization.TaskHoardingDuration.name",
-      "help": "Optimization.TaskHoardingDuration.help"
+      "name": "Hoard tasks for X minute(s)",
+      "help": "Can reduce the frequency of operating AL"
     },
     "CloseGameDuringWait": {
-      "name": "Optimization.CloseGameDuringWait.name",
-      "help": "Optimization.CloseGameDuringWait.help"
+      "name": "Close Game During Wait",
+      "help": "Close AL when nothing to do, can help reduce CPU"
     }
   },
   "DropRecord": {
