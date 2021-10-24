@@ -28,9 +28,13 @@ class AzurLaneAutoScript:
 
     @cached_property
     def device(self):
-        from module.device.device import Device
-        device = Device(config=self.config)
-        return device
+        try:
+            from module.device.device import Device
+            device = Device(config=self.config)
+            return device
+        except Exception as e:
+            logger.exception(e)
+            exit(1)
 
     def run(self, command):
         try:
