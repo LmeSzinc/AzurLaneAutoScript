@@ -1,7 +1,6 @@
 on:
   workflow_dispatch:
   push:
-  pull_request:
   schedule:
     # UTC 21:00 -> CST (China) 5:00
     - cron: '0 21 * * *'
