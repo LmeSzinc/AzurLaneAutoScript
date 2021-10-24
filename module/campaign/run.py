@@ -4,10 +4,10 @@ import os
 
 from module.campaign.assets import *
 from module.campaign.campaign_base import CampaignBase
+from module.combat.auto_search_combat import AutoSearchCombat
 from module.config.config import AzurLaneConfig
 from module.config.utils import deep_get
-from module.exception import RequestHumanTakeover
-from module.exception import ScriptEnd
+from module.exception import RequestHumanTakeover, ScriptEnd
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.ui.ui import UI
@@ -89,6 +89,11 @@ class CampaignRun(UI):
                 logger.hr('Triggered stop condition: Oil limit')
                 self.config.task_delay(minute=(120, 240))
                 return True
+        # Auto search oil limit
+        if self.campaign.auto_search_oil_limit_triggered:
+            logger.hr('Triggered stop condition: Auto search oil limit')
+            self.config.task_delay(minute=(120, 240))
+            return True
         # If Get a New Ship
         if self.config.StopCondition_GetNewShip and self.campaign.config.GET_SHIP_TRIGGERED:
             logger.hr('Triggered stop condition: Get new ship')
