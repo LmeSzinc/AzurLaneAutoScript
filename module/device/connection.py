@@ -25,30 +25,47 @@ class Connection:
         logger.hr('Device')
         self.config = config
         self.serial = str(self.config.Emulator_Serial)
-        if ("bluestacks4-hyperv" in self.serial):
-            logger.info("Use Bluestacks4 Hyper-v Beta")
-            if self.serial == "bluestacks4-hyperv":
-                folderName = "Android"
-            else:
-                folderName = f"Android_{self.serial[19:]}"
-            logger.info("Reading Realtime adb port")
-            regRoot = ConnectRegistry(None, HKEY_LOCAL_MACHINE)
-            subDir = f"SOFTWARE\BlueStacks_bgp64_hyperv\Guests\{folderName}\Config"
-            bsKeys = OpenKey(regRoot, subDir)
-            bsKeysCount = QueryInfoKey(bsKeys)[1]
-            for i in range(bsKeysCount):
-                keyName, keyValue, keyType = EnumValue(bsKeys, i)
-                if (keyName == "BstAdbPort"):
-                    logger.info(f"New adb port: {keyValue}")
-                    self.serial = f"127.0.0.1:{keyValue}"
-                    break
-            CloseKey(bsKeys)
-            CloseKey(regRoot)
+        if "bluestacks4-hyperv" in self.serial:
+            self.serial = self.find_bluestacks_hyperv(self.serial)
+
         self.device = self.connect(self.serial)
         # Set from 3min to 7days
         self.device.set_new_command_timeout(604800)
         # if self.config.DEVICE_SCREENSHOT_METHOD == 'aScreenCap':
         #     self._ascreencap_init()
+
+    @staticmethod
+    def find_bluestacks_hyperv(serial):
+        """
+        Find dynamic serial of Bluestacks4 Hyper-v Beta.
+
+        Args:
+            serial (str): 'bluestacks4-hyperv', 'bluestacks4-hyperv-2' for multi instance, and so on.
+
+        Returns:
+            str: 127.0.0.1:{port}
+        """
+        logger.info("Use Bluestacks4 Hyper-v Beta")
+        if serial == "bluestacks4-hyperv":
+            folder_name = "Android"
+        else:
+            folder_name = f"Android_{serial[19:]}"
+
+        logger.info("Reading Realtime adb port")
+        reg_root = ConnectRegistry(None, HKEY_LOCAL_MACHINE)
+        sub_dir = f"SOFTWARE\\BlueStacks_bgp64_hyperv\\Guests\\{folder_name}\\Config"
+        bs_keys = OpenKey(reg_root, sub_dir)
+        bs_keys_count = QueryInfoKey(bs_keys)[1]
+        for i in range(bs_keys_count):
+            key_name, key_value, key_type = EnumValue(bs_keys, i)
+            if key_name == "BstAdbPort":
+                logger.info(f"New adb port: {key_value}")
+                serial = f"127.0.0.1:{key_value}"
+                break
+
+        CloseKey(bs_keys)
+        CloseKey(reg_root)
+        return serial
 
     @property
     def adb_binary(self):

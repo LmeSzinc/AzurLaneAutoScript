@@ -208,7 +208,7 @@
     },
     "Serial": {
       "name": "Serial",
-      "help": "Default serial of emulators:\nBlueStacks 127.0.0.1:5555\nNoxPlayer 127.0.0.1:62001\nNoxPlayer64bit 127.0.0.1:59865\nMuMuPlayer 127.0.0.1:7555\nMemuPlayer 127.0.0.1:21503\nLDPlayer emulator-5554 or 127.0.0.1:5555\nIf you have multiple emulator instances, their won't use the defaults. Open console.bat and run `adb devices` to find them."
+      "help": "Default serial of emulators:\n- BlueStacks 127.0.0.1:5555\n- BlueStacks4 Hyper-V use \"bluestacks4-hyperv\", \"bluestacks4-hyperv-2\" for multi instance, and so on\n- NoxPlayer 127.0.0.1:62001\n- NoxPlayer64bit 127.0.0.1:59865\n- MuMuPlayer 127.0.0.1:7555\n- MemuPlayer 127.0.0.1:21503\n- LDPlayer emulator-5554 or 127.0.0.1:5555\nIf you have multiple emulator instances, their won't use the defaults. Open console.bat and run `adb devices` to find them."
     },
     "PackageName": {
       "name": "Package Name",
