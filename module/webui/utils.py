@@ -187,10 +187,10 @@ class Icon:
     """
     ALAS = _read(filepath_icon('alas'))
     SETTING = _read(filepath_icon('setting'))
-    INSTALL = _read(filepath_icon('install'))
     RUN = _read(filepath_icon('run'))
     DEVELOP = _read(filepath_icon('develop'))
     PERFORMANCE = _read(filepath_icon('performance'))
+    ADD = _read(filepath_icon('add'))
 
 
 def get_output(arg_type, name, title, arg_help=None, value=None, options=None, width="12rem"):

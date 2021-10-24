@@ -117,11 +117,20 @@ footer {
     margin-bottom: .25rem !important;
 }
 
-input[type="text"], select {
+input[type="text"]{
     border-radius: initial !important;
     border: unset !important;
     border-bottom: 1px solid darkblue !important;
     padding: 0 .5rem 0 !important;
+    margin-top: .125rem;
+    height: auto !important;
+}
+
+select {
+    border-radius: initial !important;
+    border: unset !important;
+    border-bottom: 1px solid darkblue !important;
+    padding: 0 .25rem 0 !important;
     margin-top: .125rem;
     height: auto !important;
 }
@@ -202,6 +211,7 @@ textarea {
     padding-top: .75rem;
     overflow-y: auto;
     min-width: 12rem;
+    max-width: 16rem;
 }
 
 *[style*="container-content"] {
@@ -310,7 +320,6 @@ textarea {
     font-size: 1rem;
     margin: 0 .25rem 0 .25rem !important;
     overflow-wrap: break-word;
-    word-break: break-all;
 }
 
 *[style*="arg-help"] {
@@ -318,7 +327,6 @@ textarea {
     color: #777777;
     margin: 0 .25rem 0 .25rem !important;
     overflow-wrap: break-word;
-    word-break: break-all;
 }
 
 *[style*="input-input"] {

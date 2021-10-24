@@ -1455,7 +1455,8 @@
       "Install": "安装",
       "Develop": "开发",
       "Performance": "性能",
-      "Setting": "设置"
+      "Setting": "设置",
+      "AddAlas": "新增"
     },
     "Button": {
       "Start": "启动",
@@ -1489,6 +1490,13 @@
       "Pending": "队列中",
       "Waiting": "等待中",
       "NoTask": "无任务"
+    },
+    "AddAlas": {
+      "PopupTitle": "添加新配置",
+      "NewName": "新的配置文件名",
+      "CopyFrom": "从现有的配置中复制",
+      "Confirm": "添加",
+      "FileExist": "存在同名的配置文件，请重新输入一个"
     }
   }
 }

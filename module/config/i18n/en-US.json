@@ -1455,7 +1455,8 @@
       "Install": "Install",
       "Develop": "Develop",
       "Performance": "Perf.",
-      "Setting": "Settings"
+      "Setting": "Settings",
+      "AddAlas": "Add"
     },
     "Button": {
       "Start": "Start",
@@ -1489,6 +1490,13 @@
       "Pending": "Pending",
       "Waiting": "Waiting",
       "NoTask": "No Task"
+    },
+    "AddAlas": {
+      "PopupTitle": "Add new config",
+      "NewName": "New name",
+      "CopyFrom": "Copy from existing config",
+      "Confirm": "Add",
+      "FileExist": "A config with the same name exists, please choose another one"
     }
   }
 }

@@ -6,6 +6,7 @@ Aside:
   Develop:
   Performance:
   Setting:
+  AddAlas:
 
 Button:
   Start:
@@ -39,3 +40,10 @@ Overview:
   Pending:
   Waiting:
   NoTask:
+
+AddAlas:
+  PopupTitle:
+  NewName:
+  CopyFrom:
+  Confirm:
+  FileExist:

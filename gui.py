@@ -135,11 +135,13 @@ class AlasGUI(Frame):
         # when onclick isn't a list, value will pass to function.
         self.aside.reset(
             put_icon_buttons(Icon.DEVELOP, buttons=[{"label": t(
-                "Gui.Aside.Develop"), "value": "develop", "color": "aside"}], onclick=[self.ui_develop]),
+                "Gui.Aside.Develop"), "value": "Develop", "color": "aside"}], onclick=[self.ui_develop]),
             *[put_icon_buttons(Icon.RUN,
                                buttons=[{"label": name, "value": name, "color": "aside"}],
                                onclick=self.ui_alas)
-              for name in alas_instance()]
+              for name in alas_instance()],
+            put_icon_buttons(Icon.ADD, buttons=[{"label": t(
+                "Gui.Aside.AddAlas"), "value": "AddAlas", "color": "aside"}], onclick=[self.ui_add_alas]),
         )
 
     def set_status(self, status: int) -> None:
@@ -539,6 +541,53 @@ class AlasGUI(Frame):
         return
         self.init_aside(name="Setting")
         self.alas_name = ''
+
+    def ui_add_alas(self) -> None:
+        with popup(t("Gui.AddAlas.PopupTitle")) as s:
+            def get_unused_name():
+                all_name = alas_instance()
+                for i in range(2, 100):
+                    if f'alas{i}' not in all_name:
+                        return f'alas{i}'
+                else:
+                    return ''
+
+            def add():
+                name = pin["AddAlas_name"]
+                origin = pin["AddAlas_copyfrom"]
+
+                if name not in alas_instance():
+                    r = read_file(filepath_config(origin))
+                    write_file(filepath_config(name), r)
+                    self.set_aside()
+                    self.active_button("aside", self.alas_name)
+                    close_popup()
+                else:
+                    clear(s)
+                    put_widget(name, origin)
+                    put_error(t("Gui.AddAlas.FileExist"), scope=s)
+
+            def put_widget(name=None, origin=None):
+                put_input(
+                    name="AddAlas_name",
+                    label=t("Gui.AddAlas.NewName"),
+                    value=name or get_unused_name(),
+                    scope=s
+                ),
+                put_select(
+                    name="AddAlas_copyfrom",
+                    label=t("Gui.AddAlas.CopyFrom"),
+                    options=['template'] + alas_instance(),
+                    value=origin or 'template',
+                    scope=s
+                ),
+                put_button(
+                    label=t("Gui.AddAlas.Confirm"),
+                    onclick=add,
+                    scope=s
+                )
+
+            put_widget()
 
     def run(self) -> None:
         # setup gui

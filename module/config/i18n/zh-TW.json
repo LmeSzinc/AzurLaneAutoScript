@@ -1455,7 +1455,8 @@
       "Install": "Gui.Aside.Install",
       "Develop": "Gui.Aside.Develop",
       "Performance": "Gui.Aside.Performance",
-      "Setting": "Gui.Aside.Setting"
+      "Setting": "Gui.Aside.Setting",
+      "AddAlas": "Gui.Aside.AddAlas"
     },
     "Button": {
       "Start": "Gui.Button.Start",
@@ -1489,6 +1490,13 @@
       "Pending": "Gui.Overview.Pending",
       "Waiting": "Gui.Overview.Waiting",
       "NoTask": "Gui.Overview.NoTask"
+    },
+    "AddAlas": {
+      "PopupTitle": "Gui.AddAlas.PopupTitle",
+      "NewName": "Gui.AddAlas.NewName",
+      "CopyFrom": "Gui.AddAlas.CopyFrom",
+      "Confirm": "Gui.AddAlas.Confirm",
+      "FileExist": "Gui.AddAlas.FileExist"
     }
   }
 }
