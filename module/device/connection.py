@@ -2,6 +2,7 @@ import os
 import subprocess
 
 import uiautomator2 as u2
+from winreg import *
 
 from module.config.config import AzurLaneConfig
 from module.logger import logger
@@ -24,6 +25,25 @@ class Connection:
         logger.hr('Device')
         self.config = config
         self.serial = str(self.config.Emulator_Serial)
+        if ("bluestacks4-hyperv" in self.serial):
+            logger.info("Use Bluestacks4 Hyper-v Beta")
+            if self.serial == "bluestacks4-hyperv":
+                folderName = "Android"
+            else:
+                folderName = f"Android_{self.serial[19:]}"
+            logger.info("Reading Realtime adb port")
+            regRoot = ConnectRegistry(None, HKEY_LOCAL_MACHINE)
+            subDir = f"SOFTWARE\BlueStacks_bgp64_hyperv\Guests\{folderName}\Config"
+            bsKeys = OpenKey(regRoot, subDir)
+            bsKeysCount = QueryInfoKey(bsKeys)[1]
+            for i in range(bsKeysCount):
+                keyName, keyValue, keyType = EnumValue(bsKeys, i)
+                if (keyName == "BstAdbPort"):
+                    logger.info(f"New adb port: {keyValue}")
+                    self.serial = f"127.0.0.1:{keyValue}"
+                    break
+            CloseKey(bsKeys)
+            CloseKey(regRoot)
         self.device = self.connect(self.serial)
         # Set from 3min to 7days
         self.device.set_new_command_timeout(604800)
