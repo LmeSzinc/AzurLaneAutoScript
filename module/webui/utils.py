@@ -24,8 +24,8 @@ class QueueHandler:
 
 class Thread(threading.Thread):
     # https://www.geeksforgeeks.org/python-different-ways-to-kill-a-thread/
-    def __init__(self, *args, **kwargs):
-        threading.Thread.__init__(self, *args, **kwargs)
+    def __init__(self, target=..., *args, **kwargs):
+        threading.Thread.__init__(self, target=target, *args, **kwargs)
 
     def _get_id(self):
         # returns id of the respective thread

@@ -2,10 +2,12 @@ import argparse
 import logging
 import queue
 import time
+from datetime import datetime
 from multiprocessing import Manager, Process
 from multiprocessing.managers import SyncManager
 
-from pywebio.exceptions import *
+from filelock import FileLock
+from pywebio.exceptions import SessionClosedException, SessionNotFoundException
 from pywebio.session import go_app, info, register_thread, set_env
 
 # This must be the first to import
@@ -14,7 +16,9 @@ from module.logger import logger  # Change folder
 import module.webui.lang as lang
 from module.config.config import AzurLaneConfig, Function
 from module.config.config_updater import ConfigUpdater
-from module.config.utils import *
+from module.config.utils import (alas_instance, deep_get, deep_iter, deep_set,
+                                 dict_to_kv, filepath_args, filepath_config,
+                                 read_file, write_file)
 from module.webui.base import Frame
 from module.webui.lang import _t, t
 from module.webui.translate import translate
@@ -23,51 +27,27 @@ from module.webui.utils import (Icon, QueueHandler, Thread, add_css,
                                 parse_pin_value)
 from module.webui.widgets import *
 
-all_alas: Dict[str, "Alas"] = {}
 config_updater = ConfigUpdater()
 
 
-def get_alas(config_name: str) -> "Alas":
-    """
-    Create a new alas if not exists.
-    """
-    if config_name not in all_alas:
-        all_alas[config_name] = Alas(config_name)
-    return all_alas[config_name]
-
-
-def run_alas(config_name, q: queue) -> None:
-    # Setup logger
-    qh = QueueHandler(q)
-    formatter = logging.Formatter(
-        fmt='%(asctime)s.%(msecs)03d | %(levelname)s | %(message)s',
-        datefmt='%Y-%m-%d %H:%M:%S')
-    webconsole = logging.StreamHandler(stream=qh)
-    webconsole.setFormatter(formatter)
-    logging.getLogger('alas').addHandler(webconsole)
-
-    # Run alas
-    from alas import AzurLaneAutoScript
-    AzurLaneAutoScript(config_name=config_name).loop()
-
-
-class Alas:
-    manager: SyncManager
+class AlasManager:
+    sync_manager: SyncManager
+    all_alas: Dict[str, "AlasManager"] = {}
 
     def __init__(self, config_name: str = 'alas') -> None:
         self.config_name = config_name
-        self.log_queue = Alas.manager.Queue()
+        self.log_queue = self.sync_manager.Queue()
         self.log = []
         self.log_max_length = 500
         self.log_reduce_length = 100
-        self.process = Process()
+        self._process = Process()
         self.thd_log_queue_handler = Thread()
 
     def start(self) -> None:
-        if not self.process.is_alive():
-            self.process = Process(target=run_alas, args=(
+        if not self.alive:
+            self._process = Process(target=AlasManager.run_alas, args=(
                 self.config_name, self.log_queue,))
-            self.process.start()
+            self._process.start()
             self.thd_log_queue_handler = Thread(
                 target=self._thread_log_queue_handler)
             register_thread(self.thd_log_queue_handler)
@@ -78,44 +58,69 @@ class Alas:
     def stop(self) -> None:
         lock = FileLock(f"{filepath_config(self.config_name)}.lock")
         with lock:
-            if self.process.is_alive():
-                self.process.terminate()
+            if self.alive:
+                self._process.terminate()
                 self.log.append("Scheduler stopped.\n")
             if self.thd_log_queue_handler.is_alive():
                 self.thd_log_queue_handler.stop()
 
     def _thread_log_queue_handler(self) -> None:
-        while self.process.is_alive():
+        while self.alive:
             log = self.log_queue.get()
             self.log.append(log)
             if len(self.log) > self.log_max_length:
                 self.log = self.log[self.log_reduce_length:]
 
+    @property
+    def alive(self) -> bool:
+        return self._process.is_alive()
 
-ALAS_MENU = read_file(filepath_args('menu'))
-ALAS_ARGS = read_file(filepath_args('args'))
+    @classmethod
+    def get_alas(cls, config_name: str) -> "AlasManager":
+        """
+        Create a new alas if not exists.
+        """
+        if config_name not in cls.all_alas:
+            cls.all_alas[config_name] = AlasManager(config_name)
+        return cls.all_alas[config_name]
 
-# Reduce pin_wait_change() command content-length
-# Using full path name will transfer ~16KB per command,
-# may lag when remote control or in bad internet condition.
-# Use ~4KB after doing this.
-path_to_idx: Dict[str, str] = {}
-idx_to_path: Dict[str, str] = {}
+    @staticmethod
+    def run_alas(config_name, q: queue) -> None:
+        # Setup logger
+        qh = QueueHandler(q)
+        formatter = logging.Formatter(
+            fmt='%(asctime)s.%(msecs)03d | %(levelname)s | %(message)s',
+            datefmt='%Y-%m-%d %H:%M:%S')
+        webconsole = logging.StreamHandler(stream=qh)
+        webconsole.setFormatter(formatter)
+        logging.getLogger('alas').addHandler(webconsole)
 
-
-def shorten_path() -> None:
-    i = 0
-    for list_path, _ in deep_iter(ALAS_ARGS, depth=3):
-        path_to_idx['.'.join(list_path)] = f'a{i}'
-        idx_to_path[f'a{i}'] = '.'.join(list_path)
-        i += 1
-
-
-shorten_path()
+        # Run alas
+        from alas import AzurLaneAutoScript
+        AzurLaneAutoScript(config_name=config_name).loop()
 
 
 class AlasGUI(Frame):
-    alas: Alas
+    ALAS_MENU = read_file(filepath_args('menu'))
+    ALAS_ARGS = read_file(filepath_args('args'))
+    path_to_idx: Dict[str, str] = {}
+    idx_to_path: Dict[str, str] = {}
+
+    @classmethod
+    def shorten_path(cls, prefix='a') -> None:
+        """
+        Reduce pin_wait_change() command content-length
+        Using full path name will transfer ~16KB per command,
+        may lag when remote control or in bad internet condition.
+        Use ~4KB after doing this.
+        Args:
+            prefix: all idx need to be a valid html, so a random character here
+        """
+        i = 0
+        for list_path, _ in deep_iter(cls.ALAS_ARGS, depth=3):
+            cls.path_to_idx['.'.join(list_path)] = f'{prefix}{i}'
+            cls.idx_to_path[f'{prefix}{i}'] = '.'.join(list_path)
+            i += 1
 
     def __init__(self) -> None:
         super().__init__()
@@ -193,7 +198,7 @@ class AlasGUI(Frame):
                  "value": "Overview", "color": "menu"}
             ], onclick=[self.alas_overview]).style(f'--menu-Overview--'),
         )
-        for key, tasks in deep_iter(ALAS_MENU, depth=2):
+        for key, tasks in deep_iter(self.ALAS_MENU, depth=2):
             # path = '.'.join(key)
             menu = key[1]
             self.menu.append(
@@ -230,7 +235,7 @@ class AlasGUI(Frame):
 
         config = config_updater.update_config(self.alas_name)
 
-        for group, arg_dict in deep_iter(ALAS_ARGS[task], depth=1):
+        for group, arg_dict in deep_iter(self.ALAS_ARGS[task], depth=1):
             group = group[0]
             group_help = t(f"{group}._info.help")
             if group_help == "" or not group_help:
@@ -269,7 +274,7 @@ class AlasGUI(Frame):
 
                 list_arg.append(get_output(
                     arg_type=arg_type,
-                    name=path_to_idx[f"{task}.{group}.{arg}"],
+                    name=self.path_to_idx[f"{task}.{group}.{arg}"],
                     title=t(f"{group}.{arg}.name"),
                     arg_help=arg_help,
                     value=value,
@@ -372,13 +377,13 @@ class AlasGUI(Frame):
                 ).style("height: 100%; overflow-y: auto"),
             )
 
-        def refresh_overiew_tasks(self: AlasGUI):
+        def refresh_overview_tasks():
             while True:
                 yield self.alas_update_overiew_tasks()
 
-        self.task_handler.add(refresh_overiew_tasks(self), 20, True)
+        self.task_handler.add(refresh_overview_tasks(), 10, True)
 
-        def put_log(self: AlasGUI):
+        def put_log():
             last_idx = len(self.alas.log)
             self.alas_logs.append(''.join(self.alas.log))
             lines = 0
@@ -395,17 +400,17 @@ class AlasGUI(Frame):
                     lines += idx - last_idx
                     last_idx = idx
 
-        self.task_handler.add(put_log(self), 0.2, True)
+        self.task_handler.add(put_log(), 0.2, True)
 
     def _alas_thread_wait_config_change(self) -> None:
         paths = []
-        for path, d in deep_iter(ALAS_ARGS, depth=3):
+        for path, d in deep_iter(self.ALAS_ARGS, depth=3):
             if d['type'] == 'disable':
                 continue
-            paths.append(path_to_idx['.'.join(path)])
+            paths.append(self.path_to_idx['.'.join(path)])
         while self.alive:
             try:
-                val = pin_wait_change(paths)
+                val = pin_wait_change(*paths)
                 self.modified_config_queue.put(val)
             except SessionClosedException:
                 break
@@ -418,11 +423,11 @@ class AlasGUI(Frame):
                 config_name = self.alas_name
             except queue.Empty:
                 continue
-            modified[idx_to_path[d['name']]] = parse_pin_value(d['value'])
+            modified[self.idx_to_path[d['name']]] = parse_pin_value(d['value'])
             while True:
                 try:
                     d = self.modified_config_queue.get(timeout=1)
-                    modified[idx_to_path[d['name']]] = parse_pin_value(d['value'])
+                    modified[self.idx_to_path[d['name']]] = parse_pin_value(d['value'])
                 except queue.Empty:
                     config = read_file(filepath_config(config_name))
                     for k in modified.keys():
@@ -436,7 +441,7 @@ class AlasGUI(Frame):
 
     def alas_update_status(self) -> None:
         if hasattr(self, 'alas'):
-            if self.alas.process.is_alive():
+            if self.alas.alive:
                 self.set_status(1)
             elif len(self.alas.log) == 0 or self.alas.log[-1] == "Scheduler stopped.\n":
                 self.set_status(2)
@@ -450,7 +455,7 @@ class AlasGUI(Frame):
         self.alas_config.get_next_task()
 
         if len(self.alas_config.pending_task) >= 1:
-            if self.alas.process.is_alive():
+            if self.alas.alive:
                 running = self.alas_config.pending_task[:1]
                 pending = self.alas_config.pending_task[1:]
             else:
@@ -531,7 +536,7 @@ class AlasGUI(Frame):
         self.init_aside(name=config_name)
         self.content.reset()
         self.alas_name = config_name
-        self.alas = get_alas(config_name)
+        self.alas = AlasManager.get_alas(config_name)
         self.alas_config = AzurLaneConfig(config_name, '')
         self.alas_update_status()
         self.alas_set_menu()
@@ -564,10 +569,10 @@ class AlasGUI(Frame):
                     close_popup()
                 else:
                     clear(s)
-                    put_widget(name, origin)
+                    put(name, origin)
                     put_error(t("Gui.AddAlas.FileExist"), scope=s)
 
-            def put_widget(name=None, origin=None):
+            def put(name=None, origin=None):
                 put_input(
                     name="AddAlas_name",
                     label=t("Gui.AddAlas.NewName"),
@@ -587,7 +592,7 @@ class AlasGUI(Frame):
                     scope=s
                 )
 
-            put_widget()
+            put()
 
     def run(self) -> None:
         # setup gui
@@ -644,11 +649,11 @@ class AlasGUI(Frame):
         register_thread(_thread_save_config)
         _thread_save_config.start()
 
-        def refresh_status(self: AlasGUI):
+        def refresh_status():
             while True:
                 yield self.alas_update_status()
 
-        self.task_handler.add(refresh_status(self), 2)
+        self.task_handler.add(refresh_status(), 2)
         self.task_handler.start()
 
 
@@ -664,7 +669,8 @@ if __name__ == "__main__":
                         help='Password of alas. No password by default')
     args = parser.parse_args()
 
-    Alas.manager = Manager()
+    AlasManager.sync_manager = Manager()
+    AlasGUI.shorten_path()
 
 
     def index():
@@ -684,6 +690,6 @@ if __name__ == "__main__":
     try:
         start_server([index, translate], port=args.port, debug=args.debug)
     finally:
-        for alas in all_alas.values():
+        for alas in AlasManager.all_alas.values():
             alas.stop()
         logger.info("Alas closed.")

@@ -1,6 +1,6 @@
 import random
 import string
-from typing import Callable, Dict, List
+from typing import Callable, Dict, List, Union
 
 from pywebio.output import *
 from pywebio.pin import *
@@ -41,7 +41,9 @@ class ScrollableCode:
 
 
 # aside buttons
-def put_icon_buttons(icon_html: str, buttons: List[Dict[str, str]], onclick: Callable[[], None]):
+def put_icon_buttons(icon_html: str, 
+                     buttons: List[Dict[str, str]], 
+                     onclick: Union[List[Callable[[], None]], Callable[[], None]]):
     value = buttons[0]['value']
     return put_column([
         output(put_html(icon_html)).style(
@@ -76,10 +78,12 @@ def put_input_(
 def put_select_(
     name: str, 
     title: str, 
-    help: str = None, 
-    options: List[str] = [], 
+    help: str = None,
+    options: List[str] = None,
     width: str = "12rem"
 ):
+    if options is None:
+        options = []
     if help:
         left = put_column([
             put_text(title).style("arg-title"),

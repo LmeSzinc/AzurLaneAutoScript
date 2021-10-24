@@ -1,6 +1,5 @@
 from typing import Dict
 
-import module.logger  # Change folder
 from module.config.utils import *
 
 LANG = 'zh-CN'
