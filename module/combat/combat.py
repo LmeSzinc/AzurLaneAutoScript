@@ -377,6 +377,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         """
         logger.info('Combat status')
         logger.attr('expected_end', expected_end.__name__ if callable(expected_end) else expected_end)
+        battle_status = False
         exp_info = False  # This is for the white screen bug in game
         while 1:
             self.device.screenshot()
@@ -387,8 +388,12 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             if self.handle_get_items(drop=drop):
                 continue
             if self.handle_battle_status(drop=drop):
+                battle_status = True
                 continue
             if self.handle_popup_confirm('combat_status'):
+                if battle_status and not exp_info:
+                    logger.info('Locking a new ship')
+                    self.config.GET_SHIP_TRIGGERED = True
                 continue
             if self.handle_exp_info():
                 exp_info = True
