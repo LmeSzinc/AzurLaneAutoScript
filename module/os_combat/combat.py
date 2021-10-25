@@ -77,7 +77,7 @@ class Combat(Combat_, MapEventHandler):
                 #     self.emotion.reduce(fleet_index)
                 break
 
-    def handle_get_items(self, save_get_items=False):
+    def handle_get_items(self, drop=None):
         if self.appear(GET_ITEMS_1, offset=5, interval=self.battle_status_click_interval):
             self.device.click(CLICK_SAFE_AREA)
             self.interval_reset(BATTLE_STATUS_S)
@@ -107,8 +107,8 @@ class Combat(Combat_, MapEventHandler):
 
         return self.handle_os_in_map()
 
-    def combat_status(self, save_get_items=False, expected_end=None):
-        super().combat_status(save_get_items=False, expected_end=self._os_combat_expected_end)
+    def combat_status(self, drop=None, expected_end=None):
+        super().combat_status(drop=drop, expected_end=self._os_combat_expected_end)
 
     def combat(self, *args, **kwargs):
         """

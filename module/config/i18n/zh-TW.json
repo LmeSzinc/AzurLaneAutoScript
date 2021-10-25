@@ -23,6 +23,10 @@
     "Opsi": {
       "name": "Menu.Opsi.name",
       "help": "Menu.Opsi.help"
+    },
+    "Tool": {
+      "name": "Menu.Tool.name",
+      "help": "Menu.Tool.help"
     }
   },
   "Task": {
@@ -169,6 +173,18 @@
     "OpsiMeowfficerFarming": {
       "name": "Task.OpsiMeowfficerFarming.name",
       "help": "Task.OpsiMeowfficerFarming.help"
+    },
+    "Daemon": {
+      "name": "Task.Daemon.name",
+      "help": "Task.Daemon.help"
+    },
+    "OpsiDaemon": {
+      "name": "Task.OpsiDaemon.name",
+      "help": "Task.OpsiDaemon.help"
+    },
+    "Benchmark": {
+      "name": "Task.Benchmark.name",
+      "help": "Task.Benchmark.help"
     }
   },
   "Scheduler": {
@@ -1448,6 +1464,40 @@
       "4": "4",
       "5": "5",
       "6": "6"
+    }
+  },
+  "Daemon": {
+    "_info": {
+      "name": "Daemon._info.name",
+      "help": "Daemon._info.help"
+    },
+    "EnterMap": {
+      "name": "Daemon.EnterMap.name",
+      "help": "Daemon.EnterMap.help"
+    }
+  },
+  "OpsiDaemon": {
+    "_info": {
+      "name": "OpsiDaemon._info.name",
+      "help": "OpsiDaemon._info.help"
+    },
+    "RepairShip": {
+      "name": "OpsiDaemon.RepairShip.name",
+      "help": "OpsiDaemon.RepairShip.help"
+    }
+  },
+  "Benchmark": {
+    "_info": {
+      "name": "Benchmark._info.name",
+      "help": "Benchmark._info.help"
+    },
+    "TestScreenshotMethod": {
+      "name": "Benchmark.TestScreenshotMethod.name",
+      "help": "Benchmark.TestScreenshotMethod.help"
+    },
+    "TestClickMethod": {
+      "name": "Benchmark.TestClickMethod.name",
+      "help": "Benchmark.TestClickMethod.help"
     }
   },
   "Gui": {

@@ -403,3 +403,13 @@ OpsiMeowfficerFarming:
   HazardLevel:
     value: 5
     option: [1, 2, 3, 4, 5, 6]
+
+# ==================== Tools ====================
+
+Daemon:
+  EnterMap: true
+OpsiDaemon:
+  RepairShip: true
+Benchmark:
+  TestScreenshotMethod: true
+  TestClickMethod: true

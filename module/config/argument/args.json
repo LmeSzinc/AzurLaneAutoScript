@@ -5467,5 +5467,33 @@
         ]
       }
     }
+  },
+  "Daemon": {
+    "Daemon": {
+      "EnterMap": {
+        "type": "checkbox",
+        "value": true
+      }
+    }
+  },
+  "OpsiDaemon": {
+    "OpsiDaemon": {
+      "RepairShip": {
+        "type": "checkbox",
+        "value": true
+      }
+    }
+  },
+  "Benchmark": {
+    "Benchmark": {
+      "TestScreenshotMethod": {
+        "type": "checkbox",
+        "value": true
+      },
+      "TestClickMethod": {
+        "type": "checkbox",
+        "value": true
+      }
+    }
   }
 }

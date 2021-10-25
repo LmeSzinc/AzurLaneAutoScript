@@ -1212,5 +1212,21 @@
       "ActionPointPreserve": 500,
       "HazardLevel": 5
     }
+  },
+  "Daemon": {
+    "Daemon": {
+      "EnterMap": true
+    }
+  },
+  "OpsiDaemon": {
+    "OpsiDaemon": {
+      "RepairShip": true
+    }
+  },
+  "Benchmark": {
+    "Benchmark": {
+      "TestScreenshotMethod": true,
+      "TestClickMethod": true
+    }
   }
 }

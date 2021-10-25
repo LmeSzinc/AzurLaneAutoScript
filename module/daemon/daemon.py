@@ -1,13 +1,12 @@
 from module.campaign.campaign_base import CampaignBase
-from module.daemon.assets import *
-from module.exception import *
+from module.daemon.daemon_base import DaemonBase
+from module.exception import CampaignEnd
 from module.handler.ambush import MAP_AMBUSH_EVADE
+from module.map.map_operation import MAP_PREPARATION, FLEET_PREPARATION
 
 
-class AzurLaneDaemon(CampaignBase):
-    def daemon(self):
-        self.device.disable_stuck_detection()
-
+class AzurLaneDaemon(DaemonBase, CampaignBase):
+    def run(self):
         while 1:
             self.device.screenshot()
 
@@ -17,26 +16,23 @@ class AzurLaneDaemon(CampaignBase):
 
             # Combat
             if self.combat_appear():
-                # if self.handle_combat_automation_set(auto=True):
-                #     continue
-                # self.device.click(BATTLE_PREPARATION)
                 self.combat_preparation()
             try:
-                if self.handle_battle_status(save_get_items=False):
-                    self.combat_status(save_get_items=False, expected_end='no_searching')
+                if self.handle_battle_status():
+                    self.combat_status(expected_end='no_searching')
                     continue
             except CampaignEnd:
                 continue
 
             # Map operation
-            if self.appear_then_click(MAP_AMBUSH_EVADE):
+            if self.appear_then_click(MAP_AMBUSH_EVADE, offset=(20, 20)):
                 self.device.sleep(1)
                 continue
-            if self.appear_then_click(STRATEGY_OPEN):
+            if self.handle_mystery_items():
                 continue
 
             # Map preparation
-            if self.config.ENABLE_SEMI_MAP_PREPARATION:
+            if self.config.Daemon_EnterMap:
                 if self.appear_then_click(MAP_PREPARATION, offset=(20, 20), interval=2):
                     continue
                 if self.appear_then_click(FLEET_PREPARATION, offset=(20, 20), interval=2):
@@ -50,14 +46,25 @@ class AzurLaneDaemon(CampaignBase):
             pass
 
             # Urgent commission
-            if self.handle_urgent_commission(save_get_items=False):
+            if self.handle_urgent_commission():
+                continue
+
+            # Popups
+            if self.handle_guild_popup_cancel():
+                return True
+            if self.handle_vote_popup():
                 continue
 
             # Story
-            if self.config.ENABLE_SEMI_STORY_SKIP:
-                self.story_skip()
+            if self.story_skip():
+                continue
 
             # End
             # No end condition, stop it manually.
 
         return True
+
+
+if __name__ == '__main__':
+    b = AzurLaneDaemon('alas', task='Daemon')
+    b.run()

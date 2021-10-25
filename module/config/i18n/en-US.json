@@ -23,6 +23,10 @@
     "Opsi": {
       "name": "OpSi",
       "help": ""
+    },
+    "Tool": {
+      "name": "Tools",
+      "help": ""
     }
   },
   "Task": {
@@ -168,6 +172,18 @@
     },
     "OpsiMeowfficerFarming": {
       "name": "OpSi Meowfficer Farming",
+      "help": ""
+    },
+    "Daemon": {
+      "name": "Semi-auto Clicking",
+      "help": ""
+    },
+    "OpsiDaemon": {
+      "name": "Opsi Semi-auto",
+      "help": ""
+    },
+    "Benchmark": {
+      "name": "Performance Test",
       "help": ""
     }
   },
@@ -1448,6 +1464,40 @@
       "4": "4",
       "5": "5",
       "6": "6"
+    }
+  },
+  "Daemon": {
+    "_info": {
+      "name": "Semi-auto Clicking",
+      "help": "Useful when attacking a stage haven't adapted by Alas. Can save tons of manual clicks\nAlas will click combat preparation, click combat drop, skip story, auto-retire, close popups. You only need to choose enemies."
+    },
+    "EnterMap": {
+      "name": "Auto Click Stage Preparation",
+      "help": "Prepare your fleets before using this"
+    }
+  },
+  "OpsiDaemon": {
+    "_info": {
+      "name": "Useful when attacking logger zones or Opsi story. Can save tons of manual clicks.\nAlas will click combat preparation, click combat drop, skip story, close popups. You only need to choose enemies and switch zones.",
+      "help": "OpsiDaemon._info.help"
+    },
+    "RepairShip": {
+      "name": "Repair Ships When Nearing Port",
+      "help": "After you move fleet to port, Alas will repair your ships in port.\nWhen it's done, move your fleet outside of port in 30s to avoid repairing again"
+    }
+  },
+  "Benchmark": {
+    "_info": {
+      "name": "Performance Test",
+      "help": "Test which screenshot method and click method is the fastest. Speed is vary from emulators and PCs."
+    },
+    "TestScreenshotMethod": {
+      "name": "Test Screenshots Methods",
+      "help": ""
+    },
+    "TestClickMethod": {
+      "name": "Test Click Methods",
+      "help": ""
     }
   },
   "Gui": {

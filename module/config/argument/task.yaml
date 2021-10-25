@@ -191,3 +191,12 @@ OpsiObscure:
 OpsiMeowfficerFarming:
   - Scheduler
   - OpsiMeowfficerFarming
+
+# ==================== Tool ====================
+
+Daemon:
+  - Daemon
+OpsiDaemon:
+  - OpsiDaemon
+Benchmark:
+  - Benchmark

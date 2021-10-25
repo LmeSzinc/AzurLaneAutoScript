@@ -45,6 +45,11 @@
       "OpsiDaily",
       "OpsiObscure",
       "OpsiMeowfficerFarming"
+    ],
+    "Tool": [
+      "Daemon",
+      "OpsiDaemon",
+      "Benchmark"
     ]
   }
 }

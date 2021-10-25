@@ -14,14 +14,15 @@ class ModuleBase:
     device: Device
     stat: AzurStats
 
-    def __init__(self, config, device=None):
+    def __init__(self, config, device=None, task=None):
         """
         Args:
-            config (AzurLaneConfig, str):
-            device (Device):
+            config (AzurLaneConfig, str): Name of the user config under ./config
+            device (Device): To reuse a device. If None, create a new Device object.
+            task (str): Bind a task only for dev purpose. Usually to be None for auto task scheduling.
         """
         if isinstance(config, str):
-            self.config = AzurLaneConfig(config)
+            self.config = AzurLaneConfig(config, task=task)
         else:
             self.config = config
         if device is not None:

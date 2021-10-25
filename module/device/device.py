@@ -112,6 +112,8 @@ class Device(Screenshot, Control, AppControl):
         """
         Disable stuck detection and its handler. Usually uses in semi auto and debugging.
         """
+        logger.info('Disable stuck detection')
+
         def empty_function(*arg, **kwargs):
             return False
 

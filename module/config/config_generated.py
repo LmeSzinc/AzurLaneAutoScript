@@ -278,3 +278,13 @@ class GeneratedConfig:
     # Group `OpsiMeowfficerFarming`
     OpsiMeowfficerFarming_ActionPointPreserve = 500
     OpsiMeowfficerFarming_HazardLevel = 5  # 1, 2, 3, 4, 5, 6
+
+    # Group `Daemon`
+    Daemon_EnterMap = True
+
+    # Group `OpsiDaemon`
+    OpsiDaemon_RepairShip = True
+
+    # Group `Benchmark`
+    Benchmark_TestScreenshotMethod = True
+    Benchmark_TestClickMethod = True
