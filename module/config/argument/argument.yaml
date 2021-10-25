@@ -187,11 +187,12 @@ Commission:
   CommissionFilter: |-
     DailyEvent
     > Gem-8 > Gem-4 > Gem-2
+    > NightDrill-8 > NightDrill-7 > NightDrill-6
+    > ExtraDrill-0:20 > ExtraDrill-1 > ExtraDrill-2 > ExtraDrill-3 > ExtraDrill-3:20 > ExtraDrill-5:20
     > Box-6 > Box-3 > Box-1
-    > DailyCube-0:30 > UrgentCube-1:30 > DailyCube-1:30 > UrgentCube-1:45 > UrgentCube-2:15
-    > UrgentCube-3 > DailyCube-3 > UrgentCube-4 > UrgentCube-6
+    > DailyCube-0:30 > UrgentCube-1:30 > DailyCube-1:30 > UrgentCube-1:45 > UrgentCube-2:15 > UrgentCube-3
     > Major
-    > DailyResource > DailyChip
+    > DailyChip > DailyResource
     > UrgentBook-2:30 > UrgentBook-2 > UrgentBook-1:20 > UrgentBook-1:40
     > Daily-0:20 > Daily-0:30 > Daily-1:00 > Daily-1:30 > Daily-2:00
     > NightOil > NightCube
@@ -215,7 +216,14 @@ Research:
       - series_4
       - series_3
       - series_3_than_2
-  CustomFilter: 0.5 > reset > shortest
+  CustomFilter: |-
+    S4-Q0.5 > Q-0.5 > S4-DR0.5 > S4-H0.5 > S4-PRY0.5 > DR-0.5 > PRY-0.5
+    > S4-Q4 > S4-Q2 > S4-Q1
+    > S4-DR2.5 > S4-PRY2.5
+    > S4-G1.5 > S4-G2.5
+    > S4-DR5 > S4-PRY5
+    > S4-G4 > S4-DR8
+    > S4-1 > S4-2 > S4-4 > reset > shortest
 Dorm:
   Collect: true
   Feed: true

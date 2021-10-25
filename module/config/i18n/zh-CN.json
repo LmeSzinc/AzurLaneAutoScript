@@ -859,7 +859,7 @@
     },
     "CustomFilter": {
       "name": "自定义科研过滤器",
-      "help": ""
+      "help": "使用自定义过滤器需将 \"科研过滤器\" 设置为 \"自定义\"，并阅读 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
     }
   },
   "Dorm": {

@@ -141,7 +141,7 @@ class GeneratedConfig:
 
     # Group `Commission`
     Commission_DoMajorCommission = False
-    Commission_CommissionFilter = 'DailyEvent\n> Gem-8 > Gem-4 > Gem-2\n> Box-6 > Box-3 > Box-1\n> DailyCube-0:30 > UrgentCube-1:30 > DailyCube-1:30 > UrgentCube-1:45 > UrgentCube-2:15\n> UrgentCube-3 > DailyCube-3 > UrgentCube-4 > UrgentCube-6\n> Major\n> DailyResource > DailyChip\n> UrgentBook-2:30 > UrgentBook-2 > UrgentBook-1:20 > UrgentBook-1:40\n> Daily-0:20 > Daily-0:30 > Daily-1:00 > Daily-1:30 > Daily-2:00\n> NightOil > NightCube\n> shortest'
+    Commission_CommissionFilter = 'DailyEvent\n> Gem-8 > Gem-4 > Gem-2\n> NightDrill-8 > NightDrill-7 > NightDrill-6\n> ExtraDrill-0:20 > ExtraDrill-1 > ExtraDrill-2 > ExtraDrill-3 > ExtraDrill-3:20 > ExtraDrill-5:20\n> Box-6 > Box-3 > Box-1\n> DailyCube-0:30 > UrgentCube-1:30 > DailyCube-1:30 > UrgentCube-1:45 > UrgentCube-2:15 > UrgentCube-3\n> Major\n> DailyChip > DailyResource\n> UrgentBook-2:30 > UrgentBook-2 > UrgentBook-1:20 > UrgentBook-1:40\n> Daily-0:20 > Daily-0:30 > Daily-1:00 > Daily-1:30 > Daily-2:00\n> NightOil > NightCube\n> shortest'
 
     # Group `Tactical`
     Tactical_TacticalFilter = 'SameT4 > SameT3 > SameT2 > SameT1\n> BlueT2 > YellowT2 > RedT2\n> BlueT3 > YellowT3 > RedT3\n> BlueT4 > YellowT4 > RedT4\n> BlueT1 > YellowT1 > RedT1\n> first'
@@ -151,7 +151,7 @@ class GeneratedConfig:
     Research_UseCoin = True
     Research_UsePart = True
     Research_PresetFilter = 'series_4'  # custom, series_4, series_3, series_3_than_2
-    Research_CustomFilter = '0.5 > reset > shortest'
+    Research_CustomFilter = 'S4-Q0.5 > Q-0.5 > S4-DR0.5 > S4-H0.5 > S4-PRY0.5 > DR-0.5 > PRY-0.5\n> S4-Q4 > S4-Q2 > S4-Q1\n> S4-DR2.5 > S4-PRY2.5\n> S4-G1.5 > S4-G2.5\n> S4-DR5 > S4-PRY5\n> S4-G4 > S4-DR8\n> S4-1 > S4-2 > S4-4 > reset > shortest'
 
     # Group `Dorm`
     Dorm_Collect = True

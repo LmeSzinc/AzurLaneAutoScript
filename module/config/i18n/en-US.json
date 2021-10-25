@@ -859,7 +859,7 @@
     },
     "CustomFilter": {
       "name": "Custom Research Priority",
-      "help": "All options have been defined at  https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_en"
+      "help": "To use your own filter, set \"Preset Filter Select\" to \"custom\". All options have been defined at  https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_en"
     }
   },
   "Dorm": {

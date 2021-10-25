@@ -576,6 +576,9 @@ class ResearchSelector(UI):
                 preset = 'series_4'
             string = DICT_FILTER_PRESET[preset]
 
+        # Filter uses `hakuryu`, but allows both `hakuryu` and `hakuryuu`
+        string = string.lower().replace('hakuryuu', 'hakuryu')
+
         FILTER.load(string)
         priority = FILTER.apply(self.projects, func=self._research_check)
 
