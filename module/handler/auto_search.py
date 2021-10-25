@@ -197,9 +197,11 @@ class AutoSearchHandler(EnemySearchingHandler):
             bool
         """
         if self.appear(AUTO_SEARCH_MENU_EXIT, offset=self._auto_search_menu_offset, interval=2):
+            # Poor implementation here
             if drop:
-                drop.handle_add(main=self, before=2.5)
+                drop.handle_add(main=self, before=4)
             self.device.click(AUTO_SEARCH_MENU_EXIT)
+            self.device.sleep(0.5)
             return True
         else:
             return False
