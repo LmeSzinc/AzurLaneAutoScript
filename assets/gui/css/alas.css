@@ -14,11 +14,12 @@ details[open]>div {
 
 summary {
     background-color: transparent;
+    font-weight: 500;
 }
 
 body {
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 footer {
@@ -33,8 +34,8 @@ footer {
     font-weight: 400;
     background-color: transparent;
     padding: .0625rem .75rem;
-    border-radius: 0px;
-    border: 0px solid;
+    border-radius: 0;
+    border: 0 solid;
     transition: border .05s ease-in-out, padding .05s ease-in-out;
     white-space: pre-wrap;
     text-align: left;
@@ -44,6 +45,7 @@ footer {
     font-weight: bold;
     border-left: .125rem solid;
     padding-right: .625rem;
+    border-left: 3px solid;
     border-color: #4E4C97;
     color: #4E4C97;
 }
@@ -51,14 +53,11 @@ footer {
 .btn-aside {
     width: 4rem;
     font-weight: 400;
-    font-size: 12px;
+    font-size: .8rem;
     background-color: transparent;
-    padding-top: 32px;
-    padding-bottom: 0px;
-    padding-right: 0px;
-    padding-left: 7px;
-    border-radius: 0px;
-    border: 0px solid;
+    padding: 32px 0 0 7px;
+    border-radius: 0;
+    border: 0 solid;
     transition: border .1s ease-in-out, padding .1s ease-in-out
 }
 
@@ -67,6 +66,7 @@ footer {
     padding-left: 3px;
     border-color: #4E4C97;
     color: #4E4C97;
+    font-weight: bold;
 }
 
 .btn-scheduler-on {
@@ -92,19 +92,19 @@ footer {
 }
 
 .pywebio {
-    padding-top: 0px;
-    padding-bottom: 0px;
+    padding-top: 0;
+    padding-bottom: 0;
     min-height: unset;
 }
 
 #input-container {
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 #output-container {
-    padding-left: 0px;
-    padding-right: 0px;
-    margin-bottom: 0px;
+    padding-left: 0;
+    padding-right: 0;
+    margin-bottom: 0;
     max-width: initial
 }
 
@@ -120,7 +120,7 @@ footer {
 input[type="text"]{
     border-radius: initial !important;
     border: unset !important;
-    border-bottom: 1px solid darkblue !important;
+    border-bottom: .125rem solid #4E4C97 !important;
     padding: 0 .5rem 0 !important;
     margin-top: .125rem;
     height: auto !important;
@@ -129,14 +129,14 @@ input[type="text"]{
 select {
     border-radius: initial !important;
     border: unset !important;
-    border-bottom: 1px solid darkblue !important;
+    border-bottom: .125rem solid #4E4C97 !important;
     padding: 0 .25rem 0 !important;
     margin-top: .125rem;
     height: auto !important;
 }
 
 input[type="text"]:not([readonly="readonly"]):focus, select:focus {
-    box-shadow: 0px 1px 0px darkblue !important;
+    box-shadow: 0 .06rem 0 #4E4C97 !important;
 }
 
 input[readonly="readonly"]:focus {
@@ -147,7 +147,7 @@ input[type="range"] {
     padding: 0 !important;
     border: unset !important;
     border-radius: initial !important;
-    border-bottom: 1px solid darkblue !important;
+    border-bottom: .125rem solid #4E4C97 !important;
 }
 
 input[type="radio"] {
@@ -187,28 +187,32 @@ textarea {
 }
 
 .form-group {
-    margin-bottom: 0px !important;
+    margin-bottom: 0 !important;
 }
 
 .container-log {
     border: 1px solid lightgray;
     border-radius: 0 !important;
-    margin: .46875rem !important;
+    margin: .375rem !important;
     padding: 1rem !important;
     background-color: white !important;
 }
 
 *[style*="container-aside"] {
+    z-index: 91;
+    background: #ffffff;
     padding-left: .125rem;
     padding-right: .325rem;
+    padding-top: 1rem;
     overflow-y: auto;
     border-right: 1px solid lightgray;
 }
 
 *[style*="container-menu"] {
-    border-right: 1px solid lightgrey;
+    box-shadow: 0 0 8px rgba(0, 0, 0, .1);
+    z-index: 90;
     padding-left: .5rem;
-    padding-top: .75rem;
+    padding-top: 1.2rem;
     overflow-y: auto;
     min-width: 12rem;
     max-width: 16rem;
@@ -216,10 +220,9 @@ textarea {
 
 *[style*="container-content"] {
     background-color: #F9F9F9;
-    margin: 0px .5rem;
+    margin: 0;
     overflow: auto;
-    max-width: 65rem;
-    padding: .75rem
+    padding: .625rem
 }
 
 *[style*="title-icon-alas"] {
@@ -230,13 +233,13 @@ textarea {
     font-size: 1.5rem;
     font-weight: bold;
     padding-top: .5rem;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 *[style*="title-text-title"] {
     font-size: 1.2rem;
     padding-top: .75rem;
-    margin-bottom: 0px;
+    margin-bottom: 0;
     text-align: center;
     overflow: hidden;
 }
@@ -246,7 +249,8 @@ textarea {
 }
 
 *[style*="container-title"] {
-    border-bottom: 1px solid;
+    box-shadow: 0 0 8px rgba(0, 0, 0, .2);
+    z-index: 100;
     border-color: lightgrey;
     grid-template-columns: 5.6rem 3.75rem 8rem minmax(5rem, 65rem) !important;
 }
@@ -257,7 +261,7 @@ textarea {
 }
 
 *[style*="container-main"] {
-    margin-top: .5rem;
+    margin-top: 0;
     overflow-y: auto;
 }
 
@@ -271,18 +275,20 @@ textarea {
 
 *[style*="group-title"] {
     font-size: 1.25rem;
+    font-weight: 500;
     margin: 0 .25rem 0 .25rem !important;
 }
 
 *[style*="group-help"] {
-    font-size: .75rem;
+    font-size: .80rem;
     color: #777777;
-    margin: 0 .25rem 0 .25rem !important;
+    margin: .2rem .25rem .1rem .25rem !important;
 }
 
 *[style*="group-overview-title"] {
     font-size: 1.25rem;
-    margin: auto .5rem auto !important;
+    font-weight: 500;
+    margin: 0 0.625rem 0 !important;
 }
 
 *[style*="container-group"] {
@@ -295,7 +301,8 @@ textarea {
 
 *[style*="container-overview-group"] {
     background-color: white;
-    margin: 0.46875rem;
+    font-weight: 500;
+    margin: 0.3125rem;
     padding: 0.625rem;
     border: 1px solid lightgray;
     overflow-y: auto;
@@ -307,8 +314,11 @@ textarea {
 }
 
 *[style*="container-args"] {
-    margin-top: .125rem;
-    margin-bottom: .125rem;
+    margin: .125rem 0 .125rem 0
+}
+
+*[style*="container-overview-args"] {
+    margin: .125rem .625rem .125rem .375rem
 }
 
 *[style*="container-large.args"] {
@@ -318,14 +328,15 @@ textarea {
 
 *[style*="arg-title"] {
     font-size: 1rem;
+    font-weight: 500;
     margin: 0 .25rem 0 .25rem !important;
     overflow-wrap: break-word;
 }
 
 *[style*="arg-help"] {
-    font-size: .75rem;
+    font-size: .8rem;
     color: #777777;
-    margin: 0 .25rem 0 .25rem !important;
+    margin: .2rem .25rem .1rem .25rem !important;
     overflow-wrap: break-word;
 }
 
