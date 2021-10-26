@@ -263,7 +263,11 @@ class OperationSiren(Reward, OSMap):
                 self.config.OS_ACTION_POINT_PRESERVE = self.config.OpsiMeowfficerFarming_ActionPointPreserve
 
             # (1252, 1012) is the coordinate of zone 134 (the center zone) in os_globe_map.png
-            zone_id = self.config.OpsiMeowfficerFarming_SeaArea
+            try:
+                zone_id = self.config.OpsiMeowfficerFarming_TargetZone
+            except ScriptError:
+                logger.hr(f'wrong zone_id input:{self.config.OpsiMeowfficerFarming_TargetZone}', level=3)
+                self.config.task_delay(server_update=True)
             if zone_id != 0:
                 logger.hr(f'OS meowfficer farming, zone_id={zone_id}', level=1)
                 self.globe_goto(zone_id)

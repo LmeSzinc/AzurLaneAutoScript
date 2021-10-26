@@ -1211,7 +1211,7 @@
     "OpsiMeowfficerFarming": {
       "ActionPointPreserve": 500,
       "HazardLevel": 5,
-      "SeaArea": 0
+      "TargetZone": 0
     }
   },
   "Daemon": {

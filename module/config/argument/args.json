@@ -5466,7 +5466,7 @@
           6
         ]
       },
-      "SeaArea": {
+      "TargetZone": {
         "type": "input",
         "value": 0
       }

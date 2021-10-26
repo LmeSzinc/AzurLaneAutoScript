@@ -1465,9 +1465,9 @@
       "5": "5",
       "6": "6"
     },
-    "SeaArea": {
-      "name": "OpsiMeowfficerFarming.SeaArea.name",
-      "help": "OpsiMeowfficerFarming.SeaArea.help"
+    "TargetZone": {
+      "name": "OpsiMeowfficerFarming.TargetZone.name",
+      "help": "OpsiMeowfficerFarming.TargetZone.help"
     }
   },
   "Daemon": {
