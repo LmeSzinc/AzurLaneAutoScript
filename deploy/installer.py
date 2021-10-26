@@ -140,7 +140,7 @@ class GitManager(DeployConfig):
             source='origin',
             brunch=self.config['Brunch'],
             proxy=self.config['GitProxy'],
-            keep_changes=self.config['KeepLocalChanges']
+            keep_changes=self.bool('KeepLocalChanges')
         )
 
 
