@@ -274,6 +274,7 @@ class OperationSiren(Reward, OSMap):
                 self.run_auto_search()
                 self.handle_fleet_repair(revert=False)
                 self.globe_goto(self.zone_nearest_azur_port(zone=zone_id))
+                self.config.check_task_switch()
             else:
                 zones = self.zone_select(hazard_level=self.config.OpsiMeowfficerFarming_HazardLevel) \
                     .delete(SelectedGrids([self.zone])) \
