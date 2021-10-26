@@ -185,6 +185,10 @@
     "Benchmark": {
       "name": "Task.Benchmark.name",
       "help": "Task.Benchmark.help"
+    },
+    "AzurLaneUncensored": {
+      "name": "Task.AzurLaneUncensored.name",
+      "help": "Task.AzurLaneUncensored.help"
     }
   },
   "Scheduler": {
@@ -1498,6 +1502,16 @@
     "TestClickMethod": {
       "name": "Benchmark.TestClickMethod.name",
       "help": "Benchmark.TestClickMethod.help"
+    }
+  },
+  "AzurLaneUncensored": {
+    "_info": {
+      "name": "AzurLaneUncensored._info.name",
+      "help": "AzurLaneUncensored._info.help"
+    },
+    "Repository": {
+      "name": "AzurLaneUncensored.Repository.name",
+      "help": "AzurLaneUncensored.Repository.help"
     }
   },
   "Gui": {

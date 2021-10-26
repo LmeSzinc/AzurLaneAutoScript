@@ -288,3 +288,6 @@ class GeneratedConfig:
     # Group `Benchmark`
     Benchmark_TestScreenshotMethod = True
     Benchmark_TestClickMethod = True
+
+    # Group `AzurLaneUncensored`
+    AzurLaneUncensored_Repository = 'https://gitee.com/LmeSzinc/AzurLaneUncensored'

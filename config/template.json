@@ -1228,5 +1228,10 @@
       "TestScreenshotMethod": true,
       "TestClickMethod": true
     }
+  },
+  "AzurLaneUncensored": {
+    "AzurLaneUncensored": {
+      "Repository": "https://gitee.com/LmeSzinc/AzurLaneUncensored"
+    }
   }
 }

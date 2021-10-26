@@ -185,6 +185,10 @@
     "Benchmark": {
       "name": "Performance Test",
       "help": ""
+    },
+    "AzurLaneUncensored": {
+      "name": "[CN] Uncensored",
+      "help": ""
     }
   },
   "Scheduler": {
@@ -1498,6 +1502,16 @@
     "TestClickMethod": {
       "name": "Test Click Methods",
       "help": ""
+    }
+  },
+  "AzurLaneUncensored": {
+    "_info": {
+      "name": "[CN] Uncensored",
+      "help": "For CN only. Pushes AzurLaneUncensored files to emulator and restart game. Files will be download at first use."
+    },
+    "Repository": {
+      "name": "AzurLaneUncensored Repository",
+      "help": "No need to modify.\nGithub: https://github.com/LmeSzinc/AzurLaneUncensored\nCN mirror: https://gitee.com/LmeSzinc/AzurLaneUncensored"
     }
   },
   "Gui": {

@@ -413,3 +413,5 @@ OpsiDaemon:
 Benchmark:
   TestScreenshotMethod: true
   TestClickMethod: true
+AzurLaneUncensored:
+  Repository: https://gitee.com/LmeSzinc/AzurLaneUncensored
