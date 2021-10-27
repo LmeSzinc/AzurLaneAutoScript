@@ -39,6 +39,13 @@ class DeployConfig:
         """
         return os.path.abspath(os.path.join(os.getcwd(), self.config[key]))
 
+    @staticmethod
+    def to_bool(value):
+        value = value.lower()
+        if value == 'null' or value == 'false' or value == '':
+            return False
+        return True
+
     def bool(self, key):
         """
         Args:
@@ -47,10 +54,7 @@ class DeployConfig:
         Returns:
             bool: Option is ON or OFF.
         """
-        value = self.config[key].lower()
-        if value == 'null' or value == 'false':
-            return False
-        return True
+        return self.to_bool(self.config[key])
 
     def execute(self, command, allow_failure=False):
         """
@@ -89,19 +93,12 @@ class GitManager(DeployConfig):
     def git(self):
         return self.filepath('GitExecutable')
 
-    def git_install(self):
-        hr0('Update Alas')
-
-        if not self.bool('AutoUpdate'):
-            print('AutoUpdate is disabled, skip')
-            return
-
+    def git_repository_init(self, repo, source='origin', brunch='master', proxy='', keep_changes=False):
         hr1('Git Init')
         self.execute(f'"{self.git}" init')
 
         hr1('Set Git Proxy')
-        proxy = self.config['GitProxy']
-        if self.bool('GitProxy'):
+        if self.to_bool(proxy):
             self.execute(f'"{self.git}" config --local http.proxy {proxy}')
             self.execute(f'"{self.git}" config --local https.proxy {proxy}')
         else:
@@ -109,17 +106,14 @@ class GitManager(DeployConfig):
             self.execute(f'"{self.git}" config --local --unset https.proxy', allow_failure=True)
 
         hr1('Set Git Repository')
-        repo = self.config['Repository']
-        source = 'origin'
         if not self.execute(f'"{self.git}" remote set-url {source} {repo}', allow_failure=True):
             self.execute(f'"{self.git}" remote add {source} {repo}')
 
         hr1('Fetch Repository Brunch')
-        brunch = self.config['Brunch']
         self.execute(f'"{self.git}" fetch {source} {brunch}')
 
         hr1('Pull Repository Brunch')
-        if self.bool('KeepLocalChanges'):
+        if keep_changes:
             if self.execute(f'"{self.git}" stash', allow_failure=True):
                 self.execute(f'"{self.git}" pull {source} {brunch}')
                 self.execute(f'"{self.git}" stash pop')
@@ -133,6 +127,21 @@ class GitManager(DeployConfig):
 
         hr1('Show Version')
         self.execute(f'"{self.git}" log --no-merges -1')
+
+    def git_install(self):
+        hr0('Update Alas')
+
+        if not self.bool('AutoUpdate'):
+            print('AutoUpdate is disabled, skip')
+            return
+
+        self.git_repository_init(
+            repo=self.config['Repository'],
+            source='origin',
+            brunch=self.config['Brunch'],
+            proxy=self.config['GitProxy'],
+            keep_changes=self.bool('KeepLocalChanges')
+        )
 
 
 class PipManager(DeployConfig):

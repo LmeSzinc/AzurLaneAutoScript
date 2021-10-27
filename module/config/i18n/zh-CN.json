@@ -185,6 +185,10 @@
     "Benchmark": {
       "name": "性能测试",
       "help": ""
+    },
+    "AzurLaneUncensored": {
+      "name": "反和谐",
+      "help": ""
     }
   },
   "Scheduler": {
@@ -1502,6 +1506,16 @@
     "TestClickMethod": {
       "name": "测试点击方案",
       "help": ""
+    }
+  },
+  "AzurLaneUncensored": {
+    "_info": {
+      "name": "反和谐",
+      "help": "仅国服使用。将反和谐文件推送至模拟器内，然后重启游戏。首次使用将下载反和谐文件。"
+    },
+    "Repository": {
+      "name": "反和谐仓库",
+      "help": "一般不需要修改\n仓库 https://github.com/LmeSzinc/AzurLaneUncensored\n国内镜像（默认） https://gitee.com/LmeSzinc/AzurLaneUncensored"
     }
   },
   "Gui": {

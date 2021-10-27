@@ -144,3 +144,14 @@ class Connection:
         except AssertionError:
             logger.warning('AssertionError when connecting emulator with uiautomator2.')
             logger.warning('If you are using BlueStacks, you need to enable ADB in the settings of your emulator.')
+
+    def remove_minicap(self):
+        """
+        Force to delete minicap.
+
+        `minicap` sends compressed images, which may cause detection errors.
+        In most situation, uiautomator won't install minicap on emulators, but sometimes will.
+        """
+        logger.info('Removing minicap')
+        self.adb_shell(["rm", "/data/local/tmp/minicap"])
+        self.adb_shell(["rm", "/data/local/tmp/minicap.so"])

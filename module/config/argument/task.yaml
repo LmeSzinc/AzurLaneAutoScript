@@ -200,3 +200,5 @@ OpsiDaemon:
   - OpsiDaemon
 Benchmark:
   - Benchmark
+AzurLaneUncensored:
+  - AzurLaneUncensored

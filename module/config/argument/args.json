@@ -5499,5 +5499,13 @@
         "value": true
       }
     }
+  },
+  "AzurLaneUncensored": {
+    "AzurLaneUncensored": {
+      "Repository": {
+        "type": "input",
+        "value": "https://gitee.com/LmeSzinc/AzurLaneUncensored"
+      }
+    }
   }
 }

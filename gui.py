@@ -229,7 +229,7 @@ class AlasGUI(Frame):
                 None,
                 group_area,
                 navigator,
-            ], size=".5fr minmax(25rem, 5fr) 2fr")
+            ], size="1fr minmax(25rem, 5fr) 2fr")
 
         self.content.append(content_alas)
 
@@ -477,7 +477,7 @@ class AlasGUI(Frame):
                     onclick=lambda: self.alas_set_group(func.command),
                     color="scheduler-on"
                 ),
-            ], size="1fr auto").style("container-args")
+            ], size="1fr auto").style("container-overview-args")
 
         no_task_style = "text-align:center; font-size: 0.875rem; color: darkgrey;"
 

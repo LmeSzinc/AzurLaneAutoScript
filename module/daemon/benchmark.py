@@ -81,7 +81,9 @@ class Benchmark(DaemonBase, UI):
             return 'Fast'
         if cost < 0.2:
             return 'Medium'
-        return 'Slow'
+        if cost < 0.4:
+            return 'Slow'
+        return 'Very Slow'
 
     @staticmethod
     def show(test, data, evaluate_func):
@@ -104,6 +106,7 @@ class Benchmark(DaemonBase, UI):
 
     def run(self):
         logger.hr('Benchmark', level=1)
+        self.device.remove_minicap()
         self.ui_ensure(page_campaign)
 
         data = []
@@ -122,13 +125,24 @@ class Benchmark(DaemonBase, UI):
             data.append(['uiautomator2', self.benchmark_test(self.device._click_uiautomator2, x, y)])
             x, y = random_rectangle_point(area)
             data.append(['minitouch', self.benchmark_test(self.device._click_minitouch, x, y)])
-        click = data
+        control = data
+
+        def compare(res):
+            res = res[1]
+            if not isinstance(res, (int, float)):
+                return 100
+            else:
+                return res
 
         logger.hr('Benchmark Results', level=1)
         if screenshot:
             self.show(test='Screenshot', data=screenshot, evaluate_func=self.evaluate_screenshot)
-        if click:
-            self.show(test='Click', data=click, evaluate_func=self.evaluate_click)
+            fastest = sorted(screenshot, key=lambda item: compare(item))[0]
+            logger.info(f'Recommend screenshot method: {fastest[0]} ({float2str(fastest[1])})')
+        if control:
+            self.show(test='Control', data=control, evaluate_func=self.evaluate_click)
+            fastest = sorted(control, key=lambda item: compare(item))[0]
+            logger.info(f'Recommend control method: {fastest[0]} ({float2str(fastest[1])})')
 
 
 if __name__ == '__main__':
