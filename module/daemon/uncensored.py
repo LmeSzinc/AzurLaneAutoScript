@@ -25,7 +25,7 @@ class AzurLaneUncensored(LoginHandler):
         manager.git_repository_init(
             repo=repo,
             source='origin',
-            brunch='master',
+            branch='master',
             proxy=manager.config['GitProxy'],
             keep_changes=False
         )
