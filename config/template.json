@@ -1077,7 +1077,7 @@
     },
     "Campaign": {
       "Name": "7-2",
-      "Event": "campaign_main",
+      "Event": "war_archives_20180726_cn",
       "Mode": "normal",
       "UseClearMode": true,
       "UseFleetLock": true,

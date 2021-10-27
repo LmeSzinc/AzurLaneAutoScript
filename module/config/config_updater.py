@@ -375,12 +375,17 @@ class ConfigUpdater:
         else:
             deep_default(new, 'Alas.DropRecord.AzurStatsID', random_id())
         # Update to latest event
+        server_ = deep_get(new, 'Alas.Emulator.Server', 'cn')
         if not is_template:
-            server_ = deep_get(new, 'Alas.Emulator.Server', 'cn')
             for task in ['Event', 'EventAb', 'EventSp', 'Raid', 'RaidDaily']:
                 deep_set(new,
                          keys=f'{task}.Campaign.Event',
                          value=deep_get(self.args, f'{task}.Campaign.Event.{server_}'))
+        # War archive does not allow campaign_main
+        for task in ['WarArchives']:
+            deep_set(new,
+                     keys=f'{task}.Campaign.Event',
+                     value=deep_get(self.args, f'{task}.Campaign.Event.{server_}'))
 
         return new
 
