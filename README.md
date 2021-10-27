@@ -1,3 +1,6 @@
+> **Deprecated**
+>
+> This is the last stable version of Alas, using [Gooey](https://github.com/chriskiehl/Gooey) as GUI.
 
 [Check Wiki for installation guide](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki)
 
