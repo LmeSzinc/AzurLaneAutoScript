@@ -93,7 +93,7 @@ class GitManager(DeployConfig):
     def git(self):
         return self.filepath('GitExecutable')
 
-    def git_repository_init(self, repo, source='origin', brunch='master', proxy='', keep_changes=False):
+    def git_repository_init(self, repo, source='origin', branch='master', proxy='', keep_changes=False):
         hr1('Git Init')
         self.execute(f'"{self.git}" init')
 
@@ -109,21 +109,21 @@ class GitManager(DeployConfig):
         if not self.execute(f'"{self.git}" remote set-url {source} {repo}', allow_failure=True):
             self.execute(f'"{self.git}" remote add {source} {repo}')
 
-        hr1('Fetch Repository Brunch')
-        self.execute(f'"{self.git}" fetch {source} {brunch}')
+        hr1('Fetch Repository Branch')
+        self.execute(f'"{self.git}" fetch {source} {branch}')
 
-        hr1('Pull Repository Brunch')
+        hr1('Pull Repository Branch')
         if keep_changes:
             if self.execute(f'"{self.git}" stash', allow_failure=True):
-                self.execute(f'"{self.git}" pull {source} {brunch}')
+                self.execute(f'"{self.git}" pull {source} {branch}')
                 self.execute(f'"{self.git}" stash pop')
             else:
                 print('Unable to slash, this may be the first installation, drop changes instead')
-                self.execute(f'"{self.git}" reset --hard {source}/{brunch}')
-                self.execute(f'"{self.git}" pull --ff-only {source} {brunch}')
+                self.execute(f'"{self.git}" reset --hard {source}/{branch}')
+                self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
         else:
-            self.execute(f'"{self.git}" reset --hard {source}/{brunch}')
-            self.execute(f'"{self.git}" pull --ff-only {source} {brunch}')
+            self.execute(f'"{self.git}" reset --hard {source}/{branch}')
+            self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
 
         hr1('Show Version')
         self.execute(f'"{self.git}" log --no-merges -1')
@@ -138,7 +138,7 @@ class GitManager(DeployConfig):
         self.git_repository_init(
             repo=self.config['Repository'],
             source='origin',
-            brunch=self.config['Brunch'],
+            branch=self.config['Branch'],
             proxy=self.config['GitProxy'],
             keep_changes=self.bool('KeepLocalChanges')
         )
