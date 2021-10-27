@@ -266,8 +266,8 @@ class OperationSiren(Reward, OSMap):
             try:
                 zone_id = self.config.OpsiMeowfficerFarming_TargetZone
             except ScriptError:
-                logger.hr(f'wrong zone_id input:{self.config.OpsiMeowfficerFarming_TargetZone}', level=3)
-                self.config.task_delay(server_update=True)
+                logger.warning(f'wrong zone_id input:{self.config.OpsiMeowfficerFarming_TargetZone}')
+                self.config.task_stop(message=f'wrong input, task stopped')
             if zone_id != 0:
                 logger.hr(f'OS meowfficer farming, zone_id={zone_id}', level=1)
                 self.globe_goto(zone_id)
