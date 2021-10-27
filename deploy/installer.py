@@ -84,7 +84,7 @@ class DeployConfig:
         self.show_config()
         print('')
         hr1('Update failed')
-        print('Please check if your settings in config/deploy.yaml '
+        print('Please check your deploy settings in config/deploy.yaml '
               'and re-open Alas.exe')
 
 
