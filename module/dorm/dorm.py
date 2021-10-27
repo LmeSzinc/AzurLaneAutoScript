@@ -97,8 +97,6 @@ class RewardDorm(UI):
 
         self.device.device.touch.up(x, y)
 
-    # def
-
     @Config.when(DEVICE_CONTROL_METHOD='minitouch')
     def _dorm_feed_long_tap(self, button, count):
         # Long tap to feed. This requires minitouch.
