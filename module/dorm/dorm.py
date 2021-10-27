@@ -1,8 +1,10 @@
 import re
+import time
 
 from PIL import Image
 
 from module.base.button import ButtonGrid
+from module.base.decorator import Config
 from module.base.filter import Filter
 from module.base.mask import Mask
 from module.base.timer import Timer
@@ -74,6 +76,53 @@ class RewardDorm(UI):
 
         return count
 
+    @Config.when(DEVICE_CONTROL_METHOD='uiautomator2')
+    def _dorm_feed_long_tap(self, button, count):
+        timeout = Timer(count // 5 + 5).start()
+        x, y = random_rectangle_point(button.button)
+        self.device.device.touch.down(x, y)
+
+        while 1:
+            self.device.device.touch.move(x, y)
+            time.sleep(.01)
+            self.device.screenshot()
+
+            if not self._dorm_has_food(button) \
+                    or self.handle_info_bar() \
+                    or self.handle_popup_cancel('dorm_feed'):
+                break
+            if timeout.reached():
+                logger.warning('Wait dorm feed timeout')
+                break
+
+        self.device.device.touch.up(x, y)
+
+    # def
+
+    @Config.when(DEVICE_CONTROL_METHOD='minitouch')
+    def _dorm_feed_long_tap(self, button, count):
+        # Long tap to feed. This requires minitouch.
+        timeout = Timer(count // 5 + 5).start()
+        x, y = random_rectangle_point(button.button)
+        self.device.minitouch_builder.down(x, y).commit()
+        self.device.minitouch_send()
+
+        while 1:
+            self.device.minitouch_builder.move(x, y).commit().wait(10)
+            self.device.minitouch_send()
+            self.device.screenshot()
+
+            if not self._dorm_has_food(button) \
+                    or self.handle_info_bar() \
+                    or self.handle_popup_cancel('dorm_feed'):
+                break
+            if timeout.reached():
+                logger.warning('Wait dorm feed timeout')
+                break
+
+        self.device.minitouch_builder.up().commit()
+        self.device.minitouch_send()
+
     def _dorm_receive(self):
         """
         Click all coins and loves on current screen.
@@ -142,27 +191,7 @@ class RewardDorm(UI):
                 self.device.sleep((0.5, 0.8))
 
         else:
-            # Long tap to feed. This requires minitouch.
-            timeout = Timer(count // 5 + 5).start()
-            x, y = random_rectangle_point(button.button)
-            self.device.minitouch_builder.down(x, y).commit()
-            self.device.minitouch_send()
-
-            while 1:
-                self.device.minitouch_builder.move(x, y).commit().wait(10)
-                self.device.minitouch_send()
-                self.device.screenshot()
-
-                if not self._dorm_has_food(button) \
-                        or self.handle_info_bar() \
-                        or self.handle_popup_cancel('dorm_feed'):
-                    break
-                if timeout.reached():
-                    logger.warning('Wait dorm feed timeout')
-                    break
-
-            self.device.minitouch_builder.up().commit()
-            self.device.minitouch_send()
+            self._dorm_feed_long_tap(button, count)
 
         while 1:
             self.device.screenshot()
