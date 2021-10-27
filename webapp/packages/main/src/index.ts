@@ -126,8 +126,10 @@ alas.on('stderr', function (message: string) {
    * Receive logs, judge if Alas is ready
    * For starlette backend, there will have:
    * `INFO:     Uvicorn running on http://0.0.0.0:22267 (Press CTRL+C to quit)`
+   * Or backend has started already
+   * `[Errno 10048] error while attempting to bind on address ('0.0.0.0', 22267): `
    */
-  if (message.includes('running on')) {
+  if (message.includes('running on') || message.includes('bind on address')) {
     alas.removeAllListeners('stderr');
     loadURL()
   }
