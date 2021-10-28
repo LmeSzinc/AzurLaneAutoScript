@@ -5,8 +5,8 @@ from module.logger import logger
 
 MAP = CampaignMap('SP')
 MAP.shape = 'K9'
-MAP.camera_data = ['D3', 'D6', 'E3', 'E6']
-MAP.camera_data_spawn_point = ['D3', 'D6']
+MAP.camera_data = ['D3', 'E6']
+MAP.camera_data_spawn_point = ['D3']
 MAP.map_data = """
     ++ ++ -- -- -- -- -- -- -- ++ --
     -- -- ME ME MS MS ME ME -- ++ --
@@ -39,6 +39,25 @@ MAP.spawn_data = [
     {'battle': 6},
     {'battle': 7, 'boss': 1},
 ]
+MAP.wall_data = """
+    ·   ·   ·   ·   ·   ·   ·   ·   ·   ·   · ,
+          +-------+---------------+           ,
+    ·   · | ·   · | ·   ·   ·   · | ·   ·   · ,
+      +---+       +-------+       |           ,
+    · | ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+    --+                           |           ,
+    ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+                                  |           ,
+    ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+                                  |           ,
+    ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+    --+                           |           ,
+    · | ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+      +---+       +-------+       |           ,
+    ·   · | ·   · | ·   ·   ·   · | ·   ·   · ,
+          +-------+---------------+           ,
+    ·   ·   ·   ·   ·   ·   ·   ·   ·   ·   · ,
+"""
 A1, B1, C1, D1, E1, F1, G1, H1, I1, J1, K1, \
 A2, B2, C2, D2, E2, F2, G2, H2, I2, J2, K2, \
 A3, B3, C3, D3, E3, F3, G3, H3, I3, J3, K3, \
@@ -66,6 +85,22 @@ class Config:
     STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
 
+    MAP_HAS_WALL = True
+    DETECTION_BACKEND = 'perspective'
+    TRUST_EDGE_LINES = False
+    COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.5
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (100, 255 - 16),
+        'width': 1,
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 16, 255),
+        'prominence': 2,
+        'distance': 50,
+        'wlen': 1000
+    }
     MAP_SWIPE_PREDICT_WITH_SEA_GRIDS = False
 
 
