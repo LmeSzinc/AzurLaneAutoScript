@@ -418,7 +418,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
         if self._fleet_boss:
             return self._fleet_boss
         if self.Fleet_Fleet2:
-            if self.Fleet_FleetOrder == 'fleet1_mob_fleet2_boss':
+            if self.Fleet_FleetOrder in ['fleet1_mob_fleet2_boss', 'fleet1_boss_fleet2_mob']:
                 return 2
             else:
                 return 1
