@@ -132,7 +132,11 @@ class TaskHandler:
                     task = self.tasks[0]
                 if task.next_run < time.time():
                     start_time = time.time()
-                    next(task)
+                    try:
+                        next(task)
+                    except Exception as e:
+                        logger.exception(e)
+                        self.remove_task(task, nowait=True)
                     end_time = time.time()
                     task.next_run += task.delay
                     with self._lock:

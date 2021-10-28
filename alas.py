@@ -21,10 +21,14 @@ class AzurLaneAutoScript:
 
     @cached_property
     def config(self):
-        config = AzurLaneConfig(config_name=self.config_name)
-        # Set server before loading any buttons.
-        server.server = deep_get(config.data, keys='Alas.Emulator.Server', default='cn')
-        return config
+        try:
+            config = AzurLaneConfig(config_name=self.config_name)
+            # Set server before loading any buttons.
+            server.server = deep_get(config.data, keys='Alas.Emulator.Server', default='cn')
+            return config
+        except Exception as e:
+            logger.exception(e)
+            exit(1)
 
     @cached_property
     def device(self):
