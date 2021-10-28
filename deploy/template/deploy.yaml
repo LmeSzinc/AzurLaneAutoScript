@@ -4,10 +4,10 @@ Deploy:
     # [CN user] Use 'https://gitee.com/LmeSzinc/AzurLaneAutoScript' for faster and more stable download
     # [Other] Use 'https://github.com/LmeSzinc/AzurLaneAutoScript'
     Repository: 'https://github.com/LmeSzinc/AzurLaneAutoScript'
-    # Brunch of Alas
+    # Branch of Alas
     # [Developer] Use 'dev', 'app', etc, to try new features
-    # [Other] Use 'master', the stable brunch
-    Brunch: 'app'
+    # [Other] Use 'master', the stable branch
+    Branch: 'master'
     # Filepath of git executable `git.exe`
     # [Easy installer] Use './toolkit/Git/mingw64/bin/git.exe'
     # [Other] Use you own git
