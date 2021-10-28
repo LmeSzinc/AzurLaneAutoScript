@@ -69,21 +69,26 @@ const createWindow = async () => {
       mainWindow?.webContents.openDevTools();
     }
   });
-
-  // Dev tools
-  globalShortcut.register('Ctrl+Shift+I', function () {
-    if (mainWindow?.webContents.isDevToolsOpened()) {
-      mainWindow?.webContents.closeDevTools()
-    } else {
-      mainWindow?.webContents.openDevTools()
-    }
+  
+  mainWindow.on('focus', function () {
+    // Dev tools
+    globalShortcut.register('Ctrl+Shift+I', function () {
+      if (mainWindow?.webContents.isDevToolsOpened()) {
+        mainWindow?.webContents.closeDevTools()
+      } else {
+        mainWindow?.webContents.openDevTools()
+      }
+    });
+    // Refresh
+    globalShortcut.register('Ctrl+R', function () {
+      mainWindow?.reload()
+    });
+    globalShortcut.register('Ctrl+Shift+R', function () {
+      mainWindow?.reload()
+    });
   });
-  // Refresh
-  globalShortcut.register('Ctrl+R', function () {
-    mainWindow?.reload()
-  });
-  globalShortcut.register('Ctrl+Shift+R', function () {
-    mainWindow?.reload()
+  mainWindow.on('blur', function () {
+    globalShortcut.unregisterAll()
   });
 
   // Minimize, maximize, close window.
@@ -102,6 +107,7 @@ const createWindow = async () => {
     setTimeout(() => mainWindow?.close(), 500); // Wait taskkill to finish
   });
 };
+
 
 // No DPI scaling
 app.commandLine.appendSwitch('high-dpi-support', '1');
