@@ -545,6 +545,7 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "event_20211028_cn",
           "event_20201012_cn",
           "event_20200917_cn",
           "event_20210916_cn",
@@ -582,8 +583,8 @@
           "event_20200326_cn",
           "event_20200227_cn"
         ],
+        "cn": "event_20211028_cn",
         "tw": "event_20201012_cn",
-        "cn": "event_20210916_cn",
         "en": "event_20210916_cn",
         "jp": "event_20210916_cn"
       },
@@ -2467,6 +2468,7 @@
         "value": "campaign_main",
         "option": [
           "campaign_main",
+          "event_20211028_cn",
           "event_20201012_cn",
           "event_20200917_cn",
           "event_20210916_cn",
@@ -2504,8 +2506,8 @@
           "event_20200326_cn",
           "event_20200227_cn"
         ],
+        "cn": "event_20211028_cn",
         "tw": "event_20201012_cn",
-        "cn": "event_20210916_cn",
         "en": "event_20210916_cn",
         "jp": "event_20210916_cn"
       },
@@ -4014,6 +4016,7 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "event_20211028_cn",
           "event_20201012_cn",
           "event_20200917_cn",
           "event_20210916_cn",
@@ -4051,8 +4054,8 @@
           "event_20200326_cn",
           "event_20200227_cn"
         ],
+        "cn": "event_20211028_cn",
         "tw": "event_20201012_cn",
-        "cn": "event_20210916_cn",
         "en": "event_20210916_cn",
         "jp": "event_20210916_cn"
       },
@@ -4384,6 +4387,7 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "event_20211028_cn",
           "event_20201012_cn",
           "event_20200917_cn",
           "event_20210916_cn",
@@ -4421,8 +4425,8 @@
           "event_20200326_cn",
           "event_20200227_cn"
         ],
+        "cn": "event_20211028_cn",
         "tw": "event_20201012_cn",
-        "cn": "event_20210916_cn",
         "en": "event_20210916_cn",
         "jp": "event_20210916_cn"
       },
