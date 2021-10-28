@@ -263,18 +263,19 @@ class OperationSiren(Reward, OSMap):
                 self.config.OS_ACTION_POINT_PRESERVE = self.config.OpsiMeowfficerFarming_ActionPointPreserve
 
             # (1252, 1012) is the coordinate of zone 134 (the center zone) in os_globe_map.png
-            try:
-                zone_id = self.config.OpsiMeowfficerFarming_TargetZone
-            except ScriptError:
-                logger.warning(f'wrong zone_id input:{self.config.OpsiMeowfficerFarming_TargetZone}')
-                self.config.task_stop(message=f'wrong input, task stopped')
-            if zone_id != 0:
-                logger.hr(f'OS meowfficer farming, zone_id={zone_id}', level=1)
-                self.globe_goto(zone_id)
-                self.run_auto_search()
-                self.handle_fleet_repair(revert=False)
-                self.globe_goto(self.zone_nearest_azur_port(zone=zone_id))
-                self.config.check_task_switch()
+            if self.config.OpsiMeowfficerFarming_TargetZone != 0:
+                try:
+                    zone = self.name_to_zone(self.config.OpsiMeowfficerFarming_TargetZone)
+                except ScriptError:
+                    logger.warning(f'wrong zone_id input:{self.config.OpsiMeowfficerFarming_TargetZone}')
+                    self.config.task_stop(message=f'wrong input, task stopped')
+                else:
+                    logger.hr(f'OS meowfficer farming, zone_id={zone.zone_id}', level=1)
+                    self.globe_goto(zone)
+                    self.run_auto_search()
+                    self.handle_fleet_repair(revert=False)
+                    self.globe_goto(self.zone_nearest_azur_port(zone=zone))
+                    self.config.check_task_switch()
             else:
                 zones = self.zone_select(hazard_level=self.config.OpsiMeowfficerFarming_HazardLevel) \
                     .delete(SelectedGrids([self.zone])) \
