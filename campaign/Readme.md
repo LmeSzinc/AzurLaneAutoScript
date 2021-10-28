@@ -70,4 +70,4 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20210923   | event 20200917 cn        | Dreamwaker's Butterfly         | -                      | -                                | -                                    | 蝶海夢花           |
 | 20211008   | event 20201012 cn        | Sundered Blue                  | -                      | -                                | -                                    | 劃破海空之翼       |
 | 20211014   | raid 20210708            | Cross Wave                     | -                      | -                                | -                                    | 穿越彼方的水線     |
-| 20211014   | event 20211028 cn        | Skybound Oratorio              | 复刻穹顶下的圣咏曲       | -                                | -                                    | -                 |
+| 20211028   | event 20211028 cn        | Skybound Oratorio              | 复刻穹顶下的圣咏曲     | Skybound Oratorio Rerun          | 神穹を衝く聖歌（復刻）               | -                  |

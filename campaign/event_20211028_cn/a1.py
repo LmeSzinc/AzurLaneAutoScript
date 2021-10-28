@@ -50,6 +50,7 @@ class Config:
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
+
     DETECTION_BACKEND = 'perspective'
     TRUST_EDGE_LINES = False
     COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.5
@@ -65,13 +66,20 @@ class Config:
         'distance': 50,
         'wlen': 1000
     }
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom-right'
+    MAP_SWIPE_PREDICT_WITH_SEA_GRIDS = False
+    MAP_SWIPE_MULTIPLY = 1.732
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.674
 
 
 class Campaign(CampaignBase):
     MAP = MAP
+    ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 
     def battle_0(self):
         if self.clear_siren():
+            return True
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
 
         return self.battle_default()

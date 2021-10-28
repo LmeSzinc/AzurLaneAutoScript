@@ -5,7 +5,7 @@ from module.logger import logger
 
 MAP = CampaignMap('B1')
 MAP.shape = 'F9'
-MAP.camera_data = ['C2', 'C6', 'C7']
+MAP.camera_data = ['C2', 'C5', 'C7']
 MAP.camera_data_spawn_point = ['C7']
 MAP.map_data = """
     -- ME ++ ++ -- ME
@@ -60,6 +60,7 @@ class Config:
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
+
     DETECTION_BACKEND = 'perspective'
     TRUST_EDGE_LINES = False
     COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.5
@@ -75,13 +76,19 @@ class Config:
         'distance': 50,
         'wlen': 1000
     }
+    MAP_SWIPE_PREDICT_WITH_SEA_GRIDS = False
+    MAP_SWIPE_MULTIPLY = 1.513
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.463
 
 
 class Campaign(CampaignBase):
     MAP = MAP
+    ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 
     def battle_0(self):
         if self.clear_siren():
+            return True
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
 
         return self.battle_default()

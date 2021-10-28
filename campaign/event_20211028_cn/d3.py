@@ -6,8 +6,8 @@ from .d1 import Config as ConfigBase
 
 MAP = CampaignMap('D3')
 MAP.shape = 'N10'
-MAP.camera_data = ['F2', 'F6', 'F8', 'I2', 'I6', 'I8']
-MAP.camera_data_spawn_point = ['F8', 'I8']
+MAP.camera_data = ['G8', 'G6', 'F3', 'H4']
+MAP.camera_data_spawn_point = ['G8']
 MAP.map_data = """
     -- -- -- -- -- ME -- -- ME -- -- -- -- ++
     -- -- -- ME -- -- MB MB -- -- ME -- -- --
@@ -86,14 +86,28 @@ class Config(ConfigBase):
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
+
     MAP_HAS_WALL = True
+    MAP_SWIPE_MULTIPLY = 1.445
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.397
 
 
 class Campaign(CampaignBase):
     MAP = MAP
+    ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 
     def battle_0(self):
         if self.clear_siren():
+            return True
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
+            return True
+
+        return self.battle_default()
+
+    def battle_5(self):
+        if self.clear_siren():
+            return True
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
 
         return self.battle_default()

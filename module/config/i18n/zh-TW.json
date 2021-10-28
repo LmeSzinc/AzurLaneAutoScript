@@ -391,7 +391,7 @@
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
-      "event_20211028_cn": "复刻穹顶下的圣咏曲",
+      "event_20211028_cn": "Skybound Oratorio Rerun",
       "raid_20210708": "穿越彼方的水線",
       "event_20201012_cn": "劃破海空之翼",
       "event_20200917_cn": "蝶海夢花",
@@ -578,7 +578,9 @@
       "name": "Fleet.FleetOrder.name",
       "help": "Fleet.FleetOrder.help",
       "fleet1_mob_fleet2_boss": "fleet1_mob_fleet2_boss",
-      "fleet1_all_fleet2_standby": "fleet1_all_fleet2_standby"
+      "fleet1_boss_fleet2_mob": "fleet1_boss_fleet2_mob",
+      "fleet1_all_fleet2_standby": "fleet1_all_fleet2_standby",
+      "fleet1_standby_fleet2_all": "fleet1_standby_fleet2_all"
     },
     "AutoSearchFleetOrder": {
       "name": "Fleet.AutoSearchFleetOrder.name",

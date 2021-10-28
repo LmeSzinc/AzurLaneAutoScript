@@ -115,30 +115,12 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'moye': 'Maya',
     'yishi': 'Ise',
     'sunying': 'Junyo',
+
+    # Skybound Oratorio
+    'aerjiliya': 'Algerie',
+    'jialisuoniye': 'LaGalissonniere',
+    'wokelan': 'Vauquelin',
 }
-
-
-def load_lua(folder, file, prefix):
-    with open(os.path.join(folder, file), 'r', encoding='utf-8') as f:
-        text = f.read()
-    print(f'Loading {file}')
-    result = slpp.decode(text[prefix:])
-    print(f'{len(result.keys())} items loaded')
-    return result
-
-
-def load_lua_by_function(folder, file):
-    with open(os.path.join(folder, file), 'r', encoding='utf-8') as f:
-        text = f.read()
-    print(f'Loading {file}')
-    matched = re.findall('function \(\)(.*?)end\(\)', text, re.S)
-    result = {}
-    for func in matched:
-        add = slpp.decode('{' + func + '}')
-        result.update(add)
-
-    print(f'{len(result.keys())} items loaded')
-    return result
 
 
 class MapData:
@@ -396,18 +378,34 @@ class MapData:
         lines.append('')
 
         # Campaign
+        battle = self.data["boss_refresh"]
         lines.append('class Campaign(CampaignBase):')
         lines.append('    MAP = MAP')
+        lines.append(f'    ENEMY_FILTER = \'{ENEMY_FILTER}\'')
         lines.append('')
         lines.append('    def battle_0(self):')
         if len(self.MAP_SIREN_TEMPLATE):
             lines.append('        if self.clear_siren():')
             lines.append('            return True')
-            lines.append('')
+        preserve = self.data["boss_refresh"] - 5 if battle >= 5 else 0
+        lines.append(f'        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve={preserve}):')
+        lines.append('            return True')
+        lines.append('')
         lines.append('        return self.battle_default()')
         lines.append('')
+        if battle >= 6:
+            lines.append('    def battle_5(self):')
+            if len(self.MAP_SIREN_TEMPLATE):
+                lines.append('        if self.clear_siren():')
+                lines.append('            return True')
+            preserve = 0
+            lines.append(f'        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve={preserve}):')
+            lines.append('            return True')
+            lines.append('')
+            lines.append('        return self.battle_default()')
+            lines.append('')
         lines.append(f'    def battle_{self.data["boss_refresh"]}(self):')
-        if self.data["boss_refresh"] >= 5:
+        if battle >= 5:
             lines.append('        return self.fleet_boss.clear_boss()')
         else:
             lines.append('        return self.clear_boss()')
@@ -543,6 +541,7 @@ KEYWORD = ''
 SELECT = False
 OVERWRITE = True
 IS_WAR_ARCHIVES = False
+ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 
 LOADER = LuaLoader(FILE, server='CN')
 DATA = LOADER.load('./sharecfg/chapter_template.lua')

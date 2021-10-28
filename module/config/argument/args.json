@@ -368,7 +368,9 @@
         "value": "fleet1_mob_fleet2_boss",
         "option": [
           "fleet1_mob_fleet2_boss",
-          "fleet1_all_fleet2_standby"
+          "fleet1_boss_fleet2_mob",
+          "fleet1_all_fleet2_standby",
+          "fleet1_standby_fleet2_all"
         ]
       },
       "AutoSearchFleetOrder": {
@@ -584,9 +586,9 @@
           "event_20200227_cn"
         ],
         "cn": "event_20211028_cn",
-        "tw": "event_20201012_cn",
-        "en": "event_20210916_cn",
-        "jp": "event_20210916_cn"
+        "en": "event_20211028_cn",
+        "jp": "event_20211028_cn",
+        "tw": "event_20201012_cn"
       },
       "Mode": {
         "type": "disable",
@@ -739,7 +741,9 @@
         "value": "fleet1_mob_fleet2_boss",
         "option": [
           "fleet1_mob_fleet2_boss",
-          "fleet1_all_fleet2_standby"
+          "fleet1_boss_fleet2_mob",
+          "fleet1_all_fleet2_standby",
+          "fleet1_standby_fleet2_all"
         ]
       },
       "AutoSearchFleetOrder": {
@@ -1270,7 +1274,9 @@
         "value": "fleet1_all_fleet2_standby",
         "option": [
           "fleet1_mob_fleet2_boss",
-          "fleet1_all_fleet2_standby"
+          "fleet1_boss_fleet2_mob",
+          "fleet1_all_fleet2_standby",
+          "fleet1_standby_fleet2_all"
         ]
       },
       "AutoSearchFleetOrder": {
@@ -1553,7 +1559,9 @@
         "value": "fleet1_mob_fleet2_boss",
         "option": [
           "fleet1_mob_fleet2_boss",
-          "fleet1_all_fleet2_standby"
+          "fleet1_boss_fleet2_mob",
+          "fleet1_all_fleet2_standby",
+          "fleet1_standby_fleet2_all"
         ]
       },
       "AutoSearchFleetOrder": {
@@ -1896,7 +1904,9 @@
         "value": "fleet1_all_fleet2_standby",
         "option": [
           "fleet1_mob_fleet2_boss",
-          "fleet1_all_fleet2_standby"
+          "fleet1_boss_fleet2_mob",
+          "fleet1_all_fleet2_standby",
+          "fleet1_standby_fleet2_all"
         ]
       },
       "AutoSearchFleetOrder": {
@@ -2257,7 +2267,9 @@
         "value": "fleet1_all_fleet2_standby",
         "option": [
           "fleet1_mob_fleet2_boss",
-          "fleet1_all_fleet2_standby"
+          "fleet1_boss_fleet2_mob",
+          "fleet1_all_fleet2_standby",
+          "fleet1_standby_fleet2_all"
         ]
       },
       "AutoSearchFleetOrder": {
@@ -2507,9 +2519,9 @@
           "event_20200227_cn"
         ],
         "cn": "event_20211028_cn",
-        "tw": "event_20201012_cn",
-        "en": "event_20210916_cn",
-        "jp": "event_20210916_cn"
+        "en": "event_20211028_cn",
+        "jp": "event_20211028_cn",
+        "tw": "event_20201012_cn"
       },
       "Mode": {
         "type": "disable",
@@ -2662,7 +2674,9 @@
         "value": "fleet1_mob_fleet2_boss",
         "option": [
           "fleet1_mob_fleet2_boss",
-          "fleet1_all_fleet2_standby"
+          "fleet1_boss_fleet2_mob",
+          "fleet1_all_fleet2_standby",
+          "fleet1_standby_fleet2_all"
         ]
       },
       "AutoSearchFleetOrder": {
@@ -3829,7 +3843,9 @@
         "value": "fleet1_mob_fleet2_boss",
         "option": [
           "fleet1_mob_fleet2_boss",
-          "fleet1_all_fleet2_standby"
+          "fleet1_boss_fleet2_mob",
+          "fleet1_all_fleet2_standby",
+          "fleet1_standby_fleet2_all"
         ]
       },
       "AutoSearchFleetOrder": {
@@ -4055,9 +4071,9 @@
           "event_20200227_cn"
         ],
         "cn": "event_20211028_cn",
-        "tw": "event_20201012_cn",
-        "en": "event_20210916_cn",
-        "jp": "event_20210916_cn"
+        "en": "event_20211028_cn",
+        "jp": "event_20211028_cn",
+        "tw": "event_20201012_cn"
       },
       "Mode": {
         "type": "disable",
@@ -4210,7 +4226,9 @@
         "value": "fleet1_mob_fleet2_boss",
         "option": [
           "fleet1_mob_fleet2_boss",
-          "fleet1_all_fleet2_standby"
+          "fleet1_boss_fleet2_mob",
+          "fleet1_all_fleet2_standby",
+          "fleet1_standby_fleet2_all"
         ]
       },
       "AutoSearchFleetOrder": {
@@ -4426,9 +4444,9 @@
           "event_20200227_cn"
         ],
         "cn": "event_20211028_cn",
-        "tw": "event_20201012_cn",
-        "en": "event_20210916_cn",
-        "jp": "event_20210916_cn"
+        "en": "event_20211028_cn",
+        "jp": "event_20211028_cn",
+        "tw": "event_20201012_cn"
       },
       "Mode": {
         "type": "disable",
@@ -4581,7 +4599,9 @@
         "value": "fleet1_mob_fleet2_boss",
         "option": [
           "fleet1_mob_fleet2_boss",
-          "fleet1_all_fleet2_standby"
+          "fleet1_boss_fleet2_mob",
+          "fleet1_all_fleet2_standby",
+          "fleet1_standby_fleet2_all"
         ]
       },
       "AutoSearchFleetOrder": {
@@ -5109,7 +5129,9 @@
         "value": "fleet1_mob_fleet2_boss",
         "option": [
           "fleet1_mob_fleet2_boss",
-          "fleet1_all_fleet2_standby"
+          "fleet1_boss_fleet2_mob",
+          "fleet1_all_fleet2_standby",
+          "fleet1_standby_fleet2_all"
         ]
       },
       "AutoSearchFleetOrder": {

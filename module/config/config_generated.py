@@ -82,7 +82,7 @@ class GeneratedConfig:
     Fleet_Fleet2Formation = 'double_line'  # line_ahead, double_line, diamond
     Fleet_Fleet2Mode = 'combat_auto'  # combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left
     Fleet_Fleet2Step = 2  # 2, 3, 4, 5
-    Fleet_FleetOrder = 'fleet1_mob_fleet2_boss'  # fleet1_mob_fleet2_boss, fleet1_all_fleet2_standby
+    Fleet_FleetOrder = 'fleet1_mob_fleet2_boss'  # fleet1_mob_fleet2_boss, fleet1_boss_fleet2_mob, fleet1_all_fleet2_standby, fleet1_standby_fleet2_all
     Fleet_AutoSearchFleetOrder = 'fleet1_mob_fleet2_boss'  # fleet1_mob_fleet2_boss, fleet1_boss_fleet2_mob, fleet1_all_fleet2_standby, fleet1_standby_fleet2_all
 
     # Group `Submarine`
