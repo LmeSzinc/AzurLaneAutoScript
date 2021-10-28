@@ -547,6 +547,7 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "event_20211028_tw",
           "event_20211028_cn",
           "event_20201012_cn",
           "event_20200917_cn",
@@ -585,10 +586,10 @@
           "event_20200326_cn",
           "event_20200227_cn"
         ],
+        "tw": "event_20211028_tw",
         "cn": "event_20211028_cn",
         "en": "event_20211028_cn",
-        "jp": "event_20211028_cn",
-        "tw": "event_20201012_cn"
+        "jp": "event_20211028_cn"
       },
       "Mode": {
         "type": "disable",
@@ -2480,6 +2481,7 @@
         "value": "campaign_main",
         "option": [
           "campaign_main",
+          "event_20211028_tw",
           "event_20211028_cn",
           "event_20201012_cn",
           "event_20200917_cn",
@@ -2518,10 +2520,10 @@
           "event_20200326_cn",
           "event_20200227_cn"
         ],
+        "tw": "event_20211028_tw",
         "cn": "event_20211028_cn",
         "en": "event_20211028_cn",
-        "jp": "event_20211028_cn",
-        "tw": "event_20201012_cn"
+        "jp": "event_20211028_cn"
       },
       "Mode": {
         "type": "disable",
@@ -4032,6 +4034,7 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "event_20211028_tw",
           "event_20211028_cn",
           "event_20201012_cn",
           "event_20200917_cn",
@@ -4070,10 +4073,10 @@
           "event_20200326_cn",
           "event_20200227_cn"
         ],
+        "tw": "event_20211028_tw",
         "cn": "event_20211028_cn",
         "en": "event_20211028_cn",
-        "jp": "event_20211028_cn",
-        "tw": "event_20201012_cn"
+        "jp": "event_20211028_cn"
       },
       "Mode": {
         "type": "disable",
@@ -4405,6 +4408,7 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "event_20211028_tw",
           "event_20211028_cn",
           "event_20201012_cn",
           "event_20200917_cn",
@@ -4443,10 +4447,10 @@
           "event_20200326_cn",
           "event_20200227_cn"
         ],
+        "tw": "event_20211028_tw",
         "cn": "event_20211028_cn",
         "en": "event_20211028_cn",
-        "jp": "event_20211028_cn",
-        "tw": "event_20201012_cn"
+        "jp": "event_20211028_cn"
       },
       "Mode": {
         "type": "disable",
