@@ -19,8 +19,12 @@ class AzurLaneUncensored(LoginHandler):
         logger.hr('Update AzurLaneUncensored', level=1)
         logger.info('This will take a while at first use')
         manager = GitManager()
+        manager.config['GitExecutable'] = os.path.abspath(manager.config['GitExecutable'])
+        manager.config['AdbExecutable'] = os.path.abspath(manager.config['AdbExecutable'])
         os.makedirs(folder, exist_ok=True)
         prev = os.getcwd()
+
+        # Running in ./toolkit/AzurLaneUncensored
         os.chdir(folder)
         manager.git_repository_init(
             repo=repo,
@@ -36,6 +40,7 @@ class AzurLaneUncensored(LoginHandler):
         self.device.adb_command(command)
         logger.info('Push success')
 
+        # Back to root folder
         os.chdir(prev)
         logger.hr('Restart AzurLane', level=1)
         self.device.app_stop()
