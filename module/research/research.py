@@ -9,7 +9,7 @@ from module.research.project import ResearchSelector, RESEARCH_ENTRANCE, get_res
 from module.ui.page import *
 from module.ocr.ocr import Duration
 
-OCR_DURATION = Duration(DURATION_REMAIN, letter=(255, 255, 255), threshold=64, name='DURATION_REMAIN')
+OCR_DURATION = Duration(RESEARCH_LAB_DURATION_REMAIN, letter=(255, 255, 255), threshold=64, name='RESEARCH_LAB_DURATION_REMAIN')
 
 
 class RewardResearch(ResearchSelector):
@@ -300,29 +300,34 @@ class RewardResearch(ResearchSelector):
 
     def research_get_remain(self):
         """
-        Get remain duration of current project (the one in the middle).
+        Get remain duration of current project from page_reward.
 
         Returns:
-            bool: True if success
-                  False if project requirements are not satisfied.
+            float: research project remain time if success
+            None: if failed
 
         Pages:
-            in: page_research, stable.
-            out: page_research, stable.
+            in: page_reward
+            out: page_reward
         """
         logger.hr('Research get remain')
-        self.research_detect(self.device.image)
+        
+        self.ui_click(click_button=RESEARCH_LAB, check_button=RESEARCH_RUNNING)
+        # Check if button is still moving
+        while 1:
+            self.appear(RESEARCH_RUNNING)
+            self.device.screenshot()
+            if RESEARCH_RUNNING.match_appear_on(self.device.image):
+                break
+        
         remain = OCR_DURATION.ocr(self.device.image)
         logger.info(f'Research project remain: {remain}')
 
-        if remain.total_seconds() > 0:
-            project = self.projects[2]
-            project.duration = remain.total_seconds() / 3600
-            self.research_project_started = project
-            return True
+        if remain.total_seconds() >= 0:            
+            research_duration_remain = remain.total_seconds() / 3600
+            return research_duration_remain
         else:
-            self.research_project_started = None
-            return False
+            return None
 
     def ui_ensure_research(self):
         """
@@ -338,23 +343,28 @@ class RewardResearch(ResearchSelector):
         Pages:
             in: Any page
             out: page_research, with research project information, but it's still page_research.
+                    or page_main
         """
         self.ui_ensure(page_reward)
         if self.appear(RESEARCH_FINISHED, offset=(50, 20)) or self.appear(RESEARCH_PENDING, offset=(50, 20)):
             self.ui_ensure_research()
             success = self.research_reward()
-        else:
-            self.ui_ensure_research()
-            success = self.research_get_remain()
-
-        project = self.research_project_started
-        if success:
-            if project is not None:
-                # Success to start a project
-                self.config.task_delay(minute=float(project.duration) * 60)
+            project = self.research_project_started
+            if success:
+                if project is not None:
+                    # Success to start a project
+                    self.config.task_delay(minute=float(project.duration) * 60)
+                else:
+                    # No project satisfies current filter
+                    self.config.task_delay(server_update=True)
             else:
-                # No project satisfies current filter
-                self.config.task_delay(server_update=True)
+                # Project requirements are not satisfied
+                self.config.task_delay(success=False)
         else:
-            # Project requirements are not satisfied
-            self.config.task_delay(success=False)
+            research_duration_remain = self.research_get_remain()
+            if research_duration_remain is not None:
+                self.config.task_delay(minute=float(research_duration_remain) * 60)
+            else:
+                self.config.task_delay(success=False)
+            # Close page_reward to avoid bug
+            self.ui_goto_main()
