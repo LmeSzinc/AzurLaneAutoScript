@@ -60,6 +60,7 @@ class Config:
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
+    DETECTION_BACKEND = 'perspective'
     TRUST_EDGE_LINES = False
     COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.5
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
