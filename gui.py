@@ -5,6 +5,7 @@ import time
 from datetime import datetime
 from multiprocessing import Manager, Process
 from multiprocessing.managers import SyncManager
+from typing import Generator
 
 from filelock import FileLock
 from pywebio.exceptions import SessionClosedException, SessionNotFoundException
@@ -43,10 +44,11 @@ class AlasManager:
         self._process = Process()
         self.thd_log_queue_handler = Thread()
 
-    def start(self) -> None:
+    def start(self, func: str = 'Alas') -> None:
         if not self.alive:
-            self._process = Process(target=AlasManager.run_alas, args=(
-                self.config_name, self.log_queue,))
+            self._process = Process(
+                target=AlasManager.run_alas, 
+                args=(self.config_name, self.log_queue, func))
             self._process.start()
             self.thd_log_queue_handler = Thread(
                 target=self._thread_log_queue_handler)
@@ -85,7 +87,7 @@ class AlasManager:
         return cls.all_alas[config_name]
 
     @staticmethod
-    def run_alas(config_name, q: queue) -> None:
+    def run_alas(config_name, q: queue.Queue, func: str) -> None:
         # Setup logger
         qh = QueueHandler(q)
         formatter = logging.Formatter(
@@ -96,8 +98,25 @@ class AlasManager:
         logging.getLogger('alas').addHandler(webconsole)
 
         # Run alas
-        from alas import AzurLaneAutoScript
-        AzurLaneAutoScript(config_name=config_name).loop()
+        if func == 'Alas':
+            from alas import AzurLaneAutoScript
+            AzurLaneAutoScript(config_name=config_name).loop()
+        elif func == 'Daemon':
+            from module.daemon.daemon import AzurLaneDaemon
+            AzurLaneDaemon(config=config_name, task='Daemon').run()
+        elif func == 'OpsiDaemon':
+            from module.daemon.os_daemon import AzurLaneDaemon
+            AzurLaneDaemon(config=config_name, task='OpsiDaemon').run()
+        elif func == 'AzurLaneUncensored':
+            from module.daemon.uncensored import AzurLaneUncensored
+            AzurLaneUncensored(config=config_name, task='AzurLaneUncensored').run()
+            q.put("Scheduler stopped.\n") # Prevent status turns to warning
+        elif func == 'Benchmark':
+            from module.daemon.benchmark import Benchmark
+            Benchmark(config=config_name, task='Benchmark').run()
+            q.put("Scheduler stopped.\n") # Prevent status turns to warning
+        else:
+            logger.critical("No function matched")
 
 
 class AlasGUI(Frame):
@@ -201,13 +220,25 @@ class AlasGUI(Frame):
         for key, tasks in deep_iter(self.ALAS_MENU, depth=2):
             # path = '.'.join(key)
             menu = key[1]
+
+            if menu == 'Tool':
+                _onclick = self.alas_daemon_overview
+            else:
+                _onclick = self.alas_set_group
+
+            task_btn_list = []
+            for task in tasks:
+                task_btn_list.append(
+                    put_buttons([
+                        {"label": t(f'Task.{task}.name'), "value": task, "color": "menu"}
+                    ], onclick=_onclick).style(f'--menu-{task}--')
+                )
+
             self.menu.append(
-                put_collapse(t(f"Menu.{menu}.name"),
-                             [put_buttons([
-                                 {"label": t(f'Task.{task}.name'),
-                                  "value": task, "color": "menu"}
-                             ], onclick=self.alas_set_group).style(f'--menu-{task}--') for task in tasks]
-                             )
+                put_collapse(
+                    title=t(f"Menu.{menu}.name"),
+                    content=task_btn_list
+                )
             )
 
         self.alas_overview()
@@ -301,7 +332,7 @@ class AlasGUI(Frame):
                      "value": "Stop", "color": "scheduler-off"},
                 ],
                 onclick=[
-                    self.alas.start,
+                    lambda: self.alas.start('Alas'),
                     self.alas.stop,
                 ]
             )
@@ -382,25 +413,24 @@ class AlasGUI(Frame):
                 yield self.alas_update_overiew_tasks()
 
         self.task_handler.add(refresh_overview_tasks(), 10, True)
+        self.task_handler.add(self.alas_put_log(), 0.2, True)
 
-        def put_log():
-            last_idx = len(self.alas.log)
-            self.alas_logs.append(''.join(self.alas.log))
-            lines = 0
-            while True:
-                yield
-                idx = len(self.alas.log)
-                if idx < last_idx:
-                    last_idx -= self.alas.log_reduce_length
-                if idx != last_idx:
-                    try:
-                        self.alas_logs.append(''.join(self.alas.log[last_idx:idx]))
-                    except SessionNotFoundException:
-                        break
-                    lines += idx - last_idx
-                    last_idx = idx
-
-        self.task_handler.add(put_log(), 0.2, True)
+    def alas_put_log(self) -> Generator[None, None, None]:
+        last_idx = len(self.alas.log)
+        self.alas_logs.append(''.join(self.alas.log))
+        lines = 0
+        while True:
+            yield
+            idx = len(self.alas.log)
+            if idx < last_idx:
+                last_idx -= self.alas.log_reduce_length
+            if idx != last_idx:
+                try:
+                    self.alas_logs.append(''.join(self.alas.log[last_idx:idx]))
+                except SessionNotFoundException:
+                    break
+                lines += idx - last_idx
+                last_idx = idx
 
     def _alas_thread_wait_config_change(self) -> None:
         paths = []
@@ -499,6 +529,133 @@ class AlasGUI(Frame):
             self.alas_waiting.reset(
                 put_text(t("Gui.Overview.NoTask")).style(no_task_style)
             )
+
+    def alas_daemon_overview(self, task: str) -> None:
+        self.init_menu(name=task)
+        self.title.reset(f"{t(f'Task.{task}.name')}")
+
+        scheduler = put_row([
+            put_text(t("Gui.Overview.Scheduler")).style(
+                "font-size: 1.25rem; margin: auto .5rem auto;"),
+            None,
+            put_buttons(
+                buttons=[
+                    {"label": t("Gui.Button.Start"),
+                     "value": "Start", "color": "scheduler-on"},
+                    {"label": t("Gui.Button.Stop"),
+                     "value": "Stop", "color": "scheduler-off"},
+                ],
+                onclick=[
+                    lambda: self.alas.start(task),
+                    self.alas.stop,
+                ]
+            )
+        ], size="auto 1fr auto").style("container-overview-group")
+
+        log = put_row([
+            put_text(t("Gui.Overview.Log")).style(
+                "font-size: 1.25rem; margin: auto .5rem auto;"),
+            None,
+            put_buttons(
+                buttons=[
+                    {"label": t("Gui.Button.ClearLog"),
+                     "value": "ClearLog", "color": "scheduler-on"},
+                    {"label": t("Gui.Button.ScrollON"),
+                     "value": "ScrollON", "color": "scheduler-on"},
+                    {"label": t("Gui.Button.ScrollOFF"),
+                     "value": "ScrollOFF", "color": "scheduler-on"},
+                ],
+                onclick=[
+                    self.alas_logs.reset,
+                    lambda: self.alas_logs.set_scroll(True),
+                    lambda: self.alas_logs.set_scroll(False),
+                ],
+            )
+        ], size="auto 1fr auto").style("container-overview-group")
+
+        setting = output().style("container-overview-group")
+
+        if self.is_mobile:
+            self.content.append(
+                put_column([
+                    scheduler,
+                    setting,
+                    log,
+                    self.alas_logs.output
+                ], size="auto auto auto 1fr"
+                ).style("height: 100%; overflow-y: auto")
+            )
+        else:
+            self.content.append(
+                put_row([
+                    None,
+                    put_column([
+                        put_row([
+                            scheduler,
+                            log,
+                        ], size="auto auto"),
+                        setting,
+                        self.alas_logs.output
+                    ], size="auto minmax(6rem, auto) minmax(15rem, 1fr)"
+                    ).style("height: 100%; overflow-y: auto"),
+                    None,
+                ], size="1fr minmax(25rem, 6fr) 1fr"
+                ).style("height: 100%; overflow-y: auto")
+            )
+        
+        config = config_updater.update_config(self.alas_name)
+
+        for group, arg_dict in deep_iter(self.ALAS_ARGS[task], depth=1):
+            group = group[0]
+            setting.append(put_text(t(f"{group}._info.name")).style("group-title"))
+            group_help = t(f"{group}._info.help")
+            if group_help:
+                setting.append(put_text(group_help).style("group-help"))
+            
+            list_arg = []
+            for arg, d in deep_iter(arg_dict, depth=1):
+                arg = arg[0]
+                arg_type = d['type']
+                if arg_type == 'disable':
+                    continue
+                value = deep_get(config, f'{task}.{group}.{arg}', d['value'])
+                value = str(value) if isinstance(value, datetime) else value
+
+                # Option
+                options = deep_get(d, 'option', None)
+                if options:
+                    option = []
+                    for opt in options:
+                        o = {"label": t(f"{group}.{arg}.{opt}"), "value": opt}
+                        if value == opt:
+                            o["selected"] = True
+                        option.append(o)
+                else:
+                    option = None
+
+                # Help
+                arg_help = t(f"{group}.{arg}.help")
+                if arg_help == "" or not arg_help:
+                    arg_help = None
+
+                if self.is_mobile:
+                    width = '8rem'
+                else:
+                    width = '12rem'
+
+                list_arg.append(get_output(
+                    arg_type=arg_type,
+                    name=self.path_to_idx[f"{task}.{group}.{arg}"],
+                    title=t(f"{group}.{arg}.name"),
+                    arg_help=arg_help,
+                    value=value,
+                    options=option,
+                    width=width,
+                ))
+            if list_arg:
+                setting.append(*list_arg)
+
+        self.task_handler.add(self.alas_put_log(), 0.2, True)
 
     # Develop
     def dev_set_menu(self) -> None:
