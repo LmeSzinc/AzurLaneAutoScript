@@ -1,10 +1,11 @@
 import os
 import re
 
-from module.campaign.run import CampaignRun
-from module.logger import logger
-from module.config.utils import get_server_last_update
 from module.base.filter import Filter
+from module.campaign.run import CampaignRun
+from module.config.config import TaskEnd
+from module.config.utils import get_server_last_update
+from module.logger import logger
 
 STAGE_FILTER = Filter(regex=re.compile('^(.*?)$'), attr=('stage',))
 
@@ -37,7 +38,7 @@ class CampaignAB(CampaignRun):
             self.config.Scheduler_Enable = False
             self.config.task_stop()
 
-        logger.attr('LastStage', self.config.Scheduler_ServerUpdate)
+        logger.attr('LastStage', self.config.EventAb_LastStage)
         if get_server_last_update(self.config.Scheduler_ServerUpdate) >= self.config.Scheduler_NextRun:
             logger.info('Reset LastStage')
             self.config.EventAb_LastStage = 0
@@ -47,10 +48,18 @@ class CampaignAB(CampaignRun):
         # Run
         for stage in stages:
             stage = str(stage)
-            super().run(name=stage, folder=self.config.Campaign_Event, total=1)
+            try:
+                super().run(name=stage, folder=self.config.Campaign_Event, total=1)
+            except TaskEnd:
+                # Catch task switch
+                pass
             if self.run_count > 0:
-                self.config.EventAb_LastStage = stage
+                with self.config.multi_set():
+                    self.config.EventAb_LastStage = stage
+                    self.config.task_delay(minute=0)
             else:
+                self.config.task_stop()
+            if self.config.task_switched():
                 self.config.task_stop()
 
         # Scheduler
