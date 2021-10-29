@@ -1,6 +1,7 @@
 import os
 
 from module.campaign.run import CampaignRun
+from module.config.config import TaskEnd
 from module.logger import logger
 
 
@@ -11,9 +12,11 @@ class CampaignSP(CampaignRun):
             logger.info(f'This event do not have SP, skip')
             self.config.Scheduler_Enable = False
             self.config.task_stop()
-
-        super().run(name=self.config.Campaign_Name, folder=self.config.Campaign_Event, total=1)
-
+        try:
+            super().run(name=self.config.Campaign_Name, folder=self.config.Campaign_Event, total=1)
+        except TaskEnd:
+            # Catch task switch
+            pass
         if self.run_count > 0:
             self.config.task_delay(server_update=True)
         else:
