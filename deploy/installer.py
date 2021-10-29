@@ -70,14 +70,14 @@ class DeployConfig:
         print(command)
         error_code = os.system(command)
         if error_code:
-            print(f'✗ fail, error_code: {error_code}')
+            print(f'[ failed ], error_code: {error_code}')
             if allow_failure:
                 return False
             else:
                 self.show_error()
                 exit(1)
         else:
-            print(f'✓ success')
+            print(f'[ success ]')
             return True
 
     def show_error(self):
