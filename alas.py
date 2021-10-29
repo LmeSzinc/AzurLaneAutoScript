@@ -135,9 +135,13 @@ class AzurLaneAutoScript:
         from module.reward.reward import Reward
         Reward(config=self.config, device=self.device).run()
 
-    def shop(self):
+    def shop_frequent(self):
         from module.shop.shop_reward import RewardShop
-        RewardShop(config=self.config, device=self.device).run()
+        RewardShop(config=self.config, device=self.device).run_frequent()
+
+    def shop_once(self):
+        from module.shop.shop_reward import RewardShop
+        RewardShop(config=self.config, device=self.device).run_once()
 
     def shipyard(self):
         from module.shipyard.shipyard_reward import RewardShipyard

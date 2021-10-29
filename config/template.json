@@ -677,11 +677,11 @@
       "CollectMission": true
     }
   },
-  "Shop": {
+  "ShopFrequent": {
     "Scheduler": {
       "Enable": false,
       "NextRun": "2020-01-01 00:00:00",
-      "Command": "Shop",
+      "Command": "ShopFrequent",
       "SuccessInterval": 30,
       "FailureInterval": 30,
       "ServerUpdate": "00:00, 12:00, 18:00"
@@ -690,6 +690,16 @@
       "UseGems": false,
       "Refresh": false,
       "Filter": "BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2\n> Cube\n> FoodT6 > FoodT5"
+    }
+  },
+  "ShopOnce": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "ShopOnce",
+      "SuccessInterval": 30,
+      "FailureInterval": 30,
+      "ServerUpdate": "00:00"
     },
     "GuildShop": {
       "Refresh": true,

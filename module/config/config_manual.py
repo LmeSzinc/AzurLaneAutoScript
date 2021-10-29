@@ -7,7 +7,7 @@ class ManualConfig:
     SCHEDULER_PRIORITY = """
     Restart
     > Research > Commission > Tactical > Dorm > Meowfficer > Guild > Reward
-    > Gacha > Shop > Shipyard > DataKey
+    > Gacha > ShopFrequent > ShopOnce > Shipyard > DataKey
     > OpsiExplore > OpsiObscure
     > Exercise > Daily > Hard > OpsiAshAssist
     > Sos > EventSp > EventAb > RaidDaily > WarArchives

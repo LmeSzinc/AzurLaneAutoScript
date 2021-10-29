@@ -102,8 +102,12 @@
       "name": "收获",
       "help": ""
     },
-    "Shop": {
+    "ShopFrequent": {
       "name": "商店购买",
+      "help": ""
+    },
+    "ShopOnce": {
+      "name": "Task.ShopOnce.name",
       "help": ""
     },
     "Shipyard": {

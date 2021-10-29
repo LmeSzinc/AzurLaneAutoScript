@@ -104,9 +104,11 @@ Guild:
 Reward:
   - Scheduler
   - Reward
-Shop:
+ShopFrequent:
   - Scheduler
   - GeneralShop
+ShopOnce:
+  - Scheduler
   - GuildShop
   - MedalShop
   - MeritShop
