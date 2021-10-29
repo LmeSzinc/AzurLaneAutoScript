@@ -1490,8 +1490,8 @@
   },
   "OpsiDaemon": {
     "_info": {
-      "name": "Useful when attacking logger zones or Opsi story. Can save tons of manual clicks.\nAlas will click combat preparation, click combat drop, skip story, close popups. You only need to choose enemies and switch zones.",
-      "help": "OpsiDaemon._info.help"
+      "name": "Opsi Semi-auto Clicking",
+      "help": "Useful when attacking logger zones or Opsi story. Can save tons of manual clicks.\nAlas will click combat preparation, click combat drop, skip story, close popups. You only need to choose enemies and switch zones."
     },
     "RepairShip": {
       "name": "Repair Ships When Nearing Port",
