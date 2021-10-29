@@ -175,11 +175,11 @@
       "help": ""
     },
     "Daemon": {
-      "name": "Semi-auto Clicking",
+      "name": "Normal Semi-auto",
       "help": ""
     },
     "OpsiDaemon": {
-      "name": "Opsi Semi-auto",
+      "name": "OpSi Semi-auto",
       "help": ""
     },
     "Benchmark": {
@@ -187,7 +187,7 @@
       "help": ""
     },
     "AzurLaneUncensored": {
-      "name": "[CN] Uncensored",
+      "name": "[CN] Uncensored Patch",
       "help": ""
     }
   },
@@ -228,7 +228,7 @@
     },
     "Serial": {
       "name": "Serial",
-      "help": "Default serial of emulators:\n- BlueStacks 127.0.0.1:5555\n- BlueStacks4 Hyper-V use \"bluestacks4-hyperv\", \"bluestacks4-hyperv-2\" for multi instance, and so on\n- NoxPlayer 127.0.0.1:62001\n- NoxPlayer64bit 127.0.0.1:59865\n- MuMuPlayer 127.0.0.1:7555\n- MemuPlayer 127.0.0.1:21503\n- LDPlayer emulator-5554 or 127.0.0.1:5555\nIf you have multiple emulator instances, their won't use the defaults. Open console.bat and run `adb devices` to find them."
+      "help": "Default serial for select emulators:\n- BlueStacks 127.0.0.1:5555\n- BlueStacks4 Hyper-V use \"bluestacks4-hyperv\", \"bluestacks4-hyperv-2\" for multi instance, and so on\n- NoxPlayer 127.0.0.1:62001\n- NoxPlayer64bit 127.0.0.1:59865\n- MuMuPlayer 127.0.0.1:7555\n- MemuPlayer 127.0.0.1:21503\n- LDPlayer emulator-5554 or 127.0.0.1:5555\nIf there are multiple emulator instances running, the default is reserved for one of them and the others will use different serials to avoid conflicts\nOpen console.bat and run `adb devices` to find what they are"
     },
     "PackageName": {
       "name": "Package Name",
@@ -277,7 +277,7 @@
   },
   "Optimization": {
     "_info": {
-      "name": "Optimize Settings",
+      "name": "Optimization Settings",
       "help": ""
     },
     "CombatScreenshotInterval": {
@@ -285,12 +285,12 @@
       "help": "Frequency of screenshots in seconds taken during battle, can help reduce CPU"
     },
     "TaskHoardingDuration": {
-      "name": "Hoard tasks for X minute(s)",
-      "help": "Can reduce the frequency of operating AL"
+      "name": "Hoard Tasks For X Minute(s)",
+      "help": "By purposely not adding ready tasks to pending, allows for larger subsets to be built and run en masse at a later time\nCan reduce the frequency of operating AL"
     },
     "CloseGameDuringWait": {
       "name": "Close Game During Wait",
-      "help": "Close AL when nothing to do, can help reduce CPU"
+      "help": "Close AL when there are no pending tasks, can help reduce CPU"
     }
   },
   "DropRecord": {
@@ -577,7 +577,7 @@
     },
     "FleetOrder": {
       "name": "Fleet Roles",
-      "help": "Effective only for regular operations, non auto search",
+      "help": "Effective only for normal operations, non auto search",
       "fleet1_mob_fleet2_boss": "fleet1_mob_fleet2_boss",
       "fleet1_boss_fleet2_mob": "fleet1_boss_fleet2_mob",
       "fleet1_all_fleet2_standby": "fleet1_all_fleet2_standby",
@@ -585,7 +585,7 @@
     },
     "AutoSearchFleetOrder": {
       "name": "Fleet Roles in Auto Search",
-      "help": "Effective only for auto search, non regular operations",
+      "help": "Effective only for auto search, non normal operations",
       "fleet1_mob_fleet2_boss": "fleet1_mob_fleet2_boss",
       "fleet1_boss_fleet2_mob": "fleet1_boss_fleet2_mob",
       "fleet1_all_fleet2_standby": "fleet1_all_fleet2_standby",
@@ -800,7 +800,7 @@
   "GemsFarming": {
     "_info": {
       "name": "Gem Farm Settings",
-      "help": "Warning: This is not an efficient way to farm gems, not a high-yield way to farm coins either.\nPlayers who have recently started Azur Lane are easily superstitious about 0LB and low oil consumption, while being ignorant about character leveling.\nRunning this function will only make you feel fulfilled however in reality your account will not actually progress very much.\nOnly F2P players can obtain meaningful income through this function. the developers hope this task be treated rationally.\n\nFleet 1 is expected to consist of 1 0LB CV/CVL and 1 0LB Vanguard, Fleet 2 is expected to consist of support ships such as New Jersey or Shinano to provide external battle assistance.\nFor information about the drop mechanism/rate of urgent commissions, you can refer to https://bbs.nga.cn/read.php?tid=27134956 (in Chinese Simplified)"
+      "help": "Warning: This is not an efficient way to farm gems, not a high-yield way to farm coins either.\nPlayers who have recently started Azur Lane are easily superstitious about 0LB and low oil consumption, while being ignorant about character leveling.\nRunning this function will only make you feel fulfilled however in reality your account will not actually progress very much.\nOnly F2P players can obtain meaningful income through this function. the developers hope this task be treated rationally.\n\nFleet 1 is expected to consist of 1 0LB CV/CVL and 1 0LB Vanguard, Fleet 2 is expected to consist of support ships such as New Jersey or Shinano to provide external battle assistance.\nFor information about the drop mechanism/rate of urgent commissions, you can refer to <https://bbs.nga.cn/read.php?tid=27134956> (in Chinese Simplified)"
     },
     "FlagshipChange": {
       "name": "Enable Flagship Change",
@@ -883,7 +883,7 @@
     },
     "CustomFilter": {
       "name": "Custom Research Priority",
-      "help": "To use your own filter, set \"Preset Filter Select\" to \"custom\". All options have been defined at  https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_en"
+      "help": "To use your own filter, set \"Preset Filter Select\" to \"custom\". All options have been defined at  <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_en>"
     }
   },
   "Dorm": {
@@ -995,7 +995,7 @@
     },
     "Filter": {
       "name": "Item Filter",
-      "help": "All options have been defined at https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string"
+      "help": "All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>"
     }
   },
   "GuildShop": {
@@ -1009,7 +1009,7 @@
     },
     "Filter": {
       "name": "Item Filter",
-      "help": "All options have been defined at https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string\nHowever unlike other shops you cannot specify the exact item, you are limited to just category and grade\nThe select options below are used to substitute this incapability"
+      "help": "All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>\nHowever unlike other shops you cannot specify the exact item, you are limited to just category and grade\nThe select options below are used to substitute this incapability"
     },
     "BOX_T3": {
       "name": "Faction Preference BoxT3",
@@ -1096,7 +1096,7 @@
     },
     "PR2": {
       "name": "PR2 BP Preference",
-      "help": "GuildShop.PR2.help",
+      "help": "",
       "seattle": "seattle",
       "georgia": "georgia",
       "kitakaze": "kitakaze",
@@ -1118,7 +1118,7 @@
     },
     "Filter": {
       "name": "Item Filter",
-      "help": "All options have been defined at https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string"
+      "help": "All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>"
     }
   },
   "MeritShop": {
@@ -1132,7 +1132,7 @@
     },
     "Filter": {
       "name": "Item Filter",
-      "help": "All options have been defined at https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string"
+      "help": "All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>"
     }
   },
   "Shipyard": {
@@ -1150,7 +1150,7 @@
     },
     "BuyAmount": {
       "name": "Buy Amount",
-      "help": "The 1st and 2nd purchase everyday are free\nDiscounts are applied to the 3rd and onwards, gradually minimizing until full price\nExact discounts found at https://azurlane.koumakan.jp/Research#Strengthening"
+      "help": "The 1st and 2nd purchase everyday are free\nDiscounts are applied to the 3rd and onwards, gradually minimizing until full price\nExact discounts found at <https://azurlane.koumakan.jp/Research#Strengthening>"
     }
   },
   "Gacha": {
@@ -1481,27 +1481,27 @@
   "Daemon": {
     "_info": {
       "name": "Semi-auto Clicking",
-      "help": "Useful when attacking a stage haven't adapted by Alas. Can save tons of manual clicks\nAlas will click combat preparation, click combat drop, skip story, auto-retire, close popups. You only need to choose enemies."
+      "help": "Useful when attacking a stage that has not yet been adapted by Alas, can save on tons of manual clicks\nAlas will click combat preparation, click combat drop, skip story, auto-retire, and close popups\nYou only need to move your attacking fleet if movement is restricted and choose the enemies yourself"
     },
     "EnterMap": {
       "name": "Auto Click Stage Preparation",
-      "help": "Prepare your fleets before using this"
+      "help": "Prepare your fleets before running this tool if enabled"
     }
   },
   "OpsiDaemon": {
     "_info": {
-      "name": "Opsi Semi-auto Clicking",
-      "help": "Useful when attacking logger zones or Opsi story. Can save tons of manual clicks.\nAlas will click combat preparation, click combat drop, skip story, close popups. You only need to choose enemies and switch zones."
+      "name": "OpSi Semi-auto Clicking",
+      "help": "Useful when attacking logger zones or OpSi story, can save on tons of manual clicks\nAlas will click combat preparation, click combat drop, skip story, and close popups\nYou only need to choose the enemies and switch to different zones yourself"
     },
     "RepairShip": {
       "name": "Repair Ships When Nearing Port",
-      "help": "After you move fleet to port, Alas will repair your ships in port.\nWhen it's done, move your fleet outside of port in 30s to avoid repairing again"
+      "help": "Once a fleet is in range of a port, Alas will enter, repair your ships, then exit\nWhen it is done, please move the fleet away and out of range from the port within 30s, otherwise the actions will be repeated"
     }
   },
   "Benchmark": {
     "_info": {
       "name": "Performance Test",
-      "help": "Test which screenshot method and click method is the fastest. Speed is vary from emulators and PCs."
+      "help": "Test which screenshot method and click method combination is the fastest and best for you\nSpeed can vary on the emulator being used and your PC build"
     },
     "TestScreenshotMethod": {
       "name": "Test Screenshots Methods",
@@ -1514,12 +1514,12 @@
   },
   "AzurLaneUncensored": {
     "_info": {
-      "name": "[CN] Uncensored",
-      "help": "For CN only. Pushes AzurLaneUncensored files to emulator and restart game. Files will be download at first use."
+      "name": "[CN] Uncensored Patch",
+      "help": "Applicable to CN only\nAzurLaneUncensored files are downloaded if not present otherwise updated to the latest revision\nThese files are then pushed into the emulator and restarts AL afterwards to complete the patching process"
     },
     "Repository": {
       "name": "AzurLaneUncensored Repository",
-      "help": "No need to modify.\nGithub: https://github.com/LmeSzinc/AzurLaneUncensored\nCN mirror: https://gitee.com/LmeSzinc/AzurLaneUncensored"
+      "help": "Do not need to modify\nGithub: <https://github.com/LmeSzinc/AzurLaneUncensored>\nCN mirror: <https://gitee.com/LmeSzinc/AzurLaneUncensored>"
     }
   },
   "Gui": {
