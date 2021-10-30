@@ -70,13 +70,13 @@ footer {
 }
 
 .btn-scheduler-on {
-    border: 1px solid lightgray;
+    border: 1px solid lightgrey;
     border-radius: 0;
     margin: 0;
 }
 
 .btn-scheduler-off {
-    border: 1px solid lightgray;
+    border: 1px solid lightgrey;
     border-radius: 0;
     margin: 0;
     background-color: #4E4C97;
@@ -205,7 +205,7 @@ textarea {
     padding-right: .325rem;
     padding-top: 1rem;
     overflow-y: auto;
-    border-right: 1px solid lightgray;
+    border-right: 1px solid lightgrey;
 }
 
 *[style*="container-menu"] {
@@ -296,7 +296,7 @@ textarea {
     margin-top: .75rem;
     margin-bottom: .25rem;
     padding: 1rem;
-    border: 1px solid lightgray;
+    border: 1px solid lightgrey;
 }
 
 *[style*="container-overview-group"] {
@@ -304,7 +304,7 @@ textarea {
     font-weight: 500;
     margin: 0.3125rem;
     padding: 0.625rem;
-    border: 1px solid lightgray;
+    border: 1px solid lightgrey;
     overflow-y: auto;
 }
 
@@ -349,5 +349,5 @@ textarea {
     background-color: white;
     margin: 2rem;
     padding: 1rem 1rem 1rem 1rem;
-    border: 1px solid lightgray;
+    border: 1px solid lightgrey;
 }

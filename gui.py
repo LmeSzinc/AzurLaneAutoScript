@@ -508,6 +508,13 @@ class AlasGUI(Frame):
                     color="scheduler-on"
                 ),
             ], size="1fr auto").style("container-overview-args")
+            # Another version without setting button, box become clickable
+            # return put_column([
+            #     put_text(t(f'Task.{func.command}.name')).style("arg-title"),
+            #     put_text(str(func.next_run)).style("arg-help"),
+            # ], size="auto auto"
+            # ).style("container-overview-args"
+            # ).onclick(lambda: self.alas_set_group(func.command))
 
         no_task_style = "text-align:center; font-size: 0.875rem; color: darkgrey;"
 
@@ -663,6 +670,11 @@ class AlasGUI(Frame):
 
         self.menu.append(
             put_buttons([
+                {"label": t("Gui.MenuDevelop.HomePage"),
+                 "value": "HomePage", "color": "menu"}
+            ], onclick=[self.show]).style(f'--menu-HomePage--'),
+
+            put_buttons([
                 {"label": t("Gui.MenuDevelop.Translate"),
                  "value": "Translate", "color": "menu"}
             ], onclick=[self.dev_translate]).style(f'--menu-Translate--'),
@@ -676,7 +688,7 @@ class AlasGUI(Frame):
     def dev_translate(self) -> None:
         go_app('translate', new_window=True)
         lang.TRANSLATE_MODE = True
-        run_js("location.reload();")
+        self.show()
 
     # Aside UI route
 
@@ -751,32 +763,22 @@ class AlasGUI(Frame):
 
             put()
 
-    def run(self) -> None:
-        # setup gui
-        set_env(title="Alas", output_animation=False)
-        add_css(filepath_css('alas'))
-        if self.is_mobile:
-            add_css(filepath_css('alas-mobile'))
-
+    def show(self) -> None:
+        clear()
         self.main_area.show()
         self.set_aside()
         self.collapse_menu()
 
-        if lang.TRANSLATE_MODE:
-            lang.reload()
-
-            def _disable():
-                lang.TRANSLATE_MODE = False
-                run_js("location.reload();")
-
-            toast(_t("Gui.Toast.DisableTranslateMode"), duration=0, position='right', onclick=_disable)
+        def set_language(l):
+            lang.set_language(l)
+            self.show()
 
         # temporary buttons, there is no setting page now :(
         self.content.append(
             put_text("Select your language").style("text-align: center"),
             put_buttons(
                 ["zh-CN", "zh-TW", "en-US", "ja-JP"],
-                onclick=lambda s: lang.set_language(s, True)
+                onclick=lambda l: set_language(l)
             ).style("text-align: center")
         )
 
@@ -793,6 +795,24 @@ class AlasGUI(Frame):
             ## Join in translation
             Go `Develop` - `Translate`
             """, strip_indent=12)).style('welcome')))
+
+        if lang.TRANSLATE_MODE:
+            lang.reload()
+
+            def _disable():
+                lang.TRANSLATE_MODE = False
+                self.show()
+
+            toast(_t("Gui.Toast.DisableTranslateMode"), duration=0, position='right', onclick=_disable)
+
+    def run(self) -> None:
+        # setup gui
+        set_env(title="Alas", output_animation=False)
+        add_css(filepath_css('alas'))
+        if self.is_mobile:
+            add_css(filepath_css('alas-mobile'))
+
+        self.show()
 
         # detect config change
         _thread_wait_config_change = Thread(

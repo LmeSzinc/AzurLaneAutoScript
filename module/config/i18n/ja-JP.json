@@ -1557,6 +1557,7 @@
       "Log": "Gui.MenuAlas.Log"
     },
     "MenuDevelop": {
+      "HomePage": "Gui.MenuDevelop.HomePage",
       "Translate": "Gui.MenuDevelop.Translate"
     },
     "Overview": {

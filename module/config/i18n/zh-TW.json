@@ -417,9 +417,9 @@
       "event_20210325_cn": "Ashen Simulacrum Rerun",
       "event_20210225_tw": "北境序曲",
       "event_20210225_cn": "Khorovod of Dawns Rime",
-      "event_20210121_cn": "復刻神聖的悲喜劇",
+      "event_20210121_cn": "Empyreal Tragicomedy Rerun",
       "event_20201229_cn": "Inverted Orthant",
-      "event_20201126_cn": "假日航線",
+      "event_20201126_cn": "Vacation Lane",
       "event_20200312_cn": "斯圖爾特的硝煙",
       "event_20201029_cn": "Universe in Unison",
       "event_20201002_en": "Counterattack Within the Fjord",
@@ -430,7 +430,7 @@
       "event_20200603_en": "Prelude under the Moon Rerun",
       "event_20200603_cn": "峡湾间的反击",
       "event_20200521_en": "Iris of Light and Dark Rerun",
-      "event_20200521_cn": "穹頂下的聖詠曲",
+      "event_20200521_cn": "穹顶下的圣咏曲",
       "event_20200507_cn": "The Way Home in the Night",
       "event_20200423_cn": "Crimson Echoes Rerun",
       "event_20200326_cn": "Microlayer Medley",
@@ -1557,6 +1557,7 @@
       "Log": "執行日誌"
     },
     "MenuDevelop": {
+      "HomePage": "主頁",
       "Translate": "翻譯"
     },
     "Overview": {
