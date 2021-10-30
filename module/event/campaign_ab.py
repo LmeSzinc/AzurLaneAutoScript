@@ -26,24 +26,31 @@ class EventStage:
 
 class CampaignAB(CampaignRun):
     def run(self):
+        # Filter map files
         stages = [EventStage(file) for file in os.listdir(f'./campaign/{self.config.Campaign_Event}')]
         logger.attr('Stage', [str(stage) for stage in stages])
         logger.attr('StageFilter', self.config.EventAb_StageFilter)
         STAGE_FILTER.load(self.config.EventAb_StageFilter)
-        stages = STAGE_FILTER.apply(stages)
-        logger.attr('Filter sort', ' > '.join([str(stage) for stage in stages]))
+        stages = [str(stage) for stage in STAGE_FILTER.apply(stages)]
+        logger.attr('Filter sort', ' > '.join(stages))
 
         if not stages:
             logger.warning('No stage satisfy current filter')
             self.config.Scheduler_Enable = False
             self.config.task_stop()
 
-        logger.attr('LastStage', self.config.EventAb_LastStage)
+        # Start from last stage
+        logger.info(f'LastStage {self.config.EventAb_LastStage}, recorded at {self.config.Scheduler_NextRun}')
         if get_server_last_update(self.config.Scheduler_ServerUpdate) >= self.config.Scheduler_NextRun:
-            logger.info('Reset LastStage')
+            logger.info('LastStage outdated, reset')
             self.config.EventAb_LastStage = 0
-        if self.config.EventAb_LastStage in stages:
-            stages = stages[stages.index(self.config.EventAb_LastStage) + 1:]
+        else:
+            last = str(self.config.EventAb_LastStage).lower()
+            if last in stages:
+                stages = stages[stages.index(last) + 1:]
+                logger.attr('Filter sort', ' > '.join(stages))
+            else:
+                logger.info('Start from the beginning')
 
         # Run
         for stage in stages:
