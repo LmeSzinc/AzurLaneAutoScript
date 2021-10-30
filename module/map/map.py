@@ -364,8 +364,7 @@ class Map(Fleet):
 
         for grid in grids:
             logger.hr('Clear potential BOSS roadblocks')
-            fleet = 2 if self.config.FLEET_BOSS == 2 and self.config.FLEET_2 else 1
-            roadblocks = self.brute_find_roadblocks(grid, fleet=fleet)
+            roadblocks = self.brute_find_roadblocks(grid, fleet=self.fleet_boss_index)
             roadblocks = roadblocks.sort('weight', 'cost')
             logger.info('Grids: %s' % str(roadblocks))
             self.fleet_1.clear_chosen_enemy(roadblocks[0])
@@ -381,8 +380,7 @@ class Map(Fleet):
         boss = self.map.select(is_boss=True)
         if boss:
             logger.info('Brute clear BOSS')
-            fleet = 2 if self.config.FLEET_BOSS == 2 and self.config.FLEET_2 else 1
-            grids = self.brute_find_roadblocks(boss[0], fleet=fleet)
+            grids = self.brute_find_roadblocks(boss[0], fleet=self.fleet_boss_index)
             if grids:
                 if self.brute_fleet_meet():
                     return True
@@ -405,7 +403,7 @@ class Map(Fleet):
         """
         Method to clear roadblocks between fleets, using brute-force to find roadblocks.
         """
-        if not self.config.FLEET_2 or not self.fleet_2_location:
+        if self.fleet_boss_index != 2 or not self.fleet_2_location:
             return False
         grids = self.brute_find_roadblocks(self.map[self.fleet_2_location], fleet=1)
         if grids:
@@ -425,7 +423,7 @@ class Map(Fleet):
         if not self.config.MAP_HAS_SIREN and not self.config.MAP_HAS_FORTRESS:
             return False
 
-        if self.config.FLEET_2:
+        if self.fleet_boss_index == 2:
             kwargs['sort'] = ('weight', 'cost_2')
         grids = self.map.select(is_siren=True).add(self.map.select(is_fortress=True))
         grids = self.select_grids(grids, **kwargs)
@@ -454,7 +452,7 @@ class Map(Fleet):
         Returns:
             bool: if clear an enemy.
         """
-        if not self.config.FLEET_2:
+        if self.fleet_boss_index != 2:
             return False
         for grid in grids:
             if self.fleet_at(grid=grid, fleet=2):
@@ -480,7 +478,7 @@ class Map(Fleet):
         return clear
 
     def fleet_2_break_siren_caught(self):
-        if not self.config.FLEET_2:
+        if self.fleet_boss_index != 2:
             return False
         if not self.config.MAP_HAS_SIREN or not self.config.MAP_HAS_MOVABLE_ENEMY:
             return False
@@ -514,7 +512,7 @@ class Map(Fleet):
         Returns:
             bool: If pushed forward.
         """
-        if not self.config.FLEET_2:
+        if self.fleet_boss_index != 2:
             return False
 
         logger.info('Fleet_2 push forward')
@@ -548,7 +546,7 @@ class Map(Fleet):
         Returns:
             bool: If clear an enemy.
         """
-        if not self.config.FLEET_2:
+        if self.fleet_boss_index != 2:
             return False
 
         grids = self.brute_find_roadblocks(grid, fleet=2)
@@ -569,7 +567,7 @@ class Map(Fleet):
         Returns:
             bool: If clear an enemy.
         """
-        if not self.config.FLEET_2 or not self.config.MAP_HAS_MOVABLE_ENEMY:
+        if self.fleet_boss_index != 2 or not self.config.MAP_HAS_MOVABLE_ENEMY:
             return False
 
         for n in range(20):
