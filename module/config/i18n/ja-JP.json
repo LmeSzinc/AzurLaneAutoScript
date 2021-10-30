@@ -102,9 +102,13 @@
       "name": "Task.Reward.name",
       "help": "Task.Reward.help"
     },
-    "Shop": {
-      "name": "Task.Shop.name",
-      "help": "Task.Shop.help"
+    "ShopFrequent": {
+      "name": "Task.ShopFrequent.name",
+      "help": "Task.ShopFrequent.help"
+    },
+    "ShopOnce": {
+      "name": "Task.ShopOnce.name",
+      "help": "Task.ShopOnce.help"
     },
     "Shipyard": {
       "name": "Task.Shipyard.name",

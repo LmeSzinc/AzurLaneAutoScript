@@ -46,7 +46,7 @@ class RewardShop(GachaUI, ShopUI, GeneralShop, GuildShop, MedalShop, MeritShop):
                 continue
             break
 
-    def run(self):
+    def run_frequent(self):
         self.ui_goto_shop()
 
         if self._shop_visit('general'):
@@ -54,31 +54,32 @@ class RewardShop(GachaUI, ShopUI, GeneralShop, GuildShop, MedalShop, MeritShop):
             if self.shop_bottom_navbar_ensure(left=5):
                 self._shop_repeat(shop_type='general')
 
-        if self.config.Scheduler_NextRun.hour == get_server_last_update('00:00').hour:
-            if self._shop_visit('merit'):
-                logger.hr('Merit shop', level=1)
-                if self.shop_bottom_navbar_ensure(left=4):
-                    self._shop_repeat(shop_type='merit')
+        self.config.task_delay(server_update=True)
 
-            if self._shop_visit('guild'):
-                logger.hr('Guild shop', level=1)
-                if self.shop_bottom_navbar_ensure(left=1):
-                    self._shop_repeat(shop_type='guild')
+    def run_once(self):
+        self.ui_goto_shop()
 
-            if self._shop_visit('medal'):
-                logger.hr('Medal shop', level=1)
-                self.ui_goto_gacha()
-                if self.gacha_side_navbar_ensure(bottom=2):
-                    for _ in [1, 2]:
-                        if self.gacha_bottom_navbar_ensure(left=_, is_build=False):
-                            self.shop_buy(shop_type='medal',
-                                          selection=self.config.MedalShop_Filter)
-                        else:
-                            logger.warning('Failed to arrive at expected '
-                                           'build interface for medal exchanges, '
-                                           f'left={_}, try again next time')
-        else:
-            logger.info(f'Next run {self.config.Scheduler_NextRun} is not at 00:00 (server time), '
-                        f'skip merit, guild and medal shops')
+        if self._shop_visit('merit'):
+            logger.hr('Merit shop', level=1)
+            if self.shop_bottom_navbar_ensure(left=4):
+                self._shop_repeat(shop_type='merit')
+
+        if self._shop_visit('guild'):
+            logger.hr('Guild shop', level=1)
+            if self.shop_bottom_navbar_ensure(left=1):
+                self._shop_repeat(shop_type='guild')
+
+        if self._shop_visit('medal'):
+            logger.hr('Medal shop', level=1)
+            self.ui_goto_gacha()
+            if self.gacha_side_navbar_ensure(bottom=2):
+                for _ in [1, 2]:
+                    if self.gacha_bottom_navbar_ensure(left=_, is_build=False):
+                        self.shop_buy(shop_type='medal',
+                                      selection=self.config.MedalShop_Filter)
+                    else:
+                        logger.warning('Failed to arrive at expected '
+                                       'build interface for medal exchanges, '
+                                       f'left={_}, try again next time')
 
         self.config.task_delay(server_update=True)

@@ -102,9 +102,13 @@
       "name": "收穫",
       "help": ""
     },
-    "Shop": {
-      "name": "商店購買",
-      "help": ""
+    "ShopFrequent": {
+      "name": "Task.ShopFrequent.name",
+      "help": "Task.ShopFrequent.help"
+    },
+    "ShopOnce": {
+      "name": "Task.ShopOnce.name",
+      "help": "Task.ShopOnce.help"
     },
     "Shipyard": {
       "name": "開發船塢",

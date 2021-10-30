@@ -102,8 +102,12 @@
       "name": "Reward",
       "help": ""
     },
-    "Shop": {
-      "name": "Shop",
+    "ShopFrequent": {
+      "name": "ShopFrequent",
+      "help": ""
+    },
+    "ShopOnce": {
+      "name": "ShopOnce",
       "help": ""
     },
     "Shipyard": {

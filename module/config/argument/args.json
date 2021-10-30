@@ -3079,7 +3079,7 @@
       }
     }
   },
-  "Shop": {
+  "ShopFrequent": {
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
@@ -3091,7 +3091,7 @@
       },
       "Command": {
         "type": "disable",
-        "value": "Shop"
+        "value": "ShopFrequent"
       },
       "SuccessInterval": {
         "type": "disable",
@@ -3118,6 +3118,34 @@
       "Filter": {
         "type": "textarea",
         "value": "BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2\n> Cube\n> FoodT6 > FoodT5"
+      }
+    }
+  },
+  "ShopOnce": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "input",
+        "value": "2020-01-01 00:00:00"
+      },
+      "Command": {
+        "type": "disable",
+        "value": "ShopOnce"
+      },
+      "SuccessInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "FailureInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "ServerUpdate": {
+        "type": "disable",
+        "value": "00:00"
       }
     },
     "GuildShop": {
