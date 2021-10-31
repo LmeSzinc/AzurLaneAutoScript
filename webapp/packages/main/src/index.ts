@@ -110,8 +110,8 @@ const createWindow = async () => {
 
 
 // No DPI scaling
-app.commandLine.appendSwitch('high-dpi-support', '1');
-app.commandLine.appendSwitch('force-device-scale-factor', '1');
+// app.commandLine.appendSwitch('high-dpi-support', '1');
+// app.commandLine.appendSwitch('force-device-scale-factor', '1');
 
 function loadURL() {
   /**
