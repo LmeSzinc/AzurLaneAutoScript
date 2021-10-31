@@ -1,4 +1,4 @@
-import {app, BrowserWindow, ipcMain, globalShortcut} from 'electron';
+import {app, Menu, Tray, BrowserWindow, ipcMain, globalShortcut} from 'electron';
 import {URL} from 'url';
 import {PyShell} from '/@/pyshell';
 import {webuiArgs, webuiPath} from '/@/config';
@@ -69,7 +69,7 @@ const createWindow = async () => {
       mainWindow?.webContents.openDevTools();
     }
   });
-  
+
   mainWindow.on('focus', function () {
     // Dev tools
     globalShortcut.register('Ctrl+Shift+I', function () {
@@ -92,19 +92,49 @@ const createWindow = async () => {
   });
 
   // Minimize, maximize, close window.
+  ipcMain.on('window-tray', function () {
+    mainWindow?.hide();
+  });
   ipcMain.on('window-min', function () {
     mainWindow?.minimize();
   });
   ipcMain.on('window-max', function () {
-    if (mainWindow?.isMaximized()) {
-      mainWindow?.restore();
-    } else {
-      mainWindow?.maximize();
-    }
+    mainWindow?.isMaximized() ? mainWindow?.restore() : mainWindow?.maximize();
   });
   ipcMain.on('window-close', function () {
     alas.kill();
     setTimeout(() => mainWindow?.close(), 500); // Wait taskkill to finish
+  });
+
+  // Tray
+  const tray = new Tray(path.join(__dirname, 'icon.png'));
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: 'Show',
+      click: function () {
+        mainWindow?.show();
+      }
+    },
+    {
+      label: 'Hide',
+      click: function () {
+        mainWindow?.hide();
+      }
+    },
+    {
+      label: 'Exit',
+      click: function () {
+        app.quit();
+      }
+    }
+  ]);
+  tray.setToolTip('Alas');
+  tray.setContextMenu(contextMenu);
+  tray.on('click', () => {
+    mainWindow?.isVisible() ? mainWindow?.hide() : mainWindow?.show()
+  });
+  tray.on('right-click', () => {
+    tray.popUpContextMenu(contextMenu)
   });
 };
 

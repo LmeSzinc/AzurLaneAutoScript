@@ -2,6 +2,7 @@
   <div class="app-header">
     <div class="header-drag"></div>
     <div class="header-icon">
+      <ArrowDownOutlined class="icon" @click="trayWin"></ArrowDownOutlined>
       <MinusOutlined class="icon" @click="minimizeWin"></MinusOutlined>
       <BorderOutlined class="icon" @click="maximizeWin"></BorderOutlined>
       <CloseOutlined class="icon" @click="closeWin"></CloseOutlined>
@@ -11,18 +12,22 @@
 
 <script lang="ts">
   import {defineComponent} from 'vue';
-  import {BorderOutlined, CloseOutlined, MinusOutlined} from '@ant-design/icons-vue';
+  import {BorderOutlined, CloseOutlined, MinusOutlined, ArrowDownOutlined} from '@ant-design/icons-vue';
 
   const ipcRenderer = require('electron').ipcRenderer;
 
   export default defineComponent({
     name: 'AppHeader',
     components: {
+      ArrowDownOutlined,
       MinusOutlined,
       BorderOutlined,
       CloseOutlined,
     },
     methods: {
+      trayWin() {
+        ipcRenderer.send('window-tray');
+      },
       minimizeWin() {
         ipcRenderer.send('window-min');
       },
