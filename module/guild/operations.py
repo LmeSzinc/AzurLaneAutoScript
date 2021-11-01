@@ -24,7 +24,6 @@ class GuildOperations(GuildBase):
                 self.device.screenshot()
 
             if self.appear(GUILD_OPERATIONS_JOIN, interval=3):
-                confirm_timer.reset()
                 if self.image_color_count(GUILD_OPERATIONS_MONTHLY_COUNT, color=(255, 93, 90), threshold=221, count=20):
                     logger.info('Unable to join operation, no more monthly attempts left')
                     self.device.click(GUILD_OPERATIONS_CLICK_SAFE_AREA)
@@ -39,6 +38,10 @@ class GuildOperations(GuildBase):
                         logger.info('Refrain from joining operation, current progress exceeds '
                                     f'threshold ({threshold:.2f})')
                         self.device.click(GUILD_OPERATIONS_CLICK_SAFE_AREA)
+                confirm_timer.reset()
+                continue
+            if self.handle_popup_confirm('JOIN_OPERATION'):
+                confirm_timer.reset()
                 continue
             if self.handle_popup_single('FLEET_UPDATED'):
                 logger.info('Fleet composition altered, may still be dispatch-able. However '
