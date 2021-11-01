@@ -22,7 +22,7 @@ class MapOrderHandler(MapOperation, ActionPointHandler, EnemySearchingHandler, Z
             out: is_in_map_order
         """
         self.ui_click(ORDER_ENTER, appear_button=self.is_in_map, check_button=self.is_in_map_order,
-                      skip_first_screenshot=True)
+                      skip_first_screenshot=True, retry_wait=2)
 
     def order_quit(self):
         """
