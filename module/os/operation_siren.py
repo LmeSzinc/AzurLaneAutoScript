@@ -320,8 +320,11 @@ class OperationSiren(Reward, OSMap):
                 continue
 
             logger.hr(f'OS explore {zone}', level=1)
-            self.os_order_execute(recon_scan=True, submarine_call=False)
-            self.config.task_delay(minute=30)
+            if self.config.OpsiExplore_SpecialRadar:
+                self.os_order_execute(recon_scan=False, submarine_call=False)
+            else:
+                self.os_order_execute(recon_scan=True, submarine_call=False)
+                self.config.task_delay(minute=30)
             self.run_auto_search()
             self.config.OpsiExplore_LastZone = zone
             logger.info(f'Zone cleared: {self.name_to_zone(zone)}')

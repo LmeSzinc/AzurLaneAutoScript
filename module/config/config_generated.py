@@ -264,6 +264,7 @@ class GeneratedConfig:
     OpsiGeneral_AkashiShopFilter = 'ActionPoint > PurpleCoins'
 
     # Group `OpsiExplore`
+    OpsiExplore_SpecialRadar = False
     OpsiExplore_LastZone = 0
 
     # Group `OpsiDaily`

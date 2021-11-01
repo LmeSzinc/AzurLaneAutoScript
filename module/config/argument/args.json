@@ -5394,6 +5394,10 @@
       }
     },
     "OpsiExplore": {
+      "SpecialRadar": {
+        "type": "checkbox",
+        "value": false
+      },
       "LastZone": {
         "type": "input",
         "value": 0

@@ -1177,6 +1177,7 @@
       "ServerUpdate": "00:00"
     },
     "OpsiExplore": {
+      "SpecialRadar": false,
       "LastZone": 0
     }
   },
