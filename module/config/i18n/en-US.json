@@ -1423,7 +1423,7 @@
     },
     "SpecialRadar": {
       "name": "SpecialRadar Bought",
-      "help": "Alas explore Opsi without SpecialRadar Naturally\nBut if bought, turn this checkbox on\nIt makes Alas explore zones without waiting for 30 minutes, which is more efficient"
+      "help": "Enable if you have purchased the special radar\nAllows Alas to explore OpSi continously without having to wait 30 minutes between each zone clear\nFor those with oil surplus and would like to complete this task efficiently"
     },
     "LastZone": {
       "name": "Last Zone Completed",
