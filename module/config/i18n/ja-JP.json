@@ -1421,9 +1421,9 @@
       "name": "OpsiExplore._info.name",
       "help": "OpsiExplore._info.help"
     },
-    "HasVoyageRecorder": {
-      "name": "OpsiExplore.HasVoyageRecorder.name",
-      "help": "OpsiExplore.HasVoyageRecorder.help"
+    "SpecialRadar": {
+      "name": "OpsiExplore.SpecialRadar.name",
+      "help": "OpsiExplore.SpecialRadar.help"
     },
     "LastZone": {
       "name": "OpsiExplore.LastZone.name",

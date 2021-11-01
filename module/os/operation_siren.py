@@ -320,7 +320,7 @@ class OperationSiren(Reward, OSMap):
                 continue
 
             logger.hr(f'OS explore {zone}', level=1)
-            if self.config.OpsiExplore_HasVoyageRecorder:
+            if self.config.OpsiExplore_SpecialRadar:
                 self.os_order_execute(recon_scan=False, submarine_call=False)
             else:
                 self.os_order_execute(recon_scan=True, submarine_call=False)

@@ -5394,7 +5394,7 @@
       }
     },
     "OpsiExplore": {
-      "HasVoyageRecorder": {
+      "SpecialRadar": {
         "type": "checkbox",
         "value": false
       },

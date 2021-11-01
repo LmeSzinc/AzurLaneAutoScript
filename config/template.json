@@ -1177,7 +1177,7 @@
       "ServerUpdate": "00:00"
     },
     "OpsiExplore": {
-      "HasVoyageRecorder": false,
+      "SpecialRadar": false,
       "LastZone": 0
     }
   },
