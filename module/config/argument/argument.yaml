@@ -390,6 +390,7 @@ OpsiGeneral:
   AkashiShopFilter: |-
     ActionPoint > PurpleCoins
 OpsiExplore:
+  HasVoyageRecorder: false
   LastZone: 0
 OpsiDaily:
   BuySupply: true
