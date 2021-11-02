@@ -142,6 +142,10 @@
       "name": "EventAB",
       "help": ""
     },
+    "EventCd": {
+      "name": "EventCd",
+      "help": ""
+    },
     "EventSp": {
       "name": "EventSP",
       "help": ""
@@ -1363,6 +1367,20 @@
     },
     "LastStage": {
       "name": "Last EventAB Stage",
+      "help": "Automatically updated, skips completed levels in the filter, and resets at server reset time (00:00)"
+    }
+  },
+  "EventCd": {
+    "_info": {
+      "name": "EventCD Settings",
+      "help": ""
+    },
+    "StageFilter": {
+      "name": "EventCD Stage Filter",
+      "help": ""
+    },
+    "LastStage": {
+      "name": "Last EventCD Stage",
       "help": "Automatically updated, skips completed levels in the filter, and resets at server reset time (00:00)"
     }
   },
