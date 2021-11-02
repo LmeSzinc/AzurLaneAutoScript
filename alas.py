@@ -181,8 +181,8 @@ class AzurLaneAutoScript:
         CampaignAB(config=self.config, device=self.device).run()
 
     def event_cd(self):
-        from module.event.campaign_ab import CampaignAB
-        CampaignAB(config=self.config, device=self.device).run()
+        from module.event.campaign_cd import CampaignCD
+        CampaignCD(config=self.config, device=self.device).run()
 
     def event_sp(self):
         from module.event.campaign_sp import CampaignSP
