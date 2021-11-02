@@ -142,6 +142,10 @@
       "name": "活動每日AB圖",
       "help": ""
     },
+    "EventCd": {
+      "name": "活動每日CD圖",
+      "help": ""
+    },
     "EventSp": {
       "name": "活動每日SP圖",
       "help": ""
@@ -1355,6 +1359,20 @@
   "EventAb": {
     "_info": {
       "name": "活動每日AB圖",
+      "help": ""
+    },
+    "StageFilter": {
+      "name": "活動每日過濾器",
+      "help": "按活動過濾器順序出擊"
+    },
+    "LastStage": {
+      "name": "上一個完成的地圖",
+      "help": "自動更新的數值，將跳過過濾器中已完成的地圖，過0點重置"
+    }
+  },
+  "EventCd": {
+    "_info": {
+      "name": "活動每日CD圖",
       "help": ""
     },
     "StageFilter": {

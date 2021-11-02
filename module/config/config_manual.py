@@ -10,7 +10,7 @@ class ManualConfig:
     > Gacha > ShopFrequent > ShopOnce > Shipyard > DataKey
     > OpsiExplore > OpsiObscure
     > Exercise > Daily > Hard > OpsiAshAssist
-    > Sos > EventSp > EventAb > RaidDaily > WarArchives
+    > Sos > EventSp > EventAb > EventCd > RaidDaily > WarArchives
     > OpsiDaily > OpsiMeowfficerFarming
     > Event > Raid > Main
     > C124LargeLeveling > C122MediumLeveling > C11AffinityFarming > C72MysteryFarming > GemsFarming

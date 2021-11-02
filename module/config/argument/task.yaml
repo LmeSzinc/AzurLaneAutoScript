@@ -151,6 +151,15 @@ EventAb:
   - Submarine
   - Emotion
   - HpControl
+EventCd:
+  - Scheduler
+  - EventCd
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
 EventSp:
   - Scheduler
   - Campaign
