@@ -1,3 +1,4 @@
+import re
 import os
 import subprocess
 
@@ -25,8 +26,10 @@ class Connection:
         logger.hr('Device')
         self.config = config
         self.serial = str(self.config.Emulator_Serial)
-        if "hyperv" in self.serial:
-            self.serial = self.find_bluestacks_hyperv(self.serial)
+        if "bluestacks4-hyperv" in self.serial:
+            self.serial = self.find_bluestacks4_hyperv(self.serial)
+        if "bluestacks5-hyperv" in self.serial:
+            self.serial = self.find_bluestacks5_hyperv(self.serial)
 
         self.device = self.connect(self.serial)
         # Set from 3min to 7days
@@ -35,59 +38,74 @@ class Connection:
         #     self._ascreencap_init()
 
     @staticmethod
-    def find_bluestacks_hyperv(serial):
+    def find_bluestacks4_hyperv(serial):
         """
         Find dynamic serial of Bluestacks4 Hyper-v Beta.
-
         Args:
             serial (str): 'bluestacks4-hyperv', 'bluestacks4-hyperv-2' for multi instance, and so on.
-
         Returns:
             str: 127.0.0.1:{port}
         """
+        logger.info("Use Bluestacks4 Hyper-v Beta")
+        if serial == "bluestacks4-hyperv":
+            folder_name = "Android"
+        else:
+            folder_name = f"Android_{serial[19:]}"
+
         logger.info("Reading Realtime adb port")
         reg_root = ConnectRegistry(None, HKEY_LOCAL_MACHINE)
-
-        if serial=="bluestacks5-hyperv":
-            logger.info(f"Device: {serial}")
-            sub_dir = f"SOFTWARE\\BlueStacks_nxt"
-            target= "UserDefinedDir"
-
-        elif serial == "bluestacks4-hyperv":
-            logger.info(f"Device: {serial}")
-            folder_name = "Android"
-            sub_dir=f"SOFTWARE\\BlueStacks_bgp64_hyperv\\Guests\\{folder_name}\\Config"
-            target = "BstAdbPort"
-            
-        else:
-            logger.info(f"Device: {serial}")
-            folder_name = f"Android_{serial[19:]}"
-            sub_dir = f"SOFTWARE\\BlueStacks_bgp64_hyperv\\Guests\\{folder_name}\\Config"
-            target= "BstAdbPort"
-
+        sub_dir = f"SOFTWARE\\BlueStacks_bgp64_hyperv\\Guests\\{folder_name}\\Config"
         bs_keys = OpenKey(reg_root, sub_dir)
         bs_keys_count = QueryInfoKey(bs_keys)[1]
         for i in range(bs_keys_count):
             key_name, key_value, key_type = EnumValue(bs_keys, i)
-            if key_name == target :
-                if serial =="bluestacks5-hyperv":
-                    config = f"{key_value}\\bluestacks.conf"
-                    import re
-                    with open(config, 'r', encoding='utf-8') as f:
-                        data = f.readlines()
-                        for conf in data:
-                            if "status.adb_port" in conf:
-                                str_pat = re.compile(r'\"(.*)\"')
-                                logger.info(f"New adb port: {str_pat.findall(conf)[0]}")
-                                serial = f"127.0.0.1:{str_pat.findall(conf)[0]}"
-                else:
-                    logger.info(f"New adb port: {key_value}")
-                    serial = f"127.0.0.1:{key_value}"
+            if key_name == "BstAdbPort":
+                logger.info(f"New adb port: {key_value}")
+                serial = f"127.0.0.1:{key_value}"
                 break
 
         CloseKey(bs_keys)
         CloseKey(reg_root)
+        return serial
 
+
+    @staticmethod
+    def find_bluestacks5_hyperv(serial):
+        """
+        Find dynamic serial of Bluestacks5 Hyper-v.
+        Args:
+            serial (str): 'bluestacks5-hyperv', 'bluestacks5-hyperv-1' for multi instance, and so on.
+        Returns:
+            str: 127.0.0.1:{port}
+        """
+        logger.info("Use Bluestacks5 Hyper-v")
+        logger.info("Reading Realtime adb port")
+
+        if serial == "bluestacks5-hyperv":
+            parameter_name = "bst.instance.Nougat64.status.adb_port"
+        else:
+            parameter_name = f"bst.instance.Nougat64_{serial[19:]}.status.adb_port"
+
+        reg_root = ConnectRegistry(None, HKEY_LOCAL_MACHINE)
+        sub_dir = f"SOFTWARE\\BlueStacks_nxt"
+        bs_keys = OpenKey(reg_root, sub_dir)
+        bs_keys_count = QueryInfoKey(bs_keys)[1]
+        for i in range(bs_keys_count):
+            key_name, key_value, key_type = EnumValue(bs_keys, i)
+            if key_name == "UserDefinedDir":
+                logger.info(f"Configuration file directory: {key_value}")
+                with open(f"{key_value}\\bluestacks.conf", 'r', encoding='utf-8') as f:
+                    content = f.read()
+                    port = re.findall(rf'{parameter_name}="(.*?)"\n', content, re.S)
+                    if len(port) > 0:
+                        logger.info(f"Match to dynamic port: {port[0]}")
+                        serial = f"127.0.0.1:{port[0]}"
+                    else:
+                        logger.warning(f"Did not match the result: {serial}.")
+                break
+
+        CloseKey(bs_keys)
+        CloseKey(reg_root)
         return serial
 
     @property
