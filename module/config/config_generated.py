@@ -249,6 +249,10 @@ class GeneratedConfig:
     EventAb_StageFilter = 'A1 > A2 > A3 > B1 > B2 > B3'
     EventAb_LastStage = 0
 
+    # Group `EventCd`
+    EventCd_StageFilter = 'C1 > C2 > C3 > D1 > D2 > D3'
+    EventCd_LastStage = 0
+
     # Group `RaidDaily`
     RaidDaily_StageFilter = 'hard > normal > easy'
 

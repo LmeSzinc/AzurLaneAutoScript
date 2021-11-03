@@ -142,6 +142,10 @@
       "name": "Task.EventAb.name",
       "help": "Task.EventAb.help"
     },
+    "EventCd": {
+      "name": "Task.EventCd.name",
+      "help": "Task.EventCd.help"
+    },
     "EventSp": {
       "name": "Task.EventSp.name",
       "help": "Task.EventSp.help"
@@ -1364,6 +1368,20 @@
     "LastStage": {
       "name": "EventAb.LastStage.name",
       "help": "EventAb.LastStage.help"
+    }
+  },
+  "EventCd": {
+    "_info": {
+      "name": "EventCd._info.name",
+      "help": "EventCd._info.help"
+    },
+    "StageFilter": {
+      "name": "EventCd.StageFilter.name",
+      "help": "EventCd.StageFilter.help"
+    },
+    "LastStage": {
+      "name": "EventCd.LastStage.name",
+      "help": "EventCd.LastStage.help"
     }
   },
   "RaidDaily": {
