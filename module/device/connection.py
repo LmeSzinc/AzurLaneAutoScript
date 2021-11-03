@@ -25,7 +25,7 @@ class Connection:
         logger.hr('Device')
         self.config = config
         self.serial = str(self.config.Emulator_Serial)
-        if "bluestacks4-hyperv" in self.serial:
+        if "hyperv" in self.serial:
             self.serial = self.find_bluestacks_hyperv(self.serial)
 
         self.device = self.connect(self.serial)
@@ -45,26 +45,49 @@ class Connection:
         Returns:
             str: 127.0.0.1:{port}
         """
-        logger.info("Use Bluestacks4 Hyper-v Beta")
-        if serial == "bluestacks4-hyperv":
-            folder_name = "Android"
-        else:
-            folder_name = f"Android_{serial[19:]}"
-
         logger.info("Reading Realtime adb port")
         reg_root = ConnectRegistry(None, HKEY_LOCAL_MACHINE)
-        sub_dir = f"SOFTWARE\\BlueStacks_bgp64_hyperv\\Guests\\{folder_name}\\Config"
+
+        if serial=="bluestacks5-hyperv":
+            logger.info(f"Device: {serial}")
+            sub_dir = f"SOFTWARE\\BlueStacks_nxt"
+            target= "UserDefinedDir"
+
+        elif serial == "bluestacks4-hyperv":
+            logger.info(f"Device: {serial}")
+            folder_name = "Android"
+            sub_dir=f"SOFTWARE\\BlueStacks_bgp64_hyperv\\Guests\\{folder_name}\\Config"
+            target = "BstAdbPort"
+            
+        else:
+            logger.info(f"Device: {serial}")
+            folder_name = f"Android_{serial[19:]}"
+            sub_dir = f"SOFTWARE\\BlueStacks_bgp64_hyperv\\Guests\\{folder_name}\\Config"
+            target= "BstAdbPort"
+
         bs_keys = OpenKey(reg_root, sub_dir)
         bs_keys_count = QueryInfoKey(bs_keys)[1]
         for i in range(bs_keys_count):
             key_name, key_value, key_type = EnumValue(bs_keys, i)
-            if key_name == "BstAdbPort":
-                logger.info(f"New adb port: {key_value}")
-                serial = f"127.0.0.1:{key_value}"
+            if key_name == target :
+                if serial =="bluestacks5-hyperv":
+                    config = f"{key_value}\\bluestacks.conf"
+                    import re
+                    with open(config, 'r', encoding='utf-8') as f:
+                        data = f.readlines()
+                        for conf in data:
+                            if "status.adb_port" in conf:
+                                str_pat = re.compile(r'\"(.*)\"')
+                                logger.info(f"New adb port: {str_pat.findall(conf)[0]}")
+                                serial = f"127.0.0.1:{str_pat.findall(conf)[0]}"
+                else:
+                    logger.info(f"New adb port: {key_value}")
+                    serial = f"127.0.0.1:{key_value}"
                 break
 
         CloseKey(bs_keys)
         CloseKey(reg_root)
+
         return serial
 
     @property
