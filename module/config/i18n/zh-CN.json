@@ -142,6 +142,10 @@
       "name": "活动每日AB图",
       "help": ""
     },
+    "EventCd": {
+      "name": "活动每日CD图",
+      "help": ""
+    },
     "EventSp": {
       "name": "活动每日SP图",
       "help": ""
@@ -1355,6 +1359,20 @@
   "EventAb": {
     "_info": {
       "name": "活动每日AB图",
+      "help": ""
+    },
+    "StageFilter": {
+      "name": "活动每日过滤器",
+      "help": "按过滤器顺序出击"
+    },
+    "LastStage": {
+      "name": "上一个完成的关卡",
+      "help": "自动更新的数值，将跳过过滤器中已完成的关卡，过0点重置"
+    }
+  },
+  "EventCd": {
+    "_info": {
+      "name": "活动每日CD图",
       "help": ""
     },
     "StageFilter": {
