@@ -84,6 +84,7 @@ class LoginHandler(Combat):
         """
         for _ in range(3):
             self.device.stuck_record_clear()
+            self.device.click_record_clear()
             try:
                 self._handle_app_login()
                 return True
