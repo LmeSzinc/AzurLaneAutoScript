@@ -155,11 +155,14 @@ class Combat(Combat_, MapEventHandler):
 
         logger.info('Auto Search combat execute')
         self.submarine_call_reset()
+        submarine_mode = 'do_not_use'
+        if self.config.Submarine_Fleet:
+            submarine_mode = self.config.Submarine_Mode
 
         while 1:
             self.device.screenshot()
 
-            if self.handle_submarine_call():
+            if self.handle_submarine_call(submarine_mode):
                 continue
             if self.handle_os_auto_search_map_option():
                 continue
