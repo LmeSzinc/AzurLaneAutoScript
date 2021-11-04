@@ -78,15 +78,13 @@ class Connection:
         Returns:
             str: 127.0.0.1:{port}
         """
-        logger.info("Use Bluestacks5 Hyper-v Beta")
+        logger.info("Use Bluestacks5 Hyper-v")
         logger.info("Reading Realtime adb port")
 
         if serial == "bluestacks5-hyperv":
             parameter_name = "bst.instance.Nougat64.status.adb_port"
         else:
             parameter_name = f"bst.instance.Nougat64_{serial[19:]}.status.adb_port"
-
-        logger.info(instance_name)
 
         reg_root = ConnectRegistry(None, HKEY_LOCAL_MACHINE)
         sub_dir = f"SOFTWARE\\BlueStacks_nxt"
