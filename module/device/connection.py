@@ -74,12 +74,20 @@ class Connection:
         """
         Find dynamic serial of Bluestacks5 Hyper-v.
         Args:
-            serial (str): 'bluestacks5-hyperv', 'bluestacks5-hyperv-2' for multi instance, and so on.
+            serial (str): 'bluestacks5-hyperv', 'bluestacks5-hyperv-1' for multi instance, and so on.
         Returns:
             str: 127.0.0.1:{port}
         """
         logger.info("Use Bluestacks5 Hyper-v Beta")
         logger.info("Reading Realtime adb port")
+
+        if serial == "bluestacks5-hyperv":
+            parameter_name = "bst.instance.Nougat64.status.adb_port"
+        else:
+            parameter_name = f"bst.instance.Nougat64_{serial[19:]}.status.adb_port"
+
+        logger.info(instance_name)
+
         reg_root = ConnectRegistry(None, HKEY_LOCAL_MACHINE)
         sub_dir = f"SOFTWARE\\BlueStacks_nxt"
         bs_keys = OpenKey(reg_root, sub_dir)
@@ -90,12 +98,12 @@ class Connection:
                 logger.info(f"Configuration file directory: {key_value}")
                 with open(f"{key_value}\\bluestacks.conf", 'r', encoding='utf-8') as f:
                     content = f.read()
-                    port = re.findall(r'bst.instance.Nougat64.status.adb_port="(.*?)"\n', content, re.S)
+                    port = re.findall(rf'{parameter_name}="(.*?)"\n', content, re.S)
                     if len(port) > 0:
                         logger.info(f"Match to dynamic port: {port[0]}")
                         serial = f"127.0.0.1:{port[0]}"
                     else:
-                        logger.info(f"Did not match the result!")
+                        logger.warning(f"Did not match the result: {serial}.")
                 break
 
         CloseKey(bs_keys)
