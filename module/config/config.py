@@ -81,6 +81,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
 
     def load(self):
         self.data = self.read_file(self.config_name)
+        ConfigTypeChecker.check(self.data)
 
         for path, value in self.modified.items():
             deep_set(self.data, keys=path, value=value)
@@ -489,3 +490,32 @@ class MultiSetWrapper:
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.main.update()
         self.main.auto_update = True
+
+
+class ConfigTypeChecker:
+    checkers = [
+        (['Scheduler', 'NextRun'], datetime),
+        (['Emotion', 'Fleet1Record'], datetime),
+        (['Emotion', 'Fleet2Record'], datetime),
+        (['Exercise', 'OpponentRefreshRecord'], datetime),
+    ]
+
+    @classmethod
+    def check(cls, data):
+        """
+        Args:
+            data (dict): User config.
+
+        Raises:
+            RequestHumanTakeover: If there's invalid setting.
+        """
+        for func, func_data in data.items():
+            for path, typ in cls.checkers:
+                value = deep_get(func_data, keys=path, default=None)
+                if value is None:
+                    continue
+                if not isinstance(value, typ):
+                    logger.critical(f'Task `{func}` has an invalid setting {".".join(path)}="{str(value)}". '
+                                    f'Current type: {type_to_str(value)}, expected type: {type_to_str(typ)}')
+                    logger.critical('Please check your settings')
+                    raise RequestHumanTakeover
