@@ -352,17 +352,11 @@ class OperationSiren(Reward, OSMap):
         self.os_order_execute(recon_scan=True, submarine_call=self.config.OpsiObscure_CallSubmarine)
 
         # Delay next run 30min or 60min.
-        if self.config.OpsiObscure_CallSubmarine:
-            delta = 60
-            backup_submarine = self.config.temporary(Submarine_Fleet=1, Submarine_Mode='every_combat')
-        else:
-            delta = 30
-            backup_submarine = None
+        delta = 60 if self.config.OpsiObscure_CallSubmarine else 30
         if not self.config.OpsiObscure_ForceRun:
             self.config.task_delay(minute=delta)
 
         self.run_auto_search()
-        backup_submarine.recover() if backup_submarine is not None else None
         self.map_exit()
         self.handle_fleet_repair(revert=False)
 

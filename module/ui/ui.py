@@ -292,9 +292,6 @@ class UI(InfoHandler):
         if self.appear(PLAYER_CHECK, offset=(30, 30), interval=3):
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
                 return True
-            if self.appear(BACK_ARROW, offset=(20, 20)):
-                self.ui_back(page_main.check_button)
-                return True
 
         # Story
         if self.handle_story_skip():

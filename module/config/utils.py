@@ -439,19 +439,3 @@ def to_list(text, length=1):
         return [int(text)] * length
     out = [int(letter.strip()) for letter in text.split(',')]
     return out
-
-
-def type_to_str(typ):
-    """
-    Convert any types or any objects to a string。
-    Remove <> to prevent them from being parsed as HTML tags.
-
-    Args:
-        typ:
-
-    Returns:
-        str: Such as `int`, 'datetime.datetime'.
-    """
-    if not isinstance(typ, type):
-        typ = type(typ)
-    return str(typ).strip("<class '>").replace('<', '_').replace('>', '_')

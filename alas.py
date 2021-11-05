@@ -9,7 +9,7 @@ from cached_property import cached_property
 import module.config.server as server
 from module.config.config import AzurLaneConfig, TaskEnd
 from module.config.config_updater import ConfigUpdater
-from module.config.utils import deep_get, deep_set
+from module.config.utils import deep_get
 from module.exception import *
 from module.logger import logger
 
@@ -26,9 +26,6 @@ class AzurLaneAutoScript:
             # Set server before loading any buttons.
             server.server = deep_get(config.data, keys='Alas.Emulator.Server', default='cn')
             return config
-        except RequestHumanTakeover:
-            logger.critical('Request human takeover')
-            exit(1)
         except Exception as e:
             logger.exception(e)
             exit(1)
@@ -253,40 +250,23 @@ class AzurLaneAutoScript:
     def loop(self):
         logger.set_file_logger(self.config_name)
         logger.info(f'Start scheduler loop: {self.config_name}')
-        is_first = True
-        failure_record = {}
 
+        is_first = True
         while 1:
-            # Skip first restart
             if is_first and self.config.task == 'Restart':
                 logger.info('Skip task `Restart` at scheduler start')
                 self.config.task_delay(server_update=True)
                 del self.__dict__['config']
 
-            # Run
-            task = self.config.task
-            logger.info(f'Scheduler: Start task `{task}`')
+            logger.info(f'Scheduler: Start task `{self.config.task}`')
             self.device.stuck_record_clear()
-            self.device.click_record_clear()
             self.device.screenshot()
-            logger.hr(task, level=0)
-            success = self.run(inflection.underscore(task))
-            logger.info(f'Scheduler: End task `{task}`')
+            logger.hr(self.config.task, level=0)
+            success = self.run(inflection.underscore(self.config.task))
+
+            logger.info(f'Scheduler: End task `{self.config.task}`')
             del self.__dict__['config']
             is_first = False
-
-            # Check failures
-            failed = deep_get(failure_record, keys=task, default=0)
-            failed = 0 if success else failed + 1
-            deep_set(failure_record, keys=task, value=failed)
-            if failed >= 3:
-                logger.critical(f"Task `{task}` failed 3 or more times.")
-                logger.critical("Possible reason: You haven't used it correctly. "
-                                "Please read the help text of the options.")
-                logger.critical("Possible reason: There is a problem with this task. "
-                                "Please contact developers or try to fix it yourself.")
-                logger.critical('Request human takeover')
-                exit(1)
 
             if success:
                 continue

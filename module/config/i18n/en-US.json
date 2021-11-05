@@ -143,7 +143,7 @@
       "help": ""
     },
     "EventCd": {
-      "name": "EventCD",
+      "name": "EventCd",
       "help": ""
     },
     "EventSp": {
@@ -1501,7 +1501,7 @@
     },
     "TargetZone": {
       "name": "Target Zone ID",
-      "help": "Supports either Zone ID or Name\nIf specified, Alas will loop on this same zone after each clear\nUse default value 0 or clear the field to remove the specification\nZone information can be acquired from <./module/os/map_data.py>"
+      "help": "Support zone ID and zone name. After specifying the sea area, it will circulate in the sea area\nFill in the default value of 0, or delete the value to cancel the specify"
     }
   },
   "Daemon": {

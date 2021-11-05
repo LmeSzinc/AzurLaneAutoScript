@@ -131,9 +131,6 @@ class AutoSearchCombat(MapOperation, Combat):
 
         logger.info('Auto Search combat execute')
         self.submarine_call_reset()
-        submarine_mode = 'do_not_use'
-        if self.config.Submarine_Fleet:
-            submarine_mode = self.config.Submarine_Mode
         self.combat_auto_reset()
         self.combat_manual_reset()
         if emotion_reduce:
@@ -143,7 +140,7 @@ class AutoSearchCombat(MapOperation, Combat):
         while 1:
             self.device.screenshot()
 
-            if self.handle_submarine_call(submarine_mode):
+            if self.handle_submarine_call():
                 continue
             if self.handle_combat_auto(auto):
                 continue
