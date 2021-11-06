@@ -618,6 +618,12 @@
       "do_not_use": "不使用",
       "hunt_only": "僅狩獵",
       "every_combat": "每戰出擊"
+    },
+    "AutoSearchMode": {
+      "name": "潛艇自律尋敵方案",
+      "help": "自律尋敵下生效",
+      "sub_standby": "待機",
+      "sub_auto_call": "自動出擊"
     }
   },
   "Emotion": {

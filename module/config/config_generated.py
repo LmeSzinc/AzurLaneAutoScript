@@ -88,6 +88,7 @@ class GeneratedConfig:
     # Group `Submarine`
     Submarine_Fleet = 0  # 0, 1, 2
     Submarine_Mode = 'do_not_use'  # do_not_use, hunt_only, every_combat
+    Submarine_AutoSearchMode = 'sub_standby'  # sub_standby, sub_auto_call
 
     # Group `Emotion`
     Emotion_CalculateEmotion = True

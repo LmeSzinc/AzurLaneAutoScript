@@ -618,6 +618,12 @@
       "do_not_use": "do_not_use",
       "hunt_only": "hunt_only",
       "every_combat": "every_combat"
+    },
+    "AutoSearchMode": {
+      "name": "Submarine.AutoSearchMode.name",
+      "help": "Submarine.AutoSearchMode.help",
+      "sub_standby": "sub_standby",
+      "sub_auto_call": "sub_auto_call"
     }
   },
   "Emotion": {
