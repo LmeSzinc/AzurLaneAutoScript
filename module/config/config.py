@@ -178,7 +178,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
                 self.update()
                 return 'Restart'
             else:
-                time.sleep(task.next_run.timestamp() - datetime.now().timestamp() + 1)
+                time.sleep(target.timestamp() - datetime.now().timestamp() + 1)
                 return self.get_next()
         else:
             logger.critical('No task waiting or pending')
