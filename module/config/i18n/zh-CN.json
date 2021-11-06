@@ -620,10 +620,10 @@
       "every_combat": "每战出击"
     },
     "AutoSearchMode": {
-      "name": "Submarine.AutoSearchMode.name",
-      "help": "Submarine.AutoSearchMode.help",
-      "sub_standby": "sub_standby",
-      "sub_auto_summon": "sub_auto_summon"
+      "name": "潜艇自律方案",
+      "help": "自律时生效",
+      "sub_standby": "待机",
+      "sub_auto_summon": "自动召唤潜艇"
     }
   },
   "Emotion": {

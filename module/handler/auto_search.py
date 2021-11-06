@@ -117,8 +117,7 @@ class AutoSearchHandler(EnemySearchingHandler):
             logger.warning('No active auto search setting found')
             return False
 
-        for index in active:
-            logger.attr('Auto_Search_Setting', dic_setting_index_to_name[index])
+        logger.attr('Auto_Search_Setting', ', '.join([dic_setting_index_to_name[index] for index in active]))
 
         if setting not in dic_setting_name_to_index:
             logger.warning(f'Unknown auto search setting: {setting}')
