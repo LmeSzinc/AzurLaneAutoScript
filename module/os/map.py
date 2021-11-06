@@ -100,16 +100,6 @@ class OSMap(OSFleet, Map, GlobeCamera):
         logger.info('Full clear end')
 
     def clear_akashi(self):
-        grids = self.map.select(is_akashi=True)
-        if grids:
-            logger.info(f'Found Akashi in {grids}')
-        else:
-            logger.info('No Akashi in this map')
-            return False
-
-        return True
-
-    def clear_akashi2(self):
         """
         Handle Akashi's shop after auto search.
         After auto search, fleet will near akashi.
@@ -185,4 +175,4 @@ class OSMap(OSFleet, Map, GlobeCamera):
             else:
                 break
 
-        self.clear_akashi2()
+        self.clear_akashi()

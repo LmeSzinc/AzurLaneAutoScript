@@ -5,7 +5,6 @@ from module.exception import MapWalkError
 from module.logger import logger
 from module.map.fleet import Fleet
 from module.map.map_grids import SelectedGrids
-from module.map.utils import location_ensure
 from module.os.assets import TEMPLATE_EMPTY_HP
 from module.os.camera import OSCamera
 from module.os.map_base import OSCampaignMap
@@ -164,34 +163,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             center = self.camera
         return SelectedGrids(sea).sort_by_camera_distance(center)
 
-    def port_goto(self, init=False):
-        """
-        Goto the port in current zone.
-        Should be called in Azur Lane ports only. Shouldn't be called in Red Axis ports or zones with enemies.
-
-        Args:
-            init:
-
-        Returns:
-            bool: If executed.
-        """
-        if init:
-            self.device.screenshot()
-            self.map_init()
-
-        dic_port = {0: 'C6', 1: 'H8', 2: 'E4', 3: 'H7'}
-        list_surround = [(-1, -1), (0, -1), (1, -1), (-1, 0), (1, 0), (-1, 1), (-1, 0), (-1, 1)]
-
-        if self.zone.zone_id not in dic_port:
-            logger.warning(f'Current zone do not have a port, zone={self.zone}')
-            return False
-
-        port = self.map[location_ensure(dic_port[self.zone.zone_id])]
-        grids = self.map.grid_covered(port, location=list_surround).sort_by_camera_distance(self.camera)
-        self.goto(grids[0])
-        return True
-
-    def port_goto2(self):
+    def port_goto(self):
         """
         A simple and poor implement to goto port. Searching port on radar.
 

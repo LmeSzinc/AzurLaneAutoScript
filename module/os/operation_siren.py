@@ -1,6 +1,5 @@
 import numpy as np
 
-from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3
 from module.exception import MapWalkError
 from module.exception import ScriptError
 from module.logger import logger
@@ -118,16 +117,16 @@ class OperationSiren(Reward, OSMap):
         # self.map_init()
         return True
 
-    def port_goto2(self):
+    def port_goto(self):
         """
-        Wraps `port_goto2()`, handle walk_out_of_step
+        Wraps `port_goto()`, handle walk_out_of_step
 
         Returns:
             bool: If success
         """
         for _ in range(3):
             try:
-                super().port_goto2()
+                super().port_goto()
                 return True
             except MapWalkError:
                 pass
@@ -151,7 +150,7 @@ class OperationSiren(Reward, OSMap):
         else:
             self.globe_goto(self.zone_nearest_azur_port(self.zone))
 
-        self.port_goto2()
+        self.port_goto()
         self.port_enter()
         self.port_dock_repair()
         self.port_quit()
@@ -203,7 +202,7 @@ class OperationSiren(Reward, OSMap):
             port = self.name_to_zone(port)
             logger.hr(f'OS port daily in {port}', level=2)
             self.globe_goto(port)
-            self.port_goto2()
+            self.port_goto()
             self.port_enter()
             if mission and mission_success:
                 mission_success &= self.port_mission_accept()
@@ -223,7 +222,7 @@ class OperationSiren(Reward, OSMap):
         """
         logger.hr('OS finish daily mission', level=1)
         while 1:
-            result = self.os_get_next_mission2()
+            result = self.os_get_next_mission()
             if not result:
                 break
 

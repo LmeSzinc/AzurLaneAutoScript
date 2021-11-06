@@ -92,48 +92,6 @@ class MissionHandler(GlobeOperation, ZoneManager):
 
     def os_get_next_mission(self):
         """
-        Returns:
-            Zone: Zone instance of next daily mission. Return None if no more missions.
-
-        Pages:
-            in: is_in_map
-            out: is_in_map
-        """
-        def handle_mission_at_current_zone():
-            if self.info_bar_count():
-                raise MissionAtCurrentZone
-
-        self.os_mission_enter()
-
-        if self.appear(MISSION_CHECKOUT, offset=(20, 20)):
-            try:
-                self.ui_click(MISSION_CHECKOUT, check_button=MISSION_MAP_CHECK,
-                              additional=handle_mission_at_current_zone, skip_first_screenshot=True)
-            except MissionAtCurrentZone:
-                logger.info('Mission at current zone')
-                self.os_mission_quit()
-                return self.zone
-
-            self.device.sleep(0.5)
-            self.device.screenshot()
-            zone = self.get_mission_zone()
-            if zone.zone_id == 154:
-                # Reconfirm if zone is [154|NA海域中心|NA OCEAN CENTRAL SECTOR|NA海域中心]
-                self.device.sleep(1)
-                self.device.screenshot()
-                zone = self.get_mission_zone()
-            self.ui_click(MISSION_CHECKOUT, appear_button=MISSION_MAP_CHECK, check_button=MISSION_CHECK,
-                          skip_first_screenshot=True)
-            logger.info(f'OS mission in {zone}')
-        else:
-            zone = None
-            logger.info('No more OS mission')
-
-        self.os_mission_quit()
-        return zone
-
-    def os_get_next_mission2(self):
-        """
         Another method to get os mission. The old one is outdated.
         After clicking MISSION_CHECKOUT, AL switch to target zone directly instead of showing a meaningless map.
         If already at target zone, show info bar and close mission list.
