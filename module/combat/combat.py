@@ -1,5 +1,6 @@
 import numpy as np
 
+from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.combat.assets import *
 from module.combat.combat_auto import CombatAuto
@@ -19,14 +20,12 @@ from module.ui.assets import BACK_ARROW
 
 class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatManual, AutoSearchHandler):
     _automation_set_timer = Timer(1)
-    _emotion: Emotion
     battle_status_click_interval = 0
+    emotion: Emotion
 
-    @property
+    @cached_property
     def emotion(self):
-        if not hasattr(self, '_emotion'):
-            self._emotion = Emotion(config=self.config)
-        return self._emotion
+        return Emotion(config=self.config)
 
     def combat_appear(self):
         """

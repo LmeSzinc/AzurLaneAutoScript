@@ -187,24 +187,19 @@ class Emotion:
         """
         if self.config.Campaign_UseAutoSearch:
             method = self.config.Fleet_AutoSearchFleetOrder
-            if method == 'fleet1_mob_fleet2_boss':
-                battle = (battle - 1, 1)
-            elif method == 'fleet1_boss_fleet2_mob':
-                battle = (1, battle - 1)
-            elif method == 'fleet1_all_fleet2_standby':
-                battle = (battle, 0)
-            elif method == 'fleet1_standby_fleet2_all':
-                battle = (0, battle)
-            else:
-                raise ScriptError(f'Unknown AutoSearchFleetOrder: {method}')
         else:
-            boss = self.config.FLEET_BOSS
-            if boss == 1:
-                battle = (battle, 0)
-            elif boss == 2:
-                battle = (battle - 1, 1)
-            else:
-                raise ScriptError(f'Unknown FLEET_BOSS: {boss}')
+            method = self.config.Fleet_FleetOrder
+
+        if method == 'fleet1_mob_fleet2_boss':
+            battle = (battle - 1, 1)
+        elif method == 'fleet1_boss_fleet2_mob':
+            battle = (1, battle - 1)
+        elif method == 'fleet1_all_fleet2_standby':
+            battle = (battle, 0)
+        elif method == 'fleet1_standby_fleet2_all':
+            battle = (0, battle)
+        else:
+            raise ScriptError(f'Unknown fleet order: {method}')
 
         battle = tuple(np.array(battle) * self.reduce_per_battle)
         logger.info(f'Expect emotion reduce: {battle}')

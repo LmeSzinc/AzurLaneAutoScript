@@ -16,6 +16,7 @@ SCOUT_POSITION = [
 
 class HPBalancer(ModuleBase):
     fleet_current_index = 1
+    fleet_show_index = 1
     _hp = {}
     _hp_has_ship = {}
 

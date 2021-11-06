@@ -4,7 +4,6 @@ from module.combat.assets import *
 from module.combat.combat import Combat
 from module.exception import CampaignEnd
 from module.logger import logger
-from module.map.assets import *
 from module.map.map_operation import MapOperation
 from module.ocr.ocr import Digit
 
@@ -15,22 +14,6 @@ class AutoSearchCombat(MapOperation, Combat):
     _auto_search_in_stage_timer = Timer(3, count=6)
     _auto_search_confirm_low_emotion = False
     auto_search_oil_limit_triggered = False
-
-    def get_fleet_current_index(self):
-        """
-        Returns:
-            int: 1 or 2
-
-        Pages:
-            in: map
-        """
-        if self.appear(FLEET_NUM_1, offset=(20, 20)):
-            return 1
-        elif self.appear(FLEET_NUM_2, offset=(20, 20)):
-            return 2
-        else:
-            logger.warning('Unknown fleet current index, use 1 by default')
-            return 1
 
     def _handle_auto_search_menu_missing(self):
         """
@@ -50,6 +33,51 @@ class AutoSearchCombat(MapOperation, Combat):
 
         return False
 
+    def auto_search_watch_fleet(self, checked=False):
+        """
+        Watch fleet index and ship level.
+
+        Args:
+            checked (bool): Watchers are only executed or logged once during fleet moving.
+                            Set True to skip executing again.
+
+        Returns:
+            bool: If executed.
+        """
+        prev = self.fleet_current_index
+        self.get_fleet_show_index()
+        self.get_fleet_current_index()
+        if self.fleet_current_index == prev:
+            # Same as current, only print once
+            if not checked:
+                logger.info(f'Fleet: {self.fleet_show_index}, fleet_current_index: {self.fleet_current_index}')
+                checked = True
+                self.lv_get(after_battle=True)
+        else:
+            # Fleet changed
+            logger.info(f'Fleet: {self.fleet_show_index}, fleet_current_index: {self.fleet_current_index}')
+            checked = True
+            self.lv_get(after_battle=False)
+
+        return checked
+
+    def auto_search_watch_oil(self, checked=False):
+        """
+        Watch oil.
+        This will set auto_search_oil_limit_triggered.
+        """
+        if not checked:
+            oil = OCR_OIL.ocr(self.device.image)
+            if oil == 0:
+                logger.warning('Oil not found')
+            else:
+                if oil < self.config.StopCondition_OilLimit:
+                    logger.info('Reach oil limit')
+                    self.auto_search_oil_limit_triggered = True
+                checked = True
+
+        return checked
+
     def auto_search_moving(self, skip_first_screenshot=True):
         """
         Pages:
@@ -58,8 +86,8 @@ class AutoSearchCombat(MapOperation, Combat):
         """
         logger.info('Auto search moving')
         self.device.stuck_record_clear()
-        fleet_log = False
-        check_oil = False
+        checked_fleet = False
+        checked_oil = False
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -67,24 +95,8 @@ class AutoSearchCombat(MapOperation, Combat):
                 self.device.screenshot()
 
             if self.is_auto_search_running():
-                index = self.get_fleet_current_index()
-                fleet_current_index = 3 - index if self.fleets_reversed else index
-                if not fleet_log:
-                    logger.info(f'Fleet: {index}, fleet_current_index: {fleet_current_index}')
-                    fleet_log = True
-                    self.lv_get(True)
-                elif fleet_current_index != self.fleet_current_index:
-                    logger.info(f'Fleet: {index}, fleet_current_index: {fleet_current_index}')
-                self.fleet_current_index = fleet_current_index
-                if not check_oil:
-                    oil = OCR_OIL.ocr(self.device.image)
-                    if oil == 0:
-                        logger.warning('Oil not found')
-                    else:
-                        if oil < self.config.StopCondition_OilLimit:
-                            logger.info('Reach oil limit')
-                            self.auto_search_oil_limit_triggered = True
-                        check_oil = True
+                checked_fleet = self.auto_search_watch_fleet(checked_fleet)
+                checked_oil = self.auto_search_watch_oil(checked_oil)
             if self.handle_retirement():
                 continue
             if self.handle_auto_search_map_option():

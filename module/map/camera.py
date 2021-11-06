@@ -172,7 +172,7 @@ class Camera(MapOperation):
     def show_camera(self):
         logger.attr_align('Camera', location2node(self.camera))
 
-    def ensure_edge_insight(self, reverse=False, preset=None, swipe_limit=(4, 3)):
+    def ensure_edge_insight(self, reverse=False, preset=None, swipe_limit=(3, 2)):
         """
         Swipe to bottom left until two edges insight.
         Edges are used to locate camera.

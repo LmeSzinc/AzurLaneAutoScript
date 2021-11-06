@@ -62,12 +62,12 @@ class AmbushHandler(Combat):
             logger.attr('Ambush_evade', 'success')
         elif TEMPLATE_AMBUSH_EVADE_FAILED.match(image):
             logger.attr('Ambush_evade', 'failed')
-            self.combat(expected_end='no_searching')
+            self.combat(expected_end='no_searching', fleet_index=self.fleet_show_index)
         else:
             logger.warning('Unrecognised info when ambush evade.')
             self.ensure_no_info_bar()
             if self.combat_appear():
-                self.combat()
+                self.combat(fleet_index=self.fleet_show_index)
 
     def _handle_ambush_attack(self):
         logger.info('Map ambushed')
@@ -88,7 +88,7 @@ class AmbushHandler(Combat):
             self.device.screenshot()
 
         logger.attr('Ambush_evade', 'attack')
-        self.combat(expected_end='no_searching')
+        self.combat(expected_end='no_searching', fleet_index=self.fleet_show_index)
 
     def _handle_ambush(self):
         if self.config.Campaign_AmbushEvade:

@@ -13,7 +13,6 @@ from module.map.utils import match_movable
 class Fleet(Camera, AmbushHandler):
     fleet_1_location = ()
     fleet_2_location = ()
-    fleet_current_index = 1
     battle_count = 0
     mystery_count = 0
     siren_count = 0
@@ -23,7 +22,7 @@ class Fleet(Camera, AmbushHandler):
     @property
     def fleet_1(self):
         if self.fleet_current_index != 1:
-            self.fleet_switch()
+            self.fleet_switch_to(index=1)
         return self
 
     @fleet_1.setter
@@ -34,7 +33,7 @@ class Fleet(Camera, AmbushHandler):
     def fleet_2(self):
         if self.config.FLEET_2 and self.config.FLEET_BOSS == 2:
             if self.fleet_current_index != 2:
-                self.fleet_switch()
+                self.fleet_switch_to(index=2)
         return self
 
     @fleet_2.setter
@@ -78,9 +77,8 @@ class Fleet(Camera, AmbushHandler):
         else:
             return self.config.Fleet_Fleet1Step
 
-    def fleet_switch(self):
-        self.fleet_switch_click()
-        self.fleet_current_index = 1 if self.fleet_current_index == 2 else 2
+    def fleet_switch_to(self, index):
+        self.fleet_set(index=index)
         self.camera = self.fleet_current
         self.update()
         self.find_path_initial()
@@ -288,7 +286,7 @@ class Fleet(Camera, AmbushHandler):
                     if self.handle_combat_low_emotion():
                         walk_timeout.reset()
                 if self.combat_appear():
-                    self.combat(expected_end=self._expected_combat_end(expected), fleet_index=self.fleet_current_index)
+                    self.combat(expected_end=self._expected_combat_end(expected), fleet_index=self.fleet_show_index)
                     self.hp_get()
                     self.lv_get(after_battle=True)
                     arrived = True if not self.config.MAP_HAS_MOVABLE_ENEMY else False
@@ -668,7 +666,6 @@ class Fleet(Camera, AmbushHandler):
                 logger.warning('Too many fleets: %s.' % str(fleets))
             self.find_all_fleets()
 
-        self.fleet_current_index = 1
         self.show_fleet()
         return self.fleet_current
 
@@ -720,15 +717,16 @@ class Fleet(Camera, AmbushHandler):
         Preparation before operations.
         Such as select strategy, calculate hp and level, init camera position, do first map scan.
         """
-        self.handle_strategy(index=1 if not self.fleets_reversed else 2)
         self.update()
-        if self.handle_fleet_reverse():
-            self.handle_strategy(index=1)
+        if not self.handle_fleet_reverse():
+            self.fleet_set(index=1)
+        self.handle_strategy(index=self.fleet_show_index)
         self.hp_reset()
         self.hp_get()
         self.lv_reset()
         self.lv_get()
         self.ensure_edge_insight(preset=self.map.in_map_swipe_preset_data)
+        self.handle_info_bar()  # The info_bar which shows "Changed to fleet 2", will block the ammo icon
         self.full_scan(must_scan=self.map.camera_data_spawn_point)
         self.find_current_fleet()
         self.find_path_initial()

@@ -16,24 +16,77 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
     map_cat_attack_timer = Timer(2)
     map_clear_percentage_prev = -1
     map_clear_percentage_timer = Timer(0.3, count=1)
-    _emotion_expected_reduce: tuple
 
-    def fleet_switch_click(self):
-        """
-        Switch fleet.
-        """
-        logger.info('Switch over')
-        self.wait_until_appear(SWITCH_OVER, skip_first_screenshot=True)
+    # Fleet that shows on screen.
+    fleet_show_index = 1
+    # Note that this is different from get_fleet_current_index()
+    # In fleet_current_index, 1 means mob fleet, 2 means boss fleet.
+    fleet_current_index = 1
 
-        FLEET_NUM.load_color(self.device.image)
-        FLEET_NUM._match_init = True
+    def get_fleet_show_index(self):
+        """
+        Get the fleet that shows on screen.
+
+        Returns:
+            int: 1 or 2
+
+        Pages:
+            in: in_map
+        """
+        if self.appear(FLEET_NUM_1, offset=(20, 20)):
+            self.fleet_show_index = 1
+            return 1
+        elif self.appear(FLEET_NUM_2, offset=(20, 20)):
+            self.fleet_show_index = 2
+            return 2
+        else:
+            logger.warning('Unknown fleet current index, use 1 by default')
+            self.fleet_show_index = 1
+            return 1
+
+    def get_fleet_current_index(self):
+        """
+        Returns:
+            int: 1 or 2
+        """
+        if self.fleets_reversed:
+            self.fleet_current_index = 3 - self.fleet_show_index
+            return self.fleet_current_index
+        else:
+            self.fleet_current_index = self.fleet_show_index
+            return self.fleet_current_index
+
+    def fleet_set(self, index=None, skip_first_screenshot=True):
+        """
+        Args:
+            index (int): Target fleet_current_index
+            skip_first_screenshot (bool):
+
+        Returns:
+            bool: If switched.
+        """
+        logger.info(f'Fleet set to {index}')
+        count = 0
         while 1:
-            self.device.click(SWITCH_OVER)
-            self.device.sleep((1, 1.5))
-            self.device.screenshot()
-            if not FLEET_NUM.match(self.device.image, offset=(0, 0), threshold=0.9):
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            self.get_fleet_show_index()
+            self.get_fleet_current_index()
+            logger.info(f'Fleet: {self.fleet_show_index}, fleet_current_index: {self.fleet_current_index}')
+            if self.fleet_current_index == index:
                 break
-            logger.warning('Fleet switch failed. Retrying.')
+            elif self.appear_then_click(SWITCH_OVER):
+                count += 1
+                self.device.sleep((1, 1.5))
+                continue
+            else:
+                logger.warning('SWITCH_OVER not found')
+                continue
+
+        return count > 0
 
     def enter_map(self, button, mode='normal', skip_first_screenshot=True):
         """Enter a campaign.
@@ -226,12 +279,14 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
 
     @property
     def fleets_reversed(self):
+        if not self.config.FLEET_2:
+            return False
+
         if self.map_is_auto_search:
             return self.config.Fleet_AutoSearchFleetOrder in ['fleet1_boss_fleet2_mob', 'fleet1_standby_fleet2_all']
         else:
             # return (self.config.FLEET_2 != 0) and (self.config.FLEET_2 < self.config.FLEET_1)
-            return self.map_is_hard_mode \
-                   and self.config.Fleet_FleetOrder in ['fleet1_boss_fleet2_mob', 'fleet1_standby_fleet2_all']
+            return self.config.Fleet_FleetOrder in ['fleet1_boss_fleet2_mob', 'fleet1_standby_fleet2_all']
 
     def handle_fleet_reverse(self):
         """
@@ -243,9 +298,14 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         Returns:
             bool: Fleet changed
         """
+        if not self.map_is_hard_mode \
+                and self.config.Fleet_FleetOrder in ['fleet1_boss_fleet2_mob', 'fleet1_standby_fleet2_all']:
+            logger.warning(f"You shouldn't use a reversed fleet order ({self.config.Fleet_FleetOrder}) in normal mode.")
+            logger.warning('Please reverse your Fleet 1 and Fleet 2, '
+                           'use "fleet1_mob_fleet2_boss" or "fleet1_all_fleet2_standby"')
+            # raise RequestHumanTakeover
+
         if not self.fleets_reversed:
             return False
 
-        self.fleet_switch_click()
-        self.ensure_no_info_bar()  # The info_bar which shows "Changed to fleet 2", will block the ammo icon
-        return True
+        return self.fleet_set(index=2)
