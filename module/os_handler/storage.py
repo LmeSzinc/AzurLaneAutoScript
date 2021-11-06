@@ -118,8 +118,12 @@ class StorageHandler(GlobeOperation, ZoneManager):
 
             if self.appear(STORAGE_CHECK, offset=(30, 30), interval=5):
                 self.device.click(button)
+                continue
             if self.appear_then_click(STORAGE_COORDINATE_CHECKOUT, offset=(30, 30), interval=5):
                 self.interval_reset(STORAGE_CHECK)
+                continue
+            if self.handle_popup_confirm('STORAGE_CHECKOUT'):
+                # Submarine popup
                 continue
 
             # End
