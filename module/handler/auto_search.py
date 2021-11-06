@@ -4,12 +4,14 @@ from module.handler.assets import *
 from module.handler.enemy_searching import EnemySearchingHandler
 from module.logger import logger
 
-AUTO_SEARCH_SETTINGS = [AUTO_SEARCH_SET_MOB, AUTO_SEARCH_SET_BOSS, AUTO_SEARCH_SET_ALL, AUTO_SEARCH_SET_STANDBY]
+AUTO_SEARCH_SETTINGS = [AUTO_SEARCH_SET_MOB, AUTO_SEARCH_SET_BOSS, AUTO_SEARCH_SET_ALL, AUTO_SEARCH_SET_STANDBY, AUTO_SEARCH_SET_SUB_AUTO, AUTO_SEARCH_SET_SUB_STANDBY]
 dic_setting_name_to_index = {
     'fleet1_mob_fleet2_boss': 0,
     'fleet1_boss_fleet2_mob': 1,
     'fleet1_all_fleet2_standby': 2,
     'fleet1_standby_fleet2_all': 3,
+    'sub_auto_summon': 4,
+    'sub_standby': 5,
 }
 dic_setting_index_to_name = {v: k for k, v in dic_setting_name_to_index.items()}
 
@@ -105,20 +107,24 @@ class AutoSearchHandler(EnemySearchingHandler):
         Returns:
             bool: If selected to the correct option.
         """
-        active = None
+        active = []
+
         for index, button in enumerate(AUTO_SEARCH_SETTINGS):
             if self.image_color_count(button, color=(156, 255, 82), threshold=221, count=20):
-                active = index
+                active.append(index)
 
-        if active is None:
+        if not active:
             logger.warning('No active auto search setting found')
             return False
-        logger.attr('Auto_Search_Setting', dic_setting_index_to_name[active])
+
+        for index in active:
+            logger.attr('Auto_Search_Setting', dic_setting_index_to_name[index])
 
         if setting not in dic_setting_name_to_index:
             logger.warning(f'Unknown auto search setting: {setting}')
         target_index = dic_setting_name_to_index[setting]
-        if active == target_index:
+
+        if target_index in active:
             logger.info('Selected to the correct auto search setting')
             return True
         else:
@@ -143,7 +149,6 @@ class AutoSearchHandler(EnemySearchingHandler):
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
-
             if self._auto_search_set_click(setting):
                 return True
             else:

@@ -402,6 +402,14 @@
           "hunt_only",
           "every_combat"
         ]
+      },
+      "AutoSearchMode": {
+        "type": "select",
+        "value": "sub_standby",
+        "option": [
+          "sub_standby",
+          "sub_auto_summon"
+        ]
       }
     },
     "Emotion": {
@@ -775,6 +783,14 @@
           "do_not_use",
           "hunt_only",
           "every_combat"
+        ]
+      },
+      "AutoSearchMode": {
+        "type": "select",
+        "value": "sub_standby",
+        "option": [
+          "sub_standby",
+          "sub_auto_summon"
         ]
       }
     },
@@ -1594,6 +1610,14 @@
           "hunt_only",
           "every_combat"
         ]
+      },
+      "AutoSearchMode": {
+        "type": "select",
+        "value": "sub_standby",
+        "option": [
+          "sub_standby",
+          "sub_auto_summon"
+        ]
       }
     },
     "Emotion": {
@@ -1938,6 +1962,14 @@
           "do_not_use",
           "hunt_only",
           "every_combat"
+        ]
+      },
+      "AutoSearchMode": {
+        "type": "select",
+        "value": "sub_standby",
+        "option": [
+          "sub_standby",
+          "sub_auto_summon"
         ]
       }
     },
@@ -2301,6 +2333,14 @@
           "do_not_use",
           "hunt_only",
           "every_combat"
+        ]
+      },
+      "AutoSearchMode": {
+        "type": "select",
+        "value": "sub_standby",
+        "option": [
+          "sub_standby",
+          "sub_auto_summon"
         ]
       }
     },
@@ -3907,6 +3947,14 @@
           "hunt_only",
           "every_combat"
         ]
+      },
+      "AutoSearchMode": {
+        "type": "select",
+        "value": "sub_standby",
+        "option": [
+          "sub_standby",
+          "sub_auto_summon"
+        ]
       }
     },
     "Emotion": {
@@ -4290,6 +4338,14 @@
           "do_not_use",
           "hunt_only",
           "every_combat"
+        ]
+      },
+      "AutoSearchMode": {
+        "type": "select",
+        "value": "sub_standby",
+        "option": [
+          "sub_standby",
+          "sub_auto_summon"
         ]
       }
     },
@@ -4675,6 +4731,14 @@
           "hunt_only",
           "every_combat"
         ]
+      },
+      "AutoSearchMode": {
+        "type": "select",
+        "value": "sub_standby",
+        "option": [
+          "sub_standby",
+          "sub_auto_summon"
+        ]
       }
     },
     "Emotion": {
@@ -5048,6 +5112,14 @@
           "do_not_use",
           "hunt_only",
           "every_combat"
+        ]
+      },
+      "AutoSearchMode": {
+        "type": "select",
+        "value": "sub_standby",
+        "option": [
+          "sub_standby",
+          "sub_auto_summon"
         ]
       }
     },
@@ -5578,6 +5650,14 @@
           "do_not_use",
           "hunt_only",
           "every_combat"
+        ]
+      },
+      "AutoSearchMode": {
+        "type": "select",
+        "value": "sub_standby",
+        "option": [
+          "sub_standby",
+          "sub_auto_summon"
         ]
       }
     },

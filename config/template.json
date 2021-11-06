@@ -92,7 +92,8 @@
     },
     "Submarine": {
       "Fleet": 0,
-      "Mode": "do_not_use"
+      "Mode": "do_not_use",
+      "AutoSearchMode": "sub_standby"
     },
     "Emotion": {
       "CalculateEmotion": true,
@@ -160,7 +161,8 @@
     },
     "Submarine": {
       "Fleet": 0,
-      "Mode": "do_not_use"
+      "Mode": "do_not_use",
+      "AutoSearchMode": "sub_standby"
     },
     "Emotion": {
       "CalculateEmotion": true,
@@ -334,7 +336,8 @@
     },
     "Submarine": {
       "Fleet": 0,
-      "Mode": "do_not_use"
+      "Mode": "do_not_use",
+      "AutoSearchMode": "sub_standby"
     },
     "Emotion": {
       "CalculateEmotion": true,
@@ -405,7 +408,8 @@
     },
     "Submarine": {
       "Fleet": 0,
-      "Mode": "do_not_use"
+      "Mode": "do_not_use",
+      "AutoSearchMode": "sub_standby"
     },
     "Emotion": {
       "CalculateEmotion": true,
@@ -478,7 +482,8 @@
     },
     "Submarine": {
       "Fleet": 0,
-      "Mode": "do_not_use"
+      "Mode": "do_not_use",
+      "AutoSearchMode": "sub_standby"
     },
     "Emotion": {
       "CalculateEmotion": true,
@@ -864,7 +869,8 @@
     },
     "Submarine": {
       "Fleet": 0,
-      "Mode": "do_not_use"
+      "Mode": "do_not_use",
+      "AutoSearchMode": "sub_standby"
     },
     "Emotion": {
       "CalculateEmotion": true,
@@ -936,7 +942,8 @@
     },
     "Submarine": {
       "Fleet": 0,
-      "Mode": "do_not_use"
+      "Mode": "do_not_use",
+      "AutoSearchMode": "sub_standby"
     },
     "Emotion": {
       "CalculateEmotion": true,
@@ -1008,7 +1015,8 @@
     },
     "Submarine": {
       "Fleet": 0,
-      "Mode": "do_not_use"
+      "Mode": "do_not_use",
+      "AutoSearchMode": "sub_standby"
     },
     "Emotion": {
       "CalculateEmotion": true,
@@ -1076,7 +1084,8 @@
     },
     "Submarine": {
       "Fleet": 0,
-      "Mode": "do_not_use"
+      "Mode": "do_not_use",
+      "AutoSearchMode": "sub_standby"
     },
     "Emotion": {
       "CalculateEmotion": true,
@@ -1189,7 +1198,8 @@
     },
     "Submarine": {
       "Fleet": 0,
-      "Mode": "do_not_use"
+      "Mode": "do_not_use",
+      "AutoSearchMode": "sub_standby"
     },
     "Emotion": {
       "CalculateEmotion": true,

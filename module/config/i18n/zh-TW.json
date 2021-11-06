@@ -618,6 +618,12 @@
       "do_not_use": "不使用",
       "hunt_only": "僅狩獵",
       "every_combat": "每戰出擊"
+    },
+    "AutoSearchMode": {
+      "name": "Submarine.AutoSearchMode.name",
+      "help": "Submarine.AutoSearchMode.help",
+      "sub_standby": "sub_standby",
+      "sub_auto_summon": "sub_auto_summon"
     }
   },
   "Emotion": {
