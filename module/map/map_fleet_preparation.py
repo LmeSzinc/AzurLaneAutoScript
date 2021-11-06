@@ -188,19 +188,25 @@ class FleetPreparation(ModuleBase):
         # if not fleet_2.allow():
         #     self.config.FLEET_2 = 0
 
-        # Not using fleet 2.
-        if not self.config.Fleet_Fleet2:
+        if self.config.Fleet_Fleet2:
+            # Using both fleets.
+            # Force to set it again.
+            # Fleets may reversed, because AL no longer treat the fleet with smaller index as first fleet
+            fleet_2.clear()
+            fleet_1.ensure_to_be(self.config.Fleet_Fleet1)
+            fleet_2.ensure_to_be(self.config.Fleet_Fleet2)
+        else:
+            # Not using fleet 2.
             if fleet_2.allow():
                 fleet_2.clear()
             fleet_1.ensure_to_be(self.config.Fleet_Fleet1)
-            self.map_fleet_checked = True
-            return True
 
-        # Using both fleets.
-        # Force to set it again.
-        # Fleets may reversed, because AL no longer treat the fleet with smaller index as first fleet
-        fleet_2.clear()
-        fleet_1.ensure_to_be(self.config.Fleet_Fleet1)
-        fleet_2.ensure_to_be(self.config.Fleet_Fleet2)
+        # Check if submarine is empty again.
+        if submarine.allow():
+            if self.config.Submarine_Fleet:
+                pass
+            else:
+                submarine.clear()
+
         self.map_fleet_checked = True
         return True

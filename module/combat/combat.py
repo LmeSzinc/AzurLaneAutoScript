@@ -447,6 +447,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         if auto_mode is None:
             auto_mode = self.config.Fleet_Fleet1Mode if fleet_index == 1 else self.config.Fleet_Fleet2Mode
         if submarine_mode is None:
+            submarine_mode = 'do_not_use'
             if self.config.Submarine_Fleet:
                 submarine_mode = self.config.Submarine_Mode
         self.battle_status_click_interval = 7 if save_get_items else 0
