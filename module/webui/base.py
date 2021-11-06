@@ -8,6 +8,8 @@ from pywebio.session import defer_call, info, run_js
 class Base:
     def __init__(self) -> None:
         self.alive = True
+        # Whether window is visible
+        self.visible = True
         # Device type
         self.is_mobile = info.user_agent.is_mobile
         # Task handler

@@ -23,8 +23,9 @@ from module.config.utils import (alas_instance, deep_get, deep_iter, deep_set,
 from module.webui.base import Frame
 from module.webui.lang import _t, t
 from module.webui.translate import translate
-from module.webui.utils import (Icon, QueueHandler, Thread, add_css,
-                                filepath_css, get_output, login,
+from module.webui.utils import (Icon, QueueHandler, Task, Thread, add_css,
+                                filepath_css, get_output,
+                                get_window_visibility_state, login,
                                 parse_pin_value)
 from module.webui.widgets import *
 
@@ -177,6 +178,8 @@ class AlasGUI(Frame):
                 -1 (warning, stop unexpectedly),
                 0 (hide)
         """
+        if not self.visible:
+            return
         if self._status == status:
             return
         self._status = status
@@ -481,6 +484,8 @@ class AlasGUI(Frame):
             self.set_status(0)
 
     def alas_update_overiew_tasks(self) -> None:
+        if not self.visible:
+            return
         self.alas_config.load()
         self.alas_config.get_next_task()
 
@@ -830,7 +835,25 @@ class AlasGUI(Frame):
             while True:
                 yield self.alas_update_status()
 
+        def refresh_visibility_state():
+            _visible = self.visible
+            while True:
+                v = get_window_visibility_state()
+                if v != _visible:
+                    self.task_handler.remove_running_task()
+                    self.visible = v
+                    if v:
+                        logger.info("Window running in the foreground")
+                        self.task_handler.add_task(
+                            Task(refresh_visibility_state(), 15, time.time()+15))
+                    else:
+                        logger.info("Window running in the background")
+                        self.task_handler.add_task(
+                            Task(refresh_visibility_state(), 2, time.time()+2))
+                yield
+
         self.task_handler.add(refresh_status(), 2)
+        self.task_handler.add(refresh_visibility_state(), 15)
         self.task_handler.start()
 
 

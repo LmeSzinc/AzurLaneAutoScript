@@ -7,7 +7,7 @@ from typing import Generator
 from module.logger import logger
 from module.webui.widgets import *
 from pywebio.input import PASSWORD, input
-from pywebio.session import register_thread, run_js
+from pywebio.session import eval_js, register_thread, run_js
 
 
 class QueueHandler:
@@ -65,6 +65,8 @@ class TaskHandler:
         self.tasks: List[Task] = []
         # List of task name to be removed
         self.pending_remove_tasks: List[Task] = []
+        # Running task
+        self._task = None
         # Task running thread
         self._thread = Thread()
         self._lock = threading.Lock()
@@ -120,6 +122,9 @@ class TaskHandler:
                 self._remove_task(task)
             self.pending_remove_tasks = []
 
+    def remove_running_task(self) -> None:
+        self.remove_task(self._task, nowait=True)
+
     def loop(self) -> None:
         """
         Start task loop.
@@ -133,10 +138,13 @@ class TaskHandler:
                 if task.next_run < time.time():
                     start_time = time.time()
                     try:
+                        self._task = task
                         next(task)
                     except Exception as e:
                         logger.exception(e)
                         self.remove_task(task, nowait=True)
+                    finally:
+                        self._task = None
                     end_time = time.time()
                     task.next_run += task.delay
                     with self._lock:
@@ -242,6 +250,9 @@ def login(password):
         toast('Wrong password!', color='error')
         return False
 
+def get_window_visibility_state():
+    ret = eval_js("document.visibilityState")
+    return False if ret == "hidden" else True
 
 if __name__ == '__main__':
     def gen(x):
