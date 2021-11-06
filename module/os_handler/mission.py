@@ -97,7 +97,8 @@ class MissionHandler(GlobeOperation, ZoneManager):
         If already at target zone, show info bar and close mission list.
 
         Returns:
-            bool: If has entered mission zone.
+            int: If has entered mission zone, positive non-zero.
+                 1 = pinned at, 2 = already at
         """
         self.os_mission_enter()
 
@@ -126,7 +127,7 @@ class MissionHandler(GlobeOperation, ZoneManager):
             if self.is_zone_pinned():
                 logger.info('Pinned at mission zone')
                 self.globe_enter(zone=self.name_to_zone(72))
-                return True
+                return 1
             if self.is_in_map() and self.info_bar_count():
                 logger.info('Already at mission zone')
-                return True
+                return 2

@@ -227,6 +227,8 @@ class OperationSiren(Reward, OSMap):
                 break
 
             self.get_current_zone()
+            if result > 1:
+                self.globe_goto(self.zone, refresh=True)
             self.run_auto_search()
             self.handle_fleet_repair(revert=False)
 
