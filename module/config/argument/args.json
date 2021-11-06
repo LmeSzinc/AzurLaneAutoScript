@@ -408,7 +408,7 @@
         "value": "sub_standby",
         "option": [
           "sub_standby",
-          "sub_auto_summon"
+          "sub_auto_call"
         ]
       }
     },
@@ -790,7 +790,7 @@
         "value": "sub_standby",
         "option": [
           "sub_standby",
-          "sub_auto_summon"
+          "sub_auto_call"
         ]
       }
     },
@@ -1616,7 +1616,7 @@
         "value": "sub_standby",
         "option": [
           "sub_standby",
-          "sub_auto_summon"
+          "sub_auto_call"
         ]
       }
     },
@@ -1969,7 +1969,7 @@
         "value": "sub_standby",
         "option": [
           "sub_standby",
-          "sub_auto_summon"
+          "sub_auto_call"
         ]
       }
     },
@@ -2340,7 +2340,7 @@
         "value": "sub_standby",
         "option": [
           "sub_standby",
-          "sub_auto_summon"
+          "sub_auto_call"
         ]
       }
     },
@@ -3953,7 +3953,7 @@
         "value": "sub_standby",
         "option": [
           "sub_standby",
-          "sub_auto_summon"
+          "sub_auto_call"
         ]
       }
     },
@@ -4345,7 +4345,7 @@
         "value": "sub_standby",
         "option": [
           "sub_standby",
-          "sub_auto_summon"
+          "sub_auto_call"
         ]
       }
     },
@@ -4737,7 +4737,7 @@
         "value": "sub_standby",
         "option": [
           "sub_standby",
-          "sub_auto_summon"
+          "sub_auto_call"
         ]
       }
     },
@@ -5119,7 +5119,7 @@
         "value": "sub_standby",
         "option": [
           "sub_standby",
-          "sub_auto_summon"
+          "sub_auto_call"
         ]
       }
     },
@@ -5657,7 +5657,7 @@
         "value": "sub_standby",
         "option": [
           "sub_standby",
-          "sub_auto_summon"
+          "sub_auto_call"
         ]
       }
     },

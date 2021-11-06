@@ -623,7 +623,7 @@
       "name": "潜艇自律方案",
       "help": "自律时生效",
       "sub_standby": "待机",
-      "sub_auto_summon": "自动召唤潜艇"
+      "sub_auto_call": "自动召唤潜艇"
     }
   },
   "Emotion": {

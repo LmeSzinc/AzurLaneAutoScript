@@ -623,7 +623,7 @@
       "name": "Submarine.AutoSearchMode.name",
       "help": "Submarine.AutoSearchMode.help",
       "sub_standby": "sub_standby",
-      "sub_auto_summon": "sub_auto_summon"
+      "sub_auto_call": "sub_auto_call"
     }
   },
   "Emotion": {

@@ -10,7 +10,7 @@ dic_setting_name_to_index = {
     'fleet1_boss_fleet2_mob': 1,
     'fleet1_all_fleet2_standby': 2,
     'fleet1_standby_fleet2_all': 3,
-    'sub_auto_summon': 4,
+    'sub_auto_call': 4,
     'sub_standby': 5,
 }
 dic_setting_index_to_name = {v: k for k, v in dic_setting_name_to_index.items()}
@@ -134,7 +134,7 @@ class AutoSearchHandler(EnemySearchingHandler):
         """
         Args:
             setting (str):
-                fleet1_mob_fleet2_boss, fleet1_boss_fleet2_mob, fleet1_all_fleet2_standby, fleet1_standby_fleet2_all
+                fleet1_mob_fleet2_boss, fleet1_boss_fleet2_mob, fleet1_all_fleet2_standby, fleet1_standby_fleet2_all, sub_auto_call, sub_standby
             skip_first_screenshot (bool):
 
             Returns:
