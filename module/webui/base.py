@@ -25,6 +25,7 @@ class Frame(Base):
     def __init__(self) -> None:
         super().__init__()
         self.aside = output()
+        self.aside_setting = output().style("aside-icon-setting")
         self.menu = output().style("container-menu")
         self.content = output().style("container-content")
         self.title = output().style("title-text-title")
@@ -40,13 +41,7 @@ class Frame(Base):
         self.asides = put_column([
             self.aside,
             None,
-            put_icon_buttons(
-                Icon.SETTING,
-                buttons=[
-                    {"label": t("Gui.Aside.Setting"),
-                     "value": "setting", "color": "aside"}],
-                onclick=[self.ui_setting],
-            ).style("aside-icon-setting"),
+            self.aside_setting,
         ], size="auto 1fr auto").style("container-aside")
 
         if self.is_mobile:

@@ -170,6 +170,15 @@ class AlasGUI(Frame):
             put_icon_buttons(Icon.ADD, buttons=[{"label": t(
                 "Gui.Aside.AddAlas"), "value": "AddAlas", "color": "aside"}], onclick=[self.ui_add_alas]),
         )
+        self.aside_setting.reset(
+            put_icon_buttons(
+                Icon.SETTING,
+                buttons=[
+                    {"label": t("Gui.Aside.Setting"),
+                     "value": "setting", "color": "aside"}],
+                onclick=[self.ui_setting],
+            )
+        )
 
     def set_status(self, status: int) -> None:
         """
