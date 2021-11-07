@@ -243,8 +243,11 @@ def parse_pin_value(val):
 
 
 def login(password):
+    if get_localstorage('password') == password:
+        return True
     pwd = input(label='Please login below.', type=PASSWORD, placeholder='PASSWORD')
     if pwd == password:
+        set_localstorage('password', pwd)
         return True
     else:
         toast('Wrong password!', color='error')
@@ -253,6 +256,14 @@ def login(password):
 def get_window_visibility_state():
     ret = eval_js("document.visibilityState")
     return False if ret == "hidden" else True
+
+
+# https://pywebio.readthedocs.io/zh_CN/latest/cookbook.html#cookie-and-localstorage-manipulation
+set_localstorage = lambda key, value: run_js("localStorage.setItem(key, value)", key=key, value=value)
+get_localstorage = lambda key: eval_js("localStorage.getItem(key)", key=key)
+# set_localstorage('hello', 'world')
+# val = get_localstorage('hello')
+
 
 if __name__ == '__main__':
     def gen(x):
