@@ -112,7 +112,7 @@ class LoginHandler(Combat):
                     break
 
             logger.info(f'{self.config.Emulator_PackageName} will be started at {target} for task `{task}`')
-            time.sleep(target.timestamp() - now.timestamp() + 1)
+            self.config.wait_until(target)
 
         self.device.app_start()
         self.handle_app_login()

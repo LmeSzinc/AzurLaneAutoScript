@@ -178,7 +178,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
                 self.update()
                 return 'Restart'
             else:
-                time.sleep(target.timestamp() - datetime.now().timestamp() + 1)
+                self.wait_until(target)
                 return self.get_next()
         else:
             logger.critical('No task waiting or pending')
@@ -341,6 +341,20 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
         """
         if self.task_switched():
             self.task_stop(message=message)
+
+    @staticmethod
+    def wait_until(future):
+        """
+        Wait until a specific time.
+
+        Args:
+            future (datetime):
+        """
+        seconds = future.timestamp() - datetime.now().timestamp() + 1
+        if seconds > 0:
+            time.sleep(seconds)
+        else:
+            logger.warning(f'Wait until {str(future)}, but sleep length < 0, skip waiting')
 
     @property
     def campaign_name(self):
