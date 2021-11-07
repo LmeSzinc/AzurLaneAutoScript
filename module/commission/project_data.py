@@ -15,9 +15,9 @@ dictionary_cn = {
     'urgent_gem': ['要员', '度假', '巡视'],
     'urgent_ship': ['观舰'],
 }
+# major_comm needs to be after extra_cube,
+# because `Fleet Cargo Transport` is `extra_cube` and `Cargo Transport I` is major_comm
 dictionary_en = {
-    'major_comm': ['SELF TRAINING', 'DEFENSE EXERCISE', 'RESEARCH MISSION', 'TOOL PREP', 'TACTICAL CLASS',
-                   'CARGO TRANSPORT'],
     'daily_resource': ['DAILY RESOURCE EXTRACTION'],
     'daily_chip': ['AWAKENING TACTICAL RESEARCH'],
     'extra_drill': ['SAILING', 'BUOY', 'FRONTIER', 'COASTAL', 'SALING'],
@@ -32,6 +32,8 @@ dictionary_en = {
     'urgent_cube': ['ENEMY ATTACK', 'MERCHANT RESCUE'],
     'urgent_gem': ['VIP', 'HOLIDAY ESCORT', 'PATROL ESCORT'],
     'urgent_ship': ['LAUNCH'],
+    'major_comm': ['SELF TRAINING', 'DEFENSE EXERCISE', 'RESEARCH MISSION', 'TOOL PREP', 'TACTICAL CLASS',
+                   'CARGO TRANSPORT'],
 }
 dictionary_jp = {
     'major_comm': ['初級自主訓練', '中級自主訓練', '上級自主訓練', '初級対抗演習', '中級対抗演習', '上級対抗演習',
