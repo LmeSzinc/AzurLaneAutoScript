@@ -121,8 +121,8 @@ class AlasManager:
 
 
 class AlasGUI(Frame):
-    ALAS_MENU = read_file(filepath_args('menu'))
-    ALAS_ARGS = read_file(filepath_args('args'))
+    ALAS_MENU: Dict[str, Dict[str, List[str]]]
+    ALAS_ARGS: Dict[str, Dict[str, Dict[str, Dict[str, str]]]]
     path_to_idx: Dict[str, str] = {}
     idx_to_path: Dict[str, str] = {}
 
@@ -136,6 +136,8 @@ class AlasGUI(Frame):
         Args:
             prefix: all idx need to be a valid html, so a random character here
         """
+        cls.ALAS_MENU = read_file(filepath_args('menu'))
+        cls.ALAS_ARGS = read_file(filepath_args('args'))
         i = 0
         for list_path, _ in deep_iter(cls.ALAS_ARGS, depth=3):
             cls.path_to_idx['.'.join(list_path)] = f'{prefix}{i}'
@@ -871,7 +873,7 @@ if __name__ == "__main__":
 
     AlasManager.sync_manager = Manager()
     AlasGUI.shorten_path()
-
+    lang.reload()
 
     def index():
         if args.key != '' and not login(args.key):
