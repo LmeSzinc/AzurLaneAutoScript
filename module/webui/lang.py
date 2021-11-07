@@ -1,6 +1,7 @@
 from typing import Dict
 
 from module.config.utils import *
+from module.webui.config import WebuiConfig
 
 LANG = 'zh-CN'
 TRANSLATE_MODE = False
@@ -15,6 +16,9 @@ def set_language(s: str, refresh=False):
             break
     else:
         LANG = 'en-US'
+
+    WebuiConfig().Language = LANG
+
     if refresh:
         from pywebio.session import run_js
         run_js('location.reload();')
@@ -53,10 +57,9 @@ def reload():
         for path, v in deep_iter(read_file(filepath_i18n(lang)), depth=3):
             dic_lang[lang]['.'.join(path)] = v
 
-    for key in dic_lang["zh-TW"].keys():
-        if dic_lang["zh-TW"][key] == key:
-            dic_lang["zh-TW"][key] = dic_lang["zh-CN"][key]
-
     for key in dic_lang["ja-JP"].keys():
         if dic_lang["ja-JP"][key] == key:
             dic_lang["ja-JP"][key] = dic_lang["en-US"][key]
+
+    global LANG
+    LANG = WebuiConfig().Language

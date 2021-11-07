@@ -6,7 +6,7 @@ from deploy.utils import *
 
 
 class DeployConfig:
-    def __init__(self, file='./config/deploy.yaml'):
+    def __init__(self, file=DEPLOY_CONFIG):
         """
         Args:
             file (str): User deploy config.

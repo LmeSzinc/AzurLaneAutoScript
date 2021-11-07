@@ -1,6 +1,7 @@
 import os
 import re
 
+DEPLOY_CONFIG = './config/deploy.yaml'
 DEPLOY_TEMPLATE = './deploy/template/deploy.yaml'
 
 
