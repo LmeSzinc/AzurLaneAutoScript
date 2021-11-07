@@ -885,6 +885,8 @@ if __name__ == "__main__":
     lang.reload()
 
     def index():
+        # Auto refresh page when connection lost
+        run_js('WebIO._state.CurrentSession.on_session_close(()=>{setTimeout(()=>location.reload(), 5000)})')
         if args.key != '' and not login(args.key):
             logger.warning(f"{info.user_ip} login failed.")
             time.sleep(2)
