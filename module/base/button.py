@@ -1,6 +1,7 @@
 import os
 import traceback
 
+import imageio
 from PIL import Image
 
 import module.config.server as server
@@ -35,6 +36,7 @@ class Button:
         self._match_init = False
         self.file = file[self.server] if isinstance(file, dict) else file
         self.image = None
+
         if self.file:
             self.name = os.path.splitext(os.path.split(self.file)[1])[0]
         elif name:
@@ -42,6 +44,11 @@ class Button:
         else:
             (filename, line_number, function_name, text) = traceback.extract_stack()[-2]
             self.name = text[:text.find('=')].strip()
+
+        if self.file:
+            self.is_gif = os.path.splitext(self.file)[1] == '.gif'
+        else:
+            self.is_gif = False
 
     def __str__(self):
         return self.name
@@ -92,6 +99,7 @@ class Button:
         """
         self.color = get_color(image, self.area)
         self.image = np.array(image.crop(self.area))
+        self.is_gif = False
         return self.color
 
     def load_offset(self, button):
@@ -113,7 +121,14 @@ class Button:
         If needs to call self.match, call this first.
         """
         if not self._match_init:
-            self.image = np.array(Image.open(self.file).crop(self.area).convert('RGB'))
+            if self.is_gif:
+                self.image = []
+                for image in imageio.mimread(self.file):
+                    image = image[:, :, :3] if len(image.shape) == 3 else image
+                    image = crop(image, self.area)
+                    self.image.append(image)
+            else:
+                self.image = np.array(Image.open(self.file).crop(self.area).convert('RGB'))
             self._match_init = True
 
     def match(self, image, offset=30, threshold=0.85):
@@ -132,17 +147,22 @@ class Button:
         if isinstance(offset, tuple):
             offset = np.array((-offset[0], -offset[1], offset[0], offset[1]))
         else:
-            offset = np.array((0, -offset, 0, offset))
-
-        # offset = np.array((0, -offset, 0, offset))
-        # offset = np.array((-offset, -offset, offset, offset))
+            offset = np.array((3, -offset, 3, offset))
         image = np.array(image.crop(offset + self.area))
-        res = cv2.matchTemplate(self.image, image, cv2.TM_CCOEFF_NORMED)
-        _, similarity, _, point = cv2.minMaxLoc(res)
 
-        self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
-
-        return similarity > threshold
+        if self.is_gif:
+            for template in self.image:
+                res = cv2.matchTemplate(template, image, cv2.TM_CCOEFF_NORMED)
+                _, similarity, _, point = cv2.minMaxLoc(res)
+                self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
+                if similarity > threshold:
+                    return True
+            return False
+        else:
+            res = cv2.matchTemplate(self.image, image, cv2.TM_CCOEFF_NORMED)
+            _, similarity, _, point = cv2.minMaxLoc(res)
+            self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
+            return similarity > threshold
 
     def match_appear_on(self, image, threshold=10):
         """
