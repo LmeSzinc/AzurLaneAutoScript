@@ -110,13 +110,13 @@ def put_textarea_(
             put_text(title).style("arg-title"),
             put_text(help).style("arg-help"),
             put_textarea(name, value=value, readonly=readonly, code={
-                "theme": "idea", "lineWrapping": True, "lineNumbers": False})
+                "lineWrapping": True, "lineNumbers": False})
         ], size="auto auto auto").style("container-args")
     else:
         return put_column([
             put_text(title).style("arg-title"),
             put_textarea(name, value=value, readonly=readonly, code={
-                "theme": "idea", "lineWrapping": True, "lineNumbers": False})
+                "lineWrapping": True, "lineNumbers": False})
         ], size="auto auto").style("container-args")
 
 

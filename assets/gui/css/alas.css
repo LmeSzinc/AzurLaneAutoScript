@@ -5,7 +5,7 @@ details {
 }
 
 details[open]>summary {
-    border-bottom: unset;
+    border-bottom: unset !important;
 }
 
 details[open]>div {
@@ -13,7 +13,7 @@ details[open]>div {
 }
 
 summary {
-    background-color: transparent;
+    background-color: transparent !important;
     font-weight: 500;
 }
 
@@ -41,13 +41,12 @@ footer {
     text-align: left;
 }
 
-.btn-menu:hover, .btn-menu-active {
+.btn-menu:hover,
+.btn-menu-active {
     font-weight: bold;
     border-left: .125rem solid;
     padding-right: .625rem;
     border-left: 3px solid;
-    border-color: #4E4C97;
-    color: #4E4C97;
 }
 
 .btn-aside {
@@ -61,33 +60,26 @@ footer {
     transition: border .1s ease-in-out, padding .1s ease-in-out
 }
 
-.btn-aside:hover, .btn-aside-active {
+.btn-aside:hover,
+.btn-aside-active {
     border-left: 4px solid;
     padding-left: 3px;
-    border-color: #4E4C97;
-    color: #4E4C97;
     font-weight: bold;
 }
 
 .btn-scheduler-on {
-    border: 1px solid lightgrey;
     border-radius: 0;
     margin: 0;
 }
 
 .btn-scheduler-off {
-    border: 1px solid lightgrey;
     border-radius: 0;
     margin: 0;
-    background-color: #4E4C97;
-    color: white;
 }
 
-.btn-scheduler-off:hover {
-    color: white;
-}
-
-.toastify-center, .toastify-right, .toastify-left{
+.toastify-center,
+.toastify-right,
+.toastify-left {
     margin-top: 3.3125rem;
 }
 
@@ -117,99 +109,85 @@ footer {
     margin-bottom: .25rem !important;
 }
 
-input[type="text"]{
-    border-radius: initial !important;
-    border: unset !important;
-    border-bottom: .125rem solid #4E4C97 !important;
-    padding: 0 .5rem 0 !important;
-    margin-top: .125rem;
-    height: auto !important;
-}
-
-select {
-    border-radius: initial !important;
-    border: unset !important;
-    border-bottom: .125rem solid #4E4C97 !important;
-    padding: 0 .25rem 0 !important;
-    margin-top: .125rem;
-    height: auto !important;
-}
-
-input[type="text"]:not([readonly="readonly"]):focus, select:focus {
-    box-shadow: 0 .06rem 0 #4E4C97 !important;
-}
-
-input[readonly="readonly"]:focus {
-    box-shadow: initial;
-}
-
-input[type="range"] {
-    padding: 0 !important;
-    border: unset !important;
-    border-radius: initial !important;
-    border-bottom: .125rem solid #4E4C97 !important;
-}
-
-input[type="radio"] {
-    margin-left: -12px !important;
-}
-
 input[type="checkbox"] {
     width: 1.25rem;
     height: 1.25rem;
 }
 
-.form-check {
+label {
     display: inline;
-    padding-left: .75rem;
 }
 
-.form-check-label {
-    padding-left: 8px;
+.form-control {
+    background-color: unset;
+    border-radius: initial !important;
+    border-width: 0;
+    padding: 0 .5rem 0;
+    margin-top: .125rem;
+    height: auto !important;
 }
 
-.form-control:disabled, .form-control[readonly] {
-    background-color: white;
-    opacity: 1;
-    color: lightgrey;
+.form-control:focus {
+    border-color: unset;
 }
 
-textarea {
-    border: 1px solid lightgrey;
+.form-control.is-invalid:focus {
+    box-shadow: 0 0.06rem 0 #dc3545;
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-attachment: scroll;
+    background-position: right, center;
+    background-repeat: no-repeat;
+    background-size: 1rem;
+}
+
+select.form-control.is-invalid {
+    padding-right: 3rem !important;
+    background-position: right 1.5rem center;
 }
 
 .CodeMirror {
     height: auto !important;
 }
 
-.CodeMirror-wrap {
-    border: 1px solid lightgrey;
+.CodeMirror-line {
+    font-family: SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace !important;
 }
 
 .form-group {
     margin-bottom: 0 !important;
 }
 
+.alas-icon,
+.alas-icon>image {
+    width: 42px;
+    height: 42px;
+}
+
+.aside-icon {
+    width: 2rem;
+    height: 2rem;
+}
+
 .container-log {
-    border: 1px solid lightgray;
     border-radius: 0 !important;
     margin: .375rem !important;
     padding: 1rem !important;
-    background-color: white !important;
 }
 
 *[style*="container-aside"] {
     z-index: 91;
-    background: #ffffff;
     padding-left: .125rem;
     padding-right: .325rem;
     padding-top: 1rem;
     overflow-y: auto;
-    border-right: 1px solid lightgrey;
 }
 
 *[style*="container-menu"] {
-    box-shadow: 0 0 8px rgba(0, 0, 0, .1);
     z-index: 90;
     padding-left: .5rem;
     padding-top: 1.2rem;
@@ -219,7 +197,6 @@ textarea {
 }
 
 *[style*="container-content"] {
-    background-color: #F9F9F9;
     margin: 0;
     overflow: auto;
     padding: .625rem
@@ -227,37 +204,43 @@ textarea {
 
 *[style*="title-icon-alas"] {
     margin: .25rem 2rem .25rem 1rem;
+    border-radius: 1.5rem;
 }
 
 *[style*="title-text-alas"] {
     font-size: 1.5rem;
     font-weight: bold;
-    padding-top: .5rem;
-    margin-bottom: 0;
+    margin: auto !important;
 }
 
 *[style*="title-text-title"] {
     font-size: 1.2rem;
-    padding-top: .75rem;
-    margin-bottom: 0;
-    text-align: center;
+    margin: auto;
     overflow: hidden;
+    text-align: center;
+}
+
+*[style*="title-text-title"]>p {
+    margin: auto;
 }
 
 *[style*="title-status"] {
-    margin-top: 1rem;
+    padding-top: 3px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+*[style*="title-status"]>div>div+div+p {
+    margin: 0;
 }
 
 *[style*="container-title"] {
-    box-shadow: 0 0 8px rgba(0, 0, 0, .2);
     z-index: 100;
-    border-color: lightgrey;
-    grid-template-columns: 5.6rem 3.75rem 8rem minmax(5rem, 65rem) !important;
+    grid-template-columns: 5.6rem 3.75rem 8rem minmax(5rem, 1fr) !important;
 }
 
 *[style*="aside-icon-setting"] {
     padding-top: .5rem;
-    border-top: 1px solid lightgrey;
 }
 
 *[style*="container-main"] {
@@ -281,7 +264,6 @@ textarea {
 
 *[style*="group-help"] {
     font-size: .80rem;
-    color: #777777;
     margin: .2rem .25rem .1rem .25rem !important;
 }
 
@@ -292,19 +274,15 @@ textarea {
 }
 
 *[style*="container-group"] {
-    background-color: white;
     margin-top: .75rem;
     margin-bottom: .25rem;
     padding: 1rem;
-    border: 1px solid lightgrey;
 }
 
 *[style*="container-overview-group"] {
-    background-color: white;
     font-weight: 500;
     margin: 0.3125rem;
     padding: 0.625rem;
-    border: 1px solid lightgrey;
     overflow-y: auto;
 }
 
@@ -335,7 +313,6 @@ textarea {
 
 *[style*="arg-help"] {
     font-size: .8rem;
-    color: #777777;
     margin: .2rem .25rem .1rem .25rem !important;
     overflow-wrap: break-word;
 }
@@ -346,8 +323,6 @@ textarea {
 }
 
 *[style*="welcome"] {
-    background-color: white;
     margin: 2rem;
     padding: 1rem 1rem 1rem 1rem;
-    border: 1px solid lightgrey;
 }

@@ -201,7 +201,6 @@ class Icon:
     SETTING = _read(filepath_icon('setting'))
     RUN = _read(filepath_icon('run'))
     DEVELOP = _read(filepath_icon('develop'))
-    PERFORMANCE = _read(filepath_icon('performance'))
     ADD = _read(filepath_icon('add'))
 
 
