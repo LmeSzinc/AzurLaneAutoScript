@@ -126,7 +126,7 @@ class Connection:
         self._adb_binary = file
         return file
 
-    def adb_command(self, cmd, serial=None):
+    def adb_command(self, cmd, serial=None, timeout=10):
         if serial:
             cmd = [self.adb_binary, '-s', serial] + cmd
         else:
@@ -139,7 +139,7 @@ class Connection:
             process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=False)
         else:
             process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
-        return process.communicate(timeout=10)[0]
+        return process.communicate(timeout=timeout)[0]
 
     def adb_shell(self, cmd, serial=None):
         cmd.insert(0, 'shell')

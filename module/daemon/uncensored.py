@@ -42,7 +42,7 @@ class AzurLaneUncensored(LoginHandler):
         logger.info('This will take a few seconds')
         command = ['push', 'files', f'/sdcard/Android/data/{self.config.Emulator_PackageName}']
         logger.info(f'Command: {command}')
-        self.device.adb_command(command)
+        self.device.adb_command(command, timeout=30)
         logger.info('Push success')
 
         # Back to root folder
