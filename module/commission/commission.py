@@ -9,7 +9,8 @@ from module.exception import GameStuckError
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
-from module.ui.page import page_reward, page_commission
+from module.ui.assets import COMMISSION_CHECK, REWARD_GOTO_COMMISSION
+from module.ui.page import page_reward
 from module.ui.scroll import Scroll
 from module.ui.switch import Switch
 from module.ui.ui import UI
@@ -322,12 +323,11 @@ class RewardCommission(UI, InfoHandler):
 
         Pages:
             in: page_reward
-            out: page_reward
+            out: page_commission
         """
         logger.hr('Reward receive')
 
         reward = False
-        exit_timer = Timer(1, count=3).start()
         click_timer = Timer(1)
         with self.stat.new('commission',
                            save=self.config.DropRecord_SaveCommission,
@@ -346,20 +346,20 @@ class RewardCommission(UI, InfoHandler):
                         REWARD_SAVE_CLICK.name = button.name
                         self.device.click(REWARD_SAVE_CLICK)
                         click_timer.reset()
-                        exit_timer.reset()
                         reward = True
                         continue
                 if click_timer.reached() and self.appear_then_click(REWARD_1, interval=1):
-                    exit_timer.reset()
                     click_timer.reset()
                     reward = True
                     continue
-                if not self.appear(page_reward.check_button) or self.info_bar_count():
-                    exit_timer.reset()
+                if click_timer.reached() and self.appear_then_click(REWARD_GOTO_COMMISSION, offset=(20, 20)):
+                    click_timer.reset()
                     continue
 
                 # End
-                if exit_timer.reached():
+                if self.appear(COMMISSION_CHECK, offset=(20, 20)):
+                    # Leaving at page_commission
+                    # Commission rewards may appear too slow, causing stuck in UI switching
                     break
 
         return reward
@@ -373,7 +373,6 @@ class RewardCommission(UI, InfoHandler):
         self.ui_ensure(page_reward)
         self.commission_receive()
 
-        self.ui_goto(page_commission, skip_first_screenshot=True)
         # info_bar appears when get ship in Launch Ceremony commissions
         # This is a game bug, the info_bar shows get ship, will appear over and over again, until you click get_ship.
         self.handle_info_bar()
