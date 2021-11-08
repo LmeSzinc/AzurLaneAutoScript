@@ -34,6 +34,18 @@ class CampaignBase(CampaignBase_):
         entrance = button.crop((-12, -12, 44, 32), image=self.device.image, name=name)
         return entrance
 
+    def _archives_loading_complete(self):
+        """
+        Check if war archive has finished loading
+        """
+        for war_archive_folder in dic_archives_template:
+            template = dic_archives_template[war_archive_folder]
+            loading_result = template.match(self.device.image)
+            if loading_result:
+                return True
+
+        return False
+
     def _search_archives_entrance(self, name, skip_first_screenshot=True):
         """
         Search for entrance using mini-touch scroll down
@@ -53,6 +65,9 @@ class CampaignBase(CampaignBase_):
             # before starting next search attempt
             while not self.appear(WAR_ARCHIVES_CHECK):
                 self.ui_ensure(destination=page_archives)
+
+            while not self._archives_loading_complete():
+                self.device.screenshot()
 
             entrance = self._get_archives_entrance(name)
             if entrance is not None:
