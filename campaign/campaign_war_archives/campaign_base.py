@@ -42,9 +42,9 @@ class CampaignBase(CampaignBase_):
             template = dic_archives_template[war_archive_folder]
             loading_result = template.match(self.device.image)
             if loading_result:
-                break
+                return True
 
-        return loading_result
+        return False
 
     def _search_archives_entrance(self, name, skip_first_screenshot=True):
         """
@@ -68,7 +68,6 @@ class CampaignBase(CampaignBase_):
 
             while not self._archives_loading_complete():
                 self.device.screenshot()
-                self.device.sleep(0.5)
 
             entrance = self._get_archives_entrance(name)
             if entrance is not None:
