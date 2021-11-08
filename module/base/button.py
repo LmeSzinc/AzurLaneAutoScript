@@ -147,7 +147,7 @@ class Button:
         if isinstance(offset, tuple):
             offset = np.array((-offset[0], -offset[1], offset[0], offset[1]))
         else:
-            offset = np.array((3, -offset, 3, offset))
+            offset = np.array((-3, -offset, 3, offset))
         image = np.array(image.crop(offset + self.area))
 
         if self.is_gif:
