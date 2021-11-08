@@ -19,10 +19,10 @@ MAP.weight_data = '''
     10 10 10 10 10 10 10 10 10
     10 30 10 10 10 10 10 10 10
 '''
-MAP.camera_data = ['D4']
+MAP.camera_data = ['D3', 'E3']
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 3},
-    {'battle': 1, 'enemy': 2},
+    {'battle': 1, 'enemy': 2, 'mystery': 1},
     {'battle': 2, 'enemy': 2},
     {'battle': 3, 'enemy': 1},
     {'battle': 4, 'enemy': 1},
@@ -41,6 +41,7 @@ road_main = RoadGrids([C3, C2, [C1, D2], F1, H1, H2, H3, H4])
 
 class Config:
     SUBMARINE = 0
+    MAP_HAS_MYSTERY = True
     INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
     EDGE_LINES_HOUGHLINES_THRESHOLD = 40
     COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.5

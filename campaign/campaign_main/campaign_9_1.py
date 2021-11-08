@@ -26,7 +26,7 @@ MAP.camera_data = ['D3', 'F3']
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 3},
     {'battle': 1, 'enemy': 2},
-    {'battle': 2, 'enemy': 2},
+    {'battle': 2, 'enemy': 1},
     {'battle': 3, 'enemy': 1},
     {'battle': 4, 'enemy': 1},
     {'battle': 5, 'boss': 1},
@@ -39,6 +39,8 @@ A4, B4, C4, D4, E4, F4, G4, H4, \
 A5, B5, C5, D5, E5, F5, G5, H5, \
     = MAP.flatten()
 
+# Might have wrong prediction on D5
+MAP.ignore_prediction(D5, enemy_scale=1, enemy_genre='Enemy')
 road_main = RoadGrids([B3, D3, [D5, E4], F5, G5, [G4, H5], H4, E3 , F3, F2, F1])
 step_on = SelectedGrids([F3, E4])
 

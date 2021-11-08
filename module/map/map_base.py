@@ -28,6 +28,7 @@ class CampaignMap:
         self._camera_data = []
         self._camera_data_spawn_point = []
         self._map_covered = SelectedGrids([])
+        self._ignore_prediction = []
         self.in_map_swipe_preset_data = None
         self.poor_map_data = False
         self.camera_sight = (-3, -1, 3, 2)
@@ -299,6 +300,8 @@ class CampaignMap:
         for grid in grids.grids.values():
             loca = tuple(offset + grid.location)
             if loca in self.grids:
+                if self.ignore_prediction_match(globe=loca, local=grid):
+                    continue
                 if not copy.copy(self.grids[loca]).merge(grid, mode=mode):
                     logger.warning(f"Wrong Prediction. {self.grids[loca]} = '{grid.str}'")
                     failed_count += 1
@@ -307,6 +310,8 @@ class CampaignMap:
             for grid in grids.grids.values():
                 loca = tuple(offset + grid.location)
                 if loca in self.grids:
+                    if self.ignore_prediction_match(globe=loca, local=grid):
+                        continue
                     self.grids[loca].merge(grid, mode=mode)
             return True
         else:
@@ -429,6 +434,35 @@ class CampaignMap:
             nodes (list): Contains str.
         """
         self._map_covered = SelectedGrids([self[node2location(node)] for node in nodes])
+
+    def ignore_prediction(self, globe, **local):
+        """
+        Args:
+            globe (GridInfo, tuple, str): Grid in globe map.
+            **local: Any properties in local grid.
+
+        Examples:
+            MAP.ignore_prediction(D5, enemy_scale=1, enemy_genre='Enemy')
+            will ignore `1E` enemy on D5.
+        """
+        globe = location_ensure(globe)
+        self._ignore_prediction.append((globe, local))
+
+    def ignore_prediction_match(self, globe, local):
+        """
+        Args:
+            globe (tuple):
+            local (GridInfo):
+
+        Returns:
+            bool: If matched a wrong prediction.
+        """
+        for wrong_globe, wrong_local in self._ignore_prediction:
+            if wrong_globe == globe:
+                if all([local.__getattribute__(k) == v for k, v in wrong_local.items()]):
+                    return True
+
+        return False
 
     @property
     def is_map_data_poor(self):
