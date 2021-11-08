@@ -1,7 +1,9 @@
+from module.combat.assets import EXP_INFO_C, EXP_INFO_D
 from module.daemon.daemon_base import DaemonBase
 from module.exception import CampaignEnd
 from module.logger import logger
 from module.os_combat.combat import Combat, ContinuousCombat
+from module.os_handler.assets import AUTO_SEARCH_REWARD
 from module.os_handler.port import PortHandler, PORT_ENTER
 
 
@@ -23,9 +25,15 @@ class AzurLaneDaemon(DaemonBase, Combat, PortHandler):
                     continue
             except (CampaignEnd, ContinuousCombat):
                 continue
+            if self.appear_then_click(EXP_INFO_C, interval=2):
+                continue
+            if self.appear_then_click(EXP_INFO_D, interval=2):
+                continue
 
             # Map events
             if self.handle_map_event():
+                continue
+            if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(20, 50), interval=2):
                 continue
 
             # Port repair
