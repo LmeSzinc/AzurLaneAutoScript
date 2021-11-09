@@ -992,6 +992,10 @@
     "CollectMission": {
       "name": "領取任務獎勵",
       "help": ""
+    },
+    "CollectWeeklyMission": {
+      "name": "領取周任務獎勵",
+      "help": ""
     }
   },
   "GeneralShop": {

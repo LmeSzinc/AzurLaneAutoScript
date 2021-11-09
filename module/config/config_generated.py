@@ -179,6 +179,7 @@ class GeneratedConfig:
     Reward_CollectCoin = True
     Reward_CollectExp = True
     Reward_CollectMission = True
+    Reward_CollectWeeklyMission = True
 
     # Group `GeneralShop`
     GeneralShop_UseGems = False

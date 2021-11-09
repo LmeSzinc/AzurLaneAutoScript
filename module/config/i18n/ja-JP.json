@@ -992,6 +992,10 @@
     "CollectMission": {
       "name": "Reward.CollectMission.name",
       "help": "Reward.CollectMission.help"
+    },
+    "CollectWeeklyMission": {
+      "name": "Reward.CollectWeeklyMission.name",
+      "help": "Reward.CollectWeeklyMission.help"
     }
   },
   "GeneralShop": {

@@ -252,6 +252,7 @@ Reward:
   CollectCoin: true
   CollectExp: true
   CollectMission: true
+  CollectWeeklyMission: true
 GeneralShop:
   UseGems: false
   Refresh: false
