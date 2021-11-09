@@ -116,6 +116,7 @@ class Connection:
         # Try existing adb.exe
         for file in self.adb_binary_list:
             if os.path.exists(file):
+                file = os.path.abspath(file).replace('\\', '/')
                 logger.attr('Adb_binary', file)
                 self._adb_binary = file
                 return file

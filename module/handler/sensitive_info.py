@@ -1,6 +1,5 @@
 import re
 
-import numpy as np
 from PIL import Image
 
 from module.base.mask import Mask
@@ -50,6 +49,7 @@ def handle_sensitive_text(text):
         str:
     """
     text = re.sub('File \"(.*?)AzurLaneAutoScript', 'File \"C:\\\\fakepath\\\\AzurLaneAutoScript', text)
+    text = re.sub('\[Adb_binary\] (.*?)AzurLaneAutoScript', '[Adb_binary] C:\\\\fakepath\\\\AzurLaneAutoScript', text)
     return text
 
 
