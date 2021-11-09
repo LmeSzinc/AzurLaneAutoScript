@@ -1,6 +1,8 @@
 import re
 from datetime import datetime
 
+import cv2
+
 from module.base.button import Button, ButtonGrid
 from module.base.filter import Filter
 from module.base.timer import Timer
@@ -9,10 +11,21 @@ from module.exception import ScriptError
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.map_detection.utils import Points
-from module.ocr.ocr import Duration
+from module.ocr.ocr import Duration, DigitCounter
 from module.tactical.assets import *
 from module.ui.assets import TACTICAL_CHECK, REWARD_GOTO_TACTICAL
 from module.ui.ui import UI, page_tactical, page_reward
+
+
+class SkillExp(DigitCounter):
+    def pre_process(self, image):
+        r, g, b = cv2.split(image)
+        image = cv2.max(cv2.max(r, g), b)
+
+        return 255 - image
+
+
+SKILL_EXP = SkillExp(buttons=OCR_SKILL_EXP)
 
 BOOKS_GRID = ButtonGrid(origin=(239, 288), delta=(140, 120), button_shape=(98, 98), grid_shape=(6, 2))
 BOOK_FILTER = Filter(
@@ -83,7 +96,7 @@ class Book:
         check_area = tuple([area[0], area[3] + 2, area[2], area[3] + 4])
         im = np.array(image.crop(check_area).convert('L'))
         return True if np.mean(im) > 127 else False
-        
+
     def __str__(self):
         # Example: Red_T3_Exp
         text = f'{self.genre_str}_{self.tier_str}'
@@ -174,6 +187,12 @@ class RewardTacticalClass(UI):
         BOOK_FILTER.load(self.config.Tactical_TacticalFilter)
         books = BOOK_FILTER.apply(self.books.grids)
         logger.attr('Book_sort', ' > '.join([str(book) for book in books]))
+        current, remain, total = SKILL_EXP.ocr(self.device.image)
+        if total == 5800:
+            if remain < 3000:
+                self.books.delete(self.books.select(tier=4))
+            if remain < 1200:
+                self.books.delete(self.books.select(tier=3))
 
         if len(books):
             book = books[0]
