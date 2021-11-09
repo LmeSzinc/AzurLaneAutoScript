@@ -152,7 +152,7 @@ class GeneratedConfig:
     Research_UseCoin = True
     Research_UsePart = True
     Research_PresetFilter = 'series_4'  # custom, series_4, series_3, series_3_than_2
-    Research_CustomFilter = 'S4-Q0.5 > Q-0.5 > S4-DR0.5 > S4-H0.5 > S4-PRY0.5 > DR-0.5 > PRY-0.5\n> S4-Q4 > S4-Q2 > S4-Q1\n> S4-DR2.5 > S4-PRY2.5\n> S4-G1.5 > S4-G2.5\n> S4-DR5 > S4-PRY5\n> S4-G4 > S4-DR8\n> S4-1 > S4-2 > S4-4 > reset > shortest'
+    Research_CustomFilter = 'S4-Q0.5 > Q-0.5 > S4-DR0.5 > S4-PRY0.5 > DR-0.5 > PRY-0.5\n> S4-Q1 > S4-Q2\n> S4-DR2.5 > S4-G1.5\n> S4-Q4 > S4-H0.5 > S4-G4\n> S4-PRY2.5 > S4-G2.5\n> reset > S4-H1 > shortest'
 
     # Group `Dorm`
     Dorm_Collect = True
