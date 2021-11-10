@@ -265,7 +265,7 @@ class Reward(UI):
             oil=self.config.Reward_CollectOil,
             coin=self.config.Reward_CollectCoin,
             exp=self.config.Reward_CollectExp)
-        self.reward_mission(self.config.Reward_CollectMission)
+        self.ui_goto(page_main)
         self.reward_mission(daily=self.config.Reward_CollectMission,
                             weekly=self.config.Reward_CollectWeeklyMission)
         self.config.task_delay(success=True)
