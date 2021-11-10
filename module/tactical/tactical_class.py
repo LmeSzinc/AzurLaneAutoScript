@@ -184,15 +184,22 @@ class RewardTacticalClass(UI):
             out: Unknown, may TACTICAL_CLASS_START, page_tactical, or _tactical_animation_running
         """
         self._tactical_books_get()
+
+        # experience filter
+        current, remain, total = SKILL_EXP.ocr(self.device.image)
+        if total == 5800:
+            logger.info(f'About to reach level 10, remain experience:{remain}')
+            if remain < 3000:
+                logger.info(f'remove Tier4 Book to prevent waste')
+                self.books = self.books.delete(self.books.select(tier=4))
+            if remain < 1200:
+                logger.info(f'remove Tier3 Book to prevent waste')
+                self.books = self.books.delete(self.books.select(tier=3))
+
+        # config filter
         BOOK_FILTER.load(self.config.Tactical_TacticalFilter)
         books = BOOK_FILTER.apply(self.books.grids)
         logger.attr('Book_sort', ' > '.join([str(book) for book in books]))
-        current, remain, total = SKILL_EXP.ocr(self.device.image)
-        if total == 5800:
-            if remain < 3000:
-                self.books.delete(self.books.select(tier=4))
-            if remain < 1200:
-                self.books.delete(self.books.select(tier=3))
 
         if len(books):
             book = books[0]
