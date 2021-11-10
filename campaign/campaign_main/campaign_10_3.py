@@ -7,12 +7,12 @@ from module.logger import logger
 MAP = CampaignMap('10-3')
 MAP.shape = 'I6'
 MAP.map_data = '''
-    ME -- ME -- ME MB ++ -- MM
+    Me -- ME -- ME MB ++ -- MM
     -- ++ ++ ++ ME MB ++ -- --
-    -- ME -- ME ME ME __ ME --
-    -- -- ++ ++ MB ME ME ME ++
+    -- Me -- ME ME ME __ ME --
+    -- -- ++ ++ MB ME ME Me ++
     -- -- SP SP ++ ++ ++ ME MB
-    ++ -- -- -- ME -- ME ME ME
+    ++ -- -- -- Me -- ME ME ME
 '''
 MAP.weight_data = '''
     90 90 90 90 40 10 90 90 90

@@ -8,9 +8,9 @@ MAP.shape = 'H6'
 MAP.map_data = '''
     MB -- ME -- ME -- ++ MB
     ME ++ ++ ++ MB ME ++ --
-    ME __ -- SP ++ ME ME --
-    -- -- ME ++ SP -- __ ME
-    ++ -- ME MB ++ ++ ++ --
+    Me __ -- SP ++ ME ME --
+    -- -- ME ++ SP -- __ Me
+    ++ -- Me MB ++ ++ ++ --
     ++ ++ -- ME -- ME ME MB
 '''
 MAP.weight_data = '''

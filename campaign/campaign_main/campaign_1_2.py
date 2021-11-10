@@ -8,7 +8,7 @@ from campaign.campaign_main.campaign_1_1 import Config
 MAP = CampaignMap()
 MAP.shape = 'E3'
 MAP.map_data = '''
-    SP -- ME ME MB
+    SP -- ME Me MB
     -- ++ -- -- ++
     -- -- ME MM ++
 '''

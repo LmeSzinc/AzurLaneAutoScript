@@ -7,12 +7,12 @@ from module.logger import logger
 MAP = CampaignMap()
 MAP.shape = 'H6'
 MAP.map_data = '''
-    ME -- ME ME -- -- ++ ++
+    ME -- ME Me -- -- ++ ++
     ++ ME -- ++ ME ME ME ME
-    ++ __ ME ++ ++ __ ME --
-    -- ME -- ME ME ME -- ME
+    ++ __ Me ++ ++ __ Me --
+    -- ME -- ME ME ME -- Me
     ME ++ ++ SP SP -- ++ MB
-    ME -- ME ME -- ME ++ MB
+    ME -- Me ME -- Me ++ MB
 '''
 #MAP.camera_data = ['D3', 'D5', 'F3', 'F5']
 MAP.spawn_data = [

@@ -6,9 +6,9 @@ from module.logger import logger
 MAP = CampaignMap('11-2')
 MAP.shape = 'K6'
 MAP.map_data = '''
-    ++ ++ ++ -- -- ++ -- ME -- ME --
-    -- -- -- ME -- __ ME ++ ++ ME --
-    SP -- ++ -- -- ME ME -- ++ -- ME
+    ++ ++ ++ -- -- ++ -- ME -- Me --
+    -- -- -- Me -- __ Me ++ ++ ME --
+    SP -- ++ -- -- ME ME MM ++ -- ME
     SP -- ++ -- ME -- ++ ME -- MB MB
     -- ++ ++ ++ __ ME ME -- ++ ++ ++
     -- -- ME -- -- ++ -- ME -- -- MB

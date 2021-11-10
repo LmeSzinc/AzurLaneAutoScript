@@ -548,7 +548,7 @@ DATA = LOADER.load('./sharecfg/chapter_template.lua')
 DATA_LOOP = LOADER.load('./sharecfg/chapter_template_loop.lua')
 MAP_EVENT_LIST = LOADER.load('./sharecfg/map_event_list.lua')
 MAP_EVENT_TEMPLATE = LOADER.load('./sharecfg/map_event_template.lua')
-EXPECTATION_DATA = LOADER.load('./sharecfgdata/expedition_data_template.lua')
+EXPECTATION_DATA = LOADER.load('./sharecfgdata/sharecfg/expedition_data_template.lua')
 
 ct = ChapterTemplate()
 ct.extract(ct.get_chapter_by_name(KEYWORD, select=SELECT), folder=FOLDER)

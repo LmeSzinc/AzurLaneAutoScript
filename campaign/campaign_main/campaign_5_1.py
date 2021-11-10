@@ -12,7 +12,7 @@ MAP.map_data = '''
     SP -- -- -- ME -- -- MB
     -- -- ME ME -- -- SP ME
     -- ME -- ME -- ME ME MB
-    SP -- ME -- -- ++ ++ ++
+    SP -- ME -- -- -- ++ ++
     MB ME -- ME -- MA ++ ++
 '''
 MAP.weight_data = '''

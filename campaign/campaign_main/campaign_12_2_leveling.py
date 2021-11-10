@@ -8,13 +8,13 @@ from campaign.campaign_main.campaign_12_1 import Config as ConfigBase
 MAP = CampaignMap()
 MAP.shape = 'I7'
 MAP.map_data = '''
-    ++ MB ME ME ++ -- ME ME --
-    ++ -- ME -- ME -- ME -- ++
+    ++ MB ME ME ++ -- ME Me --
+    ++ -- Me -- Me -- Me -- ++
     MB ME ++ ME SP ME -- ME ++
-    MB __ ME -- SP ++ ++ __ ME
-    ++ -- -- ME ME -- ME -- ME
-    -- ME ME ++ -- -- ME ME --
-    ME -- ME -- ME ME -- ++ ++
+    MB __ ME -- SP ++ ++ __ Me
+    ++ -- -- Me ME -- ME -- ME
+    -- ME ME ++ -- -- Me ME --
+    ME -- Me -- ME ME -- ++ ++
 '''
 MAP.camera_data = ['D3', 'D5', 'F3', 'F5']
 MAP.spawn_data = [

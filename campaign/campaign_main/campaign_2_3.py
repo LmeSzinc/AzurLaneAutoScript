@@ -26,7 +26,7 @@ MAP.spawn_data = [
     {'battle': 0, 'enemy': 2, 'mystery': 1},
     {'battle': 1, 'enemy': 2},
     {'battle': 2, 'enemy': 1},
-    {'battle': 3, 'enemy': 2, 'boss':1},
+    {'battle': 3, 'enemy': 2, 'boss': 1},
 ]
 
 A1, B1, C1, D1, E1, F1, \

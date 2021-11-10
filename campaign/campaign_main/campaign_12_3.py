@@ -8,12 +8,12 @@ from campaign.campaign_main.campaign_12_1 import Config
 MAP = CampaignMap()
 MAP.shape = 'J7'
 MAP.map_data = '''
-    MB ++ ++ ++ ME MB -- ME -- ME
+    MB ++ ++ ++ ME MB -- Me -- ME
     MB -- ME -- -- ME -- -- ++ MB
-    -- ME __ ++ ME -- ME ++ ++ --
-    MB -- ME -- -- ME -- __ ME ME
-    -- ME -- ME ME -- ME -- -- ++
-    ++ -- ME ME -- ++ ME -- -- ++
+    -- ME __ ++ Me -- ME ++ ++ --
+    MB -- ME -- -- ME -- __ Me ME
+    -- ME -- ME Me -- Me -- ME ++
+    ++ -- ME Me -- ++ Me -- -- ++
     ++ ME -- ME SP SP -- ME -- ME
 '''
 #MAP.camera_data = ['D3', 'D5', 'F3', 'F5']

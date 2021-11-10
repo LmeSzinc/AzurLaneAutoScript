@@ -7,10 +7,10 @@ MAP = CampaignMap('10-1')
 MAP.shape = 'G6'
 MAP.map_data = '''
     SP -- ++ -- ME ME --
-    -- -- ++ ME ME ME ME
-    -- ME ME ME ++ ++ MB
-    -- ME ME ME ME ++ MB
-    -- -- ++ -- ME ME ME
+    -- -- ++ Me ME ME ME
+    -- Me ME ME ++ ++ MB
+    -- ME Me ME ME ++ MB
+    -- -- ++ -- Me ME ME
     SP -- ++ ++ -- -- ++
 '''
 MAP.weight_data = '''

@@ -7,10 +7,10 @@ MAP = CampaignMap('11-1')
 MAP.shape = 'H6'
 MAP.map_data = '''
     -- -- ME -- ME -- -- MB
-    MB ME __ ME -- ++ ++ ME
-    ++ ME -- ++ ME MB ++ ME
+    MB ME __ ME -- ++ ++ --
+    ++ Me -- ++ ME MB ++ ME
     -- -- ++ ++ __ ME ME --
-    SP -- -- -- ME ME -- ++
+    SP -- -- -- Me ME -- ++
     ++ SP -- -- ++ -- MB ++
 '''
 MAP.weight_data = '''

@@ -10,7 +10,7 @@ MAP.shape = 'F5'
 MAP.map_data = '''
     ++ ++ ME MM ++ ++
     ++ ++ -- ME -- SP
-    ++ ++ ME -- ME --
+    -- ++ ME -- ME --
     MB ME -- ME -- --
     -- ME ME SP ME SP
 '''

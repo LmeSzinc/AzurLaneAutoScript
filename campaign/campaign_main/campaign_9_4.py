@@ -8,9 +8,9 @@ MAP.shape = 'I6'
 
 MAP.map_data = '''
     MB -- ME -- ++ ++ ++ -- MB
-    -- ++ __ ME -- ME ME ME --
-    ME -- ME -- ME -- __ ++ --
-    ME -- ++ ++ -- -- ME __ ME
+    -- ++ __ ME -- ME Me ME --
+    Me -- ME -- ME -- __ ++ --
+    ME -- ++ ++ -- -- Me __ ME
     SP -- MA ++ ME -- ++ ME --
     SP -- -- ME -- ME ++ -- MB
 '''
