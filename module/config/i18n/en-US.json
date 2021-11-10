@@ -992,6 +992,10 @@
     "CollectMission": {
       "name": "Collect Mission Rewards",
       "help": ""
+    },
+    "CollectWeeklyMission": {
+      "name": "Collect Weekly Mission Rewards",
+      "help": ""
     }
   },
   "GeneralShop": {

@@ -172,8 +172,13 @@ class Reward(UI):
         # premature exit
         return self._reward_mission_collect(interval=0)
 
-    def reward_mission(self):
+    def reward_mission(self, daily=True, weekly=True):
         """
+        Collects mission rewards
+        Args:
+            daily: If collect daily rewards
+            weekly: If collect weekly rewards
+
         Returns:
             bool: If rewarded.
 
@@ -181,6 +186,8 @@ class Reward(UI):
             in: page_main
             out: page_mission
         """
+        if not daily and not weekly:
+            return False
         logger.hr('Mission reward')
         if not self.appear(MISSION_NOTICE):
             logger.info('No mission reward')
@@ -190,10 +197,11 @@ class Reward(UI):
 
         self.ui_goto(page_mission, skip_first_screenshot=True)
 
-        # Handle all then weekly, key is both use
-        # different intervals
-        reward = self._reward_mission_all()
-        reward |= self._reward_mission_weekly()
+        reward = False
+        if daily:
+            reward |= self._reward_mission_all()
+        if weekly:
+            reward |= self._reward_mission_weekly()
 
         return reward
 
@@ -257,8 +265,7 @@ class Reward(UI):
             oil=self.config.Reward_CollectOil,
             coin=self.config.Reward_CollectCoin,
             exp=self.config.Reward_CollectExp)
-        if self.config.Reward_CollectMission:
-            self.ui_goto(page_main)
-            self.reward_mission()
-
+        self.ui_goto(page_main)
+        self.reward_mission(daily=self.config.Reward_CollectMission,
+                            weekly=self.config.Reward_CollectWeeklyMission)
         self.config.task_delay(success=True)

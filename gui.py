@@ -8,6 +8,7 @@ from multiprocessing.managers import SyncManager
 from typing import Generator
 
 from filelock import FileLock
+from pywebio import config as webconfig
 from pywebio.exceptions import SessionClosedException, SessionNotFoundException
 from pywebio.session import go_app, info, register_thread, set_env
 
@@ -125,6 +126,7 @@ class AlasGUI(Frame):
     ALAS_ARGS: Dict[str, Dict[str, Dict[str, Dict[str, str]]]]
     path_to_idx: Dict[str, str] = {}
     idx_to_path: Dict[str, str] = {}
+    theme = 'default'
 
     @classmethod
     def shorten_path(cls, prefix='a') -> None:
@@ -315,7 +317,7 @@ class AlasGUI(Frame):
                 if self.is_mobile:
                     width = '8rem'
                 else:
-                    width = '12rem'
+                    width = '13rem'
 
                 list_arg.append(get_output(
                     arg_type=arg_type,
@@ -664,7 +666,7 @@ class AlasGUI(Frame):
                 if self.is_mobile:
                     width = '8rem'
                 else:
-                    width = '12rem'
+                    width = '13rem'
 
                 list_arg.append(get_output(
                     arg_type=arg_type,
@@ -789,12 +791,32 @@ class AlasGUI(Frame):
             lang.set_language(l)
             self.show()
 
+        def set_theme(t):
+            """
+            Theme support is not available in pywebio 1.4
+            You need to upgrade to 1.5 dev version manually by run
+            `pip install -U https://code.aliyun.com/wang0618/pywebio/repository/archive.zip`
+            """
+            from pywebio.__version__ import __version__ as version
+            if 'dev' not in version and '1.4' in version:
+                toast("Not supported", position='right', color='error')
+                return
+            type(self).theme = t
+            webconfig(theme=t)
+            run_js("location.reload()")
+
         # temporary buttons, there is no setting page now :(
         self.content.append(
             put_text("Select your language").style("text-align: center"),
             put_buttons(
                 ["zh-CN", "zh-TW", "en-US", "ja-JP"],
                 onclick=lambda l: set_language(l)
+            ).style("text-align: center"),
+            put_text("Change theme (Not supported now)").style("text-align: center"),
+            put_buttons(
+                [{"label": "Light", "value": "default", "color": "light"},
+                 {"label": "Dark", "value": "dark", "color": "dark"}],
+                onclick=lambda t: set_theme(t),
             ).style("text-align: center")
         )
 
@@ -827,6 +849,11 @@ class AlasGUI(Frame):
         add_css(filepath_css('alas'))
         if self.is_mobile:
             add_css(filepath_css('alas-mobile'))
+
+        if self.theme == 'default':
+            add_css(filepath_css('light-alas'))
+        elif self.theme == 'dark':
+            add_css(filepath_css('dark-alas'))
 
         self.show()
 
@@ -885,11 +912,9 @@ if __name__ == "__main__":
     lang.reload()
 
     def index():
-        # Auto refresh page when connection lost
-        run_js('WebIO._state.CurrentSession.on_session_close(()=>{setTimeout(()=>location.reload(), 5000)})')
         if args.key != '' and not login(args.key):
             logger.warning(f"{info.user_ip} login failed.")
-            time.sleep(2)
+            time.sleep(1.5)
             run_js('location.reload();')
             return
         AlasGUI().run()
