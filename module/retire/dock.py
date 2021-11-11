@@ -38,7 +38,7 @@ FILTER_RARITY_TYPES = [['all', 'common', 'rare', 'elite', 'super_rare', 'ultra']
 FILTER_EXTRA_GRIDS = ButtonGrid(
     origin=(284, 473), delta=(158, 57), button_shape=(137, 38), grid_shape=(6, 2), name='FILTER_EXTRA')
 FILTER_EXTRA_TYPES = [['no_limit', 'has_skin', 'can_retrofit', 'enhanceable', 'can_limit_break', 'not_level_max'],
-                      ['special', 'oath_skin', 'not_available', 'not_available', 'not_available', 'not_available']]
+                      ['can_awaken', 'can_awaken_plus', 'special', 'oath_skin', 'not_available', 'not_available']]
 
 CARD_GRIDS = ButtonGrid(
     origin=(93, 76), delta=(164 + 2 / 3, 227), button_shape=(138, 204), grid_shape=(7, 2), name='CARD')
@@ -209,7 +209,7 @@ class Dock(Equipment):
                                   ['sardegna', 'northern', 'iris', 'vichya', 'other', 'not_available']]
             rarity (str, list): [['all', 'common', 'rare', 'elite', 'super_rare', 'ultra']]
             extra (str, list): [['no_limit', 'has_skin', 'can_retrofit', 'enhanceable', 'can_limit_break', 'not_level_max'],
-                                ['special', 'oath_skin', 'not_available', 'not_available', 'not_available', 'not_available']]
+                                ['can_awaken', 'can_awaken_plus', 'special', 'oath_skin', 'not_available', 'not_available']]
 
         Pages:
             in: page_dock
