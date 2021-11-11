@@ -56,9 +56,9 @@ class CampaignRun(UI):
                 files = [f[:-3] for f in os.listdir(folder) if f[-3:] == '.py']
                 logger.warning(f'Existing files: {files}')
 
-            logger.critical('Please update Alas')
-            logger.critical('If file is still missing after update, '
-                            'contact developers, or make map files yourself using dev_tools/map_extractor.py')
+            logger.critical(f'Possible reason: This event ({folder}) does not have {name}')
+            logger.critical(f'Possible reason: You are using an old Alas, '
+                            'please check for update, or make map files yourself using dev_tools/map_extractor.py')
             raise RequestHumanTakeover
 
         config = copy.copy(self.config).merge(self.module.Config())

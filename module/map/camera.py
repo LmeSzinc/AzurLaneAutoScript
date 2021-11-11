@@ -17,6 +17,7 @@ class Camera(MapOperation):
     view: View
     map: CampaignMap
     camera = (0, 0)
+    grid_class = Grid
     _correct_camera = False
     _prev_view = None
     _prev_swipe = None
@@ -85,7 +86,7 @@ class Camera(MapOperation):
 
     def _view_init(self):
         if not hasattr(self, 'view'):
-            self.view = View(self.config)
+            self.view = View(self.config, grid_class=self.grid_class)
 
     def update(self, camera=True):
         """Update map image

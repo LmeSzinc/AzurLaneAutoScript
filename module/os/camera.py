@@ -6,6 +6,7 @@ from module.exception import MapDetectionError
 from module.logger import logger
 from module.map.camera import Camera
 from module.map.map_base import location_ensure, location2node
+from module.map_detection.os_grid import OSGrid
 from module.map_detection.view import View
 from module.os.map_operation import OSMapOperation
 from module.os.radar import Radar
@@ -21,7 +22,7 @@ class OSCamera(OSMapOperation, Camera):
     def _view_init(self):
         if not hasattr(self, 'view'):
             storage = ((10, 7), [(110.307, 103.657), (1012.311, 103.657), (-32.959, 600.567), (1113.057, 600.567)])
-            view = View(self.config, mode='os')
+            view = View(self.config, mode='os', grid_class=OSGrid)
             view.detector_set_backend('homography')
             view.backend.load_homography(storage=storage)
             self.view = view

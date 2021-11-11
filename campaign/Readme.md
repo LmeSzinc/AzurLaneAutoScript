@@ -72,3 +72,4 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20211014   | raid 20210708            | Cross Wave                     | -                      | -                                | -                                    | 穿越彼方的水線       |
 | 20211028   | event 20211028 cn        | Skybound Oratorio              | 复刻穹顶下的圣咏曲     | Skybound Oratorio Rerun          | 神穹を衝く聖歌（復刻）               | -                    |
 | 20211028   | event 20211028 tw        | Iris of Light and Dark         | -                      | -                                | -                                    | 復刻光與影的鳶尾之華 |
+| 20211111   | event 20211111 cn        | The Flame-Touched Dagger       | 杰诺瓦的焰火           | The Flame-Touched Dagger         | 燈火のシニエ                         | -                    |

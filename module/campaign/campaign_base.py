@@ -68,11 +68,7 @@ class CampaignBase(CampaignUI, Map, AutoSearchCombat):
 
             return self.battle_default()
         else:
-            backup = self.config.FLEET_BOSS
-            if self.config.FLEET_2 != 0:
-                self.config.FLEET_BOSS = 2
             result = self.battle_boss()
-            self.config.FLEET_BOSS = backup
             return result
 
     @Config.when(MAP_CLEAR_ALL_THIS_TIME=False, POOR_MAP_DATA=False)
