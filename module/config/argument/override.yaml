@@ -70,9 +70,6 @@ C72MysteryFarming:
   Fleet:
     FleetOrder: fleet1_mob_fleet2_boss
     AutoSearchFleetOrder: fleet1_mob_fleet2_boss
-  Submarine:
-    Fleet: 0
-    Mode: do_not_use
 C122MediumLeveling:
   Campaign:
     Name: campaign_12_2_leveling
@@ -88,6 +85,8 @@ C122MediumLeveling:
   Fleet:
     FleetOrder: fleet1_all_fleet2_standby
     AutoSearchFleetOrder: fleet1_all_fleet2_standby
+  Submarine:
+    AutoSearchMode: sub_standby
 C124LargeLeveling:
   Campaign:
     Name: campaign_12_4_leveling
@@ -103,6 +102,8 @@ C124LargeLeveling:
   Fleet:
     FleetOrder: fleet1_all_fleet2_standby
     AutoSearchFleetOrder: fleet1_all_fleet2_standby
+  Submarine:
+    AutoSearchMode: sub_standby
 GemsFarming:
   Campaign:
     Mode: normal
@@ -215,6 +216,8 @@ Sos:
     ReachLevel120: false
   Fleet:
     AutoSearchFleetOrder: fleet1_all_fleet2_standby
+  Submarine:
+    AutoSearchMode: sub_standby
 EventAb:
   Scheduler:
     SuccessInterval: 30
@@ -232,21 +235,21 @@ EventAb:
     GetNewShip: false
     ReachLevel120: false
 EventCd:
-    Scheduler:
-      SuccessInterval: 30
-      FailureInterval: 30
-      ServerUpdate: 00:00
-    Campaign:
-      Name: dynamic
-      Mode: normal
-      Use2xBook: false
-      AmbushEvade: true
-    StopCondition:
-      RunCount: 0
-      MapAchievement: non_stop
-      StageIncrease: false
-      GetNewShip: false
-      ReachLevel120: false
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+  Campaign:
+    Name: dynamic
+    Mode: normal
+    Use2xBook: false
+    AmbushEvade: true
+  StopCondition:
+    RunCount: 0
+    MapAchievement: non_stop
+    StageIncrease: false
+    GetNewShip: false
+    ReachLevel120: false
 EventSp:
   Scheduler:
     SuccessInterval: 30
@@ -262,6 +265,8 @@ EventSp:
     StageIncrease: false
     GetNewShip: false
     ReachLevel120: false
+  Submarine:
+    AutoSearchMode: sub_standby
 RaidDaily:
   Scheduler:
     SuccessInterval: 30

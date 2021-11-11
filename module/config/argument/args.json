@@ -1593,34 +1593,6 @@
         ]
       }
     },
-    "Submarine": {
-      "Fleet": {
-        "type": "disable",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2
-        ]
-      },
-      "Mode": {
-        "type": "disable",
-        "value": "do_not_use",
-        "option": [
-          "do_not_use",
-          "hunt_only",
-          "every_combat"
-        ]
-      },
-      "AutoSearchMode": {
-        "type": "select",
-        "value": "sub_standby",
-        "option": [
-          "sub_standby",
-          "sub_auto_call"
-        ]
-      }
-    },
     "Emotion": {
       "CalculateEmotion": {
         "type": "checkbox",
@@ -1966,7 +1938,7 @@
         ]
       },
       "AutoSearchMode": {
-        "type": "select",
+        "type": "disable",
         "value": "sub_standby",
         "option": [
           "sub_standby",
@@ -2337,7 +2309,7 @@
         ]
       },
       "AutoSearchMode": {
-        "type": "select",
+        "type": "disable",
         "value": "sub_standby",
         "option": [
           "sub_standby",
@@ -3955,7 +3927,7 @@
         ]
       },
       "AutoSearchMode": {
-        "type": "select",
+        "type": "disable",
         "value": "sub_standby",
         "option": [
           "sub_standby",
@@ -5124,7 +5096,7 @@
         ]
       },
       "AutoSearchMode": {
-        "type": "select",
+        "type": "disable",
         "value": "sub_standby",
         "option": [
           "sub_standby",

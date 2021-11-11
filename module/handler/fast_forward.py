@@ -164,7 +164,8 @@ class FastForwardHandler(AutoSearchHandler):
 
         self.fleet_preparation_sidebar_ensure(3)
         self.auto_search_setting_ensure(self.config.Fleet_AutoSearchFleetOrder)
-        self.auto_search_setting_ensure(self.config.Submarine_AutoSearchMode)
+        if self.config.SUBMARINE:
+            self.auto_search_setting_ensure(self.config.Submarine_AutoSearchMode)
         return True
 
     def handle_auto_search_continue(self):
