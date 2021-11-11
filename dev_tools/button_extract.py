@@ -1,5 +1,6 @@
 import os
 
+import imageio
 import numpy as np
 from PIL import Image
 
@@ -21,50 +22,78 @@ VALID_SERVER = ['cn', 'en', 'jp', 'tw']
 
 
 class ImageExtractor:
-    def __init__(self, module, file, config):
+    def __init__(self, module, file):
         """
         Args:
             module(str):
-            file(str): xxx.png
-            config(AzurLaneConfig):
+            file(str): xxx.png or xxx.gif
         """
         self.module = module
         self.name, self.ext = os.path.splitext(file)
-        self.config = config
         self.area, self.color, self.button, self.file = {}, {}, {}, {}
         for server in VALID_SERVER:
             self.load(server)
 
     def get_file(self, genre='', server='cn'):
-        file = f'{self.name}.{genre}{self.ext}' if genre else f'{self.name}{self.ext}'
-        file = os.path.join(self.config.ASSETS_FOLDER, server, self.module, file)
+        for ext in ['.png', '.gif']:
+            file = f'{self.name}.{genre}{ext}' if genre else f'{self.name}{ext}'
+            file = os.path.join(AzurLaneConfig.ASSETS_FOLDER, server, self.module, file).replace('\\', '/')
+            if os.path.exists(file):
+                return file
+
+        ext = '.png'
+        file = f'{self.name}.{genre}{ext}' if genre else f'{self.name}{ext}'
+        file = os.path.join(AzurLaneConfig.ASSETS_FOLDER, server, self.module, file).replace('\\', '/')
         return file
 
+    def extract(self, file):
+        if os.path.splitext(file)[1] == '.gif':
+            # In a gif Button, use the first image.
+            bbox = None
+            mean = None
+            for image in imageio.mimread(file):
+                image = image[:, :, :3] if len(image.shape) == 3 else image
+                image = Image.fromarray(image)
+                new_bbox, new_mean = self._extract(image, file)
+                if bbox is None:
+                    bbox = new_bbox
+                elif bbox != new_bbox:
+                    logger.warning(f'{file} has multiple different bbox, this will cause unexpected behaviour')
+                if mean is None:
+                    mean = new_mean
+            return bbox, mean
+        else:
+            image = Image.open(file).convert('RGB')
+            return self._extract(image, file)
+
     @staticmethod
-    def extract(file):
-        image = Image.open(file).convert('RGB')
+    def _extract(image, file):
         if image.size != (1280, 720):
-            logger.warning(f'Incorrect asset {image.size} {file}')
+            logger.warning(f'{file} has wrong resolution: {image.size}')
         bbox = image.getbbox()
         mean = get_color(image=image, area=bbox)
         mean = tuple(np.rint(mean).astype(int))
         return bbox, mean
 
     def load(self, server='cn'):
-        if os.path.exists(self.get_file(server=server)):
-            area, color = self.extract(self.get_file(server=server))
+        file = self.get_file(server=server)
+        if os.path.exists(file):
+            area, color = self.extract(file)
             button = area
-            if os.path.exists(self.get_file('AREA', server=server)):
-                area, _ = self.extract(self.get_file('AREA', server=server))
-            if os.path.exists(self.get_file('COLOR', server=server)):
-                _, color = self.extract(self.get_file('COLOR', server=server))
-            if os.path.exists(self.get_file('BUTTON', server=server)):
-                button, _ = self.extract(self.get_file('BUTTON', server=server))
+            override = self.get_file('AREA', server=server)
+            if os.path.exists(override):
+                area, _ = self.extract(override)
+            override = self.get_file('COLOR', server=server)
+            if os.path.exists(override):
+                _, color = self.extract(override)
+            override = self.get_file('BUTTON', server=server)
+            if os.path.exists(override):
+                button, _ = self.extract(override)
 
             self.area[server] = area
             self.color[server] = color
             self.button[server] = button
-            self.file[server] = f"{self.config.ASSETS_FOLDER}/{server}/{self.module}/{self.name}{self.ext}"
+            self.file[server] = file
         else:
             logger.attr(server, f'{self.name} not found, use cn server assets')
             self.area[server] = self.area['cn']
@@ -115,10 +144,9 @@ class TemplateExtractor(ImageExtractor):
 
 
 class ModuleExtractor:
-    def __init__(self, name, config):
+    def __init__(self, name):
         self.name = name
-        self.config = config
-        self.folder = os.path.join(self.config.ASSETS_FOLDER, 'cn', name)
+        self.folder = os.path.join(AzurLaneConfig.ASSETS_FOLDER, 'cn', name)
 
     @staticmethod
     def split(file):
@@ -137,13 +165,13 @@ class ModuleExtractor:
             if file[0].isdigit():
                 continue
             if file.startswith('TEMPLATE_'):
-                exp.append(TemplateExtractor(module=self.name, file=file, config=self.config).expression)
+                exp.append(TemplateExtractor(module=self.name, file=file).expression)
                 continue
             # if file.startswith('OCR_'):
             #     exp.append(OcrExtractor(module=self.name, file=file, config=self.config).expression)
             #     continue
             if self.is_base_image(file):
-                exp.append(ImageExtractor(module=self.name, file=file, config=self.config).expression)
+                exp.append(ImageExtractor(module=self.name, file=file).expression)
                 continue
 
         logger.info('Module: %s(%s)' % (self.name, len(exp)))
@@ -178,14 +206,14 @@ class AssetExtractor:
         E.g. OCR_EXERCISE_TIMES.png.
     """
 
-    def __init__(self, config):
+    def __init__(self):
         logger.info('Assets extract')
 
-        for module in os.listdir(config.ASSETS_FOLDER + '/cn'):
-            if os.path.isdir(os.path.join(config.ASSETS_FOLDER + '/cn', module)):
-                me = ModuleExtractor(name=module, config=config)
+        for module in os.listdir(AzurLaneConfig.ASSETS_FOLDER + '/cn'):
+            if os.path.isdir(os.path.join(AzurLaneConfig.ASSETS_FOLDER + '/cn', module)):
+                me = ModuleExtractor(name=module)
                 me.write()
 
 
 if __name__ == '__main__':
-    ae = AssetExtractor(AzurLaneConfig('template'))
+    ae = AssetExtractor()
