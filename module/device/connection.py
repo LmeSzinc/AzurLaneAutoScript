@@ -3,7 +3,6 @@ import os
 import subprocess
 
 import uiautomator2 as u2
-from winreg import *
 
 from module.config.config import AzurLaneConfig
 from module.logger import logger
@@ -46,6 +45,8 @@ class Connection:
         Returns:
             str: 127.0.0.1:{port}
         """
+        from winreg import ConnectRegistry, OpenKey, QueryInfoKey, EnumValue, CloseKey, HKEY_LOCAL_MACHINE
+        
         logger.info("Use Bluestacks4 Hyper-v Beta")
         if serial == "bluestacks4-hyperv":
             folder_name = "Android"
@@ -78,6 +79,8 @@ class Connection:
         Returns:
             str: 127.0.0.1:{port}
         """
+        from winreg import ConnectRegistry, OpenKey, QueryInfoKey, EnumValue, CloseKey, HKEY_LOCAL_MACHINE
+        
         logger.info("Use Bluestacks5 Hyper-v")
         logger.info("Reading Realtime adb port")
 
