@@ -97,7 +97,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
 
         # Bind arguments
         visited = set()
-        self.bound = {}
+        self.bound.clear()
         for func in func_set:
             func_data = self.data.get(func, {})
             for group, group_data in func_data.items():
@@ -193,7 +193,8 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
             deep_set(self.data, keys=path, value=value)
 
         logger.info(f'Save config {filepath_config(self.config_name)}, {dict_to_kv(self.modified)}')
-        self.modified = {}
+        # Don't use self.modified = {}, that will create a new object.
+        self.modified.clear()
         write_file(filepath_config(self.config_name), data=self.data)
 
     def update(self):

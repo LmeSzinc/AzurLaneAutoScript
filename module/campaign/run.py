@@ -61,7 +61,7 @@ class CampaignRun(UI):
                             'please check for update, or make map files yourself using dev_tools/map_extractor.py')
             raise RequestHumanTakeover
 
-        config = copy.copy(self.config).merge(self.module.Config())
+        config = copy.deepcopy(self.config).merge(self.module.Config())
         device = self.device
         self.campaign = self.module.Campaign(config=config, device=device)
 
