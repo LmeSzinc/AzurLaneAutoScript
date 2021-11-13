@@ -22,7 +22,6 @@ class OperationSiren(Reward, OSMap):
         logger.hr('OS init', level=1)
 
         # UI switching
-        self.device.screenshot()
         if self.is_in_map():
             logger.info('Already in os map')
         elif self.is_in_globe():
@@ -231,6 +230,7 @@ class OperationSiren(Reward, OSMap):
                 self.globe_goto(self.zone, refresh=True)
             self.run_auto_search()
             self.handle_fleet_repair(revert=False)
+            self.config.check_task_switch()
 
         return True
 
