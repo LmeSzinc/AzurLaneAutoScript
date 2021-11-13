@@ -30,7 +30,9 @@ Error:
 Optimization:
   CombatScreenshotInterval: 1.0
   TaskHoardingDuration: 0
-  CloseGameDuringWait: false
+  WhenTaskQueueEmpty:
+    value: goto_main
+    option: [stay_there, goto_main, close_game]
 DropRecord:
   SaveFolder: ./screenshots
   AzurStatsID: null

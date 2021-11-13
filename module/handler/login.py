@@ -1,5 +1,4 @@
-from datetime import datetime, timedelta
-import time
+from datetime import datetime
 
 import module.config.server as server
 from module.base.timer import Timer
@@ -101,19 +100,6 @@ class LoginHandler(Combat):
     def app_restart(self):
         logger.hr('App restart')
         self.device.app_stop()
-
-        now = datetime.now()
-        target = self.config.Scheduler_NextRun
-        if target > now:
-            task = 'unknown'
-            for waiting in self.config.waiting_task:
-                if waiting.command != 'Restart':
-                    task = waiting.command
-                    break
-
-            logger.info(f'{self.config.Emulator_PackageName} will be started at {target} for task `{task}`')
-            self.config.wait_until(target)
-
         self.device.app_start()
         self.handle_app_login()
         # self.ensure_no_unfinished_campaign()

@@ -296,9 +296,12 @@
       "name": "Optimization.TaskHoardingDuration.name",
       "help": "Optimization.TaskHoardingDuration.help"
     },
-    "CloseGameDuringWait": {
-      "name": "Optimization.CloseGameDuringWait.name",
-      "help": "Optimization.CloseGameDuringWait.help"
+    "WhenTaskQueueEmpty": {
+      "name": "Optimization.WhenTaskQueueEmpty.name",
+      "help": "Optimization.WhenTaskQueueEmpty.help",
+      "stay_there": "stay_there",
+      "goto_main": "goto_main",
+      "close_game": "close_game"
     }
   },
   "DropRecord": {

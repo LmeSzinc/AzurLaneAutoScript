@@ -296,9 +296,12 @@
       "name": "囤積任務 X 分鐘",
       "help": "能在收穫期間降低操作遊戲的頻率\n任務觸發後，等待 X 分鐘後，一次性執行佇列中的任務"
     },
-    "CloseGameDuringWait": {
-      "name": "無任務時關閉遊戲",
-      "help": "能在收穫期間降低 CPU 使用率"
+    "WhenTaskQueueEmpty": {
+      "name": "當任務隊列清空後",
+      "help": "無任務時關閉遊戲，能在收菜期間降低 CPU 佔用",
+      "stay_there": "停在原處",
+      "goto_main": "前往主界面",
+      "close_game": "關閉遊戲"
     }
   },
   "DropRecord": {

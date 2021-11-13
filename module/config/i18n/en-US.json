@@ -296,9 +296,12 @@
       "name": "Hoard Tasks For X Minute(s)",
       "help": "By purposely not adding ready tasks to pending, allows for larger subsets to be built and run en masse at a later time\nCan reduce the frequency of operating AL"
     },
-    "CloseGameDuringWait": {
-      "name": "Close Game During Wait",
-      "help": "Close AL when there are no pending tasks, can help reduce CPU"
+    "WhenTaskQueueEmpty": {
+      "name": "When Task Queue is Empty",
+      "help": "Close AL when there are no pending tasks, can help reduce CPU",
+      "stay_there": "Stay There",
+      "goto_main": "Goto Main Page",
+      "close_game": "Close Game"
     }
   },
   "DropRecord": {

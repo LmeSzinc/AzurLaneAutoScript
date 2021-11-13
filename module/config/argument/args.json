@@ -61,9 +61,14 @@
         "type": "input",
         "value": 0
       },
-      "CloseGameDuringWait": {
-        "type": "checkbox",
-        "value": false
+      "WhenTaskQueueEmpty": {
+        "type": "select",
+        "value": "goto_main",
+        "option": [
+          "stay_there",
+          "goto_main",
+          "close_game"
+        ]
       }
     },
     "DropRecord": {

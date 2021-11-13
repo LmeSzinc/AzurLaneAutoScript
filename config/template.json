@@ -15,7 +15,7 @@
     "Optimization": {
       "CombatScreenshotInterval": 1.0,
       "TaskHoardingDuration": 0,
-      "CloseGameDuringWait": false
+      "WhenTaskQueueEmpty": "goto_main"
     },
     "DropRecord": {
       "SaveFolder": "./screenshots",

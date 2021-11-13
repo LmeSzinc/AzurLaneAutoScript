@@ -123,7 +123,9 @@ class Device(Screenshot, Control, AppControl):
     def app_start(self):
         super().app_start()
         self.stuck_record_clear()
+        self.click_record_clear()
 
     def app_stop(self):
         super().app_stop()
         self.stuck_record_clear()
+        self.click_record_clear()

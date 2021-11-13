@@ -296,9 +296,12 @@
       "name": "囤积任务 X 分钟",
       "help": "能在收菜期间降低操作游戏的频率\n任务触发后，等待 X 分钟，再一次性执行囤积的任务"
     },
-    "CloseGameDuringWait": {
-      "name": "无任务时关闭游戏",
-      "help": "能在收菜期间降低 CPU 占用"
+    "WhenTaskQueueEmpty": {
+      "name": "当任务队列清空后",
+      "help": "无任务时关闭游戏，能在收菜期间降低 CPU 占用",
+      "stay_there": "停在原处",
+      "goto_main": "前往主界面",
+      "close_game": "关闭游戏"
     }
   },
   "DropRecord": {

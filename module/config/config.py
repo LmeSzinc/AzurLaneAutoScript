@@ -1,6 +1,6 @@
+import copy
 import datetime
 import operator
-import time
 
 from module.base.filter import Filter
 from module.base.utils import ensure_time
@@ -23,9 +23,24 @@ class Function:
         self.next_run = deep_get(data, keys='Scheduler.NextRun', default=datetime(2020, 1, 1, 0, 0))
 
     def __str__(self):
-        return f'{self.command} ({self.enable}, {str(self.next_run)})'
+        enable = 'Enable' if self.enable else 'Disable'
+        return f'{self.command} ({enable}, {str(self.next_run)})'
 
     __repr__ = __str__
+
+
+def name_to_function(name):
+    """
+    Args:
+        name (str):
+
+    Returns:
+        Function:
+    """
+    function = Function({})
+    function.command = name
+    function.enable = True
+    return function
 
 
 class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
@@ -66,17 +81,21 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
         self.waiting_task = []
         # Task to run and bind.
         # Task means the name of the function to run in AzurLaneAutoScript class.
+        self.task: Function
         if config_name == 'template':
             # For dev tools
             logger.info('Using template config, which is read only')
             self.auto_update = False
-            self.task = 'template'
+            self.task = name_to_function('template')
         else:
             self.load()
             if task is None:
-                task = self.get_next()
+                # Bind `Alas` by default which includes emulator settings.
+                task = name_to_function('Alas')
+            else:
+                # Bind a specific task for debug purpose.
+                task = name_to_function(task)
             self.bind(task)
-            logger.info(f'Bind task {task}')
             self.task = task
 
     def load(self):
@@ -89,11 +108,14 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
     def bind(self, func):
         """
         Args:
-            func (str): Function to run
+            func (str, Function): Function to run
         """
+        if isinstance(func, Function):
+            func = func.command
         func_set = {func, 'General', 'Alas'}
         if 'opsi' in func.lower():
             func_set.add('OpsiGeneral')
+        logger.info(f'Bind task {func_set}')
 
         # Bind arguments
         visited = set()
@@ -116,7 +138,8 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
 
     @property
     def hoarding(self):
-        return timedelta(minutes=deep_get(self.data, keys='Alas.Optimization.TaskHoardingDuration', default=0))
+        minutes = int(deep_get(self.data, keys='Alas.Optimization.TaskHoardingDuration', default=0))
+        return timedelta(minutes=max(minutes, 0))
 
     @property
     def close_game(self):
@@ -151,35 +174,25 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
     def get_next(self):
         """
         Returns:
-            str: Command to run
+            Function: Command to run
         """
         self.get_next_task()
 
         if self.pending_task:
             AzurLaneConfig.is_hoarding_task = False
-            pending = [f.command for f in self.pending_task]
-            logger.info(f'Pending tasks: {pending}')
-            self.pending_task = pending
-            task = pending[0]
+            logger.info(f'Pending tasks: {[f.command for f in self.pending_task]}')
+            task = self.pending_task[0]
             logger.attr('Task', task)
             return task
         else:
             AzurLaneConfig.is_hoarding_task = True
 
         if self.waiting_task:
-            task = self.waiting_task[0]
-            target = (task.next_run + self.hoarding).replace(microsecond=0)
             logger.info('No task pending')
-            logger.info(f'Wait until {target} for task `{task.command}`')
-            if self.close_game:
-                self.modified['Restart.Scheduler.Enable'] = True
-                self.modified['Restart.Scheduler.NextRun'] = target
-                self.task = 'Restart'
-                self.update()
-                return 'Restart'
-            else:
-                self.wait_until(target)
-                return self.get_next()
+            task = copy.deepcopy(self.waiting_task[0])
+            task.next_run = (task.next_run + self.hoarding).replace(microsecond=0)
+            logger.attr('Task', task)
+            return task
         else:
             logger.critical('No task waiting or pending')
             logger.critical('Please enable at least one task')
@@ -277,7 +290,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
             kv = dict_to_kv(
                 {'success': success, 'server_update': server_update, 'target': target, 'minute': minute},
                 allow_none=False)
-            logger.info(f'Delay task `{self.task}` to {run} ({kv})')
+            logger.info(f'Delay task `{self.task.command}` to {run} ({kv})')
             self.Scheduler_NextRun = run
         else:
             raise ScriptError('Missing argument in delay_next_run, should set at least one')
@@ -324,9 +337,9 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
         Raises:
             bool: If task switched
         """
-        prev = self.task
+        prev = self.task.command
         self.load()
-        new = self.get_next()
+        new = self.get_next().command
         if prev != new:
             logger.info(f'Switch task `{prev}` to `{new}`')
             return True
@@ -342,20 +355,6 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
         """
         if self.task_switched():
             self.task_stop(message=message)
-
-    @staticmethod
-    def wait_until(future):
-        """
-        Wait until a specific time.
-
-        Args:
-            future (datetime):
-        """
-        seconds = future.timestamp() - datetime.now().timestamp() + 1
-        if seconds > 0:
-            time.sleep(seconds)
-        else:
-            logger.warning(f'Wait until {str(future)}, but sleep length < 0, skip waiting')
 
     @property
     def campaign_name(self):
@@ -497,14 +496,19 @@ class MultiSetWrapper:
             main (AzurLaneConfig):
         """
         self.main = main
+        self.in_wrapper = False
 
     def __enter__(self):
-        self.main.auto_update = False
+        if self.main.auto_update:
+            self.main.auto_update = False
+        else:
+            self.in_wrapper = True
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.main.update()
-        self.main.auto_update = True
+        if not self.in_wrapper:
+            self.main.update()
+            self.main.auto_update = True
 
 
 class ConfigTypeChecker:

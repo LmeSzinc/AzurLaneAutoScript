@@ -110,6 +110,10 @@ class AzurLaneAutoScript:
         from module.handler.login import LoginHandler
         LoginHandler(self.config, device=self.device).app_restart()
 
+    def goto_main(self):
+        from module.ui.ui import UI
+        UI(self.config, device=self.device).ui_goto_main()
+
     def research(self):
         from module.research.research import RewardResearch
         RewardResearch(config=self.config, device=self.device).run()
@@ -250,6 +254,49 @@ class AzurLaneAutoScript:
         GemsFarming(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
+    @staticmethod
+    def wait_until(future):
+        """
+        Wait until a specific time.
+
+        Args:
+            future (datetime):
+        """
+        seconds = future.timestamp() - datetime.now().timestamp() + 1
+        if seconds > 0:
+            time.sleep(seconds)
+        else:
+            logger.warning(f'Wait until {str(future)}, but sleep length < 0, skip waiting')
+
+    def get_next_task(self):
+        """
+        Returns:
+            str: Name of the next task.
+        """
+        task = self.config.get_next()
+        self.config.task = task
+        self.config.bind(task)
+
+        if task.next_run > datetime.now():
+            logger.info(f'Wait until {task.next_run} for task `{task.command}`')
+            method = self.config.Optimization_WhenTaskQueueEmpty
+            if method == 'close_game':
+                logger.info('Close game during wait')
+                self.device.app_stop()
+                self.wait_until(task.next_run)
+                self.run('restart')
+            elif method == 'goto_main':
+                logger.info('Goto main page during wait')
+                self.run('goto_main')
+                self.wait_until(task.next_run)
+            elif method == 'stay_there':
+                self.wait_until(task.next_run)
+            else:
+                logger.warning(f'Invalid Optimization_WhenTaskQueueEmpty: {method}, fallback to stay_there')
+                self.wait_until(task.next_run)
+
+        return task.command
+
     def loop(self):
         logger.set_file_logger(self.config_name)
         logger.info(f'Start scheduler loop: {self.config_name}')
@@ -257,14 +304,16 @@ class AzurLaneAutoScript:
         failure_record = {}
 
         while 1:
+            task = self.get_next_task()
+
             # Skip first restart
-            if is_first and self.config.task == 'Restart':
+            if is_first and task == 'Restart':
                 logger.info('Skip task `Restart` at scheduler start')
                 self.config.task_delay(server_update=True)
                 del self.__dict__['config']
+                continue
 
             # Run
-            task = self.config.task
             logger.info(f'Scheduler: Start task `{task}`')
             self.device.stuck_record_clear()
             self.device.click_record_clear()
@@ -272,7 +321,6 @@ class AzurLaneAutoScript:
             logger.hr(task, level=0)
             success = self.run(inflection.underscore(task))
             logger.info(f'Scheduler: End task `{task}`')
-            del self.__dict__['config']
             is_first = False
 
             # Check failures
@@ -289,9 +337,11 @@ class AzurLaneAutoScript:
                 exit(1)
 
             if success:
+                del self.__dict__['config']
                 continue
             elif self.config.Error_HandleError:
                 # self.config.task_delay(success=False)
+                del self.__dict__['config']
                 continue
             else:
                 break
