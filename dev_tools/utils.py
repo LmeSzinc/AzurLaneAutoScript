@@ -10,9 +10,36 @@ class LuaLoader:
     Load decrypted scripts
     """
 
+    server_alias = [
+        ['zh-CN', 'zh-cn', 'cn', 'CN'],
+        ['en-US', 'en-us', 'en', 'EN'],
+        ['ja-JP', 'ja-jp', 'jp', 'JP'],
+        ['zh-TW', 'zh-tw', 'tw', 'TW'],
+        ['ko-KR', 'ko-kr', 'kr', 'KR'],
+    ]
+
     def __init__(self, folder, server='zh-CN'):
         self.folder = folder
+        self._server = ''
         self.server = server
+
+    @property
+    def server(self):
+        return self._server
+
+    @server.setter
+    def server(self, value):
+        self._server = self.get_alias(value)
+
+    def get_alias(self, server):
+        for alias_list in self.server_alias:
+            if server in alias_list:
+                for alias in alias_list:
+                    folder = os.path.join(self.folder, alias)
+                    if os.path.exists(folder) and os.path.isdir(folder):
+                        return alias
+
+        return server
 
     def filepath(self, path):
         return os.path.join(self.folder, self.server, path)
