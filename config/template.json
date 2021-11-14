@@ -76,7 +76,7 @@
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
-      "ReachLevel120": false
+      "ReachLevel": 0
     },
     "Fleet": {
       "Fleet1": 1,
@@ -145,7 +145,7 @@
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
-      "ReachLevel120": false
+      "ReachLevel": 0
     },
     "Fleet": {
       "Fleet1": 1,
@@ -218,7 +218,7 @@
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
-      "ReachLevel120": false
+      "ReachLevel": 0
     },
     "Emotion": {
       "CalculateEmotion": true,
@@ -263,7 +263,7 @@
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
-      "ReachLevel120": false
+      "ReachLevel": 0
     },
     "Fleet": {
       "Fleet1": 1,
@@ -320,7 +320,7 @@
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
-      "ReachLevel120": false
+      "ReachLevel": 0
     },
     "Fleet": {
       "Fleet1": 1,
@@ -387,7 +387,7 @@
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
-      "ReachLevel120": false
+      "ReachLevel": 0
     },
     "Fleet": {
       "Fleet1": 1,
@@ -461,7 +461,7 @@
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
-      "ReachLevel120": false
+      "ReachLevel": 0
     },
     "Fleet": {
       "Fleet1": 1,
@@ -538,7 +538,7 @@
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
-      "ReachLevel120": false
+      "ReachLevel": 0
     },
     "Fleet": {
       "Fleet1": 1,
@@ -849,7 +849,7 @@
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
-      "ReachLevel120": false
+      "ReachLevel": 0
     },
     "Fleet": {
       "Fleet1": 1,
@@ -922,7 +922,7 @@
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
-      "ReachLevel120": false
+      "ReachLevel": 0
     },
     "Fleet": {
       "Fleet1": 1,
@@ -995,7 +995,7 @@
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
-      "ReachLevel120": false
+      "ReachLevel": 0
     },
     "Fleet": {
       "Fleet1": 1,
@@ -1064,7 +1064,7 @@
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
-      "ReachLevel120": false
+      "ReachLevel": 0
     },
     "Fleet": {
       "Fleet1": 1,
@@ -1136,7 +1136,7 @@
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
-      "ReachLevel120": false
+      "ReachLevel": 0
     },
     "Emotion": {
       "CalculateEmotion": true,
@@ -1178,7 +1178,7 @@
       "MapAchievement": "non_stop",
       "StageIncrease": false,
       "GetNewShip": false,
-      "ReachLevel120": false
+      "ReachLevel": 0
     },
     "Fleet": {
       "Fleet1": 1,

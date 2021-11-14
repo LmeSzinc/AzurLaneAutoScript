@@ -71,7 +71,7 @@ class GeneratedConfig:
     StopCondition_MapAchievement = 'non_stop'  # non_stop, 100_percent_clear, map_3_stars, threat_safe, threat_safe_without_3_stars
     StopCondition_StageIncrease = False
     StopCondition_GetNewShip = False
-    StopCondition_ReachLevel120 = False
+    StopCondition_ReachLevel = 0
 
     # Group `Fleet`
     Fleet_Fleet1 = 1  # 1, 2, 3, 4, 5, 6

@@ -33,7 +33,7 @@ Raid:
     MapAchievement: non_stop
     StageIncrease: false
     GetNewShip: false
-    ReachLevel120: false
+    ReachLevel: 0
 C11AffinityFarming:
   Campaign:
     Name: campaign_1_1_affinity_farming
@@ -49,7 +49,7 @@ C11AffinityFarming:
     MapAchievement: non_stop
     StageIncrease: false
     GetNewShip: false
-    ReachLevel120: false
+    ReachLevel: 0
   Fleet:
     FleetOrder: fleet1_all_fleet2_standby
     AutoSearchFleetOrder: fleet1_all_fleet2_standby
@@ -213,7 +213,7 @@ Sos:
     MapAchievement: non_stop
     StageIncrease: false
     GetNewShip: false
-    ReachLevel120: false
+    ReachLevel: 0
   Fleet:
     AutoSearchFleetOrder: fleet1_all_fleet2_standby
   Submarine:
@@ -233,7 +233,7 @@ EventAb:
     MapAchievement: non_stop
     StageIncrease: false
     GetNewShip: false
-    ReachLevel120: false
+    ReachLevel: 0
 EventCd:
   Scheduler:
     SuccessInterval: 30
@@ -249,7 +249,7 @@ EventCd:
     MapAchievement: non_stop
     StageIncrease: false
     GetNewShip: false
-    ReachLevel120: false
+    ReachLevel: 0
 EventSp:
   Scheduler:
     SuccessInterval: 30
@@ -264,7 +264,7 @@ EventSp:
     MapAchievement: non_stop
     StageIncrease: false
     GetNewShip: false
-    ReachLevel120: false
+    ReachLevel: 0
   Submarine:
     AutoSearchMode: sub_standby
 RaidDaily:
@@ -285,7 +285,7 @@ RaidDaily:
     MapAchievement: non_stop
     StageIncrease: false
     GetNewShip: false
-    ReachLevel120: false
+    ReachLevel: 0
 WarArchives:
   Scheduler:
     SuccessInterval: 30

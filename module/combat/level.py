@@ -55,7 +55,7 @@ class Level(ModuleBase):
         Returns:
             list[int]:
         """
-        if not self.config.StopCondition_ReachLevel120 and not self.config.STOP_IF_REACH_LV32:
+        if not self.config.StopCondition_ReachLevel and not self.config.STOP_IF_REACH_LV32:
             return [-1] * 6
 
         self._lv_before_battle = self.lv if after_battle else [-1] * 6
@@ -65,19 +65,23 @@ class Level(ModuleBase):
         logger.attr('LEVEL', ', '.join(str(data) for data in self.lv))
 
         if after_battle:
-            self.lv120_triggered()
+            self.lv_triggered()
             self.lv32_triggered()
 
         return self.lv
 
-    def lv120_triggered(self):
-        if not self.config.StopCondition_ReachLevel120:
+    def lv_triggered(self):
+        limit = self.config.StopCondition_ReachLevel
+        if not limit:
             return False
 
         for i in range(6):
-            if self.lv[i] == 120 and self._lv_before_battle[i] == 119:
-                logger.info(f'Position {i} LV.120 Reached')
-                self.config.LV120_TRIGGERED = True
+            before, after = self._lv_before_battle[i], self.lv[i]
+            if after > before > 0:
+                logger.info(f'Position {i} LV.{before} -> LV.{after}')
+            if after >= limit > before > 0:
+                logger.info(f'Position {i} LV.{limit} Reached')
+                self.config.LV_TRIGGERED = True
                 return True
 
         return False

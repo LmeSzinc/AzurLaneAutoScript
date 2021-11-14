@@ -279,9 +279,9 @@
         "type": "checkbox",
         "value": false
       },
-      "ReachLevel120": {
-        "type": "checkbox",
-        "value": false
+      "ReachLevel": {
+        "type": "input",
+        "value": 0
       }
     },
     "Fleet": {
@@ -662,9 +662,9 @@
         "type": "checkbox",
         "value": false
       },
-      "ReachLevel120": {
-        "type": "checkbox",
-        "value": false
+      "ReachLevel": {
+        "type": "input",
+        "value": 0
       }
     },
     "Fleet": {
@@ -1023,9 +1023,9 @@
         "type": "disable",
         "value": false
       },
-      "ReachLevel120": {
+      "ReachLevel": {
         "type": "disable",
-        "value": false
+        "value": 0
       }
     },
     "Emotion": {
@@ -1203,9 +1203,9 @@
         "type": "disable",
         "value": false
       },
-      "ReachLevel120": {
+      "ReachLevel": {
         "type": "disable",
-        "value": false
+        "value": 0
       }
     },
     "Fleet": {
@@ -1488,9 +1488,9 @@
         "type": "disable",
         "value": false
       },
-      "ReachLevel120": {
-        "type": "checkbox",
-        "value": false
+      "ReachLevel": {
+        "type": "input",
+        "value": 0
       }
     },
     "Fleet": {
@@ -1813,9 +1813,9 @@
         "type": "checkbox",
         "value": false
       },
-      "ReachLevel120": {
-        "type": "checkbox",
-        "value": false
+      "ReachLevel": {
+        "type": "input",
+        "value": 0
       }
     },
     "Fleet": {
@@ -2184,9 +2184,9 @@
         "type": "checkbox",
         "value": false
       },
-      "ReachLevel120": {
-        "type": "checkbox",
-        "value": false
+      "ReachLevel": {
+        "type": "input",
+        "value": 0
       }
     },
     "Fleet": {
@@ -2601,9 +2601,9 @@
         "type": "disable",
         "value": false
       },
-      "ReachLevel120": {
-        "type": "checkbox",
-        "value": false
+      "ReachLevel": {
+        "type": "input",
+        "value": 0
       }
     },
     "Fleet": {
@@ -3802,9 +3802,9 @@
         "type": "disable",
         "value": false
       },
-      "ReachLevel120": {
+      "ReachLevel": {
         "type": "disable",
-        "value": false
+        "value": 0
       }
     },
     "Fleet": {
@@ -4195,9 +4195,9 @@
         "type": "disable",
         "value": false
       },
-      "ReachLevel120": {
+      "ReachLevel": {
         "type": "disable",
-        "value": false
+        "value": 0
       }
     },
     "Fleet": {
@@ -4588,9 +4588,9 @@
         "type": "disable",
         "value": false
       },
-      "ReachLevel120": {
+      "ReachLevel": {
         "type": "disable",
-        "value": false
+        "value": 0
       }
     },
     "Fleet": {
@@ -4971,9 +4971,9 @@
         "type": "disable",
         "value": false
       },
-      "ReachLevel120": {
+      "ReachLevel": {
         "type": "disable",
-        "value": false
+        "value": 0
       }
     },
     "Fleet": {
@@ -5323,9 +5323,9 @@
         "type": "disable",
         "value": false
       },
-      "ReachLevel120": {
+      "ReachLevel": {
         "type": "disable",
-        "value": false
+        "value": 0
       }
     },
     "Emotion": {
@@ -5509,9 +5509,9 @@
         "type": "checkbox",
         "value": false
       },
-      "ReachLevel120": {
-        "type": "checkbox",
-        "value": false
+      "ReachLevel": {
+        "type": "input",
+        "value": 0
       }
     },
     "Fleet": {

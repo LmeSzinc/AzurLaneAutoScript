@@ -43,7 +43,7 @@ class ManualConfig:
     """
     module.combat.level
     """
-    LV120_TRIGGERED = False
+    LV_TRIGGERED = False
     LV32_TRIGGERED = False
     STOP_IF_REACH_LV32 = False
 

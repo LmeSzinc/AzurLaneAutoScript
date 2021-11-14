@@ -510,9 +510,9 @@
       "name": "StopCondition.GetNewShip.name",
       "help": "StopCondition.GetNewShip.help"
     },
-    "ReachLevel120": {
-      "name": "StopCondition.ReachLevel120.name",
-      "help": "StopCondition.ReachLevel120.help"
+    "ReachLevel": {
+      "name": "StopCondition.ReachLevel.name",
+      "help": "StopCondition.ReachLevel.help"
     }
   },
   "Fleet": {

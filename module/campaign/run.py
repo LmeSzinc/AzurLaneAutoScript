@@ -79,8 +79,8 @@ class CampaignRun(UI):
             self.config.Scheduler_Enable = False
             return True
         # Lv120 limit
-        if self.config.StopCondition_ReachLevel120 and self.campaign.config.LV120_TRIGGERED:
-            logger.hr('Triggered stop condition: Reach level 120')
+        if self.config.StopCondition_ReachLevel and self.campaign.config.LV_TRIGGERED:
+            logger.hr(f'Triggered stop condition: Reach level {self.config.StopCondition_ReachLevel}')
             self.config.Scheduler_Enable = False
             return True
         # Oil limit
