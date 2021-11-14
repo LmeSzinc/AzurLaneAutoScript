@@ -9,7 +9,8 @@ from module.research.project import ResearchSelector, RESEARCH_ENTRANCE, get_res
 from module.ui.page import *
 from module.ocr.ocr import Duration
 
-OCR_DURATION = Duration(RESEARCH_LAB_DURATION_REMAIN, letter=(255, 255, 255), threshold=64, name='RESEARCH_LAB_DURATION_REMAIN')
+OCR_DURATION = Duration(RESEARCH_LAB_DURATION_REMAIN, letter=(255, 255, 255), threshold=64,
+                        name='RESEARCH_LAB_DURATION_REMAIN')
 
 
 class RewardResearch(ResearchSelector):
@@ -311,19 +312,20 @@ class RewardResearch(ResearchSelector):
             out: page_reward
         """
         logger.hr('Research get remain')
-        
+
         self.ui_click(click_button=RESEARCH_LAB, check_button=RESEARCH_RUNNING)
         # Check if button is still moving
         while 1:
-            self.appear(RESEARCH_RUNNING)
-            self.device.screenshot()
-            if RESEARCH_RUNNING.match_appear_on(self.device.image):
+            if self.appear(RESEARCH_RUNNING, offset=(3, 3)):
                 break
-        
+            else:
+                self.device.screenshot()
+                continue
+
         remain = OCR_DURATION.ocr(self.device.image)
         logger.info(f'Research project remain: {remain}')
 
-        if remain.total_seconds() >= 0:            
+        if remain.total_seconds() >= 0:
             research_duration_remain = remain.total_seconds() / 3600
             return research_duration_remain
         else:
