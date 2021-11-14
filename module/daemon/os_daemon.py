@@ -8,6 +8,12 @@ from module.os_handler.port import PortHandler, PORT_ENTER
 
 
 class AzurLaneDaemon(DaemonBase, Combat, PortHandler):
+    def _os_combat_expected_end(self):
+        if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(20, 50), interval=2):
+            return False
+
+        return super()._os_combat_expected_end()
+
     def run(self):
         while 1:
             self.device.screenshot()
