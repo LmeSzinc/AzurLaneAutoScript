@@ -21,6 +21,7 @@ from pywebio.session import go_app, info, register_thread, run_js, set_env
 from module.logger import logger  # Change folder
 
 import module.webui.lang as lang
+import module.config.server as server
 from module.config.config import AzurLaneConfig, Function
 from module.config.config_updater import ConfigUpdater
 from module.config.utils import (alas_instance, deep_get, deep_iter, deep_set,
@@ -104,6 +105,10 @@ class AlasManager:
         webconsole = logging.StreamHandler(stream=qh)
         webconsole.setFormatter(formatter)
         logging.getLogger('alas').addHandler(webconsole)
+
+        # Set server before loading any buttons.
+        config = AzurLaneConfig(config_name=config_name)
+        server.server = deep_get(config.data, keys='Alas.Emulator.Server', default='cn')
 
         # Run alas
         if func == 'Alas':
