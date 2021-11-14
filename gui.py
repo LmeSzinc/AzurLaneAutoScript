@@ -5,12 +5,17 @@ import time
 from datetime import datetime
 from multiprocessing import Manager, Process
 from multiprocessing.managers import SyncManager
-from typing import Generator
+from typing import Dict, Generator, List
 
 from filelock import FileLock
 from pywebio import config as webconfig
 from pywebio.exceptions import SessionClosedException, SessionNotFoundException
-from pywebio.session import go_app, info, register_thread, set_env
+from pywebio.output import (clear, close_popup, output, popup, put_button,
+                            put_buttons, put_collapse, put_column, put_error,
+                            put_html, put_loading, put_markdown, put_row,
+                            put_text, toast)
+from pywebio.pin import pin, pin_wait_change
+from pywebio.session import go_app, info, register_thread, run_js, set_env
 
 # This must be the first to import
 from module.logger import logger  # Change folder
@@ -23,12 +28,13 @@ from module.config.utils import (alas_instance, deep_get, deep_iter, deep_set,
                                  read_file, write_file)
 from module.webui.base import Frame
 from module.webui.lang import _t, t
+from module.webui.pin import put_input, put_select
 from module.webui.translate import translate
 from module.webui.utils import (Icon, QueueHandler, Task, Thread, add_css,
                                 filepath_css, get_output,
                                 get_window_visibility_state, login,
-                                parse_pin_value)
-from module.webui.widgets import *
+                                parse_pin_value, re_fullmatch)
+from module.webui.widgets import ScrollableCode, put_group, put_icon_buttons
 
 config_updater = ConfigUpdater()
 
@@ -152,7 +158,7 @@ class AlasGUI(Frame):
         self.modified_config_queue = queue.Queue()
         # alas config name
         self.alas_name = ''
-        self.alas_config = AzurLaneConfig('template', '')
+        self.alas_config = AzurLaneConfig('template')
         self.alas_logs = ScrollableCode()
         self.alas_running = output().style("container-overview-task")
         self.alas_pending = output().style("container-overview-task")
@@ -314,10 +320,8 @@ class AlasGUI(Frame):
                 if arg_help == "" or not arg_help:
                     arg_help = None
 
-                if self.is_mobile:
-                    width = '8rem'
-                else:
-                    width = '13rem'
+                # Invalid feedback
+                invalid_feedback = t("Gui.Text.InvalidFeedBack").format(d['value'])
 
                 list_arg.append(get_output(
                     arg_type=arg_type,
@@ -326,7 +330,7 @@ class AlasGUI(Frame):
                     arg_help=arg_help,
                     value=value,
                     options=option,
-                    width=width,
+                    invalid_feedback=invalid_feedback,
                 ))
             if list_arg:
                 group_area.append(arg_group)
@@ -463,6 +467,8 @@ class AlasGUI(Frame):
 
     def _alas_thread_update_config(self) -> None:
         modified = {}
+        valid = []
+        invalid = []
         while self.alive:
             try:
                 d = self.modified_config_queue.get(timeout=10)
@@ -476,13 +482,28 @@ class AlasGUI(Frame):
                     modified[self.idx_to_path[d['name']]] = parse_pin_value(d['value'])
                 except queue.Empty:
                     config = read_file(filepath_config(config_name))
-                    for k in modified.keys():
-                        deep_set(config, k, modified[k])
+                    for k, v in modified.copy().items():
+                        validate = deep_get(self.ALAS_ARGS, k + '.validate')
+                        if not validate or re_fullmatch(validate, v):
+                            deep_set(config, k, v)
+                            valid.append(self.path_to_idx[k])
+                        else:
+                            modified.pop(k)
+                            invalid.append(self.path_to_idx[k])
+                            logger.warning(f'Invalid value {v} for key {k}, skip saving.')
+                            # toast(t("Gui.Toast.InvalidConfigValue").format(
+                            #       t('.'.join(k.split('.')[1:] + ['name']))),
+                            #       duration=0, position='right', color='warn')
                     logger.info(f'Save config {filepath_config(config_name)}, {dict_to_kv(modified)}')
                     write_file(filepath_config(config_name), config)
-                    toast(t("Gui.Toast.ConfigSaved"),
-                          duration=1, position='right', color='success')
-                    modified = {}
+                    self.pin_remove_invalid_mark(valid)
+                    self.pin_set_invalid_mark(invalid)
+                    if len(modified):
+                        toast(t("Gui.Toast.ConfigSaved"),
+                            duration=1, position='right', color='success')
+                    modified.clear()
+                    valid.clear()
+                    invalid.clear()
                     break
 
     def alas_update_status(self) -> None:
@@ -663,11 +684,6 @@ class AlasGUI(Frame):
                 if arg_help == "" or not arg_help:
                     arg_help = None
 
-                if self.is_mobile:
-                    width = '8rem'
-                else:
-                    width = '13rem'
-
                 list_arg.append(get_output(
                     arg_type=arg_type,
                     name=self.path_to_idx[f"{task}.{group}.{arg}"],
@@ -675,7 +691,6 @@ class AlasGUI(Frame):
                     arg_help=arg_help,
                     value=value,
                     options=option,
-                    width=width,
                 ))
             if list_arg:
                 setting.append(*list_arg)
@@ -683,6 +698,7 @@ class AlasGUI(Frame):
         self.task_handler.add(self.alas_put_log(), 0.2, True)
 
     # Develop
+
     def dev_set_menu(self) -> None:
         self.init_menu(collapse_menu=False, name="Develop")
 
@@ -715,6 +731,9 @@ class AlasGUI(Frame):
         self.title.reset(f"{t('Gui.Aside.Develop')}")
         self.dev_set_menu()
         self.alas_name = ''
+        if hasattr(self, 'alas'):
+            del self.alas
+        self.set_status(0)
 
     def ui_alas(self, config_name: str) -> None:
         if config_name == self.alas_name:
@@ -849,11 +868,13 @@ class AlasGUI(Frame):
         add_css(filepath_css('alas'))
         if self.is_mobile:
             add_css(filepath_css('alas-mobile'))
+        else:
+            add_css(filepath_css('alas-pc'))
 
-        if self.theme == 'default':
-            add_css(filepath_css('light-alas'))
-        elif self.theme == 'dark':
+        if self.theme == 'dark':
             add_css(filepath_css('dark-alas'))
+        else:
+            add_css(filepath_css('light-alas'))
 
         self.show()
 
@@ -893,6 +914,19 @@ class AlasGUI(Frame):
         self.task_handler.add(refresh_status(), 2)
         self.task_handler.add(refresh_visibility_state(), 15)
         self.task_handler.start()
+
+
+def debug():
+    """For interactive python.
+        $ python3
+        >>> from gui import *
+        >>> debug()
+        >>> 
+    """
+    AlasManager.sync_manager = Manager()
+    AlasGUI.shorten_path()
+    lang.reload()
+    AlasGUI().run()
 
 
 if __name__ == "__main__":

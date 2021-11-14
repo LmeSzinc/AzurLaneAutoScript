@@ -47,7 +47,7 @@
     left: 0;
     top: 0;
     width: 100%;
-    height: 60px;
+    height: 51px;
     display: flex;
     flex-direction: row;
     -webkit-app-region: drag;

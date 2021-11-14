@@ -1,0 +1,4 @@
+*[style*="container-args-row"],
+*[style*="container-large.args"] {
+    grid-template-columns: 1fr 13rem !important;
+}

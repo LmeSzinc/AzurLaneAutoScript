@@ -6,11 +6,16 @@
     display: none;
 }
 
+.container-log {
+    font-size: .75rem !important;
+}
+
 *[style*="container-content"] {
     padding: .25rem;
     margin: 0
 }
 
-.container-log {
-    font-size: .75rem !important;
+*[style*="container-args-row"],
+*[style*="container-large.args"] {
+    grid-template-columns: 1fr 8rem !important;
 }

@@ -1610,6 +1610,9 @@
       "CopyFrom": "Copy from existing config",
       "Confirm": "Add",
       "FileExist": "A config with the same name exists, please choose another one"
+    },
+    "Text": {
+      "InvalidFeedBack": "Invalid format. Example: {0}"
     }
   }
 }

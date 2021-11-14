@@ -1610,6 +1610,9 @@
       "CopyFrom": "從現有的設定中複製",
       "Confirm": "添加",
       "FileExist": "存在同名的設定檔案，請重新命名"
+    },
+    "Text": {
+      "InvalidFeedBack": "格式錯誤。 示例：{0}"
     }
   }
 }

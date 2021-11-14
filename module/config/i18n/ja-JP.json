@@ -1610,6 +1610,9 @@
       "CopyFrom": "Gui.AddAlas.CopyFrom",
       "Confirm": "Gui.AddAlas.Confirm",
       "FileExist": "Gui.AddAlas.FileExist"
+    },
+    "Text": {
+      "InvalidFeedBack": "Gui.Text.InvalidFeedBack"
     }
   }
 }

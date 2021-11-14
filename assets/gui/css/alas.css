@@ -145,9 +145,17 @@ select {
     background-size: 1rem;
 }
 
+select.form-control {
+    padding-right: 1rem;
+}
+
 select.form-control.is-invalid {
     padding-right: 3rem !important;
     background-position: right 1.5rem center;
+}
+
+.invalid-feedback {
+    margin-top: 0;
 }
 
 .CodeMirror {
@@ -203,7 +211,7 @@ select.form-control.is-invalid {
 }
 
 *[style*="title-icon-alas"] {
-    margin: .25rem 2rem .25rem 1rem;
+    margin: .25rem auto .25rem;
     border-radius: 1.5rem;
 }
 
@@ -236,7 +244,7 @@ select.form-control.is-invalid {
 
 *[style*="container-title"] {
     z-index: 100;
-    grid-template-columns: 5.6rem 3.75rem 8rem minmax(5rem, 1fr) !important;
+    grid-template-columns: 4.4rem 4rem auto 1fr !important;
 }
 
 *[style*="aside-icon-setting"] {
@@ -291,7 +299,8 @@ select.form-control.is-invalid {
     height: 100%;
 }
 
-*[style*="container-args"] {
+*[style*="container-args-column"],
+*[style*="container-args-row"] {
     margin: .125rem 0 .125rem 0
 }
 

@@ -1,5 +1,6 @@
 import ctypes
 import operator
+import re
 import threading
 import time
 from typing import Generator
@@ -8,6 +9,11 @@ from module.logger import logger
 from module.webui.widgets import *
 from pywebio.input import PASSWORD, input
 from pywebio.session import eval_js, register_thread, run_js
+
+
+RE_DATETIME = r'(\d{2}|\d{4})(?:\-)?([0]{1}\d{1}|[1]{1}[0-2]{1})(?:\-)?' + \
+              r'([0-2]{1}\d{1}|[3]{1}[0-1]{1})(?:\s)?([0-1]{1}\d{1}|[2]' + \
+              r'{1}[0-3]{1})(?::)?([0-5]{1}\d{1})(?::)?([0-5]{1}\d{1})'
 
 
 class QueueHandler:
@@ -204,17 +210,17 @@ class Icon:
     ADD = _read(filepath_icon('add'))
 
 
-def get_output(arg_type, name, title, arg_help=None, value=None, options=None, width="12rem"):
+def get_output(arg_type, name, title, arg_help=None, value=None, options=None, **other_html_attrs):
     if arg_type == 'input':
-        return put_input_(name, title, arg_help, value, width)
+        return put_input_(name, title, arg_help, value, **other_html_attrs)
     elif arg_type == 'select':
-        return put_select_(name, title, arg_help, options, width)
+        return put_select_(name, title, arg_help, options, **other_html_attrs)
     elif arg_type == 'textarea':
-        return put_textarea_(name, title, arg_help, value)
+        return put_textarea_(name, title, arg_help, value, **other_html_attrs)
     elif arg_type == 'checkbox':
-        return put_checkbox_(name, title, arg_help, value, width)
+        return put_checkbox_(name, title, arg_help, value, **other_html_attrs)
     elif arg_type == 'disable':
-        return put_input_(name, title, arg_help, value, width, readonly=True)
+        return put_input_(name, title, arg_help, value, readonly=True, **other_html_attrs)
 
 
 def parse_pin_value(val):
@@ -244,7 +250,8 @@ def parse_pin_value(val):
 def login(password):
     if get_localstorage('password') == password:
         return True
-    pwd = input(label='Please login below.', type=PASSWORD, placeholder='PASSWORD')
+    pwd = input(label='Please login below.',
+                type=PASSWORD, placeholder='PASSWORD')
     if pwd == password:
         set_localstorage('password', pwd)
         return True
@@ -252,16 +259,26 @@ def login(password):
         toast('Wrong password!', color='error')
         return False
 
+
 def get_window_visibility_state():
     ret = eval_js("document.visibilityState")
     return False if ret == "hidden" else True
 
 
 # https://pywebio.readthedocs.io/zh_CN/latest/cookbook.html#cookie-and-localstorage-manipulation
-set_localstorage = lambda key, value: run_js("localStorage.setItem(key, value)", key=key, value=value)
-get_localstorage = lambda key: eval_js("localStorage.getItem(key)", key=key)
-# set_localstorage('hello', 'world')
-# val = get_localstorage('hello')
+def set_localstorage(key, value):
+    return run_js("localStorage.setItem(key, value)", key=key, value=value)
+
+
+def get_localstorage(key):
+    return eval_js("localStorage.getItem(key)", key=key)
+
+
+def re_fullmatch(pattern, string):
+    if pattern == 'datetime':
+        pattern = RE_DATETIME
+    # elif:
+    return re.fullmatch(pattern=pattern, string=string)
 
 
 if __name__ == '__main__':

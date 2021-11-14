@@ -2,6 +2,7 @@ from module.webui.lang import t
 from module.webui.utils import Icon, TaskHandler
 from module.webui.widgets import put_icon_buttons
 from pywebio.output import output, put_column, put_html, put_row, put_text
+from pywebio.pin import pin_update
 from pywebio.session import defer_call, info, run_js
 
 
@@ -116,3 +117,24 @@ class Frame(Base):
             $("button.btn-{position}").removeClass("btn-{position}-active");
             $("div[style*='--{position}-{value}--']>button").addClass("btn-{position}-active");
         """)
+
+    @staticmethod
+    def pin_set_invalid_mark(keys) -> None:
+        if isinstance(keys, str):
+            keys = [keys]
+        js = ''.join([f"""$(".form-control[name='{key}']").addClass('is-invalid');""" for key in keys])
+        if js:
+            run_js(js)
+        # for key in keys:
+        #     pin_update(key, valid_status=False)
+
+    @staticmethod
+    def pin_remove_invalid_mark(keys) -> None:
+        if isinstance(keys, str):
+            keys = [keys]
+        js = ''.join(
+            [f"""$(".form-control[name='{key}']").removeClass('is-invalid');""" for key in keys])
+        if js:
+            run_js(js)
+        # for key in keys:
+            # pin_update(key, valid_status=0)

@@ -1610,6 +1610,9 @@
       "CopyFrom": "从现有的配置中复制",
       "Confirm": "添加",
       "FileExist": "存在同名的配置文件，请重新输入一个"
+    },
+    "Text": {
+      "InvalidFeedBack": "格式错误。 示例：{0}"
     }
   }
 }
