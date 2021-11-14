@@ -64,6 +64,15 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         name = name.replace('一', 'ー').replace('力', 'カ').replace('ぺ', 'ペ')
         return name
 
+    @Config.when(SERVER='tw')
+    def get_zone_name(self):
+        # For JP only
+        ocr = Ocr(MAP_NAME, lang='tw', letter=(214, 231, 255), threshold=127, name='OCR_OS_MAP_NAME')
+        name = ocr.ocr(self.device.image)
+        # Remove '安全海域' or '隱秘海域' at the end of tw ocr.
+        name = name.rstrip('安全海域隱秘海域一')
+        return name
+
     @Config.when(SERVER=None)
     def get_zone_name(self):
         # For CN only
