@@ -1,41 +1,14 @@
-import os
-import re
-
-from dev_tools.slpp import slpp
-from module.base.utils import location2node
-from module.os.map_data import DIC_OS_MAP
 from module.logger import logger  # Change folder automatically
 
-
-def load_lua(folder, file, prefix):
-    with open(os.path.join(folder, file), 'r', encoding='utf-8') as f:
-        text = f.read()
-    print(f'Loading {file}')
-    result = slpp.decode(text[prefix:])
-    print(f'{len(result.keys())} items loaded')
-    return result
-
-
-def load_lua_by_function(folder, file):
-    with open(os.path.join(folder, file), 'r', encoding='utf-8') as f:
-        text = f.read()
-    print(f'Loading {file}')
-    matched = re.findall('function \(\)(.*?)end\(\)', text, re.S)
-    result = {}
-    for func in matched:
-        add = slpp.decode('{' + func + '}')
-        result.update(add)
-
-    print(f'{len(result.keys())} items loaded')
-    return result
+from dev_tools.utils import LuaLoader
+from module.base.utils import location2node
+from module.os.map_data import DIC_OS_MAP
 
 
 class OSChapter:
-    def __init__(self, folder):
-        self.folder = folder
+    def __init__(self):
         self.chapter = {}
-        folder = os.path.join(self.folder, 'zh-CN', 'sharecfg')
-        data = load_lua(folder, 'world_chapter_random.lua', prefix=40)
+        data = LOADER.load('sharecfgdata/sharecfg/world_chapter_random.lua')
         for index, chapter in data.items():
             if not isinstance(index, int) or index >= 200:
                 continue
@@ -45,6 +18,8 @@ class OSChapter:
             self.chapter[index]['en'] = name
         for index, name in self.extract_chapter_name('ja-JP').items():
             self.chapter[index]['jp'] = name
+        for index, name in self.extract_chapter_name('zh-TW').items():
+            self.chapter[index]['tw'] = name
         for index, shape in self.extract_map_size().items():
             self.chapter[index]['shape'] = shape
         # hazard_level
@@ -56,7 +31,8 @@ class OSChapter:
                 'hazard_level': chapter['hazard_level'],
                 'cn': chapter['cn'],
                 'en': chapter['en'],
-                'jp': chapter['jp']
+                'jp': chapter['jp'],
+                'tw': chapter['tw'],
             }
         self.chapter = new
 
@@ -64,8 +40,8 @@ class OSChapter:
             self.chapter[index].update(data)
 
     def extract_chapter_name(self, server):
-        folder = os.path.join(self.folder, server, 'sharecfg')
-        data = load_lua(folder, 'world_chapter_random.lua', prefix=40)
+        LOADER.server = server
+        data = LOADER.load('sharecfgdata/sharecfg/world_chapter_random.lua')
         out = {}
         for index, chapter in data.items():
             if not isinstance(index, int) or index >= 200:
@@ -77,8 +53,8 @@ class OSChapter:
         return out
 
     def extract_map_size(self, server='zh-CN'):
-        folder = os.path.join(self.folder, server, 'sharecfg')
-        data = load_lua_by_function(folder, 'world_chapter_template.lua')
+        LOADER.server = server
+        data = LOADER.load('sharecfgdata/world_chapter_template.lua')
         out = {}
         for full_index, chapter in data.items():
             if not full_index // 1000000 == 1 or not chapter['map_sight']:
@@ -97,8 +73,8 @@ class OSChapter:
         return (max(x) - min(x), max(y) - min(y))
 
     def extract_map_position(self, server='zh-CN'):
-        folder = os.path.join(self.folder, server, 'sharecfg')
-        data = load_lua(folder, 'world_chapter_colormask.lua', prefix=43)
+        LOADER.server = server
+        data = LOADER.load('sharecfgdata/sharecfg/world_chapter_colormask.lua')
         out = {}
         for chapter in data.values():
             if 'serial_number' not in chapter:
@@ -138,13 +114,13 @@ class OSChapter:
 """
 This an auto-tool to extract map data for operation siren.
 
-Git clone https://github.com/Dimbreath/AzurLaneData, to get the decrypted scripts.
+Git clone https://github.com/AzurLaneTools/AzurLaneLuaScripts, to get the decrypted scripts.
 Arguments:
-    FILE:  Path to repository, such as 'xxx/AzurLaneData'
+    FILE:  Path to repository, such as 'xxx/AzurLaneLuaScripts'
     SAVE:  File to save, 'module/os/map_data.py'
 """
 FOLDER = ''
 SAVE = 'module/os/map_data.py'
 
-cha = OSChapter(FOLDER)
-cha.write(SAVE)
+LOADER = LuaLoader(FOLDER)
+OSChapter().write(SAVE)

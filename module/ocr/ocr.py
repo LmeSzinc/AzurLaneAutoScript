@@ -30,6 +30,16 @@ OCR_MODEL = {
     'cnocr': AlOcr(model_name='densenet-lite-gru', model_epoch=39, root='./bin/cnocr_models/cnocr', name='cnocr'),
 
     'jp': AlOcr(model_name='densenet-lite-gru', model_epoch=125, root='./bin/cnocr_models/jp', name='jp'),
+
+    # Folder: ./bin/cnocr_models/tw
+    # Size: 8.43MB
+    # Model: densenet-lite-gru
+    # Epoch: 63
+    # Validation accuracy: 99.24%
+    # Font: Various, 6 kinds
+    # Charset: Numbers, Upper english characters, Chinese traditional characters
+    # _num_classes: 5322
+    'tw': AlOcr(model_name='densenet-lite-gru', model_epoch=63, root='./bin/cnocr_models/tw', name='tw'),
 }
 
 
@@ -50,6 +60,7 @@ class Ocr:
         self.letter = letter
         self.threshold = threshold
         self.alphabet = alphabet
+        self.lang = lang
         self.cnocr = OCR_MODEL[lang]
 
     def pre_process(self, image):
@@ -73,6 +84,10 @@ class Ocr:
             str:
         """
         result = ''.join(result)
+
+        if self.lang == 'tw':
+            # There no letter `艦` in training dataset
+            result = result.replace('鑑', '艦')
 
         return result
 
@@ -104,6 +119,7 @@ class Digit(Ocr):
     Do OCR on a digit, such as `45`.
     Method ocr() returns int, or a list of int.
     """
+
     def __init__(self, buttons, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='0123456789',
                  name=None):
         super().__init__(buttons, lang=lang, letter=letter, threshold=threshold, alphabet=alphabet, name=name)
