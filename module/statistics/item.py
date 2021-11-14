@@ -64,6 +64,14 @@ class Item:
                 value = pre
         self._name = value
 
+    def is_known_item(self):
+        if self.name == 'DefaultItem':
+            return False
+        elif self.name.isdigit():
+            return False
+        else:
+            return True
+
     def __str__(self):
         if self.name != 'DefaultItem' and self.cost == 'DefaultCost':
             name = f'{self.name}_x{self.amount}'

@@ -102,10 +102,11 @@ class ShopBase(UI):
                 return False
         return True
 
-    def shop_get_items(self, key='general'):
+    def shop_get_items(self, key='general', skip_first_screenshot=True):
         """
         Args:
-            key: String identifies cached_property ItemGrid
+            key (str): String identifies cached_property ItemGrid
+            skip_first_screenshot (bool):
 
         Returns:
             list[Item]:
@@ -117,7 +118,13 @@ class ShopBase(UI):
             logger.warning(f'shop_get_items --> Missing cached_property shop_{key}_items')
             return []
 
+        record = 0
         while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
             item_grid.predict(
                 self.device.image,
                 name=True,
@@ -127,10 +134,18 @@ class ShopBase(UI):
                 tag=False
             )
 
+            # Check unloaded items, because AL loads items too slow.
+            known = len([item for item in item_grid.items if item.is_known_item])
+            logger.attr('Item detected', known)
+            if known == 0 or known != record:
+                record = known
+                continue
+            else:
+                record = known
+
+            # End
             if self.shop_items_loading_finished(item_grid.items, key):
                 break
-
-            self.device.screenshot()
 
         items = item_grid.items
         if len(items):
@@ -166,7 +181,7 @@ class ShopBase(UI):
             selection: String user configured value, items desired
 
         Returns:
-            Item:
+            list[Item]: List of Item object to buy, or an empty list if nothing to buy.
         """
         self.shop_get_currency(key=shop_type)
         items = self.shop_get_items(key=shop_type)
@@ -179,6 +194,7 @@ class ShopBase(UI):
                            f'was provided for {shop_type}: {selection}')
             return None
 
+        buy = []
         for select in selection:
             # 'Choice Ship' purchases are not supported
             if 'ship' in select.lower():
@@ -190,9 +206,9 @@ class ShopBase(UI):
                 if not self.shop_check_item(item, key=shop_type):
                     continue
 
-                return item
+                buy.append(item)
 
-        return None
+        return buy
 
     def shop_buy_execute(self, item, skip_first_screenshot=True):
         """
@@ -248,15 +264,17 @@ class ShopBase(UI):
         """
         logger.hr(f'{shop_type} shop buy', level=2)
         count = 0
-        for _ in range(12):
-            item = self.shop_get_item_to_buy(shop_type, selection)
-            if item is None:
+        for _ in range(3):
+            logger.hr('Buy execute')
+            items = self.shop_get_item_to_buy(shop_type, selection)
+            if items:
+                for item in items:
+                    self.shop_buy_execute(item)
+                    count += 1
+                continue
+            else:
                 logger.info('Shop buy finished')
                 return count
-            else:
-                self.shop_buy_execute(item)
-                count += 1
-                continue
 
         logger.warning('Too many items to buy, stopped')
         return count

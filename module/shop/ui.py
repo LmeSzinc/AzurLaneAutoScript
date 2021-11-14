@@ -2,53 +2,14 @@ from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import *
-from module.logger import logger
 from module.shop.assets import *
 from module.ui.assets import BACK_ARROW
 from module.ui.navbar import Navbar
 from module.ui.page import page_munitions
 from module.ui.ui import UI
 
-SHOP_LOAD_ENSURE_BUTTONS = [SHOP_GENERAL_CHECK, SHOP_GUILD_CHECK,
-                            SHOP_MERIT_CHECK, SHOP_PROTOTYPE_CHECK,
-                            SHOP_CORE_CHECK]
-
 
 class ShopUI(UI):
-    def shop_load_ensure(self, skip_first_screenshot=True):
-        """
-        Switching between bottombar clicks for some
-        takes a bit of processing before fully loading
-        like guild logistics
-
-        Args:
-            skip_first_screenshot (bool):
-
-        Returns:
-            bool: Whether expected assets loaded completely
-        """
-        confirm_timer = Timer(1.5, count=3).start()
-        ensure_timeout = Timer(3, count=6).start()
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            # End
-            results = [self.appear(button, offset=(100, 50)) for button in SHOP_LOAD_ENSURE_BUTTONS]
-            if any(results):
-                if confirm_timer.reached():
-                    return True
-                ensure_timeout.reset()
-                continue
-            confirm_timer.reset()
-
-            # Exception
-            if ensure_timeout.reached():
-                logger.warning('Wait for loaded assets is incomplete, ensure not guaranteed')
-                return False
-
     @cached_property
     def _shop_bottom_navbar(self):
         """
@@ -90,8 +51,7 @@ class ShopUI(UI):
         Returns:
             bool: if bottom_navbar set ensured
         """
-        if self._shop_bottom_navbar.set(self, left=left, right=right) \
-                and self.shop_load_ensure():
+        if self._shop_bottom_navbar.set(self, left=left, right=right):
             return True
         return False
 
