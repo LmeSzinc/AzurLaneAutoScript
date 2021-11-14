@@ -186,7 +186,51 @@ class Commission:
             color -= [50, 30, 20]
         self.status = dic[int(np.argmax(color))]
 
-    @Config.when(SERVER='cn')
+    @Config.when(SERVER='tw')
+    def commission_parse(self):
+        # Name
+        area = area_offset((176, 23, 420, 53), self.area[0:2])
+        button = Button(area=area, color=(), button=area, name='COMMISSION')
+        ocr = Ocr(button, lang='tw', threshold=256)
+        self.button = button
+        self.name = ocr.ocr(self.image)
+        self.genre = self.commission_name_parse(self.name)
+
+        # Suffix
+        ocr = SuffixOcr(button, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='IV')
+        self.suffix = self.beautify_name(ocr.ocr(self.image))
+
+        # Duration time
+        area = area_offset((290, 68, 390, 95), self.area[0:2])
+        button = Button(area=area, color=(), button=area, name='DURATION')
+        ocr = Duration(button)
+        self.duration = ocr.ocr(self.image)
+
+        # Expire time
+        area = area_offset((-49, 68, -45, 84), self.area[0:2])
+        button = Button(area=area, color=(189, 65, 66),
+                        button=area, name='IS_URGENT')
+        if button.appear_on(self.image):
+            area = area_offset((-49, 67, 45, 94), self.area[0:2])
+            button = Button(area=area, color=(), button=area, name='EXPIRE')
+            ocr = Duration(button)
+            self.expire = ocr.ocr(self.image)
+        else:
+            self.expire = timedelta(seconds=0)
+
+        # Status
+        area = area_offset((179, 71, 187, 93), self.area[0:2])
+        dic = {
+            0: 'finished',
+            1: 'running',
+            2: 'pending'
+        }
+        color = get_color(self.image, area)
+        if self.genre == 'event_daily':
+            color -= [50, 30, 20]
+        self.status = dic[int(np.argmax(color))]
+
+    @Config.when(SERVER=None)
     def commission_parse(self):
         # Name
         area = area_offset((176, 23, 420, 53), self.area[0:2])
@@ -341,6 +385,26 @@ class Commission:
                     min_distance = distance
         if min_distance < 3:
             return min_key
+
+        logger.warning(f'Name with unknown genre: {string}')
+        self.valid = False
+        return ''
+
+    @Config.when(SERVER='tw')
+    def commission_name_parse(self, string):
+        """
+        Args:
+            string (str): Commission name, such as 'NYB要员护卫'.
+
+        Returns:
+            str: Commission genre, such as 'urgent_gem'.
+        """
+        if self.is_event_commission():
+            return 'daily_event'
+        for key, value in dictionary_tw.items():
+            for keyword in value:
+                if keyword in string:
+                    return key
 
         logger.warning(f'Name with unknown genre: {string}')
         self.valid = False

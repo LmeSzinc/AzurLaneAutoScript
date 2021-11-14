@@ -55,3 +55,20 @@ dictionary_jp = {
     'urgent_gem': ['要人護衛', '休暇護衛'],
     'urgent_ship': ['小型観艦式', '連合艦隊観艦式', '多国連合観艦式'],
 }
+dictionary_tw = {
+    'major_comm': ['自主訓練', '對抗演習', '科研任務', '工具整備', '戰術課程', '貨物運輸'],
+    'daily_resource': ['日常資源開發'],
+    'daily_chip': ['高階戰術研發'],
+    'extra_drill': ['航行訓練', '防衛巡邏', '海域浮標檢查作業'],
+    'extra_part': ['委託'],
+    'extra_cube': ['演習'],
+    'extra_oil': ['油田'],
+    'extra_book': ['商船護衛'],
+    'urgent_drill': ['運輸部隊', '偵查部隊', '主力部隊', '精銳部隊'],
+    'urgent_part': ['維拉', '伊', '多倫瓦', '恐班納', '馬內', '萌'],
+    'urgent_book': ['土豪爾', '姆波羅', '馬拉基', '卡波羅', '瑪麗', '特林'],
+    'urgent_box': ['裝備', '物資'],
+    'urgent_cube': ['解救', '敵襲'],
+    'urgent_gem': ['要員', '度假', '巡視'],
+    'urgent_ship': ['觀艦'],
+}
