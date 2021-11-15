@@ -163,12 +163,15 @@ class OSMap(OSFleet, Map, GlobeCamera):
         self.handle_ash_beacon_attack()
 
         for _ in range(3):
+            backup = self.config.temporary(Campaign_UseAutoSearch=True)
             try:
                 self.os_auto_search_daemon()
             except CampaignEnd:
                 logger.info('Get OS auto search reward')
                 self.wait_until_appear(OS_CHECK, offset=(20, 20))
                 logger.info('OS auto search finished')
+            finally:
+                backup.recover()
 
             if self.handle_ash_beacon_attack():
                 continue
