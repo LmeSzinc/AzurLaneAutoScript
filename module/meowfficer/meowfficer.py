@@ -29,27 +29,33 @@ class RewardMeowfficer(UI):
         Returns:
             bool: If success.
         """
-        remain, _, _ = MEOWFFICER.ocr(self.device.image)
+        remain, bought, total = MEOWFFICER.ocr(self.device.image)
         logger.attr('Meowfficer_remain', remain)
 
         # Check buy status
-        if remain <= BUY_MAX - count:
-            logger.info('Already bought today')
-            return False
-        elif remain < count:
-            logger.info('Remain less than to buy')
-            count = remain
+        if total != BUY_MAX:
+            logger.warning(f'Invalid meowfficer buy limit: {total}, revise to {BUY_MAX}')
+            total = BUY_MAX
+            bought = total - remain
+        if bought > 0:
+            if bought >= count:
+                logger.info(f'Already bought {bought} today, stopped')
+                return False
+            else:
+                count -= bought
+                logger.info(f'Already bought {bought} today, only need to buy {count} more')
+
         # Check coins
         coins = MEOWFFICER_COINS.ocr(self.device.image)
-        if (coins < BUY_PRIZE) and (remain < BUY_MAX):
-            logger.warning('Not enough coins to buy one')
+        if (coins < BUY_PRIZE) and (remain < total):
+            logger.info('Not enough coins to buy one, stopped')
             return False
-        elif (count - int(remain == BUY_MAX)) * BUY_PRIZE > coins:
-            count = coins // BUY_PRIZE + int(remain == BUY_MAX)
-            logger.warning(f'Current coins only enough to buy {count}')
+        elif (count - int(remain == total)) * BUY_PRIZE > coins:
+            count = coins // BUY_PRIZE + int(remain == total)
+            logger.info(f'Current coins only enough to buy {count}')
 
         self.ui_click(MEOWFFICER_BUY_ENTER, check_button=MEOWFFICER_BUY,
-                      additional=self.meow_additional, skip_first_screenshot=True)
+                      additional=self.meow_additional, retry_wait=3, skip_first_screenshot=True)
         self.ui_ensure_index(count, letter=MEOWFFICER_CHOOSE, prev_button=MEOWFFICER_BUY_PREV,
                              next_button=MEOWFFICER_BUY_NEXT, skip_first_screenshot=True)
         return True
@@ -66,7 +72,7 @@ class RewardMeowfficer(UI):
         else:
             return False
 
-    def meow_confirm(self):
+    def meow_confirm(self, skip_first_screenshot=True):
         """
         Pages:
             in: MEOWFFICER_BUY
@@ -74,29 +80,35 @@ class RewardMeowfficer(UI):
         """
         # Here uses a simple click, to avoid clicking MEOWFFICER_BUY multiple times.
         # Retry logic is in meow_buy()
-        self.device.click(MEOWFFICER_BUY)
-
-        confirm_timer = Timer(1, count=2).start()
+        executed = False
         while 1:
-            self.device.screenshot()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
+            if self.appear(MEOWFFICER_BUY, offset=(20, 20), interval=3):
+                if executed:
+                    self.device.click(MEOWFFICER_GOTO_DORM)
+                else:
+                    self.device.click(MEOWFFICER_BUY)
+                continue
             if self.handle_meow_popup_confirm():
+                executed = True
                 continue
-            if self.appear_then_click(MEOWFFICER_BUY_SKIP, interval=5):
+            if self.appear_then_click(MEOWFFICER_BUY_SKIP, interval=3):
+                executed = True
                 continue
-            if self.appear(GET_ITEMS_1):
+            if self.appear(GET_ITEMS_1, offset=5, interval=3):
                 self.device.click(MEOWFFICER_BUY_SKIP)
+                self.interval_clear(MEOWFFICER_BUY)
+                executed = True
                 continue
 
             # End
-            if self.appear(MEOWFFICER_BUY):
-                if confirm_timer.reached():
-                    break
-            else:
-                confirm_timer.reset()
-
-        self.ui_click(MEOWFFICER_GOTO_DORM,
-                      check_button=MEOWFFICER_BUY_ENTER, appear_button=MEOWFFICER_BUY, offset=None)
+            if self.appear(MEOWFFICER_BUY_ENTER, offset=(20, 20)) \
+                    and MEOWFFICER_BUY_ENTER.match_appear_on(self.device.image):
+                break
 
     def meow_get(self, skip_first_screenshot=True):
         """
@@ -240,7 +252,7 @@ class RewardMeowfficer(UI):
 
         # Enter MEOWFFICER_TRAIN window
         self.ui_click(MEOWFFICER_TRAIN_ENTER, check_button=MEOWFFICER_TRAIN_START,
-                      additional=self.meow_additional, skip_first_screenshot=True)
+                      additional=self.meow_additional, retry_wait=3, skip_first_screenshot=True)
 
         # If today is Sunday, then collect all remainder otherwise just collect one
         # Once collected, should be back in MEOWFFICER_TRAIN window
@@ -326,7 +338,7 @@ class RewardMeowfficer(UI):
 
         # Enter MEOWFFICER_FORT window
         self.ui_click(MEOWFFICER_FORT_ENTER, check_button=MEOWFFICER_FORT_CHECK,
-                      additional=self.meow_additional, skip_first_screenshot=True)
+                      additional=self.meow_additional, retry_wait=3, skip_first_screenshot=True)
 
         # Perform fort chore operations
         self.meow_chores()
