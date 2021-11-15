@@ -489,7 +489,12 @@ class AlasGUI(Frame):
                     config = read_file(filepath_config(config_name))
                     for k, v in modified.copy().items():
                         validate = deep_get(self.ALAS_ARGS, k + '.validate')
-                        if not validate or re_fullmatch(validate, v):
+                        if not v:
+                            default = deep_get(self.ALAS_ARGS, k + '.value')
+                            deep_set(config, k, default)
+                            valid.append(self.path_to_idx[k])
+                            modified[k] = default
+                        elif not validate or re_fullmatch(validate, v):
                             deep_set(config, k, v)
                             valid.append(self.path_to_idx[k])
                         else:
@@ -499,13 +504,13 @@ class AlasGUI(Frame):
                             # toast(t("Gui.Toast.InvalidConfigValue").format(
                             #       t('.'.join(k.split('.')[1:] + ['name']))),
                             #       duration=0, position='right', color='warn')
-                    logger.info(f'Save config {filepath_config(config_name)}, {dict_to_kv(modified)}')
-                    write_file(filepath_config(config_name), config)
                     self.pin_remove_invalid_mark(valid)
                     self.pin_set_invalid_mark(invalid)
-                    if len(modified):
+                    if modified:
                         toast(t("Gui.Toast.ConfigSaved"),
                             duration=1, position='right', color='success')
+                        logger.info(f'Save config {filepath_config(config_name)}, {dict_to_kv(modified)}')
+                        write_file(filepath_config(config_name), config)
                     modified.clear()
                     valid.clear()
                     invalid.clear()
