@@ -25,7 +25,7 @@ class Base:
 class Frame(Base):
     def __init__(self) -> None:
         super().__init__()
-        self.aside = output()
+        self.aside = output().style("container-buttons-aside")
         self.aside_setting = output().style("aside-icon-setting")
         self.menu = output().style("container-menu")
         self.content = output().style("container-content")

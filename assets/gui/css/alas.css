@@ -195,6 +195,10 @@ select.form-control.is-invalid {
     overflow-y: auto;
 }
 
+*[style*="container-buttons-aside"] {
+    overflow-y: auto;
+}
+
 *[style*="container-menu"] {
     z-index: 90;
     padding-left: .5rem;
