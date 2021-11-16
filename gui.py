@@ -489,7 +489,7 @@ class AlasGUI(Frame):
                     config = read_file(filepath_config(config_name))
                     for k, v in modified.copy().items():
                         validate = deep_get(self.ALAS_ARGS, k + '.validate')
-                        if not v:
+                        if not len(str(v)):
                             default = deep_get(self.ALAS_ARGS, k + '.value')
                             deep_set(config, k, default)
                             valid.append(self.path_to_idx[k])
