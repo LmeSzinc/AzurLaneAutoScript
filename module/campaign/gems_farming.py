@@ -178,7 +178,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
     def get_common_rarity_dd(self):
         """
-        Get a common rarity dd with level is 100 and emotion is 150
+        Get a common rarity dd with level is 100 and highest emotion
         Returns:
             Button:
         """
@@ -195,11 +195,13 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                             name='DOCK_EMOTION_OCR', threshold=176)
         list_emotion = emotion_ocr.ocr(self.device.image)
 
-        for button, level, emotion in list(zip(card_grids.buttons, list_level, list_emotion))[::-1]:
-            if level == 100 and emotion == 150:
-                return button
+        button_list = list(zip(card_grids.buttons, list_level, list_emotion))[::-1]
 
-        return None
+        # for :
+        #     if level == 100 and emotion == 150:
+        #         return button
+        button, _, _ =  max(filter(lambda a: a[1] == 100, button_list), key=lambda a: a[2])
+        return button
 
     def flagship_change_execute(self):
         """
@@ -241,7 +243,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         self.ui_click(FLEET_ENTER,
                       appear_button=page_fleet.check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
         self.dock_filter_set_faster(
-            index='dd', rarity='common', faction='eagle')
+            index='dd', rarity='common', faction='eagle', extra='can_limit_break')
         self.dock_favourite_set(False)
 
         self.device.screenshot()
