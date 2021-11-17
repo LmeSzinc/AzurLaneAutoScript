@@ -30,8 +30,7 @@ def random_rectangle_point(area, n=3):
         n (int): The amount of numbers in simulation. Default to 3.
 
     Returns:
-        int: x
-        int: y
+        tuple(int): (x, y)
     """
     x = random_normal_distribution_int(area[0], area[2], n=n)
     y = random_normal_distribution_int(area[1], area[3], n=n)
@@ -58,6 +57,52 @@ def random_rectangle_vector(vector, box, random_range=(0, 0, 0, 0), padding=15):
     start_point = center - half_vector
     end_point = start_point + vector
     return tuple(start_point), tuple(end_point)
+
+
+def random_rectangle_vector_opted(
+        vector, box, random_range=(0, 0, 0, 0), padding=15, whitelist_area=None, blacklist_area=None):
+    """
+    Place a vector in a box randomly.
+
+    When emulator/game stuck, it treats a swipe as a click, clicking at the end of swipe path.
+    To prevent this, random results need to be filtered.
+
+    Args:
+        vector: (x, y)
+        box: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
+        random_range (tuple): Add a random_range to vector. (x_min, y_min, x_max, y_max).
+        padding (int):
+        whitelist_area: (list[tuple[int]]):
+            A list of area that safe to click. Swipe path will end there.
+        blacklist_area: (list[tuple[int]]):
+            If none of the whitelist_area satisfies current vector, blacklist_area will be used.
+            Delete random path that ends in any blacklist_area.
+
+    Returns:
+        tuple(int), tuple(int): start_point, end_point.
+    """
+    vector = np.array(vector) + random_rectangle_point(random_range)
+    vector = np.round(vector).astype(np.int)
+    half_vector = np.round(vector / 2).astype(np.int)
+    box = np.array(box) + np.append(np.abs(half_vector) + padding, -np.abs(half_vector) - padding)
+    box = area_offset(box, half_vector)
+
+    if whitelist_area:
+        for area in whitelist_area:
+            area = area_limit(area, box)
+            if sum(area_size(area)) > 0:
+                end_point = random_rectangle_point(area)
+                return tuple(end_point - vector), tuple(end_point)
+
+    for n in range(100):
+        end_point = random_rectangle_point(box)
+        if blacklist_area:
+            if any([point_in_area(end_point, area, threshold=0) for area in blacklist_area]):
+                continue
+        return tuple(end_point - vector), tuple(end_point)
+
+    end_point = random_rectangle_point(box)
+    return tuple(end_point - vector), tuple(end_point)
 
 
 def random_line_segments(p1, p2, n, random_range=(0, 0, 0, 0)):
@@ -109,8 +154,8 @@ def area_offset(area, offset):
     """
 
     Args:
-        area(tuple): (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
-        offset(tuple): (x, y).
+        area: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
+        offset: (x, y).
 
     Returns:
         tuple: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
@@ -122,8 +167,8 @@ def area_pad(area, pad=10):
     """
 
     Args:
-        area(tuple): (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
-        pad(int):
+        area: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
+        pad (int):
 
     Returns:
         tuple: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
@@ -131,18 +176,39 @@ def area_pad(area, pad=10):
     return tuple(np.array(area) + np.array([pad, pad, -pad, -pad]))
 
 
+def limit_in(x, lower, upper):
+    """
+    Limit x within range (lower, upper)
+
+    Args:
+        x:
+        lower:
+        upper:
+
+    Returns:
+        int, float:
+    """
+    return max(min(x, upper), lower)
+
+
 def area_limit(area1, area2):
     """
     Limit an area in another area.
 
     Args:
-        area1 (tuple): (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
-        area2 (tuple): (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
+        area1: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
+        area2: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
 
     Returns:
         tuple: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
     """
-    return (max(area1[0], area2[0]), max(area1[1], area2[1]), min(area1[2], area2[2]), min(area1[3], area2[3]))
+    x_lower, y_lower, x_upper, y_upper = area2
+    return (
+        limit_in(area1[0], x_lower, x_upper),
+        limit_in(area1[1], y_lower, y_upper),
+        limit_in(area1[2], x_lower, x_upper),
+        limit_in(area1[3], y_lower, y_upper),
+    )
 
 
 def area_size(area):
@@ -150,12 +216,15 @@ def area_size(area):
     Area size or shape.
 
     Args:
-        area (tuple): (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
+        area: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
 
     Returns:
         tuple: (x, y).
     """
-    return (area[2] - area[0], area[3] - area[1])
+    return (
+        max(area[2] - area[0], 0),
+        max(area[3] - area[1], 0)
+    )
 
 
 def point_limit(point, area):
@@ -169,7 +238,10 @@ def point_limit(point, area):
     Returns:
         tuple: (x, y).
     """
-    return (min(max(point[0], area[0]), area[2]), min(max(point[1], area[1]), area[3]))
+    return (
+        limit_in(point[0], area[0], area[2]),
+        limit_in(point[1], area[1], area[3])
+    )
 
 
 def point_in_area(point, area, threshold=5):

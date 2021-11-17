@@ -193,6 +193,8 @@ class SelectedGrids:
         Returns:
             SelectedGrids:
         """
+        if not self:
+            return self
         if len(args):
             grids = sorted(self.grids, key=operator.attrgetter(*args))
             return SelectedGrids(grids)
@@ -207,6 +209,8 @@ class SelectedGrids:
         Returns:
             SelectedGrids:
         """
+        if not self:
+            return self
         location = np.array(self.location)
         diff = np.sum(np.abs(np.array(location) - camera), axis=1)
         # grids = [x for _, x in sorted(zip(diff, self.grids))]
@@ -223,6 +227,8 @@ class SelectedGrids:
         Returns:
             SelectedGrids:
         """
+        if not self:
+            return self
         vector = np.subtract(self.location, center)
         theta = np.arctan2(vector[:, 1], vector[:, 0]) / np.pi * 180
         vector = np.subtract(start, center)

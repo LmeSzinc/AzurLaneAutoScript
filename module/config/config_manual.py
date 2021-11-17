@@ -113,6 +113,8 @@ class ManualConfig:
     MAP_WALK_USE_CURRENT_FLEET = False
     # Optimize walk path, reducing ambushes
     MAP_WALK_OPTIMIZE = True
+    # Optimize swipe path, reducing swipes turn info clicks.
+    MAP_SWIPE_OPTIMIZE = True
 
     """
     module.map_detection

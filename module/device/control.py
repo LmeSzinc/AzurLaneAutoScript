@@ -113,7 +113,7 @@ class Control(MiniTouch):
         self.device.long_click(x, y, duration=duration)
 
     def swipe(self, vector, box=(123, 159, 1193, 628), random_range=(0, 0, 0, 0), padding=15, duration=(0.1, 0.2),
-              name='SWIPE'):
+              whitelist_area=None, blacklist_area=None, name='SWIPE'):
         """Method to swipe.
 
         Args:
@@ -122,11 +122,23 @@ class Control(MiniTouch):
             random_range (tuple): (x_min, y_min, x_max, y_max).
             padding (int):
             duration (int, float, tuple):
+            whitelist_area: (list[tuple[int]]):
+                A list of area that safe to click. Swipe path will end there.
+            blacklist_area: (list[tuple[int]]):
+                If none of the whitelist_area satisfies current vector, blacklist_area will be used.
+                Delete random path that ends in any blacklist_area.
             name (str): Swipe name
         """
         self.click_record_check(name)
         duration = ensure_time(duration)
-        start, end = random_rectangle_vector(vector, box, random_range=random_range, padding=padding)
+        start, end = random_rectangle_vector_opted(
+            vector,
+            box=box,
+            random_range=random_range,
+            padding=padding,
+            whitelist_area=whitelist_area,
+            blacklist_area=blacklist_area
+        )
         logger.info(
             'Swipe %s -> %s, %s' % (point2str(*start), point2str(*end), duration)
         )
@@ -195,7 +207,7 @@ class Control(MiniTouch):
                 swipe_duration=swipe_duration, shake_duration=shake_duration)
 
     def _drag_uiautomator2(self, p1, p2, segments=1, shake=(0, 15), point_random=(-10, -10, 10, 10),
-            shake_random=(-5, -5, 5, 5), swipe_duration=0.25, shake_duration=0.1):
+                           shake_random=(-5, -5, 5, 5), swipe_duration=0.25, shake_duration=0.1):
         """Drag and shake, like:
                      /\
         +-----------+  +  +

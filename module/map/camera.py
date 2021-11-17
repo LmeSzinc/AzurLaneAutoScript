@@ -2,14 +2,16 @@ import copy
 
 import numpy as np
 
+from module.base.utils import area_offset
 from module.combat.assets import GET_ITEMS_1
 from module.exception import MapDetectionError, CampaignEnd
 from module.handler.assets import IN_MAP, GAME_TIPS
 from module.logger import logger
 from module.map.map_base import CampaignMap, location2node
-from module.map.utils import location_ensure, random_direction
 from module.map.map_operation import MapOperation
+from module.map.utils import location_ensure, random_direction
 from module.map_detection.grid import Grid
+from module.map_detection.utils import trapezoid2area, area2corner
 from module.map_detection.view import View
 
 
@@ -39,10 +41,15 @@ class Camera(MapOperation):
                 distance = self.view.swipe_base * self.config.MAP_SWIPE_MULTIPLY_MINITOUCH
             else:
                 distance = self.view.swipe_base * self.config.MAP_SWIPE_MULTIPLY
-            vector = distance * vector
+            # Optimize swipe path
+            if self.config.MAP_SWIPE_OPTIMIZE:
+                whitelist, blacklist = self.get_swipe_area_opt(vector)
+            else:
+                whitelist, blacklist = None, None
 
+            vector = distance * vector
             vector = -vector
-            self.device.swipe(vector, name=name, box=box)
+            self.device.swipe(vector, name=name, box=box, whitelist_area=whitelist, blacklist_area=blacklist)
             self.device.sleep(0.3)
             self.update()
         else:
@@ -385,3 +392,43 @@ class Camera(MapOperation):
 
         logger.warning('No boss found.')
         return False
+
+    def get_swipe_area_opt(self, map_vector):
+        """
+        Get the whitelist and the blacklist for `random_rectangle_vector_opted()`.
+
+        Args:
+            map_vector:
+
+        Returns:
+            list, list: whitelist, blacklist
+        """
+        map_vector = np.array(map_vector)
+
+        def filter_grids(globe_grids, pad=0):
+            result = []
+            for globe in globe_grids:
+                location = tuple(np.array(globe.location) - self.camera + self.view.center_loca)
+                if location in self.view:
+                    # Predict the position of grid after swipe.
+                    # Swipe should ends there, to prevent treating swipe as click.
+                    local = self.view[location]
+                    area = area_offset((0, 0, 1, 1), offset=-map_vector)
+                    corner = local.grid2screen(area2corner(area))
+                    area = trapezoid2area(corner, pad=pad)
+                    result.append(area)
+            return result
+
+        whitelist = self.map.select(is_land=True) \
+            .add(self.map.select(is_current_fleet=True)) \
+            .sort_by_camera_distance(self.camera)
+        blacklist = self.map.select(is_sea=False) \
+            .delete(self.map.select(is_land=True)) \
+            .add(self.map.select(is_fleet=True, is_current_fleet=False)) \
+            .add(self.map.select(is_mystery=True)) \
+            .sort_by_camera_distance(self.camera)
+
+        whitelist = filter_grids(whitelist, pad=25)
+        blacklist = filter_grids(blacklist, pad=-5)
+
+        return whitelist, blacklist

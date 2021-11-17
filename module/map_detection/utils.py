@@ -1,6 +1,8 @@
 import numpy as np
 from scipy import optimize
 
+from module.base.utils import area_pad
+
 
 class Points:
     def __init__(self, points):
@@ -233,6 +235,57 @@ def corner2area(corner):
     """
     x, y = np.array(corner).T
     return np.rint([np.min(x), np.min(y), np.max(x), np.max(y)]).astype(int)
+
+
+def corner2inner(corner):
+    """
+    The largest rectangle inscribed in trapezoid.
+
+    Args:
+        corner: ((x0, y0), (x1, y1), (x2, y2), (x3, y3))
+
+    Returns:
+        tuple[int]: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
+    """
+    x0, y0, x1, y1, x2, y2, x3, y3 = np.array(corner).flatten()
+    area = tuple(np.rint((max(x0, x2), max(y0, y1), min(x1, x3), min(y2, y3))).astype(int))
+    return area
+
+
+def corner2outer(corner):
+    """
+    The smallest rectangle circumscribed by the trapezoid.
+
+    Args:
+        corner: ((x0, y0), (x1, y1), (x2, y2), (x3, y3))
+
+    Returns:
+        tuple[int]: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
+    """
+    x0, y0, x1, y1, x2, y2, x3, y3 = np.array(corner).flatten()
+    area = tuple(np.rint((min(x0, x2), min(y0, y1), max(x1, x3), max(y2, y3))).astype(int))
+    return area
+
+
+def trapezoid2area(corner, pad=0):
+    """
+    Convert corners of a trapezoid to area.
+
+    Args:
+        corner: ((x0, y0), (x1, y1), (x2, y2), (x3, y3))
+        pad (int):
+            Positive value for inscribed area.
+            Negative value and 0 for circumscribed area.
+
+    Returns:
+        tuple[int]: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
+    """
+    if pad > 0:
+        return area_pad(corner2inner(corner), pad=pad)
+    elif pad < 0:
+        return area_pad(corner2outer(corner), pad=pad)
+    else:
+        return area_pad(corner2area(corner), pad=pad)
 
 
 def points_to_area_generator(points, shape):
