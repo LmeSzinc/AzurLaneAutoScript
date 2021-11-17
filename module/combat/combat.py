@@ -381,6 +381,20 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         while 1:
             self.device.screenshot()
 
+            # Expected end
+            if isinstance(expected_end, str):
+                if expected_end == 'in_stage' and self.handle_in_stage():
+                    break
+                if expected_end == 'with_searching' and self.handle_in_map_with_enemy_searching(drop=drop):
+                    break
+                if expected_end == 'no_searching' and self.handle_in_map_no_enemy_searching():
+                    break
+                if expected_end == 'in_ui' and self.appear(BACK_ARROW, offset=(20, 20)):
+                    break
+            if callable(expected_end):
+                if expected_end():
+                    break
+
             # Combat status
             if not exp_info and self.handle_get_ship(drop=drop):
                 continue
@@ -413,18 +427,6 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 break
             if expected_end is None:
                 if self.handle_in_map_with_enemy_searching(drop=drop):
-                    break
-            if isinstance(expected_end, str):
-                if expected_end == 'in_stage' and self.handle_in_stage():
-                    break
-                if expected_end == 'with_searching' and self.handle_in_map_with_enemy_searching(drop=drop):
-                    break
-                if expected_end == 'no_searching' and self.handle_in_map_no_enemy_searching():
-                    break
-                if expected_end == 'in_ui' and self.appear(BACK_ARROW, offset=(20, 20)):
-                    break
-            if callable(expected_end):
-                if expected_end():
                     break
 
     def combat(self, balance_hp=None, emotion_reduce=None, auto_mode=None, submarine_mode=None,
