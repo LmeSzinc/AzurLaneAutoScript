@@ -5494,6 +5494,7 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "war_archives_20181227_cn",
           "war_archives_20180726_cn",
           "war_archives_20180607_cn",
           "war_archives_20190221_en",
@@ -5504,10 +5505,10 @@
           "war_archives_20191031_en",
           "war_archives_20181020_en"
         ],
-        "cn": "war_archives_20180726_cn",
-        "en": "war_archives_20180726_cn",
-        "jp": "war_archives_20180726_cn",
-        "tw": "war_archives_20180726_cn"
+        "cn": "war_archives_20181227_cn",
+        "en": "war_archives_20181227_cn",
+        "tw": "war_archives_20181227_cn",
+        "jp": "war_archives_20180726_cn"
       },
       "Mode": {
         "type": "disable",

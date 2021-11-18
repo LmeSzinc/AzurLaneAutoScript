@@ -10,4 +10,5 @@ dic_archives_template = {
     'war_archives_20190620_en': TEMPLATE_GLORIOUS_BATTLE,
     'war_archives_20180607_cn': TEMPLATE_INK_STAINED_STEEL_SAKURA,
     'war_archives_20180726_cn': TEMPLATE_IRIS_OF_LIGHT_AND_DARK,
+    'war_archives_20181227_cn': TEMPLATE_CRIMSON_ECHOES,
 }
