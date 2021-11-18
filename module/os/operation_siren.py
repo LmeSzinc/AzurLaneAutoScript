@@ -4,7 +4,6 @@ from module.exception import MapWalkError
 from module.exception import ScriptError
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
-from module.os.assets import MAP_EXIT
 from module.os.map import OSMap
 from module.reward.reward import Reward
 from module.ui.ui import page_os
@@ -57,9 +56,10 @@ class OperationSiren(Reward, OSMap):
 
         # Clear current zone
         self.run_auto_search()
+        self.handle_fleet_repair(revert=False)
 
         # Exit from special zones types, only SAFE and DANGEROUS are acceptable.
-        if self.appear(MAP_EXIT, offset=(20, 20)):
+        if self.is_in_special_zone():
             logger.warning('OS is in a special zone type, while SAFE and DANGEROUS are acceptable')
             self.map_exit()
 
@@ -77,6 +77,9 @@ class OperationSiren(Reward, OSMap):
                 set true to re-enter current zone to refresh.
             stop_if_safe (bool): Return false if zone is SAFE.
 
+        Returns:
+            bool: If zone switched.
+
         Pages:
             in: IN_MAP or IN_GLOBE
             out: IN_MAP
@@ -86,10 +89,14 @@ class OperationSiren(Reward, OSMap):
         if self.zone == zone:
             if refresh:
                 logger.info('Goto another zone to refresh current zone')
-                self.globe_goto(self.zone_nearest_azur_port(self.zone), types=('SAFE', 'DANGEROUS'), refresh=False)
+                return self.globe_goto(self.zone_nearest_azur_port(self.zone),
+                                       types=('SAFE', 'DANGEROUS'), refresh=False)
             else:
                 logger.info('Already at target zone')
                 return False
+        # MAP_EXIT
+        if self.is_in_special_zone():
+            self.map_exit()
         # IN_MAP
         if self.is_in_map():
             self.os_map_goto_globe()
@@ -158,20 +165,33 @@ class OperationSiren(Reward, OSMap):
             self.globe_goto(prev)
 
     def handle_fleet_repair(self, revert=True):
-        if self.config.OpsiGeneral_RepairThreshold > 0:
-            self.hp_get()
-            check = [round(data, 2) <= self.config.OpsiGeneral_RepairThreshold if use else False
-                     for data, use in zip(self.hp, self.hp_has_ship)]
-            if any(check):
-                logger.info('At least one ship is below threshold '
-                            f'{str(int(self.config.OpsiGeneral_RepairThreshold * 100))}%, '
-                            'retreating to nearest azur port for repairs')
-                self.fleet_repair(revert=revert)
-            else:
-                logger.info('No ship found to be below threshold '
-                            f'{str(int(self.config.OpsiGeneral_RepairThreshold * 100))}%, '
-                            'continue OS exploration')
-            self.hp_reset()
+        """
+        Args:
+            revert (bool): If go back to previous zone.
+
+        Returns:
+            bool: If repaired.
+        """
+        if self.config.OpsiGeneral_RepairThreshold <= 0:
+            return False
+        if self.is_in_special_zone():
+            logger.info('OS is in a special zone type, skip fleet repair')
+            return False
+
+        self.hp_get()
+        check = [round(data, 2) <= self.config.OpsiGeneral_RepairThreshold if use else False
+                 for data, use in zip(self.hp, self.hp_has_ship)]
+        if any(check):
+            logger.info('At least one ship is below threshold '
+                        f'{str(int(self.config.OpsiGeneral_RepairThreshold * 100))}%, '
+                        'retreating to nearest azur port for repairs')
+            self.fleet_repair(revert=revert)
+        else:
+            logger.info('No ship found to be below threshold '
+                        f'{str(int(self.config.OpsiGeneral_RepairThreshold * 100))}%, '
+                        'continue OS exploration')
+        self.hp_reset()
+        return True
 
     def os_port_daily(self, mission=True, supply=True):
         """

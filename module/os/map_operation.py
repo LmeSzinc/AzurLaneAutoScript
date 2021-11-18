@@ -99,6 +99,13 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         logger.attr('Zone', self.zone)
         return self.zone
 
+    def is_in_special_zone(self):
+        """
+        Returns:
+            bool: If in an obscure zone, abyssal zone, or stronghold.
+        """
+        return self.appear(MAP_EXIT, offset=(20, 20))
+
     def map_exit(self, skip_first_screenshot=True):
         """
         Exit from an obscure zone, abyssal zone, or stronghold.
