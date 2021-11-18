@@ -344,7 +344,7 @@ class Map(Fleet):
         """
         Method to step on all boss spawn point when boss not detected.
         """
-        grids = self.map.select(may_boss=True, is_accessible=True)
+        grids = self.map.select(may_boss=True, is_accessible=True).sort('weight', 'cost')
         logger.info('May boss: %s' % grids)
         battle_count = self.battle_count
 
@@ -359,7 +359,7 @@ class Map(Fleet):
             else:
                 logger.info('Boss guessing incorrect.')
 
-        grids = self.map.select(may_boss=True, is_accessible=False)
+        grids = self.map.select(may_boss=True, is_accessible=False).sort('weight', 'cost')
         logger.info('May boss: %s' % grids)
 
         for grid in grids:
