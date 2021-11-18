@@ -80,9 +80,13 @@ class Level(ModuleBase):
             if after > before > 0:
                 logger.info(f'Position {i} LV.{before} -> LV.{after}')
             if after >= limit > before > 0:
-                logger.info(f'Position {i} LV.{limit} Reached')
-                self.config.LV_TRIGGERED = True
-                return True
+                if after - before == 1 or after < 35:
+                    logger.info(f'Position {i} LV.{limit} Reached')
+                    self.config.LV_TRIGGERED = True
+                    return True
+                else:
+                    logger.warning(f'Level gap between {before} and {after} is too large. '
+                                   f'This will not be considered as a trigger')
 
         return False
 
