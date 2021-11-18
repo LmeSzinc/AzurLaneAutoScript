@@ -1,3 +1,5 @@
+import copy
+
 from scipy import signal
 
 from module.base.timer import Timer
@@ -52,6 +54,8 @@ class RewardCommission(UI, InfoHandler):
         for y in peaks:
             comm = Commission(image, y=y, config=self.config)
             logger.attr('Commission', comm)
+            repeat = len([c for c in commission if c == comm])
+            comm.repeat_count += repeat
             commission.append(comm)
 
         return SelectedGrids(commission)
@@ -97,8 +101,8 @@ class RewardCommission(UI, InfoHandler):
 
         # Separate daily and urgent
         run = run[:self.max_commission - running_count]
-        daily_choose = run.intersect_by_ed(daily)
-        urgent_choose = run.intersect_by_ed(urgent)
+        daily_choose = run.intersect_by_eq(daily)
+        urgent_choose = run.intersect_by_eq(urgent)
         if daily_choose:
             logger.info('Choose daily commission')
             for comm in daily_choose:
@@ -262,6 +266,8 @@ class RewardCommission(UI, InfoHandler):
             is_urgent (bool):
         """
         logger.hr('Commission find and start', level=2)
+        comm = copy.deepcopy(comm)
+        comm.repeat_count = 1
         logger.info(f'Finding commission {comm}')
         for _ in range(15):
             new = self._commission_detect(self.device.image)

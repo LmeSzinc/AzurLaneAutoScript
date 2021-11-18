@@ -157,7 +157,7 @@ class SelectedGrids:
         """
         return SelectedGrids(list(set(self.grids).intersection(set(grids.grids))))
 
-    def intersect_by_ed(self, grids):
+    def intersect_by_eq(self, grids):
         """
         Another `intersect()` method, but de-duplicates with `__eq__` instead of `__hash__`.
 

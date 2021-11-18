@@ -88,6 +88,7 @@ class Commission:
             self.valid = False
 
         self.create_time = datetime.now()
+        self.repeat_count = 1
         self.category_str = 'unknown'
         self.genre_str = 'unknown'
         self.duration_hour = 'unknown'
@@ -275,16 +276,16 @@ class Commission:
         self.status = dic[int(np.argmax(color))]
 
     def __str__(self):
-        if self.valid:
-            if self.expire:
-                return f'{self.name} | {self.suffix} ' \
-                    f'(Genre: {self.genre}, Status: {self.status}, Duration: {self.duration}, Expire: {self.expire})'
-            else:
-                return f'{self.name} | {self.suffix} ' \
-                    f'(Genre: {self.genre}, Status: {self.status}, Duration: {self.duration})'
-        else:
-            return f'{self.name} | {self.suffix} ' \
-                f'(Invalid)'
+        name = f'{self.name} | {self.suffix}'
+        if not self.valid:
+            return f'{name} (Invalid)'
+        info = {'Genre': self.genre, 'Status': self.status, 'Duration': self.duration}
+        if self.expire:
+            info['Expire'] = self.expire
+        if self.repeat_count > 1:
+            info['Repeat'] = self.repeat_count
+        info = ', '.join([f'{k}: {v}' for k, v in info.items()])
+        return f'{name} ({info})'
 
     def __eq__(self, other):
         """
@@ -317,6 +318,8 @@ class Commission:
         if self.expire and other.expire:
             if (other.expire < self.expire - threshold) or (other.expire > self.expire + threshold):
                 return False
+        if self.repeat_count != other.repeat_count:
+            return False
 
         return True
 
