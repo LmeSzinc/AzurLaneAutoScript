@@ -104,7 +104,7 @@ class ManualConfig:
     # Predict actual swipe distance to correct camera.
     MAP_SWIPE_PREDICT = True
     MAP_SWIPE_PREDICT_WITH_CURRENT_FLEET = True
-    MAP_SWIPE_PREDICT_WITH_SEA_GRIDS = True
+    MAP_SWIPE_PREDICT_WITH_SEA_GRIDS = False
     # Corner to ensure in ensure_edge_insight.
     # Value can be 'upper-left', 'upper-right', 'bottom-left', 'bottom-right', or 'upper', 'bottom', 'left', 'right'
     # Missing axis will be random, and '' for all random
