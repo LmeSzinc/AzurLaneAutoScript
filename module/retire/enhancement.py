@@ -150,9 +150,6 @@ class Enhancement(Dock):
             else:
                 self.device.screenshot()
 
-            if self.handle_popup_confirm('ENHANCE'):
-                continue
-
             # Respond accordingly based on info_bar information
             if self.info_bar_count():
                 image = info_letter_preprocess(np.array(self.image_area(INFO_BAR_DETECT)))
@@ -175,6 +172,13 @@ class Enhancement(Dock):
                     else:
                         logger.info('Swiped failed, exiting current category')
                         return False, ship_count
+                else:
+                    logger.warning('info_bar was detected however did not match to any known template')
+
+            # Can be encountered when enhancing a ship that
+            # is temporary/not officially owned yet
+            if self.handle_popup_confirm('ENHANCE'):
+                continue
 
             # Possible trapped case in which info_bar will never appear
             # so long as EQUIP_CONFIRM remains appeared
