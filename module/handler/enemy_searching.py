@@ -117,6 +117,10 @@ class EnemySearchingHandler(InfoHandler):
                 timeout.limit = 10
                 timeout.reset()
                 continue
+            if self.handle_urgent_commission(drop=drop):
+                timeout.limit = 10
+                timeout.reset()
+                continue
 
             # End
             if self.enemy_searching_appear():
