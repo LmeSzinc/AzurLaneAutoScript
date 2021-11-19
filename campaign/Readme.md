@@ -21,7 +21,7 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20180226   | war archives 20190221 en | Winter\'s Crown                | 凛冬王冠               | Winter\'s Crown                  | 凛冽なりし冬の王冠                   | 凜冬王冠             |
 | 20180607   | war archives 20180607 cn | Ink Stained Steel Sakura       | 墨染的钢铁之花         | Ink Stained Steel Sakura         | 墨染まりし鋼の桜                     | 墨染的鋼鐵之花       |
 | 20180726   | war archives 20180726 cn | Iris of Light and Dark         | 光与影的鸢尾之华       | Iris of Light and Dark           | 光と影のアイリス                     | 光與影的鳶尾之華     |
-| 20180726   | war archives 20181227 cn | Crimson Echoes                 | 苍红的回响           | Crimson Echoes                    | -                               | 蒼紅的迴響     |
+| 20180726   | war archives 20181227 cn | Crimson Echoes                 | 苍红的回响           | Crimson Echoes                    | 縹映る深緋の残響                          | 蒼紅的迴響     |
 | 20200227   | event 20200227 cn        | Northern Overture              | 北境序曲               | Northern Overture                | 凍絶の北海                           | -                    |
 | 20200312   | event 20200312 cn        | The Solomon Ranger             | 复刻斯图尔特的硝烟     | The Solomon Ranger Rerun         | 南洋に靡く硝煙（復刻）               | -                    |
 | 20200326   | event 20200326 cn        | Microlayer Medley              | 微层混合               | Microlayer Medley                | 闇靄払う銀翼                         | -                    |
