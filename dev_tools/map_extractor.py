@@ -120,6 +120,13 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'aerjiliya': 'Algerie',
     'jialisuoniye': 'LaGalissonniere',
     'wokelan': 'Vauquelin',
+
+    # Crimson Echoes
+    'xili': 'Yuudachi',
+    'shentong': 'Jintsuu',
+    'niaohai': 'Choukai',
+    'wudao': 'Kirishima',
+    'canglong': 'Souryuu'
 }
 
 
