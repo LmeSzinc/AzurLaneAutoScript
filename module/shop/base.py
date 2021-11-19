@@ -183,8 +183,8 @@ class ShopBase(UI):
         Returns:
             list[Item]: List of Item object to buy, or an empty list if nothing to buy.
         """
-        self.shop_get_currency(key=shop_type)
         items = self.shop_get_items(key=shop_type)
+        self.shop_get_currency(key=shop_type)
 
         try:
             selection = selection.replace(' ', '').replace('\n', '').split('>')
