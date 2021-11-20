@@ -68,7 +68,7 @@ class OperationSiren(Reward, OSMap):
         Goto another zone in OS.
 
         Args:
-            zone (str, int, Zone): Name in CN/EN/JP, zone id, or Zone instance.
+            zone (str, int, Zone): Name in CN/EN/JP/TW, zone id, or Zone instance.
             types (tuple[str], list[str], str): Zone types, or a list of them.
                 Available types: DANGEROUS, SAFE, OBSCURE, LOGGER, STRONGHOLD.
                 Try the the first selection in type list, if not available, try the next one.

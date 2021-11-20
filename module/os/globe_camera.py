@@ -100,7 +100,7 @@ class GlobeCamera(GlobeOperation, ZoneManager):
     def globe_in_sight(self, zone, swipe_limit=(620, 340), sight=(0, 220, 980, 620)):
         """
         Args:
-            zone (str, int, Zone): Name in CN/EN/JP, zone id, or Zone instance.
+            zone (str, int, Zone): Name in CN/EN/JP/TW, zone id, or Zone instance.
             swipe_limit (tuple):
             sight (tuple):
         """
@@ -120,7 +120,7 @@ class GlobeCamera(GlobeOperation, ZoneManager):
     def globe_focus_to(self, zone):
         """
         Args:
-            zone (str, int, Zone): Name in CN/EN/JP, zone id, or Zone instance.
+            zone (str, int, Zone): Name in CN/EN/JP/TW, zone id, or Zone instance.
 
         Pages:
             in: IN_GLOBE

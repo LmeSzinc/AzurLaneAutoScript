@@ -18,6 +18,7 @@ class Zone:
     cn: str
     en: str
     jp: str
+    tw: str
     # Position where information bar is pinned on
     area_pos: tuple
     # area_pos + offset_pos is where mission pinned on
@@ -47,11 +48,10 @@ class Zone:
 
     def __str__(self):
         """
-
         Returns:
-            str: Such as `[3|圣彼得伯格|St. Petersburg|ペテルブルク]`
+            str: Such as `[3|圣彼得伯格|St. Petersburg|ペテルブルク|聖彼得堡]`
         """
-        return f'[{self.zone_id}|{self.cn}|{self.en}|{self.jp}]'
+        return f'[{self.zone_id}|{self.cn}|{self.en}|{self.jp}|{self.tw}]'
 
     __repr__ = __str__
 
@@ -89,7 +89,7 @@ class ZoneManager:
     def name_to_zone(self, name):
         """
         Args:
-            name (str, int, Zone): Name in CN/EN/JP, zone id, or Zone instance.
+            name (str, int, Zone): Name in CN/EN/JP/TW, zone id, or Zone instance.
 
         Returns:
             Zone:
@@ -107,7 +107,13 @@ class ZoneManager:
 
             name = parse_name(name)
             for zone in self.zones:
-                if name == parse_name(zone.cn) or name == parse_name(zone.en) or name == parse_name(zone.jp):
+                if name == parse_name(zone.cn):
+                    return zone
+                if name == parse_name(zone.en):
+                    return zone
+                if name == parse_name(zone.jp):
+                    return zone
+                if name == parse_name(zone.tw):
                     return zone
             logger.warning(f'Unable to find OS globe zone: {name}')
             raise ScriptError(f'Unable to find OS globe zone: {name}')
@@ -115,7 +121,7 @@ class ZoneManager:
     def zone_nearest_azur_port(self, zone):
         """
         Args:
-            zone (str, int, Zone): Name in CN/EN/JP, zone id, or Zone instance.
+            zone (str, int, Zone): Name in CN/EN/JP/TW, zone id, or Zone instance.
 
         Returns:
             Zone:
