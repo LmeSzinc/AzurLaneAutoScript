@@ -57,9 +57,9 @@ class Enhancement(Dock):
         # self.dock_filter_confirm()
         if ship_type is not None:
             ship_type = str(ship_type)
-            self.dock_filter_set_faster(extra='enhanceable', index=ship_type)
+            self.dock_filter_set(extra='enhanceable', index=ship_type)
         else:
-            self.dock_filter_set_faster(extra='enhanceable')
+            self.dock_filter_set(extra='enhanceable')
 
         if self.appear(DOCK_EMPTY, offset=(30, 30)):
             return False
@@ -79,7 +79,7 @@ class Enhancement(Dock):
         # self.dock_filter_set(category='extra', filter_type='no_limit', enable=True)
         # self.dock_filter_set(category='index', filter_type='all', enable=True)
         # self.dock_filter_confirm()
-        self.dock_filter_set_faster()
+        self.dock_filter_set()
 
     def _enhance_confirm(self, skip_first_screenshot=True):
         """

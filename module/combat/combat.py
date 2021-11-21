@@ -43,13 +43,22 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
 
         return False
 
-    def map_offensive(self):
+    def map_offensive(self, skip_first_screenshot=True):
+        """
+        Pages:
+            in: in_map, MAP_OFFENSIVE
+            out: combat_appear
+        """
         while 1:
-            self.device.screenshot()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
             if self.appear_then_click(MAP_OFFENSIVE, interval=1):
                 continue
             if self.handle_combat_low_emotion():
+                self.interval_reset(MAP_OFFENSIVE)
                 continue
             if self.handle_retirement():
                 continue

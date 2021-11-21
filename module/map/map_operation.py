@@ -170,6 +170,9 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
 
                 # Retire
                 if self.handle_retirement():
+                    campaign_timer.reset()
+                    map_timer.reset()
+                    fleet_timer.reset()
                     continue
 
                 # Use Data Key

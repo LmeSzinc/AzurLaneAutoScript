@@ -124,7 +124,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
     def _ship_change_confirm(self, button):
 
         self.dock_select_one(button)
-        self.dock_filter_set_faster()
+        self.dock_filter_set()
         self.dock_select_confirm(check_button=page_fleet.check_button)
 
     def get_common_rarity_cv(self):
@@ -200,7 +200,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         # for :
         #     if level == 100 and emotion == 150:
         #         return button
-        button, _, _ =  max(filter(lambda a: a[1] == 100, button_list), key=lambda a: a[2])
+        button, _, _ = max(filter(lambda a: a[1] == 100, button_list), key=lambda a: a[2])
         return button
 
     def flagship_change_execute(self):
@@ -214,11 +214,10 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         """
         self.ui_click(FLEET_ENTER_FLAGSHIP,
                       appear_button=page_fleet.check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
-        self.dock_filter_set_faster(
+        self.dock_filter_set(
             index='cv', rarity='common', extra='enhanceable', sort='total')
         self.dock_favourite_set(False)
 
-        self.device.screenshot()
         ship = self.get_common_rarity_cv()
         if ship is not None:
             self._ship_change_confirm(ship)
@@ -227,7 +226,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             return True
         else:
             logger.info('Change flagship failed, no CV in common rarity.')
-            self.dock_filter_set_faster()
+            self.dock_filter_set()
             self.ui_back(check_button=page_fleet.check_button)
             return False
 
@@ -242,11 +241,10 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         """
         self.ui_click(FLEET_ENTER,
                       appear_button=page_fleet.check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
-        self.dock_filter_set_faster(
+        self.dock_filter_set(
             index='dd', rarity='common', faction='eagle', extra='can_limit_break')
         self.dock_favourite_set(False)
 
-        self.device.screenshot()
         ship = self.get_common_rarity_dd()
         if ship is not None:
             self._ship_change_confirm(ship)
@@ -255,7 +253,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             return True
         else:
             logger.info('Change vanguard ship failed, no DD in common rarity.')
-            self.dock_filter_set_faster()
+            self.dock_filter_set()
             self.ui_back(check_button=page_fleet.check_button)
             return False
 

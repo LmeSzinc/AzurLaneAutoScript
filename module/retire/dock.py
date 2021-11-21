@@ -1,7 +1,6 @@
-from module.base.timer import Timer
 from module.base.button import ButtonGrid
+from module.base.timer import Timer
 from module.equipment.equipment import Equipment
-from module.exception import ScriptError
 from module.logger import logger
 from module.ocr.ocr import DigitCounter
 from module.retire.assets import *
@@ -55,7 +54,9 @@ OCR_DOCK_SELECTED = DigitCounter(DOCK_SELECTED, threshold=64, name='OCR_DOCK_SEL
 
 class Dock(Equipment):
     def handle_dock_cards_loading(self):
+        # Poor implementation.
         self.device.sleep((1, 1.5))
+        self.device.screenshot()
 
     def dock_favourite_set(self, enable=False):
         if favourite_filter.set('on' if enable else 'off', main=self):
@@ -78,73 +79,8 @@ class Dock(Equipment):
         self.ui_click(DOCK_FILTER_CONFIRM, check_button=DOCK_CHECK, skip_first_screenshot=True)
         self.handle_dock_cards_loading()
 
-    def dock_filter_set(self, category, filter_type, enable):
-        # Upper/Lower respectively for key indexing
-        category = category.upper()
-        filter_type = filter_type.lower()
-
-        # Build key strings
-        key_1 = f'FILTER_{category}_GRIDS'
-        key_2 = f'FILTER_{category}_TYPES'
-
-        # Try to acquire key from globals()
-        try:
-            obj_1 = globals()[key_1]
-            obj_2 = globals()[key_2]
-        except KeyError:
-            raise ScriptError(
-                f'Either {key_1} or {key_2} filter grid/type list does not exist in module/retire/dock.py')
-
-        # Internal helper methods
-        def get_2d_index(my_list, v):
-            for i, row in enumerate(my_list):
-                if v in row:
-                    return row.index(v), i
-            return None, None
-
-        def set_filter(button, color_check, skip_first_screenshot=True):
-            from module.base.timer import Timer
-
-            clicked_timeout = Timer(0.5, count=1)
-            clicked_threshold = 3
-            while 1:
-                if skip_first_screenshot:
-                    skip_first_screenshot = False
-                else:
-                    self.device.screenshot()
-
-                if clicked_timeout.reached():
-                    if not self.image_color_count(button, color=color_check, threshold=235,
-                                                  count=250) and clicked_threshold > 0:
-                        self.device.click(button)
-                        clicked_timeout.reset()
-                        clicked_threshold -= 1
-                        continue
-                    else:
-                        break
-
-        # Locate button in grid
-        x, y = get_2d_index(obj_2, filter_type)
-        if x is None or y is None:
-            raise ScriptError(f'Filter: {filter_type} is not contained within {key_2}: {obj_2}')
-        btn = obj_1[x, y]
-
-        # Determine color of resulting button after click based on 'enable'
-        # Enable (On)   - Gold/Blue Color depends on category
-        # Disable (Off) - Grey regardless of category
-        if enable:
-            if category in ['SORT', 'INDEX']:
-                cc = (181, 142, 90)
-            else:
-                cc = (74, 117, 189)
-        else:
-            cc = (115, 130, 148)
-
-        # Set filter of button
-        set_filter(btn, cc)
-
-    def dock_filter_set_faster_execute(self, sort='level', index='all', faction='all', rarity='all', extra='no_limit',
-                                       skip_first_screenshot=True):
+    def dock_filter_set_execute(self, sort='level', index='all', faction='all', rarity='all', extra='no_limit',
+                                skip_first_screenshot=True):
         """
         A faster filter set function.
 
@@ -197,7 +133,7 @@ class Dock(Equipment):
         logger.warning('Failed to set all dock filters after 5 trial, assuming current filters are correct.')
         return False
 
-    def dock_filter_set_faster(self, sort='level', index='all', faction='all', rarity='all', extra='no_limit'):
+    def dock_filter_set(self, sort='level', index='all', faction='all', rarity='all', extra='no_limit'):
         """
         A faster filter set function.
 
@@ -215,8 +151,8 @@ class Dock(Equipment):
             in: page_dock
         """
         self.dock_filter_enter()
-        self.dock_filter_set_faster_execute()  # Reset filter
-        self.dock_filter_set_faster_execute(sort=sort, index=index, faction=faction, rarity=rarity, extra=extra)
+        self.dock_filter_set_execute()  # Reset filter
+        self.dock_filter_set_execute(sort=sort, index=index, faction=faction, rarity=rarity, extra=extra)
         self.dock_filter_confirm()
 
     def dock_select_one(self, button, skip_first_screenshot=True):
