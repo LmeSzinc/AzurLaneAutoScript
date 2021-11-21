@@ -7,13 +7,13 @@ from module.retire.assets import *
 from module.ui.scroll import Scroll
 from module.ui.switch import Switch
 
-dock_sorting = Switch('Dork_sorting')
-dock_sorting.add_status('Ascending', check_button=SORT_ASC, click_button=SORTING_CLICK)
-dock_sorting.add_status('Descending', check_button=SORT_DESC, click_button=SORTING_CLICK)
+DOCK_SORTING = Switch('Dork_sorting')
+DOCK_SORTING.add_status('Ascending', check_button=SORT_ASC, click_button=SORTING_CLICK, sleep=(0.3, 0.5))
+DOCK_SORTING.add_status('Descending', check_button=SORT_DESC, click_button=SORTING_CLICK, sleep=(0.3, 0.5))
 
-favourite_filter = Switch('Favourite_filter')
-favourite_filter.add_status('on', check_button=COMMON_SHIP_FILTER_ENABLE)
-favourite_filter.add_status('off', check_button=COMMON_SHIP_FILTER_DISABLE)
+DOCK_FAVOURITE = Switch('Favourite_filter')
+DOCK_FAVOURITE.add_status('on', check_button=COMMON_SHIP_FILTER_ENABLE, sleep=(0.3, 0.5))
+DOCK_FAVOURITE.add_status('off', check_button=COMMON_SHIP_FILTER_DISABLE, sleep=(0.3, 0.5))
 
 FILTER_SORT_GRIDS = ButtonGrid(
     origin=(284, 60), delta=(158, 0), button_shape=(137, 38), grid_shape=(6, 1), name='FILTER_SORT')
@@ -59,7 +59,7 @@ class Dock(Equipment):
         self.device.screenshot()
 
     def dock_favourite_set(self, enable=False):
-        if favourite_filter.set('on' if enable else 'off', main=self):
+        if DOCK_FAVOURITE.set('on' if enable else 'off', main=self):
             self.handle_dock_cards_loading()
 
     def _dock_quit_check_func(self):
@@ -69,7 +69,7 @@ class Dock(Equipment):
         self.ui_back(check_button=self._dock_quit_check_func, skip_first_screenshot=True)
 
     def dock_sort_method_dsc_set(self, enable=True):
-        if dock_sorting.set('Descending' if enable else 'Ascending', main=self):
+        if DOCK_SORTING.set('Descending' if enable else 'Ascending', main=self):
             self.handle_dock_cards_loading()
 
     def dock_filter_enter(self):

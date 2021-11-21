@@ -62,55 +62,6 @@ class Retirement(Enhancement):
                 break
         return selected
 
-    def _retirement_set_sort_method(self, method):
-        """
-        Args:
-            method (str): ASC for ascending, DESC for descending.
-
-        Returns:
-            bool: If method change.
-        """
-        current = 'UNKNOWN'
-        self.device.screenshot()
-        if self.appear(SORT_ASC):
-            current = 'ASC'
-        if self.appear(SORT_DESC):
-            current = 'DESC'
-
-        logger.info(f'Current sorting: {current}')
-        if current != method:
-            logger.info(f'Sorting set to {method}')
-            self.device.click(SORTING_CLICK)
-            self.handle_dock_cards_loading()
-            return True
-        else:
-            return False
-
-    def _retirement_set_common_ship_filter(self, enable=False):
-        """
-        Args:
-            enable (bool): If enable common_ship_filter
-
-        Returns:
-            bool: If changed.
-        """
-        self.device.screenshot()
-        if self.appear(COMMON_SHIP_FILTER_ENABLE):
-            current = True
-        elif self.appear(COMMON_SHIP_FILTER_DISABLE):
-            current = False
-        else:
-            logger.warning('Common ship filter not detected, skipped')
-            return False
-
-        if current != enable:
-            logger.info(f'Common ship filter set to {enable}')
-            self.device.click(COMMON_SHIP_FILTER_ENABLE)
-            self.handle_dock_cards_loading()
-            return True
-        else:
-            return False
-
     def _retirement_confirm(self, skip_first_screenshot=True):
         """
         Pages:
@@ -190,7 +141,7 @@ class Retirement(Enhancement):
     def retire_ships_one_click(self, amount=None):
         logger.hr('Retirement')
         logger.info('Using one click retirement.')
-        self._retirement_set_common_ship_filter()
+        self.dock_favourite_set(False)
         if amount is None:
             amount = self._retire_amount
         end = False
@@ -244,8 +195,8 @@ class Retirement(Enhancement):
             rarity = self._retire_rarity
         logger.hr('Retirement')
         logger.info(f'Amount={amount}. Rarity={rarity}')
-        self._retirement_set_sort_method('ASC')
-        self._retirement_set_common_ship_filter()
+        self.dock_sort_method_dsc_set(False)
+        self.dock_favourite_set(False)
         total = 0
 
         if self.config.RETIRE_KEEP_COMMON_CV:
@@ -266,7 +217,7 @@ class Retirement(Enhancement):
             self.handle_dock_cards_loading()
             continue
 
-        self._retirement_set_sort_method('DESC')
+        self.dock_sort_method_dsc_set(True)
         logger.info(f'Total retired: {total}')
         return total
 
@@ -306,7 +257,7 @@ class Retirement(Enhancement):
             if not total:
                 logger.warning('No ship retired, trying to reset dock filter and disable favourite, then retire again')
                 self.dock_filter_set()
-                self.dock_favourite_set(enable=False)
+                self.dock_favourite_set(False)
                 total = self.retire_ships_one_click()
             if not total:
                 logger.critical('No ship retired')
