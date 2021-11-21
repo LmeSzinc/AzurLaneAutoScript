@@ -1,5 +1,6 @@
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
+from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1, GET_SHIP
 from module.logger import logger
 from module.shop.assets import *
@@ -48,10 +49,10 @@ class ShopItemGrid(ItemGrid):
 
             if 'PR' in item.name or 'DR' in item.name:
                 item.alt_name = [
-                                    item.name,
-                                    f'{item.name[:2]}BP',
-                                    f'{item.name[:2]}{BP_SERIES[f"{item.name[2:-2].lower()}"]}BP',
-                                ]
+                    item.name,
+                    f'{item.name[:2]}BP',
+                    f'{item.name[:2]}{BP_SERIES[f"{item.name[2:-2].lower()}"]}BP',
+                ]
 
             # Clear out duplicates in 'alt_name'
             item.alt_name = list(set(item.alt_name))
@@ -119,6 +120,7 @@ class ShopBase(UI):
             return []
 
         record = 0
+        exit_timer = Timer(3, count=9).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -133,6 +135,10 @@ class ShopBase(UI):
                 price=True,
                 tag=False
             )
+
+            if exit_timer.reached():
+                logger.warning('Waiting too long for items loading, assuming loaded')
+                break
 
             # Check unloaded items, because AL loads items too slow.
             known = len([item for item in item_grid.items if item.is_known_item])
