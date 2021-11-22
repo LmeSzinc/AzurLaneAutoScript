@@ -97,6 +97,16 @@ class LoginHandler(Combat):
         logger.critical('Azur Lane server may be under maintenance, or you may lost network connection')
         raise RequestHumanTakeover
 
+    def app_stop(self):
+        logger.hr('App stop')
+        self.device.app_stop()
+
+    def app_start(self):
+        logger.hr('App start')
+        self.device.app_start()
+        self.handle_app_login()
+        # self.ensure_no_unfinished_campaign()
+
     def app_restart(self):
         logger.hr('App restart')
         self.device.app_stop()

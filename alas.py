@@ -110,6 +110,10 @@ class AzurLaneAutoScript:
         from module.handler.login import LoginHandler
         LoginHandler(self.config, device=self.device).app_restart()
 
+    def start(self):
+        from module.handler.login import LoginHandler
+        LoginHandler(self.config, device=self.device).app_start()
+
     def goto_main(self):
         from module.ui.ui import UI
         UI(self.config, device=self.device).ui_goto_main()
@@ -284,7 +288,7 @@ class AzurLaneAutoScript:
                 logger.info('Close game during wait')
                 self.device.app_stop()
                 self.wait_until(task.next_run)
-                self.run('restart')
+                self.run('start')
             elif method == 'goto_main':
                 logger.info('Goto main page during wait')
                 self.run('goto_main')
