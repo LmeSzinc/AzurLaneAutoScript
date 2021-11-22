@@ -1,7 +1,9 @@
 import itertools
 
+import numpy as np
+
 from module.base.timer import Timer
-from module.exception import MapWalkError, MapEnemyMoved
+from module.exception import MapWalkError, MapEnemyMoved, MapDetectionError
 from module.handler.ambush import AmbushHandler
 from module.logger import logger
 from module.map.camera import Camera
@@ -298,7 +300,8 @@ class Fleet(Camera, AmbushHandler):
                     elif self.map[location].may_enemy:
                         self.map[location].is_cleared = True
 
-                    self.handle_boss_appear_refocus()
+                    if self.catch_boss_appear():
+                        self.handle_boss_appear_refocus()
                     if self.config.MAP_FOCUS_ENEMY_AFTER_BATTLE:
                         self.camera = location
                         self.update()
@@ -364,6 +367,7 @@ class Fleet(Camera, AmbushHandler):
                     break
                 if walk_timeout.reached():
                     logger.warning('Walk timeout. Retrying.')
+                    self.predict()
                     self.ensure_edge_insight()
                     break
 
@@ -382,8 +386,11 @@ class Fleet(Camera, AmbushHandler):
             self.full_scan_carrier()
         if result == 'combat':
             self.round_battle()
+            self.predict()
         self.round_next()
         if self.round_is_new:
+            if result != 'combat':
+                self.predict()
             self.full_scan_movable(enemy_cleared=result == 'combat')
             self.find_path_initial()
             raise MapEnemyMoved
@@ -422,6 +429,7 @@ class Fleet(Camera, AmbushHandler):
                     self._goto(node, expected=expected if node == nodes[-1] else '')
                 except MapWalkError:
                     logger.warning('Map walk error.')
+                    self.predict()
                     self.ensure_edge_insight()
                     nodes_ = self.map.find_path(node, step=1)
                     for node_ in nodes_:
@@ -845,7 +853,7 @@ class Fleet(Camera, AmbushHandler):
 
         logger.warning('Enemy roadblock try exhausted.')
 
-    def handle_boss_appear_refocus(self):
+    def catch_boss_appear(self):
         """
 
         """
@@ -868,14 +876,33 @@ class Fleet(Camera, AmbushHandler):
         #                 g.wipe_out()
         #             break
 
-        if appear:
-            camera = self.camera
+        return appear
+
+    def handle_boss_appear_refocus(self, preset=None):
+        """
+        Refocus to previous camera position after boss appear.
+
+        Args:
+            preset (tuple): (x, y).
+        """
+        camera = self.camera
+        if preset is None:
+            preset = self.config.MAP_BOSS_APPEAR_REFOCUS_SWIPE
+
+        if preset is not None and np.linalg.norm(preset) > 0:
+            try:
+                self.update()
+            except MapDetectionError:
+                logger.info(f'MapDetectionError occurs after boss appear, trying swipe preset {preset}')
+                # Swipe optimize here may not be accurate.
+                self.map_swipe(preset)
             self.ensure_edge_insight()
-            logger.info('Refocus to previous camera position.')
-            self.focus_to(camera)
-            return True
         else:
-            return False
+            self.update()
+            self.ensure_edge_insight()
+
+        logger.info('Refocus to previous camera position.')
+        self.focus_to(camera)
 
     def fleet_checked_reset(self):
         self.map_fleet_checked = False

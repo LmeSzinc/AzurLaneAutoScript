@@ -20,11 +20,10 @@ class Camera(MapOperation):
     map: CampaignMap
     camera = (0, 0)
     grid_class = Grid
-    _correct_camera = False
     _prev_view = None
     _prev_swipe = None
 
-    def _map_swipe(self, vector, box=(123, 159, 1193, 628)):
+    def _map_swipe(self, vector, box=(123, 159, 1175, 628)):
         """
         Args:
             vector (tuple, np.ndarray): float
@@ -53,7 +52,9 @@ class Camera(MapOperation):
             self.device.sleep(0.3)
             self.update()
         else:
-            self.update(camera=False)
+            # Drop swipe
+            # self.update(camera=False)
+            pass
 
     def map_swipe(self, vector):
         """
@@ -109,7 +110,7 @@ class Camera(MapOperation):
         self._view_init()
         try:
             self.view.load(self.device.image)
-        except (MapDetectionError, AttributeError) as e:
+        except MapDetectionError as e:
             if self.info_bar_count():
                 logger.info('Perspective error cause by info bar. Waiting.')
                 self.handle_info_bar()
@@ -151,9 +152,6 @@ class Camera(MapOperation):
             self._prev_swipe = None
             self.show_camera()
 
-        if not self._correct_camera:
-            self.show_camera()
-            return False
         # Set camera position
         if self.view.left_edge:
             x = 0 + self.view.center_loca[0]
@@ -173,14 +171,16 @@ class Camera(MapOperation):
         self.camera = (x, y)
         self.show_camera()
 
-    def predict(self, mode='normal'):
+        self.predict()
+
+    def predict(self):
         self.view.predict()
-        self.map.update(grids=self.view, camera=self.camera, mode=mode)
+        self.view.show()
 
     def show_camera(self):
         logger.attr_align('Camera', location2node(self.camera))
 
-    def ensure_edge_insight(self, reverse=False, preset=None, swipe_limit=(3, 2)):
+    def ensure_edge_insight(self, reverse=False, preset=None, swipe_limit=(3, 2), skip_first_update=True):
         """
         Swipe to bottom left until two edges insight.
         Edges are used to locate camera.
@@ -189,18 +189,19 @@ class Camera(MapOperation):
             reverse (bool): Reverse swipes.
             preset (tuple(int)): Set in map swipe manually.
             swipe_limit (tuple): (x, y). Limit swipe in (-x, -y, x, y).
+            skip_first_update (bool): Usually to be True. Use False if you are calling ensure_edge_insight manually.
 
         Returns:
             list[tuple]: Swipe record.
         """
         logger.info(f'Ensure edge in sight.')
         record = []
-        self._correct_camera = True
         x_swipe, y_swipe = np.multiply(swipe_limit, random_direction(self.config.MAP_ENSURE_EDGE_INSIGHT_CORNER))
 
         while 1:
             if len(record) == 0:
-                self.update()
+                if not skip_first_update:
+                    self.update()
                 if preset is not None:
                     self.map_swipe(preset)
                     record.append(preset)
@@ -216,8 +217,6 @@ class Camera(MapOperation):
 
             if x == 0 and y == 0:
                 break
-
-        # self._correct_camera = False
 
         if reverse:
             logger.info('Reverse swipes.')
@@ -279,10 +278,9 @@ class Camera(MapOperation):
             queue = queue.sort_by_camera_distance(self.camera)
             self.focus_to(queue[0])
             self.focus_to_grid_center(0.25)
-            self.view.predict()
             success = self.map.update(grids=self.view, camera=self.camera, mode=mode)
             if not success:
-                self.ensure_edge_insight()
+                self.ensure_edge_insight(skip_first_update=False)
                 continue
 
             queue = queue[1:]
@@ -405,30 +403,36 @@ class Camera(MapOperation):
         """
         map_vector = np.array(map_vector)
 
-        def filter_grids(globe_grids, pad=0):
+        def local_to_area(local_grid, pad=0):
+            result = []
+            for local in local_grid:
+                # Predict the position of grid after swipe.
+                # Swipe should ends there, to prevent treating swipe as click.
+                area = area_offset((0, 0, 1, 1), offset=-map_vector)
+                corner = local.grid2screen(area2corner(area))
+                area = trapezoid2area(corner, pad=pad)
+                result.append(area)
+            return result
+
+        def globe_to_local(globe_grids):
             result = []
             for globe in globe_grids:
                 location = tuple(np.array(globe.location) - self.camera + self.view.center_loca)
                 if location in self.view:
-                    # Predict the position of grid after swipe.
-                    # Swipe should ends there, to prevent treating swipe as click.
                     local = self.view[location]
-                    area = area_offset((0, 0, 1, 1), offset=-map_vector)
-                    corner = local.grid2screen(area2corner(area))
-                    area = trapezoid2area(corner, pad=pad)
-                    result.append(area)
+                    result.append(local)
             return result
 
         whitelist = self.map.select(is_land=True) \
             .add(self.map.select(is_current_fleet=True)) \
             .sort_by_camera_distance(self.camera)
-        blacklist = self.map.select(is_sea=False) \
-            .delete(self.map.select(is_land=True)) \
-            .add(self.map.select(is_fleet=True, is_current_fleet=False)) \
-            .add(self.map.select(is_mystery=True)) \
-            .sort_by_camera_distance(self.camera)
+        blacklist = self.view.select(is_enemy=True) \
+            .add(self.view.select(is_siren=True)) \
+            .add(self.view.select(is_mystery=True)) \
+            .add(self.view.select(is_fleet=True, is_current_fleet=False))
 
-        whitelist = filter_grids(whitelist, pad=25)
-        blacklist = filter_grids(blacklist, pad=-5)
+        # self.view.show()
+        whitelist = local_to_area(globe_to_local(whitelist), pad=25)
+        blacklist = [grid.outer for grid in blacklist] + local_to_area(blacklist, pad=-5)
 
         return whitelist, blacklist

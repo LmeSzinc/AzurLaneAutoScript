@@ -36,7 +36,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         Remove non-exist things like strategy, round.
         """
         # self.handle_strategy(index=1 if not self.fleets_reversed() else 2)
-        # self.update()
+        self.update()
         # if self.handle_fleet_reverse():
         #     self.handle_strategy(index=1)
         self.hp_reset()

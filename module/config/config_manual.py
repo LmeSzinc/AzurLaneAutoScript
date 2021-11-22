@@ -115,6 +115,8 @@ class ManualConfig:
     MAP_WALK_OPTIMIZE = True
     # Optimize swipe path, reducing swipes turn info clicks.
     MAP_SWIPE_OPTIMIZE = True
+    # Swipe after boss appear. Could avoid map detection error when camera is on edge.
+    MAP_BOSS_APPEAR_REFOCUS_SWIPE = (0, 0)
 
     """
     module.map_detection

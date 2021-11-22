@@ -112,7 +112,7 @@ class Control(MiniTouch):
         )
         self.device.long_click(x, y, duration=duration)
 
-    def swipe(self, vector, box=(123, 159, 1193, 628), random_range=(0, 0, 0, 0), padding=15, duration=(0.1, 0.2),
+    def swipe(self, vector, box=(123, 159, 1175, 628), random_range=(0, 0, 0, 0), padding=15, duration=(0.1, 0.2),
               whitelist_area=None, blacklist_area=None, name='SWIPE'):
         """Method to swipe.
 

@@ -18,6 +18,10 @@ class Assets:
         return UI_MASK.image
 
     @cached_property
+    def ui_mask_os(self):
+        return UI_MASK_OS.image
+
+    @cached_property
     def ui_mask_stroke(self):
         kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
         image = cv2.erode(self.ui_mask, kernel).astype('uint8')
@@ -33,7 +37,7 @@ class Assets:
     def ui_mask_os_in_map(self):
         area = np.append(np.subtract(0, DETECTING_AREA[:2]), self.ui_mask.shape[::-1])
         # area = (-123, -55, 1157, 665)
-        return crop(UI_MASK_OS.image, area)
+        return crop(self.ui_mask_os, area)
 
     @cached_property
     def tile_center_image(self):

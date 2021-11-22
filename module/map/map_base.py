@@ -294,7 +294,7 @@ class CampaignMap:
             mode (str): Scan mode, such as 'normal', 'carrier', 'movable'
         """
         offset = np.array(camera) - np.array(grids.center_loca)
-        grids.show()
+        # grids.show()
 
         failed_count = 0
         for grid in grids.grids.values():

@@ -86,19 +86,32 @@ def random_rectangle_vector_opted(
     half_vector = np.round(vector / 2).astype(np.int)
     box = np.array(box) + np.append(np.abs(half_vector) + padding, -np.abs(half_vector) - padding)
     box = area_offset(box, half_vector)
+    segment = int(np.linalg.norm(vector) // 70) + 1
+
+    def in_blacklist(end):
+        if not blacklist_area:
+            return False
+        for x in range(segment + 1):
+            point = - vector * x / segment + end
+            for area in blacklist_area:
+                if point_in_area(point, area, threshold=0):
+                    return True
+        return False
 
     if whitelist_area:
         for area in whitelist_area:
             area = area_limit(area, box)
             if sum(area_size(area)) > 0:
                 end_point = random_rectangle_point(area)
-                return tuple(end_point - vector), tuple(end_point)
+                for _ in range(10):
+                    if in_blacklist(end_point):
+                        continue
+                    return tuple(end_point - vector), tuple(end_point)
 
-    for n in range(100):
+    for _ in range(100):
         end_point = random_rectangle_point(box)
-        if blacklist_area:
-            if any([point_in_area(end_point, area, threshold=0) for area in blacklist_area]):
-                continue
+        if in_blacklist(end_point):
+            continue
         return tuple(end_point - vector), tuple(end_point)
 
     end_point = random_rectangle_point(box)

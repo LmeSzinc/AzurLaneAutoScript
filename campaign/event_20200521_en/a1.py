@@ -49,8 +49,5 @@ class Config:
 class Campaign(CampaignBase):
     MAP = MAP
 
-    def handle_boss_appear_refocus(self):
-        if self.battle_count == 4:
-            self.map_swipe((-3, -2))
-
-        return super().handle_boss_appear_refocus()
+    def handle_boss_appear_refocus(self, preset=(-3, -2)):
+        return super().handle_boss_appear_refocus(preset)
