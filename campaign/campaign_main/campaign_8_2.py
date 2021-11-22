@@ -6,23 +6,23 @@ from .campaign_8_1 import Config as ConfigBase
 
 MAP = CampaignMap('8-3')
 MAP.shape = 'H5'
-MAP.camera_data = ['D3', 'E3']
-MAP.camera_data_spawn_point = ['D3', 'E3']
-MAP.map_data = '''
+MAP.camera_data = ['D2', 'D3', 'E3']
+MAP.camera_data_spawn_point = ['E3']
+MAP.map_data = """
     MB ME -- ++ ++ ME -- MB
     ME ME ME -- ++ ME ME --
     -- ME -- ME ME -- ME ME
     ME ++ ++ -- ME ++ ++ ME
     MM ++ ++ ME ME SP -- SP
-'''
-MAP.weight_data = '''
+"""
+MAP.weight_data = """
     50 35 20 90 90 40 50 50
     30 40 25 90 90 25 30 50
     20 20 20 10 10 20 20 35
     50 90 90 60 60 90 90 90
     90 90 90 70 80 90 90 90
     
-'''
+"""
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 3},
     {'battle': 1, 'enemy': 2, 'mystery': 1},

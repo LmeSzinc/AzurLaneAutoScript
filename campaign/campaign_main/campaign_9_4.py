@@ -5,25 +5,24 @@ from module.logger import logger
 
 MAP = CampaignMap('9-4')
 MAP.shape = 'I6'
-
-MAP.map_data = '''
+MAP.camera_data = ['D3', 'F3', 'F4']
+MAP.camera_data_spawn_point = ['D4']
+MAP.map_data = """
     MB -- ME -- ++ ++ ++ -- MB
     -- ++ __ ME -- ME Me ME --
     Me -- ME -- ME -- __ ++ --
     ME -- ++ ++ -- -- Me __ ME
     SP -- MA ++ ME -- ++ ME --
     SP -- -- ME -- ME ++ -- MB
-'''
-
-MAP.weight_data = '''
+"""
+MAP.weight_data = """
     10 10 20 10 10 10 10 10 10
     10 10 10 20 10 10 10 10 10
     10 10 20 10 20 10 10 10 10
     20 10 10 10 10 10 10 10 10
     10 10 10 10 10 10 10 10 10
     10 10 10 10 10 10 10 10 10
-'''
-
+"""
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 3},
     {'battle': 1, 'enemy': 2},
@@ -32,7 +31,6 @@ MAP.spawn_data = [
     {'battle': 4, 'enemy': 2},
     {'battle': 5, 'boss': 1},
 ]
-
 A1, B1, C1, D1, E1, F1, G1, H1, I1, \
 A2, B2, C2, D2, E2, F2, G2, H2, I2, \
 A3, B3, C3, D3, E3, F3, G3, H3, I3, \

@@ -5,7 +5,7 @@ from module.logger import logger
 
 MAP = CampaignMap('11-3')
 MAP.shape = 'I7'
-MAP.camera_data = ['D2', 'D5', 'F2', 'F5']
+MAP.camera_data = ['D3', 'F5']
 MAP.camera_data_spawn_point = ['D5']
 MAP.map_data = """
     ++ -- -- ME -- Me ++ ++ ++
@@ -16,7 +16,7 @@ MAP.map_data = """
     SP -- -- Me -- ME ++ ME --
     SP -- -- -- ++ -- ME -- MB
 """
-MAP.weight_data = '''
+MAP.weight_data = """
     90 90 90 90 90 90 90 90 90
     90 90 90 90 90 90 90 90 90
     90 90 90 90 90 90 90 90 90
@@ -24,8 +24,7 @@ MAP.weight_data = '''
     90 90 90 90 90 90 90 90 90
     90 90 90 90 90 90 90 90 90
     90 90 90 90 90 90 90 90 90  
-'''
-# MAP.camera_data = ['D3']
+"""
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 3},
     {'battle': 1, 'enemy': 2},
@@ -35,7 +34,6 @@ MAP.spawn_data = [
     {'battle': 5},
     {'battle': 6, 'boss': 1},
 ]
-
 A1, B1, C1, D1, E1, F1, G1, H1, I1, \
 A2, B2, C2, D2, E2, F2, G2, H2, I2, \
 A3, B3, C3, D3, E3, F3, G3, H3, I3, \
@@ -46,6 +44,7 @@ A7, B7, C7, D7, E7, F7, G7, H7, I7, \
     = MAP.flatten()
 
 road_main = RoadGrids([C2, D6, F6, G7])
+
 
 class Config:
     DETECTION_BACKEND = 'homography'
@@ -67,6 +66,7 @@ class Config:
         'wlen': 1000,
     }
 
+
 class Campaign(CampaignBase):
     MAP = MAP
 
@@ -82,4 +82,3 @@ class Campaign(CampaignBase):
         if self.clear_roadblocks([road_main]):
             return True
         return self.fleet_boss.clear_boss()
-

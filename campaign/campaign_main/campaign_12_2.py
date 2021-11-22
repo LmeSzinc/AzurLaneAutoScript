@@ -4,10 +4,11 @@ from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
 from campaign.campaign_main.campaign_12_1 import Config
 
-
 MAP = CampaignMap()
 MAP.shape = 'I7'
-MAP.map_data = '''
+MAP.camera_data = ['D2', 'D5', 'F2', 'F5']
+MAP.camera_data_spawn_point = ['D2', 'D5']
+MAP.map_data = """
     ++ MB ME ME ++ -- ME Me --
     ++ -- Me -- Me -- Me -- ++
     MB ME ++ ME SP ME -- ME ++
@@ -15,8 +16,16 @@ MAP.map_data = '''
     ++ -- -- Me ME -- ME -- ME
     -- ME ME ++ -- -- Me ME --
     ME -- Me -- ME ME -- ++ ++
-'''
-MAP.camera_data = ['D3', 'D5', 'F3', 'F5']
+"""
+MAP.weight_data = """
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+"""
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 3},
     {'battle': 1, 'enemy': 2},
@@ -26,7 +35,6 @@ MAP.spawn_data = [
     {'battle': 5},
     {'battle': 6, 'boss': 1},
 ]
-
 A1, B1, C1, D1, E1, F1, G1, H1, I1, \
 A2, B2, C2, D2, E2, F2, G2, H2, I2, \
 A3, B3, C3, D3, E3, F3, G3, H3, I3, \
@@ -43,7 +51,6 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
-
         if self.clear_roadblocks([road_main]):
             return True
         if self.clear_potential_roadblocks([road_main]):

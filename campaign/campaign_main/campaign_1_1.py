@@ -5,14 +5,15 @@ from module.logger import logger
 
 MAP = CampaignMap()
 MAP.shape = 'G1'
-MAP.map_data = '''
+MAP.camera_data = ['D1']
+MAP.camera_data_spawn_point = ['D1']
+MAP.map_data = """
     SP -- -- -- -- ME MB
-'''
+"""
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 1},
     {'battle': 1, 'boss': 1},
 ]
-
 A1, B1, C1, D1, E1, F1, G1, \
     = MAP.flatten()
 

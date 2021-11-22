@@ -3,20 +3,19 @@ from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
 
-
 MAP = CampaignMap()
-MAP.map_data = '''
+MAP.camera_data = ['C1', 'E1']
+MAP.camera_data_spawn_point = ['C1']
+MAP.map_data = """
     -- ME ME MM ME -- ++ ++
     SP ME ++ ++ ME ME ++ ++
     SP -- ++ ++ -- ME ME MB
-'''
-MAP.camera_data = ['C1', 'E1']
-MAP.camera_data_spawn_point = ['C1']
-MAP.weight_data = '''
+"""
+MAP.weight_data = """
     40 30 21 20 17 15 50 50
     40 40 50 50 16 13 50 50
     40 40 50 50 14 12 11 10
-'''
+"""
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 3},
     {'battle': 1, 'enemy': 2},

@@ -7,22 +7,22 @@ MAP = CampaignMap()
 MAP.shape = 'H6'
 MAP.camera_data = ['D2', 'D4', 'E2', 'E4']
 MAP.camera_data_spawn_point = ['D2', 'D4']
-MAP.map_data = '''
+MAP.map_data = """
     -- ME MB MB -- ME ++ ++
     MB SP ME -- ME MM MA ++
     -- ++ ME -- -- ME SP ME
     ME __ -- ME ME __ ME MB
     -- ME -- MB ++ ME -- ME
     MB ME -- SP -- ME -- --
-'''
-MAP.weight_data = '''
+"""
+MAP.weight_data = """
     50 40 40 40 50 50 50 50
     40 40 20 20 20 20 50 50
     10 50 10 10 10 10 10 20
     10 10 10 10 30 30 30 40
     10 20 20 40 40 50 50 50
     30 40 30 50 50 50 50 50
-'''
+"""
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 4},
     {'battle': 1, 'enemy': 2},
@@ -31,7 +31,6 @@ MAP.spawn_data = [
     {'battle': 4, 'enemy': 1},
     {'battle': 5, 'boss': 1},
 ]
-
 A1, B1, C1, D1, E1, F1, G1, H1, \
 A2, B2, C2, D2, E2, F2, G2, H2, \
 A3, B3, C3, D3, E3, F3, G3, H3, \

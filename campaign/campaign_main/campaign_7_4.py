@@ -3,11 +3,10 @@ from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
 
-
 MAP = CampaignMap('7-4')
 MAP.shape = 'H6'
 MAP.camera_data = ['D2', 'D4', 'E2', 'E4']
-MAP.camera_data_spawn_point = []
+MAP.camera_data_spawn_point = ['D2', 'D4']
 MAP.map_data = """
     MB ME ME -- ++ ++ ++ MB
     ME __ -- ME SP -- SP --
@@ -40,14 +39,13 @@ A5, B5, C5, D5, E5, F5, G5, H5, \
 A6, B6, C6, D6, E6, F6, G6, H6, \
     = MAP.flatten()
 
-
 road_a1 = RoadGrids([[A2, B1], [C3, D2]])
-road_g6 = RoadGrids([F6, E5, E4])\
+road_g6 = RoadGrids([F6, E5, E4]) \
     .combine(RoadGrids([[G4, H5], [G4, H3]]))
 roads = [road_a1, road_g6]
 
 fleet_2_step_on = SelectedGrids([G4, D2, C3, E4])
-road_a5 = RoadGrids([A4, A2, [C3, D2]])\
+road_a5 = RoadGrids([A4, A2, [C3, D2]]) \
     .combine(RoadGrids([D6, E5, E4]))
 
 

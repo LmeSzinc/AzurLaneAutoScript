@@ -34,4 +34,3 @@ class Campaign(CampaignBase):
             self.withdraw()
         except CampaignEnd:
             raise ScriptEnd('Reach condition: Affinity farming battle count')
-

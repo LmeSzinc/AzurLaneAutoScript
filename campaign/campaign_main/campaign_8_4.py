@@ -6,9 +6,9 @@ from .campaign_8_1 import Config as ConfigBase
 
 MAP = CampaignMap('8-4')
 MAP.shape = 'H7'
-MAP.camera_data = ['D3', 'E3', 'D5', 'E5']
+MAP.camera_data = ['D3', 'E3', 'E5']
 MAP.camera_data_spawn_point = ['C1']
-MAP.map_data = '''
+MAP.map_data = """
     ++ SP -- -- ME -- ME --
     SP -- -- ME -- ++ ++ --
     -- -- ME ++ ++ MM ME ME
@@ -16,8 +16,8 @@ MAP.map_data = '''
     MA ++ ME -- ME __ ME ++
     ME ME __ ME ++ ++ -- ME
     -- ME ME MM ME -- ME MB
-'''
-MAP.weight_data = '''
+"""
+MAP.weight_data = """
     50 50 50 90 90 90 90 90
     50 50 50 90 90 90 90 90
     50 50 45 90 90 50 50 90
@@ -25,7 +25,7 @@ MAP.weight_data = '''
     50 90 30 30 20 14 12 90
     30 27 35 25 90 90 20 10
     30 28 26 20 13 15 10 50
-'''
+"""
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 3},
     {'battle': 1, 'enemy': 2},

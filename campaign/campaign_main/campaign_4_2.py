@@ -4,35 +4,34 @@ from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
 from campaign.campaign_main.campaign_4_1 import Config
 
-
 MAP = CampaignMap()
 MAP.shape = 'F6'
 MAP.camera_data = ['D2', 'D4']
+MAP.camera_data_spawn_point = ['D2']
 # WIKI的图有错: https://wiki.biligame.com/blhx/4-2
 # D5是敌人刷新点, 假图害人
-MAP.map_data = '''
+MAP.map_data = """
     ++ ++ ++ ME SP --
     SP -- -- -- ME --
     -- -- ME ME -- ME
     SP -- -- -- -- MB
     ++ ++ ME ME -- ME
     ++ ++ -- MB ME MM
-'''
-MAP.weight_data = '''
+"""
+MAP.weight_data = """
     50 50 50 50 50 50
     50 50 50 50 50 50
     50 50 50 50 50 50
     50 50 50 10 10 10
     50 50 20 10 10 20
     50 50 20 10 10 20
-'''
+"""
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 3, 'mystery': 1},
     {'battle': 1, 'enemy': 2},
     {'battle': 2, 'enemy': 1},
     {'battle': 3, 'enemy': 1, 'boss': 1},
 ]
-
 A1, B1, C1, D1, E1, F1, \
 A2, B2, C2, D2, E2, F2, \
 A3, B3, C3, D3, E3, F3, \

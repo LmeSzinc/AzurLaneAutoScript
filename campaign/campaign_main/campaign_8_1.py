@@ -7,16 +7,16 @@ MAP = CampaignMap('8-1')
 MAP.shape = 'I3'
 MAP.camera_data = ['D1', 'F1']
 MAP.camera_data_spawn_point = ['D1', 'F1']
-MAP.map_data = '''
+MAP.map_data = """
     SP -- ++ ++ ME -- ME MB ++
     SP -- ++ ++ ME -- ME -- ME
     -- ME ME -- ME ++ ME ME MB
-'''
-MAP.weight_data = '''
+"""
+MAP.weight_data = """
     50 50 50 50 50 50 21 30 50
     50 50 50 50 25 24 20 12 11
     50 45 40 31 30 50 22 10 20
-'''
+"""
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 3},
     {'battle': 1, 'enemy': 2},

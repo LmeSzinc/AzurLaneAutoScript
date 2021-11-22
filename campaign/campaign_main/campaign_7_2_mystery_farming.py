@@ -16,7 +16,6 @@ A5, B5, C5, D5, E5, F5, G5, H5 = MAP.flatten()
 ROAD_MAIN = RoadGrids([A3, [C3, B4, C5], [F1, G2, G3]])
 GRIDS_FOR_FASTER = SelectedGrids([A3, C3, E3, G3])
 FLEET_2_STEP_ON = SelectedGrids([A3, G3, C3, E3])
-# MAP.camera_data_spawn_point = ['A1']
 
 
 class Config(ConfigBase):

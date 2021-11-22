@@ -6,7 +6,7 @@ from module.logger import logger
 MAP = CampaignMap('11-4')
 MAP.shape = 'J8'
 MAP.camera_data = ['D2', 'D6', 'G2', 'G6']
-MAP.camera_data_spawn_point = []
+MAP.camera_data_spawn_point = ['D2', 'G2']
 MAP.map_data = """
     MB MB ++ -- -- -- ++ MB -- --
     -- -- ++ ME -- Me ++ -- -- ME
@@ -46,12 +46,11 @@ A7, B7, C7, D7, E7, F7, G7, H7, I7, J7, \
 A8, B8, C8, D8, E8, F8, G8, H8, I8, J8, \
     = MAP.flatten()
 
-
 step_on = SelectedGrids([C3])
 road_boss = RoadGrids([C3, H4, [C5, C7], G6, G8])
 
+
 class Config:
-    
     INTERNAL_LINES_HOUGHLINES_THRESHOLD = 35
     EDGE_LINES_HOUGHLINES_THRESHOLD = 35
     COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.3
@@ -85,7 +84,6 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_6(self):
-
         boss = self.map.select(is_boss=True)
         if boss:
             if not self.check_accessibility(boss[0], fleet='boss'):

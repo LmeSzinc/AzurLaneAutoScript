@@ -4,24 +4,24 @@ from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
 from campaign.campaign_main.campaign_5_1 import Config
 
-
 MAP = CampaignMap()
 MAP.shape = 'H5'
 MAP.camera_data = ['D3', 'E3']
-MAP.map_data = '''
+MAP.camera_data_spawn_point = ['D2', 'D3']
+MAP.map_data = """
     ++ ++ ++ -- MB -- ME SP
     SP -- ME -- ++ ++ -- ME
     -- ME -- -- MB ++ MB --
     -- -- ME -- ME -- -- ME
     ME -- SP ME -- ME ME MM
-'''
-MAP.weight_data = '''
+"""
+MAP.weight_data = """
     50 50 50 10 10 20 20 30
     50 50 30 10 10 10 20 30
     50 30 30 10 10 10 10 30
     50 50 30 10 10 10 10 20
     50 50 50 30 30 30 20 20
-'''
+"""
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 2, 'mystery': 1},
     {'battle': 1, 'enemy': 1},
@@ -29,7 +29,6 @@ MAP.spawn_data = [
     {'battle': 3, 'enemy': 1},
     {'battle': 4, 'enemy': 1, 'boss': 1},
 ]
-
 A1, B1, C1, D1, E1, F1, G1, H1, \
 A2, B2, C2, D2, E2, F2, G2, H2, \
 A3, B3, C3, D3, E3, F3, G3, H3, \

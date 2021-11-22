@@ -3,11 +3,10 @@ from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
 
-
 MAP = CampaignMap('10-2')
 MAP.shape = 'H6'
-MAP.camera_data = ['D2', 'D4', 'E2', 'E4']
-MAP.camera_data_spawn_point = []
+MAP.camera_data = ['D2', 'E3', 'E4']
+MAP.camera_data_spawn_point = ['E4']
 MAP.map_data = """
     Me -- ME ME -- ++ ME MB
     -- ++ ++ -- ME ++ ME ME
@@ -43,6 +42,7 @@ A6, B6, C6, D6, E6, F6, G6, H6, \
 
 road_main = RoadGrids([B6, C6, D6, E5, F4, G2, [G1, H2], G3, G4, G5, [H5, G6]])
 
+
 class Config:
     DETECTION_BACKEND = 'perspective'
     HOMO_STORAGE = ((7, 6), [(471.806, 82.471), (1249.283, 82.471), (420.72, 615.64), (1435.387, 615.64)])
@@ -63,6 +63,7 @@ class Config:
         'width': (0, 10),
         'wlen': 1000,
     }
+
 
 class Campaign(CampaignBase):
     MAP = MAP
