@@ -8,6 +8,8 @@ from module.os_handler.enemy_searching import EnemySearchingHandler
 
 
 class MapEventHandler(EnemySearchingHandler):
+    ash_popup_canceled = False
+
     def handle_map_get_items(self, interval=2):
         if self.is_in_map():
             return False
@@ -46,6 +48,7 @@ class MapEventHandler(EnemySearchingHandler):
             POPUP_CANCEL.name = POPUP_CANCEL.name + '_' + name
             self.device.click(POPUP_CANCEL)
             POPUP_CANCEL.name = POPUP_CANCEL.name[:-len(name) - 1]
+            self.ash_popup_canceled = True
             return True
         else:
             return False

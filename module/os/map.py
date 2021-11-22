@@ -133,17 +133,30 @@ class OSMap(OSFleet, Map, GlobeCamera):
     def run(self):
         self.device.screenshot()
         self.handle_siren_platform()
-        self.map_init()
+        self.map_init(map_=None)
         self.full_clear()
 
     _auto_search_battle_count = 0
 
-    def os_auto_search_daemon(self):
+    def os_auto_search_daemon(self, skip_first_screenshot=True):
+        """
+        Raises:
+            CampaignEnd: If auto search ended
+
+        Pages:
+            in: AUTO_SEARCH_OS_MAP_OPTION_OFF
+            out: AUTO_SEARCH_OS_MAP_OPTION_OFF and info_bar_count() >= 2, if no more objects to clear on this map.
+                 AUTO_SEARCH_REWARD if get auto search reward.
+        """
         logger.hr('OS auto search', level=2)
         self._auto_search_battle_count = 0
+        self.ash_popup_canceled = False
 
         while 1:
-            self.device.screenshot()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
             if self.is_in_map():
                 self.device.stuck_record_clear()
@@ -160,6 +173,10 @@ class OSMap(OSFleet, Map, GlobeCamera):
                 continue
 
     def run_auto_search(self):
+        """
+        Clear current zone by running auto search.
+        OpSi story mode must be cleared to unlock auto search.
+        """
         self.handle_ash_beacon_attack()
 
         for _ in range(3):
@@ -173,9 +190,19 @@ class OSMap(OSFleet, Map, GlobeCamera):
             finally:
                 backup.recover()
 
-            if self.handle_ash_beacon_attack():
-                continue
+            # Continue if was Auto search interrupted by ash popup
+            # Break if zone cleared
+            if self.config.OpsiGeneral_AshAttack:
+                if self.handle_ash_beacon_attack() or self.ash_popup_canceled:
+                    continue
+                else:
+                    break
             else:
-                break
+                if self.info_bar_count() >= 2:
+                    break
+                elif self.ash_popup_canceled:
+                    continue
+                else:
+                    break
 
         self.clear_akashi()
