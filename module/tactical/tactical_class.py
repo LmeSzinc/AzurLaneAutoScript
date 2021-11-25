@@ -57,6 +57,13 @@ class Book:
         3: (235, 208, 120),  # T3, gold
         4: (225, 181, 212),  # T4, rainbow
     }
+    exp_tier = {
+        0: 0,
+        1: 100,
+        2: 300,
+        3: 800,
+        4: 1500,
+    }
 
     def __init__(self, image, button):
         """
@@ -86,6 +93,9 @@ class Book:
         self.genre_str = self.genre_name.get(self.genre, "unknown")
         self.tier_str = f'T{self.tier}' if self.tier else 'Tn'
         self.same_str = 'same' if self.exp else 'unknown'
+
+        factor = 1 if not self.exp else 1.5 if self.tier < 4 else 2
+        self.exp_value = self.exp_tier[self.tier] * factor
 
     def check_selected(self, image):
         """
@@ -155,7 +165,7 @@ class RewardTacticalClass(UI):
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
-
+            
             self.handle_info_bar()  # info_bar appears when get ship in Launch Ceremony commissions
 
             books = SelectedGrids([Book(self.device.image, button) for button in BOOKS_GRID.buttons]).select(valid=True)
@@ -175,6 +185,58 @@ class RewardTacticalClass(UI):
         logger.warning('No book found.')
         raise ScriptError('No book found, after 15 attempts.')
 
+    def _tactical_selected_get(self):
+        """
+        Find the selected book onscreen
+        Called after _tactical_books_get
+        """
+        selected = None
+        for book in self.books:
+            if book.check_selected(self.device.image):
+                selected = book
+                break
+        return selected
+
+    def _tactical_books_filter_exp(self):
+        """
+        Complex filter to remove specific grade
+        books from self.books based on current 
+        progress of the tactical skill.
+        """
+        current, remain, total = SKILL_EXP.ocr(self.device.image)
+        if total == 5800:
+            # Read 'current' and 'remain' are inaccurate
+            # as selected exp_value is factored into it
+            selected = self._tactical_selected_get()
+            current -= selected.exp_value
+            remain += selected.exp_value
+            logger.info('About to reach level 10; will remove '
+                        'detected books based on actual '
+                       f'progress: {current}/{total}; {remain}')
+
+            reverse_tier = reversed(list(selected.exp_tier.keys()))
+            for tier in reverse_tier:
+                if not tier:
+                    continue
+
+                # Get the corresponding exp, factor based on tier
+                exp_value = selected.exp_tier[tier]
+                factor = 1.5 if tier < 4 else 2
+                groups = []
+
+                # Determine applicable books for removal
+                # Retain at least non-bonus T1 books if
+                # nothing else
+                if remain < (exp_value * factor):
+                    groups.append(self.books.select(tier=tier, exp=True))
+                if exp_value != 100 and remain < exp_value:
+                    groups.append(self.books.select(tier=tier, exp=False))
+                logger.info(f'T{tier} removing: {sum([group.count for group in groups])}')
+
+                # Remove applicable books to prevent waste
+                for group in groups:
+                    self.books = self.books.delete(group)
+
     def _tactical_books_choose(self):
         """
         Choose tactical book according to config.
@@ -185,22 +247,22 @@ class RewardTacticalClass(UI):
         """
         self._tactical_books_get()
 
-        # experience filter
-        current, remain, total = SKILL_EXP.ocr(self.device.image)
-        if total == 5800:
-            logger.info(f'About to reach level 10, remain experience:{remain}')
-            if remain < 3000:
-                logger.info(f'remove Tier4 Book to prevent waste')
-                self.books = self.books.delete(self.books.select(tier=4))
-            if remain < 1200:
-                logger.info(f'remove Tier3 Book to prevent waste')
-                self.books = self.books.delete(self.books.select(tier=3))
+        # Typically selected book onscreen is the
+        # top-left most i.e. self.books[0],
+        # however can accidently change
+        # for slow PCs
+        selected = self._tactical_selected_get()
 
-        # config filter
+        # Apply complex filter, modifies self.books
+        self._tactical_books_filter_exp()
+
+        # Apply configuration filter, does not modify self.books
         BOOK_FILTER.load(self.config.Tactical_TacticalFilter)
         books = BOOK_FILTER.apply(self.books.grids)
         logger.attr('Book_sort', ' > '.join([str(book) for book in books]))
 
+        # Choose applicable book if any
+        # Otherwise cancel altogether
         if len(books):
             book = books[0]
             if str(book) != 'first':
@@ -209,12 +271,12 @@ class RewardTacticalClass(UI):
                     self.device.screenshot()
                     if book.check_selected(self.device.image):
                         break
-                self.device.click(TACTICAL_CLASS_START)
             else:
                 logger.info('Choose first book')
-                self.device.click(books[0].button)
-                self.device.sleep((0.3, 0.5))
-                self.device.click(TACTICAL_CLASS_START)
+                if selected is not None:
+                    self.device.click(selected.button)
+                    self.device.sleep((0.3, 0.5))
+            self.device.click(TACTICAL_CLASS_START)
         else:
             logger.info('Cancel tactical')
             self.device.click(TACTICAL_CLASS_CANCEL)
