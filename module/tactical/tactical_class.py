@@ -165,7 +165,7 @@ class RewardTacticalClass(UI):
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
-            
+
             self.handle_info_bar()  # info_bar appears when get ship in Launch Ceremony commissions
 
             books = SelectedGrids([Book(self.device.image, button) for button in BOOKS_GRID.buttons]).select(valid=True)
@@ -200,14 +200,17 @@ class RewardTacticalClass(UI):
     def _tactical_books_filter_exp(self):
         """
         Complex filter to remove specific grade
-        books from self.books based on current 
+        books from self.books based on current
         progress of the tactical skill.
         """
+        selected = self._tactical_selected_get()
+        if selected is None:
+            return
+
         current, remain, total = SKILL_EXP.ocr(self.device.image)
         if total == 5800:
             # Read 'current' and 'remain' are inaccurate
             # as selected exp_value is factored into it
-            selected = self._tactical_selected_get()
             current -= selected.exp_value
             remain += selected.exp_value
             logger.info('About to reach level 10; will remove '
