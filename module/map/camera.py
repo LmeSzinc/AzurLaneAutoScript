@@ -119,6 +119,10 @@ class Camera(MapOperation):
                 logger.warning('Items got. Trying handling mystery.')
                 self.handle_mystery()
                 return self.update(camera=camera)
+            elif self.handle_story_skip():
+                logger.warning('Perspective error cause by story. Handling.')
+                self.ensure_no_story(skip_first_screenshot=False)
+                return self.update(camera=camera)
             elif self.is_in_stage():
                 logger.warning('Image is in stage')
                 raise CampaignEnd('Image is in stage')

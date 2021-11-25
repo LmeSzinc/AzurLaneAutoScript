@@ -300,7 +300,7 @@ class Fleet(Camera, AmbushHandler):
                     elif self.map[location].may_enemy:
                         self.map[location].is_cleared = True
 
-                    if self.catch_boss_appear():
+                    if self.catch_camera_repositioning(self.map[location]):
                         self.handle_boss_appear_refocus()
                     if self.config.MAP_FOCUS_ENEMY_AFTER_BATTLE:
                         self.camera = location
@@ -368,7 +368,7 @@ class Fleet(Camera, AmbushHandler):
                 if walk_timeout.reached():
                     logger.warning('Walk timeout. Retrying.')
                     self.predict()
-                    self.ensure_edge_insight()
+                    self.ensure_edge_insight(skip_first_update=False)
                     break
 
             # End
@@ -853,9 +853,10 @@ class Fleet(Camera, AmbushHandler):
 
         logger.warning('Enemy roadblock try exhausted.')
 
-    def catch_boss_appear(self):
+    def catch_camera_repositioning(self, destination):
         """
-
+        Args:
+            Destination (GridInfo): Globe map grid.
         """
         appear = False
         for data in self.map.spawn_data:
