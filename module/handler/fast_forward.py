@@ -51,6 +51,7 @@ class FastForwardHandler(AutoSearchHandler):
         'C1 > C2 > C3',
         'D1 > D2 > D3',
         'SP1 > SP2 > SP3 > SP4',
+        'T1 > T2 > T3 > T4',
     ]
 
     def map_get_info(self):

@@ -9,7 +9,7 @@ STAGE_SHOWN_WAIT = (1, 1.2)
 MODE_SWITCH_1 = Switch('Mode_switch_1', offset=(30, 10))
 MODE_SWITCH_1.add_status('normal', SWITCH_1_NORMAL, sleep=STAGE_SHOWN_WAIT)
 MODE_SWITCH_1.add_status('hard', SWITCH_1_HARD, sleep=STAGE_SHOWN_WAIT)
-MODE_SWITCH_2 = Switch('Mode_switch_2', offset=(30, 10))
+MODE_SWITCH_2 = Switch('Mode_switch_2', offset=(200, 10))
 MODE_SWITCH_2.add_status('hard', SWITCH_2_HARD, sleep=STAGE_SHOWN_WAIT)
 MODE_SWITCH_2.add_status('ex', SWITCH_2_EX, sleep=STAGE_SHOWN_WAIT)
 
@@ -37,9 +37,10 @@ class CampaignUI(UI, CampaignOcr):
         Returns:
             bool: If mode changed.
         """
+        switch_1 = MODE_SWITCH_1.get(main=self)
         switch_2 = MODE_SWITCH_2.get(main=self)
 
-        if switch_2 == 'unknown':
+        if switch_1 != 'unknown' and switch_2 == 'unknown':
             if mode == 'ex':
                 logger.warning('Trying to goto EX, but no EX mode switch')
             elif mode == 'normal':
@@ -48,7 +49,16 @@ class CampaignUI(UI, CampaignOcr):
                 MODE_SWITCH_1.set('normal', main=self)
             else:
                 logger.warning(f'Unknown campaign mode: {mode}')
-        else:
+        elif switch_1 == 'unknown' and switch_2 != 'unknown':
+            if mode == 'ex':
+                MODE_SWITCH_2.set('hard', main=self)
+            elif mode == 'normal':
+                MODE_SWITCH_2.set('ex', main=self)
+            elif mode == 'hard':
+                logger.warning('Trying to goto HARD, but no HARD mode switch')
+            else:
+                logger.warning(f'Unknown campaign mode: {mode}')
+        elif switch_1 != 'unknown' and switch_2 != 'unknown':
             if mode == 'ex':
                 MODE_SWITCH_2.set('hard', main=self)
             elif mode == 'normal':
@@ -59,6 +69,8 @@ class CampaignUI(UI, CampaignOcr):
                 MODE_SWITCH_1.set('normal', main=self)
             else:
                 logger.warning(f'Unknown campaign mode: {mode}')
+        else:
+            logger.warning('MODE_SWITCH_1 and MODE_SWITCH_2 not detected')
 
     def campaign_get_entrance(self, name):
         """
@@ -92,9 +104,9 @@ class CampaignUI(UI, CampaignOcr):
                 self.campaign_ensure_mode('hard')
                 self.campaign_ensure_chapter(index=chapter)
 
-        elif chapter in ['a', 'b', 'c', 'd', 'ex_sp', 'as', 'bs', 'cs', 'ds']:
+        elif chapter in ['a', 'b', 'c', 'd', 'ex_sp', 'as', 'bs', 'cs', 'ds', 't']:
             self.ui_goto_event()
-            if chapter in ['a', 'b', 'as', 'bs']:
+            if chapter in ['a', 'b', 'as', 'bs', 't']:
                 self.campaign_ensure_mode('normal')
             elif chapter in ['c', 'd', 'cs', 'ds']:
                 self.campaign_ensure_mode('hard')

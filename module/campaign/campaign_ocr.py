@@ -27,7 +27,7 @@ class CampaignOcr(ModuleBase):
         else:
             if name.isdigit():
                 return int(name)
-            elif name in ['a', 'c', 'as', 'cs', 'sp', 'ex_sp']:
+            elif name in ['a', 'c', 'as', 'cs', 't', 'sp', 'ex_sp']:
                 return 1
             elif name in ['b', 'd', 'bs', 'ds', 'ex_ex']:
                 return 2
