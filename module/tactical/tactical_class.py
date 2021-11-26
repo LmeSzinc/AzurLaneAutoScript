@@ -217,39 +217,25 @@ class RewardTacticalClass(UI):
                         'detected books based on actual '
                        f'progress: {current}/{total}; {remain}')
 
-            reverse_tier = reversed(list(selected.exp_tier.keys()))
-            backup = remain
-            for tier in reverse_tier:
-                if not tier:
-                    continue
+            def filter_exp_func(book):
+                # Retain at least non-T1 bonus books if nothing else
+                if book.exp_value == 100:
+                    return True
 
-                # Get the corresponding exp, factor based on tier
-                exp_value = selected.exp_tier[tier]
-                factor = 1.5 if tier < 4 else 2
-
-                # Reset helper variables
-                groups = []
+                # Acquire 'overflow' for respective tier book if enabled
                 overflow = 0
-                remain = backup
-
-                # Modify 'remain' if overflow allowed
                 if self.config.ControlExpOverflow_Enable:
-                    overflow = getattr(self.config, f'ControlExpOverflow_T{tier}Allow')
-                    logger.info(f'T{tier} overflow allowed: {overflow}')
-                    remain += overflow
+                    overflow = getattr(self.config, f'ControlExpOverflow_T{book.tier}Allow')
 
-                # Determine applicable books for removal
-                # Retain at least non-bonus T1 books if
-                # nothing else
-                if remain < (exp_value * factor):
-                    groups.append(self.books.select(tier=tier, exp=True))
-                if exp_value != 100 and remain < exp_value:
-                    groups.append(self.books.select(tier=tier, exp=False))
-                logger.info(f'T{tier} removing: {sum([group.count for group in groups])}')
+                # Remove book if sum to be gained exceeds total (+ overflow)
+                if (current + book.exp_value) > (total + overflow):
+                    return False
+                return True
 
-                # Remove applicable books to prevent waste
-                for group in groups:
-                    self.books = self.books.delete(group)
+            before = self.books.count
+            self.books = SelectedGrids([book for book in self.books if filter_exp_func(book)])
+            logger.attr('EXP Filtered', before - self.books.count)
+            logger.attr('Books', str(self.books))
 
     def _tactical_books_choose(self):
         """
