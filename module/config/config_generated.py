@@ -147,6 +147,13 @@ class GeneratedConfig:
     # Group `Tactical`
     Tactical_TacticalFilter = 'SameT4 > SameT3 > SameT2 > SameT1\n> BlueT2 > YellowT2 > RedT2\n> BlueT3 > YellowT3 > RedT3\n> BlueT4 > YellowT4 > RedT4\n> BlueT1 > YellowT1 > RedT1\n> first'
 
+    # Group `ControlExpOverflow`
+    ControlExpOverflow_Enable = True
+    ControlExpOverflow_T4Allow = 100
+    ControlExpOverflow_T3Allow = 100
+    ControlExpOverflow_T2Allow = 200
+    ControlExpOverflow_T1Allow = 200
+
     # Group `Research`
     Research_UseCube = False
     Research_UseCoin = True

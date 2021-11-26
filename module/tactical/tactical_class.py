@@ -218,6 +218,7 @@ class RewardTacticalClass(UI):
                        f'progress: {current}/{total}; {remain}')
 
             reverse_tier = reversed(list(selected.exp_tier.keys()))
+            backup = remain
             for tier in reverse_tier:
                 if not tier:
                     continue
@@ -225,7 +226,17 @@ class RewardTacticalClass(UI):
                 # Get the corresponding exp, factor based on tier
                 exp_value = selected.exp_tier[tier]
                 factor = 1.5 if tier < 4 else 2
+
+                # Reset helper variables
                 groups = []
+                overflow = 0
+                remain = backup
+
+                # Modify 'remain' if overflow allowed
+                if self.config.ControlExpOverflow_Enable:
+                    overflow = getattr(self.config, f'ControlExpOverflow_T{tier}Allow')
+                    logger.info(f'T{tier} overflow allowed: {overflow}')
+                    remain += overflow
 
                 # Determine applicable books for removal
                 # Retain at least non-bonus T1 books if
