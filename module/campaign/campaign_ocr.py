@@ -70,6 +70,8 @@ class CampaignOcr(ModuleBase):
     def campaign_match_multi(self, template, image, stage_image=None, name_offset=(75, 9), name_size=(60, 16),
                              name_letter=(255, 255, 255), name_thresh=128, similarity=0.85):
         """
+        Find stage entrances from the given image.
+
         Args:
             template (Template):
             image: Screenshot
@@ -78,6 +80,7 @@ class CampaignOcr(ModuleBase):
             name_size (tuple[int]):
             name_letter (tuple[int]):
             name_thresh (int):
+            similarity (float):
 
         Returns:
             list[Button]: Stage clear buttons.
@@ -90,6 +93,11 @@ class CampaignOcr(ModuleBase):
             button_name = button.crop(area=name_area, image=image)
             name = extract_letters(button_name.image, letter=name_letter, threshold=name_thresh)
             button_name = button_name.crop(area=self._extract_stage_name(name))
+            # To each Button instance:
+            # button.area: Area of stage name, such as '3-4'. Temporarily replaced for OCR.
+            # button.color: Color of stage icon, such as 'CLEAR' and '%'.
+            # button.button: Area of stage icon, such as 'CLEAR' and '%'.
+            # button.name: 'STAGE', a meaningless name.
             if not len(button.color):
                 button.load_color(image)
             button.area = button_name.area
@@ -119,6 +127,16 @@ class CampaignOcr(ModuleBase):
 
     @Config.when(SERVER=None)
     def campaign_extract_name_image(self, image):
+        """
+        Find all stage entrance and handle event differences.
+        Stage entrance setting, refers to ManualConfig.STAGE_ENTRANCE
+
+        Args:
+            image: Screenshot
+
+        Returns:
+            list[Button]: List of Buttons of stage entrance.
+        """
         digits = []
 
         if 'normal' in self.config.STAGE_ENTRANCE:
@@ -139,10 +157,17 @@ class CampaignOcr(ModuleBase):
 
     @staticmethod
     def _extract_stage_name(image):
+        """
+        Args:
+            image: Cropped image of full stage name, such as '3-4 Counterattack!'
+
+        Returns:
+            Area of stage name, such as the coordinate of '3-4' in the input image.
+        """
         x_skip = 10
         interval = 5
         x_color = np.convolve(np.mean(image, axis=0), np.ones(interval), 'valid') / interval
-        x_list = np.where(x_color[x_skip:] > 240)[0]
+        x_list = np.where(x_color[x_skip:] > 245)[0]
         if x_list is None or len(x_list) == 0:
             logger.warning('No interval between digit and text.')
             area = (0, 0, image.shape[1], image.shape[0])
@@ -151,6 +176,15 @@ class CampaignOcr(ModuleBase):
         return np.array(area) + (-3, -7, 3, 7)
 
     def _get_stage_name(self, image):
+        """
+        Parse stage names from a given image.
+        Set attributes:
+        self.campaign_chapter: str, Name of current chapter.
+        self.stage_entrance: dict. Key, str, stage name. Value, Button, button to enter stage.
+
+        Args:
+            image (PIL.Image.Image):
+        """
         self.stage_entrance = {}
         buttons = self.campaign_extract_name_image(image)
         if len(buttons) == 0:
@@ -172,6 +206,12 @@ class CampaignOcr(ModuleBase):
         counter = collections.Counter(chapter)
         self.campaign_chapter = counter.most_common()[0][0]
 
+        # After OCR, recover button attributes.
+        # These buttons are ready to be stage entrances for `MapOperation.enter_map()`
+        # button.area: Area of stage name, such as 'CLEAR' and '%'.
+        # button.color: Color of stage icon.
+        # button.button: Area of stage icon.
+        # button.name: Stage name, from OCR results.
         for name, button in zip(result, buttons):
             button.area = button.button
             button.name = name
@@ -183,6 +223,12 @@ class CampaignOcr(ModuleBase):
     def get_chapter_index(self, image):
         """
         A tricky method for ui_ensure_index
+
+        Args:
+            image: Screenshot
+
+        Returns:
+            int: Chapter index.
         """
         try:
             self._get_stage_name(image)

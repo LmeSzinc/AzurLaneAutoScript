@@ -38,7 +38,10 @@ class ManualConfig:
     STAR_REQUIRE_1 = 1
     STAR_REQUIRE_2 = 2
     STAR_REQUIRE_3 = 3
-    # In Dreamwaker's Butterfly (event_20200917) add new stage entrance icons, called `blue`.
+    # normal: Most stage use this.
+    # blue: Blue stage icons in Dreamwaker's Butterfly (Shinano event, event_20200917_cn).
+    # half: Left half of '%' in Vacation Lane (DOA collaboration, event_20201126_cn)
+    #       DOA has smaller stage icon, right half of '%' is out of the original area.
     STAGE_ENTRANCE = ['normal']  # normal, blue, half
 
     """
