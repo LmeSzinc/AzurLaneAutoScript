@@ -5,7 +5,11 @@
 #### Discord [![](https://img.shields.io/discord/720789890354249748?logo=discord&logoColor=ffffff&color=4e4c97)](https://discord.gg/AQN6GeJ) QQ群  ![](https://img.shields.io/badge/QQ%20Group-1087735381-4e4c97)
 Alas, an Azur Lane automation tool with GUI (Supports CN, EN, JP, TW, able to support other servers), designed for 24/7 running scenes, can take over almost all Azur Lane gameplay. Azur Lane, as a mobile game, has entered the late stage of its life cycle. During the period from now to the server down, please reduce the time spent on the Azur Lane and leave everything to Alas.
 
+Alas is a free open source software, link: https://github.com/LmeSzinc/AzurLaneAutoScript.
+
 Alas，一个带GUI的碧蓝航线脚本（支持国服, 国际服, 日服, 台服, 可以支持其他服务器），为 7x24 运行的场景而设计，能接管近乎全部的碧蓝航线玩法。碧蓝航线，作为一个手游，已经进入了生命周期的晚期。从现在到关服的这段时间里，请减少花费在碧蓝航线上的时间，把一切都交给 Alas。
+
+Alas 是一款免费开源软件，地址：https://github.com/LmeSzinc/AzurLaneAutoScript。
 
 EN support, thanks **[@whoamikyo](https://github.com/whoamikyo)** and **[@nEEtdo0d](https://github.com/nEEtdo0d)**.
 
@@ -59,7 +63,7 @@ GUI development, thanks **[@18870](https://github.com/18870)** , say HURRAY.
 - **无法处理网络波动**，重连弹窗，跳小黄鸡。
 - **在极低配电脑上运行可能会出现各种问题**，极低配指截图耗时大于1s，一般电脑耗时约0.5s，高配耗时约0.3s。
 - **演习可能SL失败**，演习看的是屏幕上方的血槽，血槽可能被立绘遮挡，因此需要一定时间（默认1s）血量低于一定值（默认40%）才会触发SL。一个血皮后排就有30%左右的血槽，所以有可能在 1s 内被打死。
-- **逍遥模拟器不支持 minitouch 长按，无法进行后宅喂食**，建议不用逍遥模拟器。
+- **逍遥模拟器不支持 minitouch 双指缩放，无法进行收集后宅爱心家具币**，建议不用逍遥模拟器。
 - **极少数情况下 ADB 和 uiautomator2 会抽风**，是模拟器的问题，重启模拟器即可。
 - **拖动操作在模拟器卡顿时，会被视为点击**
 

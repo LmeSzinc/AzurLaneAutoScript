@@ -6,6 +6,8 @@
 
 Alas, an Azur Lane automation tool with GUI (Supports CN, EN, JP, TW, able to support other servers), designed for 24/7 running scenes, can take over almost all Azur Lane gameplay. Azur Lane, as a mobile game, has entered the late stage of its life cycle. During the period from now to the server down, please reduce the time spent on the Azur Lane and leave everything to Alas.
 
+Alas is a free open source software, link: https://github.com/LmeSzinc/AzurLaneAutoScript.
+
 EN support, thanks **[@whoamikyo](https://github.com/whoamikyo)** and **[@nEEtdo0d](https://github.com/nEEtdo0d)**.
 
 JP support, thanks **[@ferina8-14](https://github.com/ferina8-14)**, **[@noname94](https://github.com/noname94)** and **[@railzy](https://github.com/railzy)**.
@@ -58,7 +60,7 @@ Spend at least 5 minutes for thinking and preparing, before someone spend his/he
 - **Unable to handle network issues**
 - **Low-end PCs might have issues**, Low-end PCs have a screenshot time cost over 1s, while middle-end costs about 0.5s, high-end costs about 0.3s.
 - **Exercise may too late to quit when it's going to failed**
-- **NemuPlayer does not support long taps send from minitouch, unable to feed dorm**. NemuPlayer is not recommended.
+- **NemuPlayer does not support two-finger zoom out send from minitouch, unable to collect loves and coins in dorm**. NemuPlayer is not recommended.
 - **Swipe may be treated as click if emulator stuck randomly**
 
 
