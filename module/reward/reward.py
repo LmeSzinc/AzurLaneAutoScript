@@ -29,7 +29,7 @@ class Reward(UI):
             return False
 
         logger.hr('Reward receive')
-        logger.info(f'oil={oil}, coin={coin}')
+        logger.info(f'oil={oil}, coin={coin}, exp={exp}')
         confirm_timer = Timer(1, count=3).start()
         # Set click interval to 0.3, because game can't respond that fast.
         click_timer = Timer(0.3)
@@ -116,6 +116,12 @@ class Reward(UI):
                 timeout.reset()
                 continue
 
+            # Story
+            if self.handle_vote_popup():
+                exit_timer.reset()
+                click_timer.reset()
+                timeout.reset()
+                continue
             if self.story_skip():
                 exit_timer.reset()
                 click_timer.reset()
