@@ -101,7 +101,7 @@ def random_rectangle_vector_opted(
     if whitelist_area:
         for area in whitelist_area:
             area = area_limit(area, box)
-            if sum(area_size(area)) > 0:
+            if all([x > 0 for x in area_size(area)]):
                 end_point = random_rectangle_point(area)
                 for _ in range(10):
                     if in_blacklist(end_point):
