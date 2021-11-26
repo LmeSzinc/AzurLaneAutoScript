@@ -60,7 +60,7 @@ class Config(ConfigBase):
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
-    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'upper'
+    # MAP_ENSURE_EDGE_INSIGHT_CORNER = 'upper'
     MAP_HAS_FORTRESS = True
     MAP_SWIPE_MULTIPLY = 1.605
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.552
