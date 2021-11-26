@@ -56,7 +56,7 @@ class AlasManager:
     def start(self, func: str = 'Alas') -> None:
         if not self.alive:
             self._process = Process(
-                target=AlasManager.run_alas, 
+                target=AlasManager.run_alas,
                 args=(self.config_name, self.log_queue, func))
             self._process.start()
             self.thd_log_queue_handler = Thread(
@@ -123,11 +123,11 @@ class AlasManager:
         elif func == 'AzurLaneUncensored':
             from module.daemon.uncensored import AzurLaneUncensored
             AzurLaneUncensored(config=config_name, task='AzurLaneUncensored').run()
-            q.put("Scheduler stopped.\n") # Prevent status turns to warning
+            q.put("Scheduler stopped.\n")  # Prevent status turns to warning
         elif func == 'Benchmark':
             from module.daemon.benchmark import Benchmark
             Benchmark(config=config_name, task='Benchmark').run()
-            q.put("Scheduler stopped.\n") # Prevent status turns to warning
+            q.put("Scheduler stopped.\n")  # Prevent status turns to warning
         else:
             logger.critical("No function matched")
 
@@ -508,7 +508,7 @@ class AlasGUI(Frame):
                     self.pin_set_invalid_mark(invalid)
                     if modified:
                         toast(t("Gui.Toast.ConfigSaved"),
-                            duration=1, position='right', color='success')
+                              duration=1, position='right', color='success')
                         logger.info(f'Save config {filepath_config(config_name)}, {dict_to_kv(modified)}')
                         write_file(filepath_config(config_name), config)
                     modified.clear()
@@ -658,7 +658,7 @@ class AlasGUI(Frame):
                 ], size="1fr minmax(25rem, 6fr) 1fr"
                 ).style("height: 100%; overflow-y: auto")
             )
-        
+
         config = config_updater.update_config(self.alas_name)
 
         for group, arg_dict in deep_iter(self.ALAS_ARGS[task], depth=1):
@@ -667,7 +667,7 @@ class AlasGUI(Frame):
             group_help = t(f"{group}._info.help")
             if group_help:
                 setting.append(put_text(group_help).style("group-help"))
-            
+
             list_arg = []
             for arg, d in deep_iter(arg_dict, depth=1):
                 arg = arg[0]
@@ -852,6 +852,12 @@ class AlasGUI(Frame):
         # show something
         self.content.append(output(output(
             put_markdown("""
+            Alas is a free open source software, if you paid for Alas from any channel, please refund.
+            Alas 是一款免费开源软件，如果你在任何渠道付费购买了Alas，请退款。
+            Project repository 项目地址：https://github.com/LmeSzinc/AzurLaneAutoScript
+            """, strip_indent=12)).style('text-align: center')))
+        self.content.append(output(output(
+            put_markdown("""
             ## AzurLaneAutoScript
             This new UI is still under development.
             if you encounter any error or find a bug, [create new issue](https://github.com/LmeSzinc/AzurLaneAutoScript/issues/new/choose) or `@18870#0856` in discord with error logs.
@@ -914,11 +920,11 @@ class AlasGUI(Frame):
                     if v:
                         logger.info("Window running in the foreground")
                         self.task_handler.add_task(
-                            Task(refresh_visibility_state(), 15, time.time()+15))
+                            Task(refresh_visibility_state(), 15, time.time() + 15))
                     else:
                         logger.info("Window running in the background")
                         self.task_handler.add_task(
-                            Task(refresh_visibility_state(), 2, time.time()+2))
+                            Task(refresh_visibility_state(), 2, time.time() + 2))
                 yield
 
         self.task_handler.add(refresh_status(), 2)
@@ -954,6 +960,7 @@ if __name__ == "__main__":
     AlasManager.sync_manager = Manager()
     AlasGUI.shorten_path()
     lang.reload()
+
 
     def index():
         if args.key != '' and not login(args.key):
