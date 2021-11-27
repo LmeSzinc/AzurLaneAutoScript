@@ -1,4 +1,5 @@
 from module.base.timer import Timer
+from module.campaign.run import OCR_OIL
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2
 from module.logger import logger
 from module.supply_pack.assets import *
@@ -63,6 +64,10 @@ class SupplyPack(UI):
         """
         self.ui_ensure(page_supply_pack)
 
-        self.supply_pack_buy(FREE_SUPPLY_PACK)
+        oil = OCR_OIL.ocr(self.device.image)
+        if oil <= 21000:
+            self.supply_pack_buy(FREE_SUPPLY_PACK)
+        else:
+            logger.info('Oil > 21000, unable to buy free weekly supply pack')
 
         self.config.task_delay(server_update=True)
