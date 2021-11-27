@@ -883,23 +883,23 @@
     },
     "Enable": {
       "name": "Enable",
-      "help": ""
+      "help": "Disable for no overflow across all tiers\nOtherwise enable then set specific tier's overflow for customization"
     },
     "T4Allow": {
       "name": "T4 Overflow Allow",
-      "help": ""
+      "help": "0 ~ any positive integer"
     },
     "T3Allow": {
       "name": "T3 Overflow Allow",
-      "help": ""
+      "help": "0 ~ any positive integer"
     },
     "T2Allow": {
       "name": "T2 Overflow Allow",
-      "help": ""
+      "help": "0 ~ any positive integer"
     },
     "T1Allow": {
       "name": "T1 Overflow Allow",
-      "help": ""
+      "help": "0 ~ any positive integer"
     }
   },
   "Research": {

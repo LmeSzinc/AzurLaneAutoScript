@@ -185,17 +185,26 @@ class RewardTacticalClass(UI):
         logger.warning('No book found.')
         raise ScriptError('No book found, after 15 attempts.')
 
-    def _tactical_selected_get(self):
+    def _tactical_book_select(self, book, skip_first_screenshot=True):
         """
-        Find the selected book onscreen
-        Called after _tactical_books_get
+        Select the target book onscreen
+        Updates current image if needed
+
+        Args:
+            book (Book):
+            skip_first_screenshot (bool):
         """
-        selected = None
-        for book in self.books:
-            if book.check_selected(self.device.image):
-                selected = book
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if not book.check_selected(self.device.image):
+                self.device.click(book.button)
+                self.device.sleep((0.3, 0.5))
+            else:
                 break
-        return selected
 
     def _tactical_books_filter_exp(self):
         """
@@ -203,16 +212,35 @@ class RewardTacticalClass(UI):
         books from self.books based on current
         progress of the tactical skill.
         """
-        selected = self._tactical_selected_get()
-        if selected is None:
-            return
+        # Shorthand referencing
+        first, last = self.books[0], self.books[-1]
 
+        # Read 'current' and 'remain' will be inaccurate
+        # since first exp_value is factored into it
         current, remain, total = SKILL_EXP.ocr(self.device.image)
+
+        # Max level in progress; so selective books
+        # should be removed to prevent waste
         if total == 5800:
-            # Read 'current' and 'remain' are inaccurate
-            # as selected exp_value is factored into it
-            current -= selected.exp_value
-            remain += selected.exp_value
+            if current == 0:
+                # Lvl 9+1, using first will reach max level
+                # Swap to last and re-OCR
+                self._tactical_book_select(last)
+                current, remain, total = SKILL_EXP.ocr(self.device.image)
+                if current == 0:
+                    # Still Lvl 9+1 even with last
+                    # Must re-calculate to accurately gauge
+                    current = total - last.exp_value
+                    remain = last.exp_value
+                else:
+                    # Lvl 9, so can calculate normally
+                    # but use last
+                    current -= last.exp_value
+                    remain += last.exp_value
+            else:
+                # Lvl 9, so can calculate normally
+                current -= first.exp_value
+                remain += first.exp_value
             logger.info('About to reach level 10; will remove '
                         'detected books based on actual '
                        f'progress: {current}/{total}; {remain}')
@@ -234,7 +262,7 @@ class RewardTacticalClass(UI):
 
             before = self.books.count
             self.books = SelectedGrids([book for book in self.books if filter_exp_func(book)])
-            logger.attr('EXP Filtered', before - self.books.count)
+            logger.attr('Filtered', before - self.books.count)
             logger.attr('Books', str(self.books))
 
     def _tactical_books_choose(self):
@@ -247,11 +275,10 @@ class RewardTacticalClass(UI):
         """
         self._tactical_books_get()
 
-        # Typically selected book onscreen is the
-        # top-left most i.e. self.books[0],
-        # however can accidently change
-        # for slow PCs
-        selected = self._tactical_selected_get()
+        # Ensure first book is focused
+        # For slow PCs, selection may have changed
+        first = self.books[0]
+        self._tactical_book_select(first)
 
         # Apply complex filter, modifies self.books
         self._tactical_books_filter_exp()
@@ -266,16 +293,10 @@ class RewardTacticalClass(UI):
         if len(books):
             book = books[0]
             if str(book) != 'first':
-                while 1:
-                    self.device.click(book.button)
-                    self.device.screenshot()
-                    if book.check_selected(self.device.image):
-                        break
+                self._tactical_book_select(book)
             else:
                 logger.info('Choose first book')
-                if selected is not None:
-                    self.device.click(selected.button)
-                    self.device.sleep((0.3, 0.5))
+                self._tactical_book_select(first)
             self.device.click(TACTICAL_CLASS_START)
         else:
             logger.info('Cancel tactical')
