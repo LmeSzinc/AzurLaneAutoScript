@@ -15,7 +15,8 @@ pprint "Updating this repo"
 prun "git fetch origin master"
 prun "git stash"
 prun "git pull --ff origin master"
-prun "git stash pop" || pprint "Not needed"
+pprint "git stash pop"
+git stash pop || pprint "Not neeeded"
 
 pprint "Checking for existing config file"
 if [[ ! -f "$SOURCE/../config/alas.json" ]]; then
