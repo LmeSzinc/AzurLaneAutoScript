@@ -244,6 +244,7 @@ Meowfficer:
   FortChoreMeowfficer: true
 GuildLogistics:
   Enable: true
+  SelectNewMission: false
   ExchangeFilter: |-
     PlateTorpedoT1 > PlateAntiAirT1 > PlatePlaneT1 > PlateGunT1 > PlateGeneralT1
     > PlateTorpedoT2 > PlateAntiAirT2 > PlatePlaneT2 > PlateGunT2 > PlateGeneralT2
@@ -251,6 +252,8 @@ GuildLogistics:
     > OxyCola > Coolant > Merit > Coin > Oil
 GuildOperation:
   Enable: true
+  SelectNewOperation: false
+  NewOperationMaxDate: 20
   JoinThreshold: 1
   AttackBoss: true
   BossFleetRecommend: false

@@ -955,6 +955,10 @@
       "name": "Enable Guild Logistics",
       "help": "Enables the following:\n- Accept and complete guild missions\n- Submit items in exchange for guild coins\n- Collect other guild rewards"
     },
+    "SelectNewMission": {
+      "name": "Select A New Fleet Mission",
+      "help": "This account must be a guild master or officer to use this.\nThe easiest mission Siren Subjugation III is selected by default, and its goal is to defeat 300 enemies."
+    },
     "ExchangeFilter": {
       "name": "Item Exchange Filter",
       "help": "Generally does not need to be modified or re-arranged but can do so if desired\nIf there is an item that you lack, priority for that exchange is lowered"
@@ -968,6 +972,14 @@
     "Enable": {
       "name": "Enable Guild Operation",
       "help": "Enables the following:\n- Join ongoing guild operations\n- Dispatch ships to complete objectives\n- Optionally attack guild boss when available"
+    },
+    "SelectNewOperation": {
+      "name": "Start New Guild Operations",
+      "help": "This account must be a guild master or officer to use this.\nThe most rewarding operation Solomon Air-Sea Battle is selected by default."
+    },
+    "NewOperationMaxDate": {
+      "name": "Don't Start Guild Operation After Date X of Every Month",
+      "help": "Only takes effect when \"Start New Guild Operations\" is enabled.\nStarting the third operation of every month is not recommended. Members can only join 2 operations each month, most of them can't participate in the dispatch in the third. This will affect the evaluation of the dispatch event, resulting in a reduction in the final reward."
     },
     "JoinThreshold": {
       "name": "Join Threshold",

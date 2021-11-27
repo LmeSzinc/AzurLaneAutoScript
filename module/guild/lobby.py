@@ -2,6 +2,7 @@ from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3
 from module.guild.assets import *
 from module.guild.base import GuildBase
+from module.logger import logger
 from module.ui.assets import GUILD_CHECK
 
 
@@ -66,4 +67,5 @@ class GuildLobby(GuildBase):
             in: GUILD_LOBBY
             out: GUILD_LOBBY
         """
+        logger.hr('Guild lobby', level=1)
         self._guild_lobby_collect()

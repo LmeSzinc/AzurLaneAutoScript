@@ -955,6 +955,10 @@
       "name": "GuildLogistics.Enable.name",
       "help": "GuildLogistics.Enable.help"
     },
+    "SelectNewMission": {
+      "name": "GuildLogistics.SelectNewMission.name",
+      "help": "GuildLogistics.SelectNewMission.help"
+    },
     "ExchangeFilter": {
       "name": "GuildLogistics.ExchangeFilter.name",
       "help": "GuildLogistics.ExchangeFilter.help"
@@ -968,6 +972,14 @@
     "Enable": {
       "name": "GuildOperation.Enable.name",
       "help": "GuildOperation.Enable.help"
+    },
+    "SelectNewOperation": {
+      "name": "GuildOperation.SelectNewOperation.name",
+      "help": "GuildOperation.SelectNewOperation.help"
+    },
+    "NewOperationMaxDate": {
+      "name": "GuildOperation.NewOperationMaxDate.name",
+      "help": "GuildOperation.NewOperationMaxDate.help"
     },
     "JoinThreshold": {
       "name": "GuildOperation.JoinThreshold.name",

@@ -3061,6 +3061,10 @@
         "type": "checkbox",
         "value": true
       },
+      "SelectNewMission": {
+        "type": "checkbox",
+        "value": false
+      },
       "ExchangeFilter": {
         "type": "textarea",
         "value": "PlateTorpedoT1 > PlateAntiAirT1 > PlatePlaneT1 > PlateGunT1 > PlateGeneralT1\n> PlateTorpedoT2 > PlateAntiAirT2 > PlatePlaneT2 > PlateGunT2 > PlateGeneralT2\n> PlateTorpedoT3 > PlateAntiAirT3 > PlatePlaneT3 > PlateGunT3 > PlateGeneralT3\n> OxyCola > Coolant > Merit > Coin > Oil"
@@ -3070,6 +3074,14 @@
       "Enable": {
         "type": "checkbox",
         "value": true
+      },
+      "SelectNewOperation": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NewOperationMaxDate": {
+        "type": "input",
+        "value": 20
       },
       "JoinThreshold": {
         "type": "input",
