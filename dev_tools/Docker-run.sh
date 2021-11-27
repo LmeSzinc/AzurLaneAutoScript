@@ -13,7 +13,7 @@ CONTAINER="azurlaneautoscript"
 
 pprint "Updating this repo"
 prun "git stash"
-prun "git pull"
+prun "git pull --ff"
 prun "git stash pop"
 
 pprint "Checking for existing config file"
