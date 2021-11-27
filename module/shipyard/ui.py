@@ -73,7 +73,7 @@ class ShipyardUI(UI):
             diff = count - current
             button = globals()[f'SHIPYARD_PLUS_{append}'] if diff > 0 \
                 else globals()[f'SHIPYARD_MINUS_{append}']
-            self.device.multi_click(button, n=diff, interval=(0.2, 0.3))
+            self.device.multi_click(button, n=diff, interval=(0.3, 0.5))
 
         logger.info(f'Current interface does not allow consumption of {count} BPs\n')
         logger.info(f'Capable of consuming at most {current} of the {count} BPs')
