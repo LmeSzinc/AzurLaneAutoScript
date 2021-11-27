@@ -12,9 +12,10 @@ SOURCE="$(dirname $(realpath $BASH_SOURCE))" # Poiting to dev_tools folder
 CONTAINER="azurlaneautoscript"
 
 pprint "Updating this repo"
+prun "git fetch origin master"
 prun "git stash"
-prun "git pull --ff"
-prun "git stash pop"
+prun "git pull origin master"
+prun "git stash pop" || pprint "Not needed"
 
 pprint "Checking for existing config file"
 if [[ ! -f "$SOURCE/../config/alas.json" ]]; then
@@ -28,7 +29,6 @@ prun "docker ps | grep $CONTAINER | awk '{print \$1}' | xargs -r -n1 docker kill
 
 pprint "Deleting old containers..."
 prun "docker ps -a | grep $CONTAINER | awk '{print \$1}' | xargs -r -n1 docker rm"
-
 
 pprint "Build the container"
 prun "docker build -t $CONTAINER -f $SOURCE/Dockerfile $SOURCE/.."
