@@ -3491,6 +3491,41 @@
       }
     }
   },
+  "SupplyPack": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "input",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "disable",
+        "value": "SupplyPack"
+      },
+      "SuccessInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "FailureInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "ServerUpdate": {
+        "type": "disable",
+        "value": "00:00"
+      }
+    },
+    "SupplyPack": {
+      "WeeklyFreeSupplyPack": {
+        "type": "checkbox",
+        "value": true
+      }
+    }
+  },
   "Daily": {
     "Scheduler": {
       "Enable": {

@@ -120,6 +120,9 @@ Gacha:
 DataKey:
   - Scheduler
   - DataKey
+SupplyPack:
+  - Scheduler
+  - SupplyPack
 
 # ==================== Daily ====================
 

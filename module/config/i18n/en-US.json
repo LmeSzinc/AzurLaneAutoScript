@@ -122,6 +122,10 @@
       "name": "DataKey",
       "help": ""
     },
+    "SupplyPack": {
+      "name": "Supply Pack",
+      "help": ""
+    },
     "Daily": {
       "name": "Daily",
       "help": ""
@@ -1208,6 +1212,16 @@
     "UseDrill": {
       "name": "Use Drill(s)",
       "help": "Expedite the recently submitted orders"
+    }
+  },
+  "SupplyPack": {
+    "_info": {
+      "name": "Supply Pack",
+      "help": ""
+    },
+    "WeeklyFreeSupplyPack": {
+      "name": "Buy Weekly Free Supply Pack",
+      "help": ""
     }
   },
   "Daily": {

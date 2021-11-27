@@ -20,7 +20,7 @@ class UI(InfoHandler):
         page_reward, page_commission, page_tactical,
         page_reshmenu, page_research, page_shipyard,
         page_dormmenu, page_dorm, page_meowfficer,
-        page_academy, page_shop, page_munitions, page_build,
+        page_academy, page_shop, page_munitions, page_supply_pack, page_build,
         page_os
     ]
     ui_current: Page

@@ -219,6 +219,9 @@ class GeneratedConfig:
     Gacha_Amount = 1  # 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
     Gacha_UseDrill = False
 
+    # Group `SupplyPack`
+    SupplyPack_WeeklyFreeSupplyPack = True
+
     # Group `Daily`
     Daily_UseDailySkip = True
     Daily_EscortMission = 'first'  # skip, first, second, third
