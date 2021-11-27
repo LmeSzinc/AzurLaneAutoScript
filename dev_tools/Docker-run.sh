@@ -1,22 +1,37 @@
 #!/bin/env bash
 
-pprint() {
-    echo -e "\n==> \e[36m$1\e[39m"
+pprint() { # Pretty print
+    echo -e "==> \e[36m$1\e[39m"
 }
-prun() {
-    pprint "$1"
+prun() { # Pretty run
+    pprint "$ $1"
     eval " $1" || exit 1
 }
 
-SOURCE="$(dirname $(realpath $BASH_SOURCE))"
+SOURCE="$(dirname $(realpath $BASH_SOURCE))" # Poiting to dev_tools folder
+CONTAINER="azurlaneautoscript"
 
-pprint "Checking for config file..."
+pprint "Updating this repo"
+prun "git stash"
+prun "git pull"
+prun "git stash pop"
+
+pprint "Checking for existing config file"
 if [[ ! -f "$SOURCE/../config/alas.json" ]]; then
-    cp -a "$SOURCE/../config/template.json" "$SOURCE/../config/alas.json"
+    prun "cp -a \"$SOURCE/../config/template.json\" \"$SOURCE/../config/alas.json\""
+else
+    pprint "Config file OK"
 fi
 
+pprint "Killing any previous container"
+prun "docker ps | grep $CONTAINER | awk '{print \$1}' | xargs -r -n1 docker kill"
+
+pprint "Deleting old containers..."
+prun "docker ps -a | grep $CONTAINER | awk '{print \$1}' | xargs -r -n1 docker rm"
+
+
 pprint "Build the container"
-prun "docker build -t alas -f $SOURCE/Dockerfile $SOURCE/.."
+prun "docker build -t $CONTAINER -f $SOURCE/Dockerfile $SOURCE/.."
 
 pprint "Running the container"
-prun "docker run --net=host --volume=$SOURCE/../config/alas.json:/app/AzurLaneAutoScript/config/alas.json:rw --interactive --tty alas"
+prun "docker run --net=host --volume=$SOURCE/../config/alas.json:/app/AzurLaneAutoScript/config/alas.json:rw --interactive --tty $CONTAINER"
