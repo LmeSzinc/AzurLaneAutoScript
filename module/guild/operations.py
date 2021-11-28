@@ -26,7 +26,7 @@ class GuildOperations(GuildBase):
             else:
                 self.device.screenshot()
 
-            if self._handle_guild_operation_start():
+            if self._handle_guild_operations_start():
                 confirm_timer.reset()
                 continue
             if self.appear(GUILD_OPERATIONS_JOIN, interval=3):
@@ -51,8 +51,9 @@ class GuildOperations(GuildBase):
                 continue
             if self.handle_popup_single('FLEET_UPDATED'):
                 logger.info('Fleet composition altered, may still be dispatch-able. However '
-                            'fellow guild members have updated their support line up.'
+                            'fellow guild members have updated their support line up. '
                             'Suggestion: Enable Boss Recommend')
+                confirm_timer.reset()
                 continue
 
             # End
@@ -60,7 +61,7 @@ class GuildOperations(GuildBase):
                 if not self.info_bar_count() and confirm_timer.reached():
                     break
 
-    def _handle_guild_operation_start(self):
+    def _handle_guild_operations_start(self):
         """
         Start a new guild operation.
         Current account must be a guild master or officer.
@@ -82,21 +83,21 @@ class GuildOperations(GuildBase):
             return False
 
         # Hard-coded to select The most rewarding operation Solomon Air-Sea Battle.
-        if self.appear_then_click(GUILD_OPERATION_SOLOMON, offset=(20, 20), interval=3):
+        if self.appear_then_click(GUILD_OPERATIONS_SOLOMON, offset=(20, 20), interval=3):
             return True
         # Goto the new operation that just started
         # Example page switches:
-        # - GUILD_OPERATION_SOLOMON
-        # - GUILD_MISSION_NEW
+        # - GUILD_OPERATIONS_SOLOMON
+        # - GUILD_OPERATIONS_NEW
         # - handle_popup_confirm(), confirm to consume guild fund.
         # - GUILD_OPERATIONS_JOIN
         # - GUILD_OPERATIONS_ACTIVE_CHECK
-        if self.appear_then_click(GUILD_MISSION_NEW, offset=(20, 20), interval=3):
+        if self.appear_then_click(GUILD_OPERATIONS_NEW, offset=(20, 20), interval=3):
             return True
 
         return False
 
-    def _guild_operation_get_mode(self):
+    def _guild_operations_get_mode(self):
         """
         Returns:
             int: Determine which operations menu has loaded
@@ -487,7 +488,7 @@ class GuildOperations(GuildBase):
         self.guild_side_navbar_ensure(bottom=1)
         self._guild_operations_ensure()
         # Determine the mode of operations, currently 3 are available
-        operations_mode = self._guild_operation_get_mode()
+        operations_mode = self._guild_operations_get_mode()
 
         # Execute actions based on the detected mode
         if operations_mode == 0:
