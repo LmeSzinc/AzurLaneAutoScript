@@ -19,6 +19,3 @@ COPY $SOURCE/requirements-in.txt $WD/requirements-in.txt
 RUN $PYROOT/bin/pip install -r $WD/requirements-in.txt
 
 CMD $PYROOT/bin/python $WD/AzurLaneAutoScript/gui.py
-
-# Finally  include the updated app
-COPY $SOURCE $WD/AzurLaneAutoScript
