@@ -266,6 +266,7 @@ Reward:
 GeneralShop:
   UseGems: false
   Refresh: false
+  BuySkinBox: false
   Filter: |-
     BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2
     > Cube

@@ -1033,6 +1033,10 @@
       "name": "Allow Shop Refresh",
       "help": "Refreshing will consume 50 gems"
     },
+    "BuySkinBox": {
+      "name": "Buy Equip Skin Boxes",
+      "help": "In order to reduce maintenance costs, the skin box selectors in the filter will not be updated with the game, but Alas will consider any unknown items with a quantity of 1 and consume 7000 coins as skin boxes and buy them."
+    },
     "Filter": {
       "name": "Item Filter",
       "help": "All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>"

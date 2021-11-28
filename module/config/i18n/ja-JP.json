@@ -1033,6 +1033,10 @@
       "name": "GeneralShop.Refresh.name",
       "help": "GeneralShop.Refresh.help"
     },
+    "BuySkinBox": {
+      "name": "GeneralShop.BuySkinBox.name",
+      "help": "GeneralShop.BuySkinBox.help"
+    },
     "Filter": {
       "name": "GeneralShop.Filter.name",
       "help": "GeneralShop.Filter.help"

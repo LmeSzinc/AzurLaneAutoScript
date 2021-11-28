@@ -180,6 +180,25 @@ class ShopBase(UI):
             logger.warning(f'shop_check_item --> Missing func shop_{key}_check_item')
             return False
 
+    def _is_shop_custom_item(self, item, shop_type='general'):
+        """
+        Buy custom items without the restriction of filter string.
+
+        Args:
+            item (Item):
+            shop_type (str): String assists with shop_get_items
+
+        Returns:
+            bool:
+        """
+        if shop_type == 'general':
+            if self.config.GeneralShop_BuySkinBox:
+                if (not item.is_known_item()) and item.amount == 1 and item.cost == 'Coins' and item.price == 7000:
+                    logger.info(f'Item {item} is considered to be an equip skin box')
+                    return True
+
+        return False
+
     def shop_get_item_to_buy(self, shop_type='general', selection=''):
         """
         Args:
@@ -187,7 +206,7 @@ class ShopBase(UI):
             selection: String user configured value, items desired
 
         Returns:
-            list[Item]: List of Item object to buy, or an empty list if nothing to buy.
+            Item: Item to buy, or None.
         """
         items = self.shop_get_items(key=shop_type)
         self.shop_get_currency(key=shop_type)
@@ -200,21 +219,22 @@ class ShopBase(UI):
                            f'was provided for {shop_type}: {selection}')
             return None
 
-        buy = []
         for select in selection:
             # 'Choice Ship' purchases are not supported
             if 'ship' in select.lower():
                 continue
 
             for item in items:
+                if self._is_shop_custom_item(item, shop_type=shop_type):
+                    return item
                 if select not in item.alt_name:
                     continue
                 if not self.shop_check_item(item, key=shop_type):
                     continue
 
-                buy.append(item)
+                return item
 
-        return buy
+        return None
 
     def shop_buy_execute(self, item, skip_first_screenshot=True):
         """
@@ -270,17 +290,15 @@ class ShopBase(UI):
         """
         logger.hr(f'{shop_type} shop buy', level=2)
         count = 0
-        for _ in range(3):
-            logger.hr('Buy execute')
-            items = self.shop_get_item_to_buy(shop_type, selection)
-            if items:
-                for item in items:
-                    self.shop_buy_execute(item)
-                    count += 1
-                continue
-            else:
+        for _ in range(12):
+            item = self.shop_get_item_to_buy(shop_type, selection)
+            if item is None:
                 logger.info('Shop buy finished')
                 return count
+            else:
+                self.shop_buy_execute(item)
+                count += 1
+                continue
 
         logger.warning('Too many items to buy, stopped')
         return count

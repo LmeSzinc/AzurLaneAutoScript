@@ -693,6 +693,7 @@
     "GeneralShop": {
       "UseGems": false,
       "Refresh": false,
+      "BuySkinBox": false,
       "Filter": "BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2\n> Cube\n> FoodT6 > FoodT5"
     }
   },
