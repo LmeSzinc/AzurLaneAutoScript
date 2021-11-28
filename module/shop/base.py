@@ -180,6 +180,25 @@ class ShopBase(UI):
             logger.warning(f'shop_check_item --> Missing func shop_{key}_check_item')
             return False
 
+    def _is_shop_custom_item(self, item, shop_type='general'):
+        """
+        Buy custom items without the restriction of filter string.
+
+        Args:
+            item (Item):
+            shop_type (str): String assists with shop_get_items
+
+        Returns:
+            bool:
+        """
+        if shop_type == 'general':
+            if self.config.GeneralShop_BuySkinBox:
+                if (not item.is_known_item()) and item.amount == 1 and item.cost == 'Coins' and item.price == 7000:
+                    logger.info(f'Item {item} is considered to be an equip skin box')
+                    return True
+
+        return False
+
     def shop_get_item_to_buy(self, shop_type='general', selection=''):
         """
         Args:
@@ -206,6 +225,8 @@ class ShopBase(UI):
                 continue
 
             for item in items:
+                if self._is_shop_custom_item(item, shop_type=shop_type):
+                    return item
                 if select not in item.alt_name:
                     continue
                 if not self.shop_check_item(item, key=shop_type):
