@@ -125,7 +125,7 @@ class GuildOperations(GuildBase):
             logger.warning('Operations interface is unrecognized')
             return None
 
-    def _guild_operation_get_entrance(self):
+    def _guild_operations_get_entrance(self):
         """
         Get 2 entrance button of guild dispatch
         If operation is on the top, after clicking expand button, operation chain moves downward, and enter button
@@ -177,7 +177,7 @@ class GuildOperations(GuildBase):
             else:
                 self.device.screenshot()
 
-            entrance_1, entrance_2 = self._guild_operation_get_entrance()
+            entrance_1, entrance_2 = self._guild_operations_get_entrance()
             if len(entrance_1):
                 return True
 
@@ -209,7 +209,7 @@ class GuildOperations(GuildBase):
                 self.device.screenshot()
 
             if self.appear(GUILD_OPERATIONS_ACTIVE_CHECK, offset=(20, 20)):
-                entrance_1, entrance_2 = self._guild_operation_get_entrance()
+                entrance_1, entrance_2 = self._guild_operations_get_entrance()
                 if not len(entrance_1):
                     return False
                 if timer_1.reached():
