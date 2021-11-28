@@ -14,8 +14,8 @@ RUN apt update
 RUN apt install -y libgl1 adb
 
 # Install the requriements to the conda environment
-# So we can cache this layer
 COPY $SOURCE/requirements-in.txt $WD/requirements-in.txt
 RUN $PYROOT/bin/pip install -r $WD/requirements-in.txt
 
+# When running the image, mount the ALAS folder into the container
 CMD $PYROOT/bin/python $WD/AzurLaneAutoScript/gui.py
