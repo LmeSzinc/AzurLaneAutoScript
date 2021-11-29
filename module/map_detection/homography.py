@@ -69,6 +69,12 @@ class Homography:
         image = cv2.warpPerspective(ASSETS.ui_mask, self.homo_data, self.homo_size)
         kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
         image = cv2.erode(image, kernel).astype('uint8')
+        # Remove edges, perspective transform may produce aliasing
+        pad = 2
+        image[:pad, :] = 0
+        image[-pad:, :] = 0
+        image[:, :pad] = 0
+        image[:, -pad:] = 0
         return image
 
     def load(self, image):
@@ -184,6 +190,7 @@ class Homography:
         # Detect map edges
         image_edge = cv2.bitwise_and(cv2.dilate(image_edge, kernel),
                                      cv2.inRange(image_trans, *self.config.HOMO_EDGE_COLOR_RANGE))
+        image_edge = cv2.bitwise_and(image_edge, self.ui_mask_homo_stroke)
         self.detect_edges(image_edge, hough_th=self.config.HOMO_EDGE_HOUGHLINES_THRESHOLD)
 
         # Log
