@@ -880,6 +880,32 @@
       "help": "Generally does not need to be modified or re-arranged but can do so if desired"
     }
   },
+  "ControlExpOverflow": {
+    "_info": {
+      "name": "Control EXP Overflow Settings",
+      "help": "Control waste amount of EXP on a specific book tier to save on time\nFor example, if remain = 1100, use ColorT3_Exp despite losing out on 100 EXP"
+    },
+    "Enable": {
+      "name": "Enable",
+      "help": "Disable for no overflow across all tiers\nOtherwise enable then set specific tier's overflow for customization"
+    },
+    "T4Allow": {
+      "name": "T4 Overflow Allow",
+      "help": "0 ~ any positive integer"
+    },
+    "T3Allow": {
+      "name": "T3 Overflow Allow",
+      "help": "0 ~ any positive integer"
+    },
+    "T2Allow": {
+      "name": "T2 Overflow Allow",
+      "help": "0 ~ any positive integer"
+    },
+    "T1Allow": {
+      "name": "T1 Overflow Allow",
+      "help": "0 ~ any positive integer"
+    }
+  },
   "Research": {
     "_info": {
       "name": "Research Academy Settings",

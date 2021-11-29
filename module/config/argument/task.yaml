@@ -87,6 +87,7 @@ Commission:
 Tactical:
   - Scheduler
   - Tactical
+  - ControlExpOverflow
 Research:
   - Scheduler
   - Research

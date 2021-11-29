@@ -57,6 +57,13 @@ class Book:
         3: (235, 208, 120),  # T3, gold
         4: (225, 181, 212),  # T4, rainbow
     }
+    exp_tier = {
+        0: 0,
+        1: 100,
+        2: 300,
+        3: 800,
+        4: 1500,
+    }
 
     def __init__(self, image, button):
         """
@@ -86,6 +93,9 @@ class Book:
         self.genre_str = self.genre_name.get(self.genre, "unknown")
         self.tier_str = f'T{self.tier}' if self.tier else 'Tn'
         self.same_str = 'same' if self.exp else 'unknown'
+
+        factor = 1 if not self.exp else 1.5 if self.tier < 4 else 2
+        self.exp_value = self.exp_tier[self.tier] * factor
 
     def check_selected(self, image):
         """
@@ -175,6 +185,86 @@ class RewardTacticalClass(UI):
         logger.warning('No book found.')
         raise ScriptError('No book found, after 15 attempts.')
 
+    def _tactical_book_select(self, book, skip_first_screenshot=True):
+        """
+        Select the target book onscreen
+        Updates current image if needed
+
+        Args:
+            book (Book):
+            skip_first_screenshot (bool):
+        """
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if not book.check_selected(self.device.image):
+                self.device.click(book.button)
+                self.device.sleep((0.3, 0.5))
+            else:
+                break
+
+    def _tactical_books_filter_exp(self):
+        """
+        Complex filter to remove specific grade
+        books from self.books based on current
+        progress of the tactical skill.
+        """
+        # Shorthand referencing
+        first, last = self.books[0], self.books[-1]
+
+        # Read 'current' and 'remain' will be inaccurate
+        # since first exp_value is factored into it
+        current, remain, total = SKILL_EXP.ocr(self.device.image)
+
+        # Max level in progress; so selective books
+        # should be removed to prevent waste
+        if total == 5800:
+            if current == 0:
+                # Lvl 9+1, using first will reach max level
+                # Swap to last and re-OCR
+                self._tactical_book_select(last)
+                current, remain, total = SKILL_EXP.ocr(self.device.image)
+                if current == 0:
+                    # Still Lvl 9+1 even with last
+                    # Must re-calculate to accurately gauge
+                    current = total - last.exp_value
+                    remain = last.exp_value
+                else:
+                    # Lvl 9, so can calculate normally
+                    # but use last
+                    current -= last.exp_value
+                    remain += last.exp_value
+            else:
+                # Lvl 9, so can calculate normally
+                current -= first.exp_value
+                remain += first.exp_value
+            logger.info('About to reach level 10; will remove '
+                        'detected books based on actual '
+                       f'progress: {current}/{total}; {remain}')
+
+            def filter_exp_func(book):
+                # Retain at least non-T1 bonus books if nothing else
+                if book.exp_value == 100:
+                    return True
+
+                # Acquire 'overflow' for respective tier book if enabled
+                overflow = 0
+                if self.config.ControlExpOverflow_Enable:
+                    overflow = getattr(self.config, f'ControlExpOverflow_T{book.tier}Allow')
+
+                # Remove book if sum to be gained exceeds total (+ overflow)
+                if (current + book.exp_value) > (total + overflow):
+                    return False
+                return True
+
+            before = self.books.count
+            self.books = SelectedGrids([book for book in self.books if filter_exp_func(book)])
+            logger.attr('Filtered', before - self.books.count)
+            logger.attr('Books', str(self.books))
+
     def _tactical_books_choose(self):
         """
         Choose tactical book according to config.
@@ -185,36 +275,29 @@ class RewardTacticalClass(UI):
         """
         self._tactical_books_get()
 
-        # experience filter
-        current, remain, total = SKILL_EXP.ocr(self.device.image)
-        if total == 5800:
-            logger.info(f'About to reach level 10, remain experience:{remain}')
-            if remain < 3000:
-                logger.info(f'remove Tier4 Book to prevent waste')
-                self.books = self.books.delete(self.books.select(tier=4))
-            if remain < 1200:
-                logger.info(f'remove Tier3 Book to prevent waste')
-                self.books = self.books.delete(self.books.select(tier=3))
+        # Ensure first book is focused
+        # For slow PCs, selection may have changed
+        first = self.books[0]
+        self._tactical_book_select(first)
 
-        # config filter
+        # Apply complex filter, modifies self.books
+        self._tactical_books_filter_exp()
+
+        # Apply configuration filter, does not modify self.books
         BOOK_FILTER.load(self.config.Tactical_TacticalFilter)
         books = BOOK_FILTER.apply(self.books.grids)
         logger.attr('Book_sort', ' > '.join([str(book) for book in books]))
 
+        # Choose applicable book if any
+        # Otherwise cancel altogether
         if len(books):
             book = books[0]
             if str(book) != 'first':
-                while 1:
-                    self.device.click(book.button)
-                    self.device.screenshot()
-                    if book.check_selected(self.device.image):
-                        break
-                self.device.click(TACTICAL_CLASS_START)
+                self._tactical_book_select(book)
             else:
                 logger.info('Choose first book')
-                self.device.click(books[0].button)
-                self.device.sleep((0.3, 0.5))
-                self.device.click(TACTICAL_CLASS_START)
+                self._tactical_book_select(first)
+            self.device.click(TACTICAL_CLASS_START)
         else:
             logger.info('Cancel tactical')
             self.device.click(TACTICAL_CLASS_CANCEL)
@@ -267,7 +350,7 @@ class RewardTacticalClass(UI):
             if self.appear_then_click(REWARD_GOTO_TACTICAL, offset=(20, 20), interval=1):
                 tactical_class_timout.reset()
                 continue
-            if self.handle_popup_confirm():
+            if self.handle_popup_confirm('TACTICAL'):
                 tactical_class_timout.reset()
                 continue
             if self.handle_urgent_commission():

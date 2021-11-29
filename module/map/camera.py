@@ -432,6 +432,7 @@ class Camera(MapOperation):
             .sort_by_camera_distance(self.camera)
         blacklist = self.view.select(is_enemy=True) \
             .add(self.view.select(is_siren=True)) \
+            .add(self.view.select(is_boss=True)) \
             .add(self.view.select(is_mystery=True)) \
             .add(self.view.select(is_fleet=True, is_current_fleet=False))
 

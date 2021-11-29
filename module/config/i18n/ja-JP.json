@@ -880,6 +880,32 @@
       "help": "Tactical.TacticalFilter.help"
     }
   },
+  "ControlExpOverflow": {
+    "_info": {
+      "name": "ControlExpOverflow._info.name",
+      "help": "ControlExpOverflow._info.help"
+    },
+    "Enable": {
+      "name": "ControlExpOverflow.Enable.name",
+      "help": "ControlExpOverflow.Enable.help"
+    },
+    "T4Allow": {
+      "name": "ControlExpOverflow.T4Allow.name",
+      "help": "ControlExpOverflow.T4Allow.help"
+    },
+    "T3Allow": {
+      "name": "ControlExpOverflow.T3Allow.name",
+      "help": "ControlExpOverflow.T3Allow.help"
+    },
+    "T2Allow": {
+      "name": "ControlExpOverflow.T2Allow.name",
+      "help": "ControlExpOverflow.T2Allow.help"
+    },
+    "T1Allow": {
+      "name": "ControlExpOverflow.T1Allow.name",
+      "help": "ControlExpOverflow.T1Allow.help"
+    }
+  },
   "Research": {
     "_info": {
       "name": "Research._info.name",
