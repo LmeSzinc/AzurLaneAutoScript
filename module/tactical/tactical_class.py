@@ -350,7 +350,7 @@ class RewardTacticalClass(UI):
             if self.appear_then_click(REWARD_GOTO_TACTICAL, offset=(20, 20), interval=1):
                 tactical_class_timout.reset()
                 continue
-            if self.handle_popup_confirm():
+            if self.handle_popup_confirm('TACTICAL'):
                 tactical_class_timout.reset()
                 continue
             if self.handle_urgent_commission():
