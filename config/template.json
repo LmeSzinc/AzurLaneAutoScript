@@ -592,6 +592,13 @@
     },
     "Tactical": {
       "TacticalFilter": "SameT4 > SameT3 > SameT2 > SameT1\n> BlueT2 > YellowT2 > RedT2\n> BlueT3 > YellowT3 > RedT3\n> BlueT4 > YellowT4 > RedT4\n> BlueT1 > YellowT1 > RedT1\n> first"
+    },
+    "ControlExpOverflow": {
+      "Enable": true,
+      "T4Allow": 100,
+      "T3Allow": 100,
+      "T2Allow": 200,
+      "T1Allow": 200
     }
   },
   "Research": {
