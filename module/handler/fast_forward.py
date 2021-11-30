@@ -88,6 +88,13 @@ class FastForwardHandler(AutoSearchHandler):
         logger.attr('Map_info', text)
         logger.attr('StopCondition_MapAchievement', self.config.StopCondition_MapAchievement)
 
+        # Force to disable auto search if StopCondition.MapAchievement is not 'non_stop'
+        if self.config.StopCondition_MapAchievement != 'non_stop' and self.config.Campaign_UseAutoSearch:
+            logger.warning(f'StopCondition.MapAchievement={self.config.StopCondition_MapAchievement} '
+                           f'does not work with auto search. '
+                           f'Auto search will be disabled')
+            self.config.Campaign_UseAutoSearch = False
+
     def handle_fast_forward(self):
         if not self.map_has_clear_mode:
             self.map_is_clear_mode = False
