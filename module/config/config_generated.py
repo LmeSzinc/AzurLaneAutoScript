@@ -173,10 +173,13 @@ class GeneratedConfig:
 
     # Group `GuildLogistics`
     GuildLogistics_Enable = True
+    GuildLogistics_SelectNewMission = False
     GuildLogistics_ExchangeFilter = 'PlateTorpedoT1 > PlateAntiAirT1 > PlatePlaneT1 > PlateGunT1 > PlateGeneralT1\n> PlateTorpedoT2 > PlateAntiAirT2 > PlatePlaneT2 > PlateGunT2 > PlateGeneralT2\n> PlateTorpedoT3 > PlateAntiAirT3 > PlatePlaneT3 > PlateGunT3 > PlateGeneralT3\n> OxyCola > Coolant > Merit > Coin > Oil'
 
     # Group `GuildOperation`
     GuildOperation_Enable = True
+    GuildOperation_SelectNewOperation = False
+    GuildOperation_NewOperationMaxDate = 20
     GuildOperation_JoinThreshold = 1
     GuildOperation_AttackBoss = True
     GuildOperation_BossFleetRecommend = False
@@ -226,6 +229,9 @@ class GeneratedConfig:
     Gacha_Pool = 'light'  # light, heavy, special, event, wishing_well
     Gacha_Amount = 1  # 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
     Gacha_UseDrill = False
+
+    # Group `SupplyPack`
+    SupplyPack_WeeklyFreeSupplyPack = True
 
     # Group `Daily`
     Daily_UseDailySkip = True

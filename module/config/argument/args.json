@@ -3083,6 +3083,10 @@
         "type": "checkbox",
         "value": true
       },
+      "SelectNewMission": {
+        "type": "checkbox",
+        "value": false
+      },
       "ExchangeFilter": {
         "type": "textarea",
         "value": "PlateTorpedoT1 > PlateAntiAirT1 > PlatePlaneT1 > PlateGunT1 > PlateGeneralT1\n> PlateTorpedoT2 > PlateAntiAirT2 > PlatePlaneT2 > PlateGunT2 > PlateGeneralT2\n> PlateTorpedoT3 > PlateAntiAirT3 > PlatePlaneT3 > PlateGunT3 > PlateGeneralT3\n> OxyCola > Coolant > Merit > Coin > Oil"
@@ -3092,6 +3096,14 @@
       "Enable": {
         "type": "checkbox",
         "value": true
+      },
+      "SelectNewOperation": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NewOperationMaxDate": {
+        "type": "input",
+        "value": 20
       },
       "JoinThreshold": {
         "type": "input",
@@ -3514,6 +3526,41 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      }
+    }
+  },
+  "SupplyPack": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "input",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "disable",
+        "value": "SupplyPack"
+      },
+      "SuccessInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "FailureInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "ServerUpdate": {
+        "type": "disable",
+        "value": "00:00"
+      }
+    },
+    "SupplyPack": {
+      "WeeklyFreeSupplyPack": {
+        "type": "checkbox",
+        "value": true
       }
     }
   },

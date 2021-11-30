@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from module.base.button import ButtonGrid
 from module.base.timer import Timer
 from module.base.utils import *
@@ -16,6 +18,7 @@ class GuildOperations(GuildBase):
         Ensure guild operation is loaded
         After entering guild operation, background loaded first, then dispatch/boss
         """
+        logger.attr('Guild master/official', self.config.GuildOperation_SelectNewOperation)
         confirm_timer = Timer(1.5, count=3).start()
         while 1:
             if skip_first_screenshot:
@@ -23,6 +26,9 @@ class GuildOperations(GuildBase):
             else:
                 self.device.screenshot()
 
+            if self._handle_guild_operations_start():
+                confirm_timer.reset()
+                continue
             if self.appear(GUILD_OPERATIONS_JOIN, interval=3):
                 if self.image_color_count(GUILD_OPERATIONS_MONTHLY_COUNT, color=(255, 93, 90), threshold=221, count=20):
                     logger.info('Unable to join operation, no more monthly attempts left')
@@ -45,8 +51,9 @@ class GuildOperations(GuildBase):
                 continue
             if self.handle_popup_single('FLEET_UPDATED'):
                 logger.info('Fleet composition altered, may still be dispatch-able. However '
-                            'fellow guild members have updated their support line up.'
+                            'fellow guild members have updated their support line up. '
                             'Suggestion: Enable Boss Recommend')
+                confirm_timer.reset()
                 continue
 
             # End
@@ -54,7 +61,43 @@ class GuildOperations(GuildBase):
                 if not self.info_bar_count() and confirm_timer.reached():
                     break
 
-    def _guild_operation_get_mode(self):
+    def _handle_guild_operations_start(self):
+        """
+        Start a new guild operation.
+        Current account must be a guild master or officer.
+
+        Starting the third operation of every month is not recommended. Members can only join 2 operations each month,
+        most of them can't participate in the dispatch in the third. This will affect the evaluation of the dispatch
+        event, resulting in a reduction in the final reward.
+
+        Returns:
+            bool: If clicked.
+        """
+        if not self.config.GuildOperation_SelectNewOperation:
+            return False
+
+        today = datetime.now().day
+        limit = self.config.GuildOperation_NewOperationMaxDate
+        if today >= limit:
+            logger.info(f'No new guild operations because, today\'s date {today} >= limit {limit}')
+            return False
+
+        # Hard-coded to select The most rewarding operation Solomon Air-Sea Battle.
+        if self.appear_then_click(GUILD_OPERATIONS_SOLOMON, offset=(20, 20), interval=3):
+            return True
+        # Goto the new operation that just started
+        # Example page switches:
+        # - GUILD_OPERATIONS_SOLOMON
+        # - GUILD_OPERATIONS_NEW
+        # - handle_popup_confirm(), confirm to consume guild fund.
+        # - GUILD_OPERATIONS_JOIN
+        # - GUILD_OPERATIONS_ACTIVE_CHECK
+        if self.appear_then_click(GUILD_OPERATIONS_NEW, offset=(20, 20), interval=3):
+            return True
+
+        return False
+
+    def _guild_operations_get_mode(self):
         """
         Returns:
             int: Determine which operations menu has loaded
@@ -82,7 +125,7 @@ class GuildOperations(GuildBase):
             logger.warning('Operations interface is unrecognized')
             return None
 
-    def _guild_operation_get_entrance(self):
+    def _guild_operations_get_entrance(self):
         """
         Get 2 entrance button of guild dispatch
         If operation is on the top, after clicking expand button, operation chain moves downward, and enter button
@@ -134,7 +177,7 @@ class GuildOperations(GuildBase):
             else:
                 self.device.screenshot()
 
-            entrance_1, entrance_2 = self._guild_operation_get_entrance()
+            entrance_1, entrance_2 = self._guild_operations_get_entrance()
             if len(entrance_1):
                 return True
 
@@ -166,7 +209,7 @@ class GuildOperations(GuildBase):
                 self.device.screenshot()
 
             if self.appear(GUILD_OPERATIONS_ACTIVE_CHECK, offset=(20, 20)):
-                entrance_1, entrance_2 = self._guild_operation_get_entrance()
+                entrance_1, entrance_2 = self._guild_operations_get_entrance()
                 if not len(entrance_1):
                     return False
                 if timer_1.reached():
@@ -441,10 +484,11 @@ class GuildOperations(GuildBase):
         return appear
 
     def guild_operations(self):
+        logger.hr('Guild operations', level=1)
         self.guild_side_navbar_ensure(bottom=1)
         self._guild_operations_ensure()
         # Determine the mode of operations, currently 3 are available
-        operations_mode = self._guild_operation_get_mode()
+        operations_mode = self._guild_operations_get_mode()
 
         # Execute actions based on the detected mode
         if operations_mode == 0:

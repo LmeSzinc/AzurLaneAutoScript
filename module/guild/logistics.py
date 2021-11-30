@@ -234,6 +234,27 @@ class GuildLogistics(GuildBase):
             logger.info('Guild supply button inactive')
             return False
 
+    def _handle_guild_fleet_mission_start(self):
+        """
+        Select new weekly fleet mission.
+        Current account must be a guild master or officer.
+
+        Returns:
+            bool: If clicked
+        """
+        if not self.config.GuildLogistics_SelectNewMission:
+            return False
+
+        if self.appear_then_click(GUILD_MISSION_NEW, offset=(20, 20), interval=2):
+            return True
+        if self.appear_then_click(GUILD_MISSION_SELECT, offset=(20, 20), interval=2):
+            # Select guild mission for guild leader
+            # Hard-coded to select mission: Siren Subjugation III, defeat 300 enemies
+            # This mission has the most guild supply and it's the easiest one for members to finish
+            return True
+
+        return False
+
     def _guild_logistics_collect(self, skip_first_screenshot=True):
         """
         Execute collect/accept screen transitions within
@@ -250,6 +271,7 @@ class GuildLogistics(GuildBase):
             out: GUILD_LOGISTICS
         """
         logger.hr('Guild logistics')
+        logger.attr('Guild master/official', self.config.GuildOperation_SelectNewOperation)
         confirm_timer = Timer(1.5, count=3).start()
         exchange_interval = Timer(1.5, count=3)
         click_interval = Timer(0.5, count=1)
@@ -273,10 +295,7 @@ class GuildLogistics(GuildBase):
                 confirm_timer.reset()
                 exchange_interval.reset()
                 continue
-            if self.appear_then_click(GUILD_MISSION_SELECT, offset=(20, 20), interval=2):
-                # Select guild mission for guild leader
-                # Hard-coded to select mission: Siren Subjugation III, defeat 300 enemies
-                # This mission has the most guild supply and it's the easiest one for members to finish
+            if self._handle_guild_fleet_mission_start():
                 confirm_timer.reset()
                 continue
 
@@ -402,6 +421,7 @@ class GuildLogistics(GuildBase):
             in: page_guild
             out: page_guild, GUILD_LOGISTICS
         """
+        logger.hr('Guild logistics', level=1)
         self.guild_side_navbar_ensure(bottom=3)
         self._guild_logistics_ensure()
 

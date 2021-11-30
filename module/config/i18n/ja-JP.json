@@ -122,6 +122,10 @@
       "name": "Task.DataKey.name",
       "help": "Task.DataKey.help"
     },
+    "SupplyPack": {
+      "name": "Task.SupplyPack.name",
+      "help": "Task.SupplyPack.help"
+    },
     "Daily": {
       "name": "Task.Daily.name",
       "help": "Task.Daily.help"
@@ -977,6 +981,10 @@
       "name": "GuildLogistics.Enable.name",
       "help": "GuildLogistics.Enable.help"
     },
+    "SelectNewMission": {
+      "name": "GuildLogistics.SelectNewMission.name",
+      "help": "GuildLogistics.SelectNewMission.help"
+    },
     "ExchangeFilter": {
       "name": "GuildLogistics.ExchangeFilter.name",
       "help": "GuildLogistics.ExchangeFilter.help"
@@ -990,6 +998,14 @@
     "Enable": {
       "name": "GuildOperation.Enable.name",
       "help": "GuildOperation.Enable.help"
+    },
+    "SelectNewOperation": {
+      "name": "GuildOperation.SelectNewOperation.name",
+      "help": "GuildOperation.SelectNewOperation.help"
+    },
+    "NewOperationMaxDate": {
+      "name": "GuildOperation.NewOperationMaxDate.name",
+      "help": "GuildOperation.NewOperationMaxDate.help"
     },
     "JoinThreshold": {
       "name": "GuildOperation.JoinThreshold.name",
@@ -1238,6 +1254,16 @@
     "UseDrill": {
       "name": "Gacha.UseDrill.name",
       "help": "Gacha.UseDrill.help"
+    }
+  },
+  "SupplyPack": {
+    "_info": {
+      "name": "SupplyPack._info.name",
+      "help": "SupplyPack._info.help"
+    },
+    "WeeklyFreeSupplyPack": {
+      "name": "SupplyPack.WeeklyFreeSupplyPack.name",
+      "help": "SupplyPack.WeeklyFreeSupplyPack.help"
     }
   },
   "Daily": {

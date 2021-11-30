@@ -122,6 +122,10 @@
       "name": "DataKey",
       "help": ""
     },
+    "SupplyPack": {
+      "name": "Supply Pack",
+      "help": ""
+    },
     "Daily": {
       "name": "Daily",
       "help": ""
@@ -977,6 +981,10 @@
       "name": "Enable Guild Logistics",
       "help": "Enables the following:\n- Accept and complete guild missions\n- Submit items in exchange for guild coins\n- Collect other guild rewards"
     },
+    "SelectNewMission": {
+      "name": "Select A New Fleet Mission",
+      "help": "This account must be a guild master or officer to use this.\nThe easiest mission Siren Subjugation III is selected by default, and the objective is to defeat 300 enemies\n(Not supported, please contact an EN developer if you would like to assist in alleviating this)"
+    },
     "ExchangeFilter": {
       "name": "Item Exchange Filter",
       "help": "Generally does not need to be modified or re-arranged but can do so if desired\nIf there is an item that you lack, priority for that exchange is lowered"
@@ -985,11 +993,19 @@
   "GuildOperation": {
     "_info": {
       "name": "Guild Operation Settings",
-      "help": "Master or Officers must choose a guild operation manually"
+      "help": ""
     },
     "Enable": {
       "name": "Enable Guild Operation",
-      "help": "Enables the following:\n- Join ongoing guild operations\n- Dispatch ships to complete objectives\n- Optionally attack guild boss when available"
+      "help": "Enables the following:\n- Start new / Join ongoing guild operations\n- Dispatch ships to complete objectives\n- Optionally attack guild boss when available"
+    },
+    "SelectNewOperation": {
+      "name": "Start New Guild Operations",
+      "help": "This account must be a guild master or officer to use this.\nThe most rewarding operation Solomon Air-Sea Battle is selected by default"
+    },
+    "NewOperationMaxDate": {
+      "name": "Don't Start Guild Operation After Date X of Every Month",
+      "help": "Only takes effect when \"Start New Guild Operations\" is enabled.\nStarting a third operation in the same month is not recommended. Members are limited in joining up to 2 operations each month; a third operation will unlikely be finished as most cannot participate and spill over to the following month. This will affect the evaluation of the dispatch event, resulting in a reduction of the final reward"
     },
     "JoinThreshold": {
       "name": "Join Threshold",
@@ -1240,6 +1256,16 @@
       "help": "Expedite the recently submitted orders"
     }
   },
+  "SupplyPack": {
+    "_info": {
+      "name": "Supply Pack",
+      "help": ""
+    },
+    "WeeklyFreeSupplyPack": {
+      "name": "Buy Weekly Free Supply Pack",
+      "help": ""
+    }
+  },
   "Daily": {
     "_info": {
       "name": "Daily Settings",
@@ -1333,7 +1359,7 @@
   "Hard": {
     "_info": {
       "name": "Hard Settings",
-      "help": "Hard mode for chapter must be unlocked, stage must be in SAFE condition, and auto search is enabled temporarily.\nUse Farm Main task to assist unlocking and achieving SAFE conditions"
+      "help": "Hard mode for chapter must be unlocked, stage must be in 100% CLEAR condition, and auto search is enabled temporarily.\nUse Farm Main task to assist unlocking and achieving 100% CLEAR conditions"
     },
     "HardStage": {
       "name": "Hard Stage",

@@ -166,6 +166,10 @@ class AzurLaneAutoScript:
         from module.data_key.data_key import RewardDataKey
         RewardDataKey(config=self.config, device=self.device).run()
 
+    def supply_pack(self):
+        from module.supply_pack.supply_pack import SupplyPack
+        SupplyPack(config=self.config, device=self.device).run()
+
     def daily(self):
         from module.daily.daily import Daily
         Daily(config=self.config, device=self.device).run()

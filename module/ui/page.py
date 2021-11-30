@@ -171,6 +171,11 @@ page_munitions = Page(MUNITIONS_CHECK)
 page_academy.link(button=ACADEMY_GOTO_MUNITIONS, destination=page_munitions)
 page_munitions.link(button=GOTO_MAIN, destination=page_main)
 
+# Supply pack
+page_supply_pack = Page(SUPPLY_PACK_CHECK)
+page_shop.link(button=SHOP_GOTO_SUPPLY_PACK, destination=page_supply_pack)
+page_supply_pack.link(button=GOTO_MAIN, destination=page_main)
+
 # Build / Construct
 page_build = Page(BUILD_CHECK)
 page_main.link(button=MAIN_GOTO_BUILD, destination=page_build)
