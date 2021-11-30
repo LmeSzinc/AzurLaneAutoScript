@@ -1,3 +1,4 @@
+from module.base.timer import Timer
 from module.exception import CampaignEnd
 from module.logger import logger
 from module.map.map import Map
@@ -5,6 +6,7 @@ from module.map.map_grids import SelectedGrids
 from module.os.fleet import OSFleet
 from module.os.globe_camera import GlobeCamera
 from module.ui.assets import OS_CHECK
+from module.exception import RequestHumanTakeover
 
 
 class OSMap(OSFleet, Map, GlobeCamera):
@@ -142,6 +144,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
         """
         Raises:
             CampaignEnd: If auto search ended
+            RequestHumanTakeover: If there's no auto search option.
 
         Pages:
             in: AUTO_SEARCH_OS_MAP_OPTION_OFF
@@ -150,6 +153,8 @@ class OSMap(OSFleet, Map, GlobeCamera):
         """
         logger.hr('OS auto search', level=2)
         self._auto_search_battle_count = 0
+        unlock_checked = True
+        unlock_check_timer = Timer(5, count=10).start()
         self.ash_popup_canceled = False
 
         while 1:
@@ -158,9 +163,15 @@ class OSMap(OSFleet, Map, GlobeCamera):
             else:
                 self.device.screenshot()
 
+            if not unlock_checked and unlock_check_timer.reached():
+                logger.critical('Unable to use auto search in current zone')
+                logger.critical('Please finish the story mode of OpSi to unlock auto search '
+                                'before using any OpSi functions')
+                raise RequestHumanTakeover
             if self.is_in_map():
                 self.device.stuck_record_clear()
             if self.handle_os_auto_search_map_option():
+                unlock_checked = True
                 continue
             if self.handle_retirement():
                 continue
