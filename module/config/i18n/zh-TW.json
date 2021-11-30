@@ -882,28 +882,28 @@
   },
   "ControlExpOverflow": {
     "_info": {
-      "name": "ControlExpOverflow._info.name",
-      "help": "ControlExpOverflow._info.help"
+      "name": "溢出經驗控制",
+      "help": "防止技能快滿級的時候，使用高級技能書溢出大量經驗\n例如設置T3書溢出100點，T4書溢出100點，在剩餘1100點經驗時，將不使用T4書，轉而使用T3書"
     },
     "Enable": {
-      "name": "ControlExpOverflow.Enable.name",
-      "help": "ControlExpOverflow.Enable.help"
+      "name": "啟用溢出經驗控制",
+      "help": ""
     },
     "T4Allow": {
-      "name": "ControlExpOverflow.T4Allow.name",
-      "help": "ControlExpOverflow.T4Allow.help"
+      "name": "允許 T4 技能書溢出 X 點經驗",
+      "help": ""
     },
     "T3Allow": {
-      "name": "ControlExpOverflow.T3Allow.name",
-      "help": "ControlExpOverflow.T3Allow.help"
+      "name": "允許 T3 技能書溢出 X 點經驗",
+      "help": ""
     },
     "T2Allow": {
-      "name": "ControlExpOverflow.T2Allow.name",
-      "help": "ControlExpOverflow.T2Allow.help"
+      "name": "允許 T2 技能書溢出 X 點經驗",
+      "help": ""
     },
     "T1Allow": {
-      "name": "ControlExpOverflow.T1Allow.name",
-      "help": "ControlExpOverflow.T1Allow.help"
+      "name": "允許 T1 技能書溢出 X 點經驗",
+      "help": ""
     }
   },
   "Research": {
