@@ -91,6 +91,9 @@ class CampaignUI(UI, CampaignOcr):
             if mode == 'hard':
                 self.campaign_ensure_mode('hard')
                 self.campaign_ensure_chapter(index=chapter)
+                # info_bar shows: Hard mode for this map is not available yet.
+                # There's also a game bug in EN, HM12 shows not available but it's actually available.
+                self.handle_info_bar()
 
         elif chapter in ['a', 'b', 'c', 'd', 'ex_sp', 'as', 'bs', 'cs', 'ds', 't']:
             self.ui_goto_event()
