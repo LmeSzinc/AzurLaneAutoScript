@@ -28,6 +28,15 @@ class Function:
 
     __repr__ = __str__
 
+    def __eq__(self, other):
+        if not isinstance(other, Function):
+            return False
+
+        if self.command == other.command and self.next_run == other.next_run:
+            return True
+        else:
+            return False
+
 
 def name_to_function(name):
     """
@@ -337,14 +346,15 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
         Raises:
             bool: If task switched
         """
-        prev = self.task.command
+        prev = self.task
         self.load()
-        new = self.get_next().command
-        if prev != new:
+        new = self.get_next()
+        if prev == new:
+            logger.info(f'Continue task `{new}`')
+            return False
+        else:
             logger.info(f'Switch task `{prev}` to `{new}`')
             return True
-        else:
-            return False
 
     def check_task_switch(self, message=''):
         """
