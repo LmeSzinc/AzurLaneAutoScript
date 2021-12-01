@@ -126,13 +126,15 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         need_repair = [TEMPLATE_EMPTY_HP.match(self.image_area(button)) for button in ship_icon.buttons]
         logger.attr('Repair icon', need_repair)
 
-        for index, repair in enumerate(need_repair):
-            if repair:
-                self._hp_has_ship[self.fleet_current_index][index] = True
-                self._hp[self.fleet_current_index][index] = 0
+        if any(need_repair):
+            for index, repair in enumerate(need_repair):
+                if repair:
+                    self._hp_has_ship[self.fleet_current_index][index] = True
+                    self._hp[self.fleet_current_index][index] = 0
 
-        logger.attr('HP', ' '.join(
-            [str(int(data * 100)).rjust(3) + '%' if use else '____' for data, use in zip(self.hp, self.hp_has_ship)]))
+            logger.attr('HP', ' '.join(
+                [str(int(data * 100)).rjust(3) + '%' if use else '____'
+                 for data, use in zip(self.hp, self.hp_has_ship)]))
 
         return self.hp
 
