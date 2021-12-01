@@ -13,6 +13,10 @@ from module.logger import logger
 
 
 class AlOcr(CnOcr):
+    # 'cpu' or 'gpu'
+    # To use predict in gpu, the gpu version of mxnet must be installed.
+    CNOCR_CONTEXT = 'cpu'
+
     def __init__(
             self,
             model_name='densenet-lite-gru',
@@ -65,7 +69,7 @@ class AlOcr(CnOcr):
         # 传入''的话，也改成传入None
         self._net_prefix = None if name == '' else name
 
-        self._mod = self._get_module(context)
+        self._mod = self._get_module(AlOcr.CNOCR_CONTEXT)
 
     def ocr(self, img_fp):
         if not self._model_loaded:

@@ -24,6 +24,9 @@ def merge_get_items(item_list_1, item_list_2):
 
 
 class GetItemsStatistics:
+    def appear_on(self, image):
+        return GET_ITEMS_1.match(image, offset=(20, 20)) or GET_ITEMS_2.match(image, offset=(20, 20))
+
     @staticmethod
     def _stats_get_items_is_odd(image):
         """
@@ -41,6 +44,9 @@ class GetItemsStatistics:
         Args:
             image: Pillow image, 1280x720.
         """
+        ITEM_GROUP.item_class = Item
+        ITEM_GROUP.similarity = 0.92
+        ITEM_GROUP.amount_area = (60, 71, 91, 92)
         ITEM_GROUP.grids = None
         if INFO_BAR_1.appear_on(image):
             raise ImageError('Stat image has info_bar')

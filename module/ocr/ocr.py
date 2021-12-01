@@ -44,6 +44,8 @@ OCR_MODEL = {
 
 
 class Ocr:
+    SHOW_LOG = True
+
     def __init__(self, buttons, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet=None, name=None):
         """
         Args:
@@ -108,8 +110,9 @@ class Ocr:
 
         if len(self.buttons) == 1:
             result_list = result_list[0]
-        logger.attr(name='%s %ss' % (self.name, float2str(time.time() - start_time)),
-                    text=str(result_list))
+        if Ocr.SHOW_LOG:
+            logger.attr(name='%s %ss' % (self.name, float2str(time.time() - start_time)),
+                        text=str(result_list))
 
         return result_list
 
