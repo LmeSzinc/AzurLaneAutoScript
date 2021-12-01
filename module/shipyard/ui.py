@@ -64,15 +64,27 @@ class ShipyardUI(UI):
             else:
                 self.device.screenshot()
 
+            # Game UI is messy here. Situation varies with DEV/FATE and MAX button.
+            # Having a MAX button is like:
+            # | - |   0   | + | | MAX |
+            # Not having a MAX button is like:
+            # | - |       0       | + |
+            # Here make a dynamic detection, and produce new ocr area.
             ocr = globals()[f'OCR_SHIPYARD_TOTAL_{append}']
+            area = ocr.buttons[0]
+            minus = globals()[f'SHIPYARD_MINUS_{append}']
+            plus = globals()[f'SHIPYARD_PLUS_{append}']
+            self.appear(minus, offset=(20, 20))
+            self.appear(plus, offset=(150, 20))
+            ocr.buttons = [(minus.button[2] + 3, area[1], plus.button[0] - 3, area[3])]
+
             current = ocr.ocr(self.device.image)
             if current == count:
                 logger.info(f'Capable of consuming all {count} BPs')
                 return 0
 
             diff = count - current
-            button = globals()[f'SHIPYARD_PLUS_{append}'] if diff > 0 \
-                else globals()[f'SHIPYARD_MINUS_{append}']
+            button = plus if diff > 0 else minus
             self.device.multi_click(button, n=diff, interval=(0.3, 0.5))
 
         logger.info(f'Current interface does not allow consumption of {count} BPs\n')
