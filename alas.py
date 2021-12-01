@@ -303,6 +303,7 @@ class AzurLaneAutoScript:
                 logger.warning(f'Invalid Optimization_WhenTaskQueueEmpty: {method}, fallback to stay_there')
                 self.wait_until(task.next_run)
 
+        AzurLaneConfig.is_hoarding_task = False
         return task.command
 
     def loop(self):
