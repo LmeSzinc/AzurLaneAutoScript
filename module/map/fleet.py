@@ -329,6 +329,12 @@ class Fleet(Camera, AmbushHandler):
                     walk_timeout.reset()
                     continue
 
+                # Guild popup
+                # Usually handled in combat_status, but sometimes delayed until after battle on slow PCs.
+                if self.handle_guild_popup_cancel():
+                    walk_timeout.reset()
+                    continue
+
                 if self.handle_walk_out_of_step():
                     raise MapWalkError('walk_out_of_step')
 
