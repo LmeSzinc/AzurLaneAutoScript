@@ -230,6 +230,9 @@ class OSAsh(UI):
                 continue
             if self._handle_ash_beacon_reward():
                 continue
+            if self.handle_story_skip():
+                # Random map events, may slow to show.
+                continue
 
             # End:
             if self.appear(ASH_START, offset=(30, 30)):
