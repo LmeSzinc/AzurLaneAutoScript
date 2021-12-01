@@ -307,6 +307,12 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                 self._trigger_emotion = False
                 self.campaign.config.LV32_TRIGGERED = False
                 self.campaign.config.GEMS_EMOTION_TRIGGRED = False
+
+                # Scheduler
+                if self.config.task_switched():
+                    self.campaign.ensure_auto_search_exit()
+                    self.config.task_stop()
+
                 continue
             else:
                 break
