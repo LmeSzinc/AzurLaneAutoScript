@@ -71,11 +71,11 @@ class ShipyardUI(UI):
             # | - |       0       | + |
             # Here make a dynamic detection, and produce new ocr area.
             ocr = globals()[f'OCR_SHIPYARD_TOTAL_{append}']
-            area = ocr.buttons[0]
             minus = globals()[f'SHIPYARD_MINUS_{append}']
             plus = globals()[f'SHIPYARD_PLUS_{append}']
-            self.appear(minus, offset=(20, 20))
-            self.appear(plus, offset=(150, 20))
+            self.wait_until_appear(minus, offset=(20, 20), skip_first_screenshot=True)
+            self.wait_until_appear(plus, offset=(150, 20), skip_first_screenshot=True)
+            area = ocr.buttons[0]
             ocr.buttons = [(minus.button[2] + 3, area[1], plus.button[0] - 3, area[3])]
 
             current = ocr.ocr(self.device.image)
