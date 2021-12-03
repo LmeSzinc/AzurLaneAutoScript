@@ -815,6 +815,10 @@ class AlasGUI(Frame):
         self.main_area.show()
         self.set_aside()
         self.collapse_menu()
+        self.alas_name = ''
+        if hasattr(self, 'alas'):
+            del self.alas
+        self.set_status(0)
 
         def set_language(l):
             lang.set_language(l)
@@ -836,12 +840,15 @@ class AlasGUI(Frame):
 
         # temporary buttons, there is no setting page now :(
         self.content.append(
-            put_text("Select your language").style("text-align: center"),
+            put_text("Select your language / 选择语言").style("text-align: center"),
             put_buttons(
-                ["zh-CN", "zh-TW", "en-US", "ja-JP"],
-                onclick=lambda l: set_language(l)
+                [{"label": "简体中文", "value": "zh-CN"},
+                {"label": "繁體中文", "value": "zh-TW"},
+                {"label": "English", "value": "en-US"},
+                {"label": "日本語", "value": "ja-JP"}],
+                onclick=lambda l: set_language(l),
             ).style("text-align: center"),
-            put_text("Change theme (Not supported now)").style("text-align: center"),
+            put_text("Change theme / 更改主题").style("text-align: center"),
             put_buttons(
                 [{"label": "Light", "value": "default", "color": "light"},
                  {"label": "Dark", "value": "dark", "color": "dark"}],
@@ -854,20 +861,19 @@ class AlasGUI(Frame):
             put_markdown("""
             Alas is a free open source software, if you paid for Alas from any channel, please refund.
             Alas 是一款免费开源软件，如果你在任何渠道付费购买了Alas，请退款。
-            Project repository 项目地址：https://github.com/LmeSzinc/AzurLaneAutoScript
-            """, strip_indent=12)).style('text-align: center')))
-        self.content.append(output(output(
-            put_markdown("""
-            ## AzurLaneAutoScript
-            This new UI is still under development.
-            if you encounter any error or find a bug, [create new issue](https://github.com/LmeSzinc/AzurLaneAutoScript/issues/new/choose) or `@18870#0856` in discord with error logs.
-            You may found logs in python console or browser console (`Ctrl`+`Shift`+`I` - `Console`)
-            ![](https://i.loli.net/2021/10/03/5pNYoS8EFcvrhIs.png)
-            ![](https://i.loli.net/2021/10/03/5xCaATjl6oK7S1f.png)
+            Project repository 项目地址：`https://github.com/LmeSzinc/AzurLaneAutoScript`
+            """)).style('text-align: center')))
+        # self.content.append(output(output(
+        #     put_markdown("""
+        #     ## AzurLaneAutoScript
+        #     if you encounter any error or find a bug, [create new issue](https://github.com/LmeSzinc/AzurLaneAutoScript/issues/new/choose) or `@18870#0856` in discord with error logs.
+        #     You may found logs in python console or browser console (`Ctrl`+`Shift`+`I` - `Console`)
+        #     ![](https://i.loli.net/2021/10/03/5pNYoS8EFcvrhIs.png)
+        #     ![](https://i.loli.net/2021/10/03/5xCaATjl6oK7S1f.png)
 
-            ## Join in translation
-            Go `Develop` - `Translate`
-            """, strip_indent=12)).style('welcome')))
+        #     ## Join in translation
+        #     Go `Develop` - `Translate`
+        #     """)).style('welcome')))
 
         if lang.TRANSLATE_MODE:
             lang.reload()
@@ -947,8 +953,6 @@ def debug():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Alas web service')
-    parser.add_argument("-d", "--debug", action="store_true",
-                        help="show log")
     parser.add_argument('-p', '--port', type=int, default=22267,
                         help='Port to listen. Default to 22267')
     parser.add_argument('-b', '--backend', type=str, default='starlette',
@@ -977,7 +981,7 @@ if __name__ == "__main__":
         from pywebio.platform.tornado import start_server
 
     try:
-        start_server([index, translate], port=args.port, debug=args.debug)
+        start_server([index, translate], port=args.port, debug=True)
     finally:
         for alas in AlasManager.all_alas.values():
             alas.stop()

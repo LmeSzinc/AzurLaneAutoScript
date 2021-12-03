@@ -51,7 +51,7 @@ pyparsing==2.4.7          # via matplotlib, packaging
 python-dateutil==2.8.2    # via matplotlib
 python-dotenv==0.19.0     # via uvicorn
 pywavelets==1.1.1         # via scikit-image
-pywebio==1.4.0            # via -r requirements-in.txt
+pywebio==1.5.0            # via -r requirements-in.txt
 pywin32==301              # via portalocker
 pyyaml==5.4.1             # via -r requirements-in.txt, uvicorn
 requests==2.18.4          # via adbutils, gluoncv, mxnet, uiautomator2

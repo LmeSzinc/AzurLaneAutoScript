@@ -42,7 +42,7 @@ class Frame(Base):
         self.asides = put_column([
             self.aside,
             None,
-            self.aside_setting,
+            # self.aside_setting,
         ], size="auto 1fr auto").style("container-aside")
 
         if self.is_mobile:
