@@ -126,6 +126,10 @@
       "name": "Task.SupplyPack.name",
       "help": "Task.SupplyPack.help"
     },
+    "BattlePass": {
+      "name": "Task.BattlePass.name",
+      "help": "Task.BattlePass.help"
+    },
     "Daily": {
       "name": "Task.Daily.name",
       "help": "Task.Daily.help"
@@ -1264,6 +1268,16 @@
     "WeeklyFreeSupplyPack": {
       "name": "SupplyPack.WeeklyFreeSupplyPack.name",
       "help": "SupplyPack.WeeklyFreeSupplyPack.help"
+    }
+  },
+  "BattlePass": {
+    "_info": {
+      "name": "BattlePass._info.name",
+      "help": "BattlePass._info.help"
+    },
+    "BattlePassReward": {
+      "name": "BattlePass.BattlePassReward.name",
+      "help": "BattlePass.BattlePassReward.help"
     }
   },
   "Daily": {

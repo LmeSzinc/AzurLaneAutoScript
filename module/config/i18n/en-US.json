@@ -126,6 +126,10 @@
       "name": "Supply Pack",
       "help": ""
     },
+    "BattlePass": {
+      "name": "Battle Pass",
+      "help": ""
+    },
     "Daily": {
       "name": "Daily",
       "help": ""
@@ -1263,6 +1267,16 @@
     },
     "WeeklyFreeSupplyPack": {
       "name": "Buy Weekly Free Supply Pack",
+      "help": ""
+    }
+  },
+  "BattlePass": {
+    "_info": {
+      "name": "Battle Pass Settings",
+      "help": ""
+    },
+    "BattlePassReward": {
+      "name": "Receive Cruise Missions Rewards",
       "help": ""
     }
   },

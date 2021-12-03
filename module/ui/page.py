@@ -112,6 +112,11 @@ page_tactical.link(button=GOTO_MAIN, destination=page_main)
 page_tactical.link(button=BACK_ARROW, destination=page_reward)
 page_reward.link(button=REWARD_GOTO_TACTICAL, destination=page_tactical)
 
+# Battle pass
+page_battle_pass = Page(BATTLE_PASS_CHECK)
+page_battle_pass.link(button=GOTO_MAIN, destination=page_main)
+page_reward.link(button=REWARD_GOTO_BATTLE_PASS, destination=page_battle_pass)
+
 # Event list
 page_event_list = Page(EVENT_LIST_CHECK)
 page_event_list.link(button=GOTO_MAIN, destination=page_main)

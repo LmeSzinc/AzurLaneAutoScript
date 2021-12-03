@@ -126,6 +126,10 @@
       "name": "优惠礼包",
       "help": ""
     },
+    "BattlePass": {
+      "name": "大月卡",
+      "help": ""
+    },
     "Daily": {
       "name": "每日任务",
       "help": ""
@@ -1263,6 +1267,16 @@
     },
     "WeeklyFreeSupplyPack": {
       "name": "购买每周免费礼包",
+      "help": ""
+    }
+  },
+  "BattlePass": {
+    "_info": {
+      "name": "大月卡",
+      "help": ""
+    },
+    "BattlePassReward": {
+      "name": "领取大月卡奖励",
       "help": ""
     }
   },

@@ -337,6 +337,14 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             self.interval_reset(BATTLE_STATUS_A)
             self.interval_reset(BATTLE_STATUS_B)
             return True
+        if self.appear(GET_ITEMS_3, offset=5, interval=self.battle_status_click_interval):
+            if drop:
+                drop.handle_add(self)
+            self.device.click(GET_ITEMS_1)
+            self.interval_reset(BATTLE_STATUS_S)
+            self.interval_reset(BATTLE_STATUS_A)
+            self.interval_reset(BATTLE_STATUS_B)
+            return True
 
         return False
 

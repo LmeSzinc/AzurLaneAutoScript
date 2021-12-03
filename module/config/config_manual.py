@@ -8,7 +8,7 @@ class ManualConfig:
     Restart
     > Research > Commission > Tactical > Dorm > Meowfficer > Guild
     > Gacha > SupplyPack
-    > Reward
+    > Reward > BattlePass
     > ShopFrequent > ShopOnce > Shipyard > DataKey
     > OpsiExplore > OpsiObscure
     > Exercise > Daily > Hard > OpsiAshAssist

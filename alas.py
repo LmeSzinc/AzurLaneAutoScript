@@ -170,6 +170,10 @@ class AzurLaneAutoScript:
         from module.supply_pack.supply_pack import SupplyPack
         SupplyPack(config=self.config, device=self.device).run()
 
+    def battle_pass(self):
+        from module.battle_pass.battle_pass import BattlePass
+        BattlePass(config=self.config, device=self.device).run()
+
     def daily(self):
         from module.daily.daily import Daily
         Daily(config=self.config, device=self.device).run()

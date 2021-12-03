@@ -124,6 +124,9 @@ DataKey:
 SupplyPack:
   - Scheduler
   - SupplyPack
+BattlePass:
+  - Scheduler
+  - BattlePass
 
 # ==================== Daily ====================
 
