@@ -16,8 +16,12 @@
       "name": "收获",
       "help": ""
     },
-    "Daily": {
-      "name": "日常",
+    "DailyReward": {
+      "name": "每日收获",
+      "help": ""
+    },
+    "DailyMission": {
+      "name": "每日任务",
       "help": ""
     },
     "Opsi": {
@@ -90,10 +94,6 @@
       "name": "后宅",
       "help": ""
     },
-    "Meowfficer": {
-      "name": "指挥喵",
-      "help": ""
-    },
     "Guild": {
       "name": "大舰队",
       "help": ""
@@ -108,6 +108,10 @@
     },
     "ShopOnce": {
       "name": "其他商店",
+      "help": ""
+    },
+    "Meowfficer": {
+      "name": "指挥喵",
       "help": ""
     },
     "Shipyard": {

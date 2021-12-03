@@ -16,9 +16,13 @@
       "name": "收穫",
       "help": ""
     },
-    "Daily": {
-      "name": "日常",
-      "help": ""
+    "DailyReward": {
+      "name": "Menu.DailyReward.name",
+      "help": "Menu.DailyReward.help"
+    },
+    "DailyMission": {
+      "name": "Menu.DailyMission.name",
+      "help": "Menu.DailyMission.help"
     },
     "Opsi": {
       "name": "大世界",
@@ -90,10 +94,6 @@
       "name": "後宅",
       "help": ""
     },
-    "Meowfficer": {
-      "name": "指揮喵",
-      "help": ""
-    },
     "Guild": {
       "name": "大艦隊",
       "help": ""
@@ -108,6 +108,10 @@
     },
     "ShopOnce": {
       "name": "其餘商店",
+      "help": ""
+    },
+    "Meowfficer": {
+      "name": "指揮喵",
       "help": ""
     },
     "Shipyard": {

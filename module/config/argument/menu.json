@@ -20,18 +20,20 @@
       "Tactical",
       "Research",
       "Dorm",
-      "Meowfficer",
       "Guild",
-      "Reward",
+      "Reward"
+    ],
+    "DailyReward": [
       "ShopFrequent",
       "ShopOnce",
+      "Meowfficer",
       "Shipyard",
       "Gacha",
       "DataKey",
       "SupplyPack",
       "BattlePass"
     ],
-    "Daily": [
+    "DailyMission": [
       "Daily",
       "Hard",
       "Exercise",

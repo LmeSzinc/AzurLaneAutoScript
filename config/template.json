@@ -633,21 +633,6 @@
       "FeedFilter": "20000 > 10000 > 5000 > 3000 > 2000 > 1000"
     }
   },
-  "Meowfficer": {
-    "Scheduler": {
-      "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
-      "Command": "Meowfficer",
-      "SuccessInterval": 30,
-      "FailureInterval": 30,
-      "ServerUpdate": "00:00"
-    },
-    "Meowfficer": {
-      "BuyAmount": 1,
-      "TrainMeowfficer": false,
-      "FortChoreMeowfficer": true
-    }
-  },
   "Guild": {
     "Scheduler": {
       "Enable": false,
@@ -735,6 +720,21 @@
     "MeritShop": {
       "Refresh": false,
       "Filter": "Cube"
+    }
+  },
+  "Meowfficer": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "Meowfficer",
+      "SuccessInterval": 30,
+      "FailureInterval": 30,
+      "ServerUpdate": "00:00"
+    },
+    "Meowfficer": {
+      "BuyAmount": 1,
+      "TrainMeowfficer": false,
+      "FortChoreMeowfficer": true
     }
   },
   "Shipyard": {

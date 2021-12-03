@@ -16,8 +16,12 @@
       "name": "Reward",
       "help": ""
     },
-    "Daily": {
-      "name": "Daily",
+    "DailyReward": {
+      "name": "Daily Reward",
+      "help": ""
+    },
+    "DailyMission": {
+      "name": "Daily Mission",
       "help": ""
     },
     "Opsi": {
@@ -55,19 +59,19 @@
       "help": ""
     },
     "C11AffinityFarming": {
-      "name": "C1-1 Affinity Farming",
+      "name": "1-1 Affinity Farming",
       "help": ""
     },
     "C72MysteryFarming": {
-      "name": "C7-2 Mystery Farming",
+      "name": "7-2 Mystery Farming",
       "help": ""
     },
     "C122MediumLeveling": {
-      "name": "C12-2 Leveling",
+      "name": "12-2 Leveling",
       "help": ""
     },
     "C124LargeLeveling": {
-      "name": "C12-4 Leveling",
+      "name": "12-4 Leveling",
       "help": ""
     },
     "GemsFarming": {
@@ -90,10 +94,6 @@
       "name": "Dorm",
       "help": ""
     },
-    "Meowfficer": {
-      "name": "Meowfficer",
-      "help": ""
-    },
     "Guild": {
       "name": "Guild",
       "help": ""
@@ -103,11 +103,15 @@
       "help": ""
     },
     "ShopFrequent": {
-      "name": "ShopFrequent",
+      "name": "Shop Frequent",
       "help": ""
     },
     "ShopOnce": {
-      "name": "ShopOnce",
+      "name": "Shop Once",
+      "help": ""
+    },
+    "Meowfficer": {
+      "name": "Meowfficer",
       "help": ""
     },
     "Shipyard": {
@@ -119,7 +123,7 @@
       "help": ""
     },
     "DataKey": {
-      "name": "DataKey",
+      "name": "Data Key",
       "help": ""
     },
     "SupplyPack": {
@@ -147,15 +151,15 @@
       "help": ""
     },
     "EventAb": {
-      "name": "EventAB",
+      "name": "Event AB",
       "help": ""
     },
     "EventCd": {
-      "name": "EventCD",
+      "name": "Event CD",
       "help": ""
     },
     "EventSp": {
-      "name": "EventSP",
+      "name": "Event SP",
       "help": ""
     },
     "RaidDaily": {

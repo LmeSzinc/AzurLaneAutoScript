@@ -16,9 +16,13 @@
       "name": "Menu.Reward.name",
       "help": "Menu.Reward.help"
     },
-    "Daily": {
-      "name": "Menu.Daily.name",
-      "help": "Menu.Daily.help"
+    "DailyReward": {
+      "name": "Menu.DailyReward.name",
+      "help": "Menu.DailyReward.help"
+    },
+    "DailyMission": {
+      "name": "Menu.DailyMission.name",
+      "help": "Menu.DailyMission.help"
     },
     "Opsi": {
       "name": "Menu.Opsi.name",
@@ -90,10 +94,6 @@
       "name": "Task.Dorm.name",
       "help": "Task.Dorm.help"
     },
-    "Meowfficer": {
-      "name": "Task.Meowfficer.name",
-      "help": "Task.Meowfficer.help"
-    },
     "Guild": {
       "name": "Task.Guild.name",
       "help": "Task.Guild.help"
@@ -109,6 +109,10 @@
     "ShopOnce": {
       "name": "Task.ShopOnce.name",
       "help": "Task.ShopOnce.help"
+    },
+    "Meowfficer": {
+      "name": "Task.Meowfficer.name",
+      "help": "Task.Meowfficer.help"
     },
     "Shipyard": {
       "name": "Task.Shipyard.name",

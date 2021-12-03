@@ -3007,49 +3007,6 @@
       }
     }
   },
-  "Meowfficer": {
-    "Scheduler": {
-      "Enable": {
-        "type": "checkbox",
-        "value": false
-      },
-      "NextRun": {
-        "type": "input",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      },
-      "Command": {
-        "type": "disable",
-        "value": "Meowfficer"
-      },
-      "SuccessInterval": {
-        "type": "disable",
-        "value": 30
-      },
-      "FailureInterval": {
-        "type": "disable",
-        "value": 30
-      },
-      "ServerUpdate": {
-        "type": "disable",
-        "value": "00:00"
-      }
-    },
-    "Meowfficer": {
-      "BuyAmount": {
-        "type": "input",
-        "value": 1
-      },
-      "TrainMeowfficer": {
-        "type": "checkbox",
-        "value": false
-      },
-      "FortChoreMeowfficer": {
-        "type": "checkbox",
-        "value": true
-      }
-    }
-  },
   "Guild": {
     "Scheduler": {
       "Enable": {
@@ -3392,6 +3349,49 @@
       "Filter": {
         "type": "textarea",
         "value": "Cube"
+      }
+    }
+  },
+  "Meowfficer": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "input",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "disable",
+        "value": "Meowfficer"
+      },
+      "SuccessInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "FailureInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "ServerUpdate": {
+        "type": "disable",
+        "value": "00:00"
+      }
+    },
+    "Meowfficer": {
+      "BuyAmount": {
+        "type": "input",
+        "value": 1
+      },
+      "TrainMeowfficer": {
+        "type": "checkbox",
+        "value": false
+      },
+      "FortChoreMeowfficer": {
+        "type": "checkbox",
+        "value": true
       }
     }
   },

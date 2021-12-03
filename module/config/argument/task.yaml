@@ -94,9 +94,6 @@ Research:
 Dorm:
   - Scheduler
   - Dorm
-Meowfficer:
-  - Scheduler
-  - Meowfficer
 Guild:
   - Scheduler
   - GuildLogistics
@@ -104,6 +101,9 @@ Guild:
 Reward:
   - Scheduler
   - Reward
+
+# ==================== DailyReward ====================
+
 ShopFrequent:
   - Scheduler
   - GeneralShop
@@ -112,6 +112,9 @@ ShopOnce:
   - GuildShop
   - MedalShop
   - MeritShop
+Meowfficer:
+  - Scheduler
+  - Meowfficer
 Shipyard:
   - Scheduler
   - Shipyard
@@ -128,7 +131,7 @@ BattlePass:
   - Scheduler
   - BattlePass
 
-# ==================== Daily ====================
+# ==================== DailyMission ====================
 
 Daily:
   - Scheduler
