@@ -75,6 +75,10 @@ class BattlePass(Combat, UI):
             if self.handle_battle_pass_popup():
                 confirm_timer.reset()
                 continue
+            if self.handle_popup_confirm('BATTLE_PASS'):
+                # Lock new META ships
+                confirm_timer.reset()
+                continue
             if self.handle_get_items():
                 received = True
                 confirm_timer.reset()
