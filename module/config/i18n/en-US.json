@@ -1266,7 +1266,7 @@
   },
   "SupplyPack": {
     "_info": {
-      "name": "Supply Pack",
+      "name": "Supply Pack Settings",
       "help": ""
     },
     "WeeklyFreeSupplyPack": {
