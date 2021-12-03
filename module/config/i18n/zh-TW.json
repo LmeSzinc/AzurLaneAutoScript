@@ -17,12 +17,12 @@
       "help": ""
     },
     "DailyReward": {
-      "name": "Menu.DailyReward.name",
-      "help": "Menu.DailyReward.help"
+      "name": "每日收穫",
+      "help": ""
     },
     "DailyMission": {
-      "name": "Menu.DailyMission.name",
-      "help": "Menu.DailyMission.help"
+      "name": "每日任務",
+      "help": ""
     },
     "Opsi": {
       "name": "大世界",
