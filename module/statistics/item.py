@@ -40,7 +40,7 @@ class Item:
             self.image = image
         else:
             self.image = cv2.resize(image, self.IMAGE_SHAPE, interpolation=cv2.INTER_CUBIC)
-        self.is_valid = np.mean(rgb2gray(self.image) > 127) > 0.1
+        self.is_valid = self.predict_valid()
         self._name = 'DefaultItem'
         self.amount = 1
         self.cost = 'DefaultCost'
@@ -84,6 +84,9 @@ class Item:
             name = f'{name}_{self.tag}'
 
         return name
+
+    def predict_valid(self):
+        return np.mean(rgb2gray(self.image) > 127) > 0.1
 
     @property
     def button(self):
