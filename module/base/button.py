@@ -2,7 +2,7 @@ import os
 import traceback
 
 import imageio
-from PIL import Image
+from PIL import Image, ImageDraw
 
 import module.config.server as server
 from module.base.decorator import cached_property
@@ -276,3 +276,22 @@ class ButtonGrid:
         origin = self.origin + vector
         return ButtonGrid(
             origin=origin, delta=self.delta, button_shape=self.button_shape, grid_shape=self.grid_shape, name=name)
+
+    def gen_mask(self):
+        """
+        Generate a mask image to display this ButtonGrid object for debugging.
+
+        Returns:
+            PIL.Image.Image: Area in white, background in black.
+        """
+        image = Image.new("RGB", (1280, 720), (0, 0, 0))
+        draw = ImageDraw.Draw(image)
+        for button in self.buttons:
+            draw.rectangle((button.area[:2], button.button[2:]), fill=(255, 255, 255), outline=None)
+        return image
+
+    def save_mask(self):
+        """
+        Save mask to {name}.png
+        """
+        self.gen_mask().save(f'{self._name}.png')

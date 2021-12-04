@@ -4,7 +4,7 @@ import time
 from PIL import Image
 
 from module.base.button import ButtonGrid
-from module.base.decorator import Config
+from module.base.decorator import Config, cached_property
 from module.base.filter import Filter
 from module.base.mask import Mask
 from module.base.timer import Timer
@@ -13,19 +13,13 @@ from module.dorm.assets import *
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
 from module.template.assets import TEMPLATE_DORM_COIN, TEMPLATE_DORM_LOVE
-from module.ui.assets import DORM_CHECK, DORM_TROPHY_CONFIRM, DORM_INFO
+from module.ui.assets import DORM_CHECK
 from module.ui.page import page_dorm, page_dormmenu
 from module.ui.ui import UI
 
 MASK_DORM = Mask(file='./assets/mask/MASK_DORM.png')
 DORM_CAMERA_SWIPE = (300, 250)
 DORM_CAMERA_RANDOM = (-20, -20, 20, 20)
-FEED_RECORD = ('RewardRecord', 'dorm_feed')
-COLLECT_RECORD = ('RewardRecord', 'dorm_collect')
-FOOD = ButtonGrid(origin=(298, 375), delta=(156, 0), button_shape=(112, 66), grid_shape=(6, 1), name='FOOD')
-FOOD_AMOUNT = ButtonGrid(
-    origin=(343, 411), delta=(156, 0), button_shape=(70, 33), grid_shape=(6, 1), name='FOOD_AMOUNT')
-OCR_FOOD = Digit(FOOD_AMOUNT.buttons, letter=(255, 255, 255), threshold=128, name='OCR_DORM_FOOD')
 OCR_FILL = DigitCounter(OCR_DORM_FILL, letter=(255, 247, 247), threshold=128, name='OCR_DORM_FILL')
 
 
@@ -121,7 +115,7 @@ class RewardDorm(UI):
 
         self.device.device.touch.up(x, y)
 
-    def _dorm_receive(self):
+    def dorm_receive(self):
         """
         Click all coins and loves on current screen.
         Zoom-out dorm to detect coins and loves, because swipes in dorm may treat as dragging ships.
@@ -170,6 +164,22 @@ class RewardDorm(UI):
             else:
                 break
 
+    @cached_property
+    @Config.when(SERVER='en')
+    def _dorm_food(self):
+        # 14px lower
+        return ButtonGrid(origin=(298, 389), delta=(156, 0), button_shape=(112, 66), grid_shape=(6, 1), name='FOOD')
+
+    @cached_property
+    @Config.when(SERVER=None)
+    def _dorm_food(self):
+        return ButtonGrid(origin=(298, 375), delta=(156, 0), button_shape=(112, 66), grid_shape=(6, 1), name='FOOD')
+
+    @cached_property
+    def _dorm_food_ocr(self):
+        grids = self._dorm_food.crop((45, 36, 113, 67), name='FOOD_AMOUNT')
+        return Digit(grids.buttons, letter=(255, 255, 255), threshold=128, name='OCR_DORM_FOOD')
+
     def _dorm_has_food(self, button):
         return np.min(rgb2gray(np.array(self.image_area(button)))) < 127
 
@@ -199,7 +209,24 @@ class RewardDorm(UI):
             if self.appear(DORM_FEED_CHECK, offset=(20, 20)):
                 break
 
-    def _dorm_feed_once(self):
+    def dorm_food_get(self):
+        """
+        Returns:
+            list[Food]:
+            int: Amount to feed.
+
+        Pages:
+            in: DORM_FEED_CHECK
+        """
+        has_food = [self._dorm_has_food(button) for button in self._dorm_food.buttons]
+        amount = self._dorm_food_ocr.ocr(self.device.image)
+        amount = [a if hf else 0 for a, hf in zip(amount, has_food)]
+        food = [Food(feed=f, amount=a) for f, a in zip(FOOD_FEED_AMOUNT, amount)]
+        _, fill, _ = OCR_FILL.ocr(self.device.image)
+        logger.info(f'Dorm food: {[f.amount for f in food]}, to fill: {fill}')
+        return food, fill
+
+    def dorm_feed_once(self):
         """
         Returns:
             bool: If executed.
@@ -210,16 +237,11 @@ class RewardDorm(UI):
         self.device.screenshot()
         self.handle_info_bar()
 
-        has_food = [self._dorm_has_food(button) for button in FOOD.buttons]
-        amount = OCR_FOOD.ocr(self.device.image)
-        amount = [a if hf else 0 for a, hf in zip(amount, has_food)]
-        food = [Food(feed=f, amount=a) for f, a in zip(FOOD_FEED_AMOUNT, amount)]
-        _, fill, _ = OCR_FILL.ocr(self.device.image)
-        logger.info(f'Dorm food: {[f.amount for f in food]}, to fill: {fill}')
+        food, fill = self.dorm_food_get()
 
         FOOD_FILTER.load(self.config.Dorm_FeedFilter)
         for selected in FOOD_FILTER.apply(food):
-            button = FOOD.buttons[food.index(selected)]
+            button = self._dorm_food.buttons[food.index(selected)]
             if selected.amount > 0 and fill > selected.feed:
                 count = min(fill // selected.feed, selected.amount)
                 self._dorm_feed_click(button=button, count=count)
@@ -227,7 +249,7 @@ class RewardDorm(UI):
 
         return False
 
-    def _dorm_feed(self):
+    def dorm_feed(self):
         """
         Returns:
             int: Executed count.
@@ -238,7 +260,7 @@ class RewardDorm(UI):
         logger.hr('Dorm feed')
 
         for n in range(10):
-            if not self._dorm_feed_once():
+            if not self.dorm_feed_once():
                 logger.info('Dorm feed finished')
                 return n
 
@@ -263,12 +285,12 @@ class RewardDorm(UI):
         self.ui_goto(page_dorm, skip_first_screenshot=True)
 
         if collect:
-            self._dorm_receive()
+            self.dorm_receive()
 
         if feed:
             self.ui_click(click_button=DORM_FEED_ENTER, appear_button=DORM_CHECK, check_button=DORM_FEED_CHECK,
                           additional=self.ui_additional, skip_first_screenshot=True)
-            self._dorm_feed()
+            self.dorm_feed()
             self.ui_click(click_button=DORM_FEED_ENTER, appear_button=DORM_FEED_CHECK, check_button=DORM_CHECK,
                           skip_first_screenshot=True)
 
