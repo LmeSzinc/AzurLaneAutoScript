@@ -26,8 +26,8 @@ class Zone:
     # 1 for upper-left, 2 for upper-right, 3 for bottom-left, 4 for bottom-right, 5 for center
     region: int
 
-    is_port: int
-    is_azur_port: int
+    is_port: bool
+    is_azur_port: bool
 
     def __init__(self, zone_id, data):
         self.zone_id = zone_id

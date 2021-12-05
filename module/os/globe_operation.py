@@ -46,6 +46,17 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
         """
         return button.name.split('_')[1]
 
+    def get_zone_pinned_name(self):
+        """
+        Returns:
+            str: DANGEROUS, SAFE, OBSCURE, LOGGER, STRONGHOLD, or ''.
+        """
+        pinned = self.get_zone_pinned()
+        if pinned is not None:
+            return self.pinned_to_name(pinned)
+        else:
+            return ''
+
     def handle_zone_pinned(self):
         """
         CLose pinned zone info.
@@ -152,7 +163,7 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
                         return sele
             return None
 
-        pinned = self.pinned_to_name(self.get_zone_pinned())
+        pinned = self.get_zone_pinned_name()
         if pinned in types:
             logger.info(f'Already selected at {pinned}')
             return True
@@ -171,7 +182,7 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
 
             self.ui_click(button, check_button=self.is_zone_pinned, offset=self._zone_select_offset,
                           skip_first_screenshot=True)
-            if self.pinned_to_name(button) == self.pinned_to_name(self.get_zone_pinned()):
+            if self.pinned_to_name(button) == self.get_zone_pinned_name():
                 return True
 
         logger.warning('Failed to select zone type after 3 trial')
@@ -189,7 +200,7 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             in: is_zone_pinned
             out: is_zone_pinned
         """
-        if self.pinned_to_name(self.get_zone_pinned()) == 'SAFE':
+        if self.get_zone_pinned_name() == 'SAFE':
             return True
         elif self.zone_has_switch():
             self.ui_click(ZONE_SWITCH, appear_button=self.is_zone_pinned, check_button=self.is_in_zone_select,
@@ -263,7 +274,7 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             else:
                 self.device.screenshot()
             if pinned is None:
-                pinned = self.pinned_to_name(self.get_zone_pinned())
+                pinned = self.get_zone_pinned_name()
 
             # End
             if self.is_in_map():

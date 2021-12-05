@@ -26,9 +26,9 @@ class GlobeCamera(GlobeOperation, ZoneManager):
         self.globe.load(self.device.image)
         self.globe_camera = self.globe.center_loca
         center = self.camera_to_zone(self.globe.center_loca)
-        logger.attr('Globe_center', center)
+        logger.attr('Globe_center', center.zone_id)
 
-    def globe_swipe(self, vector, box=(0, 220, 980, 620)):
+    def globe_swipe(self, vector, box=(20, 220, 980, 620)):
         """
         Args:
             vector (tuple, np.ndarray): float
@@ -97,7 +97,7 @@ class GlobeCamera(GlobeOperation, ZoneManager):
         button = Button(area=area, color=(), button=area, name=f'ZONE_{zone.zone_id}')
         return button
 
-    def globe_in_sight(self, zone, swipe_limit=(620, 340), sight=(0, 220, 980, 620)):
+    def globe_in_sight(self, zone, swipe_limit=(620, 340), sight=(20, 220, 980, 620)):
         """
         Args:
             zone (str, int, Zone): Name in CN/EN/JP/TW, zone id, or Zone instance.
@@ -148,3 +148,94 @@ class GlobeCamera(GlobeOperation, ZoneManager):
                 if pinned_zone == zone:
                     logger.attr('Globe_pinned', pinned_zone)
                     break
+
+    def _globe_predict_stronghold(self, zone):
+        """
+        Predict if this zone has siren stronghold.
+        `self.globe_in_sight(zone)` must be called before calling this method.
+
+        Args:
+            zone (str, int, Zone): Name in CN/EN/JP/TW, zone id, or Zone instance.
+
+        Returns:
+            bool:
+        """
+        zone = self.name_to_zone(zone)
+        # The center of red whirlpool, on 2D map.
+        location = zone.location + (-9.5, -12.5)
+        # Area around the center, on 2D map.
+        location = [location - (4, 4), location + (4, 4)]
+        # Area around the center, on screen.
+        screen = self.globe2screen(location).flatten().round()
+        screen = np.round(screen).astype(int).tolist()
+        # Average color of whirlpool center
+        center = np.array(self.image_area(screen))
+        center = np.array([[cv2.mean(center), ], ]).astype(np.uint8)
+        h, s, v = rgb2hsv(center)[0][0]
+        # hsv usually to be (338, 74.9, 100)
+        if 290 < h <= 360 and s > 45 and v > 45:
+            return True
+        else:
+            return False
+
+    def _find_siren_stronghold(self, zones):
+        """
+        Args:
+            zones (SelectGrids): A group of zones to search from.
+
+        Returns:
+            zone: Zone that has siren stronghold, or None if not found.
+
+        Pages:
+            in: in_globe
+            out: in_globe, is_zone_pinned() if found.
+        """
+        sight = (20, 220, 980, 620)
+        while zones:
+            prev = self.camera_to_zone(self.globe_camera)
+            zone = zones.sort_by_camera_distance(prev.location)[0]
+            logger.info(f'Find siren stronghold around {zone}')
+            self.globe_in_sight(zone, sight=sight)
+
+            to_check = zones.filter(lambda z: point_in_area(self.globe2screen([z.location])[0], area=sight))
+            for zone in to_check:
+                if self._globe_predict_stronghold(zone):
+                    logger.info(f'Zone {zone.zone_id} is a siren stronghold')
+                    self.globe_focus_to(zone)
+                    if self.get_zone_pinned_name() == 'STRONGHOLD':
+                        logger.info('Confirm it is a siren stronghold')
+                        return zone
+                    else:
+                        logger.warning('Not a siren stronghold, continue searching')
+                        self.ensure_no_zone_pinned()
+                else:
+                    logger.info(f'Zone {zone.zone_id} is not a siren stronghold')
+
+            zones = zones.delete(to_check)
+
+        logger.info('Find siren stronghold finished')
+        return None
+
+    def find_siren_stronghold(self):
+        """
+        Returns:
+            zone: Zone that has siren stronghold, or None if not found.
+
+        Pages:
+            in: in_globe
+            out: in_globe, is_zone_pinned() if found.
+        """
+        logger.hr(f'Find siren stronghold', level=1)
+        region = self.camera_to_zone(self.globe_camera).region
+        order = [1, 2, 4, 3] * 2
+        index = order.index(region)
+        order = order[index:index + 4]
+        for region in order:
+            logger.hr(f'Find siren stronghold in region {region}', level=2)
+            zones = self.zones.select(region=region, is_port=False)
+            result = self._find_siren_stronghold(zones)
+            if result is not None:
+                return result
+
+        logger.info('No more siren stronghold')
+        return None
