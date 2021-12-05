@@ -25,30 +25,13 @@ class OperationSiren(Reward, OSMap):
             logger.info('Already in os map')
         elif self.is_in_globe():
             self.os_globe_goto_map()
-            # Zone header has an animation to show.
-            self.device.sleep(0.3)
-            self.device.screenshot()
         else:
             if self.ui_page_appear(page_os):
                 self.ui_goto_main()
             self.ui_ensure(page_os)
-            # Zone header has an animation to show.
-            self.device.sleep(0.3)
-            self.device.screenshot()
 
         # Init
-        _get_current_zone_success = False
-        for _ in range(5):
-            try:
-                self.get_current_zone()
-                _get_current_zone_success = True
-                break
-            except:
-                self.handle_map_event()
-            finally:
-                self.device.screenshot()
-        if not _get_current_zone_success:
-            self.get_current_zone()
+        self.zone_init()
 
         # self.map_init()
         self.hp_reset()
@@ -117,7 +100,7 @@ class OperationSiren(Reward, OSMap):
         # IN_MAP
         if hasattr(self, 'zone'):
             del self.zone
-        self.get_current_zone()
+        self.zone_init()
         # Fleet repairs before starting if needed
         self.handle_fleet_repair(revert=False)
         # self.map_init()
@@ -245,7 +228,7 @@ class OperationSiren(Reward, OSMap):
             if not result:
                 break
 
-            self.get_current_zone()
+            self.zone_init()
             if result > 1:
                 self.globe_goto(self.zone, refresh=True)
             self.run_auto_search()
@@ -369,7 +352,7 @@ class OperationSiren(Reward, OSMap):
             self.config.task_delay(server_update=True)
             self.config.task_stop()
 
-        self.get_current_zone()
+        self.zone_init()
         self.os_order_execute(recon_scan=True, submarine_call=self.config.OpsiObscure_CallSubmarine)
 
         # Delay next run 30min or 60min.

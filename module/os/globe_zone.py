@@ -2,7 +2,6 @@ import numpy as np
 
 from module.base.decorator import cached_property
 from module.exception import ScriptError
-from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.os.globe_detection import GLOBE_MAP_SHAPE
 from module.os.map_data import DIC_OS_MAP
@@ -88,11 +87,16 @@ class ZoneManager:
 
     def name_to_zone(self, name):
         """
+        Convert a name from various format to zone instance.
+
         Args:
             name (str, int, Zone): Name in CN/EN/JP/TW, zone id, or Zone instance.
 
         Returns:
             Zone:
+
+        Raises:
+            ScriptError: If Unable to find such zone.
         """
         if isinstance(name, Zone):
             return name
@@ -115,7 +119,6 @@ class ZoneManager:
                     return zone
                 if name == parse_name(zone.tw):
                     return zone
-            logger.warning(f'Unable to find OS globe zone: {name}')
             raise ScriptError(f'Unable to find OS globe zone: {name}')
 
     def zone_nearest_azur_port(self, zone):
