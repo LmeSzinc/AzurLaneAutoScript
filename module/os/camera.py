@@ -2,6 +2,7 @@ import numpy as np
 
 from module.base.button import Button
 from module.base.decorator import cached_property
+from module.base.timer import Timer
 from module.exception import MapDetectionError
 from module.logger import logger
 from module.map.camera import Camera
@@ -156,3 +157,30 @@ class OSCamera(OSMapOperation, Camera):
             location2node(self.view.center_loca)
         ))
         return local
+
+    def wait_until_camera_stable(self, skip_first_screenshot=True):
+        """
+        Wait until homo_loca stabled.
+        DETECTION_BACKEND must be 'homography'.
+        """
+        logger.info('Wait until camera stable')
+        record = None
+        confirm_timer = Timer(0.3, count=0).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            self.update_os()
+            self.view.predict()
+            current = tuple(self.view.backend.homo_loca.tolist())
+            if record is None or (current is not None and current == record):
+                if confirm_timer.reached():
+                    break
+            else:
+                confirm_timer.reset()
+
+            record = current
+
+        logger.info('Camera stabled')

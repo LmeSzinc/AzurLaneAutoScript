@@ -216,3 +216,19 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 prev = self.radar.port_loca
 
             backup.recover()
+
+    def fleet_set(self, index=1, skip_first_screenshot=True):
+        """
+        Args:
+            index (int): Target fleet_current_index
+            skip_first_screenshot (bool):
+
+        Returns:
+            bool: If switched.
+        """
+        logger.info(f'Fleet set to {index}')
+        if self.fleet_selector.ensure_to_be(index):
+            self.wait_until_camera_stable()
+            return True
+        else:
+            return False
