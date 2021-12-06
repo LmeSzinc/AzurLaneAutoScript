@@ -1,7 +1,7 @@
 import time
 from collections import deque
 
-from retrying import retry
+from retry import retry
 
 from module.base.timer import Timer
 from module.base.utils import *
