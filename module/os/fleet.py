@@ -16,7 +16,9 @@ from module.os_combat.combat import Combat
 
 def limit_walk(location, step=3):
     x, y = location
-    return min(abs(x), step - abs(y)) * x // abs(x), y
+    if abs(x) > 0:
+        x = min(abs(x), step - abs(y)) * x // abs(x)
+    return x, y
 
 
 class OSFleet(OSCamera, Combat, Fleet, OSAsh):

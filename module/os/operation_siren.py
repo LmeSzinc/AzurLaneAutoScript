@@ -296,6 +296,7 @@ class OperationSiren(Reward, OSMap):
         """
         Explore all dangerous zones at the beginning of month.
         """
+
         def end():
             logger.info('OS explore finished')
             logger.info('To run again, set OpsiExplore.Scheduler.Enable=True, OpsiExplore.OpsiExplore.LastZone=0')
@@ -346,7 +347,7 @@ class OperationSiren(Reward, OSMap):
         if self.config.OpsiObscure_ForceRun:
             logger.info('OS obscure finish is under force run')
 
-        result = self.os_get_next_obscure(use_logger=self.config.OpsiObscure_UseLogger)
+        result = self.storage_get_next_item('OBSCURE', use_logger=self.config.OpsiObscure_UseLogger)
         if not result:
             # No obscure coordinates, delay next run to tomorrow.
             self.config.task_delay(server_update=True)
@@ -378,3 +379,35 @@ class OperationSiren(Reward, OSMap):
                 continue
             else:
                 break
+
+    def clear_abyssal(self):
+        """
+        Raises:
+            ActionPointLimit:
+        """
+        logger.hr('OS clear abyssal', level=1)
+        result = self.storage_get_next_item('ABYSSAL', use_logger=self.config.OpsiObscure_UseLogger)
+        if not result:
+            # No obscure coordinates, delay next run to tomorrow.
+            self.config.task_delay(server_update=True)
+            self.config.task_stop()
+
+        self.zone_init()
+        self.run_abyssal()
+
+        self.fleet_repair(revert=False)
+
+    def os_abyssal(self):
+        while 1:
+            self.clear_abyssal()
+            self.config.check_task_switch()
+
+
+if __name__ == '__main__':
+    self = OperationSiren('alas', task='OpsiObscure')
+    from module.os.config import OSConfig
+
+    self.config = self.config.merge(OSConfig())
+    self.device.screenshot()
+    self.os_init()
+    self.clear_abyssal()

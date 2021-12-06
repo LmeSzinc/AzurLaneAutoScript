@@ -129,7 +129,7 @@ class Combat(Combat_, MapEventHandler):
         return self.handle_os_in_map()
 
     def combat_status(self, drop=None, expected_end=None):
-        super().combat_status(drop=None, expected_end=self._os_combat_expected_end)
+        super().combat_status(drop=drop, expected_end=self._os_combat_expected_end)
 
     def combat(self, *args, **kwargs):
         """
@@ -146,7 +146,7 @@ class Combat(Combat_, MapEventHandler):
                 logger.warning('Too many continuous combat')
 
             try:
-                super().combat(*args, **kwargs)
+                super().combat(*args, save_get_items=False, **kwargs)
                 break
             except ContinuousCombat:
                 logger.info('Continuous combat detected')
