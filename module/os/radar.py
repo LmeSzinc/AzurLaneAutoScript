@@ -4,6 +4,7 @@ from module.base.mask import Mask
 from module.base.utils import *
 from module.config.config import AzurLaneConfig
 from module.logger import logger
+from module.map.map_grids import SelectedGrids
 from module.map_detection.utils import fit_points
 
 MASK_RADAR = Mask('./assets/mask/MASK_OS_RADAR.png')
@@ -31,7 +32,7 @@ class RadarGrid:
         'ME': 'is_meowfficer',
         'PO': 'is_port',
         'QU': 'is_question',
-        # 'FL': 'is_fleet',
+        'FL': 'is_fleet',
     }
 
     def __init__(self, location, image, center, config):
@@ -200,6 +201,25 @@ class Radar:
             grid.image = image
             grid.reset()
             grid.predict()
+
+    def select(self, **kwargs):
+        """
+        Args:
+            **kwargs: Attributes of Grid.
+
+        Returns:
+            SelectedGrids:
+        """
+        result = []
+        for grid in self:
+            flag = True
+            for k, v in kwargs.items():
+                if grid.__getattribute__(k) != v:
+                    flag = False
+            if flag:
+                result.append(grid)
+
+        return SelectedGrids(result)
 
     def predict_port_outside(self, image):
         """

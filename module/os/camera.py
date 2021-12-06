@@ -2,7 +2,6 @@ import numpy as np
 
 from module.base.button import Button
 from module.base.decorator import cached_property
-from module.base.timer import Timer
 from module.exception import MapDetectionError
 from module.logger import logger
 from module.map.camera import Camera
@@ -36,12 +35,12 @@ class OSCamera(OSMapOperation, Camera):
         """
         return Radar(self.config)
 
-    def update_radar(self):
+    def predict_radar(self):
         """
         Scan radar and merge it into map
         """
         self.radar.predict(self.device.image)
-        self.map.update(self.radar, camera=self.fleet_current)
+        self.radar.show()
 
     def grid_is_in_sight(self, grid, camera=None, sight=None):
         location = location_ensure(grid)
@@ -154,33 +153,6 @@ class OSCamera(OSMapOperation, Camera):
         logger.info('Radar %s -> Local %s (fleet=%s)' % (
             str(location),
             location2node(local.location),
-            location2node(self.view.center_loca)
+            location2node(center)
         ))
         return local
-
-    def wait_until_camera_stable(self, skip_first_screenshot=True):
-        """
-        Wait until homo_loca stabled.
-        DETECTION_BACKEND must be 'homography'.
-        """
-        logger.info('Wait until camera stable')
-        record = None
-        confirm_timer = Timer(0.3, count=0).start()
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            self.update_os()
-            self.view.predict()
-            current = tuple(self.view.backend.homo_loca.tolist())
-            if record is None or (current is not None and current == record):
-                if confirm_timer.reached():
-                    break
-            else:
-                confirm_timer.reset()
-
-            record = current
-
-        logger.info('Camera stabled')

@@ -12,7 +12,7 @@ def location_ensure(location):
     Returns:
         tuple(int): Location, such as (4, 3)
     """
-    if isinstance(location, GridInfo):
+    if hasattr(location, 'location'):
         return location.location
     elif isinstance(location, str):
         return node2location(location)

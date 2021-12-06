@@ -278,10 +278,7 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
 
             # End
             if self.is_in_map():
-                if confirm_timer.reached():
-                    break
-            else:
-                confirm_timer.reset()
+                break
 
             if self.is_zone_pinned() and click_timer.reached():
                 self.device.click(ZONE_ENTRANCE)

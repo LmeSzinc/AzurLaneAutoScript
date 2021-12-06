@@ -147,6 +147,7 @@ class ManualConfig:
     HOMO_CORNER_THRESHOLD = 0.8
     HOMO_RECTANGLE_THRESHOLD = 10
 
+    HOMO_EDGE_DETECT = True
     HOMO_EDGE_HOUGHLINES_THRESHOLD = 120
     HOMO_EDGE_COLOR_RANGE = (0, 24)
     # ((x, y), [upper-left, upper-right, bottom-left, bottom-right])

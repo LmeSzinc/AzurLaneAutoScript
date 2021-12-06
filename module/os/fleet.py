@@ -5,6 +5,8 @@ from module.exception import MapWalkError
 from module.logger import logger
 from module.map.fleet import Fleet
 from module.map.map_grids import SelectedGrids
+from module.map.utils import location_ensure
+from module.map_detection.utils import *
 from module.os.assets import TEMPLATE_EMPTY_HP
 from module.os.camera import OSCamera
 from module.os.map_base import OSCampaignMap
@@ -12,10 +14,15 @@ from module.os_ash.ash import OSAsh
 from module.os_combat.combat import Combat
 
 
+def limit_walk(location, step=3):
+    x, y = location
+    return min(abs(x), step - abs(y)) * x // abs(x), y
+
+
 class OSFleet(OSCamera, Combat, Fleet, OSAsh):
     def _goto(self, location, expected=''):
         super()._goto(location, expected)
-        self.update_radar()
+        self.predict_radar()
         self.map.show()
 
         if self.handle_ash_beacon_attack():
@@ -165,6 +172,97 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             center = self.camera
         return SelectedGrids(sea).sort_by_camera_distance(center)
 
+    def wait_until_camera_stable(self, skip_first_screenshot=True):
+        """
+        Wait until homo_loca stabled.
+        DETECTION_BACKEND must be 'homography'.
+        """
+        logger.hr('Wait until camera stable')
+        record = None
+        confirm_timer = Timer(0.3, count=0).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            self.update_os()
+            current = self.view.backend.homo_loca
+            logger.attr('homo_loca', current)
+            if record is None or (current is not None and np.linalg.norm(np.subtract(current, record)) < 3):
+                if confirm_timer.reached():
+                    break
+            else:
+                confirm_timer.reset()
+
+            record = current
+
+        logger.info('Camera stabled')
+
+    def wait_until_walk_stable(self, skip_first_screenshot=False):
+        """
+        Wait until homo_loca stabled.
+        DETECTION_BACKEND must be 'homography'.
+
+        Raises:
+            MapWalkError: If unable to goto such grid.
+        """
+        logger.hr('Wait until walk stable')
+        record = None
+        enemy_searching_appear = False
+
+        confirm_timer = Timer(0.8, count=2).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # Map event
+            if self.handle_map_event():
+                confirm_timer.reset()
+                continue
+            if self.handle_walk_out_of_step():
+                raise MapWalkError('walk_out_of_step')
+
+            # Enemy searching
+            if not enemy_searching_appear and self.enemy_searching_appear():
+                enemy_searching_appear = True
+                confirm_timer.reset()
+                continue
+            else:
+                if enemy_searching_appear:
+                    self.handle_enemy_flashing()
+                    self.device.sleep(0.3)
+                    logger.info('Enemy searching appeared.')
+                    enemy_searching_appear = False
+                if self.is_in_map():
+                    self.enemy_searching_color_initial()
+
+            # Combat
+            if self.combat_appear():
+                # Use ui_back() for testing, because there are too few abyssal loggers every month.
+                # self.ui_back(check_button=self.is_in_map)
+                self.combat(expected_end=self.is_in_map, fleet_index=self.fleet_show_index)
+                confirm_timer.reset()
+                continue
+
+            # Arrive
+            if self.is_in_map():
+                self.update_os()
+                current = self.view.backend.homo_loca
+                logger.attr('homo_loca', current)
+                if record is None or (current is not None and np.linalg.norm(np.subtract(current, record)) < 3):
+                    if confirm_timer.reached():
+                        break
+                else:
+                    confirm_timer.reset()
+                record = current
+            else:
+                confirm_timer.reset()
+
+        logger.info('Walk stabled')
+
     def port_goto(self):
         """
         A simple and poor implement to goto port. Searching port on radar.
@@ -179,43 +277,23 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         """
         while 1:
             # Calculate destination
-            port = self.radar.port_predict(self.device.image)
-            logger.info(f'Port route at {port}')
-            if np.linalg.norm(port) == 0:
+            grid = self.radar.port_predict(self.device.image)
+            logger.info(f'Port route at {grid}')
+            if np.linalg.norm(grid) == 0:
                 logger.info('Arrive port')
                 break
 
             # Update local view
             self.update_os()
-            self.view.predict()
-            self.view.show()
+            self.predict()
 
             # Click way point
-            port = point_limit(port, area=(-4, -2, 3, 2))
-            port = self.convert_radar_to_local(port)
-            self.device.click(port)
+            grid = point_limit(grid, area=(-4, -2, 3, 2))
+            grid = self.convert_radar_to_local(grid)
+            self.device.click(grid)
 
             # Wait until arrived
-            prev = (0, 0)
-            confirm_timer = Timer(1, count=2).start()
-            backup = self.config.temporary(MAP_HAS_FLEET_STEP=True)
-            while 1:
-                self.device.screenshot()
-
-                if self.handle_walk_out_of_step():
-                    backup.recover()
-                    raise MapWalkError('walk_out_of_step')
-
-                self.radar.port_predict(self.device.image)
-                if np.linalg.norm(np.subtract(self.radar.port_loca, prev)) < 1:
-                    if confirm_timer.reached():
-                        break
-                else:
-                    confirm_timer.reset()
-
-                prev = self.radar.port_loca
-
-            backup.recover()
+            self.wait_until_walk_stable()
 
     def fleet_set(self, index=1, skip_first_screenshot=True):
         """
@@ -226,9 +304,159 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         Returns:
             bool: If switched.
         """
-        logger.info(f'Fleet set to {index}')
+        logger.hr(f'Fleet set to {index}')
         if self.fleet_selector.ensure_to_be(index):
             self.wait_until_camera_stable()
             return True
         else:
             return False
+
+    def question_goto(self, has_fleet_step=False):
+        logger.hr('Question goto')
+        while 1:
+            # Update local view
+            # Not screenshots taking, reuse the old one
+            self.update_os()
+            self.predict()
+            self.predict_radar()
+
+            # Calculate destination
+            grids = self.radar.select(is_question=True)
+            if grids:
+                # Click way point
+                grid = location_ensure(grids[0])
+                grid = point_limit(grid, area=(-4, -2, 3, 2))
+                if has_fleet_step:
+                    grid = limit_walk(grid)
+                grid = self.convert_radar_to_local(grid)
+                self.device.click(grid)
+            else:
+                logger.info('No question mark to goto, stop')
+                break
+
+            # Wait until arrived
+            # Having new screenshots
+            self.wait_until_walk_stable()
+
+    def boss_goto(self, location=(0, 0), has_fleet_step=False):
+        logger.hr('BOSS goto')
+        while 1:
+            # Update local view
+            # Not screenshots taking, reuse the old one
+            self.update_os()
+            self.predict()
+            self.predict_radar()
+
+            # Calculate destination
+            grids = self.radar.select(is_enemy=True)
+            if grids:
+                # Click way point
+                grid = np.add(location_ensure(grids[0]), location)
+                grid = point_limit(grid, area=(-4, -2, 3, 2))
+                if has_fleet_step:
+                    grid = limit_walk(grid)
+                if grid == (0, 0):
+                    logger.info(f'Arrive destination: boss {location}')
+                    break
+                grid = self.convert_radar_to_local(grid)
+                self.device.click(grid)
+            else:
+                logger.info('No boss to goto, stop')
+                break
+
+            # Wait until arrived
+            # Having new screenshots
+            self.wait_until_walk_stable()
+
+    def boss_leave(self, skip_first_screenshot=True):
+        """
+        Pages:
+            in: is_in_map(), or combat_appear()
+            out: is_in_map(), fleet not in boss.
+        """
+        logger.hr('BOSS leave')
+        # Update local view
+        self.update_os()
+
+        click_timer = Timer(3)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.is_in_map():
+                self.predict_radar()
+                if self.radar.select(is_enemy=True):
+                    logger.info('Fleet left boss')
+                    break
+
+            # Re-enter boss accidently
+            if self.combat_appear():
+                self.ui_back(check_button=self.is_in_map)
+
+            # Click leave button
+            if self.is_in_map() and click_timer.reached():
+                grid = self.view[self.view.center_loca]
+                # The left half grid next to the center grid.
+                area = corner2inner(grid.grid2screen(area2corner((1, 0.25, 1.5, 0.75))))
+                button = Button(area=area, color=(), button=area, name='BOSS_LEAVE')
+                self.device.click(button)
+                click_timer.reset()
+
+    def boss_clear(self, has_fleet_step=True):
+        """
+        All fleets take turns in attacking the boss.
+
+        Args:
+            has_fleet_step (bool):
+
+        Returns:
+            bool: If success to clear.
+
+        Pages:
+            in: Siren logger (abyssal), boss appeared.
+            out: If success, dangerous or safe zone.
+                If failed, still in abyssal.
+        """
+        logger.hr(f'BOSS clear', level=1)
+        fleets = [1, 2, 3, 4]
+        standby_grids = [(-1, -1), (0, -1), (1, -1), (0, 0)]
+        for fleet, standby in zip(fleets, standby_grids):
+            logger.hr(f'Try boss with fleet {fleet}', level=2)
+            self.fleet_set(fleet)
+            self.boss_goto(location=(0, 0), has_fleet_step=has_fleet_step)
+
+            # End
+            self.predict_radar()
+            if self.radar.select(is_question=True):
+                logger.info('BOSS clear')
+                self.map_exit()
+                return True
+
+            # Standby
+            self.boss_leave()
+            if standby == (0, 0):
+                break
+            self.boss_goto(location=standby, has_fleet_step=has_fleet_step)
+
+        logger.critical('Unable to clear boss, fleets exhausted')
+        return False
+
+    def run_abyssal(self):
+        """
+        Handle double confirms and attack abyssal (siren logger) boss.
+
+        Returns:
+            bool: If success to clear.
+
+        Pages:
+            in: Siren logger (abyssal).
+            out: If success, in a dangerous or safe zone.
+                If failed, still in abyssal.
+        """
+        self.handle_map_fleet_lock(enable=False)
+        self.question_goto(has_fleet_step=True)
+        result = self.boss_clear(has_fleet_step=True)
+        return result
