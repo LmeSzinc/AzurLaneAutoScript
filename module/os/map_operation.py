@@ -1,7 +1,7 @@
 from module.base.decorator import Config
 from module.base.timer import Timer
 from module.base.utils import *
-from module.exception import ScriptError
+from module.exception import ScriptError, MapDetectionError
 from module.logger import logger
 from module.ocr.ocr import Ocr
 from module.os.assets import *
@@ -89,16 +89,57 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         """
         Returns:
             Zone:
-        """
-        if not self.is_in_map():
-            logger.warning('Trying to get zone name, but not in OS map')
-            raise ScriptError('Trying to get zone name, but not in OS map')
 
+        Raises:
+            MapDetectionError: If failed to parse zone name.
+        """
         name = self.get_zone_name()
         logger.info(f'Map name processed: {name}')
-        self.zone = self.name_to_zone(name)
+        try:
+            self.zone = self.name_to_zone(name)
+        except ScriptError as e:
+            raise MapDetectionError(*e.args)
         logger.attr('Zone', self.zone)
         return self.zone
+
+    def zone_init(self, skip_first_screenshot=True):
+        """
+        Wrap get_current_zone(), set self.zone to the current zone.
+        This method must be called after entering a new zone.
+        Handle map events and the animation that zone names appear from the top.
+
+        Args:
+            skip_first_screenshot (bool):
+
+        Returns:
+            Zone: Current zone.
+
+        Raises:
+            MapDetectionError: If failed to parse zone name.
+        """
+        timeout = Timer(1.5, count=5).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.handle_map_event():
+                timeout.reset()
+                continue
+            if self.is_in_map():
+                try:
+                    return self.get_current_zone()
+                except MapDetectionError:
+                    continue
+
+            if timeout.reached():
+                logger.warning('Zone init timeout')
+                break
+
+        if not self.is_in_map():
+            logger.warning('Trying to get zone name, but not in OS map')
+        return self.get_current_zone()
 
     def is_in_special_zone(self):
         """
@@ -144,4 +185,4 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
                 changed = True
                 continue
 
-        self.get_current_zone()
+        self.zone_init()

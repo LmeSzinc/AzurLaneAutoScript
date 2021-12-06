@@ -1,7 +1,7 @@
 import time
 from collections import deque
 
-from retrying import retry
+from retry import retry
 
 from module.base.timer import Timer
 from module.base.utils import *
@@ -79,11 +79,11 @@ class Control(MiniTouch):
         else:
             self._click_adb(x, y)
 
-    @retry()
+    @retry(tries=10, delay=3, logger=logger)
     def _click_uiautomator2(self, x, y):
         self.device.click(int(x), int(y))
 
-    @retry()
+    @retry(tries=10, delay=3, logger=logger)
     def _click_adb(self, x, y):
         self.adb_shell(['input', 'tap', str(x), str(y)])
 

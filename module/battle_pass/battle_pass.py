@@ -72,6 +72,9 @@ class BattlePass(Combat, UI):
             if self.appear_then_click(REWARD_RECEIVE, offset=(20, 20), interval=2):
                 confirm_timer.reset()
                 continue
+            if self.appear_then_click(REWARD_RECEIVE_SP, offset=(20, 20), interval=2):
+                confirm_timer.reset()
+                continue
             if self.handle_battle_pass_popup():
                 confirm_timer.reset()
                 continue
