@@ -1,7 +1,6 @@
 import numpy as np
 
-from module.exception import MapWalkError
-from module.exception import ScriptError
+from module.exception import MapWalkError, ScriptError, RequestHumanTakeover
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.os.map import OSMap
@@ -382,8 +381,14 @@ class OperationSiren(Reward, OSMap):
 
     def clear_abyssal(self):
         """
+        Get one abyssal logger in storage,
+        Attack abyssal boss,
+        repair fleets in port.
+
         Raises:
             ActionPointLimit:
+            TaskEnd: If no more abyssal loggers.
+            RequestHumanTakeover: If unable to clear boss, fleets exhausted.
         """
         logger.hr('OS clear abyssal', level=1)
         result = self.storage_get_next_item('ABYSSAL', use_logger=self.config.OpsiObscure_UseLogger)
@@ -393,7 +398,9 @@ class OperationSiren(Reward, OSMap):
             self.config.task_stop()
 
         self.zone_init()
-        self.run_abyssal()
+        result = self.run_abyssal()
+        if not result:
+            raise RequestHumanTakeover
 
         self.fleet_repair(revert=False)
 
