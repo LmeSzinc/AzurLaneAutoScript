@@ -108,7 +108,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
 
         Pages:
             in: STORAGE_CHECK
-            out: is_in_map, in an obscured zone.
+            out: is_in_map, in an obscure zone.
         """
         while 1:
             if skip_first_screenshot:
@@ -143,19 +143,19 @@ class StorageHandler(GlobeOperation, ZoneManager):
 
         Pages:
             in: STORAGE_CHECK
-            out: is_in_map, in an obscured zone if checkout.
-                 is_in_map, in previous zone if no more obscured coordinates.
+            out: is_in_map, in an obscure zone if checkout.
+                 is_in_map, in previous zone if no more obscure coordinates.
         """
-        logger.hr('Storage checkout obscured')
+        logger.hr('Storage checkout obscure')
         if SCROLL_STORAGE.appear(main=self):
             SCROLL_STORAGE.set_top(main=self, skip_first_screenshot=skip_first_screenshot)
 
         image = rgb2gray(np.array(self.device.image))
-        items = TEMPLATE_STORAGE_OBSCURED.match_multi(image, similarity=0.75)
-        logger.attr('Storage_obscured', len(items))
+        items = TEMPLATE_STORAGE_OBSCURE.match_multi(image, similarity=0.75)
+        logger.attr('Storage_obscure', len(items))
 
         if not len(items):
-            logger.info('No more obscured coordinates in storage')
+            logger.info('No more obscure coordinates in storage')
             self.storage_quit()
             return False
 
@@ -172,8 +172,8 @@ class StorageHandler(GlobeOperation, ZoneManager):
 
         Pages:
             in: in_map
-            out: is_in_map, in an obscured zone if checkout.
-                 is_in_map, in previous zone if no more obscured coordinates.
+            out: is_in_map, in an obscure zone if checkout.
+                 is_in_map, in previous zone if no more obscure coordinates.
         """
         logger.hr('OS get next obscure')
         self.storage_enter()

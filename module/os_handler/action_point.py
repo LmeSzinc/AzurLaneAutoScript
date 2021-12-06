@@ -29,17 +29,17 @@ ACTION_POINTS_COST = {
     6: 40,
 }
 ACTION_POINTS_COST_OBSCURE = {
-    1: 10,  # No obscured zones in CL1 actually
+    1: 10,  # No obscure zones in CL1 actually
     2: 10,
     3: 20,
     4: 20,
     5: 40,
     6: 40,
 }
-ACTION_POINTS_COST_LOGGER = {
+ACTION_POINTS_COST_ABYSSAL = {
     1: 80,
     2: 80,
-    3: 80,  # No obscured zones under CL4 actually
+    3: 80,  # No abyssal zones under CL4 actually
     4: 80,
     5: 100,
     6: 100,
@@ -108,7 +108,7 @@ class ActionPointHandler(UI):
         """
         Args:
             zone (Zone): Zone to enter.
-            pinned (str): Zone type. Available types: DANGEROUS, SAFE, OBSCURE, LOGGER, STRONGHOLD.
+            pinned (str): Zone type. Available types: DANGEROUS, SAFE, OBSCURE, ABYSSAL, STRONGHOLD.
 
         Returns:
             int: Action points that will cost.
@@ -119,8 +119,8 @@ class ActionPointHandler(UI):
             cost = ACTION_POINTS_COST[zone.hazard_level]
         elif pinned == 'OBSCURE':
             cost = ACTION_POINTS_COST_OBSCURE[zone.hazard_level]
-        elif pinned == 'LOGGER':
-            cost = ACTION_POINTS_COST_LOGGER[zone.hazard_level]
+        elif pinned == 'ABYSSAL':
+            cost = ACTION_POINTS_COST_ABYSSAL[zone.hazard_level]
         elif pinned == 'STRONGHOLD':
             cost = 200
         else:
@@ -209,7 +209,7 @@ class ActionPointHandler(UI):
         """
         Args:
             zone (Zone): Zone to enter.
-            pinned (str): Zone type. Available types: DANGEROUS, SAFE, OBSCURE, LOGGER, STRONGHOLD.
+            pinned (str): Zone type. Available types: DANGEROUS, SAFE, OBSCURE, ABYSSAL, STRONGHOLD.
 
         Returns:
             bool: If handled.

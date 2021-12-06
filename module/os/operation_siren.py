@@ -53,7 +53,7 @@ class OperationSiren(Reward, OSMap):
         Args:
             zone (str, int, Zone): Name in CN/EN/JP/TW, zone id, or Zone instance.
             types (tuple[str], list[str], str): Zone types, or a list of them.
-                Available types: DANGEROUS, SAFE, OBSCURE, LOGGER, STRONGHOLD.
+                Available types: DANGEROUS, SAFE, OBSCURE, ABYSSAL, STRONGHOLD.
                 Try the the first selection in type list, if not available, try the next one.
             refresh (bool): If already at target zone,
                 set false to skip zone switching,
