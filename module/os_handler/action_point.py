@@ -228,12 +228,15 @@ class ActionPointHandler(UI):
         self.device.screenshot()
         self.action_point_update()
         cost = self.action_point_get_cost(zone, pinned)
+        buy_checked = False
         for _ in range(12):
             # End
             if self._action_point_total < self.config.OS_ACTION_POINT_PRESERVE:
-                if self.config.OpsiGeneral_BuyActionPoint:
+                if self.config.OpsiGeneral_BuyActionPoint and not buy_checked:
                     if self.action_point_buy(preserve=self.config.OpsiGeneral_OilLimit):
                         continue
+                    else:
+                        buy_checked = True
                 logger.info(f'Reach the limit of action points, preserve={self.config.OS_ACTION_POINT_PRESERVE}')
                 self.action_point_quit()
                 raise ActionPointLimit
@@ -243,9 +246,11 @@ class ActionPointHandler(UI):
                 return True
 
             # Get more action points
-            if self.config.OpsiGeneral_BuyActionPoint:
+            if self.config.OpsiGeneral_BuyActionPoint and not buy_checked:
                 if self.action_point_buy(preserve=self.config.OpsiGeneral_OilLimit):
                     continue
+                else:
+                    buy_checked = True
             box = [index for index in [3, 2, 1] if self._action_point_box[index] > 0]
             if len(box):
                 self.action_point_set_button(box[0])
