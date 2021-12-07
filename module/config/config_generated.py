@@ -280,14 +280,23 @@ class GeneratedConfig:
 
     # Group `OpsiGeneral`
     OpsiGeneral_AshAttack = True
+    OpsiGeneral_UseLogger = True
     OpsiGeneral_BuyActionPoint = False
     OpsiGeneral_OilLimit = 1000
     OpsiGeneral_RepairThreshold = 0.4
     OpsiGeneral_BuyAkashiShop = True
     OpsiGeneral_AkashiShopFilter = 'ActionPoint > PurpleCoins'
 
+    # Group `OpsiFleetFilter`
+    OpsiFleetFilter_Filter = 'Fleet-4 > Fleet-2-Submarine > Fleet-3 > Fleet-1'
+
+    # Group `OpsiFleet`
+    OpsiFleet_Fleet = 1  # 1, 2, 3, 4
+    OpsiFleet_Submarine = False
+
     # Group `OpsiExplore`
     OpsiExplore_SpecialRadar = False
+    OpsiExplore_ForceRun = False
     OpsiExplore_LastZone = 0
 
     # Group `OpsiDaily`
@@ -295,14 +304,19 @@ class GeneratedConfig:
     OpsiDaily_DoMission = True
 
     # Group `OpsiObscure`
-    OpsiObscure_UseLogger = True
-    OpsiObscure_CallSubmarine = True
     OpsiObscure_ForceRun = False
+
+    # Group `OpsiAbyssal`
+    OpsiAbyssal_ForceRun = False
+
+    # Group `OpsiStronghold`
+    OpsiStronghold_ForceRun = False
 
     # Group `OpsiMeowfficerFarming`
     OpsiMeowfficerFarming_ActionPointPreserve = 500
     OpsiMeowfficerFarming_HazardLevel = 5  # 1, 2, 3, 4, 5, 6
     OpsiMeowfficerFarming_TargetZone = 0
+    OpsiMeowfficerFarming_EnsureAshCollect = True
 
     # Group `Daemon`
     Daemon_EnterMap = True

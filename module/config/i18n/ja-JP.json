@@ -190,6 +190,14 @@
       "name": "Task.OpsiObscure.name",
       "help": "Task.OpsiObscure.help"
     },
+    "OpsiAbyssal": {
+      "name": "Task.OpsiAbyssal.name",
+      "help": "Task.OpsiAbyssal.help"
+    },
+    "OpsiStronghold": {
+      "name": "Task.OpsiStronghold.name",
+      "help": "Task.OpsiStronghold.help"
+    },
     "OpsiMeowfficerFarming": {
       "name": "Task.OpsiMeowfficerFarming.name",
       "help": "Task.OpsiMeowfficerFarming.help"
@@ -1503,6 +1511,10 @@
       "name": "OpsiGeneral.AshAttack.name",
       "help": "OpsiGeneral.AshAttack.help"
     },
+    "UseLogger": {
+      "name": "OpsiGeneral.UseLogger.name",
+      "help": "OpsiGeneral.UseLogger.help"
+    },
     "BuyActionPoint": {
       "name": "OpsiGeneral.BuyActionPoint.name",
       "help": "OpsiGeneral.BuyActionPoint.help"
@@ -1524,6 +1536,34 @@
       "help": "OpsiGeneral.AkashiShopFilter.help"
     }
   },
+  "OpsiFleetFilter": {
+    "_info": {
+      "name": "OpsiFleetFilter._info.name",
+      "help": "OpsiFleetFilter._info.help"
+    },
+    "Filter": {
+      "name": "OpsiFleetFilter.Filter.name",
+      "help": "OpsiFleetFilter.Filter.help"
+    }
+  },
+  "OpsiFleet": {
+    "_info": {
+      "name": "OpsiFleet._info.name",
+      "help": "OpsiFleet._info.help"
+    },
+    "Fleet": {
+      "name": "OpsiFleet.Fleet.name",
+      "help": "OpsiFleet.Fleet.help",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4"
+    },
+    "Submarine": {
+      "name": "OpsiFleet.Submarine.name",
+      "help": "OpsiFleet.Submarine.help"
+    }
+  },
   "OpsiExplore": {
     "_info": {
       "name": "OpsiExplore._info.name",
@@ -1532,6 +1572,10 @@
     "SpecialRadar": {
       "name": "OpsiExplore.SpecialRadar.name",
       "help": "OpsiExplore.SpecialRadar.help"
+    },
+    "ForceRun": {
+      "name": "OpsiExplore.ForceRun.name",
+      "help": "OpsiExplore.ForceRun.help"
     },
     "LastZone": {
       "name": "OpsiExplore.LastZone.name",
@@ -1557,17 +1601,29 @@
       "name": "OpsiObscure._info.name",
       "help": "OpsiObscure._info.help"
     },
-    "UseLogger": {
-      "name": "OpsiObscure.UseLogger.name",
-      "help": "OpsiObscure.UseLogger.help"
-    },
-    "CallSubmarine": {
-      "name": "OpsiObscure.CallSubmarine.name",
-      "help": "OpsiObscure.CallSubmarine.help"
-    },
     "ForceRun": {
       "name": "OpsiObscure.ForceRun.name",
       "help": "OpsiObscure.ForceRun.help"
+    }
+  },
+  "OpsiAbyssal": {
+    "_info": {
+      "name": "OpsiAbyssal._info.name",
+      "help": "OpsiAbyssal._info.help"
+    },
+    "ForceRun": {
+      "name": "OpsiAbyssal.ForceRun.name",
+      "help": "OpsiAbyssal.ForceRun.help"
+    }
+  },
+  "OpsiStronghold": {
+    "_info": {
+      "name": "OpsiStronghold._info.name",
+      "help": "OpsiStronghold._info.help"
+    },
+    "ForceRun": {
+      "name": "OpsiStronghold.ForceRun.name",
+      "help": "OpsiStronghold.ForceRun.help"
     }
   },
   "OpsiMeowfficerFarming": {
@@ -1592,6 +1648,10 @@
     "TargetZone": {
       "name": "OpsiMeowfficerFarming.TargetZone.name",
       "help": "OpsiMeowfficerFarming.TargetZone.help"
+    },
+    "EnsureAshCollect": {
+      "name": "OpsiMeowfficerFarming.EnsureAshCollect.name",
+      "help": "OpsiMeowfficerFarming.EnsureAshCollect.help"
     }
   },
   "Daemon": {

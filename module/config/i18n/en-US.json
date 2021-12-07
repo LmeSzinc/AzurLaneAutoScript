@@ -187,11 +187,19 @@
       "help": ""
     },
     "OpsiObscure": {
-      "name": "OpSi Obscure",
+      "name": "Obscure Zones",
+      "help": ""
+    },
+    "OpsiAbyssal": {
+      "name": "Abyssal Zones",
+      "help": ""
+    },
+    "OpsiStronghold": {
+      "name": "Siren Strongholds",
       "help": ""
     },
     "OpsiMeowfficerFarming": {
-      "name": "OpSi Meowfficer Farming",
+      "name": "Meowfficer Farming",
       "help": ""
     },
     "Daemon": {
@@ -1503,6 +1511,10 @@
       "name": "Enable Ash Attack",
       "help": "When data beacon is full; call for assistance then attack until ash has been completed"
     },
+    "UseLogger": {
+      "name": "Use Logger(s)",
+      "help": "Use all coordinate loggers when entering the storage"
+    },
     "BuyActionPoint": {
       "name": "Buy AP",
       "help": "Restore AP through oil first then AP boxes"
@@ -1524,6 +1536,34 @@
       "help": "Generally does not need to be modified or re-arranged but can do so if desired\nBuy AP boxes and Purple Coins"
     }
   },
+  "OpsiFleetFilter": {
+    "_info": {
+      "name": "Fleet Settings",
+      "help": ""
+    },
+    "Filter": {
+      "name": "Fleet Filter",
+      "help": "All fleets take turns to attack the boss. If one fleet is dead, change to another. Use \"Submarine\" suffix to call submarines before the attack, but run interval will be increased to 60 minutes."
+    }
+  },
+  "OpsiFleet": {
+    "_info": {
+      "name": "Fleet Settings",
+      "help": ""
+    },
+    "Fleet": {
+      "name": "Fleet",
+      "help": "",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4"
+    },
+    "Submarine": {
+      "name": "Call Submarine",
+      "help": "If enabled, interval increases from 30 to 60 minutes instead"
+    }
+  },
   "OpsiExplore": {
     "_info": {
       "name": "OpSi Explore Settings",
@@ -1532,6 +1572,10 @@
     "SpecialRadar": {
       "name": "SpecialRadar Bought",
       "help": "Enable if you have purchased the special radar\nAllows Alas to explore OpSi continously without having to wait 30 minutes between each zone clear\nFor those with oil surplus and would like to complete this task efficiently"
+    },
+    "ForceRun": {
+      "name": "Force Run",
+      "help": "Ignore interval, clear all obscure zones, and use AP to submit scan orders (and submarine if enabled)\nGenerally not needed to force run, just run in intervals unless in a rush"
     },
     "LastZone": {
       "name": "Last Zone Completed",
@@ -1557,13 +1601,25 @@
       "name": "OpSi Obscure Settings",
       "help": "Clear obscure zones every 30 minutes\nThe following must be satisfied:\n- OpSi story must be complete\n- Zones must be unlocked either by OpSi explore or consuming 5000 oil for special radar in OpSi shop"
     },
-    "UseLogger": {
-      "name": "Use Logger(s)",
-      "help": ""
+    "ForceRun": {
+      "name": "Force Run",
+      "help": "Ignore interval, clear all obscure zones, and use AP to submit scan orders (and submarine if enabled)\nGenerally not needed to force run, just run in intervals unless in a rush"
+    }
+  },
+  "OpsiAbyssal": {
+    "_info": {
+      "name": "Abyssal Zones",
+      "help": "Clear abyssal zones.\nThe following must be satisfied:\n- OpSi story must be complete\n- Zones must be unlocked either by OpSi explore or consuming 5000 oil for special radar in OpSi shop"
     },
-    "CallSubmarine": {
-      "name": "Call Submarine",
-      "help": "If enabled, interval increases from 30 to 60 minutes instead"
+    "ForceRun": {
+      "name": "Force Run",
+      "help": "Ignore interval, clear all obscure zones, and use AP to submit scan orders (and submarine if enabled)\nGenerally not needed to force run, just run in intervals unless in a rush"
+    }
+  },
+  "OpsiStronghold": {
+    "_info": {
+      "name": "Siren Strongholds",
+      "help": "Clear the weekly siren strongholds.\nThe following must be satisfied:\n- OpSi story must be complete\n- Zones must be unlocked either by OpSi explore or consuming 5000 oil for special radar in OpSi shop"
     },
     "ForceRun": {
       "name": "Force Run",
@@ -1592,6 +1648,10 @@
     "TargetZone": {
       "name": "Target Zone ID",
       "help": "Supports either Zone ID or Name\nIf specified, Alas will loop on this same zone after each clear\nUse default value 0 or clear the field to remove the specification\nZone information can be acquired from <./module/os/map_data.py>"
+    },
+    "EnsureAshCollect": {
+      "name": "Ensure Ash Beacon Fully Collected",
+      "help": "Ignore AP limit setting temporarily before ash beacon fully collected. \"OpSi General Settings\" - \"Enable Ash Attack\" must be enabled"
     }
   },
   "Daemon": {

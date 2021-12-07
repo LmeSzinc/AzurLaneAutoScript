@@ -202,15 +202,27 @@ OpsiAshAssist:
 OpsiExplore:
   - Scheduler
   - OpsiExplore
+  - OpsiFleet
 OpsiDaily:
   - Scheduler
   - OpsiDaily
+  - OpsiFleet
 OpsiObscure:
   - Scheduler
   - OpsiObscure
+  - OpsiFleet
+OpsiAbyssal:
+  - Scheduler
+  - OpsiAbyssal
+  - OpsiFleetFilter
+OpsiStronghold:
+  - Scheduler
+  - OpsiStronghold
+  - OpsiFleetFilter
 OpsiMeowfficerFarming:
   - Scheduler
   - OpsiMeowfficerFarming
+  - OpsiFleet
 
 # ==================== Tool ====================
 

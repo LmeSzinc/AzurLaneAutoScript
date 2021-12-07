@@ -260,10 +260,11 @@ class OperationSiren(Reward, OSMap):
         """
         logger.hr(f'OS meowfficer farming, hazard_level={self.config.OpsiMeowfficerFarming_HazardLevel}', level=1)
         while 1:
-            if self.config.OpsiGeneral_AshAttack and not self._ash_fully_collected:
+            self.config.OS_ACTION_POINT_PRESERVE = self.config.OpsiMeowfficerFarming_ActionPointPreserve
+            if self.config.OpsiGeneral_AshAttack \
+                    and not self._ash_fully_collected \
+                    and self.config.OpsiMeowfficerFarming_EnsureAshCollect:
                 self.config.OS_ACTION_POINT_PRESERVE = 0
-            else:
-                self.config.OS_ACTION_POINT_PRESERVE = self.config.OpsiMeowfficerFarming_ActionPointPreserve
 
             # (1252, 1012) is the coordinate of zone 134 (the center zone) in os_globe_map.png
             if self.config.OpsiMeowfficerFarming_TargetZone != 0:
@@ -346,17 +347,18 @@ class OperationSiren(Reward, OSMap):
         if self.config.OpsiObscure_ForceRun:
             logger.info('OS obscure finish is under force run')
 
-        result = self.storage_get_next_item('OBSCURE', use_logger=self.config.OpsiObscure_UseLogger)
+        result = self.storage_get_next_item('OBSCURE', use_logger=self.config.OpsiGeneral_UseLogger)
         if not result:
             # No obscure coordinates, delay next run to tomorrow.
             self.config.task_delay(server_update=True)
             self.config.task_stop()
 
         self.zone_init()
-        self.os_order_execute(recon_scan=True, submarine_call=self.config.OpsiObscure_CallSubmarine)
+        self.fleet_set(self.config.OpsiFleet_Fleet)
+        self.os_order_execute(recon_scan=True, submarine_call=self.config.OpsiFleet_Submarine)
 
         # Delay next run 30min or 60min.
-        if self.config.OpsiObscure_CallSubmarine:
+        if self.config.OpsiFleet_Submarine:
             delta = 60
             backup_submarine = self.config.temporary(Submarine_Fleet=1, Submarine_Mode='every_combat')
         else:
@@ -391,7 +393,7 @@ class OperationSiren(Reward, OSMap):
             RequestHumanTakeover: If unable to clear boss, fleets exhausted.
         """
         logger.hr('OS clear abyssal', level=1)
-        result = self.storage_get_next_item('ABYSSAL', use_logger=self.config.OpsiObscure_UseLogger)
+        result = self.storage_get_next_item('ABYSSAL', use_logger=self.config.OpsiGeneral_UseLogger)
         if not result:
             # No obscure coordinates, delay next run to tomorrow.
             self.config.task_delay(server_update=True)
