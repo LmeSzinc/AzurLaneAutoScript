@@ -114,6 +114,8 @@ class MapOrderHandler(MapOperation, ActionPointHandler, EnemySearchingHandler, Z
         if submarine_call:
             self.order_execute(ORDER_SUBMARINE)
 
+        self.config.opsi_task_delay(recon_scan=recon_scan, submarine_call=submarine_call)
+
         # backup.recover()
 
     def handle_map_cat_attack(self):

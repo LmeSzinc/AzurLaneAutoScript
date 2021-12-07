@@ -10,7 +10,7 @@ class ManualConfig:
     > Gacha > SupplyPack
     > Reward > BattlePass
     > ShopFrequent > ShopOnce > Shipyard > DataKey
-    > OpsiExplore > OpsiObscure
+    > OpsiExplore > OpsiAbyssal > OpsiStronghold > OpsiObscure
     > Exercise > Daily > Hard > OpsiAshAssist
     > Sos > EventSp > EventAb > EventCd > RaidDaily > WarArchives
     > OpsiDaily > OpsiMeowfficerFarming
