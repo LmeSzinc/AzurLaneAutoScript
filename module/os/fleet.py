@@ -218,7 +218,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
         logger.info('Camera stabled')
 
-    def wait_until_walk_stable(self, confirm_timer=Timer(0.8, count=2), skip_first_screenshot=False):
+    def wait_until_walk_stable(self, confirm_timer=None, skip_first_screenshot=False):
         """
         Wait until homo_loca stabled.
         DETECTION_BACKEND must be 'homography'.
@@ -230,8 +230,10 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         record = None
         enemy_searching_appear = False
         self.device.screenshot_interval_set(0.35)
+        if confirm_timer is None:
+            confirm_timer = Timer(0.8, count=2)
 
-        confirm_timer.start()
+        confirm_timer.reset()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
