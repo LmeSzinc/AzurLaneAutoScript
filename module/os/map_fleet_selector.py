@@ -1,9 +1,11 @@
+from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import *
+from module.exception import ScriptError
 from module.logger import logger
 from module.os.assets import *
 from module.ui.ui import UI
-from module.base.decorator import cached_property
+
 
 class FleetSelector:
     """
@@ -25,14 +27,14 @@ class FleetSelector:
     def get(self):
         """
         Returns:
-            int: Index of current fleet, 1 to 4.
+            int: Index of current fleet, 1 to 4. return 0 if unrecognised.
         """
         for index, button in enumerate([FLEET_1, FLEET_2, FLEET_3, FLEET_4]):
             if self.main.appear(button, offset=(20, 20)):
                 return index + 1
 
-        logger.warning('Unknown current fleet, assuming it is fleet 1')
-        return 1
+        logger.info('Unknown OpSi fleet')
+        return 0
 
     def bar_opened(self):
         # Check the 3-13 column
@@ -171,14 +173,22 @@ class FleetSelector:
         Returns:
             bool: If fleet switched.
         """
-        if self.get() == index:
-            logger.info(f'It is fleet {index} already')
-            return False
-        else:
-            logger.info(f'Ensure fleet to be {index}')
-            self.open()
-            self.click(index)
-            return True
+        for _ in range(10):
+            current = self.get()
+            if current == index:
+                logger.info(f'It is fleet {index} already')
+                return False
+            elif current > 0:
+                logger.info(f'Ensure fleet to be {index}')
+                self.open()
+                self.click(index)
+                return True
+            else:
+                self.main.device.screenshot()
+                continue
+
+        logger.warning('Unknown OpSi fleet')
+        raise ScriptError('Unknown OpSi fleet')
 
 
 class OSFleetSelector(UI):
