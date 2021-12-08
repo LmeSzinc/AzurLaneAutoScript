@@ -760,7 +760,7 @@
       "help": "在道中阻塞已經清理完成後，根據權重選擇敵人\n依照地圖文件 OR 大型敵人優先 OR 小型敵人優先",
       "default_mode": "依照地圖文件",
       "S3_enemy_first": "大型敵人優先",
-      "S1_enemy_first": "小型敌人优先"
+      "S1_enemy_first": "小型敵人優先"
     }
   },
   "Raid": {
