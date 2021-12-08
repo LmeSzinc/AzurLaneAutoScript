@@ -118,6 +118,9 @@
       "RepairUseSingleThreshold": 0.3,
       "RepairUseMultiThreshold": 0.6,
       "LowHpRetreatThreshold": 0.3
+    },
+    "SpotEnemyLogic": {
+      "EnemyScaleBalanceWeight": "default_mode"
     }
   },
   "Event": {
@@ -187,6 +190,9 @@
       "RepairUseSingleThreshold": 0.3,
       "RepairUseMultiThreshold": 0.6,
       "LowHpRetreatThreshold": 0.3
+    },
+    "SpotEnemyLogic": {
+      "EnemyScaleBalanceWeight": "default_mode"
     }
   },
   "Raid": {
@@ -233,6 +239,9 @@
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
+    },
+    "SpotEnemyLogic": {
+      "EnemyScaleBalanceWeight": "default_mode"
     }
   },
   "C11AffinityFarming": {
@@ -565,6 +574,9 @@
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
+    },
+    "SpotEnemyLogic": {
+      "EnemyScaleBalanceWeight": "default_mode"
     }
   },
   "Commission": {

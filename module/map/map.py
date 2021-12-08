@@ -17,6 +17,7 @@ class Map(Fleet):
             grid (GridInfo):
             expected (str):
         """
+        logger.info('targetEnemyScale:%s' % (self.config.SpotEnemyLogic_EnemyScaleBalanceWeight))
         logger.info('Clear enemy: %s' % grid)
         expected = f'combat_{expected}' if expected else 'combat'
         self.show_fleet()
@@ -188,7 +189,14 @@ class Map(Fleet):
             bool: True if clear an enemy.
         """
         grids = self.map.select(is_enemy=True, is_boss=False)
-        grids = self.select_grids(grids, **kwargs)
+
+        target = self.config.SpotEnemyLogic_EnemyScaleBalanceWeight
+        if target == 'S3_enemy_first':
+            grids = self.select_grids(grids, strongest=True, **kwargs)
+        elif target == 'S1_enemy_first':
+            grids = self.select_grids(grids, weakest=True, **kwargs)
+        else:
+            grids = self.select_grids(grids, **kwargs)
 
         if grids:
             logger.hr('Clear enemy')
@@ -211,7 +219,14 @@ class Map(Fleet):
         for road in roads:
             grids = grids.add(road.roadblocks())
 
-        grids = self.select_grids(grids, **kwargs)
+        target = self.config.SpotEnemyLogic_EnemyScaleBalanceWeight
+        if target == 'S3_enemy_first':
+            grids = self.select_grids(grids, strongest=True, **kwargs)
+        elif target == 'S1_enemy_first':
+            grids = self.select_grids(grids, weakest=True, **kwargs)
+        else:
+            grids = self.select_grids(grids, **kwargs)
+
 
         if grids:
             logger.hr('Clear roadblock')
@@ -234,7 +249,13 @@ class Map(Fleet):
         for road in roads:
             grids = grids.add(road.potential_roadblocks())
 
-        grids = self.select_grids(grids, **kwargs)
+        target = self.config.SpotEnemyLogic_EnemyScaleBalanceWeight
+        if target == 'S3_enemy_first':
+            grids = self.select_grids(grids, strongest=True, **kwargs)
+        elif target == 'S1_enemy_first':
+            grids = self.select_grids(grids, weakest=True, **kwargs)
+        else:
+            grids = self.select_grids(grids, **kwargs)
 
         if grids:
             logger.hr('Avoid potential roadblock')
@@ -589,8 +610,11 @@ class Map(Fleet):
         logger.warning('fleet_2_protect no siren approaching')
         return False
 
-    def clear_filter_enemy(self, string, preserve=0):
+    def clear_filter_enemy(self, string, preserve=0, **kwargs):
         """
+        if SpotEnemyLogic_EnemyScaleBalanceWeight != default_mode  
+        Filter mode will not work
+
         Args:
             string (str): Filter to select enemies, from easy to hard
             preserve (int): Preserve several easiest enemies for battle without ammo.
@@ -603,6 +627,21 @@ class Map(Fleet):
         grids = self.map.select(is_enemy=True, is_accessible=True)
         if not grids:
             return False
+
+        if self.config.SpotEnemyLogic_EnemyScaleBalanceWeight != 'default_mode':
+            target = self.config.SpotEnemyLogic_EnemyScaleBalanceWeight
+            if target == 'S3_enemy_first':
+                grids = self.select_grids(grids, strongest=True, **kwargs)
+            elif target == 'S1_enemy_first':
+                grids = self.select_grids(grids, weakest=True, **kwargs)
+            else:
+                grids = self.select_grids(grids, **kwargs)
+
+            if grids:
+                logger.hr('Clear enemy')
+                self.show_select_grids(grids, **kwargs)
+                self.clear_chosen_enemy(grids[0])
+            return True
 
         grids = ENEMY_FILTER.apply(grids.sort('weight', 'cost').grids)
         logger.info(f'Filter enemy: {grids}, preserve={preserve}')

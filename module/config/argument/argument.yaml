@@ -158,6 +158,10 @@ HpControl:
   RepairUseSingleThreshold: 0.3
   RepairUseMultiThreshold: 0.6
   LowHpRetreatThreshold: 0.3
+SpotEnemyLogic:
+  EnemyScaleBalanceWeight: 
+    value: default_mode
+    option: [default_mode, S3_enemy_first, S1_enemy_first]
 Raid:
   Mode:
     value: hard

@@ -114,6 +114,9 @@ class GeneratedConfig:
     HpControl_RepairUseMultiThreshold = 0.6
     HpControl_LowHpRetreatThreshold = 0.3
 
+    #Group `SpotEnemyLogic`
+    SpotEnemyLogic_EnemyScaleBalanceWeight =  'default_mode' # default_mode, S3_enemy_first, S1_enemy_first
+
     # Group `Raid`
     Raid_Mode = 'hard'  # easy, normal, hard
     Raid_UseTicket = False

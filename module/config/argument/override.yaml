@@ -34,6 +34,7 @@ Raid:
     StageIncrease: false
     GetNewShip: false
     ReachLevel: 0
+
 C11AffinityFarming:
   Campaign:
     Name: campaign_1_1_affinity_farming

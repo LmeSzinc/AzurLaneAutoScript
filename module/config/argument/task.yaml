@@ -24,6 +24,7 @@ Main:
   - Submarine
   - Emotion
   - HpControl
+  - SpotEnemyLogic
 Event:
   - Scheduler
   - Campaign
@@ -32,12 +33,14 @@ Event:
   - Submarine
   - Emotion
   - HpControl
+  - SpotEnemyLogic
 Raid:
   - Scheduler
   - Raid
   - Campaign
   - StopCondition
   - Emotion
+  - SpotEnemyLogic
 C11AffinityFarming:
   - Scheduler
   - C11AffinityFarming
@@ -78,6 +81,7 @@ GemsFarming:
   - StopCondition
   - Fleet
   - Emotion
+  - SpotEnemyLogic
 
 # ==================== Reward ====================
 

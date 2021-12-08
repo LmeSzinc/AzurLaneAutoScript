@@ -750,6 +750,19 @@
       "help": "Retreat if the sum HP volume back or front row is below this threshold"
     }
   },
+  "SpotEnemyLogic": {
+    "_info": {
+      "name": "Spot Enemy Logic ",
+      "help": "Customize the priority of the enemy you want to fight"
+    },
+    "EnemyScaleBalanceWeight": {
+      "name": "Weight of enemy genre",
+      "help": "After the blocking in the channel has been cleared, select the enemy according to the weight",
+      "default_mode": "According to map file",
+      "S3_enemy_first": "Large enemies first",
+      "S1_enemy_first": "Small enemies first"
+    }
+  },
   "Raid": {
     "_info": {
       "name": "Raid Settings",
