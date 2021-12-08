@@ -24,6 +24,7 @@ Main:
   - Submarine
   - Emotion
   - HpControl
+  - EnemyPriority
 Event:
   - Scheduler
   - Campaign
@@ -32,12 +33,14 @@ Event:
   - Submarine
   - Emotion
   - HpControl
+  - EnemyPriority
 Raid:
   - Scheduler
   - Raid
   - Campaign
   - StopCondition
   - Emotion
+  - EnemyPriority
 C11AffinityFarming:
   - Scheduler
   - C11AffinityFarming
@@ -78,6 +81,7 @@ GemsFarming:
   - StopCondition
   - Fleet
   - Emotion
+  - EnemyPriority
 
 # ==================== Reward ====================
 
