@@ -748,6 +748,13 @@
     "LowHpRetreatThreshold": {
       "name": "任意舰船血量低于 X 后，撤退",
       "help": ""
+    },
+    "EnemyScaleBalanceWeight": {
+      "name": "目标敌人权重",
+      "help": "在道中阻塞已经清理完成后，根据权重选择敌人\n不开启 OR 经验值优先(大型) OR 效率优先(小型)",
+      "default_mode": "不开启",
+      "S3_enemy_first": "经验值优先(大型)",
+      "S1_enemy_first": "效率优先(小型)"
     }
   },
   "Raid": {

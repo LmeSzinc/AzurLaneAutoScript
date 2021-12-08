@@ -117,8 +117,10 @@
       "HpBalanceWeight": "1000, 1000, 1000",
       "RepairUseSingleThreshold": 0.3,
       "RepairUseMultiThreshold": 0.6,
-      "LowHpRetreatThreshold": 0.3
+      "LowHpRetreatThreshold": 0.3,
+      "EnemyScaleBalanceWeight":"default_mode"
     }
+
   },
   "Event": {
     "Scheduler": {
@@ -186,7 +188,8 @@
       "HpBalanceWeight": "1000, 1000, 1000",
       "RepairUseSingleThreshold": 0.3,
       "RepairUseMultiThreshold": 0.6,
-      "LowHpRetreatThreshold": 0.3
+      "LowHpRetreatThreshold": 0.3,
+      "EnemyScaleBalanceWeight":"default_mode"
     }
   },
   "Raid": {
@@ -356,7 +359,8 @@
       "HpBalanceWeight": "1000, 1000, 1000",
       "RepairUseSingleThreshold": 0.3,
       "RepairUseMultiThreshold": 0.6,
-      "LowHpRetreatThreshold": 0.3
+      "LowHpRetreatThreshold": 0.3,
+      "EnemyScaleBalanceWeight":"default_mode"
     }
   },
   "C122MediumLeveling": {
@@ -428,7 +432,8 @@
       "HpBalanceWeight": "1000, 1000, 1000",
       "RepairUseSingleThreshold": 0.3,
       "RepairUseMultiThreshold": 0.6,
-      "LowHpRetreatThreshold": 0.3
+      "LowHpRetreatThreshold": 0.3,
+      "EnemyScaleBalanceWeight":"default_mode"
     }
   },
   "C124LargeLeveling": {
@@ -502,7 +507,8 @@
       "HpBalanceWeight": "1000, 1000, 1000",
       "RepairUseSingleThreshold": 0.3,
       "RepairUseMultiThreshold": 0.6,
-      "LowHpRetreatThreshold": 0.3
+      "LowHpRetreatThreshold": 0.3,
+      "EnemyScaleBalanceWeight":"default_mode"
     }
   },
   "GemsFarming": {
@@ -927,7 +933,8 @@
       "HpBalanceWeight": "1000, 1000, 1000",
       "RepairUseSingleThreshold": 0.3,
       "RepairUseMultiThreshold": 0.6,
-      "LowHpRetreatThreshold": 0.3
+      "LowHpRetreatThreshold": 0.3,
+      "EnemyScaleBalanceWeight":"default_mode"
     }
   },
   "EventAb": {
@@ -1000,7 +1007,8 @@
       "HpBalanceWeight": "1000, 1000, 1000",
       "RepairUseSingleThreshold": 0.3,
       "RepairUseMultiThreshold": 0.6,
-      "LowHpRetreatThreshold": 0.3
+      "LowHpRetreatThreshold": 0.3,
+      "EnemyScaleBalanceWeight":"default_mode"
     }
   },
   "EventCd": {
@@ -1073,7 +1081,8 @@
       "HpBalanceWeight": "1000, 1000, 1000",
       "RepairUseSingleThreshold": 0.3,
       "RepairUseMultiThreshold": 0.6,
-      "LowHpRetreatThreshold": 0.3
+      "LowHpRetreatThreshold": 0.3,
+      "EnemyScaleBalanceWeight":"default_mode"
     }
   },
   "EventSp": {
@@ -1142,7 +1151,8 @@
       "HpBalanceWeight": "1000, 1000, 1000",
       "RepairUseSingleThreshold": 0.3,
       "RepairUseMultiThreshold": 0.6,
-      "LowHpRetreatThreshold": 0.3
+      "LowHpRetreatThreshold": 0.3,
+      "EnemyScaleBalanceWeight":"default_mode"
     }
   },
   "RaidDaily": {
@@ -1256,7 +1266,8 @@
       "HpBalanceWeight": "1000, 1000, 1000",
       "RepairUseSingleThreshold": 0.3,
       "RepairUseMultiThreshold": 0.6,
-      "LowHpRetreatThreshold": 0.3
+      "LowHpRetreatThreshold": 0.3,
+      "EnemyScaleBalanceWeight":"default_mode"
     }
   },
   "OpsiGeneral": {

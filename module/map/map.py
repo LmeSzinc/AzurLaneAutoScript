@@ -9,6 +9,11 @@ from module.map_detection.grid_info import GridInfo
 
 ENEMY_FILTER = Filter(regex=re.compile('^(.*?)$'), attr=('str',))
 
+DIC_ENEMYSCALEBALANCEWEIGHT = {
+    "default_mode": 0,
+    "S3_enemy_first": 1,
+    "S1_enemy_first": 2
+}
 
 class Map(Fleet):
     def clear_chosen_enemy(self, grid, expected=''):
@@ -188,7 +193,15 @@ class Map(Fleet):
             bool: True if clear an enemy.
         """
         grids = self.map.select(is_enemy=True, is_boss=False)
-        grids = self.select_grids(grids, **kwargs)
+
+        targetEnemyScale = DIC_ENEMYSCALEBALANCEWEIGHT[self.config.HpControl_EnemyScaleBalanceWeight]
+        logger.info("targetEnemyScale:%s" % (self.config.HpControl_EnemyScaleBalanceWeight))
+        if targetEnemyScale == 1:
+            grids = self.select_grids(grids, strongest=True, **kwargs)
+        elif targetEnemyScale == 2:
+            grids = self.select_grids(grids, weakest=True, **kwargs)
+        else:
+            grids = self.select_grids(grids, **kwargs)
 
         if grids:
             logger.hr('Clear enemy')
@@ -207,11 +220,20 @@ class Map(Fleet):
         Returns:
             bool: True if clear an enemy.
         """
+        
         grids = SelectedGrids([])
         for road in roads:
             grids = grids.add(road.roadblocks())
 
-        grids = self.select_grids(grids, **kwargs)
+        targetEnemyScale = DIC_ENEMYSCALEBALANCEWEIGHT[self.config.HpControl_EnemyScaleBalanceWeight]
+        logger.info("targetEnemyScale:%s" % (self.config.HpControl_EnemyScaleBalanceWeight))
+        if targetEnemyScale == 1:
+            grids = self.select_grids(grids, strongest=True, **kwargs)
+        elif targetEnemyScale == 2:
+            grids = self.select_grids(grids, weakest=True, **kwargs)
+        else:
+            grids = self.select_grids(grids, **kwargs)
+
 
         if grids:
             logger.hr('Clear roadblock')
@@ -234,7 +256,14 @@ class Map(Fleet):
         for road in roads:
             grids = grids.add(road.potential_roadblocks())
 
-        grids = self.select_grids(grids, **kwargs)
+        targetEnemyScale = DIC_ENEMYSCALEBALANCEWEIGHT[self.config.HpControl_EnemyScaleBalanceWeight]
+        logger.info("targetEnemyScale:%s" % (self.config.HpControl_EnemyScaleBalanceWeight))
+        if targetEnemyScale == 1:
+            grids = self.select_grids(grids, strongest=True, **kwargs)
+        elif targetEnemyScale == 2:
+            grids = self.select_grids(grids, weakest=True, **kwargs)
+        else:
+            grids = self.select_grids(grids, **kwargs)
 
         if grids:
             logger.hr('Avoid potential roadblock')
