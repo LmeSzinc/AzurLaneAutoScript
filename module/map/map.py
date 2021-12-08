@@ -623,25 +623,15 @@ class Map(Fleet):
         Returns:
             bool: If clear an enemy.
         """
+        if len(string) == 0 and self.config.EnemyPriority_EnemyScaleBalanceWeight == 'S3_enemy_first':
+            string = '3L > 3M > 3E > 3C > 2L > 2M > 2E > 2C > 1L > 1M > 1E > 1C'
+        elif len(string) == 0 and self.config.EnemyPriority_EnemyScaleBalanceWeight == 'S1_enemy_first':
+            string = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
+
         ENEMY_FILTER.load(string)
         grids = self.map.select(is_enemy=True, is_accessible=True)
         if not grids:
             return False
-
-        if self.config.EnemyPriority_EnemyScaleBalanceWeight != 'default_mode':
-            target = self.config.EnemyPriority_EnemyScaleBalanceWeight
-            if target == 'S3_enemy_first':
-                grids = self.select_grids(grids, strongest=True, **kwargs)
-            elif target == 'S1_enemy_first':
-                grids = self.select_grids(grids, weakest=True, **kwargs)
-            else:
-                grids = self.select_grids(grids, **kwargs)
-
-            if grids:
-                logger.hr('Clear enemy')
-                self.show_select_grids(grids, **kwargs)
-                self.clear_chosen_enemy(grids[0])
-            return True
 
         grids = ENEMY_FILTER.apply(grids.sort('weight', 'cost').grids)
         logger.info(f'Filter enemy: {grids}, preserve={preserve}')
