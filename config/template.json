@@ -1350,7 +1350,7 @@
       "ForceRun": false
     },
     "OpsiFleetFilter": {
-      "Filter": "Fleet-4 > Fleet-2-Submarine > Fleet-3 > Fleet-1"
+      "Filter": "Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1"
     }
   },
   "OpsiStronghold": {
@@ -1366,7 +1366,7 @@
       "ForceRun": false
     },
     "OpsiFleetFilter": {
-      "Filter": "Fleet-4 > Fleet-2-Submarine > Fleet-3 > Fleet-1"
+      "Filter": "Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1"
     }
   },
   "OpsiMeowfficerFarming": {

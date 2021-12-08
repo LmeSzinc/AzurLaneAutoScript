@@ -1543,7 +1543,7 @@
     },
     "Filter": {
       "name": "Fleet Filter",
-      "help": "All fleets take turns to attack the boss. If one fleet is dead, change to another. Use \"Submarine\" suffix to call submarines before the attack, but run interval will be increased to 60 minutes."
+      "help": "All fleets take turns to attack the boss. If one fleet is dead, change to another. Use \"CallSubmarine\" to call submarines before the attack, but run interval will be increased to 60 minutes."
     }
   },
   "OpsiFleet": {

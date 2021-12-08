@@ -423,7 +423,7 @@ OpsiGeneral:
     ActionPoint > PurpleCoins
 OpsiFleetFilter:
   Filter: |-
-    Fleet-4 > Fleet-2-Submarine > Fleet-3 > Fleet-1
+    Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1
 OpsiFleet:
   Fleet:
     value: 1

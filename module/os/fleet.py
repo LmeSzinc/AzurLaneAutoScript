@@ -1,4 +1,7 @@
+import re
+
 from module.base.button import *
+from module.base.filter import Filter
 from module.base.timer import Timer
 from module.base.utils import *
 from module.exception import MapWalkError
@@ -13,12 +16,26 @@ from module.os.map_base import OSCampaignMap
 from module.os_ash.ash import OSAsh
 from module.os_combat.combat import Combat
 
+FLEET_FILTER = Filter(regex=re.compile('fleet-?(\d)'), attr=('fleet',), preset=('callsubmarine',))
+
 
 def limit_walk(location, step=3):
     x, y = location
     if abs(x) > 0:
         x = min(abs(x), step - abs(y)) * x // abs(x)
     return x, y
+
+
+class BossFleet:
+    def __init__(self, fleet_index):
+        self.fleet_index = fleet_index
+        self.fleet = str(fleet_index)
+        self.standby_loca = (0, 0)
+
+    def __str__(self):
+        return f'Fleet-{self.fleet}'
+
+    __repr__ = __str__
 
 
 class OSFleet(OSCamera, Combat, Fleet, OSAsh):
@@ -201,7 +218,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
         logger.info('Camera stabled')
 
-    def wait_until_walk_stable(self, skip_first_screenshot=False):
+    def wait_until_walk_stable(self, confirm_timer=Timer(0.8, count=2), skip_first_screenshot=False):
         """
         Wait until homo_loca stabled.
         DETECTION_BACKEND must be 'homography'.
@@ -212,8 +229,9 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         logger.hr('Wait until walk stable')
         record = None
         enemy_searching_appear = False
+        self.device.screenshot_interval_set(0.35)
 
-        confirm_timer = Timer(0.8, count=2).start()
+        confirm_timer.start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -222,6 +240,9 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
             # Map event
             if self.handle_map_event():
+                confirm_timer.reset()
+                continue
+            if self.handle_retirement():
                 confirm_timer.reset()
                 continue
             if self.handle_walk_out_of_step():
@@ -264,6 +285,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 confirm_timer.reset()
 
         logger.info('Walk stabled')
+        self.device.screenshot_interval_set(0.1)
 
     def port_goto(self):
         """
@@ -313,6 +335,24 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         else:
             return False
 
+    def parse_fleet_filter(self):
+        """
+        Returns:
+            list: List of BossFleet or str. Such as [Fleet-4, 'CallSubmarine', Fleet-2, Fleet-3, Fleet-1].
+        """
+        FLEET_FILTER.load(self.config.OpsiFleetFilter_Filter)
+        fleets = FLEET_FILTER.apply([BossFleet(f) for f in [1, 2, 3, 4]])
+
+        # Set standby location
+        standby_list = [(-1, -1), (0, -1), (1, -1)]
+        index = 0
+        for fleet in fleets:
+            if isinstance(fleet, BossFleet) and index < len(standby_list):
+                fleet.standby_loca = standby_list[index]
+                index += 1
+
+        return fleets
+
     def question_goto(self, has_fleet_step=False):
         logger.hr('Question goto')
         while 1:
@@ -338,7 +378,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
             # Wait until arrived
             # Having new screenshots
-            self.wait_until_walk_stable()
+            self.wait_until_walk_stable(confirm_timer=Timer(1.5, count=4))
 
     def boss_goto(self, location=(0, 0), has_fleet_step=False):
         logger.hr('BOSS goto')
@@ -423,11 +463,16 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 If failed, still in abyssal.
         """
         logger.hr(f'BOSS clear', level=1)
-        fleets = [1, 2, 3, 4]
-        standby_grids = [(-1, -1), (0, -1), (1, -1), (0, 0)]
-        for fleet, standby in zip(fleets, standby_grids):
-            logger.hr(f'Try boss with fleet {fleet}', level=2)
-            self.fleet_set(fleet)
+        fleets = self.parse_fleet_filter()
+        for fleet in fleets:
+            logger.hr(f'Turn: {fleet}', level=2)
+            if not isinstance(fleet, BossFleet):
+                self.os_order_execute(recon_scan=False, submarine_call=True)
+                continue
+
+            # Attack
+            self.fleet_set(fleet.fleet_index)
+            self.handle_map_fleet_lock(enable=False)
             self.boss_goto(location=(0, 0), has_fleet_step=has_fleet_step)
 
             # End
@@ -439,9 +484,10 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
             # Standby
             self.boss_leave()
-            if standby == (0, 0):
+            if fleet.standby_loca != (0, 0):
+                self.boss_goto(location=fleet.standby_loca, has_fleet_step=has_fleet_step)
+            else:
                 break
-            self.boss_goto(location=standby, has_fleet_step=has_fleet_step)
 
         logger.critical('Unable to clear boss, fleets exhausted')
         return False

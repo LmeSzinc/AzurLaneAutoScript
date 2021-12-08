@@ -288,7 +288,7 @@ class GeneratedConfig:
     OpsiGeneral_AkashiShopFilter = 'ActionPoint > PurpleCoins'
 
     # Group `OpsiFleetFilter`
-    OpsiFleetFilter_Filter = 'Fleet-4 > Fleet-2-Submarine > Fleet-3 > Fleet-1'
+    OpsiFleetFilter_Filter = 'Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1'
 
     # Group `OpsiFleet`
     OpsiFleet_Fleet = 1  # 1, 2, 3, 4

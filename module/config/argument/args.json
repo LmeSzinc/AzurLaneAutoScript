@@ -6196,7 +6196,7 @@
     "OpsiFleetFilter": {
       "Filter": {
         "type": "textarea",
-        "value": "Fleet-4 > Fleet-2-Submarine > Fleet-3 > Fleet-1"
+        "value": "Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1"
       }
     }
   },
@@ -6237,7 +6237,7 @@
     "OpsiFleetFilter": {
       "Filter": {
         "type": "textarea",
-        "value": "Fleet-4 > Fleet-2-Submarine > Fleet-3 > Fleet-1"
+        "value": "Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1"
       }
     }
   },

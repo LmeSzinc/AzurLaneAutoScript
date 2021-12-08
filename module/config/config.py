@@ -166,6 +166,8 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
             now -= self.hoarding
         for func in self.data.values():
             func = Function(func)
+            if not func.enable:
+                continue
             if func.next_run < now:
                 pending.append(func)
             else:
