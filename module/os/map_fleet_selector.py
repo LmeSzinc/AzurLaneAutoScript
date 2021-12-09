@@ -1,7 +1,6 @@
 from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import *
-from module.exception import ScriptError
 from module.logger import logger
 from module.os.assets import *
 from module.ui.ui import UI
@@ -163,17 +162,25 @@ class FleetSelector:
                 main.device.click(button)
                 click_timer.reset()
 
-    def ensure_to_be(self, index):
+    def ensure_to_be(self, index, skip_first_screenshot=True):
         """
         Set to a specific fleet.
 
         Args:
             index (int): Fleet index, 1-4.
+            skip_first_screenshot (bool):
 
         Returns:
             bool: If fleet switched.
         """
-        for _ in range(10):
+        confirm_timer = Timer(1.5, count=5).start()
+        main = self.main
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                main.device.screenshot()
+
             current = self.get()
             if current == index:
                 logger.info(f'It is fleet {index} already')
@@ -183,12 +190,12 @@ class FleetSelector:
                 self.open()
                 self.click(index)
                 return True
-            else:
-                self.main.device.screenshot()
-                continue
 
-        logger.warning('Unknown OpSi fleet')
-        raise ScriptError('Unknown OpSi fleet')
+            if confirm_timer.reached():
+                break
+
+        logger.warning('Unknown OpSi fleet, use current fleet instead')
+        return False
 
 
 class OSFleetSelector(UI):
