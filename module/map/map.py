@@ -610,7 +610,7 @@ class Map(Fleet):
         logger.warning('fleet_2_protect no siren approaching')
         return False
 
-    def clear_filter_enemy(self, string, preserve=0, **kwargs):
+    def clear_filter_enemy(self, string, preserve=0):
         """
         if EnemyPriority_EnemyScaleBalanceWeight != default_mode  
         Filter will be covered
