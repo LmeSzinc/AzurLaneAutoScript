@@ -19,7 +19,7 @@ COMMISSION_FILTER = Filter(
         '(\d\d?.\d\d?|\d\d?)?'
     ),
     attr=('category_str', 'genre_str', 'duration_hm', 'duration_hour'),
-    preset=('shortest')
+    preset=('shortest',)
 )
 SHORTEST_FILTER = """
 0:20 > 0:30
