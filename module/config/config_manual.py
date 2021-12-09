@@ -198,6 +198,7 @@ class ManualConfig:
     # CL4
     # CL5
     # CL6
+    # Center Zone CL5 and CL6
     OS_EXPLORE_FILTER = """
     44 > 24 > 22 > 31 > 21 > 23
     > 83 > 43 > 81 > 84 > 92 > 93
@@ -219,6 +220,9 @@ class ManualConfig:
     > 71 > 73
 
     > 11 > 106 > 121 > 72
+
+    > 151 > 152 > 159 > 158
+    > 153 > 157 > 156 > 155
     """
     OS_ACTION_POINT_BOX_USE = True
     OS_ACTION_POINT_PRESERVE = 0
