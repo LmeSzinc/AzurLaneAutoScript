@@ -10,6 +10,7 @@ from module.config.config_updater import ConfigUpdater
 from module.config.utils import *
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
+from module.map.map_grids import SelectedGrids
 
 
 class TaskEnd(Exception):
@@ -165,6 +166,8 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
             now -= self.hoarding
         for func in self.data.values():
             func = Function(func)
+            if not func.enable:
+                continue
             if func.next_run < now:
                 pending.append(func)
             else:
@@ -303,6 +306,53 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
             self.Scheduler_NextRun = run
         else:
             raise ScriptError('Missing argument in delay_next_run, should set at least one')
+
+    def opsi_task_delay(self, recon_scan=False, submarine_call=False, ap_limit=False):
+        """
+        Delay the NextRun of all OpSi tasks.
+
+        Args:
+            recon_scan (bool): True to delay all tasks requiring recon scan 30 min.
+            submarine_call (bool): True to delay all tasks requiring submarine call 60 min.
+            ap_limit (bool): True to delay all tasks requiring action points 360 min.
+        """
+        if not recon_scan and not submarine_call and not ap_limit:
+            return None
+        kv = dict_to_kv({'recon_scan': recon_scan, 'submarine_call': submarine_call, 'ap_limit': ap_limit})
+
+        def delay_tasks(task_list, minutes):
+            next_run = datetime.now().replace(microsecond=0) + timedelta(minutes=minutes)
+            for task in task_list:
+                keys = f'{task}.Scheduler.NextRun'
+                current = deep_get(self.data, keys=keys, default=datetime(2020, 1, 1, 0, 0))
+                if current < next_run:
+                    logger.info(f'Delay task `{task}`` to {next_run} ({kv})')
+                    self.modified[keys] = next_run
+
+        def is_submarine_call(task):
+            return deep_get(self.data, keys=f'{task}.OpsiFleet.Submarine', default=False) \
+                   or 'submarine' in deep_get(self.data, keys=f'{task}.OpsiFleetFilter.Filter', default='').lower()
+
+        def is_not_force_run(task):
+            return not (deep_get(self.data, keys=f'{task}.OpsiExplore.SpecialRadar', default=False)
+                        or deep_get(self.data, keys=f'{task}.OpsiExplore.ForceRun', default=False)
+                        or deep_get(self.data, keys=f'{task}.OpsiObscure.ForceRun', default=False)
+                        or deep_get(self.data, keys=f'{task}.OpsiAbyssal.ForceRun', default=False)
+                        or deep_get(self.data, keys=f'{task}.OpsiStronghold.ForceRun', default=False))
+
+        if recon_scan:
+            tasks = SelectedGrids(['OpsiExplore', 'OpsiObscure', 'OpsiStronghold'])
+            delay_tasks(tasks.filter(is_not_force_run).grids, minutes=30)
+        if submarine_call:
+            tasks = SelectedGrids(['OpsiExplore', 'OpsiDaily', 'OpsiObscure', 'OpsiAbyssal', 'OpsiFleetFilter',
+                                   'OpsiMeowfficerFarming'])
+            delay_tasks(tasks.filter(is_submarine_call).filter(is_not_force_run).grids, minutes=60)
+        if ap_limit:
+            tasks = SelectedGrids(['OpsiExplore', 'OpsiDaily', 'OpsiObscure', 'OpsiAbyssal', 'OpsiFleetFilter',
+                                   'OpsiMeowfficerFarming'])
+            delay_tasks(tasks.filter(is_submarine_call).filter(is_not_force_run).grids, minutes=360)
+
+        self.save()
 
     def task_call(self, task):
         """

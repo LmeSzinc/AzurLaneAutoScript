@@ -203,7 +203,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
 
             # Continue if was Auto search interrupted by ash popup
             # Break if zone cleared
-            if self.config.OpsiGeneral_AshAttack:
+            if self.config.OpsiAshBeacon_AshAttack:
                 if self.handle_ash_beacon_attack() or self.ash_popup_canceled:
                     continue
                 else:

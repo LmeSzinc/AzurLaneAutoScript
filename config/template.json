@@ -1261,12 +1261,17 @@
   },
   "OpsiGeneral": {
     "OpsiGeneral": {
-      "AshAttack": true,
+      "UseLogger": true,
       "BuyActionPoint": false,
       "OilLimit": 1000,
       "RepairThreshold": 0.4,
       "BuyAkashiShop": true,
       "AkashiShopFilter": "ActionPoint > PurpleCoins"
+    },
+    "OpsiAshBeacon": {
+      "AshAttack": true,
+      "EnsureFullyCollected": true,
+      "RequestAssist": true
     }
   },
   "OpsiAshAssist": {
@@ -1293,7 +1298,12 @@
     },
     "OpsiExplore": {
       "SpecialRadar": false,
+      "ForceRun": false,
       "LastZone": 0
+    },
+    "OpsiFleet": {
+      "Fleet": 1,
+      "Submarine": false
     }
   },
   "OpsiDaily": {
@@ -1308,6 +1318,10 @@
     "OpsiDaily": {
       "BuySupply": true,
       "DoMission": true
+    },
+    "OpsiFleet": {
+      "Fleet": 1,
+      "Submarine": false
     }
   },
   "OpsiObscure": {
@@ -1320,9 +1334,43 @@
       "ServerUpdate": "00:00"
     },
     "OpsiObscure": {
-      "UseLogger": true,
-      "CallSubmarine": true,
       "ForceRun": false
+    },
+    "OpsiFleet": {
+      "Fleet": 1,
+      "Submarine": false
+    }
+  },
+  "OpsiAbyssal": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "OpsiAbyssal",
+      "SuccessInterval": 60,
+      "FailureInterval": 60,
+      "ServerUpdate": "00:00"
+    },
+    "OpsiAbyssal": {
+      "ForceRun": false
+    },
+    "OpsiFleetFilter": {
+      "Filter": "Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1"
+    }
+  },
+  "OpsiStronghold": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "OpsiStronghold",
+      "SuccessInterval": 60,
+      "FailureInterval": 60,
+      "ServerUpdate": "00:00"
+    },
+    "OpsiStronghold": {
+      "ForceRun": false
+    },
+    "OpsiFleetFilter": {
+      "Filter": "Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1"
     }
   },
   "OpsiMeowfficerFarming": {
@@ -1338,6 +1386,10 @@
       "ActionPointPreserve": 500,
       "HazardLevel": 5,
       "TargetZone": 0
+    },
+    "OpsiFleet": {
+      "Fleet": 1,
+      "Submarine": false
     }
   },
   "Daemon": {

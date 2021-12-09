@@ -84,6 +84,18 @@ class SelectedGrids:
 
         return SelectedGrids(result)
 
+    def filter(self, func):
+        """
+        Filter grids by a function.
+
+        Args:
+            func (callable): Function should receive an grid as argument, and return a bool.
+
+        Returns:
+            SelectedGrids:
+        """
+        return SelectedGrids([grid for grid in self if func(grid)])
+
     def set(self, **kwargs):
         """
         Set attribute to each grid.

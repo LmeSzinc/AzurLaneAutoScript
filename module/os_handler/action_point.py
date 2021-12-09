@@ -29,17 +29,17 @@ ACTION_POINTS_COST = {
     6: 40,
 }
 ACTION_POINTS_COST_OBSCURE = {
-    1: 10,  # No obscured zones in CL1 actually
+    1: 10,  # No obscure zones in CL1 actually
     2: 10,
     3: 20,
     4: 20,
     5: 40,
     6: 40,
 }
-ACTION_POINTS_COST_LOGGER = {
+ACTION_POINTS_COST_ABYSSAL = {
     1: 80,
     2: 80,
-    3: 80,  # No obscured zones under CL4 actually
+    3: 80,  # No abyssal zones under CL4 actually
     4: 80,
     5: 100,
     6: 100,
@@ -108,7 +108,7 @@ class ActionPointHandler(UI):
         """
         Args:
             zone (Zone): Zone to enter.
-            pinned (str): Zone type. Available types: DANGEROUS, SAFE, OBSCURE, LOGGER, STRONGHOLD.
+            pinned (str): Zone type. Available types: DANGEROUS, SAFE, OBSCURE, ABYSSAL, STRONGHOLD.
 
         Returns:
             int: Action points that will cost.
@@ -119,8 +119,8 @@ class ActionPointHandler(UI):
             cost = ACTION_POINTS_COST[zone.hazard_level]
         elif pinned == 'OBSCURE':
             cost = ACTION_POINTS_COST_OBSCURE[zone.hazard_level]
-        elif pinned == 'LOGGER':
-            cost = ACTION_POINTS_COST_LOGGER[zone.hazard_level]
+        elif pinned == 'ABYSSAL':
+            cost = ACTION_POINTS_COST_ABYSSAL[zone.hazard_level]
         elif pinned == 'STRONGHOLD':
             cost = 200
         else:
@@ -209,7 +209,7 @@ class ActionPointHandler(UI):
         """
         Args:
             zone (Zone): Zone to enter.
-            pinned (str): Zone type. Available types: DANGEROUS, SAFE, OBSCURE, LOGGER, STRONGHOLD.
+            pinned (str): Zone type. Available types: DANGEROUS, SAFE, OBSCURE, ABYSSAL, STRONGHOLD.
 
         Returns:
             bool: If handled.
@@ -228,12 +228,15 @@ class ActionPointHandler(UI):
         self.device.screenshot()
         self.action_point_update()
         cost = self.action_point_get_cost(zone, pinned)
+        buy_checked = False
         for _ in range(12):
             # End
             if self._action_point_total < self.config.OS_ACTION_POINT_PRESERVE:
-                if self.config.OpsiGeneral_BuyActionPoint:
+                if self.config.OpsiGeneral_BuyActionPoint and not buy_checked:
                     if self.action_point_buy(preserve=self.config.OpsiGeneral_OilLimit):
                         continue
+                    else:
+                        buy_checked = True
                 logger.info(f'Reach the limit of action points, preserve={self.config.OS_ACTION_POINT_PRESERVE}')
                 self.action_point_quit()
                 raise ActionPointLimit
@@ -243,9 +246,11 @@ class ActionPointHandler(UI):
                 return True
 
             # Get more action points
-            if self.config.OpsiGeneral_BuyActionPoint:
+            if self.config.OpsiGeneral_BuyActionPoint and not buy_checked:
                 if self.action_point_buy(preserve=self.config.OpsiGeneral_OilLimit):
                     continue
+                else:
+                    buy_checked = True
             box = [index for index in [3, 2, 1] if self._action_point_box[index] > 0]
             if len(box):
                 self.action_point_set_button(box[0])

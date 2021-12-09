@@ -127,12 +127,12 @@ class OSGridInfo(GridInfo):
 
 class OSGridPredictor(GridPredictor):
     def predict(self):
-        self.enemy_genre = self.predict_enemy_genre()
-        self.enemy_scale = self.predict_enemy_scale()
-        self.is_resource = self.predict_resource()
-        self.is_meowfficer = self.predict_meowfficer()  # This will increase the overall time cost about 100ms
-        self.is_ally = self.predict_ally()
-        self.is_akashi = self.predict_akashi()
+        # self.enemy_genre = self.predict_enemy_genre()
+        # self.enemy_scale = self.predict_enemy_scale()
+        # self.is_resource = self.predict_resource()
+        # self.is_meowfficer = self.predict_meowfficer()  # This will increase the overall time cost about 100ms
+        # self.is_ally = self.predict_ally()
+        # self.is_akashi = self.predict_akashi()
         self.is_current_fleet = self.predict_current_fleet()
         self.is_fleet = self.is_current_fleet
 

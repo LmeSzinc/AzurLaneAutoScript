@@ -15,7 +15,7 @@ class Filter:
             regex = re.compile(regex)
         self.regex = regex
         self.attr = attr
-        self.preset = preset
+        self.preset = tuple(list(p.lower() for p in preset))
         self.filter_raw = []
         self.filter = []
 
@@ -25,7 +25,7 @@ class Filter:
         self.filter = [self.parse_filter(f) for f in self.filter_raw]
 
     def is_preset(self, filter):
-        return len(filter) and filter in self.preset
+        return len(filter) and filter.lower() in self.preset
 
     def apply(self, objs, func=None):
         """
@@ -41,6 +41,7 @@ class Filter:
         out = []
         for raw, filter in zip(self.filter_raw, self.filter):
             if self.is_preset(raw):
+                raw = raw.lower()
                 if raw not in out:
                     out.append(raw)
             else:

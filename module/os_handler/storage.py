@@ -2,6 +2,7 @@ import numpy as np
 
 from module.base.utils import rgb2gray
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2
+from module.exception import ScriptError
 from module.logger import logger
 from module.os.globe_operation import GlobeOperation
 from module.os.globe_zone import ZoneManager
@@ -100,15 +101,16 @@ class StorageHandler(GlobeOperation, ZoneManager):
                 logger.info('All loggers in storage have been used')
                 break
 
-    def _storage_checkout(self, button, skip_first_screenshot=True):
+    def _storage_checkout(self, button, types=('OBSCURE',), skip_first_screenshot=True):
         """
         Args:
             button (Button): Item
+            types (tuple[str]):
             skip_first_screenshot (bool):
 
         Pages:
             in: STORAGE_CHECK
-            out: is_in_map, in an obscured zone.
+            out: is_in_map, in an obscure zone.
         """
         while 1:
             if skip_first_screenshot:
@@ -130,12 +132,29 @@ class StorageHandler(GlobeOperation, ZoneManager):
             if self.is_zone_pinned():
                 break
 
-        self.zone_type_select('OBSCURE')
+        self.zone_type_select(types)
         self.globe_enter(zone=self.name_to_zone(72))
 
-    def storage_checkout_obscure(self, skip_first_screenshot=True):
+    @staticmethod
+    def _storage_item_to_template(item):
         """
         Args:
+            item (str): 'OBSCURE' or 'ABYSSAL'.
+
+        Returns:
+            Template:
+        """
+        if item == 'OBSCURE':
+            return TEMPLATE_STORAGE_OBSCURE
+        elif item == 'ABYSSAL':
+            return TEMPLATE_STORAGE_ABYSSAL
+        else:
+            raise ScriptError(f'Unknown storage item: {item}')
+
+    def storage_checkout_item(self, item, skip_first_screenshot=True):
+        """
+        Args:
+            item (str): 'OBSCURE' or 'ABYSSAL'.
             skip_first_screenshot:
 
         Returns:
@@ -143,28 +162,29 @@ class StorageHandler(GlobeOperation, ZoneManager):
 
         Pages:
             in: STORAGE_CHECK
-            out: is_in_map, in an obscured zone if checkout.
-                 is_in_map, in previous zone if no more obscured coordinates.
+            out: is_in_map, in an obscure/abyssal zone if checkout.
+                 is_in_map, in previous zone if no more obscure/abyssal coordinates.
         """
-        logger.hr('Storage checkout obscured')
+        logger.hr(f'Storage checkout item {item}')
         if SCROLL_STORAGE.appear(main=self):
             SCROLL_STORAGE.set_top(main=self, skip_first_screenshot=skip_first_screenshot)
 
         image = rgb2gray(np.array(self.device.image))
-        items = TEMPLATE_STORAGE_OBSCURED.match_multi(image, similarity=0.75)
-        logger.attr('Storage_obscured', len(items))
+        items = self._storage_item_to_template(item).match_multi(image, similarity=0.75)
+        logger.attr(f'Storage_{item}', len(items))
 
         if not len(items):
-            logger.info('No more obscured coordinates in storage')
+            logger.info(f'No more {item} items in storage')
             self.storage_quit()
             return False
 
-        self._storage_checkout(items[0])
+        self._storage_checkout(items[0], types=(item,))
         return True
 
-    def os_get_next_obscure(self, use_logger=True):
+    def storage_get_next_item(self, item, use_logger=True):
         """
         Args:
+            item (str): 'OBSCURE' or 'ABYSSAL'.
             use_logger: If use all loggers.
 
         Returns:
@@ -172,12 +192,13 @@ class StorageHandler(GlobeOperation, ZoneManager):
 
         Pages:
             in: in_map
-            out: is_in_map, in an obscured zone if checkout.
-                 is_in_map, in previous zone if no more obscured coordinates.
+            out: is_in_map, in an obscure/abyssal zone if checkout.
+                 is_in_map, in previous zone if no more obscure/abyssal coordinates.
         """
         logger.hr('OS get next obscure')
         self.storage_enter()
         if use_logger:
             self.storage_logger_use_all()
-        result = self.storage_checkout_obscure()
+
+        result = self.storage_checkout_item(item)
         return result

@@ -42,9 +42,11 @@ class MapEventHandler(EnemySearchingHandler):
 
     def handle_ash_popup(self):
         name = 'ASH'
+        # 2021.12.09
+        # Ash popup no longer shows red letters, so change it to letter `Ashes Coordinates`
         if self.appear(POPUP_CONFIRM, offset=self._popup_offset) \
                 and self.appear(POPUP_CANCEL, offset=self._popup_offset, interval=2) \
-                and self.image_color_count(ASH_POPUP_CHECK, color=(255, 93, 90), threshold=221, count=100):
+                and self.appear(ASH_POPUP_CHECK, offset=(20, 20)):
             POPUP_CANCEL.name = POPUP_CANCEL.name + '_' + name
             self.device.click(POPUP_CANCEL)
             POPUP_CANCEL.name = POPUP_CANCEL.name[:-len(name) - 1]

@@ -77,6 +77,27 @@ class Combat(Combat_, MapEventHandler):
                 #     self.emotion.reduce(fleet_index)
                 break
 
+    def handle_exp_info(self):
+        if self.is_combat_executing():
+            return False
+        if self.appear_then_click(EXP_INFO_S):
+            self.device.sleep((0.25, 0.5))
+            return True
+        if self.appear_then_click(EXP_INFO_A):
+            self.device.sleep((0.25, 0.5))
+            return True
+        if self.appear_then_click(EXP_INFO_B):
+            self.device.sleep((0.25, 0.5))
+            return True
+        if self.appear_then_click(EXP_INFO_C):
+            self.device.sleep((0.25, 0.5))
+            return True
+        if self.appear_then_click(EXP_INFO_D):
+            self.device.sleep((0.25, 0.5))
+            return True
+
+        return False
+
     def handle_get_items(self, drop=None):
         if self.appear(GET_ITEMS_1, offset=5, interval=self.battle_status_click_interval):
             self.device.click(CLICK_SAFE_AREA)
@@ -125,7 +146,7 @@ class Combat(Combat_, MapEventHandler):
                 logger.warning('Too many continuous combat')
 
             try:
-                super().combat(*args, **kwargs)
+                super().combat(*args, save_get_items=False, **kwargs)
                 break
             except ContinuousCombat:
                 logger.info('Continuous combat detected')

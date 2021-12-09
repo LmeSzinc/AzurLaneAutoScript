@@ -66,14 +66,13 @@ class MapOrderHandler(MapOperation, ActionPointHandler, EnemySearchingHandler, Z
             else:
                 confirm_timer.reset()
 
-            if self.is_in_map_order():
-                if not self.appear(button):
-                    if missing_timer.reached():
-                        logger.info(f'Map order not available: {button}')
-                        self.order_quit()
-                        return False
-                else:
-                    missing_timer.reset()
+            if self.is_in_map_order() and not self.appear(button):
+                if missing_timer.reached():
+                    logger.info(f'Map order not available: {button}')
+                    self.order_quit()
+                    return False
+            else:
+                missing_timer.reset()
 
             if self.appear_then_click(button, interval=3):
                 continue
@@ -110,9 +109,11 @@ class MapOrderHandler(MapOperation, ActionPointHandler, EnemySearchingHandler, Z
         # backup = self.config.cover(OS_ACTION_POINT_PRESERVE=0, OS_ACTION_POINT_BOX_USE=True)
 
         if recon_scan:
-            self.order_execute(ORDER_SCAN)
+            recon_scan = self.order_execute(ORDER_SCAN)
         if submarine_call:
-            self.order_execute(ORDER_SUBMARINE)
+            submarine_call = self.order_execute(ORDER_SUBMARINE)
+
+        self.config.opsi_task_delay(recon_scan=recon_scan, submarine_call=submarine_call)
 
         # backup.recover()
 

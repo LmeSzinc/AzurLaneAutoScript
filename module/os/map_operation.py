@@ -6,14 +6,16 @@ from module.logger import logger
 from module.ocr.ocr import Ocr
 from module.os.assets import *
 from module.os.globe_zone import Zone
+from module.os.map_fleet_selector import OSFleetSelector
 from module.os_handler.map_order import MapOrderHandler
 from module.os_handler.mission import MissionHandler
 from module.os_handler.port import PortHandler
 from module.os_handler.storage import StorageHandler
 
 
-class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandler):
+class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandler, OSFleetSelector):
     zone: Zone
+    is_zone_name_hidden = False
 
     def is_meowfficer_searching(self):
         """
@@ -44,6 +46,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         name = ocr.ocr(self.device.image)
         name = name.translate(dict.fromkeys(map(ord, whitespace)))
         name = name.lower()
+        self.is_zone_name_hidden = 'safe' in name
         if '-' in name:
             name = name.split('-')[0]
         if 'é' in name:  # Méditerranée name maps
@@ -57,6 +60,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         # For JP only
         ocr = Ocr(MAP_NAME, lang='jp', letter=(214, 231, 255), threshold=127, name='OCR_OS_MAP_NAME')
         name = ocr.ocr(self.device.image)
+        self.is_zone_name_hidden = '安全' in name
         # Remove '安全海域' or '秘密海域' at the end of jp ocr.
         name = name.rstrip('安全海域秘密海域')
         # Kanji '一' and '力' are not used, while Katakana 'ー' and 'カ' are misread as Kanji sometimes.
@@ -66,9 +70,10 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
 
     @Config.when(SERVER='tw')
     def get_zone_name(self):
-        # For JP only
+        # For TW only
         ocr = Ocr(MAP_NAME, lang='tw', letter=(214, 231, 255), threshold=127, name='OCR_OS_MAP_NAME')
         name = ocr.ocr(self.device.image)
+        self.is_zone_name_hidden = '安全' in name
         # Remove '安全海域' or '隱秘海域' at the end of tw ocr.
         name = name.rstrip('安全海域隱秘海域一')
         return name
@@ -78,6 +83,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         # For CN only
         ocr = Ocr(MAP_NAME, lang='cnocr', letter=(214, 231, 255), threshold=127, name='OCR_OS_MAP_NAME')
         name = ocr.ocr(self.device.image)
+        self.is_zone_name_hidden = '安全' in name
         if '-' in name:
             name = name.split('-')[0]
         else:
@@ -91,13 +97,26 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
 
         Raises:
             MapDetectionError: If failed to parse zone name.
+            ScriptError:
         """
         name = self.get_zone_name()
         logger.info(f'Map name processed: {name}')
         try:
             self.zone = self.name_to_zone(name)
         except ScriptError as e:
-            raise MapDetectionError(*e.args)
+            if self.is_zone_name_hidden:
+                # 2021.12.09
+                # Safe zones don't display zone names like `NA Ocean SE Sector F - Safe zone`, only display `Safe Zone`.
+                # Goto globe map and calculate current zone from pinned location,
+                # but this requires higher level APIs.
+                logger.info('Zone name is hidden, get current zone from globe map instead')
+                if hasattr(self, 'get_current_zone_from_globe'):
+                    self.zone = self.get_current_zone_from_globe()
+                else:
+                    raise ScriptError(
+                        'Zone name is hidden, require OperationSiren.get_current_zone_from_globe() to solve')
+            else:
+                raise MapDetectionError(*e.args)
         logger.attr('Zone', self.zone)
         return self.zone
 
@@ -131,6 +150,8 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
                     return self.get_current_zone()
                 except MapDetectionError:
                     continue
+            else:
+                timeout.reset()
 
             if timeout.reached():
                 logger.warning('Zone init timeout')

@@ -43,9 +43,29 @@ class GridPredictor:
         self.homo_invt = cv2.invert(self.homo_data)[1]
 
     def screen2grid(self, points):
+        """
+        Args:
+            points (np.ndarray): Coordinates from screen, [[x1, y1], [x2, y2], ...]
+
+        Returns:
+            np.ndarray: Coordinates from sea surface, [[x1, y1], [x2, y2], ...]
+                Coordinate zero point is the upper-left corner.
+            (0, 0) +------+
+                   |      |
+                   |      |
+                   +------+ (1, 1)
+        """
         return perspective_transform(points, self.homo_data) / self.config.HOMO_TILE
 
     def grid2screen(self, points):
+        """
+        Args:
+            points (np.ndarray): Coordinates from sea surface, [[x1, y1], [x2, y2], ...]
+                See Also screen2grid().
+
+        Returns:
+            np.ndarray: Coordinates from screen, [[x1, y1], [x2, y2], ...]
+        """
         return perspective_transform(np.multiply(points, self.config.HOMO_TILE), self.homo_invt)
 
     @cached_property

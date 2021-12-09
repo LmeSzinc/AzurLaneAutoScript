@@ -1,7 +1,6 @@
 import numpy as np
 
-from module.exception import MapWalkError
-from module.exception import ScriptError
+from module.exception import MapWalkError, ScriptError, RequestHumanTakeover
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.os.map import OSMap
@@ -19,6 +18,7 @@ class OperationSiren(Reward, OSMap):
             out: IN_MAP
         """
         logger.hr('OS init', level=1)
+        self.config.override(Submarine_Fleet=1, Submarine_Mode='every_combat')
 
         # UI switching
         if self.is_in_map():
@@ -46,6 +46,16 @@ class OperationSiren(Reward, OSMap):
             logger.warning('OS is in a special zone type, while SAFE and DANGEROUS are acceptable')
             self.map_exit()
 
+    def get_current_zone_from_globe(self):
+        """
+        Get current zone from globe map. See OSMapOperation.get_current_zone()
+        """
+        self.os_map_goto_globe(unpin=False)
+        self.globe_update()
+        self.zone = self.get_globe_pinned_zone()
+        self.os_globe_goto_map()
+        return self.zone
+
     def globe_goto(self, zone, types=('SAFE', 'DANGEROUS'), refresh=False, stop_if_safe=False):
         """
         Goto another zone in OS.
@@ -53,7 +63,7 @@ class OperationSiren(Reward, OSMap):
         Args:
             zone (str, int, Zone): Name in CN/EN/JP/TW, zone id, or Zone instance.
             types (tuple[str], list[str], str): Zone types, or a list of them.
-                Available types: DANGEROUS, SAFE, OBSCURE, LOGGER, STRONGHOLD.
+                Available types: DANGEROUS, SAFE, OBSCURE, ABYSSAL, STRONGHOLD.
                 Try the the first selection in type list, if not available, try the next one.
             refresh (bool): If already at target zone,
                 set false to skip zone switching,
@@ -231,6 +241,10 @@ class OperationSiren(Reward, OSMap):
             self.zone_init()
             if result > 1:
                 self.globe_goto(self.zone, refresh=True)
+            self.fleet_set(self.config.OpsiFleet_Fleet)
+            self.os_order_execute(
+                recon_scan=False,
+                submarine_call=self.config.OpsiFleet_Submarine)
             self.run_auto_search()
             self.handle_fleet_repair(revert=False)
             self.config.check_task_switch()
@@ -261,10 +275,11 @@ class OperationSiren(Reward, OSMap):
         """
         logger.hr(f'OS meowfficer farming, hazard_level={self.config.OpsiMeowfficerFarming_HazardLevel}', level=1)
         while 1:
-            if self.config.OpsiGeneral_AshAttack and not self._ash_fully_collected:
+            self.config.OS_ACTION_POINT_PRESERVE = self.config.OpsiMeowfficerFarming_ActionPointPreserve
+            if self.config.OpsiAshBeacon_AshAttack \
+                    and not self._ash_fully_collected \
+                    and self.config.OpsiAshBeacon_EnsureFullyCollected:
                 self.config.OS_ACTION_POINT_PRESERVE = 0
-            else:
-                self.config.OS_ACTION_POINT_PRESERVE = self.config.OpsiMeowfficerFarming_ActionPointPreserve
 
             # (1252, 1012) is the coordinate of zone 134 (the center zone) in os_globe_map.png
             if self.config.OpsiMeowfficerFarming_TargetZone != 0:
@@ -276,6 +291,10 @@ class OperationSiren(Reward, OSMap):
                 else:
                     logger.hr(f'OS meowfficer farming, zone_id={zone.zone_id}', level=1)
                     self.globe_goto(zone)
+                    self.fleet_set(self.config.OpsiFleet_Fleet)
+                    self.os_order_execute(
+                        recon_scan=False,
+                        submarine_call=self.config.OpsiFleet_Submarine)
                     self.run_auto_search()
                     self.handle_fleet_repair(revert=False)
                     self.globe_goto(self.zone_nearest_azur_port(zone=zone))
@@ -288,6 +307,10 @@ class OperationSiren(Reward, OSMap):
 
                 logger.hr(f'OS meowfficer farming, zone_id={zones[0].zone_id}', level=1)
                 self.globe_goto(zones[0])
+                self.fleet_set(self.config.OpsiFleet_Fleet)
+                self.os_order_execute(
+                    recon_scan=False,
+                    submarine_call=self.config.OpsiFleet_Submarine)
                 self.run_auto_search()
                 self.handle_fleet_repair(revert=False)
                 self.config.check_task_switch()
@@ -296,6 +319,7 @@ class OperationSiren(Reward, OSMap):
         """
         Explore all dangerous zones at the beginning of month.
         """
+
         def end():
             logger.info('OS explore finished')
             logger.info('To run again, set OpsiExplore.Scheduler.Enable=True, OpsiExplore.OpsiExplore.LastZone=0')
@@ -324,11 +348,10 @@ class OperationSiren(Reward, OSMap):
                 continue
 
             logger.hr(f'OS explore {zone}', level=1)
-            if self.config.OpsiExplore_SpecialRadar:
-                self.os_order_execute(recon_scan=False, submarine_call=False)
-            else:
-                self.os_order_execute(recon_scan=True, submarine_call=False)
-                self.config.task_delay(minute=30)
+            self.fleet_set(self.config.OpsiFleet_Fleet)
+            self.os_order_execute(
+                recon_scan=not self.config.OpsiExplore_SpecialRadar,
+                submarine_call=self.config.OpsiFleet_Submarine)
             self.run_auto_search()
             self.config.OpsiExplore_LastZone = zone
             logger.info(f'Zone cleared: {self.name_to_zone(zone)}')
@@ -346,27 +369,19 @@ class OperationSiren(Reward, OSMap):
         if self.config.OpsiObscure_ForceRun:
             logger.info('OS obscure finish is under force run')
 
-        result = self.os_get_next_obscure(use_logger=self.config.OpsiObscure_UseLogger)
+        result = self.storage_get_next_item('OBSCURE', use_logger=self.config.OpsiGeneral_UseLogger)
         if not result:
             # No obscure coordinates, delay next run to tomorrow.
             self.config.task_delay(server_update=True)
             self.config.task_stop()
 
         self.zone_init()
-        self.os_order_execute(recon_scan=True, submarine_call=self.config.OpsiObscure_CallSubmarine)
-
-        # Delay next run 30min or 60min.
-        if self.config.OpsiObscure_CallSubmarine:
-            delta = 60
-            backup_submarine = self.config.temporary(Submarine_Fleet=1, Submarine_Mode='every_combat')
-        else:
-            delta = 30
-            backup_submarine = None
-        if not self.config.OpsiObscure_ForceRun:
-            self.config.task_delay(minute=delta)
-
+        self.fleet_set(self.config.OpsiFleet_Fleet)
+        self.os_order_execute(
+            recon_scan=True,
+            submarine_call=self.config.OpsiFleet_Submarine)
         self.run_auto_search()
-        backup_submarine.recover() if backup_submarine is not None else None
+
         self.map_exit()
         self.handle_fleet_repair(revert=False)
 
@@ -378,3 +393,72 @@ class OperationSiren(Reward, OSMap):
                 continue
             else:
                 break
+
+    def clear_abyssal(self):
+        """
+        Get one abyssal logger in storage,
+        attack abyssal boss,
+        repair fleets in port.
+
+        Raises:
+            ActionPointLimit:
+            TaskEnd: If no more abyssal loggers.
+            RequestHumanTakeover: If unable to clear boss, fleets exhausted.
+        """
+        logger.hr('OS clear abyssal', level=1)
+        result = self.storage_get_next_item('ABYSSAL', use_logger=self.config.OpsiGeneral_UseLogger)
+        if not result:
+            # No obscure coordinates, delay next run to tomorrow.
+            self.config.task_delay(server_update=True)
+            self.config.task_stop()
+
+        self.zone_init()
+        result = self.run_abyssal()
+        if not result:
+            raise RequestHumanTakeover
+
+        self.fleet_repair(revert=False)
+
+    def os_abyssal(self):
+        while 1:
+            self.clear_abyssal()
+            self.config.check_task_switch()
+
+    def clear_stronghold(self):
+        """
+        Find a siren stronghold on globe map,
+        clear stronghold,
+        repair fleets in port.
+
+        Raises:
+            ActionPointLimit:
+            TaskEnd: If no more strongholds.
+            RequestHumanTakeover: If unable to clear boss, fleets exhausted.
+        """
+        logger.hr('OS clear stronghold', level=1)
+        self.os_map_goto_globe()
+        self.globe_update()
+        zone = self.find_siren_stronghold()
+        if zone is None:
+            # No siren stronghold, delay next run to tomorrow.
+            self.config.task_delay(server_update=True)
+            self.config.task_stop()
+
+        raise NotImplementedError
+
+        self.fleet_repair(revert=False)
+
+    def os_stronghold(self):
+        while 1:
+            self.clear_stronghold()
+            self.config.check_task_switch()
+
+
+if __name__ == '__main__':
+    self = OperationSiren('alas', task='OpsiObscure')
+    from module.os.config import OSConfig
+
+    self.config = self.config.merge(OSConfig())
+    self.device.screenshot()
+    self.os_init()
+    self.clear_abyssal()

@@ -35,12 +35,12 @@ class OSCamera(OSMapOperation, Camera):
         """
         return Radar(self.config)
 
-    def update_radar(self):
+    def predict_radar(self):
         """
         Scan radar and merge it into map
         """
         self.radar.predict(self.device.image)
-        self.map.update(self.radar, camera=self.fleet_current)
+        self.radar.show()
 
     def grid_is_in_sight(self, grid, camera=None, sight=None):
         location = location_ensure(grid)
@@ -153,6 +153,6 @@ class OSCamera(OSMapOperation, Camera):
         logger.info('Radar %s -> Local %s (fleet=%s)' % (
             str(location),
             location2node(local.location),
-            location2node(self.view.center_loca)
+            location2node(center)
         ))
         return local
