@@ -756,11 +756,11 @@
       "help": "自定义你想打的敌人的优先级"
     },
     "EnemyScaleBalanceWeight": {
-      "name": "敌人规模权重",
-      "help": "在道中阻塞已经清理完成后，根据权重选择敌人\n依照地图文件 OR 大型敌人优先 OR 小型敌人优先",
+      "name": "敌人优先级",
+      "help": "先清理通往BOSS的道路上的敌人，再根据优先级清理其他敌人",
       "default_mode": "依照地图文件",
-      "S3_enemy_first": "大型敌人优先",
-      "S1_enemy_first": "小型敌人优先"
+      "S3_enemy_first": "优先打大型敌人",
+      "S1_enemy_first": "优先打小型敌人"
     }
   },
   "Raid": {

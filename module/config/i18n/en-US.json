@@ -756,11 +756,11 @@
       "help": "Customize the priority of the enemy you want to fight"
     },
     "EnemyScaleBalanceWeight": {
-      "name": "Weight of enemy genre",
-      "help": "After the blocking in the channel has been cleared, select the enemy according to the weight",
+      "name": "Enemy Priority",
+      "help": "First clear the enemies on the mob to the boss, and then clean up other enemies according to priority",
       "default_mode": "According to map file",
-      "S3_enemy_first": "Large enemies first",
-      "S1_enemy_first": "Small enemies first"
+      "S3_enemy_first": "3-Stars enemies first",
+      "S1_enemy_first": "1-Star enemies first"
     }
   },
   "Raid": {

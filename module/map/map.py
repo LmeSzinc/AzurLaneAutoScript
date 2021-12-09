@@ -227,7 +227,6 @@ class Map(Fleet):
         else:
             grids = self.select_grids(grids, **kwargs)
 
-
         if grids:
             logger.hr('Clear roadblock')
             self.show_select_grids(grids, **kwargs)
