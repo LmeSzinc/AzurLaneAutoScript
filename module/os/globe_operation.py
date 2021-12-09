@@ -223,8 +223,12 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
         return self.ui_click(GLOBE_GOTO_MAP, check_button=self.is_in_map, offset=(200, 5),
                              skip_first_screenshot=skip_first_screenshot)
 
-    def os_map_goto_globe(self, skip_first_screenshot=True):
+    def os_map_goto_globe(self, unpin=True, skip_first_screenshot=True):
         """
+        Args:
+            unpin (bool):
+            skip_first_screenshot (bool):
+
         Pages:
             in: is_in_map
             out: is_in_globe
@@ -248,11 +252,15 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             else:
                 self.device.screenshot()
 
-            if self.handle_zone_pinned():
-                unpinned += 1
-                confirm_timer.reset()
+            if unpin:
+                if self.handle_zone_pinned():
+                    unpinned += 1
+                    confirm_timer.reset()
+                else:
+                    if unpinned and confirm_timer.reached():
+                        break
             else:
-                if unpinned and confirm_timer.reached():
+                if self.is_zone_pinned():
                     break
 
     def globe_enter(self, zone, skip_first_screenshot=True):

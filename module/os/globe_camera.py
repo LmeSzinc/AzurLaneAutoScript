@@ -117,6 +117,14 @@ class GlobeCamera(GlobeOperation, ZoneManager):
             swipe = tuple(np.min([np.abs(vector), swipe_limit], axis=0) * np.sign(vector))
             self.globe_swipe(swipe)
 
+    def get_globe_pinned_zone(self):
+        """
+        Returns:
+            Zone:
+        """
+        location = self.screen2globe([ZONE_PINNED.button[:2]])[0] + (0, 5)
+        return self.camera_to_zone(location)
+
     def globe_focus_to(self, zone):
         """
         Args:
@@ -143,10 +151,8 @@ class GlobeCamera(GlobeOperation, ZoneManager):
             self.globe_update()
 
             if self.is_zone_pinned():
-                location = self.screen2globe([ZONE_PINNED.button[:2]])[0] + (0, 5)
-                pinned_zone = self.camera_to_zone(location)
-                if pinned_zone == zone:
-                    logger.attr('Globe_pinned', pinned_zone)
+                if self.get_globe_pinned_zone() == zone:
+                    logger.attr('Globe_pinned', zone)
                     break
 
     def _globe_predict_stronghold(self, zone):

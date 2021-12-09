@@ -46,6 +46,16 @@ class OperationSiren(Reward, OSMap):
             logger.warning('OS is in a special zone type, while SAFE and DANGEROUS are acceptable')
             self.map_exit()
 
+    def get_current_zone_from_globe(self):
+        """
+        Get current zone from globe map. See OSMapOperation.get_current_zone()
+        """
+        self.os_map_goto_globe(unpin=False)
+        self.globe_update()
+        self.zone = self.get_globe_pinned_zone()
+        self.os_globe_goto_map()
+        return self.zone
+
     def globe_goto(self, zone, types=('SAFE', 'DANGEROUS'), refresh=False, stop_if_safe=False):
         """
         Goto another zone in OS.
@@ -426,6 +436,8 @@ class OperationSiren(Reward, OSMap):
             RequestHumanTakeover: If unable to clear boss, fleets exhausted.
         """
         logger.hr('OS clear stronghold', level=1)
+        self.os_map_goto_globe()
+        self.globe_update()
         zone = self.find_siren_stronghold()
         if zone is None:
             # No siren stronghold, delay next run to tomorrow.
@@ -438,7 +450,7 @@ class OperationSiren(Reward, OSMap):
 
     def os_stronghold(self):
         while 1:
-            self.clear_abyssal()
+            self.clear_stronghold()
             self.config.check_task_switch()
 
 
