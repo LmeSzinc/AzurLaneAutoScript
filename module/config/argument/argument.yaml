@@ -413,7 +413,6 @@ RaidDaily:
 OpsiAshAssist:
   Tier: 15
 OpsiGeneral:
-  AshAttack: true
   UseLogger: true
   BuyActionPoint: false
   OilLimit: 1000
@@ -421,6 +420,10 @@ OpsiGeneral:
   BuyAkashiShop: true
   AkashiShopFilter: |-
     ActionPoint > PurpleCoins
+OpsiAshBeacon:
+  AshAttack: true
+  EnsureFullyCollected: true
+  RequestAssist: true
 OpsiFleetFilter:
   Filter: |-
     Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1
@@ -449,7 +452,6 @@ OpsiMeowfficerFarming:
     option: [1, 2, 3, 4, 5, 6]
   TargetZone:
     value: 0
-  EnsureAshCollect: true
 
 # ==================== Tools ====================
 

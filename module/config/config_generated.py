@@ -279,13 +279,17 @@ class GeneratedConfig:
     OpsiAshAssist_Tier = 15
 
     # Group `OpsiGeneral`
-    OpsiGeneral_AshAttack = True
     OpsiGeneral_UseLogger = True
     OpsiGeneral_BuyActionPoint = False
     OpsiGeneral_OilLimit = 1000
     OpsiGeneral_RepairThreshold = 0.4
     OpsiGeneral_BuyAkashiShop = True
     OpsiGeneral_AkashiShopFilter = 'ActionPoint > PurpleCoins'
+
+    # Group `OpsiAshBeacon`
+    OpsiAshBeacon_AshAttack = True
+    OpsiAshBeacon_EnsureFullyCollected = True
+    OpsiAshBeacon_RequestAssist = True
 
     # Group `OpsiFleetFilter`
     OpsiFleetFilter_Filter = 'Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1'
@@ -316,7 +320,6 @@ class GeneratedConfig:
     OpsiMeowfficerFarming_ActionPointPreserve = 500
     OpsiMeowfficerFarming_HazardLevel = 5  # 1, 2, 3, 4, 5, 6
     OpsiMeowfficerFarming_TargetZone = 0
-    OpsiMeowfficerFarming_EnsureAshCollect = True
 
     # Group `Daemon`
     Daemon_EnterMap = True

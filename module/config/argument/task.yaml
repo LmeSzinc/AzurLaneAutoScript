@@ -196,6 +196,7 @@ WarArchives:
 
 OpsiGeneral:
   - OpsiGeneral
+  - OpsiAshBeacon
 OpsiAshAssist:
   - Scheduler
   - OpsiAshAssist

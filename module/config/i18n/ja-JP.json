@@ -1507,10 +1507,6 @@
       "name": "OpsiGeneral._info.name",
       "help": "OpsiGeneral._info.help"
     },
-    "AshAttack": {
-      "name": "OpsiGeneral.AshAttack.name",
-      "help": "OpsiGeneral.AshAttack.help"
-    },
     "UseLogger": {
       "name": "OpsiGeneral.UseLogger.name",
       "help": "OpsiGeneral.UseLogger.help"
@@ -1534,6 +1530,24 @@
     "AkashiShopFilter": {
       "name": "OpsiGeneral.AkashiShopFilter.name",
       "help": "OpsiGeneral.AkashiShopFilter.help"
+    }
+  },
+  "OpsiAshBeacon": {
+    "_info": {
+      "name": "OpsiAshBeacon._info.name",
+      "help": "OpsiAshBeacon._info.help"
+    },
+    "AshAttack": {
+      "name": "OpsiAshBeacon.AshAttack.name",
+      "help": "OpsiAshBeacon.AshAttack.help"
+    },
+    "EnsureFullyCollected": {
+      "name": "OpsiAshBeacon.EnsureFullyCollected.name",
+      "help": "OpsiAshBeacon.EnsureFullyCollected.help"
+    },
+    "RequestAssist": {
+      "name": "OpsiAshBeacon.RequestAssist.name",
+      "help": "OpsiAshBeacon.RequestAssist.help"
     }
   },
   "OpsiFleetFilter": {
@@ -1648,10 +1662,6 @@
     "TargetZone": {
       "name": "OpsiMeowfficerFarming.TargetZone.name",
       "help": "OpsiMeowfficerFarming.TargetZone.help"
-    },
-    "EnsureAshCollect": {
-      "name": "OpsiMeowfficerFarming.EnsureAshCollect.name",
-      "help": "OpsiMeowfficerFarming.EnsureAshCollect.help"
     }
   },
   "Daemon": {

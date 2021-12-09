@@ -266,9 +266,9 @@ class OperationSiren(Reward, OSMap):
         logger.hr(f'OS meowfficer farming, hazard_level={self.config.OpsiMeowfficerFarming_HazardLevel}', level=1)
         while 1:
             self.config.OS_ACTION_POINT_PRESERVE = self.config.OpsiMeowfficerFarming_ActionPointPreserve
-            if self.config.OpsiGeneral_AshAttack \
+            if self.config.OpsiAshBeacon_AshAttack \
                     and not self._ash_fully_collected \
-                    and self.config.OpsiMeowfficerFarming_EnsureAshCollect:
+                    and self.config.OpsiAshBeacon_EnsureFullyCollected:
                 self.config.OS_ACTION_POINT_PRESERVE = 0
 
             # (1252, 1012) is the coordinate of zone 134 (the center zone) in os_globe_map.png

@@ -5929,10 +5929,6 @@
   },
   "OpsiGeneral": {
     "OpsiGeneral": {
-      "AshAttack": {
-        "type": "checkbox",
-        "value": true
-      },
       "UseLogger": {
         "type": "checkbox",
         "value": true
@@ -5956,6 +5952,20 @@
       "AkashiShopFilter": {
         "type": "textarea",
         "value": "ActionPoint > PurpleCoins"
+      }
+    },
+    "OpsiAshBeacon": {
+      "AshAttack": {
+        "type": "checkbox",
+        "value": true
+      },
+      "EnsureFullyCollected": {
+        "type": "checkbox",
+        "value": true
+      },
+      "RequestAssist": {
+        "type": "checkbox",
+        "value": true
       }
     }
   },
@@ -6289,10 +6299,6 @@
       "TargetZone": {
         "type": "input",
         "value": 0
-      },
-      "EnsureAshCollect": {
-        "type": "checkbox",
-        "value": true
       }
     },
     "OpsiFleet": {

@@ -1261,13 +1261,17 @@
   },
   "OpsiGeneral": {
     "OpsiGeneral": {
-      "AshAttack": true,
       "UseLogger": true,
       "BuyActionPoint": false,
       "OilLimit": 1000,
       "RepairThreshold": 0.4,
       "BuyAkashiShop": true,
       "AkashiShopFilter": "ActionPoint > PurpleCoins"
+    },
+    "OpsiAshBeacon": {
+      "AshAttack": true,
+      "EnsureFullyCollected": true,
+      "RequestAssist": true
     }
   },
   "OpsiAshAssist": {
@@ -1381,8 +1385,7 @@
     "OpsiMeowfficerFarming": {
       "ActionPointPreserve": 500,
       "HazardLevel": 5,
-      "TargetZone": 0,
-      "EnsureAshCollect": true
+      "TargetZone": 0
     },
     "OpsiFleet": {
       "Fleet": 1,

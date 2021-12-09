@@ -1507,10 +1507,6 @@
       "name": "OpSi General Settings",
       "help": "All OpSi activities will use these settings"
     },
-    "AshAttack": {
-      "name": "Enable Ash Attack",
-      "help": "When data beacon is full; call for assistance then attack until ash has been completed"
-    },
     "UseLogger": {
       "name": "Use Logger(s)",
       "help": "Use all coordinate loggers when entering the storage"
@@ -1534,6 +1530,24 @@
     "AkashiShopFilter": {
       "name": "Akashi Shop Filter",
       "help": "Generally does not need to be modified or re-arranged but can do so if desired\nBuy AP boxes and Purple Coins"
+    }
+  },
+  "OpsiAshBeacon": {
+    "_info": {
+      "name": "Ash Beacon Settings",
+      "help": ""
+    },
+    "AshAttack": {
+      "name": "Enable Ash Attack",
+      "help": "When data beacon is full; attack until ash has been completed"
+    },
+    "EnsureFullyCollected": {
+      "name": "Ensure 200 Beacon Data Fully Collected",
+      "help": "Ignore AP limit setting temporarily before ash beacon fully collected. \"Meowfficer Farming\" must be enabled"
+    },
+    "RequestAssist": {
+      "name": "Request Assists",
+      "help": "Before the attack, request assists from friends, guild and world"
     }
   },
   "OpsiFleetFilter": {
@@ -1648,10 +1662,6 @@
     "TargetZone": {
       "name": "Target Zone ID",
       "help": "Supports either Zone ID or Name\nIf specified, Alas will loop on this same zone after each clear\nUse default value 0 or clear the field to remove the specification\nZone information can be acquired from <./module/os/map_data.py>"
-    },
-    "EnsureAshCollect": {
-      "name": "Ensure Ash Beacon Fully Collected",
-      "help": "Ignore AP limit setting temporarily before ash beacon fully collected. \"OpSi General Settings\" - \"Enable Ash Attack\" must be enabled"
     }
   },
   "Daemon": {
