@@ -474,7 +474,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
             # Attack
             self.fleet_set(fleet.fleet_index)
-            self.handle_map_fleet_lock(enable=False)
+            self.handle_os_map_fleet_lock(enable=False)
             self.boss_goto(location=(0, 0), has_fleet_step=has_fleet_step)
 
             # End
@@ -506,7 +506,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             out: If success, in a dangerous or safe zone.
                 If failed, still in abyssal.
         """
-        self.handle_map_fleet_lock(enable=False)
+        self.handle_os_map_fleet_lock(enable=False)
         self.question_goto(has_fleet_step=True)
         result = self.boss_clear(has_fleet_step=True)
         return result
