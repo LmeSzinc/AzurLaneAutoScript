@@ -38,8 +38,11 @@ class OperationSiren(Reward, OSMap):
         self.handle_fleet_repair(revert=False)
 
         # Clear current zone
-        self.run_auto_search()
-        self.handle_fleet_repair(revert=False)
+        if self.zone.is_port:
+            logger.info('In port, skip running first auto search')
+        else:
+            self.run_auto_search()
+            self.handle_fleet_repair(revert=False)
 
         # Exit from special zones types, only SAFE and DANGEROUS are acceptable.
         if self.is_in_special_zone():

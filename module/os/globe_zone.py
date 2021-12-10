@@ -33,7 +33,7 @@ class Zone:
         self.__dict__.update(data)
         self.location = self.point_convert(self.area_pos)
         self.mission = self.point_convert(np.add(self.area_pos, self.offset_pos))
-        self.is_port = self.zone_id in [0, 1, 2, 3, 4, 5, 6, 7]
+        self.is_port = self.zone_id in [0, 1, 2, 3, 4, 5, 6, 7, 154]
         self.is_azur_port = self.zone_id in [0, 1, 2, 3]
 
     @staticmethod

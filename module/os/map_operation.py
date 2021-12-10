@@ -142,6 +142,10 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
             else:
                 self.device.screenshot()
 
+            if timeout.reached():
+                logger.warning('Zone init timeout')
+                break
+
             if self.handle_map_event():
                 timeout.reset()
                 continue
@@ -152,10 +156,6 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
                     continue
             else:
                 timeout.reset()
-
-            if timeout.reached():
-                logger.warning('Zone init timeout')
-                break
 
         if not self.is_in_map():
             logger.warning('Trying to get zone name, but not in OS map')
