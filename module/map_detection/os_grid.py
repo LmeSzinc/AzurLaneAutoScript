@@ -219,6 +219,11 @@ class OSGridPredictor(GridPredictor):
         image = rgb2gray(self.relative_crop((-0.5, -1, 0.5, 0), shape=(60, 60)))
         return TEMPLATE_SIREN_Akashi.match(image, similarity=0.85)
 
+    def predict_caught_by_siren(self):
+        # Detect the red slash background of `In action`.
+        return self.relative_rgb_count(
+            area=(-1, -0.5, 0, 0.5), color=(255, 109, 91), shape=(50, 50), threshold=221) > 120
+
 
 class OSGrid(OSGridInfo, OSGridPredictor, Grid):
     pass

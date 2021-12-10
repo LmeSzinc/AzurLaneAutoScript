@@ -242,7 +242,7 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             return False
 
         self.ui_click(MAP_GOTO_GLOBE, check_button=self.is_in_globe, offset=(200, 5), additional=additional,
-                      skip_first_screenshot=skip_first_screenshot)
+                      retry_wait=2, skip_first_screenshot=skip_first_screenshot)
 
         confirm_timer = Timer(1, count=2).start()
         unpinned = 0

@@ -410,7 +410,28 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
             # Wait until arrived
             # Having new screenshots
-            self.wait_until_walk_stable()
+            self.wait_until_walk_stable(confirm_timer=Timer(1.5, count=4))
+
+    def get_boss_leave_button(self):
+        for grid in self.view:
+            if grid.predict_current_fleet():
+                return None
+
+        grids = [grid for grid in self.view if grid.predict_caught_by_siren()]
+        if len(grids) == 1:
+            center = grids[0]
+        elif len(grids) > 1:
+            logger.warning(f'Found multiple fleets in boss ({grids}), use the center one')
+            center = SelectedGrids(grids).sort_by_camera_distance(self.view.center_loca)[0]
+        else:
+            logger.warning('No fleet in boss, use camera center instead')
+            center = self.view[self.view.center_loca]
+
+        logger.info(f'Fleet in boss: {center}')
+        # The left half grid next to the center grid.
+        area = corner2inner(center.grid2screen(area2corner((1, 0.25, 1.5, 0.75))))
+        button = Button(area=area, color=(), button=area, name='BOSS_LEAVE')
+        return button
 
     def boss_leave(self, skip_first_screenshot=True):
         """
@@ -433,7 +454,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             if self.is_in_map():
                 self.predict_radar()
                 if self.radar.select(is_enemy=True):
-                    logger.info('Fleet left boss')
+                    logger.info('Fleet left boss, boss found')
                     break
 
             # Re-enter boss accidently
@@ -442,12 +463,14 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
             # Click leave button
             if self.is_in_map() and click_timer.reached():
-                grid = self.view[self.view.center_loca]
-                # The left half grid next to the center grid.
-                area = corner2inner(grid.grid2screen(area2corner((1, 0.25, 1.5, 0.75))))
-                button = Button(area=area, color=(), button=area, name='BOSS_LEAVE')
-                self.device.click(button)
-                click_timer.reset()
+                button = self.get_boss_leave_button()
+                if button is not None:
+                    self.device.click(button)
+                    click_timer.reset()
+                    continue
+                else:
+                    logger.info('Fleet left boss, current fleet found')
+                    break
 
     def boss_clear(self, has_fleet_step=True):
         """
