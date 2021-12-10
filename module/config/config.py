@@ -326,7 +326,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
                 keys = f'{task}.Scheduler.NextRun'
                 current = deep_get(self.data, keys=keys, default=datetime(2020, 1, 1, 0, 0))
                 if current < next_run:
-                    logger.info(f'Delay task `{task}`` to {next_run} ({kv})')
+                    logger.info(f'Delay task `{task}` to {next_run} ({kv})')
                     self.modified[keys] = next_run
 
         def is_submarine_call(task):
@@ -344,13 +344,13 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
             tasks = SelectedGrids(['OpsiExplore', 'OpsiObscure', 'OpsiStronghold'])
             delay_tasks(tasks.filter(is_not_force_run).grids, minutes=30)
         if submarine_call:
-            tasks = SelectedGrids(['OpsiExplore', 'OpsiDaily', 'OpsiObscure', 'OpsiAbyssal', 'OpsiFleetFilter',
+            tasks = SelectedGrids(['OpsiExplore', 'OpsiDaily', 'OpsiObscure', 'OpsiAbyssal', 'OpsiStronghold',
                                    'OpsiMeowfficerFarming'])
             delay_tasks(tasks.filter(is_submarine_call).filter(is_not_force_run).grids, minutes=60)
         if ap_limit:
-            tasks = SelectedGrids(['OpsiExplore', 'OpsiDaily', 'OpsiObscure', 'OpsiAbyssal', 'OpsiFleetFilter',
+            tasks = SelectedGrids(['OpsiExplore', 'OpsiDaily', 'OpsiObscure', 'OpsiAbyssal', 'OpsiStronghold',
                                    'OpsiMeowfficerFarming'])
-            delay_tasks(tasks.filter(is_submarine_call).filter(is_not_force_run).grids, minutes=360)
+            delay_tasks(tasks.filter(is_not_force_run).grids, minutes=360)
 
         self.save()
 
