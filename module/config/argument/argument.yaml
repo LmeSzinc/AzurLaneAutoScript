@@ -158,6 +158,10 @@ HpControl:
   RepairUseSingleThreshold: 0.3
   RepairUseMultiThreshold: 0.6
   LowHpRetreatThreshold: 0.3
+EnemyPriority:
+  EnemyScaleBalanceWeight: 
+    value: default_mode
+    option: [default_mode, S3_enemy_first, S1_enemy_first]
 Raid:
   Mode:
     value: hard
@@ -413,22 +417,37 @@ RaidDaily:
 OpsiAshAssist:
   Tier: 15
 OpsiGeneral:
-  AshAttack: true
+  UseLogger: true
   BuyActionPoint: false
   OilLimit: 1000
   RepairThreshold: 0.4
   BuyAkashiShop: true
   AkashiShopFilter: |-
     ActionPoint > PurpleCoins
+OpsiAshBeacon:
+  AshAttack: true
+  EnsureFullyCollected: true
+  RequestAssist: true
+OpsiFleetFilter:
+  Filter: |-
+    Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1
+OpsiFleet:
+  Fleet:
+    value: 1
+    option: [1, 2, 3, 4]
+  Submarine: false
 OpsiExplore:
   SpecialRadar: false
+  ForceRun: false
   LastZone: 0
 OpsiDaily:
   BuySupply: true
   DoMission: true
 OpsiObscure:
-  UseLogger: true
-  CallSubmarine: true
+  ForceRun: false
+OpsiAbyssal:
+  ForceRun: false
+OpsiStronghold:
   ForceRun: false
 OpsiMeowfficerFarming:
   ActionPointPreserve: 500

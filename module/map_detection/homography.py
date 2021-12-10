@@ -188,10 +188,13 @@ class Homography:
         self.homo_loca %= self.config.HOMO_TILE
 
         # Detect map edges
-        image_edge = cv2.bitwise_and(cv2.dilate(image_edge, kernel),
-                                     cv2.inRange(image_trans, *self.config.HOMO_EDGE_COLOR_RANGE))
-        image_edge = cv2.bitwise_and(image_edge, self.ui_mask_homo_stroke)
-        self.detect_edges(image_edge, hough_th=self.config.HOMO_EDGE_HOUGHLINES_THRESHOLD)
+        self.lower_edge, self.upper_edge, self.left_edge, self.right_edge = False, False, False, False
+        self._map_edge_count = (0, 0)
+        if self.config.HOMO_EDGE_DETECT:
+            image_edge = cv2.bitwise_and(cv2.dilate(image_edge, kernel),
+                                         cv2.inRange(image_trans, *self.config.HOMO_EDGE_COLOR_RANGE))
+            image_edge = cv2.bitwise_and(image_edge, self.ui_mask_homo_stroke)
+            self.detect_edges(image_edge, hough_th=self.config.HOMO_EDGE_HOUGHLINES_THRESHOLD)
 
         # Log
         time_cost = round(time.time() - start_time, 3)

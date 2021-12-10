@@ -108,6 +108,12 @@ class MissionHandler(GlobeOperation, ZoneManager):
             # So here needs to use both template matching and color detection.
             self.os_mission_quit()
             return False
+        if self.appear(MISSION_MONTHLY_BOSS, offset=(20, 20)):
+            # If monthly BOSS hasn't been killed, there is always a task.
+            # It has a low priority to show, so its presence means that the task list is empty.
+            logger.info('Monthly BOSS mission found, mission list is empty')
+            self.os_mission_quit()
+            return False
 
         logger.info('Checkout os mission')
         skip_first_screenshot = True

@@ -24,14 +24,14 @@ class OSCampaignRun(OSMapOperation):
         try:
             self.campaign.os_explore()
         except ActionPointLimit:
-            self.campaign.config.task_delay(minute=360)
+            self.config.opsi_task_delay(ap_limit=True)
 
     def opsi_daily(self):
         self.load_campaign()
         try:
             self.campaign.os_daily()
         except ActionPointLimit:
-            self.campaign.config.task_delay(minute=360)
+            self.config.opsi_task_delay(ap_limit=True)
 
     def opsi_meowfficer_farming(self):
         self.load_campaign()
@@ -45,4 +45,18 @@ class OSCampaignRun(OSMapOperation):
         try:
             self.campaign.os_obscure()
         except ActionPointLimit:
-            self.campaign.config.task_delay(minute=360)
+            self.config.opsi_task_delay(ap_limit=True)
+
+    def opsi_abyssal(self):
+        self.load_campaign()
+        try:
+            self.campaign.os_abyssal()
+        except ActionPointLimit:
+            self.config.opsi_task_delay(ap_limit=True)
+
+    def opsi_stronghold(self):
+        self.load_campaign()
+        try:
+            self.campaign.os_stronghold()
+        except ActionPointLimit:
+            self.config.opsi_task_delay(ap_limit=True)

@@ -384,6 +384,22 @@ def rgb2gray(image):
     )
 
 
+def rgb2hsv(image):
+    """
+    Convert RGB color space to HSV color space.
+    HSV is Hue Saturation Value.
+
+    Args:
+        image (np.ndarray): Shape (height, width, channel)
+
+    Returns:
+        np.ndarray: Hue (0~360), Saturation (0~100), Value (0~100).
+    """
+    image = cv2.cvtColor(image, cv2.COLOR_RGB2HSV).astype(np.float)
+    image *= (360 / 180, 100 / 255, 100 / 255)
+    return image
+
+
 def get_color(image, area):
     """Calculate the average color of a particular area of the image.
 

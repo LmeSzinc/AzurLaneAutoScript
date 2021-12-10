@@ -25,15 +25,15 @@ class Zone:
     # 1 for upper-left, 2 for upper-right, 3 for bottom-left, 4 for bottom-right, 5 for center
     region: int
 
-    is_port: int
-    is_azur_port: int
+    is_port: bool
+    is_azur_port: bool
 
     def __init__(self, zone_id, data):
         self.zone_id = zone_id
         self.__dict__.update(data)
         self.location = self.point_convert(self.area_pos)
         self.mission = self.point_convert(np.add(self.area_pos, self.offset_pos))
-        self.is_port = self.zone_id in [0, 1, 2, 3, 4, 5, 6, 7]
+        self.is_port = self.zone_id in [0, 1, 2, 3, 4, 5, 6, 7, 154]
         self.is_azur_port = self.zone_id in [0, 1, 2, 3]
 
     @staticmethod

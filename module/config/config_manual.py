@@ -10,7 +10,7 @@ class ManualConfig:
     > Gacha > SupplyPack
     > Reward > BattlePass
     > ShopFrequent > ShopOnce > Shipyard > DataKey
-    > OpsiExplore > OpsiObscure
+    > OpsiExplore > OpsiAbyssal > OpsiStronghold > OpsiObscure
     > Exercise > Daily > Hard > OpsiAshAssist
     > Sos > EventSp > EventAb > EventCd > RaidDaily > WarArchives
     > OpsiDaily > OpsiMeowfficerFarming
@@ -147,6 +147,7 @@ class ManualConfig:
     HOMO_CORNER_THRESHOLD = 0.8
     HOMO_RECTANGLE_THRESHOLD = 10
 
+    HOMO_EDGE_DETECT = True
     HOMO_EDGE_HOUGHLINES_THRESHOLD = 120
     HOMO_EDGE_COLOR_RANGE = (0, 24)
     # ((x, y), [upper-left, upper-right, bottom-left, bottom-right])
@@ -197,6 +198,7 @@ class ManualConfig:
     # CL4
     # CL5
     # CL6
+    # Center Zone CL5 and CL6
     OS_EXPLORE_FILTER = """
     44 > 24 > 22 > 31 > 21 > 23
     > 83 > 43 > 81 > 84 > 92 > 93
@@ -218,6 +220,9 @@ class ManualConfig:
     > 71 > 73
 
     > 11 > 106 > 121 > 72
+
+    > 151 > 152 > 159 > 158
+    > 153 > 157 > 156 > 155
     """
     OS_ACTION_POINT_BOX_USE = True
     OS_ACTION_POINT_PRESERVE = 0

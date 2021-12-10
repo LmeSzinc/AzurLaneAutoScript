@@ -8,7 +8,7 @@ from module.ui.switch import Switch
 fast_forward = Switch('Fast_Forward')
 fast_forward.add_status('on', check_button=FAST_FORWARD_ON)
 fast_forward.add_status('off', check_button=FAST_FORWARD_OFF)
-fleet_lock = Switch('Fleet_Lock', offset=(5, 5))
+fleet_lock = Switch('Fleet_Lock', offset=(5, 20))
 fleet_lock.add_status('on', check_button=FLEET_LOCKED)
 fleet_lock.add_status('off', check_button=FLEET_UNLOCKED)
 auto_search = Switch('Auto_Search', offset=(20, 20))
@@ -126,14 +126,23 @@ class FastForwardHandler(AutoSearchHandler):
         changed = fast_forward.set(status=status, main=self)
         return changed
 
-    def handle_map_fleet_lock(self):
+    def handle_map_fleet_lock(self, enable=None):
+        """
+        Args:
+            enable (bool): Default to None, use Campaign_UseFleetLock.
+
+        Returns:
+            bool: If switched.
+        """
         # Fleet lock depends on if it appear on map, not depends on map status.
         # Because if already in map, there's no map status,
         if not fleet_lock.appear(main=self):
             logger.info('No fleet lock option.')
             return False
 
-        status = 'on' if self.config.Campaign_UseFleetLock else 'off'
+        if enable is None:
+            enable = self.config.Campaign_UseFleetLock
+        status = 'on' if enable else 'off'
         changed = fleet_lock.set(status=status, main=self)
 
         return changed

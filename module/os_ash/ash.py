@@ -320,14 +320,15 @@ class OSAsh(UI):
             in: is_in_map
             out: is_in_map
         """
-        if not self.config.OpsiGeneral_AshAttack:
+        if not self.config.OpsiAshBeacon_AshAttack:
             return False
         if self.ash_collect_status() < 100:
             return False
 
         for _ in range(3):
             self._ash_enter_from_map()
-            self._ash_help()
+            if self.config.OpsiAshBeacon_RequestAssist:
+                self._ash_help()
             finish = self._ash_beacon_attack()
             if finish:
                 break

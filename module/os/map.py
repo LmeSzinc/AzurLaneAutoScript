@@ -178,7 +178,10 @@ class OSMap(OSFleet, Map, GlobeCamera):
             if self.combat_appear():
                 self._auto_search_battle_count += 1
                 logger.attr('battle_count', self._auto_search_battle_count)
-                self.auto_search_combat()
+                result = self.auto_search_combat()
+                if not result:
+                    logger.warning('Fleet died, stop auto search')
+                    break
             if self.handle_map_event():
                 # Auto search can not handle siren searching device.
                 continue
@@ -203,7 +206,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
 
             # Continue if was Auto search interrupted by ash popup
             # Break if zone cleared
-            if self.config.OpsiGeneral_AshAttack:
+            if self.config.OpsiAshBeacon_AshAttack:
                 if self.handle_ash_beacon_attack() or self.ash_popup_canceled:
                     continue
                 else:

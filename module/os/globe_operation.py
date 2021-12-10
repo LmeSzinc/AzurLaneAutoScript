@@ -5,8 +5,8 @@ from module.os.assets import *
 from module.os_handler.action_point import ActionPointHandler
 from module.os_handler.map_event import MapEventHandler
 
-ZONE_TYPES = [ZONE_DANGEROUS, ZONE_SAFE, ZONE_OBSCURE, ZONE_LOGGER, ZONE_STRONGHOLD]
-ZONE_SELECT = [SELECT_DANGEROUS, SELECT_SAFE, SELECT_OBSCURE, SELECT_LOGGER, SELECT_STRONGHOLD]
+ZONE_TYPES = [ZONE_DANGEROUS, ZONE_SAFE, ZONE_OBSCURE, ZONE_ABYSSAL, ZONE_STRONGHOLD]
+ZONE_SELECT = [SELECT_DANGEROUS, SELECT_SAFE, SELECT_OBSCURE, SELECT_ABYSSAL, SELECT_STRONGHOLD]
 ASSETS_PINNED_ZONE = ZONE_TYPES + [ZONE_ENTRANCE, ZONE_SWITCH, ZONE_PINNED]
 
 
@@ -42,9 +42,20 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             button (Button):
 
         Returns:
-            str: DANGEROUS, SAFE, OBSCURE, LOGGER, STRONGHOLD.
+            str: DANGEROUS, SAFE, OBSCURE, ABYSSAL, STRONGHOLD.
         """
         return button.name.split('_')[1]
+
+    def get_zone_pinned_name(self):
+        """
+        Returns:
+            str: DANGEROUS, SAFE, OBSCURE, ABYSSAL, STRONGHOLD, or ''.
+        """
+        pinned = self.get_zone_pinned()
+        if pinned is not None:
+            return self.pinned_to_name(pinned)
+        else:
+            return ''
 
     def handle_zone_pinned(self):
         """
@@ -126,7 +137,7 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
         """
         Args:
             types (tuple[str], list[str], str): Zone types, or a list of them.
-                Available types: DANGEROUS, SAFE, OBSCURE, LOGGER, STRONGHOLD.
+                Available types: DANGEROUS, SAFE, OBSCURE, ABYSSAL, STRONGHOLD.
                 Try the the first selection in type list, if not available, try the next one.
                 Do nothing if no selection satisfied input.
 
@@ -152,7 +163,7 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
                         return sele
             return None
 
-        pinned = self.pinned_to_name(self.get_zone_pinned())
+        pinned = self.get_zone_pinned_name()
         if pinned in types:
             logger.info(f'Already selected at {pinned}')
             return True
@@ -171,7 +182,7 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
 
             self.ui_click(button, check_button=self.is_zone_pinned, offset=self._zone_select_offset,
                           skip_first_screenshot=True)
-            if self.pinned_to_name(button) == self.pinned_to_name(self.get_zone_pinned()):
+            if self.pinned_to_name(button) == self.get_zone_pinned_name():
                 return True
 
         logger.warning('Failed to select zone type after 3 trial')
@@ -189,7 +200,7 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             in: is_zone_pinned
             out: is_zone_pinned
         """
-        if self.pinned_to_name(self.get_zone_pinned()) == 'SAFE':
+        if self.get_zone_pinned_name() == 'SAFE':
             return True
         elif self.zone_has_switch():
             self.ui_click(ZONE_SWITCH, appear_button=self.is_zone_pinned, check_button=self.is_in_zone_select,
@@ -212,8 +223,12 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
         return self.ui_click(GLOBE_GOTO_MAP, check_button=self.is_in_map, offset=(200, 5),
                              skip_first_screenshot=skip_first_screenshot)
 
-    def os_map_goto_globe(self, skip_first_screenshot=True):
+    def os_map_goto_globe(self, unpin=True, skip_first_screenshot=True):
         """
+        Args:
+            unpin (bool):
+            skip_first_screenshot (bool):
+
         Pages:
             in: is_in_map
             out: is_in_globe
@@ -227,7 +242,7 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             return False
 
         self.ui_click(MAP_GOTO_GLOBE, check_button=self.is_in_globe, offset=(200, 5), additional=additional,
-                      skip_first_screenshot=skip_first_screenshot)
+                      retry_wait=2, skip_first_screenshot=skip_first_screenshot)
 
         confirm_timer = Timer(1, count=2).start()
         unpinned = 0
@@ -237,11 +252,15 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             else:
                 self.device.screenshot()
 
-            if self.handle_zone_pinned():
-                unpinned += 1
-                confirm_timer.reset()
+            if unpin:
+                if self.handle_zone_pinned():
+                    unpinned += 1
+                    confirm_timer.reset()
+                else:
+                    if unpinned and confirm_timer.reached():
+                        break
             else:
-                if unpinned and confirm_timer.reached():
+                if self.is_zone_pinned():
                     break
 
     def globe_enter(self, zone, skip_first_screenshot=True):
@@ -263,14 +282,11 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             else:
                 self.device.screenshot()
             if pinned is None:
-                pinned = self.pinned_to_name(self.get_zone_pinned())
+                pinned = self.get_zone_pinned_name()
 
             # End
             if self.is_in_map():
-                if confirm_timer.reached():
-                    break
-            else:
-                confirm_timer.reset()
+                break
 
             if self.is_zone_pinned() and click_timer.reached():
                 self.device.click(ZONE_ENTRANCE)

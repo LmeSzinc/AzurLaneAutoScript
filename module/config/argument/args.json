@@ -526,6 +526,17 @@
         "type": "input",
         "value": 0.3
       }
+    },
+    "EnemyPriority": {
+      "EnemyScaleBalanceWeight": {
+        "type": "select",
+        "value": "default_mode",
+        "option": [
+          "default_mode",
+          "S3_enemy_first",
+          "S1_enemy_first"
+        ]
+      }
     }
   },
   "Event": {
@@ -913,6 +924,17 @@
         "type": "input",
         "value": 0.3
       }
+    },
+    "EnemyPriority": {
+      "EnemyScaleBalanceWeight": {
+        "type": "select",
+        "value": "default_mode",
+        "option": [
+          "default_mode",
+          "S3_enemy_first",
+          "S1_enemy_first"
+        ]
+      }
     }
   },
   "Raid": {
@@ -1109,6 +1131,17 @@
       "Fleet2Oath": {
         "type": "checkbox",
         "value": false
+      }
+    },
+    "EnemyPriority": {
+      "EnemyScaleBalanceWeight": {
+        "type": "select",
+        "value": "default_mode",
+        "option": [
+          "default_mode",
+          "S3_enemy_first",
+          "S1_enemy_first"
+        ]
       }
     }
   },
@@ -2808,6 +2841,17 @@
       "Fleet2Oath": {
         "type": "checkbox",
         "value": false
+      }
+    },
+    "EnemyPriority": {
+      "EnemyScaleBalanceWeight": {
+        "type": "select",
+        "value": "default_mode",
+        "option": [
+          "default_mode",
+          "S3_enemy_first",
+          "S1_enemy_first"
+        ]
       }
     }
   },
@@ -5929,7 +5973,7 @@
   },
   "OpsiGeneral": {
     "OpsiGeneral": {
-      "AshAttack": {
+      "UseLogger": {
         "type": "checkbox",
         "value": true
       },
@@ -5952,6 +5996,20 @@
       "AkashiShopFilter": {
         "type": "textarea",
         "value": "ActionPoint > PurpleCoins"
+      }
+    },
+    "OpsiAshBeacon": {
+      "AshAttack": {
+        "type": "checkbox",
+        "value": true
+      },
+      "EnsureFullyCollected": {
+        "type": "checkbox",
+        "value": true
+      },
+      "RequestAssist": {
+        "type": "checkbox",
+        "value": true
       }
     }
   },
@@ -6023,9 +6081,29 @@
         "type": "checkbox",
         "value": false
       },
+      "ForceRun": {
+        "type": "checkbox",
+        "value": false
+      },
       "LastZone": {
         "type": "input",
         "value": 0
+      }
+    },
+    "OpsiFleet": {
+      "Fleet": {
+        "type": "select",
+        "value": 1,
+        "option": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "Submarine": {
+        "type": "checkbox",
+        "value": false
       }
     }
   },
@@ -6066,6 +6144,22 @@
         "type": "checkbox",
         "value": true
       }
+    },
+    "OpsiFleet": {
+      "Fleet": {
+        "type": "select",
+        "value": 1,
+        "option": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "Submarine": {
+        "type": "checkbox",
+        "value": false
+      }
     }
   },
   "OpsiObscure": {
@@ -6097,17 +6191,107 @@
       }
     },
     "OpsiObscure": {
-      "UseLogger": {
-        "type": "checkbox",
-        "value": true
-      },
-      "CallSubmarine": {
-        "type": "checkbox",
-        "value": true
-      },
       "ForceRun": {
         "type": "checkbox",
         "value": false
+      }
+    },
+    "OpsiFleet": {
+      "Fleet": {
+        "type": "select",
+        "value": 1,
+        "option": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "Submarine": {
+        "type": "checkbox",
+        "value": false
+      }
+    }
+  },
+  "OpsiAbyssal": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "input",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "disable",
+        "value": "OpsiAbyssal"
+      },
+      "SuccessInterval": {
+        "type": "disable",
+        "value": 60
+      },
+      "FailureInterval": {
+        "type": "disable",
+        "value": 60
+      },
+      "ServerUpdate": {
+        "type": "disable",
+        "value": "00:00"
+      }
+    },
+    "OpsiAbyssal": {
+      "ForceRun": {
+        "type": "checkbox",
+        "value": false
+      }
+    },
+    "OpsiFleetFilter": {
+      "Filter": {
+        "type": "textarea",
+        "value": "Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1"
+      }
+    }
+  },
+  "OpsiStronghold": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "input",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "disable",
+        "value": "OpsiStronghold"
+      },
+      "SuccessInterval": {
+        "type": "disable",
+        "value": 60
+      },
+      "FailureInterval": {
+        "type": "disable",
+        "value": 60
+      },
+      "ServerUpdate": {
+        "type": "disable",
+        "value": "00:00"
+      }
+    },
+    "OpsiStronghold": {
+      "ForceRun": {
+        "type": "checkbox",
+        "value": false
+      }
+    },
+    "OpsiFleetFilter": {
+      "Filter": {
+        "type": "textarea",
+        "value": "Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1"
       }
     }
   },
@@ -6159,6 +6343,22 @@
       "TargetZone": {
         "type": "input",
         "value": 0
+      }
+    },
+    "OpsiFleet": {
+      "Fleet": {
+        "type": "select",
+        "value": 1,
+        "option": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "Submarine": {
+        "type": "checkbox",
+        "value": false
       }
     }
   },

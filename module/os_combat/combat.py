@@ -77,6 +77,27 @@ class Combat(Combat_, MapEventHandler):
                 #     self.emotion.reduce(fleet_index)
                 break
 
+    def handle_exp_info(self):
+        if self.is_combat_executing():
+            return False
+        if self.appear_then_click(EXP_INFO_S):
+            self.device.sleep((0.25, 0.5))
+            return True
+        if self.appear_then_click(EXP_INFO_A):
+            self.device.sleep((0.25, 0.5))
+            return True
+        if self.appear_then_click(EXP_INFO_B):
+            self.device.sleep((0.25, 0.5))
+            return True
+        if self.appear_then_click(EXP_INFO_C):
+            self.device.sleep((0.25, 0.5))
+            return True
+        if self.appear_then_click(EXP_INFO_D):
+            self.device.sleep((0.25, 0.5))
+            return True
+
+        return False
+
     def handle_get_items(self, drop=None):
         if self.appear(GET_ITEMS_1, offset=5, interval=self.battle_status_click_interval):
             self.device.click(CLICK_SAFE_AREA)
@@ -125,14 +146,49 @@ class Combat(Combat_, MapEventHandler):
                 logger.warning('Too many continuous combat')
 
             try:
-                super().combat(*args, **kwargs)
+                super().combat(*args, save_get_items=False, **kwargs)
                 break
             except ContinuousCombat:
                 logger.info('Continuous combat detected')
                 continue
 
+    def handle_auto_search_battle_status(self, drop=None):
+        if self.appear(BATTLE_STATUS_C, interval=self.battle_status_click_interval):
+            logger.warning('Battle Status C')
+            # raise GameStuckError('Battle status C')
+            if drop:
+                drop.handle_add(self)
+            else:
+                self.device.sleep((0.25, 0.5))
+            self.device.click(BATTLE_STATUS_C)
+            return True
+        if self.appear(BATTLE_STATUS_D, interval=self.battle_status_click_interval):
+            logger.warning('Battle Status D')
+            # raise GameStuckError('Battle Status D')
+            if drop:
+                drop.handle_add(self)
+            else:
+                self.device.sleep((0.25, 0.5))
+            self.device.click(BATTLE_STATUS_D)
+            return True
+
+        return False
+
+    def handle_auto_search_exp_info(self):
+        if self.appear_then_click(EXP_INFO_C):
+            self.device.sleep((0.25, 0.5))
+            return True
+        if self.appear_then_click(EXP_INFO_D):
+            self.device.sleep((0.25, 0.5))
+            return True
+
+        return False
+
     def auto_search_combat(self):
         """
+        Returns:
+            bool: True if enemy cleared, False if fleet died.
+
         Pages:
             in: is_combat_loading()
             out: combat status
@@ -159,16 +215,23 @@ class Combat(Combat_, MapEventHandler):
         if self.config.Submarine_Fleet:
             submarine_mode = self.config.Submarine_Mode
 
+        success = True
         while 1:
             self.device.screenshot()
 
             if self.handle_submarine_call(submarine_mode):
                 continue
-            if self.handle_os_auto_search_map_option():
+            if success and self.handle_os_auto_search_map_option():
                 continue
 
             # End
             if self.is_combat_executing():
+                continue
+            if self.handle_auto_search_battle_status():
+                success = False
+                continue
+            if self.handle_auto_search_exp_info():
+                success = False
                 continue
             if self.handle_map_event():
                 continue
@@ -177,3 +240,4 @@ class Combat(Combat_, MapEventHandler):
                 break
 
         logger.info('Combat end.')
+        return success

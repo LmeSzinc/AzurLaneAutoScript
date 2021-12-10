@@ -5,6 +5,11 @@ from module.handler.assets import *
 from module.logger import logger
 from module.os_handler.assets import *
 from module.os_handler.enemy_searching import EnemySearchingHandler
+from module.ui.switch import Switch
+
+fleet_lock = Switch('Fleet_Lock', offset=(10, 120))
+fleet_lock.add_status('on', check_button=OS_FLEET_LOCKED)
+fleet_lock.add_status('off', check_button=OS_FLEET_UNLOCKED)
 
 
 class MapEventHandler(EnemySearchingHandler):
@@ -42,9 +47,11 @@ class MapEventHandler(EnemySearchingHandler):
 
     def handle_ash_popup(self):
         name = 'ASH'
+        # 2021.12.09
+        # Ash popup no longer shows red letters, so change it to letter `Ashes Coordinates`
         if self.appear(POPUP_CONFIRM, offset=self._popup_offset) \
                 and self.appear(POPUP_CANCEL, offset=self._popup_offset, interval=2) \
-                and self.image_color_count(ASH_POPUP_CHECK, color=(255, 93, 90), threshold=221, count=100):
+                and self.appear(ASH_POPUP_CHECK, offset=(20, 20)):
             POPUP_CANCEL.name = POPUP_CANCEL.name + '_' + name
             self.device.click(POPUP_CANCEL)
             POPUP_CANCEL.name = POPUP_CANCEL.name[:-len(name) - 1]
@@ -166,16 +173,37 @@ class MapEventHandler(EnemySearchingHandler):
         Returns:
             bool: If clicked.
         """
-        if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 50)) \
+        if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120)) \
                 and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image) \
                 and self.info_bar_count() >= 2:
             self.device.screenshot_interval_set(0.1)
             raise CampaignEnd
-        if self.appear(AUTO_SEARCH_REWARD, offset=(20, 50)):
+        if self.appear(AUTO_SEARCH_REWARD, offset=(50, 50)):
             self.device.screenshot_interval_set(0.1)
             self.os_auto_search_quit()
             raise CampaignEnd
-        if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 50), interval=3) \
+        if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120), interval=3) \
                 and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image):
             self.device.click(AUTO_SEARCH_OS_MAP_OPTION_OFF)
             return True
+
+    def handle_os_map_fleet_lock(self, enable=None):
+        """
+        Args:
+            enable (bool): Default to None, use Campaign_UseFleetLock.
+
+        Returns:
+            bool: If switched.
+        """
+        # Fleet lock depends on if it appear on map, not depends on map status.
+        # Because if already in map, there's no map status,
+        if not fleet_lock.appear(main=self):
+            logger.info('No fleet lock option.')
+            return False
+
+        if enable is None:
+            enable = self.config.Campaign_UseFleetLock
+        status = 'on' if enable else 'off'
+        changed = fleet_lock.set(status=status, main=self)
+
+        return changed

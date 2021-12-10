@@ -49,7 +49,7 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
         # for ui_ensure_index
         confirm_timer = Timer(1, count=2).start()
         ocr_submit = None
-        index_offset = (40, 20)
+        index_offset = (60, 20)
         while 1:
             if skip_first_scrrenshot:
                 skip_first_scrrenshot = False
@@ -78,6 +78,8 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
             logger.error('Failed to identify ocr asset required, '
                          'cannot continue prep work')
             exit(1)
+        area = ocr_submit.buttons[0]
+        ocr_submit.buttons = [(BUILD_MINUS.button[2] + 3, area[1], BUILD_PLUS.button[0] - 3, area[3])]
         self.ui_ensure_index(target, letter=ocr_submit, prev_button=BUILD_MINUS,
                              next_button=BUILD_PLUS, skip_first_screenshot=True)
 
