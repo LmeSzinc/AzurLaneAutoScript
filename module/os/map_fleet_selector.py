@@ -3,7 +3,7 @@ from module.base.timer import Timer
 from module.base.utils import *
 from module.logger import logger
 from module.os.assets import *
-from module.ui.ui import UI
+from module.os_handler.map_event import MapEventHandler
 
 
 class FleetSelector:
@@ -17,7 +17,7 @@ class FleetSelector:
     def __init__(self, main):
         """
         Args:
-            main (UI): Alas module
+            main (OSFleetSelector): Alas module
         """
         self._choose = FLEET_CHOOSE
         self._bar = FLEET_BAR
@@ -149,6 +149,10 @@ class FleetSelector:
             else:
                 main.device.screenshot()
 
+            if main.handle_map_event():
+                click_timer.reset()
+                continue
+
             if not self.bar_opened():
                 # End
                 if self.get() == index:
@@ -181,6 +185,13 @@ class FleetSelector:
             else:
                 main.device.screenshot()
 
+            if confirm_timer.reached():
+                break
+
+            if main.handle_map_event():
+                confirm_timer.reset()
+                continue
+
             current = self.get()
             if current == index:
                 logger.info(f'It is fleet {index} already')
@@ -191,14 +202,11 @@ class FleetSelector:
                 self.click(index)
                 return True
 
-            if confirm_timer.reached():
-                break
-
         logger.warning('Unknown OpSi fleet, use current fleet instead')
         return False
 
 
-class OSFleetSelector(UI):
+class OSFleetSelector(MapEventHandler):
     @cached_property
     def fleet_selector(self):
         return FleetSelector(main=self)

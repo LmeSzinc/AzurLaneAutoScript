@@ -8,10 +8,10 @@ from module.map.map_operation import MapOperation
 from module.os.globe_zone import ZoneManager
 from module.os_handler.action_point import ActionPointHandler
 from module.os_handler.assets import *
-from module.os_handler.enemy_searching import EnemySearchingHandler
+from module.os_handler.map_event import MapEventHandler
 
 
-class MapOrderHandler(MapOperation, ActionPointHandler, EnemySearchingHandler, ZoneManager):
+class MapOrderHandler(MapOperation, ActionPointHandler, MapEventHandler, ZoneManager):
     def is_in_map_order(self):
         return self.appear(ORDER_CHECK, offset=(20, 20))
 
@@ -78,6 +78,8 @@ class MapOrderHandler(MapOperation, ActionPointHandler, EnemySearchingHandler, Z
                 continue
             if self.handle_popup_confirm(button.name):
                 continue
+            if self.handle_map_event():
+                continue
             if self.handle_map_cat_attack():
                 continue
             if self.handle_action_point(zone=assume_zone, pinned='OBSCURE'):
@@ -86,6 +88,21 @@ class MapOrderHandler(MapOperation, ActionPointHandler, EnemySearchingHandler, Z
                 self.order_enter()
                 confirm_timer.reset()
                 missing_timer.reset()
+                continue
+
+    def wait_until_order_finished(self, skip_first_screenshot=True):
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.is_in_map() and self.appear(ORDER_ENTER, offset=(20, 20)):
+                break
+
+            if self.handle_map_event():
+                continue
+            if self.handle_map_cat_attack():
                 continue
 
     def os_order_execute(self, recon_scan=True, submarine_call=True):
@@ -112,6 +129,8 @@ class MapOrderHandler(MapOperation, ActionPointHandler, EnemySearchingHandler, Z
             recon_scan = self.order_execute(ORDER_SCAN)
         if submarine_call:
             submarine_call = self.order_execute(ORDER_SUBMARINE)
+            if submarine_call:
+                self.wait_until_order_finished()
 
         self.config.opsi_task_delay(recon_scan=recon_scan, submarine_call=submarine_call)
 
