@@ -41,6 +41,7 @@ class OperationSiren(Reward, OSMap):
         # Clear current zone
         if self.zone.is_port:
             logger.info('In port, skip running first auto search')
+            self.handle_ash_beacon_attack()
         else:
             self.run_auto_search()
             self.handle_fleet_repair(revert=False)
@@ -283,7 +284,9 @@ class OperationSiren(Reward, OSMap):
             if self.config.OpsiAshBeacon_AshAttack \
                     and not self._ash_fully_collected \
                     and self.config.OpsiAshBeacon_EnsureFullyCollected:
+                logger.info('Ash beacon not fully collected, ignore action point limit temporarily')
                 self.config.OS_ACTION_POINT_PRESERVE = 0
+            logger.attr('OS_ACTION_POINT_PRESERVE', self.config.OS_ACTION_POINT_PRESERVE)
 
             # (1252, 1012) is the coordinate of zone 134 (the center zone) in os_globe_map.png
             if self.config.OpsiMeowfficerFarming_TargetZone != 0:
