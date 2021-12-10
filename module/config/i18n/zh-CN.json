@@ -758,6 +758,19 @@
       "help": ""
     }
   },
+  "EnemyPriority": {
+    "_info": {
+      "name": "索敌逻辑",
+      "help": "自定义你想打的敌人的优先级"
+    },
+    "EnemyScaleBalanceWeight": {
+      "name": "敌人优先级",
+      "help": "先清理通往BOSS的主要途径上的敌人，再根据优先级清理其他敌人",
+      "default_mode": "依照地图文件",
+      "S3_enemy_first": "优先打大型敌人",
+      "S1_enemy_first": "优先打小型敌人"
+    }
+  },
   "Raid": {
     "_info": {
       "name": "共斗活动设置",
