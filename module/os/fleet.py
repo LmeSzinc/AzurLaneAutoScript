@@ -10,7 +10,8 @@ from module.map.fleet import Fleet
 from module.map.map_grids import SelectedGrids
 from module.map.utils import location_ensure
 from module.map_detection.utils import *
-from module.os.assets import TEMPLATE_EMPTY_HP
+from module.ocr.ocr import Ocr
+from module.os.assets import *
 from module.os.camera import OSCamera
 from module.os.map_base import OSCampaignMap
 from module.os_ash.ash import OSAsh
@@ -36,6 +37,17 @@ class BossFleet:
         return f'Fleet-{self.fleet}'
 
     __repr__ = __str__
+
+
+class PercentageOcr(Ocr):
+    def __init__(self, *args, **kwargs):
+        kwargs['lang'] = 'azur_lane'
+        super().__init__(*args, **kwargs)
+
+    def pre_process(self, image):
+        image = super().pre_process(image)
+        image = np.pad(image, ((2, 2), (0, 0)), mode='constant', constant_values=255)
+        return image
 
 
 class OSFleet(OSCamera, Combat, Fleet, OSAsh):
@@ -143,6 +155,8 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
     def hp_retreat_triggered(self):
         return False
 
+    need_repair = [False, False, False, False, False, False]
+
     def hp_get(self):
         """
         Calculate current HP, also detects the wrench (Ship died, need to repair)
@@ -150,6 +164,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         super().hp_get()
         ship_icon = self._hp_grid().crop((0, -67, 67, 0))
         need_repair = [TEMPLATE_EMPTY_HP.match(self.image_area(button)) for button in ship_icon.buttons]
+        self.need_repair = need_repair
         logger.attr('Repair icon', need_repair)
 
         if any(need_repair):
@@ -532,4 +547,23 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         self.handle_os_map_fleet_lock(enable=False)
         self.question_goto(has_fleet_step=True)
         result = self.boss_clear(has_fleet_step=True)
+        return result
+
+    def get_stronghold_percentage(self):
+        """
+        Get the clear status in siren stronghold.
+
+        Returns:
+            str: Usually in ['100', '80', '60', '40', '20', '0']
+        """
+        ocr = PercentageOcr(STRONGHOLD_PERCENTAGE, letter=(255, 255, 255), threshold=128, name='STRONGHOLD_PERCENTAGE')
+        result = ocr.ocr(self.device.image)
+        result = result.rstrip('7Kk')
+        for starter in ['100', '80', '60', '40', '20', '0']:
+            if result.startswith(starter):
+                result = starter
+                logger.attr('STRONGHOLD_PERCENTAGE', result)
+                return result
+
+        logger.warning(f'Unexpected STRONGHOLD_PERCENTAGE: {result}')
         return result

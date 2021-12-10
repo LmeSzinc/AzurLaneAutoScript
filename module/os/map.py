@@ -178,7 +178,10 @@ class OSMap(OSFleet, Map, GlobeCamera):
             if self.combat_appear():
                 self._auto_search_battle_count += 1
                 logger.attr('battle_count', self._auto_search_battle_count)
-                self.auto_search_combat()
+                result = self.auto_search_combat()
+                if not result:
+                    logger.warning('Fleet died, stop auto search')
+                    break
             if self.handle_map_event():
                 # Auto search can not handle siren searching device.
                 continue
