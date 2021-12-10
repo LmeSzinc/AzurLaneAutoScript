@@ -8,12 +8,14 @@ from module.os.map_data import DIC_OS_MAP
 class OSChapter:
     def __init__(self):
         self.chapter = {}
-        data = LOADER.load('sharecfgdata/sharecfg/world_chapter_random.lua')
+        data = LOADER.load('sharecfg/world_chapter_random.lua')
         for index, chapter in data.items():
             if not isinstance(index, int) or index >= 200:
                 continue
             self.chapter[index] = {'cn': chapter['name'], 'hazard_level': chapter['hazard_level']}
 
+        for index, name in self.extract_chapter_name('zh-CN').items():
+            self.chapter[index]['cn'] = name
         for index, name in self.extract_chapter_name('en-US').items():
             self.chapter[index]['en'] = name
         for index, name in self.extract_chapter_name('ja-JP').items():
@@ -41,7 +43,7 @@ class OSChapter:
 
     def extract_chapter_name(self, server):
         LOADER.server = server
-        data = LOADER.load('sharecfgdata/sharecfg/world_chapter_random.lua')
+        data = LOADER.load('sharecfg/world_chapter_random.lua')
         out = {}
         for index, chapter in data.items():
             if not isinstance(index, int) or index >= 200:
@@ -49,6 +51,12 @@ class OSChapter:
             name = chapter['name']
             name = name.replace('é', 'e')  # OCR can't recognise letter "é"
             out[index] = name
+
+        # Zone 40000 is zone 154
+        for index, chapter in data.items():
+            if index == 40000:
+                print(server, chapter['name'])
+                out[154] = chapter['name']
 
         return out
 
@@ -74,7 +82,7 @@ class OSChapter:
 
     def extract_map_position(self, server='zh-CN'):
         LOADER.server = server
-        data = LOADER.load('sharecfgdata/sharecfg/world_chapter_colormask.lua')
+        data = LOADER.load('sharecfg/world_chapter_colormask.lua')
         out = {}
         for chapter in data.values():
             if 'serial_number' not in chapter:
