@@ -764,11 +764,20 @@
       "help": "Customize the priority of the enemy you want to fight"
     },
     "EnemyScaleBalanceWeight": {
-      "name": "Enemy Priority",
+      "name": "Enemy Priority Select",
       "help": "First clear the enemies on the mob to the boss, and then clean up other enemies according to priority",
       "default_mode": "According to map file",
+      "custom": "custom",
       "S3_enemy_first": "3-Stars enemies first",
       "S1_enemy_first": "1-Star enemies first"
+    },
+    "Preserve": {
+      "name": "Preserve Enemy",
+      "help": "preserve X enemies when fleet has ammo\nclear up these ememies when fleet run out of ammo\n10 means default count\nwarning: can't clear up enemies if it is set too high"
+    },
+    "EnemyFilter": {
+      "name": "Custom Enemy Priority",
+      "help": "To use your own filter, set \"Enemy Priority Select\" to \"custom\""
     }
   },
   "Raid": {

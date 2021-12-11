@@ -115,7 +115,9 @@ class GeneratedConfig:
     HpControl_LowHpRetreatThreshold = 0.3
 
     # Group `EnemyPriority`
-    EnemyPriority_EnemyScaleBalanceWeight = 'default_mode'  # default_mode, S3_enemy_first, S1_enemy_first
+    EnemyPriority_EnemyScaleBalanceWeight = 'default_mode'  # default_mode, custom, S3_enemy_first, S1_enemy_first
+    EnemyPriority_Preserve = 10
+    EnemyPriority_EnemyFilter = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 
     # Group `Raid`
     Raid_Mode = 'hard'  # easy, normal, hard

@@ -198,6 +198,17 @@ class Map(Fleet):
         else:
             grids = self.select_grids(grids, **kwargs)
 
+        """
+        if any-4.py used pick_up_ammo()
+        total ammo == 8
+        more than the number of battles required for any boss to appear
+        so clear_enemy() will not be used
+        """
+        if self.fleet_ammo != 0 and self.config.EnemyPriority_Preserve != 10:
+            logger.info("fleet ammo : %s" % self.fleet_ammo)
+            logger.info(f'Filter enemy: {grids}, preserve={self.config.EnemyPriority_Preserve}')
+            grids = grids[self.config.EnemyPriority_Preserve:] 
+
         if grids:
             logger.hr('Clear enemy')
             self.show_select_grids(grids, **kwargs)
@@ -622,12 +633,15 @@ class Map(Fleet):
         Returns:
             bool: If clear an enemy.
         """
+        if self.config.EnemyPriority_Preserve != 10:
+            preserve = self.config.EnemyPriority_Preserve
+
         if self.config.EnemyPriority_EnemyScaleBalanceWeight == 'S3_enemy_first':
             string = '3L > 3M > 3E > 3C > 2L > 2M > 2E > 2C > 1L > 1M > 1E > 1C'
-            preserve = 0
         elif self.config.EnemyPriority_EnemyScaleBalanceWeight == 'S1_enemy_first':
             string = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
-            preserve = 0
+        elif self.config.EnemyPriority_EnemyScaleBalanceWeight == 'custom':
+            string = self.config.EnemyPriority_EnemyFilter
 
         ENEMY_FILTER.load(string)
         grids = self.map.select(is_enemy=True, is_accessible=True)

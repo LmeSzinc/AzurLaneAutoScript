@@ -120,7 +120,9 @@
       "LowHpRetreatThreshold": 0.3
     },
     "EnemyPriority": {
-      "EnemyScaleBalanceWeight": "default_mode"
+      "EnemyScaleBalanceWeight": "default_mode",
+      "Preserve": 10,
+      "EnemyFilter": "1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C"
     }
   },
   "Event": {
@@ -192,7 +194,9 @@
       "LowHpRetreatThreshold": 0.3
     },
     "EnemyPriority": {
-      "EnemyScaleBalanceWeight": "default_mode"
+      "EnemyScaleBalanceWeight": "default_mode",
+      "Preserve": 10,
+      "EnemyFilter": "1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C"
     }
   },
   "Raid": {
@@ -241,7 +245,9 @@
       "Fleet2Oath": false
     },
     "EnemyPriority": {
-      "EnemyScaleBalanceWeight": "default_mode"
+      "EnemyScaleBalanceWeight": "default_mode",
+      "Preserve": 10,
+      "EnemyFilter": "1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C"
     }
   },
   "C11AffinityFarming": {
@@ -576,7 +582,9 @@
       "Fleet2Oath": false
     },
     "EnemyPriority": {
-      "EnemyScaleBalanceWeight": "default_mode"
+      "EnemyScaleBalanceWeight": "default_mode",
+      "Preserve": 10,
+      "EnemyFilter": "1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C"
     }
   },
   "Commission": {
