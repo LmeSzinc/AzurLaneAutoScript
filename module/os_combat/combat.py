@@ -221,7 +221,7 @@ class Combat(Combat_, MapEventHandler):
 
             if self.handle_submarine_call(submarine_mode):
                 continue
-            if success and self.handle_os_auto_search_map_option():
+            if self.handle_os_auto_search_map_option(enable=success):
                 continue
 
             # End

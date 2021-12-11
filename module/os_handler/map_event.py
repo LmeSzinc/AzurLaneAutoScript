@@ -168,8 +168,11 @@ class MapEventHandler(EnemySearchingHandler):
             else:
                 confirm_timer.reset()
 
-    def handle_os_auto_search_map_option(self):
+    def handle_os_auto_search_map_option(self, enable=True):
         """
+        Args:
+            enable (bool):
+
         Returns:
             bool: If clicked.
         """
@@ -182,10 +185,18 @@ class MapEventHandler(EnemySearchingHandler):
             self.device.screenshot_interval_set(0.1)
             self.os_auto_search_quit()
             raise CampaignEnd
-        if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120), interval=3) \
-                and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image):
-            self.device.click(AUTO_SEARCH_OS_MAP_OPTION_OFF)
-            return True
+        if enable:
+            if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120), interval=3) \
+                    and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image):
+                self.device.click(AUTO_SEARCH_OS_MAP_OPTION_OFF)
+                return True
+        else:
+            if self.appear(AUTO_SEARCH_OS_MAP_OPTION_ON, offset=(5, 120), interval=3) \
+                    and AUTO_SEARCH_OS_MAP_OPTION_ON.match_appear_on(self.device.image):
+                self.device.click(AUTO_SEARCH_OS_MAP_OPTION_ON)
+                return True
+
+        return False
 
     def handle_os_map_fleet_lock(self, enable=None):
         """
