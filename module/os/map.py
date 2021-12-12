@@ -157,6 +157,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
         unlock_check_timer = Timer(5, count=10).start()
         self.ash_popup_canceled = False
 
+        success = True
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -170,7 +171,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
                 raise RequestHumanTakeover
             if self.is_in_map():
                 self.device.stuck_record_clear()
-            if self.handle_os_auto_search_map_option():
+            if self.handle_os_auto_search_map_option(enable=success):
                 unlock_checked = True
                 continue
             if self.handle_retirement():
@@ -178,7 +179,11 @@ class OSMap(OSFleet, Map, GlobeCamera):
             if self.combat_appear():
                 self._auto_search_battle_count += 1
                 logger.attr('battle_count', self._auto_search_battle_count)
-                self.auto_search_combat()
+                result = self.auto_search_combat()
+                if not result:
+                    success = False
+                    logger.warning('Fleet died, stop auto search')
+                    continue
             if self.handle_map_event():
                 # Auto search can not handle siren searching device.
                 continue

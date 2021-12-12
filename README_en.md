@@ -27,14 +27,14 @@ GUI development, thanks **[@18870](https://github.com/18870)** , say HURRAY.
 - **Farm**: Main chapter, events, raids, 1-1 affinity farming, 7-2 mystery farming, 12-2 medium leveling, 12-4 large leveling, gems farming.
 - **Reward**: Commission, tactical class, research, dorm, meowfficer, guild, missions, shop, shipyard, gacha, data key.
 - **Daily**: Daily mission, hard, exercise, SOS, event daily AB, event daily SP, raid daily, war archives.
-- **Opsi**: Ash beacon assist, Opsi monthly explore, Opsi daily, obscured zones, meowfficer farming.
+- **Opsi**: Ash beacon assist, Opsi monthly explore, Opsi daily, obscured zones, meowfficer farming, abyssal zones, siren strongholds.
 
 #### Highlighted Features
 
 - **Mood Control**: Calculates mood consumption, keep exp bonus or prevent red faces.
 - **Event Exploring**: Able to run without clear mode, also handles fleet moving limits and other event mechanism.
 - **Seamless Reward**: Calculates the finish time of research, commission, etc. Receive reward and dispatch again when time reached.
-- **Operation Siren**: Receive Opsi dailies, purchase port shops, do Opsi dailies, do meowfficer farming, purchase Akashi's shop, clear obscured zones every 30 min.
+- **Operation Siren**: Receive Opsi dailies, purchase port shops, do Opsi dailies, do meowfficer farming, purchase Akashi's shop, clear obscured zones every 30 min, clear abyssal and strongholds. ~~What the ... is the strategic search, like sh*t, compares to Alas.~~
 - **Opsi Explore**: After Opsi monthly reset, re-explore all zones without special radar (5000 oil item)
 
 

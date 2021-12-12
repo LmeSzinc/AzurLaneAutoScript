@@ -3,6 +3,7 @@ import numpy as np
 from module.exception import MapWalkError, ScriptError, RequestHumanTakeover
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
+from module.os.fleet import BossFleet
 from module.os.map import OSMap
 from module.reward.reward import Reward
 from module.ui.ui import page_os
@@ -40,6 +41,7 @@ class OperationSiren(Reward, OSMap):
         # Clear current zone
         if self.zone.is_port:
             logger.info('In port, skip running first auto search')
+            self.handle_ash_beacon_attack()
         else:
             self.run_auto_search()
             self.handle_fleet_repair(revert=False)
@@ -282,7 +284,9 @@ class OperationSiren(Reward, OSMap):
             if self.config.OpsiAshBeacon_AshAttack \
                     and not self._ash_fully_collected \
                     and self.config.OpsiAshBeacon_EnsureFullyCollected:
+                logger.info('Ash beacon not fully collected, ignore action point limit temporarily')
                 self.config.OS_ACTION_POINT_PRESERVE = 0
+            logger.attr('OS_ACTION_POINT_PRESERVE', self.config.OS_ACTION_POINT_PRESERVE)
 
             # (1252, 1012) is the coordinate of zone 134 (the center zone) in os_globe_map.png
             if self.config.OpsiMeowfficerFarming_TargetZone != 0:
@@ -447,7 +451,10 @@ class OperationSiren(Reward, OSMap):
             self.config.task_delay(server_update=True)
             self.config.task_stop()
 
-        raise NotImplementedError
+        self.globe_enter(zone)
+        self.zone_init()
+        self.os_order_execute(recon_scan=True, submarine_call=False)
+        self.run_stronghold()
 
         self.fleet_repair(revert=False)
 
@@ -455,6 +462,74 @@ class OperationSiren(Reward, OSMap):
         while 1:
             self.clear_stronghold()
             self.config.check_task_switch()
+
+    def run_stronghold_one_fleet(self, fleet):
+        """
+        Args
+            fleet (BossFleet):
+
+        Returns:
+            bool: If all cleared.
+        """
+        self.config.override(
+            OpsiGeneral_BuyAkashiShop=False,
+            OpsiGeneral_RepairThreshold=0
+        )
+        # Try 3 times, because fleet may stuck in fog.
+        for _ in range(3):
+            # Attack
+            self.fleet_set(fleet.fleet_index)
+            self.run_auto_search()
+            self.hp_reset()
+            self.hp_get()
+
+            # End
+            if self.get_stronghold_percentage() == '0':
+                logger.info('BOSS clear')
+                return True
+            elif any(self.need_repair):
+                logger.info('Auto search stopped, because fleet died')
+                # Re-enter to reset fleet position
+                prev = self.zone
+                self.globe_goto(self.zone_nearest_azur_port(self.zone))
+                self.globe_goto(prev, types='STRONGHOLD')
+                return False
+            else:
+                logger.info('Auto search stopped, because fleet stuck')
+                # Re-enter to reset fleet position
+                prev = self.zone
+                self.globe_goto(self.zone_nearest_azur_port(self.zone))
+                self.globe_goto(prev, types='STRONGHOLD')
+                continue
+
+    def run_stronghold(self):
+        """
+        All fleets take turns in attacking siren stronghold.
+
+        Returns:
+            bool: If success to clear.
+
+        Pages:
+            in: Siren logger (abyssal), boss appeared.
+            out: If success, dangerous or safe zone.
+                If failed, still in abyssal.
+        """
+        logger.hr(f'Stronghold clear', level=1)
+        fleets = self.parse_fleet_filter()
+        for fleet in fleets:
+            logger.hr(f'Turn: {fleet}', level=2)
+            if not isinstance(fleet, BossFleet):
+                self.os_order_execute(recon_scan=False, submarine_call=True)
+                continue
+
+            result = self.run_stronghold_one_fleet(fleet)
+            if result:
+                return True
+            else:
+                continue
+
+        logger.critical('Unable to clear boss, fleets exhausted')
+        return False
 
 
 if __name__ == '__main__':
@@ -464,4 +539,4 @@ if __name__ == '__main__':
     self.config = self.config.merge(OSConfig())
     self.device.screenshot()
     self.os_init()
-    self.clear_abyssal()
+    self.clear_stronghold()
