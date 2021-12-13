@@ -758,6 +758,19 @@
       "help": "HpControl.LowHpRetreatThreshold.help"
     }
   },
+  "EnemyPriority": {
+    "_info": {
+      "name": "EnemyPriority._info.name",
+      "help": "EnemyPriority._info.help"
+    },
+    "EnemyScaleBalanceWeight": {
+      "name": "EnemyPriority.EnemyScaleBalanceWeight.name",
+      "help": "EnemyPriority.EnemyScaleBalanceWeight.help",
+      "default_mode": "default_mode",
+      "S3_enemy_first": "S3_enemy_first",
+      "S1_enemy_first": "S1_enemy_first"
+    }
+  },
   "Raid": {
     "_info": {
       "name": "Raid._info.name",
