@@ -54,7 +54,7 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
-        if self.battle_count > 3:
+        if self.battle_count >= 3:
             self.pick_up_ammo()
 
         if self.clear_roadblocks([road_main]):
