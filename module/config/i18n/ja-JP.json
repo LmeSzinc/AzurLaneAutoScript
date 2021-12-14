@@ -217,6 +217,10 @@
     "AzurLaneUncensored": {
       "name": "Task.AzurLaneUncensored.name",
       "help": "Task.AzurLaneUncensored.help"
+    },
+    "GameManager": {
+      "name": "Task.GameManager.name",
+      "help": "Task.GameManager.help"
     }
   },
   "Scheduler": {
@@ -1719,6 +1723,16 @@
     "Repository": {
       "name": "AzurLaneUncensored.Repository.name",
       "help": "AzurLaneUncensored.Repository.help"
+    }
+  },
+  "GameManager": {
+    "_info": {
+      "name": "GameManager._info.name",
+      "help": "GameManager._info.help"
+    },
+    "AutoRestart": {
+      "name": "GameManager.AutoRestart.name",
+      "help": "GameManager.AutoRestart.help"
     }
   },
   "Gui": {

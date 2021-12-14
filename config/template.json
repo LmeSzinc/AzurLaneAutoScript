@@ -1424,5 +1424,10 @@
     "AzurLaneUncensored": {
       "Repository": "https://gitee.com/LmeSzinc/AzurLaneUncensored"
     }
+  },
+  "GameManager": {
+    "GameManager": {
+      "AutoRestart": true
+    }
   }
 }

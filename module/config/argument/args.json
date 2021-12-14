@@ -6397,5 +6397,13 @@
         "value": "https://gitee.com/LmeSzinc/AzurLaneUncensored"
       }
     }
+  },
+  "GameManager": {
+    "GameManager": {
+      "AutoRestart": {
+        "type": "checkbox",
+        "value": true
+      }
+    }
   }
 }

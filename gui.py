@@ -128,6 +128,10 @@ class AlasManager:
             from module.daemon.benchmark import Benchmark
             Benchmark(config=config_name, task='Benchmark').run()
             q.put("Scheduler stopped.\n")  # Prevent status turns to warning
+        elif func == 'GameManager':
+            from module.daemon.game_manager import GameManager
+            GameManager(config=config_name, task='GameManager').run()
+            q.put("Scheduler stopped.\n")
         else:
             logger.critical("No function matched")
 

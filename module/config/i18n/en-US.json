@@ -217,6 +217,10 @@
     "AzurLaneUncensored": {
       "name": "[CN] Uncensored Patch",
       "help": ""
+    },
+    "GameManager": {
+      "name": "Game Manager(WIP)",
+      "help": ""
     }
   },
   "Scheduler": {
@@ -1719,6 +1723,16 @@
     "Repository": {
       "name": "AzurLaneUncensored Repository",
       "help": "Do not need to modify\nGithub: <https://github.com/LmeSzinc/AzurLaneUncensored>\nCN mirror: <https://gitee.com/LmeSzinc/AzurLaneUncensored>"
+    }
+  },
+  "GameManager": {
+    "_info": {
+      "name": "Game Manager",
+      "help": "This is a semi-finished product, currently only implemented to force close the game and start it after closing."
+    },
+    "AutoRestart": {
+      "name": "Automatic Login",
+      "help": "Log back into the game when the game has been ended."
     }
   },
   "Gui": {

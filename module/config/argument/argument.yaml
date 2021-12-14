@@ -468,3 +468,5 @@ Benchmark:
   TestClickMethod: true
 AzurLaneUncensored:
   Repository: https://gitee.com/LmeSzinc/AzurLaneUncensored
+GameManager:
+  AutoRestart: true

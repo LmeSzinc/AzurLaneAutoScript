@@ -217,6 +217,10 @@
     "AzurLaneUncensored": {
       "name": "反和谐",
       "help": ""
+    },
+    "GameManager": {
+      "name": "游戏管理器(未完成)",
+      "help": ""
     }
   },
   "Scheduler": {
@@ -1719,6 +1723,16 @@
     "Repository": {
       "name": "反和谐仓库",
       "help": "一般不需要修改\n仓库 https://github.com/LmeSzinc/AzurLaneUncensored\n国内镜像（默认） https://gitee.com/LmeSzinc/AzurLaneUncensored"
+    }
+  },
+  "GameManager": {
+    "_info": {
+      "name": "游戏管理",
+      "help": "半成品，仅实现了强制关闭游戏，自动登录"
+    },
+    "AutoRestart": {
+      "name": "自动登录",
+      "help": "游戏被强制结束后自动登录游戏"
     }
   },
   "Gui": {

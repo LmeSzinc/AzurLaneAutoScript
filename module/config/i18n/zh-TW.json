@@ -217,6 +217,10 @@
     "AzurLaneUncensored": {
       "name": "反和諧",
       "help": ""
+    },
+    "GameManager": {
+      "name": "遊戲管理器(未完成)",
+      "help": ""
     }
   },
   "Scheduler": {
@@ -1719,6 +1723,16 @@
     "Repository": {
       "name": "反和諧倉庫",
       "help": "一般不需要修改\n倉庫 https://github.com/LmeSzinc/AzurLaneUncensored\n國內鏡像(預設) https://gitee.com/LmeSzinc/AzurLaneUncensored"
+    }
+  },
+  "GameManager": {
+    "_info": {
+      "name": "遊戲管理",
+      "help": "半成品，僅實現了強制關閉遊戲，自動登錄"
+    },
+    "AutoRestart": {
+      "name": "自動登錄",
+      "help": "遊戲被強制結束後自動登錄遊戲"
     }
   },
   "Gui": {
