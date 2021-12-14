@@ -264,7 +264,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 confirm_timer.reset()
                 continue
             if self.handle_walk_out_of_step():
-                raise MapWalkError('walk_out_of_step')
+                continue
 
             # Enemy searching
             if not enemy_searching_appear and self.enemy_searching_appear():
