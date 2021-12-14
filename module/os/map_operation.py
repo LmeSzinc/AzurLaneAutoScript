@@ -61,8 +61,13 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         ocr = Ocr(MAP_NAME, lang='jp', letter=(214, 231, 255), threshold=127, name='OCR_OS_MAP_NAME')
         name = ocr.ocr(self.device.image)
         self.is_zone_name_hidden = '安全' in name
+        # Remove '異常海域' and 'セイレーン要塞海域'
+        if '異' in name:
+            name = name.split('異')[0]
+        if 'セ' in name:
+            name = name.split('セ')[0]
         # Remove '安全海域' or '秘密海域' at the end of jp ocr.
-        name = name.rstrip('安全海域秘密海域')
+        name = name.rstrip('安全秘密異常要塞海域')
         # Kanji '一' and '力' are not used, while Katakana 'ー' and 'カ' are misread as Kanji sometimes.
         # Katakana 'ペ' may be misread as Hiragana 'ぺ'.
         name = name.replace('一', 'ー').replace('力', 'カ').replace('ぺ', 'ペ')
@@ -74,8 +79,11 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         ocr = Ocr(MAP_NAME, lang='tw', letter=(214, 231, 255), threshold=127, name='OCR_OS_MAP_NAME')
         name = ocr.ocr(self.device.image)
         self.is_zone_name_hidden = '安全' in name
-        # Remove '安全海域' or '隱秘海域' at the end of tw ocr.
-        name = name.rstrip('安全海域隱秘海域一')
+        # Remove '塞壬要塞海域'
+        if '塞' in name:
+            name = name.split('塞')[0]
+        # Remove '安全海域', '隱秘海域', '深淵海域' at the end of tw ocr.
+        name = name.rstrip('安全隱秘塞壬要塞深淵海域一')
         return name
 
     @Config.when(SERVER=None)

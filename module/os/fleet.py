@@ -11,11 +11,12 @@ from module.map.map_grids import SelectedGrids
 from module.map.utils import location_ensure
 from module.map_detection.utils import *
 from module.ocr.ocr import Ocr
-from module.os.assets import *
+from module.os.assets import TEMPLATE_EMPTY_HP, STRONGHOLD_PERCENTAGE
 from module.os.camera import OSCamera
 from module.os.map_base import OSCampaignMap
 from module.os_ash.ash import OSAsh
 from module.os_combat.combat import Combat
+from module.os_handler.assets import IN_MAP
 
 FLEET_FILTER = Filter(regex=re.compile('fleet-?(\d)'), attr=('fleet',), preset=('callsubmarine',))
 
@@ -288,7 +289,8 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 continue
 
             # Arrive
-            if self.is_in_map():
+            # Check colors, because screen goes black when something is unlocking.
+            if self.is_in_map() and IN_MAP.match_appear_on(self.device.image):
                 self.update_os()
                 current = self.view.backend.homo_loca
                 logger.attr('homo_loca', current)
@@ -545,7 +547,23 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 If failed, still in abyssal.
         """
         self.handle_os_map_fleet_lock(enable=False)
-        self.question_goto(has_fleet_step=True)
+
+        def is_at_front(grid):
+            # Grid location is usually to be (0, -2)
+            x, y = grid.location
+            return (abs(x) <= abs(y)) and (y < 0)
+
+        while 1:
+            self.device.screenshot()
+            self.question_goto(has_fleet_step=True)
+
+            if self.radar.select(is_enemy=True).filter(is_at_front):
+                logger.info('Found boss at front')
+                break
+            else:
+                logger.info('No boss at front, retry question_goto')
+                continue
+
         result = self.boss_clear(has_fleet_step=True)
         return result
 

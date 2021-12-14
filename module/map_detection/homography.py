@@ -299,12 +299,16 @@ class Homography:
             # Find rectangles
             contours, _ = cv2.findContours(image_closed, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
             rectangle = np.array([cv2.boundingRect(cv2.convexHull(cont).astype(np.float32)) for cont in contours])
-            # Filter out correct rectangles
-            rectangle = rectangle[(rectangle[:, 2] > 100) & (rectangle[:, 3] > 100)]
-            shape = rectangle[:, 2:]
-            diff = np.abs(shape - np.round(shape / self.config.HOMO_TILE) * self.config.HOMO_TILE)
-            rectangle = rectangle[np.all(diff < encourage, axis=1)]
-            location = np.append(location, rectangle[:, :2], axis=0) if len(location) else rectangle[:, :2]
+
+            try:
+                # Filter out correct rectangles
+                rectangle = rectangle[(rectangle[:, 2] > 100) & (rectangle[:, 3] > 100)]
+                shape = rectangle[:, 2:]
+                diff = np.abs(shape - np.round(shape / self.config.HOMO_TILE) * self.config.HOMO_TILE)
+                rectangle = rectangle[np.all(diff < encourage, axis=1)]
+                location = np.append(location, rectangle[:, :2], axis=0) if len(location) else rectangle[:, :2]
+            except IndexError:
+                location = []
 
         if len(location) > threshold:
             self.homo_loca = fit_points(location, mod=self.config.HOMO_TILE, encourage=encourage)

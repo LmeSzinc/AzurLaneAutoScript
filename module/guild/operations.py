@@ -200,8 +200,8 @@ class GuildOperations(GuildBase):
                 It is the main operation on chain that will be located to, side operations will be ignored.
             out: page_guild, guild operation, operation dispatch preparation (GUILD_DISPATCH_RECOMMEND)
         """
-        timer_1 = Timer(2)
-        timer_2 = Timer(2)
+        timer_1 = Timer(2, count=5)
+        timer_2 = Timer(2, count=5)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
