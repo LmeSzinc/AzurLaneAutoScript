@@ -336,3 +336,6 @@ class GeneratedConfig:
 
     # Group `AzurLaneUncensored`
     AzurLaneUncensored_Repository = 'https://gitee.com/LmeSzinc/AzurLaneUncensored'
+
+    # Group `GameManager`
+    GameManager_AutoRestart = True

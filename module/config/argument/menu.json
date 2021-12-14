@@ -58,7 +58,8 @@
       "Daemon",
       "OpsiDaemon",
       "Benchmark",
-      "AzurLaneUncensored"
+      "AzurLaneUncensored",
+      "GameManager"
     ]
   }
 }
