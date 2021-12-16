@@ -12,7 +12,6 @@ from module.ui.page import page_campaign
 from module.ui.scroll import Scroll
 
 OCR_SOS_SIGNAL = Digit(OCR_SIGNAL, letter=(255, 255, 255), threshold=128, name='OCR_SOS_SIGNAL')
-SOS_SCROLL = Scroll(SOS_SCROLL_AREA, color=(164, 173, 189), name='SOS_SCROLL')
 
 
 class CampaignSos(CampaignRun, CampaignBase):
@@ -28,9 +27,24 @@ class CampaignSos(CampaignRun, CampaignBase):
         return [-430, 8, -382, 45]
 
     @cached_property
+    @Config.when(SERVER='tw')
+    def _sos_chapter_crop(self):
+        return [-400, 8, -370, 45]
+
+    @cached_property
     @Config.when(SERVER=None)
     def _sos_chapter_crop(self):
         return [-403, 8, -381, 35]
+
+    @cached_property
+    @Config.when(SERVER='tw')
+    def _sos_scroll(self):
+        return Scroll(SOS_SCROLL_AREA, color=(247, 210, 66), name='SOS_SCROLL')
+    
+    @cached_property
+    @Config.when(SERVER=None)
+    def _sos_scroll(self):
+        return Scroll(SOS_SCROLL_AREA, color=(164, 173, 189), name='SOS_SCROLL')
 
     def _find_target_chapter(self, chapter):
         """
@@ -50,7 +64,7 @@ class CampaignSos(CampaignRun, CampaignBase):
             return None
 
         chapter_buttons = [button.crop(self._sos_chapter_crop) for button in all_buttons]
-        ocr_chapters = Digit(chapter_buttons, letter=[132, 230, 115], threshold=128, name='OCR_SOS_CHAPTER')
+        ocr_chapters = Digit(chapter_buttons, letter=[132, 230, 115], threshold=136, name='OCR_SOS_CHAPTER')
         chapter_list = ocr_chapters.ocr(self.device.image)
         if chapter in chapter_list:
             logger.info('Target SOS chapter found')
@@ -123,7 +137,7 @@ class CampaignSos(CampaignRun, CampaignBase):
             positions = [0.0, 0.5, 1.0]
 
         for scroll_position in positions:
-            SOS_SCROLL.set(scroll_position, main=self)
+            self._sos_scroll.set(scroll_position, main=self)
             target_button = self._find_target_chapter(chapter)
             if target_button is not None:
                 self._sos_signal_confirm(entrance=target_button)
