@@ -115,19 +115,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         try:
             self.zone = self.name_to_zone(name)
         except ScriptError as e:
-            if self.is_zone_name_hidden:
-                # 2021.12.09
-                # Safe zones don't display zone names like `NA Ocean SE Sector F - Safe zone`, only display `Safe Zone`.
-                # Goto globe map and calculate current zone from pinned location,
-                # but this requires higher level APIs.
-                logger.info('Zone name is hidden, get current zone from globe map instead')
-                if hasattr(self, 'get_current_zone_from_globe'):
-                    self.zone = self.get_current_zone_from_globe()
-                else:
-                    raise ScriptError(
-                        'Zone name is hidden, require OperationSiren.get_current_zone_from_globe() to solve')
-            else:
-                raise MapDetectionError(*e.args)
+            raise MapDetectionError(*e.args)
         logger.attr('Zone', self.zone)
         return self.zone
 
@@ -168,9 +156,16 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
             else:
                 timeout.reset()
 
-        if not self.is_in_map():
-            logger.warning('Trying to get zone name, but not in OS map')
-        return self.get_current_zone()
+        logger.warning('Unable to get zone name, get current zone from globe map instead')
+        if hasattr(self, 'get_current_zone_from_globe'):
+            self.zone = self.get_current_zone_from_globe()
+        else:
+            logger.warning('OperationSiren.get_current_zone_from_globe() not exists')
+            if not self.is_in_map():
+                logger.warning('Trying to get zone name, but not in OS map')
+            self.get_current_zone()
+        logger.attr('Zone', self.zone)
+        return self.zone
 
     def is_in_special_zone(self):
         """
