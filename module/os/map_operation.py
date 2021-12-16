@@ -61,6 +61,9 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         ocr = Ocr(MAP_NAME, lang='jp', letter=(214, 231, 255), threshold=127, name='OCR_OS_MAP_NAME')
         name = ocr.ocr(self.device.image)
         self.is_zone_name_hidden = '安全' in name
+        # Remove punctuations
+        for char in '・':
+            name = name.replace(char, '')
         # Remove '異常海域' and 'セイレーン要塞海域'
         if '異' in name:
             name = name.split('異')[0]
@@ -95,7 +98,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         if '-' in name:
             name = name.split('-')[0]
         else:
-            name = name.rstrip('安全海域-')
+            name = name.rstrip('安全隐秘塞壬要塞深渊海域-')
         return name
 
     def get_current_zone(self):
