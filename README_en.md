@@ -6,7 +6,7 @@
 
 Alas, an Azur Lane automation tool with GUI (Supports CN, EN, JP, TW, able to support other servers), designed for 24/7 running scenes, can take over almost all Azur Lane gameplay. Azur Lane, as a mobile game, has entered the late stage of its life cycle. During the period from now to the server down, please reduce the time spent on the Azur Lane and leave everything to Alas.
 
-Alas is a free open source software, link: https://github.com/LmeSzinc/AzurLaneAutoScript.
+Alas is a free open source software, link: https://github.com/LmeSzinc/AzurLaneAutoScript
 
 EN support, thanks **[@whoamikyo](https://github.com/whoamikyo)** and **[@nEEtdo0d](https://github.com/nEEtdo0d)**.
 

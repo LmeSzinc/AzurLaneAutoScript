@@ -72,3 +72,10 @@ Deploy:
     # 'ja-JP' for Japanese
     # 'zh-TW' for Chinese traditional
     Language: 'en-US'
+    # Theme of web ui
+    # 'default' for light theme
+    # 'dark' for dark theme
+    Theme: default
+    # Password of web ui
+    # Useful when expose Alas to the public network
+    Password: null

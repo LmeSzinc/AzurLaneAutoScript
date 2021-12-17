@@ -60,6 +60,3 @@ def reload():
     for key in dic_lang["ja-JP"].keys():
         if dic_lang["ja-JP"][key] == key:
             dic_lang["ja-JP"][key] = dic_lang["en-US"][key]
-
-    global LANG
-    LANG = WebuiConfig().Language
