@@ -70,14 +70,26 @@ class AzurLaneAutoScript:
         except ScriptError as e:
             logger.critical(e)
             logger.critical('This is likely to be a mistake of developers, but sometimes just random issues')
-            exit(1)
+            if self.config.Error_TryRestart:
+                self.config.Scheduler_Enable = False
+                self.config.task_call('Restart')
+                self.device.sleep(10)
+                return False
+            else:
+                exit(1)
         except RequestHumanTakeover:
             logger.critical('Request human takeover')
             exit(1)
         except Exception as e:
             logger.exception(e)
             self.save_error_log()
-            exit(1)
+            if self.config.Error_TryRestart:
+                self.config.Scheduler_Enable = False
+                self.config.task_call('Restart')
+                self.device.sleep(10)
+                return False
+            else:
+                exit(1)
 
     def save_error_log(self):
         """

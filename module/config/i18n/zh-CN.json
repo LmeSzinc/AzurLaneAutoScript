@@ -305,6 +305,10 @@
     "ScreenshotLength": {
       "name": "出错时，保留最后 X 张截图",
       "help": ""
+    },
+    "TryRestart": {
+      "name": "出错时，尝试重启(未完成)",
+      "help": "处理部分异常，将出错的任务移出列表，并重启游戏"
     }
   },
   "Optimization": {
@@ -426,6 +430,7 @@
       "name": "活动名称",
       "help": "自动选择至最新的活动",
       "campaign_main": "主线图",
+      "event_20200603_cn": "峡湾间的反击",
       "event_20211125_cn": "交汇世界的弧光",
       "event_20211111_cn": "杰诺瓦的焰火",
       "event_20211028_tw": "復刻光與影的鳶尾之華",
@@ -461,7 +466,6 @@
       "raid_20200624": "复刻特别演习埃塞克斯级",
       "event_20200611_en": "Skybound Oratorio",
       "event_20200603_en": "Prelude under the Moon Rerun",
-      "event_20200603_cn": "峡湾间的反击",
       "event_20200521_en": "Iris of Light and Dark Rerun",
       "event_20200521_cn": "穹顶下的圣咏曲",
       "event_20200507_cn": "夜幕下的归途",

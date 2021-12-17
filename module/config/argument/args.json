@@ -50,6 +50,10 @@
       "ScreenshotLength": {
         "type": "input",
         "value": 1
+      },
+      "TryRestart": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Optimization": {
@@ -576,6 +580,7 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "event_20200603_cn",
           "event_20211125_cn",
           "event_20211111_cn",
           "event_20211028_tw",
@@ -609,7 +614,6 @@
           "event_20200716_en",
           "event_20200611_en",
           "event_20200603_en",
-          "event_20200603_cn",
           "event_20200521_en",
           "event_20200521_cn",
           "event_20200507_cn",
@@ -2556,6 +2560,7 @@
         "value": "campaign_main",
         "option": [
           "campaign_main",
+          "event_20200603_cn",
           "event_20211125_cn",
           "event_20211111_cn",
           "event_20211028_tw",
@@ -2589,7 +2594,6 @@
           "event_20200716_en",
           "event_20200611_en",
           "event_20200603_en",
-          "event_20200603_cn",
           "event_20200521_en",
           "event_20200521_cn",
           "event_20200507_cn",
@@ -4292,6 +4296,7 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "event_20200603_cn",
           "event_20211125_cn",
           "event_20211111_cn",
           "event_20211028_tw",
@@ -4325,7 +4330,6 @@
           "event_20200716_en",
           "event_20200611_en",
           "event_20200603_en",
-          "event_20200603_cn",
           "event_20200521_en",
           "event_20200521_cn",
           "event_20200507_cn",
@@ -4689,6 +4693,7 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "event_20200603_cn",
           "event_20211125_cn",
           "event_20211111_cn",
           "event_20211028_tw",
@@ -4722,7 +4727,6 @@
           "event_20200716_en",
           "event_20200611_en",
           "event_20200603_en",
-          "event_20200603_cn",
           "event_20200521_en",
           "event_20200521_cn",
           "event_20200507_cn",
@@ -5076,6 +5080,7 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "event_20200603_cn",
           "event_20211125_cn",
           "event_20211111_cn",
           "event_20211028_tw",
@@ -5109,7 +5114,6 @@
           "event_20200716_en",
           "event_20200611_en",
           "event_20200603_en",
-          "event_20200603_cn",
           "event_20200521_en",
           "event_20200521_cn",
           "event_20200507_cn",
