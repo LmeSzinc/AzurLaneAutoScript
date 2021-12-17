@@ -50,7 +50,7 @@ def poor_yaml_read(file):
                 k, v = result.group(1), result.group(2).strip('\n\r\t\' ')
                 if v:
                     if v == 'null':
-                        v = None
+                        v = ''
                     data[k] = v
 
     return data
@@ -67,7 +67,7 @@ def poor_yaml_write(data, file, template_file=DEPLOY_TEMPLATE):
         text = f.read().replace('\\', '/')
 
     for key, value in data.items():
-        if value is None:
+        if value is '':
             value = 'null'
         text = re.sub(f'{key}:.*?\n', f'{key}: {value}\n', text)
 

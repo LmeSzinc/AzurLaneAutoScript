@@ -975,7 +975,7 @@ if __name__ == "__main__":
 
 
     def index():
-        if key is not None and not login(key):
+        if key != '' and not login(key):
             logger.warning(f"{info.user_ip} login failed.")
             time.sleep(1.5)
             run_js('location.reload();')
