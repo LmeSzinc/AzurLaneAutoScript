@@ -195,6 +195,16 @@ class Retirement(Enhancement):
             rarity = self._retire_rarity
         logger.hr('Retirement')
         logger.info(f'Amount={amount}. Rarity={rarity}')
+
+        # transfer N R SR SSR to filter name
+        correspond_name = {
+            'N': 'common',
+            'R': 'rare',
+            'SR': 'elite',
+            'SSR': 'super_rare'
+        }
+        _rarity = [correspond_name[i] for i in rarity]
+        self.dock_filter_set(sort='level', index='all', faction='all', rarity=_rarity, extra='no_limit')
         self.dock_sort_method_dsc_set(False)
         self.dock_favourite_set(False)
         total = 0
