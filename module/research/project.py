@@ -381,6 +381,7 @@ class ResearchProject:
         """
         name = name.strip('-')
         parts = name.split('-')
+        parts = [i for i in parts if i]
         if len(parts) == 3:
             prefix, number, suffix = parts
             number = number.replace('D', '0').replace('O', '0').replace('S', '5')
