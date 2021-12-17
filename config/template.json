@@ -10,8 +10,7 @@
     "Error": {
       "HandleError": true,
       "SaveError": true,
-      "ScreenshotLength": 1,
-      "TryRestart": false
+      "ScreenshotLength": 1
     },
     "Optimization": {
       "CombatScreenshotInterval": 1.0,

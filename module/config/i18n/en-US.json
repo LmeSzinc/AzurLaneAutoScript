@@ -296,7 +296,7 @@
     },
     "HandleError": {
       "name": "Enable Exception Handling",
-      "help": "Handles select exceptions, will retreat if in battle"
+      "help": "Handles select exceptions, will retreat if in battle\nIn some tasks, will disable the error task and try restarting"
     },
     "SaveError": {
       "name": "Record Exception",
@@ -305,10 +305,6 @@
     "ScreenshotLength": {
       "name": "Record Screenshot(s)",
       "help": "Number of screenshots saved when exception occurs"
-    },
-    "TryRestart": {
-      "name": "Try Restart",
-      "help": "Handle some exceptions，will disable the error task and try restarting"
     }
   },
   "Optimization": {

@@ -50,10 +50,6 @@
       "ScreenshotLength": {
         "type": "input",
         "value": 1
-      },
-      "TryRestart": {
-        "type": "checkbox",
-        "value": false
       }
     },
     "Optimization": {

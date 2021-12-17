@@ -70,21 +70,16 @@ class AzurLaneAutoScript:
         except ScriptError as e:
             logger.critical(e)
             logger.critical('This is likely to be a mistake of developers, but sometimes just random issues')
-            if self.config.Error_TryRestart:
-                self.config.Scheduler_Enable = False
-                self.config.task_call('Restart')
-                self.device.sleep(10)
-                return False
-            else:
-                exit(1)
+            exit(1)
         except RequestHumanTakeover:
             logger.critical('Request human takeover')
             exit(1)
         except Exception as e:
             logger.exception(e)
             self.save_error_log()
-            if self.config.Error_TryRestart:
+            if self.config.Error_HandleError:
                 self.config.Scheduler_Enable = False
+                logger.warning(f'Try restarting, {self.config.Emulator_PackageName} will be restarted in 10 seconds')
                 self.config.task_call('Restart')
                 self.device.sleep(10)
                 return False
@@ -366,8 +361,15 @@ class AzurLaneAutoScript:
                                 "Please read the help text of the options.")
                 logger.critical("Possible reason: There is a problem with this task. "
                                 "Please contact developers or try to fix it yourself.")
-                logger.critical('Request human takeover')
-                exit(1)
+                if self.config.Error_HandleError:
+                    self.config.Scheduler_Enable = False
+                    logger.warning(f'Try restarting, {self.config.Emulator_PackageName} will be restarted in 10 seconds')
+                    self.config.task_call('Restart')
+                    self.device.sleep(10)
+                    return False
+                else:
+                    logger.critical('Request human takeover')
+                    exit(1)
 
             if success:
                 del self.__dict__['config']

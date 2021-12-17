@@ -28,7 +28,6 @@ class GeneratedConfig:
     Error_HandleError = True
     Error_SaveError = True
     Error_ScreenshotLength = 1
-    Error_TryRestart = False
 
     # Group `Optimization`
     Optimization_CombatScreenshotInterval = 1.0
