@@ -410,6 +410,15 @@ class ResearchProject:
             if (data['series'] == series) and (data['name'] == name):
                 yield data
 
+        if name[0].isdigit():
+            for t in 'QG':
+                name1 = f'{t}-{self.name}'
+                logger.info(f'Testing the most similar candidate {name1}')
+                for data in LIST_RESEARCH_PROJECT:
+                    if (data['series'] == series) and (data['name'] == name1):
+                        self.name = name1
+                        yield data
+
         if name.startswith('D'):
             # Letter 'C' may recognized as 'D', because project card is shining.
             name1 = 'C' + self.name[1:]
