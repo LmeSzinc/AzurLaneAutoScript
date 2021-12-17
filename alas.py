@@ -366,7 +366,7 @@ class AzurLaneAutoScript:
                     logger.warning(f'Try restarting, {self.config.Emulator_PackageName} will be restarted in 10 seconds')
                     self.config.task_call('Restart')
                     self.device.sleep(10)
-                    return False
+                    continue
                 else:
                     logger.critical('Request human takeover')
                     exit(1)
