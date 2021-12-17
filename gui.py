@@ -27,6 +27,7 @@ from module.config.config_updater import ConfigUpdater
 from module.config.utils import (alas_instance, deep_get, deep_iter, deep_set,
                                  dict_to_kv, filepath_args, filepath_config,
                                  read_file, write_file)
+from module.webui.config import WebuiConfig
 from module.webui.base import Frame
 from module.webui.lang import _t, t
 from module.webui.pin import put_input, put_select
@@ -38,6 +39,7 @@ from module.webui.utils import (Icon, QueueHandler, Task, Thread, add_css,
 from module.webui.widgets import ScrollableCode, put_group, put_icon_buttons
 
 config_updater = ConfigUpdater()
+webui_config = WebuiConfig()
 
 
 class AlasManager:
@@ -235,6 +237,12 @@ class AlasGUI(Frame):
             s = ''
 
         self.status.reset(s)
+
+    @classmethod
+    def set_theme(cls, theme='default') -> None:
+        cls.theme = theme
+        webui_config.Theme = theme
+        webconfig(theme=theme)
 
     # Alas
 
@@ -829,17 +837,7 @@ class AlasGUI(Frame):
             self.show()
 
         def set_theme(t):
-            """
-            Theme support is not available in pywebio 1.4
-            You need to upgrade to 1.5 dev version manually by run
-            `pip install -U https://code.aliyun.com/wang0618/pywebio/repository/archive.zip`
-            """
-            from pywebio.__version__ import __version__ as version
-            if 'dev' not in version and '1.4' in version:
-                toast("Not supported", position='right', color='error')
-                return
-            type(self).theme = t
-            webconfig(theme=t)
+            self.set_theme(t)
             run_js("location.reload()")
 
         # temporary buttons, there is no setting page now :(
@@ -957,13 +955,19 @@ def debug():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Alas web service')
-    parser.add_argument('-p', '--port', type=int, default=22267,
-                        help='Port to listen. Default to 22267')
+    parser.add_argument('-p', '--port', type=int,
+                        help='Port to listen. Default to WebuiPort in deploy setting')
     parser.add_argument('-b', '--backend', type=str, default='starlette',
                         help='Backend framework of web server, starlette or tornado. Default to starlette')
-    parser.add_argument('-k', '--key', type=str, default='',
+    parser.add_argument('-k', '--key', type=str,
                         help='Password of alas. No password by default')
     args = parser.parse_args()
+
+    # Apply config
+    AlasGUI.set_theme(theme=webui_config.Theme)
+    lang.LANG = webui_config.Language
+    port = args.port or int(webui_config.WebuiPort) or 22267
+    key = args.key or webui_config.Password
 
     AlasManager.sync_manager = Manager()
     AlasGUI.shorten_path()
@@ -971,7 +975,7 @@ if __name__ == "__main__":
 
 
     def index():
-        if args.key != '' and not login(args.key):
+        if key is not None and not login(key):
             logger.warning(f"{info.user_ip} login failed.")
             time.sleep(1.5)
             run_js('location.reload();')
@@ -985,7 +989,7 @@ if __name__ == "__main__":
         from pywebio.platform.tornado import start_server
 
     try:
-        start_server([index, translate], port=args.port, debug=True)
+        start_server([index, translate], port=port, debug=True)
     finally:
         for alas in AlasManager.all_alas.values():
             alas.stop()
