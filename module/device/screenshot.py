@@ -30,7 +30,7 @@ class Screenshot(AScreenCap):
         if method == 0:
             return Image.open(BytesIO(screenshot)).convert('RGB')
         elif method == 1:
-            return Image.open(BytesIO(screenshot.replace(b'\r1\n', b'\n'))).convert('RGB')
+            return Image.open(BytesIO(screenshot.replace(b'\r\n', b'\n'))).convert('RGB')
         elif method == 2:
             return Image.open(BytesIO(screenshot.replace(b'\r\r\n', b'\n'))).convert('RGB')
         else:
