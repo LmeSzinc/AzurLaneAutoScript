@@ -10,12 +10,13 @@ from retry import retry
 
 from module.base.timer import Timer, timer
 from module.device.ascreencap import AScreenCap
+from module.exception import ScriptError
 from module.logger import logger
 
 
 class Screenshot(AScreenCap):
-    _screenshot_method = 0
-    _screenshot_method_fixed = False
+    _screenshot_method = [0, 1, 2]
+    _screenshot_method_fixed = [0, 1, 2]
 
     _screenshot_interval_timer = Timer(0.1)
     _last_save_time = {}
@@ -25,27 +26,27 @@ class Screenshot(AScreenCap):
         image = self.device.screenshot()
         return image.convert('RGB')
 
-    def _load_screenshot(self, screenshot):
-        if self._screenshot_method == 0:
+    def _load_screenshot(self, screenshot, method):
+        if method == 0:
             return Image.open(BytesIO(screenshot)).convert('RGB')
-        elif self._screenshot_method == 1:
-            return Image.open(BytesIO(screenshot.replace(b'\r\n', b'\n'))).convert('RGB')
-        elif self._screenshot_method == 2:
+        elif method == 1:
+            return Image.open(BytesIO(screenshot.replace(b'\r1\n', b'\n'))).convert('RGB')
+        elif method == 2:
             return Image.open(BytesIO(screenshot.replace(b'\r\r\n', b'\n'))).convert('RGB')
+        else:
+            raise ScriptError(f'Unknown method to load screenshots: {method}')
 
     def _process_screenshot(self, screenshot):
-        if self._screenshot_method_fixed:
-            return self._load_screenshot(screenshot)
-        else:
-            for _ in range(3):
-                try:
-                    screenshot = self._load_screenshot(screenshot)
-                except OSError:
-                    self._screenshot_method += 1
-                else:
-                    self._screenshot_method_fixed = True
-                    break
-            return screenshot
+        for method in self._screenshot_method_fixed:
+            try:
+                result = self._load_screenshot(screenshot, method=method)
+                self._screenshot_method_fixed = [method] + self._screenshot_method
+                return result
+            except OSError:
+                continue
+
+        self._screenshot_method_fixed = self._screenshot_method
+        raise OSError(f'cannot load screenshot')
 
     def _screenshot_adb(self):
         screenshot = self.adb_shell(['screencap', '-p'])
