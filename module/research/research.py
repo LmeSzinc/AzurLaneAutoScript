@@ -325,10 +325,15 @@ class RewardResearch(ResearchSelector):
         remain = OCR_DURATION.ocr(self.device.image)
         logger.info(f'Research project remain: {remain}')
 
-        if remain.total_seconds() >= 0:
+        seconds = remain.total_seconds()
+        if seconds > 0:
             research_duration_remain = remain.total_seconds() / 3600
             return research_duration_remain
+        if seconds == 0:
+            logger.warning('Research duration reached, but requirements not satisfied')
+            return None
         else:
+            logger.warning(f'Invalid research duration: {seconds} ')
             return None
 
     def ui_ensure_research(self):
