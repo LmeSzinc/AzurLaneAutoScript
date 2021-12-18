@@ -228,6 +228,7 @@ class Retirement(Enhancement):
             continue
 
         self.dock_sort_method_dsc_set(True)
+        self.dock_filter_set()
         logger.info(f'Total retired: {total}')
         return total
 
