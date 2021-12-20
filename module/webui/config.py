@@ -23,6 +23,9 @@ def poor_yaml_write_with_lock(data, file, template_file=DEPLOY_TEMPLATE):
 
 class WebuiConfig:
     Language = 'zh-CN'
+    WebuiPort = 22267
+    Theme = 'default'
+    Password = None
 
     def __init__(self, file=DEPLOY_CONFIG):
         """
