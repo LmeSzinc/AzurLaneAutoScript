@@ -381,6 +381,16 @@ class RewardMeowfficer(UI):
         meowfficerLevelList = Ocr(buttons = meowfficerButtonList, name = 'meowfficer_level', letter = (49, 48, 49), 
                                   threshold = 64, alphabet='0123456789').ocr(image=self.device.image)
         
+        # Reset wrong level
+        for i in range(len(meowfficerButtonList)):
+            if meowfficerLevelList[i] != '' and int(meowfficerLevelList[i]) == 0:
+                meowfficerLevelList[i] = str(30)
+            if meowfficerLevelList[i] != '' and int(meowfficerLevelList[i]) == 70:
+                meowfficerLevelList[i] = str(20)
+
+        # Log final meowfficerLevelList
+        logger.attr("final meowfficer list:", meowfficerLevelList)
+
         # Qnly those within the level limit are added
         for i in range(len(meowfficerButtonList)):
             if meowfficerLevelList[i] != '' and int(meowfficerLevelList[i]) >=  min_level\
@@ -430,8 +440,7 @@ class RewardMeowfficer(UI):
             
             # Check coins
             coins = MEOWFFICER_COINS.ocr(self.device.image)
-            feedCoins = MEOWFFICER_FEED_COINS.ocr(self.device.image)
-            if feedCoins > coins:
+            if 3000 > int(coins):
                 logger.info('Not enough coins to feed, stopped')
                 return feeded
 
