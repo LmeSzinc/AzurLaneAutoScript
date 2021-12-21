@@ -523,4 +523,4 @@ class RewardMeowfficer(UI):
         if self.config.Meowfficer_FeedMeowfficer:
             self.meow_train(is_sunday = True)
             self.meow_feed()
-            self.config.task_delay(minute=180)
+            self.config.task_delay(minute=180, server_update=True)
