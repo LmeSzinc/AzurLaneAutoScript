@@ -234,10 +234,16 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
         logger.info('Camera stabled')
 
-    def wait_until_walk_stable(self, confirm_timer=None, skip_first_screenshot=False):
+    def wait_until_walk_stable(self, confirm_timer=None, skip_first_screenshot=False, walk_out_of_step=True):
         """
         Wait until homo_loca stabled.
         DETECTION_BACKEND must be 'homography'.
+
+        Args:
+            confirm_timer (Timer):
+            skip_first_screenshot (bool):
+            walk_out_of_step (bool): If catch walk_out_of_step error.
+                Default to True, use False in abyssal zones.
 
         Raises:
             MapWalkError: If unable to goto such grid.
@@ -264,7 +270,10 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 confirm_timer.reset()
                 continue
             if self.handle_walk_out_of_step():
-                continue
+                if walk_out_of_step:
+                    raise MapWalkError('walk_out_of_step')
+                else:
+                    continue
 
             # Enemy searching
             if not enemy_searching_appear and self.enemy_searching_appear():
@@ -397,7 +406,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
             # Wait until arrived
             # Having new screenshots
-            self.wait_until_walk_stable(confirm_timer=Timer(1.5, count=4))
+            self.wait_until_walk_stable(confirm_timer=Timer(1.5, count=4), walk_out_of_step=False)
 
     def boss_goto(self, location=(0, 0), has_fleet_step=False):
         logger.hr('BOSS goto')
@@ -427,7 +436,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
             # Wait until arrived
             # Having new screenshots
-            self.wait_until_walk_stable(confirm_timer=Timer(1.5, count=4))
+            self.wait_until_walk_stable(confirm_timer=Timer(1.5, count=4), walk_out_of_step=False)
 
     def get_boss_leave_button(self):
         for grid in self.view:

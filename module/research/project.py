@@ -381,6 +381,7 @@ class ResearchProject:
         """
         name = name.strip('-')
         parts = name.split('-')
+        parts = [i for i in parts if i]
         if len(parts) == 3:
             prefix, number, suffix = parts
             number = number.replace('D', '0').replace('O', '0').replace('S', '5')
@@ -408,6 +409,15 @@ class ResearchProject:
         for data in LIST_RESEARCH_PROJECT:
             if (data['series'] == series) and (data['name'] == name):
                 yield data
+
+        if name[0].isdigit():
+            for t in 'QG':
+                name1 = f'{t}-{self.name}'
+                logger.info(f'Testing the most similar candidate {name1}')
+                for data in LIST_RESEARCH_PROJECT:
+                    if (data['series'] == series) and (data['name'] == name1):
+                        self.name = name1
+                        yield data
 
         if name.startswith('D'):
             # Letter 'C' may recognized as 'D', because project card is shining.

@@ -50,6 +50,7 @@ class GuildShop(ShopBase):
         """
         self._shop_guild_coins = OCR_SHOP_GUILD_COINS.ocr(self.device.image)
         logger.info(f'Guild coins: {self._shop_guild_coins}')
+        return self._shop_guild_coins
 
     @cached_property
     @Config.when(SERVER='cn')
