@@ -80,10 +80,7 @@ class AzurLaneAutoScript:
             if self.config.Error_HandleError:
                 self.config.Scheduler_Enable = False
                 logger.warning(f'Try restarting, {self.config.Emulator_PackageName} will be restarted in 10 seconds')
-                if not os.path.exists('./log/closed tasks'):
-                    os.mkdir('./log/closed tasks')
-                with(open(f'./log/closed tasks/{self.config_name}.txt','a+',encoding='UTF-8'))as f:
-                    f.write(f"{command} ")
+                self.save_disabled_task(command)
                 self.config.task_call('Restart')
                 self.device.sleep(10)
                 return False
@@ -116,6 +113,23 @@ class AzurLaneAutoScript:
                 lines = handle_sensitive_logs(lines)
             with open(f'{folder}/log.txt', 'w', encoding='utf-8') as f:
                 f.writelines(lines)
+    
+    def save_disabled_task(self, task):
+        if not os.path.exists('./log/disabled tasks'):
+            os.mkdir('./log/disabled tasks')
+            with(open(f'./log/disabled tasks/{self.config_name}.txt','a+',encoding='UTF-8'))as f:
+                f.write(f"{task} ")
+    
+    def show_disabled_tasks(self):
+        try:
+            with(open(f'./log/disabled tasks/{self.config_name}.txt',mode = 'r+',encoding='UTF-8')) as f:
+                disabled_tasks = {*f.read().strip().split(" ")}
+                if not "" in disabled_tasks:
+                    logger.info(f'Disabled tasks: {disabled_tasks}')
+                    f.seek(0)
+                    f.truncate()
+        except FileNotFoundError:
+            pass
 
     def restart(self):
         from module.handler.login import LoginHandler
@@ -332,17 +346,7 @@ class AzurLaneAutoScript:
     def loop(self):
         logger.set_file_logger(self.config_name)
         logger.info(f'Start scheduler loop: {self.config_name}')
-        if os.path.exists('./log/closed tasks'):
-            try:
-                with(open(f'./log/closed tasks/{self.config_name}.txt',mode = 'r+')) as f:
-                    closed_tasks = {*f.read().strip().split(" ")}
-                    if not "" in closed_tasks:
-                        logger.info(f'★★★Closed tasks: {closed_tasks}★★★')
-                        f.seek(0)
-                        f.truncate()
-            except FileNotFoundError:
-                pass
-            
+        self.show_disabled_tasks()
         is_first = True
         failure_record = {}
 
@@ -379,10 +383,7 @@ class AzurLaneAutoScript:
                 if self.config.Error_HandleError:
                     self.config.Scheduler_Enable = False
                     logger.warning(f'Try restarting, {self.config.Emulator_PackageName} will be restarted in 10 seconds')
-                    if not os.path.exists('./log/closed tasks'):
-                        os.mkdir('./log/closed tasks')
-                    with(open(f'./log/closed tasks/{self.config_name}.txt',"a+",encoding="UTF-8"))as f:
-                        f.write(f"{task} ")
+                    self.save_disabled_task(task)
                     self.config.task_call('Restart')
                     self.device.sleep(10)
                     continue
