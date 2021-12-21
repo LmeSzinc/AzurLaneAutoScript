@@ -203,6 +203,7 @@ class RewardMeowfficer(UI):
             in: page_meowfficer
             out: page_meowfficer
         """
+        logger.hr('Buy Amount', level=1)
         for _ in range(3):
             if self.meow_choose(count=self.config.Meowfficer_BuyAmount):
                 self.meow_confirm()
@@ -241,7 +242,7 @@ class RewardMeowfficer(UI):
             return True
         return False
 
-    def meow_train(self):
+    def meow_train(self, is_sunday):
         """
         Performs both retrieving a trained meowfficer and queuing
         meowfficer boxes for training
@@ -250,12 +251,13 @@ class RewardMeowfficer(UI):
             in: page_meowfficer
             out: page_meowfficer
         """
+        logger.hr('Collect Trained Meowfficer', level=1)
+
         # Retrieve capacity to determine whether able to collect
         current, remain, total = MEOWFFICER_CAPACITY.ocr(self.device.image)
         logger.attr('Meowfficer_capacity_remain', remain)
 
         # Helper variables
-        is_sunday = get_server_next_update(self.config.Scheduler_ServerUpdate).weekday() == 0
         collected = False
 
         # Enter MEOWFFICER_TRAIN window
@@ -340,6 +342,7 @@ class RewardMeowfficer(UI):
             in: page_meowfficer
             out: page_meowfficer
         """
+        logger.hr('Do Fort Chores', level=1)
         # Check for fort red notification
         if not self.appear(MEOWFFICER_FORT_RED_DOT):
             return False
@@ -461,6 +464,7 @@ class RewardMeowfficer(UI):
         Returns:
             bool whether feeted at least once or not
         """
+        logger.hr('Feed Meowfficer', level=1)
         self.device.screenshot()
 
         # Retrieve capacity to determine whether need to feed
@@ -504,13 +508,19 @@ class RewardMeowfficer(UI):
 
         self.ui_ensure(page_meowfficer)
 
+        # Helper variables
+        is_sunday = get_server_next_update(self.config.Scheduler_ServerUpdate).weekday() == 0
+
         if self.config.Meowfficer_BuyAmount > 0:
             self.meow_buy()
-        if self.config.Meowfficer_TrainMeowfficer:
-            self.meow_train()
         if self.config.Meowfficer_FortChoreMeowfficer:
             self.meow_fort()
-        if self.config.Meowfficer_FeedMeowfficer:
-            self.meow_feed()
-
+        if not self.config.Meowfficer_FeedMeowfficer and self.config.Meowfficer_TrainMeowfficer:
+            self.meow_train(is_sunday)
         self.config.task_delay(server_update=True)
+
+        # Bind TrainMeowfficer to FeedMeowfficer and collect all remainder
+        if self.config.Meowfficer_FeedMeowfficer:
+            self.meow_train(is_sunday = True)
+            self.meow_feed()
+            self.config.task_delay(minute=10)
