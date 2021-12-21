@@ -488,7 +488,8 @@ class RewardMeowfficer(UI):
         """
         if self.config.Meowfficer_BuyAmount <= 0 \
                 and not self.config.Meowfficer_TrainMeowfficer \
-                and not self.config.Meowfficer_FortChoreMeowfficer:
+                and not self.config.Meowfficer_FortChoreMeowfficer \
+                and not self.config.Meowfficer_FeedMeowfficer:
             self.config.Scheduler_Enable = False
             self.config.task_stop()
 
@@ -500,5 +501,7 @@ class RewardMeowfficer(UI):
             self.meow_train()
         if self.config.Meowfficer_FortChoreMeowfficer:
             self.meow_fort()
+        if self.config.Meowfficer_FeedMeowfficer:
+            self.meow_feed()
 
         self.config.task_delay(server_update=True)

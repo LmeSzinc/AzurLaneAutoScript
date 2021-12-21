@@ -1003,6 +1003,10 @@
     "FortChoreMeowfficer": {
       "name": "Do Fort Chores",
       "help": "Completes all 3 chores; clean, feed, and play with meowfficer to get fort exp"
+    },
+    "FeedMeowfficer": {
+      "name": "Feed Meowfficer(WIP)",
+      "help": "Feed the first meowfficer under level 30. \nConsume all level 1 meowfficer, including SSR"
     }
   },
   "GuildLogistics": {

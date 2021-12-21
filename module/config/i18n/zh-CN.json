@@ -1003,6 +1003,10 @@
     "FortChoreMeowfficer": {
       "name": "喵窝互动",
       "help": "清扫, 喂食和逗猫"
+    },
+    "FeedMeowfficer": {
+      "name": "指挥喵陪玩（未完成）",
+      "help": "喂养第一个不满30级的指挥喵，使用所有1级猫，包括金猫"
     }
   },
   "GuildLogistics": {

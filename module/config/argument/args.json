@@ -3436,6 +3436,10 @@
       "FortChoreMeowfficer": {
         "type": "checkbox",
         "value": true
+      },
+      "FeedMeowfficer": {
+        "type": "checkbox",
+        "value": false
       }
     }
   },
