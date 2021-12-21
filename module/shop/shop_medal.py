@@ -18,6 +18,7 @@ class MedalShop(ShopBase):
         """
         self._shop_medal = OCR_SHOP_MEDAL.ocr(self.device.image)
         logger.info(f'Medal: {self._shop_medal}')
+        return self._shop_medal
 
     @cached_property
     def shop_medal_grid(self):

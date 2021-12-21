@@ -17,6 +17,7 @@ class MeritShop(ShopBase):
         """
         self._shop_merit = OCR_SHOP_MERIT.ocr(self.device.image)
         logger.info(f'Merit: {self._shop_merit}')
+        return self._shop_merit
 
     @cached_property
     def shop_merit_items(self):

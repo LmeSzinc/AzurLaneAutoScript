@@ -75,11 +75,15 @@ class ShopBase(UI):
         Args:
             key: String identifies func to acquire currency
                  for shop
+
+        Returns:
+            int:
         """
         try:
-            self.__getattribute__(f'shop_{key}_get_currency')()
+            return self.__getattribute__(f'shop_{key}_get_currency')()
         except AttributeError:
             logger.warning(f'shop_get_currency --> Missing func shop_{key}_get_currency')
+            return 0
 
     def shop_items_loading_finished(self, items, key='medal'):
         """
@@ -209,7 +213,6 @@ class ShopBase(UI):
             Item: Item to buy, or None.
         """
         items = self.shop_get_items(key=shop_type)
-        self.shop_get_currency(key=shop_type)
 
         try:
             selection = selection.replace(' ', '').replace('\n', '').split('>')
@@ -291,6 +294,10 @@ class ShopBase(UI):
         logger.hr(f'{shop_type} shop buy', level=2)
         count = 0
         for _ in range(12):
+            currency = self.shop_get_currency(key=shop_type)
+            if currency <= 0:
+                logger.warning(f'Not having enough currency: {currency}')
+                break
             item = self.shop_get_item_to_buy(shop_type, selection)
             if item is None:
                 logger.info('Shop buy finished')
