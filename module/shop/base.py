@@ -289,23 +289,21 @@ class ShopBase(UI):
             selection: String user configured value, items desired
 
         Returns:
-            int:
+            bool: If success, and able to continue.
         """
         logger.hr(f'{shop_type} shop buy', level=2)
-        count = 0
         for _ in range(12):
             currency = self.shop_get_currency(key=shop_type)
             if currency <= 0:
                 logger.warning(f'Not having enough currency: {currency}')
-                break
+                return False
             item = self.shop_get_item_to_buy(shop_type, selection)
             if item is None:
                 logger.info('Shop buy finished')
-                return count
+                return True
             else:
                 self.shop_buy_execute(item)
-                count += 1
                 continue
 
         logger.warning('Too many items to buy, stopped')
-        return count
+        return True
