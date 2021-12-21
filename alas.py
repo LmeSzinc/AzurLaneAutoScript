@@ -79,7 +79,7 @@ class AzurLaneAutoScript:
             self.save_error_log()
             if self.config.Error_HandleError:
                 self.config.Scheduler_Enable = False
-                logger.warning(f'Error: error task `{command}` will be closed')
+                logger.error(f'Error: error task `{command}` will be disabled')
                 logger.warning(f'Try restarting, {self.config.Emulator_PackageName} will be restarted in 10 seconds')
                 self.config.task_call('Restart')
                 self.device.sleep(10)
@@ -364,7 +364,7 @@ class AzurLaneAutoScript:
                                 "Please contact developers or try to fix it yourself.")
                 if self.config.Error_HandleError:
                     self.config.Scheduler_Enable = False
-                    logger.warning(f'Error: error task `{task}` will be closed')
+                    logger.error(f'Error: error task `{task}` will be disabled')
                     logger.warning(f'Try restarting, {self.config.Emulator_PackageName} will be restarted in 10 seconds')
                     self.config.task_call('Restart')
                     self.device.sleep(10)
