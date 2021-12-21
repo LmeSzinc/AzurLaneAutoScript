@@ -368,6 +368,7 @@ class RewardMeowfficer(UI):
             OR 
             in: MEOWFFICER_FEED
             out: MEOWFFICER_FEED
+
         Returns:
             List of the meowfficer(s)
         """
@@ -395,11 +396,14 @@ class RewardMeowfficer(UI):
         Pages:
             in: MEOWFFICER_FEED window
             out: MEOWFFICER_FEED window
-        """
-        self.device.screenshot()
-        feeded = False
 
+        Returns:
+            bool whether feeted at least once or not
+        """
+        feeded = False
         while(1):
+            self.device.screenshot()
+
             # Enter MEOWFFICER_FEED_SELECT window
             if self.appear(MEOWFFICER_FEED_START):
                 self.ui_click(MEOWFFICER_FEED_START, check_button=MEOWFFICER_FEED_SELECT_START,
@@ -429,7 +433,7 @@ class RewardMeowfficer(UI):
             feedCoins = MEOWFFICER_FEED_COINS.ocr(self.device.image)
             if feedCoins > coins:
                 logger.info('Not enough coins to feed, stopped')
-                return False
+                return feeded
 
             # Click confirm
             if self.appear(MEOWFFICER_FEED_CONFIRM):
@@ -444,16 +448,15 @@ class RewardMeowfficer(UI):
         Pages:
             in: page_meowfficer
             out: page_meowfficer
+
+        Returns:
+            bool whether feeted at least once or not
         """
         self.device.screenshot()
+
         # Retrieve capacity to determine whether need to feed
         current, remain, total = MEOWFFICER_CAPACITY.ocr(self.device.image)
         logger.attr('Meowfficer_capacity_remain', remain)
-
-        #if remain > 10, func feed will delay
-        #if remain > 10:
-        #   logger.info('Meowfficer capacity remain > 10, delay')
-        #   return False
 
         # Get target meowfficer list and select the first one
         targetMeowfficerList = self.meow_select(min_level=1, max_level=29)
