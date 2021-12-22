@@ -170,6 +170,7 @@ class RewardMeowfficer(UI):
             in: MEOWFFICER_TRAIN
             out: MEOWFFICER_TRAIN
         """
+        self.interval_reset(MEOWFFICER_CONFIRM)
         self.device.click(MEOWFFICER_TRAIN_START)
 
         # Loop through possible screen transitions
@@ -191,7 +192,8 @@ class RewardMeowfficer(UI):
                 continue
 
             # End
-            if self.appear(MEOWFFICER_TRAIN_START, offset=(20, 20)):
+            if self.appear(MEOWFFICER_TRAIN_START, offset=(20, 20)) and \
+                MEOWFFICER_TRAIN_START.match_appear_on(self.device.image):
                 if confirm_timer.reached():
                     break
             else:

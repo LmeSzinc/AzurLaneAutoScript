@@ -1006,7 +1006,7 @@
     },
     "FeedMeowfficer": {
       "name": "Feed Meowfficer",
-      "help": "Feed the first meowfficer under level 30\nConsume all level 1 meowfficer, including SSR\nTrained Meowfficer will keep running, and new SSR will be locked"
+      "help": "Feed the first meowfficer under level 30\nConsume all level 1 meowfficer, including SR\nTrained Meowfficer will keep running, and new SR will be locked"
     }
   },
   "GuildLogistics": {
