@@ -15,11 +15,15 @@ BUY_PRIZE = 1500
 LEVEL_MIN = 1
 LEVEL_MAX = 30
 MEOWFFICER = DigitCounter(OCR_MEOWFFICER, letter=(140, 113, 99), threshold=64)
+MEOWFFICER_BOX_N = Digit(OCR_MEOWFFICER_BOX_N, letter=(255, 255, 255), threshold=96)
+MEOWFFICER_BOX_R = Digit(OCR_MEOWFFICER_BOX_R, letter=(255, 255, 255), threshold=96)
+MEOWFFICER_BOX_SR = Digit(OCR_MEOWFFICER_BOX_SR, letter=(255, 255, 255), threshold=96)
 MEOWFFICER_CHOOSE = Digit(OCR_MEOWFFICER_CHOOSE, letter=(140, 113, 99), threshold=64)
 MEOWFFICER_COINS = Digit(OCR_MEOWFFICER_COINS, letter=(99, 69, 41), threshold=64)
 MEOWFFICER_CAPACITY = DigitCounter(OCR_MEOWFFICER_CAPACITY, letter=(131, 121, 123), threshold=64)
 MEOWFFICER_FEED = DigitCounter(OCR_MEOWFFICER_FEED, letter=(132, 125, 123), threshold=64)
 MEOWFFICER_FEED_COINS = Digit(OCR_MEOWFFICER_FEED_COINS, letter=(132, 125, 123), threshold=64)
+MEOWFFICER_LEVEL = Digit(OCR_MEOWFFICER_FEED_LEVEL, letter=(255, 255, 255), threshold=96)
 
 
 class RewardMeowfficer(UI):
@@ -172,6 +176,17 @@ class RewardMeowfficer(UI):
         """
         self.interval_reset(MEOWFFICER_CONFIRM)
         self.device.click(MEOWFFICER_TRAIN_START)
+
+        self.device.screenshot()
+
+        # Check the remaining boxes
+        meowfficerBoxN = MEOWFFICER_BOX_N.ocr(self.device.image)
+        meowfficerBoxR = MEOWFFICER_BOX_R.ocr(self.device.image)
+        meowfficerBoxSR = MEOWFFICER_BOX_SR.ocr(self.device.image)
+        if meowfficerBoxN == 0 and meowfficerBoxR == 0 and meowfficerBoxSR == 0:
+            logger.info('There is no meowfficer box left')  
+            self.ui_click(MEOWFFICER_TRAIN_CANCEL, check_button=MEOWFFICER_TRAIN_START, offset=None)
+            return
 
         # Loop through possible screen transitions
         # as a result of the previous action
@@ -383,8 +398,9 @@ class RewardMeowfficer(UI):
         # Get meowfficer level button list and level ocr
         meowfficerButtonList = ButtonGrid(origin = (760, 221), delta = (130, 147), 
                                           button_shape = (18, 18), grid_shape = (4, 3)).buttons
+                                          
         meowfficerLevelList = Ocr(buttons = meowfficerButtonList, name = 'meowfficer_level', letter = (49, 48, 49), 
-                                  threshold = 64, alphabet='0123456789').ocr(image=self.device.image)
+                                  threshold = 96, alphabet='0123456789').ocr(image=self.device.image)
         
         # Reset wrong level
         for i in range(len(meowfficerButtonList)):
@@ -413,23 +429,30 @@ class RewardMeowfficer(UI):
             out: MEOWFFICER_FEED window
 
         Returns:
-            bool whether feeted at least once or not
+            bool: whether feeted at least one time or not
         """
         feeded = False
-        while(1):
+
+        while 1:
             self.device.screenshot()
 
+            # Check current page and the Level of the meowfficer
+            meowfficerLevel = MEOWFFICER_LEVEL.ocr(self.device.image)
+            if meowfficerLevel == 30:
+                return feeded
+
             # Enter MEOWFFICER_FEED_SELECT window
-            if self.appear(MEOWFFICER_FEED_START):
-                self.ui_click(MEOWFFICER_FEED_START, check_button=MEOWFFICER_FEED_SELECT_START,
+            if self.appear(MEOWFFICER_FEED_SELECT_ENTER):
+                self.ui_click(MEOWFFICER_FEED_SELECT_ENTER, check_button=MEOWFFICER_FEED_SELECT_START,
                               additional=self.meow_additional, retry_wait=3, skip_first_screenshot=True)
 
+            # Select items with values within the max_level and mini_level values
             targetMeowfficerList = self.meow_select(min_level=1, max_level=1)
 
             # Check List
             if len(targetMeowfficerList) == 0:
                 logger.info('Not enough meowfficers to consumed, stopped')
-                self.ui_click(MEOWFFICER_FEED_SELECT_CANCEL, check_button=MEOWFFICER_FEED_START,
+                self.ui_click(MEOWFFICER_FEED_SELECT_CANCEL, check_button=MEOWFFICER_FEED_SELECT_ENTER,
                               additional=self.meow_additional, retry_wait=3, skip_first_screenshot=True)
                 return feeded
 
@@ -455,6 +478,54 @@ class RewardMeowfficer(UI):
                               additional=self.meow_additional, retry_wait=3, skip_first_screenshot=True)
                 feeded = True
 
+    def meow_feed_enter(self, targetMeowfficerList = []):
+        """
+        Find the first meowfficer not in combat
+        and feed it
+
+        Pages:
+            in: page_meowfficer
+            out: page_meowfficer
+
+        Args: 
+            list of meowfficers
+
+        Return:
+            bool: whether feeted at least one time or not
+        """
+        feeded = False
+        targetMeowfficerIndex = 0
+
+        while 1:
+            if targetMeowfficerIndex > len(targetMeowfficerList):
+                logger.info('No matched meowfficer were found')
+                return feeded
+
+            self.device.screenshot()
+
+            # Buttom INFO_BAR_1 means that the target meowfficer is in combat
+            if self.appear(INFO_BAR_1):
+                logger.attr('Choosed meowfficer is in combat', targetMeowfficerList[targetMeowfficerIndex])
+                self.device.sleep(3)
+                targetMeowfficerIndex += 1
+                continue
+            
+            # Choose the meowfficer to feed
+            self.device.click(targetMeowfficerList[targetMeowfficerIndex])
+
+            # Try to enter MEOWFFICER_FEED window
+            self.device.click(MEOWFFICER_FEED_ENTER)
+            self.device.sleep(0.3)
+
+            if self.appear(MEOWFFICER_FEED_SELECT_ENTER):
+                feeded = self.meow_feed_target()
+                print(feeded)
+                break
+
+        # Out of MEOWFFICER_FEED window
+        self.ui_click(MEOWFFICER_GOTO_DORM, check_button=MEOWFFICER_FEED_ENTER, offset=None)
+        return feeded       
+
     def meow_feed(self):
         """
         Feed meowfficer
@@ -468,27 +539,20 @@ class RewardMeowfficer(UI):
         """
         logger.hr('Feed Meowfficer', level=1)
         self.device.screenshot()
+        feeded = False
 
         # Retrieve capacity to determine whether need to feed
         current, remain, total = MEOWFFICER_CAPACITY.ocr(self.device.image)
         logger.attr('Meowfficer_capacity_remain', remain)
 
-        # Get target meowfficer list and select the first one
+        # Get target meowfficer list 
         targetMeowfficerList = self.meow_select(min_level=1, max_level=29)
-        if len(targetMeowfficerList) >= 1:
-            self.device.click(targetMeowfficerList[0])
+
+        # Check  lenth of meowfficer list 
+        if len(targetMeowfficerList) > 0:
+            feeded = self.meow_feed_enter(targetMeowfficerList)
         else:
-            logger.attr('Feed Meowfficer', 'There is no meowfficer to feed')
-            return False
-
-        # Enter MEOWFFICER_FEED window
-        self.ui_click(MEOWFFICER_FEED_ENTER, check_button=MEOWFFICER_FEED_START,
-                    additional=self.meow_additional, retry_wait=3, skip_first_screenshot=True)
-        feeded = self.meow_feed_target()
-
-        # Out of MEOWFFICER_FEED window
-        self.ui_click(MEOWFFICER_GOTO_DORM,
-                      check_button=MEOWFFICER_FEED_ENTER, appear_button=MEOWFFICER_FEED_START, offset=None)
+            logger.info('There is no meowfficer to feed, stoped')
 
         return feeded
 
