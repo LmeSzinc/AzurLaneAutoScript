@@ -50,9 +50,9 @@ class ModuleBase:
         if interval:
             if button.name in self.interval_timer:
                 if self.interval_timer[button.name].limit != interval:
-                    self.interval_timer[button.name] = Timer(interval, count=int(interval // 0.5))
+                    self.interval_timer[button.name] = Timer(interval)
             else:
-                self.interval_timer[button.name] = Timer(interval, count=int(interval // 0.5))
+                self.interval_timer[button.name] = Timer(interval)
             if not self.interval_timer[button.name].reached():
                 return False
 
