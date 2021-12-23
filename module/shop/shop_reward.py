@@ -41,8 +41,10 @@ class RewardShop(GachaUI, ShopUI, GeneralShop, GuildShop, MedalShop, MeritShop):
             return
 
         for _ in range(2):
-            self.shop_buy(shop_type=shop_type, selection=selection)
-            if refresh and self.shop_refresh():
+            success = self.shop_buy(shop_type=shop_type, selection=selection)
+            if not success:
+                break
+            if refresh and self.shop_refresh(shop_type):
                 continue
             break
 

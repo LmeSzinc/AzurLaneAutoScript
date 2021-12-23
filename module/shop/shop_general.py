@@ -19,6 +19,7 @@ class GeneralShop(ShopBase):
         self._shop_gold_coins = OCR_SHOP_GOLD_COINS.ocr(self.device.image)
         self._shop_gems = OCR_SHOP_GEMS.ocr(self.device.image)
         logger.info(f'Gold coins: {self._shop_gold_coins}, Gems: {self._shop_gems}')
+        return self._shop_gold_coins
 
     @cached_property
     def shop_general_items(self):
