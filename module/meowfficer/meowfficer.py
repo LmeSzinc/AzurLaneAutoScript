@@ -1,3 +1,8 @@
+from scipy import signal
+
+from module.meowfficer.meow import *
+from module.map.map_grids import SelectedGrids
+from module.meowfficer.meow import MeowLine
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1
 from module.config.utils import get_server_next_update
@@ -6,6 +11,7 @@ from module.logger import logger
 from module.meowfficer.assets import *
 from module.ocr.ocr import Digit, DigitCounter
 from module.ui.assets import MEOWFFICER_GOTO_DORM, MEOWFFICER_INFO
+from module.ui.scroll import Scroll
 from module.ui.ui import UI, page_meowfficer
 from module.base.button import *
 from module.ocr.ocr import Ocr
@@ -15,7 +21,7 @@ BUY_PRIZE = 1500
 LEVEL_MIN = 1
 LEVEL_MAX = 30
 MEOWFFICER = DigitCounter(OCR_MEOWFFICER, letter=(140, 113, 99), threshold=64)
-MEOWFFICER_BOX_N = Digit(OCR_MEOWFFICER_BOX_N, letter=(255, 255, 255), threshold=96)
+MEOWFFICER_BOX_N = Digit(OCR_MEOWFFICER_BOX_N, letter=(255, 255, 255), threshold=64)
 MEOWFFICER_BOX_R = Digit(OCR_MEOWFFICER_BOX_R, letter=(255, 255, 255), threshold=96)
 MEOWFFICER_BOX_SR = Digit(OCR_MEOWFFICER_BOX_SR, letter=(255, 255, 255), threshold=96)
 MEOWFFICER_CHOOSE = Digit(OCR_MEOWFFICER_CHOOSE, letter=(140, 113, 99), threshold=64)
@@ -23,10 +29,13 @@ MEOWFFICER_COINS = Digit(OCR_MEOWFFICER_COINS, letter=(99, 69, 41), threshold=64
 MEOWFFICER_CAPACITY = DigitCounter(OCR_MEOWFFICER_CAPACITY, letter=(131, 121, 123), threshold=64)
 MEOWFFICER_FEED = DigitCounter(OCR_MEOWFFICER_FEED, letter=(132, 125, 123), threshold=64)
 MEOWFFICER_FEED_COINS = Digit(OCR_MEOWFFICER_FEED_COINS, letter=(132, 125, 123), threshold=64)
-MEOWFFICER_LEVEL = Digit(OCR_MEOWFFICER_FEED_LEVEL, letter=(255, 255, 255), threshold=96)
+MEOWFFICER_LEVEL = Digit(OCR_MEOWFFICER_FEED_LEVEL, letter=(255, 255, 255), threshold=64)
+MEOWFFICER_SCROLL = Scroll(MEOWFFICER_SCROLL_AREA, color=(255, 219, 99), name='MEOWFFICER_SCROLL')
 
 
 class RewardMeowfficer(UI):
+    meowfficerLine: SelectedGrids
+
     def meow_choose(self, count):
         """
         Pages:
@@ -180,13 +189,13 @@ class RewardMeowfficer(UI):
         self.device.screenshot()
 
         # Check the remaining boxes
-        meowfficerBoxN = MEOWFFICER_BOX_N.ocr(self.device.image)
-        meowfficerBoxR = MEOWFFICER_BOX_R.ocr(self.device.image)
-        meowfficerBoxSR = MEOWFFICER_BOX_SR.ocr(self.device.image)
-        if meowfficerBoxN == 0 and meowfficerBoxR == 0 and meowfficerBoxSR == 0:
-            logger.info('There is no meowfficer box left')  
-            self.ui_click(MEOWFFICER_TRAIN_CANCEL, check_button=MEOWFFICER_TRAIN_START, offset=None)
-            return
+        # meowfficerBoxN = MEOWFFICER_BOX_N.ocr(self.device.image)
+        # meowfficerBoxR = MEOWFFICER_BOX_R.ocr(self.device.image)
+        # meowfficerBoxSR = MEOWFFICER_BOX_SR.ocr(self.device.image)
+        # if meowfficerBoxN == 0 and meowfficerBoxR == 0 and meowfficerBoxSR == 0:
+        #     logger.info('There is no meowfficer box left')  
+        #     self.ui_click(MEOWFFICER_TRAIN_CANCEL, check_button=MEOWFFICER_TRAIN_START, offset=None)
+        #     return
 
         # Loop through possible screen transitions
         # as a result of the previous action
@@ -207,6 +216,14 @@ class RewardMeowfficer(UI):
                 continue
 
             # End
+            # if self.appear(MEOWFFICER_TRAIN_CANCEL, offset=(20, 20)) and \
+            #     MEOWFFICER_TRAIN_CANCEL.match_appear_on(self.device.image):
+            #     if confirm_timer.reached():
+            #         continue
+            # else:
+            #     confirm_timer.reset()
+
+
             if self.appear(MEOWFFICER_TRAIN_START, offset=(20, 20)) and \
                 MEOWFFICER_TRAIN_START.match_appear_on(self.device.image):
                 if confirm_timer.reached():
@@ -377,6 +394,103 @@ class RewardMeowfficer(UI):
 
         return True
 
+    def _meow_swipe(self):
+        if MEOWFFICER_SCROLL.appear(main=self):
+            if MEOWFFICER_SCROLL.at_bottom(main=self):
+                return False
+            else:
+                MEOWFFICER_SCROLL.next_page(main=self)
+                return True
+        else:
+            return False
+
+    def _meow_swipe_to_top(self):
+        if not MEOWFFICER_SCROLL.appear(main=self):
+            return False
+        MEOWFFICER_SCROLL.set_top(main=self, skip_first_screenshot=True)
+        return True
+    
+    def _meow_detect(self, image):
+        """
+        Get all meowfficers from an image.
+
+        Args:
+            image: Pillow image
+
+        Returns:
+            SelectedGrids:
+        """
+        meowfficerLine = []
+        # Find lines(RGB(206,189,186)) under first meowfficer of the row to locate them.
+        # L = (R*299 + G*587 + B*114)/1000 = 192.322
+        # (757, 0, 93, 720) is somewhere with the lines only.
+        similarImage = Image.fromarray(color_similarity_2d(image, (231, 223, 222)))
+        similarity_height = np.mean(similarImage.crop((757, 0, 1264, 720)), axis=1)
+        parameters = {'height': 250, 'distance':115 , 'plateau_size': 15}
+        peaks, properties = signal.find_peaks(similarity_height, **parameters)
+        # 140 is the height of meowfficer list header
+        # 116 is the height of one meowfficer card.  
+        peaks = [y for y in properties['left_edges'] if y > 120 + 117]
+
+        for y in peaks:
+            meowLine = MeowLine(image, y=y)
+            meowfficerLine.append(meowLine)
+    
+        return SelectedGrids(meowfficerLine)
+
+    def _meow_scan_list(self):
+        """
+        Returns:
+            SelectedGrids: SelectedGrids containing meowfficer
+        """
+        logger.hr('Meowfficer scan', level=1)
+        meowfficerLineList = SelectedGrids([])
+        for _ in range(15):
+            new = self._meow_detect(self.device.image)
+            meowfficerLineList = meowfficerLineList.add_by_eq(new)
+                
+            # End
+            if not self._meow_swipe():
+                break
+        
+        self.meowfficerLine = meowfficerLineList
+        # self.meowfficerLine_choose = self._meow_line_choose(self.meowfficerLine)
+        print(len(self.meowfficerLine))
+        # print(len(self.meowfficerLine_choose))
+        return meowfficerLineList
+    
+    # def _meow_line_choose(self, meowfficerLine):
+    #     lineIndex = self.index // 4 
+    #     print(lineIndex)
+    #     meowfficerLine_choose = []
+    #     for i in range(len(meowfficerLine)):
+    #         if i == lineIndex:
+    #             meowfficerLine_choose.append(meowfficerLine[lineIndex])
+    #     self.meowfficerLine_choose = meowfficerLine_choose
+    #     return meowfficerLine_choose
+
+    def _meow_find_and_click(self):
+        logger.hr('Meowfficer find and click', level=2)
+        index = self.config.Meowfficer_Index
+        rowIndex = (index-1) // 4
+        colummnIndex = index % 4
+        meowfficerLineList = SelectedGrids([])
+        for _ in range(15):
+            new = self._meow_detect(self.device.image)
+            meowfficerLineList = meowfficerLineList.add_by_eq(new)
+            if len(meowfficerLineList) > rowIndex:
+                self.device.click(meowfficerLineList[rowIndex].buttonList[colummnIndex - 1])
+                self.device.sleep(0.3)
+                self.device.click(meowfficerLineList[rowIndex].buttonList[colummnIndex - 1])
+                return True
+
+            # End
+            if not self._meow_swipe():
+                break
+
+        logger.warning(f'Meowfficer not found: {self.index}')
+        return False
+
     def meow_select(self, min_level = 1, max_level = 30):
         """
         Select the meowfficer(s) by level between
@@ -400,7 +514,7 @@ class RewardMeowfficer(UI):
                                           button_shape = (18, 18), grid_shape = (4, 3)).buttons
                                           
         meowfficerLevelList = Ocr(buttons = meowfficerButtonList, name = 'meowfficer_level', letter = (49, 48, 49), 
-                                  threshold = 96, alphabet='0123456789').ocr(image=self.device.image)
+                                  threshold = 64, alphabet='0123456789').ocr(image=self.device.image)
         
         # Reset wrong level
         for i in range(len(meowfficerButtonList)):
@@ -478,7 +592,7 @@ class RewardMeowfficer(UI):
                               additional=self.meow_additional, retry_wait=3, skip_first_screenshot=True)
                 feeded = True
 
-    def meow_feed_enter(self, targetMeowfficerList = []):
+    def meow_feed_enter(self):
         """
         Find the first meowfficer not in combat
         and feed it
@@ -494,32 +608,19 @@ class RewardMeowfficer(UI):
             bool: whether feeted at least one time or not
         """
         feeded = False
-        targetMeowfficerIndex = 0
 
-        while 1:
-            if targetMeowfficerIndex > len(targetMeowfficerList):
-                logger.info('No matched meowfficer were found')
-                return feeded
-
+        while 1:   
             self.device.screenshot()
 
-            # Buttom INFO_BAR_1 means that the target meowfficer is in combat
+            # Buttom INFO_BAR_1 means that the choosed meowfficer is in combat
             if self.appear(INFO_BAR_1):
-                logger.attr('Choosed meowfficer is in combat', targetMeowfficerList[targetMeowfficerIndex])
-                self.device.sleep(3)
-                targetMeowfficerIndex += 1
-                continue
+                logger.info('Choosed meowfficer is in combat')
+                self.wait_until_disappear(INFO_BAR_1)
+                break
             
-            # Choose the meowfficer to feed
-            self.device.click(targetMeowfficerList[targetMeowfficerIndex])
-
-            # Try to enter MEOWFFICER_FEED window
-            self.device.click(MEOWFFICER_FEED_ENTER)
-            self.device.sleep(0.3)
-
+            #End
             if self.appear(MEOWFFICER_FEED_SELECT_ENTER):
                 feeded = self.meow_feed_target()
-                print(feeded)
                 break
 
         # Out of MEOWFFICER_FEED window
@@ -541,18 +642,20 @@ class RewardMeowfficer(UI):
         self.device.screenshot()
         feeded = False
 
+        if self.config.Meowfficer_Index == 0:
+            return feeded
         # Retrieve capacity to determine whether need to feed
-        current, remain, total = MEOWFFICER_CAPACITY.ocr(self.device.image)
-        logger.attr('Meowfficer_capacity_remain', remain)
+        # current, remain, total = MEOWFFICER_CAPACITY.ocr(self.device.image)
+        # logger.attr('Meowfficer_capacity_remain', remain)
 
-        # Get target meowfficer list 
-        targetMeowfficerList = self.meow_select(min_level=1, max_level=29)
+        # Get meowfficer list
+        self._meow_swipe_to_top() 
+        self._meow_scan_list()
 
-        # Check  lenth of meowfficer list 
-        if len(targetMeowfficerList) > 0:
-            feeded = self.meow_feed_enter(targetMeowfficerList)
-        else:
-            logger.info('There is no meowfficer to feed, stoped')
+        self._meow_swipe_to_top()
+        self._meow_find_and_click()
+
+        feeded = self.meow_feed_enter()
 
         return feeded
 
