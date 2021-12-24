@@ -48,7 +48,10 @@ class ModuleBase:
         self.device.stuck_record_add(button)
 
         if interval:
-            if button.name not in self.interval_timer:
+            if button.name in self.interval_timer:
+                if self.interval_timer[button.name].limit != interval:
+                    self.interval_timer[button.name] = Timer(interval)
+            else:
                 self.interval_timer[button.name] = Timer(interval)
             if not self.interval_timer[button.name].reached():
                 return False

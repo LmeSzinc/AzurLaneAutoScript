@@ -20,6 +20,8 @@ class DeployConfig:
     def show_config(self):
         hr0('Show deploy config')
         for k, v in self.config.items():
+            if k == 'Password':
+                pass
             print(f'{k}: {v}')
 
     def read(self):

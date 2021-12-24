@@ -217,6 +217,10 @@ class Retirement(Enhancement):
             total += selected
             if selected == 0:
                 break
+            self.device.screenshot()
+            if not (self.appear(SHIP_CONFIRM, offset=(30, 30)) and SHIP_CONFIRM.match_appear_on(self.device.image)):
+                logger.warning('No ship selected, retrying')
+                continue
 
             self._retirement_confirm()
 
