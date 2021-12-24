@@ -1,3 +1,0 @@
-# Known Core Item Limits
-AMOUNT_CHIP_LIMIT = 10
-AMOUNT_ARRAY_LIMIT = 5

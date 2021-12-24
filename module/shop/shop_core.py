@@ -4,7 +4,6 @@ from module.logger import logger
 from module.ocr.ocr import Digit
 from module.shop.assets import *
 from module.shop.base import ShopBase, ShopItemGrid
-from module.shop.shop_core_globals import *
 
 OCR_SHOP_CORE = Digit(SHOP_CORE, letter=(239, 239, 239), name='OCR_SHOP_CORE')
 OCR_SHOP_AMOUNT = Digit(SHOP_AMOUNT, letter=(239, 239, 239), name='OCR_SHOP_AMOUNT')
@@ -55,30 +54,31 @@ class CoreShop(ShopBase):
         """
         index_offset = (40, 20)
         limit = 0
-        for name in item.alt_name:
-            try:
-                limit = globals()[f'AMOUNT_{name.upper()}_LIMIT']
-                break
-            except KeyError:
-                pass
 
+        # In case either -/+ shift position, use
+        # shipyard ocr trick to accurately parse
+        self.appear(AMOUNT_MINUS, offset=index_offset)
+        self.appear(AMOUNT_PLUS, offset=index_offset)
+        area = OCR_SHOP_AMOUNT.buttons[0]
+        OCR_SHOP_AMOUNT.buttons = [(AMOUNT_MINUS.button[2] + 3, area[1], AMOUNT_PLUS.button[0] - 3, area[3])]
+
+        # Total number that can be purchased
+        # altogether based on clicking max
+        # Needs small delay for stable image
+        self.appear_then_click(AMOUNT_MAX)
+        self.device.sleep((0.3, 0.5))
+        self.device.screenshot()
+        limit = OCR_SHOP_AMOUNT.ocr(self.device.image)
         if not limit:
-            logger.warning(f'shop_buy_amount_execute --> Missing AMOUNT_X_LIMIT, alt_name = {item.alt_name}')
-            self.device.click(SHOP_CLICK_SAFE_AREA)  # Close secondary prompt
+            self.device.click(SHOP_CLICK_SAFE_AREA)  # Close amount prompt
             return False
 
-        # Total number to purchase altogether
+        # Adjust purchase amount if needed
         while 1:
             if (limit * item.price) <= self._shop_core:
                 break
             else:
                 limit -= 1
-
-        # In case either -/+ shift position, use shipyard ocr trick to accurately parse
-        self.appear(AMOUNT_MINUS, offset=index_offset)
-        self.appear(AMOUNT_PLUS, offset=index_offset)
-        area = OCR_SHOP_AMOUNT.buttons[0]
-        OCR_SHOP_AMOUNT.buttons = [(AMOUNT_MINUS.button[2] + 3, area[1], AMOUNT_PLUS.button[0] - 3, area[3])]
 
         self.ui_ensure_index(limit, letter=OCR_SHOP_AMOUNT, prev_button=AMOUNT_MINUS, next_button=AMOUNT_PLUS,
                              skip_first_screenshot=True)
