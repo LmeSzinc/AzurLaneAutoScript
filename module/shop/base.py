@@ -201,6 +201,35 @@ class ShopBase(UI):
             # Not considered an error; optional func for shop_x to define
             return False
 
+    def shop_interval_clear(self, key='general'):
+        """
+        Args:
+            key (str): String identifies shop_x_interval_clear
+
+        Returns:
+            bool:
+        """
+        try:
+            self.__getattribute__(f'shop_{key}_interval_clear')()
+        except AttributeError:
+            # Not considered an error; optional func for shop_x to define
+            pass
+
+    def shop_buy_handle(self, item, key='general'):
+        """
+        Args:
+            item (Item):
+            key (str): String identifies shop_x_buy_handle
+
+        Returns:
+            bool:
+        """
+        try:
+            return self.__getattribute__(f'shop_{key}_buy_handle')(item)
+        except AttributeError:
+            # Not considered an error; optional func for shop_x to define
+            return False
+
     def shop_get_item_to_buy(self, items, shop_type='general', selection=''):
         """
         Args:
@@ -236,10 +265,11 @@ class ShopBase(UI):
 
         return None
 
-    def shop_buy_execute(self, item, skip_first_screenshot=True):
+    def shop_buy_execute(self, item, key='general', skip_first_screenshot=True):
         """
         Args:
-            item: Item/Button to click and buy
+            item: Item to check
+            key: String identifies shop_x_* companion funcs
             skip_first_screenshot: bool
 
         Returns:
@@ -248,6 +278,7 @@ class ShopBase(UI):
         success = False
         self.interval_clear(BACK_ARROW)
         self.interval_clear(SHOP_BUY_CONFIRM)
+        self.shop_interval_clear(key)
 
         while 1:
             if skip_first_screenshot:
@@ -259,6 +290,9 @@ class ShopBase(UI):
                 self.device.click(item)
                 continue
             if self.appear_then_click(SHOP_BUY_CONFIRM, offset=(20, 20), interval=3):
+                self.interval_reset(BACK_ARROW)
+                continue
+            if self.shop_buy_handle(item, key):
                 self.interval_reset(BACK_ARROW)
                 continue
             if self.appear(GET_SHIP, interval=1):
@@ -303,7 +337,7 @@ class ShopBase(UI):
                 logger.info('Shop buy finished')
                 return True
             else:
-                self.shop_buy_execute(item)
+                self.shop_buy_execute(item, shop_type)
                 continue
 
         logger.warning('Too many items to buy, stopped')
