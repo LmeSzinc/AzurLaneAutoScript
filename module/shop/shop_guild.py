@@ -159,7 +159,7 @@ class GuildShop(ShopBase):
             item: Item to check
 
         Returns:
-            None: implicating failed to execute
+            bool: implicating failed to execute
         """
         # Base Case - Must have 'secondary_grid' attr and must not be None
         if not hasattr(item, 'secondary_grid') or item.secondary_grid is None:
