@@ -176,7 +176,7 @@ class UI(InfoHandler):
             for page in visited:
                 if page.parent is None or page.check_button is None:
                     continue
-                if self.appear(page.check_button, offset=offset, interval=5):
+                if self.appear(page.check_button, offset=offset, interval=3):
                     self.device.click(page.links[page.parent])
                     confirm_timer.reset()
                     break

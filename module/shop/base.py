@@ -203,16 +203,17 @@ class ShopBase(UI):
 
         return False
 
-    def shop_get_item_to_buy(self, items, shop_type='general', selection=''):
+    def shop_get_item_to_buy(self, shop_type='general', selection=''):
         """
         Args:
-            items list(Item): acquired from shop_get_items
-            shop_type (str): assists with _is_shop_custom_item
-            selection (str): user configured value, items desired
+            shop_type: String assists with shop_get_items
+            selection: String user configured value, items desired
 
         Returns:
             Item: Item to buy, or None.
         """
+        items = self.shop_get_items(key=shop_type)
+
         try:
             selection = selection.replace(' ', '').replace('\n', '').split('>')
             selection = list(filter(''.__ne__, selection))
@@ -292,15 +293,11 @@ class ShopBase(UI):
         """
         logger.hr(f'{shop_type} shop buy', level=2)
         for _ in range(12):
-            # Get first for innate delay to ocr
-            # shop currency for accurate parse
-            items = self.shop_get_items(key=shop_type)
             currency = self.shop_get_currency(key=shop_type)
             if currency <= 0:
-                logger.warning(f'Current funds: {currency}, stopped')
+                logger.warning(f'Not having enough currency: {currency}')
                 return False
-
-            item = self.shop_get_item_to_buy(items, shop_type, selection)
+            item = self.shop_get_item_to_buy(shop_type, selection)
             if item is None:
                 logger.info('Shop buy finished')
                 return True
