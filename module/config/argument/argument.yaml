@@ -252,6 +252,8 @@ Meowfficer:
   BuyAmount: 1
   TrainMeowfficer: false
   FortChoreMeowfficer: true
+  FeedMeowfficer: false
+  Index: 0
 GuildLogistics:
   Enable: true
   SelectNewMission: false

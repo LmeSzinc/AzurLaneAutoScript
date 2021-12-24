@@ -1003,6 +1003,14 @@
     "FortChoreMeowfficer": {
       "name": "喵窝互动",
       "help": "清扫, 喂食和逗猫"
+    },
+    "FeedMeowfficer": {
+      "name": "指挥喵陪玩",
+      "help": "喂养指挥喵，使用所有1级猫，包括金猫\n此功能将会持续训练指挥喵，新获得的金猫默认锁定"
+    },
+    "Index": {
+      "name": "指挥喵位置",
+      "help": "请输入你想喂养的指挥喵在列表的位置。\neg: 9代表第2行，第一个"
     }
   },
   "GuildLogistics": {

@@ -746,7 +746,9 @@
     "Meowfficer": {
       "BuyAmount": 1,
       "TrainMeowfficer": false,
-      "FortChoreMeowfficer": true
+      "FortChoreMeowfficer": true,
+      "FeedMeowfficer": false,
+      "Index": 0
     }
   },
   "Shipyard": {
