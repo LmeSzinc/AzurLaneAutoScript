@@ -465,8 +465,9 @@ class RewardMeowfficer(UI):
 
         # Qnly those within the level limit are added
         for i in range(len(meowfficerButtonList)):
-            if meowfficerLevelList[i] != '' and int(meowfficerLevelList[i]) >=  min_level\
-                and int(meowfficerLevelList[i]) <= max_level:
+            if meowfficerLevelList[i] != '' and \
+                int(meowfficerLevelList[i]) >= self.config.Meowfficer_MeofficerMinLevel and \
+                int(meowfficerLevelList[i]) <= self.config.Meowfficer_MeofficerMaxLevel:
                 targetMeowfficerList.append(meowfficerButtonList[i])
         
         return targetMeowfficerList
@@ -620,10 +621,10 @@ class RewardMeowfficer(UI):
 
         if self.config.Meowfficer_BuyAmount > 0:
             self.meow_buy()
-        if self.config.Meowfficer_TrainMeowfficer:
-            self.meow_train(is_sunday)
         if self.config.Meowfficer_FortChoreMeowfficer:
             self.meow_fort()
+        if not self.config.Meowfficer_FeedMeowfficer and self.config.Meowfficer_TrainMeowfficer:
+            self.meow_train(is_sunday)
         if not self.config.Meowfficer_FeedMeowfficer:
             self.config.task_delay(server_update=True)
 
