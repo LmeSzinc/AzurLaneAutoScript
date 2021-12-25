@@ -1003,6 +1003,39 @@
     "FortChoreMeowfficer": {
       "name": "喵窝互动",
       "help": "清扫, 喂食和逗猫"
+    },
+    "FeedMeowfficer": {
+      "name": "喂养指挥喵",
+      "help": "开启此功能将会一直训练并喂养指挥喵，新获得的金猫会上锁\n只读取一页的指挥喵，想喂养指定指挥喵需设置下面筛选条件\n请将猫按等级顺序排列"
+    },
+    "ScreenerCamp": {
+      "name": "目标指挥喵阵营",
+      "help": "",
+      "default": "全部",
+      "USS": "白鹰",
+      "HMS": "皇家",
+      "INR": "重樱",
+      "KMS": "铁血",
+      "ROC": "东煌",
+      "SN": "北方联合",
+      "FFNF": "自由鸢尾",
+      "MNF": "维希教廷"
+    },
+    "ScreenerRarity": {
+      "name": "目标指挥喵稀有度",
+      "help": "",
+      "default": "默认",
+      "SuperRare": "超稀有",
+      "Rare": "精锐",
+      "Normal": "稀有"
+    },
+    "MeofficerMaxLevel": {
+      "name": "目标指挥喵等级最大值",
+      "help": ""
+    },
+    "MeofficerMinLevel": {
+      "name": "目标指挥喵等级最小值",
+      "help": ""
     }
   },
   "GuildLogistics": {

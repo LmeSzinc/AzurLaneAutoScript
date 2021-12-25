@@ -746,7 +746,12 @@
     "Meowfficer": {
       "BuyAmount": 1,
       "TrainMeowfficer": false,
-      "FortChoreMeowfficer": true
+      "FortChoreMeowfficer": true,
+      "FeedMeowfficer": false,
+      "ScreenerCamp": "default",
+      "ScreenerRarity": "default",
+      "MeofficerMaxLevel": 29,
+      "MeofficerMinLevel": 1
     }
   },
   "Shipyard": {

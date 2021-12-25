@@ -173,6 +173,11 @@ class GeneratedConfig:
     Meowfficer_BuyAmount = 1
     Meowfficer_TrainMeowfficer = False
     Meowfficer_FortChoreMeowfficer = True
+    Meowfficer_FeedMeowfficer = False
+    Meowfficer_ScreenerCamp = 'default'  # default, USS, HMS, INR, KMS, ROC, SN, FFNF, MNF
+    Meowfficer_ScreenerRarity = 'default'  # default, SuperRare, Rare, Normal
+    Meowfficer_MeofficerMaxLevel = 29
+    Meowfficer_MeofficerMinLevel = 1
 
     # Group `GuildLogistics`
     GuildLogistics_Enable = True

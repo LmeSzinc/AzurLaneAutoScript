@@ -3436,6 +3436,43 @@
       "FortChoreMeowfficer": {
         "type": "checkbox",
         "value": true
+      },
+      "FeedMeowfficer": {
+        "type": "checkbox",
+        "value": false
+      },
+      "ScreenerCamp": {
+        "type": "select",
+        "value": "default",
+        "option": [
+          "default",
+          "USS",
+          "HMS",
+          "INR",
+          "KMS",
+          "ROC",
+          "SN",
+          "FFNF",
+          "MNF"
+        ]
+      },
+      "ScreenerRarity": {
+        "type": "select",
+        "value": "default",
+        "option": [
+          "default",
+          "SuperRare",
+          "Rare",
+          "Normal"
+        ]
+      },
+      "MeofficerMaxLevel": {
+        "type": "input",
+        "value": 29
+      },
+      "MeofficerMinLevel": {
+        "type": "input",
+        "value": 1
       }
     }
   },

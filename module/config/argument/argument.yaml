@@ -14,7 +14,7 @@ Scheduler:
   FailureInterval: 120
   ServerUpdate: 00:00
 Emulator:
-  Serial: 127.0.0.1:5555
+  Serial: 127.0.0.1:62001
   PackageName: com.bilibili.azurlane
   Server:
     value: cn
@@ -252,6 +252,15 @@ Meowfficer:
   BuyAmount: 1
   TrainMeowfficer: false
   FortChoreMeowfficer: true
+  FeedMeowfficer: false 
+  ScreenerCamp: 
+    value: default
+    option: [default, USS, HMS, INR, KMS, ROC, SN, FFNF, MNF]
+  ScreenerRarity:
+    value: default
+    option: [default, SuperRare, Rare, Normal]
+  MeofficerMaxLevel: 29
+  MeofficerMinLevel: 1
 GuildLogistics:
   Enable: true
   SelectNewMission: false
