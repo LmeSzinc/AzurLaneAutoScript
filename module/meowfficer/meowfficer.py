@@ -571,7 +571,9 @@ class RewardMeowfficer(UI):
                     break
 
             # Click confirm
-            if self.appear_then_click(MEOWFFICER_FEED_CONFIRM):
+            if self.appear(MEOWFFICER_FEED_CONFIRM):
+                self.ui_click(MEOWFFICER_FEED_CONFIRM, check_button=MEOWFFICER_FEED_SELECT_ENTER, 
+                              additional=self.meow_additional, retry_wait=3, skip_first_screenshot=True)
                 feeded = True
 
             # Check current page and the Level of the meowfficer
