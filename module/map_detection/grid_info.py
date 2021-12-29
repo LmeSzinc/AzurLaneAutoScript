@@ -63,6 +63,7 @@ class GridInfo:
     mechanism_wait = 2  # Seconds to wait the mechanism unlock animation
     is_fortress = False  # Machine fortress
     is_flare = False
+    is_missile_attack = False
     cost = 9999
     cost_1 = 9999
     cost_2 = 9999
@@ -247,6 +248,16 @@ class GridInfo:
                 return True
             else:
                 return False
+        if info.is_missile_attack:
+            if self.may_siren:
+                self.is_siren = True
+                return True
+            elif self.may_enemy:
+                self.is_enemy = True
+                return True
+            # Allow wrong predictions
+            # else:
+            #     return False
 
         return True
 

@@ -93,6 +93,9 @@ class GridPredictor:
         self.is_current_fleet = self.predict_current_fleet()
         # self.is_caught_by_siren = self.predict_caught_by_siren()
 
+        if self.config.MAP_HAS_MISSILE_ATTACK:
+            if self.predict_missile_attack():
+                self.is_missile_attack = True
         if self.enemy_genre:
             self.is_enemy = True
         if self.enemy_scale:
@@ -216,6 +219,9 @@ class GridPredictor:
                 return True
 
         return False
+
+    def predict_missile_attack(self):
+        return self.relative_rgb_count(area=(-0.5, -1, 0.5, 0), color=(255, 255, 60), shape=(50, 50)) > 35
 
     def predict_fleet(self):
         image = self.relative_crop((-1, -2, -0.5, -1.5), shape=(50, 50))
