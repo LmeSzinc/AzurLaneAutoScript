@@ -68,6 +68,7 @@ class GeneralShop(ShopBase):
         if self.config.GeneralShop_BuySkinBox:
             if (not item.is_known_item()) and item.amount == 1 and item.cost == 'Coins' and item.price == 7000:
                 logger.info(f'Item {item} is considered to be an equip skin box')
-                return True
+                if self._shop_gold_coins >= item.price:
+                    return True
 
         return False
