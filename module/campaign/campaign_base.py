@@ -61,12 +61,15 @@ class CampaignBase(CampaignUI, Map, AutoSearchCombat):
             .delete(self.map.select(is_boss=True))
         logger.info(f'Enemy remain: {remain}')
         if remain.count > 0:
-            if self.clear_siren():
-                return True
-
-            self.clear_mechanism()
-
-            return self.battle_default()
+            if self.config.MAP_HAS_MOVABLE_NORMAL_ENEMY:
+                if self.clear_any_enemy(sort=('cost_2',)):
+                    return True
+                return self.battle_default()
+            else:
+                if self.clear_siren():
+                    return True
+                self.clear_mechanism()
+                return self.battle_default()
         else:
             result = self.battle_boss()
             return result

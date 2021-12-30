@@ -251,10 +251,10 @@ class InfoHandler(ModuleBase):
                 self.interval_reset(STORY_SKIP)
                 self.interval_reset(STORY_LETTERS_ONLY)
                 return True
-        if self.appear(STORY_LETTER_BLACK) and self.appear_then_click(STORY_LETTERS_ONLY, offset=True, interval=2):
+        if self.appear(STORY_LETTER_BLACK) and self.appear_then_click(STORY_LETTERS_ONLY, offset=(20, 20), interval=2):
             self.story_popup_timout.reset()
             return True
-        if self._story_option_timer.reached() and self.appear(STORY_SKIP, offset=True, interval=0):
+        if self._story_option_timer.reached() and self.appear(STORY_SKIP, offset=(20, 20), interval=0):
             options = self._story_option_buttons()
             if len(options):
                 self.device.click(options[0])
@@ -263,7 +263,7 @@ class InfoHandler(ModuleBase):
                 self.interval_reset(STORY_SKIP)
                 self.interval_reset(STORY_LETTERS_ONLY)
                 return True
-        if self.appear_then_click(STORY_SKIP, offset=True, interval=2):
+        if self.appear_then_click(STORY_SKIP, offset=(20, 20), interval=2):
             self.story_popup_timout.reset()
             return True
         if self.appear_then_click(GAME_TIPS, offset=(20, 20), interval=2):
