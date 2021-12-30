@@ -80,11 +80,7 @@ class Campaign(CampaignBase):
             if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
                 return True
         else:
-            grids = self.map.select(is_enemy=True, is_boss=False).add(self.map.select(is_siren=True))
-            if grids:
-                logger.hr('Clear enemy')
-                self.show_select_grids(grids, sort=('cost_2',))
-                self.clear_chosen_enemy(grids[0])
+            if self.clear_any_enemy(sort=('cost_2',)):
                 return True
 
         return self.battle_default()
