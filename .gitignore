@@ -251,3 +251,4 @@ adb_port.ini
 *.zip
 console.bat
 .vscode/*
+*.json
