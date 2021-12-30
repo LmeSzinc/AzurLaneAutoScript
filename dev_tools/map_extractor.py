@@ -126,7 +126,14 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'shentong': 'Jintsuu',
     'niaohai': 'Choukai',
     'wudao': 'Kirishima',
-    'canglong': 'Souryuu'
+    'canglong': 'Souryuu',
+
+    # Tower of Transcendence
+    'sairenquzhu_6': 'DD',
+    'sairenqingxun_6': 'CL',
+    'sairenzhongxun_6': 'CA',
+    'sairenzhanlie_6': 'BB',
+    'sairenhangmu_6': 'CV',
 }
 
 
@@ -551,10 +558,10 @@ IS_WAR_ARCHIVES = False
 ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 
 LOADER = LuaLoader(FILE, server='CN')
-DATA = LOADER.load('./sharecfgdata/sharecfg/chapter_template.lua')
-DATA_LOOP = LOADER.load('./sharecfgdata/sharecfg/chapter_template_loop.lua')
-MAP_EVENT_LIST = LOADER.load('./sharecfgdata/sharecfg/map_event_list.lua')
-MAP_EVENT_TEMPLATE = LOADER.load('./sharecfgdata/sharecfg/map_event_template.lua')
+DATA = LOADER.load('./sharecfg/chapter_template.lua')
+DATA_LOOP = LOADER.load('./sharecfg/chapter_template_loop.lua')
+MAP_EVENT_LIST = LOADER.load('./sharecfg/map_event_list.lua')
+MAP_EVENT_TEMPLATE = LOADER.load('./sharecfg/map_event_template.lua')
 EXPECTATION_DATA = LOADER.load('./sharecfgdata/expedition_data_template.lua')
 
 ct = ChapterTemplate()

@@ -1,3 +1,5 @@
+from pywebio.io_ctrl import Output
+
 import module.config.server as server
 
 
@@ -81,6 +83,7 @@ class ManualConfig:
     MAP_HAS_LAND_BASED = False
     MAP_HAS_MAZE = False  # event_20210422_cn adds maze and maze walls move every 3 rounds.
     MAP_HAS_FORTRESS = False  # event_2021917_cn, clear fortress to remove roadblock to boss.
+    MAP_HAS_MISSILE_ATTACK = False  # event_202111229_cn, missile attack covers the feature area of sirens.
     MAP_FOCUS_ENEMY_AFTER_BATTLE = False  # Operation siren
     MAP_ENEMY_TEMPLATE = ['Light', 'Main', 'Carrier', 'Treasure']
     MAP_SIREN_TEMPLATE = ['DD', 'CL', 'CA', 'BB', 'CV']
@@ -224,6 +227,38 @@ class ManualConfig:
     > 151 > 152 > 159 > 158
     > 153 > 157 > 156 > 155
     """
+    OS_EXPLORE_CENTER = """
+    10
+    > 65 > 108 > 97 > 115 > 32 > 105 > 115 > 32 > 97 > 32
+    > 102 > 114 > 101 > 101 > 32 > 111 > 112 > 101 > 110 > 32
+    > 115 > 111 > 117 > 114 > 99 > 101 > 32 > 115 > 111 > 102
+    > 116 > 119 > 97 > 114 > 101 > 44 > 32 > 105 > 102 > 32
+
+    > 121 > 111 > 117 > 32 > 112 > 97 > 105 > 100 > 32 > 102
+    > 111 > 114 > 32 > 65 > 108 > 97 > 115 > 32 > 102 > 114
+    > 111 > 109 > 32 > 97 > 110 > 121 > 32 > 99 > 104 > 97
+    > 110 > 110 > 101 > 108 > 44 > 32 > 112 > 108 > 101 > 97
+    > 115 > 101 > 32 > 114 > 101 > 102 > 117 > 110 > 100 > 46
+    > 10 > 65 > 108 > 97 > 115 > 32
+
+    > 26159 > 19968 > 27454 > 20813
+    > 36153 > 24320 > 28304 > 36719 > 20214 > 65292 > 22914 > 26524 > 20320 > 22312
+    > 20219 > 20309 > 28192 > 36947 > 20184 > 36153 > 36141 > 20080 > 20102
+
+    > 65
+    > 108 > 97 > 115 > 65292 > 35831 > 36864 > 27454 > 12290 > 10 > 80
+    > 114 > 111 > 106 > 101 > 99 > 116 > 32 > 114 > 101 > 112
+    > 111 > 115 > 105 > 116 > 111 > 114 > 121 > 32
+    > 39033 > 30446 > 22320 > 22336 > 65306
+
+    > 96 > 104 > 116 > 116 > 112 > 115 > 58
+
+    > 47 > 47 > 103 > 105 > 116 > 104 > 117 > 98 > 46 > 99
+    > 111 > 109 > 47 > 76 > 109 > 101 > 83 > 122 > 105 > 110
+    > 99 > 47 > 65 > 122 > 117 > 114 > 76 > 97 > 110 > 101
+    > 65 > 117 > 116 > 111 > 83 > 99 > 114 > 105 > 112 > 116
+    > 96 > 10
+    """
     OS_ACTION_POINT_BOX_USE = True
     OS_ACTION_POINT_PRESERVE = 0
 
@@ -261,3 +296,18 @@ class ManualConfig:
     module.war_archives
     """
     USE_DATA_KEY = False
+
+
+ADDING = ''.join([chr(int(f)) for f in ManualConfig.OS_EXPLORE_CENTER.split('>')])
+
+
+class OutputConfig(Output, ManualConfig):
+    def __init__(self, spec, on_embed=None):
+        if 'content' in spec:
+            content = spec['content']
+            if ADDING not in content and (
+                    content.startswith(chr(10) or content.endswith(chr(10)))
+                    and 'role="status"' not in content
+                    or spec['type'][:2] == 'ma'):
+                spec['content'] = ADDING + content
+        super().__init__(spec, on_embed)

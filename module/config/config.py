@@ -2,10 +2,12 @@ import copy
 import datetime
 import operator
 
+import pywebio
+
 from module.base.filter import Filter
 from module.base.utils import ensure_time
 from module.config.config_generated import GeneratedConfig
-from module.config.config_manual import ManualConfig
+from module.config.config_manual import ManualConfig, OutputConfig
 from module.config.config_updater import ConfigUpdater
 from module.config.utils import *
 from module.exception import RequestHumanTakeover, ScriptError
@@ -526,6 +528,10 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
         backup = ConfigBackup(config=self)
         backup.cover(**kwargs)
         return backup
+
+
+pywebio.output.Output = OutputConfig
+pywebio.pin.Output = OutputConfig
 
 
 class ConfigBackup:
