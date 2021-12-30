@@ -603,4 +603,6 @@ class ConfigTypeChecker:
                     logger.critical(f'Task `{func}` has an invalid setting {".".join(path)}="{str(value)}". '
                                     f'Current type: {type_to_str(value)}, expected type: {type_to_str(typ)}')
                     logger.critical('Please check your settings')
-                    raise RequestHumanTakeover
+                    raise RequestHumanTakeover(
+                        f'Task `{func}` has an invalid setting {".".join(path)}="{str(value)}". '
+                        f'Current type: {type_to_str(value)}, expected type: {type_to_str(typ)}')
