@@ -1,4 +1,5 @@
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
+from module.logger import logger
 
 
 class CampaignBase(CampaignBase_):
@@ -20,11 +21,11 @@ class CampaignBase(CampaignBase_):
         Call this method after cleared an enemy.
         """
         super().round_battle()
-        new = {0: 0}
-        for spawn_round, count in self.enemy_round.items():
-            new[0] += count
-        if after_battle:
-            new[0] = max(new[0] - 1, 0)
-        self.enemy_round = new
-        from module.logger import logger
-        logger.info(f'Enemy round: {new}')
+        # new = {0: 0}
+        # for spawn_round, count in self.enemy_round.items():
+        #     new[0] += count
+        # if after_battle:
+        #     new[0] = max(new[0] - 1, 0)
+        # self.enemy_round = new
+        # from module.logger import logger
+        logger.info(f'Enemy round: {self.enemy_round}')

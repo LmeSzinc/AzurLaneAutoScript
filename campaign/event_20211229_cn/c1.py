@@ -64,6 +64,7 @@ class Config:
         'distance': 50,
         'wlen': 1000
     }
+    HOMO_EDGE_COLOR_RANGE = (0, 17)
     MAP_SWIPE_MULTIPLY = 1.743
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.685
     MAP_WALK_USE_CURRENT_FLEET = True
