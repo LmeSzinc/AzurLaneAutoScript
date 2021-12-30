@@ -417,7 +417,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 continue
             if self.handle_get_items(drop=drop):
                 continue
-            if self.handle_battle_status(drop=drop):
+            if not exp_info and self.handle_battle_status(drop=drop):
                 battle_status = True
                 continue
             if self.handle_popup_confirm('combat_status'):

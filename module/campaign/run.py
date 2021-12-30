@@ -4,7 +4,6 @@ import os
 
 from module.campaign.assets import *
 from module.campaign.campaign_base import CampaignBase
-from module.combat.auto_search_combat import AutoSearchCombat
 from module.config.config import AzurLaneConfig
 from module.config.utils import deep_get
 from module.exception import RequestHumanTakeover, ScriptEnd
@@ -224,6 +223,7 @@ class CampaignRun(UI):
             if self.campaign.config.MAP_IS_ONE_TIME_STAGE:
                 if self.run_count >= 1:
                     logger.hr('Triggered one-time stage limit')
+                    self.campaign.handle_map_stop()
                     break
             # Scheduler
             if self.config.task_switched():
