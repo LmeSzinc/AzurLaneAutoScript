@@ -21,7 +21,7 @@ class DeployConfig:
         hr0('Show deploy config')
         for k, v in self.config.items():
             if k == 'Password':
-                pass
+                continue
             print(f'{k}: {v}')
 
     def read(self):
