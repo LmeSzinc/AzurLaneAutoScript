@@ -77,4 +77,5 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20211125   | event 20211125 cn        | World-spanning Arclight        | 交汇世界的弧光         | World-spanning Arclight          | 弧光は交わる世界にて                 | -                    |
 | 20211130   | event 20211125 cn        | World-spanning Arclight        | -                      | -                                | -                                    | 交匯世界的弧光       |
 | 20211214   | event 20200603 cn        | Stars of the Shimmering Fjord  | -                      | -                                | -                                    | 峽灣間的反擊         |
-| 20211229   | event 20211229 cn        | Tower of Transcendence         | 逆转彩虹之塔            | Tower of Transcendence           | 遡望せし虹彩の塔                     | -                   |
+| 20211229   | event 20211229 cn        | Tower of Transcendence         | 逆转彩虹之塔           | Tower of Transcendence           | 遡望せし虹彩の塔                     | -                    |
+| 20211230   | event 20201229 cn        | Inverted Orthant               | -                      | -                                | -                                    | 負象限作戰           |

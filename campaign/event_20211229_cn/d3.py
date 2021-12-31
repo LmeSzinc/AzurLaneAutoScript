@@ -72,6 +72,8 @@ class Config(ConfigBase):
     MAP_HAS_SIREN = True
     MAP_SWIPE_MULTIPLY = 1.716
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.659
+    MAP_HAS_MOVABLE_ENEMY = False
+    MAP_HAS_MOVABLE_NORMAL_ENEMY = False
 
 
 class Campaign(CampaignBase):
@@ -85,7 +87,7 @@ class Campaign(CampaignBase):
             if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
                 return True
         else:
-            if self.clear_any_enemy(sort=('cost_2',)):
+            if self.clear_siren():
                 return True
 
         return self.battle_default()
@@ -97,7 +99,7 @@ class Campaign(CampaignBase):
             if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
                 return True
         else:
-            if self.clear_any_enemy(sort=('cost_2',)):
+            if self.clear_siren():
                 return True
 
         return self.battle_default()
