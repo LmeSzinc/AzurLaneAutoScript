@@ -961,6 +961,8 @@ if __name__ == "__main__":
                         help='Backend framework of web server, starlette or tornado. Default to starlette')
     parser.add_argument('-k', '--key', type=str,
                         help='Password of alas. No password by default')
+    parser.add_argument("--cdn", action="store_true",
+                        help="Use jsdelivr cdn for pywebio static files (css, js). Self host cdn by default.")
     args = parser.parse_args()
 
     # Apply config
@@ -968,6 +970,14 @@ if __name__ == "__main__":
     lang.LANG = webui_config.Language
     port = args.port or int(webui_config.WebuiPort) or 22267
     key = args.key or webui_config.Password
+    cdn = args.cdn or (webui_config.CDN == 'true') or False
+
+    logger.hr('Webui configs')
+    logger.attr('Theme', webui_config.Theme)
+    logger.attr('Language', lang.LANG)
+    logger.attr('Port', port)
+    logger.attr('Password', True if key else False)
+    logger.attr('CDN', cdn)
 
     AlasManager.sync_manager = Manager()
     AlasGUI.shorten_path()
@@ -989,7 +999,7 @@ if __name__ == "__main__":
         from pywebio.platform.tornado import start_server
 
     try:
-        start_server([index, translate], port=port, debug=True)
+        start_server([index, translate], port=port, debug=True, cdn=cdn)
     finally:
         for alas in AlasManager.all_alas.values():
             alas.stop()
