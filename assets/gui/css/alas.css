@@ -154,6 +154,21 @@ select.form-control.is-invalid {
     background-position: right 1.5rem center;
 }
 
+button.btn.dropdown-toggle {
+    display: none;
+}
+
+.bootstrap-select>select{
+    position: unset !important;
+    bottom: unset !important;
+    left: unset !important;
+    width: 100% !important;
+    height: unset !important;
+    padding: 0 1rem 0 0.5rem !important;
+    opacity: 1 !important;
+    z-index: auto !important;
+}
+
 .invalid-feedback {
     margin-top: 0;
 }
