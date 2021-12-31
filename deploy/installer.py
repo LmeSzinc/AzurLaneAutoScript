@@ -117,10 +117,14 @@ class GitManager(DeployConfig):
         hr1('Pull Repository Branch')
         if keep_changes:
             if self.execute(f'"{self.git}" stash', allow_failure=True):
-                self.execute(f'"{self.git}" pull {source} {branch}')
-                self.execute(f'"{self.git}" stash pop')
+                self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
+                if self.execute(f'"{self.git}" stash pop', allow_failure=True):
+                    pass
+                else:
+                    # No local changes to existing files, untracked files not included
+                    print('Stash pop failed, there seems to be no local changes, skip instead')
             else:
-                print('Unable to slash, this may be the first installation, drop changes instead')
+                print('Stash failed, this may be the first installation, drop changes instead')
                 self.execute(f'"{self.git}" reset --hard {source}/{branch}')
                 self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
         else:
