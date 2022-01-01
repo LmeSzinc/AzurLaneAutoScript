@@ -79,3 +79,7 @@ Deploy:
     # Password of web ui
     # Useful when expose Alas to the public network
     Password: null
+    # Use jsdelivr cdn for pywebio static files (css, js).
+    # 'true' for jsdelivr cdn
+    # 'false' for self host cdn (automatically)
+    CDN: false

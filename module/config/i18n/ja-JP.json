@@ -1239,6 +1239,16 @@
       "help": "MeritShop.Filter.help"
     }
   },
+  "CoreShop": {
+    "_info": {
+      "name": "CoreShop._info.name",
+      "help": "CoreShop._info.help"
+    },
+    "Filter": {
+      "name": "CoreShop.Filter.name",
+      "help": "CoreShop.Filter.help"
+    }
+  },
   "Shipyard": {
     "_info": {
       "name": "Shipyard._info.name",

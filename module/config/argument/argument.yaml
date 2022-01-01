@@ -159,7 +159,7 @@ HpControl:
   RepairUseMultiThreshold: 0.6
   LowHpRetreatThreshold: 0.3
 EnemyPriority:
-  EnemyScaleBalanceWeight: 
+  EnemyScaleBalanceWeight:
     value: default_mode
     option: [default_mode, S3_enemy_first, S1_enemy_first]
 Raid:
@@ -340,6 +340,9 @@ MeritShop:
   Refresh: false
   Filter: |-
     Cube
+CoreShop:
+  Filter: |-
+    Array
 Shipyard:
   ResearchSeries: 1
   ShipIndex: 0

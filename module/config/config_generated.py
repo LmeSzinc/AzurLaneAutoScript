@@ -228,6 +228,9 @@ class GeneratedConfig:
     MeritShop_Refresh = False
     MeritShop_Filter = 'Cube'
 
+    # Group `CoreShop`
+    CoreShop_Filter = 'Array'
+
     # Group `Shipyard`
     Shipyard_ResearchSeries = 1
     Shipyard_ShipIndex = 0

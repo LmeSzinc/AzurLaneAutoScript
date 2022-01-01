@@ -453,7 +453,7 @@
       "event_20210225_tw": "北境序曲",
       "event_20210225_cn": "Khorovod of Dawns Rime",
       "event_20210121_cn": "Empyreal Tragicomedy Rerun",
-      "event_20201229_cn": "Inverted Orthant",
+      "event_20201229_cn": "負象限作戰",
       "event_20201126_cn": "Vacation Lane",
       "event_20200312_cn": "斯圖爾特的硝煙",
       "event_20201029_cn": "Universe in Unison",
@@ -1237,6 +1237,16 @@
     "Filter": {
       "name": "軍需商店過濾器",
       "help": "MeritShop.Filter.help"
+    }
+  },
+  "CoreShop": {
+    "_info": {
+      "name": "CoreShop._info.name",
+      "help": "CoreShop._info.help"
+    },
+    "Filter": {
+      "name": "CoreShop.Filter.name",
+      "help": "CoreShop.Filter.help"
     }
   },
   "Shipyard": {

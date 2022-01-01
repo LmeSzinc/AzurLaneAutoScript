@@ -1239,6 +1239,16 @@
       "help": "All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>"
     }
   },
+  "CoreShop": {
+    "_info": {
+      "name": "Core Shop Settings",
+      "help": ""
+    },
+    "Filter": {
+      "name": "Item Filter",
+      "help": "All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>\nHowever unlike other shops, only Chip and Array are supported\nALAS does not browse, scroll, or recognize any other items displayed besides those two"
+    }
+  },
   "Shipyard": {
     "_info": {
       "name": "Shipyard Settings",
