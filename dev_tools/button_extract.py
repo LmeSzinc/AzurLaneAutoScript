@@ -3,9 +3,10 @@ import os
 import imageio
 import numpy as np
 from PIL import Image
+from tqdm.contrib.concurrent import process_map
 
 from module.base.button import get_color
-from module.config.config import AzurLaneConfig
+from module.config.config_manual import ManualConfig as AzurLaneConfig
 from module.logger import logger
 
 MODULE_FOLDER = './module'
@@ -187,6 +188,11 @@ class ModuleExtractor:
                 f.write(text + '\n')
 
 
+def worker(module):
+    me = ModuleExtractor(name=module)
+    me.write()
+
+
 class AssetExtractor:
     """
     Extract Asset to asset.py.
@@ -209,10 +215,10 @@ class AssetExtractor:
     def __init__(self):
         logger.info('Assets extract')
 
-        for module in os.listdir(AzurLaneConfig.ASSETS_FOLDER + '/cn'):
-            if os.path.isdir(os.path.join(AzurLaneConfig.ASSETS_FOLDER + '/cn', module)):
-                me = ModuleExtractor(name=module)
-                me.write()
+        modules = [m for m in os.listdir(AzurLaneConfig.ASSETS_FOLDER + '/cn')
+                   if os.path.isdir(os.path.join(AzurLaneConfig.ASSETS_FOLDER + '/cn', m))]
+
+        process_map(worker, modules)
 
 
 if __name__ == '__main__':
