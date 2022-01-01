@@ -289,7 +289,7 @@ class ShopBase(UI):
             if self.appear(BACK_ARROW, offset=(20, 20), interval=3):
                 self.device.click(item)
                 continue
-            if self.appear_then_click(SHOP_BUY_CONFIRM, offset=(20, 20), interval=3):
+            if self.appear_then_click(SHOP_BUY_CONFIRM, offset=(100, 200), interval=3):
                 self.interval_reset(BACK_ARROW)
                 continue
             if self.shop_buy_handle(item, key):
