@@ -29,7 +29,8 @@
     background-color: #eaecef !important;
 }
 
-.form-control {
+.form-control,
+.bootstrap-select>select{
     border-bottom: .125rem solid #4e4c97;
 }
 

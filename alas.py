@@ -357,9 +357,9 @@ class AzurLaneAutoScript:
             deep_set(failure_record, keys=task, value=failed)
             if failed >= 3:
                 logger.critical(f"Task `{task}` failed 3 or more times.")
-                logger.critical("Possible reason: You haven't used it correctly. "
+                logger.critical("Possible reason #1: You haven't used it correctly. "
                                 "Please read the help text of the options.")
-                logger.critical("Possible reason: There is a problem with this task. "
+                logger.critical("Possible reason #2: There is a problem with this task. "
                                 "Please contact developers or try to fix it yourself.")
                 if self.config.Error_HandleError:
                     self.config.Scheduler_Enable = False

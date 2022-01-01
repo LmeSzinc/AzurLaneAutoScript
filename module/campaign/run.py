@@ -4,7 +4,6 @@ import os
 
 from module.campaign.assets import *
 from module.campaign.campaign_base import CampaignBase
-from module.combat.auto_search_combat import AutoSearchCombat
 from module.config.config import AzurLaneConfig
 from module.config.utils import deep_get
 from module.exception import RequestHumanTakeover, ScriptEnd
@@ -56,8 +55,8 @@ class CampaignRun(UI):
                 files = [f[:-3] for f in os.listdir(folder) if f[-3:] == '.py']
                 logger.warning(f'Existing files: {files}')
 
-            logger.critical(f'Possible reason: This event ({folder}) does not have {name}')
-            logger.critical(f'Possible reason: You are using an old Alas, '
+            logger.critical(f'Possible reason #1: This event ({folder}) does not have {name}')
+            logger.critical(f'Possible reason #2: You are using an old Alas, '
                             'please check for update, or make map files yourself using dev_tools/map_extractor.py')
             raise RequestHumanTakeover
 
@@ -224,6 +223,7 @@ class CampaignRun(UI):
             if self.campaign.config.MAP_IS_ONE_TIME_STAGE:
                 if self.run_count >= 1:
                     logger.hr('Triggered one-time stage limit')
+                    self.campaign.handle_map_stop()
                     break
             # Scheduler
             if self.config.task_switched():

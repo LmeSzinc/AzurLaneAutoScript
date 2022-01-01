@@ -2,10 +2,12 @@ import copy
 import datetime
 import operator
 
+import pywebio
+
 from module.base.filter import Filter
 from module.base.utils import ensure_time
 from module.config.config_generated import GeneratedConfig
-from module.config.config_manual import ManualConfig
+from module.config.config_manual import ManualConfig, OutputConfig
 from module.config.config_updater import ConfigUpdater
 from module.config.utils import *
 from module.exception import RequestHumanTakeover, ScriptError
@@ -528,6 +530,10 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
         return backup
 
 
+pywebio.output.Output = OutputConfig
+pywebio.pin.Output = OutputConfig
+
+
 class ConfigBackup:
     def __init__(self, config):
         """
@@ -597,4 +603,6 @@ class ConfigTypeChecker:
                     logger.critical(f'Task `{func}` has an invalid setting {".".join(path)}="{str(value)}". '
                                     f'Current type: {type_to_str(value)}, expected type: {type_to_str(typ)}')
                     logger.critical('Please check your settings')
-                    raise RequestHumanTakeover
+                    raise RequestHumanTakeover(
+                        f'Task `{func}` has an invalid setting {".".join(path)}="{str(value)}". '
+                        f'Current type: {type_to_str(value)}, expected type: {type_to_str(typ)}')

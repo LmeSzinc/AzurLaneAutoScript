@@ -105,7 +105,7 @@ class Fleet(Camera, AmbushHandler):
         self.round += 1
         logger.info(f'Round: {self.round}, enemy_round: {self.enemy_round}')
 
-    def round_battle(self):
+    def round_battle(self, after_battle=True):
         """
         Call this method after cleared an enemy.
         """
@@ -306,6 +306,8 @@ class Fleet(Camera, AmbushHandler):
                         self.camera = location
                         self.update()
                     grid = self.convert_global_to_local(location)
+                    arrive_timer = Timer(0.5 + extra, count=2)
+                    arrive_unexpected_timer = Timer(1.5 + extra, count=6)
                     walk_timeout.reset()
 
                 # Ambush
@@ -391,7 +393,7 @@ class Fleet(Camera, AmbushHandler):
         if result_mystery == 'get_carrier':
             self.full_scan_carrier()
         if result == 'combat':
-            self.round_battle()
+            self.round_battle(after_battle=True)
             self.predict()
         self.round_next()
         if self.round_is_new:
@@ -746,7 +748,7 @@ class Fleet(Camera, AmbushHandler):
         self.find_path_initial()
         self.map.show_cost()
         self.round_reset()
-        self.round_battle()
+        self.round_battle(after_battle=False)
 
     def handle_clear_mode_config_cover(self):
         if not self.map_is_clear_mode:

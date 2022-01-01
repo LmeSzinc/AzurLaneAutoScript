@@ -119,7 +119,8 @@ class GridInfo:
             'MY': 'is_mystery',
             'AM': 'is_ammo',
             'FR': 'is_fortress',
-            '==': 'is_cleared'
+            'MI': 'is_missile_attack',
+            '==': 'is_cleared',
         }
         for key, value in dic.items():
             if self.__getattribute__(value):

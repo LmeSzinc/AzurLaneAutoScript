@@ -118,13 +118,13 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                 # Check errors
                 if campaign_click > 5:
                     logger.critical(f"Failed to enter {button}, too many click on {button}")
-                    logger.critical("Possible reason: You haven't reached the commander level to unlock this stage.")
+                    logger.critical("Possible reason #1: You haven't reached the commander level to unlock this stage.")
                     raise RequestHumanTakeover
                 if fleet_click > 5:
                     logger.critical(f"Failed to enter {button}, too many click on FLEET_PREPARATION")
-                    logger.critical("Possible reason: "
+                    logger.critical("Possible reason #1: "
                                     "Your fleets haven't satisfied the stat restrictions of this stage.")
-                    logger.critical("Possible reason: "
+                    logger.critical("Possible reason #2: "
                                     "This stage can only be farmed once a day, "
                                     "but it's the second time that you are entering")
                     raise RequestHumanTakeover

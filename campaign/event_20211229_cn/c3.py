@@ -1,4 +1,4 @@
-from module.campaign.campaign_base import CampaignBase
+from .campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
@@ -69,10 +69,6 @@ class Campaign(CampaignBase):
     MAP = MAP
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 
-    def handle_clear_mode_config_cover(self):
-        super().handle_clear_mode_config_cover()
-        self.config.MAP_HAS_MISSILE_ATTACK = True
-
     def battle_0(self):
         if self.map_is_clear_mode:
             if self.clear_siren():
@@ -80,11 +76,7 @@ class Campaign(CampaignBase):
             if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
                 return True
         else:
-            grids = self.map.select(is_enemy=True, is_boss=False).add(self.map.select(is_siren=True))
-            if grids:
-                logger.hr('Clear enemy')
-                self.show_select_grids(grids, sort=('cost_2',))
-                self.clear_chosen_enemy(grids[0])
+            if self.clear_any_enemy(sort=('cost_2',)):
                 return True
 
         return self.battle_default()

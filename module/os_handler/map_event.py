@@ -45,6 +45,13 @@ class MapEventHandler(EnemySearchingHandler):
 
         return False
 
+    def handle_os_game_tips(self):
+        # Close game tips the first time enabling auto search
+        if self.appear_then_click(OS_GAME_TIPS, offset=(20, 20), interval=3):
+            return True
+
+        return False
+
     def handle_ash_popup(self):
         name = 'ASH'
         # 2021.12.09
@@ -106,6 +113,8 @@ class MapEventHandler(EnemySearchingHandler):
             bool: If clicked to handle any map event.
         """
         if self.handle_map_get_items():
+            return True
+        if self.handle_os_game_tips():
             return True
         if self.handle_map_archives():
             return True
