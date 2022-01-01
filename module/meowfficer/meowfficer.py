@@ -1,3 +1,4 @@
+from module.base.button import ButtonGrid
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1
 from module.config.utils import get_server_next_update
@@ -14,6 +15,11 @@ MEOWFFICER = DigitCounter(OCR_MEOWFFICER, letter=(140, 113, 99), threshold=64)
 MEOWFFICER_CHOOSE = Digit(OCR_MEOWFFICER_CHOOSE, letter=(140, 113, 99), threshold=64)
 MEOWFFICER_COINS = Digit(OCR_MEOWFFICER_COINS, letter=(99, 69, 41), threshold=64)
 MEOWFFICER_CAPACITY = DigitCounter(OCR_MEOWFFICER_CAPACITY, letter=(131, 121, 123), threshold=64)
+
+MEOWFFICER_FEED_GRID = ButtonGrid(
+    origin=(818, 212), delta=(130, 147), button_shape=(30, 30), grid_shape=(4, 3),
+    name='MEOWFFICER_FEED_GRID')
+MEOWFFICER_FEED = DigitCounter(OCR_MEOWFFICER_FEED, letter=(131, 121, 123), threshold=64)
 
 
 class RewardMeowfficer(UI):
@@ -110,6 +116,70 @@ class RewardMeowfficer(UI):
                     and MEOWFFICER_BUY_ENTER.match_appear_on(self.device.image):
                 break
 
+    def meow_feed_scan(self):
+        """
+        Scan for meowfficers that can be fed
+        into target meowfficer for enhancement
+
+        Pages:
+            in: MEOWFFICER_FEED
+            out: MEOWFFICER_FEED
+
+        Returns:
+            list(Button)
+        """
+        clickable = []
+        for button in MEOWFFICER_FEED_GRID.buttons:
+            # Exit if button is empty slot
+            if self.image_color_count(button, color=(231, 223, 221), threshold=221, count=450):
+                break
+
+            # Continue onto next if button
+            # already selected (green check mark)
+            if self.image_color_count(button, color=(95, 229, 108), threshold=221, count=150):
+                continue
+
+            # Neither base case, so presume
+            # button is clickable
+            clickable.append(button)
+
+        return clickable
+
+    def meow_feed_select(self):
+        """
+        Click and confirm the meowfficers that
+        can be used as feed to enhance the target
+        meowfficer
+
+        Pages:
+            in: MEOWFFICER_FEED
+            out: MEOWFFICER_ENHANCE
+        """
+        current = 0
+        while 1:
+            # Scan for feed, exit if none
+            buttons = self.meow_feed_scan()
+            if not len(buttons):
+                break
+
+            # Else click each button to
+            # apply green check mark
+            # Sleep for stable image
+            for button in buttons:
+                self.device.click(button)
+            self.device.sleep((0.3, 0.5))
+            self.device.screenshot()
+
+            # Exit if maximum clicked
+            current, remain, total = MEOWFFICER_FEED.ocr(self.device.image)
+            if not remain:
+                break
+
+        # Use current to pass appropriate button for ui_click
+        # route back to MEOWFFICER_ENHANCE
+        self.ui_click(MEOWFFICER_FEED_CONFIRM if current else MEOWFFICER_FEED_CANCEL,
+                      check_button=MEOWFFICER_ENHANCE_CONFIRM, offset=(20, 20))
+
     def meow_get(self, skip_first_screenshot=True):
         """
         Transition through all the necessary screens
@@ -204,6 +274,82 @@ class RewardMeowfficer(UI):
         logger.warning('Too many trial in meowfficer buy, stopped.')
         return False
 
+    def meow_enhance(self, skip_first_screenshot=True):
+        """
+        Perform meowfficer enhancement operations
+        involving using extraneous meowfficers to
+        donate XP into a meowfficer target
+
+        Args:
+            skip_first_screenshot (bool):
+
+        Pages:
+            in: page_meowfficer
+            out: page_meowfficer
+        """
+        # Base Case
+        if self.config.Meowfficer_EnhanceIndex <= 0:
+            return
+
+        # Calculate (x, y) coordinate within
+        # MEOWFFICER_FEED_GRID (4x3) for
+        # enhance target
+        index = self.config.Meowfficer_EnhanceIndex - 1
+        x = index if index < 4 else index % 4
+        y = index // 4
+
+        # Intentionally initialize asset timer
+        # to account for meow_additional as
+        # can be delayed significantly
+        self.appear(MEOWFFICER_ENHANCE_ENTER, offset=(20, 20), interval=3)
+        self.interval_reset(MEOWFFICER_ENHANCE_ENTER)
+
+        # Transition to the MEOWFFICER_FEED
+        # after selecting target meowfficer
+        confirm_timer = Timer(1.5, count=3)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.meow_additional():
+                confirm_timer.reset()
+                continue
+            if self.appear(MEOWFFICER_ENHANCE_ENTER, offset=(20, 20), interval=3):
+                self.device.click(MEOWFFICER_FEED_GRID[x, y])
+                self.device.click(MEOWFFICER_ENHANCE_ENTER)
+                confirm_timer.reset()
+                continue
+            if self.appear_then_click(MEOWFFICER_FEED_ENTER, offset=(20, 20), interval=3):
+                self.interval_reset(MEOWFFICER_ENHANCE_ENTER)
+                confirm_timer.reset()
+                continue
+
+            # End
+            if self.appear(MEOWFFICER_FEED_CANCEL, offset=(20, 20)) and \
+               self.appear(MEOWFFICER_FEED_CONFIRM, offset=(20, 20)):
+                if confirm_timer.reached():
+                    break
+            else:
+                confirm_timer.reset()
+
+        # Initiate feed sequence
+        # - Select Feed
+        # - Confirm Feed
+        # - Confirm Enhancement
+        self.meow_feed_select()
+        while not self.appear(MEOWFFICER_FEED_ENTER, offset=(20, 20)):
+            if self.appear_then_click(MEOWFFICER_ENHANCE_CONFIRM, offset=(20, 20), interval=3):
+                pass
+            if self.handle_meow_popup_confirm():
+                pass
+            self.device.screenshot()
+
+        # Exit back into page_meowfficer
+        self.ui_click(MEOWFFICER_GOTO_DORM, check_button=MEOWFFICER_ENHANCE_ENTER,
+                      appear_button=MEOWFFICER_ENHANCE_CONFIRM, offset=None)
+
     def meow_collect(self, is_sunday=False):
         """
         Collect one or all trained meowfficer(s)
@@ -268,8 +414,8 @@ class RewardMeowfficer(UI):
         if (remain > 0 and not collected) or is_sunday:
             self.meow_queue()
 
-        self.ui_click(MEOWFFICER_GOTO_DORM,
-                      check_button=MEOWFFICER_TRAIN_ENTER, appear_button=MEOWFFICER_TRAIN_START, offset=None)
+        self.ui_click(MEOWFFICER_GOTO_DORM, check_button=MEOWFFICER_TRAIN_ENTER,
+                      appear_button=MEOWFFICER_TRAIN_START, offset=None)
 
         return collected
 
@@ -344,8 +490,8 @@ class RewardMeowfficer(UI):
         self.meow_chores()
 
         # Exit back into page_meowfficer
-        self.ui_click(MEOWFFICER_GOTO_DORM,
-                      check_button=MEOWFFICER_FORT_ENTER, appear_button=MEOWFFICER_FORT_CHECK, offset=None)
+        self.ui_click(MEOWFFICER_GOTO_DORM,check_button=MEOWFFICER_FORT_ENTER,
+                      appear_button=MEOWFFICER_FORT_CHECK, offset=None)
 
         return True
 
