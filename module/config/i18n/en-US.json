@@ -296,7 +296,7 @@
     },
     "HandleError": {
       "name": "Enable Exception Handling",
-      "help": "Handles select exceptions, will retreat if in battle\nIn some tasks, will disable the error task and try restarting"
+      "help": "Handles select exceptions, will retreat if in battle"
     },
     "SaveError": {
       "name": "Record Exception",
