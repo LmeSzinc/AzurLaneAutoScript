@@ -20,6 +20,16 @@ MEOWFFICER_FEED_GRID = ButtonGrid(
     origin=(818, 212), delta=(130, 147), button_shape=(30, 30), grid_shape=(4, 3),
     name='MEOWFFICER_FEED_GRID')
 MEOWFFICER_FEED = DigitCounter(OCR_MEOWFFICER_FEED, letter=(131, 121, 123), threshold=64)
+MEOWFFICER_QUEUE = DigitCounter(OCR_MEOWFFICER_QUEUE, letter=(131, 121, 123), threshold=64)
+MEOWFFICER_BOX_GRID = ButtonGrid(
+    origin=(460, 210), delta=(160, 0), button_shape=(30, 30), grid_shape=(3, 1),
+    name='MEOWFFICER_BOX_GRID')
+MEOWFFICER_BOX_COUNT_GRID = ButtonGrid(
+    origin=(490, 245), delta=(160, 0), button_shape=(47, 27), grid_shape=(3, 1),
+    name='MEOWFFICER_BOX_COUNT_GRID')
+MEOWFFICER_BOX_COUNT = Digit(MEOWFFICER_BOX_COUNT_GRID.buttons,
+    letter=(255, 247, 247), threshold=64,
+    name=f'MEOWFFICER_BOX_COUNT')
 
 
 class RewardMeowfficer(UI):
@@ -221,24 +231,24 @@ class RewardMeowfficer(UI):
             else:
                 confirm_timer.reset()
 
-    def meow_queue(self):
+    def _meow_nqueue(self, skip_first_screenshot=True):
         """
-        Queue all remaining empty slots to begin
-        meowfficer training
-        Begin with single click then loop check
-        screen transitions
+        Queue all remaining empty slots does
+        so autonomously enqueuing rare boxes
+        first
 
         Pages:
             in: MEOWFFICER_TRAIN
             out: MEOWFFICER_TRAIN
         """
-        self.device.click(MEOWFFICER_TRAIN_START)
-
         # Loop through possible screen transitions
         # as a result of the previous action
         confirm_timer = Timer(1.5, count=3).start()
         while 1:
-            self.device.screenshot()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
             if self.appear(INFO_BAR_1):
                 confirm_timer.reset()
@@ -258,6 +268,75 @@ class RewardMeowfficer(UI):
                     break
             else:
                 confirm_timer.reset()
+
+    def _meow_rqueue(self):
+        """
+        Queue all remaining empty slots however does
+        so manually in order to enqueue common
+        boxes first
+
+        Pages:
+            in: MEOWFFICER_TRAIN
+            out: MEOWFFICER_TRAIN
+        """
+        buttons = MEOWFFICER_BOX_GRID.buttons
+        while 1:
+            # Number that can be queued
+            current, remain, total = MEOWFFICER_QUEUE.ocr(self.device.image)
+            if not remain:
+                break
+
+            # Acquire box count of each rarity
+            # Loop as needed to queue boxes appropriately
+            counts = MEOWFFICER_BOX_COUNT.ocr(self.device.image)
+            for _ in [2, 1]:
+                count = counts[_] - remain
+                if count < 0:
+                    self.device.multi_click(buttons[_], remain + count)
+                    remain = abs(count)
+                else:
+                    self.device.multi_click(buttons[_], remain)
+                    break
+
+            self.device.sleep((0.3, 0.5))
+            self.device.screenshot()
+
+        # Re-use mechanism to transition through screens
+        self._meow_nqueue()
+
+    def meow_queue(self):
+        """
+        Enter into training window and then
+        choose appropriate queue method based
+        on current stock
+
+        Pages:
+            in: MEOWFFICER_TRAIN
+            out: MEOWFFICER_TRAIN
+        """
+        # Either can remain in same window or
+        # enter the train window
+        self.device.click(MEOWFFICER_TRAIN_START)
+        self.device.sleep((0.3, 0.5))
+        self.device.screenshot()
+        if not self.appear(MEOWFFICER_TRAIN_FILL_QUEUE, offset=(20, 20)):
+            return
+
+        # Acquire box count of each rarity
+        counts = MEOWFFICER_BOX_COUNT.ocr(self.device.image)
+        common_sum = counts[1] + counts[2]
+
+        # Choose appropriate queue func based on
+        # common box sum count
+        # - <= 20, low stock; set Meowfficer_EnhanceIndex
+        #   to 0 (turn off) and queue normally
+        # - > 20, high stock; queue common boxes first
+        if not self.config.Meowfficer_EnhanceIndex or common_sum <= 20:
+            self.config.override(Meowfficer_EnhanceIndex=0)
+            self._meow_nqueue()
+        else:
+            self._meow_rqueue()
+
 
     def meow_buy(self):
         """
@@ -393,7 +472,9 @@ class RewardMeowfficer(UI):
         logger.attr('Meowfficer_capacity_remain', remain)
 
         # Helper variables
-        is_sunday = get_server_next_update(self.config.Scheduler_ServerUpdate).weekday() == 0
+        is_sunday = True
+        if not self.config.Meowfficer_EnhanceIndex:
+            is_sunday = get_server_next_update(self.config.Scheduler_ServerUpdate).weekday() == 0
         collected = False
 
         # Enter MEOWFFICER_TRAIN window
