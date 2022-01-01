@@ -1,6 +1,7 @@
 from module.config.utils import get_server_last_update
 from module.gacha.ui import GachaUI
 from module.logger import logger
+from module.shop.shop_core import CoreShop
 from module.shop.shop_general import GeneralShop
 from module.shop.shop_guild import GuildShop
 from module.shop.shop_medal import MedalShop
@@ -8,7 +9,7 @@ from module.shop.shop_merit import MeritShop
 from module.shop.ui import ShopUI
 
 
-class RewardShop(GachaUI, ShopUI, GeneralShop, GuildShop, MedalShop, MeritShop):
+class RewardShop(GachaUI, ShopUI, CoreShop, GeneralShop, GuildShop, MedalShop, MeritShop):
     def _shop_visit(self, shop_type='general'):
         """
         Helper func to determine whether worth visiting and browsing the shop
@@ -65,6 +66,12 @@ class RewardShop(GachaUI, ShopUI, GeneralShop, GuildShop, MedalShop, MeritShop):
             logger.hr('Merit shop', level=1)
             if self.shop_bottom_navbar_ensure(left=4):
                 self._shop_repeat(shop_type='merit')
+
+        if self._shop_visit('core'):
+            logger.hr('Core shop', level=1)
+            if self.shop_bottom_navbar_ensure(left=3):
+                self.shop_buy(shop_type='core',
+                              selection=self.config.CoreShop_Filter)
 
         if self._shop_visit('guild'):
             logger.hr('Guild shop', level=1)

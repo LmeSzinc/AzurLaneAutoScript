@@ -52,3 +52,23 @@ class GeneralShop(ShopBase):
                     return False
                 return True
         return False
+
+    def shop_general_check_custom_item(self, item):
+        """
+        Optional def to check a custom item that
+        cannot be template matched as color and
+        design constantly changes i.e. equip skin box
+
+        Args:
+            item: Item to check
+
+        Returns:
+            bool: whether item is custom
+        """
+        if self.config.GeneralShop_BuySkinBox:
+            if (not item.is_known_item()) and item.amount == 1 and item.cost == 'Coins' and item.price == 7000:
+                logger.info(f'Item {item} is considered to be an equip skin box')
+                if self._shop_gold_coins >= item.price:
+                    return True
+
+        return False

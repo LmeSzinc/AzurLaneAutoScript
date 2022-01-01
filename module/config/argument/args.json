@@ -3396,6 +3396,12 @@
         "type": "textarea",
         "value": "Cube"
       }
+    },
+    "CoreShop": {
+      "Filter": {
+        "type": "textarea",
+        "value": "Array"
+      }
     }
   },
   "Meowfficer": {

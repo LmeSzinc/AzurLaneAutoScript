@@ -116,6 +116,7 @@ ShopOnce:
   - GuildShop
   - MedalShop
   - MeritShop
+  - CoreShop
 Meowfficer:
   - Scheduler
   - Meowfficer
