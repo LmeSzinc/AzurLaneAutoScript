@@ -745,6 +745,7 @@
     },
     "Meowfficer": {
       "BuyAmount": 1,
+      "EnhanceIndex": 0,
       "TrainMeowfficer": false,
       "FortChoreMeowfficer": true
     }

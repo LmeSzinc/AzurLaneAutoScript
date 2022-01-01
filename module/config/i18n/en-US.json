@@ -997,9 +997,13 @@
       "name": "Buy Amount",
       "help": "The 1st meowfficer box purchase everyday is free"
     },
+    "EnhanceIndex": {
+      "name": "Enhance Index",
+      "help": "Index of target meowfficer to enhance; assists with freeing up cattery space automatically.\nInput 0 to turn off, otherwise limit is 1 ~ 12; indices are in ascending order from left to right of the 4 x 3 grid.\nAlas will turn this off if common box stock is detected to be low (<= 20)"
+    },
     "TrainMeowfficer": {
       "name": "Collect Trained Meowfficer",
-      "help": "Collects 1 trained meowfficer each day, until Sunday in which Alas will collect all of them at once in order to complete daily missions\nThen fills the training queue to full for the upcoming new week to start again\nMust manually free up cattery space to receive trained meowfficers"
+      "help": "1 of 2 actions will be executed depending on conditions:\n- If EnhanceIndex = 0; collects 1 trained meowfficer each day. On Sunday Alas empties the training queue then fills it autonomously (SR boxes first). As SR cats are locked upon acquisition, player must free up cattery space manually (in case of rainbow or unique skill).\n- If EnhanceIndex > 0; Alas empties the training queue in preparation for tomorrow's enhance step then fills it manually (common boxes first)"
     },
     "FortChoreMeowfficer": {
       "name": "Do Fort Chores",

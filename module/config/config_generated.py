@@ -171,6 +171,7 @@ class GeneratedConfig:
 
     # Group `Meowfficer`
     Meowfficer_BuyAmount = 1
+    Meowfficer_EnhanceIndex = 0
     Meowfficer_TrainMeowfficer = False
     Meowfficer_FortChoreMeowfficer = True
 

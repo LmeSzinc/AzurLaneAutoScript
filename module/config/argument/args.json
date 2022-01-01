@@ -3437,6 +3437,10 @@
         "type": "input",
         "value": 1
       },
+      "EnhanceIndex": {
+        "type": "input",
+        "value": 0
+      },
       "TrainMeowfficer": {
         "type": "checkbox",
         "value": false
