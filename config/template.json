@@ -732,6 +732,9 @@
     "MeritShop": {
       "Refresh": false,
       "Filter": "Cube"
+    },
+    "CoreShop": {
+      "Filter": "Array"
     }
   },
   "Meowfficer": {
