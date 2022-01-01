@@ -514,6 +514,8 @@ class RewardMeowfficer(UI):
 
         if self.config.Meowfficer_BuyAmount > 0:
             self.meow_buy()
+        if self.config.Meowfficer_EnhanceIndex > 0:
+            self.meow_enhance()
         if self.config.Meowfficer_TrainMeowfficer:
             self.meow_train()
         if self.config.Meowfficer_FortChoreMeowfficer:
