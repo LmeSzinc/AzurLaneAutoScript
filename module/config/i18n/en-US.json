@@ -426,6 +426,7 @@
       "name": "Event Name",
       "help": "Automatically selects to the latest event",
       "campaign_main": "campaign_main",
+      "event_20201229_cn": "Inverted Orthant",
       "event_20211229_cn": "Tower of Transcendence",
       "event_20200603_cn": "峡湾间的反击",
       "event_20211125_cn": "World-spanning Arclight",
@@ -453,7 +454,6 @@
       "event_20210225_tw": "北境序曲",
       "event_20210225_cn": "Khorovod of Dawns Rime",
       "event_20210121_cn": "Empyreal Tragicomedy Rerun",
-      "event_20201229_cn": "Inverted Orthant",
       "event_20201126_cn": "Vacation Lane",
       "event_20200312_cn": "The Solomon Ranger Rerun",
       "event_20201029_cn": "Universe in Unison",
@@ -1004,6 +1004,39 @@
     "FortChoreMeowfficer": {
       "name": "Do Fort Chores",
       "help": "Completes all 3 chores; clean, feed, and play with meowfficer to get fort exp"
+    },
+    "FeedMeowfficer": {
+      "name": "Feed meofficer",
+      "help": "When this function is enabled, the meofficer will be trained and fed all the time, and SR meoffciers will be locked \n Only scan meofficers on the first page. To feed the specified meofficer, you need to set the screener \n Please arrange the meofficer in order of rank"
+    },
+    "ScreenerCamp": {
+      "name": "Target meowfficer's camp",
+      "help": "",
+      "default": "ALL",
+      "USS": "USS",
+      "HMS": "HMS",
+      "INR": "INR",
+      "KMS": "KMS",
+      "ROC": "ROC",
+      "SN": "SN",
+      "FFNF": "FFNF",
+      "MNF": "MNF"
+    },
+    "ScreenerRarity": {
+      "name": "Target meowfficer's rarity",
+      "help": "",
+      "default": "ALL",
+      "SuperRare": "SuperRare",
+      "Rare": "Rare",
+      "Normal": "Normal"
+    },
+    "MeofficerMaxLevel": {
+      "name": "Target meowfficer's max level",
+      "help": ""
+    },
+    "MeofficerMinLevel": {
+      "name": "Target meowfficer's min level",
+      "help": ""
     }
   },
   "GuildLogistics": {
