@@ -450,27 +450,20 @@ class RewardMeowfficer(UI):
 
         # Get meowfficer level button list and level ocr
         meowfficerButtonList = ButtonGrid(origin=(760, 221), delta=(130, 147), 
-                                          button_shape=(18, 18), grid_shape=(4, 3)).buttons            
+                                          button_shape=(18, 18), grid_shape=(4, 3)).buttons        
         meowfficerLevelList = Ocr(buttons=meowfficerButtonList, name='Meowfficer Level List', letter=(49, 48, 49), 
                                   threshold = 64, alphabet='0123456789').ocr(image=self.device.image)
-        
+
         # Reset wrong level
-        for i in range(len(meowfficerButtonList)):
-            if meowfficerLevelList[i] != '' and int(meowfficerLevelList[i]) == 0:
-                meowfficerLevelList[i] = str(30)
-            if meowfficerLevelList[i] != '' and int(meowfficerLevelList[i]) >= 70:
-                meowfficerLevelList[i] = str(int(meowfficerLevelList[i]) - 20)
+        meowfficerLevelList = [x if (x == '' or (int(x) > 0 and int(x) <= 30))
+                               else str(30) if int(x) == 0 
+                               else str(int(x) - 50) if int(x) >= 70
+                               else x
+                               for x in meowfficerLevelList] 
+        logger.attr("Final meowfficer list:", meowfficerLevelList)
 
-        # Log final meowfficerLevelList
-        logger.attr("final meowfficer list:", meowfficerLevelList)
-
-        # Qnly those within the level limit are added
-        for i in range(len(meowfficerButtonList)):
-            if meowfficerLevelList[i] != '' and \
-               int(meowfficerLevelList[i]) >= min_level and \
-               int(meowfficerLevelList[i]) <= max_level:
-                targetMeowfficerList.append(meowfficerButtonList[i])
-        
+        targetMeowfficerList = [x for (x, y) in zip(meowfficerButtonList, meowfficerLevelList) 
+                                  if y != '' and int(y) >= min_level and int(y) <= max_level]         
         return targetMeowfficerList
 
     def meow_feed_enter(self, meowfficerList=[]):
@@ -649,3 +642,6 @@ class RewardMeowfficer(UI):
             self.meow_train(is_sunday=True)
             self.meow_feed()
             self.config.task_delay(server_update=True, minute=180)
+
+test = RewardMeowfficer('alas', task='Meofficer')
+test.meow_select()
