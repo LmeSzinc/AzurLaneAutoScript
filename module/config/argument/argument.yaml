@@ -227,9 +227,15 @@ ControlExpOverflow:
   T2Allow: 200
   T1Allow: 200
 Research:
-  UseCube: false
-  UseCoin: true
-  UsePart: true
+  UseCube:
+    value: only_05_hour
+    option: [always_use, only_05_hour, do_not_use]
+  UseCoin:
+    value: always_use
+    option: [always_use, only_05_hour, do_not_use]
+  UsePart:
+    value: always_use
+    option: [always_use, only_05_hour, do_not_use]
   PresetFilter:
     value: series_4
     option:

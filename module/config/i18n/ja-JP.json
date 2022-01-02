@@ -426,6 +426,7 @@
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
+      "event_20201229_cn": "虚畳なりし限象",
       "event_20211229_cn": "遡望せし虹彩の塔",
       "event_20200603_cn": "峡湾間の反撃",
       "event_20211125_cn": "弧光は交わる世界にて",
@@ -453,7 +454,6 @@
       "event_20210225_tw": "北境序曲",
       "event_20210225_cn": "暁射す氷華の嵐",
       "event_20210121_cn": "悲歎せし焔海の詩（復刻）",
-      "event_20201229_cn": "虚畳なりし限象",
       "event_20201126_cn": "バケーションレーン",
       "event_20200312_cn": "南洋に靡く硝煙（復刻）",
       "event_20201029_cn": "激唱のユニバース",
@@ -947,15 +947,24 @@
     },
     "UseCube": {
       "name": "Research.UseCube.name",
-      "help": "Research.UseCube.help"
+      "help": "Research.UseCube.help",
+      "always_use": "always_use",
+      "only_05_hour": "only_05_hour",
+      "do_not_use": "do_not_use"
     },
     "UseCoin": {
       "name": "Research.UseCoin.name",
-      "help": "Research.UseCoin.help"
+      "help": "Research.UseCoin.help",
+      "always_use": "always_use",
+      "only_05_hour": "only_05_hour",
+      "do_not_use": "do_not_use"
     },
     "UsePart": {
       "name": "Research.UsePart.name",
-      "help": "Research.UsePart.help"
+      "help": "Research.UsePart.help",
+      "always_use": "always_use",
+      "only_05_hour": "only_05_hour",
+      "do_not_use": "do_not_use"
     },
     "PresetFilter": {
       "name": "Research.PresetFilter.name",
