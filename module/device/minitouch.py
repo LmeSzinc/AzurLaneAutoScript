@@ -205,19 +205,22 @@ class MiniTouch(Connection):
 
         # v <version>
         # protocol version, usually it is 1. needn't use this
-        socket_out.readline()
+        out = socket_out.readline().replace("\n", "").replace("\r", "")
+        logger.info(out)
 
         # ^ <max-contacts> <max-x> <max-y> <max-pressure>
-        _, max_contacts, max_x, max_y, max_pressure, *_ = (
-            socket_out.readline().replace("\n", "").replace("\r", "").split(" ")
-        )
+        out = socket_out.readline().replace("\n", "").replace("\r", "")
+        logger.info(out)
+        _, max_contacts, max_x, max_y, max_pressure, *_ = out.split(" ")
         # self.max_contacts = max_contacts
         self.max_x = int(max_x)
         self.max_y = int(max_y)
         # self.max_pressure = max_pressure
 
         # $ <pid>
-        _, pid = socket_out.readline().replace("\n", "").replace("\r", "").split(" ")
+        out = socket_out.readline().replace("\n", "").replace("\r", "")
+        logger.info(out)
+        _, pid = out.split(" ")
         self.pid = pid
 
         logger.info(
