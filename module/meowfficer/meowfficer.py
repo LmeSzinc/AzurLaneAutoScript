@@ -537,12 +537,13 @@ class RewardMeowfficer(UI):
             # If a meowfficer is choosed, confirmPoints(RGB=255, 227, 132) will appear in button area
             confirmPoints = color_similarity_2d(self.device.image.crop(btnMeowfficer.area), (255, 227, 132))
             confirmPoints = [i for j in confirmPoints for i in j]
-            peaks, _ = signal.find_peaks(confirmPoints, height=250)
+            peaks, _ = signal.find_peaks(confirmPoints, height=200)
             if len(peaks) != 0:
-                logger.info('Target meowfficer ensure choosed')
+                logger.info('Target meowfficer is choosed')
                 logger.attr('peaks', peaks)
                 break
             else:
+                logger.info('Target meowfficer is not choosed')
                 self.device.click(btnMeowfficer)
                 self.device.sleep(0.3)
         return True
