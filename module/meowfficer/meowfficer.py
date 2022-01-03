@@ -459,7 +459,7 @@ class RewardMeowfficer(UI):
                                else str(30) if int(x) == 0 
                                else str(int(x) - 50) if int(x) >= 70
                                else x
-                               for x in meowfficer_button_list] 
+                               for x in meowfficer_level_list] 
         logger.attr("Final meowfficer list:", meowfficer_level_list)
 
         target_meowfficer_list = [x for (x, y) in zip(meowfficer_button_list, meowfficer_level_list) 
