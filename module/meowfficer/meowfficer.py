@@ -578,7 +578,7 @@ class RewardMeowfficer(UI):
 
         # Select the meowfficer(s) that will be consumed
         for meow in target_meowfficer_list[:10]:
-            self.device.click(target_meowfficer_list[meow])
+            self.device.click(meow)
             self.device.sleep(0.2)
 
         # Out of MEOWFFICER_FEED_SELECT window
