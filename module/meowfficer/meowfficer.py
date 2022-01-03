@@ -484,7 +484,7 @@ class RewardMeowfficer(UI):
         choosed = False
 
         # index of meowfficer
-        i = 0
+        target_meowfficer_index = 0
         while 1:   
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -497,7 +497,7 @@ class RewardMeowfficer(UI):
                 break
 
             # Check the index of meowfficerList
-            if len(meowfficerList) <= i:
+            if len(meowfficerList) <= target_meowfficer_index:
                 logger.info('Can\'t find meowfficer to feed in Final meowfficer list')
                 return feeded
 
@@ -505,12 +505,12 @@ class RewardMeowfficer(UI):
             if self.appear(INFO_BAR_1):
                 logger.info('Choosed meowfficer is in combat')
                 choosed = False
-                i += 1
+                target_meowfficer_index += 1
                 self.wait_until_disappear(INFO_BAR_1)
                 continue
             else:
                 # Choose the target meowfficer
-                if not choosed and self.meow_ensure_choosed_meowfficer(meowfficerList[i]):
+                if not choosed and self.meow_ensure_choosed_meowfficer(meowfficerList[target_meowfficer_index]):
                     choosed = True
                 if self.appear(MEOWFFICER_FEED_ENTER):
                     self.device.click(MEOWFFICER_FEED_ENTER)
@@ -556,12 +556,16 @@ class RewardMeowfficer(UI):
         Consume meowfficer in the warehouse
 
         Pages:
-            in: MEOWFFICER_FEED_SELECT window
+            in: MEOWFFICER_FEED window
             out: MEOWFFICER_FEED window
 
         Returns:
             bool: still have meofficer to consumed or not
         """
+        # Enter MEOWFFICER_FEED_SELECT window and consume meowfficers
+        self.ui_click(MEOWFFICER_FEED_SELECT_ENTER, check_button=MEOWFFICER_FEED_SELECT_CANCEL,
+                      additional=self.meow_additional, retry_wait=3, skip_first_screenshot=True)
+
         # Select items with values within the max_level and mini_level values
         target_meowfficer_list = self.meow_select(min_level=1, max_level=1)
 
@@ -599,8 +603,6 @@ class RewardMeowfficer(UI):
 
             # Enter MEOWFFICER_FEED_SELECT window
             if self.appear(MEOWFFICER_FEED_SELECT_ENTER):
-                self.ui_click(MEOWFFICER_FEED_SELECT_ENTER, check_button=MEOWFFICER_FEED_SELECT_CANCEL,
-                              additional=self.meow_additional, retry_wait=3, skip_first_screenshot=True)
                 consumed = self.meow_feed_consumed()
                 if not consumed:
                     break
