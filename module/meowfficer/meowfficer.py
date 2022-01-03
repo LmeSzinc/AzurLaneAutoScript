@@ -9,6 +9,7 @@ from module.ocr.ocr import *
 from module.ui.assets import MEOWFFICER_GOTO_DORM, MEOWFFICER_INFO
 from module.ui.ui import UI, page_meowfficer
 from module.ui.scroll import Scroll
+from scipy import signal
 
 BUY_MAX = 15
 BUY_PRIZE = 1500
@@ -392,41 +393,40 @@ class RewardMeowfficer(UI):
             bool: if screener changed
 
         """
-
         logger.hr('Change screener', level=2)
         screened =  False
 
         if not self.appear(MEOWFFICER_SCREENER_ENTER):
             logger.warning('Can not find screener')
             return screened
-        
+
         # Enter screener page
-        self.ui_click(click_button=MEOWFFICER_SCREENER_ENTER, check_button=MEOWFFICER_SCREENER_START, offset=0)
+        self.ui_click(click_button=MEOWFFICER_SCREENER_ENTER, check_button=MEOWFFICER_SCREENER_START, offset=0, retry_wait=3, skip_first_screenshot=True)
         campButtons = ButtonGrid(origin=(398, 355), delta=(124, 42),button_shape=(91, 28), grid_shape=(4, 2)).buttons
         rarityButtons = ButtonGrid(origin=(522, 493), delta=(124, 0), button_shape=(91, 28), grid_shape=(3, 1)).buttons
 
         # Reset screener
-        self.ui_click(click_button=MEOWFFICER_SCREENER_CAMP_CHANGED, check_button=MEOWFFICER_SCREENER_CAMP_DEFAULT, offset=0)
-        self.ui_click(click_button=MEOWFFICER_SCREENER_RARITY_CHANGED, check_button=MEOWFFICER_SCREENER_RARITY_DEFAULT, offset=0)
+        self.ui_click(click_button=MEOWFFICER_SCREENER_CAMP_CHANGED, check_button=MEOWFFICER_SCREENER_CAMP_DEFAULT, offset=0, skip_first_screenshot=True)
+        self.ui_click(click_button=MEOWFFICER_SCREENER_RARITY_CHANGED, check_button=MEOWFFICER_SCREENER_RARITY_DEFAULT, offset=0, skip_first_screenshot=True)
 
         # Changer screener
-        logger.attr('Meowfficer_ScreenerCamp', self.config.Meowfficer_ScreenerCamp)
-        logger.attr('Meowfficer_ScreenerRarity', self.config.Meowfficer_ScreenerRarity)
+        logger.attr('Meowfficer Camp', self.config.Meowfficer_ScreenerCamp)
+        logger.attr('Meowfficer Rarity', self.config.Meowfficer_ScreenerRarity)
         if self.config.Meowfficer_ScreenerCamp != 'default':
-            self.ui_click(
-                click_button=campButtons[SCREENERDICT_CAMP[self.config.Meowfficer_ScreenerCamp]],
-                appear_button=MEOWFFICER_SCREENER_CAMP_DEFAULT,
-                check_button=MEOWFFICER_SCREENER_CAMP_CHANGED, offset=0)
+            self.ui_click(click_button=campButtons[SCREENERDICT_CAMP[self.config.Meowfficer_ScreenerCamp]],
+                          appear_button=MEOWFFICER_SCREENER_CAMP_DEFAULT,
+                          check_button=MEOWFFICER_SCREENER_CAMP_CHANGED, 
+                          offset=0, skip_first_screenshot=True)
             screened = True
         if self.config.Meowfficer_ScreenerRarity != 'default':
-            self.ui_click(
-                click_button=rarityButtons[SCREENERDICT_RARITY[self.config.Meowfficer_ScreenerRarity]],
-                appear_button=MEOWFFICER_SCREENER_RARITY_DEFAULT,
-                check_button=MEOWFFICER_SCREENER_RARITY_CHANGED, offset=0)
+            self.ui_click(click_button=rarityButtons[SCREENERDICT_RARITY[self.config.Meowfficer_ScreenerRarity]],
+                          appear_button=MEOWFFICER_SCREENER_RARITY_DEFAULT,
+                          check_button=MEOWFFICER_SCREENER_RARITY_CHANGED, 
+                          offset=0, skip_first_screenshot=True)
             screened = True
 
         # Out of screener page
-        self.ui_click(click_button=MEOWFFICER_SCREENER_CONFIRM, check_button=MEOWFFICER_FORT_ENTER, offset=0)
+        self.ui_click(click_button=MEOWFFICER_SCREENER_CONFIRM, check_button=MEOWFFICER_FORT_ENTER, offset=0, skip_first_screenshot=True)
         return screened
 
     def meow_select(self, min_level = 1, max_level = 30):
@@ -463,10 +463,10 @@ class RewardMeowfficer(UI):
         logger.attr("Final meowfficer list:", meowfficerLevelList)
 
         targetMeowfficerList = [x for (x, y) in zip(meowfficerButtonList, meowfficerLevelList) 
-                                  if y != '' and int(y) >= min_level and int(y) <= max_level]         
+                                  if y != '' and int(y) >= min_level and int(y) <= max_level]        
         return targetMeowfficerList
 
-    def meow_feed_enter(self, meowfficerList=[]):
+    def meow_feed_enter(self, meowfficerList=[], skip_first_screenshot=True):
         """
         Find the first meowfficer not in combat and feed it
 
@@ -481,10 +481,19 @@ class RewardMeowfficer(UI):
             bool: whether feeted at least one time or not
         """
         feeded = False
-        
+
+        # index of meowfficer
         i = 0
         while 1:   
-            self.device.screenshot()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            
+            # Enter the target meowfficer feeding page
+            if self.appear(MEOWFFICER_FEED_SELECT_ENTER):
+                feeded = self.meow_feed_target()
+                break
 
             # Check the index of meowfficerList
             if len(meowfficerList) <= i:
@@ -496,18 +505,47 @@ class RewardMeowfficer(UI):
                 i += 1
                 self.wait_until_disappear(INFO_BAR_1)
                 continue
-            
-            # Enter the target meowfficer feeding page
-            self.device.click(meowfficerList[i])
-            self.device.sleep(0.5)
-            self.appear_then_click(MEOWFFICER_FEED_ENTER)
-            if self.appear(MEOWFFICER_FEED_SELECT_ENTER):
-                feeded = self.meow_feed_target()
-                break
+            else:
+                # Enter the target meowfficer feeding page
+                if self.meow_ensure_choosed_meowfficer(meowfficerList[i]):
+                    pass
+                if self.appear(MEOWFFICER_FEED_ENTER):
+                    self.device.click(MEOWFFICER_FEED_ENTER)
+                    self.device.sleep(0.3)
+                    continue
 
         # Out of MEOWFFICER_FEED window
         self.ui_click(MEOWFFICER_GOTO_DORM, check_button=MEOWFFICER_FEED_ENTER, offset=None)
-        return feeded       
+        return feeded  
+
+    def meow_ensure_choosed_meowfficer(self, btnMeowfficer, skip_first_screenshot=True):
+        """
+        Try to choose the target meoffcier
+
+        Args:
+            btnMeofficer: button of the target meofficer
+
+        Return:
+            bool: True if target meowfficer is choosed
+        """
+        while(1):
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # If a meowfficer is choosed, confirmPoints(RGB=255, 227, 132) will appear in button area
+            confirmPoints = color_similarity_2d(self.device.image.crop(btnMeowfficer.area), (255, 227, 132))
+            confirmPoints = [i for j in confirmPoints for i in j]
+            peaks, _ = signal.find_peaks(confirmPoints, height=250)
+            if len(peaks) != 0:
+                logger.info('Target meowfficer ensure choosed')
+                logger.attr('peaks', peaks)
+                break
+            else:
+                self.device.click(btnMeowfficer)
+                self.device.sleep(0.3)
+        return True
 
     def meow_feed_consumed(self):
         """
@@ -589,7 +627,7 @@ class RewardMeowfficer(UI):
             bool whether feeted at least once or not
         """
         logger.hr('Feed Meowfficer', level=1)
-        self.device.screenshot()
+        self.ui_ensure(page_meowfficer)
         feeded = False
 
         # Change screener
@@ -601,7 +639,7 @@ class RewardMeowfficer(UI):
 
         # try to enter the feed page
         if len(meowfficerList) > 0:         
-            feeded = self.meow_feed_enter(meowfficerList)
+            feeded = self.meow_feed_enter(meowfficerList, skip_first_screenshot=True)
         else:
             logger.info('Can not find any meowfficer')
 
@@ -643,5 +681,3 @@ class RewardMeowfficer(UI):
             self.meow_feed()
             self.config.task_delay(server_update=True, minute=180)
 
-test = RewardMeowfficer('alas', task='Meofficer')
-test.meow_select()
