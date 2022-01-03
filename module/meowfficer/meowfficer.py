@@ -481,6 +481,7 @@ class RewardMeowfficer(UI):
             bool: whether feeted at least one time or not
         """
         feeded = False
+        choosed = False
 
         # index of meowfficer
         i = 0
@@ -497,18 +498,20 @@ class RewardMeowfficer(UI):
 
             # Check the index of meowfficerList
             if len(meowfficerList) <= i:
+                logger.info('Can\'t find meowfficer to feed in Final meowfficer list')
                 return feeded
 
             # Buttom INFO_BAR_1 means that the choosed meowfficer is in combat
             if self.appear(INFO_BAR_1):
                 logger.info('Choosed meowfficer is in combat')
+                choosed = False
                 i += 1
                 self.wait_until_disappear(INFO_BAR_1)
                 continue
             else:
-                # Enter the target meowfficer feeding page
-                if self.meow_ensure_choosed_meowfficer(meowfficerList[i]):
-                    pass
+                # Choose the target meowfficer
+                if not choosed and self.meow_ensure_choosed_meowfficer(meowfficerList[i]):
+                    choosed = True
                 if self.appear(MEOWFFICER_FEED_ENTER):
                     self.device.click(MEOWFFICER_FEED_ENTER)
                     self.device.sleep(0.3)
@@ -537,7 +540,7 @@ class RewardMeowfficer(UI):
             # If a meowfficer is choosed, confirmPoints(RGB=255, 227, 132) will appear in button area
             confirmPoints = color_similarity_2d(self.device.image.crop(btnMeowfficer.area), (255, 227, 132))
             confirmPoints = [i for j in confirmPoints for i in j]
-            peaks, _ = signal.find_peaks(confirmPoints, height=200)
+            peaks, _ = signal.find_peaks(confirmPoints, height=230)
             if len(peaks) != 0:
                 logger.info('Target meowfficer is choosed')
                 logger.attr('peaks', peaks)
