@@ -58,10 +58,6 @@
       "name": "Task.Raid.name",
       "help": "Task.Raid.help"
     },
-    "C11AffinityFarming": {
-      "name": "Task.C11AffinityFarming.name",
-      "help": "Task.C11AffinityFarming.help"
-    },
     "C72MysteryFarming": {
       "name": "Task.C72MysteryFarming.name",
       "help": "Task.C72MysteryFarming.help"

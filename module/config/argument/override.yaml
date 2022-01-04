@@ -34,25 +34,6 @@ Raid:
     StageIncrease: false
     GetNewShip: false
     ReachLevel: 0
-C11AffinityFarming:
-  Campaign:
-    Name: campaign_1_1_affinity_farming
-    Event: campaign_main
-    Mode: normal
-    UseClearMode: false
-    UseFleetLock: true
-    UseAutoSearch: false
-    Use2xBook: false
-    AmbushEvade: false
-  StopCondition:
-    RunCount: 0
-    MapAchievement: non_stop
-    StageIncrease: false
-    GetNewShip: false
-    ReachLevel: 0
-  Fleet:
-    FleetOrder: fleet1_all_fleet2_standby
-    AutoSearchFleetOrder: fleet1_all_fleet2_standby
 C72MysteryFarming:
   Campaign:
     Name: campaign_7_2_mystery_farming
