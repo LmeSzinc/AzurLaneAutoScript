@@ -38,6 +38,11 @@ class OperationSiren(Reward, OSMap):
         self.hp_reset()
         self.handle_fleet_repair(revert=False)
 
+        # Exit from special zones types, only SAFE and DANGEROUS are acceptable.
+        if self.is_in_special_zone():
+            logger.warning('OS is in a special zone type, while SAFE and DANGEROUS are acceptable')
+            self.map_exit()
+
         # Clear current zone
         if self.zone.is_port:
             logger.info('In port, skip running first auto search')
@@ -45,11 +50,6 @@ class OperationSiren(Reward, OSMap):
         else:
             self.run_auto_search()
             self.handle_fleet_repair(revert=False)
-
-        # Exit from special zones types, only SAFE and DANGEROUS are acceptable.
-        if self.is_in_special_zone():
-            logger.warning('OS is in a special zone type, while SAFE and DANGEROUS are acceptable')
-            self.map_exit()
 
     def get_current_zone_from_globe(self):
         """
