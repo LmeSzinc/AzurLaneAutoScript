@@ -41,13 +41,6 @@ Raid:
   - StopCondition
   - Emotion
   - EnemyPriority
-C11AffinityFarming:
-  - Scheduler
-  - C11AffinityFarming
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Emotion
 C72MysteryFarming:
   - Scheduler
   - C72MysteryFarming
@@ -116,6 +109,7 @@ ShopOnce:
   - GuildShop
   - MedalShop
   - MeritShop
+  - CoreShop
 Meowfficer:
   - Scheduler
   - Meowfficer

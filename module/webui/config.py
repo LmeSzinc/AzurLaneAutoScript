@@ -26,6 +26,7 @@ class WebuiConfig:
     WebuiPort = 22267
     Theme = 'default'
     Password = None
+    CDN = 'false'
 
     def __init__(self, file=DEPLOY_CONFIG):
         """

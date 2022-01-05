@@ -6,6 +6,7 @@ from module.ocr.ocr import Digit, DigitCounter
 from module.os.assets import MAP_GOTO_GLOBE
 from module.os_ash.assets import *
 from module.os_handler.assets import IN_MAP
+from module.os_handler.map_event import MapEventHandler
 from module.ui.assets import BACK_ARROW
 from module.ui.page import page_os
 from module.ui.switch import Switch
@@ -70,14 +71,14 @@ class AshCombat(Combat):
             pass
 
 
-class OSAsh(UI):
+class OSAsh(UI, MapEventHandler):
     def is_in_ash(self):
         return self.appear(ASH_CHECK, offset=(20, 20))
 
     def is_in_map(self):
         return self.appear(IN_MAP, offset=(200, 5))
 
-    def _ash_beacon_enter_from_map(self, offset=(200, 5), skip_first_screenshot=True):
+    def _ash_assist_enter_from_map(self, offset=(200, 5), skip_first_screenshot=True):
         """
         Args:
             offset:
@@ -105,6 +106,9 @@ class OSAsh(UI):
                 continue
             if self.handle_popup_confirm('GOTO_GLOBE'):
                 # Popup: Leaving current zone will terminate meowfficer searching
+                confirm_timer.reset()
+                continue
+            if self.handle_map_event():
                 confirm_timer.reset()
                 continue
 
@@ -164,7 +168,7 @@ class OSAsh(UI):
         ash_combat = AshCombat(self.config, self.device)
         entrance_offset = (200, 5)
         self.ui_ensure(page_os)
-        self._ash_beacon_enter_from_map(offset=entrance_offset, skip_first_screenshot=True)
+        self._ash_assist_enter_from_map(offset=entrance_offset, skip_first_screenshot=True)
 
         for _ in range(10):
             SWITCH_BEACON.set('list', main=self)
@@ -207,7 +211,7 @@ class OSAsh(UI):
             status = 100
         return status
 
-    def _ash_enter_from_map(self, skip_first_screenshot=True):
+    def _ash_mine_enter_from_map(self, skip_first_screenshot=True):
         """
         Pages:
             in: is_in_map
@@ -230,13 +234,22 @@ class OSAsh(UI):
                 continue
             if self._handle_ash_beacon_reward():
                 continue
-            if self.handle_story_skip():
+            if self.handle_map_event():
                 # Random map events, may slow to show.
                 continue
 
             # End:
             if self.appear(ASH_START, offset=(30, 30)):
                 break
+
+    def _ash_mine_exit_to_map(self, skip_first_screenshot=True):
+        """
+        Pages:
+            in: is_in_ash
+            out: is_in_map
+        """
+        self.ui_click(ASH_QUIT, check_button=self.is_in_map, additional=self.handle_map_event,
+                      skip_first_screenshot=skip_first_screenshot)
 
     def _ash_help(self):
         """
@@ -326,14 +339,14 @@ class OSAsh(UI):
             return False
 
         for _ in range(3):
-            self._ash_enter_from_map()
+            self._ash_mine_enter_from_map()
             if self.config.OpsiAshBeacon_RequestAssist:
                 self._ash_help()
             finish = self._ash_beacon_attack()
             if finish:
                 break
 
-        self.ui_click(ASH_QUIT, check_button=self.is_in_map, skip_first_screenshot=True)
+        self._ash_mine_exit_to_map()
         return True
 
 

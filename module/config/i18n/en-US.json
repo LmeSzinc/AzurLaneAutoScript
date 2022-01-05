@@ -58,10 +58,6 @@
       "name": "Raid",
       "help": ""
     },
-    "C11AffinityFarming": {
-      "name": "1-1 Affinity Farming",
-      "help": ""
-    },
     "C72MysteryFarming": {
       "name": "7-2 Mystery Farming",
       "help": ""
@@ -296,7 +292,7 @@
     },
     "HandleError": {
       "name": "Enable Exception Handling",
-      "help": "Handles select exceptions, will retreat if in battle\nIn some tasks, will disable the error task and try restarting"
+      "help": "Handles select exceptions, will retreat if in battle"
     },
     "SaveError": {
       "name": "Record Exception",
@@ -426,6 +422,7 @@
       "name": "Event Name",
       "help": "Automatically selects to the latest event",
       "campaign_main": "campaign_main",
+      "event_20201229_cn": "Inverted Orthant",
       "event_20211229_cn": "Tower of Transcendence",
       "event_20200603_cn": "峡湾间的反击",
       "event_20211125_cn": "World-spanning Arclight",
@@ -453,7 +450,6 @@
       "event_20210225_tw": "北境序曲",
       "event_20210225_cn": "Khorovod of Dawns Rime",
       "event_20210121_cn": "Empyreal Tragicomedy Rerun",
-      "event_20201229_cn": "Inverted Orthant",
       "event_20201126_cn": "Vacation Lane",
       "event_20200312_cn": "The Solomon Ranger Rerun",
       "event_20201029_cn": "Universe in Unison",
@@ -947,15 +943,24 @@
     },
     "UseCube": {
       "name": "Use Cube",
-      "help": "Allow to undertake projects that require cubes"
+      "help": "Allow to undertake projects that require cubes",
+      "always_use": "Always Use",
+      "only_05_hour": "Only 0.5 Hour Researches",
+      "do_not_use": "Don't Use"
     },
     "UseCoin": {
       "name": "Use Coin",
-      "help": "Allow to undertake projects that require coins"
+      "help": "Allow to undertake projects that require coins",
+      "always_use": "Always Use",
+      "only_05_hour": "Only 0.5 Hour Researches",
+      "do_not_use": "Don't Use"
     },
     "UsePart": {
       "name": "Use Part/Plate",
-      "help": "Allow to undertake projects that require parts/plates"
+      "help": "Allow to undertake projects that require parts/plates",
+      "always_use": "Always Use",
+      "only_05_hour": "Only 0.5 Hour Researches",
+      "do_not_use": "Don't Use"
     },
     "PresetFilter": {
       "name": "Preset Filter Select",
@@ -1237,6 +1242,16 @@
     "Filter": {
       "name": "Item Filter",
       "help": "All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>"
+    }
+  },
+  "CoreShop": {
+    "_info": {
+      "name": "Core Shop Settings",
+      "help": ""
+    },
+    "Filter": {
+      "name": "Item Filter",
+      "help": "All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>\nHowever unlike other shops, only Chip and Array are supported\nALAS does not browse, scroll, or recognize any other items displayed besides those two"
     }
   },
   "Shipyard": {

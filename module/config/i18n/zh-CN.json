@@ -58,10 +58,6 @@
       "name": "共斗活动",
       "help": ""
     },
-    "C11AffinityFarming": {
-      "name": "1-1 伏击刷好感",
-      "help": ""
-    },
     "C72MysteryFarming": {
       "name": "7-2 三战捡垃圾",
       "help": ""
@@ -296,7 +292,7 @@
     },
     "HandleError": {
       "name": "启用异常处理",
-      "help": "处理部分异常，运行出错时撤退\n部分任务中，会将出错的任务移出列表，并重启游戏"
+      "help": "处理部分异常，运行出错时撤退"
     },
     "SaveError": {
       "name": "出错时，保存 Log 和截图",
@@ -426,6 +422,7 @@
       "name": "活动名称",
       "help": "自动选择至最新的活动",
       "campaign_main": "主线图",
+      "event_20201229_cn": "负象限作战",
       "event_20211229_cn": "逆转彩虹之塔",
       "event_20200603_cn": "峡湾间的反击",
       "event_20211125_cn": "交汇世界的弧光",
@@ -453,7 +450,6 @@
       "event_20210225_tw": "北境序曲",
       "event_20210225_cn": "破晓冰华",
       "event_20210121_cn": "复刻神圣的悲喜剧",
-      "event_20201229_cn": "负象限作战",
       "event_20201126_cn": "假日航线",
       "event_20200312_cn": "复刻斯图尔特的硝烟",
       "event_20201029_cn": "激唱的UNIVERSE",
@@ -947,15 +943,24 @@
     },
     "UseCube": {
       "name": "使用魔方",
-      "help": ""
+      "help": "",
+      "always_use": "总是使用",
+      "only_05_hour": "仅0.5小时科研使用",
+      "do_not_use": "不使用"
     },
     "UseCoin": {
       "name": "使用物资",
-      "help": ""
+      "help": "",
+      "always_use": "总是使用",
+      "only_05_hour": "仅0.5小时科研使用",
+      "do_not_use": "不使用"
     },
     "UsePart": {
       "name": "使用部件",
-      "help": ""
+      "help": "",
+      "always_use": "总是使用",
+      "only_05_hour": "仅0.5小时科研使用",
+      "do_not_use": "不使用"
     },
     "PresetFilter": {
       "name": "科研过滤器",
@@ -1237,6 +1242,16 @@
     "Filter": {
       "name": "商店过滤器",
       "help": ""
+    }
+  },
+  "CoreShop": {
+    "_info": {
+      "name": "CoreShop._info.name",
+      "help": "CoreShop._info.help"
+    },
+    "Filter": {
+      "name": "CoreShop.Filter.name",
+      "help": "CoreShop.Filter.help"
     }
   },
   "Shipyard": {

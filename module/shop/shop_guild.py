@@ -64,7 +64,7 @@ class GuildShop(ShopBase):
         shop_guild_items.load_template_folder('./assets/shop/guild_cn')
         shop_guild_items.load_cost_template_folder('./assets/shop/cost')
         return shop_guild_items
-        
+
     @cached_property
     @Config.when(SERVER='tw')
     def shop_guild_items(self):
@@ -159,7 +159,7 @@ class GuildShop(ShopBase):
             item: Item to check
 
         Returns:
-            None: implicating failed to execute
+            bool: implicating failed to execute
         """
         # Base Case - Must have 'secondary_grid' attr and must not be None
         if not hasattr(item, 'secondary_grid') or item.secondary_grid is None:
@@ -223,56 +223,28 @@ class GuildShop(ShopBase):
         self.device.click(SHOP_BUY_CONFIRM_SELECT)
         return True
 
-    def shop_buy_execute(self, item, skip_first_screenshot=True):
+    def shop_guild_interval_clear(self):
         """
-        Extended from 'ShopBase' to include handling of
-        purchases in items that have a secondary_grid
-
-        Args:
-            item: Item to click and buy
-            skip_first_screenshot: bool
-
-        Returns:
-            None: exits appropriately therefore successful
+        Clear interval on select assets for
+        shop_guild_buy_handle
         """
-        success = False
-        self.interval_clear(BACK_ARROW)
-        self.interval_clear(SHOP_BUY_CONFIRM)
         self.interval_clear(SHOP_BUY_CONFIRM_SELECT)
 
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
+    def shop_guild_buy_handle(self, item):
+        """
+        Handle shop_guild buy interface if detected
 
-            if self.appear(BACK_ARROW, offset=(20, 20), interval=3):
-                self.device.click(item)
-                continue
-            if self.appear_then_click(SHOP_BUY_CONFIRM, offset=(20, 20), interval=3):
-                self.interval_reset(BACK_ARROW)
-                continue
-            if self.appear(GET_SHIP, interval=1):
-                self.device.click(SHOP_CLICK_SAFE_AREA)
-                self.interval_reset(BACK_ARROW)
-                continue
-            if self.appear(SHOP_BUY_CONFIRM_SELECT, offset=(20, 20), interval=3):
-                if not self.shop_buy_select_execute(item):
-                    logger.warning('Failed to purchase secondary '
-                                   'grid item')
-                self.interval_reset(BACK_ARROW)
-                self.interval_reset(SHOP_BUY_CONFIRM_SELECT)
-                continue
-            if self.appear(GET_ITEMS_1, interval=1):
-                self.device.click(SHOP_CLICK_SAFE_AREA)
-                self.interval_reset(BACK_ARROW)
-                success = True
-                continue
-            if self.handle_info_bar():
-                self.interval_reset(BACK_ARROW)
-                success = True
-                continue
+        Args:
+            item: Item to handle
 
-            # End
-            if success and self.appear(BACK_ARROW, offset=(20, 20)):
-                break
+        Returns:
+            bool: whether interface was detected and handled
+        """
+        if self.appear(SHOP_BUY_CONFIRM_SELECT, offset=(20, 20), interval=3):
+            if not self.shop_buy_select_execute(item):
+                logger.warning('Failed to purchase secondary '
+                               'grid item')
+            self.interval_reset(SHOP_BUY_CONFIRM_SELECT)
+            return True
+
+        return False
