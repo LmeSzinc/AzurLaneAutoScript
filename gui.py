@@ -283,6 +283,7 @@ class AlasGUI(Frame):
         config = config_updater.update_config(self.alas_name)
         for group, arg_dict in deep_iter(self.ALAS_ARGS[task], depth=1):
             self.set_group(group, arg_dict, config, task)
+            self.set_navigator(group)
 
     @use_scope('groups')
     def set_group(self, group, arg_dict, config, task):
@@ -334,6 +335,20 @@ class AlasGUI(Frame):
                     options=option,
                     invalid_feedback=invalid_feedback,
                 ).show()
+
+    @use_scope('navigator')
+    def set_navigator(self, group):
+        js = f'''
+            $("#pywebio-scope-groups").scrollTop(
+                $("#pywebio-scope-group_{group[0]}").position().top
+                + $("#pywebio-scope-groups").scrollTop() - 59
+            )
+        '''
+        put_button(
+            label=t(f"{group[0]}._info.name"),
+            onclick=lambda: run_js(js),
+            color='navigator'
+        )
 
     @use_scope('content', clear=True)
     def alas_overview(self) -> None:

@@ -24,6 +24,14 @@
     border: 1px solid #202225;
 }
 
+.btn-navigator {
+    background-color: #2f3136;
+}
+
+.btn-navigator:hover {
+    color: #7a77bb;
+}
+
 .hr-group {
     background-color: #40444b !important;
 }
@@ -81,6 +89,11 @@ textarea {
 #pywebio-scope-menu {
     background-color: #2f3136;
     border-right: 1px solid #21262d;
+}
+
+#pywebio-scope-navigator {
+    border: 1px solid #21262d;
+    color: #c9d1d9;
 }
 
 #pywebio-scope-scheduler-bar,

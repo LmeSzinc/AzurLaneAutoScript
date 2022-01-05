@@ -21,8 +21,16 @@
     color: white;
 }
 
-.btn-scheduler-off:hover {
+.btn-off:hover {
     color: white;
+}
+
+.btn-navigator {
+    background-color: white;
+}
+
+.btn-navigator:hover {
+    color: #4e4c97;
 }
 
 .hr-group {
@@ -82,6 +90,10 @@ textarea {
 #pywebio-scope-menu {
     box-shadow: 0 0 8px rgba(0, 0, 0, .1);
     background-color: white;
+}
+
+#pywebio-scope-navigator {
+    border: 1px solid lightgrey;
 }
 
 #pywebio-scope-scheduler-bar,

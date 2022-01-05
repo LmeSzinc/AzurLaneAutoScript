@@ -15,13 +15,17 @@
     margin: 0
 }
 
+#pywebio-scope-navigator {
+    display: none;
+}
+
 *[style*="container-args-row"],
 *[style*="container-large.args"] {
     grid-template-columns: 1fr 8rem !important;
 }
 
 #pywebio-scope-_groups {
-    grid-template-columns: 0fr 1fr 0fr;
+    grid-template-columns: 0fr 1fr;
 }
 
 #pywebio-scope-overview {
