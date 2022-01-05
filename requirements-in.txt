@@ -19,3 +19,4 @@ uvicorn[standard]
 aiofiles
 wrapt==1.13.1
 prettytable==2.2.1
+aiohttp
