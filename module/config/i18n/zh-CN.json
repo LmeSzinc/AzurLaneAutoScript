@@ -1763,7 +1763,7 @@
       "Start": "启动",
       "Stop": "停止",
       "ScrollON": "自动滚动 开",
-      "ScrollOFF": "关",
+      "ScrollOFF": "自动滚动 关",
       "ClearLog": "清空日志",
       "Setting": "设置"
     },

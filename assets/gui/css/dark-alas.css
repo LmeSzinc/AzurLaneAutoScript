@@ -14,12 +14,12 @@
     color: #7a77bb;
 }
 
-.btn-scheduler-on {
+.btn-off {
     background-color: #36393f;
     border: 1px solid #202225;
 }
 
-.btn-scheduler-off {
+.btn-on {
     background-color: #7a77bb;
     border: 1px solid #202225;
 }
@@ -29,7 +29,7 @@
 }
 
 .form-control,
-.bootstrap-select>select{
+.bootstrap-select>select {
     border-bottom: .125rem solid #7a77bb;
 }
 
@@ -60,47 +60,46 @@ textarea {
     border: 1px solid #21262d;
 }
 
-*[style*="container-content"] {
+#pywebio-scope-content {
     background-color: #36393f;
 }
 
-*[style*="container-group"] {
+[id^="pywebio-scope-group_"] {
     background-color: #2f3136;
     border: 1px solid #21262d;
 }
 
-*[style*="container-aside"] {
+#pywebio-scope-daemon-overview [id^="pywebio-scope-group_"] {
+    border: 0;
+}
+
+#pywebio-scope-aside {
     background-color: #202225;
     border-right: 1px solid #21262d;
 }
 
-*[style*="container-menu"] {
+#pywebio-scope-menu {
     background-color: #2f3136;
     border-right: 1px solid #21262d;
 }
 
-*[style*="container-overview-group"] {
+#pywebio-scope-scheduler-bar,
+#pywebio-scope-log-bar,
+#pywebio-scope-running,
+#pywebio-scope-pending,
+#pywebio-scope-waiting,
+.container-log,
+#pywebio-scope-daemon-overview #pywebio-scope-groups {
     background-color: #2f3136;
     border: 1px solid #21262d;
 }
 
-*[style*="container-title"] {
+#pywebio-scope-header {
     background-color: #202225;
     border-bottom: 1px solid #36393f;
 }
 
-*[style*="aside-icon-setting"] {
-    border-top: 1px solid #36393f;
-}
-
-*[style*="group-help"] {
+*[style*="--arg-help--"],
+[id^="pywebio-scope-group_"]>p+p {
     color: #adb5bd;
-}
-
-*[style*="arg-help"] {
-    color: #adb5bd;
-}
-
-*[style*="welcome"] {
-    background-color: #2f3136;
 }

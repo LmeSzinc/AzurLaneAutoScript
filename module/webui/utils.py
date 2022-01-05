@@ -10,7 +10,6 @@ from module.webui.widgets import *
 from pywebio.input import PASSWORD, input
 from pywebio.session import eval_js, register_thread, run_js
 
-
 RE_DATETIME = r'(\d{2}|\d{4})(?:\-)?([0]{1}\d{1}|[1]{1}[0-2]{1})(?:\-)?' + \
               r'([0-2]{1}\d{1}|[3]{1}[0-1]{1})(?:\s)?([0-1]{1}\d{1}|[2]' + \
               r'{1}[0-3]{1})(?::)?([0-5]{1}\d{1})(?::)?([0-5]{1}\d{1})'
@@ -77,11 +76,16 @@ class TaskHandler:
         self._thread = Thread()
         self._lock = threading.Lock()
 
-    def add(self, g: Generator, delay: float, pending_delete: bool = False) -> None:
+    def add(self, func, delay: float, pending_delete: bool = False) -> None:
         """
         Add a task running background.
         Another way of `self.add_task()`.
+        func: Callable or Generator
         """
+        if isinstance(func, Callable):
+            g = get_generator(func)
+        elif isinstance(func, Generator):
+            g = func
         self.add_task(Task(g, delay), pending_delete=pending_delete)
 
     def add_task(self, task: Task, pending_delete: bool = False) -> None:
@@ -145,7 +149,9 @@ class TaskHandler:
                     start_time = time.time()
                     try:
                         self._task = task
+                        # logger.debug(f'Start task {task.g.__name__}')
                         next(task)
+                        # logger.debug(f'End task {task.g.__name__}')
                     except Exception as e:
                         logger.exception(e)
                         self.remove_task(task, nowait=True)
@@ -178,6 +184,15 @@ class TaskHandler:
         if self._thread.is_alive():
             self._thread.stop()
         logger.info("Finish task handler")
+
+
+def get_generator(func: Callable):
+    def _g():
+        while True:
+            yield func()
+    g = _g()
+    g.__name__ = func.__name__
+    return g
 
 
 def filepath_css(filename):

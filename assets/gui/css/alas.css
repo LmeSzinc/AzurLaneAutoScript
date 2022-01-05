@@ -67,12 +67,8 @@ footer {
     font-weight: bold;
 }
 
-.btn-scheduler-on {
-    border-radius: 0;
-    margin: 0;
-}
-
-.btn-scheduler-off {
+.btn-off,
+.btn-on {
     border-radius: 0;
     margin: 0;
 }
@@ -158,7 +154,7 @@ button.btn.dropdown-toggle {
     display: none;
 }
 
-.bootstrap-select>select{
+.bootstrap-select>select {
     position: unset !important;
     bottom: unset !important;
     left: unset !important;
@@ -202,19 +198,23 @@ button.btn.dropdown-toggle {
     padding: 1rem !important;
 }
 
-*[style*="container-aside"] {
+#pywebio-scope-ROOT {
+    height: 100vh;
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-rows: auto 1fr;
+}
+
+#pywebio-scope-aside {
     z-index: 91;
     padding-left: .125rem;
     padding-right: .325rem;
     padding-top: 1rem;
     overflow-y: auto;
+    flex-shrink: 0;
 }
 
-*[style*="container-buttons-aside"] {
-    overflow-y: auto;
-}
-
-*[style*="container-menu"] {
+#pywebio-scope-menu {
     z-index: 90;
     padding-left: .5rem;
     padding-top: 1.2rem;
@@ -223,99 +223,166 @@ button.btn.dropdown-toggle {
     max-width: 16rem;
 }
 
-*[style*="container-content"] {
-    margin: 0;
+#pywebio-scope-content {
     overflow: auto;
-    padding: .625rem
+    padding: .625rem;
+    flex-grow: 1;
 }
 
-*[style*="title-icon-alas"] {
+#pywebio-scope-header {
+    z-index: 100;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 4.4rem 4rem auto 1fr !important;
+}
+
+*[style*="--header-icon--"] {
     margin: .25rem auto .25rem;
     border-radius: 1.5rem;
 }
 
-*[style*="title-text-alas"] {
+*[style*="--header-text--"] {
     font-size: 1.5rem;
     font-weight: bold;
     margin: auto !important;
 }
 
-*[style*="title-text-title"] {
+#pywebio-scope-header_title {
+    margin: auto;
+}
+
+#pywebio-scope-header_title>p {
     font-size: 1.2rem;
     margin: auto;
     overflow: hidden;
     text-align: center;
 }
 
-*[style*="title-text-title"]>p {
-    margin: auto;
-}
-
-*[style*="title-status"] {
+#pywebio-scope-header_status {
     padding-top: 3px;
     margin-top: auto;
     margin-bottom: auto;
 }
 
-*[style*="title-status"]>div>div+div+p {
+#pywebio-scope-header_status>div>div+div+p {
     margin: 0;
 }
 
-*[style*="container-title"] {
-    z-index: 100;
-    grid-template-columns: 4.4rem 4rem auto 1fr !important;
-}
-
-*[style*="aside-icon-setting"] {
-    padding-top: .5rem;
-}
-
-*[style*="container-main"] {
+#pywebio-scope-contents {
     margin-top: 0;
     overflow-y: auto;
+    display: flex;
 }
 
-*[style*="container-all"] {
-    height: 100%;
+#pywebio-scope-_groups {
+    display: grid;
+    grid-auto-flow: column;
+
+    grid-template-columns: 1fr minmax(25rem, 5fr) 2fr;
 }
 
-*[style*="container-gui"] {
-    height: 100vh;
+[id^="pywebio-scope-group_"] {
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    padding: 1rem;
 }
 
-*[style*="group-title"] {
+[id^="pywebio-scope-group_"]>p {
     font-size: 1.25rem;
     font-weight: 500;
     margin: 0 .25rem 0 .25rem !important;
 }
 
-*[style*="group-help"] {
+[id^="pywebio-scope-group_"]>p+p {
     font-size: .80rem;
     margin: .2rem .25rem .1rem .25rem !important;
 }
 
-*[style*="group-overview-title"] {
-    font-size: 1.25rem;
-    font-weight: 500;
-    margin: 0 0.625rem 0 !important;
+#pywebio-scope-overview {
+    height: 100%;
+    overflow: auto;
+    display: grid;
 }
 
-*[style*="container-group"] {
-    margin-top: .75rem;
-    margin-bottom: .25rem;
-    padding: 1rem;
-}
-
-*[style*="container-overview-group"] {
+#pywebio-scope-scheduler-bar,
+#pywebio-scope-log-bar,
+#pywebio-scope-running,
+#pywebio-scope-pending,
+#pywebio-scope-waiting,
+.container-log,
+#pywebio-scope-daemon-overview #pywebio-scope-groups {
     font-weight: 500;
     margin: 0.3125rem;
     padding: 0.625rem;
     overflow-y: auto;
 }
 
-*[style*="container-overview-task"] {
+#pywebio-scope-scheduler-bar,
+#pywebio-scope-log-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#pywebio-scope-log-bar-btns {
+    display: grid;
+    grid-auto-flow: column;
+}
+
+#pywebio-scope-running,
+#pywebio-scope-pending,
+#pywebio-scope-waiting {
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-rows: auto auto 1fr;
+}
+
+#pywebio-scope-running>p,
+#pywebio-scope-pending>p,
+#pywebio-scope-waiting>p {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin: 0 0.625rem 0 !important;
+}
+
+#pywebio-scope-running_tasks,
+#pywebio-scope-pending_tasks,
+#pywebio-scope-waiting_tasks {
     overflow-y: auto;
     height: 100%;
+}
+
+#pywebio-scope-logs {
+    display: grid;
+    grid-auto-flow: column;
+
+    height: 100%;
+    overflow-y: auto;
+    grid-template-rows: auto 1fr;
+
+}
+
+[id^="pywebio-scope-overview-task_"] {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr auto;
+    margin: .125rem .625rem .125rem .375rem;
+}
+
+#pywebio-scope-daemon-overview {
+    display: grid;
+    height: 100%;
+    overflow-y: auto;
+}
+
+#pywebio-scope-daemon-overview [id^="pywebio-scope-group_"] {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0.3125rem;
+}
+
+#pywebio-scope-schedulers {
+    display: grid;
 }
 
 *[style*="container-args-column"],
@@ -323,34 +390,31 @@ button.btn.dropdown-toggle {
     margin: .125rem 0 .125rem 0
 }
 
-*[style*="container-overview-args"] {
-    margin: .125rem .625rem .125rem .375rem
-}
-
 *[style*="container-large.args"] {
     margin-top: .375rem;
     margin-bottom: .375rem;
 }
 
-*[style*="arg-title"] {
+*[style*="--arg-title--"] {
     font-size: 1rem;
     font-weight: 500;
     margin: 0 .25rem 0 .25rem !important;
     overflow-wrap: break-word;
 }
 
-*[style*="arg-help"] {
+*[style*="--arg-help--"] {
     font-size: .8rem;
     margin: .2rem .25rem .1rem .25rem !important;
     overflow-wrap: break-word;
 }
 
-*[style*="input-input"] {
-    margin: 0;
-    padding-right: .25rem;
+*[style*="--overview-notask-text--"] {
+    text-align: center;
+    font-size: 0.875rem;
+    color: darkgrey;
 }
 
-*[style*="welcome"] {
-    margin: 2rem;
-    padding: 1rem 1rem 1rem 1rem;
+*[style*="--input--"] {
+    margin: 0;
+    padding-right: .25rem;
 }

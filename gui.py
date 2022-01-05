@@ -10,25 +10,24 @@ from typing import Dict, Generator, List
 from filelock import FileLock
 from pywebio import config as webconfig
 from pywebio.exceptions import SessionClosedException, SessionNotFoundException
-from pywebio.output import (clear, close_popup, output, popup, put_button,
-                            put_buttons, put_collapse, put_column, put_error,
-                            put_html, put_loading, put_markdown, put_row,
-                            put_text, toast)
+from pywebio.output import (clear, close_popup, popup, put_button, put_buttons,
+                            put_collapse, put_column, put_error, put_html,
+                            put_loading, put_markdown, put_row, put_scope,
+                            put_text, toast, use_scope)
 from pywebio.pin import pin, pin_wait_change
 from pywebio.session import go_app, info, register_thread, run_js, set_env
 
 # This must be the first to import
 from module.logger import logger  # Change folder
-
-import module.webui.lang as lang
 import module.config.server as server
+import module.webui.lang as lang
 from module.config.config import AzurLaneConfig, Function
 from module.config.config_updater import ConfigUpdater
 from module.config.utils import (alas_instance, deep_get, deep_iter, deep_set,
                                  dict_to_kv, filepath_args, filepath_config,
                                  read_file, write_file)
-from module.webui.config import WebuiConfig
 from module.webui.base import Frame
+from module.webui.config import WebuiConfig
 from module.webui.lang import _t, t
 from module.webui.pin import put_input, put_select
 from module.webui.translate import translate
@@ -36,7 +35,8 @@ from module.webui.utils import (Icon, QueueHandler, Task, Thread, add_css,
                                 filepath_css, get_output,
                                 get_window_visibility_state, login,
                                 parse_pin_value, re_fullmatch)
-from module.webui.widgets import ScrollableCode, put_group, put_icon_buttons
+from module.webui.widgets import (ScrollableCode, Switch, put_icon_buttons,
+                                  put_none)
 
 config_updater = ConfigUpdater()
 webui_config = WebuiConfig()
@@ -110,7 +110,8 @@ class AlasManager:
 
         # Set server before loading any buttons.
         config = AzurLaneConfig(config_name=config_name)
-        server.server = deep_get(config.data, keys='Alas.Emulator.Server', default='cn')
+        server.server = deep_get(
+            config.data, keys='Alas.Emulator.Server', default='cn')
 
         # Run alas
         if func == 'Alas':
@@ -124,7 +125,8 @@ class AlasManager:
             AzurLaneDaemon(config=config_name, task='OpsiDaemon').run()
         elif func == 'AzurLaneUncensored':
             from module.daemon.uncensored import AzurLaneUncensored
-            AzurLaneUncensored(config=config_name, task='AzurLaneUncensored').run()
+            AzurLaneUncensored(config=config_name,
+                               task='AzurLaneUncensored').run()
             q.put("Scheduler stopped.\n")  # Prevent status turns to warning
         elif func == 'Benchmark':
             from module.daemon.benchmark import Benchmark
@@ -171,34 +173,21 @@ class AlasGUI(Frame):
         self.alas_name = ''
         self.alas_config = AzurLaneConfig('template')
         self.alas_logs = ScrollableCode()
-        self.alas_running = output().style("container-overview-task")
-        self.alas_pending = output().style("container-overview-task")
-        self.alas_waiting = output().style("container-overview-task")
 
+    @use_scope('aside', clear=True)
     def set_aside(self) -> None:
+        # TODO: update put_icon_buttons()
+        put_icon_buttons(Icon.DEVELOP, buttons=[{"label": t(
+            "Gui.Aside.Develop"), "value": "Develop", "color": "aside"}], onclick=[self.ui_develop]),
+        for name in alas_instance():
+            put_icon_buttons(Icon.RUN,
+                             buttons=[
+                                 {"label": name, "value": name, "color": "aside"}],
+                             onclick=self.ui_alas)
+        put_icon_buttons(Icon.ADD, buttons=[{"label": t(
+            "Gui.Aside.AddAlas"), "value": "AddAlas", "color": "aside"}], onclick=[self.ui_add_alas]),
 
-        # note: value doesn't matters if onclick is a list, button binds to functions in order.
-        # when onclick isn't a list, value will pass to function.
-        self.aside.reset(
-            put_icon_buttons(Icon.DEVELOP, buttons=[{"label": t(
-                "Gui.Aside.Develop"), "value": "Develop", "color": "aside"}], onclick=[self.ui_develop]),
-            *[put_icon_buttons(Icon.RUN,
-                               buttons=[{"label": name, "value": name, "color": "aside"}],
-                               onclick=self.ui_alas)
-              for name in alas_instance()],
-            put_icon_buttons(Icon.ADD, buttons=[{"label": t(
-                "Gui.Aside.AddAlas"), "value": "AddAlas", "color": "aside"}], onclick=[self.ui_add_alas]),
-        )
-        self.aside_setting.reset(
-            put_icon_buttons(
-                Icon.SETTING,
-                buttons=[
-                    {"label": t("Gui.Aside.Setting"),
-                     "value": "setting", "color": "aside"}],
-                onclick=[self.ui_setting],
-            )
-        )
-
+    @use_scope('header_status')
     def set_status(self, status: int) -> None:
         """
         Args:
@@ -213,30 +202,29 @@ class AlasGUI(Frame):
         if self._status == status:
             return
         self._status = status
+        clear()
 
         if status == 1:
-            s = put_row([
+            put_row([
                 put_loading(color='success').style(
                     "width:1.5rem;height:1.5rem;border:.2em solid currentColor;border-right-color:transparent;"),
                 None,
                 put_text(t("Gui.Status.Running"))
             ], size='auto 2px 1fr')
         elif status == 2:
-            s = put_row([
-                put_loading(color='secondary').style("width:1.5rem;height:1.5rem;border:.2em solid currentColor;"),
+            put_row([
+                put_loading(color='secondary').style(
+                    "width:1.5rem;height:1.5rem;border:.2em solid currentColor;"),
                 None,
                 put_text(t("Gui.Status.Inactive"))
             ], size='auto 2px 1fr')
         elif status == -1:
-            s = put_row([
-                put_loading(shape='grow', color='warning').style("width:1.5rem;height:1.5rem;"),
+            put_row([
+                put_loading(shape='grow', color='warning').style(
+                    "width:1.5rem;height:1.5rem;"),
                 None,
                 put_text(t("Gui.Status.Warning"))
             ], size='auto 2px 1fr')
-        else:
-            s = ''
-
-        self.status.reset(s)
 
     @classmethod
     def set_theme(cls, theme='default') -> None:
@@ -244,18 +232,16 @@ class AlasGUI(Frame):
         webui_config.Theme = theme
         webconfig(theme=theme)
 
-    # Alas
-
+    @use_scope('menu', clear=True)
     def alas_set_menu(self) -> None:
         """
-        Set menu for alas
+        Set menu
         """
-        self.menu.append(
-            put_buttons([
-                {"label": t("Gui.MenuAlas.Overview"),
-                 "value": "Overview", "color": "menu"}
-            ], onclick=[self.alas_overview]).style(f'--menu-Overview--'),
-        )
+        put_buttons([
+            {"label": t("Gui.MenuAlas.Overview"),
+                "value": "Overview", "color": "menu"}
+        ], onclick=[self.alas_overview]).style(f'--menu-Overview--'),
+
         for key, tasks in deep_iter(self.ALAS_MENU, depth=2):
             # path = '.'.join(key)
             menu = key[1]
@@ -269,55 +255,52 @@ class AlasGUI(Frame):
             for task in tasks:
                 task_btn_list.append(
                     put_buttons([
-                        {"label": t(f'Task.{task}.name'), "value": task, "color": "menu"}
+                        {"label": t(f'Task.{task}.name'),
+                         "value": task, "color": "menu"}
                     ], onclick=_onclick).style(f'--menu-{task}--')
                 )
 
-            self.menu.append(
-                put_collapse(
-                    title=t(f"Menu.{menu}.name"),
-                    content=task_btn_list
-                )
+            put_collapse(
+                title=t(f"Menu.{menu}.name"),
+                content=task_btn_list
             )
 
         self.alas_overview()
 
+    @use_scope('content', clear=True)
     def alas_set_group(self, task: str) -> None:
         """
         Set arg groups from dict
         """
         self.init_menu(name=task)
-        self.title.reset(f"{t(f'Task.{task}.name')}")
+        self.set_title(t(f'Task.{task}.name'))
 
-        group_area = output()
-        navigator = output()
-
-        if self.is_mobile:
-            content_alas = group_area
-        else:
-            content_alas = put_row([
-                None,
-                group_area,
-                navigator,
-            ], size="1fr minmax(25rem, 5fr) 2fr")
-
-        self.content.append(content_alas)
-
+        put_scope('_groups', [
+            put_none(),
+            put_scope('groups'),
+            put_scope('navigator')
+        ])
         config = config_updater.update_config(self.alas_name)
-
         for group, arg_dict in deep_iter(self.ALAS_ARGS[task], depth=1):
-            group = group[0]
-            group_help = t(f"{group}._info.help")
-            if group_help == "" or not group_help:
-                group_help = None
-            arg_group = put_group(t(f"{group}._info.name"), group_help)
-            list_arg = []
+            self.set_group(group, arg_dict, config, task)
+
+    @use_scope('groups')
+    def set_group(self, group, arg_dict, config, task):
+        group_name = group[0]
+        with use_scope(f'group_{group_name}'):
+            put_text(t(f"{group_name}._info.name"))
+            group_help = t(f"{group_name}._info.help")
+            if group_help != "":
+                put_text(group_help)
+            put_html('<hr class="hr-group">')
+
             for arg, d in deep_iter(arg_dict, depth=1):
                 arg = arg[0]
                 arg_type = d['type']
                 if arg_type == 'disable':
                     continue
-                value = deep_get(config, f'{task}.{group}.{arg}', d['value'])
+                value = deep_get(
+                    config, f'{task}.{group_name}.{arg}', d['value'])
                 value = str(value) if isinstance(value, datetime) else value
 
                 # Option
@@ -325,7 +308,8 @@ class AlasGUI(Frame):
                 if options:
                     option = []
                     for opt in options:
-                        o = {"label": t(f"{group}.{arg}.{opt}"), "value": opt}
+                        o = {"label": t(
+                            f"{group_name}.{arg}.{opt}"), "value": opt}
                         if value == opt:
                             o["selected"] = True
                         option.append(o)
@@ -333,123 +317,96 @@ class AlasGUI(Frame):
                     option = None
 
                 # Help
-                arg_help = t(f"{group}.{arg}.help")
+                arg_help = t(f"{group_name}.{arg}.help")
                 if arg_help == "" or not arg_help:
                     arg_help = None
 
                 # Invalid feedback
-                invalid_feedback = t("Gui.Text.InvalidFeedBack").format(d['value'])
+                invalid_feedback = t(
+                    "Gui.Text.InvalidFeedBack").format(d['value'])
 
-                list_arg.append(get_output(
+                get_output(
                     arg_type=arg_type,
-                    name=self.path_to_idx[f"{task}.{group}.{arg}"],
-                    title=t(f"{group}.{arg}.name"),
+                    name=self.path_to_idx[f"{task}.{group_name}.{arg}"],
+                    title=t(f"{group_name}.{arg}.name"),
                     arg_help=arg_help,
                     value=value,
                     options=option,
                     invalid_feedback=invalid_feedback,
-                ))
-            if list_arg:
-                group_area.append(arg_group)
-                arg_group.append(*list_arg)
+                ).show()
 
+    @use_scope('content', clear=True)
     def alas_overview(self) -> None:
         self.init_menu(name="Overview")
-        self.title.reset(f"{t(f'Gui.MenuAlas.Overview')}")
+        self.set_title(t(f'Gui.MenuAlas.Overview'))
 
-        scheduler = put_row([
-            put_text(t("Gui.Overview.Scheduler")).style(
-                "font-size: 1.25rem; margin: auto .5rem auto;"),
-            None,
-            put_buttons(
-                buttons=[
-                    {"label": t("Gui.Button.Start"),
-                     "value": "Start", "color": "scheduler-on"},
-                    {"label": t("Gui.Button.Stop"),
-                     "value": "Stop", "color": "scheduler-off"},
-                ],
-                onclick=[
-                    lambda: self.alas.start('Alas'),
-                    self.alas.stop,
-                ]
-            )
-        ], size="auto 1fr auto").style("container-overview-group")
+        put_scope('overview', [
+            put_scope('schedulers'),
+            put_scope('logs')
+        ])
 
-        log = put_row([
-            put_text(t("Gui.Overview.Log")).style(
-                "font-size: 1.25rem; margin: auto .5rem auto;"),
-            None,
-            put_buttons(
-                buttons=[
-                    {"label": t("Gui.Button.ClearLog"),
-                     "value": "ClearLog", "color": "scheduler-on"},
-                    {"label": t("Gui.Button.ScrollON"),
-                     "value": "ScrollON", "color": "scheduler-on"},
-                    {"label": t("Gui.Button.ScrollOFF"),
-                     "value": "ScrollOFF", "color": "scheduler-on"},
-                ],
-                onclick=[
-                    self.alas_logs.reset,
-                    lambda: self.alas_logs.set_scroll(True),
-                    lambda: self.alas_logs.set_scroll(False),
-                ],
-            )
-        ], size="auto 1fr auto").style("container-overview-group")
+        with use_scope('schedulers'):
+            put_scope('scheduler-bar', [
+                put_text(t("Gui.Overview.Scheduler")).style(
+                    "font-size: 1.25rem; margin: auto .5rem auto;"),
+                put_scope('scheduler_btn')
+            ])
+            put_scope('running', [
+                put_text(t("Gui.Overview.Running")),
+                put_html('<hr class="hr-group">'),
+                put_scope('running_tasks')
+            ])
+            put_scope('pending', [
+                put_text(t("Gui.Overview.Pending")),
+                put_html('<hr class="hr-group">'),
+                put_scope('pending_tasks')
+            ])
+            put_scope('waiting', [
+                put_text(t("Gui.Overview.Waiting")),
+                put_html('<hr class="hr-group">'),
+                put_scope('waiting_tasks')
+            ])
 
-        running = put_column([
-            put_text(t("Gui.Overview.Running")).style("group-overview-title"),
-            put_html('<hr class="hr-group">'),
-            self.alas_running,
-        ], size="auto auto 1fr").style("container-overview-group")
+        switch_scheduler = Switch(
+            label_on=t("Gui.Button.Stop"),
+            label_off=t("Gui.Button.Start"),
+            onclick_on=lambda: self.alas.stop(),
+            onclick_off=lambda: self.alas.start('Alas'),
+            get_status=lambda: self.alas.alive,
+            color_on='on',
+            color_off='off',
+            scope='scheduler_btn'
+        )
 
-        pending = put_column([
-            put_text(t("Gui.Overview.Pending")).style("group-overview-title"),
-            put_html('<hr class="hr-group">'),
-            self.alas_pending,
-        ], size="auto auto 1fr").style("container-overview-group")
+        with use_scope('logs'):
+            put_scope('log-bar', [
+                put_text(t("Gui.Overview.Log")).style(
+                    "font-size: 1.25rem; margin: auto .5rem auto;"),
+                put_scope('log-bar-btns', [
+                    put_button(
+                        label=t("Gui.Button.ClearLog"),
+                        onclick=self.alas_logs.reset,
+                        color='off',
+                    ),
+                    put_scope('log_scroll_btn')
+                ])
+            ])
+            self.alas_logs.output()
 
-        waiting = put_column([
-            put_text(t("Gui.Overview.Waiting")).style("group-overview-title"),
-            put_html('<hr class="hr-group">'),
-            self.alas_waiting,
-        ], size="auto auto 1fr").style("container-overview-group")
+        switch_log_scroll = Switch(
+            label_on=t("Gui.Button.ScrollON"),
+            label_off=t("Gui.Button.ScrollOFF"),
+            onclick_on=lambda: self.alas_logs.set_scroll(False),
+            onclick_off=lambda: self.alas_logs.set_scroll(True),
+            get_status=lambda: self.alas_logs.keep_bottom,
+            color_on='on',
+            color_off='off',
+            scope='log_scroll_btn'
+        )
 
-        if self.is_mobile:
-            self.content.append(
-                put_column([
-                    scheduler,
-                    running,
-                    pending,
-                    waiting,
-                ], size="auto 7.75rem 13rem 13rem"),
-                put_column([
-                    log,
-                    self.alas_logs.output
-                ], size="auto 1fr").style("height: 100%; overflow-y: auto")
-            )
-        else:
-            self.content.append(
-                put_row([
-                    put_column([
-                        scheduler,
-                        running,
-                        pending,
-                        waiting,
-                    ], size="auto 7.75rem minmax(7.75rem, 13rem) minmax(7.75rem, 1fr)"
-                    ).style("height: 100%; overflow-y: auto"),
-                    put_column([
-                        log,
-                        self.alas_logs.output
-                    ], size="auto 1fr").style("height: 100%; overflow-y: auto"),
-                ], size="minmax(16rem, 20rem) minmax(24rem, 1fr)"
-                ).style("height: 100%; overflow-y: auto"),
-            )
-
-        def refresh_overview_tasks():
-            while True:
-                yield self.alas_update_overiew_tasks()
-
-        self.task_handler.add(refresh_overview_tasks(), 10, True)
+        self.task_handler.add(switch_scheduler.g(), 1, True)
+        self.task_handler.add(switch_log_scroll.g(), 1, True)
+        self.task_handler.add(self.alas_update_overiew_task, 10, True)
         self.task_handler.add(self.alas_put_log(), 0.2, True)
 
     def alas_put_log(self) -> Generator[None, None, None]:
@@ -496,7 +453,8 @@ class AlasGUI(Frame):
             while True:
                 try:
                     d = self.modified_config_queue.get(timeout=1)
-                    modified[self.idx_to_path[d['name']]] = parse_pin_value(d['value'])
+                    modified[self.idx_to_path[d['name']]
+                             ] = parse_pin_value(d['value'])
                 except queue.Empty:
                     config = read_file(filepath_config(config_name))
                     for k, v in modified.copy().items():
@@ -512,7 +470,8 @@ class AlasGUI(Frame):
                         else:
                             modified.pop(k)
                             invalid.append(self.path_to_idx[k])
-                            logger.warning(f'Invalid value {v} for key {k}, skip saving.')
+                            logger.warning(
+                                f'Invalid value {v} for key {k}, skip saving.')
                             # toast(t("Gui.Toast.InvalidConfigValue").format(
                             #       t('.'.join(k.split('.')[1:] + ['name']))),
                             #       duration=0, position='right', color='warn')
@@ -521,7 +480,8 @@ class AlasGUI(Frame):
                     if modified:
                         toast(t("Gui.Toast.ConfigSaved"),
                               duration=1, position='right', color='success')
-                        logger.info(f'Save config {filepath_config(config_name)}, {dict_to_kv(modified)}')
+                        logger.info(
+                            f'Save config {filepath_config(config_name)}, {dict_to_kv(modified)}')
                         write_file(filepath_config(config_name), config)
                     modified.clear()
                     valid.clear()
@@ -539,7 +499,7 @@ class AlasGUI(Frame):
         else:
             self.set_status(0)
 
-    def alas_update_overiew_tasks(self) -> None:
+    def alas_update_overiew_task(self) -> None:
         if not self.visible:
             return
         self.alas_config.load()
@@ -557,200 +517,137 @@ class AlasGUI(Frame):
             pending = []
         waiting = self.alas_config.waiting_task
 
-        def box(func: Function):
-            return put_row([
+        def put_task(func: Function):
+            with use_scope(f'overview-task_{func.command}'):
                 put_column([
-                    put_text(t(f'Task.{func.command}.name')).style("arg-title"),
-                    put_text(str(func.next_run)).style("arg-help"),
-                ], size="auto auto"),
+                    put_text(t(f'Task.{func.command}.name')
+                             ).style("--arg-title--"),
+                    put_text(str(func.next_run)).style("--arg-help--"),
+                ], size="auto auto")
                 put_button(
                     label=t("Gui.Button.Setting"),
                     onclick=lambda: self.alas_set_group(func.command),
-                    color="scheduler-on"
-                ),
-            ], size="1fr auto").style("container-overview-args")
-            # Another version without setting button, box become clickable
-            # return put_column([
-            #     put_text(t(f'Task.{func.command}.name')).style("arg-title"),
-            #     put_text(str(func.next_run)).style("arg-help"),
-            # ], size="auto auto"
-            # ).style("container-overview-args"
-            # ).onclick(lambda: self.alas_set_group(func.command))
+                    color="off"
+                )
+        with use_scope('running_tasks', clear=True):
+            if running:
+                for task in running:
+                    put_task(task)
+            else:
+                put_text(t("Gui.Overview.NoTask")).style(
+                    "--overview-notask-text--")
+        with use_scope('pending_tasks', clear=True):
+            if pending:
+                for task in pending:
+                    put_task(task)
+            else:
+                put_text(t("Gui.Overview.NoTask")).style(
+                    "--overview-notask-text--")
+        with use_scope('waiting_tasks', clear=True):
+            if waiting:
+                for task in waiting:
+                    put_task(task)
+            else:
+                put_text(t("Gui.Overview.NoTask")).style(
+                    "--overview-notask-text--")
 
-        no_task_style = "text-align:center; font-size: 0.875rem; color: darkgrey;"
-
-        if running:
-            self.alas_running.reset(*[box(task) for task in running])
-        else:
-            self.alas_running.reset(
-                put_text(t("Gui.Overview.NoTask")).style(no_task_style)
-            )
-        if pending:
-            self.alas_pending.reset(*[box(task) for task in pending])
-        else:
-            self.alas_pending.reset(
-                put_text(t("Gui.Overview.NoTask")).style(no_task_style)
-            )
-        if waiting:
-            self.alas_waiting.reset(*[box(task) for task in waiting])
-        else:
-            self.alas_waiting.reset(
-                put_text(t("Gui.Overview.NoTask")).style(no_task_style)
-            )
-
+    @use_scope('content', clear=True)
     def alas_daemon_overview(self, task: str) -> None:
         self.init_menu(name=task)
-        self.title.reset(f"{t(f'Task.{task}.name')}")
-
-        scheduler = put_row([
-            put_text(t("Gui.Overview.Scheduler")).style(
-                "font-size: 1.25rem; margin: auto .5rem auto;"),
-            None,
-            put_buttons(
-                buttons=[
-                    {"label": t("Gui.Button.Start"),
-                     "value": "Start", "color": "scheduler-on"},
-                    {"label": t("Gui.Button.Stop"),
-                     "value": "Stop", "color": "scheduler-off"},
-                ],
-                onclick=[
-                    lambda: self.alas.start(task),
-                    self.alas.stop,
-                ]
-            )
-        ], size="auto 1fr auto").style("container-overview-group")
-
-        log = put_row([
-            put_text(t("Gui.Overview.Log")).style(
-                "font-size: 1.25rem; margin: auto .5rem auto;"),
-            None,
-            put_buttons(
-                buttons=[
-                    {"label": t("Gui.Button.ClearLog"),
-                     "value": "ClearLog", "color": "scheduler-on"},
-                    {"label": t("Gui.Button.ScrollON"),
-                     "value": "ScrollON", "color": "scheduler-on"},
-                    {"label": t("Gui.Button.ScrollOFF"),
-                     "value": "ScrollOFF", "color": "scheduler-on"},
-                ],
-                onclick=[
-                    self.alas_logs.reset,
-                    lambda: self.alas_logs.set_scroll(True),
-                    lambda: self.alas_logs.set_scroll(False),
-                ],
-            )
-        ], size="auto 1fr auto").style("container-overview-group")
-
-        setting = output().style("container-overview-group")
+        self.set_title(t(f'Task.{task}.name'))
 
         if self.is_mobile:
-            self.content.append(
-                put_column([
-                    scheduler,
-                    setting,
-                    log,
-                    self.alas_logs.output
-                ], size="auto auto auto 1fr"
-                ).style("height: 100%; overflow-y: auto")
-            )
+            put_scope('daemon-overview', [
+                put_scope('scheduler-bar'),
+                put_scope('groups'),
+                put_scope('log-bar'),
+                self.alas_logs.output()
+            ])
         else:
-            self.content.append(
-                put_row([
-                    None,
-                    put_column([
-                        put_row([
-                            scheduler,
-                            log,
-                        ], size="auto auto"),
-                        setting,
-                        self.alas_logs.output
-                    ], size="auto minmax(6rem, auto) minmax(15rem, 1fr)"
-                    ).style("height: 100%; overflow-y: auto"),
-                    None,
-                ], size="1fr minmax(25rem, 6fr) 1fr"
-                ).style("height: 100%; overflow-y: auto")
-            )
+            put_scope('daemon-overview', [
+                put_none(),
+                put_scope('_daemon', [
+                    put_scope('_daemon_upper', [
+                        put_scope('scheduler-bar'),
+                        put_scope('log-bar')
+                    ]),
+                    put_scope('groups'),
+                    self.alas_logs.output()
+                ]),
+                put_none(),
+            ])
+
+        with use_scope('scheduler-bar'):
+            put_text(t("Gui.Overview.Scheduler")).style(
+                "font-size: 1.25rem; margin: auto .5rem auto;")
+            put_scope('scheduler_btn')
+
+        switch_scheduler = Switch(
+            label_on=t("Gui.Button.Stop"),
+            label_off=t("Gui.Button.Start"),
+            onclick_on=lambda: self.alas.stop(),
+            onclick_off=lambda: self.alas.start(task),
+            get_status=lambda: self.alas.alive,
+            color_on='on',
+            color_off='off',
+            scope='scheduler_btn'
+        )
+
+        with use_scope('log-bar'):
+            put_text(t("Gui.Overview.Log")).style(
+                "font-size: 1.25rem; margin: auto .5rem auto;")
+            put_scope('log-bar-btns', [
+                put_button(
+                    label=t("Gui.Button.ClearLog"),
+                    onclick=self.alas_logs.reset,
+                    color='off',
+                ),
+                put_scope('log_scroll_btn')
+            ])
+
+        switch_log_scroll = Switch(
+            label_on=t("Gui.Button.ScrollON"),
+            label_off=t("Gui.Button.ScrollOFF"),
+            onclick_on=lambda: self.alas_logs.set_scroll(False),
+            onclick_off=lambda: self.alas_logs.set_scroll(True),
+            get_status=lambda: self.alas_logs.keep_bottom,
+            color_on='on',
+            color_off='off',
+            scope='log_scroll_btn'
+        )
 
         config = config_updater.update_config(self.alas_name)
-
         for group, arg_dict in deep_iter(self.ALAS_ARGS[task], depth=1):
-            group = group[0]
-            setting.append(put_text(t(f"{group}._info.name")).style("group-title"))
-            group_help = t(f"{group}._info.help")
-            if group_help:
-                setting.append(put_text(group_help).style("group-help"))
+            self.set_group(group, arg_dict, config, task)
 
-            list_arg = []
-            for arg, d in deep_iter(arg_dict, depth=1):
-                arg = arg[0]
-                arg_type = d['type']
-                if arg_type == 'disable':
-                    continue
-                value = deep_get(config, f'{task}.{group}.{arg}', d['value'])
-                value = str(value) if isinstance(value, datetime) else value
-
-                # Option
-                options = deep_get(d, 'option', None)
-                if options:
-                    option = []
-                    for opt in options:
-                        o = {"label": t(f"{group}.{arg}.{opt}"), "value": opt}
-                        if value == opt:
-                            o["selected"] = True
-                        option.append(o)
-                else:
-                    option = None
-
-                # Help
-                arg_help = t(f"{group}.{arg}.help")
-                if arg_help == "" or not arg_help:
-                    arg_help = None
-
-                list_arg.append(get_output(
-                    arg_type=arg_type,
-                    name=self.path_to_idx[f"{task}.{group}.{arg}"],
-                    title=t(f"{group}.{arg}.name"),
-                    arg_help=arg_help,
-                    value=value,
-                    options=option,
-                ))
-            if list_arg:
-                setting.append(*list_arg)
-
+        self.task_handler.add(switch_scheduler.g(), 1, True)
+        self.task_handler.add(switch_log_scroll.g(), 1, True)
         self.task_handler.add(self.alas_put_log(), 0.2, True)
 
-    # Develop
-
+    @use_scope('menu', clear=True)
     def dev_set_menu(self) -> None:
         self.init_menu(collapse_menu=False, name="Develop")
 
-        self.menu.append(
-            put_buttons([
-                {"label": t("Gui.MenuDevelop.HomePage"),
-                 "value": "HomePage", "color": "menu"}
-            ], onclick=[self.show]).style(f'--menu-HomePage--'),
+        put_button(
+            label=t("Gui.MenuDevelop.HomePage"),
+            onclick=self.show,
+            color="menu"
+        ).style(f'--menu-HomePage--')
 
-            put_buttons([
-                {"label": t("Gui.MenuDevelop.Translate"),
-                 "value": "Translate", "color": "menu"}
-            ], onclick=[self.dev_translate]).style(f'--menu-Translate--'),
-
-            # put_buttons([
-            #     {"label": t("Gui.MenuDevelop.Something"),
-            #      "value": "Something", "color": "menu"}
-            # ], onclick=[self.dev_something]).style(f'--menu-Something--'),
-        )
+        put_button(
+            label=t("Gui.MenuDevelop.Translate"),
+            onclick=self.dev_translate,
+            color="menu"
+        ).style(f'--menu-Translate--')
 
     def dev_translate(self) -> None:
         go_app('translate', new_window=True)
         lang.TRANSLATE_MODE = True
         self.show()
 
-    # Aside UI route
-
     def ui_develop(self) -> None:
         self.init_aside(name="Develop")
-        self.title.reset(f"{t('Gui.Aside.Develop')}")
+        self.set_title(t('Gui.Aside.Develop'))
         self.dev_set_menu()
         self.alas_name = ''
         if hasattr(self, 'alas'):
@@ -762,18 +659,12 @@ class AlasGUI(Frame):
             self.expand_menu()
             return
         self.init_aside(name=config_name)
-        self.content.reset()
+        clear('content')
         self.alas_name = config_name
         self.alas = AlasManager.get_alas(config_name)
         self.alas_config = AzurLaneConfig(config_name, '')
         self.alas_update_status()
         self.alas_set_menu()
-
-    def ui_setting(self) -> None:
-        toast('Not implemented', position='right', color='error')
-        return
-        self.init_aside(name="Setting")
-        self.alas_name = ''
 
     def ui_add_alas(self) -> None:
         with popup(t("Gui.AddAlas.PopupTitle")) as s:
@@ -823,8 +714,7 @@ class AlasGUI(Frame):
             put()
 
     def show(self) -> None:
-        clear()
-        self.main_area.show()
+        self._show()
         self.set_aside()
         self.collapse_menu()
         self.alas_name = ''
@@ -840,42 +730,28 @@ class AlasGUI(Frame):
             self.set_theme(t)
             run_js("location.reload()")
 
-        # temporary buttons, there is no setting page now :(
-        self.content.append(
-            put_text("Select your language / 选择语言").style("text-align: center"),
+        with use_scope('content'):
+            put_text("Select your language / 选择语言").style("text-align: center")
             put_buttons(
                 [{"label": "简体中文", "value": "zh-CN"},
-                {"label": "繁體中文", "value": "zh-TW"},
-                {"label": "English", "value": "en-US"},
-                {"label": "日本語", "value": "ja-JP"}],
+                 {"label": "繁體中文", "value": "zh-TW"},
+                 {"label": "English", "value": "en-US"},
+                 {"label": "日本語", "value": "ja-JP"}],
                 onclick=lambda l: set_language(l),
-            ).style("text-align: center"),
-            put_text("Change theme / 更改主题").style("text-align: center"),
+            ).style("text-align: center")
+            put_text("Change theme / 更改主题").style("text-align: center")
             put_buttons(
                 [{"label": "Light", "value": "default", "color": "light"},
                  {"label": "Dark", "value": "dark", "color": "dark"}],
                 onclick=lambda t: set_theme(t),
             ).style("text-align: center")
-        )
 
-        # show something
-        self.content.append(output(output(
+            # show something
             put_markdown("""
             Alas is a free open source software, if you paid for Alas from any channel, please refund.
             Alas 是一款免费开源软件，如果你在任何渠道付费购买了Alas，请退款。
             Project repository 项目地址：`https://github.com/LmeSzinc/AzurLaneAutoScript`
-            """)).style('text-align: center')))
-        # self.content.append(output(output(
-        #     put_markdown("""
-        #     ## AzurLaneAutoScript
-        #     if you encounter any error or find a bug, [create new issue](https://github.com/LmeSzinc/AzurLaneAutoScript/issues/new/choose) or `@18870#0856` in discord with error logs.
-        #     You may found logs in python console or browser console (`Ctrl`+`Shift`+`I` - `Console`)
-        #     ![](https://i.loli.net/2021/10/03/5pNYoS8EFcvrhIs.png)
-        #     ![](https://i.loli.net/2021/10/03/5xCaATjl6oK7S1f.png)
-
-        #     ## Join in translation
-        #     Go `Develop` - `Translate`
-        #     """)).style('welcome')))
+            """).style('text-align: center')
 
         if lang.TRANSLATE_MODE:
             lang.reload()
@@ -884,7 +760,8 @@ class AlasGUI(Frame):
                 lang.TRANSLATE_MODE = False
                 self.show()
 
-            toast(_t("Gui.Toast.DisableTranslateMode"), duration=0, position='right', onclick=_disable)
+            toast(_t("Gui.Toast.DisableTranslateMode"),
+                  duration=0, position='right', onclick=_disable)
 
     def run(self) -> None:
         # setup gui
@@ -914,10 +791,6 @@ class AlasGUI(Frame):
         register_thread(_thread_save_config)
         _thread_save_config.start()
 
-        def refresh_status():
-            while True:
-                yield self.alas_update_status()
-
         def refresh_visibility_state():
             _visible = self.visible
             while True:
@@ -935,7 +808,7 @@ class AlasGUI(Frame):
                             Task(refresh_visibility_state(), 2, time.time() + 2))
                 yield
 
-        self.task_handler.add(refresh_status(), 2)
+        self.task_handler.add(self.alas_update_status, 2)
         self.task_handler.add(refresh_visibility_state(), 15)
         self.task_handler.start()
 
@@ -983,7 +856,6 @@ if __name__ == "__main__":
     AlasGUI.shorten_path()
     lang.reload()
 
-
     def index():
         if key != '' and not login(key):
             logger.warning(f"{info.user_ip} login failed.")
@@ -991,7 +863,6 @@ if __name__ == "__main__":
             run_js('location.reload();')
             return
         AlasGUI().run()
-
 
     if args.backend == 'starlette':
         from pywebio.platform.fastapi import start_server

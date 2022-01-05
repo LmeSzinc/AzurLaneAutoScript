@@ -1763,7 +1763,7 @@
       "Start": "Start",
       "Stop": "Stop",
       "ScrollON": "Auto Scroll ON",
-      "ScrollOFF": "OFF",
+      "ScrollOFF": "Auto Scroll OFF",
       "ClearLog": "Clear Log",
       "Setting": "Setting"
     },
