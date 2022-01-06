@@ -883,7 +883,7 @@ if __name__ == "__main__":
         AlasGUI().run()
 
     if args.backend == 'starlette':
-        from pywebio.platform.fastapi import start_server
+        from module.webui.fastapi import start_server
     else:
         from pywebio.platform.tornado import start_server
 
