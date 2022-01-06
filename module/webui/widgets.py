@@ -1,8 +1,9 @@
 import random
 import string
-from typing import Callable, Dict, Generator, List, Union
+from typing import Callable, Dict, List, Union
 
 from module.webui.pin import put_checkbox, put_input, put_select, put_textarea
+from module.webui.utils import Switch
 from pywebio.output import *
 from pywebio.session import run_js
 
@@ -43,28 +44,27 @@ class ScrollableCode:
         self.keep_bottom = b
 
 
-class Switch:
+class BinarySwitchButton(Switch):
     def __init__(
         self,
-        label_on='ON',
-        label_off='Turn on',
-        onclick_on=lambda: toast('You just turn it off'),
-        onclick_off=lambda: toast('Its on now'),
-        get_status=lambda: 1,
+        get_state,
+        label_on,
+        label_off,
+        onclick_on,
+        onclick_off,
+        scope,
         color_on='success',
         color_off='secondary',
-        scope='scope_btn'
     ):
         """
         Args:
-            get_status: 
+            get_state: 
                 (Callable): 
                     return True to represent state `ON`
-                    False represent state `OFF`
+                    return False tp represent state `OFF`
                 (Generator):
-                    yield 1 to represent change btn state to `ON`
-                    yield -1 to represent change btn state to `OFF`
-                    yield 0 do nothing
+                    yield True to change btn state to `ON`
+                    yield False to change btn state to `OFF`
             label_on: label to show when state is `ON`
             label_off: 
             onclick_on: function to call when state is `ON`
@@ -72,66 +72,32 @@ class Switch:
             color_on: button color when state is `ON`
             color_off:
             scope: scope for button, just for button **only**
-
-            *Summary: *_on belongs to state `ON`
         """
-        self.label_on = label_on
-        self.label_off = label_off
-        self.on = onclick_on
-        self.off = onclick_off
-        self.color_on = color_on
-        self.color_off = color_off
         self.scope = scope
-        if isinstance(get_status, Generator):
-            self.get_status = get_status
-        elif isinstance(get_status, Callable):
-            self.get_status = self._get_status(get_status)
+        status = {
+            0: {
+                'func': self.update_button,
+                'args': (label_off, onclick_off, color_off,)
+            },
+            1: {
+                'func': self.update_button,
+                'args': (label_on, onclick_on, color_on,)
+            }
+        }
+        super().__init__(status=status, get_state=get_state, name=scope)
 
-    def on(self):
-        pass
-
-    def off(self):
-        pass
-
-    def _get_status(self, func: Callable):
-        status = func()
-        yield 1 if status else -1
-        while True:
-            if status != func():
-                status = func()
-                yield 1 if status else -1
-                continue
-            yield 0
-
-    def refresh(self):
-        r = next(self.get_status)
-        if r == 1:
-            clear(self.scope)
-            put_button(
-                label=self.label_on,
-                onclick=self.on,
-                color=self.color_on,
-                scope=self.scope
-            )
-        elif r == -1:
-            clear(self.scope)
-            put_button(
-                label=self.label_off,
-                onclick=self.off,
-                color=self.color_off,
-                scope=self.scope
-            )
-
-    def g(self):
-        def _g():
-            while True:
-                yield self.refresh()
-        g = _g()
-        g.__name__ = f"refresh_{self.scope}"
-        return g
-
+    def update_button(self, label, onclick, color):
+        clear(self.scope)
+        put_button(
+            label=label,
+            onclick=onclick,
+            color=color,
+            scope=self.scope
+        )
 
 # aside buttons
+
+
 def put_icon_buttons(icon_html: str,
                      buttons: List[Dict[str, str]],
                      onclick: Union[List[Callable[[], None]], Callable[[], None]]):
@@ -242,3 +208,16 @@ def put_checkbox_(
 
 def put_none():
     return put_html('<div></div>')
+
+
+def get_output(arg_type, name, title, arg_help=None, value=None, options=None, **other_html_attrs):
+    if arg_type == 'input':
+        return put_input_(name, title, arg_help, value, **other_html_attrs)
+    elif arg_type == 'select':
+        return put_select_(name, title, arg_help, options, **other_html_attrs)
+    elif arg_type == 'textarea':
+        return put_textarea_(name, title, arg_help, value, **other_html_attrs)
+    elif arg_type == 'checkbox':
+        return put_checkbox_(name, title, arg_help, value, **other_html_attrs)
+    elif arg_type == 'disable':
+        return put_input_(name, title, arg_help, value, readonly=True, **other_html_attrs)

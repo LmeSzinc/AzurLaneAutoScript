@@ -22,7 +22,7 @@ class Base:
 class Frame(Base):
     def __init__(self) -> None:
         super().__init__()
-        self._status = 0
+        self.page = 'Home'
 
     def init_aside(self, expand_menu: bool = True, name: str = None) -> None:
         """
@@ -31,6 +31,7 @@ class Frame(Base):
             expand_menu: expand menu
             name: button name(label) to be highlight
         """
+        self.visible = True
         self.task_handler.remove_pending_task()
         clear('menu')
         if expand_menu:
@@ -48,6 +49,8 @@ class Frame(Base):
             collapse_menu: collapse menu
             name: button name(label) to be highlight
         """
+        self.visible = True
+        self.page = name
         self.task_handler.remove_pending_task()
         clear('content')
         if collapse_menu:

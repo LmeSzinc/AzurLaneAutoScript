@@ -31,12 +31,12 @@ from module.webui.config import WebuiConfig
 from module.webui.lang import _t, t
 from module.webui.pin import put_input, put_select
 from module.webui.translate import translate
-from module.webui.utils import (Icon, QueueHandler, Task, Thread, add_css,
-                                filepath_css, get_output,
+from module.webui.utils import (Icon, QueueHandler, Switch, Thread,
+                                add_css, filepath_css,
                                 get_window_visibility_state, login,
                                 parse_pin_value, re_fullmatch)
-from module.webui.widgets import (ScrollableCode, Switch, put_icon_buttons,
-                                  put_none)
+from module.webui.widgets import (BinarySwitchButton, ScrollableCode,
+                                  get_output, put_icon_buttons, put_none)
 
 config_updater = ConfigUpdater()
 webui_config = WebuiConfig()
@@ -87,6 +87,15 @@ class AlasManager:
     @property
     def alive(self) -> bool:
         return self._process.is_alive()
+
+    @property
+    def state(self) -> int:
+        if self.alive:
+            return 1
+        elif len(self.log) == 0 or self.log[-1] == "Scheduler stopped.\n":
+            return 2
+        else:
+            return 3
 
     @classmethod
     def get_alas(cls, config_name: str) -> "AlasManager":
@@ -188,37 +197,37 @@ class AlasGUI(Frame):
             "Gui.Aside.AddAlas"), "value": "AddAlas", "color": "aside"}], onclick=[self.ui_add_alas]),
 
     @use_scope('header_status')
-    def set_status(self, status: int) -> None:
+    def set_status(self, state: int) -> None:
         """
         Args:
-            status (int): 
-                1 (running),
-                2 (not running),
-                -1 (warning, stop unexpectedly),
+            state (int): 
+                1 (running)
+                2 (not running)
+                3 (warning, stop unexpectedly)
                 0 (hide)
+                -1 (*state not changed)
         """
         if not self.visible:
             return
-        if self._status == status:
+        if state == -1:
             return
-        self._status = status
         clear()
 
-        if status == 1:
+        if state == 1:
             put_row([
                 put_loading(color='success').style(
                     "width:1.5rem;height:1.5rem;border:.2em solid currentColor;border-right-color:transparent;"),
                 None,
                 put_text(t("Gui.Status.Running"))
             ], size='auto 2px 1fr')
-        elif status == 2:
+        elif state == 2:
             put_row([
                 put_loading(color='secondary').style(
                     "width:1.5rem;height:1.5rem;border:.2em solid currentColor;"),
                 None,
                 put_text(t("Gui.Status.Inactive"))
             ], size='auto 2px 1fr')
-        elif status == -1:
+        elif state == 3:
             put_row([
                 put_loading(shape='grow', color='warning').style(
                     "width:1.5rem;height:1.5rem;"),
@@ -382,12 +391,12 @@ class AlasGUI(Frame):
                 put_scope('waiting_tasks')
             ])
 
-        switch_scheduler = Switch(
+        switch_scheduler = BinarySwitchButton(
             label_on=t("Gui.Button.Stop"),
             label_off=t("Gui.Button.Start"),
             onclick_on=lambda: self.alas.stop(),
             onclick_off=lambda: self.alas.start('Alas'),
-            get_status=lambda: self.alas.alive,
+            get_state=lambda: self.alas.alive,
             color_on='off',
             color_off='on',
             scope='scheduler_btn'
@@ -408,12 +417,12 @@ class AlasGUI(Frame):
             ])
             self.alas_logs.output()
 
-        switch_log_scroll = Switch(
+        switch_log_scroll = BinarySwitchButton(
             label_on=t("Gui.Button.ScrollON"),
             label_off=t("Gui.Button.ScrollOFF"),
             onclick_on=lambda: self.alas_logs.set_scroll(False),
             onclick_off=lambda: self.alas_logs.set_scroll(True),
-            get_status=lambda: self.alas_logs.keep_bottom,
+            get_state=lambda: self.alas_logs.keep_bottom,
             color_on='on',
             color_off='off',
             scope='log_scroll_btn'
@@ -503,17 +512,6 @@ class AlasGUI(Frame):
                     invalid.clear()
                     break
 
-    def alas_update_status(self) -> None:
-        if hasattr(self, 'alas'):
-            if self.alas.alive:
-                self.set_status(1)
-            elif len(self.alas.log) == 0 or self.alas.log[-1] == "Scheduler stopped.\n":
-                self.set_status(2)
-            else:
-                self.set_status(-1)
-        else:
-            self.set_status(0)
-
     def alas_update_overiew_task(self) -> None:
         if not self.visible:
             return
@@ -597,12 +595,12 @@ class AlasGUI(Frame):
                 "font-size: 1.25rem; margin: auto .5rem auto;")
             put_scope('scheduler_btn')
 
-        switch_scheduler = Switch(
+        switch_scheduler = BinarySwitchButton(
             label_on=t("Gui.Button.Stop"),
             label_off=t("Gui.Button.Start"),
             onclick_on=lambda: self.alas.stop(),
             onclick_off=lambda: self.alas.start(task),
-            get_status=lambda: self.alas.alive,
+            get_state=lambda: self.alas.alive,
             color_on='on',
             color_off='off',
             scope='scheduler_btn'
@@ -620,12 +618,12 @@ class AlasGUI(Frame):
                 put_scope('log_scroll_btn')
             ])
 
-        switch_log_scroll = Switch(
+        switch_log_scroll = BinarySwitchButton(
             label_on=t("Gui.Button.ScrollON"),
             label_off=t("Gui.Button.ScrollOFF"),
             onclick_on=lambda: self.alas_logs.set_scroll(False),
             onclick_off=lambda: self.alas_logs.set_scroll(True),
-            get_status=lambda: self.alas_logs.keep_bottom,
+            get_state=lambda: self.alas_logs.keep_bottom,
             color_on='on',
             color_off='off',
             scope='log_scroll_btn'
@@ -667,7 +665,7 @@ class AlasGUI(Frame):
         self.alas_name = ''
         if hasattr(self, 'alas'):
             del self.alas
-        self.set_status(0)
+        self.state_switch.switch()
 
     def ui_alas(self, config_name: str) -> None:
         if config_name == self.alas_name:
@@ -678,7 +676,7 @@ class AlasGUI(Frame):
         self.alas_name = config_name
         self.alas = AlasManager.get_alas(config_name)
         self.alas_config = AzurLaneConfig(config_name, '')
-        self.alas_update_status()
+        self.state_switch.switch()
         self.alas_set_menu()
 
     def ui_add_alas(self) -> None:
@@ -806,25 +804,30 @@ class AlasGUI(Frame):
         register_thread(_thread_save_config)
         _thread_save_config.start()
 
-        def refresh_visibility_state():
-            _visible = self.visible
-            while True:
-                v = get_window_visibility_state()
-                if v != _visible:
-                    self.task_handler.remove_running_task()
-                    self.visible = v
-                    if v:
-                        logger.info("Window running in the foreground")
-                        self.task_handler.add_task(
-                            Task(refresh_visibility_state(), 15, time.time() + 15))
-                    else:
-                        logger.info("Window running in the background")
-                        self.task_handler.add_task(
-                            Task(refresh_visibility_state(), 2, time.time() + 2))
-                yield
+        visibility_state_switch = Switch(
+            status={
+                True: [
+                    lambda: self.__setattr__('visible', True),
+                    lambda: self.alas_update_overiew_task() if self.page == 'Overview' else 0,
+                    lambda: self.task_handler._task.__setattr__('delay', 15)
+                ],
+                False: [
+                    lambda: self.__setattr__('visible', False),
+                    lambda: self.task_handler._task.__setattr__('delay', 1)
+                ]
+            },
+            get_state=get_window_visibility_state,
+            name='visibility_state'
+        )
 
-        self.task_handler.add(self.alas_update_status, 2)
-        self.task_handler.add(refresh_visibility_state(), 15)
+        self.state_switch = Switch(
+            status=self.set_status,
+            get_state=lambda: getattr(getattr(self, 'alas', -1), 'state', -1),
+            name='state'
+        )
+
+        self.task_handler.add(self.state_switch.g(), 2)
+        self.task_handler.add(visibility_state_switch.g(), 15)
         self.task_handler.start()
 
 
