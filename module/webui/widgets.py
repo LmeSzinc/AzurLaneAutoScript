@@ -48,11 +48,11 @@ class Switch:
         self,
         label_on='ON',
         label_off='Turn on',
-        onclick_on=lambda: toast('You just turn it on'),
-        onclick_off=lambda: toast('off'),
+        onclick_on=lambda: toast('You just turn it off'),
+        onclick_off=lambda: toast('Its on now'),
         get_status=lambda: 1,
         color_on='success',
-        color_off='danger',
+        color_off='secondary',
         scope='scope_btn'
     ):
         """

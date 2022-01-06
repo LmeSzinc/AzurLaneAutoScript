@@ -388,8 +388,8 @@ class AlasGUI(Frame):
             onclick_on=lambda: self.alas.stop(),
             onclick_off=lambda: self.alas.start('Alas'),
             get_status=lambda: self.alas.alive,
-            color_on='on',
-            color_off='off',
+            color_on='off',
+            color_off='on',
             scope='scheduler_btn'
         )
 

@@ -231,8 +231,8 @@ button.btn.dropdown-toggle {
     padding-left: .5rem;
     padding-top: 1.2rem;
     overflow-y: auto;
-    min-width: 12rem;
-    max-width: 16rem;
+    width: 12rem;
+    flex-shrink: 0;
 }
 
 #pywebio-scope-content {
