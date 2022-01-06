@@ -846,6 +846,8 @@ def debug():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Alas web service')
+    parser.add_argument('--host', type=str,
+                        help='Host to listen. Default to WebuiHost in deploy setting')
     parser.add_argument('-p', '--port', type=int,
                         help='Port to listen. Default to WebuiPort in deploy setting')
     parser.add_argument('-b', '--backend', type=str, default='starlette',
@@ -859,6 +861,7 @@ if __name__ == "__main__":
     # Apply config
     AlasGUI.set_theme(theme=webui_config.Theme)
     lang.LANG = webui_config.Language
+    host = args.host or webui_config.WebuiHost or '::'
     port = args.port or int(webui_config.WebuiPort) or 22267
     key = args.key or webui_config.Password
     cdn = args.cdn or (webui_config.CDN == 'true') or False
@@ -866,6 +869,7 @@ if __name__ == "__main__":
     logger.hr('Webui configs')
     logger.attr('Theme', webui_config.Theme)
     logger.attr('Language', lang.LANG)
+    logger.attr('Host', host)
     logger.attr('Port', port)
     logger.attr('Password', True if key else False)
     logger.attr('CDN', cdn)
@@ -888,7 +892,7 @@ if __name__ == "__main__":
         from pywebio.platform.tornado import start_server
 
     try:
-        start_server([index, translate], port=port, debug=True, cdn=cdn)
+        start_server([index, translate], host=host, port=port, debug=True, cdn=cdn)
     finally:
         for alas in AlasManager.all_alas.values():
             alas.stop()
