@@ -8,19 +8,14 @@ config/*.yaml
 config/*.json
 !config/template.json
 *.pyw
-!alas_cn.pyw
-!alas_en.pyw
-!alas_jp.pyw
-!alas_tw.pyw
-!alas_kr.pyw
 dev_tools/debug_tools
 .idea
 /screenshots
-/python
-/python-3.7.6.amd64
-/scripts
 /campaign/test/
 /toolkit
+*.lock
+reloadflag
+test.py
 
 # Created by .ignore support plugin (hsz.mobi)
 

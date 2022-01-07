@@ -7,7 +7,27 @@ from multiprocessing import Manager, Process
 from multiprocessing.managers import SyncManager
 from typing import Dict, Generator, List
 
+# This must be the first to import
+from module.logger import logger  # Change folder
+import module.config.server as server
+import module.webui.lang as lang
 from filelock import FileLock
+from module.config.config import AzurLaneConfig, Function
+from module.config.config_updater import ConfigUpdater
+from module.config.utils import (alas_instance, deep_get, deep_iter, deep_set,
+                                 dict_to_kv, filepath_args, filepath_config,
+                                 read_file, write_file)
+from module.webui.base import Frame
+from module.webui.config import WebuiConfig
+from module.webui.fastapi import asgi_app
+from module.webui.lang import _t, t
+from module.webui.pin import put_input, put_select
+from module.webui.translate import translate
+from module.webui.utils import (Icon, QueueHandler, Switch, Thread, add_css,
+                                filepath_css, get_window_visibility_state,
+                                login, parse_pin_value, re_fullmatch)
+from module.webui.widgets import (BinarySwitchButton, ScrollableCode,
+                                  get_output, put_icon_buttons, put_none)
 from pywebio import config as webconfig
 from pywebio.exceptions import SessionClosedException, SessionNotFoundException
 from pywebio.output import (clear, close_popup, popup, put_button, put_buttons,
@@ -16,27 +36,6 @@ from pywebio.output import (clear, close_popup, popup, put_button, put_buttons,
                             put_text, toast, use_scope)
 from pywebio.pin import pin, pin_wait_change
 from pywebio.session import go_app, info, register_thread, run_js, set_env
-
-# This must be the first to import
-from module.logger import logger  # Change folder
-import module.config.server as server
-import module.webui.lang as lang
-from module.config.config import AzurLaneConfig, Function
-from module.config.config_updater import ConfigUpdater
-from module.config.utils import (alas_instance, deep_get, deep_iter, deep_set,
-                                 dict_to_kv, filepath_args, filepath_config,
-                                 read_file, write_file)
-from module.webui.base import Frame
-from module.webui.config import WebuiConfig
-from module.webui.lang import _t, t
-from module.webui.pin import put_input, put_select
-from module.webui.translate import translate
-from module.webui.utils import (Icon, QueueHandler, Switch, Thread,
-                                add_css, filepath_css,
-                                get_window_visibility_state, login,
-                                parse_pin_value, re_fullmatch)
-from module.webui.widgets import (BinarySwitchButton, ScrollableCode,
-                                  get_output, put_icon_buttons, put_none)
 
 config_updater = ConfigUpdater()
 webui_config = WebuiConfig()
@@ -76,6 +75,7 @@ class AlasManager:
                 self.log.append("Scheduler stopped.\n")
             if self.thd_log_queue_handler.is_alive():
                 self.thd_log_queue_handler.stop()
+        logger.info(f"Alas [{self.config_name}] stopped")
 
     def _thread_log_queue_handler(self) -> None:
         while self.alive:
@@ -147,6 +147,14 @@ class AlasManager:
             q.put("Scheduler stopped.\n")
         else:
             logger.critical("No function matched")
+
+    @classmethod
+    def running_instances(cls) -> List[str]:
+        l = []
+        for alas in cls.all_alas.values():
+            if alas.alive:
+                l.append(alas.config_name)
+        return l
 
 
 class AlasGUI(Frame):
@@ -844,14 +852,38 @@ def debug():
     AlasGUI().run()
 
 
-if __name__ == "__main__":
+def clearup():
+    """
+    Notice: Ensure run it before uvicorn reload app,
+    all process will NOT EXIT after close electron app.
+    """
+    for alas in AlasManager.all_alas.values():
+        alas.stop()
+    AlasManager.sync_manager.shutdown()
+    logger.info("Alas closed.")
+
+
+def reload():
+    def r():
+        clearup()
+        put_loading(color='success')
+        run_js('setTimeout(function(){window.location.href = "/";}, 3000);')
+        with open('./reloadflag', mode='w'):
+            pass
+
+    put_button(
+        label='Reload',
+        onclick=r,
+        color='danger'
+    )
+
+
+def app():
     parser = argparse.ArgumentParser(description='Alas web service')
     parser.add_argument('--host', type=str,
                         help='Host to listen. Default to WebuiHost in deploy setting')
     parser.add_argument('-p', '--port', type=int,
                         help='Port to listen. Default to WebuiPort in deploy setting')
-    parser.add_argument('-b', '--backend', type=str, default='starlette',
-                        help='Backend framework of web server, starlette or tornado. Default to starlette')
     parser.add_argument('-k', '--key', type=str,
                         help='Password of alas. No password by default')
     parser.add_argument("--cdn", action="store_true",
@@ -861,16 +893,12 @@ if __name__ == "__main__":
     # Apply config
     AlasGUI.set_theme(theme=webui_config.Theme)
     lang.LANG = webui_config.Language
-    host = args.host or webui_config.WebuiHost or '::'
-    port = args.port or int(webui_config.WebuiPort) or 22267
     key = args.key or webui_config.Password
     cdn = args.cdn or (webui_config.CDN == 'true') or False
 
     logger.hr('Webui configs')
     logger.attr('Theme', webui_config.Theme)
     logger.attr('Language', lang.LANG)
-    logger.attr('Host', host)
-    logger.attr('Port', port)
     logger.attr('Password', True if key else False)
     logger.attr('CDN', cdn)
 
@@ -886,14 +914,5 @@ if __name__ == "__main__":
             return
         AlasGUI().run()
 
-    if args.backend == 'starlette':
-        from module.webui.fastapi import start_server
-    else:
-        from pywebio.platform.tornado import start_server
-
-    try:
-        start_server([index, translate], host=host, port=port, debug=True, cdn=cdn)
-    finally:
-        for alas in AlasManager.all_alas.values():
-            alas.stop()
-        logger.info("Alas closed.")
+    app = asgi_app([index, translate, reload], cdn=cdn, static_dir=None, debug=True)
+    return app
