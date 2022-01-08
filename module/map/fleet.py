@@ -917,3 +917,85 @@ class Fleet(Camera, AmbushHandler):
         self.map_fleet_checked = False
         self.fleet_1_formation_fixed = False
         self.fleet_2_formation_fixed = False
+
+    def _submarine_goto(self, location):
+        """
+        Move submarine to given location.
+
+        Args:
+            location (tuple, str, GridInfo): Destination.
+
+        Returns:
+            bool: If submarine moved.
+
+        Pages:
+            in: SUBMARINE_MOVE_CONFIRM
+            out: SUBMARINE_MOVE_CONFIRM
+        """
+        location = location_ensure(location)
+        moved = True
+        while 1:
+            self.in_sight(location, sight=self._walk_sight)
+            self.focus_to_grid_center()
+            grid = self.convert_global_to_local(location)
+            grid.__str__ = location
+
+            self.device.click(grid)
+            arrived = False
+            # Wait to confirm fleet arrived. It does't appear immediately if fleet in combat.
+            arrive_timer = Timer(0.1, count=2)
+            # If nothing happens, click again.
+            walk_timeout = Timer(2, count=6).start()
+
+            while 1:
+                self.device.screenshot()
+                self.view.update(image=self.device.image)
+
+                # Arrive
+                arrive_checker = grid.predict_submarine_move()
+                if grid.predict_submarine() or (walk_timeout.reached() and grid.predict_fleet()):
+                    arrive_checker = True
+                    moved = False
+                if arrive_checker:
+                    if not arrive_timer.started():
+                        logger.info(f'Arrive {location2node(location)}')
+                    arrive_timer.start()
+                    if not arrive_timer.reached():
+                        continue
+                    logger.info(f'Submarine arrive {location2node(location)} confirm.')
+                    if not moved:
+                        logger.info(f'Submarine already at {location2node(location)}')
+                    arrived = True
+                    break
+
+                # End
+                if walk_timeout.reached():
+                    logger.warning('Walk timeout. Retrying.')
+                    self.predict()
+                    self.ensure_edge_insight(skip_first_update=False)
+                    break
+
+            # End
+            if arrived:
+                break
+
+        return moved
+
+    def submarine_goto(self, location):
+        """
+        Open strategy, move submarine to given location, close strategy.
+
+        Args:
+            location (tuple, str, GridInfo): Destination.
+
+        Pages:
+            in: IN_MAP
+            out: IN_MAP
+        """
+        self.strategy_open()
+        self.strategy_submarine_move_enter()
+        if self._submarine_goto(location):
+            self.strategy_submarine_move_confirm()
+        else:
+            self.strategy_submarine_move_cancel()
+        self.strategy_close()

@@ -80,19 +80,11 @@ class StrategyHandler(InfoHandler):
     fleet_1_formation_fixed = False
     fleet_2_formation_fixed = False
 
-    def handle_opened_strategy_bar(self):
-        if self.appear_then_click(STRATEGY_OPENED, offset=120):
-            self.device.sleep(0.5)
-            return True
-
-        return False
-
     def strategy_open(self):
         logger.info('Strategy open')
         while 1:
             if self.appear(IN_MAP, interval=5) and not self.appear(STRATEGY_OPENED, offset=120):
                 self.device.click(STRATEGY_OPEN)
-                self.device.sleep(0.5)
 
             if self.appear(STRATEGY_OPENED, offset=120):
                 break
@@ -103,7 +95,7 @@ class StrategyHandler(InfoHandler):
         logger.info('Strategy close')
         while 1:
             if self.appear_then_click(STRATEGY_OPENED, offset=120, interval=5):
-                self.device.sleep(0.5)
+                pass
 
             if not self.appear(STRATEGY_OPENED, offset=120):
                 break
@@ -174,3 +166,55 @@ class StrategyHandler(InfoHandler):
 
         logger.attr('Map_buff', buff)
         return buff
+
+    def strategy_submarine_move_enter(self):
+        """
+        Pages:
+            in: STRATEGY_OPENED, SUBMARINE_MOVE_ENTER
+            out: SUBMARINE_MOVE_CONFIRM
+        """
+        logger.info('Submarine move enter')
+        while 1:
+            if self.appear(SUBMARINE_MOVE_ENTER, offset=120, interval=5):
+                self.device.click(SUBMARINE_MOVE_ENTER)
+
+            if self.appear(SUBMARINE_MOVE_CONFIRM, offset=(20, 20)):
+                break
+
+            self.device.screenshot()
+
+    def strategy_submarine_move_confirm(self):
+        """
+        Pages:
+            in: SUBMARINE_MOVE_CONFIRM
+            out: STRATEGY_OPENED, SUBMARINE_MOVE_ENTER
+        """
+        logger.info('Submarine move confirm')
+        while 1:
+            if self.appear_then_click(SUBMARINE_MOVE_CONFIRM, offset=(20, 20), interval=5):
+                pass
+            if self.handle_popup_confirm('SUBMARINE_MOVE'):
+                pass
+
+            if self.appear(SUBMARINE_MOVE_ENTER, offset=120):
+                break
+
+            self.device.screenshot()
+
+    def strategy_submarine_move_cancel(self):
+        """
+        Pages:
+            in: SUBMARINE_MOVE_CONFIRM
+            out: STRATEGY_OPENED, SUBMARINE_MOVE_ENTER
+        """
+        logger.info('Submarine move cancel')
+        while 1:
+            if self.appear_then_click(SUBMARINE_MOVE_CANCEL, offset=(20, 20), interval=5):
+                pass
+            if self.handle_popup_confirm('SUBMARINE_MOVE'):
+                pass
+
+            if self.appear(SUBMARINE_MOVE_ENTER, offset=120):
+                break
+
+            self.device.screenshot()
