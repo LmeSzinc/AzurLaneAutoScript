@@ -29,8 +29,8 @@ class QueueHandler:
 
 class Thread(threading.Thread):
     # https://www.geeksforgeeks.org/python-different-ways-to-kill-a-thread/
-    def __init__(self, target=..., *args, **kwargs):
-        threading.Thread.__init__(self, target=target, *args, **kwargs)
+    def __init__(self, group=None, target=None, name=None, args=(), kwargs=None, *, daemon=None):
+        super().__init__(group=group, target=target, name=name, args=args, kwargs=kwargs, daemon=daemon)
 
     def _get_id(self):
         # returns id of the respective thread
@@ -65,7 +65,7 @@ class Task:
 
 
 class TaskHandler:
-    def __init__(self) -> None:
+    def __init__(self, use_pywebio=False) -> None:
         # List of background running task
         self.tasks: List[Task] = []
         # List of task name to be removed
@@ -73,8 +73,10 @@ class TaskHandler:
         # Running task
         self._task = None
         # Task running thread
-        self._thread = Thread()
+        self._thread: Thread = None
         self._lock = threading.Lock()
+        # register pywebio thread
+        self.use_pywebio = use_pywebio
 
     def add(self, func, delay: float, pending_delete: bool = False) -> None:
         """
@@ -172,11 +174,12 @@ class TaskHandler:
         Start task handler.
         """
         logger.info("Start task handler")
-        if self._thread.is_alive():
+        if self._thread is not None and self._thread.is_alive():
             logger.warning("Task handler already running!")
             return
         self._thread = Thread(target=self.loop)
-        register_thread(self._thread)
+        if self.use_pywebio:
+            register_thread(self._thread)
         self._thread.start()
 
     def stop(self) -> None:

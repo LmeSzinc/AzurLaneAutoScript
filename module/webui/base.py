@@ -11,7 +11,7 @@ class Base:
         # Device type
         self.is_mobile = info.user_agent.is_mobile
         # Task handler
-        self.task_handler = TaskHandler()
+        self.task_handler = TaskHandler(use_pywebio=True)
         defer_call(self.stop)
 
     def stop(self) -> None:

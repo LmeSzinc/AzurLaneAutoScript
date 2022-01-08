@@ -23,9 +23,10 @@ from module.webui.fastapi import asgi_app
 from module.webui.lang import _t, t
 from module.webui.pin import put_input, put_select
 from module.webui.translate import translate
-from module.webui.utils import (Icon, QueueHandler, Switch, Thread, add_css,
-                                filepath_css, get_window_visibility_state,
-                                login, parse_pin_value, re_fullmatch)
+from module.webui.utils import (Icon, QueueHandler, Switch, TaskHandler,
+                                Thread, add_css, filepath_css,
+                                get_window_visibility_state, login,
+                                parse_pin_value, re_fullmatch)
 from module.webui.widgets import (BinarySwitchButton, ScrollableCode,
                                   get_output, put_icon_buttons, put_none)
 from pywebio import config as webconfig
@@ -39,6 +40,7 @@ from pywebio.session import go_app, info, register_thread, run_js, set_env
 
 config_updater = ConfigUpdater()
 webui_config = WebuiConfig()
+task_handler = TaskHandler()
 
 
 class AlasManager:
@@ -880,15 +882,11 @@ def reload():
 
 def app():
     parser = argparse.ArgumentParser(description='Alas web service')
-    parser.add_argument('--host', type=str,
-                        help='Host to listen. Default to WebuiHost in deploy setting')
-    parser.add_argument('-p', '--port', type=int,
-                        help='Port to listen. Default to WebuiPort in deploy setting')
     parser.add_argument('-k', '--key', type=str,
                         help='Password of alas. No password by default')
     parser.add_argument("--cdn", action="store_true",
                         help="Use jsdelivr cdn for pywebio static files (css, js). Self host cdn by default.")
-    args = parser.parse_args()
+    args, _ = parser.parse_known_args()
 
     # Apply config
     AlasGUI.set_theme(theme=webui_config.Theme)
@@ -914,5 +912,12 @@ def app():
             return
         AlasGUI().run()
 
-    app = asgi_app([index, translate, reload], cdn=cdn, static_dir=None, debug=True)
+    app = asgi_app(
+        [index, translate, reload],
+        cdn=cdn,
+        static_dir=None,
+        debug=True,
+        on_shutdown=[clearup]
+    )
+
     return app

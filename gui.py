@@ -12,11 +12,7 @@ if __name__ == '__main__':
                         help='Host to listen. Default to WebuiHost in deploy setting')
     parser.add_argument('-p', '--port', type=int,
                         help='Port to listen. Default to WebuiPort in deploy setting')
-    parser.add_argument('-k', '--key', type=str,
-                        help='Password of alas. No password by default')
-    parser.add_argument("--cdn", action="store_true",
-                        help="Use jsdelivr cdn for pywebio static files (css, js). Self host cdn by default.")
-    args = parser.parse_args()
+    args, _ = parser.parse_known_args()
 
     webui_config = WebuiConfig()
     host = args.host or webui_config.WebuiHost or '0.0.0.0'
