@@ -3,13 +3,12 @@ import operator
 import re
 import threading
 import time
-from typing import Generator
+from typing import Callable, Generator, List
 
 from module.logger import logger
-from module.webui.widgets import *
 from pywebio.input import PASSWORD, input
+from pywebio.output import toast
 from pywebio.session import eval_js, register_thread, run_js
-
 
 RE_DATETIME = r'(\d{2}|\d{4})(?:\-)?([0]{1}\d{1}|[1]{1}[0-2]{1})(?:\-)?' + \
               r'([0-2]{1}\d{1}|[3]{1}[0-1]{1})(?:\s)?([0-1]{1}\d{1}|[2]' + \
@@ -77,11 +76,16 @@ class TaskHandler:
         self._thread = Thread()
         self._lock = threading.Lock()
 
-    def add(self, g: Generator, delay: float, pending_delete: bool = False) -> None:
+    def add(self, func, delay: float, pending_delete: bool = False) -> None:
         """
         Add a task running background.
         Another way of `self.add_task()`.
+        func: Callable or Generator
         """
+        if isinstance(func, Callable):
+            g = get_generator(func)
+        elif isinstance(func, Generator):
+            g = func
         self.add_task(Task(g, delay), pending_delete=pending_delete)
 
     def add_task(self, task: Task, pending_delete: bool = False) -> None:
@@ -128,7 +132,7 @@ class TaskHandler:
                 self._remove_task(task)
             self.pending_remove_tasks = []
 
-    def remove_running_task(self) -> None:
+    def remove_current_task(self) -> None:
         self.remove_task(self._task, nowait=True)
 
     def loop(self) -> None:
@@ -145,7 +149,9 @@ class TaskHandler:
                     start_time = time.time()
                     try:
                         self._task = task
+                        # logger.debug(f'Start task {task.g.__name__}')
                         next(task)
+                        # logger.debug(f'End task {task.g.__name__}')
                     except Exception as e:
                         logger.exception(e)
                         self.remove_task(task, nowait=True)
@@ -180,6 +186,103 @@ class TaskHandler:
         logger.info("Finish task handler")
 
 
+class Switch:
+    def __init__(self, status, get_state, name=None):
+        """
+        Args:
+            status 
+                (dict):A dict describes each state.
+                    {
+                        0: {
+                            'func': (Callable)
+                        },
+                        1: {
+                            'func'
+                            'args': (Optional, tuple)
+                            'kwargs': (Optional, dict)
+                        },
+                        2: [
+                            func1,
+                            {
+                                'func': func2
+                                'args': args2
+                            }
+                        ]
+                        -1: []
+                    }
+                (Callable):current state will pass into this function
+                    lambda state: do_update(state=state)
+            get_state:
+                (Callable):
+                    return current state
+                (Generator):
+                    yield current state, do nothing when state not in status
+            name:
+        """
+        self._lock = threading.Lock()
+        self.name = name
+        self.status = status
+        self.get_state = get_state
+        if isinstance(get_state, Generator):
+            self._generator = get_state
+        elif isinstance(get_state, Callable):
+            self._generator = self._get_state()
+
+    @staticmethod
+    def get_state():
+        pass
+
+    def _get_state(self):
+        """
+        Predefined generator when `get_state` is an callable
+        Customize it if you have multiple criteria on state
+        """
+        _status = self.get_state()
+        yield _status
+        while True:
+            status = self.get_state()
+            if _status != status:
+                _status = status
+                yield _status
+                continue
+            yield -1
+
+    def switch(self):
+        with self._lock:
+            r = next(self._generator)
+        if callable(self.status):
+            self.status(r)
+        elif r in self.status:
+            f = self.status[r]
+            if isinstance(f, dict):
+                f = [f]
+            for d in f:
+                if isinstance(d, Callable):
+                    d = {'func': d}
+                func = d['func']
+                args = d.get('args', tuple())
+                kwargs = d.get('kwargs', dict())
+                func(*args, **kwargs)
+
+    def g(self) -> Generator:
+        g = get_generator(self.switch)
+        if self.name:
+            name = self.name
+        else:
+            name = self.get_state.__name__
+        g.__name__ = f'Switch_{name}_refresh'
+        return g
+
+
+def get_generator(func: Callable):
+    def _g():
+        while True:
+            yield func()
+    g = _g()
+    g.__name__ = func.__name__
+    return g
+
+
 def filepath_css(filename):
     return f'./assets/gui/css/{filename}.css'
 
@@ -208,19 +311,6 @@ class Icon:
     RUN = _read(filepath_icon('run'))
     DEVELOP = _read(filepath_icon('develop'))
     ADD = _read(filepath_icon('add'))
-
-
-def get_output(arg_type, name, title, arg_help=None, value=None, options=None, **other_html_attrs):
-    if arg_type == 'input':
-        return put_input_(name, title, arg_help, value, **other_html_attrs)
-    elif arg_type == 'select':
-        return put_select_(name, title, arg_help, options, **other_html_attrs)
-    elif arg_type == 'textarea':
-        return put_textarea_(name, title, arg_help, value, **other_html_attrs)
-    elif arg_type == 'checkbox':
-        return put_checkbox_(name, title, arg_help, value, **other_html_attrs)
-    elif arg_type == 'disable':
-        return put_input_(name, title, arg_help, value, readonly=True, **other_html_attrs)
 
 
 def parse_pin_value(val):

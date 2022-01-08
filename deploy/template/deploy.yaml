@@ -62,8 +62,12 @@ Deploy:
     InstallUiautomator2: true
 
   Webui:
+    # --host. Host to listen
+    # [Use IPv6] '::'
+    # [In most cases] Default to '0.0.0.0'
+    WebuiHost: 0.0.0.0
     # --port. Port to listen
-    # You will be able to access webui via `http://127.0.0.1:{port}`
+    # You will be able to access webui via `http://{host}:{port}`
     # [In most cases] Default to 22267
     WebuiPort: 22267
     # Language to use on web ui
@@ -71,15 +75,15 @@ Deploy:
     # 'en-US' for English
     # 'ja-JP' for Japanese
     # 'zh-TW' for Chinese traditional
-    Language: 'en-US'
+    Language: en-US
     # Theme of web ui
     # 'default' for light theme
     # 'dark' for dark theme
     Theme: default
-    # Password of web ui
+    # --key. Password of web ui
     # Useful when expose Alas to the public network
     Password: null
-    # Use jsdelivr cdn for pywebio static files (css, js).
+    # --cdn. Use jsdelivr cdn for pywebio static files (css, js).
     # 'true' for jsdelivr cdn
     # 'false' for self host cdn (automatically)
     CDN: false

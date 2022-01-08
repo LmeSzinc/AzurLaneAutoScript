@@ -7,6 +7,7 @@ from module.ocr.ocr import Ocr
 from module.os.assets import *
 from module.os.globe_zone import Zone
 from module.os.map_fleet_selector import OSFleetSelector
+from module.os_handler.assets import AUTO_SEARCH_REWARD
 from module.os_handler.map_order import MapOrderHandler
 from module.os_handler.mission import MissionHandler
 from module.os_handler.port import PortHandler
@@ -205,6 +206,10 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
                 continue
             if self.handle_popup_confirm('MAP_EXIT'):
                 self.interval_reset(MAP_EXIT)
+                continue
+            if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50)):
+                # Sometimes appeared
+                self.device.screenshot_interval_set(0.1)
                 continue
             if self.handle_map_event():
                 self.interval_reset(MAP_EXIT)

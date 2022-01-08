@@ -64,6 +64,7 @@ class Config:
         'distance': 50,
         'wlen': 1000
     }
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
     HOMO_EDGE_COLOR_RANGE = (0, 17)
     MAP_IS_ONE_TIME_STAGE = True
     STAR_REQUIRE_1 = 0
@@ -74,6 +75,7 @@ class Config:
 class Campaign(CampaignBase):
     MAP = MAP
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
+    MAP_ENEMY_SEARCHING_OVERLAY_TRANSPARENCY_THRESHOLD = 0.65
 
     def battle_0(self):
         if self.clear_siren():

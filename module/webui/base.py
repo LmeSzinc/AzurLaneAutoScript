@@ -1,8 +1,5 @@
-from module.webui.lang import t
 from module.webui.utils import Icon, TaskHandler
-from module.webui.widgets import put_icon_buttons
-from pywebio.output import output, put_column, put_html, put_row, put_text
-from pywebio.pin import pin_update
+from pywebio.output import clear, put_html, put_scope, put_text, use_scope
 from pywebio.session import defer_call, info, run_js
 
 
@@ -25,46 +22,7 @@ class Base:
 class Frame(Base):
     def __init__(self) -> None:
         super().__init__()
-        self.aside = output().style("container-buttons-aside")
-        self.aside_setting = output().style("aside-icon-setting")
-        self.menu = output().style("container-menu")
-        self.content = output().style("container-content")
-        self.title = output().style("title-text-title")
-        self.status = output().style("title-status")
-        self._status = 0
-
-        self.header = put_row([
-            put_html(Icon.ALAS).style("title-icon-alas"),
-            put_text("Alas").style("title-text-alas"),
-            self.status,
-            self.title,
-        ]).style("container-title")
-        self.asides = put_column([
-            self.aside,
-            None,
-            # self.aside_setting,
-        ], size="auto 1fr auto").style("container-aside")
-
-        if self.is_mobile:
-            self.contents = put_row([
-                self.asides,
-                self.menu,
-                None,
-                self.content,
-            ], size="auto auto 1fr").style("container-main")
-        else:
-            self.contents = put_row([
-                self.asides,
-                self.menu,
-                self.content,
-            ], size="auto auto 1fr").style("container-main")
-
-        self.main_area = output(
-            put_column([
-                self.header,
-                self.contents,
-            ], size="auto 1fr").style("container-all")
-        ).style("container-gui")
+        self.page = 'Home'
 
     def init_aside(self, expand_menu: bool = True, name: str = None) -> None:
         """
@@ -73,8 +31,9 @@ class Frame(Base):
             expand_menu: expand menu
             name: button name(label) to be highlight
         """
+        self.visible = True
         self.task_handler.remove_pending_task()
-        self.menu.reset()
+        clear('menu')
         if expand_menu:
             self.expand_menu()
         if name:
@@ -90,17 +49,39 @@ class Frame(Base):
             collapse_menu: collapse menu
             name: button name(label) to be highlight
         """
+        self.visible = True
+        self.page = name
         self.task_handler.remove_pending_task()
-        self.content.reset()
+        clear('content')
         if collapse_menu:
             self.collapse_menu()
         if name:
             self.active_button('menu', name)
 
     @staticmethod
+    @use_scope('ROOT', clear=True)
+    def _show() -> None:
+        put_scope('header', [
+            put_html(Icon.ALAS).style("--header-icon--"),
+            put_text("Alas").style("--header-text--"),
+            put_scope('header_status'),
+            put_scope('header_title'),
+        ])
+        put_scope('contents', [
+            put_scope('aside'),
+            put_scope('menu'),
+            put_scope('content'),
+        ])
+
+    @staticmethod
+    @use_scope('header_title', clear=True)
+    def set_title(text=''):
+        put_text(text)
+
+    @staticmethod
     def collapse_menu() -> None:
         run_js(f"""
-            $("[style*=container-menu]").addClass("container-menu-collapsed");
+            $("#pywebio-scope-menu").addClass("container-menu-collapsed");
             $(".container-content-collapsed").removeClass("container-content-collapsed");
         """)
 
@@ -108,7 +89,7 @@ class Frame(Base):
     def expand_menu() -> None:
         run_js(f"""
             $(".container-menu-collapsed").removeClass("container-menu-collapsed");
-            $("[style*=container-content]").addClass("container-content-collapsed");
+            $("#pywebio-scope-content").addClass("container-content-collapsed");
         """)
 
     @staticmethod
@@ -122,7 +103,8 @@ class Frame(Base):
     def pin_set_invalid_mark(keys) -> None:
         if isinstance(keys, str):
             keys = [keys]
-        js = ''.join([f"""$(".form-control[name='{key}']").addClass('is-invalid');""" for key in keys])
+        js = ''.join(
+            [f"""$(".form-control[name='{key}']").addClass('is-invalid');""" for key in keys])
         if js:
             run_js(js)
         # for key in keys:
