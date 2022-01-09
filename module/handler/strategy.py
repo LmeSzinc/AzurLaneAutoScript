@@ -71,7 +71,7 @@ class SwitchWithHandler(Switch):
                     changed = True
 
 
-submarine_view = SwitchWithHandler('Submarine_view', offset=120)
+submarine_view = Switch('Submarine_view', offset=120)
 submarine_view.add_status('on', check_button=SUBMARINE_VIEW_ON)
 submarine_view.add_status('off', check_button=SUBMARINE_VIEW_OFF)
 
@@ -111,12 +111,14 @@ class StrategyHandler(InfoHandler):
         """
         logger.info(f'Strategy set: formation={formation_index}, submarine_view={sub_view}, submarine_hunt={sub_hunt}')
         self.strategy_open()
-        self.device.screenshot()
 
         formation.set(str(formation_index), main=self)
         # Disable this until the icon bug of submarine zone is fixed
         # And don't enable MAP_HAS_DYNAMIC_RED_BORDER when using submarine
+
         # Submarine view check is back again, see SwitchWithHandler.
+
+        # Don't know when but the game bug was fixed, remove the use of SwitchWithHandler
         if submarine_view.appear(main=self):
             submarine_view.set('on' if sub_view else 'off', main=self)
         if submarine_hunt.appear(main=self):
