@@ -644,6 +644,7 @@
       "help": "",
       "do_not_use": "不使用",
       "hunt_only": "僅狩獵",
+      "boss_only": "僅BOSS",
       "every_combat": "每戰出擊"
     },
     "AutoSearchMode": {
@@ -651,6 +652,14 @@
       "help": "自律尋敵下生效",
       "sub_standby": "待機",
       "sub_auto_call": "自動出擊"
+    },
+    "DistanceToBoss": {
+      "name": "BOSS戰前將潛艇移動到BOSS附近",
+      "help": "僅在\"潛艇出擊方案\"為\"僅BOSS戰\"時生效\n選擇\"距離BOSS X格\"需要保證潛艇狩獵範圍能覆蓋到BOSS，距離使用曼哈頓距離計算，選擇\"使用U522技能\"需要潛艇隊伍裡有U522",
+      "to_boss_position": "至 BOSS 所在位置",
+      "1_grid_to_boss": "距離 BOSS 1 格",
+      "2_grid_to_boss": "距離 BOSS 2 格",
+      "use_U522_skill": "使用 U522 技能"
     }
   },
   "Emotion": {

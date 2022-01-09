@@ -407,6 +407,7 @@
         "option": [
           "do_not_use",
           "hunt_only",
+          "boss_only",
           "every_combat"
         ]
       },
@@ -416,6 +417,16 @@
         "option": [
           "sub_standby",
           "sub_auto_call"
+        ]
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_U522_skill"
         ]
       }
     },
@@ -806,6 +817,7 @@
         "option": [
           "do_not_use",
           "hunt_only",
+          "boss_only",
           "every_combat"
         ]
       },
@@ -815,6 +827,16 @@
         "option": [
           "sub_standby",
           "sub_auto_call"
+        ]
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_U522_skill"
         ]
       }
     },
@@ -1703,6 +1725,7 @@
         "option": [
           "do_not_use",
           "hunt_only",
+          "boss_only",
           "every_combat"
         ]
       },
@@ -1712,6 +1735,16 @@
         "option": [
           "sub_standby",
           "sub_auto_call"
+        ]
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_U522_skill"
         ]
       }
     },
@@ -2077,6 +2110,7 @@
         "option": [
           "do_not_use",
           "hunt_only",
+          "boss_only",
           "every_combat"
         ]
       },
@@ -2086,6 +2120,16 @@
         "option": [
           "sub_standby",
           "sub_auto_call"
+        ]
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_U522_skill"
         ]
       }
     },
@@ -3861,6 +3905,7 @@
         "option": [
           "do_not_use",
           "hunt_only",
+          "boss_only",
           "every_combat"
         ]
       },
@@ -3870,6 +3915,16 @@
         "option": [
           "sub_standby",
           "sub_auto_call"
+        ]
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_U522_skill"
         ]
       }
     },
@@ -4259,6 +4314,7 @@
         "option": [
           "do_not_use",
           "hunt_only",
+          "boss_only",
           "every_combat"
         ]
       },
@@ -4268,6 +4324,16 @@
         "option": [
           "sub_standby",
           "sub_auto_call"
+        ]
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_U522_skill"
         ]
       }
     },
@@ -4657,6 +4723,7 @@
         "option": [
           "do_not_use",
           "hunt_only",
+          "boss_only",
           "every_combat"
         ]
       },
@@ -4666,6 +4733,16 @@
         "option": [
           "sub_standby",
           "sub_auto_call"
+        ]
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_U522_skill"
         ]
       }
     },
@@ -5045,6 +5122,7 @@
         "option": [
           "do_not_use",
           "hunt_only",
+          "boss_only",
           "every_combat"
         ]
       },
@@ -5054,6 +5132,16 @@
         "option": [
           "sub_standby",
           "sub_auto_call"
+        ]
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_U522_skill"
         ]
       }
     },
@@ -5590,6 +5678,7 @@
         "option": [
           "do_not_use",
           "hunt_only",
+          "boss_only",
           "every_combat"
         ]
       },
@@ -5599,6 +5688,16 @@
         "option": [
           "sub_standby",
           "sub_auto_call"
+        ]
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_U522_skill"
         ]
       }
     },

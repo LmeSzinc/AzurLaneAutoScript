@@ -87,8 +87,9 @@ class GeneratedConfig:
 
     # Group `Submarine`
     Submarine_Fleet = 0  # 0, 1, 2
-    Submarine_Mode = 'do_not_use'  # do_not_use, hunt_only, every_combat
+    Submarine_Mode = 'do_not_use'  # do_not_use, hunt_only, boss_only, every_combat
     Submarine_AutoSearchMode = 'sub_standby'  # sub_standby, sub_auto_call
+    Submarine_DistanceToBoss = '2_grid_to_boss'  # to_boss_position, 1_grid_to_boss, 2_grid_to_boss, use_U522_skill
 
     # Group `Emotion`
     Emotion_CalculateEmotion = True
