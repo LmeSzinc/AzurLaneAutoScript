@@ -46,6 +46,8 @@ class Screenshot(AScreenCap):
                 continue
 
         self._screenshot_method_fixed = self._screenshot_method
+        if len(screenshot) < 100:
+            logger.warning(f'Unexpected screenshot: {screenshot}')
         raise OSError(f'cannot load screenshot')
 
     def _screenshot_adb(self):

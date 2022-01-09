@@ -11,6 +11,6 @@ const PythonExecutable = config.Deploy.Python.PythonExecutable;
 const WebuiPort = config.Deploy.Webui.WebuiPort.toString();
 
 export const pythonPath = (path.isAbsolute(PythonExecutable) ? PythonExecutable : path.join(alasPath, PythonExecutable));
-export const webuiUrl = `http://127.0.0.1:${WebuiPort}`;
+export const webuiUrl = `http://localhost:${WebuiPort}`;
 export const webuiPath = 'gui.py';
 export const webuiArgs = ['--port', WebuiPort];

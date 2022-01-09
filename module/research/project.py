@@ -586,6 +586,8 @@ class ResearchSelector(UI):
                 preset = 'series_4'
             string = DICT_FILTER_PRESET[preset]
 
+        logger.attr('Research preset', preset)
+
         # Filter uses `hakuryu`, but allows both `hakuryu` and `hakuryuu`
         string = string.lower().replace('hakuryuu', 'hakuryu')
 
@@ -606,10 +608,25 @@ class ResearchSelector(UI):
         """
         if not project.valid:
             return False
-        if (not self.config.Research_UseCube and project.need_cube) \
-                or (not self.config.Research_UseCoin and project.need_coin) \
-                or (not self.config.Research_UsePart and project.need_part):
-            return False
+
+        # Check project consumption
+        is_05 = str(project.duration) == '0.5'
+        if project.need_cube:
+            if self.config.Research_UseCube == 'do_not_use':
+                return False
+            if self.config.Research_UseCube == 'only_05_hour' and not is_05:
+                return False
+        if project.need_coin:
+            if self.config.Research_UseCoin == 'do_not_use':
+                return False
+            if self.config.Research_UseCoin == 'only_05_hour' and not is_05:
+                return False
+        if project.need_part:
+            if self.config.Research_UsePart == 'do_not_use':
+                return False
+            if self.config.Research_UsePart == 'only_05_hour' and not is_05:
+                return False
+
         # Reasons to ignore B series and E-2:
         # - Can't guarantee research condition satisfied.
         #   You may get nothing after a day of running, because you didn't complete the precondition.

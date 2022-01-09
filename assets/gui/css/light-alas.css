@@ -10,19 +10,27 @@
     color: #4e4c97;
 }
 
-.btn-scheduler-on {
+.btn-off {
     background-color: white;
     border: 1px solid lightgrey;
 }
 
-.btn-scheduler-off {
+.btn-on {
     background-color: #4e4c97;
     border: 1px solid lightgrey;
     color: white;
 }
 
-.btn-scheduler-off:hover {
+.btn-on:hover {
     color: white;
+}
+
+.btn-navigator {
+    background-color: white;
+}
+
+.btn-navigator:hover {
+    color: #4e4c97;
 }
 
 .hr-group {
@@ -30,7 +38,7 @@
 }
 
 .form-control,
-.bootstrap-select>select{
+.bootstrap-select>select {
     border-bottom: .125rem solid #4e4c97;
 }
 
@@ -61,47 +69,49 @@ textarea {
     border: 1px solid lightgrey;
 }
 
-*[style*="container-content"] {
+#pywebio-scope-content {
     background-color: #f9f9f9;
 }
 
-*[style*="container-group"] {
+[id^="pywebio-scope-group_"] {
     background-color: white;
     border: 1px solid lightgrey;
 }
 
-*[style*="container-aside"] {
+#pywebio-scope-daemon-overview [id^="pywebio-scope-group_"] {
+    border: 0;
+}
+
+#pywebio-scope-aside {
     background-color: white;
     border-right: 1px solid lightgrey;
 }
 
-*[style*="container-menu"] {
+#pywebio-scope-menu {
     box-shadow: 0 0 8px rgba(0, 0, 0, .1);
     background-color: white;
 }
 
-*[style*="container-overview-group"] {
+#pywebio-scope-navigator {
+    border: 1px solid lightgrey;
+}
+
+#pywebio-scope-scheduler-bar,
+#pywebio-scope-log-bar,
+#pywebio-scope-running,
+#pywebio-scope-pending,
+#pywebio-scope-waiting,
+.container-log,
+#pywebio-scope-daemon-overview #pywebio-scope-groups {
     background-color: white;
     border: 1px solid lightgrey;
 }
 
-*[style*="container-title"] {
+#pywebio-scope-header {
     box-shadow: 0 0 8px rgba(0, 0, 0, .2);
 }
 
-*[style*="aside-icon-setting"] {
-    border-top: 1px solid lightgrey;
-}
-
-*[style*="group-help"] {
+*[style*="--arg-help--"],
+[id^="pywebio-scope-group_"]>p+p {
     color: #777777;
-}
-
-*[style*="arg-help"] {
-    color: #777777;
-}
-
-*[style*="welcome"] {
-    background-color: white;
-    border: 1px solid lightgrey;
 }
