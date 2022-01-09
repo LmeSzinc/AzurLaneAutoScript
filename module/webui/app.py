@@ -19,6 +19,7 @@ from module.config.utils import (alas_instance, deep_get, deep_iter, deep_set,
                                  read_file, write_file)
 from module.webui.base import Frame
 from module.webui.config import WebuiConfig
+from module.webui.discord_presence import init_discord_rpc, close_discord_rpc
 from module.webui.fastapi import asgi_app
 from module.webui.lang import _t, t
 from module.webui.pin import put_input, put_select
@@ -844,14 +845,19 @@ class AlasGUI(Frame):
 def debug():
     """For interactive python.
         $ python3
-        >>> from gui import *
+        >>> from module.webui.app import *
         >>> debug()
         >>> 
     """
+    startup()
+    AlasGUI().run()
+
+
+def startup():
     AlasManager.sync_manager = Manager()
     AlasGUI.shorten_path()
     lang.reload()
-    AlasGUI().run()
+    init_discord_rpc()
 
 
 def clearup():
@@ -859,6 +865,7 @@ def clearup():
     Notice: Ensure run it before uvicorn reload app,
     all process will NOT EXIT after close electron app.
     """
+    close_discord_rpc()
     for alas in AlasManager.all_alas.values():
         alas.stop()
     AlasManager.sync_manager.shutdown()
@@ -900,9 +907,6 @@ def app():
     logger.attr('Password', True if key else False)
     logger.attr('CDN', cdn)
 
-    AlasManager.sync_manager = Manager()
-    AlasGUI.shorten_path()
-    lang.reload()
 
     def index():
         if key != '' and not login(key):
@@ -917,6 +921,7 @@ def app():
         cdn=cdn,
         static_dir=None,
         debug=True,
+        on_startup=[startup],
         on_shutdown=[clearup]
     )
 
