@@ -12,6 +12,8 @@ class CampaignSP(CampaignRun):
             logger.info(f'This event do not have SP, skip')
             self.config.Scheduler_Enable = False
             self.config.task_stop()
+
+        self.config.temporary(MAP_IS_ONE_TIME_STAGE=False)
         try:
             super().run(name=self.config.Campaign_Name, folder=self.config.Campaign_Event, total=1)
         except TaskEnd:

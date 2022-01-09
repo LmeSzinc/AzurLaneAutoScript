@@ -58,10 +58,6 @@
       "name": "共斗活动",
       "help": ""
     },
-    "C11AffinityFarming": {
-      "name": "1-1 伏击刷好感",
-      "help": ""
-    },
     "C72MysteryFarming": {
       "name": "7-2 三战捡垃圾",
       "help": ""
@@ -296,7 +292,7 @@
     },
     "HandleError": {
       "name": "启用异常处理",
-      "help": "处理部分异常，运行出错时撤退\n部分任务中，会将出错的任务移出列表，并重启游戏"
+      "help": "处理部分异常，运行出错时撤退"
     },
     "SaveError": {
       "name": "出错时，保存 Log 和截图",
@@ -426,6 +422,8 @@
       "name": "活动名称",
       "help": "自动选择至最新的活动",
       "campaign_main": "主线图",
+      "event_20201229_cn": "负象限作战",
+      "event_20211229_cn": "逆转彩虹之塔",
       "event_20200603_cn": "峡湾间的反击",
       "event_20211125_cn": "交汇世界的弧光",
       "event_20211111_cn": "杰诺瓦的焰火",
@@ -452,7 +450,6 @@
       "event_20210225_tw": "北境序曲",
       "event_20210225_cn": "破晓冰华",
       "event_20210121_cn": "复刻神圣的悲喜剧",
-      "event_20201229_cn": "负象限作战",
       "event_20201126_cn": "假日航线",
       "event_20200312_cn": "复刻斯图尔特的硝烟",
       "event_20201029_cn": "激唱的UNIVERSE",
@@ -708,7 +705,7 @@
       "name": "二队心情控制",
       "help": "",
       "keep_exp_bonus": "保持经验加成 (>120)",
-      "prevent_green_face": "防止绿脸",
+      "prevent_green_face": "防止绿脸 (>40)",
       "prevent_yellow_face": "防止黄脸 (>30)",
       "prevent_red_face": "防止红脸 (>0)"
     },
@@ -942,25 +939,36 @@
   "Research": {
     "_info": {
       "name": "科研",
-      "help": ""
+      "help": "当过滤器和其他设置一起工作时，Alas 会寻找同时满足所有用户设置的项目。\n例如，你设置科研过滤器是 `H1 > D2.5 > shortest` （包含消耗魔方的科研），但又设置了不允许消耗魔方，最终的结果是 Alas 不会选择消耗魔方的科研。当你突然想切魔方的时候，只需打开消耗魔方，而不需要修改过滤器，这是比较方便的。"
     },
     "UseCube": {
       "name": "使用魔方",
-      "help": ""
+      "help": "",
+      "always_use": "总是使用",
+      "only_05_hour": "仅0.5小时科研使用",
+      "do_not_use": "不使用"
     },
     "UseCoin": {
       "name": "使用物资",
-      "help": ""
+      "help": "",
+      "always_use": "总是使用",
+      "only_05_hour": "仅0.5小时科研使用",
+      "do_not_use": "不使用"
     },
     "UsePart": {
       "name": "使用部件",
-      "help": ""
+      "help": "",
+      "always_use": "总是使用",
+      "only_05_hour": "仅0.5小时科研使用",
+      "do_not_use": "不使用"
     },
     "PresetFilter": {
       "name": "科研过滤器",
-      "help": "当过滤器和其他设置一起工作时，Alas 会寻找同时满足所有用户设置的项目。\n例如，你设置科研过滤器是 `H1 > D2.5 > shortest` （包含消耗魔方的科研），但又设置了不允许消耗魔方，最终的结果是 Alas 不会选择消耗魔方的科研。当你突然想切魔方的时候，只需打开消耗魔方，而不需要修改过滤器，这是比较方便的。\n建议选自定义并编写自己的过滤器",
+      "help": "科研掉落和项目刷新见 https://azur-stats.lyoko.io/，对这些没有基本了解的人不建议编写自定义过滤器，建议使用预优化科研过滤器",
       "custom": "自定义",
-      "series_4": "四期",
+      "series_4_blueprint_tenrai": "四期 蓝图+天雷",
+      "series_4_blueprint_only": "四期 仅蓝图",
+      "series_4_tenrai_only": "四期 仅天雷",
       "series_3": "三期",
       "series_3_than_2": "三期兼顾二期"
     },
@@ -1236,6 +1244,16 @@
     "Filter": {
       "name": "商店过滤器",
       "help": ""
+    }
+  },
+  "CoreShop": {
+    "_info": {
+      "name": "CoreShop._info.name",
+      "help": "CoreShop._info.help"
+    },
+    "Filter": {
+      "name": "CoreShop.Filter.name",
+      "help": "CoreShop.Filter.help"
     }
   },
   "Shipyard": {
@@ -1747,7 +1765,7 @@
       "Start": "启动",
       "Stop": "停止",
       "ScrollON": "自动滚动 开",
-      "ScrollOFF": "关",
+      "ScrollOFF": "自动滚动 关",
       "ClearLog": "清空日志",
       "Setting": "设置"
     },

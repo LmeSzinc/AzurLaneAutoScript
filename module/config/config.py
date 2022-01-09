@@ -2,10 +2,12 @@ import copy
 import datetime
 import operator
 
+import pywebio
+
 from module.base.filter import Filter
 from module.base.utils import ensure_time
 from module.config.config_generated import GeneratedConfig
-from module.config.config_manual import ManualConfig
+from module.config.config_manual import ManualConfig, OutputConfig
 from module.config.config_updater import ConfigUpdater
 from module.config.utils import *
 from module.exception import RequestHumanTakeover, ScriptError
@@ -333,24 +335,29 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
             return deep_get(self.data, keys=f'{task}.OpsiFleet.Submarine', default=False) \
                    or 'submarine' in deep_get(self.data, keys=f'{task}.OpsiFleetFilter.Filter', default='').lower()
 
-        def is_not_force_run(task):
-            return not (deep_get(self.data, keys=f'{task}.OpsiExplore.SpecialRadar', default=False)
-                        or deep_get(self.data, keys=f'{task}.OpsiExplore.ForceRun', default=False)
-                        or deep_get(self.data, keys=f'{task}.OpsiObscure.ForceRun', default=False)
-                        or deep_get(self.data, keys=f'{task}.OpsiAbyssal.ForceRun', default=False)
-                        or deep_get(self.data, keys=f'{task}.OpsiStronghold.ForceRun', default=False))
+        def is_force_run(task):
+            return deep_get(self.data, keys=f'{task}.OpsiExplore.ForceRun', default=False) \
+                   or deep_get(self.data, keys=f'{task}.OpsiObscure.ForceRun', default=False) \
+                   or deep_get(self.data, keys=f'{task}.OpsiAbyssal.ForceRun', default=False) \
+                   or deep_get(self.data, keys=f'{task}.OpsiStronghold.ForceRun', default=False)
+
+        def is_special_radar(task):
+            return deep_get(self.data, keys=f'{task}.OpsiExplore.SpecialRadar', default=False)
 
         if recon_scan:
             tasks = SelectedGrids(['OpsiExplore', 'OpsiObscure', 'OpsiStronghold'])
-            delay_tasks(tasks.filter(is_not_force_run).grids, minutes=30)
+            tasks = tasks.delete(tasks.filter(is_force_run)).delete(tasks.filter(is_special_radar))
+            delay_tasks(tasks, minutes=30)
         if submarine_call:
             tasks = SelectedGrids(['OpsiExplore', 'OpsiDaily', 'OpsiObscure', 'OpsiAbyssal', 'OpsiStronghold',
                                    'OpsiMeowfficerFarming'])
-            delay_tasks(tasks.filter(is_submarine_call).filter(is_not_force_run).grids, minutes=60)
+            tasks = tasks.filter(is_submarine_call).delete(tasks.filter(is_force_run))
+            delay_tasks(tasks, minutes=60)
         if ap_limit:
             tasks = SelectedGrids(['OpsiExplore', 'OpsiDaily', 'OpsiObscure', 'OpsiAbyssal', 'OpsiStronghold',
                                    'OpsiMeowfficerFarming'])
-            delay_tasks(tasks.filter(is_not_force_run).grids, minutes=360)
+            tasks = tasks.delete(tasks.filter(is_special_radar))
+            delay_tasks(tasks, minutes=360)
 
         self.save()
 
@@ -528,6 +535,10 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
         return backup
 
 
+pywebio.output.Output = OutputConfig
+pywebio.pin.Output = OutputConfig
+
+
 class ConfigBackup:
     def __init__(self, config):
         """
@@ -597,4 +608,6 @@ class ConfigTypeChecker:
                     logger.critical(f'Task `{func}` has an invalid setting {".".join(path)}="{str(value)}". '
                                     f'Current type: {type_to_str(value)}, expected type: {type_to_str(typ)}')
                     logger.critical('Please check your settings')
-                    raise RequestHumanTakeover
+                    raise RequestHumanTakeover(
+                        f'Task `{func}` has an invalid setting {".".join(path)}="{str(value)}". '
+                        f'Current type: {type_to_str(value)}, expected type: {type_to_str(typ)}')

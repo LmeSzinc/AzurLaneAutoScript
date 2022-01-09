@@ -102,16 +102,18 @@ class MissionHandler(GlobeOperation, ZoneManager):
         """
         self.os_mission_enter()
 
-        if not (self.appear(MISSION_CHECKOUT, offset=(20, 20)) and MISSION_CHECKOUT.match_appear_on(self.device.image)):
+        checkout_offset = (20, 20)
+        if self.appear(MISSION_MONTHLY_BOSS, offset=(20, 20)):
+            # If monthly BOSS hasn't been killed, there is always a task.
+            logger.info('Monthly BOSS mission found, checking missions bellow it')
+            checkout_offset = (-20, 100, 20, 150)
+
+        if not (self.appear(MISSION_CHECKOUT, offset=checkout_offset)
+                and MISSION_CHECKOUT.match_appear_on(self.device.image)):
             # If not having enough items to claim a mission,
             # there will still be MISSION_CHECKOUT, but button is transparent.
             # So here needs to use both template matching and color detection.
-            self.os_mission_quit()
-            return False
-        if self.appear(MISSION_MONTHLY_BOSS, offset=(20, 20)):
-            # If monthly BOSS hasn't been killed, there is always a task.
-            # It has a low priority to show, so its presence means that the task list is empty.
-            logger.info('Monthly BOSS mission found, mission list is empty')
+            logger.info('No more OS missions')
             self.os_mission_quit()
             return False
 
@@ -123,7 +125,7 @@ class MissionHandler(GlobeOperation, ZoneManager):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(MISSION_CHECKOUT, offset=(20, 20), interval=2):
+            if self.appear_then_click(MISSION_CHECKOUT, offset=checkout_offset, interval=2):
                 continue
             if self.handle_popup_confirm('OS_MISSION_CHECKOUT'):
                 # Popup: Submarine will retreat after exiting current zone.

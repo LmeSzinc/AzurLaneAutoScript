@@ -145,7 +145,10 @@ class Button:
         self.ensure_template()
 
         if isinstance(offset, tuple):
-            offset = np.array((-offset[0], -offset[1], offset[0], offset[1]))
+            if len(offset) == 2:
+                offset = np.array((-offset[0], -offset[1], offset[0], offset[1]))
+            else:
+                offset = np.array(offset)
         else:
             offset = np.array((-3, -offset, 3, offset))
         image = np.array(image.crop(offset + self.area))

@@ -80,7 +80,15 @@ class Retirement(Enhancement):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(SHIP_CONFIRM, offset=(30, 30), interval=2):
+            # End
+            if executed and self.appear(IN_RETIREMENT_CHECK):
+                self.handle_info_bar()
+                break
+
+            # Click
+            if self.appear(SHIP_CONFIRM, offset=(30, 30), interval=2) \
+                    and SHIP_CONFIRM.match_appear_on(self.device.image):
+                self.device.click(SHIP_CONFIRM)
                 continue
             if self.appear(SHIP_CONFIRM_2, offset=(30, 30), interval=2):
                 if self.config.RETIRE_KEEP_COMMON_CV and not self._have_keeped_cv:
@@ -106,11 +114,6 @@ class Retirement(Enhancement):
                 if self.config.SERVER in ['jp', 'tw'] and \
                         self.appear_then_click(SR_SSR_CONFIRM, offset=self._popup_offset, interval=2):
                     continue
-
-            # End
-            if executed and self.appear(IN_RETIREMENT_CHECK):
-                self.handle_info_bar()
-                break
 
         self._popup_offset = backup
 

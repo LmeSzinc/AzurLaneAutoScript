@@ -158,6 +158,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
         self.ash_popup_canceled = False
 
         success = True
+        died_timer = Timer(1.5, count=3)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -171,6 +172,14 @@ class OSMap(OSFleet, Map, GlobeCamera):
                 raise RequestHumanTakeover
             if self.is_in_map():
                 self.device.stuck_record_clear()
+                if not success:
+                    if died_timer.reached():
+                        logger.warning('Fleet died confirm')
+                        break
+                else:
+                    died_timer.reset()
+            else:
+                died_timer.reset()
             if self.handle_os_auto_search_map_option(enable=success):
                 unlock_checked = True
                 continue

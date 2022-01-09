@@ -77,14 +77,7 @@ class AzurLaneAutoScript:
         except Exception as e:
             logger.exception(e)
             self.save_error_log()
-            if self.config.Error_HandleError:
-                self.config.Scheduler_Enable = False
-                logger.warning(f'Try restarting, {self.config.Emulator_PackageName} will be restarted in 10 seconds')
-                self.config.task_call('Restart')
-                self.device.sleep(10)
-                return False
-            else:
-                exit(1)
+            exit(1)
 
     def save_error_log(self):
         """
@@ -256,11 +249,6 @@ class AzurLaneAutoScript:
         from module.raid.run import RaidRun
         RaidRun(config=self.config, device=self.device).run()
 
-    def c11_affinity_farming(self):
-        from module.campaign.run import CampaignRun
-        CampaignRun(config=self.config, device=self.device).run(
-            name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
-
     def c72_mystery_farming(self):
         from module.campaign.run import CampaignRun
         CampaignRun(config=self.config, device=self.device).run(
@@ -357,19 +345,12 @@ class AzurLaneAutoScript:
             deep_set(failure_record, keys=task, value=failed)
             if failed >= 3:
                 logger.critical(f"Task `{task}` failed 3 or more times.")
-                logger.critical("Possible reason: You haven't used it correctly. "
+                logger.critical("Possible reason #1: You haven't used it correctly. "
                                 "Please read the help text of the options.")
-                logger.critical("Possible reason: There is a problem with this task. "
+                logger.critical("Possible reason #2: There is a problem with this task. "
                                 "Please contact developers or try to fix it yourself.")
-                if self.config.Error_HandleError:
-                    self.config.Scheduler_Enable = False
-                    logger.warning(f'Try restarting, {self.config.Emulator_PackageName} will be restarted in 10 seconds')
-                    self.config.task_call('Restart')
-                    self.device.sleep(10)
-                    continue
-                else:
-                    logger.critical('Request human takeover')
-                    exit(1)
+                logger.critical('Request human takeover')
+                exit(1)
 
             if success:
                 del self.__dict__['config']

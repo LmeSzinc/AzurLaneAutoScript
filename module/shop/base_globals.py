@@ -33,6 +33,7 @@ BP_SERIES = {
 # Known items with no tiers
 ITEM_NO_TIERS = [
     'Chip',
+    'Array',
     'Drill',
     'Cube',
 ]

@@ -460,6 +460,35 @@ class Map(Fleet):
 
         return False
 
+    def clear_any_enemy(self, **kwargs):
+        """
+        Returns:
+            bool: True if clear an enemy.
+        """
+        grids = self.map.select(is_enemy=True, is_boss=False)
+
+        if self.config.MAP_HAS_SIREN:
+            grids = grids.add(self.map.select(is_siren=True))
+        if self.config.MAP_HAS_FORTRESS:
+            grids = grids.add(self.map.select(is_fortress=True))
+
+        grids = self.select_grids(grids, **kwargs)
+
+        if grids:
+            logger.hr('Clear enemy')
+            self.show_select_grids(grids, **kwargs)
+            grid = grids[0]
+            if grid.is_fortress:
+                expected = 'fortress'
+            elif grid.is_siren:
+                expected = 'siren'
+            else:
+                expected = ''
+            self.clear_chosen_enemy(grid, expected=expected)
+            return True
+
+        return False
+
     def fleet_2_step_on(self, grids, roadblocks):
         """Fleet step on a grid which can reduce the ambush frequency another fleet.
         Of course, you can simply use 'self.fleet_2.goto(grid)' and do the same thing.

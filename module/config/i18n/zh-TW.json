@@ -58,10 +58,6 @@
       "name": "共鬥活動",
       "help": ""
     },
-    "C11AffinityFarming": {
-      "name": "1-1 伏擊刷好感",
-      "help": ""
-    },
     "C72MysteryFarming": {
       "name": "7-2 三戰撿垃圾",
       "help": ""
@@ -296,7 +292,7 @@
     },
     "HandleError": {
       "name": "啟用異常處理",
-      "help": "處理部分異常，執行出錯時撤退\n部分任務中，會將出錯的任務移出列表，並重啟遊戲"
+      "help": "處理部分異常，執行出錯時撤退"
     },
     "SaveError": {
       "name": "出錯時，保存 Log 和截圖",
@@ -426,6 +422,8 @@
       "name": "活動名稱",
       "help": "自動選擇至最新的活動圖",
       "campaign_main": "主線圖",
+      "event_20201229_cn": "負象限作戰",
+      "event_20211229_cn": "Tower of Transcendence",
       "event_20200603_cn": "峽灣間的反擊",
       "event_20211125_cn": "交匯世界的弧光",
       "event_20211111_cn": "The Flame-Touched Dagger",
@@ -452,7 +450,6 @@
       "event_20210225_tw": "北境序曲",
       "event_20210225_cn": "Khorovod of Dawns Rime",
       "event_20210121_cn": "Empyreal Tragicomedy Rerun",
-      "event_20201229_cn": "Inverted Orthant",
       "event_20201126_cn": "Vacation Lane",
       "event_20200312_cn": "斯圖爾特的硝煙",
       "event_20201029_cn": "Universe in Unison",
@@ -942,25 +939,36 @@
   "Research": {
     "_info": {
       "name": "科研",
-      "help": ""
+      "help": "當過濾器和其他設定一起工作時，Alas 會尋找同時滿足所有用戶設定的項目。 \n例如，你設定科研過濾器是 `H1 > D2.5 > shortest` （包含消耗魔方的科研），但又設定了不允許消耗魔方，最終的結果是 Alas 不會選擇消耗魔方的科研。當你突然想切魔方的時候，只需打開消耗魔方，而不需要修改過濾器，這是比較方便的。"
     },
     "UseCube": {
       "name": "使用魔方",
-      "help": ""
+      "help": "",
+      "always_use": "總是使用",
+      "only_05_hour": "僅0.5小時科研使用",
+      "do_not_use": "不使用"
     },
     "UseCoin": {
       "name": "使用物資",
-      "help": ""
+      "help": "",
+      "always_use": "總是使用",
+      "only_05_hour": "僅0.5小時科研使用",
+      "do_not_use": "不使用"
     },
     "UsePart": {
       "name": "使用部件",
-      "help": ""
+      "help": "",
+      "always_use": "總是使用",
+      "only_05_hour": "僅0.5小時科研使用",
+      "do_not_use": "不使用"
     },
     "PresetFilter": {
       "name": "科研過濾器",
-      "help": "當過濾器和其他設定一起工作時，Alas 會尋找同時滿足所有用戶設定的項目。 \n例如，你設定科研過濾器是 `H1 > D2.5 > shortest` （包含消耗魔方的科研），但又設定了不允許消耗魔方，最終的結果是 Alas 不會選擇消耗魔方的科研。當你突然想切魔方的時候，只需打開消耗魔方，而不需要修改過濾器，這是比較方便的。 \n建議選自定義並編寫自己的過濾器",
+      "help": "科研掉落和項目刷新見 https://azur-stats.lyoko.io/，對這些沒有基本了解的人不建議編寫自定義過濾器，建議使用預優化科研過濾器",
       "custom": "自定義",
-      "series_4": "四期",
+      "series_4_blueprint_tenrai": "四期 藍圖+天雷",
+      "series_4_blueprint_only": "四期 僅藍圖",
+      "series_4_tenrai_only": "四期 僅天雷",
       "series_3": "三期",
       "series_3_than_2": "三期兼顧二期"
     },
@@ -1236,6 +1244,16 @@
     "Filter": {
       "name": "軍需商店過濾器",
       "help": "MeritShop.Filter.help"
+    }
+  },
+  "CoreShop": {
+    "_info": {
+      "name": "CoreShop._info.name",
+      "help": "CoreShop._info.help"
+    },
+    "Filter": {
+      "name": "CoreShop.Filter.name",
+      "help": "CoreShop.Filter.help"
     }
   },
   "Shipyard": {

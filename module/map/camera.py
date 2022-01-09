@@ -5,6 +5,7 @@ import numpy as np
 from module.base.utils import area_offset
 from module.combat.assets import GET_ITEMS_1
 from module.exception import MapDetectionError, CampaignEnd
+from module.handler.assets import AUTO_SEARCH_MENU_CONTINUE
 from module.handler.assets import IN_MAP, GAME_TIPS
 from module.logger import logger
 from module.map.map_base import CampaignMap, location2node
@@ -126,6 +127,10 @@ class Camera(MapOperation):
             elif self.is_in_stage():
                 logger.warning('Image is in stage')
                 raise CampaignEnd('Image is in stage')
+            elif self.appear(AUTO_SEARCH_MENU_CONTINUE, offset=self._auto_search_menu_offset):
+                logger.warning('Image is in auto search menu')
+                self.ensure_auto_search_exit()
+                raise CampaignEnd('Image is in auto search menu')
             elif not self.appear(IN_MAP):
                 logger.warning('Image to detect is not in_map')
                 if self.appear_then_click(GAME_TIPS, offset=(20, 20)):

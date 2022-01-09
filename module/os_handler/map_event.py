@@ -3,6 +3,7 @@ from module.combat.assets import *
 from module.exception import CampaignEnd
 from module.handler.assets import *
 from module.logger import logger
+from module.os.assets import GLOBE_GOTO_MAP
 from module.os_handler.assets import *
 from module.os_handler.enemy_searching import EnemySearchingHandler
 from module.ui.switch import Switch
@@ -41,6 +42,13 @@ class MapEventHandler(EnemySearchingHandler):
             self.device.click(CLICK_SAFE_AREA)
             return True
         if self.appear_then_click(MAP_WORLD, offset=(20, 20), interval=5):
+            return True
+
+        return False
+
+    def handle_os_game_tips(self):
+        # Close game tips the first time enabling auto search
+        if self.appear_then_click(OS_GAME_TIPS, offset=(20, 20), interval=3):
             return True
 
         return False
@@ -107,6 +115,8 @@ class MapEventHandler(EnemySearchingHandler):
         """
         if self.handle_map_get_items():
             return True
+        if self.handle_os_game_tips():
+            return True
         if self.handle_map_archives():
             return True
         if self.handle_guild_popup_cancel():
@@ -158,6 +168,10 @@ class MapEventHandler(EnemySearchingHandler):
                 confirm_timer.reset()
                 continue
             if self.handle_map_event():
+                confirm_timer.reset()
+                continue
+            if self.appear_then_click(GLOBE_GOTO_MAP, offset=(20, 20), interval=1):
+                # Sometimes entered globe map after clicking AUTO_SEARCH_REWARD, but don't know why
                 confirm_timer.reset()
                 continue
 
