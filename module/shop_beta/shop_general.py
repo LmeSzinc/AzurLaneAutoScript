@@ -81,16 +81,13 @@ class GeneralShop(ShopBase, ShopUI):
         Run General Shop
         """
         # Base case; exit run if empty
-        selection = self.config.GeneralShop_Filter
+        selection = str(self.config.GeneralShop_Filter)
         if not selection.strip():
             return
 
-        # Route to General Shop
+        # When called, expected to be in
+        # corrected General Shop interface
         logger.hr('General Shop', level=1)
-        self.ui_goto_shop()
-        if not self.shop_bottom_navbar_ensure(left=5):
-            logger.warning('Failed to transition to shop, skipping')
-            return
 
         # Execute buy operations
         # Refresh if enabled and available
