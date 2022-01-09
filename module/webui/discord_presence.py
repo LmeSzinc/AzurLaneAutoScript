@@ -10,7 +10,11 @@ def run():
     APPLICATION_ID = "929437173764223057"
     RPC = Presence(APPLICATION_ID)
     RPC.connect()
-    RPC.update(state="Alas is playing Azurlane", start=time.time())
+    RPC.update(
+        state="Alas is playing Azurlane",
+        start=time.time(),
+        large_image='alas'
+    )
 
 
 def init_discord_rpc():
