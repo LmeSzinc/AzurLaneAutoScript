@@ -28,4 +28,4 @@ if __name__ == '__main__':
         pass
 
     uvicorn.run('module.webui.app:app', host=host, port=port, factory=True,
-                reload=True, reload_includes=['reloadflag', '.*'], reload_excludes=['*.py'])
+                reload=True, reload_includes=['reloadflag'], reload_excludes=['*.py'])
