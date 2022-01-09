@@ -1061,6 +1061,8 @@ class Fleet(Camera, AmbushHandler):
             self.strategy_submarine_move_confirm()
         else:
             self.strategy_submarine_move_cancel()
+        # Hunt zone view re-enabled by game, after entering sub move mode
+        self.strategy_set_execute(sub_view=False)
         self.strategy_close()
 
     def submarine_move_near_boss(self, boss):

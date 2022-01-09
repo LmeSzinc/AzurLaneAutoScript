@@ -1,6 +1,7 @@
 from module.base.base import ModuleBase
 from module.base.button import Button
 from module.base.timer import Timer
+from module.exception import ScriptError
 from module.logger import logger
 
 
@@ -65,6 +66,21 @@ class Switch:
 
         return 'unknown'
 
+    def check_status(self, status):
+        """
+        Args:
+            status (str):
+
+        Returns:
+            bool: If status valid
+        """
+        for row in self.status_list:
+            if row['status'] == status:
+                return True
+
+        logger.warning(f'Switch {self.name} received an invalid status {status}')
+        raise ScriptError(f'Switch {self.name} received an invalid status {status}')
+
     def set(self, status, main, skip_first_screenshot=True):
         """
         Args:
@@ -75,6 +91,8 @@ class Switch:
         Returns:
             bool:
         """
+        self.check_status(status)
+
         counter = 0
         changed = False
         warning_show_timer = Timer(5, count=10).start()
@@ -94,7 +112,8 @@ class Switch:
                     logger.warning(f'Unknown {self.name} switch')
                     warning_show_timer.reset()
                     if counter >= 1:
-                        logger.warning(f'{self.name} switch {status} asset has evaluated to unknown too many times, asset should be re-verified')
+                        logger.warning(f'{self.name} switch {status} asset has evaluated to unknown too many times, '
+                                       f'asset should be re-verified')
                         return False
                     counter += 1
                 continue

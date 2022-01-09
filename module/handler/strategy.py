@@ -102,29 +102,32 @@ class StrategyHandler(InfoHandler):
 
             self.device.screenshot()
 
-    def strategy_set_execute(self, formation_index=2, sub_view=False, sub_hunt=False):
+    def strategy_set_execute(self, formation_index=None, sub_view=None, sub_hunt=None):
         """
         Args:
-            formation_index (int):
+            formation_index (int): 1-3, or None for don't change
             sub_view (bool):
             sub_hunt (bool):
+
+        Pages:
+            in: STRATEGY_OPENED
         """
         logger.info(f'Strategy set: formation={formation_index}, submarine_view={sub_view}, submarine_hunt={sub_hunt}')
-        self.strategy_open()
 
-        formation.set(str(formation_index), main=self)
+        if formation_index is not None:
+            formation.set(str(formation_index), main=self)
         # Disable this until the icon bug of submarine zone is fixed
         # And don't enable MAP_HAS_DYNAMIC_RED_BORDER when using submarine
 
         # Submarine view check is back again, see SwitchWithHandler.
 
         # Don't know when but the game bug was fixed, remove the use of SwitchWithHandler
-        if submarine_view.appear(main=self):
-            submarine_view.set('on' if sub_view else 'off', main=self)
-        if submarine_hunt.appear(main=self):
-            submarine_hunt.set('on' if sub_hunt else 'off', main=self)
-
-        self.strategy_close()
+        if sub_view is not None:
+            if submarine_view.appear(main=self):
+                submarine_view.set('on' if sub_view else 'off', main=self)
+        if sub_hunt is not None:
+            if submarine_hunt.appear(main=self):
+                submarine_hunt.set('on' if sub_hunt else 'off', main=self)
 
     def handle_strategy(self, index):
         """
@@ -143,11 +146,13 @@ class StrategyHandler(InfoHandler):
             self.__setattr__(f'fleet_{index}_formation_fixed', True)
             return False
 
+        self.strategy_open()
         self.strategy_set_execute(
             formation_index=expected_formation,
             sub_view=False,
             sub_hunt=bool(self.config.Submarine_Fleet) and self.config.Submarine_Mode == 'hunt_only'
         )
+        self.strategy_close()
         self.__setattr__(f'fleet_{index}_formation_fixed', True)
         return True
 
