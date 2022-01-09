@@ -63,7 +63,7 @@ class AlasManager:
         if not self.alive:
             self._process = Process(
                 target=AlasManager.run_alas,
-                args=(self.config_name, self.log_queue, func))
+                args=(self.config_name, func, self.log_queue, updater.event,))
             self._process.start()
             self.thd_log_queue_handler = Thread(
                 target=self._thread_log_queue_handler)
@@ -112,7 +112,7 @@ class AlasManager:
         return cls.all_alas[config_name]
 
     @staticmethod
-    def run_alas(config_name, q: queue.Queue, func: str) -> None:
+    def run_alas(config_name, func: str, q: queue.Queue, e: threading.Event) -> None:
         # Setup logger
         qh = QueueHandler(q)
         formatter = logging.Formatter(
@@ -130,6 +130,7 @@ class AlasManager:
         # Run alas
         if func == 'Alas':
             from alas import AzurLaneAutoScript
+            AzurLaneAutoScript.stop_event = e
             AzurLaneAutoScript(config_name=config_name).loop()
         elif func == 'Daemon':
             from module.daemon.daemon import AzurLaneDaemon
