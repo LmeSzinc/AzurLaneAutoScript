@@ -16,6 +16,7 @@ from module.map.assets import *
 from module.ui.assets import *
 from module.ui.scroll import Scroll
 from module.ui.ui import MAIN_CHECK
+from module.base.utils import crop
 
 USER_AGREEMENT_SCROLL = Scroll(USER_AGREEMENT_SCROLL, color=(182, 189, 202), name='USER_AGREEMENT_SCROLL')
 
@@ -178,9 +179,9 @@ class LoginHandler(Combat):
                 XPS('//*[@content-desc="请滑动阅读协议内容"]', xp, hierarchy)])
 
             test_image_original = self.device.image
-            image_handle_crop = test_image_original.crop((start_padding_results[2], 0,
-                                                          start_margin_results[2], self.device.image.height))
-            # image_handle_crop.show()
+            image_handle_crop = crop(np.array(test_image_original), (start_padding_results[2], 0,
+                                                                     start_margin_results[2], self.device.image.height))
+            # Image.fromarray(image_handle_crop).show()
             sims = color_similarity_2d(image_handle_crop, color=(182, 189, 202))
             points = np.sum(sims >= 255)
             if points == 0:
