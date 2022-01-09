@@ -70,7 +70,7 @@ ua-parser==0.10.0         # via user-agents
 uiautomator2==2.16.7      # via -r requirements-in.txt
 urllib3==1.22             # via requests
 user-agents==2.2.0        # via pywebio
-uvicorn[standard]==0.15.0  # via -r requirements-in.txt
+uvicorn[standard]==0.16.0  # via -r requirements-in.txt
 watchgod==0.7             # via uvicorn
 wcwidth==0.2.5            # via prettytable
 websockets==10.0          # via uvicorn

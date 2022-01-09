@@ -941,6 +941,7 @@ def clearup():
     for alas in AlasManager.all_alas.values():
         alas.stop()
     AlasManager.sync_manager.shutdown()
+    task_handler.stop()
     logger.info("Alas closed.")
 
 
