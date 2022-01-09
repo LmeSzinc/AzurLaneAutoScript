@@ -1,4 +1,4 @@
-from module.webui.utils import Icon, TaskHandler
+from module.webui.utils import Icon, TaskHandler, set_localstorage
 from pywebio.output import clear, put_html, put_scope, put_text, use_scope
 from pywebio.session import defer_call, info, run_js
 
@@ -38,6 +38,7 @@ class Frame(Base):
             self.expand_menu()
         if name:
             self.active_button('aside', name)
+            set_localstorage('menu', name)
 
     def init_menu(self,
                   collapse_menu: bool = True,

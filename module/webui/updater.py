@@ -9,7 +9,6 @@ import requests
 from deploy.installer import DeployConfig, cached_property
 from deploy.utils import DEPLOY_CONFIG
 from module.logger import logger
-from module.webui.utils import Task
 
 
 class Config(DeployConfig):
@@ -180,15 +179,25 @@ def update_state() -> Generator:
         yield
 
 
-def update():
-    event.set()
-
-
 def run_update():
-    if have_update:
-        git_manager.update()
-        # pip_manager.update()
-
+    logger.hr("Run update")
+    # time.sleep(5)
+    # return True
+    for _ in range(3):
+        if git_manager.update():
+            break
+    else:
+        logger.warning("Git update failed")
+        return False
+    for _ in range(3):
+        break
+        if pip_manager.update():
+            break
+    else:
+        logger.warning("Pip update failed")
+        return False
+    
+    return True
 
 if __name__ == '__main__':
     pass

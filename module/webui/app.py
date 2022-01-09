@@ -1,5 +1,6 @@
 import argparse
 import logging
+import os
 import queue
 import threading
 import time
@@ -27,7 +28,7 @@ from module.webui.lang import _t, t
 from module.webui.pin import put_input, put_select
 from module.webui.translate import translate
 from module.webui.utils import (Icon, QueueHandler, Switch, TaskHandler,
-                                Thread, add_css, filepath_css,
+                                Thread, add_css, filepath_css, get_localstorage,
                                 get_window_visibility_state, login,
                                 parse_pin_value, re_fullmatch)
 from module.webui.widgets import (BinarySwitchButton, ScrollableCode,
@@ -67,7 +68,6 @@ class AlasManager:
             self._process.start()
             self.thd_log_queue_handler = Thread(
                 target=self._thread_log_queue_handler)
-            register_thread(self.thd_log_queue_handler)
             self.thd_log_queue_handler.start()
         else:
             toast(t("Gui.Toast.AlasIsRunning"), position='right', color='warn')
@@ -155,11 +155,11 @@ class AlasManager:
             logger.critical("No function matched")
 
     @classmethod
-    def running_instances(cls) -> List[str]:
+    def running_instances(cls) -> List["AlasManager"]:
         l = []
         for alas in cls.all_alas.values():
             if alas.alive:
-                l.append(alas.config_name)
+                l.append(alas)
         return l
 
 
@@ -743,6 +743,7 @@ class AlasGUI(Frame):
 
     def show(self) -> None:
         self._show()
+        self.init_aside(name='Home')
         self.set_aside()
         self.collapse_menu()
         self.alas_name = ''
@@ -791,6 +792,9 @@ class AlasGUI(Frame):
             toast(_t("Gui.Toast.DisableTranslateMode"),
                   duration=0, position='right', onclick=_disable)
 
+        # toast("Click to update", duration=0, color='success',
+        #       onclick=update, position='right')
+
     def run(self) -> None:
         # setup gui
         set_env(title="Alas", output_animation=False)
@@ -805,6 +809,11 @@ class AlasGUI(Frame):
         else:
             add_css(filepath_css('light-alas'))
 
+        # Auto refresh when lost connection
+        run_js('WebIO._state.CurrentSession.on_session_close('
+               '()=>{setTimeout(()=>location.reload(), 4000)})')
+
+        menu = get_localstorage('menu')
         self.show()
 
         # detect config change
@@ -845,6 +854,10 @@ class AlasGUI(Frame):
         self.task_handler.add(visibility_state_switch.g(), 15)
         self.task_handler.start()
 
+        # Return to previous page
+        if menu not in ["Develop", "Home"]:
+            self.ui_alas(menu)
+
 
 def debug():
     """For interactive python.
@@ -867,10 +880,31 @@ def startup():
     init_discord_rpc()
 
 
-def start_alas():
+def start_alas(instances: List["AlasManager"] = None):
     """
-    After update and reload, restart all alas that running before update
+    After update and reload, or failed to perform an update,
+    restart all alas that running before update
     """
+    logger.hr("Restart alas")
+    if not instances:
+        instances = []
+        try:
+            with open('./reloadalas', mode='r') as f:
+                for line in f.readlines():
+                    line = line.strip()
+                    instances.append(AlasManager.get_alas(line))
+        except:
+            pass
+
+    for alas in instances:
+        logger.info(f"Starting [{alas.config_name}]")
+        alas.start()
+
+    try:
+        os.remove('./reloadalas')
+    except:
+        pass
+    logger.info("Start alas complete")
 
 
 def clearup():
@@ -900,6 +934,38 @@ def reload():
     )
 
 
+def update():
+    instances = AlasManager.running_instances()
+    names = []
+    for alas in instances:
+        names.append(alas.config_name + '\n')
+
+    _instances = instances.copy()
+    logger.info("Waiting all running alas finish.")
+    updater.event.set()
+    while _instances:
+        for alas in _instances:
+            if not alas.alive:
+                _instances.remove(alas)
+                logger.info(f"Alas [{alas.config_name}] stopped")
+                logger.info(
+                    f"Remains: {[alas.config_name for alas in _instances]}")
+        time.sleep(0.25)
+
+    logger.info("All alas stopped, start updating")
+
+    if updater.run_update():
+        clearup()
+        with open('./reloadalas', mode='w') as f:
+            f.writelines(names)
+        with open('./reloadflag', mode='w'):
+            pass
+    else:
+        logger.warning("Update failed")
+        updater.event.clear()
+        start_alas(instances)
+
+
 def app():
     parser = argparse.ArgumentParser(description='Alas web service')
     parser.add_argument('-k', '--key', type=str,
@@ -919,7 +985,6 @@ def app():
     logger.attr('Language', lang.LANG)
     logger.attr('Password', True if key else False)
     logger.attr('CDN', cdn)
-
 
     def index():
         if key != '' and not login(key):
