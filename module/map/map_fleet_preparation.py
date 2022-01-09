@@ -288,5 +288,4 @@ class FleetPreparation(ModuleBase):
             else:
                 submarine.clear()
 
-        self.map_fleet_checked = True
         return True
