@@ -533,10 +533,10 @@ class OperationSiren(Reward, OSMap):
 
 
 if __name__ == '__main__':
-    self = OperationSiren('alas', task='OpsiObscure')
+    self = OperationSiren('alas', task='OpsiStronghold')
     from module.os.config import OSConfig
 
     self.config = self.config.merge(OSConfig())
     self.device.screenshot()
-    self.os_init()
-    self.clear_stronghold()
+    self.zone_init()
+    self.run_stronghold()
