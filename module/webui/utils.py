@@ -52,6 +52,7 @@ class Thread(threading.Thread):
 class Task:
     def __init__(self, g: Generator, delay: float, next_run: float = None) -> None:
         self.g = g
+        g.send(None)
         self.delay = delay
         self.next_run = next_run if next_run else time.time()
 
@@ -60,6 +61,9 @@ class Task:
 
     def __next__(self) -> None:
         return next(self.g)
+
+    def send(self, obj) -> None:
+        return self.g.send(obj)
 
     __repr__ = __str__
 
@@ -152,7 +156,7 @@ class TaskHandler:
                     try:
                         self._task = task
                         # logger.debug(f'Start task {task.g.__name__}')
-                        next(task)
+                        task.send(self)
                         # logger.debug(f'End task {task.g.__name__}')
                     except Exception as e:
                         logger.exception(e)
@@ -279,6 +283,7 @@ class Switch:
 
 def get_generator(func: Callable):
     def _g():
+        yield
         while True:
             yield func()
     g = _g()

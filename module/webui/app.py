@@ -1,6 +1,7 @@
 import argparse
 import logging
 import queue
+import threading
 import time
 from datetime import datetime
 from multiprocessing import Manager, Process
@@ -11,6 +12,7 @@ from typing import Dict, Generator, List
 from module.logger import logger  # Change folder
 import module.config.server as server
 import module.webui.lang as lang
+import module.webui.updater as updater
 from filelock import FileLock
 from module.config.config import AzurLaneConfig, Function
 from module.config.config_updater import ConfigUpdater
@@ -19,7 +21,7 @@ from module.config.utils import (alas_instance, deep_get, deep_iter, deep_set,
                                  read_file, write_file)
 from module.webui.base import Frame
 from module.webui.config import WebuiConfig
-from module.webui.discord_presence import init_discord_rpc, close_discord_rpc
+from module.webui.discord_presence import close_discord_rpc, init_discord_rpc
 from module.webui.fastapi import asgi_app
 from module.webui.lang import _t, t
 from module.webui.pin import put_input, put_select
@@ -445,6 +447,7 @@ class AlasGUI(Frame):
         self.task_handler.add(self.alas_put_log(), 0.2, True)
 
     def alas_put_log(self) -> Generator[None, None, None]:
+        yield
         last_idx = len(self.alas.log)
         self.alas_logs.append(''.join(self.alas.log))
         lines = 0
@@ -857,7 +860,16 @@ def startup():
     AlasManager.sync_manager = Manager()
     AlasGUI.shorten_path()
     lang.reload()
+    updater.event = AlasManager.sync_manager.Event()
+    task_handler.add(updater.update_state(), updater.delay)
+    task_handler.start()
     init_discord_rpc()
+
+
+def start_alas():
+    """
+    After update and reload, restart all alas that running before update
+    """
 
 
 def clearup():
@@ -921,7 +933,7 @@ def app():
         cdn=cdn,
         static_dir=None,
         debug=True,
-        on_startup=[startup],
+        on_startup=[startup, start_alas],
         on_shutdown=[clearup]
     )
 
