@@ -20,42 +20,42 @@ class ShopItemGrid(ItemGrid):
         super().predict(image, name, amount, cost, price, tag)
 
         for item in self.items:
-            # Every item is given a new attr 'alt_name'
-            # a list of alternative / equivalent names
-            # for the item in question
-            item.alt_name = [item.name, item.name[:-2]]
+            # Give all items a set of attributes
+            # for the Filter class
+            item.group = None
+            item.sub_genre = None
+            item.tier = None
 
             if item.name in ITEM_NO_TIERS:
-                item.alt_name.remove(item.name[:-2])
+                item.group = item.name[:-2]
+                continue
 
             if 'Book' in item.name:
-                # Created to just not access protected variable
-                # accessor returns tuple, not button itself
-                btn = Button(item.button, None, item.button)
+                # Although attribute marked as protected
+                # access for Book identification
+                book = Book(image, item._button)
 
-                # Cannot use match_template, use tactical_class
-                # to identify exact book
-                # For some shops, book may be grey thus invalid
-                # but does not matter within this context
-                book = Book(image, btn)
-                item.name = f'{item.name[:-2]}T{book.tier}'
-                item.alt_name = ['Book', item.name, item.name[:-2], f'BookT{book.tier}']
+                item.name = f'{item.name[:-2]}{book.tier_str}'
+                item.group, item.sub_genre, item.tier = \
+                ['Book', book.genre_str, book.tier_str]
+                continue
 
             if 'Plate' in item.name:
-                item.alt_name.extend(['Plate', f'Plate{item.name[-2:]}'])
+                item.group, item.sub_genre, item.tier = \
+                ['Plate', item.name[5:-2], item.name[-2:]]
+                continue
 
             if 'Retrofit' in item.name:
-                item.alt_name.extend(['Retrofit', f'Retrofit{item.name[-2:]}'])
+                item.group, item.sub_genre, item.tier = \
+                ['Retrofit', item.name[8:-2], item.name[-2:]]
+                continue
 
             if 'PR' in item.name or 'DR' in item.name:
-                item.alt_name = [
-                    item.name,
-                    f'{item.name[:2]}BP',
-                    f'{item.name[:2]}{BP_SERIES[f"{item.name[2:-2].lower()}"]}BP',
-                ]
+                item.group = item.name[:2]
+                item.sub_genre = item.name[2:-2]
+                item.tier = f'S{BP_SERIES[item.name[2:-2].lower()]}'
+                continue
 
-            # Clear out duplicates in 'alt_name'
-            item.alt_name = list(set(item.alt_name))
         return self.items
 
 
@@ -231,22 +231,27 @@ class ShopBase(UI):
         selection = selection.replace(' ', '').replace('\n', '').split('>')
         selection = list(filter(''.__ne__, selection))
 
-        for select in selection:
-            # 'Choice Ship' purchases are not supported
-            if 'ship' in select.lower():
-                continue
-
-            for item in items:
-                if self.shop_check_custom_item(item):
-                    return item
-                if select not in item.alt_name:
-                    continue
-                if not self.shop_check_item(item):
-                    continue
-
+        # First, must scan for custom items
+        # as has no template or filter support
+        for item in items:
+            if self.shop_check_custom_item(item):
                 return item
 
-        return None
+        # Second, load selection, apply filter,
+        # and return 1st item in result if any
+        def _filter_check(item):
+            if self.shop_check_item(item):
+                return True
+            return False
+
+        FILTER.load(selection)
+        filtered = FILTER.apply(items, _filter_check)
+
+        if not filtered:
+            return None
+        logger.attr('Item_sort', ' > '.join([str(item) for item in filtered]))
+
+        return filtered[0]
 
     def shop_buy_execute(self, item, skip_first_screenshot=True):
         """
