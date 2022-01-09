@@ -26,3 +26,7 @@ def init_discord_rpc():
 def close_discord_rpc():
     global process
     process.terminate()
+
+
+if __name__ == '__main__':
+    init_discord_rpc()

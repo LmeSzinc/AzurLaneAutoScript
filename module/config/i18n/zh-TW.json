@@ -1772,7 +1772,8 @@
     "Toast": {
       "DisableTranslateMode": "點擊這裡關閉翻譯模式",
       "ConfigSaved": "設定已儲存",
-      "AlasIsRunning": "調度器已在執行中"
+      "AlasIsRunning": "調度器已在執行中",
+      "ClickToUpdate": "有更新可用，點擊這裡進行更新"
     },
     "Status": {
       "Running": "執行中",

@@ -1,4 +1,5 @@
 import ctypes
+import datetime
 import operator
 import re
 import threading
@@ -30,7 +31,8 @@ class QueueHandler:
 class Thread(threading.Thread):
     # https://www.geeksforgeeks.org/python-different-ways-to-kill-a-thread/
     def __init__(self, group=None, target=None, name=None, args=(), kwargs=None, *, daemon=None):
-        super().__init__(group=group, target=target, name=name, args=args, kwargs=kwargs, daemon=daemon)
+        super().__init__(group=group, target=target, name=name,
+                         args=args, kwargs=kwargs, daemon=daemon)
 
     def _get_id(self):
         # returns id of the respective thread
@@ -261,7 +263,7 @@ class Switch:
             self.status(r)
         elif r in self.status:
             f = self.status[r]
-            if isinstance(f, dict):
+            if isinstance(f, (dict, Callable)):
                 f = [f]
             for d in f:
                 if isinstance(d, Callable):
@@ -377,6 +379,16 @@ def re_fullmatch(pattern, string):
         pattern = RE_DATETIME
     # elif:
     return re.fullmatch(pattern=pattern, string=string)
+
+
+def get_next_time(t: datetime.time):
+    now = datetime.datetime.today().time()
+    second = (t.hour - now.hour) * 3600 + \
+             (t.minute - now.minute) * 60 + \
+             (t.second - now.second)
+    if second < 0:
+        second += 86400
+    return second
 
 
 if __name__ == '__main__':

@@ -15,6 +15,7 @@ dev_tools/debug_tools
 /toolkit
 *.lock
 reloadflag
+reloadalas
 test.py
 
 # Created by .ignore support plugin (hsz.mobi)

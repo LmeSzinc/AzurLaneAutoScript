@@ -1772,7 +1772,8 @@
     "Toast": {
       "DisableTranslateMode": "Click here to disable translate mode",
       "ConfigSaved": "Config saved",
-      "AlasIsRunning": "Scheduler is already running"
+      "AlasIsRunning": "Scheduler is already running",
+      "ClickToUpdate": "New update avaliable, click here to update"
     },
     "Status": {
       "Running": "Running",

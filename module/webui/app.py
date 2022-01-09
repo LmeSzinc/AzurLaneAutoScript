@@ -28,7 +28,8 @@ from module.webui.lang import _t, t
 from module.webui.pin import put_input, put_select
 from module.webui.translate import translate
 from module.webui.utils import (Icon, QueueHandler, Switch, TaskHandler,
-                                Thread, add_css, filepath_css, get_localstorage,
+                                Thread, add_css, filepath_css,
+                                get_localstorage, get_next_time,
                                 get_window_visibility_state, login,
                                 parse_pin_value, re_fullmatch)
 from module.webui.widgets import (BinarySwitchButton, ScrollableCode,
@@ -810,8 +811,21 @@ class AlasGUI(Frame):
             add_css(filepath_css('light-alas'))
 
         # Auto refresh when lost connection
-        run_js('WebIO._state.CurrentSession.on_session_close('
-               '()=>{setTimeout(()=>location.reload(), 4000)})')
+        # [For develop] Disable by run `reload=0` in console
+        run_js('''
+        reload = 1;
+        WebIO._state.CurrentSession.on_session_close(
+            ()=>{
+                setTimeout(
+                    ()=>{
+                        if (reload == 1){
+                            location.reload();
+                        }
+                    }, 4000
+                )
+            }
+        );
+        ''')
 
         menu = get_localstorage('menu')
         self.show()
@@ -850,8 +864,18 @@ class AlasGUI(Frame):
             name='state'
         )
 
+        update_switch = Switch(
+            status={
+                True: lambda: toast(t("Gui.Toast.ClickToUpdate"), duration=0,
+                            position='right', color='success', onclick=update)
+            },
+            get_state=lambda: updater.have_update,
+            name='update_state'
+        )
+
         self.task_handler.add(self.state_switch.g(), 2)
         self.task_handler.add(visibility_state_switch.g(), 15)
+        self.task_handler.add(update_switch.g(), 10)
         self.task_handler.start()
 
         # Return to previous page
@@ -876,6 +900,7 @@ def startup():
     lang.reload()
     updater.event = AlasManager.sync_manager.Event()
     task_handler.add(updater.update_state(), updater.delay)
+    task_handler.add(schedule_restart(), 86400)
     task_handler.start()
     init_discord_rpc()
 
@@ -935,6 +960,8 @@ def reload():
 
 
 def update():
+    if updater.event.is_set():
+        return
     instances = AlasManager.running_instances()
     names = []
     for alas in instances:
@@ -960,10 +987,29 @@ def update():
             f.writelines(names)
         with open('./reloadflag', mode='w'):
             pass
+        # program ended here and uvicorn will restart whole app
     else:
         logger.warning("Update failed")
         updater.event.clear()
         start_alas(instances)
+        return False
+
+
+def schedule_restart() -> Generator:
+    th = yield
+    th._task.delay = get_next_time(updater.schedule_time)
+    yield
+    while True:
+        if not updater.have_update:
+            updater.have_update = updater.git_manager.check_update()
+        if not updater.have_update:
+            th._task.delay = get_next_time(updater.schedule_time)
+            yield
+            continue
+
+        update()
+        th._task.delay = get_next_time(updater.schedule_time)
+        yield
 
 
 def app():

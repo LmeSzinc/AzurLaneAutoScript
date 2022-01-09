@@ -20,6 +20,7 @@ Toast:
   DisableTranslateMode:
   ConfigSaved:
   AlasIsRunning:
+  ClickToUpdate:
 
 Status:
   Running:

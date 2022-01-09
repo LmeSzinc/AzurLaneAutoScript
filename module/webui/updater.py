@@ -3,6 +3,7 @@ import os
 import subprocess
 import threading
 import time
+from retry import retry
 from typing import Generator
 
 import requests
@@ -56,14 +57,10 @@ class GitManager(Config):
         owner = r[3]
         repo = r[4]
         if 'gitee' in r[2]:
-            platform = 'gitee'
-            list_commit_api = f"https://gitee.com/api/v5/repos/{owner}/{repo}/branches/{self.branch}"
-            get_commit_api = f"https://gitee.com/api/v5/repos/{owner}/{repo}/commits/"
+            base = "https://gitee.com/api/v5/repos/"
             headers = {}
         else:
-            platform = 'github'
-            list_commit_api = f"https://api.github.com/repos/{owner}/{repo}/commits"
-            get_commit_api = list_commit_api + '/'
+            base = "https://api.github.com/repos/"
             headers = {
                 'Accept': 'application/vnd.github.v3.sha'
             }
@@ -83,9 +80,10 @@ class GitManager(Config):
         local_sha = local_sha.strip()
 
         try:
-            list_commit = requests.get(list_commit_api, headers=headers)
+            list_commit = requests.get(
+                base + f"{owner}/{repo}/branches/{self.branch}", headers=headers)
             get_commit = requests.get(
-                get_commit_api + local_sha, headers=headers)
+                base + f"{owner}/{repo}/commits/" + local_sha, headers=headers)
         except Exception as e:
             logger.exception(e)
             logger.warning("Check update failed")
@@ -102,10 +100,7 @@ class GitManager(Config):
                 f"Check update failed, code {list_commit.status_code}")
             return False
         try:
-            if platform == 'github':
-                sha = list_commit.json()[0]['sha']
-            else:
-                sha = list_commit.json()['commit']['sha']
+            sha = list_commit.json()['commit']['sha']
         except Exception as e:
             logger.exception(e)
             logger.warning("Check update failed when parsing return json")
@@ -120,21 +115,6 @@ class GitManager(Config):
 
     def update(self):
         source = 'origin'
-        self.execute(f'"{self.git}" init')
-        if self.to_bool(self.proxy):
-            self.execute(
-                f'"{self.git}" config --local http.proxy {self.proxy}')
-            self.execute(
-                f'"{self.git}" config --local https.proxy {self.proxy}')
-        else:
-            self.execute(f'"{self.git}" config --local --unset http.proxy')
-            self.execute(f'"{self.git}" config --local --unset https.proxy')
-
-        if not self.execute(f'"{self.git}" remote set-url {source} {self.repo}'):
-            self.execute(f'"{self.git}" remote add {source} {self.repo}')
-
-        # self.execute(f'"{self.git}" fetch {source} {self.branch}')
-
         if self.keep_changes:
             if not self.execute(f'"{self.git}" stash'):
                 logger.warning(
@@ -175,7 +155,8 @@ def update_state() -> Generator:
     global have_update
     yield
     while True:
-        have_update = git_manager.check_update()
+        if not have_update:
+            have_update = git_manager.check_update()
         yield
 
 

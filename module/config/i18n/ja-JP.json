@@ -1772,7 +1772,8 @@
     "Toast": {
       "DisableTranslateMode": "Gui.Toast.DisableTranslateMode",
       "ConfigSaved": "Gui.Toast.ConfigSaved",
-      "AlasIsRunning": "Gui.Toast.AlasIsRunning"
+      "AlasIsRunning": "Gui.Toast.AlasIsRunning",
+      "ClickToUpdate": "Gui.Toast.ClickToUpdate"
     },
     "Status": {
       "Running": "Gui.Status.Running",
