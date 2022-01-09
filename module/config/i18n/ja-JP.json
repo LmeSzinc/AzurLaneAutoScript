@@ -966,7 +966,9 @@
       "name": "Research.PresetFilter.name",
       "help": "Research.PresetFilter.help",
       "custom": "custom",
-      "series_4": "series_4",
+      "series_4_blueprint_tenrai": "series_4_blueprint_tenrai",
+      "series_4_blueprint_only": "series_4_blueprint_only",
+      "series_4_tenrai_only": "series_4_tenrai_only",
       "series_3": "series_3",
       "series_3_than_2": "series_3_than_2"
     },

@@ -2723,10 +2723,12 @@
       },
       "PresetFilter": {
         "type": "select",
-        "value": "series_4",
+        "value": "series_4_blueprint_tenrai",
         "option": [
           "custom",
-          "series_4",
+          "series_4_blueprint_tenrai",
+          "series_4_blueprint_only",
+          "series_4_tenrai_only",
           "series_3",
           "series_3_than_2"
         ]

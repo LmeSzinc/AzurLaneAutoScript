@@ -586,6 +586,8 @@ class ResearchSelector(UI):
                 preset = 'series_4'
             string = DICT_FILTER_PRESET[preset]
 
+        logger.attr('Research preset', preset)
+
         # Filter uses `hakuryu`, but allows both `hakuryu` and `hakuryuu`
         string = string.lower().replace('hakuryuu', 'hakuryu')
 
