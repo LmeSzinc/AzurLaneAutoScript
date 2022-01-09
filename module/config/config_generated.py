@@ -183,7 +183,7 @@ class GeneratedConfig:
     # Group `GuildOperation`
     GuildOperation_Enable = True
     GuildOperation_SelectNewOperation = False
-    GuildOperation_NewOperationMaxDate = 20
+    GuildOperation_NewOperationMaxDate = 15
     GuildOperation_JoinThreshold = 1
     GuildOperation_AttackBoss = True
     GuildOperation_BossFleetRecommend = False

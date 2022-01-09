@@ -2879,7 +2879,7 @@
       },
       "NewOperationMaxDate": {
         "type": "input",
-        "value": 20
+        "value": 15
       },
       "JoinThreshold": {
         "type": "input",

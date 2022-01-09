@@ -274,7 +274,7 @@ GuildLogistics:
 GuildOperation:
   Enable: true
   SelectNewOperation: false
-  NewOperationMaxDate: 20
+  NewOperationMaxDate: 15
   JoinThreshold: 1
   AttackBoss: true
   BossFleetRecommend: false
