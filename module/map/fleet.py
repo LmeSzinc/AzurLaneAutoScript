@@ -722,8 +722,27 @@ class Fleet(Camera, AmbushHandler):
         if count == 1:
             self.fleet_submarine = fleets[0].location
         elif count == 0:
-            logger.warning('No submarine found')
-            self.find_all_submarines()
+            logger.info('No submarine found')
+            # Try spawn points
+            spawn_point = self.map.select(is_submarine_spawn_point=True)
+            if spawn_point.count == 1:
+                logger.info(f'Predict the only submarine spawn point {spawn_point[0]} as submarine')
+                self.fleet_submarine = spawn_point[0].location
+            else:
+                logger.info(f'Having multiple submarine spawn points: {spawn_point}')
+                # Try covered grids
+                covered = SelectedGrids([])
+                for grid in spawn_point:
+                    covered = covered.add(self.map.grid_covered(grid, location=[(0, 1)]))
+                covered = covered.filter(lambda g: g.is_enemy or g.is_fleet or g.is_siren or g.is_boss)
+                if covered.count == 1:
+                    spawn_point = self.map.grid_covered(covered[0], location=[(0, -1)])
+                    logger.info(f'Submarine {spawn_point[0]} covered by {covered[0]}')
+                    self.fleet_submarine = spawn_point[0].location
+                else:
+                    logger.info('Found multiple submarine spawn points being covered')
+                    # Give up
+                    self.find_all_submarines()
         else:
             logger.warning('Too many submarines: %s.' % str(fleets))
             self.find_all_submarines()
@@ -732,7 +751,7 @@ class Fleet(Camera, AmbushHandler):
             logger.warning('Unable to find submarine, assume it is at map center')
             shape = self.map.shape
             center = (shape[0] // 2, shape[1] // 2)
-            self.fleet_submarine = self.map.select(is_land=False).sort_by_camera_distance(center)[0]
+            self.fleet_submarine = self.map.select(is_land=False).sort_by_camera_distance(center)[0].location
 
         self.show_submarine()
         return self.fleet_submarine_location
@@ -1005,8 +1024,8 @@ class Fleet(Camera, AmbushHandler):
 
             self.device.click(grid)
             arrived = False
-            # Wait to confirm fleet arrived. It does't appear immediately if fleet in combat.
-            arrive_timer = Timer(0.1, count=2)
+            # Usually no need to wait
+            arrive_timer = Timer(0.1, count=0)
             # If nothing happens, click again.
             walk_timeout = Timer(2, count=6).start()
 
