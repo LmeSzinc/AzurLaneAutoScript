@@ -255,6 +255,9 @@ class Fleet(Camera, AmbushHandler):
         if self.hp_retreat_triggered():
             self.withdraw()
         is_portal = self.map[location].is_portal
+        # The upper grid is submarine, may mess up predict_fleet()
+        may_submarine_icon = self.map.grid_covered(self.map[location], location=[(0, -1)])
+        may_submarine_icon = may_submarine_icon and self.fleet_submarine_location == may_submarine_icon[0].location
 
         while 1:
             self.in_sight(location, sight=self._walk_sight)
@@ -354,13 +357,24 @@ class Fleet(Camera, AmbushHandler):
                     raise MapWalkError('walk_out_of_step')
 
                 # Arrive
-                if self.is_in_map() and (
-                        grid.predict_fleet()
-                        or (self.config.MAP_WALK_USE_CURRENT_FLEET and grid.predict_current_fleet())
-                        or (walk_timeout.reached() and grid.predict_current_fleet())
-                ):
+                arrive_predict = ''
+                arrive_checker = False
+                if self.is_in_map():
+                    if not may_submarine_icon and grid.predict_fleet():
+                        arrive_predict = '(is_fleet)'
+                        arrive_checker = True
+                    elif may_submarine_icon and grid.predict_current_fleet():
+                        arrive_predict = '(may_submarine_icon, is_current_fleet)'
+                        arrive_checker = True
+                    elif self.config.MAP_WALK_USE_CURRENT_FLEET and grid.predict_current_fleet():
+                        arrive_predict = '(MAP_WALK_USE_CURRENT_FLEET, is_current_fleet)'
+                        arrive_checker = True
+                    elif walk_timeout.reached() and grid.predict_current_fleet():
+                        arrive_predict = '(walk_timeout, is_current_fleet)'
+                        arrive_checker = True
+                if arrive_checker:
                     if not arrive_timer.started():
-                        logger.info(f'Arrive {location2node(location)}')
+                        logger.info(f'Arrive {location2node(location)} {arrive_predict}'.strip())
                     arrive_timer.start()
                     arrive_unexpected_timer.start()
                     if not arrive_timer.reached():
@@ -714,7 +728,7 @@ class Fleet(Camera, AmbushHandler):
             queue = queue[1:]
 
     def find_submarine(self):
-        if not (self.is_call_submarine_at_boss and self.map.select(is_submarine_spawn_point=True)):
+        if not (self.config.SUBMARINE and self.map.select(is_submarine_spawn_point=True)):
             return False
 
         fleets = self.map.select(is_submarine=True)
