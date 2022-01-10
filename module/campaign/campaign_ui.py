@@ -2,10 +2,10 @@ from module.campaign.assets import *
 from module.campaign.campaign_ocr import CampaignOcr
 from module.exception import CampaignNameError, ScriptEnd
 from module.logger import logger
+from module.ui.assets import CAMPAIGN_CHECK
 from module.ui.switch import Switch
-from module.ui.ui import UI, page_campaign, page_event, page_sp
+from module.ui.ui import UI
 
-STAGE_SHOWN_WAIT = (1, 1.2)
 MODE_SWITCH_1 = Switch('Mode_switch_1', offset=(30, 10))
 MODE_SWITCH_1.add_status('normal', SWITCH_1_NORMAL)
 MODE_SWITCH_1.add_status('hard', SWITCH_1_HARD)
@@ -27,7 +27,7 @@ class CampaignUI(UI, CampaignOcr):
         # A tricky way to use ui_ensure_index.
         self.ui_ensure_index(index, letter=self.get_chapter_index,
                              prev_button=CHAPTER_PREV, next_button=CHAPTER_NEXT,
-                             fast=True, skip_first_screenshot=True, step_sleep=STAGE_SHOWN_WAIT, finish_sleep=0)
+                             fast=True, skip_first_screenshot=True, finish_sleep=0)
 
     def campaign_ensure_mode(self, mode='normal'):
         """
@@ -85,7 +85,7 @@ class CampaignUI(UI, CampaignOcr):
         chapter, _ = self._campaign_separate_name(name)
 
         if chapter.isdigit():
-            self.ui_goto(page_campaign)
+            self.ui_goto_campaign()
             self.campaign_ensure_mode('normal')
             self.campaign_ensure_chapter(index=chapter)
             if mode == 'hard':
@@ -131,4 +131,4 @@ class CampaignUI(UI, CampaignOcr):
         Returns:
             bool: If any commission finished.
         """
-        return self.appear(page_campaign.check_button, offset=(20, 20)) and self.appear(COMMISSION_NOTICE_AT_CAMPAIGN)
+        return self.appear(CAMPAIGN_CHECK, offset=(20, 20)) and self.appear(COMMISSION_NOTICE_AT_CAMPAIGN)
