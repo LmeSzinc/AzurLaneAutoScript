@@ -3,13 +3,14 @@ import os
 import subprocess
 import threading
 import time
-from retry import retry
 from typing import Generator
 
 import requests
 from deploy.installer import DeployConfig, cached_property
 from deploy.utils import DEPLOY_CONFIG
 from module.logger import logger
+from module.webui.process_manager import AlasManager
+from module.webui.utils import TaskHandler, get_next_time
 
 
 class Config(DeployConfig):
@@ -179,6 +180,66 @@ def run_update():
         return False
     
     return True
+
+
+def update():
+    if event.is_set():
+        return
+    instances = AlasManager.running_instances()
+    names = []
+    for alas in instances:
+        names.append(alas.config_name + '\n')
+
+    _instances = instances.copy()
+    logger.info("Waiting all running alas finish.")
+    event.set()
+    while _instances:
+        for alas in _instances:
+            if not alas.alive:
+                _instances.remove(alas)
+                logger.info(f"Alas [{alas.config_name}] stopped")
+                logger.info(
+                    f"Remains: {[alas.config_name for alas in _instances]}")
+        time.sleep(0.25)
+
+    logger.info("All alas stopped, start updating")
+
+    if run_update():
+        from module.webui.app import clearup
+        clearup()
+        with open('./reloadalas', mode='w') as f:
+            f.writelines(names)
+        with open('./reloadflag', mode='w'):
+            pass
+        # program ended here and uvicorn will restart whole app
+    else:
+        logger.warning("Update failed")
+        event.clear()
+        AlasManager.start_alas(instances)
+        return False
+
+
+def schedule_restart() -> Generator:
+    th: TaskHandler
+    th = yield
+    if schedule_time is None:
+        th.remove_current_task()
+        yield
+    th._task.delay = get_next_time(schedule_time)
+    yield
+    while True:
+        if not have_update:
+            have_update = git_manager.check_update()
+        if not have_update:
+            th._task.delay = get_next_time(schedule_time)
+            yield
+            continue
+
+        update()
+        th._task.delay = get_next_time(schedule_time)
+        yield
+
+
 
 if __name__ == '__main__':
     pass

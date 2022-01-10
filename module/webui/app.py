@@ -1,20 +1,14 @@
 import argparse
-import logging
-import os
 import queue
-import threading
 import time
 from datetime import datetime
-from multiprocessing import Manager, Process
-from multiprocessing.managers import SyncManager
+from multiprocessing import Manager
 from typing import Dict, Generator, List
 
 # This must be the first to import
 from module.logger import logger  # Change folder
-import module.config.server as server
 import module.webui.lang as lang
 import module.webui.updater as updater
-from filelock import FileLock
 from module.config.config import AzurLaneConfig, Function
 from module.config.config_updater import ConfigUpdater
 from module.config.utils import (alas_instance, deep_get, deep_iter, deep_set,
@@ -26,10 +20,10 @@ from module.webui.discord_presence import close_discord_rpc, init_discord_rpc
 from module.webui.fastapi import asgi_app
 from module.webui.lang import _t, t
 from module.webui.pin import put_input, put_select
+from module.webui.process_manager import AlasManager
 from module.webui.translate import translate
-from module.webui.utils import (Icon, QueueHandler, Switch, TaskHandler,
-                                Thread, add_css, filepath_css,
-                                get_localstorage, get_next_time,
+from module.webui.utils import (Icon, Switch, TaskHandler, Thread, add_css,
+                                filepath_css, get_localstorage,
                                 get_window_visibility_state, login,
                                 parse_pin_value, re_fullmatch)
 from module.webui.widgets import (BinarySwitchButton, ScrollableCode,
@@ -46,122 +40,6 @@ from pywebio.session import go_app, info, register_thread, run_js, set_env
 config_updater = ConfigUpdater()
 webui_config = WebuiConfig()
 task_handler = TaskHandler()
-
-
-class AlasManager:
-    sync_manager: SyncManager
-    all_alas: Dict[str, "AlasManager"] = {}
-
-    def __init__(self, config_name: str = 'alas') -> None:
-        self.config_name = config_name
-        self.log_queue = self.sync_manager.Queue()
-        self.log = []
-        self.log_max_length = 500
-        self.log_reduce_length = 100
-        self._process = Process()
-        self.thd_log_queue_handler = Thread()
-
-    def start(self, func: str = 'Alas') -> None:
-        if not self.alive:
-            self._process = Process(
-                target=AlasManager.run_alas,
-                args=(self.config_name, func, self.log_queue, updater.event,))
-            self._process.start()
-            self.thd_log_queue_handler = Thread(
-                target=self._thread_log_queue_handler)
-            self.thd_log_queue_handler.start()
-        else:
-            toast(t("Gui.Toast.AlasIsRunning"), position='right', color='warn')
-
-    def stop(self) -> None:
-        lock = FileLock(f"{filepath_config(self.config_name)}.lock")
-        with lock:
-            if self.alive:
-                self._process.terminate()
-                self.log.append("Scheduler stopped.\n")
-            if self.thd_log_queue_handler.is_alive():
-                self.thd_log_queue_handler.stop()
-        logger.info(f"Alas [{self.config_name}] stopped")
-
-    def _thread_log_queue_handler(self) -> None:
-        while self.alive:
-            log = self.log_queue.get()
-            self.log.append(log)
-            if len(self.log) > self.log_max_length:
-                self.log = self.log[self.log_reduce_length:]
-
-    @property
-    def alive(self) -> bool:
-        return self._process.is_alive()
-
-    @property
-    def state(self) -> int:
-        if self.alive:
-            return 1
-        elif len(self.log) == 0 or self.log[-1] == "Scheduler stopped.\n":
-            return 2
-        else:
-            return 3
-
-    @classmethod
-    def get_alas(cls, config_name: str) -> "AlasManager":
-        """
-        Create a new alas if not exists.
-        """
-        if config_name not in cls.all_alas:
-            cls.all_alas[config_name] = AlasManager(config_name)
-        return cls.all_alas[config_name]
-
-    @staticmethod
-    def run_alas(config_name, func: str, q: queue.Queue, e: threading.Event) -> None:
-        # Setup logger
-        qh = QueueHandler(q)
-        formatter = logging.Formatter(
-            fmt='%(asctime)s.%(msecs)03d | %(levelname)s | %(message)s',
-            datefmt='%Y-%m-%d %H:%M:%S')
-        webconsole = logging.StreamHandler(stream=qh)
-        webconsole.setFormatter(formatter)
-        logging.getLogger('alas').addHandler(webconsole)
-
-        # Set server before loading any buttons.
-        config = AzurLaneConfig(config_name=config_name)
-        server.server = deep_get(
-            config.data, keys='Alas.Emulator.Server', default='cn')
-
-        # Run alas
-        if func == 'Alas':
-            from alas import AzurLaneAutoScript
-            AzurLaneAutoScript.stop_event = e
-            AzurLaneAutoScript(config_name=config_name).loop()
-        elif func == 'Daemon':
-            from module.daemon.daemon import AzurLaneDaemon
-            AzurLaneDaemon(config=config_name, task='Daemon').run()
-        elif func == 'OpsiDaemon':
-            from module.daemon.os_daemon import AzurLaneDaemon
-            AzurLaneDaemon(config=config_name, task='OpsiDaemon').run()
-        elif func == 'AzurLaneUncensored':
-            from module.daemon.uncensored import AzurLaneUncensored
-            AzurLaneUncensored(config=config_name,
-                               task='AzurLaneUncensored').run()
-            q.put("Scheduler stopped.\n")  # Prevent status turns to warning
-        elif func == 'Benchmark':
-            from module.daemon.benchmark import Benchmark
-            Benchmark(config=config_name, task='Benchmark').run()
-            q.put("Scheduler stopped.\n")  # Prevent status turns to warning
-        elif func == 'GameManager':
-            from module.daemon.game_manager import GameManager
-            GameManager(config=config_name, task='GameManager').run()
-            q.put("Scheduler stopped.\n")
-        else:
-            logger.critical("No function matched")
-
-    @classmethod
-    def running_instances(cls) -> List["AlasManager"]:
-        l = []
-        for alas in cls.all_alas.values():
-            if alas.alive:
-                l.append(alas)
-        return l
 
 
 class AlasGUI(Frame):
@@ -410,7 +288,7 @@ class AlasGUI(Frame):
             label_on=t("Gui.Button.Stop"),
             label_off=t("Gui.Button.Start"),
             onclick_on=lambda: self.alas.stop(),
-            onclick_off=lambda: self.alas.start('Alas'),
+            onclick_off=lambda: self.alas.start(updater.event, 'Alas'),
             get_state=lambda: self.alas.alive,
             color_on='off',
             color_off='on',
@@ -867,7 +745,7 @@ class AlasGUI(Frame):
         update_switch = Switch(
             status={
                 True: lambda: toast(t("Gui.Toast.ClickToUpdate"), duration=0,
-                            position='right', color='success', onclick=update)
+                                    position='right', color='success', onclick=updater.update)
             },
             get_state=lambda: updater.have_update,
             name='update_state'
@@ -899,37 +777,11 @@ def startup():
     AlasGUI.shorten_path()
     lang.reload()
     updater.event = AlasManager.sync_manager.Event()
-    task_handler.add(updater.update_state(), updater.delay)
-    task_handler.add(schedule_restart(), 86400)
+    if updater.delay > 0:
+        task_handler.add(updater.update_state(), updater.delay)
+    task_handler.add(updater.schedule_restart(), 86400)
     task_handler.start()
     init_discord_rpc()
-
-
-def start_alas(instances: List["AlasManager"] = None):
-    """
-    After update and reload, or failed to perform an update,
-    restart all alas that running before update
-    """
-    logger.hr("Restart alas")
-    if not instances:
-        instances = []
-        try:
-            with open('./reloadalas', mode='r') as f:
-                for line in f.readlines():
-                    line = line.strip()
-                    instances.append(AlasManager.get_alas(line))
-        except:
-            pass
-
-    for alas in instances:
-        logger.info(f"Starting [{alas.config_name}]")
-        alas.start()
-
-    try:
-        os.remove('./reloadalas')
-    except:
-        pass
-    logger.info("Start alas complete")
 
 
 def clearup():
@@ -943,74 +795,6 @@ def clearup():
     AlasManager.sync_manager.shutdown()
     task_handler.stop()
     logger.info("Alas closed.")
-
-
-def reload():
-    def r():
-        clearup()
-        put_loading(color='success')
-        run_js('setTimeout(function(){window.location.href = "/";}, 3000);')
-        with open('./reloadflag', mode='w'):
-            pass
-
-    put_button(
-        label='Reload',
-        onclick=r,
-        color='danger'
-    )
-
-
-def update():
-    if updater.event.is_set():
-        return
-    instances = AlasManager.running_instances()
-    names = []
-    for alas in instances:
-        names.append(alas.config_name + '\n')
-
-    _instances = instances.copy()
-    logger.info("Waiting all running alas finish.")
-    updater.event.set()
-    while _instances:
-        for alas in _instances:
-            if not alas.alive:
-                _instances.remove(alas)
-                logger.info(f"Alas [{alas.config_name}] stopped")
-                logger.info(
-                    f"Remains: {[alas.config_name for alas in _instances]}")
-        time.sleep(0.25)
-
-    logger.info("All alas stopped, start updating")
-
-    if updater.run_update():
-        clearup()
-        with open('./reloadalas', mode='w') as f:
-            f.writelines(names)
-        with open('./reloadflag', mode='w'):
-            pass
-        # program ended here and uvicorn will restart whole app
-    else:
-        logger.warning("Update failed")
-        updater.event.clear()
-        start_alas(instances)
-        return False
-
-
-def schedule_restart() -> Generator:
-    th = yield
-    th._task.delay = get_next_time(updater.schedule_time)
-    yield
-    while True:
-        if not updater.have_update:
-            updater.have_update = updater.git_manager.check_update()
-        if not updater.have_update:
-            th._task.delay = get_next_time(updater.schedule_time)
-            yield
-            continue
-
-        update()
-        th._task.delay = get_next_time(updater.schedule_time)
-        yield
 
 
 def app():
@@ -1042,11 +826,11 @@ def app():
         AlasGUI().run()
 
     app = asgi_app(
-        [index, translate, reload],
+        applications=[index, translate],
         cdn=cdn,
         static_dir=None,
         debug=True,
-        on_startup=[startup, start_alas],
+        on_startup=[startup, AlasManager.start_alas],
         on_shutdown=[clearup]
     )
 
