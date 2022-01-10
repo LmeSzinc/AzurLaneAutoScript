@@ -23,13 +23,13 @@ class RewardShop(ShopUI, GachaUI):
         # Munitions shops
         self.ui_goto_shop()
 
-        if self.shop_bottom_navbar_ensure(left=5):
+        if self.shop_bottom_navbar_ensure(left=4):
             MeritShop(self.config, self.device).run()
 
-        if self.shop_bottom_navbar_ensure(left=5):
+        if self.shop_bottom_navbar_ensure(left=3):
             CoreShop(self.config, self.device).run()
 
-        if self.shop_bottom_navbar_ensure(left=5):
+        if self.shop_bottom_navbar_ensure(left=1):
             GuildShop(self.config, self.device).run()
 
         # Gacha shops
