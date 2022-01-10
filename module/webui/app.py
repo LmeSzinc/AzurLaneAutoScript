@@ -565,8 +565,6 @@ class AlasGUI(Frame):
         self.init_menu(name='Update')
         self.set_title(t("Gui.MenuDevelop.Update"))
 
-        updater.check_update()
-
         put_row(content=[
             put_scope('updater_loading'),
             None,
@@ -581,6 +579,7 @@ class AlasGUI(Frame):
             clear('updater_loading')
             clear('updater_state')
             clear('updater_btn')
+            print(state)
             if state == 0:
                 put_loading('border', 'secondary', 'updater_loading').style(
                     "--loading-border-fill--")
@@ -592,7 +591,7 @@ class AlasGUI(Frame):
                            )
             elif state == 1:
                 put_loading('grow', 'success', 'updater_loading').style(
-                    "--loading-glow--")
+                    "--loading-grow--")
                 put_text(t('Gui.Update.HaveUpdate'), scope='updater_state')
                 put_button(t('Gui.Button.ClickToUpdate'),
                            onclick=updater.run_update,
@@ -605,7 +604,7 @@ class AlasGUI(Frame):
                 put_text(t('Gui.Update.UpdateChecking'), scope='updater_state')
             elif state == 'failed':
                 put_loading('grow', 'danger', 'updater_loading').style(
-                    "--loading-glow--")
+                    "--loading-grow--")
                 put_text(t('Gui.Update.UpdateFailed'), scope='updater_state')
                 put_button(t('Gui.Button.RetryUpdate'),
                            onclick=updater.run_update,
@@ -641,8 +640,8 @@ class AlasGUI(Frame):
                            disabled=True
                            )
             elif state == 'reload':
-                put_loading('glow', 'success', 'updater_loading').style(
-                    "--loading-glow--")
+                put_loading('grow', 'success', 'updater_loading').style(
+                    "--loading-grow--")
                 put_text(t('Gui.Update.UpdateSuccess'), scope='updater_state')
             elif state == 'cancel':
                 put_loading('border', 'danger', 'updater_loading').style(
@@ -667,6 +666,8 @@ class AlasGUI(Frame):
 
         self.task_handler.add(updater_switch.g(),
                               delay=0.5, pending_delete=True)
+
+        updater.check_update()
 
     def ui_develop(self) -> None:
         self.init_aside(name="Develop")
