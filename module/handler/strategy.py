@@ -1,6 +1,5 @@
 import numpy as np
 
-from module.base.timer import Timer
 from module.handler.assets import *
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
@@ -15,61 +14,6 @@ formation.add_status('diamond', check_button=FORMATION_3)
 submarine_hunt = Switch('Submarine_hunt', offset=120)
 submarine_hunt.add_status('on', check_button=SUBMARINE_HUNT_ON)
 submarine_hunt.add_status('off', check_button=SUBMARINE_HUNT_OFF)
-
-
-class SwitchWithHandler(Switch):
-    @staticmethod
-    def handle_submarine_zone_icon_bug(main):
-        """
-        When switching the submarine zone, the icon in the strategy don't change.
-        If click submarine hunt, submarine zone will show the correct icon.
-        So the key to deal with submarine zone icon bug, is to double click submarine_hunt.
-
-        Args:
-            main (ModuleBase):
-        """
-        current = submarine_hunt.get(main=main)
-        opposite = 'off' if current == 'on' else 'on'
-        submarine_hunt.set(opposite, main=main)
-        submarine_hunt.set(current, main=main)
-
-    def set(self, status, main, skip_first_screenshot=True):
-        """
-        Args:
-            status (str):
-            main (ModuleBase):
-            skip_first_screenshot (bool):
-
-        Returns:
-            bool:
-        """
-        changed = False
-        warning_show_timer = Timer(5, count=10).start()
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                main.device.screenshot()
-            print('scr')
-
-            current = self.get(main=main)
-            logger.attr(self.name, current)
-            if current == status:
-                return changed
-
-            if current == 'unknown':
-                if warning_show_timer.reached():
-                    logger.warning(f'Unknown {self.name} switch')
-                    warning_show_timer.reset()
-                continue
-
-            for data in self.status_list:
-                if data['status'] == current:
-                    main.device.click(data['click_button'])
-                    main.device.sleep(data['sleep'])
-                    self.handle_submarine_zone_icon_bug(main=main)  # Different from Switch.
-                    changed = True
-
 
 submarine_view = Switch('Submarine_view', offset=120)
 submarine_view.add_status('on', check_button=SUBMARINE_VIEW_ON)
