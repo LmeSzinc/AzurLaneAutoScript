@@ -122,6 +122,7 @@ class GuildShop(ShopBase, ShopUI):
             ScriptEnd:
         """
         # Ensure there is valid SELECT_* combination for item group
+        # Stow variables for frequent usage
         lgroup = item.group.lower()
         ugroup = item.group.upper()
         try:
@@ -179,6 +180,7 @@ class GuildShop(ShopBase, ShopUI):
             raise ScriptEnd
 
         # Retrieve appropriate globals and config values for processing
+        # Stow variables for frequent usage
         ugroup = item.group.upper()
         postfix = item.postfix
         try:

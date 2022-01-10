@@ -1,4 +1,3 @@
-from module.base.base import ModuleBase
 from module.logger import logger
 from module.gacha.ui import GachaUI
 from module.shop.shop_core import CoreShop
