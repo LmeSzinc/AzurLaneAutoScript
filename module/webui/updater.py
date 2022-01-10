@@ -62,11 +62,18 @@ class GitManager(Config):
         if 'gitee' in r[2]:
             base = "https://gitee.com/api/v5/repos/"
             headers = {}
+            token = self.config['ApiToken']
+            if token:
+                para = {"access_token": token}
         else:
             base = "https://api.github.com/repos/"
             headers = {
                 'Accept': 'application/vnd.github.v3.sha'
             }
+            para = {}
+            token = self.config['ApiToken']
+            if token:
+                headers['Authorization'] = 'token ' + token
 
         p = subprocess.run(f"{self.git} rev-parse HEAD",
                            capture_output=True, text=True)
@@ -84,18 +91,10 @@ class GitManager(Config):
 
         try:
             list_commit = requests.get(
-                base + f"{owner}/{repo}/branches/{self.branch}", headers=headers)
-            get_commit = requests.get(
-                base + f"{owner}/{repo}/commits/" + local_sha, headers=headers)
+                base + f"{owner}/{repo}/branches/{self.branch}", headers=headers, params=para)
         except Exception as e:
             logger.exception(e)
             logger.warning("Check update failed")
-            return False
-
-        if get_commit.status_code != 200:
-            # for develops
-            logger.info(
-                f"Cannot find local commit {local_sha[:8]} in upstream, skip update")
             return False
 
         if list_commit.status_code != 200:
@@ -111,6 +110,20 @@ class GitManager(Config):
 
         if sha == local_sha:
             logger.info("No update")
+            return False
+
+        try:
+            get_commit = requests.get(
+                base + f"{owner}/{repo}/commits/" + local_sha, headers=headers, params=para)
+        except Exception as e:
+            logger.exception(e)
+            logger.warning("Check update failed")
+            return False
+
+        if get_commit.status_code != 200:
+            # for develops
+            logger.info(
+                f"Cannot find local commit {local_sha[:8]} in upstream, skip update")
             return False
 
         logger.info(f"Update {sha[:8]} avaliable")

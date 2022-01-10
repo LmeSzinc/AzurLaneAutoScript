@@ -20,7 +20,7 @@ class DeployConfig:
     def show_config(self):
         hr0('Show deploy config')
         for k, v in self.config.items():
-            if k == 'Password':
+            if k in ('Password', 'ApiToken'):
                 continue
             print(f'{k}: {v}')
 
