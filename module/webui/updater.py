@@ -6,7 +6,9 @@ import time
 from typing import Generator
 
 import requests
-from deploy.installer import DeployConfig, cached_property
+from deploy.installer import DeployConfig
+from deploy.installer import PipManager as Pip
+from deploy.installer import cached_property, urlparse
 from deploy.utils import DEPLOY_CONFIG
 from module.logger import logger
 from module.webui.process_manager import AlasManager
@@ -140,12 +142,32 @@ class GitManager(Config):
         return True
 
 
-class PipManager(Config):
-    pass
+class PipManager(Config, Pip):
+    def update(self):
+        if not self.bool('InstallDependencies'):
+            print('InstallDependencies is disabled, skip')
+            return True
+
+        arg = []
+        if self.bool('PypiMirror'):
+            mirror = self.config['PypiMirror']
+            arg += ['-i', mirror]
+            # Trust http mirror
+            if 'http:' in mirror:
+                arg += ['--trusted-host', urlparse(mirror).hostname]
+
+        # Don't update pip, just leave it.
+        # hr1('Update pip')
+        # self.execute(f'"{self.pip}" install --upgrade pip{arg}')
+        arg += ['--disable-pip-version-check']
+        arg = ' ' + ' '.join(arg) if arg else ''
+        if self.execute(f'"{self.pip}" install -r requirements.txt{arg}'):
+            return True
 
 
 have_update = False
 git_manager = GitManager()
+pip_manager = PipManager()
 delay = int(git_manager.config['CheckUpdateInterval'])*60
 schedule_time = datetime.time.fromisoformat(
     git_manager.config['AutoRestartTime'])
@@ -172,7 +194,6 @@ def run_update():
         logger.warning("Git update failed")
         return False
     for _ in range(3):
-        break
         if pip_manager.update():
             break
     else:
@@ -243,5 +264,6 @@ def schedule_restart() -> Generator:
 
 if __name__ == '__main__':
     pass
-    # if git_manager.check_update():
-    #     git_manager.update()
+    if git_manager.check_update():
+        git_manager.update()
+    pip_manager.update()

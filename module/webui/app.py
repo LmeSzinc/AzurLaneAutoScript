@@ -288,7 +288,7 @@ class AlasGUI(Frame):
             label_on=t("Gui.Button.Stop"),
             label_off=t("Gui.Button.Start"),
             onclick_on=lambda: self.alas.stop(),
-            onclick_off=lambda: self.alas.start(updater.event, 'Alas'),
+            onclick_off=lambda: self.alas.start('Alas', updater.event),
             get_state=lambda: self.alas.alive,
             color_on='off',
             color_off='on',
