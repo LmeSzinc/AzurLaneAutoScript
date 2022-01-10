@@ -23,6 +23,14 @@ class Config(DeployConfig):
 
 
 class Updater(Config, Installer):
+    def __init__(self, file=DEPLOY_CONFIG):
+        super().__init__(file=file)
+        self.state = 0
+        self.delay = int(self.config['CheckUpdateInterval'])*60
+        self.schedule_time = datetime.time.fromisoformat(
+            self.config['AutoRestartTime'])
+        self.event: threading.Event = None
+
     @cached_property
     def repo(self):
         return self.config['Repository']
@@ -31,7 +39,8 @@ class Updater(Config, Installer):
     def branch(self):
         return self.config['Branch']
 
-    def check_update(self) -> bool:
+    def _check_update(self) -> bool:
+        self.state = 'checking'
         r = self.repo.split('/')
         owner = r[3]
         repo = r[4]
@@ -55,13 +64,13 @@ class Updater(Config, Installer):
                            capture_output=True, text=True)
         if p.stdout is None:
             logger.warning("Cannot get local commit sha1")
-            return False
+            return 0
 
         local_sha = p.stdout
 
         if len(local_sha) != 41:
             logger.warning("Cannot get local commit sha1")
-            return False
+            return 0
 
         local_sha = local_sha.strip()
 
@@ -71,22 +80,22 @@ class Updater(Config, Installer):
         except Exception as e:
             logger.exception(e)
             logger.warning("Check update failed")
-            return False
+            return 0
 
         if list_commit.status_code != 200:
             logger.warning(
                 f"Check update failed, code {list_commit.status_code}")
-            return False
+            return 0
         try:
             sha = list_commit.json()['commit']['sha']
         except Exception as e:
             logger.exception(e)
             logger.warning("Check update failed when parsing return json")
-            return False
+            return 0
 
         if sha == local_sha:
             logger.info("No update")
-            return False
+            return 0
 
         try:
             get_commit = requests.get(
@@ -94,16 +103,20 @@ class Updater(Config, Installer):
         except Exception as e:
             logger.exception(e)
             logger.warning("Check update failed")
-            return False
+            return 0
 
         if get_commit.status_code != 200:
             # for develops
             logger.info(
                 f"Cannot find local commit {local_sha[:8]} in upstream, skip update")
-            return False
+            return 0
 
         logger.info(f"Update {sha[:8]} avaliable")
-        return True
+        return 1
+
+    def check_update(self):
+        if self.state in (0, 'failed'):
+            self.state = updater._check_update()
 
     @retry(ExecutionError, tries=3, delay=10, logger=logger)
     def git_install(self):
@@ -126,81 +139,92 @@ class Updater(Config, Installer):
         builtins.print = backup
         return True
 
+    def run_update(self):
+        if self.state not in ('failed', 0, 1):
+            return
+        self._start_update()
 
-have_update = False
-updater = Updater()
-delay = int(updater.config['CheckUpdateInterval'])*60
-schedule_time = datetime.time.fromisoformat(
-    updater.config['AutoRestartTime'])
-event: threading.Event = None
+    def _start_update(self):
+        self.state = 'start'
+        instances = AlasManager.running_instances()
+        names = []
+        for alas in instances:
+            names.append(alas.config_name + '\n')
 
+        logger.info("Waiting all running alas finish.")
+        self._wait_update(instances, names)
 
-def update_state() -> Generator:
-    global have_update
-    yield
-    while True:
-        if not have_update:
-            have_update = updater.check_update()
-        yield
+    def _wait_update(self, instances, names):
+        if self.state == 'cancel':
+            self.state = 1
+        self.state = 'wait'
+        self.event.set()
+        _instances = instances.copy()
+        while _instances:
+            for alas in _instances:
+                if not alas.alive:
+                    _instances.remove(alas)
+                    logger.info(f"Alas [{alas.config_name}] stopped")
+                    logger.info(
+                        f"Remains: {[alas.config_name for alas in _instances]}")
+            if self.state == 'cancel':
+                self.state = 1
+                AlasManager.start_alas(instances)
+                return
+            time.sleep(0.25)
+        self._run_update(instances, names)
 
+    def _run_update(self, instances, names):
+        self.state = 'run update'
+        logger.info("All alas stopped, start updating")
 
-def update():
-    if event.is_set():
-        return
-    instances = AlasManager.running_instances()
-    names = []
-    for alas in instances:
-        names.append(alas.config_name + '\n')
-
-    _instances = instances.copy()
-    logger.info("Waiting all running alas finish.")
-    event.set()
-    while _instances:
-        for alas in _instances:
-            if not alas.alive:
-                _instances.remove(alas)
-                logger.info(f"Alas [{alas.config_name}] stopped")
-                logger.info(
-                    f"Remains: {[alas.config_name for alas in _instances]}")
-        time.sleep(0.25)
-
-    logger.info("All alas stopped, start updating")
-
-    if updater.update():
-        from module.webui.app import clearup
-        clearup()
-        with open('./reloadalas', mode='w') as f:
-            f.writelines(names)
+        if updater.update():
+            self.state = 'reload'
+            with open('./reloadalas', mode='w') as f:
+                f.writelines(names)
+            from module.webui.app import clearup
+            clearup()
+            time.sleep(1.25)
+            self._trigger_reload()
+        else:
+            self.state = 'failed'
+            logger.warning("Update failed")
+            self.event.clear()
+            AlasManager.start_alas(instances)
+            return False
+    
+    @staticmethod
+    def _trigger_reload():
         with open('./reloadflag', mode='w'):
+            # app ended here and uvicorn will restart whole app
             pass
-        # program ended here and uvicorn will restart whole app
-    else:
-        logger.warning("Update failed")
-        event.clear()
-        AlasManager.start_alas(instances)
-        return False
 
-
-def schedule_restart() -> Generator:
-    th: TaskHandler
-    th = yield
-    if schedule_time is None:
-        th.remove_current_task()
-        yield
-    th._task.delay = get_next_time(schedule_time)
-    yield
-    while True:
-        if not have_update:
-            have_update = updater.check_update()
-        if not have_update:
-            th._task.delay = get_next_time(schedule_time)
+    def schedule_restart(self) -> Generator:
+        th: TaskHandler
+        th = yield
+        if self.schedule_time is None:
+            th.remove_current_task()
             yield
-            continue
-
-        update()
-        th._task.delay = get_next_time(schedule_time)
+        th._task.delay = get_next_time(self.schedule_time)
         yield
+        while True:
+            if self.state == 0:
+                self.state = updater._check_update()
+            if self.state != 1:
+                th._task.delay = get_next_time(self.schedule_time)
+                yield
+                continue
 
+            if not self.run_update():
+                self.state = 'failed'
+            th._task.delay = get_next_time(self.schedule_time)
+            yield
+
+    def cancel(self):
+        self.state = 'cancel'
+
+
+updater = Updater()
 
 if __name__ == '__main__':
     pass

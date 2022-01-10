@@ -441,3 +441,21 @@ button.btn.dropdown-toggle {
     margin: 0;
     padding-right: .25rem;
 }
+
+*[style*="--loading-glow--"] {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+*[style*="--loading-border--"] {
+    width: 1.5rem;
+    height: 1.5rem;
+    border: .2em solid currentColor;
+    border-right-color: transparent;
+}
+
+*[style*="--loading-border-fill--"] {
+    width: 1.5rem;
+    height: 1.5rem;
+    border: .2em solid currentColor;
+}

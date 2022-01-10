@@ -8,7 +8,6 @@ from typing import Dict, Generator, List
 # This must be the first to import
 from module.logger import logger  # Change folder
 import module.webui.lang as lang
-import module.webui.updater as updater
 from module.config.config import AzurLaneConfig, Function
 from module.config.config_updater import ConfigUpdater
 from module.config.utils import (alas_instance, deep_get, deep_iter, deep_set,
@@ -22,6 +21,7 @@ from module.webui.lang import _t, t
 from module.webui.pin import put_input, put_select
 from module.webui.process_manager import AlasManager
 from module.webui.translate import translate
+from module.webui.updater import updater
 from module.webui.utils import (Icon, Switch, TaskHandler, Thread, add_css,
                                 filepath_css, get_localstorage,
                                 get_window_visibility_state, login,
@@ -108,22 +108,21 @@ class AlasGUI(Frame):
 
         if state == 1:
             put_row([
-                put_loading(color='success').style(
-                    "width:1.5rem;height:1.5rem;border:.2em solid currentColor;border-right-color:transparent;"),
+                put_loading(color='success').style("--loading-border--"),
                 None,
                 put_text(t("Gui.Status.Running"))
             ], size='auto 2px 1fr')
         elif state == 2:
             put_row([
                 put_loading(color='secondary').style(
-                    "width:1.5rem;height:1.5rem;border:.2em solid currentColor;"),
+                    "--loading-border-fill--"),
                 None,
                 put_text(t("Gui.Status.Inactive"))
             ], size='auto 2px 1fr')
         elif state == 3:
             put_row([
                 put_loading(shape='grow', color='warning').style(
-                    "width:1.5rem;height:1.5rem;"),
+                    "--loading-glow--"),
                 None,
                 put_text(t("Gui.Status.Warning"))
             ], size='auto 2px 1fr')
@@ -550,10 +549,124 @@ class AlasGUI(Frame):
             color="menu"
         ).style(f'--menu-Translate--')
 
+        put_button(
+            label=t("Gui.MenuDevelop.Update"),
+            onclick=self.dev_update,
+            color="menu"
+        ).style(f'--menu-Update--')
+
     def dev_translate(self) -> None:
         go_app('translate', new_window=True)
         lang.TRANSLATE_MODE = True
         self.show()
+
+    @use_scope('content', clear=True)
+    def dev_update(self) -> None:
+        self.init_menu(name='Update')
+        self.set_title(t("Gui.MenuDevelop.Update"))
+
+        updater.check_update()
+
+        put_row(content=[
+            put_scope('updater_loading'),
+            None,
+            put_scope('updater_state')
+        ], size='auto .25rem 1fr')
+
+        put_scope('updater_btn')
+
+        def u(state):
+            if state == -1:
+                return
+            clear('updater_loading')
+            clear('updater_state')
+            clear('updater_btn')
+            if state == 0:
+                put_loading('border', 'secondary', 'updater_loading').style(
+                    "--loading-border-fill--")
+                put_text(t('Gui.Update.UpToDate'), scope='updater_state')
+                put_button(t('Gui.Button.CheckUpdate'),
+                           onclick=updater.check_update,
+                           color='info',
+                           scope='updater_btn'
+                           )
+            elif state == 1:
+                put_loading('grow', 'success', 'updater_loading').style(
+                    "--loading-glow--")
+                put_text(t('Gui.Update.HaveUpdate'), scope='updater_state')
+                put_button(t('Gui.Button.ClickToUpdate'),
+                           onclick=updater.run_update,
+                           color='success',
+                           scope='updater_btn'
+                           )
+            elif state == 'checking':
+                put_loading('border', 'primary', 'updater_loading').style(
+                    "--loading-border--")
+                put_text(t('Gui.Update.UpdateChecking'), scope='updater_state')
+            elif state == 'failed':
+                put_loading('grow', 'danger', 'updater_loading').style(
+                    "--loading-glow--")
+                put_text(t('Gui.Update.UpdateFailed'), scope='updater_state')
+                put_button(t('Gui.Button.RetryUpdate'),
+                           onclick=updater.run_update,
+                           color='primary',
+                           scope='updater_btn'
+                           )
+            elif state == 'start':
+                put_loading('border', 'primary', 'updater_loading').style(
+                    "--loading-border--")
+                put_text(t('Gui.Update.UpdateStart'), scope='updater_state')
+                put_button(t('Gui.Button.CancelUpdate'),
+                           onclick=updater.cancel,
+                           color='danger',
+                           scope='updater_btn'
+                           )
+            elif state == 'wait':
+                put_loading('border', 'primary', 'updater_loading').style(
+                    "--loading-border--")
+                put_text(t('Gui.Update.UpdateWait'), scope='updater_state')
+                put_button(t('Gui.Button.CancelUpdate'),
+                           onclick=updater.cancel,
+                           color='danger',
+                           scope='updater_btn'
+                           )
+            elif state == 'run update':
+                put_loading('border', 'primary', 'updater_loading').style(
+                    "--loading-border--")
+                put_text(t('Gui.Update.UpdateRun'), scope='updater_state')
+                put_button(t('Gui.Button.CancelUpdate'),
+                           onclick=updater.cancel,
+                           color='danger',
+                           scope='updater_btn',
+                           disabled=True
+                           )
+            elif state == 'reload':
+                put_loading('glow', 'success', 'updater_loading').style(
+                    "--loading-glow--")
+                put_text(t('Gui.Update.UpdateSuccess'), scope='updater_state')
+            elif state == 'cancel':
+                put_loading('border', 'danger', 'updater_loading').style(
+                    "--loading-border--")
+                put_text(t('Gui.Update.UpdateCancel'), scope='updater_state')
+                put_button(t('Gui.Button.CancelUpdate'),
+                           onclick=updater.cancel,
+                           color='danger',
+                           scope='updater_btn',
+                           disabled=True
+                           )
+            else:
+                put_text("Something went wrong, please contact develops",
+                         scope='updater_state')
+                put_text(f"state: {state}", scope='updater_state')
+
+        updater_switch = Switch(
+            status=u,
+            get_state=lambda: updater.state,
+            name='updater'
+        )
+
+        self.task_handler.add(updater_switch.g(),
+                              delay=0.5, pending_delete=True)
 
     def ui_develop(self) -> None:
         self.init_aside(name="Develop")
@@ -708,7 +821,7 @@ class AlasGUI(Frame):
         );
         ''')
 
-        menu = get_localstorage('menu')
+        aside = get_localstorage('aside')
         self.show()
 
         # detect config change
@@ -747,21 +860,21 @@ class AlasGUI(Frame):
 
         update_switch = Switch(
             status={
-                True: lambda: toast(t("Gui.Toast.ClickToUpdate"), duration=0,
-                                    position='right', color='success', onclick=updater.update)
+                1: lambda: toast(t("Gui.Toast.ClickToUpdate"), duration=0,
+                                 position='right', color='success', onclick=self.dev_update)
             },
-            get_state=lambda: updater.have_update,
+            get_state=lambda: updater.state,
             name='update_state'
         )
 
         self.task_handler.add(self.state_switch.g(), 2)
         self.task_handler.add(visibility_state_switch.g(), 15)
-        self.task_handler.add(update_switch.g(), 10)
+        self.task_handler.add(update_switch.g(), 1)
         self.task_handler.start()
 
         # Return to previous page
-        if menu not in ["Develop", "Home", None]:
-            self.ui_alas(menu)
+        if aside not in ["Develop", "Home", None]:
+            self.ui_alas(aside)
 
 
 def debug():
@@ -781,10 +894,10 @@ def startup():
     lang.reload()
     updater.event = AlasManager.sync_manager.Event()
     if updater.delay > 0:
-        task_handler.add(updater.update_state(), updater.delay)
+        task_handler.add(updater.check_update, updater.delay)
     task_handler.add(updater.schedule_restart(), 86400)
     task_handler.start()
-    if updater.updater.bool('DiscordRichPresence'):
+    if updater.bool('DiscordRichPresence'):
         init_discord_rpc()
 
 

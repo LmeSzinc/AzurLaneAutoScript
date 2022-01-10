@@ -38,7 +38,7 @@ class Frame(Base):
             self.expand_menu()
         if name:
             self.active_button('aside', name)
-            set_localstorage('menu', name)
+            set_localstorage('aside', name)
 
     def init_menu(self,
                   collapse_menu: bool = True,

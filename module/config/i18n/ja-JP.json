@@ -1767,7 +1767,11 @@
       "ScrollON": "Gui.Button.ScrollON",
       "ScrollOFF": "Gui.Button.ScrollOFF",
       "ClearLog": "Gui.Button.ClearLog",
-      "Setting": "Gui.Button.Setting"
+      "Setting": "Gui.Button.Setting",
+      "CheckUpdate": "Gui.Button.CheckUpdate",
+      "ClickToUpdate": "Gui.Button.ClickToUpdate",
+      "RetryUpdate": "Gui.Button.RetryUpdate",
+      "CancelUpdate": "Gui.Button.CancelUpdate"
     },
     "Toast": {
       "DisableTranslateMode": "Gui.Toast.DisableTranslateMode",
@@ -1786,7 +1790,8 @@
     },
     "MenuDevelop": {
       "HomePage": "Gui.MenuDevelop.HomePage",
-      "Translate": "Gui.MenuDevelop.Translate"
+      "Translate": "Gui.MenuDevelop.Translate",
+      "Update": "Gui.MenuDevelop.Update"
     },
     "Overview": {
       "Scheduler": "Gui.Overview.Scheduler",
@@ -1802,6 +1807,16 @@
       "CopyFrom": "Gui.AddAlas.CopyFrom",
       "Confirm": "Gui.AddAlas.Confirm",
       "FileExist": "Gui.AddAlas.FileExist"
+    },
+    "Update": {
+      "UpToDate": "Gui.Update.UpToDate",
+      "HaveUpdate": "Gui.Update.HaveUpdate",
+      "UpdateFailed": "Gui.Update.UpdateFailed",
+      "UpdateStart": "Gui.Update.UpdateStart",
+      "UpdateWait": "Gui.Update.UpdateWait",
+      "UpdateRun": "Gui.Update.UpdateRun",
+      "UpdateSuccess": "Gui.Update.UpdateSuccess",
+      "UpdateChecking": "Gui.Update.UpdateChecking"
     },
     "Text": {
       "InvalidFeedBack": "Gui.Text.InvalidFeedBack"

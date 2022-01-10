@@ -1767,7 +1767,11 @@
       "ScrollON": "Auto Scroll ON",
       "ScrollOFF": "Auto Scroll OFF",
       "ClearLog": "Clear Log",
-      "Setting": "Setting"
+      "Setting": "Setting",
+      "CheckUpdate": "Check update",
+      "ClickToUpdate": "Click to update",
+      "RetryUpdate": "Retry update",
+      "CancelUpdate": "Cancel update"
     },
     "Toast": {
       "DisableTranslateMode": "Click here to disable translate mode",
@@ -1786,7 +1790,8 @@
     },
     "MenuDevelop": {
       "HomePage": "Home",
-      "Translate": "Translate"
+      "Translate": "Translate",
+      "Update": "Updater"
     },
     "Overview": {
       "Scheduler": "Scheduler",
@@ -1802,6 +1807,16 @@
       "CopyFrom": "Copy from existing config",
       "Confirm": "Add",
       "FileExist": "A config with the same name exists, please choose another one"
+    },
+    "Update": {
+      "UpToDate": "Latest version",
+      "HaveUpdate": "A new version is available",
+      "UpdateFailed": "Update failed. Logs can be found in ./log/*_gui.txt",
+      "UpdateStart": "Start update",
+      "UpdateWait": "Waiting for all alas complete current task",
+      "UpdateRun": "Updating",
+      "UpdateSuccess": "Update succeeded, restarting",
+      "UpdateChecking": "Checking for updates"
     },
     "Text": {
       "InvalidFeedBack": "Invalid format. Example: {0}"
