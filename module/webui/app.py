@@ -757,7 +757,7 @@ class AlasGUI(Frame):
         self.task_handler.start()
 
         # Return to previous page
-        if menu not in ["Develop", "Home"]:
+        if menu not in ["Develop", "Home", None]:
             self.ui_alas(menu)
 
 
