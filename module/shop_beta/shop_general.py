@@ -27,6 +27,9 @@ class GeneralShop(ShopBase, ShopUI):
 
     def shop_currency(self):
         """
+        Ocr shop general currency
+        (gold coins and gems)
+
         Returns:
             int: gold coin amount
         """

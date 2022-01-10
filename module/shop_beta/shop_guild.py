@@ -2,6 +2,7 @@ from module.base.decorator import Config
 from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1, GET_SHIP
+from module.exception import ScriptEnd
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.shop.assets import *
@@ -19,25 +20,24 @@ OCR_SHOP_SELECT_TOTAL_PRICE = Digit(SHOP_SELECT_TOTAL_PRICE, letter=(255, 255, 2
 class GuildItemGrid(ShopItemGrid):
     def predict(self, image, name=True, amount=True, cost=False, price=False, tag=False):
         """
-        Overridden to iterate and add attribute for items classified as having
-        secondary grid and additional information
+        Overridden to iterate, add attributes to assist with
+        shop_*_select_* funcs
         """
         super().predict(image, name, amount, cost, price, tag)
 
-        # Loop again for Guild Shop items
-        # Add attr 'secondary_grid' used to flag and id
-        # Add attr 'additional' to id specific config
-        # if applicable
+        # Add attributes to assist with
+        # shop_*_select_* funcs
         for item in self.items:
-            # Defaults
-            item.secondary_grid = None
-            item.additional = None
+            if item.group is None:
+                continue
 
-            name = item.name[:-2].lower()
-            if name in SELECT_ITEMS:
-                item.secondary_grid = name
-                if name != 'pr' and name != 'dr':
-                    item.additional = item.name[-2:]
+            # Designate appropriate 'postfix' attr
+            # for globals and config referencing
+            lgroup = item.group.lower()
+            if lgroup in SELECT_ITEMS:
+                item.postfix = ''
+                if lgroup != 'pr' and lgroup != 'dr':
+                    item.postfix = f'_{item.tier.upper()}'
 
         return self.items
 
@@ -86,8 +86,10 @@ class GuildShop(ShopBase, ShopUI):
 
     def shop_currency(self):
         """
+        Ocr shop guild currency
+
         Returns:
-            int:
+            int: guild coin amount
         """
         self._shop_guild_coins = OCR_SHOP_GUILD_COINS.ocr(self.device.image)
         logger.info(f'Guild coins: {self._shop_guild_coins}')
@@ -105,55 +107,60 @@ class GuildShop(ShopBase, ShopUI):
             return False
         return True
 
-    def shop_get_select(self, category, choice):
+    def shop_get_select(self, item, choice):
         """
         Args:
-            category: String identifies SELECT combination
-            choice (string, list): String identifies index within SELECT combination
-                                   List types exclusively for PR series selection
+            item (Item): Item for reference
+            choice (str, list(str)):
+                String identifies index within SELECT combination
+                List types exclusively for PR/DR series selection
 
         Returns:
             Button:
-        """
-        # Ensure there is valid SELECT combination according to category
-        try:
-            choices = globals()[f'SELECT_{category.upper()}']
-        except KeyError:
-            logger.warning(f'shop_get_select --> Missing SELECT_{category.upper()}')
-            return None
 
-        # Retrieve the correct SELECT_GRID based on category
+        Raises:
+            ScriptEnd:
+        """
+        # Ensure there is valid SELECT_* combination for item group
+        lgroup = item.group.lower()
+        ugroup = item.group.upper()
+        try:
+            choices = globals()[f'SELECT_{ugroup}']
+        except KeyError:
+            logger.critical(f'Missing SELECT_{ugroup} (global)')
+            raise ScriptEnd
+
+        # Choose the applicable SELECT_GRID_* for item group
         shop_select_grid = None
-        if category == 'book':
+        if lgroup == 'book':
             shop_select_grid = SELECT_GRID_3X1
-        elif category == 'box' or category == 'retrofit':
+        elif lgroup == 'box' or lgroup == 'retrofit':
             shop_select_grid = SELECT_GRID_4X1
-        elif category == 'pr' and isinstance(choice, list):
-            # Determine series of PR is displayed
-            # Position of successful appearance
-            # determines correct shop_select_grid
-            results = [self.appear(button, offset=(20, 20)) for button in SHOP_SELECT_PR]
-            for idx, result in enumerate(results):
-                if result:
+        elif lgroup == 'pr' and isinstance(choice, list):
+            # Complex grid retrieval based on PR/DR series
+            # Determine series through asset appearance
+            # and convert choice from list(str) to str
+            for idx, button in enumerate(SHOP_SELECT_PR):
+                if self.appear(button, offset=(20, 20)):
                     choice = choice[idx]
                     if idx == 0:
                         shop_select_grid = SELECT_GRID_6X1
                     else:
                         shop_select_grid = SELECT_GRID_4X1
                     break
-        elif category == 'plate':
+        elif lgroup == 'plate':
             shop_select_grid = SELECT_GRID_5X1
 
         if shop_select_grid is None:
-            logger.warning(f'shop_get_select --> No grid applicable to category \'{category}\'')
+            logger.warning(f'Failed to find applicable grid for group \'{lgroup}\'')
             return None
 
-        # Utilize known fixed location for correct item
+        # Return button from appropriate grid based on 'choice'
         if choice in choices:
             return shop_select_grid.buttons[choices.get(choice)]
 
-        logger.warning(f'shop_get_select --> Missing \'{choice}\' in SELECT_{category.upper()}')
-        return None
+        logger.critical(f'Missing \'{choice}\' in SELECT_{ugroup}')
+        raise ScriptEnd
 
     def shop_buy_select_execute(self, item):
         """
@@ -162,42 +169,41 @@ class GuildShop(ShopBase, ShopUI):
 
         Returns:
             bool: implicating failed to execute
+
+        Raises:
+            ScriptEnd:
         """
-        # Base Case - Must have 'secondary_grid' attr and must not be None
-        if not hasattr(item, 'secondary_grid') or item.secondary_grid is None:
-            logger.warning('shop_buy_select_execute --> Detected secondary '
-                           'prompt but item not classified of having this option')
-            self.device.click(SHOP_CLICK_SAFE_AREA)  # Close secondary prompt
-            return False
+        # Base case - Only items with 'postfix' are allowed
+        if not hasattr(item, 'postfix'):
+            logger.critical('Unexpected item object; missing \'postfix\' attr')
+            raise ScriptEnd
 
-        # Proceed and verify required components can be acquired
-        category = item.secondary_grid
-        additional = '' if item.additional is None else f'_{item.additional}'
+        # Retrieve appropriate globals and config values for processing
+        ugroup = item.group.upper()
+        postfix = item.postfix
         try:
-            limit = globals()[f'SELECT_{category.upper()}_LIMIT']
-            choice = getattr(self.config, f'GuildShop_{category.upper()}{additional.upper()}')
-        except KeyError:
-            logger.warning(f'shop_buy_select_execute --> Missing SELECT_{category.upper()}_LIMIT')
-            self.device.click(SHOP_CLICK_SAFE_AREA)  # Close secondary prompt
-            return False
-        except AttributeError:
-            logger.warning(f'shop_buy_select_execute --> Missing Config GuildShop_{category.upper()}{additional.upper()}')
+            limit = globals()[f'SELECT_{ugroup}_LIMIT']
+            choice = getattr(self.config, f'GuildShop_{ugroup}{postfix}')
+        except:
+            logger.critical('Missing either or both of the following:')
+            logger.critical(f'- SELECT_{ugroup}_LIMIT (global)')
+            logger.critical(f'- GuildShop_{ugroup}{postfix} (config)')
+            raise ScriptEnd
+
+        # Find the applicable grid and button within grid
+        # If None, allow close and restart process
+        select = self.shop_get_select(item, choice)
+        if select is None:
             self.device.click(SHOP_CLICK_SAFE_AREA)  # Close secondary prompt
             return False
 
-        # Find and click appropriate button within secondary grid
-        # This results in plus/minus appearing, click until those appear
-        select = self.shop_get_select(category, choice)
+        # Click in intervals until plus/minus are onscreen
         click_timer = Timer(3, count=6)
         select_offset = (500, 400)
         while 1:
-            if select is not None:
-                if click_timer.reached():
-                    self.device.click(select)
-                    click_timer.reset()
-            else:
-                self.device.click(SHOP_CLICK_SAFE_AREA)  # Close secondary prompt
-                return False
+            if click_timer.reached():
+                self.device.click(select)
+                click_timer.reset()
 
             # Scan for plus/minus locations varies based on grid and item selected
             # After searching within an offset, buttons move to the actual location automatically.
