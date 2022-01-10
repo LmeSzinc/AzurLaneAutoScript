@@ -14,6 +14,14 @@ class GeneralShop(ShopBase, ShopUI):
     _shop_gems = 0
 
     @cached_property
+    def shop_filter(self):
+        """
+        Returns:
+            str:
+        """
+        return self.config.GeneralShop_Filter.strip()
+
+    @cached_property
     def shop_items(self):
         """
         Returns:
@@ -83,9 +91,8 @@ class GeneralShop(ShopBase, ShopUI):
         """
         Run General Shop
         """
-        # Base case; exit run if empty
-        selection = str(self.config.GeneralShop_Filter)
-        if not selection.strip():
+        # Base case; exit run if filter empty
+        if not self.shop_filter:
             return
 
         # When called, expected to be in
@@ -96,7 +103,7 @@ class GeneralShop(ShopBase, ShopUI):
         # Refresh if enabled and available
         refresh = self.config.GeneralShop_Refresh
         for _ in range(2):
-            success = self.shop_buy(selection=selection)
+            success = self.shop_buy()
             if not success:
                 break
             if refresh and self.shop_refresh():

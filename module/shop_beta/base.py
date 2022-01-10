@@ -61,6 +61,14 @@ class ShopItemGrid(ItemGrid):
 
 class ShopBase(UI):
     @cached_property
+    def shop_filter(self):
+        """
+        Returns:
+            str:
+        """
+        return ''
+
+    @cached_property
     def shop_grid(self):
         """
         Returns:
@@ -218,17 +226,16 @@ class ShopBase(UI):
         """
         return False
 
-    def shop_get_item_to_buy(self, items, selection=''):
+    def shop_get_item_to_buy(self, items):
         """
         Args:
             items list(Item): acquired from shop_get_items
-            selection (str): user configured value, items desired
 
         Returns:
             Item: Item to buy, or None.
         """
         # Convert selection to list{str], remove any empty/whitespace entries
-        selection = selection.replace(' ', '').replace('\n', '').split('>')
+        selection = self.shop_filter.replace(' ', '').replace('\n', '').split('>')
         selection = list(filter(''.__ne__, selection))
 
         # First, must scan for custom items
@@ -300,11 +307,8 @@ class ShopBase(UI):
             if success and self.appear(BACK_ARROW, offset=(20, 20)):
                 break
 
-    def shop_buy(self, selection=''):
+    def shop_buy(self):
         """
-        Args:
-            selection: String user configured value, items desired
-
         Returns:
             bool: If success, and able to continue.
         """
@@ -317,7 +321,7 @@ class ShopBase(UI):
                 logger.warning(f'Current funds: {currency}, stopped')
                 return False
 
-            item = self.shop_get_item_to_buy(items, selection)
+            item = self.shop_get_item_to_buy(items)
             if item is None:
                 logger.info('Shop buy finished')
                 return True

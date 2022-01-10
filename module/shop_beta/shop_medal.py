@@ -13,6 +13,14 @@ class MedalShop(ShopBase):
     _shop_medal = 0
 
     @cached_property
+    def shop_filter(self):
+        """
+        Returns:
+            str:
+        """
+        return self.config.MedalShop_Filter.strip()
+
+    @cached_property
     def shop_grid(self):
         """
         Returns:
@@ -91,3 +99,18 @@ class MedalShop(ShopBase):
         if item.price > self._shop_medal:
             return False
         return True
+
+    def run(self):
+        """
+        Run Medal Shop
+        """
+        # Base case; exit run if filter empty
+        if not self.shop_filter:
+            return
+
+        # When called, expected to be in
+        # correct Medal Shop interface
+        logger.hr('Medal Shop', level=1)
+
+        # Execute buy operations
+        self.shop_buy()

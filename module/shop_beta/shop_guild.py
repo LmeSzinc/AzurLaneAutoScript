@@ -8,8 +8,8 @@ from module.ocr.ocr import Digit
 from module.shop.assets import *
 from module.shop.base import ShopBase, ShopItemGrid
 from module.shop.shop_guild_globals import *
-from module.ui.assets import BACK_ARROW
 from module.shop.ui import ShopUI
+from module.ui.assets import BACK_ARROW
 
 SHOP_SELECT_PR = [SHOP_SELECT_PR1, SHOP_SELECT_PR2, SHOP_SELECT_PR3]
 
@@ -44,6 +44,14 @@ class GuildItemGrid(ShopItemGrid):
 
 class GuildShop(ShopBase, ShopUI):
     _shop_guild_coins = 0
+
+    @cached_property
+    def shop_filter(self):
+        """
+        Returns:
+            str:
+        """
+        return self.config.GuildShop_Filter.strip()
 
     @cached_property
     @Config.when(SERVER='cn')
@@ -263,9 +271,8 @@ class GuildShop(ShopBase, ShopUI):
         """
         Run Guild Shop
         """
-        # Base case; exit run if empty
-        selection = str(self.config.GuildShop_Filter)
-        if not selection.strip():
+        # Base case; exit run if filter empty
+        if not self.shop_filter:
             return
 
         # When called, expected to be in
@@ -276,7 +283,7 @@ class GuildShop(ShopBase, ShopUI):
         # Refresh if enabled and available
         refresh = self.config.GuildShop_Refresh
         for _ in range(2):
-            success = self.shop_buy(selection=selection)
+            success = self.shop_buy()
             if not success:
                 break
             if refresh and self.shop_refresh():

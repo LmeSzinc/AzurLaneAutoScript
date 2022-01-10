@@ -13,6 +13,14 @@ class CoreShop(ShopBase):
     _shop_core = 0
 
     @cached_property
+    def shop_filter(self):
+        """
+        Returns:
+            str:
+        """
+        return self.config.CoreShop_Filter.strip()
+
+    @cached_property
     def shop_items(self):
         """
         Returns:
@@ -112,3 +120,18 @@ class CoreShop(ShopBase):
             return True
 
         return False
+
+    def run(self):
+        """
+        Run Core Shop
+        """
+        # Base case; exit run if filter empty
+        if not self.shop_filter:
+            return
+
+        # When called, expected to be in
+        # correct Core Shop interface
+        logger.hr('Core Shop', level=1)
+
+        # Execute buy operations
+        self.shop_buy()

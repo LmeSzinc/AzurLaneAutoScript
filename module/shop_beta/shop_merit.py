@@ -4,12 +4,21 @@ from module.logger import logger
 from module.ocr.ocr import Digit
 from module.shop.assets import *
 from module.shop.base import ShopBase, ShopItemGrid
+from module.shop.ui import ShopUI
 
 OCR_SHOP_MERIT = Digit(SHOP_MERIT, letter=(239, 239, 239), name='OCR_SHOP_MERIT')
 
 
-class MeritShop(ShopBase):
+class MeritShop(ShopBase, ShopUI):
     _shop_merit = 0
+
+    @cached_property
+    def shop_filter(self):
+        """
+        Returns:
+            str:
+        """
+        return self.config.MeritShop_Filter.strip()
 
     @cached_property
     def shop_items(self):
@@ -45,3 +54,26 @@ class MeritShop(ShopBase):
         if item.price > self._shop_merit:
             return False
         return True
+
+    def run(self):
+        """
+        Run Merit Shop
+        """
+        # Base case; exit run if filter empty
+        if not self.shop_filter:
+            return
+
+        # When called, expected to be in
+        # correct Merit Shop interface
+        logger.hr('Merit Shop', level=1)
+
+        # Execute buy operations
+        # Refresh if enabled and available
+        refresh = self.config.MeritShop_Refresh
+        for _ in range(2):
+            success = self.shop_buy()
+            if not success:
+                break
+            if refresh and self.shop_refresh():
+                continue
+            break
