@@ -436,21 +436,24 @@ class AlasGUI(Frame):
                     onclick=lambda: self.alas_set_group(func.command),
                     color="off"
                 )
-        with use_scope('running_tasks', clear=True):
+        clear('running_tasks')
+        clear('pending_tasks')
+        clear('waiting_tasks')
+        with use_scope('running_tasks'):
             if running:
                 for task in running:
                     put_task(task)
             else:
                 put_text(t("Gui.Overview.NoTask")).style(
                     "--overview-notask-text--")
-        with use_scope('pending_tasks', clear=True):
+        with use_scope('pending_tasks'):
             if pending:
                 for task in pending:
                     put_task(task)
             else:
                 put_text(t("Gui.Overview.NoTask")).style(
                     "--overview-notask-text--")
-        with use_scope('waiting_tasks', clear=True):
+        with use_scope('waiting_tasks'):
             if waiting:
                 for task in waiting:
                     put_task(task)
