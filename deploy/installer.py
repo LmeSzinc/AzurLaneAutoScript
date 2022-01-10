@@ -4,6 +4,9 @@ from urllib.parse import urlparse
 from deploy.emulator import *
 from deploy.utils import *
 
+class ExecutionError(Exception):
+    pass
+
 
 class DeployConfig:
     def __init__(self, file=DEPLOY_CONFIG):
@@ -77,7 +80,7 @@ class DeployConfig:
                 return False
             else:
                 self.show_error()
-                exit(1)
+                raise ExecutionError
         else:
             print(f'[ success ]')
             return True
@@ -217,9 +220,12 @@ class AdbManager(DeployConfig):
 
 class Installer(GitManager, PipManager, AdbManager):
     def install(self):
-        self.git_install()
-        self.pip_install()
-        self.adb_install()
+        try:
+            self.git_install()
+            self.pip_install()
+            self.adb_install()
+        except ExecutionError:
+            exit(1)
 
 
 if __name__ == '__main__':

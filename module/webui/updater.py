@@ -1,18 +1,17 @@
+import builtins
 import datetime
-import os
 import subprocess
 import threading
 import time
 from typing import Generator
 
 import requests
-from deploy.installer import DeployConfig
-from deploy.installer import PipManager as Pip
-from deploy.installer import cached_property, urlparse
-from deploy.utils import DEPLOY_CONFIG
+from deploy.installer import DeployConfig, ExecutionError, Installer
+from deploy.utils import DEPLOY_CONFIG, cached_property
 from module.logger import logger
 from module.webui.process_manager import AlasManager
 from module.webui.utils import TaskHandler, get_next_time
+from retry import retry
 
 
 class Config(DeployConfig):
@@ -22,23 +21,8 @@ class Config(DeployConfig):
         self.read()
         self.write()
 
-    def execute(self, command: str):
-        command = command.replace(
-            r'\\', '/').replace('\\', '/').replace('\"', '"')
-        error_code = os.system(command)
-        if error_code:
-            logger.warning(
-                f"command '{command}' failed, error_code: {error_code}")
-            return False
-        else:
-            return True
 
-
-class GitManager(Config):
-    @cached_property
-    def git(self):
-        return self.filepath('GitExecutable')
-
+class Updater(Config, Installer):
     @cached_property
     def repo(self):
         return self.config['Repository']
@@ -46,14 +30,6 @@ class GitManager(Config):
     @cached_property
     def branch(self):
         return self.config['Branch']
-
-    @cached_property
-    def proxy(self):
-        return self.config['GitProxy']
-
-    @cached_property
-    def keep_changes(self):
-        return self.bool('KeepLocalChanges')
 
     def check_update(self) -> bool:
         r = self.repo.split('/')
@@ -129,61 +105,33 @@ class GitManager(Config):
         logger.info(f"Update {sha[:8]} avaliable")
         return True
 
+    @retry(ExecutionError, tries=3, delay=10, logger=logger)
+    def git_install(self):
+        return super().git_install()
+
+    @retry(ExecutionError, tries=3, delay=10, logger=logger)
+    def pip_install(self):
+        return super().pip_install()
+
     def update(self):
-        source = 'origin'
-        if self.keep_changes:
-            if not self.execute(f'"{self.git}" stash'):
-                logger.warning(
-                    'Stash failed, this may be the first installation, drop changes instead')
-                self.execute(
-                    f'"{self.git}" reset --hard {source}/{self.branch}')
-        else:
-            self.execute(f'"{self.git}" reset --hard {source}/{self.branch}')
-
-        if not self.execute(f'"{self.git}" pull --ff-only {source} {self.branch}'):
-            logger.warning("Git pull failed")
+        logger.hr("Run update")
+        backup, builtins.print = builtins.print, logger.info
+        try:
+            self.git_install()
+            self.pip_install()
+        except ExecutionError:
+            logger.error("Update failed")
+            builtins.print = backup
             return False
-
-        if self.keep_changes:
-            if self.execute(f'"{self.git}" stash pop'):
-                pass
-            else:
-                # No local changes to existing files, untracked files not included
-                logger.warning(
-                    'Stash pop failed, there seems to be no local changes, skip instead')
-
+        builtins.print = backup
         return True
 
 
-class PipManager(Config, Pip):
-    def update(self):
-        if not self.bool('InstallDependencies'):
-            print('InstallDependencies is disabled, skip')
-            return True
-
-        arg = []
-        if self.bool('PypiMirror'):
-            mirror = self.config['PypiMirror']
-            arg += ['-i', mirror]
-            # Trust http mirror
-            if 'http:' in mirror:
-                arg += ['--trusted-host', urlparse(mirror).hostname]
-
-        # Don't update pip, just leave it.
-        # hr1('Update pip')
-        # self.execute(f'"{self.pip}" install --upgrade pip{arg}')
-        arg += ['--disable-pip-version-check']
-        arg = ' ' + ' '.join(arg) if arg else ''
-        if self.execute(f'"{self.pip}" install -r requirements.txt{arg}'):
-            return True
-
-
 have_update = False
-git_manager = GitManager()
-pip_manager = PipManager()
-delay = int(git_manager.config['CheckUpdateInterval'])*60
+updater = Updater()
+delay = int(updater.config['CheckUpdateInterval'])*60
 schedule_time = datetime.time.fromisoformat(
-    git_manager.config['AutoRestartTime'])
+    updater.config['AutoRestartTime'])
 event: threading.Event = None
 
 
@@ -192,28 +140,8 @@ def update_state() -> Generator:
     yield
     while True:
         if not have_update:
-            have_update = git_manager.check_update()
+            have_update = updater.check_update()
         yield
-
-
-def run_update():
-    logger.hr("Run update")
-    # time.sleep(5)
-    # return True
-    for _ in range(3):
-        if git_manager.update():
-            break
-    else:
-        logger.warning("Git update failed")
-        return False
-    for _ in range(3):
-        if pip_manager.update():
-            break
-    else:
-        logger.warning("Pip update failed")
-        return False
-    
-    return True
 
 
 def update():
@@ -238,7 +166,7 @@ def update():
 
     logger.info("All alas stopped, start updating")
 
-    if run_update():
+    if updater.update():
         from module.webui.app import clearup
         clearup()
         with open('./reloadalas', mode='w') as f:
@@ -263,7 +191,7 @@ def schedule_restart() -> Generator:
     yield
     while True:
         if not have_update:
-            have_update = git_manager.check_update()
+            have_update = updater.check_update()
         if not have_update:
             th._task.delay = get_next_time(schedule_time)
             yield
@@ -274,9 +202,7 @@ def schedule_restart() -> Generator:
         yield
 
 
-
 if __name__ == '__main__':
     pass
-    if git_manager.check_update():
-        git_manager.update()
-    pip_manager.update()
+    # if updater.check_update():
+    updater.update()

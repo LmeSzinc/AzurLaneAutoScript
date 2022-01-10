@@ -784,7 +784,8 @@ def startup():
         task_handler.add(updater.update_state(), updater.delay)
     task_handler.add(updater.schedule_restart(), 86400)
     task_handler.start()
-    init_discord_rpc()
+    if updater.updater.bool('DiscordRichPresence'):
+        init_discord_rpc()
 
 
 def clearup():

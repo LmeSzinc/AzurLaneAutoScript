@@ -63,6 +63,7 @@ Deploy:
 
   Update:
     # Api Access token
+    # Not necessary, unauthorised users can call Github API 60 times/h, Gitee API has no limitations
     # **Use same platform as Repository
     # Github:
     #   https://github.com/settings/tokens/new
@@ -75,14 +76,18 @@ Deploy:
     ApiToken: null
     # Check update every X minute
     # [Disable] -1
-    # [Default] 60
-    CheckUpdateInterval: 60
+    # [Default] 30
+    CheckUpdateInterval: 30
     # Scheduled restart time
     # If there are updates, Alas will automatically restart and update at this time every day
     # and run all alas instances that running before restarted
     # [Disable] null
     # [Default] 03:50
     AutoRestartTime: 03:50
+
+  Misc:
+    # Enable discord rich presence
+    DiscordRichPresence: false
 
   Webui:
     # --host. Host to listen

@@ -3,7 +3,7 @@ from multiprocessing import Process
 
 from pypresence import Presence
 
-process: Process
+process: Process = None
 
 
 def run():
@@ -19,13 +19,16 @@ def run():
 
 def init_discord_rpc():
     global process
-    process = Process(target=run)
-    process.start()
+    if process is None:
+        process = Process(target=run)
+        process.start()
 
 
 def close_discord_rpc():
     global process
-    process.terminate()
+    if process is not None:
+        process.terminate()
+        process = None
 
 
 if __name__ == '__main__':
