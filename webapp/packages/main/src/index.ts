@@ -165,7 +165,7 @@ alas.on('stderr', function (message: string) {
    * Or backend has started already
    * `[Errno 10048] error while attempting to bind on address ('0.0.0.0', 22267): `
    */
-  if (message.includes('running on') || message.includes('bind on address')) {
+  if (message.includes('Application startup complete') || message.includes('bind on address')) {
     alas.removeAllListeners('stderr');
     loadURL()
   }
