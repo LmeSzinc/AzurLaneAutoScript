@@ -100,8 +100,6 @@ class AlasGUI(Frame):
                 0 (hide)
                 -1 (*state not changed)
         """
-        if not self.visible:
-            return
         if state == -1:
             return
         clear()
