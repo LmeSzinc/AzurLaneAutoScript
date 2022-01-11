@@ -442,7 +442,7 @@ button.btn.dropdown-toggle {
     padding-right: .25rem;
 }
 
-*[style*="--loading-glow--"] {
+*[style*="--loading-grow--"] {
     width: 1.5rem;
     height: 1.5rem;
 }
