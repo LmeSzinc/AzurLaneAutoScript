@@ -1,6 +1,7 @@
 import copy
 import datetime
 import operator
+import threading
 
 import pywebio
 
@@ -56,6 +57,7 @@ def name_to_function(name):
 
 
 class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
+    stop_event: threading.Event
     bound = {}
 
     # Class property
@@ -403,6 +405,10 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
         Raises:
             bool: If task switched
         """
+        # Update event
+        if hasattr(self, 'stop_event'):
+            if self.stop_event.is_set():
+                return True
         prev = self.task
         self.load()
         new = self.get_next()

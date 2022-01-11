@@ -577,7 +577,6 @@ class AlasGUI(Frame):
             clear('updater_loading')
             clear('updater_state')
             clear('updater_btn')
-            print(state)
             if state == 0:
                 put_loading('border', 'secondary', 'updater_loading').style(
                     "--loading-border-fill--")
