@@ -54,7 +54,7 @@
     },
     "Optimization": {
       "CombatScreenshotInterval": {
-        "type": "input",
+        "type": "disable",
         "value": 1.0
       },
       "TaskHoardingDuration": {

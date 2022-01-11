@@ -102,8 +102,9 @@ const createWindow = async () => {
     mainWindow?.isMaximized() ? mainWindow?.restore() : mainWindow?.maximize();
   });
   ipcMain.on('window-close', function () {
-    alas.kill();
-    setTimeout(() => mainWindow?.close(), 500); // Wait taskkill to finish
+    alas.kill(function () {
+      mainWindow?.close();
+    })
   });
 
   // Tray
