@@ -1084,6 +1084,9 @@ class Fleet(Camera, AmbushHandler):
         Args:
             location (tuple, str, GridInfo): Destination.
 
+        Returns:
+            bool: If submarine moved
+
         Pages:
             in: IN_MAP
             out: IN_MAP
@@ -1092,14 +1095,27 @@ class Fleet(Camera, AmbushHandler):
         self.strategy_submarine_move_enter()
         if self._submarine_goto(location):
             self.strategy_submarine_move_confirm()
+            result = True
         else:
             self.strategy_submarine_move_cancel()
+            result = False
         # Hunt zone view re-enabled by game, after entering sub move mode
         self.strategy_set_execute(sub_view=False)
         self.strategy_close()
+        return result
 
     def submarine_move_near_boss(self, boss):
+        """
+        Args:
+            boss (tuple, str, GridInfo): Destination.
+
+        Returns:
+            bool: If submarine moved
+        """
         if not (self.is_call_submarine_at_boss and self.map.select(is_submarine_spawn_point=True)):
+            return False
+        if self.config.Submarine_DistanceToBoss == 'use_U522_skill':
+            logger.info('Going to use U522 skill, skip moving submarines')
             return False
 
         boss = location_ensure(boss)
@@ -1125,10 +1141,15 @@ class Fleet(Camera, AmbushHandler):
             '1_grid_to_boss': 1,
             '2_grid_to_boss': 2
         }
-        logger.attr('Distance to boss', self.config.Submarine_DistanceToBoss)
-        near = get_location(distance_dict.get(self.config.Submarine_DistanceToBoss, 0))
+        distance_to_boss = distance_dict.get(self.config.Submarine_DistanceToBoss, 0)
+        logger.attr('Distance to boss', distance_to_boss)
 
-        self.find_path_initial()
-
-        logger.info(f'Move submarine to {location2node(near)}')
-        self.submarine_goto(near)
+        if np.sum(np.abs(np.subtract(self.fleet_submarine_location, boss))) <= distance_to_boss:
+            logger.info('Boss is already in hunting zone')
+            self.find_path_initial()
+            return False
+        else:
+            near = get_location(distance_to_boss)
+            self.find_path_initial()
+            logger.info(f'Move submarine to {location2node(near)}')
+            return self.submarine_goto(near)
