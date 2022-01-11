@@ -120,9 +120,6 @@ class Screenshot(AScreenCap):
     def screenshot_interval_set(self, interval):
         interval = max(interval, 0.1)
         if interval != self._screenshot_interval_timer.limit:
-            if self.config.Campaign_UseAutoSearch:
-                interval = min(interval, 1.0)
-                logger.info(f'Screenshot interval set to {interval}s, limited to 1.0s in auto search')
-            else:
-                logger.info(f'Screenshot interval set to {interval}s')
+            interval = min(interval, 1.0)
+            logger.info(f'Screenshot interval set to {interval}s')
             self._screenshot_interval_timer.limit = interval
