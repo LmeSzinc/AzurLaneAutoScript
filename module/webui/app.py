@@ -852,14 +852,18 @@ class AlasGUI(Frame):
 
         self.state_switch = Switch(
             status=self.set_status,
-            get_state=lambda: getattr(getattr(self, 'alas', -1), 'state', -1),
+            get_state=lambda: getattr(getattr(self, 'alas', -1), 'state', 0),
             name='state'
         )
+
+        def goto_update():
+            self.ui_develop()
+            self.dev_update()
 
         update_switch = Switch(
             status={
                 1: lambda: toast(t("Gui.Toast.ClickToUpdate"), duration=0,
-                                 position='right', color='success', onclick=self.dev_update)
+                                 position='right', color='success', onclick=goto_update)
             },
             get_state=lambda: updater.state,
             name='update_state'
