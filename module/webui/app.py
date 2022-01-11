@@ -120,7 +120,7 @@ class AlasGUI(Frame):
         elif state == 3:
             put_row([
                 put_loading(shape='grow', color='warning').style(
-                    "--loading-glow--"),
+                    "--loading-grow--"),
                 None,
                 put_text(t("Gui.Status.Warning"))
             ], size='auto 2px 1fr')
@@ -945,7 +945,10 @@ def app():
         cdn=cdn,
         static_dir=None,
         debug=True,
-        on_startup=[startup, AlasManager.start_alas],
+        on_startup=[
+            startup,
+            lambda: AlasManager.start_alas(ev = updater.event)
+        ],
         on_shutdown=[clearup]
     )
 

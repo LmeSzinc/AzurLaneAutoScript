@@ -169,7 +169,7 @@ class Updater(Config, Installer):
                         f"Remains: {[alas.config_name for alas in _instances]}")
             if self.state == 'cancel':
                 self.state = 1
-                AlasManager.start_alas(instances)
+                AlasManager.start_alas(instances, self.event)
                 return
             time.sleep(0.25)
         self._run_update(instances, names)
@@ -189,7 +189,7 @@ class Updater(Config, Installer):
             self.state = 'failed'
             logger.warning("Update failed")
             self.event.clear()
-            AlasManager.start_alas(instances)
+            AlasManager.start_alas(instances, self.event)
             return False
     
     @staticmethod
