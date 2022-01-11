@@ -169,6 +169,7 @@ class Updater(Config, Installer):
                         f"Remains: {[alas.config_name for alas in _instances]}")
             if self.state == 'cancel':
                 self.state = 1
+                self.event.clear()
                 AlasManager.start_alas(instances, self.event)
                 return
             time.sleep(0.25)
@@ -199,7 +200,6 @@ class Updater(Config, Installer):
                 # app ended here and uvicorn will restart whole app
                 pass
         timer = threading.Timer(delay, trigger)
-        timer.daemon = True
         timer.start()
 
     def schedule_restart(self) -> Generator:

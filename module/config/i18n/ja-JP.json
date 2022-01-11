@@ -1816,7 +1816,8 @@
       "UpdateWait": "Gui.Update.UpdateWait",
       "UpdateRun": "Gui.Update.UpdateRun",
       "UpdateSuccess": "Gui.Update.UpdateSuccess",
-      "UpdateChecking": "Gui.Update.UpdateChecking"
+      "UpdateChecking": "Gui.Update.UpdateChecking",
+      "UpdateCancel": "Gui.Update.UpdateCancel"
     },
     "Text": {
       "InvalidFeedBack": "Gui.Text.InvalidFeedBack"

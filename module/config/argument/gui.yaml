@@ -65,6 +65,7 @@ Update:
   UpdateSuccess:
   UpdateFailed:
   UpdateChecking:
+  UpdateCancel:
 
 Text:
   InvalidFeedBack:

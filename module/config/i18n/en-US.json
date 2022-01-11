@@ -1816,7 +1816,8 @@
       "UpdateWait": "Waiting for all alas complete current task",
       "UpdateRun": "Updating",
       "UpdateSuccess": "Update succeeded, restarting",
-      "UpdateChecking": "Checking for updates"
+      "UpdateChecking": "Checking for updates",
+      "UpdateCancel": "Update canceled, restarting Alas"
     },
     "Text": {
       "InvalidFeedBack": "Invalid format. Example: {0}"

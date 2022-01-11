@@ -1816,7 +1816,8 @@
       "UpdateWait": "等待所有 Alas 完成當前任務",
       "UpdateRun": "更新中",
       "UpdateSuccess": "更新成功，正在重啓",
-      "UpdateChecking": "檢查更新中"
+      "UpdateChecking": "檢查更新中",
+      "UpdateCancel": "取消更新，重啓 Alas 中"
     },
     "Text": {
       "InvalidFeedBack": "格式錯誤。 示例：{0}"

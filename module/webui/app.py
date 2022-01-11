@@ -904,6 +904,7 @@ def clearup():
     Notice: Ensure run it before uvicorn reload app,
     all process will NOT EXIT after close electron app.
     """
+    logger.info('Start clearup')
     close_discord_rpc()
     for alas in AlasManager.all_alas.values():
         alas.stop()
