@@ -93,7 +93,8 @@
     "Submarine": {
       "Fleet": 0,
       "Mode": "do_not_use",
-      "AutoSearchMode": "sub_standby"
+      "AutoSearchMode": "sub_standby",
+      "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
       "CalculateEmotion": true,
@@ -165,7 +166,8 @@
     "Submarine": {
       "Fleet": 0,
       "Mode": "do_not_use",
-      "AutoSearchMode": "sub_standby"
+      "AutoSearchMode": "sub_standby",
+      "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
       "CalculateEmotion": true,
@@ -356,7 +358,8 @@
     "Submarine": {
       "Fleet": 0,
       "Mode": "do_not_use",
-      "AutoSearchMode": "sub_standby"
+      "AutoSearchMode": "sub_standby",
+      "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
       "CalculateEmotion": true,
@@ -430,7 +433,8 @@
     "Submarine": {
       "Fleet": 0,
       "Mode": "do_not_use",
-      "AutoSearchMode": "sub_standby"
+      "AutoSearchMode": "sub_standby",
+      "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
       "CalculateEmotion": true,
@@ -861,7 +865,8 @@
     "Submarine": {
       "Fleet": 0,
       "Mode": "do_not_use",
-      "AutoSearchMode": "sub_standby"
+      "AutoSearchMode": "sub_standby",
+      "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
       "CalculateEmotion": true,
@@ -934,7 +939,8 @@
     "Submarine": {
       "Fleet": 0,
       "Mode": "do_not_use",
-      "AutoSearchMode": "sub_standby"
+      "AutoSearchMode": "sub_standby",
+      "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
       "CalculateEmotion": true,
@@ -1007,7 +1013,8 @@
     "Submarine": {
       "Fleet": 0,
       "Mode": "do_not_use",
-      "AutoSearchMode": "sub_standby"
+      "AutoSearchMode": "sub_standby",
+      "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
       "CalculateEmotion": true,
@@ -1076,7 +1083,8 @@
     "Submarine": {
       "Fleet": 0,
       "Mode": "do_not_use",
-      "AutoSearchMode": "sub_standby"
+      "AutoSearchMode": "sub_standby",
+      "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
       "CalculateEmotion": true,
@@ -1190,7 +1198,8 @@
     "Submarine": {
       "Fleet": 0,
       "Mode": "do_not_use",
-      "AutoSearchMode": "sub_standby"
+      "AutoSearchMode": "sub_standby",
+      "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
       "CalculateEmotion": true,

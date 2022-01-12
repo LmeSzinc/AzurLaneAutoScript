@@ -211,6 +211,9 @@ class UI(InfoHandler):
     def ui_goto_main(self):
         return self.ui_ensure(destination=page_main)
 
+    def ui_goto_campaign(self):
+        return self.ui_ensure(destination=page_campaign)
+
     def ui_goto_event(self):
         return self.ui_ensure(destination=page_event)
 

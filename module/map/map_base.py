@@ -487,11 +487,12 @@ class CampaignMap:
                  range(self.shape[0] + 1)])
             logger.info(text)
 
-    def find_path_initial(self, location, has_ambush=True):
+    def find_path_initial(self, location, has_ambush=True, has_enemy=True):
         """
         Args:
             location (tuple(int)): Grid location
             has_ambush (bool): MAP_HAS_AMBUSH
+            has_enemy (bool): False if only sea and land are considered
         """
         location = location_ensure(location)
         ambush_cost = 10 if has_ambush else 1
@@ -519,7 +520,7 @@ class CampaignMap:
                     elif cost == arr.cost:
                         if abs(arr.location[0] - grid.location[0]) == 1:
                             arr.connection = grid.location
-                    if arr.is_sea:
+                    if arr.is_sea or not has_enemy:
                         new.add(arr)
             if len(new) == len(visited):
                 break

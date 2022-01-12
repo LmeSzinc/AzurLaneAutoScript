@@ -8,12 +8,12 @@ from module.ui.scroll import Scroll
 from module.ui.switch import Switch
 
 DOCK_SORTING = Switch('Dork_sorting')
-DOCK_SORTING.add_status('Ascending', check_button=SORT_ASC, click_button=SORTING_CLICK, sleep=(0.3, 0.5))
-DOCK_SORTING.add_status('Descending', check_button=SORT_DESC, click_button=SORTING_CLICK, sleep=(0.3, 0.5))
+DOCK_SORTING.add_status('Ascending', check_button=SORT_ASC, click_button=SORTING_CLICK)
+DOCK_SORTING.add_status('Descending', check_button=SORT_DESC, click_button=SORTING_CLICK)
 
 DOCK_FAVOURITE = Switch('Favourite_filter')
-DOCK_FAVOURITE.add_status('on', check_button=COMMON_SHIP_FILTER_ENABLE, sleep=(0.3, 0.5))
-DOCK_FAVOURITE.add_status('off', check_button=COMMON_SHIP_FILTER_DISABLE, sleep=(0.3, 0.5))
+DOCK_FAVOURITE.add_status('on', check_button=COMMON_SHIP_FILTER_ENABLE)
+DOCK_FAVOURITE.add_status('off', check_button=COMMON_SHIP_FILTER_DISABLE)
 
 FILTER_SORT_GRIDS = ButtonGrid(
     origin=(284, 60), delta=(158, 0), button_shape=(137, 38), grid_shape=(6, 1), name='FILTER_SORT')

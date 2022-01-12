@@ -635,22 +635,31 @@
     "Fleet": {
       "name": "Submarine Fleet Number",
       "help": "",
-      "0": "do_not_use",
+      "0": "Don't Use",
       "1": "1",
       "2": "2"
     },
     "Mode": {
       "name": "Submarine Mode",
       "help": "",
-      "do_not_use": "do_not_use",
-      "hunt_only": "hunt_only",
-      "every_combat": "every_combat"
+      "do_not_use": "Don't Use",
+      "hunt_only": "Hunt Only",
+      "boss_only": "BOSS Only",
+      "every_combat": "Every Combat"
     },
     "AutoSearchMode": {
       "name": "Submarine Roles in Auto Search",
       "help": "Effective only for auto search",
       "sub_standby": "Standby",
       "sub_auto_call": "Auto Call"
+    },
+    "DistanceToBoss": {
+      "name": "Before BOSS battle move the submarine near BOSS",
+      "help": "Effective only if \"Submarine Mode\" is \"BOSS Only\"\nSelecting \"X Grids To BOSS\" needs to ensure that the submarine hunting range can cover the BOSS. Distance is calculated using the Manhattan Distance. Selecting \"Use U522 Skill\" requires U522 in the submarine fleet.",
+      "to_boss_position": "To BOSS Location",
+      "1_grid_to_boss": "1 Grid To BOSS",
+      "2_grid_to_boss": "2 Grids To BOSS",
+      "use_U522_skill": "Use U522 Skill"
     }
   },
   "Emotion": {

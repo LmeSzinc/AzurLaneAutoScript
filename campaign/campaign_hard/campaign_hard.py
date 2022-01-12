@@ -39,7 +39,7 @@ class Campaign(CampaignBase, HardEquipment):
     # def fleet_preparation(self):
     #     self.equipment_take_on()
 
-    def _expected_combat_end(self, expected):
+    def _expected_end(self, expected):
         return 'in_stage'
 
     def clear_boss(self):

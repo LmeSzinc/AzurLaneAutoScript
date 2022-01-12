@@ -10,23 +10,24 @@ class GridInfo:
     which includes boss point, enemy spawn point.
 
     A grid contains these unchangeable properties which can known from WIKI.
-    | print_name | property_name  | description             |
-    |------------|----------------|-------------------------|
-    | ++         | is_land        | fleet can't go to land  |
-    | --         | is_sea         | sea                     |
-    | __         |                | submarine spawn point   |
-    | SP         | is_spawn_point | fleet may spawns here   |
-    | ME         | may_enemy      | enemy may spawns here   |
-    | MB         | may_boss       | boss may spawns here    |
-    | MM         | may_mystery    | mystery may spawns here |
-    | MA         | may_ammo       | fleet can get ammo here |
-    | MS         | may_siren      | Siren/Elite enemy spawn |
+    | print_name | property_name            | description             |
+    |------------|--------------------------|-------------------------|
+    | ++         | is_land                  | fleet can't go to land  |
+    | --         | is_sea                   | sea                     |
+    | __         | is_submarine_spawn_point | submarine spawn point   |
+    | SP         | is_spawn_point           | fleet may spawns here   |
+    | ME         | may_enemy                | enemy may spawns here   |
+    | MB         | may_boss                 | boss may spawns here    |
+    | MM         | may_mystery              | mystery may spawns here |
+    | MA         | may_ammo                 | fleet can get ammo here |
+    | MS         | may_siren                | Siren/Elite enemy spawn |
     """
     is_os = False
 
     # is_sea --
     is_land = False  # ++
     is_spawn_point = False  # SP
+    is_submarine_spawn_point = False # __
 
     may_enemy = False  # ME
     may_boss = False  # MB
@@ -77,6 +78,7 @@ class GridInfo:
         dic = {
             '++': 'is_land',
             'SP': 'is_spawn_point',
+            '__': 'is_submarine_spawn_point',
             'ME': 'may_enemy',
             'MB': 'may_boss',
             'MM': 'may_mystery',
@@ -176,6 +178,13 @@ class GridInfo:
         Returns:
             bool: If success.
         """
+        # Submarines can be anywhere, so no success/failure in merging info
+        # But expects submarines at spawn points to be found at the beginning
+        if info.is_submarine:
+            if self.is_submarine_spawn_point:
+                self.is_submarine = True
+            else:
+                pass
         if info.is_caught_by_siren:
             if self.is_sea:
                 self.is_fleet = True

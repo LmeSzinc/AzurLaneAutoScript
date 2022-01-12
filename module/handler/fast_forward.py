@@ -53,6 +53,7 @@ class FastForwardHandler(AutoSearchHandler):
         'SP1 > SP2 > SP3 > SP4',
         'T1 > T2 > T3 > T4',
     ]
+    map_fleet_checked = False
 
     def map_get_info(self):
         """
@@ -179,10 +180,33 @@ class FastForwardHandler(AutoSearchHandler):
         if not self.map_is_auto_search:
             return False
 
+        logger.info('Auto search setting')
         self.fleet_preparation_sidebar_ensure(3)
         self.auto_search_setting_ensure(self.config.Fleet_AutoSearchFleetOrder)
         if self.config.SUBMARINE:
             self.auto_search_setting_ensure(self.config.Submarine_AutoSearchMode)
+        return True
+
+    @property
+    def is_call_submarine_at_boss(self):
+        return self.config.SUBMARINE and self.config.Submarine_Mode == 'boss_only'
+
+    def handle_auto_submarine_call_disable(self):
+        """
+        Returns:
+            bool: If changed
+
+        Pages:
+            in: FLEET_PREPARATION
+        """
+        if self.map_fleet_checked:
+            return False
+        if not self.is_call_submarine_at_boss:
+            return False
+
+        logger.info('Disable auto submarine call')
+        self.fleet_preparation_sidebar_ensure(3)
+        self.auto_search_setting_ensure('sub_standby')
         return True
 
     def handle_auto_search_continue(self):

@@ -7,10 +7,10 @@ DICT_FILTER_PRESET = {
         > S4-G2.5 > S4-PRY5 > S4-PRY8 > 1.5 > 2 > S4-Q4 > 2.5 > 4 > 5 > S4-C6
         > S4-C8 > 6 > 8 > S4-C12 > 12""",
     'series_4_blueprint_only': """
-        S4-DR0.5 > S4-PRY0.5 > S4-H0.5 > S4-DR8 > S4-DR2.5 > S4-DR5 > S4-G1.5 > S4-PRY2.5
-        > S4-Q0.5 > !4-0.5 > S4-G2.5 > !4-1 > S4-Q1 > reset > S4-G4 > S4-PRY5
-        > !4-1.5 > S4-Q2 > !4-2 > !4-5 > S4-PRY8 > !4-2.5 > S4-Q4 > !4-4
-        > !4-C6 > S4-C6 > S4-C8 > !4-C8 > S4-C12 > !4-C12""",
+        S4-DR0.5 > S4-PRY0.5 > S4-H0.5 > S4-DR8 > S4-DR2.5 > S4-DR5 > S4-G1.5
+        > S4-PRY2.5 > S4-Q0.5 > 0.5 > S4-G2.5 > S4-Q1 > 1 > reset > S4-G4
+        > S4-PRY5 > 1.5 > S4-Q2 > 2 > S4-PRY8 > 2.5 > S4-Q4 > 4 > 5 > S4-C6
+        > 6 > S4-C8 > 8 > S4-C12 > 12""",
     'series_4_tenrai_only': """
         S4-Q0.5 > S4-PRY0.5 > S4-DR0.5 > S4-Q4 > S4-Q1 > S4-Q2 > S4-H0.5 > 0.5
         > S4-G4 > S4-G1.5 > 1 > S4-DR2.5 > S4-PRY2.5 > reset > S4-G2.5 > 1.5
