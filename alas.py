@@ -17,7 +17,7 @@ from module.logger import logger
 
 class AzurLaneAutoScript:
 
-    stop_event: threading.Event
+    stop_event: threading.Event = None
 
     def __init__(self, config_name='alas'):
         self.config_name = config_name
@@ -284,7 +284,7 @@ class AzurLaneAutoScript:
         if seconds <= 0:
             logger.warning(f'Wait until {str(future)}, but sleep length < 0, skip waiting')
         
-        if hasattr(self, 'stop_event'):
+        if self.stop_event is not None:
             self.stop_event.wait(seconds)
             if self.stop_event.is_set():
                 logger.info("Update event detected")
@@ -330,7 +330,7 @@ class AzurLaneAutoScript:
         failure_record = {}
 
         while 1:
-            if hasattr(self, 'stop_event'):
+            if self.stop_event is not None:
                 if self.stop_event.is_set():
                     logger.info("Update event detected")
                     logger.info(f"Alas [{self.config_name}] exited.")

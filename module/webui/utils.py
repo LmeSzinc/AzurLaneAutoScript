@@ -52,14 +52,15 @@ class Thread(threading.Thread):
 
 
 class Task:
-    def __init__(self, g: Generator, delay: float, next_run: float = None) -> None:
+    def __init__(self, g: Generator, delay: float, next_run: float = None, name: str = None) -> None:
         self.g = g
         g.send(None)
         self.delay = delay
         self.next_run = next_run if next_run else time.time()
+        self.name = name if name is not None else self.g.__name__
 
     def __str__(self) -> str:
-        return f'<{self.g.__name__} (delay={self.delay})>'
+        return f'<{self.name} (delay={self.delay})>'
 
     def __next__(self) -> None:
         return next(self.g)
@@ -71,7 +72,7 @@ class Task:
 
 
 class TaskHandler:
-    def __init__(self, use_pywebio=False) -> None:
+    def __init__(self) -> None:
         # List of background running task
         self.tasks: List[Task] = []
         # List of task name to be removed
@@ -81,8 +82,6 @@ class TaskHandler:
         # Task running thread
         self._thread: Thread = None
         self._lock = threading.Lock()
-        # register pywebio thread
-        self.use_pywebio = use_pywebio
 
     def add(self, func, delay: float, pending_delete: bool = False) -> None:
         """
@@ -143,6 +142,13 @@ class TaskHandler:
     def remove_current_task(self) -> None:
         self.remove_task(self._task, nowait=True)
 
+    def get_task(self, name) -> Task:
+        with self._lock:
+            for task in self.tasks:
+                if task.name == name:
+                    return task
+            return None
+
     def loop(self) -> None:
         """
         Start task loop.
@@ -175,6 +181,11 @@ class TaskHandler:
             else:
                 time.sleep(0.5)
 
+    def _get_thread(self) -> threading.Thread:
+        thread = Thread(target=self.loop)
+        thread.daemon = True
+        return thread
+
     def start(self) -> None:
         """
         Start task handler.
@@ -183,9 +194,7 @@ class TaskHandler:
         if self._thread is not None and self._thread.is_alive():
             logger.warning("Task handler already running!")
             return
-        self._thread = Thread(target=self.loop)
-        if self.use_pywebio:
-            register_thread(self._thread)
+        self._thread = self._get_thread()
         self._thread.start()
 
     def stop(self) -> None:
@@ -193,6 +202,13 @@ class TaskHandler:
         if self._thread.is_alive():
             self._thread.stop()
         logger.info("Finish task handler")
+
+
+class WebIOTaskHandler(TaskHandler):
+    def _get_thread(self) -> threading.Thread:
+        thread = super()._get_thread()
+        register_thread(thread)
+        return thread
 
 
 class Switch:

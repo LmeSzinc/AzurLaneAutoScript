@@ -1782,7 +1782,8 @@
     "Status": {
       "Running": "Gui.Status.Running",
       "Inactive": "Gui.Status.Inactive",
-      "Warning": "Gui.Status.Warning"
+      "Warning": "Gui.Status.Warning",
+      "Updating": "Gui.Status.Updating"
     },
     "MenuAlas": {
       "Overview": "Gui.MenuAlas.Overview",
@@ -1817,7 +1818,12 @@
       "UpdateRun": "Gui.Update.UpdateRun",
       "UpdateSuccess": "Gui.Update.UpdateSuccess",
       "UpdateChecking": "Gui.Update.UpdateChecking",
-      "UpdateCancel": "Gui.Update.UpdateCancel"
+      "UpdateCancel": "Gui.Update.UpdateCancel",
+      "Local": "Gui.Update.Local",
+      "Upstream": "Gui.Update.Upstream",
+      "Author": "Gui.Update.Author",
+      "Time": "Gui.Update.Time",
+      "Message": "Gui.Update.Message"
     },
     "Text": {
       "InvalidFeedBack": "Gui.Text.InvalidFeedBack"

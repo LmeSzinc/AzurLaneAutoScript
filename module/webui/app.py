@@ -33,7 +33,7 @@ from pywebio.exceptions import SessionClosedException, SessionNotFoundException
 from pywebio.output import (clear, close_popup, popup, put_button, put_buttons,
                             put_collapse, put_column, put_error, put_html,
                             put_loading, put_markdown, put_row, put_scope,
-                            put_text, toast, use_scope)
+                            put_table, put_text, toast, use_scope)
 from pywebio.pin import pin, pin_wait_change
 from pywebio.session import go_app, info, register_thread, run_js, set_env
 
@@ -97,6 +97,7 @@ class AlasGUI(Frame):
                 1 (running)
                 2 (not running)
                 3 (warning, stop unexpectedly)
+                4 (stop for update)
                 0 (hide)
                 -1 (*state not changed)
         """
@@ -123,6 +124,13 @@ class AlasGUI(Frame):
                     "--loading-grow--"),
                 None,
                 put_text(t("Gui.Status.Warning"))
+            ], size='auto 2px 1fr')
+        elif state == 4:
+            put_row([
+                put_loading(shape='grow', color='success').style(
+                    "--loading-grow--"),
+                None,
+                put_text(t("Gui.Status.Updating"))
             ], size='auto 2px 1fr')
 
     @classmethod
@@ -570,6 +578,18 @@ class AlasGUI(Frame):
         ], size='auto .25rem 1fr')
 
         put_scope('updater_btn')
+        put_scope('updater_info')
+        
+        def update_table():
+            with use_scope('updater_info', clear=True):
+                local_commit = updater.get_commit(short_sha1=True)
+                upstream_commit = updater.get_commit(
+                    f'origin/{updater.branch}', short_sha1=True)
+                put_table([
+                    [t('Gui.Update.Local'), *local_commit],
+                    [t('Gui.Update.Upstream'), *upstream_commit]
+                ], header=['', 'SHA1', t('Gui.Update.Author'),
+                           t('Gui.Update.Time'), t('Gui.Update.Message')])
 
         def u(state):
             if state == -1:
@@ -586,6 +606,7 @@ class AlasGUI(Frame):
                            color='info',
                            scope='updater_btn'
                            )
+                update_table()
             elif state == 1:
                 put_loading('grow', 'success', 'updater_loading').style(
                     "--loading-grow--")
@@ -595,6 +616,7 @@ class AlasGUI(Frame):
                            color='success',
                            scope='updater_btn'
                            )
+                update_table()
             elif state == 'checking':
                 put_loading('border', 'primary', 'updater_loading').style(
                     "--loading-border--")
@@ -640,6 +662,7 @@ class AlasGUI(Frame):
                 put_loading('grow', 'success', 'updater_loading').style(
                     "--loading-grow--")
                 put_text(t('Gui.Update.UpdateSuccess'), scope='updater_state')
+                update_table()
             elif state == 'cancel':
                 put_loading('border', 'danger', 'updater_loading').style(
                     "--loading-border--")
@@ -661,6 +684,7 @@ class AlasGUI(Frame):
             name='updater'
         )
 
+        update_table()
         self.task_handler.add(updater_switch.g(),
                               delay=0.5, pending_delete=True)
 
@@ -952,7 +976,7 @@ def app():
         debug=True,
         on_startup=[
             startup,
-            lambda: AlasManager.start_alas(ev = updater.event)
+            lambda: AlasManager.start_alas(ev=updater.event)
         ],
         on_shutdown=[clearup]
     )

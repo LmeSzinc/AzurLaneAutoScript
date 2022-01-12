@@ -1782,7 +1782,8 @@
     "Status": {
       "Running": "Running",
       "Inactive": "Inactive",
-      "Warning": "Warning"
+      "Warning": "Warning",
+      "Updating": "Waiting Update"
     },
     "MenuAlas": {
       "Overview": "Overview",
@@ -1817,7 +1818,12 @@
       "UpdateRun": "Updating",
       "UpdateSuccess": "Update succeeded, restarting",
       "UpdateChecking": "Checking for updates",
-      "UpdateCancel": "Update canceled, restarting Alas"
+      "UpdateCancel": "Update canceled, restarting Alas",
+      "Local": "Local",
+      "Upstream": "Upstream",
+      "Author": "Author",
+      "Time": "Commit time",
+      "Message": "Commit message"
     },
     "Text": {
       "InvalidFeedBack": "Invalid format. Example: {0}"

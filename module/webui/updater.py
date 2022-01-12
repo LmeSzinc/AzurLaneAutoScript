@@ -3,7 +3,7 @@ import datetime
 import subprocess
 import threading
 import time
-from typing import Generator
+from typing import Generator, Tuple
 
 import requests
 from deploy.installer import DeployConfig, ExecutionError, Installer
@@ -26,10 +26,17 @@ class Updater(Config, Installer):
     def __init__(self, file=DEPLOY_CONFIG):
         super().__init__(file=file)
         self.state = 0
-        self.delay = int(self.config['CheckUpdateInterval'])*60
-        self.schedule_time = datetime.time.fromisoformat(
-            self.config['AutoRestartTime'])
         self.event: threading.Event = None
+
+    @property
+    def delay(self):
+        self.read()
+        return int(self.config['CheckUpdateInterval'])*60
+
+    @property
+    def schedule_time(self):
+        self.read()
+        return datetime.time.fromisoformat(self.config['AutoRestartTime'])
 
     @cached_property
     def repo(self):
@@ -39,7 +46,65 @@ class Updater(Config, Installer):
     def branch(self):
         return self.config['Branch']
 
+    def execute_output(self, command) -> str:
+        command = command.replace(
+            r'\\', '/').replace('\\', '/').replace('\"', '"')
+        log = subprocess.run(command, capture_output=True,
+                             text=True, encoding='utf8').stdout
+        return log
+
+    def get_commit(self, revision='', n=1, short_sha1=False) -> Tuple:
+        """
+        Return:
+            (sha1, author, isotime, message,)
+        """
+        ph = 'h' if short_sha1 else 'H'
+
+        log = self.execute_output(
+            f'{self.git} log {revision} --pretty=format:"%{ph}---%an---%ad---%s" --date=iso -{n}')
+
+        if not log:
+            return None, None, None, None
+
+        logs = log.split('\n')
+        logs = list(map(lambda log: tuple(log.split('---')), logs))
+
+        if n == 1:
+            return logs[0]
+        else:
+            return logs
+
     def _check_update(self) -> bool:
+        self.state = 'checking'
+        source = 'origin'
+        for _ in range(3):
+            if self.execute(f'"{self.git}" fetch {source} {self.branch}', allow_failure=True):
+                break
+        else:
+            logger.warning("Git fetch failed")
+            return False
+
+        log = self.execute_output(
+            f'{self.git} log --not --remotes={source}/* -1 --oneline')
+        if log:
+            logger.info(
+                f"Cannot find local commit {log.split()[0]} in upstream, skip update")
+            return False
+
+        sha1, _, _, message = self.get_commit(f'..{source}/{self.branch}')
+
+        if sha1:
+            logger.info(f"New update avaliable")
+            logger.info(f"{sha1[:8]} - {message}")
+            return True
+        else:
+            logger.info(f"No update")
+            return False
+
+    def _check_update_(self) -> bool:
+        """
+        Deprecated
+        """
         self.state = 'checking'
         r = self.repo.split('/')
         owner = r[3]
@@ -60,20 +125,6 @@ class Updater(Config, Installer):
             if token:
                 headers['Authorization'] = 'token ' + token
 
-        p = subprocess.run(f"{self.git} rev-parse HEAD",
-                           capture_output=True, text=True)
-        if p.stdout is None:
-            logger.warning("Cannot get local commit sha1")
-            return 0
-
-        local_sha = p.stdout
-
-        if len(local_sha) != 41:
-            logger.warning("Cannot get local commit sha1")
-            return 0
-
-        local_sha = local_sha.strip()
-
         try:
             list_commit = requests.get(
                 base + f"{owner}/{repo}/branches/{self.branch}", headers=headers, params=para)
@@ -92,6 +143,8 @@ class Updater(Config, Installer):
             logger.exception(e)
             logger.warning("Check update failed when parsing return json")
             return 0
+
+        local_sha, _, _, _ = self._get_local_commit()
 
         if sha == local_sha:
             logger.info("No update")
@@ -192,7 +245,7 @@ class Updater(Config, Installer):
             self.event.clear()
             AlasManager.start_alas(instances, self.event)
             return False
-    
+
     @staticmethod
     def _trigger_reload(delay=2):
         def trigger():

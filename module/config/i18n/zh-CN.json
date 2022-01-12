@@ -1782,7 +1782,8 @@
     "Status": {
       "Running": "运行中",
       "Inactive": "闲置",
-      "Warning": "发生错误"
+      "Warning": "发生错误",
+      "Updating": "等待更新"
     },
     "MenuAlas": {
       "Overview": "总览",
@@ -1817,7 +1818,12 @@
       "UpdateRun": "更新中",
       "UpdateSuccess": "更新成功，正在重启",
       "UpdateChecking": "检查更新中",
-      "UpdateCancel": "取消更新，重启 Alas 中"
+      "UpdateCancel": "取消更新，重启 Alas 中",
+      "Local": "本地",
+      "Upstream": "上游仓库",
+      "Author": "作者",
+      "Time": "提交时间",
+      "Message": "提交信息"
     },
     "Text": {
       "InvalidFeedBack": "格式错误。 示例：{0}"

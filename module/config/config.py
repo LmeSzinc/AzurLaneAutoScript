@@ -57,7 +57,7 @@ def name_to_function(name):
 
 
 class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
-    stop_event: threading.Event
+    stop_event: threading.Event = None
     bound = {}
 
     # Class property
@@ -406,7 +406,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
             bool: If task switched
         """
         # Update event
-        if hasattr(self, 'stop_event'):
+        if self.stop_event is not None:
             if self.stop_event.is_set():
                 return True
         prev = self.task

@@ -62,6 +62,8 @@ class AlasManager:
             return 1
         elif len(self.log) == 0 or self.log[-1] == "Scheduler stopped.\n":
             return 2
+        elif self.log[-2].endswith('Update event detected'):
+            return 4
         else:
             return 3
 

@@ -30,6 +30,7 @@ Status:
   Running:
   Inactive:
   Warning:
+  Updating:
 
 MenuAlas:
   Overview:
@@ -66,6 +67,11 @@ Update:
   UpdateFailed:
   UpdateChecking:
   UpdateCancel:
+  Local:
+  Upstream:
+  Author:
+  Time:
+  Message:
 
 Text:
   InvalidFeedBack:

@@ -62,22 +62,10 @@ Deploy:
     InstallUiautomator2: true
 
   Update:
-    # Api Access token
-    # Not necessary, unauthorised users can call Github API 60 times/h, Gitee API has no limitations
-    # **Use same platform as Repository
-    # Github:
-    #   https://github.com/settings/tokens/new
-    #   Enter your note, choose expiration and click Generate token, copy the token
-    #   Token will be like this: ghp_cdvpqb23klCfg9Ah567anou8Bt4imDwxersj0yz1
-    # Gitee:
-    #   https://gitee.com/api/v5/swagger#/
-    #   Click "申请授权" at the upper right corner, copy value of access_token
-    #   Token will be like this: pqrsg189hijcbkn0672def1lm495a3o4
-    ApiToken: null
     # Check update every X minute
     # [Disable] -1
-    # [Default] 30
-    CheckUpdateInterval: 30
+    # [Default] 5
+    CheckUpdateInterval: 5
     # Scheduled restart time
     # If there are updates, Alas will automatically restart and update at this time every day
     # and run all alas instances that running before restarted
