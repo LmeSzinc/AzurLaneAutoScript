@@ -15,6 +15,7 @@ from module.map.utils import match_movable
 class Fleet(Camera, AmbushHandler):
     fleet_1_location = ()
     fleet_2_location = ()
+    fleet_submarine_location = ()
     battle_count = 0
     mystery_count = 0
     siren_count = 0
@@ -41,6 +42,14 @@ class Fleet(Camera, AmbushHandler):
     @fleet_2.setter
     def fleet_2(self, value):
         self.fleet_2_location = value
+
+    @property
+    def fleet_submarine(self):
+        return self
+
+    @fleet_submarine.setter
+    def fleet_submarine(self, value):
+        self.fleet_submarine_location = value
 
     @property
     def fleet_current(self):
@@ -246,6 +255,9 @@ class Fleet(Camera, AmbushHandler):
         if self.hp_retreat_triggered():
             self.withdraw()
         is_portal = self.map[location].is_portal
+        # The upper grid is submarine, may mess up predict_fleet()
+        may_submarine_icon = self.map.grid_covered(self.map[location], location=[(0, -1)])
+        may_submarine_icon = may_submarine_icon and self.fleet_submarine_location == may_submarine_icon[0].location
 
         while 1:
             self.in_sight(location, sight=self._walk_sight)
@@ -288,7 +300,11 @@ class Fleet(Camera, AmbushHandler):
                     if self.handle_combat_low_emotion():
                         walk_timeout.reset()
                 if self.combat_appear():
-                    self.combat(expected_end=self._expected_combat_end(expected), fleet_index=self.fleet_show_index)
+                    self.combat(
+                        expected_end=self._expected_end(expected),
+                        fleet_index=self.fleet_show_index,
+                        submarine_mode=self._submarine_mode(expected)
+                    )
                     self.hp_get()
                     self.lv_get(after_battle=True)
                     arrived = True if not self.config.MAP_HAS_MOVABLE_ENEMY else False
@@ -341,13 +357,24 @@ class Fleet(Camera, AmbushHandler):
                     raise MapWalkError('walk_out_of_step')
 
                 # Arrive
-                if self.is_in_map() and (
-                        grid.predict_fleet()
-                        or (self.config.MAP_WALK_USE_CURRENT_FLEET and grid.predict_current_fleet())
-                        or (walk_timeout.reached() and grid.predict_current_fleet())
-                ):
+                arrive_predict = ''
+                arrive_checker = False
+                if self.is_in_map():
+                    if not may_submarine_icon and grid.predict_fleet():
+                        arrive_predict = '(is_fleet)'
+                        arrive_checker = True
+                    elif may_submarine_icon and grid.predict_current_fleet():
+                        arrive_predict = '(may_submarine_icon, is_current_fleet)'
+                        arrive_checker = True
+                    elif self.config.MAP_WALK_USE_CURRENT_FLEET and grid.predict_current_fleet():
+                        arrive_predict = '(MAP_WALK_USE_CURRENT_FLEET, is_current_fleet)'
+                        arrive_checker = True
+                    elif walk_timeout.reached() and grid.predict_current_fleet():
+                        arrive_predict = '(walk_timeout, is_current_fleet)'
+                        arrive_checker = True
+                if arrive_checker:
                     if not arrive_timer.started():
-                        logger.info(f'Arrive {location2node(location)}')
+                        logger.info(f'Arrive {location2node(location)} {arrive_predict}'.strip())
                     arrive_timer.start()
                     arrive_unexpected_timer.start()
                     if not arrive_timer.reached():
@@ -474,6 +501,9 @@ class Fleet(Camera, AmbushHandler):
                     text = '[%s]' % text
                 fleets.append(text)
         logger.info(' '.join(fleets))
+
+    def show_submarine(self):
+        logger.info(f'Submarine: {location2node(self.fleet_submarine_location)}')
 
     def full_scan(self, queue=None, must_scan=None, mode='normal'):
         super().full_scan(
@@ -685,6 +715,61 @@ class Fleet(Camera, AmbushHandler):
         self.show_fleet()
         return self.fleet_current
 
+    def find_all_submarines(self):
+        logger.hr('Find all submarines')
+        queue = self.map.select(is_submarine_spawn_point=True)
+        while queue:
+            queue = queue.sort_by_camera_distance(self.camera)
+            self.in_sight(queue[0], sight=(-2, -1, 2, -1))
+            grid = self.convert_global_to_local(queue[0])
+            if grid.predict_submarine():
+                self.fleet_submarine = queue[0].location
+                break
+            queue = queue[1:]
+
+    def find_submarine(self):
+        if not (self.config.SUBMARINE and self.map.select(is_submarine_spawn_point=True)):
+            return False
+
+        fleets = self.map.select(is_submarine=True)
+        count = fleets.count
+        if count == 1:
+            self.fleet_submarine = fleets[0].location
+        elif count == 0:
+            logger.info('No submarine found')
+            # Try spawn points
+            spawn_point = self.map.select(is_submarine_spawn_point=True)
+            if spawn_point.count == 1:
+                logger.info(f'Predict the only submarine spawn point {spawn_point[0]} as submarine')
+                self.fleet_submarine = spawn_point[0].location
+            else:
+                logger.info(f'Having multiple submarine spawn points: {spawn_point}')
+                # Try covered grids
+                covered = SelectedGrids([])
+                for grid in spawn_point:
+                    covered = covered.add(self.map.grid_covered(grid, location=[(0, 1)]))
+                covered = covered.filter(lambda g: g.is_enemy or g.is_fleet or g.is_siren or g.is_boss)
+                if covered.count == 1:
+                    spawn_point = self.map.grid_covered(covered[0], location=[(0, -1)])
+                    logger.info(f'Submarine {spawn_point[0]} covered by {covered[0]}')
+                    self.fleet_submarine = spawn_point[0].location
+                else:
+                    logger.info('Found multiple submarine spawn points being covered')
+                    # Give up
+                    self.find_all_submarines()
+        else:
+            logger.warning('Too many submarines: %s.' % str(fleets))
+            self.find_all_submarines()
+
+        if not len(self.fleet_submarine_location):
+            logger.warning('Unable to find submarine, assume it is at map center')
+            shape = self.map.shape
+            center = (shape[0] // 2, shape[1] // 2)
+            self.fleet_submarine = self.map.select(is_land=False).sort_by_camera_distance(center)[0].location
+
+        self.show_submarine()
+        return self.fleet_submarine_location
+
     def map_init(self, map_):
         """
         This method should be called after entering a map and before doing any operations.
@@ -706,6 +791,7 @@ class Fleet(Camera, AmbushHandler):
         """
         self.fleet_1_location = ()
         self.fleet_2_location = ()
+        self.fleet_submarine_location = ()
         self.fleet_current_index = 1
         self.battle_count = 0
         self.mystery_count = 0
@@ -745,6 +831,7 @@ class Fleet(Camera, AmbushHandler):
         self.handle_info_bar()  # The info_bar which shows "Changed to fleet 2", will block the ammo icon
         self.full_scan(must_scan=self.map.camera_data_spawn_point)
         self.find_current_fleet()
+        self.find_submarine()
         self.find_path_initial()
         self.map.show_cost()
         self.round_reset()
@@ -760,7 +847,7 @@ class Fleet(Camera, AmbushHandler):
 
         return True
 
-    def _expected_combat_end(self, expected):
+    def _expected_end(self, expected):
         for data in self.map.spawn_data:
             if data.get('battle') == self.battle_count and 'boss' in expected:
                 return 'in_stage'
@@ -774,6 +861,15 @@ class Fleet(Camera, AmbushHandler):
             return 'in_stage'
 
         return None
+
+    def _submarine_mode(self, expected):
+        if self.is_call_submarine_at_boss:
+            if 'boss' in expected:
+                return 'every_combat'
+            else:
+                return 'do_not_use'
+        else:
+            return None
 
     def fleet_at(self, grid, fleet=None):
         """
@@ -917,3 +1013,143 @@ class Fleet(Camera, AmbushHandler):
         self.map_fleet_checked = False
         self.fleet_1_formation_fixed = False
         self.fleet_2_formation_fixed = False
+
+    def _submarine_goto(self, location):
+        """
+        Move submarine to given location.
+
+        Args:
+            location (tuple, str, GridInfo): Destination.
+
+        Returns:
+            bool: If submarine moved.
+
+        Pages:
+            in: SUBMARINE_MOVE_CONFIRM
+            out: SUBMARINE_MOVE_CONFIRM
+        """
+        location = location_ensure(location)
+        moved = True
+        while 1:
+            self.in_sight(location, sight=self._walk_sight)
+            self.focus_to_grid_center()
+            grid = self.convert_global_to_local(location)
+            grid.__str__ = location
+
+            self.device.click(grid)
+            arrived = False
+            # Usually no need to wait
+            arrive_timer = Timer(0.1, count=0)
+            # If nothing happens, click again.
+            walk_timeout = Timer(2, count=6).start()
+
+            while 1:
+                self.device.screenshot()
+                self.view.update(image=self.device.image)
+
+                # Arrive
+                arrive_checker = grid.predict_submarine_move()
+                if grid.predict_submarine() or (walk_timeout.reached() and grid.predict_fleet()):
+                    arrive_checker = True
+                    moved = False
+                if arrive_checker:
+                    if not arrive_timer.started():
+                        logger.info(f'Arrive {location2node(location)}')
+                    arrive_timer.start()
+                    if not arrive_timer.reached():
+                        continue
+                    logger.info(f'Submarine arrive {location2node(location)} confirm.')
+                    if not moved:
+                        logger.info(f'Submarine already at {location2node(location)}')
+                    arrived = True
+                    break
+
+                # End
+                if walk_timeout.reached():
+                    logger.warning('Walk timeout. Retrying.')
+                    self.predict()
+                    self.ensure_edge_insight(skip_first_update=False)
+                    break
+
+            # End
+            if arrived:
+                break
+
+        return moved
+
+    def submarine_goto(self, location):
+        """
+        Open strategy, move submarine to given location, close strategy.
+
+        Args:
+            location (tuple, str, GridInfo): Destination.
+
+        Returns:
+            bool: If submarine moved
+
+        Pages:
+            in: IN_MAP
+            out: IN_MAP
+        """
+        self.strategy_open()
+        self.strategy_submarine_move_enter()
+        if self._submarine_goto(location):
+            self.strategy_submarine_move_confirm()
+            result = True
+        else:
+            self.strategy_submarine_move_cancel()
+            result = False
+        # Hunt zone view re-enabled by game, after entering sub move mode
+        self.strategy_set_execute(sub_view=False)
+        self.strategy_close()
+        return result
+
+    def submarine_move_near_boss(self, boss):
+        """
+        Args:
+            boss (tuple, str, GridInfo): Destination.
+
+        Returns:
+            bool: If submarine moved
+        """
+        if not (self.is_call_submarine_at_boss and self.map.select(is_submarine_spawn_point=True)):
+            return False
+        if self.config.Submarine_DistanceToBoss == 'use_U522_skill':
+            logger.info('Going to use U522 skill, skip moving submarines')
+            return False
+
+        boss = location_ensure(boss)
+        logger.info(f'Move submarine near {location2node(boss)}')
+
+        self.map.find_path_initial(self.fleet_submarine_location, has_ambush=False, has_enemy=False)
+        self.map.show_cost()
+
+        def get_location(distance=2):
+            grids = self.map.select(is_land=False).filter(
+                lambda grid: np.sum(np.abs(np.subtract(grid.location, boss))) <= distance)
+            if grids:
+                return grids.sort('cost')[0].location
+            elif distance > 0:
+                logger.info(f'Unable to find a grid near boss in distance {distance}, fallback to {distance - 1}')
+                return get_location(distance - 1)
+            else:
+                logger.warning(f'Unable to find a grid near boss in distance {distance}, return boss position')
+                return boss
+
+        distance_dict = {
+            'to_boss_position': 0,
+            '1_grid_to_boss': 1,
+            '2_grid_to_boss': 2
+        }
+        distance_to_boss = distance_dict.get(self.config.Submarine_DistanceToBoss, 0)
+        logger.attr('Distance to boss', distance_to_boss)
+
+        if np.sum(np.abs(np.subtract(self.fleet_submarine_location, boss))) <= distance_to_boss:
+            logger.info('Boss is already in hunting zone')
+            self.find_path_initial()
+            return False
+        else:
+            near = get_location(distance_to_boss)
+            self.find_path_initial()
+            logger.info(f'Move submarine to {location2node(near)}')
+            return self.submarine_goto(near)
