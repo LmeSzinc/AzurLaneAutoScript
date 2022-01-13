@@ -246,6 +246,7 @@ class GuildShop(ShopBase, ShopUI):
         Clear interval on select assets for
         shop_buy_handle
         """
+        super().shop_interval_clear()
         self.interval_clear(SHOP_BUY_CONFIRM_SELECT)
 
     def shop_buy_handle(self, item):

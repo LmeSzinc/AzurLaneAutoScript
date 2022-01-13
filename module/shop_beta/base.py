@@ -46,7 +46,7 @@ class ShopItemGrid(ItemGrid):
                 [group.lower() for group in results.groups()]
             else:
                 logger.warning('Unable to parse shop item {item.name}; '
-                               'check template and regular expression')
+                               'check template asset and filter regexp')
                 raise ScriptError
 
             # Sometimes book's color and/or tier will be misidentified
@@ -216,7 +216,8 @@ class ShopBase(UI):
         if need to clear particular
         asset intervals
         """
-        pass
+        self.interval_clear(BACK_ARROW)
+        self.interval_clear(SHOP_BUY_CONFIRM)
 
     def shop_buy_handle(self, item):
         """
@@ -276,8 +277,6 @@ class ShopBase(UI):
             None: exits appropriately therefore successful
         """
         success = False
-        self.interval_clear(BACK_ARROW)
-        self.interval_clear(SHOP_BUY_CONFIRM)
         self.shop_interval_clear()
 
         while 1:
