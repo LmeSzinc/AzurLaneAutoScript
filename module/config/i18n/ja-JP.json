@@ -1776,17 +1776,23 @@
       "ScrollON": "Gui.Button.ScrollON",
       "ScrollOFF": "Gui.Button.ScrollOFF",
       "ClearLog": "Gui.Button.ClearLog",
-      "Setting": "Gui.Button.Setting"
+      "Setting": "Gui.Button.Setting",
+      "CheckUpdate": "Gui.Button.CheckUpdate",
+      "ClickToUpdate": "Gui.Button.ClickToUpdate",
+      "RetryUpdate": "Gui.Button.RetryUpdate",
+      "CancelUpdate": "Gui.Button.CancelUpdate"
     },
     "Toast": {
       "DisableTranslateMode": "Gui.Toast.DisableTranslateMode",
       "ConfigSaved": "Gui.Toast.ConfigSaved",
-      "AlasIsRunning": "Gui.Toast.AlasIsRunning"
+      "AlasIsRunning": "Gui.Toast.AlasIsRunning",
+      "ClickToUpdate": "Gui.Toast.ClickToUpdate"
     },
     "Status": {
       "Running": "Gui.Status.Running",
       "Inactive": "Gui.Status.Inactive",
-      "Warning": "Gui.Status.Warning"
+      "Warning": "Gui.Status.Warning",
+      "Updating": "Gui.Status.Updating"
     },
     "MenuAlas": {
       "Overview": "Gui.MenuAlas.Overview",
@@ -1794,7 +1800,8 @@
     },
     "MenuDevelop": {
       "HomePage": "Gui.MenuDevelop.HomePage",
-      "Translate": "Gui.MenuDevelop.Translate"
+      "Translate": "Gui.MenuDevelop.Translate",
+      "Update": "Gui.MenuDevelop.Update"
     },
     "Overview": {
       "Scheduler": "Gui.Overview.Scheduler",
@@ -1810,6 +1817,22 @@
       "CopyFrom": "Gui.AddAlas.CopyFrom",
       "Confirm": "Gui.AddAlas.Confirm",
       "FileExist": "Gui.AddAlas.FileExist"
+    },
+    "Update": {
+      "UpToDate": "Gui.Update.UpToDate",
+      "HaveUpdate": "Gui.Update.HaveUpdate",
+      "UpdateFailed": "Gui.Update.UpdateFailed",
+      "UpdateStart": "Gui.Update.UpdateStart",
+      "UpdateWait": "Gui.Update.UpdateWait",
+      "UpdateRun": "Gui.Update.UpdateRun",
+      "UpdateSuccess": "Gui.Update.UpdateSuccess",
+      "UpdateChecking": "Gui.Update.UpdateChecking",
+      "UpdateCancel": "Gui.Update.UpdateCancel",
+      "Local": "Gui.Update.Local",
+      "Upstream": "Gui.Update.Upstream",
+      "Author": "Gui.Update.Author",
+      "Time": "Gui.Update.Time",
+      "Message": "Gui.Update.Message"
     },
     "Text": {
       "InvalidFeedBack": "Gui.Text.InvalidFeedBack"
