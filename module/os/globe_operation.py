@@ -246,7 +246,7 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             # Popup: Leaving current zone will terminate meowfficer searching.
             # Searching reward will be shown after entering another zone.
             if self.handle_popup_confirm('GOTO_GLOBE'):
-                return True
+                continue
 
             # End
             if self.is_in_globe():

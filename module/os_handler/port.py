@@ -37,6 +37,8 @@ class PortHandler(OSShopHandler):
         """
         Accept all missions in port.
 
+        Deprecated since 2022.01.13, missions are shown only in overview, no longer to be shown at ports.
+
         Returns:
             bool: True if all missions accepted or no mission found.
                   False if unable to accept more missions.
@@ -52,7 +54,7 @@ class PortHandler(OSShopHandler):
         self.ui_click(PORT_GOTO_MISSION, appear_button=PORT_CHECK, check_button=PORT_MISSION_CHECK,
                       skip_first_screenshot=True)
 
-        confirm_timer = Timer(1.5, count=3)
+        confirm_timer = Timer(1.5, count=3).start()
         skip_first_screenshot = True
         success = True
         while 1:

@@ -1,4 +1,4 @@
-from module.webui.utils import Icon, TaskHandler
+from module.webui.utils import Icon, WebIOTaskHandler, set_localstorage
 from pywebio.output import clear, put_html, put_scope, put_text, use_scope
 from pywebio.session import defer_call, info, run_js
 
@@ -11,7 +11,7 @@ class Base:
         # Device type
         self.is_mobile = info.user_agent.is_mobile
         # Task handler
-        self.task_handler = TaskHandler()
+        self.task_handler = WebIOTaskHandler()
         defer_call(self.stop)
 
     def stop(self) -> None:
@@ -38,6 +38,7 @@ class Frame(Base):
             self.expand_menu()
         if name:
             self.active_button('aside', name)
+            set_localstorage('aside', name)
 
     def init_menu(self,
                   collapse_menu: bool = True,

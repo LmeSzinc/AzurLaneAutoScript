@@ -61,6 +61,22 @@ Deploy:
     # [In most cases] Use true
     InstallUiautomator2: true
 
+  Update:
+    # Check update every X minute
+    # [Disable] -1
+    # [Default] 5
+    CheckUpdateInterval: 5
+    # Scheduled restart time
+    # If there are updates, Alas will automatically restart and update at this time every day
+    # and run all alas instances that running before restarted
+    # [Disable] null
+    # [Default] 03:50
+    AutoRestartTime: 03:50
+
+  Misc:
+    # Enable discord rich presence
+    DiscordRichPresence: false
+
   Webui:
     # --host. Host to listen
     # [Use IPv6] '::'

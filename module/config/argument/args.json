@@ -54,7 +54,7 @@
     },
     "Optimization": {
       "CombatScreenshotInterval": {
-        "type": "input",
+        "type": "disable",
         "value": 1.0
       },
       "TaskHoardingDuration": {
@@ -407,6 +407,7 @@
         "option": [
           "do_not_use",
           "hunt_only",
+          "boss_only",
           "every_combat"
         ]
       },
@@ -416,6 +417,16 @@
         "option": [
           "sub_standby",
           "sub_auto_call"
+        ]
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_U522_skill"
         ]
       }
     },
@@ -806,6 +817,7 @@
         "option": [
           "do_not_use",
           "hunt_only",
+          "boss_only",
           "every_combat"
         ]
       },
@@ -815,6 +827,16 @@
         "option": [
           "sub_standby",
           "sub_auto_call"
+        ]
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_U522_skill"
         ]
       }
     },
@@ -1703,6 +1725,7 @@
         "option": [
           "do_not_use",
           "hunt_only",
+          "boss_only",
           "every_combat"
         ]
       },
@@ -1712,6 +1735,16 @@
         "option": [
           "sub_standby",
           "sub_auto_call"
+        ]
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_U522_skill"
         ]
       }
     },
@@ -2077,6 +2110,7 @@
         "option": [
           "do_not_use",
           "hunt_only",
+          "boss_only",
           "every_combat"
         ]
       },
@@ -2086,6 +2120,16 @@
         "option": [
           "sub_standby",
           "sub_auto_call"
+        ]
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_U522_skill"
         ]
       }
     },
@@ -2835,7 +2879,7 @@
       },
       "NewOperationMaxDate": {
         "type": "input",
-        "value": 20
+        "value": 15
       },
       "JoinThreshold": {
         "type": "input",
@@ -3898,6 +3942,7 @@
         "option": [
           "do_not_use",
           "hunt_only",
+          "boss_only",
           "every_combat"
         ]
       },
@@ -3907,6 +3952,16 @@
         "option": [
           "sub_standby",
           "sub_auto_call"
+        ]
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_U522_skill"
         ]
       }
     },
@@ -4296,6 +4351,7 @@
         "option": [
           "do_not_use",
           "hunt_only",
+          "boss_only",
           "every_combat"
         ]
       },
@@ -4305,6 +4361,16 @@
         "option": [
           "sub_standby",
           "sub_auto_call"
+        ]
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_U522_skill"
         ]
       }
     },
@@ -4694,6 +4760,7 @@
         "option": [
           "do_not_use",
           "hunt_only",
+          "boss_only",
           "every_combat"
         ]
       },
@@ -4703,6 +4770,16 @@
         "option": [
           "sub_standby",
           "sub_auto_call"
+        ]
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_U522_skill"
         ]
       }
     },
@@ -5082,6 +5159,7 @@
         "option": [
           "do_not_use",
           "hunt_only",
+          "boss_only",
           "every_combat"
         ]
       },
@@ -5091,6 +5169,16 @@
         "option": [
           "sub_standby",
           "sub_auto_call"
+        ]
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_U522_skill"
         ]
       }
     },
@@ -5627,6 +5715,7 @@
         "option": [
           "do_not_use",
           "hunt_only",
+          "boss_only",
           "every_combat"
         ]
       },
@@ -5636,6 +5725,16 @@
         "option": [
           "sub_standby",
           "sub_auto_call"
+        ]
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_U522_skill"
         ]
       }
     },
@@ -5884,6 +5983,41 @@
       }
     }
   },
+  "OpsiShop": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "input",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "disable",
+        "value": "OpsiShop"
+      },
+      "SuccessInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "FailureInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "ServerUpdate": {
+        "type": "disable",
+        "value": "00:00"
+      }
+    },
+    "OpsiShop": {
+      "BuySupply": {
+        "type": "checkbox",
+        "value": true
+      }
+    }
+  },
   "OpsiDaily": {
     "Scheduler": {
       "Enable": {
@@ -5913,10 +6047,6 @@
       }
     },
     "OpsiDaily": {
-      "BuySupply": {
-        "type": "checkbox",
-        "value": true
-      },
       "DoMission": {
         "type": "checkbox",
         "value": true

@@ -375,8 +375,8 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         Returns:
             bool:
         """
-        if self.appear_then_click(GET_SHIP):
-            if self.appear(NEW_SHIP, interval=1):
+        if self.appear_then_click(GET_SHIP, interval=1):
+            if self.appear(NEW_SHIP):
                 logger.info('Get a new SHIP')
                 if drop:
                     drop.handle_add(self)

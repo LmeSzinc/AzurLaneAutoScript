@@ -1,10 +1,25 @@
 from module.base.base import ModuleBase
 from module.base.button import Button
 from module.base.timer import Timer
+from module.exception import ScriptError
 from module.logger import logger
 
 
 class Switch:
+    """
+    A wrapper to handle switches in game.
+    Set switch status with reties.
+
+    Examples:
+        # Definitions
+        submarine_hunt = Switch('Submarine_hunt', offset=120)
+        submarine_hunt.add_status('on', check_button=SUBMARINE_HUNT_ON)
+        submarine_hunt.add_status('off', check_button=SUBMARINE_HUNT_OFF)
+
+        # Change status to ON
+        submarine_view.set('on', main=self)
+    """
+
     def __init__(self, name='Switch', is_selector=False, offset=0):
         """
         Args:
@@ -20,21 +35,19 @@ class Switch:
         self.offset = offset
         self.status_list = []
 
-    def add_status(self, status, check_button, click_button=None, offset=0, sleep=(1.0, 1.2)):
+    def add_status(self, status, check_button, click_button=None, offset=0):
         """
         Args:
             status (str):
             check_button (Button):
             click_button (Button):
             offset (bool, int, tuple):
-            sleep (int, float, tuple):
         """
         self.status_list.append({
             'status': status,
             'check_button': check_button,
             'click_button': click_button if click_button is not None else check_button,
-            'offset': offset if offset else self.offset,
-            'sleep': sleep
+            'offset': offset if offset else self.offset
         })
 
     def appear(self, main):
@@ -65,6 +78,24 @@ class Switch:
 
         return 'unknown'
 
+    def get_data(self, status):
+        """
+        Args:
+            status (str):
+
+        Returns:
+            dict: Dictionary in add_status
+
+        Raises:
+            ScriptError: If status invalid
+        """
+        for row in self.status_list:
+            if row['status'] == status:
+                return row
+
+        logger.warning(f'Switch {self.name} received an invalid status {status}')
+        raise ScriptError(f'Switch {self.name} received an invalid status {status}')
+
     def set(self, status, main, skip_first_screenshot=True):
         """
         Args:
@@ -75,33 +106,43 @@ class Switch:
         Returns:
             bool:
         """
+        self.get_data(status)
+
         counter = 0
         changed = False
         warning_show_timer = Timer(5, count=10).start()
+        click_timer = Timer(1, count=3)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 main.device.screenshot()
 
+            # Detect
             current = self.get(main=main)
             logger.attr(self.name, current)
+
+            # End
             if current == status:
                 return changed
 
+            # Warning
             if current == 'unknown':
                 if warning_show_timer.reached():
                     logger.warning(f'Unknown {self.name} switch')
                     warning_show_timer.reset()
                     if counter >= 1:
-                        logger.warning(f'{self.name} switch {status} asset has evaluated to unknown too many times, asset should be re-verified')
+                        logger.warning(f'{self.name} switch {status} asset has evaluated to unknown too many times, '
+                                       f'asset should be re-verified')
                         return False
                     counter += 1
                 continue
 
-            click_status = status if self.is_choice else current
-            for data in self.status_list:
-                if data['status'] == click_status:
-                    main.device.click(data['click_button'])
-                    main.device.sleep(data['sleep'])
-                    changed = True
+            # Click
+            if click_timer.reached():
+                click_status = status if self.is_choice else current
+                main.device.click(self.get_data(click_status)['click_button'])
+                click_timer.reset()
+                changed = True
+
+        return changed
