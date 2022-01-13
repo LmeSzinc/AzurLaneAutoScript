@@ -454,8 +454,9 @@ OpsiExplore:
   SpecialRadar: false
   ForceRun: false
   LastZone: 0
-OpsiDaily:
+OpsiShop:
   BuySupply: true
+OpsiDaily:
   DoMission: true
 OpsiObscure:
   ForceRun: false

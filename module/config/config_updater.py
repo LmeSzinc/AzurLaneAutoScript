@@ -341,6 +341,13 @@ class ConfigGenerator:
 
 
 class ConfigUpdater:
+    # source, target, (optional)convert_func
+    redirection = [
+        ('OpsiDaily.OpsiDaily.BuySupply', 'OpsiShop.Scheduler.Enable'),
+        ('OpsiDaily.Scheduler.Enable', 'OpsiDaily.OpsiDaily.DoMission'),
+        ('OpsiShop.Scheduler.Enable', 'OpsiShop.OpsiShop.BuySupply'),
+    ]
+
     @cached_property
     def args(self):
         return read_file(filepath_args())
@@ -388,6 +395,40 @@ class ConfigUpdater:
                 deep_set(new,
                          keys=f'{task}.Campaign.Event',
                          value=deep_get(self.args, f'{task}.Campaign.Event.{server_}'))
+
+        if not is_template:
+            new = self.config_redirect(old, new)
+
+        return new
+
+    def config_redirect(self, old, new):
+        """
+        Convert old settings to the new.
+
+        Args:
+            old (dict):
+            new (dict):
+
+        Returns:
+            dict:
+        """
+        for row in self.redirection:
+            if len(row) == 2:
+                source, target = row
+                update_func = None
+            elif len(row) == 3:
+                source, target, update_func = row
+            else:
+                continue
+
+            value = deep_get(old, keys=source, default=None)
+            if value is not None:
+                if update_func is not None:
+                    value = update_func(value)
+                deep_set(new, keys=target, value=value)
+            else:
+                # No such setting
+                continue
 
         return new
 

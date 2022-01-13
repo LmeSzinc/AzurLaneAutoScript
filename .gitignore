@@ -14,8 +14,8 @@ dev_tools/debug_tools
 /campaign/test/
 /toolkit
 *.lock
-reloadflag
-reloadalas
+config/reloadflag
+config/reloadalas
 test.py
 
 # Created by .ignore support plugin (hsz.mobi)

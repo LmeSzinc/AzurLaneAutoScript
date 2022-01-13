@@ -11,7 +11,7 @@ import uvicorn.config
 from module.logger import logger
 from module.webui.config import WebuiConfig
 
-# monkey patch Config.bing_socket
+reuseaddr = True
 
 
 def bind(self) -> socket.socket:
@@ -54,9 +54,9 @@ def bind(self) -> socket.socket:
             # It's an IPv6 address.
             family = socket.AF_INET6
             addr_format = "%s://[%s]:%d"
-
         sock = socket.socket(family=family)
-        # sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        if reuseaddr:
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         try:
             sock.bind((self.host, self.port))
         except OSError as exc:
@@ -77,8 +77,8 @@ def bind(self) -> socket.socket:
     return sock
 
 
+# monkey patch Config.bing_socket
 uvicorn.Config.bind_socket = bind
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Alas web service')
@@ -86,20 +86,24 @@ if __name__ == '__main__':
                         help='Host to listen. Default to WebuiHost in deploy setting')
     parser.add_argument('-p', '--port', type=int,
                         help='Port to listen. Default to WebuiPort in deploy setting')
+    parser.add_argument('-d', '--disable-address-reuse', action="store_true",
+                        help='Disable SO_REUSEADDR.')
     args, _ = parser.parse_known_args()
 
     webui_config = WebuiConfig()
     host = args.host or webui_config.WebuiHost or '0.0.0.0'
     port = args.port or int(webui_config.WebuiPort) or 22267
 
+    if args.disable_address_reuse:
+        reuseaddr = False
     logger.hr('Server config')
     logger.attr('Host', host)
     logger.attr('Port', port)
 
     try:
-        os.remove('./reloadflag')
+        os.remove('./config/reloadflag')
     except:
         pass
 
-    uvicorn.run('module.webui.app:app', host=host, port=port, factory=True,
+    uvicorn.run('module.webui.app:app', host=host, port=port, factory=True, reload_dirs=[os.path.join(os.getcwd(), './config/')],
                 reload=True, reload_includes=['reloadflag'], reload_excludes=['*.py'])

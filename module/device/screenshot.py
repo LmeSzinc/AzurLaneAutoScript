@@ -6,8 +6,8 @@ from io import BytesIO
 
 from PIL import Image
 from cached_property import cached_property
-from retry import retry
 
+from module.base.retry import retry
 from module.base.timer import Timer, timer
 from module.device.ascreencap import AScreenCap
 from module.exception import ScriptError
@@ -54,7 +54,7 @@ class Screenshot(AScreenCap):
         screenshot = self.adb_shell(['screencap', '-p'])
         return self._process_screenshot(screenshot)
 
-    @retry(tries=10, delay=3, logger=logger)
+    @retry(tries=10, delay=3)
     @timer
     def screenshot(self):
         """
