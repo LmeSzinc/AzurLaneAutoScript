@@ -168,7 +168,7 @@ class MissionHandler(GlobeOperation, ZoneManager):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(PORT_MISSION_ACCEPT, offset=(20, 20), interval=0.2):
+            if self.appear_then_click(MISSION_OVERVIEW_ACCEPT, offset=(20, 20), interval=0.2):
                 confirm_timer.reset()
                 continue
             else:
