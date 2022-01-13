@@ -136,7 +136,7 @@ SELECT_ITEM_INFO_MAP = {
     'pr': {
         'limit': 1,
         'grid': {
-            's1': SELECT_GRID_5X1,
+            's1': SELECT_GRID_6X1,
             's2': SELECT_GRID_4X1,
             's3': SELECT_GRID_4X1,
             's4': SELECT_GRID_3X1,
