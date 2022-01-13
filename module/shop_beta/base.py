@@ -241,10 +241,6 @@ class ShopBase(UI):
         Returns:
             Item: Item to buy, or None.
         """
-        # Convert selection to list{str], remove any empty/whitespace entries
-        selection = self.shop_filter.replace(' ', '').replace('\n', '').split('>')
-        selection = list(filter(''.__ne__, selection))
-
         # First, must scan for custom items
         # as has no template or filter support
         for item in items:
@@ -258,7 +254,7 @@ class ShopBase(UI):
                 return True
             return False
 
-        FILTER.load(selection)
+        FILTER.load(self.shop_filter)
         filtered = FILTER.apply(items, _filter_check)
 
         if not filtered:
