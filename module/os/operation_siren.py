@@ -221,8 +221,9 @@ class OperationSiren(Reward, OSMap):
             self.globe_goto(port)
             self.port_goto()
             self.port_enter()
-            if mission and mission_success:
-                mission_success &= self.port_mission_accept()
+            # Deprecated since 2022.01.13, missions are shown only in overview, no longer to be shown at ports.
+            # if mission and mission_success:
+            #     mission_success &= self.port_mission_accept()
             if supply and supply_success:
                 supply_success &= self.port_supply_buy()
             self.port_quit()
