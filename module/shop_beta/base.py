@@ -1,60 +1,66 @@
+import re
+
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
+from module.base.filter import Filter
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1, GET_SHIP
+from module.exception import ScriptError
 from module.logger import logger
 from module.shop.assets import *
-from module.shop.base_globals import *
 from module.statistics.item import ItemGrid
 from module.tactical.tactical_class import Book
 from module.ui.assets import BACK_ARROW
 from module.ui.ui import UI
 
+FILTER_REGEX = re.compile(
+    '(cube|drill|chip|array|pry|dr|box|bulin|book|food|plate|retrofit)'
+
+    '(neptune|monarch|ibuki|izumo|roon|saintlouis'
+    '|seattle|georgia|kitakaze|azuma|friedrich'
+    '|gascogne|champagne|cheshire|drake|mainz|odin'
+    '|anchorage|hakuryu|agir|august|marcopolo'
+    '|red|blue|yellow'
+    '|general|gun|torpedo|antiair|plane'
+    '|dd|cl|bb|cv)?'
+
+    '(s[1-4]|t[1-6])?',
+    flags=re.IGNORECASE)
+FILTER_ATTR = ('group', 'sub_genre', 'tier')
+FILTER = Filter(FILTER_REGEX, FILTER_ATTR)
+
 
 class ShopItemGrid(ItemGrid):
     def predict(self, image, name=True, amount=True, cost=False, price=False, tag=False):
         """
-        Overridden to iterate, corrects 'Book' type items and add additional
-        attributes used to generalize identification
+        Define new attributes to predicted Item obj for shop item filtering
         """
         super().predict(image, name, amount, cost, price, tag)
 
         for item in self.items:
-            # Give all items a set of attributes
-            # for the Filter class
-            item.group = None
-            item.sub_genre = None
-            item.tier = None
+            # Can use regular expression to quickly populate
+            # the new attributes
+            result = re.search(FILTER_REGEX, item.name)
+            if result:
+                item.group, item.sub_genre, item.tier = \
+                [group.lower() for group in results.groups()]
+            else:
+                logger.warning('Unable to parse shop item {item.name}; '
+                               'check template and regular expression')
+                raise ScriptError
 
-            if item.name in ITEM_NO_TIERS:
-                item.group = item.name[:-2]
-                continue
-
-            if 'Book' in item.name:
-                # Although attribute marked as protected
-                # access for Book identification
+            # Sometimes book's color and/or tier will be misidentified
+            # Undergo a second template match using Book class
+            if item.group == 'book':
                 book = Book(image, item._button)
-
-                item.name = f'{item.name[:-2]}{book.tier_str}'
-                item.group, item.sub_genre, item.tier = \
-                ['Book', book.genre_str, book.tier_str]
-                continue
-
-            if 'Plate' in item.name:
-                item.group, item.sub_genre, item.tier = \
-                ['Plate', item.name[5:-2], item.name[-2:]]
-                continue
-
-            if 'Retrofit' in item.name:
-                item.group, item.sub_genre, item.tier = \
-                ['Retrofit', item.name[8:-2], item.name[-2:]]
-                continue
-
-            if 'PR' in item.name or 'DR' in item.name:
-                item.group = item.name[:2]
-                item.sub_genre = item.name[2:-2]
-                item.tier = f'S{BP_SERIES[item.name[2:-2].lower()]}'
-                continue
+                if item.sub_genre is not None:
+                    item.sub_genre = book.genre_str
+                item.tier = book.tier_str.lower()
+                item.name = ''.join(
+                    [part.title()
+                    if part is not None
+                    else ''
+                    for part in [item.group, item.sub_genre, item.tier]])
 
         return self.items
 
