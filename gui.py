@@ -97,9 +97,9 @@ if __name__ == '__main__':
     logger.attr('Port', port)
 
     try:
-        os.remove('./reloadflag')
+        os.remove('./config/reloadflag')
     except:
         pass
 
-    uvicorn.run('module.webui.app:app', host=host, port=port, factory=True,
+    uvicorn.run('module.webui.app:app', host=host, port=port, factory=True, reload_dirs=[os.path.join(os.getcwd(), './config/')],
                 reload=True, reload_includes=['reloadflag'], reload_excludes=['*.py'])

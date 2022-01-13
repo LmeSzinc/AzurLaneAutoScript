@@ -62,7 +62,7 @@ class AlasManager:
             return 1
         elif len(self.log) == 0 or self.log[-1] == "Scheduler stopped.\n":
             return 2
-        elif self.log[-2].endswith('Update event detected'):
+        elif self.log[-2].endswith('Update event detected\n'):
             return 4
         else:
             return 3
@@ -141,7 +141,7 @@ class AlasManager:
         if not instances:
             instances = []
             try:
-                with open('./reloadalas', mode='r') as f:
+                with open('./config/reloadalas', mode='r') as f:
                     for line in f.readlines():
                         line = line.strip()
                         instances.append(AlasManager.get_alas(line))
@@ -153,7 +153,7 @@ class AlasManager:
             alas.start(func='Alas', ev=ev)
 
         try:
-            os.remove('./reloadalas')
+            os.remove('./config/reloadalas')
         except:
             pass
         logger.info("Start alas complete")

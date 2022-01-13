@@ -234,7 +234,7 @@ class Updater(Config, Installer):
 
         if updater.update():
             self.state = 'reload'
-            with open('./reloadalas', mode='w') as f:
+            with open('./config/reloadalas', mode='w') as f:
                 f.writelines(names)
             from module.webui.app import clearup
             self._trigger_reload(2)
@@ -249,7 +249,7 @@ class Updater(Config, Installer):
     @staticmethod
     def _trigger_reload(delay=2):
         def trigger():
-            with open('./reloadflag', mode='w'):
+            with open('./config/reloadflag', mode='w'):
                 # app ended here and uvicorn will restart whole app
                 pass
         timer = threading.Timer(delay, trigger)
