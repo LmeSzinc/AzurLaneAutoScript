@@ -1273,6 +1273,19 @@
       "Submarine": false
     }
   },
+  "OpsiShop": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "OpsiShop",
+      "SuccessInterval": 30,
+      "FailureInterval": 30,
+      "ServerUpdate": "00:00"
+    },
+    "OpsiShop": {
+      "BuySupply": true
+    }
+  },
   "OpsiDaily": {
     "Scheduler": {
       "Enable": false,
@@ -1283,7 +1296,6 @@
       "ServerUpdate": "00:00"
     },
     "OpsiDaily": {
-      "BuySupply": true,
       "DoMission": true
     },
     "OpsiFleet": {

@@ -301,6 +301,11 @@ OpsiExplore:
     SuccessInterval: 0
     FailureInterval: 0
     ServerUpdate: 00:00
+OpsiShop:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
 OpsiDaily:
   Scheduler:
     SuccessInterval: 30

@@ -178,6 +178,10 @@
       "name": "OpSi Explore",
       "help": ""
     },
+    "OpsiShop": {
+      "name": "Opsi Shop",
+      "help": ""
+    },
     "OpsiDaily": {
       "name": "OpSi Daily",
       "help": ""
@@ -1640,14 +1644,20 @@
       "help": "Automatically updated with map ID\nReplace with 0 to reset progress\nAlready completed zones will be skipped"
     }
   },
-  "OpsiDaily": {
+  "OpsiShop": {
     "_info": {
-      "name": "OpSi Daily Settings",
+      "name": "OpSi Shop Settings",
       "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story must be complete\n- Zones must be unlocked either by OpSi explore or consuming 5000 oil for special radar in OpSi shop"
     },
     "BuySupply": {
       "name": "Buy From Port Shops",
       "help": "Buy all items from port shops\nShop inventory consists of a fixed pool that is reset monthly, items not bought during a cycle has the chance of re-appearing and blocking preferable high value items"
+    }
+  },
+  "OpsiDaily": {
+    "_info": {
+      "name": "OpSi Daily Settings",
+      "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story must be complete\n- Zones must be unlocked either by OpSi explore or consuming 5000 oil for special radar in OpSi shop"
     },
     "DoMission": {
       "name": "Do Port Mission(s)",

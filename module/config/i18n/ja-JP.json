@@ -178,6 +178,10 @@
       "name": "Task.OpsiExplore.name",
       "help": "Task.OpsiExplore.help"
     },
+    "OpsiShop": {
+      "name": "Task.OpsiShop.name",
+      "help": "Task.OpsiShop.help"
+    },
     "OpsiDaily": {
       "name": "Task.OpsiDaily.name",
       "help": "Task.OpsiDaily.help"
@@ -1640,14 +1644,20 @@
       "help": "OpsiExplore.LastZone.help"
     }
   },
+  "OpsiShop": {
+    "_info": {
+      "name": "OpsiShop._info.name",
+      "help": "OpsiShop._info.help"
+    },
+    "BuySupply": {
+      "name": "OpsiShop.BuySupply.name",
+      "help": "OpsiShop.BuySupply.help"
+    }
+  },
   "OpsiDaily": {
     "_info": {
       "name": "OpsiDaily._info.name",
       "help": "OpsiDaily._info.help"
-    },
-    "BuySupply": {
-      "name": "OpsiDaily.BuySupply.name",
-      "help": "OpsiDaily.BuySupply.help"
     },
     "DoMission": {
       "name": "OpsiDaily.DoMission.name",

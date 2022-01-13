@@ -310,8 +310,10 @@ class GeneratedConfig:
     OpsiExplore_ForceRun = False
     OpsiExplore_LastZone = 0
 
+    # Group `OpsiShop`
+    OpsiShop_BuySupply = True
+
     # Group `OpsiDaily`
-    OpsiDaily_BuySupply = True
     OpsiDaily_DoMission = True
 
     # Group `OpsiObscure`
