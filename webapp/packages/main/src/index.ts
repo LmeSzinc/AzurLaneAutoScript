@@ -125,7 +125,9 @@ const createWindow = async () => {
     {
       label: 'Exit',
       click: function () {
-        app.quit();
+        alas.kill(function () {
+          mainWindow?.close();
+        })
       }
     }
   ]);
