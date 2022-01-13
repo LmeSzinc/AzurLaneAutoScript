@@ -1776,17 +1776,23 @@
       "ScrollON": "自動滾動 開",
       "ScrollOFF": "自動滾動 關",
       "ClearLog": "清空日誌",
-      "Setting": "設定"
+      "Setting": "設定",
+      "CheckUpdate": "檢查更新",
+      "ClickToUpdate": "進行更新",
+      "RetryUpdate": "重試更新",
+      "CancelUpdate": "取消更新"
     },
     "Toast": {
       "DisableTranslateMode": "點擊這裡關閉翻譯模式",
       "ConfigSaved": "設定已儲存",
-      "AlasIsRunning": "調度器已在執行中"
+      "AlasIsRunning": "調度器已在執行中",
+      "ClickToUpdate": "有更新可用，點擊這裡進行更新"
     },
     "Status": {
       "Running": "執行中",
       "Inactive": "閒置",
-      "Warning": "發生錯誤"
+      "Warning": "發生錯誤",
+      "Updating": "等待更新"
     },
     "MenuAlas": {
       "Overview": "總覽",
@@ -1794,7 +1800,8 @@
     },
     "MenuDevelop": {
       "HomePage": "主頁",
-      "Translate": "翻譯"
+      "Translate": "翻譯",
+      "Update": "更新器"
     },
     "Overview": {
       "Scheduler": "調度器",
@@ -1810,6 +1817,22 @@
       "CopyFrom": "從現有的設定中複製",
       "Confirm": "添加",
       "FileExist": "存在同名的設定檔案，請重新命名"
+    },
+    "Update": {
+      "UpToDate": "已是最新版本",
+      "HaveUpdate": "有新版本可用",
+      "UpdateFailed": "更新失敗，可在./log/*_gui.txt中找到錯誤日誌",
+      "UpdateStart": "開始更新",
+      "UpdateWait": "等待所有 Alas 完成當前任務",
+      "UpdateRun": "更新中",
+      "UpdateSuccess": "更新成功，正在重啓",
+      "UpdateChecking": "檢查更新中",
+      "UpdateCancel": "取消更新，重啓 Alas 中",
+      "Local": "本地",
+      "Upstream": "上游倉庫",
+      "Author": "作者",
+      "Time": "提交時間",
+      "Message": "提交資訊"
     },
     "Text": {
       "InvalidFeedBack": "格式錯誤。 示例：{0}"
