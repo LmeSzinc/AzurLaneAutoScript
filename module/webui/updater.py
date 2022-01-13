@@ -6,12 +6,13 @@ import time
 from typing import Generator, Tuple
 
 import requests
+
 from deploy.installer import DeployConfig, ExecutionError, Installer
 from deploy.utils import DEPLOY_CONFIG, cached_property
+from module.base.retry import retry
 from module.logger import logger
 from module.webui.process_manager import AlasManager
 from module.webui.utils import TaskHandler, get_next_time
-from retry import retry
 
 
 class Config(DeployConfig):
@@ -171,11 +172,11 @@ class Updater(Config, Installer):
         if self.state in (0, 'failed'):
             self.state = updater._check_update()
 
-    @retry(ExecutionError, tries=3, delay=10, logger=logger)
+    @retry(ExecutionError, tries=3, delay=10)
     def git_install(self):
         return super().git_install()
 
-    @retry(ExecutionError, tries=3, delay=10, logger=logger)
+    @retry(ExecutionError, tries=3, delay=10)
     def pip_install(self):
         return super().pip_install()
 
