@@ -94,7 +94,7 @@ SELECT_GRID_6X1 = ButtonGrid(
 
 SELECT_ITEM_INFO_MAP = {
     'book': {
-        'limit': 0,
+        'limit': 3,
         'grid': SELECT_GRID_3X1,
         'choices': {
             'red': 0,
@@ -103,7 +103,7 @@ SELECT_ITEM_INFO_MAP = {
         },
     }.
     'box': {
-        'limit': 0,
+        'limit': 1,
         'grid': SELECT_GRID_4X1,
         'choices': {
             'eagle': 0,
@@ -113,7 +113,7 @@ SELECT_ITEM_INFO_MAP = {
         },
     }.
     'retrofit': {
-        'limit': 0,
+        'limit': 2,
         'grid': SELECT_GRID_4X1,
         'choices': {
             'dd': 0,
@@ -123,7 +123,7 @@ SELECT_ITEM_INFO_MAP = {
         },
     }.
     'plate': {
-        'limit': 0,
+        'limit': 5,
         'grid': SELECT_GRID_5X1,
         'choices': {
             'general': 0,
@@ -134,7 +134,7 @@ SELECT_ITEM_INFO_MAP = {
         },
     }.
     'pr': {
-        'limit': 0,
+        'limit': 1,
         'grid': {
             's1': SELECT_GRID_5X1,
             's2': SELECT_GRID_4X1,
@@ -162,7 +162,7 @@ SELECT_ITEM_INFO_MAP = {
         },
     }.
     'dr': {
-        'limit': 0,
+        'limit': 1,
         'grid': {
             's1': SELECT_GRID_3X1,
             's2': SELECT_GRID_3X1,
