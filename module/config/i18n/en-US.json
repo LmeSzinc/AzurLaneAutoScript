@@ -1842,7 +1842,8 @@
       "Upstream": "Upstream",
       "Author": "Author",
       "Time": "Commit time",
-      "Message": "Commit message"
+      "Message": "Commit message",
+      "DisabledWarn": "Updater module is disabled. You need to manually restart Alas to update"
     },
     "Text": {
       "InvalidFeedBack": "Invalid format. Example: {0}"

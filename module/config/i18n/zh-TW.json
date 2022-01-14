@@ -1842,7 +1842,8 @@
       "Upstream": "上游倉庫",
       "Author": "作者",
       "Time": "提交時間",
-      "Message": "提交資訊"
+      "Message": "提交資訊",
+      "DisabledWarn": "更新模塊未啟用，你需要手動重啓 Alas 進行更新"
     },
     "Text": {
       "InvalidFeedBack": "格式錯誤。 示例：{0}"

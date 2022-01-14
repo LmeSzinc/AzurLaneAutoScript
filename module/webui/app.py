@@ -33,7 +33,7 @@ from pywebio.exceptions import SessionClosedException, SessionNotFoundException
 from pywebio.output import (clear, close_popup, popup, put_button, put_buttons,
                             put_collapse, put_column, put_error, put_html,
                             put_loading, put_markdown, put_row, put_scope,
-                            put_table, put_text, toast, use_scope)
+                            put_table, put_text, put_warning, toast, use_scope)
 from pywebio.pin import pin, pin_wait_change
 from pywebio.session import go_app, info, register_thread, run_js, set_env
 
@@ -571,6 +571,9 @@ class AlasGUI(Frame):
         self.init_menu(name='Update')
         self.set_title(t("Gui.MenuDevelop.Update"))
 
+        if not updater.enabled:
+            put_warning(t("Gui.Update.DisabledWarn"))
+
         put_row(content=[
             put_scope('updater_loading'),
             None,
@@ -947,6 +950,10 @@ def app():
                         help='Password of alas. No password by default')
     parser.add_argument("--cdn", action="store_true",
                         help="Use jsdelivr cdn for pywebio static files (css, js). Self host cdn by default.")
+    parser.add_argument('--electron', action="store_true",
+                        help='Runs by electron client.')
+    parser.add_argument('--reload', action="store_true",
+                        help='Able to use auto update and builtin updater')
     args, _ = parser.parse_known_args()
 
     # Apply config
@@ -954,6 +961,7 @@ def app():
     lang.LANG = webui_config.Language
     key = args.key or webui_config.Password
     cdn = args.cdn or (webui_config.CDN == 'true') or False
+    updater.enabled = args.reload or updater.enabled
 
     logger.hr('Webui configs')
     logger.attr('Theme', webui_config.Theme)

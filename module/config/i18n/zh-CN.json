@@ -1842,7 +1842,8 @@
       "Upstream": "上游仓库",
       "Author": "作者",
       "Time": "提交时间",
-      "Message": "提交信息"
+      "Message": "提交信息",
+      "DisabledWarn": "更新模块未启用，你需要手动重启 Alas 进行更新"
     },
     "Text": {
       "InvalidFeedBack": "格式错误。 示例：{0}"

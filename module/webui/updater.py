@@ -28,6 +28,7 @@ class Updater(Config, Installer):
         super().__init__(file=file)
         self.state = 0
         self.event: threading.Event = None
+        self._enabled = self.bool('EnableReload')
 
     @property
     def delay(self):
@@ -39,9 +40,13 @@ class Updater(Config, Installer):
         self.read()
         return datetime.time.fromisoformat(self.config['AutoRestartTime'])
 
-    @cached_property
+    @property
     def enabled(self):
-        return self.bool('EnableReload')
+        return self._enabled
+
+    @enabled.setter
+    def enabled(self, val):
+        self._enabled = val
 
     @cached_property
     def repo(self):
@@ -174,7 +179,7 @@ class Updater(Config, Installer):
 
     def check_update(self):
         if self.state in (0, 'failed'):
-            self.state = updater._check_update()
+            self.state = self._check_update()
 
     @retry(ExecutionError, tries=3, delay=10)
     def git_install(self):
@@ -199,6 +204,8 @@ class Updater(Config, Installer):
 
     def run_update(self):
         if self.state not in ('failed', 0, 1):
+            return
+        if not self.enabled:
             return
         self._start_update()
 
@@ -237,7 +244,7 @@ class Updater(Config, Installer):
         self.state = 'run update'
         logger.info("All alas stopped, start updating")
 
-        if updater.update():
+        if self.update():
             self.state = 'reload'
             with open('./config/reloadalas', mode='w') as f:
                 f.writelines(names)
@@ -269,8 +276,7 @@ class Updater(Config, Installer):
         th._task.delay = get_next_time(self.schedule_time)
         yield
         while True:
-            if self.state == 0:
-                self.state = updater._check_update()
+            self.check_update()
             if self.state != 1:
                 th._task.delay = get_next_time(self.schedule_time)
                 yield

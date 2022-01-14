@@ -1842,7 +1842,8 @@
       "Upstream": "Gui.Update.Upstream",
       "Author": "Gui.Update.Author",
       "Time": "Gui.Update.Time",
-      "Message": "Gui.Update.Message"
+      "Message": "Gui.Update.Message",
+      "DisabledWarn": "Gui.Update.DisabledWarn"
     },
     "Text": {
       "InvalidFeedBack": "Gui.Text.InvalidFeedBack"
