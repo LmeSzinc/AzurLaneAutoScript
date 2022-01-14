@@ -40,6 +40,10 @@ class Updater(Config, Installer):
         return datetime.time.fromisoformat(self.config['AutoRestartTime'])
 
     @cached_property
+    def enabled(self):
+        return self.bool('EnableReload')
+
+    @cached_property
     def repo(self):
         return self.config['Repository']
 
