@@ -11,7 +11,7 @@ from deploy.installer import DeployConfig, ExecutionError, Installer
 from deploy.utils import DEPLOY_CONFIG, cached_property
 from module.base.retry import retry
 from module.logger import logger
-from module.webui.process_manager import AlasManager
+from module.webui.process_manager import ProcessManager
 from module.webui.utils import TaskHandler, get_next_time
 
 
@@ -211,7 +211,7 @@ class Updater(Config, Installer):
 
     def _start_update(self):
         self.state = 'start'
-        instances = AlasManager.running_instances()
+        instances = ProcessManager.running_instances()
         names = []
         for alas in instances:
             names.append(alas.config_name + '\n')
@@ -235,7 +235,7 @@ class Updater(Config, Installer):
             if self.state == 'cancel':
                 self.state = 1
                 self.event.clear()
-                AlasManager.start_alas(instances, self.event)
+                ProcessManager.restart_processes(instances, self.event)
                 return
             time.sleep(0.25)
         self._run_update(instances, names)
@@ -255,7 +255,7 @@ class Updater(Config, Installer):
             self.state = 'failed'
             logger.warning("Update failed")
             self.event.clear()
-            AlasManager.start_alas(instances, self.event)
+            ProcessManager.restart_processes(instances, self.event)
             return False
 
     @staticmethod

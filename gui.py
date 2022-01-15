@@ -116,9 +116,12 @@ if __name__ == '__main__':
 
     if args.disable_address_reuse or args.electron:
         reuseaddr = False
-    logger.hr('Server config')
+    logger.hr('Launcher config')
     logger.attr('Host', host)
     logger.attr('Port', port)
+    logger.attr('Address reuse', reuseaddr)
+    logger.attr('Electron', args.electron)
+    logger.attr('Reload', reload)
 
     try:
         os.remove('./config/reloadflag')
