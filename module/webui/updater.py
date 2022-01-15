@@ -274,7 +274,7 @@ class Updater(Config, Installer):
                 th._task.delay = get_next_time(self.schedule_time)
                 yield
                 continue
-            if not self.enabled:
+            if not Setting.reload:
                 yield
                 continue
             if not self.run_update():
