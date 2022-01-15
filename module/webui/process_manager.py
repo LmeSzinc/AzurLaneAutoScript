@@ -39,11 +39,9 @@ class ProcessManager:
         with lock:
             if self.alive:
                 self._process.terminate()
-                self._process.join()
                 self.log.append("Scheduler stopped.\n")
             if self.thd_log_queue_handler.is_alive():
                 self.thd_log_queue_handler.stop()
-                self.thd_log_queue_handler.join()
         logger.info(f"Alas [{self.config_name}] stopped")
 
     def _thread_log_queue_handler(self) -> None:
