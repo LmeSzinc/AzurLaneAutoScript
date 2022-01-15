@@ -166,6 +166,10 @@
       "name": "War Archives",
       "help": ""
     },
+    "MaritimeEscort": {
+      "name": "Maritime Escort",
+      "help": ""
+    },
     "OpsiGeneral": {
       "name": "OpSi General",
       "help": ""
@@ -1538,6 +1542,16 @@
     "StageFilter": {
       "name": "Raid Daily Stage Filter",
       "help": "Generally does not need to be modified or re-arranged but can do so if desired\nCan save on oil consumption if less are attacked"
+    }
+  },
+  "MaritimeEscort": {
+    "_info": {
+      "name": "Maritime Escort",
+      "help": "Enter then retreat, get about 70% of maximum rewards"
+    },
+    "Enable": {
+      "name": "Enable maritime Escort",
+      "help": ""
     }
   },
   "OpsiAshAssist": {
