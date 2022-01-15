@@ -1838,6 +1838,7 @@
       "UpdateSuccess": "更新成功，正在重启",
       "UpdateChecking": "检查更新中",
       "UpdateCancel": "取消更新，重启 Alas 中",
+      "UpdateFinish": "更新成功，请手动重启",
       "Local": "本地",
       "Upstream": "上游仓库",
       "Author": "作者",

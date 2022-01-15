@@ -12,6 +12,7 @@ from deploy.utils import DEPLOY_CONFIG, cached_property
 from module.base.retry import retry
 from module.logger import logger
 from module.webui.process_manager import ProcessManager
+from module.webui.setting import Setting
 from module.webui.utils import TaskHandler, get_next_time
 
 
@@ -28,7 +29,6 @@ class Updater(Config, Installer):
         super().__init__(file=file)
         self.state = 0
         self.event: threading.Event = None
-        self._enabled = self.bool('EnableReload')
 
     @property
     def delay(self):
@@ -39,14 +39,6 @@ class Updater(Config, Installer):
     def schedule_time(self):
         self.read()
         return datetime.time.fromisoformat(self.config['AutoRestartTime'])
-
-    @property
-    def enabled(self):
-        return self._enabled
-
-    @enabled.setter
-    def enabled(self, val):
-        self._enabled = val
 
     @cached_property
     def repo(self):
@@ -178,7 +170,7 @@ class Updater(Config, Installer):
         return 1
 
     def check_update(self):
-        if self.state in (0, 'failed'):
+        if self.state in (0, 'failed', 'finish'):
             self.state = self._check_update()
 
     @retry(ExecutionError, tries=3, delay=10)
@@ -204,8 +196,6 @@ class Updater(Config, Installer):
 
     def run_update(self):
         if self.state not in ('failed', 0, 1):
-            return
-        if not self.enabled:
             return
         self._start_update()
 
@@ -245,12 +235,15 @@ class Updater(Config, Installer):
         logger.info("All alas stopped, start updating")
 
         if self.update():
-            self.state = 'reload'
-            with open('./config/reloadalas', mode='w') as f:
-                f.writelines(names)
-            from module.webui.app import clearup
-            self._trigger_reload(2)
-            clearup()
+            if Setting.reload:
+                self.state = 'reload'
+                with open('./config/reloadalas', mode='w') as f:
+                    f.writelines(names)
+                from module.webui.app import clearup
+                self._trigger_reload(2)
+                clearup()
+            else:
+                self.state = 'finish'
         else:
             self.state = 'failed'
             logger.warning("Update failed")
@@ -267,7 +260,7 @@ class Updater(Config, Installer):
         timer = threading.Timer(delay, trigger)
         timer.start()
 
-    def schedule_restart(self) -> Generator:
+    def schedule_update(self) -> Generator:
         th: TaskHandler
         th = yield
         if self.schedule_time is None:
@@ -281,7 +274,9 @@ class Updater(Config, Installer):
                 th._task.delay = get_next_time(self.schedule_time)
                 yield
                 continue
-
+            if not self.enabled:
+                yield
+                continue
             if not self.run_update():
                 self.state = 'failed'
             th._task.delay = get_next_time(self.schedule_time)

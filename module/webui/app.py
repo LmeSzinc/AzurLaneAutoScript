@@ -569,7 +569,7 @@ class AlasGUI(Frame):
         self.init_menu(name='Update')
         self.set_title(t("Gui.MenuDevelop.Update"))
 
-        if not updater.enabled:
+        if not Setting.reload:
             put_warning(t("Gui.Update.DisabledWarn"))
 
         put_row(content=[
@@ -663,6 +663,11 @@ class AlasGUI(Frame):
                 put_loading('grow', 'success', 'updater_loading').style(
                     "--loading-grow--")
                 put_text(t('Gui.Update.UpdateSuccess'), scope='updater_state')
+                update_table()
+            elif state == 'finish':
+                put_loading('grow', 'success', 'updater_loading').style(
+                    "--loading-grow--")
+                put_text(t('Gui.Update.UpdateFinish'), scope='updater_state')
                 update_table()
             elif state == 'cancel':
                 put_loading('border', 'danger', 'updater_loading').style(
@@ -919,7 +924,7 @@ def startup():
     updater.event = Setting.manager.Event()
     if updater.delay > 0:
         task_handler.add(updater.check_update, updater.delay)
-    task_handler.add(updater.schedule_restart(), 86400)
+    task_handler.add(updater.schedule_update(), 86400)
     task_handler.start()
     if updater.bool('DiscordRichPresence'):
         init_discord_rpc()
@@ -956,7 +961,7 @@ def app():
     lang.LANG = Setting.webui_config.Language
     key = args.key or Setting.webui_config.Password
     cdn = args.cdn or (Setting.webui_config.CDN == 'true') or False
-    Setting.reload = updater.enabled = args.reload or updater.enabled
+    Setting.reload = args.reload or Setting.webui_config.bool('EnableReload')
     Setting.electron = args.electron
 
     logger.hr('Webui configs')

@@ -1838,6 +1838,7 @@
       "UpdateSuccess": "Gui.Update.UpdateSuccess",
       "UpdateChecking": "Gui.Update.UpdateChecking",
       "UpdateCancel": "Gui.Update.UpdateCancel",
+      "UpdateFinish": "Gui.Update.UpdateFinish",
       "Local": "Gui.Update.Local",
       "Upstream": "Gui.Update.Upstream",
       "Author": "Gui.Update.Author",

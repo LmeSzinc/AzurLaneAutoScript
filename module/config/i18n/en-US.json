@@ -1838,6 +1838,7 @@
       "UpdateSuccess": "Update succeeded, restarting",
       "UpdateChecking": "Checking for updates",
       "UpdateCancel": "Update canceled, restarting Alas",
+      "UpdateFinish": "Update succeeded, please restart manually",
       "Local": "Local",
       "Upstream": "Upstream",
       "Author": "Author",

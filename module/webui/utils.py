@@ -178,7 +178,7 @@ class TaskHandler:
                 time.sleep(0.5)
 
     def _get_thread(self) -> threading.Thread:
-        thread = Thread(target=self.loop)
+        thread = Thread(target=self.loop, daemon=True)
         return thread
 
     def start(self) -> None:
