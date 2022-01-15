@@ -93,12 +93,6 @@ class DeployConfig:
             print(f'[ success ]')
             return True
 
-    def execute_output(self, command) -> str:
-        command = command.replace(
-            r'\\', '/').replace('\\', '/').replace('\"', '"')
-        log = subprocess.run(command, capture_output=True, text=True).stdout
-        return log
-
     def show_error(self):
         self.show_config()
         print('')
@@ -288,7 +282,7 @@ class AlasManager(DeployConfig):
 
     @cached_property
     def self_pid(self):
-        return str(os.getpid())
+        return os.getpid()
 
     def iter_process_by_name(self, name):
         """
@@ -298,25 +292,19 @@ class AlasManager(DeployConfig):
         Yields:
             str, str, str: executable_path, process_name, process_id
         """
-        try:
-            rows = self.execute_output(f'wmic process where name="{name}" get processid,executablepath,name')
-        except (UnicodeDecodeError, IndexError):
-            print(f'No {name} found')
-            return False
+        from win32com.client import GetObject
+        wmi = GetObject('winmgmts:')
+        processes = wmi.InstancesOf('Win32_Process')
+        for p in processes:
+            executable_path = p.Properties_["ExecutablePath"].Value
+            process_name = p.Properties_("Name").Value
+            process_id = p.Properties_["ProcessID"].Value
 
-        rows = rows.replace(r'\\', '/').replace('\\', '/').replace('\"', '"').replace('\r', '')
-        for row in rows.split('\n'):
-            if not row or 'ExecutablePath' in row:
-                continue
-            try:
-                executable_path, process_name, process_id = [x for x in row.split(' ') if len(x)]
-            except ValueError:
-                print(f'Unable to parse {row}')
-                continue
-
-            for folder in self.alas_folder:
-                if folder in executable_path and process_name == name and process_id != self.self_pid:
-                    yield executable_path, process_name, process_id
+            if process_name == name and process_id != self.self_pid:
+                executable_path = executable_path.replace(r'\\', '/').replace('\\', '/')
+                for folder in self.alas_folder:
+                    if folder in executable_path:
+                        yield executable_path, process_name, process_id
 
     def kill_by_name(self, name):
         """
@@ -325,7 +313,7 @@ class AlasManager(DeployConfig):
         """
         hr1(f'Kill {name}')
         for row in self.iter_process_by_name(name):
-            print(' '.join(row))
+            print(' '.join(map(str, row)))
             self.execute(f'taskkill /f /pid {row[2]}', allow_failure=True)
 
     def alas_kill(self):
