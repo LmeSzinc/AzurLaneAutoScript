@@ -24,7 +24,7 @@ Emulator:
     option: [ADB, uiautomator2, aScreenCap, WSA]
   ControlMethod:
     value: minitouch
-    option: [ADB, uiautomator2, minitouch]
+    option: [ADB, uiautomator2, minitouch, WSA]
 Error:
   HandleError: true
   SaveError: true

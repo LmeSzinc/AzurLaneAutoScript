@@ -287,7 +287,8 @@
       "help": "速度: minitouch >>> uiautomator2 ~= ADB\n建議選 minitouch",
       "ADB": "ADB",
       "uiautomator2": "uiautomator2",
-      "minitouch": "minitouch"
+      "minitouch": "minitouch",
+      "WSA": "WSA"
     }
   },
   "Error": {

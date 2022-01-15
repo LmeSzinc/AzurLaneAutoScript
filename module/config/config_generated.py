@@ -22,7 +22,7 @@ class GeneratedConfig:
     Emulator_PackageName = 'com.bilibili.azurlane'
     Emulator_Server = 'cn'  # cn, en, jp, tw
     Emulator_ScreenshotMethod = 'ADB'  # ADB, uiautomator2, aScreenCap, WSA
-    Emulator_ControlMethod = 'minitouch'  # ADB, uiautomator2, minitouch
+    Emulator_ControlMethod = 'minitouch'  # ADB, uiautomator2, minitouch, WSA
 
     # Group `Error`
     Error_HandleError = True

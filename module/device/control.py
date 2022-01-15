@@ -1,4 +1,6 @@
 import time
+import re
+
 from collections import deque
 
 from module.base.retry import retry
@@ -75,6 +77,8 @@ class Control(MiniTouch):
             self._click_minitouch(x, y)
         elif method == 'uiautomator2':
             self._click_uiautomator2(x, y)
+        elif method == 'WSA':
+            self._click_wsa(x, y)
         else:
             self._click_adb(x, y)
 
@@ -85,6 +89,11 @@ class Control(MiniTouch):
     @retry(tries=10, delay=3)
     def _click_adb(self, x, y):
         self.adb_shell(['input', 'tap', str(x), str(y)])
+
+    def _click_wsa(self, x, y):
+        get_windows_id = str(self.adb_shell(['dumpsys', 'display']))
+        get_game_windows_id = re.findall(r'systemapp:' + self.config.Emulator_PackageName + ':'+'(.+?)', get_windows_id, re.S)
+        self.adb_shell(['input', '-d', get_game_windows_id[0], 'tap', str(x), str(y)])
 
     def multi_click(self, button, n, interval=(0.1, 0.2)):
         self.click_record_check(button)

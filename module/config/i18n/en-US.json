@@ -287,7 +287,8 @@
       "help": "Speed: minitouch >>> uiautomator2 ~= ADB\nminitouch is recommended",
       "ADB": "ADB ",
       "uiautomator2": "uiautomator2 ",
-      "minitouch": "minitouch "
+      "minitouch": "minitouch ",
+      "WSA": "WSA"
     }
   },
   "Error": {
