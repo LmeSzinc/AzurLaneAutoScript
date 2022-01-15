@@ -38,7 +38,11 @@ class Updater(Config, Installer):
     @property
     def schedule_time(self):
         self.read()
-        return datetime.time.fromisoformat(self.config['AutoRestartTime'])
+        t = self.config['AutoRestartTime']
+        if t != '':
+            return datetime.time.fromisoformat(t)
+        else:
+            return None
 
     @cached_property
     def repo(self):
