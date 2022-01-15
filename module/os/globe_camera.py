@@ -179,7 +179,7 @@ class GlobeCamera(GlobeOperation, ZoneManager):
         center = np.array([[cv2.mean(center), ], ]).astype(np.uint8)
         h, s, v = rgb2hsv(center)[0][0]
         # hsv usually to be (338, 74.9, 100)
-        if 290 < h <= 360 and s > 45 and v > 45:
+        if 285 < h <= 360 and s > 45 and v > 45:
             return True
         else:
             return False
@@ -233,8 +233,16 @@ class GlobeCamera(GlobeOperation, ZoneManager):
         """
         logger.hr(f'Find siren stronghold', level=1)
         region = self.camera_to_zone(self.globe_camera).region
-        order = [1, 2, 4, 3] * 2
+        order = [1, 2, 4, 3]
+        if region not in order:
+            # Camera may focus on region 5, select the nearest non-region-5 zone
+            zones = self.zones.delete(self.zones.select(region=5)) \
+                .delete(self.zones.select(is_port=True)) \
+                .sort_by_camera_distance(self.globe_camera)
+            region = zones[0].region
+
         index = order.index(region)
+        order = order * 2
         order = order[index:index + 4]
         for region in order:
             logger.hr(f'Find siren stronghold in region {region}', level=2)

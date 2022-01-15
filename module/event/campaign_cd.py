@@ -1,31 +1,13 @@
 import os
-import re
 
-from module.base.filter import Filter
-from module.campaign.run import CampaignRun
 from module.config.config import TaskEnd
 from module.config.utils import get_server_last_update
+from module.event.base import EventBase, EventStage, STAGE_FILTER
 from module.logger import logger
 
-STAGE_FILTER = Filter(regex=re.compile('^(.*?)$'), attr=('stage',))
 
-
-class EventStage:
-    def __init__(self, filename):
-        self.filename = filename
-        self.stage = 'unknown'
-        if filename[-3:] == '.py':
-            self.stage = filename[:-3]
-
-    def __str__(self):
-        return self.stage
-
-    def __eq__(self, other):
-        return str(self) == str(other)
-
-
-class CampaignCD(CampaignRun):
-    def run(self):
+class CampaignCD(EventBase):
+    def run(self, *args, **kwargs):
         # Filter map files
         stages = [EventStage(file) for file in os.listdir(f'./campaign/{self.config.Campaign_Event}')]
         logger.attr('Stage', [str(stage) for stage in stages])

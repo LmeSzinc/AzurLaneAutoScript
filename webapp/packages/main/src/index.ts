@@ -102,8 +102,9 @@ const createWindow = async () => {
     mainWindow?.isMaximized() ? mainWindow?.restore() : mainWindow?.maximize();
   });
   ipcMain.on('window-close', function () {
-    alas.kill();
-    setTimeout(() => mainWindow?.close(), 500); // Wait taskkill to finish
+    alas.kill(function () {
+      mainWindow?.close();
+    })
   });
 
   // Tray
@@ -124,7 +125,9 @@ const createWindow = async () => {
     {
       label: 'Exit',
       click: function () {
-        app.quit();
+        alas.kill(function () {
+          mainWindow?.close();
+        })
       }
     }
   ]);
@@ -165,7 +168,7 @@ alas.on('stderr', function (message: string) {
    * Or backend has started already
    * `[Errno 10048] error while attempting to bind on address ('0.0.0.0', 22267): `
    */
-  if (message.includes('running on') || message.includes('bind on address')) {
+  if (message.includes('Application startup complete') || message.includes('bind on address')) {
     alas.removeAllListeners('stderr');
     loadURL()
   }

@@ -4,6 +4,9 @@
 
 # ==================== Alas ====================
 
+Alas:
+  Optimization:
+    CombatScreenshotInterval: 1.0
 Restart:
   Scheduler:
     SuccessInterval: 0
@@ -297,6 +300,11 @@ OpsiExplore:
   Scheduler:
     SuccessInterval: 0
     FailureInterval: 0
+    ServerUpdate: 00:00
+OpsiShop:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
     ServerUpdate: 00:00
 OpsiDaily:
   Scheduler:

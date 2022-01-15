@@ -178,6 +178,10 @@
       "name": "每月開荒",
       "help": ""
     },
+    "OpsiShop": {
+      "name": "大世界商店",
+      "help": ""
+    },
     "OpsiDaily": {
       "name": "大世界每日",
       "help": ""
@@ -644,6 +648,7 @@
       "help": "",
       "do_not_use": "不使用",
       "hunt_only": "僅狩獵",
+      "boss_only": "僅BOSS",
       "every_combat": "每戰出擊"
     },
     "AutoSearchMode": {
@@ -651,6 +656,14 @@
       "help": "自律尋敵下生效",
       "sub_standby": "待機",
       "sub_auto_call": "自動出擊"
+    },
+    "DistanceToBoss": {
+      "name": "BOSS戰前將潛艇移動到BOSS附近",
+      "help": "僅在\"潛艇出擊方案\"為\"僅BOSS戰\"時生效\n選擇\"距離BOSS X格\"需要保證潛艇狩獵範圍能覆蓋到BOSS，距離使用曼哈頓距離計算，選擇\"使用U522技能\"需要潛艇隊伍裡有U522",
+      "to_boss_position": "至 BOSS 所在位置",
+      "1_grid_to_boss": "距離 BOSS 1 格",
+      "2_grid_to_boss": "距離 BOSS 2 格",
+      "use_U522_skill": "使用 U522 技能"
     }
   },
   "Emotion": {
@@ -1631,14 +1644,20 @@
       "help": "自動更新的數值，地圖ID，填0可重置進度，重置後自動跳過已開荒的海域"
     }
   },
-  "OpsiDaily": {
+  "OpsiShop": {
     "_info": {
-      "name": "大世界每日",
+      "name": "大世界商店",
       "help": "使用此功能前必須滿足以下條件：\n- 通關大世界主線任務\n- 完成大世界開荒或使用戰役信息記錄儀（5000油道具）"
     },
     "BuySupply": {
       "name": "購買港口商店",
       "help": "每月港口商店可購買商品是固定的，未購買的物品下次仍會出現，並阻擋高價值物品，因此需要購買全部"
+    }
+  },
+  "OpsiDaily": {
+    "_info": {
+      "name": "大世界每日",
+      "help": "使用此功能前必須滿足以下條件：\n- 通關大世界主線任務\n- 完成大世界開荒或使用戰役信息記錄儀（5000油道具）"
     },
     "DoMission": {
       "name": "做大世界每日",
@@ -1767,17 +1786,23 @@
       "ScrollON": "自動滾動 開",
       "ScrollOFF": "自動滾動 關",
       "ClearLog": "清空日誌",
-      "Setting": "設定"
+      "Setting": "設定",
+      "CheckUpdate": "檢查更新",
+      "ClickToUpdate": "進行更新",
+      "RetryUpdate": "重試更新",
+      "CancelUpdate": "取消更新"
     },
     "Toast": {
       "DisableTranslateMode": "點擊這裡關閉翻譯模式",
       "ConfigSaved": "設定已儲存",
-      "AlasIsRunning": "調度器已在執行中"
+      "AlasIsRunning": "調度器已在執行中",
+      "ClickToUpdate": "有更新可用，點擊這裡進行更新"
     },
     "Status": {
       "Running": "執行中",
       "Inactive": "閒置",
-      "Warning": "發生錯誤"
+      "Warning": "發生錯誤",
+      "Updating": "等待更新"
     },
     "MenuAlas": {
       "Overview": "總覽",
@@ -1785,7 +1810,8 @@
     },
     "MenuDevelop": {
       "HomePage": "主頁",
-      "Translate": "翻譯"
+      "Translate": "翻譯",
+      "Update": "更新器"
     },
     "Overview": {
       "Scheduler": "調度器",
@@ -1801,6 +1827,24 @@
       "CopyFrom": "從現有的設定中複製",
       "Confirm": "添加",
       "FileExist": "存在同名的設定檔案，請重新命名"
+    },
+    "Update": {
+      "UpToDate": "已是最新版本",
+      "HaveUpdate": "有新版本可用",
+      "UpdateFailed": "更新失敗，可在./log/*_gui.txt中找到錯誤日誌",
+      "UpdateStart": "開始更新",
+      "UpdateWait": "等待所有 Alas 完成當前任務",
+      "UpdateRun": "更新中",
+      "UpdateSuccess": "更新成功，正在重啓",
+      "UpdateChecking": "檢查更新中",
+      "UpdateCancel": "取消更新，重啓 Alas 中",
+      "UpdateFinish": "更新成功，請手動重啓",
+      "Local": "本地",
+      "Upstream": "上游倉庫",
+      "Author": "作者",
+      "Time": "提交時間",
+      "Message": "提交資訊",
+      "DisabledWarn": "更新模塊未啟用，你需要手動重啓 Alas 進行更新"
     },
     "Text": {
       "InvalidFeedBack": "格式錯誤。 示例：{0}"

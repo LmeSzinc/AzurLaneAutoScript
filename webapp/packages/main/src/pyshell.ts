@@ -21,8 +21,8 @@ export class PyShell extends PythonShell {
     return this;
   }
 
-  kill(): this {
-    treeKill(this.childProcess.pid, 'SIGTERM');
+  kill(callback: (...args: any[]) => void): this {
+    treeKill(this.childProcess.pid, 'SIGTERM', callback);
     return this;
   }
 }

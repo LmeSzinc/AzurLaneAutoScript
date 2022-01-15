@@ -15,7 +15,7 @@ class ManualConfig:
     > OpsiExplore > OpsiAbyssal > OpsiStronghold > OpsiObscure
     > Exercise > Daily > Hard > OpsiAshAssist
     > Sos > EventSp > EventAb > EventCd > RaidDaily > WarArchives
-    > OpsiDaily > OpsiMeowfficerFarming
+    > OpsiDaily > OpsiShop > OpsiMeowfficerFarming
     > Event > Raid > Main
     > C124LargeLeveling > C122MediumLeveling > C72MysteryFarming > GemsFarming
     """

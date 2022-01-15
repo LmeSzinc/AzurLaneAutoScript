@@ -1,4 +1,5 @@
 import ctypes
+import datetime
 import operator
 import re
 import threading
@@ -29,9 +30,6 @@ class QueueHandler:
 
 class Thread(threading.Thread):
     # https://www.geeksforgeeks.org/python-different-ways-to-kill-a-thread/
-    def __init__(self, target=..., *args, **kwargs):
-        threading.Thread.__init__(self, target=target, *args, **kwargs)
-
     def _get_id(self):
         # returns id of the respective thread
         if hasattr(self, '_thread_id'):
@@ -50,16 +48,21 @@ class Thread(threading.Thread):
 
 
 class Task:
-    def __init__(self, g: Generator, delay: float, next_run: float = None) -> None:
+    def __init__(self, g: Generator, delay: float, next_run: float = None, name: str = None) -> None:
         self.g = g
+        g.send(None)
         self.delay = delay
         self.next_run = next_run if next_run else time.time()
+        self.name = name if name is not None else self.g.__name__
 
     def __str__(self) -> str:
-        return f'<{self.g.__name__} (delay={self.delay})>'
+        return f'<{self.name} (delay={self.delay})>'
 
     def __next__(self) -> None:
         return next(self.g)
+
+    def send(self, obj) -> None:
+        return self.g.send(obj)
 
     __repr__ = __str__
 
@@ -73,7 +76,7 @@ class TaskHandler:
         # Running task
         self._task = None
         # Task running thread
-        self._thread = Thread()
+        self._thread: Thread = None
         self._lock = threading.Lock()
 
     def add(self, func, delay: float, pending_delete: bool = False) -> None:
@@ -135,6 +138,13 @@ class TaskHandler:
     def remove_current_task(self) -> None:
         self.remove_task(self._task, nowait=True)
 
+    def get_task(self, name) -> Task:
+        with self._lock:
+            for task in self.tasks:
+                if task.name == name:
+                    return task
+            return None
+
     def loop(self) -> None:
         """
         Start task loop.
@@ -150,7 +160,7 @@ class TaskHandler:
                     try:
                         self._task = task
                         # logger.debug(f'Start task {task.g.__name__}')
-                        next(task)
+                        task.send(self)
                         # logger.debug(f'End task {task.g.__name__}')
                     except Exception as e:
                         logger.exception(e)
@@ -167,16 +177,19 @@ class TaskHandler:
             else:
                 time.sleep(0.5)
 
+    def _get_thread(self) -> threading.Thread:
+        thread = Thread(target=self.loop, daemon=True)
+        return thread
+
     def start(self) -> None:
         """
         Start task handler.
         """
         logger.info("Start task handler")
-        if self._thread.is_alive():
+        if self._thread is not None and self._thread.is_alive():
             logger.warning("Task handler already running!")
             return
-        self._thread = Thread(target=self.loop)
-        register_thread(self._thread)
+        self._thread = self._get_thread()
         self._thread.start()
 
     def stop(self) -> None:
@@ -184,6 +197,13 @@ class TaskHandler:
         if self._thread.is_alive():
             self._thread.stop()
         logger.info("Finish task handler")
+
+
+class WebIOTaskHandler(TaskHandler):
+    def _get_thread(self) -> threading.Thread:
+        thread = super()._get_thread()
+        register_thread(thread)
+        return thread
 
 
 class Switch:
@@ -254,7 +274,7 @@ class Switch:
             self.status(r)
         elif r in self.status:
             f = self.status[r]
-            if isinstance(f, dict):
+            if isinstance(f, (dict, Callable)):
                 f = [f]
             for d in f:
                 if isinstance(d, Callable):
@@ -276,6 +296,7 @@ class Switch:
 
 def get_generator(func: Callable):
     def _g():
+        yield
         while True:
             yield func()
     g = _g()
@@ -369,6 +390,16 @@ def re_fullmatch(pattern, string):
         pattern = RE_DATETIME
     # elif:
     return re.fullmatch(pattern=pattern, string=string)
+
+
+def get_next_time(t: datetime.time):
+    now = datetime.datetime.today().time()
+    second = (t.hour - now.hour) * 3600 + \
+             (t.minute - now.minute) * 60 + \
+             (t.second - now.second)
+    if second < 0:
+        second += 86400
+    return second
 
 
 if __name__ == '__main__':

@@ -178,6 +178,10 @@
       "name": "Task.OpsiExplore.name",
       "help": "Task.OpsiExplore.help"
     },
+    "OpsiShop": {
+      "name": "Task.OpsiShop.name",
+      "help": "Task.OpsiShop.help"
+    },
     "OpsiDaily": {
       "name": "Task.OpsiDaily.name",
       "help": "Task.OpsiDaily.help"
@@ -644,6 +648,7 @@
       "help": "Submarine.Mode.help",
       "do_not_use": "do_not_use",
       "hunt_only": "hunt_only",
+      "boss_only": "boss_only",
       "every_combat": "every_combat"
     },
     "AutoSearchMode": {
@@ -651,6 +656,14 @@
       "help": "Submarine.AutoSearchMode.help",
       "sub_standby": "sub_standby",
       "sub_auto_call": "sub_auto_call"
+    },
+    "DistanceToBoss": {
+      "name": "Submarine.DistanceToBoss.name",
+      "help": "Submarine.DistanceToBoss.help",
+      "to_boss_position": "to_boss_position",
+      "1_grid_to_boss": "1_grid_to_boss",
+      "2_grid_to_boss": "2_grid_to_boss",
+      "use_U522_skill": "use_U522_skill"
     }
   },
   "Emotion": {
@@ -1631,14 +1644,20 @@
       "help": "OpsiExplore.LastZone.help"
     }
   },
+  "OpsiShop": {
+    "_info": {
+      "name": "OpsiShop._info.name",
+      "help": "OpsiShop._info.help"
+    },
+    "BuySupply": {
+      "name": "OpsiShop.BuySupply.name",
+      "help": "OpsiShop.BuySupply.help"
+    }
+  },
   "OpsiDaily": {
     "_info": {
       "name": "OpsiDaily._info.name",
       "help": "OpsiDaily._info.help"
-    },
-    "BuySupply": {
-      "name": "OpsiDaily.BuySupply.name",
-      "help": "OpsiDaily.BuySupply.help"
     },
     "DoMission": {
       "name": "OpsiDaily.DoMission.name",
@@ -1767,17 +1786,23 @@
       "ScrollON": "Gui.Button.ScrollON",
       "ScrollOFF": "Gui.Button.ScrollOFF",
       "ClearLog": "Gui.Button.ClearLog",
-      "Setting": "Gui.Button.Setting"
+      "Setting": "Gui.Button.Setting",
+      "CheckUpdate": "Gui.Button.CheckUpdate",
+      "ClickToUpdate": "Gui.Button.ClickToUpdate",
+      "RetryUpdate": "Gui.Button.RetryUpdate",
+      "CancelUpdate": "Gui.Button.CancelUpdate"
     },
     "Toast": {
       "DisableTranslateMode": "Gui.Toast.DisableTranslateMode",
       "ConfigSaved": "Gui.Toast.ConfigSaved",
-      "AlasIsRunning": "Gui.Toast.AlasIsRunning"
+      "AlasIsRunning": "Gui.Toast.AlasIsRunning",
+      "ClickToUpdate": "Gui.Toast.ClickToUpdate"
     },
     "Status": {
       "Running": "Gui.Status.Running",
       "Inactive": "Gui.Status.Inactive",
-      "Warning": "Gui.Status.Warning"
+      "Warning": "Gui.Status.Warning",
+      "Updating": "Gui.Status.Updating"
     },
     "MenuAlas": {
       "Overview": "Gui.MenuAlas.Overview",
@@ -1785,7 +1810,8 @@
     },
     "MenuDevelop": {
       "HomePage": "Gui.MenuDevelop.HomePage",
-      "Translate": "Gui.MenuDevelop.Translate"
+      "Translate": "Gui.MenuDevelop.Translate",
+      "Update": "Gui.MenuDevelop.Update"
     },
     "Overview": {
       "Scheduler": "Gui.Overview.Scheduler",
@@ -1801,6 +1827,24 @@
       "CopyFrom": "Gui.AddAlas.CopyFrom",
       "Confirm": "Gui.AddAlas.Confirm",
       "FileExist": "Gui.AddAlas.FileExist"
+    },
+    "Update": {
+      "UpToDate": "Gui.Update.UpToDate",
+      "HaveUpdate": "Gui.Update.HaveUpdate",
+      "UpdateFailed": "Gui.Update.UpdateFailed",
+      "UpdateStart": "Gui.Update.UpdateStart",
+      "UpdateWait": "Gui.Update.UpdateWait",
+      "UpdateRun": "Gui.Update.UpdateRun",
+      "UpdateSuccess": "Gui.Update.UpdateSuccess",
+      "UpdateChecking": "Gui.Update.UpdateChecking",
+      "UpdateCancel": "Gui.Update.UpdateCancel",
+      "UpdateFinish": "Gui.Update.UpdateFinish",
+      "Local": "Gui.Update.Local",
+      "Upstream": "Gui.Update.Upstream",
+      "Author": "Gui.Update.Author",
+      "Time": "Gui.Update.Time",
+      "Message": "Gui.Update.Message",
+      "DisabledWarn": "Gui.Update.DisabledWarn"
     },
     "Text": {
       "InvalidFeedBack": "Gui.Text.InvalidFeedBack"

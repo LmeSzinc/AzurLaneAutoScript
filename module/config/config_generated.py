@@ -87,8 +87,9 @@ class GeneratedConfig:
 
     # Group `Submarine`
     Submarine_Fleet = 0  # 0, 1, 2
-    Submarine_Mode = 'do_not_use'  # do_not_use, hunt_only, every_combat
+    Submarine_Mode = 'do_not_use'  # do_not_use, hunt_only, boss_only, every_combat
     Submarine_AutoSearchMode = 'sub_standby'  # sub_standby, sub_auto_call
+    Submarine_DistanceToBoss = '2_grid_to_boss'  # to_boss_position, 1_grid_to_boss, 2_grid_to_boss, use_U522_skill
 
     # Group `Emotion`
     Emotion_CalculateEmotion = True
@@ -182,7 +183,7 @@ class GeneratedConfig:
     # Group `GuildOperation`
     GuildOperation_Enable = True
     GuildOperation_SelectNewOperation = False
-    GuildOperation_NewOperationMaxDate = 20
+    GuildOperation_NewOperationMaxDate = 15
     GuildOperation_JoinThreshold = 1
     GuildOperation_AttackBoss = True
     GuildOperation_BossFleetRecommend = False
@@ -309,8 +310,10 @@ class GeneratedConfig:
     OpsiExplore_ForceRun = False
     OpsiExplore_LastZone = 0
 
+    # Group `OpsiShop`
+    OpsiShop_BuySupply = True
+
     # Group `OpsiDaily`
-    OpsiDaily_BuySupply = True
     OpsiDaily_DoMission = True
 
     # Group `OpsiObscure`

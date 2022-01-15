@@ -1,5 +1,6 @@
 import os
 import re
+import threading
 import time
 from datetime import datetime
 
@@ -15,6 +16,9 @@ from module.logger import logger
 
 
 class AzurLaneAutoScript:
+
+    stop_event: threading.Event = None
+
     def __init__(self, config_name='alas'):
         self.config_name = config_name
         ConfigUpdater().update_config(config_name)
@@ -215,6 +219,10 @@ class AzurLaneAutoScript:
         from module.campaign.os_run import OSCampaignRun
         OSCampaignRun(config=self.config, device=self.device).opsi_explore()
 
+    def opsi_shop(self):
+        from module.campaign.os_run import OSCampaignRun
+        OSCampaignRun(config=self.config, device=self.device).opsi_shop()
+
     def opsi_daily(self):
         from module.campaign.os_run import OSCampaignRun
         OSCampaignRun(config=self.config, device=self.device).opsi_daily()
@@ -269,8 +277,7 @@ class AzurLaneAutoScript:
         GemsFarming(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
-    @staticmethod
-    def wait_until(future):
+    def wait_until(self, future):
         """
         Wait until a specific time.
 
@@ -278,10 +285,17 @@ class AzurLaneAutoScript:
             future (datetime):
         """
         seconds = future.timestamp() - datetime.now().timestamp() + 1
-        if seconds > 0:
-            time.sleep(seconds)
-        else:
+        if seconds <= 0:
             logger.warning(f'Wait until {str(future)}, but sleep length < 0, skip waiting')
+        
+        if self.stop_event is not None:
+            self.stop_event.wait(seconds)
+            if self.stop_event.is_set():
+                logger.info("Update event detected")
+                logger.info(f"Alas [{self.config_name}] exited.")
+                exit(0)
+        else:
+            time.sleep(seconds)
 
     def get_next_task(self):
         """
@@ -320,6 +334,11 @@ class AzurLaneAutoScript:
         failure_record = {}
 
         while 1:
+            if self.stop_event is not None:
+                if self.stop_event.is_set():
+                    logger.info("Update event detected")
+                    logger.info(f"Alas [{self.config_name}] exited.")
+                    break
             task = self.get_next_task()
 
             # Skip first restart
