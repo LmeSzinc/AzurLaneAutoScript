@@ -87,7 +87,7 @@ def run_with_reload(host, port):
     uvicorn module.webui.app:app --factory --host 127.0.0.1 --port 22267 --reload --reload-include="reloadflag" --reload-exclude="*.py" --reload-dir="./config/"
     """
     uvicorn.run('module.webui.app:app', host=host, port=port, factory=True, reload_dirs=[os.path.join(os.getcwd(), './config/')],
-                reload=True, reload_includes=['reloadflag'], reload_excludes=['*.py'])
+                reload=True, reload_includes=['reloadflag'], reload_excludes=['*.py'], reload_delay=1)
 
 
 def run_without_reload(host, port):
