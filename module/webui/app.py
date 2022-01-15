@@ -4,16 +4,13 @@ import time
 from datetime import datetime
 from typing import Dict, Generator, List
 
-# This must be the first to import
-from module.logger import logger  # Change folder
 import module.webui.lang as lang
 from module.config.config import AzurLaneConfig, Function
-from module.config.config_updater import ConfigUpdater
 from module.config.utils import (alas_instance, deep_get, deep_iter, deep_set,
                                  dict_to_kv, filepath_args, filepath_config,
                                  read_file, write_file)
+from module.logger import logger
 from module.webui.base import Frame
-from module.webui.config import WebuiConfig
 from module.webui.discord_presence import close_discord_rpc, init_discord_rpc
 from module.webui.fastapi import asgi_app
 from module.webui.lang import _t, t
