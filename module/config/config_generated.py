@@ -282,6 +282,9 @@ class GeneratedConfig:
     # Group `RaidDaily`
     RaidDaily_StageFilter = 'hard > normal > easy'
 
+    # Group `MaritimeEscort`
+    MaritimeEscort_Enable = True
+
     # Group `OpsiAshAssist`
     OpsiAshAssist_Tier = 15
 

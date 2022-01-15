@@ -166,6 +166,10 @@
       "name": "War Archives",
       "help": ""
     },
+    "MaritimeEscort": {
+      "name": "Maritime Escort",
+      "help": ""
+    },
     "OpsiGeneral": {
       "name": "OpSi General",
       "help": ""
@@ -1540,6 +1544,16 @@
       "help": "Generally does not need to be modified or re-arranged but can do so if desired\nCan save on oil consumption if less are attacked"
     }
   },
+  "MaritimeEscort": {
+    "_info": {
+      "name": "Maritime Escort",
+      "help": "Enter then retreat, get about 70% of maximum rewards"
+    },
+    "Enable": {
+      "name": "Enable maritime Escort",
+      "help": ""
+    }
+  },
   "OpsiAshAssist": {
     "_info": {
       "name": "OpSi Ash Assist Settings",
@@ -1838,11 +1852,13 @@
       "UpdateSuccess": "Update succeeded, restarting",
       "UpdateChecking": "Checking for updates",
       "UpdateCancel": "Update canceled, restarting Alas",
+      "UpdateFinish": "Update succeeded, please restart manually",
       "Local": "Local",
       "Upstream": "Upstream",
       "Author": "Author",
       "Time": "Commit time",
-      "Message": "Commit message"
+      "Message": "Commit message",
+      "DisabledWarn": "Updater module is disabled. You need to manually restart Alas to update"
     },
     "Text": {
       "InvalidFeedBack": "Invalid format. Example: {0}"

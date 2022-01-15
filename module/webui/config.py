@@ -64,3 +64,20 @@ class WebuiConfig:
         if key[0].isupper() and key in self.config:
             self.config[key] = value
             self.write()
+
+    @staticmethod
+    def to_bool(value):
+        value = value.lower()
+        if value == 'null' or value == 'false' or value == '':
+            return False
+        return True
+    
+    def bool(self, key):
+        """
+        Args:
+            key (str):
+
+        Returns:
+            bool: Option is ON or OFF.
+        """
+        return self.to_bool(self.config[key])

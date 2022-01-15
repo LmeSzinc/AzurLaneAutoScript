@@ -257,7 +257,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         while 1:
             self.device.screenshot()
 
-            if self.handle_popup_confirm():
+            if self.handle_popup_confirm('WITHDRAW'):
                 continue
             if self.appear_then_click(WITHDRAW, interval=5):
                 continue

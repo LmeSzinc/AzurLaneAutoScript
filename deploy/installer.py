@@ -4,6 +4,7 @@ from urllib.parse import urlparse
 from deploy.emulator import *
 from deploy.utils import *
 
+
 class ExecutionError(Exception):
     pass
 
@@ -42,7 +43,13 @@ class DeployConfig:
         Returns:
             str: Absolute filepath.
         """
-        return os.path.abspath(os.path.join(os.getcwd(), self.config[key]))
+        return os.path.abspath(os.path.join(self.root_filepath, self.config[key])) \
+            .replace(r'\\', '/').replace('\\', '/').replace('\"', '"')
+
+    @cached_property
+    def root_filepath(self):
+        return os.path.abspath(os.path.join(os.path.dirname(__file__), '../')) \
+            .replace(r'\\', '/').replace('\\', '/').replace('\"', '"')
 
     @staticmethod
     def to_bool(value):
@@ -75,10 +82,11 @@ class DeployConfig:
         print(command)
         error_code = os.system(command)
         if error_code:
-            print(f'[ failed ], error_code: {error_code}')
             if allow_failure:
+                print(f'[ allowed failure ], error_code: {error_code}')
                 return False
             else:
+                print(f'[ failure ], error_code: {error_code}')
                 self.show_error()
                 raise ExecutionError
         else:
@@ -156,7 +164,7 @@ class GitManager(DeployConfig):
 class PipManager(DeployConfig):
     @cached_property
     def python(self):
-        return f'{self.filepath("PythonExecutable")}'
+        return self.filepath("PythonExecutable")
 
     @cached_property
     def pip(self):
@@ -218,11 +226,109 @@ class AdbManager(DeployConfig):
                 init._device.shell(["rm", "/data/local/tmp/minicap.so"])
 
 
-class Installer(GitManager, PipManager, AdbManager):
+class AppManager(DeployConfig):
+    def app_asar_replace(self, folder, path='./toolkit/WebApp/resources/app.asar'):
+        """
+        Args:
+            folder (str): Path to AzurLaneAutoScript
+            path (str): Path from AzurLaneAutoScript to app.asar
+
+        Returns:
+            bool: If updated.
+        """
+        source = os.path.abspath(os.path.join(folder, path))
+        print(f'Old file: {source}')
+
+        try:
+            import alas_webapp
+        except ImportError:
+            print(f'Dependency alas_webapp not exists, skip updating')
+            return False
+
+        update = alas_webapp.app_file()
+        print(f'New version: {alas_webapp.__version__}')
+        print(f'New file: {update}')
+
+        if os.path.exists(source):
+            if filecmp.cmp(source, update, shallow=True):
+                print('app.asar is already up to date')
+                return False
+            else:
+                print(f'Copy {update} -----> {source}')
+                os.remove(source)
+                shutil.copy(update, source)
+                return True
+        else:
+            print(f'{source} not exists, skip updating')
+            return False
+
+    def app_update(self):
+        hr0(f'Update app.asar')
+
+        if not self.bool('AutoUpdate'):
+            print('AutoUpdate is disabled, skip')
+            return False
+
+        return self.app_asar_replace(os.getcwd())
+
+
+class AlasManager(DeployConfig):
+    @cached_property
+    def alas_folder(self):
+        return [
+            self.filepath("PythonExecutable"),
+            self.root_filepath
+        ]
+
+    @cached_property
+    def self_pid(self):
+        return os.getpid()
+
+    def iter_process_by_name(self, name):
+        """
+        Args:
+            name (str): process name, such as 'alas.exe'
+
+        Yields:
+            str, str, str: executable_path, process_name, process_id
+        """
+        from win32com.client import GetObject
+        wmi = GetObject('winmgmts:')
+        processes = wmi.InstancesOf('Win32_Process')
+        for p in processes:
+            executable_path = p.Properties_["ExecutablePath"].Value
+            process_name = p.Properties_("Name").Value
+            process_id = p.Properties_["ProcessID"].Value
+
+            if process_name == name and process_id != self.self_pid:
+                executable_path = executable_path.replace(r'\\', '/').replace('\\', '/')
+                for folder in self.alas_folder:
+                    if folder in executable_path:
+                        yield executable_path, process_name, process_id
+
+    def kill_by_name(self, name):
+        """
+        Args:
+            name (str): Process name
+        """
+        hr1(f'Kill {name}')
+        for row in self.iter_process_by_name(name):
+            print(' '.join(map(str, row)))
+            self.execute(f'taskkill /f /pid {row[2]}', allow_failure=True)
+
+    def alas_kill(self):
+        hr0(f'Kill existing Alas')
+        self.kill_by_name('alas.exe')
+        self.kill_by_name('python.exe')
+
+
+class Installer(GitManager, PipManager, AdbManager, AppManager, AlasManager):
     def install(self):
         try:
             self.git_install()
+            self.alas_kill()
             self.pip_install()
+            self.app_update()
             self.adb_install()
         except ExecutionError:
             exit(1)

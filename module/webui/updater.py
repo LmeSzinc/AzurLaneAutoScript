@@ -11,7 +11,8 @@ from deploy.installer import DeployConfig, ExecutionError, Installer
 from deploy.utils import DEPLOY_CONFIG, cached_property
 from module.base.retry import retry
 from module.logger import logger
-from module.webui.process_manager import AlasManager
+from module.webui.process_manager import ProcessManager
+from module.webui.setting import Setting
 from module.webui.utils import TaskHandler, get_next_time
 
 
@@ -37,7 +38,11 @@ class Updater(Config, Installer):
     @property
     def schedule_time(self):
         self.read()
-        return datetime.time.fromisoformat(self.config['AutoRestartTime'])
+        t = self.config['AutoRestartTime']
+        if t != '':
+            return datetime.time.fromisoformat(t)
+        else:
+            return None
 
     @cached_property
     def repo(self):
@@ -169,8 +174,8 @@ class Updater(Config, Installer):
         return 1
 
     def check_update(self):
-        if self.state in (0, 'failed'):
-            self.state = updater._check_update()
+        if self.state in (0, 'failed', 'finish'):
+            self.state = self._check_update()
 
     @retry(ExecutionError, tries=3, delay=10)
     def git_install(self):
@@ -200,7 +205,7 @@ class Updater(Config, Installer):
 
     def _start_update(self):
         self.state = 'start'
-        instances = AlasManager.running_instances()
+        instances = ProcessManager.running_instances()
         names = []
         for alas in instances:
             names.append(alas.config_name + '\n')
@@ -224,7 +229,7 @@ class Updater(Config, Installer):
             if self.state == 'cancel':
                 self.state = 1
                 self.event.clear()
-                AlasManager.start_alas(instances, self.event)
+                ProcessManager.restart_processes(instances, self.event)
                 return
             time.sleep(0.25)
         self._run_update(instances, names)
@@ -233,18 +238,21 @@ class Updater(Config, Installer):
         self.state = 'run update'
         logger.info("All alas stopped, start updating")
 
-        if updater.update():
-            self.state = 'reload'
-            with open('./config/reloadalas', mode='w') as f:
-                f.writelines(names)
-            from module.webui.app import clearup
-            self._trigger_reload(2)
-            clearup()
+        if self.update():
+            if Setting.reload:
+                self.state = 'reload'
+                with open('./config/reloadalas', mode='w') as f:
+                    f.writelines(names)
+                from module.webui.app import clearup
+                self._trigger_reload(2)
+                clearup()
+            else:
+                self.state = 'finish'
         else:
             self.state = 'failed'
             logger.warning("Update failed")
             self.event.clear()
-            AlasManager.start_alas(instances, self.event)
+            ProcessManager.restart_processes(instances, self.event)
             return False
 
     @staticmethod
@@ -256,7 +264,7 @@ class Updater(Config, Installer):
         timer = threading.Timer(delay, trigger)
         timer.start()
 
-    def schedule_restart(self) -> Generator:
+    def schedule_update(self) -> Generator:
         th: TaskHandler
         th = yield
         if self.schedule_time is None:
@@ -265,13 +273,14 @@ class Updater(Config, Installer):
         th._task.delay = get_next_time(self.schedule_time)
         yield
         while True:
-            if self.state == 0:
-                self.state = updater._check_update()
+            self.check_update()
             if self.state != 1:
                 th._task.delay = get_next_time(self.schedule_time)
                 yield
                 continue
-
+            if not Setting.reload:
+                yield
+                continue
             if not self.run_update():
                 self.state = 'failed'
             th._task.delay = get_next_time(self.schedule_time)

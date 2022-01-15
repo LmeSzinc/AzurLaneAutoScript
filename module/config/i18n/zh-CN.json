@@ -166,6 +166,10 @@
       "name": "作战档案",
       "help": ""
     },
+    "MaritimeEscort": {
+      "name": "商船护航",
+      "help": ""
+    },
     "OpsiGeneral": {
       "name": "通用设置",
       "help": ""
@@ -1540,6 +1544,16 @@
       "help": ""
     }
   },
+  "MaritimeEscort": {
+    "_info": {
+      "name": "商船护航",
+      "help": "进一下就撤退，能拿约70%的奖励"
+    },
+    "Enable": {
+      "name": "启用商船护航",
+      "help": ""
+    }
+  },
   "OpsiAshAssist": {
     "_info": {
       "name": "余烬信标支援",
@@ -1838,11 +1852,13 @@
       "UpdateSuccess": "更新成功，正在重启",
       "UpdateChecking": "检查更新中",
       "UpdateCancel": "取消更新，重启 Alas 中",
+      "UpdateFinish": "更新成功，请手动重启",
       "Local": "本地",
       "Upstream": "上游仓库",
       "Author": "作者",
       "Time": "提交时间",
-      "Message": "提交信息"
+      "Message": "提交信息",
+      "DisabledWarn": "更新模块未启用，你需要手动重启 Alas 进行更新"
     },
     "Text": {
       "InvalidFeedBack": "格式错误。 示例：{0}"

@@ -2,24 +2,21 @@ import argparse
 import queue
 import time
 from datetime import datetime
-from multiprocessing import Manager
 from typing import Dict, Generator, List
 
-# This must be the first to import
-from module.logger import logger  # Change folder
 import module.webui.lang as lang
 from module.config.config import AzurLaneConfig, Function
-from module.config.config_updater import ConfigUpdater
 from module.config.utils import (alas_instance, deep_get, deep_iter, deep_set,
                                  dict_to_kv, filepath_args, filepath_config,
                                  read_file, write_file)
+from module.logger import logger
 from module.webui.base import Frame
-from module.webui.config import WebuiConfig
 from module.webui.discord_presence import close_discord_rpc, init_discord_rpc
 from module.webui.fastapi import asgi_app
 from module.webui.lang import _t, t
 from module.webui.pin import put_input, put_select
-from module.webui.process_manager import AlasManager
+from module.webui.process_manager import ProcessManager
+from module.webui.setting import Setting
 from module.webui.translate import translate
 from module.webui.updater import updater
 from module.webui.utils import (Icon, Switch, TaskHandler, Thread, add_css,
@@ -33,12 +30,10 @@ from pywebio.exceptions import SessionClosedException, SessionNotFoundException
 from pywebio.output import (clear, close_popup, popup, put_button, put_buttons,
                             put_collapse, put_column, put_error, put_html,
                             put_loading, put_markdown, put_row, put_scope,
-                            put_table, put_text, toast, use_scope)
+                            put_table, put_text, put_warning, toast, use_scope)
 from pywebio.pin import pin, pin_wait_change
 from pywebio.session import go_app, info, register_thread, run_js, set_env
 
-config_updater = ConfigUpdater()
-webui_config = WebuiConfig()
 task_handler = TaskHandler()
 
 
@@ -136,7 +131,7 @@ class AlasGUI(Frame):
     @classmethod
     def set_theme(cls, theme='default') -> None:
         cls.theme = theme
-        webui_config.Theme = theme
+        Setting.webui_config.Theme = theme
         webconfig(theme=theme)
 
     @use_scope('menu', clear=True)
@@ -187,7 +182,7 @@ class AlasGUI(Frame):
             put_scope('groups'),
             put_scope('navigator')
         ])
-        config = config_updater.update_config(self.alas_name)
+        config = Setting.config_updater.update_config(self.alas_name)
         for group, arg_dict in deep_iter(self.ALAS_ARGS[task], depth=1):
             self.set_group(group, arg_dict, config, task)
             self.set_navigator(group)
@@ -531,7 +526,7 @@ class AlasGUI(Frame):
             scope='log_scroll_btn'
         )
 
-        config = config_updater.update_config(self.alas_name)
+        config = Setting.config_updater.update_config(self.alas_name)
         for group, arg_dict in deep_iter(self.ALAS_ARGS[task], depth=1):
             self.set_group(group, arg_dict, config, task)
 
@@ -571,6 +566,9 @@ class AlasGUI(Frame):
         self.init_menu(name='Update')
         self.set_title(t("Gui.MenuDevelop.Update"))
 
+        if not Setting.reload:
+            put_warning(t("Gui.Update.DisabledWarn"))
+
         put_row(content=[
             put_scope('updater_loading'),
             None,
@@ -579,7 +577,7 @@ class AlasGUI(Frame):
 
         put_scope('updater_btn')
         put_scope('updater_info')
-        
+
         def update_table():
             with use_scope('updater_info', clear=True):
                 local_commit = updater.get_commit(short_sha1=True)
@@ -663,6 +661,11 @@ class AlasGUI(Frame):
                     "--loading-grow--")
                 put_text(t('Gui.Update.UpdateSuccess'), scope='updater_state')
                 update_table()
+            elif state == 'finish':
+                put_loading('grow', 'success', 'updater_loading').style(
+                    "--loading-grow--")
+                put_text(t('Gui.Update.UpdateFinish'), scope='updater_state')
+                update_table()
             elif state == 'cancel':
                 put_loading('border', 'danger', 'updater_loading').style(
                     "--loading-border--")
@@ -706,7 +709,7 @@ class AlasGUI(Frame):
         self.init_aside(name=config_name)
         clear('content')
         self.alas_name = config_name
-        self.alas = AlasManager.get_alas(config_name)
+        self.alas = ProcessManager.get_manager(config_name)
         self.alas_config = AzurLaneConfig(config_name, '')
         self.state_switch.switch()
         self.alas_set_menu()
@@ -808,9 +811,6 @@ class AlasGUI(Frame):
 
             toast(_t("Gui.Toast.DisableTranslateMode"),
                   duration=0, position='right', onclick=_disable)
-
-        # toast("Click to update", duration=0, color='success',
-        #       onclick=update, position='right')
 
     def run(self) -> None:
         # setup gui
@@ -915,13 +915,13 @@ def debug():
 
 
 def startup():
-    AlasManager.sync_manager = Manager()
+    Setting.init()
     AlasGUI.shorten_path()
     lang.reload()
-    updater.event = AlasManager.sync_manager.Event()
+    updater.event = Setting.manager.Event()
     if updater.delay > 0:
         task_handler.add(updater.check_update, updater.delay)
-    task_handler.add(updater.schedule_restart(), 86400)
+    task_handler.add(updater.schedule_update(), 86400)
     task_handler.start()
     if updater.bool('DiscordRichPresence'):
         init_discord_rpc()
@@ -934,9 +934,9 @@ def clearup():
     """
     logger.info('Start clearup')
     close_discord_rpc()
-    for alas in AlasManager.all_alas.values():
+    for alas in ProcessManager._processes.values():
         alas.stop()
-    AlasManager.sync_manager.shutdown()
+    Setting.clearup()
     task_handler.stop()
     logger.info("Alas closed.")
 
@@ -947,19 +947,27 @@ def app():
                         help='Password of alas. No password by default')
     parser.add_argument("--cdn", action="store_true",
                         help="Use jsdelivr cdn for pywebio static files (css, js). Self host cdn by default.")
+    parser.add_argument('--electron', action="store_true",
+                        help='Runs by electron client.')
+    parser.add_argument('--reload', action="store_true",
+                        help='Able to use auto update and builtin updater')
     args, _ = parser.parse_known_args()
 
     # Apply config
-    AlasGUI.set_theme(theme=webui_config.Theme)
-    lang.LANG = webui_config.Language
-    key = args.key or webui_config.Password
-    cdn = args.cdn or (webui_config.CDN == 'true') or False
+    AlasGUI.set_theme(theme=Setting.webui_config.Theme)
+    lang.LANG = Setting.webui_config.Language
+    key = args.key or Setting.webui_config.Password
+    cdn = args.cdn or (Setting.webui_config.CDN == 'true') or False
+    Setting.reload = args.reload or Setting.webui_config.bool('EnableReload')
+    Setting.electron = args.electron
 
     logger.hr('Webui configs')
-    logger.attr('Theme', webui_config.Theme)
+    logger.attr('Theme', Setting.webui_config.Theme)
     logger.attr('Language', lang.LANG)
     logger.attr('Password', True if key else False)
     logger.attr('CDN', cdn)
+    logger.attr('Electron', args.electron)
+    logger.attr('Reload', Setting.reload)
 
     def index():
         if key != '' and not login(key):
@@ -976,7 +984,7 @@ def app():
         debug=True,
         on_startup=[
             startup,
-            lambda: AlasManager.start_alas(ev=updater.event)
+            lambda: ProcessManager.restart_processes(ev=updater.event)
         ],
         on_shutdown=[clearup]
     )

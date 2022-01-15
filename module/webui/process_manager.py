@@ -1,5 +1,4 @@
 import logging
-from multiprocessing.managers import SyncManager
 import os
 import queue
 import threading
@@ -9,26 +8,26 @@ from typing import Dict, List
 from filelock import FileLock
 from module.config.utils import deep_get, filepath_config
 from module.logger import logger
+from module.webui.setting import Setting
 from module.webui.utils import QueueHandler, Thread
 
 
-class AlasManager:
-    sync_manager: SyncManager
-    all_alas: Dict[str, "AlasManager"] = {}
+class ProcessManager:
+    _processes: Dict[str, "ProcessManager"] = {}
 
     def __init__(self, config_name: str = 'alas') -> None:
         self.config_name = config_name
-        self.log_queue = self.sync_manager.Queue()
+        self.log_queue = Setting.manager.Queue()
         self.log = []
         self.log_max_length = 500
         self.log_reduce_length = 100
-        self._process = Process()
-        self.thd_log_queue_handler = Thread()
+        self._process: Process = None
+        self.thd_log_queue_handler: Thread = None
 
-    def start(self, func: str = 'Alas', ev: threading.Event = None) -> None:
+    def start(self, func: str, ev: threading.Event = None) -> None:
         if not self.alive:
             self._process = Process(
-                target=AlasManager.run_alas,
+                target=ProcessManager.run_process,
                 args=(self.config_name, func, self.log_queue, ev,))
             self._process.start()
             self.thd_log_queue_handler = Thread(
@@ -54,7 +53,10 @@ class AlasManager:
 
     @property
     def alive(self) -> bool:
-        return self._process.is_alive()
+        if self._process is not None:
+            return self._process.is_alive()
+        else:
+            return False
 
     @property
     def state(self) -> int:
@@ -68,16 +70,16 @@ class AlasManager:
             return 3
 
     @classmethod
-    def get_alas(cls, config_name: str) -> "AlasManager":
+    def get_manager(cls, config_name: str) -> "ProcessManager":
         """
         Create a new alas if not exists.
         """
-        if config_name not in cls.all_alas:
-            cls.all_alas[config_name] = AlasManager(config_name)
-        return cls.all_alas[config_name]
+        if config_name not in cls._processes:
+            cls._processes[config_name] = ProcessManager(config_name)
+        return cls._processes[config_name]
 
     @staticmethod
-    def run_alas(config_name, func: str, q: queue.Queue, e: threading.Event) -> None:
+    def run_process(config_name, func: str, q: queue.Queue, e: threading.Event) -> None:
         # Setup logger
         qh = QueueHandler(q)
         formatter = logging.Formatter(
@@ -124,15 +126,15 @@ class AlasManager:
             logger.critical("No function matched")
 
     @classmethod
-    def running_instances(cls) -> List["AlasManager"]:
+    def running_instances(cls) -> List["ProcessManager"]:
         l = []
-        for alas in cls.all_alas.values():
-            if alas.alive:
-                l.append(alas)
+        for process in cls._processes.values():
+            if process.alive:
+                l.append(process)
         return l
 
     @staticmethod
-    def start_alas(instances: List["AlasManager"] = None, ev: threading.Event = None):
+    def restart_processes(instances: List["ProcessManager"] = None, ev: threading.Event = None):
         """
         After update and reload, or failed to perform an update,
         restart all alas that running before update
@@ -144,13 +146,13 @@ class AlasManager:
                 with open('./config/reloadalas', mode='r') as f:
                     for line in f.readlines():
                         line = line.strip()
-                        instances.append(AlasManager.get_alas(line))
+                        instances.append(ProcessManager.get_manager(line))
             except:
                 pass
 
-        for alas in instances:
-            logger.info(f"Starting [{alas.config_name}]")
-            alas.start(func='Alas', ev=ev)
+        for process in instances:
+            logger.info(f"Starting [{process.config_name}]")
+            process.start(func='Alas', ev=ev)
 
         try:
             os.remove('./config/reloadalas')

@@ -30,10 +30,6 @@ class QueueHandler:
 
 class Thread(threading.Thread):
     # https://www.geeksforgeeks.org/python-different-ways-to-kill-a-thread/
-    def __init__(self, group=None, target=None, name=None, args=(), kwargs=None, *, daemon=None):
-        super().__init__(group=group, target=target, name=name,
-                         args=args, kwargs=kwargs, daemon=daemon)
-
     def _get_id(self):
         # returns id of the respective thread
         if hasattr(self, '_thread_id'):
@@ -182,8 +178,7 @@ class TaskHandler:
                 time.sleep(0.5)
 
     def _get_thread(self) -> threading.Thread:
-        thread = Thread(target=self.loop)
-        thread.daemon = True
+        thread = Thread(target=self.loop, daemon=True)
         return thread
 
     def start(self) -> None:
