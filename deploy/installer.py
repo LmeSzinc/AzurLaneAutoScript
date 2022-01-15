@@ -315,7 +315,7 @@ class AlasManager(DeployConfig):
                 continue
 
             for folder in self.alas_folder:
-                if folder in executable_path and process_id != self.self_pid:
+                if folder in executable_path and process_name == name and process_id != self.self_pid:
                     yield executable_path, process_name, process_id
 
     def kill_by_name(self, name):
