@@ -21,7 +21,7 @@ Emulator:
     option: [cn, en, jp, tw]
   ScreenshotMethod:
     value: ADB
-    option: [ADB, uiautomator2, aScreenCap]
+    option: [ADB, uiautomator2, aScreenCap, WSA]
   ControlMethod:
     value: minitouch
     option: [ADB, uiautomator2, minitouch]

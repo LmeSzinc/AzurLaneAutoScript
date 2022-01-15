@@ -107,11 +107,12 @@ class Benchmark(DaemonBase, UI):
     def run(self):
         logger.hr('Benchmark', level=1)
         self.device.remove_minicap()
-        self.ui_ensure(page_campaign)
+        # self.ui_ensure(page_campaign)
 
         data = []
         if self.config.Benchmark_TestScreenshotMethod:
             data.append(['ADB', self.benchmark_test(self.device._screenshot_adb)])
+            data.append(['WSA', self.benchmark_test(self.device._screenshot_wsa)])
             data.append(['uiautomator2', self.benchmark_test(self.device._screenshot_uiautomator2)])
             data.append(['aScreenCap', self.benchmark_test(self.device._screenshot_ascreencap)])
         screenshot = data
@@ -121,6 +122,8 @@ class Benchmark(DaemonBase, UI):
         if self.config.Benchmark_TestClickMethod:
             x, y = random_rectangle_point(area)
             data.append(['ADB', self.benchmark_test(self.device._click_adb, x, y)])
+            x, y = random_rectangle_point(area)
+            data.append(['WSA', self.benchmark_test(self.device._click_wsa, x, y)])
             x, y = random_rectangle_point(area)
             data.append(['uiautomator2', self.benchmark_test(self.device._click_uiautomator2, x, y)])
             x, y = random_rectangle_point(area)

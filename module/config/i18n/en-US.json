@@ -279,7 +279,8 @@
       "help": "Speed: aScreenCap > uiautomator2 ~= ADB\nADB is recommended",
       "ADB": "ADB ",
       "uiautomator2": "uiautomator2 ",
-      "aScreenCap": "aScreenCap "
+      "aScreenCap": "aScreenCap ",
+      "WSA": "WSA"
     },
     "ControlMethod": {
       "name": "Control Method",

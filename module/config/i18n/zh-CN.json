@@ -279,7 +279,8 @@
       "help": "速度: aScreenCap > uiautomator2 ~= ADB\n建议选 ADB",
       "ADB": "ADB ",
       "uiautomator2": "uiautomator2 ",
-      "aScreenCap": "aScreenCap "
+      "aScreenCap": "aScreenCap ",
+      "WSA": "WSA"
     },
     "ControlMethod": {
       "name": "模拟器控制方案",

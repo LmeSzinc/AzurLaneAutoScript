@@ -1,4 +1,5 @@
 import os
+import re
 import time
 from collections import deque
 from datetime import datetime
@@ -54,6 +55,12 @@ class Screenshot(AScreenCap):
         screenshot = self.adb_shell(['screencap', '-p'])
         return self._process_screenshot(screenshot)
 
+    def _screenshot_wsa(self):
+        get_windows_id = str(self.adb_shell(['dumpsys', 'display']))
+        get_game_windows_id = re.match(r'systemapp:' + self.config.Emulator_PackageName + ':'+'(.+?)', get_windows_id, re.S)
+        screenshot = self.adb_shell(['screencap', '-p', '-d', get_game_windows_id[0]])
+        return self._process_screenshot(screenshot)
+
     @retry(tries=10, delay=3)
     @timer
     def screenshot(self):
@@ -69,6 +76,8 @@ class Screenshot(AScreenCap):
             self.image = self._screenshot_ascreencap()
         elif method == 'uiautomator2':
             self.image = self._screenshot_uiautomator2()
+        elif method == 'WSA':
+            self.image = self._screenshot_wsa()
         else:
             self.image = self._screenshot_adb()
 

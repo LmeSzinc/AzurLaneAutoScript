@@ -25,7 +25,8 @@
         "option": [
           "ADB",
           "uiautomator2",
-          "aScreenCap"
+          "aScreenCap",
+          "WSA"
         ]
       },
       "ControlMethod": {
