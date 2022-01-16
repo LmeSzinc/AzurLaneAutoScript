@@ -1,5 +1,6 @@
 import builtins
 import datetime
+import os
 import subprocess
 import threading
 import time
@@ -22,6 +23,31 @@ class Config(DeployConfig):
         self.config = {}
         self.read()
         self.write()
+    
+    def execute(self, command, allow_failure=False):
+        """
+        Args:
+            command (str):
+            allow_failure (bool):
+
+        Returns:
+            bool: If success.
+                Terminate installation if failed to execute and not allow_failure.
+        """
+        command = command.replace(r'\\', '/').replace('\\', '/').replace('\"', '"')
+        print(command)
+        error_code = os.system(command)
+        if error_code:
+            if allow_failure:
+                print(f'[ allowed failure ], error_code: {error_code}')
+                return False
+            else:
+                print(f'[ failure ], error_code: {error_code}')
+                # self.show_error()
+                raise ExecutionError
+        else:
+            print(f'[ success ]')
+            return True
 
 
 class Updater(Config, Installer):
@@ -177,11 +203,11 @@ class Updater(Config, Installer):
         if self.state in (0, 'failed', 'finish'):
             self.state = self._check_update()
 
-    @retry(ExecutionError, tries=3, delay=10)
+    @retry(ExecutionError, tries=3, delay=5, logger=None)
     def git_install(self):
         return super().git_install()
 
-    @retry(ExecutionError, tries=3, delay=10)
+    @retry(ExecutionError, tries=3, delay=5, logger=None)
     def pip_install(self):
         return super().pip_install()
 
@@ -192,7 +218,6 @@ class Updater(Config, Installer):
             self.git_install()
             self.pip_install()
         except ExecutionError:
-            logger.error("Update failed")
             builtins.print = backup
             return False
         builtins.print = backup
