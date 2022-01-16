@@ -249,13 +249,8 @@ class ShopBase(UI):
 
         # Second, load selection, apply filter,
         # and return 1st item in result if any
-        def _filter_check(item):
-            if self.shop_check_item(item):
-                return True
-            return False
-
         FILTER.load(self.shop_filter)
-        filtered = FILTER.apply(items, _filter_check)
+        filtered = FILTER.apply(items, self.shop_check_item)
 
         if not filtered:
             return None
