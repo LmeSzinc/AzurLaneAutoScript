@@ -300,11 +300,12 @@ class AlasManager(DeployConfig):
             process_name = p.Properties_("Name").Value
             process_id = p.Properties_["ProcessID"].Value
 
-            if process_name == name and process_id != self.self_pid:
-                executable_path = executable_path.replace(r'\\', '/').replace('\\', '/')
-                for folder in self.alas_folder:
-                    if folder in executable_path:
-                        yield executable_path, process_name, process_id
+            if executable_path is not None:
+                if process_name == name and process_id != self.self_pid:
+                    executable_path = executable_path.replace(r'\\', '/').replace('\\', '/')
+                    for folder in self.alas_folder:
+                        if folder in executable_path:
+                            yield executable_path, process_name, process_id
 
     def kill_by_name(self, name):
         """
