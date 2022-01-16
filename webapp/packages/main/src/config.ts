@@ -14,3 +14,4 @@ export const pythonPath = (path.isAbsolute(PythonExecutable) ? PythonExecutable 
 export const webuiUrl = `http://127.0.0.1:${WebuiPort}`;
 export const webuiPath = 'gui.py';
 export const webuiArgs = ['--port', WebuiPort, '--electron'];
+export const dpiScaling = Boolean(config.Deploy.Webui.DpiScaling) || (config.Deploy.Webui.DpiScaling === undefined) ;

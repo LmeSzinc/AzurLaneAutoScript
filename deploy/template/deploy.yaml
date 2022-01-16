@@ -99,6 +99,10 @@ Deploy:
     # 'default' for light theme
     # 'dark' for dark theme
     Theme: default
+    # Follow system DPI scaling
+    # [In most cases] true
+    # [In few cases] false to make Alas smaller, if you have a low resolution but high DPI scaling.
+    DpiScaling: true
     # --key. Password of web ui
     # Useful when expose Alas to the public network
     Password: null
