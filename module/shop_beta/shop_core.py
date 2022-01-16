@@ -85,11 +85,10 @@ class CoreShop(ShopBase):
             return False
 
         # Adjust purchase amount if needed
-        while 1:
-            if (limit * item.price) <= self._shop_core:
-                break
-            else:
-                limit -= 1
+        total = int(self._shop_core // item.price)
+        diff = limit - total
+        if diff > 0:
+            limit = total
 
         self.ui_ensure_index(limit, letter=OCR_SHOP_AMOUNT, prev_button=AMOUNT_MINUS, next_button=AMOUNT_PLUS,
                              skip_first_screenshot=True)

@@ -2,7 +2,7 @@ from module.base.decorator import Config
 from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1, GET_SHIP
-from module.exception import ScriptEnd
+from module.exception import ScriptError
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.shop.assets import *
@@ -15,31 +15,6 @@ SHOP_SELECT_PR = [SHOP_SELECT_PR1, SHOP_SELECT_PR2, SHOP_SELECT_PR3]
 
 OCR_SHOP_GUILD_COINS = Digit(SHOP_GUILD_COINS, letter=(255, 255, 255), name='OCR_SHOP_GUILD_COINS')
 OCR_SHOP_SELECT_TOTAL_PRICE = Digit(SHOP_SELECT_TOTAL_PRICE, letter=(255, 255, 255), name='OCR_SHOP_SELECT_TOTAL_PRICE')
-
-
-class GuildItemGrid(ShopItemGrid):
-    def predict(self, image, name=True, amount=True, cost=False, price=False, tag=False):
-        """
-        Overridden to iterate, add attributes to assist with
-        shop_*_select_* funcs
-        """
-        super().predict(image, name, amount, cost, price, tag)
-
-        # Add attributes to assist with
-        # shop_*_select_* funcs
-        for item in self.items:
-            if item.group is None:
-                continue
-
-            # Designate appropriate 'postfix' attr
-            # for globals and config referencing
-            lgroup = item.group.lower()
-            if lgroup in SELECT_ITEMS:
-                item.postfix = ''
-                if lgroup != 'pr' and lgroup != 'dr':
-                    item.postfix = f'_{item.tier.upper()}'
-
-        return self.items
 
 
 class GuildShop(ShopBase, ShopUI):
@@ -58,10 +33,10 @@ class GuildShop(ShopBase, ShopUI):
     def shop_items(self):
         """
         Returns:
-            GuildItemGrid:
+            ShopItemGrid:
         """
         shop_grid = self.shop_grid
-        shop_guild_items = GuildItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
+        shop_guild_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
         shop_guild_items.load_template_folder('./assets/shop/guild_cn')
         shop_guild_items.load_cost_template_folder('./assets/shop/cost')
         return shop_guild_items
@@ -71,10 +46,10 @@ class GuildShop(ShopBase, ShopUI):
     def shop_items(self):
         """
         Returns:
-            GuildItemGrid:
+            ShopItemGrid:
         """
         shop_grid = self.shop_grid
-        shop_guild_items = GuildItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
+        shop_guild_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
         shop_guild_items.load_template_folder('./assets/shop/guild_cn')
         shop_guild_items.load_cost_template_folder('./assets/shop/cost')
         return shop_guild_items
@@ -84,10 +59,10 @@ class GuildShop(ShopBase, ShopUI):
     def shop_items(self):
         """
         Returns:
-            GuildItemGrid:
+            ShopItemGrid:
         """
         shop_grid = self.shop_grid
-        shop_guild_items = GuildItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
+        shop_guild_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
         shop_guild_items.load_template_folder('./assets/shop/guild')
         shop_guild_items.load_cost_template_folder('./assets/shop/cost')
         return shop_guild_items
@@ -115,97 +90,96 @@ class GuildShop(ShopBase, ShopUI):
             return False
         return True
 
-    def shop_get_select(self, item, choice):
+    def shop_get_choice(self, item):
         """
+        Gets the configuration saved in
+        GuildShop_X for item
+
         Args:
-            item (Item): Item for reference
-            choice (str, list(str)):
-                String identifies index within SELECT combination
-                List types exclusively for PR/DR series selection
+            item (Item):
 
         Returns:
-            Button:
+            str
 
         Raises:
-            ScriptEnd:
+            ScriptError
         """
-        # Ensure there is valid SELECT_* combination for item group
-        # Stow variables for frequent usage
-        lgroup = item.group.lower()
-        ugroup = item.group.upper()
+        # Item group must belong in SELECT_ITEM_INFO_MAP
+        group = item.group
+        if group not in SELECT_ITEM_INFO_MAP:
+            logger.critical(f'Unexpected item group \'{group}\'; '
+                             'expected one of {SELECT_ITEM_INFO_MAP.keys()}')
+            raise ScriptError
+
+        postfix = ''
+        if group != 'pr' and group != 'dr':
+            postfix = f'_{item.tier.upper()'
+        else:
+            postfix = f'{item.tier[-1].upper()}'
+
+        ugroup = group.upper()
         try:
-            choices = globals()[f'SELECT_{ugroup}']
-        except KeyError:
-            logger.critical(f'Missing SELECT_{ugroup} (global)')
-            raise ScriptEnd
+            return getattr(self.config, f'GuildShop_{ugroup}{postfix}')
+        except:
+            logger.critical('Missing required configuration '
+                           f'\'GuildShop_{ugroup}{postfix}\'')
+            raise ScriptError
 
-        # Choose the applicable SELECT_GRID_* for item group
-        shop_select_grid = None
-        if lgroup == 'book':
-            shop_select_grid = SELECT_GRID_3X1
-        elif lgroup == 'box' or lgroup == 'retrofit':
-            shop_select_grid = SELECT_GRID_4X1
-        elif lgroup == 'pr' and isinstance(choice, list):
-            # Complex grid retrieval based on PR/DR series
-            # Determine series through asset appearance
-            # and convert choice from list(str) to str
-            for idx, button in enumerate(SHOP_SELECT_PR):
-                if self.appear(button, offset=(20, 20)):
-                    choice = choice[idx]
-                    if idx == 0:
-                        shop_select_grid = SELECT_GRID_6X1
-                    else:
-                        shop_select_grid = SELECT_GRID_4X1
+    def shop_get_select(self, item):
+        """
+        Gets the appropriate select
+        grid button
+
+        Args:
+            item (Item):
+
+        Returns:
+            Button
+
+        Raises:
+            ScriptError
+        """
+        # Get configured choice for item
+        choice = self.shop_get_choice(item)
+
+        # Shorthand frequent usage
+        group = item.group
+        item_info = SELECT_ITEM_INFO_MAP[group]
+
+        # Get appropriate select button for click
+        button = None
+        index = item_info['choices'][choice]
+        if group != 'pr' and group != 'dr':
+            button = item_info['grid'].buttons[index]
+        elif group == 'pr':
+            for idx, btn in enumerate(SHOP_SELECT_PR):
+                if self.appear(btn, offset=(20, 20)):
+                    key = f's{idx + 1}'
+                    button = item_info['grid'][key].buttons[index]
                     break
-        elif lgroup == 'plate':
-            shop_select_grid = SELECT_GRID_5X1
+        elif group == 'dr':
+            pass
 
-        if shop_select_grid is None:
-            logger.warning(f'Failed to find applicable grid for group \'{lgroup}\'')
-            return None
-
-        # Return button from appropriate grid based on 'choice'
-        if choice in choices:
-            return shop_select_grid.buttons[choices.get(choice)]
-
-        logger.critical(f'Missing \'{choice}\' in SELECT_{ugroup}')
-        raise ScriptEnd
+        return button
 
     def shop_buy_select_execute(self, item):
         """
         Args:
-            item: Item to check
+            item (Item):
 
         Returns:
-            bool: implicating failed to execute
+            bool:
 
         Raises:
-            ScriptEnd:
+            ScriptError:
         """
-        # Base case - Only items with 'postfix' are allowed
-        if not hasattr(item, 'postfix'):
-            logger.critical('Unexpected item object; missing \'postfix\' attr')
-            raise ScriptEnd
-
-        # Retrieve appropriate globals and config values for processing
-        # Stow variables for frequent usage
-        ugroup = item.group.upper()
-        postfix = item.postfix
-        try:
-            limit = globals()[f'SELECT_{ugroup}_LIMIT']
-            choice = getattr(self.config, f'GuildShop_{ugroup}{postfix}')
-        except:
-            logger.critical('Missing either or both of the following:')
-            logger.critical(f'- SELECT_{ugroup}_LIMIT (global)')
-            logger.critical(f'- GuildShop_{ugroup}{postfix} (config)')
-            raise ScriptEnd
-
-        # Find the applicable grid and button within grid
+        # Search for appropriate select grid button for item
         # If None, allow close and restart process
-        select = self.shop_get_select(item, choice)
+        select = self.shop_get_select(item)
         if select is None:
             self.device.click(SHOP_CLICK_SAFE_AREA)  # Close secondary prompt
             return False
+        limit = SELECT_ITEM_INFO_MAP[item.group]['limit']
 
         # Click in intervals until plus/minus are onscreen
         click_timer = Timer(3, count=6)
@@ -215,8 +189,8 @@ class GuildShop(ShopBase, ShopUI):
                 self.device.click(select)
                 click_timer.reset()
 
-            # Scan for plus/minus locations varies based on grid and item selected
-            # After searching within an offset, buttons move to the actual location automatically.
+            # Scan for plus/minus locations; searching within
+            # offset will update the click posiion automatically
             self.device.screenshot()
             if self.appear(SELECT_MINUS, offset=select_offset) and self.appear(SELECT_PLUS, offset=select_offset):
                 break
@@ -224,11 +198,10 @@ class GuildShop(ShopBase, ShopUI):
                 continue
 
         # Total number to purchase altogether
-        while 1:
-            if (limit * item.price) <= self._shop_guild_coins:
-                break
-            else:
-                limit -= 1
+        total = int(self._shop_guild_coins // item.price)
+        diff = limit - total
+        if diff > 0:
+            limit = total
 
         # For ui_ensure_index to calculate amount/count
         # representation of total_price
