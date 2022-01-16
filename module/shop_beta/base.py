@@ -14,7 +14,7 @@ from module.ui.assets import BACK_ARROW
 from module.ui.ui import UI
 
 FILTER_REGEX = re.compile(
-    '(cube|drill|chip|array|pry|dr|box|bulin|book|food|plate|retrofit)'
+    '(cube|drill|chip|array|pr|dr|box|bulin|book|food|plate|retrofit)'
 
     '(neptune|monarch|ibuki|izumo|roon|saintlouis'
     '|seattle|georgia|kitakaze|azuma|friedrich'
