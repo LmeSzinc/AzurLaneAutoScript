@@ -41,7 +41,7 @@ class ProcessManager:
                 self._process.terminate()
                 self.log.append(
                     f"[{self.config_name}] exited. Reason: Manual stop\n")
-            if self.thd_log_queue_handler.is_alive():
+            if self.thd_log_queue_handler is not None:
                 self.thd_log_queue_handler.stop()
         logger.info(f"[{self.config_name}] exited")
 

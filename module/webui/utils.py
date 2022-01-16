@@ -1,10 +1,10 @@
 import ctypes
 import datetime
 import operator
-from queue import Queue
 import re
 import threading
 import time
+from queue import Queue
 from typing import Callable, Generator, List
 
 from module.logger import logger
@@ -36,12 +36,13 @@ class Thread(threading.Thread):
                 return thd_id
 
     def stop(self):
-        thread_id = self._get_id()
-        res = ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id,
-                                                         ctypes.py_object(SystemExit))
-        if res > 1:
-            ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id, 0)
-            print('Exception raise failure')
+        if self.is_alive():
+            thread_id = self._get_id()
+            res = ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id,
+                                                             ctypes.py_object(SystemExit))
+            if res > 1:
+                ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id, 0)
+                logger.error('Exception raise failure')
 
 
 class Task:
