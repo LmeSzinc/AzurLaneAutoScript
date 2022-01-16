@@ -14,7 +14,7 @@ from module.ui.assets import BACK_ARROW
 from module.ui.ui import UI
 
 FILTER_REGEX = re.compile(
-    '(cube|drill|chip|array|pr|dr|box|bulin|book|food|plate|retrofit)'
+    '(cube|drill|chip|array|pr|dr|box|bulin|book|food|plate|retrofit|cat)'
 
     '(neptune|monarch|ibuki|izumo|roon|saintlouis'
     '|seattle|georgia|kitakaze|azuma|friedrich'
@@ -38,16 +38,24 @@ class ShopItemGrid(ItemGrid):
         super().predict(image, name, amount, cost, price, tag)
 
         for item in self.items:
+            # Set defaults
+            item.group, item.sub_genre, item.tier = None, None, None
+
             # Can use regular expression to quickly populate
             # the new attributes
-            result = re.search(FILTER_REGEX, item.name)
+            name = item.name
+            result = re.search(FILTER_REGEX, name)
             if result:
                 item.group, item.sub_genre, item.tier = \
-                [group.lower() for group in results.groups()]
+                [group.lower() \
+                if group is not None else None \
+                for group in result.groups()]
             else:
-                logger.warning('Unable to parse shop item {item.name}; '
-                               'check template asset and filter regexp')
-                raise ScriptError
+                if not name.isnumeric():
+                    logger.warning(f'Unable to parse shop item {name}; '
+                                    'check template asset and filter regexp')
+                    raise ScriptError
+                continue
 
             # Sometimes book's color and/or tier will be misidentified
             # Undergo a second template match using Book class
