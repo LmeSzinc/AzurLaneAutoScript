@@ -113,7 +113,7 @@ class GuildShop(ShopBase, ShopUI):
 
         postfix = ''
         if group != 'pr' and group != 'dr':
-            postfix = f'_{item.tier.upper()'
+            postfix = f'_{item.tier.upper()}'
         else:
             postfix = f'{item.tier[-1].upper()}'
 
