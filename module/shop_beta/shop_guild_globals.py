@@ -27,7 +27,7 @@ SELECT_ITEM_INFO_MAP = {
             'blue': 1,
             'yellow': 2,
         },
-    }.
+    },
     'box': {
         'limit': 1,
         'grid': SELECT_GRID_4X1,
@@ -37,7 +37,7 @@ SELECT_ITEM_INFO_MAP = {
             'sakura': 2,
             'ironblood': 3,
         },
-    }.
+    },
     'retrofit': {
         'limit': 2,
         'grid': SELECT_GRID_4X1,
@@ -47,7 +47,7 @@ SELECT_ITEM_INFO_MAP = {
             'bb': 2,
             'cv': 3,
         },
-    }.
+    },
     'plate': {
         'limit': 5,
         'grid': SELECT_GRID_5X1,
@@ -58,7 +58,7 @@ SELECT_ITEM_INFO_MAP = {
             'antiair': 3,
             'plane': 4,
         },
-    }.
+    },
     'pr': {
         'limit': 1,
         'grid': {
@@ -86,7 +86,7 @@ SELECT_ITEM_INFO_MAP = {
             'august': 1,
             'marcopolo': 2,
         },
-    }.
+    },
     'dr': {
         'limit': 1,
         'grid': {
@@ -102,5 +102,5 @@ SELECT_ITEM_INFO_MAP = {
             'agir': 0,
             'hakuryu': 1,
         },
-    }.
+    },
 }
