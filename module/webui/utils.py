@@ -1,6 +1,7 @@
 import ctypes
 import datetime
 import operator
+from queue import Queue
 import re
 import threading
 import time
@@ -17,15 +18,11 @@ RE_DATETIME = r'(\d{2}|\d{4})(?:\-)?([0]{1}\d{1}|[1]{1}[0-2]{1})(?:\-)?' + \
 
 
 class QueueHandler:
-    def __init__(self, q) -> None:
+    def __init__(self, q: Queue) -> None:
         self.queue = q
 
     def write(self, s: str):
-        if s.endswith('\n'):
-            s = s[:-1]
-
-        # reduce log length by cutting off the date.
-        self.queue.put(s[11:] + '\n')
+        self.queue.put(s)
 
 
 class Thread(threading.Thread):

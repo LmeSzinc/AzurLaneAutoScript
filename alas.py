@@ -291,12 +291,13 @@ class AzurLaneAutoScript:
         seconds = future.timestamp() - datetime.now().timestamp() + 1
         if seconds <= 0:
             logger.warning(f'Wait until {str(future)}, but sleep length < 0, skip waiting')
+            return
         
         if self.stop_event is not None:
             self.stop_event.wait(seconds)
             if self.stop_event.is_set():
                 logger.info("Update event detected")
-                logger.info(f"Alas [{self.config_name}] exited.")
+                logger.info(f"[{self.config_name}] exited. Reason: Update")
                 exit(0)
         else:
             time.sleep(seconds)
