@@ -16,6 +16,8 @@ class AppControl(Connection):
         logger.info(f'App stop: {self.config.Emulator_PackageName}')
         try:
             self.device.app_stop(self.config.Emulator_PackageName)
+            if self.config.Emulator_ControlMethod == "WSA":
+                del self.device.__dict__['get_game_windows_id']
         except BaseError as e:
             logger.critical(e)
             raise RequestHumanTakeover
