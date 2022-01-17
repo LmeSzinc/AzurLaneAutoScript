@@ -23,6 +23,7 @@ class Screenshot(AScreenCap):
     _last_save_time = {}
     image: Image.Image
 
+
     def _screenshot_uiautomator2(self):
         image = self.device.screenshot()
         return image.convert('RGB')
@@ -56,10 +57,23 @@ class Screenshot(AScreenCap):
         return self._process_screenshot(screenshot)
 
     def _screenshot_wsa(self):
-        get_windows_id = str(self.adb_shell(['dumpsys', 'display']))
-        get_game_windows_id = re.match(r'systemapp:' + self.config.Emulator_PackageName + ':'+'(.+?)', get_windows_id, re.S)
-        screenshot = self.adb_shell(['screencap', '-p', '-d', get_game_windows_id[0]])
+        # get_windows_id = str(self.adb_shell(['dumpsys', 'display']))
+        # get_game_windows_id = re.findall(r'systemapp:' + self.config.Emulator_PackageName + ':'+'(.+?)', get_windows_id, re.S)
+        # screenshot = self.adb_shell(['screencap', '-p', '-d', self.get_game_windows_id])
+        screenshot = self.adb_shell(['screencap', '-p', '-d', self.get_game_windows_id])
+        # logger.info(self.get_game_windows_id)
+        # screenshot = self.adb_shell(['screencap', '-p', '-d', "2"])
+        # screenshot = self.adb_shell(['screencap', '-d', str(get_game_windows_id[0], '-p')])
         return self._process_screenshot(screenshot)
+
+    # @cached_property
+    # def get_game_windows_id(self):
+    #     get_windows_id = str(self.adb_shell(['dumpsys', 'display']))
+    #     # get_game_windows_id = re.findall(r'systemapp:' + self.config.Emulator_PackageName + ':'+'(.+?)', get_windows_id, re.S)
+    #     get_game_windows_id = re.findall(r'systemapp:' + self.config.Emulator_PackageName + ':'+'(.+?)', get_windows_id, re.S)
+    #     get_game_windows_id = list(set(get_game_windows_id))
+    #
+    #     return get_game_windows_id
 
     @retry(tries=10, delay=3)
     @timer

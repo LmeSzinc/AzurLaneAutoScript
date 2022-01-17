@@ -3,6 +3,7 @@ import os
 import subprocess
 
 import uiautomator2 as u2
+from cached_property import cached_property
 
 from module.config.config import AzurLaneConfig
 from module.logger import logger
@@ -46,7 +47,7 @@ class Connection:
             str: 127.0.0.1:{port}
         """
         from winreg import ConnectRegistry, OpenKey, QueryInfoKey, EnumValue, CloseKey, HKEY_LOCAL_MACHINE
-        
+
         logger.info("Use Bluestacks4 Hyper-v Beta")
         if serial == "bluestacks4-hyperv":
             folder_name = "Android"
@@ -69,7 +70,6 @@ class Connection:
         CloseKey(reg_root)
         return serial
 
-
     @staticmethod
     def find_bluestacks5_hyperv(serial):
         """
@@ -80,7 +80,7 @@ class Connection:
             str: 127.0.0.1:{port}
         """
         from winreg import ConnectRegistry, OpenKey, QueryInfoKey, EnumValue, CloseKey, HKEY_LOCAL_MACHINE
-        
+
         logger.info("Use Bluestacks5 Hyper-v")
         logger.info("Reading Realtime adb port")
 
@@ -200,3 +200,13 @@ class Connection:
         logger.info('Removing minicap')
         self.adb_shell(["rm", "/data/local/tmp/minicap"])
         self.adb_shell(["rm", "/data/local/tmp/minicap.so"])
+
+    @cached_property
+    def get_game_windows_id(self):
+        get_windows_id = str(self.adb_shell(['dumpsys', 'display']))
+        # get_game_windows_id = re.findall(r'systemapp:' + self.config.Emulator_PackageName + ':'+'(.+?)', get_windows_id, re.S)
+        get_game_windows_id = re.findall(r'systemapp:' + self.config.Emulator_PackageName + ':' + '(.+?)',
+                                         get_windows_id, re.S)
+        get_game_windows_id = list(set(get_game_windows_id))
+
+        return get_game_windows_id

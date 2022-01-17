@@ -118,6 +118,7 @@ class LoginHandler(Combat):
     def app_start(self):
         logger.hr('App start')
         self.device.app_start()
+        self.device.get_game_windows_id()
         self.handle_app_login()
         # self.ensure_no_unfinished_campaign()
 
@@ -125,6 +126,7 @@ class LoginHandler(Combat):
         logger.hr('App restart')
         self.device.app_stop()
         self.device.app_start()
+        self.device.get_game_windows_id()
         self.handle_app_login()
         # self.ensure_no_unfinished_campaign()
         self.config.task_delay(server_update=True)
