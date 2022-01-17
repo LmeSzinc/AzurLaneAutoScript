@@ -1,4 +1,3 @@
-from module.base.decorator import Config
 from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1, GET_SHIP
@@ -29,7 +28,6 @@ class GuildShop(ShopBase, ShopUI):
         return self.config.GuildShop_Filter.strip()
 
     @cached_property
-    @Config.when(SERVER='cn')
     def shop_items(self):
         """
         Returns:
@@ -37,33 +35,10 @@ class GuildShop(ShopBase, ShopUI):
         """
         shop_grid = self.shop_grid
         shop_guild_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        shop_guild_items.load_template_folder('./assets/shop/guild_cn')
-        shop_guild_items.load_cost_template_folder('./assets/shop/cost')
-        return shop_guild_items
-
-    @cached_property
-    @Config.when(SERVER='tw')
-    def shop_items(self):
-        """
-        Returns:
-            ShopItemGrid:
-        """
-        shop_grid = self.shop_grid
-        shop_guild_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        shop_guild_items.load_template_folder('./assets/shop/guild_cn')
-        shop_guild_items.load_cost_template_folder('./assets/shop/cost')
-        return shop_guild_items
-
-    @cached_property
-    @Config.when(SERVER=None)
-    def shop_items(self):
-        """
-        Returns:
-            ShopItemGrid:
-        """
-        shop_grid = self.shop_grid
-        shop_guild_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        shop_guild_items.load_template_folder('./assets/shop/guild')
+        if self.config.SERVER == 'cn' or self.config.SERVER == 'tw':
+            shop_guild_items.load_template_folder('./assets/shop/guild_cn')
+        else:
+            shop_guild_items.load_template_folder('./assets/shop/guild')
         shop_guild_items.load_cost_template_folder('./assets/shop/cost')
         return shop_guild_items
 
