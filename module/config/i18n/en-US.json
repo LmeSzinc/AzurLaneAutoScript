@@ -284,7 +284,7 @@
     },
     "ControlMethod": {
       "name": "Control Method",
-      "help": "Speed: minitouch >>> uiautomator2 ~= ADB\nminitouch is recommended\nThe current WSA control scheme only supports clicks.",
+      "help": "Speed: minitouch >>> uiautomator2 ~= ADB\nminitouch is recommended\nTThe current WSA control method is experimental and may contain many errors.",
       "ADB": "ADB ",
       "uiautomator2": "uiautomator2 ",
       "minitouch": "minitouch ",

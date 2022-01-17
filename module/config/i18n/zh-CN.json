@@ -284,7 +284,7 @@
     },
     "ControlMethod": {
       "name": "模拟器控制方案",
-      "help": "速度: minitouch >>> uiautomator2 ~= ADB\n建议选 minitouch\n目前WSA的控制方案仅支持点击",
+      "help": "速度: minitouch >>> uiautomator2 ~= ADB\n建议选 minitouch\n目前WSA的控制方法是实验性的，可能包含很多错误。",
       "ADB": "ADB ",
       "uiautomator2": "uiautomator2 ",
       "minitouch": "minitouch ",
