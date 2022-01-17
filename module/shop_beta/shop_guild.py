@@ -118,21 +118,20 @@ class GuildShop(ShopBase, ShopUI):
         choice = self.shop_get_choice(item)
 
         # Get appropriate select button for click
-        item_info = SELECT_ITEM_INFO_MAP[group]
-        index = item_info['choices'][choice]
-        button = None
-        if group != 'pr' and group != 'dr':
-            button = item_info['grid'].buttons[index]
-        elif group == 'pr':
-            for idx, btn in enumerate(SHOP_SELECT_PR):
-                if self.appear(btn, offset=(20, 20)):
-                    key = f's{idx + 1}'
-                    button = item_info['grid'][key].buttons[index]
-                    break
-        elif group == 'dr':
-            pass
-
-        return button
+        try:
+            item_info = SELECT_ITEM_INFO_MAP[group]
+            index = item_info['choices'][choice]
+            if group == 'pr':
+                for idx, btn in enumerate(SHOP_SELECT_PR):
+                    if self.appear(btn, offset=(20, 20)):
+                        series_key = f's{idx + 1}'
+                        return item_info['grid'][series_key].buttons[index]
+            else:
+                return item_info['grid'].buttons[index]
+        except:
+            logger.critical('SELECT_ITEM_INFO_MAP may be malformed; '
+                           f'item group \'{group}\' entry is compromised')
+            raise ScriptError
 
     def shop_buy_select_execute(self, item):
         """
@@ -141,16 +140,10 @@ class GuildShop(ShopBase, ShopUI):
 
         Returns:
             bool:
-
-        Raises:
-            ScriptError:
         """
         # Search for appropriate select grid button for item
         # If None, allow close and restart process
         select = self.shop_get_select(item)
-        if select is None:
-            self.device.click(SHOP_CLICK_SAFE_AREA)  # Close secondary prompt
-            return False
         limit = SELECT_ITEM_INFO_MAP[item.group]['limit']
 
         # Click in intervals until plus/minus are onscreen

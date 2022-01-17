@@ -1,5 +1,6 @@
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
+from module.exception import ScriptError
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.shop.assets import *
@@ -58,10 +59,13 @@ class CoreShop(ShopBase):
     def shop_buy_amount_execute(self, item):
         """
         Args:
-            item: Item to check
+            item (Item):
 
         Returns:
-            bool: implicating failed to execute
+            bool:
+
+        Raises:
+            ScriptError
         """
         index_offset = (40, 20)
         limit = 0
@@ -81,8 +85,9 @@ class CoreShop(ShopBase):
         self.device.screenshot()
         limit = OCR_SHOP_AMOUNT.ocr(self.device.image)
         if not limit:
-            self.device.click(SHOP_CLICK_SAFE_AREA)  # Close amount prompt
-            return False
+            logger.critical('OCR_SHOP_AMOUNT resulted in zero (0); '
+                            'asset may be compromised')
+            raise ScriptError
 
         # Adjust purchase amount if needed
         total = int(self._shop_core // item.price)
