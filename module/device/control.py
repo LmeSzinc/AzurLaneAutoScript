@@ -3,6 +3,8 @@ import re
 
 from collections import deque
 
+from cached_property import cached_property
+
 from module.base.retry import retry
 from module.base.timer import Timer
 from module.base.utils import *
@@ -91,9 +93,9 @@ class Control(MiniTouch):
         self.adb_shell(['input', 'tap', str(x), str(y)])
 
     def _click_wsa(self, x, y):
-        get_windows_id = str(self.adb_shell(['dumpsys', 'display']))
-        get_game_windows_id = re.findall(r'systemapp:' + self.config.Emulator_PackageName + ':'+'(.+?)', get_windows_id, re.S)
-        self.adb_shell(['input', '-d', get_game_windows_id[0], 'tap', str(x), str(y)])
+        # get_windows_id = str(self.adb_shell(['dumpsys', 'display']))
+        # get_game_windows_id = re.findall(r'systemapp:' + self.config.Emulator_PackageName + ':'+'(.+?)', get_windows_id, re.S)
+        self.adb_shell(['input', '-d', self.get_game_windows_id, 'tap', str(x), str(y)])
 
     def multi_click(self, button, n, interval=(0.1, 0.2)):
         self.click_record_check(button)
@@ -159,6 +161,8 @@ class Control(MiniTouch):
         method = self.config.Emulator_ControlMethod
         if method == 'minitouch':
             self._swipe_minitouch(fx, fy, tx, ty)
+        if method == 'WSA':
+            self.adb_shell(['input', '-d', self.get_game_windows_id, 'swipe', str(fx), str(fy), str(tx), str(ty)])
         else:
             self.device.swipe(fx, fy, tx, ty, duration=duration)
 
@@ -209,6 +213,9 @@ class Control(MiniTouch):
         method = self.config.Emulator_ControlMethod
         if method == 'minitouch':
             self._drag_minitouch(p1, p2, point_random=point_random)
+        if method == 'WSA':
+            self.adb_shell(['input', '-d', self.get_game_windows_id, 'swipe', str(p1[0]), str(p1[1]), str(p2[0]),
+                            str(p2[1]), str(int(swipe_duration*1000))])
         else:
             self._drag_uiautomator2(
                 p1, p2, segments=segments, shake=shake, point_random=point_random, shake_random=shake_random,
