@@ -114,6 +114,7 @@ class LoginHandler(Combat):
     def app_stop(self):
         logger.hr('App stop')
         self.device.app_stop()
+        del self.device.__dict__['get_game_windows_id']
 
     def app_start(self):
         logger.hr('App start')

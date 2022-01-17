@@ -204,9 +204,7 @@ class Connection:
     @cached_property
     def get_game_windows_id(self):
         get_windows_id = str(self.adb_shell(['dumpsys', 'display']))
-        # get_game_windows_id = re.findall(r'systemapp:' + self.config.Emulator_PackageName + ':'+'(.+?)', get_windows_id, re.S)
-        get_game_windows_id = re.findall(r'systemapp:' + self.config.Emulator_PackageName + ':' + '(.+?)',
-                                         get_windows_id, re.S)
+        get_game_windows_id = re.findall(r'systemapp:' + self.config.Emulator_PackageName + ':' + '(.+?)', get_windows_id, re.S)
         get_game_windows_id = list(set(get_game_windows_id))
 
         return get_game_windows_id
