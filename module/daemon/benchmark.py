@@ -107,7 +107,7 @@ class Benchmark(DaemonBase, UI):
     def run(self):
         logger.hr('Benchmark', level=1)
         self.device.remove_minicap()
-        # self.ui_ensure(page_campaign)
+        self.ui_ensure(page_campaign)
 
         data = []
         if self.config.Benchmark_TestScreenshotMethod:
