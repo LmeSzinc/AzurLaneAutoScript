@@ -292,7 +292,11 @@ class AlasManager(DeployConfig):
         Yields:
             str, str, str: executable_path, process_name, process_id
         """
-        from win32com.client import GetObject
+        try:
+            from win32com.client import GetObject
+        except ModuleNotFoundError:
+            print('pywin32 not installed, skip')
+            return False
         wmi = GetObject('winmgmts:')
         processes = wmi.InstancesOf('Win32_Process')
         for p in processes:
