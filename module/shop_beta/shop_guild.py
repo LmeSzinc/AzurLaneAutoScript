@@ -79,14 +79,7 @@ class GuildShop(ShopBase, ShopUI):
         Raises:
             ScriptError
         """
-        # Item group must belong in SELECT_ITEM_INFO_MAP
         group = item.group
-        if group not in SELECT_ITEM_INFO_MAP:
-            logger.critical(f'Unexpected item group \'{group}\'; '
-                             'expected one of {SELECT_ITEM_INFO_MAP.keys()}')
-            raise ScriptError
-
-        postfix = ''
         if group != 'pr' and group != 'dr':
             postfix = f'_{item.tier.upper()}'
         else:
@@ -96,7 +89,7 @@ class GuildShop(ShopBase, ShopUI):
         try:
             return getattr(self.config, f'GuildShop_{ugroup}{postfix}')
         except:
-            logger.critical('Missing required configuration '
+            logger.critical('No configuration with name '
                            f'\'GuildShop_{ugroup}{postfix}\'')
             raise ScriptError
 
@@ -114,16 +107,20 @@ class GuildShop(ShopBase, ShopUI):
         Raises:
             ScriptError
         """
+        # Item group must belong in SELECT_ITEM_INFO_MAP
+        group = item.group
+        if group not in SELECT_ITEM_INFO_MAP:
+            logger.critical(f'Unexpected item group \'{group}\'; '
+                             'expected one of {SELECT_ITEM_INFO_MAP.keys()}')
+            raise ScriptError
+
         # Get configured choice for item
         choice = self.shop_get_choice(item)
 
-        # Shorthand frequent usage
-        group = item.group
-        item_info = SELECT_ITEM_INFO_MAP[group]
-
         # Get appropriate select button for click
-        button = None
+        item_info = SELECT_ITEM_INFO_MAP[group]
         index = item_info['choices'][choice]
+        button = None
         if group != 'pr' and group != 'dr':
             button = item_info['grid'].buttons[index]
         elif group == 'pr':
