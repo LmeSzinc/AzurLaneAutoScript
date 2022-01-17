@@ -91,7 +91,6 @@ C124LargeLeveling:
 GemsFarming:
   Campaign:
     Mode: normal
-    Use2xBook: false
     AmbushEvade: true
   StopCondition:
     MapAchievement: non_stop
