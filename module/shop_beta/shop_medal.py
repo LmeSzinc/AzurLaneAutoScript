@@ -42,6 +42,7 @@ class MedalShop(ShopBase):
         shop_medal_items.load_cost_template_folder('./assets/shop/cost')
         shop_medal_items.similarity = 0.88  # Lower the threshold for consistent matches of PR/DRBP
         if self.config.SERVER == 'jp':
+            # JP has thinner letters, increase threshold to 128
             shop_medal_items.price_ocr = Digit([], letter=(255, 223, 57), threshold=128, name='PRICE_OCR_JP')
         return shop_medal_items
 
