@@ -12,19 +12,19 @@ MAP.map_data = """
     ++ ++ ++ MS -- ME ++ ++ ++ ++
     ++ ++ ++ -- ME __ -- ++ ++ ++
     ++ ++ ++ __ -- ME -- -- ++ ++
-    ++ ++ ++ ME ++ ++ ME -- ++ ++
+    ++ ++ ++ Me ++ ++ ME -- ++ ++
     -- MB -- -- ME ME -- ME -- SP
-    -- -- ME -- -- -- -- __ -- SP
-    ++ ++ -- ME MS ME ME ++ ME --
+    -- -- Me -- -- -- -- __ -- SP
+    ++ ++ -- Me MS ME Me ++ ME --
 """
 MAP.weight_data = """
-    10 10 10 10 10 10 10 10 10 10
-    10 10 10 10 10 10 10 10 10 10
-    10 10 10 10 10 10 10 10 10 10
-    10 10 10 10 10 10 10 10 10 10
-    10 10 10 10 10 10 10 10 10 10
-    10 10 10 10 10 10 10 10 10 10
-    10 10 10 10 10 10 10 10 10 10
+    50 50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 2, 'siren': 1},
@@ -82,6 +82,7 @@ class Config:
 
 class Campaign(CampaignBase):
     MAP = MAP
+    ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 
     def battle_0(self):
         if self.clear_siren():
@@ -94,4 +95,4 @@ class Campaign(CampaignBase):
         return self.battle_default()
 
     def battle_5(self):
-        self.fleet_boss.capture_clear_boss()
+        return self.fleet_boss.clear_boss()
