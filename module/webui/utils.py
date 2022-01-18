@@ -4,6 +4,7 @@ import operator
 import re
 import threading
 import time
+from queue import Queue
 from typing import Callable, Generator, List
 
 from module.logger import logger
@@ -17,15 +18,11 @@ RE_DATETIME = r'(\d{2}|\d{4})(?:\-)?([0]{1}\d{1}|[1]{1}[0-2]{1})(?:\-)?' + \
 
 
 class QueueHandler:
-    def __init__(self, q) -> None:
+    def __init__(self, q: Queue) -> None:
         self.queue = q
 
     def write(self, s: str):
-        if s.endswith('\n'):
-            s = s[:-1]
-
-        # reduce log length by cutting off the date.
-        self.queue.put(s[11:] + '\n')
+        self.queue.put(s)
 
 
 class Thread(threading.Thread):
@@ -39,12 +36,13 @@ class Thread(threading.Thread):
                 return thd_id
 
     def stop(self):
-        thread_id = self._get_id()
-        res = ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id,
-                                                         ctypes.py_object(SystemExit))
-        if res > 1:
-            ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id, 0)
-            print('Exception raise failure')
+        if self.is_alive():
+            thread_id = self._get_id()
+            res = ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id,
+                                                             ctypes.py_object(SystemExit))
+            if res > 1:
+                ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id, 0)
+                logger.error('Exception raise failure')
 
 
 class Task:

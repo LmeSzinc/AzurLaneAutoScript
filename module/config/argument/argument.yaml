@@ -425,6 +425,8 @@ EventCd:
 RaidDaily:
   StageFilter: |-
     hard > normal > easy
+MaritimeEscort:
+  Enable: true
 
 # ==================== Opsi ====================
 

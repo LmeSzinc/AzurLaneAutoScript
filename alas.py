@@ -211,6 +211,10 @@ class AzurLaneAutoScript:
         from module.event.campaign_sp import CampaignSP
         CampaignSP(config=self.config, device=self.device).run()
 
+    def maritime_escort(self):
+        from module.event.maritime_escort import MaritimeEscort
+        MaritimeEscort(config=self.config, device=self.device).run()
+
     def opsi_ash_assist(self):
         from module.os_ash.ash import AshBeaconAssist
         AshBeaconAssist(config=self.config, device=self.device).run()
@@ -287,12 +291,13 @@ class AzurLaneAutoScript:
         seconds = future.timestamp() - datetime.now().timestamp() + 1
         if seconds <= 0:
             logger.warning(f'Wait until {str(future)}, but sleep length < 0, skip waiting')
+            return
         
         if self.stop_event is not None:
             self.stop_event.wait(seconds)
             if self.stop_event.is_set():
                 logger.info("Update event detected")
-                logger.info(f"Alas [{self.config_name}] exited.")
+                logger.info(f"[{self.config_name}] exited. Reason: Update")
                 exit(0)
         else:
             time.sleep(seconds)

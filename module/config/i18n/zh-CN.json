@@ -166,6 +166,10 @@
       "name": "作战档案",
       "help": ""
     },
+    "MaritimeEscort": {
+      "name": "商船护航",
+      "help": ""
+    },
     "OpsiGeneral": {
       "name": "通用设置",
       "help": ""
@@ -1539,6 +1543,16 @@
     },
     "StageFilter": {
       "name": "难度过滤器",
+      "help": ""
+    }
+  },
+  "MaritimeEscort": {
+    "_info": {
+      "name": "商船护航",
+      "help": "进一下就撤退，能拿约70%的奖励"
+    },
+    "Enable": {
+      "name": "启用商船护航",
       "help": ""
     }
   },

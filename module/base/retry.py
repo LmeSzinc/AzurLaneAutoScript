@@ -53,7 +53,8 @@ def __retry_internal(f, exceptions=Exception, tries=-1, delay=0, max_delay=None,
         except exceptions as e:
             _tries -= 1
             if not _tries:
-                raise
+                # Difference, raise same exception
+                raise e
 
             if logger is not None:
                 # Difference, show exception

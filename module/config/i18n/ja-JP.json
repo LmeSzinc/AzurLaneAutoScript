@@ -166,6 +166,10 @@
       "name": "Task.WarArchives.name",
       "help": "Task.WarArchives.help"
     },
+    "MaritimeEscort": {
+      "name": "Task.MaritimeEscort.name",
+      "help": "Task.MaritimeEscort.help"
+    },
     "OpsiGeneral": {
       "name": "Task.OpsiGeneral.name",
       "help": "Task.OpsiGeneral.help"
@@ -1540,6 +1544,16 @@
     "StageFilter": {
       "name": "RaidDaily.StageFilter.name",
       "help": "RaidDaily.StageFilter.help"
+    }
+  },
+  "MaritimeEscort": {
+    "_info": {
+      "name": "MaritimeEscort._info.name",
+      "help": "MaritimeEscort._info.help"
+    },
+    "Enable": {
+      "name": "MaritimeEscort.Enable.name",
+      "help": "MaritimeEscort.Enable.help"
     }
   },
   "OpsiAshAssist": {

@@ -166,6 +166,10 @@
       "name": "作戰檔案",
       "help": ""
     },
+    "MaritimeEscort": {
+      "name": "商船護航",
+      "help": ""
+    },
     "OpsiGeneral": {
       "name": "通用設定",
       "help": ""
@@ -1539,6 +1543,16 @@
     },
     "StageFilter": {
       "name": "共鬥難度過濾器",
+      "help": ""
+    }
+  },
+  "MaritimeEscort": {
+    "_info": {
+      "name": "商船護航",
+      "help": "進一下就撤退，能拿約70%的獎勵"
+    },
+    "Enable": {
+      "name": "啟用商船護航",
       "help": ""
     }
   },

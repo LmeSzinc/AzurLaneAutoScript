@@ -12,10 +12,12 @@ class ManualConfig:
     > Gacha > SupplyPack
     > Reward > BattlePass
     > ShopFrequent > ShopOnce > Shipyard > DataKey
-    > OpsiExplore > OpsiAbyssal > OpsiStronghold > OpsiObscure
+    > OpsiExplore
+    > OpsiDaily > OpsiShop
+    > OpsiAbyssal > OpsiStronghold > OpsiObscure
     > Exercise > Daily > Hard > OpsiAshAssist
-    > Sos > EventSp > EventAb > EventCd > RaidDaily > WarArchives
-    > OpsiDaily > OpsiShop > OpsiMeowfficerFarming
+    > Sos > EventSp > EventAb > EventCd > RaidDaily > WarArchives > MaritimeEscort
+    > OpsiMeowfficerFarming
     > Event > Raid > Main
     > C124LargeLeveling > C122MediumLeveling > C72MysteryFarming > GemsFarming
     """

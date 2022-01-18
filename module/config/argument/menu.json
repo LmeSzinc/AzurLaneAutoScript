@@ -41,7 +41,8 @@
       "EventCd",
       "EventSp",
       "RaidDaily",
-      "WarArchives"
+      "WarArchives",
+      "MaritimeEscort"
     ],
     "Opsi": [
       "OpsiGeneral",

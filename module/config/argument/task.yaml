@@ -189,6 +189,9 @@ WarArchives:
   - Submarine
   - Emotion
   - HpControl
+MaritimeEscort:
+  - Scheduler
+  - MaritimeEscort
 
 # ==================== Opsi ====================
 

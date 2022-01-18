@@ -2383,7 +2383,7 @@
         "value": false
       },
       "Use2xBook": {
-        "type": "disable",
+        "type": "checkbox",
         "value": false
       },
       "AmbushEvade": {
@@ -5809,6 +5809,41 @@
       "LowHpRetreatThreshold": {
         "type": "input",
         "value": 0.3
+      }
+    }
+  },
+  "MaritimeEscort": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "input",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "disable",
+        "value": "MaritimeEscort"
+      },
+      "SuccessInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "FailureInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "ServerUpdate": {
+        "type": "disable",
+        "value": "00:00"
+      }
+    },
+    "MaritimeEscort": {
+      "Enable": {
+        "type": "checkbox",
+        "value": true
       }
     }
   },
