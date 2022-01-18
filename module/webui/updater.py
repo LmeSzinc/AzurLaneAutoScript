@@ -8,7 +8,9 @@ from typing import Generator, Tuple
 
 import requests
 
-from deploy.installer import DeployConfig, ExecutionError, Installer
+from deploy.config import DeployConfig, ExecutionError
+from deploy.git import GitManager
+from deploy.pip import PipManager
 from deploy.utils import DEPLOY_CONFIG, cached_property
 from module.base.retry import retry
 from module.logger import logger
@@ -50,7 +52,7 @@ class Config(DeployConfig):
             return True
 
 
-class Updater(Config, Installer):
+class Updater(Config, GitManager, PipManager):
     def __init__(self, file=DEPLOY_CONFIG):
         super().__init__(file=file)
         self.state = 0
