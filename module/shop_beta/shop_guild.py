@@ -80,10 +80,13 @@ class GuildShop(ShopBase, ShopUI):
             ScriptError
         """
         group = item.group
-        if group != 'pr' and group != 'dr':
-            postfix = f'_{item.tier.upper()}'
+        if group == 'pr':
+            for idx, btn in enumerate(SHOP_SELECT_PR):
+                if self.appear(btn, offset=(20, 20)):
+                    postfix = f'{idx + 1}'
+                    break
         else:
-            postfix = f'{item.tier[-1].upper()}'
+            postfix = f'_{item.tier.upper()}'
 
         ugroup = group.upper()
         try:
