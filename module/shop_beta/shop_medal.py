@@ -30,21 +30,48 @@ class MedalShop(ShopBase):
         return shop_grid
 
     @cached_property
-    def shop_items(self):
+    @Config.when(SERVER='jp')
+    def shop_medal_items(self):
         """
         Returns:
             ShopItemGrid:
         """
         shop_grid = self.shop_grid
         shop_medal_items = ShopItemGrid(
+            shop_grid, templates={}, amount_area=(60, 74, 96, 95), price_area=(52, 135, 132, 162))
+        shop_medal_items.load_template_folder('./assets/shop/medal')
+        shop_medal_items.load_cost_template_folder('./assets/shop/cost')
+        shop_medal_items.similarity = 0.88  # Lower the threshold for consistent matches of PR/DRBP
+        # JP has thinner letters, so increase threshold to 128
+        shop_medal_items.price_ocr = Digit([], letter=(255, 223, 57), threshold=128, name='PRICE_OCR_JP')
+        return shop_medal_items
+
+    @cached_property
+    @Config.when(SERVER=None)
+    def shop_medal_items(self):
+        """
+        Returns:
+            ShopItemGrid:
+        """
+        shop_grid = self.shop_medal_grid
+        shop_medal_items = ShopItemGrid(
             shop_grid, templates={}, amount_area=(60, 74, 96, 95), price_area=(52, 134, 132, 162))
         shop_medal_items.load_template_folder('./assets/shop/medal')
         shop_medal_items.load_cost_template_folder('./assets/shop/cost')
         shop_medal_items.similarity = 0.88  # Lower the threshold for consistent matches of PR/DRBP
-        if self.config.SERVER == 'jp':
-            # JP has thinner letters, increase threshold to 128
-            shop_medal_items.price_ocr = Digit([], letter=(255, 223, 57), threshold=128, name='PRICE_OCR_JP')
         return shop_medal_items
+
+    @cached_property
+    def shop_items(self):
+        """
+        Shared alias name for all shops,
+        so to use  @Config must define
+        a unique alias as cover
+
+        Returns:
+            ShopItemGrid:
+        """
+        return self.shop_medal_items
 
     def shop_currency(self):
         """

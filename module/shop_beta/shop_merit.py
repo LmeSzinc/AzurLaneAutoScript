@@ -21,7 +21,7 @@ class MeritShop(ShopBase, ShopUI):
         return self.config.MeritShop_Filter.strip()
 
     @cached_property
-    def shop_items(self):
+    def shop_merit_items(self):
         """
         Returns:
             ShopItemGrid:
@@ -31,6 +31,19 @@ class MeritShop(ShopBase, ShopUI):
         shop_merit_items.load_template_folder('./assets/shop/merit')
         shop_merit_items.load_cost_template_folder('./assets/shop/cost')
         return shop_merit_items
+
+    def shop_items(self):
+        """
+        Shared alias for all shops
+        If there are server-lang
+        differences, reference
+        shop_guild/medal for @Config
+        example
+
+        Returns:
+            ShopItemGrid:
+        """
+        return self.shop_merit_items
 
     def shop_currency(self):
         """

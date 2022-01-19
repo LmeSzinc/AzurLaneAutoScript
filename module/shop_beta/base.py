@@ -92,7 +92,6 @@ class ShopBase(UI):
             origin=(477, 152), delta=(156, 214), button_shape=(96, 97), grid_shape=(5, 2), name='SHOP_GRID')
         return shop_grid
 
-    @cached_property
     def shop_items(self):
         """
         Returns:
@@ -133,7 +132,7 @@ class ShopBase(UI):
             list[Item]:
         """
         # Retrieve ShopItemGrid
-        shop_items = self.shop_items
+        shop_items = self.shop_items()
         if shop_items is None:
             logger.warning('Expected type \'ShopItemGrid\' but was None')
             return []

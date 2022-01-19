@@ -22,7 +22,7 @@ class GeneralShop(ShopBase, ShopUI):
         return self.config.GeneralShop_Filter.strip()
 
     @cached_property
-    def shop_items(self):
+    def shop_general_items(self):
         """
         Returns:
             ShopItemGrid:
@@ -32,6 +32,19 @@ class GeneralShop(ShopBase, ShopUI):
         shop_general_items.load_template_folder('./assets/shop/general')
         shop_general_items.load_cost_template_folder('./assets/shop/cost')
         return shop_general_items
+
+    def shop_items(self):
+        """
+        Shared alias for all shops
+        If there are server-lang
+        differences, reference
+        shop_guild/medal for @Config
+        example
+
+        Returns:
+            ShopItemGrid:
+        """
+        return self.shop_general_items
 
     def shop_currency(self):
         """

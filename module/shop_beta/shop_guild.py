@@ -28,19 +28,55 @@ class GuildShop(ShopBase, ShopUI):
         return self.config.GuildShop_Filter.strip()
 
     @cached_property
-    def shop_items(self):
+    @Config.when(SERVER='cn')
+    def shop_guild_items(self):
         """
         Returns:
             ShopItemGrid:
         """
         shop_grid = self.shop_grid
         shop_guild_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        if self.config.SERVER == 'cn' or self.config.SERVER == 'tw':
-            shop_guild_items.load_template_folder('./assets/shop/guild_cn')
-        else:
-            shop_guild_items.load_template_folder('./assets/shop/guild')
+        shop_guild_items.load_template_folder('./assets/shop/guild_cn')
         shop_guild_items.load_cost_template_folder('./assets/shop/cost')
         return shop_guild_items
+
+    @cached_property
+    @Config.when(SERVER='tw')
+    def shop_guild_items(self):
+        """
+        Returns:
+            ShopItemGrid:
+        """
+        shop_grid = self.shop_grid
+        shop_guild_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
+        shop_guild_items.load_template_folder('./assets/shop/guild_cn')
+        shop_guild_items.load_cost_template_folder('./assets/shop/cost')
+        return shop_guild_items
+
+    @cached_property
+    @Config.when(SERVER=None)
+    def shop_guild_items(self):
+        """
+        Returns:
+            ShopItemGrid:
+        """
+        shop_grid = self.shop_grid
+        shop_guild_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
+        shop_guild_items.load_template_folder('./assets/shop/guild')
+        shop_guild_items.load_cost_template_folder('./assets/shop/cost')
+        return shop_guild_items
+
+    @cached_property
+    def shop_items(self):
+        """
+        Shared alias for all shops,
+        so for @Config must define
+        a unique alias as cover
+
+        Returns:
+            ShopItemGrid:
+        """
+        return self.shop_guild_items
 
     def shop_currency(self):
         """
