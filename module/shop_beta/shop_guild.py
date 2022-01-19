@@ -1,4 +1,4 @@
-from module.base.decorator import cached_property
+from module.base.decorator import cached_property, Config
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1, GET_SHIP
 from module.exception import ScriptError

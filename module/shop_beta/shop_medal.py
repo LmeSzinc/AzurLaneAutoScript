@@ -1,5 +1,5 @@
 from module.base.button import ButtonGrid
-from module.base.decorator import cached_property
+from module.base.decorator import cached_property, Config
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.shop.assets import *
