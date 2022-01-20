@@ -459,7 +459,7 @@ class AlasGUI(Frame):
                 put_scope('scheduler-bar'),
                 put_scope('groups'),
                 put_scope('log-bar'),
-                put_scope('log')
+                put_scope("log", [put_html('')])
             ])
         else:
             put_scope('daemon-overview', [
@@ -470,10 +470,12 @@ class AlasGUI(Frame):
                         put_scope('log-bar')
                     ]),
                     put_scope('groups'),
-                    put_scope('log')
+                    put_scope("log", [put_html('')])
                 ]),
                 put_none(),
             ])
+
+        log.console.width = log.get_width()
 
         with use_scope('scheduler-bar'):
             put_text(t("Gui.Overview.Scheduler")).style(
@@ -486,8 +488,8 @@ class AlasGUI(Frame):
             onclick_on=lambda: self.alas.stop(),
             onclick_off=lambda: self.alas.start(task),
             get_state=lambda: self.alas.alive,
-            color_on='on',
-            color_off='off',
+            color_on='off',
+            color_off='on',
             scope='scheduler_btn'
         )
 
