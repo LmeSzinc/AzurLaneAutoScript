@@ -203,7 +203,7 @@ class GeneratedConfig:
 
     # Group `GuildShop`
     GuildShop_Refresh = True
-    GuildShop_Filter = 'PlateT4 > BookT3 > PRBP > CatT3 > Chip > BookT2 > Retrofit > FoodT6 > FoodT5 > CatT2 > BoxT4'
+    GuildShop_Filter = 'PlateT4 > BookT3 > PR > CatT3 > Chip > BookT2 > Retrofit > FoodT6 > FoodT5 > CatT2 > BoxT4'
     GuildShop_BOX_T3 = 'ironblood'  # eagle, royal, sakura, ironblood
     GuildShop_BOX_T4 = 'ironblood'  # eagle, royal, sakura, ironblood
     GuildShop_BOOK_T2 = 'red'  # red, blue, yellow
@@ -218,7 +218,7 @@ class GeneratedConfig:
     GuildShop_PR3 = 'cheshire'  # cheshire, mainz, odin, champagne
 
     # Group `MedalShop`
-    MedalShop_Filter = 'DRBP > PRBP\n> BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3 > PlateGeneralT3\n> FoodT6 > FoodT5'
+    MedalShop_Filter = 'DR > PR\n> BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3 > PlateGeneralT3\n> FoodT6 > FoodT5'
 
     # Group `MeritShop`
     MeritShop_Refresh = False
