@@ -53,7 +53,7 @@ class MedalShop(ShopBase):
         Returns:
             ShopItemGrid:
         """
-        shop_grid = self.shop_medal_grid
+        shop_grid = self.shop_grid
         shop_medal_items = ShopItemGrid(
             shop_grid, templates={}, amount_area=(60, 74, 96, 95), price_area=(52, 134, 132, 162))
         shop_medal_items.load_template_folder('./assets/shop/medal')
