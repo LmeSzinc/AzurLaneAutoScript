@@ -2,19 +2,86 @@ import ctypes
 import datetime
 import operator
 import re
+import sys
 import threading
 import time
+import traceback
 from queue import Queue
 from typing import Callable, Generator, List
 
+import pywebio
 from module.logger import logger
+from module.webui.setting import Setting
 from pywebio.input import PASSWORD, input
-from pywebio.output import toast
-from pywebio.session import eval_js, register_thread, run_js
+from pywebio.output import PopupSize, popup, put_html, toast
+from pywebio.session import eval_js
+from pywebio.session import info as session_info
+from pywebio.session import register_thread, run_js
+from rich.console import Console, ConsoleOptions
+from rich.terminal_theme import TerminalTheme
 
 RE_DATETIME = r'(\d{2}|\d{4})(?:\-)?([0]{1}\d{1}|[1]{1}[0-2]{1})(?:\-)?' + \
               r'([0-2]{1}\d{1}|[3]{1}[0-1]{1})(?:\s)?([0-1]{1}\d{1}|[2]' + \
               r'{1}[0-3]{1})(?::)?([0-5]{1}\d{1})(?::)?([0-5]{1}\d{1})'
+
+
+TRACEBACK_CODE_FORMAT = """\
+<code class="rich-traceback">
+    <pre class="rich-traceback-code">{code}</pre>
+</code>
+"""
+
+LOG_CODE_FORMAT = "{code}"
+
+DARK_TERMINAL_THEME = TerminalTheme(
+    (30, 30, 30),  # Background
+    (204, 204, 204),  # Foreground
+    [
+        (0, 0, 0),  # Black
+        (205, 49, 49),  # Red
+        (13, 188, 121),  # Green
+        (229, 229, 16),  # Yellow
+        (36, 114, 200),  # Blue
+        (188, 63, 188),  # Purple / Magenta
+        (17, 168, 205),  # Cyan
+        (229, 229, 229),  # White
+    ],
+    [  # Bright
+        (102, 102, 102),  # Black
+        (241, 76, 76),  # Red
+        (35, 209, 139),  # Green
+        (245, 245, 67),  # Yellow
+        (59, 142, 234),  # Blue
+        (214, 112, 214),  # Purple / Magenta
+        (41, 184, 219),  # Cyan
+        (229, 229, 229),  # White
+    ],
+)
+
+LIGHT_TERMINAL_THEME = TerminalTheme(
+    (255, 255, 255),  # Background
+    (97, 97, 97),  # Foreground
+    [
+        (0, 0, 0),  # Black
+        (205, 49, 49),  # Red
+        (0, 188, 0),  # Green
+        (148, 152, 0),  # Yellow
+        (4, 81, 165),  # Blue
+        (188, 5, 188),  # Purple / Magenta
+        (5, 152, 188),  # Cyan
+        (85, 85, 85),  # White
+    ],
+    [  # Bright
+        (102, 102, 102),  # Black
+        (205, 49, 49),  # Red
+        (20, 206, 20),  # Green
+        (181, 186, 0),  # Yellow
+        (4, 81, 165),  # Blue
+        (188, 5, 188),  # Purple / Magenta
+        (5, 152, 188),  # Cyan
+        (165, 165, 165),  # White
+    ],
+)
 
 
 class QueueHandler:
@@ -398,6 +465,52 @@ def get_next_time(t: datetime.time):
     if second < 0:
         second += 86400
     return second
+
+
+def on_task_exception(self):
+    logger.exception("An internal error occurred in the application")
+    toast_msg = "应用发生内部错误" if 'zh' in session_info.user_language else "An internal error occurred in the application"
+
+    e_type, e_value, e_tb = sys.exc_info()
+    lines = traceback.format_exception(e_type, e_value, e_tb)
+    traceback_msg = ''.join(lines)
+
+    traceback_console = Console(
+        color_system='truecolor', tab_size=2, record=True, width=90)
+    with traceback_console.capture():  # prevent logging to stdout again
+        traceback_console.print_exception(
+            word_wrap=True,
+            extra_lines=1,
+            show_locals=True
+        )
+
+    if Setting.theme == 'dark':
+        theme = DARK_TERMINAL_THEME
+    else:
+        theme = LIGHT_TERMINAL_THEME
+
+    html = traceback_console.export_html(
+        theme=theme, code_format=TRACEBACK_CODE_FORMAT, inline_styles=True)
+    try:
+        popup(title=toast_msg, content=put_html(html), size=PopupSize.LARGE)
+        run_js("console.error(traceback_msg)",
+               traceback_msg='Internal Server Error\n' + traceback_msg)
+    except Exception:
+        pass
+
+
+# Monkey patch
+pywebio.session.base.Session.on_task_exception = on_task_exception
+
+
+def raise_exception(x=3):
+    """
+    For testing purpose
+    """
+    if x > 0:
+        raise_exception(x-1)
+    else:
+        raise Exception("quq")
 
 
 if __name__ == '__main__':

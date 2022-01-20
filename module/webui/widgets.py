@@ -1,16 +1,23 @@
 import random
 import string
-from typing import Callable, Dict, List, Union
+from typing import Callable, Dict, Generator, List, Union
 
+from module.logger import WEB_THEME, Highlighter, HTMLConsole
 from module.webui.pin import put_checkbox, put_input, put_select, put_textarea
-from module.webui.utils import Switch
+from module.webui.process_manager import ProcessManager
+from module.webui.setting import Setting
+from module.webui.utils import (DARK_TERMINAL_THEME, LIGHT_TERMINAL_THEME,
+                                LOG_CODE_FORMAT, Switch)
+from pywebio.exceptions import SessionException
 from pywebio.output import *
-from pywebio.session import run_js
+from pywebio.session import eval_js, run_js
+from rich.console import ConsoleRenderable
 
 
 class ScrollableCode:
     """
         https://github.com/pywebio/PyWebIO/discussions/21
+        Deprecated
     """
 
     def __init__(self, keep_bottom: bool = True) -> None:
@@ -42,6 +49,128 @@ class ScrollableCode:
     def set_scroll(self, b: bool) -> None:
         # use for lambda callback function
         self.keep_bottom = b
+
+
+class RichLog:
+    def __init__(self, scope, font_width='0.559') -> None:
+        self.scope = scope
+        self.font_width = font_width
+        self.console = HTMLConsole(
+            force_terminal=False,
+            force_interactive=False,
+            width=80,
+            color_system='truecolor',
+            markup=False,
+            record=True,
+            safe_box=False,
+            highlighter=Highlighter(),
+            theme=WEB_THEME,
+        )
+        # self.callback_id = output_register_callback(
+        #     self._callback_set_width, serial_mode=True)
+        # self._callback_thread = None
+        # self._width = 80
+        self.keep_bottom = True
+        if Setting.theme == 'dark':
+            self.terminal_theme = DARK_TERMINAL_THEME
+        else:
+            self.terminal_theme = LIGHT_TERMINAL_THEME
+
+    def render(self, renderable: ConsoleRenderable) -> str:
+        with self.console.capture():
+            self.console.print(renderable)
+
+        html = self.console.export_html(
+            theme=self.terminal_theme, clear=True, code_format=LOG_CODE_FORMAT, inline_styles=True)
+        # print(html)
+        return html
+
+    def extend(self, text):
+        if text:
+            run_js("""$("#pywebio-scope-{scope}>div").append(text);
+            """.format(scope=self.scope), text=str(text))
+            if self.keep_bottom:
+                self.scroll()
+
+    def reset(self):
+        run_js(f"""$("#pywebio-scope-{self.scope}>div").empty();""")
+
+    def scroll(self) -> None:
+        run_js("""$("#pywebio-scope-{scope}").scrollTop($("#pywebio-scope-{scope}").prop("scrollHeight"));
+        """.format(scope=self.scope))
+
+    def set_scroll(self, b: bool) -> None:
+        # use for lambda callback function
+        self.keep_bottom = b
+
+    def get_width(self):
+        js = """
+        let canvas = document.createElement('canvas');
+        canvas.style.position = "absolute";
+        let ctx = canvas.getContext('2d');
+        document.body.appendChild(canvas);
+        ctx.font = `16px Menlo, consolas, DejaVu Sans Mono, Courier New, monospace`;
+        document.body.removeChild(canvas);
+        let text = ctx.measureText('0');
+        ctx.fillText('0', 50, 50);
+
+        ($('#pywebio-scope-{scope}').width()-16)/\
+        $('#pywebio-scope-{scope}').css('font-size').slice(0, -2)/text.width*16;\
+        """.format(scope=self.scope)
+        width = eval_js(js)
+        return int(width) if width else 80
+
+    # def _register_resize_callback(self):
+    #     js = """
+    #     WebIO.pushData(
+    #         ($('#pywebio-scope-log').width()-16)/$('#pywebio-scope-log').css('font-size').slice(0, -2)/0.55,
+    #         {callback_id}
+    #     )""".format(callback_id=self.callback_id)
+
+    # def _callback_set_width(self, width):
+    #     self._width = width
+    #     if self._callback_thread is None:
+    #         self._callback_thread = Thread(target=self._callback_width_checker)
+    #         self._callback_thread.start()
+
+    # def _callback_width_checker(self):
+    #     last_modify = time.time()
+    #     _width = self._width
+    #     while True:
+    #         if time.time() - last_modify > 1:
+    #             break
+    #         if self._width == _width:
+    #             time.sleep(0.1)
+    #             continue
+    #         else:
+    #             _width = self._width
+    #             last_modify = time.time()
+
+    #     self._callback_thread = None
+    #     self.console.width = int(_width)
+
+    def put_log(self, pm: ProcessManager) -> Generator:
+        yield
+        try:
+            while True:
+                last_idx = len(pm.renderables)
+                html = ''.join(map(self.render, pm.renderables[:]))
+                self.reset()
+                self.extend(html)
+                counter = last_idx
+                while counter < pm.renderables_max_length * 2:
+                    yield
+                    idx = len(pm.renderables)
+                    if idx < last_idx:
+                        last_idx -= pm.renderables_reduce_length
+                    if idx != last_idx:
+                        html = ''.join(
+                            map(self.render, pm.renderables[last_idx:idx]))
+                        self.extend(html)
+                        counter += (idx - last_idx)
+                        last_idx = idx
+        except SessionException:
+            pass
 
 
 class BinarySwitchButton(Switch):

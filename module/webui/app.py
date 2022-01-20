@@ -2,7 +2,7 @@ import argparse
 import queue
 import time
 from datetime import datetime
-from typing import Dict, Generator, List
+from typing import Dict, List
 
 import module.webui.lang as lang
 from module.config.config import AzurLaneConfig, Function
@@ -22,11 +22,11 @@ from module.webui.updater import updater
 from module.webui.utils import (Icon, Switch, TaskHandler, Thread, add_css,
                                 filepath_css, get_localstorage,
                                 get_window_visibility_state, login,
-                                parse_pin_value, re_fullmatch)
-from module.webui.widgets import (BinarySwitchButton, ScrollableCode,
-                                  get_output, put_icon_buttons, put_none)
+                                parse_pin_value, raise_exception, re_fullmatch)
+from module.webui.widgets import (BinarySwitchButton, RichLog, get_output,
+                                  put_icon_buttons, put_none)
 from pywebio import config as webconfig
-from pywebio.exceptions import SessionClosedException, SessionNotFoundException
+from pywebio.exceptions import SessionClosedException
 from pywebio.output import (clear, close_popup, popup, put_button, put_buttons,
                             put_collapse, put_column, put_error, put_html,
                             put_loading, put_markdown, put_row, put_scope,
@@ -69,7 +69,6 @@ class AlasGUI(Frame):
         # alas config name
         self.alas_name = ''
         self.alas_config = AzurLaneConfig('template')
-        self.alas_logs = ScrollableCode()
 
     @use_scope('aside', clear=True)
     def set_aside(self) -> None:
@@ -132,6 +131,7 @@ class AlasGUI(Frame):
     def set_theme(cls, theme='default') -> None:
         cls.theme = theme
         Setting.webui_config.Theme = theme
+        Setting.theme = theme
         webconfig(theme=theme)
 
     @use_scope('menu', clear=True)
@@ -295,6 +295,8 @@ class AlasGUI(Frame):
             scope='scheduler_btn'
         )
 
+        log = RichLog('log')
+
         with use_scope('logs'):
             put_scope('log-bar', [
                 put_text(t("Gui.Overview.Log")).style(
@@ -302,20 +304,22 @@ class AlasGUI(Frame):
                 put_scope('log-bar-btns', [
                     put_button(
                         label=t("Gui.Button.ClearLog"),
-                        onclick=self.alas_logs.reset,
+                        onclick=log.reset,
                         color='off',
                     ),
                     put_scope('log_scroll_btn')
                 ])
-            ])
-            self.alas_logs.output()
+            ]),
+            put_scope("log", [put_html('')])
+
+        log.console.width = log.get_width()
 
         switch_log_scroll = BinarySwitchButton(
             label_on=t("Gui.Button.ScrollON"),
             label_off=t("Gui.Button.ScrollOFF"),
-            onclick_on=lambda: self.alas_logs.set_scroll(False),
-            onclick_off=lambda: self.alas_logs.set_scroll(True),
-            get_state=lambda: self.alas_logs.keep_bottom,
+            onclick_on=lambda: log.set_scroll(False),
+            onclick_off=lambda: log.set_scroll(True),
+            get_state=lambda: log.keep_bottom,
             color_on='on',
             color_off='off',
             scope='log_scroll_btn'
@@ -324,25 +328,7 @@ class AlasGUI(Frame):
         self.task_handler.add(switch_scheduler.g(), 1, True)
         self.task_handler.add(switch_log_scroll.g(), 1, True)
         self.task_handler.add(self.alas_update_overiew_task, 10, True)
-        self.task_handler.add(self.alas_put_log(), 0.2, True)
-
-    def alas_put_log(self) -> Generator[None, None, None]:
-        yield
-        last_idx = len(self.alas.log)
-        self.alas_logs.append(''.join(self.alas.log))
-        lines = 0
-        while True:
-            yield
-            idx = len(self.alas.log)
-            if idx < last_idx:
-                last_idx -= self.alas.log_reduce_length
-            if idx != last_idx:
-                try:
-                    self.alas_logs.append(''.join(self.alas.log[last_idx:idx]))
-                except SessionNotFoundException:
-                    break
-                lines += idx - last_idx
-                last_idx = idx
+        self.task_handler.add(log.put_log(self.alas), 0.25, True)
 
     def _alas_thread_wait_config_change(self) -> None:
         paths = []
@@ -466,12 +452,14 @@ class AlasGUI(Frame):
         self.init_menu(name=task)
         self.set_title(t(f'Task.{task}.name'))
 
+        log = RichLog('log')
+
         if self.is_mobile:
             put_scope('daemon-overview', [
                 put_scope('scheduler-bar'),
                 put_scope('groups'),
                 put_scope('log-bar'),
-                self.alas_logs.output()
+                put_scope('log')
             ])
         else:
             put_scope('daemon-overview', [
@@ -482,7 +470,7 @@ class AlasGUI(Frame):
                         put_scope('log-bar')
                     ]),
                     put_scope('groups'),
-                    self.alas_logs.output()
+                    put_scope('log')
                 ]),
                 put_none(),
             ])
@@ -509,7 +497,7 @@ class AlasGUI(Frame):
             put_scope('log-bar-btns', [
                 put_button(
                     label=t("Gui.Button.ClearLog"),
-                    onclick=self.alas_logs.reset,
+                    onclick=log.reset,
                     color='off',
                 ),
                 put_scope('log_scroll_btn')
@@ -518,9 +506,9 @@ class AlasGUI(Frame):
         switch_log_scroll = BinarySwitchButton(
             label_on=t("Gui.Button.ScrollON"),
             label_off=t("Gui.Button.ScrollOFF"),
-            onclick_on=lambda: self.alas_logs.set_scroll(False),
-            onclick_off=lambda: self.alas_logs.set_scroll(True),
-            get_state=lambda: self.alas_logs.keep_bottom,
+            onclick_on=lambda: log.set_scroll(False),
+            onclick_off=lambda: log.set_scroll(True),
+            get_state=lambda: log.keep_bottom,
             color_on='on',
             color_off='off',
             scope='log_scroll_btn'
@@ -532,7 +520,7 @@ class AlasGUI(Frame):
 
         self.task_handler.add(switch_scheduler.g(), 1, True)
         self.task_handler.add(switch_log_scroll.g(), 1, True)
-        self.task_handler.add(self.alas_put_log(), 0.2, True)
+        self.task_handler.add(log.put_log(self.alas), 0.25, True)
 
     @use_scope('menu', clear=True)
     def dev_set_menu(self) -> None:
@@ -555,6 +543,12 @@ class AlasGUI(Frame):
             onclick=self.dev_update,
             color="menu"
         ).style(f'--menu-Update--')
+
+        # put_button(
+        #     label="Raise exception",
+        #     onclick=raise_exception,
+        #     color="menu"
+        # ).style(f'--menu-Raise--')
 
     def dev_translate(self) -> None:
         go_app('translate', new_window=True)

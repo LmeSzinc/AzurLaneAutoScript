@@ -1,4 +1,3 @@
-import logging
 import os
 import queue
 import threading
@@ -7,9 +6,10 @@ from typing import Dict, List
 
 from filelock import FileLock
 from module.config.utils import deep_get, filepath_config
-from module.logger import logger
+from module.logger import logger, set_file_logger, set_func_logger
 from module.webui.setting import Setting
-from module.webui.utils import QueueHandler, Thread
+from module.webui.utils import Thread
+from rich.console import ConsoleRenderable
 
 
 class ProcessManager:
@@ -17,10 +17,11 @@ class ProcessManager:
 
     def __init__(self, config_name: str = 'alas') -> None:
         self.config_name = config_name
-        self.log_queue = Setting.manager.Queue()
-        self.log: List[str] = []
-        self.log_max_length = 500
-        self.log_reduce_length = 100
+        self._renderable_queue: queue.Queue[ConsoleRenderable] = Setting.manager.Queue(
+        )
+        self.renderables: List[ConsoleRenderable] = []
+        self.renderables_max_length = 400
+        self.renderables_reduce_length = 80
         self._process: Process = None
         self.thd_log_queue_handler: Thread = None
 
@@ -28,7 +29,7 @@ class ProcessManager:
         if not self.alive:
             self._process = Process(
                 target=ProcessManager.run_process,
-                args=(self.config_name, func, self.log_queue, ev,))
+                args=(self.config_name, func, self._renderable_queue, ev,))
             self._process.start()
             self.thd_log_queue_handler = Thread(
                 target=self._thread_log_queue_handler)
@@ -39,7 +40,7 @@ class ProcessManager:
         with lock:
             if self.alive:
                 self._process.terminate()
-                self.log.append(
+                self.renderables.append(
                     f"[{self.config_name}] exited. Reason: Manual stop\n")
             if self.thd_log_queue_handler is not None:
                 self.thd_log_queue_handler.stop()
@@ -47,10 +48,10 @@ class ProcessManager:
 
     def _thread_log_queue_handler(self) -> None:
         while self.alive:
-            log = self.log_queue.get()
-            self.log.append(log)
-            if len(self.log) > self.log_max_length:
-                self.log = self.log[self.log_reduce_length:]
+            log = self._renderable_queue.get()
+            self.renderables.append(log)
+            if len(self.renderables) > self.renderables_max_length:
+                self.renderables = self.renderables[self.renderables_reduce_length:]
 
     @property
     def alive(self) -> bool:
@@ -63,12 +64,16 @@ class ProcessManager:
     def state(self) -> int:
         if self.alive:
             return 1
-        elif len(self.log) == 0 or \
-                self.log[-1].endswith("Reason: Manual stop\n") or \
-                self.log[-1].endswith("Reason: Finish\n"):
+        elif len(self.renderables) == 0:
             return 2
-        elif self.log[-1].endswith("Reason: Update\n"):
-            return 4
+        elif isinstance(self.renderables[-1], str):
+            if self.renderables[-1].endswith("Reason: Manual stop\n") or \
+                    self.renderables[-1].endswith("Reason: Finish\n"):
+                return 2
+            elif self.renderables[-1].endswith("Reason: Update\n"):
+                return 4
+            else:
+                return 3
         else:
             return 3
 
@@ -84,13 +89,8 @@ class ProcessManager:
     @staticmethod
     def run_process(config_name, func: str, q: queue.Queue, e: threading.Event = None) -> None:
         # Setup logger
-        qh = QueueHandler(q)
-        formatter = logging.Formatter(
-            fmt='%(asctime)s.%(msecs)03d | %(levelname)s | %(message)s',
-            datefmt='%H:%M:%S')
-        webconsole = logging.StreamHandler(stream=qh)
-        webconsole.setFormatter(formatter)
-        logger.addHandler(webconsole)
+        set_file_logger(name=config_name)
+        set_func_logger(func=q.put)
 
         # Set server before loading any buttons.
         import module.config.server as server

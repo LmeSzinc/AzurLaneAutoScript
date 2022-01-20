@@ -6,7 +6,7 @@
     display: none;
 }
 
-.container-log {
+#pywebio-scope-log {
     font-size: .75rem !important;
 }
 
