@@ -2,6 +2,7 @@ import time
 
 import numpy as np
 from prettytable import PrettyTable
+from rich.table import Table
 
 from module.base.utils import float2str as float2str_
 from module.base.utils import random_rectangle_point
@@ -96,13 +97,26 @@ class Benchmark(DaemonBase, UI):
         |  aScreenCap  | Failed | Failed |
         +--------------+--------+--------+
         """
-        table = PrettyTable()
-        table.field_names = [test, 'Time', 'Speed']
-        for row in data:
-            table.add_row([row[0], f'{float2str(row[1])}', evaluate_func(row[1])])
+        # table = PrettyTable()
+        # table.field_names = [test, 'Time', 'Speed']
+        # for row in data:
+        #     table.add_row([row[0], f'{float2str(row[1])}', evaluate_func(row[1])])
 
-        for row in table.get_string().split('\n'):
-            logger.info(row)
+        # for row in table.get_string().split('\n'):
+        #     logger.info(row)
+        table = Table(show_lines=True)
+        table.add_column(
+            test, header_style="bright_cyan", style="cyan", no_wrap=True
+        )
+        table.add_column("Time", style="magenta")
+        table.add_column("Speed", style="green")
+        for row in data:
+            table.add_row(
+                row[0],
+                float2str(row[1]),
+                evaluate_func(row[1]),
+            )
+        logger.print(table, justify='center')
 
     def run(self):
         logger.hr('Benchmark', level=1)

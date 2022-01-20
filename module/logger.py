@@ -290,15 +290,15 @@ def rule(title="", *, characters="─", style="rule.line", end="\n", align="cent
 def hr(title, level=3):
     title = str(title).upper()
     if level == 1:
-        logger.rule(title, characters='=')
+        logger.rule(title, characters='═')
     if level == 2:
-        logger.rule(title, characters='-')
+        logger.rule(title, characters='─')
     if level == 3:
         logger.info(f"[bold]<<< {title} >>>[/bold]", extra={"markup": True})
     if level == 0:
-        logger.rule(characters='-')
+        logger.rule(characters='─')
         logger.rule(title, characters=' ')
-        logger.rule(characters='-')
+        logger.rule(characters='─')
 
 
 def attr(name, text):
