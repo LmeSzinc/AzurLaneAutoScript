@@ -101,7 +101,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
                 logger.info('All loggers in storage have been used')
                 break
 
-    def _storage_checkout(self, button, types=('OBSCURE',), skip_first_screenshot=True):
+    def _storage_coordinate_checkout(self, button, types=('OBSCURE',), skip_first_screenshot=True):
         """
         Args:
             button (Button): Item
@@ -135,11 +135,62 @@ class StorageHandler(GlobeOperation, ZoneManager):
         self.zone_type_select(types)
         self.globe_enter(zone=self.name_to_zone(72))
 
+    def _storage_sample_checkout(self, button, skip_first_screenshot=True):
+        """
+        Args:
+            button (Button): Item
+            types (tuple[str]):
+            skip_first_screenshot (bool):
+
+        Pages:
+            in: STORAGE_CHECK
+            out: is_in_map, in an obscure zone.
+        """
+        sample_used = False
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear(STORAGE_CHECK, offset=(30, 30), interval=1):
+                if not sample_used:
+                    self.device.click(button)
+                    continue
+                else:
+                    self.storage_quit()
+                    return True
+
+            if self.appear_then_click(STORAGE_USE, offset=(30, 30), interval=5):
+                self.interval_reset(STORAGE_CHECK)
+                continue
+            elif self.appear_then_click(STORAGE_USE_SINGLE, offset=(30, 30), interval=5):
+                self.interval_reset(STORAGE_CHECK)
+                continue
+            if self.appear(GET_ADAPTABILITY, offset=5, interval=2):
+                self.device.click(CLICK_SAFE_AREA)
+                sample_used = True
+                continue
+
+            # logger.info(f'Fake use stat {str(sample_used)}')
+            # if self.appear(STORAGE_USE, offset=(30, 30), interval=2):
+            #     logger.info('fake use multiple samples')
+            #     sample_used = True
+            #     self.device.click(CLICK_SAFE_AREA)
+            #     continue
+            #
+            # elif self.appear(STORAGE_USE_SINGLE, offset=(30, 30), interval=2):
+            #     logger.info('fake use one sample')
+            #     sample_used = True
+            #     self.device.click(CLICK_SAFE_AREA)
+            #     continue
+
+
     @staticmethod
     def _storage_item_to_template(item):
         """
         Args:
-            item (str): 'OBSCURE' or 'ABYSSAL'.
+            item (str): 'OBSCURE', 'ABYSSAL', 'COMBAT', 'OFFENSE', 'SURVIVAL', 'QUALITY_COMBAT', 'QUALITY_OFFENSE' or 'QUALITY_SURVIVAL'.
 
         Returns:
             Template:
@@ -148,13 +199,25 @@ class StorageHandler(GlobeOperation, ZoneManager):
             return TEMPLATE_STORAGE_OBSCURE
         elif item == 'ABYSSAL':
             return TEMPLATE_STORAGE_ABYSSAL
+        elif item == 'OFFENSE':
+            return TEMPLATE_STORAGE_OFFENSE
+        elif item == 'COMBAT':
+            return TEMPLATE_STORAGE_COMBAT
+        elif item == 'SURVIVAL':
+            return TEMPLATE_STORAGE_SURVIVAL
+        elif item == 'QUALITY_OFFENSE':
+            return TEMPLATE_STORAGE_QUALITY_OFFENSE
+        elif item == 'QUALITY_COMBAT':
+            return TEMPLATE_STORAGE_QUALITY_COMBAT
+        elif item == 'QUALITY_SURVIVAL':
+            return TEMPLATE_STORAGE_QUALITY_SURVIVAL
         else:
             raise ScriptError(f'Unknown storage item: {item}')
 
     def storage_checkout_item(self, item, skip_first_screenshot=True):
         """
         Args:
-            item (str): 'OBSCURE' or 'ABYSSAL'.
+            item (str): 'OBSCURE', 'ABYSSAL', 'COMBAT', 'OFFENSE', 'SURVIVAL', 'QUALITY_COMBAT', 'QUALITY_OFFENSE' or 'QUALITY_SURVIVAL'.
             skip_first_screenshot:
 
         Returns:
@@ -177,14 +240,16 @@ class StorageHandler(GlobeOperation, ZoneManager):
             logger.info(f'No more {item} items in storage')
             self.storage_quit()
             return False
-
-        self._storage_checkout(items[0], types=(item,))
+        if item == 'OBSCURE' or item == 'ABYSSAL':
+            self._storage_coordinate_checkout(items[0], types=(item,))
+        else:
+            self._storage_sample_checkout(items[0])
         return True
 
     def storage_get_next_item(self, item, use_logger=True):
         """
         Args:
-            item (str): 'OBSCURE' or 'ABYSSAL'.
+            item (str): 'OBSCURE', 'ABYSSAL', 'COMBAT', 'OFFENSE', 'SURVIVAL', 'QUALITY_COMBAT', 'QUALITY_OFFENSE' or 'QUALITY_SURVIVAL'.
             use_logger: If use all loggers.
 
         Returns:

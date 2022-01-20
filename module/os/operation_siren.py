@@ -261,6 +261,9 @@ class OperationSiren(Reward, OSMap):
         # Finish existing missions first
         self.os_finish_daily_mission()
 
+        if self.config.OpsiDaily_UseTuningSample:
+            self.os_tuning_sample()
+
         while 1:
             # If unable to receive more dailies, finish them and try again.
             success = self.os_mission_overview_accept()
@@ -531,12 +534,34 @@ class OperationSiren(Reward, OSMap):
         logger.critical('Unable to clear boss, fleets exhausted')
         return False
 
+    def os_tuning_sample(self):
+        """
+        Use all tuning samples.
+        """
+        logger.hr('Using all tuning samples', level=2)
+        sample_types = ['OFFENSE', 'SURVIVAL', 'COMBAT', 'QUALITY_OFFENSE', 'QUALITY_SURVIVAL', 'QUALITY_COMBAT']
+        for sample_type in sample_types:
+            if self.storage_get_next_item(item=sample_type, use_logger=False):
+                logger.info(f'Used {sample_type} sample(s)')
+            else:
+                logger.info(f'No {sample_type} sample')
+        return True
+
+
+# if __name__ == '__main__':
+#     self = OperationSiren('alas', task='OpsiStronghold')
+#     from module.os.config import OSConfig
+#
+#     self.config = self.config.merge(OSConfig())
+#     self.device.screenshot()
+#     self.zone_init()
+#     self.run_stronghold()
 
 if __name__ == '__main__':
-    self = OperationSiren('alas', task='OpsiStronghold')
+    self = OperationSiren('alas', task='OpsiTuneSample')
     from module.os.config import OSConfig
 
     self.config = self.config.merge(OSConfig())
     self.device.screenshot()
     self.zone_init()
-    self.run_stronghold()
+    self.os_tuning_sample()

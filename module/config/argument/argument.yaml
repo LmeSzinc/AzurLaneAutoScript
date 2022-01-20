@@ -460,6 +460,7 @@ OpsiShop:
   BuySupply: true
 OpsiDaily:
   DoMission: true
+  UseTuningSample: true
 OpsiObscure:
   ForceRun: false
 OpsiAbyssal:

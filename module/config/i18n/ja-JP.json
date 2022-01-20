@@ -1676,6 +1676,10 @@
     "DoMission": {
       "name": "OpsiDaily.DoMission.name",
       "help": "OpsiDaily.DoMission.help"
+    },
+    "UseTuningSample": {
+      "name": "OpsiDaily.UseTuningSample.name",
+      "help": "OpsiDaily.UseTuningSample.help"
     }
   },
   "OpsiObscure": {

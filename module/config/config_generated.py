@@ -318,6 +318,7 @@ class GeneratedConfig:
 
     # Group `OpsiDaily`
     OpsiDaily_DoMission = True
+    OpsiDaily_UseTuningSample = True
 
     # Group `OpsiObscure`
     OpsiObscure_ForceRun = False
