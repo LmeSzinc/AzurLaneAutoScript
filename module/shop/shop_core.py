@@ -1,5 +1,6 @@
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
+from module.exception import ScriptError
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.shop.assets import *
@@ -12,13 +13,13 @@ OCR_SHOP_AMOUNT = Digit(SHOP_AMOUNT, letter=(239, 239, 239), name='OCR_SHOP_AMOU
 class CoreShop(ShopBase):
     _shop_core = 0
 
-    def shop_core_get_currency(self):
+    @cached_property
+    def shop_filter(self):
         """
-        Ocr shop core currency
+        Returns:
+            str:
         """
-        self._shop_core = OCR_SHOP_CORE.ocr(self.device.image)
-        logger.info(f'Core: {self._shop_core}')
-        return self._shop_core
+        return self.config.CoreShop_Filter.strip()
 
     @cached_property
     def shop_core_items(self):
@@ -32,7 +33,31 @@ class CoreShop(ShopBase):
         shop_core_items.load_cost_template_folder('./assets/shop/cost')
         return shop_core_items
 
-    def shop_core_check_item(self, item):
+    def shop_items(self):
+        """
+        Shared alias for all shops
+        If there are server-lang
+        differences, reference
+        shop_guild/medal for @Config
+        example
+
+        Returns:
+            ShopItemGrid:
+        """
+        return self.shop_core_items
+
+    def shop_currency(self):
+        """
+        Ocr shop core currency
+
+        Returns
+            int: core amount
+        """
+        self._shop_core = OCR_SHOP_CORE.ocr(self.device.image)
+        logger.info(f'Core: {self._shop_core}')
+        return self._shop_core
+
+    def shop_check_item(self, item):
         """
         Args:
             item: Item to check
@@ -47,10 +72,13 @@ class CoreShop(ShopBase):
     def shop_buy_amount_execute(self, item):
         """
         Args:
-            item: Item to check
+            item (Item):
 
         Returns:
-            bool: implicating failed to execute
+            bool:
+
+        Raises:
+            ScriptError
         """
         index_offset = (40, 20)
         limit = 0
@@ -70,29 +98,30 @@ class CoreShop(ShopBase):
         self.device.screenshot()
         limit = OCR_SHOP_AMOUNT.ocr(self.device.image)
         if not limit:
-            self.device.click(SHOP_CLICK_SAFE_AREA)  # Close amount prompt
-            return False
+            logger.critical('OCR_SHOP_AMOUNT resulted in zero (0); '
+                            'asset may be compromised')
+            raise ScriptError
 
         # Adjust purchase amount if needed
-        while 1:
-            if (limit * item.price) <= self._shop_core:
-                break
-            else:
-                limit -= 1
+        total = int(self._shop_core // item.price)
+        diff = limit - total
+        if diff > 0:
+            limit = total
 
         self.ui_ensure_index(limit, letter=OCR_SHOP_AMOUNT, prev_button=AMOUNT_MINUS, next_button=AMOUNT_PLUS,
                              skip_first_screenshot=True)
         self.device.click(SHOP_BUY_CONFIRM_AMOUNT)
         return True
 
-    def shop_core_interval_clear(self):
+    def shop_interval_clear(self):
         """
         Clear interval on select assets for
         shop_core_buy_handle
         """
+        super().shop_interval_clear()
         self.interval_clear(SHOP_BUY_CONFIRM_AMOUNT)
 
-    def shop_core_buy_handle(self, item):
+    def shop_buy_handle(self, item):
         """
         Handle shop_core buy interface if detected
 
@@ -109,3 +138,18 @@ class CoreShop(ShopBase):
             return True
 
         return False
+
+    def run(self):
+        """
+        Run Core Shop
+        """
+        # Base case; exit run if filter empty
+        if not self.shop_filter:
+            return
+
+        # When called, expected to be in
+        # correct Core Shop interface
+        logger.hr('Core Shop', level=1)
+
+        # Execute buy operations
+        self.shop_buy()
