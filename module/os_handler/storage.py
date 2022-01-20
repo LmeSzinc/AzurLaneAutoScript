@@ -30,7 +30,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
         """
         self.ui_back(STORAGE_ENTER, offset=(200, 5), skip_first_screenshot=True)
 
-    def _storage_logger_use(self, button, skip_first_screenshot=True):
+    def _storage_item_use(self, button, skip_first_screenshot=True):
         """
         Args:
             button (Button): Item
@@ -45,6 +45,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
         self.interval_clear(STORAGE_USE)
         self.interval_clear(GET_ITEMS_1)
         self.interval_clear(GET_ITEMS_2)
+        self.interval_clear(GET_ADAPTABILITY)
 
         while 1:
             if skip_first_screenshot:
@@ -65,6 +66,10 @@ class StorageHandler(GlobeOperation, ZoneManager):
             if self.appear_then_click(GET_ITEMS_2, interval=5):
                 self.interval_reset(STORAGE_CHECK)
                 success = True
+                continue
+            if self.appear(GET_ADAPTABILITY, offset=5, interval=2):
+                self.device.click(CLICK_SAFE_AREA)
+                sample_used = True
                 continue
 
             # End
@@ -95,11 +100,41 @@ class StorageHandler(GlobeOperation, ZoneManager):
             logger.attr('Storage_logger', len(items))
 
             if len(items):
-                self._storage_logger_use(items[0])
+                self._storage_item_use(items[0])
                 continue
             else:
                 logger.info('All loggers in storage have been used')
                 break
+
+    def storage_sample_use_all(self, skip_first_screenshot=True):
+        """
+        Args:
+            skip_first_screenshot:
+
+        Pages:
+            in: STORAGE_CHECK
+            out: STORAGE_CHECK, scroll to bottom
+        """
+        sample_types = ['OFFENSE', 'SURVIVAL', 'COMBAT', 'QUALITY_OFFENSE', 'QUALITY_SURVIVAL', 'QUALITY_COMBAT']
+        for sample_type in sample_types:
+            while 1:
+                if skip_first_screenshot:
+                    skip_first_screenshot = False
+                else:
+                    self.device.screenshot()
+
+                if SCROLL_STORAGE.appear(main=self):
+                    SCROLL_STORAGE.set_bottom(main=self, skip_first_screenshot=True)
+
+                image = rgb2gray(np.array(self.device.image))
+                items = self._storage_item_to_template(sample_type).match_multi(image, similarity=0.75)
+                logger.attr('Storage_sample', len(items))
+
+                if len(items):
+                    self._storage_item_use(items[0])
+                else:
+                    logger.info(f'All {sample_type.lower()} samples in storage have been used')
+                    break
 
     def _storage_coordinate_checkout(self, button, types=('OBSCURE',), skip_first_screenshot=True):
         """
@@ -135,57 +170,6 @@ class StorageHandler(GlobeOperation, ZoneManager):
         self.zone_type_select(types)
         self.globe_enter(zone=self.name_to_zone(72))
 
-    def _storage_sample_checkout(self, button, skip_first_screenshot=True):
-        """
-        Args:
-            button (Button): Item
-            types (tuple[str]):
-            skip_first_screenshot (bool):
-
-        Pages:
-            in: STORAGE_CHECK
-            out: is_in_map, in an obscure zone.
-        """
-        sample_used = False
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            if self.appear(STORAGE_CHECK, offset=(30, 30), interval=1):
-                if not sample_used:
-                    self.device.click(button)
-                    continue
-                else:
-                    self.storage_quit()
-                    return True
-
-            if self.appear_then_click(STORAGE_USE, offset=(30, 30), interval=5):
-                self.interval_reset(STORAGE_CHECK)
-                continue
-            elif self.appear_then_click(STORAGE_USE_SINGLE, offset=(30, 30), interval=5):
-                self.interval_reset(STORAGE_CHECK)
-                continue
-            if self.appear(GET_ADAPTABILITY, offset=5, interval=2):
-                self.device.click(CLICK_SAFE_AREA)
-                sample_used = True
-                continue
-
-            # logger.info(f'Fake use stat {str(sample_used)}')
-            # if self.appear(STORAGE_USE, offset=(30, 30), interval=2):
-            #     logger.info('fake use multiple samples')
-            #     sample_used = True
-            #     self.device.click(CLICK_SAFE_AREA)
-            #     continue
-            #
-            # elif self.appear(STORAGE_USE_SINGLE, offset=(30, 30), interval=2):
-            #     logger.info('fake use one sample')
-            #     sample_used = True
-            #     self.device.click(CLICK_SAFE_AREA)
-            #     continue
-
-
     @staticmethod
     def _storage_item_to_template(item):
         """
@@ -217,7 +201,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
     def storage_checkout_item(self, item, skip_first_screenshot=True):
         """
         Args:
-            item (str): 'OBSCURE', 'ABYSSAL', 'COMBAT', 'OFFENSE', 'SURVIVAL', 'QUALITY_COMBAT', 'QUALITY_OFFENSE' or 'QUALITY_SURVIVAL'.
+            item (str): 'OBSCURE' or 'ABYSSAL'.
             skip_first_screenshot:
 
         Returns:
@@ -240,16 +224,13 @@ class StorageHandler(GlobeOperation, ZoneManager):
             logger.info(f'No more {item} items in storage')
             self.storage_quit()
             return False
-        if item == 'OBSCURE' or item == 'ABYSSAL':
-            self._storage_coordinate_checkout(items[0], types=(item,))
-        else:
-            self._storage_sample_checkout(items[0])
+        self._storage_coordinate_checkout(items[0], types=(item,))
         return True
 
     def storage_get_next_item(self, item, use_logger=True):
         """
         Args:
-            item (str): 'OBSCURE', 'ABYSSAL', 'COMBAT', 'OFFENSE', 'SURVIVAL', 'QUALITY_COMBAT', 'QUALITY_OFFENSE' or 'QUALITY_SURVIVAL'.
+            item (str): 'OBSCURE' or 'ABYSSAL'.
             use_logger: If use all loggers.
 
         Returns:

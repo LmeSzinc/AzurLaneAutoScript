@@ -539,29 +539,15 @@ class OperationSiren(Reward, OSMap):
         Use all tuning samples.
         """
         logger.hr('Using all tuning samples', level=2)
-        sample_types = ['OFFENSE', 'SURVIVAL', 'COMBAT', 'QUALITY_OFFENSE', 'QUALITY_SURVIVAL', 'QUALITY_COMBAT']
-        for sample_type in sample_types:
-            if self.storage_get_next_item(item=sample_type, use_logger=False):
-                logger.info(f'Used {sample_type} sample(s)')
-            else:
-                logger.info(f'No {sample_type} sample')
+        self.storage_sample_use_all()
         return True
 
 
-# if __name__ == '__main__':
-#     self = OperationSiren('alas', task='OpsiStronghold')
-#     from module.os.config import OSConfig
-#
-#     self.config = self.config.merge(OSConfig())
-#     self.device.screenshot()
-#     self.zone_init()
-#     self.run_stronghold()
-
 if __name__ == '__main__':
-    self = OperationSiren('alas', task='OpsiTuneSample')
+    self = OperationSiren('alas', task='OpsiStronghold')
     from module.os.config import OSConfig
 
     self.config = self.config.merge(OSConfig())
     self.device.screenshot()
     self.zone_init()
-    self.os_tuning_sample()
+    self.run_stronghold()
