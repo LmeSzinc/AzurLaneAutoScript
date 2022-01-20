@@ -130,8 +130,8 @@ class StorageHandler(GlobeOperation, ZoneManager):
                 if len(items):
                     self._storage_item_use(items[0])
                 else:
-                    logger.info(f'All {sample_type.lower()} samples in storage have been used')
                     break
+        logger.info('All samples in storage have been used')
 
     def handle_tuning_sample_use(self):
         if self.config.OpsiDaily_UseTuningSample:
