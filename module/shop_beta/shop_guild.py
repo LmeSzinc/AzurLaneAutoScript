@@ -66,7 +66,6 @@ class GuildShop(ShopBase, ShopUI):
         shop_guild_items.load_cost_template_folder('./assets/shop/cost')
         return shop_guild_items
 
-    @cached_property
     def shop_items(self):
         """
         Shared alias for all shops,
@@ -237,9 +236,7 @@ class GuildShop(ShopBase, ShopUI):
             bool: whether interface was detected and handled
         """
         if self.appear(SHOP_BUY_CONFIRM_SELECT, offset=(20, 20), interval=3):
-            if not self.shop_buy_select_execute(item):
-                logger.warning('Failed to purchase secondary '
-                               'grid item')
+            self.shop_buy_select_execute(item)
             self.interval_reset(SHOP_BUY_CONFIRM_SELECT)
             return True
 

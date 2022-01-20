@@ -18,6 +18,7 @@ SELECT_GRID_6X1 = ButtonGrid(
     name='SHOP_SELECT_GRID_6X1')
 
 # Consolidated Guild Item Information Map
+# Placeholder entry 'DR'; not valid atm
 SELECT_ITEM_INFO_MAP = {
     'book': {
         'limit': 3,
