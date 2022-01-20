@@ -132,8 +132,7 @@ class CoreShop(ShopBase):
             bool: whether interface was detected and handled
         """
         if self.appear(SHOP_BUY_CONFIRM_AMOUNT, offset=(20, 20), interval=3):
-            if not self.shop_buy_amount_execute(item):
-                logger.warning('Failed to purchase amount item')
+            self.shop_buy_amount_execute(item)
             self.interval_reset(SHOP_BUY_CONFIRM_AMOUNT)
             return True
 
