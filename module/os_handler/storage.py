@@ -178,7 +178,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
     def _storage_item_to_template(item):
         """
         Args:
-            item (str): 'OBSCURE', 'ABYSSAL', 'COMBAT', 'OFFENSE', 'SURVIVAL', 'QUALITY_COMBAT', 'QUALITY_OFFENSE' or 'QUALITY_SURVIVAL'.
+            item (str): 'OBSCURE' or 'ABYSSAL'.
 
         Returns:
             Template:
@@ -187,18 +187,6 @@ class StorageHandler(GlobeOperation, ZoneManager):
             return TEMPLATE_STORAGE_OBSCURE
         elif item == 'ABYSSAL':
             return TEMPLATE_STORAGE_ABYSSAL
-        elif item == 'OFFENSE':
-            return TEMPLATE_STORAGE_OFFENSE
-        elif item == 'COMBAT':
-            return TEMPLATE_STORAGE_COMBAT
-        elif item == 'SURVIVAL':
-            return TEMPLATE_STORAGE_SURVIVAL
-        elif item == 'QUALITY_OFFENSE':
-            return TEMPLATE_STORAGE_QUALITY_OFFENSE
-        elif item == 'QUALITY_COMBAT':
-            return TEMPLATE_STORAGE_QUALITY_COMBAT
-        elif item == 'QUALITY_SURVIVAL':
-            return TEMPLATE_STORAGE_QUALITY_SURVIVAL
         else:
             raise ScriptError(f'Unknown storage item: {item}')
 
