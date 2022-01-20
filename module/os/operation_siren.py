@@ -261,8 +261,8 @@ class OperationSiren(Reward, OSMap):
         # Finish existing missions first
         self.os_finish_daily_mission()
 
-        if self.config.OpsiDaily_UseTuningSample:
-            self.os_tuning_sample()
+        # Clear tuning samples daily
+        self.handle_tuning_sample_use()
 
         while 1:
             # If unable to receive more dailies, finish them and try again.
@@ -533,14 +533,6 @@ class OperationSiren(Reward, OSMap):
 
         logger.critical('Unable to clear boss, fleets exhausted')
         return False
-
-    def os_tuning_sample(self):
-        """
-        Use all tuning samples.
-        """
-        logger.hr('Using all tuning samples', level=2)
-        self.storage_sample_use_all()
-        return True
 
 
 if __name__ == '__main__':

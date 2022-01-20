@@ -115,7 +115,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
             in: STORAGE_CHECK
             out: STORAGE_CHECK, scroll to bottom
         """
-        sample_types = ['OFFENSE', 'SURVIVAL', 'COMBAT', 'QUALITY_OFFENSE', 'QUALITY_SURVIVAL', 'QUALITY_COMBAT']
+        sample_types = [TEMPLATE_STORAGE_OFFENSE, TEMPLATE_STORAGE_SURVIVAL, TEMPLATE_STORAGE_COMBAT, TEMPLATE_STORAGE_QUALITY_OFFENSE, TEMPLATE_STORAGE_QUALITY_SURVIVAL, TEMPLATE_STORAGE_QUALITY_COMBAT]
         for sample_type in sample_types:
             while 1:
                 if skip_first_screenshot:
@@ -123,11 +123,8 @@ class StorageHandler(GlobeOperation, ZoneManager):
                 else:
                     self.device.screenshot()
 
-                if SCROLL_STORAGE.appear(main=self):
-                    SCROLL_STORAGE.set_bottom(main=self, skip_first_screenshot=True)
-
                 image = rgb2gray(np.array(self.device.image))
-                items = self._storage_item_to_template(sample_type).match_multi(image, similarity=0.75)
+                items = sample_type.match_multi(image, similarity=0.75)
                 logger.attr('Storage_sample', len(items))
 
                 if len(items):
@@ -135,6 +132,13 @@ class StorageHandler(GlobeOperation, ZoneManager):
                 else:
                     logger.info(f'All {sample_type.lower()} samples in storage have been used')
                     break
+
+    def handle_tuning_sample_use(self):
+        if self.config.OpsiDaily_UseTuningSample:
+            self.storage_enter()
+            self.storage_sample_use_all()
+            self.storage_quit()
+        return True
 
     def _storage_coordinate_checkout(self, button, types=('OBSCURE',), skip_first_screenshot=True):
         """
