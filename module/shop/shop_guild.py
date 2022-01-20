@@ -66,7 +66,6 @@ class GuildShop(ShopBase, ShopUI):
         shop_guild_items.load_cost_template_folder('./assets/shop/cost')
         return shop_guild_items
 
-    @cached_property
     def shop_items(self):
         """
         Shared alias for all shops,

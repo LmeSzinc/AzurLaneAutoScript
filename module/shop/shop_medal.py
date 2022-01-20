@@ -61,7 +61,6 @@ class MedalShop(ShopBase):
         shop_medal_items.similarity = 0.88  # Lower the threshold for consistent matches of PR/DRBP
         return shop_medal_items
 
-    @cached_property
     def shop_items(self):
         """
         Shared alias name for all shops,
