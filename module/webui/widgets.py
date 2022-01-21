@@ -118,7 +118,7 @@ class RichLog:
         $('#pywebio-scope-{scope}').css('font-size').slice(0, -2)/text.width*16;\
         """.format(scope=self.scope)
         width = eval_js(js)
-        return int(width) if width else 80
+        return 80 if width is None else 128 if width > 128 else int(width)
 
     # def _register_resize_callback(self):
     #     js = """
