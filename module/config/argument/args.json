@@ -38,6 +38,10 @@
           "minitouch",
           "WSA"
         ]
+      },
+      "WSA": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Error": {

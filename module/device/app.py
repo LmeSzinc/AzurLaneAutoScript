@@ -25,7 +25,11 @@ class AppControl(Connection):
     def app_start(self):
         logger.info(f'App start: {self.config.Emulator_PackageName}')
         try:
-            self.device.app_start(self.config.Emulator_PackageName)
+            if self.config.Emulator_WSA:
+                self.adb_shell(['wm', 'size', '1280x720', '-d', '0'])
+                self.adb_shell(['am', 'start', '--display', '0', self.config.Emulator_PackageName+'/com.manjuu.azurlane.MainActivity'])
+            else:
+                self.device.app_start(self.config.Emulator_PackageName)
         except BaseError as e:
             logger.critical(e)
             raise RequestHumanTakeover

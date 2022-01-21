@@ -280,7 +280,7 @@
     },
     "ScreenshotMethod": {
       "name": "模拟器截图方案",
-      "help": "速度: aScreenCap > uiautomator2 ~= ADB\n建议选 ADB",
+      "help": "速度: aScreenCap > uiautomator2 ~= ADB\n建议选 ADB\nWSA的截图方式非常不稳定，非常不建议使用",
       "ADB": "ADB ",
       "uiautomator2": "uiautomator2 ",
       "aScreenCap": "aScreenCap ",
@@ -293,6 +293,10 @@
       "uiautomator2": "uiautomator2 ",
       "minitouch": "minitouch ",
       "WSA": "WSA"
+    },
+    "WSA": {
+      "name": "WSA游戏启动方式",
+      "help": "启用后会将app_start更换为wsa专属的启动方式\n仅测试了CN官方服务器\n启用后请把控制及截图方案切换为uiautomator2"
     }
   },
   "Error": {

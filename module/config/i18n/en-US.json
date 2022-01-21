@@ -288,11 +288,15 @@
     },
     "ControlMethod": {
       "name": "Control Method",
-      "help": "Speed: minitouch >>> uiautomator2 ~= ADB\nminitouch is recommended\nTThe current WSA control method is experimental and may contain many errors.",
+      "help": "Speed: minitouch >>> uiautomator2 ~= ADB\nminitouch is recommended\nTThe current WSA control method is experimental and may contain many errors.\nWSA's screenshot method is very unstable and is highly discouraged.",
       "ADB": "ADB ",
       "uiautomator2": "uiautomator2 ",
       "minitouch": "minitouch ",
       "WSA": "WSA"
+    },
+    "WSA": {
+      "name": "WSA game launch method",
+      "help": "Enabling this option will replace app_start with the wsa exclusive startup method\nOnly the official CN server was tested\nWhen the option is enabled please switch the control and screenshot method to uiautomator2."
     }
   },
   "Error": {

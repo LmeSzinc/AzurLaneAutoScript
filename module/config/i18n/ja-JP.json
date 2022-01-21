@@ -293,6 +293,10 @@
       "uiautomator2": "uiautomator2",
       "minitouch": "minitouch",
       "WSA": "WSA"
+    },
+    "WSA": {
+      "name": "Emulator.WSA.name",
+      "help": "Emulator.WSA.help"
     }
   },
   "Error": {

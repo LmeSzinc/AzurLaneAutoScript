@@ -23,6 +23,7 @@ class GeneratedConfig:
     Emulator_Server = 'cn'  # cn, en, jp, tw
     Emulator_ScreenshotMethod = 'ADB'  # ADB, uiautomator2, aScreenCap, WSA
     Emulator_ControlMethod = 'minitouch'  # ADB, uiautomator2, minitouch, WSA
+    Emulator_WSA = False
 
     # Group `Error`
     Error_HandleError = True
