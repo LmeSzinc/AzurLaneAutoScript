@@ -69,7 +69,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
                 continue
             if self.appear(GET_ADAPTABILITY, offset=5, interval=2):
                 self.device.click(CLICK_SAFE_AREA)
-                sample_used = True
+                success = True
                 continue
 
             # End
