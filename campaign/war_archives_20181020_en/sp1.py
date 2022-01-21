@@ -8,7 +8,7 @@ MAP.shape = 'G3'
 MAP.camera_data = ['D1']
 MAP.camera_data_spawn_point = ['D1']
 MAP.map_data = """
-    ++ ++ ++ ++ -- -- MB
+    SP ++ ++ ++ -- -- MB
     -- Me -- -- ME ++ ++
     SP ++ ++ ++ -- ++ ++
 """
@@ -33,13 +33,18 @@ class Config:
     MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = False
     MAP_HAS_AMBUSH = True
+    MAP_HAS_MYSTERY = True
     # ===== End of generated config =====
 
 
 class Campaign(CampaignBase):
     MAP = MAP
+    ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 
     def battle_0(self):
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
+            return True
+
         return self.battle_default()
 
     def battle_2(self):
