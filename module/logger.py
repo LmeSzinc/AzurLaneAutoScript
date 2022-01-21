@@ -1,3 +1,4 @@
+import codecs
 import datetime
 import logging
 import os
@@ -14,6 +15,14 @@ from rich.rule import Rule
 from rich.style import Style
 from rich.theme import Theme
 from rich.traceback import Traceback
+
+try:
+    if sys.stdout.encoding.lower() != 'utf-8':
+        sys.stdout = codecs.getwriter('utf-8')(sys.stdout.buffer, 'strict')
+    if sys.stderr.encoding.lower() != 'utf-8':
+        sys.stderr = codecs.getwriter('utf-8')(sys.stderr.buffer, 'strict')
+except Exception:
+    pass
 
 
 def empty_function(*args, **kwargs):
