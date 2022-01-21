@@ -138,7 +138,7 @@ WEB_THEME = Theme({
 
 
 # Logger init
-logger_debug = True
+logger_debug = False
 logger = logging.getLogger('alas')
 logger.setLevel(logging.DEBUG if logger_debug else logging.INFO)
 file_formatter = logging.Formatter(
@@ -300,9 +300,9 @@ def hr(title, level=3):
     if level == 3:
         logger.info(f"[bold]<<< {title} >>>[/bold]", extra={"markup": True})
     if level == 0:
-        logger.rule(characters='─')
+        logger.rule(characters='═')
         logger.rule(title, characters=' ')
-        logger.rule(characters='─')
+        logger.rule(characters='═')
 
 
 def attr(name, text):
