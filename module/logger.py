@@ -112,9 +112,11 @@ class HTMLConsole(Console):
 class Highlighter(RegexHighlighter):
     base_style = 'web.'
     highlights = [
-        (r'(?P<time>(\d{2}|\d{4})(?:\-)?([0]{1}\d{1}|[1]{1}[0-2]{1})'
-         r'(?:\-)?([0-2]{1}\d{1}|[3]{1}[0-1]{1})(?:\s)?([0-1]{1}\d{1}|'
-         r'[2]{1}[0-3]{1})(?::)?([0-5]{1}\d{1})(?::)?([0-5]{1}\d{1}).\d+\b)'),
+        # (r'(?P<datetime>(\d{2}|\d{4})(?:\-)?([0]{1}\d{1}|[1]{1}[0-2]{1})'
+        #  r'(?:\-)?([0-2]{1}\d{1}|[3]{1}[0-1]{1})(?:\s)?([0-1]{1}\d{1}|'
+        #  r'[2]{1}[0-3]{1})(?::)?([0-5]{1}\d{1})(?::)?([0-5]{1}\d{1}).\d+\b)'),
+        (r'(?P<time>([0-1]{1}\d{1}|[2]{1}[0-3]{1})(?::)?'
+         r'([0-5]{1}\d{1})(?::)?([0-5]{1}\d{1})(.\d+\b))'),
         r"(?P<brace>[\{\[\(\)\]\}])"
         r"\b(?P<bool_true>True)\b|\b(?P<bool_false>False)\b|\b(?P<none>None)\b",
         r"(?P<path>(([A-Za-z]\:)|.)?\B([\/\\][\w\.\-\_\+]+)*[\/\\])(?P<filename>[\w\.\-\_\+]*)?",
@@ -136,13 +138,15 @@ WEB_THEME = Theme({
 
 
 # Logger init
-logger_debug = False
+logger_debug = True
 logger = logging.getLogger('alas')
 logger.setLevel(logging.DEBUG if logger_debug else logging.INFO)
 file_formatter = logging.Formatter(
     fmt='%(asctime)s.%(msecs)03d | %(levelname)s | %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 console_formatter = logging.Formatter(
     fmt='%(asctime)s.%(msecs)03d │ %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+web_formatter = logging.Formatter(
+    fmt='%(asctime)s.%(msecs)03d │ %(message)s', datefmt='%H:%M:%S')
 
 # Add console logger
 # console = logging.StreamHandler(stream=sys.stdout)
@@ -241,7 +245,7 @@ def set_func_logger(func):
         tracebacks_extra_lines=3,
         highlighter=Highlighter(),
     )
-    hdlr.setFormatter(console_formatter)
+    hdlr.setFormatter(web_formatter)
     logger.handlers = [h for h in logger.handlers if not isinstance(
         h, RichRenderableHandler)]
     logger.addHandler(hdlr)
@@ -310,6 +314,25 @@ def attr_align(name, text, front='', align=22):
     if front:
         name = front + name[len(front):]
     logger.info('%s: %s' % (name, str(text)))
+
+
+def show():
+    logger.info('INFO')
+    logger.warning('WARNING')
+    logger.debug('DEBUG')
+    logger.error('ERROR')
+    logger.critical('CRITICAL')
+    logger.hr('hr0', 0)
+    logger.hr('hr1', 1)
+    logger.hr('hr2', 2)
+    logger.hr('hr3', 3)
+    logger.info(r'Brace { [ ( ) ] }')
+    logger.info(r'True, False, None')
+    logger.info(r'E:/path\\to/alas/alas.exe, /root/alas/, ./relative/path/log.txt')
+    local_var1 = 'This is local variable'
+    # Line before exception
+    raise Exception("Exception")
+    # Line below exception
 
 
 logger.hr = hr

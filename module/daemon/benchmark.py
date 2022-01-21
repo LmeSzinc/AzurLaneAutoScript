@@ -3,6 +3,7 @@ import time
 import numpy as np
 from prettytable import PrettyTable
 from rich.table import Table
+from rich.text import Text
 
 from module.base.utils import float2str as float2str_
 from module.base.utils import random_rectangle_point
@@ -61,30 +62,30 @@ class Benchmark(DaemonBase, UI):
     @staticmethod
     def evaluate_screenshot(cost):
         if not isinstance(cost, (float, int)):
-            return str(cost)
+            return Text(cost, style="bold bright_red")
 
         if cost < 0.25:
-            return 'Very Fast'
+            return Text('Very Fast', style="bright_green")
         if cost < 0.45:
-            return 'Fast'
+            return Text('Fast', style="green")
         if cost < 0.65:
-            return 'Medium'
+            return Text('Medium', style="yellow")
         if cost < 0.95:
-            return 'Slow'
-        return 'Very Slow'
+            return Text('Slow', style="red")
+        return Text('Very Slow', style="bright_red")
 
     @staticmethod
     def evaluate_click(cost):
         if not isinstance(cost, (float, int)):
-            return str(cost)
+            return Text(cost, style="bold bright_red")
 
         if cost < 0.1:
-            return 'Fast'
+            return Text('Fast', style="bright_green")
         if cost < 0.2:
-            return 'Medium'
+            return Text('Medium', style="yellow")
         if cost < 0.4:
-            return 'Slow'
-        return 'Very Slow'
+            return Text('Slow', style="red")
+        return Text('Very Slow', style="bright_red")
 
     @staticmethod
     def show(test, data, evaluate_func):
