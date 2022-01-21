@@ -3,6 +3,7 @@ from module.config.config_updater import ConfigUpdater
 from module.webui.config import WebuiConfig
 from multiprocessing.managers import SyncManager
 
+
 class Setting:
     """
     Shared settings
@@ -15,6 +16,7 @@ class Setting:
     manager: SyncManager = None
     reload: bool = False
     electron: bool = False
+    theme: str = 'default'
 
     @classmethod
     def init(cls):
