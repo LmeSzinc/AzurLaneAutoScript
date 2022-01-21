@@ -30,7 +30,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
         """
         self.ui_back(STORAGE_ENTER, offset=(200, 5), skip_first_screenshot=True)
 
-    def _storage_logger_use(self, button, skip_first_screenshot=True):
+    def _storage_item_use(self, button, skip_first_screenshot=True):
         """
         Args:
             button (Button): Item
@@ -45,6 +45,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
         self.interval_clear(STORAGE_USE)
         self.interval_clear(GET_ITEMS_1)
         self.interval_clear(GET_ITEMS_2)
+        self.interval_clear(GET_ADAPTABILITY)
 
         while 1:
             if skip_first_screenshot:
@@ -65,6 +66,10 @@ class StorageHandler(GlobeOperation, ZoneManager):
             if self.appear_then_click(GET_ITEMS_2, interval=5):
                 self.interval_reset(STORAGE_CHECK)
                 success = True
+                continue
+            if self.appear(GET_ADAPTABILITY, offset=5, interval=2):
+                self.device.click(CLICK_SAFE_AREA)
+                sample_used = True
                 continue
 
             # End
@@ -95,13 +100,47 @@ class StorageHandler(GlobeOperation, ZoneManager):
             logger.attr('Storage_logger', len(items))
 
             if len(items):
-                self._storage_logger_use(items[0])
+                self._storage_item_use(items[0])
                 continue
             else:
                 logger.info('All loggers in storage have been used')
                 break
 
-    def _storage_checkout(self, button, types=('OBSCURE',), skip_first_screenshot=True):
+    def storage_sample_use_all(self, skip_first_screenshot=True):
+        """
+        Args:
+            skip_first_screenshot:
+
+        Pages:
+            in: STORAGE_CHECK
+            out: STORAGE_CHECK, scroll to bottom
+        """
+        sample_types = [TEMPLATE_STORAGE_OFFENSE, TEMPLATE_STORAGE_SURVIVAL, TEMPLATE_STORAGE_COMBAT, TEMPLATE_STORAGE_QUALITY_OFFENSE, TEMPLATE_STORAGE_QUALITY_SURVIVAL, TEMPLATE_STORAGE_QUALITY_COMBAT]
+        for sample_type in sample_types:
+            while 1:
+                if skip_first_screenshot:
+                    skip_first_screenshot = False
+                else:
+                    self.device.screenshot()
+
+                image = rgb2gray(np.array(self.device.image))
+                items = sample_type.match_multi(image, similarity=0.75)
+                logger.attr('Storage_sample', len(items))
+
+                if len(items):
+                    self._storage_item_use(items[0])
+                else:
+                    break
+        logger.info('All samples in storage have been used')
+
+    def handle_tuning_sample_use(self):
+        if self.config.OpsiDaily_UseTuningSample:
+            self.storage_enter()
+            self.storage_sample_use_all()
+            self.storage_quit()
+        return True
+
+    def _storage_coordinate_checkout(self, button, types=('OBSCURE',), skip_first_screenshot=True):
         """
         Args:
             button (Button): Item
@@ -177,8 +216,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
             logger.info(f'No more {item} items in storage')
             self.storage_quit()
             return False
-
-        self._storage_checkout(items[0], types=(item,))
+        self._storage_coordinate_checkout(items[0], types=(item,))
         return True
 
     def storage_get_next_item(self, item, use_logger=True):

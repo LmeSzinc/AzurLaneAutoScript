@@ -261,6 +261,9 @@ class OperationSiren(Reward, OSMap):
         # Finish existing missions first
         self.os_finish_daily_mission()
 
+        # Clear tuning samples daily
+        self.handle_tuning_sample_use()
+
         while 1:
             # If unable to receive more dailies, finish them and try again.
             success = self.os_mission_overview_accept()
