@@ -51,7 +51,8 @@ class Device(Screenshot, Control, AppControl):
             super().screenshot()
 
         if not self._screen_size_checked:
-            self.check_screen()
+            if not self.config.Emulator_WSA:
+                self.check_screen()
             self._screen_size_checked = True
 
         return self.image
