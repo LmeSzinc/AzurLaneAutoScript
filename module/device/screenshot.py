@@ -2,59 +2,27 @@ import os
 import time
 from collections import deque
 from datetime import datetime
-from io import BytesIO
 
 from PIL import Image
-from cached_property import cached_property
 
-from module.base.retry import retry
+from module.base.decorator import cached_property
 from module.base.timer import Timer, timer
-from module.device.ascreencap import AScreenCap
-from module.exception import ScriptError
+from module.base.utils import get_color
+from module.device.method.adb import Adb
+from module.device.method.ascreencap import AScreenCap
+from module.device.method.uiautomator_2 import Uiautomator2
+from module.exception import RequestHumanTakeover
 from module.logger import logger
 
 
-class Screenshot(AScreenCap):
-    _screenshot_method = [0, 1, 2]
-    _screenshot_method_fixed = [0, 1, 2]
-
+class Screenshot(Adb, Uiautomator2, AScreenCap):
+    _screen_size_checked = False
+    _screen_black_checked = False
+    _minicap_uninstalled = False
     _screenshot_interval_timer = Timer(0.1)
     _last_save_time = {}
     image: Image.Image
 
-    def _screenshot_uiautomator2(self):
-        image = self.device.screenshot()
-        return image.convert('RGB')
-
-    def _load_screenshot(self, screenshot, method):
-        if method == 0:
-            return Image.open(BytesIO(screenshot)).convert('RGB')
-        elif method == 1:
-            return Image.open(BytesIO(screenshot.replace(b'\r\n', b'\n'))).convert('RGB')
-        elif method == 2:
-            return Image.open(BytesIO(screenshot.replace(b'\r\r\n', b'\n'))).convert('RGB')
-        else:
-            raise ScriptError(f'Unknown method to load screenshots: {method}')
-
-    def _process_screenshot(self, screenshot):
-        for method in self._screenshot_method_fixed:
-            try:
-                result = self._load_screenshot(screenshot, method=method)
-                self._screenshot_method_fixed = [method] + self._screenshot_method
-                return result
-            except OSError:
-                continue
-
-        self._screenshot_method_fixed = self._screenshot_method
-        if len(screenshot) < 100:
-            logger.warning(f'Unexpected screenshot: {screenshot}')
-        raise OSError(f'cannot load screenshot')
-
-    def _screenshot_adb(self):
-        screenshot = self.adb_shell(['screencap', '-p'])
-        return self._process_screenshot(screenshot)
-
-    @retry(tries=10, delay=3)
     @timer
     def screenshot(self):
         """
@@ -63,18 +31,23 @@ class Screenshot(AScreenCap):
         """
         self._screenshot_interval_timer.wait()
         self._screenshot_interval_timer.reset()
-        method = self.config.Emulator_ControlMethod
 
-        if method == 'aScreenCap':
-            self.image = self._screenshot_ascreencap()
-        elif method == 'uiautomator2':
-            self.image = self._screenshot_uiautomator2()
-        else:
-            self.image = self._screenshot_adb()
+        for _ in range(2):
+            method = self.config.Emulator_ScreenshotMethod
+            if method == 'aScreenCap':
+                self.image = self.screenshot_ascreencap()
+            elif method == 'uiautomator2':
+                self.image = self.screenshot_uiautomator2()
+            else:
+                self.image = self.screenshot_adb()
 
-        self.image.load()
-        if self.config.Error_SaveError:
-            self.screenshot_deque.append({'time': datetime.now(), 'image': self.image})
+            if self.config.Error_SaveError:
+                self.screenshot_deque.append({'time': datetime.now(), 'image': self.image})
+
+            if self.check_screen_size() and self.check_screen_black():
+                break
+            else:
+                continue
 
         return self.image
 
@@ -123,3 +96,46 @@ class Screenshot(AScreenCap):
             interval = min(interval, 1.0)
             logger.info(f'Screenshot interval set to {interval}s')
             self._screenshot_interval_timer.limit = interval
+
+    def check_screen_size(self):
+        """
+        Screen size must be 1280x720.
+        Take a screenshot before call.
+        """
+        if self._screen_size_checked:
+            return True
+        else:
+            self._screen_size_checked = True
+        # Check screen size
+        width, height = self.image.size
+        logger.attr('Screen_size', f'{width}x{height}')
+        if not (width == 1280 and height == 720):
+            logger.critical(f'Resolution not supported: {width}x{height}')
+            logger.critical('Please set emulator resolution to 1280x720')
+            raise RequestHumanTakeover
+        else:
+            return True
+
+    def check_screen_black(self):
+        if self._screen_black_checked:
+            return True
+        else:
+            self._screen_black_checked = True
+        # Check screen color
+        # May get a pure black screenshot on some emulators.
+        color = get_color(self.image, area=(0, 0, 1280, 720))
+        if sum(color) < 1:
+            if self.config.Emulator_ScreenshotMethod == 'uiautomator2':
+                logger.warning(f'Received pure black screenshots from emulator, color: {color}')
+                logger.warning('Uninstall minicap and retry')
+                self.uninstall_minicap()
+                self._screen_black_checked = False
+                return False
+            else:
+                logger.critical(f'Received pure black screenshots from emulator, color: {color}')
+                logger.critical(f'Screenshot method `{self.config.Emulator_ScreenshotMethod}` '
+                                f'may not work on emulator `{self.serial}`')
+                logger.critical('Please use other screenshot methods')
+                raise RequestHumanTakeover
+        else:
+            return True

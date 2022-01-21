@@ -61,11 +61,11 @@ class RewardDorm(UI):
         for button in loves:
             count += 1
             # Disable click record check, because may have too many coins or loves.
-            self.device.click(button, record_check=False)
+            self.device.click(button, control_check=False)
             self.device.sleep((0.5, 0.8))
         for button in coins:
             count += 1
-            self.device.click(button, record_check=False)
+            self.device.click(button, control_check=False)
             self.device.sleep((0.5, 0.8))
 
         return count
@@ -98,10 +98,10 @@ class RewardDorm(UI):
     def _dorm_feed_long_tap(self, button, count):
         timeout = Timer(count // 5 + 5).start()
         x, y = random_rectangle_point(button.button)
-        self.device.device.touch.down(x, y)
+        self.device.u2.touch.down(x, y)
 
         while 1:
-            self.device.device.touch.move(x, y)
+            self.device.u2.touch.move(x, y)
             time.sleep(.01)
             self.device.screenshot()
 
@@ -113,7 +113,7 @@ class RewardDorm(UI):
                 logger.warning('Wait dorm feed timeout')
                 break
 
-        self.device.device.touch.up(x, y)
+        self.device.u2.touch.up(x, y)
 
     def dorm_receive(self):
         """
@@ -135,7 +135,7 @@ class RewardDorm(UI):
             # Need to avoid drop-down menu in android, which is 38 px.
             p1, p2 = random_rectangle_vector(
                 (-700, 450), box=(247, 45, 1045, 594), random_range=(-50, -50, 50, 50), padding=0)
-            self.device._drag_minitouch(p1, p2, point_random=(0, 0, 0, 0))
+            self.device.drag_minitouch(p1, p2, point_random=(0, 0, 0, 0))
             # Left hand up
             self.device.minitouch_builder.up(contact_id=1).commit()
             self.device.minitouch_send()

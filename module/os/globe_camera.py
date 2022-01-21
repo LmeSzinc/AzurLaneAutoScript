@@ -46,7 +46,7 @@ class GlobeCamera(GlobeOperation, ZoneManager):
             vector = np.array(distance) * vector
 
             vector = -vector
-            self.device.swipe(vector, name=name, box=box)
+            self.device.swipe_vector(vector, name=name, box=box)
             self.device.sleep(0.3)
 
             self.globe_update()

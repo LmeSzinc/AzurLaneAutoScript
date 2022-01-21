@@ -76,6 +76,16 @@ def attr_align(name, text, front='', align=22):
     logger.info('%s: %s' % (name, str(text)))
 
 
+def error_convert(func):
+    def error_wrapper(msg, *args, **kwargs):
+        if isinstance(msg, Exception):
+            msg = f'{type(msg).__name__}: {msg}'
+        return func(msg, *args, **kwargs)
+
+    return error_wrapper
+
+
+logger.error = error_convert(logger.error)
 logger.hr = hr
 logger.attr = attr
 logger.attr_align = attr_align

@@ -1,34 +1,14 @@
-import random
 import socket
 import time
+
+from adbutils.errors import AdbError
 
 from module.base.decorator import cached_property
 from module.base.utils import *
 from module.device.connection import Connection
+from module.device.method.utils import handle_adb_error
+from module.exception import RequestHumanTakeover
 from module.logger import logger
-
-PORT_RANGE = (20000, 21000)
-
-
-def is_port_using(port_num):
-    """ if port is using by others, return True. else return False """
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.settimeout(2)
-
-    try:
-        result = s.connect_ex(('127.0.0.1', port_num))
-        # if port is using, return code should be 0. (can be connected)
-        return result == 0
-    finally:
-        s.close()
-
-
-def get_port():
-    """ get a random port from port set """
-    new_port = random.choice(list(range(*PORT_RANGE)))
-    if is_port_using(new_port):
-        return get_port()
-    return new_port
 
 
 def random_normal_distribution(a, b, n=5):
@@ -170,35 +150,78 @@ class CommandBuilder:
         self.delay = 0
 
 
-class MiniTouch(Connection):
-    _minitouch_port = 0
-    _minitouch_process = None
-    _minitouch_has_init = False
+class MinitouchError(Exception):
+    pass
+
+
+def retry(func):
+    def retry_wrapper(self, *args, **kwargs):
+        """
+        Args:
+            self (Minitouch):
+        """
+        for _ in range(10):
+            try:
+                return func(self, *args, **kwargs)
+            except RequestHumanTakeover:
+                # Can't handle
+                break
+            except ConnectionResetError as e:
+                # Adb server was killed
+                logger.error(e)
+                self.adb_connect(self.serial)
+                del self.__dict__['minitouch_builder']
+                continue
+            except ConnectionAbortedError as e:
+                # Emulator exit
+                logger.error(e)
+                self.adb_connect(self.serial)
+                del self.__dict__['minitouch_builder']
+            except MinitouchError as e:
+                # MinitouchError: Received empty data from minitouch
+                logger.error(e)
+                self.install_uiautomator2()
+                if self._minitouch_port:
+                    self.adb_forward_remove(f'tcp:{self._minitouch_port}')
+                continue
+            except AdbError as e:
+                handle_adb_error(e)
+                break
+            except Exception as e:
+                # Unknown
+                # Probably trucked image
+                logger.exception(e)
+                continue
+
+        logger.critical(f'Retry {func.__name__}() failed')
+        raise RequestHumanTakeover
+
+    return retry_wrapper
+
+
+class Minitouch(Connection):
+    _minitouch_port: int
+    _minitouch_client: socket.socket
+    _minitouch_pid: int
     max_x: int
     max_y: int
 
     @cached_property
     def minitouch_builder(self):
-        if not self._minitouch_has_init:
-            self.minitouch_init()
-
+        self.minitouch_init()
         return CommandBuilder(self.max_x, self.max_y)
 
     def minitouch_init(self):
         logger.hr('MiniTouch init')
 
-        self._minitouch_port = get_port()
-        logger.info(f"Minitouch bind to port {self._minitouch_port}")
-
-        self.adb_forward([f"tcp:{self._minitouch_port}", "localabstract:minitouch"])
-        logger.info(f"Minitouch forward port {self._minitouch_port}")
+        self._minitouch_port = self.adb_forward("localabstract:minitouch")
 
         # No need, minitouch already started by uiautomator2
         # self.adb_shell([self.config.MINITOUCH_FILEPATH_REMOTE])
 
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         client.connect(('127.0.0.1', self._minitouch_port))
-        self.client = client
+        self._minitouch_client = client
 
         # get minitouch server info
         socket_out = client.makefile()
@@ -211,7 +234,10 @@ class MiniTouch(Connection):
         # ^ <max-contacts> <max-x> <max-y> <max-pressure>
         out = socket_out.readline().replace("\n", "").replace("\r", "")
         logger.info(out)
-        _, max_contacts, max_x, max_y, max_pressure, *_ = out.split(" ")
+        try:
+            _, max_contacts, max_x, max_y, max_pressure, *_ = out.split(" ")
+        except ValueError:
+            raise MinitouchError('Received empty data from minitouch')
         # self.max_contacts = max_contacts
         self.max_x = int(max_x)
         self.max_y = int(max_y)
@@ -221,35 +247,44 @@ class MiniTouch(Connection):
         out = socket_out.readline().replace("\n", "").replace("\r", "")
         logger.info(out)
         _, pid = out.split(" ")
-        self.pid = pid
+        self._minitouch_pid = pid
 
         logger.info(
-            "minitouch running on port: {}, pid: {}".format(self._minitouch_port, self.pid)
+            "minitouch running on port: {}, pid: {}".format(self._minitouch_port, self._minitouch_pid)
         )
         logger.info(
             "max_contact: {}; max_x: {}; max_y: {}; max_pressure: {}".format(
                 max_contacts, max_x, max_y, max_pressure
             )
         )
-        self._minitouch_has_init = True
 
     def minitouch_send(self):
         content = self.minitouch_builder.content
         # logger.info("send operation: {}".format(content.replace("\n", "\\n")))
         byte_content = content.encode('utf-8')
-        self.client.sendall(byte_content)
-        self.client.recv(0)
+        self._minitouch_client.sendall(byte_content)
+        self._minitouch_client.recv(0)
         time.sleep(self.minitouch_builder.delay / 1000 + self.minitouch_builder.DEFAULT_DELAY)
         self.minitouch_builder.reset()
 
-    def _click_minitouch(self, x, y):
+    @retry
+    def click_minitouch(self, x, y):
         builder = self.minitouch_builder
         builder.down(x, y).commit()
         builder.up().commit()
         self.minitouch_send()
 
-    def _swipe_minitouch(self, fx, fy, tx, ty):
-        points = insert_swipe(p0=(fx, fy), p3=(tx, ty))
+    @retry
+    def long_click_minitouch(self, x, y, duration=1.0):
+        duration = int(duration * 1000)
+        builder = self.minitouch_builder
+        builder.down(x, y).commit().wait(duration)
+        builder.up().commit()
+        self.minitouch_send()
+
+    @retry
+    def swipe_minitouch(self, p1, p2):
+        points = insert_swipe(p0=p1, p3=p2)
         builder = self.minitouch_builder
 
         builder.down(*points[0]).commit()
@@ -262,7 +297,8 @@ class MiniTouch(Connection):
         builder.up().commit()
         self.minitouch_send()
 
-    def _drag_minitouch(self, p1, p2, point_random=(-10, -10, 10, 10)):
+    @retry
+    def drag_minitouch(self, p1, p2, point_random=(-10, -10, 10, 10)):
         p1 = np.array(p1) - random_rectangle_point(point_random)
         p2 = np.array(p2) - random_rectangle_point(point_random)
         points = insert_swipe(p0=p1, p3=p2, speed=20)

@@ -59,6 +59,7 @@ class ManualConfig:
     """
     module.device
     """
+    FORWARD_PORT_RANGE = (20000, 21000)
     ASCREENCAP_FILEPATH_LOCAL = './bin/ascreencap'
     ASCREENCAP_FILEPATH_REMOTE = '/data/local/tmp/ascreencap'
     MINITOUCH_FILEPATH_REMOTE = '/data/local/tmp/minitouch'

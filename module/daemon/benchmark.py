@@ -106,25 +106,25 @@ class Benchmark(DaemonBase, UI):
 
     def run(self):
         logger.hr('Benchmark', level=1)
-        self.device.remove_minicap()
+        self.device.uninstall_minicap()
         self.ui_ensure(page_campaign)
 
         data = []
         if self.config.Benchmark_TestScreenshotMethod:
-            data.append(['ADB', self.benchmark_test(self.device._screenshot_adb)])
-            data.append(['uiautomator2', self.benchmark_test(self.device._screenshot_uiautomator2)])
-            data.append(['aScreenCap', self.benchmark_test(self.device._screenshot_ascreencap)])
+            data.append(['ADB', self.benchmark_test(self.device.screenshot_adb)])
+            data.append(['uiautomator2', self.benchmark_test(self.device.screenshot_uiautomator2)])
+            data.append(['aScreenCap', self.benchmark_test(self.device.screenshot_ascreencap)])
         screenshot = data
 
         data = []
         area = (124, 4, 649, 106)  # Somewhere save to click.
         if self.config.Benchmark_TestClickMethod:
             x, y = random_rectangle_point(area)
-            data.append(['ADB', self.benchmark_test(self.device._click_adb, x, y)])
+            data.append(['ADB', self.benchmark_test(self.device.click_adb, x, y)])
             x, y = random_rectangle_point(area)
-            data.append(['uiautomator2', self.benchmark_test(self.device._click_uiautomator2, x, y)])
+            data.append(['uiautomator2', self.benchmark_test(self.device.click_uiautomator2, x, y)])
             x, y = random_rectangle_point(area)
-            data.append(['minitouch', self.benchmark_test(self.device._click_minitouch, x, y)])
+            data.append(['minitouch', self.benchmark_test(self.device.click_minitouch, x, y)])
         control = data
 
         def compare(res):

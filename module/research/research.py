@@ -249,7 +249,7 @@ class RewardResearch(ResearchSelector):
                     self.device.sleep(1.5)
                     self.device.screenshot()
                     record.add(self.device.image)
-                    self.device.swipe((0, 250), box=ITEMS_3_SWIPE.area, random_range=(-10, -10, 10, 10), padding=0)
+                    self.device.swipe_vector((0, 250), box=ITEMS_3_SWIPE.area, random_range=(-10, -10, 10, 10), padding=0)
                     self.device.sleep(2)
                     self.device.screenshot()
                     record.add(self.device.image)

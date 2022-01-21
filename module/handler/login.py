@@ -240,7 +240,7 @@ class LoginHandler(Combat):
         return False
 
     def get_cn_xp_hierarchy(self) -> tuple:
-        d = self.device.device
+        d = self.device.u2
         xp = XPath(d)
         hierarchy = d.dump_hierarchy()
         return xp, hierarchy

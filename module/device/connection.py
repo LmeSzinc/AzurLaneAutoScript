@@ -1,26 +1,32 @@
-import re
+import logging
 import os
+import re
 import subprocess
+import time
 
+import adbutils
+from adbutils import AdbClient, AdbDevice, ForwardItem
 import uiautomator2 as u2
 
+from deploy.utils import poor_yaml_read, DEPLOY_CONFIG
+from module.base.decorator import cached_property
+from module.base.utils import ensure_time
 from module.config.config import AzurLaneConfig
+from module.device.method.utils import random_port
 from module.logger import logger
 
 
 class Connection:
-    _adb_binary = ''
     adb_binary_list = [
-        r'.\adb\adb.exe',
-        r'.\toolkit\Lib\site-packages\adbutils\binaries\adb.exe',
-        r'.\python\Lib\site-packages\adbutils\binaries\adb.exe',
+        './bin/adb/adb.exe',
+        './toolkit/Lib/site-packages/adbutils/binaries/adb.exe',
         '/usr/bin/adb'
     ]
 
     def __init__(self, config):
         """
         Args:
-            config(AzurLaneConfig):
+            config (AzurLaneConfig):
         """
         logger.hr('Device')
         self.config = config
@@ -30,23 +36,34 @@ class Connection:
         if "bluestacks5-hyperv" in self.serial:
             self.serial = self.find_bluestacks5_hyperv(self.serial)
 
-        self.device = self.connect(self.serial)
-        # Set from 3min to 7days
-        self.device.set_new_command_timeout(604800)
-        # if self.config.DEVICE_SCREENSHOT_METHOD == 'aScreenCap':
-        #     self._ascreencap_init()
+        logger.attr('Adb_binary', self.adb_binary)
+
+        # Monkey patch to custom adb
+        adbutils.adb_path = lambda: self.adb_binary
+        # Remove global proxies, or uiautomator2 will go through it
+        for k in list(os.environ.keys()):
+            if k.lower().endswith('_proxy'):
+                del os.environ[k]
+
+        self.adb_client = AdbClient('127.0.0.1', 5037)
+        self.adb_connect(self.serial)
+
+        self.adb = AdbDevice(self.adb_client, self.serial)
+        logger.attr('Adb_device', self.adb)
 
     @staticmethod
     def find_bluestacks4_hyperv(serial):
         """
         Find dynamic serial of Bluestacks4 Hyper-v Beta.
+
         Args:
             serial (str): 'bluestacks4-hyperv', 'bluestacks4-hyperv-2' for multi instance, and so on.
+
         Returns:
             str: 127.0.0.1:{port}
         """
         from winreg import ConnectRegistry, OpenKey, QueryInfoKey, EnumValue, CloseKey, HKEY_LOCAL_MACHINE
-        
+
         logger.info("Use Bluestacks4 Hyper-v Beta")
         if serial == "bluestacks4-hyperv":
             folder_name = "Android"
@@ -69,18 +86,19 @@ class Connection:
         CloseKey(reg_root)
         return serial
 
-
     @staticmethod
     def find_bluestacks5_hyperv(serial):
         """
         Find dynamic serial of Bluestacks5 Hyper-v.
+
         Args:
             serial (str): 'bluestacks5-hyperv', 'bluestacks5-hyperv-1' for multi instance, and so on.
+
         Returns:
             str: 127.0.0.1:{port}
         """
         from winreg import ConnectRegistry, OpenKey, QueryInfoKey, EnumValue, CloseKey, HKEY_LOCAL_MACHINE
-        
+
         logger.info("Use Bluestacks5 Hyper-v")
         logger.info("Reading Realtime adb port")
 
@@ -111,92 +129,178 @@ class Connection:
         CloseKey(reg_root)
         return serial
 
-    @property
+    @cached_property
     def adb_binary(self):
-        if self._adb_binary:
-            return self._adb_binary
+        # Try adb in deploy.yaml
+        config = poor_yaml_read(DEPLOY_CONFIG)
+        if 'AdbExecutable' in config:
+            file = config['AdbExecutable'].replace('\\', '/')
+            if os.path.exists(file):
+                return os.path.abspath(file)
 
         # Try existing adb.exe
         for file in self.adb_binary_list:
             if os.path.exists(file):
-                file = os.path.abspath(file).replace('\\', '/')
-                logger.attr('Adb_binary', file)
-                self._adb_binary = file
-                return file
+                return os.path.abspath(file)
 
         # Use adb.exe in system PATH
         file = 'adb.exe'
-        logger.attr('Adb_binary', file)
-        self._adb_binary = file
         return file
 
-    def adb_command(self, cmd, serial=None, timeout=10):
-        if serial:
-            cmd = [self.adb_binary, '-s', serial] + cmd
-        else:
-            cmd = [self.adb_binary, '-s', self.serial] + cmd
+    def adb_command(self, cmd, timeout=10):
+        """
+        Execute ADB commands in a subprocess,
+        usually to be used when pulling or pushing large files.
+
+        Args:
+            cmd (list):
+            timeout (int):
+
+        Returns:
+            str:
+        """
+        cmd = list(map(str, cmd))
+        cmd = [self.adb_binary, '-s', self.serial] + cmd
 
         # Use shell=True to disable console window when using GUI.
         # Although, there's still a window when you stop running in GUI, which cause by gooey.
         # To disable it, edit gooey/gui/util/taskkill.py
-        if self.adb_binary == '/usr/bin/adb':
-            process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=False)
-        else:
-            process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
+
+        # No gooey anymore, just shell=False
+        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=False)
         return process.communicate(timeout=timeout)[0]
 
-    def adb_shell(self, cmd, serial=None):
-        cmd.insert(0, 'shell')
-        return self.adb_command(cmd, serial)
+    def adb_shell(self, cmd, **kwargs):
+        """
+        Equivalent to `adb -s <serial> shell <*cmd>`
+
+        Args:
+            cmd (list):
+            **kwargs:
+                rstrip (bool): strip the last empty line (Default: True)
+                stream (bool): return stream instead of string output (Default: False)
+
+        Returns:
+            str or socket if stream=True
+        """
+        cmd = list(map(str, cmd))
+        result = self.adb.shell(cmd, timeout=10, **kwargs)
+        return result
 
     def adb_exec_out(self, cmd, serial=None):
         cmd.insert(0, 'exec-out')
         return self.adb_command(cmd, serial)
 
-    def adb_forward(self, cmd, serial=None):
-        cmd.insert(0, 'forward')
-        return self.adb_command(cmd, serial)
+    def adb_forward(self, remote):
+        """
+        Do `adb forward <local> <remote>`.
+        choose a random port in FORWARD_PORT_RANGE or reuse an existing forward,
+        and also remove redundant forwards.
 
-    def adb_push(self, cmd, serial=None):
-        cmd.insert(0, 'push')
-        self.adb_command(cmd, serial)
+        Args:
+            remote (str):
+                tcp:<port>
+                localabstract:<unix domain socket name>
+                localreserved:<unix domain socket name>
+                localfilesystem:<unix domain socket name>
+                dev:<character device name>
+                jdwp:<process pid> (remote only)
 
-    def _adb_connect(self, serial):
+        Returns:
+            int: Port
+        """
+        port = 0
+        for forward in self.adb.forward_list():
+            if forward.serial == self.serial and forward.remote == remote and forward.local.startswith('tcp:'):
+                if not port:
+                    logger.info(f'Reuse forward: {forward}')
+                    port = int(forward.local[4:])
+                else:
+                    logger.info(f'Remove redundant forward: {forward}')
+                    self.adb_forward_remove(forward.local)
+
+        if port:
+            return port
+        else:
+            # Create new forward
+            port = random_port(self.config.FORWARD_PORT_RANGE)
+            forward = ForwardItem(self.serial, f'tcp:{port}', remote)
+            logger.info(f'Create forward: {forward}')
+            self.adb.forward(forward.local, forward.remote)
+            return port
+
+    def adb_forward_remove(self, local):
+        """
+        Equivalent to `adb -s <serial> forward --remove <local>`
+        More about the commands send to ADB server, see:
+        https://cs.android.com/android/platform/superproject/+/master:packages/modules/adb/SERVICES.TXT
+
+        Args:
+            local (str): Such as 'tcp:2437'
+        """
+        with self.adb_client._connect() as c:
+            list_cmd = f"host-serial:{self.serial}:killforward:{local}"
+            c.send_command(list_cmd)
+            c.check_okay()
+
+    def adb_push(self, local, remote):
+        """
+        Args:
+            local (str):
+            remote (str):
+
+        Returns:
+            str:
+        """
+        cmd = ['push', local, remote]
+        return self.adb_command(cmd)
+
+    def adb_connect(self, serial):
+        """
+        Connect to a serial, try 3 times at max.
+        If there's an old ADB server running while Alas is using a newer one, which happens on Chinese emulators,
+        the first connection is used to kill the other one, and the second is the real connect.
+
+        Args:
+            serial (str):
+
+        Returns:
+            bool: If success
+        """
         if 'emulator' in serial:
             return True
         else:
             for _ in range(3):
-                msg = self.adb_command(['connect', serial]).decode("utf-8").strip()
+                msg = self.adb_client.connect(serial)
                 logger.info(msg)
                 if 'connected' in msg:
                     return True
-            logger.warning(f'Failed to connect {serial} after 3 trial.')
+            logger.warning(f'Failed to connect {serial} after 3 trial, assume connected')
             return False
 
-    def connect(self, serial):
-        """Connect to a device.
+    def adb_disconnect(self, serial):
+        self.adb_client.disconnect(serial)
 
-        Args:
-            serial (str): device serial or device address.
-
-        Returns:
-            uiautomator2.UIAutomatorServer: Device.
+    def install_uiautomator2(self):
         """
-        self._adb_connect(serial)
-        try:
-            device = u2.connect(serial)
-            return device
-        except AssertionError:
-            logger.warning('AssertionError when connecting emulator with uiautomator2.')
-            logger.warning('If you are using BlueStacks, you need to enable ADB in the settings of your emulator.')
-
-    def remove_minicap(self):
+        Init uiautomator2 and remove minicap.
         """
-        Force to delete minicap.
+        logger.info('Install uiautomator2')
+        init = u2.init.Initer(self.adb, loglevel=logging.DEBUG)
+        init.set_atx_agent_addr('127.0.0.1:7912')
+        init.install()
+        # self.uninstall_minicap()
 
-        `minicap` sends compressed images, which may cause detection errors.
-        In most situation, uiautomator won't install minicap on emulators, but sometimes will.
-        """
+    def uninstall_minicap(self):
+        """ minicap can't work or will send compressed images on some emulators. """
         logger.info('Removing minicap')
         self.adb_shell(["rm", "/data/local/tmp/minicap"])
         self.adb_shell(["rm", "/data/local/tmp/minicap.so"])
+
+    @staticmethod
+    def sleep(second):
+        """
+        Args:
+            second(int, float, tuple):
+        """
+        time.sleep(ensure_time(second))
