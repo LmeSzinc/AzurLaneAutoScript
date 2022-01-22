@@ -369,6 +369,8 @@ class RewardResearch(ResearchSelector):
 
         # Research reward & start
         if research_finished_found:
+            # For faster switch from page_main to page_reshmenu
+            self.interval_clear(MAIN_GOTO_CAMPAIGN)
             self.ui_ensure_research()
             success = self.research_reward()
             project = self.research_project_started
