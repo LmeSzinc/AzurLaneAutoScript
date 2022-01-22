@@ -5,6 +5,10 @@ from module.logger import logger
 import uiautomator2 as u2
 
 
+RETRY_TRIES = 5
+RETRY_DELAY = 3
+
+
 def is_port_using(port_num):
     """ if port is using by others, return True. else return False """
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -40,16 +44,31 @@ def possible_reasons(*args):
 
 
 def handle_adb_error(e):
-    # AdbError(closed)
-    # AdbError(device offline)
-    # AdbError(device '127.0.0.1:59865' not found)
-    # AdbError()
-    logger.exception(e)
-    possible_reasons(
-        'If you are using BlueStacks or LD player, please enable ADB in the settings of your emulator',
-        'Emulator died, please restart emulator',
-        'Serial incorrect, no such device exists or emulator is not running'
-    )
+    """
+    Args:
+        e (Exception):
+
+    Returns:
+        bool: If should retry
+    """
+    text = str(e)
+    if 'not found' in text:
+        # When you call `adb disconnect <serial>`
+        # Or when adb server was killed (low possibility)
+        # AdbError(device '127.0.0.1:59865' not found)
+        logger.error(e)
+        return True
+    else:
+        # AdbError(closed)
+        # AdbError(device offline)
+        # AdbError()
+        logger.exception(e)
+        possible_reasons(
+            'If you are using BlueStacks or LD player, please enable ADB in the settings of your emulator',
+            'Emulator died, please restart emulator',
+            'Serial incorrect, no such device exists or emulator is not running'
+        )
+        return False
 
 
 class IniterNoMinicap(u2.init.Initer):

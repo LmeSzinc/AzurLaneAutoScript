@@ -6,7 +6,7 @@ from adbutils.errors import AdbError
 
 from module.base.utils import *
 from module.device.connection import Connection
-from module.device.method.utils import handle_adb_error
+from module.device.method.utils import handle_adb_error, RETRY_TRIES, RETRY_DELAY
 from module.exception import ScriptError, RequestHumanTakeover
 from module.logger import logger
 
@@ -21,7 +21,7 @@ def retry(func):
         Args:
             self (AScreenCap):
         """
-        for _ in range(3):
+        for _ in range(RETRY_TRIES):
             try:
                 return func(self, *args, **kwargs)
             except RequestHumanTakeover:
@@ -31,20 +31,19 @@ def retry(func):
                 # When adb server was killed
                 logger.error(e)
                 self.adb_connect(self.serial)
-                continue
             except AscreencapError as e:
                 # When ascreencap not installed
                 logger.error(e)
                 self.ascreencap_init()
-                continue
             except AdbError as e:
-                handle_adb_error(e)
-                break
+                if not handle_adb_error(e):
+                    break
             except Exception as e:
                 # Unknown
                 # Probably trucked image
                 logger.exception(e)
-                continue
+
+            self.sleep(RETRY_DELAY)
 
         logger.critical(f'Retry {func.__name__}() failed')
         raise RequestHumanTakeover

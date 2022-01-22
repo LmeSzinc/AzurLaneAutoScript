@@ -6,7 +6,7 @@ from adbutils.errors import AdbError
 from module.base.decorator import cached_property
 from module.base.utils import *
 from module.device.connection import Connection
-from module.device.method.utils import possible_reasons, handle_adb_error
+from module.device.method.utils import possible_reasons, handle_adb_error, RETRY_TRIES, RETRY_DELAY
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 
@@ -17,7 +17,7 @@ def retry(func):
         Args:
             self (Uiautomator2):
         """
-        for _ in range(3):
+        for _ in range(RETRY_TRIES):
             try:
                 return func(self, *args, **kwargs)
             except RequestHumanTakeover:
@@ -27,20 +27,18 @@ def retry(func):
                 # When adb server was killed
                 logger.error(e)
                 self.adb_connect(self.serial)
-                continue
             except JSONDecodeError as e:
                 # device.set_new_command_timeout(604800)
                 # json.decoder.JSONDecodeError: Expecting value: line 1 column 2 (char 1)
                 logger.error(e)
                 self.install_uiautomator2()
-                continue
             except AdbError as e:
-                handle_adb_error(e)
-                break
+                if not handle_adb_error(e):
+                    break
             except RuntimeError as e:
                 # RuntimeError: USB device 127.0.0.1:5555 is offline
-                handle_adb_error(e)
-                break
+                if not handle_adb_error(e):
+                    break
             except AssertionError as e:
                 # assert c.read string(4) == _OKAY
                 logger.exception(e)
@@ -53,7 +51,8 @@ def retry(func):
                 # Unknown
                 # Probably trucked image
                 logger.exception(e)
-                continue
+
+            self.sleep(RETRY_DELAY)
 
         logger.critical(f'Retry {func.__name__}() failed')
         raise RequestHumanTakeover
