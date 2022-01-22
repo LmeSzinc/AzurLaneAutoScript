@@ -119,7 +119,10 @@ class AzurLaneAutoScript:
         LoginHandler(self.config, device=self.device).app_start()
 
     def goto_main(self):
+        from module.handler.login import LoginHandler
         from module.ui.ui import UI
+        if not self.device.app_is_running():
+            LoginHandler(self.config, device=self.device).app_start()
         UI(self.config, device=self.device).ui_goto_main()
 
     def research(self):
@@ -324,6 +327,7 @@ class AzurLaneAutoScript:
                 self.run('goto_main')
                 self.wait_until(task.next_run)
             elif method == 'stay_there':
+                logger.info('Stay there during wait')
                 self.wait_until(task.next_run)
             else:
                 logger.warning(f'Invalid Optimization_WhenTaskQueueEmpty: {method}, fallback to stay_there')
