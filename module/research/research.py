@@ -350,15 +350,26 @@ class RewardResearch(ResearchSelector):
                     or page_main
         """
         self.ui_ensure(page_reward)
-        research_finished_found = False
+        research_reward_and_start = False
         if self.appear(RESEARCH_FINISHED, offset=(50, 20)) or self.appear(RESEARCH_PENDING, offset=(50, 20)):
-            research_finished_found = True
+            # For faster switch from page_main to page_reshmenu
+            self.interval_clear(MAIN_GOTO_CAMPAIGN)
+            self.ui_ensure_research()
+            research_reward_and_start = True
         else:
             research_duration_remain = self.research_get_remain()
             if research_duration_remain == 0:
-                # Research is finished but shows 00:00:00 in page_reward
-                research_finished_found = True
-            else:    
+                # Reseach finished or project requirements not satisfied (B/E/T)
+                # Need to check in page_research 
+                self.interval_clear(MAIN_GOTO_CAMPAIGN)
+                self.ui_ensure_research()
+                if self.research_has_finished():
+                    # Reseach finished
+                    research_reward_and_start = True
+                else:
+                    logger.warning('Research duration reached, but requirements not satisfied')
+                    self.config.task_delay(success=False)
+            else:
                 if research_duration_remain is not None:
                     # Success to get remain time
                     self.config.task_delay(minute=float(research_duration_remain) * 60)
@@ -368,10 +379,8 @@ class RewardResearch(ResearchSelector):
                 self.ui_goto_main()
 
         # Research reward & start
-        if research_finished_found:
-            # For faster switch from page_main to page_reshmenu
-            self.interval_clear(MAIN_GOTO_CAMPAIGN)
-            self.ui_ensure_research()
+        if research_reward_and_start:
+            # in page_research
             success = self.research_reward()
             project = self.research_project_started
             if success:
