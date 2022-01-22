@@ -6048,6 +6048,10 @@
       "DoMission": {
         "type": "checkbox",
         "value": true
+      },
+      "UseTuningSample": {
+        "type": "checkbox",
+        "value": true
       }
     },
     "OpsiFleet": {

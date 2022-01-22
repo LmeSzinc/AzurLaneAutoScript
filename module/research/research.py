@@ -326,12 +326,9 @@ class RewardResearch(ResearchSelector):
         logger.info(f'Research project remain: {remain}')
 
         seconds = remain.total_seconds()
-        if seconds > 0:
-            research_duration_remain = remain.total_seconds() / 3600
+        if seconds >= 0:
+            research_duration_remain = seconds / 3600
             return research_duration_remain
-        if seconds == 0:
-            logger.warning('Research duration reached, but requirements not satisfied')
-            return None
         else:
             logger.warning(f'Invalid research duration: {seconds} ')
             return None
@@ -353,7 +350,27 @@ class RewardResearch(ResearchSelector):
                     or page_main
         """
         self.ui_ensure(page_reward)
+        research_finished_found = False
         if self.appear(RESEARCH_FINISHED, offset=(50, 20)) or self.appear(RESEARCH_PENDING, offset=(50, 20)):
+            research_finished_found = True
+        else:
+            research_duration_remain = self.research_get_remain()
+            if research_duration_remain == 0:
+                # Research is finished but shows 00:00:00 in page_reward
+                research_finished_found = True
+            else:    
+                if research_duration_remain is not None:
+                    # Success to get remain time
+                    self.config.task_delay(minute=float(research_duration_remain) * 60)
+                else:
+                    self.config.task_delay(success=False)
+                # Close page_reward to avoid bug
+                self.ui_goto_main()
+
+        # Research reward & start
+        if research_finished_found:
+            # For faster switch from page_main to page_reshmenu
+            self.interval_clear(MAIN_GOTO_CAMPAIGN)
             self.ui_ensure_research()
             success = self.research_reward()
             project = self.research_project_started
@@ -367,11 +384,3 @@ class RewardResearch(ResearchSelector):
             else:
                 # Project requirements are not satisfied
                 self.config.task_delay(success=False)
-        else:
-            research_duration_remain = self.research_get_remain()
-            if research_duration_remain is not None:
-                self.config.task_delay(minute=float(research_duration_remain) * 60)
-            else:
-                self.config.task_delay(success=False)
-            # Close page_reward to avoid bug
-            self.ui_goto_main()

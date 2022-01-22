@@ -210,6 +210,18 @@ button.btn.dropdown-toggle {
     padding: 1rem !important;
 }
 
+code.rich-traceback {
+    padding: 0;
+}
+
+pre.rich-traceback-code {
+    padding-top: 0;
+    padding-bottom: 0;
+    font-family: Menlo, consolas, DejaVu Sans Mono, Courier New, monospace;
+    font-size: 0.85rem;
+    line-height: 1.2;
+}
+
 #pywebio-scope-ROOT {
     height: 100vh;
     display: grid;
@@ -329,10 +341,10 @@ button.btn.dropdown-toggle {
 
 #pywebio-scope-scheduler-bar,
 #pywebio-scope-log-bar,
+#pywebio-scope-log,
 #pywebio-scope-running,
 #pywebio-scope-pending,
 #pywebio-scope-waiting,
-.container-log,
 #pywebio-scope-daemon-overview #pywebio-scope-groups {
     font-weight: 500;
     margin: 0.3125rem;
@@ -350,6 +362,13 @@ button.btn.dropdown-toggle {
 #pywebio-scope-log-bar-btns {
     display: grid;
     grid-auto-flow: column;
+}
+
+#pywebio-scope-log {
+    line-height: 1.2;
+    font-size: 0.85rem;
+    font-family: Menlo, consolas, DejaVu Sans Mono, Courier New, monospace;
+    white-space: pre;
 }
 
 #pywebio-scope-running,

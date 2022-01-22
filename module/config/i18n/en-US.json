@@ -1676,6 +1676,10 @@
     "DoMission": {
       "name": "Do Port Mission(s)",
       "help": "Accept and complete mission(s) from ports"
+    },
+    "UseTuningSample": {
+      "name": "Use Tuning Samples",
+      "help": "Use all tuning samples and quality tuning samples"
     }
   },
   "OpsiObscure": {

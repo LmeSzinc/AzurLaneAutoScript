@@ -2,6 +2,8 @@ import time
 
 import numpy as np
 from prettytable import PrettyTable
+from rich.table import Table
+from rich.text import Text
 
 from module.base.utils import float2str as float2str_
 from module.base.utils import random_rectangle_point
@@ -60,30 +62,30 @@ class Benchmark(DaemonBase, UI):
     @staticmethod
     def evaluate_screenshot(cost):
         if not isinstance(cost, (float, int)):
-            return str(cost)
+            return Text(cost, style="bold bright_red")
 
         if cost < 0.25:
-            return 'Very Fast'
+            return Text('Very Fast', style="bright_green")
         if cost < 0.45:
-            return 'Fast'
+            return Text('Fast', style="green")
         if cost < 0.65:
-            return 'Medium'
+            return Text('Medium', style="yellow")
         if cost < 0.95:
-            return 'Slow'
-        return 'Very Slow'
+            return Text('Slow', style="red")
+        return Text('Very Slow', style="bright_red")
 
     @staticmethod
     def evaluate_click(cost):
         if not isinstance(cost, (float, int)):
-            return str(cost)
+            return Text(cost, style="bold bright_red")
 
         if cost < 0.1:
-            return 'Fast'
+            return Text('Fast', style="bright_green")
         if cost < 0.2:
-            return 'Medium'
+            return Text('Medium', style="yellow")
         if cost < 0.4:
-            return 'Slow'
-        return 'Very Slow'
+            return Text('Slow', style="red")
+        return Text('Very Slow', style="bright_red")
 
     @staticmethod
     def show(test, data, evaluate_func):
@@ -96,13 +98,26 @@ class Benchmark(DaemonBase, UI):
         |  aScreenCap  | Failed | Failed |
         +--------------+--------+--------+
         """
-        table = PrettyTable()
-        table.field_names = [test, 'Time', 'Speed']
-        for row in data:
-            table.add_row([row[0], f'{float2str(row[1])}', evaluate_func(row[1])])
+        # table = PrettyTable()
+        # table.field_names = [test, 'Time', 'Speed']
+        # for row in data:
+        #     table.add_row([row[0], f'{float2str(row[1])}', evaluate_func(row[1])])
 
-        for row in table.get_string().split('\n'):
-            logger.info(row)
+        # for row in table.get_string().split('\n'):
+        #     logger.info(row)
+        table = Table(show_lines=True)
+        table.add_column(
+            test, header_style="bright_cyan", style="cyan", no_wrap=True
+        )
+        table.add_column("Time", style="magenta")
+        table.add_column("Speed", style="green")
+        for row in data:
+            table.add_row(
+                row[0],
+                float2str(row[1]),
+                evaluate_func(row[1]),
+            )
+        logger.print(table, justify='center')
 
     def run(self):
         logger.hr('Benchmark', level=1)

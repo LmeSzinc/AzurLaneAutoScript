@@ -1309,7 +1309,8 @@
       "ServerUpdate": "00:00"
     },
     "OpsiDaily": {
-      "DoMission": true
+      "DoMission": true,
+      "UseTuningSample": true
     },
     "OpsiFleet": {
       "Fleet": 1,

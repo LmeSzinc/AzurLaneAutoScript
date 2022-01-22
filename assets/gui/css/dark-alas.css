@@ -68,6 +68,11 @@ textarea {
     border: 1px solid #21262d;
 }
 
+pre.rich-traceback-code {
+    color: #cccccc;
+    background-color: #1e1e1e;
+}
+
 #pywebio-scope-content {
     background-color: #36393f;
 }
@@ -98,10 +103,10 @@ textarea {
 
 #pywebio-scope-scheduler-bar,
 #pywebio-scope-log-bar,
+#pywebio-scope-log,
 #pywebio-scope-running,
 #pywebio-scope-pending,
 #pywebio-scope-waiting,
-.container-log,
 #pywebio-scope-daemon-overview #pywebio-scope-groups {
     background-color: #2f3136;
     border: 1px solid #21262d;

@@ -1676,6 +1676,10 @@
     "DoMission": {
       "name": "做大世界每日",
       "help": "在港口接每日，並完成所有每日"
+    },
+    "UseTuningSample": {
+      "name": "使用效能樣本",
+      "help": "使用所有六種效能樣本和強力效能樣本"
     }
   },
   "OpsiObscure": {
