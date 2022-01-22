@@ -5,14 +5,15 @@ import subprocess
 import time
 
 import adbutils
-from adbutils import AdbClient, AdbDevice, ForwardItem
 import uiautomator2 as u2
+from adbutils import AdbClient, AdbDevice, ForwardItem
 
 from deploy.utils import poor_yaml_read, DEPLOY_CONFIG
 from module.base.decorator import cached_property
 from module.base.utils import ensure_time
 from module.config.config import AzurLaneConfig
-from module.device.method.utils import random_port
+from module.device.method.utils import possible_reasons, random_port
+from module.exception import RequestHumanTakeover
 from module.logger import logger
 
 
@@ -274,7 +275,14 @@ class Connection:
                 msg = self.adb_client.connect(serial)
                 logger.info(msg)
                 if 'connected' in msg:
+                    # Connected to 127.0.0.1:59865
+                    # Already connected to 127.0.0.1:59865
                     return True
+                elif 'bad port' in msg:
+                    # bad port number '598265' in '127.0.0.1:598265'
+                    logger.error(msg)
+                    possible_reasons('Serial incorrect, might be a typo')
+                    raise RequestHumanTakeover
             logger.warning(f'Failed to connect {serial} after 3 trial, assume connected')
             return False
 
