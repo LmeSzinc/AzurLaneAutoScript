@@ -203,7 +203,7 @@ def set_file_logger(name=pyw_name):
     file_console = Console(
         file=file,
         no_color=True,
-        width=120,
+        width=119,
     )
 
     hdlr = RichFileHandler(
@@ -242,7 +242,7 @@ def set_func_logger(func):
         show_level=True,
         rich_tracebacks=True,
         tracebacks_show_locals=True,
-        tracebacks_extra_lines=3,
+        tracebacks_extra_lines=2,
         highlighter=Highlighter(),
     )
     hdlr.setFormatter(web_formatter)
