@@ -517,10 +517,6 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
     def FLEET_BOSS(self, value):
         self._fleet_boss = value
 
-    @property
-    def GuildShop_PR(self):
-        return [self.GuildShop_PR1, self.GuildShop_PR2, self.GuildShop_PR3]
-
     def temporary(self, **kwargs):
         """
         Cover some settings, and recover later.

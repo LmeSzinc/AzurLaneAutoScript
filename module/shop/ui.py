@@ -55,11 +55,11 @@ class ShopUI(UI):
             return True
         return False
 
-    def shop_refresh(self, shop_type, skip_first_screenshot=True):
+    def shop_refresh(self, skip_first_screenshot=True):
         """
         Args:
             skip_first_screenshot: bool
-            shop_type :  for general, guild, and merit shops
+
         Returns:
             bool: If refreshed
         """
@@ -74,12 +74,11 @@ class ShopUI(UI):
             if self.appear_then_click(SHOP_REFRESH, interval=3):
                 exit_timer.reset()
                 continue
-            if shop_type == "guild":
-                if self.appear(SHOP_BUY_CONFIRM_MISTAKE, interval=3, offset=(200, 200)) and self.appear(POPUP_CONFIRM, offset=(3, 30)):
-                    exit_timer.reset()
-                    self.ui_click(SHOP_CLICK_SAFE_AREA, appear_button=POPUP_CONFIRM, check_button=BACK_ARROW, offset=(20, 30), skip_first_screenshot=True)
-                    refreshed = False
-                    break
+            if self.appear(SHOP_BUY_CONFIRM_MISTAKE, interval=3, offset=(200, 200)) and self.appear(POPUP_CONFIRM, offset=(3, 30)):
+                self.ui_click(SHOP_CLICK_SAFE_AREA, appear_button=POPUP_CONFIRM, check_button=BACK_ARROW, offset=(20, 30), skip_first_screenshot=True)
+                exit_timer.reset()
+                refreshed = False
+                break
             if self.handle_popup_confirm('SHOP_REFRESH_CONFIRM'):
                 exit_timer.reset()
                 refreshed = True

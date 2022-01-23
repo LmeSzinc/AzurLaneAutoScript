@@ -140,7 +140,7 @@ class RewardShipyard(ShipyardUI, GeneralShop):
         # Retrieve information from page_main instead
         if not self.ui_page_appear(page_main):
             self.ui_goto_main()
-        self.shop_get_currency(key='general')
+        self.shop_currency()
 
         self.ui_ensure(page_shipyard)
         if not self.shipyard_set_focus(series=series, index=index) \

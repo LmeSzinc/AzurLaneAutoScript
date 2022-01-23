@@ -295,7 +295,7 @@ GeneralShop:
 GuildShop:
   Refresh: true
   Filter: |-
-    PlateT4 > BookT3 > PRBP > CatT3 > Chip > BookT2 > Retrofit > FoodT6 > FoodT5 > CatT2 > BoxT4
+    PlateT4 > BookT3 > PR > CatT3 > Chip > BookT2 > Retrofit > FoodT6 > FoodT5 > CatT2 > BoxT4
   BOX_T3:
     value: ironblood
     option: [eagle, royal, sakura, ironblood]
@@ -334,7 +334,7 @@ GuildShop:
     option: [cheshire, mainz, odin, champagne]
 MedalShop:
   Filter: |-
-    DRBP > PRBP
+    DR > PR
     > BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2
     > RetrofitT3 > PlateGeneralT3
     > FoodT6 > FoodT5

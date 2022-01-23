@@ -6,6 +6,7 @@ from cached_property import cached_property
 from module.base.timer import timer
 from module.config.utils import *
 from module.logger import logger
+from module.redirect_utils.shop_filter import bp_redirect
 
 CONFIG_IMPORT = '''
 import datetime
@@ -346,6 +347,8 @@ class ConfigUpdater:
         ('OpsiDaily.OpsiDaily.BuySupply', 'OpsiShop.Scheduler.Enable'),
         ('OpsiDaily.Scheduler.Enable', 'OpsiDaily.OpsiDaily.DoMission'),
         ('OpsiShop.Scheduler.Enable', 'OpsiShop.OpsiShop.BuySupply'),
+        ('ShopOnce.GuildShop.Filter', 'ShopOnce.GuildShop.Filter', bp_redirect),
+        ('ShopOnce.MedalShop.Filter', 'ShopOnce.MedalShop.Filter', bp_redirect),
     ]
 
     @cached_property
@@ -442,7 +445,7 @@ class ConfigUpdater:
 if __name__ == '__main__':
     """
     Process the whole config generation.
-    
+
                  task.yaml -+----------------> menu.json
              argument.yaml -+-> args.json ---> config_generated.py
              override.yaml -+       |
