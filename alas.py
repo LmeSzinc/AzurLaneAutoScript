@@ -19,6 +19,7 @@ class AzurLaneAutoScript:
     stop_event: threading.Event = None
 
     def __init__(self, config_name='alas'):
+        logger.hr('Start', level=0)
         self.config_name = config_name
         ConfigUpdater().update_config(config_name)
 
@@ -42,6 +43,9 @@ class AzurLaneAutoScript:
             from module.device.device import Device
             device = Device(config=self.config)
             return device
+        except RequestHumanTakeover:
+            logger.critical('Request human takeover')
+            exit(1)
         except Exception as e:
             logger.exception(e)
             exit(1)
@@ -103,7 +107,8 @@ class AzurLaneAutoScript:
                 lines = f.readlines()
                 start = 0
                 for index, line in enumerate(lines):
-                    if re.search('\+-{15,}\+', line):
+                    line = line.strip(' \r\t\n')
+                    if re.match('^═{15,}$', line):
                         start = index
                 lines = lines[start - 2:]
                 lines = handle_sensitive_logs(lines)

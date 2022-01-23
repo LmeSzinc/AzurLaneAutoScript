@@ -1,6 +1,5 @@
 from module.base.button import ButtonGrid
-from module.base.decorator import Config
-from module.base.decorator import cached_property
+from module.base.decorator import cached_property, Config
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.shop.assets import *
@@ -12,22 +11,22 @@ OCR_SHOP_MEDAL = Digit(SHOP_MEDAL, letter=(239, 239, 239), name='OCR_SHOP_MEDAL'
 class MedalShop(ShopBase):
     _shop_medal = 0
 
-    def shop_medal_get_currency(self):
+    @cached_property
+    def shop_filter(self):
         """
-        Ocr shop medal currency
+        Returns:
+            str:
         """
-        self._shop_medal = OCR_SHOP_MEDAL.ocr(self.device.image)
-        logger.info(f'Medal: {self._shop_medal}')
-        return self._shop_medal
+        return self.config.MedalShop_Filter.strip()
 
     @cached_property
-    def shop_medal_grid(self):
+    def shop_grid(self):
         """
         Returns:
             ButtonGrid:
         """
         shop_grid = ButtonGrid(
-            origin=(197, 193), delta=(223, 190), button_shape=(100.5, 101.5), grid_shape=(3, 2), name='SHOP_MEDAL_GRID')
+            origin=(197, 193), delta=(223, 190), button_shape=(100.5, 101.5), grid_shape=(3, 2), name='SHOP_GRID')
         return shop_grid
 
     @cached_property
@@ -37,15 +36,14 @@ class MedalShop(ShopBase):
         Returns:
             ShopItemGrid:
         """
-        # JP has thinner letters, increase threshold to 128
-        price_ocr = Digit([], letter=(255, 223, 57), threshold=128, name='Price_ocr')
-        shop_grid = self.shop_medal_grid
+        shop_grid = self.shop_grid
         shop_medal_items = ShopItemGrid(
             shop_grid, templates={}, amount_area=(60, 74, 96, 95), price_area=(52, 135, 132, 162))
         shop_medal_items.load_template_folder('./assets/shop/medal')
         shop_medal_items.load_cost_template_folder('./assets/shop/cost')
         shop_medal_items.similarity = 0.88  # Lower the threshold for consistent matches of PR/DRBP
-        shop_medal_items.price_ocr = price_ocr
+        # JP has thinner letters, so increase threshold to 128
+        shop_medal_items.price_ocr = Digit([], letter=(255, 223, 57), threshold=128, name='PRICE_OCR_JP')
         return shop_medal_items
 
     @cached_property
@@ -55,7 +53,7 @@ class MedalShop(ShopBase):
         Returns:
             ShopItemGrid:
         """
-        shop_grid = self.shop_medal_grid
+        shop_grid = self.shop_grid
         shop_medal_items = ShopItemGrid(
             shop_grid, templates={}, amount_area=(60, 74, 96, 95), price_area=(52, 134, 132, 162))
         shop_medal_items.load_template_folder('./assets/shop/medal')
@@ -63,17 +61,43 @@ class MedalShop(ShopBase):
         shop_medal_items.similarity = 0.88  # Lower the threshold for consistent matches of PR/DRBP
         return shop_medal_items
 
-    @cached_property
-    def shop_medal_default_price(self):
+    def shop_items(self):
         """
-        return default price shows when shop items loading is not finished
+        Shared alias name for all shops,
+        so to use  @Config must define
+        a unique alias as cover
 
         Returns:
-            int
+            ShopItemGrid:
         """
-        return 5000
+        return self.shop_medal_items
 
-    def shop_medal_check_item(self, item):
+    def shop_currency(self):
+        """
+        Ocr shop medal currency
+
+        Returns:
+            int: medal amount
+        """
+        self._shop_medal = OCR_SHOP_MEDAL.ocr(self.device.image)
+        logger.info(f'Medal: {self._shop_medal}')
+        return self._shop_medal
+
+    def shop_has_loaded(self, items):
+        """
+        If any item parsed with a default
+        price of 5000; then shop cannot
+        be safely bought from yet
+
+        Returns:
+            bool
+        """
+        for item in items:
+            if int(item.price) == 5000:
+                return False
+        return True
+
+    def shop_check_item(self, item):
         """
         Args:
             item: Item to check
@@ -84,3 +108,18 @@ class MedalShop(ShopBase):
         if item.price > self._shop_medal:
             return False
         return True
+
+    def run(self):
+        """
+        Run Medal Shop
+        """
+        # Base case; exit run if filter empty
+        if not self.shop_filter:
+            return
+
+        # When called, expected to be in
+        # correct Medal Shop interface
+        logger.hr('Medal Shop', level=1)
+
+        # Execute buy operations
+        self.shop_buy()
