@@ -5,11 +5,12 @@ import imageio
 import module.config.server as server
 from module.base.button import Button
 from module.base.decorator import cached_property
+from module.base.resource import Resource
 from module.base.utils import *
 from module.map_detection.utils import Points
 
 
-class Template:
+class Template(Resource):
     def __init__(self, file):
         """
         Args:
@@ -21,6 +22,8 @@ class Template:
         self.is_gif = os.path.splitext(self.file)[1] == '.gif'
         self._image = None
 
+        self.resource_add(self.file)
+
     @property
     def image(self):
         if self._image is None:
@@ -28,15 +31,29 @@ class Template:
                 self._image = []
                 for image in imageio.mimread(self.file):
                     image = image[:, :, :3].copy() if len(image.shape) == 3 else image
+                    image = self.pre_process(image)
                     self._image += [image, cv2.flip(image, 1)]
             else:
-                self._image = load_image(self.file)
+                self._image = self.pre_process(load_image(self.file))
 
         return self._image
 
     @image.setter
     def image(self, value):
         self._image = value
+
+    def resource_release(self):
+        self._image = None
+
+    def pre_process(self, image):
+        """
+        Args:
+            image (np.ndarray):
+
+        Returns:
+            np.ndarray:
+        """
+        return image
 
     @cached_property
     def size(self):

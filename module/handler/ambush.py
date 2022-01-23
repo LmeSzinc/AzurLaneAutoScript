@@ -1,6 +1,5 @@
 import numpy as np
 
-from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import red_overlay_transparency, get_color
 from module.combat.combat import Combat
@@ -9,22 +8,15 @@ from module.handler.info_handler import info_letter_preprocess
 from module.logger import logger
 from module.template.assets import *
 
+TEMPLATE_AMBUSH_EVADE_SUCCESS.pre_process = info_letter_preprocess
+TEMPLATE_AMBUSH_EVADE_FAILED.pre_process = info_letter_preprocess
+TEMPLATE_MAP_WALK_OUT_OF_STEP.pre_process = info_letter_preprocess
+
 
 class AmbushHandler(Combat):
     MAP_AMBUSH_OVERLAY_TRANSPARENCY_THRESHOLD = 0.40
     MAP_AIR_RAID_OVERLAY_TRANSPARENCY_THRESHOLD = 0.35  # Usually (0.50, 0.53)
     MAP_AIR_RAID_CONFIRM_SECOND = 0.5
-
-    @cached_property
-    def _load_ambush_template(self):
-        TEMPLATE_AMBUSH_EVADE_SUCCESS.image = info_letter_preprocess(TEMPLATE_AMBUSH_EVADE_SUCCESS.image)
-        TEMPLATE_AMBUSH_EVADE_FAILED.image = info_letter_preprocess(TEMPLATE_AMBUSH_EVADE_FAILED.image)
-        return True
-
-    @cached_property
-    def _load_walk_template(self):
-        TEMPLATE_MAP_WALK_OUT_OF_STEP.image = info_letter_preprocess(TEMPLATE_MAP_WALK_OUT_OF_STEP.image)
-        return True
 
     def ambush_color_initial(self):
         MAP_AMBUSH.load_color(self.device.image)
@@ -52,7 +44,6 @@ class AmbushHandler(Combat):
 
     def _handle_ambush_evade(self):
         logger.info('Map ambushed')
-        _ = self._load_ambush_template
         self.wait_until_appear_then_click(MAP_AMBUSH_EVADE)
 
         self.wait_until_appear(INFO_BAR_1)
@@ -119,7 +110,6 @@ class AmbushHandler(Combat):
         if not self.appear(INFO_BAR_1):
             return False
 
-        _ = self._load_walk_template
         image = info_letter_preprocess(np.array(self.image_crop(INFO_BAR_DETECT)))
         if TEMPLATE_MAP_WALK_OUT_OF_STEP.match(image):
             logger.warning('Map walk out of step.')

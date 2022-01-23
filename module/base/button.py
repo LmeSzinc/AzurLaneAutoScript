@@ -6,10 +6,11 @@ from PIL import ImageDraw
 
 import module.config.server as server
 from module.base.decorator import cached_property
+from module.base.resource import Resource
 from module.base.utils import *
 
 
-class Button:
+class Button(Resource):
     def __init__(self, area, color, button, file=None, name=None):
         """Initialize a Button instance.
 
@@ -49,6 +50,8 @@ class Button:
             self.is_gif = os.path.splitext(self.file)[1] == '.gif'
         else:
             self.is_gif = False
+
+        self.resource_add(key=self.file)
 
     def __str__(self):
         return self.name
@@ -130,6 +133,10 @@ class Button:
             else:
                 self.image = load_image(self.file, self.area)
             self._match_init = True
+
+    def resource_release(self):
+        self.image = None
+        self._match_init = False
 
     def match(self, image, offset=30, threshold=0.85):
         """Detects button by template matching. To Some button, its location may not be static.

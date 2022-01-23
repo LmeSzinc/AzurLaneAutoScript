@@ -1,7 +1,7 @@
 from random import choice
 
 import numpy as np
-from module.base.decorator import cached_property
+
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1
 from module.handler.assets import INFO_BAR_DETECT
@@ -12,6 +12,9 @@ from module.retire.dock import Dock, CARD_GRIDS
 from module.template.assets import TEMPLATE_ENHANCE_SUCCESS, TEMPLATE_ENHANCE_FAILED, TEMPLATE_ENHANCE_IN_BATTLE
 
 VALID_SHIP_TYPES = ['dd', 'ss', 'cl', 'ca', 'bb', 'cv', 'repair', 'others']
+TEMPLATE_ENHANCE_SUCCESS.pre_process = info_letter_preprocess
+TEMPLATE_ENHANCE_FAILED.pre_process = info_letter_preprocess
+TEMPLATE_ENHANCE_IN_BATTLE.pre_process = info_letter_preprocess
 
 
 class Enhancement(Dock):
@@ -22,13 +25,6 @@ class Enhancement(Dock):
         if self.config.Retirement_RetireAmount == 'retire_10':
             return 10
         return 2000
-
-    @cached_property
-    def _load_enhance_template(self):
-        TEMPLATE_ENHANCE_SUCCESS.image = info_letter_preprocess(TEMPLATE_ENHANCE_SUCCESS.image)
-        TEMPLATE_ENHANCE_FAILED.image = info_letter_preprocess(TEMPLATE_ENHANCE_FAILED.image)
-        TEMPLATE_ENHANCE_IN_BATTLE.image = info_letter_preprocess(TEMPLATE_ENHANCE_IN_BATTLE.image)
-        return True
 
     def _enhance_enter(self, favourite=False, ship_type=None):
         """
@@ -133,7 +129,6 @@ class Enhancement(Dock):
             True if able to enhance otherwise False
             Always paired with current ship_count
         """
-        _ = self._load_enhance_template
         skip_until_ensured = True
         enhanced = False
         while 1:

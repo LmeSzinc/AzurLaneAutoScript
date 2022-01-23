@@ -315,30 +315,36 @@ class AzurLaneAutoScript:
         Returns:
             str: Name of the next task.
         """
-        from module.base.memory_opt import release_memory_after_task, release_memory_when_idle
-        release_memory_after_task()
+
         task = self.config.get_next()
         self.config.task = task
         self.config.bind(task)
 
+        from module.base.resource import release_resources
+        if self.config.task.command != 'Alas':
+            release_resources(next_task=task.command)
+
         if task.next_run > datetime.now():
-            release_memory_when_idle()
             logger.info(f'Wait until {task.next_run} for task `{task.command}`')
             method = self.config.Optimization_WhenTaskQueueEmpty
             if method == 'close_game':
                 logger.info('Close game during wait')
                 self.device.app_stop()
+                release_resources()
                 self.wait_until(task.next_run)
                 self.run('start')
             elif method == 'goto_main':
                 logger.info('Goto main page during wait')
                 self.run('goto_main')
+                release_resources()
                 self.wait_until(task.next_run)
             elif method == 'stay_there':
                 logger.info('Stay there during wait')
+                release_resources()
                 self.wait_until(task.next_run)
             else:
                 logger.warning(f'Invalid Optimization_WhenTaskQueueEmpty: {method}, fallback to stay_there')
+                release_resources()
                 self.wait_until(task.next_run)
 
         AzurLaneConfig.is_hoarding_task = False
