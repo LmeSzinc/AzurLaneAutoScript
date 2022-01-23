@@ -27,7 +27,7 @@ class Template:
             if self.is_gif:
                 self._image = []
                 for image in imageio.mimread(self.file):
-                    image = image[:, :, :3] if len(image.shape) == 3 else image
+                    image = image[:, :, :3].copy() if len(image.shape) == 3 else image
                     self._image += [image, cv2.flip(image, 1)]
             else:
                 self._image = load_image(self.file)

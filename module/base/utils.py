@@ -352,31 +352,25 @@ def location2node(location):
     return chr(location[0] + 64 + 1) + str(location[1] + 1)
 
 
-def load_image(file):
+def load_image(file, area=None):
     """
     Load an image like pillow and drop alpha channel.
 
     Args:
         file (str):
+        area (tuple):
 
     Returns:
         np.ndarray:
     """
-    image = np.array(Image.open(file))
+    image = Image.open(file)
+    if area is not None:
+        image = image.crop(area)
+    image = np.array(image)
     channel = image.shape[2] if len(image.shape) > 2 else 1
     if channel > 3:
-        image = image[:, :, :3]
+        image = image[:, :, :3].copy()
     return image
-
-
-    # image = cv2.imread(file)
-    # channel = image.shape[2] if len(image.shape) > 2 else 1
-    # if channel > 3:
-    #     image = image[:, :, :3]
-    #     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    # elif channel == 3:
-    #     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    # return image
 
 
 def save_image(image, file):
@@ -408,7 +402,7 @@ def crop(image, area):
     h, w = image.shape[:2]
     border = np.maximum((0 - y1, y2 - h, 0 - x1, x2 - w), 0)
     x1, y1, x2, y2 = np.maximum((x1, y1, x2, y2), 0)
-    image = image[y1:y2, x1:x2]
+    image = image[y1:y2, x1:x2].copy()
     if sum(border) > 0:
         image = cv2.copyMakeBorder(image, *border, borderType=cv2.BORDER_CONSTANT, value=(0, 0, 0))
     return image

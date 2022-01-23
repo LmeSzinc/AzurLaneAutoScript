@@ -2,7 +2,7 @@ import os
 import traceback
 
 import imageio
-from PIL import Image, ImageDraw
+from PIL import ImageDraw
 
 import module.config.server as server
 from module.base.decorator import cached_property
@@ -124,11 +124,11 @@ class Button:
             if self.is_gif:
                 self.image = []
                 for image in imageio.mimread(self.file):
-                    image = image[:, :, :3] if len(image.shape) == 3 else image
+                    image = image[:, :, :3].copy() if len(image.shape) == 3 else image
                     image = crop(image, self.area)
                     self.image.append(image)
             else:
-                self.image = crop(load_image(self.file), self.area)
+                self.image = load_image(self.file, self.area)
             self._match_init = True
 
     def match(self, image, offset=30, threshold=0.85):
