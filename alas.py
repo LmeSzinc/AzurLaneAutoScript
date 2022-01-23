@@ -315,11 +315,14 @@ class AzurLaneAutoScript:
         Returns:
             str: Name of the next task.
         """
+        from module.base.memory_opt import release_memory_after_task, release_memory_when_idle
+        release_memory_after_task()
         task = self.config.get_next()
         self.config.task = task
         self.config.bind(task)
 
         if task.next_run > datetime.now():
+            release_memory_when_idle()
             logger.info(f'Wait until {task.next_run} for task `{task.command}`')
             method = self.config.Optimization_WhenTaskQueueEmpty
             if method == 'close_game':

@@ -1,5 +1,3 @@
-from PIL import Image
-
 from module.base.button import Button
 from module.base.timer import Timer
 from module.base.utils import *
