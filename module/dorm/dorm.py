@@ -1,8 +1,6 @@
 import re
 import time
 
-from PIL import Image
-
 from module.base.button import ButtonGrid
 from module.base.decorator import Config, cached_property
 from module.base.filter import Filter
@@ -52,7 +50,6 @@ class RewardDorm(UI):
             out: page_dorm, with info_bar
         """
         image = MASK_DORM.apply(np.array(self.device.image))
-        image = Image.fromarray(image)
         loves = TEMPLATE_DORM_LOVE.match_multi(image, name='DORM_LOVE')
         coins = TEMPLATE_DORM_COIN.match_multi(image, name='DORM_COIN')
         logger.info(f'Dorm loves: {len(loves)}, Dorm coins: {len(coins)}')
@@ -181,7 +178,7 @@ class RewardDorm(UI):
         return Digit(grids.buttons, letter=(255, 255, 255), threshold=128, name='OCR_DORM_FOOD')
 
     def _dorm_has_food(self, button):
-        return np.min(rgb2gray(np.array(self.image_area(button)))) < 127
+        return np.min(rgb2gray(np.array(self.image_crop(button)))) < 127
 
     def _dorm_feed_click(self, button, count):
         """

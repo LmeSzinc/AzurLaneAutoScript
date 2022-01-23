@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from PIL import ImageStat
+from PIL import Image
 
 
 def random_normal_distribution_int(a, b, n=3):
@@ -352,8 +352,50 @@ def location2node(location):
     return chr(location[0] + 64 + 1) + str(location[1] + 1)
 
 
+def load_image(file):
+    """
+    Load an image like pillow and drop alpha channel.
+
+    Args:
+        file (str):
+
+    Returns:
+        np.ndarray:
+    """
+    image = np.array(Image.open(file))
+    channel = image.shape[2] if len(image.shape) > 2 else 1
+    if channel > 3:
+        image = image[:, :, :3]
+    return image
+
+
+    # image = cv2.imread(file)
+    # channel = image.shape[2] if len(image.shape) > 2 else 1
+    # if channel > 3:
+    #     image = image[:, :, :3]
+    #     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    # elif channel == 3:
+    #     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    # return image
+
+
+def save_image(image, file):
+    """
+    Save an image like pillow.
+
+    Args:
+        image (np.ndarray):
+        file (str):
+    """
+    # image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+    # cv2.imwrite(file, image)
+    Image.fromarray(image).save(file)
+
+
 def crop(image, area):
-    """Crop image like pillow, when using opencv / numpy
+    """
+    Crop image like pillow, when using opencv / numpy.
+    Provides a black background if cropping outside of image.
 
     Args:
         image (np.ndarray):
@@ -362,11 +404,52 @@ def crop(image, area):
     Returns:
         np.ndarray:
     """
-    x1, y1, x2, y2 = area
+    x1, y1, x2, y2 = map(int, map(round, area))
     h, w = image.shape[:2]
     border = np.maximum((0 - y1, y2 - h, 0 - x1, x2 - w), 0)
     x1, y1, x2, y2 = np.maximum((x1, y1, x2, y2), 0)
-    return cv2.copyMakeBorder(image[y1:y2, x1:x2], *border, borderType=cv2.BORDER_CONSTANT, value=(0, 0, 0))
+    image = image[y1:y2, x1:x2]
+    if sum(border) > 0:
+        image = cv2.copyMakeBorder(image, *border, borderType=cv2.BORDER_CONSTANT, value=(0, 0, 0))
+    return image
+
+
+def resize(image, size):
+    """
+    Resize image like pillow image.resize(), but implement in opencv.
+    Pillow uses PIL.Image.NEAREST by default.
+
+    Args:
+        image (np.ndarray):
+        size: (x, y)
+
+    Returns:
+        np.ndarray:
+    """
+    return cv2.resize(image, size, interpolation=cv2.INTER_NEAREST)
+
+
+def image_channel(image):
+    """
+    Args:
+        image (np.ndarray):
+
+    Returns:
+        int: 0 for grayscale, 3 for RGB.
+    """
+    return image.shape[2] if len(image.shape) == 3 else 0
+
+
+def image_size(image):
+    """
+    Args:
+        image (np.ndarray):
+
+    Returns:
+        int, int: width, height
+    """
+    shape = image.shape
+    return shape[1], shape[0]
 
 
 def rgb2gray(image):
@@ -404,15 +487,15 @@ def get_color(image, area):
     """Calculate the average color of a particular area of the image.
 
     Args:
-        image (PIL.Image.Image): Screenshot.
+        image (np.ndarray): Screenshot.
         area (tuple): (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y)
 
     Returns:
         tuple: (r, g, b)
     """
-    temp = image.crop(area)
-    stat = ImageStat.Stat(temp)
-    return np.array(stat.mean)
+    temp = crop(image, area)
+    color = cv2.mean(temp)
+    return color[:3]
 
 
 def color_similarity(color1, color2):
@@ -566,7 +649,7 @@ def color_bar_percentage(image, area, prev_color, reverse=False, starter=0, thre
     Returns:
         float: 0 to 1.
     """
-    image = np.array(image.crop(area))
+    image = crop(image, area)
     image = image[:, ::-1, :] if reverse else image
     length = image.shape[1]
     prev_index = starter

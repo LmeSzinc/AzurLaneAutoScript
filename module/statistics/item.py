@@ -35,7 +35,9 @@ class Item:
         """
         self.image_raw = image
         self._button = button
-        image = np.array(image.crop(button.area))
+        image = crop(image, button.area)
+        from PIL import Image
+        Image.fromarray(image).crop()
         if image.shape == self.IMAGE_SHAPE:
             self.image = image
         else:
@@ -93,7 +95,7 @@ class Item:
         return self._button.button
 
     def crop(self, area):
-        return self.image_raw.crop(area_offset(area, offset=self._button.area[:2]))
+        return crop(self.image_raw, area_offset(area, offset=self._button.area[:2]))
 
     def __eq__(self, other):
         return self.name == other
@@ -228,7 +230,7 @@ class ItemGrid:
         for item in self.items:
             name = self.match_template(item.image)
             if name not in prev:
-                new[name] = Image.fromarray(item.image)
+                new[name] = item.image
 
         return new
 
@@ -242,7 +244,7 @@ class ItemGrid:
         Returns:
             str: Template name.
         """
-        image = np.array(item.crop(self.cost_area))
+        image = item.crop(self.cost_area)
         names = np.array(list(self.cost_templates.keys()))[np.argsort(list(self.cost_templates_hit.values()))][::-1]
         for name in names:
             res = cv2.matchTemplate(image, self.cost_templates[name], cv2.TM_CCOEFF_NORMED)
@@ -254,7 +256,7 @@ class ItemGrid:
         # self.next_cost_template_index += 1
         # name = str(self.next_cost_template_index)
         # logger.info(f'New template: {name}')
-        # self.cost_templates[name] = np.array(item.crop(self.cost_area))
+        # self.cost_templates[name] = item.crop(self.cost_area)
         # self.cost_templates_hit[name] = self.cost_templates_hit.get(name, 0) + 1
         # return name
 

@@ -43,7 +43,7 @@ class RewardCommission(UI, InfoHandler):
         commission = []
         # Find white lines under each commission to locate them.
         # (597, 0, 619, 720) is somewhere with white lines only.
-        color_height = np.mean(image.crop((597, 0, 619, 720)).convert('L'), axis=1)
+        color_height = np.mean(rgb2gray(crop(image, (597, 0, 619, 720))), axis=1)
         parameters = {'height': 200, 'distance': 100}
         peaks, _ = signal.find_peaks(color_height, **parameters)
         # 67 is the height of commission list header

@@ -15,7 +15,7 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
         Returns:
             bool:
         """
-        return self.appear(PAUSE) and np.max(self.image_area(PAUSE_DOUBLE_CHECK)) < 153
+        return self.appear(PAUSE) and np.max(self.image_crop(PAUSE_DOUBLE_CHECK)) < 153
 
     def _combat_preparation(self):
         logger.info('Combat preparation')

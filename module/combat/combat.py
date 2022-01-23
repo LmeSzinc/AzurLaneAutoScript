@@ -72,7 +72,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         Returns:
             bool:
         """
-        similarity, button = TEMPLATE_COMBAT_LOADING.match_result(self.image_area((0, 620, 1280, 720)))
+        similarity, button = TEMPLATE_COMBAT_LOADING.match_result(self.image_crop((0, 620, 1280, 720)))
         if similarity > 0.85:
             loading = (button.area[0] + 38 - LOADING_BAR.area[0]) / (LOADING_BAR.area[2] - LOADING_BAR.area[0])
             logger.attr('Loading', f'{int(loading * 100)}%')
@@ -85,7 +85,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         Returns:
             bool:
         """
-        return self.appear(PAUSE) and np.max(self.image_area(PAUSE_DOUBLE_CHECK)) < 153
+        return self.appear(PAUSE) and np.max(self.image_crop(PAUSE_DOUBLE_CHECK)) < 153
 
     def ensure_combat_oil_loaded(self):
         self.wait_until_stable(COMBAT_OIL_LOADING)

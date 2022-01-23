@@ -69,8 +69,10 @@ class Uiautomator2(Connection):
 
     @retry
     def screenshot_uiautomator2(self):
-        image = self.u2.screenshot()
-        # u2 already converted to RGB
+        image = self.u2.screenshot(format='raw')
+        image = np.fromstring(image, np.uint8)
+        image = cv2.imdecode(image, cv2.IMREAD_COLOR)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         return image
 
     @retry

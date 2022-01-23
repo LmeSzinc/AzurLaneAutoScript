@@ -1,11 +1,10 @@
 import numpy as np
-from PIL import ImageStat
 from scipy import signal
 
 from module.base.base import ModuleBase
 from module.base.button import Button
 from module.base.timer import Timer
-from module.base.utils import area_offset, color_similarity_2d, rgb2gray
+from module.base.utils import *
 from module.logger import logger
 from module.map.assets import *
 
@@ -37,16 +36,17 @@ class FleetOperator:
     def parse_fleet_bar(self, image):
         """
         Args:
-            image (PIL.Image.Image): Image of dropdown menu.
+            image (np.ndarray): Image of dropdown menu.
 
         Returns:
             list: List of int. Currently selected fleet ranges from 1 to 6.
         """
+        width, height = image_size(image)
         result = []
-        for index, y in enumerate(range(0, image.size[1], self.FLEET_BAR_SHAPE_Y + self.FLEET_BAR_MARGIN_Y)):
-            area = (0, y, image.size[0], y + self.FLEET_BAR_SHAPE_Y)
-            stat = ImageStat.Stat(image.crop(area))
-            if np.std(stat.mean, ddof=1) > self.FLEET_BAR_ACTIVE_STD:
+        for index, y in enumerate(range(0, height, self.FLEET_BAR_SHAPE_Y + self.FLEET_BAR_MARGIN_Y)):
+            area = (0, y, width, y + self.FLEET_BAR_SHAPE_Y)
+            mean = get_color(image, area)
+            if np.std(mean, ddof=1) > self.FLEET_BAR_ACTIVE_STD:
                 result.append(index + 1)
         logger.info('Current selected: %s' % str(result))
         return result
@@ -173,7 +173,7 @@ class FleetOperator:
         Returns:
             list: List of int. Currently selected fleet ranges from 1 to 6.
         """
-        data = self.parse_fleet_bar(self.main.device.image.crop(self._bar.area))
+        data = self.parse_fleet_bar(self.main.image_crop(self._bar))
         return data
 
     def in_use(self):
@@ -187,7 +187,7 @@ class FleetOperator:
 
         # Cropping FLEET_*_IN_USE to avoid detecting info_bar, also do the trick.
         # It also avoids wasting time on handling the info_bar.
-        image = rgb2gray(np.array(self.main.image_area(self._in_use)))
+        image = rgb2gray(np.array(self.main.image_crop(self._in_use)))
         return np.std(image.flatten(), ddof=1) > self.FLEET_IN_USE_STD
 
     def bar_opened(self):
@@ -196,7 +196,7 @@ class FleetOperator:
             bool: If dropdown menu appears.
         """
         # Check the brightness of the rightest column of the bar area.
-        luma = rgb2gray(np.array(self.main.image_area(self._bar)))[:, -1]
+        luma = rgb2gray(np.array(self.main.image_crop(self._bar)))[:, -1]
         return np.sum(luma > 127) / luma.size > 0.5
 
     def ensure_to_be(self, index):
@@ -227,7 +227,7 @@ class FleetPreparation(ModuleBase):
             bool:
         """
         area = (208, 130, 226, 551)
-        image = color_similarity_2d(self.image_area(area), color=(249, 199, 0))
+        image = color_similarity_2d(self.image_crop(area), color=(249, 199, 0))
         height = np.max(image, axis=1)
         parameters = {'height': 180, 'distance': 5}
         peaks, _ = signal.find_peaks(height, **parameters)

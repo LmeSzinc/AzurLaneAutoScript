@@ -1,26 +1,18 @@
 import cv2
 import numpy as np
-from PIL import Image
 
 from module.base.template import Template
-
-
-def get_image_channel(image):
-    """
-    Args:
-        image (np.ndarray):
-
-    Returns:
-        int: 0 for monochrome, 3 for RGB.
-    """
-    return 3 if len(image.shape) == 3 else 0
+from module.base.utils import load_image, rgb2gray, image_channel
 
 
 class Mask(Template):
     @property
     def image(self):
         if self._image is None:
-            self._image = np.array(Image.open(self.file).convert('L'))
+            image = load_image(self.file)
+            if image_channel(image) == 3:
+                image = rgb2gray(image)
+            self._image = image
 
         return self._image
 
@@ -36,15 +28,15 @@ class Mask(Template):
         Returns:
             bool: If changed.
         """
-        image_channel = get_image_channel(self.image)
+        mask_channel = image_channel(self.image)
         if channel == 0:
-            if image_channel == 0:
+            if mask_channel == 0:
                 return False
             else:
                 self._image, _, _ = cv2.split(self._image)
                 return True
         else:
-            if image_channel == 0:
+            if mask_channel == 0:
                 self._image = cv2.merge([self._image] * 3)
                 return True
             else:
@@ -61,5 +53,5 @@ class Mask(Template):
             np.ndarray:
         """
         image = np.array(image)
-        self.set_channel(get_image_channel(image))
+        self.set_channel(image_channel(image))
         return cv2.bitwise_and(image, self.image)

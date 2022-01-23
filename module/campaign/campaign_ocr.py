@@ -184,7 +184,7 @@ class CampaignOcr(ModuleBase):
         self.stage_entrance: dict. Key, str, stage name. Value, Button, button to enter stage.
 
         Args:
-            image (PIL.Image.Image):
+            image (np.ndarray):
         """
         self.stage_entrance = {}
         buttons = self.campaign_extract_name_image(image)

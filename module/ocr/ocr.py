@@ -94,13 +94,21 @@ class Ocr:
         return result
 
     def ocr(self, image, direct_ocr=False):
+        """
+        Args:
+            image (np.ndarray, list[np.ndarray]):
+            direct_ocr (bool): True to skip preprocess.
+
+        Returns:
+
+        """
         start_time = time.time()
 
         self.cnocr.set_cand_alphabet(self.alphabet)
         if direct_ocr:
-            image_list = [self.pre_process(np.array(i)) for i in image]
+            image_list = [self.pre_process(i) for i in image]
         else:
-            image_list = [self.pre_process(np.array(image.crop(area))) for area in self.buttons]
+            image_list = [self.pre_process(crop(image, area)) for area in self.buttons]
 
         # This will show the images feed to OCR model
         # self.cnocr.debug(image_list)

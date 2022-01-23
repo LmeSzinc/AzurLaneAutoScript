@@ -88,6 +88,7 @@ class AzurLaneAutoScript:
         Save last 60 screenshots in ./log/error/<timestamp>
         Save logs to ./log/error/<timestamp>/log.txt
         """
+        from module.base.utils import save_image
         from module.handler.sensitive_info import handle_sensitive_image, handle_sensitive_logs
         if self.config.Error_SaveError:
             if not os.path.exists('./log/error'):
@@ -98,7 +99,7 @@ class AzurLaneAutoScript:
             for data in self.device.screenshot_deque:
                 image_time = datetime.strftime(data['time'], '%Y-%m-%d_%H-%M-%S-%f')
                 image = handle_sensitive_image(data['image'])
-                image.save(f'{folder}/{image_time}.png')
+                save_image(image, f'{folder}/{image_time}.png')
             with open(logger.log_file, 'r', encoding='utf-8') as f:
                 lines = f.readlines()
                 start = 0

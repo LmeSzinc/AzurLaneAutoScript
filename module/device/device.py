@@ -44,7 +44,7 @@ class Device(Screenshot, Control, AppControl):
     def screenshot(self):
         """
         Returns:
-            PIL.Image.Image:
+            np.ndarray:
         """
         self.stuck_record_check()
         super().screenshot()

@@ -36,7 +36,7 @@ class GetItemsStatistics:
         Returns:
             bool: If the number of items in row is odd.
         """
-        image = np.array(image.crop(GET_ITEMS_ODD.area))
+        image = crop(image, GET_ITEMS_ODD.area)
         return np.mean(rgb2gray(image) > 127) > 0.1
 
     def _stats_get_items_load(self, image):
@@ -85,11 +85,11 @@ class GetItemsStatistics:
     def extract_template(self, image, folder):
         """
         Args:
-            image: Pillow image.
+            image:
             folder: Folder to save new templates.
         """
         self._stats_get_items_load(image)
         if ITEM_GROUP.grids is not None:
             new = ITEM_GROUP.extract_template(image)
             for name, im in new.items():
-                im.save(os.path.join(folder, f'{name}.png'))
+                cv2.imwrite(os.path.join(folder, f'{name}.png'), im)

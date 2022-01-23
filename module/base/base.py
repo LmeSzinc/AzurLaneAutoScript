@@ -123,16 +123,16 @@ class ModuleBase:
                 logger.warning(f'wait_until_stable({button}) timeout')
                 break
 
-    def image_area(self, button):
+    def image_crop(self, button):
         """Extract the area from image.
 
         Args:
             button(Button, tuple): Button instance or area tuple.
         """
         if isinstance(button, Button):
-            return self.device.image.crop(button.area)
+            return crop(self.device.image, button.area)
         else:
-            return self.device.image.crop(button)
+            return crop(self.device.image, button)
 
     def image_color_count(self, button, color, threshold=221, count=50):
         """
@@ -145,10 +145,7 @@ class ModuleBase:
         Returns:
             bool:
         """
-        if isinstance(button, Button):
-            image = self.device.image.crop(button.area)
-        else:
-            image = self.device.image.crop(button)
+        image = self.image_crop(button)
         mask = color_similarity_2d(image, color=color) > threshold
         return np.sum(mask) > count
 
@@ -173,9 +170,9 @@ class ModuleBase:
         Load image from local file system and set it to self.device.image
         Test an image without taking a screenshot from emulator.
         """
-        if isinstance(value, np.ndarray):
-            value = Image.fromarray(value)
+        if isinstance(value, Image.Image):
+            value = np.array(value)
         elif isinstance(value, str):
-            value = Image.open(value).convert('RGB')
+            value = load_image(value)
 
         self.device.image = value

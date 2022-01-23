@@ -213,7 +213,7 @@ class InfoHandler(ModuleBase):
         Returns:
             list[Button]: List of story options, from upper to bottom. If no option found, return an empty list.
         """
-        image = color_similarity_2d(self.image_area(self._story_option_area), color=self._story_option_color) > 225
+        image = color_similarity_2d(self.image_crop(self._story_option_area), color=self._story_option_color) > 225
         x_count = np.where(np.sum(image, axis=0) > 40)[0]
         if not len(x_count):
             return []

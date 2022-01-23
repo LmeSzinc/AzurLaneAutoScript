@@ -1,35 +1,20 @@
 import io
 import json
+import os
 import time
 
-import cv2
-import numpy as np
 import requests
+from PIL import Image
 from requests.adapters import HTTPAdapter
 
+from module.base.utils import save_image
 from module.config.config import AzurLaneConfig
 from module.logger import logger
-from module.statistics.utils import *
-
-
-def pack(img_list):
-    """
-    Stack images vertically.
-
-    Args:
-        img_list (list): List of pillow image
-
-    Returns:
-        Pillow image
-    """
-    img_list = [np.array(i) for i in img_list]
-    image = cv2.vconcat(img_list)
-    image = Image.fromarray(image, mode='RGB')
-    return image
+from module.statistics.utils import pack
 
 
 class DropImage:
-    def __init__(self, stat, genre, save, upload):
+    def __init__(self, stat, genre, save, upload, info=''):
         """
         Args:
             stat (AzurStats):
@@ -41,6 +26,7 @@ class DropImage:
         self.genre = str(genre)
         self.save = bool(save)
         self.upload = bool(upload)
+        self.info = info
         self.images = []
 
     def add(self, image):
@@ -76,7 +62,7 @@ class DropImage:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         if self:
-            self.stat.commit(images=self.images, genre=self.genre, save=self.save, upload=self.upload)
+            self.stat.commit(images=self.images, genre=self.genre, save=self.save, upload=self.upload, info=self.info)
 
 
 class AzurStats:
@@ -93,21 +79,21 @@ class AzurStats:
     def _user_agent(self):
         return f'Alas ({str(self.config.DropRecord_AzurStatsID)})'
 
-    def _upload(self, image, genre, timestamp):
+    def _upload(self, image, genre, filename):
         """
         Args:
             image: Image to upload.
             genre (str):
-            timestamp (int): Millisecond timestamp.
+            filename (str): 'xxx.png'
 
         Returns:
             bool: If success
         """
         output = io.BytesIO()
-        image.save(output, format='png')
+        Image.fromarray(image, mode='RGB').save(output, format='png')
         output.seek(0)
 
-        data = {'file': (f'{timestamp}.png', output, 'image/png')}
+        data = {'file': (filename, output, 'image/png')}
         headers = {'user-agent': self._user_agent()}
         session = requests.Session()
         session.mount('http://', HTTPAdapter(max_retries=5))
@@ -133,12 +119,12 @@ class AzurStats:
                        f'status_code: {resp.status_code}, returns: {resp.text}')
         return False
 
-    def _save(self, image, genre, timestamp):
+    def _save(self, image, genre, filename):
         """
         Args:
             image: Image to save.
             genre (str): Name of sub folder.
-            timestamp (int): Millisecond timestamp.
+            filename (str): 'xxx.png'
 
         Returns:
             bool: If success
@@ -146,8 +132,8 @@ class AzurStats:
         try:
             folder = os.path.join(str(self.config.DropRecord_SaveFolder), genre)
             os.makedirs(folder, exist_ok=True)
-            file = os.path.join(folder, f'{timestamp}.png')
-            image.save(file)
+            file = os.path.join(folder, filename)
+            save_image(image, file)
             logger.info(f'Image save success, file: {file}')
             return True
         except Exception as e:
@@ -155,13 +141,14 @@ class AzurStats:
 
         return False
 
-    def commit(self, images, genre, save=False, upload=False):
+    def commit(self, images, genre, save=False, upload=False, info=''):
         """
         Args:
             images (list): List of pillow images
             genre (str):
             save (bool): If save image to local file system.
             upload (bool): If upload image to Azur Stats.
+            info (str): Extra info append to filename.
 
         Returns:
             bool: If commit.
@@ -174,21 +161,27 @@ class AzurStats:
         image = pack(images)
         now = int(time.time() * 1000)
 
+        if info:
+            filename = f'{now}_{info}.png'
+        else:
+            filename = f'{now}.png'
+
         if save:
-            self._save(image, genre=genre, timestamp=now)
+            self._save(image, genre=genre, filename=filename)
         if upload:
-            self._upload(image, genre=genre, timestamp=now)
+            self._upload(image, genre=genre, filename=filename)
 
         return True
 
-    def new(self, genre, save=False, upload=False):
+    def new(self, genre, save=False, upload=False, info=''):
         """
         Args:
             genre (str):
             save (bool): If save image to local file system.
             upload (bool): If upload image to Azur Stats.
+            info (str): Extra info append to filename.
 
         Returns:
             DropImage:
         """
-        return DropImage(stat=self, genre=genre, save=save, upload=upload)
+        return DropImage(stat=self, genre=genre, save=save, upload=upload, info=info)

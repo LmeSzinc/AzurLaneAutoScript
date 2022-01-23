@@ -1,7 +1,6 @@
 import os
 
 import lz4.block
-from PIL import Image
 from adbutils.errors import AdbError
 
 from module.base.utils import *
@@ -139,7 +138,6 @@ class AScreenCap(Connection):
         image = cv2.flip(image, 0)
 
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        image = Image.fromarray(image)
         return image
 
     def __process_screenshot(self, screenshot):

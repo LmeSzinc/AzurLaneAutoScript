@@ -105,7 +105,7 @@ class StrategyHandler(InfoHandler):
         Returns:
             int: Formation index.
         """
-        image = np.array(self.image_area(MAP_BUFF))
+        image = np.array(self.image_crop(MAP_BUFF))
         if TEMPLATE_FORMATION_2.match(image):
             buff = 'double_line'
         elif TEMPLATE_FORMATION_1.match(image):

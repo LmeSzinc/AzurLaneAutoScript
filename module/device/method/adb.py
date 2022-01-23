@@ -1,7 +1,7 @@
 import re
-from io import BytesIO
 
-from PIL import Image
+import cv2
+import numpy as np
 from adbutils.errors import AdbError
 
 from module.device.connection import Connection
@@ -57,7 +57,10 @@ class Adb(Connection):
         else:
             raise ScriptError(f'Unknown method to load screenshots: {method}')
 
-        return Image.open(BytesIO(screenshot)).convert('RGB')
+        image = np.fromstring(screenshot, np.uint8)
+        image = cv2.imdecode(image, cv2.IMREAD_COLOR)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        return image
 
     def __process_screenshot(self, screenshot):
         for method in self.__screenshot_method_fixed:

@@ -49,7 +49,7 @@ def get_research_series(image):
     -------               ---    v
 
     Args:
-        image (PIL.Image.Image):
+        image (np.ndarray):
 
     Returns:
         list[int]: Such as [1, 1, 1, 2, 3]
@@ -62,7 +62,7 @@ def get_research_series(image):
     parameters = {'height': 160, 'prominence': 50}
 
     for button in RESEARCH_SERIES:
-        im = color_similarity_2d(image.crop(button.area).resize((46, 25)), color=(255, 255, 255))
+        im = color_similarity_2d(resize(crop(image, button.area), (46, 25)), color=(255, 255, 255))
         peaks = [len(signal.find_peaks(row, **parameters)[0]) for row in im[5:-5]]
         upper, lower = max(peaks), min(peaks)
         # print(peaks)
@@ -81,7 +81,7 @@ def get_research_series(image):
 def get_research_name(image):
     """
     Args:
-        image (PIL.Image.Image):
+        image (np.ndarray):
 
     Returns:
         list[str]: Such as ['D-057-UL', 'D-057-UL', 'D-057-UL', 'D-057-UL', 'D-057-UL']
@@ -137,8 +137,8 @@ def parse_time(string):
 def match_template(image, template, area, offset=30, threshold=0.85):
     """
     Args:
-        image (PIL.Image.Image): Screenshot
-        template (PIL.Image.Image):
+        image (np.ndarray): Screenshot
+        template (np.ndarray):
         area (tuple): Crop area of image.
         offset (int, tuple): Detection area offset.
         threshold (float): 0-1. Similarity. Lower than this value will return float(0).
@@ -149,7 +149,7 @@ def match_template(image, template, area, offset=30, threshold=0.85):
         offset = np.array((-offset[0], -offset[1], offset[0], offset[1]))
     else:
         offset = np.array((0, -offset, 0, offset))
-    image = np.array(image.crop(offset + area))
+    image = crop(image, offset + area)
     template = np.array(template)
     res = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
     _, sim, _, point = cv2.minMaxLoc(res)
@@ -162,7 +162,7 @@ def get_research_series_jp(image):
     Almost the same as get_research_series except the button area.
 
     Args:
-        image (PIL.Image.Image): Screenshot
+        image (np.ndarray): Screenshot
 
     Returns:
         series (string):
@@ -172,7 +172,7 @@ def get_research_series_jp(image):
 
     area = SERIES_DETAIL.area
     # Resize is not needed because only one area will be checked in JP server.
-    im = color_similarity_2d(image.crop(area), color=(255, 255, 255))
+    im = color_similarity_2d(crop(image, area), color=(255, 255, 255))
     peaks = [len(signal.find_peaks(row, **parameters)[0]) for row in im[2:-2]]
     upper, lower = max(peaks), min(peaks)
     # print(upper, lower)
@@ -190,7 +190,7 @@ def get_research_series_jp(image):
 def get_research_duration_jp(image):
     """
     Args:
-        image (PIL.Image.Image): Screenshot
+        image (np.ndarray): Screenshot
 
     Returns:
         duration (int): number of seconds
@@ -203,7 +203,7 @@ def get_research_duration_jp(image):
 def get_research_genre_jp(image):
     """
     Args:
-        image (PIL.Image.Image): Screenshot
+        image (np.ndarray): Screenshot
 
     Returns:
         genre (string):
@@ -227,7 +227,7 @@ def get_research_cost_jp(image):
     so simply setting a lower threshold while matching can do the job.
     
     Args:
-        image (PIL.Image.Image): Screenshot
+        image (np.ndarray): Screenshot
 
     Returns:
         costs (string): dict
@@ -238,7 +238,8 @@ def get_research_cost_jp(image):
     templates = load_folder(folder)
     costs = {'coin': False, 'cube': False, 'plate': False}
     for name, template in templates.items():
-        template = load_image(template).resize(size=size_template).crop(area_template)
+        template = load_image(template)
+        template = crop(resize(template, size_template), area_template)
         sim = match_template(image=image,
                              template=template,
                              area=DETAIL_COST.area,
@@ -264,7 +265,7 @@ def get_research_ship_jp(image):
     so the button DETAIL_BLUEPRINT should not cover only the first one of 4 items.
     
     Args:
-        image (PIL.Image.Image): Screenshot
+        image (np.ndarray): Screenshot
 
     Returns:
         ship (string):
@@ -290,7 +291,7 @@ def get_research_ship_jp(image):
 def research_jp_detect(image):
     """
     Args:
-        image (PIL.Image.Image): Screenshot
+        image (np.ndarray): Screenshot
             
     Return:
         project (ResearchProjectJp):
@@ -527,7 +528,7 @@ class ResearchSelector(UI):
         Adding this argument is just to eusure all "research_detect" have the same arguments.
 
         Args:
-            image (PIL.Image.Image): Screenshots
+            image (np.ndarray): Screenshots
         """
         projects = []
         proj_sorted = []
@@ -560,7 +561,7 @@ class ResearchSelector(UI):
     def research_detect(self, image):
         """
         Args:
-            image (PIL.Image.Image): Screenshots
+            image (np.ndarray): Screenshots
         """
         projects = []
         for name, series in zip(get_research_name(image), get_research_series(image)):

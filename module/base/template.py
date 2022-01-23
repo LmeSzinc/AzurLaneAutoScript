@@ -1,7 +1,6 @@
 import os
 
 import imageio
-from PIL import Image
 
 import module.config.server as server
 from module.base.button import Button
@@ -31,7 +30,7 @@ class Template:
                     image = image[:, :, :3] if len(image.shape) == 3 else image
                     self._image += [image, cv2.flip(image, 1)]
             else:
-                self._image = np.array(Image.open(self.file))
+                self._image = load_image(self.file)
 
         return self._image
 
@@ -86,7 +85,7 @@ class Template:
             name = self.name
         area = area_offset(area=(0, 0, *self.size), offset=point)
         button = Button(area=area, color=(), button=area, name=name)
-        if isinstance(image, Image.Image):
+        if image is not None:
             button.load_color(image)
         return button
 

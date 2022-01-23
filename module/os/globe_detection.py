@@ -1,7 +1,5 @@
 import time
 
-from PIL import Image
-
 from module.base.utils import *
 from module.config.config import AzurLaneConfig
 from module.logger import logger
@@ -49,7 +47,7 @@ class GlobeDetection:
         logger.info('Loading OS globe map')
 
         # Load GLOBE_MAP
-        image = np.array(Image.open(GLOBE_MAP))
+        image = load_image(GLOBE_MAP)
         image = self.find_peaks(image, para=self.config.OS_GLOBE_FIND_PEAKS_PARAMETERS)
         pad = self.config.OS_GLOBE_IMAGE_PAD
         image = np.pad(image, ((pad, pad), (pad, pad)), mode='constant', constant_values=0)

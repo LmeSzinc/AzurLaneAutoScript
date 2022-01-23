@@ -3,6 +3,8 @@ import time
 from collections import deque
 from datetime import datetime
 
+import cv2
+import numpy as np
 from PIL import Image
 
 from module.base.decorator import cached_property
@@ -21,13 +23,13 @@ class Screenshot(Adb, Uiautomator2, AScreenCap):
     _minicap_uninstalled = False
     _screenshot_interval_timer = Timer(0.1)
     _last_save_time = {}
-    image: Image.Image
+    image: np.ndarray
 
     @timer
     def screenshot(self):
         """
         Returns:
-            PIL.Image.Image:
+            np.ndarray:
         """
         self._screenshot_interval_timer.wait()
         self._screenshot_interval_timer.reset()
@@ -80,7 +82,7 @@ class Screenshot(Adb, Uiautomator2, AScreenCap):
                 os.mkdir(folder)
 
             file = os.path.join(folder, file)
-            self.image.save(file)
+            self.image_save(file)
             self._last_save_time[genre] = now
             return True
         else:
@@ -97,6 +99,14 @@ class Screenshot(Adb, Uiautomator2, AScreenCap):
             logger.info(f'Screenshot interval set to {interval}s')
             self._screenshot_interval_timer.limit = interval
 
+    def image_show(self, image=None):
+        if image is None:
+            image = self.image
+        Image.fromarray(image).show()
+
+    def image_save(self, file):
+        cv2.imwrite(file, self.image)
+
     def check_screen_size(self):
         """
         Screen size must be 1280x720.
@@ -107,7 +117,7 @@ class Screenshot(Adb, Uiautomator2, AScreenCap):
         else:
             self._screen_size_checked = True
         # Check screen size
-        width, height = self.image.size
+        height, width, channel = self.image.shape
         logger.attr('Screen_size', f'{width}x{height}')
         if not (width == 1280 and height == 720):
             logger.critical(f'Resolution not supported: {width}x{height}')

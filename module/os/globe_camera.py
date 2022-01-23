@@ -175,7 +175,7 @@ class GlobeCamera(GlobeOperation, ZoneManager):
         screen = self.globe2screen(location).flatten().round()
         screen = np.round(screen).astype(int).tolist()
         # Average color of whirlpool center
-        center = np.array(self.image_area(screen))
+        center = np.array(self.image_crop(screen))
         center = np.array([[cv2.mean(center), ], ]).astype(np.uint8)
         h, s, v = rgb2hsv(center)[0][0]
         # hsv usually to be (338, 74.9, 100)

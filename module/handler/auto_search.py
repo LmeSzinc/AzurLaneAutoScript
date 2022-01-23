@@ -205,7 +205,7 @@ class AutoSearchHandler(EnemySearchingHandler):
             if drop:
                 drop.handle_add(main=self, before=4)
             self.device.click(AUTO_SEARCH_MENU_EXIT)
-            self.device.sleep(0.5)
+            self.interval_reset(AUTO_SEARCH_MENU_EXIT)
             return True
         else:
             return False

@@ -75,7 +75,7 @@ class Button:
         """Check if the button appears on the image.
 
         Args:
-            image (PIL.Image.Image): Screenshot.
+            image (np.ndarray): Screenshot.
             threshold (int): Default to 10.
 
         Returns:
@@ -98,7 +98,7 @@ class Button:
             tuple: Color (r, g, b).
         """
         self.color = get_color(image, self.area)
-        self.image = np.array(image.crop(self.area))
+        self.image = crop(image, self.area)
         self.is_gif = False
         return self.color
 
@@ -128,7 +128,7 @@ class Button:
                     image = crop(image, self.area)
                     self.image.append(image)
             else:
-                self.image = np.array(Image.open(self.file).crop(self.area).convert('RGB'))
+                self.image = crop(load_image(self.file), self.area)
             self._match_init = True
 
     def match(self, image, offset=30, threshold=0.85):
@@ -151,7 +151,7 @@ class Button:
                 offset = np.array(offset)
         else:
             offset = np.array((-3, -offset, 3, offset))
-        image = np.array(image.crop(offset + self.area))
+        image = crop(image, offset + self.area)
 
         if self.is_gif:
             for template in self.image:
@@ -292,6 +292,9 @@ class ButtonGrid:
         for button in self.buttons:
             draw.rectangle((button.area[:2], button.button[2:]), fill=(255, 255, 255), outline=None)
         return image
+
+    def show_mask(self):
+        self.gen_mask().show()
 
     def save_mask(self):
         """

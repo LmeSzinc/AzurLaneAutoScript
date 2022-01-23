@@ -98,7 +98,7 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
         Returns:
             bool: If current zone has switch.
         """
-        # image = self.image_area(ZONE_SWITCH)
+        # image = self.image_crop(ZONE_SWITCH)
         # center = np.array(image.size) / 2
         # count = 0
         # for corner in area2corner((0, 0, *image.size)):

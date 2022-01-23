@@ -109,7 +109,7 @@ class Homography:
             perspective_.load(image)
             self.load_homography(perspective=perspective_)
         elif file is not None:
-            image_ = np.array(Image.open(file).convert('RGB'))
+            image_ = load_image(file)
             perspective_ = Perspective(self.config)
             perspective_.load(image_)
             self.load_homography(perspective=perspective_)

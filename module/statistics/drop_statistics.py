@@ -144,7 +144,7 @@ if __name__ == '__main__':
     # Folder to load templates and save new templates.
     # This will load {DROP_FOLDER}/{TEMPLATE_FOLDER}.
     # If folder doesn't exist, auto copy from './assets/stats_basic'
-    DropStatistics.TEMPLATE_FOLDER = 'item_templates'
+    DropStatistics.TEMPLATE_FOLDER = 'campaign_13_1_template'
     # 'cpu' or 'gpu', default to 'cpu'.
     # Use 'gpu' for faster prediction, but you must have the gpu version of mxnet installed.
     DropStatistics.CNOCR_CONTEXT = 'cpu'
@@ -155,11 +155,11 @@ if __name__ == '__main__':
     DropStatistics.CSV_OVERWRITE = True
     # Usually to be 'utf-8'.
     # For better Chinese export to Excel, use 'gbk'.
-    DropStatistics.CSV_ENCODING = 'utf-8'
+    DropStatistics.CSV_ENCODING = 'gbk'
     # campaign names to export under DROP_FOLDER.
     # This will load {DROP_FOLDER}/{CAMPAIGN}.
     # Just a demonstration here, you should modify it to your own.
-    CAMPAIGNS = ['t1', 't2', 't3', 't4']
+    CAMPAIGNS = ['campaign_13_1']
 
     stat = DropStatistics()
 
@@ -184,5 +184,5 @@ if __name__ == '__main__':
         After run, comment again.
         Results are saved in {DROP_FOLDER}/{CSV_FILE}.
     """
-    # for i in CAMPAIGNS:
-    #     stat.extract_drop(i)
+    for i in CAMPAIGNS:
+        stat.extract_drop(i)
