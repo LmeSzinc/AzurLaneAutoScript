@@ -184,8 +184,11 @@ class Combat(Combat_, MapEventHandler):
 
         return False
 
-    def auto_search_combat(self):
+    def auto_search_combat(self, drop=None):
         """
+        Args:
+            drop (DropImage):
+
         Returns:
             bool: True if enemy cleared, False if fleet died.
 
@@ -202,7 +205,7 @@ class Combat(Combat_, MapEventHandler):
                 continue
 
             # End
-            if self.handle_os_auto_search_map_option():
+            if self.handle_os_auto_search_map_option(drop=drop):
                 break
             if self.is_combat_executing():
                 break
@@ -221,7 +224,7 @@ class Combat(Combat_, MapEventHandler):
 
             if self.handle_submarine_call(submarine_mode):
                 continue
-            if self.handle_os_auto_search_map_option(enable=success):
+            if self.handle_os_auto_search_map_option(drop=drop, enable=success):
                 continue
 
             # End

@@ -6,6 +6,7 @@ from module.logger import logger
 from module.os.assets import GLOBE_GOTO_MAP
 from module.os_handler.assets import *
 from module.os_handler.enemy_searching import EnemySearchingHandler
+from module.statistics.azurstats import DropImage
 from module.ui.switch import Switch
 
 fleet_lock = Switch('Fleet_Lock', offset=(10, 120))
@@ -159,18 +160,30 @@ class MapEventHandler(EnemySearchingHandler):
             if self.handle_os_in_map():
                 break
 
-    def os_auto_search_quit(self):
+    def os_auto_search_quit(self, drop=None, skip_first_screenshot=True):
+        """
+        Args:
+            drop (DropImage):
+            skip_first_screenshot (bool):
+        """
         confirm_timer = Timer(1, count=2).start()
         while 1:
-            self.device.screenshot()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
-            if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(20, 20), interval=1):
+            if self.appear(AUTO_SEARCH_REWARD, offset=(20, 20), interval=2):
+                if drop:
+                    drop.handle_add(main=self, before=4)
+                self.device.click(AUTO_SEARCH_REWARD)
+                self.interval_reset(AUTO_SEARCH_REWARD)
                 confirm_timer.reset()
                 continue
             if self.handle_map_event():
                 confirm_timer.reset()
                 continue
-            if self.appear_then_click(GLOBE_GOTO_MAP, offset=(20, 20), interval=1):
+            if self.appear_then_click(GLOBE_GOTO_MAP, offset=(20, 20), interval=2):
                 # Sometimes entered globe map after clicking AUTO_SEARCH_REWARD, but don't know why
                 confirm_timer.reset()
                 continue
@@ -182,9 +195,10 @@ class MapEventHandler(EnemySearchingHandler):
             else:
                 confirm_timer.reset()
 
-    def handle_os_auto_search_map_option(self, enable=True):
+    def handle_os_auto_search_map_option(self, drop=None, enable=True):
         """
         Args:
+            drop (DropImage)
             enable (bool):
 
         Returns:
@@ -197,7 +211,7 @@ class MapEventHandler(EnemySearchingHandler):
             raise CampaignEnd
         if self.appear(AUTO_SEARCH_REWARD, offset=(50, 50)):
             self.device.screenshot_interval_set(0.1)
-            self.os_auto_search_quit()
+            self.os_auto_search_quit(drop=drop)
             raise CampaignEnd
         if enable:
             if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120), interval=3) \
