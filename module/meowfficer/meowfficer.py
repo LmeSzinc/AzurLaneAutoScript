@@ -139,7 +139,12 @@ class RewardMeowfficer(UI):
             list(Button)
         """
         clickable = []
-        for button in MEOWFFICER_FEED_GRID.buttons:
+        for index, button in enumerate(MEOWFFICER_FEED_GRID.buttons):
+            # Exit if 11th button; no need to validate as not
+            # possible to click beyond this point
+            if index >= 10:
+                break
+
             # Exit if button is empty slot
             if self.image_color_count(button, color=(231, 223, 221), threshold=221, count=450):
                 break
