@@ -402,8 +402,14 @@ class RewardMeowfficer(UI):
             in: page_meowfficer
             out: page_meowfficer
         """
-        # Base Case
+        # Base Cases
+        # - Config at least > 0
+        # - Coins at least > 1000
         if self.config.Meowfficer_EnhanceIndex <= 0:
+            return
+
+        coins = MEOWFFICER_COINS.ocr(self.device.image)
+        if coins < 1000:
             return
 
         # Calculate (x, y) coordinate within
