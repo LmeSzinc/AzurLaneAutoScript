@@ -16,6 +16,9 @@ MEOWFFICER_CHOOSE = Digit(OCR_MEOWFFICER_CHOOSE, letter=(140, 113, 99), threshol
 MEOWFFICER_COINS = Digit(OCR_MEOWFFICER_COINS, letter=(99, 69, 41), threshold=64)
 MEOWFFICER_CAPACITY = DigitCounter(OCR_MEOWFFICER_CAPACITY, letter=(131, 121, 123), threshold=64)
 
+MEOWFFICER_SELECT_GRID = ButtonGrid(
+    origin=(770, 245), delta=(130, 147), button_shape=(70, 20), grid_shape=(4, 3),
+    name='MEOWFFICER_SELECT_GRID')
 MEOWFFICER_FEED_GRID = ButtonGrid(
     origin=(818, 212), delta=(130, 147), button_shape=(30, 30), grid_shape=(4, 3),
     name='MEOWFFICER_FEED_GRID')
@@ -389,6 +392,44 @@ class RewardMeowfficer(UI):
         logger.warning('Too many trial in meowfficer buy, stopped.')
         return False
 
+    def _meow_select(self, skip_first_screenshot=True):
+        """
+        Select the target meowfficer in the
+        MEOWFFICER_SELECT/FEED_GRID (4x3)
+        Ensure through dotted yellow/white
+        circle appearance after click
+
+        Args:
+            skip_first_screenshot (bool):
+        """
+        # Calculate (x, y) coordinate within
+        # MEOWFFICER_SELECT/FEED_GRID (4x3) for
+        # enhance target
+        index = self.config.Meowfficer_EnhanceIndex - 1
+        x = index if index < 4 else index % 4
+        y = index // 4
+
+        # Must confirm selected
+        # Dotted yellow/white circle
+        # around target meowfficer
+        click_timer = Timer(3, count=6)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.meow_additional():
+                click_timer.reset()
+                continue
+
+            if self.image_color_count(MEOWFFICER_SELECT_GRID[x, y], color=(255, 255, 255), threshold=246, count=100):
+                break
+
+            if click_timer.reached():
+                self.device.click(MEOWFFICER_FEED_GRID[x, y])
+                click_timer.reset()
+
     def meow_enhance(self, skip_first_screenshot=True):
         """
         Perform meowfficer enhancement operations
@@ -412,48 +453,17 @@ class RewardMeowfficer(UI):
         if coins < 1000:
             return
 
-        # Calculate (x, y) coordinate within
-        # MEOWFFICER_FEED_GRID (4x3) for
-        # enhance target
-        index = self.config.Meowfficer_EnhanceIndex - 1
-        x = index if index < 4 else index % 4
-        y = index // 4
+        # Select target meowfficer
+        # for enhancement
+        self._meow_select()
 
-        # Intentionally initialize asset timer
-        # to account for meow_additional as
-        # can be delayed significantly
-        self.appear(MEOWFFICER_ENHANCE_ENTER, offset=(20, 20), interval=3)
-        self.interval_reset(MEOWFFICER_ENHANCE_ENTER)
-
-        # Transition to the MEOWFFICER_FEED
-        # after selecting target meowfficer
-        confirm_timer = Timer(1.5, count=3)
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            if self.meow_additional():
-                confirm_timer.reset()
-                continue
-            if self.appear(MEOWFFICER_ENHANCE_ENTER, offset=(20, 20), interval=3):
-                self.device.click(MEOWFFICER_FEED_GRID[x, y])
-                self.device.click(MEOWFFICER_ENHANCE_ENTER)
-                confirm_timer.reset()
-                continue
-            if self.appear_then_click(MEOWFFICER_FEED_ENTER, offset=(20, 20), interval=3):
-                self.interval_reset(MEOWFFICER_ENHANCE_ENTER)
-                confirm_timer.reset()
-                continue
-
-            # End
-            if self.appear(MEOWFFICER_FEED_CANCEL, offset=(20, 20)) and \
-               self.appear(MEOWFFICER_FEED_CONFIRM, offset=(20, 20)):
-                if confirm_timer.reached():
-                    break
-            else:
-                confirm_timer.reset()
+        # Transition to MEOWFFICER_FEED after
+        # selection; broken up due to significant
+        # delayed behavior of meow_additional
+        self.ui_click(MEOWFFICER_ENHANCE_ENTER, check_button=MEOWFFICER_FEED_ENTER,
+                      additional=self.meow_additional, retry_wait=3, skip_first_screenshot=True)
+        self.ui_click(MEOWFFICER_FEED_ENTER, check_button=MEOWFFICER_FEED_CONFIRM,
+                      additional=self.meow_additional, retry_wait=3, skip_first_screenshot=True)
 
         # Initiate feed sequence
         # - Select Feed
