@@ -337,7 +337,9 @@ class RewardMeowfficer(UI):
         #   to 0 (turn off) and queue normally
         # - > 20, high stock; queue common boxes first
         if not self.config.Meowfficer_EnhanceIndex or common_sum <= 20:
-            self.config.override(Meowfficer_EnhanceIndex=0)
+            if self.config.Meowfficer_EnhanceIndex:
+                self.config.modified['Meowfficer.Meowfficer.EnhanceIndex'] = 0
+                self.config.save()
             self._meow_nqueue()
         else:
             self._meow_rqueue()
