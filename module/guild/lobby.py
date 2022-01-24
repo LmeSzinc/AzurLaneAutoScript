@@ -94,3 +94,4 @@ class GuildLobby(GuildBase):
         """
         logger.hr('Guild lobby', level=1)
         self._guild_lobby_collect()
+        logger.info('Guild lobby collect finished')

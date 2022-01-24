@@ -2,11 +2,9 @@ import datetime
 import logging
 import os
 import sys
-from collections import deque
 from typing import Callable, List
 
 import rich.box
-from rich import print as pprint
 from rich.console import Console, ConsoleOptions, ConsoleRenderable, NewLine
 from rich.highlighter import RegexHighlighter
 from rich.logging import RichHandler
@@ -295,8 +293,10 @@ def hr(title, level=3):
     title = str(title).upper()
     if level == 1:
         logger.rule(title, characters='═')
+        logger.info(title)
     if level == 2:
         logger.rule(title, characters='─')
+        logger.info(title)
     if level == 3:
         logger.info(f"[bold]<<< {title} >>>[/bold]", extra={"markup": True})
     if level == 0:
