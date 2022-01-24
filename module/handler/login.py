@@ -179,7 +179,7 @@ class LoginHandler(Combat):
                 XPS('//*[@content-desc="请滑动阅读协议内容"]', xp, hierarchy)])
 
             test_image_original = self.device.image
-            image_handle_crop = crop(np.array(test_image_original), (start_padding_results[2], 0,
+            image_handle_crop = crop(test_image_original, (start_padding_results[2], 0,
                                                                      start_margin_results[2], self.device.image.height))
             # Image.fromarray(image_handle_crop).show()
             sims = color_similarity_2d(image_handle_crop, color=(182, 189, 202))

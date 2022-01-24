@@ -107,12 +107,11 @@ class GlobeDetection:
     def load(self, image):
         """
         Args:
-            image: Pillow image.
+            image (np.ndarray):
         """
         self.load_globe_map()
         start_time = time.time()
 
-        image = np.array(image)
         local = self.find_peaks(self.perspective_transform(image), para=self.config.OS_LOCAL_FIND_PEAKS_PARAMETERS)
         local = local.astype(np.uint8)
         local = cv2.resize(local, None, fx=self.config.OS_GLOBE_IMAGE_RESIZE, fy=self.config.OS_GLOBE_IMAGE_RESIZE)

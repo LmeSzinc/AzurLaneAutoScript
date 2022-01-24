@@ -193,7 +193,7 @@ class Button(Resource):
 
         Args:
             area (tuple):
-            image: Pillow image. If provided, load color and image from it.
+            image (np.ndarray): Screenshot. If provided, load color and image from it.
             name (str):
 
         Returns:
@@ -214,7 +214,7 @@ class Button(Resource):
 
         Args:
             vector (tuple):
-            image: Pillow image. If provided, load color and image from it.
+            image (np.ndarray): Screenshot. If provided, load color and image from it.
             name (str):
 
         Returns:

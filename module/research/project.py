@@ -95,7 +95,7 @@ def get_research_name(image):
 def get_research_finished(image):
     """
     Args:
-        image: Pillow image
+        image (np.ndarray):
 
     Returns:
         int: Index of the finished project, 0 to 4. Return None if no project finished.
@@ -150,7 +150,6 @@ def match_template(image, template, area, offset=30, threshold=0.85):
     else:
         offset = np.array((0, -offset, 0, offset))
     image = crop(image, offset + area)
-    template = np.array(template)
     res = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
     _, sim, _, point = cv2.minMaxLoc(res)
     similarity = sim if sim >= threshold else 0.0

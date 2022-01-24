@@ -4,6 +4,7 @@ import shutil
 from tqdm import tqdm
 
 from module.base.decorator import cached_property
+from module.base.utils import load_image
 from module.logger import logger
 from module.ocr.al_ocr import AlOcr
 from module.ocr.ocr import Ocr

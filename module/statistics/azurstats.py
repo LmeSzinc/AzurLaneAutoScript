@@ -32,7 +32,7 @@ class DropImage:
     def add(self, image):
         """
         Args:
-            image: Pillow image.
+            image (np.ndarray):
         """
         if self:
             self.images.append(image)
@@ -53,6 +53,10 @@ class DropImage:
             main.device.sleep(before)
             main.device.screenshot()
             self.add(main.device.image)
+
+    @property
+    def count(self):
+        return len(self.images)
 
     def __bool__(self):
         return self.save or self.upload
@@ -76,6 +80,7 @@ class AzurStats:
         """
         self.config = config
 
+    @property
     def _user_agent(self):
         return f'Alas ({str(self.config.DropRecord_AzurStatsID)})'
 
@@ -94,7 +99,7 @@ class AzurStats:
         output.seek(0)
 
         data = {'file': (filename, output, 'image/png')}
-        headers = {'user-agent': self._user_agent()}
+        headers = {'user-agent': self._user_agent}
         session = requests.Session()
         session.mount('http://', HTTPAdapter(max_retries=5))
         session.mount('https://', HTTPAdapter(max_retries=5))
@@ -144,7 +149,7 @@ class AzurStats:
     def commit(self, images, genre, save=False, upload=False, info=''):
         """
         Args:
-            images (list): List of pillow images
+            images (list): List of images in numpy array.
             genre (str):
             save (bool): If save image to local file system.
             upload (bool): If upload image to Azur Stats.

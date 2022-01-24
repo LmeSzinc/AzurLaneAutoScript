@@ -31,7 +31,7 @@ class GetItemsStatistics:
     def _stats_get_items_is_odd(image):
         """
         Args:
-            image: Pillow image
+            image (np.ndarray):
 
         Returns:
             bool: If the number of items in row is odd.
@@ -42,7 +42,7 @@ class GetItemsStatistics:
     def _stats_get_items_load(self, image):
         """
         Args:
-            image: Pillow image, 1280x720.
+            image (np.ndarray):
         """
         ITEM_GROUP.item_class = Item
         ITEM_GROUP.similarity = 0.92
@@ -62,7 +62,7 @@ class GetItemsStatistics:
     def stats_get_items(self, image, **kwargs):
         """
         Args:
-            image: Pillow image.
+            image (np.ndarray):
 
         Returns:
             list[Item]:

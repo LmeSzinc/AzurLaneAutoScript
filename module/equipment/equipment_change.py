@@ -31,7 +31,7 @@ class EquipmentChange(Equipment):
         index = 0
         self.equipping_list = []
         for button in EQUIPMENT_GRID.buttons:
-            crop_image = np.array(self.image_crop(button))
+            crop_image = self.image_crop(button)
             edge_value = abs(np.mean(cv2.Sobel(crop_image, 3, 1, 1)))
             if edge_value > 0.1:
                 self.equipping_list.append(index)
@@ -126,7 +126,7 @@ class EquipmentChange(Equipment):
 
         self.equipping_set(False)
 
-        res = cv2.matchTemplate(np.array(self.device.screenshot()), np.array(
+        res = cv2.matchTemplate(self.device.screenshot(), np.array(
             self.equip_list[index]), cv2.TM_CCOEFF_NORMED)
         _, sim, _, point = cv2.minMaxLoc(res)
 
@@ -137,7 +137,7 @@ class EquipmentChange(Equipment):
         for _ in range(0, 15):
             self._equipment_swipe()
 
-            res = cv2.matchTemplate(np.array(self.device.screenshot()), np.array(
+            res = cv2.matchTemplate(self.device.screenshot(), np.array(
                 self.equip_list[index]), cv2.TM_CCOEFF_NORMED)
             _, sim, _, point = cv2.minMaxLoc(res)
 

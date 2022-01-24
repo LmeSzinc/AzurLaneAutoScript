@@ -72,7 +72,6 @@ class Template(Resource):
             bool: If matches.
         """
         if self.is_gif:
-            image = np.array(image)
             for template in self.image:
                 res = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
                 _, sim, _, _ = cv2.minMaxLoc(res)
@@ -83,7 +82,7 @@ class Template(Resource):
             return False
 
         else:
-            res = cv2.matchTemplate(np.array(image), self.image, cv2.TM_CCOEFF_NORMED)
+            res = cv2.matchTemplate(image, self.image, cv2.TM_CCOEFF_NORMED)
             _, sim, _, _ = cv2.minMaxLoc(res)
             # print(self.file, sim)
             return sim > similarity
@@ -92,7 +91,7 @@ class Template(Resource):
         """
         Args:
             point:
-            image: Pillow image. If provided, load color and image from it.
+            image (np.ndarray): Screenshot. If provided, load color and image from it.
             name (str):
 
         Returns:
@@ -116,7 +115,7 @@ class Template(Resource):
             float: Similarity
             Button:
         """
-        res = cv2.matchTemplate(np.array(image), self.image, cv2.TM_CCOEFF_NORMED)
+        res = cv2.matchTemplate(image, self.image, cv2.TM_CCOEFF_NORMED)
         _, sim, _, point = cv2.minMaxLoc(res)
         # print(self.file, sim)
 
@@ -137,13 +136,12 @@ class Template(Resource):
         raw = image
         if self.is_gif:
             result = []
-            image = np.array(image)
             for template in self.image:
                 res = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
                 res = np.array(np.where(res > similarity)).T[:, ::-1].tolist()
                 result += res
         else:
-            result = cv2.matchTemplate(np.array(image), self.image, cv2.TM_CCOEFF_NORMED)
+            result = cv2.matchTemplate(image, self.image, cv2.TM_CCOEFF_NORMED)
             result = np.array(np.where(result > similarity)).T[:, ::-1]
 
         # result: np.array([[x0, y0], [x1, y1], ...)

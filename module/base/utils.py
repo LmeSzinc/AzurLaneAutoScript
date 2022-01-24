@@ -528,14 +528,14 @@ def color_similar(color1, color2, threshold=10):
 def color_similar_1d(image, color, threshold=10):
     """
     Args:
-        image: 1D array.
+        image (np.ndarray): 1D array.
         color: (r, g, b)
         threshold(int): Default to 10.
 
     Returns:
         np.ndarray: bool
     """
-    diff = np.array(image).astype(int) - color
+    diff = image.astype(int) - color
     diff = np.max(np.maximum(diff, 0), axis=1) - np.min(np.minimum(diff, 0), axis=1)
     return diff <= threshold
 
@@ -549,7 +549,6 @@ def color_similarity_2d(image, color):
     Returns:
         np.ndarray: uint8
     """
-    image = np.array(image)
     r, g, b = cv2.split(cv2.subtract(image, (*color, 0)))
     positive = cv2.max(cv2.max(r, g), b)
     r, g, b = cv2.split(cv2.subtract((*color, 0), image))
@@ -568,7 +567,6 @@ def extract_letters(image, letter=(255, 255, 255), threshold=128):
     Returns:
         np.ndarray: Shape (height, width)
     """
-    image = np.array(image)
     r, g, b = cv2.split(cv2.subtract(image, (*letter, 0)))
     positive = cv2.max(cv2.max(r, g), b)
     r, g, b = cv2.split(cv2.subtract((*letter, 0), image))
@@ -587,7 +585,6 @@ def extract_white_letters(image, threshold=128):
     Returns:
         np.ndarray: Shape (height, width)
     """
-    image = np.array(image)
     r, g, b = cv2.split(cv2.subtract((255, 255, 255, 0), image))
     minimum = cv2.min(cv2.min(r, g), b)
     maximum = cv2.max(cv2.max(r, g), b)

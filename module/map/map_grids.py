@@ -223,7 +223,7 @@ class SelectedGrids:
         if not self:
             return self
         location = np.array(self.location)
-        diff = np.sum(np.abs(np.array(location) - camera), axis=1)
+        diff = np.sum(np.abs(location - camera), axis=1)
         # grids = [x for _, x in sorted(zip(diff, self.grids))]
         grids = tuple(np.array(self.grids)[np.argsort(diff)])
         return SelectedGrids(grids)

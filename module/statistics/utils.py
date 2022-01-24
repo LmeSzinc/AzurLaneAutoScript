@@ -37,12 +37,11 @@ def pack(img_list):
     Stack images vertically.
 
     Args:
-        img_list (list): List of pillow image
+        img_list (list): List of image
 
     Returns:
-        Pillow image
+        np.ndarray:
     """
-    img_list = [np.array(i) for i in img_list]
     image = cv2.vconcat(img_list)
     return image
 
@@ -55,7 +54,7 @@ def unpack(image):
         image:
 
     Returns:
-        list: List of pillow image.
+        list: List of np.ndarray.
     """
     size = image_size(image)
     if size == (1280, 720):

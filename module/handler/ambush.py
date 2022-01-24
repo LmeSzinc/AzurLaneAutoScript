@@ -47,7 +47,7 @@ class AmbushHandler(Combat):
         self.wait_until_appear_then_click(MAP_AMBUSH_EVADE)
 
         self.wait_until_appear(INFO_BAR_1)
-        image = info_letter_preprocess(np.array(self.image_crop(INFO_BAR_DETECT)))
+        image = info_letter_preprocess(self.image_crop(INFO_BAR_DETECT))
 
         if TEMPLATE_AMBUSH_EVADE_SUCCESS.match(image):
             logger.attr('Ambush_evade', 'success')
@@ -110,7 +110,7 @@ class AmbushHandler(Combat):
         if not self.appear(INFO_BAR_1):
             return False
 
-        image = info_letter_preprocess(np.array(self.image_crop(INFO_BAR_DETECT)))
+        image = info_letter_preprocess(self.image_crop(INFO_BAR_DETECT))
         if TEMPLATE_MAP_WALK_OUT_OF_STEP.match(image):
             logger.warning('Map walk out of step.')
             self.handle_info_bar()

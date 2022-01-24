@@ -52,6 +52,5 @@ class Mask(Template):
         Returns:
             np.ndarray:
         """
-        image = np.array(image)
         self.set_channel(image_channel(image))
         return cv2.bitwise_and(image, self.image)

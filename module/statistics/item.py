@@ -148,7 +148,7 @@ class ItemGrid:
     def _load_image(self, image):
         """
         Args:
-            image: Pillow image
+            image (np.ndarray):
         """
         self.items = []
         for button in self.grids.buttons:
@@ -166,7 +166,7 @@ class ItemGrid:
             if name in self.templates:
                 continue
             image = load_image(image)
-            image = crop(np.array(image), area=self.template_area)
+            image = crop(image, area=self.template_area)
             self.colors[name] = cv2.mean(image)[:3]
             self.templates[name] = image
             self.templates_hit[name] = 0
@@ -182,7 +182,7 @@ class ItemGrid:
             if name in self.cost_templates:
                 continue
             image = load_image(image)
-            self.cost_templates[name] = np.array(image)
+            self.cost_templates[name] = image
             self.cost_templates_hit[name] = 0
             self.next_cost_template_index += 1
 
@@ -191,12 +191,11 @@ class ItemGrid:
         Match templates, try most frequent hit templates first.
 
         Args:
-            image:
+            image (np.ndarray):
 
         Returns:
             str: Template name.
         """
-        image = np.array(image)
         color = cv2.mean(crop(image, self.template_area))[:3]
         names = np.array(list(self.templates.keys()))[np.argsort(list(self.templates_hit.values()))][::-1]
         for name in names:
@@ -219,10 +218,10 @@ class ItemGrid:
     def extract_template(self, image):
         """
         Args:
-            image: Pillow image
+            image (np.ndarray):
 
         Returns:
-            dict: Newly found templates. Key: str, template name. Value: pillow image
+            dict: Newly found templates. Key: str, template name. Value: np.ndarray
         """
         self._load_image(image)
         prev = set(self.templates.keys())
@@ -268,7 +267,7 @@ class ItemGrid:
     def predict_tag(image):
         """
         Args:
-            image: Pillow image. tag_area of the item.
+            image (np.ndarray): The tag_area of the item.
             Replace this method to predict tags.
 
         Returns:
@@ -279,7 +278,7 @@ class ItemGrid:
     def predict(self, image, name=True, amount=True, cost=False, price=False, tag=False):
         """
         Args:
-            image: Pillow image
+            image (np.ndarray):
             name (bool): If predict item name.
             amount (bool): If predict item amount.
             cost (bool): If predict the cost to buy item.

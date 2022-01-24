@@ -108,7 +108,7 @@ class View(MapDetector):
         Update image to all grids.
         If camera position didn't change, no need to calculate again, updating image is enough.
         """
-        image = self._image_clear_ui(np.array(image))
+        image = self._image_clear_ui(image)
         self.image = image
         for grid in self:
             grid.reset()

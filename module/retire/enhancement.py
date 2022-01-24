@@ -147,7 +147,7 @@ class Enhancement(Dock):
 
             # Respond accordingly based on info_bar information
             if self.info_bar_count():
-                image = info_letter_preprocess(np.array(self.image_crop(INFO_BAR_DETECT)))
+                image = info_letter_preprocess(self.image_crop(INFO_BAR_DETECT))
                 if TEMPLATE_ENHANCE_SUCCESS.match(image):
                     enhanced = True
                 elif TEMPLATE_ENHANCE_FAILED.match(image):

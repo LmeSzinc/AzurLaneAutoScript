@@ -35,7 +35,7 @@ class RewardCommission(UI, InfoHandler):
         Get all commissions from an image.
 
         Args:
-            image: Pillow image
+            image (np.ndarray):
 
         Returns:
             SelectedGrids:

@@ -187,7 +187,7 @@ class FleetOperator:
 
         # Cropping FLEET_*_IN_USE to avoid detecting info_bar, also do the trick.
         # It also avoids wasting time on handling the info_bar.
-        image = rgb2gray(np.array(self.main.image_crop(self._in_use)))
+        image = rgb2gray(self.main.image_crop(self._in_use))
         return np.std(image.flatten(), ddof=1) > self.FLEET_IN_USE_STD
 
     def bar_opened(self):
@@ -196,7 +196,7 @@ class FleetOperator:
             bool: If dropdown menu appears.
         """
         # Check the brightness of the rightest column of the bar area.
-        luma = rgb2gray(np.array(self.main.image_crop(self._bar)))[:, -1]
+        luma = rgb2gray(self.main.image_crop(self._bar))[:, -1]
         return np.sum(luma > 127) / luma.size > 0.5
 
     def ensure_to_be(self, index):
