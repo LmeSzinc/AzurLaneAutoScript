@@ -6,16 +6,16 @@ from .sp1 import Config as ConfigBase
 
 MAP = CampaignMap('SP2')
 MAP.shape = 'I7'
-MAP.camera_data = ['D3', 'D4', 'F3', 'F4']
-MAP.camera_data_spawn_point = ['D4', 'F4']
+MAP.camera_data = ['D2', 'D5', 'F2', 'F5']
+MAP.camera_data_spawn_point = ['F5', 'D5']
 MAP.map_data = """
-    ME ME MB -- -- -- ME ME MB
-    ME -- -- ME MB ME -- -- ME
-    ++ -- MB ++ ++ ++ -- ME MB
-    ME ME ME ME MB ME ME ME ++
-    Me ++ ME ME ME ME ME -- Me
-    ME -- Me ++ MB ++ Me ++ ME
-    -- ME -- SP ++ SP -- ME --
+    -- ME -- -- -- -- -- ME --
+    ME -- -- ME ME ME -- -- ME
+    ++ -- MB ++ ++ ++ MB -- ME
+    ME -- -- ME MB ME -- -- ++
+    -- ++ -- -- -- -- -- -- --
+    Me -- -- ++ MB ++ -- ++ Me
+    -- Me -- SP ++ SP -- Me --
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
@@ -47,14 +47,19 @@ class Config(ConfigBase):
     # ===== Start of generated config =====
     MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = False
-    MAP_HAS_AMBUSH = True
+    MAP_HAS_AMBUSH = False
+    MAP_HAS_MYSTERY = True
     # ===== End of generated config =====
 
 
 class Campaign(CampaignBase):
     MAP = MAP
+    ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 
     def battle_0(self):
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
+            return True
+
         return self.battle_default()
 
     def battle_4(self):

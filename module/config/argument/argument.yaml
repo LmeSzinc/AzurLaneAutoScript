@@ -120,10 +120,13 @@ Submarine:
     option: [0, 1, 2]
   Mode:
     value: do_not_use
-    option: [do_not_use, hunt_only, every_combat]
+    option: [do_not_use, hunt_only, boss_only, every_combat]
   AutoSearchMode:
     value: sub_standby
     option: [ sub_standby, sub_auto_call ]
+  DistanceToBoss:
+    value: '2_grid_to_boss'
+    option: [to_boss_position, 1_grid_to_boss, 2_grid_to_boss, use_U522_skill]
 Emotion:
   CalculateEmotion: true
   IgnoreLowEmotionWarn: false
@@ -227,14 +230,22 @@ ControlExpOverflow:
   T2Allow: 200
   T1Allow: 200
 Research:
-  UseCube: false
-  UseCoin: true
-  UsePart: true
+  UseCube:
+    value: only_05_hour
+    option: [always_use, only_05_hour, do_not_use]
+  UseCoin:
+    value: always_use
+    option: [always_use, only_05_hour, do_not_use]
+  UsePart:
+    value: always_use
+    option: [always_use, only_05_hour, do_not_use]
   PresetFilter:
-    value: series_4
+    value: series_4_blueprint_tenrai
     option:
       - custom
-      - series_4
+      - series_4_blueprint_tenrai
+      - series_4_blueprint_only
+      - series_4_tenrai_only
       - series_3
       - series_3_than_2
   CustomFilter: |-
@@ -264,7 +275,7 @@ GuildLogistics:
 GuildOperation:
   Enable: true
   SelectNewOperation: false
-  NewOperationMaxDate: 20
+  NewOperationMaxDate: 15
   JoinThreshold: 1
   AttackBoss: true
   BossFleetRecommend: false
@@ -285,7 +296,7 @@ GeneralShop:
 GuildShop:
   Refresh: true
   Filter: |-
-    PlateT4 > BookT3 > PRBP > CatT3 > Chip > BookT2 > Retrofit > FoodT6 > FoodT5 > CatT2 > BoxT4
+    PlateT4 > BookT3 > PR > CatT3 > Chip > BookT2 > Retrofit > FoodT6 > FoodT5 > CatT2 > BoxT4
   BOX_T3:
     value: ironblood
     option: [eagle, royal, sakura, ironblood]
@@ -324,7 +335,7 @@ GuildShop:
     option: [cheshire, mainz, odin, champagne]
 MedalShop:
   Filter: |-
-    DRBP > PRBP
+    DR > PR
     > BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2
     > RetrofitT3 > PlateGeneralT3
     > FoodT6 > FoodT5
@@ -415,6 +426,8 @@ EventCd:
 RaidDaily:
   StageFilter: |-
     hard > normal > easy
+MaritimeEscort:
+  Enable: true
 
 # ==================== Opsi ====================
 
@@ -444,9 +457,11 @@ OpsiExplore:
   SpecialRadar: false
   ForceRun: false
   LastZone: 0
-OpsiDaily:
+OpsiShop:
   BuySupply: true
+OpsiDaily:
   DoMission: true
+  UseTuningSample: true
 OpsiObscure:
   ForceRun: false
 OpsiAbyssal:

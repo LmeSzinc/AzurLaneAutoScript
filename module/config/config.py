@@ -1,6 +1,7 @@
 import copy
 import datetime
 import operator
+import threading
 
 import pywebio
 
@@ -56,6 +57,7 @@ def name_to_function(name):
 
 
 class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
+    stop_event: threading.Event = None
     bound = {}
 
     # Class property
@@ -335,24 +337,29 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
             return deep_get(self.data, keys=f'{task}.OpsiFleet.Submarine', default=False) \
                    or 'submarine' in deep_get(self.data, keys=f'{task}.OpsiFleetFilter.Filter', default='').lower()
 
-        def is_not_force_run(task):
-            return not (deep_get(self.data, keys=f'{task}.OpsiExplore.SpecialRadar', default=False)
-                        or deep_get(self.data, keys=f'{task}.OpsiExplore.ForceRun', default=False)
-                        or deep_get(self.data, keys=f'{task}.OpsiObscure.ForceRun', default=False)
-                        or deep_get(self.data, keys=f'{task}.OpsiAbyssal.ForceRun', default=False)
-                        or deep_get(self.data, keys=f'{task}.OpsiStronghold.ForceRun', default=False))
+        def is_force_run(task):
+            return deep_get(self.data, keys=f'{task}.OpsiExplore.ForceRun', default=False) \
+                   or deep_get(self.data, keys=f'{task}.OpsiObscure.ForceRun', default=False) \
+                   or deep_get(self.data, keys=f'{task}.OpsiAbyssal.ForceRun', default=False) \
+                   or deep_get(self.data, keys=f'{task}.OpsiStronghold.ForceRun', default=False)
+
+        def is_special_radar(task):
+            return deep_get(self.data, keys=f'{task}.OpsiExplore.SpecialRadar', default=False)
 
         if recon_scan:
             tasks = SelectedGrids(['OpsiExplore', 'OpsiObscure', 'OpsiStronghold'])
-            delay_tasks(tasks.filter(is_not_force_run).grids, minutes=30)
+            tasks = tasks.delete(tasks.filter(is_force_run)).delete(tasks.filter(is_special_radar))
+            delay_tasks(tasks, minutes=30)
         if submarine_call:
             tasks = SelectedGrids(['OpsiExplore', 'OpsiDaily', 'OpsiObscure', 'OpsiAbyssal', 'OpsiStronghold',
                                    'OpsiMeowfficerFarming'])
-            delay_tasks(tasks.filter(is_submarine_call).filter(is_not_force_run).grids, minutes=60)
+            tasks = tasks.filter(is_submarine_call).delete(tasks.filter(is_force_run))
+            delay_tasks(tasks, minutes=60)
         if ap_limit:
             tasks = SelectedGrids(['OpsiExplore', 'OpsiDaily', 'OpsiObscure', 'OpsiAbyssal', 'OpsiStronghold',
                                    'OpsiMeowfficerFarming'])
-            delay_tasks(tasks.filter(is_not_force_run).grids, minutes=360)
+            tasks = tasks.delete(tasks.filter(is_special_radar))
+            delay_tasks(tasks, minutes=360)
 
         self.save()
 
@@ -398,6 +405,10 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
         Raises:
             bool: If task switched
         """
+        # Update event
+        if self.stop_event is not None:
+            if self.stop_event.is_set():
+                return True
         prev = self.task
         self.load()
         new = self.get_next()
@@ -505,10 +516,6 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
     @FLEET_BOSS.setter
     def FLEET_BOSS(self, value):
         self._fleet_boss = value
-
-    @property
-    def GuildShop_PR(self):
-        return [self.GuildShop_PR1, self.GuildShop_PR2, self.GuildShop_PR3]
 
     def temporary(self, **kwargs):
         """

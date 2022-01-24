@@ -58,10 +58,6 @@
       "name": "Raid",
       "help": ""
     },
-    "C11AffinityFarming": {
-      "name": "1-1 Affinity Farming",
-      "help": ""
-    },
     "C72MysteryFarming": {
       "name": "7-2 Mystery Farming",
       "help": ""
@@ -170,6 +166,10 @@
       "name": "War Archives",
       "help": ""
     },
+    "MaritimeEscort": {
+      "name": "Maritime Escort",
+      "help": ""
+    },
     "OpsiGeneral": {
       "name": "OpSi General",
       "help": ""
@@ -180,6 +180,10 @@
     },
     "OpsiExplore": {
       "name": "OpSi Explore",
+      "help": ""
+    },
+    "OpsiShop": {
+      "name": "Opsi Shop",
       "help": ""
     },
     "OpsiDaily": {
@@ -296,7 +300,7 @@
     },
     "HandleError": {
       "name": "Enable Exception Handling",
-      "help": "Handles select exceptions, will retreat if in battle\nIn some tasks, will disable the error task and try restarting"
+      "help": "Handles select exceptions, will retreat if in battle"
     },
     "SaveError": {
       "name": "Record Exception",
@@ -426,6 +430,7 @@
       "name": "Event Name",
       "help": "Automatically selects to the latest event",
       "campaign_main": "campaign_main",
+      "event_20201229_cn": "Inverted Orthant",
       "event_20211229_cn": "Tower of Transcendence",
       "event_20200603_cn": "峡湾间的反击",
       "event_20211125_cn": "World-spanning Arclight",
@@ -453,7 +458,6 @@
       "event_20210225_tw": "北境序曲",
       "event_20210225_cn": "Khorovod of Dawns Rime",
       "event_20210121_cn": "Empyreal Tragicomedy Rerun",
-      "event_20201229_cn": "Inverted Orthant",
       "event_20201126_cn": "Vacation Lane",
       "event_20200312_cn": "The Solomon Ranger Rerun",
       "event_20201029_cn": "Universe in Unison",
@@ -639,22 +643,31 @@
     "Fleet": {
       "name": "Submarine Fleet Number",
       "help": "",
-      "0": "do_not_use",
+      "0": "Don't Use",
       "1": "1",
       "2": "2"
     },
     "Mode": {
       "name": "Submarine Mode",
       "help": "",
-      "do_not_use": "do_not_use",
-      "hunt_only": "hunt_only",
-      "every_combat": "every_combat"
+      "do_not_use": "Don't Use",
+      "hunt_only": "Hunt Only",
+      "boss_only": "BOSS Only",
+      "every_combat": "Every Combat"
     },
     "AutoSearchMode": {
       "name": "Submarine Roles in Auto Search",
       "help": "Effective only for auto search",
       "sub_standby": "Standby",
       "sub_auto_call": "Auto Call"
+    },
+    "DistanceToBoss": {
+      "name": "Before BOSS battle move the submarine near BOSS",
+      "help": "Effective only if \"Submarine Mode\" is \"BOSS Only\"\nSelecting \"X Grids To BOSS\" needs to ensure that the submarine hunting range can cover the BOSS. Distance is calculated using the Manhattan Distance. Selecting \"Use U522 Skill\" requires U522 in the submarine fleet.",
+      "to_boss_position": "To BOSS Location",
+      "1_grid_to_boss": "1 Grid To BOSS",
+      "2_grid_to_boss": "2 Grids To BOSS",
+      "use_U522_skill": "Use U522 Skill"
     }
   },
   "Emotion": {
@@ -943,25 +956,36 @@
   "Research": {
     "_info": {
       "name": "Research Academy Settings",
-      "help": ""
+      "help": "For convenience a few preset filters are provided\nHowever it is recommended to use \"custom\" and author your own priority for projects\nNote that combined with other settings, Alas will choose projects that satisfy all the conditions. For example, if \"Use Cube\" is disabled but your list consists of projects that cost cubes, Alas will not choose them"
     },
     "UseCube": {
       "name": "Use Cube",
-      "help": "Allow to undertake projects that require cubes"
+      "help": "Allow to undertake projects that require cubes",
+      "always_use": "Always Use",
+      "only_05_hour": "Only 0.5 Hour Researches",
+      "do_not_use": "Don't Use"
     },
     "UseCoin": {
       "name": "Use Coin",
-      "help": "Allow to undertake projects that require coins"
+      "help": "Allow to undertake projects that require coins",
+      "always_use": "Always Use",
+      "only_05_hour": "Only 0.5 Hour Researches",
+      "do_not_use": "Don't Use"
     },
     "UsePart": {
       "name": "Use Part/Plate",
-      "help": "Allow to undertake projects that require parts/plates"
+      "help": "Allow to undertake projects that require parts/plates",
+      "always_use": "Always Use",
+      "only_05_hour": "Only 0.5 Hour Researches",
+      "do_not_use": "Don't Use"
     },
     "PresetFilter": {
       "name": "Preset Filter Select",
-      "help": "For convenience a few preset filters are provided\nHowever it is recommended to use \"custom\" and author your own priority for projects\nNote that combined with other settings, Alas will choose projects that satisfy all the conditions. For example, if \"Use Cube\" is disabled but your list consists of projects that cost cubes, Alas will not choose them",
+      "help": "See research drops rates and spawn rates in https://azur-stats.lyoko.io/. People without a basic knowledge of these are recommended to use pre-optimized presets instead of writing custom filters",
       "custom": "custom",
-      "series_4": "series_4",
+      "series_4_blueprint_tenrai": "Series 4 Blueprints+Tenrai",
+      "series_4_blueprint_only": "Series 4 Blueprints Only",
+      "series_4_tenrai_only": "Series 4 Tenrai Only",
       "series_3": "series_3",
       "series_3_than_2": "series_3_than_2"
     },
@@ -1524,6 +1548,16 @@
       "help": "Generally does not need to be modified or re-arranged but can do so if desired\nCan save on oil consumption if less are attacked"
     }
   },
+  "MaritimeEscort": {
+    "_info": {
+      "name": "Maritime Escort",
+      "help": "Enter then retreat, get about 70% of maximum rewards"
+    },
+    "Enable": {
+      "name": "Enable maritime Escort",
+      "help": ""
+    }
+  },
   "OpsiAshAssist": {
     "_info": {
       "name": "OpSi Ash Assist Settings",
@@ -1628,18 +1662,28 @@
       "help": "Automatically updated with map ID\nReplace with 0 to reset progress\nAlready completed zones will be skipped"
     }
   },
-  "OpsiDaily": {
+  "OpsiShop": {
     "_info": {
-      "name": "OpSi Daily Settings",
+      "name": "OpSi Shop Settings",
       "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story must be complete\n- Zones must be unlocked either by OpSi explore or consuming 5000 oil for special radar in OpSi shop"
     },
     "BuySupply": {
       "name": "Buy From Port Shops",
       "help": "Buy all items from port shops\nShop inventory consists of a fixed pool that is reset monthly, items not bought during a cycle has the chance of re-appearing and blocking preferable high value items"
+    }
+  },
+  "OpsiDaily": {
+    "_info": {
+      "name": "OpSi Daily Settings",
+      "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story must be complete\n- Zones must be unlocked either by OpSi explore or consuming 5000 oil for special radar in OpSi shop"
     },
     "DoMission": {
       "name": "Do Port Mission(s)",
       "help": "Accept and complete mission(s) from ports"
+    },
+    "UseTuningSample": {
+      "name": "Use Tuning Samples",
+      "help": "Use all tuning samples and quality tuning samples"
     }
   },
   "OpsiObscure": {
@@ -1762,19 +1806,25 @@
       "Start": "Start",
       "Stop": "Stop",
       "ScrollON": "Auto Scroll ON",
-      "ScrollOFF": "OFF",
+      "ScrollOFF": "Auto Scroll OFF",
       "ClearLog": "Clear Log",
-      "Setting": "Setting"
+      "Setting": "Setting",
+      "CheckUpdate": "Check update",
+      "ClickToUpdate": "Click to update",
+      "RetryUpdate": "Retry update",
+      "CancelUpdate": "Cancel update"
     },
     "Toast": {
       "DisableTranslateMode": "Click here to disable translate mode",
       "ConfigSaved": "Config saved",
-      "AlasIsRunning": "Scheduler is already running"
+      "AlasIsRunning": "Scheduler is already running",
+      "ClickToUpdate": "New update avaliable, click here to update"
     },
     "Status": {
       "Running": "Running",
       "Inactive": "Inactive",
-      "Warning": "Warning"
+      "Warning": "Warning",
+      "Updating": "Waiting Update"
     },
     "MenuAlas": {
       "Overview": "Overview",
@@ -1782,7 +1832,8 @@
     },
     "MenuDevelop": {
       "HomePage": "Home",
-      "Translate": "Translate"
+      "Translate": "Translate",
+      "Update": "Updater"
     },
     "Overview": {
       "Scheduler": "Scheduler",
@@ -1798,6 +1849,24 @@
       "CopyFrom": "Copy from existing config",
       "Confirm": "Add",
       "FileExist": "A config with the same name exists, please choose another one"
+    },
+    "Update": {
+      "UpToDate": "Latest version",
+      "HaveUpdate": "A new version is available",
+      "UpdateFailed": "Update failed. Logs can be found in ./log/*_gui.txt",
+      "UpdateStart": "Start update",
+      "UpdateWait": "Waiting for all alas complete current task",
+      "UpdateRun": "Updating",
+      "UpdateSuccess": "Update succeeded, restarting",
+      "UpdateChecking": "Checking for updates",
+      "UpdateCancel": "Update canceled, restarting Alas",
+      "UpdateFinish": "Update succeeded, please restart manually",
+      "Local": "Local",
+      "Upstream": "Upstream",
+      "Author": "Author",
+      "Time": "Commit time",
+      "Message": "Commit message",
+      "DisabledWarn": "Updater module is disabled. You need to manually restart Alas to update"
     },
     "Text": {
       "InvalidFeedBack": "Invalid format. Example: {0}"

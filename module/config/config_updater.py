@@ -6,6 +6,7 @@ from cached_property import cached_property
 from module.base.timer import timer
 from module.config.utils import *
 from module.logger import logger
+from module.redirect_utils.shop_filter import bp_redirect
 
 CONFIG_IMPORT = '''
 import datetime
@@ -341,6 +342,15 @@ class ConfigGenerator:
 
 
 class ConfigUpdater:
+    # source, target, (optional)convert_func
+    redirection = [
+        ('OpsiDaily.OpsiDaily.BuySupply', 'OpsiShop.Scheduler.Enable'),
+        ('OpsiDaily.Scheduler.Enable', 'OpsiDaily.OpsiDaily.DoMission'),
+        ('OpsiShop.Scheduler.Enable', 'OpsiShop.OpsiShop.BuySupply'),
+        ('ShopOnce.GuildShop.Filter', 'ShopOnce.GuildShop.Filter', bp_redirect),
+        ('ShopOnce.MedalShop.Filter', 'ShopOnce.MedalShop.Filter', bp_redirect),
+    ]
+
     @cached_property
     def args(self):
         return read_file(filepath_args())
@@ -389,6 +399,40 @@ class ConfigUpdater:
                          keys=f'{task}.Campaign.Event',
                          value=deep_get(self.args, f'{task}.Campaign.Event.{server_}'))
 
+        if not is_template:
+            new = self.config_redirect(old, new)
+
+        return new
+
+    def config_redirect(self, old, new):
+        """
+        Convert old settings to the new.
+
+        Args:
+            old (dict):
+            new (dict):
+
+        Returns:
+            dict:
+        """
+        for row in self.redirection:
+            if len(row) == 2:
+                source, target = row
+                update_func = None
+            elif len(row) == 3:
+                source, target, update_func = row
+            else:
+                continue
+
+            value = deep_get(old, keys=source, default=None)
+            if value is not None:
+                if update_func is not None:
+                    value = update_func(value)
+                deep_set(new, keys=target, value=value)
+            else:
+                # No such setting
+                continue
+
         return new
 
     @timer
@@ -401,7 +445,7 @@ class ConfigUpdater:
 if __name__ == '__main__':
     """
     Process the whole config generation.
-    
+
                  task.yaml -+----------------> menu.json
              argument.yaml -+-> args.json ---> config_generated.py
              override.yaml -+       |

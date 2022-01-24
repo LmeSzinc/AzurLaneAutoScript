@@ -47,11 +47,13 @@ class Config(ConfigBase):
     MAP_HAS_MAP_STORY = True
     MAP_HAS_FLEET_STEP = False
     MAP_HAS_AMBUSH = True
+    MAP_HAS_MYSTERY = True
     # ===== End of generated config =====
 
 
 class Campaign(CampaignBase):
     MAP = MAP
+    ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 
     def battle_0(self):
         self.fleet_2_push_forward()

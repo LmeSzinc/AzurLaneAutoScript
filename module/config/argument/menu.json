@@ -9,7 +9,6 @@
       "Main",
       "Event",
       "Raid",
-      "C11AffinityFarming",
       "C72MysteryFarming",
       "C122MediumLeveling",
       "C124LargeLeveling",
@@ -42,12 +41,14 @@
       "EventCd",
       "EventSp",
       "RaidDaily",
-      "WarArchives"
+      "WarArchives",
+      "MaritimeEscort"
     ],
     "Opsi": [
       "OpsiGeneral",
       "OpsiAshAssist",
       "OpsiExplore",
+      "OpsiShop",
       "OpsiDaily",
       "OpsiObscure",
       "OpsiAbyssal",

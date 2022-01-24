@@ -1,5 +1,6 @@
 import os
 import re
+import threading
 import time
 from datetime import datetime
 
@@ -15,7 +16,11 @@ from module.logger import logger
 
 
 class AzurLaneAutoScript:
+
+    stop_event: threading.Event = None
+
     def __init__(self, config_name='alas'):
+        logger.hr('Start', level=0)
         self.config_name = config_name
         ConfigUpdater().update_config(config_name)
 
@@ -39,6 +44,9 @@ class AzurLaneAutoScript:
             from module.device.device import Device
             device = Device(config=self.config)
             return device
+        except RequestHumanTakeover:
+            logger.critical('Request human takeover')
+            exit(1)
         except Exception as e:
             logger.exception(e)
             exit(1)
@@ -77,14 +85,7 @@ class AzurLaneAutoScript:
         except Exception as e:
             logger.exception(e)
             self.save_error_log()
-            if self.config.Error_HandleError:
-                self.config.Scheduler_Enable = False
-                logger.warning(f'Try restarting, {self.config.Emulator_PackageName} will be restarted in 10 seconds')
-                self.config.task_call('Restart')
-                self.device.sleep(10)
-                return False
-            else:
-                exit(1)
+            exit(1)
 
     def save_error_log(self):
         """
@@ -106,7 +107,8 @@ class AzurLaneAutoScript:
                 lines = f.readlines()
                 start = 0
                 for index, line in enumerate(lines):
-                    if re.search('\+-{15,}\+', line):
+                    line = line.strip(' \r\t\n')
+                    if re.match('^═{15,}$', line):
                         start = index
                 lines = lines[start - 2:]
                 lines = handle_sensitive_logs(lines)
@@ -214,6 +216,10 @@ class AzurLaneAutoScript:
         from module.event.campaign_sp import CampaignSP
         CampaignSP(config=self.config, device=self.device).run()
 
+    def maritime_escort(self):
+        from module.event.maritime_escort import MaritimeEscort
+        MaritimeEscort(config=self.config, device=self.device).run()
+
     def opsi_ash_assist(self):
         from module.os_ash.ash import AshBeaconAssist
         AshBeaconAssist(config=self.config, device=self.device).run()
@@ -221,6 +227,10 @@ class AzurLaneAutoScript:
     def opsi_explore(self):
         from module.campaign.os_run import OSCampaignRun
         OSCampaignRun(config=self.config, device=self.device).opsi_explore()
+
+    def opsi_shop(self):
+        from module.campaign.os_run import OSCampaignRun
+        OSCampaignRun(config=self.config, device=self.device).opsi_shop()
 
     def opsi_daily(self):
         from module.campaign.os_run import OSCampaignRun
@@ -256,11 +266,6 @@ class AzurLaneAutoScript:
         from module.raid.run import RaidRun
         RaidRun(config=self.config, device=self.device).run()
 
-    def c11_affinity_farming(self):
-        from module.campaign.run import CampaignRun
-        CampaignRun(config=self.config, device=self.device).run(
-            name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
-
     def c72_mystery_farming(self):
         from module.campaign.run import CampaignRun
         CampaignRun(config=self.config, device=self.device).run(
@@ -281,8 +286,7 @@ class AzurLaneAutoScript:
         GemsFarming(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
-    @staticmethod
-    def wait_until(future):
+    def wait_until(self, future):
         """
         Wait until a specific time.
 
@@ -290,10 +294,18 @@ class AzurLaneAutoScript:
             future (datetime):
         """
         seconds = future.timestamp() - datetime.now().timestamp() + 1
-        if seconds > 0:
-            time.sleep(seconds)
-        else:
+        if seconds <= 0:
             logger.warning(f'Wait until {str(future)}, but sleep length < 0, skip waiting')
+            return
+        
+        if self.stop_event is not None:
+            self.stop_event.wait(seconds)
+            if self.stop_event.is_set():
+                logger.info("Update event detected")
+                logger.info(f"[{self.config_name}] exited. Reason: Update")
+                exit(0)
+        else:
+            time.sleep(seconds)
 
     def get_next_task(self):
         """
@@ -332,6 +344,11 @@ class AzurLaneAutoScript:
         failure_record = {}
 
         while 1:
+            if self.stop_event is not None:
+                if self.stop_event.is_set():
+                    logger.info("Update event detected")
+                    logger.info(f"Alas [{self.config_name}] exited.")
+                    break
             task = self.get_next_task()
 
             # Skip first restart
@@ -361,15 +378,8 @@ class AzurLaneAutoScript:
                                 "Please read the help text of the options.")
                 logger.critical("Possible reason #2: There is a problem with this task. "
                                 "Please contact developers or try to fix it yourself.")
-                if self.config.Error_HandleError:
-                    self.config.Scheduler_Enable = False
-                    logger.warning(f'Try restarting, {self.config.Emulator_PackageName} will be restarted in 10 seconds')
-                    self.config.task_call('Restart')
-                    self.device.sleep(10)
-                    continue
-                else:
-                    logger.critical('Request human takeover')
-                    exit(1)
+                logger.critical('Request human takeover')
+                exit(1)
 
             if success:
                 del self.__dict__['config']

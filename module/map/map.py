@@ -325,6 +325,7 @@ class Map(Fleet):
             logger.info('May boss and is enemy: %s' % self.map.select(may_boss=True, is_enemy=True))
 
         if grids:
+            self.submarine_move_near_boss(grids[0])
             logger.hr('Clear BOSS')
             grids = grids.sort('weight', 'cost')
             logger.info('Grids: %s' % str(grids))

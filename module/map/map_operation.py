@@ -156,7 +156,9 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                     if mode == 'normal' or mode == 'hard':
                         self.handle_2x_book_setting(mode='prep')
                         self.fleet_preparation()
+                        self.handle_auto_submarine_call_disable()
                         self.handle_auto_search_setting()
+                        self.map_fleet_checked = True
                     self.device.click(FLEET_PREPARATION)
                     fleet_click += 1
                     fleet_timer.reset()
@@ -185,6 +187,10 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
 
                 # Urgent commission
                 if self.handle_urgent_commission(drop=drop):
+                    continue
+
+                # 2X book popup
+                if self.handle_2x_book_popup():
                     continue
 
                 # Story skip
@@ -255,7 +261,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         while 1:
             self.device.screenshot()
 
-            if self.handle_popup_confirm():
+            if self.handle_popup_confirm('WITHDRAW'):
                 continue
             if self.appear_then_click(WITHDRAW, interval=5):
                 continue

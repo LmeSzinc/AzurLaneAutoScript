@@ -1,5 +1,6 @@
 from module.base.timer import Timer
 from module.base.utils import *
+from module.exception import GameTooManyClickError
 from module.logger import logger
 from module.os.assets import *
 from module.os_handler.action_point import ActionPointHandler
@@ -233,17 +234,33 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             in: is_in_map
             out: is_in_globe
         """
+        click_count = 0
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
-        def additional():
+            if self.appear_then_click(MAP_GOTO_GLOBE, offset=(200, 5), interval=2):
+                click_count += 1
+                if click_count >= 5:
+                    # When there's zone exploration reward, AL just don't let you go.
+                    logger.warning('Unable to goto globe, '
+                                   'there might be uncollected zone exploration rewards preventing exit')
+                    raise GameTooManyClickError(f'Too many click for a button: {MAP_GOTO_GLOBE}')
+                continue
+            if self.handle_map_event():
+                continue
             # Popup: Leaving current zone will terminate meowfficer searching.
             # Searching reward will be shown after entering another zone.
             if self.handle_popup_confirm('GOTO_GLOBE'):
-                return True
-            return False
+                continue
 
-        self.ui_click(MAP_GOTO_GLOBE, check_button=self.is_in_globe, offset=(200, 5), additional=additional,
-                      retry_wait=2, skip_first_screenshot=skip_first_screenshot)
+            # End
+            if self.is_in_globe():
+                break
 
+        skip_first_screenshot = True
         confirm_timer = Timer(1, count=2).start()
         unpinned = 0
         while 1:

@@ -102,16 +102,18 @@ class MissionHandler(GlobeOperation, ZoneManager):
         """
         self.os_mission_enter()
 
-        if not (self.appear(MISSION_CHECKOUT, offset=(20, 20)) and MISSION_CHECKOUT.match_appear_on(self.device.image)):
+        checkout_offset = (20, 20)
+        if self.appear(MISSION_MONTHLY_BOSS, offset=(20, 20)):
+            # If monthly BOSS hasn't been killed, there is always a task.
+            logger.info('Monthly BOSS mission found, checking missions bellow it')
+            checkout_offset = (-20, 100, 20, 150)
+
+        if not (self.appear(MISSION_CHECKOUT, offset=checkout_offset)
+                and MISSION_CHECKOUT.match_appear_on(self.device.image)):
             # If not having enough items to claim a mission,
             # there will still be MISSION_CHECKOUT, but button is transparent.
             # So here needs to use both template matching and color detection.
-            self.os_mission_quit()
-            return False
-        if self.appear(MISSION_MONTHLY_BOSS, offset=(20, 20)):
-            # If monthly BOSS hasn't been killed, there is always a task.
-            # It has a low priority to show, so its presence means that the task list is empty.
-            logger.info('Monthly BOSS mission found, mission list is empty')
+            logger.info('No more OS missions')
             self.os_mission_quit()
             return False
 
@@ -123,7 +125,7 @@ class MissionHandler(GlobeOperation, ZoneManager):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(MISSION_CHECKOUT, offset=(20, 20), interval=2):
+            if self.appear_then_click(MISSION_CHECKOUT, offset=checkout_offset, interval=2):
                 continue
             if self.handle_popup_confirm('OS_MISSION_CHECKOUT'):
                 # Popup: Submarine will retreat after exiting current zone.
@@ -137,3 +139,52 @@ class MissionHandler(GlobeOperation, ZoneManager):
             if self.is_in_map() and self.info_bar_count():
                 logger.info('Already at mission zone')
                 return 2
+
+    def os_mission_overview_accept(self):
+        """
+        Accept all missions in mission overview.
+
+        Returns:
+            bool: True if all missions accepted or no mission found.
+                  False if unable to accept more missions.
+
+        Pages:
+            in: is_in_map
+            out: is_in_map
+        """
+        # is_in_map
+        self.os_map_goto_globe(unpin=False)
+        # is_in_globe
+        self.ui_click(MISSION_OVERVIEW_ENTER, check_button=MISSION_OVERVIEW_CHECK,
+                      offset=(200, 20), retry_wait=3, skip_first_screenshot=True)
+
+        # MISSION_OVERVIEW_CHECK
+        confirm_timer = Timer(1, count=3).start()
+        skip_first_screenshot = True
+        success = True
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear_then_click(MISSION_OVERVIEW_ACCEPT, offset=(20, 20), interval=0.2):
+                confirm_timer.reset()
+                continue
+            else:
+                # End
+                if confirm_timer.reached():
+                    success = True
+                    break
+
+            if self.info_bar_count():
+                logger.info('Unable to accept missions, because reached the maximum number of missions')
+                success = False
+                break
+
+        # is_in_globe
+        self.ui_back(appear_button=MISSION_OVERVIEW_CHECK, check_button=self.is_in_globe,
+                     skip_first_screenshot=True)
+        # is_in_map
+        self.os_globe_goto_map()
+        return success

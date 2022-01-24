@@ -87,8 +87,9 @@ class GeneratedConfig:
 
     # Group `Submarine`
     Submarine_Fleet = 0  # 0, 1, 2
-    Submarine_Mode = 'do_not_use'  # do_not_use, hunt_only, every_combat
+    Submarine_Mode = 'do_not_use'  # do_not_use, hunt_only, boss_only, every_combat
     Submarine_AutoSearchMode = 'sub_standby'  # sub_standby, sub_auto_call
+    Submarine_DistanceToBoss = '2_grid_to_boss'  # to_boss_position, 1_grid_to_boss, 2_grid_to_boss, use_U522_skill
 
     # Group `Emotion`
     Emotion_CalculateEmotion = True
@@ -158,10 +159,10 @@ class GeneratedConfig:
     ControlExpOverflow_T1Allow = 200
 
     # Group `Research`
-    Research_UseCube = False
-    Research_UseCoin = True
-    Research_UsePart = True
-    Research_PresetFilter = 'series_4'  # custom, series_4, series_3, series_3_than_2
+    Research_UseCube = 'only_05_hour'  # always_use, only_05_hour, do_not_use
+    Research_UseCoin = 'always_use'  # always_use, only_05_hour, do_not_use
+    Research_UsePart = 'always_use'  # always_use, only_05_hour, do_not_use
+    Research_PresetFilter = 'series_4_blueprint_tenrai'  # custom, series_4_blueprint_tenrai, series_4_blueprint_only, series_4_tenrai_only, series_3, series_3_than_2
     Research_CustomFilter = 'S4-Q0.5 > Q-0.5 > S4-DR0.5 > S4-PRY0.5 > DR-0.5 > PRY-0.5\n> S4-Q1 > S4-Q2\n> S4-DR2.5 > S4-G1.5\n> S4-Q4 > S4-H0.5 > S4-G4\n> S4-PRY2.5 > S4-G2.5\n> reset > S4-H1 > shortest'
 
     # Group `Dorm`
@@ -183,7 +184,7 @@ class GeneratedConfig:
     # Group `GuildOperation`
     GuildOperation_Enable = True
     GuildOperation_SelectNewOperation = False
-    GuildOperation_NewOperationMaxDate = 20
+    GuildOperation_NewOperationMaxDate = 15
     GuildOperation_JoinThreshold = 1
     GuildOperation_AttackBoss = True
     GuildOperation_BossFleetRecommend = False
@@ -203,7 +204,7 @@ class GeneratedConfig:
 
     # Group `GuildShop`
     GuildShop_Refresh = True
-    GuildShop_Filter = 'PlateT4 > BookT3 > PRBP > CatT3 > Chip > BookT2 > Retrofit > FoodT6 > FoodT5 > CatT2 > BoxT4'
+    GuildShop_Filter = 'PlateT4 > BookT3 > PR > CatT3 > Chip > BookT2 > Retrofit > FoodT6 > FoodT5 > CatT2 > BoxT4'
     GuildShop_BOX_T3 = 'ironblood'  # eagle, royal, sakura, ironblood
     GuildShop_BOX_T4 = 'ironblood'  # eagle, royal, sakura, ironblood
     GuildShop_BOOK_T2 = 'red'  # red, blue, yellow
@@ -218,7 +219,7 @@ class GeneratedConfig:
     GuildShop_PR3 = 'cheshire'  # cheshire, mainz, odin, champagne
 
     # Group `MedalShop`
-    MedalShop_Filter = 'DRBP > PRBP\n> BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3 > PlateGeneralT3\n> FoodT6 > FoodT5'
+    MedalShop_Filter = 'DR > PR\n> BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3 > PlateGeneralT3\n> FoodT6 > FoodT5'
 
     # Group `MeritShop`
     MeritShop_Refresh = False
@@ -282,6 +283,9 @@ class GeneratedConfig:
     # Group `RaidDaily`
     RaidDaily_StageFilter = 'hard > normal > easy'
 
+    # Group `MaritimeEscort`
+    MaritimeEscort_Enable = True
+
     # Group `OpsiAshAssist`
     OpsiAshAssist_Tier = 15
 
@@ -310,9 +314,12 @@ class GeneratedConfig:
     OpsiExplore_ForceRun = False
     OpsiExplore_LastZone = 0
 
+    # Group `OpsiShop`
+    OpsiShop_BuySupply = True
+
     # Group `OpsiDaily`
-    OpsiDaily_BuySupply = True
     OpsiDaily_DoMission = True
+    OpsiDaily_UseTuningSample = True
 
     # Group `OpsiObscure`
     OpsiObscure_ForceRun = False

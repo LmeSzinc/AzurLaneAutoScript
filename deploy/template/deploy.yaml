@@ -61,9 +61,32 @@ Deploy:
     # [In most cases] Use true
     InstallUiautomator2: true
 
+  Update:
+    # Use auto update and builtin updater feature
+    # This may cause problem https://github.com/LmeSzinc/AzurLaneAutoScript/issues/876
+    EnableReload: true
+    # Check update every X minute
+    # [Disable] -1
+    # [Default] 5
+    CheckUpdateInterval: 5
+    # Scheduled restart time
+    # If there are updates, Alas will automatically restart and update at this time every day
+    # and run all alas instances that running before restarted
+    # [Disable] null
+    # [Default] 03:50
+    AutoRestartTime: 03:50
+
+  Misc:
+    # Enable discord rich presence
+    DiscordRichPresence: false
+
   Webui:
+    # --host. Host to listen
+    # [Use IPv6] '::'
+    # [In most cases] Default to '0.0.0.0'
+    WebuiHost: 0.0.0.0
     # --port. Port to listen
-    # You will be able to access webui via `http://127.0.0.1:{port}`
+    # You will be able to access webui via `http://{host}:{port}`
     # [In most cases] Default to 22267
     WebuiPort: 22267
     # Language to use on web ui
@@ -71,15 +94,19 @@ Deploy:
     # 'en-US' for English
     # 'ja-JP' for Japanese
     # 'zh-TW' for Chinese traditional
-    Language: 'en-US'
+    Language: en-US
     # Theme of web ui
     # 'default' for light theme
     # 'dark' for dark theme
     Theme: default
-    # Password of web ui
+    # Follow system DPI scaling
+    # [In most cases] true
+    # [In few cases] false to make Alas smaller, if you have a low resolution but high DPI scaling.
+    DpiScaling: true
+    # --key. Password of web ui
     # Useful when expose Alas to the public network
     Password: null
-    # Use jsdelivr cdn for pywebio static files (css, js).
+    # --cdn. Use jsdelivr cdn for pywebio static files (css, js).
     # 'true' for jsdelivr cdn
     # 'false' for self host cdn (automatically)
     CDN: false

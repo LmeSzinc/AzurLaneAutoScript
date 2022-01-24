@@ -3,6 +3,7 @@ from module.combat.assets import *
 from module.exception import CampaignEnd
 from module.handler.assets import *
 from module.logger import logger
+from module.os.assets import GLOBE_GOTO_MAP
 from module.os_handler.assets import *
 from module.os_handler.enemy_searching import EnemySearchingHandler
 from module.ui.switch import Switch
@@ -167,6 +168,10 @@ class MapEventHandler(EnemySearchingHandler):
                 confirm_timer.reset()
                 continue
             if self.handle_map_event():
+                confirm_timer.reset()
+                continue
+            if self.appear_then_click(GLOBE_GOTO_MAP, offset=(20, 20), interval=1):
+                # Sometimes entered globe map after clicking AUTO_SEARCH_REWARD, but don't know why
                 confirm_timer.reset()
                 continue
 

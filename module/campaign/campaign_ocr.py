@@ -2,6 +2,7 @@ import collections
 
 from module.base.base import ModuleBase
 from module.base.decorator import Config
+from module.base.timer import Timer
 from module.base.utils import *
 from module.exception import CampaignNameError
 from module.logger import logger
@@ -230,9 +231,17 @@ class CampaignOcr(ModuleBase):
         Returns:
             int: Chapter index.
         """
-        try:
-            self._get_stage_name(image)
-        except IndexError:
-            raise CampaignNameError
+        timeout = Timer(2, count=4).start()
+        while 1:
+            if timeout.reached():
+                raise CampaignNameError
+
+            try:
+                self._get_stage_name(image)
+                break
+            except (IndexError, CampaignNameError):
+                self.device.screenshot()
+                image = self.device.image
+                continue
 
         return self._campaign_get_chapter_index(self.campaign_chapter)

@@ -6,16 +6,38 @@
     display: none;
 }
 
-.container-log {
+#pywebio-scope-log {
     font-size: .75rem !important;
 }
 
-*[style*="container-content"] {
+#pywebio-scope-content {
     padding: .25rem;
     margin: 0
+}
+
+#pywebio-scope-navigator {
+    display: none;
 }
 
 *[style*="container-args-row"],
 *[style*="container-large.args"] {
     grid-template-columns: 1fr 8rem !important;
+}
+
+#pywebio-scope-_groups {
+    grid-template-columns: 0fr 1fr;
+}
+
+#pywebio-scope-overview {
+    grid-auto-flow: row;
+    grid-template-rows: 100% 100%;
+}
+
+#pywebio-scope-daemon-overview {
+    grid-auto-flow: row;
+    grid-template-rows: auto auto auto 1fr;
+}
+
+#pywebio-scope-schedulers {
+    grid-auto-flow: row;
 }

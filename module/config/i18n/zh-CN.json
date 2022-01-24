@@ -58,10 +58,6 @@
       "name": "共斗活动",
       "help": ""
     },
-    "C11AffinityFarming": {
-      "name": "1-1 伏击刷好感",
-      "help": ""
-    },
     "C72MysteryFarming": {
       "name": "7-2 三战捡垃圾",
       "help": ""
@@ -170,6 +166,10 @@
       "name": "作战档案",
       "help": ""
     },
+    "MaritimeEscort": {
+      "name": "商船护航",
+      "help": ""
+    },
     "OpsiGeneral": {
       "name": "通用设置",
       "help": ""
@@ -180,6 +180,10 @@
     },
     "OpsiExplore": {
       "name": "每月开荒",
+      "help": ""
+    },
+    "OpsiShop": {
+      "name": "大世界商店",
       "help": ""
     },
     "OpsiDaily": {
@@ -296,7 +300,7 @@
     },
     "HandleError": {
       "name": "启用异常处理",
-      "help": "处理部分异常，运行出错时撤退\n部分任务中，会将出错的任务移出列表，并重启游戏"
+      "help": "处理部分异常，运行出错时撤退"
     },
     "SaveError": {
       "name": "出错时，保存 Log 和截图",
@@ -426,6 +430,7 @@
       "name": "活动名称",
       "help": "自动选择至最新的活动",
       "campaign_main": "主线图",
+      "event_20201229_cn": "负象限作战",
       "event_20211229_cn": "逆转彩虹之塔",
       "event_20200603_cn": "峡湾间的反击",
       "event_20211125_cn": "交汇世界的弧光",
@@ -453,7 +458,6 @@
       "event_20210225_tw": "北境序曲",
       "event_20210225_cn": "破晓冰华",
       "event_20210121_cn": "复刻神圣的悲喜剧",
-      "event_20201229_cn": "负象限作战",
       "event_20201126_cn": "假日航线",
       "event_20200312_cn": "复刻斯图尔特的硝烟",
       "event_20201029_cn": "激唱的UNIVERSE",
@@ -648,6 +652,7 @@
       "help": "",
       "do_not_use": "不使用",
       "hunt_only": "仅狩猎",
+      "boss_only": "仅BOSS战",
       "every_combat": "每战出击"
     },
     "AutoSearchMode": {
@@ -655,6 +660,14 @@
       "help": "自律时生效",
       "sub_standby": "待机",
       "sub_auto_call": "自动召唤潜艇"
+    },
+    "DistanceToBoss": {
+      "name": "BOSS战前将潜艇移动到BOSS附近",
+      "help": "仅在\"潜艇出击方案\"为\"仅BOSS战\"时生效\n选择\"距离BOSS X格\"需要保证潜艇狩猎范围能覆盖到BOSS，距离使用曼哈顿距离计算，选择\"使用U522技能\"需要潜艇队伍里有U522",
+      "to_boss_position": "至 BOSS 所在位置",
+      "1_grid_to_boss": "距离 BOSS 1 格",
+      "2_grid_to_boss": "距离 BOSS 2 格",
+      "use_U522_skill": "使用 U522 技能"
     }
   },
   "Emotion": {
@@ -709,7 +722,7 @@
       "name": "二队心情控制",
       "help": "",
       "keep_exp_bonus": "保持经验加成 (>120)",
-      "prevent_green_face": "防止绿脸",
+      "prevent_green_face": "防止绿脸 (>40)",
       "prevent_yellow_face": "防止黄脸 (>30)",
       "prevent_red_face": "防止红脸 (>0)"
     },
@@ -943,25 +956,36 @@
   "Research": {
     "_info": {
       "name": "科研",
-      "help": ""
+      "help": "当过滤器和其他设置一起工作时，Alas 会寻找同时满足所有用户设置的项目。\n例如，你设置科研过滤器是 `H1 > D2.5 > shortest` （包含消耗魔方的科研），但又设置了不允许消耗魔方，最终的结果是 Alas 不会选择消耗魔方的科研。当你突然想切魔方的时候，只需打开消耗魔方，而不需要修改过滤器，这是比较方便的。"
     },
     "UseCube": {
       "name": "使用魔方",
-      "help": ""
+      "help": "",
+      "always_use": "总是使用",
+      "only_05_hour": "仅0.5小时科研使用",
+      "do_not_use": "不使用"
     },
     "UseCoin": {
       "name": "使用物资",
-      "help": ""
+      "help": "",
+      "always_use": "总是使用",
+      "only_05_hour": "仅0.5小时科研使用",
+      "do_not_use": "不使用"
     },
     "UsePart": {
       "name": "使用部件",
-      "help": ""
+      "help": "",
+      "always_use": "总是使用",
+      "only_05_hour": "仅0.5小时科研使用",
+      "do_not_use": "不使用"
     },
     "PresetFilter": {
       "name": "科研过滤器",
-      "help": "当过滤器和其他设置一起工作时，Alas 会寻找同时满足所有用户设置的项目。\n例如，你设置科研过滤器是 `H1 > D2.5 > shortest` （包含消耗魔方的科研），但又设置了不允许消耗魔方，最终的结果是 Alas 不会选择消耗魔方的科研。当你突然想切魔方的时候，只需打开消耗魔方，而不需要修改过滤器，这是比较方便的。\n建议选自定义并编写自己的过滤器",
+      "help": "科研掉落和项目刷新见 https://azur-stats.lyoko.io/，对这些没有基本了解的人不建议编写自定义过滤器，建议使用预优化科研过滤器",
       "custom": "自定义",
-      "series_4": "四期",
+      "series_4_blueprint_tenrai": "四期 蓝图+天雷",
+      "series_4_blueprint_only": "四期 仅蓝图",
+      "series_4_tenrai_only": "四期 仅天雷",
       "series_3": "三期",
       "series_3_than_2": "三期兼顾二期"
     },
@@ -1524,6 +1548,16 @@
       "help": ""
     }
   },
+  "MaritimeEscort": {
+    "_info": {
+      "name": "商船护航",
+      "help": "进一下就撤退，能拿约70%的奖励"
+    },
+    "Enable": {
+      "name": "启用商船护航",
+      "help": ""
+    }
+  },
   "OpsiAshAssist": {
     "_info": {
       "name": "余烬信标支援",
@@ -1628,18 +1662,28 @@
       "help": "自动更新的数值，地图ID，填0可重置进度，重置后自动跳过已开荒的海域"
     }
   },
-  "OpsiDaily": {
+  "OpsiShop": {
     "_info": {
-      "name": "大世界每日",
+      "name": "大世界商店",
       "help": "使用此功能前必须满足以下条件：\n- 通关大世界主线任务\n- 完成大世界开荒或使用战役信息记录仪（5000油道具）"
     },
     "BuySupply": {
       "name": "购买港口商店",
       "help": "每月港口商店可购买商品是固定的，未购买的物品下次仍会出现，并阻塞高价值物品，因此需要购买全部"
+    }
+  },
+  "OpsiDaily": {
+    "_info": {
+      "name": "大世界每日",
+      "help": "使用此功能前必须满足以下条件：\n- 通关大世界主线任务\n- 完成大世界开荒或使用战役信息记录仪（5000油道具）"
     },
     "DoMission": {
       "name": "做大世界每日",
       "help": "在港口接每日，并完成所有每日"
+    },
+    "UseTuningSample": {
+      "name": "使用效能样本",
+      "help": "使用所有六种效能样本和强力效能样本"
     }
   },
   "OpsiObscure": {
@@ -1762,19 +1806,25 @@
       "Start": "启动",
       "Stop": "停止",
       "ScrollON": "自动滚动 开",
-      "ScrollOFF": "关",
+      "ScrollOFF": "自动滚动 关",
       "ClearLog": "清空日志",
-      "Setting": "设置"
+      "Setting": "设置",
+      "CheckUpdate": "检查更新",
+      "ClickToUpdate": "进行更新",
+      "RetryUpdate": "重试更新",
+      "CancelUpdate": "取消更新"
     },
     "Toast": {
       "DisableTranslateMode": "点击这里关闭翻译模式",
       "ConfigSaved": "设置已保存",
-      "AlasIsRunning": "调度器已在运行中"
+      "AlasIsRunning": "调度器已在运行中",
+      "ClickToUpdate": "有更新可用，点击这里进行更新"
     },
     "Status": {
       "Running": "运行中",
       "Inactive": "闲置",
-      "Warning": "发生错误"
+      "Warning": "发生错误",
+      "Updating": "等待更新"
     },
     "MenuAlas": {
       "Overview": "总览",
@@ -1782,7 +1832,8 @@
     },
     "MenuDevelop": {
       "HomePage": "主页",
-      "Translate": "翻译"
+      "Translate": "翻译",
+      "Update": "更新器"
     },
     "Overview": {
       "Scheduler": "调度器",
@@ -1798,6 +1849,24 @@
       "CopyFrom": "从现有的配置中复制",
       "Confirm": "添加",
       "FileExist": "存在同名的配置文件，请重新输入一个"
+    },
+    "Update": {
+      "UpToDate": "已是最新版本",
+      "HaveUpdate": "有新版本可用",
+      "UpdateFailed": "更新失败，可在./log/*_gui.txt中找到错误日志",
+      "UpdateStart": "开始更新",
+      "UpdateWait": "等待所有 Alas 完成当前任务",
+      "UpdateRun": "更新中",
+      "UpdateSuccess": "更新成功，正在重启",
+      "UpdateChecking": "检查更新中",
+      "UpdateCancel": "取消更新，重启 Alas 中",
+      "UpdateFinish": "更新成功，请手动重启",
+      "Local": "本地",
+      "Upstream": "上游仓库",
+      "Author": "作者",
+      "Time": "提交时间",
+      "Message": "提交信息",
+      "DisabledWarn": "更新模块未启用，你需要手动重启 Alas 进行更新"
     },
     "Text": {
       "InvalidFeedBack": "格式错误。 示例：{0}"

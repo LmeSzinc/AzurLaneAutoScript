@@ -1,7 +1,7 @@
 import {app, Menu, Tray, BrowserWindow, ipcMain, globalShortcut} from 'electron';
 import {URL} from 'url';
 import {PyShell} from '/@/pyshell';
-import {webuiArgs, webuiPath} from '/@/config';
+import {webuiArgs, webuiPath, dpiScaling} from '/@/config';
 
 const path = require('path');
 
@@ -102,8 +102,9 @@ const createWindow = async () => {
     mainWindow?.isMaximized() ? mainWindow?.restore() : mainWindow?.maximize();
   });
   ipcMain.on('window-close', function () {
-    alas.kill();
-    setTimeout(() => mainWindow?.close(), 500); // Wait taskkill to finish
+    alas.kill(function () {
+      mainWindow?.close();
+    })
   });
 
   // Tray
@@ -124,7 +125,9 @@ const createWindow = async () => {
     {
       label: 'Exit',
       click: function () {
-        app.quit();
+        alas.kill(function () {
+          mainWindow?.close();
+        })
       }
     }
   ]);
@@ -140,8 +143,11 @@ const createWindow = async () => {
 
 
 // No DPI scaling
-// app.commandLine.appendSwitch('high-dpi-support', '1');
-// app.commandLine.appendSwitch('force-device-scale-factor', '1');
+if (!dpiScaling) {
+  app.commandLine.appendSwitch('high-dpi-support', '1');
+  app.commandLine.appendSwitch('force-device-scale-factor', '1');
+}
+
 
 function loadURL() {
   /**
@@ -165,7 +171,7 @@ alas.on('stderr', function (message: string) {
    * Or backend has started already
    * `[Errno 10048] error while attempting to bind on address ('0.0.0.0', 22267): `
    */
-  if (message.includes('running on') || message.includes('bind on address')) {
+  if (message.includes('Application startup complete') || message.includes('bind on address')) {
     alas.removeAllListeners('stderr');
     loadURL()
   }

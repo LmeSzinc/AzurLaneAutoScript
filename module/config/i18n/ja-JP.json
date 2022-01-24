@@ -58,10 +58,6 @@
       "name": "Task.Raid.name",
       "help": "Task.Raid.help"
     },
-    "C11AffinityFarming": {
-      "name": "Task.C11AffinityFarming.name",
-      "help": "Task.C11AffinityFarming.help"
-    },
     "C72MysteryFarming": {
       "name": "Task.C72MysteryFarming.name",
       "help": "Task.C72MysteryFarming.help"
@@ -170,6 +166,10 @@
       "name": "Task.WarArchives.name",
       "help": "Task.WarArchives.help"
     },
+    "MaritimeEscort": {
+      "name": "Task.MaritimeEscort.name",
+      "help": "Task.MaritimeEscort.help"
+    },
     "OpsiGeneral": {
       "name": "Task.OpsiGeneral.name",
       "help": "Task.OpsiGeneral.help"
@@ -181,6 +181,10 @@
     "OpsiExplore": {
       "name": "Task.OpsiExplore.name",
       "help": "Task.OpsiExplore.help"
+    },
+    "OpsiShop": {
+      "name": "Task.OpsiShop.name",
+      "help": "Task.OpsiShop.help"
     },
     "OpsiDaily": {
       "name": "Task.OpsiDaily.name",
@@ -426,6 +430,7 @@
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
+      "event_20201229_cn": "虚畳なりし限象",
       "event_20211229_cn": "遡望せし虹彩の塔",
       "event_20200603_cn": "峡湾間の反撃",
       "event_20211125_cn": "弧光は交わる世界にて",
@@ -453,7 +458,6 @@
       "event_20210225_tw": "北境序曲",
       "event_20210225_cn": "暁射す氷華の嵐",
       "event_20210121_cn": "悲歎せし焔海の詩（復刻）",
-      "event_20201229_cn": "虚畳なりし限象",
       "event_20201126_cn": "バケーションレーン",
       "event_20200312_cn": "南洋に靡く硝煙（復刻）",
       "event_20201029_cn": "激唱のユニバース",
@@ -648,6 +652,7 @@
       "help": "Submarine.Mode.help",
       "do_not_use": "do_not_use",
       "hunt_only": "hunt_only",
+      "boss_only": "boss_only",
       "every_combat": "every_combat"
     },
     "AutoSearchMode": {
@@ -655,6 +660,14 @@
       "help": "Submarine.AutoSearchMode.help",
       "sub_standby": "sub_standby",
       "sub_auto_call": "sub_auto_call"
+    },
+    "DistanceToBoss": {
+      "name": "Submarine.DistanceToBoss.name",
+      "help": "Submarine.DistanceToBoss.help",
+      "to_boss_position": "to_boss_position",
+      "1_grid_to_boss": "1_grid_to_boss",
+      "2_grid_to_boss": "2_grid_to_boss",
+      "use_U522_skill": "use_U522_skill"
     }
   },
   "Emotion": {
@@ -947,21 +960,32 @@
     },
     "UseCube": {
       "name": "Research.UseCube.name",
-      "help": "Research.UseCube.help"
+      "help": "Research.UseCube.help",
+      "always_use": "always_use",
+      "only_05_hour": "only_05_hour",
+      "do_not_use": "do_not_use"
     },
     "UseCoin": {
       "name": "Research.UseCoin.name",
-      "help": "Research.UseCoin.help"
+      "help": "Research.UseCoin.help",
+      "always_use": "always_use",
+      "only_05_hour": "only_05_hour",
+      "do_not_use": "do_not_use"
     },
     "UsePart": {
       "name": "Research.UsePart.name",
-      "help": "Research.UsePart.help"
+      "help": "Research.UsePart.help",
+      "always_use": "always_use",
+      "only_05_hour": "only_05_hour",
+      "do_not_use": "do_not_use"
     },
     "PresetFilter": {
       "name": "Research.PresetFilter.name",
       "help": "Research.PresetFilter.help",
       "custom": "custom",
-      "series_4": "series_4",
+      "series_4_blueprint_tenrai": "series_4_blueprint_tenrai",
+      "series_4_blueprint_only": "series_4_blueprint_only",
+      "series_4_tenrai_only": "series_4_tenrai_only",
       "series_3": "series_3",
       "series_3_than_2": "series_3_than_2"
     },
@@ -1524,6 +1548,16 @@
       "help": "RaidDaily.StageFilter.help"
     }
   },
+  "MaritimeEscort": {
+    "_info": {
+      "name": "MaritimeEscort._info.name",
+      "help": "MaritimeEscort._info.help"
+    },
+    "Enable": {
+      "name": "MaritimeEscort.Enable.name",
+      "help": "MaritimeEscort.Enable.help"
+    }
+  },
   "OpsiAshAssist": {
     "_info": {
       "name": "OpsiAshAssist._info.name",
@@ -1628,18 +1662,28 @@
       "help": "OpsiExplore.LastZone.help"
     }
   },
+  "OpsiShop": {
+    "_info": {
+      "name": "OpsiShop._info.name",
+      "help": "OpsiShop._info.help"
+    },
+    "BuySupply": {
+      "name": "OpsiShop.BuySupply.name",
+      "help": "OpsiShop.BuySupply.help"
+    }
+  },
   "OpsiDaily": {
     "_info": {
       "name": "OpsiDaily._info.name",
       "help": "OpsiDaily._info.help"
     },
-    "BuySupply": {
-      "name": "OpsiDaily.BuySupply.name",
-      "help": "OpsiDaily.BuySupply.help"
-    },
     "DoMission": {
       "name": "OpsiDaily.DoMission.name",
       "help": "OpsiDaily.DoMission.help"
+    },
+    "UseTuningSample": {
+      "name": "OpsiDaily.UseTuningSample.name",
+      "help": "OpsiDaily.UseTuningSample.help"
     }
   },
   "OpsiObscure": {
@@ -1764,17 +1808,23 @@
       "ScrollON": "Gui.Button.ScrollON",
       "ScrollOFF": "Gui.Button.ScrollOFF",
       "ClearLog": "Gui.Button.ClearLog",
-      "Setting": "Gui.Button.Setting"
+      "Setting": "Gui.Button.Setting",
+      "CheckUpdate": "Gui.Button.CheckUpdate",
+      "ClickToUpdate": "Gui.Button.ClickToUpdate",
+      "RetryUpdate": "Gui.Button.RetryUpdate",
+      "CancelUpdate": "Gui.Button.CancelUpdate"
     },
     "Toast": {
       "DisableTranslateMode": "Gui.Toast.DisableTranslateMode",
       "ConfigSaved": "Gui.Toast.ConfigSaved",
-      "AlasIsRunning": "Gui.Toast.AlasIsRunning"
+      "AlasIsRunning": "Gui.Toast.AlasIsRunning",
+      "ClickToUpdate": "Gui.Toast.ClickToUpdate"
     },
     "Status": {
       "Running": "Gui.Status.Running",
       "Inactive": "Gui.Status.Inactive",
-      "Warning": "Gui.Status.Warning"
+      "Warning": "Gui.Status.Warning",
+      "Updating": "Gui.Status.Updating"
     },
     "MenuAlas": {
       "Overview": "Gui.MenuAlas.Overview",
@@ -1782,7 +1832,8 @@
     },
     "MenuDevelop": {
       "HomePage": "Gui.MenuDevelop.HomePage",
-      "Translate": "Gui.MenuDevelop.Translate"
+      "Translate": "Gui.MenuDevelop.Translate",
+      "Update": "Gui.MenuDevelop.Update"
     },
     "Overview": {
       "Scheduler": "Gui.Overview.Scheduler",
@@ -1798,6 +1849,24 @@
       "CopyFrom": "Gui.AddAlas.CopyFrom",
       "Confirm": "Gui.AddAlas.Confirm",
       "FileExist": "Gui.AddAlas.FileExist"
+    },
+    "Update": {
+      "UpToDate": "Gui.Update.UpToDate",
+      "HaveUpdate": "Gui.Update.HaveUpdate",
+      "UpdateFailed": "Gui.Update.UpdateFailed",
+      "UpdateStart": "Gui.Update.UpdateStart",
+      "UpdateWait": "Gui.Update.UpdateWait",
+      "UpdateRun": "Gui.Update.UpdateRun",
+      "UpdateSuccess": "Gui.Update.UpdateSuccess",
+      "UpdateChecking": "Gui.Update.UpdateChecking",
+      "UpdateCancel": "Gui.Update.UpdateCancel",
+      "UpdateFinish": "Gui.Update.UpdateFinish",
+      "Local": "Gui.Update.Local",
+      "Upstream": "Gui.Update.Upstream",
+      "Author": "Gui.Update.Author",
+      "Time": "Gui.Update.Time",
+      "Message": "Gui.Update.Message",
+      "DisabledWarn": "Gui.Update.DisabledWarn"
     },
     "Text": {
       "InvalidFeedBack": "Gui.Text.InvalidFeedBack"

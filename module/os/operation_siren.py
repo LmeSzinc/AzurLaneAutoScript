@@ -38,6 +38,11 @@ class OperationSiren(Reward, OSMap):
         self.hp_reset()
         self.handle_fleet_repair(revert=False)
 
+        # Exit from special zones types, only SAFE and DANGEROUS are acceptable.
+        if self.is_in_special_zone():
+            logger.warning('OS is in a special zone type, while SAFE and DANGEROUS are acceptable')
+            self.map_exit()
+
         # Clear current zone
         if self.zone.is_port:
             logger.info('In port, skip running first auto search')
@@ -45,11 +50,6 @@ class OperationSiren(Reward, OSMap):
         else:
             self.run_auto_search()
             self.handle_fleet_repair(revert=False)
-
-        # Exit from special zones types, only SAFE and DANGEROUS are acceptable.
-        if self.is_in_special_zone():
-            logger.warning('OS is in a special zone type, while SAFE and DANGEROUS are acceptable')
-            self.map_exit()
 
     def get_current_zone_from_globe(self):
         """
@@ -221,9 +221,10 @@ class OperationSiren(Reward, OSMap):
             self.globe_goto(port)
             self.port_goto()
             self.port_enter()
-            if mission and mission_success:
-                mission_success &= self.port_mission_accept()
-            if supply and supply_success:
+            # Deprecated since 2022.01.13, missions are shown only in overview, no longer to be shown at ports.
+            # if mission and mission_success:
+            #     mission_success &= self.port_mission_accept()
+            if supply:
                 supply_success &= self.port_supply_buy()
             self.port_quit()
 
@@ -257,21 +258,23 @@ class OperationSiren(Reward, OSMap):
         return True
 
     def os_daily(self):
+        # Finish existing missions first
+        self.os_finish_daily_mission()
+
+        # Clear tuning samples daily
+        self.handle_tuning_sample_use()
+
         while 1:
-            mission_success = True
-            if self.config.OpsiDaily_DoMission or self.config.OpsiDaily_BuySupply:
-                self.os_finish_daily_mission()
-                self.config.check_task_switch()
-                # If unable to receive more dailies, finish them and try again.
-                mission_success, _ = self.os_port_daily(
-                    mission=self.config.OpsiDaily_DoMission, supply=self.config.OpsiDaily_BuySupply)
-
-            if self.config.OpsiDaily_DoMission:
-                self.os_finish_daily_mission()
-
-            if mission_success:
+            # If unable to receive more dailies, finish them and try again.
+            success = self.os_mission_overview_accept()
+            self.os_finish_daily_mission()
+            if success:
                 break
 
+        self.config.task_delay(server_update=True)
+
+    def os_shop(self):
+        self.os_port_daily(mission=False, supply=self.config.OpsiShop_BuySupply)
         self.config.task_delay(server_update=True)
 
     def os_meowfficer_farming(self):
@@ -533,10 +536,10 @@ class OperationSiren(Reward, OSMap):
 
 
 if __name__ == '__main__':
-    self = OperationSiren('alas', task='OpsiObscure')
+    self = OperationSiren('alas', task='OpsiStronghold')
     from module.os.config import OSConfig
 
     self.config = self.config.merge(OSConfig())
     self.device.screenshot()
-    self.os_init()
-    self.clear_stronghold()
+    self.zone_init()
+    self.run_stronghold()

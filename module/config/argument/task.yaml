@@ -41,13 +41,6 @@ Raid:
   - StopCondition
   - Emotion
   - EnemyPriority
-C11AffinityFarming:
-  - Scheduler
-  - C11AffinityFarming
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Emotion
 C72MysteryFarming:
   - Scheduler
   - C72MysteryFarming
@@ -196,6 +189,9 @@ WarArchives:
   - Submarine
   - Emotion
   - HpControl
+MaritimeEscort:
+  - Scheduler
+  - MaritimeEscort
 
 # ==================== Opsi ====================
 
@@ -209,6 +205,9 @@ OpsiExplore:
   - Scheduler
   - OpsiExplore
   - OpsiFleet
+OpsiShop:
+  - Scheduler
+  - OpsiShop
 OpsiDaily:
   - Scheduler
   - OpsiDaily

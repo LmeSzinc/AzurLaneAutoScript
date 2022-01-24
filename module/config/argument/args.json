@@ -54,7 +54,7 @@
     },
     "Optimization": {
       "CombatScreenshotInterval": {
-        "type": "input",
+        "type": "disable",
         "value": 1.0
       },
       "TaskHoardingDuration": {
@@ -407,6 +407,7 @@
         "option": [
           "do_not_use",
           "hunt_only",
+          "boss_only",
           "every_combat"
         ]
       },
@@ -416,6 +417,16 @@
         "option": [
           "sub_standby",
           "sub_auto_call"
+        ]
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_U522_skill"
         ]
       }
     },
@@ -576,6 +587,7 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "event_20201229_cn",
           "event_20211229_cn",
           "event_20200603_cn",
           "event_20211125_cn",
@@ -602,7 +614,6 @@
           "event_20210225_tw",
           "event_20210225_cn",
           "event_20210121_cn",
-          "event_20201229_cn",
           "event_20201126_cn",
           "event_20200312_cn",
           "event_20201029_cn",
@@ -618,10 +629,10 @@
           "event_20200326_cn",
           "event_20200227_cn"
         ],
+        "tw": "event_20201229_cn",
         "cn": "event_20211229_cn",
         "en": "event_20211229_cn",
-        "jp": "event_20211229_cn",
-        "tw": "event_20201229_cn"
+        "jp": "event_20211229_cn"
       },
       "Mode": {
         "type": "disable",
@@ -806,6 +817,7 @@
         "option": [
           "do_not_use",
           "hunt_only",
+          "boss_only",
           "every_combat"
         ]
       },
@@ -815,6 +827,16 @@
         "option": [
           "sub_standby",
           "sub_auto_call"
+        ]
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_U522_skill"
         ]
       }
     },
@@ -1143,294 +1165,6 @@
           "S3_enemy_first",
           "S1_enemy_first"
         ]
-      }
-    }
-  },
-  "C11AffinityFarming": {
-    "Scheduler": {
-      "Enable": {
-        "type": "checkbox",
-        "value": false
-      },
-      "NextRun": {
-        "type": "input",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      },
-      "Command": {
-        "type": "disable",
-        "value": "C11AffinityFarming"
-      },
-      "SuccessInterval": {
-        "type": "input",
-        "value": 0
-      },
-      "FailureInterval": {
-        "type": "input",
-        "value": 120
-      },
-      "ServerUpdate": {
-        "type": "input",
-        "value": "00:00"
-      }
-    },
-    "C11AffinityFarming": {
-      "RunCount": {
-        "type": "input",
-        "value": 32
-      }
-    },
-    "Campaign": {
-      "Name": {
-        "type": "disable",
-        "value": "campaign_1_1_affinity_farming"
-      },
-      "Event": {
-        "type": "disable",
-        "value": "campaign_main",
-        "option": [
-          "campaign_main"
-        ]
-      },
-      "Mode": {
-        "type": "disable",
-        "value": "normal",
-        "option": [
-          "normal",
-          "hard"
-        ]
-      },
-      "UseClearMode": {
-        "type": "disable",
-        "value": false
-      },
-      "UseFleetLock": {
-        "type": "disable",
-        "value": true
-      },
-      "UseAutoSearch": {
-        "type": "disable",
-        "value": false
-      },
-      "Use2xBook": {
-        "type": "disable",
-        "value": false
-      },
-      "AmbushEvade": {
-        "type": "disable",
-        "value": false
-      }
-    },
-    "StopCondition": {
-      "RunCount": {
-        "type": "disable",
-        "value": 0
-      },
-      "OilLimit": {
-        "type": "input",
-        "value": 1000
-      },
-      "MapAchievement": {
-        "type": "disable",
-        "value": "non_stop",
-        "option": [
-          "non_stop",
-          "100_percent_clear",
-          "map_3_stars",
-          "threat_safe",
-          "threat_safe_without_3_stars"
-        ]
-      },
-      "StageIncrease": {
-        "type": "disable",
-        "value": false
-      },
-      "GetNewShip": {
-        "type": "disable",
-        "value": false
-      },
-      "ReachLevel": {
-        "type": "disable",
-        "value": 0
-      }
-    },
-    "Fleet": {
-      "Fleet1": {
-        "type": "select",
-        "value": 1,
-        "option": [
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ]
-      },
-      "Fleet1Formation": {
-        "type": "select",
-        "value": "double_line",
-        "option": [
-          "line_ahead",
-          "double_line",
-          "diamond"
-        ]
-      },
-      "Fleet1Mode": {
-        "type": "select",
-        "value": "combat_auto",
-        "option": [
-          "combat_auto",
-          "combat_manual",
-          "stand_still_in_the_middle",
-          "hide_in_bottom_left"
-        ]
-      },
-      "Fleet1Step": {
-        "type": "select",
-        "value": 3,
-        "option": [
-          2,
-          3,
-          4,
-          5
-        ]
-      },
-      "Fleet2": {
-        "type": "select",
-        "value": 2,
-        "option": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ]
-      },
-      "Fleet2Formation": {
-        "type": "select",
-        "value": "double_line",
-        "option": [
-          "line_ahead",
-          "double_line",
-          "diamond"
-        ]
-      },
-      "Fleet2Mode": {
-        "type": "select",
-        "value": "combat_auto",
-        "option": [
-          "combat_auto",
-          "combat_manual",
-          "stand_still_in_the_middle",
-          "hide_in_bottom_left"
-        ]
-      },
-      "Fleet2Step": {
-        "type": "select",
-        "value": 2,
-        "option": [
-          2,
-          3,
-          4,
-          5
-        ]
-      },
-      "FleetOrder": {
-        "type": "disable",
-        "value": "fleet1_all_fleet2_standby",
-        "option": [
-          "fleet1_mob_fleet2_boss",
-          "fleet1_boss_fleet2_mob",
-          "fleet1_all_fleet2_standby",
-          "fleet1_standby_fleet2_all"
-        ]
-      },
-      "AutoSearchFleetOrder": {
-        "type": "disable",
-        "value": "fleet1_all_fleet2_standby",
-        "option": [
-          "fleet1_mob_fleet2_boss",
-          "fleet1_boss_fleet2_mob",
-          "fleet1_all_fleet2_standby",
-          "fleet1_standby_fleet2_all"
-        ]
-      }
-    },
-    "Emotion": {
-      "CalculateEmotion": {
-        "type": "checkbox",
-        "value": true
-      },
-      "IgnoreLowEmotionWarn": {
-        "type": "checkbox",
-        "value": false
-      },
-      "Fleet1Value": {
-        "type": "input",
-        "value": 119
-      },
-      "Fleet1Record": {
-        "type": "input",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      },
-      "Fleet1Control": {
-        "type": "select",
-        "value": "prevent_yellow_face",
-        "option": [
-          "keep_exp_bonus",
-          "prevent_green_face",
-          "prevent_yellow_face",
-          "prevent_red_face"
-        ]
-      },
-      "Fleet1Recover": {
-        "type": "select",
-        "value": "not_in_dormitory",
-        "option": [
-          "not_in_dormitory",
-          "dormitory_floor_1",
-          "dormitory_floor_2"
-        ]
-      },
-      "Fleet1Oath": {
-        "type": "checkbox",
-        "value": false
-      },
-      "Fleet2Value": {
-        "type": "input",
-        "value": 119
-      },
-      "Fleet2Record": {
-        "type": "input",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      },
-      "Fleet2Control": {
-        "type": "select",
-        "value": "prevent_yellow_face",
-        "option": [
-          "keep_exp_bonus",
-          "prevent_green_face",
-          "prevent_yellow_face",
-          "prevent_red_face"
-        ]
-      },
-      "Fleet2Recover": {
-        "type": "select",
-        "value": "not_in_dormitory",
-        "option": [
-          "not_in_dormitory",
-          "dormitory_floor_1",
-          "dormitory_floor_2"
-        ]
-      },
-      "Fleet2Oath": {
-        "type": "checkbox",
-        "value": false
       }
     }
   },
@@ -1991,6 +1725,7 @@
         "option": [
           "do_not_use",
           "hunt_only",
+          "boss_only",
           "every_combat"
         ]
       },
@@ -2000,6 +1735,16 @@
         "option": [
           "sub_standby",
           "sub_auto_call"
+        ]
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_U522_skill"
         ]
       }
     },
@@ -2365,6 +2110,7 @@
         "option": [
           "do_not_use",
           "hunt_only",
+          "boss_only",
           "every_combat"
         ]
       },
@@ -2374,6 +2120,16 @@
         "option": [
           "sub_standby",
           "sub_auto_call"
+        ]
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_U522_skill"
         ]
       }
     },
@@ -2557,6 +2313,7 @@
         "value": "campaign_main",
         "option": [
           "campaign_main",
+          "event_20201229_cn",
           "event_20211229_cn",
           "event_20200603_cn",
           "event_20211125_cn",
@@ -2583,7 +2340,6 @@
           "event_20210225_tw",
           "event_20210225_cn",
           "event_20210121_cn",
-          "event_20201229_cn",
           "event_20201126_cn",
           "event_20200312_cn",
           "event_20201029_cn",
@@ -2599,10 +2355,10 @@
           "event_20200326_cn",
           "event_20200227_cn"
         ],
+        "tw": "event_20201229_cn",
         "cn": "event_20211229_cn",
         "en": "event_20211229_cn",
-        "jp": "event_20211229_cn",
-        "tw": "event_20201229_cn"
+        "jp": "event_20211229_cn"
       },
       "Mode": {
         "type": "disable",
@@ -2625,7 +2381,7 @@
         "value": false
       },
       "Use2xBook": {
-        "type": "disable",
+        "type": "checkbox",
         "value": false
       },
       "AmbushEvade": {
@@ -2983,23 +2739,40 @@
     },
     "Research": {
       "UseCube": {
-        "type": "checkbox",
-        "value": false
+        "type": "select",
+        "value": "only_05_hour",
+        "option": [
+          "always_use",
+          "only_05_hour",
+          "do_not_use"
+        ]
       },
       "UseCoin": {
-        "type": "checkbox",
-        "value": true
+        "type": "select",
+        "value": "always_use",
+        "option": [
+          "always_use",
+          "only_05_hour",
+          "do_not_use"
+        ]
       },
       "UsePart": {
-        "type": "checkbox",
-        "value": true
+        "type": "select",
+        "value": "always_use",
+        "option": [
+          "always_use",
+          "only_05_hour",
+          "do_not_use"
+        ]
       },
       "PresetFilter": {
         "type": "select",
-        "value": "series_4",
+        "value": "series_4_blueprint_tenrai",
         "option": [
           "custom",
-          "series_4",
+          "series_4_blueprint_tenrai",
+          "series_4_blueprint_only",
+          "series_4_tenrai_only",
           "series_3",
           "series_3_than_2"
         ]
@@ -3106,7 +2879,7 @@
       },
       "NewOperationMaxDate": {
         "type": "input",
-        "value": 20
+        "value": 15
       },
       "JoinThreshold": {
         "type": "input",
@@ -3255,7 +3028,7 @@
       },
       "Filter": {
         "type": "textarea",
-        "value": "PlateT4 > BookT3 > PRBP > CatT3 > Chip > BookT2 > Retrofit > FoodT6 > FoodT5 > CatT2 > BoxT4"
+        "value": "PlateT4 > BookT3 > PR > CatT3 > Chip > BookT2 > Retrofit > FoodT6 > FoodT5 > CatT2 > BoxT4"
       },
       "BOX_T3": {
         "type": "select",
@@ -3384,7 +3157,7 @@
     "MedalShop": {
       "Filter": {
         "type": "textarea",
-        "value": "DRBP > PRBP\n> BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3 > PlateGeneralT3\n> FoodT6 > FoodT5"
+        "value": "DR > PR\n> BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3 > PlateGeneralT3\n> FoodT6 > FoodT5"
       }
     },
     "MeritShop": {
@@ -4136,6 +3909,7 @@
         "option": [
           "do_not_use",
           "hunt_only",
+          "boss_only",
           "every_combat"
         ]
       },
@@ -4145,6 +3919,16 @@
         "option": [
           "sub_standby",
           "sub_auto_call"
+        ]
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_U522_skill"
         ]
       }
     },
@@ -4304,6 +4088,7 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "event_20201229_cn",
           "event_20211229_cn",
           "event_20200603_cn",
           "event_20211125_cn",
@@ -4330,7 +4115,6 @@
           "event_20210225_tw",
           "event_20210225_cn",
           "event_20210121_cn",
-          "event_20201229_cn",
           "event_20201126_cn",
           "event_20200312_cn",
           "event_20201029_cn",
@@ -4346,10 +4130,10 @@
           "event_20200326_cn",
           "event_20200227_cn"
         ],
+        "tw": "event_20201229_cn",
         "cn": "event_20211229_cn",
         "en": "event_20211229_cn",
-        "jp": "event_20211229_cn",
-        "tw": "event_20201229_cn"
+        "jp": "event_20211229_cn"
       },
       "Mode": {
         "type": "disable",
@@ -4534,6 +4318,7 @@
         "option": [
           "do_not_use",
           "hunt_only",
+          "boss_only",
           "every_combat"
         ]
       },
@@ -4543,6 +4328,16 @@
         "option": [
           "sub_standby",
           "sub_auto_call"
+        ]
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_U522_skill"
         ]
       }
     },
@@ -4702,6 +4497,7 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "event_20201229_cn",
           "event_20211229_cn",
           "event_20200603_cn",
           "event_20211125_cn",
@@ -4728,7 +4524,6 @@
           "event_20210225_tw",
           "event_20210225_cn",
           "event_20210121_cn",
-          "event_20201229_cn",
           "event_20201126_cn",
           "event_20200312_cn",
           "event_20201029_cn",
@@ -4744,10 +4539,10 @@
           "event_20200326_cn",
           "event_20200227_cn"
         ],
+        "tw": "event_20201229_cn",
         "cn": "event_20211229_cn",
         "en": "event_20211229_cn",
-        "jp": "event_20211229_cn",
-        "tw": "event_20201229_cn"
+        "jp": "event_20211229_cn"
       },
       "Mode": {
         "type": "disable",
@@ -4932,6 +4727,7 @@
         "option": [
           "do_not_use",
           "hunt_only",
+          "boss_only",
           "every_combat"
         ]
       },
@@ -4941,6 +4737,16 @@
         "option": [
           "sub_standby",
           "sub_auto_call"
+        ]
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_U522_skill"
         ]
       }
     },
@@ -5090,6 +4896,7 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "event_20201229_cn",
           "event_20211229_cn",
           "event_20200603_cn",
           "event_20211125_cn",
@@ -5116,7 +4923,6 @@
           "event_20210225_tw",
           "event_20210225_cn",
           "event_20210121_cn",
-          "event_20201229_cn",
           "event_20201126_cn",
           "event_20200312_cn",
           "event_20201029_cn",
@@ -5132,10 +4938,10 @@
           "event_20200326_cn",
           "event_20200227_cn"
         ],
+        "tw": "event_20201229_cn",
         "cn": "event_20211229_cn",
         "en": "event_20211229_cn",
-        "jp": "event_20211229_cn",
-        "tw": "event_20201229_cn"
+        "jp": "event_20211229_cn"
       },
       "Mode": {
         "type": "disable",
@@ -5320,6 +5126,7 @@
         "option": [
           "do_not_use",
           "hunt_only",
+          "boss_only",
           "every_combat"
         ]
       },
@@ -5329,6 +5136,16 @@
         "option": [
           "sub_standby",
           "sub_auto_call"
+        ]
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_U522_skill"
         ]
       }
     },
@@ -5865,6 +5682,7 @@
         "option": [
           "do_not_use",
           "hunt_only",
+          "boss_only",
           "every_combat"
         ]
       },
@@ -5874,6 +5692,16 @@
         "option": [
           "sub_standby",
           "sub_auto_call"
+        ]
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "2_grid_to_boss",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_U522_skill"
         ]
       }
     },
@@ -5983,6 +5811,41 @@
       "LowHpRetreatThreshold": {
         "type": "input",
         "value": 0.3
+      }
+    }
+  },
+  "MaritimeEscort": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "input",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "disable",
+        "value": "MaritimeEscort"
+      },
+      "SuccessInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "FailureInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "ServerUpdate": {
+        "type": "disable",
+        "value": "00:00"
+      }
+    },
+    "MaritimeEscort": {
+      "Enable": {
+        "type": "checkbox",
+        "value": true
       }
     }
   },
@@ -6122,6 +5985,41 @@
       }
     }
   },
+  "OpsiShop": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "input",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "disable",
+        "value": "OpsiShop"
+      },
+      "SuccessInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "FailureInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "ServerUpdate": {
+        "type": "disable",
+        "value": "00:00"
+      }
+    },
+    "OpsiShop": {
+      "BuySupply": {
+        "type": "checkbox",
+        "value": true
+      }
+    }
+  },
   "OpsiDaily": {
     "Scheduler": {
       "Enable": {
@@ -6151,11 +6049,11 @@
       }
     },
     "OpsiDaily": {
-      "BuySupply": {
+      "DoMission": {
         "type": "checkbox",
         "value": true
       },
-      "DoMission": {
+      "UseTuningSample": {
         "type": "checkbox",
         "value": true
       }

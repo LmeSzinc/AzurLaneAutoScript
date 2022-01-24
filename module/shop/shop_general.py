@@ -3,23 +3,23 @@ from module.logger import logger
 from module.ocr.ocr import Digit
 from module.shop.assets import *
 from module.shop.base import ShopBase, ShopItemGrid
+from module.shop.ui import ShopUI
 
 OCR_SHOP_GOLD_COINS = Digit(SHOP_GOLD_COINS, letter=(239, 239, 239), name='OCR_SHOP_GOLD_COINS')
 OCR_SHOP_GEMS = Digit(SHOP_GEMS, letter=(255, 243, 82), name='OCR_SHOP_GEMS')
 
 
-class GeneralShop(ShopBase):
+class GeneralShop(ShopBase, ShopUI):
     _shop_gold_coins = 0
     _shop_gems = 0
 
-    def shop_general_get_currency(self):
+    @cached_property
+    def shop_filter(self):
         """
-        Ocr shop general currency
+        Returns:
+            str:
         """
-        self._shop_gold_coins = OCR_SHOP_GOLD_COINS.ocr(self.device.image)
-        self._shop_gems = OCR_SHOP_GEMS.ocr(self.device.image)
-        logger.info(f'Gold coins: {self._shop_gold_coins}, Gems: {self._shop_gems}')
-        return self._shop_gold_coins
+        return self.config.GeneralShop_Filter.strip()
 
     @cached_property
     def shop_general_items(self):
@@ -33,7 +33,33 @@ class GeneralShop(ShopBase):
         shop_general_items.load_cost_template_folder('./assets/shop/cost')
         return shop_general_items
 
-    def shop_general_check_item(self, item):
+    def shop_items(self):
+        """
+        Shared alias for all shops
+        If there are server-lang
+        differences, reference
+        shop_guild/medal for @Config
+        example
+
+        Returns:
+            ShopItemGrid:
+        """
+        return self.shop_general_items
+
+    def shop_currency(self):
+        """
+        Ocr shop general currency
+        (gold coins and gems)
+
+        Returns:
+            int: gold coin amount
+        """
+        self._shop_gold_coins = OCR_SHOP_GOLD_COINS.ocr(self.device.image)
+        self._shop_gems = OCR_SHOP_GEMS.ocr(self.device.image)
+        logger.info(f'Gold coins: {self._shop_gold_coins}, Gems: {self._shop_gems}')
+        return self._shop_gold_coins
+
+    def shop_check_item(self, item):
         """
         Args:
             item: Item to check
@@ -51,9 +77,10 @@ class GeneralShop(ShopBase):
                 if item.price > self._shop_gems:
                     return False
                 return True
+
         return False
 
-    def shop_general_check_custom_item(self, item):
+    def shop_check_custom_item(self, item):
         """
         Optional def to check a custom item that
         cannot be template matched as color and
@@ -72,3 +99,26 @@ class GeneralShop(ShopBase):
                     return True
 
         return False
+
+    def run(self):
+        """
+        Run General Shop
+        """
+        # Base case; exit run if filter empty
+        if not self.shop_filter:
+            return
+
+        # When called, expected to be in
+        # corrected General Shop interface
+        logger.hr('General Shop', level=1)
+
+        # Execute buy operations
+        # Refresh if enabled and available
+        refresh = self.config.GeneralShop_Refresh
+        for _ in range(2):
+            success = self.shop_buy()
+            if not success:
+                break
+            if refresh and self.shop_refresh():
+                continue
+            break
