@@ -25,10 +25,10 @@ MEOWFFICER_BOX_GRID = ButtonGrid(
     origin=(460, 210), delta=(160, 0), button_shape=(30, 30), grid_shape=(3, 1),
     name='MEOWFFICER_BOX_GRID')
 MEOWFFICER_BOX_COUNT_GRID = ButtonGrid(
-    origin=(490, 245), delta=(160, 0), button_shape=(47, 27), grid_shape=(3, 1),
+    origin=(490, 245), delta=(160, 0), button_shape=(55, 30), grid_shape=(3, 1),
     name='MEOWFFICER_BOX_COUNT_GRID')
 MEOWFFICER_BOX_COUNT = Digit(MEOWFFICER_BOX_COUNT_GRID.buttons,
-    letter=(255, 247, 247), threshold=64,
+    lang='cnocr', letter=(255, 247, 247), threshold=128,
     name=f'MEOWFFICER_BOX_COUNT')
 
 
