@@ -236,6 +236,38 @@ class RewardMeowfficer(UI):
             else:
                 confirm_timer.reset()
 
+    def _meow_queue_enter(self, skip_first_screenshot=True):
+        """
+        Transition into the queuing window to
+        enqueue meowfficer boxes
+        May fail to enter so limit to 3 tries
+        before giving up
+
+        Args:
+            skip_first_screenshot (bool):
+
+        Returns:
+            bool, whether able to enter into
+            MEOWFFICER_TRAIN_FILL_QUEUE
+        """
+        timeout_count = 3
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+                if not self.appear(MEOWFFICER_TRAIN_FILL_QUEUE, offset=(20, 20)) \
+                    and self.appear(MEOWFFICER_TRAIN_START, offset=(20, 20), interval=3):
+                    if timeout_count > 0:
+                        self.device.click(MEOWFFICER_TRAIN_START)
+                        timeout_count -= 1
+                    else:
+                        return False
+
+                if self.appear(MEOWFFICER_TRAIN_FILL_QUEUE, offset=(20, 20)):
+                    return True
+
     def _meow_nqueue(self, skip_first_screenshot=True):
         """
         Queue all remaining empty slots does
@@ -320,11 +352,8 @@ class RewardMeowfficer(UI):
             out: MEOWFFICER_TRAIN
         """
         # Either can remain in same window or
-        # enter the train window
-        self.device.click(MEOWFFICER_TRAIN_START)
-        self.device.sleep((0.3, 0.5))
-        self.device.screenshot()
-        if not self.appear(MEOWFFICER_TRAIN_FILL_QUEUE, offset=(20, 20)):
+        # enter the queuing window
+        if not self._meow_queue_enter():
             return
 
         # Acquire box count of each rarity
