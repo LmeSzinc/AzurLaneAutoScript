@@ -122,7 +122,7 @@ class Adb(Connection):
         _focusedRE = re.compile(
             r'mCurrentFocus=Window{.*\s+(?P<package>[^\s]+)/(?P<activity>[^\s]+)\}'
         )
-        m = _focusedRE.search(self.adb_shell(['dumpsys', 'window', 'windows'])[0])
+        m = _focusedRE.search(self.adb_shell(['dumpsys', 'window', 'windows']))
         if m:
             return m.group('package')
 
@@ -130,7 +130,7 @@ class Adb(Connection):
         _activityRE = re.compile(
             r'ACTIVITY (?P<package>[^\s]+)/(?P<activity>[^/\s]+) \w+ pid=(?P<pid>\d+)'
         )
-        output, _ = self.adb_shell(['dumpsys', 'activity', 'top'])
+        output = self.adb_shell(['dumpsys', 'activity', 'top'])
         ms = _activityRE.finditer(output)
         ret = None
         for m in ms:
