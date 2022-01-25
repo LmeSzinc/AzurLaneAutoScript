@@ -15,6 +15,8 @@ class CampaignWarArchives(CampaignRun, CampaignBase):
             logger.info(f'Inventory: {current} / {total}, Remain: {current}')
             if remain == total:
                 logger.hr('Triggered out of data keys')
+                # Only triggered out of data keys can it delay the task
+                self.config.task_delay(server_update=True)
                 return True
 
         # Else, check other stop conditions
@@ -26,5 +28,4 @@ class CampaignWarArchives(CampaignRun, CampaignBase):
         backup.recover()
         self.ui_goto_main()  # Go to main, as remaining in page can throw off Event task
 
-        # Scheduler
-        self.config.task_delay(server_update=True)
+
