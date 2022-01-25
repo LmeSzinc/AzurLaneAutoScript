@@ -98,9 +98,11 @@ class Item:
         return crop(self.image_raw, area_offset(area, offset=self._button.area[:2]))
 
     def __eq__(self, other):
-        return self.name == other
+        # For de-redundancy in Filter.apply()
+        return str(self) == str(other)
 
     def __hash__(self):
+        # For de-redundancy in merging two get items images
         return hash(self.name)
 
 
