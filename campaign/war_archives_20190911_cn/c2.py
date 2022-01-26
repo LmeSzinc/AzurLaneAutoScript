@@ -6,14 +6,14 @@ from .c1 import Config as ConfigBase
 
 MAP = CampaignMap('C2')
 MAP.shape = 'G7'
-MAP.camera_data = ['C2', 'C5']
-MAP.camera_data_spawn_point = ['C5', 'C2']
+MAP.camera_data = ['D2', 'D5']
+MAP.camera_data_spawn_point = ['D2', 'D5']
 MAP.map_data = """
     -- ME -- MS -- ++ --
     ME MS -- -- -- ME --
     -- -- __ -- SP ++ ++
     ME -- ME ++ -- ++ ++
-    Me -- -- ++ -- SP --
+    ++ -- -- ++ -- SP --
     -- MB -- -- -- ++ ++
     -- MS MS ME -- -- --
 """
@@ -21,7 +21,7 @@ MAP.weight_data = """
     50 50 50 50 50 50 50
     50 50 50 50 50 50 50
     50 50 50 50 50 50 50
-    50 50 50 50 50 50 50
+    50 50 50 50 10 50 50
     50 50 50 50 50 50 50
     50 50 50 50 50 50 50
     50 50 50 50 50 50 50
@@ -53,22 +53,35 @@ class Config(ConfigBase):
     MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = True
     MAP_HAS_AMBUSH = False
-    MAP_HAS_MYSTERY = False
-    STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
+
+    STAR_REQUIRE_3 = 0
 
 
 class Campaign(CampaignBase):
     MAP = MAP
-    ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
+
+    def get_map_clear_percentage(self):
+        """
+        map clear here is shorter than normal, about 70% at max
+
+        Returns:
+            float: 0 to 1.
+        """
+        return super().get_map_clear_percentage() * 1.4
 
     def battle_0(self):
+        if not self.map_is_clear_mode:
+            for grid in self.map:
+                grid.may_siren = True
+
+            self.fleet_2_push_forward()
+
         if self.clear_siren():
-            return True
-        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
 
         return self.battle_default()
 
     def battle_4(self):
         return self.clear_boss()
+
