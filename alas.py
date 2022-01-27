@@ -207,6 +207,10 @@ class AzurLaneAutoScript:
         CampaignWarArchives(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
+    def raid_daily(self):
+        from module.raid.daily import RaidDaily
+        RaidDaily(config=self.config, device=self.device).run()
+
     def event_ab(self):
         from module.event.campaign_ab import CampaignAB
         CampaignAB(config=self.config, device=self.device).run()

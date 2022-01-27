@@ -1,10 +1,22 @@
+import re
+
+from module.base.filter import Filter
 from module.logger import logger
 from module.raid.raid import raid_ocr
 from module.raid.run import RaidRun
 from module.ui.page import page_raid
 
-RECORD_OPTION = ('DailyRecord', 'raid')
-RECORD_SINCE = (0,)
+
+class RaidStage:
+    def __init__(self, name):
+        self.name = name
+
+    def __str__(self):
+        return self.name
+
+
+STAGES = ['easy', 'normal', 'hard']
+STAGE_FILTER = Filter(regex=re.compile('(\w+)'), attr=['name'])
 
 
 class RaidDaily(RaidRun):
@@ -16,39 +28,28 @@ class RaidDaily(RaidRun):
         Returns:
             int:
         """
-        ocr = raid_ocr(raid=self.config.RAID_DAILY_NAME, mode=mode)
+        ocr = raid_ocr(raid=self.config.Campaign_Event, mode=mode)
         remain, _, _ = ocr.ocr(self.device.image)
         logger.attr(f'{mode.capitalize()} Remain', remain)
         return remain
-
-    def record_executed_since(self):
-        return self.config.record_executed_since(option=RECORD_OPTION, since=RECORD_SINCE)
-
-    def record_save(self):
-        return self.config.record_save(option=RECORD_OPTION)
 
     def run(self, name=''):
         """
         Args:
             name (str): Raid name, such as 'raid_20200624'
         """
-        self.reward_backup_daily_reward_settings()
-        name = name if name else self.config.RAID_DAILY_NAME
+        name = name if name else self.config.Campaign_Event
+        stages = [RaidStage(name) for name in STAGES]
+        STAGE_FILTER.load(self.config.RaidDaily_StageFilter)
+        stages = STAGE_FILTER.apply(stages)
+
         self.ui_ensure(page_raid)
 
-        if self.config.RAID_HARD:
-            remain = self.get_remain(mode='hard')
+        for stage in stages:
+            mode = stage.name
+            logger.hr(mode, level=1)
+            remain = self.get_remain(mode=mode)
             if remain > 0:
-                super().run(name=name, mode='hard', total=remain)
+                super().run(name=name, mode=mode, total=remain)
 
-        if self.config.RAID_NORMAL:
-            remain = self.get_remain(mode='normal')
-            if remain > 0:
-                super().run(name=name, mode='normal', total=remain)
-
-        if self.config.RAID_EASY:
-            remain = self.get_remain(mode='easy')
-            if remain > 0:
-                super().run(name=name, mode='easy', total=remain)
-
-        self.reward_recover_daily_reward_settings()
+        self.config.task_delay(server_update=True)

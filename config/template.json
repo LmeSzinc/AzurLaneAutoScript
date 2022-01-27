@@ -242,9 +242,6 @@
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
-    },
-    "EnemyPriority": {
-      "EnemyScaleBalanceWeight": "default_mode"
     }
   },
   "C72MysteryFarming": {
