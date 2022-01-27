@@ -365,6 +365,10 @@
     "SaveCombat": {
       "name": "儲存戰鬥掉落截圖",
       "help": "啟用後會放緩結算時的點擊速度\n在自律尋敵下不生效"
+    },
+    "SaveOpsi": {
+      "name": "保存大世界掉落截圖",
+      "help": ""
     }
   },
   "Retirement": {
@@ -1762,7 +1766,7 @@
       "name": "性能測試",
       "help": "測試哪個截圖方案和點擊方案速度更快，速度因模擬器和電腦配置而異"
     },
-"AdbScreenshot": {
+    "AdbScreenshot": {
       "name": "測試 ADB 截圖",
       "help": ""
     },

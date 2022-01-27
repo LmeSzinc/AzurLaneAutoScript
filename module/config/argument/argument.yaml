@@ -43,6 +43,7 @@ DropRecord:
   SaveCommission: false
   UploadCommission: false
   SaveCombat: false
+  SaveOpsi: false
 Retirement:
   Enable: true
   RetireMode:

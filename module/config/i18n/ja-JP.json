@@ -365,6 +365,10 @@
     "SaveCombat": {
       "name": "DropRecord.SaveCombat.name",
       "help": "DropRecord.SaveCombat.help"
+    },
+    "SaveOpsi": {
+      "name": "DropRecord.SaveOpsi.name",
+      "help": "DropRecord.SaveOpsi.help"
     }
   },
   "Retirement": {

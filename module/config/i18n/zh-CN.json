@@ -365,6 +365,10 @@
     "SaveCombat": {
       "name": "保存战斗掉落截图",
       "help": "启用后会放缓结算时的点击速度\n在自律寻敌下不生效"
+    },
+    "SaveOpsi": {
+      "name": "保存大世界掉落截图",
+      "help": ""
     }
   },
   "Retirement": {

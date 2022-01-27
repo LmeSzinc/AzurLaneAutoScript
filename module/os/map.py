@@ -1,12 +1,14 @@
+import inflection
+
 from module.base.timer import Timer
 from module.exception import CampaignEnd
+from module.exception import RequestHumanTakeover
 from module.logger import logger
 from module.map.map import Map
 from module.map.map_grids import SelectedGrids
 from module.os.fleet import OSFleet
 from module.os.globe_camera import GlobeCamera
 from module.ui.assets import OS_CHECK
-from module.exception import RequestHumanTakeover
 
 
 class OSMap(OSFleet, Map, GlobeCamera):
@@ -204,7 +206,11 @@ class OSMap(OSFleet, Map, GlobeCamera):
         """
         self.handle_ash_beacon_attack()
 
-        with self.stat.new(genre='opsi', save=True, upload=False) as drop:
+        with self.stat.new(
+                genre=inflection.underscore(self.config.task.command),
+                save=self.config.DropRecord_SaveOpsi,
+                upload=False
+        ) as drop:
             for _ in range(3):
                 backup = self.config.temporary(Campaign_UseAutoSearch=True)
                 try:
@@ -231,6 +237,8 @@ class OSMap(OSFleet, Map, GlobeCamera):
                     else:
                         break
 
-            drop.add(self.device.image)
+            # Record current zone, skip this if no rewards from auto search.
+            if drop.count:
+                drop.add(self.device.image)
 
         self.clear_akashi()

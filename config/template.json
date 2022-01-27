@@ -24,7 +24,8 @@
       "UploadResearch": false,
       "SaveCommission": false,
       "UploadCommission": false,
-      "SaveCombat": false
+      "SaveCombat": false,
+      "SaveOpsi": false
     }
   },
   "General": {

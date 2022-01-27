@@ -365,6 +365,10 @@
     "SaveCombat": {
       "name": "Save Battle Drop Screenshots",
       "help": "If enabled, clicks will be slowed down to ensure capture"
+    },
+    "SaveOpsi": {
+      "name": "Save OpSi Drop Screenshots",
+      "help": ""
     }
   },
   "Retirement": {
