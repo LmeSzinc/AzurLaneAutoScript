@@ -287,10 +287,11 @@
     },
     "ControlMethod": {
       "name": "Control Method",
-      "help": "Speed: minitouch >>> uiautomator2 ~= ADB\nminitouch is recommended",
+      "help": "Speed: minitouch > Hermit >>> uiautomator2 ~= ADB\nminitouch is recommended, hermit is not recommended unless on vmos",
       "ADB": "ADB ",
       "uiautomator2": "uiautomator2 ",
-      "minitouch": "minitouch "
+      "minitouch": "minitouch ",
+      "Hermit": "Hermit"
     }
   },
   "Error": {
@@ -1761,12 +1762,32 @@
       "name": "Performance Test",
       "help": "Test which screenshot method and click method combination is the fastest and best for you\nSpeed can vary on the emulator being used and your PC build"
     },
-    "TestScreenshotMethod": {
-      "name": "Test Screenshots Methods",
+    "AdbScreenshot": {
+      "name": "Test ADB Screenshot",
       "help": ""
     },
-    "TestClickMethod": {
-      "name": "Test Click Methods",
+    "Uiautomator2Screenshot": {
+      "name": "Test Uiautomator2 Screenshot",
+      "help": ""
+    },
+    "AscreencapScreenshot": {
+      "name": "Test aScreenCap Screenshot",
+      "help": ""
+    },
+    "AdbClick": {
+      "name": "Test ADB Click",
+      "help": ""
+    },
+    "Uiautomator2Click": {
+      "name": "Test Uiautomator2 Click",
+      "help": ""
+    },
+    "MinitouchClick": {
+      "name": "Test Minitouch Click",
+      "help": ""
+    },
+    "HermitClick": {
+      "name": "Test Hermit Click",
       "help": ""
     }
   },

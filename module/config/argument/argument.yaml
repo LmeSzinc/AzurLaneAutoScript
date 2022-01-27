@@ -24,7 +24,7 @@ Emulator:
     option: [ADB, uiautomator2, aScreenCap]
   ControlMethod:
     value: minitouch
-    option: [ADB, uiautomator2, minitouch]
+    option: [ADB, uiautomator2, minitouch, Hermit]
 Error:
   HandleError: true
   SaveError: true
@@ -482,8 +482,13 @@ Daemon:
 OpsiDaemon:
   RepairShip: true
 Benchmark:
-  TestScreenshotMethod: true
-  TestClickMethod: true
+  AdbScreenshot: true
+  Uiautomator2Screenshot: true
+  AscreencapScreenshot: true
+  AdbClick: true
+  Uiautomator2Click: true
+  MinitouchClick: true
+  HermitClick: false
 AzurLaneUncensored:
   Repository: https://gitee.com/LmeSzinc/AzurLaneUncensored
 GameManager:

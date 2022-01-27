@@ -3,6 +3,7 @@ import re
 import cv2
 import numpy as np
 from adbutils.errors import AdbError
+from lxml import etree
 
 from module.device.connection import Connection
 from module.device.method.utils import possible_reasons, handle_adb_error, RETRY_TRIES, RETRY_DELAY
@@ -140,22 +141,70 @@ class Adb(Connection):
         raise OSError("Couldn't get focused app")
 
     @retry
-    def app_start_adb(self, package_name):
+    def app_start_adb(self, package_name, allow_failure=False):
+        """
+        Args:
+            package_name (str):
+            allow_failure (bool):
+
+        Returns:
+            bool: If success to start
+        """
         result = self.adb_shell([
             'monkey', '-p', package_name, '-c',
             'android.intent.category.LAUNCHER', '1'
         ])
         if 'No activities found' in result:
             # ** No activities found to run, monkey aborted.
-            logger.error(result)
-            possible_reasons(f'"{package_name}" not found, please check setting Emulator.PackageName')
-            raise RequestHumanTakeover
+            if allow_failure:
+                return False
+            else:
+                logger.error(result)
+                possible_reasons(f'"{package_name}" not found, please check setting Emulator.PackageName')
+                raise RequestHumanTakeover
         else:
             # Events injected: 1
             # ## Network stats: elapsed time=4ms (0ms mobile, 0ms wifi, 4ms not connected)
-            pass
+            return True
 
     @retry
     def app_stop_adb(self, package_name):
         """ Stop one application: am force-stop"""
         self.adb_shell(['am', 'force-stop', package_name])
+
+    @retry
+    def dump_hierarchy_adb(self, temp: str='/data/local/tmp/hierarchy.xml') -> etree._Element:
+        """
+        Args:
+            temp (str): Temp file store on emulator.
+
+        Returns:
+            etree._Element:
+        """
+        # Remove existing file
+        # self.adb_shell(['rm', '/data/local/tmp/hierarchy.xml'])
+
+        # Dump hierarchy
+        for _ in range(2):
+            response = self.adb_shell(['uiautomator', 'dump', '--compressed', temp])
+            if 'hierchary' in response:
+                # UI hierchary dumped to: /data/local/tmp/hierarchy.xml
+                break
+            else:
+                # <None>
+                # Must kill uiautomator2
+                self.app_stop_adb('com.github.uiautomator')
+                self.app_stop_adb('com.github.uiautomator.test')
+                continue
+
+        # Read from device
+        content = b''
+        for chunk in self.adb.sync.iter_content(temp):
+            if chunk:
+                content += chunk
+            else:
+                break
+
+        # Parse with lxml
+        hierarchy = etree.fromstring(content)
+        return hierarchy

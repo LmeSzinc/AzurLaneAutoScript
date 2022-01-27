@@ -290,7 +290,8 @@
       "help": "Emulator.ControlMethod.help",
       "ADB": "ADB",
       "uiautomator2": "uiautomator2",
-      "minitouch": "minitouch"
+      "minitouch": "minitouch",
+      "Hermit": "Hermit"
     }
   },
   "Error": {
@@ -1761,13 +1762,33 @@
       "name": "Benchmark._info.name",
       "help": "Benchmark._info.help"
     },
-    "TestScreenshotMethod": {
-      "name": "Benchmark.TestScreenshotMethod.name",
-      "help": "Benchmark.TestScreenshotMethod.help"
+    "AdbScreenshot": {
+      "name": "Benchmark.AdbScreenshot.name",
+      "help": "Benchmark.AdbScreenshot.help"
     },
-    "TestClickMethod": {
-      "name": "Benchmark.TestClickMethod.name",
-      "help": "Benchmark.TestClickMethod.help"
+    "Uiautomator2Screenshot": {
+      "name": "Benchmark.Uiautomator2Screenshot.name",
+      "help": "Benchmark.Uiautomator2Screenshot.help"
+    },
+    "AscreencapScreenshot": {
+      "name": "Benchmark.AscreencapScreenshot.name",
+      "help": "Benchmark.AscreencapScreenshot.help"
+    },
+    "AdbClick": {
+      "name": "Benchmark.AdbClick.name",
+      "help": "Benchmark.AdbClick.help"
+    },
+    "Uiautomator2Click": {
+      "name": "Benchmark.Uiautomator2Click.name",
+      "help": "Benchmark.Uiautomator2Click.help"
+    },
+    "MinitouchClick": {
+      "name": "Benchmark.MinitouchClick.name",
+      "help": "Benchmark.MinitouchClick.help"
+    },
+    "HermitClick": {
+      "name": "Benchmark.HermitClick.name",
+      "help": "Benchmark.HermitClick.help"
     }
   },
   "AzurLaneUncensored": {

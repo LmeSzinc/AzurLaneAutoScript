@@ -34,7 +34,8 @@
         "option": [
           "ADB",
           "uiautomator2",
-          "minitouch"
+          "minitouch",
+          "Hermit"
         ]
       }
     },
@@ -6289,13 +6290,33 @@
   },
   "Benchmark": {
     "Benchmark": {
-      "TestScreenshotMethod": {
+      "AdbScreenshot": {
         "type": "checkbox",
         "value": true
       },
-      "TestClickMethod": {
+      "Uiautomator2Screenshot": {
         "type": "checkbox",
         "value": true
+      },
+      "AscreencapScreenshot": {
+        "type": "checkbox",
+        "value": true
+      },
+      "AdbClick": {
+        "type": "checkbox",
+        "value": true
+      },
+      "Uiautomator2Click": {
+        "type": "checkbox",
+        "value": true
+      },
+      "MinitouchClick": {
+        "type": "checkbox",
+        "value": true
+      },
+      "HermitClick": {
+        "type": "checkbox",
+        "value": false
       }
     }
   },

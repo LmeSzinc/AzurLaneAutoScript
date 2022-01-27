@@ -1397,8 +1397,13 @@
   },
   "Benchmark": {
     "Benchmark": {
-      "TestScreenshotMethod": true,
-      "TestClickMethod": true
+      "AdbScreenshot": true,
+      "Uiautomator2Screenshot": true,
+      "AscreencapScreenshot": true,
+      "AdbClick": true,
+      "Uiautomator2Click": true,
+      "MinitouchClick": true,
+      "HermitClick": false
     }
   },
   "AzurLaneUncensored": {

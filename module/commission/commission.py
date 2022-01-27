@@ -143,7 +143,7 @@ class RewardCommission(UI, InfoHandler):
             # If daily list has commissions > 4, usually to be 5, and 1 <= urgent <= 4
             # commission list will have an animation to scroll,
             # which causes the topmost one undetected.
-            if not COMMISSION_SCROLL.appear(main=self):
+            if not COMMISSION_SCROLL.appear(main=self) or COMMISSION_SCROLL.cal_position(main=self) < 0.05:
                 while 1:
                     peaks = lines_detect(self.device.image)
                     if not len(peaks) or peaks[0] > 67 + 117:

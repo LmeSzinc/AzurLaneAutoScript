@@ -287,10 +287,11 @@
     },
     "ControlMethod": {
       "name": "模拟器控制方案",
-      "help": "速度: minitouch >>> uiautomator2 ~= ADB\n建议选 minitouch",
+      "help": "速度: minitouch > Hermit >>> uiautomator2 ~= ADB\n建议选minitouch，不建议选Hermit除非在vmos下",
       "ADB": "ADB ",
       "uiautomator2": "uiautomator2 ",
-      "minitouch": "minitouch "
+      "minitouch": "minitouch ",
+      "Hermit": "Hermit"
     }
   },
   "Error": {
@@ -1761,12 +1762,32 @@
       "name": "性能测试",
       "help": "测试哪个截图方案和点击方案速度更快，速度因模拟器和电脑配置而异"
     },
-    "TestScreenshotMethod": {
-      "name": "测试截图方案",
+    "AdbScreenshot": {
+      "name": "测试 ADB 截图",
       "help": ""
     },
-    "TestClickMethod": {
-      "name": "测试点击方案",
+    "Uiautomator2Screenshot": {
+      "name": "测试 uiautomator2 截图",
+      "help": ""
+    },
+    "AscreencapScreenshot": {
+      "name": "测试 aScreenCap 截图",
+      "help": ""
+    },
+    "AdbClick": {
+      "name": "测试 ADB 点击",
+      "help": ""
+    },
+    "Uiautomator2Click": {
+      "name": "测试 uiautomator2 点击",
+      "help": ""
+    },
+    "MinitouchClick": {
+      "name": "测试 minitouch 点击",
+      "help": ""
+    },
+    "HermitClick": {
+      "name": "测试 Hermit 点击",
       "help": ""
     }
   },

@@ -22,7 +22,7 @@ class GeneratedConfig:
     Emulator_PackageName = 'com.bilibili.azurlane'
     Emulator_Server = 'cn'  # cn, en, jp, tw
     Emulator_ScreenshotMethod = 'ADB'  # ADB, uiautomator2, aScreenCap
-    Emulator_ControlMethod = 'minitouch'  # ADB, uiautomator2, minitouch
+    Emulator_ControlMethod = 'minitouch'  # ADB, uiautomator2, minitouch, Hermit
 
     # Group `Error`
     Error_HandleError = True
@@ -341,8 +341,13 @@ class GeneratedConfig:
     OpsiDaemon_RepairShip = True
 
     # Group `Benchmark`
-    Benchmark_TestScreenshotMethod = True
-    Benchmark_TestClickMethod = True
+    Benchmark_AdbScreenshot = True
+    Benchmark_Uiautomator2Screenshot = True
+    Benchmark_AscreencapScreenshot = True
+    Benchmark_AdbClick = True
+    Benchmark_Uiautomator2Click = True
+    Benchmark_MinitouchClick = True
+    Benchmark_HermitClick = False
 
     # Group `AzurLaneUncensored`
     AzurLaneUncensored_Repository = 'https://gitee.com/LmeSzinc/AzurLaneUncensored'

@@ -1,12 +1,12 @@
 from module.base.timer import Timer
 from module.base.utils import *
-from module.device.method.adb import Adb
+from module.device.method.hermit import Hermit
 from module.device.method.minitouch import Minitouch
 from module.device.method.uiautomator_2 import Uiautomator2
 from module.logger import logger
 
 
-class Control(Adb, Uiautomator2, Minitouch):
+class Control(Hermit, Uiautomator2, Minitouch):
     def handle_control_check(self, button):
         # Will be overridden in Device
         pass
@@ -29,6 +29,8 @@ class Control(Adb, Uiautomator2, Minitouch):
             self.click_minitouch(x, y)
         elif method == 'uiautomator2':
             self.click_uiautomator2(x, y)
+        elif method == 'hermit':
+            self.click_hermit(x, y)
         else:
             self.click_adb(x, y)
 
@@ -62,10 +64,11 @@ class Control(Adb, Uiautomator2, Minitouch):
         elif method == 'uiautomator2':
             self.long_click_uiautomator2(x, y, duration)
         else:
-            self.swipe_adb(x, y, x, y, duration)
+            self.swipe_adb((x, y), (x, y), duration)
 
     def swipe(self, p1, p2, duration=(0.1, 0.2), name='SWIPE', distance_check=True):
         self.handle_control_check(name)
+        duration = ensure_time(duration)
         logger.info(
             'Swipe %s -> %s, %s' % (point2str(*p1), point2str(*p2), duration)
         )

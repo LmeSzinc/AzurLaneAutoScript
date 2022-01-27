@@ -1,9 +1,12 @@
 import random
+import re
 import socket
 
-from module.logger import logger
 import uiautomator2 as u2
+from lxml import etree
 
+from module.base.decorator import cached_property
+from module.logger import logger
 
 RETRY_TRIES = 5
 RETRY_DELAY = 3
@@ -83,3 +86,50 @@ class IniterNoMinicap(u2.init.Initer):
 
 # Monkey patch, don't install minicap on emulators
 u2.init.Initer = IniterNoMinicap
+
+
+class HierarchyButton:
+    """
+    Convert UI hierarchy to an object like the Button in Alas.
+    """
+    _name_regex = re.compile('@.*?=[\'\"](.*?)[\'\"]')
+
+    def __init__(self, hierarchy: etree._Element, xpath: str):
+        self.hierarchy = hierarchy
+        self.xpath = xpath
+        self.nodes = hierarchy.xpath(xpath)
+
+    @cached_property
+    def name(self):
+        res = HierarchyButton._name_regex.findall(self.xpath)
+        if res:
+            return res[0]
+        else:
+            return 'HierarchyButton'
+
+    @cached_property
+    def count(self):
+        return len(self.nodes)
+
+    @cached_property
+    def exist(self):
+        return self.count == 1
+
+    @cached_property
+    def area(self):
+        if self.exist:
+            bounds = self.nodes[0].attrib.get("bounds")
+            lx, ly, rx, ry = map(int, re.findall(r"\d+", bounds))
+            return lx, ly, rx, ry
+        else:
+            return None
+
+    @cached_property
+    def button(self):
+        return self.area
+
+    def __bool__(self):
+        return self.exist
+
+    def __str__(self):
+        return self.name

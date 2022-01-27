@@ -51,7 +51,8 @@ class Button(Resource):
         else:
             self.is_gif = False
 
-        self.resource_add(key=self.file)
+        if self.file:
+            self.resource_add(key=self.file)
 
     def __str__(self):
         return self.name

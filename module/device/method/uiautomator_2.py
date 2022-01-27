@@ -2,6 +2,7 @@ from json.decoder import JSONDecodeError
 
 import uiautomator2 as u2
 from adbutils.errors import AdbError
+from lxml import etree
 
 from module.base.decorator import cached_property
 from module.base.utils import *
@@ -179,3 +180,9 @@ class Uiautomator2(Connection):
     @retry
     def app_stop_uiautomator2(self, package_name):
         self.u2.app_stop(package_name)
+
+    @retry
+    def dump_hierarchy_uiautomator2(self) -> etree._Element:
+        content = self.u2.dump_hierarchy(compressed=True)
+        hierarchy = etree.fromstring(content.encode('utf-8'))
+        return hierarchy

@@ -3,13 +3,12 @@ import time
 from collections import deque
 from datetime import datetime
 
-import cv2
 import numpy as np
 from PIL import Image
 
 from module.base.decorator import cached_property
 from module.base.timer import Timer, timer
-from module.base.utils import get_color
+from module.base.utils import get_color, save_image
 from module.device.method.adb import Adb
 from module.device.method.ascreencap import AScreenCap
 from module.device.method.uiautomator_2 import Uiautomator2
@@ -105,7 +104,7 @@ class Screenshot(Adb, Uiautomator2, AScreenCap):
         Image.fromarray(image).show()
 
     def image_save(self, file):
-        cv2.imwrite(file, self.image)
+        save_image(self.image, file)
 
     def check_screen_size(self):
         """
