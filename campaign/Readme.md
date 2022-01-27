@@ -80,4 +80,4 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20211214   | event 20200603 cn        | Stars of the Shimmering Fjord  | -                      | -                                | -                                    | 峽灣間的反擊         |
 | 20211229   | event 20211229 cn        | Tower of Transcendence         | 逆转彩虹之塔           | Tower of Transcendence           | 遡望せし虹彩の塔                     | -                    |
 | 20211230   | event 20201229 cn        | Inverted Orthant               | -                      | -                                | -                                    | 負象限作戰           |
-| 20220127   | raid 20220127            | Joint Battle Mystery Investigation | 演习神秘事件调查      | Joint Battle Mystery Investigation | 秘密事件調査 | - |
+| 20220127   | raid 20220127            | Mystery Investigation | 演习神秘事件调查      | Mystery Investigation | 秘密事件調査 | - |
