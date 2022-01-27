@@ -6,7 +6,7 @@ from module.config.utils import get_server_next_update
 from module.device.app_control import AppControl
 from module.device.control import Control
 from module.device.screenshot import Screenshot
-from module.exception import GameStuckError, GameTooManyClickError
+from module.exception import GameStuckError, GameTooManyClickError, RequestHumanTakeover
 from module.handler.assets import GET_MISSION
 from module.logger import logger
 
@@ -131,6 +131,9 @@ class Device(Screenshot, Control, AppControl):
         self.click_record_clear()
 
     def app_stop(self):
+        if not self.config.Error_HandleError:
+            logger.critical('No app stop, because HandleError disabled, please solve it manually')
+            raise RequestHumanTakeover
         super().app_stop()
         self.stuck_record_clear()
         self.click_record_clear()
