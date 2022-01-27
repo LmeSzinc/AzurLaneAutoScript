@@ -1012,13 +1012,14 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "raid_20220127",
           "raid_20210708",
           "raid_20200624"
         ],
-        "tw": "raid_20210708",
-        "cn": "raid_20210708",
-        "en": "raid_20210708",
-        "jp": "raid_20210708"
+        "cn": "raid_20220127",
+        "en": "raid_20220127",
+        "jp": "raid_20220127",
+        "tw": "raid_20210708"
       },
       "Mode": {
         "type": "disable",
@@ -1051,7 +1052,7 @@
     },
     "StopCondition": {
       "RunCount": {
-        "type": "disable",
+        "type": "input",
         "value": 0
       },
       "OilLimit": {
@@ -1154,17 +1155,6 @@
       "Fleet2Oath": {
         "type": "checkbox",
         "value": false
-      }
-    },
-    "EnemyPriority": {
-      "EnemyScaleBalanceWeight": {
-        "type": "select",
-        "value": "default_mode",
-        "option": [
-          "default_mode",
-          "S3_enemy_first",
-          "S1_enemy_first"
-        ]
       }
     }
   },
@@ -5297,13 +5287,14 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "raid_20220127",
           "raid_20210708",
           "raid_20200624"
         ],
-        "tw": "raid_20210708",
-        "cn": "raid_20210708",
-        "en": "raid_20210708",
-        "jp": "raid_20210708"
+        "cn": "raid_20220127",
+        "en": "raid_20220127",
+        "jp": "raid_20220127",
+        "tw": "raid_20210708"
       },
       "Mode": {
         "type": "disable",
