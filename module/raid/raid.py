@@ -98,7 +98,7 @@ class Raid(MapOperation, Combat):
             self.device.screenshot()
 
             if self.appear(BATTLE_PREPARATION):
-                if self.handle_combat_automation_set(auto=auto):
+                if self.handle_combat_automation_set(auto=auto == 'combat_auto'):
                     continue
                 if not oil_checked and self.config.StopCondition_OilLimit:
                     self.ensure_combat_oil_loaded()
