@@ -190,5 +190,5 @@ class Raid(MapOperation, Combat):
             self.emotion.check_reduce(1)
 
         self.raid_enter(mode=mode, raid=raid)
-        self.combat(balance_hp=False, expected_end=self.raid_expected_end, auto_mode='combat_manual')
+        self.combat(balance_hp=False, expected_end=self.raid_expected_end)
         logger.hr('Raid End')
