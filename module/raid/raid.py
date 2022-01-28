@@ -181,8 +181,14 @@ class Raid(MapOperation, Combat):
             out: page_raid
         """
         logger.hr('Raid Execute')
-        self.raid_enter(mode=mode, raid=raid)
+        self.config.override(
+            Campaign_Name=f'{raid}_{mode}',
+            Campaign_UseAutoSearch=False,
+            Fleet_FleetOrder='fleet1_all_fleet2_standby'
+        )
+        if self.config.Emotion_CalculateEmotion:
+            self.emotion.check_reduce(1)
 
-        self.config.override(Campaign_Name=f'{raid}_{mode}')
-        self.combat(balance_hp=False, expected_end=self.raid_expected_end)
+        self.raid_enter(mode=mode, raid=raid)
+        self.combat(balance_hp=False, expected_end=self.raid_expected_end, auto_mode='combat_manual')
         logger.hr('Raid End')
