@@ -1,7 +1,7 @@
 import {app, Menu, Tray, BrowserWindow, ipcMain, globalShortcut} from 'electron';
 import {URL} from 'url';
 import {PyShell} from '/@/pyshell';
-import {webuiArgs, webuiPath} from '/@/config';
+import {webuiArgs, webuiPath, dpiScaling} from '/@/config';
 
 const path = require('path');
 
@@ -143,8 +143,11 @@ const createWindow = async () => {
 
 
 // No DPI scaling
-// app.commandLine.appendSwitch('high-dpi-support', '1');
-// app.commandLine.appendSwitch('force-device-scale-factor', '1');
+if (!dpiScaling) {
+  app.commandLine.appendSwitch('high-dpi-support', '1');
+  app.commandLine.appendSwitch('force-device-scale-factor', '1');
+}
+
 
 function loadURL() {
   /**

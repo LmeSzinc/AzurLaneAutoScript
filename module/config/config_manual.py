@@ -8,14 +8,17 @@ class ManualConfig:
 
     SCHEDULER_PRIORITY = """
     Restart
-    > Research > Commission > Tactical > Dorm > Meowfficer > Guild
-    > Gacha > SupplyPack
+    > Research > Commission > Tactical
+    > Exercise
+    > Dorm > Meowfficer > Guild > Gacha > SupplyPack
     > Reward > BattlePass
     > ShopFrequent > ShopOnce > Shipyard > DataKey
-    > OpsiExplore > OpsiAbyssal > OpsiStronghold > OpsiObscure
-    > Exercise > Daily > Hard > OpsiAshAssist
-    > Sos > EventSp > EventAb > EventCd > RaidDaily > WarArchives
-    > OpsiDaily > OpsiShop > OpsiMeowfficerFarming
+    > OpsiExplore
+    > OpsiDaily > OpsiShop
+    > OpsiAbyssal > OpsiStronghold > OpsiObscure
+    > Daily > Hard > OpsiAshAssist
+    > Sos > EventSp > EventAb > EventCd > RaidDaily > WarArchives > MaritimeEscort
+    > OpsiMeowfficerFarming
     > Event > Raid > Main
     > C124LargeLeveling > C122MediumLeveling > C72MysteryFarming > GemsFarming
     """
@@ -60,6 +63,7 @@ class ManualConfig:
     ASCREENCAP_FILEPATH_LOCAL = './bin/ascreencap'
     ASCREENCAP_FILEPATH_REMOTE = '/data/local/tmp/ascreencap'
     MINITOUCH_FILEPATH_REMOTE = '/data/local/tmp/minitouch'
+    HERMIT_FILEPATH_LOCAL = './bin/hermit/Hermit.apk'
 
     """
     module.campaign.gems_farming

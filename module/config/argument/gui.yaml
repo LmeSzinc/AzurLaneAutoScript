@@ -67,11 +67,13 @@ Update:
   UpdateFailed:
   UpdateChecking:
   UpdateCancel:
+  UpdateFinish:
   Local:
   Upstream:
   Author:
   Time:
   Message:
+  DisabledWarn:
 
 Text:
   InvalidFeedBack:

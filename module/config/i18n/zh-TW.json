@@ -166,6 +166,10 @@
       "name": "作戰檔案",
       "help": ""
     },
+    "MaritimeEscort": {
+      "name": "商船護航",
+      "help": ""
+    },
     "OpsiGeneral": {
       "name": "通用設定",
       "help": ""
@@ -426,6 +430,7 @@
       "name": "活動名稱",
       "help": "自動選擇至最新的活動圖",
       "campaign_main": "主線圖",
+      "raid_20220127": "Mystery Investigation",
       "event_20201229_cn": "負象限作戰",
       "event_20211229_cn": "Tower of Transcendence",
       "event_20200603_cn": "峽灣間的反擊",
@@ -469,6 +474,7 @@
       "event_20200423_cn": "Crimson Echoes Rerun",
       "event_20200326_cn": "Microlayer Medley",
       "event_20200227_cn": "Northern Overture",
+      "war_archives_20190911_cn": "archives Empyreal Tragicomedy",
       "war_archives_20181227_cn": "檔案 蒼紅的迴響",
       "war_archives_20180726_cn": "檔案 光與影的鳶尾之華",
       "war_archives_20180607_cn": "檔案 墨染的鋼鐵之花",
@@ -1540,6 +1546,16 @@
       "help": ""
     }
   },
+  "MaritimeEscort": {
+    "_info": {
+      "name": "商船護航",
+      "help": "進一下就撤退，能拿約70%的獎勵"
+    },
+    "Enable": {
+      "name": "啟用商船護航",
+      "help": ""
+    }
+  },
   "OpsiAshAssist": {
     "_info": {
       "name": "餘燼信標支援",
@@ -1662,6 +1678,10 @@
     "DoMission": {
       "name": "做大世界每日",
       "help": "在港口接每日，並完成所有每日"
+    },
+    "UseTuningSample": {
+      "name": "使用效能樣本",
+      "help": "使用所有六種效能樣本和強力效能樣本"
     }
   },
   "OpsiObscure": {
@@ -1838,11 +1858,13 @@
       "UpdateSuccess": "更新成功，正在重啓",
       "UpdateChecking": "檢查更新中",
       "UpdateCancel": "取消更新，重啓 Alas 中",
+      "UpdateFinish": "更新成功，請手動重啓",
       "Local": "本地",
       "Upstream": "上游倉庫",
       "Author": "作者",
       "Time": "提交時間",
-      "Message": "提交資訊"
+      "Message": "提交資訊",
+      "DisabledWarn": "更新模塊未啟用，你需要手動重啓 Alas 進行更新"
     },
     "Text": {
       "InvalidFeedBack": "格式錯誤。 示例：{0}"

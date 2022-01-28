@@ -20,6 +20,7 @@ class AzurLaneAutoScript:
     stop_event: threading.Event = None
 
     def __init__(self, config_name='alas'):
+        logger.hr('Start', level=0)
         self.config_name = config_name
         ConfigUpdater().update_config(config_name)
 
@@ -43,6 +44,9 @@ class AzurLaneAutoScript:
             from module.device.device import Device
             device = Device(config=self.config)
             return device
+        except RequestHumanTakeover:
+            logger.critical('Request human takeover')
+            exit(1)
         except Exception as e:
             logger.exception(e)
             exit(1)
@@ -103,7 +107,8 @@ class AzurLaneAutoScript:
                 lines = f.readlines()
                 start = 0
                 for index, line in enumerate(lines):
-                    if re.search('\+-{15,}\+', line):
+                    line = line.strip(' \r\t\n')
+                    if re.match('^═{15,}$', line):
                         start = index
                 lines = lines[start - 2:]
                 lines = handle_sensitive_logs(lines)
@@ -199,6 +204,10 @@ class AzurLaneAutoScript:
         CampaignWarArchives(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
+    def raid_daily(self):
+        from module.raid.daily import RaidDaily
+        RaidDaily(config=self.config, device=self.device).run()
+
     def event_ab(self):
         from module.event.campaign_ab import CampaignAB
         CampaignAB(config=self.config, device=self.device).run()
@@ -210,6 +219,10 @@ class AzurLaneAutoScript:
     def event_sp(self):
         from module.event.campaign_sp import CampaignSP
         CampaignSP(config=self.config, device=self.device).run()
+
+    def maritime_escort(self):
+        from module.event.maritime_escort import MaritimeEscort
+        MaritimeEscort(config=self.config, device=self.device).run()
 
     def opsi_ash_assist(self):
         from module.os_ash.ash import AshBeaconAssist
@@ -287,12 +300,13 @@ class AzurLaneAutoScript:
         seconds = future.timestamp() - datetime.now().timestamp() + 1
         if seconds <= 0:
             logger.warning(f'Wait until {str(future)}, but sleep length < 0, skip waiting')
+            return
         
         if self.stop_event is not None:
             self.stop_event.wait(seconds)
             if self.stop_event.is_set():
                 logger.info("Update event detected")
-                logger.info(f"Alas [{self.config_name}] exited.")
+                logger.info(f"[{self.config_name}] exited. Reason: Update")
                 exit(0)
         else:
             time.sleep(seconds)

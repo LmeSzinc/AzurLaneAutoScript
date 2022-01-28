@@ -166,6 +166,10 @@
       "name": "Task.WarArchives.name",
       "help": "Task.WarArchives.help"
     },
+    "MaritimeEscort": {
+      "name": "Task.MaritimeEscort.name",
+      "help": "Task.MaritimeEscort.help"
+    },
     "OpsiGeneral": {
       "name": "Task.OpsiGeneral.name",
       "help": "Task.OpsiGeneral.help"
@@ -426,6 +430,7 @@
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
+      "raid_20220127": "秘密事件調査",
       "event_20201229_cn": "虚畳なりし限象",
       "event_20211229_cn": "遡望せし虹彩の塔",
       "event_20200603_cn": "峡湾間の反撃",
@@ -469,6 +474,7 @@
       "event_20200423_cn": "縹映る深緋の残響（復刻）",
       "event_20200326_cn": "闇靄払う銀翼",
       "event_20200227_cn": "凍絶の北海",
+      "war_archives_20190911_cn": "檔案 悲歎せし焔海の詩",
       "war_archives_20181227_cn": "檔案 縹映る深緋の残響",
       "war_archives_20180726_cn": "檔案 光と影のアイリス",
       "war_archives_20180607_cn": "檔案 墨染まりし鋼の桜",
@@ -1540,6 +1546,16 @@
       "help": "RaidDaily.StageFilter.help"
     }
   },
+  "MaritimeEscort": {
+    "_info": {
+      "name": "MaritimeEscort._info.name",
+      "help": "MaritimeEscort._info.help"
+    },
+    "Enable": {
+      "name": "MaritimeEscort.Enable.name",
+      "help": "MaritimeEscort.Enable.help"
+    }
+  },
   "OpsiAshAssist": {
     "_info": {
       "name": "OpsiAshAssist._info.name",
@@ -1662,6 +1678,10 @@
     "DoMission": {
       "name": "OpsiDaily.DoMission.name",
       "help": "OpsiDaily.DoMission.help"
+    },
+    "UseTuningSample": {
+      "name": "OpsiDaily.UseTuningSample.name",
+      "help": "OpsiDaily.UseTuningSample.help"
     }
   },
   "OpsiObscure": {
@@ -1838,11 +1858,13 @@
       "UpdateSuccess": "Gui.Update.UpdateSuccess",
       "UpdateChecking": "Gui.Update.UpdateChecking",
       "UpdateCancel": "Gui.Update.UpdateCancel",
+      "UpdateFinish": "Gui.Update.UpdateFinish",
       "Local": "Gui.Update.Local",
       "Upstream": "Gui.Update.Upstream",
       "Author": "Gui.Update.Author",
       "Time": "Gui.Update.Time",
-      "Message": "Gui.Update.Message"
+      "Message": "Gui.Update.Message",
+      "DisabledWarn": "Gui.Update.DisabledWarn"
     },
     "Text": {
       "InvalidFeedBack": "Gui.Text.InvalidFeedBack"

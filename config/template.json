@@ -241,9 +241,6 @@
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
-    },
-    "EnemyPriority": {
-      "EnemyScaleBalanceWeight": "default_mode"
     }
   },
   "C72MysteryFarming": {
@@ -659,7 +656,7 @@
     },
     "GuildShop": {
       "Refresh": true,
-      "Filter": "PlateT4 > BookT3 > PRBP > CatT3 > Chip > BookT2 > Retrofit > FoodT6 > FoodT5 > CatT2 > BoxT4",
+      "Filter": "PlateT4 > BookT3 > PR > CatT3 > Chip > BookT2 > Retrofit > FoodT6 > FoodT5 > CatT2 > BoxT4",
       "BOX_T3": "ironblood",
       "BOX_T4": "ironblood",
       "BOOK_T2": "red",
@@ -674,7 +671,7 @@
       "PR3": "cheshire"
     },
     "MedalShop": {
-      "Filter": "DRBP > PRBP\n> BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3 > PlateGeneralT3\n> FoodT6 > FoodT5"
+      "Filter": "DR > PR\n> BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3 > PlateGeneralT3\n> FoodT6 > FoodT5"
     },
     "MeritShop": {
       "Refresh": false,
@@ -1172,7 +1169,7 @@
     },
     "Campaign": {
       "Name": "7-2",
-      "Event": "war_archives_20181227_cn",
+      "Event": "war_archives_20190911_cn",
       "Mode": "normal",
       "UseClearMode": true,
       "UseFleetLock": true,
@@ -1229,6 +1226,19 @@
       "RepairUseSingleThreshold": 0.3,
       "RepairUseMultiThreshold": 0.6,
       "LowHpRetreatThreshold": 0.3
+    }
+  },
+  "MaritimeEscort": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "MaritimeEscort",
+      "SuccessInterval": 30,
+      "FailureInterval": 30,
+      "ServerUpdate": "00:00"
+    },
+    "MaritimeEscort": {
+      "Enable": true
     }
   },
   "OpsiGeneral": {
@@ -1301,7 +1311,8 @@
       "ServerUpdate": "00:00"
     },
     "OpsiDaily": {
-      "DoMission": true
+      "DoMission": true,
+      "UseTuningSample": true
     },
     "OpsiFleet": {
       "Fleet": 1,

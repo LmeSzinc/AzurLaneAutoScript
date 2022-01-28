@@ -40,7 +40,6 @@ Raid:
   - Campaign
   - StopCondition
   - Emotion
-  - EnemyPriority
 C72MysteryFarming:
   - Scheduler
   - C72MysteryFarming
@@ -189,6 +188,9 @@ WarArchives:
   - Submarine
   - Emotion
   - HpControl
+MaritimeEscort:
+  - Scheduler
+  - MaritimeEscort
 
 # ==================== Opsi ====================
 

@@ -383,3 +383,10 @@ class FastForwardHandler(AutoSearchHandler):
 
         self.handle_info_bar()
         return True
+
+    def handle_2x_book_popup(self):
+        if self.appear(BOOK_POPUP_CHECK, offset=(20, 20)):
+            if self.handle_popup_confirm('2X_BOOK'):
+                return True
+
+        return False

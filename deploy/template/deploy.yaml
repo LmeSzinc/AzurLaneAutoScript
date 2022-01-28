@@ -62,6 +62,9 @@ Deploy:
     InstallUiautomator2: true
 
   Update:
+    # Use auto update and builtin updater feature
+    # This may cause problem https://github.com/LmeSzinc/AzurLaneAutoScript/issues/876
+    EnableReload: true
     # Check update every X minute
     # [Disable] -1
     # [Default] 5
@@ -96,6 +99,10 @@ Deploy:
     # 'default' for light theme
     # 'dark' for dark theme
     Theme: default
+    # Follow system DPI scaling
+    # [In most cases] true
+    # [In few cases] false to make Alas smaller, if you have a low resolution but high DPI scaling.
+    DpiScaling: true
     # --key. Password of web ui
     # Useful when expose Alas to the public network
     Password: null

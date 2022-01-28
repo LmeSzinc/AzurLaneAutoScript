@@ -50,7 +50,7 @@ class Zone:
         Returns:
             str: Such as `[3|圣彼得伯格|St. Petersburg|ペテルブルク|聖彼得堡]`
         """
-        return f'[{self.zone_id}|{self.cn}|{self.en}|{self.jp}|{self.tw}]'
+        return f'[{self.zone_id}|{self.en}]'
 
     __repr__ = __str__
 

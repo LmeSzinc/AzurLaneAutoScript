@@ -166,6 +166,10 @@
       "name": "作战档案",
       "help": ""
     },
+    "MaritimeEscort": {
+      "name": "商船护航",
+      "help": ""
+    },
     "OpsiGeneral": {
       "name": "通用设置",
       "help": ""
@@ -426,6 +430,7 @@
       "name": "活动名称",
       "help": "自动选择至最新的活动",
       "campaign_main": "主线图",
+      "raid_20220127": "演习神秘事件调查",
       "event_20201229_cn": "负象限作战",
       "event_20211229_cn": "逆转彩虹之塔",
       "event_20200603_cn": "峡湾间的反击",
@@ -469,6 +474,7 @@
       "event_20200423_cn": "复刻苍红的回响",
       "event_20200326_cn": "微层混合",
       "event_20200227_cn": "北境序曲",
+      "war_archives_20190911_cn": "档案 神圣的悲喜剧",
       "war_archives_20181227_cn": "档案 苍红的回响",
       "war_archives_20180726_cn": "档案 光与影的鸢尾之华",
       "war_archives_20180607_cn": "档案 墨染的钢铁之花",
@@ -1573,6 +1579,16 @@
       "help": ""
     }
   },
+  "MaritimeEscort": {
+    "_info": {
+      "name": "商船护航",
+      "help": "进一下就撤退，能拿约70%的奖励"
+    },
+    "Enable": {
+      "name": "启用商船护航",
+      "help": ""
+    }
+  },
   "OpsiAshAssist": {
     "_info": {
       "name": "余烬信标支援",
@@ -1695,6 +1711,10 @@
     "DoMission": {
       "name": "做大世界每日",
       "help": "在港口接每日，并完成所有每日"
+    },
+    "UseTuningSample": {
+      "name": "使用效能样本",
+      "help": "使用所有六种效能样本和强力效能样本"
     }
   },
   "OpsiObscure": {
@@ -1871,11 +1891,13 @@
       "UpdateSuccess": "更新成功，正在重启",
       "UpdateChecking": "检查更新中",
       "UpdateCancel": "取消更新，重启 Alas 中",
+      "UpdateFinish": "更新成功，请手动重启",
       "Local": "本地",
       "Upstream": "上游仓库",
       "Author": "作者",
       "Time": "提交时间",
-      "Message": "提交信息"
+      "Message": "提交信息",
+      "DisabledWarn": "更新模块未启用，你需要手动重启 Alas 进行更新"
     },
     "Text": {
       "InvalidFeedBack": "格式错误。 示例：{0}"

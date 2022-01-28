@@ -1012,13 +1012,14 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "raid_20220127",
           "raid_20210708",
           "raid_20200624"
         ],
-        "tw": "raid_20210708",
-        "cn": "raid_20210708",
-        "en": "raid_20210708",
-        "jp": "raid_20210708"
+        "cn": "raid_20220127",
+        "en": "raid_20220127",
+        "jp": "raid_20220127",
+        "tw": "raid_20210708"
       },
       "Mode": {
         "type": "disable",
@@ -1051,7 +1052,7 @@
     },
     "StopCondition": {
       "RunCount": {
-        "type": "disable",
+        "type": "input",
         "value": 0
       },
       "OilLimit": {
@@ -1154,17 +1155,6 @@
       "Fleet2Oath": {
         "type": "checkbox",
         "value": false
-      }
-    },
-    "EnemyPriority": {
-      "EnemyScaleBalanceWeight": {
-        "type": "select",
-        "value": "default_mode",
-        "option": [
-          "default_mode",
-          "S3_enemy_first",
-          "S1_enemy_first"
-        ]
       }
     }
   },
@@ -2381,7 +2371,7 @@
         "value": false
       },
       "Use2xBook": {
-        "type": "disable",
+        "type": "checkbox",
         "value": false
       },
       "AmbushEvade": {
@@ -3028,7 +3018,7 @@
       },
       "Filter": {
         "type": "textarea",
-        "value": "PlateT4 > BookT3 > PRBP > CatT3 > Chip > BookT2 > Retrofit > FoodT6 > FoodT5 > CatT2 > BoxT4"
+        "value": "PlateT4 > BookT3 > PR > CatT3 > Chip > BookT2 > Retrofit > FoodT6 > FoodT5 > CatT2 > BoxT4"
       },
       "BOX_T3": {
         "type": "select",
@@ -3157,7 +3147,7 @@
     "MedalShop": {
       "Filter": {
         "type": "textarea",
-        "value": "DRBP > PRBP\n> BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3 > PlateGeneralT3\n> FoodT6 > FoodT5"
+        "value": "DR > PR\n> BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3 > PlateGeneralT3\n> FoodT6 > FoodT5"
       }
     },
     "MeritShop": {
@@ -5334,13 +5324,14 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "raid_20220127",
           "raid_20210708",
           "raid_20200624"
         ],
-        "tw": "raid_20210708",
-        "cn": "raid_20210708",
-        "en": "raid_20210708",
-        "jp": "raid_20210708"
+        "cn": "raid_20220127",
+        "en": "raid_20220127",
+        "jp": "raid_20220127",
+        "tw": "raid_20210708"
       },
       "Mode": {
         "type": "disable",
@@ -5516,6 +5507,7 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "war_archives_20190911_cn",
           "war_archives_20181227_cn",
           "war_archives_20180726_cn",
           "war_archives_20180607_cn",
@@ -5527,9 +5519,9 @@
           "war_archives_20191031_en",
           "war_archives_20181020_en"
         ],
-        "cn": "war_archives_20181227_cn",
-        "en": "war_archives_20181227_cn",
-        "jp": "war_archives_20181227_cn",
+        "cn": "war_archives_20190911_cn",
+        "en": "war_archives_20190911_cn",
+        "jp": "war_archives_20190911_cn",
         "tw": "war_archives_20181227_cn"
       },
       "Mode": {
@@ -5847,6 +5839,41 @@
       }
     }
   },
+  "MaritimeEscort": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "input",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "disable",
+        "value": "MaritimeEscort"
+      },
+      "SuccessInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "FailureInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "ServerUpdate": {
+        "type": "disable",
+        "value": "00:00"
+      }
+    },
+    "MaritimeEscort": {
+      "Enable": {
+        "type": "checkbox",
+        "value": true
+      }
+    }
+  },
   "OpsiGeneral": {
     "OpsiGeneral": {
       "UseLogger": {
@@ -6048,6 +6075,10 @@
     },
     "OpsiDaily": {
       "DoMission": {
+        "type": "checkbox",
+        "value": true
+      },
+      "UseTuningSample": {
         "type": "checkbox",
         "value": true
       }

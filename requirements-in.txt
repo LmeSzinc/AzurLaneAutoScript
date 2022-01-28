@@ -20,3 +20,5 @@ aiofiles
 wrapt==1.13.1
 prettytable==2.2.1
 pypresence==4.2.1
+alas-webapp==0.3.7
+rich==11.0.0

@@ -189,6 +189,10 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                 if self.handle_urgent_commission(drop=drop):
                     continue
 
+                # 2X book popup
+                if self.handle_2x_book_popup():
+                    continue
+
                 # Story skip
                 if self.handle_story_skip():
                     campaign_timer.reset()
@@ -257,7 +261,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         while 1:
             self.device.screenshot()
 
-            if self.handle_popup_confirm():
+            if self.handle_popup_confirm('WITHDRAW'):
                 continue
             if self.appear_then_click(WITHDRAW, interval=5):
                 continue

@@ -1,11 +1,27 @@
-from module.campaign.run import CampaignRun
-from module.exception import ScriptEnd
+from module.exception import ScriptEnd, ScriptError
 from module.logger import logger
 from module.raid.raid import Raid, OilExhausted
 from module.ui.page import page_raid
 
 
-class RaidRun(Raid, CampaignRun):
+class RaidRun(Raid):
+    run_count: int
+    run_limit: int
+
+    def triggered_stop_condition(self):
+        """
+        Returns:
+            bool: If triggered a stop condition.
+        """
+        # Run count limit
+        if self.run_limit and self.config.StopCondition_RunCount <= 0:
+            logger.hr('Triggered stop condition: Run count')
+            self.config.StopCondition_RunCount = 0
+            self.config.Scheduler_Enable = False
+            return True
+
+        return False
+
     def run(self, name='', mode='', total=0):
         """
         Args:
@@ -13,36 +29,27 @@ class RaidRun(Raid, CampaignRun):
             mode (str): Raid mode, such as 'hard', 'normal', 'easy'
             total (int): Total run count
         """
-        logger.hr('Raid', level=1)
-        name = name if name else self.config.RAID_NAME
-        mode = mode if mode else self.config.RAID_MODE
+        name = name if name else self.config.Campaign_Event
+        mode = mode if mode else self.config.Raid_Mode
         if not name or not mode:
-            logger.warning(f'RaidRun arguments unfilled. name={name}, mode={mode}')
-
-        self.campaign = self  # A trick to call CampaignRun
-        self.campaign_name_set(f'{name}_{mode}')
-
-        self.device.screenshot()
+            raise ScriptError(f'RaidRun arguments unfilled. name={name}, mode={mode}')
 
         self.run_count = 0
+        self.run_limit = self.config.StopCondition_RunCount
         while 1:
-            if self.handle_app_restart():
-                pass
-            if self.handle_reward():
-                pass
-
             # End
             if total and self.run_count == total:
                 break
 
             # Log
-            if self.config.STOP_IF_COUNT_GREATER_THAN > 0:
-                logger.info(f'Count: [{self.run_count}/{self.config.STOP_IF_COUNT_GREATER_THAN}]')
+            logger.hr(f'{name}_{mode}', level=2)
+            if self.config.StopCondition_RunCount > 0:
+                logger.info(f'Count remain: {self.config.StopCondition_RunCount}')
             else:
-                logger.info(f'Count: [{self.run_count}]')
+                logger.info(f'Count: {self.run_count}')
 
             # End
-            if self.triggered_stop_condition(oil_check=False):
+            if self.triggered_stop_condition():
                 break
 
             # UI ensure
@@ -50,9 +57,10 @@ class RaidRun(Raid, CampaignRun):
 
             # Run
             try:
-                self.raid_execute_once(mode=mode if mode else self.config.RAID_MODE, raid=name)
+                self.raid_execute_once(mode=mode, raid=name)
             except OilExhausted:
-                self.ui_goto_main()
+                logger.hr('Triggered stop condition: Oil limit')
+                self.config.task_delay(minute=(120, 240))
                 break
             except ScriptEnd as e:
                 logger.hr('Script end')
@@ -61,8 +69,8 @@ class RaidRun(Raid, CampaignRun):
 
             # After run
             self.run_count += 1
-            if self.config.STOP_IF_COUNT_GREATER_THAN > 0:
-                count = self.config.STOP_IF_COUNT_GREATER_THAN - self.run_count
-                count = 0 if count < 0 else count
-                self.config.config.set('Setting', 'if_count_greater_than', str(count))
-                self.config.save()
+            if self.config.StopCondition_RunCount:
+                self.config.StopCondition_RunCount -= 1
+            # Scheduler
+            if self.config.task_switched():
+                self.config.task_stop()

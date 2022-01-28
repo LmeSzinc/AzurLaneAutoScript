@@ -1,5 +1,6 @@
 from module.base.timer import Timer
 from module.base.utils import *
+from module.exception import GameTooManyClickError
 from module.logger import logger
 from module.os.assets import *
 from module.os_handler.action_point import ActionPointHandler
@@ -233,6 +234,7 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             in: is_in_map
             out: is_in_globe
         """
+        click_count = 0
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -240,6 +242,12 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
                 self.device.screenshot()
 
             if self.appear_then_click(MAP_GOTO_GLOBE, offset=(200, 5), interval=2):
+                click_count += 1
+                if click_count >= 5:
+                    # When there's zone exploration reward, AL just don't let you go.
+                    logger.warning('Unable to goto globe, '
+                                   'there might be uncollected zone exploration rewards preventing exit')
+                    raise GameTooManyClickError(f'Too many click for a button: {MAP_GOTO_GLOBE}')
                 continue
             if self.handle_map_event():
                 continue

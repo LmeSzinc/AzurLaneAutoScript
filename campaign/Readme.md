@@ -21,7 +21,8 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20180226   | war archives 20190221 en | Winter\'s Crown                | 凛冬王冠               | Winter\'s Crown                  | 凛冽なりし冬の王冠                   | 凜冬王冠             |
 | 20180607   | war archives 20180607 cn | Ink Stained Steel Sakura       | 墨染的钢铁之花         | Ink Stained Steel Sakura         | 墨染まりし鋼の桜                     | 墨染的鋼鐵之花       |
 | 20180726   | war archives 20180726 cn | Iris of Light and Dark         | 光与影的鸢尾之华       | Iris of Light and Dark           | 光と影のアイリス                     | 光與影的鳶尾之華     |
-| 20180726   | war archives 20181227 cn | Crimson Echoes                 | 苍红的回响           | Crimson Echoes                    | 縹映る深緋の残響                          | 蒼紅的迴響     |
+| 20210121   | war archives 20181227 cn | Crimson Echoes                 | 苍红的回响           | Crimson Echoes                    | 縹映る深緋の残響                          | 蒼紅的迴響     |
+| 20220113   | war archives 20190911 cn | Empyreal Tragicomedy           | 神圣的悲喜剧       | Empyreal Tragicomedy                | 悲歎せし焔海の詩             | -                    |
 | 20200227   | event 20200227 cn        | Northern Overture              | 北境序曲               | Northern Overture                | 凍絶の北海                           | -                    |
 | 20200312   | event 20200312 cn        | The Solomon Ranger             | 复刻斯图尔特的硝烟     | The Solomon Ranger Rerun         | 南洋に靡く硝煙（復刻）               | -                    |
 | 20200326   | event 20200326 cn        | Microlayer Medley              | 微层混合               | Microlayer Medley                | 闇靄払う銀翼                         | -                    |
@@ -79,3 +80,4 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20211214   | event 20200603 cn        | Stars of the Shimmering Fjord  | -                      | -                                | -                                    | 峽灣間的反擊         |
 | 20211229   | event 20211229 cn        | Tower of Transcendence         | 逆转彩虹之塔           | Tower of Transcendence           | 遡望せし虹彩の塔                     | -                    |
 | 20211230   | event 20201229 cn        | Inverted Orthant               | -                      | -                                | -                                    | 負象限作戰           |
+| 20220127   | raid 20220127            | Mystery Investigation | 演习神秘事件调查      | Mystery Investigation | 秘密事件調査 | - |
