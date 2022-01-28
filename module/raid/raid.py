@@ -98,7 +98,7 @@ class Raid(MapOperation, Combat):
             self.device.screenshot()
 
             if self.appear(BATTLE_PREPARATION):
-                if self.handle_combat_automation_set(auto=auto):
+                if self.handle_combat_automation_set(auto=auto == 'combat_auto'):
                     continue
                 if not oil_checked and self.config.StopCondition_OilLimit:
                     self.ensure_combat_oil_loaded()
@@ -181,8 +181,14 @@ class Raid(MapOperation, Combat):
             out: page_raid
         """
         logger.hr('Raid Execute')
-        self.raid_enter(mode=mode, raid=raid)
+        self.config.override(
+            Campaign_Name=f'{raid}_{mode}',
+            Campaign_UseAutoSearch=False,
+            Fleet_FleetOrder='fleet1_all_fleet2_standby'
+        )
+        if self.config.Emotion_CalculateEmotion:
+            self.emotion.check_reduce(1)
 
-        self.config.override(Campaign_Name=f'{raid}_{mode}')
+        self.raid_enter(mode=mode, raid=raid)
         self.combat(balance_hp=False, expected_end=self.raid_expected_end)
         logger.hr('Raid End')
