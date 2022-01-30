@@ -148,18 +148,16 @@ class Hermit(Adb):
                 else:
                     return False
 
-            if appear('//*[@text="Accessibility"]') and appear_then_click('//*[@text="Hermit"]'):
+            if appear_then_click('//*[@text="Hermit" and @resource-id="android:id/title"]'):
                 continue
-            if appear('//*[@text="Hermit"]') \
-                    and appear_then_click('//*[@class="android.widget.Switch" and @checked="false"]'):
+            if appear_then_click('//*[@class="android.widget.Switch" and @checked="false"]'):
                 continue
-            if appear_then_click('//*[@text="OK"]'):
+            if appear_then_click('//*[@resource-id="android:id/button1"]'):
                 # Just plain click here
                 # Can't use uiautomator once hermit has access to accessibility service,
                 # or uiautomator will get the access.
                 break
-            if appear('//*[@text="Hermit"]') \
-                    and appear_then_click('//*[@class="android.widget.Switch" and @checked="true"]'):
+            if appear('//*[@class="android.widget.Switch" and @checked="true"]'):
                 raise HermitError('Accessibility service already enable but get error')
 
             # End
