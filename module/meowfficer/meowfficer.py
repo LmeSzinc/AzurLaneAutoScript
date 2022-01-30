@@ -286,8 +286,9 @@ class RewardMeowfficer(UI):
             in: MEOWFFICER_FORT
             out: MEOWFFICER_FORT
         """
+        self.interval_clear(GET_ITEMS_1)
         check_timer = Timer(1, count=2)
-        confirm_timer = Timer(1.5, count=3).start()
+        confirm_timer = Timer(1.5, count=4).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -300,7 +301,7 @@ class RewardMeowfficer(UI):
                 confirm_timer.reset()
                 continue
 
-            if self.appear(GET_ITEMS_1, interval=5):
+            if self.appear(GET_ITEMS_1, offset=5, interval=3):
                 self.device.click(MEOWFFICER_FORT_CHECK)
                 check_timer.reset()
                 confirm_timer.reset()
@@ -344,8 +345,14 @@ class RewardMeowfficer(UI):
         self.meow_chores()
 
         # Exit back into page_meowfficer
+        def additional():
+            if self.appear_then_click(GET_ITEMS_1, offset=5, interval=3):
+                return True
+            return False
+
         self.ui_click(MEOWFFICER_GOTO_DORM,
-                      check_button=MEOWFFICER_FORT_ENTER, appear_button=MEOWFFICER_FORT_CHECK, offset=None)
+                      check_button=MEOWFFICER_FORT_ENTER, appear_button=MEOWFFICER_FORT_CHECK,
+                      additional=additional, offset=None, skip_first_screenshot=True)
 
         return True
 
