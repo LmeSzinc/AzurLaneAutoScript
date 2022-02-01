@@ -20,6 +20,7 @@ NAME_TO_SERIES = {
     '1': 1, '2': 2, '3': 3, '4': 4,
 }
 
+
 def bp_redirect(value):
     """
     Redirects shop filter old format for research blueprints
@@ -42,6 +43,7 @@ def bp_redirect(value):
             value = re.sub(flat, match[0], value)
 
     return value
+
 
 if __name__ == '__main__':
     print(bp_redirect('PlateGeneralT1 > DRAgirBP > CatT3 > PROdinBP > Chip > PR1BP > PRBP > DRDrakeBP > DR2BP'))

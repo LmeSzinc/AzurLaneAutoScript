@@ -4,9 +4,9 @@ from copy import deepcopy
 from cached_property import cached_property
 
 from module.base.timer import timer
+from module.config.redirect_utils.shop_filter import bp_redirect
 from module.config.utils import *
 from module.logger import logger
-from module.redirect_utils.shop_filter import bp_redirect
 
 CONFIG_IMPORT = '''
 import datetime
