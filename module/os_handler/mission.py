@@ -152,6 +152,7 @@ class MissionHandler(GlobeOperation, ZoneManager):
             in: is_in_map
             out: is_in_map
         """
+        logger.hr('OS mission overview accept', level=1)
         # is_in_map
         self.os_map_goto_globe(unpin=False)
         # is_in_globe

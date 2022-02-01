@@ -1,5 +1,8 @@
+from datetime import datetime
+
 import numpy as np
 
+from module.config.utils import deep_get
 from module.exception import MapWalkError, ScriptError, RequestHumanTakeover
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
@@ -258,20 +261,25 @@ class OperationSiren(Reward, OSMap):
         return True
 
     def os_daily(self):
-        # Finish existing missions first
-        self.os_finish_daily_mission()
-
-        # Clear tuning samples daily
-        self.handle_tuning_sample_use()
-
-        while 1:
-            # If unable to receive more dailies, finish them and try again.
-            success = self.os_mission_overview_accept()
+        if not self._is_in_os_explore():
+            # Finish existing missions first
             self.os_finish_daily_mission()
-            if success:
-                break
 
-        self.config.task_delay(server_update=True)
+            # Clear tuning samples daily
+            self.handle_tuning_sample_use()
+
+            while 1:
+                # If unable to receive more dailies, finish them and try again.
+                success = self.os_mission_overview_accept()
+                self.os_finish_daily_mission()
+                if success:
+                    break
+
+            self.config.task_delay(server_update=True)
+        else:
+            logger.info('OpsiExplore is enabled, accept missions only')
+            self.os_mission_overview_accept()
+            self.config.task_delay(server_update=True)
 
     def os_shop(self):
         self.os_port_daily(mission=False, supply=self.config.OpsiShop_BuySupply)
@@ -325,6 +333,23 @@ class OperationSiren(Reward, OSMap):
                 self.handle_fleet_repair(revert=False)
                 self.config.check_task_switch()
 
+    def _os_explore_task_delay(self):
+        """
+        Delay other OpSi tasks during os_explore
+        """
+        logger.info('Delay other OpSi tasks during OpsiExplore')
+        next_run = self.config.Scheduler_NextRun
+        for task in ['OpsiObscure', 'OpsiAbyssal', 'OpsiStronghold', 'OpsiMeowfficerFarming']:
+            keys = f'{task}.Scheduler.NextRun'
+            current = deep_get(self.config.data, keys=keys, default=datetime(2020, 1, 1, 0, 0))
+            if current < next_run:
+                logger.info(f'Delay task `{task}` to {next_run}')
+                self.config.modified[keys] = next_run
+        self.config.update()
+
+    def _is_in_os_explore(self):
+        return deep_get(self.config.data, keys='OpsiExplore.Scheduler.Enable', default=False)
+
     def os_explore(self):
         """
         Explore all dangerous zones at the beginning of month.
@@ -362,6 +387,7 @@ class OperationSiren(Reward, OSMap):
             self.os_order_execute(
                 recon_scan=not self.config.OpsiExplore_SpecialRadar,
                 submarine_call=self.config.OpsiFleet_Submarine)
+            self._os_explore_task_delay()
             self.run_auto_search()
             self.config.OpsiExplore_LastZone = zone
             logger.info(f'Zone cleared: {self.name_to_zone(zone)}')
