@@ -1654,7 +1654,7 @@
   "OpsiExplore": {
     "_info": {
       "name": "OpSi Explore Settings",
-      "help": "At the beginning of each month OpSi is reset\nThe following must be satisfied:\n- Manually confirm fleet deployment into OpSi\n- OpSi story must be complete\n- Start dock in New York port\n- Turn off other OpSi tasks (Obscure, Meowfficer, etc.)\nEach zone will be visited in a clockwise direction every 30 minutes until world has been been completely opened\nNo need to consume 5000 oil for special radar in OpSi shop"
+      "help": "At the beginning of each month OpSi is reset\nThe following must be satisfied:\n- Manually confirm fleet deployment into OpSi\n- OpSi story must be complete\nEach zone will be visited in a clockwise direction every 30 minutes until world has been been completely opened\nNo need to consume 5000 oil for special radar in OpSi shop"
     },
     "SpecialRadar": {
       "name": "SpecialRadar Bought",

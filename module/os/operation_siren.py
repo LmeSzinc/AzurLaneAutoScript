@@ -8,6 +8,7 @@ from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.os.fleet import BossFleet
 from module.os.globe import OSGlobe
+from module.os.globe_operation import OSExploreError
 
 
 class OperationSiren(OSGlobe):
@@ -167,7 +168,7 @@ class OperationSiren(OSGlobe):
     def _is_in_os_explore(self):
         return deep_get(self.config.data, keys='OpsiExplore.Scheduler.Enable', default=False)
 
-    def os_explore(self):
+    def _os_explore(self):
         """
         Explore all dangerous zones at the beginning of month.
         """
@@ -212,6 +213,18 @@ class OperationSiren(OSGlobe):
             self.config.check_task_switch()
             if zone == order[-1]:
                 end()
+
+    def os_explore(self):
+        for _ in range(2):
+            try:
+                self._os_explore()
+            except OSExploreError:
+                logger.info('Go back to NY, explore again')
+                self.config.OpsiExplore_LastZone = 0
+                self.globe_goto(0)
+
+        logger.critical('Failed to solve the locked zone')
+        raise RequestHumanTakeover
 
     def clear_obscure(self):
         """

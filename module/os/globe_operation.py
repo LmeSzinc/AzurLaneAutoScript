@@ -11,6 +11,10 @@ ZONE_SELECT = [SELECT_DANGEROUS, SELECT_SAFE, SELECT_OBSCURE, SELECT_ABYSSAL, SE
 ASSETS_PINNED_ZONE = ZONE_TYPES + [ZONE_ENTRANCE, ZONE_SWITCH, ZONE_PINNED]
 
 
+class OSExploreError(Exception):
+    pass
+
+
 class GlobeOperation(ActionPointHandler, MapEventHandler):
     def is_in_globe(self):
         return self.appear(GLOBE_GOTO_MAP, offset=(20, 20))
@@ -321,11 +325,15 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             zone (Zone): Zone to enter.
             skip_first_screenshot (bool):
 
+        Raises:
+            OSExploreError: If zone locked.
+
         Pages:
             in: is_zone_pinned
             out: is_in_map
         """
         click_timer = Timer(10)
+        click_count = 0
         pinned = None
         while 1:
             if skip_first_screenshot:
@@ -339,10 +347,18 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             if self.is_in_map():
                 break
 
-            if self.is_zone_pinned() and click_timer.reached():
-                self.device.click(ZONE_ENTRANCE)
-                click_timer.reset()
-                continue
+            if self.is_zone_pinned():
+                if self.appear(ZONE_LOCKED, offset=(20, 20)):
+                    logger.warning(f'Zone {zone} locked, neighbouring zones may not have been explored')
+                    raise OSExploreError
+                if click_count > 5:
+                    logger.warning(f'Unable to enter zone {zone}, neighbouring zones may not have been explored')
+                    raise OSExploreError
+                if click_timer.reached():
+                    self.device.click(ZONE_ENTRANCE)
+                    click_count += 1
+                    click_timer.reset()
+                    continue
             if self.handle_action_point(zone=zone, pinned=pinned):
                 click_timer.clear()
                 continue
