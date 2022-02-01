@@ -67,8 +67,9 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
         """
         if self.is_zone_pinned():
             # A click does not disable pinned zone, a swipe does.
-            self.device.swipe_vector((50, -50), box=area_pad(ZONE_PINNED.area, pad=-80), random_range=(-10, -10, 10, 10),
-                                     padding=0, name='PINNED_DISABLE')
+            self.device.swipe_vector(
+                (50, -50), box=area_pad(ZONE_PINNED.area, pad=-80), random_range=(-10, -10, 10, 10),
+                padding=0, name='PINNED_DISABLE')
             return True
 
         return False
@@ -134,6 +135,44 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
         """
         return len(self.get_zone_select()) > 0
 
+    def ensure_zone_select_expanded(self):
+        """
+        Returns:
+            list[Button]:
+        """
+        record = 0
+        for _ in range(5):
+            selection = self.get_zone_select()
+            if len(selection) == record and record > 0:
+                return selection
+
+            record = len(selection)
+            self.device.screenshot()
+
+        logger.warning('Failed to ensure zone selection expanded, assume expanded')
+        return self.get_zone_select()
+
+    def zone_select_enter(self):
+        """
+        Pages:
+            in: is_zone_pinned
+            out: is_in_zone_select
+        """
+        self.ui_click(ZONE_SWITCH, appear_button=self.is_zone_pinned, check_button=self.is_in_zone_select,
+                      skip_first_screenshot=True)
+
+    def zone_select_execute(self, button):
+        """
+        Args:
+            button (Button): Button to select, one of the SELECT_* buttons
+
+        Pages:
+            in: is_in_zone_select
+            out: is_zone_pinned
+        """
+        self.ui_click(button, check_button=self.is_zone_pinned, offset=self._zone_select_offset,
+                      skip_first_screenshot=True)
+
     def zone_type_select(self, types=('SAFE', 'DANGEROUS')):
         """
         Args:
@@ -170,19 +209,17 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             return True
 
         for _ in range(3):
-            self.ui_click(ZONE_SWITCH, appear_button=self.is_zone_pinned, check_button=self.is_in_zone_select,
-                          skip_first_screenshot=True)
-
-            selection = self.get_zone_select()
+            self.zone_select_enter()
+            selection = self.ensure_zone_select_expanded()
             logger.attr('Zone_selection', selection)
+
             button = get_button(selection)
             if button is None:
                 logger.warning('No such zone type to select, fallback to default')
                 types = ('SAFE', 'DANGEROUS')
                 button = get_button(selection)
 
-            self.ui_click(button, check_button=self.is_zone_pinned, offset=self._zone_select_offset,
-                          skip_first_screenshot=True)
+            self.zone_select_execute(button)
             if self.pinned_to_name(button) == self.get_zone_pinned_name():
                 return True
 
@@ -204,12 +241,10 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
         if self.get_zone_pinned_name() == 'SAFE':
             return True
         elif self.zone_has_switch():
-            self.ui_click(ZONE_SWITCH, appear_button=self.is_zone_pinned, check_button=self.is_in_zone_select,
-                          skip_first_screenshot=True)
-            flag = SELECT_SAFE in self.get_zone_select()
+            self.zone_select_enter()
+            flag = SELECT_SAFE in self.ensure_zone_select_expanded()
             button = SELECT_SAFE if flag else SELECT_DANGEROUS
-            self.ui_click(button, check_button=self.is_zone_pinned, offset=self._zone_select_offset,
-                          skip_first_screenshot=True)
+            self.zone_select_execute(button)
             return flag
         else:
             # No zone_switch, already on DANGEROUS
@@ -291,7 +326,6 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             out: is_in_map
         """
         click_timer = Timer(10)
-        confirm_timer = Timer(1, count=2).start()
         pinned = None
         while 1:
             if skip_first_screenshot:
