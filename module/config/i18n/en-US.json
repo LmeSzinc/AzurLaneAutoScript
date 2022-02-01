@@ -317,9 +317,13 @@
       "name": "Optimization Settings",
       "help": ""
     },
+    "ScreenshotInterval": {
+      "name": "Take Screenshots Every X Second(s)",
+      "help": "Minimum interval between 2 screenshots, limited in 0.1 ~ 0.3, can help reduce CPU on high-end PCs"
+    },
     "CombatScreenshotInterval": {
-      "name": "Combat Screenshot Interval",
-      "help": "Frequency of screenshots in seconds taken during battle, can help reduce CPU"
+      "name": "Take Screenshots Every X Second(s) In Combat",
+      "help": "Minimum interval between 2 screenshots, limited in 0.1 ~ 1.0, can help reduce CPU during battle"
     },
     "TaskHoardingDuration": {
       "name": "Hoard Tasks For X Minute(s)",

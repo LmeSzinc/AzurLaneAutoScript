@@ -128,7 +128,7 @@ class AutoSearchCombat(MapOperation, Combat):
             out: combat status
         """
         logger.info('Auto search combat loading')
-        self.device.screenshot_interval_set(self.config.Optimization_CombatScreenshotInterval)
+        self.device.screenshot_interval_set('combat')
         while 1:
             self.device.screenshot()
 
@@ -177,14 +177,14 @@ class AutoSearchCombat(MapOperation, Combat):
 
             # End
             if self.is_in_auto_search_menu() or self._handle_auto_search_menu_missing():
-                self.device.screenshot_interval_set(0)
+                self.device.screenshot_interval_set()
                 raise CampaignEnd
             if self.is_combat_executing():
                 continue
             if self.appear(BATTLE_STATUS_S) or self.appear(BATTLE_STATUS_A) or self.appear(BATTLE_STATUS_B) \
                     or self.appear(EXP_INFO_S) or self.appear(EXP_INFO_A) or self.appear(EXP_INFO_B) \
                     or self.is_auto_search_running():
-                self.device.screenshot_interval_set(0)
+                self.device.screenshot_interval_set()
                 break
 
     def auto_search_combat_status(self, skip_first_screenshot=True):

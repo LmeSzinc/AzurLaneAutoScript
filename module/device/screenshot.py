@@ -8,11 +8,11 @@ from PIL import Image
 
 from module.base.decorator import cached_property
 from module.base.timer import Timer, timer
-from module.base.utils import get_color, save_image
+from module.base.utils import get_color, save_image, limit_in
 from module.device.method.adb import Adb
 from module.device.method.ascreencap import AScreenCap
 from module.device.method.uiautomator_2 import Uiautomator2
-from module.exception import RequestHumanTakeover
+from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 
 
@@ -20,7 +20,7 @@ class Screenshot(Adb, Uiautomator2, AScreenCap):
     _screen_size_checked = False
     _screen_black_checked = False
     _minicap_uninstalled = False
-    _screenshot_interval_timer = Timer(0.1)
+    _screenshot_interval = Timer(0.1)
     _last_save_time = {}
     image: np.ndarray
 
@@ -30,8 +30,8 @@ class Screenshot(Adb, Uiautomator2, AScreenCap):
         Returns:
             np.ndarray:
         """
-        self._screenshot_interval_timer.wait()
-        self._screenshot_interval_timer.reset()
+        self._screenshot_interval.wait()
+        self._screenshot_interval.reset()
 
         for _ in range(2):
             method = self.config.Emulator_ScreenshotMethod
@@ -91,12 +91,35 @@ class Screenshot(Adb, Uiautomator2, AScreenCap):
     def screenshot_last_save_time_reset(self, genre):
         self._last_save_time[genre] = 0
 
-    def screenshot_interval_set(self, interval):
-        interval = max(interval, 0.1)
-        if interval != self._screenshot_interval_timer.limit:
-            interval = min(interval, 1.0)
+    def screenshot_interval_set(self, interval=None):
+        """
+        Args:
+            interval (int, float, str):
+                Minimum interval between 2 screenshots in seconds.
+                Or None for Optimization_ScreenshotInterval, 'combat' for Optimization_CombatScreenshotInterval
+        """
+        if interval is None:
+            origin = self.config.Optimization_ScreenshotInterval
+            interval = limit_in(origin, 0.1, 0.3)
+            if interval != origin:
+                logger.warning(f'Optimization.ScreenshotInterval {origin} is revised to {interval}')
+                self.config.Optimization_ScreenshotInterval = interval
+        elif interval == 'combat':
+            origin = self.config.Optimization_CombatScreenshotInterval
+            interval = limit_in(origin, 0.3, 1.0)
+            if interval != origin:
+                logger.warning(f'Optimization.CombatScreenshotInterval {origin} is revised to {interval}')
+                self.config.Optimization_CombatScreenshotInterval = interval
+        elif isinstance(interval, (int, float)):
+            # No limitation for manual set in code
+            pass
+        else:
+            logger.warning(f'Unknown screenshot interval: {interval}')
+            raise ScriptError(f'Unknown screenshot interval: {interval}')
+
+        if interval != self._screenshot_interval.limit:
             logger.info(f'Screenshot interval set to {interval}s')
-            self._screenshot_interval_timer.limit = interval
+            self._screenshot_interval.limit = interval
 
     def image_show(self, image=None):
         if image is None:

@@ -209,7 +209,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
                 continue
             if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50)):
                 # Sometimes appeared
-                self.device.screenshot_interval_set(0.1)
+                self.device.screenshot_interval_set()
                 continue
             if self.handle_map_event():
                 self.interval_reset(MAP_EXIT)

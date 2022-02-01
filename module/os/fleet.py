@@ -313,7 +313,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 confirm_timer.reset()
 
         logger.info('Walk stabled')
-        self.device.screenshot_interval_set(0.1)
+        self.device.screenshot_interval_set()
 
     def port_goto(self):
         """

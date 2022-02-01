@@ -137,7 +137,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 continue
             if not interval_set:
                 if self.is_combat_loading():
-                    self.device.screenshot_interval_set(self.config.Optimization_CombatScreenshotInterval)
+                    self.device.screenshot_interval_set('combat')
                     interval_set = True
 
             # End
@@ -256,7 +256,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             # End
             if self.handle_battle_status(drop=drop) \
                     or self.handle_get_items(drop=drop):
-                self.device.screenshot_interval_set(0)
+                self.device.screenshot_interval_set()
                 break
 
     def handle_battle_status(self, drop=None):

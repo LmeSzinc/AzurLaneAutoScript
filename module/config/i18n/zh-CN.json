@@ -317,9 +317,13 @@
       "name": "优化设置",
       "help": ""
     },
+    "ScreenshotInterval": {
+      "name": "放慢截图速度至 X 秒一张",
+      "help": "执行两次截图之间的最小间隔，限制在 0.1 ~ 0.3，对于高配置电脑能降低 CPU 占用"
+    },
     "CombatScreenshotInterval": {
       "name": "战斗中放慢截图速度至 X 秒一张",
-      "help": "能降低 CPU 占用"
+      "help": "执行两次截图之间的最小间隔，限制在 0.1 ~ 1.0，能降低战斗时的 CPU 占用"
     },
     "TaskHoardingDuration": {
       "name": "囤积任务 X 分钟",
@@ -1272,12 +1276,12 @@
   },
   "CoreShop": {
     "_info": {
-      "name": "CoreShop._info.name",
-      "help": "CoreShop._info.help"
+      "name": "核心兑换",
+      "help": ""
     },
     "Filter": {
-      "name": "CoreShop.Filter.name",
-      "help": "CoreShop.Filter.help"
+      "name": "商店过滤器",
+      "help": ""
     }
   },
   "Shipyard": {

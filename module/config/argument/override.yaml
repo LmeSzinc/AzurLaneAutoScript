@@ -4,9 +4,6 @@
 
 # ==================== Alas ====================
 
-Alas:
-  Optimization:
-    CombatScreenshotInterval: 1.0
 Restart:
   Scheduler:
     SuccessInterval: 0

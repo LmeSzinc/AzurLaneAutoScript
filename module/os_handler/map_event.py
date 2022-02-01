@@ -207,10 +207,10 @@ class MapEventHandler(EnemySearchingHandler):
         if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120)) \
                 and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image) \
                 and self.info_bar_count() >= 2:
-            self.device.screenshot_interval_set(0.1)
+            self.device.screenshot_interval_set()
             raise CampaignEnd
         if self.appear(AUTO_SEARCH_REWARD, offset=(50, 50)):
-            self.device.screenshot_interval_set(0.1)
+            self.device.screenshot_interval_set()
             self.os_auto_search_quit(drop=drop)
             raise CampaignEnd
         if enable:

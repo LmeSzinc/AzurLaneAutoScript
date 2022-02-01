@@ -317,6 +317,10 @@
       "name": "Optimization._info.name",
       "help": "Optimization._info.help"
     },
+    "ScreenshotInterval": {
+      "name": "Optimization.ScreenshotInterval.name",
+      "help": "Optimization.ScreenshotInterval.help"
+    },
     "CombatScreenshotInterval": {
       "name": "Optimization.CombatScreenshotInterval.name",
       "help": "Optimization.CombatScreenshotInterval.help"
