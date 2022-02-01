@@ -147,7 +147,8 @@ def ensure_time(second, n=3, precision=3):
     """
     if isinstance(second, tuple):
         multiply = 10 ** precision
-        return random_normal_distribution_int(second[0] * multiply, second[1] * multiply, n) / multiply
+        result = random_normal_distribution_int(second[0] * multiply, second[1] * multiply, n) / multiply
+        return round(result, precision)
     elif isinstance(second, str):
         if ',' in second:
             lower, upper = second.replace(' ', '').split(',')
@@ -161,6 +162,29 @@ def ensure_time(second, n=3, precision=3):
             return int(second)
     else:
         return second
+
+
+def ensure_int(*args):
+    """
+    Convert all elements to int.
+    Return the same structure as nested objects.
+
+    Args:
+        *args:
+
+    Returns:
+        list:
+    """
+    def to_int(item):
+        try:
+            return int(item)
+        except TypeError:
+            result = [to_int(i) for i in item]
+            if len(result) == 1:
+                result = result[0]
+            return result
+
+    return to_int(args)
 
 
 def area_offset(area, offset):

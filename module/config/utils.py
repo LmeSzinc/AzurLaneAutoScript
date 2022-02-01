@@ -506,5 +506,5 @@ def type_to_str(typ):
         str: Such as `int`, 'datetime.datetime'.
     """
     if not isinstance(typ, type):
-        typ = type(typ)
-    return str(typ).strip("<class '>").replace('<', '_').replace('>', '_')
+        typ = type(typ).__name__
+    return str(typ)

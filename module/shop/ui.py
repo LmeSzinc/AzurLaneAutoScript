@@ -1,7 +1,6 @@
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.timer import Timer
-from module.base.utils import *
 from module.shop.assets import *
 from module.ui.assets import BACK_ARROW
 from module.ui.navbar import Navbar
@@ -117,11 +116,7 @@ class ShopUI(UI):
                     self.appear(SHOP_GENERAL_SWIPE_END, offset=(15, 5)):
                 return True
 
-            # backup = self.config.cover(DEVICE_CONTROL_METHOD='minitouch')
-            p1, p2 = random_rectangle_vector(
-                (480, 0), box=detection_area, random_range=(-50, -50, 50, 50), padding=20)
-            self.device.drag(p1, p2, segments=2, shake=(0, 25), point_random=(0, 0, 0, 0), shake_random=(0, -5, 0, 5))
-            # backup.recover()
+            self.device.swipe_vector((480, 0), box=detection_area, random_range=(-50, -10, 50, 10), padding=0)
             self.device.sleep(0.3)
 
         return False
@@ -142,3 +137,7 @@ class ShopUI(UI):
         self.ui_ensure(page_munitions)
 
         return self._shop_swipe()
+if __name__ == '__main__':
+    self = ShopUI('alas')
+    self.device.screenshot()
+    self._shop_swipe()

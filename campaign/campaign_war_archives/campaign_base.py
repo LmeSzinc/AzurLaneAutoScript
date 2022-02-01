@@ -1,16 +1,18 @@
-from module.base.utils import random_rectangle_vector
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 from module.ui.assets import WAR_ARCHIVES_CHECK
 from module.ui.page import page_archives
+from module.ui.scroll import Scroll
 from module.ui.switch import Switch
-from module.war_archives.assets import WAR_ARCHIVES_EX_ON, WAR_ARCHIVES_SP_ON, WAR_ARCHIVES_CAMPAIGN_CHECK
+from module.war_archives.assets import WAR_ARCHIVES_EX_ON, WAR_ARCHIVES_SP_ON, \
+    WAR_ARCHIVES_CAMPAIGN_CHECK, WAR_ARCHIVES_SCROLL
 from module.war_archives.dictionary import dic_archives_template
 
 WAR_ARCHIVES_SWITCH = Switch('War_Archives_switch', is_selector=True)
 WAR_ARCHIVES_SWITCH.add_status('ex', WAR_ARCHIVES_EX_ON)
 WAR_ARCHIVES_SWITCH.add_status('sp', WAR_ARCHIVES_SP_ON)
+WAR_ARCHIVES_SCROLL = Scroll(WAR_ARCHIVES_SCROLL, color=(247, 211, 66), name='WAR_ARCHIVES_SCROLL')
 
 
 class CampaignBase(CampaignBase_):
@@ -53,8 +55,6 @@ class CampaignBase(CampaignBase_):
         Fixed number of scrolls until give up, may need to
         increase as more war archives campaigns are added
         """
-        detection_area = (565, 125, 700, 675)
-
         for _ in range(10):
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -73,12 +73,11 @@ class CampaignBase(CampaignBase_):
             if entrance is not None:
                 return entrance
 
-            # backup = self.config.cover(DEVICE_CONTROL_METHOD='minitouch')
-            p1, p2 = random_rectangle_vector(
-                (0, -275), box=detection_area, random_range=(-50, -50, 50, 50), padding=20)
-            self.device.drag(p1, p2, segments=2, shake=(0, 25), point_random=(0, 0, 0, 0), shake_random=(0, -5, 0, 5))
-            # backup.recover()
-            self.device.sleep(0.3)
+            if WAR_ARCHIVES_SCROLL.appear(main=self):
+                WAR_ARCHIVES_SCROLL.next_page(main=self)
+                continue
+            else:
+                break
 
         logger.warning('Failed to find archives entrance')
         return None

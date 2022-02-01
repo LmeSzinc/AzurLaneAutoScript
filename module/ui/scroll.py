@@ -136,7 +136,7 @@ class Scroll:
             if self.drag_interval.reached():
                 p1 = random_rectangle_point(self.position_to_screen(current), n=1)
                 p2 = random_rectangle_point(self.position_to_screen(position, random_range=random_range), n=1)
-                main.device.drag(p1, p2, shake=(0, 0), point_random=(0, 0, 0, 0), shake_random=(0, 0, 0, 0))
+                main.device.swipe(p1, p2)
                 main.device.sleep(0.3)
                 self.drag_interval.reset()
 
@@ -162,7 +162,7 @@ class Scroll:
 
         multiply = self.length / (self.total - self.length)
         target = current + page * multiply
-        target = min(max(target, 0), 1)
+        target = round(min(max(target, 0), 1), 3)
         self.set(target, main=main, random_range=random_range, skip_first_screenshot=True)
 
     def next_page(self, main, random_range=(-0.01, 0.01), skip_first_screenshot=True):

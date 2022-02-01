@@ -95,8 +95,9 @@ class Adb(Connection):
         self.adb_shell(['input', 'tap', x, y])
 
     @retry
-    def swipe_adb(self, fx, fy, tx, ty, duration=0.1):
-        self.adb_shell(['input', 'swipe', fx, fy, tx, ty, duration])
+    def swipe_adb(self, p1, p2, duration=0.1):
+        duration = int(duration * 1000)
+        self.adb_shell(['input', 'swipe', *p1, *p2, duration])
 
     @retry
     def app_current_adb(self):

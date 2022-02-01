@@ -91,7 +91,7 @@ class RewardDorm(UI):
         self.device.minitouch_builder.up().commit()
         self.device.minitouch_send()
 
-    @Config.when(DEVICE_CONTROL_METHOD=None)
+    @Config.when(DEVICE_CONTROL_METHOD='uiautomator2')
     def _dorm_feed_long_tap(self, button, count):
         timeout = Timer(count // 5 + 5).start()
         x, y = random_rectangle_point(button.button)
@@ -112,7 +112,13 @@ class RewardDorm(UI):
 
         self.device.u2.touch.up(x, y)
 
-    def dorm_receive(self):
+    @Config.when(DEVICE_CONTROL_METHOD=None)
+    def _dorm_feed_long_tap(self, button, count):
+        logger.warning(f'Current control method {self.config.Emulator_ControlMethod} '
+                       f'does not support DOWN/UP events, use multi-click instead')
+        self.device.multi_click(button, count)
+
+    def dorm_collect(self):
         """
         Click all coins and loves on current screen.
         Zoom-out dorm to detect coins and loves, because swipes in dorm may treat as dragging ships.
@@ -122,6 +128,12 @@ class RewardDorm(UI):
             in: page_dorm, without info_bar
             out: page_dorm, without info_bar
         """
+        logger.hr('Dorm collect')
+        if self.config.Emulator_ControlMethod not in ['uiautomator2', 'minitouch']:
+            logger.warning(f'Current control method {self.config.Emulator_ControlMethod} '
+                           f'does not support 2 finger zoom out, skip dorm collect')
+            return
+
         for _ in range(2):
             logger.info('Dorm zoom out')
             # Left hand down
@@ -282,7 +294,7 @@ class RewardDorm(UI):
         self.ui_goto(page_dorm, skip_first_screenshot=True)
 
         if collect:
-            self.dorm_receive()
+            self.dorm_collect()
 
         if feed:
             self.ui_click(click_button=DORM_FEED_ENTER, appear_button=DORM_CHECK, check_button=DORM_FEED_CHECK,
