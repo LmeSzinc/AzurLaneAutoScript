@@ -73,8 +73,10 @@ class ShopUI(UI):
             if self.appear_then_click(SHOP_REFRESH, interval=3):
                 exit_timer.reset()
                 continue
-            if self.appear(SHOP_BUY_CONFIRM_MISTAKE, interval=3, offset=(200, 200)) and self.appear(POPUP_CONFIRM, offset=(3, 30)):
-                self.ui_click(SHOP_CLICK_SAFE_AREA, appear_button=POPUP_CONFIRM, check_button=BACK_ARROW, offset=(20, 30), skip_first_screenshot=True)
+            if self.appear(SHOP_BUY_CONFIRM_MISTAKE, interval=3, offset=(200, 200)) \
+                    and self.appear(POPUP_CONFIRM, offset=(3, 30)):
+                self.ui_click(SHOP_CLICK_SAFE_AREA, appear_button=POPUP_CONFIRM, check_button=BACK_ARROW,
+                              offset=(20, 30), skip_first_screenshot=True)
                 exit_timer.reset()
                 refreshed = False
                 break
@@ -137,7 +139,3 @@ class ShopUI(UI):
         self.ui_ensure(page_munitions)
 
         return self._shop_swipe()
-if __name__ == '__main__':
-    self = ShopUI('alas')
-    self.device.screenshot()
-    self._shop_swipe()
