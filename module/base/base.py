@@ -4,6 +4,7 @@ from module.base.utils import *
 from module.config.config import AzurLaneConfig
 from module.device.device import Device
 from module.logger import logger
+from module.map_detection.utils import fit_points
 from module.statistics.azurstats import AzurStats
 
 
@@ -146,6 +147,31 @@ class ModuleBase:
         image = self.image_crop(button)
         mask = color_similarity_2d(image, color=color) > threshold
         return np.sum(mask) > count
+
+    def image_color_button(self, area, color, color_threshold=250, encourage=5, name='COLOR_BUTTON'):
+        """
+        Find an area with pure color on image, convert into a Button.
+
+        Args:
+            area (tuple[int]): Area to search from
+            color (tuple[int]): Target color
+            color_threshold (int): 0-255, 255 means exact match
+            encourage (int): Radius of button
+            name (str): Name of the button
+
+        Returns:
+            Button: Or None if nothing matched.
+        """
+        image = color_similarity_2d(self.image_crop(area), color=color)
+        points = np.array(np.where(image > color_threshold)).T[:, ::-1]
+        if points.shape[0] < encourage ** 2:
+            # Not having enough pixels to match
+            return None
+
+        point = fit_points(points, mod=image.shape, encourage=encourage)
+        point = ensure_int(point + area[:2])
+        button_area = area_offset((-encourage, -encourage, encourage, encourage), offset=point)
+        return Button(area=button_area, color=color, button=button_area, name=name)
 
     def interval_reset(self, button):
         if button.name in self.interval_timer:

@@ -136,7 +136,7 @@ class Scroll:
             if self.drag_interval.reached():
                 p1 = random_rectangle_point(self.position_to_screen(current), n=1)
                 p2 = random_rectangle_point(self.position_to_screen(position, random_range=random_range), n=1)
-                main.device.swipe(p1, p2)
+                main.device.swipe(p1, p2, name=self.name)
                 main.device.sleep(0.3)
                 self.drag_interval.reset()
 
