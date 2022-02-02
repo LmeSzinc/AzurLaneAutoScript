@@ -358,7 +358,6 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
         if ap_limit:
             tasks = SelectedGrids(['OpsiExplore', 'OpsiDaily', 'OpsiObscure', 'OpsiAbyssal', 'OpsiStronghold',
                                    'OpsiMeowfficerFarming'])
-            tasks = tasks.delete(tasks.filter(is_special_radar))
             delay_tasks(tasks, minutes=360)
 
         self.save()
