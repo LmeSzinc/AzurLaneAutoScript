@@ -131,7 +131,7 @@ class Combat(Combat_, MapEventHandler):
     def combat_status(self, drop=None, expected_end=None):
         super().combat_status(drop=drop, expected_end=self._os_combat_expected_end)
 
-    def combat(self, *args, **kwargs):
+    def combat(self, *args, save_get_items=False, **kwargs):
         """
         This handle continuous combat in operation siren.
 
@@ -146,7 +146,7 @@ class Combat(Combat_, MapEventHandler):
                 logger.warning('Too many continuous combat')
 
             try:
-                super().combat(*args, save_get_items=False, **kwargs)
+                super().combat(*args, save_get_items=save_get_items, **kwargs)
                 break
             except ContinuousCombat:
                 logger.info('Continuous combat detected')

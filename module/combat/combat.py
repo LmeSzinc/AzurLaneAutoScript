@@ -457,7 +457,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             emotion_reduce (bool):
             auto_mode (str): combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left
             submarine_mode (str): do_not_use, hunt_only, every_combat
-            save_get_items (bool):
+            save_get_items (bool, DropImage):
             expected_end (str, callable):
             fleet_index (int): 1 or 2
         """
@@ -479,6 +479,8 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         ) as drop:
             if save_get_items is False:
                 drop = None
+            elif isinstance(save_get_items, DropImage):
+                drop = save_get_items
             self.combat_preparation(
                 balance_hp=balance_hp, emotion_reduce=emotion_reduce, auto=auto_mode, fleet_index=fleet_index)
             self.combat_execute(

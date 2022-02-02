@@ -17,29 +17,39 @@ fleet_lock.add_status('off', check_button=OS_FLEET_UNLOCKED)
 class MapEventHandler(EnemySearchingHandler):
     ash_popup_canceled = False
 
-    def handle_map_get_items(self, interval=2):
+    def handle_map_get_items(self, interval=2, drop=None):
         if self.is_in_map():
             return False
 
         if self.appear(GET_ITEMS_1, interval=interval) \
                 or self.appear(GET_ITEMS_2, interval=interval) \
                 or self.appear(GET_ITEMS_3, interval=interval):
+            if drop:
+                drop.handle_add(main=self, before=2)
             self.device.click(CLICK_SAFE_AREA)
             return True
         if self.appear(GET_ADAPTABILITY, interval=interval):
+            if drop:
+                drop.handle_add(main=self, before=2)
             self.device.click(CLICK_SAFE_AREA)
             return True
         if self.appear(GET_MEOWFFICER_ITEMS_1, interval=interval):
+            if drop:
+                drop.handle_add(main=self, before=2)
             self.device.click(CLICK_SAFE_AREA)
             return True
         if self.appear(GET_MEOWFFICER_ITEMS_2, interval=interval):
+            if drop:
+                drop.handle_add(main=self, before=2)
             self.device.click(CLICK_SAFE_AREA)
             return True
 
         return False
 
-    def handle_map_archives(self):
+    def handle_map_archives(self, drop=None):
         if self.appear(MAP_ARCHIVES, interval=5):
+            if drop:
+                drop.add(self.device.image)
             self.device.click(CLICK_SAFE_AREA)
             return True
         if self.appear_then_click(MAP_WORLD, offset=(20, 20), interval=5):
@@ -109,22 +119,25 @@ class MapEventHandler(EnemySearchingHandler):
 
         return True
 
-    def handle_map_event(self):
+    def handle_map_event(self, drop=None):
         """
+        Args:
+            drop (DropImage):
+
         Returns:
             bool: If clicked to handle any map event.
         """
-        if self.handle_map_get_items():
+        if self.handle_map_get_items(drop=drop):
             return True
         if self.handle_os_game_tips():
             return True
-        if self.handle_map_archives():
+        if self.handle_map_archives(drop=drop):
             return True
         if self.handle_guild_popup_cancel():
             return True
         if self.handle_ash_popup():
             return True
-        if self.handle_urgent_commission():
+        if self.handle_urgent_commission(drop=drop):
             return True
         if self.handle_story_skip():
             return True
