@@ -3,6 +3,7 @@ from copy import deepcopy
 
 from cached_property import cached_property
 
+from deploy.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_write
 from module.base.timer import timer
 from module.config.redirect_utils.shop_filter import bp_redirect
 from module.config.utils import *
@@ -328,6 +329,32 @@ class ConfigGenerator:
             options = [option for option in options if option != 'campaign_main']
             deep_set(self.args, keys=f'{task}.Campaign.Event.option', value=options)
 
+    @staticmethod
+    def generate_deploy_template():
+        template = poor_yaml_read(DEPLOY_TEMPLATE)
+        cn = {
+            'Repository': 'https://gitee.com/LmeSzinc/AzurLaneAutoScript',
+            'PypiMirror': 'https://pypi.tuna.tsinghua.edu.cn/simple',
+        }
+        aidlux = {
+            'GitExecutable': '/usr/bin/git',
+            'PythonExecutable': '/usr/bin/python',
+            'RequirementsFile': './deploy/AidLux/0.92/requirements.txt',
+            'AdbExecutable': '/usr/bin/adb',
+        }
+
+        def update(suffix, *args):
+            file = f'./config/deploy.{suffix}.yaml'
+            new = deepcopy(template)
+            for dic in args:
+                new.update(dic)
+            poor_yaml_write(data=new, file=file)
+
+        update('template')
+        update('template-cn', cn)
+        update('template-AidLux', aidlux)
+        update('template-AidLux-cn', aidlux, cn)
+
     @timer
     def generate(self):
         _ = self.args
@@ -339,6 +366,7 @@ class ConfigGenerator:
         self.generate_code()
         for lang in LANGUAGES:
             self.generate_i18n(lang)
+        self.generate_deploy_template()
 
 
 class ConfigUpdater:

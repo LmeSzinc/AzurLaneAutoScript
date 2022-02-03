@@ -3,15 +3,15 @@ Deploy:
     # URL of AzurLaneAutoScript repository
     # [CN user] Use 'https://gitee.com/LmeSzinc/AzurLaneAutoScript' for faster and more stable download
     # [Other] Use 'https://github.com/LmeSzinc/AzurLaneAutoScript'
-    Repository: 'https://github.com/LmeSzinc/AzurLaneAutoScript'
+    Repository: https://gitee.com/LmeSzinc/AzurLaneAutoScript
     # Branch of Alas
     # [Developer] Use 'dev', 'app', etc, to try new features
     # [Other] Use 'master', the stable branch
-    Branch: 'master'
+    Branch: master
     # Filepath of git executable `git.exe`
     # [Easy installer] Use './toolkit/Git/mingw64/bin/git.exe'
     # [Other] Use you own git
-    GitExecutable: './toolkit/Git/mingw64/bin/git.exe'
+    GitExecutable: /usr/bin/git
     # Set git proxy
     # [CN user] Use your local http proxy (http://127.0.0.1:{port}) or socks5 proxy (socks5://127.0.0.1:{port})
     # [Other] Use null
@@ -29,24 +29,24 @@ Deploy:
     # Filepath of python executable `python.exe`
     # [Easy installer] Use './toolkit/python.exe'
     # [Other] Use you own python, and its version should be 3.7.6 64bit
-    PythonExecutable: './toolkit/python.exe'
+    PythonExecutable: /usr/bin/python
     # URL of pypi mirror
     # [CN user] Use 'https://pypi.tuna.tsinghua.edu.cn/simple' for faster and more stable download
     # [Other] Use null
-    PypiMirror: null
+    PypiMirror: https://pypi.tuna.tsinghua.edu.cn/simple
     # Install dependencies at startup
     # [In most cases] Use true
     InstallDependencies: true
     # Path to requirements.txt
     # [In most cases] Use 'requirements.txt'
     # [In AidLux] Use './deploy/AidLux/{version}/requirements.txt', version is default to 0.92
-    RequirementsFile: 'requirements.txt'
+    RequirementsFile: ./deploy/AidLux/0.92/requirements.txt
 
   Adb:
     # Filepath of ADB executable `adb.exe`
     # [Easy installer] Use './toolkit/Lib/site-packages/adbutils/binaries/adb.exe'
     # [Other] Use you own latest ADB, but not the ADB in your emulator
-    AdbExecutable: './toolkit/Lib/site-packages/adbutils/binaries/adb.exe'
+    AdbExecutable: /usr/bin/adb
     # Whether to replace ADB
     # Chinese emulators (NoxPlayer, LDPlayer, MemuPlayer, MuMuPlayer) use their own ADB, instead of the latest.
     # Different ADB servers will terminate each other at startup, resulting in disconnection.

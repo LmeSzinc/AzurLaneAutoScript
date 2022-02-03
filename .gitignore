@@ -4,7 +4,7 @@ config/backup/*
 config/*.ini
 !config/template.ini
 config/*.yaml
-!config/template.yaml
+!config/deploy.*.yaml
 config/*.json
 !config/template.json
 *.pyw
