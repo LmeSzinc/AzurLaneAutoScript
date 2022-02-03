@@ -37,6 +37,10 @@ Deploy:
     # Install dependencies at startup
     # [In most cases] Use true
     InstallDependencies: true
+    # Path to requirements.txt
+    # [In most cases] Use 'requirements.txt'
+    # [In AidLux] Use './deploy/AidLux/{version}/requirements.txt', version is default to 0.92
+    RequirementsFile: 'requirements.txt'
 
   Adb:
     # Filepath of ADB executable `adb.exe`
