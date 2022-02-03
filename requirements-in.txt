@@ -2,7 +2,7 @@ numpy==1.16.6
 scipy==1.4.1
 pillow
 opencv-python
-scikit-image==0.16.2
+imageio
 lz4
 tqdm
 uiautomator2==2.16.7
