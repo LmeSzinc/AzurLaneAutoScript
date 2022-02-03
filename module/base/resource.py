@@ -1,7 +1,6 @@
 import re
 
 import gc
-import psutil
 
 from module.base.decorator import cached_property
 from module.logger import logger
@@ -17,22 +16,6 @@ def del_cached_property(obj, name):
     """
     if hasattr(obj, name):
         del obj.__dict__[name]
-
-
-def watch_memory(func):
-    """
-    Show memory changes in log
-    release_resources: 181.555MB -> 163.066MB
-    """
-
-    def wrapper(*args, **kwargs):
-        before = psutil.Process().memory_info().rss / (1024 * 1024)
-        result = func(*args, **kwargs)
-        after = psutil.Process().memory_info().rss / (1024 * 1024)
-        logger.info(f'{func.__name__}: {round(before, 3)}MB -> {round(after, 3)}MB')
-        return result
-
-    return wrapper
 
 
 def get_assets_from_file(file, regex):

@@ -31,7 +31,7 @@ class Control(Hermit, Uiautomator2, Minitouch):
             self.click_minitouch(x, y)
         elif method == 'uiautomator2':
             self.click_uiautomator2(x, y)
-        elif method == 'hermit':
+        elif method == 'Hermit':
             self.click_hermit(x, y)
         else:
             self.click_adb(x, y)
