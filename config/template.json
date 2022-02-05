@@ -5,7 +5,8 @@
       "PackageName": "com.bilibili.azurlane",
       "Server": "cn",
       "ScreenshotMethod": "ADB",
-      "ControlMethod": "minitouch"
+      "ControlMethod": "minitouch",
+      "ScreenshotDedithering": false
     },
     "Error": {
       "HandleError": true,

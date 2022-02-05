@@ -292,6 +292,10 @@
       "uiautomator2": "uiautomator2 ",
       "minitouch": "minitouch ",
       "Hermit": "Hermit"
+    },
+    "ScreenshotDedithering": {
+      "name": "Image Color De-dithering",
+      "help": "Enable when running Alas on phones"
     }
   },
   "Error": {

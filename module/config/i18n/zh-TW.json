@@ -292,6 +292,10 @@
       "uiautomator2": "uiautomator2",
       "minitouch": "minitouch",
       "Hermit": "Hermit"
+    },
+    "ScreenshotDedithering": {
+      "name": "去除圖片色彩抖動",
+      "help": "在手機上運行時開啟"
     }
   },
   "Error": {

@@ -292,6 +292,10 @@
       "uiautomator2": "uiautomator2",
       "minitouch": "minitouch",
       "Hermit": "Hermit"
+    },
+    "ScreenshotDedithering": {
+      "name": "Emulator.ScreenshotDedithering.name",
+      "help": "Emulator.ScreenshotDedithering.help"
     }
   },
   "Error": {

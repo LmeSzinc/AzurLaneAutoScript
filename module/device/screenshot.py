@@ -3,6 +3,7 @@ import time
 from collections import deque
 from datetime import datetime
 
+import cv2
 import numpy as np
 from PIL import Image
 
@@ -41,6 +42,10 @@ class Screenshot(Adb, Uiautomator2, AScreenCap):
                 self.image = self.screenshot_uiautomator2()
             else:
                 self.image = self.screenshot_adb()
+
+            if self.config.Emulator_ScreenshotDedithering:
+                # This will take 40-60ms
+                cv2.fastNlMeansDenoising(self.image, self.image, h=17, templateWindowSize=1, searchWindowSize=2)
 
             if self.config.Error_SaveError:
                 self.screenshot_deque.append({'time': datetime.now(), 'image': self.image})

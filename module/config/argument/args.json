@@ -37,6 +37,10 @@
           "minitouch",
           "Hermit"
         ]
+      },
+      "ScreenshotDedithering": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Error": {
