@@ -114,6 +114,16 @@ class Hermit(Adb):
         # Enable accessibility service
         self.hermit_enable_accessibility()
 
+        # Hide Hermit
+        # 0 -->  "KEYCODE_UNKNOWN"
+        # 1 -->  "KEYCODE_MENU"
+        # 2 -->  "KEYCODE_SOFT_RIGHT"
+        # 3 -->  "KEYCODE_HOME"
+        # 4 -->  "KEYCODE_BACK"
+        # 5 -->  "KEYCODE_CALL"
+        # 6 -->  "KEYCODE_ENDCALL"
+        self.adb_shell(['input', 'keyevent', '3'])
+
         # Switch back to AzurLane
         self.app_start_adb(self.config.Emulator_PackageName)
 

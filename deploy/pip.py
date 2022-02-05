@@ -42,4 +42,4 @@ class PipManager(DeployConfig):
 
         hr1('Update Dependencies')
         arg = ' ' + ' '.join(arg) if arg else ''
-        self.execute(f'"{self.pip}" install -r {self.requirements_file}{arg}')
+        self.execute(f'{self.pip} install -r {self.requirements_file}{arg}')
