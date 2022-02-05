@@ -244,7 +244,7 @@ class InfoHandler(ModuleBase):
 
         return buttons
 
-    def story_skip(self):
+    def story_skip(self, drop=None):
         if self.story_popup_timout.started() and not self.story_popup_timout.reached():
             if self.handle_popup_confirm('STORY_SKIP'):
                 self.story_popup_timout = Timer(10)
@@ -263,7 +263,10 @@ class InfoHandler(ModuleBase):
                 self.interval_reset(STORY_SKIP)
                 self.interval_reset(STORY_LETTERS_ONLY)
                 return True
-        if self.appear_then_click(STORY_SKIP, offset=(20, 20), interval=2):
+        if self.appear(STORY_SKIP, offset=(20, 20), interval=2):
+            if drop:
+                drop.handle_add(self, before=2)
+            self.device.click(STORY_SKIP)
             self.story_popup_timout.reset()
             return True
         if self.appear_then_click(GAME_TIPS, offset=(20, 20), interval=2):
@@ -272,11 +275,11 @@ class InfoHandler(ModuleBase):
 
         return False
 
-    def handle_story_skip(self):
+    def handle_story_skip(self, drop=None):
         if self.map_has_clear_mode:
             return False
 
-        return self.story_skip()
+        return self.story_skip(drop=drop)
 
     def ensure_no_story(self, skip_first_screenshot=True):
         logger.info('Ensure no story')

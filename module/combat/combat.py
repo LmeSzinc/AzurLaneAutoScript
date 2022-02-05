@@ -430,7 +430,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 continue
             if self.handle_urgent_commission(drop=drop):
                 continue
-            if self.handle_story_skip():
+            if self.handle_story_skip(drop=drop):
                 continue
             if self.handle_guild_popup_cancel():
                 continue

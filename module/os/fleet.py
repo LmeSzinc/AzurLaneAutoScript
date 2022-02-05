@@ -217,7 +217,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         """
         logger.hr('Wait until camera stable')
         record = None
-        confirm_timer = Timer(0.3, count=0).start()
+        confirm_timer = Timer(0.6, count=2).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
