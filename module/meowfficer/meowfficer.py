@@ -311,11 +311,11 @@ class RewardMeowfficer(UI):
             screen shot or not
 
         Pages:
-            in: MEOWFFICER_STATUS
+            in: MEOWFFICER_GET_CHECK
             out: MEOWFFICER_TRAIN
         """
         # Used to account for the cat box opening animation
-        self.wait_until_appear(MEOWFFICER_STATUS, offset=(40, 40))
+        self.wait_until_appear(MEOWFFICER_GET_CHECK, offset=(40, 40))
 
         # Loop through possible screen transitions
         confirm_timer = Timer(1.5, count=3).start()
