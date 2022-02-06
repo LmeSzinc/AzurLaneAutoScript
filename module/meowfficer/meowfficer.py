@@ -545,6 +545,7 @@ class RewardMeowfficer(UI):
         """
         Finalize feed materials for enhancement
         of meowfficer
+
         Pages:
             in: MEOWFFICER_ENHANCE
             out: MEOWFFICER_ENHANCE
