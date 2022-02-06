@@ -315,6 +315,7 @@ class RewardMeowfficer(UI):
         Queue all remaining empty slots however does
         so manually in order to enqueue common
         boxes first
+
         Pages:
             in: MEOWFFICER_TRAIN
             out: MEOWFFICER_TRAIN
@@ -326,6 +327,7 @@ class RewardMeowfficer(UI):
             current, remain, total = MEOWFFICER_QUEUE.ocr(self.device.image)
             if not remain:
                 break
+
             # Loop as needed to queue boxes appropriately
             for i, j in ((0, 2), (1, 1)):
                 count = counts[i] - remain
@@ -335,8 +337,10 @@ class RewardMeowfficer(UI):
                 else:
                     self.device.multi_click(buttons[j], remain)
                     break
+
             self.device.sleep((0.3, 0.5))
             self.device.screenshot()
+
         # Re-use mechanism to transition through screens
         self._meow_nqueue()
 
@@ -442,11 +446,13 @@ class RewardMeowfficer(UI):
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
+
             # End
             if self.appear(MEOWFFICER_FEED_ENTER, offset=(20, 20)):
                 if confirm_timer.reached():
                     break
                 continue
+
             if self.handle_meow_popup_confirm():
                 confirm_timer.reset()
                 continue
@@ -565,6 +571,13 @@ class RewardMeowfficer(UI):
 
         self.ui_click(MEOWFFICER_GOTO_DORM, check_button=MEOWFFICER_TRAIN_ENTER,
                       appear_button=MEOWFFICER_TRAIN_START, offset=None)
+
+        # Clear meowfficer space for upcoming week iff not configured
+        # for enhancement and is_sunday
+        if is_sunday and not self.config.Meowfficer_EnhanceIndex:
+            backup = self.config.temporary(Meowfficer_EnhanceIndex=1)
+            self.meow_enhance()
+            backup.recover()
 
         return collected
 
