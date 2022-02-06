@@ -23,16 +23,17 @@ MEOWFFICER_FEED_GRID = ButtonGrid(
     origin=(818, 212), delta=(130, 147), button_shape=(30, 30), grid_shape=(4, 3),
     name='MEOWFFICER_FEED_GRID')
 MEOWFFICER_FEED = DigitCounter(OCR_MEOWFFICER_FEED, letter=(131, 121, 123), threshold=64)
+
 MEOWFFICER_QUEUE = DigitCounter(OCR_MEOWFFICER_QUEUE, letter=(131, 121, 123), threshold=64)
 MEOWFFICER_BOX_GRID = ButtonGrid(
     origin=(460, 210), delta=(160, 0), button_shape=(30, 30), grid_shape=(3, 1),
     name='MEOWFFICER_BOX_GRID')
 MEOWFFICER_BOX_COUNT_GRID = ButtonGrid(
-    origin=(490, 245), delta=(160, 0), button_shape=(55, 30), grid_shape=(3, 1),
+    origin=(776, 21), delta=(133, 0), button_shape=(65, 27), grid_shape=(3, 1),
     name='MEOWFFICER_BOX_COUNT_GRID')
 MEOWFFICER_BOX_COUNT = Digit(MEOWFFICER_BOX_COUNT_GRID.buttons,
-    lang='cnocr', letter=(255, 247, 247), threshold=128,
-    name=f'MEOWFFICER_BOX_COUNT')
+    letter=(16, 12, 0), threshold=64,
+    name='MEOWFFICER_BOX_COUNT')
 
 
 class RewardMeowfficer(UI):
@@ -314,33 +315,28 @@ class RewardMeowfficer(UI):
         Queue all remaining empty slots however does
         so manually in order to enqueue common
         boxes first
-
         Pages:
             in: MEOWFFICER_TRAIN
             out: MEOWFFICER_TRAIN
         """
+        counts = MEOWFFICER_BOX_COUNT.ocr(self.device.image)
         buttons = MEOWFFICER_BOX_GRID.buttons
         while 1:
             # Number that can be queued
             current, remain, total = MEOWFFICER_QUEUE.ocr(self.device.image)
             if not remain:
                 break
-
-            # Acquire box count of each rarity
             # Loop as needed to queue boxes appropriately
-            counts = MEOWFFICER_BOX_COUNT.ocr(self.device.image)
-            for _ in [2, 1]:
-                count = counts[_] - remain
+            for i, j in ((0, 2), (1, 1)):
+                count = counts[i] - remain
                 if count < 0:
-                    self.device.multi_click(buttons[_], remain + count)
+                    self.device.multi_click(buttons[j], remain + count)
                     remain = abs(count)
                 else:
-                    self.device.multi_click(buttons[_], remain)
+                    self.device.multi_click(buttons[j], remain)
                     break
-
             self.device.sleep((0.3, 0.5))
             self.device.screenshot()
-
         # Re-use mechanism to transition through screens
         self._meow_nqueue()
 
@@ -359,9 +355,10 @@ class RewardMeowfficer(UI):
         if not self._meow_queue_enter():
             return
 
-        # Acquire box count of each rarity
+        # Get count; read from meowfficer root page
+        # Cannot reliably read from queuing page
         counts = MEOWFFICER_BOX_COUNT.ocr(self.device.image)
-        common_sum = counts[1] + counts[2]
+        common_sum = counts[0] + counts[1]
 
         # Choose appropriate queue func based on
         # common box sum count
@@ -370,6 +367,7 @@ class RewardMeowfficer(UI):
         # - > 20, high stock; queue common boxes first
         if not self.config.Meowfficer_EnhanceIndex or common_sum <= 20:
             if self.config.Meowfficer_EnhanceIndex:
+                self.config.Meowfficer_EnhanceIndex = 0
                 self.config.modified['Meowfficer.Meowfficer.EnhanceIndex'] = 0
                 self.config.save()
             self._meow_nqueue()
