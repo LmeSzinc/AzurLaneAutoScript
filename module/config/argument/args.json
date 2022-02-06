@@ -34,8 +34,13 @@
         "option": [
           "ADB",
           "uiautomator2",
-          "minitouch"
+          "minitouch",
+          "Hermit"
         ]
+      },
+      "ScreenshotDedithering": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Error": {
@@ -53,8 +58,12 @@
       }
     },
     "Optimization": {
+      "ScreenshotInterval": {
+        "type": "input",
+        "value": 0.3
+      },
       "CombatScreenshotInterval": {
-        "type": "disable",
+        "type": "input",
         "value": 1.0
       },
       "TaskHoardingDuration": {
@@ -97,6 +106,10 @@
         "value": false
       },
       "SaveCombat": {
+        "type": "checkbox",
+        "value": false
+      },
+      "SaveOpsi": {
         "type": "checkbox",
         "value": false
       }
@@ -6281,13 +6294,33 @@
   },
   "Benchmark": {
     "Benchmark": {
-      "TestScreenshotMethod": {
+      "AdbScreenshot": {
         "type": "checkbox",
         "value": true
       },
-      "TestClickMethod": {
+      "Uiautomator2Screenshot": {
         "type": "checkbox",
         "value": true
+      },
+      "AscreencapScreenshot": {
+        "type": "checkbox",
+        "value": true
+      },
+      "AdbClick": {
+        "type": "checkbox",
+        "value": true
+      },
+      "Uiautomator2Click": {
+        "type": "checkbox",
+        "value": true
+      },
+      "MinitouchClick": {
+        "type": "checkbox",
+        "value": true
+      },
+      "HermitClick": {
+        "type": "checkbox",
+        "value": false
       }
     }
   },

@@ -80,38 +80,57 @@ class Combat(Combat_, MapEventHandler):
     def handle_exp_info(self):
         if self.is_combat_executing():
             return False
+        if self.__os_combat_drop:
+            sleep = (1.5, 2)
+        else:
+            sleep = (0.25, 0.5)
         if self.appear_then_click(EXP_INFO_S):
-            self.device.sleep((0.25, 0.5))
+            self.device.sleep(sleep)
             return True
         if self.appear_then_click(EXP_INFO_A):
-            self.device.sleep((0.25, 0.5))
+            self.device.sleep(sleep)
             return True
         if self.appear_then_click(EXP_INFO_B):
-            self.device.sleep((0.25, 0.5))
+            self.device.sleep(sleep)
             return True
         if self.appear_then_click(EXP_INFO_C):
-            self.device.sleep((0.25, 0.5))
+            self.device.sleep(sleep)
             return True
         if self.appear_then_click(EXP_INFO_D):
-            self.device.sleep((0.25, 0.5))
+            self.device.sleep(sleep)
             return True
 
         return False
 
     def handle_get_items(self, drop=None):
+        """
+        Click CLICK_SAFE_AREA instead of button itself.
+
+        Args:
+            drop (DropImage):
+
+        Returns:
+            bool:
+        """
         if self.appear(GET_ITEMS_1, offset=5, interval=self.battle_status_click_interval):
+            if drop:
+                drop.handle_add(self, before=2)
             self.device.click(CLICK_SAFE_AREA)
             self.interval_reset(BATTLE_STATUS_S)
             self.interval_reset(BATTLE_STATUS_A)
             self.interval_reset(BATTLE_STATUS_B)
             return True
         if self.appear(GET_ITEMS_2, offset=5, interval=self.battle_status_click_interval):
+            if drop:
+                drop.handle_add(self, before=2)
             self.device.click(CLICK_SAFE_AREA)
             self.interval_reset(BATTLE_STATUS_S)
             self.interval_reset(BATTLE_STATUS_A)
             self.interval_reset(BATTLE_STATUS_B)
             return True
         if self.appear(GET_ADAPTABILITY, offset=5, interval=self.battle_status_click_interval):
+            if drop:
+                drop.handle_add(self, before=2)
             self.device.click(CLICK_SAFE_AREA)
             self.interval_reset(BATTLE_STATUS_S)
             self.interval_reset(BATTLE_STATUS_A)
@@ -121,17 +140,20 @@ class Combat(Combat_, MapEventHandler):
         return False
 
     def _os_combat_expected_end(self):
-        if self.handle_map_event():
+        if self.handle_map_event(drop=self.__os_combat_drop):
             return False
         if self.combat_appear():
             raise ContinuousCombat
 
         return self.handle_os_in_map()
 
+    __os_combat_drop = None
+
     def combat_status(self, drop=None, expected_end=None):
+        self.__os_combat_drop = drop
         super().combat_status(drop=drop, expected_end=self._os_combat_expected_end)
 
-    def combat(self, *args, **kwargs):
+    def combat(self, *args, save_get_items=False, **kwargs):
         """
         This handle continuous combat in operation siren.
 
@@ -146,7 +168,7 @@ class Combat(Combat_, MapEventHandler):
                 logger.warning('Too many continuous combat')
 
             try:
-                super().combat(*args, save_get_items=False, **kwargs)
+                super().combat(*args, save_get_items=save_get_items, **kwargs)
                 break
             except ContinuousCombat:
                 logger.info('Continuous combat detected')
@@ -184,8 +206,11 @@ class Combat(Combat_, MapEventHandler):
 
         return False
 
-    def auto_search_combat(self):
+    def auto_search_combat(self, drop=None):
         """
+        Args:
+            drop (DropImage):
+
         Returns:
             bool: True if enemy cleared, False if fleet died.
 
@@ -194,7 +219,7 @@ class Combat(Combat_, MapEventHandler):
             out: combat status
         """
         logger.info('Auto search combat loading')
-        self.device.screenshot_interval_set(self.config.Optimization_CombatScreenshotInterval)
+        self.device.screenshot_interval_set('combat')
         while 1:
             self.device.screenshot()
 
@@ -202,7 +227,7 @@ class Combat(Combat_, MapEventHandler):
                 continue
 
             # End
-            if self.handle_os_auto_search_map_option():
+            if self.handle_os_auto_search_map_option(drop=drop):
                 break
             if self.is_combat_executing():
                 break
@@ -221,7 +246,7 @@ class Combat(Combat_, MapEventHandler):
 
             if self.handle_submarine_call(submarine_mode):
                 continue
-            if self.handle_os_auto_search_map_option(enable=success):
+            if self.handle_os_auto_search_map_option(drop=drop, enable=success):
                 continue
 
             # End
@@ -236,7 +261,7 @@ class Combat(Combat_, MapEventHandler):
             if self.handle_map_event():
                 continue
             if self.is_in_map():
-                self.device.screenshot_interval_set(0)
+                self.device.screenshot_interval_set()
                 break
 
         logger.info('Combat end.')

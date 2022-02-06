@@ -6,7 +6,6 @@ import threading
 import pywebio
 
 from module.base.filter import Filter
-from module.base.utils import ensure_time
 from module.config.config_generated import GeneratedConfig
 from module.config.config_manual import ManualConfig, OutputConfig
 from module.config.config_updater import ConfigUpdater
@@ -360,7 +359,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
                                    'OpsiMeowfficerFarming'])
             delay_tasks(tasks, minutes=360)
 
-        self.save()
+        self.update()
 
     def task_call(self, task):
         """

@@ -1030,7 +1030,7 @@ def position_insert(string, insert, position):
     return join_filter(selection)
 
 
-def test_worker(data):
+def epoch_worker(data):
     index, total, sample_count, select_index, forward_index, string = data
     hr3(f'Start Testing: {index}/{total}')
     return FilterSimulator(string).run(sample_count)
@@ -1079,7 +1079,7 @@ class BruteForceOptimizer:
         # index, total, sample_count, select_index, forward_index, string_added
         tests_data = [(index, total, sample_count, *row) for index, row in enumerate(all_tests)]
 
-        results = process_map(test_worker, tests_data, max_workers=BruteForceOptimizer.process)
+        results = process_map(epoch_worker, tests_data, max_workers=BruteForceOptimizer.process)
 
         day_cost = np.ones((string_count, look_forward + 1)) * 1000
         for data, result in zip(tests_data[1:], results[1:]):

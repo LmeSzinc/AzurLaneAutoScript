@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from PIL import ImageStat
+from PIL import Image
 
 
 def random_normal_distribution_int(a, b, n=3):
@@ -147,7 +147,8 @@ def ensure_time(second, n=3, precision=3):
     """
     if isinstance(second, tuple):
         multiply = 10 ** precision
-        return random_normal_distribution_int(second[0] * multiply, second[1] * multiply, n) / multiply
+        result = random_normal_distribution_int(second[0] * multiply, second[1] * multiply, n) / multiply
+        return round(result, precision)
     elif isinstance(second, str):
         if ',' in second:
             lower, upper = second.replace(' ', '').split(',')
@@ -161,6 +162,29 @@ def ensure_time(second, n=3, precision=3):
             return int(second)
     else:
         return second
+
+
+def ensure_int(*args):
+    """
+    Convert all elements to int.
+    Return the same structure as nested objects.
+
+    Args:
+        *args:
+
+    Returns:
+        list:
+    """
+    def to_int(item):
+        try:
+            return int(item)
+        except TypeError:
+            result = [to_int(i) for i in item]
+            if len(result) == 1:
+                result = result[0]
+            return result
+
+    return to_int(args)
 
 
 def area_offset(area, offset):
@@ -352,8 +376,44 @@ def location2node(location):
     return chr(location[0] + 64 + 1) + str(location[1] + 1)
 
 
+def load_image(file, area=None):
+    """
+    Load an image like pillow and drop alpha channel.
+
+    Args:
+        file (str):
+        area (tuple):
+
+    Returns:
+        np.ndarray:
+    """
+    image = Image.open(file)
+    if area is not None:
+        image = image.crop(area)
+    image = np.array(image)
+    channel = image.shape[2] if len(image.shape) > 2 else 1
+    if channel > 3:
+        image = image[:, :, :3].copy()
+    return image
+
+
+def save_image(image, file):
+    """
+    Save an image like pillow.
+
+    Args:
+        image (np.ndarray):
+        file (str):
+    """
+    # image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+    # cv2.imwrite(file, image)
+    Image.fromarray(image).save(file)
+
+
 def crop(image, area):
-    """Crop image like pillow, when using opencv / numpy
+    """
+    Crop image like pillow, when using opencv / numpy.
+    Provides a black background if cropping outside of image.
 
     Args:
         image (np.ndarray):
@@ -362,11 +422,52 @@ def crop(image, area):
     Returns:
         np.ndarray:
     """
-    x1, y1, x2, y2 = area
+    x1, y1, x2, y2 = map(int, map(round, area))
     h, w = image.shape[:2]
     border = np.maximum((0 - y1, y2 - h, 0 - x1, x2 - w), 0)
     x1, y1, x2, y2 = np.maximum((x1, y1, x2, y2), 0)
-    return cv2.copyMakeBorder(image[y1:y2, x1:x2], *border, borderType=cv2.BORDER_CONSTANT, value=(0, 0, 0))
+    image = image[y1:y2, x1:x2].copy()
+    if sum(border) > 0:
+        image = cv2.copyMakeBorder(image, *border, borderType=cv2.BORDER_CONSTANT, value=(0, 0, 0))
+    return image
+
+
+def resize(image, size):
+    """
+    Resize image like pillow image.resize(), but implement in opencv.
+    Pillow uses PIL.Image.NEAREST by default.
+
+    Args:
+        image (np.ndarray):
+        size: (x, y)
+
+    Returns:
+        np.ndarray:
+    """
+    return cv2.resize(image, size, interpolation=cv2.INTER_NEAREST)
+
+
+def image_channel(image):
+    """
+    Args:
+        image (np.ndarray):
+
+    Returns:
+        int: 0 for grayscale, 3 for RGB.
+    """
+    return image.shape[2] if len(image.shape) == 3 else 0
+
+
+def image_size(image):
+    """
+    Args:
+        image (np.ndarray):
+
+    Returns:
+        int, int: width, height
+    """
+    shape = image.shape
+    return shape[1], shape[0]
 
 
 def rgb2gray(image):
@@ -404,15 +505,32 @@ def get_color(image, area):
     """Calculate the average color of a particular area of the image.
 
     Args:
-        image (PIL.Image.Image): Screenshot.
+        image (np.ndarray): Screenshot.
         area (tuple): (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y)
 
     Returns:
         tuple: (r, g, b)
     """
-    temp = image.crop(area)
-    stat = ImageStat.Stat(temp)
-    return np.array(stat.mean)
+    temp = crop(image, area)
+    color = cv2.mean(temp)
+    return color[:3]
+
+
+def get_bbox(image):
+    """
+    A numpy implementation of the getbbox() in pillow.
+
+    Args:
+        image (np.ndarray): Screenshot.
+
+    Returns:
+        tuple: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y)
+    """
+    if image_channel(image) == 3:
+        image = np.max(image, axis=2)
+    x = np.where(np.max(image, axis=0) > 0)[0]
+    y = np.where(np.max(image, axis=1) > 0)[0]
+    return (x[0], y[0], x[-1] + 1, y[-1] + 1)
 
 
 def color_similarity(color1, color2):
@@ -451,14 +569,14 @@ def color_similar(color1, color2, threshold=10):
 def color_similar_1d(image, color, threshold=10):
     """
     Args:
-        image: 1D array.
+        image (np.ndarray): 1D array.
         color: (r, g, b)
         threshold(int): Default to 10.
 
     Returns:
         np.ndarray: bool
     """
-    diff = np.array(image).astype(int) - color
+    diff = image.astype(int) - color
     diff = np.max(np.maximum(diff, 0), axis=1) - np.min(np.minimum(diff, 0), axis=1)
     return diff <= threshold
 
@@ -472,7 +590,6 @@ def color_similarity_2d(image, color):
     Returns:
         np.ndarray: uint8
     """
-    image = np.array(image)
     r, g, b = cv2.split(cv2.subtract(image, (*color, 0)))
     positive = cv2.max(cv2.max(r, g), b)
     r, g, b = cv2.split(cv2.subtract((*color, 0), image))
@@ -491,7 +608,6 @@ def extract_letters(image, letter=(255, 255, 255), threshold=128):
     Returns:
         np.ndarray: Shape (height, width)
     """
-    image = np.array(image)
     r, g, b = cv2.split(cv2.subtract(image, (*letter, 0)))
     positive = cv2.max(cv2.max(r, g), b)
     r, g, b = cv2.split(cv2.subtract((*letter, 0), image))
@@ -510,7 +626,6 @@ def extract_white_letters(image, threshold=128):
     Returns:
         np.ndarray: Shape (height, width)
     """
-    image = np.array(image)
     r, g, b = cv2.split(cv2.subtract((255, 255, 255, 0), image))
     minimum = cv2.min(cv2.min(r, g), b)
     maximum = cv2.max(cv2.max(r, g), b)
@@ -566,7 +681,7 @@ def color_bar_percentage(image, area, prev_color, reverse=False, starter=0, thre
     Returns:
         float: 0 to 1.
     """
-    image = np.array(image.crop(area))
+    image = crop(image, area)
     image = image[:, ::-1, :] if reverse else image
     length = image.shape[1]
     prev_index = starter

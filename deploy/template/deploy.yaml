@@ -31,12 +31,16 @@ Deploy:
     # [Other] Use you own python, and its version should be 3.7.6 64bit
     PythonExecutable: './toolkit/python.exe'
     # URL of pypi mirror
-    # [CN user] Use 'http://pypi.douban.com/simple/' for faster and more stable download
+    # [CN user] Use 'https://pypi.tuna.tsinghua.edu.cn/simple' for faster and more stable download
     # [Other] Use null
     PypiMirror: null
     # Install dependencies at startup
     # [In most cases] Use true
     InstallDependencies: true
+    # Path to requirements.txt
+    # [In most cases] Use 'requirements.txt'
+    # [In AidLux] Use './deploy/AidLux/{version}/requirements.txt', version is default to 0.92
+    RequirementsFile: 'requirements.txt'
 
   Adb:
     # Filepath of ADB executable `adb.exe`

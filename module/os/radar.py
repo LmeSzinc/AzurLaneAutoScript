@@ -1,5 +1,3 @@
-from PIL import Image
-
 from module.base.mask import Mask
 from module.base.utils import *
 from module.config.config import AzurLaneConfig
@@ -44,7 +42,7 @@ class RadarGrid:
             config (AzurLaneConfig):
         """
         self.location = location
-        self.image = image
+        self.image: np.ndarray = image
         self.center = center
         self.config = config
         self.is_fleet = np.sum(np.abs(location)) == 0
@@ -115,7 +113,7 @@ class RadarGrid:
         Returns:
             bool:
         """
-        image = self.image.crop(area_offset(area, self.center))
+        image = crop(self.image, area_offset(area, self.center))
         mask = color_similarity_2d(image, color=color) > threshold
         return np.sum(mask) > count
 
@@ -196,7 +194,7 @@ class Radar:
         Returns:
 
         """
-        image = Image.fromarray(MASK_RADAR.apply(image))
+        image = MASK_RADAR.apply(image)
         for grid in self:
             grid.image = image
             grid.reset()
@@ -231,7 +229,7 @@ class Radar:
                 Such as [57.70732954 50.89636818].
         """
         radius = (15, 82)
-        image = image.crop(area_offset((-radius[1], -radius[1], radius[1], radius[1]), self.center))
+        image = crop(image, area_offset((-radius[1], -radius[1], radius[1], radius[1]), self.center))
         # image.show()
         points = np.where(color_similarity_2d(image, color=(255, 255, 255)) > 250)
         points = np.array(points).T[:, ::-1] - (radius[1], radius[1])

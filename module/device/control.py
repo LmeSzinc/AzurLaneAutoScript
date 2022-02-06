@@ -1,101 +1,51 @@
-import time
-from collections import deque
-
-from module.base.retry import retry
+from module.base.button import Button
 from module.base.timer import Timer
 from module.base.utils import *
-from module.device.minitouch import MiniTouch
-from module.exception import GameTooManyClickError
+from module.device.method.hermit import Hermit
+from module.device.method.minitouch import Minitouch
+from module.device.method.uiautomator_2 import Uiautomator2
 from module.logger import logger
 
 
-class Control(MiniTouch):
-    click_record = deque(maxlen=15)
+class Control(Hermit, Uiautomator2, Minitouch):
+    def handle_control_check(self, button):
+        # Will be overridden in Device
+        pass
 
-    @staticmethod
-    def sleep(second):
-        """
-        Args:
-            second(int, float, tuple):
-        """
-        time.sleep(ensure_time(second))
-
-    @property
-    def time(self):
-        return time.time()
-
-    def click_record_check(self, button):
-        """
-        Args:
-            button (button.Button): AzurLane Button instance.
-
-        Returns:
-            bool:
-
-        Raises:
-            GameTooManyClickError:
-        """
-        self.click_record.append(str(button))
-
-        count = {}
-        for key in self.click_record:
-            count[key] = count.get(key, 0) + 1
-        count = sorted(count.items(), key=lambda item: item[1])
-        if count[0][1] >= 12:
-            logger.warning(f'Too many click for a button: {count[0][0]}')
-            logger.warning(f'History click: {[str(prev) for prev in self.click_record]}')
-            self.click_record_clear()
-            raise GameTooManyClickError(f'Too many click for a button: {count[0][0]}')
-        if len(count) >= 2 and count[0][1] >= 6 and count[1][1] >= 6:
-            logger.warning(f'Too many click between 2 buttons: {count[0][0]}, {count[1][0]}')
-            logger.warning(f'History click: {[str(prev) for prev in self.click_record]}')
-            self.click_record_clear()
-            raise GameTooManyClickError(f'Too many click between 2 buttons: {count[0][0]}, {count[1][0]}')
-
-        return False
-
-    def click_record_clear(self):
-        self.click_record.clear()
-
-    def click(self, button, record_check=True):
+    def click(self, button, control_check=True):
         """Method to click a button.
 
         Args:
             button (button.Button): AzurLane Button instance.
-            record_check (bool):
+            control_check (bool):
         """
-        if record_check:
-            self.click_record_check(button)
+        if control_check:
+            self.handle_control_check(button)
         x, y = random_rectangle_point(button.button)
+        x, y = ensure_int(x, y)
         logger.info(
             'Click %s @ %s' % (point2str(x, y), button)
         )
         method = self.config.Emulator_ControlMethod
         if method == 'minitouch':
-            self._click_minitouch(x, y)
+            self.click_minitouch(x, y)
         elif method == 'uiautomator2':
-            self._click_uiautomator2(x, y)
+            self.click_uiautomator2(x, y)
+        elif method == 'Hermit':
+            self.click_hermit(x, y)
         else:
-            self._click_adb(x, y)
-
-    @retry(tries=10, delay=3)
-    def _click_uiautomator2(self, x, y):
-        self.device.click(int(x), int(y))
-
-    @retry(tries=10, delay=3)
-    def _click_adb(self, x, y):
-        self.adb_shell(['input', 'tap', str(x), str(y)])
+            self.click_adb(x, y)
 
     def multi_click(self, button, n, interval=(0.1, 0.2)):
-        self.click_record_check(button)
+        self.handle_control_check(button)
         click_timer = Timer(0.1)
         for _ in range(n):
             remain = ensure_time(interval) - click_timer.current()
             if remain > 0:
                 self.sleep(remain)
-
             click_timer.reset()
-            self.click(button, record_check=False)
+
+            self.click(button, control_check=False)
 
     def long_click(self, button, duration=(1, 1.2)):
         """Method to long click a button.
@@ -104,15 +54,51 @@ class Control(MiniTouch):
             button (button.Button): AzurLane Button instance.
             duration(int, float, tuple):
         """
+        self.handle_control_check(button)
         x, y = random_rectangle_point(button.button)
+        x, y = ensure_int(x, y)
         duration = ensure_time(duration)
         logger.info(
             'Click %s @ %s, %s' % (point2str(x, y), button, duration)
         )
-        self.device.long_click(x, y, duration=duration)
+        method = self.config.Emulator_ControlMethod
+        if method == 'minitouch':
+            self.long_click_minitouch(x, y, duration)
+        elif method == 'uiautomator2':
+            self.long_click_uiautomator2(x, y, duration)
+        else:
+            self.swipe_adb((x, y), (x, y), duration)
 
-    def swipe(self, vector, box=(123, 159, 1175, 628), random_range=(0, 0, 0, 0), padding=15, duration=(0.1, 0.2),
-              whitelist_area=None, blacklist_area=None, name='SWIPE'):
+    def swipe(self, p1, p2, duration=(0.1, 0.2), name='SWIPE', distance_check=True):
+        self.handle_control_check(name)
+        p1, p2 = ensure_int(p1, p2)
+        duration = ensure_time(duration)
+        method = self.config.Emulator_ControlMethod
+        if method == 'minitouch':
+            logger.info('Swipe %s -> %s' % (point2str(*p1), point2str(*p2)))
+        elif method == 'uiautomator2':
+            logger.info('Swipe %s -> %s, %s' % (point2str(*p1), point2str(*p2), duration))
+        else:
+            # ADB needs to be slow, or swipe doesn't work
+            duration *= 2.5
+            logger.info('Swipe %s -> %s, %s' % (point2str(*p1), point2str(*p2), duration))
+
+        if distance_check:
+            if np.linalg.norm(np.subtract(p1, p2)) < 10:
+                # Should swipe a certain distance, otherwise AL will treat it as click.
+                # uiautomator2 should >= 6px, minitouch should >= 5px
+                logger.info('Swipe distance < 10px, dropped')
+                return
+
+        if method == 'minitouch':
+            self.swipe_minitouch(p1, p2)
+        elif method == 'uiautomator2':
+            self.swipe_uiautomator2(p1, p2, duration=duration)
+        else:
+            self.swipe_adb(p1, p2, duration=duration)
+
+    def swipe_vector(self, vector, box=(123, 159, 1175, 628), random_range=(0, 0, 0, 0), padding=15,
+                     duration=(0.1, 0.2), whitelist_area=None, blacklist_area=None, name='SWIPE', distance_check=True):
         """Method to swipe.
 
         Args:
@@ -127,10 +113,9 @@ class Control(MiniTouch):
                 If none of the whitelist_area satisfies current vector, blacklist_area will be used.
                 Delete random path that ends in any blacklist_area.
             name (str): Swipe name
+            distance_check: (bool):
         """
-        self.click_record_check(name)
-        duration = ensure_time(duration)
-        start, end = random_rectangle_vector_opted(
+        p1, p2 = random_rectangle_vector_opted(
             vector,
             box=box,
             random_range=random_range,
@@ -138,99 +123,24 @@ class Control(MiniTouch):
             whitelist_area=whitelist_area,
             blacklist_area=blacklist_area
         )
-        logger.info(
-            'Swipe %s -> %s, %s' % (point2str(*start), point2str(*end), duration)
-        )
-        if np.linalg.norm(np.subtract(start, end)) < 10:
-            # Should swipe a certain distabce, otherwise AL will treat it as click.
-            # uiautomator2 should >= 6px, minitouch should >= 5px
-            logger.info('Swipe distance < 10px, dropped')
-        fx, fy, tx, ty = np.append(start, end).tolist()
-
-        method = self.config.Emulator_ControlMethod
-        if method == 'minitouch':
-            self._swipe_minitouch(fx, fy, tx, ty)
-        else:
-            self.device.swipe(fx, fy, tx, ty, duration=duration)
-
-    def drag_along(self, path):
-        """Swipe following path.
-
-        Args:
-            path (list): (x, y, sleep)
-
-        Examples:
-            al.drag_along([
-                (403, 421, 0.2),
-                (821, 326, 0.1),
-                (821, 326-10, 0.1),
-                (821, 326+10, 0.1),
-                (821, 326, 0),
-            ])
-            Equals to:
-            al.device.touch.down(403, 421)
-            time.sleep(0.2)
-            al.device.touch.move(821, 326)
-            time.sleep(0.1)
-            al.device.touch.move(821, 326-10)
-            time.sleep(0.1)
-            al.device.touch.move(821, 326+10)
-            time.sleep(0.1)
-            al.device.touch.up(821, 326)
-        """
-        length = len(path)
-        for index, data in enumerate(path):
-            x, y, second = data
-            if index == 0:
-                self.device.touch.down(x, y)
-                logger.info(point2str(x, y) + ' down')
-            elif index - length == -1:
-                self.device.touch.up(x, y)
-                logger.info(point2str(x, y) + ' up')
-            else:
-                self.device.touch.move(x, y)
-                logger.info(point2str(x, y) + ' move')
-            self.sleep(second)
+        self.swipe(p1, p2, duration=duration, name=name, distance_check=distance_check)
 
     def drag(self, p1, p2, segments=1, shake=(0, 15), point_random=(-10, -10, 10, 10), shake_random=(-5, -5, 5, 5),
-             swipe_duration=0.25, shake_duration=0.1):
+             swipe_duration=0.25, shake_duration=0.1, name='DRAG'):
+        self.handle_control_check(name)
+        p1, p2 = ensure_int(p1, p2)
         logger.info(
             'Drag %s -> %s' % (point2str(*p1), point2str(*p2))
         )
         method = self.config.Emulator_ControlMethod
         if method == 'minitouch':
-            self._drag_minitouch(p1, p2, point_random=point_random)
-        else:
-            self._drag_uiautomator2(
+            self.drag_minitouch(p1, p2, point_random=point_random)
+        elif method == 'uiautomator2':
+            self.drag_uiautomator2(
                 p1, p2, segments=segments, shake=shake, point_random=point_random, shake_random=shake_random,
                 swipe_duration=swipe_duration, shake_duration=shake_duration)
-
-    def _drag_uiautomator2(self, p1, p2, segments=1, shake=(0, 15), point_random=(-10, -10, 10, 10),
-                           shake_random=(-5, -5, 5, 5), swipe_duration=0.25, shake_duration=0.1):
-        """Drag and shake, like:
-                     /\
-        +-----------+  +  +
-                        \/
-        A simple swipe or drag don't work well, because it only has two points.
-        Add some way point to make it more like swipe.
-
-        Args:
-            p1 (tuple): Start point, (x, y).
-            p2 (tuple): End point, (x, y).
-            segments (int):
-            shake (tuple): Shake after arrive end point.
-            point_random: Add random to start point and end point.
-            shake_random: Add random to shake array.
-            swipe_duration: Duration between way points.
-            shake_duration: Duration between shake points.
-        """
-        p1 = np.array(p1) - random_rectangle_point(point_random)
-        p2 = np.array(p2) - random_rectangle_point(point_random)
-        path = [(x, y, swipe_duration) for x, y in random_line_segments(p1, p2, n=segments, random_range=point_random)]
-        path += [
-            (*p2 + shake + random_rectangle_point(shake_random), shake_duration),
-            (*p2 - shake - random_rectangle_point(shake_random), shake_duration),
-            (*p2, shake_duration)
-        ]
-        path = [(int(x), int(y), d) for x, y, d in path]
-        self.drag_along(path)
+        else:
+            logger.warning(f'Control method {method} does not support drag well, '
+                           f'falling back to ADB swipe may cause unexpected behaviour')
+            self.swipe_adb(p1, p2, duration=ensure_time(swipe_duration * 2))
+            self.click(Button(area=(), color=(), button=area_offset(point_random, p2), name=name))

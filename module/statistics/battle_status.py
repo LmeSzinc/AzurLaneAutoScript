@@ -15,7 +15,7 @@ class BattleStatusStatistics:
     def stats_battle_status(self, image):
         """
         Args:
-            image: Pillow image.
+            image (np.ndarray):
 
         Returns:
             str: Enemy name, such as '中型主力舰队'.

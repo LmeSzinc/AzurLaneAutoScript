@@ -60,10 +60,11 @@ class ManualConfig:
     """
     module.device
     """
+    FORWARD_PORT_RANGE = (20000, 21000)
     ASCREENCAP_FILEPATH_LOCAL = './bin/ascreencap'
     ASCREENCAP_FILEPATH_REMOTE = '/data/local/tmp/ascreencap'
     MINITOUCH_FILEPATH_REMOTE = '/data/local/tmp/minitouch'
-    HERMIT_FILEPATH_LOCAL = './bin/hermit/Hermit.apk'
+    HERMIT_FILEPATH_LOCAL = './bin/hermit/hermit.apk'
 
     """
     module.campaign.gems_farming

@@ -1,6 +1,6 @@
 from module.base.button import ButtonGrid
 from module.base.timer import Timer
-from module.base.utils import get_color, color_similar
+from module.base.utils import get_color, color_similar, resize
 from module.combat.assets import GET_ITEMS_1
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
@@ -329,7 +329,7 @@ class Retirement(Enhancement):
         if self.config.GemsFarming_CommonCV == 'any':
             for commen_cv_name in ['BOGUE', 'HERMES', 'LANGLEY', 'RANGER']:
                 template = globals()[f'TEMPLATE_{commen_cv_name}']
-                sim, button = template.match_result(self.device.image.resize(size=(1189, 669)))
+                sim, button = template.match_result(resize(self.device.image, size=(1189, 669)))
 
                 if sim > self.config.COMMON_CV_THRESHOLD:
                     return Button(button=tuple(_ * 155 // 144 for _ in button.button), area=button.area,
@@ -340,7 +340,7 @@ class Retirement(Enhancement):
         else:
 
             template = globals()[f'TEMPLATE_{self.config.GemsFarming_CommonCV.upper()}']
-            sim, button = template.match_result(self.device.image.resize(size=(1189, 669)))
+            sim, button = template.match_result(resize(self.device.image, size=(1189, 669)))
 
             if sim > self.config.COMMON_CV_THRESHOLD:
                 return Button(button=tuple(_ * 155 // 144 for _ in button.button), area=button.area, color=button.color,

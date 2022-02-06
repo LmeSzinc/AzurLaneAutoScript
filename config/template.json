@@ -5,7 +5,8 @@
       "PackageName": "com.bilibili.azurlane",
       "Server": "cn",
       "ScreenshotMethod": "ADB",
-      "ControlMethod": "minitouch"
+      "ControlMethod": "minitouch",
+      "ScreenshotDedithering": false
     },
     "Error": {
       "HandleError": true,
@@ -13,6 +14,7 @@
       "ScreenshotLength": 1
     },
     "Optimization": {
+      "ScreenshotInterval": 0.3,
       "CombatScreenshotInterval": 1.0,
       "TaskHoardingDuration": 0,
       "WhenTaskQueueEmpty": "goto_main"
@@ -24,7 +26,8 @@
       "UploadResearch": false,
       "SaveCommission": false,
       "UploadCommission": false,
-      "SaveCombat": false
+      "SaveCombat": false,
+      "SaveOpsi": false
     }
   },
   "General": {
@@ -1394,8 +1397,13 @@
   },
   "Benchmark": {
     "Benchmark": {
-      "TestScreenshotMethod": true,
-      "TestClickMethod": true
+      "AdbScreenshot": true,
+      "Uiautomator2Screenshot": true,
+      "AscreencapScreenshot": true,
+      "AdbClick": true,
+      "Uiautomator2Click": true,
+      "MinitouchClick": true,
+      "HermitClick": false
     }
   },
   "AzurLaneUncensored": {

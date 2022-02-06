@@ -2,14 +2,15 @@ import os
 import traceback
 
 import imageio
-from PIL import Image, ImageDraw
+from PIL import ImageDraw
 
 import module.config.server as server
 from module.base.decorator import cached_property
+from module.base.resource import Resource
 from module.base.utils import *
 
 
-class Button:
+class Button(Resource):
     def __init__(self, area, color, button, file=None, name=None):
         """Initialize a Button instance.
 
@@ -50,6 +51,9 @@ class Button:
         else:
             self.is_gif = False
 
+        if self.file:
+            self.resource_add(key=self.file)
+
     def __str__(self):
         return self.name
 
@@ -75,7 +79,7 @@ class Button:
         """Check if the button appears on the image.
 
         Args:
-            image (PIL.Image.Image): Screenshot.
+            image (np.ndarray): Screenshot.
             threshold (int): Default to 10.
 
         Returns:
@@ -98,7 +102,7 @@ class Button:
             tuple: Color (r, g, b).
         """
         self.color = get_color(image, self.area)
-        self.image = np.array(image.crop(self.area))
+        self.image = crop(image, self.area)
         self.is_gif = False
         return self.color
 
@@ -124,12 +128,16 @@ class Button:
             if self.is_gif:
                 self.image = []
                 for image in imageio.mimread(self.file):
-                    image = image[:, :, :3] if len(image.shape) == 3 else image
+                    image = image[:, :, :3].copy() if len(image.shape) == 3 else image
                     image = crop(image, self.area)
                     self.image.append(image)
             else:
-                self.image = np.array(Image.open(self.file).crop(self.area).convert('RGB'))
+                self.image = load_image(self.file, self.area)
             self._match_init = True
+
+    def resource_release(self):
+        self.image = None
+        self._match_init = False
 
     def match(self, image, offset=30, threshold=0.85):
         """Detects button by template matching. To Some button, its location may not be static.
@@ -151,7 +159,7 @@ class Button:
                 offset = np.array(offset)
         else:
             offset = np.array((-3, -offset, 3, offset))
-        image = np.array(image.crop(offset + self.area))
+        image = crop(image, offset + self.area)
 
         if self.is_gif:
             for template in self.image:
@@ -186,7 +194,7 @@ class Button:
 
         Args:
             area (tuple):
-            image: Pillow image. If provided, load color and image from it.
+            image (np.ndarray): Screenshot. If provided, load color and image from it.
             name (str):
 
         Returns:
@@ -207,7 +215,7 @@ class Button:
 
         Args:
             vector (tuple):
-            image: Pillow image. If provided, load color and image from it.
+            image (np.ndarray): Screenshot. If provided, load color and image from it.
             name (str):
 
         Returns:
@@ -292,6 +300,9 @@ class ButtonGrid:
         for button in self.buttons:
             draw.rectangle((button.area[:2], button.button[2:]), fill=(255, 255, 255), outline=None)
         return image
+
+    def show_mask(self):
+        self.gen_mask().show()
 
     def save_mask(self):
         """

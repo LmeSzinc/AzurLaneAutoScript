@@ -1,15 +1,18 @@
 import re
 
-from module.base.button import *
+import inflection
+import numpy as np
+
+from module.base.button import Button, ButtonGrid
 from module.base.filter import Filter
 from module.base.timer import Timer
-from module.base.utils import *
+from module.base.utils import point_limit
 from module.exception import MapWalkError
 from module.logger import logger
 from module.map.fleet import Fleet
 from module.map.map_grids import SelectedGrids
 from module.map.utils import location_ensure
-from module.map_detection.utils import *
+from module.map_detection.utils import corner2inner, area2corner
 from module.ocr.ocr import Ocr
 from module.os.assets import TEMPLATE_EMPTY_HP, STRONGHOLD_PERCENTAGE
 from module.os.camera import OSCamera
@@ -164,7 +167,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         """
         super().hp_get()
         ship_icon = self._hp_grid().crop((0, -67, 67, 0))
-        need_repair = [TEMPLATE_EMPTY_HP.match(self.image_area(button)) for button in ship_icon.buttons]
+        need_repair = [TEMPLATE_EMPTY_HP.match(self.image_crop(button)) for button in ship_icon.buttons]
         self.need_repair = need_repair
         logger.attr('Repair icon', need_repair)
 
@@ -214,7 +217,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         """
         logger.hr('Wait until camera stable')
         record = None
-        confirm_timer = Timer(0.3, count=0).start()
+        confirm_timer = Timer(0.6, count=2).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -234,7 +237,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
         logger.info('Camera stabled')
 
-    def wait_until_walk_stable(self, confirm_timer=None, skip_first_screenshot=False, walk_out_of_step=True):
+    def wait_until_walk_stable(self, confirm_timer=None, skip_first_screenshot=False, walk_out_of_step=True, drop=None):
         """
         Wait until homo_loca stabled.
         DETECTION_BACKEND must be 'homography'.
@@ -244,6 +247,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             skip_first_screenshot (bool):
             walk_out_of_step (bool): If catch walk_out_of_step error.
                 Default to True, use False in abyssal zones.
+            drop (DropImage):
 
         Raises:
             MapWalkError: If unable to goto such grid.
@@ -263,7 +267,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 self.device.screenshot()
 
             # Map event
-            if self.handle_map_event():
+            if self.handle_map_event(drop=drop):
                 confirm_timer.reset()
                 continue
             if self.handle_retirement():
@@ -293,7 +297,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             if self.combat_appear():
                 # Use ui_back() for testing, because there are too few abyssal loggers every month.
                 # self.ui_back(check_button=self.is_in_map)
-                self.combat(expected_end=self.is_in_map, fleet_index=self.fleet_show_index)
+                self.combat(expected_end=self.is_in_map, fleet_index=self.fleet_show_index, save_get_items=drop)
                 confirm_timer.reset()
                 continue
 
@@ -313,7 +317,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 confirm_timer.reset()
 
         logger.info('Walk stabled')
-        self.device.screenshot_interval_set(0.1)
+        self.device.screenshot_interval_set()
 
     def port_goto(self):
         """
@@ -408,7 +412,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             # Having new screenshots
             self.wait_until_walk_stable(confirm_timer=Timer(1.5, count=4), walk_out_of_step=False)
 
-    def boss_goto(self, location=(0, 0), has_fleet_step=False):
+    def boss_goto(self, location=(0, 0), has_fleet_step=False, drop=None):
         logger.hr('BOSS goto')
         while 1:
             # Update local view
@@ -436,7 +440,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
             # Wait until arrived
             # Having new screenshots
-            self.wait_until_walk_stable(confirm_timer=Timer(1.5, count=4), walk_out_of_step=False)
+            self.wait_until_walk_stable(confirm_timer=Timer(1.5, count=4), walk_out_of_step=False, drop=drop)
 
     def get_boss_leave_button(self):
         for grid in self.view:
@@ -515,30 +519,39 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         """
         logger.hr(f'BOSS clear', level=1)
         fleets = self.parse_fleet_filter()
-        for fleet in fleets:
-            logger.hr(f'Turn: {fleet}', level=2)
-            if not isinstance(fleet, BossFleet):
-                self.os_order_execute(recon_scan=False, submarine_call=True)
-                continue
+        with self.stat.new(
+                genre=inflection.underscore(self.config.task.command),
+                save=self.config.DropRecord_SaveOpsi,
+                upload=False
+        ) as drop:
+            for fleet in fleets:
+                logger.hr(f'Turn: {fleet}', level=2)
+                if not isinstance(fleet, BossFleet):
+                    self.os_order_execute(recon_scan=False, submarine_call=True)
+                    continue
 
-            # Attack
-            self.fleet_set(fleet.fleet_index)
-            self.handle_os_map_fleet_lock(enable=False)
-            self.boss_goto(location=(0, 0), has_fleet_step=has_fleet_step)
+                # Attack
+                self.fleet_set(fleet.fleet_index)
+                self.handle_os_map_fleet_lock(enable=False)
+                self.boss_goto(location=(0, 0), has_fleet_step=has_fleet_step, drop=drop)
 
-            # End
-            self.predict_radar()
-            if self.radar.select(is_question=True):
-                logger.info('BOSS clear')
-                self.map_exit()
-                return True
+                # End
+                self.predict_radar()
+                if self.radar.select(is_question=True):
+                    logger.info('BOSS clear')
+                    if drop.count:
+                        drop.add(self.device.image)
+                    self.map_exit()
+                    return True
 
-            # Standby
-            self.boss_leave()
-            if fleet.standby_loca != (0, 0):
-                self.boss_goto(location=fleet.standby_loca, has_fleet_step=has_fleet_step)
-            else:
-                break
+                # Standby
+                self.boss_leave()
+                if fleet.standby_loca != (0, 0):
+                    self.boss_goto(location=fleet.standby_loca, has_fleet_step=has_fleet_step, drop=drop)
+                else:
+                    if drop.count:
+                        drop.add(self.device.image)
+                    break
 
         logger.critical('Unable to clear boss, fleets exhausted')
         return False

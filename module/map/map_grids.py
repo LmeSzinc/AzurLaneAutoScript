@@ -1,7 +1,5 @@
 import operator
 
-import numpy as np
-
 
 class SelectedGrids:
     def __init__(self, grids):
@@ -221,10 +219,11 @@ class SelectedGrids:
         Returns:
             SelectedGrids:
         """
+        import numpy as np
         if not self:
             return self
         location = np.array(self.location)
-        diff = np.sum(np.abs(np.array(location) - camera), axis=1)
+        diff = np.sum(np.abs(location - camera), axis=1)
         # grids = [x for _, x in sorted(zip(diff, self.grids))]
         grids = tuple(np.array(self.grids)[np.argsort(diff)])
         return SelectedGrids(grids)
@@ -239,6 +238,7 @@ class SelectedGrids:
         Returns:
             SelectedGrids:
         """
+        import numpy as np
         if not self:
             return self
         vector = np.subtract(self.location, center)
@@ -286,9 +286,9 @@ class RoadGrids:
         """
         grids = []
         for block in self.grids:
-            if np.any([grid.is_fleet for grid in block]):
+            if any([grid.is_fleet for grid in block]):
                 continue
-            if np.any([grid.is_cleared for grid in block]):
+            if any([grid.is_cleared for grid in block]):
                 continue
             if block.count - block.select(is_enemy=True).count == 1:
                 grids += block.select(is_enemy=True).grids
@@ -301,9 +301,9 @@ class RoadGrids:
         """
         grids = []
         for block in self.grids:
-            if np.any([grid.is_fleet for grid in block]):
+            if any([grid.is_fleet for grid in block]):
                 continue
-            if np.any([grid.is_cleared for grid in block]):
+            if any([grid.is_cleared for grid in block]):
                 continue
             if block.select(is_enemy=True).count >= 1:
                 grids += block.select(is_enemy=True).grids

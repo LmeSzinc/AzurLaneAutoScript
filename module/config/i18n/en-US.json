@@ -287,10 +287,15 @@
     },
     "ControlMethod": {
       "name": "Control Method",
-      "help": "Speed: minitouch >>> uiautomator2 ~= ADB\nminitouch is recommended",
+      "help": "Speed: minitouch > Hermit >>> uiautomator2 ~= ADB\nminitouch is recommended, hermit is not recommended unless on vmos",
       "ADB": "ADB ",
       "uiautomator2": "uiautomator2 ",
-      "minitouch": "minitouch "
+      "minitouch": "minitouch ",
+      "Hermit": "Hermit"
+    },
+    "ScreenshotDedithering": {
+      "name": "Image Color De-dithering",
+      "help": "Enable when running Alas on phones"
     }
   },
   "Error": {
@@ -316,9 +321,13 @@
       "name": "Optimization Settings",
       "help": ""
     },
+    "ScreenshotInterval": {
+      "name": "Take Screenshots Every X Second(s)",
+      "help": "Minimum interval between 2 screenshots, limited in 0.1 ~ 0.3, can help reduce CPU on high-end PCs"
+    },
     "CombatScreenshotInterval": {
-      "name": "Combat Screenshot Interval",
-      "help": "Frequency of screenshots in seconds taken during battle, can help reduce CPU"
+      "name": "Take Screenshots Every X Second(s) In Combat",
+      "help": "Minimum interval between 2 screenshots, limited in 0.1 ~ 1.0, can help reduce CPU during battle"
     },
     "TaskHoardingDuration": {
       "name": "Hoard Tasks For X Minute(s)",
@@ -364,6 +373,10 @@
     "SaveCombat": {
       "name": "Save Battle Drop Screenshots",
       "help": "If enabled, clicks will be slowed down to ensure capture"
+    },
+    "SaveOpsi": {
+      "name": "Save OpSi Drop Screenshots",
+      "help": ""
     }
   },
   "Retirement": {
@@ -1645,7 +1658,7 @@
   "OpsiExplore": {
     "_info": {
       "name": "OpSi Explore Settings",
-      "help": "At the beginning of each month OpSi is reset\nThe following must be satisfied:\n- Manually confirm fleet deployment into OpSi\n- OpSi story must be complete\n- Start dock in New York port\n- Turn off other OpSi tasks (Obscure, Meowfficer, etc.)\nEach zone will be visited in a clockwise direction every 30 minutes until world has been been completely opened\nNo need to consume 5000 oil for special radar in OpSi shop"
+      "help": "At the beginning of each month OpSi is reset\nThe following must be satisfied:\n- Manually confirm fleet deployment into OpSi\n- OpSi story must be complete\nEach zone will be visited in a clockwise direction every 30 minutes until world has been been completely opened\nNo need to consume 5000 oil for special radar in OpSi shop"
     },
     "SpecialRadar": {
       "name": "SpecialRadar Bought",
@@ -1763,12 +1776,32 @@
       "name": "Performance Test",
       "help": "Test which screenshot method and click method combination is the fastest and best for you\nSpeed can vary on the emulator being used and your PC build"
     },
-    "TestScreenshotMethod": {
-      "name": "Test Screenshots Methods",
+    "AdbScreenshot": {
+      "name": "Test ADB Screenshot",
       "help": ""
     },
-    "TestClickMethod": {
-      "name": "Test Click Methods",
+    "Uiautomator2Screenshot": {
+      "name": "Test Uiautomator2 Screenshot",
+      "help": ""
+    },
+    "AscreencapScreenshot": {
+      "name": "Test aScreenCap Screenshot",
+      "help": ""
+    },
+    "AdbClick": {
+      "name": "Test ADB Click",
+      "help": ""
+    },
+    "Uiautomator2Click": {
+      "name": "Test Uiautomator2 Click",
+      "help": ""
+    },
+    "MinitouchClick": {
+      "name": "Test Minitouch Click",
+      "help": ""
+    },
+    "HermitClick": {
+      "name": "Test Hermit Click",
       "help": ""
     }
   },

@@ -24,12 +24,14 @@ Emulator:
     option: [ADB, uiautomator2, aScreenCap]
   ControlMethod:
     value: minitouch
-    option: [ADB, uiautomator2, minitouch]
+    option: [ADB, uiautomator2, minitouch, Hermit]
+  ScreenshotDedithering: false
 Error:
   HandleError: true
   SaveError: true
   ScreenshotLength: 1
 Optimization:
+  ScreenshotInterval: 0.3
   CombatScreenshotInterval: 1.0
   TaskHoardingDuration: 0
   WhenTaskQueueEmpty:
@@ -43,6 +45,7 @@ DropRecord:
   SaveCommission: false
   UploadCommission: false
   SaveCombat: false
+  SaveOpsi: false
 Retirement:
   Enable: true
   RetireMode:
@@ -482,8 +485,13 @@ Daemon:
 OpsiDaemon:
   RepairShip: true
 Benchmark:
-  TestScreenshotMethod: true
-  TestClickMethod: true
+  AdbScreenshot: true
+  Uiautomator2Screenshot: true
+  AscreencapScreenshot: true
+  AdbClick: true
+  Uiautomator2Click: true
+  MinitouchClick: true
+  HermitClick: false
 AzurLaneUncensored:
   Repository: https://gitee.com/LmeSzinc/AzurLaneUncensored
 GameManager:

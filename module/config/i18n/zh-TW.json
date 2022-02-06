@@ -287,10 +287,15 @@
     },
     "ControlMethod": {
       "name": "模擬器控制方案",
-      "help": "速度: minitouch >>> uiautomator2 ~= ADB\n建議選 minitouch",
+      "help": "速度: minitouch > Hermit >>> uiautomator2 ~= ADB\n建議選minitouch，不建議選Hermit除非在vmos下",
       "ADB": "ADB",
       "uiautomator2": "uiautomator2",
-      "minitouch": "minitouch"
+      "minitouch": "minitouch",
+      "Hermit": "Hermit"
+    },
+    "ScreenshotDedithering": {
+      "name": "去除圖片色彩抖動",
+      "help": "在手機上運行時開啟"
     }
   },
   "Error": {
@@ -316,9 +321,13 @@
       "name": "優化設定",
       "help": ""
     },
+    "ScreenshotInterval": {
+      "name": "放慢截圖速度至 X 秒一張",
+      "help": "執行兩次截圖之間的最小間隔，限制在 0.1 ~ 0.3，對於高配置電腦能降低 CPU 佔用"
+    },
     "CombatScreenshotInterval": {
       "name": "戰鬥中放慢截圖速度至 X 秒一張",
-      "help": "能降低 CPU 使用率"
+      "help": "執行兩次截圖之間的最小間隔，限制在 0.1 ~ 1.0，能降低戰鬥時的 CPU 佔用"
     },
     "TaskHoardingDuration": {
       "name": "囤積任務 X 分鐘",
@@ -364,6 +373,10 @@
     "SaveCombat": {
       "name": "儲存戰鬥掉落截圖",
       "help": "啟用後會放緩結算時的點擊速度\n在自律尋敵下不生效"
+    },
+    "SaveOpsi": {
+      "name": "保存大世界掉落截圖",
+      "help": ""
     }
   },
   "Retirement": {
@@ -1262,17 +1275,17 @@
     },
     "Filter": {
       "name": "軍需商店過濾器",
-      "help": "MeritShop.Filter.help"
+      "help": ""
     }
   },
   "CoreShop": {
     "_info": {
-      "name": "CoreShop._info.name",
-      "help": "CoreShop._info.help"
+      "name": "核心兌換",
+      "help": ""
     },
     "Filter": {
-      "name": "CoreShop.Filter.name",
-      "help": "CoreShop.Filter.help"
+      "name": "商店過濾器",
+      "help": ""
     }
   },
   "Shipyard": {
@@ -1645,7 +1658,7 @@
   "OpsiExplore": {
     "_info": {
       "name": "大世界開荒",
-      "help": "每月月初開荒大世界的所有海域，不需要買戰役信息記錄儀（5000油道具）\n這個功能將每隔30分鍾清理一個海域，以保證空域搜索冷卻\n使用此功能前必須滿足以下條件：\n- 通關大世界主線任務\n- 確認大世界出擊隊伍\n- 將艦隊移動至 NY\n- 關閉其他大世界功能，例如大世界每日，短貓相接"
+      "help": "每月月初開荒大世界的所有海域，不需要買戰役信息記錄儀（5000油道具）\n這個功能將每隔30分鍾清理一個海域，以保證空域搜索冷卻\n使用此功能前必須滿足以下條件：\n- 通關大世界主線任務\n- 確認大世界出擊隊伍"
     },
     "SpecialRadar": {
       "name": "已購買戰役信息記錄儀（5000油道具）",
@@ -1763,12 +1776,32 @@
       "name": "性能測試",
       "help": "測試哪個截圖方案和點擊方案速度更快，速度因模擬器和電腦配置而異"
     },
-    "TestScreenshotMethod": {
-      "name": "測試截圖方案",
+    "AdbScreenshot": {
+      "name": "測試 ADB 截圖",
       "help": ""
     },
-    "TestClickMethod": {
-      "name": "測試點擊方案",
+    "Uiautomator2Screenshot": {
+      "name": "測試 uiautomator2 截圖",
+      "help": ""
+    },
+    "AscreencapScreenshot": {
+      "name": "測試 aScreenCap 截圖",
+      "help": ""
+    },
+    "AdbClick": {
+      "name": "測試 ADB 點擊",
+      "help": ""
+    },
+    "Uiautomator2Click": {
+      "name": "測試 uiautomator2 點擊",
+      "help": ""
+    },
+    "MinitouchClick": {
+      "name": "測試 minitouch 點擊",
+      "help": ""
+    },
+    "HermitClick": {
+      "name": "測試 Hermit 點擊",
       "help": ""
     }
   },

@@ -2,10 +2,9 @@ import os
 
 import imageio
 import numpy as np
-from PIL import Image
 from tqdm.contrib.concurrent import process_map
 
-from module.base.button import get_color
+from module.base.utils import get_color, load_image, get_bbox, image_size
 from module.config.config_manual import ManualConfig as AzurLaneConfig
 from module.logger import logger
 
@@ -54,7 +53,6 @@ class ImageExtractor:
             mean = None
             for image in imageio.mimread(file):
                 image = image[:, :, :3] if len(image.shape) == 3 else image
-                image = Image.fromarray(image)
                 new_bbox, new_mean = self._extract(image, file)
                 if bbox is None:
                     bbox = new_bbox
@@ -64,14 +62,15 @@ class ImageExtractor:
                     mean = new_mean
             return bbox, mean
         else:
-            image = Image.open(file).convert('RGB')
+            image = load_image(file)
             return self._extract(image, file)
 
     @staticmethod
     def _extract(image, file):
-        if image.size != (1280, 720):
-            logger.warning(f'{file} has wrong resolution: {image.size}')
-        bbox = image.getbbox()
+        size = image_size(image)
+        if size != (1280, 720):
+            logger.warning(f'{file} has wrong resolution: {size}')
+        bbox = get_bbox(image)
         mean = get_color(image=image, area=bbox)
         mean = tuple(np.rint(mean).astype(int))
         return bbox, mean
@@ -121,8 +120,8 @@ class TemplateExtractor(ImageExtractor):
     #     self.config = config
     @staticmethod
     def extract(file):
-        image = Image.open(file).convert('RGB')
-        bbox = image.getbbox()
+        image = load_image(file)
+        bbox = get_bbox(image)
         mean = get_color(image=image, area=bbox)
         mean = tuple(np.rint(mean).astype(int))
         return bbox, mean

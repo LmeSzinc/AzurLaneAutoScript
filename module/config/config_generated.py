@@ -22,7 +22,8 @@ class GeneratedConfig:
     Emulator_PackageName = 'com.bilibili.azurlane'
     Emulator_Server = 'cn'  # cn, en, jp, tw
     Emulator_ScreenshotMethod = 'ADB'  # ADB, uiautomator2, aScreenCap
-    Emulator_ControlMethod = 'minitouch'  # ADB, uiautomator2, minitouch
+    Emulator_ControlMethod = 'minitouch'  # ADB, uiautomator2, minitouch, Hermit
+    Emulator_ScreenshotDedithering = False
 
     # Group `Error`
     Error_HandleError = True
@@ -30,6 +31,7 @@ class GeneratedConfig:
     Error_ScreenshotLength = 1
 
     # Group `Optimization`
+    Optimization_ScreenshotInterval = 0.3
     Optimization_CombatScreenshotInterval = 1.0
     Optimization_TaskHoardingDuration = 0
     Optimization_WhenTaskQueueEmpty = 'goto_main'  # stay_there, goto_main, close_game
@@ -42,6 +44,7 @@ class GeneratedConfig:
     DropRecord_SaveCommission = False
     DropRecord_UploadCommission = False
     DropRecord_SaveCombat = False
+    DropRecord_SaveOpsi = False
 
     # Group `Retirement`
     Retirement_Enable = True
@@ -341,8 +344,13 @@ class GeneratedConfig:
     OpsiDaemon_RepairShip = True
 
     # Group `Benchmark`
-    Benchmark_TestScreenshotMethod = True
-    Benchmark_TestClickMethod = True
+    Benchmark_AdbScreenshot = True
+    Benchmark_Uiautomator2Screenshot = True
+    Benchmark_AscreencapScreenshot = True
+    Benchmark_AdbClick = True
+    Benchmark_Uiautomator2Click = True
+    Benchmark_MinitouchClick = True
+    Benchmark_HermitClick = False
 
     # Group `AzurLaneUncensored`
     AzurLaneUncensored_Repository = 'https://gitee.com/LmeSzinc/AzurLaneUncensored'

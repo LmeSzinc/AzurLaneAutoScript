@@ -1,7 +1,6 @@
+import random
 import re
 from functools import wraps
-
-import numpy as np
 
 from module.logger import logger
 
@@ -63,7 +62,7 @@ class Config:
 
                     flag = [value is None or self.config.__getattribute__(key) == value
                             for key, value in record['options'].items()]
-                    if not np.all(flag):
+                    if not all(flag):
                         continue
 
                     return record['func'](self, *args, **kwargs)
@@ -117,7 +116,7 @@ def function_drop(rate=0.5, default=None):
     def decorate(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
-            if np.random.uniform(0, 1) > rate:
+            if random.uniform(0, 1) > rate:
                 return func(*args, **kwargs)
             else:
                 cls = ''

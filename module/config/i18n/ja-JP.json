@@ -290,7 +290,12 @@
       "help": "Emulator.ControlMethod.help",
       "ADB": "ADB",
       "uiautomator2": "uiautomator2",
-      "minitouch": "minitouch"
+      "minitouch": "minitouch",
+      "Hermit": "Hermit"
+    },
+    "ScreenshotDedithering": {
+      "name": "Emulator.ScreenshotDedithering.name",
+      "help": "Emulator.ScreenshotDedithering.help"
     }
   },
   "Error": {
@@ -315,6 +320,10 @@
     "_info": {
       "name": "Optimization._info.name",
       "help": "Optimization._info.help"
+    },
+    "ScreenshotInterval": {
+      "name": "Optimization.ScreenshotInterval.name",
+      "help": "Optimization.ScreenshotInterval.help"
     },
     "CombatScreenshotInterval": {
       "name": "Optimization.CombatScreenshotInterval.name",
@@ -364,6 +373,10 @@
     "SaveCombat": {
       "name": "DropRecord.SaveCombat.name",
       "help": "DropRecord.SaveCombat.help"
+    },
+    "SaveOpsi": {
+      "name": "DropRecord.SaveOpsi.name",
+      "help": "DropRecord.SaveOpsi.help"
     }
   },
   "Retirement": {
@@ -1763,13 +1776,33 @@
       "name": "Benchmark._info.name",
       "help": "Benchmark._info.help"
     },
-    "TestScreenshotMethod": {
-      "name": "Benchmark.TestScreenshotMethod.name",
-      "help": "Benchmark.TestScreenshotMethod.help"
+    "AdbScreenshot": {
+      "name": "Benchmark.AdbScreenshot.name",
+      "help": "Benchmark.AdbScreenshot.help"
     },
-    "TestClickMethod": {
-      "name": "Benchmark.TestClickMethod.name",
-      "help": "Benchmark.TestClickMethod.help"
+    "Uiautomator2Screenshot": {
+      "name": "Benchmark.Uiautomator2Screenshot.name",
+      "help": "Benchmark.Uiautomator2Screenshot.help"
+    },
+    "AscreencapScreenshot": {
+      "name": "Benchmark.AscreencapScreenshot.name",
+      "help": "Benchmark.AscreencapScreenshot.help"
+    },
+    "AdbClick": {
+      "name": "Benchmark.AdbClick.name",
+      "help": "Benchmark.AdbClick.help"
+    },
+    "Uiautomator2Click": {
+      "name": "Benchmark.Uiautomator2Click.name",
+      "help": "Benchmark.Uiautomator2Click.help"
+    },
+    "MinitouchClick": {
+      "name": "Benchmark.MinitouchClick.name",
+      "help": "Benchmark.MinitouchClick.help"
+    },
+    "HermitClick": {
+      "name": "Benchmark.HermitClick.name",
+      "help": "Benchmark.HermitClick.help"
     }
   },
   "AzurLaneUncensored": {

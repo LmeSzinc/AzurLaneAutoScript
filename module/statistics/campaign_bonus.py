@@ -34,7 +34,7 @@ class CampaignBonusStatistics(GetItemsStatistics):
     def stats_get_items(self, image, **kwargs):
         """
         Args:
-            image: Pillow image.
+            image (np.ndarray):
 
         Returns:
             list[Item]:

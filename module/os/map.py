@@ -1,12 +1,14 @@
+import inflection
+
 from module.base.timer import Timer
 from module.exception import CampaignEnd
+from module.exception import RequestHumanTakeover
 from module.logger import logger
 from module.map.map import Map
 from module.map.map_grids import SelectedGrids
 from module.os.fleet import OSFleet
 from module.os.globe_camera import GlobeCamera
 from module.ui.assets import OS_CHECK
-from module.exception import RequestHumanTakeover
 
 
 class OSMap(OSFleet, Map, GlobeCamera):
@@ -140,7 +142,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
 
     _auto_search_battle_count = 0
 
-    def os_auto_search_daemon(self, skip_first_screenshot=True):
+    def os_auto_search_daemon(self, drop=None, skip_first_screenshot=True):
         """
         Raises:
             CampaignEnd: If auto search ended
@@ -180,7 +182,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
                     died_timer.reset()
             else:
                 died_timer.reset()
-            if self.handle_os_auto_search_map_option(enable=success):
+            if self.handle_os_auto_search_map_option(drop=drop, enable=success):
                 unlock_checked = True
                 continue
             if self.handle_retirement():
@@ -188,7 +190,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
             if self.combat_appear():
                 self._auto_search_battle_count += 1
                 logger.attr('battle_count', self._auto_search_battle_count)
-                result = self.auto_search_combat()
+                result = self.auto_search_combat(drop=drop)
                 if not result:
                     success = False
                     logger.warning('Fleet died, stop auto search')
@@ -204,30 +206,39 @@ class OSMap(OSFleet, Map, GlobeCamera):
         """
         self.handle_ash_beacon_attack()
 
-        for _ in range(3):
-            backup = self.config.temporary(Campaign_UseAutoSearch=True)
-            try:
-                self.os_auto_search_daemon()
-            except CampaignEnd:
-                logger.info('Get OS auto search reward')
-                self.wait_until_appear(OS_CHECK, offset=(20, 20))
-                logger.info('OS auto search finished')
-            finally:
-                backup.recover()
+        with self.stat.new(
+                genre=inflection.underscore(self.config.task.command),
+                save=self.config.DropRecord_SaveOpsi,
+                upload=False
+        ) as drop:
+            for _ in range(3):
+                backup = self.config.temporary(Campaign_UseAutoSearch=True)
+                try:
+                    self.os_auto_search_daemon(drop=drop)
+                except CampaignEnd:
+                    logger.info('Get OS auto search reward')
+                    self.wait_until_appear(OS_CHECK, offset=(20, 20))
+                    logger.info('OS auto search finished')
+                finally:
+                    backup.recover()
 
-            # Continue if was Auto search interrupted by ash popup
-            # Break if zone cleared
-            if self.config.OpsiAshBeacon_AshAttack:
-                if self.handle_ash_beacon_attack() or self.ash_popup_canceled:
-                    continue
+                # Continue if was Auto search interrupted by ash popup
+                # Break if zone cleared
+                if self.config.OpsiAshBeacon_AshAttack:
+                    if self.handle_ash_beacon_attack() or self.ash_popup_canceled:
+                        continue
+                    else:
+                        break
                 else:
-                    break
-            else:
-                if self.info_bar_count() >= 2:
-                    break
-                elif self.ash_popup_canceled:
-                    continue
-                else:
-                    break
+                    if self.info_bar_count() >= 2:
+                        break
+                    elif self.ash_popup_canceled:
+                        continue
+                    else:
+                        break
+
+            # Record current zone, skip this if no rewards from auto search.
+            if drop.count:
+                drop.add(self.device.image)
 
         self.clear_akashi()
