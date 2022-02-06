@@ -428,14 +428,37 @@ class RewardMeowfficer(UI):
                 self.device.click(MEOWFFICER_FEED_GRID[x, y])
                 click_timer.reset()
 
-    def meow_enhance(self, skip_first_screenshot=True):
+    def meow_enhance_confirm(self, skip_first_screenshot=True):
+        """
+        Finalize feed materials for enhancement
+        of meowfficer
+        Pages:
+            in: MEOWFFICER_ENHANCE
+            out: MEOWFFICER_ENHANCE
+        """
+        confirm_timer = Timer(3, count=6).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            # End
+            if self.appear(MEOWFFICER_FEED_ENTER, offset=(20, 20)):
+                if confirm_timer.reached():
+                    break
+                continue
+            if self.handle_meow_popup_confirm():
+                confirm_timer.reset()
+                continue
+            if self.appear_then_click(MEOWFFICER_ENHANCE_CONFIRM, offset=(20, 20), interval=3):
+                confirm_timer.reset()
+                continue
+
+    def meow_enhance(self):
         """
         Perform meowfficer enhancement operations
         involving using extraneous meowfficers to
         donate XP into a meowfficer target
-
-        Args:
-            skip_first_screenshot (bool):
 
         Pages:
             in: page_meowfficer
@@ -465,15 +488,10 @@ class RewardMeowfficer(UI):
 
         # Initiate feed sequence
         # - Select Feed
-        # - Confirm Feed
+        # - Confirm/Cancel Feed
         # - Confirm Enhancement
         self.meow_feed_select()
-        while not self.appear(MEOWFFICER_FEED_ENTER, offset=(20, 20)):
-            if self.appear_then_click(MEOWFFICER_ENHANCE_CONFIRM, offset=(20, 20), interval=3):
-                pass
-            if self.handle_meow_popup_confirm():
-                pass
-            self.device.screenshot()
+        self.meow_enhance_confirm()
 
         # Exit back into page_meowfficer
         self.ui_click(MEOWFFICER_GOTO_DORM, check_button=MEOWFFICER_ENHANCE_ENTER,
