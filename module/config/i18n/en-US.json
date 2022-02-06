@@ -1042,7 +1042,7 @@
     },
     "TrainMeowfficer": {
       "name": "Collect Trained Meowfficer",
-      "help": "1 of 2 actions will be executed depending on conditions:\n- If EnhanceIndex = 0; collects 1 trained meowfficer each day. On Sunday Alas empties the training queue then fills it autonomously (SR boxes first). As SR cats are locked upon acquisition, player must free up cattery space manually (in case of rainbow or unique skill).\n- If EnhanceIndex > 0; Alas empties the training queue in preparation for tomorrow's enhance step then fills it manually (common boxes first)"
+      "help": "If an SR cat is detected, ALAS checks for rainbow or unique skills. Locking the SR cat if any are detected to prevent being used as feed material. Players must manually check and enhance themselves an SR cat's personal skill.\n1 of 2 actions will be executed depending on conditions:\n- If EnhanceIndex = 0; collects 1 trained meowfficer each day. On Sunday Alas empties the training queue then fills it autonomously (SR boxes first).\n- If EnhanceIndex > 0; Alas empties the training queue in preparation for tomorrow's enhance step then fills it manually (common boxes first)"
     },
     "FortChoreMeowfficer": {
       "name": "Do Fort Chores",
