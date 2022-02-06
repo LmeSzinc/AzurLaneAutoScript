@@ -3,44 +3,56 @@ import time
 from datetime import timedelta
 
 from module.base.button import Button
+from module.base.decorator import cached_property
 from module.base.utils import *
 from module.logger import logger
 from module.ocr.al_ocr import AlOcr
 
-OCR_MODEL = {
-    # Folder: ./bin/cnocr_models/azur_lane
-    # Size: 3.25MB
-    # Model: densenet-lite-gru
-    # Epoch: 15
-    # Validation accuracy: 99.43%
-    # Font: Impact, AgencyFB-Regular, MStiffHeiHK-UltraBold
-    # Charset: 0123456789ABCDEFGHIJKLMNPQRSTUVWXYZ:/- (Letter 'O' and <space> is not included)
-    # _num_classes: 39
-    'azur_lane': AlOcr(model_name='densenet-lite-gru', model_epoch=15, root='./bin/cnocr_models/azur_lane',
-                       name='azur_lane'),
 
-    # Folder: ./bin/cnocr_models/cnocr
-    # Size: 9.51MB
-    # Model: densenet-lite-gru
-    # Epoch: 39
-    # Validation accuracy: 99.04%
-    # Font: Various
-    # Charset: Number, English character, Chinese character, symbols, <space>
-    # _num_classes: 6426
-    'cnocr': AlOcr(model_name='densenet-lite-gru', model_epoch=39, root='./bin/cnocr_models/cnocr', name='cnocr'),
+class OcrModel:
+    @cached_property
+    def azur_lane(self):
+        # Folder: ./bin/cnocr_models/azur_lane
+        # Size: 3.25MB
+        # Model: densenet-lite-gru
+        # Epoch: 15
+        # Validation accuracy: 99.43%
+        # Font: Impact, AgencyFB-Regular, MStiffHeiHK-UltraBold
+        # Charset: 0123456789ABCDEFGHIJKLMNPQRSTUVWXYZ:/- (Letter 'O' and <space> is not included)
+        # _num_classes: 39
+        return AlOcr(model_name='densenet-lite-gru', model_epoch=15, root='./bin/cnocr_models/azur_lane',
+                     name='azur_lane')
 
-    'jp': AlOcr(model_name='densenet-lite-gru', model_epoch=125, root='./bin/cnocr_models/jp', name='jp'),
+    @cached_property
+    def cnocr(self):
+        # Folder: ./bin/cnocr_models/cnocr
+        # Size: 9.51MB
+        # Model: densenet-lite-gru
+        # Epoch: 39
+        # Validation accuracy: 99.04%
+        # Font: Various
+        # Charset: Number, English character, Chinese character, symbols, <space>
+        # _num_classes: 6426
+        return AlOcr(model_name='densenet-lite-gru', model_epoch=39, root='./bin/cnocr_models/cnocr', name='cnocr')
 
-    # Folder: ./bin/cnocr_models/tw
-    # Size: 8.43MB
-    # Model: densenet-lite-gru
-    # Epoch: 63
-    # Validation accuracy: 99.24%
-    # Font: Various, 6 kinds
-    # Charset: Numbers, Upper english characters, Chinese traditional characters
-    # _num_classes: 5322
-    'tw': AlOcr(model_name='densenet-lite-gru', model_epoch=63, root='./bin/cnocr_models/tw', name='tw'),
-}
+    @cached_property
+    def jp(self):
+        return AlOcr(model_name='densenet-lite-gru', model_epoch=125, root='./bin/cnocr_models/jp', name='jp')
+
+    @cached_property
+    def tw(self):
+        # Folder: ./bin/cnocr_models/tw
+        # Size: 8.43MB
+        # Model: densenet-lite-gru
+        # Epoch: 63
+        # Validation accuracy: 99.24%
+        # Font: Various, 6 kinds
+        # Charset: Numbers, Upper english characters, Chinese traditional characters
+        # _num_classes: 5322
+        return AlOcr(model_name='densenet-lite-gru', model_epoch=63, root='./bin/cnocr_models/tw', name='tw')
+
+
+OCR_MODEL = OcrModel()
 
 
 class Ocr:
@@ -63,7 +75,10 @@ class Ocr:
         self.threshold = threshold
         self.alphabet = alphabet
         self.lang = lang
-        self.cnocr = OCR_MODEL[lang]
+
+    @property
+    def cnocr(self) -> AlOcr:
+        return OCR_MODEL.__getattribute__(self.lang)
 
     def pre_process(self, image):
         """
@@ -94,13 +109,21 @@ class Ocr:
         return result
 
     def ocr(self, image, direct_ocr=False):
+        """
+        Args:
+            image (np.ndarray, list[np.ndarray]):
+            direct_ocr (bool): True to skip preprocess.
+
+        Returns:
+
+        """
         start_time = time.time()
 
         self.cnocr.set_cand_alphabet(self.alphabet)
         if direct_ocr:
-            image_list = [self.pre_process(np.array(i)) for i in image]
+            image_list = [self.pre_process(i) for i in image]
         else:
-            image_list = [self.pre_process(np.array(image.crop(area))) for area in self.buttons]
+            image_list = [self.pre_process(crop(image, area)) for area in self.buttons]
 
         # This will show the images feed to OCR model
         # self.cnocr.debug(image_list)

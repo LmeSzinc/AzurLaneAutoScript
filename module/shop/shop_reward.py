@@ -1,4 +1,3 @@
-from module.logger import logger
 from module.gacha.ui import GachaUI
 from module.shop.shop_core import CoreShop
 from module.shop.shop_general import GeneralShop
@@ -19,7 +18,6 @@ class RewardShop(ShopUI, GachaUI):
         self.config.task_delay(server_update=True)
 
     def run_once(self):
-
         # Munitions shops
         self.ui_goto_shop()
 

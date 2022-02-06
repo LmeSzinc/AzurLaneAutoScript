@@ -8,14 +8,15 @@ class ManualConfig:
 
     SCHEDULER_PRIORITY = """
     Restart
-    > Research > Commission > Tactical > Dorm > Meowfficer > Guild
-    > Gacha > SupplyPack
+    > Research > Commission > Tactical
+    > Exercise
+    > Dorm > Meowfficer > Guild > Gacha > SupplyPack
     > Reward > BattlePass
     > ShopFrequent > ShopOnce > Shipyard > DataKey
     > OpsiExplore
     > OpsiDaily > OpsiShop
     > OpsiAbyssal > OpsiStronghold > OpsiObscure
-    > Exercise > Daily > Hard > OpsiAshAssist
+    > Daily > Hard > OpsiAshAssist
     > Sos > EventSp > EventAb > EventCd > RaidDaily > WarArchives > MaritimeEscort
     > OpsiMeowfficerFarming
     > Event > Raid > Main
@@ -59,9 +60,11 @@ class ManualConfig:
     """
     module.device
     """
+    FORWARD_PORT_RANGE = (20000, 21000)
     ASCREENCAP_FILEPATH_LOCAL = './bin/ascreencap'
     ASCREENCAP_FILEPATH_REMOTE = '/data/local/tmp/ascreencap'
     MINITOUCH_FILEPATH_REMOTE = '/data/local/tmp/minitouch'
+    HERMIT_FILEPATH_LOCAL = './bin/hermit/hermit.apk'
 
     """
     module.campaign.gems_farming

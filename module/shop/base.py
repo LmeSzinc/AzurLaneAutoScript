@@ -89,7 +89,7 @@ class ShopBase(UI):
             ButtonGrid:
         """
         shop_grid = ButtonGrid(
-            origin=(477, 152), delta=(156, 214), button_shape=(96, 97), grid_shape=(5, 2), name='SHOP_GRID')
+            origin=(477, 152), delta=(156, 214), button_shape=(96, 96), grid_shape=(5, 2), name='SHOP_GRID')
         return shop_grid
 
     def shop_items(self):

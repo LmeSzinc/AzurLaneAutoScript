@@ -10,6 +10,10 @@ class PipManager(DeployConfig):
         return self.filepath("PythonExecutable")
 
     @cached_property
+    def requirements_file(self):
+        return self.filepath("RequirementsFile")
+
+    @cached_property
     def pip(self):
         return f'"{self.python}" -m pip'
 
@@ -38,4 +42,4 @@ class PipManager(DeployConfig):
 
         hr1('Update Dependencies')
         arg = ' ' + ' '.join(arg) if arg else ''
-        self.execute(f'"{self.pip}" install -r requirements.txt{arg}')
+        self.execute(f'{self.pip} install -r {self.requirements_file}{arg}')

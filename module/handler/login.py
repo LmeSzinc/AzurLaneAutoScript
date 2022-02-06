@@ -1,24 +1,22 @@
 from datetime import datetime
 from typing import Union
+
 import numpy as np
 from scipy.signal import find_peaks
 from uiautomator2 import UiObject
 from uiautomator2.exceptions import XPathElementNotFoundError
 from uiautomator2.xpath import XPathSelector, XPath
+
 import module.config.server as server
 from module.base.timer import Timer
-from module.base.utils import color_similarity_2d
+from module.base.utils import crop, random_rectangle_point, color_similarity_2d
 from module.combat.combat import Combat
 from module.exception import GameTooManyClickError, GameStuckError, RequestHumanTakeover
 from module.handler.assets import *
 from module.logger import logger
 from module.map.assets import *
 from module.ui.assets import *
-from module.ui.scroll import Scroll
 from module.ui.ui import MAIN_CHECK
-from module.base.utils import crop
-
-USER_AGREEMENT_SCROLL = Scroll(USER_AGREEMENT_SCROLL, color=(182, 189, 202), name='USER_AGREEMENT_SCROLL')
 
 
 class LoginHandler(Combat):
@@ -32,19 +30,13 @@ class LoginHandler(Combat):
 
         confirm_timer = Timer(1.5, count=4).start()
         login_success = False
-        user_agreement = False
-        user_login = False
 
         while 1:
             self.device.screenshot()
-            cn_xp_hierarchy = self.get_cn_xp_hierarchy()
             if self.handle_get_items():
                 continue
             if self.handle_get_ship():
                 continue
-            if not user_agreement:
-                if self.handle_user_agreement(*cn_xp_hierarchy):
-                    continue
             if self.appear_then_click(LOGIN_ANNOUNCE, offset=(30, 30), interval=5):
                 continue
             if self.appear(EVENT_LIST_CHECK, offset=(30, 30), interval=5):
@@ -58,11 +50,9 @@ class LoginHandler(Combat):
                 continue
             if self.appear_then_click(LOGIN_RETURN_INFO, offset=(30, 30), interval=5):
                 continue
-            if server.server == 'cn':
-                if not user_login:
-                    user_login = self.handle_user_login(*cn_xp_hierarchy)
-                    if user_login:
-                        continue
+            if server.server == 'cn' and not login_success:
+                if self.handle_cn_user_agreement():
+                    continue
             if self.handle_popup_confirm('LOGIN'):
                 continue
             if self.handle_guild_popup_cancel():
@@ -75,7 +65,7 @@ class LoginHandler(Combat):
             if self.appear_then_click(LOGIN_CHECK, interval=5):
                 if not login_success:
                     logger.info('Login success')
-                    login_success = user_agreement = user_login = True
+                    login_success = True
 
             if self.appear(MAIN_CHECK):
                 if confirm_timer.reached():
@@ -86,6 +76,35 @@ class LoginHandler(Combat):
 
         self.config.start_time = datetime.now()
         return True
+
+    _user_agreement_timer = Timer(1, count=2)
+
+    def handle_cn_user_agreement(self):
+        if not self._user_agreement_timer.reached():
+            return False
+
+        confirm = self.image_color_button(
+            area=(640, 360, 1280, 720), color=(78, 189, 234),
+            color_threshold=250, encourage=25, name='AGREEMENT_CONFIRM')
+        if confirm is None:
+            return False
+        scroll = self.image_color_button(
+            area=(640, 0, 1280, 720), color=(182, 189, 202),
+            color_threshold=250, encourage=5, name='AGREEMENT_SCROLL'
+        )
+        if scroll is not None:
+            # User agreement
+            p1 = random_rectangle_point(scroll.button)
+            p2 = random_rectangle_point(scroll.move((0, 350)).button)
+            self.device.swipe(p1, p2, name='AGREEMENT_SCROLL')
+            self.device.click(confirm)
+            self._user_agreement_timer.reset()
+            return True
+        else:
+            # User login
+            self.device.click(confirm)
+            self._user_agreement_timer.reset()
+            return True
 
     def handle_app_login(self):
         """
@@ -179,8 +198,7 @@ class LoginHandler(Combat):
                 XPS('//*[@content-desc="请滑动阅读协议内容"]', xp, hierarchy)])
 
             test_image_original = self.device.image
-            image_handle_crop = crop(np.array(test_image_original), (start_padding_results[2], 0,
-                                                                     start_margin_results[2], self.device.image.height))
+            image_handle_crop = crop(test_image_original, (start_padding_results[2], 0, start_margin_results[2], 720))
             # Image.fromarray(image_handle_crop).show()
             sims = color_similarity_2d(image_handle_crop, color=(182, 189, 202))
             points = np.sum(sims >= 255)
@@ -240,7 +258,7 @@ class LoginHandler(Combat):
         return False
 
     def get_cn_xp_hierarchy(self) -> tuple:
-        d = self.device.device
+        d = self.device.u2
         xp = XPath(d)
         hierarchy = d.dump_hierarchy()
         return xp, hierarchy

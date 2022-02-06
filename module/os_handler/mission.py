@@ -22,7 +22,7 @@ class MissionHandler(GlobeOperation, ZoneManager):
         """
         area = (341, 72, 1217, 648)
         # Points of the yellow `!`
-        image = color_similarity_2d(self.image_area(area), color=(255, 207, 66))
+        image = color_similarity_2d(self.image_crop(area), color=(255, 207, 66))
         points = np.array(np.where(image > 235)).T[:, ::-1]
         if not len(points):
             logger.warning('Unable to find mission on OS mission map')
@@ -152,6 +152,7 @@ class MissionHandler(GlobeOperation, ZoneManager):
             in: is_in_map
             out: is_in_map
         """
+        logger.hr('OS mission overview accept', level=1)
         # is_in_map
         self.os_map_goto_globe(unpin=False)
         # is_in_globe

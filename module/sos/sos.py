@@ -163,7 +163,7 @@ class CampaignSos(CampaignRun, CampaignBase):
                 self.device.screenshot()
 
             if self.appear(SIGNAL_LIST_CHECK, offset=(20, 20), interval=2):
-                image = self.image_area(area_pad(entrance.area, pad=-30))
+                image = self.image_crop(area_pad(entrance.area, pad=-30))
                 if TEMPLATE_SIGNAL_SEARCH.match(image):
                     self.device.click(entrance)
                 if TEMPLATE_SIGNAL_GOTO.match(image):

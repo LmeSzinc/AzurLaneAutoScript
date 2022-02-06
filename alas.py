@@ -16,7 +16,6 @@ from module.logger import logger
 
 
 class AzurLaneAutoScript:
-
     stop_event: threading.Event = None
 
     def __init__(self, config_name='alas'):
@@ -92,6 +91,7 @@ class AzurLaneAutoScript:
         Save last 60 screenshots in ./log/error/<timestamp>
         Save logs to ./log/error/<timestamp>/log.txt
         """
+        from module.base.utils import save_image
         from module.handler.sensitive_info import handle_sensitive_image, handle_sensitive_logs
         if self.config.Error_SaveError:
             if not os.path.exists('./log/error'):
@@ -102,7 +102,7 @@ class AzurLaneAutoScript:
             for data in self.device.screenshot_deque:
                 image_time = datetime.strftime(data['time'], '%Y-%m-%d_%H-%M-%S-%f')
                 image = handle_sensitive_image(data['image'])
-                image.save(f'{folder}/{image_time}.png')
+                save_image(image, f'{folder}/{image_time}.png')
             with open(logger.log_file, 'r', encoding='utf-8') as f:
                 lines = f.readlines()
                 start = 0
@@ -124,7 +124,10 @@ class AzurLaneAutoScript:
         LoginHandler(self.config, device=self.device).app_start()
 
     def goto_main(self):
+        from module.handler.login import LoginHandler
         from module.ui.ui import UI
+        if not self.device.app_is_running():
+            LoginHandler(self.config, device=self.device).app_start()
         UI(self.config, device=self.device).ui_goto_main()
 
     def research(self):
@@ -203,6 +206,10 @@ class AzurLaneAutoScript:
         from module.war_archives.war_archives import CampaignWarArchives
         CampaignWarArchives(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
+
+    def raid_daily(self):
+        from module.raid.daily import RaidDaily
+        RaidDaily(config=self.config, device=self.device).run()
 
     def event_ab(self):
         from module.event.campaign_ab import CampaignAB
@@ -297,7 +304,7 @@ class AzurLaneAutoScript:
         if seconds <= 0:
             logger.warning(f'Wait until {str(future)}, but sleep length < 0, skip waiting')
             return
-        
+
         if self.stop_event is not None:
             self.stop_event.wait(seconds)
             if self.stop_event.is_set():
@@ -312,9 +319,14 @@ class AzurLaneAutoScript:
         Returns:
             str: Name of the next task.
         """
+
         task = self.config.get_next()
         self.config.task = task
         self.config.bind(task)
+
+        from module.base.resource import release_resources
+        if self.config.task.command != 'Alas':
+            release_resources(next_task=task.command)
 
         if task.next_run > datetime.now():
             logger.info(f'Wait until {task.next_run} for task `{task.command}`')
@@ -322,16 +334,21 @@ class AzurLaneAutoScript:
             if method == 'close_game':
                 logger.info('Close game during wait')
                 self.device.app_stop()
+                release_resources()
                 self.wait_until(task.next_run)
                 self.run('start')
             elif method == 'goto_main':
                 logger.info('Goto main page during wait')
                 self.run('goto_main')
+                release_resources()
                 self.wait_until(task.next_run)
             elif method == 'stay_there':
+                logger.info('Stay there during wait')
+                release_resources()
                 self.wait_until(task.next_run)
             else:
                 logger.warning(f'Invalid Optimization_WhenTaskQueueEmpty: {method}, fallback to stay_there')
+                release_resources()
                 self.wait_until(task.next_run)
 
         AzurLaneConfig.is_hoarding_task = False

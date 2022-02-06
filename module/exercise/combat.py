@@ -15,7 +15,7 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
         Returns:
             bool:
         """
-        return self.appear(PAUSE) and np.max(self.image_area(PAUSE_DOUBLE_CHECK)) < 153
+        return self.appear(PAUSE) and np.max(self.image_crop(PAUSE_DOUBLE_CHECK)) < 153
 
     def _combat_preparation(self):
         logger.info('Combat preparation')
@@ -49,25 +49,25 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
 
             if not self.is_combat_executing():
                 # Finish - S or D rank
-                if self.appear_then_click(BATTLE_STATUS_S):
+                if self.appear_then_click(BATTLE_STATUS_S, interval=1):
                     success = True
                     end = True
                     continue
-                if self.appear_then_click(BATTLE_STATUS_D):
+                if self.appear_then_click(BATTLE_STATUS_D, interval=1):
                     success = True
                     end = True
                     logger.info("Exercise LOST")
                     continue
-            if self.appear_then_click(GET_ITEMS_1):
+            if self.appear_then_click(GET_ITEMS_1, interval=1):
                 continue
-            if self.appear(EXP_INFO_S):
+            if self.appear(EXP_INFO_S, interval=1):
                 self.device.click(CLICK_SAFE_AREA)
                 continue
-            if self.appear(EXP_INFO_D):
+            if self.appear(EXP_INFO_D, interval=1):
                 self.device.click(CLICK_SAFE_AREA)
                 continue
             # Last D rank screen
-            if self.appear_then_click(OPTS_INFO_D, offset=(30, 30)):
+            if self.appear_then_click(OPTS_INFO_D, offset=(30, 30), interval=1):
                 success = True
                 end = True
                 logger.info("Exercise LOST")
@@ -77,8 +77,7 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
             if not end:
                 if self._at_low_hp(image=self.device.image):
                     logger.info('Exercise quit')
-                    if self.appear_then_click(PAUSE):
-                        self.device.sleep(0.3)
+                    if self.appear_then_click(PAUSE, interval=0.5):
                         continue
                 else:
                     if show_hp_timer.reached():

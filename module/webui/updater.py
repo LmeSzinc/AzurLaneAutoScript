@@ -84,7 +84,7 @@ class Updater(Config, GitManager, PipManager):
         command = command.replace(
             r'\\', '/').replace('\\', '/').replace('\"', '"')
         log = subprocess.run(command, capture_output=True,
-                             text=True, encoding='utf8').stdout
+                             text=True, encoding='utf8', shell=True).stdout
         return log
 
     def get_commit(self, revision='', n=1, short_sha1=False) -> Tuple:

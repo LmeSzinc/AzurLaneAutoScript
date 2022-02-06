@@ -46,16 +46,17 @@ class FleetSelector:
     def parse_fleet_bar(self, image):
         """
         Args:
-            image (PIL.Image.Image): Image of dropdown menu.
+            image (np.ndarray): Image of dropdown menu.
 
         Returns:
             list: List of int. Currently selected fleet ranges from 1 to 4.
         """
+        width, height = image_size(image)
         result = []
-        for index, y in enumerate(range(0, image.size[1], self.FLEET_BAR_SHAPE_Y + self.FLEET_BAR_MARGIN_Y)):
-            area = (0, y, image.size[0], y + self.FLEET_BAR_SHAPE_Y)
-            stat = ImageStat.Stat(image.crop(area))
-            if np.std(stat.mean, ddof=1) > self.FLEET_BAR_ACTIVE_STD:
+        for index, y in enumerate(range(0, height, self.FLEET_BAR_SHAPE_Y + self.FLEET_BAR_MARGIN_Y)):
+            area = (0, y, width, y + self.FLEET_BAR_SHAPE_Y)
+            mean = get_color(image, area)
+            if np.std(mean, ddof=1) > self.FLEET_BAR_ACTIVE_STD:
                 result.append(4 - index)
 
         logger.info('Current selected: %s' % str(result))
@@ -66,7 +67,7 @@ class FleetSelector:
         Returns:
             list: List of int. Currently selected fleet ranges from 1 to 4.
         """
-        data = self.parse_fleet_bar(self.main.device.image.crop(self._bar.area))
+        data = self.parse_fleet_bar(self.main.image_crop(self._bar))
         return data
 
     def get_button(self, index):

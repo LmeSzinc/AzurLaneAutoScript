@@ -68,10 +68,10 @@ class Book:
     def __init__(self, image, button):
         """
         Args:
-            image (PIL.Image.Image):
+            image (np.ndarray):
             button (Button):
         """
-        image = image.crop(button.area)
+        image = crop(image, button.area)
         self.button = button
 
         self.genre = 0
@@ -86,7 +86,7 @@ class Book:
             if color_similar(color1=color, color2=value, threshold=30):
                 self.tier = key
 
-        color = color_similarity_2d(image.crop((15, 0, 97, 13)), color=(148, 251, 99))
+        color = color_similarity_2d(crop(image, (15, 0, 97, 13)), color=(148, 251, 99))
         self.exp = bool(np.sum(color > 221) > 50)
 
         self.valid = bool(self.genre and self.tier)
@@ -100,11 +100,11 @@ class Book:
     def check_selected(self, image):
         """
         Args:
-            image (PIL.Image.Image): Screenshot
+            image (np.ndarray): Screenshot
         """
         area = self.button.area
         check_area = tuple([area[0], area[3] + 2, area[2], area[3] + 4])
-        im = np.array(image.crop(check_area).convert('L'))
+        im = rgb2gray(crop(image, check_area))
         return True if np.mean(im) > 127 else False
 
     def __str__(self):
@@ -130,7 +130,7 @@ class RewardTacticalClass(UI):
         """
         # Area of the white line under student cards.
         area = (360, 680, 1280, 700)
-        mask = color_similarity_2d(self.image_area(area), color=(255, 255, 255)) > 235
+        mask = color_similarity_2d(self.image_crop(area), color=(255, 255, 255)) > 235
         points = np.array(np.where(mask)).T
         # Width of card is 200 px
         points = Points(points).group(threshold=210)

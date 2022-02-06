@@ -72,7 +72,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         Returns:
             bool:
         """
-        similarity, button = TEMPLATE_COMBAT_LOADING.match_result(self.image_area((0, 620, 1280, 720)))
+        similarity, button = TEMPLATE_COMBAT_LOADING.match_result(self.image_crop((0, 620, 1280, 720)))
         if similarity > 0.85:
             loading = (button.area[0] + 38 - LOADING_BAR.area[0]) / (LOADING_BAR.area[2] - LOADING_BAR.area[0])
             logger.attr('Loading', f'{int(loading * 100)}%')
@@ -85,7 +85,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         Returns:
             bool:
         """
-        return self.appear(PAUSE) and np.max(self.image_area(PAUSE_DOUBLE_CHECK)) < 153
+        return self.appear(PAUSE) and np.max(self.image_crop(PAUSE_DOUBLE_CHECK)) < 153
 
     def ensure_combat_oil_loaded(self):
         self.wait_until_stable(COMBAT_OIL_LOADING)
@@ -137,7 +137,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 continue
             if not interval_set:
                 if self.is_combat_loading():
-                    self.device.screenshot_interval_set(self.config.Optimization_CombatScreenshotInterval)
+                    self.device.screenshot_interval_set('combat')
                     interval_set = True
 
             # End
@@ -256,7 +256,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             # End
             if self.handle_battle_status(drop=drop) \
                     or self.handle_get_items(drop=drop):
-                self.device.screenshot_interval_set(0)
+                self.device.screenshot_interval_set()
                 break
 
     def handle_battle_status(self, drop=None):
@@ -430,7 +430,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 continue
             if self.handle_urgent_commission(drop=drop):
                 continue
-            if self.handle_story_skip():
+            if self.handle_story_skip(drop=drop):
                 continue
             if self.handle_guild_popup_cancel():
                 continue
@@ -457,7 +457,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             emotion_reduce (bool):
             auto_mode (str): combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left
             submarine_mode (str): do_not_use, hunt_only, every_combat
-            save_get_items (bool):
+            save_get_items (bool, DropImage):
             expected_end (str, callable):
             fleet_index (int): 1 or 2
         """
@@ -479,6 +479,8 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         ) as drop:
             if save_get_items is False:
                 drop = None
+            elif isinstance(save_get_items, DropImage):
+                drop = save_get_items
             self.combat_preparation(
                 balance_hp=balance_hp, emotion_reduce=emotion_reduce, auto=auto_mode, fleet_index=fleet_index)
             self.combat_execute(

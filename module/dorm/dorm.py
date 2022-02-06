@@ -1,8 +1,6 @@
 import re
 import time
 
-from PIL import Image
-
 from module.base.button import ButtonGrid
 from module.base.decorator import Config, cached_property
 from module.base.filter import Filter
@@ -51,8 +49,7 @@ class RewardDorm(UI):
             in: page_dorm
             out: page_dorm, with info_bar
         """
-        image = MASK_DORM.apply(np.array(self.device.image))
-        image = Image.fromarray(image)
+        image = MASK_DORM.apply(self.device.image)
         loves = TEMPLATE_DORM_LOVE.match_multi(image, name='DORM_LOVE')
         coins = TEMPLATE_DORM_COIN.match_multi(image, name='DORM_COIN')
         logger.info(f'Dorm loves: {len(loves)}, Dorm coins: {len(coins)}')
@@ -61,11 +58,11 @@ class RewardDorm(UI):
         for button in loves:
             count += 1
             # Disable click record check, because may have too many coins or loves.
-            self.device.click(button, record_check=False)
+            self.device.click(button, control_check=False)
             self.device.sleep((0.5, 0.8))
         for button in coins:
             count += 1
-            self.device.click(button, record_check=False)
+            self.device.click(button, control_check=False)
             self.device.sleep((0.5, 0.8))
 
         return count
@@ -94,14 +91,14 @@ class RewardDorm(UI):
         self.device.minitouch_builder.up().commit()
         self.device.minitouch_send()
 
-    @Config.when(DEVICE_CONTROL_METHOD=None)
+    @Config.when(DEVICE_CONTROL_METHOD='uiautomator2')
     def _dorm_feed_long_tap(self, button, count):
         timeout = Timer(count // 5 + 5).start()
         x, y = random_rectangle_point(button.button)
-        self.device.device.touch.down(x, y)
+        self.device.u2.touch.down(x, y)
 
         while 1:
-            self.device.device.touch.move(x, y)
+            self.device.u2.touch.move(x, y)
             time.sleep(.01)
             self.device.screenshot()
 
@@ -113,9 +110,15 @@ class RewardDorm(UI):
                 logger.warning('Wait dorm feed timeout')
                 break
 
-        self.device.device.touch.up(x, y)
+        self.device.u2.touch.up(x, y)
 
-    def dorm_receive(self):
+    @Config.when(DEVICE_CONTROL_METHOD=None)
+    def _dorm_feed_long_tap(self, button, count):
+        logger.warning(f'Current control method {self.config.Emulator_ControlMethod} '
+                       f'does not support DOWN/UP events, use multi-click instead')
+        self.device.multi_click(button, count)
+
+    def dorm_collect(self):
         """
         Click all coins and loves on current screen.
         Zoom-out dorm to detect coins and loves, because swipes in dorm may treat as dragging ships.
@@ -125,6 +128,12 @@ class RewardDorm(UI):
             in: page_dorm, without info_bar
             out: page_dorm, without info_bar
         """
+        logger.hr('Dorm collect')
+        if self.config.Emulator_ControlMethod not in ['uiautomator2', 'minitouch']:
+            logger.warning(f'Current control method {self.config.Emulator_ControlMethod} '
+                           f'does not support 2 finger zoom out, skip dorm collect')
+            return
+
         for _ in range(2):
             logger.info('Dorm zoom out')
             # Left hand down
@@ -135,7 +144,7 @@ class RewardDorm(UI):
             # Need to avoid drop-down menu in android, which is 38 px.
             p1, p2 = random_rectangle_vector(
                 (-700, 450), box=(247, 45, 1045, 594), random_range=(-50, -50, 50, 50), padding=0)
-            self.device._drag_minitouch(p1, p2, point_random=(0, 0, 0, 0))
+            self.device.drag_minitouch(p1, p2, point_random=(0, 0, 0, 0))
             # Left hand up
             self.device.minitouch_builder.up(contact_id=1).commit()
             self.device.minitouch_send()
@@ -181,7 +190,7 @@ class RewardDorm(UI):
         return Digit(grids.buttons, letter=(255, 255, 255), threshold=128, name='OCR_DORM_FOOD')
 
     def _dorm_has_food(self, button):
-        return np.min(rgb2gray(np.array(self.image_area(button)))) < 127
+        return np.min(rgb2gray(self.image_crop(button))) < 127
 
     def _dorm_feed_click(self, button, count):
         """
@@ -285,7 +294,7 @@ class RewardDorm(UI):
         self.ui_goto(page_dorm, skip_first_screenshot=True)
 
         if collect:
-            self.dorm_receive()
+            self.dorm_collect()
 
         if feed:
             self.ui_click(click_button=DORM_FEED_ENTER, appear_button=DORM_CHECK, check_button=DORM_FEED_CHECK,

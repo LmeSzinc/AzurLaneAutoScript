@@ -34,6 +34,8 @@ def raid_name_shorten(name):
         return 'ESSEX'
     elif name == 'raid_20210708':
         return 'SURUGA'
+    elif name == 'raid_20220127':
+        return 'BRISTOL'
     else:
         raise ScriptError(f'Unknown raid name: {name}')
 
@@ -71,6 +73,8 @@ def raid_ocr(raid, mode):
             return RaidCounter(button, letter=(57, 52, 255), threshold=128)
         elif raid == 'SURUGA':
             return RaidCounter(button, letter=(49, 48, 49), threshold=128)
+        elif raid == 'BRISTOL':
+            return RaidCounter(button, letter=(214, 231, 219), threshold=128)
     except KeyError:
         raise ScriptError(f'Raid entrance asset not exists: {key}')
 
@@ -88,21 +92,21 @@ class Raid(MapOperation, Combat):
         oil_checked = False
 
         if emotion_reduce:
-            self.emotion.wait(fleet=fleet_index)
+            self.emotion.wait(fleet_index)
 
         while 1:
             self.device.screenshot()
 
             if self.appear(BATTLE_PREPARATION):
-                if self.handle_combat_automation_set(auto=auto):
+                if self.handle_combat_automation_set(auto=auto == 'combat_auto'):
                     continue
-                if not oil_checked and self.config.STOP_IF_OIL_LOWER_THAN:
+                if not oil_checked and self.config.StopCondition_OilLimit:
                     self.ensure_combat_oil_loaded()
                     oil = OCR_OIL.ocr(self.device.image)
                     oil_checked = True
-                    if oil < self.config.STOP_IF_OIL_LOWER_THAN:
+                    if oil < self.config.StopCondition_OilLimit:
                         logger.hr('Triggered oil limit')
-                        raise OilExhausted()
+                        raise OilExhausted
             if self.handle_raid_ticket_use():
                 continue
             if self.handle_retirement():
@@ -128,7 +132,7 @@ class Raid(MapOperation, Combat):
             bool: If clicked.
         """
         if self.appear(TICKET_USE_CONFIRM, offset=(30, 30), interval=1):
-            if self.config.RAID_USE_TICKET:
+            if self.config.Raid_UseTicket:
                 self.device.click(TICKET_USE_CONFIRM)
             else:
                 self.device.click(TICKET_USE_CANCEL)
@@ -136,11 +140,23 @@ class Raid(MapOperation, Combat):
 
         return False
 
-    def raid_enter(self, mode, raid):
-        logger.hr('Raid Enter')
+    def raid_enter(self, mode, raid, skip_first_screenshot=True):
+        """
+        Args:
+            mode:
+            raid:
+            skip_first_screenshot:
+
+        Pages:
+            in: page_raid
+            out: BATTLE_PREPARATION
+        """
         entrance = raid_entrance(raid=raid, mode=mode)
         while 1:
-            self.device.screenshot()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
             if self.appear_then_click(entrance, offset=(10, 10), interval=5):
                 continue
@@ -155,7 +171,24 @@ class Raid(MapOperation, Combat):
         return self.appear(RAID_CHECK, offset=(30, 30))
 
     def raid_execute_once(self, mode, raid):
+        """
+        Args:
+            mode:
+            raid:
+
+        Returns:
+            in: page_raid
+            out: page_raid
+        """
         logger.hr('Raid Execute')
+        self.config.override(
+            Campaign_Name=f'{raid}_{mode}',
+            Campaign_UseAutoSearch=False,
+            Fleet_FleetOrder='fleet1_all_fleet2_standby'
+        )
+        if self.config.Emotion_CalculateEmotion:
+            self.emotion.check_reduce(1)
+
         self.raid_enter(mode=mode, raid=raid)
         self.combat(balance_hp=False, expected_end=self.raid_expected_end)
         logger.hr('Raid End')

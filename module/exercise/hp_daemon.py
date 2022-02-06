@@ -24,7 +24,7 @@ class HpDaemon(ModuleBase):
         Returns:
             float: HP. 0 to 1.
         """
-        # bar = np.array(image.crop(area))
+        # bar = crop(image, area)
         # length = bar.shape[1]
         # bar = np.swapaxes(bar, 0, 1)
         # bar = bar[::-1, :, :] if reverse else bar

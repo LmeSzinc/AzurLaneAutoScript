@@ -6,7 +6,6 @@ import threading
 import pywebio
 
 from module.base.filter import Filter
-from module.base.utils import ensure_time
 from module.config.config_generated import GeneratedConfig
 from module.config.config_manual import ManualConfig, OutputConfig
 from module.config.config_updater import ConfigUpdater
@@ -358,10 +357,9 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
         if ap_limit:
             tasks = SelectedGrids(['OpsiExplore', 'OpsiDaily', 'OpsiObscure', 'OpsiAbyssal', 'OpsiStronghold',
                                    'OpsiMeowfficerFarming'])
-            tasks = tasks.delete(tasks.filter(is_special_radar))
             delay_tasks(tasks, minutes=360)
 
-        self.save()
+        self.update()
 
     def task_call(self, task):
         """

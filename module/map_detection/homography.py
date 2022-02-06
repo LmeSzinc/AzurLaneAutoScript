@@ -1,7 +1,7 @@
 import time
 
 import numpy as np
-from PIL import Image, ImageDraw, ImageOps
+from PIL import ImageDraw, ImageOps
 
 from module.base.utils import *
 from module.config.config import AzurLaneConfig
@@ -109,7 +109,7 @@ class Homography:
             perspective_.load(image)
             self.load_homography(perspective=perspective_)
         elif file is not None:
-            image_ = np.array(Image.open(file).convert('RGB'))
+            image_ = load_image(file)
             perspective_ = Perspective(self.config)
             perspective_.load(image_)
             self.load_homography(perspective=perspective_)
@@ -152,13 +152,12 @@ class Homography:
     def detect(self, image):
         """
         Args:
-            image: Screenshot.
+            image (np.ndarray): Screenshot.
 
         Returns:
             bool: If success.
         """
         start_time = time.time()
-        image = np.array(image)
         self.image = image
 
         # Image initialization

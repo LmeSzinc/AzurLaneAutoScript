@@ -154,7 +154,7 @@ class RewardResearch(ResearchSelector):
             else:
                 self.device.screenshot()
 
-            max_rgb = np.max(rgb2gray(np.array(self.image_area(RESEARCH_UNAVAILABLE))))
+            max_rgb = np.max(rgb2gray(self.image_crop(RESEARCH_UNAVAILABLE)))
 
             # Don't use interval here, RESEARCH_CHECK already appeared 5 seconds ago
             if click_timer.reached() and self.appear(RESEARCH_CHECK, offset=(20, 20)):
@@ -249,7 +249,7 @@ class RewardResearch(ResearchSelector):
                     self.device.sleep(1.5)
                     self.device.screenshot()
                     record.add(self.device.image)
-                    self.device.swipe((0, 250), box=ITEMS_3_SWIPE.area, random_range=(-10, -10, 10, 10), padding=0)
+                    self.device.swipe_vector((0, 250), box=ITEMS_3_SWIPE.area, random_range=(-10, -10, 10, 10), padding=0)
                     self.device.sleep(2)
                     self.device.screenshot()
                     record.add(self.device.image)

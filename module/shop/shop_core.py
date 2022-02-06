@@ -1,4 +1,3 @@
-from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.exception import ScriptError
 from module.logger import logger
@@ -81,7 +80,6 @@ class CoreShop(ShopBase):
             ScriptError
         """
         index_offset = (40, 20)
-        limit = 0
 
         # In case either -/+ shift position, use
         # shipyard ocr trick to accurately parse

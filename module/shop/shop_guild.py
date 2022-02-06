@@ -1,6 +1,5 @@
 from module.base.decorator import cached_property, Config
 from module.base.timer import Timer
-from module.combat.assets import GET_ITEMS_1, GET_SHIP
 from module.exception import ScriptError
 from module.logger import logger
 from module.ocr.ocr import Digit
@@ -8,7 +7,6 @@ from module.shop.assets import *
 from module.shop.base import ShopBase, ShopItemGrid
 from module.shop.shop_guild_globals import *
 from module.shop.ui import ShopUI
-from module.ui.assets import BACK_ARROW
 
 SHOP_SELECT_PR = [SHOP_SELECT_PR1, SHOP_SELECT_PR2, SHOP_SELECT_PR3]
 
@@ -127,8 +125,8 @@ class GuildShop(ShopBase, ShopUI):
         try:
             return getattr(self.config, f'GuildShop_{ugroup}{postfix}')
         except:
-            logger.critical('No configuration with name '
-                           f'\'GuildShop_{ugroup}{postfix}\'')
+            logger.critical(f'No configuration with name '
+                            f'\'GuildShop_{ugroup}{postfix}\'')
             raise ScriptError
 
     def shop_get_select(self, item):
@@ -149,7 +147,7 @@ class GuildShop(ShopBase, ShopUI):
         group = item.group
         if group not in SELECT_ITEM_INFO_MAP:
             logger.critical(f'Unexpected item group \'{group}\'; '
-                             'expected one of {SELECT_ITEM_INFO_MAP.keys()}')
+                            f'expected one of {SELECT_ITEM_INFO_MAP.keys()}')
             raise ScriptError
 
         # Get configured choice for item
@@ -167,8 +165,8 @@ class GuildShop(ShopBase, ShopUI):
             else:
                 return item_info['grid'].buttons[index]
         except:
-            logger.critical('SELECT_ITEM_INFO_MAP may be malformed; '
-                           f'item group \'{group}\' entry is compromised')
+            logger.critical(f'SELECT_ITEM_INFO_MAP may be malformed; '
+                            f'item group \'{group}\' entry is compromised')
             raise ScriptError
 
     def shop_buy_select_execute(self, item):

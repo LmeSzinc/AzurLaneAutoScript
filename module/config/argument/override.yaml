@@ -4,9 +4,6 @@
 
 # ==================== Alas ====================
 
-Alas:
-  Optimization:
-    CombatScreenshotInterval: 1.0
 Restart:
   Scheduler:
     SuccessInterval: 0
@@ -32,7 +29,6 @@ Raid:
     Use2xBook: false
     AmbushEvade: true
   StopCondition:
-    RunCount: 0
     MapAchievement: non_stop
     StageIncrease: false
     GetNewShip: false

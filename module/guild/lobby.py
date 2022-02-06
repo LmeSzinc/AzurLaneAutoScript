@@ -18,7 +18,7 @@ class GuildLobby(GuildBase):
             Button: Button to enter guild report.
         """
         # Find red color in the area of GUILD_REPORT_AVAILABLE
-        image = color_similarity_2d(self.image_area(GUILD_REPORT_AVAILABLE), color=(255, 8, 8))
+        image = color_similarity_2d(self.image_crop(GUILD_REPORT_AVAILABLE), color=(255, 8, 8))
         points = np.array(np.where(image > 221)).T[:, ::-1]
         if len(points):
             # The center of red dot
@@ -94,3 +94,4 @@ class GuildLobby(GuildBase):
         """
         logger.hr('Guild lobby', level=1)
         self._guild_lobby_collect()
+        logger.info('Guild lobby collect finished')

@@ -23,6 +23,25 @@ COMMISSION_SWITCH.add_status('urgent', COMMISSION_URGENT)
 COMMISSION_SCROLL = Scroll(COMMISSION_SCROLL_AREA, color=(247, 211, 66), name='COMMISSION_SCROLL')
 
 
+def lines_detect(image):
+    """
+    Args:
+        image:
+
+    Returns:
+        np.ndarray: Coordinate Y of the white lines under each commission.
+    """
+    # Find white lines under each commission to locate them.
+    # (597, 0, 619, 720) is somewhere with white lines only.
+    color_height = np.mean(rgb2gray(crop(image, (597, 0, 619, 720))), axis=1)
+    parameters = {'height': 200, 'distance': 100}
+    peaks, _ = signal.find_peaks(color_height, **parameters)
+    # 67 is the height of commission list header
+    # 117 is the height of one commission card.
+    peaks = [y for y in peaks if y > 67 + 117]
+    return np.array(peaks)
+
+
 class RewardCommission(UI, InfoHandler):
     daily: SelectedGrids
     urgent: SelectedGrids
@@ -35,23 +54,13 @@ class RewardCommission(UI, InfoHandler):
         Get all commissions from an image.
 
         Args:
-            image: Pillow image
+            image (np.ndarray):
 
         Returns:
             SelectedGrids:
         """
         commission = []
-        # Find white lines under each commission to locate them.
-        # (597, 0, 619, 720) is somewhere with white lines only.
-        color_height = np.mean(image.crop((597, 0, 619, 720)).convert('L'), axis=1)
-        parameters = {'height': 200, 'distance': 100}
-        peaks, _ = signal.find_peaks(color_height, **parameters)
-        # 67 is the height of commission list header
-        # 117 is the height of one commission card.
-        peaks = [y for y in peaks if y > 67 + 117]
-
-        # Add commission to list
-        for y in peaks:
+        for y in lines_detect(image):
             comm = Commission(image, y=y, config=self.config)
             logger.attr('Commission', comm)
             repeat = len([c for c in commission if c == comm])
@@ -130,7 +139,20 @@ class RewardCommission(UI, InfoHandler):
         return True
 
     def _commission_ensure_mode(self, mode):
-        return COMMISSION_SWITCH.set(mode, main=self)
+        if COMMISSION_SWITCH.set(mode, main=self):
+            # If daily list has commissions > 4, usually to be 5, and 1 <= urgent <= 4
+            # commission list will have an animation to scroll,
+            # which causes the topmost one undetected.
+            if not COMMISSION_SCROLL.appear(main=self) or COMMISSION_SCROLL.cal_position(main=self) < 0.05:
+                while 1:
+                    peaks = lines_detect(self.device.image)
+                    if not len(peaks) or peaks[0] > 67 + 117:
+                        break
+                    self.device.screenshot()
+
+            return True
+        else:
+            return False
 
     def _commission_mode_reset(self):
         if self.appear(COMMISSION_DAILY):
@@ -167,6 +189,7 @@ class RewardCommission(UI, InfoHandler):
         Returns:
             SelectedGrids: SelectedGrids containing Commission objects
         """
+        self.device.click_record_clear()
         commission = SelectedGrids([])
         for _ in range(15):
             new = self._commission_detect(self.device.image)
@@ -176,6 +199,7 @@ class RewardCommission(UI, InfoHandler):
             if not self._commission_swipe():
                 break
 
+        self.device.click_record_clear()
         return commission
 
     def _commission_scan_all(self):
@@ -266,6 +290,7 @@ class RewardCommission(UI, InfoHandler):
             is_urgent (bool):
         """
         logger.hr('Commission find and start', level=2)
+        self.device.click_record_clear()
         comm = copy.deepcopy(comm)
         comm.repeat_count = 1
         logger.info(f'Finding commission {comm}')
@@ -280,6 +305,7 @@ class RewardCommission(UI, InfoHandler):
                     if comm == new_comm:
                         comm = new_comm
                 self._commission_start_click(comm)
+                self.device.click_record_clear()
                 return True
 
             # End
@@ -287,6 +313,7 @@ class RewardCommission(UI, InfoHandler):
                 break
 
         logger.warning(f'Commission not found: {comm}')
+        self.device.click_record_clear()
         return False
 
     def commission_start(self):

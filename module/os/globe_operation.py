@@ -11,6 +11,10 @@ ZONE_SELECT = [SELECT_DANGEROUS, SELECT_SAFE, SELECT_OBSCURE, SELECT_ABYSSAL, SE
 ASSETS_PINNED_ZONE = ZONE_TYPES + [ZONE_ENTRANCE, ZONE_SWITCH, ZONE_PINNED]
 
 
+class OSExploreError(Exception):
+    pass
+
+
 class GlobeOperation(ActionPointHandler, MapEventHandler):
     def is_in_globe(self):
         return self.appear(GLOBE_GOTO_MAP, offset=(20, 20))
@@ -67,8 +71,9 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
         """
         if self.is_zone_pinned():
             # A click does not disable pinned zone, a swipe does.
-            self.device.swipe((50, -50), box=area_pad(ZONE_PINNED.area, pad=-80), random_range=(-10, -10, 10, 10),
-                              padding=0, name='PINNED_DISABLE')
+            self.device.swipe_vector(
+                (50, -50), box=area_pad(ZONE_PINNED.area, pad=-80), random_range=(-10, -10, 10, 10),
+                padding=0, name='PINNED_DISABLE')
             return True
 
         return False
@@ -98,7 +103,7 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
         Returns:
             bool: If current zone has switch.
         """
-        # image = self.image_area(ZONE_SWITCH)
+        # image = self.image_crop(ZONE_SWITCH)
         # center = np.array(image.size) / 2
         # count = 0
         # for corner in area2corner((0, 0, *image.size)):
@@ -133,6 +138,44 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             bool:
         """
         return len(self.get_zone_select()) > 0
+
+    def ensure_zone_select_expanded(self):
+        """
+        Returns:
+            list[Button]:
+        """
+        record = 0
+        for _ in range(5):
+            selection = self.get_zone_select()
+            if len(selection) == record and record > 0:
+                return selection
+
+            record = len(selection)
+            self.device.screenshot()
+
+        logger.warning('Failed to ensure zone selection expanded, assume expanded')
+        return self.get_zone_select()
+
+    def zone_select_enter(self):
+        """
+        Pages:
+            in: is_zone_pinned
+            out: is_in_zone_select
+        """
+        self.ui_click(ZONE_SWITCH, appear_button=self.is_zone_pinned, check_button=self.is_in_zone_select,
+                      skip_first_screenshot=True)
+
+    def zone_select_execute(self, button):
+        """
+        Args:
+            button (Button): Button to select, one of the SELECT_* buttons
+
+        Pages:
+            in: is_in_zone_select
+            out: is_zone_pinned
+        """
+        self.ui_click(button, check_button=self.is_zone_pinned, offset=self._zone_select_offset,
+                      skip_first_screenshot=True)
 
     def zone_type_select(self, types=('SAFE', 'DANGEROUS')):
         """
@@ -170,19 +213,17 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             return True
 
         for _ in range(3):
-            self.ui_click(ZONE_SWITCH, appear_button=self.is_zone_pinned, check_button=self.is_in_zone_select,
-                          skip_first_screenshot=True)
-
-            selection = self.get_zone_select()
+            self.zone_select_enter()
+            selection = self.ensure_zone_select_expanded()
             logger.attr('Zone_selection', selection)
+
             button = get_button(selection)
             if button is None:
                 logger.warning('No such zone type to select, fallback to default')
                 types = ('SAFE', 'DANGEROUS')
                 button = get_button(selection)
 
-            self.ui_click(button, check_button=self.is_zone_pinned, offset=self._zone_select_offset,
-                          skip_first_screenshot=True)
+            self.zone_select_execute(button)
             if self.pinned_to_name(button) == self.get_zone_pinned_name():
                 return True
 
@@ -204,12 +245,10 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
         if self.get_zone_pinned_name() == 'SAFE':
             return True
         elif self.zone_has_switch():
-            self.ui_click(ZONE_SWITCH, appear_button=self.is_zone_pinned, check_button=self.is_in_zone_select,
-                          skip_first_screenshot=True)
-            flag = SELECT_SAFE in self.get_zone_select()
+            self.zone_select_enter()
+            flag = SELECT_SAFE in self.ensure_zone_select_expanded()
             button = SELECT_SAFE if flag else SELECT_DANGEROUS
-            self.ui_click(button, check_button=self.is_zone_pinned, offset=self._zone_select_offset,
-                          skip_first_screenshot=True)
+            self.zone_select_execute(button)
             return flag
         else:
             # No zone_switch, already on DANGEROUS
@@ -286,12 +325,15 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             zone (Zone): Zone to enter.
             skip_first_screenshot (bool):
 
+        Raises:
+            OSExploreError: If zone locked.
+
         Pages:
             in: is_zone_pinned
             out: is_in_map
         """
         click_timer = Timer(10)
-        confirm_timer = Timer(1, count=2).start()
+        click_count = 0
         pinned = None
         while 1:
             if skip_first_screenshot:
@@ -305,10 +347,18 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             if self.is_in_map():
                 break
 
-            if self.is_zone_pinned() and click_timer.reached():
-                self.device.click(ZONE_ENTRANCE)
-                click_timer.reset()
-                continue
+            if self.is_zone_pinned():
+                if self.appear(ZONE_LOCKED, offset=(20, 20)):
+                    logger.warning(f'Zone {zone} locked, neighbouring zones may not have been explored')
+                    raise OSExploreError
+                if click_count > 5:
+                    logger.warning(f'Unable to enter zone {zone}, neighbouring zones may not have been explored')
+                    raise OSExploreError
+                if click_timer.reached():
+                    self.device.click(ZONE_ENTRANCE)
+                    click_count += 1
+                    click_timer.reset()
+                    continue
             if self.handle_action_point(zone=zone, pinned=pinned):
                 click_timer.clear()
                 continue

@@ -287,10 +287,15 @@
     },
     "ControlMethod": {
       "name": "模拟器控制方案",
-      "help": "速度: minitouch >>> uiautomator2 ~= ADB\n建议选 minitouch",
+      "help": "速度: minitouch > Hermit >>> uiautomator2 ~= ADB\n建议选minitouch，不建议选Hermit除非在vmos下",
       "ADB": "ADB ",
       "uiautomator2": "uiautomator2 ",
-      "minitouch": "minitouch "
+      "minitouch": "minitouch ",
+      "Hermit": "Hermit"
+    },
+    "ScreenshotDedithering": {
+      "name": "去除图片色彩抖动",
+      "help": "在手机上运行时开启"
     }
   },
   "Error": {
@@ -316,9 +321,13 @@
       "name": "优化设置",
       "help": ""
     },
+    "ScreenshotInterval": {
+      "name": "放慢截图速度至 X 秒一张",
+      "help": "执行两次截图之间的最小间隔，限制在 0.1 ~ 0.3，对于高配置电脑能降低 CPU 占用"
+    },
     "CombatScreenshotInterval": {
       "name": "战斗中放慢截图速度至 X 秒一张",
-      "help": "能降低 CPU 占用"
+      "help": "执行两次截图之间的最小间隔，限制在 0.1 ~ 1.0，能降低战斗时的 CPU 占用"
     },
     "TaskHoardingDuration": {
       "name": "囤积任务 X 分钟",
@@ -364,6 +373,10 @@
     "SaveCombat": {
       "name": "保存战斗掉落截图",
       "help": "启用后会放缓结算时的点击速度\n在自律寻敌下不生效"
+    },
+    "SaveOpsi": {
+      "name": "保存大世界掉落截图",
+      "help": ""
     }
   },
   "Retirement": {
@@ -430,6 +443,7 @@
       "name": "活动名称",
       "help": "自动选择至最新的活动",
       "campaign_main": "主线图",
+      "raid_20220127": "演习神秘事件调查",
       "event_20201229_cn": "负象限作战",
       "event_20211229_cn": "逆转彩虹之塔",
       "event_20200603_cn": "峡湾间的反击",
@@ -473,6 +487,7 @@
       "event_20200423_cn": "复刻苍红的回响",
       "event_20200326_cn": "微层混合",
       "event_20200227_cn": "北境序曲",
+      "war_archives_20190911_cn": "档案 神圣的悲喜剧",
       "war_archives_20181227_cn": "档案 苍红的回响",
       "war_archives_20180726_cn": "档案 光与影的鸢尾之华",
       "war_archives_20180607_cn": "档案 墨染的钢铁之花",
@@ -1269,12 +1284,12 @@
   },
   "CoreShop": {
     "_info": {
-      "name": "CoreShop._info.name",
-      "help": "CoreShop._info.help"
+      "name": "核心兑换",
+      "help": ""
     },
     "Filter": {
-      "name": "CoreShop.Filter.name",
-      "help": "CoreShop.Filter.help"
+      "name": "商店过滤器",
+      "help": ""
     }
   },
   "Shipyard": {
@@ -1647,7 +1662,7 @@
   "OpsiExplore": {
     "_info": {
       "name": "大世界开荒",
-      "help": "每月月初开荒大世界的所有海域，不需要买战役信息记录仪（5000油道具）\n这个功能将每隔30分钟清理一个海域，以保证空域搜索冷却\n使用此功能前必须满足以下条件：\n- 通关大世界主线任务\n- 确认大世界出击队伍\n- 将舰队移动至 NY\n- 关闭其他大世界功能，例如大世界每日，短猫相接"
+      "help": "每月月初开荒大世界的所有海域，不需要买战役信息记录仪（5000油道具）\n这个功能将每隔30分钟清理一个海域，以保证空域搜索冷却\n使用此功能前必须满足以下条件：\n- 通关大世界主线任务\n- 确认大世界出击队伍"
     },
     "SpecialRadar": {
       "name": "已购买战役信息记录仪（5000油道具）",
@@ -1765,12 +1780,32 @@
       "name": "性能测试",
       "help": "测试哪个截图方案和点击方案速度更快，速度因模拟器和电脑配置而异"
     },
-    "TestScreenshotMethod": {
-      "name": "测试截图方案",
+    "AdbScreenshot": {
+      "name": "测试 ADB 截图",
       "help": ""
     },
-    "TestClickMethod": {
-      "name": "测试点击方案",
+    "Uiautomator2Screenshot": {
+      "name": "测试 uiautomator2 截图",
+      "help": ""
+    },
+    "AscreencapScreenshot": {
+      "name": "测试 aScreenCap 截图",
+      "help": ""
+    },
+    "AdbClick": {
+      "name": "测试 ADB 点击",
+      "help": ""
+    },
+    "Uiautomator2Click": {
+      "name": "测试 uiautomator2 点击",
+      "help": ""
+    },
+    "MinitouchClick": {
+      "name": "测试 minitouch 点击",
+      "help": ""
+    },
+    "HermitClick": {
+      "name": "测试 Hermit 点击",
       "help": ""
     }
   },

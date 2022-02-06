@@ -49,7 +49,7 @@ class Camera(MapOperation):
 
             vector = distance * vector
             vector = -vector
-            self.device.swipe(vector, name=name, box=box, whitelist_area=whitelist, blacklist_area=blacklist)
+            self.device.swipe_vector(vector, name=name, box=box, whitelist_area=whitelist, blacklist_area=blacklist)
             self.device.sleep(0.3)
             self.update()
         else:

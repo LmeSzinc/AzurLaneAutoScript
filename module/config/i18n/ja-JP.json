@@ -290,7 +290,12 @@
       "help": "Emulator.ControlMethod.help",
       "ADB": "ADB",
       "uiautomator2": "uiautomator2",
-      "minitouch": "minitouch"
+      "minitouch": "minitouch",
+      "Hermit": "Hermit"
+    },
+    "ScreenshotDedithering": {
+      "name": "Emulator.ScreenshotDedithering.name",
+      "help": "Emulator.ScreenshotDedithering.help"
     }
   },
   "Error": {
@@ -315,6 +320,10 @@
     "_info": {
       "name": "Optimization._info.name",
       "help": "Optimization._info.help"
+    },
+    "ScreenshotInterval": {
+      "name": "Optimization.ScreenshotInterval.name",
+      "help": "Optimization.ScreenshotInterval.help"
     },
     "CombatScreenshotInterval": {
       "name": "Optimization.CombatScreenshotInterval.name",
@@ -364,6 +373,10 @@
     "SaveCombat": {
       "name": "DropRecord.SaveCombat.name",
       "help": "DropRecord.SaveCombat.help"
+    },
+    "SaveOpsi": {
+      "name": "DropRecord.SaveOpsi.name",
+      "help": "DropRecord.SaveOpsi.help"
     }
   },
   "Retirement": {
@@ -430,6 +443,7 @@
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
+      "raid_20220127": "秘密事件調査",
       "event_20201229_cn": "虚畳なりし限象",
       "event_20211229_cn": "遡望せし虹彩の塔",
       "event_20200603_cn": "峡湾間の反撃",
@@ -473,6 +487,7 @@
       "event_20200423_cn": "縹映る深緋の残響（復刻）",
       "event_20200326_cn": "闇靄払う銀翼",
       "event_20200227_cn": "凍絶の北海",
+      "war_archives_20190911_cn": "檔案 悲歎せし焔海の詩",
       "war_archives_20181227_cn": "檔案 縹映る深緋の残響",
       "war_archives_20180726_cn": "檔案 光と影のアイリス",
       "war_archives_20180607_cn": "檔案 墨染まりし鋼の桜",
@@ -1765,13 +1780,33 @@
       "name": "Benchmark._info.name",
       "help": "Benchmark._info.help"
     },
-    "TestScreenshotMethod": {
-      "name": "Benchmark.TestScreenshotMethod.name",
-      "help": "Benchmark.TestScreenshotMethod.help"
+    "AdbScreenshot": {
+      "name": "Benchmark.AdbScreenshot.name",
+      "help": "Benchmark.AdbScreenshot.help"
     },
-    "TestClickMethod": {
-      "name": "Benchmark.TestClickMethod.name",
-      "help": "Benchmark.TestClickMethod.help"
+    "Uiautomator2Screenshot": {
+      "name": "Benchmark.Uiautomator2Screenshot.name",
+      "help": "Benchmark.Uiautomator2Screenshot.help"
+    },
+    "AscreencapScreenshot": {
+      "name": "Benchmark.AscreencapScreenshot.name",
+      "help": "Benchmark.AscreencapScreenshot.help"
+    },
+    "AdbClick": {
+      "name": "Benchmark.AdbClick.name",
+      "help": "Benchmark.AdbClick.help"
+    },
+    "Uiautomator2Click": {
+      "name": "Benchmark.Uiautomator2Click.name",
+      "help": "Benchmark.Uiautomator2Click.help"
+    },
+    "MinitouchClick": {
+      "name": "Benchmark.MinitouchClick.name",
+      "help": "Benchmark.MinitouchClick.help"
+    },
+    "HermitClick": {
+      "name": "Benchmark.HermitClick.name",
+      "help": "Benchmark.HermitClick.help"
     }
   },
   "AzurLaneUncensored": {

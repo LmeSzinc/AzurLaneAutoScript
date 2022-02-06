@@ -46,7 +46,7 @@ class GlobeCamera(GlobeOperation, ZoneManager):
             vector = np.array(distance) * vector
 
             vector = -vector
-            self.device.swipe(vector, name=name, box=box)
+            self.device.swipe_vector(vector, name=name, box=box)
             self.device.sleep(0.3)
 
             self.globe_update()
@@ -175,7 +175,7 @@ class GlobeCamera(GlobeOperation, ZoneManager):
         screen = self.globe2screen(location).flatten().round()
         screen = np.round(screen).astype(int).tolist()
         # Average color of whirlpool center
-        center = np.array(self.image_area(screen))
+        center = self.image_crop(screen)
         center = np.array([[cv2.mean(center), ], ]).astype(np.uint8)
         h, s, v = rgb2hsv(center)[0][0]
         # hsv usually to be (338, 74.9, 100)

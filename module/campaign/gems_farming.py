@@ -162,7 +162,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             list_level = ocr.ocr(self.device.image)
 
             for button, level in zip(card_grids.buttons, list_level):
-                if level == 1 and template.match(self.device.image.crop(button.area), similarity=SIM_VALUE):
+                if level == 1 and template.match(self.image_crop(button), similarity=SIM_VALUE):
                     return button
 
             logger.info('No specific CV was found, try reversed order.')
@@ -171,7 +171,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             list_level = ocr.ocr(self.device.image)
 
             for button, level in zip(card_grids.buttons, list_level):
-                if level == 1 and template.match(self.device.image.crop(button.area), similarity=SIM_VALUE):
+                if level == 1 and template.match(self.image_crop(button), similarity=SIM_VALUE):
                     return button
 
             return None

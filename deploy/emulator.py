@@ -185,11 +185,10 @@ class EmulatorConnect:
         self.adb_binary = adb
 
     def _execute(self, cmd):
-        cmd = [self.adb_binary] + cmd
+        print(' '.join(cmd))
         process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
         stdout, stderr = process.communicate(timeout=10)
-        result = stdout.decode()
-        return result
+        return stdout
 
     @cached_property
     def emulators(self):
@@ -214,7 +213,7 @@ class EmulatorConnect:
         Returns:
             list[str]: Connected devices in adb
         """
-        result = self._execute(['devices'])
+        result = self._execute([self.adb_binary, 'devices']).decode()
         devices = []
         for line in result.replace('\r\r\n', '\n').replace('\r\n', '\n').split('\n'):
             if line.startswith('List') or '\t' not in line:
@@ -227,8 +226,12 @@ class EmulatorConnect:
         return devices
 
     def adb_kill(self):
-        self._execute(['devices'])
-        self._execute(['kill-server'])
+        # self._execute([self.adb_binary, 'devices'])
+        # self._execute([self.adb_binary, 'kill-server'])
+
+        # Just kill it, because some adb don't obey.
+        self._execute(['taskkill', '/f', '/im', 'adb.exe'])
+        self._execute(['taskkill', '/f', '/im', 'nox_adb.exe'])
 
     @cached_property
     def serial(self):
