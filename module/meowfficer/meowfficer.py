@@ -1,4 +1,4 @@
-from module.base.button import ButtonGrid
+from module.base.button import Button, ButtonGrid
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1
 from module.config.utils import get_server_next_update
@@ -34,6 +34,15 @@ MEOWFFICER_BOX_COUNT_GRID = ButtonGrid(
 MEOWFFICER_BOX_COUNT = Digit(MEOWFFICER_BOX_COUNT_GRID.buttons,
     letter=(16, 12, 0), threshold=64,
     name='MEOWFFICER_BOX_COUNT')
+
+MEOWFFICER_SKILL_GRID_1 = ButtonGrid(
+    origin=(875, 559), delta=(105, 0), button_shape=(16, 16), grid_shape=(3, 1),
+    name='MEOWFFICER_SKILL_GRID_1')
+MEOWFFICER_SKILL_GRID_2 = MEOWFFICER_SKILL_GRID_1.move(vector=(-40, -20),
+    name='MEOWFFICER_SKILL_GRID_2')
+MEOWFFICER_SHIFT_DETECT = Button(
+    area=(1260, 669, 1280, 720), color=(117, 106, 84), button=(1260, 669, 1280, 720),
+    name='MEOWFFICER_SHIFT_DETECT')
 
 
 class RewardMeowfficer(UI):
@@ -199,6 +208,97 @@ class RewardMeowfficer(UI):
         self.ui_click(MEOWFFICER_FEED_CONFIRM if current else MEOWFFICER_FEED_CANCEL,
                       check_button=MEOWFFICER_ENHANCE_CONFIRM, offset=(20, 20))
 
+    def _meow_detect_shift(self, skip_first_screenshot=True):
+        """
+        Serves as innate wait mechanism for loading
+        of meowfficer acquisition complete screen
+        During which screen may shift left randomly
+
+        Args:
+            skip_first_screenshot (bool):
+
+        Returns:
+            bool
+        """
+        flag = False
+        confirm_timer = Timer(3, count=6).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End - Random left shift
+            if self.image_color_count(MEOWFFICER_SHIFT_DETECT,
+                color=MEOWFFICER_SHIFT_DETECT.color, threshold=221, count=650):
+                if not flag:
+                    confirm_timer.reset()
+                    flag = True
+                if confirm_timer.reached():
+                    break
+                continue
+
+            # End - No shift at all
+            if self.appear(MEOWFFICER_GET_CHECK, offset=(40, 40)):
+                if flag:
+                    confirm_timer.reset()
+                    flag = False
+                if confirm_timer.reached():
+                    break
+        return flag
+
+    def _meow_get_sr(self):
+        """
+        Handle SR cat acquisition
+        If has at least one unique skill
+        then lock to prevent used as feed
+
+        Pages:
+            in: MEOWFFICER_GET_CHECK
+            out: MEOWFFICER_GET_CHECK or MEOWFFICER_TRAIN
+        """
+        # Wait for complete load before examining skills
+        logger.info('SR cat detected, wait complete load and examine base skills')
+        grid = MEOWFFICER_SKILL_GRID_2 if self._meow_detect_shift() else MEOWFFICER_SKILL_GRID_1
+
+        # Appropriate grid acquired, scan for unique skills
+        has_unique = False
+        for _ in grid.buttons:
+            # Empty slot; check for many white pixels
+            if self.image_color_count(_, color=(255, 255, 247), threshold=221, count=200):
+                continue
+
+            # Non-empty slot; check for few white pixels
+            # i.e. roman numerals
+            if self.image_color_count(_, color=(255, 255, 255), threshold=221, count=25):
+                continue
+
+            # Detected unique skill; break
+            has_unique = True
+            break
+
+        # Execute appropriate route
+        # Transition into lock popup
+        logger.info('At least one unique skill detected; locking...') if has_unique else \
+        logger.info('No unique skills detected; skipping...')
+        self.ui_click(MEOWFFICER_TRAIN_CLICK_SAFE_AREA,
+                      appear_button=MEOWFFICER_GET_CHECK, check_button=MEOWFFICER_CONFIRM,
+                      offset=(40, 40), retry_wait=3, skip_first_screenshot=True)
+
+        # Transition out of lock popup
+        # Use callable as screen is variable
+        def check_popup_exit():
+            if self.appear(MEOWFFICER_GET_CHECK, offset=(40, 40)):
+                return True
+
+            if self.appear(MEOWFFICER_TRAIN_START, offset=(20, 20)):
+                return True
+
+            return False
+        self.ui_click(MEOWFFICER_CONFIRM if has_unique else MEOWFFICER_CANCEL,
+                      check_button=check_popup_exit, offset=(40, 20),
+                      retry_wait=3, skip_first_screenshot=True)
+
     def meow_get(self, skip_first_screenshot=True):
         """
         Transition through all the necessary screens
@@ -225,11 +325,20 @@ class RewardMeowfficer(UI):
             else:
                 self.device.screenshot()
 
-            if self.handle_meow_popup_confirm():
+            if self.appear(MEOWFFICER_CONFIRM, offset=(40, 20), interval=5):
+                self.device.click(MEOWFFICER_SHIFT_DETECT)
                 confirm_timer.reset()
                 continue
-            if self.appear(MEOWFFICER_STATUS, offset=(40, 40), interval=3):
-                self.device.multi_click(MEOWFFICER_TRAIN_CLICK_SAFE_AREA, 2)
+            if self.appear(MEOWFFICER_SR_CHECK, offset=(40, 40)):
+                self._meow_get_sr()
+                skip_first_screenshot = True
+                confirm_timer.reset()
+                continue
+            if self.appear(MEOWFFICER_GET_CHECK, offset=(40, 40), interval=3):
+                # Susceptible to exception when collecting multiple
+                # Mitigate by popping click_record
+                self.device.click(MEOWFFICER_TRAIN_CLICK_SAFE_AREA)
+                self.device.click_record.pop()
                 confirm_timer.reset()
                 continue
 
