@@ -188,8 +188,7 @@ class EmulatorConnect:
         print(' '.join(cmd))
         process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
         stdout, stderr = process.communicate(timeout=10)
-        result = stdout.decode()
-        return result
+        return stdout
 
     @cached_property
     def emulators(self):
@@ -214,7 +213,7 @@ class EmulatorConnect:
         Returns:
             list[str]: Connected devices in adb
         """
-        result = self._execute([self.adb_binary, 'devices'])
+        result = self._execute([self.adb_binary, 'devices']).decode()
         devices = []
         for line in result.replace('\r\r\n', '\n').replace('\r\n', '\n').split('\n'):
             if line.startswith('List') or '\t' not in line:
