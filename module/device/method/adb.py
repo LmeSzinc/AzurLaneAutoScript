@@ -60,6 +60,8 @@ class Adb(Connection):
 
         image = np.fromstring(screenshot, np.uint8)
         image = cv2.imdecode(image, cv2.IMREAD_COLOR)
+        if image is None:
+            raise OSError('Empty image')
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         return image
 
