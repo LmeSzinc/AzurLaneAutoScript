@@ -189,6 +189,7 @@ class RewardCommission(UI, InfoHandler):
         Returns:
             SelectedGrids: SelectedGrids containing Commission objects
         """
+        self.device.click_record_clear()
         commission = SelectedGrids([])
         for _ in range(15):
             new = self._commission_detect(self.device.image)
@@ -198,6 +199,7 @@ class RewardCommission(UI, InfoHandler):
             if not self._commission_swipe():
                 break
 
+        self.device.click_record_clear()
         return commission
 
     def _commission_scan_all(self):
@@ -288,6 +290,7 @@ class RewardCommission(UI, InfoHandler):
             is_urgent (bool):
         """
         logger.hr('Commission find and start', level=2)
+        self.device.click_record_clear()
         comm = copy.deepcopy(comm)
         comm.repeat_count = 1
         logger.info(f'Finding commission {comm}')
@@ -302,6 +305,7 @@ class RewardCommission(UI, InfoHandler):
                     if comm == new_comm:
                         comm = new_comm
                 self._commission_start_click(comm)
+                self.device.click_record_clear()
                 return True
 
             # End
@@ -309,6 +313,7 @@ class RewardCommission(UI, InfoHandler):
                 break
 
         logger.warning(f'Commission not found: {comm}')
+        self.device.click_record_clear()
         return False
 
     def commission_start(self):
