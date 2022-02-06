@@ -61,6 +61,10 @@ def handle_adb_error(e):
         # AdbError(device '127.0.0.1:59865' not found)
         logger.error(e)
         return True
+    elif 'timeout' in text:
+        # AdbTimeout(adb read timeout)
+        logger.error(e)
+        return True
     else:
         # AdbError(closed)
         # AdbError(device offline)
