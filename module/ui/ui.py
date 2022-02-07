@@ -283,7 +283,7 @@ class UI(InfoHandler):
             return True
         if self.appear_then_click(GET_ITEMS_1, offset=(30, 30), interval=3):
             return True
-        if self.appear_then_click(GET_SHIP, interval=3):
+        if self.appear_then_click(GET_SHIP, interval=5):
             return True
         if self.appear_then_click(LOGIN_RETURN_SIGN, offset=(30, 30), interval=3):
             return True
