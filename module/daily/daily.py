@@ -110,12 +110,12 @@ class Daily(Combat, DailyEquipment):
         logger.info(f'remain={remain}, stage={stage}, fleet={fleet}')
 
         def daily_enter_check():
-            return self.appear(DAILY_ENTER_CHECK)
+            return self.appear(DAILY_ENTER_CHECK, threshold=30)
 
         def daily_end():
             if self.appear(BATTLE_PREPARATION, interval=2):
                 self.device.click(BACK_ARROW)
-            return self.appear(DAILY_ENTER_CHECK) or self.appear(BACK_ARROW)
+            return self.appear(DAILY_ENTER_CHECK, threshold=30) or self.appear(BACK_ARROW)
 
         self.ui_click(click_button=DAILY_ENTER, check_button=daily_enter_check, appear_button=DAILY_CHECK,
                       skip_first_screenshot=True)
@@ -165,7 +165,7 @@ class Daily(Combat, DailyEquipment):
             else:
                 self.device.screenshot()
 
-            if self.appear(DAILY_ENTER_CHECK, interval=5):
+            if self.appear(DAILY_ENTER_CHECK, threshold=30, interval=5):
                 self.device.click(button)
                 continue
             if self.handle_get_items():
@@ -190,7 +190,7 @@ class Daily(Combat, DailyEquipment):
                     return False
                 if self.info_bar_count():
                     return False
-            if self.appear(DAILY_ENTER_CHECK):
+            if self.appear(DAILY_ENTER_CHECK, threshold=30):
                 if self.info_bar_count():
                     return False
             if self.combat_appear():
