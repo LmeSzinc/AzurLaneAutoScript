@@ -29,8 +29,16 @@ class Template(Resource):
         if self._image is None:
             if self.is_gif:
                 self._image = []
+                channel = 0
                 for image in imageio.mimread(self.file):
-                    image = image[:, :, :3].copy() if len(image.shape) == 3 else image
+                    if not channel:
+                        channel = len(image.shape)
+                    if channel == 3:
+                        image = image[:, :, :3].copy()
+                    elif len(image.shape) == 3:
+                        # Follow the first frame
+                        image = image[:, :, 0].copy()
+
                     image = self.pre_process(image)
                     self._image += [image, cv2.flip(image, 1)]
             else:
