@@ -16,8 +16,10 @@ class AppControl(Adb, Uiautomator2):
         else:
             package = self.app_current_adb()
 
+        package = package.strip(' \t\r\n')
         logger.attr('Package_name', package)
-        return package == self.config.Emulator_PackageName
+        target = self.config.Emulator_PackageName.strip(' \t\r\n')
+        return package == target
 
     def app_start(self):
         package = self.config.Emulator_PackageName

@@ -126,9 +126,13 @@ class AzurLaneAutoScript:
     def goto_main(self):
         from module.handler.login import LoginHandler
         from module.ui.ui import UI
-        if not self.device.app_is_running():
+        if self.device.app_is_running():
+            logger.info('App is already running, goto main page')
+            UI(self.config, device=self.device).ui_goto_main()
+        else:
+            logger.info('App is not running, start app and goto main page')
             LoginHandler(self.config, device=self.device).app_start()
-        UI(self.config, device=self.device).ui_goto_main()
+            UI(self.config, device=self.device).ui_goto_main()
 
     def research(self):
         from module.research.research import RewardResearch
