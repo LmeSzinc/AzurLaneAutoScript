@@ -1111,6 +1111,10 @@
       "name": "Meowfficer.BuyAmount.name",
       "help": "Meowfficer.BuyAmount.help"
     },
+    "EnhanceIndex": {
+      "name": "Meowfficer.EnhanceIndex.name",
+      "help": "Meowfficer.EnhanceIndex.help"
+    },
     "TrainMeowfficer": {
       "name": "Meowfficer.TrainMeowfficer.name",
       "help": "Meowfficer.TrainMeowfficer.help"
