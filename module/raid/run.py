@@ -71,6 +71,9 @@ class RaidRun(Raid):
             self.run_count += 1
             if self.config.StopCondition_RunCount:
                 self.config.StopCondition_RunCount -= 1
+            # End
+            if self.triggered_stop_condition():
+                break
             # Scheduler
             if self.config.task_switched():
                 self.config.task_stop()
