@@ -6,7 +6,7 @@ from adbutils.errors import AdbError
 from module.base.decorator import cached_property
 from module.base.utils import *
 from module.device.connection import Connection
-from module.device.method.utils import handle_adb_error, RETRY_TRIES, RETRY_DELAY
+from module.device.method.utils import handle_adb_error, del_cached_property, RETRY_TRIES, RETRY_DELAY
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 
@@ -160,37 +160,53 @@ def retry(func):
         Args:
             self (Minitouch):
         """
+        init = None
         for _ in range(RETRY_TRIES):
             try:
+                if callable(init):
+                    self.sleep(RETRY_DELAY)
+                    init()
                 return func(self, *args, **kwargs)
+            # Can't handle
             except RequestHumanTakeover:
-                # Can't handle
                 break
+            # When adb server was killed
             except ConnectionResetError as e:
-                # Adb server was killed
                 logger.error(e)
-                self.adb_connect(self.serial)
-                del self.__dict__['minitouch_builder']
+
+                def init():
+                    self.adb_connect(self.serial)
+                    del_cached_property(self, 'minitouch_builder')
+            # Emulator closed
             except ConnectionAbortedError as e:
-                # Emulator exit
                 logger.error(e)
-                self.adb_connect(self.serial)
-                del self.__dict__['minitouch_builder']
+
+                def init():
+                    self.adb_connect(self.serial)
+                    del self.__dict__['minitouch_builder']
+            # MinitouchError: Received empty data from minitouch
             except MinitouchError as e:
-                # MinitouchError: Received empty data from minitouch
                 logger.error(e)
-                self.install_uiautomator2()
-                if self._minitouch_port:
-                    self.adb_forward_remove(f'tcp:{self._minitouch_port}')
+
+                def init():
+                    self.install_uiautomator2()
+                    if self._minitouch_port:
+                        self.adb_forward_remove(f'tcp:{self._minitouch_port}')
+                    del self.__dict__['minitouch_builder']
+            # AdbError
             except AdbError as e:
-                if not handle_adb_error(e):
+                if handle_adb_error(e):
+                    def init():
+                        self.adb_connect(self.serial)
+                        del self.__dict__['minitouch_builder']
+                else:
                     break
+            # Unknown, probably a trucked image
             except Exception as e:
-                # Unknown
-                # Probably trucked image
                 logger.exception(e)
 
-            self.sleep(RETRY_DELAY)
+                def init():
+                    pass
 
         logger.critical(f'Retry {func.__name__}() failed')
         raise RequestHumanTakeover

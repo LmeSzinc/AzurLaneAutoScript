@@ -7,7 +7,7 @@ from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import random_rectangle_point, point2str
 from module.device.method.adb import Adb
-from module.device.method.utils import HierarchyButton, handle_adb_error, RETRY_TRIES, RETRY_DELAY
+from module.device.method.utils import HierarchyButton, handle_adb_error, del_cached_property, RETRY_TRIES, RETRY_DELAY
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 
@@ -22,52 +22,63 @@ def retry(func):
         Args:
             self (Hermit):
         """
+        init = None
         for _ in range(RETRY_TRIES):
             try:
+                if callable(init):
+                    self.sleep(RETRY_DELAY)
+                    init()
                 return func(self, *args, **kwargs)
+            # Can't handle
             except RequestHumanTakeover:
-                # Can't handle
                 break
+            # When adb server was killed
             except ConnectionResetError as e:
-                # When adb server was killed
                 logger.error(e)
-                self.adb_connect(self.serial)
+
+                def init():
+                    self.adb_connect(self.serial)
+                    del_cached_property(self, 'hermit_session')
+            # When unable to send requests
             except requests.exceptions.ConnectionError as e:
                 logger.error(e)
                 text = str(e)
                 if 'Connection aborted' in text:
                     # Hermit not installed or not running
                     # ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
-                    self.adb_connect(self.serial)
-                    try:
+                    def init():
+                        self.adb_connect(self.serial)
                         self.hermit_init()
-                    except HermitError:
-                        logger.error(e)
-                        continue
-                    del self.__dict__['hermit_session']
+                        del_cached_property(self, 'hermit_session')
                 else:
                     # Lost connection, adb server was killed
                     # HTTPConnectionPool(host='127.0.0.1', port=20269):
                     # Max retries exceeded with url: /click?x=500&y=500
-                    self.adb_connect(self.serial)
-                    del self.__dict__['hermit_session']
+                    def init():
+                        self.adb_connect(self.serial)
+                        del_cached_property(self, 'hermit_session')
+            # AdbError
             except AdbError as e:
-                if not handle_adb_error(e):
+                if handle_adb_error(e):
+                    def init():
+                        self.adb_connect(self.serial)
+                        del_cached_property(self, 'hermit_session')
+                else:
                     break
+            # HermitError: {"code":-1,"msg":"error"}
             except HermitError as e:
                 logger.error(e)
-                self.adb_connect(self.serial)
-                try:
+
+                def init():
+                    self.adb_connect(self.serial)
                     self.hermit_init()
-                except HermitError:
-                    logger.error(e)
-                    continue
+                    del_cached_property(self, 'hermit_session')
+            # Unknown, probably a trucked image
             except Exception as e:
-                # Unknown
-                # Probably trucked image
                 logger.exception(e)
 
-            self.sleep(RETRY_DELAY)
+                def init():
+                    pass
 
         logger.critical(f'Retry {func.__name__}() failed')
         raise RequestHumanTakeover
