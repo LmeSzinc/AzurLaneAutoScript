@@ -168,9 +168,10 @@ class ModuleBase:
             # Not having enough pixels to match
             return None
 
-        point = fit_points(points, mod=image.shape, encourage=encourage)
+        point = fit_points(points, mod=image_size(image), encourage=encourage)
         point = ensure_int(point + area[:2])
         button_area = area_offset((-encourage, -encourage, encourage, encourage), offset=point)
+        color = get_color(self.device.image, button_area)
         return Button(area=button_area, color=color, button=button_area, name=name)
 
     def interval_reset(self, button):
