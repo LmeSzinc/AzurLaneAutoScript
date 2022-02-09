@@ -183,7 +183,7 @@ def retry(func):
 
                 def init():
                     self.adb_connect(self.serial)
-                    del self.__dict__['minitouch_builder']
+                    del_cached_property(self, 'minitouch_builder')
             # MinitouchError: Received empty data from minitouch
             except MinitouchError as e:
                 logger.error(e)
@@ -192,13 +192,13 @@ def retry(func):
                     self.install_uiautomator2()
                     if self._minitouch_port:
                         self.adb_forward_remove(f'tcp:{self._minitouch_port}')
-                    del self.__dict__['minitouch_builder']
+                    del_cached_property(self, 'minitouch_builder')
             # AdbError
             except AdbError as e:
                 if handle_adb_error(e):
                     def init():
                         self.adb_connect(self.serial)
-                        del self.__dict__['minitouch_builder']
+                        del_cached_property(self, 'minitouch_builder')
                 else:
                     break
             # Unknown, probably a trucked image
