@@ -230,8 +230,18 @@ class EmulatorConnect:
         # self._execute([self.adb_binary, 'kill-server'])
 
         # Just kill it, because some adb don't obey.
-        self._execute(['taskkill', '/f', '/im', 'adb.exe'])
-        self._execute(['taskkill', '/f', '/im', 'nox_adb.exe'])
+        print('Kill all known ADB')
+        for exe in [
+            # Most emulator use this
+            'adb.exe',
+            # NoxPlayer 夜神模拟器
+            'nox_adb.exe',
+            # MumuPlayer MuMu模拟器
+            'adb_server.exe',
+            # Bluestacks 蓝叠模拟器
+            'HD-Adb.exe'
+        ]:
+            self._execute(['taskkill', '/f', '/im', exe])
 
     @cached_property
     def serial(self):
