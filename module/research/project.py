@@ -59,7 +59,7 @@ def get_research_series(image):
     # 2021.07.18 Letter IV is now smaller than I, II, III, since the maintenance in 07.15.
     #   The "/" of the "V" in IV become darker because of anti-aliasing.
     #   So lower height to 160 to have a better detection.
-    parameters = {'height': 160, 'prominence': 50}
+    parameters = {'height': 160, 'prominence': 50, 'width': 1}
 
     for button in RESEARCH_SERIES:
         im = color_similarity_2d(resize(crop(image, button.area), (46, 25)), color=(255, 255, 255))
