@@ -3,6 +3,15 @@ from module.logger import logger
 from module.exception import CampaignNameError
 
 class CampaignBase(CampaignBase_):
+    STAGE_INCREASE = [
+        'A1 > AS1 > A2 > AS2 > A3',
+        'B1 > B2 > B3',
+        'C1 > CS1 > C2 > CS2 > C3',
+        'D1 > D2 > D3',
+        'SP1 > SP2 > SP3 > SP4',
+        'T1 > T2 > T3 > T4',
+    ]
+
     def campaign_set_chapter(self, name, mode='normal'):
         """
         Args:
