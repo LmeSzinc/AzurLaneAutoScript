@@ -47,7 +47,7 @@ A7, B7, C7, D7, E7, F7, G7, H7, I7, \
 
 class Config:
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['CA', 'BB', 'CV']
+    MAP_SIREN_TEMPLATE = ['CAlightning', 'BBlightning', 'CVlightning']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -59,6 +59,9 @@ class Config:
     STAR_REQUIRE_2 = 0
     STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
+
+    MAP_SWIPE_MULTIPLY = 1.538
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.487
 
 
 class Campaign(CampaignBase):

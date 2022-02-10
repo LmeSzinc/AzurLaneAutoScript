@@ -46,7 +46,7 @@ A7, B7, C7, D7, E7, F7, G7, H7, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['CL', 'CA']
+    MAP_SIREN_TEMPLATE = ['CL', 'CAlightning']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True

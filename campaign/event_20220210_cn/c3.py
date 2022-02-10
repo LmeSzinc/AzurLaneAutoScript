@@ -43,7 +43,7 @@ A6, B6, C6, D6, E6, F6, G6, H6, I6, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['CL', 'CA', 'BB']
+    MAP_SIREN_TEMPLATE = ['CL', 'CApurple', 'BBpurple']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
