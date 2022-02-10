@@ -134,6 +134,9 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'sairenzhongxun_6': 'CA',
     'sairenzhanlie_6': 'BB',
     'sairenhangmu_6': 'CV',
+
+    # Northern Overture Rerun
+    'ganraozhe': 'Intruder',
 }
 
 
