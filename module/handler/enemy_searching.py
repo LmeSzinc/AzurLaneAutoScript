@@ -20,6 +20,9 @@ class EnemySearchingHandler(InfoHandler):
         MAP_ENEMY_SEARCHING.load_color(self.device.image)
 
     def enemy_searching_appear(self):
+        if not self.is_in_map():
+            return False
+
         return red_overlay_transparency(
             MAP_ENEMY_SEARCHING.color, get_color(self.device.image, MAP_ENEMY_SEARCHING.area)
         ) > self.MAP_ENEMY_SEARCHING_OVERLAY_TRANSPARENCY_THRESHOLD
@@ -105,6 +108,7 @@ class EnemySearchingHandler(InfoHandler):
             if self.handle_auto_search_exit(drop=drop):
                 continue
 
+            # Popups
             if self.handle_vote_popup():
                 timeout.limit = 10
                 timeout.reset()
@@ -139,9 +143,44 @@ class EnemySearchingHandler(InfoHandler):
         self.device.screenshot()
         return True
 
-    def handle_in_map_no_enemy_searching(self):
+    def handle_in_map_no_enemy_searching(self, drop=None):
+        """
+        Args:
+            drop (DropImage):
+
+        Returns:
+            bool: If handled.
+        """
         if not self.is_in_map():
             return False
 
-        self.device.sleep((1, 1.2))
+        timeout = Timer(1, count=2).start()
+        while 1:
+            self.device.screenshot()
+
+            # End
+            if timeout.reached():
+                break
+
+            # Stage might ends,
+            # although here expects an enemy searching animation.
+            if self.handle_in_stage():
+                return True
+            if self.handle_auto_search_exit(drop=drop):
+                continue
+
+            # Popups
+            if self.handle_vote_popup():
+                timeout.reset()
+                continue
+            if self.handle_story_skip():
+                self.ensure_no_story()
+                timeout.reset()
+            if self.handle_guild_popup_cancel():
+                timeout.reset()
+                continue
+            if self.handle_urgent_commission(drop=drop):
+                timeout.reset()
+                continue
+
         return True

@@ -377,7 +377,7 @@ class Fleet(Camera, AmbushHandler):
                         logger.info(f'Arrive {location2node(location)} {arrive_predict}'.strip())
                     arrive_timer.start()
                     arrive_unexpected_timer.start()
-                    if not arrive_timer.reached():
+                    if result == 'nothing' and not arrive_timer.reached():
                         continue
                     if expected and result not in expected:
                         if arrive_unexpected_timer.reached():
@@ -860,7 +860,17 @@ class Fleet(Camera, AmbushHandler):
         if 'boss' in expected:
             return 'in_stage'
 
-        return None
+        matched = False
+        for data in self.map.spawn_data:
+            if data.get('battle') == self.battle_count + 1:
+                matched = True
+        if not len(self.map.spawn_data) or matched:
+            # No spawn_data
+            # spawn_data is not continuous, some battles are missing
+            return None
+        else:
+            # Out of the spawn_data, nothing will spawn
+            return 'no_searching'
 
     def _submarine_mode(self, expected):
         if self.is_call_submarine_at_boss:

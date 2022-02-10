@@ -210,7 +210,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                         break
                 else:
                     if self.handle_in_map_with_enemy_searching():
-                        self.handle_map_after_combat_story()
+                        # self.handle_map_after_combat_story()
                         break
 
         return True
