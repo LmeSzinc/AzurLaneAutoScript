@@ -66,7 +66,10 @@ class View(MapDetector):
                 grids[loca] = self.grid_class(location=loca, image=image, corner=points, config=self.config)
 
         # Handle grids offset
-        offset = np.min(list(grids.keys()), axis=0)
+        offset = list(grids.keys())
+        if not len(offset):
+            raise MapDetectionError('No map grids found')
+        offset = np.min(offset, axis=0)
         if np.sum(np.abs(offset)) > 0:
             logger.attr_align('grids_offset', tuple(offset.tolist()))
             self.grids = {}

@@ -170,10 +170,10 @@ class Camera(MapOperation):
             x = self.map.shape[0] - self.view.shape[0] + self.view.center_loca[0]
         else:
             x = self.camera[0]
-        if self.view.lower_edge:
-            y = 0 + self.view.center_loca[1]
-        elif self.view.upper_edge:
+        if self.view.upper_edge:
             y = self.map.shape[1] - self.view.shape[1] + self.view.center_loca[1]
+        elif self.view.lower_edge:
+            y = 0 + self.view.center_loca[1]
         else:
             y = self.camera[1]
 
