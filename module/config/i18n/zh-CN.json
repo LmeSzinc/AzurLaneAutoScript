@@ -12,6 +12,10 @@
       "name": "出击",
       "help": ""
     },
+    "Event": {
+      "name": "活动",
+      "help": ""
+    },
     "Reward": {
       "name": "收获",
       "help": ""
@@ -50,14 +54,6 @@
       "name": "主线图",
       "help": ""
     },
-    "Event": {
-      "name": "活动图",
-      "help": ""
-    },
-    "Raid": {
-      "name": "共斗活动",
-      "help": ""
-    },
     "C72MysteryFarming": {
       "name": "7-2 三战捡垃圾",
       "help": ""
@@ -72,6 +68,38 @@
     },
     "GemsFarming": {
       "name": "紧急委托刷钻石",
+      "help": ""
+    },
+    "EventGeneral": {
+      "name": "活动通用设置",
+      "help": ""
+    },
+    "Event": {
+      "name": "活动图",
+      "help": ""
+    },
+    "EventAb": {
+      "name": "活动每日AB图",
+      "help": ""
+    },
+    "EventCd": {
+      "name": "活动每日CD图",
+      "help": ""
+    },
+    "EventSp": {
+      "name": "活动每日SP图",
+      "help": ""
+    },
+    "Raid": {
+      "name": "共斗活动",
+      "help": ""
+    },
+    "RaidDaily": {
+      "name": "共斗活动每日",
+      "help": ""
+    },
+    "MaritimeEscort": {
+      "name": "商船护航",
       "help": ""
     },
     "Commission": {
@@ -146,28 +174,8 @@
       "name": "潜艇图",
       "help": ""
     },
-    "EventAb": {
-      "name": "活动每日AB图",
-      "help": ""
-    },
-    "EventCd": {
-      "name": "活动每日CD图",
-      "help": ""
-    },
-    "EventSp": {
-      "name": "活动每日SP图",
-      "help": ""
-    },
-    "RaidDaily": {
-      "name": "共斗活动每日",
-      "help": ""
-    },
     "WarArchives": {
       "name": "作战档案",
-      "help": ""
-    },
-    "MaritimeEscort": {
-      "name": "商船护航",
       "help": ""
     },
     "OpsiGeneral": {
@@ -805,23 +813,6 @@
       "S1_enemy_first": "优先打小型敌人"
     }
   },
-  "Raid": {
-    "_info": {
-      "name": "共斗活动设置",
-      "help": ""
-    },
-    "Mode": {
-      "name": "难度",
-      "help": "",
-      "easy": "简单",
-      "normal": "普通",
-      "hard": "困难"
-    },
-    "UseTicket": {
-      "name": "使用演习券",
-      "help": ""
-    }
-  },
   "C11AffinityFarming": {
     "_info": {
       "name": "1-1 伏击刷好感",
@@ -917,6 +908,85 @@
       "bogue": "博格",
       "ranger": "突击者",
       "hermes": "竞技神"
+    }
+  },
+  "EventGeneral": {
+    "_info": {
+      "name": "活动通用设置",
+      "help": ""
+    },
+    "PtLimit": {
+      "name": "活动 PT 限制",
+      "help": "当累计 PT 达到给定数值时，禁用所有活动任务，0 表示不限制，使用自律寻敌时不能即时触发\n开启后，你只需要打开所有活动任务，而不需要计算一共打多少次"
+    },
+    "TimeLimit": {
+      "name": "活动时间限制",
+      "help": "当本地时间超过给定数值后，禁用所有活动任务，'2020-01-01 00:00:00' 表示不限制，触发一次后时间将被重置\n设置后能防止活动结束后忘记关闭任务的事情发生"
+    }
+  },
+  "EventAb": {
+    "_info": {
+      "name": "活动每日AB图",
+      "help": ""
+    },
+    "StageFilter": {
+      "name": "活动每日过滤器",
+      "help": "按过滤器顺序出击"
+    },
+    "LastStage": {
+      "name": "上一个完成的关卡",
+      "help": "自动更新的数值，将跳过过滤器中已完成的关卡，过0点重置"
+    }
+  },
+  "EventCd": {
+    "_info": {
+      "name": "活动每日CD图",
+      "help": ""
+    },
+    "StageFilter": {
+      "name": "活动每日过滤器",
+      "help": "按过滤器顺序出击"
+    },
+    "LastStage": {
+      "name": "上一个完成的关卡",
+      "help": "自动更新的数值，将跳过过滤器中已完成的关卡，过0点重置"
+    }
+  },
+  "Raid": {
+    "_info": {
+      "name": "共斗活动设置",
+      "help": ""
+    },
+    "Mode": {
+      "name": "难度",
+      "help": "",
+      "easy": "简单",
+      "normal": "普通",
+      "hard": "困难"
+    },
+    "UseTicket": {
+      "name": "使用演习券",
+      "help": ""
+    }
+  },
+  "RaidDaily": {
+    "_info": {
+      "name": "共斗每日",
+      "help": "完成每日共斗简单普通困难"
+    },
+    "StageFilter": {
+      "name": "难度过滤器",
+      "help": ""
+    }
+  },
+  "MaritimeEscort": {
+    "_info": {
+      "name": "商船护航",
+      "help": "进一下就撤退，能拿约70%的奖励"
+    },
+    "Enable": {
+      "name": "启用商船护航",
+      "help": ""
     }
   },
   "Commission": {
@@ -1520,54 +1590,6 @@
       "8": "8",
       "9": "9",
       "10": "10"
-    }
-  },
-  "EventAb": {
-    "_info": {
-      "name": "活动每日AB图",
-      "help": ""
-    },
-    "StageFilter": {
-      "name": "活动每日过滤器",
-      "help": "按过滤器顺序出击"
-    },
-    "LastStage": {
-      "name": "上一个完成的关卡",
-      "help": "自动更新的数值，将跳过过滤器中已完成的关卡，过0点重置"
-    }
-  },
-  "EventCd": {
-    "_info": {
-      "name": "活动每日CD图",
-      "help": ""
-    },
-    "StageFilter": {
-      "name": "活动每日过滤器",
-      "help": "按过滤器顺序出击"
-    },
-    "LastStage": {
-      "name": "上一个完成的关卡",
-      "help": "自动更新的数值，将跳过过滤器中已完成的关卡，过0点重置"
-    }
-  },
-  "RaidDaily": {
-    "_info": {
-      "name": "共斗每日",
-      "help": "完成每日共斗简单普通困难"
-    },
-    "StageFilter": {
-      "name": "难度过滤器",
-      "help": ""
-    }
-  },
-  "MaritimeEscort": {
-    "_info": {
-      "name": "商船护航",
-      "help": "进一下就撤退，能拿约70%的奖励"
-    },
-    "Enable": {
-      "name": "启用商船护航",
-      "help": ""
     }
   },
   "OpsiAshAssist": {

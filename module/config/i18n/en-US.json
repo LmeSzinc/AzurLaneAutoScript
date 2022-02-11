@@ -12,6 +12,10 @@
       "name": "Farm",
       "help": ""
     },
+    "Event": {
+      "name": "Event",
+      "help": ""
+    },
     "Reward": {
       "name": "Reward",
       "help": ""
@@ -50,14 +54,6 @@
       "name": "Main",
       "help": ""
     },
-    "Event": {
-      "name": "Event",
-      "help": ""
-    },
-    "Raid": {
-      "name": "Raid",
-      "help": ""
-    },
     "C72MysteryFarming": {
       "name": "7-2 Mystery Farming",
       "help": ""
@@ -72,6 +68,38 @@
     },
     "GemsFarming": {
       "name": "Gems Farming",
+      "help": ""
+    },
+    "EventGeneral": {
+      "name": "Event General",
+      "help": ""
+    },
+    "Event": {
+      "name": "Event",
+      "help": ""
+    },
+    "EventAb": {
+      "name": "Event AB",
+      "help": ""
+    },
+    "EventCd": {
+      "name": "Event CD",
+      "help": ""
+    },
+    "EventSp": {
+      "name": "Event SP",
+      "help": ""
+    },
+    "Raid": {
+      "name": "Raid",
+      "help": ""
+    },
+    "RaidDaily": {
+      "name": "Raid Daily",
+      "help": ""
+    },
+    "MaritimeEscort": {
+      "name": "Maritime Escort",
       "help": ""
     },
     "Commission": {
@@ -146,28 +174,8 @@
       "name": "SOS",
       "help": ""
     },
-    "EventAb": {
-      "name": "Event AB",
-      "help": ""
-    },
-    "EventCd": {
-      "name": "Event CD",
-      "help": ""
-    },
-    "EventSp": {
-      "name": "Event SP",
-      "help": ""
-    },
-    "RaidDaily": {
-      "name": "Raid Daily",
-      "help": ""
-    },
     "WarArchives": {
       "name": "War Archives",
-      "help": ""
-    },
-    "MaritimeEscort": {
-      "name": "Maritime Escort",
       "help": ""
     },
     "OpsiGeneral": {
@@ -805,23 +813,6 @@
       "S1_enemy_first": "1-Star enemies first"
     }
   },
-  "Raid": {
-    "_info": {
-      "name": "Raid Settings",
-      "help": ""
-    },
-    "Mode": {
-      "name": "Raid Mode",
-      "help": "",
-      "easy": "easy",
-      "normal": "normal",
-      "hard": "hard"
-    },
-    "UseTicket": {
-      "name": "Use Ticket(s)",
-      "help": ""
-    }
-  },
   "C11AffinityFarming": {
     "_info": {
       "name": "C1-1 Affinity Farm Settings",
@@ -917,6 +908,85 @@
       "bogue": "bogue",
       "ranger": "ranger",
       "hermes": "hermes"
+    }
+  },
+  "EventGeneral": {
+    "_info": {
+      "name": "Event General Settings",
+      "help": ""
+    },
+    "PtLimit": {
+      "name": "Event PT Limit",
+      "help": "When the total PT reaches the given value, disable all event tasks. 0 means no limit. Cannot trigger instantly when using auto search\nWith this enabled, you only need to enable all the event tasks, and you don't need to count how many times to run"
+    },
+    "TimeLimit": {
+      "name": "Event Time Limit",
+      "help": "When the local time exceeds the given value, disable all event tasks. '2020-01-01 00:00:00' means no limit and the time will be reset once it's triggered\nThis can prevent the occurrence of forgetting to disable event tasks after the event ends"
+    }
+  },
+  "EventAb": {
+    "_info": {
+      "name": "EventAB Settings",
+      "help": ""
+    },
+    "StageFilter": {
+      "name": "EventAB Stage Filter",
+      "help": ""
+    },
+    "LastStage": {
+      "name": "Last EventAB Stage",
+      "help": "Automatically updated, skips completed levels in the filter, and resets at server reset time (00:00)"
+    }
+  },
+  "EventCd": {
+    "_info": {
+      "name": "EventCD Settings",
+      "help": ""
+    },
+    "StageFilter": {
+      "name": "EventCD Stage Filter",
+      "help": ""
+    },
+    "LastStage": {
+      "name": "Last EventCD Stage",
+      "help": "Automatically updated, skips completed levels in the filter, and resets at server reset time (00:00)"
+    }
+  },
+  "Raid": {
+    "_info": {
+      "name": "Raid Settings",
+      "help": ""
+    },
+    "Mode": {
+      "name": "Raid Mode",
+      "help": "",
+      "easy": "easy",
+      "normal": "normal",
+      "hard": "hard"
+    },
+    "UseTicket": {
+      "name": "Use Ticket(s)",
+      "help": ""
+    }
+  },
+  "RaidDaily": {
+    "_info": {
+      "name": "Raid Daily Settings",
+      "help": "Recommend manual play for faster contribution and climbing of prize ladder as raid points are awarded proportionally by speed\nEnable task if slow contribution and climbing is acceptable\nFleet compositions must be made manually for each difficulty"
+    },
+    "StageFilter": {
+      "name": "Raid Daily Stage Filter",
+      "help": "Generally does not need to be modified or re-arranged but can do so if desired\nCan save on oil consumption if less are attacked"
+    }
+  },
+  "MaritimeEscort": {
+    "_info": {
+      "name": "Maritime Escort",
+      "help": "Enter then retreat, get about 70% of maximum rewards"
+    },
+    "Enable": {
+      "name": "Enable maritime Escort",
+      "help": ""
     }
   },
   "Commission": {
@@ -1520,54 +1590,6 @@
       "8": "8",
       "9": "9",
       "10": "10"
-    }
-  },
-  "EventAb": {
-    "_info": {
-      "name": "EventAB Settings",
-      "help": ""
-    },
-    "StageFilter": {
-      "name": "EventAB Stage Filter",
-      "help": ""
-    },
-    "LastStage": {
-      "name": "Last EventAB Stage",
-      "help": "Automatically updated, skips completed levels in the filter, and resets at server reset time (00:00)"
-    }
-  },
-  "EventCd": {
-    "_info": {
-      "name": "EventCD Settings",
-      "help": ""
-    },
-    "StageFilter": {
-      "name": "EventCD Stage Filter",
-      "help": ""
-    },
-    "LastStage": {
-      "name": "Last EventCD Stage",
-      "help": "Automatically updated, skips completed levels in the filter, and resets at server reset time (00:00)"
-    }
-  },
-  "RaidDaily": {
-    "_info": {
-      "name": "Raid Daily Settings",
-      "help": "Recommend manual play for faster contribution and climbing of prize ladder as raid points are awarded proportionally by speed\nEnable task if slow contribution and climbing is acceptable\nFleet compositions must be made manually for each difficulty"
-    },
-    "StageFilter": {
-      "name": "Raid Daily Stage Filter",
-      "help": "Generally does not need to be modified or re-arranged but can do so if desired\nCan save on oil consumption if less are attacked"
-    }
-  },
-  "MaritimeEscort": {
-    "_info": {
-      "name": "Maritime Escort",
-      "help": "Enter then retreat, get about 70% of maximum rewards"
-    },
-    "Enable": {
-      "name": "Enable maritime Escort",
-      "help": ""
     }
   },
   "OpsiAshAssist": {

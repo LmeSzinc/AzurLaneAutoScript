@@ -121,10 +121,6 @@ class GeneratedConfig:
     # Group `EnemyPriority`
     EnemyPriority_EnemyScaleBalanceWeight = 'default_mode'  # default_mode, S3_enemy_first, S1_enemy_first
 
-    # Group `Raid`
-    Raid_Mode = 'hard'  # easy, normal, hard
-    Raid_UseTicket = False
-
     # Group `C11AffinityFarming`
     C11AffinityFarming_RunCount = 32
 
@@ -146,6 +142,28 @@ class GeneratedConfig:
     GemsFarming_VanguardEquipChange = False
     GemsFarming_LowEmotionRetreat = True
     GemsFarming_CommonCV = 'any'  # any, langley, bogue, ranger, hermes
+
+    # Group `EventGeneral`
+    EventGeneral_PtLimit = 0
+    EventGeneral_TimeLimit = datetime.datetime(2020, 1, 1, 0, 0)
+
+    # Group `EventAb`
+    EventAb_StageFilter = 'A1 > A2 > A3 > B1 > B2 > B3'
+    EventAb_LastStage = 0
+
+    # Group `EventCd`
+    EventCd_StageFilter = 'C1 > C2 > C3 > D1 > D2 > D3'
+    EventCd_LastStage = 0
+
+    # Group `Raid`
+    Raid_Mode = 'hard'  # easy, normal, hard
+    Raid_UseTicket = False
+
+    # Group `RaidDaily`
+    RaidDaily_StageFilter = 'hard > normal > easy'
+
+    # Group `MaritimeEscort`
+    MaritimeEscort_Enable = True
 
     # Group `Commission`
     Commission_DoMajorCommission = False
@@ -273,20 +291,6 @@ class GeneratedConfig:
 
     # Group `Sos`
     Sos_Chapter = 3  # 3, 4, 5, 6, 7, 8, 9, 10
-
-    # Group `EventAb`
-    EventAb_StageFilter = 'A1 > A2 > A3 > B1 > B2 > B3'
-    EventAb_LastStage = 0
-
-    # Group `EventCd`
-    EventCd_StageFilter = 'C1 > C2 > C3 > D1 > D2 > D3'
-    EventCd_LastStage = 0
-
-    # Group `RaidDaily`
-    RaidDaily_StageFilter = 'hard > normal > easy'
-
-    # Group `MaritimeEscort`
-    MaritimeEscort_Enable = True
 
     # Group `OpsiAshAssist`
     OpsiAshAssist_Tier = 15

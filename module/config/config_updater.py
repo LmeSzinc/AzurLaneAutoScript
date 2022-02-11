@@ -65,7 +65,8 @@ class ConfigGenerator:
             <argument>:
                 type: checkbox|select|textarea|input
                 value:
-                option: Options, if argument has any options.
+                option (Optional): Options, if argument has any options.
+                validate (Optional): datetime
         """
         data = {}
         raw = read_file(filepath_argument('argument'))
@@ -78,6 +79,9 @@ class ConfigGenerator:
             if not isinstance(value, dict):
                 value = {'value': value}
             arg['type'] = data_to_type(value, arg=path[1])
+            if isinstance(value['value'], datetime):
+                arg['validate'] = 'datetime'
+            # Manual definition has the highest priority
             arg.update(value)
             deep_set(data, keys=path, value=arg)
 
