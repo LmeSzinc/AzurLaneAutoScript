@@ -95,7 +95,7 @@ class Updater(Config, GitManager, PipManager):
         ph = 'h' if short_sha1 else 'H'
 
         log = self.execute_output(
-            f'{self.git} log {revision} --pretty=format:"%{ph}---%an---%ad---%s" --date=iso -{n}')
+            f'"{self.git}" log {revision} --pretty=format:"%{ph}---%an---%ad---%s" --date=iso -{n}')
 
         if not log:
             return None, None, None, None
@@ -119,7 +119,7 @@ class Updater(Config, GitManager, PipManager):
             return False
 
         log = self.execute_output(
-            f'{self.git} log --not --remotes={source}/* -1 --oneline')
+            f'"{self.git}" log --not --remotes={source}/* -1 --oneline')
         if log:
             logger.info(
                 f"Cannot find local commit {log.split()[0]} in upstream, skip update")
