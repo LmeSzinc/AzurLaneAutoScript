@@ -126,8 +126,10 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
         if isinstance(func, Function):
             func = func.command
         func_set = {func, 'General', 'Alas'}
-        if 'opsi' in func.lower():
+        if func.startswith('Opsi'):
             func_set.add('OpsiGeneral')
+        if func.startswith('Event') or func.startswith('Raid') or func in ['MaritimeEscort', 'GemsFarming']:
+            func_set.add('EventGeneral')
         logger.info(f'Bind task {func_set}')
 
         # Bind arguments

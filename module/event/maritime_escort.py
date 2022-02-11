@@ -1,3 +1,4 @@
+from module.campaign.campaign_event import CampaignEvent
 from module.event.assets import *
 from module.exception import CampaignEnd
 from module.logger import logger
@@ -7,7 +8,7 @@ from module.ocr.ocr import DigitCounter
 OCR_REMAIN = DigitCounter(ESCORT_REMAIN, letter=(148, 255, 99), threshold=64)
 
 
-class MaritimeEscort(MapOperation):
+class MaritimeEscort(MapOperation, CampaignEvent):
     def is_in_escort(self):
         return self.appear(ESCORT_CHECK, offset=(20, 20))
 
@@ -39,6 +40,9 @@ class MaritimeEscort(MapOperation):
         logger.info('Maritime escort finished')
 
     def run(self):
+        if self.event_time_limit_triggered():
+            self.config.task_stop()
+
         self.ui_goto_main()
         self.ui_click(MAIN_GOTO_ESCORT, check_button=ESCORT_CHECK, offset=(20, 150), skip_first_screenshot=True)
 
