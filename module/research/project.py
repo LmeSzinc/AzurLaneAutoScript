@@ -581,9 +581,12 @@ class ResearchSelector(UI):
         if preset == 'custom':
             string = self.config.Research_CustomFilter
         else:
+            if self.config.Research_UseCube == 'always_use':
+                if f'{preset}_cube' in DICT_FILTER_PRESET:
+                    preset = f'{preset}_cube'
             if preset not in DICT_FILTER_PRESET:
                 logger.warning(f'Preset not found: {preset}, use default preset')
-                preset = 'series_4'
+                preset = 'series_4_blueprint_tenrai'
             string = DICT_FILTER_PRESET[preset]
 
         logger.attr('Research preset', preset)
