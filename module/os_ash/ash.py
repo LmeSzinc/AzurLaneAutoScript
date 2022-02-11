@@ -58,8 +58,13 @@ class AshCombat(Combat):
 
         if self.appear_then_click(ASH_START, offset=(30, 30)):
             return True
+        if self.handle_get_items():
+            return True
         if self.appear(BEACON_REWARD):
             logger.info("Ash beacon already finished.")
+            raise AshBeaconFinished
+        if self.appear(BEACON_EMPTY, offset=(20, 20)):
+            logger.info("Ash beacon already empty.")
             raise AshBeaconFinished
 
         return False
