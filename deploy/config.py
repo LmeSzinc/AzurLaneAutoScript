@@ -28,7 +28,7 @@ class DeployConfig:
                 continue
             print(f'{k}: {v}')
 
-        print(f'Rest of the configs are the same as {DEPLOY_TEMPLATE}')
+        print(f'Rest of the configs are the same as default')
 
     def read(self):
         self.config = poor_yaml_read(DEPLOY_TEMPLATE)
