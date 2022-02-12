@@ -1,6 +1,5 @@
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
-from module.base.utils import *
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.os_handler.assets import *
@@ -134,15 +133,15 @@ class OSShopHandler(UI, MapEventHandler):
             else:
                 self.device.screenshot()
 
-            if self.appear(PORT_SUPPLY_CHECK, offset=(20, 20), interval=3):
-                self.device.click(button)
+            if self.handle_map_get_items(interval=1):
+                self.interval_reset(PORT_SUPPLY_CHECK)
+                success = True
                 continue
             if self.appear_then_click(SHOP_BUY_CONFIRM, offset=(20, 20), interval=3):
                 self.interval_reset(PORT_SUPPLY_CHECK)
                 continue
-            if self.handle_map_get_items(interval=1):
-                self.interval_reset(PORT_SUPPLY_CHECK)
-                success = True
+            if self.appear(PORT_SUPPLY_CHECK, offset=(20, 20), interval=5):
+                self.device.click(button)
                 continue
 
             # End

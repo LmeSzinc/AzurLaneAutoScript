@@ -100,10 +100,10 @@ class OSAsh(UI, MapEventHandler):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(MAP_GOTO_GLOBE, offset=offset, interval=3):
+            if self.appear_then_click(MAP_GOTO_GLOBE, offset=offset, interval=5):
                 confirm_timer.reset()
                 continue
-            if self.appear_then_click(ASH_ENTRANCE, offset=offset, interval=3):
+            if self.appear_then_click(ASH_ENTRANCE, offset=offset, interval=5):
                 confirm_timer.reset()
                 continue
             if self._handle_ash_beacon_reward():
