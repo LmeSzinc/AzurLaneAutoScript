@@ -1048,6 +1048,19 @@
       "BattlePassReward": true
     }
   },
+  "MetaReward": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "MetaReward",
+      "SuccessInterval": 30,
+      "FailureInterval": 30,
+      "ServerUpdate": "00:00"
+    },
+    "MetaReward": {
+      "MetaReward": true
+    }
+  },
   "Daily": {
     "Scheduler": {
       "Enable": false,

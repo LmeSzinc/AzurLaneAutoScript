@@ -192,6 +192,10 @@ class AzurLaneAutoScript:
         from module.battle_pass.battle_pass import BattlePass
         BattlePass(config=self.config, device=self.device).run()
 
+    def meta_reward(self):
+        from module.meta_reward.meta_reward import MetaReward
+        MetaReward(config=self.config, device=self.device).run()
+
     def daily(self):
         from module.daily.daily import Daily
         Daily(config=self.config, device=self.device).run()

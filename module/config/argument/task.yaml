@@ -167,6 +167,9 @@ SupplyPack:
 BattlePass:
   - Scheduler
   - BattlePass
+MetaReward:
+  - Scheduler
+  - MetaReward
 
 # ==================== DailyMission ====================
 

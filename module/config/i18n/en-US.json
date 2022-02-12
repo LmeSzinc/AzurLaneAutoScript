@@ -158,6 +158,10 @@
       "name": "Battle Pass",
       "help": ""
     },
+    "MetaReward": {
+      "name": "Meta Reward",
+      "help": ""
+    },
     "Daily": {
       "name": "Daily",
       "help": ""
@@ -1431,6 +1435,16 @@
     },
     "BattlePassReward": {
       "name": "Receive Cruise Missions Rewards",
+      "help": ""
+    }
+  },
+  "MetaReward": {
+    "_info": {
+      "name": "Meta Reward Settings",
+      "help": ""
+    },
+    "MetaReward": {
+      "name": "Receive META rewards",
       "help": ""
     }
   },

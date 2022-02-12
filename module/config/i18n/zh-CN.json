@@ -158,6 +158,10 @@
       "name": "大月卡",
       "help": ""
     },
+    "MetaReward": {
+      "name": "Meta奖励",
+      "help": ""
+    },
     "Daily": {
       "name": "每日任务",
       "help": ""
@@ -1431,6 +1435,16 @@
     },
     "BattlePassReward": {
       "name": "领取大月卡奖励",
+      "help": ""
+    }
+  },
+  "MetaReward": {
+    "_info": {
+      "name": "Meta 奖励",
+      "help": ""
+    },
+    "MetaReward": {
+      "name": "领取 Meta 奖励",
       "help": ""
     }
   },
