@@ -53,7 +53,7 @@ class SupplyPack(UI):
             else:
                 confirm_timer.reset()
 
-        logger.info('Buy finished')
+        logger.info(f'Supply pack buy finished, executed={executed}')
         return executed
 
     def run(self):

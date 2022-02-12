@@ -264,6 +264,9 @@ class GeneratedConfig:
     # Group `BattlePass`
     BattlePass_BattlePassReward = True
 
+    # Group `MetaReward`
+    MetaReward_MetaReward = True
+
     # Group `Daily`
     Daily_UseDailySkip = True
     Daily_EscortMission = 'first'  # skip, first, second, third

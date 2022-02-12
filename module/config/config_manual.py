@@ -11,7 +11,7 @@ class ManualConfig:
     > Research > Commission > Tactical
     > Exercise
     > Dorm > Meowfficer > Guild > Gacha > SupplyPack
-    > Reward > BattlePass
+    > Reward > MetaReward > BattlePass
     > ShopFrequent > ShopOnce > Shipyard > DataKey
     > OpsiExplore
     > OpsiDaily > OpsiShop

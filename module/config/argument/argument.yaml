@@ -377,6 +377,8 @@ SupplyPack:
   WeeklyFreeSupplyPack: true
 BattlePass:
   BattlePassReward: true
+MetaReward:
+  MetaReward: true
 
 # ==================== Daily ====================
 

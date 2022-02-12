@@ -38,7 +38,8 @@
       "Gacha",
       "DataKey",
       "SupplyPack",
-      "BattlePass"
+      "BattlePass",
+      "MetaReward"
     ],
     "DailyMission": [
       "Daily",

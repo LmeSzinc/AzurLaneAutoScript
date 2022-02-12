@@ -158,6 +158,10 @@
       "name": "Task.BattlePass.name",
       "help": "Task.BattlePass.help"
     },
+    "MetaReward": {
+      "name": "Task.MetaReward.name",
+      "help": "Task.MetaReward.help"
+    },
     "Daily": {
       "name": "Task.Daily.name",
       "help": "Task.Daily.help"
@@ -1428,6 +1432,16 @@
     "BattlePassReward": {
       "name": "BattlePass.BattlePassReward.name",
       "help": "BattlePass.BattlePassReward.help"
+    }
+  },
+  "MetaReward": {
+    "_info": {
+      "name": "MetaReward._info.name",
+      "help": "MetaReward._info.help"
+    },
+    "MetaReward": {
+      "name": "MetaReward.MetaReward.name",
+      "help": "MetaReward.MetaReward.help"
     }
   },
   "Daily": {
