@@ -3,6 +3,7 @@ from datetime import datetime
 from module.base.button import ButtonGrid
 from module.base.timer import Timer
 from module.base.utils import *
+from module.exception import GameBugError
 from module.guild.assets import *
 from module.guild.base import GuildBase
 from module.logger import logger
@@ -20,11 +21,22 @@ class GuildOperations(GuildBase):
         """
         logger.attr('Guild master/official', self.config.GuildOperation_SelectNewOperation)
         confirm_timer = Timer(1.5, count=3).start()
+        click_count = 0
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
+
+            # End
+            if click_count > 5:
+                # Info bar showing `none4302`.
+                # Probably because guild operation has been started by another guild officer already.
+                # Enter guild page again should fix the issue.
+                logger.warning(
+                    'Unable to start/join guild operation, '
+                    'probably because guild operation has been started by another guild officer already')
+                raise GameBugError('Unable to start/join guild operation')
 
             if self._handle_guild_operations_start():
                 confirm_timer.reset()
@@ -47,6 +59,7 @@ class GuildOperations(GuildBase):
                 confirm_timer.reset()
                 continue
             if self.handle_popup_confirm('JOIN_OPERATION'):
+                click_count += 1
                 confirm_timer.reset()
                 continue
             if self.handle_popup_single('FLEET_UPDATED'):

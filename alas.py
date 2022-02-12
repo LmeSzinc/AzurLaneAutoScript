@@ -68,9 +68,11 @@ class AzurLaneAutoScript:
             self.config.task_call('Restart')
             self.device.sleep(10)
             return False
-        except LogisticsRefreshBugHandler as e:
+        except GameBugError as e:
             logger.warning(e)
             self.save_error_log()
+            logger.warning('An error has occurred in Azur Lane game client, Alas is unable to handle')
+            logger.warning(f'Restarting {self.config.Emulator_PackageName} to fix it')
             self.config.task_call('Restart')
             self.device.sleep(10)
             return False
