@@ -106,7 +106,8 @@ class Retirement(Enhancement):
                 self.device.click(GET_ITEMS_1_RETIREMENT_SAVE)
                 self.interval_reset(SHIP_CONFIRM)
                 continue
-            if self.config.Retirement_OldRetireSR \
+            if self._unable_to_enhance \
+                    or self.config.Retirement_OldRetireSR \
                     or self.config.Retirement_OldRetireSSR \
                     or self.config.Retirement_RetireMode == 'one_click_retire':
                 if self.handle_popup_confirm('RETIRE_SR_SSR'):
