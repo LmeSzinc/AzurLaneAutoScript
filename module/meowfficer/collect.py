@@ -122,9 +122,6 @@ class MeowfficerCollect(MeowfficerBase):
             in: MEOWFFICER_GET_CHECK
             out: MEOWFFICER_TRAIN
         """
-        # Used to account for the cat box opening animation
-        self.wait_until_appear(MEOWFFICER_GET_CHECK, offset=(40, 40))
-
         # Loop through possible screen transitions
         confirm_timer = Timer(1.5, count=3).start()
         while 1:
@@ -133,8 +130,7 @@ class MeowfficerCollect(MeowfficerBase):
             else:
                 self.device.screenshot()
 
-            if self.appear(MEOWFFICER_CONFIRM, offset=(40, 20), interval=5):
-                self.device.click(MEOWFFICER_SHIFT_DETECT)
+            if self.handle_meow_popup_dismiss()
                 confirm_timer.reset()
                 continue
             if self.appear(MEOWFFICER_SR_CHECK, offset=(40, 40)):
@@ -174,14 +170,21 @@ class MeowfficerCollect(MeowfficerBase):
         Returns:
             Bool whether collected or not
         """
+        logger.hr('Meowfficer collect', level=2)
+
         if self.appear(MEOWFFICER_TRAIN_COMPLETE, offset=(20, 20)):
             # Today is Sunday, finish all else get just one
             if is_sunday:
-                self.device.click(MEOWFFICER_TRAIN_FINISH_ALL)
+                logger.info('Collect all trained meowfficers')
+                button = MEOWFFICER_TRAIN_FINISH_ALL
             else:
-                self.device.click(MEOWFFICER_TRAIN_COMPLETE)
+                logger.info('Collect single trained meowfficer')
+                button = MEOWFFICER_TRAIN_COMPLETE
+            self.ui_click(button, check_button=MEOWFFICER_GET_CHECK,
+                          additional=self.handle_meow_popup_dismiss,
+                          offset=(40, 40), skip_first_screenshot=True)
 
-            # Get loop mechanism to collect all trained meowfficer
+            # Get loop mechanism to collect trained meowfficer(s)
             self.meow_get()
             return True
         return False
