@@ -199,8 +199,6 @@ class MeowfficerEnhance(MeowfficerBase):
         # delayed behavior of meow_additional
         self.ui_click(MEOWFFICER_ENHANCE_ENTER, check_button=MEOWFFICER_FEED_ENTER,
                       additional=self.meow_additional, retry_wait=3, skip_first_screenshot=True)
-        self.ui_click(MEOWFFICER_FEED_ENTER, check_button=MEOWFFICER_FEED_CONFIRM,
-                      additional=self.meow_additional, retry_wait=3, skip_first_screenshot=True)
 
         # Initiate feed sequence; loop until exhaust all
         # - Select Feed
@@ -209,6 +207,8 @@ class MeowfficerEnhance(MeowfficerBase):
         # - Check remaining coins after enhancement
         while 1:
             logger.hr('Enhance once', level=2)
+            self.ui_click(MEOWFFICER_FEED_ENTER, check_button=MEOWFFICER_FEED_CONFIRM,
+                          additional=self.meow_additional, retry_wait=3, skip_first_screenshot=True)
             if not self.meow_feed_select():
                 break
             self.meow_enhance_confirm()
