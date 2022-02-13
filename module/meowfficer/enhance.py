@@ -102,6 +102,10 @@ class MeowfficerEnhance(MeowfficerBase):
         Pages:
             in: MEOWFFICER_FEED
             out: MEOWFFICER_ENHANCE
+
+        Returns:
+            int: non-zero positive, some selected
+                 zero, none selected
         """
         current = 0
         while 1:
@@ -129,6 +133,7 @@ class MeowfficerEnhance(MeowfficerBase):
             logger.info('Lack of feed material to complete enhancement, cancelling')
         self.ui_click(MEOWFFICER_FEED_CONFIRM if current else MEOWFFICER_FEED_CANCEL,
                       check_button=MEOWFFICER_ENHANCE_CONFIRM, offset=(20, 20))
+        return current
 
     def meow_enhance_confirm(self, skip_first_screenshot=True):
         """
@@ -169,14 +174,20 @@ class MeowfficerEnhance(MeowfficerBase):
             in: page_meowfficer
             out: page_meowfficer
         """
+        logger.hr('Meowfficer enhance', level=1)
+
         # Base Cases
-        # - Config at least > 0
+        # - Config at least > 0 but less than or equal to 12
         # - Coins at least > 1000
-        if self.config.Meowfficer_EnhanceIndex <= 0:
+        if self.config.Meowfficer_EnhanceIndex <= 0 or self.config.Meowfficer_EnhanceIndex > 12:
+            logger.warning(f'Meowfficer_EnhanceIndex={self.config.Meowfficer_EnhanceIndex} '
+                            'is out of bounds. Please limit to 1~12, skip')
             return
 
         coins = MEOWFFICER_COINS.ocr(self.device.image)
         if coins < 1000:
+            logger.info(f'Coins ({coins}) < 1000. Not enough coins to complete '
+                         'enhancement, skip')
             return
 
         # Select target meowfficer
@@ -191,12 +202,22 @@ class MeowfficerEnhance(MeowfficerBase):
         self.ui_click(MEOWFFICER_FEED_ENTER, check_button=MEOWFFICER_FEED_CONFIRM,
                       additional=self.meow_additional, retry_wait=3, skip_first_screenshot=True)
 
-        # Initiate feed sequence
+        # Initiate feed sequence; loop until exhaust all
         # - Select Feed
         # - Confirm/Cancel Feed
         # - Confirm Enhancement
-        self.meow_feed_select()
-        self.meow_enhance_confirm()
+        # - Check remaining coins after enhancement
+        while 1:
+            logger.hr('Enhance once', level=2)
+            if not self.meow_feed_select():
+                break
+            self.meow_enhance_confirm()
+
+            coins = MEOWFFICER_COINS.ocr(self.device.image)
+            if coins < 1000:
+                logger.info(f'Remaining coins ({coins}) < 1000. Not enough coins for next '
+                             'enhancement, skip')
+                break
 
         # Exit back into page_meowfficer
         self.ui_click(MEOWFFICER_GOTO_DORM, check_button=MEOWFFICER_ENHANCE_ENTER,
