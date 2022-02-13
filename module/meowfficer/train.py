@@ -157,8 +157,10 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
                 self.config.Meowfficer_EnhanceIndex = 0
                 self.config.modified['Meowfficer.Meowfficer.EnhanceIndex'] = 0
                 self.config.save()
+            logger.info('Queue in descending order (SR > R > C)')
             self._meow_nqueue()
         else:
+            logger.info('Queue in ascending order (C > R > SR)')
             self._meow_rqueue()
 
     def meow_train(self):
@@ -170,15 +172,16 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
             in: page_meowfficer
             out: page_meowfficer
         """
+        logger.hr('Meowfficer train', level=1)
+
         # Retrieve capacity to determine whether able to collect
         current, remain, total = MEOWFFICER_CAPACITY.ocr(self.device.image)
         logger.attr('Meowfficer_capacity_remain', remain)
 
-        # Helper variables
+        # Check for today's weekday
         is_sunday = True
         if not self.config.Meowfficer_EnhanceIndex:
             is_sunday = get_server_next_update(self.config.Scheduler_ServerUpdate).weekday() == 0
-        collected = False
 
         # Enter MEOWFFICER_TRAIN window
         self.ui_click(MEOWFFICER_TRAIN_ENTER, check_button=MEOWFFICER_TRAIN_START,
@@ -186,6 +189,7 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
 
         # If today is Sunday, then collect all remainder otherwise just collect one
         # Once collected, should be back in MEOWFFICER_TRAIN window
+        collected = False
         if remain > 0:
             collected = self.meow_collect(is_sunday)
 

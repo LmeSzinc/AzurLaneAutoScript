@@ -70,6 +70,7 @@ class MeowfficerFort(MeowfficerBase):
         # Check for fort red notification
         if not self.appear(MEOWFFICER_FORT_RED_DOT):
             return False
+        logger.hr('Meowfficer fort', level=1)
 
         # Enter MEOWFFICER_FORT window
         self.ui_click(MEOWFFICER_FORT_ENTER, check_button=MEOWFFICER_FORT_CHECK,
