@@ -130,7 +130,7 @@ class MeowfficerCollect(MeowfficerBase):
             else:
                 self.device.screenshot()
 
-            if self.handle_meow_popup_dismiss()
+            if self.handle_meow_popup_dismiss():
                 confirm_timer.reset()
                 continue
             if self.appear(MEOWFFICER_SR_CHECK, offset=(40, 40)):
