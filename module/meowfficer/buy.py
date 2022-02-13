@@ -101,6 +101,8 @@ class MeowfficerBuy(MeowfficerBase):
             in: page_meowfficer
             out: page_meowfficer
         """
+        logger.hr('Meowfficer buy', level=1)
+
         for _ in range(3):
             if self.meow_choose(count=self.config.Meowfficer_BuyAmount):
                 self.meow_confirm()
