@@ -31,7 +31,9 @@ class GameStuckError(Exception):
     pass
 
 
-class LogisticsRefreshBugHandler(Exception):
+class GameBugError(Exception):
+    # An error has occurred in Azur Lane game client. Alas is unable to handle.
+    # A restart should fix it.
     pass
 
 

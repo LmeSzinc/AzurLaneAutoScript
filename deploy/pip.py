@@ -11,7 +11,10 @@ class PipManager(DeployConfig):
 
     @cached_property
     def requirements_file(self):
-        return self.filepath("RequirementsFile")
+        if self.config['RequirementsFile'] == 'requirements.txt':
+            return 'requirements.txt'
+        else:
+            return self.filepath("RequirementsFile")
 
     @cached_property
     def pip(self):

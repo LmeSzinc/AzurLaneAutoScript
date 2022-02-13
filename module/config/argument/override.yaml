@@ -15,24 +15,6 @@ Restart:
 Main:
   Campaign:
     Event: campaign_main
-Event:
-  Campaign:
-    Mode: normal
-    AmbushEvade: true
-Raid:
-  Campaign:
-    Name: dynamic
-    Mode: normal
-    UseClearMode: true
-    UseFleetLock: true
-    UseAutoSearch: false
-    Use2xBook: false
-    AmbushEvade: true
-  StopCondition:
-    MapAchievement: non_stop
-    StageIncrease: false
-    GetNewShip: false
-    ReachLevel: 0
 C72MysteryFarming:
   Campaign:
     Name: campaign_7_2_mystery_farming
@@ -92,6 +74,100 @@ GemsFarming:
     MapAchievement: non_stop
     StageIncrease: false
     GetNewShip: false
+
+# ==================== Event ====================
+
+Event:
+  Campaign:
+    Mode: normal
+    AmbushEvade: true
+EventAb:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+  Campaign:
+    Name: dynamic
+    Mode: normal
+    Use2xBook: false
+    AmbushEvade: true
+  StopCondition:
+    RunCount: 0
+    MapAchievement: non_stop
+    StageIncrease: false
+    GetNewShip: false
+    ReachLevel: 0
+EventCd:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+  Campaign:
+    Name: dynamic
+    Mode: normal
+    Use2xBook: false
+    AmbushEvade: true
+  StopCondition:
+    RunCount: 0
+    MapAchievement: non_stop
+    StageIncrease: false
+    GetNewShip: false
+    ReachLevel: 0
+EventSp:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+  Campaign:
+    Name: sp
+    Mode: normal
+    AmbushEvade: true
+  StopCondition:
+    RunCount: 0
+    MapAchievement: non_stop
+    StageIncrease: false
+    GetNewShip: false
+    ReachLevel: 0
+  Submarine:
+    AutoSearchMode: sub_standby
+Raid:
+  Campaign:
+    Name: dynamic
+    Mode: normal
+    UseClearMode: true
+    UseFleetLock: true
+    UseAutoSearch: false
+    Use2xBook: false
+    AmbushEvade: true
+  StopCondition:
+    MapAchievement: non_stop
+    StageIncrease: false
+    GetNewShip: false
+    ReachLevel: 0
+RaidDaily:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+  Campaign:
+    Name: dynamic
+    Mode: normal
+    UseClearMode: true
+    UseFleetLock: true
+    UseAutoSearch: false
+    Use2xBook: false
+    AmbushEvade: true
+  StopCondition:
+    RunCount: 0
+    MapAchievement: non_stop
+    StageIncrease: false
+    GetNewShip: false
+    ReachLevel: 0
+MaritimeEscort:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
 
 # ==================== Reward ====================
 
@@ -165,6 +241,11 @@ BattlePass:
     SuccessInterval: 30
     FailureInterval: 30
     ServerUpdate: 00:00
+MetaReward:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
 
 # ==================== Daily ====================
 
@@ -207,74 +288,6 @@ Sos:
     AutoSearchFleetOrder: fleet1_all_fleet2_standby
   Submarine:
     AutoSearchMode: sub_standby
-EventAb:
-  Scheduler:
-    SuccessInterval: 30
-    FailureInterval: 30
-    ServerUpdate: 00:00
-  Campaign:
-    Name: dynamic
-    Mode: normal
-    Use2xBook: false
-    AmbushEvade: true
-  StopCondition:
-    RunCount: 0
-    MapAchievement: non_stop
-    StageIncrease: false
-    GetNewShip: false
-    ReachLevel: 0
-EventCd:
-  Scheduler:
-    SuccessInterval: 30
-    FailureInterval: 30
-    ServerUpdate: 00:00
-  Campaign:
-    Name: dynamic
-    Mode: normal
-    Use2xBook: false
-    AmbushEvade: true
-  StopCondition:
-    RunCount: 0
-    MapAchievement: non_stop
-    StageIncrease: false
-    GetNewShip: false
-    ReachLevel: 0
-EventSp:
-  Scheduler:
-    SuccessInterval: 30
-    FailureInterval: 30
-    ServerUpdate: 00:00
-  Campaign:
-    Name: sp
-    Mode: normal
-    AmbushEvade: true
-  StopCondition:
-    RunCount: 0
-    MapAchievement: non_stop
-    StageIncrease: false
-    GetNewShip: false
-    ReachLevel: 0
-  Submarine:
-    AutoSearchMode: sub_standby
-RaidDaily:
-  Scheduler:
-    SuccessInterval: 30
-    FailureInterval: 30
-    ServerUpdate: 00:00
-  Campaign:
-    Name: dynamic
-    Mode: normal
-    UseClearMode: true
-    UseFleetLock: true
-    UseAutoSearch: false
-    Use2xBook: false
-    AmbushEvade: true
-  StopCondition:
-    RunCount: 0
-    MapAchievement: non_stop
-    StageIncrease: false
-    GetNewShip: false
-    ReachLevel: 0
 WarArchives:
   Scheduler:
     SuccessInterval: 30
@@ -283,11 +296,6 @@ WarArchives:
   Campaign:
     Mode: normal
     AmbushEvade: true
-MaritimeEscort:
-  Scheduler:
-    SuccessInterval: 30
-    FailureInterval: 30
-    ServerUpdate: 00:00
 
 # ==================== Opsi ====================
 

@@ -18,7 +18,7 @@ class UI(InfoHandler):
         page_campaign_menu, page_campaign, page_exercise, page_daily,
         page_event, page_sp, page_raid, page_archives,
         page_reward, page_commission, page_tactical, page_battle_pass,
-        page_reshmenu, page_research, page_shipyard,
+        page_reshmenu, page_research, page_shipyard, page_meta,
         page_dormmenu, page_dorm, page_meowfficer,
         page_academy, page_shop, page_munitions, page_supply_pack, page_build,
         page_os
@@ -283,7 +283,7 @@ class UI(InfoHandler):
             return True
         if self.appear_then_click(GET_ITEMS_1, offset=(30, 30), interval=3):
             return True
-        if self.appear_then_click(GET_SHIP, interval=3):
+        if self.appear_then_click(GET_SHIP, interval=5):
             return True
         if self.appear_then_click(LOGIN_RETURN_SIGN, offset=(30, 30), interval=3):
             return True

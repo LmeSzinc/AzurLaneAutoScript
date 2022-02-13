@@ -280,7 +280,7 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(MAP_GOTO_GLOBE, offset=(200, 5), interval=2):
+            if self.appear_then_click(MAP_GOTO_GLOBE, offset=(200, 5), interval=5):
                 click_count += 1
                 if click_count >= 5:
                     # When there's zone exploration reward, AL just don't let you go.

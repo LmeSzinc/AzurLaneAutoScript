@@ -1,10 +1,10 @@
 from module.campaign.assets import *
+from module.campaign.campaign_event import CampaignEvent
 from module.campaign.campaign_ocr import CampaignOcr
 from module.exception import CampaignNameError, ScriptEnd
 from module.logger import logger
 from module.ui.assets import CAMPAIGN_CHECK
 from module.ui.switch import Switch
-from module.ui.ui import UI
 
 MODE_SWITCH_1 = Switch('Mode_switch_1', offset=(30, 10))
 MODE_SWITCH_1.add_status('normal', SWITCH_1_NORMAL)
@@ -14,7 +14,7 @@ MODE_SWITCH_2.add_status('hard', SWITCH_2_HARD)
 MODE_SWITCH_2.add_status('ex', SWITCH_2_EX)
 
 
-class CampaignUI(UI, CampaignOcr):
+class CampaignUI(CampaignEvent, CampaignOcr):
     ENTRANCE = Button(area=(), color=(), button=(), name='default_button')
 
     def campaign_ensure_chapter(self, index):

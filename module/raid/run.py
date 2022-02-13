@@ -1,10 +1,11 @@
+from module.campaign.campaign_event import CampaignEvent
 from module.exception import ScriptEnd, ScriptError
 from module.logger import logger
 from module.raid.raid import Raid, OilExhausted
 from module.ui.page import page_raid
 
 
-class RaidRun(Raid):
+class RaidRun(Raid, CampaignEvent):
     run_count: int
     run_limit: int
 
@@ -40,6 +41,8 @@ class RaidRun(Raid):
             # End
             if total and self.run_count == total:
                 break
+            if self.event_time_limit_triggered():
+                self.config.task_stop()
 
             # Log
             logger.hr(f'{name}_{mode}', level=2)
@@ -71,6 +74,9 @@ class RaidRun(Raid):
             self.run_count += 1
             if self.config.StopCondition_RunCount:
                 self.config.StopCondition_RunCount -= 1
+            # End
+            if self.triggered_stop_condition():
+                break
             # Scheduler
             if self.config.task_switched():
                 self.config.task_stop()

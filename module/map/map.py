@@ -444,7 +444,7 @@ class Map(Fleet):
         if not self.config.MAP_HAS_SIREN and not self.config.MAP_HAS_FORTRESS:
             return False
 
-        if self.fleet_boss_index == 2:
+        if self.config.FLEET_2:
             kwargs['sort'] = ('weight', 'cost_2')
         grids = self.map.select(is_siren=True).add(self.map.select(is_fortress=True))
         grids = self.select_grids(grids, **kwargs)

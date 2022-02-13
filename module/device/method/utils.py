@@ -78,6 +78,18 @@ def handle_adb_error(e):
         return False
 
 
+def del_cached_property(obj, name):
+    """
+    Delete a cached property safely.
+
+    Args:
+        obj:
+        name (str):
+    """
+    if hasattr(obj, name):
+        del obj.__dict__[name]
+
+
 class IniterNoMinicap(u2.init.Initer):
     @property
     def minicap_urls(self):

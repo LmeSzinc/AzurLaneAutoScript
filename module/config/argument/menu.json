@@ -7,12 +7,20 @@
     ],
     "Farm": [
       "Main",
-      "Event",
-      "Raid",
       "C72MysteryFarming",
       "C122MediumLeveling",
       "C124LargeLeveling",
       "GemsFarming"
+    ],
+    "Event": [
+      "EventGeneral",
+      "Event",
+      "EventAb",
+      "EventCd",
+      "EventSp",
+      "Raid",
+      "RaidDaily",
+      "MaritimeEscort"
     ],
     "Reward": [
       "Commission",
@@ -30,19 +38,15 @@
       "Gacha",
       "DataKey",
       "SupplyPack",
-      "BattlePass"
+      "BattlePass",
+      "MetaReward"
     ],
     "DailyMission": [
       "Daily",
       "Hard",
       "Exercise",
       "Sos",
-      "EventAb",
-      "EventCd",
-      "EventSp",
-      "RaidDaily",
-      "WarArchives",
-      "MaritimeEscort"
+      "WarArchives"
     ],
     "Opsi": [
       "OpsiGeneral",

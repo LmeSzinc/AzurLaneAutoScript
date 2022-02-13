@@ -68,9 +68,11 @@ class AzurLaneAutoScript:
             self.config.task_call('Restart')
             self.device.sleep(10)
             return False
-        except LogisticsRefreshBugHandler as e:
+        except GameBugError as e:
             logger.warning(e)
             self.save_error_log()
+            logger.warning('An error has occurred in Azur Lane game client, Alas is unable to handle')
+            logger.warning(f'Restarting {self.config.Emulator_PackageName} to fix it')
             self.config.task_call('Restart')
             self.device.sleep(10)
             return False
@@ -126,9 +128,13 @@ class AzurLaneAutoScript:
     def goto_main(self):
         from module.handler.login import LoginHandler
         from module.ui.ui import UI
-        if not self.device.app_is_running():
+        if self.device.app_is_running():
+            logger.info('App is already running, goto main page')
+            UI(self.config, device=self.device).ui_goto_main()
+        else:
+            logger.info('App is not running, start app and goto main page')
             LoginHandler(self.config, device=self.device).app_start()
-        UI(self.config, device=self.device).ui_goto_main()
+            UI(self.config, device=self.device).ui_goto_main()
 
     def research(self):
         from module.research.research import RewardResearch
@@ -185,6 +191,10 @@ class AzurLaneAutoScript:
     def battle_pass(self):
         from module.battle_pass.battle_pass import BattlePass
         BattlePass(config=self.config, device=self.device).run()
+
+    def meta_reward(self):
+        from module.meta_reward.meta_reward import MetaReward
+        MetaReward(config=self.config, device=self.device).run()
 
     def daily(self):
         from module.daily.daily import Daily

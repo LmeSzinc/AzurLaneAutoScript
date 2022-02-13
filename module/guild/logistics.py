@@ -6,7 +6,7 @@ from module.base.filter import Filter
 from module.base.timer import Timer
 from module.base.utils import *
 from module.combat.assets import GET_ITEMS_1
-from module.exception import LogisticsRefreshBugHandler
+from module.exception import GameBugError
 from module.guild.assets import *
 from module.guild.base import GuildBase
 from module.logger import logger
@@ -338,9 +338,9 @@ class GuildLogistics(GuildBase):
                     # Restart the game can't fix the problem.
                     # To fix this, you have to enter guild logistics once, then restart.
                     # If exchange for 5 times, this bug is considered to be triggered.
-                    logger.warning('Triggered guild logistics refresh bug')
-                    logger.warning('This is a bug in Azur Lane, Alas will close game and wait 600 seconds')
-                    raise LogisticsRefreshBugHandler('Triggered guild logistics refresh bug')
+                    logger.warning(
+                        'Unable to do guild exchange, probably because the timer in game was bugged')
+                    raise GameBugError('Triggered guild logistics refresh bug')
 
             else:
                 confirm_timer.reset()

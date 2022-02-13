@@ -18,42 +18,58 @@ def retry(func):
         Args:
             self (Uiautomator2):
         """
+        init = None
         for _ in range(RETRY_TRIES):
             try:
+                if callable(init):
+                    self.sleep(RETRY_DELAY)
+                    init()
                 return func(self, *args, **kwargs)
+            # Can't handle
             except RequestHumanTakeover:
-                # Can't handle
                 break
+            # When adb server was killed
             except ConnectionResetError as e:
-                # When adb server was killed
                 logger.error(e)
-                self.adb_connect(self.serial)
+
+                def init():
+                    self.adb_connect(self.serial)
+            # In `device.set_new_command_timeout(604800)`
+            # json.decoder.JSONDecodeError: Expecting value: line 1 column 2 (char 1)
             except JSONDecodeError as e:
-                # device.set_new_command_timeout(604800)
-                # json.decoder.JSONDecodeError: Expecting value: line 1 column 2 (char 1)
                 logger.error(e)
-                self.install_uiautomator2()
+
+                def init():
+                    self.install_uiautomator2()
+            # AdbError
             except AdbError as e:
-                if not handle_adb_error(e):
+                if handle_adb_error(e):
+                    def init():
+                        self.adb_connect(self.serial)
+                else:
                     break
+            # RuntimeError: USB device 127.0.0.1:5555 is offline
             except RuntimeError as e:
-                # RuntimeError: USB device 127.0.0.1:5555 is offline
-                if not handle_adb_error(e):
+                if handle_adb_error(e):
+                    def init():
+                        self.adb_connect(self.serial)
+                else:
                     break
+            # In `assert c.read string(4) == _OKAY`
+            # ADB on emulator not enabled
             except AssertionError as e:
-                # assert c.read string(4) == _OKAY
                 logger.exception(e)
                 possible_reasons(
                     'If you are using BlueStacks or LD player, '
                     'please enable ADB in the settings of your emulator'
                 )
                 break
+            # Unknown, probably a trucked image
             except Exception as e:
-                # Unknown
-                # Probably trucked image
                 logger.exception(e)
 
-            self.sleep(RETRY_DELAY)
+                def init():
+                    pass
 
         logger.critical(f'Retry {func.__name__}() failed')
         raise RequestHumanTakeover

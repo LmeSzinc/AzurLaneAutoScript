@@ -1,3 +1,5 @@
+import copy
+
 from deploy.utils import *
 
 
@@ -22,10 +24,15 @@ class DeployConfig:
         for k, v in self.config.items():
             if k in ('Password', 'ApiToken'):
                 continue
+            if self.config_template[k] == v:
+                continue
             print(f'{k}: {v}')
+
+        print(f'Rest of the configs are the same as default')
 
     def read(self):
         self.config = poor_yaml_read(DEPLOY_TEMPLATE)
+        self.config_template = copy.deepcopy(self.config)
         self.config.update(poor_yaml_read(self.file))
 
     def write(self):

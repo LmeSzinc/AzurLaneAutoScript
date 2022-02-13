@@ -65,7 +65,8 @@ class ConfigGenerator:
             <argument>:
                 type: checkbox|select|textarea|input
                 value:
-                option: Options, if argument has any options.
+                option (Optional): Options, if argument has any options.
+                validate (Optional): datetime
         """
         data = {}
         raw = read_file(filepath_argument('argument'))
@@ -78,6 +79,9 @@ class ConfigGenerator:
             if not isinstance(value, dict):
                 value = {'value': value}
             arg['type'] = data_to_type(value, arg=path[1])
+            if isinstance(value['value'], datetime):
+                arg['validate'] = 'datetime'
+            # Manual definition has the highest priority
             arg.update(value)
             deep_set(data, keys=path, value=arg)
 
@@ -420,6 +424,11 @@ class ConfigUpdater:
                 deep_set(new,
                          keys=f'{task}.Campaign.Event',
                          value=deep_get(self.args, f'{task}.Campaign.Event.{server_}'))
+            for task in ['GemsFarming']:
+                if deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') != 'campaign_main':
+                    deep_set(new,
+                             keys=f'{task}.Campaign.Event',
+                             value=deep_get(self.args, f'{task}.Campaign.Event.{server_}'))
         # War archive does not allow campaign_main
         for task in ['WarArchives']:
             if deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') == 'campaign_main':

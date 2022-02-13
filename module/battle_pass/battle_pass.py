@@ -100,6 +100,7 @@ class BattlePass(Combat, UI):
             else:
                 confirm_timer.reset()
 
+        logger.info(f'Battle pass receive finished, received={received}')
         return received
 
     def run(self):

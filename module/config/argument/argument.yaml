@@ -6,9 +6,7 @@
 
 Scheduler:
   Enable: false
-  NextRun:
-    value: 2020-01-01 00:00:00
-    validate: datetime
+  NextRun: 2020-01-01 00:00:00
   Command: Alas
   SuccessInterval: 0
   FailureInterval: 120
@@ -134,9 +132,7 @@ Emotion:
   CalculateEmotion: true
   IgnoreLowEmotionWarn: false
   Fleet1Value: 119
-  Fleet1Record:
-    value: 2020-01-01 00:00:00
-    validate: datetime
+  Fleet1Record: 2020-01-01 00:00:00
   Fleet1Control:
     value: prevent_yellow_face
     option: [keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face]
@@ -145,9 +141,7 @@ Emotion:
     option: [not_in_dormitory, dormitory_floor_1, dormitory_floor_2]
   Fleet1Oath: false
   Fleet2Value: 119
-  Fleet2Record:
-    value: 2020-01-01 00:00:00
-    validate: datetime
+  Fleet2Record: 2020-01-01 00:00:00
   Fleet2Control:
     value: prevent_yellow_face
     option: [keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face]
@@ -168,11 +162,6 @@ EnemyPriority:
   EnemyScaleBalanceWeight:
     value: default_mode
     option: [default_mode, S3_enemy_first, S1_enemy_first]
-Raid:
-  Mode:
-    value: hard
-    option: [easy, normal, hard]
-  UseTicket: false
 C11AffinityFarming:
   RunCount: 32
 C72MysteryFarming:
@@ -200,6 +189,30 @@ GemsFarming:
   CommonCV:
     value: any
     option: [any, langley, bogue, ranger, hermes]
+
+# ==================== Event ====================
+
+EventGeneral:
+  PtLimit: 0
+  TimeLimit: 2020-01-01 00:00:00
+EventAb:
+  StageFilter: |-
+    A1 > A2 > A3 > B1 > B2 > B3
+  LastStage: 0
+EventCd:
+  StageFilter: |-
+    C1 > C2 > C3 > D1 > D2 > D3
+  LastStage: 0
+Raid:
+  Mode:
+    value: hard
+    option: [easy, normal, hard]
+  UseTicket: false
+RaidDaily:
+  StageFilter: |-
+    hard > normal > easy
+MaritimeEscort:
+  Enable: true
 
 # ==================== Reward ====================
 
@@ -365,6 +378,8 @@ SupplyPack:
   WeeklyFreeSupplyPack: true
 BattlePass:
   BattlePassReward: true
+MetaReward:
+  MetaReward: true
 
 # ==================== Daily ====================
 
@@ -411,26 +426,11 @@ Exercise:
   LowHpThreshold: 0.4
   LowHpConfirmWait: 0.1
   OpponentRefreshValue: 0
-  OpponentRefreshRecord:
-    value: 2020-01-01 00:00:00
-    validate: datetime
+  OpponentRefreshRecord: 2020-01-01 00:00:00
 Sos:
   Chapter:
     value: 3
     option: [3, 4, 5, 6, 7, 8, 9, 10]
-EventAb:
-  StageFilter: |-
-    A1 > A2 > A3 > B1 > B2 > B3
-  LastStage: 0
-EventCd:
-  StageFilter: |-
-    C1 > C2 > C3 > D1 > D2 > D3
-  LastStage: 0
-RaidDaily:
-  StageFilter: |-
-    hard > normal > easy
-MaritimeEscort:
-  Enable: true
 
 # ==================== Opsi ====================
 

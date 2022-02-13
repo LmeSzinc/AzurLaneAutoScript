@@ -71,11 +71,13 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'z24': 'Z24',
     'niulunbao': 'Nuremberg',
     'longqibing': 'Carabiniere',
+    # siren_ii has purple lightning around
+    # Detect area of DD and CL are not effected
     'sairenquzhu_ii': 'DD',
     'sairenqingxun_ii': 'CL',
-    'sairenzhongxun_ii': 'CA',
-    'sairenzhanlie_ii': 'BB',
-    'sairenhangmu_ii': 'CV',
+    'sairenzhongxun_ii': 'CAlightning',
+    'sairenzhanlie_ii': 'BBlightning',
+    'sairenhangmu_ii': 'CVlightning',
     'qinraozhe': 'Intruder',
     'xianghe': 'Shokaku',
     'ruihe': 'Zuikaku',
@@ -134,6 +136,9 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'sairenzhongxun_6': 'CA',
     'sairenzhanlie_6': 'BB',
     'sairenhangmu_6': 'CV',
+
+    # Northern Overture Rerun
+    'ganraozhe': 'Intruder',
 }
 
 

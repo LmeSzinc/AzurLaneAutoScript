@@ -175,7 +175,7 @@ class Button(Resource):
             self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
             return similarity > threshold
 
-    def match_appear_on(self, image, threshold=10):
+    def match_appear_on(self, image, threshold=30):
         """
         Args:
             image: Screenshot.

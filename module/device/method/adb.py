@@ -17,25 +17,35 @@ def retry(func):
         Args:
             self (Adb):
         """
+        init = None
         for _ in range(RETRY_TRIES):
             try:
+                if callable(init):
+                    self.sleep(RETRY_DELAY)
+                    init()
                 return func(self, *args, **kwargs)
+            # Can't handle
             except RequestHumanTakeover:
-                # Can't handle
                 break
+            # When adb server was killed
             except ConnectionResetError as e:
-                # When adb server was killed
                 logger.error(e)
-                self.adb_connect(self.serial)
+
+                def init():
+                    self.adb_connect(self.serial)
+            # AdbError
             except AdbError as e:
-                if not handle_adb_error(e):
+                if handle_adb_error(e):
+                    def init():
+                        self.adb_connect(self.serial)
+                else:
                     break
+            # Unknown, probably a trucked image
             except Exception as e:
-                # Unknown
-                # Probably trucked image
                 logger.exception(e)
 
-            self.sleep(RETRY_DELAY)
+                def init():
+                    pass
 
         logger.critical(f'Retry {func.__name__}() failed')
         raise RequestHumanTakeover
@@ -176,7 +186,7 @@ class Adb(Connection):
         self.adb_shell(['am', 'force-stop', package_name])
 
     @retry
-    def dump_hierarchy_adb(self, temp: str='/data/local/tmp/hierarchy.xml') -> etree._Element:
+    def dump_hierarchy_adb(self, temp: str = '/data/local/tmp/hierarchy.xml') -> etree._Element:
         """
         Args:
             temp (str): Temp file store on emulator.

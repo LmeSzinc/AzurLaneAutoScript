@@ -12,6 +12,10 @@
       "name": "Menu.Farm.name",
       "help": "Menu.Farm.help"
     },
+    "Event": {
+      "name": "Menu.Event.name",
+      "help": "Menu.Event.help"
+    },
     "Reward": {
       "name": "Menu.Reward.name",
       "help": "Menu.Reward.help"
@@ -50,14 +54,6 @@
       "name": "Task.Main.name",
       "help": "Task.Main.help"
     },
-    "Event": {
-      "name": "Task.Event.name",
-      "help": "Task.Event.help"
-    },
-    "Raid": {
-      "name": "Task.Raid.name",
-      "help": "Task.Raid.help"
-    },
     "C72MysteryFarming": {
       "name": "Task.C72MysteryFarming.name",
       "help": "Task.C72MysteryFarming.help"
@@ -73,6 +69,38 @@
     "GemsFarming": {
       "name": "Task.GemsFarming.name",
       "help": "Task.GemsFarming.help"
+    },
+    "EventGeneral": {
+      "name": "Task.EventGeneral.name",
+      "help": "Task.EventGeneral.help"
+    },
+    "Event": {
+      "name": "Task.Event.name",
+      "help": "Task.Event.help"
+    },
+    "EventAb": {
+      "name": "Task.EventAb.name",
+      "help": "Task.EventAb.help"
+    },
+    "EventCd": {
+      "name": "Task.EventCd.name",
+      "help": "Task.EventCd.help"
+    },
+    "EventSp": {
+      "name": "Task.EventSp.name",
+      "help": "Task.EventSp.help"
+    },
+    "Raid": {
+      "name": "Task.Raid.name",
+      "help": "Task.Raid.help"
+    },
+    "RaidDaily": {
+      "name": "Task.RaidDaily.name",
+      "help": "Task.RaidDaily.help"
+    },
+    "MaritimeEscort": {
+      "name": "Task.MaritimeEscort.name",
+      "help": "Task.MaritimeEscort.help"
     },
     "Commission": {
       "name": "Task.Commission.name",
@@ -130,6 +158,10 @@
       "name": "Task.BattlePass.name",
       "help": "Task.BattlePass.help"
     },
+    "MetaReward": {
+      "name": "Task.MetaReward.name",
+      "help": "Task.MetaReward.help"
+    },
     "Daily": {
       "name": "Task.Daily.name",
       "help": "Task.Daily.help"
@@ -146,29 +178,9 @@
       "name": "Task.Sos.name",
       "help": "Task.Sos.help"
     },
-    "EventAb": {
-      "name": "Task.EventAb.name",
-      "help": "Task.EventAb.help"
-    },
-    "EventCd": {
-      "name": "Task.EventCd.name",
-      "help": "Task.EventCd.help"
-    },
-    "EventSp": {
-      "name": "Task.EventSp.name",
-      "help": "Task.EventSp.help"
-    },
-    "RaidDaily": {
-      "name": "Task.RaidDaily.name",
-      "help": "Task.RaidDaily.help"
-    },
     "WarArchives": {
       "name": "Task.WarArchives.name",
       "help": "Task.WarArchives.help"
-    },
-    "MaritimeEscort": {
-      "name": "Task.MaritimeEscort.name",
-      "help": "Task.MaritimeEscort.help"
     },
     "OpsiGeneral": {
       "name": "Task.OpsiGeneral.name",
@@ -443,6 +455,7 @@
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
+      "event_20220210_cn": "凍絶の北海（復刻）",
       "raid_20220127": "秘密事件調査",
       "event_20201229_cn": "虚畳なりし限象",
       "event_20211229_cn": "遡望せし虹彩の塔",
@@ -804,23 +817,6 @@
       "S1_enemy_first": "S1_enemy_first"
     }
   },
-  "Raid": {
-    "_info": {
-      "name": "Raid._info.name",
-      "help": "Raid._info.help"
-    },
-    "Mode": {
-      "name": "Raid.Mode.name",
-      "help": "Raid.Mode.help",
-      "easy": "easy",
-      "normal": "normal",
-      "hard": "hard"
-    },
-    "UseTicket": {
-      "name": "Raid.UseTicket.name",
-      "help": "Raid.UseTicket.help"
-    }
-  },
   "C11AffinityFarming": {
     "_info": {
       "name": "C11AffinityFarming._info.name",
@@ -916,6 +912,85 @@
       "bogue": "bogue",
       "ranger": "ranger",
       "hermes": "hermes"
+    }
+  },
+  "EventGeneral": {
+    "_info": {
+      "name": "EventGeneral._info.name",
+      "help": "EventGeneral._info.help"
+    },
+    "PtLimit": {
+      "name": "EventGeneral.PtLimit.name",
+      "help": "EventGeneral.PtLimit.help"
+    },
+    "TimeLimit": {
+      "name": "EventGeneral.TimeLimit.name",
+      "help": "EventGeneral.TimeLimit.help"
+    }
+  },
+  "EventAb": {
+    "_info": {
+      "name": "EventAb._info.name",
+      "help": "EventAb._info.help"
+    },
+    "StageFilter": {
+      "name": "EventAb.StageFilter.name",
+      "help": "EventAb.StageFilter.help"
+    },
+    "LastStage": {
+      "name": "EventAb.LastStage.name",
+      "help": "EventAb.LastStage.help"
+    }
+  },
+  "EventCd": {
+    "_info": {
+      "name": "EventCd._info.name",
+      "help": "EventCd._info.help"
+    },
+    "StageFilter": {
+      "name": "EventCd.StageFilter.name",
+      "help": "EventCd.StageFilter.help"
+    },
+    "LastStage": {
+      "name": "EventCd.LastStage.name",
+      "help": "EventCd.LastStage.help"
+    }
+  },
+  "Raid": {
+    "_info": {
+      "name": "Raid._info.name",
+      "help": "Raid._info.help"
+    },
+    "Mode": {
+      "name": "Raid.Mode.name",
+      "help": "Raid.Mode.help",
+      "easy": "easy",
+      "normal": "normal",
+      "hard": "hard"
+    },
+    "UseTicket": {
+      "name": "Raid.UseTicket.name",
+      "help": "Raid.UseTicket.help"
+    }
+  },
+  "RaidDaily": {
+    "_info": {
+      "name": "RaidDaily._info.name",
+      "help": "RaidDaily._info.help"
+    },
+    "StageFilter": {
+      "name": "RaidDaily.StageFilter.name",
+      "help": "RaidDaily.StageFilter.help"
+    }
+  },
+  "MaritimeEscort": {
+    "_info": {
+      "name": "MaritimeEscort._info.name",
+      "help": "MaritimeEscort._info.help"
+    },
+    "Enable": {
+      "name": "MaritimeEscort.Enable.name",
+      "help": "MaritimeEscort.Enable.help"
     }
   },
   "Commission": {
@@ -1363,6 +1438,16 @@
       "help": "BattlePass.BattlePassReward.help"
     }
   },
+  "MetaReward": {
+    "_info": {
+      "name": "MetaReward._info.name",
+      "help": "MetaReward._info.help"
+    },
+    "MetaReward": {
+      "name": "MetaReward.MetaReward.name",
+      "help": "MetaReward.MetaReward.help"
+    }
+  },
   "Daily": {
     "_info": {
       "name": "Daily._info.name",
@@ -1523,54 +1608,6 @@
       "8": "8",
       "9": "9",
       "10": "10"
-    }
-  },
-  "EventAb": {
-    "_info": {
-      "name": "EventAb._info.name",
-      "help": "EventAb._info.help"
-    },
-    "StageFilter": {
-      "name": "EventAb.StageFilter.name",
-      "help": "EventAb.StageFilter.help"
-    },
-    "LastStage": {
-      "name": "EventAb.LastStage.name",
-      "help": "EventAb.LastStage.help"
-    }
-  },
-  "EventCd": {
-    "_info": {
-      "name": "EventCd._info.name",
-      "help": "EventCd._info.help"
-    },
-    "StageFilter": {
-      "name": "EventCd.StageFilter.name",
-      "help": "EventCd.StageFilter.help"
-    },
-    "LastStage": {
-      "name": "EventCd.LastStage.name",
-      "help": "EventCd.LastStage.help"
-    }
-  },
-  "RaidDaily": {
-    "_info": {
-      "name": "RaidDaily._info.name",
-      "help": "RaidDaily._info.help"
-    },
-    "StageFilter": {
-      "name": "RaidDaily.StageFilter.name",
-      "help": "RaidDaily.StageFilter.help"
-    }
-  },
-  "MaritimeEscort": {
-    "_info": {
-      "name": "MaritimeEscort._info.name",
-      "help": "MaritimeEscort._info.help"
-    },
-    "Enable": {
-      "name": "MaritimeEscort.Enable.name",
-      "help": "MaritimeEscort.Enable.help"
     }
   },
   "OpsiAshAssist": {

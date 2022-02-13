@@ -98,6 +98,11 @@ class CampaignRun(UI):
             logger.hr('Triggered stop condition: Get new ship')
             self.config.Scheduler_Enable = False
             return True
+        # Event limit
+        if oil_check and self.campaign.event_pt_limit_triggered():
+            logger.hr('Triggered stop condition: Event PT limit')
+            self.config.Scheduler_Enable = False
+            return True
 
         return False
 
@@ -177,6 +182,8 @@ class CampaignRun(UI):
             # End
             if total and self.run_count >= total:
                 break
+            if self.campaign.event_time_limit_triggered():
+                self.config.task_stop()
 
             # Log
             logger.hr(name, level=1)

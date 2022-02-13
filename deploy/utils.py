@@ -2,7 +2,7 @@ import os
 import re
 
 DEPLOY_CONFIG = './config/deploy.yaml'
-DEPLOY_TEMPLATE = './deploy/template/deploy.yaml'
+DEPLOY_TEMPLATE = './deploy/template'
 
 
 class cached_property:

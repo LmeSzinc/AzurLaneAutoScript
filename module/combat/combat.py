@@ -404,7 +404,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                     break
                 if expected_end == 'with_searching' and self.handle_in_map_with_enemy_searching(drop=drop):
                     break
-                if expected_end == 'no_searching' and self.handle_in_map_no_enemy_searching():
+                if expected_end == 'no_searching' and self.handle_in_map_no_enemy_searching(drop=drop):
                     break
                 if expected_end == 'in_ui' and self.appear(BACK_ARROW, offset=(20, 20)):
                     break
@@ -487,6 +487,6 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 auto=auto_mode, submarine=submarine_mode, drop=drop)
             self.combat_status(
                 drop=drop, expected_end=expected_end)
-            self.handle_map_after_combat_story()
+            # self.handle_map_after_combat_story()
 
         logger.info('Combat end.')

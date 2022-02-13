@@ -25,21 +25,6 @@ Main:
   - Emotion
   - HpControl
   - EnemyPriority
-Event:
-  - Scheduler
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-  - EnemyPriority
-Raid:
-  - Scheduler
-  - Raid
-  - Campaign
-  - StopCondition
-  - Emotion
 C72MysteryFarming:
   - Scheduler
   - C72MysteryFarming
@@ -74,6 +59,61 @@ GemsFarming:
   - Fleet
   - Emotion
   - EnemyPriority
+
+# ==================== Event ====================
+
+EventGeneral:
+  - EventGeneral
+Event:
+  - Scheduler
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+  - EnemyPriority
+EventAb:
+  - Scheduler
+  - EventAb
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+EventCd:
+  - Scheduler
+  - EventCd
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+EventSp:
+  - Scheduler
+  - Campaign
+  - StopCondition
+  - Fleet
+  - Submarine
+  - Emotion
+  - HpControl
+Raid:
+  - Scheduler
+  - Raid
+  - Campaign
+  - StopCondition
+  - Emotion
+RaidDaily:
+  - Scheduler
+  - RaidDaily
+  - Campaign
+  - StopCondition
+  - Emotion
+MaritimeEscort:
+  - Scheduler
+  - MaritimeEscort
 
 # ==================== Reward ====================
 
@@ -127,6 +167,9 @@ SupplyPack:
 BattlePass:
   - Scheduler
   - BattlePass
+MetaReward:
+  - Scheduler
+  - MetaReward
 
 # ==================== DailyMission ====================
 
@@ -148,38 +191,6 @@ Sos:
   - Submarine
   - Emotion
   - HpControl
-EventAb:
-  - Scheduler
-  - EventAb
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-EventCd:
-  - Scheduler
-  - EventCd
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-EventSp:
-  - Scheduler
-  - Campaign
-  - StopCondition
-  - Fleet
-  - Submarine
-  - Emotion
-  - HpControl
-RaidDaily:
-  - Scheduler
-  - RaidDaily
-  - Campaign
-  - StopCondition
-  - Emotion
 WarArchives:
   - Scheduler
   - Campaign
@@ -188,9 +199,6 @@ WarArchives:
   - Submarine
   - Emotion
   - HpControl
-MaritimeEscort:
-  - Scheduler
-  - MaritimeEscort
 
 # ==================== Opsi ====================
 
