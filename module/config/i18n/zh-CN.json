@@ -1111,6 +1111,10 @@
       "name": "每天买 X 个猫箱",
       "help": "每日第一个猫箱免费"
     },
+    "EnhanceIndex": {
+      "name": "Meowfficer.EnhanceIndex.name",
+      "help": "Meowfficer.EnhanceIndex.help"
+    },
     "TrainMeowfficer": {
       "name": "训练指挥喵",
       "help": "每天收一只, 周日收获全部，以完成每日任务"
