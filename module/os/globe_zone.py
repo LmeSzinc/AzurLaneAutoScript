@@ -139,14 +139,19 @@ class ZoneManager:
         ports = ports.sort_by_camera_distance(camera=tuple(zone.location))
         return ports[0]
 
-    def zone_select(self, **kwargs):
+    def zone_select(self, hazard_level):
         """
         Similar to `self.zone.select(**kwargs)`, but delete zones in region 5.
 
         Args:
-            **kwargs: Properties of zone.
+            hazard_level: 1-6, or 10 for center zones.
 
         Returns:
             SelectedGrids: SelectedGrids containing zone objects.
         """
-        return self.zones.select(**kwargs).delete(self.zones.select(region=5))
+        if 1 <= hazard_level <= 6:
+            return self.zones.select(hazard_level=hazard_level).delete(self.zones.select(region=5))
+        elif hazard_level == 10:
+            return self.zones.select(region=5)
+        else:
+            raise ScriptError(f'Invalid hazard_level of zones: {hazard_level}')
