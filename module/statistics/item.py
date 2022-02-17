@@ -45,7 +45,7 @@ class Item:
         self.is_valid = self.predict_valid()
         self._name = 'DefaultItem'
         self.amount = 1
-        self.cost = 'DefaultCost'
+        self._cost = 'DefaultCost'
         self.price = 0
         self.tag = None
 
@@ -65,6 +65,18 @@ class Item:
             if suffix.isdigit():
                 value = pre
         self._name = value
+
+    @property
+    def cost(self):
+        return self._cost
+
+    @cost.setter
+    def cost(self, value):
+        if '_' in value:
+            pre, suffix = value.rsplit('_', 1)
+            if suffix.isdigit():
+                value = pre
+        self._cost = value
 
     def is_known_item(self):
         if self.name == 'DefaultItem':
