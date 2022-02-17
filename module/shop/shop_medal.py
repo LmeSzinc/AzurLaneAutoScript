@@ -38,12 +38,14 @@ class MedalShop(ShopBase):
         """
         shop_grid = self.shop_grid
         shop_medal_items = ShopItemGrid(
-            shop_grid, templates={}, amount_area=(60, 74, 96, 95), price_area=(52, 135, 132, 162))
+            shop_grid,
+            templates={}, amount_area=(60, 74, 96, 95),
+            cost_area=(6, 123, 84, 175), price_area=(52, 135, 132, 162))
         shop_medal_items.load_template_folder('./assets/shop/medal')
         shop_medal_items.load_cost_template_folder('./assets/shop/cost')
         shop_medal_items.similarity = 0.88  # Lower the threshold for consistent matches of PR/DRBP
         # JP has thinner letters, so increase threshold to 128
-        shop_medal_items.price_ocr = Digit([], letter=(255, 223, 57), threshold=128, name='PRICE_OCR_JP')
+        shop_medal_items.price_ocr = Digit([], letter=(255, 223, 57), threshold=128, name='PRICE_OCR')
         return shop_medal_items
 
     @cached_property
