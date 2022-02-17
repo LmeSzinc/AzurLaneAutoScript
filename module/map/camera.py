@@ -110,7 +110,8 @@ class Camera(MapOperation):
 
         self._view_init()
         try:
-            if not self.is_in_map():
+            if not self.is_in_map() \
+                    and not self.is_in_strategy_submarine_move():
                 raise MapDetectionError('Image to detect is not in_map')
             self.view.load(self.device.image)
         except MapDetectionError as e:
@@ -133,7 +134,8 @@ class Camera(MapOperation):
                 logger.warning('Image is in auto search menu')
                 self.ensure_auto_search_exit()
                 raise CampaignEnd('Image is in auto search menu')
-            elif not self.is_in_map():
+            elif not self.is_in_map() \
+                    and not self.is_in_strategy_submarine_move():
                 logger.warning('Image to detect is not in_map')
                 if self.appear_then_click(GAME_TIPS, offset=(20, 20)):
                     logger.warning('Game tips found, retrying')

@@ -118,6 +118,13 @@ class StrategyHandler(InfoHandler):
         logger.attr('Map_buff', buff)
         return buff
 
+    def is_in_strategy_submarine_move(self):
+        """
+        Returns:
+            bool:
+        """
+        return self.appear(SUBMARINE_MOVE_CONFIRM, offset=(20, 20))
+
     def strategy_submarine_move_enter(self):
         """
         Pages:
