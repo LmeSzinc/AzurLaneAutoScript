@@ -111,8 +111,6 @@ class OSGlobe(OSMap):
         if hasattr(self, 'zone'):
             del self.zone
         self.zone_init()
-        # Fleet repairs before starting if needed
-        self.handle_fleet_repair(revert=False)
         # self.map_init()
         return True
 
