@@ -316,6 +316,7 @@ class OperationSiren(OSGlobe):
         self.run_stronghold()
 
         self.fleet_repair(revert=False)
+        self.handle_fleet_resolve(revert=False)
 
     def os_stronghold(self):
         while 1:
