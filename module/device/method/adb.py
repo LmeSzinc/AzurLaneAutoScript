@@ -68,8 +68,9 @@ class Adb(Connection):
         else:
             raise ScriptError(f'Unknown method to load screenshots: {method}')
 
-        # 适配从 vmos pro 的远程adb截图
-        # 从vmos pro的 adb 截图时，会在头部多出这一段，将其去掉即可
+        # fix compatibility issues for adb screencap decode problem when the data is from vmos pro
+        # When use adb screencap for a screenshot from vmos pro, there would be a header more than that from emulator
+        # which would cause image decode problem. So i check and remove the header there.
         if screenshot.startswith(b'long long=8 fun*=10\n'):
             screenshot = screenshot.replace(b'long long=8 fun*=10\n', b'', 1)
 
