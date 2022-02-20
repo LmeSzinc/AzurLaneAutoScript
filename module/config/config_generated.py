@@ -341,7 +341,7 @@ class GeneratedConfig:
 
     # Group `OpsiMeowfficerFarming`
     OpsiMeowfficerFarming_ActionPointPreserve = 500
-    OpsiMeowfficerFarming_HazardLevel = 5  # 1, 2, 3, 4, 5, 6, 10
+    OpsiMeowfficerFarming_HazardLevel = 5  # 3, 4, 5, 6, 10
     OpsiMeowfficerFarming_TargetZone = 0
 
     # Group `Daemon`
