@@ -68,6 +68,12 @@ class Adb(Connection):
         else:
             raise ScriptError(f'Unknown method to load screenshots: {method}')
 
+        # fix compatibility issues for adb screencap decode problem when the data is from vmos pro
+        # When use adb screencap for a screenshot from vmos pro, there would be a header more than that from emulator
+        # which would cause image decode problem. So i check and remove the header there.
+        if screenshot.startswith(b'long long=8 fun*=10\n'):
+            screenshot = screenshot.replace(b'long long=8 fun*=10\n', b'', 1)
+
         image = np.fromstring(screenshot, np.uint8)
         image = cv2.imdecode(image, cv2.IMREAD_COLOR)
         if image is None:
