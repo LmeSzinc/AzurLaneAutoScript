@@ -68,6 +68,11 @@ class Adb(Connection):
         else:
             raise ScriptError(f'Unknown method to load screenshots: {method}')
 
+        # 适配从 vmos pro 的远程adb截图
+        # 从vmos pro的 adb 截图时，会在头部多出这一段，将其去掉即可
+        if screenshot.startswith(b'long long=8 fun*=10\n'):
+            screenshot = screenshot.replace(b'long long=8 fun*=10\n', b'', 1)
+
         image = np.fromstring(screenshot, np.uint8)
         image = cv2.imdecode(image, cv2.IMREAD_COLOR)
         if image is None:
