@@ -6303,8 +6303,6 @@
         "type": "select",
         "value": 5,
         "option": [
-          1,
-          2,
           3,
           4,
           5,
