@@ -95,6 +95,45 @@ class Template(Resource):
             # print(self.file, sim)
             return sim > similarity
 
+    def match_binary(self, image, similarity=0.85):
+        """
+		Use template match after binarization.
+		
+        Args:
+            image:
+            similarity (float): 0 to 1.
+
+        Returns:
+            bool: If matches.
+        """
+        if self.is_gif:
+            for template in self.image:
+                image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+                template_gray = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
+                #
+                _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+                _, template_binary = cv2.threshold(template_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+                #
+                res = cv2.matchTemplate(image_binary, template_binary, cv2.TM_CCOEFF_NORMED)
+                _, sim, _, _ = cv2.minMaxLoc(res)
+                # print(self.file, sim)
+                if sim > similarity:
+                    return True
+
+            return False
+
+        else:
+            image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+            self_image_gray = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
+            # 
+            _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+            _, self_image_binary = cv2.threshold(self_image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+            #
+            res = cv2.matchTemplate(image_binary, self_image_binary, cv2.TM_CCOEFF_NORMED)
+            _, sim, _, _ = cv2.minMaxLoc(res)
+            # print(self.file, sim)
+            return sim > similarity
+
     def _point_to_button(self, point, image=None, name=None):
         """
         Args:
