@@ -83,3 +83,4 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20220127   | raid 20220127            | Mystery Investigation | 演习神秘事件调查      | Mystery Investigation | 秘密事件調査 | - |
 | 20220210   | event 20220210 cn        | Northern Overture Rerun              | 复刻北境序曲               | Northern Overture Rerun     | 凍絶の北海（復刻）                           | -                    |
 | 20220224   | event 20210225 cn        | Khorovod of Dawn's Rime        | -                      | -                                | -                                    | 破曉冰華             |
+| 20220224 | event 20220224 cn | Abyssal Refrain | 深度回音 | Abyssal Refrain | 鳴動せし星霜の淵 | - |
