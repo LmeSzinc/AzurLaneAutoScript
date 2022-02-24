@@ -52,6 +52,7 @@ class AzurLaneAutoScript:
 
     def run(self, command):
         try:
+            self.device.screenshot()
             self.__getattribute__(command)()
             return True
         except TaskEnd:
@@ -389,7 +390,6 @@ class AzurLaneAutoScript:
             logger.info(f'Scheduler: Start task `{task}`')
             self.device.stuck_record_clear()
             self.device.click_record_clear()
-            self.device.screenshot()
             logger.hr(task, level=0)
             success = self.run(inflection.underscore(task))
             logger.info(f'Scheduler: End task `{task}`')
