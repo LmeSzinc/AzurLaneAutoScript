@@ -65,6 +65,7 @@ class GridInfo:
     is_fortress = False  # Machine fortress
     is_flare = False
     is_missile_attack = False
+    may_bouncing_enemy = False
     cost = 9999
     cost_1 = 9999
     cost_2 = 9999
@@ -122,6 +123,7 @@ class GridInfo:
             'AM': 'is_ammo',
             'FR': 'is_fortress',
             'MI': 'is_missile_attack',
+            'BE': 'may_bouncing_enemy',
             '==': 'is_cleared',
         }
         for key, value in dic.items():
@@ -244,6 +246,9 @@ class GridInfo:
                 if info.enemy_genre and not (info.enemy_genre == 'Enemy' and self.enemy_genre):
                     self.enemy_genre = info.enemy_genre
                 return True
+            elif self.is_fortress:
+                # Fortress can be a normal enemy
+                return True
             else:
                 return False
         if info.is_mystery:
@@ -303,6 +308,7 @@ class GridInfo:
         self.is_mechanism_block = False
         self.mechanism_trigger = None
         self.mechanism_block = None
+        self.may_bouncing_enemy = False
 
     def covered_grid(self):
         """Relative coordinate of the covered grid.
