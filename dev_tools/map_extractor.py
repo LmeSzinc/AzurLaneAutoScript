@@ -139,6 +139,11 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
 
     # Northern Overture Rerun
     'ganraozhe': 'Intruder',
+
+    # Abyssal Refrain
+    'lingmin': 'Soobrazitelny',
+    'jifu': 'Kiev',
+    'fuerjia': 'Volga',
 }
 
 
