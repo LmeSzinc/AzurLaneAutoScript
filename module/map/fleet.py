@@ -204,6 +204,11 @@ class Fleet(Camera, AmbushHandler):
             if (self.round + 1) % 3 == 0:
                 second += 1.0
 
+        if self.config.MAP_HAS_BOUNCING_ENEMY:
+            for route in self.map.bouncing_enemy_data:
+                if route.select(may_bouncing_enemy=True):
+                    second += self.config.MAP_SIREN_MOVE_WAIT
+
         return second
 
     @property
@@ -325,6 +330,8 @@ class Fleet(Camera, AmbushHandler):
                     arrive_timer = Timer(0.5 + extra, count=2)
                     arrive_unexpected_timer = Timer(1.5 + extra, count=6)
                     walk_timeout.reset()
+                    if not (grid.predict_fleet() and grid.predict_current_fleet()):
+                        ambushed_retry.start()
 
                 # Ambush
                 if self.handle_ambush():
@@ -811,7 +818,8 @@ class Fleet(Camera, AmbushHandler):
         self.map.load_mechanism(
             land_based=self.config.MAP_HAS_LAND_BASED,
             maze=self.config.MAP_HAS_MAZE,
-            fortress=self.config.MAP_HAS_FORTRESS
+            fortress=self.config.MAP_HAS_FORTRESS,
+            bouncing_enemy=self.config.MAP_HAS_BOUNCING_ENEMY,
         )
 
     def map_control_init(self):
@@ -844,6 +852,7 @@ class Fleet(Camera, AmbushHandler):
         if self.config.POOR_MAP_DATA and self.map.is_map_data_poor:
             self.config.POOR_MAP_DATA = False
         self.map.fortress_data = [(), ()]
+        self.map.bouncing_enemy_data = []
 
         return True
 
