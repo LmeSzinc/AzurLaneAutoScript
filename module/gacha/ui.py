@@ -62,8 +62,8 @@ class GachaUI(UI):
             name='GACHA_SIDE_NAVBAR')
 
         return Navbar(grids=gacha_side_navbar,
-                      active_color=(247, 255, 173),
-                      inactive_color=(140, 162, 181))
+                      active_color=(247, 255, 173), active_threshold=221,
+                      inactive_color=(140, 162, 181), inactive_threshold=221)
 
     def gacha_side_navbar_ensure(self, upper=None, bottom=None):
         """
@@ -202,3 +202,10 @@ class GachaUI(UI):
 
     def ui_goto_gacha(self):
         self.ui_ensure(page_build)
+
+
+if __name__ == '__main__':
+    self = GachaUI('alas')
+    self.image_file = r'C:\Users\LmeSzinc\Nox_share\ImageShare\Screenshots\Screenshot_20220224-182355.png'
+    res = self._gacha_side_navbar.get_info(main=self)
+    print(res)
