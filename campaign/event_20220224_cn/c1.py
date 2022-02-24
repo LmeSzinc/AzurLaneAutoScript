@@ -9,17 +9,17 @@ MAP.camera_data = ['D2', 'D4', 'G2', 'G4']
 MAP.camera_data_spawn_point = ['D2', 'D4']
 MAP.map_data = """
     ++ Me Me ++ ++ ++ ME -- ME ++
-    -- -- -- ME -- -- -- -- -- ME
+    -- -- -- ME -- -- -- -- -- --
     SP -- -- __ -- -- -- -- -- MB
-    SP -- -- ME -- -- -- -- -- MB
+    SP -- -- ME -- -- -- -- -- ME
     ++ -- -- -- ++ -- ME -- ME --
     ++ Me Me ++ ++ ME -- ++ ++ ++
 """
 MAP.map_data_loop = """
     ++ Me Me ++ ++ ++ ME -- ME ++
-    -- -- -- ME -- -- -- -- -- ME
+    -- -- -- ME -- -- -- -- -- --
     SP -- -- __ -- MS -- MS -- MB
-    SP -- -- ME -- -- -- -- -- MB
+    SP -- -- ME -- -- -- -- -- ME
     ++ -- -- ME ++ -- ME -- ME --
     ++ Me Me ++ ++ ME -- ++ ++ ++
 """
