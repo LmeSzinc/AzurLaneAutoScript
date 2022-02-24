@@ -1,4 +1,3 @@
-import ctypes
 import datetime
 import operator
 import re
@@ -92,26 +91,6 @@ class QueueHandler:
         self.queue.put(s)
 
 
-class Thread(threading.Thread):
-    # https://www.geeksforgeeks.org/python-different-ways-to-kill-a-thread/
-    def _get_id(self):
-        # returns id of the respective thread
-        if hasattr(self, '_thread_id'):
-            return self._thread_id
-        for thd_id, thread in threading._active.items():
-            if thread is self:
-                return thd_id
-
-    def stop(self):
-        if self.is_alive():
-            thread_id = self._get_id()
-            res = ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id,
-                                                             ctypes.py_object(SystemExit))
-            if res > 1:
-                ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id, 0)
-                logger.error('Exception raise failure')
-
-
 class Task:
     def __init__(self, g: Generator, delay: float, next_run: float = None, name: str = None) -> None:
         self.g = g
@@ -141,7 +120,8 @@ class TaskHandler:
         # Running task
         self._task = None
         # Task running thread
-        self._thread: Thread = None
+        self._thread: threading.Thread = None
+        self._alive = False
         self._lock = threading.Lock()
 
     def add(self, func, delay: float, pending_delete: bool = False) -> None:
@@ -215,7 +195,7 @@ class TaskHandler:
         Start task loop.
         You **should** run this function in an individual thread.
         """
-        while True:
+        while self._alive:
             if self.tasks:
                 with self._lock:
                     self.tasks.sort(key=operator.attrgetter('next_run'))
@@ -243,7 +223,7 @@ class TaskHandler:
                 time.sleep(0.5)
 
     def _get_thread(self) -> threading.Thread:
-        thread = Thread(target=self.loop, daemon=True)
+        thread = threading.Thread(target=self.loop, daemon=True)
         return thread
 
     def start(self) -> None:
@@ -259,8 +239,8 @@ class TaskHandler:
 
     def stop(self) -> None:
         self.remove_pending_task()
-        if self._thread.is_alive():
-            self._thread.stop()
+        self._alive = False
+        self._thread.join()
         logger.info("Finish task handler")
 
 

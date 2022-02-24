@@ -8,7 +8,6 @@ from filelock import FileLock
 from module.config.utils import deep_get, filepath_config
 from module.logger import logger, set_file_logger, set_func_logger
 from module.webui.setting import Setting
-from module.webui.utils import Thread
 from rich.console import ConsoleRenderable
 
 
@@ -23,7 +22,7 @@ class ProcessManager:
         self.renderables_max_length = 400
         self.renderables_reduce_length = 80
         self._process: Process = None
-        self.thd_log_queue_handler: Thread = None
+        self.thd_log_queue_handler: threading.Thread = None
 
     def start(self, func: str, ev: threading.Event = None) -> None:
         if not self.alive:
@@ -31,9 +30,14 @@ class ProcessManager:
                 target=ProcessManager.run_process,
                 args=(self.config_name, func, self._renderable_queue, ev,))
             self._process.start()
-            self.thd_log_queue_handler = Thread(
+            self.start_log_queue_handler()
+
+    def start_log_queue_handler(self):
+        if self.thd_log_queue_handler is not None and self.thd_log_queue_handler.is_alive():
+            return
+        self.thd_log_queue_handler = threading.Thread(
                 target=self._thread_log_queue_handler)
-            self.thd_log_queue_handler.start()
+        self.thd_log_queue_handler.start()
 
     def stop(self) -> None:
         lock = FileLock(f"{filepath_config(self.config_name)}.lock")
@@ -42,13 +46,15 @@ class ProcessManager:
                 self._process.terminate()
                 self.renderables.append(
                     f"[{self.config_name}] exited. Reason: Manual stop\n")
-            if self.thd_log_queue_handler is not None:
-                self.thd_log_queue_handler.stop()
+            self.thd_log_queue_handler.join()
         logger.info(f"[{self.config_name}] exited")
 
     def _thread_log_queue_handler(self) -> None:
         while self.alive:
-            log = self._renderable_queue.get()
+            try:
+                log = self._renderable_queue.get(timeout=1)
+            except queue.Empty:
+                continue
             self.renderables.append(log)
             if len(self.renderables) > self.renderables_max_length:
                 self.renderables = self.renderables[self.renderables_reduce_length:]

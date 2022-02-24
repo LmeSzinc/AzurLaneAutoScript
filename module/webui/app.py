@@ -1,5 +1,6 @@
 import argparse
 import queue
+import threading
 import time
 from datetime import datetime
 from typing import Dict, List
@@ -19,7 +20,7 @@ from module.webui.process_manager import ProcessManager
 from module.webui.setting import Setting
 from module.webui.translate import translate
 from module.webui.updater import updater
-from module.webui.utils import (Icon, Switch, TaskHandler, Thread, add_css,
+from module.webui.utils import (Icon, Switch, TaskHandler, add_css,
                                 filepath_css, get_localstorage,
                                 get_window_visibility_state, login,
                                 parse_pin_value, raise_exception, re_fullmatch)
@@ -843,13 +844,13 @@ class AlasGUI(Frame):
         self.show()
 
         # detect config change
-        _thread_wait_config_change = Thread(
+        _thread_wait_config_change = threading.Thread(
             target=self._alas_thread_wait_config_change)
         register_thread(_thread_wait_config_change)
         _thread_wait_config_change.start()
 
         # save config
-        _thread_save_config = Thread(
+        _thread_save_config = threading.Thread(
             target=self._alas_thread_update_config)
         register_thread(_thread_save_config)
         _thread_save_config.start()
