@@ -65,13 +65,16 @@ class OperationSiren(OSGlobe):
             if not result:
                 break
 
-            self.zone_init()
-            if result > 1:
+            if result != 'pinned_at_archive_zone':
+                # The name of archive zone is "archive zone", which is not an existing zone.
+                # After archive zone, it go back to previous zone automatically.
+                self.zone_init()
+            if result == 'already_at_mission_zone':
                 self.globe_goto(self.zone, refresh=True)
             self.fleet_set(self.config.OpsiFleet_Fleet)
             self.os_order_execute(
                 recon_scan=False,
-                submarine_call=self.config.OpsiFleet_Submarine)
+                submarine_call=self.config.OpsiFleet_Submarine and result != 'pinned_at_archive_zone')
             self.run_auto_search()
             self.handle_fleet_repair(revert=False)
             self.config.check_task_switch()
