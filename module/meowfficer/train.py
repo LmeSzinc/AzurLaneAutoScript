@@ -44,16 +44,16 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
             else:
                 self.device.screenshot()
 
-                if not self.appear(MEOWFFICER_TRAIN_FILL_QUEUE, offset=(20, 20)) \
-                        and self.appear(MEOWFFICER_TRAIN_START, offset=(20, 20), interval=3):
-                    if timeout_count > 0:
-                        self.device.click(MEOWFFICER_TRAIN_START)
-                        timeout_count -= 1
-                    else:
-                        return False
+            if not self.appear(MEOWFFICER_TRAIN_FILL_QUEUE, offset=(20, 20)) \
+                    and self.appear(MEOWFFICER_TRAIN_START, offset=(20, 20), interval=3):
+                if timeout_count > 0:
+                    self.device.click(MEOWFFICER_TRAIN_START)
+                    timeout_count -= 1
+                else:
+                    return False
 
-                if self.appear(MEOWFFICER_TRAIN_FILL_QUEUE, offset=(20, 20)):
-                    return True
+            if self.appear(MEOWFFICER_TRAIN_FILL_QUEUE, offset=(20, 20)):
+                return True
 
     def _meow_nqueue(self, skip_first_screenshot=True):
         """
@@ -149,19 +149,19 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
 
         # Choose appropriate queue func based on
         # common box sum count
-        # - <= 20, low stock; set Meowfficer_EnhanceIndex
-        #   to 0 (turn off) and queue normally
+        # - <= 20, low stock; queue normally
         # - > 20, high stock; queue common boxes first
-        if not self.config.Meowfficer_EnhanceIndex or common_sum <= 20:
-            if self.config.Meowfficer_EnhanceIndex:
-                self.config.Meowfficer_EnhanceIndex = 0
-                self.config.modified['Meowfficer.Meowfficer.EnhanceIndex'] = 0
-                self.config.save()
+        if self.config.Meowfficer_EnhanceIndex:
+            if common_sum <= 20:
+                logger.info('Low stock of common cat boxes')
+                logger.info('Queue in descending order (SR > R > C)')
+                self._meow_nqueue()
+            else:
+                logger.info('Queue in ascending order (C > R > SR)')
+                self._meow_rqueue()
+        else:
             logger.info('Queue in descending order (SR > R > C)')
             self._meow_nqueue()
-        else:
-            logger.info('Queue in ascending order (C > R > SR)')
-            self._meow_rqueue()
 
     def meow_train(self):
         """
