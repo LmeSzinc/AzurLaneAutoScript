@@ -78,6 +78,29 @@ class AutoSearchCombat(MapOperation, Combat):
 
         return checked
 
+    def _wait_until_in_map(self, skip_first_screenshot=True):
+        """
+        To handle a bug in Azur Lane game client.
+        Auto search icon shows it's running but it's doing nothing
+        when Alas exited from retirement and turned it on immediately.
+
+        Pages:
+            in: Exiting from retirement or enhancement
+            out: in_map()
+        """
+        timeout = Timer(3, count=6).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.is_in_map():
+                break
+            if timeout.reached():
+                logger.warning('Wait in_map after retirement timeout, assume it is in_map')
+                break
+
     def auto_search_moving(self, skip_first_screenshot=True):
         """
         Pages:
@@ -98,6 +121,7 @@ class AutoSearchCombat(MapOperation, Combat):
                 checked_fleet = self.auto_search_watch_fleet(checked_fleet)
                 checked_oil = self.auto_search_watch_oil(checked_oil)
             if self.handle_retirement():
+                self._wait_until_in_map()
                 continue
             if self.handle_auto_search_map_option():
                 continue

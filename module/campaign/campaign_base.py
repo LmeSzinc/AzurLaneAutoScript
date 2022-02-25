@@ -66,6 +66,8 @@ class CampaignBase(CampaignUI, Map, AutoSearchCombat):
                     return True
                 return self.battle_default()
             else:
+                if self.clear_bouncing_enemy():
+                    return True
                 if self.clear_siren():
                     return True
                 self.clear_mechanism()

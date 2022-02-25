@@ -97,8 +97,8 @@ class MissionHandler(GlobeOperation, ZoneManager):
         If already at target zone, show info bar and close mission list.
 
         Returns:
-            int: If has entered mission zone, positive non-zero.
-                 1 = pinned at, 2 = already at
+            str: pinned_at_mission_zone, already_at_mission_zone, pinned_at_archive_zone,
+                or False if no more mission.
         """
         self.os_mission_enter()
 
@@ -133,12 +133,17 @@ class MissionHandler(GlobeOperation, ZoneManager):
 
             # End
             if self.is_zone_pinned():
-                logger.info('Pinned at mission zone')
-                self.globe_enter(zone=self.name_to_zone(72))
-                return 1
+                if self.get_zone_pinned_name() == 'ARCHIVE':
+                    logger.info('Pinned at archive zone')
+                    self.globe_enter(zone=self.name_to_zone(72))
+                    return 'pinned_at_archive_zone'
+                else:
+                    logger.info('Pinned at mission zone')
+                    self.globe_enter(zone=self.name_to_zone(72))
+                    return 'pinned_at_mission_zone'
             if self.is_in_map() and self.info_bar_count():
                 logger.info('Already at mission zone')
-                return 2
+                return 'already_at_mission_zone'
 
     def os_mission_overview_accept(self):
         """

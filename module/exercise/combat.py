@@ -17,10 +17,14 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
         """
         return self.appear(PAUSE) and np.max(self.image_crop(PAUSE_DOUBLE_CHECK)) < 153
 
-    def _combat_preparation(self):
+    def _combat_preparation(self, skip_first_screenshot=True):
         logger.info('Combat preparation')
         while 1:
-            self.device.screenshot()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
             if self.appear(BATTLE_PREPARATION):
 
                 # self.equipment_take_on()
@@ -102,7 +106,7 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
 
         return success
 
-    def _choose_opponent(self, index):
+    def _choose_opponent(self, index, skip_first_screenshot=True):
         """
         Args:
             index (int): From left to right. 0 to 3.
@@ -112,7 +116,10 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
         preparation_timer = Timer(5)
 
         while 1:
-            self.device.screenshot()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
             if opponent_timer.reached() and self._in_exercise():
                 self.device.click(OPPONENT[index, 0])
@@ -130,7 +137,7 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
 
     def _preparation_quit(self):
         logger.info('Preparation quit')
-        self.ui_back(check_button=self._in_exercise, appear_button=BATTLE_PREPARATION)
+        self.ui_back(check_button=self._in_exercise, appear_button=BATTLE_PREPARATION, skip_first_screenshot=True)
 
     def _combat(self, opponent):
         """
@@ -141,6 +148,11 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
             bool: True if wins. False if challenge times exhausted.
         """
         self._choose_opponent(opponent)
+
+        trial = self.config.Exercise_OpponentTrial
+        if not isinstance(trial, int) or trial < 1:
+            logger.warning(f'Invalid Exercise.OpponentTrial: {trial}, revise to 1')
+            self.config.Exercise_OpponentTrial = 1
 
         for n in range(1, self.config.Exercise_OpponentTrial + 1):
             logger.hr('Try: %s' % n)

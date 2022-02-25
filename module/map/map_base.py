@@ -21,6 +21,7 @@ class CampaignMap:
         self._maze_data = []
         self.maze_round = 9
         self._fortress_data = [(), ()]
+        self._bouncing_enemy_data = []
         self._spawn_data = []
         self._spawn_data_stack = []
         self._spawn_data_loop = []
@@ -198,8 +199,8 @@ class CampaignMap:
     @fortress_data.setter
     def fortress_data(self, data):
         enemy, block = data
-        enemy = self.to_selected((enemy,) if isinstance(enemy, str) else enemy)
-        block = self.to_selected((block,) if isinstance(block, str) else block)
+        enemy = self.to_selected((enemy,) if not isinstance(enemy, (tuple, list)) else enemy)
+        block = self.to_selected((block,) if not isinstance(block, (tuple, list)) else block)
         self._fortress_data = [enemy, block]
 
     def _load_fortress_data(self, data):
@@ -213,14 +214,34 @@ class CampaignMap:
         enemy.set(is_fortress=True)
         block.set(is_mechanism_block=True)
 
-    def load_mechanism(self, land_based=False, maze=False, fortress=False):
-        logger.info(f'Load mechanism, land_base={land_based}, maze={maze}, fortress={fortress}')
+    @property
+    def bouncing_enemy_data(self):
+        return self._bouncing_enemy_data
+
+    @bouncing_enemy_data.setter
+    def bouncing_enemy_data(self, data):
+        self._bouncing_enemy_data = [self.to_selected(route) for route in data]
+
+    def _load_bouncing_enemy_data(self, data):
+        """
+        Args:
+            data (list[SelectedGrids]): Grids that enemy is bouncing in.
+                [enemy_route, enemy_route, ...], Such as [(C2, C3, C4), ]
+        """
+        for route in data:
+            route.set(may_bouncing_enemy=True)
+
+    def load_mechanism(self, land_based=False, maze=False, fortress=False, bouncing_enemy=False):
+        logger.info(f'Load mechanism, land_base={land_based}, maze={maze}, fortress={fortress}, '
+                    f'bouncing_enemy={bouncing_enemy}')
         if land_based:
             self._load_land_base_data(self.land_based_data)
         if maze:
             self._load_maze_data(self.maze_data)
         if fortress:
             self._load_fortress_data(self._fortress_data)
+        if bouncing_enemy:
+            self._load_bouncing_enemy_data(self._bouncing_enemy_data)
 
     def grid_connection_initial(self, wall=False, portal=False):
         """
@@ -691,6 +712,10 @@ class CampaignMap:
                 if grid.__getattribute__('is_' + attr):
                     missing[attr] -= 1
         missing['enemy'] += len(self.fortress_data[0]) - self.select(is_fortress=True).count
+        for route in self.bouncing_enemy_data:
+            if not route.select(may_bouncing_enemy=True):
+                # bouncing enemy cleared, re-add one enemy
+                missing['enemy'] += 1
 
         for upper in self.map_covered:
             if (upper.may_enemy or mode == 'movable') and not upper.is_enemy:

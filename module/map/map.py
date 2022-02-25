@@ -1,3 +1,4 @@
+import itertools
 import re
 
 from module.base.filter import Filter
@@ -671,5 +672,49 @@ class Map(Fleet):
             logger.hr('Clear filter enemy')
             self.clear_chosen_enemy(grids[0])
             return True
+
+        return False
+
+    def clear_bouncing_enemy(self):
+        """
+        Clear enemies which are bouncing in a fixed route.
+        This method will be disabled once it cleared an enemy, since there's only one bouncing enemy on the map.
+
+        Args:
+            route (tuple[GridInfo]):
+
+        Returns:
+            bool: If cleared an enemy.
+        """
+        if not self.config.MAP_HAS_BOUNCING_ENEMY:
+            return False
+
+        route = None
+        for a_route in self.map.bouncing_enemy_data:
+            if a_route.select(may_bouncing_enemy=True, is_accessible=True):
+                route = a_route
+                break
+        if route is None:
+            return False
+
+        logger.hr('Clear bouncing enemy')
+        logger.info(f'Clear bouncing enemy: {route}')
+        self.show_fleet()
+        prev = self.battle_count
+        for n, grid in enumerate(itertools.cycle(route)):
+            if self.config.Emotion_CalculateEmotion and self.config.Campaign_UseFleetLock:
+                self.emotion.wait(fleet_index=self.fleet_current_index)
+            self.goto(grid, expected='combat_nothing')
+
+            if self.battle_count > prev:
+                logger.info('Cleared an bouncing enemy')
+                route.select(may_bouncing_enemy=True).set(may_bouncing_enemy=False)
+                self.full_scan()
+                self.find_path_initial()
+                self.map.show_cost()
+                return True
+            if n >= 12:
+                logger.warning('Failed to clear bouncing enemy after 12 trial')
+                return False
 
         return False

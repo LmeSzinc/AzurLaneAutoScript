@@ -8,6 +8,7 @@ class Setting:
     """
     Shared settings
     """
+
     _init = False
     _clearup = False
 
@@ -16,7 +17,7 @@ class Setting:
     manager: SyncManager = None
     reload: bool = False
     electron: bool = False
-    theme: str = 'default'
+    theme: str = "default"
 
     @classmethod
     def init(cls):

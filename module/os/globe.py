@@ -1,7 +1,12 @@
+from module.base.button import Button
 from module.exception import MapWalkError, ScriptError
 from module.logger import logger
 from module.os.map import OSMap
 from module.ui.ui import page_os
+
+FLEET_LOW_RESOLVE = Button(
+    area=(144, 148, 170, 175), color=(255, 44, 33), button=(144, 148, 170, 175),
+    name='FLEET_LOW_RESOLVE')
 
 
 class OSGlobe(OSMap):
@@ -111,8 +116,6 @@ class OSGlobe(OSMap):
         if hasattr(self, 'zone'):
             del self.zone
         self.zone_init()
-        # Fleet repairs before starting if needed
-        self.handle_fleet_repair(revert=False)
         # self.map_init()
         return True
 
@@ -185,3 +188,53 @@ class OSGlobe(OSMap):
                         'continue OS exploration')
         self.hp_reset()
         return True
+
+    def fleet_resolve(self, revert=True):
+        """
+        Cure fleet's low resolve by going
+        to an 'easy' zone and winning
+        battles
+
+        Args:
+            revert (bool): If go back to previous zone.
+        """
+        logger.hr('OS fleet cure low resolve debuff')
+
+        prev = self.zone
+        self.globe_goto(22)
+        self.zone_init()
+        self.run_auto_search()
+
+        if revert and prev != self.zone:
+            self.globe_goto(prev)
+
+    def handle_fleet_resolve(self, revert=True):
+        """
+        Check each fleet if afflicted with the low
+        resolve debuff
+        If so, handle by completing an easy zone
+
+        Args:
+            revert (bool): If go back to previous zone.
+
+        Returns:
+            bool:
+        """
+        if self.is_in_special_zone():
+            logger.info('OS is in a special zone type, skip fleet resolve')
+            return False
+
+        for _ in range(1, 5):
+            if not self.fleet_set(_):
+                self.device.screenshot()
+
+            if self.image_color_count(FLEET_LOW_RESOLVE, color=FLEET_LOW_RESOLVE.color,
+                                      threshold=221, count=250):
+                logger.info('At least one fleet is afflicted with '
+                            'the low resolve debuff')
+                self.fleet_resolve(revert)
+                return True
+
+        logger.info('None of the fleets are afflicted with '
+                    'the low resolve debuff')
+        return False

@@ -6,8 +6,8 @@ from module.os.assets import *
 from module.os_handler.action_point import ActionPointHandler
 from module.os_handler.map_event import MapEventHandler
 
-ZONE_TYPES = [ZONE_DANGEROUS, ZONE_SAFE, ZONE_OBSCURE, ZONE_ABYSSAL, ZONE_STRONGHOLD]
-ZONE_SELECT = [SELECT_DANGEROUS, SELECT_SAFE, SELECT_OBSCURE, SELECT_ABYSSAL, SELECT_STRONGHOLD]
+ZONE_TYPES = [ZONE_DANGEROUS, ZONE_SAFE, ZONE_OBSCURE, ZONE_ABYSSAL, ZONE_STRONGHOLD, ZONE_ARCHIVE]
+ZONE_SELECT = [SELECT_DANGEROUS, SELECT_SAFE, SELECT_OBSCURE, SELECT_ABYSSAL, SELECT_STRONGHOLD, SELECT_ARCHIVE]
 ASSETS_PINNED_ZONE = ZONE_TYPES + [ZONE_ENTRANCE, ZONE_SWITCH, ZONE_PINNED]
 
 
@@ -47,14 +47,14 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
             button (Button):
 
         Returns:
-            str: DANGEROUS, SAFE, OBSCURE, ABYSSAL, STRONGHOLD.
+            str: DANGEROUS, SAFE, OBSCURE, ABYSSAL, STRONGHOLD, ARCHIVE.
         """
         return button.name.split('_')[1]
 
     def get_zone_pinned_name(self):
         """
         Returns:
-            str: DANGEROUS, SAFE, OBSCURE, ABYSSAL, STRONGHOLD, or ''.
+            str: DANGEROUS, SAFE, OBSCURE, ABYSSAL, STRONGHOLD, ARCHIVE, or ''.
         """
         pinned = self.get_zone_pinned()
         if pinned is not None:
@@ -181,7 +181,7 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
         """
         Args:
             types (tuple[str], list[str], str): Zone types, or a list of them.
-                Available types: DANGEROUS, SAFE, OBSCURE, ABYSSAL, STRONGHOLD.
+                Available types: DANGEROUS, SAFE, OBSCURE, ABYSSAL, STRONGHOLD, ARCHIVE.
                 Try the the first selection in type list, if not available, try the next one.
                 Do nothing if no selection satisfied input.
 
