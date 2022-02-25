@@ -1113,12 +1113,12 @@
       "help": "每日第一個貓箱免費"
     },
     "EnhanceIndex": {
-      "name": "Meowfficer.EnhanceIndex.name",
-      "help": "Meowfficer.EnhanceIndex.help"
+      "name": "強化第 X 隻貓",
+      "help": "1 ~ 12，填0不強化"
     },
     "TrainMeowfficer": {
-      "name": "訓練指揮貓",
-      "help": "每天收一隻，週日收穫全部，以完成每日任務"
+      "name": "訓練指揮喵",
+      "help": "當 \"強化第 X 隻貓\" 為 0 時，每天收一隻, 週日收穫全部，以完成每日任務\n當 \"強化第 X 隻貓\" 大於 0 時，開藍貓箱然後餵貓，自動鎖金貓和帶特殊技能的紫貓"
     },
     "FortChoreMeowfficer": {
       "name": "喵窩互動",
