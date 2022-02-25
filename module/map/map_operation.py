@@ -1,7 +1,4 @@
-import numpy as np
-
 from module.base.timer import Timer
-from module.base.utils import color_similarity_2d
 from module.exception import CampaignEnd
 from module.exception import ScriptEnd, RequestHumanTakeover
 from module.handler.fast_forward import FastForwardHandler
@@ -278,8 +275,13 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         """
         if not self.map_cat_attack_timer.reached():
             return False
-        if np.sum(color_similarity_2d(self.image_crop(MAP_CAT_ATTACK), (255, 231, 123)) > 221) > 100:
+        if self.image_color_count(MAP_CAT_ATTACK, color=(255, 231, 123), threshold=221, count=100):
             logger.info('Skip map cat attack')
+            self.device.click(MAP_CAT_ATTACK)
+            self.map_cat_attack_timer.reset()
+            return True
+        if self.image_color_count(MAP_CAT_ATTACK_MIRROR, color=(255, 231, 123), threshold=221, count=100):
+            logger.info('Skip map being attack')
             self.device.click(MAP_CAT_ATTACK)
             self.map_cat_attack_timer.reset()
             return True

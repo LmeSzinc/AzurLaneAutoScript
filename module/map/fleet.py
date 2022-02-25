@@ -397,6 +397,11 @@ class Fleet(Camera, AmbushHandler):
                     logger.info(f'Arrive {location2node(location)} confirm. Result: {result}. Expected: {expected}')
                     arrived = True
                     break
+                else:
+                    if arrive_timer.started():
+                        arrive_timer.reset()
+                    if arrive_unexpected_timer.started():
+                        arrive_unexpected_timer.reset()
 
                 # Story
                 if expected == 'story':
