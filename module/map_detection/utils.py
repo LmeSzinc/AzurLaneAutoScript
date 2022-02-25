@@ -19,6 +19,8 @@ class Points:
     def __str__(self):
         return str(self.points)
 
+    __repr__ = __str__
+
     def __iter__(self):
         return iter(self.points)
 
@@ -86,6 +88,8 @@ class Lines:
 
     def __str__(self):
         return str(self.lines)
+
+    __repr__ = __str__
 
     def __iter__(self):
         return iter(self.lines)
