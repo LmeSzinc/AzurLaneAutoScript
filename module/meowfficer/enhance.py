@@ -107,6 +107,11 @@ class MeowfficerEnhance(MeowfficerBase):
             int: non-zero positive, some selected
                  zero, none selected
         """
+        self.interval_clear([
+            MEOWFFICER_FEED_CONFIRM,
+            MEOWFFICER_FEED_CANCEL,
+            MEOWFFICER_ENHANCE_CONFIRM
+        ])
         current = 0
         while 1:
             # Scan for feed, exit if none
@@ -144,6 +149,11 @@ class MeowfficerEnhance(MeowfficerBase):
             in: MEOWFFICER_ENHANCE
             out: MEOWFFICER_ENHANCE
         """
+        self.interval_clear([
+            MEOWFFICER_FEED_ENTER,
+            MEOWFFICER_ENHANCE_CONFIRM,
+            MEOWFFICER_CONFIRM,
+        ])
         confirm_timer = Timer(3, count=6).start()
         while 1:
             if skip_first_screenshot:

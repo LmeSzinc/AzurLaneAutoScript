@@ -1,5 +1,3 @@
-from module.logger import logger
-from module.meowfficer.assets import *
 from module.meowfficer.buy import MeowfficerBuy
 from module.meowfficer.fort import MeowfficerFort
 from module.meowfficer.train import MeowfficerTrain
