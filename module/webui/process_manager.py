@@ -57,7 +57,11 @@ class ProcessManager:
                     f"[{self.config_name}] exited. Reason: Manual stop\n"
                 )
             if self.thd_log_queue_handler is not None:
-                self.thd_log_queue_handler.join()
+                self.thd_log_queue_handler.join(timeout=1)
+                if self.thd_log_queue_handler.is_alive():
+                    logger.warning(
+                        "Log queue handler thread does not stop within 1 seconds"
+                    )
         logger.info(f"[{self.config_name}] exited")
 
     def _thread_log_queue_handler(self) -> None:
@@ -69,6 +73,7 @@ class ProcessManager:
             self.renderables.append(log)
             if len(self.renderables) > self.renderables_max_length:
                 self.renderables = self.renderables[self.renderables_reduce_length :]
+        logger.info("End of log queue handler loop")
 
     @property
     def alive(self) -> bool:
