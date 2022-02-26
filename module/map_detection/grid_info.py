@@ -27,7 +27,7 @@ class GridInfo:
     # is_sea --
     is_land = False  # ++
     is_spawn_point = False  # SP
-    is_submarine_spawn_point = False # __
+    is_submarine_spawn_point = False  # __
 
     may_enemy = False  # ME
     may_boss = False  # MB
@@ -221,9 +221,12 @@ class GridInfo:
             else:
                 return False
         if info.is_enemy:
-            if not self.is_land and (self.may_enemy or self.is_carrier):
+            if self.is_fortress:
+                # Fortress can be a normal enemy
+                return True
+            elif not self.is_land and (self.may_enemy or self.is_carrier):
                 self.is_enemy = True
-                if info.enemy_scale and not (self.enemy_scale):
+                if info.enemy_scale and not self.enemy_scale:
                     self.enemy_scale = info.enemy_scale
                 if info.enemy_scale == 3 and self.enemy_scale == 2:
                     # But allow 3 overwrites 2
@@ -245,9 +248,6 @@ class GridInfo:
                     self.enemy_scale = info.enemy_scale
                 if info.enemy_genre and not (info.enemy_genre == 'Enemy' and self.enemy_genre):
                     self.enemy_genre = info.enemy_genre
-                return True
-            elif self.is_fortress:
-                # Fortress can be a normal enemy
                 return True
             else:
                 return False
