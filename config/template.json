@@ -27,7 +27,8 @@
       "SaveCommission": false,
       "UploadCommission": false,
       "SaveCombat": false,
-      "SaveOpsi": false
+      "SaveOpsi": false,
+      "UploadOpsi": false
     }
   },
   "General": {

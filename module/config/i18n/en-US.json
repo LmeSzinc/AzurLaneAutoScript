@@ -389,6 +389,10 @@
     "SaveOpsi": {
       "name": "Save OpSi Drop Screenshots",
       "help": ""
+    },
+    "UploadOpsi": {
+      "name": "Upload OpSi Screenshots",
+      "help": ""
     }
   },
   "Retirement": {

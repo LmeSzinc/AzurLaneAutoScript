@@ -389,6 +389,10 @@
     "SaveOpsi": {
       "name": "保存大世界掉落截圖",
       "help": ""
+    },
+    "UploadOpsi": {
+      "name": "上傳大世界掉落截圖",
+      "help": ""
     }
   },
   "Retirement": {

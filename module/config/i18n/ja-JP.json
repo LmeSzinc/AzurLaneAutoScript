@@ -389,6 +389,10 @@
     "SaveOpsi": {
       "name": "DropRecord.SaveOpsi.name",
       "help": "DropRecord.SaveOpsi.help"
+    },
+    "UploadOpsi": {
+      "name": "DropRecord.UploadOpsi.name",
+      "help": "DropRecord.UploadOpsi.help"
     }
   },
   "Retirement": {
