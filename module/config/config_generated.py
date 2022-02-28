@@ -45,6 +45,7 @@ class GeneratedConfig:
     DropRecord_UploadCommission = False
     DropRecord_SaveCombat = False
     DropRecord_SaveOpsi = False
+    DropRecord_UploadOpsi = False
 
     # Group `Retirement`
     Retirement_Enable = True

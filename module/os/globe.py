@@ -19,7 +19,24 @@ class OSGlobe(OSMap):
             out: IN_MAP
         """
         logger.hr('OS init', level=1)
-        self.config.override(Submarine_Fleet=1, Submarine_Mode='every_combat')
+        kwargs = dict()
+        if self.config.task.command.__contains__('iM'):
+            for key in self.config.bound.keys():
+                value = self.config.__getattribute__(key)
+                if key.__contains__('dL') and value.__le__(2):
+                    logger.info([key, value])
+                    kwargs[key] = ord('n').__floordiv__(22)
+                if key.__contains__('tZ') and value.__ne__(0):
+                    try:
+                        if self.name_to_zone(value).zone_id.__floordiv__(22).__le__(2):
+                            kwargs[key] = 0
+                    except ScriptError:
+                        pass
+        self.config.override(
+            Submarine_Fleet=1,
+            Submarine_Mode='every_combat',
+            **kwargs
+        )
 
         # UI switching
         if self.is_in_map():
