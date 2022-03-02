@@ -194,6 +194,8 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
         # and end up in Gacha/Build page
         confirm_timer = Timer(1, count=2).start()
         confirm_mode = True  # Drill, Lock Ship
+        # Clear button offset, or will click at the PLUS button of gems or HOME button
+        STORY_SKIP.clear_offset()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
