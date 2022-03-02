@@ -1,5 +1,4 @@
-import numpy as np
-
+from module.base.timer import Timer
 from module.base.utils import rgb2gray
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2
 from module.exception import ScriptError
@@ -211,16 +210,24 @@ class StorageHandler(GlobeOperation, ZoneManager):
         if SCROLL_STORAGE.appear(main=self):
             SCROLL_STORAGE.set_top(main=self, skip_first_screenshot=skip_first_screenshot)
 
-        image = rgb2gray(self.device.image)
-        items = self._storage_item_to_template(item).match_multi(image, similarity=0.75)
-        logger.attr(f'Storage_{item}', len(items))
+        confirm_timer = Timer(0.6, count=2).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
-        if not len(items):
-            logger.info(f'No more {item} items in storage')
-            self.storage_quit()
-            return False
-        self._storage_coordinate_checkout(items[0], types=(item,))
-        return True
+            image = rgb2gray(self.device.image)
+            items = self._storage_item_to_template(item).match_multi(image, similarity=0.75)
+            logger.attr(f'Storage_{item}', len(items))
+
+            if len(items):
+                self._storage_coordinate_checkout(items[0], types=(item,))
+                return True
+            if confirm_timer.reached():
+                logger.info(f'No more {item} items in storage')
+                self.storage_quit()
+                return False
 
     def storage_get_next_item(self, item, use_logger=True):
         """

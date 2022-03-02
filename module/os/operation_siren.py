@@ -166,6 +166,13 @@ class OperationSiren(OSGlobe):
             if current < next_run:
                 logger.info(f'Delay task `{task}` to {next_run}')
                 self.config.modified[keys] = next_run
+
+        # ResetActionPointPreserve
+        # Unbound attribute, default to 500
+        preserve = self.config.OpsiMeowfficerFarming_ActionPointPreserve
+        logger.info(f'Set OpsiMeowfficerFarming.ActionPointPreserve to {preserve}')
+        self.config.modified['OpsiMeowfficerFarming.OpsiMeowfficerFarming.ActionPointPreserve'] = preserve
+
         self.config.update()
 
     def _is_in_os_explore(self):
