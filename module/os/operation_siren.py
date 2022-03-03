@@ -166,6 +166,13 @@ class OperationSiren(OSGlobe):
             if current < next_run:
                 logger.info(f'Delay task `{task}` to {next_run}')
                 self.config.modified[keys] = next_run
+
+        # ResetActionPointPreserve
+        # Unbound attribute, default to 500
+        preserve = self.config.OpsiMeowfficerFarming_ActionPointPreserve
+        logger.info(f'Set OpsiMeowfficerFarming.ActionPointPreserve to {preserve}')
+        self.config.modified['OpsiMeowfficerFarming.OpsiMeowfficerFarming.ActionPointPreserve'] = preserve
+
         self.config.update()
 
     def _is_in_os_explore(self):
@@ -187,16 +194,24 @@ class OperationSiren(OSGlobe):
 
         logger.hr('OS explore', level=1)
         order = [int(f.strip(' \t\r\n')) for f in self.config.OS_EXPLORE_FILTER.split('>')]
-        if self.config.OpsiExplore_LastZone in order:
-            order = order[order.index(self.config.OpsiExplore_LastZone) + 1:]
-        elif self.config.OpsiExplore_LastZone == 0:
-            # First run
-            pass
-        else:
+        # Convert user input
+        try:
+            last_zone = self.name_to_zone(self.config.OpsiExplore_LastZone).zone_id
+        except ScriptError:
             logger.warning(f'Invalid OpsiExplore_LastZone={self.config.OpsiExplore_LastZone}, re-explore')
+            last_zone = 0
+        # Start from last zone
+        if last_zone in order:
+            order = order[order.index(last_zone) + 1:]
+            logger.info(f'Last zone: {self.name_to_zone(last_zone)}, next zone: {order[:1]}')
+        elif last_zone == 0:
+            logger.info(f'First run, next zone: {order[:1]}')
+        else:
+            raise ScriptError(f'Invalid last_zone: {last_zone}')
         if not len(order):
             end()
 
+        # Run
         for zone in order:
             if not self.globe_goto(zone, stop_if_safe=True):
                 logger.info(f'Zone cleared: {self.name_to_zone(zone)}')

@@ -112,6 +112,10 @@
       "SaveOpsi": {
         "type": "checkbox",
         "value": false
+      },
+      "UploadOpsi": {
+        "type": "checkbox",
+        "value": false
       }
     }
   },

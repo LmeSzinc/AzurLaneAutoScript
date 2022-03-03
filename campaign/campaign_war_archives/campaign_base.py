@@ -74,7 +74,10 @@ class CampaignBase(CampaignBase_):
                 return entrance
 
             if WAR_ARCHIVES_SCROLL.appear(main=self):
-                WAR_ARCHIVES_SCROLL.next_page(main=self)
+                if WAR_ARCHIVES_SCROLL.at_bottom(main=self):
+                    WAR_ARCHIVES_SCROLL.set_top(main=self)
+                else:
+                    WAR_ARCHIVES_SCROLL.next_page(main=self)
                 continue
             else:
                 break

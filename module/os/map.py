@@ -209,7 +209,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
         with self.stat.new(
                 genre=inflection.underscore(self.config.task.command),
                 save=self.config.DropRecord_SaveOpsi,
-                upload=False
+                upload=self.config.DropRecord_UploadOpsi
         ) as drop:
             for _ in range(3):
                 backup = self.config.temporary(Campaign_UseAutoSearch=True)

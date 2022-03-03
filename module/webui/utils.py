@@ -227,6 +227,7 @@ class TaskHandler:
                     time.sleep(0.05)
             else:
                 time.sleep(0.5)
+        logger.info("End of task handler loop")
 
     def _get_thread(self) -> threading.Thread:
         thread = threading.Thread(target=self.loop, daemon=True)
@@ -246,8 +247,11 @@ class TaskHandler:
     def stop(self) -> None:
         self.remove_pending_task()
         self._alive = False
-        self._thread.join()
-        logger.info("Finish task handler")
+        self._thread.join(timeout=2)
+        if not self._thread.is_alive():
+            logger.info("Finish task handler")
+        else:
+            logger.warning("Task handler does not stop within 2 seconds")
 
 
 class WebIOTaskHandler(TaskHandler):

@@ -389,6 +389,10 @@
     "SaveOpsi": {
       "name": "Save OpSi Drop Screenshots",
       "help": ""
+    },
+    "UploadOpsi": {
+      "name": "Upload OpSi Screenshots",
+      "help": ""
     }
   },
   "Retirement": {
@@ -1712,7 +1716,7 @@
     },
     "LastZone": {
       "name": "Last Zone Completed",
-      "help": "Automatically updated with map ID\nReplace with 0 to reset progress\nAlready completed zones will be skipped"
+      "help": "Automatically updated with map ID\nReplace with 0 to reset progress\nAlready completed zones will be skipped\nSupports either Zone ID or Name in CN/EN/JP/TW, i.e. \"51\", \"NA Ocean SE Sector E\""
     }
   },
   "OpsiShop": {
@@ -1789,7 +1793,7 @@
     },
     "TargetZone": {
       "name": "Target Zone ID",
-      "help": "Supports either Zone ID or Name\nIf specified, Alas will loop on this same zone after each clear\nUse default value 0 or clear the field to remove the specification\nZone information can be acquired from <./module/os/map_data.py>"
+      "help": "Supports either Zone ID or Name in CN/EN/JP/TW, i.e. \"51\", \"NA Ocean SE Sector E\"\nIf specified, Alas will loop on this same zone after each clear\nUse default value 0 or clear the field to remove the specification\nZone information can be acquired from <./module/os/map_data.py>"
     }
   },
   "Daemon": {
