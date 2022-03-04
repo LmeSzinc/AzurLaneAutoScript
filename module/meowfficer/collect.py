@@ -4,11 +4,11 @@ from module.logger import logger
 from module.meowfficer.assets import *
 from module.meowfficer.base import MeowfficerBase
 
-MEOWFFICER_SKILL_GRID_1 = ButtonGrid(
+MEOWFFICER_TALENT_GRID_1 = ButtonGrid(
     origin=(875, 559), delta=(105, 0), button_shape=(16, 16), grid_shape=(3, 1),
-    name='MEOWFFICER_SKILL_GRID_1')
-MEOWFFICER_SKILL_GRID_2 = MEOWFFICER_SKILL_GRID_1.move(vector=(-40, -20),
-                                                       name='MEOWFFICER_SKILL_GRID_2')
+    name='MEOWFFICER_TALENT_GRID_1')
+MEOWFFICER_TALENT_GRID_2 = MEOWFFICER_TALENT_GRID_1.move(vector=(-40, -20),
+                                                       name='MEOWFFICER_TALENT_GRID_2')
 MEOWFFICER_SHIFT_DETECT = Button(
     area=(1260, 669, 1280, 720), color=(117, 106, 84), button=(1260, 669, 1280, 720),
     name='MEOWFFICER_SHIFT_DETECT')
@@ -54,22 +54,21 @@ class MeowfficerCollect(MeowfficerBase):
                     break
         return flag
 
-    def _meow_get_sr(self):
+    def _meow_is_talented(self):
         """
-        Handle SR cat acquisition
-        If has at least one unique skill
-        then lock to prevent used as feed
+        Examine meowfficer for special talented abilities
+        i.e. no tiers or is rainbow colored
 
-        Pages:
-            in: MEOWFFICER_GET_CHECK
-            out: MEOWFFICER_GET_CHECK or MEOWFFICER_TRAIN
+        Returns:
+            bool
         """
-        # Wait for complete load before examining skills
-        logger.info('SR cat detected, wait complete load and examine base skills')
-        grid = MEOWFFICER_SKILL_GRID_2 if self._meow_detect_shift() else MEOWFFICER_SKILL_GRID_1
+        # Wait for complete load before examining talents
+        logger.info('Configured to retain this type of meowfficer, '
+                    'wait complete load and examine base talents')
+        grid = MEOWFFICER_TALENT_GRID_2 if self._meow_detect_shift() else MEOWFFICER_TALENT_GRID_1
 
-        # Appropriate grid acquired, scan for unique skills
-        has_unique = False
+        # Appropriate grid acquired, scan for special talents
+        talented = False
         for _ in grid.buttons:
             # Empty slot; check for many white pixels
             if self.image_color_count(_, color=(255, 255, 247), threshold=221, count=200):
@@ -80,14 +79,49 @@ class MeowfficerCollect(MeowfficerBase):
             if self.image_color_count(_, color=(255, 255, 255), threshold=221, count=25):
                 continue
 
-            # Detected unique skill; break
-            has_unique = True
+            # Detected special talent; break
+            talented = True
             break
 
-        # Execute appropriate route
-        # Transition into lock popup
-        logger.info('At least one unique skill detected; locking...') if has_unique else \
-            logger.info('No unique skills detected; skipping...')
+        logger.info('At least one special talent ability detected') if talented else \
+        logger.info('No special talent abilities detected')
+        return talented
+
+    def _meow_apply_lock(self, skip_first_screenshot=True):
+        """
+        Apply lock onto the acquired trained meowfficer
+        Prevents the meowfficer being used as feed / enhance
+        material
+
+        Args:
+            skip_first_screenshot (bool):
+        """
+        confirm_timer = Timer(1.5, count=3).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear_then_click(MEOWFFICER_UNLOCKED, offset=(40, 40), interval=3):
+                confirm_timer.reset()
+                continue
+
+            # End
+            if self.appear(MEOWFFICER_LOCKED, offset=(40, 40)):
+                if confirm_timer.reached():
+                    break
+
+        # Wait until info bar disappears
+        self.ensure_no_info_bar(timeout=1)
+
+    def _meow_skip_lock(self):
+        """
+        Applicable to only gold variant meowfficer
+        Handle skip transitions; proceeds slowly
+        with caution to prevent unintentional actions
+        """
+        # Trigger lock popup appearance to initiate sequence
         self.ui_click(MEOWFFICER_TRAIN_CLICK_SAFE_AREA,
                       appear_button=MEOWFFICER_GET_CHECK, check_button=MEOWFFICER_CONFIRM,
                       offset=(40, 40), retry_wait=3, skip_first_screenshot=True)
@@ -103,16 +137,16 @@ class MeowfficerCollect(MeowfficerBase):
 
             return False
 
-        self.ui_click(MEOWFFICER_CONFIRM if has_unique else MEOWFFICER_CANCEL,
-                      check_button=check_popup_exit, offset=(40, 20),
-                      retry_wait=3, skip_first_screenshot=True)
+        self.ui_click(MEOWFFICER_CANCEL, check_button=check_popup_exit,
+                      offset=(40, 20), retry_wait=3, skip_first_screenshot=True)
 
     def meow_get(self, skip_first_screenshot=True):
         """
         Transition through all the necessary screens
         to acquire each trained meowfficer
         Animation is waited for as the amount can vary
-        Only SR will prompt MEOWFFICER_LOCK_CONFIRM
+        Only gold variant meowfficer will prompt for
+        confirmation
 
         Args:
             skip_first_screenshot (bool): Skip first
@@ -133,17 +167,25 @@ class MeowfficerCollect(MeowfficerBase):
             if self.handle_meow_popup_dismiss():
                 confirm_timer.reset()
                 continue
-            if self.appear(MEOWFFICER_GOLD_CHECK, offset=(40, 40)):
-                self._meow_get_sr()
-                skip_first_screenshot = True
-                confirm_timer.reset()
-                continue
             if self.appear(MEOWFFICER_GET_CHECK, offset=(40, 40), interval=3):
+                if self.appear(MEOWFFICER_GOLD_CHECK, offset=(40, 40)):
+                    if not self.config.Meowfficer_RetainTalentedGold or not self._meow_is_talented():
+                        self._meow_skip_lock()
+                        skip_first_screenshot = True
+                        confirm_timer.reset()
+                        continue
+                    self._meow_apply_lock()
+
+                if self.appear(MEOWFFICER_PURPLE_CHECK, offset=(40, 40)):
+                    if self.config.Meowfficer_RetainTalentedPurple and self._meow_is_talented():
+                        self._meow_apply_lock()
+
                 # Susceptible to exception when collecting multiple
                 # Mitigate by popping click_record
                 self.device.click(MEOWFFICER_TRAIN_CLICK_SAFE_AREA)
                 self.device.click_record.pop()
                 confirm_timer.reset()
+                self.interval_reset(MEOWFFICER_GET_CHECK)
                 continue
 
             # End
