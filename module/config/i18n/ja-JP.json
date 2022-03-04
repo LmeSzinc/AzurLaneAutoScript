@@ -1124,6 +1124,14 @@
       "name": "Meowfficer.TrainMeowfficer.name",
       "help": "Meowfficer.TrainMeowfficer.help"
     },
+    "RetainTalentedGold": {
+      "name": "Meowfficer.RetainTalentedGold.name",
+      "help": "Meowfficer.RetainTalentedGold.help"
+    },
+    "RetainTalentedPurple": {
+      "name": "Meowfficer.RetainTalentedPurple.name",
+      "help": "Meowfficer.RetainTalentedPurple.help"
+    },
     "FortChoreMeowfficer": {
       "name": "Meowfficer.FortChoreMeowfficer.name",
       "help": "Meowfficer.FortChoreMeowfficer.help"
