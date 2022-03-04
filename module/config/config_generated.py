@@ -196,6 +196,8 @@ class GeneratedConfig:
     Meowfficer_BuyAmount = 1
     Meowfficer_EnhanceIndex = 0
     Meowfficer_TrainMeowfficer = False
+    Meowfficer_RetainTalentedGold = True
+    Meowfficer_RetainTalentedPurple = False
     Meowfficer_FortChoreMeowfficer = True
 
     # Group `GuildLogistics`

@@ -4689,6 +4689,14 @@
         "type": "checkbox",
         "value": false
       },
+      "RetainTalentedGold": {
+        "type": "checkbox",
+        "value": true
+      },
+      "RetainTalentedPurple": {
+        "type": "checkbox",
+        "value": false
+      },
       "FortChoreMeowfficer": {
         "type": "checkbox",
         "value": true

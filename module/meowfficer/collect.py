@@ -133,7 +133,7 @@ class MeowfficerCollect(MeowfficerBase):
             if self.handle_meow_popup_dismiss():
                 confirm_timer.reset()
                 continue
-            if self.appear(MEOWFFICER_SR_CHECK, offset=(40, 40)):
+            if self.appear(MEOWFFICER_GOLD_CHECK, offset=(40, 40)):
                 self._meow_get_sr()
                 skip_first_screenshot = True
                 confirm_timer.reset()
