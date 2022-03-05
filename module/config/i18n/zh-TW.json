@@ -1591,6 +1591,10 @@
     "OpponentRefreshRecord": {
       "name": "演習對手刷新紀錄時間",
       "help": ""
+    },
+    "ExerciseOffsetTime": {
+      "name": "在獲取演習次數 X 分鐘後開始演習",
+      "help": "負數表示在獲取演習次數前 X 分鐘運行，推薦設為-15，有利於獲取更多積分。請不要設置超過6小時的提前/延後。"
     }
   },
   "Sos": {

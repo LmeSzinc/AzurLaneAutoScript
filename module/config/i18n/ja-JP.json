@@ -1591,6 +1591,10 @@
     "OpponentRefreshRecord": {
       "name": "Exercise.OpponentRefreshRecord.name",
       "help": "Exercise.OpponentRefreshRecord.help"
+    },
+    "ExerciseOffsetTime": {
+      "name": "Exercise.ExerciseOffsetTime.name",
+      "help": "Exercise.ExerciseOffsetTime.help"
     }
   },
   "Sos": {

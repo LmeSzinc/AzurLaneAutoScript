@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from module.config.utils import get_server_last_update
 from module.exercise.assets import *
 from module.exercise.combat import ExerciseCombat
@@ -108,6 +110,8 @@ class Exercise(ExerciseCombat):
     def run(self):
         self.ui_ensure(page_exercise)
 
+        self.config.Exercise_NewChanceTime = [datetime(2000, 1, 1, 0, 0), datetime(2000, 1, 1, 12, 0), datetime(2000, 1, 1, 18, 0)]
+
         self.opponent_change_count = self._get_opponent_change_count()
         logger.attr("Change_opponent_count", self.opponent_change_count)
         while 1:
@@ -130,6 +134,22 @@ class Exercise(ExerciseCombat):
         with self.config.multi_set():
             self.config.set_record(Exercise_OpponentRefreshValue=self.opponent_change_count)
             if self.remain <= self.config.Exercise_ExercisePreserve or self.opponent_change_count >= 5:
-                self.config.task_delay(server_update=True)
+                if abs(self.config.Exercise_ExerciseOffsetTime) < 1:
+                    self.config.task_delay(server_update=True)
+                elif abs(self.config.Exercise_ExerciseOffsetTime) >= 361:
+                    logger.info("Please do not set offset time of exercise to over 6h")
+                    logger.info("请不要设置超过6小时的演习提前/延后")
+                    self.config.task_delay(server_update=True)
+                else:
+                    year_now, month_now, day_now = datetime.now().year, datetime.now().month, datetime.now().day
+                    candidate_time = [cdtime.replace(year=year_now, month=month_now, day=day_now+day_offset)
+                                      for cdtime in self.config.Exercise_NewChanceTime for day_offset in range(-1,1)]
+                    candidate_time = [cdtime + timedelta(minutes=self.config.Exercise_ExerciseOffsetTime) for cdtime in candidate_time]
+                    candidate_time.sort()
+                    for cdtime in candidate_time:
+                        if cdtime > datetime.now() + timedelta(minutes=1):
+                            self.config.task_delay(target=cdtime)
+                            break
+
             else:
                 self.config.task_delay(success=False)
