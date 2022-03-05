@@ -280,6 +280,8 @@ Meowfficer:
   BuyAmount: 1
   EnhanceIndex: 0
   TrainMeowfficer: false
+  RetainTalentedGold: true
+  RetainTalentedPurple: false
   FortChoreMeowfficer: true
 GuildLogistics:
   Enable: true

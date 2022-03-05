@@ -1124,6 +1124,14 @@
       "name": "训练指挥喵",
       "help": "当 \"强化第 X 只猫\" 为 0 时，每天收一只, 周日收获全部，以完成每日任务\n当 \"强化第 X 只猫\" 大于 0 时，开蓝猫箱然后喂猫，自动锁金猫和带特殊技能的紫猫"
     },
+    "RetainTalentedGold": {
+      "name": "Meowfficer.RetainTalentedGold.name",
+      "help": "Meowfficer.RetainTalentedGold.help"
+    },
+    "RetainTalentedPurple": {
+      "name": "Meowfficer.RetainTalentedPurple.name",
+      "help": "Meowfficer.RetainTalentedPurple.help"
+    },
     "FortChoreMeowfficer": {
       "name": "喵窝互动",
       "help": "清扫, 喂食和逗猫"
