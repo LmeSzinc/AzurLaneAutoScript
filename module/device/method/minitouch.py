@@ -7,7 +7,7 @@ from module.base.decorator import cached_property
 from module.base.utils import *
 from module.device.connection import Connection
 from module.device.method.utils import handle_adb_error, del_cached_property, RETRY_TRIES, RETRY_DELAY
-from module.exception import RequestHumanTakeover
+from module.exception import ScriptError, RequestHumanTakeover
 from module.logger import logger
 
 
@@ -103,15 +103,33 @@ class CommandBuilder:
     """
     DEFAULT_DELAY = 0.05
 
-    def __init__(self, max_x, max_y):
+    def __init__(self, max_x, max_y, orientation=0):
         self.max_x = max_x
         self.max_y = max_y
+        self.orientation = orientation
         self.content = ""
         self.delay = 0
 
     def convert(self, x, y):
+        max_x, max_y = self.max_x, self.max_y
+
+        if self.orientation == 0:
+            pass
+        elif self.orientation == 1:
+            x, y = 720 - y, x
+            max_x, max_y = self.max_y, self.max_x
+        elif self.orientation == 2:
+            x, y = 1280 - x, 720 - y
+        elif self.orientation == 3:
+            x, y = y, 1280 - x
+            max_x, max_y = self.max_y, self.max_x
+        else:
+            raise ScriptError(f'Invalid device orientation: {self.orientation}')
+
         # Maximum X and Y coordinates may, but usually do not, match the display size.
-        return int(x / 1280 * self.max_x), int(y / 720 * self.max_y)
+        x, y = int(x / 1280 * max_x), int(y / 720 * max_y)
+
+        return x, y
 
     def append(self, new_content):
         self.content += new_content + "\n"
@@ -246,10 +264,12 @@ class Minitouch(Connection):
     @cached_property
     def minitouch_builder(self):
         self.minitouch_init()
-        return CommandBuilder(self.max_x, self.max_y)
+        return CommandBuilder(self.max_x, self.max_y, self.orientation)
 
     def minitouch_init(self):
         logger.hr('MiniTouch init')
+
+        self.get_orientation()
 
         self._minitouch_port = self.adb_forward("localabstract:minitouch")
 

@@ -322,3 +322,44 @@ class Connection:
             second(int, float, tuple):
         """
         time.sleep(ensure_time(second))
+
+    _orientation_description = {
+        0: 'Normal',
+        1: 'HOME key on the right',
+        2: 'HOME key on the top',
+        3: 'HOME key on the left',
+    }
+    orientation = 0
+
+    def get_orientation(self):
+        """
+        Rotation of the phone
+
+        Returns:
+            int:
+                0: 'Normal'
+                1: 'HOME key on the right'
+                2: 'HOME key on the top'
+                3: 'HOME key on the left'
+        """
+        _DISPLAY_RE = re.compile(
+            r'.*DisplayViewport{valid=true, .*orientation=(?P<orientation>\d+), .*deviceWidth=(?P<width>\d+), deviceHeight=(?P<height>\d+).*'
+        )
+        output = self.adb_shell(['dumpsys', 'display'])
+
+        res = _DISPLAY_RE.search(output, 0)
+
+        if res:
+            o = int(res.group('orientation'))
+            if o in Connection._orientation_description:
+                pass
+            else:
+                o = 0
+                logger.warning(f'Invalid device orientation: {o}, assume it is normal')
+        else:
+            o = 0
+            logger.warning('Unable to get device orientation, assume it is normal')
+
+        self.orientation = o
+        logger.attr('Device Orientation', f'{o} ({Connection._orientation_description.get(o, "Unknown")})')
+        return o
