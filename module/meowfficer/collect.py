@@ -3,16 +3,24 @@ from module.base.timer import Timer
 from module.logger import logger
 from module.meowfficer.assets import *
 from module.meowfficer.base import MeowfficerBase
+from module.ui.switch import Switch
 
 MEOWFFICER_TALENT_GRID_1 = ButtonGrid(
     origin=(875, 559), delta=(105, 0), button_shape=(16, 16), grid_shape=(3, 1),
     name='MEOWFFICER_TALENT_GRID_1')
 MEOWFFICER_TALENT_GRID_2 = MEOWFFICER_TALENT_GRID_1.move(vector=(-40, -20),
-                                                       name='MEOWFFICER_TALENT_GRID_2')
+                                                         name='MEOWFFICER_TALENT_GRID_2')
 MEOWFFICER_SHIFT_DETECT = Button(
     area=(1260, 669, 1280, 720), color=(117, 106, 84), button=(1260, 669, 1280, 720),
     name='MEOWFFICER_SHIFT_DETECT')
 
+SWITCH_LOCK = Switch(name='Meowfficer_Lock', offset=(40, 40))
+SWITCH_LOCK.add_status('lock',
+    check_button=MEOWFFICER_APPLY_UNLOCK,
+    click_button=MEOWFFICER_APPLY_LOCK)
+SWITCH_LOCK.add_status('unlock',
+    check_button=MEOWFFICER_APPLY_LOCK,
+    click_button=MEOWFFICER_APPLY_UNLOCK)
 
 class MeowfficerCollect(MeowfficerBase):
     def _meow_detect_shift(self, skip_first_screenshot=True):
@@ -87,30 +95,19 @@ class MeowfficerCollect(MeowfficerBase):
         logger.info('No special talent abilities detected')
         return talented
 
-    def _meow_apply_lock(self, skip_first_screenshot=True):
+    def _meow_apply_lock(self, lock=True):
         """
-        Apply lock onto the acquired trained meowfficer
-        Prevents the meowfficer being used as feed / enhance
-        material
+        Apply designated lock status onto
+        the acquired trained meowfficer
+        Prevents the meowfficer being used
+        as feed / enhance material
 
         Args:
-            skip_first_screenshot (bool):
+            lock (bool):
         """
-        confirm_timer = Timer(1.5, count=3).start()
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            if self.appear_then_click(MEOWFFICER_UNLOCKED, offset=(40, 40), interval=3):
-                confirm_timer.reset()
-                continue
-
-            # End
-            if self.appear(MEOWFFICER_LOCKED, offset=(40, 40)):
-                if confirm_timer.reached():
-                    break
+        # Apply designated lock status
+        SWITCH_LOCK.set(status='lock' if lock \
+                        else 'unlock', main=self)
 
         # Wait until info bar disappears
         self.ensure_no_info_bar(timeout=1)
