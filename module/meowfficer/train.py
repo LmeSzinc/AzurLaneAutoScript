@@ -154,13 +154,13 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
         if self.config.Meowfficer_EnhanceIndex:
             if common_sum <= 20:
                 logger.info('Low stock of common cat boxes')
-                logger.info('Queue in descending order (SR > R > C)')
+                logger.info('Queue in descending order (Gold > Purple > Blue)')
                 self._meow_nqueue()
             else:
-                logger.info('Queue in ascending order (C > R > SR)')
+                logger.info('Queue in ascending order (Blue > Purple > Gold)')
                 self._meow_rqueue()
         else:
-            logger.info('Queue in descending order (SR > R > C)')
+            logger.info('Queue in descending order (Gold > Purple > Blue)')
             self._meow_nqueue()
 
     def meow_train(self):

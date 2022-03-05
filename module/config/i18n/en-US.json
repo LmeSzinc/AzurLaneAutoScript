@@ -1603,6 +1603,10 @@
     "OpponentRefreshRecord": {
       "name": "Last Refresh Record",
       "help": ""
+    },
+    "DelayExercise": {
+      "name": "Delay Exercise for Higher Score",
+      "help": "if you enable this, the software will always retain 10 exercise chances until 20 minutes before you get next 5 chances. In this way, you can enlarge the gap between your score and your opponents', and get higher score after victory. In last noons of exercise seasons, 15 chances will be exploited continuously to get high rank. (Note: if you adjust the time manually, the chances will be used according to your set instead of 20 minutes before refreshing) "
     }
   },
   "Sos": {

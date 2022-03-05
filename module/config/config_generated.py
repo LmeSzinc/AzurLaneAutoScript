@@ -295,6 +295,7 @@ class GeneratedConfig:
     Exercise_LowHpConfirmWait = 0.1
     Exercise_OpponentRefreshValue = 0
     Exercise_OpponentRefreshRecord = datetime.datetime(2020, 1, 1, 0, 0)
+    Exercise_DelayExercise = False
 
     # Group `Sos`
     Sos_Chapter = 3  # 3, 4, 5, 6, 7, 8, 9, 10

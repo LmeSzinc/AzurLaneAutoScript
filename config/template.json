@@ -1114,7 +1114,8 @@
       "LowHpThreshold": 0.4,
       "LowHpConfirmWait": 0.1,
       "OpponentRefreshValue": 0,
-      "OpponentRefreshRecord": "2020-01-01 00:00:00"
+      "OpponentRefreshRecord": "2020-01-01 00:00:00",
+      "DelayExercise": false
     }
   },
   "Sos": {
