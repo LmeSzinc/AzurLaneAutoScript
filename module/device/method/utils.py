@@ -65,8 +65,13 @@ def handle_adb_error(e):
         # AdbTimeout(adb read timeout)
         logger.error(e)
         return True
-    else:
+    elif 'closed' in text:
         # AdbError(closed)
+        # Usually after AdbTimeout(adb read timeout)
+        # Disconnect and re-connect should fix this.
+        logger.error(e)
+        return True
+    else:
         # AdbError(device offline)
         # AdbError()
         logger.exception(e)

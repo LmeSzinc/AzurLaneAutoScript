@@ -297,13 +297,23 @@ class Connection:
         init = u2.init.Initer(self.adb, loglevel=logging.DEBUG)
         init.set_atx_agent_addr('127.0.0.1:7912')
         init.install()
-        # self.uninstall_minicap()
+        self.uninstall_minicap()
 
     def uninstall_minicap(self):
         """ minicap can't work or will send compressed images on some emulators. """
         logger.info('Removing minicap')
         self.adb_shell(["rm", "/data/local/tmp/minicap"])
         self.adb_shell(["rm", "/data/local/tmp/minicap.so"])
+
+    def restart_atx(self):
+        """
+        Minitouch supports only one connection at a time.
+        Restart ATX to kick the existing one.
+        """
+        logger.info('Restart ATX')
+        atx_agent_path = '/data/local/tmp/atx-agent'
+        self.adb_shell([atx_agent_path, 'server', '--stop'])
+        self.adb_shell([atx_agent_path, 'server', '--nouia', '-d', '--addr', '127.0.0.1:7912'])
 
     @staticmethod
     def sleep(second):

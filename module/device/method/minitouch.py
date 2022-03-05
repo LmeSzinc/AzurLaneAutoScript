@@ -150,7 +150,11 @@ class CommandBuilder:
         self.delay = 0
 
 
-class MinitouchError(Exception):
+class MinitouchNotInstalledError(Exception):
+    pass
+
+
+class MinitouchOccupiedError(Exception):
     pass
 
 
@@ -161,10 +165,13 @@ def retry(func):
             self (Minitouch):
         """
         init = None
+        sleep = True
         for _ in range(RETRY_TRIES):
             try:
                 if callable(init):
-                    self.sleep(RETRY_DELAY)
+                    if sleep:
+                        self.sleep(RETRY_DELAY)
+                        sleep = True
                     init()
                 return func(self, *args, **kwargs)
             # Can't handle
@@ -175,6 +182,7 @@ def retry(func):
                 logger.error(e)
 
                 def init():
+                    self.adb_disconnect(self.serial)
                     self.adb_connect(self.serial)
                     del_cached_property(self, 'minitouch_builder')
             # Emulator closed
@@ -182,21 +190,35 @@ def retry(func):
                 logger.error(e)
 
                 def init():
+                    self.adb_disconnect(self.serial)
                     self.adb_connect(self.serial)
                     del_cached_property(self, 'minitouch_builder')
-            # MinitouchError: Received empty data from minitouch
-            except MinitouchError as e:
+            # MinitouchNotInstalledError: Received empty data from minitouch
+            except MinitouchNotInstalledError as e:
                 logger.error(e)
+                sleep = False
 
                 def init():
                     self.install_uiautomator2()
                     if self._minitouch_port:
                         self.adb_forward_remove(f'tcp:{self._minitouch_port}')
                     del_cached_property(self, 'minitouch_builder')
+            # MinitouchOccupiedError: Timeout when connecting to minitouch
+            except MinitouchOccupiedError as e:
+                logger.error(e)
+                sleep = False
+
+                def init():
+                    self.restart_atx()
+                    if self._minitouch_port:
+                        self.adb_forward_remove(f'tcp:{self._minitouch_port}')
+                    del_cached_property(self, 'minitouch_builder')
+
             # AdbError
             except AdbError as e:
                 if handle_adb_error(e):
                     def init():
+                        self.adb_disconnect(self.serial)
                         self.adb_connect(self.serial)
                         del_cached_property(self, 'minitouch_builder')
                 else:
@@ -235,6 +257,7 @@ class Minitouch(Connection):
         # self.adb_shell([self.config.MINITOUCH_FILEPATH_REMOTE])
 
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client.settimeout(1)
         client.connect(('127.0.0.1', self._minitouch_port))
         self._minitouch_client = client
 
@@ -243,7 +266,11 @@ class Minitouch(Connection):
 
         # v <version>
         # protocol version, usually it is 1. needn't use this
-        out = socket_out.readline().replace("\n", "").replace("\r", "")
+        try:
+            out = socket_out.readline().replace("\n", "").replace("\r", "")
+        except socket.timeout:
+            raise MinitouchOccupiedError('Timeout when connecting to minitouch, '
+                                         'probably because another connection has been established')
         logger.info(out)
 
         # ^ <max-contacts> <max-x> <max-y> <max-pressure>
@@ -252,7 +279,8 @@ class Minitouch(Connection):
         try:
             _, max_contacts, max_x, max_y, max_pressure, *_ = out.split(" ")
         except ValueError:
-            raise MinitouchError('Received empty data from minitouch')
+            raise MinitouchNotInstalledError('Received empty data from minitouch, '
+                                             'probably because minitouch is not installed')
         # self.max_contacts = max_contacts
         self.max_x = int(max_x)
         self.max_y = int(max_y)

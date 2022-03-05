@@ -37,6 +37,7 @@ def retry(func):
                 logger.error(e)
 
                 def init():
+                    self.adb_disconnect(self.serial)
                     self.adb_connect(self.serial)
                     del_cached_property(self, 'hermit_session')
             # When unable to send requests
@@ -47,6 +48,7 @@ def retry(func):
                     # Hermit not installed or not running
                     # ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
                     def init():
+                        self.adb_disconnect(self.serial)
                         self.adb_connect(self.serial)
                         self.hermit_init()
                         del_cached_property(self, 'hermit_session')
@@ -55,12 +57,14 @@ def retry(func):
                     # HTTPConnectionPool(host='127.0.0.1', port=20269):
                     # Max retries exceeded with url: /click?x=500&y=500
                     def init():
+                        self.adb_disconnect(self.serial)
                         self.adb_connect(self.serial)
                         del_cached_property(self, 'hermit_session')
             # AdbError
             except AdbError as e:
                 if handle_adb_error(e):
                     def init():
+                        self.adb_disconnect(self.serial)
                         self.adb_connect(self.serial)
                         del_cached_property(self, 'hermit_session')
                 else:
@@ -70,6 +74,7 @@ def retry(func):
                 logger.error(e)
 
                 def init():
+                    self.adb_disconnect(self.serial)
                     self.adb_connect(self.serial)
                     self.hermit_init()
                     del_cached_property(self, 'hermit_session')
