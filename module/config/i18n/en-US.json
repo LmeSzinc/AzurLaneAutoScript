@@ -1591,6 +1591,10 @@
     "OpponentRefreshRecord": {
       "name": "Last Refresh Record",
       "help": ""
+    },
+    "ExerciseOffsetTime": {
+      "name": "Start Exercise X minutes after new opportunities got",
+      "help": "Minus values means starting exercise before new opportunities. -15 is recommended. Don't set over 6 hours ahead or afterwards"
     }
   },
   "Sos": {

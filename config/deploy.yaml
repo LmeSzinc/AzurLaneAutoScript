@@ -11,7 +11,7 @@ Deploy:
     # Filepath of git executable `git.exe`
     # [Easy installer] Use './toolkit/Git/mingw64/bin/git.exe'
     # [Other] Use you own git
-    GitExecutable: /usr/bin/git
+    GitExecutable: ./toolkit/Git/mingw64/bin/git.exe
     # Set git proxy
     # [CN user] Use your local http proxy (http://127.0.0.1:{port}) or socks5 proxy (socks5://127.0.0.1:{port})
     # [Other] Use null
@@ -29,7 +29,7 @@ Deploy:
     # Filepath of python executable `python.exe`
     # [Easy installer] Use './toolkit/python.exe'
     # [Other] Use you own python, and its version should be 3.7.6 64bit
-    PythonExecutable: /usr/bin/python
+    PythonExecutable: ./toolkit/python.exe
     # URL of pypi mirror
     # [CN user] Use 'https://pypi.tuna.tsinghua.edu.cn/simple' for faster and more stable download
     # [Other] Use null
@@ -40,13 +40,13 @@ Deploy:
     # Path to requirements.txt
     # [In most cases] Use 'requirements.txt'
     # [In AidLux] Use './deploy/AidLux/{version}/requirements.txt', version is default to 0.92
-    RequirementsFile: ./deploy/AidLux/0.92/requirements.txt
+    RequirementsFile: requirements.txt
 
   Adb:
     # Filepath of ADB executable `adb.exe`
     # [Easy installer] Use './toolkit/Lib/site-packages/adbutils/binaries/adb.exe'
     # [Other] Use you own latest ADB, but not the ADB in your emulator
-    AdbExecutable: /usr/bin/adb
+    AdbExecutable: ./toolkit/Lib/site-packages/adbutils/binaries/adb.exe
     # Whether to replace ADB
     # Chinese emulators (NoxPlayer, LDPlayer, MemuPlayer, MuMuPlayer) use their own ADB, instead of the latest.
     # Different ADB servers will terminate each other at startup, resulting in disconnection.
@@ -98,11 +98,11 @@ Deploy:
     # 'en-US' for English
     # 'ja-JP' for Japanese
     # 'zh-TW' for Chinese traditional
-    Language: en-US
+    Language: zh-CN
     # Theme of web ui
     # 'default' for light theme
     # 'dark' for dark theme
-    Theme: default
+    Theme: dark
     # Follow system DPI scaling
     # [In most cases] true
     # [In few cases] false to make Alas smaller, if you have a low resolution but high DPI scaling.
