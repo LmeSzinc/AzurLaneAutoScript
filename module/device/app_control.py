@@ -30,9 +30,6 @@ class AppControl(Adb, Uiautomator2):
         else:
             self.app_start_adb(package)
 
-        # Screen may rotate after starting an app
-        self.get_orientation()
-
     def app_stop(self):
         package = self.config.Emulator_PackageName
         method = self.config.Emulator_ControlMethod

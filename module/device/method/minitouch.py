@@ -103,28 +103,31 @@ class CommandBuilder:
     """
     DEFAULT_DELAY = 0.05
 
-    def __init__(self, max_x, max_y, orientation=0):
-        self.max_x = max_x
-        self.max_y = max_y
-        self.orientation = orientation
+    def __init__(self, device):
+        """
+        Args:
+            device (Minitouch):
+        """
+        self.device = device
         self.content = ""
         self.delay = 0
 
     def convert(self, x, y):
-        max_x, max_y = self.max_x, self.max_y
+        max_x, max_y = self.device.max_x, self.device.max_y
+        orientation = self.device.orientation
 
-        if self.orientation == 0:
+        if orientation == 0:
             pass
-        elif self.orientation == 1:
+        elif orientation == 1:
             x, y = 720 - y, x
-            max_x, max_y = self.max_y, self.max_x
-        elif self.orientation == 2:
+            max_x, max_y = max_y, max_x
+        elif orientation == 2:
             x, y = 1280 - x, 720 - y
-        elif self.orientation == 3:
+        elif orientation == 3:
             x, y = y, 1280 - x
-            max_x, max_y = self.max_y, self.max_x
+            max_x, max_y = max_y, max_x
         else:
-            raise ScriptError(f'Invalid device orientation: {self.orientation}')
+            raise ScriptError(f'Invalid device orientation: {orientation}')
 
         # Maximum X and Y coordinates may, but usually do not, match the display size.
         x, y = int(x / 1280 * max_x), int(y / 720 * max_y)
@@ -265,7 +268,7 @@ class Minitouch(Connection):
     @cached_property
     def minitouch_builder(self):
         self.minitouch_init()
-        return CommandBuilder(self.max_x, self.max_y, self.orientation)
+        return CommandBuilder(self)
 
     def minitouch_init(self):
         logger.hr('MiniTouch init')
