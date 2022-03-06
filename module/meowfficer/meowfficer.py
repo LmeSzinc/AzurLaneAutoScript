@@ -16,7 +16,8 @@ class RewardMeowfficer(MeowfficerBuy, MeowfficerFort, MeowfficerTrain):
         """
         if self.config.Meowfficer_BuyAmount <= 0 \
                 and not self.config.Meowfficer_TrainMeowfficer \
-                and not self.config.Meowfficer_FortChoreMeowfficer:
+                and not self.config.Meowfficer_FortChoreMeowfficer \
+                and not self.config.Meowfficer_TrainMeowfficer:
             self.config.Scheduler_Enable = False
             self.config.task_stop()
 
@@ -31,4 +32,12 @@ class RewardMeowfficer(MeowfficerBuy, MeowfficerFort, MeowfficerTrain):
         if self.config.Meowfficer_FortChoreMeowfficer:
             self.meow_fort()
 
-        self.config.task_delay(server_update=True)
+        if self.config.Meowfficer_TrainMeowfficer:
+            # Meowfficer training duration:
+            # - Blue, 2.0h ~ 2.5h
+            # - Purple, 5.5h ~ 6.5h
+            # - Gold, 9.5h ~ 10.5h
+            # Delay 2.5h ~ 3.5h when having meowfficers under training
+            self.config.task_delay(minute=(150, 210), server_update=True)
+        else:
+            self.config.task_delay(server_update=True)
