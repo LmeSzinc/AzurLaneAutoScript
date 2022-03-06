@@ -173,13 +173,17 @@ class UI(InfoHandler):
                 confirm_timer.reset()
 
             # Other pages
+            clicked = False
             for page in visited:
                 if page.parent is None or page.check_button is None:
                     continue
                 if self.appear(page.check_button, offset=offset, interval=5):
                     self.device.click(page.links[page.parent])
                     confirm_timer.reset()
+                    clicked = True
                     break
+            if clicked:
+                continue
 
             # Additional
             if self.ui_additional():

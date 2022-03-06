@@ -38,6 +38,7 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
             MEOWFFICER_TRAIN_FILL_QUEUE
         """
         timeout_count = 3
+        self.handle_info_bar()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -52,8 +53,12 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
                 else:
                     return False
 
+            # End
             if self.appear(MEOWFFICER_TRAIN_FILL_QUEUE, offset=(20, 20)):
                 return True
+            if self.info_bar_count():
+                logger.info('No more slots to train, exit')
+                return False
 
     def _meow_nqueue(self, skip_first_screenshot=True):
         """
@@ -184,8 +189,8 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
             is_sunday = get_server_next_update(self.config.Scheduler_ServerUpdate).weekday() == 0
 
         # Enter MEOWFFICER_TRAIN window
-        self.ui_click(MEOWFFICER_TRAIN_ENTER, check_button=MEOWFFICER_TRAIN_START,
-                      additional=self.meow_additional, retry_wait=3, skip_first_screenshot=True)
+        self.ui_click(MEOWFFICER_TRAIN_ENTER, check_button=MEOWFFICER_TRAIN_START, additional=self.meow_additional,
+                      retry_wait=3, confirm_wait=0, skip_first_screenshot=True)
 
         # If today is Sunday, then collect all remainder otherwise just collect one
         # Once collected, should be back in MEOWFFICER_TRAIN window
@@ -193,7 +198,7 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
         if remain > 0:
             collected = self.meow_collect(is_sunday)
 
-        # FIll queue to full if
+        # Fill queue to full if
         # - Attempted to collect but failed,
         #   indicating in progress or completely
         #   empty
@@ -203,7 +208,7 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
             self.meow_queue()
 
         self.ui_click(MEOWFFICER_GOTO_DORM, check_button=MEOWFFICER_TRAIN_ENTER,
-                      appear_button=MEOWFFICER_TRAIN_START, offset=None)
+                      appear_button=MEOWFFICER_TRAIN_START, offset=None, skip_first_screenshot=True)
 
         # Clear meowfficer space for upcoming week iff not configured
         # for enhancement and is_sunday

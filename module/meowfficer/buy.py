@@ -4,7 +4,6 @@ from module.meowfficer.assets import *
 from module.meowfficer.base import MeowfficerBase
 from module.ocr.ocr import Digit, DigitCounter
 from module.ui.assets import MEOWFFICER_GOTO_DORM
-from module.ui.ui import UI, page_meowfficer
 
 BUY_MAX = 15
 BUY_PRIZE = 1500
@@ -51,8 +50,8 @@ class MeowfficerBuy(MeowfficerBase):
             count = coins // BUY_PRIZE + int(remain == total)
             logger.info(f'Current coins only enough to buy {count}')
 
-        self.ui_click(MEOWFFICER_BUY_ENTER, check_button=MEOWFFICER_BUY,
-                      additional=self.meow_additional, retry_wait=3, skip_first_screenshot=True)
+        self.ui_click(MEOWFFICER_BUY_ENTER, check_button=MEOWFFICER_BUY, additional=self.meow_additional,
+                      retry_wait=3, confirm_wait=0, skip_first_screenshot=True)
         self.ui_ensure_index(count, letter=MEOWFFICER_CHOOSE, prev_button=MEOWFFICER_BUY_PREV,
                              next_button=MEOWFFICER_BUY_NEXT, skip_first_screenshot=True)
         return True

@@ -73,8 +73,8 @@ class MeowfficerFort(MeowfficerBase):
         logger.hr('Meowfficer fort', level=1)
 
         # Enter MEOWFFICER_FORT window
-        self.ui_click(MEOWFFICER_FORT_ENTER, check_button=MEOWFFICER_FORT_CHECK,
-                      additional=self.meow_additional, retry_wait=3, skip_first_screenshot=True)
+        self.ui_click(MEOWFFICER_FORT_ENTER, check_button=MEOWFFICER_FORT_CHECK, additional=self.meow_additional,
+                      retry_wait=3, confirm_wait=0, skip_first_screenshot=True)
 
         # Perform fort chore operations
         self.meow_chores()
@@ -87,6 +87,6 @@ class MeowfficerFort(MeowfficerBase):
 
         self.ui_click(MEOWFFICER_GOTO_DORM,
                       check_button=MEOWFFICER_FORT_ENTER, appear_button=MEOWFFICER_FORT_CHECK,
-                      additional=additional, offset=None, skip_first_screenshot=True)
+                      additional=additional, offset=None, confirm_wait=0, skip_first_screenshot=True)
 
         return True

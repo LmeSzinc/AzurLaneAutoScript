@@ -1,4 +1,4 @@
-from module.base.button import Button, ButtonGrid
+from module.base.button import ButtonGrid
 from module.base.timer import Timer
 from module.logger import logger
 from module.meowfficer.assets import *
@@ -15,12 +15,17 @@ MEOWFFICER_SHIFT_DETECT = Button(
     name='MEOWFFICER_SHIFT_DETECT')
 
 SWITCH_LOCK = Switch(name='Meowfficer_Lock', offset=(40, 40))
-SWITCH_LOCK.add_status('lock',
+SWITCH_LOCK.add_status(
+    'lock',
     check_button=MEOWFFICER_APPLY_UNLOCK,
-    click_button=MEOWFFICER_APPLY_LOCK)
-SWITCH_LOCK.add_status('unlock',
+    click_button=MEOWFFICER_APPLY_LOCK
+)
+SWITCH_LOCK.add_status(
+    'unlock',
     check_button=MEOWFFICER_APPLY_LOCK,
-    click_button=MEOWFFICER_APPLY_UNLOCK)
+    click_button=MEOWFFICER_APPLY_UNLOCK
+)
+
 
 class MeowfficerCollect(MeowfficerBase):
     def _meow_detect_shift(self, skip_first_screenshot=True):
@@ -92,7 +97,7 @@ class MeowfficerCollect(MeowfficerBase):
             break
 
         logger.info('At least one special talent ability detected') if talented else \
-        logger.info('No special talent abilities detected')
+            logger.info('No special talent abilities detected')
         return talented
 
     def _meow_apply_lock(self, lock=True):
@@ -106,8 +111,7 @@ class MeowfficerCollect(MeowfficerBase):
             lock (bool):
         """
         # Apply designated lock status
-        SWITCH_LOCK.set(status='lock' if lock \
-                        else 'unlock', main=self)
+        SWITCH_LOCK.set(status='lock' if lock else 'unlock', main=self)
 
         # Wait until info bar disappears
         self.ensure_no_info_bar(timeout=1)
