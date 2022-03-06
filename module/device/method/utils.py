@@ -91,7 +91,7 @@ def del_cached_property(obj, name):
         obj:
         name (str):
     """
-    if 'attr' in obj.__dict__:
+    if name in obj.__dict__:
         del obj.__dict__[name]
 
 

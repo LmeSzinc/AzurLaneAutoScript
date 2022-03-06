@@ -39,7 +39,6 @@ def retry(func):
                 def init():
                     self.adb_disconnect(self.serial)
                     self.adb_connect(self.serial)
-                    del_cached_property(self, 'hermit_session')
             # When unable to send requests
             except requests.exceptions.ConnectionError as e:
                 logger.error(e)
@@ -51,7 +50,6 @@ def retry(func):
                         self.adb_disconnect(self.serial)
                         self.adb_connect(self.serial)
                         self.hermit_init()
-                        del_cached_property(self, 'hermit_session')
                 else:
                     # Lost connection, adb server was killed
                     # HTTPConnectionPool(host='127.0.0.1', port=20269):
@@ -59,14 +57,12 @@ def retry(func):
                     def init():
                         self.adb_disconnect(self.serial)
                         self.adb_connect(self.serial)
-                        del_cached_property(self, 'hermit_session')
             # AdbError
             except AdbError as e:
                 if handle_adb_error(e):
                     def init():
                         self.adb_disconnect(self.serial)
                         self.adb_connect(self.serial)
-                        del_cached_property(self, 'hermit_session')
                 else:
                     break
             # HermitError: {"code":-1,"msg":"error"}
@@ -77,7 +73,6 @@ def retry(func):
                     self.adb_disconnect(self.serial)
                     self.adb_connect(self.serial)
                     self.hermit_init()
-                    del_cached_property(self, 'hermit_session')
             # Unknown, probably a trucked image
             except Exception as e:
                 logger.exception(e)

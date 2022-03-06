@@ -202,7 +202,6 @@ def retry(func):
                 def init():
                     self.adb_disconnect(self.serial)
                     self.adb_connect(self.serial)
-                    del_cached_property(self, 'minitouch_builder')
             # Emulator closed
             except ConnectionAbortedError as e:
                 logger.error(e)
@@ -210,7 +209,6 @@ def retry(func):
                 def init():
                     self.adb_disconnect(self.serial)
                     self.adb_connect(self.serial)
-                    del_cached_property(self, 'minitouch_builder')
             # MinitouchNotInstalledError: Received empty data from minitouch
             except MinitouchNotInstalledError as e:
                 logger.error(e)
@@ -231,16 +229,19 @@ def retry(func):
                     if self._minitouch_port:
                         self.adb_forward_remove(f'tcp:{self._minitouch_port}')
                     del_cached_property(self, 'minitouch_builder')
-
             # AdbError
             except AdbError as e:
                 if handle_adb_error(e):
                     def init():
                         self.adb_disconnect(self.serial)
                         self.adb_connect(self.serial)
-                        del_cached_property(self, 'minitouch_builder')
                 else:
                     break
+            except BrokenPipeError as e:
+                logger.error(e)
+
+                def init():
+                    del_cached_property(self, 'minitouch_builder')
             # Unknown, probably a trucked image
             except Exception as e:
                 logger.exception(e)

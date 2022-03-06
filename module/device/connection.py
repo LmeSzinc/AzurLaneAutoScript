@@ -12,7 +12,7 @@ from deploy.utils import poor_yaml_read, DEPLOY_CONFIG
 from module.base.decorator import cached_property
 from module.base.utils import ensure_time
 from module.config.config import AzurLaneConfig
-from module.device.method.utils import possible_reasons, random_port
+from module.device.method.utils import possible_reasons, random_port, del_cached_property
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 
@@ -287,7 +287,12 @@ class Connection:
             return False
 
     def adb_disconnect(self, serial):
-        self.adb_client.disconnect(serial)
+        msg = self.adb_client.disconnect(serial)
+        if msg:
+            logger.info(msg)
+
+        del_cached_property(self, 'hermit_session')
+        del_cached_property(self, 'minitouch_builder')
 
     def install_uiautomator2(self):
         """
