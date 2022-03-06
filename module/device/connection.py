@@ -12,7 +12,7 @@ from deploy.utils import poor_yaml_read, DEPLOY_CONFIG
 from module.base.decorator import cached_property
 from module.base.utils import ensure_time
 from module.config.config import AzurLaneConfig
-from module.device.method.utils import possible_reasons, random_port
+from module.device.method.utils import possible_reasons, random_port, del_cached_property
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 
@@ -287,7 +287,12 @@ class Connection:
             return False
 
     def adb_disconnect(self, serial):
-        self.adb_client.disconnect(serial)
+        msg = self.adb_client.disconnect(serial)
+        if msg:
+            logger.info(msg)
+
+        del_cached_property(self, 'hermit_session')
+        del_cached_property(self, 'minitouch_builder')
 
     def install_uiautomator2(self):
         """
@@ -297,13 +302,23 @@ class Connection:
         init = u2.init.Initer(self.adb, loglevel=logging.DEBUG)
         init.set_atx_agent_addr('127.0.0.1:7912')
         init.install()
-        # self.uninstall_minicap()
+        self.uninstall_minicap()
 
     def uninstall_minicap(self):
         """ minicap can't work or will send compressed images on some emulators. """
         logger.info('Removing minicap')
         self.adb_shell(["rm", "/data/local/tmp/minicap"])
         self.adb_shell(["rm", "/data/local/tmp/minicap.so"])
+
+    def restart_atx(self):
+        """
+        Minitouch supports only one connection at a time.
+        Restart ATX to kick the existing one.
+        """
+        logger.info('Restart ATX')
+        atx_agent_path = '/data/local/tmp/atx-agent'
+        self.adb_shell([atx_agent_path, 'server', '--stop'])
+        self.adb_shell([atx_agent_path, 'server', '--nouia', '-d', '--addr', '127.0.0.1:7912'])
 
     @staticmethod
     def sleep(second):
@@ -312,3 +327,44 @@ class Connection:
             second(int, float, tuple):
         """
         time.sleep(ensure_time(second))
+
+    _orientation_description = {
+        0: 'Normal',
+        1: 'HOME key on the right',
+        2: 'HOME key on the top',
+        3: 'HOME key on the left',
+    }
+    orientation = 0
+
+    def get_orientation(self):
+        """
+        Rotation of the phone
+
+        Returns:
+            int:
+                0: 'Normal'
+                1: 'HOME key on the right'
+                2: 'HOME key on the top'
+                3: 'HOME key on the left'
+        """
+        _DISPLAY_RE = re.compile(
+            r'.*DisplayViewport{valid=true, .*orientation=(?P<orientation>\d+), .*deviceWidth=(?P<width>\d+), deviceHeight=(?P<height>\d+).*'
+        )
+        output = self.adb_shell(['dumpsys', 'display'])
+
+        res = _DISPLAY_RE.search(output, 0)
+
+        if res:
+            o = int(res.group('orientation'))
+            if o in Connection._orientation_description:
+                pass
+            else:
+                o = 0
+                logger.warning(f'Invalid device orientation: {o}, assume it is normal')
+        else:
+            o = 0
+            logger.warning('Unable to get device orientation, assume it is normal')
+
+        self.orientation = o
+        logger.attr('Device Orientation', f'{o} ({Connection._orientation_description.get(o, "Unknown")})')
+        return o

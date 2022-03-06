@@ -46,6 +46,7 @@ class Screenshot(Adb, Uiautomator2, AScreenCap):
             if self.config.Emulator_ScreenshotDedithering:
                 # This will take 40-60ms
                 cv2.fastNlMeansDenoising(self.image, self.image, h=17, templateWindowSize=1, searchWindowSize=2)
+            self.image = self._handle_orientated_image(self.image)
 
             if self.config.Error_SaveError:
                 self.screenshot_deque.append({'time': datetime.now(), 'image': self.image})
@@ -56,6 +57,27 @@ class Screenshot(Adb, Uiautomator2, AScreenCap):
                 continue
 
         return self.image
+
+    def _handle_orientated_image(self, image):
+        """
+        Args:
+            image (np.ndarray):
+
+        Returns:
+            np.ndarray:
+        """
+        if self.orientation == 0:
+            pass
+        elif self.orientation == 1:
+            image = cv2.rotate(image, cv2.ROTATE_90_COUNTERCLOCKWISE)
+        elif self.orientation == 2:
+            image = cv2.rotate(image, cv2.ROTATE_180)
+        elif self.orientation == 3:
+            image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
+        else:
+            raise ScriptError(f'Invalid device orientation: {self.orientation}')
+
+        return image
 
     @cached_property
     def screenshot_deque(self):
@@ -141,23 +163,32 @@ class Screenshot(Adb, Uiautomator2, AScreenCap):
         """
         if self._screen_size_checked:
             return True
-        else:
-            self._screen_size_checked = True
-        # Check screen size
-        height, width, channel = self.image.shape
-        logger.attr('Screen_size', f'{width}x{height}')
-        if not (width == 1280 and height == 720):
-            logger.critical(f'Resolution not supported: {width}x{height}')
-            logger.critical('Please set emulator resolution to 1280x720')
-            raise RequestHumanTakeover
-        else:
-            return True
+
+        orientated = False
+        for _ in range(2):
+            # Check screen size
+            height, width, channel = self.image.shape
+            logger.attr('Screen_size', f'{width}x{height}')
+            if width == 1280 and height == 720:
+                self._screen_size_checked = True
+                return True
+            elif not orientated and (width == 720 and height == 1280):
+                logger.info('Received orientated screenshot, handling')
+                self.get_orientation()
+                self.image = self._handle_orientated_image(self.image)
+                orientated = True
+                continue
+            elif hasattr(self, 'app_is_running') and not self.app_is_running():
+                logger.warning('Received orientated screenshot, game not running')
+                return True
+            else:
+                logger.critical(f'Resolution not supported: {width}x{height}')
+                logger.critical('Please set emulator resolution to 1280x720')
+                raise RequestHumanTakeover
 
     def check_screen_black(self):
         if self._screen_black_checked:
             return True
-        else:
-            self._screen_black_checked = True
         # Check screen color
         # May get a pure black screenshot on some emulators.
         color = get_color(self.image, area=(0, 0, 1280, 720))
@@ -175,4 +206,5 @@ class Screenshot(Adb, Uiautomator2, AScreenCap):
                 logger.critical('Please use other screenshot methods')
                 raise RequestHumanTakeover
         else:
+            self._screen_black_checked = True
             return True

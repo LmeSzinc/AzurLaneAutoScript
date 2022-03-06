@@ -29,10 +29,16 @@ class LoginHandler(Combat):
         logger.hr('App login')
 
         confirm_timer = Timer(1.5, count=4).start()
+        orientation_timer = Timer(5)
         login_success = False
 
         while 1:
             self.device.screenshot()
+            if not login_success and orientation_timer.reached():
+                # Screen may rotate after starting an app
+                self.device.get_orientation()
+                orientation_timer.reset()
+
             if self.handle_get_items():
                 continue
             if self.handle_get_ship():

@@ -32,11 +32,13 @@ def retry(func):
                 logger.error(e)
 
                 def init():
+                    self.adb_disconnect(self.serial)
                     self.adb_connect(self.serial)
             # AdbError
             except AdbError as e:
                 if handle_adb_error(e):
                     def init():
+                        self.adb_disconnect(self.serial)
                         self.adb_connect(self.serial)
                 else:
                     break

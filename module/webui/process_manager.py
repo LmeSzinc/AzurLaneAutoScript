@@ -52,7 +52,7 @@ class ProcessManager:
         lock = FileLock(f"{filepath_config(self.config_name)}.lock")
         with lock:
             if self.alive:
-                self._process.terminate()
+                self._process.kill()
                 self.renderables.append(
                     f"[{self.config_name}] exited. Reason: Manual stop\n"
                 )

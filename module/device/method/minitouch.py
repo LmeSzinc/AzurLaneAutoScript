@@ -7,7 +7,7 @@ from module.base.decorator import cached_property
 from module.base.utils import *
 from module.device.connection import Connection
 from module.device.method.utils import handle_adb_error, del_cached_property, RETRY_TRIES, RETRY_DELAY
-from module.exception import RequestHumanTakeover
+from module.exception import ScriptError, RequestHumanTakeover
 from module.logger import logger
 
 
@@ -103,15 +103,36 @@ class CommandBuilder:
     """
     DEFAULT_DELAY = 0.05
 
-    def __init__(self, max_x, max_y):
-        self.max_x = max_x
-        self.max_y = max_y
+    def __init__(self, device):
+        """
+        Args:
+            device (Minitouch):
+        """
+        self.device = device
         self.content = ""
         self.delay = 0
 
     def convert(self, x, y):
+        max_x, max_y = self.device.max_x, self.device.max_y
+        orientation = self.device.orientation
+
+        if orientation == 0:
+            pass
+        elif orientation == 1:
+            x, y = 720 - y, x
+            max_x, max_y = max_y, max_x
+        elif orientation == 2:
+            x, y = 1280 - x, 720 - y
+        elif orientation == 3:
+            x, y = y, 1280 - x
+            max_x, max_y = max_y, max_x
+        else:
+            raise ScriptError(f'Invalid device orientation: {orientation}')
+
         # Maximum X and Y coordinates may, but usually do not, match the display size.
-        return int(x / 1280 * self.max_x), int(y / 720 * self.max_y)
+        x, y = int(x / 1280 * max_x), int(y / 720 * max_y)
+
+        return x, y
 
     def append(self, new_content):
         self.content += new_content + "\n"
@@ -150,7 +171,11 @@ class CommandBuilder:
         self.delay = 0
 
 
-class MinitouchError(Exception):
+class MinitouchNotInstalledError(Exception):
+    pass
+
+
+class MinitouchOccupiedError(Exception):
     pass
 
 
@@ -161,10 +186,13 @@ def retry(func):
             self (Minitouch):
         """
         init = None
+        sleep = True
         for _ in range(RETRY_TRIES):
             try:
                 if callable(init):
-                    self.sleep(RETRY_DELAY)
+                    if sleep:
+                        self.sleep(RETRY_DELAY)
+                        sleep = True
                     init()
                 return func(self, *args, **kwargs)
             # Can't handle
@@ -175,21 +203,32 @@ def retry(func):
                 logger.error(e)
 
                 def init():
+                    self.adb_disconnect(self.serial)
                     self.adb_connect(self.serial)
-                    del_cached_property(self, 'minitouch_builder')
             # Emulator closed
             except ConnectionAbortedError as e:
                 logger.error(e)
 
                 def init():
+                    self.adb_disconnect(self.serial)
                     self.adb_connect(self.serial)
-                    del_cached_property(self, 'minitouch_builder')
-            # MinitouchError: Received empty data from minitouch
-            except MinitouchError as e:
+            # MinitouchNotInstalledError: Received empty data from minitouch
+            except MinitouchNotInstalledError as e:
                 logger.error(e)
+                sleep = False
 
                 def init():
                     self.install_uiautomator2()
+                    if self._minitouch_port:
+                        self.adb_forward_remove(f'tcp:{self._minitouch_port}')
+                    del_cached_property(self, 'minitouch_builder')
+            # MinitouchOccupiedError: Timeout when connecting to minitouch
+            except MinitouchOccupiedError as e:
+                logger.error(e)
+                sleep = False
+
+                def init():
+                    self.restart_atx()
                     if self._minitouch_port:
                         self.adb_forward_remove(f'tcp:{self._minitouch_port}')
                     del_cached_property(self, 'minitouch_builder')
@@ -197,10 +236,15 @@ def retry(func):
             except AdbError as e:
                 if handle_adb_error(e):
                     def init():
+                        self.adb_disconnect(self.serial)
                         self.adb_connect(self.serial)
-                        del_cached_property(self, 'minitouch_builder')
                 else:
                     break
+            except BrokenPipeError as e:
+                logger.error(e)
+
+                def init():
+                    del_cached_property(self, 'minitouch_builder')
             # Unknown, probably a trucked image
             except Exception as e:
                 logger.exception(e)
@@ -224,10 +268,12 @@ class Minitouch(Connection):
     @cached_property
     def minitouch_builder(self):
         self.minitouch_init()
-        return CommandBuilder(self.max_x, self.max_y)
+        return CommandBuilder(self)
 
     def minitouch_init(self):
         logger.hr('MiniTouch init')
+
+        self.get_orientation()
 
         self._minitouch_port = self.adb_forward("localabstract:minitouch")
 
@@ -235,6 +281,7 @@ class Minitouch(Connection):
         # self.adb_shell([self.config.MINITOUCH_FILEPATH_REMOTE])
 
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client.settimeout(1)
         client.connect(('127.0.0.1', self._minitouch_port))
         self._minitouch_client = client
 
@@ -243,7 +290,11 @@ class Minitouch(Connection):
 
         # v <version>
         # protocol version, usually it is 1. needn't use this
-        out = socket_out.readline().replace("\n", "").replace("\r", "")
+        try:
+            out = socket_out.readline().replace("\n", "").replace("\r", "")
+        except socket.timeout:
+            raise MinitouchOccupiedError('Timeout when connecting to minitouch, '
+                                         'probably because another connection has been established')
         logger.info(out)
 
         # ^ <max-contacts> <max-x> <max-y> <max-pressure>
@@ -252,7 +303,8 @@ class Minitouch(Connection):
         try:
             _, max_contacts, max_x, max_y, max_pressure, *_ = out.split(" ")
         except ValueError:
-            raise MinitouchError('Received empty data from minitouch')
+            raise MinitouchNotInstalledError('Received empty data from minitouch, '
+                                             'probably because minitouch is not installed')
         # self.max_contacts = max_contacts
         self.max_x = int(max_x)
         self.max_y = int(max_y)
