@@ -1,11 +1,14 @@
+from datetime import datetime, timedelta
+
 from module.config.utils import get_server_last_update
 from module.exercise.assets import *
 from module.exercise.combat import ExerciseCombat
 from module.logger import logger
-from module.ocr.ocr import Digit
+from module.ocr.ocr import Digit, Ocr
 from module.ui.ui import page_exercise
 
 OCR_EXERCISE_REMAIN = Digit(OCR_EXERCISE_REMAIN, letter=(173, 247, 74), threshold=128)
+OCR_EXERCISE_SEASON_LEFT_TIME = Ocr(OCR_EXERCISE_SEASON_LEFT_TIME, lang='cnocr', letter=(255,255,255), threshold=128)
 
 
 class Exercise(ExerciseCombat):
@@ -107,6 +110,12 @@ class Exercise(ExerciseCombat):
 
     def run(self):
         self.ui_ensure(page_exercise)
+        
+        self.season_left_time = OCR_EXERCISE_SEASON_LEFT_TIME.ocr(self.device.image)
+        self.season_last_day = not (self.season_left_time[0].isdigit() and self.season_left_time[0] != '0')
+        logger.attr('Season_left_time', self.season_left_time)
+        if self.config.Exercise_DelayExercise:
+            self.config.Exercise_ExercisePreserve = 0 if self.season_last_day else 5
 
         self.opponent_change_count = self._get_opponent_change_count()
         logger.attr("Change_opponent_count", self.opponent_change_count)
@@ -130,6 +139,11 @@ class Exercise(ExerciseCombat):
         with self.config.multi_set():
             self.config.set_record(Exercise_OpponentRefreshValue=self.opponent_change_count)
             if self.remain <= self.config.Exercise_ExercisePreserve or self.opponent_change_count >= 5:
-                self.config.task_delay(server_update=True)
+                if self.config.Exercise_DelayExercise and not self.season_last_day:
+                    time_offset = timedelta(minutes=-20)
+                    canidate_times = [datetime.strptime(tm.strip(" "), "%H:%M")+time_offset for tm in self.config.Scheduler_ServerUpdate.split(",")]
+                    self.config.task_delay(server_update=[tm.strftime("%H:%M") for tm in canidate_times])
+                else:
+                    self.config.task_delay(server_update=True)
             else:
                 self.config.task_delay(success=False)
