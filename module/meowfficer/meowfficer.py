@@ -30,8 +30,12 @@ class RewardMeowfficer(MeowfficerBuy, MeowfficerFort, MeowfficerTrain):
         # Train
         if self.config.MeowfficerTrain_Enable:
             self.meow_train()
-            if self.config.MeowfficerTrain_Mode != 'seamlessly' and self.meow_is_sunday():
+            if self.config.MeowfficerTrain_Mode == 'seamlessly':
                 self.meow_enhance()
+            elif self.meow_is_sunday():
+                self.meow_enhance()
+            else:
+                pass
 
         # Scheduler
         if self.config.MeowfficerTrain_Enable:
