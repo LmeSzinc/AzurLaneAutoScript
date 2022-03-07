@@ -1,7 +1,8 @@
 from module.base.button import Button
 from module.base.timer import Timer
+from module.base.decorator import run_once
 from module.combat.assets import *
-from module.exception import GameNotRunningError, RequestHumanTakeover
+from module.exception import GameNotRunningError, GamePageUnknownError
 from module.handler.assets import *
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
@@ -92,41 +93,59 @@ class UI(InfoHandler):
         Returns:
             Page:
         """
-        if not skip_first_screenshot or not hasattr(self.device, 'image') or self.device.image is None:
-            self.device.screenshot()
+        logger.info('UI get current page')
 
-        # Known pages
-        for page in self.ui_pages:
-            if page.check_button is None:
-                continue
-            if self.ui_page_appear(page=page):
-                logger.attr('UI', page.name)
-                self.ui_current = page
-                return page
-
-        # Unknown page but able to handle
-        logger.info('Unknown ui page')
-        if self.appear_then_click(GOTO_MAIN, offset=(20, 20)) or self.ui_additional():
-            logger.info('Goto page_main')
-            self.ui_current = page_unknown
-            self.ui_goto(page_main, skip_first_screenshot=True)
-
-        # Unknown page, need manual switching
-        if hasattr(self, 'ui_current'):
-            logger.warning(f'Unrecognized ui_current, using previous: {self.ui_current}')
-        else:
-            logger.info('Unable to goto page_main')
-            logger.attr('EMULATOR__SCREENSHOT_METHOD', self.config.Emulator_ScreenshotMethod)
-            logger.attr('EMULATOR__CONTROL_METHOD', self.config.Emulator_ControlMethod)
-            logger.attr('SERVER', self.config.SERVER)
-            logger.warning('Starting from current page is not supported')
-            logger.warning(f'Supported page: {[str(page) for page in self.ui_pages]}')
-            logger.warning(f'Supported page: Any page with a "HOME" button on the upper-right')
+        @run_once
+        def app_check():
             if not self.device.app_is_running():
                 raise GameNotRunningError('Game not running')
+
+        @run_once
+        def minicap_check():
+            if self.config.Emulator_ControlMethod == 'uiautomator2':
+                self.device.uninstall_minicap()
+
+        timeout = Timer(5, count=10).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+                if not hasattr(self.device, 'image') or self.device.image is None:
+                    self.device.screenshot()
             else:
-                logger.critical('Please switch to a supported page before starting Alas')
-                raise RequestHumanTakeover
+                self.device.screenshot()
+
+            # End
+            if timeout.reached():
+                break
+
+            # Known pages
+            for page in self.ui_pages:
+                if page.check_button is None:
+                    continue
+                if self.ui_page_appear(page=page):
+                    logger.attr('UI', page.name)
+                    self.ui_current = page
+                    return page
+
+            # Unknown page but able to handle
+            logger.info('Unknown ui page')
+            if self.appear_then_click(GOTO_MAIN, offset=(20, 20), interval=2) or self.ui_additional():
+                timeout.reset()
+                continue
+
+            app_check()
+            minicap_check()
+
+        # Unknown page, need manual switching
+        logger.warning('Unknown ui page')
+        logger.attr('EMULATOR__SCREENSHOT_METHOD', self.config.Emulator_ScreenshotMethod)
+        logger.attr('EMULATOR__CONTROL_METHOD', self.config.Emulator_ControlMethod)
+        logger.attr('SERVER', self.config.SERVER)
+        logger.warning('Starting from current page is not supported')
+        logger.warning(f'Supported page: {[str(page) for page in self.ui_pages]}')
+        logger.warning(f'Supported page: Any page with a "HOME" button on the upper-right')
+        logger.critical('Please switch to a supported page before starting Alas')
+        raise GamePageUnknownError
 
     def ui_goto(self, destination, offset=(20, 20), confirm_wait=0, skip_first_screenshot=True):
         """

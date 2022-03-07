@@ -77,6 +77,10 @@ class AzurLaneAutoScript:
             self.config.task_call('Restart')
             self.device.sleep(10)
             return False
+        except GamePageUnknownError:
+            logger.critical('Game page unknown')
+            self.save_error_log()
+            exit(1)
         except ScriptError as e:
             logger.critical(e)
             logger.critical('This is likely to be a mistake of developers, but sometimes just random issues')
