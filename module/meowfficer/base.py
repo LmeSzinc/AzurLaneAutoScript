@@ -1,3 +1,4 @@
+from module.config.utils import get_server_next_update
 from module.meowfficer.assets import *
 from module.ui.assets import MEOWFFICER_CHECK, MEOWFFICER_INFO
 from module.ui.ui import UI
@@ -59,3 +60,10 @@ class MeowfficerBase(UI):
             return True
         else:
             return False
+
+    def meow_is_sunday(self):
+        """
+        Returns:
+            bool:
+        """
+        return get_server_next_update(self.config.Scheduler_ServerUpdate).weekday() == 0

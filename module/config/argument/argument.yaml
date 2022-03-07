@@ -278,11 +278,15 @@ Dorm:
   FeedFilter: 20000 > 10000 > 5000 > 3000 > 2000 > 1000
 Meowfficer:
   BuyAmount: 1
-  EnhanceIndex: 0
-  TrainMeowfficer: false
-  RetainTalentedGold: true
-  RetainTalentedPurple: false
   FortChoreMeowfficer: true
+MeowfficerTrain:
+  Enable: false
+  Mode:
+    value: seamlessly
+    option: [seamlessly, once_a_day]
+  RetainTalentedGold: true
+  RetainTalentedPurple: true
+  EnhanceIndex: 1
 GuildLogistics:
   Enable: true
   SelectNewMission: false

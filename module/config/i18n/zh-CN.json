@@ -118,6 +118,10 @@
       "name": "后宅",
       "help": ""
     },
+    "Meowfficer": {
+      "name": "指挥喵",
+      "help": ""
+    },
     "Guild": {
       "name": "大舰队",
       "help": ""
@@ -132,10 +136,6 @@
     },
     "ShopOnce": {
       "name": "其他商店",
-      "help": ""
-    },
-    "Meowfficer": {
-      "name": "指挥喵",
       "help": ""
     },
     "Shipyard": {
@@ -1116,25 +1116,37 @@
       "name": "每天买 X 个猫箱",
       "help": "每日第一个猫箱免费"
     },
-    "EnhanceIndex": {
-      "name": "强化第 X 只猫",
-      "help": "1 ~ 12，填0不强化"
+    "FortChoreMeowfficer": {
+      "name": "喵窝互动",
+      "help": "清扫、喂食和逗猫"
+    }
+  },
+  "MeowfficerTrain": {
+    "_info": {
+      "name": "指挥喵训练",
+      "help": ""
     },
-    "TrainMeowfficer": {
-      "name": "训练指挥喵",
-      "help": "当 \"强化第 X 只猫\" 为 0 时，每天收一只, 周日收获全部，以完成每日任务\n当 \"强化第 X 只猫\" 大于 0 时，开蓝猫箱然后喂猫"
+    "Enable": {
+      "name": "开启指挥喵训练",
+      "help": ""
+    },
+    "Mode": {
+      "name": "训练模式",
+      "help": "无缝练猫将每隔 2.5 ~ 3.5 小时收取指挥猫\n每天收一只意思是每天收一只，周日收全部、强化并重新填充队列，以完成每周任务",
+      "seamlessly": "无缝练猫",
+      "once_a_day": "每天收一只"
     },
     "RetainTalentedGold": {
       "name": "锁定带特殊天赋的金猫",
-      "help": ""
+      "help": "收取指挥猫时锁定特殊天赋的猫，被锁定的猫将不会被用于强化，用户需要手动检查并解锁不需要的猫"
     },
     "RetainTalentedPurple": {
       "name": "锁定带特殊天赋的紫猫",
-      "help": ""
+      "help": "收取指挥猫时锁定特殊天赋的猫，被锁定的猫将不会被用于强化，用户需要手动检查并解锁不需要的猫"
     },
-    "FortChoreMeowfficer": {
-      "name": "喵窝互动",
-      "help": "清扫, 喂食和逗猫"
+    "EnhanceIndex": {
+      "name": "用无特殊天赋的猫给第 X 只猫强化",
+      "help": "猫仓库的第 X 只猫，限制在 1 ~ 12，顺序从左上到右下"
     }
   },
   "GuildLogistics": {

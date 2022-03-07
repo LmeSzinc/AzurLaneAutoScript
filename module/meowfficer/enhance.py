@@ -30,7 +30,7 @@ class MeowfficerEnhance(MeowfficerBase):
         # Calculate (x, y) coordinate within
         # MEOWFFICER_SELECT/FEED_GRID (4x3) for
         # enhance target
-        index = self.config.Meowfficer_EnhanceIndex - 1
+        index = self.config.MeowfficerTrain_EnhanceIndex - 1
         x = index if index < 4 else index % 4
         y = index // 4
 
@@ -193,8 +193,8 @@ class MeowfficerEnhance(MeowfficerBase):
         # Base Cases
         # - Config at least > 0 but less than or equal to 12
         # - Coins at least > 1000
-        if self.config.Meowfficer_EnhanceIndex <= 0 or self.config.Meowfficer_EnhanceIndex > 12:
-            logger.warning(f'Meowfficer_EnhanceIndex={self.config.Meowfficer_EnhanceIndex} '
+        if not (1 <= self.config.MeowfficerTrain_EnhanceIndex <= 12):
+            logger.warning(f'Meowfficer_EnhanceIndex={self.config.MeowfficerTrain_EnhanceIndex} '
                            f'is out of bounds. Please limit to 1~12, skip')
             return
 

@@ -170,7 +170,7 @@ class MeowfficerCollect(MeowfficerBase):
                 continue
             if self.appear(MEOWFFICER_GET_CHECK, offset=(40, 40), interval=3):
                 if self.appear(MEOWFFICER_GOLD_CHECK, offset=(40, 40)):
-                    if not self.config.Meowfficer_RetainTalentedGold or not self._meow_is_talented():
+                    if not self.config.MeowfficerTrain_RetainTalentedGold or not self._meow_is_talented():
                         self._meow_skip_lock()
                         skip_first_screenshot = True
                         confirm_timer.reset()
@@ -178,7 +178,7 @@ class MeowfficerCollect(MeowfficerBase):
                     self._meow_apply_lock()
 
                 if self.appear(MEOWFFICER_PURPLE_CHECK, offset=(40, 40)):
-                    if self.config.Meowfficer_RetainTalentedPurple and self._meow_is_talented():
+                    if self.config.MeowfficerTrain_RetainTalentedPurple and self._meow_is_talented():
                         self._meow_apply_lock()
 
                 # Susceptible to exception when collecting multiple
@@ -196,7 +196,7 @@ class MeowfficerCollect(MeowfficerBase):
             else:
                 confirm_timer.reset()
 
-    def meow_collect(self, is_sunday=False):
+    def meow_collect(self, collect_all=True):
         """
         Collect one or all trained meowfficer(s)
         Completed slots are automatically moved
@@ -204,20 +204,20 @@ class MeowfficerCollect(MeowfficerBase):
         slot only
 
         Args:
-            is_sunday (bool): Whether today is Sunday or not
+            collect_all (bool): Collect all or collect single
 
         Pages:
             in: MEOWFFICER_TRAIN
             out: MEOWFFICER_TRAIN
 
         Returns:
-            Bool whether collected or not
+            bool: whether collected or not
         """
         logger.hr('Meowfficer collect', level=2)
 
         if self.appear(MEOWFFICER_TRAIN_COMPLETE, offset=(20, 20)):
             # Today is Sunday, finish all else get just one
-            if is_sunday:
+            if collect_all:
                 logger.info('Collect all trained meowfficers')
                 button = MEOWFFICER_TRAIN_FINISH_ALL
             else:

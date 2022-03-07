@@ -4297,6 +4297,71 @@
       }
     }
   },
+  "Meowfficer": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "input",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "disable",
+        "value": "Meowfficer"
+      },
+      "SuccessInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "FailureInterval": {
+        "type": "disable",
+        "value": 30
+      },
+      "ServerUpdate": {
+        "type": "disable",
+        "value": "00:00"
+      }
+    },
+    "Meowfficer": {
+      "BuyAmount": {
+        "type": "input",
+        "value": 1
+      },
+      "FortChoreMeowfficer": {
+        "type": "checkbox",
+        "value": true
+      }
+    },
+    "MeowfficerTrain": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "Mode": {
+        "type": "select",
+        "value": "seamlessly",
+        "option": [
+          "seamlessly",
+          "once_a_day"
+        ]
+      },
+      "RetainTalentedGold": {
+        "type": "checkbox",
+        "value": true
+      },
+      "RetainTalentedPurple": {
+        "type": "checkbox",
+        "value": true
+      },
+      "EnhanceIndex": {
+        "type": "input",
+        "value": 1
+      }
+    }
+  },
   "Guild": {
     "Scheduler": {
       "Enable": {
@@ -4645,61 +4710,6 @@
       "Filter": {
         "type": "textarea",
         "value": "Array"
-      }
-    }
-  },
-  "Meowfficer": {
-    "Scheduler": {
-      "Enable": {
-        "type": "checkbox",
-        "value": false
-      },
-      "NextRun": {
-        "type": "input",
-        "value": "2020-01-01 00:00:00",
-        "validate": "datetime"
-      },
-      "Command": {
-        "type": "disable",
-        "value": "Meowfficer"
-      },
-      "SuccessInterval": {
-        "type": "disable",
-        "value": 30
-      },
-      "FailureInterval": {
-        "type": "disable",
-        "value": 30
-      },
-      "ServerUpdate": {
-        "type": "disable",
-        "value": "00:00"
-      }
-    },
-    "Meowfficer": {
-      "BuyAmount": {
-        "type": "input",
-        "value": 1
-      },
-      "EnhanceIndex": {
-        "type": "input",
-        "value": 0
-      },
-      "TrainMeowfficer": {
-        "type": "checkbox",
-        "value": false
-      },
-      "RetainTalentedGold": {
-        "type": "checkbox",
-        "value": true
-      },
-      "RetainTalentedPurple": {
-        "type": "checkbox",
-        "value": false
-      },
-      "FortChoreMeowfficer": {
-        "type": "checkbox",
-        "value": true
       }
     }
   },

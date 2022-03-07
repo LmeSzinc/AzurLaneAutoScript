@@ -15,9 +15,8 @@ class RewardMeowfficer(MeowfficerBuy, MeowfficerFort, MeowfficerTrain):
             out: page_meowfficer
         """
         if self.config.Meowfficer_BuyAmount <= 0 \
-                and not self.config.Meowfficer_TrainMeowfficer \
                 and not self.config.Meowfficer_FortChoreMeowfficer \
-                and not self.config.Meowfficer_TrainMeowfficer:
+                and not self.config.MeowfficerTrain_Enable:
             self.config.Scheduler_Enable = False
             self.config.task_stop()
 
@@ -25,14 +24,17 @@ class RewardMeowfficer(MeowfficerBuy, MeowfficerFort, MeowfficerTrain):
 
         if self.config.Meowfficer_BuyAmount > 0:
             self.meow_buy()
-        if self.config.Meowfficer_EnhanceIndex > 0:
-            self.meow_enhance()
-        if self.config.Meowfficer_TrainMeowfficer:
-            self.meow_train()
         if self.config.Meowfficer_FortChoreMeowfficer:
             self.meow_fort()
 
-        if self.config.Meowfficer_TrainMeowfficer:
+        # Train
+        if self.config.MeowfficerTrain_Enable:
+            self.meow_train()
+            if self.config.MeowfficerTrain_Mode != 'seamlessly' and self.meow_is_sunday():
+                self.meow_enhance()
+
+        # Scheduler
+        if self.config.MeowfficerTrain_Enable:
             # Meowfficer training duration:
             # - Blue, 2.0h ~ 2.5h
             # - Purple, 5.5h ~ 6.5h

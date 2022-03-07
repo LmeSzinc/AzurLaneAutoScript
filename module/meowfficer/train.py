@@ -1,6 +1,5 @@
 from module.base.button import ButtonGrid
 from module.base.timer import Timer
-from module.config.utils import get_server_next_update
 from module.handler.assets import INFO_BAR_1
 from module.logger import logger
 from module.meowfficer.assets import *
@@ -132,11 +131,16 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
         # Re-use mechanism to transition through screens
         self._meow_nqueue()
 
-    def meow_queue(self):
+    def meow_queue(self, ascending=True):
         """
         Enter into training window and then
         choose appropriate queue method based
         on current stock
+
+        Args:
+            ascending (bool):
+                True for Blue > Purple > Gold
+                False for Gold > Purple > Blue
 
         Pages:
             in: MEOWFFICER_TRAIN
@@ -156,14 +160,14 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
         # common box sum count
         # - <= 20, low stock; queue normally
         # - > 20, high stock; queue common boxes first
-        if self.config.Meowfficer_EnhanceIndex:
-            if common_sum <= 20:
+        if ascending:
+            if common_sum > 20:
+                logger.info('Queue in ascending order (Blue > Purple > Gold)')
+                self._meow_rqueue()
+            else:
                 logger.info('Low stock of common cat boxes')
                 logger.info('Queue in descending order (Gold > Purple > Blue)')
                 self._meow_nqueue()
-            else:
-                logger.info('Queue in ascending order (Blue > Purple > Gold)')
-                self._meow_rqueue()
         else:
             logger.info('Queue in descending order (Gold > Purple > Blue)')
             self._meow_nqueue()
@@ -183,38 +187,31 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
         current, remain, total = MEOWFFICER_CAPACITY.ocr(self.device.image)
         logger.attr('Meowfficer_capacity_remain', remain)
 
-        # Check for today's weekday
-        is_sunday = True
-        if not self.config.Meowfficer_EnhanceIndex:
-            is_sunday = get_server_next_update(self.config.Scheduler_ServerUpdate).weekday() == 0
-
-        # Enter MEOWFFICER_TRAIN window
-        self.ui_click(MEOWFFICER_TRAIN_ENTER, check_button=MEOWFFICER_TRAIN_START, additional=self.meow_additional,
-                      retry_wait=3, confirm_wait=0, skip_first_screenshot=True)
-
-        # If today is Sunday, then collect all remainder otherwise just collect one
-        # Once collected, should be back in MEOWFFICER_TRAIN window
+        logger.attr('MeowfficerTrain_Mode', self.config.MeowfficerTrain_Mode)
         collected = False
-        if remain > 0:
-            collected = self.meow_collect(is_sunday)
-
-        # Fill queue to full if
-        # - Attempted to collect but failed,
-        #   indicating in progress or completely
-        #   empty
-        # - Today is Sunday
-        # Once queued, should be back in MEOWFFICER_TRAIN window
-        if (remain > 0 and not collected) or is_sunday:
-            self.meow_queue()
-
-        self.ui_click(MEOWFFICER_GOTO_DORM, check_button=MEOWFFICER_TRAIN_ENTER,
-                      appear_button=MEOWFFICER_TRAIN_START, offset=None, skip_first_screenshot=True)
-
-        # Clear meowfficer space for upcoming week iff not configured
-        # for enhancement and is_sunday
-        if is_sunday and not self.config.Meowfficer_EnhanceIndex:
-            backup = self.config.temporary(Meowfficer_EnhanceIndex=1)
-            self.meow_enhance()
-            backup.recover()
+        if self.config.MeowfficerTrain_Mode == 'seamlessly':
+            # Enter
+            self.ui_click(MEOWFFICER_TRAIN_ENTER, check_button=MEOWFFICER_TRAIN_START, additional=self.meow_additional,
+                          retry_wait=3, confirm_wait=0, skip_first_screenshot=True)
+            # Collect
+            if remain > 0:
+                collected = self.meow_collect(collect_all=True)
+            # Queue
+            self.meow_queue(ascending=True)
+            # Exit
+            self.ui_click(MEOWFFICER_GOTO_DORM, check_button=MEOWFFICER_TRAIN_ENTER,
+                          appear_button=MEOWFFICER_TRAIN_START, offset=None, skip_first_screenshot=True)
+        else:
+            # Enter
+            self.ui_click(MEOWFFICER_TRAIN_ENTER, check_button=MEOWFFICER_TRAIN_START, additional=self.meow_additional,
+                          retry_wait=3, confirm_wait=0, skip_first_screenshot=True)
+            # Collect
+            if remain > 0:
+                collected = self.meow_collect(collect_all=self.meow_is_sunday())
+            # Queue
+            self.meow_queue(ascending=False)
+            # Exit
+            self.ui_click(MEOWFFICER_GOTO_DORM, check_button=MEOWFFICER_TRAIN_ENTER,
+                          appear_button=MEOWFFICER_TRAIN_START, offset=None, skip_first_screenshot=True)
 
         return collected

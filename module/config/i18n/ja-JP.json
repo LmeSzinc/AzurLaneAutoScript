@@ -118,6 +118,10 @@
       "name": "Task.Dorm.name",
       "help": "Task.Dorm.help"
     },
+    "Meowfficer": {
+      "name": "Task.Meowfficer.name",
+      "help": "Task.Meowfficer.help"
+    },
     "Guild": {
       "name": "Task.Guild.name",
       "help": "Task.Guild.help"
@@ -133,10 +137,6 @@
     "ShopOnce": {
       "name": "Task.ShopOnce.name",
       "help": "Task.ShopOnce.help"
-    },
-    "Meowfficer": {
-      "name": "Task.Meowfficer.name",
-      "help": "Task.Meowfficer.help"
     },
     "Shipyard": {
       "name": "Task.Shipyard.name",
@@ -1116,25 +1116,37 @@
       "name": "Meowfficer.BuyAmount.name",
       "help": "Meowfficer.BuyAmount.help"
     },
-    "EnhanceIndex": {
-      "name": "Meowfficer.EnhanceIndex.name",
-      "help": "Meowfficer.EnhanceIndex.help"
-    },
-    "TrainMeowfficer": {
-      "name": "Meowfficer.TrainMeowfficer.name",
-      "help": "Meowfficer.TrainMeowfficer.help"
-    },
-    "RetainTalentedGold": {
-      "name": "Meowfficer.RetainTalentedGold.name",
-      "help": "Meowfficer.RetainTalentedGold.help"
-    },
-    "RetainTalentedPurple": {
-      "name": "Meowfficer.RetainTalentedPurple.name",
-      "help": "Meowfficer.RetainTalentedPurple.help"
-    },
     "FortChoreMeowfficer": {
       "name": "Meowfficer.FortChoreMeowfficer.name",
       "help": "Meowfficer.FortChoreMeowfficer.help"
+    }
+  },
+  "MeowfficerTrain": {
+    "_info": {
+      "name": "MeowfficerTrain._info.name",
+      "help": "MeowfficerTrain._info.help"
+    },
+    "Enable": {
+      "name": "MeowfficerTrain.Enable.name",
+      "help": "MeowfficerTrain.Enable.help"
+    },
+    "Mode": {
+      "name": "MeowfficerTrain.Mode.name",
+      "help": "MeowfficerTrain.Mode.help",
+      "seamlessly": "seamlessly",
+      "once_a_day": "once_a_day"
+    },
+    "RetainTalentedGold": {
+      "name": "MeowfficerTrain.RetainTalentedGold.name",
+      "help": "MeowfficerTrain.RetainTalentedGold.help"
+    },
+    "RetainTalentedPurple": {
+      "name": "MeowfficerTrain.RetainTalentedPurple.name",
+      "help": "MeowfficerTrain.RetainTalentedPurple.help"
+    },
+    "EnhanceIndex": {
+      "name": "MeowfficerTrain.EnhanceIndex.name",
+      "help": "MeowfficerTrain.EnhanceIndex.help"
     }
   },
   "GuildLogistics": {

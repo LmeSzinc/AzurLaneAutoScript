@@ -194,11 +194,14 @@ class GeneratedConfig:
 
     # Group `Meowfficer`
     Meowfficer_BuyAmount = 1
-    Meowfficer_EnhanceIndex = 0
-    Meowfficer_TrainMeowfficer = False
-    Meowfficer_RetainTalentedGold = True
-    Meowfficer_RetainTalentedPurple = False
     Meowfficer_FortChoreMeowfficer = True
+
+    # Group `MeowfficerTrain`
+    MeowfficerTrain_Enable = False
+    MeowfficerTrain_Mode = 'seamlessly'  # seamlessly, once_a_day
+    MeowfficerTrain_RetainTalentedGold = True
+    MeowfficerTrain_RetainTalentedPurple = True
+    MeowfficerTrain_EnhanceIndex = 1
 
     # Group `GuildLogistics`
     GuildLogistics_Enable = True
