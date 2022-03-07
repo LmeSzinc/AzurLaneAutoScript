@@ -118,6 +118,10 @@
       "name": "後宅",
       "help": ""
     },
+    "Meowfficer": {
+      "name": "指揮喵",
+      "help": ""
+    },
     "Guild": {
       "name": "大艦隊",
       "help": ""
@@ -132,10 +136,6 @@
     },
     "ShopOnce": {
       "name": "其餘商店",
-      "help": ""
-    },
-    "Meowfficer": {
-      "name": "指揮喵",
       "help": ""
     },
     "Shipyard": {
@@ -1116,13 +1116,37 @@
       "name": "每天買 X 個貓箱",
       "help": "每日第一個貓箱免費"
     },
-    "TrainMeowfficer": {
-      "name": "訓練指揮貓",
-      "help": "每天收一隻，週日收穫全部，以完成每日任務"
-    },
     "FortChoreMeowfficer": {
       "name": "喵窩互動",
       "help": "清掃、餵食和逗貓"
+    }
+  },
+"MeowfficerTrain": {
+    "_info": {
+      "name": "指揮喵訓練",
+      "help": ""
+    },
+    "Enable": {
+      "name": "開啟指揮喵訓練",
+      "help": ""
+    },
+    "Mode": {
+      "name": "訓練模式",
+      "help": "無縫練貓將每隔 2.5 ~ 3.5 小時收取指揮貓\n每天收一隻意思是每天收一隻，週日收全部、強化並重新填充隊列，以完成每週任務",
+      "seamlessly": "無縫練貓",
+      "once_a_day": "每天收一隻"
+    },
+    "RetainTalentedGold": {
+      "name": "鎖定帶特殊天賦的金貓",
+      "help": "收取指揮貓時鎖定特殊天賦的貓，被鎖定的貓將不會被用於強化，用戶需要手動檢查並解鎖不需要的貓"
+    },
+    "RetainTalentedPurple": {
+      "name": "鎖定帶特殊天賦的紫貓",
+      "help": "收取指揮貓時鎖定特殊天賦的貓，被鎖定的貓將不會被用於強化，用戶需要手動檢查並解鎖不需要的貓"
+    },
+    "EnhanceIndex": {
+      "name": "用無特殊天賦的貓給第 X 隻貓強化",
+      "help": "貓倉庫的第 X 隻貓，限制在 1 ~ 12，順序從左上到右下"
     }
   },
   "GuildLogistics": {

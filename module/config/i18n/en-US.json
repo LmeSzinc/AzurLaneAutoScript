@@ -118,6 +118,10 @@
       "name": "Dorm",
       "help": ""
     },
+    "Meowfficer": {
+      "name": "Meowfficer",
+      "help": ""
+    },
     "Guild": {
       "name": "Guild",
       "help": ""
@@ -132,10 +136,6 @@
     },
     "ShopOnce": {
       "name": "Shop Once",
-      "help": ""
-    },
-    "Meowfficer": {
-      "name": "Meowfficer",
       "help": ""
     },
     "Shipyard": {
@@ -1116,13 +1116,37 @@
       "name": "Buy Amount",
       "help": "The 1st meowfficer box purchase everyday is free"
     },
-    "TrainMeowfficer": {
-      "name": "Collect Trained Meowfficer",
-      "help": "Collects 1 trained meowfficer each day, until Sunday in which Alas will collect all of them at once in order to complete daily missions\nThen fills the training queue to full for the upcoming new week to start again\nMust manually free up cattery space to receive trained meowfficers"
-    },
     "FortChoreMeowfficer": {
       "name": "Do Fort Chores",
       "help": "Completes all 3 chores; clean, feed, and play with meowfficer to get fort exp"
+    }
+  },
+  "MeowfficerTrain": {
+    "_info": {
+      "name": "Meowfficer Training Settings",
+      "help": ""
+    },
+    "Enable": {
+      "name": "Enable Meowfficer Training",
+      "help": ""
+    },
+    "Mode": {
+      "name": "Meowfficer Training Mode",
+      "help": "Train Seamlessly means collecting trained meowfficer(s) every 2.5 ~ 3.5 hours.\nTrain Once a Day means collecting 1 trained meowfficer each day; emptying the training queue and do the enhancing on Sunday in order to finish weekly mission.",
+      "seamlessly": "Train Seamlessly",
+      "once_a_day": "Train Once a Day"
+    },
+    "RetainTalentedGold": {
+      "name": "Retain Talented SR Meowfficer(s)",
+      "help": "During collection, SR cats are examined for special talent abilities i.e. has no tiers or is colored rainbow.\nIf detected these are locked to prevent being used as feed material. Players must manually check and enhance themselves an SR meowfficer's personal skill."
+    },
+    "RetainTalentedPurple": {
+      "name": "Retain Talented Elite Meowfficer(s)",
+      "help": "During collection, Elite cats are examined for special talent abilities i.e. has no tiers or is colored rainbow.\nIf detected these are locked to prevent being used as feed material. Players must manually check and enhance themselves an Elite meowfficer's personal skill."
+    },
+    "EnhanceIndex": {
+      "name": "Enhance Index",
+      "help": "Index of target meowfficer to enhance. Limited in 1 ~ 12; indices are in ascending order from left to right of the 4 x 3 grid."
     }
   },
   "GuildLogistics": {

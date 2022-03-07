@@ -130,6 +130,10 @@ Research:
 Dorm:
   - Scheduler
   - Dorm
+Meowfficer:
+  - Scheduler
+  - Meowfficer
+  - MeowfficerTrain
 Guild:
   - Scheduler
   - GuildLogistics
@@ -149,9 +153,6 @@ ShopOnce:
   - MedalShop
   - MeritShop
   - CoreShop
-Meowfficer:
-  - Scheduler
-  - Meowfficer
 Shipyard:
   - Scheduler
   - Shipyard
