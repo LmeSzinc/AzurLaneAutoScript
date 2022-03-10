@@ -26,7 +26,7 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 2, 'siren': 1},
+    {'battle': 0, 'enemy': 3, 'siren': 1},
     {'battle': 1, 'enemy': 1},
     {'battle': 2, 'enemy': 1},
     {'battle': 3, 'enemy': 1},
@@ -55,6 +55,10 @@ class Config:
 
     MAP_SWIPE_MULTIPLY = 1.640
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.586
+    MAP_ENEMY_GENRE_DETECTION_SCALING = {
+        'Z18': 1.111,
+        'Z2': 1.111,
+    }
 
 
 class Campaign(CampaignBase):
