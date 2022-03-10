@@ -30,7 +30,7 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20200507   | event 20200507 cn        | The Way Home in the Night      | 夜幕下的归途           | The Way Home in the Night        | 帰路は海色の陰りへと                 | -                    |
 | 20200521   | event 20200521 cn        | Skybound Oratorio              | 穹顶下的圣咏曲         | -                                | 神穹を衝く聖歌                       | -                    |
 | 20200521   | event 20200521 en        | Iris of Light and Dark         | -                      | Iris of Light and Dark Rerun     | -                                    | -                    |
-| 20200603   | event 20200603 cn        | Stars of the Shimmering Fjord  | 峡湾间的反击           | -                                | 峡湾間の反撃                         | -                    |
+| 20200603   | event 20200603 cn        | Counterattack Within the Fjord | 峡湾间的反击           | -                                | 峡湾間の反撃                         | -                    |
 | 20200603   | event 20200603 en        | Prelude under the Moon         | -                      | Prelude under the Moon Rerun     | -                                    | -                    |
 | 20200611   | event 20200611 en        | Skybound Oratorio              | -                      | Skybound Oratorio                | -                                    | -                    |
 | 20200624   | raid 20200624            | Air Raid Drills with Essex     | 复刻特别演习埃塞克斯级 | Air Raid Drills with Essex Rerun | 特別演習超空強襲波（復刻）           | 特別演習埃塞克斯級   |
@@ -77,10 +77,11 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20211111   | event 20211111 cn        | The Flame-Touched Dagger       | 杰诺瓦的焰火           | The Flame-Touched Dagger         | 燈火のシニエ                         | -                    |
 | 20211125   | event 20211125 cn        | World-spanning Arclight        | 交汇世界的弧光         | World-spanning Arclight          | 弧光は交わる世界にて                 | -                    |
 | 20211130   | event 20211125 cn        | World-spanning Arclight        | -                      | -                                | -                                    | 交匯世界的弧光       |
-| 20211214   | event 20200603 cn        | Stars of the Shimmering Fjord  | -                      | -                                | -                                    | 峽灣間的反擊         |
+| 20211214   | event 20200603 cn        | Counterattack Within the Fjord | -                      | -                                | -                                    | 峽灣間的反擊         |
 | 20211229   | event 20211229 cn        | Tower of Transcendence         | 逆转彩虹之塔           | Tower of Transcendence           | 遡望せし虹彩の塔                     | -                    |
 | 20211230   | event 20201229 cn        | Inverted Orthant               | -                      | -                                | -                                    | 負象限作戰           |
 | 20220127   | raid 20220127            | Mystery Investigation | 演习神秘事件调查      | Mystery Investigation | 秘密事件調査 | - |
 | 20220210   | event 20220210 cn        | Northern Overture Rerun              | 复刻北境序曲               | Northern Overture Rerun     | 凍絶の北海（復刻）                           | -                    |
 | 20220224   | event 20210225 cn        | Khorovod of Dawn's Rime        | -                      | -                                | -                                    | 破曉冰華             |
 | 20220224 | event 20220224 cn | Abyssal Refrain | 深度回音 | Abyssal Refrain | 鳴動せし星霜の淵 | - |
+| 20220310 | event 20200603 cn | Counterattack Within the Fjord | 复刻峡湾间的反击 | Counterattack Within the Fjord Rerun | 峡湾間の反撃（復刻） | - |
