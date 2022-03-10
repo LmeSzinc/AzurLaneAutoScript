@@ -420,7 +420,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             if not exp_info and self.handle_battle_status(drop=drop):
                 battle_status = True
                 continue
-            if self.handle_popup_confirm('combat_status'):
+            if self.handle_popup_confirm('COMBAT_STATUS'):
                 if battle_status and not exp_info:
                     logger.info('Locking a new ship')
                     self.config.GET_SHIP_TRIGGERED = True

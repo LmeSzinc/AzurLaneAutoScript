@@ -264,7 +264,7 @@ class RewardCommission(UI, InfoHandler):
                 self.device.sleep(0.3)
                 comm_timer.reset()
 
-            if self.handle_popup_confirm():
+            if self.handle_popup_confirm('COMMISSION_START'):
                 comm_timer.reset()
                 pass
             if self.appear(COMMISSION_ADVICE, offset=(5, 20), interval=7):
