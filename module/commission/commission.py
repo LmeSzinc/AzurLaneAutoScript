@@ -239,12 +239,13 @@ class RewardCommission(UI, InfoHandler):
         self.daily_choose, self.urgent_choose = self._commission_choose(self.daily, self.urgent)
         return daily, urgent
 
-    def _commission_start_click(self, comm):
+    def _commission_start_click(self, comm, is_urgent=False):
         """
         Start a commission.
 
         Args:
             comm (Commission):
+            is_urgent (bool):
 
         Returns:
             bool: If success
@@ -270,6 +271,8 @@ class RewardCommission(UI, InfoHandler):
             if self.appear(COMMISSION_ADVICE, offset=(5, 20), interval=7):
                 area = (0, 0, image_size(self.device.image)[0], COMMISSION_ADVICE.button[1])
                 current = self._commission_detect(crop(self.device.image, area))
+                if is_urgent:
+                    current.call('convert_to_night')  # Convert extra commission to night
                 if current.count >= 1:
                     current = current[0]
                     if current == comm:
@@ -328,7 +331,7 @@ class RewardCommission(UI, InfoHandler):
                     if new_comm == comm:
                         current = new_comm
                 if current is not None:
-                    if self._commission_start_click(current):
+                    if self._commission_start_click(current, is_urgent=is_urgent):
                         self.device.click_record_clear()
                         return True
                     else:
