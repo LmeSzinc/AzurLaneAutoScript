@@ -28,6 +28,11 @@ class AdbManager(DeployConfig):
             for device in adbutils.adb.iter_device():
                 init = Initer(device, loglevel=logging.DEBUG)
                 init.set_atx_agent_addr('127.0.0.1:7912')
-                init.install()
+                try:
+                    init.install()
+                except AssertionError:
+                    print(f'AssertionError when installing uiautomator2 on device {device.serial}')
+                    print('If you are using BlueStacks or LD player, '
+                          'please enable ADB in the settings of your emulator')
                 init._device.shell(["rm", "/data/local/tmp/minicap"])
                 init._device.shell(["rm", "/data/local/tmp/minicap.so"])
