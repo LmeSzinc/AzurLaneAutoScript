@@ -59,6 +59,7 @@ class RewardCommission(UI, InfoHandler):
         Returns:
             SelectedGrids:
         """
+        logger.hr('Commission detect')
         commission = []
         for y in lines_detect(image):
             comm = Commission(image, y=y, config=self.config)
@@ -155,6 +156,7 @@ class RewardCommission(UI, InfoHandler):
             return False
 
     def _commission_mode_reset(self):
+        logger.hr('Commission mode reset')
         if self.appear(COMMISSION_DAILY):
             current, another = 'daily', 'urgent'
         elif self.appear(COMMISSION_URGENT):
@@ -244,10 +246,14 @@ class RewardCommission(UI, InfoHandler):
         Args:
             comm (Commission):
 
+        Returns:
+            bool: If success
+
         Pages:
             in: page_commission
             out: page_commission, info_bar, commission details unfold
         """
+        logger.hr('Commission start')
         self.interval_clear(COMMISSION_ADVICE)
         self.interval_clear(COMMISSION_START)
         comm_timer = Timer(7)
@@ -261,7 +267,19 @@ class RewardCommission(UI, InfoHandler):
             if self.handle_popup_confirm():
                 comm_timer.reset()
                 pass
-            if self.appear_then_click(COMMISSION_ADVICE, offset=(5, 20), interval=7):
+            if self.appear(COMMISSION_ADVICE, offset=(5, 20), interval=7):
+                area = (0, 0, image_size(self.device.image)[0], COMMISSION_ADVICE.button[1])
+                current = self._commission_detect(crop(self.device.image, area))
+                if current.count >= 1:
+                    current = current[0]
+                    if current == comm:
+                        logger.info('Selected to the correct commission')
+                    else:
+                        logger.warning('Selected to the wrong commission')
+                        return False
+                else:
+                    logger.warning('No selected commission detected, assuming correct')
+                self.device.click(COMMISSION_ADVICE)
                 count += 1
                 comm_timer.reset()
                 pass
@@ -289,30 +307,50 @@ class RewardCommission(UI, InfoHandler):
             comm (Commission):
             is_urgent (bool):
         """
-        logger.hr('Commission find and start', level=2)
         self.device.click_record_clear()
         comm = copy.deepcopy(comm)
         comm.repeat_count = 1
-        logger.info(f'Finding commission {comm}')
-        for _ in range(15):
-            new = self._commission_detect(self.device.image)
-            if is_urgent:
-                new.call('convert_to_night')  # Convert extra commission to night
-            if comm in new:
+        for _ in range(3):
+            logger.hr('Commission find and start', level=2)
+            logger.info(f'Finding commission {comm}')
+
+            failed = True
+
+            for _ in range(15):
+                new = self._commission_detect(self.device.image)
+                if is_urgent:
+                    new.call('convert_to_night')  # Convert extra commission to night
+
                 # Update commission position.
                 # In different scans, they have the same information, but have different locations.
+                current = None
                 for new_comm in new:
-                    if comm == new_comm:
-                        comm = new_comm
-                self._commission_start_click(comm)
+                    if new_comm == comm:
+                        current = new_comm
+                if current is not None:
+                    if self._commission_start_click(current):
+                        self.device.click_record_clear()
+                        return True
+                    else:
+                        self._commission_mode_reset()
+                        self._commission_swipe_to_top()
+                        failed = False
+                        break
+
+                # End
+                if not self._commission_swipe():
+                    break
+
+            if failed:
+                logger.warning(f'Failed to select commission: {comm}')
                 self.device.click_record_clear()
-                return True
+                continue
+            else:
+                logger.warning(f'Commission not found: {comm}')
+                self.device.click_record_clear()
+                return False
 
-            # End
-            if not self._commission_swipe():
-                break
-
-        logger.warning(f'Commission not found: {comm}')
+        logger.warning(f'Failed to select commission after 3 trial')
         self.device.click_record_clear()
         return False
 
