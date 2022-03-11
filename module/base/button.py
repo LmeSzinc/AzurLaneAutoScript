@@ -218,8 +218,8 @@ class Button(Resource):
             image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
             self_image_gray = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
             # binarization
-            image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-            self_image_binary = cv2.threshold(self_image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+            _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+            _, self_image_binary = cv2.threshold(self_image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
             # template matching
             res = cv2.matchTemplate(self_image_binary, image_binary, cv2.TM_CCOEFF_NORMED)
             _, similarity, _, point = cv2.minMaxLoc(res)

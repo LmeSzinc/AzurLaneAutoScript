@@ -4,18 +4,13 @@ import numpy as np
 
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1
-from module.handler.assets import INFO_BAR_DETECT, ENHANCE_MATERIAL
+from module.handler.assets import INFO_BAR_DETECT, EMPTY_ENHANCE_SLOT
 from module.handler.info_handler import info_letter_preprocess
 from module.logger import logger
 from module.retire.assets import *
 from module.retire.dock import Dock, CARD_GRIDS
-from module.template.assets import TEMPLATE_ENHANCE_SUCCESS, TEMPLATE_ENHANCE_FAILED, TEMPLATE_ENHANCE_IN_BATTLE, TEMPLATE_ENHANCE_NO_MATERIAL
 
 VALID_SHIP_TYPES = ['dd', 'ss', 'cl', 'ca', 'bb', 'cv', 'repair', 'others']
-TEMPLATE_ENHANCE_SUCCESS.pre_process = info_letter_preprocess
-TEMPLATE_ENHANCE_FAILED.pre_process = info_letter_preprocess
-TEMPLATE_ENHANCE_IN_BATTLE.pre_process = info_letter_preprocess
-
 
 class Enhancement(Dock):
     @property
@@ -109,13 +104,49 @@ class Enhancement(Dock):
                     break
             else:
                 confirm_timer.reset()
+    
+    def _enhance_recommend(self, recommend_click=False):
+        """
+        Set enhancement material by clicking button ENHANCE_RECOMMEND.
+        Check if any material was set.
+        
+        Pages:
+            in: page_ship_enhance
+            out: page_ship_enhance
+        
+        Returns:
+            A pair of bool.
+            For the first one, True if ENHANCE_RECOMMEND appear, otherwise False
+            For another one, True if material found, otherwise False
+            The second one only make senses when first is True
+        """
+        if recommend_click:
+            return False, False
+        if self.appear_then_click(ENHANCE_RECOMMEND, offset=(5, 5), interval=2):
+            logger.info('Set enhancement material by recommendation.')
+            self.device.sleep(0.3)
+            self.device.screenshot()
+            
+            if EMPTY_ENHANCE_SLOT.match_binary(self.device.image):
+                logger.info('No material found for enhancement.')
+                logger.info('Enhancement failed. Swiping to next ship if feasible')
+                return True, False
+            else:
+                logger.info('Material found. Try enhancing...')
+                return True, True
+        else:
+            return False, False
 
     def _enhance_choose(self, ship_count):
         """
-        Re-vamped implementation, utilizing
-        templates and info_bar text to determine
-        whether a ship can or cannot be enhanced
-        Method similar to ambush.py
+        Refactor the implementation.
+        Use more differentiated features to
+        distinguish the states of ship.
+        
+        The new method consider the first
+        slot of enhancement material instead
+        of info_bar text, which is more friendly
+        to poor device.
 
         Pages:
             in: page_ship_enhance, without info_bar
@@ -130,14 +161,11 @@ class Enhancement(Dock):
             Always paired with current ship_count
         """
         skip_until_ensured = True
-        enhanced = False
         recommend_click = False
         confirm_click = False
-        # self.device.screenshot_interval_set(5)
-        
         while 1:
             # Base Case: No more ships left to check for this category
-            if ship_count <= 0:	
+            if ship_count <= 0:    
                 logger.info('Reached maximum number to check, exiting current category')
                 return False, ship_count
 
@@ -148,79 +176,46 @@ class Enhancement(Dock):
                 skip_until_ensured = False
             else:
                 self.device.screenshot()
-
-            # Check if any material (actually the first one) appear after clicking recommend
-            # If no material found, it means enhance failed
-            # Otherwise, try enhancing
-            if recommend_click:
-                recommend_click = False
-                image = info_letter_preprocess(self.image_crop(ENHANCE_MATERIAL))
-                if TEMPLATE_ENHANCE_NO_MATERIAL.match_binary(image):
-                    logger.info('No material found for enhancement')
-                    logger.info('Enhancement failed. Swiping to next ship if feasible')
-                    self.ensure_no_info_bar()
-                    if self.equip_view_next(check_button=ENHANCE_RECOMMEND):
-                        ship_count -= 1
-                        continue
-                    else:
-                        logger.info('Swiped failed, exiting current category')
-                        return False, ship_count
-                else:
-                    logger.info('Material found. Enhancing...')
+            
+            button_appear, material_appear = self._enhance_recommend(recommend_click)
+            if button_appear:
+                recommend_click = True
+                if material_appear:
                     confirm_click = True
                     self.device.click(ENHANCE_CONFIRM)
-                    self.device.sleep(0.3)
-                    continue
-                    
-            # Will only enter here if material appears
-            # If info_bar detected, responds according to it
-            # Otherwise, check if EQUIP_CONFIRM appears
-            # If EQUIP_CONFIRM appears, it means enhance successfully
-            # Otherwise, it means ship is in battle
-            if confirm_click:
-                confirm_click = False
-                if self.info_bar_count():
-                    logger.info('info_bar detected...')
-                    image = info_letter_preprocess(self.image_crop(INFO_BAR_DETECT))
-                    if TEMPLATE_ENHANCE_SUCCESS.match(image):
-                        enhanced = True
+                    self.device.sleep(1)
+                    self.device.screenshot()
+
+            # If recommend was marked clicked but actually failed,
+            # no material appeared, preforming like enhancement failed.
+            # This condition will not trigger confirm_click
+            # and ALAS will try to swipe to next
+            if recommend_click:
+                recommend_click = False
+                # If confirm was marked clicked but actually failed,
+                # no EQUIP_CONFIRM appeared, preforming like in battle.
+                # Then ALAS will try to swipe to next
+                if confirm_click:
+                    confirm_click = False
+                    if self.appear(EQUIP_CONFIRM, offset=(30, 30)):
+                        logger.info('Enhancement Successful')
+                        return True, ship_count
                     else:
                         logger.info('Enhancement impossible, ship currently in battle. Swiping to next ship if feasible')
-                        self.ensure_no_info_bar()
-                        if self.equip_view_next(check_button=ENHANCE_RECOMMEND):
-                            continue
-                        else:
-                            logger.info('Swiped failed, exiting current category')
-                            return False, ship_count
-                elif self.appear(EQUIP_CONFIRM, offset=(30, 30)):
-                    enhanced = True
+                # Only reached here when failed or in battle,
+                # both of which will try to swipe to next
+                if self.equip_view_next(check_button=ENHANCE_RECOMMEND):
+                    ship_count -= 1
+                    continue
                 else:
-                    logger.info('Enhancement impossible, ship currently in battle. Swiping to next ship if feasible')
-                    self.ensure_no_info_bar()
-                    if self.equip_view_next(check_button=ENHANCE_RECOMMEND):
-                        continue
-                    else:
-                        logger.info('Swiped failed, exiting current category')
-                        return False, ship_count
-
+                    logger.info('Swiped failed, exiting current category')
+                    return False, ship_count
+            
+            # WARNING: Reversed but Never tested
             # Can be encountered when enhancing a ship that
             # is temporary/not officially owned yet
             if self.handle_popup_confirm('ENHANCE'):
                 continue
-
-            # Possible trapped case in which info_bar will never appear
-            # so long as EQUIP_CONFIRM remains appeared
-            if enhanced or self.appear(EQUIP_CONFIRM, offset=(30, 30)):
-                logger.info('Enhancement Successful')
-                return True, ship_count
-
-            # Perform actions to attempt enhancement
-            if self.appear_then_click(ENHANCE_RECOMMEND, offset=(5, 5), interval=2):
-                self.device.sleep(0.3)
-                recommend_click = True
-                #self.device.click(ENHANCE_CONFIRM)
-                #logger.info('Enhancing...')
-                #self.device.sleep(0.3)
 
     def enhance_ships(self, favourite=None):
         """
