@@ -140,17 +140,15 @@ class Enhancement(Dock):
     def _enhance_choose(self, ship_count):
         """
         Refactor the implementation.
-        Use more differentiated features to
-        distinguish the states of ship.
-        
-        The new method consider the first
-        slot of enhancement material instead
-        of info_bar text, which is more friendly
-        to poor device.
+        Divided the enhancement process into
+        several state functions. Use a DFA method
+        to call those functions according to
+        current state. Each state corresponds to
+        a function with the same name.
 
         Pages:
-            in: page_ship_enhance, without info_bar
-            out: EQUIP_CONFIRM
+            in: page_ship_enhance
+            out: page_ship_enhance
 
         Args:
             ship_count (int): ship_count, must be
@@ -160,62 +158,72 @@ class Enhancement(Dock):
             True if able to enhance otherwise False
             Always paired with current ship_count
         """
-        skip_until_ensured = True
-        recommend_click = False
-        confirm_click = False
-        while 1:
-            # Base Case: No more ships left to check for this category
-            if ship_count <= 0:    
+        def state_enhance_check():
+            # Check the base case, switch to ready if enhancement can continue
+            if ship_count <= 0:
                 logger.info('Reached maximum number to check, exiting current category')
-                return False, ship_count
+                return "state_enhance_exit"
+            if not self.equip_side_navbar_ensure(bottom=4):
+                return "state_enhance_check"
+            self.wait_until_appear(ENHANCE_RECOMMEND, offset=(5, 5), skip_first_screenshot=True)
+            return "state_enhance_ready"
 
-            if skip_until_ensured:
-                if not self.equip_side_navbar_ensure(bottom=4):
-                    continue
-                self.wait_until_appear(ENHANCE_RECOMMEND, offset=(5, 5), skip_first_screenshot=True)
-                skip_until_ensured = False
+        def state_enhance_ready():
+            # Wait until ENHANCE_RECOMMEND appears
+            if self.appear_then_click(ENHANCE_RECOMMEND, offset=(5, 5), interval=2):
+                logger.info('Set enhancement material by recommendation.')
+                return "state_enhance_recommend"
+            return "state_enhance_ready"
+        
+        def state_enhance_recommend():
+            # Judge if enhance material appeared
+            if EMPTY_ENHANCE_SLOT.match_binary(self.device.image):
+                logger.info('No material found for enhancement.')
+                logger.info('Enhancement failed. Swiping to next ship if feasible')
+                return "state_enhance_fail"
             else:
-                self.device.screenshot()
+                logger.info('Material found. Try enhancing...')
+                return "state_enhance_attempt"
+        
+        def state_enhance_attempt():
+            # Wait until ENHANCE_CONFIRM appears
+            if self.appear_then_click(ENHANCE_CONFIRM, interval=1):
+                return  "state_enhance_confirm"
+            return "state_enhance_attempt"
+        
+        def state_enhance_confirm():
+            # Succeeded if EQUIP_CONFIRM appeared, otherwise failed
+            if self.appear(EQUIP_CONFIRM, offset=(30, 30)):
+                logger.info('Enhancement Successful')
+                self._enhance_confirm()
+                return "state_enhance_success"
+            else:
+                logger.info('Enhancement impossible, ship currently in battle. Swiping to next ship if feasible')
+                return "state_enhance_fail"
+        
+        def state_enhance_fail():
+            # Try to swipe to next
+            if self.equip_view_next(check_button=ENHANCE_RECOMMEND):
+                nonlocal ship_count
+                ship_count -= 1
+                return "state_enhance_check"
+            else:
+                logger.info('Swiped failed, exiting current category')
+                return "state_enhance_exit"
             
-            button_appear, material_appear = self._enhance_recommend(recommend_click)
-            if button_appear:
-                recommend_click = True
-                if material_appear:
-                    confirm_click = True
-                    self.device.click(ENHANCE_CONFIRM)
-                    self.device.sleep(1)
-                    self.device.screenshot()
+        def state_enhance_success():
+            return True
 
-            # If recommend was marked clicked but actually failed,
-            # no material appeared, preforming like enhancement failed.
-            # This condition will not trigger confirm_click
-            # and ALAS will try to swipe to next
-            if recommend_click:
-                recommend_click = False
-                # If confirm was marked clicked but actually failed,
-                # no EQUIP_CONFIRM appeared, preforming like in battle.
-                # Then ALAS will try to swipe to next
-                if confirm_click:
-                    confirm_click = False
-                    if self.appear(EQUIP_CONFIRM, offset=(30, 30)):
-                        logger.info('Enhancement Successful')
-                        return True, ship_count
-                    else:
-                        logger.info('Enhancement impossible, ship currently in battle. Swiping to next ship if feasible')
-                # Only reached here when failed or in battle,
-                # both of which will try to swipe to next
-                if self.equip_view_next(check_button=ENHANCE_RECOMMEND):
-                    ship_count -= 1
-                    continue
-                else:
-                    logger.info('Swiped failed, exiting current category')
-                    return False, ship_count
+        def state_enhance_exit():
+            return False
             
-            # WARNING: Reversed but Never tested
-            # Can be encountered when enhancing a ship that
-            # is temporary/not officially owned yet
-            if self.handle_popup_confirm('ENHANCE'):
-                continue
+        state = "state_enhance_check"
+        self.device.screenshot_interval_set(1)
+        while isinstance(state, str):
+            self.device.screenshot()
+            logger.info('Call state function: ' + state)
+            state = eval(state)()
+        return state, ship_count
 
     def enhance_ships(self, favourite=None):
         """
@@ -281,7 +289,6 @@ class Enhancement(Dock):
                 choose_result, current_count = self._enhance_choose(ship_count=current_count)
                 if not choose_result:
                     break
-                self._enhance_confirm()
                 total += 10
                 if total >= self._retire_amount:
                     break

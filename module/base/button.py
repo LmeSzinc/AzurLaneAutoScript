@@ -131,8 +131,18 @@ class Button(Resource):
                     image = image[:, :, :3].copy() if len(image.shape) == 3 else image
                     image = crop(image, self.area)
                     self.image.append(image)
+                    # graying
+                    image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+                    self.image_gray.append(image_gray)
+                    # binarization
+                    _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+                    self.image_binary.append(image_binary)
             else:
                 self.image = load_image(self.file, self.area)
+                # graying
+                self.image_gray = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
+                # binarization
+                _, self.image_binary = cv2.threshold(self.image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
             self._match_init = True
 
     def resource_release(self):
@@ -199,15 +209,13 @@ class Button(Resource):
         image = crop(image, offset + self.area)
         
         if self.is_gif:
-            for template in self.image:
+            for template in self.image_binary:
                 # graying
                 image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-                template_gray = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
                 # binarization
                 _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-                _, template_binary = cv2.threshold(template_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
                 # template matching
-                res = cv2.matchTemplate(template_binary, image_binary, cv2.TM_CCOEFF_NORMED)
+                res = cv2.matchTemplate(template, image_binary, cv2.TM_CCOEFF_NORMED)
                 _, similarity, _, point = cv2.minMaxLoc(res)
                 self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
                 if similarity > threshold:
@@ -216,12 +224,10 @@ class Button(Resource):
         else:
             # graying
             image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-            self_image_gray = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
             # binarization
             _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-            _, self_image_binary = cv2.threshold(self_image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
             # template matching
-            res = cv2.matchTemplate(self_image_binary, image_binary, cv2.TM_CCOEFF_NORMED)
+            res = cv2.matchTemplate(self.image_binary, image_binary, cv2.TM_CCOEFF_NORMED)
             _, similarity, _, point = cv2.minMaxLoc(res)
             self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
             return similarity > threshold
