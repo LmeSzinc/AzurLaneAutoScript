@@ -429,6 +429,9 @@ class RewardCommission(UI, InfoHandler):
                 if click_timer.reached() and self.appear_then_click(REWARD_GOTO_COMMISSION, offset=(20, 20)):
                     click_timer.reset()
                     continue
+                if click_timer.reached() and self.ui_additional():
+                    click_timer.reset()
+                    continue
 
                 # End
                 if self.appear(COMMISSION_CHECK, offset=(20, 20)):
