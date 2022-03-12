@@ -63,7 +63,11 @@ class MeowfficerBase(UI):
 
     def meow_is_sunday(self):
         """
+        datetime argument is the next server update of,
+        today's run. So check for Monday's weekday value
+        (0) rather than Sunday's weekday value (6)
+
         Returns:
             bool:
         """
-        return get_server_next_update(self.config.Scheduler_ServerUpdate).weekday() == 6
+        return get_server_next_update(self.config.Scheduler_ServerUpdate).weekday() == 0
