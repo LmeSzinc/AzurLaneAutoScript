@@ -1,58 +1,20 @@
 import re
 import time
 from datetime import timedelta
+from typing import TYPE_CHECKING
 
 from module.base.button import Button
-from module.base.decorator import cached_property
 from module.base.utils import *
 from module.logger import logger
-from module.ocr.al_ocr import AlOcr
+from module.ocr.rpc import ModelProxyFactory, deploy_config
 
+if TYPE_CHECKING:
+    from module.ocr.al_ocr import AlOcr
 
-class OcrModel:
-    @cached_property
-    def azur_lane(self):
-        # Folder: ./bin/cnocr_models/azur_lane
-        # Size: 3.25MB
-        # Model: densenet-lite-gru
-        # Epoch: 15
-        # Validation accuracy: 99.43%
-        # Font: Impact, AgencyFB-Regular, MStiffHeiHK-UltraBold
-        # Charset: 0123456789ABCDEFGHIJKLMNPQRSTUVWXYZ:/- (Letter 'O' and <space> is not included)
-        # _num_classes: 39
-        return AlOcr(model_name='densenet-lite-gru', model_epoch=15, root='./bin/cnocr_models/azur_lane',
-                     name='azur_lane')
-
-    @cached_property
-    def cnocr(self):
-        # Folder: ./bin/cnocr_models/cnocr
-        # Size: 9.51MB
-        # Model: densenet-lite-gru
-        # Epoch: 39
-        # Validation accuracy: 99.04%
-        # Font: Various
-        # Charset: Number, English character, Chinese character, symbols, <space>
-        # _num_classes: 6426
-        return AlOcr(model_name='densenet-lite-gru', model_epoch=39, root='./bin/cnocr_models/cnocr', name='cnocr')
-
-    @cached_property
-    def jp(self):
-        return AlOcr(model_name='densenet-lite-gru', model_epoch=125, root='./bin/cnocr_models/jp', name='jp')
-
-    @cached_property
-    def tw(self):
-        # Folder: ./bin/cnocr_models/tw
-        # Size: 8.43MB
-        # Model: densenet-lite-gru
-        # Epoch: 63
-        # Validation accuracy: 99.24%
-        # Font: Various, 6 kinds
-        # Charset: Numbers, Upper english characters, Chinese traditional characters
-        # _num_classes: 5322
-        return AlOcr(model_name='densenet-lite-gru', model_epoch=63, root='./bin/cnocr_models/tw', name='tw')
-
-
-OCR_MODEL = OcrModel()
+if not deploy_config.bool("UseOcrServer"):
+    from module.ocr.models import OCR_MODEL
+else:
+    OCR_MODEL = ModelProxyFactory()
 
 
 class Ocr:
@@ -77,7 +39,7 @@ class Ocr:
         self.lang = lang
 
     @property
-    def cnocr(self) -> AlOcr:
+    def cnocr(self) -> "AlOcr":
         return OCR_MODEL.__getattribute__(self.lang)
 
     def pre_process(self, image):
