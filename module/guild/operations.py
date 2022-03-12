@@ -171,18 +171,23 @@ class GuildOperations(GuildBase):
 
         return list_expand, list_enter
 
-    def _guild_operations_dispatch_swipe(self, skip_first_screenshot=True):
+    def _guild_operations_dispatch_swipe(self, forward=True, skip_first_screenshot=True):
         """
         Although AL will auto focus to active dispatch, but it's bugged.
         It can't reach the operations behind.
         So this method will swipe behind, and focus to active dispatch.
         Force to use minitouch, because uiautomator2 will need longer swipes.
 
+        Args:
+            forward (bool): direction of horizontal swipe
+            skip_first_screenshot (bool):
+
         Returns:
             bool: If found active dispatch.
         """
         # Where whole operation mission chain is
         detection_area = (152, 135, 1280, 630)
+        direction_vector = (-600, 0) if forward else (600, 0)
 
         for _ in range(5):
             if skip_first_screenshot:
@@ -195,7 +200,7 @@ class GuildOperations(GuildBase):
                 return True
 
             p1, p2 = random_rectangle_vector(
-                (-600, 0), box=detection_area, random_range=(-50, -50, 50, 50), padding=20)
+                direction_vector, box=detection_area, random_range=(-50, -50, 50, 50), padding=20)
             self.device.drag(p1, p2, segments=2, shake=(0, 25), point_random=(0, 0, 0, 0), shake_random=(0, -5, 0, 5))
             self.device.sleep(0.3)
 
@@ -399,7 +404,15 @@ class GuildOperations(GuildBase):
             out: page_guild, guild operation, operation map (GUILD_OPERATIONS_ACTIVE_CHECK)
         """
         logger.hr('Guild dispatch')
-        if not self._guild_operations_dispatch_swipe():
+        success = False
+        for _ in reversed(range(2)):
+            if self._guild_operations_dispatch_swipe(forward=_):
+                success = True
+                break
+            if _:
+                self.guild_side_navbar_ensure(bottom=2)
+                self.guild_side_navbar_ensure(bottom=1)
+        if not success:
             return False
 
         for _ in range(5):
@@ -504,20 +517,17 @@ class GuildOperations(GuildBase):
         operations_mode = self._guild_operations_get_mode()
 
         # Execute actions based on the detected mode
+        result = True
         if operations_mode == 0:
-            result = True
+            pass
         elif operations_mode == 1:
             self._guild_operations_dispatch()
-            result = True
         elif operations_mode == 2:
             if self._guild_operations_boss_available():
                 if self.config.GuildOperation_AttackBoss:
                     result = self._guild_operations_boss_combat()
                 else:
                     logger.info('Auto-battle disabled, play manually to complete this Guild Task')
-                    result = True
-            else:
-                result = True
         else:
             result = False
 
