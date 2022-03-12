@@ -66,4 +66,4 @@ class MeowfficerBase(UI):
         Returns:
             bool:
         """
-        return get_server_next_update(self.config.Scheduler_ServerUpdate).weekday() == 0
+        return get_server_next_update(self.config.Scheduler_ServerUpdate).weekday() == 6
