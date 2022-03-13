@@ -65,6 +65,22 @@ Deploy:
     # [In most cases] Use true
     InstallUiautomator2: true
 
+  Ocr:
+    # Run Ocr as a service, can reduce memory usage by not import mxnet everytime you start an alas instance
+
+    # Whether to use ocr server
+    # [Default] false
+    UseOcrServer: false
+    # Whether to start ocr server when start GUI
+    # [Default] false
+    StartOcrServer: false
+    # Port of ocr server runs by GUI
+    # [Default] 22268
+    OcrServerPort: 22268
+    # Address of ocr server for alas instance to connect
+    # [Default] 127.0.0.1:22268
+    OcrClientAddress: 127.0.0.1:22268
+
   Update:
     # Use auto update and builtin updater feature
     # This may cause problem https://github.com/LmeSzinc/AzurLaneAutoScript/issues/876

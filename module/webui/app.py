@@ -19,6 +19,7 @@ from module.config.utils import (
     write_file,
 )
 from module.logger import logger
+from module.ocr.rpc import start_ocr_server_process, stop_ocr_server_process
 from module.webui.base import Frame
 from module.webui.discord_presence import close_discord_rpc, init_discord_rpc
 from module.webui.fastapi import asgi_app
@@ -1058,6 +1059,8 @@ def startup():
     task_handler.start()
     if updater.bool("DiscordRichPresence"):
         init_discord_rpc()
+    if updater.bool("StartOcrServer"):
+        start_ocr_server_process(updater.config["OcrServerPort"])
 
 
 def clearup():
@@ -1067,6 +1070,7 @@ def clearup():
     """
     logger.info("Start clearup")
     close_discord_rpc()
+    stop_ocr_server_process()
     for alas in ProcessManager._processes.values():
         alas.stop()
     Setting.clearup()
