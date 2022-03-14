@@ -120,7 +120,7 @@ class Exercise(ExerciseCombat):
         season_left_time = OCR_EXERCISE_SEASON_LEFT_TIME.ocr(self.device.image)
         detect_day = re.search('\\d', season_left_time)
         self.season_left_day = 0 if detect_day is None \
-            else int(re.search('\\d+', detect_day).group())
+            else int(detect_day.group())
         return self.season_left_day
 
     def _get_delayed_runtime(self):
