@@ -305,6 +305,12 @@
       "minitouch": "minitouch",
       "Hermit": "Hermit"
     },
+    "WSA": {
+      "name": "WSA啟動方案",
+      "help": "以不同的方式在WSA上啟動碧藍航線，使用WSA必須選擇其中一種\n截圖方案和控製方案都應選擇uiautomator2\n0屏方案：碧藍航線將會在WSA後臺運行，需要使用第三方投屏軟件操控或關閉\n標準方案（未完成）：碧藍航線將會正常窗口化運行，但是窗口不能最小化、改變大小或被關閉",
+      "not_use": "不使用WSA",
+      "display_0": "0屏方案"
+    },
     "ScreenshotDedithering": {
       "name": "去除圖片色彩抖動",
       "help": "在手機上運行時開啟"

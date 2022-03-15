@@ -6,6 +6,7 @@
       "Server": "cn",
       "ScreenshotMethod": "ADB",
       "ControlMethod": "minitouch",
+      "WSA": "not_use",
       "ScreenshotDedithering": false
     },
     "Error": {
