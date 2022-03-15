@@ -23,6 +23,9 @@ Emulator:
   ControlMethod:
     value: minitouch
     option: [ADB, uiautomator2, minitouch, Hermit]
+  WSA:
+    value: not_use
+    option: [not_use, display_0]
   ScreenshotDedithering: false
 Error:
   HandleError: true

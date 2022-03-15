@@ -305,6 +305,12 @@
       "minitouch": "minitouch ",
       "Hermit": "Hermit"
     },
+    "WSA": {
+      "name": "WSA Start-up Method",
+      "help": "To start the Azur lane on WSA in different ways, you must choose one of them to use WSA\nuiautomator2 should be selected for both Screenshot Method and Control Method\nDisplay 0: Azur lane will operate in the background of WSA, and it is necessary to use the third-party screen projection software to control or close the game\nStandard(unfinished): Azur lane will operate normally, but the window cannot be minimized, resized, or closed",
+      "not_use": "Not use",
+      "display_0": "Display 0"
+    },
     "ScreenshotDedithering": {
       "name": "Image Color De-dithering",
       "help": "Enable when running Alas on phones"
