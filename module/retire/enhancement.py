@@ -104,38 +104,6 @@ class Enhancement(Dock):
                     break
             else:
                 confirm_timer.reset()
-    
-    def _enhance_recommend(self, recommend_click=False):
-        """
-        Set enhancement material by clicking button ENHANCE_RECOMMEND.
-        Check if any material was set.
-        
-        Pages:
-            in: page_ship_enhance
-            out: page_ship_enhance
-        
-        Returns:
-            A pair of bool.
-            For the first one, True if ENHANCE_RECOMMEND appear, otherwise False
-            For another one, True if material found, otherwise False
-            The second one only make senses when first is True
-        """
-        if recommend_click:
-            return False, False
-        if self.appear_then_click(ENHANCE_RECOMMEND, offset=(5, 5), interval=2):
-            logger.info('Set enhancement material by recommendation.')
-            self.device.sleep(0.3)
-            self.device.screenshot()
-            
-            if EMPTY_ENHANCE_SLOT.match_binary(self.device.image):
-                logger.info('No material found for enhancement.')
-                logger.info('Enhancement failed. Swiping to next ship if feasible')
-                return True, False
-            else:
-                logger.info('Material found. Try enhancing...')
-                return True, True
-        else:
-            return False, False
 
     def _enhance_choose(self, ship_count):
         """
@@ -177,6 +145,11 @@ class Enhancement(Dock):
         
         def state_enhance_recommend():
             # Judge if enhance material appeared
+            for retry in range(1, 3):
+                self.device.screenshot()
+                if EMPTY_ENHANCE_SLOT.match_binary(self.device.image):
+                    break
+
             if EMPTY_ENHANCE_SLOT.match_binary(self.device.image):
                 logger.info('No material found for enhancement.')
                 logger.info('Enhancement failed. Swiping to next ship if feasible')
@@ -193,6 +166,11 @@ class Enhancement(Dock):
         
         def state_enhance_confirm():
             # Succeeded if EQUIP_CONFIRM appeared, otherwise failed
+            for retry in range(1, 3):
+                self.device.screenshot()
+                if self.appear(EQUIP_CONFIRM, offset=(30, 30)) or self.info_bar_count():
+                    break
+
             if self.appear(EQUIP_CONFIRM, offset=(30, 30)):
                 logger.info('Enhancement Successful')
                 self._enhance_confirm()
@@ -218,11 +196,14 @@ class Enhancement(Dock):
             return False
             
         state = "state_enhance_check"
-        self.device.screenshot_interval_set(1)
         while isinstance(state, str):
             self.device.screenshot()
-            logger.info('Call state function: ' + state)
-            state = eval(state)()
+            try:
+                logger.info(f'Call state function: {state}')
+                state = locals()[state]()
+            except KeyError as e:
+                logger.warning(f'Unkonwn state function: {state}')
+                raise ScriptError(f'Unkonwn state function: {state}')
         return state, ship_count
 
     def enhance_ships(self, favourite=None):
