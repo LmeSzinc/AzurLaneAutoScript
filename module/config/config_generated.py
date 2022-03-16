@@ -23,7 +23,6 @@ class GeneratedConfig:
     Emulator_Server = 'cn'  # cn, en, jp, tw
     Emulator_ScreenshotMethod = 'ADB'  # ADB, uiautomator2, aScreenCap
     Emulator_ControlMethod = 'minitouch'  # ADB, uiautomator2, minitouch, Hermit
-    Emulator_WSA = 'not_use'
     Emulator_ScreenshotDedithering = False
 
     # Group `Error`

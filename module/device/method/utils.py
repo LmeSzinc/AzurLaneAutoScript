@@ -76,7 +76,7 @@ def handle_adb_error(e):
         # AdbError()
         logger.exception(e)
         possible_reasons(
-            'If you are using BlueStacks or LD player, please enable ADB in the settings of your emulator',
+            'If you are using BlueStacks or LD player or WSA, please enable ADB in the settings of your emulator',
             'Emulator died, please restart emulator',
             'Serial incorrect, no such device exists or emulator is not running'
         )

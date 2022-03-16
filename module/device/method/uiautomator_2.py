@@ -67,7 +67,7 @@ def retry(func):
             except AssertionError as e:
                 logger.exception(e)
                 possible_reasons(
-                    'If you are using BlueStacks or LD player, '
+                    'If you are using BlueStacks or LD player or WSA, '
                     'please enable ADB in the settings of your emulator'
                 )
                 break

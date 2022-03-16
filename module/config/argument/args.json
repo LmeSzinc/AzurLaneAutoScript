@@ -38,14 +38,6 @@
           "Hermit"
         ]
       },
-      "WSA": {
-        "type": "select",
-        "value": "not_use",
-        "option": [
-          "not_use",
-          "display_0"
-        ]
-      },
       "ScreenshotDedithering": {
         "type": "checkbox",
         "value": false

@@ -36,6 +36,8 @@ class Connection:
             self.serial = self.find_bluestacks4_hyperv(self.serial)
         if "bluestacks5-hyperv" in self.serial:
             self.serial = self.find_bluestacks5_hyperv(self.serial)
+        if "wsa" in self.serial:
+            self.serial = '127.0.0.1:58526'
 
         logger.attr('Adb_binary', self.adb_binary)
 

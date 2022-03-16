@@ -305,12 +305,6 @@
       "minitouch": "minitouch",
       "Hermit": "Hermit"
     },
-    "WSA": {
-      "name": "Emulator.WSA.name",
-      "help": "Emulator.WSA.help",
-      "not_use": "not_use",
-      "display_0": "display_0"
-    },
     "ScreenshotDedithering": {
       "name": "Emulator.ScreenshotDedithering.name",
       "help": "Emulator.ScreenshotDedithering.help"

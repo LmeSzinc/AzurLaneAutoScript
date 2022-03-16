@@ -25,10 +25,9 @@ class AppControl(Adb, WSA, Uiautomator2):
     def app_start(self):
         package = self.config.Emulator_PackageName
         method = self.config.Emulator_ControlMethod
-        wsa = self.config.Emulator_WSA
         logger.info(f'App start: {package}')
-        if wsa == "display_0":
-            self.app_start_wsa_display_0(package)
+        if self.config.Emulator_Serial == 'wsa-0':
+            self.app_start_wsa(package, display = 0)
         elif method == 'uiautomator2' or method == 'minitouch':
             self.app_start_uiautomator2(package)
         else:

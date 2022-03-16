@@ -55,19 +55,22 @@ def retry(func):
 class WSA(Connection):
 
     @retry
-    def app_start_wsa_display_0(self, package_name, allow_failure=False):
+    def app_start_wsa(self, package_name, display, allow_failure=False):
         """
         Args:
             package_name (str):
+            display (int):
             allow_failure (bool):
 
         Returns:
             bool: If success to start
         """
+
         self.adb_shell(['svc', 'power', 'stayon', 'true'])
+        activity_name = self.get_main_activity_name(package_name=package_name)
         result = self.adb_shell(
-            ['am', 'start', '--display', '0', self.config.Emulator_PackageName +
-             '/com.manjuu.azurlane.MainActivity'])
+            ['am', 'start', '--display', display, package_name +
+             '/' + activity_name])
         if 'No activities found' in result:
             # ** No activities found to run, monkey aborted.
             if allow_failure:
@@ -82,21 +85,33 @@ class WSA(Connection):
             return True
 
     @retry
+    def get_main_activity_name(self, package_name):
+        output = self.adb_shell(['dumpsys', 'package', package_name])
+        _activityRE = re.compile(
+            r'\w+ ' + package_name + r'/(?P<activity>[^/\s]+) filter'
+        )
+        ms = _activityRE.finditer(output)
+        ret = next(ms).group('activity')
+        if ret:  # get first result
+            return ret
+        raise OSError("Couldn't get activity name, please check setting Emulator.PackageName")
+
+    @retry
     def get_display_id(self):
+        """
+            Returns:
+                0: Could not find
+                int: Display id of the game
+        """
         try:
             get_dump_sys_display = str(self.adb_shell(['dumpsys', 'display']))
             display_id_list = re.findall(r'systemapp:' + self.config.Emulator_PackageName + ':' + '(.+?)', get_dump_sys_display, re.S)
-            display_id = list(set(display_id_list))[0]
+            display_id = int(display_id_list[0])
             return display_id
         except IndexError:
-            return '0'
+            return 0  # When game running on display 0, its display id could not be found
 
     @retry
-    def wrong_screen_handling(self):
-        logger.warning('Game not running on display 0')
-        self.adb_shell(['am', 'force-stop', self.config.Emulator_PackageName])
-
-    @retry
-    def resize_wsa_display_0(self):
-        logger.warning('display 0 should be resized')
-        self.adb_shell(['wm', 'size', '1280x720', '-d', '0'])
+    def display_resize_wsa(self, display):
+        logger.warning('display ' + display + ' should be resized')
+        self.adb_shell(['wm', 'size', '1280x720', '-d', display])
