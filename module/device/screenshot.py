@@ -182,8 +182,8 @@ class Screenshot(Adb, WSA, Uiautomator2, AScreenCap):
             elif hasattr(self, 'app_is_running') and not self.app_is_running():
                 logger.warning('Received orientated screenshot, game not running')
                 return True
-            elif self.config.Emulator_WSA == 'display_0':
-                self.resize_wsa_display_0()
+            elif self.config.Emulator_Serial == 'wsa-0':
+                self.display_resize_wsa(0)
                 return False
             else:
                 logger.critical(f'Resolution not supported: {width}x{height}')
@@ -197,11 +197,16 @@ class Screenshot(Adb, WSA, Uiautomator2, AScreenCap):
         # May get a pure black screenshot on some emulators.
         color = get_color(self.image, area=(0, 0, 1280, 720))
         if sum(color) < 1:
-            if self.config.Emulator_WSA == 'display_0' and self.get_display_id() != '0':
+            if self.config.Emulator_Serial == 'wsa-0' and self.get_display_id() != 0:
+                for _ in range(2):
+                    display = self.get_display_id()
+                    if display == 0:
+                        return True
                 logger.info(f'Game running on display {self.get_display_id()}')
-                self.wrong_screen_handling()
+                logger.warning('Game not running on display 0, will be restarted')
+                self.app_stop_uiautomator2(self.config.Emulator_PackageName)
                 return False
-            elif self.config.Emulator_WSA == 'display_0':
+            elif self.config.Emulator_Serial == 'wsa-0':
                 return True
             elif self.config.Emulator_ScreenshotMethod == 'uiautomator2':
                 logger.warning(f'Received pure black screenshots from emulator, color: {color}')

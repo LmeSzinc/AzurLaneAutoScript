@@ -32,7 +32,7 @@ class AdbManager(DeployConfig):
                     init.install()
                 except AssertionError:
                     print(f'AssertionError when installing uiautomator2 on device {device.serial}')
-                    print('If you are using BlueStacks or LD player, '
+                    print('If you are using BlueStacks or LD player or WSA, '
                           'please enable ADB in the settings of your emulator')
                 init._device.shell(["rm", "/data/local/tmp/minicap"])
                 init._device.shell(["rm", "/data/local/tmp/minicap.so"])

@@ -276,7 +276,7 @@
     },
     "Serial": {
       "name": "模擬器 Serial",
-      "help": "模擬器預設 Serial：\n- 藍疊模擬器 127.0.0.1:5555\n- 藍疊模擬器4 Hyper-v版，填\"bluestacks4-hyperv\"自動連接，多開填\"bluestacks4-hyperv-2\"以此類推\n- 藍疊模擬器5 Hyper-v版，填\"bluestacks5-hyperv\"自動連接，多開填\"bluestacks5-hyperv-1\"以此類推\n- 夜神模擬器 127.0.0.1:62001\n- 夜神模擬器64位元 127.0.0.1:59865\n- MuMu模擬器 127.0.0.1:7555\n- 逍遙模擬器 127.0.0.1:21503\n- 雷電模擬器 emulator-5554 或 127.0.0.1:5555\n如果你有多個模擬器，他們的 Serial 將不是預設的，可以在 console.bat 中執行 `adb devices` 查詢"
+      "help": "模擬器預設 Serial：\n- 藍疊模擬器 127.0.0.1:5555\n- 藍疊模擬器4 Hyper-v版，填\"bluestacks4-hyperv\"自動連接，多開填\"bluestacks4-hyperv-2\"以此類推\n- 藍疊模擬器5 Hyper-v版，填\"bluestacks5-hyperv\"自動連接，多開填\"bluestacks5-hyperv-1\"以此類推\n- 夜神模擬器 127.0.0.1:62001\n- 夜神模擬器64位元 127.0.0.1:59865\n- MuMu模擬器 127.0.0.1:7555\n- 逍遙模擬器 127.0.0.1:21503\n- 雷電模擬器 emulator-5554 或 127.0.0.1:5555\n- WSA，填\"wsa-0\"使遊戲在後臺運行，需要使用第三方軟件操控或關閉\n如果你有多個模擬器，他們的 Serial 將不是預設的，可以在 console.bat 中執行 `adb devices` 查詢"
     },
     "PackageName": {
       "name": "遊戲檔名",
@@ -304,12 +304,6 @@
       "uiautomator2": "uiautomator2",
       "minitouch": "minitouch",
       "Hermit": "Hermit"
-    },
-    "WSA": {
-      "name": "WSA啟動方案",
-      "help": "以不同的方式在WSA上啟動碧藍航線，使用WSA必須選擇其中一種\n截圖方案和控製方案都應選擇uiautomator2\n0屏方案：碧藍航線將會在WSA後臺運行，需要使用第三方投屏軟件操控或關閉\n標準方案（未完成）：碧藍航線將會正常窗口化運行，但是窗口不能最小化、改變大小或被關閉",
-      "not_use": "不使用WSA",
-      "display_0": "0屏方案"
     },
     "ScreenshotDedithering": {
       "name": "去除圖片色彩抖動",
