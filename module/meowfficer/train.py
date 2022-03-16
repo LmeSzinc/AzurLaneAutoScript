@@ -6,7 +6,6 @@ from module.meowfficer.assets import *
 from module.meowfficer.collect import MeowfficerCollect
 from module.meowfficer.enhance import MeowfficerEnhance
 from module.ocr.ocr import Digit, DigitCounter
-from module.ui.assets import MEOWFFICER_GOTO_DORM
 
 MEOWFFICER_CAPACITY = DigitCounter(OCR_MEOWFFICER_CAPACITY, letter=(131, 121, 123), threshold=64)
 MEOWFFICER_QUEUE = DigitCounter(OCR_MEOWFFICER_QUEUE, letter=(131, 121, 123), threshold=64)
@@ -156,6 +155,11 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
         counts = MEOWFFICER_BOX_COUNT.ocr(self.device.image)
         common_sum = counts[0] + counts[1]
 
+        # Check remains
+        if sum(counts) <= 0:
+            logger.info('No more meowfficer boxes to train')
+            return
+
         # Choose appropriate queue func based on
         # common box sum count
         # - <= 20, low stock; queue normally
@@ -199,8 +203,7 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
             # Queue
             self.meow_queue(ascending=True)
             # Exit
-            self.ui_click(MEOWFFICER_GOTO_DORM, check_button=MEOWFFICER_TRAIN_ENTER,
-                          appear_button=MEOWFFICER_TRAIN_START, offset=None, skip_first_screenshot=True)
+            self.meow_menu_close()
         else:
             # Enter
             self.ui_click(MEOWFFICER_TRAIN_ENTER, check_button=MEOWFFICER_TRAIN_START, additional=self.meow_additional,
@@ -211,7 +214,6 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
             # Queue
             self.meow_queue(ascending=False)
             # Exit
-            self.ui_click(MEOWFFICER_GOTO_DORM, check_button=MEOWFFICER_TRAIN_ENTER,
-                          appear_button=MEOWFFICER_TRAIN_START, offset=None, skip_first_screenshot=True)
+            self.meow_menu_close()
 
         return collected

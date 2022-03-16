@@ -3,7 +3,6 @@ from module.combat.assets import GET_ITEMS_1
 from module.logger import logger
 from module.meowfficer.assets import *
 from module.meowfficer.base import MeowfficerBase
-from module.ui.assets import MEOWFFICER_GOTO_DORM
 
 
 class MeowfficerFort(MeowfficerBase):
@@ -80,13 +79,6 @@ class MeowfficerFort(MeowfficerBase):
         self.meow_chores()
 
         # Exit back into page_meowfficer
-        def additional():
-            if self.appear_then_click(GET_ITEMS_1, offset=5, interval=3):
-                return True
-            return False
-
-        self.ui_click(MEOWFFICER_GOTO_DORM,
-                      check_button=MEOWFFICER_FORT_ENTER, appear_button=MEOWFFICER_FORT_CHECK,
-                      additional=additional, offset=None, confirm_wait=0, skip_first_screenshot=True)
+        self.meow_menu_close()
 
         return True

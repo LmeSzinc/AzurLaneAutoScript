@@ -1,7 +1,10 @@
+from module.base.timer import Timer
+from module.combat.assets import GET_ITEMS_1
 from module.config.utils import get_server_next_update
 from module.meowfficer.assets import *
 from module.ui.assets import MEOWFFICER_CHECK, MEOWFFICER_INFO
 from module.ui.ui import UI
+from module.logger import logger
 
 
 class MeowfficerBase(UI):
@@ -17,6 +20,65 @@ class MeowfficerBase(UI):
             return True
 
         return False
+
+    def meow_menu_close(self, skip_first_screenshot=True):
+        """
+        Exit from any meowfficer menu popups
+
+        Pages:
+            in: MEOWFFICER_FORT_CHECK, MEOWFFICER_BUY, MEOWFFICER_TRAIN_START, etc
+            out: page_meowfficer
+        """
+        logger.hr('Meowfficer menu close')
+        click_timer = Timer(3)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.appear(MEOWFFICER_CHECK, offset=(20, 20)) \
+                    and MEOWFFICER_CHECK.match_appear_on(self.device.image):
+                break
+            else:
+                if click_timer.reached():
+                    # MEOWFFICER_CHECK is safe to click
+                    self.device.click(MEOWFFICER_CHECK)
+                    click_timer.reset()
+                    continue
+
+            # Fort
+            if self.appear(MEOWFFICER_FORT_CHECK, offset=(20, 20), interval=3):
+                self.device.click(MEOWFFICER_CHECK)
+                click_timer.reset()
+                continue
+            # Buy
+            if self.appear(MEOWFFICER_BUY, offset=(20, 20), interval=3):
+                self.device.click(MEOWFFICER_CHECK)
+                click_timer.reset()
+                continue
+            # Train
+            if self.appear(MEOWFFICER_TRAIN_FILL_QUEUE, offset=(20, 20), interval=3):
+                self.device.click(MEOWFFICER_CHECK)
+                click_timer.reset()
+                continue
+            if self.appear(MEOWFFICER_TRAIN_FINISH_ALL, offset=(20, 20), interval=3):
+                self.device.click(MEOWFFICER_CHECK)
+                click_timer.reset()
+                continue
+            # Popups
+            if self.appear(MEOWFFICER_CONFIRM, offset=(40, 20), interval=3):
+                self.device.click(MEOWFFICER_CHECK)
+                click_timer.reset()
+                continue
+            if self.appear(MEOWFFICER_CANCEL, offset=(40, 20), interval=3):
+                self.device.click(MEOWFFICER_CHECK)
+                click_timer.reset()
+                continue
+            if self.appear_then_click(GET_ITEMS_1, offset=5, interval=3):
+                click_timer.reset()
+                continue
 
     def handle_meow_popup_confirm(self):
         """
