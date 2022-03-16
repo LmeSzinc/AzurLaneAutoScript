@@ -204,6 +204,12 @@ class FastForwardHandler(AutoSearchHandler):
             return False
         if not self.is_call_submarine_at_boss:
             return False
+        if not self.map_is_auto_search:
+            logger.warning('Can not set submarine call because auto search not available, assuming disabled')
+            logger.warning('Please do the followings: '
+                           'goto any stage -> auto search role -> set submarine role to standby')
+            logger.warning('If you already did, ignore this warning')
+            return False
 
         logger.info('Disable auto submarine call')
         self.fleet_preparation_sidebar_ensure(3)
