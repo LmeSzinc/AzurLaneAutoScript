@@ -86,15 +86,17 @@ class WSA(Connection):
 
     @retry
     def get_main_activity_name(self, package_name):
-        output = self.adb_shell(['dumpsys', 'package', package_name])
-        _activityRE = re.compile(
-            r'\w+ ' + package_name + r'/(?P<activity>[^/\s]+) filter'
-        )
-        ms = _activityRE.finditer(output)
-        ret = next(ms).group('activity')
-        if ret:  # get first result
+        try:
+            output = self.adb_shell(['dumpsys', 'package', package_name])
+            _activityRE = re.compile(
+                r'\w+ ' + package_name + r'/(?P<activity>[^/\s]+) filter'
+            )
+            ms = _activityRE.finditer(output)
+            ret = next(ms).group('activity')
             return ret
-        raise OSError("Couldn't get activity name, please check setting Emulator.PackageName")
+        except StopIteration:
+            logger.critical("Couldn't get activity name, please check setting Emulator.PackageName")
+            raise RequestHumanTakeover
 
     @retry
     def get_display_id(self):
