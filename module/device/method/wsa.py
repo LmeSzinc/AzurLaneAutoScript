@@ -113,5 +113,5 @@ class WSA(Connection):
 
     @retry
     def display_resize_wsa(self, display):
-        logger.warning('display ' + display + ' should be resized')
-        self.adb_shell(['wm', 'size', '1280x720', '-d', display])
+        logger.warning('display ' + str(display) + ' should be resized')
+        self.adb_shell(['wm', 'size', '1280x720', '-d', str(display)])
