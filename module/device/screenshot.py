@@ -11,13 +11,14 @@ from module.base.decorator import cached_property
 from module.base.timer import Timer, timer
 from module.base.utils import get_color, save_image, limit_in
 from module.device.method.adb import Adb
+from module.device.method.wsa import WSA
 from module.device.method.ascreencap import AScreenCap
 from module.device.method.uiautomator_2 import Uiautomator2
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 
 
-class Screenshot(Adb, Uiautomator2, AScreenCap):
+class Screenshot(Adb, WSA, Uiautomator2, AScreenCap):
     _screen_size_checked = False
     _screen_black_checked = False
     _minicap_uninstalled = False
@@ -178,6 +179,9 @@ class Screenshot(Adb, Uiautomator2, AScreenCap):
                 self.image = self._handle_orientated_image(self.image)
                 orientated = True
                 continue
+            elif self.config.Emulator_Serial == 'wsa-0':
+                self.display_resize_wsa(0)
+                return False
             elif hasattr(self, 'app_is_running') and not self.app_is_running():
                 logger.warning('Received orientated screenshot, game not running')
                 return True
@@ -193,7 +197,16 @@ class Screenshot(Adb, Uiautomator2, AScreenCap):
         # May get a pure black screenshot on some emulators.
         color = get_color(self.image, area=(0, 0, 1280, 720))
         if sum(color) < 1:
-            if self.config.Emulator_ScreenshotMethod == 'uiautomator2':
+            if self.config.Emulator_Serial == 'wsa-0':
+                for _ in range(2):
+                    display = self.get_display_id()
+                    if display == 0:
+                        return True
+                logger.info(f'Game running on display {display}')
+                logger.warning('Game not running on display 0, will be restarted')
+                self.app_stop_uiautomator2(self.config.Emulator_PackageName)
+                return False
+            elif self.config.Emulator_ScreenshotMethod == 'uiautomator2':
                 logger.warning(f'Received pure black screenshots from emulator, color: {color}')
                 logger.warning('Uninstall minicap and retry')
                 self.uninstall_minicap()

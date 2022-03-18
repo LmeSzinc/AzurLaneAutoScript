@@ -1,12 +1,13 @@
 from lxml import etree
 
 from module.device.method.adb import Adb
+from module.device.method.wsa import WSA
 from module.device.method.uiautomator_2 import Uiautomator2
 from module.device.method.utils import HierarchyButton
 from module.logger import logger
 
 
-class AppControl(Adb, Uiautomator2):
+class AppControl(Adb, WSA, Uiautomator2):
     hierarchy: etree._Element
 
     def app_is_running(self) -> bool:
@@ -25,7 +26,9 @@ class AppControl(Adb, Uiautomator2):
         package = self.config.Emulator_PackageName
         method = self.config.Emulator_ControlMethod
         logger.info(f'App start: {package}')
-        if method == 'uiautomator2' or method == 'minitouch':
+        if self.config.Emulator_Serial == 'wsa-0':
+            self.app_start_wsa(package, display = 0)
+        elif method == 'uiautomator2' or method == 'minitouch':
             self.app_start_uiautomator2(package)
         else:
             self.app_start_adb(package)
