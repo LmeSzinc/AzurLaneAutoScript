@@ -95,8 +95,7 @@ class WSA(Connection):
             ret = next(ms).group('activity')
             return ret
         except StopIteration:
-            logger.critical("Couldn't get activity name, please check setting Emulator.PackageName")
-            raise RequestHumanTakeover
+            raise RequestHumanTakeover("Couldn't get activity name, please check setting Emulator.PackageName")
 
     @retry
     def get_display_id(self):
