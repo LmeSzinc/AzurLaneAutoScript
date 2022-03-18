@@ -12,7 +12,9 @@ class AppControl(Adb, WSA, Uiautomator2):
 
     def app_is_running(self) -> bool:
         method = self.config.Emulator_ControlMethod
-        if method == 'uiautomator2' or method == 'minitouch':
+        if 'wsa' in self.config.Emulator_Serial:
+            package = self.app_current_wsa()
+        elif method == 'uiautomator2' or method == 'minitouch':
             package = self.app_current_uiautomator2()
         else:
             package = self.app_current_adb()
