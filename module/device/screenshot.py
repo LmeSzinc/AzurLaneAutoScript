@@ -179,12 +179,12 @@ class Screenshot(Adb, WSA, Uiautomator2, AScreenCap):
                 self.image = self._handle_orientated_image(self.image)
                 orientated = True
                 continue
-            elif hasattr(self, 'app_is_running') and not self.app_is_running():
-                logger.warning('Received orientated screenshot, game not running')
-                return True
             elif self.config.Emulator_Serial == 'wsa-0':
                 self.display_resize_wsa(0)
                 return False
+            elif hasattr(self, 'app_is_running') and not self.app_is_running():
+                logger.warning('Received orientated screenshot, game not running')
+                return True
             else:
                 logger.critical(f'Resolution not supported: {width}x{height}')
                 logger.critical('Please set emulator resolution to 1280x720')
