@@ -55,6 +55,31 @@ def retry(func):
 class WSA(Connection):
 
     @retry
+    def app_current_wsa(self):
+        """
+        Returns:
+            str: Package name.
+
+        Raises:
+            OSError
+        """
+        # try: adb shell dumpsys activity top
+        _activityRE = re.compile(
+            r'ACTIVITY (?P<package>[^\s]+)/(?P<activity>[^/\s]+) \w+ pid=(?P<pid>\d+)'
+        )
+        package = self.config.Emulator_PackageName
+        output = self.adb_shell(['dumpsys', 'activity', 'top'])
+        ms = _activityRE.finditer(output)
+        ret = None
+        for m in ms:
+            ret = m.group('package')
+            if(ret == package):
+                return ret
+        if ret:  # get last result
+            return ret
+        raise OSError("Couldn't get focused app")
+
+    @retry
     def app_start_wsa(self, package_name, display, allow_failure=False):
         """
         Args:
@@ -95,8 +120,7 @@ class WSA(Connection):
             ret = next(ms).group('activity')
             return ret
         except StopIteration:
-            logger.critical("Couldn't get activity name, please check setting Emulator.PackageName")
-            raise RequestHumanTakeover
+            raise RequestHumanTakeover("Couldn't get activity name, please check setting Emulator.PackageName")
 
     @retry
     def get_display_id(self):
