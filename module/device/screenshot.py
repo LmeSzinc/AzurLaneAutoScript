@@ -9,7 +9,7 @@ from PIL import Image
 
 from module.base.decorator import cached_property
 from module.base.timer import Timer, timer
-from module.base.utils import get_color, save_image, limit_in
+from module.base.utils import get_color, save_image, limit_in, image_size
 from module.device.method.adb import Adb
 from module.device.method.wsa import WSA
 from module.device.method.ascreencap import AScreenCap
@@ -67,6 +67,11 @@ class Screenshot(Adb, WSA, Uiautomator2, AScreenCap):
         Returns:
             np.ndarray:
         """
+        width, height = image_size(self.image)
+        if width == 1280 and height == 720:
+            return image
+
+        # Rotate screenshots only when they're not 1280x720
         if self.orientation == 0:
             pass
         elif self.orientation == 1:
@@ -168,7 +173,7 @@ class Screenshot(Adb, WSA, Uiautomator2, AScreenCap):
         orientated = False
         for _ in range(2):
             # Check screen size
-            height, width, channel = self.image.shape
+            width, height = image_size(self.image)
             logger.attr('Screen_size', f'{width}x{height}')
             if width == 1280 and height == 720:
                 self._screen_size_checked = True
