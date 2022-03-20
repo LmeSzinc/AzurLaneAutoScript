@@ -250,13 +250,16 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             self.map_clear_percentage_timer.reset()
             return False
 
-    def withdraw(self):
+    def withdraw(self, skip_first_screenshot=True):
         """
         Withdraw campaign.
         """
         logger.hr('Map withdraw')
         while 1:
-            self.device.screenshot()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
             if self.handle_popup_confirm('WITHDRAW'):
                 continue
