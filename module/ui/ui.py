@@ -362,4 +362,8 @@ class UI(InfoHandler):
         if self.appear_then_click(WITHDRAW, offset=(20, 20), interval=1.5):
             return True
 
+        # Login
+        if self.appear_then_click(LOGIN_CHECK, offset=(20, 20), interval=3):
+            return True
+
         return False
