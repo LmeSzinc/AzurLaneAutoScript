@@ -199,12 +199,14 @@ class OSGlobe(OSMap):
                         f'{str(int(self.config.OpsiGeneral_RepairThreshold * 100))}%, '
                         'retreating to nearest azur port for repairs')
             self.fleet_repair(revert=revert)
+            self.hp_reset()
+            return True
         else:
             logger.info('No ship found to be below threshold '
                         f'{str(int(self.config.OpsiGeneral_RepairThreshold * 100))}%, '
                         'continue OS exploration')
-        self.hp_reset()
-        return True
+            self.hp_reset()
+            return False
 
     def fleet_resolve(self, revert=True):
         """

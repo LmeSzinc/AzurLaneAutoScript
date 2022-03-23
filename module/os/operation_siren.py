@@ -135,8 +135,8 @@ class OperationSiren(OSGlobe):
                         recon_scan=False,
                         submarine_call=self.config.OpsiFleet_Submarine)
                     self.run_auto_search()
-                    self.handle_fleet_repair(revert=False)
-                    self.globe_goto(self.zone_nearest_azur_port(zone=zone))
+                    if not self.handle_fleet_repair(revert=False):
+                        self.globe_goto(self.zone_nearest_azur_port(zone=zone))
                     self.config.check_task_switch()
             else:
                 zones = self.zone_select(hazard_level=self.config.OpsiMeowfficerFarming_HazardLevel) \
