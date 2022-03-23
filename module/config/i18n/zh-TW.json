@@ -292,10 +292,12 @@
     },
     "ScreenshotMethod": {
       "name": "模擬器截圖方案",
-      "help": "速度: aScreenCap > uiautomator2 ~= ADB\n建議選 ADB",
+      "help": "速度: aScreenCap_nc > ADB_nc >>> aScreenCap > uiautomator2 ~= ADB\n運行 工具 - 性能測試 以尋找最快的方案",
       "ADB": "ADB",
+      "ADB_nc": "ADB_nc",
       "uiautomator2": "uiautomator2",
-      "aScreenCap": "aScreenCap"
+      "aScreenCap": "aScreenCap",
+      "aScreenCap_nc": "aScreenCap_nc"
     },
     "ControlMethod": {
       "name": "模擬器控制方案",
@@ -1846,12 +1848,20 @@
       "name": "測試 ADB 截圖",
       "help": ""
     },
+    "AdbncScreenshot": {
+      "name": "測試 ADB 截圖",
+      "help": "Benchmark.AdbncScreenshot.help"
+    },
     "Uiautomator2Screenshot": {
       "name": "測試 uiautomator2 截圖",
       "help": ""
     },
     "AscreencapScreenshot": {
       "name": "測試 aScreenCap 截圖",
+      "help": ""
+    },
+    "AscreencapncScreenshot": {
+      "name": "測試 aScreenCap_nc 截圖",
       "help": ""
     },
     "AdbClick": {

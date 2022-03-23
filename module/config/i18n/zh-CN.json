@@ -292,17 +292,19 @@
     },
     "ScreenshotMethod": {
       "name": "模拟器截图方案",
-      "help": "速度: aScreenCap > uiautomator2 ~= ADB\n建议选 ADB",
-      "ADB": "ADB ",
-      "uiautomator2": "uiautomator2 ",
-      "aScreenCap": "aScreenCap "
+      "help": "速度: aScreenCap_nc > ADB_nc >>> aScreenCap > uiautomator2 ~= ADB\n运行 工具 - 性能测试 以寻找最快的方案",
+      "ADB": "ADB",
+      "ADB_nc": "ADB_nc",
+      "uiautomator2": "uiautomator2",
+      "aScreenCap": "aScreenCap",
+      "aScreenCap_nc": "aScreenCap_nc"
     },
     "ControlMethod": {
       "name": "模拟器控制方案",
       "help": "速度: minitouch > Hermit >>> uiautomator2 ~= ADB\n建议选minitouch，不建议选Hermit除非在vmos下",
-      "ADB": "ADB ",
-      "uiautomator2": "uiautomator2 ",
-      "minitouch": "minitouch ",
+      "ADB": "ADB",
+      "uiautomator2": "uiautomator2",
+      "minitouch": "minitouch",
       "Hermit": "Hermit"
     },
     "ScreenshotDedithering": {
@@ -1846,12 +1848,20 @@
       "name": "测试 ADB 截图",
       "help": ""
     },
+    "AdbncScreenshot": {
+      "name": "测试 ADB_nc 截图",
+      "help": ""
+    },
     "Uiautomator2Screenshot": {
       "name": "测试 uiautomator2 截图",
       "help": ""
     },
     "AscreencapScreenshot": {
       "name": "测试 aScreenCap 截图",
+      "help": ""
+    },
+    "AscreencapncScreenshot": {
+      "name": "测试 aScreenCap_nc 截图",
       "help": ""
     },
     "AdbClick": {

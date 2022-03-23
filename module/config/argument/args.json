@@ -24,8 +24,10 @@
         "value": "ADB",
         "option": [
           "ADB",
+          "ADB_nc",
           "uiautomator2",
-          "aScreenCap"
+          "aScreenCap",
+          "aScreenCap_nc"
         ]
       },
       "ControlMethod": {
@@ -6386,11 +6388,19 @@
         "type": "checkbox",
         "value": true
       },
+      "AdbncScreenshot": {
+        "type": "checkbox",
+        "value": true
+      },
       "Uiautomator2Screenshot": {
         "type": "checkbox",
         "value": true
       },
       "AscreencapScreenshot": {
+        "type": "checkbox",
+        "value": true
+      },
+      "AscreencapncScreenshot": {
         "type": "checkbox",
         "value": true
       },

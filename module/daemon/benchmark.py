@@ -68,6 +68,8 @@ class Benchmark(DaemonBase, CampaignUI):
         if not isinstance(cost, (float, int)):
             return Text(cost, style="bold bright_red")
 
+        if cost < 0.12:
+            return Text('Ultra Fast', style="bold bright_green")
         if cost < 0.25:
             return Text('Very Fast', style="bright_green")
         if cost < 0.45:
@@ -132,10 +134,14 @@ class Benchmark(DaemonBase, CampaignUI):
         data = []
         if self.config.Benchmark_AdbScreenshot:
             data.append(['ADB', self.benchmark_test(self.device.screenshot_adb)])
+        if self.config.Benchmark_AdbncScreenshot:
+            data.append(['ADB_nc', self.benchmark_test(self.device.screenshot_adb_nc)])
         if self.config.Benchmark_Uiautomator2Screenshot:
             data.append(['uiautomator2', self.benchmark_test(self.device.screenshot_uiautomator2)])
         if self.config.Benchmark_AscreencapScreenshot:
             data.append(['aScreenCap', self.benchmark_test(self.device.screenshot_ascreencap)])
+        if self.config.Benchmark_AscreencapncScreenshot:
+            data.append(['aScreenCap_nc', self.benchmark_test(self.device.screenshot_ascreencap_nc)])
         screenshot = data
 
         data = []

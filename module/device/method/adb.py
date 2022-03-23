@@ -1,4 +1,5 @@
 import re
+from functools import wraps
 
 import cv2
 import numpy as np
@@ -6,12 +7,13 @@ from adbutils.errors import AdbError
 from lxml import etree
 
 from module.device.connection import Connection
-from module.device.method.utils import possible_reasons, handle_adb_error, RETRY_TRIES, RETRY_DELAY
+from module.device.method.utils import recv_all, possible_reasons, handle_adb_error, RETRY_TRIES, RETRY_DELAY
 from module.exception import ScriptError, RequestHumanTakeover
 from module.logger import logger
 
 
 def retry(func):
+    @wraps(func)
     def retry_wrapper(self, *args, **kwargs):
         """
         Args:
@@ -101,14 +103,27 @@ class Adb(Connection):
     def screenshot_adb(self):
         stream = self.adb_shell(['screencap', '-p'], stream=True)
 
-        content = b""
-        while True:
-            chunk = stream.read(4096)
-            if not chunk:
-                break
-            content += chunk
+        content = recv_all(stream)
 
         return self.__process_screenshot(content)
+
+    @retry
+    def screenshot_adb_nc(self):
+        data = self.adb_shell_nc(['screencap'])
+        if len(data) < 100:
+            logger.warning(f'Unexpected screenshot: {data}')
+
+        # Load data
+        header = np.frombuffer(data[0:12], dtype=np.uint32)
+        channel = 4  # screencap sends an RGBA image
+        width, height, _ = header  # Usually to be 1280, 720, 1
+
+        image = np.frombuffer(data, dtype=np.uint8)
+        shape = image.shape[0]
+        image = image[shape - width * height * channel:].reshape(height, width, channel)
+        image = cv2.cvtColor(image, cv2.COLOR_BGRA2BGR)
+
+        return image
 
     @retry
     def click_adb(self, x, y):

@@ -21,7 +21,7 @@ class GeneratedConfig:
     Emulator_Serial = '127.0.0.1:5555'
     Emulator_PackageName = 'com.bilibili.azurlane'
     Emulator_Server = 'cn'  # cn, en, jp, tw
-    Emulator_ScreenshotMethod = 'ADB'  # ADB, uiautomator2, aScreenCap
+    Emulator_ScreenshotMethod = 'ADB'  # ADB, ADB_nc, uiautomator2, aScreenCap, aScreenCap_nc
     Emulator_ControlMethod = 'minitouch'  # ADB, uiautomator2, minitouch, Hermit
     Emulator_ScreenshotDedithering = False
 
@@ -359,8 +359,10 @@ class GeneratedConfig:
 
     # Group `Benchmark`
     Benchmark_AdbScreenshot = True
+    Benchmark_AdbncScreenshot = True
     Benchmark_Uiautomator2Screenshot = True
     Benchmark_AscreencapScreenshot = True
+    Benchmark_AscreencapncScreenshot = True
     Benchmark_AdbClick = True
     Benchmark_Uiautomator2Click = True
     Benchmark_MinitouchClick = True

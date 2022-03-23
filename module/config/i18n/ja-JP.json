@@ -294,8 +294,10 @@
       "name": "Emulator.ScreenshotMethod.name",
       "help": "Emulator.ScreenshotMethod.help",
       "ADB": "ADB",
+      "ADB_nc": "ADB_nc",
       "uiautomator2": "uiautomator2",
-      "aScreenCap": "aScreenCap"
+      "aScreenCap": "aScreenCap",
+      "aScreenCap_nc": "aScreenCap_nc"
     },
     "ControlMethod": {
       "name": "Emulator.ControlMethod.name",
@@ -1846,6 +1848,10 @@
       "name": "Benchmark.AdbScreenshot.name",
       "help": "Benchmark.AdbScreenshot.help"
     },
+    "AdbncScreenshot": {
+      "name": "Benchmark.AdbncScreenshot.name",
+      "help": "Benchmark.AdbncScreenshot.help"
+    },
     "Uiautomator2Screenshot": {
       "name": "Benchmark.Uiautomator2Screenshot.name",
       "help": "Benchmark.Uiautomator2Screenshot.help"
@@ -1853,6 +1859,10 @@
     "AscreencapScreenshot": {
       "name": "Benchmark.AscreencapScreenshot.name",
       "help": "Benchmark.AscreencapScreenshot.help"
+    },
+    "AscreencapncScreenshot": {
+      "name": "Benchmark.AscreencapncScreenshot.name",
+      "help": "Benchmark.AscreencapncScreenshot.help"
     },
     "AdbClick": {
       "name": "Benchmark.AdbClick.name",

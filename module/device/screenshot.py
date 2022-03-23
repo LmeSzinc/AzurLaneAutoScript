@@ -26,6 +26,16 @@ class Screenshot(Adb, WSA, Uiautomator2, AScreenCap):
     _last_save_time = {}
     image: np.ndarray
 
+    @cached_property
+    def screenshot_methods(self):
+        return {
+            'ADB': self.screenshot_adb,
+            'ADB_nc': self.screenshot_adb_nc,
+            'uiautomator2': self.screenshot_uiautomator2,
+            'aScreenCap': self.screenshot_ascreencap,
+            'aScreenCap_nc': self.screenshot_ascreencap_nc,
+        }
+
     @timer
     def screenshot(self):
         """
@@ -36,13 +46,11 @@ class Screenshot(Adb, WSA, Uiautomator2, AScreenCap):
         self._screenshot_interval.reset()
 
         for _ in range(2):
-            method = self.config.Emulator_ScreenshotMethod
-            if method == 'aScreenCap':
-                self.image = self.screenshot_ascreencap()
-            elif method == 'uiautomator2':
-                self.image = self.screenshot_uiautomator2()
-            else:
-                self.image = self.screenshot_adb()
+            method = self.screenshot_methods.get(
+                self.config.Emulator_ScreenshotMethod,
+                self.screenshot_adb
+            )
+            self.image = method()
 
             if self.config.Emulator_ScreenshotDedithering:
                 # This will take 40-60ms

@@ -1,23 +1,27 @@
 import logging
 import os
 import re
+import socket
 import subprocess
 import time
 
 import adbutils
 import uiautomator2 as u2
-from adbutils import AdbClient, AdbDevice, ForwardItem
+from adbutils import AdbClient, AdbDevice, ForwardItem, ReverseItem, AdbTimeout
 
 from deploy.utils import poor_yaml_read, DEPLOY_CONFIG
 from module.base.decorator import cached_property
 from module.base.utils import ensure_time
 from module.config.config import AzurLaneConfig
-from module.device.method.utils import possible_reasons, random_port, del_cached_property
+from module.device.method.utils import recv_all, possible_reasons, random_port, del_cached_property
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 
 
 class Connection:
+    config: AzurLaneConfig
+    serial: str
+
     adb_binary_list = [
         './bin/adb/adb.exe',
         './toolkit/Lib/site-packages/adbutils/binaries/adb.exe',
@@ -27,10 +31,14 @@ class Connection:
     def __init__(self, config):
         """
         Args:
-            config (AzurLaneConfig):
+            config (AzurLaneConfig, str): Name of the user config under ./config
         """
         logger.hr('Device')
-        self.config = config
+        if isinstance(config, str):
+            self.config = AzurLaneConfig(config, task=None)
+        else:
+            self.config = config
+
         self.serial = str(self.config.Emulator_Serial)
         if "bluestacks4-hyperv" in self.serial:
             self.serial = self.find_bluestacks4_hyperv(self.serial)
@@ -192,6 +200,50 @@ class Connection:
         result = self.adb.shell(cmd, timeout=10, **kwargs)
         return result
 
+    @cached_property
+    def reverse_server(self):
+        """
+        Setup a server on Alas, access it from emulator.
+        This will bypass adb shell and be faster.
+        """
+        server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self._server_port = self.adb_reverse(f'tcp:{self.config.REVERSE_SERVER_PORT}')
+        server.bind(('127.0.0.1', self._server_port))
+        server.listen(5)
+        logger.info(f'Reverse server listening on {self._server_port}')
+        return server
+
+    def adb_shell_nc(self, cmd, timeout=5, chunk_size=262144):
+        """
+        Args:
+            cmd (list):
+            timeout (int):
+            chunk_size (int): Default to 262144
+
+        Returns:
+            bytes:
+        """
+        # <command> | nc 127.0.0.1 {port}
+        cmd += ['|', 'nc', '127.0.0.1', self.config.REVERSE_SERVER_PORT]
+
+        # Server start listening
+        server = self.reverse_server
+        server.settimeout(timeout)
+        # Client send data, waiting for server accept
+        _ = self.adb_shell(cmd, stream=True)
+        try:
+            # Server accept connection
+            conn, conn_port = server.accept()
+        except socket.timeout:
+            raise AdbTimeout('reverse server accept timeout')
+
+        # Server receive data
+        data = recv_all(conn, chunk_size=chunk_size)
+
+        # Server close connection
+        conn.close()
+        return data
+
     def adb_exec_out(self, cmd, serial=None):
         cmd.insert(0, 'exec-out')
         return self.adb_command(cmd, serial)
@@ -234,6 +286,27 @@ class Connection:
             self.adb.forward(forward.local, forward.remote)
             return port
 
+    def adb_reverse(self, remote):
+        port = 0
+        for reverse in self.adb.reverse_list():
+            if reverse.remote == remote and reverse.local.startswith('tcp:'):
+                if not port:
+                    logger.info(f'Reuse reverse: {reverse}')
+                    port = int(reverse.local[4:])
+                else:
+                    logger.info(f'Remove redundant forward: {reverse}')
+                    self.adb_forward_remove(reverse.local)
+
+        if port:
+            return port
+        else:
+            # Create new reverse
+            port = random_port(self.config.FORWARD_PORT_RANGE)
+            reverse = ReverseItem(f'tcp:{port}', remote)
+            logger.info(f'Create reverse: {reverse}')
+            self.adb.reverse(reverse.local, reverse.remote)
+            return port
+
     def adb_forward_remove(self, local):
         """
         Equivalent to `adb -s <serial> forward --remove <local>`
@@ -245,6 +318,20 @@ class Connection:
         """
         with self.adb_client._connect() as c:
             list_cmd = f"host-serial:{self.serial}:killforward:{local}"
+            c.send_command(list_cmd)
+            c.check_okay()
+
+    def adb_reverse_remove(self, local):
+        """
+        Equivalent to `adb -s <serial> reverse --remove <local>`
+
+        Args:
+            local (str): Such as 'tcp:2437'
+        """
+        with self.adb_client._connect() as c:
+            c.send_command(f"host:transport:{self.serial}")
+            c.check_okay()
+            list_cmd = f"reverse:killforward:{local}"
             c.send_command(list_cmd)
             c.check_okay()
 
@@ -297,6 +384,7 @@ class Connection:
 
         del_cached_property(self, 'hermit_session')
         del_cached_property(self, 'minitouch_builder')
+        del_cached_property(self, 'reverse_server')
 
     def install_uiautomator2(self):
         """

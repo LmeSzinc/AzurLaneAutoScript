@@ -292,17 +292,19 @@
     },
     "ScreenshotMethod": {
       "name": "Screenshot Method",
-      "help": "Speed: aScreenCap > uiautomator2 ~= ADB\nADB is recommended",
+      "help": "Speed: aScreenCap_nc > ADB_nc >>> aScreenCap > uiautomator2 ~= ADB\nRun Tools - Performance Test to find the fastest method",
       "ADB": "ADB ",
-      "uiautomator2": "uiautomator2 ",
-      "aScreenCap": "aScreenCap "
+      "ADB_nc": "ADB_nc",
+      "uiautomator2": "uiautomator2",
+      "aScreenCap": "aScreenCap",
+      "aScreenCap_nc": "aScreenCap_nc"
     },
     "ControlMethod": {
       "name": "Control Method",
       "help": "Speed: minitouch > Hermit >>> uiautomator2 ~= ADB\nminitouch is recommended, hermit is not recommended unless on vmos",
-      "ADB": "ADB ",
-      "uiautomator2": "uiautomator2 ",
-      "minitouch": "minitouch ",
+      "ADB": "ADB",
+      "uiautomator2": "uiautomator2",
+      "minitouch": "minitouch",
       "Hermit": "Hermit"
     },
     "ScreenshotDedithering": {
@@ -1846,12 +1848,20 @@
       "name": "Test ADB Screenshot",
       "help": ""
     },
+    "AdbncScreenshot": {
+      "name": "Test ADB_nc Screenshot",
+      "help": ""
+    },
     "Uiautomator2Screenshot": {
       "name": "Test Uiautomator2 Screenshot",
       "help": ""
     },
     "AscreencapScreenshot": {
       "name": "Test aScreenCap Screenshot",
+      "help": ""
+    },
+    "AscreencapncScreenshot": {
+      "name": "Test aScreenCap_nc Screenshot",
       "help": ""
     },
     "AdbClick": {

@@ -19,7 +19,7 @@ Emulator:
     option: [cn, en, jp, tw]
   ScreenshotMethod:
     value: ADB
-    option: [ADB, uiautomator2, aScreenCap]
+    option: [ADB, ADB_nc, uiautomator2, aScreenCap, aScreenCap_nc]
   ControlMethod:
     value: minitouch
     option: [ADB, uiautomator2, minitouch, Hermit]
@@ -494,8 +494,10 @@ OpsiDaemon:
   RepairShip: true
 Benchmark:
   AdbScreenshot: true
+  AdbncScreenshot: true
   Uiautomator2Screenshot: true
   AscreencapScreenshot: true
+  AscreencapncScreenshot: true
   AdbClick: true
   Uiautomator2Click: true
   MinitouchClick: true

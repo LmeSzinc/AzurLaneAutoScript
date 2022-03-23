@@ -4,6 +4,7 @@ import socket
 
 import uiautomator2 as u2
 from lxml import etree
+from adbutils import _AdbStreamConnection, AdbTimeout
 
 from module.base.decorator import cached_property
 from module.logger import logger
@@ -32,6 +33,34 @@ def random_port(port_range):
         return random_port(port_range)
     else:
         return new_port
+
+
+def recv_all(stream, chunk_size=4096) -> bytes:
+    """
+    Args:
+        stream:
+        chunk_size:
+
+    Returns:
+        bytes:
+
+    Raises:
+        AdbTimeout
+    """
+    if isinstance(stream, _AdbStreamConnection):
+        stream = stream.conn
+
+    try:
+        fragments = []
+        while 1:
+            chunk = stream.recv(chunk_size)
+            if chunk:
+                fragments.append(chunk)
+            else:
+                break
+        return b''.join(fragments)
+    except socket.timeout:
+        raise AdbTimeout('adb read timeout')
 
 
 def possible_reasons(*args):
