@@ -12,7 +12,7 @@ OCR_OIL = Digit(OCR_OIL, name='OCR_OIL', letter=(247, 247, 247), threshold=128)
 
 class AutoSearchCombat(MapOperation, Combat):
     _auto_search_in_stage_timer = Timer(3, count=6)
-    _auto_search_confirm_low_emotion = False
+    _auto_search_status_confirm = False
     auto_search_oil_limit_triggered = False
 
     def _handle_auto_search_menu_missing(self):
@@ -121,12 +121,13 @@ class AutoSearchCombat(MapOperation, Combat):
                 checked_fleet = self.auto_search_watch_fleet(checked_fleet)
                 checked_oil = self.auto_search_watch_oil(checked_oil)
             if self.handle_retirement():
-                self._wait_until_in_map()
+                self.map_offensive()
+                self._auto_search_status_confirm = True
                 continue
             if self.handle_auto_search_map_option():
                 continue
             if self.handle_combat_low_emotion():
-                self._auto_search_confirm_low_emotion = True
+                self._auto_search_status_confirm = True
                 continue
             if self.handle_story_skip():
                 continue
@@ -228,7 +229,7 @@ class AutoSearchCombat(MapOperation, Combat):
 
             # End
             if self.is_auto_search_running():
-                self._auto_search_confirm_low_emotion = False
+                self._auto_search_status_confirm = False
                 break
             if self.is_in_auto_search_menu() or self._handle_auto_search_menu_missing():
                 raise CampaignEnd
@@ -239,7 +240,7 @@ class AutoSearchCombat(MapOperation, Combat):
             if self.handle_popup_confirm('AUTO_SEARCH_COMBAT_STATUS'):
                 continue
             if self.handle_auto_search_map_option():
-                self._auto_search_confirm_low_emotion = False
+                self._auto_search_status_confirm = False
                 continue
             if self.handle_urgent_commission():
                 continue
@@ -252,7 +253,7 @@ class AutoSearchCombat(MapOperation, Combat):
 
             # Handle low emotion combat
             # Combat status
-            if self._auto_search_confirm_low_emotion:
+            if self._auto_search_status_confirm:
                 if not exp_info and self.handle_get_ship():
                     continue
                 if self.handle_get_items():
