@@ -146,6 +146,8 @@ class CampaignRun(UI):
             name = 'sp'
         if folder == 'event_20210723_cn' and name == 'vsp':
             name = 'sp'
+        if folder == 'event_20220324_cn' and name == 'esp':
+            name = 'sp'
 
         return name, folder
 

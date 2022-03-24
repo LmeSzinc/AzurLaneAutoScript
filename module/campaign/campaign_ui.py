@@ -76,14 +76,7 @@ class CampaignUI(CampaignEvent, CampaignOcr):
         entrance.name = name
         return entrance
 
-    def campaign_set_chapter(self, name, mode='normal'):
-        """
-        Args:
-            name (str): Campaign name, such as '7-2', 'd3', 'sp3'.
-            mode (str): 'normal' or 'hard'.
-        """
-        chapter, _ = self._campaign_separate_name(name)
-
+    def campaign_set_chapter_main(self, chapter, mode='normal'):
         if chapter.isdigit():
             self.ui_goto_campaign()
             self.campaign_ensure_mode('normal')
@@ -94,8 +87,12 @@ class CampaignUI(CampaignEvent, CampaignOcr):
                 # There's also a game bug in EN, HM12 shows not available but it's actually available.
                 self.handle_info_bar()
                 self.campaign_ensure_chapter(index=chapter)
+            return True
+        else:
+            return False
 
-        elif chapter in ['a', 'b', 'c', 'd', 'ex_sp', 'as', 'bs', 'cs', 'ds', 't']:
+    def campaign_set_chapter_event(self, chapter, mode='normal'):
+        if chapter in ['a', 'b', 'c', 'd', 'ex_sp', 'as', 'bs', 'cs', 'ds', 't']:
             self.ui_goto_event()
             if chapter in ['a', 'b', 'as', 'bs', 't']:
                 self.campaign_ensure_mode('normal')
@@ -104,11 +101,32 @@ class CampaignUI(CampaignEvent, CampaignOcr):
             elif chapter == 'ex_sp':
                 self.campaign_ensure_mode('ex')
             self.campaign_ensure_chapter(index=chapter)
+            return True
+        else:
+            return False
 
-        elif chapter == 'sp':
+    def campaign_set_chapter_sp(self, chapter, mode='normal'):
+        if chapter == 'sp':
             self.ui_goto_sp()
             self.campaign_ensure_chapter(index=chapter)
+            return True
+        else:
+            return False
 
+    def campaign_set_chapter(self, name, mode='normal'):
+        """
+        Args:
+            name (str): Campaign name, such as '7-2', 'd3', 'sp3'.
+            mode (str): 'normal' or 'hard'.
+        """
+        chapter, _ = self._campaign_separate_name(name)
+
+        if self.campaign_set_chapter_main(chapter, mode):
+            pass
+        elif self.campaign_set_chapter_event(chapter, mode):
+            pass
+        elif self.campaign_set_chapter_sp(chapter, mode):
+            pass
         else:
             logger.warning(f'Unknown campaign chapter: {name}')
 
