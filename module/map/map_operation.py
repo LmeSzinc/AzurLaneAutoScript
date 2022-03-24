@@ -169,9 +169,6 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
 
                 # Retire
                 if self.handle_retirement():
-                    campaign_timer.reset()
-                    map_timer.reset()
-                    fleet_timer.reset()
                     continue
 
                 # Use Data Key
@@ -240,11 +237,15 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             return False
 
         percent = self.get_map_clear_percentage()
-        if abs(percent - self.map_clear_percentage_prev) < 0.02:
+        if percent > 0.95:
+            # map clear percentage 100%, exit directly
+            return True
+        elif abs(percent - self.map_clear_percentage_prev) < 0.02:
             self.map_clear_percentage_prev = percent
             if self.map_clear_percentage_timer.reached():
                 return True
-
+            else:
+                return False
         else:
             self.map_clear_percentage_prev = percent
             self.map_clear_percentage_timer.reset()
