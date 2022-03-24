@@ -4,6 +4,7 @@ import numpy as np
 
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1
+from module.exception import ScriptError, RequestHumanTakeover
 from module.handler.assets import INFO_BAR_DETECT, EMPTY_ENHANCE_SLOT
 from module.handler.info_handler import info_letter_preprocess
 from module.logger import logger
@@ -133,61 +134,68 @@ class Enhancement(Dock):
                 return "state_enhance_exit"
             if not self.equip_side_navbar_ensure(bottom=4):
                 return "state_enhance_check"
+
             self.wait_until_appear(ENHANCE_RECOMMEND, offset=(5, 5), skip_first_screenshot=True)
             return "state_enhance_ready"
 
         def state_enhance_ready():
             # Wait until ENHANCE_RECOMMEND appears
-            if self.appear_then_click(ENHANCE_RECOMMEND, offset=(5, 5), interval=2):
+            if self.appear_then_click(ENHANCE_RECOMMEND, offset=(5, 5), interval=1):
                 logger.info('Set enhancement material by recommendation.')
                 return "state_enhance_recommend"
+
             return "state_enhance_ready"
         
         def state_enhance_recommend():
             # Judge if enhance material appeared
-            for retry in range(1, 3):
-                self.device.screenshot()
-                if EMPTY_ENHANCE_SLOT.match_binary(self.device.image):
-                    break
-
-            if EMPTY_ENHANCE_SLOT.match_binary(self.device.image):
+            if not EMPTY_ENHANCE_SLOT.match_binary(self.device.image):
+                logger.info('Material found. Try enhancing...')
+                return "state_enhance_attempt"
+            elif self.info_bar_count():
                 logger.info('No material found for enhancement.')
                 logger.info('Enhancement failed. Swiping to next ship if feasible')
                 return "state_enhance_fail"
-            else:
-                logger.info('Material found. Try enhancing...')
-                return "state_enhance_attempt"
+
+            return "state_enhance_ready"
         
         def state_enhance_attempt():
             # Wait until ENHANCE_CONFIRM appears
-            if self.appear_then_click(ENHANCE_CONFIRM, interval=1):
+            if (self.appear_then_click(ENHANCE_CONFIRM, interval=1)
+                    or self.appear(EQUIP_CONFIRM, offset=(30, 30))
+                    or self.info_bar_count()):
                 return  "state_enhance_confirm"
+
             return "state_enhance_attempt"
         
         def state_enhance_confirm():
             # Succeeded if EQUIP_CONFIRM appeared, otherwise failed
-            for retry in range(1, 3):
-                self.device.screenshot()
-                if self.appear(EQUIP_CONFIRM, offset=(30, 30)) or self.info_bar_count():
-                    break
-
             if self.appear(EQUIP_CONFIRM, offset=(30, 30)):
                 logger.info('Enhancement Successful')
                 self._enhance_confirm()
                 return "state_enhance_success"
-            else:
+            elif self.info_bar_count():
                 logger.info('Enhancement impossible, ship currently in battle. Swiping to next ship if feasible')
                 return "state_enhance_fail"
-        
+
+            return "state_enhance_attempt"
+
         def state_enhance_fail():
+            # Avoid a misjudgement caused by broken network
+            if self.appear(EQUIP_CONFIRM, offset=(30, 30)):
+                return "state_enhance_confirm"
+
             # Try to swipe to next
             if self.equip_view_next(check_button=ENHANCE_RECOMMEND):
                 nonlocal ship_count
                 ship_count -= 1
                 return "state_enhance_check"
             else:
-                logger.info('Swiped failed, exiting current category')
-                return "state_enhance_exit"
+                # Avoid a misjudgement caused by broken network
+                if self.appear(EQUIP_CONFIRM, offset=(30, 30)):
+                    return "state_enhance_confirm"
+                else:
+                    logger.info('Swiped failed, exiting current category')
+                    return "state_enhance_exit"
             
         def state_enhance_success():
             return True
@@ -196,10 +204,19 @@ class Enhancement(Dock):
             return False
             
         state = "state_enhance_check"
+        state_list = []
         while isinstance(state, str):
             self.device.screenshot()
             try:
                 logger.info(f'Call state function: {state}')
+                
+                if state == "state_enhance_check":
+                    state_list.clear()
+                state_list.append(state)
+                if len(state_list) > 20:
+                    logger.critical(f'Too many state transitions: {state_list}')
+                    raise RequestHumanTakeover
+
                 state = locals()[state]()
             except KeyError as e:
                 logger.warning(f'Unkonwn state function: {state}')
