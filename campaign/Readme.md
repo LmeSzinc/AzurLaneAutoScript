@@ -86,4 +86,4 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20220224 | event 20220224 cn | Abyssal Refrain | 深度回音 | Abyssal Refrain | 鳴動せし星霜の淵 | - |
 | 20220310 | event 20200603 cn | Counterattack Within the Fjord | 复刻峡湾间的反击 | Counterattack Within the Fjord Rerun | 峡湾間の反撃（復刻） | - |
 | 20220310 | event 20220310 tw | The Solomon Ranger | - | - | - | 復刻斯圖爾特的硝煙 |
-| 20220324 | event 20210422 cn | Daedalian Hymn | - | - | - | 復興的讚美詩 |
+| 20220324 | event 20220324 cn | Virtual Tower | 虚像构筑之塔 | Virtual Tower | 幻像の塔 | - |
