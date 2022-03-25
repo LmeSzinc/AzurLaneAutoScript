@@ -140,7 +140,7 @@ class Enhancement(Dock):
 
         def state_enhance_ready():
             # Wait until ENHANCE_RECOMMEND appears
-            if self.appear_then_click(ENHANCE_RECOMMEND, offset=(5, 5), interval=1):
+            if self.appear_then_click(ENHANCE_RECOMMEND, offset=(5, 5), interval=0.3):
                 logger.info('Set enhancement material by recommendation.')
                 return "state_enhance_recommend"
 
@@ -160,7 +160,7 @@ class Enhancement(Dock):
         
         def state_enhance_attempt():
             # Wait until ENHANCE_CONFIRM appears
-            if (self.appear_then_click(ENHANCE_CONFIRM, interval=1)
+            if (self.appear_then_click(ENHANCE_CONFIRM, offset=(5, 5), interval=0.3)
                     or self.appear(EQUIP_CONFIRM, offset=(30, 30))
                     or self.info_bar_count()):
                 return  "state_enhance_confirm"
