@@ -213,14 +213,15 @@ class Enhancement(Dock):
                 if state == "state_enhance_check":
                     state_list.clear()
                 state_list.append(state)
-                if len(state_list) > 20:
+                if len(state_list) > 30:
                     logger.critical(f'Too many state transitions: {state_list}')
                     raise RequestHumanTakeover
-
+                    
                 state = locals()[state]()
             except KeyError as e:
                 logger.warning(f'Unkonwn state function: {state}')
                 raise ScriptError(f'Unkonwn state function: {state}')
+
         return state, ship_count
 
     def enhance_ships(self, favourite=None):
