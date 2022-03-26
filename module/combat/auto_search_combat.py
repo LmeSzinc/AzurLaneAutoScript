@@ -146,7 +146,7 @@ class AutoSearchCombat(MapOperation, Combat):
 
             except GameStuckError:
                 if stacked_auto_search:
-                    raise GameStuckError
+                    raise GameStuckError(f'Wait too long')
                 stacked_auto_search = True
                 while 1:
                     self.device.screenshot()
