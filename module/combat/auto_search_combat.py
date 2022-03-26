@@ -3,6 +3,7 @@ from module.campaign.assets import OCR_OIL
 from module.combat.assets import *
 from module.combat.combat import Combat
 from module.exception import CampaignEnd
+from module.handler.assets import AUTO_SEARCH_MAP_OPTION_ON
 from module.logger import logger
 from module.map.map_operation import MapOperation
 from module.ocr.ocr import Digit
@@ -32,6 +33,38 @@ class AutoSearchCombat(MapOperation, Combat):
             self._auto_search_in_stage_timer.reset()
 
         return False
+
+    def map_offensive_auto_search(self, skip_first_screenshot=True):
+        """
+        Pages:
+            in: in_map, MAP_OFFENSIVE
+            out: combat_appear
+        """
+        self.interval_reset(AUTO_SEARCH_MAP_OPTION_ON)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.handle_auto_search_map_option():
+                self.interval_reset(AUTO_SEARCH_MAP_OPTION_ON)
+                continue
+            # To handle a bug in Azur Lane game client.
+            # Auto search icon shows it's running but it's doing nothing
+            # when Alas exited from retirement and turned it on immediately.
+            # Monkey clicker, disable auto search every 3s, beginning not included
+            if self.appear(AUTO_SEARCH_MAP_OPTION_ON, offset=self._auto_search_offset, interval=3) \
+                   and self.appear_then_click(AUTO_SEARCH_MAP_OPTION_ON):
+                continue
+            if self.handle_combat_low_emotion():
+                continue
+            if self.handle_retirement():
+                continue
+
+            # Break
+            if self.combat_appear():
+                break
 
     def auto_search_watch_fleet(self, checked=False):
         """
@@ -121,8 +154,7 @@ class AutoSearchCombat(MapOperation, Combat):
                 checked_fleet = self.auto_search_watch_fleet(checked_fleet)
                 checked_oil = self.auto_search_watch_oil(checked_oil)
             if self.handle_retirement():
-                self.map_offensive()
-                self._auto_search_status_confirm = True
+                self.map_offensive_auto_search()
                 continue
             if self.handle_auto_search_map_option():
                 continue
