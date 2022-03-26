@@ -169,17 +169,22 @@ class AutoSearchHandler(EnemySearchingHandler):
         return self.appear(AUTO_SEARCH_MAP_OPTION_ON, offset=self._auto_search_offset) \
                and self.appear(AUTO_SEARCH_MAP_OPTION_ON)
 
-    def handle_auto_search_map_option(self):
+    def handle_auto_search_map_option(self, state=True):
         """
-        Ensure auto search option in map is ON
+        Ensure auto search option in map is expected
+
+        Args:
+            state(bool):
 
         Returns:
             bool: If clicked
         """
-        if self.appear(AUTO_SEARCH_MAP_OPTION_OFF, offset=self._auto_search_offset) \
+        if state and self.appear(AUTO_SEARCH_MAP_OPTION_OFF, offset=self._auto_search_offset) \
                 and self.appear_then_click(AUTO_SEARCH_MAP_OPTION_OFF, interval=2):
             return True
-
+        if not state and self.appear(AUTO_SEARCH_MAP_OPTION_ON, offset=self._auto_search_offset) \
+                and self.appear_then_click(AUTO_SEARCH_MAP_OPTION_ON, interval=2):
+            return True
         return False
 
     def is_in_auto_search_menu(self):

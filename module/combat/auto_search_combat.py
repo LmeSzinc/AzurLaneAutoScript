@@ -6,6 +6,7 @@ from module.exception import CampaignEnd
 from module.logger import logger
 from module.map.map_operation import MapOperation
 from module.ocr.ocr import Digit
+from module.exception import GameStuckError
 
 OCR_OIL = Digit(OCR_OIL, name='OCR_OIL', letter=(247, 247, 247), threshold=128)
 
@@ -111,36 +112,48 @@ class AutoSearchCombat(MapOperation, Combat):
         self.device.stuck_record_clear()
         checked_fleet = False
         checked_oil = False
+        stacked_auto_search = False
         while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
+            try:
+                if skip_first_screenshot:
+                    skip_first_screenshot = False
+                else:
+                    self.device.screenshot()
 
-            if self.is_auto_search_running():
-                checked_fleet = self.auto_search_watch_fleet(checked_fleet)
-                checked_oil = self.auto_search_watch_oil(checked_oil)
-            if self.handle_retirement():
-                self.map_offensive()
-                self._auto_search_status_confirm = True
-                continue
-            if self.handle_auto_search_map_option():
-                continue
-            if self.handle_combat_low_emotion():
-                self._auto_search_status_confirm = True
-                continue
-            if self.handle_story_skip():
-                continue
-            if self.handle_map_cat_attack():
-                continue
-            if self.handle_vote_popup():
-                continue
+                if self.is_auto_search_running():
+                    checked_fleet = self.auto_search_watch_fleet(checked_fleet)
+                    checked_oil = self.auto_search_watch_oil(checked_oil)
+                if self.handle_retirement():
+                    self._auto_search_status_confirm = True
+                    continue
+                if self.handle_auto_search_map_option():
+                    continue
+                if self.handle_combat_low_emotion():
+                    self._auto_search_status_confirm = True
+                    continue
+                if self.handle_story_skip():
+                    continue
+                if self.handle_map_cat_attack():
+                    continue
+                if self.handle_vote_popup():
+                    continue
 
-            # End
-            if self.is_combat_loading():
-                break
-            if self.is_in_auto_search_menu() or self._handle_auto_search_menu_missing():
-                raise CampaignEnd
+                # End
+                if self.is_combat_loading():
+                    break
+                if self.is_in_auto_search_menu() or self._handle_auto_search_menu_missing():
+                    raise CampaignEnd
+
+            except GameStuckError:
+                if stacked_auto_search:
+                    raise GameStuckError
+                stacked_auto_search = True
+                while 1:
+                    self.device.screenshot()
+                    if self.handle_auto_search_map_option(state=False):
+                        continue
+                    if self.handle_auto_search_map_option():
+                        break
 
     def auto_search_combat_execute(self, emotion_reduce, fleet_index):
         """
