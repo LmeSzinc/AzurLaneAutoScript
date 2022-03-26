@@ -412,6 +412,7 @@ class GuildOperations(GuildBase):
             if _:
                 self.guild_side_navbar_ensure(bottom=2)
                 self.guild_side_navbar_ensure(bottom=1)
+                self._guild_operations_ensure()
         if not success:
             return False
 
