@@ -63,7 +63,7 @@ class AutoSearchCombat(MapOperation, Combat):
                 continue
 
             # Break
-            if self.combat_appear():
+            if self.is_combat_loading():
                 break
 
     def auto_search_watch_fleet(self, checked=False):
