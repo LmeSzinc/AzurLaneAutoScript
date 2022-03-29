@@ -1,9 +1,15 @@
 import os
 import re
 
+BASE_FOLDER = './deploy/AidLux'
+
 
 def iter_version():
-    return [folder for folder in os.listdir('./') if re.match('^[0-9.]+$', folder)]
+    """
+    Returns:
+        list[str]: List of versions
+    """
+    return [f for f in os.listdir(BASE_FOLDER) if re.match('^[0-9.]+$', f)]
 
 
 def read_file(file):
@@ -34,14 +40,12 @@ def write_file(file, data):
         f.write('\n'.join(lines))
 
 
-if __name__ == '__main__':
-    """
-    Generate requirements.txt for AidLux.
-    """
-    requirements = read_file('../../requirements-in.txt')
+def aidlux_requirements_generate(requirements_in='requirements-in.txt'):
+    print('aidlux_requirements_generate')
+    requirements = read_file(requirements_in)
     for aidlux in iter_version():
         print(f'Generate requirements for AidLux {aidlux}')
-        pre_installed = read_file(f'./{aidlux}/pre-installed.txt')
+        pre_installed = read_file(os.path.join(BASE_FOLDER, f'./{aidlux}/pre-installed.txt'))
         new = {}
         for name, version in requirements.items():
             # alas-webapp is for windows only
@@ -53,4 +57,4 @@ if __name__ == '__main__':
                 version = None
             new[name] = version
 
-        write_file(f'./{aidlux}/requirements.txt', data=new)
+        write_file(os.path.join(BASE_FOLDER, f'./{aidlux}/requirements.txt'), data=new)

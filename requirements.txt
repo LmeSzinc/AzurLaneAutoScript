@@ -87,8 +87,8 @@ wrapt==1.13.1             # via -r requirements-in.txt, deprecated
 xmltodict==0.12.0         # via apkutils2
 zerorpc==0.6.3            # via -r requirements-in.txt
 zipp==3.6.0               # via importlib-metadata
-zope-event==4.5.0         # via gevent
-zope-interface==5.4.0     # via gevent
+zope.event==4.5.0         # via gevent
+zope.interface==5.4.0     # via gevent
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
