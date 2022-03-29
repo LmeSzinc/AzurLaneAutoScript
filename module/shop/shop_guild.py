@@ -270,6 +270,11 @@ class GuildShop(ShopBase, ShopUI):
             success = self.shop_buy()
             if not success:
                 break
-            if refresh and self.shop_refresh():
-                continue
+            if refresh:
+                # Refresh costs 50 and PlateT4 costs 60
+                if self._shop_guild_coins >= 110:
+                    if self.shop_refresh():
+                        continue
+                else:
+                    logger.info('Guild coins < 110, skip refreshing')
             break
