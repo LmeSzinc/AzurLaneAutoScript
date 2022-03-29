@@ -11,14 +11,14 @@ class ManualConfig:
     > Research > Commission > Tactical
     > Exercise
     > Dorm > Meowfficer > Guild > Gacha > SupplyPack
-    > Reward > MetaReward > BattlePass
+    > Reward > BattlePass
     > ShopFrequent > ShopOnce > Shipyard > DataKey
     > OpsiExplore
     > OpsiDaily > OpsiShop
     > OpsiAbyssal > OpsiStronghold > OpsiObscure
     > Daily > Hard > OpsiAshAssist
     > Sos > EventSp > EventAb > EventCd > RaidDaily > WarArchives > MaritimeEscort
-    > OpsiMeowfficerFarming
+    > OpsiMeowfficerFarming > MetaReward
     > Event > Raid > Main
     > C124LargeLeveling > C122MediumLeveling > C72MysteryFarming > GemsFarming
     """
