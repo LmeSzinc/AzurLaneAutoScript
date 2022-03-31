@@ -18,7 +18,8 @@ class StorageHandler(GlobeOperation, ZoneManager):
             in: is_in_map, STORAGE_ENTER
             out: STORAGE_CHECK
         """
-        self.ui_click(STORAGE_ENTER, check_button=STORAGE_CHECK, offset=(200, 5), skip_first_screenshot=True)
+        self.ui_click(STORAGE_ENTER, check_button=STORAGE_CHECK,
+                      retry_wait=3, offset=(200, 5), skip_first_screenshot=True)
         self.handle_info_bar()
 
     def storage_quit(self):

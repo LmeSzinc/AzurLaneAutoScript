@@ -1,7 +1,5 @@
-from datetime import datetime
-
 from module.base.button import Button
-from module.config.utils import deep_get, get_os_next_reset, get_os_reset_remain
+from module.config.utils import get_os_reset_remain
 from module.exception import MapWalkError, ScriptError
 from module.logger import logger
 from module.os.map import OSMap
@@ -260,25 +258,6 @@ class OSGlobe(OSMap):
         logger.info('None of the fleets are afflicted with '
                     'the low resolve debuff')
         return False
-
-    def is_in_os_explore(self):
-        """
-        Returns:
-            bool: If task OpsiExplore is under scheduling.
-        """
-        enable = deep_get(self.config.data, keys='OpsiExplore.Scheduler.Enable', default=False)
-        next_run = deep_get(self.config.data, keys='OpsiExplore.Scheduler.NextRun', default=datetime(2020, 1, 1, 0, 0))
-        next_reset = get_os_next_reset()
-        logger.attr('OpsiNextReset', next_reset)
-        logger.attr('OpsiExplore', (enable, next_run))
-        if enable and next_run < next_reset:
-            logger.info('OpsiExplore is still running, accept missions only. '
-                        'Missions will be finished when OpsiExplore visits every zones, '
-                        'no need to worry they are left behind.')
-            return True
-        else:
-            logger.info('Not in OpsiExplore, able to do OpsiDaily')
-            return False
 
     def action_point_limit_override(self):
         """

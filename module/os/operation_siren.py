@@ -82,25 +82,21 @@ class OperationSiren(OSGlobe):
         return True
 
     def os_daily(self):
-        if not self.is_in_os_explore():
-            # Finish existing missions first
+        # Finish existing missions first
+        self.os_finish_daily_mission()
+
+        # Clear tuning samples daily
+        if self.config.OpsiDaily_UseTuningSample:
+            self.tuning_sample_use()
+
+        while 1:
+            # If unable to receive more dailies, finish them and try again.
+            success = self.os_mission_overview_accept()
             self.os_finish_daily_mission()
+            if success:
+                break
 
-            # Clear tuning samples daily
-            if self.config.OpsiDaily_UseTuningSample:
-                self.tuning_sample_use()
-
-            while 1:
-                # If unable to receive more dailies, finish them and try again.
-                success = self.os_mission_overview_accept()
-                self.os_finish_daily_mission()
-                if success:
-                    break
-
-            self.config.task_delay(server_update=True)
-        else:
-            self.os_mission_overview_accept()
-            self.config.task_delay(server_update=True)
+        self.config.task_delay(server_update=True)
 
     def os_shop(self):
         self.os_port_daily(mission=False, supply=self.config.OpsiShop_BuySupply)

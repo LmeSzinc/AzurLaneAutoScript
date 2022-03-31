@@ -1,5 +1,8 @@
+from datetime import datetime
+
 from module.base.timer import Timer
 from module.base.utils import *
+from module.config.utils import deep_get, get_os_next_reset
 from module.logger import logger
 from module.map_detection.utils import fit_points
 from module.os.globe_detection import GLOBE_MAP_SHAPE
@@ -117,6 +120,11 @@ class MissionHandler(GlobeOperation, ZoneManager):
             self.os_mission_quit()
             return False
 
+        if self.is_in_opsi_explore():
+            logger.info('OpsiExplore is under scheduling, accept missions and receive rewards only')
+            self.os_mission_quit()
+            return False
+
         logger.info('Checkout os mission')
         skip_first_screenshot = True
         while 1:
@@ -194,3 +202,22 @@ class MissionHandler(GlobeOperation, ZoneManager):
         # is_in_map
         self.os_globe_goto_map()
         return success
+
+    def is_in_opsi_explore(self):
+        """
+        Returns:
+            bool: If task OpsiExplore is under scheduling.
+        """
+        enable = deep_get(self.config.data, keys='OpsiExplore.Scheduler.Enable', default=False)
+        next_run = deep_get(self.config.data, keys='OpsiExplore.Scheduler.NextRun', default=datetime(2020, 1, 1, 0, 0))
+        next_reset = get_os_next_reset()
+        logger.attr('OpsiNextReset', next_reset)
+        logger.attr('OpsiExplore', (enable, next_run))
+        if enable and next_run < next_reset:
+            logger.info('OpsiExplore is still running, accept missions only. '
+                        'Missions will be finished when OpsiExplore visits every zones, '
+                        'no need to worry they are left behind.')
+            return True
+        else:
+            logger.info('Not in OpsiExplore, able to do OpsiDaily')
+            return False
