@@ -406,7 +406,7 @@ def ensure_time(second, n=3, precision=3):
         return second
 
 
-def get_os_next_update():
+def get_os_next_reset():
     """
     Get the first day of next month.
 
@@ -419,6 +419,22 @@ def get_os_next_update():
         .replace(day=1, hour=0, minute=0, second=0, microsecond=0)
     reset += timedelta(hours=diff)
     return reset
+
+
+def get_os_reset_remain():
+    """
+    Returns:
+        int: number of days before next opsi reset
+    """
+    from module.logger import logger
+
+    next_reset = get_os_next_reset()
+    now = datetime.now()
+    logger.attr('OpsiNextReset', next_reset)
+
+    remain = (next_reset - now).seconds // 86400
+    logger.attr('ResetRemain', remain)
+    return remain
 
 
 def get_server_next_update(daily_trigger):

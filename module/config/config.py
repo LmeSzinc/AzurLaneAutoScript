@@ -359,7 +359,11 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
         if ap_limit:
             tasks = SelectedGrids(['OpsiExplore', 'OpsiDaily', 'OpsiObscure', 'OpsiAbyssal', 'OpsiStronghold',
                                    'OpsiMeowfficerFarming'])
-            delay_tasks(tasks, minutes=360)
+            if get_os_reset_remain() > 0:
+                delay_tasks(tasks, minutes=360)
+            else:
+                logger.info('Just less than 1 day to OpSi reset, delay 2.5 hours')
+                delay_tasks(tasks, minutes=150)
 
         self.update()
 

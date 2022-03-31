@@ -1,7 +1,7 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from module.base.button import Button
-from module.config.utils import get_os_next_update, deep_get
+from module.config.utils import deep_get, get_os_next_reset, get_os_reset_remain
 from module.exception import MapWalkError, ScriptError
 from module.logger import logger
 from module.os.map import OSMap
@@ -268,7 +268,7 @@ class OSGlobe(OSMap):
         """
         enable = deep_get(self.config.data, keys='OpsiExplore.Scheduler.Enable', default=False)
         next_run = deep_get(self.config.data, keys='OpsiExplore.Scheduler.NextRun', default=datetime(2020, 1, 1, 0, 0))
-        next_reset = get_os_next_update()
+        next_reset = get_os_next_reset()
         logger.attr('OpsiNextReset', next_reset)
         logger.attr('OpsiExplore', (enable, next_run))
         if enable and next_run < next_reset:
@@ -288,17 +288,14 @@ class OSGlobe(OSMap):
         Returns:
             bool: If overrode
         """
-        next_reset = get_os_next_update()
-        now = datetime.now()
-        logger.attr('OpsiNextReset', next_reset)
-
-        if now + timedelta(days=1) > next_reset:
-            logger.info('Just 1 day to OpSi reset, '
+        remain = get_os_reset_remain()
+        if remain <= 0:
+            logger.info('Just less than 1 day to OpSi reset, '
                         'set OpsiMeowfficerFarming.ActionPointPreserve to 0 temporarily')
             self.config.override(OpsiMeowfficerFarming_ActionPointPreserve=0)
             return True
-        elif now + timedelta(days=3) > next_reset:
-            logger.info('Just 3 days to OpSi reset, '
+        elif remain <= 2:
+            logger.info('Just less than 3 days to OpSi reset, '
                         'set OpsiMeowfficerFarming.ActionPointPreserve < 200 temporarily')
             self.config.override(
                 OpsiMeowfficerFarming_ActionPointPreserve=min(

@@ -2,7 +2,7 @@ from datetime import datetime
 
 import numpy as np
 
-from module.config.utils import get_os_next_update, deep_get
+from module.config.utils import deep_get, get_os_next_reset, get_os_reset_remain
 from module.exception import ScriptError, RequestHumanTakeover
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
@@ -183,7 +183,7 @@ class OperationSiren(OSGlobe):
 
         def end():
             logger.info('OS explore finished, delay to next reset')
-            next_reset = get_os_next_update()
+            next_reset = get_os_next_reset()
             logger.attr('OpsiNextReset', next_reset)
             logger.info('To run again, clear OpsiExplore.Scheduler.NextRun and set OpsiExplore.OpsiExplore.LastZone=0')
             with self.config.multi_set():
@@ -259,7 +259,11 @@ class OperationSiren(OSGlobe):
         result = self.storage_get_next_item('OBSCURE', use_logger=self.config.OpsiGeneral_UseLogger)
         if not result:
             # No obscure coordinates, delay next run to tomorrow.
-            self.config.task_delay(server_update=True)
+            if get_os_reset_remain() > 0:
+                self.config.task_delay(server_update=True)
+            else:
+                logger.info('Just less than 1 day to OpSi reset, delay 2.5 hours')
+                self.config.task_delay(minute=150, server_update=True)
             self.config.task_stop()
 
         self.zone_init()
@@ -296,7 +300,11 @@ class OperationSiren(OSGlobe):
         result = self.storage_get_next_item('ABYSSAL', use_logger=self.config.OpsiGeneral_UseLogger)
         if not result:
             # No obscure coordinates, delay next run to tomorrow.
-            self.config.task_delay(server_update=True)
+            if get_os_reset_remain() > 0:
+                self.config.task_delay(server_update=True)
+            else:
+                logger.info('Just less than 1 day to OpSi reset, delay 2.5 hours')
+                self.config.task_delay(minute=150, server_update=True)
             self.config.task_stop()
 
         self.zone_init()
