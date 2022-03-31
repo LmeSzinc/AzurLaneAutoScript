@@ -1,13 +1,14 @@
 from module.base.button import Button
-from module.base.timer import Timer
 from module.base.decorator import run_once
+from module.base.timer import Timer
 from module.combat.assets import *
-from module.exception import GameNotRunningError, GamePageUnknownError
+from module.exception import GameNotRunningError, GamePageUnknownError, RequestHumanTakeover
 from module.handler.assets import *
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.map.assets import *
 from module.ocr.ocr import Ocr
+from module.os_handler.assets import RESET_FLEET_PREPARATION, RESET_TICKET_POPUP, STORAGE_CHECK
 from module.ui.page import *
 
 
@@ -287,6 +288,8 @@ class UI(InfoHandler):
         return self.ui_click(click_button=BACK_ARROW, check_button=check_button, appear_button=appear_button,
                              offset=offset, retry_wait=retry_wait, skip_first_screenshot=skip_first_screenshot)
 
+    _opsi_reset_fleet_preparation_click = 0
+
     def ui_additional(self):
         """
         Handle all annoying popups during UI switching.
@@ -353,6 +356,28 @@ class UI(InfoHandler):
 
         # Meowfficer popup
         if self.appear_then_click(MEOWFFICER_INFO, offset=(30, 30), interval=3):
+            return True
+
+        # Opsi reset
+        # - Opsi has reset, handle_story_skip() clicks confirm
+        # - RESET_TICKET_POPUP
+        # - Open exchange shop? handle_popup_confirm() click confirm
+        # - At storage, click BACK_ARROW
+        if self._opsi_reset_fleet_preparation_click >= 5:
+            logger.critical("Failed to confirm OpSi fleets, too many click on RESET_FLEET_PREPARATION")
+            logger.critical("Possible reason #1: "
+                            "You haven't set any fleets in operation siren")
+            logger.critical("Possible reason #1: "
+                            "Your fleets haven't satisfied the level restrictions in operation siren")
+            raise RequestHumanTakeover
+        if self.appear_then_click(RESET_TICKET_POPUP, offset=(20, 20), interval=3):
+            return True
+        if self.appear_then_click(RESET_FLEET_PREPARATION, offset=(20, 20), interval=3):
+            self._opsi_reset_fleet_preparation_click += 1
+            self.interval_reset(FLEET_PREPARATION)
+            return True
+        if self.appear(STORAGE_CHECK, offset=(20, 20), interval=3):
+            self.device.click(BACK_ARROW)
             return True
 
         # Campaign preparation
