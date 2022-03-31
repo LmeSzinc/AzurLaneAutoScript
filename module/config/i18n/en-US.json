@@ -732,6 +732,7 @@
       "name": "Fleet 1 Emotion Control",
       "help": "Measures will be taken to ensure control is maintained i.e. wait for recovery in level or stop current task if others can be executed while waiting",
       "keep_exp_bonus": "Keep Happy Bonus (>120)",
+      "keep_section_exp_bonus": "Keep Section Happy bonus (dorm>120 other>90)",
       "prevent_green_face": "Keep Content (>40)",
       "prevent_yellow_face": "Prevent Moody (>30)",
       "prevent_red_face": "Prevent Exhausted (>20)"
@@ -759,6 +760,7 @@
       "name": "Fleet 2 Emotion Control",
       "help": "Measures will be taken to ensure control is maintained i.e. wait for recovery in level or stop current task if others can be executed while waiting",
       "keep_exp_bonus": "Keep Happy Bonus (>120)",
+      "keep_section_exp_bonus": "Keep Section Happy bonus (dorm>120 other>90)",
       "prevent_green_face": "Keep Content (>40)",
       "prevent_yellow_face": "Prevent Moody (>30)",
       "prevent_red_face": "Prevent Exhausted (>20)"

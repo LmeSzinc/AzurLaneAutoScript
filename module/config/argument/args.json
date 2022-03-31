@@ -472,6 +472,7 @@
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
+          "keep_section_exp_bonus",
           "prevent_green_face",
           "prevent_yellow_face",
           "prevent_red_face"
@@ -504,6 +505,7 @@
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
+          "keep_section_exp_bonus",
           "prevent_green_face",
           "prevent_yellow_face",
           "prevent_red_face"
@@ -805,6 +807,7 @@
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
+          "keep_section_exp_bonus",
           "prevent_green_face",
           "prevent_yellow_face",
           "prevent_red_face"
@@ -837,6 +840,7 @@
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
+          "keep_section_exp_bonus",
           "prevent_green_face",
           "prevent_yellow_face",
           "prevent_red_face"
@@ -1172,6 +1176,7 @@
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
+          "keep_section_exp_bonus",
           "prevent_green_face",
           "prevent_yellow_face",
           "prevent_red_face"
@@ -1204,6 +1209,7 @@
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
+          "keep_section_exp_bonus",
           "prevent_green_face",
           "prevent_yellow_face",
           "prevent_red_face"
@@ -1557,6 +1563,7 @@
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
+          "keep_section_exp_bonus",
           "prevent_green_face",
           "prevent_yellow_face",
           "prevent_red_face"
@@ -1589,6 +1596,7 @@
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
+          "keep_section_exp_bonus",
           "prevent_green_face",
           "prevent_yellow_face",
           "prevent_red_face"
@@ -1955,6 +1963,7 @@
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
+          "keep_section_exp_bonus",
           "prevent_green_face",
           "prevent_yellow_face",
           "prevent_red_face"
@@ -1987,6 +1996,7 @@
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
+          "keep_section_exp_bonus",
           "prevent_green_face",
           "prevent_yellow_face",
           "prevent_red_face"
@@ -2348,6 +2358,7 @@
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
+          "keep_section_exp_bonus",
           "prevent_green_face",
           "prevent_yellow_face",
           "prevent_red_face"
@@ -2380,6 +2391,7 @@
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
+          "keep_section_exp_bonus",
           "prevent_green_face",
           "prevent_yellow_face",
           "prevent_red_face"
@@ -2772,6 +2784,7 @@
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
+          "keep_section_exp_bonus",
           "prevent_green_face",
           "prevent_yellow_face",
           "prevent_red_face"
@@ -2804,6 +2817,7 @@
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
+          "keep_section_exp_bonus",
           "prevent_green_face",
           "prevent_yellow_face",
           "prevent_red_face"
@@ -3185,6 +3199,7 @@
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
+          "keep_section_exp_bonus",
           "prevent_green_face",
           "prevent_yellow_face",
           "prevent_red_face"
@@ -3217,6 +3232,7 @@
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
+          "keep_section_exp_bonus",
           "prevent_green_face",
           "prevent_yellow_face",
           "prevent_red_face"
@@ -3588,6 +3604,7 @@
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
+          "keep_section_exp_bonus",
           "prevent_green_face",
           "prevent_yellow_face",
           "prevent_red_face"
@@ -3620,6 +3637,7 @@
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
+          "keep_section_exp_bonus",
           "prevent_green_face",
           "prevent_yellow_face",
           "prevent_red_face"
@@ -3820,6 +3838,7 @@
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
+          "keep_section_exp_bonus",
           "prevent_green_face",
           "prevent_yellow_face",
           "prevent_red_face"
@@ -3852,6 +3871,7 @@
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
+          "keep_section_exp_bonus",
           "prevent_green_face",
           "prevent_yellow_face",
           "prevent_red_face"
@@ -4009,6 +4029,7 @@
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
+          "keep_section_exp_bonus",
           "prevent_green_face",
           "prevent_yellow_face",
           "prevent_red_face"
@@ -4041,6 +4062,7 @@
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
+          "keep_section_exp_bonus",
           "prevent_green_face",
           "prevent_yellow_face",
           "prevent_red_face"
@@ -5491,6 +5513,7 @@
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
+          "keep_section_exp_bonus",
           "prevent_green_face",
           "prevent_yellow_face",
           "prevent_red_face"
@@ -5523,6 +5546,7 @@
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
+          "keep_section_exp_bonus",
           "prevent_green_face",
           "prevent_yellow_face",
           "prevent_red_face"
@@ -5860,6 +5884,7 @@
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
+          "keep_section_exp_bonus",
           "prevent_green_face",
           "prevent_yellow_face",
           "prevent_red_face"
@@ -5892,6 +5917,7 @@
         "value": "prevent_yellow_face",
         "option": [
           "keep_exp_bonus",
+          "keep_section_exp_bonus",
           "prevent_green_face",
           "prevent_yellow_face",
           "prevent_red_face"

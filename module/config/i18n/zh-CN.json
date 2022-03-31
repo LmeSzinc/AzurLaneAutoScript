@@ -732,6 +732,7 @@
       "name": "一队心情控制",
       "help": "",
       "keep_exp_bonus": "保持经验加成 (>120)",
+      "keep_section_exp_bonus": "保持部分船经验加成 (后宅船>120,其他>90)",
       "prevent_green_face": "防止绿脸 (>40)",
       "prevent_yellow_face": "防止黄脸 (>30)",
       "prevent_red_face": "防止红脸 (>0)"
@@ -759,6 +760,7 @@
       "name": "二队心情控制",
       "help": "",
       "keep_exp_bonus": "保持经验加成 (>120)",
+      "keep_section_exp_bonus": "保持部分船经验加成 (后宅船>120,其他>90)",
       "prevent_green_face": "防止绿脸 (>40)",
       "prevent_yellow_face": "防止黄脸 (>30)",
       "prevent_red_face": "防止红脸 (>0)"

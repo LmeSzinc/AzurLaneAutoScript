@@ -136,7 +136,7 @@ Emotion:
   Fleet1Record: 2020-01-01 00:00:00
   Fleet1Control:
     value: prevent_yellow_face
-    option: [keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face]
+    option: [keep_exp_bonus, keep_section_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face]
   Fleet1Recover:
     value: not_in_dormitory
     option: [not_in_dormitory, dormitory_floor_1, dormitory_floor_2]
@@ -145,7 +145,7 @@ Emotion:
   Fleet2Record: 2020-01-01 00:00:00
   Fleet2Control:
     value: prevent_yellow_face
-    option: [keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face]
+    option: [keep_exp_bonus, keep_section_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face]
   Fleet2Recover:
     value: not_in_dormitory
     option: [not_in_dormitory, dormitory_floor_1, dormitory_floor_2]

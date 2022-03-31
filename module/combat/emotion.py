@@ -11,6 +11,7 @@ from module.logger import logger
 
 DIC_LIMIT = {
     'keep_exp_bonus': 120,
+    'keep_section_exp_bonus': 90,
     'prevent_green_face': 40,
     'prevent_yellow_face': 30,
     'prevent_red_face': 2,

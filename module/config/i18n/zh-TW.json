@@ -732,6 +732,7 @@
       "name": "一隊心情控制",
       "help": "",
       "keep_exp_bonus": "保持經驗加成 (>120)",
+      "keep_section_exp_bonus": "keep_section_exp_bonus",
       "prevent_green_face": "防止綠臉 (>40)",
       "prevent_yellow_face": "防止黃臉 (>30)",
       "prevent_red_face": "防止紅臉 (>0)"
@@ -759,6 +760,7 @@
       "name": "二隊心情控制",
       "help": "",
       "keep_exp_bonus": "保持經驗加成 (>120)",
+      "keep_section_exp_bonus": "keep_section_exp_bonus",
       "prevent_green_face": "防止綠臉 (>40)",
       "prevent_yellow_face": "防止黃臉 (>30)",
       "prevent_red_face": "防止紅臉 (>0)"

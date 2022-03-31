@@ -732,6 +732,7 @@
       "name": "Emotion.Fleet1Control.name",
       "help": "Emotion.Fleet1Control.help",
       "keep_exp_bonus": "keep_exp_bonus",
+      "keep_section_exp_bonus": "keep_section_exp_bonus",
       "prevent_green_face": "prevent_green_face",
       "prevent_yellow_face": "prevent_yellow_face",
       "prevent_red_face": "prevent_red_face"
@@ -759,6 +760,7 @@
       "name": "Emotion.Fleet2Control.name",
       "help": "Emotion.Fleet2Control.help",
       "keep_exp_bonus": "keep_exp_bonus",
+      "keep_section_exp_bonus": "keep_section_exp_bonus",
       "prevent_green_face": "prevent_green_face",
       "prevent_yellow_face": "prevent_yellow_face",
       "prevent_red_face": "prevent_red_face"
