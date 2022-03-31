@@ -8,7 +8,7 @@ from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.map.assets import *
 from module.ocr.ocr import Ocr
-from module.os_handler.assets import RESET_FLEET_PREPARATION, RESET_TICKET_POPUP, STORAGE_CHECK
+from module.os_handler.assets import RESET_FLEET_PREPARATION, RESET_TICKET_POPUP, EXCHANGE_CHECK
 from module.ui.page import *
 
 
@@ -365,7 +365,7 @@ class UI(InfoHandler):
         # - Opsi has reset, handle_story_skip() clicks confirm
         # - RESET_TICKET_POPUP
         # - Open exchange shop? handle_popup_confirm() click confirm
-        # - At storage, click BACK_ARROW
+        # - EXCHANGE_CHECK, click BACK_ARROW
         if self._opsi_reset_fleet_preparation_click >= 5:
             logger.critical("Failed to confirm OpSi fleets, too many click on RESET_FLEET_PREPARATION")
             logger.critical("Possible reason #1: "
@@ -379,8 +379,9 @@ class UI(InfoHandler):
             self._opsi_reset_fleet_preparation_click += 1
             self.interval_reset(FLEET_PREPARATION)
             return True
-        if self.appear(STORAGE_CHECK, offset=(20, 20), interval=3):
-            self.device.click(BACK_ARROW)
+        if self.appear(EXCHANGE_CHECK, offset=(20, 20), interval=3):
+            GOTO_MAIN.clear_offset()
+            self.device.click(GOTO_MAIN)
             return True
 
         # Campaign preparation
