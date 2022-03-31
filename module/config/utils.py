@@ -415,7 +415,8 @@ def get_os_next_reset():
     """
     d = datetime.now(timezone.utc).astimezone()
     diff = d.utcoffset() // timedelta(seconds=1) // 3600 - server_timezone()
-    reset = (datetime.now().replace(day=1) + timedelta(days=32)) \
+    now = datetime.now() - timedelta(hours=diff)
+    reset = (now.replace(day=1) + timedelta(days=32)) \
         .replace(day=1, hour=0, minute=0, second=0, microsecond=0)
     reset += timedelta(hours=diff)
     return reset
