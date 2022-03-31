@@ -3,9 +3,10 @@ import os
 import random
 import string
 from datetime import datetime, timedelta, timezone
-from filelock import FileLock
 
 import yaml
+from atomicwrites import atomic_write
+from filelock import FileLock
 
 import module.config.server as server
 
@@ -111,7 +112,7 @@ def write_file(file, data):
     with lock:
         print(f'write: {file}')
         if ext == '.yaml':
-            with open(file, mode='w', encoding='utf-8') as f:
+            with atomic_write(file, overwrite=True, encoding='utf-8') as f:
                 if isinstance(data, list):
                     yaml.safe_dump_all(data, f, default_flow_style=False, encoding='utf-8', allow_unicode=True,
                                        sort_keys=False)
@@ -119,7 +120,7 @@ def write_file(file, data):
                     yaml.safe_dump(data, f, default_flow_style=False, encoding='utf-8', allow_unicode=True,
                                    sort_keys=False)
         elif ext == '.json':
-            with open(file, mode='w', encoding='utf-8') as f:
+            with atomic_write(file, overwrite=True, encoding='utf-8') as f:
                 s = json.dumps(data, indent=2, ensure_ascii=False, sort_keys=False, default=str)
                 f.write(s)
         else:

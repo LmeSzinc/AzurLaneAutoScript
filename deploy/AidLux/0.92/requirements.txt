@@ -21,3 +21,4 @@ prettytable==2.2.1
 pypresence==4.2.1
 rich==11.0.0
 zerorpc
+atomicwrites
