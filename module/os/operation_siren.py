@@ -2,7 +2,7 @@ from datetime import datetime
 
 import numpy as np
 
-from module.config.utils import deep_get
+from module.config.utils import get_os_next_update, deep_get
 from module.exception import ScriptError, RequestHumanTakeover
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
@@ -82,12 +82,13 @@ class OperationSiren(OSGlobe):
         return True
 
     def os_daily(self):
-        if not self._is_in_os_explore():
+        if not self.is_in_os_explore():
             # Finish existing missions first
             self.os_finish_daily_mission()
 
             # Clear tuning samples daily
-            self.handle_tuning_sample_use()
+            if self.config.OpsiDaily_UseTuningSample:
+                self.tuning_sample_use()
 
             while 1:
                 # If unable to receive more dailies, finish them and try again.
@@ -98,7 +99,6 @@ class OperationSiren(OSGlobe):
 
             self.config.task_delay(server_update=True)
         else:
-            logger.info('OpsiExplore is enabled, accept missions only')
             self.os_mission_overview_accept()
             self.config.task_delay(server_update=True)
 
@@ -111,6 +111,7 @@ class OperationSiren(OSGlobe):
         Recommend 3 or 5 for higher meowfficer searching point per action points ratio.
         """
         logger.hr(f'OS meowfficer farming, hazard_level={self.config.OpsiMeowfficerFarming_HazardLevel}', level=1)
+        self.action_point_limit_override()
         while 1:
             self.config.OS_ACTION_POINT_PRESERVE = self.config.OpsiMeowfficerFarming_ActionPointPreserve
             if self.config.OpsiAshBeacon_AshAttack \
@@ -175,21 +176,19 @@ class OperationSiren(OSGlobe):
 
         self.config.update()
 
-    def _is_in_os_explore(self):
-        return deep_get(self.config.data, keys='OpsiExplore.Scheduler.Enable', default=False)
-
     def _os_explore(self):
         """
         Explore all dangerous zones at the beginning of month.
         """
 
         def end():
-            logger.info('OS explore finished')
-            logger.info('To run again, set OpsiExplore.Scheduler.Enable=True, OpsiExplore.OpsiExplore.LastZone=0')
+            logger.info('OS explore finished, delay to next reset')
+            next_reset = get_os_next_update()
+            logger.attr('OpsiNextReset', next_reset)
+            logger.info('To run again, clear OpsiExplore.Scheduler.NextRun and set OpsiExplore.OpsiExplore.LastZone=0')
             with self.config.multi_set():
-                self.config.Scheduler_Enable = False
                 self.config.OpsiExplore_LastZone = 0
-                self.config.task_delay(minute=0)
+                self.config.task_delay(target=next_reset)
             self.config.task_stop()
 
         logger.hr('OS explore', level=1)
@@ -219,6 +218,10 @@ class OperationSiren(OSGlobe):
                 continue
 
             logger.hr(f'OS explore {zone}', level=1)
+            if not self.config.OpsiExplore_SpecialRadar:
+                # Special radar gives 90 turning samples,
+                # If no special radar, use the turning samples in storage to acquire stronger fleets.
+                self.tuning_sample_use()
             self.fleet_set(self.config.OpsiFleet_Fleet)
             self.os_order_execute(
                 recon_scan=not self.config.OpsiExplore_SpecialRadar,

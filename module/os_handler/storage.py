@@ -135,12 +135,11 @@ class StorageHandler(GlobeOperation, ZoneManager):
                     break
         logger.info('All samples in storage have been used')
 
-    def handle_tuning_sample_use(self):
-        if self.config.OpsiDaily_UseTuningSample:
-            self.storage_enter()
-            self.storage_sample_use_all()
-            self.storage_quit()
-        return True
+    def tuning_sample_use(self):
+        logger.hr('Turning sample use')
+        self.storage_enter()
+        self.storage_sample_use_all()
+        self.storage_quit()
 
     def _storage_coordinate_checkout(self, button, types=('OBSCURE',), skip_first_screenshot=True):
         """

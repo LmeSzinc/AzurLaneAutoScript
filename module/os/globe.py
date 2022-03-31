@@ -1,4 +1,7 @@
+from datetime import datetime, timedelta
+
 from module.base.button import Button
+from module.config.utils import get_os_next_update, deep_get
 from module.exception import MapWalkError, ScriptError
 from module.logger import logger
 from module.os.map import OSMap
@@ -257,3 +260,52 @@ class OSGlobe(OSMap):
         logger.info('None of the fleets are afflicted with '
                     'the low resolve debuff')
         return False
+
+    def is_in_os_explore(self):
+        """
+        Returns:
+            bool: If task OpsiExplore is under scheduling.
+        """
+        enable = deep_get(self.config.data, keys='OpsiExplore.Scheduler.Enable', default=False)
+        next_run = deep_get(self.config.data, keys='OpsiExplore.Scheduler.NextRun', default=datetime(2020, 1, 1, 0, 0))
+        next_reset = get_os_next_update()
+        logger.attr('OpsiNextReset', next_reset)
+        logger.attr('OpsiExplore', (enable, next_run))
+        if enable and next_run < next_reset:
+            logger.info('OpsiExplore is still running, accept missions only. '
+                        'Missions will be finished when OpsiExplore visits every zones, '
+                        'no need to worry they are left behind.')
+            return True
+        else:
+            logger.info('Not in OpsiExplore, able to do OpsiDaily')
+            return False
+
+    def action_point_limit_override(self):
+        """
+        Override user config at the end of every month.
+        To consume all action points without manual configuration.
+
+        Returns:
+            bool: If overrode
+        """
+        next_reset = get_os_next_update()
+        now = datetime.now()
+        logger.attr('OpsiNextReset', next_reset)
+
+        if now + timedelta(days=1) > next_reset:
+            logger.info('Just 1 day to OpSi reset, '
+                        'set OpsiMeowfficerFarming.ActionPointPreserve to 0 temporarily')
+            self.config.override(OpsiMeowfficerFarming_ActionPointPreserve=0)
+            return True
+        elif now + timedelta(days=3) > next_reset:
+            logger.info('Just 3 days to OpSi reset, '
+                        'set OpsiMeowfficerFarming.ActionPointPreserve < 200 temporarily')
+            self.config.override(
+                OpsiMeowfficerFarming_ActionPointPreserve=min(
+                    self.config.OpsiMeowfficerFarming_ActionPointPreserve,
+                    200)
+            )
+            return True
+        else:
+            logger.info('Not close to OpSi reset')
+            return False

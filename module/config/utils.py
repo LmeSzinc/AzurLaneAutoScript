@@ -126,20 +126,26 @@ def write_file(file, data):
             print(f'Unsupported config file extension: {ext}')
 
 
-def iter_folder(folder, ext=None):
+def iter_folder(folder, is_dir=False, ext=None):
     """
     Args:
         folder (str):
+        is_dir (bool): True to iter directories only
         ext (str): File extension, such as `.yaml`
 
     Yields:
         str: Absolute path of files
     """
     for file in os.listdir(folder):
-        if ext is not None:
-            _, extension = os.path.splitext(file)
-            if extension == ext:
-                yield os.path.join(folder, file)
+        sub = os.path.join(folder, file)
+        if is_dir:
+            if os.path.isdir(sub):
+                yield sub
+        elif ext is not None:
+            if not os.path.isdir(sub):
+                _, extension = os.path.splitext(file)
+                if extension == ext:
+                    yield os.path.join(folder, file)
         else:
             yield os.path.join(folder, file)
 
@@ -397,6 +403,21 @@ def ensure_time(second, n=3, precision=3):
             return int(second)
     else:
         return second
+
+
+def get_os_next_update():
+    """
+    Get the first day of next month.
+
+    Returns:
+        datetime.datetime
+    """
+    d = datetime.now(timezone.utc).astimezone()
+    diff = d.utcoffset() // timedelta(seconds=1) // 3600 - server_timezone()
+    reset = (datetime.now().replace(day=1) + timedelta(days=32)) \
+        .replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+    reset += timedelta(hours=diff)
+    return reset
 
 
 def get_server_next_update(daily_trigger):
