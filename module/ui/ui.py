@@ -313,6 +313,9 @@ class UI(InfoHandler):
         if self.appear(EVENT_LIST_CHECK, offset=(30, 30), interval=3):
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
                 return True
+        # Monthly pass is about to expire
+        if self.appear_then_click(MONTHLY_PASS_NOTICE, offset=(20, 20), interval=3):
+            return True
 
         # Routed from confirm click
         if self.appear(SHIPYARD_CHECK, offset=(30, 30), interval=3):
