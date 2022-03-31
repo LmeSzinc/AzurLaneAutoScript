@@ -319,6 +319,9 @@ class UI(InfoHandler):
         # Monthly pass is about to expire
         if self.appear_then_click(MONTHLY_PASS_NOTICE, offset=(20, 20), interval=3):
             return True
+        # Battle pass is about to expire and player has uncollected battle pass rewards
+        if self.appear_then_click(BATTLE_PASS_NOTICE, offset=(20, 20), interval=3):
+            return True
 
         # Routed from confirm click
         if self.appear(SHIPYARD_CHECK, offset=(30, 30), interval=3):
