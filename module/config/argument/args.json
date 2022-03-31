@@ -203,6 +203,35 @@
       }
     }
   },
+  "Backup": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "input",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "disable",
+        "value": "Backup"
+      },
+      "SuccessInterval": {
+        "type": "input",
+        "value": 0
+      },
+      "FailureInterval": {
+        "type": "disable",
+        "value": 0
+      },
+      "ServerUpdate": {
+        "type": "disable",
+        "value": "00:00"
+      }
+    }
+  },
   "Main": {
     "Scheduler": {
       "Enable": {

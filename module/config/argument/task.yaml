@@ -13,6 +13,8 @@ General:
   - Retirement
 Restart:
   - Scheduler
+Backup:
+  - Scheduler
 
 # ==================== Farm ====================
 

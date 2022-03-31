@@ -9,6 +9,10 @@ Restart:
     SuccessInterval: 0
     FailureInterval: 0
     ServerUpdate: 00:00
+Backup:
+  Scheduler:
+    FailureInterval: 0
+    ServerUpdate: 00:00
 
 # ==================== Farm ====================
 

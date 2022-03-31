@@ -55,6 +55,16 @@
       "ServerUpdate": "00:00"
     }
   },
+  "Backup": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "Backup",
+      "SuccessInterval": 0,
+      "FailureInterval": 0,
+      "ServerUpdate": "00:00"
+    }
+  },
   "Main": {
     "Scheduler": {
       "Enable": false,

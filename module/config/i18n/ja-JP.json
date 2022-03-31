@@ -50,6 +50,10 @@
       "name": "Task.Restart.name",
       "help": "Task.Restart.help"
     },
+    "Backup": {
+      "name": "Task.Backup.name",
+      "help": "Task.Backup.help"
+    },
     "Main": {
       "name": "Task.Main.name",
       "help": "Task.Main.help"

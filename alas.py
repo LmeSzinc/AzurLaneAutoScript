@@ -130,6 +130,10 @@ class AzurLaneAutoScript:
         from module.handler.login import LoginHandler
         LoginHandler(self.config, device=self.device).app_start()
 
+    def backup(self):
+        from module.config.backup import Backup
+        Backup(self.config).run()
+
     def goto_main(self):
         from module.handler.login import LoginHandler
         from module.ui.ui import UI

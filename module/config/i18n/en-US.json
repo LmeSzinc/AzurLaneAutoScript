@@ -50,6 +50,10 @@
       "name": "Restart",
       "help": ""
     },
+    "Backup": {
+      "name": "Backup",
+      "help": ""
+    },
     "Main": {
       "name": "Main",
       "help": ""

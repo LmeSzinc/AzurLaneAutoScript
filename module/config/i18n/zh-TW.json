@@ -50,6 +50,10 @@
       "name": "重啟設定",
       "help": ""
     },
+    "Backup": {
+      "name": "備份設定",
+      "help": ""
+    },
     "Main": {
       "name": "主線圖",
       "help": ""

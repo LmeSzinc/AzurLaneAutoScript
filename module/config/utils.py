@@ -118,7 +118,7 @@ def write_file(file, data):
                 else:
                     yaml.safe_dump(data, f, default_flow_style=False, encoding='utf-8', allow_unicode=True,
                                    sort_keys=False)
-        elif ext == '.json':
+        elif ext == '.json' or ext == '.bak':
             with open(file, mode='w', encoding='utf-8') as f:
                 s = json.dumps(data, indent=2, ensure_ascii=False, sort_keys=False, default=str)
                 f.write(s)

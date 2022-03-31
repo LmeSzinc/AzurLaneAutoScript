@@ -7,7 +7,7 @@ class ManualConfig:
     SERVER = server.server
 
     SCHEDULER_PRIORITY = """
-    Restart
+    Restart > Backup
     > Research > Commission > Tactical
     > Exercise
     > Dorm > Meowfficer > Guild > Gacha > SupplyPack

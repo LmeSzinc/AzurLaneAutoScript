@@ -50,6 +50,10 @@
       "name": "重启设置",
       "help": ""
     },
+    "Backup": {
+      "name": "备份设置",
+      "help": ""
+    },
     "Main": {
       "name": "主线图",
       "help": ""
