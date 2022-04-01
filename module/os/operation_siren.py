@@ -76,7 +76,7 @@ class OperationSiren(OSGlobe):
                 recon_scan=False,
                 submarine_call=self.config.OpsiFleet_Submarine and result != 'pinned_at_archive_zone')
             self.run_auto_search()
-            self.handle_fleet_repair(revert=False)
+            self.handle_after_auto_search()
             self.config.check_task_switch()
 
         return True
@@ -132,7 +132,7 @@ class OperationSiren(OSGlobe):
                         recon_scan=False,
                         submarine_call=self.config.OpsiFleet_Submarine)
                     self.run_auto_search()
-                    if not self.handle_fleet_repair(revert=False):
+                    if not self.handle_after_auto_search():
                         self.globe_goto(self.zone_nearest_azur_port(zone=zone))
                     self.config.check_task_switch()
             else:
@@ -148,7 +148,7 @@ class OperationSiren(OSGlobe):
                     recon_scan=False,
                     submarine_call=self.config.OpsiFleet_Submarine)
                 self.run_auto_search()
-                self.handle_fleet_repair(revert=False)
+                self.handle_after_auto_search()
                 self.config.check_task_switch()
 
     def _os_explore_task_delay(self):
@@ -226,7 +226,7 @@ class OperationSiren(OSGlobe):
             self.run_auto_search()
             self.config.OpsiExplore_LastZone = zone
             logger.info(f'Zone cleared: {self.name_to_zone(zone)}')
-            self.handle_fleet_repair(revert=False)
+            self.handle_after_auto_search()
             self.config.check_task_switch()
             if zone == order[-1]:
                 end()
@@ -270,7 +270,7 @@ class OperationSiren(OSGlobe):
         self.run_auto_search()
 
         self.map_exit()
-        self.handle_fleet_repair(revert=False)
+        self.handle_after_auto_search()
 
     def os_obscure(self):
         while 1:

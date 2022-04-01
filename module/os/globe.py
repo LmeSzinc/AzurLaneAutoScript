@@ -2,6 +2,7 @@ from module.base.button import Button
 from module.config.utils import get_os_reset_remain
 from module.exception import MapWalkError, ScriptError
 from module.logger import logger
+from module.os.assets import FLEET_EMP_DEBUFF
 from module.os.map import OSMap
 from module.ui.ui import page_os
 
@@ -54,7 +55,7 @@ class OSGlobe(OSMap):
 
         # self.map_init()
         self.hp_reset()
-        self.handle_fleet_repair(revert=False)
+        self.handle_after_auto_search()
 
         # Exit from special zones types, only SAFE and DANGEROUS are acceptable.
         if self.is_in_special_zone():
@@ -67,7 +68,7 @@ class OSGlobe(OSMap):
             self.handle_ash_beacon_attack()
         else:
             self.run_auto_search()
-            self.handle_fleet_repair(revert=False)
+            self.handle_after_auto_search()
 
     def get_current_zone_from_globe(self):
         """
@@ -259,6 +260,48 @@ class OSGlobe(OSMap):
                     'the low resolve debuff')
         return False
 
+    def handle_fleet_emp_debuff(self):
+        """
+        EMP debuff limits fleet step to 1 and messes auto search up.
+        It can be solved by moving fleets on map meaninglessly.
+
+        Returns:
+            bool: If solved
+        """
+        if self.is_in_special_zone():
+            logger.info('OS is in a special zone type, skip handle_fleet_emp_debuff')
+            return False
+
+        def has_emp_debuff():
+            return self.appear(FLEET_EMP_DEBUFF, offset=(50, 20))
+
+        for trial in range(5):
+
+            if not has_emp_debuff():
+                logger.info('No EMP debuff on current fleet')
+                return trial > 0
+
+            current = self.get_fleet_current_index()
+            logger.hr(f'Solve EMP debuff on fleet {current}')
+            self.globe_goto(self.zone_nearest_azur_port(self.zone))
+
+            logger.info('Find a fleet without EMP debuff')
+            for fleet in [1, 2, 3, 4]:
+                self.fleet_set(fleet)
+                if has_emp_debuff():
+                    logger.info(f'Fleet {fleet} is under EMP debuff')
+                    continue
+                else:
+                    logger.info(f'Fleet {fleet} is not under EMP debuff')
+                    break
+
+            logger.info('Solve EMP debuff by going somewhere else')
+            self.port_goto()
+            self.fleet_set(current)
+
+        logger.warning('Failed to solve EMP debuff after 5 trial, assume solved')
+        return True
+
     def action_point_limit_override(self):
         """
         Override user config at the end of every month.
@@ -285,3 +328,11 @@ class OSGlobe(OSMap):
         else:
             logger.info('Not close to OpSi reset')
             return False
+
+    def handle_after_auto_search(self):
+        logger.hr('After auto search', level=2)
+        solved = False
+        solved |= self.handle_fleet_repair(revert=False)
+        solved |= self.handle_fleet_emp_debuff()
+        logger.info(f'Handle after auto search finished, solved={solved}')
+        return solved
