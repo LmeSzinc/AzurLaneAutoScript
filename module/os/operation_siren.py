@@ -27,12 +27,9 @@ class OperationSiren(OSGlobe):
             bool: True if all supplies bought.
         """
         logger.hr('OS port daily', level=1)
+        ports = ['NY City', 'Gibraltar', 'Liverpool', 'St. Petersburg']
         if np.random.uniform() > 0.5:
-            # St. Petersburg => Liverpool => Gibraltar => NY City
-            ports = [3, 1, 2, 0]
-        else:
-            # NY City => Gibraltar => Liverpool => St. Petersburg
-            ports = [0, 2, 1, 3]
+            ports.reverse()
 
         mission_success = True
         supply_success = True
@@ -50,6 +47,23 @@ class OperationSiren(OSGlobe):
             self.port_quit()
 
         return mission_success, supply_success
+
+    def os_port_mission(self):
+        """
+        Visit all ports and do the daily mission in it.
+        """
+        logger.hr('OS port mission', level=1)
+        ports = ['NY City', 'Dakar', 'Taranto', 'Gibraltar', 'Brest', 'Liverpool', 'Kiel', 'St. Petersburg']
+        if np.random.uniform() > 0.5:
+            ports.reverse()
+
+        for port in ports:
+            port = self.name_to_zone(port)
+            logger.hr(f'OS port daily in {port}', level=2)
+            self.globe_goto(port)
+
+            self.run_auto_search()
+            self.handle_after_auto_search()
 
     def os_finish_daily_mission(self):
         """
@@ -95,6 +109,9 @@ class OperationSiren(OSGlobe):
             self.os_finish_daily_mission()
             if success:
                 break
+
+        if self.is_in_opsi_explore():
+            self.os_port_mission()
 
         self.config.task_delay(server_update=True)
 
