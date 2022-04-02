@@ -433,7 +433,7 @@ def get_os_reset_remain():
     now = datetime.now()
     logger.attr('OpsiNextReset', next_reset)
 
-    remain = (next_reset - now).seconds // 86400
+    remain = int((next_reset - now).total_seconds() // 86400)
     logger.attr('ResetRemain', remain)
     return remain
 
@@ -547,3 +547,7 @@ def type_to_str(typ):
     if not isinstance(typ, type):
         typ = type(typ).__name__
     return str(typ)
+
+
+if __name__ == '__main__':
+    get_os_reset_remain()
