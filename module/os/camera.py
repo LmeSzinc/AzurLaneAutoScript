@@ -107,6 +107,10 @@ class OSCamera(OSMapOperation, Camera):
 
             backup, self.view.backend.load = self.view.backend.load, empty
             self.view.backend.homo_loca = (53, 60)
+            self.view.backend.left_edge = False
+            self.view.backend.right_edge = False
+            self.view.backend.lower_edge = False
+            self.view.backend.upper_edge = False
             self.view.load(self.device.image)
             self.view.backend.load = backup
 
