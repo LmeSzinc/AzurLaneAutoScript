@@ -97,7 +97,8 @@ class OperationSiren(OSGlobe):
 
     def os_daily(self):
         # Finish existing missions first
-        self.os_finish_daily_mission()
+        # No need anymore, os_mission_overview_accept() is able to handle
+        # self.os_finish_daily_mission()
 
         # Clear tuning samples daily
         if self.config.OpsiDaily_UseTuningSample:
