@@ -110,9 +110,9 @@ class OperationSiren(OSGlobe):
             self.os_finish_daily_mission()
             if success:
                 break
-
-        if self.is_in_opsi_explore():
-            self.os_port_mission()
+            if self.is_in_opsi_explore():
+                self.os_port_mission()
+                break
 
         self.config.task_delay(server_update=True)
 
