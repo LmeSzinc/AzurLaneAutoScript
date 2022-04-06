@@ -206,7 +206,7 @@ class CampaignRun(UI):
                     pass
                 self.campaign.ensure_campaign_ui(name=self.stage, mode=mode)
             elif self.campaign.is_in_auto_search_menu():
-                if self.run_count > 0:
+                if self.run_count > 0 and self.campaign.map_is_auto_search:
                     logger.info('In auto search menu, skip ensure_campaign_ui.')
                 else:
                     logger.info('In auto search menu, closing.')

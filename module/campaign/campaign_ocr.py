@@ -1,7 +1,8 @@
 import collections
 
 from module.base.base import ModuleBase
-from module.base.decorator import Config
+from module.base.decorator import Config, cached_property
+from module.base.resource import del_cached_property
 from module.base.timer import Timer
 from module.base.utils import *
 from module.exception import CampaignNameError
@@ -13,6 +14,8 @@ from module.template.assets import *
 class CampaignOcr(ModuleBase):
     stage_entrance = {}
     campaign_chapter = 0
+    # An approximate area where stages will appear for faster template matching
+    _stage_detect_area = (87, 117, 1151, 636)
 
     @staticmethod
     def _campaign_get_chapter_index(name):
@@ -91,6 +94,7 @@ class CampaignOcr(ModuleBase):
         result = template.match_multi(stage_image, similarity=similarity, name='STAGE')
         name_area = (name_offset[0], name_offset[1], name_offset[0] + name_size[0], name_offset[1] + name_size[1])
         for button in result:
+            button = button.move(self._stage_detect_area[:2])
             button_name = button.crop(area=name_area, image=image)
             name = extract_letters(button_name.image, letter=name_letter, threshold=name_thresh)
             button_name = button_name.crop(area=self._extract_stage_name(name))
@@ -99,30 +103,52 @@ class CampaignOcr(ModuleBase):
             # button.color: Color of stage icon, such as 'CLEAR' and '%'.
             # button.button: Area of stage icon, such as 'CLEAR' and '%'.
             # button.name: 'STAGE', a meaningless name.
-            if not len(button.color):
-                button.load_color(image)
+            button.load_color(image)
             button.area = button_name.area
             digits.append(button)
 
         return digits
+
+    @cached_property
+    def _stage_image(self):
+        return crop(self.device.image, self._stage_detect_area)
+
+    @cached_property
+    def _stage_image_gray(self):
+        return rgb2gray(self._stage_image)
 
     @Config.when(SERVER='en')
     def campaign_extract_name_image(self, image):
         digits = []
 
         if 'normal' in self.config.STAGE_ENTRANCE:
-            digits += self.campaign_match_multi(TEMPLATE_STAGE_CLEAR, image, name_offset=(70, 12), name_size=(60, 14))
-            digits += self.campaign_match_multi(TEMPLATE_STAGE_PERCENT, image, name_offset=(45, 3), name_size=(60, 14))
+            digits += self.campaign_match_multi(
+                TEMPLATE_STAGE_CLEAR,
+                image, self._stage_image_gray,
+                name_offset=(70, 12), name_size=(60, 14)
+            )
+            digits += self.campaign_match_multi(
+                TEMPLATE_STAGE_PERCENT,
+                image, self._stage_image_gray,
+                name_offset=(45, 3), name_size=(60, 14)
+            )
         if 'half' in self.config.STAGE_ENTRANCE:
             digits += self.campaign_match_multi(
-                TEMPLATE_STAGE_HALF_PERCENT, image, name_offset=(48, 0), name_size=(60, 16))
+                TEMPLATE_STAGE_HALF_PERCENT,
+                image, self._stage_image_gray,
+                name_offset=(48, 0), name_size=(60, 16)
+            )
         if 'blue' in self.config.STAGE_ENTRANCE:
             digits += self.campaign_match_multi(
-                TEMPLATE_STAGE_BLUE_PERCENT, image, extract_letters(image, letter=(255, 255, 255), threshold=153),
-                name_offset=(55, 0), name_size=(60, 16))
+                TEMPLATE_STAGE_BLUE_PERCENT,
+                image, extract_letters(self._stage_image, letter=(255, 255, 255), threshold=153),
+                name_offset=(55, 0), name_size=(60, 16)
+            )
             digits += self.campaign_match_multi(
-                TEMPLATE_STAGE_BLUE_CLEAR, image, extract_letters(image, letter=(99, 223, 239), threshold=153),
-                name_offset=(60, 12), name_size=(60, 16))
+                TEMPLATE_STAGE_BLUE_CLEAR,
+                image, extract_letters(self._stage_image, letter=(99, 223, 239), threshold=153),
+                name_offset=(60, 12), name_size=(60, 16)
+            )
 
         return digits
 
@@ -141,18 +167,33 @@ class CampaignOcr(ModuleBase):
         digits = []
 
         if 'normal' in self.config.STAGE_ENTRANCE:
-            digits += self.campaign_match_multi(TEMPLATE_STAGE_CLEAR, image, name_offset=(75, 9), name_size=(60, 16))
-            digits += self.campaign_match_multi(TEMPLATE_STAGE_PERCENT, image, name_offset=(48, 0), name_size=(60, 16))
+            digits += self.campaign_match_multi(
+                TEMPLATE_STAGE_CLEAR,
+                image, self._stage_image_gray,
+                name_offset=(75, 9), name_size=(60, 16)
+            )
+            digits += self.campaign_match_multi(
+                TEMPLATE_STAGE_PERCENT,
+                image, self._stage_image_gray,
+                name_offset=(48, 0), name_size=(60, 16)
+            )
         if 'half' in self.config.STAGE_ENTRANCE:
             digits += self.campaign_match_multi(
-                TEMPLATE_STAGE_HALF_PERCENT, image, name_offset=(48, 0), name_size=(60, 16))
+                TEMPLATE_STAGE_HALF_PERCENT,
+                image, self._stage_image_gray,
+                name_offset=(48, 0), name_size=(60, 16)
+            )
         if 'blue' in self.config.STAGE_ENTRANCE:
             digits += self.campaign_match_multi(
-                TEMPLATE_STAGE_BLUE_PERCENT, image, extract_letters(image, letter=(255, 255, 255), threshold=153),
-                name_offset=(55, 0), name_size=(60, 16))
+                TEMPLATE_STAGE_BLUE_PERCENT,
+                image, extract_letters(self._stage_image, letter=(255, 255, 255), threshold=153),
+                name_offset=(55, 0), name_size=(60, 16)
+            )
             digits += self.campaign_match_multi(
-                TEMPLATE_STAGE_BLUE_CLEAR, image, extract_letters(image, letter=(99, 223, 239), threshold=153),
-                name_offset=(60, 12), name_size=(60, 16))
+                TEMPLATE_STAGE_BLUE_CLEAR,
+                image, extract_letters(self._stage_image, letter=(99, 223, 239), threshold=153),
+                name_offset=(60, 12), name_size=(60, 16)
+            )
 
         return digits
 
@@ -187,6 +228,8 @@ class CampaignOcr(ModuleBase):
             image (np.ndarray):
         """
         self.stage_entrance = {}
+        del_cached_property(self, '_stage_image')
+        del_cached_property(self, '_stage_image_gray')
         buttons = self.campaign_extract_name_image(image)
         if len(buttons) == 0:
             logger.info('No stage found.')
