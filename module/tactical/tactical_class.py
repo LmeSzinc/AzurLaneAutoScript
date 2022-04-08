@@ -319,6 +319,7 @@ class RewardTacticalClass(UI):
                 break
             if confirm_timer.reached():
                 break
+            self.device.screenshot()
 
         buttons = [b for b, s in zip(grids.buttons, is_running) if s]
         ocr = Duration(buttons, letter=(148, 255, 99), name='TACTICAL_REMAIN')
