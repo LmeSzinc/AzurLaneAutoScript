@@ -309,8 +309,16 @@ class RewardTacticalClass(UI):
         logger.hr('Tactical get finish')
         grids = ButtonGrid(
             origin=(421, 596), delta=(223, 0), button_shape=(139, 27), grid_shape=(4, 1), name='TACTICAL_REMAIN')
-        is_running = [self.image_color_count(button, color=(148, 255, 99), count=50) for button in grids.buttons]
-        logger.info(f'Tactical status: {["running" if s else "empty" for s in is_running]}')
+
+        # tactical cards can't be loaded that fast, confirm if it's empty.
+        confirm_timer = Timer(0.6, count=2).start()
+        while 1:
+            is_running = [self.image_color_count(button, color=(148, 255, 99), count=50) for button in grids.buttons]
+            logger.info(f'Tactical status: {["running" if s else "empty" for s in is_running]}')
+            if any(is_running):
+                break
+            if confirm_timer.reached():
+                break
 
         buttons = [b for b, s in zip(grids.buttons, is_running) if s]
         ocr = Duration(buttons, letter=(148, 255, 99), name='TACTICAL_REMAIN')
@@ -346,16 +354,20 @@ class RewardTacticalClass(UI):
 
             if self.appear_then_click(REWARD_2, interval=1):
                 tactical_class_timout.reset()
+                tactical_animation_timer.reset()
                 continue
             if self.appear_then_click(REWARD_GOTO_TACTICAL, offset=(20, 20), interval=1):
                 tactical_class_timout.reset()
+                tactical_animation_timer.reset()
                 continue
             if self.handle_popup_confirm('TACTICAL'):
                 tactical_class_timout.reset()
+                tactical_animation_timer.reset()
                 continue
             if self.handle_urgent_commission():
                 # Only one button in the middle, when skill reach max level.
                 tactical_class_timout.reset()
+                tactical_animation_timer.reset()
                 continue
             if self.appear(TACTICAL_CLASS_CANCEL, offset=(30, 30), interval=2) \
                     and self.appear(TACTICAL_CLASS_START, offset=(30, 30)):
@@ -363,6 +375,7 @@ class RewardTacticalClass(UI):
                 self._tactical_books_choose()
                 self.interval_reset(TACTICAL_CLASS_CANCEL)
                 tactical_class_timout.reset()
+                tactical_animation_timer.reset()
                 continue
 
             # End
