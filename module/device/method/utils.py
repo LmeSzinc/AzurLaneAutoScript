@@ -100,6 +100,16 @@ def handle_adb_error(e):
         # Disconnect and re-connect should fix this.
         logger.error(e)
         return True
+    elif 'device offline' in text:
+        # AdbError(device offline)
+        # When a device that has been connected wirelessly is disconnected passively,
+        # it does not disappear from the adb device list,
+        # but will be displayed as offline.
+        # In many cases, such as disconnection and recovery caused by network fluctuations,
+        # or after VMOS reboot when running Alas on a phone,
+        # the device is still available, but it needs to be disconnected and re-connected.
+        logger.error(e)
+        return True
     else:
         # AdbError(device offline)
         # AdbError()
