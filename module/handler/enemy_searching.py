@@ -1,3 +1,4 @@
+from module.base.resource import del_cached_property
 from module.base.timer import Timer
 from module.base.utils import red_overlay_transparency, get_color
 from module.exception import CampaignEnd
@@ -51,9 +52,11 @@ class EnemySearchingHandler(InfoHandler):
 
         # campaign_extract_name_image in CampaignOcr.
         try:
-            if hasattr(self, 'campaign_extract_name_image') \
-                    and not len(self.campaign_extract_name_image(self.device.image)):
-                return False
+            if hasattr(self, 'campaign_extract_name_image'):
+                del_cached_property(self, '_stage_image')
+                del_cached_property(self, '_stage_image_gray')
+                if not len(self.campaign_extract_name_image(self.device.image)):
+                    return False
         except IndexError:
             return False
 
