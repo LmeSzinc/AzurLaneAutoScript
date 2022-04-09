@@ -1,8 +1,6 @@
 import re
 from datetime import datetime
 
-import cv2
-
 from module.base.button import Button, ButtonGrid
 from module.base.filter import Filter
 from module.base.timer import Timer
@@ -10,11 +8,10 @@ from module.base.utils import *
 from module.exception import ScriptError
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
-from module.map_detection.utils import Points
 from module.ocr.ocr import Duration, DigitCounter
 from module.tactical.assets import *
-from module.ui.assets import TACTICAL_CHECK, REWARD_GOTO_TACTICAL
-from module.ui.ui import UI, page_tactical, page_reward
+from module.ui.assets import TACTICAL_CHECK, REWARD_GOTO_TACTICAL, REWARD_CHECK, BACK_ARROW
+from module.ui.ui import UI, page_reward
 
 
 class SkillExp(DigitCounter):
@@ -129,33 +126,6 @@ class Book:
 class RewardTacticalClass(UI):
     books: SelectedGrids
     tactical_finish = []
-
-    def _tactical_animation_running(self):
-        """
-        Detect the white dash line under student cards.
-        If student learning in progress or position haven't been unlocked, there will be a white line under the card.
-        The card with animation running, white line become gray.
-
-        Returns:
-            bool: If showing skill points increasing animation.
-        """
-        # Area of the white line under student cards.
-        area = (360, 680, 1280, 700)
-        mask = color_similarity_2d(self.image_crop(area), color=(255, 255, 255)) > 235
-        points = np.array(np.where(mask)).T
-        # Width of card is 200 px
-        points = Points(points).group(threshold=210)
-        card = len(points)
-        if card == 0:
-            logger.warning('No student card found.')
-            return False
-        elif card == 3:
-            return True
-        elif card == 4:
-            return False
-        else:
-            logger.warning(f'Unexpected amount of student cards: {card}')
-            return False
 
     def _tactical_books_get(self, skip_first_screenshot=True):
         """
@@ -284,6 +254,7 @@ class RewardTacticalClass(UI):
             in: TACTICAL_CLASS_START
             out: Unknown, may TACTICAL_CLASS_START, page_tactical, or _tactical_animation_running
         """
+        logger.hr('Tactical books choose', level=2)
         self._tactical_books_get()
 
         # Ensure first book is focused
@@ -321,16 +292,8 @@ class RewardTacticalClass(UI):
         grids = ButtonGrid(
             origin=(421, 596), delta=(223, 0), button_shape=(139, 27), grid_shape=(4, 1), name='TACTICAL_REMAIN')
 
-        # tactical cards can't be loaded that fast, confirm if it's empty.
-        confirm_timer = Timer(0.6, count=2).start()
-        while 1:
-            is_running = [self.image_color_count(button, color=(148, 255, 99), count=50) for button in grids.buttons]
-            logger.info(f'Tactical status: {["running" if s else "empty" for s in is_running]}')
-            if any(is_running):
-                break
-            if confirm_timer.reached():
-                break
-            self.device.screenshot()
+        is_running = [self.image_color_count(button, color=(148, 255, 99), count=50) for button in grids.buttons]
+        logger.info(f'Tactical status: {["running" if s else "empty" for s in is_running]}')
 
         buttons = [b for b, s in zip(grids.buttons, is_running) if s]
         ocr = Duration(buttons, letter=(148, 255, 99), name='TACTICAL_REMAIN')
@@ -340,8 +303,9 @@ class RewardTacticalClass(UI):
         now = datetime.now()
         self.tactical_finish = [(now + remain).replace(microsecond=0) for remain in remains if remain.total_seconds()]
         logger.info(f'Tactical finish: {[str(f) for f in self.tactical_finish]}')
+        return self.tactical_finish
 
-    def _tactical_class_receive(self, skip_first_screenshot=True):
+    def tactical_class_receive(self, skip_first_screenshot=True):
         """
         Receive tactical rewards and fill books.
 
@@ -353,55 +317,55 @@ class RewardTacticalClass(UI):
 
         Pages:
             in: page_reward, TACTICAL_CLASS_START
-            out: page_tactical
+            out: page_reward
         """
         logger.hr('Tactical class receive', level=1)
-        tactical_class_timout = Timer(10, count=10).start()
-        tactical_animation_timer = Timer(2, count=3).start()
+        received = False
+        # tactical cards can't be loaded that fast, confirm if it's empty.
+        empty_confirm = Timer(0.6, count=2).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(REWARD_2, interval=1):
-                tactical_class_timout.reset()
-                tactical_animation_timer.reset()
+            # End
+            if received and self.appear(REWARD_CHECK, offset=(20, 20)):
+                break
+
+            # Get finish time
+            if self.appear(TACTICAL_CHECK, offset=(20, 20), interval=2):
+                if self._tactical_get_finish():
+                    self.device.click(BACK_ARROW)
+                    self.interval_reset(TACTICAL_CHECK)
+                    empty_confirm.reset()
+                    received = True
+                    continue
+                else:
+                    self.interval_clear(TACTICAL_CHECK)
+                    if empty_confirm.reached():
+                        self.device.click(BACK_ARROW)
+                        received = True
+                        continue
+            else:
+                empty_confirm.reset()
+
+            # Popups
+            if self.appear_then_click(REWARD_2, offset=(20, 20), interval=1):
                 continue
             if self.appear_then_click(REWARD_GOTO_TACTICAL, offset=(20, 20), interval=1):
-                tactical_class_timout.reset()
-                tactical_animation_timer.reset()
                 continue
             if self.handle_popup_confirm('TACTICAL'):
-                tactical_class_timout.reset()
-                tactical_animation_timer.reset()
                 continue
             if self.handle_urgent_commission():
                 # Only one button in the middle, when skill reach max level.
-                tactical_class_timout.reset()
-                tactical_animation_timer.reset()
                 continue
             if self.appear(TACTICAL_CLASS_CANCEL, offset=(30, 30), interval=2) \
                     and self.appear(TACTICAL_CLASS_START, offset=(30, 30)):
                 self.device.sleep(0.3)
                 self._tactical_books_choose()
                 self.interval_reset(TACTICAL_CLASS_CANCEL)
-                tactical_class_timout.reset()
-                tactical_animation_timer.reset()
                 continue
-
-            # End
-            if self.appear(TACTICAL_CHECK, offset=(20, 20)):
-                self.ui_current = page_tactical
-                if not self._tactical_animation_running():
-                    if tactical_animation_timer.reached():
-                        logger.info('Tactical reward end.')
-                        break
-                else:
-                    tactical_animation_timer.reset()
-            if tactical_class_timout.reached():
-                logger.info('Tactical reward timeout.')
-                break
 
         return True
 
@@ -413,17 +377,7 @@ class RewardTacticalClass(UI):
         """
         self.ui_ensure(page_reward)
 
-        if self.appear(REWARD_2, offset=(50, 20)):
-            self._tactical_class_receive()
-            self._tactical_get_finish()
-        else:
-            logger.info('No tactical class reward.')
-            self.ui_goto(page_tactical, skip_first_screenshot=True)
-            self._tactical_get_finish()
-
-        # Can't stay in page_tactical
-        # There will be popups after tactical finished
-        self.ui_goto(page_reward)
+        self.tactical_class_receive()
 
         if self.tactical_finish:
             self.config.task_delay(target=self.tactical_finish)
