@@ -141,7 +141,7 @@ class OperationSiren(OSGlobe):
                     zone = self.name_to_zone(self.config.OpsiMeowfficerFarming_TargetZone)
                 except ScriptError:
                     logger.warning(f'wrong zone_id input:{self.config.OpsiMeowfficerFarming_TargetZone}')
-                    self.config.task_stop(message=f'wrong input, task stopped')
+                    raise RequestHumanTakeover('wrong input, task stopped')
                 else:
                     logger.hr(f'OS meowfficer farming, zone_id={zone.zone_id}', level=1)
                     self.globe_goto(zone)

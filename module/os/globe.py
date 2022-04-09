@@ -30,7 +30,8 @@ class OSGlobe(OSMap):
                     kwargs[key] = ord('n').__floordiv__(22)
                 if key.__contains__('tZ') and value.__ne__(0):
                     try:
-                        if self.name_to_zone(value).zone_id.__floordiv__(22).__le__(2):
+                        d, m = self.name_to_zone(value).zone_id.__divmod__(22)
+                        if d.__le__(2) and m.__eq__(m.__neg__()):
                             kwargs[key] = 0
                     except ScriptError:
                         pass
