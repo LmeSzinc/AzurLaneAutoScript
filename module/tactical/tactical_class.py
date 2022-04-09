@@ -19,15 +19,26 @@ from module.ui.ui import UI, page_tactical, page_reward
 
 class SkillExp(DigitCounter):
     def pre_process(self, image):
+        # Image is like `NEXT:1900/5800`, 1900 is green and others are in white
+        # Convert to gray scale
         r, g, b = cv2.split(image)
         image = cv2.max(cv2.max(r, g), b)
+
+        try:
+            # Get the start pixel of letter `N` and shift to the end of `:`
+            starter = np.where(np.mean(image, axis=0) > 150)[0][0] + 42
+        except IndexError:
+            logger.warning('Unable to strip SKILL_EXP, skip')
+            starter = 0
+        # Crop `1900/5800`
+        image = image[:, starter:]
 
         return 255 - image
 
 
 SKILL_EXP = SkillExp(buttons=OCR_SKILL_EXP)
 
-BOOKS_GRID = ButtonGrid(origin=(239, 288), delta=(140, 120), button_shape=(98, 98), grid_shape=(6, 2))
+BOOKS_GRID = ButtonGrid(origin=(213, 292), delta=(147, 117), button_shape=(98, 98), grid_shape=(6, 2))
 BOOK_FILTER = Filter(
     regex=re.compile(
         '(same)?'
