@@ -159,7 +159,7 @@ class ManualConfig:
 
     HOMO_EDGE_DETECT = True
     HOMO_EDGE_HOUGHLINES_THRESHOLD = 140
-    HOMO_EDGE_COLOR_RANGE = (0, 24)
+    HOMO_EDGE_COLOR_RANGE = (0, 33)
     # ((x, y), [upper-left, upper-right, bottom-left, bottom-right])
     HOMO_STORAGE = None
 
@@ -169,13 +169,13 @@ class ManualConfig:
     # Parameters for scipy.signal.find_peaks
     # https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.find_peaks.html
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (150, 255 - 40),
+        'height': (150, 255 - 33),
         'width': (0.9, 10),
         'prominence': 10,
         'distance': 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 24, 255),
+        'height': (255 - 33, 255),
         'prominence': 10,
         'distance': 50,
         # 'width': (0, 7),

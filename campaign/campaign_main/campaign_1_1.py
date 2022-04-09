@@ -22,17 +22,18 @@ class Config:
     FLEET_2 = 0
     SUBMARINE = 0
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (120, 255 - 40),
+        'height': (120, 255 - 49),
         'width': (1.5, 10),
         'prominence': 10,
         'distance': 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 40, 255),
+        'height': (255 - 49, 255),
         'prominence': 10,
         'distance': 50,
         'wlen': 1000
     }
+    HOMO_EDGE_COLOR_RANGE = (0, 49)
     INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
     EDGE_LINES_HOUGHLINES_THRESHOLD = 40
 

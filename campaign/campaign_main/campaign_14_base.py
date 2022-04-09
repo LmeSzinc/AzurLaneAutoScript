@@ -14,7 +14,7 @@ class Config:
 
 
 class CampaignBase(CampaignBase_):
-    ENEMY_FILTER = '1T > 1L > 1E > 1M > 2T > 2L > 2E > 2M > 3T > 3L > 3E > 3M'
+    ENEMY_FILTER = '3T > 3L > 3E > 3M > 2T > 2L > 2E > 2M > 1T > 1L > 1E > 1M'
     picked_light_house = []
     picked_flare = []
 

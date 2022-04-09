@@ -37,20 +37,6 @@ class Config:
     MID_DIFF_RANGE_H = (140 - 3, 140 + 3)
     MID_DIFF_RANGE_V = (143 - 3, 143 + 3)
 
-    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (150, 255 - 24),
-        'width': (0.5, 20),
-        'prominence': 10,
-        'distance': 35,
-        'wlen': 100,
-    }
-    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 24, 255),
-        'prominence': 10,
-        'distance': 50,
-        'wlen': 1000
-    }
-
 
 class Campaign(CampaignBase):
     MAP = MAP

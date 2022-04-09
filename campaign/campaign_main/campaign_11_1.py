@@ -48,19 +48,6 @@ class Config:
     INTERNAL_LINES_HOUGHLINES_THRESHOLD = 30
     EDGE_LINES_HOUGHLINES_THRESHOLD = 30
     COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.2
-    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (150, 255 - 24),
-        'width': (0.9, 10),
-        'prominence': 10,
-        'distance': 35,
-    }
-    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 24, 255),
-        'prominence': 10,
-        'distance': 50,
-        'width': (0, 10),
-        'wlen': 1000,
-    }
 
 
 class Campaign(CampaignBase):
