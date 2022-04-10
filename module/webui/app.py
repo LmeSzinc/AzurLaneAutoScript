@@ -436,14 +436,16 @@ class AlasGUI(Frame):
                 config_name = self.alas_name
             except queue.Empty:
                 continue
-            modified[self.idx_to_path[d["name"]]] = parse_pin_value(d["value"])
+            modified[self.idx_to_path[d["name"]]] = d["value"]
             while True:
                 try:
                     d = self.modified_config_queue.get(timeout=1)
-                    modified[self.idx_to_path[d["name"]]] = parse_pin_value(d["value"])
+                    modified[self.idx_to_path[d["name"]]] = d["value"]
                 except queue.Empty:
                     config = read_file(filepath_config(config_name))
                     for k, v in modified.copy().items():
+                        valuetype = deep_get(self.ALAS_ARGS, k + ".valuetype")
+                        v = parse_pin_value(v, valuetype)
                         validate = deep_get(self.ALAS_ARGS, k + ".validate")
                         if not len(str(v)):
                             default = deep_get(self.ALAS_ARGS, k + ".value")

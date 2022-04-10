@@ -12,7 +12,9 @@ Scheduler:
   FailureInterval: 120
   ServerUpdate: 00:00
 Emulator:
-  Serial: 127.0.0.1:5555
+  Serial:
+    value: 127.0.0.1:5555
+    valuetype: str
   PackageName: com.bilibili.azurlane
   Server:
     value: cn

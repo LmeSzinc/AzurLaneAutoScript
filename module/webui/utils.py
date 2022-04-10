@@ -391,7 +391,15 @@ class Icon:
     ADD = _read(filepath_icon("add"))
 
 
-def parse_pin_value(val):
+str2type = {
+    "str": str,
+    "float": float,
+    "int": int,
+    "bool": bool,
+}
+
+
+def parse_pin_value(val, valuetype: str = None):
     """
     input, textarea return str
     select return its option (str or int)
@@ -402,6 +410,8 @@ def parse_pin_value(val):
             return False
         else:
             return True
+    elif valuetype:
+        return str2type[valuetype](val)
     elif isinstance(val, (int, float)):
         return val
     else:
