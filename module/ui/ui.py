@@ -32,7 +32,7 @@ class UI(InfoHandler):
         Args:
             page (Page):
         """
-        return self.appear(page.check_button, offset=(20, 20))
+        return self.appear(page.check_button, offset=(30, 30))
 
     def ensure_button_execute(self, button, offset=0):
         if isinstance(button, Button) and self.appear(button, offset=offset):
@@ -43,7 +43,7 @@ class UI(InfoHandler):
             return False
 
     def ui_click(self, click_button, check_button, appear_button=None, additional=None, confirm_wait=1,
-                 offset=(20, 20), retry_wait=10, skip_first_screenshot=False):
+                 offset=(30, 30), retry_wait=10, skip_first_screenshot=False):
         """
         Args:
             click_button (Button):
@@ -130,7 +130,7 @@ class UI(InfoHandler):
 
             # Unknown page but able to handle
             logger.info('Unknown ui page')
-            if self.appear_then_click(GOTO_MAIN, offset=(20, 20), interval=2) or self.ui_additional():
+            if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=2) or self.ui_additional():
                 timeout.reset()
                 continue
 
@@ -148,7 +148,7 @@ class UI(InfoHandler):
         logger.critical('Please switch to a supported page before starting Alas')
         raise GamePageUnknownError
 
-    def ui_goto(self, destination, offset=(20, 20), confirm_wait=0, skip_first_screenshot=True):
+    def ui_goto(self, destination, offset=(30, 30), confirm_wait=0, skip_first_screenshot=True):
         """
         Args:
             destination (Page):
@@ -284,7 +284,7 @@ class UI(InfoHandler):
 
         self.device.sleep(finish_sleep)
 
-    def ui_back(self, check_button, appear_button=None, offset=(20, 20), retry_wait=10, skip_first_screenshot=False):
+    def ui_back(self, check_button, appear_button=None, offset=(30, 30), retry_wait=10, skip_first_screenshot=False):
         return self.ui_click(click_button=BACK_ARROW, check_button=check_button, appear_button=appear_button,
                              offset=offset, retry_wait=retry_wait, skip_first_screenshot=skip_first_screenshot)
 
@@ -317,10 +317,10 @@ class UI(InfoHandler):
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
                 return True
         # Monthly pass is about to expire
-        if self.appear_then_click(MONTHLY_PASS_NOTICE, offset=(20, 20), interval=3):
+        if self.appear_then_click(MONTHLY_PASS_NOTICE, offset=(30, 30), interval=3):
             return True
         # Battle pass is about to expire and player has uncollected battle pass rewards
-        if self.appear_then_click(BATTLE_PASS_NOTICE, offset=(20, 20), interval=3):
+        if self.appear_then_click(BATTLE_PASS_NOTICE, offset=(30, 30), interval=3):
             return True
 
         # Routed from confirm click
@@ -335,7 +335,7 @@ class UI(InfoHandler):
         if self.appear(PLAYER_CHECK, offset=(30, 30), interval=3):
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
                 return True
-            if self.appear(BACK_ARROW, offset=(20, 20)):
+            if self.appear(BACK_ARROW, offset=(30, 30)):
                 self.ui_back(page_main.check_button)
                 return True
 
@@ -373,29 +373,29 @@ class UI(InfoHandler):
             logger.critical("Possible reason #1: "
                             "Your fleets haven't satisfied the level restrictions in operation siren")
             raise RequestHumanTakeover
-        if self.appear_then_click(RESET_TICKET_POPUP, offset=(20, 20), interval=3):
+        if self.appear_then_click(RESET_TICKET_POPUP, offset=(30, 30), interval=3):
             return True
-        if self.appear_then_click(RESET_FLEET_PREPARATION, offset=(20, 20), interval=3):
+        if self.appear_then_click(RESET_FLEET_PREPARATION, offset=(30, 30), interval=3):
             self._opsi_reset_fleet_preparation_click += 1
             self.interval_reset(FLEET_PREPARATION)
             return True
-        if self.appear(EXCHANGE_CHECK, offset=(20, 20), interval=3):
+        if self.appear(EXCHANGE_CHECK, offset=(30, 30), interval=3):
             GOTO_MAIN.clear_offset()
             self.device.click(GOTO_MAIN)
             return True
 
         # Campaign preparation
-        if self.appear(MAP_PREPARATION, offset=(20, 20), interval=3) \
-                or self.appear(FLEET_PREPARATION, offset=(20, 20), interval=3):
+        if self.appear(MAP_PREPARATION, offset=(30, 30), interval=3) \
+                or self.appear(FLEET_PREPARATION, offset=(30, 30), interval=3):
             self.device.click(MAP_PREPARATION_CANCEL)
             return True
-        if self.appear_then_click(AUTO_SEARCH_MENU_EXIT, offset=(200, 20), interval=3):
+        if self.appear_then_click(AUTO_SEARCH_MENU_EXIT, offset=(200, 30), interval=3):
             return True
-        if self.appear_then_click(WITHDRAW, offset=(20, 20), interval=1.5):
+        if self.appear_then_click(WITHDRAW, offset=(30, 30), interval=1.5):
             return True
 
         # Login
-        if self.appear_then_click(LOGIN_CHECK, offset=(20, 20), interval=3):
+        if self.appear_then_click(LOGIN_CHECK, offset=(30, 30), interval=3):
             return True
 
         return False
