@@ -3,8 +3,7 @@
     "Emulator": {
       "Serial": {
         "type": "input",
-        "value": "127.0.0.1:5555",
-        "valuetype": "str"
+        "value": "127.0.0.1:5555"
       },
       "PackageName": {
         "type": "input",
@@ -57,21 +56,25 @@
       },
       "ScreenshotLength": {
         "type": "input",
-        "value": 1
+        "value": 1,
+        "validate": "int"
       }
     },
     "Optimization": {
       "ScreenshotInterval": {
         "type": "input",
-        "value": 0.3
+        "value": 0.3,
+        "validate": "float"
       },
       "CombatScreenshotInterval": {
         "type": "input",
-        "value": 1.0
+        "value": 1.0,
+        "validate": "float"
       },
       "TaskHoardingDuration": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "WhenTaskQueueEmpty": {
         "type": "select",
@@ -155,7 +158,8 @@
       },
       "EnhanceCheckPerCategory": {
         "type": "input",
-        "value": 2
+        "value": 2,
+        "validate": "int"
       },
       "OldRetireN": {
         "type": "checkbox",
@@ -221,11 +225,13 @@
       },
       "SuccessInterval": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "input",
-        "value": 120
+        "value": 120,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "input",
@@ -276,11 +282,13 @@
     "StopCondition": {
       "RunCount": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "OilLimit": {
         "type": "input",
-        "value": 1000
+        "value": 1000,
+        "validate": "int"
       },
       "MapAchievement": {
         "type": "select",
@@ -303,7 +311,8 @@
       },
       "ReachLevel": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       }
     },
     "Fleet": {
@@ -461,7 +470,8 @@
       },
       "Fleet1Value": {
         "type": "input",
-        "value": 119
+        "value": 119,
+        "validate": "int"
       },
       "Fleet1Record": {
         "type": "input",
@@ -493,7 +503,8 @@
       },
       "Fleet2Value": {
         "type": "input",
-        "value": 119
+        "value": 119,
+        "validate": "int"
       },
       "Fleet2Record": {
         "type": "input",
@@ -539,7 +550,8 @@
       },
       "HpBalanceThreshold": {
         "type": "input",
-        "value": 0.2
+        "value": 0.2,
+        "validate": "float"
       },
       "HpBalanceWeight": {
         "type": "input",
@@ -547,15 +559,18 @@
       },
       "RepairUseSingleThreshold": {
         "type": "input",
-        "value": 0.3
+        "value": 0.3,
+        "validate": "float"
       },
       "RepairUseMultiThreshold": {
         "type": "input",
-        "value": 0.6
+        "value": 0.6,
+        "validate": "float"
       },
       "LowHpRetreatThreshold": {
         "type": "input",
-        "value": 0.3
+        "value": 0.3,
+        "validate": "float"
       }
     },
     "EnemyPriority": {
@@ -587,11 +602,13 @@
       },
       "SuccessInterval": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "input",
-        "value": 120
+        "value": 120,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "input",
@@ -648,11 +665,13 @@
     "StopCondition": {
       "RunCount": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "OilLimit": {
         "type": "input",
-        "value": 1000
+        "value": 1000,
+        "validate": "int"
       },
       "MapAchievement": {
         "type": "disable",
@@ -675,7 +694,8 @@
       },
       "ReachLevel": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       }
     },
     "Fleet": {
@@ -794,7 +814,8 @@
       },
       "Fleet1Value": {
         "type": "input",
-        "value": 119
+        "value": 119,
+        "validate": "int"
       },
       "Fleet1Record": {
         "type": "input",
@@ -826,7 +847,8 @@
       },
       "Fleet2Value": {
         "type": "input",
-        "value": 119
+        "value": 119,
+        "validate": "int"
       },
       "Fleet2Record": {
         "type": "input",
@@ -872,7 +894,8 @@
       },
       "HpBalanceThreshold": {
         "type": "input",
-        "value": 0.2
+        "value": 0.2,
+        "validate": "float"
       },
       "HpBalanceWeight": {
         "type": "input",
@@ -880,15 +903,18 @@
       },
       "RepairUseSingleThreshold": {
         "type": "input",
-        "value": 0.3
+        "value": 0.3,
+        "validate": "float"
       },
       "RepairUseMultiThreshold": {
         "type": "input",
-        "value": 0.6
+        "value": 0.6,
+        "validate": "float"
       },
       "LowHpRetreatThreshold": {
         "type": "input",
-        "value": 0.3
+        "value": 0.3,
+        "validate": "float"
       }
     }
   },
@@ -909,11 +935,13 @@
       },
       "SuccessInterval": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "input",
-        "value": 120
+        "value": 120,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "input",
@@ -976,11 +1004,13 @@
     "StopCondition": {
       "RunCount": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "OilLimit": {
         "type": "input",
-        "value": 1000
+        "value": 1000,
+        "validate": "int"
       },
       "MapAchievement": {
         "type": "disable",
@@ -1003,7 +1033,8 @@
       },
       "ReachLevel": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       }
     },
     "Fleet": {
@@ -1161,7 +1192,8 @@
       },
       "Fleet1Value": {
         "type": "input",
-        "value": 119
+        "value": 119,
+        "validate": "int"
       },
       "Fleet1Record": {
         "type": "input",
@@ -1193,7 +1225,8 @@
       },
       "Fleet2Value": {
         "type": "input",
-        "value": 119
+        "value": 119,
+        "validate": "int"
       },
       "Fleet2Record": {
         "type": "input",
@@ -1239,7 +1272,8 @@
       },
       "HpBalanceThreshold": {
         "type": "input",
-        "value": 0.2
+        "value": 0.2,
+        "validate": "float"
       },
       "HpBalanceWeight": {
         "type": "input",
@@ -1247,15 +1281,18 @@
       },
       "RepairUseSingleThreshold": {
         "type": "input",
-        "value": 0.3
+        "value": 0.3,
+        "validate": "float"
       },
       "RepairUseMultiThreshold": {
         "type": "input",
-        "value": 0.6
+        "value": 0.6,
+        "validate": "float"
       },
       "LowHpRetreatThreshold": {
         "type": "input",
-        "value": 0.3
+        "value": 0.3,
+        "validate": "float"
       }
     }
   },
@@ -1276,11 +1313,13 @@
       },
       "SuccessInterval": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "input",
-        "value": 120
+        "value": 120,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "input",
@@ -1361,11 +1400,13 @@
     "StopCondition": {
       "RunCount": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "OilLimit": {
         "type": "input",
-        "value": 1000
+        "value": 1000,
+        "validate": "int"
       },
       "MapAchievement": {
         "type": "disable",
@@ -1388,7 +1429,8 @@
       },
       "ReachLevel": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       }
     },
     "Fleet": {
@@ -1546,7 +1588,8 @@
       },
       "Fleet1Value": {
         "type": "input",
-        "value": 119
+        "value": 119,
+        "validate": "int"
       },
       "Fleet1Record": {
         "type": "input",
@@ -1578,7 +1621,8 @@
       },
       "Fleet2Value": {
         "type": "input",
-        "value": 119
+        "value": 119,
+        "validate": "int"
       },
       "Fleet2Record": {
         "type": "input",
@@ -1624,7 +1668,8 @@
       },
       "HpBalanceThreshold": {
         "type": "input",
-        "value": 0.2
+        "value": 0.2,
+        "validate": "float"
       },
       "HpBalanceWeight": {
         "type": "input",
@@ -1632,15 +1677,18 @@
       },
       "RepairUseSingleThreshold": {
         "type": "input",
-        "value": 0.3
+        "value": 0.3,
+        "validate": "float"
       },
       "RepairUseMultiThreshold": {
         "type": "input",
-        "value": 0.6
+        "value": 0.6,
+        "validate": "float"
       },
       "LowHpRetreatThreshold": {
         "type": "input",
-        "value": 0.3
+        "value": 0.3,
+        "validate": "float"
       }
     }
   },
@@ -1661,11 +1709,13 @@
       },
       "SuccessInterval": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "input",
-        "value": 120
+        "value": 120,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "input",
@@ -1799,11 +1849,13 @@
     "StopCondition": {
       "RunCount": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "OilLimit": {
         "type": "input",
-        "value": 1000
+        "value": 1000,
+        "validate": "int"
       },
       "MapAchievement": {
         "type": "disable",
@@ -1826,7 +1878,8 @@
       },
       "ReachLevel": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       }
     },
     "Fleet": {
@@ -1945,7 +1998,8 @@
       },
       "Fleet1Value": {
         "type": "input",
-        "value": 119
+        "value": 119,
+        "validate": "int"
       },
       "Fleet1Record": {
         "type": "input",
@@ -1977,7 +2031,8 @@
       },
       "Fleet2Value": {
         "type": "input",
-        "value": 119
+        "value": 119,
+        "validate": "int"
       },
       "Fleet2Record": {
         "type": "input",
@@ -2024,7 +2079,8 @@
     "EventGeneral": {
       "PtLimit": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "TimeLimit": {
         "type": "input",
@@ -2050,11 +2106,13 @@
       },
       "SuccessInterval": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "input",
-        "value": 120
+        "value": 120,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "input",
@@ -2154,11 +2212,13 @@
     "StopCondition": {
       "RunCount": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "OilLimit": {
         "type": "input",
-        "value": 1000
+        "value": 1000,
+        "validate": "int"
       },
       "MapAchievement": {
         "type": "select",
@@ -2181,7 +2241,8 @@
       },
       "ReachLevel": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       }
     },
     "Fleet": {
@@ -2339,7 +2400,8 @@
       },
       "Fleet1Value": {
         "type": "input",
-        "value": 119
+        "value": 119,
+        "validate": "int"
       },
       "Fleet1Record": {
         "type": "input",
@@ -2371,7 +2433,8 @@
       },
       "Fleet2Value": {
         "type": "input",
-        "value": 119
+        "value": 119,
+        "validate": "int"
       },
       "Fleet2Record": {
         "type": "input",
@@ -2417,7 +2480,8 @@
       },
       "HpBalanceThreshold": {
         "type": "input",
-        "value": 0.2
+        "value": 0.2,
+        "validate": "float"
       },
       "HpBalanceWeight": {
         "type": "input",
@@ -2425,15 +2489,18 @@
       },
       "RepairUseSingleThreshold": {
         "type": "input",
-        "value": 0.3
+        "value": 0.3,
+        "validate": "float"
       },
       "RepairUseMultiThreshold": {
         "type": "input",
-        "value": 0.6
+        "value": 0.6,
+        "validate": "float"
       },
       "LowHpRetreatThreshold": {
         "type": "input",
-        "value": 0.3
+        "value": 0.3,
+        "validate": "float"
       }
     },
     "EnemyPriority": {
@@ -2483,7 +2550,8 @@
       },
       "LastStage": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       }
     },
     "Campaign": {
@@ -2583,7 +2651,8 @@
       },
       "OilLimit": {
         "type": "input",
-        "value": 1000
+        "value": 1000,
+        "validate": "int"
       },
       "MapAchievement": {
         "type": "disable",
@@ -2764,7 +2833,8 @@
       },
       "Fleet1Value": {
         "type": "input",
-        "value": 119
+        "value": 119,
+        "validate": "int"
       },
       "Fleet1Record": {
         "type": "input",
@@ -2796,7 +2866,8 @@
       },
       "Fleet2Value": {
         "type": "input",
-        "value": 119
+        "value": 119,
+        "validate": "int"
       },
       "Fleet2Record": {
         "type": "input",
@@ -2842,7 +2913,8 @@
       },
       "HpBalanceThreshold": {
         "type": "input",
-        "value": 0.2
+        "value": 0.2,
+        "validate": "float"
       },
       "HpBalanceWeight": {
         "type": "input",
@@ -2850,15 +2922,18 @@
       },
       "RepairUseSingleThreshold": {
         "type": "input",
-        "value": 0.3
+        "value": 0.3,
+        "validate": "float"
       },
       "RepairUseMultiThreshold": {
         "type": "input",
-        "value": 0.6
+        "value": 0.6,
+        "validate": "float"
       },
       "LowHpRetreatThreshold": {
         "type": "input",
-        "value": 0.3
+        "value": 0.3,
+        "validate": "float"
       }
     }
   },
@@ -2897,7 +2972,8 @@
       },
       "LastStage": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       }
     },
     "Campaign": {
@@ -2997,7 +3073,8 @@
       },
       "OilLimit": {
         "type": "input",
-        "value": 1000
+        "value": 1000,
+        "validate": "int"
       },
       "MapAchievement": {
         "type": "disable",
@@ -3178,7 +3255,8 @@
       },
       "Fleet1Value": {
         "type": "input",
-        "value": 119
+        "value": 119,
+        "validate": "int"
       },
       "Fleet1Record": {
         "type": "input",
@@ -3210,7 +3288,8 @@
       },
       "Fleet2Value": {
         "type": "input",
-        "value": 119
+        "value": 119,
+        "validate": "int"
       },
       "Fleet2Record": {
         "type": "input",
@@ -3256,7 +3335,8 @@
       },
       "HpBalanceThreshold": {
         "type": "input",
-        "value": 0.2
+        "value": 0.2,
+        "validate": "float"
       },
       "HpBalanceWeight": {
         "type": "input",
@@ -3264,15 +3344,18 @@
       },
       "RepairUseSingleThreshold": {
         "type": "input",
-        "value": 0.3
+        "value": 0.3,
+        "validate": "float"
       },
       "RepairUseMultiThreshold": {
         "type": "input",
-        "value": 0.6
+        "value": 0.6,
+        "validate": "float"
       },
       "LowHpRetreatThreshold": {
         "type": "input",
-        "value": 0.3
+        "value": 0.3,
+        "validate": "float"
       }
     }
   },
@@ -3401,7 +3484,8 @@
       },
       "OilLimit": {
         "type": "input",
-        "value": 1000
+        "value": 1000,
+        "validate": "int"
       },
       "MapAchievement": {
         "type": "disable",
@@ -3582,7 +3666,8 @@
       },
       "Fleet1Value": {
         "type": "input",
-        "value": 119
+        "value": 119,
+        "validate": "int"
       },
       "Fleet1Record": {
         "type": "input",
@@ -3614,7 +3699,8 @@
       },
       "Fleet2Value": {
         "type": "input",
-        "value": 119
+        "value": 119,
+        "validate": "int"
       },
       "Fleet2Record": {
         "type": "input",
@@ -3660,7 +3746,8 @@
       },
       "HpBalanceThreshold": {
         "type": "input",
-        "value": 0.2
+        "value": 0.2,
+        "validate": "float"
       },
       "HpBalanceWeight": {
         "type": "input",
@@ -3668,15 +3755,18 @@
       },
       "RepairUseSingleThreshold": {
         "type": "input",
-        "value": 0.3
+        "value": 0.3,
+        "validate": "float"
       },
       "RepairUseMultiThreshold": {
         "type": "input",
-        "value": 0.6
+        "value": 0.6,
+        "validate": "float"
       },
       "LowHpRetreatThreshold": {
         "type": "input",
-        "value": 0.3
+        "value": 0.3,
+        "validate": "float"
       }
     }
   },
@@ -3697,11 +3787,13 @@
       },
       "SuccessInterval": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "input",
-        "value": 120
+        "value": 120,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "input",
@@ -3773,11 +3865,13 @@
     "StopCondition": {
       "RunCount": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "OilLimit": {
         "type": "input",
-        "value": 1000
+        "value": 1000,
+        "validate": "int"
       },
       "MapAchievement": {
         "type": "disable",
@@ -3814,7 +3908,8 @@
       },
       "Fleet1Value": {
         "type": "input",
-        "value": 119
+        "value": 119,
+        "validate": "int"
       },
       "Fleet1Record": {
         "type": "input",
@@ -3846,7 +3941,8 @@
       },
       "Fleet2Value": {
         "type": "input",
-        "value": 119
+        "value": 119,
+        "validate": "int"
       },
       "Fleet2Record": {
         "type": "input",
@@ -3966,7 +4062,8 @@
       },
       "OilLimit": {
         "type": "input",
-        "value": 1000
+        "value": 1000,
+        "validate": "int"
       },
       "MapAchievement": {
         "type": "disable",
@@ -4003,7 +4100,8 @@
       },
       "Fleet1Value": {
         "type": "input",
-        "value": 119
+        "value": 119,
+        "validate": "int"
       },
       "Fleet1Record": {
         "type": "input",
@@ -4035,7 +4133,8 @@
       },
       "Fleet2Value": {
         "type": "input",
-        "value": 119
+        "value": 119,
+        "validate": "int"
       },
       "Fleet2Record": {
         "type": "input",
@@ -4182,19 +4281,23 @@
       },
       "T4Allow": {
         "type": "input",
-        "value": 100
+        "value": 100,
+        "validate": "int"
       },
       "T3Allow": {
         "type": "input",
-        "value": 100
+        "value": 100,
+        "validate": "int"
       },
       "T2Allow": {
         "type": "input",
-        "value": 200
+        "value": 200,
+        "validate": "int"
       },
       "T1Allow": {
         "type": "input",
-        "value": 200
+        "value": 200,
+        "validate": "int"
       }
     }
   },
@@ -4346,7 +4449,8 @@
     "Meowfficer": {
       "BuyAmount": {
         "type": "input",
-        "value": 1
+        "value": 1,
+        "validate": "int"
       },
       "FortChoreMeowfficer": {
         "type": "checkbox",
@@ -4376,7 +4480,8 @@
       },
       "EnhanceIndex": {
         "type": "input",
-        "value": 1
+        "value": 1,
+        "validate": "int"
       }
     }
   },
@@ -4433,11 +4538,13 @@
       },
       "NewOperationMaxDate": {
         "type": "input",
-        "value": 15
+        "value": 15,
+        "validate": "int"
       },
       "JoinThreshold": {
         "type": "input",
-        "value": 1
+        "value": 1,
+        "validate": "int"
       },
       "AttackBoss": {
         "type": "checkbox",
@@ -4762,15 +4869,18 @@
     "Shipyard": {
       "ResearchSeries": {
         "type": "input",
-        "value": 1
+        "value": 1,
+        "validate": "int"
       },
       "ShipIndex": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "BuyAmount": {
         "type": "input",
-        "value": 2
+        "value": 2,
+        "validate": "int"
       }
     }
   },
@@ -5187,23 +5297,28 @@
       },
       "OpponentTrial": {
         "type": "input",
-        "value": 1
+        "value": 1,
+        "validate": "int"
       },
       "ExercisePreserve": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "LowHpThreshold": {
         "type": "input",
-        "value": 0.4
+        "value": 0.4,
+        "validate": "float"
       },
       "LowHpConfirmWait": {
         "type": "input",
-        "value": 0.1
+        "value": 0.1,
+        "validate": "float"
       },
       "OpponentRefreshValue": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "OpponentRefreshRecord": {
         "type": "input",
@@ -5304,7 +5419,8 @@
       },
       "OilLimit": {
         "type": "input",
-        "value": 1000
+        "value": 1000,
+        "validate": "int"
       },
       "MapAchievement": {
         "type": "disable",
@@ -5485,7 +5601,8 @@
       },
       "Fleet1Value": {
         "type": "input",
-        "value": 119
+        "value": 119,
+        "validate": "int"
       },
       "Fleet1Record": {
         "type": "input",
@@ -5517,7 +5634,8 @@
       },
       "Fleet2Value": {
         "type": "input",
-        "value": 119
+        "value": 119,
+        "validate": "int"
       },
       "Fleet2Record": {
         "type": "input",
@@ -5563,7 +5681,8 @@
       },
       "HpBalanceThreshold": {
         "type": "input",
-        "value": 0.2
+        "value": 0.2,
+        "validate": "float"
       },
       "HpBalanceWeight": {
         "type": "input",
@@ -5571,15 +5690,18 @@
       },
       "RepairUseSingleThreshold": {
         "type": "input",
-        "value": 0.3
+        "value": 0.3,
+        "validate": "float"
       },
       "RepairUseMultiThreshold": {
         "type": "input",
-        "value": 0.6
+        "value": 0.6,
+        "validate": "float"
       },
       "LowHpRetreatThreshold": {
         "type": "input",
-        "value": 0.3
+        "value": 0.3,
+        "validate": "float"
       }
     }
   },
@@ -5669,11 +5791,13 @@
     "StopCondition": {
       "RunCount": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "OilLimit": {
         "type": "input",
-        "value": 1000
+        "value": 1000,
+        "validate": "int"
       },
       "MapAchievement": {
         "type": "select",
@@ -5696,7 +5820,8 @@
       },
       "ReachLevel": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       }
     },
     "Fleet": {
@@ -5854,7 +5979,8 @@
       },
       "Fleet1Value": {
         "type": "input",
-        "value": 119
+        "value": 119,
+        "validate": "int"
       },
       "Fleet1Record": {
         "type": "input",
@@ -5886,7 +6012,8 @@
       },
       "Fleet2Value": {
         "type": "input",
-        "value": 119
+        "value": 119,
+        "validate": "int"
       },
       "Fleet2Record": {
         "type": "input",
@@ -5932,7 +6059,8 @@
       },
       "HpBalanceThreshold": {
         "type": "input",
-        "value": 0.2
+        "value": 0.2,
+        "validate": "float"
       },
       "HpBalanceWeight": {
         "type": "input",
@@ -5940,15 +6068,18 @@
       },
       "RepairUseSingleThreshold": {
         "type": "input",
-        "value": 0.3
+        "value": 0.3,
+        "validate": "float"
       },
       "RepairUseMultiThreshold": {
         "type": "input",
-        "value": 0.6
+        "value": 0.6,
+        "validate": "float"
       },
       "LowHpRetreatThreshold": {
         "type": "input",
-        "value": 0.3
+        "value": 0.3,
+        "validate": "float"
       }
     }
   },
@@ -5964,11 +6095,13 @@
       },
       "OilLimit": {
         "type": "input",
-        "value": 1000
+        "value": 1000,
+        "validate": "int"
       },
       "RepairThreshold": {
         "type": "input",
-        "value": 0.4
+        "value": 0.4,
+        "validate": "float"
       },
       "BuyAkashiShop": {
         "type": "checkbox",
@@ -6025,7 +6158,8 @@
     "OpsiAshAssist": {
       "Tier": {
         "type": "input",
-        "value": 15
+        "value": 15,
+        "validate": "int"
       }
     }
   },
@@ -6068,7 +6202,8 @@
       },
       "LastZone": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       }
     },
     "OpsiFleet": {
@@ -6342,7 +6477,8 @@
     "OpsiMeowfficerFarming": {
       "ActionPointPreserve": {
         "type": "input",
-        "value": 500
+        "value": 500,
+        "validate": "int"
       },
       "HazardLevel": {
         "type": "select",
@@ -6357,7 +6493,8 @@
       },
       "TargetZone": {
         "type": "input",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       }
     },
     "OpsiFleet": {

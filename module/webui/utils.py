@@ -19,12 +19,12 @@ from pywebio.session import register_thread, run_js
 from rich.console import Console, ConsoleOptions
 from rich.terminal_theme import TerminalTheme
 
-RE_DATETIME = (
-    r"(\d{2}|\d{4})(?:\-)?([0]{1}\d{1}|[1]{1}[0-2]{1})(?:\-)?"
-    + r"([0-2]{1}\d{1}|[3]{1}[0-1]{1})(?:\s)?([0-1]{1}\d{1}|[2]"
-    + r"{1}[0-3]{1})(?::)?([0-5]{1}\d{1})(?::)?([0-5]{1}\d{1})"
-)
-
+RE_DATETIME = \
+    r"(\d{2}|\d{4})(?:\-)?([0]{1}\d{1}|[1]{1}[0-2]{1})(?:\-)?" \
+    r"([0-2]{1}\d{1}|[3]{1}[0-1]{1})(?:\s)?([0-1]{1}\d{1}|[2]" \
+    r"{1}[0-3]{1})(?::)?([0-5]{1}\d{1})(?::)?([0-5]{1}\d{1})"
+RE_INT = r"\d+"
+RE_FLOAT = r"\d*\.?\d+|\d+\.\d*" # reject scientific counting
 
 TRACEBACK_CODE_FORMAT = """\
 <code class="rich-traceback">
@@ -391,38 +391,15 @@ class Icon:
     ADD = _read(filepath_icon("add"))
 
 
-str2type = {
-    "str": str,
-    "float": float,
-    "int": int,
-    "bool": bool,
-}
-
-
-def parse_pin_value(val, valuetype: str = None):
+def parse_pin_value(val):
     """
     input, textarea return str
     select return its option (str or int)
-    checkbox return [] or [True] (define in put_checkbox_)
+    checkbox return [] or [True] (define in put_checkbox_) which needs to be converted to bool
     """
     if isinstance(val, list):
-        if len(val) == 0:
-            return False
-        else:
-            return True
-    elif valuetype:
-        return str2type[valuetype](val)
-    elif isinstance(val, (int, float)):
-        return val
-    else:
-        try:
-            v = float(val)
-        except ValueError:
-            return val
-        if v.is_integer():
-            return int(v)
-        else:
-            return v
+        return bool(val)
+    return val
 
 
 def login(password):
@@ -452,9 +429,11 @@ def get_localstorage(key):
 
 
 def re_fullmatch(pattern, string):
-    if pattern == "datetime":
-        pattern = RE_DATETIME
-    # elif:
+    pattern = {
+        "datetime": RE_DATETIME,
+        "int": RE_INT,
+        "float": RE_FLOAT
+    }.get(pattern, pattern)
     return re.fullmatch(pattern=pattern, string=string)
 
 

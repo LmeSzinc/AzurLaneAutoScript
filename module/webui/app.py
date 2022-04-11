@@ -444,8 +444,7 @@ class AlasGUI(Frame):
                 except queue.Empty:
                     config = read_file(filepath_config(config_name))
                     for k, v in modified.copy().items():
-                        valuetype = deep_get(self.ALAS_ARGS, k + ".valuetype")
-                        v = parse_pin_value(v, valuetype)
+                        v = parse_pin_value(v)
                         validate = deep_get(self.ALAS_ARGS, k + ".validate")
                         if not len(str(v)):
                             default = deep_get(self.ALAS_ARGS, k + ".value")
@@ -453,6 +452,10 @@ class AlasGUI(Frame):
                             valid.append(self.path_to_idx[k])
                             modified[k] = default
                         elif not validate or re_fullmatch(validate, v):
+                            v={
+                                "int": int,
+                                "float": float,
+                            }.get(validate, lambda x: x)(v)
                             deep_set(config, k, v)
                             valid.append(self.path_to_idx[k])
                         else:
