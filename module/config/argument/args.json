@@ -196,11 +196,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -2532,11 +2534,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -2647,7 +2651,8 @@
     "StopCondition": {
       "RunCount": {
         "type": "disable",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "OilLimit": {
         "type": "input",
@@ -2675,7 +2680,8 @@
       },
       "ReachLevel": {
         "type": "disable",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       }
     },
     "Fleet": {
@@ -2954,11 +2960,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -3069,7 +3077,8 @@
     "StopCondition": {
       "RunCount": {
         "type": "disable",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "OilLimit": {
         "type": "input",
@@ -3097,7 +3106,8 @@
       },
       "ReachLevel": {
         "type": "disable",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       }
     },
     "Fleet": {
@@ -3376,11 +3386,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -3480,7 +3492,8 @@
     "StopCondition": {
       "RunCount": {
         "type": "disable",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "OilLimit": {
         "type": "input",
@@ -3508,7 +3521,8 @@
       },
       "ReachLevel": {
         "type": "disable",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       }
     },
     "Fleet": {
@@ -3894,7 +3908,8 @@
       },
       "ReachLevel": {
         "type": "disable",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       }
     },
     "Emotion": {
@@ -3991,11 +4006,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -4058,7 +4075,8 @@
     "StopCondition": {
       "RunCount": {
         "type": "disable",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "OilLimit": {
         "type": "input",
@@ -4086,7 +4104,8 @@
       },
       "ReachLevel": {
         "type": "disable",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       }
     },
     "Emotion": {
@@ -4183,11 +4202,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -4218,11 +4239,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -4257,11 +4280,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -4318,11 +4343,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -4392,11 +4419,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 278
+        "value": 278,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 278
+        "value": 278,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -4435,11 +4464,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -4502,11 +4533,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -4573,11 +4606,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": "60-120"
+        "value": "60-120",
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": "60-120"
+        "value": "60-120",
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -4624,11 +4659,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -4671,11 +4708,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -4855,11 +4894,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -4901,11 +4942,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -4963,11 +5006,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -4992,11 +5037,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -5027,11 +5074,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -5062,11 +5111,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -5097,11 +5148,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -5230,11 +5283,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -5273,11 +5328,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -5344,11 +5401,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -5415,7 +5474,8 @@
     "StopCondition": {
       "RunCount": {
         "type": "disable",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "OilLimit": {
         "type": "input",
@@ -5443,7 +5503,8 @@
       },
       "ReachLevel": {
         "type": "disable",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       }
     },
     "Fleet": {
@@ -5722,11 +5783,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -6144,11 +6207,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -6180,11 +6245,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 0
+        "value": 0,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -6240,11 +6307,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -6275,11 +6344,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -6330,11 +6401,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 60
+        "value": 60,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 60
+        "value": 60,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -6381,11 +6454,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 60
+        "value": 60,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 60
+        "value": 60,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -6422,11 +6497,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 60
+        "value": 60,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 60
+        "value": 60,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
@@ -6463,11 +6540,13 @@
       },
       "SuccessInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "FailureInterval": {
         "type": "disable",
-        "value": 30
+        "value": 30,
+        "validate": "int"
       },
       "ServerUpdate": {
         "type": "disable",
