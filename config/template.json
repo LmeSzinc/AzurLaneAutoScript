@@ -1206,7 +1206,7 @@
     },
     "Campaign": {
       "Name": "7-2",
-      "Event": "war_archives_20190911_cn",
+      "Event": "war_archives_20210325_cn",
       "Mode": "normal",
       "UseClearMode": true,
       "UseFleetLock": true,
