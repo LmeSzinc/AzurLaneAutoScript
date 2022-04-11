@@ -81,6 +81,10 @@ class ConfigGenerator:
             arg['type'] = data_to_type(value, arg=path[1])
             if isinstance(value['value'], datetime):
                 arg['validate'] = 'datetime'
+            elif arg['type'] == 'input' and isinstance(value['value'], int):
+                arg['validate'] = 'int'
+            elif arg['type'] == 'input' and isinstance(value['value'], float):
+                arg['validate'] = 'float'
             # Manual definition has the highest priority
             arg.update(value)
             deep_set(data, keys=path, value=arg)
