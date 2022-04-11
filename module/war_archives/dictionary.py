@@ -12,4 +12,5 @@ dic_archives_template = {
     'war_archives_20180726_cn': TEMPLATE_IRIS_OF_LIGHT_AND_DARK,
     'war_archives_20181227_cn': TEMPLATE_CRIMSON_ECHOES,
     'war_archives_20190911_cn': TEMPLATE_EMPYREAL_TRAGICOMEDY,
+    'war_archives_20210325_cn': TEMPLATE_ASHEN_SIMULACRUM,
 }
