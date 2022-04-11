@@ -3,8 +3,8 @@
     "Emulator": {
       "Serial": {
         "type": "input",
-        "value": "127.0.0.1:5555",
         "valuetype": "str"
+        "value": "127.0.0.1:5555"
       },
       "PackageName": {
         "type": "input",
@@ -5620,7 +5620,9 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "war_archives_20210325_cn",
           "war_archives_20190911_cn",
+          "war_archives_20200820_cn",
           "war_archives_20181227_cn",
           "war_archives_20180726_cn",
           "war_archives_20180607_cn",
@@ -5632,9 +5634,9 @@
           "war_archives_20191031_en",
           "war_archives_20181020_en"
         ],
-        "cn": "war_archives_20190911_cn",
-        "en": "war_archives_20190911_cn",
-        "jp": "war_archives_20190911_cn",
+        "cn": "war_archives_20210325_cn",
+        "en": "war_archives_20210325_cn",
+        "jp": "war_archives_20210325_cn",
         "tw": "war_archives_20181227_cn"
       },
       "Mode": {
