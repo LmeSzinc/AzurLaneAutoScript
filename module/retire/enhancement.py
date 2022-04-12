@@ -1,7 +1,5 @@
 from random import choice
 
-import numpy as np
-
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1
 from module.handler.assets import INFO_BAR_DETECT
@@ -268,10 +266,11 @@ class Enhancement(Dock):
 
         Returns:
             int: enhance turn count
-        """
-        self.ui_click(RETIRE_APPEAR_3, check_button=DOCK_CHECK, skip_first_screenshot=True)
-        self.handle_dock_cards_loading()
 
+        Pages:
+            in: DOCK_CHECK
+            out: the page before retirement popup
+        """
         total = self.enhance_ships()
 
         self.dock_quit()

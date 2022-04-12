@@ -241,23 +241,39 @@ class Retirement(Enhancement):
         return total
 
     def handle_retirement(self):
+        """
+        Returns:
+            bool: If retired.
+        """
         if not self.config.Retirement_Enable:
-            return False
-        if not self.retirement_appear():
             return False
 
         if self._unable_to_enhance:
-            self._retire_handler(mode='one_click_retire')
+            if self.appear_then_click(RETIRE_APPEAR_1, offset=(20, 20), interval=3):
+                return False
+            if self.appear(IN_RETIREMENT_CHECK, offset=(20, 20)):
+                self._retire_handler(mode='one_click_retire')
+                self._unable_to_enhance = False
+                return True
         elif self.config.Retirement_RetireMode == 'enhance':
-            total = self._enhance_handler()
-            if not total:
-                logger.info('No ship to enhance, but dock full, will try retire')
-                self._unable_to_enhance = True
+            if self.appear_then_click(RETIRE_APPEAR_3, offset=(20, 20), interval=3):
+                return False
+            if self.appear(DOCK_CHECK, offset=(20, 20)):
+                self.handle_dock_cards_loading()
+                total = self._enhance_handler()
+                if not total:
+                    logger.info('No ship to enhance, but dock full, will try retire')
+                    self._unable_to_enhance = True
+                return True
         else:
-            self._retire_handler()
-            self._unable_to_enhance = False
+            if self.appear_then_click(RETIRE_APPEAR_1, offset=(20, 20), interval=3):
+                return False
+            if self.appear(IN_RETIREMENT_CHECK, offset=(20, 20)):
+                self._retire_handler()
+                self._unable_to_enhance = False
+                return True
 
-        return True
+        return False
 
     def _retire_handler(self, mode=None):
         """
@@ -266,10 +282,13 @@ class Retirement(Enhancement):
 
         Returns:
             int: Amount of retired ships
+
+        Pages:
+            in: IN_RETIREMENT_CHECK
+            out: the page before retirement popup
         """
         if mode is None:
             mode = self.config.Retirement_RetireMode
-        self.ui_click(RETIRE_APPEAR_1, check_button=IN_RETIREMENT_CHECK, skip_first_screenshot=True)
 
         if mode == 'one_click_retire':
             total = self.retire_ships_one_click()
