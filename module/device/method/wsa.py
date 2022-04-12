@@ -103,6 +103,7 @@ class WSA(Connection):
             else:
                 logger.error(result)
                 possible_reasons(f'"{package_name}" not found, please check setting Emulator.PackageName')
+                self.show_packages()
                 raise RequestHumanTakeover
         else:
             # Events injected: 1
@@ -120,6 +121,7 @@ class WSA(Connection):
             ret = next(ms).group('activity')
             return ret
         except StopIteration:
+            self.show_packages()
             raise RequestHumanTakeover("Couldn't get activity name, please check setting Emulator.PackageName")
 
     @retry

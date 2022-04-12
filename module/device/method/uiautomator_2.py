@@ -198,6 +198,7 @@ class Uiautomator2(Connection):
             # BaseError: package "com.bilibili.azurlane" not found
             logger.error(e)
             possible_reasons(f'"{package_name}" not found, please check setting Emulator.PackageName')
+            self.show_packages()
             raise RequestHumanTakeover
 
     @retry

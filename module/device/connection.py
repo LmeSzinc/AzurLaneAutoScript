@@ -45,7 +45,9 @@ class Connection:
         if "bluestacks5-hyperv" in self.serial:
             self.serial = self.find_bluestacks5_hyperv(self.serial)
         if "127.0.0.1:58526" in self.serial:
-            raise RequestHumanTakeover('Serial 127.0.0.1:58526 seems to be WSA, please use "wsa-0" or others to instead')
+            logger.warning('Serial 127.0.0.1:58526 seems to be WSA, '
+                           'please use "wsa-0" or others instead')
+            raise RequestHumanTakeover
         if "wsa" in self.serial:
             self.serial = '127.0.0.1:58526'
 
@@ -375,6 +377,7 @@ class Connection:
                     possible_reasons('Serial incorrect, might be a typo')
                     raise RequestHumanTakeover
             logger.warning(f'Failed to connect {serial} after 3 trial, assume connected')
+            self.show_devices()
             return False
 
     def adb_disconnect(self, serial):
@@ -460,3 +463,35 @@ class Connection:
         self.orientation = o
         logger.attr('Device Orientation', f'{o} ({Connection._orientation_description.get(o, "Unknown")})')
         return o
+
+    def show_devices(self):
+        """
+        Show all available devices on current computer.
+        """
+        logger.hr('Show devices')
+        logger.info('Here are the available devices, '
+                    'copy to Alas.Emulator.Serial to use it')
+        devices = list(self.adb_client.iter_device())
+        if devices:
+            for device in devices:
+                logger.info(device.serial)
+        else:
+            logger.info('No available devices')
+
+    def show_packages(self, keyword='azurlane'):
+        """
+        Show all possible packages with the given keyword on this device.
+        """
+        logger.hr('Show packages')
+        logger.info('Fetching package list')
+        output = self.adb_shell(['pm', 'list', 'packages'])
+        packages = re.findall(r'package:([^\s]+)', output)
+        logger.info(f'Here are the available packages in device {self.serial}, '
+                    f'copy to Alas.Emulator.PackageName to use it')
+
+        if packages:
+            for package in packages:
+                if keyword in package.lower():
+                    logger.info(package)
+        else:
+            logger.info(f'No available package with keyword: {keyword}')

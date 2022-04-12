@@ -197,6 +197,7 @@ class Adb(Connection):
             else:
                 logger.error(result)
                 possible_reasons(f'"{package_name}" not found, please check setting Emulator.PackageName')
+                self.show_packages()
                 raise RequestHumanTakeover
         else:
             # Events injected: 1
