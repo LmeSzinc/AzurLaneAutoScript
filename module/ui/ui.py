@@ -391,8 +391,23 @@ class UI(InfoHandler):
             return True
         if self.appear_then_click(AUTO_SEARCH_MENU_EXIT, offset=(200, 30), interval=3):
             return True
-        if self.appear_then_click(WITHDRAW, offset=(30, 30), interval=1.5):
-            return True
+        if self.appear(WITHDRAW, offset=(30, 30), interval=3):
+            # Poor wait here, to handle a game client bug after the game patch in 2022-04-07
+            # To re-produce this game bug (100% success):
+            # - Enter any stage, 12-4 for example
+            # - Stop and restart game
+            # - Run task `Main` in Alas
+            # - Alas switches to page_campaign and retreat from an existing stage
+            # - Game client freezes at page_campaign W12, clicking anywhere on the screen doesn't get responses
+            # - Restart game client again fix the issue
+            logger.info('WITHDRAW button found, wait until map loaded to prevent bugs in game client')
+            self.device.sleep(3)
+            if self.appear_then_click(WITHDRAW, offset=(30, 30)):
+                self.interval_reset(WITHDRAW)
+                return True
+            else:
+                logger.warning('WITHDRAW button does not exist anymore')
+                self.interval_reset(WITHDRAW)
 
         # Login
         if self.appear_then_click(LOGIN_CHECK, offset=(30, 30), interval=3):

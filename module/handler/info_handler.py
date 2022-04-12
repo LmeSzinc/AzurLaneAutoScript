@@ -64,18 +64,18 @@ class InfoHandler(ModuleBase):
     """
     _popup_offset = (3, 30)
 
-    def handle_popup_confirm(self, name=''):
+    def handle_popup_confirm(self, name='', interval=2):
         if self.appear(POPUP_CANCEL, offset=self._popup_offset) \
-                and self.appear(POPUP_CONFIRM, offset=self._popup_offset, interval=2):
+                and self.appear(POPUP_CONFIRM, offset=self._popup_offset, interval=interval):
             POPUP_CONFIRM.name = POPUP_CONFIRM.name + '_' + name
             self.device.click(POPUP_CONFIRM)
             POPUP_CONFIRM.name = POPUP_CONFIRM.name[:-len(name) - 1]
             return True
         return False
 
-    def handle_popup_cancel(self, name=''):
+    def handle_popup_cancel(self, name='', interval=2):
         if self.appear(POPUP_CONFIRM, offset=self._popup_offset) \
-                and self.appear(POPUP_CANCEL, offset=self._popup_offset, interval=2):
+                and self.appear(POPUP_CANCEL, offset=self._popup_offset, interval=interval):
             POPUP_CANCEL.name = POPUP_CANCEL.name + '_' + name
             self.device.click(POPUP_CANCEL)
             POPUP_CANCEL.name = POPUP_CANCEL.name[:-len(name) - 1]
