@@ -3,8 +3,8 @@
     "Emulator": {
       "Serial": {
         "type": "input",
+        "value": "127.0.0.1:5555",
         "valuetype": "str"
-        "value": "127.0.0.1:5555"
       },
       "PackageName": {
         "type": "input",
