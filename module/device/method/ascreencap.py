@@ -1,4 +1,5 @@
 import os
+from functools import wraps
 
 import lz4.block
 from adbutils.errors import AdbError
@@ -15,6 +16,7 @@ class AscreencapError(Exception):
 
 
 def retry(func):
+    @wraps(func)
     def retry_wrapper(self, *args, **kwargs):
         """
         Args:

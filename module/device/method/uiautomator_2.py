@@ -1,3 +1,4 @@
+from functools import wraps
 from json.decoder import JSONDecodeError
 
 import uiautomator2 as u2
@@ -13,6 +14,7 @@ from module.logger import logger
 
 
 def retry(func):
+    @wraps(func)
     def retry_wrapper(self, *args, **kwargs):
         """
         Args:

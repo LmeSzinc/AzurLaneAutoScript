@@ -1,4 +1,5 @@
 import re
+from functools import wraps
 
 from adbutils.errors import AdbError
 
@@ -9,6 +10,7 @@ from module.logger import logger
 
 
 def retry(func):
+    @wraps(func)
     def retry_wrapper(self, *args, **kwargs):
         """
         Args:
