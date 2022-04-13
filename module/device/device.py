@@ -21,9 +21,6 @@ class Device(Screenshot, Control, AppControl):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if 'wsa' in self.config.Emulator_Serial:
-            self.config.Emulator_ScreenshotMethod = 'uiautomator2'
-            self.config.Emulator_ControlMethod = 'uiautomator2'
         self.screenshot_interval_set()
 
     def handle_night_commission(self, daily_trigger='21:00', threshold=30):
