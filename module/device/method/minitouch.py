@@ -1,5 +1,6 @@
 import socket
 import time
+from functools import wraps
 
 from adbutils.errors import AdbError
 
@@ -180,6 +181,7 @@ class MinitouchOccupiedError(Exception):
 
 
 def retry(func):
+    @wraps(func)
     def retry_wrapper(self, *args, **kwargs):
         """
         Args:
