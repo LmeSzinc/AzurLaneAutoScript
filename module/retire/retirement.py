@@ -250,27 +250,33 @@ class Retirement(Enhancement):
 
         if self._unable_to_enhance:
             if self.appear_then_click(RETIRE_APPEAR_1, offset=(20, 20), interval=3):
+                self.interval_clear(IN_RETIREMENT_CHECK)
                 return False
-            if self.appear(IN_RETIREMENT_CHECK, offset=(20, 20)):
+            if self.appear(IN_RETIREMENT_CHECK, offset=(20, 20), interval=10):
                 self._retire_handler(mode='one_click_retire')
                 self._unable_to_enhance = False
+                self.interval_reset(IN_RETIREMENT_CHECK)
                 return True
         elif self.config.Retirement_RetireMode == 'enhance':
             if self.appear_then_click(RETIRE_APPEAR_3, offset=(20, 20), interval=3):
+                self.interval_clear(DOCK_CHECK)
                 return False
-            if self.appear(DOCK_CHECK, offset=(20, 20)):
+            if self.appear(DOCK_CHECK, offset=(20, 20), interval=10):
                 self.handle_dock_cards_loading()
                 total = self._enhance_handler()
                 if not total:
                     logger.info('No ship to enhance, but dock full, will try retire')
                     self._unable_to_enhance = True
+                self.interval_reset(DOCK_CHECK)
                 return True
         else:
             if self.appear_then_click(RETIRE_APPEAR_1, offset=(20, 20), interval=3):
+                self.interval_clear(IN_RETIREMENT_CHECK)
                 return False
-            if self.appear(IN_RETIREMENT_CHECK, offset=(20, 20)):
+            if self.appear(IN_RETIREMENT_CHECK, offset=(20, 20), interval=10):
                 self._retire_handler()
                 self._unable_to_enhance = False
+                self.interval_reset(IN_RETIREMENT_CHECK)
                 return True
 
         return False
