@@ -158,7 +158,7 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
                     exit(1)
         elif target_pool == 'event':
             gacha_bottom_navbar = self._gacha_bottom_navbar(is_build=True)
-            if gacha_bottom_navbar.get_total == 3:
+            if gacha_bottom_navbar.get_total(main=self) == 3:
                 logger.warning('\'event\' is not available, default '
                                'to \'light\' pool')
                 target_pool = 'light'
