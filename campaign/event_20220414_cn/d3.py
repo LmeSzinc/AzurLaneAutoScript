@@ -56,7 +56,7 @@ A10, B10, C10, D10, E10, F10, G10, H10, I10, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['BBlightning', 'CVlightning', 'Intruder']
+    MAP_SIREN_TEMPLATE = ['ELpurple', 'CVpurple', 'BBpurple']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -65,6 +65,18 @@ class Config(ConfigBase):
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
+
+    MID_DIFF_RANGE_H = (144 - 3, 144 + 3)
+    MID_DIFF_RANGE_V = (144 - 3, 144 + 3)
+    # Grid have 1.2x width, images on the grid still remain the same.
+    # Both homography and perspective are usable, but perspective is less effected by this.
+    DETECTION_BACKEND = 'homography'
+    HOMO_STORAGE = ((8, 5), [(200.097, 82.51), (1200.298, 82.51), (95.065, 506.098), (1335.813, 506.098)])
+    HOMO_TILE = (168, 140)
+    HOMO_CENTER_OFFSET = (48 + 14, 48)
+    GRID_IMAGE_A_MULTIPLY = 1 / 1.2
+    MAP_SWIPE_MULTIPLY = 1.478
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.429
 
 
 class Campaign(CampaignBase):

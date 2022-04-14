@@ -54,6 +54,14 @@ class Config:
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
+    DETECTION_BACKEND = 'homography'
+    HOMO_STORAGE = ((7, 6), [(263.285, 83.378), (1045.503, 83.378), (149.679, 616.57), (1168.955, 616.57)])
+    HOMO_EDGE_COLOR_RANGE = (0, 13)
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 350
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
+    MAP_SWIPE_MULTIPLY = 1.689
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.633
+
 
 class Campaign(CampaignBase):
     MAP = MAP

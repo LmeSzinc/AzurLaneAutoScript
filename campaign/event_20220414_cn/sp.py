@@ -69,6 +69,14 @@ class Config:
     STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
 
+    DETECTION_BACKEND = 'homography'
+    HOMO_STORAGE = ((10, 6), [(172.714, 96.467), (1291.455, 96.467), (27.369, 639.803), (1491.921, 639.803)])
+    HOMO_EDGE_COLOR_RANGE = (0, 13)
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 350
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
+    MAP_SWIPE_MULTIPLY = 1.472
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.423
+
 
 class Campaign(CampaignBase):
     MAP = MAP
