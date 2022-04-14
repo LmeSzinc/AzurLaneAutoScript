@@ -1,12 +1,12 @@
 from module.base.resource import del_cached_property
 from module.base.timer import Timer
-from module.base.utils import red_overlay_transparency, get_color
+from module.base.utils import get_color, red_overlay_transparency
 from module.exception import CampaignEnd
 from module.handler.assets import *
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.map.assets import *
-from module.ui.assets import EVENT_CHECK, SP_CHECK, CAMPAIGN_CHECK
+from module.ui.assets import CAMPAIGN_CHECK, EVENT_CHECK, SP_CHECK
 
 
 class EnemySearchingHandler(InfoHandler):

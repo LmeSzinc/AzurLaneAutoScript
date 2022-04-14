@@ -1,7 +1,7 @@
 import re
 
 from module.base.button import ButtonGrid
-from module.base.decorator import cached_property, Config
+from module.base.decorator import Config, cached_property
 from module.base.filter import Filter
 from module.base.timer import Timer
 from module.base.utils import *

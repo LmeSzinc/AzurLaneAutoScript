@@ -1,8 +1,7 @@
 import inflection
 
 from module.base.timer import Timer
-from module.exception import CampaignEnd
-from module.exception import RequestHumanTakeover
+from module.exception import CampaignEnd, RequestHumanTakeover
 from module.logger import logger
 from module.map.map import Map
 from module.map.map_grids import SelectedGrids

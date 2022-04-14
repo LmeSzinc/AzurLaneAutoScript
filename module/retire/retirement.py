@@ -1,6 +1,6 @@
 from module.base.button import ButtonGrid
 from module.base.timer import Timer
-from module.base.utils import get_color, color_similar, resize
+from module.base.utils import color_similar, get_color, resize
 from module.combat.assets import GET_ITEMS_1
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger

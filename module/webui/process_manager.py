@@ -5,10 +5,11 @@ from multiprocessing import Process
 from typing import Dict, List
 
 from filelock import FileLock
+from rich.console import ConsoleRenderable
+
 from module.config.utils import deep_get, filepath_config
 from module.logger import logger, set_file_logger, set_func_logger
 from module.webui.setting import Setting
-from rich.console import ConsoleRenderable
 
 
 class ProcessManager:

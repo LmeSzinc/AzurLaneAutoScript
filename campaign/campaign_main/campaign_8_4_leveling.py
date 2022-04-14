@@ -1,6 +1,6 @@
-from .campaign_8_4 import *
-from .campaign_8_4 import Config as ConfigBase
 from .campaign_8_4 import Campaign as CampaignBase
+from .campaign_8_4 import Config as ConfigBase
+from .campaign_8_4 import *
 
 
 class Config(ConfigBase):

@@ -2,20 +2,17 @@ import random
 import string
 from typing import Callable, Dict, Generator, List, Union
 
-from module.logger import WEB_THEME, Highlighter, HTMLConsole
-from module.webui.pin import put_checkbox, put_input, put_select, put_textarea
-from module.webui.process_manager import ProcessManager
-from module.webui.setting import Setting
-from module.webui.utils import (
-    DARK_TERMINAL_THEME,
-    LIGHT_TERMINAL_THEME,
-    LOG_CODE_FORMAT,
-    Switch,
-)
 from pywebio.exceptions import SessionException
 from pywebio.output import *
 from pywebio.session import eval_js, run_js
 from rich.console import ConsoleRenderable
+
+from module.logger import WEB_THEME, Highlighter, HTMLConsole
+from module.webui.pin import put_checkbox, put_input, put_select, put_textarea
+from module.webui.process_manager import ProcessManager
+from module.webui.setting import Setting
+from module.webui.utils import (DARK_TERMINAL_THEME, LIGHT_TERMINAL_THEME,
+                                LOG_CODE_FORMAT, Switch)
 
 
 class ScrollableCode:

@@ -2,7 +2,7 @@ import numpy as np
 
 from module.base.button import Button
 from module.base.timer import Timer
-from module.base.utils import color_similarity_2d, area_offset
+from module.base.utils import area_offset, color_similarity_2d
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3
 from module.guild.assets import *
 from module.guild.base import GuildBase

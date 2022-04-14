@@ -4,7 +4,7 @@ import imageio
 import numpy as np
 from tqdm.contrib.concurrent import process_map
 
-from module.base.utils import get_color, load_image, get_bbox, image_size
+from module.base.utils import get_bbox, get_color, image_size, load_image
 from module.config.config_manual import ManualConfig as AzurLaneConfig
 from module.logger import logger
 

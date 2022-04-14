@@ -6,10 +6,10 @@ import numpy as np
 
 from module.base.decorator import cached_property
 from module.campaign.assets import OCR_EVENT_PT
+from module.config.utils import deep_get
 from module.logger import logger
 from module.ocr.ocr import Ocr
 from module.ui.ui import UI
-from module.config.utils import deep_get
 
 
 class PtOcr(Ocr):

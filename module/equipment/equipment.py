@@ -4,9 +4,8 @@ from module.base.timer import Timer
 from module.equipment.assets import *
 from module.logger import logger
 from module.ui.navbar import Navbar
-from module.ui.ui import UI
 from module.ui.switch import Switch
-
+from module.ui.ui import UI
 
 equipping_filter = Switch('Equiping_filter')
 equipping_filter.add_status('on', check_button=EQUIPPING_ON)

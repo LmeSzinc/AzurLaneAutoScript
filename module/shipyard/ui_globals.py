@@ -1,5 +1,5 @@
 from module.base.button import ButtonGrid
-from module.ocr.ocr import Ocr, Digit, DigitCounter
+from module.ocr.ocr import Digit, DigitCounter, Ocr
 from module.shipyard.assets import *
 
 SHIPYARD_FACE_GRID = ButtonGrid(origin=(188, 607), delta=(181, 0),

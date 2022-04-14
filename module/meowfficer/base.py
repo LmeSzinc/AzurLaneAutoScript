@@ -1,10 +1,10 @@
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1
 from module.config.utils import get_server_next_update
+from module.logger import logger
 from module.meowfficer.assets import *
 from module.ui.assets import MEOWFFICER_CHECK, MEOWFFICER_INFO
 from module.ui.ui import UI
-from module.logger import logger
 
 
 class MeowfficerBase(UI):

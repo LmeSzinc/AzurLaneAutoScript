@@ -1,4 +1,4 @@
-from module.base.decorator import cached_property, Config
+from module.base.decorator import Config, cached_property
 from module.base.timer import Timer
 from module.exception import ScriptError
 from module.logger import logger

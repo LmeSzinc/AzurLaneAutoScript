@@ -2,8 +2,9 @@ from datetime import datetime
 
 import numpy as np
 
-from module.config.utils import deep_get, get_os_next_reset, get_os_reset_remain
-from module.exception import ScriptError, RequestHumanTakeover
+from module.config.utils import (deep_get, get_os_next_reset,
+                                 get_os_reset_remain)
+from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.os.fleet import BossFleet

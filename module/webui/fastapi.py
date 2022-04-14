@@ -5,15 +5,11 @@ import asyncio
 import os
 
 import uvicorn
-from pywebio.platform.fastapi import (
-    STATIC_PATH,
-    Session,
-    cdn_validation,
-    get_free_port,
-    open_webbrowser_on_server_started,
-    start_remote_access_service,
-    webio_routes,
-)
+from pywebio.platform.fastapi import (STATIC_PATH, Session, cdn_validation,
+                                      get_free_port,
+                                      open_webbrowser_on_server_started,
+                                      start_remote_access_service,
+                                      webio_routes)
 from starlette.applications import Starlette
 from starlette.middleware import Middleware
 from starlette.middleware.base import BaseHTTPMiddleware

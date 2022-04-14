@@ -1,7 +1,8 @@
 import multiprocessing
+from multiprocessing.managers import SyncManager
+
 from module.config.config_updater import ConfigUpdater
 from module.webui.config import WebuiConfig
-from multiprocessing.managers import SyncManager
 
 
 class Setting:

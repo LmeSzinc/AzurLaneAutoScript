@@ -7,10 +7,10 @@ import module.config.server as server
 
 server.server = 'cn'  # Don't need to edit, it's used to avoid error.
 
-from module.map_detection.view import View
 from module.base.base import ModuleBase
-from module.config.config import AzurLaneConfig
 from module.base.utils import *
+from module.config.config import AzurLaneConfig
+from module.map_detection.view import View
 
 
 class Config:

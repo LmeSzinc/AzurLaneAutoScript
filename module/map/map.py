@@ -5,7 +5,7 @@ from module.base.filter import Filter
 from module.exception import MapEnemyMoved
 from module.logger import logger
 from module.map.fleet import Fleet
-from module.map.map_grids import SelectedGrids, RoadGrids
+from module.map.map_grids import RoadGrids, SelectedGrids
 from module.map_detection.grid_info import GridInfo
 
 ENEMY_FILTER = Filter(regex=re.compile('^(.*?)$'), attr=('str',))

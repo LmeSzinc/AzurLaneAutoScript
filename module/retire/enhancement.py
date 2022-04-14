@@ -6,8 +6,10 @@ from module.handler.assets import INFO_BAR_DETECT
 from module.handler.info_handler import info_letter_preprocess
 from module.logger import logger
 from module.retire.assets import *
-from module.retire.dock import Dock, CARD_GRIDS
-from module.template.assets import TEMPLATE_ENHANCE_SUCCESS, TEMPLATE_ENHANCE_FAILED, TEMPLATE_ENHANCE_IN_BATTLE
+from module.retire.dock import CARD_GRIDS, Dock
+from module.template.assets import (TEMPLATE_ENHANCE_FAILED,
+                                    TEMPLATE_ENHANCE_IN_BATTLE,
+                                    TEMPLATE_ENHANCE_SUCCESS)
 
 VALID_SHIP_TYPES = ['dd', 'ss', 'cl', 'ca', 'bb', 'cv', 'repair', 'others']
 TEMPLATE_ENHANCE_SUCCESS.pre_process = info_letter_preprocess

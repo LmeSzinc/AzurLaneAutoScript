@@ -6,6 +6,7 @@ from typing import List
 import numpy as np
 import zerorpc
 import zmq
+
 from deploy.config import DeployConfig
 from module.logger import logger
 

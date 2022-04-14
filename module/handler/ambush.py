@@ -1,7 +1,7 @@
 import numpy as np
 
 from module.base.timer import Timer
-from module.base.utils import red_overlay_transparency, get_color
+from module.base.utils import get_color, red_overlay_transparency
 from module.combat.combat import Combat
 from module.handler.assets import *
 from module.handler.info_handler import info_letter_preprocess

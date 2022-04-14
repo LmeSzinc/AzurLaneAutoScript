@@ -9,8 +9,6 @@ from queue import Queue
 from typing import Callable, Generator, List
 
 import pywebio
-from module.logger import logger
-from module.webui.setting import Setting
 from pywebio.input import PASSWORD, input
 from pywebio.output import PopupSize, popup, put_html, toast
 from pywebio.session import eval_js
@@ -18,6 +16,9 @@ from pywebio.session import info as session_info
 from pywebio.session import register_thread, run_js
 from rich.console import Console, ConsoleOptions
 from rich.terminal_theme import TerminalTheme
+
+from module.logger import logger
+from module.webui.setting import Setting
 
 RE_DATETIME = (
     r"(\d{2}|\d{4})(?:\-)?([0]{1}\d{1}|[1]{1}[0-2]{1})(?:\-)?"

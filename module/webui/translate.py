@@ -1,12 +1,13 @@
 # This module is a ton of shit
 # you'd better close right now
-from module.config.utils import (LANGUAGES, deep_get, deep_iter, deep_set,
-                                 filepath_i18n, read_file, write_file)
-import module.webui.lang as lang
 from pywebio.input import (actions, checkbox, input, input_group, input_update,
                            select)
 from pywebio.output import put_buttons, put_markdown
 from pywebio.session import defer_call, hold, run_js, set_env
+
+import module.webui.lang as lang
+from module.config.utils import (LANGUAGES, deep_get, deep_iter, deep_set,
+                                 filepath_i18n, read_file, write_file)
 
 
 def translate():

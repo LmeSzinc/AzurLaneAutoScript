@@ -1,6 +1,7 @@
-from module.webui.utils import Icon, WebIOTaskHandler, set_localstorage
 from pywebio.output import clear, put_html, put_scope, put_text, use_scope
 from pywebio.session import defer_call, info, run_js
+
+from module.webui.utils import Icon, WebIOTaskHandler, set_localstorage
 
 
 class Base:

@@ -1,6 +1,5 @@
 from campaign.campaign_sos.campaign_base import CampaignBase
-from module.base.decorator import Config
-from module.base.decorator import cached_property
+from module.base.decorator import Config, cached_property
 from module.base.utils import area_pad, random_rectangle_vector
 from module.campaign.run import CampaignRun
 from module.logger import logger

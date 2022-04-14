@@ -7,8 +7,10 @@ from adbutils.errors import AdbError
 from lxml import etree
 
 from module.device.connection import Connection
-from module.device.method.utils import recv_all, possible_reasons, handle_adb_error, RETRY_TRIES, RETRY_DELAY
-from module.exception import ScriptError, RequestHumanTakeover
+from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
+                                        handle_adb_error, possible_reasons,
+                                        recv_all)
+from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 
 

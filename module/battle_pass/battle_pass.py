@@ -3,7 +3,7 @@ from module.base.utils import get_color
 from module.battle_pass.assets import *
 from module.combat.combat import Combat
 from module.logger import logger
-from module.ui.assets import REWARD_GOTO_BATTLE_PASS, BATTLE_PASS_CHECK
+from module.ui.assets import BATTLE_PASS_CHECK, REWARD_GOTO_BATTLE_PASS
 from module.ui.page import page_reward
 from module.ui.ui import UI
 

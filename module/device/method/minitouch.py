@@ -7,8 +7,9 @@ from adbutils.errors import AdbError
 from module.base.decorator import cached_property
 from module.base.utils import *
 from module.device.connection import Connection
-from module.device.method.utils import handle_adb_error, del_cached_property, RETRY_TRIES, RETRY_DELAY
-from module.exception import ScriptError, RequestHumanTakeover
+from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
+                                        del_cached_property, handle_adb_error)
+from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 
 

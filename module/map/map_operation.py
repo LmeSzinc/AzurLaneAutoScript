@@ -1,6 +1,5 @@
 from module.base.timer import Timer
-from module.exception import CampaignEnd
-from module.exception import ScriptEnd, RequestHumanTakeover
+from module.exception import CampaignEnd, RequestHumanTakeover, ScriptEnd
 from module.handler.fast_forward import FastForwardHandler
 from module.handler.mystery import MysteryHandler
 from module.logger import logger

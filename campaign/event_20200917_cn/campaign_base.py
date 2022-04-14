@@ -1,7 +1,7 @@
+from module.base.button import Button
+from module.base.utils import *
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.logger import logger
-from module.base.utils import *
-from module.base.button import Button
 
 # Here manually type coordinates, because the ball appears in event Dreamwaker's Butterfly only.
 BALL = Button(area=(571, 283, 696, 387), color=(), button=(597, 274, 671, 343))

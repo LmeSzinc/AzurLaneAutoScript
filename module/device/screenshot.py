@@ -9,11 +9,11 @@ from PIL import Image
 
 from module.base.decorator import cached_property
 from module.base.timer import Timer, timer
-from module.base.utils import get_color, save_image, limit_in, image_size
+from module.base.utils import get_color, image_size, limit_in, save_image
 from module.device.method.adb import Adb
-from module.device.method.wsa import WSA
 from module.device.method.ascreencap import AScreenCap
 from module.device.method.uiautomator_2 import Uiautomator2
+from module.device.method.wsa import WSA
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 
