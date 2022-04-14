@@ -50,6 +50,11 @@ class Connection:
             raise RequestHumanTakeover
         if "wsa" in self.serial:
             self.serial = '127.0.0.1:58526'
+            if self.config.Emulator_ScreenshotMethod != 'uiautomator2' \
+                    or self.config.Emulator_ControlMethod != 'uiautomator2':
+                with self.config.multi_set():
+                    self.config.Emulator_ScreenshotMethod = 'uiautomator2'
+                    self.config.Emulator_ControlMethod = 'uiautomator2'
 
         logger.attr('Adb_binary', self.adb_binary)
 

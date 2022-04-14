@@ -91,3 +91,4 @@ To add a new event, add a new row in here, and run `python -m dev_tools.event_ex
 | 20220324 | event 20220324 cn | Virtual Tower | 虚像构筑之塔 | Virtual Tower | 幻像の塔 | - |
 | 20220324 | event 20210422 cn | Daedalian Hymn | - | - | - | 復興的讚美詩 |
 | 20220407 | event 20220407 tw | Crimson Echoes | - | - | - | 蒼紅的迴響(復刻) |
+| 20220414 | event 20220414 cn | Aurora Noctis | 复刻永夜幻光 | Aurora Noctis Rerun | 極夜照らす幻光（復刻） | - |

@@ -1,4 +1,5 @@
 import json
+from functools import wraps
 
 import requests
 from adbutils.errors import AdbError
@@ -17,6 +18,7 @@ class HermitError(Exception):
 
 
 def retry(func):
+    @wraps(func)
     def retry_wrapper(self, *args, **kwargs):
         """
         Args:
