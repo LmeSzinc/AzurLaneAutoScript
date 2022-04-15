@@ -4,7 +4,7 @@ from module.exception import CampaignEnd
 from module.hard.equipment import HardEquipment
 from module.logger import logger
 from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
-from module.ui.ui import CAMPAIGN_CHECK
+from module.ui.assets import CAMPAIGN_CHECK
 
 
 class Config:
