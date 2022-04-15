@@ -7,7 +7,8 @@ from module.daily.assets import *
 from module.equipment.fleet_equipment import DailyEquipment
 from module.logger import logger
 from module.ocr.ocr import Digit
-from module.ui.ui import (BACK_ARROW, DAILY_CHECK, page_campaign_menu,
+from module.ui.assets import DAILY_CHECK
+from module.ui.ui import (BACK_ARROW, page_campaign_menu,
                           page_daily)
 
 DAILY_MISSION_LIST = [DAILY_MISSION_1, DAILY_MISSION_2, DAILY_MISSION_3]
