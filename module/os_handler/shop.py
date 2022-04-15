@@ -4,7 +4,7 @@ from module.logger import logger
 from module.ocr.ocr import Digit
 from module.os_handler.assets import *
 from module.os_handler.map_event import MapEventHandler
-from module.statistics.item import ItemGrid, Item
+from module.statistics.item import Item, ItemGrid
 from module.ui.ui import UI
 
 OCR_SHOP_YELLOW_COINS = Digit(SHOP_YELLOW_COINS, letter=(239, 239, 239), name='OCR_SHOP_YELLOW_COINS')

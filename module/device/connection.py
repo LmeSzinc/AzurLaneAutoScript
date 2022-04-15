@@ -7,13 +7,14 @@ import time
 
 import adbutils
 import uiautomator2 as u2
-from adbutils import AdbClient, AdbDevice, ForwardItem, ReverseItem, AdbTimeout
+from adbutils import AdbClient, AdbDevice, AdbTimeout, ForwardItem, ReverseItem
 
-from deploy.utils import poor_yaml_read, DEPLOY_CONFIG
+from deploy.utils import DEPLOY_CONFIG, poor_yaml_read
 from module.base.decorator import cached_property
 from module.base.utils import ensure_time
 from module.config.config import AzurLaneConfig
-from module.device.method.utils import recv_all, possible_reasons, random_port, del_cached_property
+from module.device.method.utils import (del_cached_property, possible_reasons,
+                                        random_port, recv_all)
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 
@@ -82,7 +83,8 @@ class Connection:
         Returns:
             str: 127.0.0.1:{port}
         """
-        from winreg import ConnectRegistry, OpenKey, QueryInfoKey, EnumValue, CloseKey, HKEY_LOCAL_MACHINE
+        from winreg import (HKEY_LOCAL_MACHINE, CloseKey, ConnectRegistry,
+                            EnumValue, OpenKey, QueryInfoKey)
 
         logger.info("Use Bluestacks4 Hyper-v Beta")
         if serial == "bluestacks4-hyperv":
@@ -117,7 +119,8 @@ class Connection:
         Returns:
             str: 127.0.0.1:{port}
         """
-        from winreg import ConnectRegistry, OpenKey, QueryInfoKey, EnumValue, CloseKey, HKEY_LOCAL_MACHINE
+        from winreg import (HKEY_LOCAL_MACHINE, CloseKey, ConnectRegistry,
+                            EnumValue, OpenKey, QueryInfoKey)
 
         logger.info("Use Bluestacks5 Hyper-v")
         logger.info("Reading Realtime adb port")

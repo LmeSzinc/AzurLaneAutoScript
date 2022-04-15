@@ -1,7 +1,7 @@
 from module.base.decorator import Config, cached_property
 from module.campaign.campaign_ui import CampaignUI
 from module.combat.auto_search_combat import AutoSearchCombat
-from module.exception import CampaignEnd, ScriptError, MapEnemyMoved
+from module.exception import CampaignEnd, MapEnemyMoved, ScriptError
 from module.logger import logger
 from module.map.map import Map
 from module.map.map_base import CampaignMap

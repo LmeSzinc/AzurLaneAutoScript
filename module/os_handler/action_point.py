@@ -1,6 +1,6 @@
+import module.config.server as server
 from module.base.button import ButtonGrid
 from module.base.utils import *
-import module.config.server as server
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
 from module.os_handler.assets import *

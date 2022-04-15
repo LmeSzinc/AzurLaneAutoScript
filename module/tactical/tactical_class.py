@@ -8,9 +8,10 @@ from module.base.utils import *
 from module.exception import ScriptError
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
-from module.ocr.ocr import Duration, DigitCounter
+from module.ocr.ocr import DigitCounter, Duration
 from module.tactical.assets import *
-from module.ui.assets import TACTICAL_CHECK, REWARD_GOTO_TACTICAL, REWARD_CHECK, BACK_ARROW
+from module.ui.assets import (BACK_ARROW, REWARD_CHECK, REWARD_GOTO_TACTICAL,
+                              TACTICAL_CHECK)
 from module.ui.ui import UI, page_reward
 
 

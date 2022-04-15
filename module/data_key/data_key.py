@@ -2,7 +2,8 @@ from module.combat.assets import GET_ITEMS_1
 from module.data_key.assets import *
 from module.logger import logger
 from module.ocr.ocr import DigitCounter
-from module.ui.assets import WAR_ARCHIVES_CHECK, CAMPAIGN_MENU_GOTO_WAR_ARCHIVES
+from module.ui.assets import (CAMPAIGN_MENU_GOTO_WAR_ARCHIVES,
+                              WAR_ARCHIVES_CHECK)
 from module.ui.ui import UI, page_archives
 
 DATA_KEY = DigitCounter(OCR_DATA_KEY, letter=(255, 247, 247), threshold=64)

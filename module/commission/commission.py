@@ -6,7 +6,8 @@ from module.base.timer import Timer
 from module.base.utils import *
 from module.combat.assets import *
 from module.commission.assets import *
-from module.commission.project import Commission, COMMISSION_FILTER, SHORTEST_FILTER
+from module.commission.project import (COMMISSION_FILTER, SHORTEST_FILTER,
+                                       Commission)
 from module.exception import GameStuckError
 from module.handler.info_handler import InfoHandler
 from module.logger import logger

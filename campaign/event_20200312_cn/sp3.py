@@ -1,10 +1,9 @@
-from module.campaign.campaign_base import CampaignBase
-from module.map.map_base import CampaignMap
 from module.campaign.assets import EVENT_20200312CN_SP3 as ENTRANCE
-from module.map.map_grids import SelectedGrids, RoadGrids
-from module.ui.assets import CAMPAIGN_GOTO_DAILY
+from module.campaign.campaign_base import CampaignBase
 from module.logger import logger
-
+from module.map.map_base import CampaignMap
+from module.map.map_grids import RoadGrids, SelectedGrids
+from module.ui.assets import CAMPAIGN_GOTO_DAILY
 
 MAP = CampaignMap('d3')
 MAP.shape = 'I6'

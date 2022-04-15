@@ -4,10 +4,11 @@ from module.base.timer import Timer
 from module.base.utils import rgb2gray
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3
 from module.logger import logger
-from module.research.assets import *
-from module.research.project import ResearchSelector, RESEARCH_ENTRANCE, get_research_finished, ResearchProject
-from module.ui.page import *
 from module.ocr.ocr import Duration
+from module.research.assets import *
+from module.research.project import (RESEARCH_ENTRANCE, ResearchProject,
+                                     ResearchSelector, get_research_finished)
+from module.ui.page import *
 
 OCR_DURATION = Duration(RESEARCH_LAB_DURATION_REMAIN, letter=(255, 255, 255), threshold=64,
                         name='RESEARCH_LAB_DURATION_REMAIN')

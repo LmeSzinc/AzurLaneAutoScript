@@ -2,7 +2,7 @@ from module.campaign.campaign_base import CampaignBase
 from module.daemon.daemon_base import DaemonBase
 from module.exception import CampaignEnd
 from module.handler.ambush import MAP_AMBUSH_EVADE
-from module.map.map_operation import MAP_PREPARATION, FLEET_PREPARATION
+from module.map.map_operation import FLEET_PREPARATION, MAP_PREPARATION
 
 
 class AzurLaneDaemon(DaemonBase, CampaignBase):

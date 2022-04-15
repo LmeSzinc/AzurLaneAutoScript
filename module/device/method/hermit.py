@@ -6,9 +6,10 @@ from adbutils.errors import AdbError
 
 from module.base.decorator import cached_property
 from module.base.timer import Timer
-from module.base.utils import random_rectangle_point, point2str
+from module.base.utils import point2str, random_rectangle_point
 from module.device.method.adb import Adb
-from module.device.method.utils import HierarchyButton, handle_adb_error, RETRY_TRIES, RETRY_DELAY
+from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
+                                        HierarchyButton, handle_adb_error)
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 

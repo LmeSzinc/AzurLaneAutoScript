@@ -6,7 +6,7 @@ from module.campaign.assets import *
 from module.campaign.campaign_base import CampaignBase
 from module.config.config import AzurLaneConfig
 from module.config.utils import deep_get
-from module.exception import RequestHumanTakeover, ScriptEnd, CampaignEnd
+from module.exception import CampaignEnd, RequestHumanTakeover, ScriptEnd
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.ui.ui import UI

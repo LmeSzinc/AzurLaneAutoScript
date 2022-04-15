@@ -2,7 +2,7 @@ from module.base.button import ButtonGrid
 from module.base.utils import *
 from module.handler.assets import AUTO_SEARCH_MENU_EXIT
 from module.statistics.assets import CAMPAIGN_BONUS
-from module.statistics.get_items import GetItemsStatistics, ITEM_GROUP
+from module.statistics.get_items import ITEM_GROUP, GetItemsStatistics
 from module.statistics.item import Item
 from module.statistics.utils import *
 

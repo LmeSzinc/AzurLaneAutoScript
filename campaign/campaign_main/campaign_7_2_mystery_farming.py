@@ -1,9 +1,9 @@
-from module.campaign.campaign_base import CampaignBase
-from module.map.map_base import CampaignMap
-from module.map.map_grids import SelectedGrids, RoadGrids
-from module.logger import logger
 from campaign.campaign_main.campaign_7_2 import MAP
 from campaign.campaign_main.campaign_7_2 import Config as ConfigBase
+from module.campaign.campaign_base import CampaignBase
+from module.logger import logger
+from module.map.map_base import CampaignMap
+from module.map.map_grids import RoadGrids, SelectedGrids
 
 # MAP.in_map_swipe_preset_data = (-1, 0)
 

@@ -2,10 +2,11 @@ import module.config.server as server
 
 server.server = 'cn'  # Don't need to edit, it's used to avoid error.
 
-from module.map_detection.view import View
-from module.config.config import AzurLaneConfig
-from PIL import Image
 import numpy as np
+from PIL import Image
+
+from module.config.config import AzurLaneConfig
+from module.map_detection.view import View
 
 """
 This file is use to debug a perspective error.

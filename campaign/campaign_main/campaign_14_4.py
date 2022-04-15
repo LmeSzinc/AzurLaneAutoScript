@@ -1,7 +1,8 @@
-from .campaign_14_base import CampaignBase
-from module.map.map_base import CampaignMap
-from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
+from module.map.map_base import CampaignMap
+from module.map.map_grids import RoadGrids, SelectedGrids
+
+from .campaign_14_base import CampaignBase
 from .campaign_14_base import Config as ConfigBase
 
 MAP = CampaignMap('14-4')

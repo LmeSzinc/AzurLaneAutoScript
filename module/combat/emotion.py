@@ -6,7 +6,7 @@ import numpy as np
 from module.base.decorator import cached_property
 from module.base.utils import random_normal_distribution_int
 from module.config.config import AzurLaneConfig
-from module.exception import ScriptError, ScriptEnd
+from module.exception import ScriptEnd, ScriptError
 from module.logger import logger
 
 DIC_LIMIT = {

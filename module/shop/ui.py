@@ -5,7 +5,8 @@ from module.shop.assets import *
 from module.ui.assets import BACK_ARROW
 from module.ui.navbar import Navbar
 from module.ui.page import page_munitions
-from module.ui.ui import UI, POPUP_CONFIRM
+from module.ui.ui import UI
+from module.handler.assets import POPUP_CONFIRM
 
 
 class ShopUI(UI):

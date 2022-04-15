@@ -3,12 +3,11 @@ import itertools
 import numpy as np
 
 from module.base.timer import Timer
-from module.exception import MapWalkError, MapEnemyMoved, MapDetectionError
+from module.exception import MapDetectionError, MapEnemyMoved, MapWalkError
 from module.handler.ambush import AmbushHandler
 from module.logger import logger
 from module.map.camera import Camera
-from module.map.map_base import SelectedGrids
-from module.map.map_base import location2node, location_ensure
+from module.map.map_base import SelectedGrids, location2node, location_ensure
 from module.map.utils import match_movable
 
 

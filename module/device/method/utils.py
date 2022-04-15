@@ -3,8 +3,8 @@ import re
 import socket
 
 import uiautomator2 as u2
+from adbutils import AdbTimeout, _AdbStreamConnection
 from lxml import etree
-from adbutils import _AdbStreamConnection, AdbTimeout
 
 from module.base.decorator import cached_property
 from module.logger import logger

@@ -2,10 +2,10 @@ import os
 import re
 
 from dev_tools.slpp import slpp
-from module.base.utils import location2node
-from module.map.utils import *
 from dev_tools.utils import LuaLoader
+from module.base.utils import location2node
 from module.logger import logger
+from module.map.utils import *
 
 """
 This an auto-tool to extract map files used in Alas.

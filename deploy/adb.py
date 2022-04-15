@@ -23,8 +23,8 @@ class AdbManager(DeployConfig):
 
         if self.bool('InstallUiautomator2'):
             hr1('Uiautomator2 Init')
-            from uiautomator2.init import Initer
             import adbutils
+            from uiautomator2.init import Initer
             for device in adbutils.adb.iter_device():
                 init = Initer(device, loglevel=logging.DEBUG)
                 init.set_atx_agent_addr('127.0.0.1:7912')

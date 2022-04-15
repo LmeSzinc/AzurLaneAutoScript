@@ -1,5 +1,6 @@
-from ..campaign_war_archives.campaign_base import CampaignBase as CampaignBase_
 from module.logger import logger
+
+from ..campaign_war_archives.campaign_base import CampaignBase as CampaignBase_
 
 
 class CampaignBase(CampaignBase_):

@@ -1,7 +1,6 @@
-from module.logger import logger  # Change folder automatically
-
 from dev_tools.utils import LuaLoader
 from module.base.utils import location2node
+from module.logger import logger  # Change folder automatically
 from module.os.map_data import DIC_OS_MAP
 
 

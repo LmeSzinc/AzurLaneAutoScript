@@ -2,7 +2,7 @@ from module.base.timer import Timer
 from module.combat.assets import GET_SHIP
 from module.gacha.assets import *
 from module.gacha.ui import GachaUI
-from module.handler.assets import STORY_SKIP, POPUP_CONFIRM
+from module.handler.assets import POPUP_CONFIRM, STORY_SKIP
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.retire.retirement import Retirement

@@ -2,7 +2,7 @@ import time
 import warnings
 
 import numpy as np
-from PIL import Image, ImageOps, ImageDraw
+from PIL import Image, ImageDraw, ImageOps
 from scipy import signal
 
 from module.base.utils import *

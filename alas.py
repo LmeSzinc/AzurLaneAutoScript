@@ -99,7 +99,8 @@ class AzurLaneAutoScript:
         Save logs to ./log/error/<timestamp>/log.txt
         """
         from module.base.utils import save_image
-        from module.handler.sensitive_info import handle_sensitive_image, handle_sensitive_logs
+        from module.handler.sensitive_info import (handle_sensitive_image,
+                                                   handle_sensitive_logs)
         if self.config.Error_SaveError:
             if not os.path.exists('./log/error'):
                 os.mkdir('./log/error')

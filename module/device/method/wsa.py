@@ -4,7 +4,8 @@ from functools import wraps
 from adbutils.errors import AdbError
 
 from module.device.connection import Connection
-from module.device.method.utils import possible_reasons, handle_adb_error, RETRY_TRIES, RETRY_DELAY
+from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
+                                        handle_adb_error, possible_reasons)
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 

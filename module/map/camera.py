@@ -4,15 +4,14 @@ import numpy as np
 
 from module.base.utils import area_offset
 from module.combat.assets import GET_ITEMS_1
-from module.exception import MapDetectionError, CampaignEnd
-from module.handler.assets import AUTO_SEARCH_MENU_CONTINUE
-from module.handler.assets import GAME_TIPS
+from module.exception import CampaignEnd, MapDetectionError
+from module.handler.assets import AUTO_SEARCH_MENU_CONTINUE, GAME_TIPS
 from module.logger import logger
 from module.map.map_base import CampaignMap, location2node
 from module.map.map_operation import MapOperation
 from module.map.utils import location_ensure, random_direction
 from module.map_detection.grid import Grid
-from module.map_detection.utils import trapezoid2area, area2corner
+from module.map_detection.utils import area2corner, trapezoid2area
 from module.map_detection.view import View
 
 
