@@ -11,6 +11,7 @@ Scheduler:
   SuccessInterval: 0
   FailureInterval: 120
   ServerUpdate: 00:00
+  ErrorMark: false
 Emulator:
   Serial:
     value: 127.0.0.1:5555
@@ -27,7 +28,9 @@ Emulator:
     option: [ADB, uiautomator2, minitouch, Hermit]
   ScreenshotDedithering: false
 Error:
-  HandleError: true
+  HandleError:
+    value: normal
+    option: [do_not_use, normal, extend]
   SaveError: true
   ScreenshotLength: 1
 Optimization:

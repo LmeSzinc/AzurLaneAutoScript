@@ -393,6 +393,7 @@ class AzurLaneAutoScript:
 
             # Run
             logger.info(f'Scheduler: Start task `{task}`')
+            self.config.Scheduler_ErrorMark = False
             self.device.stuck_record_clear()
             self.device.click_record_clear()
             logger.hr(task, level=0)
@@ -404,7 +405,12 @@ class AzurLaneAutoScript:
             failed = deep_get(failure_record, keys=task, default=0)
             failed = 0 if success else failed + 1
             deep_set(failure_record, keys=task, value=failed)
-            if failed >= 3:
+            if failed >= 3 and self.config.Error_HandleError == 'extend':
+                self.config.task_delay(success=False)
+                self.config.Scheduler_ErrorMark = True
+                del self.__dict__['config']
+                continue
+            elif failed >= 3:
                 logger.critical(f"Task `{task}` failed 3 or more times.")
                 logger.critical("Possible reason #1: You haven't used it correctly. "
                                 "Please read the help text of the options.")
@@ -416,8 +422,7 @@ class AzurLaneAutoScript:
             if success:
                 del self.__dict__['config']
                 continue
-            elif self.config.Error_HandleError:
-                # self.config.task_delay(success=False)
+            elif self.config.Error_HandleError != 'do_not_use':
                 del self.__dict__['config']
                 continue
             else:

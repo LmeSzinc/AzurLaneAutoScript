@@ -267,6 +267,10 @@
     "ServerUpdate": {
       "name": "Server Update",
       "help": "Series of server refresh time(s) as to when this task will next run, this is automatically converted to respective time zone, generally do not need to modify"
+    },
+    "ErrorMark": {
+      "name": "ErrorMark",
+      "help": "This task has experienced a serious error and will be highlighted in the scheduler until the next run\nIt can be closed after troubleshooting"
     }
   },
   "Emulator": {
@@ -319,7 +323,10 @@
     },
     "HandleError": {
       "name": "Enable Exception Handling",
-      "help": "Handles select exceptions, will retreat if in battle"
+      "help": "Normal: handle some exceptions and retreat when there is an error\nExtend: after continuous abnormal tasks, alas will not stop running, but delay the current task\nWarning: extend exception handling will lead to errors that are not easy to find and are only suitable for long-term operation",
+      "do_not_use": "do_not_use",
+      "normal": "normal",
+      "extend": "extend"
     },
     "SaveError": {
       "name": "Record Exception",

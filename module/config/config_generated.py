@@ -16,6 +16,7 @@ class GeneratedConfig:
     Scheduler_SuccessInterval = 0
     Scheduler_FailureInterval = 120
     Scheduler_ServerUpdate = '00:00'
+    Scheduler_ErrorMark = False
 
     # Group `Emulator`
     Emulator_Serial = '127.0.0.1:5555'
@@ -26,7 +27,7 @@ class GeneratedConfig:
     Emulator_ScreenshotDedithering = False
 
     # Group `Error`
-    Error_HandleError = True
+    Error_HandleError = 'normal'  # do_not_use, normal, extend
     Error_SaveError = True
     Error_ScreenshotLength = 1
 
