@@ -477,7 +477,6 @@ class AlasGUI(Frame):
                         label=t("Gui.Button.Setting"),
                         onclick=lambda: self.alas_set_group(func.command),
                         color="danger",
-
                     )
                 else:
                     put_button(
