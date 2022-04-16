@@ -24,10 +24,11 @@ class Function:
         self.enable = deep_get(data, keys='Scheduler.Enable', default=False)
         self.command = deep_get(data, keys='Scheduler.Command', default='Unknown')
         self.next_run = deep_get(data, keys='Scheduler.NextRun', default=datetime(2020, 1, 1, 0, 0))
+        self.error_mark = deep_get(data, keys='Scheduler.ErrorMark', default=False)
 
     def __str__(self):
         enable = 'Enable' if self.enable else 'Disable'
-        return f'{self.command} ({enable}, {str(self.next_run)})'
+        return f'{self.command} ({enable}, {str(self.next_run)}, {str(self.error_mark)})'
 
     __repr__ = __str__
 
@@ -182,8 +183,10 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
             f = Filter(regex=r'(.*)', attr=['command'])
             f.load(self.SCHEDULER_PRIORITY)
             pending = f.apply(pending, func=lambda x: x.enable)
+            pending = sorted(pending, key=operator.attrgetter('error_mark'), reverse=True)
         if waiting:
             waiting = sorted(waiting, key=operator.attrgetter('next_run'))
+            waiting = sorted(waiting, key=operator.attrgetter('error_mark'), reverse=True)
 
         self.pending_task = pending
         self.waiting_task = waiting
