@@ -267,6 +267,10 @@
     "ServerUpdate": {
       "name": "Scheduler.ServerUpdate.name",
       "help": "Scheduler.ServerUpdate.help"
+    },
+    "ErrorMark": {
+      "name": "Scheduler.ErrorMark.name",
+      "help": "Scheduler.ErrorMark.help"
     }
   },
   "Emulator": {
@@ -319,7 +323,10 @@
     },
     "HandleError": {
       "name": "Error.HandleError.name",
-      "help": "Error.HandleError.help"
+      "help": "Error.HandleError.help",
+      "do_not_use": "do_not_use",
+      "normal": "normal",
+      "extend": "extend"
     },
     "SaveError": {
       "name": "Error.SaveError.name",

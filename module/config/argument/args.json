@@ -48,8 +48,13 @@
     },
     "Error": {
       "HandleError": {
-        "type": "checkbox",
-        "value": true
+        "type": "select",
+        "value": "normal",
+        "option": [
+          "do_not_use",
+          "normal",
+          "extend"
+        ]
       },
       "SaveError": {
         "type": "checkbox",
@@ -201,6 +206,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     }
   },
@@ -230,6 +239,10 @@
       "ServerUpdate": {
         "type": "input",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Campaign": {
@@ -596,6 +609,10 @@
       "ServerUpdate": {
         "type": "input",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "C72MysteryFarming": {
@@ -918,6 +935,10 @@
       "ServerUpdate": {
         "type": "input",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "C122MediumLeveling": {
@@ -1285,6 +1306,10 @@
       "ServerUpdate": {
         "type": "input",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "C124LargeLeveling": {
@@ -1670,6 +1695,10 @@
       "ServerUpdate": {
         "type": "input",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "GemsFarming": {
@@ -2060,6 +2089,10 @@
       "ServerUpdate": {
         "type": "input",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Campaign": {
@@ -2476,6 +2509,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "EventAb": {
@@ -2891,6 +2928,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "EventCd": {
@@ -3306,6 +3347,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Campaign": {
@@ -3711,6 +3756,10 @@
       "ServerUpdate": {
         "type": "input",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Raid": {
@@ -3909,6 +3958,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "RaidDaily": {
@@ -4098,6 +4151,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "MaritimeEscort": {
@@ -4133,6 +4190,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Commission": {
@@ -4172,6 +4233,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Tactical": {
@@ -4229,6 +4294,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Research": {
@@ -4303,6 +4372,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Dorm": {
@@ -4346,6 +4419,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Meowfficer": {
@@ -4411,6 +4488,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00, 06:00, 12:00, 18:00, 21:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "GuildLogistics": {
@@ -4480,6 +4561,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Reward": {
@@ -4531,6 +4616,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00, 12:00, 18:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "GeneralShop": {
@@ -4578,6 +4667,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "GuildShop": {
@@ -4762,6 +4855,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "04:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Shipyard": {
@@ -4805,6 +4902,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Gacha": {
@@ -4867,6 +4968,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     }
   },
@@ -4896,6 +5001,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "SupplyPack": {
@@ -4931,6 +5040,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "BattlePass": {
@@ -4966,6 +5079,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "MetaReward": {
@@ -5001,6 +5118,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Daily": {
@@ -5134,6 +5255,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Hard": {
@@ -5177,6 +5302,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00, 12:00, 18:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Exercise": {
@@ -5243,6 +5372,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Sos": {
@@ -5614,6 +5747,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Campaign": {
@@ -6027,6 +6164,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "OpsiAshAssist": {
@@ -6062,6 +6203,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "OpsiExplore": {
@@ -6121,6 +6266,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "OpsiShop": {
@@ -6156,6 +6305,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "OpsiDaily": {
@@ -6211,6 +6364,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "OpsiObscure": {
@@ -6262,6 +6419,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "OpsiAbyssal": {
@@ -6303,6 +6464,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "OpsiStronghold": {
@@ -6344,6 +6509,10 @@
       "ServerUpdate": {
         "type": "disable",
         "value": "00:00"
+      },
+      "ErrorMark": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "OpsiMeowfficerFarming": {
