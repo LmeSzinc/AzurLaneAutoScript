@@ -464,29 +464,22 @@ class AlasGUI(Frame):
         waiting = self.alas_config.waiting_task
 
         def put_task(func: Function):
-            if func.error_mark:
-                with use_scope(f"overview-task_{func.command}"):
-                    put_column(
-                        [
-                            put_text(t(f"Task.{func.command}.name")).style("--arg-title-warning--"),
-                            put_text(str(func.next_run)).style("--arg-help--"),
-                        ],
-                        size="auto auto",
-                    )
+            with use_scope(f"overview-task_{func.command}"):
+                put_column(
+                    [
+                        put_text(t(f"Task.{func.command}.name")).style("--arg-title--"),
+                        put_text(str(func.next_run)).style("--arg-help--"),
+                    ],
+                    size="auto auto",
+                )
+                if func.error_mark:
                     put_button(
                         label=t("Gui.Button.Setting"),
                         onclick=lambda: self.alas_set_group(func.command),
-                        color="off",
+                        color="danger",
+
                     )
-            else:
-                with use_scope(f"overview-task_{func.command}"):
-                    put_column(
-                        [
-                            put_text(t(f"Task.{func.command}.name")).style("--arg-title--"),
-                            put_text(str(func.next_run)).style("--arg-help--"),
-                        ],
-                        size="auto auto",
-                    )
+                else:
                     put_button(
                         label=t("Gui.Button.Setting"),
                         onclick=lambda: self.alas_set_group(func.command),

@@ -444,14 +444,6 @@ pre.rich-traceback-code {
     overflow-wrap: break-word;
 }
 
-*[style*="--arg-title-warning--"] {
-    color: red;
-    font-size: 1rem;
-    font-weight: 500;
-    margin: 0 .25rem 0 .25rem !important;
-    overflow-wrap: break-word;
-}
-
 *[style*="--arg-help--"] {
     font-size: .8rem;
     margin: .2rem .25rem .1rem .25rem !important;
