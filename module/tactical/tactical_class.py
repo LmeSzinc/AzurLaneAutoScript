@@ -361,6 +361,8 @@ class RewardTacticalClass(UI):
             if self.handle_urgent_commission():
                 # Only one button in the middle, when skill reach max level.
                 continue
+            if self.ui_page_main_popups():
+                continue
             if self.appear(TACTICAL_CLASS_CANCEL, offset=(30, 30), interval=2) \
                     and self.appear(TACTICAL_CLASS_START, offset=(30, 30)):
                 self.device.sleep(0.3)
