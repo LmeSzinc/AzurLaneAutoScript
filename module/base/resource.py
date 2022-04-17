@@ -1,6 +1,8 @@
-import gc
 import re
 
+import gc
+
+import module.config.server as server
 from module.base.decorator import cached_property
 from module.logger import logger
 
@@ -52,13 +54,17 @@ _preserved_assets = PreservedAssets()
 
 
 class Resource:
+    # Class property, record all button and templates
     instances = {}
+    # Instance property, record cached properties of instance
+    cached = []
 
     def resource_add(self, key):
         Resource.instances[key] = self
 
     def resource_release(self):
-        pass
+        for cache in self.cached:
+            del_cached_property(self, cache)
 
     @classmethod
     def is_loaded(cls, obj):
@@ -75,6 +81,19 @@ class Resource:
             if cls.is_loaded(obj):
                 continue
             logger.info(f'{obj}: {key}')
+
+    def parse_property(self, data):
+        """
+        Parse properties of Button or Template object input.
+        Such as `area`, `color` and `button`.
+
+        Args:
+            data: Dict or str
+        """
+        if isinstance(data, dict):
+            return data[server.server]
+        else:
+            return data
 
 
 def release_resources(next_task=''):

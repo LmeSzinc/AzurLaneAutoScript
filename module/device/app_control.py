@@ -29,20 +29,20 @@ class AppControl(Adb, WSA, Uiautomator2):
         method = self.config.Emulator_ControlMethod
         logger.info(f'App start: {package}')
         if self.config.Emulator_Serial == 'wsa-0':
-            self.app_start_wsa(package, display=0)
+            self.app_start_wsa(display=0)
         elif method == 'uiautomator2' or method == 'minitouch':
-            self.app_start_uiautomator2(package)
+            self.app_start_uiautomator2()
         else:
-            self.app_start_adb(package)
+            self.app_start_adb()
 
     def app_stop(self):
         package = self.config.Emulator_PackageName
         method = self.config.Emulator_ControlMethod
         logger.info(f'App stop: {package}')
         if method == 'uiautomator2' or method == 'minitouch':
-            self.app_stop_uiautomator2(package)
+            self.app_stop_uiautomator2()
         else:
-            self.app_stop_adb(package)
+            self.app_stop_adb()
 
     def dump_hierarchy(self) -> etree._Element:
         """

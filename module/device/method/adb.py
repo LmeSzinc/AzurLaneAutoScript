@@ -8,7 +8,7 @@ from lxml import etree
 
 from module.device.connection import Connection
 from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
-                                        handle_adb_error, possible_reasons,
+                                        handle_adb_error, PackageNotInstalled,
                                         recv_all)
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
@@ -46,6 +46,12 @@ def retry(func):
                         self.adb_connect(self.serial)
                 else:
                     break
+            # Package not installed
+            except PackageNotInstalled as e:
+                logger.error(e)
+
+                def init():
+                    self.detect_package()
             # Unknown, probably a trucked image
             except Exception as e:
                 logger.exception(e)
@@ -179,7 +185,7 @@ class Adb(Connection):
         raise OSError("Couldn't get focused app")
 
     @retry
-    def app_start_adb(self, package_name, allow_failure=False):
+    def app_start_adb(self, package_name=None, allow_failure=False):
         """
         Args:
             package_name (str):
@@ -188,6 +194,8 @@ class Adb(Connection):
         Returns:
             bool: If success to start
         """
+        if not package_name:
+            package_name = self.config.Emulator_PackageName
         result = self.adb_shell([
             'monkey', '-p', package_name, '-c',
             'android.intent.category.LAUNCHER', '1'
@@ -198,17 +206,17 @@ class Adb(Connection):
                 return False
             else:
                 logger.error(result)
-                possible_reasons(f'"{package_name}" not found, please check setting Emulator.PackageName')
-                self.show_packages()
-                raise RequestHumanTakeover
+                raise PackageNotInstalled(package_name)
         else:
             # Events injected: 1
             # ## Network stats: elapsed time=4ms (0ms mobile, 0ms wifi, 4ms not connected)
             return True
 
     @retry
-    def app_stop_adb(self, package_name):
+    def app_stop_adb(self, package_name=None):
         """ Stop one application: am force-stop"""
+        if not package_name:
+            package_name = self.config.Emulator_PackageName
         self.adb_shell(['am', 'force-stop', package_name])
 
     @retry

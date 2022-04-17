@@ -4,7 +4,9 @@ import module.config.server as server
 
 
 class ManualConfig:
-    SERVER = server.server
+    @property
+    def SERVER(self):
+        return server.server
 
     SCHEDULER_PRIORITY = """
     Restart

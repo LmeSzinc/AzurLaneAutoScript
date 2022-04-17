@@ -13,6 +13,7 @@ from deploy.utils import DEPLOY_CONFIG, poor_yaml_read
 from module.base.decorator import cached_property
 from module.base.utils import ensure_time
 from module.config.config import AzurLaneConfig
+from module.device.game_package import package_to_server
 from module.device.method.utils import (del_cached_property, possible_reasons,
                                         random_port, recv_all)
 from module.exception import RequestHumanTakeover
@@ -34,12 +35,23 @@ class Connection:
         Args:
             config (AzurLaneConfig, str): Name of the user config under ./config
         """
-        logger.hr('Device')
+        logger.hr('Device', level=1)
         if isinstance(config, str):
             self.config = AzurLaneConfig(config, task=None)
         else:
             self.config = config
 
+        # Init adb client
+        logger.attr('Adb_binary', self.adb_binary)
+        # Monkey patch to custom adb
+        adbutils.adb_path = lambda: self.adb_binary
+        # Remove global proxies, or uiautomator2 will go through it
+        for k in list(os.environ.keys()):
+            if k.lower().endswith('_proxy'):
+                del os.environ[k]
+        self.adb_client = AdbClient('127.0.0.1', 5037)
+
+        # Parse custom serial
         self.serial = str(self.config.Emulator_Serial)
         if "bluestacks4-hyperv" in self.serial:
             self.serial = self.find_bluestacks4_hyperv(self.serial)
@@ -56,20 +68,10 @@ class Connection:
                 with self.config.multi_set():
                     self.config.Emulator_ScreenshotMethod = 'uiautomator2'
                     self.config.Emulator_ControlMethod = 'uiautomator2'
+        self.detect_device()
 
-        logger.attr('Adb_binary', self.adb_binary)
-
-        # Monkey patch to custom adb
-        adbutils.adb_path = lambda: self.adb_binary
-        # Remove global proxies, or uiautomator2 will go through it
-        for k in list(os.environ.keys()):
-            if k.lower().endswith('_proxy'):
-                del os.environ[k]
-
-        self.adb_client = AdbClient('127.0.0.1', 5037)
+        # Connect
         self.adb_connect(self.serial)
-
-        self.adb = AdbDevice(self.adb_client, self.serial)
         logger.attr('Adb_device', self.adb)
 
     @staticmethod
@@ -169,6 +171,10 @@ class Connection:
         # Use adb.exe in system PATH
         file = 'adb.exe'
         return file
+
+    @cached_property
+    def adb(self) -> AdbDevice:
+        return AdbDevice(self.adb_client, self.serial)
 
     def adb_command(self, cmd, timeout=10):
         """
@@ -385,7 +391,7 @@ class Connection:
                     possible_reasons('Serial incorrect, might be a typo')
                     raise RequestHumanTakeover
             logger.warning(f'Failed to connect {serial} after 3 trial, assume connected')
-            self.show_devices()
+            self.detect_device()
             return False
 
     def adb_disconnect(self, serial):
@@ -472,34 +478,118 @@ class Connection:
         logger.attr('Device Orientation', f'{o} ({Connection._orientation_description.get(o, "Unknown")})')
         return o
 
-    def show_devices(self):
+    def iter_device(self):
         """
-        Show all available devices on current computer.
+        Returns:
+            iter of AdbDevice
         """
-        logger.hr('Show devices')
+
+        class AdbDeviceWithStatus(AdbDevice):
+            def __init__(self, client: AdbClient, serial: str, status: str):
+                self.status = status
+                super().__init__(client, serial)
+
+            def __str__(self):
+                return f'AdbDevice({self.serial}, {self.status})'
+
+            __repr__ = __str__
+
+        with self.adb_client._connect() as c:
+            c.send_command("host:devices")
+            c.check_okay()
+            output = c.read_string_block()
+            for line in output.splitlines():
+                parts = line.strip().split("\t")
+                if len(parts) != 2:
+                    continue
+                yield AdbDeviceWithStatus(self.adb_client, parts[0], parts[1])
+
+    def detect_device(self):
+        """
+        Find available devices
+        If serial=='auto' and only 1 device detected, use it
+        """
+        logger.hr('Detect device')
         logger.info('Here are the available devices, '
-                    'copy to Alas.Emulator.Serial to use it')
-        devices = list(self.adb_client.iter_device())
-        if devices:
-            for device in devices:
-                logger.info(device.serial)
-        else:
+                    'copy to Alas.Emulator.Serial to use it or set Alas.Emulator.Serial="auto"')
+        devices = list(self.iter_device())
+
+        # Show available devices
+        available = [d for d in devices if d.status == 'device']
+        for device in available:
+            logger.info(device.serial)
+        if not len(available):
             logger.info('No available devices')
 
-    def show_packages(self, keyword='azurlane'):
+        # Show unavailable devices if having any
+        unavailable = [d for d in devices if d.status != 'device']
+        if len(unavailable):
+            logger.info('Here are the devices detected but unavailable')
+            for device in unavailable:
+                logger.info(f'{device.serial} ({device.status})')
+
+        # Auto device detection
+        if self.config.Emulator_Serial == 'auto':
+            if len(devices) == 0:
+                logger.critical('No available device found, auto device detection cannot work, '
+                                'please set an exact serial in Alas.Emulator.Serial instead of using "auto"')
+                raise RequestHumanTakeover
+            elif len(devices) == 1:
+                logger.info(f'Auto device detection found only one device, using it')
+                self.serial = devices[0].serial
+                del_cached_property(self, 'adb')
+            else:
+                logger.critical('Multiple devices found, auto device detection cannot decide which to choose, '
+                                'please copy one of the available devices listed above to Alas.Emulator.Serial')
+                raise RequestHumanTakeover
+
+    def detect_package(self, keywords=('azurlane', 'blhx')):
         """
         Show all possible packages with the given keyword on this device.
         """
-        logger.hr('Show packages')
+        logger.hr('Detect package')
         logger.info('Fetching package list')
         output = self.adb_shell(['pm', 'list', 'packages'])
         packages = re.findall(r'package:([^\s]+)', output)
-        logger.info(f'Here are the available packages in device {self.serial}, '
-                    f'copy to Alas.Emulator.PackageName to use it')
+        if not packages:
+            packages = []
+        packages = [p for p in packages if any([k in p for k in keywords])]
 
-        if packages:
+        # Show packages
+        logger.info(f'Here are the available packages in device "{self.serial}", '
+                    f'copy to Alas.Emulator.PackageName to use it')
+        if len(packages):
             for package in packages:
-                if keyword in package.lower():
-                    logger.info(package)
+                logger.info(package)
         else:
-            logger.info(f'No available package with keyword: {keyword}')
+            logger.info(f'No available packages on device "{self.serial}"')
+
+        # Auto package detection
+        if len(packages) == 0:
+            logger.critical(f'No {keywords[0]} package found, '
+                            f'please confirm {keywords[0]} has been installed on device "{self.serial}"')
+            raise RequestHumanTakeover
+        if len(packages) == 1:
+            logger.info('Auto package detection found only one package, using it')
+            package = packages[0]
+            # Get server
+            server = package_to_server(package)
+            if server is not None:
+                logger.info(f'Package "{package}" is {keywords[0]} {server.upper()}, using it')
+            else:
+                logger.info(f'Package "{package}" might be {keywords[0]} CN channel, using it')
+                server = 'cn'
+            # Set config
+            with self.config.multi_set():
+                self.config.Emulator_PackageName = package
+                self.config.Emulator_Server = server
+            # Set server
+            logger.info('Server changed, release resources')
+            from module.config.server import set_server
+            set_server(server)
+        else:
+            logger.critical(
+                f'Multiple {keywords[0]} packages found, auto package detection cannot decide which to choose, '
+                'please copy one of the available devices listed above to Alas.Emulator.PackageName '
+                'and set Alas.Emulator.Server to the corresponding server')
+            raise RequestHumanTakeover

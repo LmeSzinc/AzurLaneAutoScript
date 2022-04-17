@@ -5,7 +5,7 @@ from adbutils.errors import AdbError
 
 from module.device.connection import Connection
 from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
-                                        handle_adb_error, possible_reasons)
+                                        handle_adb_error, PackageNotInstalled)
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 
@@ -42,6 +42,12 @@ def retry(func):
                         self.adb_connect(self.serial)
                 else:
                     break
+            # Package not installed
+            except PackageNotInstalled as e:
+                logger.error(e)
+
+                def init():
+                    self.detect_package()
             # Unknown, probably a trucked image
             except Exception as e:
                 logger.exception(e)
@@ -83,38 +89,37 @@ class WSA(Connection):
         raise OSError("Couldn't get focused app")
 
     @retry
-    def app_start_wsa(self, package_name, display, allow_failure=False):
+    def app_start_wsa(self, package_name=None, display=0):
         """
         Args:
             package_name (str):
             display (int):
-            allow_failure (bool):
 
         Returns:
             bool: If success to start
         """
-
+        if not package_name:
+            package_name = self.config.Emulator_PackageName
         self.adb_shell(['svc', 'power', 'stayon', 'true'])
         activity_name = self.get_main_activity_name(package_name=package_name)
-        result = self.adb_shell(
-            ['am', 'start', '--display', display, package_name +
-             '/' + activity_name])
-        if 'No activities found' in result:
-            # ** No activities found to run, monkey aborted.
-            if allow_failure:
-                return False
-            else:
-                logger.error(result)
-                possible_reasons(f'"{package_name}" not found, please check setting Emulator.PackageName')
-                self.show_packages()
-                raise RequestHumanTakeover
+        result = self.adb_shell(['am', 'start', '--display', display, f'{package_name}/{activity_name}'])
+        if 'Activity not started' in result or 'does not exist' in result:
+            # Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] pkg=xxx }
+            # Error: Activity not started, unable to resolve Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 pkg=xxx }
+
+            # Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.bilibili.azurlane/xxx }
+            # Error type 3
+            # Error: Activity class {com.bilibili.azurlane/com.manjuu.azurlane.MainAct} does not exist.
+            logger.error(result)
+            raise PackageNotInstalled(package_name)
         else:
-            # Events injected: 1
-            # ## Network stats: elapsed time=4ms (0ms mobile, 0ms wifi, 4ms not connected)
+            # Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.bilibili.azurlane/com.manjuu.azurlane.MainActivity }
             return True
 
     @retry
-    def get_main_activity_name(self, package_name):
+    def get_main_activity_name(self, package_name=None):
+        if not package_name:
+            package_name = self.config.Emulator_PackageName
         try:
             output = self.adb_shell(['dumpsys', 'package', package_name])
             _activityRE = re.compile(
@@ -124,8 +129,7 @@ class WSA(Connection):
             ret = next(ms).group('activity')
             return ret
         except StopIteration:
-            self.show_packages()
-            raise RequestHumanTakeover("Couldn't get activity name, please check setting Emulator.PackageName")
+            raise PackageNotInstalled(package_name)
 
     @retry
     def get_display_id(self):
