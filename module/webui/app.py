@@ -1067,7 +1067,7 @@ def app():
     AlasGUI.set_theme(theme=Setting.webui_config.Theme)
     lang.LANG = Setting.webui_config.Language
     key = args.key or Setting.webui_config.Password
-    cdn = args.cdn or (Setting.webui_config.CDN == "true") or False
+    cdn = args.cdn or (False if Setting.webui_config.CDN == "false" else Setting.webui_config.CDN) or False
     Setting.reload = args.reload or Setting.webui_config.bool("EnableReload")
     Setting.electron = args.electron
 
