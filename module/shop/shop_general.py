@@ -46,6 +46,8 @@ class GeneralShop(ShopBase, ShopUI):
         """
         return self.shop_general_items
 
+    currency_rechecked = 0
+
     def shop_currency(self):
         """
         Ocr shop general currency
@@ -54,9 +56,26 @@ class GeneralShop(ShopBase, ShopUI):
         Returns:
             int: gold coin amount
         """
-        self._shop_gold_coins = OCR_SHOP_GOLD_COINS.ocr(self.device.image)
-        self._shop_gems = OCR_SHOP_GEMS.ocr(self.device.image)
-        logger.info(f'Gold coins: {self._shop_gold_coins}, Gems: {self._shop_gems}')
+        while 1:
+            self._shop_gold_coins = OCR_SHOP_GOLD_COINS.ocr(self.device.image)
+            self._shop_gems = OCR_SHOP_GEMS.ocr(self.device.image)
+            logger.info(f'Gold coins: {self._shop_gold_coins}, Gems: {self._shop_gems}')
+
+            if self.currency_rechecked >= 3:
+                logger.warning('Failed to handle fix currency bug in general shop, skip')
+                break
+
+            if self._shop_gold_coins == 0 and self._shop_gems == 0:
+                logger.info('Game bugged, coins and gems disappeared, switch between shops to reset')
+                self.currency_rechecked += 1
+                # Goto guild shop
+                self.shop_bottom_navbar_ensure(left=1)
+                # Goto general shop
+                self.shop_bottom_navbar_ensure(left=5)
+                continue
+            else:
+                break
+
         return self._shop_gold_coins
 
     def shop_check_item(self, item):

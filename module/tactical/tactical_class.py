@@ -149,6 +149,9 @@ class RewardTacticalClass(UI):
                 self.device.screenshot()
 
             self.handle_info_bar()  # info_bar appears when get ship in Launch Ceremony commissions
+            if not self.appear(TACTICAL_CLASS_START, offset=(30, 30)):
+                logger.info('Not in TACTICAL_CLASS_START anymore, exit')
+                return False
 
             books = SelectedGrids([Book(self.device.image, button) for button in BOOKS_GRID.buttons]).select(valid=True)
             self.books = books
@@ -251,12 +254,16 @@ class RewardTacticalClass(UI):
         """
         Choose tactical book according to config.
 
+        Returns:
+            int: If success
+
         Pages:
             in: TACTICAL_CLASS_START
             out: Unknown, may TACTICAL_CLASS_START, page_tactical, or _tactical_animation_running
         """
         logger.hr('Tactical books choose', level=2)
-        self._tactical_books_get()
+        if not self._tactical_books_get():
+            return False
 
         # Ensure first book is focused
         # For slow PCs, selection may have changed
@@ -284,6 +291,7 @@ class RewardTacticalClass(UI):
         else:
             logger.info('Cancel tactical')
             self.device.click(TACTICAL_CLASS_CANCEL)
+        return True
 
     def _tactical_get_finish(self):
         """
@@ -361,11 +369,12 @@ class RewardTacticalClass(UI):
             if self.handle_urgent_commission():
                 # Only one button in the middle, when skill reach max level.
                 continue
+            if self.ui_page_main_popups():
+                continue
             if self.appear(TACTICAL_CLASS_CANCEL, offset=(30, 30), interval=2) \
                     and self.appear(TACTICAL_CLASS_START, offset=(30, 30)):
-                self.device.sleep(0.3)
-                self._tactical_books_choose()
-                self.interval_reset(TACTICAL_CLASS_CANCEL)
+                if self._tactical_books_choose():
+                    self.interval_reset(TACTICAL_CLASS_CANCEL)
                 continue
 
         return True

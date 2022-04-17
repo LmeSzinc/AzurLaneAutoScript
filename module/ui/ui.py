@@ -359,16 +359,10 @@ class UI(InfoHandler):
 
     _opsi_reset_fleet_preparation_click = 0
 
-    def ui_additional(self):
+    def ui_page_main_popups(self):
         """
-        Handle all annoying popups during UI switching.
+        Handle popups appear at page_main, page_reward
         """
-        # Research popup, lost connection popup
-        if self.handle_popup_confirm("UI_ADDITIONAL"):
-            return True
-        if self.handle_urgent_commission():
-            return True
-
         # Guild popup
         if self.handle_guild_popup_cancel():
             return True
@@ -390,6 +384,20 @@ class UI(InfoHandler):
             return True
         # Battle pass is about to expire and player has uncollected battle pass rewards
         if self.appear_then_click(BATTLE_PASS_NOTICE, offset=(30, 30), interval=3):
+            return True
+
+    def ui_additional(self):
+        """
+        Handle all annoying popups during UI switching.
+        """
+        # Research popup, lost connection popup
+        if self.handle_popup_confirm("UI_ADDITIONAL"):
+            return True
+        if self.handle_urgent_commission():
+            return True
+
+        # Popups appear at page_main, page_reward
+        if self.ui_page_main_popups():
             return True
 
         # Routed from confirm click
