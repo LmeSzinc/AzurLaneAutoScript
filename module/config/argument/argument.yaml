@@ -74,7 +74,7 @@ Campaign:
     option: [normal, hard]
   UseClearMode: true
   UseFleetLock: true
-  UseAutoSearch: false
+  UseAutoSearch: true
   Use2xBook: false
   AmbushEvade: true
 StopCondition:

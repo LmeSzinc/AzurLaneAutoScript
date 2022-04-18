@@ -64,7 +64,7 @@ class GeneratedConfig:
     Campaign_Mode = 'normal'  # normal, hard
     Campaign_UseClearMode = True
     Campaign_UseFleetLock = True
-    Campaign_UseAutoSearch = False
+    Campaign_UseAutoSearch = True
     Campaign_Use2xBook = False
     Campaign_AmbushEvade = True
 

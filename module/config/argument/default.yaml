@@ -1,0 +1,56 @@
+# --------------------
+# Define default values
+# --------------------
+
+# ==================== Alas ====================
+
+# ==================== Farm ====================
+
+# ==================== Event ====================
+
+# ==================== Reward ====================
+
+Commission:
+  Scheduler:
+    Enable: true
+Tactical:
+  Scheduler:
+    Enable: true
+Research:
+  Scheduler:
+    Enable: true
+Dorm:
+  Scheduler:
+    Enable: true
+Meowfficer:
+  Scheduler:
+    Enable: true
+Guild:
+  Scheduler:
+    Enable: true
+Reward:
+  Scheduler:
+    Enable: true
+
+# ==================== DailyReward ====================
+
+DataKey:
+  Scheduler:
+    Enable: true
+SupplyPack:
+  Scheduler:
+    Enable: true
+BattlePass:
+  Scheduler:
+    Enable: true
+MetaReward:
+  Scheduler:
+    Enable: true
+
+# ==================== DailyMission ====================
+
+# ==================== Opsi ====================
+
+OpsiAshAssist:
+  Scheduler:
+    Enable: true

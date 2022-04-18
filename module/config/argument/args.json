@@ -268,7 +268,7 @@
       },
       "UseAutoSearch": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "Use2xBook": {
         "type": "checkbox",
@@ -1792,7 +1792,7 @@
       },
       "UseAutoSearch": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "Use2xBook": {
         "type": "checkbox",
@@ -2148,7 +2148,7 @@
       },
       "UseAutoSearch": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "Use2xBook": {
         "type": "checkbox",
@@ -2574,7 +2574,7 @@
       },
       "UseAutoSearch": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "Use2xBook": {
         "type": "disable",
@@ -2989,7 +2989,7 @@
       },
       "UseAutoSearch": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "Use2xBook": {
         "type": "disable",
@@ -3394,7 +3394,7 @@
       },
       "UseAutoSearch": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "Use2xBook": {
         "type": "checkbox",
@@ -4117,7 +4117,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "NextRun": {
         "type": "input",
@@ -4156,7 +4156,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "NextRun": {
         "type": "input",
@@ -4213,7 +4213,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "NextRun": {
         "type": "input",
@@ -4287,7 +4287,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "NextRun": {
         "type": "input",
@@ -4330,7 +4330,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "NextRun": {
         "type": "input",
@@ -4395,7 +4395,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "NextRun": {
         "type": "input",
@@ -4464,7 +4464,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "NextRun": {
         "type": "input",
@@ -4851,7 +4851,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "NextRun": {
         "type": "input",
@@ -4880,7 +4880,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "NextRun": {
         "type": "input",
@@ -4915,7 +4915,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "NextRun": {
         "type": "input",
@@ -4950,7 +4950,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "NextRun": {
         "type": "input",
@@ -5668,7 +5668,7 @@
       },
       "UseAutoSearch": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "Use2xBook": {
         "type": "checkbox",
@@ -6011,7 +6011,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "NextRun": {
         "type": "input",

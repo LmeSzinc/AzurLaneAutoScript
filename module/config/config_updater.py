@@ -97,6 +97,15 @@ class ConfigGenerator:
         return read_file(filepath_argument('task'))
 
     @cached_property
+    def default(self):
+        """
+        <task>:
+            <group>:
+                <argument>: value
+        """
+        return read_file(filepath_argument('default'))
+
+    @cached_property
     def override(self):
         """
         <task>:
@@ -122,6 +131,7 @@ class ConfigGenerator:
             task.yaml ---+
         argument.yaml ---+-----> args.json
         override.yaml ---+
+         default.yaml ---+
 
         """
         # Construct args
@@ -133,29 +143,37 @@ class ConfigGenerator:
                     continue
                 deep_set(data, keys=[task, group], value=deepcopy(self.argument[group]))
 
-        # Override non-modifiable arguments
-        for path, value in deep_iter(self.override, depth=3):
+        def check_override(path, value):
             # Check existence
             old = deep_get(data, keys=path, default=None)
             if old is None:
                 logger.warning(f'`{".".join(path)}` is not a existing argument')
-                continue
+                return False
             # Check type
             # But allow `Interval` to be different
             old_value = old.get('value', None) if isinstance(old, dict) else old
             if type(value) != type(old_value) and path[2] not in ['SuccessInterval', 'FailureInterval']:
                 logger.warning(
                     f'`{value}` ({type(value)}) and `{".".join(path)}` ({type(old_value)}) are in different types')
-                continue
+                return False
             # Check option
             if isinstance(old, dict) and 'option' in old:
                 if value not in old['option']:
                     logger.warning(f'`{value}` is not an option of argument `{".".join(path)}`')
-                    continue
+                    return False
+            return True
 
-            deep_set(data, keys=path + ['value'], value=value)
-            deep_set(data, keys=path + ['type'], value='disable')
-
+        # Set defaults
+        for p, v in deep_iter(self.default, depth=3):
+            if not check_override(p, v):
+                continue
+            deep_set(data, keys=p + ['value'], value=v)
+        # Override non-modifiable arguments
+        for p, v in deep_iter(self.override, depth=3):
+            if not check_override(p, v):
+                continue
+            deep_set(data, keys=p + ['value'], value=v)
+            deep_set(data, keys=p + ['type'], value='disable')
         # Set command
         for task in self.task.keys():
             if deep_get(data, keys=f'{task}.Scheduler.Command'):
