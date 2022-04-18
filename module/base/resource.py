@@ -140,4 +140,4 @@ def release_resources(next_task=''):
         del_cached_property(ASSETS, attr)
 
     # Useless in most cases, but just call it
-    gc.collect()
+    # gc.collect()

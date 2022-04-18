@@ -3,21 +3,27 @@
     "Emulator": {
       "Serial": {
         "type": "input",
-        "value": "127.0.0.1:5555",
+        "value": "auto",
         "valuetype": "str"
       },
       "PackageName": {
-        "type": "input",
-        "value": "com.bilibili.azurlane"
-      },
-      "Server": {
         "type": "select",
-        "value": "cn",
+        "value": "auto",
         "option": [
-          "cn",
-          "en",
-          "jp",
-          "tw"
+          "auto",
+          "com.bilibili.azurlane",
+          "com.YoStarEN.AzurLane",
+          "com.YoStarJP.AzurLane",
+          "com.hkmanjuu.azurlane.gp",
+          "com.bilibili.blhx.huawei",
+          "com.bilibili.blhx.mi",
+          "com.tencent.tmgp.bilibili.blhx",
+          "com.bilibili.blhx.baidu",
+          "com.bilibili.blhx.qihoo",
+          "com.bilibili.blhx.vivo",
+          "com.bilibili.blhx.uc",
+          "com.bilibili.blhx.mzw",
+          "com.yiwu.blhx.yx15"
         ]
       },
       "ScreenshotMethod": {

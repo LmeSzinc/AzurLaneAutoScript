@@ -202,7 +202,7 @@ class Uiautomator2(Connection):
     @retry
     def app_start_uiautomator2(self, package_name=None):
         if not package_name:
-            package_name = self.config.Emulator_PackageName
+            package_name = self.package
         try:
             self.u2.app_start(package_name)
         except u2.exceptions.BaseError as e:
@@ -213,7 +213,7 @@ class Uiautomator2(Connection):
     @retry
     def app_stop_uiautomator2(self, package_name=None):
         if not package_name:
-            package_name = self.config.Emulator_PackageName
+            package_name = self.package
         self.u2.app_stop(package_name)
 
     @retry

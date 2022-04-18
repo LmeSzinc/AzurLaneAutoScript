@@ -13,12 +13,11 @@ Scheduler:
   ServerUpdate: 00:00
 Emulator:
   Serial:
-    value: 127.0.0.1:5555
+    value: auto
     valuetype: str
-  PackageName: com.bilibili.azurlane
-  Server:
-    value: cn
-    option: [cn, en, jp, tw]
+  PackageName:
+    value: auto
+    option: [auto, ]
   ScreenshotMethod:
     value: ADB
     option: [ADB, ADB_nc, uiautomator2, aScreenCap, aScreenCap_nc]

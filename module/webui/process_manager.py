@@ -118,13 +118,8 @@ class ProcessManager:
         set_file_logger(name=config_name)
         set_func_logger(func=q.put)
 
-        # Set server before loading any buttons.
-        import module.config.server as server
         from module.config.config import AzurLaneConfig
-
         AzurLaneConfig.stop_event = e
-        config = AzurLaneConfig(config_name=config_name)
-        server.server = deep_get(config.data, keys="Alas.Emulator.Server", default="cn")
         try:
             # Run alas
             if func == "Alas":

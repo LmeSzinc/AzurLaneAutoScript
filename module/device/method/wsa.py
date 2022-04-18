@@ -76,13 +76,12 @@ class WSA(Connection):
         _activityRE = re.compile(
             r'ACTIVITY (?P<package>[^\s]+)/(?P<activity>[^/\s]+) \w+ pid=(?P<pid>\d+)'
         )
-        package = self.config.Emulator_PackageName
         output = self.adb_shell(['dumpsys', 'activity', 'top'])
         ms = _activityRE.finditer(output)
         ret = None
         for m in ms:
             ret = m.group('package')
-            if(ret == package):
+            if ret == self.package:
                 return ret
         if ret:  # get last result
             return ret
@@ -99,7 +98,7 @@ class WSA(Connection):
             bool: If success to start
         """
         if not package_name:
-            package_name = self.config.Emulator_PackageName
+            package_name = self.package
         self.adb_shell(['svc', 'power', 'stayon', 'true'])
         activity_name = self.get_main_activity_name(package_name=package_name)
         result = self.adb_shell(['am', 'start', '--display', display, f'{package_name}/{activity_name}'])
@@ -119,7 +118,7 @@ class WSA(Connection):
     @retry
     def get_main_activity_name(self, package_name=None):
         if not package_name:
-            package_name = self.config.Emulator_PackageName
+            package_name = self.package
         try:
             output = self.adb_shell(['dumpsys', 'package', package_name])
             _activityRE = re.compile(
@@ -140,7 +139,7 @@ class WSA(Connection):
         """
         try:
             get_dump_sys_display = str(self.adb_shell(['dumpsys', 'display']))
-            display_id_list = re.findall(r'systemapp:' + self.config.Emulator_PackageName + ':' + '(.+?)', get_dump_sys_display, re.S)
+            display_id_list = re.findall(r'systemapp:' + self.package + ':' + '(.+?)', get_dump_sys_display, re.S)
             display_id = int(display_id_list[0])
             return display_id
         except IndexError:

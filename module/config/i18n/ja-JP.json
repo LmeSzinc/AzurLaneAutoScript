@@ -280,15 +280,21 @@
     },
     "PackageName": {
       "name": "Emulator.PackageName.name",
-      "help": "Emulator.PackageName.help"
-    },
-    "Server": {
-      "name": "Emulator.Server.name",
-      "help": "Emulator.Server.help",
-      "cn": "cn",
-      "en": "en",
-      "jp": "jp",
-      "tw": "tw"
+      "help": "Emulator.PackageName.help",
+      "auto": "auto",
+      "com.bilibili.azurlane": "CN",
+      "com.YoStarEN.AzurLane": "EN",
+      "com.YoStarJP.AzurLane": "JP",
+      "com.hkmanjuu.azurlane.gp": "TW",
+      "com.bilibili.blhx.huawei": "CN com.bilibili.blhx.huawei",
+      "com.bilibili.blhx.mi": "CN com.bilibili.blhx.mi",
+      "com.tencent.tmgp.bilibili.blhx": "CN com.tencent.tmgp.bilibili.blhx",
+      "com.bilibili.blhx.baidu": "CN com.bilibili.blhx.baidu",
+      "com.bilibili.blhx.qihoo": "CN com.bilibili.blhx.qihoo",
+      "com.bilibili.blhx.vivo": "CN com.bilibili.blhx.vivo",
+      "com.bilibili.blhx.uc": "CN com.bilibili.blhx.uc",
+      "com.bilibili.blhx.mzw": "CN com.bilibili.blhx.mzw",
+      "com.yiwu.blhx.yx15": "CN com.yiwu.blhx.yx15"
     },
     "ScreenshotMethod": {
       "name": "Emulator.ScreenshotMethod.name",

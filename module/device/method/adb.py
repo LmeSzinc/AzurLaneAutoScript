@@ -195,7 +195,7 @@ class Adb(Connection):
             bool: If success to start
         """
         if not package_name:
-            package_name = self.config.Emulator_PackageName
+            package_name = self.package
         result = self.adb_shell([
             'monkey', '-p', package_name, '-c',
             'android.intent.category.LAUNCHER', '1'
@@ -216,7 +216,7 @@ class Adb(Connection):
     def app_stop_adb(self, package_name=None):
         """ Stop one application: am force-stop"""
         if not package_name:
-            package_name = self.config.Emulator_PackageName
+            package_name = self.package
         self.adb_shell(['am', 'force-stop', package_name])
 
     @retry

@@ -13,7 +13,7 @@ from deploy.utils import DEPLOY_CONFIG, poor_yaml_read
 from module.base.decorator import cached_property
 from module.base.utils import ensure_time
 from module.config.config import AzurLaneConfig
-from module.device.game_package import package_to_server
+from module.config.server import set_server
 from module.device.method.utils import (del_cached_property, possible_reasons,
                                         random_port, recv_all)
 from module.exception import RequestHumanTakeover
@@ -42,7 +42,7 @@ class Connection:
             self.config = config
 
         # Init adb client
-        logger.attr('Adb_binary', self.adb_binary)
+        logger.attr('AdbBinary', self.adb_binary)
         # Monkey patch to custom adb
         adbutils.adb_path = lambda: self.adb_binary
         # Remove global proxies, or uiautomator2 will go through it
@@ -72,7 +72,16 @@ class Connection:
 
         # Connect
         self.adb_connect(self.serial)
-        logger.attr('Adb_device', self.adb)
+        logger.attr('AdbDevice', self.adb)
+
+        # Package
+        self.package = self.config.Emulator_PackageName
+        if self.package == 'auto':
+            self.detect_package(set_config=False)
+        else:
+            set_server(self.package)
+        logger.attr('PackageName', self.package)
+        logger.attr('Server', self.config.SERVER)
 
     @staticmethod
     def find_bluestacks4_hyperv(serial):
@@ -204,7 +213,7 @@ class Connection:
         Equivalent to `adb -s <serial> shell <*cmd>`
 
         Args:
-            cmd (list):
+            cmd (list, str):
             **kwargs:
                 rstrip (bool): strip the last empty line (Default: True)
                 stream (bool): return stream instead of string output (Default: False)
@@ -212,7 +221,8 @@ class Connection:
         Returns:
             str or socket if stream=True
         """
-        cmd = list(map(str, cmd))
+        if not isinstance(cmd, str):
+            cmd = list(map(str, cmd))
         result = self.adb.shell(cmd, timeout=10, **kwargs)
         return result
 
@@ -543,16 +553,30 @@ class Connection:
                                 'please copy one of the available devices listed above to Alas.Emulator.Serial')
                 raise RequestHumanTakeover
 
-    def detect_package(self, keywords=('azurlane', 'blhx')):
+    def list_package(self):
+        """
+        Find all packages on device.
+        Use dumpsys first for faster.
+        """
+        # 80ms
+        logger.info('Get package list')
+        output = self.adb_shell('dumpsys package | grep "Package \["')
+        packages = re.findall(r'Package \[([^\s]+)\]', output)
+        if len(packages):
+            return packages
+
+        # 200ms
+        logger.info('Get package list')
+        output = self.adb_shell(['pm', 'list', 'packages'])
+        packages = re.findall(r'package:([^\s]+)', output)
+        return packages
+
+    def detect_package(self, keywords=('azurlane', 'blhx'), set_config=True):
         """
         Show all possible packages with the given keyword on this device.
         """
         logger.hr('Detect package')
-        logger.info('Fetching package list')
-        output = self.adb_shell(['pm', 'list', 'packages'])
-        packages = re.findall(r'package:([^\s]+)', output)
-        if not packages:
-            packages = []
+        packages = self.list_package()
         packages = [p for p in packages if any([k in p for k in keywords])]
 
         # Show packages
@@ -571,25 +595,15 @@ class Connection:
             raise RequestHumanTakeover
         if len(packages) == 1:
             logger.info('Auto package detection found only one package, using it')
-            package = packages[0]
-            # Get server
-            server = package_to_server(package)
-            if server is not None:
-                logger.info(f'Package "{package}" is {keywords[0]} {server.upper()}, using it')
-            else:
-                logger.info(f'Package "{package}" might be {keywords[0]} CN channel, using it')
-                server = 'cn'
+            self.package = packages[0]
             # Set config
-            with self.config.multi_set():
-                self.config.Emulator_PackageName = package
-                self.config.Emulator_Server = server
+            if set_config:
+                self.config.Emulator_PackageName = self.package
             # Set server
             logger.info('Server changed, release resources')
-            from module.config.server import set_server
-            set_server(server)
+            set_server(self.package)
         else:
             logger.critical(
                 f'Multiple {keywords[0]} packages found, auto package detection cannot decide which to choose, '
-                'please copy one of the available devices listed above to Alas.Emulator.PackageName '
-                'and set Alas.Emulator.Server to the corresponding server')
+                'please copy one of the available devices listed above to Alas.Emulator.PackageName')
             raise RequestHumanTakeover

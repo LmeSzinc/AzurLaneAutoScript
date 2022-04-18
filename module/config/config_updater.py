@@ -6,6 +6,7 @@ from cached_property import cached_property
 from deploy.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_write
 from module.base.timer import timer
 from module.config.redirect_utils.shop_filter import bp_redirect
+from module.config.server import to_server, to_package, VALID_PACKAGE, VALID_CN_CHANNEL_PACKAGE
 from module.config.utils import *
 from module.logger import logger
 
@@ -41,12 +42,12 @@ class Event:
         self.tw = self.tw.replace('、', '')
         self.is_war_archives = self.directory.startswith('war_archives')
         self.is_raid = self.directory.startswith('raid_')
-        for server_ in ARCHIVES_PREFIX.keys():
-            if self.__getattribute__(server_) == '-':
-                self.__setattr__(server_, None)
+        for server in ARCHIVES_PREFIX.keys():
+            if self.__getattribute__(server) == '-':
+                self.__setattr__(server, None)
             else:
                 if self.is_war_archives:
-                    self.__setattr__(server_, ARCHIVES_PREFIX[server_] + self.__getattribute__(server_))
+                    self.__setattr__(server, ARCHIVES_PREFIX[server] + self.__getattribute__(server))
 
     def __str__(self):
         return self.directory
@@ -235,14 +236,26 @@ class ConfigGenerator:
                 name = event.__getattribute__(LANG_TO_SERVER[lang])
                 if name:
                     deep_default(events, keys=event.directory, value=name)
-        for server_ in ['en', 'cn', 'jp', 'tw']:
+        for server in ['en', 'cn', 'jp', 'tw']:
             for event in self.event:
-                name = event.__getattribute__(server_)
+                name = event.__getattribute__(server)
                 if name:
                     deep_default(events, keys=event.directory, value=name)
         for event in self.event:
             name = events.get(event.directory, event.directory)
             deep_set(new, keys=f'Campaign.Event.{event.directory}', value=name)
+        # Package names
+        for package, server in VALID_PACKAGE.items():
+            path = ['Emulator', 'PackageName', package]
+            if deep_get(new, keys=path) == package:
+                deep_set(new, keys=path, value=server.upper())
+        cn = deep_get(new, keys=['Emulator', 'PackageName', to_package('cn')])
+        for package, server in VALID_CN_CHANNEL_PACKAGE.items():
+            if lang == SERVER_TO_LANG['cn']:
+                value = f'{server}渠道服 {package}'
+            else:
+                value = f'{cn} {package}'
+            deep_set(new, keys=['Emulator', 'PackageName', package], value=value)
         # GUI i18n
         for path, _ in deep_iter(self.gui, depth=2):
             group, key = path
@@ -304,15 +317,15 @@ class ConfigGenerator:
                    args.json -----+-----> args.json
         """
         for event in self.event:
-            for server_ in ARCHIVES_PREFIX.keys():
-                name = event.__getattribute__(server_)
+            for server in ARCHIVES_PREFIX.keys():
+                name = event.__getattribute__(server)
 
                 def insert(key):
                     options = deep_get(self.args, keys=f'{key}.Campaign.Event.option')
                     if event not in options:
                         options.append(event)
                     if name:
-                        deep_default(self.args, keys=f'{key}.Campaign.Event.{server_}', value=event)
+                        deep_default(self.args, keys=f'{key}.Campaign.Event.{server}', value=event)
 
                 if name:
                     if event.is_raid:
@@ -359,12 +372,20 @@ class ConfigGenerator:
         update('template-AidLux', aidlux)
         update('template-AidLux-cn', aidlux, cn)
 
+    def insert_package(self):
+        option = deep_get(self.argument, keys='Emulator.PackageName.option')
+        option += list(VALID_PACKAGE.keys())
+        option += list(VALID_CN_CHANNEL_PACKAGE.keys())
+        deep_set(self.argument, keys='Emulator.PackageName.option', value=option)
+        deep_set(self.args, keys='Alas.Emulator.PackageName.option', value=option)
+
     @timer
     def generate(self):
         _ = self.args
         _ = self.menu
         _ = self.event
         self.insert_event()
+        self.insert_package()
         write_file(filepath_args(), self.args)
         write_file(filepath_args('menu'), self.menu)
         self.generate_code()
@@ -418,23 +439,23 @@ class ConfigUpdater:
         else:
             deep_default(new, 'Alas.DropRecord.AzurStatsID', random_id())
         # Update to latest event
-        server_ = deep_get(new, 'Alas.Emulator.Server', 'cn')
+        server = to_server(deep_get(new, 'Alas.Emulator.PackageName', 'cn'))
         if not is_template:
             for task in ['Event', 'EventAb', 'EventCd', 'EventSp', 'Raid', 'RaidDaily']:
                 deep_set(new,
                          keys=f'{task}.Campaign.Event',
-                         value=deep_get(self.args, f'{task}.Campaign.Event.{server_}'))
+                         value=deep_get(self.args, f'{task}.Campaign.Event.{server}'))
             for task in ['GemsFarming']:
                 if deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') != 'campaign_main':
                     deep_set(new,
                              keys=f'{task}.Campaign.Event',
-                             value=deep_get(self.args, f'{task}.Campaign.Event.{server_}'))
+                             value=deep_get(self.args, f'{task}.Campaign.Event.{server}'))
         # War archive does not allow campaign_main
         for task in ['WarArchives']:
             if deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') == 'campaign_main':
                 deep_set(new,
                          keys=f'{task}.Campaign.Event',
-                         value=deep_get(self.args, f'{task}.Campaign.Event.{server_}'))
+                         value=deep_get(self.args, f'{task}.Campaign.Event.{server}'))
 
         if not is_template:
             new = self.config_redirect(old, new)

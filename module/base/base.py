@@ -2,6 +2,7 @@ from module.base.button import Button
 from module.base.timer import Timer
 from module.base.utils import *
 from module.config.config import AzurLaneConfig
+from module.config.server import set_server, to_package
 from module.device.device import Device
 from module.logger import logger
 from module.map_detection.utils import fit_points
@@ -209,3 +210,14 @@ class ModuleBase:
             value = load_image(value)
 
         self.device.image = value
+
+    def set_server(self, server):
+        """
+        For development.
+        Change server and this will effect globally,
+        including assets and server specific methods.
+        """
+        package = to_package(server)
+        self.device.package = package
+        set_server(server)
+        logger.attr('Server', self.config.SERVER)

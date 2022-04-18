@@ -1,9 +1,8 @@
 {
   "Alas": {
     "Emulator": {
-      "Serial": "127.0.0.1:5555",
-      "PackageName": "com.bilibili.azurlane",
-      "Server": "cn",
+      "Serial": "auto",
+      "PackageName": "auto",
       "ScreenshotMethod": "ADB",
       "ControlMethod": "minitouch",
       "ScreenshotDedithering": false

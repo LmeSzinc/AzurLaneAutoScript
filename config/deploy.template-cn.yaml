@@ -129,4 +129,5 @@ Deploy:
     # --cdn. Use jsdelivr cdn for pywebio static files (css, js).
     # 'true' for jsdelivr cdn
     # 'false' for self host cdn (automatically)
+    # 'https://path.to.your/cdn' to use custom cdn
     CDN: false
