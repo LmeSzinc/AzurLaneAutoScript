@@ -6,6 +6,7 @@ from tqdm.contrib.concurrent import process_map
 
 from module.base.utils import get_bbox, get_color, image_size, load_image
 from module.config.config_manual import ManualConfig as AzurLaneConfig
+from module.config.server import VALID_SERVER
 from module.logger import logger
 
 MODULE_FOLDER = './module'
@@ -18,7 +19,6 @@ from module.base.template import Template
 # Don't modify it manually.
 """
 IMPORT_EXP = IMPORT_EXP.strip().split('\n') + ['']
-VALID_SERVER = ['cn', 'en', 'jp', 'tw']
 
 
 class ImageExtractor:

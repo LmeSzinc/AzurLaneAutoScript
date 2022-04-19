@@ -72,7 +72,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
             super().__setattr__(key, value)
 
     def __init__(self, config_name, task=None):
-        logger.attr('Server', server.server)
+        logger.attr('Server', self.SERVER)
         # This will read ./config/<config_name>.json
         self.config_name = config_name
         # Raw json data in yaml file.
@@ -470,10 +470,6 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
                     config.__setattr__(attr, value)
 
         return config
-
-    @property
-    def SERVER(self):
-        return self.Emulator_Server
 
     @property
     def DEVICE_SCREENSHOT_METHOD(self):

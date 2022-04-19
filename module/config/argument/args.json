@@ -3,21 +3,27 @@
     "Emulator": {
       "Serial": {
         "type": "input",
-        "value": "127.0.0.1:5555",
+        "value": "auto",
         "valuetype": "str"
       },
       "PackageName": {
-        "type": "input",
-        "value": "com.bilibili.azurlane"
-      },
-      "Server": {
         "type": "select",
-        "value": "cn",
+        "value": "auto",
         "option": [
-          "cn",
-          "en",
-          "jp",
-          "tw"
+          "auto",
+          "com.bilibili.azurlane",
+          "com.YoStarEN.AzurLane",
+          "com.YoStarJP.AzurLane",
+          "com.hkmanjuu.azurlane.gp",
+          "com.bilibili.blhx.huawei",
+          "com.bilibili.blhx.mi",
+          "com.tencent.tmgp.bilibili.blhx",
+          "com.bilibili.blhx.baidu",
+          "com.bilibili.blhx.qihoo",
+          "com.bilibili.blhx.vivo",
+          "com.bilibili.blhx.uc",
+          "com.bilibili.blhx.mzw",
+          "com.yiwu.blhx.yx15"
         ]
       },
       "ScreenshotMethod": {
@@ -262,7 +268,7 @@
       },
       "UseAutoSearch": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "Use2xBook": {
         "type": "checkbox",
@@ -1786,7 +1792,7 @@
       },
       "UseAutoSearch": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "Use2xBook": {
         "type": "checkbox",
@@ -2142,7 +2148,7 @@
       },
       "UseAutoSearch": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "Use2xBook": {
         "type": "checkbox",
@@ -2568,7 +2574,7 @@
       },
       "UseAutoSearch": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "Use2xBook": {
         "type": "disable",
@@ -2983,7 +2989,7 @@
       },
       "UseAutoSearch": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "Use2xBook": {
         "type": "disable",
@@ -3388,10 +3394,10 @@
       },
       "UseAutoSearch": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "Use2xBook": {
-        "type": "checkbox",
+        "type": "disable",
         "value": false
       },
       "AmbushEvade": {
@@ -4111,7 +4117,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "NextRun": {
         "type": "input",
@@ -4150,7 +4156,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "NextRun": {
         "type": "input",
@@ -4207,7 +4213,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "NextRun": {
         "type": "input",
@@ -4281,7 +4287,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "NextRun": {
         "type": "input",
@@ -4324,7 +4330,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "NextRun": {
         "type": "input",
@@ -4389,7 +4395,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "NextRun": {
         "type": "input",
@@ -4458,7 +4464,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "NextRun": {
         "type": "input",
@@ -4845,7 +4851,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "NextRun": {
         "type": "input",
@@ -4874,7 +4880,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "NextRun": {
         "type": "input",
@@ -4909,7 +4915,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "NextRun": {
         "type": "input",
@@ -4944,7 +4950,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "NextRun": {
         "type": "input",
@@ -5662,7 +5668,7 @@
       },
       "UseAutoSearch": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "Use2xBook": {
         "type": "checkbox",
@@ -6005,7 +6011,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "NextRun": {
         "type": "input",

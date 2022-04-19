@@ -9,6 +9,7 @@ from module.exception import ScriptError
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.ocr.ocr import DigitCounter, Duration
+from module.handler.assets import GET_MISSION, POPUP_CANCEL, POPUP_CONFIRM
 from module.tactical.assets import *
 from module.ui.assets import (BACK_ARROW, REWARD_CHECK, REWARD_GOTO_TACTICAL,
                               TACTICAL_CHECK)
@@ -344,6 +345,7 @@ class RewardTacticalClass(UI):
 
             # Get finish time
             if self.appear(TACTICAL_CHECK, offset=(20, 20), interval=2):
+                self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION])
                 if self._tactical_get_finish():
                     self.device.click(BACK_ARROW)
                     self.interval_reset(TACTICAL_CHECK)
@@ -375,6 +377,7 @@ class RewardTacticalClass(UI):
                     and self.appear(TACTICAL_CLASS_START, offset=(30, 30)):
                 if self._tactical_books_choose():
                     self.interval_reset(TACTICAL_CLASS_CANCEL)
+                    self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION])
                 continue
 
         return True
@@ -394,3 +397,7 @@ class RewardTacticalClass(UI):
         else:
             logger.info('No tactical running')
             self.config.task_delay(success=False)
+if __name__ == '__main__':
+    self = RewardTacticalClass('alas-tech')
+    self.device.screenshot()
+    self.tactical_class_receive()

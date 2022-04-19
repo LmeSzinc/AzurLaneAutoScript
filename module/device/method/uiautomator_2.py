@@ -9,7 +9,7 @@ from module.base.decorator import cached_property
 from module.base.utils import *
 from module.device.connection import Connection
 from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
-                                        handle_adb_error, possible_reasons)
+                                        handle_adb_error, PackageNotInstalled, possible_reasons)
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 
@@ -74,6 +74,12 @@ def retry(func):
                     'please enable ADB in the settings of your emulator'
                 )
                 break
+            # Package not installed
+            except PackageNotInstalled as e:
+                logger.error(e)
+
+                def init():
+                    self.detect_package()
             # Unknown, probably a trucked image
             except Exception as e:
                 logger.exception(e)
@@ -194,18 +200,20 @@ class Uiautomator2(Connection):
         return result['package']
 
     @retry
-    def app_start_uiautomator2(self, package_name):
+    def app_start_uiautomator2(self, package_name=None):
+        if not package_name:
+            package_name = self.package
         try:
             self.u2.app_start(package_name)
         except u2.exceptions.BaseError as e:
             # BaseError: package "com.bilibili.azurlane" not found
             logger.error(e)
-            possible_reasons(f'"{package_name}" not found, please check setting Emulator.PackageName')
-            self.show_packages()
-            raise RequestHumanTakeover
+            raise PackageNotInstalled(package_name)
 
     @retry
-    def app_stop_uiautomator2(self, package_name):
+    def app_stop_uiautomator2(self, package_name=None):
+        if not package_name:
+            package_name = self.package
         self.u2.app_stop(package_name)
 
     @retry

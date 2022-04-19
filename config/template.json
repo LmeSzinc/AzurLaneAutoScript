@@ -1,9 +1,8 @@
 {
   "Alas": {
     "Emulator": {
-      "Serial": "127.0.0.1:5555",
-      "PackageName": "com.bilibili.azurlane",
-      "Server": "cn",
+      "Serial": "auto",
+      "PackageName": "auto",
       "ScreenshotMethod": "ADB",
       "ControlMethod": "minitouch",
       "ScreenshotDedithering": false
@@ -70,7 +69,7 @@
       "Mode": "normal",
       "UseClearMode": true,
       "UseFleetLock": true,
-      "UseAutoSearch": false,
+      "UseAutoSearch": true,
       "Use2xBook": false,
       "AmbushEvade": true
     },
@@ -366,7 +365,7 @@
       "Mode": "normal",
       "UseClearMode": true,
       "UseFleetLock": true,
-      "UseAutoSearch": false,
+      "UseAutoSearch": true,
       "Use2xBook": false,
       "AmbushEvade": true
     },
@@ -429,7 +428,7 @@
       "Mode": "normal",
       "UseClearMode": true,
       "UseFleetLock": true,
-      "UseAutoSearch": false,
+      "UseAutoSearch": true,
       "Use2xBook": false,
       "AmbushEvade": true
     },
@@ -506,7 +505,7 @@
       "Mode": "normal",
       "UseClearMode": true,
       "UseFleetLock": true,
-      "UseAutoSearch": false,
+      "UseAutoSearch": true,
       "Use2xBook": false,
       "AmbushEvade": true
     },
@@ -580,7 +579,7 @@
       "Mode": "normal",
       "UseClearMode": true,
       "UseFleetLock": true,
-      "UseAutoSearch": false,
+      "UseAutoSearch": true,
       "Use2xBook": false,
       "AmbushEvade": true
     },
@@ -650,7 +649,7 @@
       "Mode": "normal",
       "UseClearMode": true,
       "UseFleetLock": true,
-      "UseAutoSearch": false,
+      "UseAutoSearch": true,
       "Use2xBook": false,
       "AmbushEvade": true
     },
@@ -811,7 +810,7 @@
   },
   "Commission": {
     "Scheduler": {
-      "Enable": false,
+      "Enable": true,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "Commission",
       "SuccessInterval": 30,
@@ -825,7 +824,7 @@
   },
   "Tactical": {
     "Scheduler": {
-      "Enable": false,
+      "Enable": true,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "Tactical",
       "SuccessInterval": 30,
@@ -845,7 +844,7 @@
   },
   "Research": {
     "Scheduler": {
-      "Enable": false,
+      "Enable": true,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "Research",
       "SuccessInterval": 30,
@@ -862,7 +861,7 @@
   },
   "Dorm": {
     "Scheduler": {
-      "Enable": false,
+      "Enable": true,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "Dorm",
       "SuccessInterval": 278,
@@ -877,7 +876,7 @@
   },
   "Meowfficer": {
     "Scheduler": {
-      "Enable": false,
+      "Enable": true,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "Meowfficer",
       "SuccessInterval": 30,
@@ -898,7 +897,7 @@
   },
   "Guild": {
     "Scheduler": {
-      "Enable": false,
+      "Enable": true,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "Guild",
       "SuccessInterval": 30,
@@ -921,7 +920,7 @@
   },
   "Reward": {
     "Scheduler": {
-      "Enable": false,
+      "Enable": true,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "Reward",
       "SuccessInterval": "60-120",
@@ -1020,7 +1019,7 @@
   },
   "DataKey": {
     "Scheduler": {
-      "Enable": false,
+      "Enable": true,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "DataKey",
       "SuccessInterval": 30,
@@ -1030,7 +1029,7 @@
   },
   "SupplyPack": {
     "Scheduler": {
-      "Enable": false,
+      "Enable": true,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "SupplyPack",
       "SuccessInterval": 30,
@@ -1043,7 +1042,7 @@
   },
   "BattlePass": {
     "Scheduler": {
-      "Enable": false,
+      "Enable": true,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "BattlePass",
       "SuccessInterval": 30,
@@ -1056,7 +1055,7 @@
   },
   "MetaReward": {
     "Scheduler": {
-      "Enable": false,
+      "Enable": true,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "MetaReward",
       "SuccessInterval": 30,
@@ -1210,7 +1209,7 @@
       "Mode": "normal",
       "UseClearMode": true,
       "UseFleetLock": true,
-      "UseAutoSearch": false,
+      "UseAutoSearch": true,
       "Use2xBook": false,
       "AmbushEvade": true
     },
@@ -1282,7 +1281,7 @@
   },
   "OpsiAshAssist": {
     "Scheduler": {
-      "Enable": false,
+      "Enable": true,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "OpsiAshAssist",
       "SuccessInterval": 30,

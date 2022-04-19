@@ -18,9 +18,8 @@ class GeneratedConfig:
     Scheduler_ServerUpdate = '00:00'
 
     # Group `Emulator`
-    Emulator_Serial = '127.0.0.1:5555'
-    Emulator_PackageName = 'com.bilibili.azurlane'
-    Emulator_Server = 'cn'  # cn, en, jp, tw
+    Emulator_Serial = 'auto'
+    Emulator_PackageName = 'auto'  # auto, com.bilibili.azurlane, com.YoStarEN.AzurLane, com.YoStarJP.AzurLane, com.hkmanjuu.azurlane.gp, com.bilibili.blhx.huawei, com.bilibili.blhx.mi, com.tencent.tmgp.bilibili.blhx, com.bilibili.blhx.baidu, com.bilibili.blhx.qihoo, com.bilibili.blhx.vivo, com.bilibili.blhx.uc, com.bilibili.blhx.mzw, com.yiwu.blhx.yx15
     Emulator_ScreenshotMethod = 'ADB'  # ADB, ADB_nc, uiautomator2, aScreenCap, aScreenCap_nc
     Emulator_ControlMethod = 'minitouch'  # ADB, uiautomator2, minitouch, Hermit
     Emulator_ScreenshotDedithering = False
@@ -65,7 +64,7 @@ class GeneratedConfig:
     Campaign_Mode = 'normal'  # normal, hard
     Campaign_UseClearMode = True
     Campaign_UseFleetLock = True
-    Campaign_UseAutoSearch = False
+    Campaign_UseAutoSearch = True
     Campaign_Use2xBook = False
     Campaign_AmbushEvade = True
 

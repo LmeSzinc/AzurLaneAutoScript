@@ -217,7 +217,7 @@ class Screenshot(Adb, WSA, Uiautomator2, AScreenCap):
                         return True
                 logger.info(f'Game running on display {display}')
                 logger.warning('Game not running on display 0, will be restarted')
-                self.app_stop_uiautomator2(self.config.Emulator_PackageName)
+                self.app_stop_uiautomator2()
                 return False
             elif self.config.Emulator_ScreenshotMethod == 'uiautomator2':
                 logger.warning(f'Received pure black screenshots from emulator, color: {color}')

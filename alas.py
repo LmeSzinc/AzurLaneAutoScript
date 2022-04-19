@@ -7,7 +7,6 @@ from datetime import datetime
 import inflection
 from cached_property import cached_property
 
-import module.config.server as server
 from module.config.config import AzurLaneConfig, TaskEnd
 from module.config.config_updater import ConfigUpdater
 from module.config.utils import deep_get, deep_set
@@ -27,8 +26,6 @@ class AzurLaneAutoScript:
     def config(self):
         try:
             config = AzurLaneConfig(config_name=self.config_name)
-            # Set server before loading any buttons.
-            server.server = deep_get(config.data, keys='Alas.Emulator.Server', default='cn')
             return config
         except RequestHumanTakeover:
             logger.critical('Request human takeover')
@@ -64,7 +61,7 @@ class AzurLaneAutoScript:
         except (GameStuckError, GameTooManyClickError) as e:
             logger.warning(e)
             self.save_error_log()
-            logger.warning(f'Game stuck, {self.config.Emulator_PackageName} will be restarted in 10 seconds')
+            logger.warning(f'Game stuck, {self.device.package} will be restarted in 10 seconds')
             logger.warning('If you are playing by hand, please stop Alas')
             self.config.task_call('Restart')
             self.device.sleep(10)
@@ -73,7 +70,7 @@ class AzurLaneAutoScript:
             logger.warning(e)
             self.save_error_log()
             logger.warning('An error has occurred in Azur Lane game client, Alas is unable to handle')
-            logger.warning(f'Restarting {self.config.Emulator_PackageName} to fix it')
+            logger.warning(f'Restarting {self.device.package} to fix it')
             self.config.task_call('Restart')
             self.device.sleep(10)
             return False

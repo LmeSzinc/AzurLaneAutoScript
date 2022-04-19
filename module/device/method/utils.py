@@ -76,6 +76,10 @@ def possible_reasons(*args):
         logger.critical(f'Possible reason #{index}: {reason}')
 
 
+class PackageNotInstalled(Exception):
+    pass
+
+
 def handle_adb_error(e):
     """
     Args:

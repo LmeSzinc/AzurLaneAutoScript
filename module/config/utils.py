@@ -8,7 +8,7 @@ import yaml
 from atomicwrites import atomic_write
 from filelock import FileLock
 
-import module.config.server as server
+import module.config.server as server_
 
 LANGUAGES = ['zh-CN', 'en-US', 'ja-JP', 'zh-TW']
 SERVER_TO_LANG = {
@@ -112,7 +112,7 @@ def write_file(file, data):
     with lock:
         print(f'write: {file}')
         if ext == '.yaml':
-            with atomic_write(file, overwrite=True, encoding='utf-8') as f:
+            with atomic_write(file, overwrite=True, encoding='utf-8', newline='') as f:
                 if isinstance(data, list):
                     yaml.safe_dump_all(data, f, default_flow_style=False, encoding='utf-8', allow_unicode=True,
                                        sort_keys=False)
@@ -120,7 +120,7 @@ def write_file(file, data):
                     yaml.safe_dump(data, f, default_flow_style=False, encoding='utf-8', allow_unicode=True,
                                    sort_keys=False)
         elif ext == '.json':
-            with atomic_write(file, overwrite=True, encoding='utf-8') as f:
+            with atomic_write(file, overwrite=True, encoding='utf-8', newline='') as f:
                 s = json.dumps(data, indent=2, ensure_ascii=False, sort_keys=False, default=str)
                 f.write(s)
         else:
@@ -350,7 +350,7 @@ def dict_to_kv(dictionary, allow_none=True):
 
 
 def server_timezone():
-    return SERVER_TO_TIMEZONE.get(server.server, 8)
+    return SERVER_TO_TIMEZONE.get(server_.server, 8)
 
 
 def random_normal_distribution_int(a, b, n=3):

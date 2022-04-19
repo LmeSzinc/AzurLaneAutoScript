@@ -341,12 +341,12 @@ class GuildOperations(GuildBase):
             else:
                 self.device.screenshot()
 
-            if self.appear(GUILD_DISPATCH_FLEET_UNFILLED, interval=5):
+            if self.appear(GUILD_DISPATCH_FLEET_UNFILLED, threshold=20, interval=5):
                 # Don't use offset here, because GUILD_DISPATCH_FLEET_UNFILLED only has a difference in colors
                 # Use long interval because the game needs a few seconds to choose the ships
                 self.device.click(GUILD_DISPATCH_RECOMMEND)
                 continue
-            if not dispatched and self.appear_then_click(GUILD_DISPATCH_FLEET, interval=5):
+            if not dispatched and self.appear_then_click(GUILD_DISPATCH_FLEET, threshold=20, interval=5):
                 # Don't use offset here, because GUILD_DISPATCH_FLEET only has a difference in colors
                 continue
             if self.handle_popup_confirm('GUILD_DISPATCH'):
@@ -358,7 +358,7 @@ class GuildOperations(GuildBase):
                 # In first dispatch, it will show GUILD_DISPATCH_IN_PROGRESS
                 logger.info('Fleet dispatched, dispatch in progress')
                 break
-            if dispatched and self.appear(GUILD_DISPATCH_FLEET, interval=0):
+            if dispatched and self.appear(GUILD_DISPATCH_FLEET, threshold=20, interval=0):
                 # In the rest of the dispatch, it will show GUILD_DISPATCH_FLEET
                 # We can't ensure that fleet has dispatched,
                 # because GUILD_DISPATCH_FLEET also shows after clicking recommend before dispatching
@@ -450,7 +450,7 @@ class GuildOperations(GuildBase):
             if self.appear_then_click(GUILD_BOSS_ENTER, interval=3):
                 continue
 
-            if self.appear(GUILD_DISPATCH_FLEET, interval=3):
+            if self.appear(GUILD_DISPATCH_FLEET, threshold=20, interval=3):
                 # Button does not appear greyed out even
                 # when empty fleet composition
                 if dispatch_count < 5:

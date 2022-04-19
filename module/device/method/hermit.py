@@ -139,7 +139,7 @@ class Hermit(Adb):
         self.adb_shell(['input', 'keyevent', '3'])
 
         # Switch back to AzurLane
-        self.app_start_adb(self.config.Emulator_PackageName)
+        self.app_start_adb()
 
     def uninstall_hermit(self):
         self.adb_command(['uninstall', self._hermit_package_name])
