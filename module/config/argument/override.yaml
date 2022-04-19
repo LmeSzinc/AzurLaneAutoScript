@@ -121,6 +121,7 @@ EventSp:
   Campaign:
     Name: sp
     Mode: normal
+    Use2xBook: false
     AmbushEvade: true
   StopCondition:
     RunCount: 0

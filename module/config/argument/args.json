@@ -3397,7 +3397,7 @@
         "value": true
       },
       "Use2xBook": {
-        "type": "checkbox",
+        "type": "disable",
         "value": false
       },
       "AmbushEvade": {
