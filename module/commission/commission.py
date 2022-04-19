@@ -71,6 +71,38 @@ class RewardCommission(UI, InfoHandler):
 
         return SelectedGrids(commission)
 
+    def commission_detect(self, trial=1, area=None, skip_first_screenshot=True):
+        """
+        Args:
+            trial (int): Retry if has one invalid commission,
+                         usually because info_bar didn't disappear completely.
+            area (tuple):
+            skip_first_screenshot (bool):
+
+        Returns:
+            SelectedGrids:
+        """
+        commissions = SelectedGrids([])
+        for _ in range(trial):
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            image = self.device.image
+            if area is not None:
+                image = crop(image, area)
+            commissions = self._commission_detect(image)
+
+            if commissions.count >= 2 and commissions.select(valid=False).count == 1:
+                logger.info('Found 1 invalid commission, retry commission detect')
+                continue
+            else:
+                return commissions
+
+        logger.info('trials of commission detect exhausted, stop')
+        return commissions
+
     def _commission_choose(self, daily, urgent):
         """
         Args:
@@ -195,7 +227,7 @@ class RewardCommission(UI, InfoHandler):
         self.device.click_record_clear()
         commission = SelectedGrids([])
         for _ in range(15):
-            new = self._commission_detect(self.device.image)
+            new = self.commission_detect(trial=2)
             commission = commission.add_by_eq(new)
 
             # End
@@ -271,7 +303,7 @@ class RewardCommission(UI, InfoHandler):
                 pass
             if self.appear(COMMISSION_ADVICE, offset=(5, 20), interval=7):
                 area = (0, 0, image_size(self.device.image)[0], COMMISSION_ADVICE.button[1])
-                current = self._commission_detect(crop(self.device.image, area))
+                current = self.commission_detect(area=area)
                 if is_urgent:
                     current.call('convert_to_night')  # Convert extra commission to night
                 if current.count >= 1:
@@ -321,7 +353,7 @@ class RewardCommission(UI, InfoHandler):
             failed = True
 
             for _ in range(15):
-                new = self._commission_detect(self.device.image)
+                new = self.commission_detect(trial=2)
                 if is_urgent:
                     new.call('convert_to_night')  # Convert extra commission to night
 
