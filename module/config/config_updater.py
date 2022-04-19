@@ -6,7 +6,7 @@ from cached_property import cached_property
 from deploy.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_write
 from module.base.timer import timer
 from module.config.redirect_utils.shop_filter import bp_redirect
-from module.config.server import to_server, to_package, VALID_PACKAGE, VALID_CN_CHANNEL_PACKAGE
+from module.config.server import to_server, to_package, VALID_PACKAGE, VALID_CHANNEL_PACKAGE
 from module.config.utils import *
 from module.logger import logger
 
@@ -267,12 +267,14 @@ class ConfigGenerator:
             path = ['Emulator', 'PackageName', package]
             if deep_get(new, keys=path) == package:
                 deep_set(new, keys=path, value=server.upper())
-        cn = deep_get(new, keys=['Emulator', 'PackageName', to_package('cn')])
-        for package, server in VALID_CN_CHANNEL_PACKAGE.items():
-            if lang == SERVER_TO_LANG['cn']:
-                value = f'{server}渠道服 {package}'
+
+        for package, server_and_channel in VALID_CHANNEL_PACKAGE.items():
+            server, channel = server_and_channel
+            name = deep_get(new, keys=['Emulator', 'PackageName', to_package(server)])
+            if lang == SERVER_TO_LANG[server]:
+                value = f'{name} {channel}渠道服 {package}'
             else:
-                value = f'{cn} {package}'
+                value = f'{name} {package}'
             deep_set(new, keys=['Emulator', 'PackageName', package], value=value)
         # GUI i18n
         for path, _ in deep_iter(self.gui, depth=2):
@@ -393,7 +395,7 @@ class ConfigGenerator:
     def insert_package(self):
         option = deep_get(self.argument, keys='Emulator.PackageName.option')
         option += list(VALID_PACKAGE.keys())
-        option += list(VALID_CN_CHANNEL_PACKAGE.keys())
+        option += list(VALID_CHANNEL_PACKAGE.keys())
         deep_set(self.argument, keys='Emulator.PackageName.option', value=option)
         deep_set(self.args, keys='Alas.Emulator.PackageName.option', value=option)
 

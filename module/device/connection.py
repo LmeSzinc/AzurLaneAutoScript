@@ -577,7 +577,7 @@ class Connection:
         """
         logger.hr('Detect package')
         packages = self.list_package()
-        packages = [p for p in packages if any([k in p for k in keywords])]
+        packages = [p for p in packages if any([k in p.lower() for k in keywords])]
 
         # Show packages
         logger.info(f'Here are the available packages in device "{self.serial}", '
