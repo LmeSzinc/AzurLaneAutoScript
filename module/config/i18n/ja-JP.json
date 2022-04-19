@@ -294,7 +294,8 @@
       "com.bilibili.blhx.vivo": "CN com.bilibili.blhx.vivo",
       "com.bilibili.blhx.uc": "CN com.bilibili.blhx.uc",
       "com.bilibili.blhx.mzw": "CN com.bilibili.blhx.mzw",
-      "com.yiwu.blhx.yx15": "CN com.yiwu.blhx.yx15"
+      "com.yiwu.blhx.yx15": "CN com.yiwu.blhx.yx15",
+      "com.hkmanjuu.azurlane.gp.mc": "TW com.hkmanjuu.azurlane.gp.mc"
     },
     "ScreenshotMethod": {
       "name": "Emulator.ScreenshotMethod.name",

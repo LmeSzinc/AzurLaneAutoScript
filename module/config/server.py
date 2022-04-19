@@ -11,23 +11,26 @@ VALID_PACKAGE = {
     'com.YoStarJP.AzurLane': 'jp',
     'com.hkmanjuu.azurlane.gp': 'tw',
 }
-VALID_CN_CHANNEL_PACKAGE = {
+VALID_CHANNEL_PACKAGE = {
     # App stores
-    'com.bilibili.blhx.huawei': '华为',
-    'com.bilibili.blhx.mi': '小米',
-    'com.tencent.tmgp.bilibili.blhx': '腾讯应用宝',
-    'com.bilibili.blhx.baidu': '百度',
-    'com.bilibili.blhx.qihoo': '360',
-    # 'com.bilibili.blhx.oppo': 'oppo',  # Not confirmed
-    'com.bilibili.blhx.vivo': 'vivo',
-    # 'com.bilibili.blhx.letv': '乐视',  # Not confirmed
-    # 'com.bilibili.blhx.flyme': '魅族',  # Not confirmed
-    # 'com.bilibili.blhx.gionee': '金立',  # Not confirmed
+    'com.bilibili.blhx.huawei': ('cn', '华为'),
+    'com.bilibili.blhx.mi': ('cn', '小米'),
+    'com.tencent.tmgp.bilibili.blhx': ('cn', '腾讯应用宝'),
+    'com.bilibili.blhx.baidu': ('cn', '百度'),
+    'com.bilibili.blhx.qihoo': ('cn', '360'),
+    # 'com.bilibili.blhx.oppo': ('cn', 'oppo'),  # Not confirmed
+    'com.bilibili.blhx.vivo': ('cn', 'vivo'),
+    # 'com.bilibili.blhx.letv': ('cn', '乐视'),  # Not confirmed
+    # 'com.bilibili.blhx.flyme': ('cn', '魅族'),  # Not confirmed
+    # 'com.bilibili.blhx.gionee': ('cn', '金立'),  # Not confirmed
 
     # 3rd party gaming platforms
-    'com.bilibili.blhx.uc': 'UC九游',
-    'com.bilibili.blhx.mzw': '拇指玩',
-    'com.yiwu.blhx.yx15': '一五游戏',
+    'com.bilibili.blhx.uc': ('cn', 'UC九游'),
+    'com.bilibili.blhx.mzw': ('cn', '拇指玩'),
+    'com.yiwu.blhx.yx15': ('cn', '一五游戏'),
+
+    # Tw
+    'com.hkmanjuu.azurlane.gp.mc': ('tw', 'MyCard'),
 }
 
 
@@ -55,8 +58,8 @@ def to_server(package_or_server: str) -> str:
         return package_or_server
     elif package_or_server in VALID_PACKAGE:
         return VALID_PACKAGE[package_or_server]
-    elif package_or_server in VALID_CN_CHANNEL_PACKAGE:
-        return 'cn'
+    elif package_or_server in VALID_CHANNEL_PACKAGE:
+        return VALID_CHANNEL_PACKAGE[package_or_server][0]
     else:
         return 'cn'
 
