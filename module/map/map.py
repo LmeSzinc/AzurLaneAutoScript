@@ -193,11 +193,10 @@ class Map(Fleet):
 
         target = self.config.EnemyPriority_EnemyScaleBalanceWeight
         if target == 'S3_enemy_first':
-            grids = self.select_grids(grids, strongest=True, **kwargs)
+            kwargs['strongest'] = True
         elif target == 'S1_enemy_first':
-            grids = self.select_grids(grids, weakest=True, **kwargs)
-        else:
-            grids = self.select_grids(grids, **kwargs)
+            kwargs['weakest'] = True
+        grids = self.select_grids(grids, **kwargs)
 
         if grids:
             logger.hr('Clear enemy')
