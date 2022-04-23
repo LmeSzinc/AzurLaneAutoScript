@@ -669,7 +669,7 @@
     },
     "FleetOrder": {
       "name": "舰队职能",
-      "help": "",
+      "help": "警告：进行4战及以下的非自律寻敌作战时，alas会强制使用一队全清",
       "fleet1_mob_fleet2_boss": "一队道中二队boss",
       "fleet1_boss_fleet2_mob": "一队boss二队道中",
       "fleet1_all_fleet2_standby": "一队全清二队待机",
