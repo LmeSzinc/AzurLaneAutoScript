@@ -36,7 +36,9 @@ class Button(Resource):
 
         self._button_offset = None
         self._match_init = False
+        self._match_binary_init = False
         self.image = None
+        self.image_binary = None
 
         if self.file:
             self.resource_add(key=self.file)
@@ -152,24 +154,33 @@ class Button(Resource):
                     image = image[:, :, :3].copy() if len(image.shape) == 3 else image
                     image = crop(image, self.area)
                     self.image.append(image)
-                    # graying
+            else:
+                self.image = load_image(self.file, self.area)
+            self._match_init = True
+
+    def ensure_binary_template(self):
+        """
+        Load asset image.
+        If needs to call self.match, call this first.
+        """
+        if not self._match_binary_init:
+            if self.is_gif:
+                self.image_binary = []
+                for image in self.image:
                     image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-                    self.image_gray.append(image_gray)
-                    # binarization
                     _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
                     self.image_binary.append(image_binary)
             else:
-                self.image = load_image(self.file, self.area)
-                # graying
-                self.image_gray = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
-                # binarization
-                _, self.image_binary = cv2.threshold(self.image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-            self._match_init = True
+                image_gray = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
+                _, self.image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+            self._match_binary_init = True
 
     def resource_release(self):
         super().resource_release()
         self.image = None
+        self.image_binary = None
         self._match_init = False
+        self._match_binary_init = False
 
     def match(self, image, offset=30, threshold=0.85):
         """Detects button by template matching. To Some button, its location may not be static.
@@ -220,6 +231,7 @@ class Button(Resource):
             bool.
         """
         self.ensure_template()
+        self.ensure_binary_template()
 
         if isinstance(offset, tuple):
             if len(offset) == 2:
