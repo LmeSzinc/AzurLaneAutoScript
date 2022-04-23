@@ -71,7 +71,7 @@ def poor_yaml_write(data, file, template_file=DEPLOY_TEMPLATE):
             value = 'null'
         text = re.sub(f'{key}:.*?\n', f'{key}: {value}\n', text)
 
-    with open(file, 'w', encoding='utf-8') as f:
+    with open(file, 'w', encoding='utf-8', newline='') as f:
         f.write(text)
 
 
