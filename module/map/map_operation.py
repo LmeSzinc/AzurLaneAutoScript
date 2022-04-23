@@ -297,12 +297,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
     def fleets_reversed(self):
         if not self.config.FLEET_2:
             return False
-
-        if self.map_is_auto_search:
-            return self.config.Fleet_AutoSearchFleetOrder in ['fleet1_boss_fleet2_mob', 'fleet1_standby_fleet2_all']
-        else:
-            # return (self.config.FLEET_2 != 0) and (self.config.FLEET_2 < self.config.FLEET_1)
-            return self.config.Fleet_FleetOrder in ['fleet1_boss_fleet2_mob', 'fleet1_standby_fleet2_all']
+        return self.config.Fleet_FleetOrder in ['fleet1_boss_fleet2_mob', 'fleet1_standby_fleet2_all']
 
     def handle_fleet_reverse(self):
         """

@@ -244,8 +244,6 @@ Sos:
     StageIncrease: false
     GetNewShip: false
     ReachLevel: 0
-  Fleet:
-    AutoSearchFleetOrder: fleet1_all_fleet2_standby
   Submarine:
     AutoSearchMode: sub_standby
 WarArchives:

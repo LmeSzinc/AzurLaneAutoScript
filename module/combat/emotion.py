@@ -185,10 +185,8 @@ class Emotion:
         Raise:
             ScriptEnd: Delay current task to prevent emotion control in the future.
         """
-        if self.config.Campaign_UseAutoSearch:
-            method = self.config.Fleet_AutoSearchFleetOrder
-        else:
-            method = self.config.Fleet_FleetOrder
+
+        method = self.config.Fleet_FleetOrder
 
         if method == 'fleet1_mob_fleet2_boss':
             battle = (battle - 1, 1)
