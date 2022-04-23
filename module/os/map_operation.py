@@ -1,7 +1,7 @@
 from module.base.decorator import Config
 from module.base.timer import Timer
 from module.base.utils import *
-from module.exception import ScriptError, MapDetectionError
+from module.exception import MapDetectionError, ScriptError
 from module.logger import logger
 from module.ocr.ocr import Ocr
 from module.os.assets import *

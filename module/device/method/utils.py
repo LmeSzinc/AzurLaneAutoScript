@@ -3,6 +3,7 @@ import re
 import socket
 
 import uiautomator2 as u2
+from adbutils import AdbTimeout, _AdbStreamConnection
 from lxml import etree
 
 from module.base.decorator import cached_property
@@ -34,6 +35,35 @@ def random_port(port_range):
         return new_port
 
 
+def recv_all(stream, chunk_size=4096) -> bytes:
+    """
+    Args:
+        stream:
+        chunk_size:
+
+    Returns:
+        bytes:
+
+    Raises:
+        AdbTimeout
+    """
+    if isinstance(stream, _AdbStreamConnection):
+        stream = stream.conn
+        stream.settimeout(10)
+
+    try:
+        fragments = []
+        while 1:
+            chunk = stream.recv(chunk_size)
+            if chunk:
+                fragments.append(chunk)
+            else:
+                break
+        return b''.join(fragments)
+    except socket.timeout:
+        raise AdbTimeout('adb read timeout')
+
+
 def possible_reasons(*args):
     """
     Show possible reasons
@@ -44,6 +74,10 @@ def possible_reasons(*args):
     for index, reason in enumerate(args):
         index += 1
         logger.critical(f'Possible reason #{index}: {reason}')
+
+
+class PackageNotInstalled(Exception):
+    pass
 
 
 def handle_adb_error(e):
@@ -65,13 +99,28 @@ def handle_adb_error(e):
         # AdbTimeout(adb read timeout)
         logger.error(e)
         return True
-    else:
+    elif 'closed' in text:
         # AdbError(closed)
+        # Usually after AdbTimeout(adb read timeout)
+        # Disconnect and re-connect should fix this.
+        logger.error(e)
+        return True
+    elif 'device offline' in text:
+        # AdbError(device offline)
+        # When a device that has been connected wirelessly is disconnected passively,
+        # it does not disappear from the adb device list,
+        # but will be displayed as offline.
+        # In many cases, such as disconnection and recovery caused by network fluctuations,
+        # or after VMOS reboot when running Alas on a phone,
+        # the device is still available, but it needs to be disconnected and re-connected.
+        logger.error(e)
+        return True
+    else:
         # AdbError(device offline)
         # AdbError()
         logger.exception(e)
         possible_reasons(
-            'If you are using BlueStacks or LD player, please enable ADB in the settings of your emulator',
+            'If you are using BlueStacks or LD player or WSA, please enable ADB in the settings of your emulator',
             'Emulator died, please restart emulator',
             'Serial incorrect, no such device exists or emulator is not running'
         )
@@ -86,7 +135,7 @@ def del_cached_property(obj, name):
         obj:
         name (str):
     """
-    if hasattr(obj, name):
+    if name in obj.__dict__:
         del obj.__dict__[name]
 
 

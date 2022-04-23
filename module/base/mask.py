@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 from module.base.template import Template
-from module.base.utils import load_image, rgb2gray, image_channel
+from module.base.utils import image_channel, load_image, rgb2gray
 
 
 class Mask(Template):

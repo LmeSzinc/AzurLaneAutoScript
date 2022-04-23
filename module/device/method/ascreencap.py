@@ -1,12 +1,14 @@
 import os
+from functools import wraps
 
 import lz4.block
 from adbutils.errors import AdbError
 
 from module.base.utils import *
 from module.device.connection import Connection
-from module.device.method.utils import handle_adb_error, RETRY_TRIES, RETRY_DELAY
-from module.exception import ScriptError, RequestHumanTakeover
+from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
+                                        handle_adb_error, recv_all)
+from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 
 
@@ -15,6 +17,7 @@ class AscreencapError(Exception):
 
 
 def retry(func):
+    @wraps(func)
     def retry_wrapper(self, *args, **kwargs):
         """
         Args:
@@ -35,6 +38,7 @@ def retry(func):
                 logger.error(e)
 
                 def init():
+                    self.adb_disconnect(self.serial)
                     self.adb_connect(self.serial)
             # When ascreencap is not installed
             except AscreencapError as e:
@@ -46,6 +50,7 @@ def retry(func):
             except AdbError as e:
                 if handle_adb_error(e):
                     def init():
+                        self.adb_disconnect(self.serial)
                         self.adb_connect(self.serial)
                 else:
                     break
@@ -104,28 +109,17 @@ class AScreenCap(Connection):
                 raise AscreencapError(text)
         return byte_array[self.__bytepointer:]
 
-    def _ascreencap_execute(self):
-        stream = self.adb_shell([self.config.ASCREENCAP_FILEPATH_REMOTE, '--pack', '2', '--stdout'], stream=True)
-
-        content = b""
-        while True:
-            chunk = stream.read(4096)
-            if not chunk:
-                break
-            content += chunk
-
-        return self.__process_screenshot(content)
-
     def __load_screenshot(self, screenshot, method):
         if method == 0:
-            pass
+            return screenshot
         elif method == 1:
-            screenshot = screenshot.replace(b'\r\n', b'\n')
+            return screenshot.replace(b'\r\n', b'\n')
         elif method == 2:
-            screenshot = screenshot.replace(b'\r\r\n', b'\n')
+            return screenshot.replace(b'\r\r\n', b'\n')
         else:
             raise ScriptError(f'Unknown method to load screenshots: {method}')
 
+    def __uncompress(self, screenshot):
         raw_compressed_data = self._ascreencap_reposition_byte_pointer(screenshot)
 
         # See headers in:
@@ -156,6 +150,7 @@ class AScreenCap(Connection):
         for method in self.__screenshot_method_fixed:
             try:
                 result = self.__load_screenshot(screenshot, method=method)
+                result = self.__uncompress(result)
                 self.__screenshot_method_fixed = [method] + self.__screenshot_method
                 return result
             except lz4.block.LZ4BlockError:
@@ -171,11 +166,12 @@ class AScreenCap(Connection):
     def screenshot_ascreencap(self):
         stream = self.adb_shell([self.config.ASCREENCAP_FILEPATH_REMOTE, '--pack', '2', '--stdout'], stream=True)
 
-        content = b""
-        while True:
-            chunk = stream.read(4096)
-            if not chunk:
-                break
-            content += chunk
+        content = recv_all(stream)
 
         return self.__process_screenshot(content)
+
+    @retry
+    def screenshot_ascreencap_nc(self):
+        data = self.adb_shell_nc([self.config.ASCREENCAP_FILEPATH_REMOTE, '--pack', '2', '--stdout'])
+
+        return self.__uncompress(data)

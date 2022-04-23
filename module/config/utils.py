@@ -3,11 +3,12 @@ import os
 import random
 import string
 from datetime import datetime, timedelta, timezone
-from filelock import FileLock
 
 import yaml
+from atomicwrites import atomic_write
+from filelock import FileLock
 
-import module.config.server as server
+import module.config.server as server_
 
 LANGUAGES = ['zh-CN', 'en-US', 'ja-JP', 'zh-TW']
 SERVER_TO_LANG = {
@@ -111,7 +112,7 @@ def write_file(file, data):
     with lock:
         print(f'write: {file}')
         if ext == '.yaml':
-            with open(file, mode='w', encoding='utf-8') as f:
+            with atomic_write(file, overwrite=True, encoding='utf-8', newline='') as f:
                 if isinstance(data, list):
                     yaml.safe_dump_all(data, f, default_flow_style=False, encoding='utf-8', allow_unicode=True,
                                        sort_keys=False)
@@ -119,27 +120,33 @@ def write_file(file, data):
                     yaml.safe_dump(data, f, default_flow_style=False, encoding='utf-8', allow_unicode=True,
                                    sort_keys=False)
         elif ext == '.json':
-            with open(file, mode='w', encoding='utf-8') as f:
+            with atomic_write(file, overwrite=True, encoding='utf-8', newline='') as f:
                 s = json.dumps(data, indent=2, ensure_ascii=False, sort_keys=False, default=str)
                 f.write(s)
         else:
             print(f'Unsupported config file extension: {ext}')
 
 
-def iter_folder(folder, ext=None):
+def iter_folder(folder, is_dir=False, ext=None):
     """
     Args:
         folder (str):
+        is_dir (bool): True to iter directories only
         ext (str): File extension, such as `.yaml`
 
     Yields:
         str: Absolute path of files
     """
     for file in os.listdir(folder):
-        if ext is not None:
-            _, extension = os.path.splitext(file)
-            if extension == ext:
-                yield os.path.join(folder, file)
+        sub = os.path.join(folder, file)
+        if is_dir:
+            if os.path.isdir(sub):
+                yield sub
+        elif ext is not None:
+            if not os.path.isdir(sub):
+                _, extension = os.path.splitext(file)
+                if extension == ext:
+                    yield os.path.join(folder, file)
         else:
             yield os.path.join(folder, file)
 
@@ -343,7 +350,7 @@ def dict_to_kv(dictionary, allow_none=True):
 
 
 def server_timezone():
-    return SERVER_TO_TIMEZONE.get(server.server, 8)
+    return SERVER_TO_TIMEZONE.get(server_.server, 8)
 
 
 def random_normal_distribution_int(a, b, n=3):
@@ -397,6 +404,38 @@ def ensure_time(second, n=3, precision=3):
             return int(second)
     else:
         return second
+
+
+def get_os_next_reset():
+    """
+    Get the first day of next month.
+
+    Returns:
+        datetime.datetime
+    """
+    d = datetime.now(timezone.utc).astimezone()
+    diff = d.utcoffset() // timedelta(seconds=1) // 3600 - server_timezone()
+    now = datetime.now() - timedelta(hours=diff)
+    reset = (now.replace(day=1) + timedelta(days=32)) \
+        .replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+    reset += timedelta(hours=diff)
+    return reset
+
+
+def get_os_reset_remain():
+    """
+    Returns:
+        int: number of days before next opsi reset
+    """
+    from module.logger import logger
+
+    next_reset = get_os_next_reset()
+    now = datetime.now()
+    logger.attr('OpsiNextReset', next_reset)
+
+    remain = int((next_reset - now).total_seconds() // 86400)
+    logger.attr('ResetRemain', remain)
+    return remain
 
 
 def get_server_next_update(daily_trigger):
@@ -508,3 +547,7 @@ def type_to_str(typ):
     if not isinstance(typ, type):
         typ = type(typ).__name__
     return str(typ)
+
+
+if __name__ == '__main__':
+    get_os_reset_remain()

@@ -1,7 +1,7 @@
-from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.base.utils import color_similarity_2d
-from module.template.assets import TEMPLATE_ENEMY_BOSS
+from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.map_detection.grid import Grid
+from module.template.assets import TEMPLATE_ENEMY_BOSS
 
 
 class EventGrid(Grid):

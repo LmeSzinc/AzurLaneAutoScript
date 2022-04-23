@@ -1,7 +1,8 @@
-from .campaign_14_base import CampaignBase
-from module.map.map_base import CampaignMap
-from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
+from module.map.map_base import CampaignMap
+from module.map.map_grids import RoadGrids, SelectedGrids
+
+from .campaign_14_base import CampaignBase
 from .campaign_14_base import Config as ConfigBase
 
 MAP = CampaignMap('14-3')
@@ -30,6 +31,15 @@ MAP.weight_data = """
 """
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 4},
+    {'battle': 1, 'enemy': 3},
+    {'battle': 2, 'enemy': 2},
+    {'battle': 3, 'enemy': 1},
+    {'battle': 4, 'enemy': 1},
+    {'battle': 5},
+    {'battle': 6, 'boss': 1},
+]
+MAP.spawn_data_loop = [
+    {'battle': 0, 'enemy': 3},
     {'battle': 1, 'enemy': 3},
     {'battle': 2, 'enemy': 2},
     {'battle': 3, 'enemy': 1},

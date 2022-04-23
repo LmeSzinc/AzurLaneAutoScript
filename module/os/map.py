@@ -1,8 +1,7 @@
 import inflection
 
 from module.base.timer import Timer
-from module.exception import CampaignEnd
-from module.exception import RequestHumanTakeover
+from module.exception import CampaignEnd, RequestHumanTakeover
 from module.logger import logger
 from module.map.map import Map
 from module.map.map_grids import SelectedGrids
@@ -209,7 +208,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
         with self.stat.new(
                 genre=inflection.underscore(self.config.task.command),
                 save=self.config.DropRecord_SaveOpsi,
-                upload=False
+                upload=self.config.DropRecord_UploadOpsi
         ) as drop:
             for _ in range(3):
                 backup = self.config.temporary(Campaign_UseAutoSearch=True)

@@ -2,7 +2,7 @@ import os
 
 from module.config.config import TaskEnd
 from module.config.utils import get_server_last_update
-from module.event.base import EventBase, EventStage, STAGE_FILTER
+from module.event.base import STAGE_FILTER, EventBase, EventStage
 from module.logger import logger
 
 

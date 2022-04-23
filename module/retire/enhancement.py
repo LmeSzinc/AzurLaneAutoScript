@@ -1,7 +1,5 @@
 from random import choice
 
-import numpy as np
-
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1
 from module.exception import ScriptError, RequestHumanTakeover
@@ -9,7 +7,7 @@ from module.handler.assets import INFO_BAR_DETECT, EMPTY_ENHANCE_SLOT
 from module.handler.info_handler import info_letter_preprocess
 from module.logger import logger
 from module.retire.assets import *
-from module.retire.dock import Dock, CARD_GRIDS
+from module.retire.dock import CARD_GRIDS, Dock
 
 VALID_SHIP_TYPES = ['dd', 'ss', 'cl', 'ca', 'bb', 'cv', 'repair', 'others']
 
@@ -304,10 +302,11 @@ class Enhancement(Dock):
 
         Returns:
             int: enhance turn count
-        """
-        self.ui_click(RETIRE_APPEAR_3, check_button=DOCK_CHECK, skip_first_screenshot=True)
-        self.handle_dock_cards_loading()
 
+        Pages:
+            in: DOCK_CHECK
+            out: the page before retirement popup
+        """
         total = self.enhance_ships()
 
         self.dock_quit()

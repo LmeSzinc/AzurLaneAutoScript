@@ -1,4 +1,4 @@
-from module.base.decorator import cached_property, Config
+from module.base.decorator import Config, cached_property
 from module.base.timer import Timer
 from module.exception import ScriptError
 from module.logger import logger
@@ -270,6 +270,11 @@ class GuildShop(ShopBase, ShopUI):
             success = self.shop_buy()
             if not success:
                 break
-            if refresh and self.shop_refresh():
-                continue
+            if refresh:
+                # Refresh costs 50 and PlateT4 costs 60
+                if self._shop_guild_coins >= 110:
+                    if self.shop_refresh():
+                        continue
+                else:
+                    logger.info('Guild coins < 110, skip refreshing')
             break

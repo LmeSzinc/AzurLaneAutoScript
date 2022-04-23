@@ -12,14 +12,15 @@ Scheduler:
   FailureInterval: 120
   ServerUpdate: 00:00
 Emulator:
-  Serial: 127.0.0.1:5555
-  PackageName: com.bilibili.azurlane
-  Server:
-    value: cn
-    option: [cn, en, jp, tw]
+  Serial:
+    value: auto
+    valuetype: str
+  PackageName:
+    value: auto
+    option: [auto, ]
   ScreenshotMethod:
     value: ADB
-    option: [ADB, uiautomator2, aScreenCap]
+    option: [ADB, ADB_nc, uiautomator2, aScreenCap, aScreenCap_nc]
   ControlMethod:
     value: minitouch
     option: [ADB, uiautomator2, minitouch, Hermit]
@@ -44,6 +45,7 @@ DropRecord:
   UploadCommission: false
   SaveCombat: false
   SaveOpsi: false
+  UploadOpsi: false
 Retirement:
   Enable: true
   RetireMode:
@@ -63,7 +65,7 @@ Retirement:
 # ==================== Farm ====================
 
 Campaign:
-  Name: 7-2
+  Name: 12-4
   Event:
     value: campaign_main
     option: [campaign_main]
@@ -72,7 +74,7 @@ Campaign:
     option: [normal, hard]
   UseClearMode: true
   UseFleetLock: true
-  UseAutoSearch: false
+  UseAutoSearch: true
   Use2xBook: false
   AmbushEvade: true
 StopCondition:
@@ -277,8 +279,15 @@ Dorm:
   FeedFilter: 20000 > 10000 > 5000 > 3000 > 2000 > 1000
 Meowfficer:
   BuyAmount: 1
-  TrainMeowfficer: false
   FortChoreMeowfficer: true
+MeowfficerTrain:
+  Enable: false
+  Mode:
+    value: seamlessly
+    option: [seamlessly, once_a_day]
+  RetainTalentedGold: true
+  RetainTalentedPurple: true
+  EnhanceIndex: 1
 GuildLogistics:
   Enable: true
   SelectNewMission: false
@@ -486,8 +495,10 @@ OpsiDaemon:
   RepairShip: true
 Benchmark:
   AdbScreenshot: true
+  AdbncScreenshot: true
   Uiautomator2Screenshot: true
   AscreencapScreenshot: true
+  AscreencapncScreenshot: true
   AdbClick: true
   Uiautomator2Click: true
   MinitouchClick: true

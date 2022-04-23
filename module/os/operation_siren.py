@@ -2,8 +2,9 @@ from datetime import datetime
 
 import numpy as np
 
-from module.config.utils import deep_get
-from module.exception import ScriptError, RequestHumanTakeover
+from module.config.utils import (deep_get, get_os_next_reset,
+                                 get_os_reset_remain)
+from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.os.fleet import BossFleet
@@ -27,12 +28,9 @@ class OperationSiren(OSGlobe):
             bool: True if all supplies bought.
         """
         logger.hr('OS port daily', level=1)
+        ports = ['NY City', 'Gibraltar', 'Liverpool', 'St. Petersburg']
         if np.random.uniform() > 0.5:
-            # St. Petersburg => Liverpool => Gibraltar => NY City
-            ports = [3, 1, 2, 0]
-        else:
-            # NY City => Gibraltar => Liverpool => St. Petersburg
-            ports = [0, 2, 1, 3]
+            ports.reverse()
 
         mission_success = True
         supply_success = True
@@ -51,6 +49,23 @@ class OperationSiren(OSGlobe):
 
         return mission_success, supply_success
 
+    def os_port_mission(self):
+        """
+        Visit all ports and do the daily mission in it.
+        """
+        logger.hr('OS port mission', level=1)
+        ports = ['NY City', 'Dakar', 'Taranto', 'Gibraltar', 'Brest', 'Liverpool', 'Kiel', 'St. Petersburg']
+        if np.random.uniform() > 0.5:
+            ports.reverse()
+
+        for port in ports:
+            port = self.name_to_zone(port)
+            logger.hr(f'OS port daily in {port}', level=2)
+            self.globe_goto(port)
+
+            self.run_auto_search()
+            self.handle_after_auto_search()
+
     def os_finish_daily_mission(self):
         """
         Finish all daily mission in Operation Siren.
@@ -65,39 +80,47 @@ class OperationSiren(OSGlobe):
             if not result:
                 break
 
-            self.zone_init()
-            if result > 1:
+            if result != 'pinned_at_archive_zone':
+                # The name of archive zone is "archive zone", which is not an existing zone.
+                # After archive zone, it go back to previous zone automatically.
+                self.zone_init()
+            if result == 'already_at_mission_zone':
                 self.globe_goto(self.zone, refresh=True)
             self.fleet_set(self.config.OpsiFleet_Fleet)
             self.os_order_execute(
                 recon_scan=False,
-                submarine_call=self.config.OpsiFleet_Submarine)
+                submarine_call=self.config.OpsiFleet_Submarine and result != 'pinned_at_archive_zone')
             self.run_auto_search()
-            self.handle_fleet_repair(revert=False)
+            self.handle_after_auto_search()
             self.config.check_task_switch()
 
         return True
 
     def os_daily(self):
-        if not self._is_in_os_explore():
-            # Finish existing missions first
+        # Finish existing missions first
+        # No need anymore, os_mission_overview_accept() is able to handle
+        # self.os_finish_daily_mission()
+
+        # Clear tuning samples daily
+        if self.config.OpsiDaily_UseTuningSample:
+            self.tuning_sample_use()
+
+        while 1:
+            # If unable to receive more dailies, finish them and try again.
+            success = self.os_mission_overview_accept()
+            # Re-init zone name
+            # MISSION_ENTER appear from the right,
+            # need to confirm that the animation has ended,
+            # or it will click on MAP_GOTO_GLOBE
+            self.zone_init()
             self.os_finish_daily_mission()
+            if success:
+                break
+            if self.is_in_opsi_explore():
+                self.os_port_mission()
+                break
 
-            # Clear tuning samples daily
-            self.handle_tuning_sample_use()
-
-            while 1:
-                # If unable to receive more dailies, finish them and try again.
-                success = self.os_mission_overview_accept()
-                self.os_finish_daily_mission()
-                if success:
-                    break
-
-            self.config.task_delay(server_update=True)
-        else:
-            logger.info('OpsiExplore is enabled, accept missions only')
-            self.os_mission_overview_accept()
-            self.config.task_delay(server_update=True)
+        self.config.task_delay(server_update=True)
 
     def os_shop(self):
         self.os_port_daily(mission=False, supply=self.config.OpsiShop_BuySupply)
@@ -108,6 +131,7 @@ class OperationSiren(OSGlobe):
         Recommend 3 or 5 for higher meowfficer searching point per action points ratio.
         """
         logger.hr(f'OS meowfficer farming, hazard_level={self.config.OpsiMeowfficerFarming_HazardLevel}', level=1)
+        self.action_point_limit_override()
         while 1:
             self.config.OS_ACTION_POINT_PRESERVE = self.config.OpsiMeowfficerFarming_ActionPointPreserve
             if self.config.OpsiAshBeacon_AshAttack \
@@ -123,7 +147,7 @@ class OperationSiren(OSGlobe):
                     zone = self.name_to_zone(self.config.OpsiMeowfficerFarming_TargetZone)
                 except ScriptError:
                     logger.warning(f'wrong zone_id input:{self.config.OpsiMeowfficerFarming_TargetZone}')
-                    self.config.task_stop(message=f'wrong input, task stopped')
+                    raise RequestHumanTakeover('wrong input, task stopped')
                 else:
                     logger.hr(f'OS meowfficer farming, zone_id={zone.zone_id}', level=1)
                     self.globe_goto(zone)
@@ -132,8 +156,8 @@ class OperationSiren(OSGlobe):
                         recon_scan=False,
                         submarine_call=self.config.OpsiFleet_Submarine)
                     self.run_auto_search()
-                    self.handle_fleet_repair(revert=False)
-                    self.globe_goto(self.zone_nearest_azur_port(zone=zone))
+                    if not self.handle_after_auto_search():
+                        self.globe_goto(self.zone_nearest_azur_port(zone=zone))
                     self.config.check_task_switch()
             else:
                 zones = self.zone_select(hazard_level=self.config.OpsiMeowfficerFarming_HazardLevel) \
@@ -148,7 +172,7 @@ class OperationSiren(OSGlobe):
                     recon_scan=False,
                     submarine_call=self.config.OpsiFleet_Submarine)
                 self.run_auto_search()
-                self.handle_fleet_repair(revert=False)
+                self.handle_after_auto_search()
                 self.config.check_task_switch()
 
     def _os_explore_task_delay(self):
@@ -163,10 +187,14 @@ class OperationSiren(OSGlobe):
             if current < next_run:
                 logger.info(f'Delay task `{task}` to {next_run}')
                 self.config.modified[keys] = next_run
-        self.config.update()
 
-    def _is_in_os_explore(self):
-        return deep_get(self.config.data, keys='OpsiExplore.Scheduler.Enable', default=False)
+        # ResetActionPointPreserve
+        # Unbound attribute, default to 500
+        preserve = self.config.OpsiMeowfficerFarming_ActionPointPreserve
+        logger.info(f'Set OpsiMeowfficerFarming.ActionPointPreserve to {preserve}')
+        self.config.modified['OpsiMeowfficerFarming.OpsiMeowfficerFarming.ActionPointPreserve'] = preserve
+
+        self.config.update()
 
     def _os_explore(self):
         """
@@ -174,26 +202,35 @@ class OperationSiren(OSGlobe):
         """
 
         def end():
-            logger.info('OS explore finished')
-            logger.info('To run again, set OpsiExplore.Scheduler.Enable=True, OpsiExplore.OpsiExplore.LastZone=0')
+            logger.info('OS explore finished, delay to next reset')
+            next_reset = get_os_next_reset()
+            logger.attr('OpsiNextReset', next_reset)
+            logger.info('To run again, clear OpsiExplore.Scheduler.NextRun and set OpsiExplore.OpsiExplore.LastZone=0')
             with self.config.multi_set():
-                self.config.Scheduler_Enable = False
                 self.config.OpsiExplore_LastZone = 0
-                self.config.task_delay(minute=0)
+                self.config.task_delay(target=next_reset)
             self.config.task_stop()
 
         logger.hr('OS explore', level=1)
         order = [int(f.strip(' \t\r\n')) for f in self.config.OS_EXPLORE_FILTER.split('>')]
-        if self.config.OpsiExplore_LastZone in order:
-            order = order[order.index(self.config.OpsiExplore_LastZone) + 1:]
-        elif self.config.OpsiExplore_LastZone == 0:
-            # First run
-            pass
-        else:
+        # Convert user input
+        try:
+            last_zone = self.name_to_zone(self.config.OpsiExplore_LastZone).zone_id
+        except ScriptError:
             logger.warning(f'Invalid OpsiExplore_LastZone={self.config.OpsiExplore_LastZone}, re-explore')
+            last_zone = 0
+        # Start from last zone
+        if last_zone in order:
+            order = order[order.index(last_zone) + 1:]
+            logger.info(f'Last zone: {self.name_to_zone(last_zone)}, next zone: {order[:1]}')
+        elif last_zone == 0:
+            logger.info(f'First run, next zone: {order[:1]}')
+        else:
+            raise ScriptError(f'Invalid last_zone: {last_zone}')
         if not len(order):
             end()
 
+        # Run
         for zone in order:
             if not self.globe_goto(zone, stop_if_safe=True):
                 logger.info(f'Zone cleared: {self.name_to_zone(zone)}')
@@ -201,6 +238,10 @@ class OperationSiren(OSGlobe):
                 continue
 
             logger.hr(f'OS explore {zone}', level=1)
+            if not self.config.OpsiExplore_SpecialRadar:
+                # Special radar gives 90 turning samples,
+                # If no special radar, use the turning samples in storage to acquire stronger fleets.
+                self.tuning_sample_use()
             self.fleet_set(self.config.OpsiFleet_Fleet)
             self.os_order_execute(
                 recon_scan=not self.config.OpsiExplore_SpecialRadar,
@@ -209,7 +250,7 @@ class OperationSiren(OSGlobe):
             self.run_auto_search()
             self.config.OpsiExplore_LastZone = zone
             logger.info(f'Zone cleared: {self.name_to_zone(zone)}')
-            self.handle_fleet_repair(revert=False)
+            self.handle_after_auto_search()
             self.config.check_task_switch()
             if zone == order[-1]:
                 end()
@@ -238,7 +279,11 @@ class OperationSiren(OSGlobe):
         result = self.storage_get_next_item('OBSCURE', use_logger=self.config.OpsiGeneral_UseLogger)
         if not result:
             # No obscure coordinates, delay next run to tomorrow.
-            self.config.task_delay(server_update=True)
+            if get_os_reset_remain() > 0:
+                self.config.task_delay(server_update=True)
+            else:
+                logger.info('Just less than 1 day to OpSi reset, delay 2.5 hours')
+                self.config.task_delay(minute=150, server_update=True)
             self.config.task_stop()
 
         self.zone_init()
@@ -249,7 +294,7 @@ class OperationSiren(OSGlobe):
         self.run_auto_search()
 
         self.map_exit()
-        self.handle_fleet_repair(revert=False)
+        self.handle_after_auto_search()
 
     def os_obscure(self):
         while 1:
@@ -275,7 +320,11 @@ class OperationSiren(OSGlobe):
         result = self.storage_get_next_item('ABYSSAL', use_logger=self.config.OpsiGeneral_UseLogger)
         if not result:
             # No obscure coordinates, delay next run to tomorrow.
-            self.config.task_delay(server_update=True)
+            if get_os_reset_remain() > 0:
+                self.config.task_delay(server_update=True)
+            else:
+                logger.info('Just less than 1 day to OpSi reset, delay 2.5 hours')
+                self.config.task_delay(minute=150, server_update=True)
             self.config.task_stop()
 
         self.zone_init()

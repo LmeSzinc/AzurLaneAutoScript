@@ -2,7 +2,7 @@ from module.base.timer import Timer
 from module.base.utils import *
 from module.logger import logger
 from module.os.assets import *
-from module.os.globe_detection import GlobeDetection, GLOBE_MAP_SHAPE
+from module.os.globe_detection import GLOBE_MAP_SHAPE, GlobeDetection
 from module.os.globe_operation import GlobeOperation
 from module.os.globe_zone import Zone, ZoneManager
 

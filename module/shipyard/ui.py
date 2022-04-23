@@ -240,6 +240,7 @@ class ShipyardUI(UI):
         button = globals()[f'SHIPYARD_CONFIRM_{append}']
         ocr = globals()[f'OCR_SHIPYARD_TOTAL_{append}']
         ocr_timer = Timer(10, count=10).start()
+        confirm_timer = Timer(1, count=2).start()
         self.interval_clear(button)
 
         while 1:
@@ -264,25 +265,31 @@ class ShipyardUI(UI):
             if self.handle_popup_confirm(text):
                 self.interval_reset(button)
                 ocr_timer.reset()
+                confirm_timer.reset()
                 continue
 
             if self.story_skip():
                 self.interval_reset(button)
                 success = True
                 ocr_timer.reset()
+                confirm_timer.reset()
                 continue
 
             if self.handle_info_bar():
                 self.interval_reset(button)
                 success = True
                 ocr_timer.reset()
+                confirm_timer.reset()
                 continue
 
             # End
             if success and \
                 (self.appear(SHIPYARD_UI_CHECK, offset=(20, 20)) or
                  self.appear(SHIPYARD_IN_FATE, offset=(20, 20))):
-                break
+                if confirm_timer.reached():
+                    break
+            else:
+                confirm_timer.reset()
 
     def _shipyard_buy_enter(self):
         """

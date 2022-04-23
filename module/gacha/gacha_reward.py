@@ -2,7 +2,7 @@ from module.base.timer import Timer
 from module.combat.assets import GET_SHIP
 from module.gacha.assets import *
 from module.gacha.ui import GachaUI
-from module.handler.assets import STORY_SKIP, POPUP_CONFIRM
+from module.handler.assets import POPUP_CONFIRM, STORY_SKIP
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.retire.retirement import Retirement
@@ -158,7 +158,7 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
                     exit(1)
         elif target_pool == 'event':
             gacha_bottom_navbar = self._gacha_bottom_navbar(is_build=True)
-            if gacha_bottom_navbar.get_total == 3:
+            if gacha_bottom_navbar.get_total(main=self) == 3:
                 logger.warning('\'event\' is not available, default '
                                'to \'light\' pool')
                 target_pool = 'light'
@@ -194,6 +194,8 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
         # and end up in Gacha/Build page
         confirm_timer = Timer(1, count=2).start()
         confirm_mode = True  # Drill, Lock Ship
+        # Clear button offset, or will click at the PLUS button of gems or HOME button
+        STORY_SKIP.clear_offset()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False

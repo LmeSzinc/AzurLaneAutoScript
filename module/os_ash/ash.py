@@ -1,6 +1,6 @@
 from module.base.timer import Timer
 from module.base.utils import color_bar_percentage
-from module.combat.combat import Combat, BATTLE_PREPARATION, GET_ITEMS_1
+from module.combat.combat import BATTLE_PREPARATION, GET_ITEMS_1, Combat
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
 from module.os.assets import MAP_GOTO_GLOBE

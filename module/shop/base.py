@@ -316,6 +316,7 @@ class ShopBase(UI):
             bool: If success, and able to continue.
         """
         for _ in range(12):
+            logger.hr('Shop buy', level=2)
             # Get first for innate delay to ocr
             # shop currency for accurate parse
             items = self.shop_get_items()

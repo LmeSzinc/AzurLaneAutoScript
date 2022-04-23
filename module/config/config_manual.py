@@ -4,23 +4,25 @@ import module.config.server as server
 
 
 class ManualConfig:
-    SERVER = server.server
+    @property
+    def SERVER(self):
+        return server.server
 
     SCHEDULER_PRIORITY = """
     Restart
     > Research > Commission > Tactical
     > Exercise
     > Dorm > Meowfficer > Guild > Gacha > SupplyPack
-    > Reward > MetaReward > BattlePass
+    > Reward > BattlePass
     > ShopFrequent > ShopOnce > Shipyard > DataKey
     > OpsiExplore
     > OpsiDaily > OpsiShop
     > OpsiAbyssal > OpsiStronghold > OpsiObscure
     > Daily > Hard > OpsiAshAssist
     > Sos > EventSp > EventAb > EventCd > RaidDaily > WarArchives > MaritimeEscort
-    > OpsiMeowfficerFarming
-    > Event > Raid > Main
-    > C124LargeLeveling > C122MediumLeveling > C72MysteryFarming > GemsFarming
+    > OpsiMeowfficerFarming > MetaReward
+    > Event > Event2 > Raid > Main > Main2 > Main3
+    > GemsFarming
     """
 
     """
@@ -61,6 +63,7 @@ class ManualConfig:
     module.device
     """
     FORWARD_PORT_RANGE = (20000, 21000)
+    REVERSE_SERVER_PORT = 7903
     ASCREENCAP_FILEPATH_LOCAL = './bin/ascreencap'
     ASCREENCAP_FILEPATH_REMOTE = '/data/local/tmp/ascreencap'
     MINITOUCH_FILEPATH_REMOTE = '/data/local/tmp/minitouch'
@@ -89,6 +92,7 @@ class ManualConfig:
     MAP_HAS_MAZE = False  # event_20210422_cn adds maze and maze walls move every 3 rounds.
     MAP_HAS_FORTRESS = False  # event_2021917_cn, clear fortress to remove roadblock to boss.
     MAP_HAS_MISSILE_ATTACK = False  # event_202111229_cn, missile attack covers the feature area of sirens.
+    MAP_HAS_BOUNCING_ENEMY = False  # event_20220224_cn, enemy is bouncing in a fixed route.
     MAP_FOCUS_ENEMY_AFTER_BATTLE = False  # Operation siren
     MAP_ENEMY_TEMPLATE = ['Light', 'Main', 'Carrier', 'Treasure']
     MAP_SIREN_TEMPLATE = ['DD', 'CL', 'CA', 'BB', 'CV']
@@ -156,8 +160,8 @@ class ManualConfig:
     HOMO_RECTANGLE_THRESHOLD = 10
 
     HOMO_EDGE_DETECT = True
-    HOMO_EDGE_HOUGHLINES_THRESHOLD = 120
-    HOMO_EDGE_COLOR_RANGE = (0, 24)
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 140
+    HOMO_EDGE_COLOR_RANGE = (0, 33)
     # ((x, y), [upper-left, upper-right, bottom-left, bottom-right])
     HOMO_STORAGE = None
 
@@ -167,13 +171,13 @@ class ManualConfig:
     # Parameters for scipy.signal.find_peaks
     # https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.find_peaks.html
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (150, 255 - 40),
+        'height': (150, 255 - 33),
         'width': (0.9, 10),
         'prominence': 10,
         'distance': 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 24, 255),
+        'height': (255 - 33, 255),
         'prominence': 10,
         'distance': 50,
         # 'width': (0, 7),

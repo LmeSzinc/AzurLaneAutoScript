@@ -3,7 +3,8 @@ import numpy as np
 from module.handler.assets import *
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
-from module.template.assets import TEMPLATE_FORMATION_1, TEMPLATE_FORMATION_2, TEMPLATE_FORMATION_3
+from module.template.assets import (TEMPLATE_FORMATION_1, TEMPLATE_FORMATION_2,
+                                    TEMPLATE_FORMATION_3)
 from module.ui.switch import Switch
 
 formation = Switch('Formation', offset=120)

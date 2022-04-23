@@ -1,7 +1,7 @@
-from module.base.button import ButtonGrid
 from module.base.base import ModuleBase
-from module.logger import logger
+from module.base.button import ButtonGrid
 from module.base.timer import Timer
+from module.logger import logger
 
 
 class Navbar:

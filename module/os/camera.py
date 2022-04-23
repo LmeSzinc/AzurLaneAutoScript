@@ -5,7 +5,7 @@ from module.base.decorator import cached_property
 from module.exception import MapDetectionError
 from module.logger import logger
 from module.map.camera import Camera
-from module.map.map_base import location_ensure, location2node
+from module.map.map_base import location2node, location_ensure
 from module.map_detection.os_grid import OSGrid
 from module.map_detection.view import View
 from module.os.map_operation import OSMapOperation
@@ -107,6 +107,10 @@ class OSCamera(OSMapOperation, Camera):
 
             backup, self.view.backend.load = self.view.backend.load, empty
             self.view.backend.homo_loca = (53, 60)
+            self.view.backend.left_edge = False
+            self.view.backend.right_edge = False
+            self.view.backend.lower_edge = False
+            self.view.backend.upper_edge = False
             self.view.load(self.device.image)
             self.view.backend.load = backup
 

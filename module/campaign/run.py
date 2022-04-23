@@ -6,7 +6,7 @@ from module.campaign.assets import *
 from module.campaign.campaign_base import CampaignBase
 from module.config.config import AzurLaneConfig
 from module.config.utils import deep_get
-from module.exception import RequestHumanTakeover, ScriptEnd
+from module.exception import CampaignEnd, RequestHumanTakeover, ScriptEnd
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.ui.ui import UI
@@ -146,6 +146,8 @@ class CampaignRun(UI):
             name = 'sp'
         if folder == 'event_20210723_cn' and name == 'vsp':
             name = 'sp'
+        if folder == 'event_20220324_cn' and name == 'esp':
+            name = 'sp'
 
         return name, folder
 
@@ -193,18 +195,25 @@ class CampaignRun(UI):
                 logger.info(f'Count: {self.run_count}')
 
             # UI ensure
-            self.device.screenshot()
+            if not hasattr(self.device, 'image') or self.device.image is None:
+                self.device.screenshot()
             self.campaign.device.image = self.device.image
             if self.campaign.is_in_map():
-                logger.info('Already in map, skip ensure_campaign_ui.')
+                logger.info('Already in map, retreating.')
+                try:
+                    self.campaign.withdraw()
+                except CampaignEnd:
+                    pass
+                self.campaign.ensure_campaign_ui(name=self.stage, mode=mode)
             elif self.campaign.is_in_auto_search_menu():
-                logger.info('In auto search menu, skip ensure_campaign_ui.')
+                if self.run_count > 0 and self.campaign.map_is_auto_search:
+                    logger.info('In auto search menu, skip ensure_campaign_ui.')
+                else:
+                    logger.info('In auto search menu, closing.')
+                    self.campaign.ensure_auto_search_exit()
+                    self.campaign.ensure_campaign_ui(name=self.stage, mode=mode)
             else:
-                self.ui_get_current_page()
-                self.campaign.ensure_campaign_ui(
-                    name=self.stage,
-                    mode=mode
-                )
+                self.campaign.ensure_campaign_ui(name=self.stage, mode=mode)
             self.handle_commission_notice()
 
             # End

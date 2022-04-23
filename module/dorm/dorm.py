@@ -177,16 +177,16 @@ class RewardDorm(UI):
     @Config.when(SERVER='en')
     def _dorm_food(self):
         # 14px lower
-        return ButtonGrid(origin=(298, 389), delta=(156, 0), button_shape=(112, 66), grid_shape=(6, 1), name='FOOD')
+        return ButtonGrid(origin=(279, 375), delta=(159, 0), button_shape=(134, 96), grid_shape=(6, 1), name='FOOD')
 
     @cached_property
     @Config.when(SERVER=None)
     def _dorm_food(self):
-        return ButtonGrid(origin=(298, 375), delta=(156, 0), button_shape=(112, 66), grid_shape=(6, 1), name='FOOD')
+        return ButtonGrid(origin=(279, 375), delta=(159, 0), button_shape=(134, 96), grid_shape=(6, 1), name='FOOD')
 
     @cached_property
     def _dorm_food_ocr(self):
-        grids = self._dorm_food.crop((45, 36, 113, 67), name='FOOD_AMOUNT')
+        grids = self._dorm_food.crop((65, 66, 128, 91), name='FOOD_AMOUNT')
         return Digit(grids.buttons, letter=(255, 255, 255), threshold=128, name='OCR_DORM_FOOD')
 
     def _dorm_has_food(self, button):
@@ -298,7 +298,7 @@ class RewardDorm(UI):
 
         if feed:
             self.ui_click(click_button=DORM_FEED_ENTER, appear_button=DORM_CHECK, check_button=DORM_FEED_CHECK,
-                          additional=self.ui_additional, skip_first_screenshot=True)
+                          additional=self.ui_additional, retry_wait=3, skip_first_screenshot=True)
             self.dorm_feed()
             self.ui_click(click_button=DORM_FEED_ENTER, appear_button=DORM_FEED_CHECK, check_button=DORM_CHECK,
                           skip_first_screenshot=True)

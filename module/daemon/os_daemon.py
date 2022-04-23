@@ -4,7 +4,7 @@ from module.exception import CampaignEnd
 from module.logger import logger
 from module.os_combat.combat import Combat, ContinuousCombat
 from module.os_handler.assets import AUTO_SEARCH_REWARD
-from module.os_handler.port import PortHandler, PORT_ENTER
+from module.os_handler.port import PORT_ENTER, PortHandler
 
 
 class AzurLaneDaemon(DaemonBase, Combat, PortHandler):

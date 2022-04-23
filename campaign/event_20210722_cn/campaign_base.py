@@ -71,7 +71,7 @@ class CampaignBase(CampaignBase_):
         chapter, _ = self._campaign_separate_name(name)
 
         if chapter.isdigit():
-            self.ui_weigh_anchor()
+            self.ui_goto_campaign()
             self.campaign_ensure_mode('normal')
             self.campaign_ensure_chapter(index=chapter)
             if mode == 'hard':

@@ -2,6 +2,7 @@ from module.base.button import Button
 from module.base.timer import Timer
 from module.base.utils import *
 from module.config.config import AzurLaneConfig
+from module.config.server import set_server, to_package
 from module.device.device import Device
 from module.logger import logger
 from module.map_detection.utils import fit_points
@@ -69,8 +70,8 @@ class ModuleBase:
 
         return appear
 
-    def appear_then_click(self, button, screenshot=False, genre='items', offset=0, interval=0):
-        appear = self.appear(button, offset=offset, interval=interval)
+    def appear_then_click(self, button, screenshot=False, genre='items', offset=0, interval=0, threshold=None):
+        appear = self.appear(button, offset=offset, interval=interval, threshold=threshold)
         if appear:
             if screenshot:
                 self.device.sleep(self.config.WAIT_BEFORE_SAVING_SCREEN_SHOT)
@@ -175,12 +176,20 @@ class ModuleBase:
         return Button(area=button_area, color=color, button=button_area, name=name)
 
     def interval_reset(self, button):
-        if button.name in self.interval_timer:
-            self.interval_timer[button.name].reset()
+        if isinstance(button, (list, tuple)):
+            for b in button:
+                self.interval_reset(b)
+        else:
+            if button.name in self.interval_timer:
+                self.interval_timer[button.name].reset()
 
     def interval_clear(self, button):
-        if button.name in self.interval_timer:
-            self.interval_timer[button.name].clear()
+        if isinstance(button, (list, tuple)):
+            for b in button:
+                self.interval_clear(b)
+        else:
+            if button.name in self.interval_timer:
+                self.interval_timer[button.name].clear()
 
     _image_file = ''
 
@@ -201,3 +210,14 @@ class ModuleBase:
             value = load_image(value)
 
         self.device.image = value
+
+    def set_server(self, server):
+        """
+        For development.
+        Change server and this will effect globally,
+        including assets and server specific methods.
+        """
+        package = to_package(server)
+        self.device.package = package
+        set_server(server)
+        logger.attr('Server', self.config.SERVER)

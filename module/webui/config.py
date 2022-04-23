@@ -22,12 +22,12 @@ def poor_yaml_write_with_lock(data, file, template_file=DEPLOY_TEMPLATE):
 
 
 class WebuiConfig:
-    Language = 'zh-CN'
-    WebuiHost = '0.0.0.0'
+    Language = "zh-CN"
+    WebuiHost = "0.0.0.0"
     WebuiPort = 22267
-    Theme = 'default'
+    Theme = "default"
     Password = None
-    CDN = 'false'
+    CDN = "false"
 
     def __init__(self, file=DEPLOY_CONFIG):
         """
@@ -68,10 +68,10 @@ class WebuiConfig:
     @staticmethod
     def to_bool(value):
         value = value.lower()
-        if value == 'null' or value == 'false' or value == '':
+        if value == "null" or value == "false" or value == "":
             return False
         return True
-    
+
     def bool(self, key):
         """
         Args:

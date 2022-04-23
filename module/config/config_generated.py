@@ -18,10 +18,9 @@ class GeneratedConfig:
     Scheduler_ServerUpdate = '00:00'
 
     # Group `Emulator`
-    Emulator_Serial = '127.0.0.1:5555'
-    Emulator_PackageName = 'com.bilibili.azurlane'
-    Emulator_Server = 'cn'  # cn, en, jp, tw
-    Emulator_ScreenshotMethod = 'ADB'  # ADB, uiautomator2, aScreenCap
+    Emulator_Serial = 'auto'
+    Emulator_PackageName = 'auto'  # auto, com.bilibili.azurlane, com.YoStarEN.AzurLane, com.YoStarJP.AzurLane, com.hkmanjuu.azurlane.gp, com.bilibili.blhx.huawei, com.bilibili.blhx.mi, com.tencent.tmgp.bilibili.blhx, com.bilibili.blhx.baidu, com.bilibili.blhx.qihoo, com.bilibili.blhx.oppo, com.bilibili.blhx.vivo, com.bilibili.blhx.uc, com.bilibili.blhx.mzw, com.yiwu.blhx.yx15, com.hkmanjuu.azurlane.gp.mc
+    Emulator_ScreenshotMethod = 'ADB'  # ADB, ADB_nc, uiautomator2, aScreenCap, aScreenCap_nc
     Emulator_ControlMethod = 'minitouch'  # ADB, uiautomator2, minitouch, Hermit
     Emulator_ScreenshotDedithering = False
 
@@ -45,6 +44,7 @@ class GeneratedConfig:
     DropRecord_UploadCommission = False
     DropRecord_SaveCombat = False
     DropRecord_SaveOpsi = False
+    DropRecord_UploadOpsi = False
 
     # Group `Retirement`
     Retirement_Enable = True
@@ -59,12 +59,12 @@ class GeneratedConfig:
     Retirement_OldRetireSSR = False
 
     # Group `Campaign`
-    Campaign_Name = '7-2'
+    Campaign_Name = '12-4'
     Campaign_Event = 'campaign_main'  # campaign_main
     Campaign_Mode = 'normal'  # normal, hard
     Campaign_UseClearMode = True
     Campaign_UseFleetLock = True
-    Campaign_UseAutoSearch = False
+    Campaign_UseAutoSearch = True
     Campaign_Use2xBook = False
     Campaign_AmbushEvade = True
 
@@ -193,8 +193,14 @@ class GeneratedConfig:
 
     # Group `Meowfficer`
     Meowfficer_BuyAmount = 1
-    Meowfficer_TrainMeowfficer = False
     Meowfficer_FortChoreMeowfficer = True
+
+    # Group `MeowfficerTrain`
+    MeowfficerTrain_Enable = False
+    MeowfficerTrain_Mode = 'seamlessly'  # seamlessly, once_a_day
+    MeowfficerTrain_RetainTalentedGold = True
+    MeowfficerTrain_RetainTalentedPurple = True
+    MeowfficerTrain_EnhanceIndex = 1
 
     # Group `GuildLogistics`
     GuildLogistics_Enable = True
@@ -352,8 +358,10 @@ class GeneratedConfig:
 
     # Group `Benchmark`
     Benchmark_AdbScreenshot = True
+    Benchmark_AdbncScreenshot = True
     Benchmark_Uiautomator2Screenshot = True
     Benchmark_AscreencapScreenshot = True
+    Benchmark_AscreencapncScreenshot = True
     Benchmark_AdbClick = True
     Benchmark_Uiautomator2Click = True
     Benchmark_MinitouchClick = True

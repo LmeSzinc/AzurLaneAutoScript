@@ -1,6 +1,6 @@
 from module.base.base import ModuleBase
-from module.combat.assets import *
 from module.base.timer import Timer
+from module.combat.assets import *
 from module.logger import logger
 
 

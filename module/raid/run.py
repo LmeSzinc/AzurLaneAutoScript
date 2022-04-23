@@ -1,7 +1,7 @@
 from module.campaign.campaign_event import CampaignEvent
 from module.exception import ScriptEnd, ScriptError
 from module.logger import logger
-from module.raid.raid import Raid, OilExhausted
+from module.raid.raid import OilExhausted, Raid
 from module.ui.page import page_raid
 
 

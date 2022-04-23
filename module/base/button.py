@@ -4,7 +4,6 @@ import traceback
 import imageio
 from PIL import ImageDraw
 
-import module.config.server as server
 from module.base.decorator import cached_property
 from module.base.resource import Resource
 from module.base.utils import *
@@ -29,30 +28,52 @@ class Button(Resource):
                 button=(1562, 908, 1864, 1003)
             )
         """
-        self.server = server.server
-        self.area = area[self.server] if isinstance(area, dict) else area
-        self.color = color[self.server] if isinstance(color, dict) else color
-        self._button = button[self.server] if isinstance(button, dict) else button
+        self.raw_area = area
+        self.raw_color = color
+        self.raw_button = button
+        self.raw_file = file
+        self.raw_name = name
+
         self._button_offset = None
         self._match_init = False
-        self.file = file[self.server] if isinstance(file, dict) else file
         self.image = None
 
         if self.file:
-            self.name = os.path.splitext(os.path.split(self.file)[1])[0]
-        elif name:
-            self.name = name
-        else:
-            (filename, line_number, function_name, text) = traceback.extract_stack()[-2]
-            self.name = text[:text.find('=')].strip()
-
-        if self.file:
-            self.is_gif = os.path.splitext(self.file)[1] == '.gif'
-        else:
-            self.is_gif = False
-
-        if self.file:
             self.resource_add(key=self.file)
+
+    cached = ['area', 'color', '_button', 'file', 'name', 'is_gif']
+
+    @cached_property
+    def area(self):
+        return self.parse_property(self.raw_area)
+
+    @cached_property
+    def color(self):
+        return self.parse_property(self.raw_color)
+
+    @cached_property
+    def _button(self):
+        return self.parse_property(self.raw_button)
+
+    @cached_property
+    def file(self):
+        return self.parse_property(self.raw_file)
+
+    @cached_property
+    def name(self):
+        if self.raw_name:
+            return self.raw_name
+        elif self.file:
+            return os.path.splitext(os.path.split(self.file)[1])[0]
+        else:
+            return 'BUTTON'
+
+    @cached_property
+    def is_gif(self):
+        if self.file:
+            return os.path.splitext(self.file)[1] == '.gif'
+        else:
+            return False
 
     def __str__(self):
         return self.name
@@ -101,9 +122,9 @@ class Button(Resource):
         Returns:
             tuple: Color (r, g, b).
         """
-        self.color = get_color(image, self.area)
+        self.__dict__['color'] = get_color(image, self.area)
         self.image = crop(image, self.area)
-        self.is_gif = False
+        self.__dict__['is_gif'] = False
         return self.color
 
     def load_offset(self, button):
@@ -146,6 +167,7 @@ class Button(Resource):
             self._match_init = True
 
     def resource_release(self):
+        super().resource_release()
         self.image = None
         self._match_init = False
 

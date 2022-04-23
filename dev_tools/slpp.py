@@ -4,7 +4,6 @@ from numbers import Number
 
 import six
 
-
 """
 SLPP is a simple lua-python data structures parser.
 

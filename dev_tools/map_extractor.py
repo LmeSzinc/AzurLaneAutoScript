@@ -2,10 +2,10 @@ import os
 import re
 
 from dev_tools.slpp import slpp
-from module.base.utils import location2node
-from module.map.utils import *
 from dev_tools.utils import LuaLoader
+from module.base.utils import location2node
 from module.logger import logger
+from module.map.utils import *
 
 """
 This an auto-tool to extract map files used in Alas.
@@ -139,6 +139,22 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
 
     # Northern Overture Rerun
     'ganraozhe': 'Intruder',
+
+    # Abyssal Refrain
+    'lingmin': 'Soobrazitelny',
+    'jifu': 'Kiev',
+    'fuerjia': 'Volga',
+
+    # Aurora Noctis
+    'U81': 'U81',
+    'U101': 'U101',
+    'U522': 'U522',
+    'deyizhi': 'Deutschland',
+    'tierbici': 'Tirpitz',
+    'genaisennao': 'Gneisenau',
+    'shaenhuosite': 'Scharnhorst',
+    'sipeibojue': 'Spee',
+    'U73': 'U73',
 }
 
 

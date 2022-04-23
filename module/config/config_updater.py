@@ -6,6 +6,7 @@ from cached_property import cached_property
 from deploy.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_write
 from module.base.timer import timer
 from module.config.redirect_utils.shop_filter import bp_redirect
+from module.config.server import to_server, to_package, VALID_PACKAGE, VALID_CHANNEL_PACKAGE
 from module.config.utils import *
 from module.logger import logger
 
@@ -41,12 +42,12 @@ class Event:
         self.tw = self.tw.replace('、', '')
         self.is_war_archives = self.directory.startswith('war_archives')
         self.is_raid = self.directory.startswith('raid_')
-        for server_ in ARCHIVES_PREFIX.keys():
-            if self.__getattribute__(server_) == '-':
-                self.__setattr__(server_, None)
+        for server in ARCHIVES_PREFIX.keys():
+            if self.__getattribute__(server) == '-':
+                self.__setattr__(server, None)
             else:
                 if self.is_war_archives:
-                    self.__setattr__(server_, ARCHIVES_PREFIX[server_] + self.__getattribute__(server_))
+                    self.__setattr__(server, ARCHIVES_PREFIX[server] + self.__getattribute__(server))
 
     def __str__(self):
         return self.directory
@@ -96,6 +97,15 @@ class ConfigGenerator:
         return read_file(filepath_argument('task'))
 
     @cached_property
+    def default(self):
+        """
+        <task>:
+            <group>:
+                <argument>: value
+        """
+        return read_file(filepath_argument('default'))
+
+    @cached_property
     def override(self):
         """
         <task>:
@@ -121,6 +131,7 @@ class ConfigGenerator:
             task.yaml ---+
         argument.yaml ---+-----> args.json
         override.yaml ---+
+         default.yaml ---+
 
         """
         # Construct args
@@ -132,29 +143,37 @@ class ConfigGenerator:
                     continue
                 deep_set(data, keys=[task, group], value=deepcopy(self.argument[group]))
 
-        # Override non-modifiable arguments
-        for path, value in deep_iter(self.override, depth=3):
+        def check_override(path, value):
             # Check existence
             old = deep_get(data, keys=path, default=None)
             if old is None:
                 logger.warning(f'`{".".join(path)}` is not a existing argument')
-                continue
+                return False
             # Check type
             # But allow `Interval` to be different
             old_value = old.get('value', None) if isinstance(old, dict) else old
             if type(value) != type(old_value) and path[2] not in ['SuccessInterval', 'FailureInterval']:
                 logger.warning(
                     f'`{value}` ({type(value)}) and `{".".join(path)}` ({type(old_value)}) are in different types')
-                continue
+                return False
             # Check option
             if isinstance(old, dict) and 'option' in old:
                 if value not in old['option']:
                     logger.warning(f'`{value}` is not an option of argument `{".".join(path)}`')
-                    continue
+                    return False
+            return True
 
-            deep_set(data, keys=path + ['value'], value=value)
-            deep_set(data, keys=path + ['type'], value='disable')
-
+        # Set defaults
+        for p, v in deep_iter(self.default, depth=3):
+            if not check_override(p, v):
+                continue
+            deep_set(data, keys=p + ['value'], value=v)
+        # Override non-modifiable arguments
+        for p, v in deep_iter(self.override, depth=3):
+            if not check_override(p, v):
+                continue
+            deep_set(data, keys=p + ['value'], value=v)
+            deep_set(data, keys=p + ['type'], value='disable')
         # Set command
         for task in self.task.keys():
             if deep_get(data, keys=f'{task}.Scheduler.Command'):
@@ -188,7 +207,7 @@ class ConfigGenerator:
             lines.append(f'    {path_to_arg(path)} = {repr(parse_value(data["value"], data=data))}{option}')
             visited_path.add(path)
 
-        with open(filepath_code(), 'w') as f:
+        with open(filepath_code(), 'w', encoding='utf-8') as f:
             for text in lines:
                 f.write(text + '\n')
 
@@ -235,14 +254,28 @@ class ConfigGenerator:
                 name = event.__getattribute__(LANG_TO_SERVER[lang])
                 if name:
                     deep_default(events, keys=event.directory, value=name)
-        for server_ in ['en', 'cn', 'jp', 'tw']:
+        for server in ['en', 'cn', 'jp', 'tw']:
             for event in self.event:
-                name = event.__getattribute__(server_)
+                name = event.__getattribute__(server)
                 if name:
                     deep_default(events, keys=event.directory, value=name)
         for event in self.event:
             name = events.get(event.directory, event.directory)
             deep_set(new, keys=f'Campaign.Event.{event.directory}', value=name)
+        # Package names
+        for package, server in VALID_PACKAGE.items():
+            path = ['Emulator', 'PackageName', package]
+            if deep_get(new, keys=path) == package:
+                deep_set(new, keys=path, value=server.upper())
+
+        for package, server_and_channel in VALID_CHANNEL_PACKAGE.items():
+            server, channel = server_and_channel
+            name = deep_get(new, keys=['Emulator', 'PackageName', to_package(server)])
+            if lang == SERVER_TO_LANG[server]:
+                value = f'{name} {channel}渠道服 {package}'
+            else:
+                value = f'{name} {package}'
+            deep_set(new, keys=['Emulator', 'PackageName', package], value=value)
         # GUI i18n
         for path, _ in deep_iter(self.gui, depth=2):
             group, key = path
@@ -304,15 +337,15 @@ class ConfigGenerator:
                    args.json -----+-----> args.json
         """
         for event in self.event:
-            for server_ in ARCHIVES_PREFIX.keys():
-                name = event.__getattribute__(server_)
+            for server in ARCHIVES_PREFIX.keys():
+                name = event.__getattribute__(server)
 
                 def insert(key):
                     options = deep_get(self.args, keys=f'{key}.Campaign.Event.option')
                     if event not in options:
                         options.append(event)
                     if name:
-                        deep_default(self.args, keys=f'{key}.Campaign.Event.{server_}', value=event)
+                        deep_default(self.args, keys=f'{key}.Campaign.Event.{server}', value=event)
 
                 if name:
                     if event.is_raid:
@@ -322,13 +355,14 @@ class ConfigGenerator:
                         insert('WarArchives')
                     else:
                         insert('Event')
+                        insert('Event2')
                         insert('EventAb')
                         insert('EventCd')
                         insert('EventSp')
                         insert('GemsFarming')
 
         # Remove campaign_main from event list
-        for task in ['Event', 'EventAb', 'EventCd', 'EventSp', 'Raid', 'RaidDaily', 'WarArchives']:
+        for task in ['Event', 'Event2', 'EventAb', 'EventCd', 'EventSp', 'Raid', 'RaidDaily', 'WarArchives']:
             options = deep_get(self.args, keys=f'{task}.Campaign.Event.option')
             options = [option for option in options if option != 'campaign_main']
             deep_set(self.args, keys=f'{task}.Campaign.Event.option', value=options)
@@ -359,12 +393,20 @@ class ConfigGenerator:
         update('template-AidLux', aidlux)
         update('template-AidLux-cn', aidlux, cn)
 
+    def insert_package(self):
+        option = deep_get(self.argument, keys='Emulator.PackageName.option')
+        option += list(VALID_PACKAGE.keys())
+        option += list(VALID_CHANNEL_PACKAGE.keys())
+        deep_set(self.argument, keys='Emulator.PackageName.option', value=option)
+        deep_set(self.args, keys='Alas.Emulator.PackageName.option', value=option)
+
     @timer
     def generate(self):
         _ = self.args
         _ = self.menu
         _ = self.event
         self.insert_event()
+        self.insert_package()
         write_file(filepath_args(), self.args)
         write_file(filepath_args('menu'), self.menu)
         self.generate_code()
@@ -418,23 +460,23 @@ class ConfigUpdater:
         else:
             deep_default(new, 'Alas.DropRecord.AzurStatsID', random_id())
         # Update to latest event
-        server_ = deep_get(new, 'Alas.Emulator.Server', 'cn')
+        server = to_server(deep_get(new, 'Alas.Emulator.PackageName', 'cn'))
         if not is_template:
-            for task in ['Event', 'EventAb', 'EventCd', 'EventSp', 'Raid', 'RaidDaily']:
+            for task in ['Event', 'Event2', 'EventAb', 'EventCd', 'EventSp', 'Raid', 'RaidDaily']:
                 deep_set(new,
                          keys=f'{task}.Campaign.Event',
-                         value=deep_get(self.args, f'{task}.Campaign.Event.{server_}'))
+                         value=deep_get(self.args, f'{task}.Campaign.Event.{server}'))
             for task in ['GemsFarming']:
                 if deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') != 'campaign_main':
                     deep_set(new,
                              keys=f'{task}.Campaign.Event',
-                             value=deep_get(self.args, f'{task}.Campaign.Event.{server_}'))
+                             value=deep_get(self.args, f'{task}.Campaign.Event.{server}'))
         # War archive does not allow campaign_main
         for task in ['WarArchives']:
             if deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') == 'campaign_main':
                 deep_set(new,
                          keys=f'{task}.Campaign.Event',
-                         value=deep_get(self.args, f'{task}.Campaign.Event.{server_}'))
+                         value=deep_get(self.args, f'{task}.Campaign.Event.{server}'))
 
         if not is_template:
             new = self.config_redirect(old, new)

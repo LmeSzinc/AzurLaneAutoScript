@@ -67,7 +67,8 @@ class FastForwardHandler(AutoSearchHandler):
         self.map_is_100_percent_clear = self.map_clear_percentage > 0.95
         self.map_is_3_stars = self.map_achieved_star_1 and self.map_achieved_star_2 and self.map_achieved_star_3
         self.map_is_threat_safe = self.appear(MAP_GREEN)
-        self.map_has_clear_mode = self.map_is_100_percent_clear and fast_forward.appear(main=self)
+        self.map_has_clear_mode = self.map_is_100_percent_clear or self.config.Campaign_Name.lower() == 'sp'
+        self.map_has_clear_mode &= fast_forward.appear(main=self)
 
         # Override config
         if self.map_achieved_star_1:
@@ -112,6 +113,7 @@ class FastForwardHandler(AutoSearchHandler):
             self.config.MAP_HAS_LAND_BASED = False
             self.config.MAP_HAS_MAZE = False
             self.config.MAP_HAS_FORTRESS = False
+            self.config.MAP_HAS_BOUNCING_ENEMY = False
             self.map_is_clear_mode = True
             self.map_is_auto_search = self.config.Campaign_UseAutoSearch
             self.map_is_2x_book = self.config.Campaign_Use2xBook
@@ -202,6 +204,12 @@ class FastForwardHandler(AutoSearchHandler):
         if self.map_fleet_checked:
             return False
         if not self.is_call_submarine_at_boss:
+            return False
+        if not self.map_is_auto_search:
+            logger.warning('Can not set submarine call because auto search not available, assuming disabled')
+            logger.warning('Please do the followings: '
+                           'goto any stage -> auto search role -> set submarine role to standby')
+            logger.warning('If you already did, ignore this warning')
             return False
 
         logger.info('Disable auto submarine call')

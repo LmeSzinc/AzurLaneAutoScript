@@ -12,9 +12,9 @@ from module.logger import logger
 from module.map.fleet import Fleet
 from module.map.map_grids import SelectedGrids
 from module.map.utils import location_ensure
-from module.map_detection.utils import corner2inner, area2corner
+from module.map_detection.utils import area2corner, corner2inner
 from module.ocr.ocr import Ocr
-from module.os.assets import TEMPLATE_EMPTY_HP, STRONGHOLD_PERCENTAGE
+from module.os.assets import STRONGHOLD_PERCENTAGE, TEMPLATE_EMPTY_HP
 from module.os.camera import OSCamera
 from module.os.map_base import OSCampaignMap
 from module.os_ash.ash import OSAsh
@@ -522,7 +522,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         with self.stat.new(
                 genre=inflection.underscore(self.config.task.command),
                 save=self.config.DropRecord_SaveOpsi,
-                upload=False
+                upload=self.config.DropRecord_UploadOpsi
         ) as drop:
             for fleet in fleets:
                 logger.hr(f'Turn: {fleet}', level=2)

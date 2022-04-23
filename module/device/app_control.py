@@ -3,41 +3,43 @@ from lxml import etree
 from module.device.method.adb import Adb
 from module.device.method.uiautomator_2 import Uiautomator2
 from module.device.method.utils import HierarchyButton
+from module.device.method.wsa import WSA
 from module.logger import logger
 
 
-class AppControl(Adb, Uiautomator2):
+class AppControl(Adb, WSA, Uiautomator2):
     hierarchy: etree._Element
 
     def app_is_running(self) -> bool:
         method = self.config.Emulator_ControlMethod
-        if method == 'uiautomator2' or method == 'minitouch':
+        if 'wsa' in self.config.Emulator_Serial:
+            package = self.app_current_wsa()
+        elif method == 'uiautomator2' or method == 'minitouch':
             package = self.app_current_uiautomator2()
         else:
             package = self.app_current_adb()
 
         package = package.strip(' \t\r\n')
         logger.attr('Package_name', package)
-        target = self.config.Emulator_PackageName.strip(' \t\r\n')
-        return package == target
+        return package == self.package
 
     def app_start(self):
-        package = self.config.Emulator_PackageName
         method = self.config.Emulator_ControlMethod
-        logger.info(f'App start: {package}')
-        if method == 'uiautomator2' or method == 'minitouch':
-            self.app_start_uiautomator2(package)
+        logger.info(f'App start: {self.package}')
+        if self.config.Emulator_Serial == 'wsa-0':
+            self.app_start_wsa(display=0)
+        elif method == 'uiautomator2' or method == 'minitouch':
+            self.app_start_uiautomator2()
         else:
-            self.app_start_adb(package)
+            self.app_start_adb()
 
     def app_stop(self):
-        package = self.config.Emulator_PackageName
         method = self.config.Emulator_ControlMethod
-        logger.info(f'App stop: {package}')
+        logger.info(f'App stop: {self.package}')
         if method == 'uiautomator2' or method == 'minitouch':
-            self.app_stop_uiautomator2(package)
+            self.app_stop_uiautomator2()
         else:
-            self.app_stop_adb(package)
+            self.app_stop_adb()
 
     def dump_hierarchy(self) -> etree._Element:
         """

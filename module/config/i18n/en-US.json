@@ -54,16 +54,12 @@
       "name": "Main",
       "help": ""
     },
-    "C72MysteryFarming": {
-      "name": "7-2 Mystery Farming",
+    "Main2": {
+      "name": "Main-2",
       "help": ""
     },
-    "C122MediumLeveling": {
-      "name": "12-2 Leveling",
-      "help": ""
-    },
-    "C124LargeLeveling": {
-      "name": "12-4 Leveling",
+    "Main3": {
+      "name": "Main-3",
       "help": ""
     },
     "GemsFarming": {
@@ -76,6 +72,10 @@
     },
     "Event": {
       "name": "Event",
+      "help": ""
+    },
+    "Event2": {
+      "name": "Event-2",
       "help": ""
     },
     "EventAb": {
@@ -118,6 +118,10 @@
       "name": "Dorm",
       "help": ""
     },
+    "Meowfficer": {
+      "name": "Meowfficer",
+      "help": ""
+    },
     "Guild": {
       "name": "Guild",
       "help": ""
@@ -132,10 +136,6 @@
     },
     "ShopOnce": {
       "name": "Shop Once",
-      "help": ""
-    },
-    "Meowfficer": {
-      "name": "Meowfficer",
       "help": ""
     },
     "Shipyard": {
@@ -276,33 +276,43 @@
     },
     "Serial": {
       "name": "Serial",
-      "help": "Default serial for select emulators:\n- BlueStacks 127.0.0.1:5555\n- BlueStacks4 Hyper-V use \"bluestacks4-hyperv\", \"bluestacks4-hyperv-2\" for multi instance, and so on\n- BlueStacks5 Hyper-V use \"bluestacks5-hyperv\", \"bluestacks5-hyperv-1\" for multi instance, and so on\n- NoxPlayer 127.0.0.1:62001\n- NoxPlayer64bit 127.0.0.1:59865\n- MuMuPlayer 127.0.0.1:7555\n- MemuPlayer 127.0.0.1:21503\n- LDPlayer emulator-5554 or 127.0.0.1:5555\nIf there are multiple emulator instances running, the default is reserved for one of them and the others will use different serials to avoid conflicts\nOpen console.bat and run `adb devices` to find what they are"
+      "help": "Use \"auto\" to auto-detect emulators, but serial must be filled if multiple emulators are running\nDefault serial for select emulators:\n- BlueStacks 127.0.0.1:5555\n- BlueStacks4 Hyper-V use \"bluestacks4-hyperv\", \"bluestacks4-hyperv-2\" for multi instance, and so on\n- BlueStacks5 Hyper-V use \"bluestacks5-hyperv\", \"bluestacks5-hyperv-1\" for multi instance, and so on\n- NoxPlayer 127.0.0.1:62001\n- NoxPlayer64bit 127.0.0.1:59865\n- MuMuPlayer 127.0.0.1:7555\n- MemuPlayer 127.0.0.1:21503\n- LDPlayer emulator-5554 or 127.0.0.1:5555\n- WSA use \"wsa-0\" to make the game run in the background, which needs to be controlled or closed by third-party software\nIf there are multiple emulator instances running, the default is reserved for one of them and the others will use different serials to avoid conflicts\nOpen console.bat and run `adb devices` to find what they are"
     },
     "PackageName": {
-      "name": "Package Name",
-      "help": "com.bilibili.azurlane (CN)\ncom.YoStarEN.AzurLane (EN)\ncom.YoStarJP.AzurLane (JP)\ncom.hkmanjuu.azurlane.gp (TW)\nIf none of these please refer to your AppStore"
-    },
-    "Server": {
       "name": "Game Server",
-      "help": "Should be aligned with package name e.g. com.YoStarEN.AzurLane > EN",
-      "cn": "CN",
-      "en": "EN",
-      "jp": "JP",
-      "tw": "TW"
+      "help": "Manual select is required if multiple game clients are installed on emulator",
+      "auto": "Auto-detect",
+      "com.bilibili.azurlane": "CN",
+      "com.YoStarEN.AzurLane": "EN",
+      "com.YoStarJP.AzurLane": "JP",
+      "com.hkmanjuu.azurlane.gp": "TW",
+      "com.bilibili.blhx.huawei": "CN com.bilibili.blhx.huawei",
+      "com.bilibili.blhx.mi": "CN com.bilibili.blhx.mi",
+      "com.tencent.tmgp.bilibili.blhx": "CN com.tencent.tmgp.bilibili.blhx",
+      "com.bilibili.blhx.baidu": "CN com.bilibili.blhx.baidu",
+      "com.bilibili.blhx.qihoo": "CN com.bilibili.blhx.qihoo",
+      "com.bilibili.blhx.oppo": "CN com.bilibili.blhx.oppo",
+      "com.bilibili.blhx.vivo": "CN com.bilibili.blhx.vivo",
+      "com.bilibili.blhx.uc": "CN com.bilibili.blhx.uc",
+      "com.bilibili.blhx.mzw": "CN com.bilibili.blhx.mzw",
+      "com.yiwu.blhx.yx15": "CN com.yiwu.blhx.yx15",
+      "com.hkmanjuu.azurlane.gp.mc": "TW com.hkmanjuu.azurlane.gp.mc"
     },
     "ScreenshotMethod": {
       "name": "Screenshot Method",
-      "help": "Speed: aScreenCap > uiautomator2 ~= ADB\nADB is recommended",
+      "help": "Speed: aScreenCap_nc > ADB_nc >>> aScreenCap > uiautomator2 ~= ADB\nRun Tools - Performance Test to find the fastest method",
       "ADB": "ADB ",
-      "uiautomator2": "uiautomator2 ",
-      "aScreenCap": "aScreenCap "
+      "ADB_nc": "ADB_nc",
+      "uiautomator2": "uiautomator2",
+      "aScreenCap": "aScreenCap",
+      "aScreenCap_nc": "aScreenCap_nc"
     },
     "ControlMethod": {
       "name": "Control Method",
       "help": "Speed: minitouch > Hermit >>> uiautomator2 ~= ADB\nminitouch is recommended, hermit is not recommended unless on vmos",
-      "ADB": "ADB ",
-      "uiautomator2": "uiautomator2 ",
-      "minitouch": "minitouch ",
+      "ADB": "ADB",
+      "uiautomator2": "uiautomator2",
+      "minitouch": "minitouch",
       "Hermit": "Hermit"
     },
     "ScreenshotDedithering": {
@@ -389,6 +399,10 @@
     "SaveOpsi": {
       "name": "Save OpSi Drop Screenshots",
       "help": ""
+    },
+    "UploadOpsi": {
+      "name": "Upload OpSi Screenshots",
+      "help": ""
     }
   },
   "Retirement": {
@@ -455,11 +469,18 @@
       "name": "Event Name",
       "help": "Automatically selects to the latest event",
       "campaign_main": "campaign_main",
+      "event_20220414_cn": "Aurora Noctis Rerun",
+      "event_20220407_tw": "蒼紅的迴響(復刻)",
+      "event_20210422_cn": "Daedalian Hymn",
+      "event_20220324_cn": "Virtual Tower",
+      "event_20220310_tw": "復刻斯圖爾特的硝煙",
+      "event_20200603_cn": "Counterattack Within the Fjord Rerun",
+      "event_20220224_cn": "Abyssal Refrain",
+      "event_20210225_cn": "Khorovod of Dawns Rime",
       "event_20220210_cn": "Northern Overture Rerun",
       "raid_20220127": "Mystery Investigation",
       "event_20201229_cn": "Inverted Orthant",
       "event_20211229_cn": "Tower of Transcendence",
-      "event_20200603_cn": "峡湾间的反击",
       "event_20211125_cn": "World-spanning Arclight",
       "event_20211111_cn": "The Flame-Touched Dagger",
       "event_20211028_tw": "復刻光與影的鳶尾之華",
@@ -479,11 +500,9 @@
       "event_20210527_cn": "Mirror Involution",
       "event_20210527_tw": "微層混合",
       "event_20210429_tw": "復刻墨染的鋼鐵之花",
-      "event_20210422_cn": "Daedalian Hymn",
       "event_20210415_tw": "復刻圍剿施佩伯爵",
       "event_20210325_cn": "Ashen Simulacrum Rerun",
       "event_20210225_tw": "北境序曲",
-      "event_20210225_cn": "Khorovod of Dawns Rime",
       "event_20210121_cn": "Empyreal Tragicomedy Rerun",
       "event_20201126_cn": "Vacation Lane",
       "event_20200312_cn": "The Solomon Ranger Rerun",
@@ -500,7 +519,9 @@
       "event_20200423_cn": "Crimson Echoes Rerun",
       "event_20200326_cn": "Microlayer Medley",
       "event_20200227_cn": "Northern Overture",
+      "war_archives_20210325_cn": "archives Ashen Simulacrum",
       "war_archives_20190911_cn": "archives Empyreal Tragicomedy",
+      "war_archives_20200820_cn": "archives Scherzo of Iron and Blood",
       "war_archives_20181227_cn": "archives Crimson Echoes",
       "war_archives_20180726_cn": "archives Iris of Light and Dark",
       "war_archives_20180607_cn": "archives Ink Stained Steel Sakura",
@@ -1111,13 +1132,37 @@
       "name": "Buy Amount",
       "help": "The 1st meowfficer box purchase everyday is free"
     },
-    "TrainMeowfficer": {
-      "name": "Collect Trained Meowfficer",
-      "help": "Collects 1 trained meowfficer each day, until Sunday in which Alas will collect all of them at once in order to complete daily missions\nThen fills the training queue to full for the upcoming new week to start again\nMust manually free up cattery space to receive trained meowfficers"
-    },
     "FortChoreMeowfficer": {
       "name": "Do Fort Chores",
       "help": "Completes all 3 chores; clean, feed, and play with meowfficer to get fort exp"
+    }
+  },
+  "MeowfficerTrain": {
+    "_info": {
+      "name": "Meowfficer Training Settings",
+      "help": ""
+    },
+    "Enable": {
+      "name": "Enable Meowfficer Training",
+      "help": ""
+    },
+    "Mode": {
+      "name": "Meowfficer Training Mode",
+      "help": "Train Seamlessly means collecting trained meowfficer(s) every 2.5 ~ 3.5 hours.\nTrain Once a Day means collecting 1 trained meowfficer each day; emptying the training queue and do the enhancing on Sunday in order to finish weekly mission.",
+      "seamlessly": "Train Seamlessly",
+      "once_a_day": "Train Once a Day"
+    },
+    "RetainTalentedGold": {
+      "name": "Retain Talented SR Meowfficer(s)",
+      "help": "During collection, SR cats are examined for special talent abilities i.e. has no tiers or is colored rainbow.\nIf detected these are locked to prevent being used as feed material. Players must manually check and enhance themselves an SR meowfficer's personal skill."
+    },
+    "RetainTalentedPurple": {
+      "name": "Retain Talented Elite Meowfficer(s)",
+      "help": "During collection, Elite cats are examined for special talent abilities i.e. has no tiers or is colored rainbow.\nIf detected these are locked to prevent being used as feed material. Players must manually check and enhance themselves an Elite meowfficer's personal skill."
+    },
+    "EnhanceIndex": {
+      "name": "Enhance Index",
+      "help": "Index of target meowfficer to enhance. Limited in 1 ~ 12; indices are in ascending order from left to right of the 4 x 3 grid."
     }
   },
   "GuildLogistics": {
@@ -1707,7 +1752,7 @@
     },
     "LastZone": {
       "name": "Last Zone Completed",
-      "help": "Automatically updated with map ID\nReplace with 0 to reset progress\nAlready completed zones will be skipped"
+      "help": "Automatically updated with map ID\nReplace with 0 to reset progress\nAlready completed zones will be skipped\nSupports either Zone ID or Name in CN/EN/JP/TW, i.e. \"51\", \"NA Ocean SE Sector E\""
     }
   },
   "OpsiShop": {
@@ -1771,7 +1816,7 @@
     },
     "ActionPointPreserve": {
       "name": "Keep X Amount of AP",
-      "help": "Stops task if total AP (including AP boxes in inventory) is below this number"
+      "help": "Stops task if total AP (including AP boxes in inventory) is below this number, 500 is recommended\nThis value will be auto reduced to 200 at 3 days before OpSi reset and to 0 at day before reset"
     },
     "HazardLevel": {
       "name": "Target Zone Hazard Level",
@@ -1784,7 +1829,7 @@
     },
     "TargetZone": {
       "name": "Target Zone ID",
-      "help": "Supports either Zone ID or Name\nIf specified, Alas will loop on this same zone after each clear\nUse default value 0 or clear the field to remove the specification\nZone information can be acquired from <./module/os/map_data.py>"
+      "help": "Supports either Zone ID or Name in CN/EN/JP/TW, i.e. \"51\", \"NA Ocean SE Sector E\"\nIf specified, Alas will loop on this same zone after each clear\nUse default value 0 or clear the field to remove the specification\nZone information can be acquired from <./module/os/map_data.py>"
     }
   },
   "Daemon": {
@@ -1816,12 +1861,20 @@
       "name": "Test ADB Screenshot",
       "help": ""
     },
+    "AdbncScreenshot": {
+      "name": "Test ADB_nc Screenshot",
+      "help": ""
+    },
     "Uiautomator2Screenshot": {
       "name": "Test Uiautomator2 Screenshot",
       "help": ""
     },
     "AscreencapScreenshot": {
       "name": "Test aScreenCap Screenshot",
+      "help": ""
+    },
+    "AscreencapncScreenshot": {
+      "name": "Test aScreenCap_nc Screenshot",
       "help": ""
     },
     "AdbClick": {

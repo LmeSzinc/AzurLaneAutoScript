@@ -5,18 +5,19 @@ import numpy as np
 from scipy.signal import find_peaks
 from uiautomator2 import UiObject
 from uiautomator2.exceptions import XPathElementNotFoundError
-from uiautomator2.xpath import XPathSelector, XPath
+from uiautomator2.xpath import XPath, XPathSelector
 
 import module.config.server as server
 from module.base.timer import Timer
-from module.base.utils import crop, random_rectangle_point, color_similarity_2d
+from module.base.utils import color_similarity_2d, crop, random_rectangle_point
 from module.combat.combat import Combat
-from module.exception import GameTooManyClickError, GameStuckError, RequestHumanTakeover
+from module.exception import (GameStuckError, GameTooManyClickError,
+                              RequestHumanTakeover)
 from module.handler.assets import *
 from module.logger import logger
 from module.map.assets import *
 from module.ui.assets import *
-from module.ui.ui import MAIN_CHECK
+from module.ui.page import MAIN_CHECK
 
 
 class LoginHandler(Combat):
@@ -29,10 +30,16 @@ class LoginHandler(Combat):
         logger.hr('App login')
 
         confirm_timer = Timer(1.5, count=4).start()
+        orientation_timer = Timer(5)
         login_success = False
 
         while 1:
             self.device.screenshot()
+            if not login_success and orientation_timer.reached():
+                # Screen may rotate after starting an app
+                self.device.get_orientation()
+                orientation_timer.reset()
+
             if self.handle_get_items():
                 continue
             if self.handle_get_ship():

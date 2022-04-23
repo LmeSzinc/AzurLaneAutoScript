@@ -54,17 +54,13 @@
       "name": "Task.Main.name",
       "help": "Task.Main.help"
     },
-    "C72MysteryFarming": {
-      "name": "Task.C72MysteryFarming.name",
-      "help": "Task.C72MysteryFarming.help"
+    "Main2": {
+      "name": "Task.Main2.name",
+      "help": "Task.Main2.help"
     },
-    "C122MediumLeveling": {
-      "name": "Task.C122MediumLeveling.name",
-      "help": "Task.C122MediumLeveling.help"
-    },
-    "C124LargeLeveling": {
-      "name": "Task.C124LargeLeveling.name",
-      "help": "Task.C124LargeLeveling.help"
+    "Main3": {
+      "name": "Task.Main3.name",
+      "help": "Task.Main3.help"
     },
     "GemsFarming": {
       "name": "Task.GemsFarming.name",
@@ -77,6 +73,10 @@
     "Event": {
       "name": "Task.Event.name",
       "help": "Task.Event.help"
+    },
+    "Event2": {
+      "name": "Task.Event2.name",
+      "help": "Task.Event2.help"
     },
     "EventAb": {
       "name": "Task.EventAb.name",
@@ -118,6 +118,10 @@
       "name": "Task.Dorm.name",
       "help": "Task.Dorm.help"
     },
+    "Meowfficer": {
+      "name": "Task.Meowfficer.name",
+      "help": "Task.Meowfficer.help"
+    },
     "Guild": {
       "name": "Task.Guild.name",
       "help": "Task.Guild.help"
@@ -133,10 +137,6 @@
     "ShopOnce": {
       "name": "Task.ShopOnce.name",
       "help": "Task.ShopOnce.help"
-    },
-    "Meowfficer": {
-      "name": "Task.Meowfficer.name",
-      "help": "Task.Meowfficer.help"
     },
     "Shipyard": {
       "name": "Task.Shipyard.name",
@@ -280,22 +280,32 @@
     },
     "PackageName": {
       "name": "Emulator.PackageName.name",
-      "help": "Emulator.PackageName.help"
-    },
-    "Server": {
-      "name": "Emulator.Server.name",
-      "help": "Emulator.Server.help",
-      "cn": "cn",
-      "en": "en",
-      "jp": "jp",
-      "tw": "tw"
+      "help": "Emulator.PackageName.help",
+      "auto": "auto",
+      "com.bilibili.azurlane": "CN",
+      "com.YoStarEN.AzurLane": "EN",
+      "com.YoStarJP.AzurLane": "JP",
+      "com.hkmanjuu.azurlane.gp": "TW",
+      "com.bilibili.blhx.huawei": "CN com.bilibili.blhx.huawei",
+      "com.bilibili.blhx.mi": "CN com.bilibili.blhx.mi",
+      "com.tencent.tmgp.bilibili.blhx": "CN com.tencent.tmgp.bilibili.blhx",
+      "com.bilibili.blhx.baidu": "CN com.bilibili.blhx.baidu",
+      "com.bilibili.blhx.qihoo": "CN com.bilibili.blhx.qihoo",
+      "com.bilibili.blhx.oppo": "CN com.bilibili.blhx.oppo",
+      "com.bilibili.blhx.vivo": "CN com.bilibili.blhx.vivo",
+      "com.bilibili.blhx.uc": "CN com.bilibili.blhx.uc",
+      "com.bilibili.blhx.mzw": "CN com.bilibili.blhx.mzw",
+      "com.yiwu.blhx.yx15": "CN com.yiwu.blhx.yx15",
+      "com.hkmanjuu.azurlane.gp.mc": "TW com.hkmanjuu.azurlane.gp.mc"
     },
     "ScreenshotMethod": {
       "name": "Emulator.ScreenshotMethod.name",
       "help": "Emulator.ScreenshotMethod.help",
       "ADB": "ADB",
+      "ADB_nc": "ADB_nc",
       "uiautomator2": "uiautomator2",
-      "aScreenCap": "aScreenCap"
+      "aScreenCap": "aScreenCap",
+      "aScreenCap_nc": "aScreenCap_nc"
     },
     "ControlMethod": {
       "name": "Emulator.ControlMethod.name",
@@ -389,6 +399,10 @@
     "SaveOpsi": {
       "name": "DropRecord.SaveOpsi.name",
       "help": "DropRecord.SaveOpsi.help"
+    },
+    "UploadOpsi": {
+      "name": "DropRecord.UploadOpsi.name",
+      "help": "DropRecord.UploadOpsi.help"
     }
   },
   "Retirement": {
@@ -455,11 +469,18 @@
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
+      "event_20220414_cn": "極夜照らす幻光（復刻）",
+      "event_20220407_tw": "蒼紅的迴響(復刻)",
+      "event_20210422_cn": "讃える復興の迷路",
+      "event_20220324_cn": "幻像の塔",
+      "event_20220310_tw": "復刻斯圖爾特的硝煙",
+      "event_20200603_cn": "峡湾間の反撃（復刻）",
+      "event_20220224_cn": "鳴動せし星霜の淵",
+      "event_20210225_cn": "暁射す氷華の嵐",
       "event_20220210_cn": "凍絶の北海（復刻）",
       "raid_20220127": "秘密事件調査",
       "event_20201229_cn": "虚畳なりし限象",
       "event_20211229_cn": "遡望せし虹彩の塔",
-      "event_20200603_cn": "峡湾間の反撃",
       "event_20211125_cn": "弧光は交わる世界にて",
       "event_20211111_cn": "燈火のシニエ",
       "event_20211028_tw": "復刻光與影的鳶尾之華",
@@ -479,11 +500,9 @@
       "event_20210527_cn": "照らす螺旋の鏡海",
       "event_20210527_tw": "微層混合",
       "event_20210429_tw": "復刻墨染的鋼鐵之花",
-      "event_20210422_cn": "讃える復興の迷路",
       "event_20210415_tw": "復刻圍剿施佩伯爵",
       "event_20210325_cn": "開かれし紺碧の砂箱（復刻）",
       "event_20210225_tw": "北境序曲",
-      "event_20210225_cn": "暁射す氷華の嵐",
       "event_20210121_cn": "悲歎せし焔海の詩（復刻）",
       "event_20201126_cn": "バケーションレーン",
       "event_20200312_cn": "南洋に靡く硝煙（復刻）",
@@ -500,7 +519,9 @@
       "event_20200423_cn": "縹映る深緋の残響（復刻）",
       "event_20200326_cn": "闇靄払う銀翼",
       "event_20200227_cn": "凍絶の北海",
+      "war_archives_20210325_cn": "檔案 開かれし紺碧の砂箱",
       "war_archives_20190911_cn": "檔案 悲歎せし焔海の詩",
+      "war_archives_20200820_cn": "檔案 黒鉄の楽章 誓いの海",
       "war_archives_20181227_cn": "檔案 縹映る深緋の残響",
       "war_archives_20180726_cn": "檔案 光と影のアイリス",
       "war_archives_20180607_cn": "檔案 墨染まりし鋼の桜",
@@ -1111,13 +1132,37 @@
       "name": "Meowfficer.BuyAmount.name",
       "help": "Meowfficer.BuyAmount.help"
     },
-    "TrainMeowfficer": {
-      "name": "Meowfficer.TrainMeowfficer.name",
-      "help": "Meowfficer.TrainMeowfficer.help"
-    },
     "FortChoreMeowfficer": {
       "name": "Meowfficer.FortChoreMeowfficer.name",
       "help": "Meowfficer.FortChoreMeowfficer.help"
+    }
+  },
+  "MeowfficerTrain": {
+    "_info": {
+      "name": "MeowfficerTrain._info.name",
+      "help": "MeowfficerTrain._info.help"
+    },
+    "Enable": {
+      "name": "MeowfficerTrain.Enable.name",
+      "help": "MeowfficerTrain.Enable.help"
+    },
+    "Mode": {
+      "name": "MeowfficerTrain.Mode.name",
+      "help": "MeowfficerTrain.Mode.help",
+      "seamlessly": "seamlessly",
+      "once_a_day": "once_a_day"
+    },
+    "RetainTalentedGold": {
+      "name": "MeowfficerTrain.RetainTalentedGold.name",
+      "help": "MeowfficerTrain.RetainTalentedGold.help"
+    },
+    "RetainTalentedPurple": {
+      "name": "MeowfficerTrain.RetainTalentedPurple.name",
+      "help": "MeowfficerTrain.RetainTalentedPurple.help"
+    },
+    "EnhanceIndex": {
+      "name": "MeowfficerTrain.EnhanceIndex.name",
+      "help": "MeowfficerTrain.EnhanceIndex.help"
     }
   },
   "GuildLogistics": {
@@ -1816,6 +1861,10 @@
       "name": "Benchmark.AdbScreenshot.name",
       "help": "Benchmark.AdbScreenshot.help"
     },
+    "AdbncScreenshot": {
+      "name": "Benchmark.AdbncScreenshot.name",
+      "help": "Benchmark.AdbncScreenshot.help"
+    },
     "Uiautomator2Screenshot": {
       "name": "Benchmark.Uiautomator2Screenshot.name",
       "help": "Benchmark.Uiautomator2Screenshot.help"
@@ -1823,6 +1872,10 @@
     "AscreencapScreenshot": {
       "name": "Benchmark.AscreencapScreenshot.name",
       "help": "Benchmark.AscreencapScreenshot.help"
+    },
+    "AscreencapncScreenshot": {
+      "name": "Benchmark.AscreencapncScreenshot.name",
+      "help": "Benchmark.AscreencapncScreenshot.help"
     },
     "AdbClick": {
       "name": "Benchmark.AdbClick.name",

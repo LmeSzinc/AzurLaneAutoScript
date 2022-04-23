@@ -2,7 +2,6 @@ import os
 
 import imageio
 
-import module.config.server as server
 from module.base.button import Button
 from module.base.decorator import cached_property
 from module.base.resource import Resource
@@ -16,13 +15,24 @@ class Template(Resource):
         Args:
             file (dict[str], str): Filepath of template file.
         """
-        self.server = server.server
-        self.file = file[self.server] if isinstance(file, dict) else file
-        self.name = os.path.splitext(os.path.basename(self.file))[0].upper()
-        self.is_gif = os.path.splitext(self.file)[1] == '.gif'
+        self.raw_file = file
         self._image = None
 
         self.resource_add(self.file)
+
+    cached = ['file', 'name', 'is_gif']
+
+    @cached_property
+    def file(self):
+        return self.parse_property(self.raw_file)
+
+    @cached_property
+    def name(self):
+        return os.path.splitext(os.path.basename(self.file))[0].upper()
+
+    @cached_property
+    def is_gif(self):
+        return os.path.splitext(self.file)[1] == '.gif'
 
     @property
     def image(self):
@@ -67,6 +77,7 @@ class Template(Resource):
         self._image = value
 
     def resource_release(self):
+        super().resource_release()
         self._image = None
 
     def pre_process(self, image):

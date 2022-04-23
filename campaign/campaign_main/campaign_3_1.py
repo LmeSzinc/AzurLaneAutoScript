@@ -1,7 +1,7 @@
 from module.campaign.campaign_base import CampaignBase
-from module.map.map_base import CampaignMap
-from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
+from module.map.map_base import CampaignMap
+from module.map.map_grids import RoadGrids, SelectedGrids
 
 MAP = CampaignMap()
 MAP.shape = 'G4'
@@ -39,17 +39,18 @@ class Config:
     INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
     EDGE_LINES_HOUGHLINES_THRESHOLD = 75
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (120, 255 - 40),
+        'height': (120, 255 - 49),
         'width': (1.5, 10),
         'prominence': 10,
         'distance': 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 40, 255),
+        'height': (255 - 49, 255),
         'prominence': 10,
         'distance': 50,
         'wlen': 1000
     }
+    HOMO_EDGE_COLOR_RANGE = (0, 49)
 
 
 class Campaign(CampaignBase):

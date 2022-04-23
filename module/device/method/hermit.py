@@ -1,13 +1,15 @@
 import json
+from functools import wraps
 
 import requests
 from adbutils.errors import AdbError
 
 from module.base.decorator import cached_property
 from module.base.timer import Timer
-from module.base.utils import random_rectangle_point, point2str
+from module.base.utils import point2str, random_rectangle_point
 from module.device.method.adb import Adb
-from module.device.method.utils import HierarchyButton, handle_adb_error, del_cached_property, RETRY_TRIES, RETRY_DELAY
+from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
+                                        HierarchyButton, handle_adb_error)
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 
@@ -17,6 +19,7 @@ class HermitError(Exception):
 
 
 def retry(func):
+    @wraps(func)
     def retry_wrapper(self, *args, **kwargs):
         """
         Args:
@@ -37,8 +40,8 @@ def retry(func):
                 logger.error(e)
 
                 def init():
+                    self.adb_disconnect(self.serial)
                     self.adb_connect(self.serial)
-                    del_cached_property(self, 'hermit_session')
             # When unable to send requests
             except requests.exceptions.ConnectionError as e:
                 logger.error(e)
@@ -47,22 +50,22 @@ def retry(func):
                     # Hermit not installed or not running
                     # ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
                     def init():
+                        self.adb_disconnect(self.serial)
                         self.adb_connect(self.serial)
                         self.hermit_init()
-                        del_cached_property(self, 'hermit_session')
                 else:
                     # Lost connection, adb server was killed
                     # HTTPConnectionPool(host='127.0.0.1', port=20269):
                     # Max retries exceeded with url: /click?x=500&y=500
                     def init():
+                        self.adb_disconnect(self.serial)
                         self.adb_connect(self.serial)
-                        del_cached_property(self, 'hermit_session')
             # AdbError
             except AdbError as e:
                 if handle_adb_error(e):
                     def init():
+                        self.adb_disconnect(self.serial)
                         self.adb_connect(self.serial)
-                        del_cached_property(self, 'hermit_session')
                 else:
                     break
             # HermitError: {"code":-1,"msg":"error"}
@@ -70,9 +73,9 @@ def retry(func):
                 logger.error(e)
 
                 def init():
+                    self.adb_disconnect(self.serial)
                     self.adb_connect(self.serial)
                     self.hermit_init()
-                    del_cached_property(self, 'hermit_session')
             # Unknown, probably a trucked image
             except Exception as e:
                 logger.exception(e)
@@ -136,7 +139,7 @@ class Hermit(Adb):
         self.adb_shell(['input', 'keyevent', '3'])
 
         # Switch back to AzurLane
-        self.app_start_adb(self.config.Emulator_PackageName)
+        self.app_start_adb()
 
     def uninstall_hermit(self):
         self.adb_command(['uninstall', self._hermit_package_name])

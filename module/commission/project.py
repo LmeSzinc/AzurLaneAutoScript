@@ -6,7 +6,7 @@ from module.base.filter import Filter
 from module.base.utils import *
 from module.commission.project_data import *
 from module.logger import logger
-from module.ocr.ocr import Ocr, Duration
+from module.ocr.ocr import Duration, Ocr
 from module.reward.assets import *
 
 COMMISSION_FILTER = Filter(
@@ -123,7 +123,7 @@ class Commission:
         area = area_offset((-49, 68, -45, 84), self.area[0:2])
         button = Button(area=area, color=(189, 65, 66),
                         button=area, name='IS_URGENT')
-        if button.appear_on(self.image):
+        if button.appear_on(self.image, threshold=30):
             area = area_offset((-49, 67, 45, 94), self.area[0:2])
             button = Button(area=area, color=(), button=area, name='EXPIRE')
             ocr = Duration(button)
@@ -167,7 +167,7 @@ class Commission:
         area = area_offset((-49, 68, -45, 84), self.area[0:2])
         button = Button(area=area, color=(189, 65, 66),
                         button=area, name='IS_URGENT')
-        if button.appear_on(self.image):
+        if button.appear_on(self.image, threshold=30):
             area = area_offset((-49, 67, 45, 94), self.area[0:2])
             button = Button(area=area, color=(), button=area, name='EXPIRE')
             ocr = Duration(button)
@@ -211,7 +211,7 @@ class Commission:
         area = area_offset((-49, 68, -45, 84), self.area[0:2])
         button = Button(area=area, color=(189, 65, 66),
                         button=area, name='IS_URGENT')
-        if button.appear_on(self.image):
+        if button.appear_on(self.image, threshold=30):
             area = area_offset((-49, 67, 45, 94), self.area[0:2])
             button = Button(area=area, color=(), button=area, name='EXPIRE')
             ocr = Duration(button)
@@ -255,7 +255,7 @@ class Commission:
         area = area_offset((-49, 68, -45, 84), self.area[0:2])
         button = Button(area=area, color=(189, 65, 66),
                         button=area, name='IS_URGENT')
-        if button.appear_on(self.image):
+        if button.appear_on(self.image, threshold=30):
             area = area_offset((-49, 67, 45, 94), self.area[0:2])
             button = Button(area=area, color=(), button=area, name='EXPIRE')
             ocr = Duration(button)

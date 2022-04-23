@@ -1,7 +1,7 @@
 from module.campaign.campaign_base import CampaignBase
-from module.map.map_base import CampaignMap
-from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
+from module.map.map_base import CampaignMap
+from module.map.map_grids import RoadGrids, SelectedGrids
 
 MAP = CampaignMap('8-1')
 MAP.shape = 'I3'
@@ -35,18 +35,19 @@ class Config:
     EDGE_LINES_HOUGHLINES_THRESHOLD = 35
     COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.3
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (80, 255 - 24),
+        'height': (120, 255 - 49),
         'width': (0.9, 10),
         'prominence': 10,
         'distance': 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 24, 255),
+        'height': (255 - 49, 255),
         'prominence': 10,
         'distance': 50,
         'width': (0, 10),
         'wlen': 1000,
     }
+    HOMO_EDGE_COLOR_RANGE = (0, 49)
     MAP_SWIPE_MULTIPLY = 1.722
 
 

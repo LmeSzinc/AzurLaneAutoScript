@@ -1,8 +1,8 @@
 from module.campaign.campaign_base import CampaignBase
-from module.map.map_base import CampaignMap
-from module.map.map_grids import SelectedGrids, RoadGrids
-from module.logger import logger
 from module.combat.assets import *
+from module.logger import logger
+from module.map.map_base import CampaignMap
+from module.map.map_grids import RoadGrids, SelectedGrids
 
 
 class Campaign(CampaignBase):
@@ -116,6 +116,7 @@ class Campaign(CampaignBase):
 
 
 from module.config.config import AzurLaneConfig
+
 az = Campaign(AzurLaneConfig('alas'))
 for n in range(10000):
     logger.hr(f'count: {n}')

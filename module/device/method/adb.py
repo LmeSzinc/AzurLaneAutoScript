@@ -1,4 +1,5 @@
 import re
+from functools import wraps
 
 import cv2
 import numpy as np
@@ -6,12 +7,15 @@ from adbutils.errors import AdbError
 from lxml import etree
 
 from module.device.connection import Connection
-from module.device.method.utils import possible_reasons, handle_adb_error, RETRY_TRIES, RETRY_DELAY
-from module.exception import ScriptError, RequestHumanTakeover
+from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
+                                        handle_adb_error, PackageNotInstalled,
+                                        recv_all)
+from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 
 
 def retry(func):
+    @wraps(func)
     def retry_wrapper(self, *args, **kwargs):
         """
         Args:
@@ -32,14 +36,22 @@ def retry(func):
                 logger.error(e)
 
                 def init():
+                    self.adb_disconnect(self.serial)
                     self.adb_connect(self.serial)
             # AdbError
             except AdbError as e:
                 if handle_adb_error(e):
                     def init():
+                        self.adb_disconnect(self.serial)
                         self.adb_connect(self.serial)
                 else:
                     break
+            # Package not installed
+            except PackageNotInstalled as e:
+                logger.error(e)
+
+                def init():
+                    self.detect_package()
             # Unknown, probably a trucked image
             except Exception as e:
                 logger.exception(e)
@@ -99,14 +111,27 @@ class Adb(Connection):
     def screenshot_adb(self):
         stream = self.adb_shell(['screencap', '-p'], stream=True)
 
-        content = b""
-        while True:
-            chunk = stream.read(4096)
-            if not chunk:
-                break
-            content += chunk
+        content = recv_all(stream)
 
         return self.__process_screenshot(content)
+
+    @retry
+    def screenshot_adb_nc(self):
+        data = self.adb_shell_nc(['screencap'])
+        if len(data) < 100:
+            logger.warning(f'Unexpected screenshot: {data}')
+
+        # Load data
+        header = np.frombuffer(data[0:12], dtype=np.uint32)
+        channel = 4  # screencap sends an RGBA image
+        width, height, _ = header  # Usually to be 1280, 720, 1
+
+        image = np.frombuffer(data, dtype=np.uint8)
+        shape = image.shape[0]
+        image = image[shape - width * height * channel:].reshape(height, width, channel)
+        image = cv2.cvtColor(image, cv2.COLOR_BGRA2BGR)
+
+        return image
 
     @retry
     def click_adb(self, x, y):
@@ -160,7 +185,7 @@ class Adb(Connection):
         raise OSError("Couldn't get focused app")
 
     @retry
-    def app_start_adb(self, package_name, allow_failure=False):
+    def app_start_adb(self, package_name=None, allow_failure=False):
         """
         Args:
             package_name (str):
@@ -169,6 +194,8 @@ class Adb(Connection):
         Returns:
             bool: If success to start
         """
+        if not package_name:
+            package_name = self.package
         result = self.adb_shell([
             'monkey', '-p', package_name, '-c',
             'android.intent.category.LAUNCHER', '1'
@@ -179,16 +206,17 @@ class Adb(Connection):
                 return False
             else:
                 logger.error(result)
-                possible_reasons(f'"{package_name}" not found, please check setting Emulator.PackageName')
-                raise RequestHumanTakeover
+                raise PackageNotInstalled(package_name)
         else:
             # Events injected: 1
             # ## Network stats: elapsed time=4ms (0ms mobile, 0ms wifi, 4ms not connected)
             return True
 
     @retry
-    def app_stop_adb(self, package_name):
+    def app_stop_adb(self, package_name=None):
         """ Stop one application: am force-stop"""
+        if not package_name:
+            package_name = self.package
         self.adb_shell(['am', 'force-stop', package_name])
 
     @retry

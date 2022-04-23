@@ -7,7 +7,6 @@ from datetime import datetime
 import inflection
 from cached_property import cached_property
 
-import module.config.server as server
 from module.config.config import AzurLaneConfig, TaskEnd
 from module.config.config_updater import ConfigUpdater
 from module.config.utils import deep_get, deep_set
@@ -27,8 +26,6 @@ class AzurLaneAutoScript:
     def config(self):
         try:
             config = AzurLaneConfig(config_name=self.config_name)
-            # Set server before loading any buttons.
-            server.server = deep_get(config.data, keys='Alas.Emulator.Server', default='cn')
             return config
         except RequestHumanTakeover:
             logger.critical('Request human takeover')
@@ -52,6 +49,7 @@ class AzurLaneAutoScript:
 
     def run(self, command):
         try:
+            self.device.screenshot()
             self.__getattribute__(command)()
             return True
         except TaskEnd:
@@ -63,7 +61,7 @@ class AzurLaneAutoScript:
         except (GameStuckError, GameTooManyClickError) as e:
             logger.warning(e)
             self.save_error_log()
-            logger.warning(f'Game stuck, {self.config.Emulator_PackageName} will be restarted in 10 seconds')
+            logger.warning(f'Game stuck, {self.device.package} will be restarted in 10 seconds')
             logger.warning('If you are playing by hand, please stop Alas')
             self.config.task_call('Restart')
             self.device.sleep(10)
@@ -72,10 +70,14 @@ class AzurLaneAutoScript:
             logger.warning(e)
             self.save_error_log()
             logger.warning('An error has occurred in Azur Lane game client, Alas is unable to handle')
-            logger.warning(f'Restarting {self.config.Emulator_PackageName} to fix it')
+            logger.warning(f'Restarting {self.device.package} to fix it')
             self.config.task_call('Restart')
             self.device.sleep(10)
             return False
+        except GamePageUnknownError:
+            logger.critical('Game page unknown')
+            self.save_error_log()
+            exit(1)
         except ScriptError as e:
             logger.critical(e)
             logger.critical('This is likely to be a mistake of developers, but sometimes just random issues')
@@ -94,7 +96,8 @@ class AzurLaneAutoScript:
         Save logs to ./log/error/<timestamp>/log.txt
         """
         from module.base.utils import save_image
-        from module.handler.sensitive_info import handle_sensitive_image, handle_sensitive_logs
+        from module.handler.sensitive_info import (handle_sensitive_image,
+                                                   handle_sensitive_logs)
         if self.config.Error_SaveError:
             if not os.path.exists('./log/error'):
                 os.mkdir('./log/error')
@@ -274,7 +277,22 @@ class AzurLaneAutoScript:
         CampaignRun(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
+    def main2(self):
+        from module.campaign.run import CampaignRun
+        CampaignRun(config=self.config, device=self.device).run(
+            name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
+
+    def main3(self):
+        from module.campaign.run import CampaignRun
+        CampaignRun(config=self.config, device=self.device).run(
+            name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
+
     def event(self):
+        from module.campaign.run import CampaignRun
+        CampaignRun(config=self.config, device=self.device).run(
+            name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
+
+    def event2(self):
         from module.campaign.run import CampaignRun
         CampaignRun(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
@@ -389,7 +407,6 @@ class AzurLaneAutoScript:
             logger.info(f'Scheduler: Start task `{task}`')
             self.device.stuck_record_clear()
             self.device.click_record_clear()
-            self.device.screenshot()
             logger.hr(task, level=0)
             success = self.run(inflection.underscore(task))
             logger.info(f'Scheduler: End task `{task}`')

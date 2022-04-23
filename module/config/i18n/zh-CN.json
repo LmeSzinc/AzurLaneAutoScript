@@ -54,16 +54,12 @@
       "name": "主线图",
       "help": ""
     },
-    "C72MysteryFarming": {
-      "name": "7-2 三战捡垃圾",
+    "Main2": {
+      "name": "主线图-2",
       "help": ""
     },
-    "C122MediumLeveling": {
-      "name": "12-2 中型练级",
-      "help": ""
-    },
-    "C124LargeLeveling": {
-      "name": "12-4 大型练级",
+    "Main3": {
+      "name": "主线图-3",
       "help": ""
     },
     "GemsFarming": {
@@ -76,6 +72,10 @@
     },
     "Event": {
       "name": "活动图",
+      "help": ""
+    },
+    "Event2": {
+      "name": "活动图-2",
       "help": ""
     },
     "EventAb": {
@@ -118,6 +118,10 @@
       "name": "后宅",
       "help": ""
     },
+    "Meowfficer": {
+      "name": "指挥喵",
+      "help": ""
+    },
     "Guild": {
       "name": "大舰队",
       "help": ""
@@ -132,10 +136,6 @@
     },
     "ShopOnce": {
       "name": "其他商店",
-      "help": ""
-    },
-    "Meowfficer": {
-      "name": "指挥喵",
       "help": ""
     },
     "Shipyard": {
@@ -276,33 +276,43 @@
     },
     "Serial": {
       "name": "模拟器 Serial",
-      "help": "模拟器默认 Serial：\n- 蓝叠模拟器 127.0.0.1:5555\n- 蓝叠模拟器4 Hyper-v版，填\"bluestacks4-hyperv\"自动连接，多开填\"bluestacks4-hyperv-2\"以此类推\n- 蓝叠模拟器5 Hyper-v版，填\"bluestacks5-hyperv\"自动连接，多开填\"bluestacks5-hyperv-1\"以此类推\n- 夜神模拟器 127.0.0.1:62001\n- 夜神模拟器64位 127.0.0.1:59865\n- MuMu模拟器 127.0.0.1:7555\n- 逍遥模拟器 127.0.0.1:21503\n- 雷电模拟器 emulator-5554 或 127.0.0.1:5555\n如果你有多个模拟器，它们的 Serial 将不是默认的，可以在 console.bat 中执行 `adb devices` 查询"
+      "help": "填 \"auto\" 自动检测模拟器，有多个模拟器正在运行时必须手动填写 Serial\n模拟器默认 Serial：\n- 蓝叠模拟器 127.0.0.1:5555\n- 蓝叠模拟器4 Hyper-v版，填\"bluestacks4-hyperv\"自动连接，多开填\"bluestacks4-hyperv-2\"以此类推\n- 蓝叠模拟器5 Hyper-v版，填\"bluestacks5-hyperv\"自动连接，多开填\"bluestacks5-hyperv-1\"以此类推\n- 夜神模拟器 127.0.0.1:62001\n- 夜神模拟器64位 127.0.0.1:59865\n- MuMu模拟器 127.0.0.1:7555\n- 逍遥模拟器 127.0.0.1:21503\n- 雷电模拟器 emulator-5554 或 127.0.0.1:5555\n- WSA，填\"wsa-0\"使游戏在后台运行，需要使用第三方软件操控或关闭（建议使用scrcpy操控）\n如果你有多个模拟器，它们的 Serial 将不是默认的，可以在 console.bat 中执行 `adb devices` 查询"
     },
     "PackageName": {
-      "name": "游戏包名",
-      "help": "国服 com.bilibili.azurlane\n国际服 com.YoStarEN.AzurLane\n日服 com.YoStarJP.AzurLane\n台服 com.hkmanjuu.azurlane.gp\n国服渠道服需要自行查找"
-    },
-    "Server": {
       "name": "游戏服务器",
-      "help": "",
-      "cn": "国服",
-      "en": "国际服",
-      "jp": "日服",
-      "tw": "台服"
+      "help": "模拟器上装有多个游戏客户端时，需要手动选择服务器",
+      "auto": "自动检测",
+      "com.bilibili.azurlane": "国服",
+      "com.YoStarEN.AzurLane": "国际服",
+      "com.YoStarJP.AzurLane": "日服",
+      "com.hkmanjuu.azurlane.gp": "台服",
+      "com.bilibili.blhx.huawei": "国服 华为渠道服 com.bilibili.blhx.huawei",
+      "com.bilibili.blhx.mi": "国服 小米渠道服 com.bilibili.blhx.mi",
+      "com.tencent.tmgp.bilibili.blhx": "国服 腾讯应用宝渠道服 com.tencent.tmgp.bilibili.blhx",
+      "com.bilibili.blhx.baidu": "国服 百度渠道服 com.bilibili.blhx.baidu",
+      "com.bilibili.blhx.qihoo": "国服 360渠道服 com.bilibili.blhx.qihoo",
+      "com.bilibili.blhx.oppo": "国服 oppo渠道服 com.bilibili.blhx.oppo",
+      "com.bilibili.blhx.vivo": "国服 vivo渠道服 com.bilibili.blhx.vivo",
+      "com.bilibili.blhx.uc": "国服 UC九游渠道服 com.bilibili.blhx.uc",
+      "com.bilibili.blhx.mzw": "国服 拇指玩渠道服 com.bilibili.blhx.mzw",
+      "com.yiwu.blhx.yx15": "国服 一五游戏渠道服 com.yiwu.blhx.yx15",
+      "com.hkmanjuu.azurlane.gp.mc": "台服 com.hkmanjuu.azurlane.gp.mc"
     },
     "ScreenshotMethod": {
       "name": "模拟器截图方案",
-      "help": "速度: aScreenCap > uiautomator2 ~= ADB\n建议选 ADB",
-      "ADB": "ADB ",
-      "uiautomator2": "uiautomator2 ",
-      "aScreenCap": "aScreenCap "
+      "help": "速度: aScreenCap_nc > ADB_nc >>> aScreenCap > uiautomator2 ~= ADB\n运行 工具 - 性能测试 以寻找最快的方案",
+      "ADB": "ADB",
+      "ADB_nc": "ADB_nc",
+      "uiautomator2": "uiautomator2",
+      "aScreenCap": "aScreenCap",
+      "aScreenCap_nc": "aScreenCap_nc"
     },
     "ControlMethod": {
       "name": "模拟器控制方案",
       "help": "速度: minitouch > Hermit >>> uiautomator2 ~= ADB\n建议选minitouch，不建议选Hermit除非在vmos下",
-      "ADB": "ADB ",
-      "uiautomator2": "uiautomator2 ",
-      "minitouch": "minitouch ",
+      "ADB": "ADB",
+      "uiautomator2": "uiautomator2",
+      "minitouch": "minitouch",
       "Hermit": "Hermit"
     },
     "ScreenshotDedithering": {
@@ -389,6 +399,10 @@
     "SaveOpsi": {
       "name": "保存大世界掉落截图",
       "help": ""
+    },
+    "UploadOpsi": {
+      "name": "上传大世界掉落截图",
+      "help": ""
     }
   },
   "Retirement": {
@@ -455,11 +469,18 @@
       "name": "活动名称",
       "help": "自动选择至最新的活动",
       "campaign_main": "主线图",
+      "event_20220414_cn": "复刻永夜幻光",
+      "event_20220407_tw": "蒼紅的迴響(復刻)",
+      "event_20210422_cn": "复兴的赞美诗",
+      "event_20220324_cn": "虚像构筑之塔",
+      "event_20220310_tw": "復刻斯圖爾特的硝煙",
+      "event_20200603_cn": "复刻峡湾间的反击",
+      "event_20220224_cn": "深度回音",
+      "event_20210225_cn": "破晓冰华",
       "event_20220210_cn": "复刻北境序曲",
       "raid_20220127": "演习神秘事件调查",
       "event_20201229_cn": "负象限作战",
       "event_20211229_cn": "逆转彩虹之塔",
-      "event_20200603_cn": "峡湾间的反击",
       "event_20211125_cn": "交汇世界的弧光",
       "event_20211111_cn": "杰诺瓦的焰火",
       "event_20211028_tw": "復刻光與影的鳶尾之華",
@@ -479,11 +500,9 @@
       "event_20210527_cn": "镜位螺旋",
       "event_20210527_tw": "微層混合",
       "event_20210429_tw": "復刻墨染的鋼鐵之花",
-      "event_20210422_cn": "复兴的赞美诗",
       "event_20210415_tw": "復刻圍剿施佩伯爵",
       "event_20210325_cn": "复刻箱庭疗法",
       "event_20210225_tw": "北境序曲",
-      "event_20210225_cn": "破晓冰华",
       "event_20210121_cn": "复刻神圣的悲喜剧",
       "event_20201126_cn": "假日航线",
       "event_20200312_cn": "复刻斯图尔特的硝烟",
@@ -500,7 +519,9 @@
       "event_20200423_cn": "复刻苍红的回响",
       "event_20200326_cn": "微层混合",
       "event_20200227_cn": "北境序曲",
+      "war_archives_20210325_cn": "档案 箱庭疗法",
       "war_archives_20190911_cn": "档案 神圣的悲喜剧",
+      "war_archives_20200820_cn": "档案 铁血音符誓言",
       "war_archives_20181227_cn": "档案 苍红的回响",
       "war_archives_20180726_cn": "档案 光与影的鸢尾之华",
       "war_archives_20180607_cn": "档案 墨染的钢铁之花",
@@ -1111,13 +1132,37 @@
       "name": "每天买 X 个猫箱",
       "help": "每日第一个猫箱免费"
     },
-    "TrainMeowfficer": {
-      "name": "训练指挥喵",
-      "help": "每天收一只, 周日收获全部，以完成每日任务"
-    },
     "FortChoreMeowfficer": {
       "name": "喵窝互动",
-      "help": "清扫, 喂食和逗猫"
+      "help": "清扫、喂食和逗猫"
+    }
+  },
+  "MeowfficerTrain": {
+    "_info": {
+      "name": "指挥喵训练",
+      "help": ""
+    },
+    "Enable": {
+      "name": "开启指挥喵训练",
+      "help": ""
+    },
+    "Mode": {
+      "name": "训练模式",
+      "help": "无缝练猫将每隔 2.5 ~ 3.5 小时收取指挥猫\n每天收一只意思是每天收一只，周日收全部、强化并重新填充队列，以完成每周任务",
+      "seamlessly": "无缝练猫",
+      "once_a_day": "每天收一只"
+    },
+    "RetainTalentedGold": {
+      "name": "锁定带特殊天赋的金猫",
+      "help": "收取指挥猫时锁定特殊天赋的猫，被锁定的猫将不会被用于强化，用户需要手动检查并解锁不需要的猫"
+    },
+    "RetainTalentedPurple": {
+      "name": "锁定带特殊天赋的紫猫",
+      "help": "收取指挥猫时锁定特殊天赋的猫，被锁定的猫将不会被用于强化，用户需要手动检查并解锁不需要的猫"
+    },
+    "EnhanceIndex": {
+      "name": "用无特殊天赋的猫给第 X 只猫强化",
+      "help": "猫仓库的第 X 只猫，限制在 1 ~ 12，顺序从左上到右下"
     }
   },
   "GuildLogistics": {
@@ -1707,7 +1752,7 @@
     },
     "LastZone": {
       "name": "上一次完成的区域",
-      "help": "自动更新的数值，地图ID，填0可重置进度，重置后自动跳过已开荒的海域"
+      "help": "自动更新的数值，填0可重置进度，重置后自动跳过已开荒的海域\n支持海域ID、国服/国际服/日服/台服海域名称，例如 \"51\", \"NA海域东南E\", \"NA Ocean SE Sector E\""
     }
   },
   "OpsiShop": {
@@ -1771,7 +1816,7 @@
     },
     "ActionPointPreserve": {
       "name": "保留 X 点行动力",
-      "help": "行动力低于 X 后停止，自动打开行动力箱子，X 包含箱子中的行动力\n建议平时保留 500 点行动力，月末改为保留 0 点"
+      "help": "行动力低于 X 后停止，自动打开行动力箱子，X 包含箱子中的行动力，建议保留 500 点行动力\n这个值将在大世界重置前3天自动减少至200点，并在最后一天自动减少至0点"
     },
     "HazardLevel": {
       "name": "侵蚀等级",
@@ -1784,7 +1829,7 @@
     },
     "TargetZone": {
       "name": "指定海域",
-      "help": "仅出击指定的海域，可以用来获取大世界成就星星\n支持海域ID、国服国际服日服海域名称，例如 \"51\", \"NA海域东南E\", \"NA Ocean SE Sector E\"\n填入默认值0，或者删除数值即可取消指定"
+      "help": "仅出击指定的海域，可以用来获取大世界成就星星\n支持海域ID、国服/国际服/日服/台服海域名称，例如 \"51\", \"NA海域东南E\", \"NA Ocean SE Sector E\"\n填入默认值0，或者删除数值即可取消指定"
     }
   },
   "Daemon": {
@@ -1816,12 +1861,20 @@
       "name": "测试 ADB 截图",
       "help": ""
     },
+    "AdbncScreenshot": {
+      "name": "测试 ADB_nc 截图",
+      "help": ""
+    },
     "Uiautomator2Screenshot": {
       "name": "测试 uiautomator2 截图",
       "help": ""
     },
     "AscreencapScreenshot": {
       "name": "测试 aScreenCap 截图",
+      "help": ""
+    },
+    "AscreencapncScreenshot": {
+      "name": "测试 aScreenCap_nc 截图",
       "help": ""
     },
     "AdbClick": {

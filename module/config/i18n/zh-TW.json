@@ -54,16 +54,12 @@
       "name": "主線圖",
       "help": ""
     },
-    "C72MysteryFarming": {
-      "name": "7-2 三戰撿垃圾",
+    "Main2": {
+      "name": "主線圖-2",
       "help": ""
     },
-    "C122MediumLeveling": {
-      "name": "12-2 中型練級",
-      "help": ""
-    },
-    "C124LargeLeveling": {
-      "name": "12-4 大型練級",
+    "Main3": {
+      "name": "主線圖-3",
       "help": ""
     },
     "GemsFarming": {
@@ -76,6 +72,10 @@
     },
     "Event": {
       "name": "活動圖",
+      "help": ""
+    },
+    "Event2": {
+      "name": "活動圖-2",
       "help": ""
     },
     "EventAb": {
@@ -118,6 +118,10 @@
       "name": "後宅",
       "help": ""
     },
+    "Meowfficer": {
+      "name": "指揮喵",
+      "help": ""
+    },
     "Guild": {
       "name": "大艦隊",
       "help": ""
@@ -132,10 +136,6 @@
     },
     "ShopOnce": {
       "name": "其餘商店",
-      "help": ""
-    },
-    "Meowfficer": {
-      "name": "指揮喵",
       "help": ""
     },
     "Shipyard": {
@@ -276,26 +276,36 @@
     },
     "Serial": {
       "name": "模擬器 Serial",
-      "help": "模擬器預設 Serial：\n- 藍疊模擬器 127.0.0.1:5555\n- 藍疊模擬器4 Hyper-v版，填\"bluestacks4-hyperv\"自動連接，多開填\"bluestacks4-hyperv-2\"以此類推\n- 藍疊模擬器5 Hyper-v版，填\"bluestacks5-hyperv\"自動連接，多開填\"bluestacks5-hyperv-1\"以此類推\n- 夜神模擬器 127.0.0.1:62001\n- 夜神模擬器64位元 127.0.0.1:59865\n- MuMu模擬器 127.0.0.1:7555\n- 逍遙模擬器 127.0.0.1:21503\n- 雷電模擬器 emulator-5554 或 127.0.0.1:5555\n如果你有多個模擬器，他們的 Serial 將不是預設的，可以在 console.bat 中執行 `adb devices` 查詢"
+      "help": "填 \"auto\" 自動檢測模擬器，有多個模擬器正在運行時必須手動填寫 Serial\n模擬器預設 Serial：\n- 藍疊模擬器 127.0.0.1:5555\n- 藍疊模擬器4 Hyper-v版，填\"bluestacks4-hyperv\"自動連接，多開填\"bluestacks4-hyperv-2\"以此類推\n- 藍疊模擬器5 Hyper-v版，填\"bluestacks5-hyperv\"自動連接，多開填\"bluestacks5-hyperv-1\"以此類推\n- 夜神模擬器 127.0.0.1:62001\n- 夜神模擬器64位元 127.0.0.1:59865\n- MuMu模擬器 127.0.0.1:7555\n- 逍遙模擬器 127.0.0.1:21503\n- 雷電模擬器 emulator-5554 或 127.0.0.1:5555\n- WSA，填\"wsa-0\"使遊戲在後臺運行，需要使用第三方軟件操控或關閉\n如果你有多個模擬器，他們的 Serial 將不是預設的，可以在 console.bat 中執行 `adb devices` 查詢"
     },
     "PackageName": {
-      "name": "遊戲檔名",
-      "help": "國服 com.bilibili.azurlane\n國際服 com.YoStarEN.AzurLane\n日服 com.YoStarJP.AzurLane\n台服 com.hkmanjuu.azurlane.gp\n國服渠道服需要自行查詢"
-    },
-    "Server": {
       "name": "遊戲伺服器",
-      "help": "",
-      "cn": "國服",
-      "en": "國際服",
-      "jp": "日服",
-      "tw": "台服"
+      "help": "模擬器上裝有多個遊戲客戶端時，需要手動選擇伺服器",
+      "auto": "自動檢測",
+      "com.bilibili.azurlane": "國服",
+      "com.YoStarEN.AzurLane": "國際服",
+      "com.YoStarJP.AzurLane": "日服",
+      "com.hkmanjuu.azurlane.gp": "台服",
+      "com.bilibili.blhx.huawei": "國服 com.bilibili.blhx.huawei",
+      "com.bilibili.blhx.mi": "國服 com.bilibili.blhx.mi",
+      "com.tencent.tmgp.bilibili.blhx": "國服 com.tencent.tmgp.bilibili.blhx",
+      "com.bilibili.blhx.baidu": "國服 com.bilibili.blhx.baidu",
+      "com.bilibili.blhx.qihoo": "國服 com.bilibili.blhx.qihoo",
+      "com.bilibili.blhx.oppo": "國服 com.bilibili.blhx.oppo",
+      "com.bilibili.blhx.vivo": "國服 com.bilibili.blhx.vivo",
+      "com.bilibili.blhx.uc": "國服 com.bilibili.blhx.uc",
+      "com.bilibili.blhx.mzw": "國服 com.bilibili.blhx.mzw",
+      "com.yiwu.blhx.yx15": "國服 com.yiwu.blhx.yx15",
+      "com.hkmanjuu.azurlane.gp.mc": "台服 MyCard渠道服 com.hkmanjuu.azurlane.gp.mc"
     },
     "ScreenshotMethod": {
       "name": "模擬器截圖方案",
-      "help": "速度: aScreenCap > uiautomator2 ~= ADB\n建議選 ADB",
+      "help": "速度: aScreenCap_nc > ADB_nc >>> aScreenCap > uiautomator2 ~= ADB\n運行 工具 - 性能測試 以尋找最快的方案",
       "ADB": "ADB",
+      "ADB_nc": "ADB_nc",
       "uiautomator2": "uiautomator2",
-      "aScreenCap": "aScreenCap"
+      "aScreenCap": "aScreenCap",
+      "aScreenCap_nc": "aScreenCap_nc"
     },
     "ControlMethod": {
       "name": "模擬器控制方案",
@@ -389,6 +399,10 @@
     "SaveOpsi": {
       "name": "保存大世界掉落截圖",
       "help": ""
+    },
+    "UploadOpsi": {
+      "name": "上傳大世界掉落截圖",
+      "help": ""
     }
   },
   "Retirement": {
@@ -455,11 +469,18 @@
       "name": "活動名稱",
       "help": "自動選擇至最新的活動圖",
       "campaign_main": "主線圖",
+      "event_20220414_cn": "Aurora Noctis Rerun",
+      "event_20220407_tw": "蒼紅的迴響(復刻)",
+      "event_20210422_cn": "復興的讚美詩",
+      "event_20220324_cn": "Virtual Tower",
+      "event_20220310_tw": "復刻斯圖爾特的硝煙",
+      "event_20200603_cn": "峽灣間的反擊",
+      "event_20220224_cn": "Abyssal Refrain",
+      "event_20210225_cn": "破曉冰華",
       "event_20220210_cn": "Northern Overture Rerun",
       "raid_20220127": "Mystery Investigation",
       "event_20201229_cn": "負象限作戰",
       "event_20211229_cn": "Tower of Transcendence",
-      "event_20200603_cn": "峽灣間的反擊",
       "event_20211125_cn": "交匯世界的弧光",
       "event_20211111_cn": "The Flame-Touched Dagger",
       "event_20211028_tw": "復刻光與影的鳶尾之華",
@@ -479,11 +500,9 @@
       "event_20210527_cn": "Mirror Involution",
       "event_20210527_tw": "微層混合",
       "event_20210429_tw": "復刻墨染的鋼鐵之花",
-      "event_20210422_cn": "Daedalian Hymn",
       "event_20210415_tw": "復刻圍剿施佩伯爵",
       "event_20210325_cn": "Ashen Simulacrum Rerun",
       "event_20210225_tw": "北境序曲",
-      "event_20210225_cn": "Khorovod of Dawns Rime",
       "event_20210121_cn": "Empyreal Tragicomedy Rerun",
       "event_20201126_cn": "Vacation Lane",
       "event_20200312_cn": "斯圖爾特的硝煙",
@@ -500,7 +519,9 @@
       "event_20200423_cn": "Crimson Echoes Rerun",
       "event_20200326_cn": "Microlayer Medley",
       "event_20200227_cn": "Northern Overture",
+      "war_archives_20210325_cn": "archives Ashen Simulacrum",
       "war_archives_20190911_cn": "archives Empyreal Tragicomedy",
+      "war_archives_20200820_cn": "archives Scherzo of Iron and Blood",
       "war_archives_20181227_cn": "檔案 蒼紅的迴響",
       "war_archives_20180726_cn": "檔案 光與影的鳶尾之華",
       "war_archives_20180607_cn": "檔案 墨染的鋼鐵之花",
@@ -1111,13 +1132,37 @@
       "name": "每天買 X 個貓箱",
       "help": "每日第一個貓箱免費"
     },
-    "TrainMeowfficer": {
-      "name": "訓練指揮貓",
-      "help": "每天收一隻，週日收穫全部，以完成每日任務"
-    },
     "FortChoreMeowfficer": {
       "name": "喵窩互動",
       "help": "清掃、餵食和逗貓"
+    }
+  },
+  "MeowfficerTrain": {
+    "_info": {
+      "name": "指揮喵訓練",
+      "help": ""
+    },
+    "Enable": {
+      "name": "開啟指揮喵訓練",
+      "help": ""
+    },
+    "Mode": {
+      "name": "訓練模式",
+      "help": "無縫練貓將每隔 2.5 ~ 3.5 小時收取指揮貓\n每天收一隻意思是每天收一隻，週日收全部、強化並重新填充隊列，以完成每週任務",
+      "seamlessly": "無縫練貓",
+      "once_a_day": "每天收一隻"
+    },
+    "RetainTalentedGold": {
+      "name": "鎖定帶特殊天賦的金貓",
+      "help": "收取指揮貓時鎖定特殊天賦的貓，被鎖定的貓將不會被用於強化，用戶需要手動檢查並解鎖不需要的貓"
+    },
+    "RetainTalentedPurple": {
+      "name": "鎖定帶特殊天賦的紫貓",
+      "help": "收取指揮貓時鎖定特殊天賦的貓，被鎖定的貓將不會被用於強化，用戶需要手動檢查並解鎖不需要的貓"
+    },
+    "EnhanceIndex": {
+      "name": "用無特殊天賦的貓給第 X 隻貓強化",
+      "help": "貓倉庫的第 X 隻貓，限制在 1 ~ 12，順序從左上到右下"
     }
   },
   "GuildLogistics": {
@@ -1707,7 +1752,7 @@
     },
     "LastZone": {
       "name": "上一次完成的區域",
-      "help": "自動更新的數值，地圖ID，填0可重置進度，重置後自動跳過已開荒的海域"
+      "help": "自動更新的數值，填0可重置進度，重置後自動跳過已開荒的海域\n支持海域ID、國服/國際服/日服/台服海域名稱，例如 \"51\", \"NA海域東南E\", \"NA Ocean SE Sector E\""
     }
   },
   "OpsiShop": {
@@ -1771,7 +1816,7 @@
     },
     "ActionPointPreserve": {
       "name": "保留 X 點行動力",
-      "help": "行動力低於 X 後停止，自動打開行動力箱子，X 包含箱子中的行動力\n建議平時保留 500 點行動力，月末改為保留 0 點"
+      "help": "行動力低於 X 後停止，自動打開行動力箱子，X 包含箱子中的行動力，建議保留 500 點行動力\n這個值將在大世界重置前3天自動減少至200點，並在最後一天自動減少至0點"
     },
     "HazardLevel": {
       "name": "侵蝕等級",
@@ -1784,7 +1829,7 @@
     },
     "TargetZone": {
       "name": "指定海域",
-      "help": "僅出擊指定的海域，可以用來獲取大世界成就星星\n支持海域ID、國服國際服日服海域名稱，例如 \"51\", \"NA海域東南E\", \"NA Ocean SE Sector E\"\n填入默認值0，或者刪除數值即可取消指定"
+      "help": "僅出擊指定的海域，可以用來獲取大世界成就星星\n自動更新的數值，填0可重置進度，重置後自動跳過已開荒的海域\n支持海域ID、國服/國際服/日服/台服海域名稱，例如 \"51\", \"NA海域東南E\", \"NA Ocean SE Sector E\"\n填入默認值0，或者刪除數值即可取消指定"
     }
   },
   "Daemon": {
@@ -1816,12 +1861,20 @@
       "name": "測試 ADB 截圖",
       "help": ""
     },
+    "AdbncScreenshot": {
+      "name": "測試 ADB 截圖",
+      "help": "Benchmark.AdbncScreenshot.help"
+    },
     "Uiautomator2Screenshot": {
       "name": "測試 uiautomator2 截圖",
       "help": ""
     },
     "AscreencapScreenshot": {
       "name": "測試 aScreenCap 截圖",
+      "help": ""
+    },
+    "AscreencapncScreenshot": {
+      "name": "測試 aScreenCap_nc 截圖",
       "help": ""
     },
     "AdbClick": {

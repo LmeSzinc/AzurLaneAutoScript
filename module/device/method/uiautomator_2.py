@@ -1,3 +1,4 @@
+from functools import wraps
 from json.decoder import JSONDecodeError
 
 import uiautomator2 as u2
@@ -7,22 +8,27 @@ from lxml import etree
 from module.base.decorator import cached_property
 from module.base.utils import *
 from module.device.connection import Connection
-from module.device.method.utils import possible_reasons, handle_adb_error, RETRY_TRIES, RETRY_DELAY
+from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
+                                        handle_adb_error, PackageNotInstalled, possible_reasons)
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 
 
 def retry(func):
+    @wraps(func)
     def retry_wrapper(self, *args, **kwargs):
         """
         Args:
             self (Uiautomator2):
         """
         init = None
+        sleep = True
         for _ in range(RETRY_TRIES):
             try:
                 if callable(init):
-                    self.sleep(RETRY_DELAY)
+                    if sleep:
+                        self.sleep(RETRY_DELAY)
+                        sleep = True
                     init()
                 return func(self, *args, **kwargs)
             # Can't handle
@@ -33,11 +39,13 @@ def retry(func):
                 logger.error(e)
 
                 def init():
+                    self.adb_disconnect(self.serial)
                     self.adb_connect(self.serial)
             # In `device.set_new_command_timeout(604800)`
             # json.decoder.JSONDecodeError: Expecting value: line 1 column 2 (char 1)
             except JSONDecodeError as e:
                 logger.error(e)
+                sleep = False
 
                 def init():
                     self.install_uiautomator2()
@@ -45,6 +53,7 @@ def retry(func):
             except AdbError as e:
                 if handle_adb_error(e):
                     def init():
+                        self.adb_disconnect(self.serial)
                         self.adb_connect(self.serial)
                 else:
                     break
@@ -52,6 +61,7 @@ def retry(func):
             except RuntimeError as e:
                 if handle_adb_error(e):
                     def init():
+                        self.adb_disconnect(self.serial)
                         self.adb_connect(self.serial)
                 else:
                     break
@@ -60,10 +70,16 @@ def retry(func):
             except AssertionError as e:
                 logger.exception(e)
                 possible_reasons(
-                    'If you are using BlueStacks or LD player, '
+                    'If you are using BlueStacks or LD player or WSA, '
                     'please enable ADB in the settings of your emulator'
                 )
                 break
+            # Package not installed
+            except PackageNotInstalled as e:
+                logger.error(e)
+
+                def init():
+                    self.detect_package()
             # Unknown, probably a trucked image
             except Exception as e:
                 logger.exception(e)
@@ -184,17 +200,20 @@ class Uiautomator2(Connection):
         return result['package']
 
     @retry
-    def app_start_uiautomator2(self, package_name):
+    def app_start_uiautomator2(self, package_name=None):
+        if not package_name:
+            package_name = self.package
         try:
             self.u2.app_start(package_name)
         except u2.exceptions.BaseError as e:
             # BaseError: package "com.bilibili.azurlane" not found
             logger.error(e)
-            possible_reasons(f'"{package_name}" not found, please check setting Emulator.PackageName')
-            raise RequestHumanTakeover
+            raise PackageNotInstalled(package_name)
 
     @retry
-    def app_stop_uiautomator2(self, package_name):
+    def app_stop_uiautomator2(self, package_name=None):
+        if not package_name:
+            package_name = self.package
         self.u2.app_stop(package_name)
 
     @retry

@@ -1,6 +1,5 @@
 from campaign.campaign_sos.campaign_base import CampaignBase
-from module.base.decorator import Config
-from module.base.decorator import cached_property
+from module.base.decorator import Config, cached_property
 from module.base.utils import area_pad, random_rectangle_vector
 from module.campaign.run import CampaignRun
 from module.logger import logger
@@ -66,6 +65,8 @@ class CampaignSos(CampaignRun, CampaignBase):
         chapter_buttons = [button.crop(self._sos_chapter_crop) for button in all_buttons]
         ocr_chapters = Digit(chapter_buttons, letter=[132, 230, 115], threshold=136, name='OCR_SOS_CHAPTER')
         chapter_list = ocr_chapters.ocr(self.device.image)
+        if not isinstance(chapter_list, list):
+            chapter_list = [chapter_list]
         if chapter in chapter_list:
             logger.info('Target SOS chapter found')
             return all_buttons[chapter_list.index(chapter)]
@@ -137,7 +138,10 @@ class CampaignSos(CampaignRun, CampaignBase):
             positions = [0.0, 0.5, 1.0]
 
         for scroll_position in positions:
-            self._sos_scroll.set(scroll_position, main=self)
+            if self._sos_scroll.appear(main=self):
+                self._sos_scroll.set(scroll_position, main=self)
+            else:
+                logger.info('SOS signal scroll not appear, skip setting scroll position')
             target_button = self._find_target_chapter(chapter)
             if target_button is not None:
                 self._sos_signal_confirm(entrance=target_button)

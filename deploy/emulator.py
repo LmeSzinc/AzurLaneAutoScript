@@ -1,10 +1,10 @@
 import asyncio
+import filecmp
 import os
 import re
+import shutil
 import subprocess
 import winreg
-import shutil
-import filecmp
 
 from deploy.utils import cached_property
 

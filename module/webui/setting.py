@@ -1,13 +1,15 @@
 import multiprocessing
+from multiprocessing.managers import SyncManager
+
 from module.config.config_updater import ConfigUpdater
 from module.webui.config import WebuiConfig
-from multiprocessing.managers import SyncManager
 
 
 class Setting:
     """
     Shared settings
     """
+
     _init = False
     _clearup = False
 
@@ -16,7 +18,7 @@ class Setting:
     manager: SyncManager = None
     reload: bool = False
     electron: bool = False
-    theme: str = 'default'
+    theme: str = "default"
 
     @classmethod
     def init(cls):
