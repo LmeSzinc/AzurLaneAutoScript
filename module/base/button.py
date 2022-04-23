@@ -152,8 +152,18 @@ class Button(Resource):
                     image = image[:, :, :3].copy() if len(image.shape) == 3 else image
                     image = crop(image, self.area)
                     self.image.append(image)
+                    # graying
+                    image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+                    self.image_gray.append(image_gray)
+                    # binarization
+                    _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+                    self.image_binary.append(image_binary)
             else:
                 self.image = load_image(self.file, self.area)
+                # graying
+                self.image_gray = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
+                # binarization
+                _, self.image_binary = cv2.threshold(self.image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
             self._match_init = True
 
     def resource_release(self):
@@ -193,6 +203,53 @@ class Button(Resource):
             return False
         else:
             res = cv2.matchTemplate(self.image, image, cv2.TM_CCOEFF_NORMED)
+            _, similarity, _, point = cv2.minMaxLoc(res)
+            self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
+            return similarity > threshold
+
+    def match_binary(self, image, offset=30, threshold=0.85):
+        """Detects button by template matching. To Some button, its location may not be static.
+           This method will apply template matching under binarization.
+           
+        Args:
+            image: Screenshot.
+            offset (int, tuple): Detection area offset.
+            threshold (float): 0-1. Similarity.
+
+        Returns:
+            bool.
+        """
+        self.ensure_template()
+
+        if isinstance(offset, tuple):
+            if len(offset) == 2:
+                offset = np.array((-offset[0], -offset[1], offset[0], offset[1]))
+            else:
+                offset = np.array(offset)
+        else:
+            offset = np.array((-3, -offset, 3, offset))
+        image = crop(image, offset + self.area)
+        
+        if self.is_gif:
+            for template in self.image_binary:
+                # graying
+                image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+                # binarization
+                _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+                # template matching
+                res = cv2.matchTemplate(template, image_binary, cv2.TM_CCOEFF_NORMED)
+                _, similarity, _, point = cv2.minMaxLoc(res)
+                self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
+                if similarity > threshold:
+                    return True
+            return False
+        else:
+            # graying
+            image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+            # binarization
+            _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+            # template matching
+            res = cv2.matchTemplate(self.image_binary, image_binary, cv2.TM_CCOEFF_NORMED)
             _, similarity, _, point = cv2.minMaxLoc(res)
             self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
             return similarity > threshold

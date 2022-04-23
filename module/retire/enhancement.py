@@ -2,20 +2,14 @@ from random import choice
 
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1
-from module.handler.assets import INFO_BAR_DETECT
+from module.exception import ScriptError, RequestHumanTakeover
+from module.handler.assets import INFO_BAR_DETECT, EMPTY_ENHANCE_SLOT
 from module.handler.info_handler import info_letter_preprocess
 from module.logger import logger
 from module.retire.assets import *
 from module.retire.dock import CARD_GRIDS, Dock
-from module.template.assets import (TEMPLATE_ENHANCE_FAILED,
-                                    TEMPLATE_ENHANCE_IN_BATTLE,
-                                    TEMPLATE_ENHANCE_SUCCESS)
 
 VALID_SHIP_TYPES = ['dd', 'ss', 'cl', 'ca', 'bb', 'cv', 'repair', 'others']
-TEMPLATE_ENHANCE_SUCCESS.pre_process = info_letter_preprocess
-TEMPLATE_ENHANCE_FAILED.pre_process = info_letter_preprocess
-TEMPLATE_ENHANCE_IN_BATTLE.pre_process = info_letter_preprocess
-
 
 class Enhancement(Dock):
     @property
@@ -112,14 +106,16 @@ class Enhancement(Dock):
 
     def _enhance_choose(self, ship_count):
         """
-        Re-vamped implementation, utilizing
-        templates and info_bar text to determine
-        whether a ship can or cannot be enhanced
-        Method similar to ambush.py
+        Refactor the implementation.
+        Divided the enhancement process into
+        several state functions. Use a DFA method
+        to call those functions according to
+        current state. Each state corresponds to
+        a function with the same name.
 
         Pages:
-            in: page_ship_enhance, without info_bar
-            out: EQUIP_CONFIRM
+            in: page_ship_enhance
+            out: page_ship_enhance
 
         Args:
             ship_count (int): ship_count, must be
@@ -129,63 +125,102 @@ class Enhancement(Dock):
             True if able to enhance otherwise False
             Always paired with current ship_count
         """
-        skip_until_ensured = True
-        enhanced = False
-        while 1:
-            # Base Case: No more ships left to check for this category
+        def state_enhance_check():
+            # Check the base case, switch to ready if enhancement can continue
             if ship_count <= 0:
                 logger.info('Reached maximum number to check, exiting current category')
-                return False, ship_count
+                return "state_enhance_exit"
+            if not self.equip_side_navbar_ensure(bottom=4):
+                return "state_enhance_check"
 
-            if skip_until_ensured:
-                if not self.equip_side_navbar_ensure(bottom=4):
-                    continue
-                self.wait_until_appear(ENHANCE_RECOMMEND, offset=(5, 5), skip_first_screenshot=True)
-                skip_until_ensured = False
-            else:
-                self.device.screenshot()
+            self.wait_until_appear(ENHANCE_RECOMMEND, offset=(5, 5), skip_first_screenshot=True)
+            return "state_enhance_ready"
 
-            # Respond accordingly based on info_bar information
-            if self.info_bar_count():
-                image = info_letter_preprocess(self.image_crop(INFO_BAR_DETECT))
-                if TEMPLATE_ENHANCE_SUCCESS.match(image):
-                    enhanced = True
-                elif TEMPLATE_ENHANCE_FAILED.match(image):
-                    logger.info('Enhancement failed. Swiping to next ship if feasible')
-                    self.ensure_no_info_bar()
-                    if self.equip_view_next(check_button=ENHANCE_RECOMMEND):
-                        ship_count -= 1
-                        continue
-                    else:
-                        logger.info('Swiped failed, exiting current category')
-                        return False, ship_count
-                elif TEMPLATE_ENHANCE_IN_BATTLE.match(image):
-                    logger.info('Enhancement impossible, ship currently in battle. Swiping to next ship if feasible')
-                    self.ensure_no_info_bar()
-                    if self.equip_view_next(check_button=ENHANCE_RECOMMEND):
-                        continue
-                    else:
-                        logger.info('Swiped failed, exiting current category')
-                        return False, ship_count
-                else:
-                    logger.warning('info_bar was detected however did not match to any known template')
+        def state_enhance_ready():
+            # Wait until ENHANCE_RECOMMEND appears
+            if self.appear_then_click(ENHANCE_RECOMMEND, offset=(5, 5), interval=0.3):
+                logger.info('Set enhancement material by recommendation.')
+                return "state_enhance_recommend"
 
-            # Can be encountered when enhancing a ship that
-            # is temporary/not officially owned yet
-            if self.handle_popup_confirm('ENHANCE'):
-                continue
+            return "state_enhance_ready"
+        
+        def state_enhance_recommend():
+            # Judge if enhance material appeared
+            if not EMPTY_ENHANCE_SLOT.match_binary(self.device.image):
+                logger.info('Material found. Try enhancing...')
+                return "state_enhance_attempt"
+            elif self.info_bar_count():
+                logger.info('No material found for enhancement.')
+                logger.info('Enhancement failed. Swiping to next ship if feasible')
+                return "state_enhance_fail"
 
-            # Possible trapped case in which info_bar will never appear
-            # so long as EQUIP_CONFIRM remains appeared
-            if enhanced or self.appear(EQUIP_CONFIRM, offset=(30, 30)):
+            return "state_enhance_ready"
+        
+        def state_enhance_attempt():
+            # Wait until ENHANCE_CONFIRM appears
+            if (self.appear_then_click(ENHANCE_CONFIRM, offset=(5, 5), interval=0.3)
+                    or self.appear(EQUIP_CONFIRM, offset=(30, 30))
+                    or self.info_bar_count()):
+                return  "state_enhance_confirm"
+
+            return "state_enhance_attempt"
+        
+        def state_enhance_confirm():
+            # Succeeded if EQUIP_CONFIRM appeared, otherwise failed
+            if self.appear(EQUIP_CONFIRM, offset=(30, 30)):
                 logger.info('Enhancement Successful')
-                return True, ship_count
+                self._enhance_confirm()
+                return "state_enhance_success"
+            elif self.info_bar_count():
+                logger.info('Enhancement impossible, ship currently in battle. Swiping to next ship if feasible')
+                return "state_enhance_fail"
 
-            # Perform actions to attempt enhancement
-            if self.appear_then_click(ENHANCE_RECOMMEND, offset=(5, 5), interval=2):
-                self.device.sleep(0.3)
-                self.device.click(ENHANCE_CONFIRM)
-                logger.info('Enhancing...')
+            return "state_enhance_attempt"
+
+        def state_enhance_fail():
+            # Avoid a misjudgement caused by broken network
+            if self.appear(EQUIP_CONFIRM, offset=(30, 30)):
+                return "state_enhance_confirm"
+
+            # Try to swipe to next
+            if self.equip_view_next(check_button=ENHANCE_RECOMMEND):
+                nonlocal ship_count
+                ship_count -= 1
+                return "state_enhance_check"
+            else:
+                # Avoid a misjudgement caused by broken network
+                if self.appear(EQUIP_CONFIRM, offset=(30, 30)):
+                    return "state_enhance_confirm"
+                else:
+                    logger.info('Swiped failed, exiting current category')
+                    return "state_enhance_exit"
+            
+        def state_enhance_success():
+            return True
+
+        def state_enhance_exit():
+            return False
+            
+        state = "state_enhance_check"
+        state_list = []
+        while isinstance(state, str):
+            self.device.screenshot()
+            try:
+                logger.info(f'Call state function: {state}')
+                
+                if state == "state_enhance_check":
+                    state_list.clear()
+                state_list.append(state)
+                if len(state_list) > 30:
+                    logger.critical(f'Too many state transitions: {state_list}')
+                    raise RequestHumanTakeover
+                    
+                state = locals()[state]()
+            except KeyError as e:
+                logger.warning(f'Unkonwn state function: {state}')
+                raise ScriptError(f'Unkonwn state function: {state}')
+
+        return state, ship_count
 
     def enhance_ships(self, favourite=None):
         """
@@ -251,7 +286,6 @@ class Enhancement(Dock):
                 choose_result, current_count = self._enhance_choose(ship_count=current_count)
                 if not choose_result:
                     break
-                self._enhance_confirm()
                 total += 10
                 if total >= self._retire_amount:
                     break
