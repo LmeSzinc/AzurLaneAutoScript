@@ -108,6 +108,11 @@ class OperationSiren(OSGlobe):
         while 1:
             # If unable to receive more dailies, finish them and try again.
             success = self.os_mission_overview_accept()
+            # Re-init zone name
+            # MISSION_ENTER appear from the right,
+            # need to confirm that the animation has ended,
+            # or it will click on MAP_GOTO_GLOBE
+            self.zone_init()
             self.os_finish_daily_mission()
             if success:
                 break
