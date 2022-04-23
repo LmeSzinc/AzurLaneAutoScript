@@ -182,7 +182,7 @@ class ModuleExtractor:
         folder = os.path.join(MODULE_FOLDER, self.name)
         if not os.path.exists(folder):
             os.mkdir(folder)
-        with open(os.path.join(folder, BUTTON_FILE), 'w') as f:
+        with open(os.path.join(folder, BUTTON_FILE), 'w', newline='') as f:
             for text in self.expression:
                 f.write(text + '\n')
 

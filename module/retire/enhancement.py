@@ -2,14 +2,14 @@ from random import choice
 
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1
-from module.exception import ScriptError, RequestHumanTakeover
-from module.handler.assets import INFO_BAR_DETECT, EMPTY_ENHANCE_SLOT
-from module.handler.info_handler import info_letter_preprocess
+from module.exception import ScriptError
+from module.handler.assets import EMPTY_ENHANCE_SLOT
 from module.logger import logger
 from module.retire.assets import *
 from module.retire.dock import CARD_GRIDS, Dock
 
 VALID_SHIP_TYPES = ['dd', 'ss', 'cl', 'ca', 'bb', 'cv', 'repair', 'others']
+
 
 class Enhancement(Dock):
     @property
@@ -104,7 +104,7 @@ class Enhancement(Dock):
             else:
                 confirm_timer.reset()
 
-    def _enhance_choose(self, ship_count):
+    def _enhance_choose(self, ship_count, skip_first_screenshot=True):
         """
         Refactor the implementation.
         Divided the enhancement process into
@@ -125,6 +125,7 @@ class Enhancement(Dock):
             True if able to enhance otherwise False
             Always paired with current ship_count
         """
+
         def state_enhance_check():
             # Check the base case, switch to ready if enhancement can continue
             if ship_count <= 0:
@@ -143,7 +144,7 @@ class Enhancement(Dock):
                 return "state_enhance_recommend"
 
             return "state_enhance_ready"
-        
+
         def state_enhance_recommend():
             # Judge if enhance material appeared
             if not EMPTY_ENHANCE_SLOT.match_binary(self.device.image):
@@ -155,16 +156,16 @@ class Enhancement(Dock):
                 return "state_enhance_fail"
 
             return "state_enhance_ready"
-        
+
         def state_enhance_attempt():
             # Wait until ENHANCE_CONFIRM appears
             if (self.appear_then_click(ENHANCE_CONFIRM, offset=(5, 5), interval=0.3)
                     or self.appear(EQUIP_CONFIRM, offset=(30, 30))
                     or self.info_bar_count()):
-                return  "state_enhance_confirm"
+                return "state_enhance_confirm"
 
             return "state_enhance_attempt"
-        
+
         def state_enhance_confirm():
             # Succeeded if EQUIP_CONFIRM appeared, otherwise failed
             if self.appear(EQUIP_CONFIRM, offset=(30, 30)):
@@ -194,31 +195,34 @@ class Enhancement(Dock):
                 else:
                     logger.info('Swiped failed, exiting current category')
                     return "state_enhance_exit"
-            
+
         def state_enhance_success():
             return True
 
         def state_enhance_exit():
             return False
-            
+
         state = "state_enhance_check"
         state_list = []
         while isinstance(state, str):
-            self.device.screenshot()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            logger.info(f'Call state function: {state}')
+
+            if state == "state_enhance_check":
+                state_list.clear()
+            state_list.append(state)
+            if len(state_list) > 30:
+                logger.critical(f'Too many state transitions: {state_list}')
+                raise ScriptError('Too many state transitions')
+
             try:
-                logger.info(f'Call state function: {state}')
-                
-                if state == "state_enhance_check":
-                    state_list.clear()
-                state_list.append(state)
-                if len(state_list) > 30:
-                    logger.critical(f'Too many state transitions: {state_list}')
-                    raise RequestHumanTakeover
-                    
                 state = locals()[state]()
             except KeyError as e:
-                logger.warning(f'Unkonwn state function: {state}')
-                raise ScriptError(f'Unkonwn state function: {state}')
+                logger.warning(f'Unknown state function: {state}')
+                raise ScriptError(f'Unknown state function: {state}')
 
         return state, ship_count
 
