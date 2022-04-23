@@ -115,8 +115,13 @@ def handle_adb_error(e):
         # the device is still available, but it needs to be disconnected and re-connected.
         logger.error(e)
         return True
+    elif 'unknown host service' in text:
+        # AdbError(unknown host service)
+        # Another version of ADB service started, current ADB service has been killed.
+        # Usually because user opened a Chinese emulator, which uses ADB from the Stone Age.
+        logger.error(e)
+        return True
     else:
-        # AdbError(device offline)
         # AdbError()
         logger.exception(e)
         possible_reasons(
