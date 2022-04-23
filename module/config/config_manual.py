@@ -21,8 +21,8 @@ class ManualConfig:
     > Daily > Hard > OpsiAshAssist
     > Sos > EventSp > EventAb > EventCd > RaidDaily > WarArchives > MaritimeEscort
     > OpsiMeowfficerFarming > MetaReward
-    > Event > Raid > Main
-    > C124LargeLeveling > C122MediumLeveling > C72MysteryFarming > GemsFarming
+    > Event > Event2 > Raid > Main > Main2 > Main3
+    > GemsFarming
     """
 
     """

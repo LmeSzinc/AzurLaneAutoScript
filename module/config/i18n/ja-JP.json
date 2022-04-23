@@ -54,17 +54,13 @@
       "name": "Task.Main.name",
       "help": "Task.Main.help"
     },
-    "C72MysteryFarming": {
-      "name": "Task.C72MysteryFarming.name",
-      "help": "Task.C72MysteryFarming.help"
+    "Main2": {
+      "name": "Task.Main2.name",
+      "help": "Task.Main2.help"
     },
-    "C122MediumLeveling": {
-      "name": "Task.C122MediumLeveling.name",
-      "help": "Task.C122MediumLeveling.help"
-    },
-    "C124LargeLeveling": {
-      "name": "Task.C124LargeLeveling.name",
-      "help": "Task.C124LargeLeveling.help"
+    "Main3": {
+      "name": "Task.Main3.name",
+      "help": "Task.Main3.help"
     },
     "GemsFarming": {
       "name": "Task.GemsFarming.name",
@@ -77,6 +73,10 @@
     "Event": {
       "name": "Task.Event.name",
       "help": "Task.Event.help"
+    },
+    "Event2": {
+      "name": "Task.Event2.name",
+      "help": "Task.Event2.help"
     },
     "EventAb": {
       "name": "Task.EventAb.name",

@@ -65,7 +65,7 @@ Retirement:
 # ==================== Farm ====================
 
 Campaign:
-  Name: 7-2
+  Name: 12-4
   Event:
     value: campaign_main
     option: [campaign_main]

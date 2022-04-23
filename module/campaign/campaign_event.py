@@ -86,6 +86,7 @@ class CampaignEvent(UI):
         limit = int(self.config.EventGeneral_PtLimit)
         tasks = [
             'Event',
+            'Event2',
             'EventAb',
             'EventCd',
             'EventSp',
@@ -116,6 +117,7 @@ class CampaignEvent(UI):
         limit = self.config.EventGeneral_TimeLimit
         tasks = [
             'Event',
+            'Event2',
             'EventAb',
             'EventCd',
             'EventSp',

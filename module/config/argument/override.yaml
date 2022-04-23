@@ -15,57 +15,12 @@ Restart:
 Main:
   Campaign:
     Event: campaign_main
-C72MysteryFarming:
+Main2:
   Campaign:
-    Name: campaign_7_2_mystery_farming
     Event: campaign_main
-    Mode: normal
-    UseClearMode: true
-    UseFleetLock: true
-    UseAutoSearch: false
-    Use2xBook: false
-    AmbushEvade: true
-  StopCondition:
-    MapAchievement: non_stop
-    StageIncrease: false
-    GetNewShip: false
-  Fleet:
-    FleetOrder: fleet1_mob_fleet2_boss
-    AutoSearchFleetOrder: fleet1_mob_fleet2_boss
-C122MediumLeveling:
+Main3:
   Campaign:
-    Name: campaign_12_2_leveling
     Event: campaign_main
-    Mode: normal
-    UseClearMode: true
-    UseFleetLock: true
-    UseAutoSearch: false
-    AmbushEvade: true
-  StopCondition:
-    MapAchievement: non_stop
-    StageIncrease: false
-  Fleet:
-    FleetOrder: fleet1_all_fleet2_standby
-    AutoSearchFleetOrder: fleet1_all_fleet2_standby
-  Submarine:
-    AutoSearchMode: sub_standby
-C124LargeLeveling:
-  Campaign:
-    Name: campaign_12_4_leveling
-    Event: campaign_main
-    Mode: normal
-    UseClearMode: true
-    UseFleetLock: true
-    UseAutoSearch: false
-    AmbushEvade: true
-  StopCondition:
-    MapAchievement: non_stop
-    StageIncrease: false
-  Fleet:
-    FleetOrder: fleet1_all_fleet2_standby
-    AutoSearchFleetOrder: fleet1_all_fleet2_standby
-  Submarine:
-    AutoSearchMode: sub_standby
 GemsFarming:
   Campaign:
     Mode: normal
@@ -78,6 +33,10 @@ GemsFarming:
 # ==================== Event ====================
 
 Event:
+  Campaign:
+    Mode: normal
+    AmbushEvade: true
+Event2:
   Campaign:
     Mode: normal
     AmbushEvade: true
