@@ -669,7 +669,7 @@
     },
     "FleetOrder": {
       "name": "Fleet Roles",
-      "help": "Warning: Alas will use only fleet1 in campaigns with battles < 5 (non-auto-search)",
+      "help": "With non-auto-search, alas will pick up question marks and ammunition\nWith non-auto-search and battle <=4, Alas will force the use of \"fleet1_all_fleet2_standby\"",
       "fleet1_mob_fleet2_boss": "fleet1_mob_fleet2_boss",
       "fleet1_boss_fleet2_mob": "fleet1_boss_fleet2_mob",
       "fleet1_all_fleet2_standby": "fleet1_all_fleet2_standby",

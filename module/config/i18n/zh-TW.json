@@ -669,7 +669,7 @@
     },
     "FleetOrder": {
       "name": "艦隊職能",
-      "help": "警告：進行4戰及以下的非自律尋敵作戰時，alas會強制使用一隊全清",
+      "help": "非自律尋敵下會撿問號和彈藥\n非自律尋敵下進行4戰及以下的作戰時，會強制使用\"一隊全清二隊待機\"",
       "fleet1_mob_fleet2_boss": "一隊道中二隊Boss",
       "fleet1_boss_fleet2_mob": "一隊Boss二隊道中",
       "fleet1_all_fleet2_standby": "一隊全清二隊待機",
