@@ -7,14 +7,14 @@
     ],
     "Farm": [
       "Main",
-      "C72MysteryFarming",
-      "C122MediumLeveling",
-      "C124LargeLeveling",
+      "Main2",
+      "Main3",
       "GemsFarming"
     ],
     "Event": [
       "EventGeneral",
       "Event",
+      "Event2",
       "EventAb",
       "EventCd",
       "EventSp",

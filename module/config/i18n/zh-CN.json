@@ -54,16 +54,12 @@
       "name": "主线图",
       "help": ""
     },
-    "C72MysteryFarming": {
-      "name": "7-2 三战捡垃圾",
+    "Main2": {
+      "name": "主线图-2",
       "help": ""
     },
-    "C122MediumLeveling": {
-      "name": "12-2 中型练级",
-      "help": ""
-    },
-    "C124LargeLeveling": {
-      "name": "12-4 大型练级",
+    "Main3": {
+      "name": "主线图-3",
       "help": ""
     },
     "GemsFarming": {
@@ -76,6 +72,10 @@
     },
     "Event": {
       "name": "活动图",
+      "help": ""
+    },
+    "Event2": {
+      "name": "活动图-2",
       "help": ""
     },
     "EventAb": {
@@ -291,6 +291,7 @@
       "com.tencent.tmgp.bilibili.blhx": "国服 腾讯应用宝渠道服 com.tencent.tmgp.bilibili.blhx",
       "com.bilibili.blhx.baidu": "国服 百度渠道服 com.bilibili.blhx.baidu",
       "com.bilibili.blhx.qihoo": "国服 360渠道服 com.bilibili.blhx.qihoo",
+      "com.bilibili.blhx.oppo": "国服 oppo渠道服 com.bilibili.blhx.oppo",
       "com.bilibili.blhx.vivo": "国服 vivo渠道服 com.bilibili.blhx.vivo",
       "com.bilibili.blhx.uc": "国服 UC九游渠道服 com.bilibili.blhx.uc",
       "com.bilibili.blhx.mzw": "国服 拇指玩渠道服 com.bilibili.blhx.mzw",
@@ -668,15 +669,7 @@
     },
     "FleetOrder": {
       "name": "舰队职能",
-      "help": "非自律寻敌下生效",
-      "fleet1_mob_fleet2_boss": "一队道中二队boss",
-      "fleet1_boss_fleet2_mob": "一队boss二队道中",
-      "fleet1_all_fleet2_standby": "一队全清二队待机",
-      "fleet1_standby_fleet2_all": "一队待机二队全清"
-    },
-    "AutoSearchFleetOrder": {
-      "name": "自律寻敌设置",
-      "help": "自律寻敌下生效",
+      "help": "非自律寻敌下会捡问号和弹药\n非自律寻敌下进行4战及以下的作战时，会强制使用\"一队全清二队待机\"",
       "fleet1_mob_fleet2_boss": "一队道中二队boss",
       "fleet1_boss_fleet2_mob": "一队boss二队道中",
       "fleet1_all_fleet2_standby": "一队全清二队待机",

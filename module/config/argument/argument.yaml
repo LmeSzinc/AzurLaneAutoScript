@@ -65,7 +65,7 @@ Retirement:
 # ==================== Farm ====================
 
 Campaign:
-  Name: 7-2
+  Name: 12-4
   Event:
     value: campaign_main
     option: [campaign_main]
@@ -112,9 +112,6 @@ Fleet:
     value: 2
     option: [2, 3, 4, 5]
   FleetOrder:
-    value: fleet1_mob_fleet2_boss
-    option: [fleet1_mob_fleet2_boss, fleet1_boss_fleet2_mob, fleet1_all_fleet2_standby, fleet1_standby_fleet2_all]
-  AutoSearchFleetOrder:
     value: fleet1_mob_fleet2_boss
     option: [fleet1_mob_fleet2_boss, fleet1_boss_fleet2_mob, fleet1_all_fleet2_standby, fleet1_standby_fleet2_all]
 Submarine:

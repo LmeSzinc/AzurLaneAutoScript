@@ -19,7 +19,7 @@ class GeneratedConfig:
 
     # Group `Emulator`
     Emulator_Serial = 'auto'
-    Emulator_PackageName = 'auto'  # auto, com.bilibili.azurlane, com.YoStarEN.AzurLane, com.YoStarJP.AzurLane, com.hkmanjuu.azurlane.gp, com.bilibili.blhx.huawei, com.bilibili.blhx.mi, com.tencent.tmgp.bilibili.blhx, com.bilibili.blhx.baidu, com.bilibili.blhx.qihoo, com.bilibili.blhx.vivo, com.bilibili.blhx.uc, com.bilibili.blhx.mzw, com.yiwu.blhx.yx15, com.hkmanjuu.azurlane.gp.mc
+    Emulator_PackageName = 'auto'  # auto, com.bilibili.azurlane, com.YoStarEN.AzurLane, com.YoStarJP.AzurLane, com.hkmanjuu.azurlane.gp, com.bilibili.blhx.huawei, com.bilibili.blhx.mi, com.tencent.tmgp.bilibili.blhx, com.bilibili.blhx.baidu, com.bilibili.blhx.qihoo, com.bilibili.blhx.oppo, com.bilibili.blhx.vivo, com.bilibili.blhx.uc, com.bilibili.blhx.mzw, com.yiwu.blhx.yx15, com.hkmanjuu.azurlane.gp.mc
     Emulator_ScreenshotMethod = 'ADB'  # ADB, ADB_nc, uiautomator2, aScreenCap, aScreenCap_nc
     Emulator_ControlMethod = 'minitouch'  # ADB, uiautomator2, minitouch, Hermit
     Emulator_ScreenshotDedithering = False
@@ -59,7 +59,7 @@ class GeneratedConfig:
     Retirement_OldRetireSSR = False
 
     # Group `Campaign`
-    Campaign_Name = '7-2'
+    Campaign_Name = '12-4'
     Campaign_Event = 'campaign_main'  # campaign_main
     Campaign_Mode = 'normal'  # normal, hard
     Campaign_UseClearMode = True
@@ -86,7 +86,6 @@ class GeneratedConfig:
     Fleet_Fleet2Mode = 'combat_auto'  # combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left
     Fleet_Fleet2Step = 2  # 2, 3, 4, 5
     Fleet_FleetOrder = 'fleet1_mob_fleet2_boss'  # fleet1_mob_fleet2_boss, fleet1_boss_fleet2_mob, fleet1_all_fleet2_standby, fleet1_standby_fleet2_all
-    Fleet_AutoSearchFleetOrder = 'fleet1_mob_fleet2_boss'  # fleet1_mob_fleet2_boss, fleet1_boss_fleet2_mob, fleet1_all_fleet2_standby, fleet1_standby_fleet2_all
 
     # Group `Submarine`
     Submarine_Fleet = 0  # 0, 1, 2

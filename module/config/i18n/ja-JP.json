@@ -54,17 +54,13 @@
       "name": "Task.Main.name",
       "help": "Task.Main.help"
     },
-    "C72MysteryFarming": {
-      "name": "Task.C72MysteryFarming.name",
-      "help": "Task.C72MysteryFarming.help"
+    "Main2": {
+      "name": "Task.Main2.name",
+      "help": "Task.Main2.help"
     },
-    "C122MediumLeveling": {
-      "name": "Task.C122MediumLeveling.name",
-      "help": "Task.C122MediumLeveling.help"
-    },
-    "C124LargeLeveling": {
-      "name": "Task.C124LargeLeveling.name",
-      "help": "Task.C124LargeLeveling.help"
+    "Main3": {
+      "name": "Task.Main3.name",
+      "help": "Task.Main3.help"
     },
     "GemsFarming": {
       "name": "Task.GemsFarming.name",
@@ -77,6 +73,10 @@
     "Event": {
       "name": "Task.Event.name",
       "help": "Task.Event.help"
+    },
+    "Event2": {
+      "name": "Task.Event2.name",
+      "help": "Task.Event2.help"
     },
     "EventAb": {
       "name": "Task.EventAb.name",
@@ -291,6 +291,7 @@
       "com.tencent.tmgp.bilibili.blhx": "CN com.tencent.tmgp.bilibili.blhx",
       "com.bilibili.blhx.baidu": "CN com.bilibili.blhx.baidu",
       "com.bilibili.blhx.qihoo": "CN com.bilibili.blhx.qihoo",
+      "com.bilibili.blhx.oppo": "CN com.bilibili.blhx.oppo",
       "com.bilibili.blhx.vivo": "CN com.bilibili.blhx.vivo",
       "com.bilibili.blhx.uc": "CN com.bilibili.blhx.uc",
       "com.bilibili.blhx.mzw": "CN com.bilibili.blhx.mzw",
@@ -669,14 +670,6 @@
     "FleetOrder": {
       "name": "Fleet.FleetOrder.name",
       "help": "Fleet.FleetOrder.help",
-      "fleet1_mob_fleet2_boss": "fleet1_mob_fleet2_boss",
-      "fleet1_boss_fleet2_mob": "fleet1_boss_fleet2_mob",
-      "fleet1_all_fleet2_standby": "fleet1_all_fleet2_standby",
-      "fleet1_standby_fleet2_all": "fleet1_standby_fleet2_all"
-    },
-    "AutoSearchFleetOrder": {
-      "name": "Fleet.AutoSearchFleetOrder.name",
-      "help": "Fleet.AutoSearchFleetOrder.help",
       "fleet1_mob_fleet2_boss": "fleet1_mob_fleet2_boss",
       "fleet1_boss_fleet2_mob": "fleet1_boss_fleet2_mob",
       "fleet1_all_fleet2_standby": "fleet1_all_fleet2_standby",

@@ -207,7 +207,7 @@ class ConfigGenerator:
             lines.append(f'    {path_to_arg(path)} = {repr(parse_value(data["value"], data=data))}{option}')
             visited_path.add(path)
 
-        with open(filepath_code(), 'w') as f:
+        with open(filepath_code(), 'w', encoding='utf-8') as f:
             for text in lines:
                 f.write(text + '\n')
 
@@ -355,13 +355,14 @@ class ConfigGenerator:
                         insert('WarArchives')
                     else:
                         insert('Event')
+                        insert('Event2')
                         insert('EventAb')
                         insert('EventCd')
                         insert('EventSp')
                         insert('GemsFarming')
 
         # Remove campaign_main from event list
-        for task in ['Event', 'EventAb', 'EventCd', 'EventSp', 'Raid', 'RaidDaily', 'WarArchives']:
+        for task in ['Event', 'Event2', 'EventAb', 'EventCd', 'EventSp', 'Raid', 'RaidDaily', 'WarArchives']:
             options = deep_get(self.args, keys=f'{task}.Campaign.Event.option')
             options = [option for option in options if option != 'campaign_main']
             deep_set(self.args, keys=f'{task}.Campaign.Event.option', value=options)
@@ -461,7 +462,7 @@ class ConfigUpdater:
         # Update to latest event
         server = to_server(deep_get(new, 'Alas.Emulator.PackageName', 'cn'))
         if not is_template:
-            for task in ['Event', 'EventAb', 'EventCd', 'EventSp', 'Raid', 'RaidDaily']:
+            for task in ['Event', 'Event2', 'EventAb', 'EventCd', 'EventSp', 'Raid', 'RaidDaily']:
                 deep_set(new,
                          keys=f'{task}.Campaign.Event',
                          value=deep_get(self.args, f'{task}.Campaign.Event.{server}'))

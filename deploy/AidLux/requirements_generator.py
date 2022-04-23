@@ -36,7 +36,7 @@ def write_file(file, data):
         else:
             lines.append(str(name))
 
-    with open(file, 'w', encoding='utf-8') as f:
+    with open(file, 'w', encoding='utf-8', newline='') as f:
         f.write('\n'.join(lines))
 
 

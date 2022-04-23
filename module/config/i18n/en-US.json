@@ -54,16 +54,12 @@
       "name": "Main",
       "help": ""
     },
-    "C72MysteryFarming": {
-      "name": "7-2 Mystery Farming",
+    "Main2": {
+      "name": "Main-2",
       "help": ""
     },
-    "C122MediumLeveling": {
-      "name": "12-2 Leveling",
-      "help": ""
-    },
-    "C124LargeLeveling": {
-      "name": "12-4 Leveling",
+    "Main3": {
+      "name": "Main-3",
       "help": ""
     },
     "GemsFarming": {
@@ -76,6 +72,10 @@
     },
     "Event": {
       "name": "Event",
+      "help": ""
+    },
+    "Event2": {
+      "name": "Event-2",
       "help": ""
     },
     "EventAb": {
@@ -291,6 +291,7 @@
       "com.tencent.tmgp.bilibili.blhx": "CN com.tencent.tmgp.bilibili.blhx",
       "com.bilibili.blhx.baidu": "CN com.bilibili.blhx.baidu",
       "com.bilibili.blhx.qihoo": "CN com.bilibili.blhx.qihoo",
+      "com.bilibili.blhx.oppo": "CN com.bilibili.blhx.oppo",
       "com.bilibili.blhx.vivo": "CN com.bilibili.blhx.vivo",
       "com.bilibili.blhx.uc": "CN com.bilibili.blhx.uc",
       "com.bilibili.blhx.mzw": "CN com.bilibili.blhx.mzw",
@@ -668,15 +669,7 @@
     },
     "FleetOrder": {
       "name": "Fleet Roles",
-      "help": "Effective only for normal operations, non auto search",
-      "fleet1_mob_fleet2_boss": "fleet1_mob_fleet2_boss",
-      "fleet1_boss_fleet2_mob": "fleet1_boss_fleet2_mob",
-      "fleet1_all_fleet2_standby": "fleet1_all_fleet2_standby",
-      "fleet1_standby_fleet2_all": "fleet1_standby_fleet2_all"
-    },
-    "AutoSearchFleetOrder": {
-      "name": "Fleet Roles in Auto Search",
-      "help": "Effective only for auto search, non normal operations",
+      "help": "With non-auto-search, alas will pick up question marks and ammunition\nWith non-auto-search and battle <=4, Alas will force the use of \"fleet1_all_fleet2_standby\"",
       "fleet1_mob_fleet2_boss": "fleet1_mob_fleet2_boss",
       "fleet1_boss_fleet2_mob": "fleet1_boss_fleet2_mob",
       "fleet1_all_fleet2_standby": "fleet1_all_fleet2_standby",

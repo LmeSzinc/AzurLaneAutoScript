@@ -54,16 +54,12 @@
       "name": "主線圖",
       "help": ""
     },
-    "C72MysteryFarming": {
-      "name": "7-2 三戰撿垃圾",
+    "Main2": {
+      "name": "主線圖-2",
       "help": ""
     },
-    "C122MediumLeveling": {
-      "name": "12-2 中型練級",
-      "help": ""
-    },
-    "C124LargeLeveling": {
-      "name": "12-4 大型練級",
+    "Main3": {
+      "name": "主線圖-3",
       "help": ""
     },
     "GemsFarming": {
@@ -76,6 +72,10 @@
     },
     "Event": {
       "name": "活動圖",
+      "help": ""
+    },
+    "Event2": {
+      "name": "活動圖-2",
       "help": ""
     },
     "EventAb": {
@@ -291,6 +291,7 @@
       "com.tencent.tmgp.bilibili.blhx": "國服 com.tencent.tmgp.bilibili.blhx",
       "com.bilibili.blhx.baidu": "國服 com.bilibili.blhx.baidu",
       "com.bilibili.blhx.qihoo": "國服 com.bilibili.blhx.qihoo",
+      "com.bilibili.blhx.oppo": "國服 com.bilibili.blhx.oppo",
       "com.bilibili.blhx.vivo": "國服 com.bilibili.blhx.vivo",
       "com.bilibili.blhx.uc": "國服 com.bilibili.blhx.uc",
       "com.bilibili.blhx.mzw": "國服 com.bilibili.blhx.mzw",
@@ -668,15 +669,7 @@
     },
     "FleetOrder": {
       "name": "艦隊職能",
-      "help": "非自律尋敵下生效",
-      "fleet1_mob_fleet2_boss": "一隊道中二隊Boss",
-      "fleet1_boss_fleet2_mob": "一隊Boss二隊道中",
-      "fleet1_all_fleet2_standby": "一隊全清二隊待機",
-      "fleet1_standby_fleet2_all": "一隊待機二隊全清"
-    },
-    "AutoSearchFleetOrder": {
-      "name": "自律尋敵設定",
-      "help": "自律尋敵下生效",
+      "help": "非自律尋敵下會撿問號和彈藥\n非自律尋敵下進行4戰及以下的作戰時，會強制使用\"一隊全清二隊待機\"",
       "fleet1_mob_fleet2_boss": "一隊道中二隊Boss",
       "fleet1_boss_fleet2_mob": "一隊Boss二隊道中",
       "fleet1_all_fleet2_standby": "一隊全清二隊待機",
