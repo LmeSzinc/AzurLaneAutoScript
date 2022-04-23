@@ -402,6 +402,10 @@
     "UploadOpsi": {
       "name": "上傳大世界掉落截圖",
       "help": ""
+    },
+    "SaveMeowfficer": {
+      "name": "保存指揮喵購買截圖",
+      "help": ""
     }
   },
   "Retirement": {

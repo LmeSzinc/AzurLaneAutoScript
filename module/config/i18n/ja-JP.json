@@ -402,6 +402,10 @@
     "UploadOpsi": {
       "name": "DropRecord.UploadOpsi.name",
       "help": "DropRecord.UploadOpsi.help"
+    },
+    "SaveMeowfficer": {
+      "name": "DropRecord.SaveMeowfficer.name",
+      "help": "DropRecord.SaveMeowfficer.help"
     }
   },
   "Retirement": {
