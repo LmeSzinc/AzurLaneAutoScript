@@ -669,15 +669,7 @@
     },
     "FleetOrder": {
       "name": "艦隊職能",
-      "help": "非自律尋敵下生效",
-      "fleet1_mob_fleet2_boss": "一隊道中二隊Boss",
-      "fleet1_boss_fleet2_mob": "一隊Boss二隊道中",
-      "fleet1_all_fleet2_standby": "一隊全清二隊待機",
-      "fleet1_standby_fleet2_all": "一隊待機二隊全清"
-    },
-    "AutoSearchFleetOrder": {
-      "name": "自律尋敵設定",
-      "help": "自律尋敵下生效",
+      "help": "",
       "fleet1_mob_fleet2_boss": "一隊道中二隊Boss",
       "fleet1_boss_fleet2_mob": "一隊Boss二隊道中",
       "fleet1_all_fleet2_standby": "一隊全清二隊待機",

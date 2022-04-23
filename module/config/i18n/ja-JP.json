@@ -674,14 +674,6 @@
       "fleet1_boss_fleet2_mob": "fleet1_boss_fleet2_mob",
       "fleet1_all_fleet2_standby": "fleet1_all_fleet2_standby",
       "fleet1_standby_fleet2_all": "fleet1_standby_fleet2_all"
-    },
-    "AutoSearchFleetOrder": {
-      "name": "Fleet.AutoSearchFleetOrder.name",
-      "help": "Fleet.AutoSearchFleetOrder.help",
-      "fleet1_mob_fleet2_boss": "fleet1_mob_fleet2_boss",
-      "fleet1_boss_fleet2_mob": "fleet1_boss_fleet2_mob",
-      "fleet1_all_fleet2_standby": "fleet1_all_fleet2_standby",
-      "fleet1_standby_fleet2_all": "fleet1_standby_fleet2_all"
     }
   },
   "Submarine": {

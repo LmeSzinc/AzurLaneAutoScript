@@ -31,7 +31,6 @@ C72MysteryFarming:
     GetNewShip: false
   Fleet:
     FleetOrder: fleet1_mob_fleet2_boss
-    AutoSearchFleetOrder: fleet1_mob_fleet2_boss
 C122MediumLeveling:
   Campaign:
     Name: campaign_12_2_leveling
@@ -46,7 +45,6 @@ C122MediumLeveling:
     StageIncrease: false
   Fleet:
     FleetOrder: fleet1_all_fleet2_standby
-    AutoSearchFleetOrder: fleet1_all_fleet2_standby
   Submarine:
     AutoSearchMode: sub_standby
 C124LargeLeveling:
@@ -63,7 +61,6 @@ C124LargeLeveling:
     StageIncrease: false
   Fleet:
     FleetOrder: fleet1_all_fleet2_standby
-    AutoSearchFleetOrder: fleet1_all_fleet2_standby
   Submarine:
     AutoSearchMode: sub_standby
 GemsFarming:
@@ -285,8 +282,6 @@ Sos:
     StageIncrease: false
     GetNewShip: false
     ReachLevel: 0
-  Fleet:
-    AutoSearchFleetOrder: fleet1_all_fleet2_standby
   Submarine:
     AutoSearchMode: sub_standby
 WarArchives:

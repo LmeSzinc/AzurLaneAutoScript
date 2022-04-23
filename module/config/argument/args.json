@@ -407,16 +407,6 @@
           "fleet1_all_fleet2_standby",
           "fleet1_standby_fleet2_all"
         ]
-      },
-      "AutoSearchFleetOrder": {
-        "type": "select",
-        "value": "fleet1_mob_fleet2_boss",
-        "option": [
-          "fleet1_mob_fleet2_boss",
-          "fleet1_boss_fleet2_mob",
-          "fleet1_all_fleet2_standby",
-          "fleet1_standby_fleet2_all"
-        ]
       }
     },
     "Submarine": {
@@ -779,16 +769,6 @@
           "fleet1_all_fleet2_standby",
           "fleet1_standby_fleet2_all"
         ]
-      },
-      "AutoSearchFleetOrder": {
-        "type": "disable",
-        "value": "fleet1_mob_fleet2_boss",
-        "option": [
-          "fleet1_mob_fleet2_boss",
-          "fleet1_boss_fleet2_mob",
-          "fleet1_all_fleet2_standby",
-          "fleet1_standby_fleet2_all"
-        ]
       }
     },
     "Emotion": {
@@ -1099,16 +1079,6 @@
         ]
       },
       "FleetOrder": {
-        "type": "disable",
-        "value": "fleet1_all_fleet2_standby",
-        "option": [
-          "fleet1_mob_fleet2_boss",
-          "fleet1_boss_fleet2_mob",
-          "fleet1_all_fleet2_standby",
-          "fleet1_standby_fleet2_all"
-        ]
-      },
-      "AutoSearchFleetOrder": {
         "type": "disable",
         "value": "fleet1_all_fleet2_standby",
         "option": [
@@ -1484,16 +1454,6 @@
         ]
       },
       "FleetOrder": {
-        "type": "disable",
-        "value": "fleet1_all_fleet2_standby",
-        "option": [
-          "fleet1_mob_fleet2_boss",
-          "fleet1_boss_fleet2_mob",
-          "fleet1_all_fleet2_standby",
-          "fleet1_standby_fleet2_all"
-        ]
-      },
-      "AutoSearchFleetOrder": {
         "type": "disable",
         "value": "fleet1_all_fleet2_standby",
         "option": [
@@ -1931,16 +1891,6 @@
           "fleet1_all_fleet2_standby",
           "fleet1_standby_fleet2_all"
         ]
-      },
-      "AutoSearchFleetOrder": {
-        "type": "select",
-        "value": "fleet1_mob_fleet2_boss",
-        "option": [
-          "fleet1_mob_fleet2_boss",
-          "fleet1_boss_fleet2_mob",
-          "fleet1_all_fleet2_standby",
-          "fleet1_standby_fleet2_all"
-        ]
       }
     },
     "Emotion": {
@@ -2279,16 +2229,6 @@
         ]
       },
       "FleetOrder": {
-        "type": "select",
-        "value": "fleet1_mob_fleet2_boss",
-        "option": [
-          "fleet1_mob_fleet2_boss",
-          "fleet1_boss_fleet2_mob",
-          "fleet1_all_fleet2_standby",
-          "fleet1_standby_fleet2_all"
-        ]
-      },
-      "AutoSearchFleetOrder": {
         "type": "select",
         "value": "fleet1_mob_fleet2_boss",
         "option": [
@@ -2713,16 +2653,6 @@
           "fleet1_all_fleet2_standby",
           "fleet1_standby_fleet2_all"
         ]
-      },
-      "AutoSearchFleetOrder": {
-        "type": "select",
-        "value": "fleet1_mob_fleet2_boss",
-        "option": [
-          "fleet1_mob_fleet2_boss",
-          "fleet1_boss_fleet2_mob",
-          "fleet1_all_fleet2_standby",
-          "fleet1_standby_fleet2_all"
-        ]
       }
     },
     "Submarine": {
@@ -3128,16 +3058,6 @@
           "fleet1_all_fleet2_standby",
           "fleet1_standby_fleet2_all"
         ]
-      },
-      "AutoSearchFleetOrder": {
-        "type": "select",
-        "value": "fleet1_mob_fleet2_boss",
-        "option": [
-          "fleet1_mob_fleet2_boss",
-          "fleet1_boss_fleet2_mob",
-          "fleet1_all_fleet2_standby",
-          "fleet1_standby_fleet2_all"
-        ]
       }
     },
     "Submarine": {
@@ -3525,16 +3445,6 @@
         ]
       },
       "FleetOrder": {
-        "type": "select",
-        "value": "fleet1_mob_fleet2_boss",
-        "option": [
-          "fleet1_mob_fleet2_boss",
-          "fleet1_boss_fleet2_mob",
-          "fleet1_all_fleet2_standby",
-          "fleet1_standby_fleet2_all"
-        ]
-      },
-      "AutoSearchFleetOrder": {
         "type": "select",
         "value": "fleet1_mob_fleet2_boss",
         "option": [
@@ -5436,16 +5346,6 @@
           "fleet1_all_fleet2_standby",
           "fleet1_standby_fleet2_all"
         ]
-      },
-      "AutoSearchFleetOrder": {
-        "type": "disable",
-        "value": "fleet1_all_fleet2_standby",
-        "option": [
-          "fleet1_mob_fleet2_boss",
-          "fleet1_boss_fleet2_mob",
-          "fleet1_all_fleet2_standby",
-          "fleet1_standby_fleet2_all"
-        ]
       }
     },
     "Submarine": {
@@ -5799,16 +5699,6 @@
         ]
       },
       "FleetOrder": {
-        "type": "select",
-        "value": "fleet1_mob_fleet2_boss",
-        "option": [
-          "fleet1_mob_fleet2_boss",
-          "fleet1_boss_fleet2_mob",
-          "fleet1_all_fleet2_standby",
-          "fleet1_standby_fleet2_all"
-        ]
-      },
-      "AutoSearchFleetOrder": {
         "type": "select",
         "value": "fleet1_mob_fleet2_boss",
         "option": [
