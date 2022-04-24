@@ -161,7 +161,8 @@ class Enhancement(Dock):
             # Wait until ENHANCE_CONFIRM appears
             if (self.appear_then_click(ENHANCE_CONFIRM, offset=(5, 5), interval=0.3)
                     or self.appear(EQUIP_CONFIRM, offset=(30, 30))
-                    or self.info_bar_count()):
+                    or self.info_bar_count()
+                    or self.handle_popup_confirm('ENHANCE')):
                 return "state_enhance_confirm"
 
             return "state_enhance_attempt"
@@ -175,6 +176,9 @@ class Enhancement(Dock):
             elif self.info_bar_count():
                 logger.info('Enhancement impossible, ship currently in battle. Swiping to next ship if feasible')
                 return "state_enhance_fail"
+            elif self.handle_popup_confirm('ENHANCE'):
+                logger.info('Trying a temporary ship')
+                return "state_enhance_confirm"
 
             return "state_enhance_attempt"
 
