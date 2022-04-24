@@ -127,6 +127,10 @@
       "UploadOpsi": {
         "type": "checkbox",
         "value": false
+      },
+      "SaveMeowfficer": {
+        "type": "checkbox",
+        "value": false
       }
     }
   },

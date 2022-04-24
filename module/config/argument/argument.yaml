@@ -46,6 +46,7 @@ DropRecord:
   SaveCombat: false
   SaveOpsi: false
   UploadOpsi: false
+  SaveMeowfficer: false
 Retirement:
   Enable: true
   RetireMode:
