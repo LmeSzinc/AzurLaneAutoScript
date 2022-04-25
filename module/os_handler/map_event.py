@@ -224,8 +224,14 @@ class MapEventHandler(EnemySearchingHandler):
             raise CampaignEnd
         if self.appear(AUTO_SEARCH_REWARD, offset=(50, 50)):
             self.device.screenshot_interval_set()
-            self.os_auto_search_quit(drop=drop)
-            raise CampaignEnd
+            if self.info_bar_count():
+                # No more items on current map
+                self.os_auto_search_quit(drop=drop)
+                raise CampaignEnd
+            else:
+                # Auto search stopped but map hasn't been cleared
+                self.os_auto_search_quit(drop=drop)
+                return True
         if enable:
             if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120), interval=3) \
                     and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image):

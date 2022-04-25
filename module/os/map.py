@@ -210,7 +210,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
                 save=self.config.DropRecord_SaveOpsi,
                 upload=self.config.DropRecord_UploadOpsi
         ) as drop:
-            for _ in range(3):
+            for _ in range(5):
                 backup = self.config.temporary(Campaign_UseAutoSearch=True)
                 try:
                     self.os_auto_search_daemon(drop=drop)
