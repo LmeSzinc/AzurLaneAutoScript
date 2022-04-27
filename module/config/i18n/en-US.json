@@ -403,6 +403,10 @@
     "UploadOpsi": {
       "name": "Upload OpSi Screenshots",
       "help": ""
+    },
+    "SaveMeowfficer": {
+      "name": "Save Meowfficer Buy Screenshots",
+      "help": ""
     }
   },
   "Retirement": {
