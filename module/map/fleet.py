@@ -444,6 +444,9 @@ class Fleet(Camera, AmbushHandler):
             self.find_path_initial()
             raise MapEnemyMoved
         self.find_path_initial()
+        if self.config.MAP_HAS_DECOY_ENEMY:
+            if result == 'nothing' and expected == 'combat':
+                raise MapEnemyMoved
 
     def goto(self, location, optimize=None, expected=''):
         """
@@ -517,6 +520,8 @@ class Fleet(Camera, AmbushHandler):
         logger.info(f'Submarine: {location2node(self.fleet_submarine_location)}')
 
     def full_scan(self, queue=None, must_scan=None, mode='normal'):
+        if self.config.MAP_HAS_DECOY_ENEMY and mode == 'normal':
+            mode = 'decoy'
         super().full_scan(
             queue=queue, must_scan=must_scan, battle_count=self.battle_count, mystery_count=self.mystery_count,
             siren_count=self.siren_count, carrier_count=self.carrier_count, mode=mode)

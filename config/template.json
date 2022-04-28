@@ -27,7 +27,8 @@
       "UploadCommission": false,
       "SaveCombat": false,
       "SaveOpsi": false,
-      "UploadOpsi": false
+      "UploadOpsi": false,
+      "SaveMeowfficer": false
     }
   },
   "General": {

@@ -93,6 +93,7 @@ class ManualConfig:
     MAP_HAS_FORTRESS = False  # event_2021917_cn, clear fortress to remove roadblock to boss.
     MAP_HAS_MISSILE_ATTACK = False  # event_202111229_cn, missile attack covers the feature area of sirens.
     MAP_HAS_BOUNCING_ENEMY = False  # event_20220224_cn, enemy is bouncing in a fixed route.
+    MAP_HAS_DECOY_ENEMY = False  # event_20220428, decoy enemy on map, disappear when fleet reach there.
     MAP_FOCUS_ENEMY_AFTER_BATTLE = False  # Operation siren
     MAP_ENEMY_TEMPLATE = ['Light', 'Main', 'Carrier', 'Treasure']
     MAP_SIREN_TEMPLATE = ['DD', 'CL', 'CA', 'BB', 'CV']
