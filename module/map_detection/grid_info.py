@@ -224,7 +224,7 @@ class GridInfo:
             if self.is_fortress:
                 # Fortress can be a normal enemy
                 return True
-            elif not self.is_land and (self.may_enemy or self.is_carrier):
+            elif not self.is_land and (self.may_enemy or self.is_carrier or mode == 'decoy'):
                 self.is_enemy = True
                 if info.enemy_scale and not self.enemy_scale:
                     self.enemy_scale = info.enemy_scale

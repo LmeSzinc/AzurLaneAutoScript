@@ -115,7 +115,7 @@ def random_rectangle_vector_opted(
         return tuple(end_point - vector), tuple(end_point)
 
     end_point = random_rectangle_point(box)
-    return tuple(end_point - vector), tuple(end_point)
+    return point_limit(end_point - vector, box), point_limit(end_point, box)
 
 
 def random_line_segments(p1, p2, n, random_range=(0, 0, 0, 0)):
