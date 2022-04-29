@@ -582,10 +582,10 @@
       "name": "Level Achievement",
       "help": "Stop current task if level has been 100% Clear, 3 Stars, Threat Safe, or Threat Safe without 3 Stars. Non-stop implies no achievement required, thus task will not be stopped for this case",
       "non_stop": "non_stop",
-      "100_percent_clear": "100_percent_clear",
-      "map_3_stars": "map_3_stars",
-      "threat_safe": "threat_safe",
-      "threat_safe_without_3_stars": "threat_safe_without_3_stars"
+      "100_percent_clear": "100% Clear",
+      "map_3_stars": "100% Clear + 3 Stars",
+      "threat_safe": "100% Clear + 3 Stars + Threat Safe",
+      "threat_safe_without_3_stars": "100% Clear + Threat Safe"
     },
     "StageIncrease": {
       "name": "Enable Continuous Clear",
