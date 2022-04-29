@@ -56,7 +56,7 @@ A7, B7, C7, D7, E7, F7, G7, H7, I7, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['sairenqianting_ii', 'CAlightning', 'BBlightning']
+    MAP_SIREN_TEMPLATE = ['SS', 'CAlightning', 'BBlightning']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -65,6 +65,17 @@ class Config(ConfigBase):
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
+
+    MAP_ENEMY_GENRE_DETECTION_SCALING = {
+        'CAlightning': 1.111,
+        'BBlightning': 1.111,
+        'SS': 1.111,
+    }
+    MAP_HAS_DECOY_ENEMY = False
+    MAP_WALK_USE_CURRENT_FLEET = True
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom-right'
+    MAP_SWIPE_MULTIPLY = 1.704
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.647
 
 
 class Campaign(CampaignBase):

@@ -53,7 +53,7 @@ A9, B9, C9, D9, E9, F9, G9, H9, I9, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['sairenboss11']
+    MAP_SIREN_TEMPLATE = ['Compiler']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -62,6 +62,28 @@ class Config(ConfigBase):
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
+
+    MAP_HAS_DECOY_ENEMY = False
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (120, 255 - 13),
+        'width': (1.5, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 13, 255),
+        'prominence': 10,
+        'distance': 50,
+        'wlen': 1000
+    }
+    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 35
+    EDGE_LINES_HOUGHLINES_THRESHOLD = 35
+    HOMO_EDGE_COLOR_RANGE = (0, 13)
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 300
+    MAP_WALK_USE_CURRENT_FLEET = True
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
+    MAP_SWIPE_MULTIPLY = 1.502
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.452
 
 
 class Campaign(CampaignBase):

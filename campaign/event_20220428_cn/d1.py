@@ -38,6 +38,14 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
+    {'battle': 0, 'enemy': 4, 'siren': 2},
+    {'battle': 1, 'enemy': 2},
+    {'battle': 2, 'enemy': 4},
+    {'battle': 3, 'enemy': 2},
+    {'battle': 4, 'enemy': 4},
+    {'battle': 5, 'enemy': 2, 'boss': 1},
+]
+MAP.spawn_data_loop = [
     {'battle': 0, 'enemy': 2, 'siren': 2},
     {'battle': 1, 'enemy': 1},
     {'battle': 2, 'enemy': 2},
@@ -67,6 +75,24 @@ class Config:
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
+
+    MAP_HAS_DECOY_ENEMY = True
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (120, 255 - 33),
+        'width': (1.5, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 33, 255),
+        'prominence': 10,
+        'distance': 50,
+        'wlen': 1000
+    }
+    HOMO_EDGE_COLOR_RANGE = (0, 33)
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 300
+    MAP_SWIPE_MULTIPLY = 1.506
+    MAP_SWIPE_MULTIPLY_MINITOUCH = 1.456
 
 
 class Campaign(CampaignBase):

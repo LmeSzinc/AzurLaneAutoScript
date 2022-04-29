@@ -160,6 +160,8 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'z2': 'Z2',
     'laibixi': 'Leipzig',
     'ougen': 'PrinzEugen',
+    'sairenqianting_ii': 'SS',
+    'sairenboss11': 'Compiler',
 }
 
 
