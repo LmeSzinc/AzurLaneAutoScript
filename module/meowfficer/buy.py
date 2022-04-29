@@ -91,7 +91,7 @@ class MeowfficerBuy(MeowfficerBase):
                     continue
                 if self.appear(GET_ITEMS_1, offset=5, interval=3):
                     if drop.save is True:
-                        drop.add(self.device.image)
+                        drop.handle_add(self.device.image, before=2)
                     self.device.click(MEOWFFICER_BUY_SKIP)
                     self.interval_clear(MEOWFFICER_BUY)
                     executed = True

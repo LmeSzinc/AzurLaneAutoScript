@@ -24,7 +24,7 @@ class Fleet(Camera, AmbushHandler):
     @property
     def fleet_1(self):
         if self.fleet_current_index != 1:
-            self.fleet_switch_to(index=1)
+            self.fleet_ensure(index=1)
         return self
 
     @fleet_1.setter
@@ -35,7 +35,7 @@ class Fleet(Camera, AmbushHandler):
     def fleet_2(self):
         if self.config.FLEET_2 and self.config.FLEET_BOSS == 2:
             if self.fleet_current_index != 2:
-                self.fleet_switch_to(index=2)
+                self.fleet_ensure(index=2)
         return self
 
     @fleet_2.setter
@@ -87,16 +87,19 @@ class Fleet(Camera, AmbushHandler):
         else:
             return self.config.Fleet_Fleet1Step
 
-    def fleet_switch_to(self, index):
-        self.fleet_set(index=index)
-        self.camera = self.fleet_current
-        self.update()
-        self.find_path_initial()
-        self.map.show_cost()
-        self.show_fleet()
-        self.hp_get()
-        self.lv_get()
-        self.handle_strategy(index=self.fleet_current_index)
+    def fleet_ensure(self, index):
+        if self.fleet_set(index=index):
+            self.camera = self.fleet_current
+            self.update()
+            self.find_path_initial()
+            self.map.show_cost()
+            self.show_fleet()
+            self.hp_get()
+            self.lv_get()
+            self.handle_strategy(index=self.fleet_current_index)
+            return True
+        else:
+            return False
 
     def switch_to(self):
         pass
@@ -264,6 +267,7 @@ class Fleet(Camera, AmbushHandler):
         may_submarine_icon = may_submarine_icon and self.fleet_submarine_location == may_submarine_icon[0].location
 
         while 1:
+            self.fleet_ensure(self.fleet_current_index)
             self.in_sight(location, sight=self._walk_sight)
             self.focus_to_grid_center()
             grid = self.convert_global_to_local(location)

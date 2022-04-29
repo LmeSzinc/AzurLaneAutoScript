@@ -24,6 +24,7 @@ SERVER_TO_TIMEZONE = {
     'jp': 9,
     'tw': 8,
 }
+DEFAULT_TIME = datetime(2020, 1, 1, 0, 0)
 
 
 # https://stackoverflow.com/questions/8640959/how-can-i-control-what-scalar-form-pyyaml-uses-for-my-data/15423007

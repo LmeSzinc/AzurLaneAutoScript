@@ -196,6 +196,8 @@ class Map(Fleet):
             kwargs['strongest'] = True
         elif target == 'S1_enemy_first':
             kwargs['weakest'] = True
+        elif self.config.MAP_CLEAR_ALL_THIS_TIME:
+            kwargs['strongest'] = True
         grids = self.select_grids(grids, **kwargs)
 
         if grids:
