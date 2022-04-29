@@ -10,16 +10,6 @@ MAP.camera_data_spawn_point = ['F5', 'F3']
 MAP.map_data = """
     ++ ++ -- ++ ++ ++ -- ++ ++
     ++ ++ Me -- ME -- Me ++ ++
-    -- Me ++ -- -- -- ++ ME --
-    MB -- -- __ ++ -- ME -- SP
-    MB -- ME -- ++ -- -- -- SP
-    -- Me ++ -- -- -- ++ ME --
-    ++ ++ Me -- ME -- Me ++ ++
-    ++ ++ -- ++ ++ ++ -- ++ ++
-"""
-MAP.map_data_loop = """
-    ++ ++ -- ++ ++ ++ -- ++ ++
-    ++ ++ Me -- ME -- Me ++ ++
     -- Me ++ MS -- MS ++ ME --
     MB -- -- __ ++ -- ME -- SP
     MB -- ME -- ++ -- -- -- SP
@@ -38,7 +28,7 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 1},
+    {'battle': 0, 'enemy': 1, 'siren': 4},
     {'battle': 1},
     {'battle': 2, 'enemy': 2},
     {'battle': 3, 'enemy': 1},
@@ -60,7 +50,11 @@ A8, B8, C8, D8, E8, F8, G8, H8, I8, \
 
 class Config:
     # ===== Start of generated config =====
-    MAP_HAS_MAP_STORY = False
+    MAP_SIREN_TEMPLATE = ['Roon', 'Odin', 'Mainz', 'August']
+    MOVABLE_ENEMY_TURN = (2,)
+    MAP_HAS_SIREN = True
+    MAP_HAS_MOVABLE_ENEMY = True
+    MAP_HAS_MAP_STORY = True
     MAP_HAS_FLEET_STEP = True
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
@@ -69,18 +63,38 @@ class Config:
     STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
 
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (120, 255 - 33),
+        'width': (1.5, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 33, 255),
+        'prominence': 10,
+        'distance': 50,
+        'wlen': 1000
+    }
+    HOMO_EDGE_COLOR_RANGE = (0, 33)
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 300
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
+
 
 class Campaign(CampaignBase):
     MAP = MAP
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 
     def battle_0(self):
+        if self.clear_siren():
+            return True
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=2):
             return True
 
         return self.battle_default()
 
     def battle_5(self):
+        if self.clear_siren():
+            return True
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
 
