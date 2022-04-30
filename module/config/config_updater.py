@@ -176,7 +176,6 @@ class ConfigGenerator:
             if isinstance(v, dict):
                 deep_default(v, keys='type', value='hide')
                 for arg_k, arg_v in v.items():
-                    print(p + [arg_k], arg_v)
                     deep_set(data, keys=p + [arg_k], value=arg_v)
             else:
                 deep_set(data, keys=p + ['value'], value=v)
