@@ -141,9 +141,6 @@ Commission:
     ServerUpdate: 00:00
 Tactical:
   Scheduler:
-    Enable:
-      value: true
-      type: disable
     SuccessInterval: 30-60
     FailureInterval: 120-240
     ServerUpdate: 00:00

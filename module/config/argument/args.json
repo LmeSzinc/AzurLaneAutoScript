@@ -4151,7 +4151,7 @@
   "Tactical": {
     "Scheduler": {
       "Enable": {
-        "type": "disable",
+        "type": "checkbox",
         "value": true
       },
       "NextRun": {
