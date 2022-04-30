@@ -239,7 +239,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
         People migrating from manual game play to bot have a hard time giving up old usage habitat,
         so, teach them how to play games and how to use Alas.
         """
-        now = datetime.now()
+        now = datetime.now().replace(microsecond=0)
         limited = set()
 
         def limit_next_run(tasks, limit):
@@ -260,9 +260,10 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
                     self.modified[f'{task}.Scheduler.Enable'] = True
 
         force_enable(['Commission', 'Tactical', 'Research', 'Reward'])
-        limit_next_run(['Commission', 'Tactical', 'Research', 'Reward'], limit=now + timedelta(hours=12, minutes=10))
-        limit_next_run(['OpsiExplore'], limit=now + timedelta(days=31, minutes=10))
-        limit_next_run(self.args.keys(), limit=now + timedelta(hours=24, minutes=10))
+        limit_next_run(['Commission', 'Tactical', 'Reward'], limit=now + timedelta(hours=12, minutes=-1))
+        limit_next_run(['Research'], limit=now + timedelta(hours=24, minutes=-1))
+        limit_next_run(['OpsiExplore'], limit=now + timedelta(days=31, minutes=-1))
+        limit_next_run(self.args.keys(), limit=now + timedelta(hours=24, minutes=-1))
 
     def override(self, **kwargs):
         """
