@@ -1,10 +1,7 @@
 import re
 
-import gc
-
 import module.config.server as server
 from module.base.decorator import cached_property
-from module.logger import logger
 
 
 def del_cached_property(obj, name):
@@ -76,13 +73,15 @@ class Resource:
 
     @classmethod
     def resource_show(cls):
+        from module.logger import logger
         logger.hr('Show resource')
         for key, obj in cls.instances.items():
             if cls.is_loaded(obj):
                 continue
             logger.info(f'{obj}: {key}')
 
-    def parse_property(self, data):
+    @staticmethod
+    def parse_property(data):
         """
         Parse properties of Button or Template object input.
         Such as `area`, `color` and `button`.

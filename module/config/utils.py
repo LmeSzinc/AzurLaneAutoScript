@@ -207,6 +207,22 @@ def deep_set(d, keys, value):
     return d
 
 
+def deep_pop(d, keys, default=None):
+    """
+    Pop value from dictionary safely, imitating deep_get().
+    """
+    if isinstance(keys, str):
+        keys = keys.split('.')
+    assert type(keys) is list
+    if not isinstance(d, dict):
+        return default
+    if not keys:
+        return default
+    elif len(keys) == 1:
+        return d.pop(keys[0], default)
+    return deep_pop(d.get(keys[0]), keys[1:], default)
+
+
 def deep_default(d, keys, value):
     """
     Set default value into dictionary safely, imitating deep_get().

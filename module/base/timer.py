@@ -2,8 +2,6 @@ import time
 from datetime import datetime, timedelta
 from functools import wraps
 
-from module.logger import logger
-
 
 def timer(function):
     @wraps(function)
@@ -146,4 +144,5 @@ class Timer:
             time.sleep(diff)
 
     def show(self):
+        from module.logger import logger
         logger.info('%s s' % str(self.current()))
