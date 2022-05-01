@@ -113,10 +113,10 @@ class OperationSiren(OSGlobe):
             # or it will click on MAP_GOTO_GLOBE
             self.zone_init()
             self.os_finish_daily_mission()
-            if success:
-                break
             if self.is_in_opsi_explore():
                 self.os_port_mission()
+                break
+            if success:
                 break
 
         self.config.task_delay(server_update=True)
