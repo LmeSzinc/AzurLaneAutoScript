@@ -4,6 +4,7 @@ from module.base.utils import *
 from module.config.config import AzurLaneConfig
 from module.config.server import set_server, to_package
 from module.device.device import Device
+from module.device.method.utils import HierarchyButton
 from module.logger import logger
 from module.map_detection.utils import fit_points
 from module.statistics.azurstats import AzurStats
@@ -33,10 +34,16 @@ class ModuleBase:
 
         self.interval_timer = {}
 
+    def ensure_button(self, button):
+        if isinstance(button, str):
+            button = HierarchyButton(self.device.hierarchy, button)
+
+        return button
+
     def appear(self, button, offset=0, interval=0, threshold=None):
         """
         Args:
-            button (Button, Template):
+            button (Button, Template, HierarchyButton, str):
             offset (bool, int):
             interval (int, float): interval between two active events.
             threshold (int, float): 0 to 1 if use offset, bigger means more similar,
@@ -44,7 +51,22 @@ class ModuleBase:
 
         Returns:
             bool:
+
+        Examples:
+            Image detection:
+            ```
+            self.device.screenshot()
+            self.appear(Button(area=(...), color=(...), button=(...))
+            self.appear(Template(file='...')
+            ```
+
+            Hierarchy detection (detect elements with xpath):
+            ```
+            self.device.dump_hierarchy()
+            self.appear('//*[@resource-id="..."]')
+            ```
         """
+        button = self.ensure_button(button)
         self.device.stuck_record_add(button)
 
         if interval:
@@ -56,7 +78,9 @@ class ModuleBase:
             if not self.interval_timer[button.name].reached():
                 return False
 
-        if offset:
+        if isinstance(button, HierarchyButton):
+            appear = bool(button)
+        elif offset:
             if isinstance(offset, bool):
                 offset = self.config.BUTTON_OFFSET
             appear = button.match(self.device.image, offset=offset,
