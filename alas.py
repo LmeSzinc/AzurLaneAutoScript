@@ -20,7 +20,7 @@ class AzurLaneAutoScript:
     def __init__(self, config_name='alas'):
         logger.hr('Start', level=0)
         self.config_name = config_name
-        ConfigUpdater().update_config(config_name)
+        ConfigUpdater().update_file(config_name)
 
     @cached_property
     def config(self):

@@ -214,7 +214,7 @@ class AlasGUI(Frame):
         self.set_title(t(f"Task.{task}.name"))
 
         put_scope("_groups", [put_none(), put_scope("groups"), put_scope("navigator")])
-        config = Setting.config_updater.update_config(self.alas_name)
+        config = Setting.config_updater.update_file(self.alas_name)
         for group, arg_dict in deep_iter(self.ALAS_ARGS[task], depth=1):
             self.set_group(group, arg_dict, config, task)
             self.set_navigator(group)
@@ -583,7 +583,7 @@ class AlasGUI(Frame):
             scope="log_scroll_btn",
         )
 
-        config = Setting.config_updater.update_config(self.alas_name)
+        config = Setting.config_updater.update_file(self.alas_name)
         for group, arg_dict in deep_iter(self.ALAS_ARGS[task], depth=1):
             self.set_group(group, arg_dict, config, task)
 

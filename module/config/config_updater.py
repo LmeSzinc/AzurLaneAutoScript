@@ -8,7 +8,6 @@ from module.base.timer import timer
 from module.config.redirect_utils.shop_filter import bp_redirect
 from module.config.server import to_server, to_package, VALID_PACKAGE, VALID_CHANNEL_PACKAGE
 from module.config.utils import *
-from module.logger import logger
 
 CONFIG_IMPORT = '''
 import datetime
@@ -139,7 +138,7 @@ class ConfigGenerator:
         for task, groups in self.task.items():
             for group in groups:
                 if group not in self.argument:
-                    logger.warning(f'`{task}.{group}` is not related to any argument group')
+                    print(f'`{task}.{group}` is not related to any argument group')
                     continue
                 deep_set(data, keys=[task, group], value=deepcopy(self.argument[group]))
 
@@ -147,20 +146,20 @@ class ConfigGenerator:
             # Check existence
             old = deep_get(data, keys=path, default=None)
             if old is None:
-                logger.warning(f'`{".".join(path)}` is not a existing argument')
+                print(f'`{".".join(path)}` is not a existing argument')
                 return False
             # Check type
             # But allow `Interval` to be different
             old_value = old.get('value', None) if isinstance(old, dict) else old
             value = old.get('value', None) if isinstance(value, dict) else value
             if type(value) != type(old_value) and path[2] not in ['SuccessInterval', 'FailureInterval']:
-                logger.warning(
+                print(
                     f'`{value}` ({type(value)}) and `{".".join(path)}` ({type(old_value)}) are in different types')
                 return False
             # Check option
             if isinstance(old, dict) and 'option' in old:
                 if value not in old['option']:
-                    logger.warning(f'`{value}` is not an option of argument `{".".join(path)}`')
+                    print(f'`{value}` is not an option of argument `{".".join(path)}`')
                     return False
             return True
 
@@ -233,8 +232,8 @@ class ConfigGenerator:
             for word in words:
                 k = keys + [str(word)]
                 d = ".".join(k) if default else str(word)
-                value = deep_get(old, keys=k, default=d)
-                deep_set(new, keys=k, value=value)
+                v = deep_get(old, keys=k, default=d)
+                deep_set(new, keys=k, value=v)
 
         # Menu
         for path, data in deep_iter(self.menu, depth=2):
@@ -347,9 +346,9 @@ class ConfigGenerator:
                 name = event.__getattribute__(server)
 
                 def insert(key):
-                    options = deep_get(self.args, keys=f'{key}.Campaign.Event.option')
-                    if event not in options:
-                        options.append(event)
+                    opts = deep_get(self.args, keys=f'{key}.Campaign.Event.option')
+                    if event not in opts:
+                        opts.append(event)
                     if name:
                         deep_default(self.args, keys=f'{key}.Campaign.Event.{server}', value=event)
 
@@ -435,19 +434,16 @@ class ConfigUpdater:
     def args(self):
         return read_file(filepath_args())
 
-    def read_file(self, config_name):
+    def config_update(self, old, is_template=False):
         """
-        Read and update user config.
-
         Args:
-            config_name (str):
+            old (dict):
+            is_template (bool):
 
         Returns:
             dict:
         """
         new = {}
-        old = read_file(filepath_config(config_name))
-        is_template = config_name == 'template'
 
         def deep_load(keys):
             data = deep_get(self.args, keys=keys, default={})
@@ -520,10 +516,43 @@ class ConfigUpdater:
 
         return new
 
-    @timer
-    def update_config(self, config_name):
-        data = self.read_file(config_name)
+    def read_file(self, config_name):
+        """
+        Read and update config file.
+
+        Args:
+            config_name (str): ./config/{file}.json
+
+        Returns:
+            dict:
+        """
+        old = read_file(filepath_config(config_name))
+        return self.config_update(old, is_template=config_name == 'template')
+
+    @staticmethod
+    def write_file(config_name, data):
+        """
+        Write config file.
+
+        Args:
+            config_name (str): ./config/{file}.json
+            data (dict):
+        """
         write_file(filepath_config(config_name), data)
+
+    @timer
+    def update_file(self, config_name):
+        """
+        Read, update and write config file.
+
+        Args:
+            config_name (str): ./config/{file}.json
+
+        Returns:
+            dict:
+        """
+        data = self.read_file(config_name)
+        self.write_file(config_name, data)
         return data
 
 
@@ -539,5 +568,9 @@ if __name__ == '__main__':
     (old) i18n/<lang>.json --------\\========> i18n/<lang>.json
     (old)    template.json ---------\========> template.json
     """
+    # Ensure running in Alas root folder
+    import os
+    os.chdir(os.path.join(os.path.dirname(__file__), '../../'))
+
     ConfigGenerator().generate()
-    ConfigUpdater().update_config('template')
+    ConfigUpdater().update_file('template')

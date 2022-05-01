@@ -203,3 +203,10 @@ class HierarchyButton:
 
     def __str__(self):
         return self.name
+
+    @cached_property
+    def focused(self):
+        if self.exist:
+            return self.nodes[0].attrib.get("focused").lower() == 'true'
+        else:
+            return False
