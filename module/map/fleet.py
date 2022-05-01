@@ -379,7 +379,7 @@ class Fleet(Camera, AmbushHandler):
                     elif self.config.MAP_WALK_USE_CURRENT_FLEET \
                             and expected != 'combat_boss' \
                             and not ('combat' in expected and grid.may_boss) \
-                            and grid.predict_current_fleet():
+                            and (grid.predict_fleet() or grid.predict_current_fleet()):
                         arrive_predict = '(MAP_WALK_USE_CURRENT_FLEET, is_current_fleet)'
                         arrive_checker = True
                     elif walk_timeout.reached() and grid.predict_current_fleet():

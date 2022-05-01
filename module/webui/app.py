@@ -232,7 +232,7 @@ class AlasGUI(Frame):
             for arg, d in deep_iter(arg_dict, depth=1):
                 arg = arg[0]
                 arg_type = d["type"]
-                if arg_type == "disable":
+                if arg_type == "hide":
                     continue
                 value = deep_get(config, f"{task}.{group_name}.{arg}", d["value"])
                 value = str(value) if isinstance(value, datetime) else value
@@ -379,7 +379,7 @@ class AlasGUI(Frame):
     def _alas_thread_wait_config_change(self) -> None:
         paths = []
         for path, d in deep_iter(self.ALAS_ARGS, depth=3):
-            if d["type"] == "disable":
+            if d["type"] in ["disable", "hide"]:
                 continue
             paths.append(self.path_to_idx[".".join(path)])
         while self.alive:

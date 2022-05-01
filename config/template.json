@@ -809,8 +809,8 @@
       "Enable": true,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "Commission",
-      "SuccessInterval": 30,
-      "FailureInterval": 30,
+      "SuccessInterval": "30-60",
+      "FailureInterval": "30-60",
       "ServerUpdate": "00:00"
     },
     "Commission": {
@@ -823,8 +823,8 @@
       "Enable": true,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "Tactical",
-      "SuccessInterval": 30,
-      "FailureInterval": 30,
+      "SuccessInterval": "30-60",
+      "FailureInterval": "120-240",
       "ServerUpdate": "00:00"
     },
     "Tactical": {
@@ -843,8 +843,8 @@
       "Enable": true,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "Research",
-      "SuccessInterval": 30,
-      "FailureInterval": 30,
+      "SuccessInterval": "30-60",
+      "FailureInterval": "30-60",
       "ServerUpdate": "00:00"
     },
     "Research": {
@@ -919,8 +919,8 @@
       "Enable": true,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "Reward",
-      "SuccessInterval": "60-120",
-      "FailureInterval": "60-120",
+      "SuccessInterval": "240-360",
+      "FailureInterval": "240-360",
       "ServerUpdate": "00:00"
     },
     "Reward": {

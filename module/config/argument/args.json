@@ -199,19 +199,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "Restart"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 0
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 0
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     }
@@ -228,7 +228,7 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "Main"
       },
       "SuccessInterval": {
@@ -250,7 +250,7 @@
         "value": "12-4"
       },
       "Event": {
-        "type": "disable",
+        "type": "hide",
         "value": "campaign_main",
         "option": [
           "campaign_main"
@@ -584,7 +584,7 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "Main2"
       },
       "SuccessInterval": {
@@ -606,7 +606,7 @@
         "value": "12-4"
       },
       "Event": {
-        "type": "disable",
+        "type": "hide",
         "value": "campaign_main",
         "option": [
           "campaign_main"
@@ -940,7 +940,7 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "Main3"
       },
       "SuccessInterval": {
@@ -962,7 +962,7 @@
         "value": "12-4"
       },
       "Event": {
-        "type": "disable",
+        "type": "hide",
         "value": "campaign_main",
         "option": [
           "campaign_main"
@@ -1296,7 +1296,7 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "GemsFarming"
       },
       "SuccessInterval": {
@@ -1410,7 +1410,7 @@
         "tw": "event_20220407_tw"
       },
       "Mode": {
-        "type": "disable",
+        "type": "hide",
         "value": "normal",
         "option": [
           "normal",
@@ -1434,7 +1434,7 @@
         "value": false
       },
       "AmbushEvade": {
-        "type": "disable",
+        "type": "hide",
         "value": true
       }
     },
@@ -1448,7 +1448,7 @@
         "value": 1000
       },
       "MapAchievement": {
-        "type": "disable",
+        "type": "hide",
         "value": "non_stop",
         "option": [
           "non_stop",
@@ -1459,11 +1459,11 @@
         ]
       },
       "StageIncrease": {
-        "type": "disable",
+        "type": "hide",
         "value": false
       },
       "GetNewShip": {
-        "type": "disable",
+        "type": "hide",
         "value": false
       },
       "ReachLevel": {
@@ -1677,7 +1677,7 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "Event"
       },
       "SuccessInterval": {
@@ -1757,7 +1757,7 @@
         "tw": "event_20220407_tw"
       },
       "Mode": {
-        "type": "disable",
+        "type": "hide",
         "value": "normal",
         "option": [
           "normal",
@@ -1781,7 +1781,7 @@
         "value": false
       },
       "AmbushEvade": {
-        "type": "disable",
+        "type": "hide",
         "value": true
       }
     },
@@ -2084,7 +2084,7 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "Event2"
       },
       "SuccessInterval": {
@@ -2164,7 +2164,7 @@
         "tw": "event_20220407_tw"
       },
       "Mode": {
-        "type": "disable",
+        "type": "hide",
         "value": "normal",
         "option": [
           "normal",
@@ -2188,7 +2188,7 @@
         "value": false
       },
       "AmbushEvade": {
-        "type": "disable",
+        "type": "hide",
         "value": true
       }
     },
@@ -2491,19 +2491,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "EventAb"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -2519,7 +2519,7 @@
     },
     "Campaign": {
       "Name": {
-        "type": "disable",
+        "type": "hide",
         "value": "dynamic"
       },
       "Event": {
@@ -2581,7 +2581,7 @@
         "tw": "event_20220407_tw"
       },
       "Mode": {
-        "type": "disable",
+        "type": "hide",
         "value": "normal",
         "option": [
           "normal",
@@ -2601,17 +2601,17 @@
         "value": true
       },
       "Use2xBook": {
-        "type": "disable",
+        "type": "hide",
         "value": false
       },
       "AmbushEvade": {
-        "type": "disable",
+        "type": "hide",
         "value": true
       }
     },
     "StopCondition": {
       "RunCount": {
-        "type": "disable",
+        "type": "hide",
         "value": 0
       },
       "OilLimit": {
@@ -2619,7 +2619,7 @@
         "value": 1000
       },
       "MapAchievement": {
-        "type": "disable",
+        "type": "hide",
         "value": "non_stop",
         "option": [
           "non_stop",
@@ -2630,15 +2630,15 @@
         ]
       },
       "StageIncrease": {
-        "type": "disable",
+        "type": "hide",
         "value": false
       },
       "GetNewShip": {
-        "type": "disable",
+        "type": "hide",
         "value": false
       },
       "ReachLevel": {
-        "type": "disable",
+        "type": "hide",
         "value": 0
       }
     },
@@ -2897,19 +2897,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "EventCd"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -2925,7 +2925,7 @@
     },
     "Campaign": {
       "Name": {
-        "type": "disable",
+        "type": "hide",
         "value": "dynamic"
       },
       "Event": {
@@ -2987,7 +2987,7 @@
         "tw": "event_20220407_tw"
       },
       "Mode": {
-        "type": "disable",
+        "type": "hide",
         "value": "normal",
         "option": [
           "normal",
@@ -3007,17 +3007,17 @@
         "value": true
       },
       "Use2xBook": {
-        "type": "disable",
+        "type": "hide",
         "value": false
       },
       "AmbushEvade": {
-        "type": "disable",
+        "type": "hide",
         "value": true
       }
     },
     "StopCondition": {
       "RunCount": {
-        "type": "disable",
+        "type": "hide",
         "value": 0
       },
       "OilLimit": {
@@ -3025,7 +3025,7 @@
         "value": 1000
       },
       "MapAchievement": {
-        "type": "disable",
+        "type": "hide",
         "value": "non_stop",
         "option": [
           "non_stop",
@@ -3036,15 +3036,15 @@
         ]
       },
       "StageIncrease": {
-        "type": "disable",
+        "type": "hide",
         "value": false
       },
       "GetNewShip": {
-        "type": "disable",
+        "type": "hide",
         "value": false
       },
       "ReachLevel": {
-        "type": "disable",
+        "type": "hide",
         "value": 0
       }
     },
@@ -3303,25 +3303,25 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "EventSp"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     },
     "Campaign": {
       "Name": {
-        "type": "disable",
+        "type": "hide",
         "value": "sp"
       },
       "Event": {
@@ -3383,7 +3383,7 @@
         "tw": "event_20220407_tw"
       },
       "Mode": {
-        "type": "disable",
+        "type": "hide",
         "value": "normal",
         "option": [
           "normal",
@@ -3403,17 +3403,17 @@
         "value": true
       },
       "Use2xBook": {
-        "type": "disable",
+        "type": "hide",
         "value": false
       },
       "AmbushEvade": {
-        "type": "disable",
+        "type": "hide",
         "value": true
       }
     },
     "StopCondition": {
       "RunCount": {
-        "type": "disable",
+        "type": "hide",
         "value": 0
       },
       "OilLimit": {
@@ -3421,7 +3421,7 @@
         "value": 1000
       },
       "MapAchievement": {
-        "type": "disable",
+        "type": "hide",
         "value": "non_stop",
         "option": [
           "non_stop",
@@ -3432,15 +3432,15 @@
         ]
       },
       "StageIncrease": {
-        "type": "disable",
+        "type": "hide",
         "value": false
       },
       "GetNewShip": {
-        "type": "disable",
+        "type": "hide",
         "value": false
       },
       "ReachLevel": {
-        "type": "disable",
+        "type": "hide",
         "value": 0
       }
     },
@@ -3560,7 +3560,7 @@
         ]
       },
       "AutoSearchMode": {
-        "type": "disable",
+        "type": "hide",
         "value": "sub_standby",
         "option": [
           "sub_standby",
@@ -3699,7 +3699,7 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "Raid"
       },
       "SuccessInterval": {
@@ -3732,7 +3732,7 @@
     },
     "Campaign": {
       "Name": {
-        "type": "disable",
+        "type": "hide",
         "value": "dynamic"
       },
       "Event": {
@@ -3749,7 +3749,7 @@
         "tw": "raid_20210708"
       },
       "Mode": {
-        "type": "disable",
+        "type": "hide",
         "value": "normal",
         "option": [
           "normal",
@@ -3757,23 +3757,23 @@
         ]
       },
       "UseClearMode": {
-        "type": "disable",
+        "type": "hide",
         "value": true
       },
       "UseFleetLock": {
-        "type": "disable",
+        "type": "hide",
         "value": true
       },
       "UseAutoSearch": {
-        "type": "disable",
+        "type": "hide",
         "value": false
       },
       "Use2xBook": {
-        "type": "disable",
+        "type": "hide",
         "value": false
       },
       "AmbushEvade": {
-        "type": "disable",
+        "type": "hide",
         "value": true
       }
     },
@@ -3787,7 +3787,7 @@
         "value": 1000
       },
       "MapAchievement": {
-        "type": "disable",
+        "type": "hide",
         "value": "non_stop",
         "option": [
           "non_stop",
@@ -3798,15 +3798,15 @@
         ]
       },
       "StageIncrease": {
-        "type": "disable",
+        "type": "hide",
         "value": false
       },
       "GetNewShip": {
-        "type": "disable",
+        "type": "hide",
         "value": false
       },
       "ReachLevel": {
-        "type": "disable",
+        "type": "hide",
         "value": 0
       }
     },
@@ -3897,19 +3897,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "RaidDaily"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -3921,7 +3921,7 @@
     },
     "Campaign": {
       "Name": {
-        "type": "disable",
+        "type": "hide",
         "value": "dynamic"
       },
       "Event": {
@@ -3938,7 +3938,7 @@
         "tw": "raid_20210708"
       },
       "Mode": {
-        "type": "disable",
+        "type": "hide",
         "value": "normal",
         "option": [
           "normal",
@@ -3946,29 +3946,29 @@
         ]
       },
       "UseClearMode": {
-        "type": "disable",
+        "type": "hide",
         "value": true
       },
       "UseFleetLock": {
-        "type": "disable",
+        "type": "hide",
         "value": true
       },
       "UseAutoSearch": {
-        "type": "disable",
+        "type": "hide",
         "value": false
       },
       "Use2xBook": {
-        "type": "disable",
+        "type": "hide",
         "value": false
       },
       "AmbushEvade": {
-        "type": "disable",
+        "type": "hide",
         "value": true
       }
     },
     "StopCondition": {
       "RunCount": {
-        "type": "disable",
+        "type": "hide",
         "value": 0
       },
       "OilLimit": {
@@ -3976,7 +3976,7 @@
         "value": 1000
       },
       "MapAchievement": {
-        "type": "disable",
+        "type": "hide",
         "value": "non_stop",
         "option": [
           "non_stop",
@@ -3987,15 +3987,15 @@
         ]
       },
       "StageIncrease": {
-        "type": "disable",
+        "type": "hide",
         "value": false
       },
       "GetNewShip": {
-        "type": "disable",
+        "type": "hide",
         "value": false
       },
       "ReachLevel": {
-        "type": "disable",
+        "type": "hide",
         "value": 0
       }
     },
@@ -4086,19 +4086,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "MaritimeEscort"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -4112,7 +4112,7 @@
   "Commission": {
     "Scheduler": {
       "Enable": {
-        "type": "checkbox",
+        "type": "disable",
         "value": true
       },
       "NextRun": {
@@ -4121,19 +4121,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "Commission"
       },
       "SuccessInterval": {
-        "type": "disable",
-        "value": 30
+        "type": "hide",
+        "value": "30-60"
       },
       "FailureInterval": {
-        "type": "disable",
-        "value": 30
+        "type": "hide",
+        "value": "30-60"
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -4160,19 +4160,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "Tactical"
       },
       "SuccessInterval": {
-        "type": "disable",
-        "value": 30
+        "type": "hide",
+        "value": "30-60"
       },
       "FailureInterval": {
-        "type": "disable",
-        "value": 30
+        "type": "hide",
+        "value": "120-240"
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -4208,7 +4208,7 @@
   "Research": {
     "Scheduler": {
       "Enable": {
-        "type": "checkbox",
+        "type": "disable",
         "value": true
       },
       "NextRun": {
@@ -4217,19 +4217,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "Research"
       },
       "SuccessInterval": {
-        "type": "disable",
-        "value": 30
+        "type": "hide",
+        "value": "30-60"
       },
       "FailureInterval": {
-        "type": "disable",
-        "value": 30
+        "type": "hide",
+        "value": "30-60"
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -4291,19 +4291,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "Dorm"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 278
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 278
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -4334,19 +4334,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "Meowfficer"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -4399,19 +4399,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "Guild"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00, 06:00, 12:00, 18:00, 21:00"
       }
     },
@@ -4459,7 +4459,7 @@
   "Reward": {
     "Scheduler": {
       "Enable": {
-        "type": "checkbox",
+        "type": "disable",
         "value": true
       },
       "NextRun": {
@@ -4468,19 +4468,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "Reward"
       },
       "SuccessInterval": {
-        "type": "disable",
-        "value": "60-120"
+        "type": "hide",
+        "value": "240-360"
       },
       "FailureInterval": {
-        "type": "disable",
-        "value": "60-120"
+        "type": "hide",
+        "value": "240-360"
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -4519,19 +4519,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "ShopFrequent"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00, 12:00, 18:00"
       }
     },
@@ -4566,19 +4566,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "ShopOnce"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -4750,19 +4750,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "Shipyard"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "04:00"
       }
     },
@@ -4793,19 +4793,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "Gacha"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -4855,19 +4855,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "DataKey"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     }
@@ -4884,19 +4884,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "SupplyPack"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -4919,19 +4919,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "BattlePass"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -4954,19 +4954,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "MetaReward"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -4989,19 +4989,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "Daily"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -5122,19 +5122,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "Hard"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -5165,19 +5165,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "Exercise"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00, 12:00, 18:00"
       }
     },
@@ -5231,19 +5231,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "Sos"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -5265,18 +5265,18 @@
     },
     "Campaign": {
       "Name": {
-        "type": "disable",
+        "type": "hide",
         "value": "dynamic"
       },
       "Event": {
-        "type": "disable",
+        "type": "hide",
         "value": "campaign_main",
         "option": [
           "campaign_main"
         ]
       },
       "Mode": {
-        "type": "disable",
+        "type": "hide",
         "value": "normal",
         "option": [
           "normal",
@@ -5284,29 +5284,29 @@
         ]
       },
       "UseClearMode": {
-        "type": "disable",
+        "type": "hide",
         "value": true
       },
       "UseFleetLock": {
-        "type": "disable",
+        "type": "hide",
         "value": true
       },
       "UseAutoSearch": {
-        "type": "disable",
+        "type": "hide",
         "value": false
       },
       "Use2xBook": {
-        "type": "disable",
+        "type": "hide",
         "value": false
       },
       "AmbushEvade": {
-        "type": "disable",
+        "type": "hide",
         "value": true
       }
     },
     "StopCondition": {
       "RunCount": {
-        "type": "disable",
+        "type": "hide",
         "value": 0
       },
       "OilLimit": {
@@ -5314,7 +5314,7 @@
         "value": 1000
       },
       "MapAchievement": {
-        "type": "disable",
+        "type": "hide",
         "value": "non_stop",
         "option": [
           "non_stop",
@@ -5325,15 +5325,15 @@
         ]
       },
       "StageIncrease": {
-        "type": "disable",
+        "type": "hide",
         "value": false
       },
       "GetNewShip": {
-        "type": "disable",
+        "type": "hide",
         "value": false
       },
       "ReachLevel": {
-        "type": "disable",
+        "type": "hide",
         "value": 0
       }
     },
@@ -5453,7 +5453,7 @@
         ]
       },
       "AutoSearchMode": {
-        "type": "disable",
+        "type": "hide",
         "value": "sub_standby",
         "option": [
           "sub_standby",
@@ -5592,19 +5592,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "WarArchives"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -5637,7 +5637,7 @@
         "tw": "war_archives_20181227_cn"
       },
       "Mode": {
-        "type": "disable",
+        "type": "hide",
         "value": "normal",
         "option": [
           "normal",
@@ -5661,7 +5661,7 @@
         "value": false
       },
       "AmbushEvade": {
-        "type": "disable",
+        "type": "hide",
         "value": true
       }
     },
@@ -5995,19 +5995,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "OpsiAshAssist"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -6030,19 +6030,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "OpsiExplore"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 0
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 0
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -6089,19 +6089,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "OpsiShop"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -6124,19 +6124,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "OpsiDaily"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -6179,19 +6179,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "OpsiObscure"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 60
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 60
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -6230,19 +6230,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "OpsiAbyssal"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 60
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 60
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -6271,19 +6271,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "OpsiStronghold"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 60
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 60
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -6312,19 +6312,19 @@
         "validate": "datetime"
       },
       "Command": {
-        "type": "disable",
+        "type": "hide",
         "value": "OpsiMeowfficerFarming"
       },
       "SuccessInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "FailureInterval": {
-        "type": "disable",
+        "type": "hide",
         "value": 30
       },
       "ServerUpdate": {
-        "type": "disable",
+        "type": "hide",
         "value": "00:00"
       }
     },

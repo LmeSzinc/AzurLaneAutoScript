@@ -135,6 +135,11 @@ label {
     height: auto !important;
 }
 
+.form-control[readonly] {
+    pointer-events: none;
+    border-bottom-color: transparent;
+}
+
 .form-control:focus {
     border-color: unset;
 }

@@ -152,6 +152,7 @@ class ConfigGenerator:
             # Check type
             # But allow `Interval` to be different
             old_value = old.get('value', None) if isinstance(old, dict) else old
+            value = old.get('value', None) if isinstance(value, dict) else value
             if type(value) != type(old_value) and path[2] not in ['SuccessInterval', 'FailureInterval']:
                 logger.warning(
                     f'`{value}` ({type(value)}) and `{".".join(path)}` ({type(old_value)}) are in different types')
@@ -172,13 +173,18 @@ class ConfigGenerator:
         for p, v in deep_iter(self.override, depth=3):
             if not check_override(p, v):
                 continue
-            deep_set(data, keys=p + ['value'], value=v)
-            deep_set(data, keys=p + ['type'], value='disable')
+            if isinstance(v, dict):
+                deep_default(v, keys='type', value='hide')
+                for arg_k, arg_v in v.items():
+                    deep_set(data, keys=p + [arg_k], value=arg_v)
+            else:
+                deep_set(data, keys=p + ['value'], value=v)
+                deep_set(data, keys=p + ['type'], value='hide')
         # Set command
         for task in self.task.keys():
             if deep_get(data, keys=f'{task}.Scheduler.Command'):
                 deep_set(data, keys=f'{task}.Scheduler.Command.value', value=task)
-                deep_set(data, keys=f'{task}.Scheduler.Command.type', value='disable')
+                deep_set(data, keys=f'{task}.Scheduler.Command.type', value='hide')
 
         return data
 
@@ -446,7 +452,7 @@ class ConfigUpdater:
         def deep_load(keys):
             data = deep_get(self.args, keys=keys, default={})
             value = deep_get(old, keys=keys, default=data['value'])
-            if value is None or value == '' or data['type'] == 'disable' or is_template:
+            if value is None or value == '' or data['type'] in ['disable', 'hide'] or is_template:
                 value = data['value']
             value = parse_value(value, data=data)
             deep_set(new, keys=keys, value=value)
