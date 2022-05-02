@@ -383,7 +383,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
         if recon_scan:
             tasks = SelectedGrids(['OpsiExplore', 'OpsiObscure', 'OpsiStronghold'])
             tasks = tasks.delete(tasks.filter(is_force_run)).delete(tasks.filter(is_special_radar))
-            delay_tasks(tasks, minutes=30)
+            delay_tasks(tasks, minutes=27)
         if submarine_call:
             tasks = SelectedGrids(['OpsiExplore', 'OpsiDaily', 'OpsiObscure', 'OpsiAbyssal', 'OpsiStronghold',
                                    'OpsiMeowfficerFarming'])
