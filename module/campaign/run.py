@@ -162,11 +162,10 @@ class CampaignRun(UI):
         Pages:
             in: page_campaign
         """
-        if deep_get(self.config.data, keys='Commission.Scheduler.Enable', default=False):
-            if self.campaign.commission_notice_show_at_campaign():
-                logger.info('Commission notice found')
-                self.config.task_call('Commission')
-                self.config.task_stop('Commission notice found')
+        if self.campaign.commission_notice_show_at_campaign():
+            logger.info('Commission notice found')
+            self.config.task_call('Commission', force_call=True)
+            self.config.task_stop('Commission notice found')
 
     def run(self, name, folder='campaign_main', mode='normal', total=0):
         """
