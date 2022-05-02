@@ -48,7 +48,7 @@ class OSCampaignRun(OSMapOperation):
             self.campaign.os_meowfficer_farming()
         except ActionPointLimit:
             if get_os_reset_remain() > 0:
-                self.campaign.config.task_delay(server_update=True)
+                self.config.task_delay(server_update=True)
                 self.config.task_call('MetaReward', force_call=False)
             else:
                 logger.info('Just less than 1 day to OpSi reset, delay 2.5 hours')
