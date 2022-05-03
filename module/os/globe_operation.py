@@ -130,7 +130,10 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
         Returns:
             list[Button]:
         """
-        return [select for select in ZONE_SELECT if self.appear(select, offset=self._zone_select_offset)]
+        # Lower threshold to 0.75
+        # Don't know why buy but fonts are different sometimes
+        return [select for select in ZONE_SELECT if
+                self.appear(select, offset=self._zone_select_offset, threshold=0.75)]
 
     def is_in_zone_select(self):
         """
