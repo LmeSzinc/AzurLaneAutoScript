@@ -260,10 +260,10 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
                     self.modified[f'{task}.Scheduler.Enable'] = True
 
         force_enable(['Commission', 'Research', 'Reward'])
-        limit_next_run(['Commission', 'Reward'], limit=now + timedelta(hours=12, minutes=-1))
-        limit_next_run(['Research'], limit=now + timedelta(hours=24, minutes=-1))
-        limit_next_run(['OpsiExplore'], limit=now + timedelta(days=31, minutes=-1))
-        limit_next_run(self.args.keys(), limit=now + timedelta(hours=24, minutes=-1))
+        limit_next_run(['Commission', 'Reward'], limit=now + timedelta(hours=12, seconds=-1))
+        limit_next_run(['Research'], limit=now + timedelta(hours=24, seconds=-1))
+        limit_next_run(['OpsiExplore'], limit=now + timedelta(days=31, seconds=-1))
+        limit_next_run(self.args.keys(), limit=now + timedelta(hours=24, seconds=-1))
 
     def override(self, **kwargs):
         """
@@ -383,7 +383,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
         if recon_scan:
             tasks = SelectedGrids(['OpsiExplore', 'OpsiObscure', 'OpsiStronghold'])
             tasks = tasks.delete(tasks.filter(is_force_run)).delete(tasks.filter(is_special_radar))
-            delay_tasks(tasks, minutes=30)
+            delay_tasks(tasks, minutes=27)
         if submarine_call:
             tasks = SelectedGrids(['OpsiExplore', 'OpsiDaily', 'OpsiObscure', 'OpsiAbyssal', 'OpsiStronghold',
                                    'OpsiMeowfficerFarming'])
@@ -400,7 +400,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
 
         self.update()
 
-    def task_call(self, task):
+    def task_call(self, task, force_call=True):
         """
         Call another task to run.
 
@@ -411,16 +411,23 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
 
         Args:
             task (str): Task name to call, such as `Restart`
+            force_call (bool):
+
+        Returns:
+            bool: If called.
         """
-        path = f'{task}.Scheduler.NextRun'
-        if deep_get(self.data, keys=path, default=None) is None:
+        if deep_get(self.data, keys=f'{task}.Scheduler.NextRun', default=None) is None:
             raise ScriptError(f'Task to call: `{task}` does not exist in user config')
-        else:
-            self.modified[path] = datetime(2021, 1, 1, 0, 0, 0)
-            if task == 'Restart':
-                # Restart is forced to enable
-                self.modified[f'{task}.Scheduler.Enable'] = True
+
+        if force_call or deep_get(self.data, keys=f'{task}.Scheduler.Enable', default=False):
+            logger.info(f'Task call: {task}')
+            self.modified[f'{task}.Scheduler.NextRun'] = datetime.now().replace(microsecond=0)
+            self.modified[f'{task}.Scheduler.Enable'] = True
             self.update()
+            return True
+        else:
+            logger.info(f'Task call: {task} (skipped because disabled by user)')
+            return False
 
     @staticmethod
     def task_stop(message=''):
