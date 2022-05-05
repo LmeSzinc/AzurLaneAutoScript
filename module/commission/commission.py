@@ -379,6 +379,8 @@ class RewardCommission(UI, InfoHandler):
 
             if failed:
                 logger.warning(f'Failed to select commission: {comm}')
+                self._commission_mode_reset()
+                self._commission_swipe_to_top()
                 self.device.click_record_clear()
                 continue
             else:
