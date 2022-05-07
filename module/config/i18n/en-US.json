@@ -441,7 +441,7 @@
     },
     "EnhanceCheckPerCategory": {
       "name": "Number Checked Per Category for Enhance",
-      "help": "Restrict number of ships to be checked per category before moving on to the next one if any. Ships that are in battle do not count towards this number and are skipped to the next available ship for enhancement"
+      "help": "Restrict number of ships to be checked per category before moving on to the next one if any. Unenhanceable (in battle or stat full) ships will count towards this.\nRecommend 3+ if have enhanceable ship in active fleet else <= 2 is generally sufficient"
     },
     "OldRetireN": {
       "name": "Retire Common",
@@ -580,8 +580,8 @@
     },
     "MapAchievement": {
       "name": "Level Achievement",
-      "help": "Stop current task if level has been 100% Clear, 3 Stars, Threat Safe, or Threat Safe without 3 Stars. Non-stop implies no achievement required, thus task will not be stopped for this case",
-      "non_stop": "non_stop",
+      "help": "Stop current task if level has been 100% Clear, 3 Stars, Threat Safe, or Threat Safe without 3 Stars. Non-stop implies no achievement requirement and loops until different stop condition is met",
+      "non_stop": "Non-stop",
       "100_percent_clear": "100% Clear",
       "map_3_stars": "100% Clear + 3 Stars",
       "threat_safe": "100% Clear + 3 Stars + Threat Safe",
