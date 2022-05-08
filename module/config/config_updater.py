@@ -212,7 +212,7 @@ class ConfigGenerator:
             lines.append(f'    {path_to_arg(path)} = {repr(parse_value(data["value"], data=data))}{option}')
             visited_path.add(path)
 
-        with open(filepath_code(), 'w', encoding='utf-8') as f:
+        with open(filepath_code(), 'w', encoding='utf-8', newline='') as f:
             for text in lines:
                 f.write(text + '\n')
 

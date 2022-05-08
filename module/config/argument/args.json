@@ -232,15 +232,15 @@
         "value": "Main"
       },
       "SuccessInterval": {
-        "type": "input",
+        "type": "hide",
         "value": 0
       },
       "FailureInterval": {
-        "type": "input",
+        "type": "hide",
         "value": 120
       },
       "ServerUpdate": {
-        "type": "input",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -588,15 +588,15 @@
         "value": "Main2"
       },
       "SuccessInterval": {
-        "type": "input",
+        "type": "hide",
         "value": 0
       },
       "FailureInterval": {
-        "type": "input",
+        "type": "hide",
         "value": 120
       },
       "ServerUpdate": {
-        "type": "input",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -944,15 +944,15 @@
         "value": "Main3"
       },
       "SuccessInterval": {
-        "type": "input",
+        "type": "hide",
         "value": 0
       },
       "FailureInterval": {
-        "type": "input",
+        "type": "hide",
         "value": 120
       },
       "ServerUpdate": {
-        "type": "input",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -1300,15 +1300,15 @@
         "value": "GemsFarming"
       },
       "SuccessInterval": {
-        "type": "input",
+        "type": "hide",
         "value": 0
       },
       "FailureInterval": {
-        "type": "input",
+        "type": "hide",
         "value": 120
       },
       "ServerUpdate": {
-        "type": "input",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -1681,15 +1681,15 @@
         "value": "Event"
       },
       "SuccessInterval": {
-        "type": "input",
+        "type": "hide",
         "value": 0
       },
       "FailureInterval": {
-        "type": "input",
+        "type": "hide",
         "value": 120
       },
       "ServerUpdate": {
-        "type": "input",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -2088,15 +2088,15 @@
         "value": "Event2"
       },
       "SuccessInterval": {
-        "type": "input",
+        "type": "hide",
         "value": 0
       },
       "FailureInterval": {
-        "type": "input",
+        "type": "hide",
         "value": 120
       },
       "ServerUpdate": {
-        "type": "input",
+        "type": "hide",
         "value": "00:00"
       }
     },
@@ -3703,15 +3703,15 @@
         "value": "Raid"
       },
       "SuccessInterval": {
-        "type": "input",
+        "type": "hide",
         "value": 0
       },
       "FailureInterval": {
-        "type": "input",
+        "type": "hide",
         "value": 120
       },
       "ServerUpdate": {
-        "type": "input",
+        "type": "hide",
         "value": "00:00"
       }
     },
