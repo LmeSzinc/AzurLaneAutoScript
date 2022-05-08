@@ -639,8 +639,9 @@ class ResearchSelector(UI):
         if project.genre.upper() == 'B':
             return False
         # T series require commission
-        if project.genre.upper() == 'T':
-            return False
+        # 2022.05.08 Allow T series researches because commission is now force to enable
+        # if project.genre.upper() == 'T':
+        #     return False
         # 2021.08.19 Allow E-2 to disassemble tech boxes, but JP still remains the same.
         if self.config.SERVER == 'jp':
             if project.genre.upper() == 'E' and str(project.duration) != '6':
