@@ -38,6 +38,32 @@ class ShipyardUI(UI):
         else:
             return 'DEV'
 
+    def _shipyard_get_total(self):
+        """
+        Retrieve read total value
+        in current game screen; dynamic
+        UI varies between PR season
+
+        Returns:
+            Button, Button, int (ocr read value)
+        """
+        # Game UI is messy here. Situation varies with DEV/FATE and MAX button.
+        # Having a MAX button is like:
+        # | - |   0   | + | | MAX |
+        # Not having a MAX button is like:
+        # | - |       0       | + |
+        # Here make a dynamic detection, and produce new ocr area.
+        append = self._shipyard_get_append()
+        ocr = globals()[f'OCR_SHIPYARD_TOTAL_{append}']
+        minus = globals()[f'SHIPYARD_MINUS_{append}']
+        plus = globals()[f'SHIPYARD_PLUS_{append}']
+        self.wait_until_appear(minus, offset=(20, 20), skip_first_screenshot=True)
+        self.wait_until_appear(plus, offset=(150, 20), skip_first_screenshot=True)
+        area = ocr.buttons[0]
+        ocr.buttons = [(minus.button[2] + 3, area[1], plus.button[0] - 3, area[3])]
+
+        return plus, minus, ocr.ocr(self.device.image)
+
     def _shipyard_ensure_index(self, count, skip_first_screenshot=True):
         """
         Primitive 'ui_ensure_index'-like implementation
@@ -56,7 +82,6 @@ class ShipyardUI(UI):
                            '\'count\' cannot continue')
             return None
 
-        append = self._shipyard_get_append()
         current = diff = 0
         for _ in range(3):
             if skip_first_screenshot:
@@ -64,21 +89,7 @@ class ShipyardUI(UI):
             else:
                 self.device.screenshot()
 
-            # Game UI is messy here. Situation varies with DEV/FATE and MAX button.
-            # Having a MAX button is like:
-            # | - |   0   | + | | MAX |
-            # Not having a MAX button is like:
-            # | - |       0       | + |
-            # Here make a dynamic detection, and produce new ocr area.
-            ocr = globals()[f'OCR_SHIPYARD_TOTAL_{append}']
-            minus = globals()[f'SHIPYARD_MINUS_{append}']
-            plus = globals()[f'SHIPYARD_PLUS_{append}']
-            self.wait_until_appear(minus, offset=(20, 20), skip_first_screenshot=True)
-            self.wait_until_appear(plus, offset=(150, 20), skip_first_screenshot=True)
-            area = ocr.buttons[0]
-            ocr.buttons = [(minus.button[2] + 3, area[1], plus.button[0] - 3, area[3])]
-
-            current = ocr.ocr(self.device.image)
+            plus, minus, current = self._shipyard_get_total()
             if current == count:
                 logger.info(f'Capable of consuming all {count} BPs')
                 return 0
@@ -86,6 +97,7 @@ class ShipyardUI(UI):
             diff = count - current
             button = plus if diff > 0 else minus
             self.device.multi_click(button, n=diff, interval=(0.3, 0.5))
+            self.device.sleep((0.3, 0.5))
 
         logger.info(f'Current interface does not allow consumption of {count} BPs\n')
         logger.info(f'Capable of consuming at most {current} of the {count} BPs')
@@ -238,7 +250,6 @@ class ShipyardUI(UI):
         success = False
         append = self._shipyard_get_append()
         button = globals()[f'SHIPYARD_CONFIRM_{append}']
-        ocr = globals()[f'OCR_SHIPYARD_TOTAL_{append}']
         ocr_timer = Timer(10, count=10).start()
         confirm_timer = Timer(1, count=2).start()
         self.interval_clear(button)
@@ -251,7 +262,7 @@ class ShipyardUI(UI):
 
             if ocr_timer.reached():
                 logger.warning('Failed to detect for normal exit routine, resort to OCR check')
-                current = ocr.ocr(self.device.image)
+                _, _, current = self._shipyard_get_total()
                 if not current:
                     logger.info('Confirm action has completed, setting flag for exit')
                     self.interval_reset(button)
