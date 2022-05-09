@@ -1,6 +1,7 @@
 import re
 from datetime import datetime, timedelta
 
+import module.config.server as server
 from module.base.decorator import Config
 from module.base.filter import Filter
 from module.base.utils import *
@@ -36,8 +37,13 @@ class SuffixOcr(Ocr):
         image = super().pre_process(image)
 
         left = np.where(np.min(image[5:-5, :], axis=0) < 85)[0]
+        # Look back several pixels
+        if server.server in ['jp']:
+            look_back = 21
+        else:
+            look_back = 18
         if len(left):
-            image = image[:, left[-1] - 15:]
+            image = image[:, left[-1] - look_back:]
 
         return image
 
