@@ -1,4 +1,4 @@
-from campaign.campaign_main.campaign_3_1 import Config
+from campaign.campaign_main.campaign_3_1 import Config as ConfigBase
 from module.campaign.campaign_base import CampaignBase
 from module.logger import logger
 from module.map.map_base import CampaignMap
@@ -34,6 +34,10 @@ A3, B3, C3, D3, E3, F3, \
 A4, B4, C4, D4, E4, F4, \
 A5, B5, C5, D5, E5, F5, \
     = MAP.flatten()
+
+
+class Config(ConfigBase):
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 210
 
 
 class Campaign(CampaignBase):

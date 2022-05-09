@@ -57,6 +57,7 @@ class Config:
     HOMO_EDGE_COLOR_RANGE = (0, 49)
     MAP_SWIPE_MULTIPLY = 1.519
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.469
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 210
 
 
 class Campaign(CampaignBase):

@@ -47,7 +47,7 @@ step_on = SelectedGrids([D3, E3])
 
 
 class Config(ConfigBase):
-    pass
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 210
 
 
 class Campaign(CampaignBase):
