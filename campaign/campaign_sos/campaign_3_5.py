@@ -62,6 +62,7 @@ class Config:
         'wlen': 1000
     }
     HOMO_EDGE_COLOR_RANGE = (0, 49)
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 210
 
 
 class Campaign(CampaignBase):
