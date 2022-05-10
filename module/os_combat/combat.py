@@ -54,8 +54,8 @@ class Combat(Combat_, MapEventHandler):
             if self.appear(BATTLE_PREPARATION):
                 if self.handle_combat_automation_set(auto=auto == 'combat_auto'):
                     continue
-            # if self.handle_retirement():
-            #     continue
+            if self.handle_retirement():
+                continue
             # if self.handle_combat_low_emotion():
             #     continue
             # if balance_hp and self.handle_emergency_repair_use():
