@@ -267,6 +267,11 @@ class Retirement(Enhancement):
                 if not total:
                     logger.info('No ship to enhance, but dock full, will try retire')
                     self._unable_to_enhance = True
+                if self._material_count < 3:
+                    logger.info('Too little material for enhancement, retire next time')
+                    self._unable_to_enhance = True
+                self._material_count = 0
+                self._count_material_once = False
                 self.interval_reset(DOCK_CHECK)
                 return True
         else:

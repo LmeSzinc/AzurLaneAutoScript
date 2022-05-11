@@ -3,7 +3,6 @@ from random import choice
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1
 from module.exception import ScriptError
-from module.handler.assets import EMPTY_ENHANCE_SLOT
 from module.logger import logger
 from module.retire.assets import *
 from module.retire.dock import CARD_GRIDS, Dock
@@ -12,6 +11,9 @@ VALID_SHIP_TYPES = ['dd', 'ss', 'cl', 'ca', 'bb', 'cv', 'repair', 'others']
 
 
 class Enhancement(Dock):
+    _material_count = 0
+    _count_material_once = False
+
     @property
     def _retire_amount(self):
         if self.config.Retirement_RetireAmount == 'retire_all':
@@ -158,6 +160,13 @@ class Enhancement(Dock):
             return "state_enhance_ready"
 
         def state_enhance_attempt():
+            # Check if available material is greater than 3
+            if not self._count_material_once:
+                self._count_material_once = True
+                if not EMPTY_ENHANCE_SLOT_POS3.match_binary(self.device.image):
+                    self._material_count += 3
+                else:
+                    self._material_count += 1
             # Wait until ENHANCE_CONFIRM appears
             if (self.appear_then_click(ENHANCE_CONFIRM, offset=(5, 5), interval=0.3)
                     or self.appear(EQUIP_CONFIRM, offset=(30, 30))
