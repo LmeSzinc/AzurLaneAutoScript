@@ -64,8 +64,8 @@ class OSGlobe(OSMap):
             self.map_exit()
 
         # Clear current zone
-        if self.zone.is_port:
-            logger.info('In port, skip running first auto search')
+        if self.zone.zone_id == 154:
+            logger.info('In zone 154, skip running first auto search')
             self.handle_ash_beacon_attack()
         else:
             self.run_auto_search()

@@ -67,8 +67,13 @@ class FastForwardHandler(AutoSearchHandler):
         self.map_is_100_percent_clear = self.map_clear_percentage > 0.95
         self.map_is_3_stars = self.map_achieved_star_1 and self.map_achieved_star_2 and self.map_achieved_star_3
         self.map_is_threat_safe = self.appear(MAP_GREEN)
-        self.map_has_clear_mode = self.map_is_100_percent_clear or self.config.Campaign_Name.lower() == 'sp'
-        self.map_has_clear_mode &= fast_forward.appear(main=self)
+        if self.config.Campaign_Name.lower() == 'sp':
+            # Minor issue here
+            # Using auto_search option because clear mode cannot be detected whether on SP
+            # If user manually turn off auto search, alas can't enable it again
+            self.map_has_clear_mode = auto_search.appear(main=self)
+        else:
+            self.map_has_clear_mode = self.map_is_100_percent_clear and fast_forward.appear(main=self)
 
         # Override config
         if self.map_achieved_star_1:
@@ -90,13 +95,6 @@ class FastForwardHandler(AutoSearchHandler):
         logger.attr('Map_info', text)
         logger.attr('StopCondition_MapAchievement', self.config.StopCondition_MapAchievement)
 
-        # Force to disable auto search if StopCondition.MapAchievement is not 'non_stop'
-        if self.config.StopCondition_MapAchievement != 'non_stop' and self.config.Campaign_UseAutoSearch:
-            logger.warning(f'StopCondition.MapAchievement={self.config.StopCondition_MapAchievement} '
-                           f'does not work with auto search. '
-                           f'Auto search will be disabled')
-            self.config.Campaign_UseAutoSearch = False
-
     def handle_fast_forward(self):
         if not self.map_has_clear_mode:
             self.map_is_clear_mode = False
@@ -114,8 +112,13 @@ class FastForwardHandler(AutoSearchHandler):
             self.config.MAP_HAS_MAZE = False
             self.config.MAP_HAS_FORTRESS = False
             self.config.MAP_HAS_BOUNCING_ENEMY = False
+            self.config.MAP_HAS_DECOY_ENEMY = False
             self.map_is_clear_mode = True
-            self.map_is_auto_search = self.config.Campaign_UseAutoSearch
+            if self.config.MAP_CLEAR_ALL_THIS_TIME:
+                logger.info('MAP_CLEAR_ALL_THIS_TIME does not work with auto search, disable auto search temporarily')
+                self.map_is_auto_search = False
+            else:
+                self.map_is_auto_search = self.config.Campaign_UseAutoSearch
             self.map_is_2x_book = self.config.Campaign_Use2xBook
         else:
             # When disable fast forward, MAP_HAS_AMBUSH depends on map settings.

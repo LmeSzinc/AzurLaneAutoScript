@@ -23,7 +23,17 @@ class AdbManager(DeployConfig):
 
         if self.bool('InstallUiautomator2'):
             hr1('Uiautomator2 Init')
-            import adbutils
+            try:
+                import adbutils
+            except ModuleNotFoundError as e:
+                # ModuleNotFoundError: No module named 'apkutils2'
+                print(e)
+                print('Please open console.bat, execute the following commands and re-open Alas.exe')
+                print()
+                print('    pip uninstall -y apkutils2')
+                print('    pip install --no-cache-dir apkutils2')
+                print()
+                exit(1)
             from uiautomator2.init import Initer
             for device in adbutils.adb.iter_device():
                 init = Initer(device, loglevel=logging.DEBUG)
@@ -34,5 +44,6 @@ class AdbManager(DeployConfig):
                     print(f'AssertionError when installing uiautomator2 on device {device.serial}')
                     print('If you are using BlueStacks or LD player or WSA, '
                           'please enable ADB in the settings of your emulator')
+                    exit(1)
                 init._device.shell(["rm", "/data/local/tmp/minicap"])
                 init._device.shell(["rm", "/data/local/tmp/minicap.so"])

@@ -1,6 +1,6 @@
 import builtins
 
-from deploy.installer import GitManager
+from deploy.git import GitManager
 from deploy.utils import *
 from module.handler.login import LoginHandler
 from module.logger import logger

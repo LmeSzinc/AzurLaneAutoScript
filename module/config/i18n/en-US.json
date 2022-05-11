@@ -246,7 +246,7 @@
     },
     "Enable": {
       "name": "Enable Task",
-      "help": "Join this task to scheduler"
+      "help": "Join this task to scheduler.\nTask commission, research, reward are force to enable."
     },
     "NextRun": {
       "name": "Next Run",
@@ -403,6 +403,10 @@
     "UploadOpsi": {
       "name": "Upload OpSi Screenshots",
       "help": ""
+    },
+    "SaveMeowfficer": {
+      "name": "Save Meowfficer Buy Screenshots",
+      "help": ""
     }
   },
   "Retirement": {
@@ -437,7 +441,7 @@
     },
     "EnhanceCheckPerCategory": {
       "name": "Number Checked Per Category for Enhance",
-      "help": "Restrict number of ships to be checked per category before moving on to the next one if any. Ships that are in battle do not count towards this number and are skipped to the next available ship for enhancement"
+      "help": "Restrict number of ships to be checked per category before moving on to the next one if any. Unenhanceable (in battle or stat full) ships will count towards this.\nRecommend 3+ if have enhanceable ship in active fleet else <= 2 is generally sufficient"
     },
     "OldRetireN": {
       "name": "Retire Common",
@@ -469,6 +473,7 @@
       "name": "Event Name",
       "help": "Automatically selects to the latest event",
       "campaign_main": "campaign_main",
+      "event_20220428_cn": "Rondo at Rainbows End",
       "event_20220414_cn": "Aurora Noctis Rerun",
       "event_20220407_tw": "蒼紅的迴響(復刻)",
       "event_20210422_cn": "Daedalian Hymn",
@@ -575,12 +580,12 @@
     },
     "MapAchievement": {
       "name": "Level Achievement",
-      "help": "Stop current task if level has been 100% Clear, 3 Stars, Threat Safe, or Threat Safe without 3 Stars. Non-stop implies no achievement required, thus task will not be stopped for this case",
-      "non_stop": "non_stop",
-      "100_percent_clear": "100_percent_clear",
-      "map_3_stars": "map_3_stars",
-      "threat_safe": "threat_safe",
-      "threat_safe_without_3_stars": "threat_safe_without_3_stars"
+      "help": "Stop current task if level has been 100% Clear, 3 Stars, Threat Safe, or Threat Safe without 3 Stars. Non-stop implies no achievement requirement and loops until different stop condition is met",
+      "non_stop": "Non-stop",
+      "100_percent_clear": "100% Clear",
+      "map_3_stars": "100% Clear + 3 Stars",
+      "threat_safe": "100% Clear + 3 Stars + Threat Safe",
+      "threat_safe_without_3_stars": "100% Clear + Threat Safe"
     },
     "StageIncrease": {
       "name": "Enable Continuous Clear",

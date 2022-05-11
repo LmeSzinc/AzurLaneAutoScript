@@ -155,6 +155,13 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'shaenhuosite': 'Scharnhorst',
     'sipeibojue': 'Spee',
     'U73': 'U73',
+
+    # Rondo at Rainbow's End
+    'z2': 'Z2',
+    'laibixi': 'Leipzig',
+    'ougen': 'PrinzEugen',
+    'sairenqianting_ii': 'SS',
+    'sairenboss11': 'Compiler',
 }
 
 

@@ -84,8 +84,8 @@ def random_rectangle_vector_opted(
     vector = np.array(vector) + random_rectangle_point(random_range)
     vector = np.round(vector).astype(np.int)
     half_vector = np.round(vector / 2).astype(np.int)
-    box = np.array(box) + np.append(np.abs(half_vector) + padding, -np.abs(half_vector) - padding)
-    box = area_offset(box, half_vector)
+    box_pad = np.array(box) + np.append(np.abs(half_vector) + padding, -np.abs(half_vector) - padding)
+    box_pad = area_offset(box_pad, half_vector)
     segment = int(np.linalg.norm(vector) // 70) + 1
 
     def in_blacklist(end):
@@ -100,22 +100,22 @@ def random_rectangle_vector_opted(
 
     if whitelist_area:
         for area in whitelist_area:
-            area = area_limit(area, box)
+            area = area_limit(area, box_pad)
             if all([x > 0 for x in area_size(area)]):
                 end_point = random_rectangle_point(area)
                 for _ in range(10):
                     if in_blacklist(end_point):
                         continue
-                    return tuple(end_point - vector), tuple(end_point)
+                    return point_limit(end_point - vector, box), point_limit(end_point, box)
 
     for _ in range(100):
-        end_point = random_rectangle_point(box)
+        end_point = random_rectangle_point(box_pad)
         if in_blacklist(end_point):
             continue
-        return tuple(end_point - vector), tuple(end_point)
+        return point_limit(end_point - vector, box), point_limit(end_point, box)
 
-    end_point = random_rectangle_point(box)
-    return tuple(end_point - vector), tuple(end_point)
+    end_point = random_rectangle_point(box_pad)
+    return point_limit(end_point - vector, box), point_limit(end_point, box)
 
 
 def random_line_segments(p1, p2, n, random_range=(0, 0, 0, 0)):

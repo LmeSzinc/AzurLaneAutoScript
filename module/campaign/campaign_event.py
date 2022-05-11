@@ -6,7 +6,7 @@ import numpy as np
 
 from module.base.decorator import cached_property
 from module.campaign.assets import OCR_EVENT_PT
-from module.config.utils import deep_get
+from module.config.utils import deep_get, DEFAULT_TIME
 from module.logger import logger
 from module.ocr.ocr import Ocr
 from module.ui.ui import UI
@@ -71,7 +71,7 @@ class CampaignEvent(UI):
                 self.config.modified[f'{task}.Campaign.Event'] = 'campaign_main'
 
         logger.info(f'Reset event time limit')
-        self.config.modified['EventGeneral.EventGeneral.TimeLimit'] = datetime(2020, 1, 1, 0, 0)
+        self.config.modified['EventGeneral.EventGeneral.TimeLimit'] = DEFAULT_TIME
 
         self.config.update()
 
@@ -127,8 +127,7 @@ class CampaignEvent(UI):
             'MaritimeEscort',
         ]
         command = self.config.Scheduler_Command
-        default = datetime(2020, 1, 1, 0, 0)
-        if command not in tasks or limit == default:
+        if command not in tasks or limit == DEFAULT_TIME:
             return False
         if command == 'GemsFarming' and self.config.Campaign_Event == 'campaign_main':
             return False

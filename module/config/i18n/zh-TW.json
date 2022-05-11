@@ -246,7 +246,7 @@
     },
     "Enable": {
       "name": "啟用該功能",
-      "help": "將這個任務加入調度器"
+      "help": "將這個任務加入調度器\n委託、科研、收穫任務是強制打開的"
     },
     "NextRun": {
       "name": "下一次執行時間",
@@ -403,6 +403,10 @@
     "UploadOpsi": {
       "name": "上傳大世界掉落截圖",
       "help": ""
+    },
+    "SaveMeowfficer": {
+      "name": "保存指揮喵購買截圖",
+      "help": ""
     }
   },
   "Retirement": {
@@ -469,6 +473,7 @@
       "name": "活動名稱",
       "help": "自動選擇至最新的活動圖",
       "campaign_main": "主線圖",
+      "event_20220428_cn": "Rondo at Rainbows End",
       "event_20220414_cn": "Aurora Noctis Rerun",
       "event_20220407_tw": "蒼紅的迴響(復刻)",
       "event_20210422_cn": "復興的讚美詩",
@@ -577,10 +582,10 @@
       "name": "達成地圖成就後停止",
       "help": "達成地圖 100% 通關、達成三星通關、達成安全海域\n或達成安全海域但不打三星後停止",
       "non_stop": "否",
-      "100_percent_clear": "地圖 100% 通關",
-      "map_3_stars": "地圖三星",
-      "threat_safe": "安全海域",
-      "threat_safe_without_3_stars": "安全海域不打三星"
+      "100_percent_clear": "100%通關",
+      "map_3_stars": "100%通關 + 三星",
+      "threat_safe": "100%通關 + 三星 + 安全海域",
+      "threat_safe_without_3_stars": "100%通關 + 安全海域"
     },
     "StageIncrease": {
       "name": "達成地圖成就後前往下一關卡，不停止",

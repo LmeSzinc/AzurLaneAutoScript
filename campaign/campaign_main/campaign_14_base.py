@@ -4,6 +4,7 @@ from module.logger import logger
 
 class Config:
     HOMO_EDGE_COLOR_RANGE = (0, 12)
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 210
     MAP_SWIPE_MULTIPLY = 1.537
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.486
 

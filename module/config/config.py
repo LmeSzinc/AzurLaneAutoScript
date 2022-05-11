@@ -23,7 +23,7 @@ class Function:
     def __init__(self, data):
         self.enable = deep_get(data, keys='Scheduler.Enable', default=False)
         self.command = deep_get(data, keys='Scheduler.Command', default='Unknown')
-        self.next_run = deep_get(data, keys='Scheduler.NextRun', default=datetime(2020, 1, 1, 0, 0))
+        self.next_run = deep_get(data, keys='Scheduler.NextRun', default=DEFAULT_TIME)
 
     def __str__(self):
         enable = 'Enable' if self.enable else 'Disable'
@@ -110,10 +110,12 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
                 task = name_to_function(task)
             self.bind(task)
             self.task = task
+            self.save()
 
     def load(self):
         self.data = self.read_file(self.config_name)
         ConfigTypeChecker.check(self.data)
+        self.config_override()
 
         for path, value in self.modified.items():
             deep_set(self.data, keys=path, value=value)
@@ -232,6 +234,37 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
         self.bind(self.task)
         self.save()
 
+    def config_override(self):
+        """
+        People migrating from manual game play to bot have a hard time giving up old usage habitat,
+        so, teach them how to play games and how to use Alas.
+        """
+        now = datetime.now().replace(microsecond=0)
+        limited = set()
+
+        def limit_next_run(tasks, limit):
+            for task in tasks:
+                if task in limited:
+                    continue
+                limited.add(task)
+                next_run = deep_get(self.data, keys=f'{task}.Scheduler.NextRun', default=None)
+                if isinstance(next_run, datetime) and next_run > limit:
+                    logger.warning(f'NextRun of task {task} is too far, reset to now')
+                    deep_set(self.data, keys=f'{task}.Scheduler.NextRun', value=now)
+
+        def force_enable(tasks):
+            for task in tasks:
+                enable = deep_get(self.data, keys=f'{task}.Scheduler.Enable', default=None)
+                if enable is not None and not enable:
+                    logger.warning(f'Task {task} is force to enable')
+                    self.modified[f'{task}.Scheduler.Enable'] = True
+
+        force_enable(['Commission', 'Research', 'Reward'])
+        limit_next_run(['Commission', 'Reward'], limit=now + timedelta(hours=12, seconds=-1))
+        limit_next_run(['Research'], limit=now + timedelta(hours=24, seconds=-1))
+        limit_next_run(['OpsiExplore'], limit=now + timedelta(days=31, seconds=-1))
+        limit_next_run(self.args.keys(), limit=now + timedelta(hours=24, seconds=-1))
+
     def override(self, **kwargs):
         """
         Override anything you want.
@@ -329,7 +362,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
             next_run = datetime.now().replace(microsecond=0) + timedelta(minutes=minutes)
             for task in task_list:
                 keys = f'{task}.Scheduler.NextRun'
-                current = deep_get(self.data, keys=keys, default=datetime(2020, 1, 1, 0, 0))
+                current = deep_get(self.data, keys=keys, default=DEFAULT_TIME)
                 if current < next_run:
                     logger.info(f'Delay task `{task}` to {next_run} ({kv})')
                     self.modified[keys] = next_run
@@ -350,7 +383,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
         if recon_scan:
             tasks = SelectedGrids(['OpsiExplore', 'OpsiObscure', 'OpsiStronghold'])
             tasks = tasks.delete(tasks.filter(is_force_run)).delete(tasks.filter(is_special_radar))
-            delay_tasks(tasks, minutes=30)
+            delay_tasks(tasks, minutes=27)
         if submarine_call:
             tasks = SelectedGrids(['OpsiExplore', 'OpsiDaily', 'OpsiObscure', 'OpsiAbyssal', 'OpsiStronghold',
                                    'OpsiMeowfficerFarming'])
@@ -367,7 +400,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
 
         self.update()
 
-    def task_call(self, task):
+    def task_call(self, task, force_call=True):
         """
         Call another task to run.
 
@@ -378,16 +411,23 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
 
         Args:
             task (str): Task name to call, such as `Restart`
+            force_call (bool):
+
+        Returns:
+            bool: If called.
         """
-        path = f'{task}.Scheduler.NextRun'
-        if deep_get(self.data, keys=path, default=None) is None:
+        if deep_get(self.data, keys=f'{task}.Scheduler.NextRun', default=None) is None:
             raise ScriptError(f'Task to call: `{task}` does not exist in user config')
-        else:
-            self.modified[path] = datetime(2021, 1, 1, 0, 0, 0)
-            if task == 'Restart':
-                # Restart is forced to enable
-                self.modified[f'{task}.Scheduler.Enable'] = True
+
+        if force_call or deep_get(self.data, keys=f'{task}.Scheduler.Enable', default=False):
+            logger.info(f'Task call: {task}')
+            self.modified[f'{task}.Scheduler.NextRun'] = datetime.now().replace(microsecond=0)
+            self.modified[f'{task}.Scheduler.Enable'] = True
             self.update()
+            return True
+        else:
+            logger.info(f'Task call: {task} (skipped because disabled by user)')
+            return False
 
     @staticmethod
     def task_stop(message=''):

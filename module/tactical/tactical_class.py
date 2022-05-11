@@ -6,10 +6,11 @@ from module.base.filter import Filter
 from module.base.timer import Timer
 from module.base.utils import *
 from module.exception import ScriptError
+from module.handler.assets import GET_MISSION, POPUP_CANCEL, POPUP_CONFIRM
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.ocr.ocr import DigitCounter, Duration
-from module.handler.assets import GET_MISSION, POPUP_CANCEL, POPUP_CONFIRM
+from module.retire.assets import DOCK_CHECK
 from module.tactical.assets import *
 from module.ui.assets import (BACK_ARROW, REWARD_CHECK, REWARD_GOTO_TACTICAL,
                               TACTICAL_CHECK)
@@ -362,9 +363,9 @@ class RewardTacticalClass(UI):
                 empty_confirm.reset()
 
             # Popups
-            if self.appear_then_click(REWARD_2, offset=(20, 20), interval=1):
+            if self.appear_then_click(REWARD_2, offset=(20, 20), interval=3):
                 continue
-            if self.appear_then_click(REWARD_GOTO_TACTICAL, offset=(20, 20), interval=1):
+            if self.appear_then_click(REWARD_GOTO_TACTICAL, offset=(20, 20), interval=3):
                 continue
             if self.handle_popup_confirm('TACTICAL'):
                 continue
@@ -378,6 +379,10 @@ class RewardTacticalClass(UI):
                 if self._tactical_books_choose():
                     self.interval_reset(TACTICAL_CLASS_CANCEL)
                     self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION])
+                continue
+            if self.appear(DOCK_CHECK, offset=(20, 20), interval=3):
+                # Entered dock accidentally
+                self.device.click(BACK_ARROW)
                 continue
 
         return True
@@ -397,7 +402,3 @@ class RewardTacticalClass(UI):
         else:
             logger.info('No tactical running')
             self.config.task_delay(success=False)
-if __name__ == '__main__':
-    self = RewardTacticalClass('alas-tech')
-    self.device.screenshot()
-    self.tactical_class_receive()

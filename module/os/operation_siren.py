@@ -1,9 +1,8 @@
-from datetime import datetime
-
 import numpy as np
 
 from module.config.utils import (deep_get, get_os_next_reset,
-                                 get_os_reset_remain)
+                                 get_os_reset_remain,
+                                 DEFAULT_TIME)
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
@@ -114,10 +113,10 @@ class OperationSiren(OSGlobe):
             # or it will click on MAP_GOTO_GLOBE
             self.zone_init()
             self.os_finish_daily_mission()
-            if success:
-                break
             if self.is_in_opsi_explore():
                 self.os_port_mission()
+                break
+            if success:
                 break
 
         self.config.task_delay(server_update=True)
@@ -183,7 +182,7 @@ class OperationSiren(OSGlobe):
         next_run = self.config.Scheduler_NextRun
         for task in ['OpsiObscure', 'OpsiAbyssal', 'OpsiStronghold', 'OpsiMeowfficerFarming']:
             keys = f'{task}.Scheduler.NextRun'
-            current = deep_get(self.config.data, keys=keys, default=datetime(2020, 1, 1, 0, 0))
+            current = deep_get(self.config.data, keys=keys, default=DEFAULT_TIME)
             if current < next_run:
                 logger.info(f'Delay task `{task}` to {next_run}')
                 self.config.modified[keys] = next_run

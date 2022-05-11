@@ -24,7 +24,7 @@ class Fleet(Camera, AmbushHandler):
     @property
     def fleet_1(self):
         if self.fleet_current_index != 1:
-            self.fleet_switch_to(index=1)
+            self.fleet_ensure(index=1)
         return self
 
     @fleet_1.setter
@@ -35,7 +35,7 @@ class Fleet(Camera, AmbushHandler):
     def fleet_2(self):
         if self.config.FLEET_2 and self.config.FLEET_BOSS == 2:
             if self.fleet_current_index != 2:
-                self.fleet_switch_to(index=2)
+                self.fleet_ensure(index=2)
         return self
 
     @fleet_2.setter
@@ -87,16 +87,19 @@ class Fleet(Camera, AmbushHandler):
         else:
             return self.config.Fleet_Fleet1Step
 
-    def fleet_switch_to(self, index):
-        self.fleet_set(index=index)
-        self.camera = self.fleet_current
-        self.update()
-        self.find_path_initial()
-        self.map.show_cost()
-        self.show_fleet()
-        self.hp_get()
-        self.lv_get()
-        self.handle_strategy(index=self.fleet_current_index)
+    def fleet_ensure(self, index):
+        if self.fleet_set(index=index):
+            self.camera = self.fleet_current
+            self.update()
+            self.find_path_initial()
+            self.map.show_cost()
+            self.show_fleet()
+            self.hp_get()
+            self.lv_get()
+            self.handle_strategy(index=self.fleet_current_index)
+            return True
+        else:
+            return False
 
     def switch_to(self):
         pass
@@ -264,6 +267,7 @@ class Fleet(Camera, AmbushHandler):
         may_submarine_icon = may_submarine_icon and self.fleet_submarine_location == may_submarine_icon[0].location
 
         while 1:
+            self.fleet_ensure(self.fleet_current_index)
             self.in_sight(location, sight=self._walk_sight)
             self.focus_to_grid_center()
             grid = self.convert_global_to_local(location)
@@ -372,7 +376,10 @@ class Fleet(Camera, AmbushHandler):
                     elif may_submarine_icon and grid.predict_current_fleet():
                         arrive_predict = '(may_submarine_icon, is_current_fleet)'
                         arrive_checker = True
-                    elif self.config.MAP_WALK_USE_CURRENT_FLEET and grid.predict_current_fleet():
+                    elif self.config.MAP_WALK_USE_CURRENT_FLEET \
+                            and expected != 'combat_boss' \
+                            and not ('combat' in expected and grid.may_boss) \
+                            and (grid.predict_fleet() or grid.predict_current_fleet()):
                         arrive_predict = '(MAP_WALK_USE_CURRENT_FLEET, is_current_fleet)'
                         arrive_checker = True
                     elif walk_timeout.reached() and grid.predict_current_fleet():
@@ -444,6 +451,9 @@ class Fleet(Camera, AmbushHandler):
             self.find_path_initial()
             raise MapEnemyMoved
         self.find_path_initial()
+        if self.config.MAP_HAS_DECOY_ENEMY:
+            if result == 'nothing' and expected == 'combat':
+                raise MapEnemyMoved
 
     def goto(self, location, optimize=None, expected=''):
         """
@@ -517,6 +527,8 @@ class Fleet(Camera, AmbushHandler):
         logger.info(f'Submarine: {location2node(self.fleet_submarine_location)}')
 
     def full_scan(self, queue=None, must_scan=None, mode='normal'):
+        if self.config.MAP_HAS_DECOY_ENEMY and mode == 'normal':
+            mode = 'decoy'
         super().full_scan(
             queue=queue, must_scan=must_scan, battle_count=self.battle_count, mystery_count=self.mystery_count,
             siren_count=self.siren_count, carrier_count=self.carrier_count, mode=mode)

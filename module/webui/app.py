@@ -214,7 +214,7 @@ class AlasGUI(Frame):
         self.set_title(t(f"Task.{task}.name"))
 
         put_scope("_groups", [put_none(), put_scope("groups"), put_scope("navigator")])
-        config = Setting.config_updater.update_config(self.alas_name)
+        config = Setting.config_updater.update_file(self.alas_name)
         for group, arg_dict in deep_iter(self.ALAS_ARGS[task], depth=1):
             self.set_group(group, arg_dict, config, task)
             self.set_navigator(group)
@@ -232,7 +232,7 @@ class AlasGUI(Frame):
             for arg, d in deep_iter(arg_dict, depth=1):
                 arg = arg[0]
                 arg_type = d["type"]
-                if arg_type == "disable":
+                if arg_type == "hide":
                     continue
                 value = deep_get(config, f"{task}.{group_name}.{arg}", d["value"])
                 value = str(value) if isinstance(value, datetime) else value
@@ -379,7 +379,7 @@ class AlasGUI(Frame):
     def _alas_thread_wait_config_change(self) -> None:
         paths = []
         for path, d in deep_iter(self.ALAS_ARGS, depth=3):
-            if d["type"] == "disable":
+            if d["type"] in ["disable", "hide"]:
                 continue
             paths.append(self.path_to_idx[".".join(path)])
         while self.alive:
@@ -583,7 +583,7 @@ class AlasGUI(Frame):
             scope="log_scroll_btn",
         )
 
-        config = Setting.config_updater.update_config(self.alas_name)
+        config = Setting.config_updater.update_file(self.alas_name)
         for group, arg_dict in deep_iter(self.ALAS_ARGS[task], depth=1):
             self.set_group(group, arg_dict, config, task)
 

@@ -264,7 +264,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             logger.hr('TRIGGERED LV32 LIMIT')
             return True
 
-        if self.config.Campaign_UseAutoSearch and self.campaign.config.GEMS_EMOTION_TRIGGRED:
+        if self.campaign.map_is_auto_search and self.campaign.config.GEMS_EMOTION_TRIGGRED:
             self._trigger_emotion = True
             logger.hr('TRIGGERED EMOTION LIMIT')
             return True

@@ -24,6 +24,7 @@ SERVER_TO_TIMEZONE = {
     'jp': 9,
     'tw': 8,
 }
+DEFAULT_TIME = datetime(2020, 1, 1, 0, 0)
 
 
 # https://stackoverflow.com/questions/8640959/how-can-i-control-what-scalar-form-pyyaml-uses-for-my-data/15423007
@@ -204,6 +205,22 @@ def deep_set(d, keys, value):
         d = {}
     d[keys[0]] = deep_set(d.get(keys[0], {}), keys[1:], value)
     return d
+
+
+def deep_pop(d, keys, default=None):
+    """
+    Pop value from dictionary safely, imitating deep_get().
+    """
+    if isinstance(keys, str):
+        keys = keys.split('.')
+    assert type(keys) is list
+    if not isinstance(d, dict):
+        return default
+    if not keys:
+        return default
+    elif len(keys) == 1:
+        return d.pop(keys[0], default)
+    return deep_pop(d.get(keys[0]), keys[1:], default)
 
 
 def deep_default(d, keys, value):
