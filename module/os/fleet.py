@@ -19,7 +19,7 @@ from module.os.camera import OSCamera
 from module.os.map_base import OSCampaignMap
 from module.os_ash.ash import OSAsh
 from module.os_combat.combat import Combat
-from module.os_handler.assets import IN_MAP
+from module.os_handler.assets import IN_MAP, PORT_ENTER
 
 FLEET_FILTER = Filter(regex=re.compile('fleet-?(\d)'), attr=('fleet',), preset=('callsubmarine',))
 
@@ -331,13 +331,26 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             MapWalkError: If unable to goto such grid.
                 Probably clicking at land, center of port, or fleet itself.
         """
+        confirm_timer = Timer(3, count=6).start()
         while 1:
             # Calculate destination
             grid = self.radar.port_predict(self.device.image)
             logger.info(f'Port route at {grid}')
-            if np.linalg.norm(grid) == 0:
+            radar_arrive = np.linalg.norm(grid) == 0
+            port_arrive = self.appear(PORT_ENTER, offset=(20, 20))
+            if port_arrive:
                 logger.info('Arrive port')
                 break
+            elif not port_arrive and radar_arrive:
+                if confirm_timer.reached():
+                    logger.warning('Arrive port on radar but port entrance not appear')
+                    raise MapWalkError
+                else:
+                    logger.info('Arrive port on radar but port entrance not appear, confirming')
+                    self.device.screenshot()
+                    continue
+            else:
+                confirm_timer.reset()
 
             # Update local view
             self.update_os()
