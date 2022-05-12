@@ -473,6 +473,7 @@
       "name": "活動名稱",
       "help": "自動選擇至最新的活動圖",
       "campaign_main": "主線圖",
+      "raid_20200624": "特別演習埃塞克斯級(復刻)",
       "event_20220428_cn": "Rondo at Rainbows End",
       "event_20220414_cn": "Aurora Noctis Rerun",
       "event_20220407_tw": "蒼紅的迴響(復刻)",
@@ -515,7 +516,6 @@
       "event_20201002_en": "Counterattack Within the Fjord",
       "event_20200820_cn": "Scherzo of Iron and Blood Rerun",
       "event_20200716_en": "Ink Stained Steel Sakura Rerun",
-      "raid_20200624": "特別演習埃塞克斯級",
       "event_20200611_en": "Skybound Oratorio",
       "event_20200603_en": "Prelude under the Moon Rerun",
       "event_20200521_en": "Iris of Light and Dark Rerun",
@@ -1070,21 +1070,24 @@
       "name": "使用魔方",
       "help": "",
       "always_use": "總是使用",
-      "only_05_hour": "僅0.5小時科研使用",
+      "only_05_hour": "0.5小時+無項目可做時",
+      "only_no_project": "無項目可做時",
       "do_not_use": "不使用"
     },
     "UseCoin": {
       "name": "使用物資",
       "help": "",
       "always_use": "總是使用",
-      "only_05_hour": "僅0.5小時科研使用",
+      "only_05_hour": "0.5小時+無項目可做時",
+      "only_no_project": "無項目可做時",
       "do_not_use": "不使用"
     },
     "UsePart": {
       "name": "使用部件",
       "help": "",
       "always_use": "總是使用",
-      "only_05_hour": "僅0.5小時科研使用",
+      "only_05_hour": "0.5小時+無項目可做時",
+      "only_no_project": "無項目可做時",
       "do_not_use": "不使用"
     },
     "PresetFilter": {

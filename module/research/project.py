@@ -1,5 +1,6 @@
 import re
 from datetime import timedelta
+from functools import partial
 
 from scipy import signal
 
@@ -596,16 +597,18 @@ class ResearchSelector(UI):
 
         FILTER.load(string)
         priority = FILTER.apply(self.projects, func=self._research_check)
-
+        if not [project for project in priority
+                if project != 'reset' and project != 'shortest' and project != 'cheapest']:
+            priority = FILTER.apply(self.projects, func=partial(self._research_check, enforce=True))
         # Log
         logger.attr('Filter_sort', ' > '.join([str(project) for project in priority]))
         return priority
 
-    def _research_check(self, project):
+    def _research_check(self, project, enforce=False):
         """
         Args:
             project (ResearchProject):
-
+            enforce (Bool):
         Returns:
             bool:
         """
@@ -617,17 +620,23 @@ class ResearchSelector(UI):
         if project.need_cube:
             if self.config.Research_UseCube == 'do_not_use':
                 return False
-            if self.config.Research_UseCube == 'only_05_hour' and not is_05:
+            if self.config.Research_UseCube == 'only_no_project' and not enforce:
+                return False
+            if self.config.Research_UseCube == 'only_05_hour' and not is_05 and not enforce:
                 return False
         if project.need_coin:
             if self.config.Research_UseCoin == 'do_not_use':
                 return False
-            if self.config.Research_UseCoin == 'only_05_hour' and not is_05:
+            if self.config.Research_UseCoin == 'only_no_project' and not enforce:
+                return False
+            if self.config.Research_UseCoin == 'only_05_hour' and not is_05 and not enforce:
                 return False
         if project.need_part:
             if self.config.Research_UsePart == 'do_not_use':
                 return False
-            if self.config.Research_UsePart == 'only_05_hour' and not is_05:
+            if self.config.Research_UsePart == 'only_no_project' and not enforce:
+                return False
+            if self.config.Research_UsePart == 'only_05_hour' and not is_05 and not enforce:
                 return False
 
         # Reasons to ignore B series and E-2:

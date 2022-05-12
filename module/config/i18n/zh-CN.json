@@ -473,6 +473,7 @@
       "name": "活动名称",
       "help": "自动选择至最新的活动",
       "campaign_main": "主线图",
+      "raid_20200624": "复刻特别演习埃塞克斯级",
       "event_20220428_cn": "虹彩的终幕曲",
       "event_20220414_cn": "复刻永夜幻光",
       "event_20220407_tw": "蒼紅的迴響(復刻)",
@@ -515,7 +516,6 @@
       "event_20201002_en": "Counterattack Within the Fjord",
       "event_20200820_cn": "复刻铁血音符誓言",
       "event_20200716_en": "Ink Stained Steel Sakura Rerun",
-      "raid_20200624": "复刻特别演习埃塞克斯级",
       "event_20200611_en": "Skybound Oratorio",
       "event_20200603_en": "Prelude under the Moon Rerun",
       "event_20200521_en": "Iris of Light and Dark Rerun",
@@ -1070,21 +1070,24 @@
       "name": "使用魔方",
       "help": "",
       "always_use": "总是使用",
-      "only_05_hour": "仅0.5小时科研使用",
+      "only_05_hour": "0.5小时+无项目可做时",
+      "only_no_project": "无项目可做时",
       "do_not_use": "不使用"
     },
     "UseCoin": {
       "name": "使用物资",
       "help": "",
       "always_use": "总是使用",
-      "only_05_hour": "仅0.5小时科研使用",
+      "only_05_hour": "0.5小时+无项目可做时",
+      "only_no_project": "无项目可做时",
       "do_not_use": "不使用"
     },
     "UsePart": {
       "name": "使用部件",
       "help": "",
       "always_use": "总是使用",
-      "only_05_hour": "仅0.5小时科研使用",
+      "only_05_hour": "0.5小时+无项目可做时",
+      "only_no_project": "无项目可做时",
       "do_not_use": "不使用"
     },
     "PresetFilter": {

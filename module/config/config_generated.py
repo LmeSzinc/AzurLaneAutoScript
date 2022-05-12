@@ -180,9 +180,9 @@ class GeneratedConfig:
     ControlExpOverflow_T1Allow = 200
 
     # Group `Research`
-    Research_UseCube = 'only_05_hour'  # always_use, only_05_hour, do_not_use
-    Research_UseCoin = 'always_use'  # always_use, only_05_hour, do_not_use
-    Research_UsePart = 'always_use'  # always_use, only_05_hour, do_not_use
+    Research_UseCube = 'only_05_hour'  # always_use, only_05_hour, only_no_project, do_not_use
+    Research_UseCoin = 'always_use'  # always_use, only_05_hour, only_no_project, do_not_use
+    Research_UsePart = 'always_use'  # always_use, only_05_hour, only_no_project, do_not_use
     Research_PresetFilter = 'series_4_blueprint_tenrai'  # custom, series_4_blueprint_tenrai, series_4_blueprint_only, series_4_tenrai_only, series_3, series_3_than_2
     Research_CustomFilter = 'S4-Q0.5 > Q-0.5 > S4-DR0.5 > S4-PRY0.5 > DR-0.5 > PRY-0.5\n> S4-Q1 > S4-Q2\n> S4-DR2.5 > S4-G1.5\n> S4-Q4 > S4-H0.5 > S4-G4\n> S4-PRY2.5 > S4-G2.5\n> reset > S4-H1 > shortest'
 

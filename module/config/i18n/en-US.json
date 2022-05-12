@@ -473,6 +473,7 @@
       "name": "Event Name",
       "help": "Automatically selects to the latest event",
       "campaign_main": "campaign_main",
+      "raid_20200624": "Air Raid Drills with Essex Rerun",
       "event_20220428_cn": "Rondo at Rainbows End",
       "event_20220414_cn": "Aurora Noctis Rerun",
       "event_20220407_tw": "蒼紅的迴響(復刻)",
@@ -515,7 +516,6 @@
       "event_20201002_en": "Counterattack Within the Fjord",
       "event_20200820_cn": "Scherzo of Iron and Blood Rerun",
       "event_20200716_en": "Ink Stained Steel Sakura Rerun",
-      "raid_20200624": "Air Raid Drills with Essex Rerun",
       "event_20200611_en": "Skybound Oratorio",
       "event_20200603_en": "Prelude under the Moon Rerun",
       "event_20200521_en": "Iris of Light and Dark Rerun",
@@ -1070,21 +1070,24 @@
       "name": "Use Cube",
       "help": "Allow to undertake projects that require cubes",
       "always_use": "Always Use",
-      "only_05_hour": "Only 0.5 Hour Researches",
+      "only_05_hour": "0.5 Hour+No project available",
+      "only_no_project": "Only no project available",
       "do_not_use": "Don't Use"
     },
     "UseCoin": {
       "name": "Use Coin",
       "help": "Allow to undertake projects that require coins",
       "always_use": "Always Use",
-      "only_05_hour": "Only 0.5 Hour Researches",
+      "only_05_hour": "0.5 Hour+No project available",
+      "only_no_project": "Only no project available",
       "do_not_use": "Don't Use"
     },
     "UsePart": {
       "name": "Use Part/Plate",
       "help": "Allow to undertake projects that require parts/plates",
       "always_use": "Always Use",
-      "only_05_hour": "Only 0.5 Hour Researches",
+      "only_05_hour": "0.5 Hour+No project available",
+      "only_no_project": "Only no project available",
       "do_not_use": "Don't Use"
     },
     "PresetFilter": {
