@@ -467,7 +467,7 @@ class Connection:
                 3: 'HOME key on the left'
         """
         _DISPLAY_RE = re.compile(
-            r'.*DisplayViewport{valid=true, .*orientation=(?P<orientation>\d+), .*deviceWidth=(?P<width>\d+), deviceHeight=(?P<height>\d+).*'
+            r'.*DisplayViewport{.*valid=true, .*orientation=(?P<orientation>\d+), .*deviceWidth=(?P<width>\d+), deviceHeight=(?P<height>\d+).*'
         )
         output = self.adb_shell(['dumpsys', 'display'])
 
