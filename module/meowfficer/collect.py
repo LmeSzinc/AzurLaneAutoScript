@@ -116,6 +116,21 @@ class MeowfficerCollect(MeowfficerBase):
         # Wait until info bar disappears
         self.ensure_no_info_bar(timeout=1)
 
+    # Transition out of lock popup / talent detail panel
+    # Use callable as screen is variable
+    def _check_popup_exit(self):
+        """
+        Returns: boll
+        """
+        if self.appear(MEOWFFICER_GET_CHECK, offset=(40, 40)) and MEOWFFICER_GET_CHECK.match_appear_on(
+                self.device.image):
+            return True
+
+        if self.appear(MEOWFFICER_TRAIN_START, offset=(20, 20)):
+            return True
+
+        return False
+
     def _meow_skip_lock(self):
         """
         Applicable to only gold variant meowfficer
@@ -127,18 +142,7 @@ class MeowfficerCollect(MeowfficerBase):
                       appear_button=MEOWFFICER_GET_CHECK, check_button=MEOWFFICER_CONFIRM,
                       offset=(40, 40), retry_wait=3, skip_first_screenshot=True)
 
-        # Transition out of lock popup
-        # Use callable as screen is variable
-        def check_popup_exit():
-            if self.appear(MEOWFFICER_GET_CHECK, offset=(40, 40)):
-                return True
-
-            if self.appear(MEOWFFICER_TRAIN_START, offset=(20, 20)):
-                return True
-
-            return False
-
-        self.ui_click(MEOWFFICER_CANCEL, check_button=check_popup_exit,
+        self.ui_click(MEOWFFICER_CANCEL, check_button=self._check_popup_exit,
                       offset=(40, 20), retry_wait=3, skip_first_screenshot=True)
 
     def meow_get(self, skip_first_screenshot=True):
