@@ -78,6 +78,7 @@ class OSGlobe(OSMap):
         self.os_map_goto_globe(unpin=False)
         self.globe_update()
         self.zone = self.get_globe_pinned_zone()
+        self.zone_config_set()
         self.os_globe_goto_map()
         return self.zone
 

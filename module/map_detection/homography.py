@@ -66,7 +66,11 @@ class Homography:
 
     @cached_property
     def ui_mask_homo_stroke(self):
-        image = cv2.warpPerspective(ASSETS.ui_mask, self.homo_data, self.homo_size)
+        if self.config.Scheduler_Command.startswith('Opsi'):
+            mask = ASSETS.ui_mask_os
+        else:
+            mask = ASSETS.ui_mask
+        image = cv2.warpPerspective(mask, self.homo_data, self.homo_size)
         kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
         image = cv2.erode(image, kernel).astype('uint8')
         # Remove edges, perspective transform may produce aliasing

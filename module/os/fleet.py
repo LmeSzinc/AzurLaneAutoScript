@@ -19,7 +19,7 @@ from module.os.camera import OSCamera
 from module.os.map_base import OSCampaignMap
 from module.os_ash.ash import OSAsh
 from module.os_combat.combat import Combat
-from module.os_handler.assets import IN_MAP, PORT_ENTER
+from module.os_handler.assets import CLICK_SAFE_AREA, IN_MAP, PORT_ENTER, PORT_SUPPLY_CHECK
 
 FLEET_FILTER = Filter(regex=re.compile('fleet-?(\d)'), attr=('fleet',), preset=('callsubmarine',))
 
@@ -85,10 +85,10 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         self.hp_get()
         self.lv_reset()
         self.lv_get()
-        self.ensure_edge_insight(preset=self.map.in_map_swipe_preset_data)
+        self.ensure_edge_insight(preset=self.map.in_map_swipe_preset_data, swipe_limit=(6, 5))
         # self.full_scan(must_scan=self.map.camera_data_spawn_point)
-        self.find_current_fleet()
-        self.find_path_initial()
+        # self.find_current_fleet()
+        # self.find_path_initial()
         # self.map.show_cost()
         # self.round_reset()
         # self.round_battle()
@@ -249,6 +249,12 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 Default to True, use False in abyssal zones.
             drop (DropImage):
 
+        Returns：
+            str: Things that fleet met on its way,
+                'event', 'search', 'akashi', 'combat',
+                or their combinations like 'event_akashi', 'event_combat',
+                or an empty string '' if nothing met.
+
         Raises:
             MapWalkError: If unable to goto such grid.
         """
@@ -258,6 +264,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         self.device.screenshot_interval_set(0.35)
         if confirm_timer is None:
             confirm_timer = Timer(0.8, count=2)
+        result = set()
 
         confirm_timer.reset()
         while 1:
@@ -269,6 +276,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             # Map event
             if self.handle_map_event(drop=drop):
                 confirm_timer.reset()
+                result.add('event')
                 continue
             if self.handle_retirement():
                 confirm_timer.reset()
@@ -290,6 +298,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                     self.device.sleep(0.3)
                     logger.info('Enemy searching appeared.')
                     enemy_searching_appear = False
+                    result.add('search')
                 if self.is_in_map():
                     self.enemy_searching_color_initial()
 
@@ -299,6 +308,15 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 # self.ui_back(check_button=self.is_in_map)
                 self.combat(expected_end=self.is_in_map, fleet_index=self.fleet_show_index, save_get_items=drop)
                 confirm_timer.reset()
+                result.add('event')
+                continue
+
+            # Akashi shop
+            if self.appear(PORT_SUPPLY_CHECK, offset=(20, 20)):
+                self.interval_clear(PORT_SUPPLY_CHECK)
+                self.handle_akashi_supply_buy(CLICK_SAFE_AREA)
+                confirm_timer.reset()
+                result.add('akashi')
                 continue
 
             # Arrive
@@ -316,8 +334,10 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             else:
                 confirm_timer.reset()
 
-        logger.info('Walk stabled')
+        result = '_'.join(result)
+        logger.info(f'Walk stabled, result: {result}')
         self.device.screenshot_interval_set()
+        return result
 
     def port_goto(self):
         """
@@ -620,3 +640,18 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
         logger.warning(f'Unexpected STRONGHOLD_PERCENTAGE: {result}')
         return result
+
+    def get_second_fleet(self):
+        """
+        Get a second fleet to unlock fleet mechanism that requires 2 fleets.
+
+        Returns:
+            int:
+        """
+        current = self.fleet_selector.get()
+        if current == 1:
+            second = 2
+        else:
+            second = 1
+        logger.attr('Second_fleet', second)
+        return second

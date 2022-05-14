@@ -257,7 +257,11 @@ class InfoHandler(ModuleBase):
         if self._story_option_timer.reached() and self.appear(STORY_SKIP, offset=(20, 20), interval=0):
             options = self._story_option_buttons()
             if len(options):
-                self.device.click(options[0])
+                try:
+                    select = options[self.config.STORY_OPTION]
+                except IndexError:
+                    select = options[0]
+                self.device.click(select)
                 self._story_option_timer.reset()
                 self.story_popup_timout.reset()
                 self.interval_reset(STORY_SKIP)

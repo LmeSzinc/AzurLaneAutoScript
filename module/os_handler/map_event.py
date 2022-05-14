@@ -179,7 +179,7 @@ class MapEventHandler(EnemySearchingHandler):
             drop (DropImage):
             skip_first_screenshot (bool):
         """
-        confirm_timer = Timer(1, count=2).start()
+        confirm_timer = Timer(1.2, count=3).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
