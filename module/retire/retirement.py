@@ -20,7 +20,6 @@ CARD_RARITY_COLORS = {
     # Not support marriage cards.
 }
 
-
 class Retirement(Enhancement):
     _unable_to_enhance = False
     _have_keeped_cv = True
@@ -264,15 +263,14 @@ class Retirement(Enhancement):
                 return False
             if self.appear(DOCK_CHECK, offset=(20, 20), interval=10):
                 self.handle_dock_cards_loading()
-                total = self._enhance_handler()
+                total, remain = self._enhance_handler()
                 if not total:
                     logger.info('No ship to enhance, but dock full, will try retire')
                     self._unable_to_enhance = True
-                if self._material_count < 3:
-                    logger.info('Too little material for enhancement, retire next time')
+                logger.info(f'The remaining spare dock amount is {remain}')
+                if remain < 3:
+                    logger.info('Too few spare docks, retire next time')
                     self._unable_to_enhance = True
-                self._material_count = 0
-                self._count_material_once = False
                 self.interval_reset(DOCK_CHECK)
                 return True
         else:
