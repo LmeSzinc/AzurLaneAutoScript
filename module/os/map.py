@@ -276,6 +276,8 @@ class OSMap(OSFleet, Map, GlobeCamera):
             # Record current zone, skip this if no rewards from auto search.
             drop.add(self.device.image)
 
+            self._solved_map_event = set()
+            self._solved_fleet_mechanism = False
             self.clear_question(drop)
             if rescan:
                 self.map_rescan(drop)
@@ -395,8 +397,6 @@ class OSMap(OSFleet, Map, GlobeCamera):
             logger.info('Current zone is a port, do not need rescan')
             return False
 
-        self._solved_map_event = set()
-        self._solved_fleet_mechanism = False
         for _ in range(5):
             if not self._solved_fleet_mechanism:
                 self.fleet_set(self.config.OpsiFleet_Fleet)

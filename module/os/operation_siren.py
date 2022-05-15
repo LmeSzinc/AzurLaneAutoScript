@@ -285,6 +285,10 @@ class OperationSiren(OSGlobe):
                 self.config.task_delay(minute=150, server_update=True)
             self.config.task_stop()
 
+        self.config.override(
+            OpsiGeneral_DoRandomMapEvent=False,
+            HOMO_EDGE_DETECT=False,
+        )
         self.zone_init()
         self.fleet_set(self.config.OpsiFleet_Fleet)
         self.os_order_execute(
@@ -326,6 +330,11 @@ class OperationSiren(OSGlobe):
                 self.config.task_delay(minute=150, server_update=True)
             self.config.task_stop()
 
+        self.config.override(
+            OpsiGeneral_RepairThreshold=0,
+            OpsiGeneral_DoRandomMapEvent=False,
+            HOMO_EDGE_DETECT=False,
+        )
         self.zone_init()
         result = self.run_abyssal()
         if not result:
