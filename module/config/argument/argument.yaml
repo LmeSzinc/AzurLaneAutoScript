@@ -453,7 +453,7 @@ OpsiGeneral:
   BuyActionPoint: false
   OilLimit: 1000
   RepairThreshold: 0.4
-  BuyAkashiShop: true
+  DoRandomMapEvent: true
   AkashiShopFilter: |-
     ActionPoint > PurpleCoins
 OpsiAshBeacon:

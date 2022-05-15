@@ -68,7 +68,7 @@ class OSGlobe(OSMap):
             logger.info('In zone 154, skip running first auto search')
             self.handle_ash_beacon_attack()
         else:
-            self.run_auto_search()
+            self.run_auto_search(rescan=False)
             self.handle_after_auto_search()
 
     def get_current_zone_from_globe(self):

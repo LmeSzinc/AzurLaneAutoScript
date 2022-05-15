@@ -111,7 +111,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
         Returns:
             bool: If found and handled.
         """
-        if not self.config.OpsiGeneral_BuyAkashiShop:
+        if not self.config.OpsiGeneral_DoRandomMapEvent:
             return False
         if self.zone.is_port:
             logger.info('Current zone is a port, do not have akashi')
@@ -225,13 +225,47 @@ class OSMap(OSFleet, Map, GlobeCamera):
                 else:
                     break
 
-    def run_auto_search(self):
+    def clear_question(self, drop):
+        logger.hr('Clear question', level=2)
+        while 1:
+            grid = self.radar.predict_question(self.device.image)
+            if grid is None:
+                logger.info('No question mark above current fleet on this radar')
+                return False
+
+            logger.info(f'Found question mark on {grid}')
+            self.handle_info_bar()
+
+            self.update_os()
+            self.view.predict()
+            self.view.show()
+
+            grid = self.convert_radar_to_local(grid)
+            self.device.click(grid)
+            result = self.wait_until_walk_stable(drop=drop, confirm_timer=Timer(1.5, count=4))
+            if 'akashi' in result:
+                self._solved_map_event.add('is_akashi')
+                return True
+            else:
+                continue
+
+    def run_auto_search(self, rescan=None):
         """
         Clear current zone by running auto search.
         OpSi story mode must be cleared to unlock auto search.
+
+        Args:
+            rescan (bool): Whether to rescan the whole map after running auto search.
+                This will clear siren scanning devices, siren logging tower,
+                visit akashi's shop that auto search missed, and unlock mechanism that requires 2 fleets.
+
+                This option should be disabled in special tasks like OpsiObscure, OpsiAbyssal, OpsiStronghold.
         """
+        if rescan is None:
+            rescan = self.config.OpsiGeneral_DoRandomMapEvent
         self.handle_ash_beacon_attack()
 
+        logger.info(f'Run auto search, rescan={rescan}')
         with self.stat.new(
                 genre=inflection.underscore(self.config.task.command),
                 save=self.config.DropRecord_SaveOpsi,
@@ -242,7 +276,9 @@ class OSMap(OSFleet, Map, GlobeCamera):
             # Record current zone, skip this if no rewards from auto search.
             drop.add(self.device.image)
 
-            self.map_rescan(drop)
+            self.clear_question(drop)
+            if rescan:
+                self.map_rescan(drop)
 
             if drop.count == 1:
                 drop.clear()
@@ -285,7 +321,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
             self.device.click(grid)
             result = self.wait_until_walk_stable(drop=drop, confirm_timer=Timer(1.5, count=4))
             self.os_auto_search_run(drop=drop)
-            if 'story' in result:
+            if 'event' in result:
                 self._solved_map_event.add('is_scanning_device')
                 return True
             else:
@@ -297,7 +333,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
             logger.info(f'Found logging tower on {grid}')
             self.device.click(grid)
             result = self.wait_until_walk_stable(drop=drop, confirm_timer=Timer(1.5, count=4))
-            if 'story' in result:
+            if 'event' in result:
                 self._solved_map_event.add('is_logging_tower')
                 return True
             else:
@@ -355,6 +391,10 @@ class OSMap(OSFleet, Map, GlobeCamera):
         return result
 
     def map_rescan(self, drop=None):
+        if self.zone.is_port:
+            logger.info('Current zone is a port, do not need rescan')
+            return False
+
         self._solved_map_event = set()
         self._solved_fleet_mechanism = False
         for _ in range(5):
@@ -364,7 +404,9 @@ class OSMap(OSFleet, Map, GlobeCamera):
                 self.fleet_set(self.get_second_fleet())
             result = self.map_rescan_once(drop=drop)
             if not result:
+                logger.attr('Solved_map_event', self._solved_map_event)
                 return True
 
+        logger.attr('Solved_map_event', self._solved_map_event)
         logger.warning('Too many trial on map rescan, stop')
         return False

@@ -473,6 +473,7 @@
       "name": "活動名稱",
       "help": "自動選擇至最新的活動圖",
       "campaign_main": "主線圖",
+      "raid_20200624": "特別演習埃塞克斯級(復刻)",
       "event_20220428_cn": "Rondo at Rainbows End",
       "event_20220414_cn": "Aurora Noctis Rerun",
       "event_20220407_tw": "蒼紅的迴響(復刻)",
@@ -515,7 +516,6 @@
       "event_20201002_en": "Counterattack Within the Fjord",
       "event_20200820_cn": "Scherzo of Iron and Blood Rerun",
       "event_20200716_en": "Ink Stained Steel Sakura Rerun",
-      "raid_20200624": "特別演習埃塞克斯級",
       "event_20200611_en": "Skybound Oratorio",
       "event_20200603_en": "Prelude under the Moon Rerun",
       "event_20200521_en": "Iris of Light and Dark Rerun",
@@ -1679,9 +1679,9 @@
       "name": "任意艦船血量低於 X 後，回港修理",
       "help": "0.0 ~ 1.0"
     },
-    "BuyAkashiShop": {
-      "name": "買明石商店",
-      "help": ""
+    "DoRandomMapEvent": {
+      "name": "完成地圖隨機事件",
+      "help": "在自律尋敵完成後重新掃描一遍地圖，購買明石商店、使用塞壬信息收集裝置、使用塞壬探測裝置、解鎖兩艦隊機關"
     },
     "AkashiShopFilter": {
       "name": "明石商店過濾器",

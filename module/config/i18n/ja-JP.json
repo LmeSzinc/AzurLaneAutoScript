@@ -473,6 +473,7 @@
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
+      "raid_20200624": "特別演習超空強襲波（復刻）",
       "event_20220428_cn": "吟ずる瑠璃の楽章",
       "event_20220414_cn": "極夜照らす幻光（復刻）",
       "event_20220407_tw": "蒼紅的迴響(復刻)",
@@ -515,7 +516,6 @@
       "event_20201002_en": "Counterattack Within the Fjord",
       "event_20200820_cn": "黒鉄の楽章 誓いの海（復刻）",
       "event_20200716_en": "Ink Stained Steel Sakura Rerun",
-      "raid_20200624": "特別演習超空強襲波（復刻）",
       "event_20200611_en": "Skybound Oratorio",
       "event_20200603_en": "Prelude under the Moon Rerun",
       "event_20200521_en": "Iris of Light and Dark Rerun",
@@ -1679,9 +1679,9 @@
       "name": "OpsiGeneral.RepairThreshold.name",
       "help": "OpsiGeneral.RepairThreshold.help"
     },
-    "BuyAkashiShop": {
-      "name": "OpsiGeneral.BuyAkashiShop.name",
-      "help": "OpsiGeneral.BuyAkashiShop.help"
+    "DoRandomMapEvent": {
+      "name": "OpsiGeneral.DoRandomMapEvent.name",
+      "help": "OpsiGeneral.DoRandomMapEvent.help"
     },
     "AkashiShopFilter": {
       "name": "OpsiGeneral.AkashiShopFilter.name",

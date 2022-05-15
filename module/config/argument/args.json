@@ -5959,7 +5959,7 @@
         "type": "input",
         "value": 0.4
       },
-      "BuyAkashiShop": {
+      "DoRandomMapEvent": {
         "type": "checkbox",
         "value": true
       },

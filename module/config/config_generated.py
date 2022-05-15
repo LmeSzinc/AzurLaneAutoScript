@@ -309,7 +309,7 @@ class GeneratedConfig:
     OpsiGeneral_BuyActionPoint = False
     OpsiGeneral_OilLimit = 1000
     OpsiGeneral_RepairThreshold = 0.4
-    OpsiGeneral_BuyAkashiShop = True
+    OpsiGeneral_DoRandomMapEvent = True
     OpsiGeneral_AkashiShopFilter = 'ActionPoint > PurpleCoins'
 
     # Group `OpsiAshBeacon`
