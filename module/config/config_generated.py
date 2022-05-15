@@ -355,6 +355,7 @@ class GeneratedConfig:
 
     # Group `OpsiDaemon`
     OpsiDaemon_RepairShip = True
+    OpsiDaemon_SelectEnemy = True
 
     # Group `Benchmark`
     Benchmark_AdbScreenshot = True

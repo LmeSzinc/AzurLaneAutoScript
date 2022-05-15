@@ -497,6 +497,7 @@ Daemon:
   EnterMap: true
 OpsiDaemon:
   RepairShip: true
+  SelectEnemy: true
 Benchmark:
   AdbScreenshot: true
   AdbncScreenshot: true

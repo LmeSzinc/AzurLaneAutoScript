@@ -1411,7 +1411,8 @@
   },
   "OpsiDaemon": {
     "OpsiDaemon": {
-      "RepairShip": true
+      "RepairShip": true,
+      "SelectEnemy": true
     }
   },
   "Benchmark": {

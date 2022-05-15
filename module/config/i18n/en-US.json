@@ -1847,6 +1847,10 @@
     "RepairShip": {
       "name": "Repair Ships When Nearing Port",
       "help": "Once a fleet is in range of a port, Alas will enter, repair your ships, then exit\nWhen it is done, please move the fleet away and out of range from the port within 30s, otherwise the actions will be repeated"
+    },
+    "SelectEnemy": {
+      "name": "Click nearby enemies and resources",
+      "help": ""
     }
   },
   "Benchmark": {

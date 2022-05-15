@@ -14,7 +14,7 @@ from module.map.map_grids import SelectedGrids
 from module.map.utils import location_ensure
 from module.map_detection.utils import area2corner, corner2inner
 from module.ocr.ocr import Ocr
-from module.os.assets import STRONGHOLD_PERCENTAGE, TEMPLATE_EMPTY_HP
+from module.os.assets import MAP_GOTO_GLOBE, STRONGHOLD_PERCENTAGE, TEMPLATE_EMPTY_HP, FLEET_EMP_DEBUFF
 from module.os.camera import OSCamera
 from module.os.map_base import OSCampaignMap
 from module.os_ash.ash import OSAsh
@@ -655,3 +655,49 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             second = 1
         logger.attr('Second_fleet', second)
         return second
+
+    @staticmethod
+    def fleet_walk_limit(outside, step=3):
+        if np.linalg.norm(outside) <= 3:
+            return outside
+        if step == 1:
+            grids = np.array([
+                (0, -1), (0, 1), (-1, 0), (1, 0),
+            ])
+        else:
+            grids = np.array([
+                (0, -3), (0, 3), (-3, 0), (3, 0),
+                (2, -2), (2, 2), (-2, 2), (2, 2),
+            ])
+        degree = np.sum(grids * outside, axis=1) / np.linalg.norm(grids, axis=1) / np.linalg.norm(outside)
+        return grids[np.argmax(degree)]
+
+    _nearest_object_click_timer = Timer(2)
+
+    def click_nearest_object(self):
+        if not self._nearest_object_click_timer.reached():
+            return False
+        if not self.appear(MAP_GOTO_GLOBE, offset=(200, 20)):
+            return False
+        if self.appear(PORT_ENTER, offset=(20, 20)):
+            return False
+
+        self.update_os()
+        self.view.predict()
+        self.radar.predict(self.device.image)
+        self.radar.show()
+        nearest = self.radar.nearest_object()
+        if nearest is None:
+            self._nearest_object_click_timer.reset()
+            return False
+
+        step = 1 if self.appear(FLEET_EMP_DEBUFF, offset=(50, 20)) else 3
+        nearest = self.fleet_walk_limit(nearest.location, step=step)
+        try:
+            nearest = self.convert_radar_to_local(nearest)
+        except KeyError:
+            logger.info('Radar grid not on local map')
+            self._nearest_object_click_timer.reset()
+            return False
+        self.device.click(nearest)
+        self._nearest_object_click_timer.reset()

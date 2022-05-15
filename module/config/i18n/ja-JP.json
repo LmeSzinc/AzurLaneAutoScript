@@ -1847,6 +1847,10 @@
     "RepairShip": {
       "name": "OpsiDaemon.RepairShip.name",
       "help": "OpsiDaemon.RepairShip.help"
+    },
+    "SelectEnemy": {
+      "name": "OpsiDaemon.SelectEnemy.name",
+      "help": "OpsiDaemon.SelectEnemy.help"
     }
   },
   "Benchmark": {
