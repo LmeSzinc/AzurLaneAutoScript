@@ -246,7 +246,15 @@ class OSMap(OSFleet, Map, GlobeCamera):
             if 'akashi' in result:
                 self._solved_map_event.add('is_akashi')
                 return True
+            elif 'event' in result and grid.is_logging_tower:
+                self._solved_map_event.add('is_logging_tower')
+                return True
+            elif 'event' in result and grid.is_scanning_device:
+                self._solved_map_event.add('is_scanning_device')
+                self.os_auto_search_run(drop=drop)
+                return True
             else:
+                logger.warning(f'Arrive question with unexpected result: {result}, expected: {grid.str}')
                 continue
 
     def run_auto_search(self, rescan=None):
@@ -342,7 +350,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
                 return False
 
         grids = self.view.select(is_fleet_mechanism=True)
-        if self.config.Scheduler_Command == 'OpsiExplore' \
+        if self.config.task.command == 'OpsiExplore' \
                 and 'is_fleet_mechanism' not in self._solved_map_event \
                 and grids \
                 and grids[0].is_fleet_mechanism:
@@ -402,6 +410,9 @@ class OSMap(OSFleet, Map, GlobeCamera):
                 self.fleet_set(self.config.OpsiFleet_Fleet)
             else:
                 self.fleet_set(self.get_second_fleet())
+            if not self.config.task.command == 'OpsiExplore' and len(self._solved_map_event):
+                logger.info('Solved a map event and not in OpsiExplore, stop rescan')
+                return False
             result = self.map_rescan_once(drop=drop)
             if not result:
                 logger.attr('Solved_map_event', self._solved_map_event)
