@@ -3,7 +3,7 @@
 # AzurLaneAutoScript
 
 #### Discord [![](https://img.shields.io/discord/720789890354249748?logo=discord&logoColor=ffffff&color=4e4c97)](https://discord.gg/AQN6GeJ) QQ群  ![](https://img.shields.io/badge/QQ%20Group-1087735381-4e4c97)
-Alas, an Azur Lane automation tool with GUI (Supports CN, EN, JP, TW, able to support other servers), designed for 24/7 running scenes, can take over almost all Azur Lane gameplay. Azur Lane, as a mobile game, has entered the late stage of its life cycle. During the period from now to the server down, please reduce the time spent on the Azur Lane and leave everything to Alas.
+Azur Lane bot with GUI (Supports CN, EN, JP, TW, able to support other servers), designed for 24/7 running scenes, can take over almost all Azur Lane gameplay. Azur Lane, as a mobile game, has entered the late stage of its life cycle. During the period from now to the server down, please reduce the time spent on the Azur Lane and leave everything to Alas.
 
 Alas is a free open source software, link: https://github.com/LmeSzinc/AzurLaneAutoScript
 
@@ -35,7 +35,7 @@ GUI development, thanks **[@18870](https://github.com/18870)** , say HURRAY.
 #### 突出特性：
 
 - **心情控制**：计算心情防止红脸或者保持经验加成状态。
-- **活动图开荒**：支持在非周回模式下运行，能处理移动距离限制，光之壁，传送门，岸防炮，地图解谜，地图迷宫等特殊机制。
+- **活动图开荒**：支持在非周回模式下运行，能处理移动距离限制，光之壁，岸防炮，地图解谜，地图迷宫等特殊机制。
 - **无缝收菜**：时间管理大师，计算委托科研等的完成时间，完成后立即收获。
 - **大世界**：一条龙完成，接大世界每日，买空港口商店，做大世界每日，短猫相接，购买明石商店，每30分钟清理隐秘海域，清理深渊海域和塞壬要塞，~~计划作战模式是什么垃圾，感觉不如Alas......好用~~。
 - **大世界月初开荒**：大世界每月重置后，不需要购买作战记录仪（5000油道具）即可开荒。

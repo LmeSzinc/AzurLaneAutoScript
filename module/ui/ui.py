@@ -241,6 +241,7 @@ class UI(InfoHandler):
             # Destination page
             if self.appear(destination.check_button, offset=offset):
                 if confirm_timer.reached():
+                    logger.info(f'Page arrive: {destination}')
                     break
             else:
                 confirm_timer.reset()
@@ -251,6 +252,7 @@ class UI(InfoHandler):
                 if page.parent is None or page.check_button is None:
                     continue
                 if self.appear(page.check_button, offset=offset, interval=5):
+                    logger.info(f'Page switch: {page} -> {page.parent}')
                     self.device.click(page.links[page.parent])
                     confirm_timer.reset()
                     clicked = True
@@ -377,6 +379,7 @@ class UI(InfoHandler):
         if self.appear_then_click(LOGIN_RETURN_SIGN, offset=(30, 30), interval=3):
             return True
         if self.appear(EVENT_LIST_CHECK, offset=(30, 30), interval=3):
+            logger.info(f'UI additional: {EVENT_LIST_CHECK} -> {GOTO_MAIN}')
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
                 return True
         # Monthly pass is about to expire
@@ -402,14 +405,17 @@ class UI(InfoHandler):
 
         # Routed from confirm click
         if self.appear(SHIPYARD_CHECK, offset=(30, 30), interval=3):
+            logger.info(f'UI additional: {SHIPYARD_CHECK} -> {GOTO_MAIN}')
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
                 return True
         if self.appear(META_CHECK, offset=(30, 30), interval=3):
+            logger.info(f'UI additional: {META_CHECK} -> {GOTO_MAIN}')
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
                 return True
 
         # Mistaken click
         if self.appear(PLAYER_CHECK, offset=(30, 30), interval=3):
+            logger.info(f'UI additional: {PLAYER_CHECK} -> {GOTO_MAIN}')
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
                 return True
             if self.appear(BACK_ARROW, offset=(30, 30)):
@@ -423,6 +429,7 @@ class UI(InfoHandler):
         # Game tips
         # Event commission in Vacation Lane.
         if self.appear(GAME_TIPS, offset=(30, 30), interval=3):
+            logger.info(f'UI additional: {GAME_TIPS} -> {GOTO_MAIN}')
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
                 return True
 
@@ -446,8 +453,8 @@ class UI(InfoHandler):
         # - EXCHANGE_CHECK, click BACK_ARROW
         if self._opsi_reset_fleet_preparation_click >= 5:
             logger.critical("Failed to confirm OpSi fleets, too many click on RESET_FLEET_PREPARATION")
-            logger.critical("Possible reason #1: " "You haven't set any fleets in operation siren")
-            logger.critical("Possible reason #1: " "Your fleets haven't satisfied the level restrictions in operation siren")
+            logger.critical("Possible reason #1: You haven't set any fleets in operation siren")
+            logger.critical("Possible reason #2: Your fleets haven't satisfied the level restrictions in operation siren")
             raise RequestHumanTakeover
         if self.appear_then_click(RESET_TICKET_POPUP, offset=(30, 30), interval=3):
             return True
@@ -456,6 +463,7 @@ class UI(InfoHandler):
             self.interval_reset(FLEET_PREPARATION)
             return True
         if self.appear(EXCHANGE_CHECK, offset=(30, 30), interval=3):
+            logger.info(f'UI additional: {EXCHANGE_CHECK} -> {GOTO_MAIN}')
             GOTO_MAIN.clear_offset()
             self.device.click(GOTO_MAIN)
             return True
