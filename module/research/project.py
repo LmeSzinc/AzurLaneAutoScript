@@ -571,7 +571,7 @@ class ResearchSelector(UI):
 
         self.projects = projects
 
-    def research_sort_filter(self, enforce):
+    def research_sort_filter(self, enforce=False):
         """
         Returns:
             list: A list of ResearchProject objects and preset strings,
