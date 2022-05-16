@@ -49,15 +49,23 @@ class InfoHandler(ModuleBase):
         else:
             return False
 
-    def ensure_no_info_bar(self, timeout=0.6):
-        timeout = Timer(timeout)
-        timeout.start()
+    def ensure_no_info_bar(self, timeout=0.6, skip_first_screenshot=True):
+        timeout = Timer(timeout).start()
+        handled = False
         while 1:
-            self.device.screenshot()
-            self.handle_info_bar()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
+            if self.handle_info_bar():
+                handled = True
+
+            # End
             if timeout.reached():
                 break
+
+        return handled
 
     """
     Popup info
