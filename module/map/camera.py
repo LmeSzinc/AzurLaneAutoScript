@@ -2,6 +2,7 @@ import copy
 
 import numpy as np
 
+from module.base.timer import Timer
 from module.base.utils import area_offset
 from module.combat.assets import GET_ITEMS_1
 from module.exception import CampaignEnd, MapDetectionError
@@ -13,6 +14,7 @@ from module.map.utils import location_ensure, random_direction
 from module.map_detection.grid import Grid
 from module.map_detection.utils import area2corner, trapezoid2area
 from module.map_detection.view import View
+from module.os.assets import GLOBE_GOTO_MAP
 
 
 class Camera(MapOperation):
@@ -96,7 +98,7 @@ class Camera(MapOperation):
         if not hasattr(self, 'view'):
             self.view = View(self.config, grid_class=self.grid_class)
 
-    def update(self, camera=True):
+    def _update(self, camera=True):
         """Update map image
 
         Args:
@@ -111,21 +113,22 @@ class Camera(MapOperation):
         try:
             if not self.is_in_map() \
                     and not self.is_in_strategy_submarine_move():
+                logger.warning('Image to detect is not in_map')
                 raise MapDetectionError('Image to detect is not in_map')
             self.view.load(self.device.image)
         except MapDetectionError as e:
             if self.info_bar_count():
-                logger.info('Perspective error cause by info bar. Waiting.')
+                logger.warning('Perspective error caused by info bar')
                 self.handle_info_bar()
-                return self.update(camera=camera)
+                return False
             elif self.appear(GET_ITEMS_1):
-                logger.warning('Items got. Trying handling mystery.')
+                logger.warning('Perspective error caused by get_items')
                 self.handle_mystery()
-                return self.update(camera=camera)
+                return False
             elif self.handle_story_skip():
-                logger.warning('Perspective error cause by story. Handling.')
+                logger.warning('Perspective error caused by story')
                 self.ensure_no_story(skip_first_screenshot=False)
-                return self.update(camera=camera)
+                return False
             elif self.is_in_stage():
                 logger.warning('Image is in stage')
                 raise CampaignEnd('Image is in stage')
@@ -133,13 +136,17 @@ class Camera(MapOperation):
                 logger.warning('Image is in auto search menu')
                 self.ensure_auto_search_exit()
                 raise CampaignEnd('Image is in auto search menu')
+            elif self.appear(GLOBE_GOTO_MAP, offset=(20, 20)):
+                logger.warning('Image is in OS globe map')
+                self.ui_click(GLOBE_GOTO_MAP, check_button=self.is_in_map, offset=(20, 20),
+                              retry_wait=3, skip_first_screenshot=True)
+                return False
             elif not self.is_in_map() \
                     and not self.is_in_strategy_submarine_move():
-                logger.warning('Image to detect is not in_map')
-                if self.appear_then_click(GAME_TIPS, offset=(20, 20)):
-                    logger.warning('Game tips found, retrying')
-                    self.device.screenshot()
-                    self.view.load(self.device.image)
+                if self.appear(GAME_TIPS, offset=(20, 20)):
+                    logger.warning('Perspective error caused by game tips')
+                    self.device.click(GAME_TIPS)
+                    return False
                 else:
                     raise e
             elif 'Camera outside map' in str(e):
@@ -184,6 +191,31 @@ class Camera(MapOperation):
         self.show_camera()
 
         self.predict()
+        return True
+
+    def update(self, camera=True):
+        """
+        Update map image.
+        Wraps the original `update()` method to handle random MapDetectionError
+        which is usually caused by network issues and mistaken clicks.
+
+        Args:
+            camera: True to update camera position and perspective data.
+        """
+        confirm_timer = Timer(5, count=10).start()
+        while 1:
+            try:
+                success = self._update(camera=camera)
+                if success:
+                    break
+                else:
+                    confirm_timer.reset()
+                    continue
+            except MapDetectionError:
+                if confirm_timer.reached():
+                    raise
+                else:
+                    continue
 
     def predict(self):
         self.view.predict()
