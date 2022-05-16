@@ -1070,21 +1070,24 @@
       "name": "使用魔方",
       "help": "",
       "always_use": "总是使用",
-      "only_05_hour": "仅0.5小时科研使用",
+      "only_05_hour": "0.5小时+无项目可做时",
+      "only_no_project": "无项目可做时",
       "do_not_use": "不使用"
     },
     "UseCoin": {
       "name": "使用物资",
       "help": "",
       "always_use": "总是使用",
-      "only_05_hour": "仅0.5小时科研使用",
+      "only_05_hour": "0.5小时+无项目可做时",
+      "only_no_project": "无项目可做时",
       "do_not_use": "不使用"
     },
     "UsePart": {
       "name": "使用部件",
       "help": "",
       "always_use": "总是使用",
-      "only_05_hour": "仅0.5小时科研使用",
+      "only_05_hour": "0.5小时+无项目可做时",
+      "only_no_project": "无项目可做时",
       "do_not_use": "不使用"
     },
     "PresetFilter": {

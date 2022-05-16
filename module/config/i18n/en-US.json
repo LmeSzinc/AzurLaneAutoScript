@@ -1070,21 +1070,24 @@
       "name": "Use Cube",
       "help": "Allow to undertake projects that require cubes",
       "always_use": "Always Use",
-      "only_05_hour": "Only 0.5 Hour Researches",
+      "only_05_hour": "0.5 Hour+No project available",
+      "only_no_project": "Only no project available",
       "do_not_use": "Don't Use"
     },
     "UseCoin": {
       "name": "Use Coin",
       "help": "Allow to undertake projects that require coins",
       "always_use": "Always Use",
-      "only_05_hour": "Only 0.5 Hour Researches",
+      "only_05_hour": "0.5 Hour+No project available",
+      "only_no_project": "Only no project available",
       "do_not_use": "Don't Use"
     },
     "UsePart": {
       "name": "Use Part/Plate",
       "help": "Allow to undertake projects that require parts/plates",
       "always_use": "Always Use",
-      "only_05_hour": "Only 0.5 Hour Researches",
+      "only_05_hour": "0.5 Hour+No project available",
+      "only_no_project": "Only no project available",
       "do_not_use": "Don't Use"
     },
     "PresetFilter": {

@@ -254,13 +254,13 @@ ControlExpOverflow:
 Research:
   UseCube:
     value: only_05_hour
-    option: [always_use, only_05_hour, do_not_use]
+    option: [always_use, only_05_hour, only_no_project, do_not_use]
   UseCoin:
     value: always_use
-    option: [always_use, only_05_hour, do_not_use]
+    option: [always_use, only_05_hour, only_no_project, do_not_use]
   UsePart:
     value: always_use
-    option: [always_use, only_05_hour, do_not_use]
+    option: [always_use, only_05_hour, only_no_project, do_not_use]
   PresetFilter:
     value: series_4_blueprint_tenrai
     option:

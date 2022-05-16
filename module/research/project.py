@@ -1,5 +1,6 @@
 import re
 from datetime import timedelta
+from functools import partial
 
 from scipy import signal
 
@@ -570,7 +571,7 @@ class ResearchSelector(UI):
 
         self.projects = projects
 
-    def research_sort_filter(self):
+    def research_sort_filter(self, enforce):
         """
         Returns:
             list: A list of ResearchProject objects and preset strings,
@@ -595,17 +596,17 @@ class ResearchSelector(UI):
         string = string.lower().replace('hakuryuu', 'hakuryu')
 
         FILTER.load(string)
-        priority = FILTER.apply(self.projects, func=self._research_check)
+        priority = FILTER.apply(self.projects, func=partial(self._research_check, enforce=enforce))
 
         # Log
         logger.attr('Filter_sort', ' > '.join([str(project) for project in priority]))
         return priority
 
-    def _research_check(self, project):
+    def _research_check(self, project, enforce=False):
         """
         Args:
             project (ResearchProject):
-
+            enforce (Bool):
         Returns:
             bool:
         """
@@ -617,17 +618,23 @@ class ResearchSelector(UI):
         if project.need_cube:
             if self.config.Research_UseCube == 'do_not_use':
                 return False
-            if self.config.Research_UseCube == 'only_05_hour' and not is_05:
+            if self.config.Research_UseCube == 'only_no_project' and not enforce:
+                return False
+            if self.config.Research_UseCube == 'only_05_hour' and not is_05 and not enforce:
                 return False
         if project.need_coin:
             if self.config.Research_UseCoin == 'do_not_use':
                 return False
-            if self.config.Research_UseCoin == 'only_05_hour' and not is_05:
+            if self.config.Research_UseCoin == 'only_no_project' and not enforce:
+                return False
+            if self.config.Research_UseCoin == 'only_05_hour' and not is_05 and not enforce:
                 return False
         if project.need_part:
             if self.config.Research_UsePart == 'do_not_use':
                 return False
-            if self.config.Research_UsePart == 'only_05_hour' and not is_05:
+            if self.config.Research_UsePart == 'only_no_project' and not enforce:
+                return False
+            if self.config.Research_UsePart == 'only_05_hour' and not is_05 and not enforce:
                 return False
 
         # Reasons to ignore B series and E-2:
@@ -652,26 +659,26 @@ class ResearchSelector(UI):
 
         return True
 
-    def research_sort_shortest(self):
+    def research_sort_shortest(self, enforce):
         """
         Returns:
             list: A list of ResearchProject objects and preset strings,
                 such as [object, object, object, 'reset']
         """
         FILTER.load(FILTER_STRING_SHORTEST)
-        priority = FILTER.apply(self.projects, func=self._research_check)
+        priority = FILTER.apply(self.projects, func=partial(self._research_check, enforce=enforce))
 
         logger.attr('Filter_sort', ' > '.join([str(project) for project in priority]))
         return priority
 
-    def research_sort_cheapest(self):
+    def research_sort_cheapest(self, enforce):
         """
         Returns:
             list: A list of ResearchProject objects and preset strings,
                 such as [object, object, object, 'reset']
         """
         FILTER.load(FILTER_STRING_CHEAPEST)
-        priority = FILTER.apply(self.projects, func=self._research_check)
+        priority = FILTER.apply(self.projects, func=partial(self._research_check, enforce=enforce))
 
         logger.attr('Filter_sort', ' > '.join([str(project) for project in priority]))
         return priority
