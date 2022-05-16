@@ -288,6 +288,7 @@ class OperationSiren(OSGlobe):
         self.config.override(
             OpsiGeneral_DoRandomMapEvent=False,
             HOMO_EDGE_DETECT=False,
+            STORY_OPTION=0,
         )
         self.zone_init()
         self.fleet_set(self.config.OpsiFleet_Fleet)
@@ -331,9 +332,9 @@ class OperationSiren(OSGlobe):
             self.config.task_stop()
 
         self.config.override(
-            OpsiGeneral_RepairThreshold=0,
             OpsiGeneral_DoRandomMapEvent=False,
             HOMO_EDGE_DETECT=False,
+            STORY_OPTION=0
         )
         self.zone_init()
         result = self.run_abyssal()
@@ -389,9 +390,9 @@ class OperationSiren(OSGlobe):
             bool: If all cleared.
         """
         self.config.override(
-            OpsiGeneral_RepairThreshold=0,
             OpsiGeneral_DoRandomMapEvent=False,
             HOMO_EDGE_DETECT=False,
+            STORY_OPTION=0
         )
         # Try 3 times, because fleet may stuck in fog.
         for _ in range(3):
