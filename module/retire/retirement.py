@@ -47,7 +47,8 @@ class Retirement(Enhancement):
                     f = True
 
             if not f:
-                logger.warning(f'Unknown rarity color. Grid: ({x}, {y}). Color: {card_color}')
+                logger.warning(
+                    f'Unknown rarity color. Grid: ({x}, {y}). Color: {card_color}')
 
         logger.info(' '.join([r.rjust(3) for r in rarity[:7]]))
         logger.info(' '.join([r.rjust(3) for r in rarity[7:]]))
@@ -120,13 +121,13 @@ class Retirement(Enhancement):
 
     def retirement_appear(self):
         return self.appear(RETIRE_APPEAR_1, offset=30) \
-               and self.appear(RETIRE_APPEAR_2, offset=30) \
-               and self.appear(RETIRE_APPEAR_3, offset=30)
+            and self.appear(RETIRE_APPEAR_2, offset=30) \
+            and self.appear(RETIRE_APPEAR_3, offset=30)
 
     def _retirement_quit(self):
         def check_func():
             return not self.appear(IN_RETIREMENT_CHECK) \
-                   and not self.appear(DOCK_CHECK)
+                and not self.appear(DOCK_CHECK)
 
         self.ui_back(check_button=check_func, skip_first_screenshot=True)
 
@@ -209,7 +210,8 @@ class Retirement(Enhancement):
             'SSR': 'super_rare'
         }
         _rarity = [correspond_name[i] for i in rarity]
-        self.dock_filter_set(sort='level', index='all', faction='all', rarity=_rarity, extra='no_limit')
+        self.dock_filter_set(sort='level', index='all',
+                             faction='all', rarity=_rarity, extra='no_limit')
         self.dock_sort_method_dsc_set(False)
         self.dock_favourite_set(False)
         total = 0
@@ -218,7 +220,8 @@ class Retirement(Enhancement):
             self._have_keeped_cv = False
 
         while amount:
-            selected = self._retirement_choose(amount=10 if amount > 10 else amount, target_rarity=rarity)
+            selected = self._retirement_choose(
+                amount=10 if amount > 10 else amount, target_rarity=rarity)
             total += selected
             if selected == 0:
                 break
@@ -264,9 +267,14 @@ class Retirement(Enhancement):
                 return False
             if self.appear(DOCK_CHECK, offset=(20, 20), interval=10):
                 self.handle_dock_cards_loading()
-                total = self._enhance_handler()
+                total, remain = self._enhance_handler()
                 if not total:
-                    logger.info('No ship to enhance, but dock full, will try retire')
+                    logger.info(
+                        'No ship to enhance, but dock full, will try retire')
+                    self._unable_to_enhance = True
+                logger.info(f'The remaining spare dock amount is {remain}')
+                if remain < 3:
+                    logger.info('Too few spare docks, retire next time')
                     self._unable_to_enhance = True
                 self.interval_reset(DOCK_CHECK)
                 return True
@@ -300,7 +308,8 @@ class Retirement(Enhancement):
         if mode == 'one_click_retire':
             total = self.retire_ships_one_click()
             if not total:
-                logger.warning('No ship retired, trying to reset dock filter and disable favourite, then retire again')
+                logger.warning(
+                    'No ship retired, trying to reset dock filter and disable favourite, then retire again')
                 self.dock_filter_set()
                 self.dock_favourite_set(False)
                 total = self.retire_ships_one_click()
@@ -318,7 +327,8 @@ class Retirement(Enhancement):
                                 'make sure it can select ships to retire')
                 raise RequestHumanTakeover
         else:
-            raise ScriptError(f'Unknown retire mode: {self.config.Retirement_RetireMode}')
+            raise ScriptError(
+                f'Unknown retire mode: {self.config.Retirement_RetireMode}')
 
         self._retirement_quit()
         self.config.DOCK_FULL_TRIGGERED = True
@@ -356,7 +366,8 @@ class Retirement(Enhancement):
         if self.config.GemsFarming_CommonCV == 'any':
             for commen_cv_name in ['BOGUE', 'HERMES', 'LANGLEY', 'RANGER']:
                 template = globals()[f'TEMPLATE_{commen_cv_name}']
-                sim, button = template.match_result(resize(self.device.image, size=(1189, 669)))
+                sim, button = template.match_result(
+                    resize(self.device.image, size=(1189, 669)))
 
                 if sim > self.config.COMMON_CV_THRESHOLD:
                     return Button(button=tuple(_ * 155 // 144 for _ in button.button), area=button.area,
@@ -366,8 +377,10 @@ class Retirement(Enhancement):
                 return None
         else:
 
-            template = globals()[f'TEMPLATE_{self.config.GemsFarming_CommonCV.upper()}']
-            sim, button = template.match_result(resize(self.device.image, size=(1189, 669)))
+            template = globals()[
+                f'TEMPLATE_{self.config.GemsFarming_CommonCV.upper()}']
+            sim, button = template.match_result(
+                resize(self.device.image, size=(1189, 669)))
 
             if sim > self.config.COMMON_CV_THRESHOLD:
                 return Button(button=tuple(_ * 155 // 144 for _ in button.button), area=button.area, color=button.color,
