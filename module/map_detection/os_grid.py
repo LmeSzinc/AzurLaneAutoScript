@@ -1,7 +1,7 @@
 from module.base.utils import *
 from module.map_detection.grid import Grid, GridInfo, GridPredictor
 from module.map_detection.utils_assets import ASSETS
-from module.os.assets import TEMPLATE_LoggingTower, TEMPLATE_ScanningDevice
+from module.os.assets import *
 from module.os.radar import RadarGrid
 from module.template.assets import *
 
@@ -203,10 +203,19 @@ class OSGridPredictor(GridPredictor):
         'ScanningDevice': TEMPLATE_ScanningDevice,
         'LoggingTower': TEMPLATE_LoggingTower,
     }
+    _os_template_enemy_upper = {
+        'ScanningDevice': TEMPLATE_ScanningDeviceUpper,
+        'LoggingTower': TEMPLATE_LoggingTowerUpper,
+    }
 
     def predict_enemy_genre(self):
         image = rgb2gray(self.relative_crop((-0.5, -1, 0.5, 0), shape=(60, 60)))
         for name, template in self._os_template_enemy.items():
+            if template.match(image):
+                return name
+
+        image = rgb2gray(self.relative_crop((-0.5, -2, 0.5, -1), shape=(60, 60)))
+        for name, template in self._os_template_enemy_upper.items():
             if template.match(image):
                 return name
 
