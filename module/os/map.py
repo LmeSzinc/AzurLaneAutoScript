@@ -412,6 +412,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
                 self.fleet_set(self.get_second_fleet())
             if not self.config.task.command == 'OpsiExplore' and len(self._solved_map_event):
                 logger.info('Solved a map event and not in OpsiExplore, stop rescan')
+                logger.attr('Solved_map_event', self._solved_map_event)
                 return False
             result = self.map_rescan_once(drop=drop)
             if not result:
