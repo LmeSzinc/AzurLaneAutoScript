@@ -46,6 +46,8 @@ class GeneratedConfig:
     DropRecord_SaveOpsi = False
     DropRecord_UploadOpsi = False
     DropRecord_SaveMeowfficer = False
+    DropRecord_SaveMeowfficerTalent = False
+    DropRecord_UploadMeowfficerTalent = False
 
     # Group `Retirement`
     Retirement_Enable = True

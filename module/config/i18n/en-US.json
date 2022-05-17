@@ -407,6 +407,14 @@
     "SaveMeowfficer": {
       "name": "Save Meowfficer Buy Screenshots",
       "help": ""
+    },
+    "SaveMeowfficerTalent": {
+      "name": "Save Meowfficer Skill Screenshots",
+      "help": ""
+    },
+    "UploadMeowfficerTalent": {
+      "name": "Upload Meowfficer Skill Screenshots",
+      "help": ""
     }
   },
   "Retirement": {

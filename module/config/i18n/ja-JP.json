@@ -407,6 +407,14 @@
     "SaveMeowfficer": {
       "name": "DropRecord.SaveMeowfficer.name",
       "help": "DropRecord.SaveMeowfficer.help"
+    },
+    "SaveMeowfficerTalent": {
+      "name": "DropRecord.SaveMeowfficerTalent.name",
+      "help": "DropRecord.SaveMeowfficerTalent.help"
+    },
+    "UploadMeowfficerTalent": {
+      "name": "DropRecord.UploadMeowfficerTalent.name",
+      "help": "DropRecord.UploadMeowfficerTalent.help"
     }
   },
   "Retirement": {
