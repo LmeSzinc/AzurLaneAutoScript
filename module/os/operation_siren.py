@@ -7,11 +7,11 @@ from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.os.fleet import BossFleet
-from module.os.globe import OSGlobe
 from module.os.globe_operation import OSExploreError
+from module.os.map import OSMap
 
 
-class OperationSiren(OSGlobe):
+class OperationSiren(OSMap):
     def os_port_daily(self, mission=True, supply=True):
         """
         Accept all missions and buy all supplies in all ports.
