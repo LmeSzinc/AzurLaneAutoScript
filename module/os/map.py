@@ -7,7 +7,6 @@ from module.exception import CampaignEnd, RequestHumanTakeover
 from module.exception import MapWalkError, ScriptError
 from module.logger import logger
 from module.map.map import Map
-from module.map.map_grids import SelectedGrids
 from module.os.assets import FLEET_EMP_DEBUFF
 from module.os.fleet import OSFleet
 from module.os.globe_camera import GlobeCamera
@@ -347,134 +346,6 @@ class OSMap(OSFleet, Map, GlobeCamera):
         logger.info(f'Handle after auto search finished, solved={solved}')
         return solved
 
-    def clear_all_objects(self, grid=None):
-        """Method to clear all objects around specific grid.
-
-        Args:
-            grid (GridInfo):
-
-        Returns:
-            int: Cleared count
-        """
-        if grid is not None:
-            logger.hr(f'clear_all_objects: {grid}', level=2)
-        for count in range(0, 10):
-            grids = self.map.select(is_resource=True) \
-                .add(self.map.select(is_enemy=True)) \
-                .add(self.map.select(is_meowfficer=True)) \
-                .add(self.map.select(is_exclamation=True)).delete(self.map.select(is_interactive_only=True))
-            if grid is not None:
-                grids = SelectedGrids([g for g in grids if self.grid_is_in_sight(g, camera=grid)])
-
-            if not grids:
-                logger.info(f'OS object cleared: {count}')
-                return count
-
-            grids = grids.sort_by_camera_distance(self.fleet_current)
-            logger.hr('Clear all resource')
-            logger.info(f'Grids: {grids}')
-            logger.info(f'Clear object {grids[0]}')
-            self.goto(grids[0], expected=self._get_goto_expected(grids[0]))
-            self.handle_meowfficer_searching()
-
-        logger.warning('Too many objects to clear, stopped')
-        return 10
-
-    def handle_meowfficer_searching(self):
-        """
-        Move back and forth to handle meowfficer farming
-
-        Returns:
-            bool: If handled
-        """
-        if not self.is_meowfficer_searching():
-            return False
-
-        logger.hr('Meowfficer searching')
-        back = self.fleet_current
-        sea = self.get_sea_grids()[:4]
-        logger.info(f'Sea grids: {sea}')
-        forth = sea[0]
-
-        # Meowfficer searching finishes in 8 steps at max
-        # If found good items in current step, progress bar doesn't increase
-        for grid in [forth, back] * 7:
-            self.goto(grid)
-            if self.is_meowfficer_searching():
-                percent = self.get_meowfficer_searching_percentage()
-                logger.attr('Meowfficer_searching', f'{int(percent * 100)}%')
-            else:
-                logger.hr('Meowfficer searching end')
-                return True
-
-        logger.warning('Too many meowfficer searching steps')
-        return True
-
-    def clear_remain_grids(self):
-        logger.hr('Clear remain grids', level=2)
-        self.clear_all_objects()
-
-    def full_clear(self):
-        """
-        Clear the whole map.
-        """
-        logger.info(f'Full scan start')
-        self.map.reset_fleet()
-
-        queue = self.map.camera_data
-
-        while len(queue) > 0:
-            queue = queue.sort_by_camera_distance(self.camera)
-            self.focus_to(queue[0])
-            self.focus_to_grid_center(0.25)
-            self.view.predict()
-            self.map.update(grids=self.view, camera=self.camera)
-            self.map.show()
-
-            self.clear_all_objects(queue[0])
-            queue = queue[1:]
-
-        self.clear_remain_grids()
-        self.clear_akashi()
-        logger.info('Full clear end')
-
-    def clear_akashi(self):
-        """
-        Handle Akashi's shop after auto search.
-        After auto search, fleet will near akashi.
-        This method detect where akashi stands, enter shop, buy items and exit.
-
-        Returns:
-            bool: If found and handled.
-        """
-        if not self.config.OpsiGeneral_DoRandomMapEvent:
-            return False
-        if self.zone.is_port:
-            logger.info('Current zone is a port, do not have akashi')
-            return False
-
-        grid = self.radar.predict_akashi(self.device.image)
-        if grid is None:
-            logger.info('No akashi on this map')
-            return False
-
-        logger.info(f'Found Akashi on {grid}')
-        self.handle_info_bar()
-
-        self.update_os()
-        self.view.predict()
-        self.view.show()
-
-        grid = self.convert_radar_to_local(grid)
-        self.handle_akashi_supply_buy(grid)
-        return True
-
-    def run(self):
-        self.device.screenshot()
-        self.handle_siren_platform()
-        self.map_init(map_=None)
-        self.full_clear()
-
     @property
     def is_in_task_explore(self):
         return self.config.task.command == 'OpsiExplore'
@@ -582,7 +453,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
 
             grid = self.convert_radar_to_local(grid)
             self.device.click(grid)
-            result = self.wait_until_walk_stable(drop=drop, confirm_timer=Timer(1.5, count=4))
+            result = self.wait_until_walk_stable(drop=drop, walk_out_of_step=False, confirm_timer=Timer(1.5, count=4))
             if 'akashi' in result:
                 self._solved_map_event.add('is_akashi')
                 return True
@@ -663,7 +534,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
             fleet = self.convert_radar_to_local((0, 0))
             if fleet.distance_to(grid) > 1:
                 self.device.click(grid)
-                result = self.wait_until_walk_stable(drop=drop)
+                result = self.wait_until_walk_stable(drop=drop, walk_out_of_step=False)
                 if 'akashi' in result:
                     self._solved_map_event.add('is_akashi')
                     return True
@@ -680,7 +551,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
             grid = grids[0]
             logger.info(f'Found scanning device on {grid}')
             self.device.click(grid)
-            result = self.wait_until_walk_stable(drop=drop, confirm_timer=Timer(1.5, count=4))
+            result = self.wait_until_walk_stable(drop=drop, walk_out_of_step=False, confirm_timer=Timer(1.5, count=4))
             self.os_auto_search_run(drop=drop)
             if 'event' in result:
                 self._solved_map_event.add('is_scanning_device')
@@ -693,7 +564,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
             grid = grids[0]
             logger.info(f'Found logging tower on {grid}')
             self.device.click(grid)
-            result = self.wait_until_walk_stable(drop=drop, confirm_timer=Timer(1.5, count=4))
+            result = self.wait_until_walk_stable(drop=drop, walk_out_of_step=False, confirm_timer=Timer(1.5, count=4))
             if 'event' in result:
                 self._solved_map_event.add('is_logging_tower')
                 return True
@@ -707,10 +578,8 @@ class OSMap(OSFleet, Map, GlobeCamera):
                 and grids[0].is_fleet_mechanism:
             grid = grids[0]
             logger.info(f'Found fleet mechanism on {grid}')
-            with self.stat.new('fleet_mechanism', save=True) as drop:
-                drop.add(self.device.image)
             self.device.click(grid)
-            self.wait_until_walk_stable(drop=drop, confirm_timer=Timer(1.5, count=4))
+            self.wait_until_walk_stable(drop=drop, walk_out_of_step=False, confirm_timer=Timer(1.5, count=4))
 
             if self._solved_fleet_mechanism:
                 logger.info('All fleet mechanism are solved')
