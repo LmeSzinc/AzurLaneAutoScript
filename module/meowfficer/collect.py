@@ -108,6 +108,8 @@ class MeowfficerCollect(MeowfficerBase):
             drop.add(self.device.image)
             self.ui_click(MEOWFFICER_TALENT_CLOSE, check_button=self._check_popup_exit,
                           appear_button=MEOWFFICER_TALENT_CLOSE, skip_first_screenshot=True)
+            self.device.click_record.pop()
+            self.device.click_record.pop()
 
     def _meow_apply_lock(self, lock=True):
         """
@@ -153,6 +155,8 @@ class MeowfficerCollect(MeowfficerBase):
 
         self.ui_click(MEOWFFICER_CANCEL, check_button=self._check_popup_exit,
                       offset=(40, 20), retry_wait=3, skip_first_screenshot=True)
+        self.device.click_record.pop()
+        self.device.click_record.pop()
 
     def meow_get(self, skip_first_screenshot=True):
         """
@@ -172,6 +176,7 @@ class MeowfficerCollect(MeowfficerBase):
         """
         # Loop through possible screen transitions
         confirm_timer = Timer(1.5, count=3).start()
+        count = 0
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -182,6 +187,8 @@ class MeowfficerCollect(MeowfficerBase):
                 confirm_timer.reset()
                 continue
             if self.appear(MEOWFFICER_GET_CHECK, offset=(40, 40), interval=3):
+                count += 1
+                logger.attr('Meow_get', count)
                 with self.stat.new(
                         genre="meowfficer_talent",
                         upload=self.config.DropRecord_UploadMeowfficerTalent,

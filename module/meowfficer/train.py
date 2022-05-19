@@ -145,6 +145,7 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
             in: MEOWFFICER_TRAIN
             out: MEOWFFICER_TRAIN
         """
+        logger.hr('Meowfficer queue', level=1)
         # Either can remain in same window or
         # enter the queuing window
         if not self._meow_queue_enter():
