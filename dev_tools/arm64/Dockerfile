@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y libgl1 adb libatlas-base-dev libopencv-
 COPY ./requirements.txt /app/requirements.txt
 RUN $PYROOT/bin/pip install -r /app/requirements.txt
 
-COPY ./mxnet-1.9.1-py3-none-any.whl /app/mxnet-1.9.1-py3-none-any.whl
+RUN wget https://raw.githubusercontent.com/binss/python-wheel/main/mxnet-1.9.1-py3-none-any.whl -P /app/
 RUN $PYROOT/bin/pip uninstall mxnet -y && $PYROOT/bin/pip install /app/mxnet-1.9.1-py3-none-any.whl
 
 ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/app/pyroot/mxnet/"
