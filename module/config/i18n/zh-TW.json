@@ -407,6 +407,14 @@
     "SaveMeowfficer": {
       "name": "保存指揮喵購買截圖",
       "help": ""
+    },
+    "SaveMeowfficerTalent": {
+      "name": "保存指揮喵天賦截圖",
+      "help": ""
+    },
+    "UploadMeowfficerTalent": {
+      "name": "上傳指揮喵天賦截圖",
+      "help": ""
     }
   },
   "Retirement": {
@@ -441,7 +449,7 @@
     },
     "EnhanceCheckPerCategory": {
       "name": "分類強化",
-      "help": "每項艦船分類最多強化多少艘艦船，\n戰鬥中的艦船會被跳過且不計入"
+      "help": "每項艦船分類最多強化多少艘艦船，\n戰鬥中的艦船會被跳過且不計入，\n優先判斷是否有強化材料"
     },
     "OldRetireN": {
       "name": "退役白船 ( N )",
@@ -473,6 +481,7 @@
       "name": "活動名稱",
       "help": "自動選擇至最新的活動圖",
       "campaign_main": "主線圖",
+      "raid_20200624": "特別演習埃塞克斯級(復刻)",
       "event_20220428_cn": "Rondo at Rainbows End",
       "event_20220414_cn": "Aurora Noctis Rerun",
       "event_20220407_tw": "蒼紅的迴響(復刻)",
@@ -515,7 +524,6 @@
       "event_20201002_en": "Counterattack Within the Fjord",
       "event_20200820_cn": "Scherzo of Iron and Blood Rerun",
       "event_20200716_en": "Ink Stained Steel Sakura Rerun",
-      "raid_20200624": "特別演習埃塞克斯級",
       "event_20200611_en": "Skybound Oratorio",
       "event_20200603_en": "Prelude under the Moon Rerun",
       "event_20200521_en": "Iris of Light and Dark Rerun",
@@ -1070,21 +1078,24 @@
       "name": "使用魔方",
       "help": "",
       "always_use": "總是使用",
-      "only_05_hour": "僅0.5小時科研使用",
+      "only_05_hour": "0.5小時+無項目可做時",
+      "only_no_project": "無項目可做時",
       "do_not_use": "不使用"
     },
     "UseCoin": {
       "name": "使用物資",
       "help": "",
       "always_use": "總是使用",
-      "only_05_hour": "僅0.5小時科研使用",
+      "only_05_hour": "0.5小時+無項目可做時",
+      "only_no_project": "無項目可做時",
       "do_not_use": "不使用"
     },
     "UsePart": {
       "name": "使用部件",
       "help": "",
       "always_use": "總是使用",
-      "only_05_hour": "僅0.5小時科研使用",
+      "only_05_hour": "0.5小時+無項目可做時",
+      "only_no_project": "無項目可做時",
       "do_not_use": "不使用"
     },
     "PresetFilter": {
@@ -1679,9 +1690,9 @@
       "name": "任意艦船血量低於 X 後，回港修理",
       "help": "0.0 ~ 1.0"
     },
-    "BuyAkashiShop": {
-      "name": "買明石商店",
-      "help": ""
+    "DoRandomMapEvent": {
+      "name": "完成地圖隨機事件",
+      "help": "在自律尋敵完成後重新掃描一遍地圖，購買明石商店、使用塞壬信息收集裝置、使用塞壬探測裝置、解鎖兩艦隊機關"
     },
     "AkashiShopFilter": {
       "name": "明石商店過濾器",
@@ -1847,6 +1858,10 @@
     "RepairShip": {
       "name": "靠近港口時自動修船",
       "help": "手動把隊伍移動至港口後，Alas將幫助修船\n修理完成後需要在30秒內將隊伍移出港口，否則將再次修船"
+    },
+    "SelectEnemy": {
+      "name": "清理附近的敵人和物資",
+      "help": "清理附近的敵人和物資，清理完後又會找到新的敵人或物資，這樣通常能清理整個海域，如果有遺漏或者點擊錯誤，需要手動解決"
     }
   },
   "Benchmark": {

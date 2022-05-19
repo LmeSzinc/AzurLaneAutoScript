@@ -16,6 +16,7 @@ class RadarGrid:
     is_question = False  # White question mark '?'
     is_ally = False  # Ally cargo ship in daily mission, yellow '!' on radar
     is_akashi = False  # White question mark '?'
+    is_archive = False  # Purple archive
     is_port = False
 
     enemy_scale = 0
@@ -26,6 +27,7 @@ class RadarGrid:
     dic_encode = {
         'EN': 'is_enemy',
         'RE': 'is_resource',
+        'AR': 'is_archive',
         'EX': 'is_exclamation',
         'ME': 'is_meowfficer',
         'PO': 'is_port',
@@ -88,6 +90,7 @@ class RadarGrid:
         self.is_exclamation = self.predict_exclamation()
         self.is_port = self.predict_port()
         self.is_question = self.predict_question()
+        self.is_archive = self.predict_archive()
 
         if self.enemy_genre:
             self.is_enemy = True
@@ -137,6 +140,9 @@ class RadarGrid:
 
     def predict_question(self):
         return self.image_color_count(area=(0, -7, 6, 0), color=(255, 255, 255), threshold=235, count=10)
+
+    def predict_archive(self):
+        return self.image_color_count(area=(-3, -3, 3, 3), color=(173, 113, 255), threshold=235, count=10)
 
 
 class Radar:
@@ -306,3 +312,45 @@ class Radar:
                 return location
 
         return None
+
+    def predict_question(self, image):
+        """
+        Args:
+            image: Screenshot.
+
+        Returns:
+            tuple: Grid location of question mark on radar, or None if nothing found.
+        """
+        self.predict(image)
+        for location in [(0, 1), (-1, 0), (1, 0), (0, -1), (0, -2), (0, -3)]:
+            grid = self[location]
+            if grid.is_question and not grid.predict_port():
+                return location
+
+        return None
+
+    def nearest_object(self, camera_sight=(-4, -3, 3, 3)):
+        """
+        Args:
+            camera_sight:
+
+        Returns:
+            RadarGrid: Or None if no objects
+        """
+        objects = []
+        for grid in self:
+            if grid.is_port:
+                continue
+            if grid.is_enemy or grid.is_resource or grid.is_meowfficer \
+                    or grid.is_exclamation or grid.is_question or grid.is_archive:
+                objects.append(grid)
+        objects = SelectedGrids(objects).sort_by_camera_distance((0, 0))
+        if not objects:
+            return None
+
+        nearest = objects[0]
+        limited = point_limit(nearest.location, area=camera_sight)
+        if nearest.location == limited:
+            return nearest
+        else:
+            return self[limited]

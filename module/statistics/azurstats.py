@@ -54,6 +54,9 @@ class DropImage:
             main.device.screenshot()
             self.add(main.device.image)
 
+    def clear(self):
+        self.images = []
+
     @property
     def count(self):
         return len(self.images)

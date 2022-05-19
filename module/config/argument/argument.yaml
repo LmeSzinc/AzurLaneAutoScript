@@ -53,6 +53,8 @@ DropRecord:
   SaveOpsi: false
   UploadOpsi: false
   SaveMeowfficer: false
+  SaveMeowfficerTalent: false
+  UploadMeowfficerTalent: false
 Retirement:
   Enable: true
   RetireMode:
@@ -254,13 +256,13 @@ ControlExpOverflow:
 Research:
   UseCube:
     value: only_05_hour
-    option: [always_use, only_05_hour, do_not_use]
+    option: [always_use, only_05_hour, only_no_project, do_not_use]
   UseCoin:
     value: always_use
-    option: [always_use, only_05_hour, do_not_use]
+    option: [always_use, only_05_hour, only_no_project, do_not_use]
   UsePart:
     value: always_use
-    option: [always_use, only_05_hour, do_not_use]
+    option: [always_use, only_05_hour, only_no_project, do_not_use]
   PresetFilter:
     value: series_4_blueprint_tenrai
     option:
@@ -453,7 +455,7 @@ OpsiGeneral:
   BuyActionPoint: false
   OilLimit: 1000
   RepairThreshold: 0.4
-  BuyAkashiShop: true
+  DoRandomMapEvent: true
   AkashiShopFilter: |-
     ActionPoint > PurpleCoins
 OpsiAshBeacon:
@@ -497,6 +499,7 @@ Daemon:
   EnterMap: true
 OpsiDaemon:
   RepairShip: true
+  SelectEnemy: true
 Benchmark:
   AdbScreenshot: true
   AdbncScreenshot: true

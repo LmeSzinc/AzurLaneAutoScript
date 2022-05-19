@@ -131,6 +131,14 @@
       "SaveMeowfficer": {
         "type": "checkbox",
         "value": false
+      },
+      "SaveMeowfficerTalent": {
+        "type": "checkbox",
+        "value": false
+      },
+      "UploadMeowfficerTalent": {
+        "type": "checkbox",
+        "value": false
       }
     }
   },
@@ -4240,6 +4248,7 @@
         "option": [
           "always_use",
           "only_05_hour",
+          "only_no_project",
           "do_not_use"
         ]
       },
@@ -4249,6 +4258,7 @@
         "option": [
           "always_use",
           "only_05_hour",
+          "only_no_project",
           "do_not_use"
         ]
       },
@@ -4258,6 +4268,7 @@
         "option": [
           "always_use",
           "only_05_hour",
+          "only_no_project",
           "do_not_use"
         ]
       },
@@ -5959,7 +5970,7 @@
         "type": "input",
         "value": 0.4
       },
-      "BuyAkashiShop": {
+      "DoRandomMapEvent": {
         "type": "checkbox",
         "value": true
       },
@@ -6377,6 +6388,10 @@
   "OpsiDaemon": {
     "OpsiDaemon": {
       "RepairShip": {
+        "type": "checkbox",
+        "value": true
+      },
+      "SelectEnemy": {
         "type": "checkbox",
         "value": true
       }

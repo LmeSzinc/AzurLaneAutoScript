@@ -322,3 +322,15 @@ class GridInfo:
             return [(0, -1)]
 
         return []
+
+    def distance_to(self, other):
+        """
+        Args:
+            other (GridInfo):
+
+        Returns:
+            int: Manhattan distance
+        """
+        l1 = self.location
+        l2 = other.location
+        return abs(l1[0] - l2[0]) + abs(l1[1] - l2[1])

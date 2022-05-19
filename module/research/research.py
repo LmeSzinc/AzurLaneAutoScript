@@ -18,6 +18,7 @@ class RewardResearch(ResearchSelector):
     _research_project_offset = 0
     _research_finished_index = 2
     research_project_started = None  # ResearchProject
+    enforce = False
 
     def ensure_research_stable(self):
         self.wait_until_stable(STABLE_CHECKER)
@@ -92,6 +93,18 @@ class RewardResearch(ResearchSelector):
         self._research_project_offset = 0
         return True
 
+    def research_enforce(self):
+        if (not self.enforce) \
+                and (self.config.Research_UseCube == 'only_no_project'
+                     or self.config.Research_UseCube == 'only_05_hour'
+                     or self.config.Research_UseCoin == 'only_no_project'
+                     or self.config.Research_UseCoin == 'only_05_hour'
+                     or self.config.Research_UsePart == 'only_no_project'
+                     or self.config.Research_UsePart == 'only_05_hour'):
+            logger.info('Enforce choosing research project')
+            self.enforce = True
+            self.research_select(self.research_sort_filter(self.enforce))
+
     def research_select(self, priority):
         """
         Args:
@@ -103,6 +116,7 @@ class RewardResearch(ResearchSelector):
         """
         if not len(priority):
             logger.info('No research project satisfies current filter')
+            self.research_enforce()
             return True
         for project in priority:
             # priority example: ['reset', 'shortest']
@@ -115,9 +129,9 @@ class RewardResearch(ResearchSelector):
             if isinstance(project, str):
                 # priority example: ['shortest']
                 if project == 'shortest':
-                    self.research_select(self.research_sort_shortest())
+                    self.research_select(self.research_sort_shortest(self.enforce))
                 elif project == 'cheapest':
-                    self.research_select(self.research_sort_cheapest())
+                    self.research_select(self.research_sort_cheapest(self.enforce))
                 else:
                     logger.warning(f'Unknown select method: {project}')
                 return True
@@ -129,6 +143,7 @@ class RewardResearch(ResearchSelector):
                     continue
 
         logger.info('No research project started')
+        self.research_enforce()
         return True
 
     def research_project_start(self, project, skip_first_screenshot=True):
@@ -250,7 +265,8 @@ class RewardResearch(ResearchSelector):
                     self.device.sleep(1.5)
                     self.device.screenshot()
                     record.add(self.device.image)
-                    self.device.swipe_vector((0, 250), box=ITEMS_3_SWIPE.area, random_range=(-10, -10, 10, 10), padding=0)
+                    self.device.swipe_vector((0, 250), box=ITEMS_3_SWIPE.area, random_range=(-10, -10, 10, 10),
+                                             padding=0)
                     self.device.sleep(2)
                     self.device.screenshot()
                     record.add(self.device.image)

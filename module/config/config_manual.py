@@ -75,6 +75,11 @@ class ManualConfig:
     GEMS_EMOTION_TRIGGRED = False
 
     """
+    module.handler
+    """
+    STORY_OPTION = 0
+
+    """
     module.map.fleet
     """
     MAP_HAS_AMBUSH = True
