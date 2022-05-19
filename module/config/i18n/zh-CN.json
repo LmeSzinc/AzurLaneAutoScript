@@ -407,6 +407,14 @@
     "SaveMeowfficer": {
       "name": "保存指挥喵购买截图",
       "help": ""
+    },
+    "SaveMeowfficerTalent": {
+      "name": "保存指挥喵天赋截图",
+      "help": ""
+    },
+    "UploadMeowfficerTalent": {
+      "name": "上传指挥喵天赋截图",
+      "help": ""
     }
   },
   "Retirement": {

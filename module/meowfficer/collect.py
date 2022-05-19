@@ -1,3 +1,4 @@
+from typing import List, Tuple
 from module.base.button import ButtonGrid
 from module.base.timer import Timer
 from module.logger import logger
@@ -67,38 +68,46 @@ class MeowfficerCollect(MeowfficerBase):
                     break
         return flag
 
-    def _meow_is_talented(self):
+    def _get_meow_talent_grid(self) -> Tuple[List[Button], bool]:
         """
-        Examine meowfficer for special talented abilities
-        i.e. no tiers or is rainbow colored
-
+            get meow talent grid list and special talent status
         Returns:
-            bool
+           Tuple[List[ButtonGrid], bool]
         """
         # Wait for complete load before examining talents
         logger.info('Configured to retain this type of meowfficer, '
                     'wait complete load and examine base talents')
+
+        list_talent_grid = []
+        special_talent = False
         grid = MEOWFFICER_TALENT_GRID_2 if self._meow_detect_shift() else MEOWFFICER_TALENT_GRID_1
 
-        # Appropriate grid acquired, scan for special talents
-        talented = False
-        for _ in grid.buttons:
+        for btn in grid.buttons:
             # Empty slot; check for many white pixels
-            if self.image_color_count(_, color=(255, 255, 247), threshold=221, count=200):
+            if self.image_color_count(btn, color=(255, 255, 247), threshold=221, count=200):
                 continue
 
             # Non-empty slot; check for few white pixels
             # i.e. roman numerals
-            if self.image_color_count(_, color=(255, 255, 255), threshold=221, count=25):
+            if self.image_color_count(btn, color=(255, 255, 255), threshold=221, count=25):
+                list_talent_grid.append(btn)
                 continue
 
-            # Detected special talent; break
-            talented = True
-            break
+            # Detected special talent
+            list_talent_grid.append(btn)
+            special_talent = True
 
-        logger.info('At least one special talent ability detected') if talented else \
+        logger.info('At least one special talent ability detected') if special_talent else \
             logger.info('No special talent abilities detected')
-        return talented
+        return list_talent_grid, special_talent
+
+    def _meow_talent_cap_handle(self, talent_button: List[Button], drop):
+        for btn in talent_button:
+            self.ui_click(btn, check_button=MEOWFFICER_TALENT_CLOSE,
+                          appear_button=MEOWFFICER_GET_CHECK, skip_first_screenshot=True)
+            drop.add(self.device.image)
+            self.ui_click(MEOWFFICER_TALENT_CLOSE, check_button=self._check_popup_exit,
+                          appear_button=MEOWFFICER_TALENT_CLOSE, skip_first_screenshot=True)
 
     def _meow_apply_lock(self, lock=True):
         """
@@ -173,25 +182,33 @@ class MeowfficerCollect(MeowfficerBase):
                 confirm_timer.reset()
                 continue
             if self.appear(MEOWFFICER_GET_CHECK, offset=(40, 40), interval=3):
-                if self.appear(MEOWFFICER_GOLD_CHECK, offset=(40, 40)):
-                    if not self.config.MeowfficerTrain_RetainTalentedGold or not self._meow_is_talented():
-                        self._meow_skip_lock()
-                        skip_first_screenshot = True
-                        confirm_timer.reset()
-                        continue
-                    self._meow_apply_lock()
-
-                if self.appear(MEOWFFICER_PURPLE_CHECK, offset=(40, 40)):
-                    if self.config.MeowfficerTrain_RetainTalentedPurple and self._meow_is_talented():
+                with self.stat.new(
+                        genre="meowfficer_talent",
+                        upload=self.config.DropRecord_UploadMeowfficerTalent,
+                        save=self.config.DropRecord_SaveMeowfficerTalent,
+                ) as drop:
+                    drop.add(self.device.image)
+                    list_talent_btn, special_talent = self._get_meow_talent_grid()
+                    self._meow_talent_cap_handle(list_talent_btn, drop)
+                    if self.appear(MEOWFFICER_GOLD_CHECK, offset=(40, 40)):
+                        if not self.config.MeowfficerTrain_RetainTalentedGold or not special_talent:
+                            self._meow_skip_lock()
+                            skip_first_screenshot = True
+                            confirm_timer.reset()
+                            continue
                         self._meow_apply_lock()
 
-                # Susceptible to exception when collecting multiple
-                # Mitigate by popping click_record
-                self.device.click(MEOWFFICER_TRAIN_CLICK_SAFE_AREA)
-                self.device.click_record.pop()
-                confirm_timer.reset()
-                self.interval_reset(MEOWFFICER_GET_CHECK)
-                continue
+                    if self.appear(MEOWFFICER_PURPLE_CHECK, offset=(40, 40)):
+                        if self.config.MeowfficerTrain_RetainTalentedPurple and special_talent:
+                            self._meow_apply_lock()
+
+                    # Susceptible to exception when collecting multiple
+                    # Mitigate by popping click_record
+                    self.device.click(MEOWFFICER_TRAIN_CLICK_SAFE_AREA)
+                    self.device.click_record.pop()
+                    confirm_timer.reset()
+                    self.interval_reset(MEOWFFICER_GET_CHECK)
+                    continue
 
             # End
             if self.appear(MEOWFFICER_TRAIN_START, offset=(20, 20)):

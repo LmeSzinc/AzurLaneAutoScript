@@ -131,6 +131,14 @@
       "SaveMeowfficer": {
         "type": "checkbox",
         "value": false
+      },
+      "SaveMeowfficerTalent": {
+        "type": "checkbox",
+        "value": false
+      },
+      "UploadMeowfficerTalent": {
+        "type": "checkbox",
+        "value": false
       }
     }
   },

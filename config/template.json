@@ -28,7 +28,9 @@
       "SaveCombat": false,
       "SaveOpsi": false,
       "UploadOpsi": false,
-      "SaveMeowfficer": false
+      "SaveMeowfficer": false,
+      "SaveMeowfficerTalent": false,
+      "UploadMeowfficerTalent": false
     }
   },
   "General": {
