@@ -7,11 +7,11 @@ from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.os.fleet import BossFleet
-from module.os.globe import OSGlobe
 from module.os.globe_operation import OSExploreError
+from module.os.map import OSMap
 
 
-class OperationSiren(OSGlobe):
+class OperationSiren(OSMap):
     def os_port_daily(self, mission=True, supply=True):
         """
         Accept all missions and buy all supplies in all ports.
@@ -285,12 +285,17 @@ class OperationSiren(OSGlobe):
                 self.config.task_delay(minute=150, server_update=True)
             self.config.task_stop()
 
+        self.config.override(
+            OpsiGeneral_DoRandomMapEvent=False,
+            HOMO_EDGE_DETECT=False,
+            STORY_OPTION=0,
+        )
         self.zone_init()
         self.fleet_set(self.config.OpsiFleet_Fleet)
         self.os_order_execute(
             recon_scan=True,
             submarine_call=self.config.OpsiFleet_Submarine)
-        self.run_auto_search()
+        self.run_auto_search(rescan=False)
 
         self.map_exit()
         self.handle_after_auto_search()
@@ -326,6 +331,11 @@ class OperationSiren(OSGlobe):
                 self.config.task_delay(minute=150, server_update=True)
             self.config.task_stop()
 
+        self.config.override(
+            OpsiGeneral_DoRandomMapEvent=False,
+            HOMO_EDGE_DETECT=False,
+            STORY_OPTION=0
+        )
         self.zone_init()
         result = self.run_abyssal()
         if not result:
@@ -380,14 +390,15 @@ class OperationSiren(OSGlobe):
             bool: If all cleared.
         """
         self.config.override(
-            OpsiGeneral_BuyAkashiShop=False,
-            OpsiGeneral_RepairThreshold=0
+            OpsiGeneral_DoRandomMapEvent=False,
+            HOMO_EDGE_DETECT=False,
+            STORY_OPTION=0
         )
         # Try 3 times, because fleet may stuck in fog.
         for _ in range(3):
             # Attack
             self.fleet_set(fleet.fleet_index)
-            self.run_auto_search()
+            self.run_auto_search(rescan=False)
             self.hp_reset()
             self.hp_get()
 

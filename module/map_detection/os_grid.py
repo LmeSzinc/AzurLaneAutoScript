@@ -1,6 +1,7 @@
 from module.base.utils import *
 from module.map_detection.grid import Grid, GridInfo, GridPredictor
 from module.map_detection.utils_assets import ASSETS
+from module.os.assets import *
 from module.os.radar import RadarGrid
 from module.template.assets import *
 
@@ -15,6 +16,9 @@ class OSGridInfo(GridInfo):
     is_question = False  # White question mark '?'
     is_ally = False  # Ally cargo ship in daily mission, yellow '!' on radar
     is_akashi = False  # White question mark '?'
+    is_scanning_device = False
+    is_logging_tower = False
+    is_fleet_mechanism = False
 
     is_fleet = False
 
@@ -29,6 +33,9 @@ class OSGridInfo(GridInfo):
         dic = {
             'AL': 'is_ally',
             'AK': 'is_akashi',
+            'SD': 'is_scanning_device',
+            'LT': 'is_logging_tower',
+            'FM': 'is_fleet_mechanism',
         }
         for key, value in dic.items():
             if self.__getattribute__(value):
@@ -75,6 +82,15 @@ class OSGridInfo(GridInfo):
         if info.is_akashi:
             self.is_akashi = True
             return True
+        if info.is_scanning_device:
+            self.is_scanning_device = True
+            return True
+        if info.is_logging_tower:
+            self.is_logging_tower = True
+            return True
+        if info.is_fleet_mechanism:
+            self.is_fleet_mechanism = True
+            return True
 
         if info.is_question:
             self.is_question = True
@@ -113,6 +129,9 @@ class OSGridInfo(GridInfo):
         self.is_exclamation = False
         self.is_meowfficer = False
         self.is_question = False
+        self.is_scanning_device = False
+        self.is_logging_tower = False
+        self.is_fleet_mechanism = False
 
     def reset(self):
         """
@@ -127,14 +146,17 @@ class OSGridInfo(GridInfo):
 
 class OSGridPredictor(GridPredictor):
     def predict(self):
-        # self.enemy_genre = self.predict_enemy_genre()
+        self.enemy_genre = self.predict_enemy_genre()
         # self.enemy_scale = self.predict_enemy_scale()
         # self.is_resource = self.predict_resource()
         # self.is_meowfficer = self.predict_meowfficer()  # This will increase the overall time cost about 100ms
         # self.is_ally = self.predict_ally()
-        # self.is_akashi = self.predict_akashi()
+        self.is_akashi = self.enemy_genre == 'Akashi'
+        self.is_scanning_device = self.enemy_genre == 'ScanningDevice'
+        self.is_logging_tower = self.enemy_genre == 'LoggingTower'
         self.is_current_fleet = self.predict_current_fleet()
         self.is_fleet = self.is_current_fleet
+        self.is_fleet_mechanism = self.predict_fleet_mechanism()
 
         if self.enemy_genre:
             self.is_enemy = True
@@ -175,6 +197,29 @@ class OSGridPredictor(GridPredictor):
         #         return True
 
         return False
+
+    _os_template_enemy = {
+        'Akashi': TEMPLATE_SIREN_Akashi,
+        'ScanningDevice': TEMPLATE_ScanningDevice,
+        'LoggingTower': TEMPLATE_LoggingTower,
+    }
+    _os_template_enemy_upper = {
+        'ScanningDevice': TEMPLATE_ScanningDeviceUpper,
+        'LoggingTower': TEMPLATE_LoggingTowerUpper,
+    }
+
+    def predict_enemy_genre(self):
+        image = rgb2gray(self.relative_crop((-0.5, -1, 0.5, 0), shape=(60, 60)))
+        for name, template in self._os_template_enemy.items():
+            if template.match(image):
+                return name
+
+        image = rgb2gray(self.relative_crop((-0.5, -2, 0.5, -1), shape=(60, 60)))
+        for name, template in self._os_template_enemy_upper.items():
+            if template.match(image):
+                return name
+
+        return None
 
     def predict_enemy_scale(self):
         """
@@ -223,6 +268,45 @@ class OSGridPredictor(GridPredictor):
         # Detect the red slash background of `In action`.
         return self.relative_rgb_count(
             area=(-1, -0.5, 0, 0.5), color=(255, 109, 91), shape=(50, 50), threshold=221) > 120
+
+    def predict_fleet_mechanism(self):
+        # Get the upper border
+        area = self.grid2screen(np.array([(0, 0), (1, 0.2)]))
+        area = np.rint(area.flatten()).astype(int).tolist()
+        # It should in cyan
+        h = (185, 195)
+        s = (15, 90)
+        v = (60, 100)
+        image = cv2.cvtColor(crop(self.image, area), cv2.COLOR_RGB2HSV)
+        lower = (h[0] / 2, s[0] * 2.55, v[0] * 2.55)
+        upper = (h[1] / 2 + 1, s[1] * 2.55 + 1, v[1] * 2.55 + 1)
+        image = cv2.inRange(image, lower, upper)
+        # Flatten to a horizontal line
+        line = np.max(image, axis=0)
+        # Line should be continuous
+        # If not, a fleet may stand on it
+        if np.mean(line) < 180:
+            return False
+        # Should also have random white rectangles
+        area = self.grid2screen(np.array([(0.2, 0.2), (0.8, 0.8)]))
+        area = np.rint(area.flatten()).astype(int).tolist()
+        image = color_similarity_2d(crop(self.image, area), color=(255, 255, 255))
+        count = image[image > 221].shape[0]
+        if count < 30:
+            return False
+        # Shouldn't contain any thing green or yellow
+        # Green is island and yellow is belt
+        image = cv2.cvtColor(crop(self.image, area), cv2.COLOR_RGB2HSV)
+        h = (0, 180)
+        s = (30, 90)
+        v = (30, 100)
+        lower = (h[0] / 2, s[0] * 2.55, v[0] * 2.55)
+        upper = (h[1] / 2 + 1, s[1] * 2.55 + 1, v[1] * 2.55 + 1)
+        image_in_range = cv2.inRange(image, lower, upper)
+        if image_in_range[image_in_range > 0].shape[0] > 30:
+            return False
+
+        return True
 
 
 class OSGrid(OSGridInfo, OSGridPredictor, Grid):

@@ -2,6 +2,8 @@ class OSConfig:
     """
     Configs for Operation Siren
     """
+    STORY_OPTION = -2
+
     MAP_FOCUS_ENEMY_AFTER_BATTLE = True
     MAP_HAS_SIREN = True
     MAP_HAS_FLEET_STEP = True
@@ -29,8 +31,9 @@ class OSConfig:
     INTERNAL_LINES_HOUGHLINES_THRESHOLD = 75
     EDGE_LINES_HOUGHLINES_THRESHOLD = 75
 
-    HOMO_EDGE_DETECT = False
-    HOMO_CANNY_THRESHOLD = (50, 50)
+    HOMO_EDGE_DETECT = True
+    HOMO_CANNY_THRESHOLD = (40, 60)
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 300
 
     MAP_ENEMY_GENRE_DETECTION_SCALING = {
         'DD': 0.8,
@@ -39,3 +42,4 @@ class OSConfig:
         'CV': 0.8,
         'BB': 0.8,
     }
+    MAP_SWIPE_PREDICT = False

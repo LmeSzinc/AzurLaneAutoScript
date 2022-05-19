@@ -118,7 +118,16 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         except ScriptError as e:
             raise MapDetectionError(*e.args)
         logger.attr('Zone', self.zone)
+        self.zone_config_set()
         return self.zone
+
+    def zone_config_set(self):
+        if self.zone.region == 5:
+            self.config.HOMO_EDGE_COLOR_RANGE = (0, 8)
+            self.config.MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
+        else:
+            self.config.HOMO_EDGE_COLOR_RANGE = (0, 33)
+            self.config.MAP_ENSURE_EDGE_INSIGHT_CORNER = ''
 
     def zone_init(self, skip_first_screenshot=True):
         """
@@ -159,14 +168,12 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
 
         logger.warning('Unable to get zone name, get current zone from globe map instead')
         if hasattr(self, 'get_current_zone_from_globe'):
-            self.zone = self.get_current_zone_from_globe()
+            return self.get_current_zone_from_globe()
         else:
             logger.warning('OperationSiren.get_current_zone_from_globe() not exists')
             if not self.is_in_map():
                 logger.warning('Trying to get zone name, but not in OS map')
-            self.get_current_zone()
-        logger.attr('Zone', self.zone)
-        return self.zone
+            return self.get_current_zone()
 
     def is_in_special_zone(self):
         """

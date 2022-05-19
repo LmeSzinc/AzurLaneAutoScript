@@ -28,7 +28,9 @@
       "SaveCombat": false,
       "SaveOpsi": false,
       "UploadOpsi": false,
-      "SaveMeowfficer": false
+      "SaveMeowfficer": false,
+      "SaveMeowfficerTalent": false,
+      "UploadMeowfficerTalent": false
     }
   },
   "General": {
@@ -1264,7 +1266,7 @@
       "BuyActionPoint": false,
       "OilLimit": 1000,
       "RepairThreshold": 0.4,
-      "BuyAkashiShop": true,
+      "DoRandomMapEvent": true,
       "AkashiShopFilter": "ActionPoint > PurpleCoins"
     },
     "OpsiAshBeacon": {
@@ -1411,7 +1413,8 @@
   },
   "OpsiDaemon": {
     "OpsiDaemon": {
-      "RepairShip": true
+      "RepairShip": true,
+      "SelectEnemy": true
     }
   },
   "Benchmark": {

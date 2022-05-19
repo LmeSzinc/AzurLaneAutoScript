@@ -4,20 +4,75 @@ import re
 import socket
 import subprocess
 import time
+from functools import wraps
 
 import adbutils
 import uiautomator2 as u2
 from adbutils import AdbClient, AdbDevice, AdbTimeout, ForwardItem, ReverseItem
+from adbutils.errors import AdbError
 
 from deploy.utils import DEPLOY_CONFIG, poor_yaml_read
 from module.base.decorator import cached_property
 from module.base.utils import ensure_time
 from module.config.config import AzurLaneConfig
 from module.config.server import set_server
-from module.device.method.utils import (del_cached_property, possible_reasons,
-                                        random_port, recv_all)
+from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
+                                        handle_adb_error, PackageNotInstalled,
+                                        recv_all, del_cached_property, possible_reasons,
+                                        random_port)
 from module.exception import RequestHumanTakeover
 from module.logger import logger
+
+
+def retry(func):
+    @wraps(func)
+    def retry_wrapper(self, *args, **kwargs):
+        """
+        Args:
+            self (Adb):
+        """
+        init = None
+        for _ in range(RETRY_TRIES):
+            try:
+                if callable(init):
+                    self.sleep(RETRY_DELAY)
+                    init()
+                return func(self, *args, **kwargs)
+            # Can't handle
+            except RequestHumanTakeover:
+                break
+            # When adb server was killed
+            except ConnectionResetError as e:
+                logger.error(e)
+
+                def init():
+                    self.adb_disconnect(self.serial)
+                    self.adb_connect(self.serial)
+            # AdbError
+            except AdbError as e:
+                if handle_adb_error(e):
+                    def init():
+                        self.adb_disconnect(self.serial)
+                        self.adb_connect(self.serial)
+                else:
+                    break
+            # Package not installed
+            except PackageNotInstalled as e:
+                logger.error(e)
+
+                def init():
+                    self.detect_package()
+            # Unknown, probably a trucked image
+            except Exception as e:
+                logger.exception(e)
+
+                def init():
+                    pass
+
+        logger.critical(f'Retry {func.__name__}() failed')
+        raise RequestHumanTakeover
+
+    return retry_wrapper
 
 
 class Connection:
@@ -455,6 +510,7 @@ class Connection:
     }
     orientation = 0
 
+    @retry
     def get_orientation(self):
         """
         Rotation of the phone
@@ -488,6 +544,7 @@ class Connection:
         logger.attr('Device Orientation', f'{o} ({Connection._orientation_description.get(o, "Unknown")})')
         return o
 
+    @retry
     def iter_device(self):
         """
         Returns:
@@ -553,6 +610,7 @@ class Connection:
                                 'please copy one of the available devices listed above to Alas.Emulator.Serial')
                 raise RequestHumanTakeover
 
+    @retry
     def list_package(self):
         """
         Find all packages on device.

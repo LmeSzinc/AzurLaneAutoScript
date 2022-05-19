@@ -407,6 +407,14 @@
     "SaveMeowfficer": {
       "name": "Save Meowfficer Buy Screenshots",
       "help": ""
+    },
+    "SaveMeowfficerTalent": {
+      "name": "Save Meowfficer Skill Screenshots",
+      "help": ""
+    },
+    "UploadMeowfficerTalent": {
+      "name": "Upload Meowfficer Skill Screenshots",
+      "help": ""
     }
   },
   "Retirement": {
@@ -441,7 +449,7 @@
     },
     "EnhanceCheckPerCategory": {
       "name": "Number Checked Per Category for Enhance",
-      "help": "Restrict number of ships to be checked per category before moving on to the next one if any. Unenhanceable (in battle or stat full) ships will count towards this.\nRecommend 3+ if have enhanceable ship in active fleet else <= 2 is generally sufficient"
+      "help": "Restrict number of ships to be checked per category before moving on to the next one if any. Unenhanceable (in battle or stat full) ships will count towards this.\nChecking existence of available material is prior.\nRecommend 3+ if have enhanceable ship in active fleet else <= 2 is generally sufficient"
     },
     "OldRetireN": {
       "name": "Retire Common",
@@ -473,6 +481,7 @@
       "name": "Event Name",
       "help": "Automatically selects to the latest event",
       "campaign_main": "campaign_main",
+      "raid_20200624": "Air Raid Drills with Essex Rerun",
       "event_20220428_cn": "Rondo at Rainbows End",
       "event_20220414_cn": "Aurora Noctis Rerun",
       "event_20220407_tw": "蒼紅的迴響(復刻)",
@@ -515,7 +524,6 @@
       "event_20201002_en": "Counterattack Within the Fjord",
       "event_20200820_cn": "Scherzo of Iron and Blood Rerun",
       "event_20200716_en": "Ink Stained Steel Sakura Rerun",
-      "raid_20200624": "Air Raid Drills with Essex Rerun",
       "event_20200611_en": "Skybound Oratorio",
       "event_20200603_en": "Prelude under the Moon Rerun",
       "event_20200521_en": "Iris of Light and Dark Rerun",
@@ -1070,21 +1078,24 @@
       "name": "Use Cube",
       "help": "Allow to undertake projects that require cubes",
       "always_use": "Always Use",
-      "only_05_hour": "Only 0.5 Hour Researches",
+      "only_05_hour": "0.5 Hour+No project available",
+      "only_no_project": "Only no project available",
       "do_not_use": "Don't Use"
     },
     "UseCoin": {
       "name": "Use Coin",
       "help": "Allow to undertake projects that require coins",
       "always_use": "Always Use",
-      "only_05_hour": "Only 0.5 Hour Researches",
+      "only_05_hour": "0.5 Hour+No project available",
+      "only_no_project": "Only no project available",
       "do_not_use": "Don't Use"
     },
     "UsePart": {
       "name": "Use Part/Plate",
       "help": "Allow to undertake projects that require parts/plates",
       "always_use": "Always Use",
-      "only_05_hour": "Only 0.5 Hour Researches",
+      "only_05_hour": "0.5 Hour+No project available",
+      "only_no_project": "Only no project available",
       "do_not_use": "Don't Use"
     },
     "PresetFilter": {
@@ -1679,9 +1690,9 @@
       "name": "Repair Threshold",
       "help": "After completion of an OpSi map; if any one ship's HP is below threshold, retreat back to nearest port for repairs\n0.0 ~ 1.0"
     },
-    "BuyAkashiShop": {
-      "name": "Visit Akashi Shop",
-      "help": "After completion of an OpSi map; if detected, visit Akashi for exclusive limited items"
+    "DoRandomMapEvent": {
+      "name": "Do Random Map Events",
+      "help": "Rescan the whole map after auto search, purchase akashi's shop, use siren logging tower, use siren scanning device, unlock mechanism that require 2 fleets,"
     },
     "AkashiShopFilter": {
       "name": "Akashi Shop Filter",
@@ -1847,6 +1858,10 @@
     "RepairShip": {
       "name": "Repair Ships When Nearing Port",
       "help": "Once a fleet is in range of a port, Alas will enter, repair your ships, then exit\nWhen it is done, please move the fleet away and out of range from the port within 30s, otherwise the actions will be repeated"
+    },
+    "SelectEnemy": {
+      "name": "Clear nearby enemies and resources",
+      "help": "Clean nearby enemies and resources, and find new enemies or materials after cleaning, which usually clears the entire map. If some of them haven't been cleared, you need to solve them manually"
     }
   },
   "Benchmark": {
