@@ -439,11 +439,7 @@ class RewardCommission(UI, InfoHandler):
         reward = False
         click_timer = Timer(1)
         with self.stat.new(
-                'commission',
-                save=self.config.DropRecord_CommissionRecord == 'save' or
-                self.config.DropRecord_CommissionRecord == 'save_and_upload',
-                upload=self.config.DropRecord_CommissionRecord == 'upload' or
-                self.config.DropRecord_CommissionRecord == 'save_and_upload'
+                'commission', method=self.config.DropRecord_CommissionRecord
         ) as drop:
             while 1:
                 if skip_first_screenshot:

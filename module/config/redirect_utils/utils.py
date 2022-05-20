@@ -2,14 +2,20 @@ def upload_redirect(value):
     """
     redirect attr about upload.
     """
-    if not value[0] and not value[1]:
-        return 'do_not'
-    elif value[0] and not value[1]:
-        return 'save'
-    elif not value[0] and value[1]:
-        return 'upload'
+    if isinstance(value, tuple):
+        if not value[0] and not value[1]:
+            return 'do_not'
+        elif value[0] and not value[1]:
+            return 'save'
+        elif not value[0] and value[1]:
+            return 'upload'
+        else:
+            return 'save_and_upload'
     else:
-        return 'save_and_upload'
+        if not value:
+            return 'do_not'
+        else:
+            return 'save'
 
 
 def api_redirect(value):
@@ -23,4 +29,4 @@ def api_redirect(value):
             value != 'auto':
         return 'cn_reverse_proxy'
     else:
-        return 'normal'
+        return 'default'

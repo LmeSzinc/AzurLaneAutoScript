@@ -38,12 +38,12 @@ class GeneratedConfig:
     # Group `DropRecord`
     DropRecord_SaveFolder = './screenshots'
     DropRecord_AzurStatsID = None
-    DropRecord_API = 'normal'  # normal, cn_reverse_proxy
+    DropRecord_API = 'default'  # default, cn_reverse_proxy
     DropRecord_ResearchRecord = 'do_not'  # do_not, save, upload, save_and_upload
     DropRecord_CommissionRecord = 'do_not'  # do_not, save, upload, save_and_upload
-    DropRecord_SaveCombat = False
+    DropRecord_CombatRecord = 'do_not'  # do_not, save
     DropRecord_OpsiRecord = 'do_not'  # do_not, save, upload, save_and_upload
-    DropRecord_SaveMeowfficer = False
+    DropRecord_MeowfficerBuy = 'do_not'  # do_not, save
     DropRecord_MeowfficerTalent = 'do_not'  # do_not, save, upload, save_and_upload
 
     # Group `Retirement`

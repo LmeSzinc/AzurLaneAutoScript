@@ -46,19 +46,23 @@ DropRecord:
   SaveFolder: ./screenshots
   AzurStatsID: null
   API:
-    value: normal
-    option: [normal, cn_reverse_proxy]
+    value: default
+    option: [default, cn_reverse_proxy]
   ResearchRecord:
     value: do_not
     option: [do_not, save, upload, save_and_upload]
   CommissionRecord:
     value: do_not
     option: [do_not, save, upload, save_and_upload]
-  SaveCombat: false
+  CombatRecord:
+    value: do_not
+    option: [do_not, save]
   OpsiRecord:
     value: do_not
     option: [do_not, save, upload, save_and_upload]
-  SaveMeowfficer: false
+  MeowfficerBuy:
+    value: do_not
+    option: [do_not, save]
   MeowfficerTalent:
     value: do_not
     option: [do_not, save, upload, save_and_upload]

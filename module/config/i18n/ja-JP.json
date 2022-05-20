@@ -379,7 +379,7 @@
     "API": {
       "name": "DropRecord.API.name",
       "help": "DropRecord.API.help",
-      "normal": "normal",
+      "default": "default",
       "cn_reverse_proxy": "cn_reverse_proxy"
     },
     "ResearchRecord": {
@@ -398,9 +398,11 @@
       "upload": "upload",
       "save_and_upload": "save_and_upload"
     },
-    "SaveCombat": {
-      "name": "DropRecord.SaveCombat.name",
-      "help": "DropRecord.SaveCombat.help"
+    "CombatRecord": {
+      "name": "DropRecord.CombatRecord.name",
+      "help": "DropRecord.CombatRecord.help",
+      "do_not": "do_not",
+      "save": "save"
     },
     "OpsiRecord": {
       "name": "DropRecord.OpsiRecord.name",
@@ -410,9 +412,11 @@
       "upload": "upload",
       "save_and_upload": "save_and_upload"
     },
-    "SaveMeowfficer": {
-      "name": "DropRecord.SaveMeowfficer.name",
-      "help": "DropRecord.SaveMeowfficer.help"
+    "MeowfficerBuy": {
+      "name": "DropRecord.MeowfficerBuy.name",
+      "help": "DropRecord.MeowfficerBuy.help",
+      "do_not": "do_not",
+      "save": "save"
     },
     "MeowfficerTalent": {
       "name": "DropRecord.MeowfficerTalent.name",

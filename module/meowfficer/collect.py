@@ -191,10 +191,7 @@ class MeowfficerCollect(MeowfficerBase):
                 logger.attr('Meow_get', count)
                 with self.stat.new(
                         genre="meowfficer_talent",
-                        save=self.config.DropRecord_MeowfficerTalent == 'save' or
-                        self.config.DropRecord_MeowfficerTalent == 'save_and_upload',
-                        upload=self.config.DropRecord_MeowfficerTalent == 'upload' or
-                        self.config.DropRecord_MeowfficerTalent == 'save_and_upload'
+                        method=self.config.DropRecord_MeowfficerTalent
                 ) as drop:
                     drop.add(self.device.image)
                     list_talent_btn, special_talent = self._get_meow_talent_grid()

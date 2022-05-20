@@ -437,6 +437,8 @@ class ConfigUpdater:
          'Alas.DropRecord.OpsiRecord', upload_redirect),
         (('Alas.DropRecord.SaveMeowfficerTalent', 'Alas.DropRecord.UploadMeowfficerTalent'),
          'Alas.DropRecord.MeowfficerTalent', upload_redirect),
+        ('Alas.DropRecord.SaveCombat', 'Alas.DropRecord.CombatRecord', upload_redirect),
+        ('Alas.DropRecord.SaveMeowfficer', 'Alas.DropRecord.MeowfficerBuy', upload_redirect),
         ('Alas.Emulator.PackageName', 'Alas.DropRecord.API', api_redirect)
     ]
 

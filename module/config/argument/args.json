@@ -102,9 +102,9 @@
       },
       "API": {
         "type": "select",
-        "value": "normal",
+        "value": "default",
         "option": [
-          "normal",
+          "default",
           "cn_reverse_proxy"
         ]
       },
@@ -128,9 +128,13 @@
           "save_and_upload"
         ]
       },
-      "SaveCombat": {
-        "type": "checkbox",
-        "value": false
+      "CombatRecord": {
+        "type": "select",
+        "value": "do_not",
+        "option": [
+          "do_not",
+          "save"
+        ]
       },
       "OpsiRecord": {
         "type": "select",
@@ -142,9 +146,13 @@
           "save_and_upload"
         ]
       },
-      "SaveMeowfficer": {
-        "type": "checkbox",
-        "value": false
+      "MeowfficerBuy": {
+        "type": "select",
+        "value": "do_not",
+        "option": [
+          "do_not",
+          "save"
+        ]
       },
       "MeowfficerTalent": {
         "type": "select",

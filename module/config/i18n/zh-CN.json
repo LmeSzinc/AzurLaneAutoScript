@@ -379,7 +379,7 @@
     "API": {
       "name": "上传线路",
       "help": "如果国内用户无法连接到AzurStat，可以使用\"国内反向代理\"",
-      "normal": "默认",
+      "default": "默认",
       "cn_reverse_proxy": "国内反向代理"
     },
     "ResearchRecord": {
@@ -398,9 +398,11 @@
       "upload": "上传",
       "save_and_upload": "保存并上传"
     },
-    "SaveCombat": {
-      "name": "保存战斗掉落截图",
-      "help": "启用后会放缓结算时的点击速度\n在自律寻敌下不生效"
+    "CombatRecord": {
+      "name": "战斗掉落截图",
+      "help": "启用后会放缓结算时的点击速度\n在自律寻敌下不生效",
+      "do_not": "无操作",
+      "save": "保存"
     },
     "OpsiRecord": {
       "name": "大世界掉落截图",
@@ -410,9 +412,11 @@
       "upload": "上传",
       "save_and_upload": "保存并上传"
     },
-    "SaveMeowfficer": {
-      "name": "保存指挥喵购买截图",
-      "help": ""
+    "MeowfficerBuy": {
+      "name": "指挥喵购买截图",
+      "help": "",
+      "do_not": "无操作",
+      "save": "保存"
     },
     "MeowfficerTalent": {
       "name": "指挥喵天赋截图",

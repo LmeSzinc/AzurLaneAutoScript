@@ -379,7 +379,7 @@
     "API": {
       "name": "Upload API",
       "help": "If CN users cannot connect to AzurStat, recommend to use \"reverse proxy\"",
-      "normal": "Normal",
+      "default": "Default",
       "cn_reverse_proxy": "Reverse Proxy(CN only)"
     },
     "ResearchRecord": {
@@ -398,9 +398,11 @@
       "upload": "Upload",
       "save_and_upload": "Save and upload"
     },
-    "SaveCombat": {
-      "name": "Save Battle Drop Record",
-      "help": "If enabled, clicks will be slowed down to ensure capture"
+    "CombatRecord": {
+      "name": "Combat Record",
+      "help": "",
+      "do_not": "Do nothing",
+      "save": "Save"
     },
     "OpsiRecord": {
       "name": "Opsi Record",
@@ -410,9 +412,11 @@
       "upload": "Upload",
       "save_and_upload": "Save and upload"
     },
-    "SaveMeowfficer": {
-      "name": "Save Meowfficer Buy Screenshots",
-      "help": ""
+    "MeowfficerBuy": {
+      "name": "Meowfficer Buy",
+      "help": "",
+      "do_not": "Do nothing",
+      "save": "Save"
     },
     "MeowfficerTalent": {
       "name": "Meowfficer Talent",
