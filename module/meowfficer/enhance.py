@@ -213,6 +213,38 @@ class MeowfficerEnhance(MeowfficerBase):
                 confirm_timer.reset()
                 continue
 
+    def meow_enhance_enter(self, skip_first_screenshot=True):
+        """
+        Args:
+            skip_first_screenshot:
+
+        Returns:
+            bool: If success.
+
+        Pages:
+            in: MEOWFFICER_ENHANCE_ENTER
+            out: MEOWFFICER_FEED_ENTER
+        """
+        count = 0
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.appear(MEOWFFICER_FEED_ENTER, offset=(20, 20)):
+                return True
+            if count > 3:
+                logger.warning('Too many click on MEOWFFICER_ENHANCE_ENTER, meowfficer may in battle')
+                return False
+
+            if self.appear_then_click(MEOWFFICER_ENHANCE_ENTER, offset=(20, 20), interval=3):
+                count += 1
+                continue
+            if self.meow_additional():
+                continue
+
     def _meow_enhance(self):
         """
         Perform meowfficer enhancement operations
@@ -245,15 +277,21 @@ class MeowfficerEnhance(MeowfficerBase):
                         f'enhancement, skip')
             return
 
-        # Select target meowfficer
-        # for enhancement
-        self._meow_select()
+        for _ in range(2):
+            # Select target meowfficer
+            # for enhancement
+            self._meow_select()
 
-        # Transition to MEOWFFICER_FEED after
-        # selection; broken up due to significant
-        # delayed behavior of meow_additional
-        self.ui_click(MEOWFFICER_ENHANCE_ENTER, check_button=MEOWFFICER_FEED_ENTER, additional=self.meow_additional,
-                      retry_wait=3, confirm_wait=0, skip_first_screenshot=True)
+            # Transition to MEOWFFICER_FEED after
+            # selection; broken up due to significant
+            # delayed behavior of meow_additional
+            if self.meow_enhance_enter():
+                break
+            else:
+                # Retreat from an existing battle
+                self.ui_goto_campaign()
+                self.ui_goto(page_meowfficer)
+                continue
 
         # Initiate feed sequence; loop until exhaust all
         # - Select Feed
