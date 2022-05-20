@@ -21,6 +21,7 @@
     "DropRecord": {
       "SaveFolder": "./screenshots",
       "AzurStatsID": null,
+      "API": "normal",
       "ResearchRecord": "do_not",
       "CommissionRecord": "do_not",
       "SaveCombat": false,

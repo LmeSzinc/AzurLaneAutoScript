@@ -45,6 +45,9 @@ Optimization:
 DropRecord:
   SaveFolder: ./screenshots
   AzurStatsID: null
+  API:
+    value: normal
+    option: [normal, cn_reverse_proxy]
   ResearchRecord:
     value: do_not
     option: [do_not, save, upload, save_and_upload]

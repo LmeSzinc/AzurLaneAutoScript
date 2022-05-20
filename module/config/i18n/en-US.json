@@ -376,6 +376,12 @@
       "name": "AzurStat ID",
       "help": "Used to identify your upload to <https://azur-stats.lyoko.io>, the ID consists of random characters and can be changed at any time"
     },
+    "API": {
+      "name": "Upload API",
+      "help": "If CN users cannot connect to AzurStat, recommend to use \"reverse proxy\"",
+      "normal": "Normal",
+      "cn_reverse_proxy": "Reverse Proxy(CN only)"
+    },
     "ResearchRecord": {
       "name": "Research Record",
       "help": "",

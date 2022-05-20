@@ -376,6 +376,12 @@
       "name": "AzurStat ID",
       "help": "上传至 https://azur-stats.lyoko.io 时，声明的客户端 ID\n由随机字符组成，可随意修改"
     },
+    "API": {
+      "name": "上传线路",
+      "help": "如果国内用户无法连接到AzurStat，可以使用\"国内反向代理\"",
+      "normal": "默认",
+      "cn_reverse_proxy": "国内反向代理"
+    },
     "ResearchRecord": {
       "name": "科研截图",
       "help": "",

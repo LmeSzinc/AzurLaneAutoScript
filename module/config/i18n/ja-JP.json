@@ -376,6 +376,12 @@
       "name": "DropRecord.AzurStatsID.name",
       "help": "DropRecord.AzurStatsID.help"
     },
+    "API": {
+      "name": "DropRecord.API.name",
+      "help": "DropRecord.API.help",
+      "normal": "normal",
+      "cn_reverse_proxy": "cn_reverse_proxy"
+    },
     "ResearchRecord": {
       "name": "DropRecord.ResearchRecord.name",
       "help": "DropRecord.ResearchRecord.help",

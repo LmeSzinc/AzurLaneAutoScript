@@ -376,6 +376,12 @@
       "name": "AzurStats ID",
       "help": "上傳至 https://azur-stats.lyoko.io 時，用來識別的用戶端 ID\n由隨機字元組成，可隨意修改"
     },
+    "API": {
+      "name": "上傳線路",
+      "help": "如果大陸用戶無法連接到AzurStat，可以使用\"國內反向代理\"",
+      "normal": "默認",
+      "cn_reverse_proxy": "國內反向代理"
+    },
     "ResearchRecord": {
       "name": "科研截圖",
       "help": "",

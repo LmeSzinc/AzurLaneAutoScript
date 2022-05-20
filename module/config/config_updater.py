@@ -6,6 +6,7 @@ from cached_property import cached_property
 from deploy.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_write
 from module.base.timer import timer
 from module.config.redirect_utils.shop_filter import bp_redirect
+from module.config.redirect_utils.utils import upload_redirect, api_redirect
 from module.config.server import to_server, to_package, VALID_PACKAGE, VALID_CHANNEL_PACKAGE
 from module.config.utils import *
 
@@ -420,20 +421,6 @@ class ConfigGenerator:
         self.generate_deploy_template()
 
 
-def upload_redirect(value):
-    """
-    redirect attr about upload.
-    """
-    if not value[0] and not value[1]:
-        return 'do_not'
-    elif value[0] and not value[1]:
-        return 'save'
-    elif not value[0] and value[1]:
-        return 'upload'
-    else:
-        return 'save_and_upload'
-
-
 class ConfigUpdater:
     # source, target, (optional)convert_func
     redirection = [
@@ -450,6 +437,7 @@ class ConfigUpdater:
          'Alas.DropRecord.OpsiRecord', upload_redirect),
         (('Alas.DropRecord.SaveMeowfficerTalent', 'Alas.DropRecord.UploadMeowfficerTalent'),
          'Alas.DropRecord.MeowfficerTalent', upload_redirect),
+        ('Alas.Emulator.PackageName', 'Alas.DropRecord.API', api_redirect)
     ]
 
     @cached_property

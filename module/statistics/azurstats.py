@@ -73,7 +73,8 @@ class DropImage:
 
 
 class AzurStats:
-    API = 'https://azurstats.lyoko.io/api/upload/'
+    API = {'normal': 'https://azurstats.lyoko.io/api/upload/',
+           'cn_reverse_proxy': 'https://service-rjfzwz8i-1301182309.gz.apigw.tencentcs.com/api/upload'}
     TIMEOUT = 20
 
     def __init__(self, config):
@@ -107,7 +108,8 @@ class AzurStats:
         session.mount('http://', HTTPAdapter(max_retries=5))
         session.mount('https://', HTTPAdapter(max_retries=5))
         try:
-            resp = session.post(self.API, files=data, headers=headers, timeout=self.TIMEOUT)
+            resp = session.post(self.API[self.config.DropRecord_API],
+                                files=data, headers=headers, timeout=self.TIMEOUT)
         except Exception as e:
             logger.warning(f'Image upload failed, {e}')
             return False
