@@ -554,8 +554,10 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         fleets = self.parse_fleet_filter()
         with self.stat.new(
                 genre=inflection.underscore(self.config.task.command),
-                save=self.config.DropRecord_SaveOpsi,
-                upload=self.config.DropRecord_UploadOpsi
+                save=self.config.DropRecord_OpsiRecord == 'save' or
+                self.config.DropRecord_OpsiRecord == 'save_and_upload',
+                upload=self.config.DropRecord_OpsiRecord == 'upload' or
+                self.config.DropRecord_OpsiRecord == 'save_and_upload'
         ) as drop:
             for fleet in fleets:
                 logger.hr(f'Turn: {fleet}', level=2)

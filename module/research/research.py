@@ -67,9 +67,13 @@ class RewardResearch(ResearchSelector):
 
         logger.info('Research reset')
         executed = False
-        with self.stat.new(genre='research',
-                           save=self.config.DropRecord_SaveResearch,
-                           upload=self.config.DropRecord_UploadResearch) as record:
+        with self.stat.new(
+                genre='research',
+                save=self.config.DropRecord_ResearchRecord == 'save' or
+                self.config.DropRecord_ResearchRecord == 'save_and_upload',
+                upload=self.config.DropRecord_ResearchRecord == 'upload' or
+                self.config.DropRecord_ResearchRecord == 'save_and_upload'
+        ) as record:
             record.add(self.device.image)
 
         while 1:
@@ -221,9 +225,13 @@ class RewardResearch(ResearchSelector):
                     return b
             return None
 
-        with self.stat.new(genre='research',
-                           save=self.config.DropRecord_SaveResearch,
-                           upload=self.config.DropRecord_UploadResearch) as record:
+        with self.stat.new(
+                genre='research',
+                save=self.config.DropRecord_ResearchRecord == 'save' or
+                self.config.DropRecord_ResearchRecord == 'save_and_upload',
+                upload=self.config.DropRecord_ResearchRecord == 'upload' or
+                self.config.DropRecord_ResearchRecord == 'save_and_upload'
+                ) as record:
             # Take screenshots of project list
             record.add(self.device.image)
 

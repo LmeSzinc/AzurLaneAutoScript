@@ -100,45 +100,53 @@
         "type": "input",
         "value": null
       },
-      "SaveResearch": {
-        "type": "checkbox",
-        "value": false
+      "ResearchRecord": {
+        "type": "select",
+        "value": "do_not",
+        "option": [
+          "do_not",
+          "save",
+          "upload",
+          "save_and_upload"
+        ]
       },
-      "UploadResearch": {
-        "type": "checkbox",
-        "value": false
-      },
-      "SaveCommission": {
-        "type": "checkbox",
-        "value": false
-      },
-      "UploadCommission": {
-        "type": "checkbox",
-        "value": false
+      "CommissionRecord": {
+        "type": "select",
+        "value": "do_not",
+        "option": [
+          "do_not",
+          "save",
+          "upload",
+          "save_and_upload"
+        ]
       },
       "SaveCombat": {
         "type": "checkbox",
         "value": false
       },
-      "SaveOpsi": {
-        "type": "checkbox",
-        "value": false
-      },
-      "UploadOpsi": {
-        "type": "checkbox",
-        "value": false
+      "OpsiRecord": {
+        "type": "select",
+        "value": "do_not",
+        "option": [
+          "do_not",
+          "save",
+          "upload",
+          "save_and_upload"
+        ]
       },
       "SaveMeowfficer": {
         "type": "checkbox",
         "value": false
       },
-      "SaveMeowfficerTalent": {
-        "type": "checkbox",
-        "value": false
-      },
-      "UploadMeowfficerTalent": {
-        "type": "checkbox",
-        "value": false
+      "MeowfficerTalent": {
+        "type": "select",
+        "value": "do_not",
+        "option": [
+          "do_not",
+          "save",
+          "upload",
+          "save_and_upload"
+        ]
       }
     }
   },

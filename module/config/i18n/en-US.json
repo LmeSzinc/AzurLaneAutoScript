@@ -376,45 +376,45 @@
       "name": "AzurStat ID",
       "help": "Used to identify your upload to <https://azur-stats.lyoko.io>, the ID consists of random characters and can be changed at any time"
     },
-    "SaveResearch": {
-      "name": "Save Research Screenshots",
-      "help": ""
+    "ResearchRecord": {
+      "name": "Research Record",
+      "help": "",
+      "do_not": "Do nothing",
+      "save": "Save",
+      "upload": "Upload",
+      "save_and_upload": "Save and upload"
     },
-    "UploadResearch": {
-      "name": "Upload Research Screenshots",
-      "help": ""
-    },
-    "SaveCommission": {
-      "name": "Save Commission Screenshots",
-      "help": ""
-    },
-    "UploadCommission": {
-      "name": "Upload Commissions Screenshots",
-      "help": ""
+    "CommissionRecord": {
+      "name": "Commission Record",
+      "help": "",
+      "do_not": "Do nothing",
+      "save": "Save",
+      "upload": "Upload",
+      "save_and_upload": "Save and upload"
     },
     "SaveCombat": {
-      "name": "Save Battle Drop Screenshots",
+      "name": "Save Battle Drop Record",
       "help": "If enabled, clicks will be slowed down to ensure capture"
     },
-    "SaveOpsi": {
-      "name": "Save OpSi Drop Screenshots",
-      "help": ""
-    },
-    "UploadOpsi": {
-      "name": "Upload OpSi Screenshots",
-      "help": ""
+    "OpsiRecord": {
+      "name": "Opsi Record",
+      "help": "",
+      "do_not": "Do nothing",
+      "save": "Save",
+      "upload": "Upload",
+      "save_and_upload": "Save and upload"
     },
     "SaveMeowfficer": {
       "name": "Save Meowfficer Buy Screenshots",
       "help": ""
     },
-    "SaveMeowfficerTalent": {
-      "name": "Save Meowfficer Skill Screenshots",
-      "help": ""
-    },
-    "UploadMeowfficerTalent": {
-      "name": "Upload Meowfficer Skill Screenshots",
-      "help": ""
+    "MeowfficerTalent": {
+      "name": "Meowfficer Talent",
+      "help": "",
+      "do_not": "Do nothing",
+      "save": "Save",
+      "upload": "Upload",
+      "save_and_upload": "Save and upload"
     }
   },
   "Retirement": {

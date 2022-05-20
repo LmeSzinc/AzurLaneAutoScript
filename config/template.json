@@ -21,16 +21,12 @@
     "DropRecord": {
       "SaveFolder": "./screenshots",
       "AzurStatsID": null,
-      "SaveResearch": false,
-      "UploadResearch": false,
-      "SaveCommission": false,
-      "UploadCommission": false,
+      "ResearchRecord": "do_not",
+      "CommissionRecord": "do_not",
       "SaveCombat": false,
-      "SaveOpsi": false,
-      "UploadOpsi": false,
+      "OpsiRecord": "do_not",
       "SaveMeowfficer": false,
-      "SaveMeowfficerTalent": false,
-      "UploadMeowfficerTalent": false
+      "MeowfficerTalent": "do_not"
     }
   },
   "General": {

@@ -420,6 +420,20 @@ class ConfigGenerator:
         self.generate_deploy_template()
 
 
+def upload_redirect(value):
+    """
+    redirect attr about upload.
+    """
+    if not value[0] and not value[1]:
+        return 'do_not'
+    elif value[0] and not value[1]:
+        return 'save'
+    elif not value[0] and value[1]:
+        return 'upload'
+    else:
+        return 'save_and_upload'
+
+
 class ConfigUpdater:
     # source, target, (optional)convert_func
     redirection = [
@@ -428,6 +442,14 @@ class ConfigUpdater:
         ('OpsiShop.Scheduler.Enable', 'OpsiShop.OpsiShop.BuySupply'),
         ('ShopOnce.GuildShop.Filter', 'ShopOnce.GuildShop.Filter', bp_redirect),
         ('ShopOnce.MedalShop.Filter', 'ShopOnce.MedalShop.Filter', bp_redirect),
+        (('Alas.DropRecord.SaveResearch', 'Alas.DropRecord.UploadResearch'),
+         'Alas.DropRecord.ResearchRecord', upload_redirect),
+        (('Alas.DropRecord.SaveCommission', 'Alas.DropRecord.UploadCommission'),
+         'Alas.DropRecord.CommissionRecord', upload_redirect),
+        (('Alas.DropRecord.SaveOpsi', 'Alas.DropRecord.UploadOpsi'),
+         'Alas.DropRecord.OpsiRecord', upload_redirect),
+        (('Alas.DropRecord.SaveMeowfficerTalent', 'Alas.DropRecord.UploadMeowfficerTalent'),
+         'Alas.DropRecord.MeowfficerTalent', upload_redirect),
     ]
 
     @cached_property
@@ -505,14 +527,30 @@ class ConfigUpdater:
             else:
                 continue
 
-            value = deep_get(old, keys=source, default=None)
-            if value is not None:
-                if update_func is not None:
-                    value = update_func(value)
-                deep_set(new, keys=target, value=value)
+            if isinstance(source, tuple):
+                value = []
+                error = False
+                for attribute in source:
+                    tmp = deep_get(old, keys=attribute, default=None)
+                    if tmp is None:
+                        error = True
+                        continue
+                    value.append(tmp)
+                if error:
+                    continue
             else:
-                # No such setting
-                continue
+                value = deep_get(old, keys=source, default=None)
+                if value is None:
+                    continue
+
+            if update_func is not None:
+                value = update_func(value)
+
+            if isinstance(target, tuple):
+                for i in range(0, len(target)):
+                    deep_set(new, keys=target[i], value=value[i])
+            else:
+                deep_set(new, keys=target, value=value)
 
         return new
 

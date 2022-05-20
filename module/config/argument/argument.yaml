@@ -45,16 +45,20 @@ Optimization:
 DropRecord:
   SaveFolder: ./screenshots
   AzurStatsID: null
-  SaveResearch: false
-  UploadResearch: false
-  SaveCommission: false
-  UploadCommission: false
+  ResearchRecord:
+    value: do_not
+    option: [do_not, save, upload, save_and_upload]
+  CommissionRecord:
+    value: do_not
+    option: [do_not, save, upload, save_and_upload]
   SaveCombat: false
-  SaveOpsi: false
-  UploadOpsi: false
+  OpsiRecord:
+    value: do_not
+    option: [do_not, save, upload, save_and_upload]
   SaveMeowfficer: false
-  SaveMeowfficerTalent: false
-  UploadMeowfficerTalent: false
+  MeowfficerTalent:
+    value: do_not
+    option: [do_not, save, upload, save_and_upload]
 Retirement:
   Enable: true
   RetireMode:
