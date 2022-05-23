@@ -88,8 +88,10 @@ class AzurStats:
         method = self.config.DropRecord_API
         if method == 'default':
             return 'https://azurstats.lyoko.io/api/upload/'
-        elif method == 'cn_reverse_proxy':
+        elif method == 'cn_gz_reverse_proxy':
             return 'https://service-rjfzwz8i-1301182309.gz.apigw.tencentcs.com/api/upload'
+        elif method == 'cn_sh_reverse_proxy':
+            return 'https://service-nlvjetab-1301182309.sh.apigw.tencentcs.com/api/upload'
         else:
             logger.critical('Invalid upload API, please check your settings')
             raise ScriptError('Invalid upload API')

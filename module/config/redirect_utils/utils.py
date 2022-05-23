@@ -22,11 +22,13 @@ def api_redirect(value):
     """
     redirect attr about api.
     """
-    if value != 'com.YoStarEN.AzurLane' and \
-            value != 'com.YoStarJP.AzurLane' and \
-            value != 'com.hkmanjuu.azurlane.gp.mc' and \
-            value != 'com.hkmanjuu.azurlane.gp' and \
-            value != 'auto':
-        return 'cn_reverse_proxy'
+    if value not in [
+        'auto',
+        'com.YoStarEN.AzurLane',
+        'com.YoStarJP.AzurLane',
+        'com.hkmanjuu.azurlane.gp.mc',
+        'com.hkmanjuu.azurlane.gp',
+    ]:
+        return 'cn_gz_reverse_proxy'
     else:
         return 'default'

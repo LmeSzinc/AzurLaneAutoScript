@@ -105,7 +105,8 @@
         "value": "default",
         "option": [
           "default",
-          "cn_reverse_proxy"
+          "cn_gz_reverse_proxy",
+          "cn_sh_reverse_proxy"
         ]
       },
       "ResearchRecord": {
