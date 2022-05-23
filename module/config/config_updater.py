@@ -538,8 +538,9 @@ class ConfigUpdater:
 
             if isinstance(target, tuple):
                 for i in range(0, len(target)):
-                    deep_set(new, keys=target[i], value=value[i])
-            else:
+                    if deep_get(old, keys=target[i], default=None) is None:
+                        deep_set(new, keys=target[i], value=value[i])
+            elif deep_get(old, keys=target, default=None) is None:
                 deep_set(new, keys=target, value=value)
 
         return new

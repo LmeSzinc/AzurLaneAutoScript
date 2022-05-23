@@ -2,7 +2,7 @@ def upload_redirect(value):
     """
     redirect attr about upload.
     """
-    if isinstance(value, tuple):
+    if isinstance(value, list):
         if not value[0] and not value[1]:
             return 'do_not'
         elif value[0] and not value[1]:

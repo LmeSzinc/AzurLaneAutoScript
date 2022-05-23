@@ -68,7 +68,7 @@ class RewardResearch(ResearchSelector):
         logger.info('Research reset')
         executed = False
         with self.stat.new(
-                genre='research', method=self.config.DropRecord_ResearchRecord == 'save'
+                genre='research', method=self.config.DropRecord_ResearchRecord
         ) as record:
             record.add(self.device.image)
 
