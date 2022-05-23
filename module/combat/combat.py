@@ -475,7 +475,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         #     self.emotion = Emotion(config=self.config)
 
         with self.stat.new(
-                genre=self.config.campaign_name, save=self.config.DropRecord_SaveCombat, upload=False
+                genre=self.config.campaign_name, method=self.config.DropRecord_CombatRecord
         ) as drop:
             if save_get_items is False:
                 drop = None

@@ -376,45 +376,55 @@
       "name": "DropRecord.AzurStatsID.name",
       "help": "DropRecord.AzurStatsID.help"
     },
-    "SaveResearch": {
-      "name": "DropRecord.SaveResearch.name",
-      "help": "DropRecord.SaveResearch.help"
+    "API": {
+      "name": "DropRecord.API.name",
+      "help": "DropRecord.API.help",
+      "default": "default",
+      "cn_reverse_proxy": "cn_reverse_proxy"
     },
-    "UploadResearch": {
-      "name": "DropRecord.UploadResearch.name",
-      "help": "DropRecord.UploadResearch.help"
+    "ResearchRecord": {
+      "name": "DropRecord.ResearchRecord.name",
+      "help": "DropRecord.ResearchRecord.help",
+      "do_not": "do_not",
+      "save": "save",
+      "upload": "upload",
+      "save_and_upload": "save_and_upload"
     },
-    "SaveCommission": {
-      "name": "DropRecord.SaveCommission.name",
-      "help": "DropRecord.SaveCommission.help"
+    "CommissionRecord": {
+      "name": "DropRecord.CommissionRecord.name",
+      "help": "DropRecord.CommissionRecord.help",
+      "do_not": "do_not",
+      "save": "save",
+      "upload": "upload",
+      "save_and_upload": "save_and_upload"
     },
-    "UploadCommission": {
-      "name": "DropRecord.UploadCommission.name",
-      "help": "DropRecord.UploadCommission.help"
+    "CombatRecord": {
+      "name": "DropRecord.CombatRecord.name",
+      "help": "DropRecord.CombatRecord.help",
+      "do_not": "do_not",
+      "save": "save"
     },
-    "SaveCombat": {
-      "name": "DropRecord.SaveCombat.name",
-      "help": "DropRecord.SaveCombat.help"
+    "OpsiRecord": {
+      "name": "DropRecord.OpsiRecord.name",
+      "help": "DropRecord.OpsiRecord.help",
+      "do_not": "do_not",
+      "save": "save",
+      "upload": "upload",
+      "save_and_upload": "save_and_upload"
     },
-    "SaveOpsi": {
-      "name": "DropRecord.SaveOpsi.name",
-      "help": "DropRecord.SaveOpsi.help"
+    "MeowfficerBuy": {
+      "name": "DropRecord.MeowfficerBuy.name",
+      "help": "DropRecord.MeowfficerBuy.help",
+      "do_not": "do_not",
+      "save": "save"
     },
-    "UploadOpsi": {
-      "name": "DropRecord.UploadOpsi.name",
-      "help": "DropRecord.UploadOpsi.help"
-    },
-    "SaveMeowfficer": {
-      "name": "DropRecord.SaveMeowfficer.name",
-      "help": "DropRecord.SaveMeowfficer.help"
-    },
-    "SaveMeowfficerTalent": {
-      "name": "DropRecord.SaveMeowfficerTalent.name",
-      "help": "DropRecord.SaveMeowfficerTalent.help"
-    },
-    "UploadMeowfficerTalent": {
-      "name": "DropRecord.UploadMeowfficerTalent.name",
-      "help": "DropRecord.UploadMeowfficerTalent.help"
+    "MeowfficerTalent": {
+      "name": "DropRecord.MeowfficerTalent.name",
+      "help": "DropRecord.MeowfficerTalent.help",
+      "do_not": "do_not",
+      "save": "save",
+      "upload": "upload",
+      "save_and_upload": "save_and_upload"
     }
   },
   "Retirement": {

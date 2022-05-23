@@ -18,7 +18,7 @@ class MysteryHandler(StrategyHandler, EnemySearchingHandler):
                 Can be destination grid which makes the bot more like human.
         """
         with self.stat.new(
-                genre=self.config.campaign_name, save=self.config.DropRecord_SaveCombat, upload=False
+                genre=self.config.campaign_name, method=self.config.DropRecord_CombatRecord
         ) as drop:
             if self.handle_mystery_items(button=button, drop=drop):
                 return 'get_item'

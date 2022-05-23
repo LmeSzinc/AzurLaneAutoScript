@@ -9,6 +9,7 @@ from requests.adapters import HTTPAdapter
 
 from module.base.utils import save_image
 from module.config.config import AzurLaneConfig
+from module.exception import ScriptError
 from module.logger import logger
 from module.statistics.utils import pack
 
@@ -73,7 +74,6 @@ class DropImage:
 
 
 class AzurStats:
-    API = 'https://azurstats.lyoko.io/api/upload/'
     TIMEOUT = 20
 
     def __init__(self, config):
@@ -82,6 +82,17 @@ class AzurStats:
             config (AzurLaneConfig):
         """
         self.config = config
+
+    @property
+    def _api(self):
+        method = self.config.DropRecord_API
+        if method == 'default':
+            return 'https://azurstats.lyoko.io/api/upload/'
+        elif method == 'cn_reverse_proxy':
+            return 'https://service-rjfzwz8i-1301182309.gz.apigw.tencentcs.com/api/upload'
+        else:
+            logger.critical('Invalid upload API, please check your settings')
+            raise ScriptError('Invalid upload API')
 
     @property
     def _user_agent(self):
@@ -107,7 +118,7 @@ class AzurStats:
         session.mount('http://', HTTPAdapter(max_retries=5))
         session.mount('https://', HTTPAdapter(max_retries=5))
         try:
-            resp = session.post(self.API, files=data, headers=headers, timeout=self.TIMEOUT)
+            resp = session.post(self._api, files=data, headers=headers, timeout=self.TIMEOUT)
         except Exception as e:
             logger.warning(f'Image upload failed, {e}')
             return False
@@ -181,15 +192,16 @@ class AzurStats:
 
         return True
 
-    def new(self, genre, save=False, upload=False, info=''):
+    def new(self, genre, method='do_not', info=''):
         """
         Args:
             genre (str):
-            save (bool): If save image to local file system.
-            upload (bool): If upload image to Azur Stats.
+            method (str): The method about save and upload image.
             info (str): Extra info append to filename.
 
         Returns:
             DropImage:
         """
+        save = 'save' in method
+        upload = 'upload' in method
         return DropImage(stat=self, genre=genre, save=save, upload=upload, info=info)

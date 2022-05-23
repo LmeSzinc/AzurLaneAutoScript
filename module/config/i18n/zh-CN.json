@@ -376,45 +376,55 @@
       "name": "AzurStat ID",
       "help": "上传至 https://azur-stats.lyoko.io 时，声明的客户端 ID\n由随机字符组成，可随意修改"
     },
-    "SaveResearch": {
-      "name": "保存科研截图",
-      "help": ""
+    "API": {
+      "name": "上传线路",
+      "help": "如果国内用户无法连接到AzurStat，可以使用\"国内反向代理\"",
+      "default": "默认",
+      "cn_reverse_proxy": "国内反向代理"
     },
-    "UploadResearch": {
-      "name": "上传科研截图",
-      "help": ""
+    "ResearchRecord": {
+      "name": "科研截图",
+      "help": "",
+      "do_not": "无操作",
+      "save": "保存",
+      "upload": "上传",
+      "save_and_upload": "保存并上传"
     },
-    "SaveCommission": {
-      "name": "保存委托截图",
-      "help": ""
+    "CommissionRecord": {
+      "name": "委托截图",
+      "help": "",
+      "do_not": "无操作",
+      "save": "保存",
+      "upload": "上传",
+      "save_and_upload": "保存并上传"
     },
-    "UploadCommission": {
-      "name": "上传委托截图",
-      "help": ""
+    "CombatRecord": {
+      "name": "战斗掉落截图",
+      "help": "启用后会放缓结算时的点击速度\n在自律寻敌下不生效",
+      "do_not": "无操作",
+      "save": "保存"
     },
-    "SaveCombat": {
-      "name": "保存战斗掉落截图",
-      "help": "启用后会放缓结算时的点击速度\n在自律寻敌下不生效"
+    "OpsiRecord": {
+      "name": "大世界掉落截图",
+      "help": "",
+      "do_not": "无操作",
+      "save": "保存",
+      "upload": "上传",
+      "save_and_upload": "保存并上传"
     },
-    "SaveOpsi": {
-      "name": "保存大世界掉落截图",
-      "help": ""
+    "MeowfficerBuy": {
+      "name": "指挥喵购买截图",
+      "help": "",
+      "do_not": "无操作",
+      "save": "保存"
     },
-    "UploadOpsi": {
-      "name": "上传大世界掉落截图",
-      "help": ""
-    },
-    "SaveMeowfficer": {
-      "name": "保存指挥喵购买截图",
-      "help": ""
-    },
-    "SaveMeowfficerTalent": {
-      "name": "保存指挥喵天赋截图",
-      "help": ""
-    },
-    "UploadMeowfficerTalent": {
-      "name": "上传指挥喵天赋截图",
-      "help": ""
+    "MeowfficerTalent": {
+      "name": "指挥喵天赋截图",
+      "help": "",
+      "do_not": "无操作",
+      "save": "保存",
+      "upload": "上传",
+      "save_and_upload": "保存并上传"
     }
   },
   "Retirement": {

@@ -487,8 +487,7 @@ class OSMap(OSFleet, Map, GlobeCamera):
         logger.info(f'Run auto search, rescan={rescan}')
         with self.stat.new(
                 genre=inflection.underscore(self.config.task.command),
-                save=self.config.DropRecord_SaveOpsi,
-                upload=self.config.DropRecord_UploadOpsi
+                method=self.config.DropRecord_OpsiRecord
         ) as drop:
             while 1:
                 self.os_auto_search_run(drop)

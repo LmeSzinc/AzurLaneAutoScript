@@ -103,7 +103,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         self.stage_entrance = button
 
         with self.stat.new(
-                genre=self.config.campaign_name, save=self.config.DropRecord_SaveCombat, upload=False
+                genre=self.config.campaign_name, method=self.config.DropRecord_CombatRecord
         ) as drop:
             while 1:
                 if skip_first_screenshot:
