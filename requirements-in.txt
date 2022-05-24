@@ -23,5 +23,6 @@ prettytable==2.2.1
 pypresence==4.2.1
 alas-webapp==0.3.7
 rich==11.0.0
-zerorpc
+zerorpc==0.6.3
+pyzmq==22.3.0
 atomicwrites
