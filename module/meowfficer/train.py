@@ -202,7 +202,7 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
             if remain > 0:
                 collected = self.meow_collect(collect_all=True)
             # Queue
-            self.meow_queue(ascending=True)
+            self.meow_queue(ascending=False)
             # Exit
             self.meow_menu_close()
         else:
