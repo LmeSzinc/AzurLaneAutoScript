@@ -69,7 +69,7 @@ class MeowfficerBuy(MeowfficerBase):
         executed = False
         with self.stat.new(
                 genre="meowfficer_buy",
-                save=self.config.DropRecord_SaveMeowfficer,
+                method=self.config.DropRecord_MeowfficerBuy,
         ) as drop:
             while 1:
                 if skip_first_screenshot:

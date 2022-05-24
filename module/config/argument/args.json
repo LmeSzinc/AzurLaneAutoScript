@@ -100,45 +100,70 @@
         "type": "input",
         "value": null
       },
-      "SaveResearch": {
-        "type": "checkbox",
-        "value": false
+      "API": {
+        "type": "select",
+        "value": "default",
+        "option": [
+          "default",
+          "cn_gz_reverse_proxy",
+          "cn_sh_reverse_proxy"
+        ]
       },
-      "UploadResearch": {
-        "type": "checkbox",
-        "value": false
+      "ResearchRecord": {
+        "type": "select",
+        "value": "do_not",
+        "option": [
+          "do_not",
+          "save",
+          "upload",
+          "save_and_upload"
+        ]
       },
-      "SaveCommission": {
-        "type": "checkbox",
-        "value": false
+      "CommissionRecord": {
+        "type": "select",
+        "value": "do_not",
+        "option": [
+          "do_not",
+          "save",
+          "upload",
+          "save_and_upload"
+        ]
       },
-      "UploadCommission": {
-        "type": "checkbox",
-        "value": false
+      "CombatRecord": {
+        "type": "select",
+        "value": "do_not",
+        "option": [
+          "do_not",
+          "save"
+        ]
       },
-      "SaveCombat": {
-        "type": "checkbox",
-        "value": false
+      "OpsiRecord": {
+        "type": "select",
+        "value": "do_not",
+        "option": [
+          "do_not",
+          "save",
+          "upload",
+          "save_and_upload"
+        ]
       },
-      "SaveOpsi": {
-        "type": "checkbox",
-        "value": false
+      "MeowfficerBuy": {
+        "type": "select",
+        "value": "do_not",
+        "option": [
+          "do_not",
+          "save"
+        ]
       },
-      "UploadOpsi": {
-        "type": "checkbox",
-        "value": false
-      },
-      "SaveMeowfficer": {
-        "type": "checkbox",
-        "value": false
-      },
-      "SaveMeowfficerTalent": {
-        "type": "checkbox",
-        "value": false
-      },
-      "UploadMeowfficerTalent": {
-        "type": "checkbox",
-        "value": false
+      "MeowfficerTalent": {
+        "type": "select",
+        "value": "do_not",
+        "option": [
+          "do_not",
+          "save",
+          "upload",
+          "save_and_upload"
+        ]
       }
     }
   },

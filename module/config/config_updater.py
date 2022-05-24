@@ -6,6 +6,7 @@ from cached_property import cached_property
 from deploy.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_write
 from module.base.timer import timer
 from module.config.redirect_utils.shop_filter import bp_redirect
+from module.config.redirect_utils.utils import upload_redirect, api_redirect
 from module.config.server import to_server, to_package, VALID_PACKAGE, VALID_CHANNEL_PACKAGE
 from module.config.utils import *
 
@@ -428,6 +429,17 @@ class ConfigUpdater:
         ('OpsiShop.Scheduler.Enable', 'OpsiShop.OpsiShop.BuySupply'),
         ('ShopOnce.GuildShop.Filter', 'ShopOnce.GuildShop.Filter', bp_redirect),
         ('ShopOnce.MedalShop.Filter', 'ShopOnce.MedalShop.Filter', bp_redirect),
+        (('Alas.DropRecord.SaveResearch', 'Alas.DropRecord.UploadResearch'),
+         'Alas.DropRecord.ResearchRecord', upload_redirect),
+        (('Alas.DropRecord.SaveCommission', 'Alas.DropRecord.UploadCommission'),
+         'Alas.DropRecord.CommissionRecord', upload_redirect),
+        (('Alas.DropRecord.SaveOpsi', 'Alas.DropRecord.UploadOpsi'),
+         'Alas.DropRecord.OpsiRecord', upload_redirect),
+        (('Alas.DropRecord.SaveMeowfficerTalent', 'Alas.DropRecord.UploadMeowfficerTalent'),
+         'Alas.DropRecord.MeowfficerTalent', upload_redirect),
+        ('Alas.DropRecord.SaveCombat', 'Alas.DropRecord.CombatRecord', upload_redirect),
+        ('Alas.DropRecord.SaveMeowfficer', 'Alas.DropRecord.MeowfficerBuy', upload_redirect),
+        ('Alas.Emulator.PackageName', 'Alas.DropRecord.API', api_redirect)
     ]
 
     @cached_property
@@ -505,14 +517,31 @@ class ConfigUpdater:
             else:
                 continue
 
-            value = deep_get(old, keys=source, default=None)
-            if value is not None:
-                if update_func is not None:
-                    value = update_func(value)
-                deep_set(new, keys=target, value=value)
+            if isinstance(source, tuple):
+                value = []
+                error = False
+                for attribute in source:
+                    tmp = deep_get(old, keys=attribute, default=None)
+                    if tmp is None:
+                        error = True
+                        continue
+                    value.append(tmp)
+                if error:
+                    continue
             else:
-                # No such setting
-                continue
+                value = deep_get(old, keys=source, default=None)
+                if value is None:
+                    continue
+
+            if update_func is not None:
+                value = update_func(value)
+
+            if isinstance(target, tuple):
+                for i in range(0, len(target)):
+                    if deep_get(old, keys=target[i], default=None) is None:
+                        deep_set(new, keys=target[i], value=value[i])
+            elif deep_get(old, keys=target, default=None) is None:
+                deep_set(new, keys=target, value=value)
 
         return new
 

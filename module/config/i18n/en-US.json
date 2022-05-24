@@ -376,45 +376,56 @@
       "name": "AzurStat ID",
       "help": "Used to identify your upload to <https://azur-stats.lyoko.io>, the ID consists of random characters and can be changed at any time"
     },
-    "SaveResearch": {
-      "name": "Save Research Screenshots",
-      "help": ""
+    "API": {
+      "name": "Upload API",
+      "help": "If CN users cannot connect to AzurStat, recommend to use \"reverse proxy\"",
+      "default": "Default (Cloudflare)",
+      "cn_gz_reverse_proxy": "Reverse proxy (Guangzhou, South China)",
+      "cn_sh_reverse_proxy": "Reverse proxy (Shanghai, East China)"
     },
-    "UploadResearch": {
-      "name": "Upload Research Screenshots",
-      "help": ""
+    "ResearchRecord": {
+      "name": "Research Record",
+      "help": "",
+      "do_not": "Do nothing",
+      "save": "Save",
+      "upload": "Upload",
+      "save_and_upload": "Save and upload"
     },
-    "SaveCommission": {
-      "name": "Save Commission Screenshots",
-      "help": ""
+    "CommissionRecord": {
+      "name": "Commission Record",
+      "help": "",
+      "do_not": "Do nothing",
+      "save": "Save",
+      "upload": "Upload",
+      "save_and_upload": "Save and upload"
     },
-    "UploadCommission": {
-      "name": "Upload Commissions Screenshots",
-      "help": ""
+    "CombatRecord": {
+      "name": "Combat Record",
+      "help": "",
+      "do_not": "Do nothing",
+      "save": "Save"
     },
-    "SaveCombat": {
-      "name": "Save Battle Drop Screenshots",
-      "help": "If enabled, clicks will be slowed down to ensure capture"
+    "OpsiRecord": {
+      "name": "Opsi Record",
+      "help": "",
+      "do_not": "Do nothing",
+      "save": "Save",
+      "upload": "Upload",
+      "save_and_upload": "Save and upload"
     },
-    "SaveOpsi": {
-      "name": "Save OpSi Drop Screenshots",
-      "help": ""
+    "MeowfficerBuy": {
+      "name": "Meowfficer Buy",
+      "help": "",
+      "do_not": "Do nothing",
+      "save": "Save"
     },
-    "UploadOpsi": {
-      "name": "Upload OpSi Screenshots",
-      "help": ""
-    },
-    "SaveMeowfficer": {
-      "name": "Save Meowfficer Buy Screenshots",
-      "help": ""
-    },
-    "SaveMeowfficerTalent": {
-      "name": "Save Meowfficer Skill Screenshots",
-      "help": ""
-    },
-    "UploadMeowfficerTalent": {
-      "name": "Upload Meowfficer Skill Screenshots",
-      "help": ""
+    "MeowfficerTalent": {
+      "name": "Meowfficer Talent",
+      "help": "",
+      "do_not": "Do nothing",
+      "save": "Save",
+      "upload": "Upload",
+      "save_and_upload": "Save and upload"
     }
   },
   "Retirement": {
