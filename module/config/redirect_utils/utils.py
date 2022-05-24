@@ -1,3 +1,6 @@
+from module.config.server import to_server
+
+
 def upload_redirect(value):
     """
     redirect attr about upload.
@@ -22,13 +25,9 @@ def api_redirect(value):
     """
     redirect attr about api.
     """
-    if value not in [
-        'auto',
-        'com.YoStarEN.AzurLane',
-        'com.YoStarJP.AzurLane',
-        'com.hkmanjuu.azurlane.gp.mc',
-        'com.hkmanjuu.azurlane.gp',
-    ]:
+    if value == 'auto':
+        return 'default'
+    elif to_server(value) == 'cn':
         return 'cn_gz_reverse_proxy'
     else:
         return 'default'
