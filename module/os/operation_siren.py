@@ -398,7 +398,7 @@ class OperationSiren(OSMap):
         for _ in range(3):
             # Attack
             self.fleet_set(fleet.fleet_index)
-            self.run_auto_search(rescan=False)
+            self.run_auto_search(question=False, rescan=False)
             self.hp_reset()
             self.hp_get()
 

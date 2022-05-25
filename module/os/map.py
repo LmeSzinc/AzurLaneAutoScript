@@ -468,12 +468,14 @@ class OSMap(OSFleet, Map, GlobeCamera):
                 logger.warning(f'Arrive question with unexpected result: {result}, expected: {grid.str}')
                 continue
 
-    def run_auto_search(self, rescan=None):
+    def run_auto_search(self, question=True, rescan=None):
         """
         Clear current zone by running auto search.
         OpSi story mode must be cleared to unlock auto search.
 
         Args:
+            question (bool):
+                If clear nearing questions after auto search.
             rescan (bool): Whether to rescan the whole map after running auto search.
                 This will clear siren scanning devices, siren logging tower,
                 visit akashi's shop that auto search missed, and unlock mechanism that requires 2 fleets.
@@ -507,7 +509,8 @@ class OSMap(OSFleet, Map, GlobeCamera):
             # Rescan
             self._solved_map_event = set()
             self._solved_fleet_mechanism = False
-            self.clear_question(drop)
+            if question:
+                self.clear_question(drop)
             if rescan:
                 self.map_rescan(drop)
 
