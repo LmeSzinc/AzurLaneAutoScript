@@ -54,6 +54,7 @@ class Config:
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
     MAP_SWIPE_MULTIPLY = 1.656
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.601
 
