@@ -132,6 +132,9 @@ class RewardResearch(ResearchSelector):
                 else:
                     logger.warning(f'Unknown select method: {project}')
                 return True
+            elif project.gener in ['B', 'C', 'T'] and not self.enforce:
+                self.research_enforce()
+                return True
             else:
                 # priority example: [ResearchProject, ResearchProject,]
                 if self.research_project_start(project):
