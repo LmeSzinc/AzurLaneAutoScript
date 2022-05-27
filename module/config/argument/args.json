@@ -4515,11 +4515,11 @@
       },
       "SuccessInterval": {
         "type": "hide",
-        "value": "240-360"
+        "value": "120-240"
       },
       "FailureInterval": {
         "type": "hide",
-        "value": "240-360"
+        "value": "120-240"
       },
       "ServerUpdate": {
         "type": "hide",

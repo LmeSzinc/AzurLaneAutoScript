@@ -172,8 +172,8 @@ Reward:
     Enable:
       value: true
       type: disable
-    SuccessInterval: 240-360
-    FailureInterval: 240-360
+    SuccessInterval: 120-240
+    FailureInterval: 120-240
     ServerUpdate: 00:00
 ShopFrequent:
   Scheduler:
