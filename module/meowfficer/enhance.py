@@ -161,6 +161,7 @@ class MeowfficerEnhance(MeowfficerBase):
                  MEOWFFICER_FEED_ENTER if failed
         """
         click_count = 0
+        confirm_timer = Timer(3, count=6).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -173,7 +174,8 @@ class MeowfficerEnhance(MeowfficerBase):
 
             # End
             if self.appear(MEOWFFICER_FEED_CONFIRM, offset=(20, 20)):
-                return True
+                if confirm_timer.reached():
+                    return True
             if click_count >= 3:
                 logger.warning('Unable to enter meowfficer feed, '
                                'probably because the meowfficer to enhance has reached LV.30')

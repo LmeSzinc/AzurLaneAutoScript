@@ -126,8 +126,8 @@ class Retirement(Enhancement):
 
     def _retirement_quit(self):
         def check_func():
-            return not self.appear(IN_RETIREMENT_CHECK) \
-                and not self.appear(DOCK_CHECK)
+            return not self.appear(IN_RETIREMENT_CHECK, offset=(20, 20)) \
+                and not self.appear(DOCK_CHECK, offset=(20, 20))
 
         self.ui_back(check_button=check_func, skip_first_screenshot=True)
 
