@@ -11,7 +11,7 @@ from module.shop.ui import ShopUI
 SHOP_SELECT_PR = [SHOP_SELECT_PR1, SHOP_SELECT_PR2, SHOP_SELECT_PR3]
 
 OCR_SHOP_GUILD_COINS = Digit(SHOP_GUILD_COINS, letter=(255, 255, 255), name='OCR_SHOP_GUILD_COINS')
-OCR_SHOP_SELECT_TOTAL_PRICE = Digit(SHOP_SELECT_TOTAL_PRICE, letter=(255, 255, 255), name='OCR_SHOP_SELECT_TOTAL_PRICE')
+OCR_SHOP_SELECT_STOCK = Digit(SHOP_SELECT_STOCK, letter=(148, 255, 99), name='OCR_SHOP_SELECT_STOCK')
 
 
 class GuildShop(ShopBase, ShopUI):
@@ -191,7 +191,13 @@ class GuildShop(ShopBase, ShopUI):
         # Search for appropriate select grid button for item
         # If None, allow close and restart process
         select = self.shop_get_select(item)
-        limit = SELECT_ITEM_INFO_MAP[item.group]['limit']
+
+        # Game bug; stock limit on screen may differ from
+        # known wiki values so read first, fallback if fail
+        limit = OCR_SHOP_SELECT_STOCK.ocr(self.device.image)
+        if not limit:
+            logger.info('Unable to read current stock; fallback to dictionary')
+            limit = SELECT_ITEM_INFO_MAP[item.group]['limit']
 
         # Click in intervals until plus/minus are onscreen
         click_timer = Timer(3, count=6)
@@ -215,13 +221,20 @@ class GuildShop(ShopBase, ShopUI):
         if diff > 0:
             limit = total
 
-        # For ui_ensure_index to calculate amount/count
-        # representation of total_price
-        def total_price_to_count(image):
-            total_price = OCR_SHOP_SELECT_TOTAL_PRICE.ocr(image)
-            return int(total_price / item.price)
+        # Ocr the number between minus and plus assets
+        # Prevent overbuying by detecting red pixels
+        # in SHOP_SELECT_STOCK; due to item.price
+        # may evaluate incorrectly
+        buttons = [(SELECT_MINUS.button[2] + 3, SELECT_MINUS.button[1] - 3, SELECT_PLUS.button[0] - 3, SELECT_PLUS.button[3] + 3)]
+        ocr_center = Digit(buttons, letter=(255, 251, 90), name='OCR_SHOP_SELECT_COUNT')
+        def shop_buy_select_ensure_index(image):
+            if self.image_color_count(SHOP_SELECT_STOCK, color=(255, 90, 93)):
+                group_case = item.group.title() if len(item.group) > 2 else item.group.upper()
+                logger.info(f'{group_case} select current stock is red; exit to prevent overbuying')
+                return limit
+            return ocr_center.ocr(image)
 
-        self.ui_ensure_index(limit, letter=total_price_to_count, prev_button=SELECT_MINUS, next_button=SELECT_PLUS,
+        self.ui_ensure_index(limit, letter=shop_buy_select_ensure_index, prev_button=SELECT_MINUS, next_button=SELECT_PLUS,
                              skip_first_screenshot=True)
         self.device.click(SHOP_BUY_CONFIRM_SELECT)
         return True
