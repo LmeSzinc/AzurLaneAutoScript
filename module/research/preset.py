@@ -37,6 +37,36 @@ DICT_FILTER_PRESET = {
         > Q2 > 2 > 2.5 > S4-T3 > T3 > 3 > S4-DR5 > S4-PRY5 > Q4 > G4 > S4-T4 > T4
         > 4 > 5 > S4-C6 > S4-T6 > S4-DR8 > S4-PRY8 > S4-C8 > C6 > T6 > 6 > 8
         > S4-C12 > 12""",
+    'series_2_than_3_457_234': """
+       S2-Q0.5 > S2-PRY0.5 > S2-DR0.5 > S2-Q4 > S2-Q1 > S2-Q2 > S2-H0.5 > 0.5
+       > S3-Q1 > S3-Q2 > S2-G4 > S3-Q4 > S2-G1.5 > S2-DR2.5 > reset > Q1 > S2-PRY2.5 > S2-G2.5 > H1 > 1.5 
+       > Q2 > 2.5 > S2-DR5 > S2-PRY5 > Q4 > G4 > 5 > H2 > S2-C6 > S2-DR8 > S2-PRY8 > S2-C8 
+       > 6 > 8 > 4 > S2-C12 > 12""",
+    'series_3_234_only': """
+       S2-Q0.5 > S2-PRY0.5 > S2-DR0.5 > S3-Q4 > S3-Q1 > S3-Q2 > S2-H0.5 > 0.5
+       > S3-G4 > S3-G1.5 > S3-DR2.5 > reset > Q1 > S3-PRY2.5 > S3-G2.5 > H1 > 1.5
+       > Q2 > 2.5 > S3-DR5 > S3-PRY5 > Q4 > G4 > 5 > H2 > S2-C6 > S3-DR8 > S3-PRY8 > S3-C8
+       > 6 > 8 > 4 > S3-C12 > 12""",
+    'series_3_blueprint_234': """
+       S3-Q0.5 > S3-DR0.5 > S3-PRY0.5 > S3-H0.5 > S3-DR2.5 > 0.5 > S3-G1.5
+       > S3-Q1 > S3-G4 > S3-DR5 > S3-DR8  > S3-PRY2.5 > 1 > S3-Q2 > reset
+       > S3-G2.5 > S3-PRY5 > S3-PRY8 > 1.5 > 2 > S3-Q4 > 2.5 > 4 > 5 > S3-C6
+       > S3-C8 > 6 > 8 > S3-C12 > 12""",
+    'series_2_blueprint_457': """
+       S2-Q0.5 > S2-DR0.5 > S2-PRY0.5 > S2-H0.5 > S2-DR2.5 > 0.5 > S2-G1.5
+       > S2-Q1 > S2-G4 > S2-DR5 > S2-DR8  > S2-PRY2.5 > 1 > S2-Q2 > reset
+       > S2-G2.5 > S2-PRY5 > S2-PRY8 > 1.5 > 2 > S2-Q4 > 2.5 > 4 > 5 > S2-C6
+       > S2-C8 > 6 > 8 > S2-C12 > 12""",
+    'series_3_blueprint_only': """
+      S3-DR0.5 > S3-PRY0.5 > S3-H0.5 > S3-Q0.5 > S3-DR2.5 > S3-G4 > S3-G1.5
+       > S3-PRY2.5 > 0.5 > S3-G2.5 > S3-Q1 > 1 > reset > S3-DR5 > S3-DR8
+       > S3-PRY5 > 1.5 > S3-Q2 > 2 > S3-PRY8 > 2.5 > S3-Q4 > 4 > 5 > S3-C6
+       > 6 > S3-C8 > 8 > S3-C12 > 12""",
+    'series_2_blueprint_only': """
+       S2-DR0.5 > S2-PRY0.5 > S2-H0.5 > S2-Q0.5 > S2-DR2.5 > S2-G4 > S2-G1.5
+       > S2-PRY2.5 > 0.5 > S2-G2.5 > S2-Q1 > 1 > reset > S2-DR5 > S2-DR8
+       > S2-PRY5 > 1.5 > S2-Q2 > 2 > S2-PRY8 > 2.5 > S2-Q4 > 4 > 5 > S2-C6
+       > 6 > S2-C8 > 8 > S2-C12 > 12""",
     'series_3': 'S3-DR-0.5 > S3-0.5 > Q0.5 > S3-DR-2.5 > S3-DR-8 > S3-DR-5 > S3-H-1 > S3-H-4 > S3-H-2 > Q1 > Q2 > Q4 > reset > G1.5 > G2.5 > shortest',
     'series_3_than_2': 'S3-DR-0.5 > S3-0.5 > S2-DR-0.5 > Q0.5 > S3-DR-2.5 > S3-DR-8 > S3-DR-5 > S3-H-1 > S3-H-4 > S3-H-2 > S2-DR-2.5 > S2-DR-8 > S2-DR-5 > Q1 > Q2 > Q4 > reset > G1.5 > G2.5 > shortest',
     'series_3_fastest': 'S3-DR-0.5 > S3-0.5 > S3-DR-2.5 > S3-H-1 > S3-H-4 > S3-H-2 > S3-DR-8 > S3-DR-5 > Q1 > Q2 > reset > shortest',
