@@ -62,12 +62,24 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             bool: If switched.
         """
         logger.info(f'Fleet set to {index}')
+        timeout = Timer(5, count=10).start()
         count = 0
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
+
+            if timeout.reached():
+                logger.warning('Fleet set timeout, assume current fleet is correct')
+                break
+
+            if self.handle_story_skip():
+                timeout.reset()
+                continue
+            if self.handle_in_stage():
+                timeout.reset()
+                continue
 
             self.get_fleet_show_index()
             self.get_fleet_current_index()
@@ -77,6 +89,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             elif self.appear_then_click(SWITCH_OVER):
                 count += 1
                 self.device.sleep((1, 1.5))
+                timeout.reset()
                 continue
             else:
                 logger.warning('SWITCH_OVER not found')

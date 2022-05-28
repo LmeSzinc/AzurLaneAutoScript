@@ -5,6 +5,17 @@ from deploy.emulator import EmulatorConnect
 from deploy.utils import *
 
 
+def show_fix_tip(module):
+    print(f"""
+    To fix this:
+    1. Open console.bat
+    2. Execute the following commands:
+        pip uninstall -y {module}
+        pip install --no-cache-dir {module}
+    3. Re-open Alas.exe
+    """)
+
+
 class AdbManager(DeployConfig):
     @cached_property
     def adb(self):
@@ -26,14 +37,13 @@ class AdbManager(DeployConfig):
             try:
                 import adbutils
             except ModuleNotFoundError as e:
-                # ModuleNotFoundError: No module named 'apkutils2'
-                print(e)
-                print('Please open console.bat, execute the following commands and re-open Alas.exe')
-                print()
-                print('    pip uninstall -y apkutils2')
-                print('    pip install --no-cache-dir apkutils2')
-                print()
-                exit(1)
+                message = str(e)
+                for module in ['apkutils2', 'progress']:
+                    # ModuleNotFoundError: No module named 'apkutils2'
+                    # ModuleNotFoundError: No module named 'progress.bar'
+                    if module in message:
+                        show_fix_tip(module)
+                        exit(1)
             from uiautomator2.init import Initer
             for device in adbutils.adb.iter_device():
                 init = Initer(device, loglevel=logging.DEBUG)

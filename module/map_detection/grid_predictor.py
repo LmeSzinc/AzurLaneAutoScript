@@ -200,7 +200,7 @@ class GridPredictor:
                     shape = tuple(np.round(np.array((60, 60)) * scale).astype(int))
                     image_dic[scale] = rgb2gray(self.relative_crop((-0.5, -1, 0.5, 0), shape=shape))
 
-                if template.match(image_dic[scale]):
+                if template.match(image_dic[scale], similarity=self.config.MAP_ENEMY_GENRE_SIMILARITY):
                     return name
 
         return None

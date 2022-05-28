@@ -918,8 +918,8 @@
       "Enable": true,
       "NextRun": "2020-01-01 00:00:00",
       "Command": "Reward",
-      "SuccessInterval": "240-360",
-      "FailureInterval": "240-360",
+      "SuccessInterval": "120-240",
+      "FailureInterval": "120-240",
       "ServerUpdate": "00:00"
     },
     "Reward": {

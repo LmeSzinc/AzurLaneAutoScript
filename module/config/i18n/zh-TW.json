@@ -1117,8 +1117,12 @@
       "series_4_blueprint_tenrai": "四期 藍圖+天雷",
       "series_4_blueprint_only": "四期 僅藍圖",
       "series_4_tenrai_only": "四期 僅天雷",
-      "series_3": "三期",
-      "series_3_than_2": "三期兼顧二期"
+      "series_3_blueprint_234": "三期 藍圖+234",
+      "series_3_blueprint_only": "三期 僅藍圖",
+      "series_3_234_only": "三期 僅234",
+      "series_2_than_3_457_234": "二期兼顧三期 457+234",
+      "series_2_blueprint_457": "二期 藍圖+457",
+      "series_2_blueprint_only": "二期 僅藍圖"
     },
     "CustomFilter": {
       "name": "自定義科研過濾器",
