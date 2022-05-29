@@ -34,7 +34,7 @@ class Equipment(UI):
                 swipe_timer.reset()
                 self.device.swipe_vector(vector=(distance, 0), box=SWIPE_AREA.area, random_range=SWIPE_RANDOM_RANGE,
                                          padding=0, duration=(0.1, 0.12), name='EQUIP_SWIPE')
-                self.wait_until_appear(check_button)
+                self.wait_until_appear(check_button, offset=(30, 30))
                 swipe_count += 1
 
             self.device.screenshot()
