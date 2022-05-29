@@ -389,10 +389,46 @@ class UI(InfoHandler):
         if self.appear_then_click(BATTLE_PASS_NOTICE, offset=(30, 30), interval=3):
             return True
 
+        return False
+
+    def ui_page_os_popups(self):
+        """
+        Handle popups appear at page_os
+        """
+        # Opsi reset
+        # - Opsi has reset, handle_story_skip() clicks confirm
+        # - RESET_TICKET_POPUP
+        # - Open exchange shop? handle_popup_confirm() click confirm
+        # - EXCHANGE_CHECK, click BACK_ARROW
+        if self._opsi_reset_fleet_preparation_click >= 5:
+            logger.critical("Failed to confirm OpSi fleets, too many click on RESET_FLEET_PREPARATION")
+            logger.critical("Possible reason #1: You haven't set any fleets in operation siren")
+            logger.critical("Possible reason #2: Your fleets haven't satisfied the level restrictions in operation siren")
+            raise RequestHumanTakeover
+        if self.appear_then_click(RESET_TICKET_POPUP, offset=(30, 30), interval=3):
+            return True
+        if self.appear_then_click(RESET_FLEET_PREPARATION, offset=(30, 30), interval=3):
+            self._opsi_reset_fleet_preparation_click += 1
+            self.interval_reset(FLEET_PREPARATION)
+            return True
+        if self.appear(EXCHANGE_CHECK, offset=(30, 30), interval=3):
+            logger.info(f'UI additional: {EXCHANGE_CHECK} -> {GOTO_MAIN}')
+            GOTO_MAIN.clear_offset()
+            self.device.click(GOTO_MAIN)
+            return True
+
+        return False
+
     def ui_additional(self):
         """
         Handle all annoying popups during UI switching.
         """
+        # Popups appear at page_os
+        # Has a popup_confirm variant
+        # so must take precedence
+        if self.ui_page_os_popups():
+            return True
+
         # Research popup, lost connection popup
         if self.handle_popup_confirm("UI_ADDITIONAL"):
             return True
@@ -444,28 +480,6 @@ class UI(InfoHandler):
 
         # Meowfficer popup
         if self.appear_then_click(MEOWFFICER_INFO, offset=(30, 30), interval=3):
-            return True
-
-        # Opsi reset
-        # - Opsi has reset, handle_story_skip() clicks confirm
-        # - RESET_TICKET_POPUP
-        # - Open exchange shop? handle_popup_confirm() click confirm
-        # - EXCHANGE_CHECK, click BACK_ARROW
-        if self._opsi_reset_fleet_preparation_click >= 5:
-            logger.critical("Failed to confirm OpSi fleets, too many click on RESET_FLEET_PREPARATION")
-            logger.critical("Possible reason #1: You haven't set any fleets in operation siren")
-            logger.critical("Possible reason #2: Your fleets haven't satisfied the level restrictions in operation siren")
-            raise RequestHumanTakeover
-        if self.appear_then_click(RESET_TICKET_POPUP, offset=(30, 30), interval=3):
-            return True
-        if self.appear_then_click(RESET_FLEET_PREPARATION, offset=(30, 30), interval=3):
-            self._opsi_reset_fleet_preparation_click += 1
-            self.interval_reset(FLEET_PREPARATION)
-            return True
-        if self.appear(EXCHANGE_CHECK, offset=(30, 30), interval=3):
-            logger.info(f'UI additional: {EXCHANGE_CHECK} -> {GOTO_MAIN}')
-            GOTO_MAIN.clear_offset()
-            self.device.click(GOTO_MAIN)
             return True
 
         # Campaign preparation

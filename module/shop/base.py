@@ -7,11 +7,11 @@ from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1, GET_SHIP
 from module.exception import ScriptError
 from module.logger import logger
+from module.retire.retirement import Retirement
 from module.shop.assets import *
 from module.statistics.item import ItemGrid
 from module.tactical.tactical_class import Book
 from module.ui.assets import BACK_ARROW
-from module.ui.ui import UI
 
 FILTER_REGEX = re.compile(
     '^(cube|drill|chip|array|pr|dr|box|bulin|book|food|plate|retrofit|cat)'
@@ -73,7 +73,7 @@ class ShopItemGrid(ItemGrid):
         return self.items
 
 
-class ShopBase(UI):
+class ShopBase(Retirement):
     @cached_property
     def shop_filter(self):
         """
@@ -294,6 +294,9 @@ class ShopBase(UI):
                 continue
             if self.appear(GET_SHIP, interval=1):
                 self.device.click(SHOP_CLICK_SAFE_AREA)
+                self.interval_reset(BACK_ARROW)
+                continue
+            if self.handle_retirement():
                 self.interval_reset(BACK_ARROW)
                 continue
             if self.appear(GET_ITEMS_1, interval=1):
