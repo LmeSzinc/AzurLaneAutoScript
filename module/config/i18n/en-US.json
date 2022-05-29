@@ -460,7 +460,7 @@
     },
     "EnhanceCheckPerCategory": {
       "name": "Number Checked Per Category for Enhance",
-      "help": "Restrict number of ships to be checked per category before moving on to the next one if any. Unenhanceable (in battle or stat full) ships will count towards this.\nChecking existence of available material is prior.\nRecommend 3+ if have enhanceable ship in active fleet else <= 2 is generally sufficient"
+      "help": "Restricts the number of ships to be checked per category before moving onto the next if any\nSuitable enhance material is checked continously until reaching the unenhanceable state (in battle or stat full), after which this number is decremented for the current session\nRecommend to configure 3+ if there are non-max level ships in active fleet else <= 2 is generally sufficient"
     },
     "OldRetireN": {
       "name": "Retire Common",
