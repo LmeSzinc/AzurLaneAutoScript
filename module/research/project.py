@@ -582,7 +582,7 @@ class ResearchSelector(UI):
         if preset == 'custom':
             string = self.config.Research_CustomFilter
         else:
-            if self.config.Research_UseCube == 'always_use':
+            if self.config.Research_UseCube == 'always_use' or enforce:
                 if f'{preset}_cube' in DICT_FILTER_PRESET:
                     preset = f'{preset}_cube'
             if preset not in DICT_FILTER_PRESET:
