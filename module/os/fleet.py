@@ -287,6 +287,12 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 else:
                     continue
 
+            # Accident click
+            if self.is_in_globe():
+                self.os_globe_goto_map()
+                confirm_timer.reset()
+                continue
+
             # Enemy searching
             if not enemy_searching_appear and self.enemy_searching_appear():
                 enemy_searching_appear = True

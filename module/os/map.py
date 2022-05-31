@@ -396,6 +396,8 @@ class OSMap(OSFleet, Map, GlobeCamera):
                 unlock_checked = True
                 continue
             if self.handle_retirement():
+                # Retire will interrupt auto search, need a retry
+                self.ash_popup_canceled = True
                 continue
             if self.combat_appear():
                 self._auto_search_battle_count += 1
@@ -415,8 +417,6 @@ class OSMap(OSFleet, Map, GlobeCamera):
             try:
                 self.os_auto_search_daemon(drop=drop)
             except CampaignEnd:
-                logger.info('Get OS auto search reward')
-                self.wait_until_appear(OS_CHECK, offset=(20, 20))
                 logger.info('OS auto search finished')
             finally:
                 backup.recover()

@@ -15,6 +15,7 @@ from module.map_detection.grid import Grid
 from module.map_detection.utils import area2corner, trapezoid2area
 from module.map_detection.view import View
 from module.os.assets import GLOBE_GOTO_MAP
+from module.os_handler.assets import AUTO_SEARCH_REWARD
 
 
 class Camera(MapOperation):
@@ -141,6 +142,16 @@ class Camera(MapOperation):
                 self.ui_click(GLOBE_GOTO_MAP, check_button=self.is_in_map, offset=(20, 20),
                               retry_wait=3, skip_first_screenshot=True)
                 return False
+            elif self.appear(AUTO_SEARCH_REWARD, offset=(50, 50)):
+                logger.warning('Perspective error caused by AUTO_SEARCH_REWARD')
+                if hasattr(self, 'os_auto_search_quit'):
+                    self.os_auto_search_quit()
+                    return False
+                else:
+                    logger.warning('Cannot find method os_auto_search_quit(), use ui_click() instead')
+                    self.ui_click(AUTO_SEARCH_REWARD, check_button=self.is_in_map, offset=(50, 50),
+                                  retry_wait=3, skip_first_screenshot=True)
+                    return False
             elif not self.is_in_map() \
                     and not self.is_in_strategy_submarine_move():
                 if self.appear(GAME_TIPS, offset=(20, 20)):
