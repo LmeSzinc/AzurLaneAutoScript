@@ -20,8 +20,8 @@ VALID_CHANNEL_PACKAGE = {
     'com.bilibili.blhx.qihoo': ('cn', '360'),
     'com.bilibili.blhx.oppo': ('cn', 'oppo'),
     'com.bilibili.blhx.vivo': ('cn', 'vivo'),
+    'com.bilibili.blhx.mz': ('cn', '魅族'),
     # 'com.bilibili.blhx.letv': ('cn', '乐视'),  # Not confirmed
-    # 'com.bilibili.blhx.flyme': ('cn', '魅族'),  # Not confirmed
     # 'com.bilibili.blhx.gionee': ('cn', '金立'),  # Not confirmed
 
     # 3rd party gaming platforms
