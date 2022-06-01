@@ -545,10 +545,10 @@ class Connection:
         return o
 
     @retry
-    def iter_device(self):
+    def list_device(self):
         """
         Returns:
-            iter of AdbDevice
+            list[AdbDeviceWithStatus]:
         """
 
         class AdbDeviceWithStatus(AdbDevice):
@@ -561,6 +561,7 @@ class Connection:
 
             __repr__ = __str__
 
+        devices = []
         with self.adb_client._connect() as c:
             c.send_command("host:devices")
             c.check_okay()
@@ -569,7 +570,9 @@ class Connection:
                 parts = line.strip().split("\t")
                 if len(parts) != 2:
                     continue
-                yield AdbDeviceWithStatus(self.adb_client, parts[0], parts[1])
+                device = AdbDeviceWithStatus(self.adb_client, parts[0], parts[1])
+                devices.append(device)
+        return devices
 
     def detect_device(self):
         """
@@ -579,7 +582,7 @@ class Connection:
         logger.hr('Detect device')
         logger.info('Here are the available devices, '
                     'copy to Alas.Emulator.Serial to use it or set Alas.Emulator.Serial="auto"')
-        devices = list(self.iter_device())
+        devices = self.list_device()
 
         # Show available devices
         available = [d for d in devices if d.status == 'device']
