@@ -11,7 +11,7 @@ from module.os_handler.port import PORT_ENTER, PortHandler
 
 class AzurLaneDaemon(DaemonBase, OSFleet, PortHandler):
     def _os_combat_expected_end(self):
-        if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(20, 50), interval=2):
+        if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=2):
             return False
 
         return super()._os_combat_expected_end()
@@ -44,7 +44,7 @@ class AzurLaneDaemon(DaemonBase, OSFleet, PortHandler):
             if self.handle_map_event():
                 self._nearest_object_click_timer.clear()
                 continue
-            if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(20, 50), interval=2):
+            if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=2):
                 continue
 
             # Port repair

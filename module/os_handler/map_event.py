@@ -190,7 +190,7 @@ class MapEventHandler(EnemySearchingHandler):
             else:
                 self.device.screenshot()
 
-            if self.appear(AUTO_SEARCH_REWARD, offset=(20, 20), interval=2):
+            if self.appear(AUTO_SEARCH_REWARD, offset=(50, 50), interval=2):
                 if self.ensure_no_info_bar():
                     cleared = True
                 if drop:
@@ -234,6 +234,7 @@ class MapEventHandler(EnemySearchingHandler):
                 and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image) \
                 and self.info_bar_count() >= 2:
             self.device.screenshot_interval_set()
+            self.os_auto_search_quit(drop=drop)
             raise CampaignEnd
         if self.appear(AUTO_SEARCH_REWARD, offset=(50, 50)):
             self.device.screenshot_interval_set()
