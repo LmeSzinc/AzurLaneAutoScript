@@ -46,14 +46,12 @@ def retry(func):
                 logger.error(e)
 
                 def init():
-                    self.adb_client.reboot()
                     self.adb_disconnect(self.serial)
                     self.adb_connect(self.serial)
             # AdbError
             except AdbError as e:
                 if handle_adb_error(e):
                     def init():
-                        self.adb_client.reboot()
                         self.adb_disconnect(self.serial)
                         self.adb_connect(self.serial)
                 else:
@@ -109,21 +107,7 @@ class Connection:
 
         # Parse custom serial
         self.serial = str(self.config.Emulator_Serial)
-        if "bluestacks4-hyperv" in self.serial:
-            self.serial = self.find_bluestacks4_hyperv(self.serial)
-        if "bluestacks5-hyperv" in self.serial:
-            self.serial = self.find_bluestacks5_hyperv(self.serial)
-        if "127.0.0.1:58526" in self.serial:
-            logger.warning('Serial 127.0.0.1:58526 seems to be WSA, '
-                           'please use "wsa-0" or others instead')
-            raise RequestHumanTakeover
-        if "wsa" in self.serial:
-            self.serial = '127.0.0.1:58526'
-            if self.config.Emulator_ScreenshotMethod != 'uiautomator2' \
-                    or self.config.Emulator_ControlMethod != 'uiautomator2':
-                with self.config.multi_set():
-                    self.config.Emulator_ScreenshotMethod = 'uiautomator2'
-                    self.config.Emulator_ControlMethod = 'uiautomator2'
+        self.serial_check()
         self.detect_device()
 
         # Connect
@@ -469,77 +453,46 @@ class Connection:
         del_cached_property(self, 'minitouch_builder')
         del_cached_property(self, 'reverse_server')
 
-    def adb_device_num(self):
-        """
-           count current device number
-        """
-        with self.adb_client._connect() as c:
-            count = 0
-            c.send_command("host:devices")
-            c.check_okay()
-            output = c.read_string_block()
-            for line in output.splitlines():
-                parts = line.strip().split("\t")
-                if len(parts) != 2:
-                    continue
-                if parts[1] == 'device':
-                    count = count + 1
-            return count
 
     def adb_reboot(self):
         """
-           Reboot adb client
+           Reboot adb client if no device found.
         """
-        if self.adb_device_num() == 0:
+        if len(self.list_device()) == 0:
+            logger.info('Restart adb')
             # Kill current client
             self.adb_client.server_kill()
             # Init adb client
             self.adb_client = AdbClient('127.0.0.1', 5037)
-            # Monkey patch to custom adb
-            adbutils.adb_path = lambda: self.adb_binary
-            # Remove global proxies, or uiautomator2 will go through it
-            for k in list(os.environ.keys()):
-                if k.lower().endswith('_proxy'):
-                    del os.environ[k]
-            self.adb_client = AdbClient('127.0.0.1', 5037)
-
-            # Parse custom serial
+            # serial check
             self.serial = str(self.config.Emulator_Serial)
-            if "bluestacks4-hyperv" in self.serial:
-                self.serial = self.find_bluestacks4_hyperv(self.serial)
-            if "bluestacks5-hyperv" in self.serial:
-                self.serial = self.find_bluestacks5_hyperv(self.serial)
-            if "127.0.0.1:58526" in self.serial:
-                logger.warning('Serial 127.0.0.1:58526 seems to be WSA, '
-                               'please use "wsa-0" or others instead')
-                raise RequestHumanTakeover
-            if "wsa" in self.serial:
-                self.serial = '127.0.0.1:58526'
-                if self.config.Emulator_ScreenshotMethod != 'uiautomator2' \
-                        or self.config.Emulator_ControlMethod != 'uiautomator2':
-                    with self.config.multi_set():
-                        self.config.Emulator_ScreenshotMethod = 'uiautomator2'
-                        self.config.Emulator_ControlMethod = 'uiautomator2'
-            devices = list(self.iter_device())
+            self.serial_check()
             # Connect
             self.adb_connect(self.serial)
-            if self.config.Emulator_Serial == 'auto':
-                if len(devices) == 0:
-                    raise RequestHumanTakeover
-                elif len(devices) == 1:
-                    self.serial = devices[0].serial
-                    del_cached_property(self, 'adb')
-                else:
-                    raise RequestHumanTakeover
-            # Package
-            self.package = self.config.Emulator_PackageName
-            if self.package == 'auto':
-                self.detect_package(set_config=False)
-            else:
-                set_server(self.package)
+
         else:
             self.adb_disconnect(self.serial)
             self.adb_connect(self.serial)
+
+    def serial_check(self):
+        """
+        serial check
+        """
+        if "bluestacks4-hyperv" in self.serial:
+            self.serial = self.find_bluestacks4_hyperv(self.serial)
+        if "bluestacks5-hyperv" in self.serial:
+            self.serial = self.find_bluestacks5_hyperv(self.serial)
+        if "127.0.0.1:58526" in self.serial:
+            logger.warning('Serial 127.0.0.1:58526 seems to be WSA, '
+                           'please use "wsa-0" or others instead')
+            raise RequestHumanTakeover
+        if "wsa" in self.serial:
+            self.serial = '127.0.0.1:58526'
+            if self.config.Emulator_ScreenshotMethod != 'uiautomator2' \
+                    or self.config.Emulator_ControlMethod != 'uiautomator2':
+                with self.config.multi_set():
+                    self.config.Emulator_ScreenshotMethod = 'uiautomator2'
+                    self.config.Emulator_ControlMethod = 'uiautomator2'
 
     def install_uiautomator2(self):
         """
@@ -656,7 +609,6 @@ class Connection:
         logger.info('Here are the available devices, '
                     'copy to Alas.Emulator.Serial to use it or set Alas.Emulator.Serial="auto"')
         devices = self.list_device()
-
         # Show available devices
         available = [d for d in devices if d.status == 'device']
         for device in available:
@@ -671,7 +623,6 @@ class Connection:
             for device in unavailable:
                 logger.info(f'{device.serial} ({device.status})')
 
-        # Auto device detection
         if self.config.Emulator_Serial == 'auto':
             if len(devices) == 0:
                 logger.critical('No available device found, auto device detection cannot work, '
