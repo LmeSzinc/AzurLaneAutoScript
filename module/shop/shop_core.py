@@ -91,7 +91,7 @@ class CoreShop(ShopBase):
         # Total number that can be purchased
         # altogether based on clicking max
         # Needs small delay for stable image
-        self.appear_then_click(AMOUNT_MAX)
+        self.appear_then_click(AMOUNT_MAX, offset=(50, 50))
         self.device.sleep((0.3, 0.5))
         self.device.screenshot()
         limit = OCR_SHOP_AMOUNT.ocr(self.device.image)

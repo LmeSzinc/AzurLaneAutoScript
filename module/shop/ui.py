@@ -96,7 +96,7 @@ class ShopUI(UI):
         self.handle_info_bar()
         return refreshed
 
-    def _shop_swipe(self, skip_first_screenshot=True):
+    def shop_swipe(self, skip_first_screenshot=True):
         """
         Swipes bottom navbar one way, right only
 
@@ -115,8 +115,9 @@ class ShopUI(UI):
             else:
                 self.device.screenshot()
 
-            if self.appear(SHOP_GUILD_SWIPE_END, offset=(15, 5)) or \
-                    self.appear(SHOP_GENERAL_SWIPE_END, offset=(15, 5)):
+            # Swipe to the left, medal shop on the leftmost and merit shop on the right most
+            if self.appear(SHOP_MEDAL_SWIPE_END, offset=(15, 5)) or \
+                    self.appear(SHOP_MERIT_SWIPE_END, offset=(15, 5)):
                 return True
 
             self.device.swipe_vector((480, 0), box=detection_area, random_range=(-50, -10, 50, 10), padding=0)
@@ -126,17 +127,6 @@ class ShopUI(UI):
 
     def ui_goto_shop(self):
         """
-        Goes to page_munitions and
-        swipes if needed
-        Default view defined as
-        screen appears with
-        guild shop as left-most or
-        general shop as right-most
-
-        Returns:
-            bool: True if in expected view
-                  otherwise False
+        Goes to page_munitions
         """
         self.ui_ensure(page_munitions)
-
-        return self._shop_swipe()

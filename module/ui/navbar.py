@@ -47,7 +47,7 @@ class Navbar:
                 total.append(index)
 
         if len(active) == 0:
-            logger.warning(f'No active nav item found in {self.name}')
+            # logger.warning(f'No active nav item found in {self.name}')
             active = None
         elif len(active) == 1:
             active = active[0]
@@ -126,8 +126,9 @@ class Navbar:
                 return False
 
             active, minimum, maximum = self.get_info(main=main)
-            if active is None:
-                continue
+            logger.info(f'Nav item active: {active} from range ({minimum}, {maximum})')
+            # if active is None:
+            #     continue
             index = minimum + left - 1 if left is not None else maximum - right + 1
             if not minimum <= index <= maximum:
                 logger.warning(
