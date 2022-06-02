@@ -454,7 +454,7 @@ class Connection:
         del_cached_property(self, 'reverse_server')
 
 
-    def adb_reboot(self):
+    def adb_restart(self):
         """
            Reboot adb client if no device found.
         """

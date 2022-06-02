@@ -38,7 +38,7 @@ def retry(func):
 
                 def init():
                     try:
-                        self.adb_reboot()
+                        self.adb_restart()
                     except ConnectionResetError as e:
                         pass
             # AdbError
@@ -46,7 +46,7 @@ def retry(func):
                 if handle_adb_error(e):
                     def init():
                         try:
-                            self.adb_reboot()
+                            self.adb_restart()
                         except ConnectionResetError as e:
                             pass
                 else:
