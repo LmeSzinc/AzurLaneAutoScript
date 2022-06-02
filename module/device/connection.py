@@ -141,7 +141,7 @@ class Connection:
     @staticmethod
     def find_bluestacks4_hyperv(serial):
         """
-        Find dynamic serial of Bluestacks4 Hyper-v Beta.
+        Find dynamic serial of BlueStacks4 Hyper-V Beta.
 
         Args:
             serial (str): 'bluestacks4-hyperv', 'bluestacks4-hyperv-2' for multi instance, and so on.
@@ -149,35 +149,26 @@ class Connection:
         Returns:
             str: 127.0.0.1:{port}
         """
-        from winreg import (HKEY_LOCAL_MACHINE, CloseKey, ConnectRegistry,
-                            EnumValue, OpenKey, QueryInfoKey)
+        from winreg import HKEY_LOCAL_MACHINE, OpenKey, QueryValueEx
 
-        logger.info("Use Bluestacks4 Hyper-v Beta")
+        logger.info("Use BlueStacks4 Hyper-V Beta")
+        logger.info("Reading Realtime adb port")
+
         if serial == "bluestacks4-hyperv":
             folder_name = "Android"
         else:
             folder_name = f"Android_{serial[19:]}"
 
-        logger.info("Reading Realtime adb port")
-        reg_root = ConnectRegistry(None, HKEY_LOCAL_MACHINE)
-        sub_dir = f"SOFTWARE\\BlueStacks_bgp64_hyperv\\Guests\\{folder_name}\\Config"
-        bs_keys = OpenKey(reg_root, sub_dir)
-        bs_keys_count = QueryInfoKey(bs_keys)[1]
-        for i in range(bs_keys_count):
-            key_name, key_value, key_type = EnumValue(bs_keys, i)
-            if key_name == "BstAdbPort":
-                logger.info(f"New adb port: {key_value}")
-                serial = f"127.0.0.1:{key_value}"
-                break
-
-        CloseKey(bs_keys)
-        CloseKey(reg_root)
-        return serial
+        with OpenKey(HKEY_LOCAL_MACHINE,
+                     rf"SOFTWARE\BlueStacks_bgp64_hyperv\Guests\{folder_name}\Config") as key:
+            port = QueryValueEx(key, "BstAdbPort")[0]
+        logger.info(f"New adb port: {port}")
+        return f"127.0.0.1:{port}"
 
     @staticmethod
     def find_bluestacks5_hyperv(serial):
         """
-        Find dynamic serial of Bluestacks5 Hyper-v.
+        Find dynamic serial of BlueStacks5 Hyper-V.
 
         Args:
             serial (str): 'bluestacks5-hyperv', 'bluestacks5-hyperv-1' for multi instance, and so on.
@@ -185,38 +176,29 @@ class Connection:
         Returns:
             str: 127.0.0.1:{port}
         """
-        from winreg import (HKEY_LOCAL_MACHINE, CloseKey, ConnectRegistry,
-                            EnumValue, OpenKey, QueryInfoKey)
+        from winreg import HKEY_LOCAL_MACHINE, OpenKey, QueryValueEx
 
-        logger.info("Use Bluestacks5 Hyper-v")
+        logger.info("Use BlueStacks5 Hyper-V")
         logger.info("Reading Realtime adb port")
 
         if serial == "bluestacks5-hyperv":
-            parameter_name = "bst.instance.Nougat64.status.adb_port"
+            parameter_name = r"bst\.instance\.Nougat64\.status\.adb_port"
         else:
-            parameter_name = f"bst.instance.Nougat64_{serial[19:]}.status.adb_port"
+            parameter_name = rf"bst\.instance\.Nougat64_{serial[19:]}\.status.adb_port"
 
-        reg_root = ConnectRegistry(None, HKEY_LOCAL_MACHINE)
-        sub_dir = f"SOFTWARE\\BlueStacks_nxt"
-        bs_keys = OpenKey(reg_root, sub_dir)
-        bs_keys_count = QueryInfoKey(bs_keys)[1]
-        for i in range(bs_keys_count):
-            key_name, key_value, key_type = EnumValue(bs_keys, i)
-            if key_name == "UserDefinedDir":
-                logger.info(f"Configuration file directory: {key_value}")
-                with open(f"{key_value}\\bluestacks.conf", 'r', encoding='utf-8') as f:
-                    content = f.read()
-                    port = re.findall(rf'{parameter_name}="(.*?)"\n', content, re.S)
-                    if len(port) > 0:
-                        logger.info(f"Match to dynamic port: {port[0]}")
-                        serial = f"127.0.0.1:{port[0]}"
-                    else:
-                        logger.warning(f"Did not match the result: {serial}.")
-                break
+        with OpenKey(HKEY_LOCAL_MACHINE, r"SOFTWARE\BlueStacks_nxt") as key:
+            dir = QueryValueEx(key, 'UserDefinedDir')[0]
+        logger.info(f"Configuration file directory: {dir}")
 
-        CloseKey(bs_keys)
-        CloseKey(reg_root)
-        return serial
+        with open(os.path.join(dir, 'bluestacks.conf')) as f:
+            content = f.read()
+        port = re.search(rf'{parameter_name}="(\d+)"', content)
+        if port is None:
+            logger.warning(f"Did not match the result: {serial}.")
+            raise RequestHumanTakeover
+        port = port.group(1)
+        logger.info(f"Match to dynamic port: {port}")
+        return f"127.0.0.1:{port}"
 
     @cached_property
     def adb_binary(self):
