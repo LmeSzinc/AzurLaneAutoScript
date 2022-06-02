@@ -158,7 +158,7 @@ class AScreenCap(Connection):
                 continue
 
         self.__screenshot_method_fixed = self.__screenshot_method
-        if len(screenshot) < 100:
+        if len(screenshot) < 500:
             logger.warning(f'Unexpected screenshot: {screenshot}')
         raise OSError(f'cannot load screenshot')
 
@@ -173,5 +173,7 @@ class AScreenCap(Connection):
     @retry
     def screenshot_ascreencap_nc(self):
         data = self.adb_shell_nc([self.config.ASCREENCAP_FILEPATH_REMOTE, '--pack', '2', '--stdout'])
+        if len(data) < 500:
+            logger.warning(f'Unexpected screenshot: {data}')
 
         return self.__uncompress(data)
