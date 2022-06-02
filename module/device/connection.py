@@ -473,9 +473,6 @@ class Connection:
         self.adb_client.server_kill()
         # Init adb client
         self.adb_client = AdbClient('127.0.0.1', 5037)
-        # serial check
-        self.serial = str(self.config.Emulator_Serial)
-        self.serial_check()
         # Connect
         self.adb_connect(self.serial)
 
