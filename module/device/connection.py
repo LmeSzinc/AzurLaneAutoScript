@@ -454,25 +454,30 @@ class Connection:
         del_cached_property(self, 'reverse_server')
 
 
-    def adb_restart(self):
+    def adb_try_reconnect(self):
         """
-           Reboot adb client if no device found.
+           Reboot adb client if no device found, otherwise try reconnecting device.
         """
         if len(self.list_device()) == 0:
-            logger.info('Restart adb')
-            # Kill current client
-            self.adb_client.server_kill()
-            # Init adb client
-            self.adb_client = AdbClient('127.0.0.1', 5037)
-            # serial check
-            self.serial = str(self.config.Emulator_Serial)
-            self.serial_check()
-            # Connect
-            self.adb_connect(self.serial)
-
+            self.adb_restart()
         else:
             self.adb_disconnect(self.serial)
             self.adb_connect(self.serial)
+
+    def adb_restart(self):
+        """
+            Reboot adb client
+        """
+        logger.info('Restart adb')
+        # Kill current client
+        self.adb_client.server_kill()
+        # Init adb client
+        self.adb_client = AdbClient('127.0.0.1', 5037)
+        # serial check
+        self.serial = str(self.config.Emulator_Serial)
+        self.serial_check()
+        # Connect
+        self.adb_connect(self.serial)
 
     def serial_check(self):
         """
