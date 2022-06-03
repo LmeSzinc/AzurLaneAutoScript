@@ -8,18 +8,35 @@ from module.statistics.item import ItemGrid
 from module.ui.assets import OS_CHECK
 from module.ui.ui import UI
 
-OCR_ACTION_POINT_REMAIN = Digit(ACTION_POINT_REMAIN, letter=(255, 219, 66), name='OCR_ACTION_POINT_REMAIN')
-if server.server != 'jp':
+OCR_ACTION_POINT_REMAIN = Digit(
+    ACTION_POINT_REMAIN, letter=(255, 219, 66), name="OCR_ACTION_POINT_REMAIN"
+)
+if server.server != "jp":
     # Letters in ACTION_POINT_BUY_REMAIN are not the numeric fonts usually used in azur lane.
     OCR_ACTION_POINT_BUY_REMAIN = DigitCounter(
-        ACTION_POINT_BUY_REMAIN, letter=(148, 247, 99), lang='cnocr', name='OCR_ACTION_POINT_BUY_REMAIN')
+        ACTION_POINT_BUY_REMAIN,
+        letter=(148, 247, 99),
+        lang="cnocr",
+        name="OCR_ACTION_POINT_BUY_REMAIN",
+    )
 else:
     # The color of the digits ACTION_POINT_BUY_REMAIN is white in JP, which is light green in CN and EN.
     OCR_ACTION_POINT_BUY_REMAIN = DigitCounter(
-        ACTION_POINT_BUY_REMAIN, letter=(255, 255, 255), lang='cnocr', name='OCR_ACTION_POINT_BUY_REMAIN')
+        ACTION_POINT_BUY_REMAIN,
+        letter=(255, 255, 255),
+        lang="cnocr",
+        name="OCR_ACTION_POINT_BUY_REMAIN",
+    )
 ACTION_POINT_GRID = ButtonGrid(
-    origin=(323, 274), delta=(173, 0), button_shape=(115, 115), grid_shape=(4, 1), name='ACTION_POINT_GRID')
-ACTION_POINT_ITEMS = ItemGrid(ACTION_POINT_GRID, templates={}, amount_area=(43, 89, 113, 113))
+    origin=(323, 274),
+    delta=(173, 0),
+    button_shape=(115, 115),
+    grid_shape=(4, 1),
+    name="ACTION_POINT_GRID",
+)
+ACTION_POINT_ITEMS = ItemGrid(
+    ACTION_POINT_GRID, templates={}, amount_area=(43, 89, 113, 113)
+)
 ACTION_POINTS_COST = {
     1: 5,
     2: 10,
@@ -98,7 +115,7 @@ class ActionPointHandler(UI):
             total += np.sum(np.array(box) * (0, 20, 50, 200))
         oil = box[0]
 
-        logger.info(f'Action points: {current}({total}), oil: {oil}')
+        logger.info(f"Action points: {current}({total}), oil: {oil}")
         self._action_point_current = current
         self._action_point_box = box
         self._action_point_total = total
@@ -113,18 +130,20 @@ class ActionPointHandler(UI):
         Returns:
             int: Action points that will cost.
         """
-        if pinned == 'DANGEROUS':
+        if pinned == "DANGEROUS":
             cost = ACTION_POINTS_COST[zone.hazard_level] * 2
-        elif pinned == 'SAFE':
+        elif pinned == "SAFE":
             cost = ACTION_POINTS_COST[zone.hazard_level]
-        elif pinned == 'OBSCURE':
+        elif pinned == "OBSCURE":
             cost = ACTION_POINTS_COST_OBSCURE[zone.hazard_level]
-        elif pinned == 'ABYSSAL':
+        elif pinned == "ABYSSAL":
             cost = ACTION_POINTS_COST_ABYSSAL[zone.hazard_level]
-        elif pinned == 'STRONGHOLD':
+        elif pinned == "STRONGHOLD":
             cost = 200
         else:
-            logger.warning(f'Unable to get AP cost from zone={zone}, pinned={pinned}, assume it costs 40.')
+            logger.warning(
+                f"Unable to get AP cost from zone={zone}, pinned={pinned}, assume it costs 40."
+            )
             cost = 40
 
         if zone.is_port:
@@ -139,13 +158,15 @@ class ActionPointHandler(UI):
         """
         for index, item in enumerate(ACTION_POINT_GRID.buttons):
             area = item.area
-            color = get_color(self.device.image, area=(area[0], area[3] + 5, area[2], area[3] + 10))
+            color = get_color(
+                self.device.image, area=(area[0], area[3] + 5, area[2], area[3] + 10)
+            )
             # Active button will turn blue.
             # Active: 196, inactive: 118 ~ 123.
             if color[2] > 160:
                 return index
 
-        logger.warning('Unable to find an active action point box button')
+        logger.warning("Unable to find an active action point box button")
         return 1
 
     def action_point_set_button(self, index, skip_first_screenshot=True):
@@ -169,7 +190,7 @@ class ActionPointHandler(UI):
                 self.device.click(ACTION_POINT_GRID[index, 0])
                 self.device.sleep(0.3)
 
-        logger.warning('Failed to set action point button after 3 trial')
+        logger.warning("Failed to set action point button after 3 trial")
         return False
 
     def action_point_buy(self, preserve=1000):
@@ -185,16 +206,18 @@ class ActionPointHandler(UI):
         self.action_point_set_button(0)
         current, _, _ = OCR_ACTION_POINT_BUY_REMAIN.ocr(self.device.image)
         if current == 0:
-            logger.info('Reach the limit to buy action points this week')
+            logger.info("Reach the limit to buy action points this week")
             return False
         cost = ACTION_POINTS_BUY[current]
         oil = self._action_point_box[0]
-        logger.info(f'Buy action points will cost {cost}, current oil: {oil}, preserve: {preserve}')
+        logger.info(
+            f"Buy action points will cost {cost}, current oil: {oil}, preserve: {preserve}"
+        )
         if oil >= cost + preserve:
             self.action_point_use()
             return True
         else:
-            logger.info('Not enough oil to buy')
+            logger.info("Not enough oil to buy")
             return False
 
     def action_point_quit(self, skip_first_screenshot=True):
@@ -203,7 +226,11 @@ class ActionPointHandler(UI):
             in: ACTION_POINT_USE
             out: page_os
         """
-        self.ui_click(ACTION_POINT_CANCEL, check_button=OS_CHECK, skip_first_screenshot=skip_first_screenshot)
+        self.ui_click(
+            ACTION_POINT_CANCEL,
+            check_button=OS_CHECK,
+            skip_first_screenshot=skip_first_screenshot,
+        )
 
     def handle_action_point(self, zone, pinned):
         """
@@ -232,7 +259,7 @@ class ActionPointHandler(UI):
         for _ in range(12):
             # Having enough action points
             if self._action_point_current >= cost:
-                logger.info('Having enough action points')
+                logger.info("Having enough action points")
                 self.action_point_quit()
                 return True
 
@@ -251,13 +278,15 @@ class ActionPointHandler(UI):
                     self.action_point_use()
                     continue
                 else:
-                    logger.info(f'Reach the limit of action points, preserve={self.config.OS_ACTION_POINT_PRESERVE}')
+                    logger.info(
+                        f"Reach the limit of action points, preserve={self.config.OS_ACTION_POINT_PRESERVE}"
+                    )
                     self.action_point_quit()
                     raise ActionPointLimit
             else:
-                logger.info('No more action point boxes')
+                logger.info("No more action point boxes")
                 self.action_point_quit()
                 raise ActionPointLimit
 
-        logger.warning('Failed to get action points after 12 trial')
+        logger.warning("Failed to get action points after 12 trial")
         return False

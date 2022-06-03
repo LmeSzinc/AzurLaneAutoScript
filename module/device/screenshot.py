@@ -29,11 +29,11 @@ class Screenshot(Adb, WSA, Uiautomator2, AScreenCap):
     @cached_property
     def screenshot_methods(self):
         return {
-            'ADB': self.screenshot_adb,
-            'ADB_nc': self.screenshot_adb_nc,
-            'uiautomator2': self.screenshot_uiautomator2,
-            'aScreenCap': self.screenshot_ascreencap,
-            'aScreenCap_nc': self.screenshot_ascreencap_nc,
+            "ADB": self.screenshot_adb,
+            "ADB_nc": self.screenshot_adb_nc,
+            "uiautomator2": self.screenshot_uiautomator2,
+            "aScreenCap": self.screenshot_ascreencap,
+            "aScreenCap_nc": self.screenshot_ascreencap_nc,
         }
 
     @timer
@@ -47,18 +47,25 @@ class Screenshot(Adb, WSA, Uiautomator2, AScreenCap):
 
         for _ in range(2):
             method = self.screenshot_methods.get(
-                self.config.Emulator_ScreenshotMethod,
-                self.screenshot_adb
+                self.config.Emulator_ScreenshotMethod, self.screenshot_adb
             )
             self.image = method()
 
             if self.config.Emulator_ScreenshotDedithering:
                 # This will take 40-60ms
-                cv2.fastNlMeansDenoising(self.image, self.image, h=17, templateWindowSize=1, searchWindowSize=2)
+                cv2.fastNlMeansDenoising(
+                    self.image,
+                    self.image,
+                    h=17,
+                    templateWindowSize=1,
+                    searchWindowSize=2,
+                )
             self.image = self._handle_orientated_image(self.image)
 
             if self.config.Error_SaveError:
-                self.screenshot_deque.append({'time': datetime.now(), 'image': self.image})
+                self.screenshot_deque.append(
+                    {"time": datetime.now(), "image": self.image}
+                )
 
             if self.check_screen_size() and self.check_screen_black():
                 break
@@ -89,7 +96,7 @@ class Screenshot(Adb, WSA, Uiautomator2, AScreenCap):
         elif self.orientation == 3:
             image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
         else:
-            raise ScriptError(f'Invalid device orientation: {self.orientation}')
+            raise ScriptError(f"Invalid device orientation: {self.orientation}")
 
         return image
 
@@ -97,7 +104,7 @@ class Screenshot(Adb, WSA, Uiautomator2, AScreenCap):
     def screenshot_deque(self):
         return deque(maxlen=int(self.config.Error_ScreenshotLength))
 
-    def save_screenshot(self, genre='items', interval=None, to_base_folder=False):
+    def save_screenshot(self, genre="items", interval=None, to_base_folder=False):
         """Save a screenshot. Use millisecond timestamp as file name.
 
         Args:
@@ -113,10 +120,14 @@ class Screenshot(Adb, WSA, Uiautomator2, AScreenCap):
             interval = self.config.SCREEN_SHOT_SAVE_INTERVAL
 
         if now - self._last_save_time.get(genre, 0) > interval:
-            fmt = 'png'
-            file = '%s.%s' % (int(now * 1000), fmt)
+            fmt = "png"
+            file = "%s.%s" % (int(now * 1000), fmt)
 
-            folder = self.config.SCREEN_SHOT_SAVE_FOLDER_BASE if to_base_folder else self.config.SCREEN_SHOT_SAVE_FOLDER
+            folder = (
+                self.config.SCREEN_SHOT_SAVE_FOLDER_BASE
+                if to_base_folder
+                else self.config.SCREEN_SHOT_SAVE_FOLDER
+            )
             folder = os.path.join(folder, genre)
             if not os.path.exists(folder):
                 os.mkdir(folder)
@@ -143,23 +154,27 @@ class Screenshot(Adb, WSA, Uiautomator2, AScreenCap):
             origin = self.config.Optimization_ScreenshotInterval
             interval = limit_in(origin, 0.1, 0.3)
             if interval != origin:
-                logger.warning(f'Optimization.ScreenshotInterval {origin} is revised to {interval}')
+                logger.warning(
+                    f"Optimization.ScreenshotInterval {origin} is revised to {interval}"
+                )
                 self.config.Optimization_ScreenshotInterval = interval
-        elif interval == 'combat':
+        elif interval == "combat":
             origin = self.config.Optimization_CombatScreenshotInterval
             interval = limit_in(origin, 0.3, 1.0)
             if interval != origin:
-                logger.warning(f'Optimization.CombatScreenshotInterval {origin} is revised to {interval}')
+                logger.warning(
+                    f"Optimization.CombatScreenshotInterval {origin} is revised to {interval}"
+                )
                 self.config.Optimization_CombatScreenshotInterval = interval
         elif isinstance(interval, (int, float)):
             # No limitation for manual set in code
             pass
         else:
-            logger.warning(f'Unknown screenshot interval: {interval}')
-            raise ScriptError(f'Unknown screenshot interval: {interval}')
+            logger.warning(f"Unknown screenshot interval: {interval}")
+            raise ScriptError(f"Unknown screenshot interval: {interval}")
 
         if interval != self._screenshot_interval.limit:
-            logger.info(f'Screenshot interval set to {interval}s')
+            logger.info(f"Screenshot interval set to {interval}s")
             self._screenshot_interval.limit = interval
 
     def image_show(self, image=None):
@@ -182,25 +197,25 @@ class Screenshot(Adb, WSA, Uiautomator2, AScreenCap):
         for _ in range(2):
             # Check screen size
             width, height = image_size(self.image)
-            logger.attr('Screen_size', f'{width}x{height}')
+            logger.attr("Screen_size", f"{width}x{height}")
             if width == 1280 and height == 720:
                 self._screen_size_checked = True
                 return True
             elif not orientated and (width == 720 and height == 1280):
-                logger.info('Received orientated screenshot, handling')
+                logger.info("Received orientated screenshot, handling")
                 self.get_orientation()
                 self.image = self._handle_orientated_image(self.image)
                 orientated = True
                 continue
-            elif self.config.Emulator_Serial == 'wsa-0':
+            elif self.config.Emulator_Serial == "wsa-0":
                 self.display_resize_wsa(0)
                 return False
-            elif hasattr(self, 'app_is_running') and not self.app_is_running():
-                logger.warning('Received orientated screenshot, game not running')
+            elif hasattr(self, "app_is_running") and not self.app_is_running():
+                logger.warning("Received orientated screenshot, game not running")
                 return True
             else:
-                logger.critical(f'Resolution not supported: {width}x{height}')
-                logger.critical('Please set emulator resolution to 1280x720')
+                logger.critical(f"Resolution not supported: {width}x{height}")
+                logger.critical("Please set emulator resolution to 1280x720")
                 raise RequestHumanTakeover
 
     def check_screen_black(self):
@@ -210,26 +225,32 @@ class Screenshot(Adb, WSA, Uiautomator2, AScreenCap):
         # May get a pure black screenshot on some emulators.
         color = get_color(self.image, area=(0, 0, 1280, 720))
         if sum(color) < 1:
-            if self.config.Emulator_Serial == 'wsa-0':
+            if self.config.Emulator_Serial == "wsa-0":
                 for _ in range(2):
                     display = self.get_display_id()
                     if display == 0:
                         return True
-                logger.info(f'Game running on display {display}')
-                logger.warning('Game not running on display 0, will be restarted')
+                logger.info(f"Game running on display {display}")
+                logger.warning("Game not running on display 0, will be restarted")
                 self.app_stop_uiautomator2()
                 return False
-            elif self.config.Emulator_ScreenshotMethod == 'uiautomator2':
-                logger.warning(f'Received pure black screenshots from emulator, color: {color}')
-                logger.warning('Uninstall minicap and retry')
+            elif self.config.Emulator_ScreenshotMethod == "uiautomator2":
+                logger.warning(
+                    f"Received pure black screenshots from emulator, color: {color}"
+                )
+                logger.warning("Uninstall minicap and retry")
                 self.uninstall_minicap()
                 self._screen_black_checked = False
                 return False
             else:
-                logger.critical(f'Received pure black screenshots from emulator, color: {color}')
-                logger.critical(f'Screenshot method `{self.config.Emulator_ScreenshotMethod}` '
-                                f'may not work on emulator `{self.serial}`')
-                logger.critical('Please use other screenshot methods')
+                logger.critical(
+                    f"Received pure black screenshots from emulator, color: {color}"
+                )
+                logger.critical(
+                    f"Screenshot method `{self.config.Emulator_ScreenshotMethod}` "
+                    f"may not work on emulator `{self.serial}`"
+                )
+                logger.critical("Please use other screenshot methods")
                 raise RequestHumanTakeover
         else:
             self._screen_black_checked = True

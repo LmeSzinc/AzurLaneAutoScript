@@ -7,7 +7,7 @@ from module.map_detection.homography import Homography
 from module.map_detection.perspective import Perspective
 from module.map_detection.utils import *
 
-GLOBE_MAP = './assets/map_detection/os_globe_map.png'
+GLOBE_MAP = "./assets/map_detection/os_globe_map.png"
 GLOBE_MAP_SHAPE = (2570, 1696)
 
 
@@ -23,6 +23,7 @@ class GlobeDetection:
                   globe_center: (1305, 325)
         0.062s      similarity: 0.354
     """
+
     globe = None
     homo_center: tuple
     center_loca: tuple
@@ -44,20 +45,29 @@ class GlobeDetection:
         if self._globe_map_loaded:
             return False
 
-        logger.info('Loading OS globe map')
+        logger.info("Loading OS globe map")
 
         # Load GLOBE_MAP
         image = load_image(GLOBE_MAP)
         image = self.find_peaks(image, para=self.config.OS_GLOBE_FIND_PEAKS_PARAMETERS)
         pad = self.config.OS_GLOBE_IMAGE_PAD
-        image = np.pad(image, ((pad, pad), (pad, pad)), mode='constant', constant_values=0)
+        image = np.pad(
+            image, ((pad, pad), (pad, pad)), mode="constant", constant_values=0
+        )
         image = image.astype(np.uint8)
-        image = cv2.resize(image, None, fx=self.config.OS_GLOBE_IMAGE_RESIZE, fy=self.config.OS_GLOBE_IMAGE_RESIZE)
+        image = cv2.resize(
+            image,
+            None,
+            fx=self.config.OS_GLOBE_IMAGE_RESIZE,
+            fy=self.config.OS_GLOBE_IMAGE_RESIZE,
+        )
         self.globe = image
 
         # Load homography
         backup = self.config.temporary(
-            HOMO_STORAGE=self.config.OS_GLOBE_HOMO_STORAGE, DETECTING_AREA=self.config.OS_GLOBE_DETECTING_AREA)
+            HOMO_STORAGE=self.config.OS_GLOBE_HOMO_STORAGE,
+            DETECTING_AREA=self.config.OS_GLOBE_DETECTING_AREA,
+        )
         self.homography.find_homography(*self.config.HOMO_STORAGE, overflow=False)
         self.homo_center = self.screen2globe([self.config.SCREEN_CENTER])[0].astype(int)
         backup.recover()
@@ -84,8 +94,12 @@ class GlobeDetection:
         b = cv2.add(cv2.multiply(g, 0.6), cv2.multiply(b, 0.4))
         image = cv2.subtract(b, r)
 
-        hori = self.perspective.find_peaks(image, is_horizontal=True, param=para, mask=None)
-        vert = self.perspective.find_peaks(image, is_horizontal=False, param=para, mask=None)
+        hori = self.perspective.find_peaks(
+            image, is_horizontal=True, param=para, mask=None
+        )
+        vert = self.perspective.find_peaks(
+            image, is_horizontal=False, param=para, mask=None
+        )
         image = cv2.bitwise_or(hori, vert)
 
         kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
@@ -101,7 +115,9 @@ class GlobeDetection:
         Returns:
             np.ndarray: Image without perspective, like normal 2D maps.
         """
-        image = cv2.warpPerspective(image, self.homography.homo_data, self.homography.homo_size)
+        image = cv2.warpPerspective(
+            image, self.homography.homo_data, self.homography.homo_size
+        )
         return image
 
     def load(self, image):
@@ -112,9 +128,17 @@ class GlobeDetection:
         self.load_globe_map()
         start_time = time.time()
 
-        local = self.find_peaks(self.perspective_transform(image), para=self.config.OS_LOCAL_FIND_PEAKS_PARAMETERS)
+        local = self.find_peaks(
+            self.perspective_transform(image),
+            para=self.config.OS_LOCAL_FIND_PEAKS_PARAMETERS,
+        )
         local = local.astype(np.uint8)
-        local = cv2.resize(local, None, fx=self.config.OS_GLOBE_IMAGE_RESIZE, fy=self.config.OS_GLOBE_IMAGE_RESIZE)
+        local = cv2.resize(
+            local,
+            None,
+            fx=self.config.OS_GLOBE_IMAGE_RESIZE,
+            fy=self.config.OS_GLOBE_IMAGE_RESIZE,
+        )
 
         result = cv2.matchTemplate(self.globe, local, cv2.TM_CCOEFF_NORMED)
         _, similarity, _, loca = cv2.minMaxLoc(result)
@@ -123,7 +147,9 @@ class GlobeDetection:
         self.center_loca = loca
 
         time_cost = round(time.time() - start_time, 3)
-        logger.attr_align('globe_center', loca)
-        logger.attr_align('similarity', float2str(similarity), front=float2str(time_cost) + 's')
+        logger.attr_align("globe_center", loca)
+        logger.attr_align(
+            "similarity", float2str(similarity), front=float2str(time_cost) + "s"
+        )
         if similarity < 0.1:
-            logger.warning('Low similarity when matching OS globe')
+            logger.warning("Low similarity when matching OS globe")

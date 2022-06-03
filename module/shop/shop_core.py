@@ -5,8 +5,8 @@ from module.ocr.ocr import Digit
 from module.shop.assets import *
 from module.shop.base import ShopBase, ShopItemGrid
 
-OCR_SHOP_CORE = Digit(SHOP_CORE, letter=(239, 239, 239), name='OCR_SHOP_CORE')
-OCR_SHOP_AMOUNT = Digit(SHOP_AMOUNT, letter=(239, 239, 239), name='OCR_SHOP_AMOUNT')
+OCR_SHOP_CORE = Digit(SHOP_CORE, letter=(239, 239, 239), name="OCR_SHOP_CORE")
+OCR_SHOP_AMOUNT = Digit(SHOP_AMOUNT, letter=(239, 239, 239), name="OCR_SHOP_AMOUNT")
 
 
 class CoreShop(ShopBase):
@@ -27,9 +27,11 @@ class CoreShop(ShopBase):
             ShopItemGrid:
         """
         shop_grid = self.shop_grid
-        shop_core_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        shop_core_items.load_template_folder('./assets/shop/core')
-        shop_core_items.load_cost_template_folder('./assets/shop/cost')
+        shop_core_items = ShopItemGrid(
+            shop_grid, templates={}, amount_area=(60, 74, 96, 95)
+        )
+        shop_core_items.load_template_folder("./assets/shop/core")
+        shop_core_items.load_cost_template_folder("./assets/shop/cost")
         return shop_core_items
 
     def shop_items(self):
@@ -53,7 +55,7 @@ class CoreShop(ShopBase):
             int: core amount
         """
         self._shop_core = OCR_SHOP_CORE.ocr(self.device.image)
-        logger.info(f'Core: {self._shop_core}')
+        logger.info(f"Core: {self._shop_core}")
         return self._shop_core
 
     def shop_check_item(self, item):
@@ -86,7 +88,9 @@ class CoreShop(ShopBase):
         self.appear(AMOUNT_MINUS, offset=index_offset)
         self.appear(AMOUNT_PLUS, offset=index_offset)
         area = OCR_SHOP_AMOUNT.buttons[0]
-        OCR_SHOP_AMOUNT.buttons = [(AMOUNT_MINUS.button[2] + 3, area[1], AMOUNT_PLUS.button[0] - 3, area[3])]
+        OCR_SHOP_AMOUNT.buttons = [
+            (AMOUNT_MINUS.button[2] + 3, area[1], AMOUNT_PLUS.button[0] - 3, area[3])
+        ]
 
         # Total number that can be purchased
         # altogether based on clicking max
@@ -96,8 +100,9 @@ class CoreShop(ShopBase):
         self.device.screenshot()
         limit = OCR_SHOP_AMOUNT.ocr(self.device.image)
         if not limit:
-            logger.critical('OCR_SHOP_AMOUNT resulted in zero (0); '
-                            'asset may be compromised')
+            logger.critical(
+                "OCR_SHOP_AMOUNT resulted in zero (0); " "asset may be compromised"
+            )
             raise ScriptError
 
         # Adjust purchase amount if needed
@@ -106,8 +111,13 @@ class CoreShop(ShopBase):
         if diff > 0:
             limit = total
 
-        self.ui_ensure_index(limit, letter=OCR_SHOP_AMOUNT, prev_button=AMOUNT_MINUS, next_button=AMOUNT_PLUS,
-                             skip_first_screenshot=True)
+        self.ui_ensure_index(
+            limit,
+            letter=OCR_SHOP_AMOUNT,
+            prev_button=AMOUNT_MINUS,
+            next_button=AMOUNT_PLUS,
+            skip_first_screenshot=True,
+        )
         self.device.click(SHOP_BUY_CONFIRM_AMOUNT)
         return True
 
@@ -146,7 +156,7 @@ class CoreShop(ShopBase):
 
         # When called, expected to be in
         # correct Core Shop interface
-        logger.hr('Core Shop', level=1)
+        logger.hr("Core Shop", level=1)
 
         # Execute buy operations
         self.shop_buy()

@@ -4,10 +4,10 @@ from module.map.map_grids import RoadGrids, SelectedGrids
 
 from ..campaign_war_archives.campaign_base import CampaignBase
 
-MAP = CampaignMap('SP.1')
-MAP.shape = 'G3'
-MAP.camera_data = ['D1']
-MAP.camera_data_spawn_point = ['D1']
+MAP = CampaignMap("SP.1")
+MAP.shape = "G3"
+MAP.camera_data = ["D1"]
+MAP.camera_data_spawn_point = ["D1"]
 MAP.map_data = """
     SP ++ ++ ++ -- -- MB
     -- Me -- -- ME ++ ++
@@ -19,14 +19,33 @@ MAP.weight_data = """
     50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 1, 'mystery': 1},
-    {'battle': 1, 'enemy': 1},
-    {'battle': 2, 'boss': 1},
+    {"battle": 0, "enemy": 1, "mystery": 1},
+    {"battle": 1, "enemy": 1},
+    {"battle": 2, "boss": 1},
 ]
-A1, B1, C1, D1, E1, F1, G1, \
-A2, B2, C2, D2, E2, F2, G2, \
-A3, B3, C3, D3, E3, F3, G3, \
-    = MAP.flatten()
+(
+    A1,
+    B1,
+    C1,
+    D1,
+    E1,
+    F1,
+    G1,
+    A2,
+    B2,
+    C2,
+    D2,
+    E2,
+    F2,
+    G2,
+    A3,
+    B3,
+    C3,
+    D3,
+    E3,
+    F3,
+    G3,
+) = MAP.flatten()
 
 
 class Config:
@@ -40,7 +59,7 @@ class Config:
 
 class Campaign(CampaignBase):
     MAP = MAP
-    ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
+    ENEMY_FILTER = "1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C"
 
     def battle_0(self):
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):

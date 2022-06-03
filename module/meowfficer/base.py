@@ -29,7 +29,7 @@ class MeowfficerBase(UI):
             in: MEOWFFICER_FORT_CHECK, MEOWFFICER_BUY, MEOWFFICER_TRAIN_START, etc
             out: page_meowfficer
         """
-        logger.hr('Meowfficer menu close')
+        logger.hr("Meowfficer menu close")
         click_timer = Timer(3)
         while 1:
             if skip_first_screenshot:
@@ -38,8 +38,9 @@ class MeowfficerBase(UI):
                 self.device.screenshot()
 
             # End
-            if self.appear(MEOWFFICER_CHECK, offset=(20, 20)) \
-                    and MEOWFFICER_CHECK.match_appear_on(self.device.image):
+            if self.appear(
+                MEOWFFICER_CHECK, offset=(20, 20)
+            ) and MEOWFFICER_CHECK.match_appear_on(self.device.image):
                 break
             else:
                 if click_timer.reached():

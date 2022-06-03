@@ -9,30 +9,38 @@ from module.logger import logger
 class CampaignCD(EventBase):
     def run(self, *args, **kwargs):
         # Filter map files
-        stages = [EventStage(file) for file in os.listdir(f'./campaign/{self.config.Campaign_Event}')]
-        logger.attr('Stage', [str(stage) for stage in stages])
-        logger.attr('StageFilter', self.config.EventCd_StageFilter)
+        stages = [
+            EventStage(file)
+            for file in os.listdir(f"./campaign/{self.config.Campaign_Event}")
+        ]
+        logger.attr("Stage", [str(stage) for stage in stages])
+        logger.attr("StageFilter", self.config.EventCd_StageFilter)
         STAGE_FILTER.load(self.config.EventCd_StageFilter)
         stages = [str(stage) for stage in STAGE_FILTER.apply(stages)]
-        logger.attr('Filter sort', ' > '.join(stages))
+        logger.attr("Filter sort", " > ".join(stages))
 
         if not stages:
-            logger.warning('No stage satisfy current filter')
+            logger.warning("No stage satisfy current filter")
             self.config.Scheduler_Enable = False
             self.config.task_stop()
 
         # Start from last stage
-        logger.info(f'LastStage {self.config.EventCd_LastStage}, recorded at {self.config.Scheduler_NextRun}')
-        if get_server_last_update(self.config.Scheduler_ServerUpdate) >= self.config.Scheduler_NextRun:
-            logger.info('LastStage outdated, reset')
+        logger.info(
+            f"LastStage {self.config.EventCd_LastStage}, recorded at {self.config.Scheduler_NextRun}"
+        )
+        if (
+            get_server_last_update(self.config.Scheduler_ServerUpdate)
+            >= self.config.Scheduler_NextRun
+        ):
+            logger.info("LastStage outdated, reset")
             self.config.EventCd_LastStage = 0
         else:
             last = str(self.config.EventCd_LastStage).lower()
             if last in stages:
-                stages = stages[stages.index(last) + 1:]
-                logger.attr('Filter sort', ' > '.join(stages))
+                stages = stages[stages.index(last) + 1 :]
+                logger.attr("Filter sort", " > ".join(stages))
             else:
-                logger.info('Start from the beginning')
+                logger.info("Start from the beginning")
 
         # Run
         for stage in stages:

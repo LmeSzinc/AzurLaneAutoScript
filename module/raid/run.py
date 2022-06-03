@@ -16,14 +16,14 @@ class RaidRun(Raid, CampaignEvent):
         """
         # Run count limit
         if self.run_limit and self.config.StopCondition_RunCount <= 0:
-            logger.hr('Triggered stop condition: Run count')
+            logger.hr("Triggered stop condition: Run count")
             self.config.StopCondition_RunCount = 0
             self.config.Scheduler_Enable = False
             return True
 
         return False
 
-    def run(self, name='', mode='', total=0):
+    def run(self, name="", mode="", total=0):
         """
         Args:
             name (str): Raid name, such as 'raid_20200624'
@@ -33,7 +33,7 @@ class RaidRun(Raid, CampaignEvent):
         name = name if name else self.config.Campaign_Event
         mode = mode if mode else self.config.Raid_Mode
         if not name or not mode:
-            raise ScriptError(f'RaidRun arguments unfilled. name={name}, mode={mode}')
+            raise ScriptError(f"RaidRun arguments unfilled. name={name}, mode={mode}")
 
         self.run_count = 0
         self.run_limit = self.config.StopCondition_RunCount
@@ -45,11 +45,11 @@ class RaidRun(Raid, CampaignEvent):
                 self.config.task_stop()
 
             # Log
-            logger.hr(f'{name}_{mode}', level=2)
+            logger.hr(f"{name}_{mode}", level=2)
             if self.config.StopCondition_RunCount > 0:
-                logger.info(f'Count remain: {self.config.StopCondition_RunCount}')
+                logger.info(f"Count remain: {self.config.StopCondition_RunCount}")
             else:
-                logger.info(f'Count: {self.run_count}')
+                logger.info(f"Count: {self.run_count}")
 
             # End
             if self.triggered_stop_condition():
@@ -62,11 +62,11 @@ class RaidRun(Raid, CampaignEvent):
             try:
                 self.raid_execute_once(mode=mode, raid=name)
             except OilExhausted:
-                logger.hr('Triggered stop condition: Oil limit')
+                logger.hr("Triggered stop condition: Oil limit")
                 self.config.task_delay(minute=(120, 240))
                 break
             except ScriptEnd as e:
-                logger.hr('Script end')
+                logger.hr("Script end")
                 logger.info(str(e))
                 break
 

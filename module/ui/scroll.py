@@ -12,7 +12,7 @@ class Scroll:
     drag_threshold = 0.05
     edge_add = (0.1, 0.2)
 
-    def __init__(self, area, color, is_vertical=True, name='Scroll'):
+    def __init__(self, area, color, is_vertical=True, name="Scroll"):
         """
         Args:
             area (Button, tuple): A button or area of the whole scroll.
@@ -64,7 +64,10 @@ class Scroll:
         position = (middle - self.length / 2) / (self.total - self.length)
         position = position if position > 0 else 0.0
         position = position if position < 1 else 1.0
-        logger.attr(self.name, f'{position:.2f} ({middle}-{self.length / 2})/({self.total}-{self.length})')
+        logger.attr(
+            self.name,
+            f"{position:.2f} ({middle}-{self.length / 2})/({self.total}-{self.length})",
+        )
         return position
 
     def position_to_screen(self, position, random_range=(-0.05, 0.05)):
@@ -106,7 +109,9 @@ class Scroll:
     def at_bottom(self, main):
         return self.cal_position(main) > 0.95
 
-    def set(self, position, main, random_range=(-0.05, 0.05), skip_first_screenshot=True):
+    def set(
+        self, position, main, random_range=(-0.05, 0.05), skip_first_screenshot=True
+    ):
         """
         Set scroll to a specific position.
 
@@ -116,7 +121,7 @@ class Scroll:
             random_range (tuple(int, float)):
             skip_first_screenshot:
         """
-        logger.info(f'{self.name} set to {position}')
+        logger.info(f"{self.name} set to {position}")
         self.drag_interval.clear()
         if position == 0:
             random_range = np.subtract(0, self.edge_add)
@@ -133,23 +138,37 @@ class Scroll:
             if abs(position - current) < self.drag_threshold:
                 break
             if not self.length:
-                logger.warning('Scroll disappeared, assume scroll set')
+                logger.warning("Scroll disappeared, assume scroll set")
                 break
 
             if self.drag_interval.reached():
                 p1 = random_rectangle_point(self.position_to_screen(current), n=1)
-                p2 = random_rectangle_point(self.position_to_screen(position, random_range=random_range), n=1)
+                p2 = random_rectangle_point(
+                    self.position_to_screen(position, random_range=random_range), n=1
+                )
                 main.device.swipe(p1, p2, name=self.name)
                 main.device.sleep(0.3)
                 self.drag_interval.reset()
 
     def set_top(self, main, random_range=(-0.05, 0.05), skip_first_screenshot=True):
-        return self.set(0.00, main=main, random_range=random_range, skip_first_screenshot=skip_first_screenshot)
+        return self.set(
+            0.00,
+            main=main,
+            random_range=random_range,
+            skip_first_screenshot=skip_first_screenshot,
+        )
 
     def set_bottom(self, main, random_range=(-0.05, 0.05), skip_first_screenshot=True):
-        return self.set(1.00, main=main, random_range=random_range, skip_first_screenshot=skip_first_screenshot)
+        return self.set(
+            1.00,
+            main=main,
+            random_range=random_range,
+            skip_first_screenshot=skip_first_screenshot,
+        )
 
-    def drag_page(self, page, main, random_range=(-0.05, 0.05), skip_first_screenshot=True):
+    def drag_page(
+        self, page, main, random_range=(-0.05, 0.05), skip_first_screenshot=True
+    ):
         """
         Drag scroll forward or backward.
 
@@ -166,10 +185,22 @@ class Scroll:
         multiply = self.length / (self.total - self.length)
         target = current + page * multiply
         target = round(min(max(target, 0), 1), 3)
-        self.set(target, main=main, random_range=random_range, skip_first_screenshot=True)
+        self.set(
+            target, main=main, random_range=random_range, skip_first_screenshot=True
+        )
 
     def next_page(self, main, random_range=(-0.01, 0.01), skip_first_screenshot=True):
-        self.drag_page(0.8, main=main, random_range=random_range, skip_first_screenshot=skip_first_screenshot)
+        self.drag_page(
+            0.8,
+            main=main,
+            random_range=random_range,
+            skip_first_screenshot=skip_first_screenshot,
+        )
 
     def prev_page(self, main, random_range=(-0.01, 0.01), skip_first_screenshot=True):
-        self.drag_page(-0.8, main=main, random_range=random_range, skip_first_screenshot=skip_first_screenshot)
+        self.drag_page(
+            -0.8,
+            main=main,
+            random_range=random_range,
+            skip_first_screenshot=skip_first_screenshot,
+        )

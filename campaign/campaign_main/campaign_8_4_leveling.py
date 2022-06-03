@@ -12,7 +12,9 @@ class Campaign(CampaignBase):
         self.fleet_2_push_forward()
 
         self.clear_all_mystery()
-        if self.map.select(is_mystery=True, is_accessible_1=False, is_accessible_2=True):
+        if self.map.select(
+            is_mystery=True, is_accessible_1=False, is_accessible_2=True
+        ):
             self.fleet_2.clear_all_mystery()
             self.fleet_2_push_forward()
 
@@ -22,7 +24,9 @@ class Campaign(CampaignBase):
             return True
         if self.clear_enemy(scale=(3,)):
             return True
-        if self.clear_potential_roadblocks([road_D7, road_F3, road_main], strongest=True):
+        if self.clear_potential_roadblocks(
+            [road_D7, road_F3, road_main], strongest=True
+        ):
             return True
         if self.clear_first_roadblocks([road_D7, road_F3, road_main]):
             return True
@@ -31,7 +35,9 @@ class Campaign(CampaignBase):
 
     def battle_4(self):
         self.clear_all_mystery()
-        if self.map.select(is_mystery=True, is_accessible_1=False, is_accessible_2=True):
+        if self.map.select(
+            is_mystery=True, is_accessible_1=False, is_accessible_2=True
+        ):
             self.fleet_2.clear_all_mystery()
             self.fleet_2_push_forward()
 

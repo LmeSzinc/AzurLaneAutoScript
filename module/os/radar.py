@@ -5,7 +5,7 @@ from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.map_detection.utils import fit_points
 
-MASK_RADAR = Mask('./assets/mask/MASK_OS_RADAR.png')
+MASK_RADAR = Mask("./assets/mask/MASK_OS_RADAR.png")
 
 
 class RadarGrid:
@@ -25,14 +25,14 @@ class RadarGrid:
     is_fleet = False
 
     dic_encode = {
-        'EN': 'is_enemy',
-        'RE': 'is_resource',
-        'AR': 'is_archive',
-        'EX': 'is_exclamation',
-        'ME': 'is_meowfficer',
-        'PO': 'is_port',
-        'QU': 'is_question',
-        'FL': 'is_fleet',
+        "EN": "is_enemy",
+        "RE": "is_resource",
+        "AR": "is_archive",
+        "EX": "is_exclamation",
+        "ME": "is_meowfficer",
+        "PO": "is_port",
+        "QU": "is_question",
+        "FL": "is_fleet",
     }
 
     def __init__(self, location, image, center, config):
@@ -58,7 +58,7 @@ class RadarGrid:
             if self.__getattribute__(value):
                 return key
 
-        return '--'
+        return "--"
 
     @property
     def str(self):
@@ -99,9 +99,9 @@ class RadarGrid:
         # if not self.is_enemy:
         #     self.is_enemy = self.predict_static_red_border()
         if self.is_enemy and not self.enemy_genre:
-            self.enemy_genre = 'Enemy'
+            self.enemy_genre = "Enemy"
         if self.config.MAP_HAS_SIREN:
-            if self.enemy_genre is not None and self.enemy_genre.startswith('Siren'):
+            if self.enemy_genre is not None and self.enemy_genre.startswith("Siren"):
                 self.is_siren = True
                 self.enemy_scale = 0
 
@@ -121,28 +121,44 @@ class RadarGrid:
         return np.sum(mask) > count
 
     def predict_enemy(self):
-        return self.image_color_count(area=(-3, -3, 3, 3), color=(247, 89, 49), threshold=221, count=10)
+        return self.image_color_count(
+            area=(-3, -3, 3, 3), color=(247, 89, 49), threshold=221, count=10
+        )
 
     def predict_resource(self):
-        return self.image_color_count(area=(-3, -3, 3, 3), color=(66, 231, 165), threshold=221, count=10)
+        return self.image_color_count(
+            area=(-3, -3, 3, 3), color=(66, 231, 165), threshold=221, count=10
+        )
 
     def predict_meowfficer(self):
-        return self.image_color_count(area=(-3, 0, 3, 6), color=(33, 186, 255), threshold=221, count=10)
+        return self.image_color_count(
+            area=(-3, 0, 3, 6), color=(33, 186, 255), threshold=221, count=10
+        )
 
     def predict_exclamation(self):
-        return self.image_color_count(area=(-3, -3, 3, 3), color=(255, 203, 49), threshold=221, count=10)
+        return self.image_color_count(
+            area=(-3, -3, 3, 3), color=(255, 203, 49), threshold=221, count=10
+        )
 
     def predict_boss(self):
-        return self.image_color_count(area=(-3, -3, 3, 3), color=(147, 12, 8), threshold=221, count=10)
+        return self.image_color_count(
+            area=(-3, -3, 3, 3), color=(147, 12, 8), threshold=221, count=10
+        )
 
     def predict_port(self):
-        return self.image_color_count(area=(-3, -3, 3, 3), color=(255, 255, 255), threshold=235, count=10)
+        return self.image_color_count(
+            area=(-3, -3, 3, 3), color=(255, 255, 255), threshold=235, count=10
+        )
 
     def predict_question(self):
-        return self.image_color_count(area=(0, -7, 6, 0), color=(255, 255, 255), threshold=235, count=10)
+        return self.image_color_count(
+            area=(0, -7, 6, 0), color=(255, 255, 255), threshold=235, count=10
+        )
 
     def predict_archive(self):
-        return self.image_color_count(area=(-3, -3, 3, 3), color=(173, 113, 255), threshold=235, count=10)
+        return self.image_color_count(
+            area=(-3, -3, 3, 3), color=(173, 113, 255), threshold=235, count=10
+        )
 
 
 class Radar:
@@ -172,7 +188,9 @@ class Radar:
                 if np.linalg.norm([x, y]) > radius:
                     continue
                 grid_center = np.round(delta * (x, y) + center).astype(np.int)
-                self.grids[(x, y)] = RadarGrid(location=(x, y), image=None, center=grid_center, config=self.config)
+                self.grids[(x, y)] = RadarGrid(
+                    location=(x, y), image=None, center=grid_center, config=self.config
+                )
 
     def __iter__(self):
         return iter(self.grids.values())
@@ -189,7 +207,12 @@ class Radar:
 
     def show(self):
         for y in range(*self.shape[1]):
-            text = ' '.join([self[(x, y)].str if (x, y) in self else '  ' for x in range(*self.shape[0])])
+            text = " ".join(
+                [
+                    self[(x, y)].str if (x, y) in self else "  "
+                    for x in range(*self.shape[0])
+                ]
+            )
             logger.info(text)
 
     def predict(self, image):
@@ -235,7 +258,10 @@ class Radar:
                 Such as [57.70732954 50.89636818].
         """
         radius = (15, 82)
-        image = crop(image, area_offset((-radius[1], -radius[1], radius[1], radius[1]), self.center))
+        image = crop(
+            image,
+            area_offset((-radius[1], -radius[1], radius[1], radius[1]), self.center),
+        )
         # image.show()
         points = np.where(color_similarity_2d(image, color=(255, 255, 255)) > 250)
         points = np.array(points).T[:, ::-1] - (radius[1], radius[1])
@@ -276,8 +302,11 @@ class Radar:
             np.ndarray: Grid location of port on radar.
         """
         sight = (-4, -2, 3, 2)
-        grids = [(x, y) for x in range(sight[0], sight[2] + 1) for y in [sight[1], sight[3]]] \
-                + [(x, y) for x in [sight[0], sight[2]] for y in range(sight[1] + 1, sight[3])]
+        grids = [
+            (x, y) for x in range(sight[0], sight[2] + 1) for y in [sight[1], sight[3]]
+        ] + [
+            (x, y) for x in [sight[0], sight[2]] for y in range(sight[1] + 1, sight[3])
+        ]
         grids = np.array([loca for loca in grids])
         distance = np.linalg.norm(grids, axis=1)
         degree = np.sum(grids * point, axis=1) / distance / np.linalg.norm(point)
@@ -341,8 +370,14 @@ class Radar:
         for grid in self:
             if grid.is_port:
                 continue
-            if grid.is_enemy or grid.is_resource or grid.is_meowfficer \
-                    or grid.is_exclamation or grid.is_question or grid.is_archive:
+            if (
+                grid.is_enemy
+                or grid.is_resource
+                or grid.is_meowfficer
+                or grid.is_exclamation
+                or grid.is_question
+                or grid.is_archive
+            ):
                 objects.append(grid)
         objects = SelectedGrids(objects).sort_by_camera_distance((0, 0))
         if not objects:

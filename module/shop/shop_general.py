@@ -5,8 +5,10 @@ from module.shop.assets import *
 from module.shop.base import ShopBase, ShopItemGrid
 from module.shop.ui import ShopUI
 
-OCR_SHOP_GOLD_COINS = Digit(SHOP_GOLD_COINS, letter=(239, 239, 239), name='OCR_SHOP_GOLD_COINS')
-OCR_SHOP_GEMS = Digit(SHOP_GEMS, letter=(255, 243, 82), name='OCR_SHOP_GEMS')
+OCR_SHOP_GOLD_COINS = Digit(
+    SHOP_GOLD_COINS, letter=(239, 239, 239), name="OCR_SHOP_GOLD_COINS"
+)
+OCR_SHOP_GEMS = Digit(SHOP_GEMS, letter=(255, 243, 82), name="OCR_SHOP_GEMS")
 
 
 class GeneralShop(ShopBase, ShopUI):
@@ -28,9 +30,11 @@ class GeneralShop(ShopBase, ShopUI):
             ShopItemGrid:
         """
         shop_grid = self.shop_grid
-        shop_general_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        shop_general_items.load_template_folder('./assets/shop/general')
-        shop_general_items.load_cost_template_folder('./assets/shop/cost')
+        shop_general_items = ShopItemGrid(
+            shop_grid, templates={}, amount_area=(60, 74, 96, 95)
+        )
+        shop_general_items.load_template_folder("./assets/shop/general")
+        shop_general_items.load_cost_template_folder("./assets/shop/cost")
         return shop_general_items
 
     def shop_items(self):
@@ -59,14 +63,18 @@ class GeneralShop(ShopBase, ShopUI):
         while 1:
             self._shop_gold_coins = OCR_SHOP_GOLD_COINS.ocr(self.device.image)
             self._shop_gems = OCR_SHOP_GEMS.ocr(self.device.image)
-            logger.info(f'Gold coins: {self._shop_gold_coins}, Gems: {self._shop_gems}')
+            logger.info(f"Gold coins: {self._shop_gold_coins}, Gems: {self._shop_gems}")
 
             if self.currency_rechecked >= 3:
-                logger.warning('Failed to handle fix currency bug in general shop, skip')
+                logger.warning(
+                    "Failed to handle fix currency bug in general shop, skip"
+                )
                 break
 
             if self._shop_gold_coins == 0 and self._shop_gems == 0:
-                logger.info('Game bugged, coins and gems disappeared, switch between shops to reset')
+                logger.info(
+                    "Game bugged, coins and gems disappeared, switch between shops to reset"
+                )
                 self.currency_rechecked += 1
                 # Goto guild shop
                 self.shop_bottom_navbar_ensure(left=1)
@@ -86,13 +94,13 @@ class GeneralShop(ShopBase, ShopUI):
         Returns:
             bool: whether item can be bought
         """
-        if item.cost == 'Coins':
+        if item.cost == "Coins":
             if item.price > self._shop_gold_coins:
                 return False
             return True
 
         if self.config.GeneralShop_UseGems:
-            if item.cost == 'Gems':
+            if item.cost == "Gems":
                 if item.price > self._shop_gems:
                     return False
                 return True
@@ -112,8 +120,13 @@ class GeneralShop(ShopBase, ShopUI):
             bool: whether item is custom
         """
         if self.config.GeneralShop_BuySkinBox:
-            if (not item.is_known_item()) and item.amount == 1 and item.cost == 'Coins' and item.price == 7000:
-                logger.info(f'Item {item} is considered to be an equip skin box')
+            if (
+                (not item.is_known_item())
+                and item.amount == 1
+                and item.cost == "Coins"
+                and item.price == 7000
+            ):
+                logger.info(f"Item {item} is considered to be an equip skin box")
                 if self._shop_gold_coins >= item.price:
                     return True
 
@@ -129,7 +142,7 @@ class GeneralShop(ShopBase, ShopUI):
 
         # When called, expected to be in
         # corrected General Shop interface
-        logger.hr('General Shop', level=1)
+        logger.hr("General Shop", level=1)
 
         # Execute buy operations
         # Refresh if enabled and available

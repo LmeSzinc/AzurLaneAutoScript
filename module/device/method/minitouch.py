@@ -7,8 +7,12 @@ from adbutils.errors import AdbError
 from module.base.decorator import cached_property
 from module.base.utils import *
 from module.device.connection import Connection
-from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
-                                        del_cached_property, handle_adb_error)
+from module.device.method.utils import (
+    RETRY_DELAY,
+    RETRY_TRIES,
+    del_cached_property,
+    handle_adb_error,
+)
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 
@@ -57,7 +61,7 @@ def insert_swipe(p0, p3, speed=15):
     segments = max(int(distance / speed) + 1, 5)
     lower = random_normal_distribution(-85, -60)
     upper = random_normal_distribution(80, 90)
-    theta = np.arange(lower + 0., upper + 0.0001, (upper - lower) / segments)
+    theta = np.arange(lower + 0.0, upper + 0.0001, (upper - lower) / segments)
     ts = np.sin(theta / 180 * np.pi)
     ts = np.sign(ts) * abs(ts) ** 0.9
     ts = (ts - min(ts)) / (max(ts) - min(ts))
@@ -66,7 +70,12 @@ def insert_swipe(p0, p3, speed=15):
     points = []
     prev = (-100, -100)
     for t in ts:
-        point = p0 * (1 - t) ** 3 + 3 * p1 * t * (1 - t) ** 2 + 3 * p2 * t ** 2 * (1 - t) + p3 * t ** 3
+        point = (
+            p0 * (1 - t) ** 3
+            + 3 * p1 * t * (1 - t) ** 2
+            + 3 * p2 * t**2 * (1 - t)
+            + p3 * t**3
+        )
         point = point.astype(np.int).tolist()
         if np.linalg.norm(np.subtract(point, prev)) < 10:
             continue
@@ -103,6 +112,7 @@ class CommandBuilder:
             builder.publish(connection)
 
     """
+
     DEFAULT_DELAY = 0.05
 
     def __init__(self, device):
@@ -129,7 +139,7 @@ class CommandBuilder:
             x, y = y, 1280 - x
             max_x, max_y = max_y, max_x
         else:
-            raise ScriptError(f'Invalid device orientation: {orientation}')
+            raise ScriptError(f"Invalid device orientation: {orientation}")
 
         # Maximum X and Y coordinates may, but usually do not, match the display size.
         x, y = int(x / 1280 * max_x), int(y / 720 * max_y)
@@ -140,23 +150,23 @@ class CommandBuilder:
         self.content += new_content + "\n"
 
     def commit(self):
-        """ add minitouch command: 'c\n' """
+        """add minitouch command: 'c\n'"""
         self.append("c")
         return self
 
     def wait(self, ms=10):
-        """ add minitouch command: 'w <ms>\n' """
+        """add minitouch command: 'w <ms>\n'"""
         self.append("w {}".format(ms))
         self.delay += ms
         return self
 
     def up(self, contact_id=0):
-        """ add minitouch command: 'u <contact_id>\n' """
+        """add minitouch command: 'u <contact_id>\n'"""
         self.append("u {}".format(contact_id))
         return self
 
     def down(self, x, y, contact_id=0, pressure=100):
-        """ add minitouch command: 'd <contact_id> <x> <y> <pressure>\n' """
+        """add minitouch command: 'd <contact_id> <x> <y> <pressure>\n'"""
         x, y = self.convert(x, y)
         self.append("d {} {} {} {}".format(contact_id, x, y, pressure))
         return self
@@ -168,7 +178,7 @@ class CommandBuilder:
         return self
 
     def reset(self):
-        """ clear current commands """
+        """clear current commands"""
         self.content = ""
         self.delay = 0
 
@@ -208,6 +218,7 @@ def retry(func):
                 def init():
                     self.adb_disconnect(self.serial)
                     self.adb_connect(self.serial)
+
             # Emulator closed
             except ConnectionAbortedError as e:
                 logger.error(e)
@@ -215,6 +226,7 @@ def retry(func):
                 def init():
                     self.adb_disconnect(self.serial)
                     self.adb_connect(self.serial)
+
             # MinitouchNotInstalledError: Received empty data from minitouch
             except MinitouchNotInstalledError as e:
                 logger.error(e)
@@ -223,8 +235,9 @@ def retry(func):
                 def init():
                     self.install_uiautomator2()
                     if self._minitouch_port:
-                        self.adb_forward_remove(f'tcp:{self._minitouch_port}')
-                    del_cached_property(self, 'minitouch_builder')
+                        self.adb_forward_remove(f"tcp:{self._minitouch_port}")
+                    del_cached_property(self, "minitouch_builder")
+
             # MinitouchOccupiedError: Timeout when connecting to minitouch
             except MinitouchOccupiedError as e:
                 logger.error(e)
@@ -233,21 +246,25 @@ def retry(func):
                 def init():
                     self.restart_atx()
                     if self._minitouch_port:
-                        self.adb_forward_remove(f'tcp:{self._minitouch_port}')
-                    del_cached_property(self, 'minitouch_builder')
+                        self.adb_forward_remove(f"tcp:{self._minitouch_port}")
+                    del_cached_property(self, "minitouch_builder")
+
             # AdbError
             except AdbError as e:
                 if handle_adb_error(e):
+
                     def init():
                         self.adb_disconnect(self.serial)
                         self.adb_connect(self.serial)
+
                 else:
                     break
             except BrokenPipeError as e:
                 logger.error(e)
 
                 def init():
-                    del_cached_property(self, 'minitouch_builder')
+                    del_cached_property(self, "minitouch_builder")
+
             # Unknown, probably a trucked image
             except Exception as e:
                 logger.exception(e)
@@ -255,7 +272,7 @@ def retry(func):
                 def init():
                     pass
 
-        logger.critical(f'Retry {func.__name__}() failed')
+        logger.critical(f"Retry {func.__name__}() failed")
         raise RequestHumanTakeover
 
     return retry_wrapper
@@ -274,7 +291,7 @@ class Minitouch(Connection):
         return CommandBuilder(self)
 
     def minitouch_init(self):
-        logger.hr('MiniTouch init')
+        logger.hr("MiniTouch init")
 
         self.get_orientation()
 
@@ -285,7 +302,7 @@ class Minitouch(Connection):
 
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         client.settimeout(1)
-        client.connect(('127.0.0.1', self._minitouch_port))
+        client.connect(("127.0.0.1", self._minitouch_port))
         self._minitouch_client = client
 
         # get minitouch server info
@@ -296,8 +313,10 @@ class Minitouch(Connection):
         try:
             out = socket_out.readline().replace("\n", "").replace("\r", "")
         except socket.timeout:
-            raise MinitouchOccupiedError('Timeout when connecting to minitouch, '
-                                         'probably because another connection has been established')
+            raise MinitouchOccupiedError(
+                "Timeout when connecting to minitouch, "
+                "probably because another connection has been established"
+            )
         logger.info(out)
 
         # ^ <max-contacts> <max-x> <max-y> <max-pressure>
@@ -306,8 +325,10 @@ class Minitouch(Connection):
         try:
             _, max_contacts, max_x, max_y, max_pressure, *_ = out.split(" ")
         except ValueError:
-            raise MinitouchNotInstalledError('Received empty data from minitouch, '
-                                             'probably because minitouch is not installed')
+            raise MinitouchNotInstalledError(
+                "Received empty data from minitouch, "
+                "probably because minitouch is not installed"
+            )
         # self.max_contacts = max_contacts
         self.max_x = int(max_x)
         self.max_y = int(max_y)
@@ -320,7 +341,9 @@ class Minitouch(Connection):
         self._minitouch_pid = pid
 
         logger.info(
-            "minitouch running on port: {}, pid: {}".format(self._minitouch_port, self._minitouch_pid)
+            "minitouch running on port: {}, pid: {}".format(
+                self._minitouch_port, self._minitouch_pid
+            )
         )
         logger.info(
             "max_contact: {}; max_x: {}; max_y: {}; max_pressure: {}".format(
@@ -331,10 +354,12 @@ class Minitouch(Connection):
     def minitouch_send(self):
         content = self.minitouch_builder.content
         # logger.info("send operation: {}".format(content.replace("\n", "\\n")))
-        byte_content = content.encode('utf-8')
+        byte_content = content.encode("utf-8")
         self._minitouch_client.sendall(byte_content)
         self._minitouch_client.recv(0)
-        time.sleep(self.minitouch_builder.delay / 1000 + self.minitouch_builder.DEFAULT_DELAY)
+        time.sleep(
+            self.minitouch_builder.delay / 1000 + self.minitouch_builder.DEFAULT_DELAY
+        )
         self.minitouch_builder.reset()
 
     @retry

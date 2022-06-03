@@ -12,7 +12,7 @@ def location_ensure(location):
     Returns:
         tuple(int): Location, such as (4, 3)
     """
-    if hasattr(location, 'location'):
+    if hasattr(location, "location"):
         return location.location
     elif isinstance(location, str):
         return node2location(location)
@@ -59,7 +59,7 @@ def get_map_active_area(grids):
 
     def is_active(g):
         g = g.str if isinstance(g, GridInfo) else str(g)
-        return g != '--' and g != '++'
+        return g != "--" and g != "++"
 
     locations = [loca for loca, grid in grids.items() if is_active(grid)]
     bottom_right = np.max(locations, axis=0)
@@ -99,13 +99,13 @@ def random_direction(direction):
     direction = direction.lower()
     x = 1 if np.random.uniform() > 0.5 else -1
     y = 1 if np.random.uniform() > 0.5 else -1
-    if 'left' in direction:
+    if "left" in direction:
         x = -1
-    elif 'right' in direction:
+    elif "right" in direction:
         x = 1
-    if 'upper' in direction:
+    if "upper" in direction:
         y = -1
-    elif 'bottom' in direction:
+    elif "bottom" in direction:
         y = 1
     return (x, y)
 
@@ -175,7 +175,9 @@ def match_movable(before, spawn, after, fleets, fleet_step=2):
     else:
         permutations = np.array(permutations)
         permutations = permutations[np.argsort(np.sum(permutations, axis=1))]
-        distance = np.pad(distance, ((0, 0), (0, 1)), mode='constant', constant_values=base_weight)
+        distance = np.pad(
+            distance, ((0, 0), (0, 1)), mode="constant", constant_values=base_weight
+        )
         index_x = permutations
         index_y = list(range(y)) * int(index_x.shape[0])
         match = distance[index_y, index_x.ravel()].reshape(-1, y)

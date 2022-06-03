@@ -4,28 +4,45 @@ from module.handler.assets import *
 from module.handler.enemy_searching import EnemySearchingHandler
 from module.logger import logger
 
-AUTO_SEARCH_SETTINGS = [AUTO_SEARCH_SET_MOB, AUTO_SEARCH_SET_BOSS, AUTO_SEARCH_SET_ALL, AUTO_SEARCH_SET_STANDBY, AUTO_SEARCH_SET_SUB_AUTO, AUTO_SEARCH_SET_SUB_STANDBY]
+AUTO_SEARCH_SETTINGS = [
+    AUTO_SEARCH_SET_MOB,
+    AUTO_SEARCH_SET_BOSS,
+    AUTO_SEARCH_SET_ALL,
+    AUTO_SEARCH_SET_STANDBY,
+    AUTO_SEARCH_SET_SUB_AUTO,
+    AUTO_SEARCH_SET_SUB_STANDBY,
+]
 dic_setting_name_to_index = {
-    'fleet1_mob_fleet2_boss': 0,
-    'fleet1_boss_fleet2_mob': 1,
-    'fleet1_all_fleet2_standby': 2,
-    'fleet1_standby_fleet2_all': 3,
-    'sub_auto_call': 4,
-    'sub_standby': 5,
+    "fleet1_mob_fleet2_boss": 0,
+    "fleet1_boss_fleet2_mob": 1,
+    "fleet1_all_fleet2_standby": 2,
+    "fleet1_standby_fleet2_all": 3,
+    "sub_auto_call": 4,
+    "sub_standby": 5,
 }
 dic_setting_index_to_name = {v: k for k, v in dic_setting_name_to_index.items()}
 
 
 class AutoSearchHandler(EnemySearchingHandler):
-    @Config.when(SERVER='en')
+    @Config.when(SERVER="en")
     def _fleet_sidebar(self):
         return ButtonGrid(
-            origin=(1177, 138), delta=(0, 54), button_shape=(102, 43), grid_shape=(1, 3), name='FLEET_SIDEBAR')
+            origin=(1177, 138),
+            delta=(0, 54),
+            button_shape=(102, 43),
+            grid_shape=(1, 3),
+            name="FLEET_SIDEBAR",
+        )
 
     @Config.when(SERVER=None)
     def _fleet_sidebar(self):
         return ButtonGrid(
-            origin=(1185, 125), delta=(0, 109), button_shape=(53, 104), grid_shape=(1, 3), name='FLEET_SIDEBAR')
+            origin=(1185, 125),
+            delta=(0, 109),
+            button_shape=(53, 104),
+            grid_shape=(1, 3),
+            name="FLEET_SIDEBAR",
+        )
 
     def _fleet_preparation_sidebar_click(self, index):
         """
@@ -39,25 +56,31 @@ class AutoSearchHandler(EnemySearchingHandler):
             bool: If changed.
         """
         if index <= 0 or index > 3:
-            logger.warning(f'Sidebar index cannot be clicked, {index}, limit to 1 through 5 only')
+            logger.warning(
+                f"Sidebar index cannot be clicked, {index}, limit to 1 through 5 only"
+            )
             return False
 
         current = 0
         total = 0
 
         for idx, button in enumerate(self._fleet_sidebar().buttons):
-            if self.image_color_count(button, color=(99, 235, 255), threshold=221, count=50):
+            if self.image_color_count(
+                button, color=(99, 235, 255), threshold=221, count=50
+            ):
                 current = idx + 1
                 total = idx + 1
                 continue
-            if self.image_color_count(button, color=(255, 255, 255), threshold=221, count=100):
+            if self.image_color_count(
+                button, color=(255, 255, 255), threshold=221, count=100
+            ):
                 total = idx + 1
             else:
                 break
 
         if not current:
-            logger.warning('No fleet sidebar active.')
-        logger.attr('Fleet_sidebar', f'{current}/{total}')
+            logger.warning("No fleet sidebar active.")
+        logger.attr("Fleet_sidebar", f"{current}/{total}")
         if current == index:
             return False
 
@@ -79,7 +102,9 @@ class AutoSearchHandler(EnemySearchingHandler):
                       return False otherwise True
         """
         if index <= 0 or index > 5:
-            logger.warning(f'Sidebar index cannot be ensured, {index}, limit 1 through 5 only')
+            logger.warning(
+                f"Sidebar index cannot be ensured, {index}, limit 1 through 5 only"
+            )
             return False
 
         counter = 0
@@ -91,7 +116,7 @@ class AutoSearchHandler(EnemySearchingHandler):
 
             if self._fleet_preparation_sidebar_click(index):
                 if counter >= 2:
-                    logger.warning('Sidebar could not be ensured')
+                    logger.warning("Sidebar could not be ensured")
                     return False
                 counter += 1
                 self.device.sleep((0.3, 0.5))
@@ -110,21 +135,26 @@ class AutoSearchHandler(EnemySearchingHandler):
         active = []
 
         for index, button in enumerate(AUTO_SEARCH_SETTINGS):
-            if self.image_color_count(button, color=(156, 255, 82), threshold=221, count=20):
+            if self.image_color_count(
+                button, color=(156, 255, 82), threshold=221, count=20
+            ):
                 active.append(index)
 
         if not active:
-            logger.warning('No active auto search setting found')
+            logger.warning("No active auto search setting found")
             return False
 
-        logger.attr('Auto_Search_Setting', ', '.join([dic_setting_index_to_name[index] for index in active]))
+        logger.attr(
+            "Auto_Search_Setting",
+            ", ".join([dic_setting_index_to_name[index] for index in active]),
+        )
 
         if setting not in dic_setting_name_to_index:
-            logger.warning(f'Unknown auto search setting: {setting}')
+            logger.warning(f"Unknown auto search setting: {setting}")
         target_index = dic_setting_name_to_index[setting]
 
         if target_index in active:
-            logger.info('Selected to the correct auto search setting')
+            logger.info("Selected to the correct auto search setting")
             return True
         else:
             self.device.click(AUTO_SEARCH_SETTINGS[target_index])
@@ -152,7 +182,7 @@ class AutoSearchHandler(EnemySearchingHandler):
                 return True
             else:
                 if counter >= 5:
-                    logger.warning('Auto search setting could not be ensured')
+                    logger.warning("Auto search setting could not be ensured")
                     return False
                 counter += 1
                 self.device.sleep((0.3, 0.5))
@@ -166,8 +196,9 @@ class AutoSearchHandler(EnemySearchingHandler):
         Returns:
             bool:
         """
-        return self.appear(AUTO_SEARCH_MAP_OPTION_ON, offset=self._auto_search_offset) \
-               and self.appear(AUTO_SEARCH_MAP_OPTION_ON)
+        return self.appear(
+            AUTO_SEARCH_MAP_OPTION_ON, offset=self._auto_search_offset
+        ) and self.appear(AUTO_SEARCH_MAP_OPTION_ON)
 
     def handle_auto_search_map_option(self):
         """
@@ -176,8 +207,9 @@ class AutoSearchHandler(EnemySearchingHandler):
         Returns:
             bool: If clicked
         """
-        if self.appear(AUTO_SEARCH_MAP_OPTION_OFF, offset=self._auto_search_offset) \
-                and self.appear_then_click(AUTO_SEARCH_MAP_OPTION_OFF, interval=2):
+        if self.appear(
+            AUTO_SEARCH_MAP_OPTION_OFF, offset=self._auto_search_offset
+        ) and self.appear_then_click(AUTO_SEARCH_MAP_OPTION_OFF, interval=2):
             return True
 
         return False
@@ -187,10 +219,14 @@ class AutoSearchHandler(EnemySearchingHandler):
         Returns:
             bool:
         """
-        return self.appear(AUTO_SEARCH_MENU_CONTINUE, offset=self._auto_search_menu_offset)
+        return self.appear(
+            AUTO_SEARCH_MENU_CONTINUE, offset=self._auto_search_menu_offset
+        )
 
     def handle_auto_search_continue(self):
-        return self.appear_then_click(AUTO_SEARCH_MENU_CONTINUE, offset=self._auto_search_menu_offset, interval=2)
+        return self.appear_then_click(
+            AUTO_SEARCH_MENU_CONTINUE, offset=self._auto_search_menu_offset, interval=2
+        )
 
     def handle_auto_search_exit(self, drop=None):
         """
@@ -200,7 +236,9 @@ class AutoSearchHandler(EnemySearchingHandler):
         Returns:
             bool
         """
-        if self.appear(AUTO_SEARCH_MENU_EXIT, offset=self._auto_search_menu_offset, interval=2):
+        if self.appear(
+            AUTO_SEARCH_MENU_EXIT, offset=self._auto_search_menu_offset, interval=2
+        ):
             # Poor implementation here
             if drop:
                 drop.handle_add(main=self, before=4)

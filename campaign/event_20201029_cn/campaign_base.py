@@ -26,14 +26,14 @@ class CampaignBase(CampaignBase_):
         else:
             if name.isdigit():
                 return int(name)
-            elif name in ['a', 'c', 'sp']:
+            elif name in ["a", "c", "sp"]:
                 return 1
-            elif name in ['b', 'd', 'ex_sp']:  # Difference
+            elif name in ["b", "d", "ex_sp"]:  # Difference
                 return 2
             else:
                 raise CampaignNameError
 
-    def campaign_set_chapter(self, name, mode='normal'):
+    def campaign_set_chapter(self, name, mode="normal"):
         """
         Args:
             name (str): Campaign name, such as '7-2', 'd3', 'sp3'.
@@ -43,33 +43,35 @@ class CampaignBase(CampaignBase_):
 
         if chapter.isdigit():
             self.ui_weigh_anchor()
-            self.campaign_ensure_mode('normal')
+            self.campaign_ensure_mode("normal")
             self.campaign_ensure_chapter(index=chapter)
-            if mode == 'hard':
-                self.campaign_ensure_mode('hard')
+            if mode == "hard":
+                self.campaign_ensure_mode("hard")
                 self.campaign_ensure_chapter(index=chapter)
 
-        elif chapter in 'abcd' or chapter == 'ex_sp':
+        elif chapter in "abcd" or chapter == "ex_sp":
             self.ui_goto_event()
-            if chapter in 'ab':
-                self.campaign_ensure_mode('normal')
-            elif chapter in 'cd':
-                self.campaign_ensure_mode('hard')
-            elif chapter == 'ex_sp':
+            if chapter in "ab":
+                self.campaign_ensure_mode("normal")
+            elif chapter in "cd":
+                self.campaign_ensure_mode("hard")
+            elif chapter == "ex_sp":
                 pass  # Difference
             self.campaign_ensure_chapter(index=chapter)
 
-        elif chapter == 'sp':
+        elif chapter == "sp":
             self.ui_goto_event()  # Difference
             self.campaign_ensure_chapter(index=chapter)
 
         else:
-            logger.warning(f'Unknown campaign chapter: {name}')
+            logger.warning(f"Unknown campaign chapter: {name}")
 
     def map_live_start(self):
-        appear = self.image_color_count((286, 342, 994, 422), color=(255, 255, 255), count=10000)
+        appear = self.image_color_count(
+            (286, 342, 994, 422), color=(255, 255, 255), count=10000
+        )
         if appear:
-            logger.info('Live start!')
+            logger.info("Live start!")
 
         return appear
 
@@ -103,11 +105,11 @@ class CampaignBase(CampaignBase_):
                 if appeared:
                     self.handle_enemy_flashing()
                     self.device.sleep(0.3)
-                    logger.info('Enemy searching appeared.')
+                    logger.info("Enemy searching appeared.")
                     break
                 self.enemy_searching_color_initial()
             if timeout.reached():
-                logger.info('Enemy searching timeout.')
+                logger.info("Enemy searching timeout.")
                 break
 
         return True

@@ -39,7 +39,9 @@ class RichRenderableHandler(RichHandler):
     Pass renderable into a function
     """
 
-    def __init__(self, *args, func: Callable[[ConsoleRenderable], None] = None, **kwargs):
+    def __init__(
+        self, *args, func: Callable[[ConsoleRenderable], None] = None, **kwargs
+    ):
         super().__init__(*args, **kwargs)
         self._func = func
 
@@ -71,8 +73,7 @@ class RichRenderableHandler(RichHandler):
                 record.message = record.getMessage()
                 formatter = self.formatter
                 if hasattr(formatter, "usesTime") and formatter.usesTime():
-                    record.asctime = formatter.formatTime(
-                        record, formatter.datefmt)
+                    record.asctime = formatter.formatTime(record, formatter.datefmt)
                 message = formatter.formatMessage(record)
 
         message_renderable = self.render_message(record, message)
@@ -94,6 +95,7 @@ class HTMLConsole(Console):
     Force full feature console
     but not working lol :(
     """
+
     @property
     def options(self) -> ConsoleOptions:
         return ConsoleOptions(
@@ -102,19 +104,21 @@ class HTMLConsole(Console):
             legacy_windows=False,
             min_width=1,
             max_width=self.width,
-            encoding='utf-8',
+            encoding="utf-8",
             is_terminal=False,
         )
 
 
 class Highlighter(RegexHighlighter):
-    base_style = 'web.'
+    base_style = "web."
     highlights = [
         # (r'(?P<datetime>(\d{2}|\d{4})(?:\-)?([0]{1}\d{1}|[1]{1}[0-2]{1})'
         #  r'(?:\-)?([0-2]{1}\d{1}|[3]{1}[0-1]{1})(?:\s)?([0-1]{1}\d{1}|'
         #  r'[2]{1}[0-3]{1})(?::)?([0-5]{1}\d{1})(?::)?([0-5]{1}\d{1}).\d+\b)'),
-        (r'(?P<time>([0-1]{1}\d{1}|[2]{1}[0-3]{1})(?::)?'
-         r'([0-5]{1}\d{1})(?::)?([0-5]{1}\d{1})(.\d+\b))'),
+        (
+            r"(?P<time>([0-1]{1}\d{1}|[2]{1}[0-3]{1})(?::)?"
+            r"([0-5]{1}\d{1})(?::)?([0-5]{1}\d{1})(.\d+\b))"
+        ),
         r"(?P<brace>[\{\[\(\)\]\}])"
         r"\b(?P<bool_true>True)\b|\b(?P<bool_false>False)\b|\b(?P<none>None)\b",
         r"(?P<path>(([A-Za-z]\:)|.)?\B([\/\\][\w\.\-\_\+]+)*[\/\\])(?P<filename>[\w\.\-\_\+]*)?",
@@ -122,29 +126,35 @@ class Highlighter(RegexHighlighter):
     ]
 
 
-WEB_THEME = Theme({
-    "web.brace": Style(bold=True),
-    "web.bool_true": Style(color="bright_green", italic=True),
-    "web.bool_false": Style(color="bright_red", italic=True),
-    "web.none": Style(color="magenta", italic=True),
-    "web.path": Style(color="magenta"),
-    "web.filename": Style(color="bright_magenta"),
-    "web.str": Style(color="green", italic=False, bold=False),
-    "web.time": Style(color="cyan"),
-    "rule.text": Style(bold=True),
-})
+WEB_THEME = Theme(
+    {
+        "web.brace": Style(bold=True),
+        "web.bool_true": Style(color="bright_green", italic=True),
+        "web.bool_false": Style(color="bright_red", italic=True),
+        "web.none": Style(color="magenta", italic=True),
+        "web.path": Style(color="magenta"),
+        "web.filename": Style(color="bright_magenta"),
+        "web.str": Style(color="green", italic=False, bold=False),
+        "web.time": Style(color="cyan"),
+        "rule.text": Style(bold=True),
+    }
+)
 
 
 # Logger init
 logger_debug = False
-logger = logging.getLogger('alas')
+logger = logging.getLogger("alas")
 logger.setLevel(logging.DEBUG if logger_debug else logging.INFO)
 file_formatter = logging.Formatter(
-    fmt='%(asctime)s.%(msecs)03d | %(levelname)s | %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+    fmt="%(asctime)s.%(msecs)03d | %(levelname)s | %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
 console_formatter = logging.Formatter(
-    fmt='%(asctime)s.%(msecs)03d │ %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+    fmt="%(asctime)s.%(msecs)03d │ %(message)s", datefmt="%Y-%m-%d %H:%M:%S"
+)
 web_formatter = logging.Formatter(
-    fmt='%(asctime)s.%(msecs)03d │ %(message)s', datefmt='%H:%M:%S')
+    fmt="%(asctime)s.%(msecs)03d │ %(message)s", datefmt="%H:%M:%S"
+)
 
 # Add console logger
 # console = logging.StreamHandler(stream=sys.stdout)
@@ -165,38 +175,41 @@ console_hdlr.setFormatter(console_formatter)
 logger.addHandler(console_hdlr)
 
 # Ensure running in Alas root folder
-os.chdir(os.path.join(os.path.dirname(__file__), '../'))
+os.chdir(os.path.join(os.path.dirname(__file__), "../"))
 
 # Add file logger
 pyw_name = os.path.splitext(os.path.basename(sys.argv[0]))[0]
 
 
 def _set_file_logger(name=pyw_name):
-    if '_' in name:
-        name = name.split('_', 1)[0]
-    log_file = f'./log/{datetime.date.today()}_{name}.txt'
+    if "_" in name:
+        name = name.split("_", 1)[0]
+    log_file = f"./log/{datetime.date.today()}_{name}.txt"
     try:
-        file = logging.FileHandler(log_file, encoding='utf-8')
+        file = logging.FileHandler(log_file, encoding="utf-8")
     except FileNotFoundError:
-        os.mkdir('./log')
-        file = logging.FileHandler(log_file, encoding='utf-8')
+        os.mkdir("./log")
+        file = logging.FileHandler(log_file, encoding="utf-8")
     file.setFormatter(file_formatter)
 
-    logger.handlers = [h for h in logger.handlers if not isinstance(
-        h, (logging.FileHandler, RichFileHandler))]
+    logger.handlers = [
+        h
+        for h in logger.handlers
+        if not isinstance(h, (logging.FileHandler, RichFileHandler))
+    ]
     logger.addHandler(file)
     logger.log_file = log_file
 
 
 def set_file_logger(name=pyw_name):
-    if '_' in name:
-        name = name.split('_', 1)[0]
-    log_file = f'./log/{datetime.date.today()}_{name}.txt'
+    if "_" in name:
+        name = name.split("_", 1)[0]
+    log_file = f"./log/{datetime.date.today()}_{name}.txt"
     try:
-        file = open(log_file, mode='a', encoding='utf-8')
+        file = open(log_file, mode="a", encoding="utf-8")
     except FileNotFoundError:
-        os.mkdir('./log')
-        file = open(log_file, mode='a', encoding='utf-8')
+        os.mkdir("./log")
+        file = open(log_file, mode="a", encoding="utf-8")
 
     file_console = Console(
         file=file,
@@ -215,8 +228,11 @@ def set_file_logger(name=pyw_name):
     )
     hdlr.setFormatter(file_formatter)
 
-    logger.handlers = [h for h in logger.handlers if not isinstance(
-        h, (logging.FileHandler, RichFileHandler))]
+    logger.handlers = [
+        h
+        for h in logger.handlers
+        if not isinstance(h, (logging.FileHandler, RichFileHandler))
+    ]
     logger.addHandler(hdlr)
     logger.log_file = log_file
 
@@ -226,11 +242,11 @@ def set_func_logger(func):
         force_terminal=False,
         force_interactive=False,
         width=80,
-        color_system='truecolor',
+        color_system="truecolor",
         markup=False,
         safe_box=False,
         highlighter=Highlighter(),
-        theme=WEB_THEME
+        theme=WEB_THEME,
     )
     hdlr = RichRenderableHandler(
         func=func,
@@ -244,13 +260,21 @@ def set_func_logger(func):
         highlighter=Highlighter(),
     )
     hdlr.setFormatter(web_formatter)
-    logger.handlers = [h for h in logger.handlers if not isinstance(
-        h, RichRenderableHandler)]
+    logger.handlers = [
+        h for h in logger.handlers if not isinstance(h, RichRenderableHandler)
+    ]
     logger.addHandler(hdlr)
 
 
 def _get_renderables(
-    self: Console, *objects, sep=" ", end="\n", justify=None, emoji=None, markup=None, highlight=None,
+    self: Console,
+    *objects,
+    sep=" ",
+    end="\n",
+    justify=None,
+    emoji=None,
+    markup=None,
+    highlight=None,
 ) -> List[ConsoleRenderable]:
     """
     Refer to rich.console.Console.print()
@@ -284,52 +308,51 @@ def print(*objects: ConsoleRenderable, **kwargs):
 
 
 def rule(title="", *, characters="─", style="rule.line", end="\n", align="center"):
-    rule = Rule(title=title, characters=characters,
-                style=style, end=end, align=align)
+    rule = Rule(title=title, characters=characters, style=style, end=end, align=align)
     print(rule)
 
 
 def hr(title, level=3):
     title = str(title).upper()
     if level == 1:
-        logger.rule(title, characters='═')
+        logger.rule(title, characters="═")
         logger.info(title)
     if level == 2:
-        logger.rule(title, characters='─')
+        logger.rule(title, characters="─")
         logger.info(title)
     if level == 3:
         logger.info(f"[bold]<<< {title} >>>[/bold]", extra={"markup": True})
     if level == 0:
-        logger.rule(characters='═')
-        logger.rule(title, characters=' ')
-        logger.rule(characters='═')
+        logger.rule(characters="═")
+        logger.rule(title, characters=" ")
+        logger.rule(characters="═")
 
 
 def attr(name, text):
-    logger.info('[%s] %s' % (str(name), str(text)))
+    logger.info("[%s] %s" % (str(name), str(text)))
 
 
-def attr_align(name, text, front='', align=22):
+def attr_align(name, text, front="", align=22):
     name = str(name).rjust(align)
     if front:
-        name = front + name[len(front):]
-    logger.info('%s: %s' % (name, str(text)))
+        name = front + name[len(front) :]
+    logger.info("%s: %s" % (name, str(text)))
 
 
 def show():
-    logger.info('INFO')
-    logger.warning('WARNING')
-    logger.debug('DEBUG')
-    logger.error('ERROR')
-    logger.critical('CRITICAL')
-    logger.hr('hr0', 0)
-    logger.hr('hr1', 1)
-    logger.hr('hr2', 2)
-    logger.hr('hr3', 3)
-    logger.info(r'Brace { [ ( ) ] }')
-    logger.info(r'True, False, None')
-    logger.info(r'E:/path\\to/alas/alas.exe, /root/alas/, ./relative/path/log.txt')
-    local_var1 = 'This is local variable'
+    logger.info("INFO")
+    logger.warning("WARNING")
+    logger.debug("DEBUG")
+    logger.error("ERROR")
+    logger.critical("CRITICAL")
+    logger.hr("hr0", 0)
+    logger.hr("hr1", 1)
+    logger.hr("hr2", 2)
+    logger.hr("hr3", 3)
+    logger.info(r"Brace { [ ( ) ] }")
+    logger.info(r"True, False, None")
+    logger.info(r"E:/path\\to/alas/alas.exe, /root/alas/, ./relative/path/log.txt")
+    local_var1 = "This is local variable"
     # Line before exception
     raise Exception("Exception")
     # Line below exception
@@ -338,7 +361,7 @@ def show():
 def error_convert(func):
     def error_wrapper(msg, *args, **kwargs):
         if isinstance(msg, Exception):
-            msg = f'{type(msg).__name__}: {msg}'
+            msg = f"{type(msg).__name__}: {msg}"
         return func(msg, *args, **kwargs)
 
     return error_wrapper
@@ -354,4 +377,4 @@ logger.print = print
 logger.log_file: str
 
 logger.set_file_logger()
-logger.hr('Start', level=0)
+logger.hr("Start", level=0)

@@ -7,7 +7,13 @@ from module.ui.navbar import Navbar
 from module.ui.page import page_build
 from module.ui.ui import UI
 
-GACHA_LOAD_ENSURE_BUTTONS = [SHOP_MEDAL_CHECK, BUILD_SUBMIT_ORDERS, BUILD_SUBMIT_WW_ORDERS, BUILD_FINISH_ORDERS, BUILD_WW_CHECK]
+GACHA_LOAD_ENSURE_BUTTONS = [
+    SHOP_MEDAL_CHECK,
+    BUILD_SUBMIT_ORDERS,
+    BUILD_SUBMIT_WW_ORDERS,
+    BUILD_FINISH_ORDERS,
+    BUILD_WW_CHECK,
+]
 
 
 class GachaUI(UI):
@@ -37,7 +43,9 @@ class GachaUI(UI):
 
             # Exception
             if ensure_timeout.reached():
-                logger.warning('Wait for loaded assets is incomplete, ensure not guaranteed')
+                logger.warning(
+                    "Wait for loaded assets is incomplete, ensure not guaranteed"
+                )
                 return False
 
     @cached_property
@@ -57,13 +65,20 @@ class GachaUI(UI):
             retire.
         """
         gacha_side_navbar = ButtonGrid(
-            origin=(21, 126), delta=(0, 98),
-            button_shape=(60, 80), grid_shape=(1, 5),
-            name='GACHA_SIDE_NAVBAR')
+            origin=(21, 126),
+            delta=(0, 98),
+            button_shape=(60, 80),
+            grid_shape=(1, 5),
+            name="GACHA_SIDE_NAVBAR",
+        )
 
-        return Navbar(grids=gacha_side_navbar,
-                      active_color=(247, 255, 173), active_threshold=221,
-                      inactive_color=(140, 162, 181), inactive_threshold=221)
+        return Navbar(
+            grids=gacha_side_navbar,
+            active_color=(247, 255, 173),
+            active_threshold=221,
+            inactive_color=(140, 162, 181),
+            inactive_threshold=221,
+        )
 
     def gacha_side_navbar_ensure(self, upper=None, bottom=None):
         """
@@ -94,8 +109,10 @@ class GachaUI(UI):
             logger.warning('Transitions to "retire" is not supported')
             return False
 
-        if self._gacha_side_navbar.set(self, upper=upper, bottom=bottom) \
-                and self.gacha_load_ensure():
+        if (
+            self._gacha_side_navbar.set(self, upper=upper, bottom=bottom)
+            and self.gacha_load_ensure()
+        ):
             return True
         return False
 
@@ -116,13 +133,18 @@ class GachaUI(UI):
             retire.
         """
         construct_bottom_navbar = ButtonGrid(
-            origin=(262, 615), delta=(209, 0),
-            button_shape=(70, 49), grid_shape=(4, 1),
-            name='CONSTRUCT_BOTTOM_NAVBAR')
+            origin=(262, 615),
+            delta=(209, 0),
+            button_shape=(70, 49),
+            grid_shape=(4, 1),
+            name="CONSTRUCT_BOTTOM_NAVBAR",
+        )
 
-        return Navbar(grids=construct_bottom_navbar,
-                      active_color=(247, 227, 148),
-                      inactive_color=(189, 231, 247))
+        return Navbar(
+            grids=construct_bottom_navbar,
+            active_color=(247, 227, 148),
+            inactive_color=(189, 231, 247),
+        )
 
     @cached_property
     def _exchange_bottom_navbar(self):
@@ -132,13 +154,18 @@ class GachaUI(UI):
             items.
         """
         exchange_bottom_navbar = ButtonGrid(
-            origin=(569, 637), delta=(208, 0),
-            button_shape=(70, 49), grid_shape=(2, 1),
-            name='EXCHANGE_BOTTOM_NAVBAR')
+            origin=(569, 637),
+            delta=(208, 0),
+            button_shape=(70, 49),
+            grid_shape=(2, 1),
+            name="EXCHANGE_BOTTOM_NAVBAR",
+        )
 
-        return Navbar(grids=exchange_bottom_navbar,
-                      active_color=(247, 227, 148),
-                      inactive_color=(189, 231, 247))
+        return Navbar(
+            grids=exchange_bottom_navbar,
+            active_color=(247, 227, 148),
+            inactive_color=(189, 231, 247),
+        )
 
     def _gacha_bottom_navbar(self, is_build=True):
         """
@@ -189,14 +216,16 @@ class GachaUI(UI):
         gacha_bottom_navbar = self._gacha_bottom_navbar(is_build)
         if is_build and gacha_bottom_navbar.get_total(main=self) == 3:
             if left == 1 or right == 4:
-                logger.info('Construct event not available, default to light')
+                logger.info("Construct event not available, default to light")
                 left = 1
                 right = None
             if left == 4:
                 left = 3
 
-        if gacha_bottom_navbar.set(self, left=left, right=right) \
-                and self.gacha_load_ensure():
+        if (
+            gacha_bottom_navbar.set(self, left=left, right=right)
+            and self.gacha_load_ensure()
+        ):
             return True
         return False
 
@@ -204,8 +233,8 @@ class GachaUI(UI):
         self.ui_ensure(page_build)
 
 
-if __name__ == '__main__':
-    self = GachaUI('alas')
-    self.image_file = r'C:\Users\LmeSzinc\Nox_share\ImageShare\Screenshots\Screenshot_20220224-182355.png'
+if __name__ == "__main__":
+    self = GachaUI("alas")
+    self.image_file = r"C:\Users\LmeSzinc\Nox_share\ImageShare\Screenshots\Screenshot_20220224-182355.png"
     res = self._gacha_side_navbar.get_info(main=self)
     print(res)

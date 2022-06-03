@@ -7,11 +7,7 @@ from module.logger import logger
 # Color that shows on HP bar.
 COLOR_HP_GREEN = (156, 235, 57)
 COLOR_HP_RED = (99, 44, 24)
-SCOUT_POSITION = [
-    (403, 421),
-    (625, 369),
-    (821, 326)
-]
+SCOUT_POSITION = [(403, 421), (625, 369), (821, 326)]
 
 
 class HPBalancer(ModuleBase):
@@ -63,18 +59,35 @@ class HPBalancer(ModuleBase):
         """
         data = max(
             color_bar_percentage(self.device.image, area=area, prev_color=COLOR_HP_RED),
-            color_bar_percentage(self.device.image, area=area, prev_color=COLOR_HP_GREEN)
+            color_bar_percentage(
+                self.device.image, area=area, prev_color=COLOR_HP_GREEN
+            ),
         )
         return data
 
     def _hp_grid(self):
         # Location of six HP bar, according to respective server for campaign
-        if self.config.SERVER == 'en':
-            return ButtonGrid(origin=(35, 190), delta=(0, 100), button_shape=(66, 4), grid_shape=(1, 6))
-        elif self.config.SERVER == 'jp':
-            return ButtonGrid(origin=(35, 205), delta=(0, 100), button_shape=(66, 4), grid_shape=(1, 6))
+        if self.config.SERVER == "en":
+            return ButtonGrid(
+                origin=(35, 190),
+                delta=(0, 100),
+                button_shape=(66, 4),
+                grid_shape=(1, 6),
+            )
+        elif self.config.SERVER == "jp":
+            return ButtonGrid(
+                origin=(35, 205),
+                delta=(0, 100),
+                button_shape=(66, 4),
+                grid_shape=(1, 6),
+            )
         else:
-            return ButtonGrid(origin=(35, 206), delta=(0, 100), button_shape=(66, 4), grid_shape=(1, 6))
+            return ButtonGrid(
+                origin=(35, 206),
+                delta=(0, 100),
+                button_shape=(66, 4),
+                grid_shape=(1, 6),
+            )
 
     def hp_get(self):
         """Get current HP from screenshot.
@@ -93,10 +106,20 @@ class HPBalancer(ModuleBase):
         if self.fleet_current_index not in self._hp_has_ship:
             self.hp_has_ship = [bool(hp > 0.3) for hp in self.hp]
 
-        logger.attr('HP', ' '.join(
-            [str(int(data * 100)).rjust(3) + '%' if use else '____' for data, use in zip(hp, self.hp_has_ship)]))
+        logger.attr(
+            "HP",
+            " ".join(
+                [
+                    str(int(data * 100)).rjust(3) + "%" if use else "____"
+                    for data, use in zip(hp, self.hp_has_ship)
+                ]
+            ),
+        )
         if np.sum(np.abs(np.diff(weight))) > 0:
-            logger.attr('HP_weight', ' '.join([str(int(data * 100)).rjust(3) + '%' for data in self.hp]))
+            logger.attr(
+                "HP_weight",
+                " ".join([str(int(data * 100)).rjust(3) + "%" for data in self.hp]),
+            )
 
         return self.hp
 
@@ -115,7 +138,7 @@ class HPBalancer(ModuleBase):
             p1 (int): Origin position [0, 2].
             p2 (int): Target position [0, 2].
         """
-        logger.info('scout_position_change (%s, %s)' % (p1, p2))
+        logger.info("scout_position_change (%s, %s)" % (p1, p2))
         self.device.drag(p1=SCOUT_POSITION[p1], p2=SCOUT_POSITION[p2], segments=3)
 
     def _expected_scout_order(self, hp):
@@ -150,12 +173,12 @@ class HPBalancer(ModuleBase):
             # 80% 0% 0%
             order = [0, 1, 2]
         else:
-            logger.warning(f'HP invalid: {hp}')
+            logger.warning(f"HP invalid: {hp}")
             order = [0, 1, 2]
 
         return order
 
-    @Config.when(DEVICE_CONTROL_METHOD='minitouch')
+    @Config.when(DEVICE_CONTROL_METHOD="minitouch")
     def _gen_exchange_step(self, target):
         """
         Minitouch swiping is more like human, when it drag the first ship to the third ship,
@@ -228,7 +251,7 @@ class HPBalancer(ModuleBase):
         if self.config.HpControl_UseLowHpRetreat:
             hp = np.array(self.hp)[self.hp_has_ship]
             if np.any(hp < self.config.HpControl_LowHpRetreatThreshold):
-                logger.info('Low HP retreat triggered.')
+                logger.info("Low HP retreat triggered.")
                 return True
 
         return False

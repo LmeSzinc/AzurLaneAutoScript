@@ -9,9 +9,9 @@ from module.os_handler.enemy_searching import EnemySearchingHandler
 from module.statistics.azurstats import DropImage
 from module.ui.switch import Switch
 
-fleet_lock = Switch('Fleet_Lock', offset=(10, 120))
-fleet_lock.add_status('on', check_button=OS_FLEET_LOCKED)
-fleet_lock.add_status('off', check_button=OS_FLEET_UNLOCKED)
+fleet_lock = Switch("Fleet_Lock", offset=(10, 120))
+fleet_lock.add_status("on", check_button=OS_FLEET_LOCKED)
+fleet_lock.add_status("off", check_button=OS_FLEET_UNLOCKED)
 
 
 class MapEventHandler(EnemySearchingHandler):
@@ -21,9 +21,11 @@ class MapEventHandler(EnemySearchingHandler):
         if self.is_in_map():
             return False
 
-        if self.appear(GET_ITEMS_1, interval=interval) \
-                or self.appear(GET_ITEMS_2, interval=interval) \
-                or self.appear(GET_ITEMS_3, interval=interval):
+        if (
+            self.appear(GET_ITEMS_1, interval=interval)
+            or self.appear(GET_ITEMS_2, interval=interval)
+            or self.appear(GET_ITEMS_3, interval=interval)
+        ):
             if drop:
                 drop.handle_add(main=self, before=2)
             self.device.click(CLICK_SAFE_AREA)
@@ -65,15 +67,17 @@ class MapEventHandler(EnemySearchingHandler):
         return False
 
     def handle_ash_popup(self):
-        name = 'ASH'
+        name = "ASH"
         # 2021.12.09
         # Ash popup no longer shows red letters, so change it to letter `Ashes Coordinates`
-        if self.appear(POPUP_CONFIRM, offset=self._popup_offset) \
-                and self.appear(POPUP_CANCEL, offset=self._popup_offset, interval=2) \
-                and self.appear(ASH_POPUP_CHECK, offset=(20, 20)):
-            POPUP_CANCEL.name = POPUP_CANCEL.name + '_' + name
+        if (
+            self.appear(POPUP_CONFIRM, offset=self._popup_offset)
+            and self.appear(POPUP_CANCEL, offset=self._popup_offset, interval=2)
+            and self.appear(ASH_POPUP_CHECK, offset=(20, 20))
+        ):
+            POPUP_CANCEL.name = POPUP_CANCEL.name + "_" + name
             self.device.click(POPUP_CANCEL)
-            POPUP_CANCEL.name = POPUP_CANCEL.name[:-len(name) - 1]
+            POPUP_CANCEL.name = POPUP_CANCEL.name[: -len(name) - 1]
             self.ash_popup_canceled = True
             return True
         else:
@@ -89,7 +93,7 @@ class MapEventHandler(EnemySearchingHandler):
         if not self.handle_story_skip():
             return False
 
-        logger.info('Handle siren platform')
+        logger.info("Handle siren platform")
         timeout = Timer(self.MAP_ENEMY_SEARCHING_TIMEOUT_SECOND).start()
         appeared = False
         while 1:
@@ -110,11 +114,11 @@ class MapEventHandler(EnemySearchingHandler):
                 if appeared:
                     self.handle_enemy_flashing()
                     self.device.sleep(1)
-                    logger.info('Enemy searching appeared.')
+                    logger.info("Enemy searching appeared.")
                     break
                 self.enemy_searching_color_initial()
             if timeout.reached():
-                logger.info('Enemy searching timeout.')
+                logger.info("Enemy searching timeout.")
                 break
 
         return True
@@ -197,11 +201,13 @@ class MapEventHandler(EnemySearchingHandler):
                     drop.handle_add(main=self, before=4)
                 self.device.click(AUTO_SEARCH_REWARD)
                 self.clicked = True
-                self.interval_reset([
-                    AUTO_SEARCH_REWARD,
-                    AUTO_SEARCH_OS_MAP_OPTION_ON,
-                    AUTO_SEARCH_OS_MAP_OPTION_OFF,
-                ])
+                self.interval_reset(
+                    [
+                        AUTO_SEARCH_REWARD,
+                        AUTO_SEARCH_OS_MAP_OPTION_ON,
+                        AUTO_SEARCH_OS_MAP_OPTION_OFF,
+                    ]
+                )
                 confirm_timer.reset()
                 continue
             if self.handle_map_event():
@@ -230,9 +236,11 @@ class MapEventHandler(EnemySearchingHandler):
         Returns:
             bool: If clicked.
         """
-        if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120)) \
-                and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image) \
-                and self.info_bar_count() >= 2:
+        if (
+            self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120))
+            and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image)
+            and self.info_bar_count() >= 2
+        ):
             self.device.screenshot_interval_set()
             self.os_auto_search_quit(drop=drop)
             raise CampaignEnd
@@ -245,13 +253,15 @@ class MapEventHandler(EnemySearchingHandler):
                 # Auto search stopped but map hasn't been cleared
                 return True
         if enable:
-            if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120), interval=3) \
-                    and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image):
+            if self.appear(
+                AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120), interval=3
+            ) and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image):
                 self.device.click(AUTO_SEARCH_OS_MAP_OPTION_OFF)
                 return True
         else:
-            if self.appear(AUTO_SEARCH_OS_MAP_OPTION_ON, offset=(5, 120), interval=3) \
-                    and AUTO_SEARCH_OS_MAP_OPTION_ON.match_appear_on(self.device.image):
+            if self.appear(
+                AUTO_SEARCH_OS_MAP_OPTION_ON, offset=(5, 120), interval=3
+            ) and AUTO_SEARCH_OS_MAP_OPTION_ON.match_appear_on(self.device.image):
                 self.device.click(AUTO_SEARCH_OS_MAP_OPTION_ON)
                 return True
 
@@ -268,12 +278,12 @@ class MapEventHandler(EnemySearchingHandler):
         # Fleet lock depends on if it appear on map, not depends on map status.
         # Because if already in map, there's no map status,
         if not fleet_lock.appear(main=self):
-            logger.info('No fleet lock option.')
+            logger.info("No fleet lock option.")
             return False
 
         if enable is None:
             enable = self.config.Campaign_UseFleetLock
-        status = 'on' if enable else 'off'
+        status = "on" if enable else "off"
         changed = fleet_lock.set(status=status, main=self)
 
         return changed

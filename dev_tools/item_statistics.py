@@ -5,7 +5,7 @@ from tqdm import tqdm
 
 import module.config.server as server
 
-server.server = 'cn'  # Edit your server here.
+server.server = "cn"  # Edit your server here.
 
 from module.logger import logger
 from module.statistics.battle_status import BattleStatusStatistics
@@ -22,12 +22,12 @@ class DropStatistics(BattleStatusStatistics, GetItemsStatistics):
             folder (str): Such as <your_drop_screenshot_folder>/campaign_7_2
         """
         self.folder = folder
-        self.template_folder = os.path.join(self.folder, 'item_template')
+        self.template_folder = os.path.join(self.folder, "item_template")
         if not os.path.exists(self.template_folder):
-            shutil.copytree('./assets/stats_basic', self.template_folder)
+            shutil.copytree("./assets/stats_basic", self.template_folder)
         self.load_template_folder(self.template_folder)
-        self.battle_status = load_folder(os.path.join(folder, 'status'))
-        self.get_items = load_folder(os.path.join(folder, 'get_items'))
+        self.battle_status = load_folder(os.path.join(folder, "status"))
+        self.get_items = load_folder(os.path.join(folder, "get_items"))
         self.battle_status_timestamp = np.array([int(f) for f in self.battle_status])
 
     def _items_to_status(self, get_items):
@@ -40,7 +40,7 @@ class DropStatistics(BattleStatusStatistics, GetItemsStatistics):
         """
         interval = np.abs(self.battle_status_timestamp - int(get_items))
         if np.min(interval) > STATUS_ITEMS_INTERVAL * 1000:
-            raise ImageError(f'Timestamp: {get_items}, battle_status image not found.')
+            raise ImageError(f"Timestamp: {get_items}, battle_status image not found.")
         return str(self.battle_status_timestamp[np.argmin(interval)])
 
     def extract_template(self, image=None, folder=None):
@@ -52,7 +52,7 @@ class DropStatistics(BattleStatusStatistics, GetItemsStatistics):
                 image = load_image(file)
                 super().extract_template(image, folder=self.template_folder)
             except:
-                logger.warning(f'Error image: {ts}')
+                logger.warning(f"Error image: {ts}")
 
     def stat_drop(self, timestamp):
         """
@@ -68,7 +68,10 @@ class DropStatistics(BattleStatusStatistics, GetItemsStatistics):
 
         enemy_name = self.stats_battle_status(battle_status)
         items = self.stats_get_items(get_items)
-        data = [[timestamp, battle_status_timestamp, enemy_name, item.name, item.amount] for item in items]
+        data = [
+            [timestamp, battle_status_timestamp, enemy_name, item.name, item.amount]
+            for item in items
+        ]
         return data
 
     def generate_data(self):
@@ -81,7 +84,7 @@ class DropStatistics(BattleStatusStatistics, GetItemsStatistics):
                 data = self.stat_drop(ts)
                 yield data
             except:
-                logger.warning(f'Error image: {ts}')
+                logger.warning(f"Error image: {ts}")
 
 
 """
@@ -91,8 +94,8 @@ Args:
     CSV_FILE: Csv file to save.
               Examples: 'c72.csv'
 """
-FOLDER = ''
-CSV_FILE = ''
+FOLDER = ""
+CSV_FILE = ""
 drop = DropStatistics(FOLDER)
 
 """

@@ -1,6 +1,6 @@
 import module.config.server as server
 
-server.server = 'cn'  # Don't need to edit, it's used to avoid error.
+server.server = "cn"  # Don't need to edit, it's used to avoid error.
 
 import numpy as np
 from PIL import Image
@@ -18,20 +18,21 @@ class Config:
     """
     Here are the default settings.
     """
+
     # Parameters for scipy.signal.find_peaks
     # https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.find_peaks.html
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (150, 255 - 40),
-        'width': (0.9, 10),
-        'prominence': 10,
-        'distance': 35,
+        "height": (150, 255 - 40),
+        "width": (0.9, 10),
+        "prominence": 10,
+        "distance": 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 24, 255),
-        'prominence': 10,
-        'distance': 50,
+        "height": (255 - 24, 255),
+        "prominence": 10,
+        "distance": 50,
         # 'width': (0, 7),
-        'wlen': 1000
+        "wlen": 1000,
     }
     # Parameters for cv2.HoughLines
     INTERNAL_LINES_HOUGHLINES_THRESHOLD = 75
@@ -39,7 +40,9 @@ class Config:
     # Parameters for lines pre-cleansing
     HORIZONTAL_LINES_THETA_THRESHOLD = 0.005
     VERTICAL_LINES_THETA_THRESHOLD = 18
-    TRUST_EDGE_LINES = False  # True to use edge to crop inner, false to use inner to crop edge
+    TRUST_EDGE_LINES = (
+        False  # True to use edge to crop inner, false to use inner to crop edge
+    )
     # Parameters for perspective calculating
     VANISH_POINT_RANGE = ((540, 740), (-3000, -1000))
     DISTANCE_POINT_X_RANGE = ((-3200, -1600),)
@@ -60,8 +63,8 @@ class Config:
 Step 2:
     Put your image here.
 """
-file = ''
-image = np.array(Image.open(file).convert('RGB'))
+file = ""
+image = np.array(Image.open(file).convert("RGB"))
 
 
 """
@@ -87,8 +90,8 @@ Step 3:
 # This is the default method in Alas currently.
 # ==============================
 cfg = Config()
-cfg.DETECTION_BACKEND = 'homography'
-view = View(AzurLaneConfig('template').merge(cfg))
+cfg.DETECTION_BACKEND = "homography"
+view = View(AzurLaneConfig("template").merge(cfg))
 view.load(image)
 view.predict()
 view.show()

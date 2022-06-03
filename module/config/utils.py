@@ -10,19 +10,19 @@ from filelock import FileLock
 
 import module.config.server as server_
 
-LANGUAGES = ['zh-CN', 'en-US', 'ja-JP', 'zh-TW']
+LANGUAGES = ["zh-CN", "en-US", "ja-JP", "zh-TW"]
 SERVER_TO_LANG = {
-    'cn': 'zh-CN',
-    'en': 'en-US',
-    'jp': 'ja-JP',
-    'tw': 'zh-TW',
+    "cn": "zh-CN",
+    "en": "en-US",
+    "jp": "ja-JP",
+    "tw": "zh-TW",
 }
 LANG_TO_SERVER = {v: k for k, v in SERVER_TO_LANG.items()}
 SERVER_TO_TIMEZONE = {
-    'cn': 8,
-    'en': -7,
-    'jp': 9,
-    'tw': 8,
+    "cn": 8,
+    "en": -7,
+    "jp": 9,
+    "tw": 8,
 }
 DEFAULT_TIME = datetime(2020, 1, 1, 0, 0)
 
@@ -30,32 +30,32 @@ DEFAULT_TIME = datetime(2020, 1, 1, 0, 0)
 # https://stackoverflow.com/questions/8640959/how-can-i-control-what-scalar-form-pyyaml-uses-for-my-data/15423007
 def str_presenter(dumper, data):
     if len(data.splitlines()) > 1:  # check for multiline string
-        return dumper.represent_scalar('tag:yaml.org,2002:str', data, style='|')
-    return dumper.represent_scalar('tag:yaml.org,2002:str', data)
+        return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
+    return dumper.represent_scalar("tag:yaml.org,2002:str", data)
 
 
 yaml.add_representer(str, str_presenter)
 yaml.representer.SafeRepresenter.add_representer(str, str_presenter)
 
 
-def filepath_args(filename='args'):
-    return f'./module/config/argument/{filename}.json'
+def filepath_args(filename="args"):
+    return f"./module/config/argument/{filename}.json"
 
 
 def filepath_argument(filename):
-    return f'./module/config/argument/{filename}.yaml'
+    return f"./module/config/argument/{filename}.yaml"
 
 
 def filepath_i18n(lang):
-    return os.path.join('./module/config/i18n', f'{lang}.json')
+    return os.path.join("./module/config/i18n", f"{lang}.json")
 
 
 def filepath_config(filename):
-    return os.path.join('./config', f'{filename}.json')
+    return os.path.join("./config", f"{filename}.json")
 
 
 def filepath_code():
-    return './module/config/config_generated.py'
+    return "./module/config/config_generated.py"
 
 
 def read_file(file):
@@ -79,20 +79,20 @@ def read_file(file):
     _, ext = os.path.splitext(file)
     lock = FileLock(f"{file}.lock")
     with lock:
-        print(f'read: {file}')
-        if ext == '.yaml':
-            with open(file, mode='r', encoding='utf-8') as f:
+        print(f"read: {file}")
+        if ext == ".yaml":
+            with open(file, mode="r", encoding="utf-8") as f:
                 s = f.read()
                 data = list(yaml.safe_load_all(s))
                 if len(data) == 1:
                     data = data[0]
                 return data
-        elif ext == '.json':
-            with open(file, mode='r', encoding='utf-8') as f:
+        elif ext == ".json":
+            with open(file, mode="r", encoding="utf-8") as f:
                 s = f.read()
                 return json.loads(s)
         else:
-            print(f'Unsupported config file extension: {ext}')
+            print(f"Unsupported config file extension: {ext}")
             return {}
 
 
@@ -111,21 +111,35 @@ def write_file(file, data):
     _, ext = os.path.splitext(file)
     lock = FileLock(f"{file}.lock")
     with lock:
-        print(f'write: {file}')
-        if ext == '.yaml':
-            with atomic_write(file, overwrite=True, encoding='utf-8', newline='') as f:
+        print(f"write: {file}")
+        if ext == ".yaml":
+            with atomic_write(file, overwrite=True, encoding="utf-8", newline="") as f:
                 if isinstance(data, list):
-                    yaml.safe_dump_all(data, f, default_flow_style=False, encoding='utf-8', allow_unicode=True,
-                                       sort_keys=False)
+                    yaml.safe_dump_all(
+                        data,
+                        f,
+                        default_flow_style=False,
+                        encoding="utf-8",
+                        allow_unicode=True,
+                        sort_keys=False,
+                    )
                 else:
-                    yaml.safe_dump(data, f, default_flow_style=False, encoding='utf-8', allow_unicode=True,
-                                   sort_keys=False)
-        elif ext == '.json':
-            with atomic_write(file, overwrite=True, encoding='utf-8', newline='') as f:
-                s = json.dumps(data, indent=2, ensure_ascii=False, sort_keys=False, default=str)
+                    yaml.safe_dump(
+                        data,
+                        f,
+                        default_flow_style=False,
+                        encoding="utf-8",
+                        allow_unicode=True,
+                        sort_keys=False,
+                    )
+        elif ext == ".json":
+            with atomic_write(file, overwrite=True, encoding="utf-8", newline="") as f:
+                s = json.dumps(
+                    data, indent=2, ensure_ascii=False, sort_keys=False, default=str
+                )
                 f.write(s)
         else:
-            print(f'Unsupported config file extension: {ext}')
+            print(f"Unsupported config file extension: {ext}")
 
 
 def iter_folder(folder, is_dir=False, ext=None):
@@ -158,13 +172,13 @@ def alas_instance():
         list[str]: Name of all Alas instances, except `template`.
     """
     out = []
-    for file in os.listdir('./config'):
+    for file in os.listdir("./config"):
         name, extension = os.path.splitext(file)
-        if name != 'template' and extension == '.json':
+        if name != "template" and extension == ".json":
             out.append(name)
 
     if not len(out):
-        out = ['alas']
+        out = ["alas"]
 
     return out
 
@@ -183,7 +197,7 @@ def deep_get(d, keys, default=None):
 
     """
     if isinstance(keys, str):
-        keys = keys.split('.')
+        keys = keys.split(".")
     assert type(keys) is list
     if d is None:
         return default
@@ -197,7 +211,7 @@ def deep_set(d, keys, value):
     Set value into dictionary safely, imitating deep_get().
     """
     if isinstance(keys, str):
-        keys = keys.split('.')
+        keys = keys.split(".")
     assert type(keys) is list
     if not keys:
         return value
@@ -212,7 +226,7 @@ def deep_pop(d, keys, default=None):
     Pop value from dictionary safely, imitating deep_get().
     """
     if isinstance(keys, str):
-        keys = keys.split('.')
+        keys = keys.split(".")
     assert type(keys) is list
     if not isinstance(d, dict):
         return default
@@ -229,7 +243,7 @@ def deep_default(d, keys, value):
     Value is set only when the dict doesn't contain such keys.
     """
     if isinstance(keys, str):
-        keys = keys.split('.')
+        keys = keys.split(".")
     assert type(keys) is list
     if not keys:
         if d:
@@ -255,10 +269,11 @@ def deep_iter(data, depth=0, current_depth=1):
         list: Key path
         Any:
     """
-    if isinstance(data, dict) \
-            and (depth and current_depth <= depth):
+    if isinstance(data, dict) and (depth and current_depth <= depth):
         for key, value in data.items():
-            for child_path, child_value in deep_iter(value, depth=depth, current_depth=current_depth + 1):
+            for child_path, child_value in deep_iter(
+                value, depth=depth, current_depth=current_depth + 1
+            ):
                 yield [key] + child_path, child_value
     else:
         yield [], data
@@ -275,17 +290,17 @@ def parse_value(value, data):
     Returns:
 
     """
-    if 'option' in data:
-        if value not in data['option']:
-            return data['value']
+    if "option" in data:
+        if value not in data["option"]:
+            return data["value"]
     if isinstance(value, str):
-        if value == '':
+        if value == "":
             return None
-        if value == 'true' or value == 'True':
+        if value == "true" or value == "True":
             return True
-        if value == 'false' or value == 'False':
+        if value == "false" or value == "False":
             return False
-        if '.' in value:
+        if "." in value:
             try:
                 return float(value)
             except ValueError:
@@ -320,14 +335,14 @@ def data_to_type(data, **kwargs):
         str:
     """
     kwargs.update(data)
-    if isinstance(kwargs['value'], bool):
-        return 'checkbox'
-    elif 'option' in kwargs and kwargs['option']:
-        return 'select'
-    elif 'Filter' in kwargs['arg']:
-        return 'textarea'
+    if isinstance(kwargs["value"], bool):
+        return "checkbox"
+    elif "option" in kwargs and kwargs["option"]:
+        return "select"
+    elif "Filter" in kwargs["arg"]:
+        return "textarea"
     else:
-        return 'input'
+        return "input"
 
 
 def data_to_path(data):
@@ -338,7 +353,7 @@ def data_to_path(data):
     Returns:
         str: <func>.<group>.<arg>
     """
-    return '.'.join([data.get(attr, '') for attr in ['func', 'group', 'arg']])
+    return ".".join([data.get(attr, "") for attr in ["func", "group", "arg"]])
 
 
 def path_to_arg(path):
@@ -351,7 +366,7 @@ def path_to_arg(path):
     Returns:
         str: Such as `Scheduler_ServerUpdate`
     """
-    return path.replace('.', '_')
+    return path.replace(".", "_")
 
 
 def dict_to_kv(dictionary, allow_none=True):
@@ -363,7 +378,9 @@ def dict_to_kv(dictionary, allow_none=True):
     Returns:
         str: Such as `path='Scheduler.ServerUpdate', value=True`
     """
-    return ', '.join([f'{k}={repr(v)}' for k, v in dictionary.items() if allow_none or v is not None])
+    return ", ".join(
+        [f"{k}={repr(v)}" for k, v in dictionary.items() if allow_none or v is not None]
+    )
 
 
 def server_timezone():
@@ -406,15 +423,20 @@ def ensure_time(second, n=3, precision=3):
         float:
     """
     if isinstance(second, tuple):
-        multiply = 10 ** precision
-        return random_normal_distribution_int(second[0] * multiply, second[1] * multiply, n) / multiply
+        multiply = 10**precision
+        return (
+            random_normal_distribution_int(
+                second[0] * multiply, second[1] * multiply, n
+            )
+            / multiply
+        )
     elif isinstance(second, str):
-        if ',' in second:
-            lower, upper = second.replace(' ', '').split(',')
+        if "," in second:
+            lower, upper = second.replace(" ", "").split(",")
             lower, upper = int(lower), int(upper)
             return ensure_time((lower, upper), n=n, precision=precision)
-        if '-' in second:
-            lower, upper = second.replace(' ', '').split('-')
+        if "-" in second:
+            lower, upper = second.replace(" ", "").split("-")
             lower, upper = int(lower), int(upper)
             return ensure_time((lower, upper), n=n, precision=precision)
         else:
@@ -433,8 +455,9 @@ def get_os_next_reset():
     d = datetime.now(timezone.utc).astimezone()
     diff = d.utcoffset() // timedelta(seconds=1) // 3600 - server_timezone()
     now = datetime.now() - timedelta(hours=diff)
-    reset = (now.replace(day=1) + timedelta(days=32)) \
-        .replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+    reset = (now.replace(day=1) + timedelta(days=32)).replace(
+        day=1, hour=0, minute=0, second=0, microsecond=0
+    )
     reset += timedelta(hours=diff)
     return reset
 
@@ -448,10 +471,10 @@ def get_os_reset_remain():
 
     next_reset = get_os_next_reset()
     now = datetime.now()
-    logger.attr('OpsiNextReset', next_reset)
+    logger.attr("OpsiNextReset", next_reset)
 
     remain = int((next_reset - now).total_seconds() // 86400)
-    logger.attr('ResetRemain', remain)
+    logger.attr("ResetRemain", remain)
     return remain
 
 
@@ -464,12 +487,12 @@ def get_server_next_update(daily_trigger):
         datetime.datetime
     """
     if isinstance(daily_trigger, str):
-        daily_trigger = daily_trigger.replace(' ', '').split(',')
+        daily_trigger = daily_trigger.replace(" ", "").split(",")
     d = datetime.now(timezone.utc).astimezone()
     diff = d.utcoffset() // timedelta(seconds=1) // 3600 - server_timezone()
     trigger = []
     for t in daily_trigger:
-        h, m = [int(x) for x in t.split(':')]
+        h, m = [int(x) for x in t.split(":")]
         h = (h + diff) % 24
         future = datetime.now().replace(hour=h, minute=m, second=0, microsecond=0)
         future = future + timedelta(days=1) if future < datetime.now() else future
@@ -487,12 +510,12 @@ def get_server_last_update(daily_trigger):
         datetime.datetime
     """
     if isinstance(daily_trigger, str):
-        daily_trigger = daily_trigger.replace(' ', '').split(',')
+        daily_trigger = daily_trigger.replace(" ", "").split(",")
     d = datetime.now(timezone.utc).astimezone()
     diff = d.utcoffset() // timedelta(seconds=1) // 3600 - server_timezone()
     trigger = []
     for t in daily_trigger:
-        h, m = [int(x) for x in t.split(':')]
+        h, m = [int(x) for x in t.split(":")]
         h = (h + diff) % 24
         past = datetime.now().replace(hour=h, minute=m, second=0, microsecond=0)
         past = past - timedelta(days=1) if past > datetime.now() else past
@@ -531,7 +554,7 @@ def random_id(length=32):
     Returns:
         str: Random azurstat id.
     """
-    return ''.join(random.sample(string.ascii_lowercase + string.digits, length))
+    return "".join(random.sample(string.ascii_lowercase + string.digits, length))
 
 
 def to_list(text, length=1):
@@ -546,7 +569,7 @@ def to_list(text, length=1):
     """
     if text.isdigit():
         return [int(text)] * length
-    out = [int(letter.strip()) for letter in text.split(',')]
+    out = [int(letter.strip()) for letter in text.split(",")]
     return out
 
 
@@ -566,5 +589,5 @@ def type_to_str(typ):
     return str(typ)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     get_os_reset_remain()

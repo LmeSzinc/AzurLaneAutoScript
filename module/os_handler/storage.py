@@ -18,8 +18,13 @@ class StorageHandler(GlobeOperation, ZoneManager):
             in: is_in_map, STORAGE_ENTER
             out: STORAGE_CHECK
         """
-        self.ui_click(STORAGE_ENTER, check_button=STORAGE_CHECK,
-                      retry_wait=3, offset=(200, 5), skip_first_screenshot=True)
+        self.ui_click(
+            STORAGE_ENTER,
+            check_button=STORAGE_CHECK,
+            retry_wait=3,
+            offset=(200, 5),
+            skip_first_screenshot=True,
+        )
         self.handle_info_bar()
 
     def storage_quit(self):
@@ -85,7 +90,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
             in: STORAGE_CHECK
             out: STORAGE_CHECK, scroll to bottom
         """
-        logger.hr('Storage logger use all')
+        logger.hr("Storage logger use all")
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -97,13 +102,13 @@ class StorageHandler(GlobeOperation, ZoneManager):
 
             image = rgb2gray(self.device.image)
             items = TEMPLATE_STORAGE_LOGGER.match_multi(image, similarity=0.5)
-            logger.attr('Storage_logger', len(items))
+            logger.attr("Storage_logger", len(items))
 
             if len(items):
                 self._storage_item_use(items[0])
                 continue
             else:
-                logger.info('All loggers in storage have been used')
+                logger.info("All loggers in storage have been used")
                 break
 
     def storage_sample_use_all(self, skip_first_screenshot=True):
@@ -116,8 +121,12 @@ class StorageHandler(GlobeOperation, ZoneManager):
             out: STORAGE_CHECK, scroll to bottom
         """
         sample_types = [
-            TEMPLATE_STORAGE_OFFENSE, TEMPLATE_STORAGE_SURVIVAL, TEMPLATE_STORAGE_COMBAT,
-            TEMPLATE_STORAGE_QUALITY_OFFENSE, TEMPLATE_STORAGE_QUALITY_SURVIVAL, TEMPLATE_STORAGE_QUALITY_COMBAT
+            TEMPLATE_STORAGE_OFFENSE,
+            TEMPLATE_STORAGE_SURVIVAL,
+            TEMPLATE_STORAGE_COMBAT,
+            TEMPLATE_STORAGE_QUALITY_OFFENSE,
+            TEMPLATE_STORAGE_QUALITY_SURVIVAL,
+            TEMPLATE_STORAGE_QUALITY_COMBAT,
         ]
         for sample_type in sample_types:
             while 1:
@@ -128,21 +137,23 @@ class StorageHandler(GlobeOperation, ZoneManager):
 
                 image = rgb2gray(self.device.image)
                 items = sample_type.match_multi(image, similarity=0.75)
-                logger.attr('Storage_sample', len(items))
+                logger.attr("Storage_sample", len(items))
 
                 if len(items):
                     self._storage_item_use(items[0])
                 else:
                     break
-        logger.info('All samples in storage have been used')
+        logger.info("All samples in storage have been used")
 
     def tuning_sample_use(self):
-        logger.hr('Turning sample use')
+        logger.hr("Turning sample use")
         self.storage_enter()
         self.storage_sample_use_all()
         self.storage_quit()
 
-    def _storage_coordinate_checkout(self, button, types=('OBSCURE',), skip_first_screenshot=True):
+    def _storage_coordinate_checkout(
+        self, button, types=("OBSCURE",), skip_first_screenshot=True
+    ):
         """
         Args:
             button (Button): Item
@@ -162,10 +173,12 @@ class StorageHandler(GlobeOperation, ZoneManager):
             if self.appear(STORAGE_CHECK, offset=(30, 30), interval=5):
                 self.device.click(button)
                 continue
-            if self.appear_then_click(STORAGE_COORDINATE_CHECKOUT, offset=(30, 30), interval=5):
+            if self.appear_then_click(
+                STORAGE_COORDINATE_CHECKOUT, offset=(30, 30), interval=5
+            ):
                 self.interval_reset(STORAGE_CHECK)
                 continue
-            if self.handle_popup_confirm('STORAGE_CHECKOUT'):
+            if self.handle_popup_confirm("STORAGE_CHECKOUT"):
                 # Submarine popup
                 continue
 
@@ -185,12 +198,12 @@ class StorageHandler(GlobeOperation, ZoneManager):
         Returns:
             Template:
         """
-        if item == 'OBSCURE':
+        if item == "OBSCURE":
             return TEMPLATE_STORAGE_OBSCURE
-        elif item == 'ABYSSAL':
+        elif item == "ABYSSAL":
             return TEMPLATE_STORAGE_ABYSSAL
         else:
-            raise ScriptError(f'Unknown storage item: {item}')
+            raise ScriptError(f"Unknown storage item: {item}")
 
     def storage_checkout_item(self, item, skip_first_screenshot=True):
         """
@@ -206,9 +219,11 @@ class StorageHandler(GlobeOperation, ZoneManager):
             out: is_in_map, in an obscure/abyssal zone if checkout.
                  is_in_map, in previous zone if no more obscure/abyssal coordinates.
         """
-        logger.hr(f'Storage checkout item {item}')
+        logger.hr(f"Storage checkout item {item}")
         if SCROLL_STORAGE.appear(main=self):
-            SCROLL_STORAGE.set_top(main=self, skip_first_screenshot=skip_first_screenshot)
+            SCROLL_STORAGE.set_top(
+                main=self, skip_first_screenshot=skip_first_screenshot
+            )
 
         confirm_timer = Timer(0.6, count=2).start()
         while 1:
@@ -218,14 +233,16 @@ class StorageHandler(GlobeOperation, ZoneManager):
                 self.device.screenshot()
 
             image = rgb2gray(self.device.image)
-            items = self._storage_item_to_template(item).match_multi(image, similarity=0.75)
-            logger.attr(f'Storage_{item}', len(items))
+            items = self._storage_item_to_template(item).match_multi(
+                image, similarity=0.75
+            )
+            logger.attr(f"Storage_{item}", len(items))
 
             if len(items):
                 self._storage_coordinate_checkout(items[0], types=(item,))
                 return True
             if confirm_timer.reached():
-                logger.info(f'No more {item} items in storage')
+                logger.info(f"No more {item} items in storage")
                 self.storage_quit()
                 return False
 
@@ -243,7 +260,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
             out: is_in_map, in an obscure/abyssal zone if checkout.
                  is_in_map, in previous zone if no more obscure/abyssal coordinates.
         """
-        logger.hr('OS get next obscure')
+        logger.hr("OS get next obscure")
         self.storage_enter()
         if use_logger:
             self.storage_logger_use_all()

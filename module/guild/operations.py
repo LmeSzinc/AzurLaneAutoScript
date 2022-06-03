@@ -10,7 +10,9 @@ from module.logger import logger
 from module.ocr.ocr import DigitCounter
 from module.template.assets import TEMPLATE_OPERATIONS_RED_DOT
 
-GUILD_OPERATIONS_PROGRESS = DigitCounter(OCR_GUILD_OPERATIONS_PROGRESS, letter=(255, 247, 247), threshold=64)
+GUILD_OPERATIONS_PROGRESS = DigitCounter(
+    OCR_GUILD_OPERATIONS_PROGRESS, letter=(255, 247, 247), threshold=64
+)
 
 
 class GuildOperations(GuildBase):
@@ -19,7 +21,9 @@ class GuildOperations(GuildBase):
         Ensure guild operation is loaded
         After entering guild operation, background loaded first, then dispatch/boss
         """
-        logger.attr('Guild master/official', self.config.GuildOperation_SelectNewOperation)
+        logger.attr(
+            "Guild master/official", self.config.GuildOperation_SelectNewOperation
+        )
         confirm_timer = Timer(1.5, count=3).start()
         click_count = 0
         while 1:
@@ -34,43 +38,61 @@ class GuildOperations(GuildBase):
                 # Probably because guild operation has been started by another guild officer already.
                 # Enter guild page again should fix the issue.
                 logger.warning(
-                    'Unable to start/join guild operation, '
-                    'probably because guild operation has been started by another guild officer already')
-                raise GameBugError('Unable to start/join guild operation')
+                    "Unable to start/join guild operation, "
+                    "probably because guild operation has been started by another guild officer already"
+                )
+                raise GameBugError("Unable to start/join guild operation")
 
             if self._handle_guild_operations_start():
                 confirm_timer.reset()
                 continue
             if self.appear(GUILD_OPERATIONS_JOIN, interval=3):
-                if self.image_color_count(GUILD_OPERATIONS_MONTHLY_COUNT, color=(255, 93, 90), threshold=221, count=20):
-                    logger.info('Unable to join operation, no more monthly attempts left')
+                if self.image_color_count(
+                    GUILD_OPERATIONS_MONTHLY_COUNT,
+                    color=(255, 93, 90),
+                    threshold=221,
+                    count=20,
+                ):
+                    logger.info(
+                        "Unable to join operation, no more monthly attempts left"
+                    )
                     self.device.click(GUILD_OPERATIONS_CLICK_SAFE_AREA)
                 else:
-                    current, remain, total = GUILD_OPERATIONS_PROGRESS.ocr(self.device.image)
+                    current, remain, total = GUILD_OPERATIONS_PROGRESS.ocr(
+                        self.device.image
+                    )
                     threshold = total * self.config.GuildOperation_JoinThreshold
                     if current <= threshold:
-                        logger.info('Joining Operation, current progress less than '
-                                    f'threshold ({threshold:.2f})')
+                        logger.info(
+                            "Joining Operation, current progress less than "
+                            f"threshold ({threshold:.2f})"
+                        )
                         self.device.click(GUILD_OPERATIONS_JOIN)
                     else:
-                        logger.info('Refrain from joining operation, current progress exceeds '
-                                    f'threshold ({threshold:.2f})')
+                        logger.info(
+                            "Refrain from joining operation, current progress exceeds "
+                            f"threshold ({threshold:.2f})"
+                        )
                         self.device.click(GUILD_OPERATIONS_CLICK_SAFE_AREA)
                 confirm_timer.reset()
                 continue
-            if self.handle_popup_confirm('JOIN_OPERATION'):
+            if self.handle_popup_confirm("JOIN_OPERATION"):
                 click_count += 1
                 confirm_timer.reset()
                 continue
-            if self.handle_popup_single('FLEET_UPDATED'):
-                logger.info('Fleet composition altered, may still be dispatch-able. However '
-                            'fellow guild members have updated their support line up. '
-                            'Suggestion: Enable Boss Recommend')
+            if self.handle_popup_single("FLEET_UPDATED"):
+                logger.info(
+                    "Fleet composition altered, may still be dispatch-able. However "
+                    "fellow guild members have updated their support line up. "
+                    "Suggestion: Enable Boss Recommend"
+                )
                 confirm_timer.reset()
                 continue
 
             # End
-            if self.appear(GUILD_BOSS_ENTER) or self.appear(GUILD_OPERATIONS_ACTIVE_CHECK, offset=(20, 20)):
+            if self.appear(GUILD_BOSS_ENTER) or self.appear(
+                GUILD_OPERATIONS_ACTIVE_CHECK, offset=(20, 20)
+            ):
                 if not self.info_bar_count() and confirm_timer.reached():
                     break
 
@@ -92,11 +114,15 @@ class GuildOperations(GuildBase):
         today = datetime.now().day
         limit = self.config.GuildOperation_NewOperationMaxDate
         if today >= limit:
-            logger.info(f'No new guild operations because, today\'s date {today} >= limit {limit}')
+            logger.info(
+                f"No new guild operations because, today's date {today} >= limit {limit}"
+            )
             return False
 
         # Hard-coded to select The most rewarding operation Solomon Air-Sea Battle.
-        if self.appear_then_click(GUILD_OPERATIONS_SOLOMON, offset=(20, 20), interval=3):
+        if self.appear_then_click(
+            GUILD_OPERATIONS_SOLOMON, offset=(20, 20), interval=3
+        ):
             return True
         # Goto the new operation that just started
         # Example page switches:
@@ -123,19 +149,24 @@ class GuildOperations(GuildBase):
             in: GUILD_OPERATIONS
             out: GUILD_OPERATIONS
         """
-        if self.appear(GUILD_OPERATIONS_INACTIVE_CHECK) and self.appear(GUILD_OPERATIONS_ACTIVE_CHECK):
+        if self.appear(GUILD_OPERATIONS_INACTIVE_CHECK) and self.appear(
+            GUILD_OPERATIONS_ACTIVE_CHECK
+        ):
             logger.info(
-                'Mode: Operations Inactive, please contact your Elite/Officer/Leader seniors to select '
-                'an operation difficulty')
+                "Mode: Operations Inactive, please contact your Elite/Officer/Leader seniors to select "
+                "an operation difficulty"
+            )
             return 0
         elif self.appear(GUILD_OPERATIONS_ACTIVE_CHECK):
-            logger.info('Mode: Operations Active, may proceed to scan and dispatch fleets')
+            logger.info(
+                "Mode: Operations Active, may proceed to scan and dispatch fleets"
+            )
             return 1
         elif self.appear(GUILD_BOSS_ENTER):
-            logger.info('Mode: Guild Raid Boss')
+            logger.info("Mode: Guild Raid Boss")
             return 2
         else:
-            logger.warning('Operations interface is unrecognized')
+            logger.warning("Operations interface is unrecognized")
             return None
 
     def _guild_operations_get_entrance(self):
@@ -157,12 +188,14 @@ class GuildOperations(GuildBase):
 
         list_expand = []
         list_enter = []
-        dots = TEMPLATE_OPERATIONS_RED_DOT.match_multi(self.image_crop(detection_area), threshold=5)
-        logger.info(f'Active operations found: {len(dots)}')
+        dots = TEMPLATE_OPERATIONS_RED_DOT.match_multi(
+            self.image_crop(detection_area), threshold=5
+        )
+        logger.info(f"Active operations found: {len(dots)}")
         for button in dots:
             button = button.move(vector=detection_area[:2])
-            expand = button.crop(area=(-257, 14, 12, 51), name='DISPATCH_ENTRANCE_1')
-            enter = button.crop(area=(-257, -109, 12, -1), name='DISPATCH_ENTRANCE_2')
+            expand = button.crop(area=(-257, 14, 12, 51), name="DISPATCH_ENTRANCE_1")
+            enter = button.crop(area=(-257, -109, 12, -1), name="DISPATCH_ENTRANCE_2")
             for b in [expand, enter]:
                 b.area = area_limit(b.area, detection_area)
                 b._button = area_pad(b.area, pad)
@@ -171,7 +204,9 @@ class GuildOperations(GuildBase):
 
         return list_expand, list_enter
 
-    def _guild_operations_dispatch_swipe(self, forward=True, skip_first_screenshot=True):
+    def _guild_operations_dispatch_swipe(
+        self, forward=True, skip_first_screenshot=True
+    ):
         """
         Although AL will auto focus to active dispatch, but it's bugged.
         It can't reach the operations behind.
@@ -200,11 +235,22 @@ class GuildOperations(GuildBase):
                 return True
 
             p1, p2 = random_rectangle_vector(
-                direction_vector, box=detection_area, random_range=(-50, -50, 50, 50), padding=20)
-            self.device.drag(p1, p2, segments=2, shake=(0, 25), point_random=(0, 0, 0, 0), shake_random=(0, -5, 0, 5))
+                direction_vector,
+                box=detection_area,
+                random_range=(-50, -50, 50, 50),
+                padding=20,
+            )
+            self.device.drag(
+                p1,
+                p2,
+                segments=2,
+                shake=(0, 25),
+                point_random=(0, 0, 0, 0),
+                shake_random=(0, -5, 0, 5),
+            )
             self.device.sleep(0.3)
 
-        logger.warning('Failed to find active operation dispatch')
+        logger.warning("Failed to find active operation dispatch")
         return False
 
     def _guild_operations_dispatch_enter(self, skip_first_screenshot=True):
@@ -238,13 +284,17 @@ class GuildOperations(GuildBase):
                     for button in entrance_2:
                         # Enter button has a black area around Easy/Normal/Hard on the upper right
                         # If operation not expanded, enter button is a background with Gaussian Blur
-                        if self.image_color_count(button, color=(0, 0, 0), threshold=235, count=50):
+                        if self.image_color_count(
+                            button, color=(0, 0, 0), threshold=235, count=50
+                        ):
                             self.device.click(button)
                             timer_1.reset()
                             timer_2.reset()
                             break
 
-            if self.appear_then_click(GUILD_DISPATCH_QUICK, offset=(20, 20), interval=2):
+            if self.appear_then_click(
+                GUILD_DISPATCH_QUICK, offset=(20, 20), interval=2
+            ):
                 timer_1.reset()
                 timer_2.reset()
                 continue
@@ -273,7 +323,12 @@ class GuildOperations(GuildBase):
         #    | 1 | | 2 | | 3 |
         # | 1 | | 2 | | 3 | | 4 |
         #   0  1  2  3  4  5  6   buttons in switch_grid
-        switch_grid = ButtonGrid(origin=(573.5, 381), delta=(20.5, 0), button_shape=(11, 24), grid_shape=(7, 1))
+        switch_grid = ButtonGrid(
+            origin=(573.5, 381),
+            delta=(20.5, 0),
+            button_shape=(11, 24),
+            grid_shape=(7, 1),
+        )
         # Color of inactive fleet switch
         color_active = (74, 117, 222)
         # Color of current fleet
@@ -283,20 +338,24 @@ class GuildOperations(GuildBase):
         index = 0
         button = None
         for switch in switch_grid.buttons:
-            if self.image_color_count(switch, color=color_inactive, threshold=235, count=30):
+            if self.image_color_count(
+                switch, color=color_inactive, threshold=235, count=30
+            ):
                 index += 1
-                text.append(f'| {index} |')
+                text.append(f"| {index} |")
                 button = switch
-            elif self.image_color_count(switch, color=color_active, threshold=235, count=30):
+            elif self.image_color_count(
+                switch, color=color_active, threshold=235, count=30
+            ):
                 index += 1
-                text.append(f'[ {index} ]')
+                text.append(f"[ {index} ]")
                 button = switch
 
         # log example: | 1 | | 2 | [ 3 ]
-        text = ' '.join(text)
-        logger.attr('Dispatch_fleet', text)
-        if text.endswith(']'):
-            logger.info('Already at the most right fleet')
+        text = " ".join(text)
+        logger.attr("Dispatch_fleet", text)
+        if text.endswith("]"):
+            logger.info("Already at the most right fleet")
             return None
         else:
             return button
@@ -319,7 +378,7 @@ class GuildOperations(GuildBase):
             if button is None:
                 break
             elif point_in_area((640, 393), button.area):
-                logger.info('Dispatching the first fleet, skip switching')
+                logger.info("Dispatching the first fleet, skip switching")
             else:
                 self.device.click(button)
                 # Wait for the click animation, which will mess up _guild_operations_get_dispatch()
@@ -346,24 +405,28 @@ class GuildOperations(GuildBase):
                 # Use long interval because the game needs a few seconds to choose the ships
                 self.device.click(GUILD_DISPATCH_RECOMMEND)
                 continue
-            if not dispatched and self.appear_then_click(GUILD_DISPATCH_FLEET, threshold=20, interval=5):
+            if not dispatched and self.appear_then_click(
+                GUILD_DISPATCH_FLEET, threshold=20, interval=5
+            ):
                 # Don't use offset here, because GUILD_DISPATCH_FLEET only has a difference in colors
                 continue
-            if self.handle_popup_confirm('GUILD_DISPATCH'):
+            if self.handle_popup_confirm("GUILD_DISPATCH"):
                 dispatched = True
                 continue
 
             # End
             if self.appear(GUILD_DISPATCH_IN_PROGRESS):
                 # In first dispatch, it will show GUILD_DISPATCH_IN_PROGRESS
-                logger.info('Fleet dispatched, dispatch in progress')
+                logger.info("Fleet dispatched, dispatch in progress")
                 break
-            if dispatched and self.appear(GUILD_DISPATCH_FLEET, threshold=20, interval=0):
+            if dispatched and self.appear(
+                GUILD_DISPATCH_FLEET, threshold=20, interval=0
+            ):
                 # In the rest of the dispatch, it will show GUILD_DISPATCH_FLEET
                 # We can't ensure that fleet has dispatched,
                 # because GUILD_DISPATCH_FLEET also shows after clicking recommend before dispatching
                 # _guild_operations_dispatch() will retry it if haven't dispatched
-                logger.info('Fleet dispatched')
+                logger.info("Fleet dispatched")
                 break
 
     def _guild_operations_dispatch_exit(self, skip_first_screenshot=True):
@@ -403,7 +466,7 @@ class GuildOperations(GuildBase):
             in: page_guild, guild operation, operation map (GUILD_OPERATIONS_ACTIVE_CHECK)
             out: page_guild, guild operation, operation map (GUILD_OPERATIONS_ACTIVE_CHECK)
         """
-        logger.hr('Guild dispatch')
+        logger.hr("Guild dispatch")
         success = False
         for _ in reversed(range(2)):
             if self._guild_operations_dispatch_swipe(forward=_):
@@ -424,7 +487,7 @@ class GuildOperations(GuildBase):
             else:
                 return True
 
-        logger.warning('Too many trials on guild operation dispatch')
+        logger.warning("Too many trials on guild operation dispatch")
         return False
 
     def _guild_operations_boss_preparation(self, az, skip_first_screenshot=True):
@@ -457,13 +520,17 @@ class GuildOperations(GuildBase):
                     self.device.click(GUILD_DISPATCH_FLEET)
                     dispatch_count += 1
                 else:
-                    logger.warning('Fleet composition error. Preloaded guild support selection may be '
-                                   'preventing dispatch. Suggestion: Enable Boss Recommend')
+                    logger.warning(
+                        "Fleet composition error. Preloaded guild support selection may be "
+                        "preventing dispatch. Suggestion: Enable Boss Recommend"
+                    )
                     return False
                 continue
 
             if self.config.GuildOperation_BossFleetRecommend:
-                if self.info_bar_count() and self.appear_then_click(GUILD_DISPATCH_RECOMMEND_2, interval=3):
+                if self.info_bar_count() and self.appear_then_click(
+                    GUILD_DISPATCH_RECOMMEND_2, interval=3
+                ):
                     continue
 
             # Only print once when detected
@@ -489,13 +556,14 @@ class GuildOperations(GuildBase):
             out: GUILD_OPERATIONS_BOSS
         """
         from module.guild.guild_combat import GuildCombat
+
         az = GuildCombat(self.config, device=self.device)
 
         if not self._guild_operations_boss_preparation(az):
             return False
-        az.combat_execute(auto='combat_auto', submarine='every_combat')
-        az.combat_status(expected_end='in_ui')
-        logger.info('Guild Raid Boss has been repelled')
+        az.combat_execute(auto="combat_auto", submarine="every_combat")
+        az.combat_status(expected_end="in_ui")
+        logger.info("Guild Raid Boss has been repelled")
         return True
 
     def _guild_operations_boss_available(self):
@@ -503,15 +571,17 @@ class GuildOperations(GuildBase):
         Returns:
             bool:
         """
-        appear = self.image_color_count(GUILD_BOSS_AVAILABLE, color=(140, 243, 99), threshold=221, count=10)
+        appear = self.image_color_count(
+            GUILD_BOSS_AVAILABLE, color=(140, 243, 99), threshold=221, count=10
+        )
         if appear:
-            logger.info('Guild boss available')
+            logger.info("Guild boss available")
         else:
-            logger.info('Guild boss not available')
+            logger.info("Guild boss not available")
         return appear
 
     def guild_operations(self):
-        logger.hr('Guild operations', level=1)
+        logger.hr("Guild operations", level=1)
         self.guild_side_navbar_ensure(bottom=1)
         self._guild_operations_ensure()
         # Determine the mode of operations, currently 3 are available
@@ -528,9 +598,11 @@ class GuildOperations(GuildBase):
                 if self.config.GuildOperation_AttackBoss:
                     result = self._guild_operations_boss_combat()
                 else:
-                    logger.info('Auto-battle disabled, play manually to complete this Guild Task')
+                    logger.info(
+                        "Auto-battle disabled, play manually to complete this Guild Task"
+                    )
         else:
             result = False
 
-        logger.info(f'Guild operation run success: {result}')
+        logger.info(f"Guild operation run success: {result}")
         return result

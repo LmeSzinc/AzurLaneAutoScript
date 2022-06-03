@@ -10,20 +10,20 @@ from module.exception import ScriptEnd, ScriptError
 from module.logger import logger
 
 DIC_LIMIT = {
-    'keep_exp_bonus': 120,
-    'prevent_green_face': 40,
-    'prevent_yellow_face': 30,
-    'prevent_red_face': 2,
+    "keep_exp_bonus": 120,
+    "prevent_green_face": 40,
+    "prevent_yellow_face": 30,
+    "prevent_red_face": 2,
 }
 DIC_RECOVER = {
-    'not_in_dormitory': 20,
-    'dormitory_floor_1': 40,
-    'dormitory_floor_2': 50,
+    "not_in_dormitory": 20,
+    "dormitory_floor_1": 40,
+    "dormitory_floor_2": 50,
 }
 DIC_RECOVER_MAX = {
-    'not_in_dormitory': 119,
-    'dormitory_floor_1': 150,
-    'dormitory_floor_2': 150,
+    "not_in_dormitory": 119,
+    "dormitory_floor_1": 150,
+    "dormitory_floor_2": 150,
 }
 OATH_RECOVER = 10
 
@@ -45,7 +45,7 @@ class FleetEmotion:
         Returns:
             int: 0 to 150
         """
-        return getattr(self.config, f'Emotion_Fleet{self.fleet}Value')
+        return getattr(self.config, f"Emotion_Fleet{self.fleet}Value")
 
     @property
     def value_name(self):
@@ -53,7 +53,7 @@ class FleetEmotion:
         Returns:
             str:
         """
-        return f'Emotion_Fleet{self.fleet}Value'
+        return f"Emotion_Fleet{self.fleet}Value"
 
     @property
     def record(self):
@@ -61,7 +61,7 @@ class FleetEmotion:
         Returns:
             datetime.datetime:
         """
-        return getattr(self.config, f'Emotion_Fleet{self.fleet}Record')
+        return getattr(self.config, f"Emotion_Fleet{self.fleet}Record")
 
     @property
     def recover(self):
@@ -69,7 +69,7 @@ class FleetEmotion:
         Returns:
             str: not_in_dormitory, dormitory_floor_1, dormitory_floor_2
         """
-        return getattr(self.config, f'Emotion_Fleet{self.fleet}Recover')
+        return getattr(self.config, f"Emotion_Fleet{self.fleet}Recover")
 
     @property
     def control(self):
@@ -77,7 +77,7 @@ class FleetEmotion:
         Returns:
             str: keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face
         """
-        return getattr(self.config, f'Emotion_Fleet{self.fleet}Control')
+        return getattr(self.config, f"Emotion_Fleet{self.fleet}Control")
 
     @property
     def oath(self):
@@ -85,7 +85,7 @@ class FleetEmotion:
         Returns:
             bool: If all ships oath.
         """
-        return getattr(self.config, f'Emotion_Fleet{self.fleet}Oath')
+        return getattr(self.config, f"Emotion_Fleet{self.fleet}Oath")
 
     @property
     def speed(self):
@@ -115,7 +115,9 @@ class FleetEmotion:
         return DIC_RECOVER_MAX[self.recover]
 
     def update(self):
-        recover_count = int(int(datetime.now().timestamp()) // 360 - int(self.record.timestamp()) // 360)
+        recover_count = int(
+            int(datetime.now().timestamp()) // 360 - int(self.record.timestamp()) // 360
+        )
         recover_count = max(recover_count, 0)
         self.current = min(max(self.value, 0) + self.speed * recover_count, self.max)
 
@@ -166,7 +168,7 @@ class Emotion:
 
     def show(self):
         for fleet in self.fleets:
-            logger.attr(f'Emotion fleet_{fleet.fleet}', fleet.value)
+            logger.attr(f"Emotion fleet_{fleet.fleet}", fleet.value)
 
     @property
     def reduce_per_battle(self):
@@ -188,28 +190,28 @@ class Emotion:
 
         method = self.config.Fleet_FleetOrder
 
-        if method == 'fleet1_mob_fleet2_boss':
+        if method == "fleet1_mob_fleet2_boss":
             battle = (battle - 1, 1)
-        elif method == 'fleet1_boss_fleet2_mob':
+        elif method == "fleet1_boss_fleet2_mob":
             battle = (1, battle - 1)
-        elif method == 'fleet1_all_fleet2_standby':
+        elif method == "fleet1_all_fleet2_standby":
             battle = (battle, 0)
-        elif method == 'fleet1_standby_fleet2_all':
+        elif method == "fleet1_standby_fleet2_all":
             battle = (0, battle)
         else:
-            raise ScriptError(f'Unknown fleet order: {method}')
+            raise ScriptError(f"Unknown fleet order: {method}")
 
         battle = tuple(np.array(battle) * self.reduce_per_battle)
-        logger.info(f'Expect emotion reduce: {battle}')
+        logger.info(f"Expect emotion reduce: {battle}")
 
         self.update()
         self.record()
         self.show()
         recovered = max([f.get_recovered(b) for f, b in zip(self.fleets, battle)])
         if recovered > datetime.now():
-            logger.info('Delay current task to prevent emotion control in the future')
+            logger.info("Delay current task to prevent emotion control in the future")
             self.config.task_delay(target=recovered)
-            raise ScriptEnd('Emotion control')
+            raise ScriptEnd("Emotion control")
 
     def wait(self, fleet_index):
         """
@@ -225,14 +227,16 @@ class Emotion:
         fleet = self.fleets[fleet_index - 1]
         recovered = fleet.get_recovered(expected_reduce=self.reduce_per_battle)
         if recovered > datetime.now():
-            logger.hr('Emotion wait')
-            logger.info(f'Emotion of fleet {fleet_index} will recover to {fleet.limit} at {recovered}')
+            logger.hr("Emotion wait")
+            logger.info(
+                f"Emotion of fleet {fleet_index} will recover to {fleet.limit} at {recovered}"
+            )
 
             while 1:
                 if datetime.now() > recovered:
                     break
 
-                logger.attr('Wait until', recovered)
+                logger.attr("Wait until", recovered)
                 sleep(60)
 
     def reduce(self, fleet_index):
@@ -244,7 +248,7 @@ class Emotion:
         Args:
             fleet_index (int): 1 or 2.
         """
-        logger.hr('Emotion reduce')
+        logger.hr("Emotion reduce")
         self.update()
 
         fleet = self.fleets[fleet_index - 1]
@@ -262,18 +266,20 @@ class Emotion:
         return random_normal_distribution_int(55, 105, n=2)
 
     def bug_threshold_reset(self):
-        """ Call this method after emotion bug triggered. """
-        del self.__dict__['bug_threshold']
+        """Call this method after emotion bug triggered."""
+        del self.__dict__["bug_threshold"]
 
     def triggered_bug(self):
         """
         Azur Lane client does not calculate emotion correctly, which is a bug.
         After a long run, we have to restart game client and let the client update it.
         """
-        logger.attr('Emotion_bug', f'{self.total_reduced}/{self.bug_threshold}')
+        logger.attr("Emotion_bug", f"{self.total_reduced}/{self.bug_threshold}")
         if self.total_reduced >= self.bug_threshold:
-            logger.info('Azur Lane client does not calculate emotion correctly, which is a bug. '
-                        'After a long run, we have to restart game client and let the client update it.')
+            logger.info(
+                "Azur Lane client does not calculate emotion correctly, which is a bug. "
+                "After a long run, we have to restart game client and let the client update it."
+            )
             self.total_reduced = 0
             self.bug_threshold_reset()
             return True

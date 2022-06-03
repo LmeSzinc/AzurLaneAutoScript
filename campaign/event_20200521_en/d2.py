@@ -1,10 +1,10 @@
 from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 
-MAP = CampaignMap('d2')
-MAP.shape = 'I7'
-MAP.camera_data = ['D2', 'D5', 'F3', 'F5']
-MAP.map_data = '''
+MAP = CampaignMap("d2")
+MAP.shape = "I7"
+MAP.camera_data = ["D2", "D5", "F3", "F5"]
+MAP.map_data = """
     SP -- -- -- -- -- ME ++ MB 
     -- ME -- MS ME -- -- ++ -- 
     -- -- ME ++ ++ ++ -- -- -- 
@@ -12,8 +12,8 @@ MAP.map_data = '''
     ME MS -- ++ ++ ++ -- -- -- 
     -- ME -- ME -- -- -- ++ -- 
     SP -- -- -- -- ME -- ++ MB 
-'''
-MAP.weight_data = '''
+"""
+MAP.weight_data = """
     10 10 10 10 10 10 10 10 10
     10 10 10 10 10 10 10 10 10
     10 10 10 10 10 10 10 10 10
@@ -21,16 +21,17 @@ MAP.weight_data = '''
     10 10 10 10 10 10 10 10 10
     10 10 10 10 10 10 10 10 10
     10 10 10 10 10 10 10 10 10
-'''
+"""
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 2, 'siren': 2},
-    {'battle': 1, 'enemy': 1},
-    {'battle': 2, 'enemy': 2, 'siren': 1},
-    {'battle': 3, 'enemy': 1},
-    {'battle': 4, 'enemy': 1},
-    {'battle': 5},
-    {'battle': 6, 'boss': 1},
+    {"battle": 0, "enemy": 2, "siren": 2},
+    {"battle": 1, "enemy": 1},
+    {"battle": 2, "enemy": 2, "siren": 1},
+    {"battle": 3, "enemy": 1},
+    {"battle": 4, "enemy": 1},
+    {"battle": 5},
+    {"battle": 6, "boss": 1},
 ]
+
 
 class Config:
     SUBMARINE = 0
@@ -45,16 +46,16 @@ class Config:
     INTERNAL_LINES_HOUGHLINES_THRESHOLD = 50
     EDGE_LINES_HOUGHLINES_THRESHOLD = 50
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (150, 255 - 24),
-        'width': (0.9, 10),
-        'prominence': 10,
-        'distance': 35,
+        "height": (150, 255 - 24),
+        "width": (0.9, 10),
+        "prominence": 10,
+        "distance": 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 24, 255),
-        'prominence': 10,
-        'distance': 50,
-        'wlen': 1000
+        "height": (255 - 24, 255),
+        "prominence": 10,
+        "distance": 50,
+        "wlen": 1000,
     }
 
 

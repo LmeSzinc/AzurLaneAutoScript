@@ -16,8 +16,8 @@ class RaidStage:
         return self.name
 
 
-STAGES = ['easy', 'normal', 'hard']
-STAGE_FILTER = Filter(regex=re.compile('(\w+)'), attr=['name'])
+STAGES = ["easy", "normal", "hard"]
+STAGE_FILTER = Filter(regex=re.compile("(\w+)"), attr=["name"])
 
 
 class RaidDaily(RaidRun):
@@ -40,7 +40,7 @@ class RaidDaily(RaidRun):
 
             ocr = raid_ocr(raid=self.config.Campaign_Event, mode=mode)
             remain, _, _ = ocr.ocr(self.device.image)
-            logger.attr(f'{mode.capitalize()} Remain', remain)
+            logger.attr(f"{mode.capitalize()} Remain", remain)
 
             # End
             if remain == prev:
@@ -53,7 +53,7 @@ class RaidDaily(RaidRun):
 
         return remain
 
-    def run(self, name=''):
+    def run(self, name=""):
         """
         Args:
             name (str): Raid name, such as 'raid_20200624'

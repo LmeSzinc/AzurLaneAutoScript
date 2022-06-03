@@ -17,7 +17,7 @@ class CampaignBase(CampaignBase_):
         Returns:
             Button:
         """
-        if '-5' not in name:
+        if "-5" not in name:
             return super().campaign_get_entrance(name)
 
         sim, button = TEMPLATE_STAGE_SOS.match_result(self.device.image)

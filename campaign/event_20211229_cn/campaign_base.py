@@ -4,12 +4,12 @@ from module.logger import logger
 
 class CampaignBase(CampaignBase_):
     STAGE_INCREASE = [
-        'A1 > A2 > A3',
-        'B1 > B2 > BS1 > B3',
-        'C1 > C2 > C3',
-        'D1 > D2 > DS1 > D3',
-        'SP1 > SP2 > SP3 > SP4',
-        'T1 > T2 > T3 > T4',
+        "A1 > A2 > A3",
+        "B1 > B2 > BS1 > B3",
+        "C1 > C2 > C3",
+        "D1 > D2 > DS1 > D3",
+        "SP1 > SP2 > SP3 > SP4",
+        "T1 > T2 > T3 > T4",
     ]
 
     def handle_clear_mode_config_cover(self):
@@ -28,4 +28,4 @@ class CampaignBase(CampaignBase_):
         #     new[0] = max(new[0] - 1, 0)
         # self.enemy_round = new
         # from module.logger import logger
-        logger.info(f'Enemy round: {self.enemy_round}')
+        logger.info(f"Enemy round: {self.enemy_round}")

@@ -25,13 +25,13 @@ class BattlePass(Combat, UI):
             # color may be different depending on background.
             r, _, _ = get_color(self.device.image, BATTLE_PASS_RED_DOT.area)
             if r > BATTLE_PASS_RED_DOT.color[0] - 40:
-                logger.info('Found battle pass red dot')
+                logger.info("Found battle pass red dot")
                 return True
             else:
-                logger.info('No battle pass red dot')
+                logger.info("No battle pass red dot")
                 return False
         else:
-            logger.warning('No battle pass entrance')
+            logger.warning("No battle pass entrance")
             return False
 
     def handle_battle_pass_popup(self):
@@ -47,8 +47,13 @@ class BattlePass(Combat, UI):
         def appear_button():
             return self.appear(REWARD_GOTO_BATTLE_PASS, offset=(10, 150))
 
-        self.ui_click(REWARD_GOTO_BATTLE_PASS, appear_button=appear_button, check_button=BATTLE_PASS_CHECK,
-                      additional=self.handle_battle_pass_popup, skip_first_screenshot=True)
+        self.ui_click(
+            REWARD_GOTO_BATTLE_PASS,
+            appear_button=appear_button,
+            check_button=BATTLE_PASS_CHECK,
+            additional=self.handle_battle_pass_popup,
+            skip_first_screenshot=True,
+        )
 
     def battle_pass_receive(self, skip_first_screenshot=True):
         """
@@ -59,7 +64,7 @@ class BattlePass(Combat, UI):
             in: page_battle_pass
             out: page_battle_pass
         """
-        logger.hr('Battle pass receive', level=1)
+        logger.hr("Battle pass receive", level=1)
         self.battle_status_click_interval = 2
         confirm_timer = Timer(1, count=3).start()
         received = False
@@ -72,15 +77,16 @@ class BattlePass(Combat, UI):
             if self.appear_then_click(REWARD_RECEIVE, offset=(20, 20), interval=2):
                 confirm_timer.reset()
                 continue
-            if self.appear(REWARD_RECEIVE_SP, offset=(20, 20), interval=2) \
-                    and REWARD_RECEIVE_SP.match_appear_on(self.device.image):
+            if self.appear(
+                REWARD_RECEIVE_SP, offset=(20, 20), interval=2
+            ) and REWARD_RECEIVE_SP.match_appear_on(self.device.image):
                 self.device.click(REWARD_RECEIVE_SP)
                 confirm_timer.reset()
                 continue
             if self.handle_battle_pass_popup():
                 confirm_timer.reset()
                 continue
-            if self.handle_popup_confirm('BATTLE_PASS'):
+            if self.handle_popup_confirm("BATTLE_PASS"):
                 # Lock new META ships
                 confirm_timer.reset()
                 continue
@@ -94,13 +100,15 @@ class BattlePass(Combat, UI):
                 continue
 
             # End
-            if self.appear(BATTLE_PASS_CHECK, offset=(20, 20)) and not self.appear(REWARD_RECEIVE, offset=(20, 20)):
+            if self.appear(BATTLE_PASS_CHECK, offset=(20, 20)) and not self.appear(
+                REWARD_RECEIVE, offset=(20, 20)
+            ):
                 if confirm_timer.reached():
                     break
             else:
                 confirm_timer.reset()
 
-        logger.info(f'Battle pass receive finished, received={received}')
+        logger.info(f"Battle pass receive finished, received={received}")
         return received
 
     def run(self):

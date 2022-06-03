@@ -5,10 +5,10 @@ from module.map.map_grids import RoadGrids, SelectedGrids
 
 from .campaign_8_1 import Config as ConfigBase
 
-MAP = CampaignMap('8-3')
-MAP.shape = 'H5'
-MAP.camera_data = ['D2', 'D3', 'E3']
-MAP.camera_data_spawn_point = ['E3']
+MAP = CampaignMap("8-3")
+MAP.shape = "H5"
+MAP.camera_data = ["D2", "D3", "E3"]
+MAP.camera_data_spawn_point = ["E3"]
 MAP.map_data = """
     MB ME -- ++ ++ ME -- MB
     ME ME ME -- ++ ME ME --
@@ -25,24 +25,61 @@ MAP.weight_data = """
     
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 3},
-    {'battle': 1, 'enemy': 2, 'mystery': 1},
-    {'battle': 2, 'enemy': 2},
-    {'battle': 3, 'enemy': 1},
-    {'battle': 4, 'enemy': 1, 'boss': 1},
+    {"battle": 0, "enemy": 3},
+    {"battle": 1, "enemy": 2, "mystery": 1},
+    {"battle": 2, "enemy": 2},
+    {"battle": 3, "enemy": 1},
+    {"battle": 4, "enemy": 1, "boss": 1},
 ]
-A1, B1, C1, D1, E1, F1, G1, H1, \
-A2, B2, C2, D2, E2, F2, G2, H2, \
-A3, B3, C3, D3, E3, F3, G3, H3, \
-A4, B4, C4, D4, E4, F4, G4, H4, \
-A5, B5, C5, D5, E5, F5, G5, H5, \
-    = MAP.flatten()
+(
+    A1,
+    B1,
+    C1,
+    D1,
+    E1,
+    F1,
+    G1,
+    H1,
+    A2,
+    B2,
+    C2,
+    D2,
+    E2,
+    F2,
+    G2,
+    H2,
+    A3,
+    B3,
+    C3,
+    D3,
+    E3,
+    F3,
+    G3,
+    H3,
+    A4,
+    B4,
+    C4,
+    D4,
+    E4,
+    F4,
+    G4,
+    H4,
+    A5,
+    B5,
+    C5,
+    D5,
+    E5,
+    F5,
+    G5,
+    H5,
+) = MAP.flatten()
 
 road_A1 = RoadGrids([[A2, B1], [B1, B2, B3], [A2, B2, C2], [B3, C2], D3])
 road_H1 = RoadGrids([[F1, G2, H3], [F1, G2, G3], [F2, G2, H3], [F2, G3], E3])
 road_MY = RoadGrids([A4, [A2, B3]])
-road_middle = RoadGrids([E5, [D5, E4], D3]) \
-    .combine(RoadGrids([H4, H3, [F1, G2, G3], [F2, G3], E3]))
+road_middle = RoadGrids([E5, [D5, E4], D3]).combine(
+    RoadGrids([H4, H3, [F1, G2, G3], [F2, G3], E3])
+)
 step_on = SelectedGrids([D3, E3])
 
 

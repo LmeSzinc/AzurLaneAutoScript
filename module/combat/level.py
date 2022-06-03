@@ -35,17 +35,23 @@ class Level(ModuleBase):
         self._lv = [-1] * 6
         self._lv_before_battle = [-1] * 6
 
-    @Config.when(SERVER='en')
+    @Config.when(SERVER="en")
     def _lv_grid(self):
-        return ButtonGrid(origin=(56, 113), delta=(0, 100), button_shape=(46, 19), grid_shape=(1, 6))
+        return ButtonGrid(
+            origin=(56, 113), delta=(0, 100), button_shape=(46, 19), grid_shape=(1, 6)
+        )
 
-    @Config.when(SERVER='jp')
+    @Config.when(SERVER="jp")
     def _lv_grid(self):
-        return ButtonGrid(origin=(58, 128), delta=(0, 100), button_shape=(46, 19), grid_shape=(1, 6))
+        return ButtonGrid(
+            origin=(58, 128), delta=(0, 100), button_shape=(46, 19), grid_shape=(1, 6)
+        )
 
     @Config.when(SERVER=None)
     def _lv_grid(self):
-        return ButtonGrid(origin=(58, 128), delta=(0, 100), button_shape=(46, 19), grid_shape=(1, 6))
+        return ButtonGrid(
+            origin=(58, 128), delta=(0, 100), button_shape=(46, 19), grid_shape=(1, 6)
+        )
 
     def lv_get(self, after_battle=False):
         """
@@ -55,14 +61,17 @@ class Level(ModuleBase):
         Returns:
             list[int]:
         """
-        if not self.config.StopCondition_ReachLevel and not self.config.STOP_IF_REACH_LV32:
+        if (
+            not self.config.StopCondition_ReachLevel
+            and not self.config.STOP_IF_REACH_LV32
+        ):
             return [-1] * 6
 
         self._lv_before_battle = self.lv if after_battle else [-1] * 6
 
-        ocr = LevelOcr(self._lv_grid().buttons, name='LevelOcr')
+        ocr = LevelOcr(self._lv_grid().buttons, name="LevelOcr")
         self.lv = ocr.ocr(self.device.image)
-        logger.attr('LEVEL', ', '.join(str(data) for data in self.lv))
+        logger.attr("LEVEL", ", ".join(str(data) for data in self.lv))
 
         if after_battle:
             self.lv_triggered()
@@ -78,15 +87,17 @@ class Level(ModuleBase):
         for i in range(6):
             before, after = self._lv_before_battle[i], self.lv[i]
             if after > before > 0:
-                logger.info(f'Position {i} LV.{before} -> LV.{after}')
+                logger.info(f"Position {i} LV.{before} -> LV.{after}")
             if after >= limit > before > 0:
                 if after - before == 1 or after < 35:
-                    logger.info(f'Position {i} LV.{limit} Reached')
+                    logger.info(f"Position {i} LV.{limit} Reached")
                     self.config.LV_TRIGGERED = True
                     return True
                 else:
-                    logger.warning(f'Level gap between {before} and {after} is too large. '
-                                   f'This will not be considered as a trigger')
+                    logger.warning(
+                        f"Level gap between {before} and {after} is too large. "
+                        f"This will not be considered as a trigger"
+                    )
 
         return False
 
@@ -95,7 +106,7 @@ class Level(ModuleBase):
             return False
 
         if self.lv[0] >= 32:
-            logger.info(f'Position 0 LV.32 Reached')
+            logger.info(f"Position 0 LV.32 Reached")
             self.config.LV32_TRIGGERED = True
             return True
 

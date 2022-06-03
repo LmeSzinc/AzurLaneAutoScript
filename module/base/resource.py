@@ -18,7 +18,7 @@ def del_cached_property(obj, name):
 
 def get_assets_from_file(file, regex):
     assets = set()
-    with open(file, 'r', encoding='utf-8') as f:
+    with open(file, "r", encoding="utf-8") as f:
         for row in f.readlines():
             result = regex.search(row)
             if result:
@@ -31,19 +31,18 @@ class PreservedAssets:
     def ui(self):
         assets = set()
         assets |= get_assets_from_file(
-            file='./module/ui/assets.py',
-            regex=re.compile(r'^([A-Za-z][A-Za-z0-9_]+) = ')
+            file="./module/ui/assets.py",
+            regex=re.compile(r"^([A-Za-z][A-Za-z0-9_]+) = "),
         )
         assets |= get_assets_from_file(
-            file='./module/ui/ui.py',
-            regex=re.compile(r'\(([A-Z][A-Z0-9_]+),')
+            file="./module/ui/ui.py", regex=re.compile(r"\(([A-Z][A-Z0-9_]+),")
         )
         assets |= get_assets_from_file(
-            file='./module/handler/info_handler.py',
-            regex=re.compile(r'\(([A-Z][A-Z0-9_]+),')
+            file="./module/handler/info_handler.py",
+            regex=re.compile(r"\(([A-Z][A-Z0-9_]+),"),
         )
         # MAIN_CHECK == MAIN_GOTO_CAMPAIGN
-        assets.add('MAIN_GOTO_CAMPAIGN')
+        assets.add("MAIN_GOTO_CAMPAIGN")
         return assets
 
 
@@ -65,20 +64,21 @@ class Resource:
 
     @classmethod
     def is_loaded(cls, obj):
-        if hasattr(obj, '_image') and obj._image is None:
+        if hasattr(obj, "_image") and obj._image is None:
             return False
-        elif hasattr(obj, 'image') and obj.image is None:
+        elif hasattr(obj, "image") and obj.image is None:
             return False
         return True
 
     @classmethod
     def resource_show(cls):
         from module.logger import logger
-        logger.hr('Show resource')
+
+        logger.hr("Show resource")
         for key, obj in cls.instances.items():
             if cls.is_loaded(obj):
                 continue
-            logger.info(f'{obj}: {key}')
+            logger.info(f"{obj}: {key}")
 
     @staticmethod
     def parse_property(data):
@@ -95,19 +95,20 @@ class Resource:
             return data
 
 
-def release_resources(next_task=''):
+def release_resources(next_task=""):
     # Release all OCR models
     # Usually to have 2 models loaded and each model takes about 20MB
     # This will release 20-40MB
     from module.ocr.ocr import OCR_MODEL
-    if 'Opsi' in next_task or 'commission' in next_task:
+
+    if "Opsi" in next_task or "commission" in next_task:
         # OCR models will be used soon, don't release
         models = []
     elif next_task:
         # Release OCR models except 'azur_lane'
-        models = ['cnocr', 'jp', 'tw']
+        models = ["cnocr", "jp", "tw"]
     else:
-        models = ['azur_lane', 'cnocr', 'jp', 'tw']
+        models = ["azur_lane", "cnocr", "jp", "tw"]
     for model in models:
         del_cached_property(OCR_MODEL, model)
 
@@ -125,15 +126,16 @@ def release_resources(next_task=''):
 
     # Release cached images for map detection
     from module.map_detection.utils_assets import ASSETS
+
     attr_list = [
-        'ui_mask',
-        'ui_mask_os',
-        'ui_mask_stroke',
-        'ui_mask_in_map',
-        'ui_mask_os_in_map',
-        'tile_center_image',
-        'tile_corner_image',
-        'tile_corner_image_list'
+        "ui_mask",
+        "ui_mask_os",
+        "ui_mask_stroke",
+        "ui_mask_in_map",
+        "ui_mask_os_in_map",
+        "tile_center_image",
+        "tile_corner_image",
+        "tile_corner_image_list",
     ]
     for attr in attr_list:
         del_cached_property(ASSETS, attr)

@@ -8,11 +8,13 @@ from module.ocr.ocr import Digit
 from module.retire.retirement import Retirement
 from module.shop.shop_general import GeneralShop
 
-RECORD_GACHA_OPTION = ('RewardRecord', 'gacha')
+RECORD_GACHA_OPTION = ("RewardRecord", "gacha")
 RECORD_GACHA_SINCE = (0,)
 OCR_BUILD_CUBE_COUNT = Digit(BUILD_CUBE_COUNT, letter=(255, 247, 247), threshold=64)
 OCR_BUILD_SUBMIT_COUNT = Digit(BUILD_SUBMIT_COUNT, letter=(255, 247, 247), threshold=64)
-OCR_BUILD_SUBMIT_WW_COUNT = Digit(BUILD_SUBMIT_WW_COUNT, letter=(255, 247, 247), threshold=64)
+OCR_BUILD_SUBMIT_WW_COUNT = Digit(
+    BUILD_SUBMIT_WW_COUNT, letter=(255, 247, 247), threshold=64
+)
 
 
 class RewardGacha(GachaUI, GeneralShop, Retirement):
@@ -41,8 +43,9 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
             return False
 
         # Ensure correct page to be able to prep in
-        if not self.appear(BUILD_SUBMIT_ORDERS) \
-                and not self.appear(BUILD_SUBMIT_WW_ORDERS):
+        if not self.appear(BUILD_SUBMIT_ORDERS) and not self.appear(
+            BUILD_SUBMIT_WW_ORDERS
+        ):
             return False
 
         # Use 'appear' to update actual position of assets
@@ -67,21 +70,30 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
                 continue
 
             # End
-            if self.appear(BUILD_PLUS, offset=index_offset) \
-                    and self.appear(BUILD_MINUS, offset=index_offset):
+            if self.appear(BUILD_PLUS, offset=index_offset) and self.appear(
+                BUILD_MINUS, offset=index_offset
+            ):
                 if confirm_timer.reached():
                     break
 
         # Check for exception, exited prematurely
         # Apply appropriate submission count
         if ocr_submit is None:
-            logger.error('Failed to identify ocr asset required, '
-                         'cannot continue prep work')
+            logger.error(
+                "Failed to identify ocr asset required, " "cannot continue prep work"
+            )
             exit(1)
         area = ocr_submit.buttons[0]
-        ocr_submit.buttons = [(BUILD_MINUS.button[2] + 3, area[1], BUILD_PLUS.button[0] - 3, area[3])]
-        self.ui_ensure_index(target, letter=ocr_submit, prev_button=BUILD_MINUS,
-                             next_button=BUILD_PLUS, skip_first_screenshot=True)
+        ocr_submit.buttons = [
+            (BUILD_MINUS.button[2] + 3, area[1], BUILD_PLUS.button[0] - 3, area[3])
+        ]
+        self.ui_ensure_index(
+            target,
+            letter=ocr_submit,
+            prev_button=BUILD_MINUS,
+            next_button=BUILD_PLUS,
+            skip_first_screenshot=True,
+        )
 
         return True
 
@@ -104,7 +116,7 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
 
             # Reached 0, cannot execute gacha roll
             if not target_count:
-                logger.warning('Insufficient gold and/or cubes to gacha roll')
+                logger.warning("Insufficient gold and/or cubes to gacha roll")
                 break
 
             # Insufficient resources, reduce by 1 and re-calculate
@@ -115,7 +127,7 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
             break
 
         # Modify resources, return current 'target_count'
-        logger.info(f'Able to submit up to {target_count} build orders')
+        logger.info(f"Able to submit up to {target_count} build orders")
         self._shop_gold_coins -= gold_total
         self.build_cube_count -= cube_total
         return target_count
@@ -144,28 +156,30 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
 
         # Transition to 'target_pool' if needed, update
         # 'target_pool' appropriately
-        if target_pool == 'wishing_well':
+        if target_pool == "wishing_well":
             if self._gacha_side_navbar.get_total(main=self) != 5:
-                logger.warning('\'wishing_well\' is not available, '
-                               'default to \'light\' pool')
-                target_pool = 'light'
+                logger.warning(
+                    "'wishing_well' is not available, " "default to 'light' pool"
+                )
+                target_pool = "light"
             else:
                 self.gacha_side_navbar_ensure(upper=2)
                 if self.appear(BUILD_WW_CHECK):
-                    logger.error('\'wishing_well\' must be configured '
-                                 'manually by user, cannot continue '
-                                 'gacha_goto_pool')
+                    logger.error(
+                        "'wishing_well' must be configured "
+                        "manually by user, cannot continue "
+                        "gacha_goto_pool"
+                    )
                     exit(1)
-        elif target_pool == 'event':
+        elif target_pool == "event":
             gacha_bottom_navbar = self._gacha_bottom_navbar(is_build=True)
             if gacha_bottom_navbar.get_total(main=self) == 3:
-                logger.warning('\'event\' is not available, default '
-                               'to \'light\' pool')
-                target_pool = 'light'
+                logger.warning("'event' is not available, default " "to 'light' pool")
+                target_pool = "light"
             else:
                 self.gacha_bottom_navbar_ensure(left=1, is_build=True)
-        elif target_pool in ['heavy', 'special']:
-            if target_pool == 'heavy':
+        elif target_pool in ["heavy", "special"]:
+            if target_pool == "heavy":
                 self.gacha_bottom_navbar_ensure(right=2, is_build=True)
             else:
                 self.gacha_bottom_navbar_ensure(right=1, is_build=True)
@@ -210,7 +224,7 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
                 confirm_timer.reset()
                 continue
 
-            if self.handle_popup_confirm('FINISH_ORDERS'):
+            if self.handle_popup_confirm("FINISH_ORDERS"):
                 if confirm_mode:
                     self.device.sleep((0.5, 0.8))
                     self.device.click(BUILD_FINISH_ORDERS)  # Skip animation, safe area
@@ -239,7 +253,7 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
             in: POPUP_CONFIRM
             out: BUILD_FINISH_ORDERS
         """
-        logger.info('Submit gacha')
+        logger.info("Submit gacha")
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -248,9 +262,9 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
 
             if self.appear(POPUP_CONFIRM, offset=(20, 80), interval=3):
                 # Alter asset name for click
-                POPUP_CONFIRM.name = POPUP_CONFIRM.name + '_' + 'GACHA_ORDER'
+                POPUP_CONFIRM.name = POPUP_CONFIRM.name + "_" + "GACHA_ORDER"
                 self.device.click(POPUP_CONFIRM)
-                POPUP_CONFIRM.name = POPUP_CONFIRM.name[:-len('GACHA_ORDER') - 1]
+                POPUP_CONFIRM.name = POPUP_CONFIRM.name[: -len("GACHA_ORDER") - 1]
                 continue
 
             # End
@@ -288,7 +302,7 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
         # Determine appropriate cost based on gacha_goto_pool
         gold_cost = 600
         cube_cost = 1
-        if actual_pool in ['heavy', 'special', 'event', 'wishing_well']:
+        if actual_pool in ["heavy", "special", "event", "wishing_well"]:
             gold_cost = 1500
             cube_cost = 2
 

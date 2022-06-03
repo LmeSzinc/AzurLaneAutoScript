@@ -12,31 +12,31 @@ class AppControl(Adb, WSA, Uiautomator2):
 
     def app_is_running(self) -> bool:
         method = self.config.Emulator_ControlMethod
-        if 'wsa' in self.config.Emulator_Serial:
+        if "wsa" in self.config.Emulator_Serial:
             package = self.app_current_wsa()
-        elif method == 'uiautomator2' or method == 'minitouch':
+        elif method == "uiautomator2" or method == "minitouch":
             package = self.app_current_uiautomator2()
         else:
             package = self.app_current_adb()
 
-        package = package.strip(' \t\r\n')
-        logger.attr('Package_name', package)
+        package = package.strip(" \t\r\n")
+        logger.attr("Package_name", package)
         return package == self.package
 
     def app_start(self):
         method = self.config.Emulator_ControlMethod
-        logger.info(f'App start: {self.package}')
-        if self.config.Emulator_Serial == 'wsa-0':
+        logger.info(f"App start: {self.package}")
+        if self.config.Emulator_Serial == "wsa-0":
             self.app_start_wsa(display=0)
-        elif method == 'uiautomator2' or method == 'minitouch':
+        elif method == "uiautomator2" or method == "minitouch":
             self.app_start_uiautomator2()
         else:
             self.app_start_adb()
 
     def app_stop(self):
         method = self.config.Emulator_ControlMethod
-        logger.info(f'App stop: {self.package}')
-        if method == 'uiautomator2' or method == 'minitouch':
+        logger.info(f"App stop: {self.package}")
+        if method == "uiautomator2" or method == "minitouch":
             self.app_stop_uiautomator2()
         else:
             self.app_stop_adb()
@@ -47,7 +47,7 @@ class AppControl(Adb, WSA, Uiautomator2):
             etree._Element: Select elements with `self.hierarchy.xpath('//*[@text="Hermit"]')` for example.
         """
         method = self.config.Emulator_ControlMethod
-        if method == 'uiautomator2' or method == 'minitouch':
+        if method == "uiautomator2" or method == "minitouch":
             self.hierarchy = self.dump_hierarchy_uiautomator2()
         else:
             self.hierarchy = self.dump_hierarchy_adb()

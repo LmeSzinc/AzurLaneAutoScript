@@ -5,20 +5,20 @@ from module.map.map_base import CampaignMap
 from module.map.map_grids import RoadGrids, SelectedGrids
 
 MAP = CampaignMap()
-MAP.map_data = '''
+MAP.map_data = """
     -- -- ++ ++ -- ME -- ++ ++ ME --
     ME ME ++ ++ ME -- ME -- ME -- ME
     ME -- MB -- MB -- -- -- -- -- --
     ++ -- MB MB -- __ ME ++ ++ ME ++
     SP -- ME -- ME -- -- ++ ME -- ME
     SP SP ++ ++ ++ ME -- -- -- -- ME
-'''
+"""
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 3},
-    {'battle': 1, 'enemy': 2},
-    {'battle': 2, 'enemy': 1},
-    {'battle': 3, 'enemy': 1},
-    {'battle': 4, 'boss': 1},
+    {"battle": 0, "enemy": 3},
+    {"battle": 1, "enemy": 2},
+    {"battle": 2, "enemy": 1},
+    {"battle": 3, "enemy": 1},
+    {"battle": 4, "boss": 1},
 ]
 
 

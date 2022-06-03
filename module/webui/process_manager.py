@@ -119,6 +119,7 @@ class ProcessManager:
         set_func_logger(func=q.put)
 
         from module.config.config import AzurLaneConfig
+
         AzurLaneConfig.stop_event = e
         try:
             # Run alas

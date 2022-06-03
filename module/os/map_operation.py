@@ -14,7 +14,9 @@ from module.os_handler.port import PortHandler
 from module.os_handler.storage import StorageHandler
 
 
-class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandler, OSFleetSelector):
+class OSMapOperation(
+    MapOrderHandler, MissionHandler, PortHandler, StorageHandler, OSFleetSelector
+):
     zone: Zone
     is_zone_name_hidden = False
 
@@ -37,69 +39,97 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
             in: IN_MAP, is_meowfficer_searching == True
         """
         return color_bar_percentage(
-            self.device.image, area=MEOWFFICER_SEARCHING_PERCENTAGE.area, prev_color=(74, 223, 255))
+            self.device.image,
+            area=MEOWFFICER_SEARCHING_PERCENTAGE.area,
+            prev_color=(74, 223, 255),
+        )
 
-    @Config.when(SERVER='en')
+    @Config.when(SERVER="en")
     def get_zone_name(self):
         # For EN only
         from string import whitespace
-        ocr = Ocr(MAP_NAME, lang='cnocr', letter=(214, 235, 235), threshold=96, name='OCR_OS_MAP_NAME')
+
+        ocr = Ocr(
+            MAP_NAME,
+            lang="cnocr",
+            letter=(214, 235, 235),
+            threshold=96,
+            name="OCR_OS_MAP_NAME",
+        )
         name = ocr.ocr(self.device.image)
         name = name.translate(dict.fromkeys(map(ord, whitespace)))
         name = name.lower()
-        self.is_zone_name_hidden = 'safe' in name
-        if '-' in name:
-            name = name.split('-')[0]
-        if 'é' in name:  # Méditerranée name maps
-            name = name.replace('é', 'e')
-        if 'nvcity' in name:  # NY City Port read as 'V' rather than 'Y'
-            name = 'nycity'
+        self.is_zone_name_hidden = "safe" in name
+        if "-" in name:
+            name = name.split("-")[0]
+        if "é" in name:  # Méditerranée name maps
+            name = name.replace("é", "e")
+        if "nvcity" in name:  # NY City Port read as 'V' rather than 'Y'
+            name = "nycity"
         return name
 
-    @Config.when(SERVER='jp')
+    @Config.when(SERVER="jp")
     def get_zone_name(self):
         # For JP only
-        ocr = Ocr(MAP_NAME, lang='jp', letter=(214, 231, 255), threshold=127, name='OCR_OS_MAP_NAME')
+        ocr = Ocr(
+            MAP_NAME,
+            lang="jp",
+            letter=(214, 231, 255),
+            threshold=127,
+            name="OCR_OS_MAP_NAME",
+        )
         name = ocr.ocr(self.device.image)
-        self.is_zone_name_hidden = '安全' in name
+        self.is_zone_name_hidden = "安全" in name
         # Remove punctuations
-        for char in '・':
-            name = name.replace(char, '')
+        for char in "・":
+            name = name.replace(char, "")
         # Remove '異常海域' and 'セイレーン要塞海域'
-        if '異' in name:
-            name = name.split('異')[0]
-        if 'セ' in name:
-            name = name.split('セ')[0]
+        if "異" in name:
+            name = name.split("異")[0]
+        if "セ" in name:
+            name = name.split("セ")[0]
         # Remove '安全海域' or '秘密海域' at the end of jp ocr.
-        name = name.rstrip('安全秘密異常要塞海域')
+        name = name.rstrip("安全秘密異常要塞海域")
         # Kanji '一' and '力' are not used, while Katakana 'ー' and 'カ' are misread as Kanji sometimes.
         # Katakana 'ペ' may be misread as Hiragana 'ぺ'.
-        name = name.replace('一', 'ー').replace('力', 'カ').replace('ぺ', 'ペ')
+        name = name.replace("一", "ー").replace("力", "カ").replace("ぺ", "ペ")
         return name
 
-    @Config.when(SERVER='tw')
+    @Config.when(SERVER="tw")
     def get_zone_name(self):
         # For TW only
-        ocr = Ocr(MAP_NAME, lang='tw', letter=(198, 215, 239), threshold=127, name='OCR_OS_MAP_NAME')
+        ocr = Ocr(
+            MAP_NAME,
+            lang="tw",
+            letter=(198, 215, 239),
+            threshold=127,
+            name="OCR_OS_MAP_NAME",
+        )
         name = ocr.ocr(self.device.image)
-        self.is_zone_name_hidden = '安全' in name
+        self.is_zone_name_hidden = "安全" in name
         # Remove '塞壬要塞海域'
-        if '塞' in name:
-            name = name.split('塞')[0]
+        if "塞" in name:
+            name = name.split("塞")[0]
         # Remove '安全海域', '隱秘海域', '深淵海域' at the end of tw ocr.
-        name = name.rstrip('安全隱秘塞壬要塞深淵海域一')
+        name = name.rstrip("安全隱秘塞壬要塞深淵海域一")
         return name
 
     @Config.when(SERVER=None)
     def get_zone_name(self):
         # For CN only
-        ocr = Ocr(MAP_NAME, lang='cnocr', letter=(214, 231, 255), threshold=127, name='OCR_OS_MAP_NAME')
+        ocr = Ocr(
+            MAP_NAME,
+            lang="cnocr",
+            letter=(214, 231, 255),
+            threshold=127,
+            name="OCR_OS_MAP_NAME",
+        )
         name = ocr.ocr(self.device.image)
-        self.is_zone_name_hidden = '安全' in name
-        if '-' in name:
-            name = name.split('-')[0]
+        self.is_zone_name_hidden = "安全" in name
+        if "-" in name:
+            name = name.split("-")[0]
         else:
-            name = name.rstrip('安全隐秘塞壬要塞深渊海域-')
+            name = name.rstrip("安全隐秘塞壬要塞深渊海域-")
         return name
 
     def get_current_zone(self):
@@ -112,22 +142,22 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
             ScriptError:
         """
         name = self.get_zone_name()
-        logger.info(f'Map name processed: {name}')
+        logger.info(f"Map name processed: {name}")
         try:
             self.zone = self.name_to_zone(name)
         except ScriptError as e:
             raise MapDetectionError(*e.args)
-        logger.attr('Zone', self.zone)
+        logger.attr("Zone", self.zone)
         self.zone_config_set()
         return self.zone
 
     def zone_config_set(self):
         if self.zone.region == 5:
             self.config.HOMO_EDGE_COLOR_RANGE = (0, 8)
-            self.config.MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
+            self.config.MAP_ENSURE_EDGE_INSIGHT_CORNER = "bottom"
         else:
             self.config.HOMO_EDGE_COLOR_RANGE = (0, 33)
-            self.config.MAP_ENSURE_EDGE_INSIGHT_CORNER = ''
+            self.config.MAP_ENSURE_EDGE_INSIGHT_CORNER = ""
 
     def zone_init(self, skip_first_screenshot=True):
         """
@@ -152,7 +182,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
                 self.device.screenshot()
 
             if timeout.reached():
-                logger.warning('Zone init timeout')
+                logger.warning("Zone init timeout")
                 break
 
             if self.handle_map_event():
@@ -166,13 +196,15 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
             else:
                 timeout.reset()
 
-        logger.warning('Unable to get zone name, get current zone from globe map instead')
-        if hasattr(self, 'get_current_zone_from_globe'):
+        logger.warning(
+            "Unable to get zone name, get current zone from globe map instead"
+        )
+        if hasattr(self, "get_current_zone_from_globe"):
             return self.get_current_zone_from_globe()
         else:
-            logger.warning('OperationSiren.get_current_zone_from_globe() not exists')
+            logger.warning("OperationSiren.get_current_zone_from_globe() not exists")
             if not self.is_in_map():
-                logger.warning('Trying to get zone name, but not in OS map')
+                logger.warning("Trying to get zone name, but not in OS map")
             return self.get_current_zone()
 
     def is_in_special_zone(self):
@@ -193,7 +225,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
             in: is_in_map
             out: is_in_map, zone that you came from
         """
-        logger.hr('Map exit')
+        logger.hr("Map exit")
         confirm_timer = Timer(1, count=2)
         changed = False
         while 1:
@@ -211,7 +243,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
 
             if self.appear_then_click(MAP_EXIT, offset=(20, 20), interval=5):
                 continue
-            if self.handle_popup_confirm('MAP_EXIT'):
+            if self.handle_popup_confirm("MAP_EXIT"):
                 self.interval_reset(MAP_EXIT)
                 continue
             if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50)):

@@ -3,10 +3,10 @@ from module.logger import logger
 from module.map.map_base import CampaignMap
 from module.map.map_grids import RoadGrids, SelectedGrids
 
-MAP = CampaignMap('7-4')
-MAP.shape = 'H6'
-MAP.camera_data = ['D2', 'D4', 'E2', 'E4']
-MAP.camera_data_spawn_point = ['D2', 'D4']
+MAP = CampaignMap("7-4")
+MAP.shape = "H6"
+MAP.camera_data = ["D2", "D4", "E2", "E4"]
+MAP.camera_data_spawn_point = ["D2", "D4"]
 MAP.map_data = """
     MB ME ME -- ++ ++ ++ MB
     ME __ -- ME SP -- SP --
@@ -24,29 +24,70 @@ MAP.weight_data = """
     50 50 50 50 30 30 10 30
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 3},
-    {'battle': 1, 'enemy': 2},
-    {'battle': 2, 'enemy': 3, 'mystery': 1},
-    {'battle': 3, 'enemy': 2, 'mystery': 1},
-    {'battle': 4, 'enemy': 2},
-    {'battle': 5, 'boss': 1},
+    {"battle": 0, "enemy": 3},
+    {"battle": 1, "enemy": 2},
+    {"battle": 2, "enemy": 3, "mystery": 1},
+    {"battle": 3, "enemy": 2, "mystery": 1},
+    {"battle": 4, "enemy": 2},
+    {"battle": 5, "boss": 1},
 ]
-A1, B1, C1, D1, E1, F1, G1, H1, \
-A2, B2, C2, D2, E2, F2, G2, H2, \
-A3, B3, C3, D3, E3, F3, G3, H3, \
-A4, B4, C4, D4, E4, F4, G4, H4, \
-A5, B5, C5, D5, E5, F5, G5, H5, \
-A6, B6, C6, D6, E6, F6, G6, H6, \
-    = MAP.flatten()
+(
+    A1,
+    B1,
+    C1,
+    D1,
+    E1,
+    F1,
+    G1,
+    H1,
+    A2,
+    B2,
+    C2,
+    D2,
+    E2,
+    F2,
+    G2,
+    H2,
+    A3,
+    B3,
+    C3,
+    D3,
+    E3,
+    F3,
+    G3,
+    H3,
+    A4,
+    B4,
+    C4,
+    D4,
+    E4,
+    F4,
+    G4,
+    H4,
+    A5,
+    B5,
+    C5,
+    D5,
+    E5,
+    F5,
+    G5,
+    H5,
+    A6,
+    B6,
+    C6,
+    D6,
+    E6,
+    F6,
+    G6,
+    H6,
+) = MAP.flatten()
 
 road_a1 = RoadGrids([[A2, B1], [C3, D2]])
-road_g6 = RoadGrids([F6, E5, E4]) \
-    .combine(RoadGrids([[G4, H5], [G4, H3]]))
+road_g6 = RoadGrids([F6, E5, E4]).combine(RoadGrids([[G4, H5], [G4, H3]]))
 roads = [road_a1, road_g6]
 
 fleet_2_step_on = SelectedGrids([G4, D2, C3, E4])
-road_a5 = RoadGrids([A4, A2, [C3, D2]]) \
-    .combine(RoadGrids([D6, E5, E4]))
+road_a5 = RoadGrids([A4, A2, [C3, D2]]).combine(RoadGrids([D6, E5, E4]))
 
 
 class Config:

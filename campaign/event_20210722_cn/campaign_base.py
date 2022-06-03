@@ -4,11 +4,23 @@ from module.exception import CampaignNameError
 from module.logger import logger
 
 ANIMATION_PINK = Button(
-    area=(1186, 446, 1272, 493), color=(255, 153, 172), button=(1186, 446, 1272, 493), name='ANIMATION_PINK')
+    area=(1186, 446, 1272, 493),
+    color=(255, 153, 172),
+    button=(1186, 446, 1272, 493),
+    name="ANIMATION_PINK",
+)
 ANIMATION_ORANGE = Button(
-    area=(1186, 446, 1272, 493), color=(255, 177, 123), button=(1186, 446, 1272, 493), name='ANIMATION_ORANGE')
+    area=(1186, 446, 1272, 493),
+    color=(255, 177, 123),
+    button=(1186, 446, 1272, 493),
+    name="ANIMATION_ORANGE",
+)
 ANIMATION_BLUE = Button(
-    area=(1186, 446, 1272, 493), color=(176, 192, 251), button=(1186, 446, 1272, 493), name='ANIMATION_BLUE')
+    area=(1186, 446, 1272, 493),
+    color=(176, 192, 251),
+    button=(1186, 446, 1272, 493),
+    name="ANIMATION_BLUE",
+)
 
 
 class CampaignBase(CampaignBase_):
@@ -27,18 +39,18 @@ class CampaignBase(CampaignBase_):
         Returns:
             tuple[str]: Campaign_name and stage index in lowercase, Such as ['7', '2'], ['d', '3'], ['sp', '3'].
         """
-        if name == 'vsp' or name == 'sp':  # Difference
-            return 'ex_sp', '1'
-        elif name.startswith('extra'):
-            return 'ex_ex', '1'
-        elif '-' in name:
-            return name.split('-')
-        elif name.startswith('sp'):
-            return 'sp', name[-1]
+        if name == "vsp" or name == "sp":  # Difference
+            return "ex_sp", "1"
+        elif name.startswith("extra"):
+            return "ex_ex", "1"
+        elif "-" in name:
+            return name.split("-")
+        elif name.startswith("sp"):
+            return "sp", name[-1]
         elif name[-1].isdigit():
             return name[:-1], name[-1]
 
-        logger.warning(f'Unknown stage name: {name}')
+        logger.warning(f"Unknown stage name: {name}")
         return name[0], name[1:]
 
     @staticmethod
@@ -55,14 +67,14 @@ class CampaignBase(CampaignBase_):
         else:
             if name.isdigit():
                 return int(name)
-            elif name in ['a', 'c', 'as', 'cs', 'sp']:
+            elif name in ["a", "c", "as", "cs", "sp"]:
                 return 1
-            elif name in ['b', 'd', 'bs', 'ds', 'ex_ex', 'ex_sp']:  # Difference
+            elif name in ["b", "d", "bs", "ds", "ex_ex", "ex_sp"]:  # Difference
                 return 2
             else:
                 raise CampaignNameError
 
-    def campaign_set_chapter(self, name, mode='normal'):
+    def campaign_set_chapter(self, name, mode="normal"):
         """
         Args:
             name (str): Campaign name, such as '7-2', 'd3', 'sp3'.
@@ -72,34 +84,34 @@ class CampaignBase(CampaignBase_):
 
         if chapter.isdigit():
             self.ui_goto_campaign()
-            self.campaign_ensure_mode('normal')
+            self.campaign_ensure_mode("normal")
             self.campaign_ensure_chapter(index=chapter)
-            if mode == 'hard':
-                self.campaign_ensure_mode('hard')
+            if mode == "hard":
+                self.campaign_ensure_mode("hard")
                 self.campaign_ensure_chapter(index=chapter)
 
-        elif chapter in ['a', 'b', 'c', 'd', 'ex_sp', 'as', 'bs', 'cs', 'ds']:
+        elif chapter in ["a", "b", "c", "d", "ex_sp", "as", "bs", "cs", "ds"]:
             self.ui_goto_event()
-            if chapter in ['a', 'b', 'as', 'bs']:
-                self.campaign_ensure_mode('normal')
-            elif chapter in ['c', 'd', 'cs', 'ds']:
-                self.campaign_ensure_mode('hard')
-            elif chapter == 'ex_sp':
+            if chapter in ["a", "b", "as", "bs"]:
+                self.campaign_ensure_mode("normal")
+            elif chapter in ["c", "d", "cs", "ds"]:
+                self.campaign_ensure_mode("hard")
+            elif chapter == "ex_sp":
                 # self.campaign_ensure_mode('ex')
                 pass  # Difference
             self.campaign_ensure_chapter(index=chapter)
 
-        elif chapter == 'sp':
+        elif chapter == "sp":
             # self.ui_goto_sp()
             self.ui_goto_event()  # Difference
             self.campaign_ensure_chapter(index=chapter)
 
         else:
-            logger.warning(f'Unknown campaign chapter: {name}')
+            logger.warning(f"Unknown campaign chapter: {name}")
 
     def campaign_get_entrance(self, name):
-        if name == 'sp':
-            name = 'vsp'
+        if name == "sp":
+            name = "vsp"
         return super().campaign_get_entrance(name)
 
     def is_event_animation(self):
@@ -111,12 +123,12 @@ class CampaignBase(CampaignBase_):
         """
         for button in [ANIMATION_PINK, ANIMATION_ORANGE, ANIMATION_BLUE]:
             if self.appear(button):
-                logger.info('Idol Master animation, waiting')
+                logger.info("Idol Master animation, waiting")
                 return True
 
         return False
 
     def campaign_match_multi(self, *args, **kwargs):
         # Lower campaign match threshold to 0.8, in order to detect 50% clear SP3
-        kwargs['similarity'] = 0.8
+        kwargs["similarity"] = 0.8
         return super().campaign_match_multi(*args, **kwargs)

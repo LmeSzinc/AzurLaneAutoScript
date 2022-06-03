@@ -20,7 +20,7 @@ class Switch:
         submarine_view.set('on', main=self)
     """
 
-    def __init__(self, name='Switch', is_selector=False, offset=0):
+    def __init__(self, name="Switch", is_selector=False, offset=0):
         """
         Args:
             name (str):
@@ -43,12 +43,16 @@ class Switch:
             click_button (Button):
             offset (bool, int, tuple):
         """
-        self.status_list.append({
-            'status': status,
-            'check_button': check_button,
-            'click_button': click_button if click_button is not None else check_button,
-            'offset': offset if offset else self.offset
-        })
+        self.status_list.append(
+            {
+                "status": status,
+                "check_button": check_button,
+                "click_button": click_button
+                if click_button is not None
+                else check_button,
+                "offset": offset if offset else self.offset,
+            }
+        )
 
     def appear(self, main):
         """
@@ -59,7 +63,7 @@ class Switch:
             bool
         """
         for data in self.status_list:
-            if main.appear(data['check_button'], offset=data['offset']):
+            if main.appear(data["check_button"], offset=data["offset"]):
                 return True
 
         return False
@@ -73,10 +77,10 @@ class Switch:
             str: Status name or 'unknown'.
         """
         for data in self.status_list:
-            if main.appear(data['check_button'], offset=data['offset']):
-                return data['status']
+            if main.appear(data["check_button"], offset=data["offset"]):
+                return data["status"]
 
-        return 'unknown'
+        return "unknown"
 
     def get_data(self, status):
         """
@@ -90,11 +94,11 @@ class Switch:
             ScriptError: If status invalid
         """
         for row in self.status_list:
-            if row['status'] == status:
+            if row["status"] == status:
                 return row
 
-        logger.warning(f'Switch {self.name} received an invalid status {status}')
-        raise ScriptError(f'Switch {self.name} received an invalid status {status}')
+        logger.warning(f"Switch {self.name} received an invalid status {status}")
+        raise ScriptError(f"Switch {self.name} received an invalid status {status}")
 
     def set(self, status, main, skip_first_screenshot=True):
         """
@@ -127,13 +131,15 @@ class Switch:
                 return changed
 
             # Warning
-            if current == 'unknown':
+            if current == "unknown":
                 if warning_show_timer.reached():
-                    logger.warning(f'Unknown {self.name} switch')
+                    logger.warning(f"Unknown {self.name} switch")
                     warning_show_timer.reset()
                     if counter >= 1:
-                        logger.warning(f'{self.name} switch {status} asset has evaluated to unknown too many times, '
-                                       f'asset should be re-verified')
+                        logger.warning(
+                            f"{self.name} switch {status} asset has evaluated to unknown too many times, "
+                            f"asset should be re-verified"
+                        )
                         return False
                     counter += 1
                 continue
@@ -141,7 +147,7 @@ class Switch:
             # Click
             if click_timer.reached():
                 click_status = status if self.is_choice else current
-                main.device.click(self.get_data(click_status)['click_button'])
+                main.device.click(self.get_data(click_status)["click_button"])
                 click_timer.reset()
                 changed = True
 

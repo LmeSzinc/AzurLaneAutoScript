@@ -43,7 +43,7 @@ class Button(Resource):
         if self.file:
             self.resource_add(key=self.file)
 
-    cached = ['area', 'color', '_button', 'file', 'name', 'is_gif']
+    cached = ["area", "color", "_button", "file", "name", "is_gif"]
 
     @cached_property
     def area(self):
@@ -68,12 +68,12 @@ class Button(Resource):
         elif self.file:
             return os.path.splitext(os.path.split(self.file)[1])[0]
         else:
-            return 'BUTTON'
+            return "BUTTON"
 
     @cached_property
     def is_gif(self):
         if self.file:
-            return os.path.splitext(self.file)[1] == '.gif'
+            return os.path.splitext(self.file)[1] == ".gif"
         else:
             return False
 
@@ -109,9 +109,7 @@ class Button(Resource):
             bool: True if button appears on screenshot.
         """
         return color_similar(
-            color1=get_color(image, self.area),
-            color2=self.color,
-            threshold=threshold
+            color1=get_color(image, self.area), color2=self.color, threshold=threshold
         )
 
     def load_color(self, image):
@@ -124,9 +122,9 @@ class Button(Resource):
         Returns:
             tuple: Color (r, g, b).
         """
-        self.__dict__['color'] = get_color(image, self.area)
+        self.__dict__["color"] = get_color(image, self.area)
         self.image = crop(image, self.area)
-        self.__dict__['is_gif'] = False
+        self.__dict__["is_gif"] = False
         return self.color
 
     def load_offset(self, button):
@@ -168,11 +166,15 @@ class Button(Resource):
                 self.image_binary = []
                 for image in self.image:
                     image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-                    _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+                    _, image_binary = cv2.threshold(
+                        image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU
+                    )
                     self.image_binary.append(image_binary)
             else:
                 image_gray = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
-                _, self.image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+                _, self.image_binary = cv2.threshold(
+                    image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU
+                )
             self._match_binary_init = True
 
     def resource_release(self):
@@ -208,20 +210,24 @@ class Button(Resource):
             for template in self.image:
                 res = cv2.matchTemplate(template, image, cv2.TM_CCOEFF_NORMED)
                 _, similarity, _, point = cv2.minMaxLoc(res)
-                self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
+                self._button_offset = area_offset(
+                    self._button, offset[:2] + np.array(point)
+                )
                 if similarity > threshold:
                     return True
             return False
         else:
             res = cv2.matchTemplate(self.image, image, cv2.TM_CCOEFF_NORMED)
             _, similarity, _, point = cv2.minMaxLoc(res)
-            self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
+            self._button_offset = area_offset(
+                self._button, offset[:2] + np.array(point)
+            )
             return similarity > threshold
 
     def match_binary(self, image, offset=30, threshold=0.85):
         """Detects button by template matching. To Some button, its location may not be static.
            This method will apply template matching under binarization.
-           
+
         Args:
             image: Screenshot.
             offset (int, tuple): Detection area offset.
@@ -241,17 +247,21 @@ class Button(Resource):
         else:
             offset = np.array((-3, -offset, 3, offset))
         image = crop(image, offset + self.area)
-        
+
         if self.is_gif:
             for template in self.image_binary:
                 # graying
                 image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
                 # binarization
-                _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+                _, image_binary = cv2.threshold(
+                    image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU
+                )
                 # template matching
                 res = cv2.matchTemplate(template, image_binary, cv2.TM_CCOEFF_NORMED)
                 _, similarity, _, point = cv2.minMaxLoc(res)
-                self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
+                self._button_offset = area_offset(
+                    self._button, offset[:2] + np.array(point)
+                )
                 if similarity > threshold:
                     return True
             return False
@@ -259,11 +269,17 @@ class Button(Resource):
             # graying
             image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
             # binarization
-            _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+            _, image_binary = cv2.threshold(
+                image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU
+            )
             # template matching
-            res = cv2.matchTemplate(self.image_binary, image_binary, cv2.TM_CCOEFF_NORMED)
+            res = cv2.matchTemplate(
+                self.image_binary, image_binary, cv2.TM_CCOEFF_NORMED
+            )
             _, similarity, _, point = cv2.minMaxLoc(res)
-            self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
+            self._button_offset = area_offset(
+                self._button, offset[:2] + np.array(point)
+            )
             return similarity > threshold
 
     def match_appear_on(self, image, threshold=30):
@@ -277,7 +293,9 @@ class Button(Resource):
         """
         diff = np.subtract(self.button, self._button)[:2]
         area = area_offset(self.area, offset=diff)
-        return color_similar(color1=get_color(image, area), color2=self.color, threshold=threshold)
+        return color_similar(
+            color1=get_color(image, area), color2=self.color, threshold=threshold
+        )
 
     def crop(self, area, image=None, name=None):
         """
@@ -295,7 +313,13 @@ class Button(Resource):
             name = self.name
         new_area = area_offset(area, offset=self.area[:2])
         new_button = area_offset(area, offset=self.button[:2])
-        button = Button(area=new_area, color=self.color, button=new_button, file=self.file, name=name)
+        button = Button(
+            area=new_area,
+            color=self.color,
+            button=new_button,
+            file=self.file,
+            name=name,
+        )
         if image is not None:
             button.load_color(image)
         return button
@@ -316,7 +340,13 @@ class Button(Resource):
             name = self.name
         new_area = area_offset(self.area, offset=vector)
         new_button = area_offset(self.button, offset=vector)
-        button = Button(area=new_area, color=self.color, button=new_button, file=self.file, name=name)
+        button = Button(
+            area=new_area,
+            color=self.color,
+            button=new_button,
+            file=self.file,
+            name=name,
+        )
         if image is not None:
             button.load_color(image)
         return button
@@ -332,12 +362,17 @@ class ButtonGrid:
             self._name = name
         else:
             (filename, line_number, function_name, text) = traceback.extract_stack()[-2]
-            self._name = text[:text.find('=')].strip()
+            self._name = text[: text.find("=")].strip()
 
     def __getitem__(self, item):
         base = np.round(np.array(item) * self.delta + self.origin).astype(int)
         area = tuple(np.append(base, base + self.button_shape))
-        return Button(area=area, color=(), button=area, name='%s_%s_%s' % (self._name, item[0], item[1]))
+        return Button(
+            area=area,
+            color=(),
+            button=area,
+            name="%s_%s_%s" % (self._name, item[0], item[1]),
+        )
 
     def generate(self):
         for y in range(self.grid_shape[1]):
@@ -362,7 +397,12 @@ class ButtonGrid:
         origin = self.origin + area[:2]
         button_shape = np.subtract(area[2:], area[:2])
         return ButtonGrid(
-            origin=origin, delta=self.delta, button_shape=button_shape, grid_shape=self.grid_shape, name=name)
+            origin=origin,
+            delta=self.delta,
+            button_shape=button_shape,
+            grid_shape=self.grid_shape,
+            name=name,
+        )
 
     def move(self, vector, name=None):
         """
@@ -377,7 +417,12 @@ class ButtonGrid:
             name = self._name
         origin = self.origin + vector
         return ButtonGrid(
-            origin=origin, delta=self.delta, button_shape=self.button_shape, grid_shape=self.grid_shape, name=name)
+            origin=origin,
+            delta=self.delta,
+            button_shape=self.button_shape,
+            grid_shape=self.grid_shape,
+            name=name,
+        )
 
     def gen_mask(self):
         """
@@ -389,7 +434,9 @@ class ButtonGrid:
         image = Image.new("RGB", (1280, 720), (0, 0, 0))
         draw = ImageDraw.Draw(image)
         for button in self.buttons:
-            draw.rectangle((button.area[:2], button.button[2:]), fill=(255, 255, 255), outline=None)
+            draw.rectangle(
+                (button.area[:2], button.button[2:]), fill=(255, 255, 255), outline=None
+            )
         return image
 
     def show_mask(self):
@@ -399,4 +446,4 @@ class ButtonGrid:
         """
         Save mask to {name}.png
         """
-        self.gen_mask().save(f'{self._name}.png')
+        self.gen_mask().save(f"{self._name}.png")

@@ -35,7 +35,7 @@ class Config(ConfigBase):
     FLEET_BOSS = 2
 
     MAP_HAS_WALL = True
-    MAP_SIREN_TEMPLATE = ['Algerie', 'Vauquelin']
+    MAP_SIREN_TEMPLATE = ["Algerie", "Vauquelin"]
 
 
 class Campaign(CampaignBase):

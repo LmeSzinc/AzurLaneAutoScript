@@ -5,8 +5,17 @@ from module.logger import logger
 
 
 class Navbar:
-    def __init__(self, grids, active_color=(247, 251, 181), inactive_color=(140, 162, 181), active_threshold=180,
-                 inactive_threshold=180, active_count=100, inactive_count=50, name=None):
+    def __init__(
+        self,
+        grids,
+        active_color=(247, 251, 181),
+        inactive_color=(140, 162, 181),
+        active_threshold=180,
+        inactive_threshold=180,
+        active_count=100,
+        inactive_count=50,
+        name=None,
+    ):
         """
         Args:
             grids (ButtonGrid):
@@ -39,11 +48,19 @@ class Navbar:
         active = []
         for index, button in enumerate(self.grids.buttons):
             if main.image_color_count(
-                    button, color=self.active_color, threshold=self.active_threshold, count=self.active_count):
+                button,
+                color=self.active_color,
+                threshold=self.active_threshold,
+                count=self.active_count,
+            ):
                 total.append(index)
                 active.append(index)
             elif main.image_color_count(
-                    button, color=self.inactive_color, threshold=self.inactive_threshold, count=self.inactive_count):
+                button,
+                color=self.inactive_color,
+                threshold=self.inactive_threshold,
+                count=self.inactive_count,
+            ):
                 total.append(index)
 
         if len(active) == 0:
@@ -52,11 +69,13 @@ class Navbar:
         elif len(active) == 1:
             active = active[0]
         else:
-            logger.warning(f'Too many active nav items found in {self.name}, items: {active}')
+            logger.warning(
+                f"Too many active nav items found in {self.name}, items: {active}"
+            )
             active = active[0]
 
         if len(total) < 2:
-            logger.warning(f'Too few nav items found in {self.name}, items: {total}')
+            logger.warning(f"Too few nav items found in {self.name}, items: {total}")
         if len(total) == 0:
             left, right = None, None
         else:
@@ -85,7 +104,15 @@ class Navbar:
         _, left, right = self.get_info(main=main)
         return right - left + 1
 
-    def set(self, main, left=None, right=None, upper=None, bottom=None, skip_first_screenshot=True):
+    def set(
+        self,
+        main,
+        left=None,
+        right=None,
+        upper=None,
+        bottom=None,
+        skip_first_screenshot=True,
+    ):
         """
         Set nav bar from 1 direction.
 
@@ -101,17 +128,17 @@ class Navbar:
             bool: If success
         """
         if left is None and right is None and upper is None and bottom is None:
-            logger.warning('Invalid index to set, must set an index from 1 direction')
+            logger.warning("Invalid index to set, must set an index from 1 direction")
             return False
-        text = ''
+        text = ""
         if left is None and upper is not None:
             left = upper
         if right is None and bottom is not None:
             right = bottom
-        for k in ['left', 'right', 'upper', 'bottom']:
+        for k in ["left", "right", "upper", "bottom"]:
             if locals().get(k, None) is not None:
-                text += f'{k}={locals().get(k, None)} '
-        logger.info(f'{self.name} set to {text.strip()}')
+                text += f"{k}={locals().get(k, None)} "
+        logger.info(f"{self.name} set to {text.strip()}")
 
         interval = Timer(2, count=4)
         timeout = Timer(10, count=20).start()
@@ -122,17 +149,18 @@ class Navbar:
                 main.device.screenshot()
 
             if timeout.reached():
-                logger.warning(f'{self.name} failed to set {text.strip()}')
+                logger.warning(f"{self.name} failed to set {text.strip()}")
                 return False
 
             active, minimum, maximum = self.get_info(main=main)
-            logger.info(f'Nav item active: {active} from range ({minimum}, {maximum})')
+            logger.info(f"Nav item active: {active} from range ({minimum}, {maximum})")
             # if active is None:
             #     continue
             index = minimum + left - 1 if left is not None else maximum - right + 1
             if not minimum <= index <= maximum:
                 logger.warning(
-                    f'Index to set ({index}) is not within the nav items that appears ({minimum}, {maximum})')
+                    f"Index to set ({index}) is not within the nav items that appears ({minimum}, {maximum})"
+                )
                 continue
 
             # End

@@ -14,24 +14,25 @@ from module.tactical.tactical_class import Book
 from module.ui.assets import BACK_ARROW
 
 FILTER_REGEX = re.compile(
-    '^(cube|drill|chip|array|pr|dr|box|bulin|book|food|plate|retrofit|cat)'
-
-    '(neptune|monarch|ibuki|izumo|roon|saintlouis'
-    '|seattle|georgia|kitakaze|azuma|friedrich'
-    '|gascogne|champagne|cheshire|drake|mainz|odin'
-    '|anchorage|hakuryu|agir|august|marcopolo'
-    '|red|blue|yellow'
-    '|general|gun|torpedo|antiair|plane'
-    '|dd|cl|bb|cv)?'
-
-    '(s[1-4]|t[1-6])?$',
-    flags=re.IGNORECASE)
-FILTER_ATTR = ('group', 'sub_genre', 'tier')
+    "^(cube|drill|chip|array|pr|dr|box|bulin|book|food|plate|retrofit|cat)"
+    "(neptune|monarch|ibuki|izumo|roon|saintlouis"
+    "|seattle|georgia|kitakaze|azuma|friedrich"
+    "|gascogne|champagne|cheshire|drake|mainz|odin"
+    "|anchorage|hakuryu|agir|august|marcopolo"
+    "|red|blue|yellow"
+    "|general|gun|torpedo|antiair|plane"
+    "|dd|cl|bb|cv)?"
+    "(s[1-4]|t[1-6])?$",
+    flags=re.IGNORECASE,
+)
+FILTER_ATTR = ("group", "sub_genre", "tier")
 FILTER = Filter(FILTER_REGEX, FILTER_ATTR)
 
 
 class ShopItemGrid(ItemGrid):
-    def predict(self, image, name=True, amount=True, cost=False, price=False, tag=False):
+    def predict(
+        self, image, name=True, amount=True, cost=False, price=False, tag=False
+    ):
         """
         Define new attributes to predicted Item obj for shop item filtering
         """
@@ -46,29 +47,32 @@ class ShopItemGrid(ItemGrid):
             name = item.name
             result = re.search(FILTER_REGEX, name)
             if result:
-                item.group, item.sub_genre, item.tier = \
-                [group.lower() \
-                if group is not None else None \
-                for group in result.groups()]
+                item.group, item.sub_genre, item.tier = [
+                    group.lower() if group is not None else None
+                    for group in result.groups()
+                ]
             else:
                 if not name.isnumeric():
-                    logger.warning(f'Unable to parse shop item {name}; '
-                                    'check template asset and filter regexp')
+                    logger.warning(
+                        f"Unable to parse shop item {name}; "
+                        "check template asset and filter regexp"
+                    )
                     raise ScriptError
                 continue
 
             # Sometimes book's color and/or tier will be misidentified
             # Undergo a second template match using Book class
-            if item.group == 'book':
+            if item.group == "book":
                 book = Book(image, item._button)
                 if item.sub_genre is not None:
                     item.sub_genre = book.genre_str
                 item.tier = book.tier_str.lower()
-                item.name = ''.join(
-                    [part.title()
-                    if part is not None
-                    else ''
-                    for part in [item.group, item.sub_genre, item.tier]])
+                item.name = "".join(
+                    [
+                        part.title() if part is not None else ""
+                        for part in [item.group, item.sub_genre, item.tier]
+                    ]
+                )
 
         return self.items
 
@@ -80,7 +84,7 @@ class ShopBase(Retirement):
         Returns:
             str:
         """
-        return ''
+        return ""
 
     @cached_property
     def shop_grid(self):
@@ -89,7 +93,12 @@ class ShopBase(Retirement):
             ButtonGrid:
         """
         shop_grid = ButtonGrid(
-            origin=(477, 152), delta=(156, 214), button_shape=(96, 96), grid_shape=(5, 2), name='SHOP_GRID')
+            origin=(477, 152),
+            delta=(156, 214),
+            button_shape=(96, 96),
+            grid_shape=(5, 2),
+            name="SHOP_GRID",
+        )
         return shop_grid
 
     def shop_items(self):
@@ -134,7 +143,7 @@ class ShopBase(Retirement):
         # Retrieve ShopItemGrid
         shop_items = self.shop_items()
         if shop_items is None:
-            logger.warning('Expected type \'ShopItemGrid\' but was None')
+            logger.warning("Expected type 'ShopItemGrid' but was None")
             return []
 
         # Loop on predict to ensure items
@@ -154,17 +163,17 @@ class ShopBase(Retirement):
                 amount=False,
                 cost=True,
                 price=True,
-                tag=False
+                tag=False,
             )
 
             if timeout.reached():
-                logger.warning('Items loading timeout; continue and assumed has loaded')
+                logger.warning("Items loading timeout; continue and assumed has loaded")
                 break
 
             # Check unloaded items, because AL loads items too slow.
             items = shop_items.items
             known = len([item for item in items if item.is_known_item])
-            logger.attr('Item detected', known)
+            logger.attr("Item detected", known)
             if known == 0 or known != record:
                 record = known
                 continue
@@ -181,12 +190,12 @@ class ShopBase(Retirement):
         if len(items):
             min_row = grids[0, 0].area[1]
             row = [str(item) for item in items if item.button[1] == min_row]
-            logger.info(f'Shop row 1: {row}')
+            logger.info(f"Shop row 1: {row}")
             row = [str(item) for item in items if item.button[1] != min_row]
-            logger.info(f'Shop row 2: {row}')
+            logger.info(f"Shop row 2: {row}")
             return items
         else:
-            logger.info('No shop items found')
+            logger.info("No shop items found")
             return []
 
     def shop_check_item(self, item):
@@ -261,7 +270,7 @@ class ShopBase(Retirement):
 
         if not filtered:
             return None
-        logger.attr('Item_sort', ' > '.join([str(item) for item in filtered]))
+        logger.attr("Item_sort", " > ".join([str(item) for item in filtered]))
 
         return filtered[0]
 
@@ -319,22 +328,22 @@ class ShopBase(Retirement):
             bool: If success, and able to continue.
         """
         for _ in range(12):
-            logger.hr('Shop buy', level=2)
+            logger.hr("Shop buy", level=2)
             # Get first for innate delay to ocr
             # shop currency for accurate parse
             items = self.shop_get_items()
             currency = self.shop_currency()
             if currency <= 0:
-                logger.warning(f'Current funds: {currency}, stopped')
+                logger.warning(f"Current funds: {currency}, stopped")
                 return False
 
             item = self.shop_get_item_to_buy(items)
             if item is None:
-                logger.info('Shop buy finished')
+                logger.info("Shop buy finished")
                 return True
             else:
                 self.shop_buy_execute(item)
                 continue
 
-        logger.warning('Too many items to buy, stopped')
+        logger.warning("Too many items to buy, stopped")
         return True

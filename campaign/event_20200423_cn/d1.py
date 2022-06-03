@@ -4,7 +4,7 @@ from module.map.map_base import CampaignMap
 from module.map.map_grids import RoadGrids, SelectedGrids
 
 MAP = CampaignMap()
-MAP.map_data = '''
+MAP.map_data = """
     -- -- -- -- -- -- -- -- --
     -- ++ ++ -- -- -- -- ++ --
     -- -- -- -- -- -- -- -- --
@@ -12,7 +12,7 @@ MAP.map_data = '''
     -- -- -- -- -- -- -- -- --
     ++ ++ -- -- -- -- ++ -- --
     ++ ++ SP SP -- -- ++ -- --
-'''
+"""
 
 
 class Config:
@@ -31,16 +31,16 @@ class Config:
 
     EDGE_LINES_HOUGHLINES_THRESHOLD = 135
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (80, 255 - 40),
-        'width': (0.9, 10),
-        'prominence': 10,
-        'distance': 35,
+        "height": (80, 255 - 40),
+        "width": (0.9, 10),
+        "prominence": 10,
+        "distance": 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 40, 255),
-        'prominence': 10,
-        'distance': 50,
-        'wlen': 1000
+        "height": (255 - 40, 255),
+        "prominence": 10,
+        "distance": 50,
+        "wlen": 1000,
     }
 
 

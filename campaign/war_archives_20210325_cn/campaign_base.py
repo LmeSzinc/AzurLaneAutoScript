@@ -5,12 +5,12 @@ from ..campaign_war_archives.campaign_base import CampaignBase as CampaignBase_
 
 class CampaignBase(CampaignBase_):
     STAGE_INCREASE = [
-        'A1 > AS1 > A2 > AS2 > A3',
-        'B1 > BS1 > B2 > BS2 > B3',
-        'C1 > CS1 > C2 > CS2 > C3',
-        'D1 > DS1 > D2 > DS2 > D3',
-        'SP1 > SP2 > SP3 > SP4',
-        'T1 > T2 > T3 > T4',
+        "A1 > AS1 > A2 > AS2 > A3",
+        "B1 > BS1 > B2 > BS2 > B3",
+        "C1 > CS1 > C2 > CS2 > C3",
+        "D1 > DS1 > D2 > DS2 > D3",
+        "SP1 > SP2 > SP3 > SP4",
+        "T1 > T2 > T3 > T4",
     ]
 
     """
@@ -19,10 +19,10 @@ class CampaignBase(CampaignBase_):
     Override full scan methods to make sure that, Dace can be kept when tracking siren movements.
     """
     dace = None
-    
+
     def full_scan_movable(self, *args, **kwargs):
-        self.dace = self.map.select(enemy_genre='Siren_Dace')
-        logger.attr('Submarine_Dace', self.dace)
+        self.dace = self.map.select(enemy_genre="Siren_Dace")
+        logger.attr("Submarine_Dace", self.dace)
 
         super().full_scan_movable(*args, **kwargs)
 
@@ -30,10 +30,10 @@ class CampaignBase(CampaignBase_):
         super().full_scan(*args, **kwargs)
 
         if self.dace is not None:
-            logger.attr('Submarine_Dace', self.dace)
+            logger.attr("Submarine_Dace", self.dace)
             for grid in self.dace:
                 grid.is_siren = True
-                grid.enemy_genre = 'Siren_Dace'
+                grid.enemy_genre = "Siren_Dace"
             self.dace = None
 
     def get_map_clear_percentage(self):

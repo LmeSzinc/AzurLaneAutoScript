@@ -21,8 +21,14 @@ class MapOrderHandler(MapOperation, ActionPointHandler, MapEventHandler, ZoneMan
             in: is_in_map
             out: is_in_map_order
         """
-        self.ui_click(ORDER_ENTER, appear_button=self.is_in_map, check_button=self.is_in_map_order,
-                      skip_first_screenshot=True, additional=self.handle_map_event, retry_wait=2)
+        self.ui_click(
+            ORDER_ENTER,
+            appear_button=self.is_in_map,
+            check_button=self.is_in_map_order,
+            skip_first_screenshot=True,
+            additional=self.handle_map_event,
+            retry_wait=2,
+        )
 
     def order_quit(self):
         """
@@ -30,8 +36,12 @@ class MapOrderHandler(MapOperation, ActionPointHandler, MapEventHandler, ZoneMan
             in: is_in_map_order
             out: is_in_map
         """
-        self.ui_click(ORDER_CHECK, appear_button=self.is_in_map_order, check_button=self.is_in_map,
-                      skip_first_screenshot=True)
+        self.ui_click(
+            ORDER_CHECK,
+            appear_button=self.is_in_map_order,
+            check_button=self.is_in_map,
+            skip_first_screenshot=True,
+        )
 
     def order_execute(self, button, skip_first_screenshot=True):
         """
@@ -68,7 +78,7 @@ class MapOrderHandler(MapOperation, ActionPointHandler, MapEventHandler, ZoneMan
 
             if self.is_in_map_order() and not self.appear(button):
                 if missing_timer.reached():
-                    logger.info(f'Map order not available: {button}')
+                    logger.info(f"Map order not available: {button}")
                     self.order_quit()
                     return False
             else:
@@ -82,7 +92,7 @@ class MapOrderHandler(MapOperation, ActionPointHandler, MapEventHandler, ZoneMan
                 continue
             if self.handle_map_cat_attack():
                 continue
-            if self.handle_action_point(zone=assume_zone, pinned='OBSCURE'):
+            if self.handle_action_point(zone=assume_zone, pinned="OBSCURE"):
                 # After clicking action point cancel, Azur Lane closes map order, instead of staying there.
                 # So re-enter map order, and re-executing the order.
                 self.order_enter()
@@ -132,7 +142,9 @@ class MapOrderHandler(MapOperation, ActionPointHandler, MapEventHandler, ZoneMan
             if submarine_call:
                 self.wait_until_order_finished()
 
-        self.config.opsi_task_delay(recon_scan=recon_scan, submarine_call=submarine_call)
+        self.config.opsi_task_delay(
+            recon_scan=recon_scan, submarine_call=submarine_call
+        )
 
         # backup.recover()
 
@@ -145,8 +157,14 @@ class MapOrderHandler(MapOperation, ActionPointHandler, MapEventHandler, ZoneMan
         """
         if not self.map_cat_attack_timer.reached():
             return False
-        if np.sum(color_similarity_2d(self.image_crop(MAP_CAT_ATTACK), (255, 231, 123)) > 221) > 100:
-            logger.info('Skip map cat attack')
+        if (
+            np.sum(
+                color_similarity_2d(self.image_crop(MAP_CAT_ATTACK), (255, 231, 123))
+                > 221
+            )
+            > 100
+        ):
+            logger.info("Skip map cat attack")
             self.device.click(CLICK_SAFE_AREA)
             self.map_cat_attack_timer.reset()
             return True

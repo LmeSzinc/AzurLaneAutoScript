@@ -5,7 +5,7 @@ from module.map.map_base import CampaignMap
 from module.map.map_grids import RoadGrids, SelectedGrids
 
 MAP = CampaignMap()
-MAP.shape = 'K7'
+MAP.shape = "K7"
 MAP.map_data = """
     -- ME ME ME ++ ME -- -- ME ++ ++
     ME -- -- -- -- -- ++ ++ -- -- ME
@@ -31,17 +31,18 @@ MAP.wall_data = """
     ·   ·   ·   ·   ·   ·   ·   ·   ·   ·   · ,
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 2, 'siren': 1},
-    {'battle': 1, 'enemy': 2},
-    {'battle': 2, 'enemy': 2},
-    {'battle': 3, 'enemy': 1},
-    {'battle': 4, 'enemy': 1},
-    {'battle': 5, 'enemy': 1, 'boss': 1},
+    {"battle": 0, "enemy": 2, "siren": 1},
+    {"battle": 1, "enemy": 2},
+    {"battle": 2, "enemy": 2},
+    {"battle": 3, "enemy": 1},
+    {"battle": 4, "enemy": 1},
+    {"battle": 5, "enemy": 1, "boss": 1},
 ]
+
 
 class Config(ConfigBase):
     MAP_HAS_WALL = True
-    MAP_SIREN_TEMPLATE = ['Algerie', 'Vauquelin']
+    MAP_SIREN_TEMPLATE = ["Algerie", "Vauquelin"]
 
 
 class Campaign(CampaignBase):
@@ -52,9 +53,9 @@ class Campaign(CampaignBase):
             return True
         if self.clear_enemy(scale=(1,)):
             return True
-        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
+        if self.clear_enemy(scale=(2,), genre=["light", "main", "enemy", "carrier"]):
             return True
-        if self.clear_enemy(genre=['light', 'main', 'enemy']):
+        if self.clear_enemy(genre=["light", "main", "enemy"]):
             return True
 
         return self.battle_default()

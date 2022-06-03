@@ -83,19 +83,38 @@ class ModuleBase:
         elif offset:
             if isinstance(offset, bool):
                 offset = self.config.BUTTON_OFFSET
-            appear = button.match(self.device.image, offset=offset,
-                                  threshold=self.config.BUTTON_MATCH_SIMILARITY if threshold is None else threshold)
+            appear = button.match(
+                self.device.image,
+                offset=offset,
+                threshold=self.config.BUTTON_MATCH_SIMILARITY
+                if threshold is None
+                else threshold,
+            )
         else:
-            appear = button.appear_on(self.device.image,
-                                      threshold=self.config.COLOR_SIMILAR_THRESHOLD if threshold is None else threshold)
+            appear = button.appear_on(
+                self.device.image,
+                threshold=self.config.COLOR_SIMILAR_THRESHOLD
+                if threshold is None
+                else threshold,
+            )
 
         if appear and interval:
             self.interval_timer[button.name].reset()
 
         return appear
 
-    def appear_then_click(self, button, screenshot=False, genre='items', offset=0, interval=0, threshold=None):
-        appear = self.appear(button, offset=offset, interval=interval, threshold=threshold)
+    def appear_then_click(
+        self,
+        button,
+        screenshot=False,
+        genre="items",
+        offset=0,
+        interval=0,
+        threshold=None,
+    ):
+        appear = self.appear(
+            button, offset=offset, interval=interval, threshold=threshold
+        )
         if appear:
             if screenshot:
                 self.device.sleep(self.config.WAIT_BEFORE_SAVING_SCREEN_SHOT)
@@ -123,7 +142,13 @@ class ModuleBase:
             if not self.appear(button, offset=offset):
                 break
 
-    def wait_until_stable(self, button, timer=Timer(0.3, count=1), timeout=Timer(5, count=10), skip_first_screenshot=True):
+    def wait_until_stable(
+        self,
+        button,
+        timer=Timer(0.3, count=1),
+        timeout=Timer(5, count=10),
+        skip_first_screenshot=True,
+    ):
         button._match_init = False
         timeout.reset()
         while 1:
@@ -144,7 +169,7 @@ class ModuleBase:
                 button._match_init = True
 
             if timeout.reached():
-                logger.warning(f'wait_until_stable({button}) timeout')
+                logger.warning(f"wait_until_stable({button}) timeout")
                 break
 
     def image_crop(self, button):
@@ -173,7 +198,9 @@ class ModuleBase:
         mask = color_similarity_2d(image, color=color) > threshold
         return np.sum(mask) > count
 
-    def image_color_button(self, area, color, color_threshold=250, encourage=5, name='COLOR_BUTTON'):
+    def image_color_button(
+        self, area, color, color_threshold=250, encourage=5, name="COLOR_BUTTON"
+    ):
         """
         Find an area with pure color on image, convert into a Button.
 
@@ -189,13 +216,15 @@ class ModuleBase:
         """
         image = color_similarity_2d(self.image_crop(area), color=color)
         points = np.array(np.where(image > color_threshold)).T[:, ::-1]
-        if points.shape[0] < encourage ** 2:
+        if points.shape[0] < encourage**2:
             # Not having enough pixels to match
             return None
 
         point = fit_points(points, mod=image_size(image), encourage=encourage)
         point = ensure_int(point + area[:2])
-        button_area = area_offset((-encourage, -encourage, encourage, encourage), offset=point)
+        button_area = area_offset(
+            (-encourage, -encourage, encourage, encourage), offset=point
+        )
         color = get_color(self.device.image, button_area)
         return Button(area=button_area, color=color, button=button_area, name=name)
 
@@ -215,7 +244,7 @@ class ModuleBase:
             if button.name in self.interval_timer:
                 self.interval_timer[button.name].clear()
 
-    _image_file = ''
+    _image_file = ""
 
     @property
     def image_file(self):
@@ -244,4 +273,4 @@ class ModuleBase:
         package = to_package(server)
         self.device.package = package
         set_server(server)
-        logger.attr('Server', self.config.SERVER)
+        logger.attr("Server", self.config.SERVER)

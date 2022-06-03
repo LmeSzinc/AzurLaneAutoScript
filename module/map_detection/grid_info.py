@@ -22,6 +22,7 @@ class GridInfo:
     | MA         | may_ammo                 | fleet can get ammo here |
     | MS         | may_siren                | Siren/Elite enemy spawn |
     """
+
     is_os = False
 
     # is_sea --
@@ -77,20 +78,22 @@ class GridInfo:
     def decode(self, text):
         text = text.upper()
         dic = {
-            '++': 'is_land',
-            'SP': 'is_spawn_point',
-            '__': 'is_submarine_spawn_point',
-            'ME': 'may_enemy',
-            'MB': 'may_boss',
-            'MM': 'may_mystery',
-            'MA': 'may_ammo',
-            'MS': 'may_siren',
+            "++": "is_land",
+            "SP": "is_spawn_point",
+            "__": "is_submarine_spawn_point",
+            "ME": "may_enemy",
+            "MB": "may_boss",
+            "MM": "may_mystery",
+            "MA": "may_ammo",
+            "MS": "may_siren",
         }
         valid = text in dic
         for k, v in dic.items():
             self.__setattr__(v, valid and bool(k == text))
 
-        self.may_ambush = not (self.may_enemy or self.may_boss or self.may_mystery or self.may_mystery)
+        self.may_ambush = not (
+            self.may_enemy or self.may_boss or self.may_mystery or self.may_mystery
+        )
         # if self.may_siren:
         #     self.may_enemy = True
         # if self.may_boss:
@@ -98,39 +101,40 @@ class GridInfo:
 
     def encode(self):
         dic = {
-            '++': 'is_land',
-            'BO': 'is_boss',
+            "++": "is_land",
+            "BO": "is_boss",
         }
         for key, value in dic.items():
             if self.__getattribute__(value):
                 return key
 
         if self.is_siren:
-            name = self.enemy_genre[6:8].upper() if self.enemy_genre else 'SU'
-            return name if name else 'SU'
+            name = self.enemy_genre[6:8].upper() if self.enemy_genre else "SU"
+            return name if name else "SU"
 
         if self.is_enemy:
-            return '%s%s' % (
+            return "%s%s" % (
                 self.enemy_scale if self.enemy_scale else 0,
-                self.enemy_genre[0].upper() if self.enemy_genre else 'E')
+                self.enemy_genre[0].upper() if self.enemy_genre else "E",
+            )
 
         dic = {
-            'FL': 'is_current_fleet',
-            'Fc': 'is_caught_by_siren',
-            'Fl': 'is_fleet',
-            'ss': 'is_submarine',
-            'MY': 'is_mystery',
-            'AM': 'is_ammo',
-            'FR': 'is_fortress',
-            'MI': 'is_missile_attack',
-            'BE': 'may_bouncing_enemy',
-            '==': 'is_cleared',
+            "FL": "is_current_fleet",
+            "Fc": "is_caught_by_siren",
+            "Fl": "is_fleet",
+            "ss": "is_submarine",
+            "MY": "is_mystery",
+            "AM": "is_ammo",
+            "FR": "is_fortress",
+            "MI": "is_missile_attack",
+            "BE": "may_bouncing_enemy",
+            "==": "is_cleared",
         }
         for key, value in dic.items():
             if self.__getattribute__(value):
                 return key
 
-        return '--'
+        return "--"
 
     def __str__(self):
         return location2node(self.location)
@@ -149,7 +153,15 @@ class GridInfo:
 
     @property
     def is_sea(self):
-        return False if self.is_land or self.is_enemy or self.is_siren or self.is_fortress or self.is_boss else True
+        return (
+            False
+            if self.is_land
+            or self.is_enemy
+            or self.is_siren
+            or self.is_fortress
+            or self.is_boss
+            else True
+        )
 
     @property
     def may_carrier(self):
@@ -171,7 +183,7 @@ class GridInfo:
     def is_nearby(self):
         return self.cost < 20
 
-    def merge(self, info, mode='normal'):
+    def merge(self, info, mode="normal"):
         """
         Args:
             info (GridInfo):
@@ -213,7 +225,7 @@ class GridInfo:
                 self.enemy_scale = 0
                 self.enemy_genre = info.enemy_genre
                 return True
-            elif (mode == 'movable' or self.is_movable) and not self.is_land:
+            elif (mode == "movable" or self.is_movable) and not self.is_land:
                 self.is_siren = True
                 self.enemy_scale = 0
                 self.enemy_genre = info.enemy_genre
@@ -224,29 +236,37 @@ class GridInfo:
             if self.is_fortress:
                 # Fortress can be a normal enemy
                 return True
-            elif not self.is_land and (self.may_enemy or self.is_carrier or mode == 'decoy'):
+            elif not self.is_land and (
+                self.may_enemy or self.is_carrier or mode == "decoy"
+            ):
                 self.is_enemy = True
                 if info.enemy_scale and not self.enemy_scale:
                     self.enemy_scale = info.enemy_scale
                 if info.enemy_scale == 3 and self.enemy_scale == 2:
                     # But allow 3 overwrites 2
                     self.enemy_scale = info.enemy_scale
-                if info.enemy_genre and not (info.enemy_genre == 'Enemy' and self.enemy_genre):
+                if info.enemy_genre and not (
+                    info.enemy_genre == "Enemy" and self.enemy_genre
+                ):
                     self.enemy_genre = info.enemy_genre
                 return True
-            elif mode == 'carrier' and not self.is_land and self.may_carrier:
+            elif mode == "carrier" and not self.is_land and self.may_carrier:
                 self.is_enemy = True
                 self.is_carrier = True
                 if info.enemy_scale:
                     self.enemy_scale = info.enemy_scale
-                if info.enemy_genre and not (info.enemy_genre == 'Enemy' and self.enemy_genre):
+                if info.enemy_genre and not (
+                    info.enemy_genre == "Enemy" and self.enemy_genre
+                ):
                     self.enemy_genre = info.enemy_genre
                 return True
-            elif (mode == 'movable' or self.is_movable) and not self.is_land:
+            elif (mode == "movable" or self.is_movable) and not self.is_land:
                 self.is_enemy = True
                 if info.enemy_scale:
                     self.enemy_scale = info.enemy_scale
-                if info.enemy_genre and not (info.enemy_genre == 'Enemy' and self.enemy_genre):
+                if info.enemy_genre and not (
+                    info.enemy_genre == "Enemy" and self.enemy_genre
+                ):
                     self.enemy_genre = info.enemy_genre
                 return True
             else:

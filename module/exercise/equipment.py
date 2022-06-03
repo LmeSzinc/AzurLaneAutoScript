@@ -38,7 +38,11 @@ class ExerciseEquipment(Equipment):
             return False
 
         self._active_edit()
-        super().equipment_take_on(enter=EQUIP_ENTER, out=BATTLE_PREPARATION, fleet=self.config.EXERCISE_FLEET_EQUIPMENT)
+        super().equipment_take_on(
+            enter=EQUIP_ENTER,
+            out=BATTLE_PREPARATION,
+            fleet=self.config.EXERCISE_FLEET_EQUIPMENT,
+        )
         self._inactive_edit()
         return True
 
@@ -49,6 +53,10 @@ class ExerciseEquipment(Equipment):
             return False
 
         self._active_edit()
-        super().equipment_take_off(enter=EQUIP_ENTER, out=BATTLE_PREPARATION, fleet=self.config.EXERCISE_FLEET_EQUIPMENT)
+        super().equipment_take_off(
+            enter=EQUIP_ENTER,
+            out=BATTLE_PREPARATION,
+            fleet=self.config.EXERCISE_FLEET_EQUIPMENT,
+        )
         self._inactive_edit()
         return True

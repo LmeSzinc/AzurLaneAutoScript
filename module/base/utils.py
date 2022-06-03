@@ -52,7 +52,9 @@ def random_rectangle_vector(vector, box, random_range=(0, 0, 0, 0), padding=15):
     vector = np.array(vector) + random_rectangle_point(random_range)
     vector = np.round(vector).astype(np.int)
     half_vector = np.round(vector / 2).astype(np.int)
-    box = np.array(box) + np.append(np.abs(half_vector) + padding, -np.abs(half_vector) - padding)
+    box = np.array(box) + np.append(
+        np.abs(half_vector) + padding, -np.abs(half_vector) - padding
+    )
     center = random_rectangle_point(box)
     start_point = center - half_vector
     end_point = start_point + vector
@@ -60,7 +62,13 @@ def random_rectangle_vector(vector, box, random_range=(0, 0, 0, 0), padding=15):
 
 
 def random_rectangle_vector_opted(
-        vector, box, random_range=(0, 0, 0, 0), padding=15, whitelist_area=None, blacklist_area=None):
+    vector,
+    box,
+    random_range=(0, 0, 0, 0),
+    padding=15,
+    whitelist_area=None,
+    blacklist_area=None,
+):
     """
     Place a vector in a box randomly.
 
@@ -84,7 +92,9 @@ def random_rectangle_vector_opted(
     vector = np.array(vector) + random_rectangle_point(random_range)
     vector = np.round(vector).astype(np.int)
     half_vector = np.round(vector / 2).astype(np.int)
-    box_pad = np.array(box) + np.append(np.abs(half_vector) + padding, -np.abs(half_vector) - padding)
+    box_pad = np.array(box) + np.append(
+        np.abs(half_vector) + padding, -np.abs(half_vector) - padding
+    )
     box_pad = area_offset(box_pad, half_vector)
     segment = int(np.linalg.norm(vector) // 70) + 1
 
@@ -92,7 +102,7 @@ def random_rectangle_vector_opted(
         if not blacklist_area:
             return False
         for x in range(segment + 1):
-            point = - vector * x / segment + end
+            point = -vector * x / segment + end
             for area in blacklist_area:
                 if point_in_area(point, area, threshold=0):
                     return True
@@ -106,7 +116,9 @@ def random_rectangle_vector_opted(
                 for _ in range(10):
                     if in_blacklist(end_point):
                         continue
-                    return point_limit(end_point - vector, box), point_limit(end_point, box)
+                    return point_limit(end_point - vector, box), point_limit(
+                        end_point, box
+                    )
 
     for _ in range(100):
         end_point = random_rectangle_point(box_pad)
@@ -130,8 +142,13 @@ def random_line_segments(p1, p2, n, random_range=(0, 0, 0, 0)):
     Returns:
         list[tuple]: [(x0, y0), (x1, y1), (x2, y2)]
     """
-    return [tuple((((n - index) * p1 + index * p2) / n).astype(int) + random_rectangle_point(random_range))
-            for index in range(0, n + 1)]
+    return [
+        tuple(
+            (((n - index) * p1 + index * p2) / n).astype(int)
+            + random_rectangle_point(random_range)
+        )
+        for index in range(0, n + 1)
+    ]
 
 
 def ensure_time(second, n=3, precision=3):
@@ -146,16 +163,21 @@ def ensure_time(second, n=3, precision=3):
         float:
     """
     if isinstance(second, tuple):
-        multiply = 10 ** precision
-        result = random_normal_distribution_int(second[0] * multiply, second[1] * multiply, n) / multiply
+        multiply = 10**precision
+        result = (
+            random_normal_distribution_int(
+                second[0] * multiply, second[1] * multiply, n
+            )
+            / multiply
+        )
         return round(result, precision)
     elif isinstance(second, str):
-        if ',' in second:
-            lower, upper = second.replace(' ', '').split(',')
+        if "," in second:
+            lower, upper = second.replace(" ", "").split(",")
             lower, upper = int(lower), int(upper)
             return ensure_time((lower, upper), n=n, precision=precision)
-        if '-' in second:
-            lower, upper = second.replace(' ', '').split('-')
+        if "-" in second:
+            lower, upper = second.replace(" ", "").split("-")
             lower, upper = int(lower), int(upper)
             return ensure_time((lower, upper), n=n, precision=precision)
         else:
@@ -175,6 +197,7 @@ def ensure_int(*args):
     Returns:
         list:
     """
+
     def to_int(item):
         try:
             return int(item)
@@ -258,10 +281,7 @@ def area_size(area):
     Returns:
         tuple: (x, y).
     """
-    return (
-        max(area[2] - area[0], 0),
-        max(area[3] - area[1], 0)
-    )
+    return (max(area[2] - area[0], 0), max(area[3] - area[1], 0))
 
 
 def point_limit(point, area):
@@ -275,10 +295,7 @@ def point_limit(point, area):
     Returns:
         tuple: (x, y).
     """
-    return (
-        limit_in(point[0], area[0], area[2]),
-        limit_in(point[1], area[1], area[3])
-    )
+    return (limit_in(point[0], area[0], area[2]), limit_in(point[1], area[1], area[3]))
 
 
 def point_in_area(point, area, threshold=5):
@@ -292,7 +309,10 @@ def point_in_area(point, area, threshold=5):
     Returns:
         bool:
     """
-    return area[0] - threshold < point[0] < area[2] + threshold and area[1] - threshold < point[1] < area[3] + threshold
+    return (
+        area[0] - threshold < point[0] < area[2] + threshold
+        and area[1] - threshold < point[1] < area[3] + threshold
+    )
 
 
 def area_in_area(area1, area2, threshold=5):
@@ -306,10 +326,12 @@ def area_in_area(area1, area2, threshold=5):
     Returns:
         bool:
     """
-    return area2[0] - threshold <= area1[0] \
-           and area2[1] - threshold <= area1[1] \
-           and area1[2] <= area2[2] + threshold \
-           and area1[3] <= area2[3] + threshold
+    return (
+        area2[0] - threshold <= area1[0]
+        and area2[1] - threshold <= area1[1]
+        and area1[2] <= area2[2] + threshold
+        and area1[3] <= area2[3] + threshold
+    )
 
 
 def area_cross_area(area1, area2, threshold=5):
@@ -323,10 +345,12 @@ def area_cross_area(area1, area2, threshold=5):
     Returns:
         bool:
     """
-    return point_in_area((area1[0], area1[1]), area2, threshold=threshold) \
-           or point_in_area((area1[2], area1[1]), area2, threshold=threshold) \
-           or point_in_area((area1[0], area1[3]), area2, threshold=threshold) \
-           or point_in_area((area1[2], area1[3]), area2, threshold=threshold)
+    return (
+        point_in_area((area1[0], area1[1]), area2, threshold=threshold)
+        or point_in_area((area1[2], area1[1]), area2, threshold=threshold)
+        or point_in_area((area1[0], area1[3]), area2, threshold=threshold)
+        or point_in_area((area1[2], area1[3]), area2, threshold=threshold)
+    )
 
 
 def float2str(n, decimal=3):
@@ -351,7 +375,7 @@ def point2str(x, y, length=4):
     Returns:
         str: String with numbers right aligned, such as '( 100,  80)'.
     """
-    return '(%s, %s)' % (str(int(x)).rjust(length), str(int(y)).rjust(length))
+    return "(%s, %s)" % (str(int(x)).rjust(length), str(int(y)).rjust(length))
 
 
 def node2location(node):
@@ -428,7 +452,9 @@ def crop(image, area):
     x1, y1, x2, y2 = np.maximum((x1, y1, x2, y2), 0)
     image = image[y1:y2, x1:x2].copy()
     if sum(border) > 0:
-        image = cv2.copyMakeBorder(image, *border, borderType=cv2.BORDER_CONSTANT, value=(0, 0, 0))
+        image = cv2.copyMakeBorder(
+            image, *border, borderType=cv2.BORDER_CONSTANT, value=(0, 0, 0)
+        )
     return image
 
 
@@ -481,7 +507,7 @@ def rgb2gray(image):
     r, g, b = cv2.split(image)
     return cv2.add(
         cv2.multiply(cv2.max(cv2.max(r, g), b), 0.5),
-        cv2.multiply(cv2.min(cv2.min(r, g), b), 0.5)
+        cv2.multiply(cv2.min(cv2.min(r, g), b), 0.5),
     )
 
 
@@ -629,7 +655,9 @@ def extract_white_letters(image, threshold=128):
     r, g, b = cv2.split(cv2.subtract((255, 255, 255, 0), image))
     minimum = cv2.min(cv2.min(r, g), b)
     maximum = cv2.max(cv2.max(r, g), b)
-    return cv2.multiply(cv2.add(maximum, cv2.subtract(maximum, minimum)), 255.0 / threshold)
+    return cv2.multiply(
+        cv2.add(maximum, cv2.subtract(maximum, minimum)), 255.0 / threshold
+    )
 
 
 def color_mapping(image, max_multiply=2):
@@ -668,7 +696,9 @@ def red_overlay_transparency(color1, color2, red=247):
     return (color2[0] - color1[0]) / (red - color1[0])
 
 
-def color_bar_percentage(image, area, prev_color, reverse=False, starter=0, threshold=30):
+def color_bar_percentage(
+    image, area, prev_color, reverse=False, starter=0, threshold=30
+):
     """
     Args:
         image:
@@ -702,4 +732,4 @@ def color_bar_percentage(image, area, prev_color, reverse=False, starter=0, thre
             return prev_index / length
         prev_color = np.mean(image[:, prev_index], axis=0)
 
-    return 0.
+    return 0.0

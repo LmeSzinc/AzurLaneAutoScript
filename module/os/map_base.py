@@ -22,13 +22,16 @@ class OSCampaignMap(CampaignMap):
                 self.grids[(x, y)] = grid
 
         # camera_data can be generate automatically, but it's better to set it manually.
-        self.camera_data = [location2node(loca) for loca in camera_2d((0, 0, *self._shape), sight=self.camera_sight)]
+        self.camera_data = [
+            location2node(loca)
+            for loca in camera_2d((0, 0, *self._shape), sight=self.camera_sight)
+        ]
         self.camera_data_spawn_point = []
         # weight_data set to 10.
         for grid in self:
-            grid.weight = 10.
+            grid.weight = 10.0
 
-    def update(self, grids, camera, mode='normal'):
+    def update(self, grids, camera, mode="normal"):
         """
         Args:
             grids:

@@ -16,7 +16,11 @@ class PortHandler(OSShopHandler):
             in: IN_MAP
             out: PORT_CHECK
         """
-        self.ui_click(PORT_ENTER, check_button=PORT_CHECK, skip_first_screenshot=skip_first_screenshot)
+        self.ui_click(
+            PORT_ENTER,
+            check_button=PORT_CHECK,
+            skip_first_screenshot=skip_first_screenshot,
+        )
         # Buttons at the bottom has an animation to show
         self.device.sleep(0.3)
         self.device.screenshot()
@@ -27,8 +31,11 @@ class PortHandler(OSShopHandler):
             in: PORT_CHECK
             out: IN_MAP
         """
-        self.ui_back(appear_button=PORT_CHECK, check_button=self.is_in_map,
-                     skip_first_screenshot=skip_first_screenshot)
+        self.ui_back(
+            appear_button=PORT_CHECK,
+            check_button=self.is_in_map,
+            skip_first_screenshot=skip_first_screenshot,
+        )
         # Buttons at the bottom has an animation to show
         self.device.sleep(0.3)
         self.device.screenshot()
@@ -48,11 +55,15 @@ class PortHandler(OSShopHandler):
             out: PORT_CHECK
         """
         if not self.appear(PORT_MISSION_RED_DOT):
-            logger.info('No available missions in this port')
+            logger.info("No available missions in this port")
             return True
 
-        self.ui_click(PORT_GOTO_MISSION, appear_button=PORT_CHECK, check_button=PORT_MISSION_CHECK,
-                      skip_first_screenshot=True)
+        self.ui_click(
+            PORT_GOTO_MISSION,
+            appear_button=PORT_CHECK,
+            check_button=PORT_MISSION_CHECK,
+            skip_first_screenshot=True,
+        )
 
         confirm_timer = Timer(1.5, count=3).start()
         skip_first_screenshot = True
@@ -63,7 +74,9 @@ class PortHandler(OSShopHandler):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(PORT_MISSION_ACCEPT, offset=(20, 20), interval=0.2):
+            if self.appear_then_click(
+                PORT_MISSION_ACCEPT, offset=(20, 20), interval=0.2
+            ):
                 confirm_timer.reset()
                 continue
             else:
@@ -73,11 +86,17 @@ class PortHandler(OSShopHandler):
                     break
 
             if self.info_bar_count():
-                logger.info('Unable to accept missions, because reached the maximum number of missions')
+                logger.info(
+                    "Unable to accept missions, because reached the maximum number of missions"
+                )
                 success = False
                 break
 
-        self.ui_back(appear_button=PORT_MISSION_CHECK, check_button=PORT_CHECK, skip_first_screenshot=True)
+        self.ui_back(
+            appear_button=PORT_MISSION_CHECK,
+            check_button=PORT_CHECK,
+            skip_first_screenshot=True,
+        )
         return success
 
     def port_supply_buy(self):
@@ -92,15 +111,23 @@ class PortHandler(OSShopHandler):
             in: PORT_CHECK
             out: PORT_CHECK
         """
-        self.ui_click(PORT_GOTO_SUPPLY, appear_button=PORT_CHECK, check_button=PORT_SUPPLY_CHECK,
-                      skip_first_screenshot=True)
+        self.ui_click(
+            PORT_GOTO_SUPPLY,
+            appear_button=PORT_CHECK,
+            check_button=PORT_SUPPLY_CHECK,
+            skip_first_screenshot=True,
+        )
         # Port items has an animation to show
         self.device.sleep(0.5)
         self.device.screenshot()
 
         success = self.handle_port_supply_buy()
 
-        self.ui_back(appear_button=PORT_SUPPLY_CHECK, check_button=PORT_CHECK, skip_first_screenshot=True)
+        self.ui_back(
+            appear_button=PORT_SUPPLY_CHECK,
+            check_button=PORT_CHECK,
+            skip_first_screenshot=True,
+        )
         return success
 
     def port_dock_repair(self):
@@ -111,8 +138,12 @@ class PortHandler(OSShopHandler):
             in: PORT_CHECK
             out: PORT_CHECK
         """
-        self.ui_click(PORT_GOTO_DOCK, appear_button=PORT_CHECK, check_button=PORT_DOCK_CHECK,
-                      skip_first_screenshot=True)
+        self.ui_click(
+            PORT_GOTO_DOCK,
+            appear_button=PORT_CHECK,
+            check_button=PORT_DOCK_CHECK,
+            skip_first_screenshot=True,
+        )
 
         skip_first_screenshot = True
         repaired = False
@@ -125,7 +156,7 @@ class PortHandler(OSShopHandler):
             # PORT_DOCK_CHECK is button to repair all.
             if self.appear_then_click(PORT_DOCK_CHECK, offset=(20, 20), interval=2):
                 continue
-            if self.handle_popup_confirm('DOCK_REPAIR'):
+            if self.handle_popup_confirm("DOCK_REPAIR"):
                 repaired = True
                 continue
 
@@ -135,4 +166,8 @@ class PortHandler(OSShopHandler):
             if repaired and self.appear(PORT_DOCK_CHECK, offset=(20, 20)):
                 break
 
-        self.ui_back(appear_button=PORT_DOCK_CHECK, check_button=PORT_CHECK, skip_first_screenshot=True)
+        self.ui_back(
+            appear_button=PORT_DOCK_CHECK,
+            check_button=PORT_CHECK,
+            skip_first_screenshot=True,
+        )

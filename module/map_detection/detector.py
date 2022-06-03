@@ -9,6 +9,7 @@ class MapDetector:
     """
     Map detector wrapper
     """
+
     image: np.ndarray
     config: AzurLaneConfig
 
@@ -28,7 +29,7 @@ class MapDetector:
         self.backend = None
         self.detector_set_backend()
 
-    def detector_set_backend(self, name=''):
+    def detector_set_backend(self, name=""):
         """
         Args:
             name (str): 'homography' or 'perspective'
@@ -36,7 +37,7 @@ class MapDetector:
         if not name:
             name = self.config.DETECTION_BACKEND
 
-        if name == 'homography':
+        if name == "homography":
             self.backend = Homography(config=self.config)
         else:
             self.backend = Perspective(config=self.config)

@@ -3,8 +3,8 @@ import re
 from module.base.mask import Mask
 from module.ui.page import *
 
-MASK_MAIN = Mask('./assets/mask/MASK_MAIN.png')
-MASK_PLAYER = Mask('./assets/mask/MASK_PLAYER.png')
+MASK_MAIN = Mask("./assets/mask/MASK_MAIN.png")
+MASK_PLAYER = Mask("./assets/mask/MASK_PLAYER.png")
 
 
 def handle_sensitive_image(image):
@@ -31,8 +31,16 @@ def handle_sensitive_text(text):
     Returns:
         str:
     """
-    text = re.sub('File \"(.*?)AzurLaneAutoScript', 'File \"C:\\\\fakepath\\\\AzurLaneAutoScript', text)
-    text = re.sub('\[Adb_binary\] (.*?)AzurLaneAutoScript', '[Adb_binary] C:\\\\fakepath\\\\AzurLaneAutoScript', text)
+    text = re.sub(
+        'File "(.*?)AzurLaneAutoScript',
+        'File "C:\\\\fakepath\\\\AzurLaneAutoScript',
+        text,
+    )
+    text = re.sub(
+        "\[Adb_binary\] (.*?)AzurLaneAutoScript",
+        "[Adb_binary] C:\\\\fakepath\\\\AzurLaneAutoScript",
+        text,
+    )
     return text
 
 

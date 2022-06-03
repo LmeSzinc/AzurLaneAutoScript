@@ -16,10 +16,10 @@ class MetaReward(Combat, UI):
             in: page_meta
         """
         if self.appear(META_REWARD_NOTICE, threshold=30):
-            logger.info('Found meta reward red dot')
+            logger.info("Found meta reward red dot")
             return True
         else:
-            logger.info('No meta reward red dot')
+            logger.info("No meta reward red dot")
             return False
 
     def meta_reward_enter(self, skip_first_screenshot=True):
@@ -28,7 +28,7 @@ class MetaReward(Combat, UI):
             in: page_meta
             out: REWARD_CHECK
         """
-        logger.info('Meta reward enter')
+        logger.info("Meta reward enter")
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -54,7 +54,7 @@ class MetaReward(Combat, UI):
             in: REWARD_CHECK
             out: REWARD_CHECK
         """
-        logger.hr('Meta reward receive', level=1)
+        logger.hr("Meta reward receive", level=1)
         confirm_timer = Timer(1, count=3).start()
         received = False
         while 1:
@@ -63,12 +63,13 @@ class MetaReward(Combat, UI):
             else:
                 self.device.screenshot()
 
-            if self.appear(REWARD_RECEIVE, offset=(20, 20), interval=3) and REWARD_RECEIVE.match_appear_on(
-                    self.device.image):
+            if self.appear(
+                REWARD_RECEIVE, offset=(20, 20), interval=3
+            ) and REWARD_RECEIVE.match_appear_on(self.device.image):
                 self.device.click(REWARD_RECEIVE)
                 confirm_timer.reset()
                 continue
-            if self.handle_popup_confirm('META_REWARD'):
+            if self.handle_popup_confirm("META_REWARD"):
                 # Lock new META ships
                 confirm_timer.reset()
                 continue
@@ -83,14 +84,15 @@ class MetaReward(Combat, UI):
 
             # End
             if self.appear(REWARD_CHECK, offset=(20, 20)) and not (
-                    self.appear(REWARD_RECEIVE, offset=(20, 20)) and REWARD_RECEIVE.match_appear_on(self.device.image)
+                self.appear(REWARD_RECEIVE, offset=(20, 20))
+                and REWARD_RECEIVE.match_appear_on(self.device.image)
             ):
                 if confirm_timer.reached():
                     break
             else:
                 confirm_timer.reset()
 
-        logger.info(f'Meta reward receive finished, received={received}')
+        logger.info(f"Meta reward receive finished, received={received}")
         return received
 
     def run(self):

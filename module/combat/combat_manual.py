@@ -17,7 +17,7 @@ class CombatManual(ModuleBase):
         Returns:
             bool: If executed
         """
-        if auto != 'stand_still_in_the_middle':
+        if auto != "stand_still_in_the_middle":
             return False
 
         self.device.long_click(MOVE_DOWN, duration=0.8)
@@ -31,7 +31,7 @@ class CombatManual(ModuleBase):
         Returns:
             bool: If executed
         """
-        if auto != 'hide_in_bottom_left':
+        if auto != "hide_in_bottom_left":
             return False
 
         self.device.long_click(MOVE_LEFT_DOWN, duration=(3.5, 5.5))

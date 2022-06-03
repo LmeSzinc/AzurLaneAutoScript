@@ -4,8 +4,12 @@ from functools import wraps
 from adbutils.errors import AdbError
 
 from module.device.connection import Connection
-from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
-                                        handle_adb_error, PackageNotInstalled)
+from module.device.method.utils import (
+    RETRY_DELAY,
+    RETRY_TRIES,
+    handle_adb_error,
+    PackageNotInstalled,
+)
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 
@@ -34,12 +38,15 @@ def retry(func):
                 def init():
                     self.adb_disconnect(self.serial)
                     self.adb_connect(self.serial)
+
             # AdbError
             except AdbError as e:
                 if handle_adb_error(e):
+
                     def init():
                         self.adb_disconnect(self.serial)
                         self.adb_connect(self.serial)
+
                 else:
                     break
             # Package not installed
@@ -48,6 +55,7 @@ def retry(func):
 
                 def init():
                     self.detect_package()
+
             # Unknown, probably a trucked image
             except Exception as e:
                 logger.exception(e)
@@ -55,14 +63,13 @@ def retry(func):
                 def init():
                     pass
 
-        logger.critical(f'Retry {func.__name__}() failed')
+        logger.critical(f"Retry {func.__name__}() failed")
         raise RequestHumanTakeover
 
     return retry_wrapper
 
 
 class WSA(Connection):
-
     @retry
     def app_current_wsa(self):
         """
@@ -74,13 +81,13 @@ class WSA(Connection):
         """
         # try: adb shell dumpsys activity top
         _activityRE = re.compile(
-            r'ACTIVITY (?P<package>[^\s]+)/(?P<activity>[^/\s]+) \w+ pid=(?P<pid>\d+)'
+            r"ACTIVITY (?P<package>[^\s]+)/(?P<activity>[^/\s]+) \w+ pid=(?P<pid>\d+)"
         )
-        output = self.adb_shell(['dumpsys', 'activity', 'top'])
+        output = self.adb_shell(["dumpsys", "activity", "top"])
         ms = _activityRE.finditer(output)
         ret = None
         for m in ms:
-            ret = m.group('package')
+            ret = m.group("package")
             if ret == self.package:
                 return ret
         if ret:  # get last result
@@ -99,10 +106,12 @@ class WSA(Connection):
         """
         if not package_name:
             package_name = self.package
-        self.adb_shell(['svc', 'power', 'stayon', 'true'])
+        self.adb_shell(["svc", "power", "stayon", "true"])
         activity_name = self.get_main_activity_name(package_name=package_name)
-        result = self.adb_shell(['am', 'start', '--display', display, f'{package_name}/{activity_name}'])
-        if 'Activity not started' in result or 'does not exist' in result:
+        result = self.adb_shell(
+            ["am", "start", "--display", display, f"{package_name}/{activity_name}"]
+        )
+        if "Activity not started" in result or "does not exist" in result:
             # Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] pkg=xxx }
             # Error: Activity not started, unable to resolve Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 pkg=xxx }
 
@@ -120,12 +129,12 @@ class WSA(Connection):
         if not package_name:
             package_name = self.package
         try:
-            output = self.adb_shell(['dumpsys', 'package', package_name])
+            output = self.adb_shell(["dumpsys", "package", package_name])
             _activityRE = re.compile(
-                r'\w+ ' + package_name + r'/(?P<activity>[^/\s]+) filter'
+                r"\w+ " + package_name + r"/(?P<activity>[^/\s]+) filter"
             )
             ms = _activityRE.finditer(output)
-            ret = next(ms).group('activity')
+            ret = next(ms).group("activity")
             return ret
         except StopIteration:
             raise PackageNotInstalled(package_name)
@@ -133,19 +142,23 @@ class WSA(Connection):
     @retry
     def get_display_id(self):
         """
-            Returns:
-                0: Could not find
-                int: Display id of the game
+        Returns:
+            0: Could not find
+            int: Display id of the game
         """
         try:
-            get_dump_sys_display = str(self.adb_shell(['dumpsys', 'display']))
-            display_id_list = re.findall(r'systemapp:' + self.package + ':' + '(.+?)', get_dump_sys_display, re.S)
+            get_dump_sys_display = str(self.adb_shell(["dumpsys", "display"]))
+            display_id_list = re.findall(
+                r"systemapp:" + self.package + ":" + "(.+?)", get_dump_sys_display, re.S
+            )
             display_id = int(display_id_list[0])
             return display_id
         except IndexError:
-            return 0  # When game running on display 0, its display id could not be found
+            return (
+                0  # When game running on display 0, its display id could not be found
+            )
 
     @retry
     def display_resize_wsa(self, display):
-        logger.warning('display ' + str(display) + ' should be resized')
-        self.adb_shell(['wm', 'size', '1280x720', '-d', str(display)])
+        logger.warning("display " + str(display) + " should be resized")
+        self.adb_shell(["wm", "size", "1280x720", "-d", str(display)])

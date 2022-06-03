@@ -20,8 +20,8 @@ class AmountOcr(Digit):
         return image.astype(np.uint8)
 
 
-AMOUNT_OCR = AmountOcr([], threshold=96, name='Amount_ocr')
-PRICE_OCR = Digit([], letter=(255, 223, 57), threshold=32, name='Price_ocr')
+AMOUNT_OCR = AmountOcr([], threshold=96, name="Amount_ocr")
+PRICE_OCR = Digit([], letter=(255, 223, 57), threshold=32, name="Price_ocr")
 
 
 class Item:
@@ -37,15 +37,18 @@ class Item:
         self._button = button
         image = crop(image, button.area)
         from PIL import Image
+
         Image.fromarray(image).crop()
         if image.shape == self.IMAGE_SHAPE:
             self.image = image
         else:
-            self.image = cv2.resize(image, self.IMAGE_SHAPE, interpolation=cv2.INTER_CUBIC)
+            self.image = cv2.resize(
+                image, self.IMAGE_SHAPE, interpolation=cv2.INTER_CUBIC
+            )
         self.is_valid = self.predict_valid()
-        self._name = 'DefaultItem'
+        self._name = "DefaultItem"
         self.amount = 1
-        self._cost = 'DefaultCost'
+        self._cost = "DefaultCost"
         self.price = 0
         self.tag = None
 
@@ -60,8 +63,8 @@ class Item:
             value (str): Item name, such as 'PlateGeneralT3'. Suffix in name will be ignore.
                 For example, 'Javelin' and 'Javelin_2' are different templates, but have same output name 'Javelin'.
         """
-        if '_' in value:
-            pre, suffix = value.rsplit('_', 1)
+        if "_" in value:
+            pre, suffix = value.rsplit("_", 1)
             if suffix.isdigit():
                 value = pre
         self._name = value
@@ -72,14 +75,14 @@ class Item:
 
     @cost.setter
     def cost(self, value):
-        if '_' in value:
-            pre, suffix = value.rsplit('_', 1)
+        if "_" in value:
+            pre, suffix = value.rsplit("_", 1)
             if suffix.isdigit():
                 value = pre
         self._cost = value
 
     def is_known_item(self):
-        if self.name == 'DefaultItem':
+        if self.name == "DefaultItem":
             return False
         elif self.name.isdigit():
             return False
@@ -87,15 +90,15 @@ class Item:
             return True
 
     def __str__(self):
-        if self.name != 'DefaultItem' and self.cost == 'DefaultCost':
-            name = f'{self.name}_x{self.amount}'
-        elif self.name == 'DefaultItem' and self.cost != 'DefaultCost':
-            name = f'{self.cost}_x{self.price}'
+        if self.name != "DefaultItem" and self.cost == "DefaultCost":
+            name = f"{self.name}_x{self.amount}"
+        elif self.name == "DefaultItem" and self.cost != "DefaultCost":
+            name = f"{self.cost}_x{self.price}"
         else:
-            name = f'{self.name}_x{self.amount}_{self.cost}_x{self.price}'
+            name = f"{self.name}_x{self.amount}_{self.cost}_x{self.price}"
 
         if self.tag is not None:
-            name = f'{name}_{self.tag}'
+            name = f"{name}_{self.tag}"
 
         return name
 
@@ -122,8 +125,16 @@ class ItemGrid:
     similarity = 0.92
     cost_similarity = 0.75
 
-    def __init__(self, grids, templates, template_area=(40, 21, 89, 70), amount_area=(60, 71, 91, 92),
-                 cost_area=(6, 123, 84, 166), price_area=(52, 132, 132, 156), tag_area=(81, 4, 91, 8)):
+    def __init__(
+        self,
+        grids,
+        templates,
+        template_area=(40, 21, 89, 70),
+        amount_area=(60, 71, 91, 92),
+        cost_area=(6, 123, 84, 166),
+        price_area=(52, 132, 132, 156),
+        tag_area=(81, 4, 91, 8),
+    ):
         """
         Args:
             grids (ButtonGrid):
@@ -211,10 +222,14 @@ class ItemGrid:
             str: Template name.
         """
         color = cv2.mean(crop(image, self.template_area))[:3]
-        names = np.array(list(self.templates.keys()))[np.argsort(list(self.templates_hit.values()))][::-1]
+        names = np.array(list(self.templates.keys()))[
+            np.argsort(list(self.templates_hit.values()))
+        ][::-1]
         for name in names:
             if color_similar(color1=color, color2=self.colors[name], threshold=30):
-                res = cv2.matchTemplate(image, self.templates[name], cv2.TM_CCOEFF_NORMED)
+                res = cv2.matchTemplate(
+                    image, self.templates[name], cv2.TM_CCOEFF_NORMED
+                )
                 _, similarity, _, _ = cv2.minMaxLoc(res)
                 if similarity > self.similarity:
                     self.templates_hit[name] += 1
@@ -222,7 +237,7 @@ class ItemGrid:
 
         self.next_template_index += 1
         name = str(self.next_template_index)
-        logger.info(f'New template: {name}')
+        logger.info(f"New template: {name}")
         image = crop(image, self.template_area)
         self.colors[name] = cv2.mean(image)[:3]
         self.templates[name] = image
@@ -258,9 +273,13 @@ class ItemGrid:
             str: Template name.
         """
         image = item.crop(self.cost_area)
-        names = np.array(list(self.cost_templates.keys()))[np.argsort(list(self.cost_templates_hit.values()))][::-1]
+        names = np.array(list(self.cost_templates.keys()))[
+            np.argsort(list(self.cost_templates_hit.values()))
+        ][::-1]
         for name in names:
-            res = cv2.matchTemplate(image, self.cost_templates[name], cv2.TM_CCOEFF_NORMED)
+            res = cv2.matchTemplate(
+                image, self.cost_templates[name], cv2.TM_CCOEFF_NORMED
+            )
             _, similarity, _, _ = cv2.minMaxLoc(res)
             if similarity > self.cost_similarity:
                 self.cost_templates_hit[name] += 1
@@ -289,7 +308,9 @@ class ItemGrid:
         """
         return None
 
-    def predict(self, image, name=True, amount=True, cost=False, price=False, tag=False):
+    def predict(
+        self, image, name=True, amount=True, cost=False, price=False, tag=False
+    ):
         """
         Args:
             image (np.ndarray):
@@ -314,7 +335,9 @@ class ItemGrid:
                 item.name = n
         if cost:
             cost_list = [self.match_cost_template(item) for item in self.items]
-            self.items = [item for item, c in zip(self.items, cost_list) if c is not None]
+            self.items = [
+                item for item, c in zip(self.items, cost_list) if c is not None
+            ]
             cost_list = [c for c in cost_list if c is not None]
             for item, c in zip(self.items, cost_list):
                 item.cost = c
@@ -324,7 +347,9 @@ class ItemGrid:
             for item, p in zip(self.items, price_list):
                 item.price = p
         if tag:
-            tag_list = [self.predict_tag(item.crop(self.tag_area)) for item in self.items]
+            tag_list = [
+                self.predict_tag(item.crop(self.tag_area)) for item in self.items
+            ]
             for item, t in zip(self.items, tag_list):
                 item.tag = t
 
@@ -332,7 +357,7 @@ class ItemGrid:
         items = [item for item in self.items if not (price and item.price <= 0)]
         diff = len(self.items) - len(items)
         if diff > 0:
-            logger.warning(f'Ignore {diff} items, because price <= 0')
+            logger.warning(f"Ignore {diff} items, because price <= 0")
             self.items = items
 
         return self.items

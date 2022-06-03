@@ -5,10 +5,7 @@ from deploy.utils import *
 class AlasManager(DeployConfig):
     @cached_property
     def alas_folder(self):
-        return [
-            self.filepath("PythonExecutable"),
-            self.root_filepath
-        ]
+        return [self.filepath("PythonExecutable"), self.root_filepath]
 
     @cached_property
     def self_pid(self):
@@ -25,19 +22,25 @@ class AlasManager(DeployConfig):
         try:
             from win32com.client import GetObject
         except ModuleNotFoundError:
-            print('pywin32 not installed, skip')
+            print("pywin32 not installed, skip")
             return False
 
         try:
-            wmi = GetObject('winmgmts:')
-            processes = wmi.InstancesOf('Win32_Process')
+            wmi = GetObject("winmgmts:")
+            processes = wmi.InstancesOf("Win32_Process")
             for p in processes:
                 executable_path = p.Properties_["ExecutablePath"].Value
                 process_name = p.Properties_("Name").Value
                 process_id = p.Properties_["ProcessID"].Value
 
-                if executable_path is not None and process_name == name and process_id != self.self_pid:
-                    executable_path = executable_path.replace(r'\\', '/').replace('\\', '/')
+                if (
+                    executable_path is not None
+                    and process_name == name
+                    and process_id != self.self_pid
+                ):
+                    executable_path = executable_path.replace(r"\\", "/").replace(
+                        "\\", "/"
+                    )
                     for folder in self.alas_folder:
                         if folder in executable_path:
                             yield executable_path, process_name, process_id
@@ -52,12 +55,12 @@ class AlasManager(DeployConfig):
         Args:
             name (str): Process name
         """
-        hr1(f'Kill {name}')
+        hr1(f"Kill {name}")
         for row in self.iter_process_by_name(name):
-            print(' '.join(map(str, row)))
-            self.execute(f'taskkill /f /pid {row[2]}', allow_failure=True)
+            print(" ".join(map(str, row)))
+            self.execute(f"taskkill /f /pid {row[2]}", allow_failure=True)
 
     def alas_kill(self):
-        hr0(f'Kill existing Alas')
-        self.kill_by_name('alas.exe')
-        self.kill_by_name('python.exe')
+        hr0(f"Kill existing Alas")
+        self.kill_by_name("alas.exe")
+        self.kill_by_name("python.exe")

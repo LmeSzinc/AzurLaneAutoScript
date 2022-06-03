@@ -8,11 +8,12 @@ class CampaignBase(CampaignBase_):
     Dace appears at the beginning, disappear and re-appear after player moved, but doesn't move.
     Override full scan methods to make sure that, Dace can be kept when tracking siren movements.
     """
+
     dace = None
 
     def full_scan_movable(self, *args, **kwargs):
-        self.dace = self.map.select(enemy_genre='Siren_Dace')
-        logger.attr('Submarine_Dace', self.dace)
+        self.dace = self.map.select(enemy_genre="Siren_Dace")
+        logger.attr("Submarine_Dace", self.dace)
 
         super().full_scan_movable(*args, **kwargs)
 
@@ -20,10 +21,10 @@ class CampaignBase(CampaignBase_):
         super().full_scan(*args, **kwargs)
 
         if self.dace is not None:
-            logger.attr('Submarine_Dace', self.dace)
+            logger.attr("Submarine_Dace", self.dace)
             for grid in self.dace:
                 grid.is_siren = True
-                grid.enemy_genre = 'Siren_Dace'
+                grid.enemy_genre = "Siren_Dace"
             self.dace = None
 
     def get_map_clear_percentage(self):

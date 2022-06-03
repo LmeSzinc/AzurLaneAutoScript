@@ -6,8 +6,7 @@ from module.config.utils import get_server_next_update
 from module.device.app_control import AppControl
 from module.device.control import Control
 from module.device.screenshot import Screenshot
-from module.exception import (GameStuckError, GameTooManyClickError,
-                              RequestHumanTakeover)
+from module.exception import GameStuckError, GameTooManyClickError, RequestHumanTakeover
 from module.handler.assets import GET_MISSION
 from module.logger import logger
 
@@ -18,13 +17,13 @@ class Device(Screenshot, Control, AppControl):
     click_record = deque(maxlen=15)
     stuck_timer = Timer(60, count=60).start()
     stuck_timer_long = Timer(180, count=180).start()
-    stuck_long_wait_list = ['BATTLE_STATUS_S', 'PAUSE', 'LOGIN_CHECK']
+    stuck_long_wait_list = ["BATTLE_STATUS_S", "PAUSE", "LOGIN_CHECK"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.screenshot_interval_set()
 
-    def handle_night_commission(self, daily_trigger='21:00', threshold=30):
+    def handle_night_commission(self, daily_trigger="21:00", threshold=30):
         """
         Args:
             daily_trigger (int): Time for commission refresh.
@@ -40,7 +39,7 @@ class Device(Screenshot, Control, AppControl):
             return False
 
         if GET_MISSION.match(self.image, offset=True):
-            logger.info('Night commission appear.')
+            logger.info("Night commission appear.")
             self.click(GET_MISSION)
             return True
 
@@ -81,11 +80,11 @@ class Device(Screenshot, Control, AppControl):
                 if button in self.detect_record:
                     return False
 
-        logger.warning('Wait too long')
-        logger.warning(f'Waiting for {self.detect_record}')
+        logger.warning("Wait too long")
+        logger.warning(f"Waiting for {self.detect_record}")
         self.stuck_record_clear()
 
-        raise GameStuckError(f'Wait too long')
+        raise GameStuckError(f"Wait too long")
 
     def handle_control_check(self, button):
         self.stuck_record_clear()
@@ -108,21 +107,29 @@ class Device(Screenshot, Control, AppControl):
             count[key] = count.get(key, 0) + 1
         count = sorted(count.items(), key=lambda item: item[1])
         if count[0][1] >= 12:
-            logger.warning(f'Too many click for a button: {count[0][0]}')
-            logger.warning(f'History click: {[str(prev) for prev in self.click_record]}')
+            logger.warning(f"Too many click for a button: {count[0][0]}")
+            logger.warning(
+                f"History click: {[str(prev) for prev in self.click_record]}"
+            )
             self.click_record_clear()
-            raise GameTooManyClickError(f'Too many click for a button: {count[0][0]}')
+            raise GameTooManyClickError(f"Too many click for a button: {count[0][0]}")
         if len(count) >= 2 and count[0][1] >= 6 and count[1][1] >= 6:
-            logger.warning(f'Too many click between 2 buttons: {count[0][0]}, {count[1][0]}')
-            logger.warning(f'History click: {[str(prev) for prev in self.click_record]}')
+            logger.warning(
+                f"Too many click between 2 buttons: {count[0][0]}, {count[1][0]}"
+            )
+            logger.warning(
+                f"History click: {[str(prev) for prev in self.click_record]}"
+            )
             self.click_record_clear()
-            raise GameTooManyClickError(f'Too many click between 2 buttons: {count[0][0]}, {count[1][0]}')
+            raise GameTooManyClickError(
+                f"Too many click between 2 buttons: {count[0][0]}, {count[1][0]}"
+            )
 
     def disable_stuck_detection(self):
         """
         Disable stuck detection and its handler. Usually uses in semi auto and debugging.
         """
-        logger.info('Disable stuck detection')
+        logger.info("Disable stuck detection")
 
         def empty_function(*arg, **kwargs):
             return False
@@ -132,8 +139,10 @@ class Device(Screenshot, Control, AppControl):
 
     def app_start(self):
         if not self.config.Error_HandleError:
-            logger.critical('No app stop/start, because HandleError disabled')
-            logger.critical('Please enable Alas.Error.HandleError or manually login to AzurLane')
+            logger.critical("No app stop/start, because HandleError disabled")
+            logger.critical(
+                "Please enable Alas.Error.HandleError or manually login to AzurLane"
+            )
             raise RequestHumanTakeover
         super().app_start()
         self.stuck_record_clear()
@@ -141,8 +150,10 @@ class Device(Screenshot, Control, AppControl):
 
     def app_stop(self):
         if not self.config.Error_HandleError:
-            logger.critical('No app stop/start, because HandleError disabled')
-            logger.critical('Please enable Alas.Error.HandleError or manually login to AzurLane')
+            logger.critical("No app stop/start, because HandleError disabled")
+            logger.critical(
+                "Please enable Alas.Error.HandleError or manually login to AzurLane"
+            )
             raise RequestHumanTakeover
         super().app_stop()
         self.stuck_record_clear()

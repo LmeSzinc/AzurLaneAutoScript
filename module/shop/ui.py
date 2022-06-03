@@ -21,13 +21,18 @@ class ShopUI(UI):
             general.
         """
         shop_bottom_navbar = ButtonGrid(
-            origin=(399, 619), delta=(182, 0),
-            button_shape=(56, 42), grid_shape=(5, 1),
-            name='SHOP_BOTTOM_NAVBAR')
+            origin=(399, 619),
+            delta=(182, 0),
+            button_shape=(56, 42),
+            grid_shape=(5, 1),
+            name="SHOP_BOTTOM_NAVBAR",
+        )
 
-        return Navbar(grids=shop_bottom_navbar,
-                      active_color=(33, 195, 239),
-                      inactive_color=(181, 178, 181))
+        return Navbar(
+            grids=shop_bottom_navbar,
+            active_color=(33, 195, 239),
+            inactive_color=(181, 178, 181),
+        )
 
     def shop_bottom_navbar_ensure(self, left=None, right=None):
         """
@@ -74,14 +79,20 @@ class ShopUI(UI):
             if self.appear_then_click(SHOP_REFRESH, interval=3):
                 exit_timer.reset()
                 continue
-            if self.appear(SHOP_BUY_CONFIRM_MISTAKE, interval=3, offset=(200, 200)) \
-                    and self.appear(POPUP_CONFIRM, offset=(3, 30)):
-                self.ui_click(SHOP_CLICK_SAFE_AREA, appear_button=POPUP_CONFIRM, check_button=BACK_ARROW,
-                              offset=(20, 30), skip_first_screenshot=True)
+            if self.appear(
+                SHOP_BUY_CONFIRM_MISTAKE, interval=3, offset=(200, 200)
+            ) and self.appear(POPUP_CONFIRM, offset=(3, 30)):
+                self.ui_click(
+                    SHOP_CLICK_SAFE_AREA,
+                    appear_button=POPUP_CONFIRM,
+                    check_button=BACK_ARROW,
+                    offset=(20, 30),
+                    skip_first_screenshot=True,
+                )
                 exit_timer.reset()
                 refreshed = False
                 break
-            if self.handle_popup_confirm('SHOP_REFRESH_CONFIRM'):
+            if self.handle_popup_confirm("SHOP_REFRESH_CONFIRM"):
                 exit_timer.reset()
                 refreshed = True
                 continue
@@ -116,11 +127,14 @@ class ShopUI(UI):
                 self.device.screenshot()
 
             # Swipe to the left, medal shop on the leftmost and merit shop on the right most
-            if self.appear(SHOP_MEDAL_SWIPE_END, offset=(15, 5)) or \
-                    self.appear(SHOP_MERIT_SWIPE_END, offset=(15, 5)):
+            if self.appear(SHOP_MEDAL_SWIPE_END, offset=(15, 5)) or self.appear(
+                SHOP_MERIT_SWIPE_END, offset=(15, 5)
+            ):
                 return True
 
-            self.device.swipe_vector((480, 0), box=detection_area, random_range=(-50, -10, 50, 10), padding=0)
+            self.device.swipe_vector(
+                (480, 0), box=detection_area, random_range=(-50, -10, 50, 10), padding=0
+            )
             self.device.sleep(0.3)
 
         return False

@@ -18,14 +18,20 @@ class GuildLobby(GuildBase):
             Button: Button to enter guild report.
         """
         # Find red color in the area of GUILD_REPORT_AVAILABLE
-        image = color_similarity_2d(self.image_crop(GUILD_REPORT_AVAILABLE), color=(255, 8, 8))
+        image = color_similarity_2d(
+            self.image_crop(GUILD_REPORT_AVAILABLE), color=(255, 8, 8)
+        )
         points = np.array(np.where(image > 221)).T[:, ::-1]
         if len(points):
             # The center of red dot
-            points = Points(points).group(threshold=40) + GUILD_REPORT_AVAILABLE.area[:2]
+            points = (
+                Points(points).group(threshold=40) + GUILD_REPORT_AVAILABLE.area[:2]
+            )
             # Shift to the center of report icon
             area = area_offset((-51, -45, -13, 0), offset=points[0])
-            return Button(area=area, color=(255, 255, 255), button=area, name='GUILD_REPORT')
+            return Button(
+                area=area, color=(255, 255, 255), button=area, name="GUILD_REPORT"
+            )
         else:
             return None
 
@@ -92,6 +98,6 @@ class GuildLobby(GuildBase):
             in: GUILD_LOBBY
             out: GUILD_LOBBY
         """
-        logger.hr('Guild lobby', level=1)
+        logger.hr("Guild lobby", level=1)
         self._guild_lobby_collect()
-        logger.info('Guild lobby collect finished')
+        logger.info("Guild lobby collect finished")

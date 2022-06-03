@@ -31,7 +31,7 @@ class AzurLaneDaemon(DaemonBase, OSFleet, PortHandler):
                 self.combat_preparation()
             try:
                 if self.handle_battle_status():
-                    self.combat_status(expected_end='no_searching')
+                    self.combat_status(expected_end="no_searching")
                     continue
             except (CampaignEnd, ContinuousCombat):
                 continue
@@ -54,8 +54,10 @@ class AzurLaneDaemon(DaemonBase, OSFleet, PortHandler):
                     self.port_dock_repair()
                     self.port_quit()
                     self.interval_reset(PORT_ENTER)
-                    logger.info('Port repair finished, '
-                                'please move your fleet out of the port in 30s to avoid repairing again')
+                    logger.info(
+                        "Port repair finished, "
+                        "please move your fleet out of the port in 30s to avoid repairing again"
+                    )
 
             if self.config.OpsiDaemon_SelectEnemy:
                 if self.click_nearest_object():
@@ -67,6 +69,6 @@ class AzurLaneDaemon(DaemonBase, OSFleet, PortHandler):
         return True
 
 
-if __name__ == '__main__':
-    b = AzurLaneDaemon('alas', task='OpsiDaemon')
+if __name__ == "__main__":
+    b = AzurLaneDaemon("alas", task="OpsiDaemon")
     b.run()

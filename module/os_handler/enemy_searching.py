@@ -1,5 +1,6 @@
-from module.handler.enemy_searching import \
-    EnemySearchingHandler as EnemySearchingHandler_
+from module.handler.enemy_searching import (
+    EnemySearchingHandler as EnemySearchingHandler_,
+)
 from module.os_handler.assets import *
 
 

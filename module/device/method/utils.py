@@ -14,12 +14,12 @@ RETRY_DELAY = 3
 
 
 def is_port_using(port_num):
-    """ if port is using by others, return True. else return False """
+    """if port is using by others, return True. else return False"""
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.settimeout(2)
 
     try:
-        result = s.connect_ex(('127.0.0.1', port_num))
+        result = s.connect_ex(("127.0.0.1", port_num))
         # if port is using, return code should be 0. (can be connected)
         return result == 0
     finally:
@@ -27,7 +27,7 @@ def is_port_using(port_num):
 
 
 def random_port(port_range):
-    """ get a random port from port set """
+    """get a random port from port set"""
     new_port = random.choice(list(range(*port_range)))
     if is_port_using(new_port):
         return random_port(port_range)
@@ -59,9 +59,9 @@ def recv_all(stream, chunk_size=4096) -> bytes:
                 fragments.append(chunk)
             else:
                 break
-        return b''.join(fragments)
+        return b"".join(fragments)
     except socket.timeout:
-        raise AdbTimeout('adb read timeout')
+        raise AdbTimeout("adb read timeout")
 
 
 def possible_reasons(*args):
@@ -73,7 +73,7 @@ def possible_reasons(*args):
     """
     for index, reason in enumerate(args):
         index += 1
-        logger.critical(f'Possible reason #{index}: {reason}')
+        logger.critical(f"Possible reason #{index}: {reason}")
 
 
 class PackageNotInstalled(Exception):
@@ -89,23 +89,23 @@ def handle_adb_error(e):
         bool: If should retry
     """
     text = str(e)
-    if 'not found' in text:
+    if "not found" in text:
         # When you call `adb disconnect <serial>`
         # Or when adb server was killed (low possibility)
         # AdbError(device '127.0.0.1:59865' not found)
         logger.error(e)
         return True
-    elif 'timeout' in text:
+    elif "timeout" in text:
         # AdbTimeout(adb read timeout)
         logger.error(e)
         return True
-    elif 'closed' in text:
+    elif "closed" in text:
         # AdbError(closed)
         # Usually after AdbTimeout(adb read timeout)
         # Disconnect and re-connect should fix this.
         logger.error(e)
         return True
-    elif 'device offline' in text:
+    elif "device offline" in text:
         # AdbError(device offline)
         # When a device that has been connected wirelessly is disconnected passively,
         # it does not disappear from the adb device list,
@@ -115,7 +115,7 @@ def handle_adb_error(e):
         # the device is still available, but it needs to be disconnected and re-connected.
         logger.error(e)
         return True
-    elif 'unknown host service' in text:
+    elif "unknown host service" in text:
         # AdbError(unknown host service)
         # Another version of ADB service started, current ADB service has been killed.
         # Usually because user opened a Chinese emulator, which uses ADB from the Stone Age.
@@ -125,9 +125,9 @@ def handle_adb_error(e):
         # AdbError()
         logger.exception(e)
         possible_reasons(
-            'If you are using BlueStacks or LD player or WSA, please enable ADB in the settings of your emulator',
-            'Emulator died, please restart emulator',
-            'Serial incorrect, no such device exists or emulator is not running'
+            "If you are using BlueStacks or LD player or WSA, please enable ADB in the settings of your emulator",
+            "Emulator died, please restart emulator",
+            "Serial incorrect, no such device exists or emulator is not running",
         )
         return False
 
@@ -162,7 +162,8 @@ class HierarchyButton:
     """
     Convert UI hierarchy to an object like the Button in Alas.
     """
-    _name_regex = re.compile('@.*?=[\'\"](.*?)[\'\"]')
+
+    _name_regex = re.compile("@.*?=['\"](.*?)['\"]")
 
     def __init__(self, hierarchy: etree._Element, xpath: str):
         self.hierarchy = hierarchy
@@ -175,7 +176,7 @@ class HierarchyButton:
         if res:
             return res[0]
         else:
-            return 'HierarchyButton'
+            return "HierarchyButton"
 
     @cached_property
     def count(self):
@@ -207,6 +208,6 @@ class HierarchyButton:
     @cached_property
     def focused(self):
         if self.exist:
-            return self.nodes[0].attrib.get("focused").lower() == 'true'
+            return self.nodes[0].attrib.get("focused").lower() == "true"
         else:
             return False

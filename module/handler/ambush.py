@@ -23,15 +23,23 @@ class AmbushHandler(Combat):
         MAP_AIR_RAID.load_color(self.device.image)
 
     def _ambush_appear(self):
-        return red_overlay_transparency(MAP_AMBUSH.color, get_color(self.device.image, MAP_AMBUSH.area)) > \
-               self.MAP_AMBUSH_OVERLAY_TRANSPARENCY_THRESHOLD
+        return (
+            red_overlay_transparency(
+                MAP_AMBUSH.color, get_color(self.device.image, MAP_AMBUSH.area)
+            )
+            > self.MAP_AMBUSH_OVERLAY_TRANSPARENCY_THRESHOLD
+        )
 
     def _air_raid_appear(self):
-        return red_overlay_transparency(MAP_AIR_RAID.color, get_color(self.device.image, MAP_AIR_RAID.area)) > \
-               self.MAP_AIR_RAID_OVERLAY_TRANSPARENCY_THRESHOLD
+        return (
+            red_overlay_transparency(
+                MAP_AIR_RAID.color, get_color(self.device.image, MAP_AIR_RAID.area)
+            )
+            > self.MAP_AIR_RAID_OVERLAY_TRANSPARENCY_THRESHOLD
+        )
 
     def _handle_air_raid(self):
-        logger.info('Map air raid')
+        logger.info("Map air raid")
         disappear = Timer(self.MAP_AIR_RAID_CONFIRM_SECOND)
         disappear.start()
         while 1:
@@ -43,25 +51,25 @@ class AmbushHandler(Combat):
                     break
 
     def _handle_ambush_evade(self):
-        logger.info('Map ambushed')
+        logger.info("Map ambushed")
         self.wait_until_appear_then_click(MAP_AMBUSH_EVADE)
 
         self.wait_until_appear(INFO_BAR_1)
         image = info_letter_preprocess(self.image_crop(INFO_BAR_DETECT))
 
         if TEMPLATE_AMBUSH_EVADE_SUCCESS.match(image):
-            logger.attr('Ambush_evade', 'success')
+            logger.attr("Ambush_evade", "success")
         elif TEMPLATE_AMBUSH_EVADE_FAILED.match(image):
-            logger.attr('Ambush_evade', 'failed')
-            self.combat(expected_end='no_searching', fleet_index=self.fleet_show_index)
+            logger.attr("Ambush_evade", "failed")
+            self.combat(expected_end="no_searching", fleet_index=self.fleet_show_index)
         else:
-            logger.warning('Unrecognised info when ambush evade.')
+            logger.warning("Unrecognised info when ambush evade.")
             self.ensure_no_info_bar()
             if self.combat_appear():
                 self.combat(fleet_index=self.fleet_show_index)
 
     def _handle_ambush_attack(self):
-        logger.info('Map ambushed')
+        logger.info("Map ambushed")
         self.wait_until_appear(MAP_AMBUSH_EVADE)
 
         while 1:
@@ -78,8 +86,8 @@ class AmbushHandler(Combat):
 
             self.device.screenshot()
 
-        logger.attr('Ambush_evade', 'attack')
-        self.combat(expected_end='no_searching', fleet_index=self.fleet_show_index)
+        logger.attr("Ambush_evade", "attack")
+        self.combat(expected_end="no_searching", fleet_index=self.fleet_show_index)
 
     def _handle_ambush(self):
         if self.config.Campaign_AmbushEvade:
@@ -112,7 +120,7 @@ class AmbushHandler(Combat):
 
         image = info_letter_preprocess(self.image_crop(INFO_BAR_DETECT))
         if TEMPLATE_MAP_WALK_OUT_OF_STEP.match(image):
-            logger.warning('Map walk out of step.')
+            logger.warning("Map walk out of step.")
             self.handle_info_bar()
             return True
 

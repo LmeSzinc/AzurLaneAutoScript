@@ -4,7 +4,7 @@ import module.config.server as server
 from module.config.config import AzurLaneConfig
 from module.device.screenshot import Screenshot
 
-server.server = 'cn'  # Don't need to edit, it's used to avoid error.
+server.server = "cn"  # Don't need to edit, it's used to avoid error.
 
 s = Screenshot(AzurLaneConfig(config_name="alas"))
 s.image = s.screenshot_uiautomator2()

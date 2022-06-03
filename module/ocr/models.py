@@ -13,8 +13,12 @@ class OcrModel:
         # Font: Impact, AgencyFB-Regular, MStiffHeiHK-UltraBold
         # Charset: 0123456789ABCDEFGHIJKLMNPQRSTUVWXYZ:/- (Letter 'O' and <space> is not included)
         # _num_classes: 39
-        return AlOcr(model_name='densenet-lite-gru', model_epoch=15, root='./bin/cnocr_models/azur_lane',
-                    name='azur_lane')
+        return AlOcr(
+            model_name="densenet-lite-gru",
+            model_epoch=15,
+            root="./bin/cnocr_models/azur_lane",
+            name="azur_lane",
+        )
 
     @cached_property
     def cnocr(self):
@@ -26,11 +30,21 @@ class OcrModel:
         # Font: Various
         # Charset: Number, English character, Chinese character, symbols, <space>
         # _num_classes: 6426
-        return AlOcr(model_name='densenet-lite-gru', model_epoch=39, root='./bin/cnocr_models/cnocr', name='cnocr')
+        return AlOcr(
+            model_name="densenet-lite-gru",
+            model_epoch=39,
+            root="./bin/cnocr_models/cnocr",
+            name="cnocr",
+        )
 
     @cached_property
     def jp(self):
-        return AlOcr(model_name='densenet-lite-gru', model_epoch=125, root='./bin/cnocr_models/jp', name='jp')
+        return AlOcr(
+            model_name="densenet-lite-gru",
+            model_epoch=125,
+            root="./bin/cnocr_models/jp",
+            name="jp",
+        )
 
     @cached_property
     def tw(self):
@@ -42,7 +56,12 @@ class OcrModel:
         # Font: Various, 6 kinds
         # Charset: Numbers, Upper english characters, Chinese traditional characters
         # _num_classes: 5322
-        return AlOcr(model_name='densenet-lite-gru', model_epoch=63, root='./bin/cnocr_models/tw', name='tw')
+        return AlOcr(
+            model_name="densenet-lite-gru",
+            model_epoch=63,
+            root="./bin/cnocr_models/tw",
+            name="tw",
+        )
 
 
 OCR_MODEL = OcrModel()

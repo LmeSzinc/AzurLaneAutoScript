@@ -22,7 +22,9 @@ class StockCounter(DigitCounter):
 
 SHOP_SELECT_PR = [SHOP_SELECT_PR1, SHOP_SELECT_PR2, SHOP_SELECT_PR3]
 
-OCR_SHOP_GUILD_COINS = Digit(SHOP_GUILD_COINS, letter=(255, 255, 255), name='OCR_SHOP_GUILD_COINS')
+OCR_SHOP_GUILD_COINS = Digit(
+    SHOP_GUILD_COINS, letter=(255, 255, 255), name="OCR_SHOP_GUILD_COINS"
+)
 OCR_SHOP_SELECT_STOCK = StockCounter(SHOP_SELECT_STOCK)
 
 
@@ -38,29 +40,33 @@ class GuildShop(ShopBase, ShopUI):
         return self.config.GuildShop_Filter.strip()
 
     @cached_property
-    @Config.when(SERVER='cn')
+    @Config.when(SERVER="cn")
     def shop_guild_items(self):
         """
         Returns:
             ShopItemGrid:
         """
         shop_grid = self.shop_grid
-        shop_guild_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        shop_guild_items.load_template_folder('./assets/shop/guild_cn')
-        shop_guild_items.load_cost_template_folder('./assets/shop/cost')
+        shop_guild_items = ShopItemGrid(
+            shop_grid, templates={}, amount_area=(60, 74, 96, 95)
+        )
+        shop_guild_items.load_template_folder("./assets/shop/guild_cn")
+        shop_guild_items.load_cost_template_folder("./assets/shop/cost")
         return shop_guild_items
 
     @cached_property
-    @Config.when(SERVER='tw')
+    @Config.when(SERVER="tw")
     def shop_guild_items(self):
         """
         Returns:
             ShopItemGrid:
         """
         shop_grid = self.shop_grid
-        shop_guild_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        shop_guild_items.load_template_folder('./assets/shop/guild_cn')
-        shop_guild_items.load_cost_template_folder('./assets/shop/cost')
+        shop_guild_items = ShopItemGrid(
+            shop_grid, templates={}, amount_area=(60, 74, 96, 95)
+        )
+        shop_guild_items.load_template_folder("./assets/shop/guild_cn")
+        shop_guild_items.load_cost_template_folder("./assets/shop/cost")
         return shop_guild_items
 
     @cached_property
@@ -71,9 +77,11 @@ class GuildShop(ShopBase, ShopUI):
             ShopItemGrid:
         """
         shop_grid = self.shop_grid
-        shop_guild_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        shop_guild_items.load_template_folder('./assets/shop/guild')
-        shop_guild_items.load_cost_template_folder('./assets/shop/cost')
+        shop_guild_items = ShopItemGrid(
+            shop_grid, templates={}, amount_area=(60, 74, 96, 95)
+        )
+        shop_guild_items.load_template_folder("./assets/shop/guild")
+        shop_guild_items.load_cost_template_folder("./assets/shop/cost")
         return shop_guild_items
 
     def shop_items(self):
@@ -95,7 +103,7 @@ class GuildShop(ShopBase, ShopUI):
             int: guild coin amount
         """
         self._shop_guild_coins = OCR_SHOP_GUILD_COINS.ocr(self.device.image)
-        logger.info(f'Guild coins: {self._shop_guild_coins}')
+        logger.info(f"Guild coins: {self._shop_guild_coins}")
         return self._shop_guild_coins
 
     def shop_check_item(self, item):
@@ -125,7 +133,7 @@ class GuildShop(ShopBase, ShopUI):
             ScriptError
         """
         group = item.group
-        if group == 'pr':
+        if group == "pr":
             postfix = None
             for _ in range(3):
                 if _:
@@ -134,22 +142,24 @@ class GuildShop(ShopBase, ShopUI):
 
                 for idx, btn in enumerate(SHOP_SELECT_PR):
                     if self.appear(btn, offset=(20, 20)):
-                        postfix = f'{idx + 1}'
+                        postfix = f"{idx + 1}"
                         break
 
                 if postfix is not None:
                     break
-                logger.warning('Failed to detect PR series, '
-                               'app may be lagging or frozen')
+                logger.warning(
+                    "Failed to detect PR series, " "app may be lagging or frozen"
+                )
         else:
-            postfix = f'_{item.tier.upper()}'
+            postfix = f"_{item.tier.upper()}"
 
         ugroup = group.upper()
         try:
-            return getattr(self.config, f'GuildShop_{ugroup}{postfix}')
+            return getattr(self.config, f"GuildShop_{ugroup}{postfix}")
         except:
-            logger.critical(f'No configuration with name '
-                            f'\'GuildShop_{ugroup}{postfix}\'')
+            logger.critical(
+                f"No configuration with name " f"'GuildShop_{ugroup}{postfix}'"
+            )
             raise ScriptError
 
     def shop_get_select(self, item):
@@ -169,8 +179,10 @@ class GuildShop(ShopBase, ShopUI):
         # Item group must belong in SELECT_ITEM_INFO_MAP
         group = item.group
         if group not in SELECT_ITEM_INFO_MAP:
-            logger.critical(f'Unexpected item group \'{group}\'; '
-                            f'expected one of {SELECT_ITEM_INFO_MAP.keys()}')
+            logger.critical(
+                f"Unexpected item group '{group}'; "
+                f"expected one of {SELECT_ITEM_INFO_MAP.keys()}"
+            )
             raise ScriptError
 
         # Get configured choice for item
@@ -179,17 +191,19 @@ class GuildShop(ShopBase, ShopUI):
         # Get appropriate select button for click
         try:
             item_info = SELECT_ITEM_INFO_MAP[group]
-            index = item_info['choices'][choice]
-            if group == 'pr':
+            index = item_info["choices"][choice]
+            if group == "pr":
                 for idx, btn in enumerate(SHOP_SELECT_PR):
                     if self.appear(btn, offset=(20, 20)):
-                        series_key = f's{idx + 1}'
-                        return item_info['grid'][series_key].buttons[index]
+                        series_key = f"s{idx + 1}"
+                        return item_info["grid"][series_key].buttons[index]
             else:
-                return item_info['grid'].buttons[index]
+                return item_info["grid"].buttons[index]
         except:
-            logger.critical(f'SELECT_ITEM_INFO_MAP may be malformed; '
-                            f'item group \'{group}\' entry is compromised')
+            logger.critical(
+                f"SELECT_ITEM_INFO_MAP may be malformed; "
+                f"item group '{group}' entry is compromised"
+            )
             raise ScriptError
 
     def shop_buy_select_execute(self, item):
@@ -208,8 +222,8 @@ class GuildShop(ShopBase, ShopUI):
         # known wiki values so read first, fallback if fail
         _, _, limit = OCR_SHOP_SELECT_STOCK.ocr(self.device.image)
         if not limit:
-            logger.info('Unable to read current stock; fallback to dictionary')
-            limit = SELECT_ITEM_INFO_MAP[item.group]['limit']
+            logger.info("Unable to read current stock; fallback to dictionary")
+            limit = SELECT_ITEM_INFO_MAP[item.group]["limit"]
 
         # Click in intervals until plus/minus are onscreen
         click_timer = Timer(3, count=6)
@@ -222,7 +236,9 @@ class GuildShop(ShopBase, ShopUI):
             # Scan for plus/minus locations; searching within
             # offset will update the click posiion automatically
             self.device.screenshot()
-            if self.appear(SELECT_MINUS, offset=select_offset) and self.appear(SELECT_PLUS, offset=select_offset):
+            if self.appear(SELECT_MINUS, offset=select_offset) and self.appear(
+                SELECT_PLUS, offset=select_offset
+            ):
                 break
             else:
                 continue
@@ -240,13 +256,20 @@ class GuildShop(ShopBase, ShopUI):
         def shop_buy_select_ensure_index(image):
             current, remain, _ = OCR_SHOP_SELECT_STOCK.ocr(image)
             if not current:
-                group_case = item.group.title() if len(item.group) > 2 else item.group.upper()
-                logger.info(f'{group_case}(s) out of stock; exit to prevent overbuying')
+                group_case = (
+                    item.group.title() if len(item.group) > 2 else item.group.upper()
+                )
+                logger.info(f"{group_case}(s) out of stock; exit to prevent overbuying")
                 return limit
             return remain
 
-        self.ui_ensure_index(limit, letter=shop_buy_select_ensure_index, prev_button=SELECT_MINUS, next_button=SELECT_PLUS,
-                             skip_first_screenshot=True)
+        self.ui_ensure_index(
+            limit,
+            letter=shop_buy_select_ensure_index,
+            prev_button=SELECT_MINUS,
+            next_button=SELECT_PLUS,
+            skip_first_screenshot=True,
+        )
         self.device.click(SHOP_BUY_CONFIRM_SELECT)
         return True
 
@@ -285,7 +308,7 @@ class GuildShop(ShopBase, ShopUI):
 
         # When called, expected to be in
         # correct Guild Shop interface
-        logger.hr('Guild Shop', level=1)
+        logger.hr("Guild Shop", level=1)
 
         # Execute buy operations
         # Refresh if enabled and available
@@ -300,5 +323,5 @@ class GuildShop(ShopBase, ShopUI):
                     if self.shop_refresh():
                         continue
                 else:
-                    logger.info('Guild coins < 110, skip refreshing')
+                    logger.info("Guild coins < 110, skip refreshing")
             break

@@ -14,9 +14,11 @@ class RewardMeowfficer(MeowfficerBuy, MeowfficerFort, MeowfficerTrain):
             in: Any page
             out: page_meowfficer
         """
-        if self.config.Meowfficer_BuyAmount <= 0 \
-                and not self.config.Meowfficer_FortChoreMeowfficer \
-                and not self.config.MeowfficerTrain_Enable:
+        if (
+            self.config.Meowfficer_BuyAmount <= 0
+            and not self.config.Meowfficer_FortChoreMeowfficer
+            and not self.config.MeowfficerTrain_Enable
+        ):
             self.config.Scheduler_Enable = False
             self.config.task_stop()
 
@@ -30,7 +32,7 @@ class RewardMeowfficer(MeowfficerBuy, MeowfficerFort, MeowfficerTrain):
         # Train
         if self.config.MeowfficerTrain_Enable:
             self.meow_train()
-            if self.config.MeowfficerTrain_Mode == 'seamlessly':
+            if self.config.MeowfficerTrain_Mode == "seamlessly":
                 self.meow_enhance()
             elif self.meow_is_sunday():
                 self.meow_enhance()

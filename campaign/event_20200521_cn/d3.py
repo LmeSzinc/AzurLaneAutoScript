@@ -29,7 +29,7 @@ MAP.weight_data = """
     10 10 10 10 10 10 10 10 10 10 10 10 10 10
     10 10 10 10 10 10 10 10 10 10 10 10 10 10
 """
-MAP.camera_data = ['G8', 'G6', 'F3', 'H4']
+MAP.camera_data = ["G8", "G6", "F3", "H4"]
 MAP.wall_data = """
     ·   ·   ·   ·   · | ·   ·   ·   · | ·   ·   ·   ·   · ,
           +-----------+               +-----------+       ,
@@ -52,19 +52,19 @@ MAP.wall_data = """
     ·   ·   ·   ·   ·   · | ·   · | ·   ·   ·   ·   ·   · ,
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 2, 'siren': 2},
-    {'battle': 1, 'enemy': 1},
-    {'battle': 2, 'enemy': 2, 'siren': 1},
-    {'battle': 3, 'enemy': 1},
-    {'battle': 4, 'enemy': 2},
-    {'battle': 5, 'enemy': 1},
-    {'battle': 6, 'boss': 1},
+    {"battle": 0, "enemy": 2, "siren": 2},
+    {"battle": 1, "enemy": 1},
+    {"battle": 2, "enemy": 2, "siren": 1},
+    {"battle": 3, "enemy": 1},
+    {"battle": 4, "enemy": 2},
+    {"battle": 5, "enemy": 1},
+    {"battle": 6, "boss": 1},
 ]
 
 
 class Config(ConfigBase):
     MAP_HAS_WALL = True
-    MAP_SIREN_TEMPLATE = ['LaGalissonniere', 'Vauquelin']
+    MAP_SIREN_TEMPLATE = ["LaGalissonniere", "Vauquelin"]
 
 
 class Campaign(CampaignBase):
@@ -73,9 +73,9 @@ class Campaign(CampaignBase):
     def battle_0(self):
         if self.clear_siren():
             return True
-        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
+        if self.clear_enemy(scale=(2,), genre=["light", "main", "enemy", "carrier"]):
             return True
-        if self.clear_enemy(scale=(3,), genre=['light', 'main', 'enemy', 'carrier']):
+        if self.clear_enemy(scale=(3,), genre=["light", "main", "enemy", "carrier"]):
             return True
 
         return self.battle_default()
@@ -83,9 +83,9 @@ class Campaign(CampaignBase):
     def battle_5(self):
         if self.clear_enemy(scale=(1,)):
             return True
-        if self.clear_enemy(scale=(2,), genre=['light', 'main', 'enemy', 'carrier']):
+        if self.clear_enemy(scale=(2,), genre=["light", "main", "enemy", "carrier"]):
             return True
-        if self.clear_enemy(genre=['light', 'main']):
+        if self.clear_enemy(genre=["light", "main"]):
             return True
 
         return self.battle_default()

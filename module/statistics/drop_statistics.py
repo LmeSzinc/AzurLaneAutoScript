@@ -15,13 +15,13 @@ from module.statistics.utils import *
 
 
 class DropStatistics:
-    DROP_FOLDER = './screenshots'
-    TEMPLATE_FOLDER = 'item_templates'
-    TEMPLATE_BASIC = './assets/stats_basic'
-    CNOCR_CONTEXT = 'cpu'
-    CSV_FILE = 'drop_result.csv'
+    DROP_FOLDER = "./screenshots"
+    TEMPLATE_FOLDER = "item_templates"
+    TEMPLATE_BASIC = "./assets/stats_basic"
+    CNOCR_CONTEXT = "cpu"
+    CSV_FILE = "drop_result.csv"
     CSV_OVERWRITE = True
-    CSV_ENCODING = 'utf-8'
+    CSV_ENCODING = "utf-8"
 
     def __init__(self):
         AlOcr.CNOCR_CONTEXT = DropStatistics.CNOCR_CONTEXT
@@ -53,7 +53,7 @@ class DropStatistics:
         """
         if DropStatistics.CSV_OVERWRITE:
             if os.path.exists(self.csv_file):
-                logger.info(f'Remove existing csv file: {self.csv_file}')
+                logger.info(f"Remove existing csv file: {self.csv_file}")
                 os.remove(self.csv_file)
         return True
 
@@ -80,18 +80,32 @@ class DropStatistics:
             list: [timestamp, campaign, enemy_name, drop_type, item, amount]
         """
         ts = os.path.splitext(os.path.basename(file))[0]
-        campaign = os.path.basename(os.path.abspath(os.path.join(file, '../')))
+        campaign = os.path.basename(os.path.abspath(os.path.join(file, "../")))
         images = unpack(load_image(file))
-        enemy_name = 'unknown'
+        enemy_name = "unknown"
         for image in images:
             if self.battle_status.appear_on(image):
                 enemy_name = self.battle_status.stats_battle_status(image)
             if self.get_items.appear_on(image):
                 for item in self.get_items.stats_get_items(image):
-                    yield [ts, campaign, enemy_name, 'GET_ITEMS', item.name, item.amount]
+                    yield [
+                        ts,
+                        campaign,
+                        enemy_name,
+                        "GET_ITEMS",
+                        item.name,
+                        item.amount,
+                    ]
             if self.campaign_bonus.appear_on(image):
                 for item in self.campaign_bonus.stats_get_items(image):
-                    yield [ts, campaign, enemy_name, 'CAMPAIGN_BONUS', item.name, item.amount]
+                    yield [
+                        ts,
+                        campaign,
+                        enemy_name,
+                        "CAMPAIGN_BONUS",
+                        item.name,
+                        item.amount,
+                    ]
 
     def extract_template(self, campaign):
         """
@@ -100,8 +114,8 @@ class DropStatistics:
         Args:
             campaign (str):
         """
-        print('')
-        logger.hr(f'Extract templates from {campaign}', level=1)
+        print("")
+        logger.hr(f"Extract templates from {campaign}", level=1)
         for ts, file in tqdm(load_folder(self.drop_folder(campaign)).items()):
             try:
                 self.parse_template(file)
@@ -110,7 +124,7 @@ class DropStatistics:
                 continue
             except Exception as e:
                 logger.exception(e)
-                logger.warning(f'Error on image {ts}')
+                logger.warning(f"Error on image {ts}")
                 continue
 
     def extract_drop(self, campaign):
@@ -120,11 +134,13 @@ class DropStatistics:
         Args:
             campaign (str):
         """
-        print('')
-        logger.hr(f'extract drops from {campaign}', level=1)
+        print("")
+        logger.hr(f"extract drops from {campaign}", level=1)
         _ = self.csv_overwrite_check
 
-        with open(self.csv_file, 'a', newline='', encoding=DropStatistics.CSV_ENCODING) as csv_file:
+        with open(
+            self.csv_file, "a", newline="", encoding=DropStatistics.CSV_ENCODING
+        ) as csv_file:
             writer = csv.writer(csv_file)
             for ts, file in tqdm(load_folder(self.drop_folder(campaign)).items()):
                 try:
@@ -135,32 +151,32 @@ class DropStatistics:
                     continue
                 except Exception as e:
                     logger.exception(e)
-                    logger.warning(f'Error on image {ts}')
+                    logger.warning(f"Error on image {ts}")
                     continue
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Drop screenshot folder. Default to './screenshots'
-    DropStatistics.DROP_FOLDER = './screenshots'
+    DropStatistics.DROP_FOLDER = "./screenshots"
     # Folder to load templates and save new templates.
     # This will load {DROP_FOLDER}/{TEMPLATE_FOLDER}.
     # If folder doesn't exist, auto copy from './assets/stats_basic'
-    DropStatistics.TEMPLATE_FOLDER = 'campaign_13_1_template'
+    DropStatistics.TEMPLATE_FOLDER = "campaign_13_1_template"
     # 'cpu' or 'gpu', default to 'cpu'.
     # Use 'gpu' for faster prediction, but you must have the gpu version of mxnet installed.
-    DropStatistics.CNOCR_CONTEXT = 'cpu'
+    DropStatistics.CNOCR_CONTEXT = "cpu"
     # Name of the output csv file.
     # This will write to {DROP_FOLDER}/{CSV_FILE}.
-    DropStatistics.CSV_FILE = 'drop_results.csv'
+    DropStatistics.CSV_FILE = "drop_results.csv"
     # If True, remove existing file before extraction.
     DropStatistics.CSV_OVERWRITE = True
     # Usually to be 'utf-8'.
     # For better Chinese export to Excel, use 'gbk'.
-    DropStatistics.CSV_ENCODING = 'gbk'
+    DropStatistics.CSV_ENCODING = "gbk"
     # campaign names to export under DROP_FOLDER.
     # This will load {DROP_FOLDER}/{CAMPAIGN}.
     # Just a demonstration here, you should modify it to your own.
-    CAMPAIGNS = ['campaign_13_1']
+    CAMPAIGNS = ["campaign_13_1"]
 
     stat = DropStatistics()
 

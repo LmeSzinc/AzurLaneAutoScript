@@ -12,8 +12,12 @@ from module.map.map_grids import SelectedGrids
 from module.ocr.ocr import DigitCounter, Duration
 from module.retire.assets import DOCK_CHECK
 from module.tactical.assets import *
-from module.ui.assets import (BACK_ARROW, REWARD_CHECK, REWARD_GOTO_TACTICAL,
-                              TACTICAL_CHECK)
+from module.ui.assets import (
+    BACK_ARROW,
+    REWARD_CHECK,
+    REWARD_GOTO_TACTICAL,
+    TACTICAL_CHECK,
+)
 from module.ui.ui import UI, page_reward
 
 
@@ -28,7 +32,7 @@ class SkillExp(DigitCounter):
             # Get the start pixel of letter `N` and shift to the end of `:`
             starter = np.where(np.mean(image, axis=0) > 150)[0][0] + 42
         except IndexError:
-            logger.warning('Unable to strip SKILL_EXP, skip')
+            logger.warning("Unable to strip SKILL_EXP, skip")
             starter = 0
         # Crop `1900/5800`
         image = image[:, starter:]
@@ -38,16 +42,13 @@ class SkillExp(DigitCounter):
 
 SKILL_EXP = SkillExp(buttons=OCR_SKILL_EXP)
 
-BOOKS_GRID = ButtonGrid(origin=(213, 292), delta=(147, 117), button_shape=(98, 98), grid_shape=(6, 2))
+BOOKS_GRID = ButtonGrid(
+    origin=(213, 292), delta=(147, 117), button_shape=(98, 98), grid_shape=(6, 2)
+)
 BOOK_FILTER = Filter(
-    regex=re.compile(
-        '(same)?'
-        '(red|blue|yellow)?'
-        '-?'
-        '(t[123])?'
-    ),
-    attr=('same_str', 'genre_str', 'tier_str'),
-    preset=('first',)
+    regex=re.compile("(same)?" "(red|blue|yellow)?" "-?" "(t[123])?"),
+    attr=("same_str", "genre_str", "tier_str"),
+    preset=("first",),
 )
 
 
@@ -58,9 +59,9 @@ class Book:
         3: (247, 190, 99),  # Support, yellow
     }
     genre_name = {
-        1: 'Red',  # Offensive, red
-        2: 'Blue',  # Defensive, blue
-        3: 'Yellow',  # Support, yellow
+        1: "Red",  # Offensive, red
+        2: "Blue",  # Defensive, blue
+        3: "Yellow",  # Support, yellow
     }
     color_tier = {
         1: (104, 181, 238),  # T1, blue
@@ -102,8 +103,8 @@ class Book:
 
         self.valid = bool(self.genre and self.tier)
         self.genre_str = self.genre_name.get(self.genre, "unknown")
-        self.tier_str = f'T{self.tier}' if self.tier else 'Tn'
-        self.same_str = 'same' if self.exp else 'unknown'
+        self.tier_str = f"T{self.tier}" if self.tier else "Tn"
+        self.same_str = "same" if self.exp else "unknown"
 
         factor = 1 if not self.exp else 1.5 if self.tier < 4 else 2
         self.exp_value = self.exp_tier[self.tier] * factor
@@ -120,9 +121,9 @@ class Book:
 
     def __str__(self):
         # Example: Red_T3_Exp
-        text = f'{self.genre_str}_{self.tier_str}'
+        text = f"{self.genre_str}_{self.tier_str}"
         if self.exp:
-            text += '_Exp'
+            text += "_Exp"
         return text
 
 
@@ -152,13 +153,15 @@ class RewardTacticalClass(UI):
 
             self.handle_info_bar()  # info_bar appears when get ship in Launch Ceremony commissions
             if not self.appear(TACTICAL_CLASS_START, offset=(30, 30)):
-                logger.info('Not in TACTICAL_CLASS_START anymore, exit')
+                logger.info("Not in TACTICAL_CLASS_START anymore, exit")
                 return False
 
-            books = SelectedGrids([Book(self.device.image, button) for button in BOOKS_GRID.buttons]).select(valid=True)
+            books = SelectedGrids(
+                [Book(self.device.image, button) for button in BOOKS_GRID.buttons]
+            ).select(valid=True)
             self.books = books
-            logger.attr('Book_count', books.count)
-            logger.attr('Books', str(books))
+            logger.attr("Book_count", books.count)
+            logger.attr("Books", str(books))
 
             # End
             if books and books.count == prev.count:
@@ -169,8 +172,8 @@ class RewardTacticalClass(UI):
                     self.device.sleep(3)
                 continue
 
-        logger.warning('No book found.')
-        raise ScriptError('No book found, after 15 attempts.')
+        logger.warning("No book found.")
+        raise ScriptError("No book found, after 15 attempts.")
 
     def _tactical_book_select(self, book, skip_first_screenshot=True):
         """
@@ -228,9 +231,11 @@ class RewardTacticalClass(UI):
                 # Lvl 9, so can calculate normally
                 current -= first.exp_value
                 remain += first.exp_value
-            logger.info('About to reach level 10; will remove '
-                        'detected books based on actual '
-                       f'progress: {current}/{total}; {remain}')
+            logger.info(
+                "About to reach level 10; will remove "
+                "detected books based on actual "
+                f"progress: {current}/{total}; {remain}"
+            )
 
             def filter_exp_func(book):
                 # Retain at least non-T1 bonus books if nothing else
@@ -240,7 +245,9 @@ class RewardTacticalClass(UI):
                 # Acquire 'overflow' for respective tier book if enabled
                 overflow = 0
                 if self.config.ControlExpOverflow_Enable:
-                    overflow = getattr(self.config, f'ControlExpOverflow_T{book.tier}Allow')
+                    overflow = getattr(
+                        self.config, f"ControlExpOverflow_T{book.tier}Allow"
+                    )
 
                 # Remove book if sum to be gained exceeds total (+ overflow)
                 if (current + book.exp_value) > (total + overflow):
@@ -248,9 +255,11 @@ class RewardTacticalClass(UI):
                 return True
 
             before = self.books.count
-            self.books = SelectedGrids([book for book in self.books if filter_exp_func(book)])
-            logger.attr('Filtered', before - self.books.count)
-            logger.attr('Books', str(self.books))
+            self.books = SelectedGrids(
+                [book for book in self.books if filter_exp_func(book)]
+            )
+            logger.attr("Filtered", before - self.books.count)
+            logger.attr("Books", str(self.books))
 
     def _tactical_books_choose(self):
         """
@@ -263,7 +272,7 @@ class RewardTacticalClass(UI):
             in: TACTICAL_CLASS_START
             out: Unknown, may TACTICAL_CLASS_START, page_tactical, or _tactical_animation_running
         """
-        logger.hr('Tactical books choose', level=2)
+        logger.hr("Tactical books choose", level=2)
         if not self._tactical_books_get():
             return False
 
@@ -278,20 +287,20 @@ class RewardTacticalClass(UI):
         # Apply configuration filter, does not modify self.books
         BOOK_FILTER.load(self.config.Tactical_TacticalFilter)
         books = BOOK_FILTER.apply(self.books.grids)
-        logger.attr('Book_sort', ' > '.join([str(book) for book in books]))
+        logger.attr("Book_sort", " > ".join([str(book) for book in books]))
 
         # Choose applicable book if any
         # Otherwise cancel altogether
         if len(books):
             book = books[0]
-            if str(book) != 'first':
+            if str(book) != "first":
                 self._tactical_book_select(book)
             else:
-                logger.info('Choose first book')
+                logger.info("Choose first book")
                 self._tactical_book_select(first)
             self.device.click(TACTICAL_CLASS_START)
         else:
-            logger.info('Cancel tactical')
+            logger.info("Cancel tactical")
             self.device.click(TACTICAL_CLASS_CANCEL)
         return True
 
@@ -299,21 +308,35 @@ class RewardTacticalClass(UI):
         """
         Get the future finish time.
         """
-        logger.hr('Tactical get finish')
+        logger.hr("Tactical get finish")
         grids = ButtonGrid(
-            origin=(421, 596), delta=(223, 0), button_shape=(139, 27), grid_shape=(4, 1), name='TACTICAL_REMAIN')
+            origin=(421, 596),
+            delta=(223, 0),
+            button_shape=(139, 27),
+            grid_shape=(4, 1),
+            name="TACTICAL_REMAIN",
+        )
 
-        is_running = [self.image_color_count(button, color=(148, 255, 99), count=50) for button in grids.buttons]
-        logger.info(f'Tactical status: {["running" if s else "empty" for s in is_running]}')
+        is_running = [
+            self.image_color_count(button, color=(148, 255, 99), count=50)
+            for button in grids.buttons
+        ]
+        logger.info(
+            f'Tactical status: {["running" if s else "empty" for s in is_running]}'
+        )
 
         buttons = [b for b, s in zip(grids.buttons, is_running) if s]
-        ocr = Duration(buttons, letter=(148, 255, 99), name='TACTICAL_REMAIN')
+        ocr = Duration(buttons, letter=(148, 255, 99), name="TACTICAL_REMAIN")
         remains = ocr.ocr(self.device.image)
         remains = [remains] if not isinstance(remains, list) else remains
 
         now = datetime.now()
-        self.tactical_finish = [(now + remain).replace(microsecond=0) for remain in remains if remain.total_seconds()]
-        logger.info(f'Tactical finish: {[str(f) for f in self.tactical_finish]}')
+        self.tactical_finish = [
+            (now + remain).replace(microsecond=0)
+            for remain in remains
+            if remain.total_seconds()
+        ]
+        logger.info(f"Tactical finish: {[str(f) for f in self.tactical_finish]}")
         return self.tactical_finish
 
     def tactical_class_receive(self, skip_first_screenshot=True):
@@ -330,7 +353,7 @@ class RewardTacticalClass(UI):
             in: page_reward, TACTICAL_CLASS_START
             out: page_reward
         """
-        logger.hr('Tactical class receive', level=1)
+        logger.hr("Tactical class receive", level=1)
         received = False
         # tactical cards can't be loaded that fast, confirm if it's empty.
         empty_confirm = Timer(0.6, count=2).start()
@@ -365,17 +388,20 @@ class RewardTacticalClass(UI):
             # Popups
             if self.appear_then_click(REWARD_2, offset=(20, 20), interval=3):
                 continue
-            if self.appear_then_click(REWARD_GOTO_TACTICAL, offset=(20, 20), interval=3):
+            if self.appear_then_click(
+                REWARD_GOTO_TACTICAL, offset=(20, 20), interval=3
+            ):
                 continue
-            if self.handle_popup_confirm('TACTICAL'):
+            if self.handle_popup_confirm("TACTICAL"):
                 continue
             if self.handle_urgent_commission():
                 # Only one button in the middle, when skill reach max level.
                 continue
             if self.ui_page_main_popups():
                 continue
-            if self.appear(TACTICAL_CLASS_CANCEL, offset=(30, 30), interval=2) \
-                    and self.appear(TACTICAL_CLASS_START, offset=(30, 30)):
+            if self.appear(
+                TACTICAL_CLASS_CANCEL, offset=(30, 30), interval=2
+            ) and self.appear(TACTICAL_CLASS_START, offset=(30, 30)):
                 if self._tactical_books_choose():
                     self.interval_reset(TACTICAL_CLASS_CANCEL)
                     self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION])
@@ -400,5 +426,5 @@ class RewardTacticalClass(UI):
         if self.tactical_finish:
             self.config.task_delay(target=self.tactical_finish)
         else:
-            logger.info('No tactical running')
+            logger.info("No tactical running")
             self.config.task_delay(success=False)

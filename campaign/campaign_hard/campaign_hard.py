@@ -40,23 +40,25 @@ class Campaign(CampaignBase, HardEquipment):
     #     self.equipment_take_on()
 
     def _expected_end(self, expected):
-        return 'in_stage'
+        return "in_stage"
 
     def clear_boss(self):
         grids = self.map.select(is_boss=True)
         grids = grids.add(self.map.select(may_boss=True, is_enemy=True))
-        logger.info('May boss: %s' % self.map.select(may_boss=True))
-        logger.info('May boss and is enemy: %s' % self.map.select(may_boss=True, is_enemy=True))
-        logger.info('Is boss: %s' % self.map.select(is_boss=True))
+        logger.info("May boss: %s" % self.map.select(may_boss=True))
+        logger.info(
+            "May boss and is enemy: %s" % self.map.select(may_boss=True, is_enemy=True)
+        )
+        logger.info("Is boss: %s" % self.map.select(is_boss=True))
         # logger.info('Grids: %s' % grids)
         if grids:
-            logger.hr('Clear BOSS')
-            grids = grids.sort('weight', 'cost')
-            logger.info('Grids: %s' % str(grids))
-            self._goto(grids[0], expected='boss')
-            raise CampaignEnd('BOSS Clear.')
+            logger.hr("Clear BOSS")
+            grids = grids.sort("weight", "cost")
+            logger.info("Grids: %s" % str(grids))
+            self._goto(grids[0], expected="boss")
+            raise CampaignEnd("BOSS Clear.")
 
-        logger.warning('BOSS not detected, trying all boss spawn point.')
+        logger.warning("BOSS not detected, trying all boss spawn point.")
         self.clear_potential_boss()
 
         return False
@@ -67,7 +69,7 @@ class Campaign(CampaignBase, HardEquipment):
         if not self.equipment_has_take_on:
             return False
 
-        logger.info('equipment_take_off_when_finished')
+        logger.info("equipment_take_off_when_finished")
         campaign_timer = Timer(2)
         map_timer = Timer(1)
         fleet_timer = Timer(1)
@@ -89,9 +91,13 @@ class Campaign(CampaignBase, HardEquipment):
                 continue
 
             # Fleet preparation
-            if fleet_timer.reached() and self.appear(FLEET_PREPARATION, offset=(20, 20)):
+            if fleet_timer.reached() and self.appear(
+                FLEET_PREPARATION, offset=(20, 20)
+            ):
                 self.equipment_take_off()
-                self.ui_back(check_button=CAMPAIGN_CHECK, appear_button=FLEET_PREPARATION)
+                self.ui_back(
+                    check_button=CAMPAIGN_CHECK, appear_button=FLEET_PREPARATION
+                )
                 break
 
             # Retire

@@ -12,16 +12,16 @@ class LuaLoader:
     """
 
     server_alias = [
-        ['zh-CN', 'zh-cn', 'cn', 'CN'],
-        ['en-US', 'en-us', 'en', 'EN'],
-        ['ja-JP', 'ja-jp', 'jp', 'JP'],
-        ['zh-TW', 'zh-tw', 'tw', 'TW'],
-        ['ko-KR', 'ko-kr', 'kr', 'KR'],
+        ["zh-CN", "zh-cn", "cn", "CN"],
+        ["en-US", "en-us", "en", "EN"],
+        ["ja-JP", "ja-jp", "jp", "JP"],
+        ["zh-TW", "zh-tw", "tw", "TW"],
+        ["ko-KR", "ko-kr", "kr", "KR"],
     ]
 
-    def __init__(self, folder, server='zh-CN'):
+    def __init__(self, folder, server="zh-CN"):
         self.folder = folder
-        self._server = ''
+        self._server = ""
         self.server = server
 
     @property
@@ -53,26 +53,26 @@ class LuaLoader:
         Returns:
             dict:
         """
-        with open(self.filepath(file), 'r', encoding='utf-8') as f:
+        with open(self.filepath(file), "r", encoding="utf-8") as f:
             text = f.read()
 
         result = {}
-        matched = re.findall('function \(\)(.*?)end[()]', text, re.S)
+        matched = re.findall("function \(\)(.*?)end[()]", text, re.S)
         if matched:
             # Most files are in this format
             """
             pg = pg or {}
             slot0 = pg
             slot0.chapter_template = {}
-            
+
             (function ()
                 ...
             end)()
             """
             for func in matched:
-                add = slpp.decode('{' + func + '}')
+                add = slpp.decode("{" + func + "}")
                 result.update(add)
-        elif text.startswith('pg'):
+        elif text.startswith("pg"):
             # Old format
             """
             pg = pg or {}
@@ -88,7 +88,7 @@ class LuaLoader:
                 ...
             }
             """
-            text = '{' + text.split('{', 2)[2]
+            text = "{" + text.split("{", 2)[2]
             result = slpp.decode(text)
         else:
             # Another format, just bare data
@@ -101,7 +101,7 @@ class LuaLoader:
             }
             ...
             """
-            text = '{' + text + '}'
+            text = "{" + text + "}"
             result = slpp.decode(text)
 
         return result
@@ -117,19 +117,19 @@ class LuaLoader:
         Returns:
             dict:
         """
-        print(f'Loading {path}')
+        print(f"Loading {path}")
         if os.path.isdir(self.filepath(path)):
             result = {}
             for file in tqdm(os.listdir(self.filepath(path))):
-                result.update(self._load_file(f'./{path}/{file}'))
+                result.update(self._load_file(f"./{path}/{file}"))
         else:
             result = self._load_file(path)
 
-        print(f'{len(result.keys())} items loaded')
+        print(f"{len(result.keys())} items loaded")
         return result
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Use example
-    lua = LuaLoader(r'xxx/AzurLaneData', server='en-US')
-    res = lua.load('./sharecfg/item_data_statistics.lua')
+    lua = LuaLoader(r"xxx/AzurLaneData", server="en-US")
+    res = lua.load("./sharecfg/item_data_statistics.lua")

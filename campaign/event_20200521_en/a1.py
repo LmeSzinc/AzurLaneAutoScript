@@ -3,16 +3,17 @@ from module.logger import logger
 from module.map.map_base import CampaignMap
 from module.map.map_grids import RoadGrids, SelectedGrids
 
-MAP = CampaignMap('a1')
-MAP.shape = 'I5'
-MAP.map_data = '''
+MAP = CampaignMap("a1")
+MAP.shape = "I5"
+MAP.map_data = """
     SP -- ++ ME -- ME ++ -- --
     -- ME -- -- ME -- ME ++ ME
     -- -- MS -- -- MS __ -- --
     -- ME -- -- ++ ME -- ME --
     SP -- -- ME ++ -- ME -- MB
-'''
-MAP.camera_data = ['D1', 'D3', 'F1', 'F3']
+"""
+MAP.camera_data = ["D1", "D3", "F1", "F3"]
+
 
 class Config:
     POOR_MAP_DATA = True
@@ -32,16 +33,16 @@ class Config:
     MID_DIFF_RANGE_V = (143 - 3, 143 + 3)
 
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (80, 255 - 40),
-        'width': (0.9, 10),
-        'prominence': 10,
-        'distance': 35,
+        "height": (80, 255 - 40),
+        "width": (0.9, 10),
+        "prominence": 10,
+        "distance": 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 40, 255),
-        'prominence': 10,
-        'distance': 50,
-        'wlen': 1000
+        "height": (255 - 40, 255),
+        "prominence": 10,
+        "distance": 50,
+        "wlen": 1000,
     }
 
 

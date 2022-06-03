@@ -13,7 +13,7 @@ class Exercise(ExerciseCombat):
     remain = 0
 
     def _new_opponent(self):
-        logger.info('New opponent')
+        logger.info("New opponent")
         self.appear_then_click(NEW_OPPONENT)
         self.opponent_change_count += 1
 
@@ -23,13 +23,13 @@ class Exercise(ExerciseCombat):
         self.ensure_no_info_bar(timeout=3)
 
     def _opponent_fleet_check_all(self):
-        if self.config.Exercise_OpponentChooseMode != 'leftmost':
+        if self.config.Exercise_OpponentChooseMode != "leftmost":
             super()._opponent_fleet_check_all()
 
     def _opponent_sort(self, method=None):
         if method is None:
             method = self.config.Exercise_OpponentChooseMode
-        if method != 'leftmost':
+        if method != "leftmost":
             return super()._opponent_sort(method=method)
         else:
             return [0, 1, 2, 3]
@@ -45,7 +45,7 @@ class Exercise(ExerciseCombat):
         self._opponent_fleet_check_all()
         while 1:
             for opponent in self._opponent_sort():
-                logger.hr(f'Opponent {opponent}', level=2)
+                logger.hr(f"Opponent {opponent}", level=2)
                 success = self._combat(opponent)
                 if success:
                     return success
@@ -70,7 +70,7 @@ class Exercise(ExerciseCombat):
         self._opponent_fleet_check_all()
         while 1:
             opponents = self._opponent_sort(method=method)
-            logger.hr(f'Opponent {opponents[0]}', level=2)
+            logger.hr(f"Opponent {opponents[0]}", level=2)
             self.config.override(Exercise_LowHpThreshold=threshold)
             success = self._combat(opponents[0])
             if success:
@@ -96,7 +96,7 @@ class Exercise(ExerciseCombat):
             int:
         """
         record = self.config.Exercise_OpponentRefreshRecord
-        update = get_server_last_update('00:00')
+        update = get_server_last_update("00:00")
         if record.date() == update.date():
             # Same Day
             return self.config.Exercise_OpponentRefreshValue
@@ -115,21 +115,26 @@ class Exercise(ExerciseCombat):
             if self.remain <= self.config.Exercise_ExercisePreserve:
                 break
 
-            logger.hr(f'Exercise remain {self.remain}', level=1)
+            logger.hr(f"Exercise remain {self.remain}", level=1)
             if self.config.Exercise_OpponentChooseMode == "easiest_else_exp":
                 success = self._exercise_easiest_else_exp()
             else:
                 success = self._exercise_once()
             if not success:
-                logger.info('New opponent exhausted')
+                logger.info("New opponent exhausted")
                 break
 
         # self.equipment_take_off_when_finished()
 
         # Scheduler
         with self.config.multi_set():
-            self.config.set_record(Exercise_OpponentRefreshValue=self.opponent_change_count)
-            if self.remain <= self.config.Exercise_ExercisePreserve or self.opponent_change_count >= 5:
+            self.config.set_record(
+                Exercise_OpponentRefreshValue=self.opponent_change_count
+            )
+            if (
+                self.remain <= self.config.Exercise_ExercisePreserve
+                or self.opponent_change_count >= 5
+            ):
                 self.config.task_delay(server_update=True)
             else:
                 self.config.task_delay(success=False)

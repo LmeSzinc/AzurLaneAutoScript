@@ -11,8 +11,12 @@ from module.logger import WEB_THEME, Highlighter, HTMLConsole
 from module.webui.pin import put_checkbox, put_input, put_select, put_textarea
 from module.webui.process_manager import ProcessManager
 from module.webui.setting import Setting
-from module.webui.utils import (DARK_TERMINAL_THEME, LIGHT_TERMINAL_THEME,
-                                LOG_CODE_FORMAT, Switch)
+from module.webui.utils import (
+    DARK_TERMINAL_THEME,
+    LIGHT_TERMINAL_THEME,
+    LOG_CODE_FORMAT,
+    Switch,
+)
 
 
 class ScrollableCode:

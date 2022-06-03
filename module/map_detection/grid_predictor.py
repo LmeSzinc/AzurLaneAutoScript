@@ -27,19 +27,26 @@ class GridPredictor:
         x = (x0 * x2 - x1 * x3) / divisor
         y = (x0 * y2 - x1 * y2 + x2 * y0 - x3 * y0) / divisor
         self._image_center = np.array([x, y, x, y])
-        self._image_a = (-x0 * x2 + x0 * x3 + x1 * x2 - x1 * x3) / divisor * self.config.GRID_IMAGE_A_MULTIPLY
+        self._image_a = (
+            (-x0 * x2 + x0 * x3 + x1 * x2 - x1 * x3)
+            / divisor
+            * self.config.GRID_IMAGE_A_MULTIPLY
+        )
 
         self.template_enemy_genre = {}
         for name in self.config.MAP_ENEMY_TEMPLATE:
-            self.template_enemy_genre[name] = globals().get(f'TEMPLATE_ENEMY_{name}')
+            self.template_enemy_genre[name] = globals().get(f"TEMPLATE_ENEMY_{name}")
         if self.config.MAP_HAS_SIREN:
             for name in self.config.MAP_SIREN_TEMPLATE:
-                self.template_enemy_genre[f'Siren_{name}'] = globals().get(f'TEMPLATE_SIREN_{name}')
+                self.template_enemy_genre[f"Siren_{name}"] = globals().get(
+                    f"TEMPLATE_SIREN_{name}"
+                )
 
         self.area = corner2area(self.corner)
         self.homo_data = cv2.getPerspectiveTransform(
             src=self.corner.astype(np.float32),
-            dst=area2corner((0, 0, *self.config.HOMO_TILE)).astype(np.float32))
+            dst=area2corner((0, 0, *self.config.HOMO_TILE)).astype(np.float32),
+        )
         self.homo_invt = cv2.invert(self.homo_data)[1]
 
     def screen2grid(self, points):
@@ -66,7 +73,9 @@ class GridPredictor:
         Returns:
             np.ndarray: Coordinates from screen, [[x1, y1], [x2, y2], ...]
         """
-        return perspective_transform(np.multiply(points, self.config.HOMO_TILE), self.homo_invt)
+        return perspective_transform(
+            np.multiply(points, self.config.HOMO_TILE), self.homo_invt
+        )
 
     @cached_property
     def image_trans(self):
@@ -103,9 +112,9 @@ class GridPredictor:
         # if not self.is_enemy:
         #     self.is_enemy = self.predict_static_red_border()
         if self.is_enemy and not self.enemy_genre:
-            self.enemy_genre = 'Enemy'
+            self.enemy_genre = "Enemy"
         if self.config.MAP_HAS_SIREN:
-            if self.enemy_genre is not None and self.enemy_genre.startswith('Siren'):
+            if self.enemy_genre is not None and self.enemy_genre.startswith("Siren"):
                 self.is_siren = True
                 self.enemy_scale = 0
 
@@ -141,7 +150,9 @@ class GridPredictor:
         count = image[image > threshold].shape[0]
         return count
 
-    def relative_hsv_count(self, area, h=(0, 360), s=(0, 100), v=(0, 100), shape=(50, 50)):
+    def relative_hsv_count(
+        self, area, h=(0, 360), s=(0, 100), v=(0, 100), shape=(50, 50)
+    ):
         """
         Args:
             area (tuple): upper_left_x, upper_left_y, bottom_right_x, bottom_right_y, such as (-1, -1, 1, 1).
@@ -167,7 +178,9 @@ class GridPredictor:
         Returns:
             int: 1: Small, 2: Middle, 3: Large, 0: Unknown.
         """
-        image = self.relative_crop((-0.415 - 0.7, -0.62 - 0.7, -0.415, -0.62), shape=(50, 50))
+        image = self.relative_crop(
+            (-0.415 - 0.7, -0.62 - 0.7, -0.415, -0.62), shape=(50, 50)
+        )
         red = color_similarity_2d(image, (255, 130, 132))
         yellow = color_similarity_2d(image, (255, 235, 156))
 
@@ -187,20 +200,26 @@ class GridPredictor:
         scaling_dic = self.config.MAP_ENEMY_GENRE_DETECTION_SCALING
         for name, template in self.template_enemy_genre.items():
             if template is None:
-                logger.warning(f'Enemy detection template not found: {name}')
-                logger.warning('Please create it with dev_tools/relative_record.py or dev_tools/relative_crop.py, '
-                               'then place it under ./assets/<server>/template')
-                raise ScriptError(f'Enemy detection template not found: {name}')
+                logger.warning(f"Enemy detection template not found: {name}")
+                logger.warning(
+                    "Please create it with dev_tools/relative_record.py or dev_tools/relative_crop.py, "
+                    "then place it under ./assets/<server>/template"
+                )
+                raise ScriptError(f"Enemy detection template not found: {name}")
 
-            short_name = name[6:] if name.startswith('Siren_') else name
+            short_name = name[6:] if name.startswith("Siren_") else name
             scaling = scaling_dic.get(short_name, 1)
             scaling = (scaling,) if not isinstance(scaling, tuple) else scaling
             for scale in scaling:
                 if scale not in image_dic:
                     shape = tuple(np.round(np.array((60, 60)) * scale).astype(int))
-                    image_dic[scale] = rgb2gray(self.relative_crop((-0.5, -1, 0.5, 0), shape=shape))
+                    image_dic[scale] = rgb2gray(
+                        self.relative_crop((-0.5, -1, 0.5, 0), shape=shape)
+                    )
 
-                if template.match(image_dic[scale], similarity=self.config.MAP_ENEMY_GENRE_SIMILARITY):
+                if template.match(
+                    image_dic[scale], similarity=self.config.MAP_ENEMY_GENRE_SIMILARITY
+                ):
                     return name
 
         return None
@@ -212,7 +231,12 @@ class GridPredictor:
             return True
 
         # Small boss icon
-        if self.relative_hsv_count(area=(0.03, -0.15, 0.63, 0.15), h=(358 - 3, 358 + 3), shape=(50, 20)) > 100:
+        if (
+            self.relative_hsv_count(
+                area=(0.03, -0.15, 0.63, 0.15), h=(358 - 3, 358 + 3), shape=(50, 20)
+            )
+            > 100
+        ):
             image = self.relative_crop((0.03, -0.15, 0.63, 0.15), shape=(50, 20))
             image = color_similarity_2d(image, color=(255, 77, 82))
             if TEMPLATE_ENEMY_BOSS.match(image, similarity=0.7):
@@ -221,7 +245,12 @@ class GridPredictor:
         return False
 
     def predict_missile_attack(self):
-        return self.relative_rgb_count(area=(-0.5, -1, 0.5, 0), color=(255, 255, 60), shape=(50, 50)) > 35
+        return (
+            self.relative_rgb_count(
+                area=(-0.5, -1, 0.5, 0), color=(255, 255, 60), shape=(50, 50)
+            )
+            > 35
+        )
 
     def predict_fleet(self):
         image = self.relative_crop((-1, -2, -0.5, -1.5), shape=(50, 50))
@@ -243,8 +272,12 @@ class GridPredictor:
             bool: True if is mystery.
         """
         # cyan question mark
-        if self.relative_rgb_count(
-                area=(-0.3, -2, 0.3, -0.6), color=(148, 255, 247), shape=(20, 50)) > 50:
+        if (
+            self.relative_rgb_count(
+                area=(-0.3, -2, 0.3, -0.6), color=(148, 255, 247), shape=(20, 50)
+            )
+            > 50
+        ):
             return True
         # white background
         # if self.relative_rgb_count(
@@ -254,7 +287,9 @@ class GridPredictor:
         return False
 
     def predict_current_fleet(self):
-        count = self.relative_hsv_count(area=(-0.5, -3.5, 0.5, -2.5), h=(141 - 3, 141 + 10), shape=(50, 50))
+        count = self.relative_hsv_count(
+            area=(-0.5, -3.5, 0.5, -2.5), h=(141 - 3, 141 + 10), shape=(50, 50)
+        )
         if count < 600:
             return False
 
@@ -267,17 +302,27 @@ class GridPredictor:
 
     def predict_sea(self):
         area = area_pad((48, 48, 48 + 46, 48 + 46), pad=5)
-        res = cv2.matchTemplate(ASSETS.tile_center_image, crop(self.image_homo, area=area), cv2.TM_CCOEFF_NORMED)
+        res = cv2.matchTemplate(
+            ASSETS.tile_center_image,
+            crop(self.image_homo, area=area),
+            cv2.TM_CCOEFF_NORMED,
+        )
         _, sim, _, _ = cv2.minMaxLoc(res)
         if sim > 0.8:
             return True
 
         tile = 135
         corner = 25
-        corner = [(5, 5, corner, corner), (tile - corner, 5, tile, corner), (5, tile - corner, corner, tile),
-                  (tile - corner, tile - corner, tile, tile)]
+        corner = [
+            (5, 5, corner, corner),
+            (tile - corner, 5, tile, corner),
+            (5, tile - corner, corner, tile),
+            (tile - corner, tile - corner, tile, tile),
+        ]
         for area, template in zip(corner[::-1], ASSETS.tile_corner_image_list[::-1]):
-            res = cv2.matchTemplate(template, crop(self.image_homo, area=area), cv2.TM_CCOEFF_NORMED)
+            res = cv2.matchTemplate(
+                template, crop(self.image_homo, area=area), cv2.TM_CCOEFF_NORMED
+            )
             _, sim, _, _ = cv2.minMaxLoc(res)
             if sim > 0.8:
                 return True
@@ -286,7 +331,12 @@ class GridPredictor:
 
     def predict_submarine_move(self):
         # Detect the orange arrow in submarine movement mode.
-        return self.relative_rgb_count((-0.5, -1, 0.5, 0), color=(231, 138, 49), shape=(60, 60)) > 200
+        return (
+            self.relative_rgb_count(
+                (-0.5, -1, 0.5, 0), color=(231, 138, 49), shape=(60, 60)
+            )
+            > 200
+        )
 
     @cached_property
     def _image_similar_piece(self):

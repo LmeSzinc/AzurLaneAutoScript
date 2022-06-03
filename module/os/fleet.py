@@ -14,14 +14,26 @@ from module.map.map_grids import SelectedGrids
 from module.map.utils import location_ensure
 from module.map_detection.utils import area2corner, corner2inner
 from module.ocr.ocr import Ocr
-from module.os.assets import MAP_GOTO_GLOBE, STRONGHOLD_PERCENTAGE, TEMPLATE_EMPTY_HP, FLEET_EMP_DEBUFF
+from module.os.assets import (
+    MAP_GOTO_GLOBE,
+    STRONGHOLD_PERCENTAGE,
+    TEMPLATE_EMPTY_HP,
+    FLEET_EMP_DEBUFF,
+)
 from module.os.camera import OSCamera
 from module.os.map_base import OSCampaignMap
 from module.os_ash.ash import OSAsh
 from module.os_combat.combat import Combat
-from module.os_handler.assets import CLICK_SAFE_AREA, IN_MAP, PORT_ENTER, PORT_SUPPLY_CHECK
+from module.os_handler.assets import (
+    CLICK_SAFE_AREA,
+    IN_MAP,
+    PORT_ENTER,
+    PORT_SUPPLY_CHECK,
+)
 
-FLEET_FILTER = Filter(regex=re.compile('fleet-?(\d)'), attr=('fleet',), preset=('callsubmarine',))
+FLEET_FILTER = Filter(
+    regex=re.compile("fleet-?(\d)"), attr=("fleet",), preset=("callsubmarine",)
+)
 
 
 def limit_walk(location, step=3):
@@ -38,24 +50,24 @@ class BossFleet:
         self.standby_loca = (0, 0)
 
     def __str__(self):
-        return f'Fleet-{self.fleet}'
+        return f"Fleet-{self.fleet}"
 
     __repr__ = __str__
 
 
 class PercentageOcr(Ocr):
     def __init__(self, *args, **kwargs):
-        kwargs['lang'] = 'azur_lane'
+        kwargs["lang"] = "azur_lane"
         super().__init__(*args, **kwargs)
 
     def pre_process(self, image):
         image = super().pre_process(image)
-        image = np.pad(image, ((2, 2), (0, 0)), mode='constant', constant_values=255)
+        image = np.pad(image, ((2, 2), (0, 0)), mode="constant", constant_values=255)
         return image
 
 
 class OSFleet(OSCamera, Combat, Fleet, OSAsh):
-    def _goto(self, location, expected=''):
+    def _goto(self, location, expected=""):
         super()._goto(location, expected)
         self.predict_radar()
         self.map.show()
@@ -85,7 +97,9 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         self.hp_get()
         self.lv_reset()
         self.lv_get()
-        self.ensure_edge_insight(preset=self.map.in_map_swipe_preset_data, swipe_limit=(6, 5))
+        self.ensure_edge_insight(
+            preset=self.map.in_map_swipe_preset_data, swipe_limit=(6, 5)
+        )
         # self.full_scan(must_scan=self.map.camera_data_spawn_point)
         # self.find_current_fleet()
         # self.find_path_initial()
@@ -126,8 +140,12 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         """
         After handle_ambush, if fleet has arrived, treat it as mystery, otherwise just ambush.
         """
-        if self._os_map_event_handled and button.predict_fleet() and button.predict_current_fleet():
-            return 'get_item'
+        if (
+            self._os_map_event_handled
+            and button.predict_fleet()
+            and button.predict_current_fleet()
+        ):
+            return "get_item"
         else:
             return False
 
@@ -137,19 +155,24 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         Argument `expected` used in _goto()
         """
         if grid.is_enemy:
-            return 'combat'
+            return "combat"
         elif grid.is_resource or grid.is_meowfficer or grid.is_exclamation:
-            return 'mystery'
+            return "mystery"
         else:
-            return ''
+            return ""
 
     def _hp_grid(self):
         hp_grid = super()._hp_grid()
 
         # Location of six HP bar, according to respective server for os
-        if self.config.SERVER == 'en':
-            hp_grid = ButtonGrid(origin=(35, 205), delta=(0, 100), button_shape=(66, 3), grid_shape=(1, 6))
-        elif self.config.SERVER == 'jp':
+        if self.config.SERVER == "en":
+            hp_grid = ButtonGrid(
+                origin=(35, 205),
+                delta=(0, 100),
+                button_shape=(66, 3),
+                grid_shape=(1, 6),
+            )
+        elif self.config.SERVER == "jp":
             pass
         else:
             pass
@@ -167,9 +190,12 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         """
         super().hp_get()
         ship_icon = self._hp_grid().crop((0, -67, 67, 0))
-        need_repair = [TEMPLATE_EMPTY_HP.match(self.image_crop(button)) for button in ship_icon.buttons]
+        need_repair = [
+            TEMPLATE_EMPTY_HP.match(self.image_crop(button))
+            for button in ship_icon.buttons
+        ]
         self.need_repair = need_repair
-        logger.attr('Repair icon', need_repair)
+        logger.attr("Repair icon", need_repair)
 
         if any(need_repair):
             for index, repair in enumerate(need_repair):
@@ -177,9 +203,15 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                     self._hp_has_ship[self.fleet_current_index][index] = True
                     self._hp[self.fleet_current_index][index] = 0
 
-            logger.attr('HP', ' '.join(
-                [str(int(data * 100)).rjust(3) + '%' if use else '____'
-                 for data, use in zip(self.hp, self.hp_has_ship)]))
+            logger.attr(
+                "HP",
+                " ".join(
+                    [
+                        str(int(data * 100)).rjust(3) + "%" if use else "____"
+                        for data, use in zip(self.hp, self.hp_has_ship)
+                    ]
+                ),
+            )
 
         return self.hp
 
@@ -215,7 +247,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         Wait until homo_loca stabled.
         DETECTION_BACKEND must be 'homography'.
         """
-        logger.hr('Wait until camera stable')
+        logger.hr("Wait until camera stable")
         record = None
         confirm_timer = Timer(0.6, count=2).start()
         while 1:
@@ -226,8 +258,10 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
             self.update_os()
             current = self.view.backend.homo_loca
-            logger.attr('homo_loca', current)
-            if record is None or (current is not None and np.linalg.norm(np.subtract(current, record)) < 3):
+            logger.attr("homo_loca", current)
+            if record is None or (
+                current is not None and np.linalg.norm(np.subtract(current, record)) < 3
+            ):
                 if confirm_timer.reached():
                     break
             else:
@@ -235,9 +269,15 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
             record = current
 
-        logger.info('Camera stabled')
+        logger.info("Camera stabled")
 
-    def wait_until_walk_stable(self, confirm_timer=None, skip_first_screenshot=False, walk_out_of_step=True, drop=None):
+    def wait_until_walk_stable(
+        self,
+        confirm_timer=None,
+        skip_first_screenshot=False,
+        walk_out_of_step=True,
+        drop=None,
+    ):
         """
         Wait until homo_loca stabled.
         DETECTION_BACKEND must be 'homography'.
@@ -258,7 +298,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         Raises:
             MapWalkError: If unable to goto such grid.
         """
-        logger.hr('Wait until walk stable')
+        logger.hr("Wait until walk stable")
         record = None
         enemy_searching_appear = False
         self.device.screenshot_interval_set(0.35)
@@ -276,14 +316,14 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             # Map event
             if self.handle_map_event(drop=drop):
                 confirm_timer.reset()
-                result.add('event')
+                result.add("event")
                 continue
             if self.handle_retirement():
                 confirm_timer.reset()
                 continue
             if self.handle_walk_out_of_step():
                 if walk_out_of_step:
-                    raise MapWalkError('walk_out_of_step')
+                    raise MapWalkError("walk_out_of_step")
                 else:
                     continue
 
@@ -302,9 +342,9 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 if enemy_searching_appear:
                     self.handle_enemy_flashing()
                     self.device.sleep(0.3)
-                    logger.info('Enemy searching appeared.')
+                    logger.info("Enemy searching appeared.")
                     enemy_searching_appear = False
-                    result.add('search')
+                    result.add("search")
                 if self.is_in_map():
                     self.enemy_searching_color_initial()
 
@@ -312,9 +352,13 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             if self.combat_appear():
                 # Use ui_back() for testing, because there are too few abyssal loggers every month.
                 # self.ui_back(check_button=self.is_in_map)
-                self.combat(expected_end=self.is_in_map, fleet_index=self.fleet_show_index, save_get_items=drop)
+                self.combat(
+                    expected_end=self.is_in_map,
+                    fleet_index=self.fleet_show_index,
+                    save_get_items=drop,
+                )
                 confirm_timer.reset()
-                result.add('event')
+                result.add("event")
                 continue
 
             # Akashi shop
@@ -322,7 +366,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 self.interval_clear(PORT_SUPPLY_CHECK)
                 self.handle_akashi_supply_buy(CLICK_SAFE_AREA)
                 confirm_timer.reset()
-                result.add('akashi')
+                result.add("akashi")
                 continue
 
             # Arrive
@@ -330,8 +374,11 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             if self.is_in_map() and IN_MAP.match_appear_on(self.device.image):
                 self.update_os()
                 current = self.view.backend.homo_loca
-                logger.attr('homo_loca', current)
-                if record is None or (current is not None and np.linalg.norm(np.subtract(current, record)) < 3):
+                logger.attr("homo_loca", current)
+                if record is None or (
+                    current is not None
+                    and np.linalg.norm(np.subtract(current, record)) < 3
+                ):
                     if confirm_timer.reached():
                         break
                 else:
@@ -340,8 +387,8 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             else:
                 confirm_timer.reset()
 
-        result = '_'.join(result)
-        logger.info(f'Walk stabled, result: {result}')
+        result = "_".join(result)
+        logger.info(f"Walk stabled, result: {result}")
         self.device.screenshot_interval_set()
         return result
 
@@ -361,18 +408,20 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         while 1:
             # Calculate destination
             grid = self.radar.port_predict(self.device.image)
-            logger.info(f'Port route at {grid}')
+            logger.info(f"Port route at {grid}")
             radar_arrive = np.linalg.norm(grid) == 0
             port_arrive = self.appear(PORT_ENTER, offset=(20, 20))
             if port_arrive:
-                logger.info('Arrive port')
+                logger.info("Arrive port")
                 break
             elif not port_arrive and radar_arrive:
                 if confirm_timer.reached():
-                    logger.warning('Arrive port on radar but port entrance not appear')
+                    logger.warning("Arrive port on radar but port entrance not appear")
                     raise MapWalkError
                 else:
-                    logger.info('Arrive port on radar but port entrance not appear, confirming')
+                    logger.info(
+                        "Arrive port on radar but port entrance not appear, confirming"
+                    )
                     self.device.screenshot()
                     continue
             else:
@@ -399,7 +448,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         Returns:
             bool: If switched.
         """
-        logger.hr(f'Fleet set to {index}')
+        logger.hr(f"Fleet set to {index}")
         if self.fleet_selector.ensure_to_be(index):
             self.wait_until_camera_stable()
             return True
@@ -425,7 +474,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         return fleets
 
     def question_goto(self, has_fleet_step=False):
-        logger.hr('Question goto')
+        logger.hr("Question goto")
         while 1:
             # Update local view
             # Not screenshots taking, reuse the old one
@@ -444,15 +493,17 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 grid = self.convert_radar_to_local(grid)
                 self.device.click(grid)
             else:
-                logger.info('No question mark to goto, stop')
+                logger.info("No question mark to goto, stop")
                 break
 
             # Wait until arrived
             # Having new screenshots
-            self.wait_until_walk_stable(confirm_timer=Timer(1.5, count=4), walk_out_of_step=False)
+            self.wait_until_walk_stable(
+                confirm_timer=Timer(1.5, count=4), walk_out_of_step=False
+            )
 
     def boss_goto(self, location=(0, 0), has_fleet_step=False, drop=None):
-        logger.hr('BOSS goto')
+        logger.hr("BOSS goto")
         while 1:
             # Update local view
             # Not screenshots taking, reuse the old one
@@ -469,17 +520,19 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 if has_fleet_step:
                     grid = limit_walk(grid)
                 if grid == (0, 0):
-                    logger.info(f'Arrive destination: boss {location}')
+                    logger.info(f"Arrive destination: boss {location}")
                     break
                 grid = self.convert_radar_to_local(grid)
                 self.device.click(grid)
             else:
-                logger.info('No boss to goto, stop')
+                logger.info("No boss to goto, stop")
                 break
 
             # Wait until arrived
             # Having new screenshots
-            self.wait_until_walk_stable(confirm_timer=Timer(1.5, count=4), walk_out_of_step=False, drop=drop)
+            self.wait_until_walk_stable(
+                confirm_timer=Timer(1.5, count=4), walk_out_of_step=False, drop=drop
+            )
 
     def get_boss_leave_button(self):
         for grid in self.view:
@@ -490,16 +543,20 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         if len(grids) == 1:
             center = grids[0]
         elif len(grids) > 1:
-            logger.warning(f'Found multiple fleets in boss ({grids}), use the center one')
-            center = SelectedGrids(grids).sort_by_camera_distance(self.view.center_loca)[0]
+            logger.warning(
+                f"Found multiple fleets in boss ({grids}), use the center one"
+            )
+            center = SelectedGrids(grids).sort_by_camera_distance(
+                self.view.center_loca
+            )[0]
         else:
-            logger.warning('No fleet in boss, use camera center instead')
+            logger.warning("No fleet in boss, use camera center instead")
             center = self.view[self.view.center_loca]
 
-        logger.info(f'Fleet in boss: {center}')
+        logger.info(f"Fleet in boss: {center}")
         # The left half grid next to the center grid.
         area = corner2inner(center.grid2screen(area2corner((1, 0.25, 1.5, 0.75))))
-        button = Button(area=area, color=(), button=area, name='BOSS_LEAVE')
+        button = Button(area=area, color=(), button=area, name="BOSS_LEAVE")
         return button
 
     def boss_leave(self, skip_first_screenshot=True):
@@ -508,7 +565,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             in: is_in_map(), or combat_appear()
             out: is_in_map(), fleet not in boss.
         """
-        logger.hr('BOSS leave')
+        logger.hr("BOSS leave")
         # Update local view
         self.update_os()
 
@@ -523,7 +580,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             if self.is_in_map():
                 self.predict_radar()
                 if self.radar.select(is_enemy=True):
-                    logger.info('Fleet left boss, boss found')
+                    logger.info("Fleet left boss, boss found")
                     break
 
             # Re-enter boss accidently
@@ -538,7 +595,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                     click_timer.reset()
                     continue
                 else:
-                    logger.info('Fleet left boss, current fleet found')
+                    logger.info("Fleet left boss, current fleet found")
                     break
 
     def boss_clear(self, has_fleet_step=True):
@@ -556,14 +613,14 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             out: If success, dangerous or safe zone.
                 If failed, still in abyssal.
         """
-        logger.hr(f'BOSS clear', level=1)
+        logger.hr(f"BOSS clear", level=1)
         fleets = self.parse_fleet_filter()
         with self.stat.new(
-                genre=inflection.underscore(self.config.task.command),
-                method=self.config.DropRecord_OpsiRecord
+            genre=inflection.underscore(self.config.task.command),
+            method=self.config.DropRecord_OpsiRecord,
         ) as drop:
             for fleet in fleets:
-                logger.hr(f'Turn: {fleet}', level=2)
+                logger.hr(f"Turn: {fleet}", level=2)
                 if not isinstance(fleet, BossFleet):
                     self.os_order_execute(recon_scan=False, submarine_call=True)
                     continue
@@ -571,12 +628,14 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 # Attack
                 self.fleet_set(fleet.fleet_index)
                 self.handle_os_map_fleet_lock(enable=False)
-                self.boss_goto(location=(0, 0), has_fleet_step=has_fleet_step, drop=drop)
+                self.boss_goto(
+                    location=(0, 0), has_fleet_step=has_fleet_step, drop=drop
+                )
 
                 # End
                 self.predict_radar()
                 if self.radar.select(is_question=True):
-                    logger.info('BOSS clear')
+                    logger.info("BOSS clear")
                     if drop.count:
                         drop.add(self.device.image)
                     self.map_exit()
@@ -585,13 +644,17 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 # Standby
                 self.boss_leave()
                 if fleet.standby_loca != (0, 0):
-                    self.boss_goto(location=fleet.standby_loca, has_fleet_step=has_fleet_step, drop=drop)
+                    self.boss_goto(
+                        location=fleet.standby_loca,
+                        has_fleet_step=has_fleet_step,
+                        drop=drop,
+                    )
                 else:
                     if drop.count:
                         drop.add(self.device.image)
                     break
 
-        logger.critical('Unable to clear boss, fleets exhausted')
+        logger.critical("Unable to clear boss, fleets exhausted")
         return False
 
     def run_abyssal(self):
@@ -618,10 +681,10 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             self.question_goto(has_fleet_step=True)
 
             if self.radar.select(is_enemy=True).filter(is_at_front):
-                logger.info('Found boss at front')
+                logger.info("Found boss at front")
                 break
             else:
-                logger.info('No boss at front, retry question_goto')
+                logger.info("No boss at front, retry question_goto")
                 continue
 
         result = self.boss_clear(has_fleet_step=True)
@@ -634,16 +697,21 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         Returns:
             str: Usually in ['100', '80', '60', '40', '20', '0']
         """
-        ocr = PercentageOcr(STRONGHOLD_PERCENTAGE, letter=(255, 255, 255), threshold=128, name='STRONGHOLD_PERCENTAGE')
+        ocr = PercentageOcr(
+            STRONGHOLD_PERCENTAGE,
+            letter=(255, 255, 255),
+            threshold=128,
+            name="STRONGHOLD_PERCENTAGE",
+        )
         result = ocr.ocr(self.device.image)
-        result = result.rstrip('7Kk')
-        for starter in ['100', '80', '60', '40', '20', '0']:
+        result = result.rstrip("7Kk")
+        for starter in ["100", "80", "60", "40", "20", "0"]:
             if result.startswith(starter):
                 result = starter
-                logger.attr('STRONGHOLD_PERCENTAGE', result)
+                logger.attr("STRONGHOLD_PERCENTAGE", result)
                 return result
 
-        logger.warning(f'Unexpected STRONGHOLD_PERCENTAGE: {result}')
+        logger.warning(f"Unexpected STRONGHOLD_PERCENTAGE: {result}")
         return result
 
     def get_second_fleet(self):
@@ -658,7 +726,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             second = 2
         else:
             second = 1
-        logger.attr('Second_fleet', second)
+        logger.attr("Second_fleet", second)
         return second
 
     @staticmethod
@@ -666,15 +734,32 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         if np.linalg.norm(outside) <= 3:
             return outside
         if step == 1:
-            grids = np.array([
-                (0, -1), (0, 1), (-1, 0), (1, 0),
-            ])
+            grids = np.array(
+                [
+                    (0, -1),
+                    (0, 1),
+                    (-1, 0),
+                    (1, 0),
+                ]
+            )
         else:
-            grids = np.array([
-                (0, -3), (0, 3), (-3, 0), (3, 0),
-                (2, -2), (2, 2), (-2, 2), (2, 2),
-            ])
-        degree = np.sum(grids * outside, axis=1) / np.linalg.norm(grids, axis=1) / np.linalg.norm(outside)
+            grids = np.array(
+                [
+                    (0, -3),
+                    (0, 3),
+                    (-3, 0),
+                    (3, 0),
+                    (2, -2),
+                    (2, 2),
+                    (-2, 2),
+                    (2, 2),
+                ]
+            )
+        degree = (
+            np.sum(grids * outside, axis=1)
+            / np.linalg.norm(grids, axis=1)
+            / np.linalg.norm(outside)
+        )
         return grids[np.argmax(degree)]
 
     _nearest_object_click_timer = Timer(2)
@@ -701,7 +786,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         try:
             nearest = self.convert_radar_to_local(nearest)
         except KeyError:
-            logger.info('Radar grid not on local map')
+            logger.info("Radar grid not on local map")
             self._nearest_object_click_timer.reset()
             return False
         self.device.click(nearest)

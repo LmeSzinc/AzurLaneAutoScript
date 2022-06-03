@@ -5,7 +5,7 @@ from module.map.map_base import CampaignMap
 from module.map.map_grids import RoadGrids, SelectedGrids
 
 MAP = CampaignMap()
-MAP.map_data = '''
+MAP.map_data = """
     MS -- -- ME -- MS -- ME --
     -- ME -- -- __ ME -- ++ ++
     ++ ++ -- ME ++ ++ ME -- ME
@@ -13,8 +13,8 @@ MAP.map_data = '''
     ++ ++ -- -- -- -- -- -- SP
     ME -- ME ME ME -- -- ++ --
     -- ME ++ ++ ++ MS ME -- --
-'''
-MAP.weight_data = '''
+"""
+MAP.weight_data = """
     10 10 10 10 10 10 10 10 10
     10 10 10 10 10 10 10 10 10
     10 10 10 10 10 10 10 10 10
@@ -22,16 +22,16 @@ MAP.weight_data = '''
     10 10 10 10 10 10 10 10 10
     20 20 10 10 10 10 10 10 10
     20 20 10 10 10 10 10 10 10
-'''
-MAP.camera_data = ['D3', 'D5', 'F3', 'F5']
+"""
+MAP.camera_data = ["D3", "D5", "F3", "F5"]
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 2, 'siren': 2},
-    {'battle': 1, 'enemy': 1},
-    {'battle': 2, 'enemy': 2, 'siren': 1},
-    {'battle': 3, 'enemy': 1},
-    {'battle': 4, 'enemy': 2},
-    {'battle': 5, 'enemy': 1},
-    {'battle': 6, 'boss': 1},
+    {"battle": 0, "enemy": 2, "siren": 2},
+    {"battle": 1, "enemy": 1},
+    {"battle": 2, "enemy": 2, "siren": 1},
+    {"battle": 3, "enemy": 1},
+    {"battle": 4, "enemy": 2},
+    {"battle": 5, "enemy": 1},
+    {"battle": 6, "boss": 1},
 ]
 
 

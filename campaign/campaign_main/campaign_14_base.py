@@ -15,7 +15,7 @@ class Config:
 
 
 class CampaignBase(CampaignBase_):
-    ENEMY_FILTER = '1T > 1L > 1E > 1M > 2T > 2L > 2E > 2M > 3T > 3L > 3E > 3M'
+    ENEMY_FILTER = "1T > 1L > 1E > 1M > 2T > 2L > 2E > 2M > 3T > 3L > 3E > 3M"
     picked_light_house = []
     picked_flare = []
 
@@ -41,14 +41,14 @@ class CampaignBase(CampaignBase_):
         """
         grid.is_flare = True
         if grid in self.picked_flare:
-            logger.info(f'Flares {grid} already picked up')
+            logger.info(f"Flares {grid} already picked up")
         elif grid.is_accessible:
-            logger.info(f'Pick up flares on {grid}')
+            logger.info(f"Pick up flares on {grid}")
             # get_items shows after flares picked up.
             self.goto(grid)
             self.picked_flare.append(grid)
         else:
-            logger.info(f'Flares {grid} not accessible, will check in next battle')
+            logger.info(f"Flares {grid} not accessible, will check in next battle")
 
         return False
 
@@ -61,13 +61,13 @@ class CampaignBase(CampaignBase_):
             bool: False
         """
         if grid in self.picked_light_house:
-            logger.info(f'Light house {grid} already picked up')
+            logger.info(f"Light house {grid} already picked up")
         elif grid.is_accessible:
-            logger.info(f'Pick up light house on {grid}')
+            logger.info(f"Pick up light house on {grid}")
             self.goto(grid)
             self.picked_light_house.append(grid)
             self.ensure_no_info_bar()
         else:
-            logger.info(f'Light house {grid} not accessible, will check in next battle')
+            logger.info(f"Light house {grid} not accessible, will check in next battle")
 
         return False

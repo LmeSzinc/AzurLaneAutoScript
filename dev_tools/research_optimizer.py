@@ -319,7 +319,7 @@ def timer(function):
 
         result = function(*args, **kwargs)
         t1 = time.time()
-        print('%s: %s s' % (function.__name__, str(round(t1 - t0, 10))))
+        print("%s: %s s" % (function.__name__, str(round(t1 - t0, 10))))
         return result
 
     return function_timer
@@ -343,7 +343,7 @@ class Filter:
 
     def load(self, string):
         string = str(string)
-        self.filter_raw = [f.strip(' \t\r\n') for f in string.split('>')]
+        self.filter_raw = [f.strip(" \t\r\n") for f in string.split(">")]
         self.filter = [self.parse_filter(f) for f in self.filter_raw]
 
     def is_preset(self, filter):
@@ -368,7 +368,10 @@ class Filter:
                     out.append(raw)
             else:
                 for index, obj in enumerate(objs):
-                    if self.apply_filter_to_obj(obj=obj, filter=filter) and obj not in out:
+                    if (
+                        self.apply_filter_to_obj(obj=obj, filter=filter)
+                        and obj not in out
+                    ):
                         out.append(obj)
 
         if func is not None:
@@ -409,7 +412,7 @@ class Filter:
         Returns:
             list[strNone]:
         """
-        string = string.replace(' ', '').lower()
+        string = string.replace(" ", "").lower()
         result = re.search(self.regex, string)
 
         if self.is_preset(string):
@@ -418,10 +421,12 @@ class Filter:
         if result and len(string) and result.span()[1]:
             return [result.group(index + 1) for index, attr in enumerate(self.attr)]
         else:
-            print(f'Invalid filter: "{string}". This selector does not match the regex, nor a preset.')
+            print(
+                f'Invalid filter: "{string}". This selector does not match the regex, nor a preset.'
+            )
             # Invalid filter will be ignored.
             # Return strange things and make it impossible to match
-            return ['1nVa1d'] + [None] * (len(self.attr) - 1)
+            return ["1nVa1d"] + [None] * (len(self.attr) - 1)
 
 
 class SelectedGrids:
@@ -442,7 +447,7 @@ class SelectedGrids:
 
     def __str__(self):
         # return str([str(grid) for grid in self])
-        return '[' + ', '.join([str(grid) for grid in self]) + ']'
+        return "[" + ", ".join([str(grid) for grid in self]) + "]"
 
     def __len__(self):
         return len(self.grids)
@@ -620,37 +625,39 @@ class SelectedGrids:
 
 
 def hr0(title):
-    middle = '|' + ' ' * 20 + title + ' ' * 20 + '|'
-    border = '+' + '-' * (len(middle) - 2) + '+'
+    middle = "|" + " " * 20 + title + " " * 20 + "|"
+    border = "+" + "-" * (len(middle) - 2) + "+"
     print(border)
     print(middle)
     print(border)
 
 
 def hr1(title):
-    print('=' * 20 + ' ' + title + ' ' + '=' * 20)
+    print("=" * 20 + " " + title + " " + "=" * 20)
 
 
 def hr2(title):
-    print('-' * 20 + ' ' + title + ' ' + '-' * 20)
+    print("-" * 20 + " " + title + " " + "-" * 20)
 
 
 def hr3(title):
-    print('<' * 3 + ' ' + title + ' ' + '>' * 3)
+    print("<" * 3 + " " + title + " " + ">" * 3)
 
 
-FILTER_REGEX = re.compile('([s\!][1234])?'
-                          '-?'
-                          '(neptune|monarch|ibuki|izumo|roon|saintlouis'
-                          '|seattle|georgia|kitakaze|azuma|friedrich'
-                          '|gascogne|champagne|cheshire|drake|mainz|odin'
-                          '|anchorage|hakuryu|agir|august|marcopolo)?'
-                          '(dr|pry)?'
-                          '([bcdeghqt])?'
-                          '-?'
-                          '(\d.\d|\d\d?)?')
-FILTER_ATTR = ('series', 'ship', 'ship_rarity', 'genre', 'duration')
-FILTER_PRESET = ('shortest', 'cheapest', 'reset')
+FILTER_REGEX = re.compile(
+    "([s\!][1234])?"
+    "-?"
+    "(neptune|monarch|ibuki|izumo|roon|saintlouis"
+    "|seattle|georgia|kitakaze|azuma|friedrich"
+    "|gascogne|champagne|cheshire|drake|mainz|odin"
+    "|anchorage|hakuryu|agir|august|marcopolo)?"
+    "(dr|pry)?"
+    "([bcdeghqt])?"
+    "-?"
+    "(\d.\d|\d\d?)?"
+)
+FILTER_ATTR = ("series", "ship", "ship_rarity", "genre", "duration")
+FILTER_PRESET = ("shortest", "cheapest", "reset")
 FILTER = Filter(FILTER_REGEX, FILTER_ATTR, FILTER_PRESET)
 
 """
@@ -659,7 +666,7 @@ FILTER = Filter(FILTER_REGEX, FILTER_ATTR, FILTER_PRESET)
 
 
 def parse_value(value):
-    if '.' in value:
+    if "." in value:
         try:
             return float(value)
         except ValueError:
@@ -674,11 +681,11 @@ def parse_value(value):
 
 def parse_text_table(string, data_class):
     out = []
-    for row in string.split('\n'):
-        row = row.strip(' \r\n\t')
+    for row in string.split("\n"):
+        row = row.strip(" \r\n\t")
         if not len(row):
             continue
-        row = row.split('\t')
+        row = row.split("\t")
         out.append(data_class(*row))
     return SelectedGrids(out)
 
@@ -688,6 +695,7 @@ class Research:
     """
     储存每个科研项目的信息
     """
+
     index: int
     series: str
     name: str
@@ -704,23 +712,23 @@ class Research:
         for k, v in self.__dict__.items():
             self.__setattr__(k, parse_value(v))
         # 构造科研过滤器需要的对象属性
-        self.genre, self.duration = self.name.split('-')
+        self.genre, self.duration = self.name.split("-")
         self.duration = str(self.duration)
         if self.series == 4:
-            self.series = f'S{self.series}'
+            self.series = f"S{self.series}"
         else:
-            self.series = f'!4'
-        if self.genre in ['Agir', 'Hakuryu']:
+            self.series = f"!4"
+        if self.genre in ["Agir", "Hakuryu"]:
             self.ship = self.genre
-            self.ship_rarity = 'dr'
-            self.genre = 'D'
-        elif self.genre in ['Anchorage', 'August', 'Marcopolo']:
+            self.ship_rarity = "dr"
+            self.genre = "D"
+        elif self.genre in ["Anchorage", "August", "Marcopolo"]:
             self.ship = self.genre
-            self.ship_rarity = 'pry'
-            self.genre = 'D'
+            self.ship_rarity = "pry"
+            self.genre = "D"
         else:
-            self.ship = ''
-            self.ship_rarity = ''
+            self.ship = ""
+            self.ship_rarity = ""
 
     def __hash__(self):
         return hash(self.name)
@@ -738,9 +746,19 @@ def product_dict(func):
 
 
 # 掉落加那么一点点，防止过滤器写错，100年都不毕业
-PROJECT_DROP = product_dict(lambda project: np.array(
-    [project.bp_Agir, project.bp_Hakuryu, project.bp_Anchorage, project.bp_August, project.bp_Marcopolo,
-     project.bp_Tenrai]) + 0.000001)
+PROJECT_DROP = product_dict(
+    lambda project: np.array(
+        [
+            project.bp_Agir,
+            project.bp_Hakuryu,
+            project.bp_Anchorage,
+            project.bp_August,
+            project.bp_Marcopolo,
+            project.bp_Tenrai,
+        ]
+    )
+    + 0.000001
+)
 PROJECT_DURATION = product_dict(lambda project: float(project.duration) / 24)
 # 构造出掉落数据的数组，给numba
 # Shape: (project_index=188, drop_items=6)
@@ -749,15 +767,15 @@ PROJECT_DURATION_ARRAY = np.array(list(PROJECT_DURATION.values()))
 
 
 class ResearchPool:
-    remove_projects = 'B > T > E'
-    all_ships = ('Agir', 'Hakuryu', 'Anchorage', 'August', 'Marcopolo')
+    remove_projects = "B > T > E"
+    all_ships = ("Agir", "Hakuryu", "Anchorage", "August", "Marcopolo")
 
     def __init__(self, string):
         FILTER.load(string)
         self.filter = SelectedGrids(FILTER.apply(PROJECTS.grids))
         self.reset_index = 1000
         for index, project in enumerate(self.filter):
-            if str(project) == 'reset':
+            if str(project) == "reset":
                 self.reset_index = index
                 break
 
@@ -792,7 +810,7 @@ class ResearchPool:
         out = {}
         for condition in itertools.product([False, True], repeat=len(PROJECT_DROP[0])):
             ships = [ship for ship, con in zip(cls.all_ships, condition) if con]
-            weight = np.array(projects.get('weight'))
+            weight = np.array(projects.get("weight"))
             index = np.sum(np.array(condition) * [1, 2, 4, 8, 16, 32])
             remain = len(ships)
             if 0 < remain < 5:
@@ -803,7 +821,7 @@ class ResearchPool:
                         weight[project.index] *= 5 / remain
                         changed.append(project.index)
                 # 将已完成的科研船的定向概率归0
-                for project in projects.select(genre='D'):
+                for project in projects.select(genre="D"):
                     if project.index not in changed:
                         weight[project.index] = 0
             weight /= np.sum(weight)
@@ -811,8 +829,8 @@ class ResearchPool:
         return out
 
 
-SPAWN_RATE = ResearchPool('reset').cal_project_spawn_rate(PROJECTS)
-SPAWN_RATE_S4 = ResearchPool('reset').cal_project_spawn_rate(PROJECTS_S4)
+SPAWN_RATE = ResearchPool("reset").cal_project_spawn_rate(PROJECTS)
+SPAWN_RATE_S4 = ResearchPool("reset").cal_project_spawn_rate(PROJECTS_S4)
 # 构造出不同条件下的刷新概率数组，给numba
 # 事先累加概率，加快 random_choice()
 SPAWN_RATE = np.array([np.cumsum(SPAWN_RATE[n]) for n in range(64)])
@@ -852,7 +870,7 @@ def sample(condition, project_select_index, reset_index):
         index = 0
         for i, c in enumerate(condition):
             if c:
-                index += 2 ** i
+                index += 2**i
         # 随机生成5个科研项目，包含3个四期，和2个任意
         # np.random.seed(3)
         p1, p2, p3 = random_choice(3, SPAWN_RATE_S4[index])
@@ -889,7 +907,7 @@ def events_add(rewards, condition):
 
 
 @jit(nopython=True, fastmath=True)
-def simulate(project_select_index, reset_index, target, active=1., interval=0.):
+def simulate(project_select_index, reset_index, target, active=1.0, interval=0.0):
     """
     模拟一个玩家做科研到毕业
 
@@ -903,7 +921,7 @@ def simulate(project_select_index, reset_index, target, active=1., interval=0.):
     Returns:
         float, np.ndarray: 消耗时间，累计获得物品 Shape: (6,)
     """
-    rewards = np.array([0., 0., 0., 0., 0., 0.])
+    rewards = np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
     condition = rewards != 0  # 每样物品是否达到目标数量，True未达到，False已达到
     has_reset = True
     day_cost = 0
@@ -980,17 +998,17 @@ class FilterSimulator:
                 self.pool.reset_index,
                 target=FilterSimulator.target,
                 active=FilterSimulator.active,
-                interval=FilterSimulator.interval
+                interval=FilterSimulator.interval,
             )
             day_cost += sim_day
             rewards += sim_rewards
         day_cost /= sample_count
         rewards /= sample_count
 
-        hr3('End Testing')
+        hr3("End Testing")
         print(self.string)
-        print(f'Average time cost: {day_cost}')
-        print(f'Average rewards: {rewards}')
+        print(f"Average time cost: {day_cost}")
+        print(f"Average rewards: {rewards}")
 
         return day_cost
 
@@ -998,29 +1016,32 @@ class FilterSimulator:
 def split_filter(string):
     if isinstance(string, list):
         return string
-    return [f.strip(' \t\r\n') for f in string.split('>')]
+    return [f.strip(" \t\r\n") for f in string.split(">")]
 
 
 def join_filter(selection):
     if isinstance(selection, str):
         return selection
-    return ' > '.join(selection)
+    return " > ".join(selection)
 
 
 def beautify_filter(string):
     if isinstance(string, str):
         string = split_filter(string)
-    out = ''
+    out = ""
     for index in range(0, len(string), 8):
-        row = string[index:index + 8]
-        out += '    > ' + join_filter(row) + '\n'
-    out = '\n    ' + out.strip('> ')
+        row = string[index : index + 8]
+        out += "    > " + join_filter(row) + "\n"
+    out = "\n    " + out.strip("> ")
     return out
 
 
 def position_change(string, position):
     selection = split_filter(string)
-    selection[position], selection[position + 1] = selection[position + 1], selection[position]
+    selection[position], selection[position + 1] = (
+        selection[position + 1],
+        selection[position],
+    )
     return join_filter(selection)
 
 
@@ -1032,7 +1053,7 @@ def position_insert(string, insert, position):
 
 def epoch_worker(data):
     index, total, sample_count, select_index, forward_index, string = data
-    hr3(f'Start Testing: {index}/{total}')
+    hr3(f"Start Testing: {index}/{total}")
     return FilterSimulator(string).run(sample_count)
 
 
@@ -1040,7 +1061,7 @@ class BruteForceOptimizer:
     @timer
     def optimize(self, string, diff=10):
         for epoch in range(100):
-            hr0(f'Epoch: {epoch}')
+            hr0(f"Epoch: {epoch}")
             new, diff = self.epoch(string, diff=diff)
             if new == string:
                 break
@@ -1070,37 +1091,47 @@ class BruteForceOptimizer:
         look_forward = int(np.power(3, level))
         look_forward = max(look_forward, 1)
         sample_count = min(max(sample_count, 10000), 300000)
-        print(f'diff: {diff}, look_forward: {look_forward}, sample_count: {sample_count}')
+        print(
+            f"diff: {diff}, look_forward: {look_forward}, sample_count: {sample_count}"
+        )
 
         string_split = split_filter(string)
         string_count = len(string_split)
         all_tests = list(self.gen(string, look_forward=look_forward))
         total = len(all_tests)
         # index, total, sample_count, select_index, forward_index, string_added
-        tests_data = [(index, total, sample_count, *row) for index, row in enumerate(all_tests)]
+        tests_data = [
+            (index, total, sample_count, *row) for index, row in enumerate(all_tests)
+        ]
 
-        results = process_map(epoch_worker, tests_data, max_workers=BruteForceOptimizer.process)
+        results = process_map(
+            epoch_worker, tests_data, max_workers=BruteForceOptimizer.process
+        )
 
         day_cost = np.ones((string_count, look_forward + 1)) * 1000
         for data, result in zip(tests_data[1:], results[1:]):
             day_cost[data[3]][data[4]] = result
         day_cost[:, 0] = results[0]
 
-        hr2('Original filter')
+        hr2("Original filter")
         print(beautify_filter(string_split))
 
-        hr2('Move forward')
+        hr2("Move forward")
         forward = np.argmin(day_cost, axis=1)
         if look_forward == 1:
             forward[np.min(day_cost, axis=1) != np.min(day_cost)] = 0
-        for index, selection, forward_index in zip(range(len(forward)), string_split, forward):
+        for index, selection, forward_index in zip(
+            range(len(forward)), string_split, forward
+        ):
             if index == 0:
-                selection = '[Original]'
-            print(f'{selection.ljust(12, " ")}forward: {forward_index}, day_cost: {day_cost[index][forward_index]}')
+                selection = "[Original]"
+            print(
+                f'{selection.ljust(12, " ")}forward: {forward_index}, day_cost: {day_cost[index][forward_index]}'
+            )
         diff = day_cost[0][0] - np.min(day_cost)
-        print(f'diff: {diff}')
+        print(f"diff: {diff}")
 
-        hr2('New filter')
+        hr2("New filter")
         forward[forward > 0] += 1
         forward = np.arange(forward.shape[0]) - forward
         new_index = np.argsort(forward)
@@ -1118,7 +1149,7 @@ class BruteForceOptimizer:
 # 切魔方：'B > T > E'
 # 只做0.5h魔方：'B > T > E > H1 > H2 > H4'
 # 不切魔方：'B > T > E > H'
-ResearchPool.remove_projects = 'B > T > E > H1 > H2 > H4'
+ResearchPool.remove_projects = "B > T > E > H1 > H2 > H4"
 # 每日活跃时间，按天计算
 # 超出活跃时间后，仍在挂项目，但不再开始新项目
 FilterSimulator.active = 24 / 24
@@ -1136,7 +1167,7 @@ FilterSimulator.target = np.array([513, 513, 343, 343, 343, 100])
 # 建议为cpu的物理进程数
 BruteForceOptimizer.process = 6
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     """
     这个文件包含模拟器和优化器两部分，取消注释对应的代码来运行
     Alas用户运行需要额外安装numba，无指定版本
@@ -1162,12 +1193,14 @@ if __name__ == '__main__':
     模拟大量用户使用同一个过滤器的平均毕业时间和毕业时获取物品的平均数量
     取消注释这些代码，将你的过滤器粘贴至这里，并运行，在8700k上需要约4.5分钟
     """
-    simulator = FilterSimulator("""
+    simulator = FilterSimulator(
+        """
     S4-DR0.5 > S4-PRY0.5 > S4-H0.5 > S4-Q0.5 > S4-DR2.5 > !4-0.5 > S4-G1.5 > S4-Q1
     > S4-DR5 > S4-DR8 > S4-G4 > S4-PRY2.5 > !4-1 > S4-Q2 > reset > S4-G2.5
     > S4-PRY5 > S4-PRY8 > !4-2 > !4-1.5 > S4-Q4 > !4-2.5 > !4-4 > S4-C6
     > S4-C8 > !4-6 > !4-8 > !4-12 > S4-C12
-    """)
+    """
+    )
     simulator.run(sample_count=100000)
     """
     优化一个过滤器，尝试调整过滤器选择的顺序，找到满足目标条件的消耗时间最短的排列方式

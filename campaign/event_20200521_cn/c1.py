@@ -4,14 +4,14 @@ from module.map.map_base import CampaignMap
 from module.map.map_grids import RoadGrids, SelectedGrids
 
 MAP = CampaignMap()
-MAP.map_data = '''
+MAP.map_data = """
     -- -- ++ -- -- -- ++ ++
     -- -- -- -- -- -- -- --
     ++ -- -- ++ -- -- -- --
     ++ -- -- -- -- -- -- --
     -- -- -- -- -- -- -- --
     -- -- ++ ++ ++ -- -- ++
-'''
+"""
 
 
 class Config:
@@ -30,16 +30,16 @@ class Config:
     TRUST_EDGE_LINES = False
     COINCIDENT_POINT_ENCOURAGE_DISTANCE = 1.5
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (100, 255 - 16),
-        'width': 1,
-        'prominence': 10,
-        'distance': 35,
+        "height": (100, 255 - 16),
+        "width": 1,
+        "prominence": 10,
+        "distance": 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 16, 255),
-        'prominence': 2,
-        'distance': 50,
-        'wlen': 1000
+        "height": (255 - 16, 255),
+        "prominence": 2,
+        "distance": 50,
+        "wlen": 1000,
     }
 
 

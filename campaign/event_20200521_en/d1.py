@@ -3,16 +3,16 @@ from module.logger import logger
 from module.map.map_base import CampaignMap
 from module.map.map_grids import RoadGrids, SelectedGrids
 
-MAP = CampaignMap('d1')
-MAP.shape = 'H6'
-MAP.map_data = '''
+MAP = CampaignMap("d1")
+MAP.shape = "H6"
+MAP.map_data = """
     ++ ++ ++ -- -- -- -- MB
     MS -- -- -- __ ME ME --
     ME -- ME ++ ++ MS -- --
     SP -- ME ++ ++ MS ME --
     ME -- -- -- -- -- -- --
     SP -- -- ME MS ME -- MB
-'''
+"""
 
 
 class Config:
@@ -30,4 +30,3 @@ class Config:
 
 class Campaign(CampaignBase):
     MAP = MAP
-

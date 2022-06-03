@@ -20,7 +20,7 @@ class Template(Resource):
 
         self.resource_add(self.file)
 
-    cached = ['file', 'name', 'is_gif']
+    cached = ["file", "name", "is_gif"]
 
     @cached_property
     def file(self):
@@ -32,7 +32,7 @@ class Template(Resource):
 
     @cached_property
     def is_gif(self):
-        return os.path.splitext(self.file)[1] == '.gif'
+        return os.path.splitext(self.file)[1] == ".gif"
 
     @property
     def image(self):
@@ -55,7 +55,7 @@ class Template(Resource):
                 self._image = self.pre_process(load_image(self.file))
 
         return self._image
-        
+
     @property
     def image_binary(self):
         if self._image_binary is None:
@@ -63,14 +63,17 @@ class Template(Resource):
                 self._image_binary = []
                 for image in self.image:
                     image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-                    _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+                    _, image_binary = cv2.threshold(
+                        image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU
+                    )
                     self._image_binary.append(image_binary)
             else:
                 image_gray = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
-                _, self._image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+                _, self._image_binary = cv2.threshold(
+                    image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU
+                )
 
         return self._image_binary
-        
 
     @image.setter
     def image(self, value):
@@ -125,7 +128,7 @@ class Template(Resource):
     def match_binary(self, image, similarity=0.85):
         """
         Use template match after binarization.
-        
+
         Args:
             image:
             similarity (float): 0 to 1.
@@ -135,10 +138,12 @@ class Template(Resource):
         """
         if self.is_gif:
             for template in self.image_binary:
-				# graying
+                # graying
                 image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
                 # binarization
-                _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+                _, image_binary = cv2.threshold(
+                    image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU
+                )
                 # template matching
                 res = cv2.matchTemplate(image_binary, template, cv2.TM_CCOEFF_NORMED)
                 _, sim, _, _ = cv2.minMaxLoc(res)
@@ -149,12 +154,16 @@ class Template(Resource):
             return False
 
         else:
-			# graying
+            # graying
             image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
             # binarization
-            _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+            _, image_binary = cv2.threshold(
+                image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU
+            )
             # template matching
-            res = cv2.matchTemplate(image_binary, self.image_binary, cv2.TM_CCOEFF_NORMED)
+            res = cv2.matchTemplate(
+                image_binary, self.image_binary, cv2.TM_CCOEFF_NORMED
+            )
             _, sim, _, _ = cv2.minMaxLoc(res)
             # print(self.file, sim)
             return sim > similarity

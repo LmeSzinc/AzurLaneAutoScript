@@ -2,8 +2,12 @@ from module.base.button import Button
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.logger import logger
 
-EVENT_ANIMATION = Button(area=(49, 229, 119, 400), color=(118, 215, 240), button=(49, 229, 119, 400),
-                         name='EVENT_ANIMATION')
+EVENT_ANIMATION = Button(
+    area=(49, 229, 119, 400),
+    color=(118, 215, 240),
+    button=(49, 229, 119, 400),
+    name="EVENT_ANIMATION",
+)
 
 
 class CampaignBase(CampaignBase_):
@@ -29,14 +33,14 @@ class CampaignBase(CampaignBase_):
         else:
             if name.isdigit():
                 return int(name)
-            elif name in ['a', 'c', 'sp']:
+            elif name in ["a", "c", "sp"]:
                 return 1
-            elif name in ['b', 'd', 'ex_sp']:  # Difference
+            elif name in ["b", "d", "ex_sp"]:  # Difference
                 return 2
             else:
                 raise CampaignNameError
 
-    def campaign_set_chapter(self, name, mode='normal'):
+    def campaign_set_chapter(self, name, mode="normal"):
         """
         Args:
             name (str): Campaign name, such as '7-2', 'd3', 'sp3'.
@@ -46,28 +50,28 @@ class CampaignBase(CampaignBase_):
 
         if chapter.isdigit():
             self.ui_weigh_anchor()
-            self.campaign_ensure_mode('normal')
+            self.campaign_ensure_mode("normal")
             self.campaign_ensure_chapter(index=chapter)
-            if mode == 'hard':
-                self.campaign_ensure_mode('hard')
+            if mode == "hard":
+                self.campaign_ensure_mode("hard")
                 self.campaign_ensure_chapter(index=chapter)
 
-        elif chapter in 'abcd' or chapter == 'ex_sp':
+        elif chapter in "abcd" or chapter == "ex_sp":
             self.ui_goto_event()
-            if chapter in 'ab':
-                self.campaign_ensure_mode('normal')
-            elif chapter in 'cd':
-                self.campaign_ensure_mode('hard')
-            elif chapter == 'ex_sp':
+            if chapter in "ab":
+                self.campaign_ensure_mode("normal")
+            elif chapter in "cd":
+                self.campaign_ensure_mode("hard")
+            elif chapter == "ex_sp":
                 pass  # Difference
             self.campaign_ensure_chapter(index=chapter)
 
-        elif chapter == 'sp':
+        elif chapter == "sp":
             self.ui_goto_event()  # Difference
             self.campaign_ensure_chapter(index=chapter)
 
         else:
-            logger.warning(f'Unknown campaign chapter: {name}')
+            logger.warning(f"Unknown campaign chapter: {name}")
 
     def is_event_animation(self):
         """
@@ -78,5 +82,5 @@ class CampaignBase(CampaignBase_):
         """
         appear = self.appear(EVENT_ANIMATION)
         if appear:
-            logger.info('DOA animation, waiting')
+            logger.info("DOA animation, waiting")
         return appear

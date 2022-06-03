@@ -4,10 +4,10 @@ from module.shop.shop_general import GeneralShop
 from module.ui.page import page_main, page_shipyard
 
 PRBP_BUY_PRIZE = {
-    (1, 2):               0,
-    (3, 4):               150,
-    (5, 6, 7):            300,
-    (8, 9, 10):           600,
+    (1, 2): 0,
+    (3, 4): 150,
+    (5, 6, 7): 300,
+    (8, 9, 10): 600,
     (11, 12, 13, 14, 15): 1050,
 }
 
@@ -46,15 +46,16 @@ class RewardShipyard(ShipyardUI, GeneralShop):
                 if pay:
                     self._shop_gold_coins -= total
                 else:
-                    logger.info(f'Can only buy up to {(i - start)} '
-                                f'of the {count} BPs')
+                    logger.info(
+                        f"Can only buy up to {(i - start)} " f"of the {count} BPs"
+                    )
                 return i, i - start
             total += cost[0]
 
         if pay:
             self._shop_gold_coins -= total
         else:
-            logger.info(f'Can buy all {count} BPs')
+            logger.info(f"Can buy all {count} BPs")
         return i + 1, count
 
     def _shipyard_buy_calc(self, start, count):
@@ -83,14 +84,13 @@ class RewardShipyard(ShipyardUI, GeneralShop):
         prev = 1
         start, count = self._shipyard_buy_calc(prev, count)
         while count > 0:
-            if not self._shipyard_buy_enter() or \
-                    self._shipyard_cannot_strengthen():
+            if not self._shipyard_buy_enter() or self._shipyard_cannot_strengthen():
                 break
 
             remain = self._shipyard_ensure_index(count)
             if remain is None:
                 break
-            self._shipyard_buy_confirm('BP_BUY')
+            self._shipyard_buy_confirm("BP_BUY")
 
             # Pay for actual amount bought based on 'remain'
             # which also updates 'start' as a result
@@ -107,14 +107,13 @@ class RewardShipyard(ShipyardUI, GeneralShop):
         """
         count = self._shipyard_get_bp_count(index)
         while count > 0:
-            if not self._shipyard_buy_enter() or \
-                    self._shipyard_cannot_strengthen():
+            if not self._shipyard_buy_enter() or self._shipyard_cannot_strengthen():
                 break
 
             remain = self._shipyard_ensure_index(count)
             if remain is None:
                 break
-            self._shipyard_buy_confirm('BP_USE')
+            self._shipyard_buy_confirm("BP_USE")
 
             count = self._shipyard_get_bp_count(index)
 
@@ -143,9 +142,11 @@ class RewardShipyard(ShipyardUI, GeneralShop):
         self.shop_currency()
 
         self.ui_ensure(page_shipyard)
-        if not self.shipyard_set_focus(series=series, index=index) \
-                or not self._shipyard_buy_enter() \
-                or self._shipyard_cannot_strengthen():
+        if (
+            not self.shipyard_set_focus(series=series, index=index)
+            or not self._shipyard_buy_enter()
+            or self._shipyard_cannot_strengthen()
+        ):
             return True
 
         self._shipyard_use(index=index)
@@ -163,7 +164,9 @@ class RewardShipyard(ShipyardUI, GeneralShop):
             self.config.Scheduler_Enable = False
             self.config.task_stop()
 
-        self.shipyard_run(series=self.config.Shipyard_ResearchSeries,
-                          index=self.config.Shipyard_ShipIndex,
-                          count=self.config.Shipyard_BuyAmount)
+        self.shipyard_run(
+            series=self.config.Shipyard_ResearchSeries,
+            index=self.config.Shipyard_ShipIndex,
+            count=self.config.Shipyard_BuyAmount,
+        )
         self.config.task_delay(server_update=True)

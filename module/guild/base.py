@@ -25,11 +25,18 @@ class GuildBase(UI):
             operations.
         """
         guild_side_navbar = ButtonGrid(
-            origin=(21, 118), delta=(0, 94.5), button_shape=(60, 75), grid_shape=(1, 6), name='GUILD_SIDE_NAVBAR')
+            origin=(21, 118),
+            delta=(0, 94.5),
+            button_shape=(60, 75),
+            grid_shape=(1, 6),
+            name="GUILD_SIDE_NAVBAR",
+        )
 
-        return Navbar(grids=guild_side_navbar,
-                      active_color=(247, 255, 173),
-                      inactive_color=(140, 162, 181))
+        return Navbar(
+            grids=guild_side_navbar,
+            active_color=(247, 255, 173),
+            inactive_color=(140, 162, 181),
+        )
 
     def guild_side_navbar_ensure(self, upper=None, bottom=None):
         """

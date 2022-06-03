@@ -2,32 +2,80 @@ from module.base.button import Button
 from module.base.decorator import run_once
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1, GET_SHIP
-from module.exception import (GameNotRunningError, GamePageUnknownError,
-                              RequestHumanTakeover)
-from module.handler.assets import (AUTO_SEARCH_MENU_EXIT, BATTLE_PASS_NOTICE,
-                                   GAME_TIPS, LOGIN_ANNOUNCE, LOGIN_CHECK,
-                                   LOGIN_RETURN_SIGN, MONTHLY_PASS_NOTICE)
+from module.exception import (
+    GameNotRunningError,
+    GamePageUnknownError,
+    RequestHumanTakeover,
+)
+from module.handler.assets import (
+    AUTO_SEARCH_MENU_EXIT,
+    BATTLE_PASS_NOTICE,
+    GAME_TIPS,
+    LOGIN_ANNOUNCE,
+    LOGIN_CHECK,
+    LOGIN_RETURN_SIGN,
+    MONTHLY_PASS_NOTICE,
+)
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
-from module.map.assets import (FLEET_PREPARATION, MAP_PREPARATION,
-                               MAP_PREPARATION_CANCEL, WITHDRAW)
+from module.map.assets import (
+    FLEET_PREPARATION,
+    MAP_PREPARATION,
+    MAP_PREPARATION_CANCEL,
+    WITHDRAW,
+)
 from module.ocr.ocr import Ocr
-from module.os_handler.assets import (EXCHANGE_CHECK, RESET_FLEET_PREPARATION,
-                                      RESET_TICKET_POPUP)
-from module.ui.assets import (BACK_ARROW, DORM_FEED_CANCEL, DORM_INFO,
-                              DORM_TROPHY_CONFIRM, EVENT_LIST_CHECK, GOTO_MAIN,
-                              MEOWFFICER_INFO, META_CHECK, PLAYER_CHECK,
-                              SHIPYARD_CHECK)
-from module.ui.page import (Page, page_academy, page_archives,
-                            page_battle_pass, page_build, page_campaign,
-                            page_campaign_menu, page_commission, page_daily,
-                            page_dorm, page_dormmenu, page_event,
-                            page_event_list, page_exercise, page_fleet,
-                            page_guild, page_main, page_meowfficer, page_meta,
-                            page_mission, page_munitions, page_os, page_raid,
-                            page_research, page_reshmenu, page_reward,
-                            page_shipyard, page_shop, page_sp,
-                            page_supply_pack, page_tactical, page_unknown)
+from module.os_handler.assets import (
+    EXCHANGE_CHECK,
+    RESET_FLEET_PREPARATION,
+    RESET_TICKET_POPUP,
+)
+from module.ui.assets import (
+    BACK_ARROW,
+    DORM_FEED_CANCEL,
+    DORM_INFO,
+    DORM_TROPHY_CONFIRM,
+    EVENT_LIST_CHECK,
+    GOTO_MAIN,
+    MEOWFFICER_INFO,
+    META_CHECK,
+    PLAYER_CHECK,
+    SHIPYARD_CHECK,
+)
+from module.ui.page import (
+    Page,
+    page_academy,
+    page_archives,
+    page_battle_pass,
+    page_build,
+    page_campaign,
+    page_campaign_menu,
+    page_commission,
+    page_daily,
+    page_dorm,
+    page_dormmenu,
+    page_event,
+    page_event_list,
+    page_exercise,
+    page_fleet,
+    page_guild,
+    page_main,
+    page_meowfficer,
+    page_meta,
+    page_mission,
+    page_munitions,
+    page_os,
+    page_raid,
+    page_research,
+    page_reshmenu,
+    page_reward,
+    page_shipyard,
+    page_shop,
+    page_sp,
+    page_supply_pack,
+    page_tactical,
+    page_unknown,
+)
 
 # from module.ui.page import *
 
@@ -119,18 +167,20 @@ class UI(InfoHandler):
             else:
                 self.device.screenshot()
 
-            if (isinstance(check_button, Button) and self.appear(check_button, offset=offset)) or (
-                callable(check_button) and check_button()
-            ):
+            if (
+                isinstance(check_button, Button)
+                and self.appear(check_button, offset=offset)
+            ) or (callable(check_button) and check_button()):
                 if confirm_timer.reached():
                     break
             else:
                 confirm_timer.reset()
 
             if click_timer.reached():
-                if (isinstance(appear_button, Button) and self.appear(appear_button, offset=offset)) or (
-                    callable(appear_button) and appear_button()
-                ):
+                if (
+                    isinstance(appear_button, Button)
+                    and self.appear(appear_button, offset=offset)
+                ) or (callable(appear_button) and appear_button()):
                     self.device.click(click_button)
                     click_timer.reset()
                     continue
@@ -183,7 +233,10 @@ class UI(InfoHandler):
 
             # Unknown page but able to handle
             logger.info("Unknown ui page")
-            if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=2) or self.ui_additional():
+            if (
+                self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=2)
+                or self.ui_additional()
+            ):
                 timeout.reset()
                 continue
 
@@ -192,16 +245,22 @@ class UI(InfoHandler):
 
         # Unknown page, need manual switching
         logger.warning("Unknown ui page")
-        logger.attr("EMULATOR__SCREENSHOT_METHOD", self.config.Emulator_ScreenshotMethod)
+        logger.attr(
+            "EMULATOR__SCREENSHOT_METHOD", self.config.Emulator_ScreenshotMethod
+        )
         logger.attr("EMULATOR__CONTROL_METHOD", self.config.Emulator_ControlMethod)
         logger.attr("SERVER", self.config.SERVER)
         logger.warning("Starting from current page is not supported")
         logger.warning(f"Supported page: {[str(page) for page in self.ui_pages]}")
-        logger.warning('Supported page: Any page with a "HOME" button on the upper-right')
+        logger.warning(
+            'Supported page: Any page with a "HOME" button on the upper-right'
+        )
         logger.critical("Please switch to a supported page before starting Alas")
         raise GamePageUnknownError
 
-    def ui_goto(self, destination, offset=(30, 30), confirm_wait=0, skip_first_screenshot=True):
+    def ui_goto(
+        self, destination, offset=(30, 30), confirm_wait=0, skip_first_screenshot=True
+    ):
         """
         Args:
             destination (Page):
@@ -241,7 +300,7 @@ class UI(InfoHandler):
             # Destination page
             if self.appear(destination.check_button, offset=offset):
                 if confirm_timer.reached():
-                    logger.info(f'Page arrive: {destination}')
+                    logger.info(f"Page arrive: {destination}")
                     break
             else:
                 confirm_timer.reset()
@@ -252,7 +311,7 @@ class UI(InfoHandler):
                 if page.parent is None or page.check_button is None:
                     continue
                 if self.appear(page.check_button, offset=offset, interval=5):
-                    logger.info(f'Page switch: {page} -> {page.parent}')
+                    logger.info(f"Page switch: {page} -> {page.parent}")
                     self.device.click(page.links[page.parent])
                     confirm_timer.reset()
                     clicked = True
@@ -349,7 +408,14 @@ class UI(InfoHandler):
 
         self.device.sleep(finish_sleep)
 
-    def ui_back(self, check_button, appear_button=None, offset=(30, 30), retry_wait=10, skip_first_screenshot=False):
+    def ui_back(
+        self,
+        check_button,
+        appear_button=None,
+        offset=(30, 30),
+        retry_wait=10,
+        skip_first_screenshot=False,
+    ):
         return self.ui_click(
             click_button=BACK_ARROW,
             check_button=check_button,
@@ -379,7 +445,7 @@ class UI(InfoHandler):
         if self.appear_then_click(LOGIN_RETURN_SIGN, offset=(30, 30), interval=3):
             return True
         if self.appear(EVENT_LIST_CHECK, offset=(30, 30), interval=3):
-            logger.info(f'UI additional: {EVENT_LIST_CHECK} -> {GOTO_MAIN}')
+            logger.info(f"UI additional: {EVENT_LIST_CHECK} -> {GOTO_MAIN}")
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
                 return True
         # Monthly pass is about to expire
@@ -401,9 +467,15 @@ class UI(InfoHandler):
         # - Open exchange shop? handle_popup_confirm() click confirm
         # - EXCHANGE_CHECK, click BACK_ARROW
         if self._opsi_reset_fleet_preparation_click >= 5:
-            logger.critical("Failed to confirm OpSi fleets, too many click on RESET_FLEET_PREPARATION")
-            logger.critical("Possible reason #1: You haven't set any fleets in operation siren")
-            logger.critical("Possible reason #2: Your fleets haven't satisfied the level restrictions in operation siren")
+            logger.critical(
+                "Failed to confirm OpSi fleets, too many click on RESET_FLEET_PREPARATION"
+            )
+            logger.critical(
+                "Possible reason #1: You haven't set any fleets in operation siren"
+            )
+            logger.critical(
+                "Possible reason #2: Your fleets haven't satisfied the level restrictions in operation siren"
+            )
             raise RequestHumanTakeover
         if self.appear_then_click(RESET_TICKET_POPUP, offset=(30, 30), interval=3):
             return True
@@ -412,7 +484,7 @@ class UI(InfoHandler):
             self.interval_reset(FLEET_PREPARATION)
             return True
         if self.appear(EXCHANGE_CHECK, offset=(30, 30), interval=3):
-            logger.info(f'UI additional: {EXCHANGE_CHECK} -> {GOTO_MAIN}')
+            logger.info(f"UI additional: {EXCHANGE_CHECK} -> {GOTO_MAIN}")
             GOTO_MAIN.clear_offset()
             self.device.click(GOTO_MAIN)
             return True
@@ -441,17 +513,17 @@ class UI(InfoHandler):
 
         # Routed from confirm click
         if self.appear(SHIPYARD_CHECK, offset=(30, 30), interval=3):
-            logger.info(f'UI additional: {SHIPYARD_CHECK} -> {GOTO_MAIN}')
+            logger.info(f"UI additional: {SHIPYARD_CHECK} -> {GOTO_MAIN}")
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
                 return True
         if self.appear(META_CHECK, offset=(30, 30), interval=3):
-            logger.info(f'UI additional: {META_CHECK} -> {GOTO_MAIN}')
+            logger.info(f"UI additional: {META_CHECK} -> {GOTO_MAIN}")
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
                 return True
 
         # Mistaken click
         if self.appear(PLAYER_CHECK, offset=(30, 30), interval=3):
-            logger.info(f'UI additional: {PLAYER_CHECK} -> {GOTO_MAIN}')
+            logger.info(f"UI additional: {PLAYER_CHECK} -> {GOTO_MAIN}")
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
                 return True
             if self.appear(BACK_ARROW, offset=(30, 30)):
@@ -465,7 +537,7 @@ class UI(InfoHandler):
         # Game tips
         # Event commission in Vacation Lane.
         if self.appear(GAME_TIPS, offset=(30, 30), interval=3):
-            logger.info(f'UI additional: {GAME_TIPS} -> {GOTO_MAIN}')
+            logger.info(f"UI additional: {GAME_TIPS} -> {GOTO_MAIN}")
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
                 return True
 
@@ -483,7 +555,9 @@ class UI(InfoHandler):
             return True
 
         # Campaign preparation
-        if self.appear(MAP_PREPARATION, offset=(30, 30), interval=3) or self.appear(FLEET_PREPARATION, offset=(30, 30), interval=3):
+        if self.appear(MAP_PREPARATION, offset=(30, 30), interval=3) or self.appear(
+            FLEET_PREPARATION, offset=(30, 30), interval=3
+        ):
             self.device.click(MAP_PREPARATION_CANCEL)
             return True
         if self.appear_then_click(AUTO_SEARCH_MENU_EXIT, offset=(200, 30), interval=3):
@@ -497,7 +571,9 @@ class UI(InfoHandler):
             # - Alas switches to page_campaign and retreat from an existing stage
             # - Game client freezes at page_campaign W12, clicking anywhere on the screen doesn't get responses
             # - Restart game client again fix the issue
-            logger.info("WITHDRAW button found, wait until map loaded to prevent bugs in game client")
+            logger.info(
+                "WITHDRAW button found, wait until map loaded to prevent bugs in game client"
+            )
             self.device.sleep(3)
             if self.appear_then_click(WITHDRAW, offset=(30, 30)):
                 self.interval_reset(WITHDRAW)

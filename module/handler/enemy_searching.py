@@ -24,9 +24,13 @@ class EnemySearchingHandler(InfoHandler):
         if not self.is_in_map():
             return False
 
-        return red_overlay_transparency(
-            MAP_ENEMY_SEARCHING.color, get_color(self.device.image, MAP_ENEMY_SEARCHING.area)
-        ) > self.MAP_ENEMY_SEARCHING_OVERLAY_TRANSPARENCY_THRESHOLD
+        return (
+            red_overlay_transparency(
+                MAP_ENEMY_SEARCHING.color,
+                get_color(self.device.image, MAP_ENEMY_SEARCHING.area),
+            )
+            > self.MAP_ENEMY_SEARCHING_OVERLAY_TRANSPARENCY_THRESHOLD
+        )
 
     def handle_enemy_flashing(self):
         self.device.sleep(1.2)
@@ -34,27 +38,32 @@ class EnemySearchingHandler(InfoHandler):
     def handle_in_stage(self):
         if self.is_in_stage():
             if self.in_stage_timer.reached():
-                logger.info('In stage.')
+                logger.info("In stage.")
                 self.ensure_no_info_bar(timeout=1.2)
-                raise CampaignEnd('In stage.')
+                raise CampaignEnd("In stage.")
             else:
                 return False
         else:
-            if self.appear(MAP_PREPARATION, offset=(20, 20)) or self.appear(FLEET_PREPARATION, offset=(20, 20)):
+            if self.appear(MAP_PREPARATION, offset=(20, 20)) or self.appear(
+                FLEET_PREPARATION, offset=(20, 20)
+            ):
                 self.device.click(MAP_PREPARATION_CANCEL)
             self.in_stage_timer.reset()
             return False
 
     def is_in_stage(self):
-        appear = [self.appear(check, offset=(20, 20)) for check in [CAMPAIGN_CHECK, EVENT_CHECK, SP_CHECK]]
+        appear = [
+            self.appear(check, offset=(20, 20))
+            for check in [CAMPAIGN_CHECK, EVENT_CHECK, SP_CHECK]
+        ]
         if not any(appear):
             return False
 
         # campaign_extract_name_image in CampaignOcr.
         try:
-            if hasattr(self, 'campaign_extract_name_image'):
-                del_cached_property(self, '_stage_image')
-                del_cached_property(self, '_stage_image_gray')
+            if hasattr(self, "campaign_extract_name_image"):
+                del_cached_property(self, "_stage_image")
+                del_cached_property(self, "_stage_image_gray")
                 if not len(self.campaign_extract_name_image(self.device.image)):
                     return False
         except IndexError:
@@ -136,11 +145,11 @@ class EnemySearchingHandler(InfoHandler):
                 if appeared:
                     self.handle_enemy_flashing()
                     self.device.sleep(0.3)
-                    logger.info('Enemy searching appeared.')
+                    logger.info("Enemy searching appeared.")
                     break
                 self.enemy_searching_color_initial()
             if timeout.reached():
-                logger.info('Enemy searching timeout.')
+                logger.info("Enemy searching timeout.")
                 break
 
         self.device.screenshot()

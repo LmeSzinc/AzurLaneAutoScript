@@ -28,8 +28,9 @@ class MeowfficerFort(MeowfficerBase):
             else:
                 self.device.screenshot()
 
-            if self.appear(MEOWFFICER_FORT_GET_XP_1) or \
-                    self.appear(MEOWFFICER_FORT_GET_XP_2):
+            if self.appear(MEOWFFICER_FORT_GET_XP_1) or self.appear(
+                MEOWFFICER_FORT_GET_XP_2
+            ):
                 check_timer.reset()
                 confirm_timer.reset()
                 continue
@@ -42,8 +43,8 @@ class MeowfficerFort(MeowfficerBase):
 
             if check_timer.reached():
                 is_chore = self.image_color_count(
-                    MEOWFFICER_FORT_CHORE, color=(247, 186, 90),
-                    threshold=235, count=50)
+                    MEOWFFICER_FORT_CHORE, color=(247, 186, 90), threshold=235, count=50
+                )
                 check_timer.reset()
                 if is_chore:
                     self.device.click(MEOWFFICER_FORT_CHORE)
@@ -69,11 +70,17 @@ class MeowfficerFort(MeowfficerBase):
         # Check for fort red notification
         if not self.appear(MEOWFFICER_FORT_RED_DOT):
             return False
-        logger.hr('Meowfficer fort', level=1)
+        logger.hr("Meowfficer fort", level=1)
 
         # Enter MEOWFFICER_FORT window
-        self.ui_click(MEOWFFICER_FORT_ENTER, check_button=MEOWFFICER_FORT_CHECK, additional=self.meow_additional,
-                      retry_wait=3, confirm_wait=0, skip_first_screenshot=True)
+        self.ui_click(
+            MEOWFFICER_FORT_ENTER,
+            check_button=MEOWFFICER_FORT_CHECK,
+            additional=self.meow_additional,
+            retry_wait=3,
+            confirm_wait=0,
+            skip_first_screenshot=True,
+        )
 
         # Perform fort chore operations
         self.meow_chores()

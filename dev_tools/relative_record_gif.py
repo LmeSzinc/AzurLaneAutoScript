@@ -5,7 +5,7 @@ from PIL import Image
 
 import module.config.server as server
 
-server.server = 'cn'  # Don't need to edit, it's used to avoid error.
+server.server = "cn"  # Don't need to edit, it's used to avoid error.
 
 from dev_tools.relative_record import FOLDER, NAME
 from module.base.utils import *
@@ -30,11 +30,13 @@ Arguments:
 AREA = (32, 32, 54, 52)
 THRESHOLD = 0.92
 
-if __name__ == '__main__':
-    images = [np.array(Image.open(os.path.join(FOLDER, NAME, file))) for file in os.listdir(os.path.join(FOLDER, NAME))
-              if file[-4:] == '.png']
+if __name__ == "__main__":
+    images = [
+        np.array(Image.open(os.path.join(FOLDER, NAME, file)))
+        for file in os.listdir(os.path.join(FOLDER, NAME))
+        if file[-4:] == ".png"
+    ]
     templates = [crop(images[0], area=AREA)]
-
 
     def match(im):
         max_sim = 0
@@ -48,12 +50,15 @@ if __name__ == '__main__':
 
         return max_sim, max_loca
 
-
     for n, image in enumerate(images):
         sim, loca = match(image)
         if sim > THRESHOLD:
             continue
-        print(f'New template: {n}')
-        templates.append(crop(image, area=area_offset(AREA, np.subtract(loca, AREA[:2]))))
+        print(f"New template: {n}")
+        templates.append(
+            crop(image, area=area_offset(AREA, np.subtract(loca, AREA[:2])))
+        )
 
-    imageio.mimsave(os.path.join(FOLDER, f'TEMPLATE_SIREN_{NAME}.gif'), templates, fps=3)
+    imageio.mimsave(
+        os.path.join(FOLDER, f"TEMPLATE_SIREN_{NAME}.gif"), templates, fps=3
+    )

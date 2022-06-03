@@ -43,12 +43,14 @@ class FleetOperator:
         """
         width, height = image_size(image)
         result = []
-        for index, y in enumerate(range(0, height, self.FLEET_BAR_SHAPE_Y + self.FLEET_BAR_MARGIN_Y)):
+        for index, y in enumerate(
+            range(0, height, self.FLEET_BAR_SHAPE_Y + self.FLEET_BAR_MARGIN_Y)
+        ):
             area = (0, y, width, y + self.FLEET_BAR_SHAPE_Y)
             mean = get_color(image, area)
             if np.std(mean, ddof=1) > self.FLEET_BAR_ACTIVE_STD:
                 result.append(index + 1)
-        logger.info('Current selected: %s' % str(result))
+        logger.info("Current selected: %s" % str(result))
         return result
 
     def get_button(self, index):
@@ -61,13 +63,22 @@ class FleetOperator:
         Returns:
             Button: Button instance.
         """
-        area = area_offset(area=(
-            0,
-            (self.FLEET_BAR_SHAPE_Y + self.FLEET_BAR_MARGIN_Y) * (index - 1),
-            self._bar.area[2] - self._bar.area[0],
-            (self.FLEET_BAR_SHAPE_Y + self.FLEET_BAR_MARGIN_Y) * (index - 1) + self.FLEET_BAR_SHAPE_Y
-        ), offset=(self._bar.area[0:2]))
-        return Button(area=(), color=(), button=area, name='%s_INDEX_%s' % (str(self._bar), str(index)))
+        area = area_offset(
+            area=(
+                0,
+                (self.FLEET_BAR_SHAPE_Y + self.FLEET_BAR_MARGIN_Y) * (index - 1),
+                self._bar.area[2] - self._bar.area[0],
+                (self.FLEET_BAR_SHAPE_Y + self.FLEET_BAR_MARGIN_Y) * (index - 1)
+                + self.FLEET_BAR_SHAPE_Y,
+            ),
+            offset=(self._bar.area[0:2]),
+        )
+        return Button(
+            area=(),
+            color=(),
+            button=area,
+            name="%s_INDEX_%s" % (str(self._bar), str(index)),
+        )
 
     def allow(self):
         """
@@ -229,10 +240,10 @@ class FleetPreparation(ModuleBase):
         area = (208, 130, 226, 551)
         image = color_similarity_2d(self.image_crop(area), color=(249, 199, 0))
         height = np.max(image, axis=1)
-        parameters = {'height': 180, 'distance': 5}
+        parameters = {"height": 180, "distance": 5}
         peaks, _ = signal.find_peaks(height, **parameters)
         lines = len(peaks)
-        logger.attr('Light_orange_line', lines)
+        logger.attr("Light_orange_line", lines)
         return lines > 0
 
     def fleet_preparation(self):
@@ -241,21 +252,38 @@ class FleetPreparation(ModuleBase):
         Returns:
             bool: True if changed.
         """
-        logger.info(f'Using fleet: {[self.config.Fleet_Fleet1, self.config.Fleet_Fleet2, self.config.Submarine_Fleet]}')
+        logger.info(
+            f"Using fleet: {[self.config.Fleet_Fleet1, self.config.Fleet_Fleet2, self.config.Submarine_Fleet]}"
+        )
         if self.map_fleet_checked:
             return False
 
         self.map_is_hard_mode = self.get_map_is_hard_mode()
         if self.map_is_hard_mode:
-            logger.info('Hard Campaign. No fleet preparation')
+            logger.info("Hard Campaign. No fleet preparation")
             return False
 
         fleet_1 = FleetOperator(
-            choose=FLEET_1_CHOOSE, bar=FLEET_1_BAR, clear=FLEET_1_CLEAR, in_use=FLEET_1_IN_USE, main=self)
+            choose=FLEET_1_CHOOSE,
+            bar=FLEET_1_BAR,
+            clear=FLEET_1_CLEAR,
+            in_use=FLEET_1_IN_USE,
+            main=self,
+        )
         fleet_2 = FleetOperator(
-            choose=FLEET_2_CHOOSE, bar=FLEET_2_BAR, clear=FLEET_2_CLEAR, in_use=FLEET_2_IN_USE, main=self)
+            choose=FLEET_2_CHOOSE,
+            bar=FLEET_2_BAR,
+            clear=FLEET_2_CLEAR,
+            in_use=FLEET_2_IN_USE,
+            main=self,
+        )
         submarine = FleetOperator(
-            choose=SUBMARINE_CHOOSE, bar=SUBMARINE_BAR, clear=SUBMARINE_CLEAR, in_use=SUBMARINE_IN_USE, main=self)
+            choose=SUBMARINE_CHOOSE,
+            bar=SUBMARINE_BAR,
+            clear=SUBMARINE_CLEAR,
+            in_use=SUBMARINE_IN_USE,
+            main=self,
+        )
 
         # Submarine.
         if submarine.allow():

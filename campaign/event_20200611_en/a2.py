@@ -5,15 +5,15 @@ from module.map.map_base import CampaignMap
 from module.map.map_grids import RoadGrids, SelectedGrids
 
 MAP = CampaignMap()
-MAP.map_data = '''
+MAP.map_data = """
     -- -- -- -- -- -- -- -- ++
     -- -- -- ++ ++ -- -- -- ++
     ++ -- -- -- -- -- -- -- --
     ++ -- ++ -- -- -- -- -- --
     -- -- -- -- ++ ++ -- -- --
     -- -- -- -- ++ ++ -- -- --
-'''
-MAP.camera_data = ['D1', 'D4', 'F2', 'F4']
+"""
+MAP.camera_data = ["D1", "D4", "F2", "F4"]
 
 
 class Campaign(CampaignBase):

@@ -11,7 +11,7 @@ from module.logger import logger
 from module.ocr.ocr import Digit
 from module.ui.ui import UI
 
-OCR_OIL = Digit(OCR_OIL, name='OCR_OIL', letter=(247, 247, 247), threshold=128)
+OCR_OIL = Digit(OCR_OIL, name="OCR_OIL", letter=(247, 247, 247), threshold=128)
 
 
 class CampaignRun(UI):
@@ -24,7 +24,7 @@ class CampaignRun(UI):
     run_count: int
     run_limit: int
 
-    def load_campaign(self, name, folder='campaign_main'):
+    def load_campaign(self, name, folder="campaign_main"):
         """
         Args:
             name (str): Name of .py file under module.campaign.
@@ -33,31 +33,35 @@ class CampaignRun(UI):
         Returns:
             bool: If load.
         """
-        if hasattr(self, 'name') and name == self.name:
+        if hasattr(self, "name") and name == self.name:
             return False
 
         self.name = name
         self.folder = folder
 
-        if folder.startswith('campaign_'):
-            self.stage = '-'.join(name.split('_')[1:3])
-        if folder.startswith('event') or folder.startswith('war_archives'):
+        if folder.startswith("campaign_"):
+            self.stage = "-".join(name.split("_")[1:3])
+        if folder.startswith("event") or folder.startswith("war_archives"):
             self.stage = name
 
         try:
-            self.module = importlib.import_module('.' + name, f'campaign.{folder}')
+            self.module = importlib.import_module("." + name, f"campaign.{folder}")
         except ModuleNotFoundError:
-            logger.warning(f'Map file not found: campaign.{folder}.{name}')
-            folder = f'./campaign/{folder}'
+            logger.warning(f"Map file not found: campaign.{folder}.{name}")
+            folder = f"./campaign/{folder}"
             if not os.path.exists(folder):
-                logger.warning(f'Folder not exists: {folder}')
+                logger.warning(f"Folder not exists: {folder}")
             else:
-                files = [f[:-3] for f in os.listdir(folder) if f[-3:] == '.py']
-                logger.warning(f'Existing files: {files}')
+                files = [f[:-3] for f in os.listdir(folder) if f[-3:] == ".py"]
+                logger.warning(f"Existing files: {files}")
 
-            logger.critical(f'Possible reason #1: This event ({folder}) does not have {name}')
-            logger.critical(f'Possible reason #2: You are using an old Alas, '
-                            'please check for update, or make map files yourself using dev_tools/map_extractor.py')
+            logger.critical(
+                f"Possible reason #1: This event ({folder}) does not have {name}"
+            )
+            logger.critical(
+                f"Possible reason #2: You are using an old Alas, "
+                "please check for update, or make map files yourself using dev_tools/map_extractor.py"
+            )
             raise RequestHumanTakeover
 
         config = copy.deepcopy(self.config).merge(self.module.Config())
@@ -73,34 +77,39 @@ class CampaignRun(UI):
         """
         # Run count limit
         if self.run_limit and self.config.StopCondition_RunCount <= 0:
-            logger.hr('Triggered stop condition: Run count')
+            logger.hr("Triggered stop condition: Run count")
             self.config.StopCondition_RunCount = 0
             self.config.Scheduler_Enable = False
             return True
         # Lv120 limit
         if self.config.StopCondition_ReachLevel and self.campaign.config.LV_TRIGGERED:
-            logger.hr(f'Triggered stop condition: Reach level {self.config.StopCondition_ReachLevel}')
+            logger.hr(
+                f"Triggered stop condition: Reach level {self.config.StopCondition_ReachLevel}"
+            )
             self.config.Scheduler_Enable = False
             return True
         # Oil limit
         if oil_check and self.config.StopCondition_OilLimit:
             if OCR_OIL.ocr(self.device.image) < self.config.StopCondition_OilLimit:
-                logger.hr('Triggered stop condition: Oil limit')
+                logger.hr("Triggered stop condition: Oil limit")
                 self.config.task_delay(minute=(120, 240))
                 return True
         # Auto search oil limit
         if self.campaign.auto_search_oil_limit_triggered:
-            logger.hr('Triggered stop condition: Auto search oil limit')
+            logger.hr("Triggered stop condition: Auto search oil limit")
             self.config.task_delay(minute=(120, 240))
             return True
         # If Get a New Ship
-        if self.config.StopCondition_GetNewShip and self.campaign.config.GET_SHIP_TRIGGERED:
-            logger.hr('Triggered stop condition: Get new ship')
+        if (
+            self.config.StopCondition_GetNewShip
+            and self.campaign.config.GET_SHIP_TRIGGERED
+        ):
+            logger.hr("Triggered stop condition: Get new ship")
             self.config.Scheduler_Enable = False
             return True
         # Event limit
         if oil_check and self.campaign.event_pt_limit_triggered():
-            logger.hr('Triggered stop condition: Event PT limit')
+            logger.hr("Triggered stop condition: Event PT limit")
             self.config.Scheduler_Enable = False
             return True
 
@@ -113,14 +122,14 @@ class CampaignRun(UI):
         """
         if not self.campaign.config.Emotion_IgnoreLowEmotionWarn:
             if self.campaign.emotion.triggered_bug():
-                logger.info('Triggered restart avoid emotion bug')
+                logger.info("Triggered restart avoid emotion bug")
                 return True
 
         return False
 
     def handle_app_restart(self):
         if self._triggered_app_restart():
-            self.config.task_call('Restart')
+            self.config.task_call("Restart")
             return True
 
         return False
@@ -141,13 +150,13 @@ class CampaignRun(UI):
         """
         name = name.lower()
         if name[0].isdigit():
-            name = 'campaign_' + name.lower().replace('-', '_')
-        if folder == 'event_20201126_cn' and name == 'vsp':
-            name = 'sp'
-        if folder == 'event_20210723_cn' and name == 'vsp':
-            name = 'sp'
-        if folder == 'event_20220324_cn' and name == 'esp':
-            name = 'sp'
+            name = "campaign_" + name.lower().replace("-", "_")
+        if folder == "event_20201126_cn" and name == "vsp":
+            name = "sp"
+        if folder == "event_20210723_cn" and name == "vsp":
+            name = "sp"
+        if folder == "event_20220324_cn" and name == "esp":
+            name = "sp"
 
         return name, folder
 
@@ -163,11 +172,11 @@ class CampaignRun(UI):
             in: page_campaign
         """
         if self.campaign.commission_notice_show_at_campaign():
-            logger.info('Commission notice found')
-            self.config.task_call('Commission', force_call=True)
-            self.config.task_stop('Commission notice found')
+            logger.info("Commission notice found")
+            self.config.task_call("Commission", force_call=True)
+            self.config.task_stop("Commission notice found")
 
-    def run(self, name, folder='campaign_main', mode='normal', total=0):
+    def run(self, name, folder="campaign_main", mode="normal", total=0):
         """
         Args:
             name (str): Name of .py file.
@@ -189,16 +198,16 @@ class CampaignRun(UI):
             # Log
             logger.hr(name, level=1)
             if self.config.StopCondition_RunCount > 0:
-                logger.info(f'Count remain: {self.config.StopCondition_RunCount}')
+                logger.info(f"Count remain: {self.config.StopCondition_RunCount}")
             else:
-                logger.info(f'Count: {self.run_count}')
+                logger.info(f"Count: {self.run_count}")
 
             # UI ensure
-            if not hasattr(self.device, 'image') or self.device.image is None:
+            if not hasattr(self.device, "image") or self.device.image is None:
                 self.device.screenshot()
             self.campaign.device.image = self.device.image
             if self.campaign.is_in_map():
-                logger.info('Already in map, retreating.')
+                logger.info("Already in map, retreating.")
                 try:
                     self.campaign.withdraw()
                 except CampaignEnd:
@@ -206,9 +215,9 @@ class CampaignRun(UI):
                 self.campaign.ensure_campaign_ui(name=self.stage, mode=mode)
             elif self.campaign.is_in_auto_search_menu():
                 if self.run_count > 0 and self.campaign.map_is_auto_search:
-                    logger.info('In auto search menu, skip ensure_campaign_ui.')
+                    logger.info("In auto search menu, skip ensure_campaign_ui.")
                 else:
-                    logger.info('In auto search menu, closing.')
+                    logger.info("In auto search menu, closing.")
                     self.campaign.ensure_auto_search_exit()
                     self.campaign.ensure_campaign_ui(name=self.stage, mode=mode)
             else:
@@ -216,14 +225,16 @@ class CampaignRun(UI):
             self.handle_commission_notice()
 
             # End
-            if self.triggered_stop_condition(oil_check=not self.campaign.is_in_auto_search_menu()):
+            if self.triggered_stop_condition(
+                oil_check=not self.campaign.is_in_auto_search_menu()
+            ):
                 break
 
             # Run
             try:
                 self.campaign.run()
             except ScriptEnd as e:
-                logger.hr('Script end')
+                logger.hr("Script end")
                 logger.info(str(e))
                 break
 
@@ -237,7 +248,7 @@ class CampaignRun(UI):
             # One-time stage limit
             if self.campaign.config.MAP_IS_ONE_TIME_STAGE:
                 if self.run_count >= 1:
-                    logger.hr('Triggered one-time stage limit')
+                    logger.hr("Triggered one-time stage limit")
                     self.campaign.handle_map_stop()
                     break
             # Scheduler

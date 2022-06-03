@@ -26,7 +26,7 @@ class MissionHandler(GlobeOperation, ZoneManager):
         image = color_similarity_2d(self.image_crop(area), color=(255, 207, 66))
         points = np.array(np.where(image > 235)).T[:, ::-1]
         if not len(points):
-            logger.warning('Unable to find mission on OS mission map')
+            logger.warning("Unable to find mission on OS mission map")
 
         point = fit_points(points, mod=(1000, 1000), encourage=5) + (0, 11)
         # Location of zone.
@@ -44,7 +44,7 @@ class MissionHandler(GlobeOperation, ZoneManager):
             in: MISSION_ENTER
             out: MISSION_CHECK
         """
-        logger.info('OS mission enter')
+        logger.info("OS mission enter")
         confirm_timer = Timer(2, count=6).start()
         while 1:
             if skip_first_screenshot:
@@ -58,7 +58,7 @@ class MissionHandler(GlobeOperation, ZoneManager):
             if self.appear_then_click(MISSION_FINISH, offset=(20, 20), interval=2):
                 confirm_timer.reset()
                 continue
-            if self.handle_popup_confirm('MISSION_FINISH'):
+            if self.handle_popup_confirm("MISSION_FINISH"):
                 confirm_timer.reset()
                 continue
             if self.handle_map_get_items():
@@ -69,27 +69,36 @@ class MissionHandler(GlobeOperation, ZoneManager):
                 continue
 
             # End
-            if self.appear(MISSION_CHECK, offset=(20, 20)) \
-                    and not self.appear(MISSION_FINISH, offset=(20, 20)) \
-                    and not (self.appear(MISSION_CHECKOUT, offset=(20, 20))
-                             and MISSION_CHECKOUT.match_appear_on(self.device.image)):
+            if (
+                self.appear(MISSION_CHECK, offset=(20, 20))
+                and not self.appear(MISSION_FINISH, offset=(20, 20))
+                and not (
+                    self.appear(MISSION_CHECKOUT, offset=(20, 20))
+                    and MISSION_CHECKOUT.match_appear_on(self.device.image)
+                )
+            ):
                 # No mission found, wait to confirm. Missions might not be loaded so fast.
                 if confirm_timer.reached():
-                    logger.info('No OS mission found.')
+                    logger.info("No OS mission found.")
                     break
-            elif self.appear(MISSION_CHECK, offset=(20, 20)) \
-                    and (self.appear(MISSION_CHECKOUT, offset=(20, 20))
-                         and MISSION_CHECKOUT.match_appear_on(self.device.image)):
+            elif self.appear(MISSION_CHECK, offset=(20, 20)) and (
+                self.appear(MISSION_CHECKOUT, offset=(20, 20))
+                and MISSION_CHECKOUT.match_appear_on(self.device.image)
+            ):
                 # Found one mission.
-                logger.info('Found at least one OS missions.')
+                logger.info("Found at least one OS missions.")
                 break
             else:
                 confirm_timer.reset()
 
     def os_mission_quit(self, skip_first_screenshot=True):
-        logger.info('OS mission quit')
-        self.ui_click(MISSION_QUIT, check_button=self.is_in_map, offset=(200, 5),
-                      skip_first_screenshot=skip_first_screenshot)
+        logger.info("OS mission quit")
+        self.ui_click(
+            MISSION_QUIT,
+            check_button=self.is_in_map,
+            offset=(200, 5),
+            skip_first_screenshot=skip_first_screenshot,
+        )
 
     def os_get_next_mission(self):
         """
@@ -106,24 +115,28 @@ class MissionHandler(GlobeOperation, ZoneManager):
         checkout_offset = (20, 20)
         if self.appear(MISSION_MONTHLY_BOSS, offset=(20, 20)):
             # If monthly BOSS hasn't been killed, there is always a task.
-            logger.info('Monthly BOSS mission found, checking missions bellow it')
+            logger.info("Monthly BOSS mission found, checking missions bellow it")
             checkout_offset = (-20, 100, 20, 150)
 
-        if not (self.appear(MISSION_CHECKOUT, offset=checkout_offset)
-                and MISSION_CHECKOUT.match_appear_on(self.device.image)):
+        if not (
+            self.appear(MISSION_CHECKOUT, offset=checkout_offset)
+            and MISSION_CHECKOUT.match_appear_on(self.device.image)
+        ):
             # If not having enough items to claim a mission,
             # there will still be MISSION_CHECKOUT, but button is transparent.
             # So here needs to use both template matching and color detection.
-            logger.info('No more OS missions')
+            logger.info("No more OS missions")
             self.os_mission_quit()
             return False
 
         if self.is_in_opsi_explore():
-            logger.info('OpsiExplore is under scheduling, accept missions and receive rewards only')
+            logger.info(
+                "OpsiExplore is under scheduling, accept missions and receive rewards only"
+            )
             self.os_mission_quit()
             return False
 
-        logger.info('Checkout os mission')
+        logger.info("Checkout os mission")
         skip_first_screenshot = True
         while 1:
             if skip_first_screenshot:
@@ -131,25 +144,27 @@ class MissionHandler(GlobeOperation, ZoneManager):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(MISSION_CHECKOUT, offset=checkout_offset, interval=2):
+            if self.appear_then_click(
+                MISSION_CHECKOUT, offset=checkout_offset, interval=2
+            ):
                 continue
-            if self.handle_popup_confirm('OS_MISSION_CHECKOUT'):
+            if self.handle_popup_confirm("OS_MISSION_CHECKOUT"):
                 # Popup: Submarine will retreat after exiting current zone.
                 continue
 
             # End
             if self.is_zone_pinned():
-                if self.get_zone_pinned_name() == 'ARCHIVE':
-                    logger.info('Pinned at archive zone')
+                if self.get_zone_pinned_name() == "ARCHIVE":
+                    logger.info("Pinned at archive zone")
                     self.globe_enter(zone=self.name_to_zone(72))
-                    return 'pinned_at_archive_zone'
+                    return "pinned_at_archive_zone"
                 else:
-                    logger.info('Pinned at mission zone')
+                    logger.info("Pinned at mission zone")
                     self.globe_enter(zone=self.name_to_zone(72))
-                    return 'pinned_at_mission_zone'
+                    return "pinned_at_mission_zone"
             if self.is_in_map() and self.info_bar_count():
-                logger.info('Already at mission zone')
-                return 'already_at_mission_zone'
+                logger.info("Already at mission zone")
+                return "already_at_mission_zone"
 
     def os_mission_overview_accept(self):
         """
@@ -163,12 +178,17 @@ class MissionHandler(GlobeOperation, ZoneManager):
             in: is_in_map
             out: is_in_map
         """
-        logger.hr('OS mission overview accept', level=1)
+        logger.hr("OS mission overview accept", level=1)
         # is_in_map
         self.os_map_goto_globe(unpin=False)
         # is_in_globe
-        self.ui_click(MISSION_OVERVIEW_ENTER, check_button=MISSION_OVERVIEW_CHECK,
-                      offset=(200, 20), retry_wait=3, skip_first_screenshot=True)
+        self.ui_click(
+            MISSION_OVERVIEW_ENTER,
+            check_button=MISSION_OVERVIEW_CHECK,
+            offset=(200, 20),
+            retry_wait=3,
+            skip_first_screenshot=True,
+        )
 
         # MISSION_OVERVIEW_CHECK
         confirm_timer = Timer(1, count=3).start()
@@ -181,10 +201,14 @@ class MissionHandler(GlobeOperation, ZoneManager):
                 self.device.screenshot()
 
             if self.info_bar_count():
-                logger.info('Unable to accept missions, because reached the maximum number of missions')
+                logger.info(
+                    "Unable to accept missions, because reached the maximum number of missions"
+                )
                 success = False
                 break
-            if self.appear_then_click(MISSION_OVERVIEW_ACCEPT, offset=(20, 20), interval=0.2):
+            if self.appear_then_click(
+                MISSION_OVERVIEW_ACCEPT, offset=(20, 20), interval=0.2
+            ):
                 confirm_timer.reset()
                 continue
             else:
@@ -192,13 +216,18 @@ class MissionHandler(GlobeOperation, ZoneManager):
                 if confirm_timer.reached():
                     success = True
                     break
-            if self.appear_then_click(MISSION_OVERVIEW_ACCEPT_SINGLE, offset=(20, 20), interval=0.2):
+            if self.appear_then_click(
+                MISSION_OVERVIEW_ACCEPT_SINGLE, offset=(20, 20), interval=0.2
+            ):
                 confirm_timer.reset()
                 continue
 
         # is_in_globe
-        self.ui_back(appear_button=MISSION_OVERVIEW_CHECK, check_button=self.is_in_globe,
-                     skip_first_screenshot=True)
+        self.ui_back(
+            appear_button=MISSION_OVERVIEW_CHECK,
+            check_button=self.is_in_globe,
+            skip_first_screenshot=True,
+        )
         # is_in_map
         self.os_globe_goto_map()
         return success
@@ -208,16 +237,22 @@ class MissionHandler(GlobeOperation, ZoneManager):
         Returns:
             bool: If task OpsiExplore is under scheduling.
         """
-        enable = deep_get(self.config.data, keys='OpsiExplore.Scheduler.Enable', default=False)
-        next_run = deep_get(self.config.data, keys='OpsiExplore.Scheduler.NextRun', default=DEFAULT_TIME)
+        enable = deep_get(
+            self.config.data, keys="OpsiExplore.Scheduler.Enable", default=False
+        )
+        next_run = deep_get(
+            self.config.data, keys="OpsiExplore.Scheduler.NextRun", default=DEFAULT_TIME
+        )
         next_reset = get_os_next_reset()
-        logger.attr('OpsiNextReset', next_reset)
-        logger.attr('OpsiExplore', (enable, next_run))
+        logger.attr("OpsiNextReset", next_reset)
+        logger.attr("OpsiExplore", (enable, next_run))
         if enable and next_run < next_reset:
-            logger.info('OpsiExplore is still running, accept missions only. '
-                        'Missions will be finished when OpsiExplore visits every zones, '
-                        'no need to worry they are left behind.')
+            logger.info(
+                "OpsiExplore is still running, accept missions only. "
+                "Missions will be finished when OpsiExplore visits every zones, "
+                "no need to worry they are left behind."
+            )
             return True
         else:
-            logger.info('Not in OpsiExplore, able to do OpsiDaily')
+            logger.info("Not in OpsiExplore, able to do OpsiDaily")
             return False

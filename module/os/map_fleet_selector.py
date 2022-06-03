@@ -10,6 +10,7 @@ class FleetSelector:
     """
     Similar to FleetOperator.
     """
+
     FLEET_BAR_SHAPE_Y = 42
     FLEET_BAR_MARGIN_Y = 11
     FLEET_BAR_ACTIVE_STD = 45  # Active: 67, inactive: 12.
@@ -32,7 +33,7 @@ class FleetSelector:
             if self.main.appear(button, offset=(20, 20)):
                 return index + 1
 
-        logger.info('Unknown OpSi fleet')
+        logger.info("Unknown OpSi fleet")
         return 0
 
     def bar_opened(self):
@@ -40,8 +41,11 @@ class FleetSelector:
         area = self._bar.area
         area = (area[0] + 3, area[1], area[0] + 13, area[3])
         # Should have at least 2 gray option and 1 blue option.
-        return self.main.image_color_count(area, color=(239, 243, 247), threshold=221, count=400) \
-               and self.main.image_color_count(area, color=(66, 125, 231), threshold=221, count=150)
+        return self.main.image_color_count(
+            area, color=(239, 243, 247), threshold=221, count=400
+        ) and self.main.image_color_count(
+            area, color=(66, 125, 231), threshold=221, count=150
+        )
 
     def parse_fleet_bar(self, image):
         """
@@ -53,13 +57,15 @@ class FleetSelector:
         """
         width, height = image_size(image)
         result = []
-        for index, y in enumerate(range(0, height, self.FLEET_BAR_SHAPE_Y + self.FLEET_BAR_MARGIN_Y)):
+        for index, y in enumerate(
+            range(0, height, self.FLEET_BAR_SHAPE_Y + self.FLEET_BAR_MARGIN_Y)
+        ):
             area = (0, y, width, y + self.FLEET_BAR_SHAPE_Y)
             mean = get_color(image, area)
             if np.std(mean, ddof=1) > self.FLEET_BAR_ACTIVE_STD:
                 result.append(4 - index)
 
-        logger.info('Current selected: %s' % str(result))
+        logger.info("Current selected: %s" % str(result))
         return result
 
     def selected(self):
@@ -81,15 +87,24 @@ class FleetSelector:
             Button: Button instance.
         """
         index = 5 - index
-        area = area_offset(area=(
-            0,
-            (self.FLEET_BAR_SHAPE_Y + self.FLEET_BAR_MARGIN_Y) * (index - 1),
-            self._bar.area[2] - self._bar.area[0],
-            (self.FLEET_BAR_SHAPE_Y + self.FLEET_BAR_MARGIN_Y) * (index - 1) + self.FLEET_BAR_SHAPE_Y
-        ), offset=(self._bar.area[0:2]))
+        area = area_offset(
+            area=(
+                0,
+                (self.FLEET_BAR_SHAPE_Y + self.FLEET_BAR_MARGIN_Y) * (index - 1),
+                self._bar.area[2] - self._bar.area[0],
+                (self.FLEET_BAR_SHAPE_Y + self.FLEET_BAR_MARGIN_Y) * (index - 1)
+                + self.FLEET_BAR_SHAPE_Y,
+            ),
+            offset=(self._bar.area[0:2]),
+        )
         area = area_pad(area, pad=3)
         index = 5 - index
-        return Button(area=(), color=(), button=area, name='%s_INDEX_%s' % (str(self._bar), str(index)))
+        return Button(
+            area=(),
+            color=(),
+            button=area,
+            name="%s_INDEX_%s" % (str(self._bar), str(index)),
+        )
 
     def open(self, skip_first_screenshot=True):
         """
@@ -195,15 +210,15 @@ class FleetSelector:
 
             current = self.get()
             if current == index:
-                logger.info(f'It is fleet {index} already')
+                logger.info(f"It is fleet {index} already")
                 return False
             elif current > 0:
-                logger.info(f'Ensure fleet to be {index}')
+                logger.info(f"Ensure fleet to be {index}")
                 self.open()
                 self.click(index)
                 return True
 
-        logger.warning('Unknown OpSi fleet, use current fleet instead')
+        logger.warning("Unknown OpSi fleet, use current fleet instead")
         return False
 
 

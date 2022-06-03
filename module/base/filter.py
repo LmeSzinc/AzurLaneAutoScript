@@ -21,7 +21,7 @@ class Filter:
 
     def load(self, string):
         string = str(string)
-        self.filter_raw = [f.strip(' \t\r\n') for f in string.split('>')]
+        self.filter_raw = [f.strip(" \t\r\n") for f in string.split(">")]
         self.filter = [self.parse_filter(f) for f in self.filter_raw]
 
     def is_preset(self, filter):
@@ -46,7 +46,10 @@ class Filter:
                     out.append(raw)
             else:
                 for index, obj in enumerate(objs):
-                    if self.apply_filter_to_obj(obj=obj, filter=filter) and obj not in out:
+                    if (
+                        self.apply_filter_to_obj(obj=obj, filter=filter)
+                        and obj not in out
+                    ):
                         out.append(obj)
 
         if func is not None:
@@ -88,7 +91,7 @@ class Filter:
         Returns:
             list[strNone]:
         """
-        string = string.replace(' ', '').lower()
+        string = string.replace(" ", "").lower()
         result = re.search(self.regex, string)
 
         if self.is_preset(string):
@@ -97,7 +100,9 @@ class Filter:
         if result and len(string) and result.span()[1]:
             return [result.group(index + 1) for index, attr in enumerate(self.attr)]
         else:
-            logger.warning(f'Invalid filter: "{string}". This selector does not match the regex, nor a preset.')
+            logger.warning(
+                f'Invalid filter: "{string}". This selector does not match the regex, nor a preset.'
+            )
             # Invalid filter will be ignored.
             # Return strange things and make it impossible to match
-            return ['1nVa1d'] + [None] * (len(self.attr) - 1)
+            return ["1nVa1d"] + [None] * (len(self.attr) - 1)

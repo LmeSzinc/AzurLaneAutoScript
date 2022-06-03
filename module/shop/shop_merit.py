@@ -5,7 +5,7 @@ from module.shop.assets import *
 from module.shop.base import ShopBase, ShopItemGrid
 from module.shop.ui import ShopUI
 
-OCR_SHOP_MERIT = Digit(SHOP_MERIT, letter=(239, 239, 239), name='OCR_SHOP_MERIT')
+OCR_SHOP_MERIT = Digit(SHOP_MERIT, letter=(239, 239, 239), name="OCR_SHOP_MERIT")
 
 
 class MeritShop(ShopBase, ShopUI):
@@ -26,9 +26,11 @@ class MeritShop(ShopBase, ShopUI):
             ShopItemGrid:
         """
         shop_grid = self.shop_grid
-        shop_merit_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        shop_merit_items.load_template_folder('./assets/shop/merit')
-        shop_merit_items.load_cost_template_folder('./assets/shop/cost')
+        shop_merit_items = ShopItemGrid(
+            shop_grid, templates={}, amount_area=(60, 74, 96, 95)
+        )
+        shop_merit_items.load_template_folder("./assets/shop/merit")
+        shop_merit_items.load_cost_template_folder("./assets/shop/cost")
         return shop_merit_items
 
     def shop_items(self):
@@ -52,7 +54,7 @@ class MeritShop(ShopBase, ShopUI):
             int: merit amount
         """
         self._shop_merit = OCR_SHOP_MERIT.ocr(self.device.image)
-        logger.info(f'Merit: {self._shop_merit}')
+        logger.info(f"Merit: {self._shop_merit}")
         return self._shop_merit
 
     def shop_check_item(self, item):
@@ -77,7 +79,7 @@ class MeritShop(ShopBase, ShopUI):
 
         # When called, expected to be in
         # correct Merit Shop interface
-        logger.hr('Merit Shop', level=1)
+        logger.hr("Merit Shop", level=1)
 
         # Execute buy operations
         # Refresh if enabled and available

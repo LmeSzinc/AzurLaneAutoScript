@@ -15,10 +15,12 @@ from module.ui.assets import DORM_CHECK
 from module.ui.page import page_dorm, page_dormmenu
 from module.ui.ui import UI
 
-MASK_DORM = Mask(file='./assets/mask/MASK_DORM.png')
+MASK_DORM = Mask(file="./assets/mask/MASK_DORM.png")
 DORM_CAMERA_SWIPE = (300, 250)
 DORM_CAMERA_RANDOM = (-20, -20, 20, 20)
-OCR_FILL = DigitCounter(OCR_DORM_FILL, letter=(255, 247, 247), threshold=128, name='OCR_DORM_FILL')
+OCR_FILL = DigitCounter(
+    OCR_DORM_FILL, letter=(255, 247, 247), threshold=128, name="OCR_DORM_FILL"
+)
 
 
 class Food:
@@ -27,14 +29,14 @@ class Food:
         self.amount = amount
 
     def __str__(self):
-        return f'Food_{self.feed}'
+        return f"Food_{self.feed}"
 
     def __eq__(self, other):
         return str(self) == str(other)
 
 
 FOOD_FEED_AMOUNT = [1000, 2000, 3000, 5000, 10000, 20000]
-FOOD_FILTER = Filter(regex=re.compile('(\d+)'), attr=['feed'])
+FOOD_FILTER = Filter(regex=re.compile("(\d+)"), attr=["feed"])
 
 
 class RewardDorm(UI):
@@ -50,9 +52,9 @@ class RewardDorm(UI):
             out: page_dorm, with info_bar
         """
         image = MASK_DORM.apply(self.device.image)
-        loves = TEMPLATE_DORM_LOVE.match_multi(image, name='DORM_LOVE')
-        coins = TEMPLATE_DORM_COIN.match_multi(image, name='DORM_COIN')
-        logger.info(f'Dorm loves: {len(loves)}, Dorm coins: {len(coins)}')
+        loves = TEMPLATE_DORM_LOVE.match_multi(image, name="DORM_LOVE")
+        coins = TEMPLATE_DORM_COIN.match_multi(image, name="DORM_COIN")
+        logger.info(f"Dorm loves: {len(loves)}, Dorm coins: {len(coins)}")
 
         count = 0
         for button in loves:
@@ -67,7 +69,7 @@ class RewardDorm(UI):
 
         return count
 
-    @Config.when(DEVICE_CONTROL_METHOD='minitouch')
+    @Config.when(DEVICE_CONTROL_METHOD="minitouch")
     def _dorm_feed_long_tap(self, button, count):
         # Long tap to feed. This requires minitouch.
         timeout = Timer(count // 5 + 5).start()
@@ -80,18 +82,20 @@ class RewardDorm(UI):
             self.device.minitouch_send()
             self.device.screenshot()
 
-            if not self._dorm_has_food(button) \
-                    or self.handle_info_bar() \
-                    or self.handle_popup_cancel('dorm_feed'):
+            if (
+                not self._dorm_has_food(button)
+                or self.handle_info_bar()
+                or self.handle_popup_cancel("dorm_feed")
+            ):
                 break
             if timeout.reached():
-                logger.warning('Wait dorm feed timeout')
+                logger.warning("Wait dorm feed timeout")
                 break
 
         self.device.minitouch_builder.up().commit()
         self.device.minitouch_send()
 
-    @Config.when(DEVICE_CONTROL_METHOD='uiautomator2')
+    @Config.when(DEVICE_CONTROL_METHOD="uiautomator2")
     def _dorm_feed_long_tap(self, button, count):
         timeout = Timer(count // 5 + 5).start()
         x, y = random_rectangle_point(button.button)
@@ -99,23 +103,27 @@ class RewardDorm(UI):
 
         while 1:
             self.device.u2.touch.move(x, y)
-            time.sleep(.01)
+            time.sleep(0.01)
             self.device.screenshot()
 
-            if not self._dorm_has_food(button) \
-                    or self.handle_info_bar() \
-                    or self.handle_popup_cancel('dorm_feed'):
+            if (
+                not self._dorm_has_food(button)
+                or self.handle_info_bar()
+                or self.handle_popup_cancel("dorm_feed")
+            ):
                 break
             if timeout.reached():
-                logger.warning('Wait dorm feed timeout')
+                logger.warning("Wait dorm feed timeout")
                 break
 
         self.device.u2.touch.up(x, y)
 
     @Config.when(DEVICE_CONTROL_METHOD=None)
     def _dorm_feed_long_tap(self, button, count):
-        logger.warning(f'Current control method {self.config.Emulator_ControlMethod} '
-                       f'does not support DOWN/UP events, use multi-click instead')
+        logger.warning(
+            f"Current control method {self.config.Emulator_ControlMethod} "
+            f"does not support DOWN/UP events, use multi-click instead"
+        )
         self.device.multi_click(button, count)
 
     def dorm_collect(self):
@@ -128,14 +136,16 @@ class RewardDorm(UI):
             in: page_dorm, without info_bar
             out: page_dorm, without info_bar
         """
-        logger.hr('Dorm collect')
-        if self.config.Emulator_ControlMethod not in ['uiautomator2', 'minitouch']:
-            logger.warning(f'Current control method {self.config.Emulator_ControlMethod} '
-                           f'does not support 2 finger zoom out, skip dorm collect')
+        logger.hr("Dorm collect")
+        if self.config.Emulator_ControlMethod not in ["uiautomator2", "minitouch"]:
+            logger.warning(
+                f"Current control method {self.config.Emulator_ControlMethod} "
+                f"does not support 2 finger zoom out, skip dorm collect"
+            )
             return
 
         for _ in range(2):
-            logger.info('Dorm zoom out')
+            logger.info("Dorm zoom out")
             # Left hand down
             x, y = random_rectangle_point((33, 228, 234, 469))
             self.device.minitouch_builder.down(x, y, contact_id=1).commit()
@@ -143,7 +153,11 @@ class RewardDorm(UI):
             # Right hand swipe
             # Need to avoid drop-down menu in android, which is 38 px.
             p1, p2 = random_rectangle_vector(
-                (-700, 450), box=(247, 45, 1045, 594), random_range=(-50, -50, 50, 50), padding=0)
+                (-700, 450),
+                box=(247, 45, 1045, 594),
+                random_range=(-50, -50, 50, 50),
+                padding=0,
+            )
             self.device.drag_minitouch(p1, p2, point_random=(0, 0, 0, 0))
             # Left hand up
             self.device.minitouch_builder.up(contact_id=1).commit()
@@ -174,20 +188,34 @@ class RewardDorm(UI):
                 break
 
     @cached_property
-    @Config.when(SERVER='en')
+    @Config.when(SERVER="en")
     def _dorm_food(self):
         # 14px lower
-        return ButtonGrid(origin=(279, 375), delta=(159, 0), button_shape=(134, 96), grid_shape=(6, 1), name='FOOD')
+        return ButtonGrid(
+            origin=(279, 375),
+            delta=(159, 0),
+            button_shape=(134, 96),
+            grid_shape=(6, 1),
+            name="FOOD",
+        )
 
     @cached_property
     @Config.when(SERVER=None)
     def _dorm_food(self):
-        return ButtonGrid(origin=(279, 375), delta=(159, 0), button_shape=(134, 96), grid_shape=(6, 1), name='FOOD')
+        return ButtonGrid(
+            origin=(279, 375),
+            delta=(159, 0),
+            button_shape=(134, 96),
+            grid_shape=(6, 1),
+            name="FOOD",
+        )
 
     @cached_property
     def _dorm_food_ocr(self):
-        grids = self._dorm_food.crop((65, 66, 128, 91), name='FOOD_AMOUNT')
-        return Digit(grids.buttons, letter=(255, 255, 255), threshold=128, name='OCR_DORM_FOOD')
+        grids = self._dorm_food.crop((65, 66, 128, 91), name="FOOD_AMOUNT")
+        return Digit(
+            grids.buttons, letter=(255, 255, 255), threshold=128, name="OCR_DORM_FOOD"
+        )
 
     def _dorm_has_food(self, button):
         return np.min(rgb2gray(self.image_crop(button))) < 127
@@ -201,7 +229,7 @@ class RewardDorm(UI):
         Pages:
             in: DORM_FEED_CHECK
         """
-        logger.info(f'Dorm feed {button} x {count}')
+        logger.info(f"Dorm feed {button} x {count}")
         if count <= 3:
             for _ in range(count):
                 self.device.click(button)
@@ -212,7 +240,7 @@ class RewardDorm(UI):
 
         while 1:
             self.device.screenshot()
-            if self.handle_popup_cancel('dorm_feed'):
+            if self.handle_popup_cancel("dorm_feed"):
                 continue
             # End
             if self.appear(DORM_FEED_CHECK, offset=(20, 20)):
@@ -232,7 +260,7 @@ class RewardDorm(UI):
         amount = [a if hf else 0 for a, hf in zip(amount, has_food)]
         food = [Food(feed=f, amount=a) for f, a in zip(FOOD_FEED_AMOUNT, amount)]
         _, fill, _ = OCR_FILL.ocr(self.device.image)
-        logger.info(f'Dorm food: {[f.amount for f in food]}, to fill: {fill}')
+        logger.info(f"Dorm food: {[f.amount for f in food]}, to fill: {fill}")
         return food, fill
 
     def dorm_feed_once(self):
@@ -266,14 +294,14 @@ class RewardDorm(UI):
         Pages:
             in: DORM_FEED_CHECK
         """
-        logger.hr('Dorm feed')
+        logger.hr("Dorm feed")
 
         for n in range(10):
             if not self.dorm_feed_once():
-                logger.info('Dorm feed finished')
+                logger.info("Dorm feed finished")
                 return n
 
-        logger.warning('Dorm feed run count reached')
+        logger.warning("Dorm feed run count reached")
         return 10
 
     def dorm_run(self, feed=True, collect=True):
@@ -287,7 +315,7 @@ class RewardDorm(UI):
 
         self.ui_ensure(page_dormmenu)
         if not self.appear(DORM_RED_DOT, offset=(30, 30)):
-            logger.info('Nothing to collect. Dorm collecting skipped.')
+            logger.info("Nothing to collect. Dorm collecting skipped.")
             collect = False
             if not feed:
                 return
@@ -297,11 +325,21 @@ class RewardDorm(UI):
             self.dorm_collect()
 
         if feed:
-            self.ui_click(click_button=DORM_FEED_ENTER, appear_button=DORM_CHECK, check_button=DORM_FEED_CHECK,
-                          additional=self.ui_additional, retry_wait=3, skip_first_screenshot=True)
+            self.ui_click(
+                click_button=DORM_FEED_ENTER,
+                appear_button=DORM_CHECK,
+                check_button=DORM_FEED_CHECK,
+                additional=self.ui_additional,
+                retry_wait=3,
+                skip_first_screenshot=True,
+            )
             self.dorm_feed()
-            self.ui_click(click_button=DORM_FEED_ENTER, appear_button=DORM_FEED_CHECK, check_button=DORM_CHECK,
-                          skip_first_screenshot=True)
+            self.ui_click(
+                click_button=DORM_FEED_ENTER,
+                appear_button=DORM_FEED_CHECK,
+                check_button=DORM_CHECK,
+                skip_first_screenshot=True,
+            )
 
     def run(self):
         """

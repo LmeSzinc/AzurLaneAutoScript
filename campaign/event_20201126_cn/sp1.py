@@ -4,10 +4,10 @@ from module.map.map_grids import RoadGrids, SelectedGrids
 
 from .campaign_base import CampaignBase
 
-MAP = CampaignMap('SP1')
-MAP.shape = 'H7'
-MAP.camera_data = ['D2', 'D5', 'E2', 'E5']
-MAP.camera_data_spawn_point = ['D2']
+MAP = CampaignMap("SP1")
+MAP.shape = "H7"
+MAP.camera_data = ["D2", "D5", "E2", "E5"]
+MAP.camera_data_spawn_point = ["D2"]
 MAP.map_data = """
     -- SP -- ++ ++ -- -- ++
     SP -- -- ++ ++ Me ME ++
@@ -27,20 +27,70 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 3},
-    {'battle': 1, 'enemy': 2},
-    {'battle': 2, 'enemy': 1},
-    {'battle': 3, 'enemy': 1},
-    {'battle': 4, 'boss': 1},
+    {"battle": 0, "enemy": 3},
+    {"battle": 1, "enemy": 2},
+    {"battle": 2, "enemy": 1},
+    {"battle": 3, "enemy": 1},
+    {"battle": 4, "boss": 1},
 ]
-A1, B1, C1, D1, E1, F1, G1, H1, \
-A2, B2, C2, D2, E2, F2, G2, H2, \
-A3, B3, C3, D3, E3, F3, G3, H3, \
-A4, B4, C4, D4, E4, F4, G4, H4, \
-A5, B5, C5, D5, E5, F5, G5, H5, \
-A6, B6, C6, D6, E6, F6, G6, H6, \
-A7, B7, C7, D7, E7, F7, G7, H7, \
-    = MAP.flatten()
+(
+    A1,
+    B1,
+    C1,
+    D1,
+    E1,
+    F1,
+    G1,
+    H1,
+    A2,
+    B2,
+    C2,
+    D2,
+    E2,
+    F2,
+    G2,
+    H2,
+    A3,
+    B3,
+    C3,
+    D3,
+    E3,
+    F3,
+    G3,
+    H3,
+    A4,
+    B4,
+    C4,
+    D4,
+    E4,
+    F4,
+    G4,
+    H4,
+    A5,
+    B5,
+    C5,
+    D5,
+    E5,
+    F5,
+    G5,
+    H5,
+    A6,
+    B6,
+    C6,
+    D6,
+    E6,
+    F6,
+    G6,
+    H6,
+    A7,
+    B7,
+    C7,
+    D7,
+    E7,
+    F7,
+    G7,
+    H7,
+) = MAP.flatten()
 
 
 class Config:
@@ -50,22 +100,23 @@ class Config:
     MAP_HAS_AMBUSH = False
     # ===== End of generated config =====
 
-    STAGE_ENTRANCE = ['normal', 'half']  # normal, blue, half
+    STAGE_ENTRANCE = ["normal", "half"]  # normal, blue, half
     MAP_SWIPE_MULTIPLY = 1.866
     MAP_SWIPE_MULTIPLY_MINITOUCH = 1.804
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (80, 255 - 40),
-        'width': (0.9, 10),
-        'prominence': 10,
-        'distance': 35,
+        "height": (80, 255 - 40),
+        "width": (0.9, 10),
+        "prominence": 10,
+        "distance": 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 24, 255),
-        'prominence': 10,
-        'distance': 50,
+        "height": (255 - 24, 255),
+        "prominence": 10,
+        "distance": 50,
         # 'width': (0, 7),
-        'wlen': 1000
+        "wlen": 1000,
     }
+
 
 class Campaign(CampaignBase):
     MAP = MAP

@@ -1,8 +1,8 @@
 import os
 import re
 
-DEPLOY_CONFIG = './config/deploy.yaml'
-DEPLOY_TEMPLATE = './deploy/template'
+DEPLOY_CONFIG = "./config/deploy.yaml"
+DEPLOY_TEMPLATE = "./deploy/template"
 
 
 class cached_property:
@@ -39,18 +39,18 @@ def poor_yaml_read(file):
         return {}
 
     data = {}
-    regex = re.compile(r'^(.*?):(.*?)$')
-    with open(file, 'r', encoding='utf-8') as f:
+    regex = re.compile(r"^(.*?):(.*?)$")
+    with open(file, "r", encoding="utf-8") as f:
         for line in f.readlines():
-            line = line.strip('\n\r\t ').replace('\\', '/')
-            if line.startswith('#'):
+            line = line.strip("\n\r\t ").replace("\\", "/")
+            if line.startswith("#"):
                 continue
             result = re.match(regex, line)
             if result:
-                k, v = result.group(1), result.group(2).strip('\n\r\t\' ')
+                k, v = result.group(1), result.group(2).strip("\n\r\t' ")
                 if v:
-                    if v == 'null':
-                        v = ''
+                    if v == "null":
+                        v = ""
                     data[k] = v
 
     return data
@@ -63,25 +63,25 @@ def poor_yaml_write(data, file, template_file=DEPLOY_TEMPLATE):
         file (str):
         template_file (str):
     """
-    with open(template_file, 'r', encoding='utf-8') as f:
-        text = f.read().replace('\\', '/')
+    with open(template_file, "r", encoding="utf-8") as f:
+        text = f.read().replace("\\", "/")
 
     for key, value in data.items():
-        if value is '':
-            value = 'null'
-        text = re.sub(f'{key}:.*?\n', f'{key}: {value}\n', text)
+        if value is "":
+            value = "null"
+        text = re.sub(f"{key}:.*?\n", f"{key}: {value}\n", text)
 
-    with open(file, 'w', encoding='utf-8', newline='') as f:
+    with open(file, "w", encoding="utf-8", newline="") as f:
         f.write(text)
 
 
 def hr1(title):
-    print('=' * 20 + ' ' + title + ' ' + '=' * 20)
+    print("=" * 20 + " " + title + " " + "=" * 20)
 
 
 def hr0(title):
-    middle = '|' + ' ' * 20 + title + ' ' * 20 + '|'
-    border = '+' + '-' * (len(middle) - 2) + '+'
+    middle = "|" + " " * 20 + title + " " * 20 + "|"
+    border = "+" + "-" * (len(middle) - 2) + "+"
     print(border)
     print(middle)
     print(border)

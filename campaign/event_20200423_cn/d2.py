@@ -5,7 +5,7 @@ from module.map.map_base import CampaignMap
 from module.map.map_grids import RoadGrids, SelectedGrids
 
 MAP = CampaignMap()
-MAP.map_data = '''
+MAP.map_data = """
     -- -- -- -- SP SP -- -- ++ ++
     -- -- -- -- -- -- -- -- ++ ++
     ++ ++ ++ -- -- -- -- -- -- --
@@ -13,7 +13,7 @@ MAP.map_data = '''
     -- -- -- -- -- -- -- -- -- --
     -- ++ -- -- -- -- ++ -- -- --
     -- ++ -- -- -- -- -- -- -- --
-'''
+"""
 
 
 class Config(ConfigBase):

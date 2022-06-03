@@ -42,7 +42,9 @@ class Zone:
         Convert coordinates in world_chapter_colormask.lua to os_globe_map.png
         """
         point = np.multiply(point, 1.25)
-        point = np.array((point[0], GLOBE_MAP_SHAPE[1] - point[1]))  # 1694 is the height of os_globe_map.png
+        point = np.array(
+            (point[0], GLOBE_MAP_SHAPE[1] - point[1])
+        )  # 1694 is the height of os_globe_map.png
         return point
 
     def __str__(self):
@@ -50,7 +52,7 @@ class Zone:
         Returns:
             str: Such as `[3|圣彼得伯格|St. Petersburg|ペテルブルク|聖彼得堡]`
         """
-        return f'[{self.zone_id}|{self.en}]'
+        return f"[{self.zone_id}|{self.en}]"
 
     __repr__ = __str__
 
@@ -67,7 +69,9 @@ class ZoneManager:
         Returns:
             SelectedGrids:
         """
-        return SelectedGrids([Zone(zone_id, info) for zone_id, info in DIC_OS_MAP.items()])
+        return SelectedGrids(
+            [Zone(zone_id, info) for zone_id, info in DIC_OS_MAP.items()]
+        )
 
     def camera_to_zone(self, camera, region=None):
         """
@@ -104,15 +108,16 @@ class ZoneManager:
             try:
                 return self.zones.select(zone_id=name)[0]
             except IndexError:
-                raise ScriptError(f'Unable to find OS globe zone: {name}')
+                raise ScriptError(f"Unable to find OS globe zone: {name}")
         elif isinstance(name, str) and name.isdigit():
             try:
                 return self.zones.select(zone_id=int(name))[0]
             except IndexError:
-                raise ScriptError(f'Unable to find OS globe zone: {name}')
+                raise ScriptError(f"Unable to find OS globe zone: {name}")
         else:
+
             def parse_name(n):
-                n = str(n).replace(' ', '').lower()
+                n = str(n).replace(" ", "").lower()
                 return n
 
             name = parse_name(name)
@@ -125,7 +130,7 @@ class ZoneManager:
                     return zone
                 if name == parse_name(zone.tw):
                     return zone
-            raise ScriptError(f'Unable to find OS globe zone: {name}')
+            raise ScriptError(f"Unable to find OS globe zone: {name}")
 
     def zone_nearest_azur_port(self, zone):
         """
@@ -156,8 +161,10 @@ class ZoneManager:
             SelectedGrids: SelectedGrids containing zone objects.
         """
         if 1 <= hazard_level <= 6:
-            return self.zones.select(hazard_level=hazard_level).delete(self.zones.select(region=5))
+            return self.zones.select(hazard_level=hazard_level).delete(
+                self.zones.select(region=5)
+            )
         elif hazard_level == 10:
             return self.zones.select(region=5)
         else:
-            raise ScriptError(f'Invalid hazard_level of zones: {hazard_level}')
+            raise ScriptError(f"Invalid hazard_level of zones: {hazard_level}")

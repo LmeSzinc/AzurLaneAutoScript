@@ -19,7 +19,7 @@ class SelectedGrids:
 
     def __str__(self):
         # return str([str(grid) for grid in self])
-        return '[' + ', ' .join([str(grid) for grid in self]) + ']'
+        return "[" + ", ".join([str(grid) for grid in self]) + "]"
 
     def __len__(self):
         return len(self.grids)
@@ -220,6 +220,7 @@ class SelectedGrids:
             SelectedGrids:
         """
         import numpy as np
+
         if not self:
             return self
         location = np.array(self.location)
@@ -239,6 +240,7 @@ class SelectedGrids:
             SelectedGrids:
         """
         import numpy as np
+
         if not self:
             return self
         vector = np.subtract(self.location, center)
@@ -266,7 +268,7 @@ class RoadGrids:
                 self.grids.append(SelectedGrids(grids=[grid]))
 
     def __str__(self):
-        return str(' - '.join([str(grid) for grid in self.grids]))
+        return str(" - ".join([str(grid) for grid in self.grids]))
 
     def roadblocks(self):
         """

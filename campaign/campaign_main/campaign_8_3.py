@@ -5,9 +5,9 @@ from module.map.map_grids import RoadGrids, SelectedGrids
 
 from .campaign_8_1 import Config as ConfigBase
 
-MAP = CampaignMap('8-3')
-MAP.shape = 'H6'
-MAP.camera_data = ['D3', 'D4', 'E3', 'E4']
+MAP = CampaignMap("8-3")
+MAP.shape = "H6"
+MAP.camera_data = ["D3", "D4", "E3", "E4"]
 MAP.map_data = """
     MB -- ME ME ME ME -- MB
     -- ME MM ++ ++ __ ME --
@@ -25,19 +25,62 @@ MAP.weight_data = """
     50 30 30 80 80 80 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 3},
-    {'battle': 1, 'enemy': 2, 'mystery': 1},
-    {'battle': 2, 'enemy': 2, 'mystery': 1},
-    {'battle': 3, 'enemy': 1},
-    {'battle': 4, 'enemy': 1, 'boss': 1},
+    {"battle": 0, "enemy": 3},
+    {"battle": 1, "enemy": 2, "mystery": 1},
+    {"battle": 2, "enemy": 2, "mystery": 1},
+    {"battle": 3, "enemy": 1},
+    {"battle": 4, "enemy": 1, "boss": 1},
 ]
-A1, B1, C1, D1, E1, F1, G1, H1, \
-A2, B2, C2, D2, E2, F2, G2, H2, \
-A3, B3, C3, D3, E3, F3, G3, H3, \
-A4, B4, C4, D4, E4, F4, G4, H4, \
-A5, B5, C5, D5, E5, F5, G5, H5, \
-A6, B6, C6, D6, E6, F6, G6, H6, \
-    = MAP.flatten()
+(
+    A1,
+    B1,
+    C1,
+    D1,
+    E1,
+    F1,
+    G1,
+    H1,
+    A2,
+    B2,
+    C2,
+    D2,
+    E2,
+    F2,
+    G2,
+    H2,
+    A3,
+    B3,
+    C3,
+    D3,
+    E3,
+    F3,
+    G3,
+    H3,
+    A4,
+    B4,
+    C4,
+    D4,
+    E4,
+    F4,
+    G4,
+    H4,
+    A5,
+    B5,
+    C5,
+    D5,
+    E5,
+    F5,
+    G5,
+    H5,
+    A6,
+    B6,
+    C6,
+    D6,
+    E6,
+    F6,
+    G6,
+    H6,
+) = MAP.flatten()
 
 road_middle = RoadGrids([D5, F3])
 step_on = SelectedGrids([D5, F3])
@@ -65,13 +108,40 @@ class Campaign(CampaignBase):
 
         self.clear_all_mystery()
 
-        if self.clear_roadblocks([road_A6, road_H1, road_A1_left, road_A1_upper, road_H6_bottom, road_H6_right]):
+        if self.clear_roadblocks(
+            [
+                road_A6,
+                road_H1,
+                road_A1_left,
+                road_A1_upper,
+                road_H6_bottom,
+                road_H6_right,
+            ]
+        ):
             return True
-        if self.clear_potential_roadblocks([road_A6, road_H1, road_A1_left, road_A1_upper, road_H6_bottom, road_H6_right]):
+        if self.clear_potential_roadblocks(
+            [
+                road_A6,
+                road_H1,
+                road_A1_left,
+                road_A1_upper,
+                road_H6_bottom,
+                road_H6_right,
+            ]
+        ):
             return True
         if self.clear_roadblocks([road_MY]):
             return True
-        if self.clear_first_roadblocks([road_A6, road_H1, road_A1_left, road_A1_upper, road_H6_bottom, road_H6_right]):
+        if self.clear_first_roadblocks(
+            [
+                road_A6,
+                road_H1,
+                road_A1_left,
+                road_A1_upper,
+                road_H6_bottom,
+                road_H6_right,
+            ]
+        ):
             return True
 
         return self.battle_default()

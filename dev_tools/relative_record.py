@@ -5,7 +5,7 @@ from tqdm import tqdm
 
 import module.config.server as server
 
-server.server = 'cn'  # Don't need to edit, it's used to avoid error.
+server.server = "cn"  # Don't need to edit, it's used to avoid error.
 
 from module.base.base import ModuleBase
 from module.base.utils import *
@@ -17,6 +17,7 @@ class Config:
     """
     Paste the config of map file here
     """
+
     pass
 
 
@@ -41,12 +42,12 @@ Arguments:
     NAME:       Siren name, images will save in <FOLDER>/<NAME>
     NODE:       Node in local map view, that you are going to crop.
 """
-CONFIG = 'alas'
-FOLDER = ''
-NAME = 'Deutschland'
-NODE = 'D5'
+CONFIG = "alas"
+FOLDER = ""
+NAME = "Deutschland"
+NODE = "D5"
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     for folder in [FOLDER, os.path.join(FOLDER, NAME)]:
         if not os.path.exists(folder):
             os.mkdir(folder)
@@ -59,11 +60,11 @@ if __name__ == '__main__':
     view.load(al.device.image)
     grid = view[node2location(NODE.upper())]
 
-    print('Please check if it is cropping the right area')
-    print('If yes, wait until screenshot progress complete')
-    print('If no, stop process, change `NODE`, run again')
+    print("Please check if it is cropping the right area")
+    print("If yes, wait until screenshot progress complete")
+    print("If no, stop process, change `NODE`, run again")
     image = rgb2gray(grid.relative_crop((-0.5, -1, 0.5, 0), shape=(60, 60)))
-    image = Image.fromarray(image, mode='L').show()
+    image = Image.fromarray(image, mode="L").show()
 
     images = []
     for n in tqdm(range(300)):
@@ -71,7 +72,7 @@ if __name__ == '__main__':
     for n, image in enumerate(images):
         grid.image = np.array(image)
         image = rgb2gray(grid.relative_crop((-0.5, -1, 0.5, 0), shape=(60, 60)))
-        image = Image.fromarray(image, mode='L')
-        image.save(os.path.join(FOLDER, NAME, f'{n}.png'))
+        image = Image.fromarray(image, mode="L")
+        image.save(os.path.join(FOLDER, NAME, f"{n}.png"))
 
-    print('relative_record done')
+    print("relative_record done")

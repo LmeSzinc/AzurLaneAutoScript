@@ -64,7 +64,11 @@ class Points:
         while len(points):
             p0, p1 = points[0], points[1:]
             distance = np.sum(np.abs(p1 - p0), axis=1)
-            new = Points(np.append(p1[distance <= threshold], [p0], axis=0)).mean().tolist()
+            new = (
+                Points(np.append(p1[distance <= threshold], [p0], axis=0))
+                .mean()
+                .tolist()
+            )
             groups.append(new)
             points = p1[distance > threshold]
 
@@ -184,7 +188,9 @@ class Lines:
                 group.append(line)
             prev = mid
         regrouped += [group]
-        regrouped = np.vstack([Lines(r, is_horizontal=self.is_horizontal).mean for r in regrouped])
+        regrouped = np.vstack(
+            [Lines(r, is_horizontal=self.is_horizontal).mean for r in regrouped]
+        )
         return Lines(regrouped, is_horizontal=self.is_horizontal)
 
     def distance_to_point(self, point):
@@ -226,7 +232,9 @@ def area2corner(area):
     Returns:
         np.ndarray: [upper-left, upper-right, bottom-left, bottom-right]
     """
-    return np.array([[area[0], area[1]], [area[2], area[1]], [area[0], area[3]], [area[2], area[3]]])
+    return np.array(
+        [[area[0], area[1]], [area[2], area[1]], [area[0], area[3]], [area[2], area[3]]]
+    )
 
 
 def corner2area(corner):
@@ -252,7 +260,9 @@ def corner2inner(corner):
         tuple[int]: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
     """
     x0, y0, x1, y1, x2, y2, x3, y3 = np.array(corner).flatten()
-    area = tuple(np.rint((max(x0, x2), max(y0, y1), min(x1, x3), min(y2, y3))).astype(int))
+    area = tuple(
+        np.rint((max(x0, x2), max(y0, y1), min(x1, x3), min(y2, y3))).astype(int)
+    )
     return area
 
 
@@ -267,7 +277,9 @@ def corner2outer(corner):
         tuple[int]: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y).
     """
     x0, y0, x1, y1, x2, y2, x3, y3 = np.array(corner).flatten()
-    area = tuple(np.rint((min(x0, x2), min(y0, y1), max(x1, x3), max(y2, y3))).astype(int))
+    area = tuple(
+        np.rint((min(x0, x2), min(y0, y1), max(x1, x3), max(y2, y3))).astype(int)
+    )
     return area
 
 
@@ -304,7 +316,9 @@ def points_to_area_generator(points, shape):
     points = points.reshape(*shape[::-1], 2)
     for y in range(shape[1] - 1):
         for x in range(shape[0] - 1):
-            area = np.array([points[y, x], points[y, x + 1], points[y + 1, x], points[y + 1, x + 1]])
+            area = np.array(
+                [points[y, x], points[y, x + 1], points[y + 1, x], points[y + 1, x + 1]]
+            )
             yield ((x, y), area)
 
 
@@ -355,7 +369,9 @@ def perspective_transform(points, data):
     Returns:
         np.ndarray: 2D array with shape (n, 2)
     """
-    points = np.pad(np.array(points), ((0, 0), (0, 1)), mode='constant', constant_values=1)
+    points = np.pad(
+        np.array(points), ((0, 0), (0, 1)), mode="constant", constant_values=1
+    )
     matrix = data.dot(points.T)
     x, y = matrix[0] / matrix[2], matrix[1] / matrix[2]
     points = np.array([x, y]).T

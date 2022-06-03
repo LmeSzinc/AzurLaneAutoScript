@@ -7,18 +7,42 @@ from typing import Dict, List
 
 from pywebio import config as webconfig
 from pywebio.exceptions import SessionClosedException
-from pywebio.output import (clear, close_popup, popup, put_button, put_buttons,
-                            put_collapse, put_column, put_error, put_html,
-                            put_loading, put_markdown, put_row, put_scope,
-                            put_table, put_text, put_warning, toast, use_scope)
+from pywebio.output import (
+    clear,
+    close_popup,
+    popup,
+    put_button,
+    put_buttons,
+    put_collapse,
+    put_column,
+    put_error,
+    put_html,
+    put_loading,
+    put_markdown,
+    put_row,
+    put_scope,
+    put_table,
+    put_text,
+    put_warning,
+    toast,
+    use_scope,
+)
 from pywebio.pin import pin, pin_wait_change
 from pywebio.session import go_app, info, register_thread, run_js, set_env
 
 import module.webui.lang as lang
 from module.config.config import AzurLaneConfig, Function
-from module.config.utils import (alas_instance, deep_get, deep_iter, deep_set,
-                                 dict_to_kv, filepath_args, filepath_config,
-                                 read_file, write_file)
+from module.config.utils import (
+    alas_instance,
+    deep_get,
+    deep_iter,
+    deep_set,
+    dict_to_kv,
+    filepath_args,
+    filepath_config,
+    read_file,
+    write_file,
+)
 from module.logger import logger
 from module.ocr.rpc import start_ocr_server_process, stop_ocr_server_process
 from module.webui.base import Frame
@@ -30,12 +54,26 @@ from module.webui.process_manager import ProcessManager
 from module.webui.setting import Setting
 from module.webui.translate import translate
 from module.webui.updater import updater
-from module.webui.utils import (Icon, Switch, TaskHandler, add_css,
-                                filepath_css, get_localstorage,
-                                get_window_visibility_state, login,
-                                parse_pin_value, raise_exception, re_fullmatch)
-from module.webui.widgets import (BinarySwitchButton, RichLog, get_output,
-                                  put_icon_buttons, put_none)
+from module.webui.utils import (
+    Icon,
+    Switch,
+    TaskHandler,
+    add_css,
+    filepath_css,
+    get_localstorage,
+    get_window_visibility_state,
+    login,
+    parse_pin_value,
+    raise_exception,
+    re_fullmatch,
+)
+from module.webui.widgets import (
+    BinarySwitchButton,
+    RichLog,
+    get_output,
+    put_icon_buttons,
+    put_none,
+)
 
 task_handler = TaskHandler()
 

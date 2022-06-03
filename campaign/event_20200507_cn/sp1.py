@@ -4,7 +4,7 @@ from module.map.map_base import CampaignMap
 from module.map.map_grids import RoadGrids, SelectedGrids
 
 MAP = CampaignMap()
-MAP.map_data = '''
+MAP.map_data = """
     -- ++ ++ MB MB ++ ++ ++
     ME ++ ME -- -- ME ME --
     -- -- __ -- ME __ -- --
@@ -12,14 +12,14 @@ MAP.map_data = '''
     -- -- ++ ME -- ME ++ ME
     ME -- -- SP SP -- -- --
     ++ ++ -- -- -- -- ME ++
-'''
-MAP.camera_data = ['D3', 'D5']
+"""
+MAP.camera_data = ["D3", "D5"]
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 3},
-    {'battle': 1, 'enemy': 1},
-    {'battle': 2, 'enemy': 1},
-    {'battle': 3, 'enemy': 1},
-    {'battle': 4, 'boss': 1},
+    {"battle": 0, "enemy": 3},
+    {"battle": 1, "enemy": 1},
+    {"battle": 2, "enemy": 1},
+    {"battle": 3, "enemy": 1},
+    {"battle": 4, "boss": 1},
 ]
 
 

@@ -7,17 +7,32 @@ from module.meowfficer.collect import MeowfficerCollect
 from module.meowfficer.enhance import MeowfficerEnhance
 from module.ocr.ocr import Digit, DigitCounter
 
-MEOWFFICER_CAPACITY = DigitCounter(OCR_MEOWFFICER_CAPACITY, letter=(131, 121, 123), threshold=64)
-MEOWFFICER_QUEUE = DigitCounter(OCR_MEOWFFICER_QUEUE, letter=(131, 121, 123), threshold=64)
+MEOWFFICER_CAPACITY = DigitCounter(
+    OCR_MEOWFFICER_CAPACITY, letter=(131, 121, 123), threshold=64
+)
+MEOWFFICER_QUEUE = DigitCounter(
+    OCR_MEOWFFICER_QUEUE, letter=(131, 121, 123), threshold=64
+)
 MEOWFFICER_BOX_GRID = ButtonGrid(
-    origin=(460, 210), delta=(160, 0), button_shape=(30, 30), grid_shape=(3, 1),
-    name='MEOWFFICER_BOX_GRID')
+    origin=(460, 210),
+    delta=(160, 0),
+    button_shape=(30, 30),
+    grid_shape=(3, 1),
+    name="MEOWFFICER_BOX_GRID",
+)
 MEOWFFICER_BOX_COUNT_GRID = ButtonGrid(
-    origin=(780, 249), delta=(-160, 0), button_shape=(74, 22), grid_shape=(3, 1),
-    name='MEOWFFICER_BOX_COUNT_GRID')
-MEOWFFICER_BOX_COUNT = Digit(MEOWFFICER_BOX_COUNT_GRID.buttons,
-                             letter=(255, 255, 255), threshold=128,
-                             name='MEOWFFICER_BOX_COUNT')
+    origin=(780, 249),
+    delta=(-160, 0),
+    button_shape=(74, 22),
+    grid_shape=(3, 1),
+    name="MEOWFFICER_BOX_COUNT_GRID",
+)
+MEOWFFICER_BOX_COUNT = Digit(
+    MEOWFFICER_BOX_COUNT_GRID.buttons,
+    letter=(255, 255, 255),
+    threshold=128,
+    name="MEOWFFICER_BOX_COUNT",
+)
 
 
 class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
@@ -43,8 +58,9 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
             else:
                 self.device.screenshot()
 
-            if not self.appear(MEOWFFICER_TRAIN_FILL_QUEUE, offset=(20, 20)) \
-                    and self.appear(MEOWFFICER_TRAIN_START, offset=(20, 20), interval=3):
+            if not self.appear(
+                MEOWFFICER_TRAIN_FILL_QUEUE, offset=(20, 20)
+            ) and self.appear(MEOWFFICER_TRAIN_START, offset=(20, 20), interval=3):
                 if timeout_count > 0:
                     self.device.click(MEOWFFICER_TRAIN_START)
                     timeout_count -= 1
@@ -55,7 +71,7 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
             if self.appear(MEOWFFICER_TRAIN_FILL_QUEUE, offset=(20, 20)):
                 return True
             if self.info_bar_count():
-                logger.info('No more slots to train, exit')
+                logger.info("No more slots to train, exit")
                 return False
 
     def _meow_nqueue(self, skip_first_screenshot=True):
@@ -80,7 +96,9 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
             if self.appear(INFO_BAR_1):
                 confirm_timer.reset()
                 continue
-            if self.appear_then_click(MEOWFFICER_TRAIN_FILL_QUEUE, offset=(20, 20), interval=5):
+            if self.appear_then_click(
+                MEOWFFICER_TRAIN_FILL_QUEUE, offset=(20, 20), interval=5
+            ):
                 self.device.sleep(0.3)
                 self.device.click(MEOWFFICER_TRAIN_START)
                 confirm_timer.reset()
@@ -145,7 +163,7 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
             in: MEOWFFICER_TRAIN
             out: MEOWFFICER_TRAIN
         """
-        logger.hr('Meowfficer queue', level=1)
+        logger.hr("Meowfficer queue", level=1)
         # Either can remain in same window or
         # enter the queuing window
         if not self._meow_queue_enter():
@@ -158,7 +176,7 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
 
         # Check remains
         if sum(counts) <= 0:
-            logger.info('No more meowfficer boxes to train')
+            logger.info("No more meowfficer boxes to train")
             return
 
         # Choose appropriate queue func based on
@@ -167,14 +185,14 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
         # - > 20, high stock; queue common boxes first
         if ascending:
             if common_sum > 20:
-                logger.info('Queue in ascending order (Blue > Purple > Gold)')
+                logger.info("Queue in ascending order (Blue > Purple > Gold)")
                 self._meow_rqueue()
             else:
-                logger.info('Low stock of common cat boxes')
-                logger.info('Queue in descending order (Gold > Purple > Blue)')
+                logger.info("Low stock of common cat boxes")
+                logger.info("Queue in descending order (Gold > Purple > Blue)")
                 self._meow_nqueue()
         else:
-            logger.info('Queue in descending order (Gold > Purple > Blue)')
+            logger.info("Queue in descending order (Gold > Purple > Blue)")
             self._meow_nqueue()
 
     def meow_train(self):
@@ -186,18 +204,24 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
             in: page_meowfficer
             out: page_meowfficer
         """
-        logger.hr('Meowfficer train', level=1)
+        logger.hr("Meowfficer train", level=1)
 
         # Retrieve capacity to determine whether able to collect
         current, remain, total = MEOWFFICER_CAPACITY.ocr(self.device.image)
-        logger.attr('Meowfficer_capacity_remain', remain)
+        logger.attr("Meowfficer_capacity_remain", remain)
 
-        logger.attr('MeowfficerTrain_Mode', self.config.MeowfficerTrain_Mode)
+        logger.attr("MeowfficerTrain_Mode", self.config.MeowfficerTrain_Mode)
         collected = False
-        if self.config.MeowfficerTrain_Mode == 'seamlessly':
+        if self.config.MeowfficerTrain_Mode == "seamlessly":
             # Enter
-            self.ui_click(MEOWFFICER_TRAIN_ENTER, check_button=MEOWFFICER_TRAIN_START, additional=self.meow_additional,
-                          retry_wait=3, confirm_wait=0, skip_first_screenshot=True)
+            self.ui_click(
+                MEOWFFICER_TRAIN_ENTER,
+                check_button=MEOWFFICER_TRAIN_START,
+                additional=self.meow_additional,
+                retry_wait=3,
+                confirm_wait=0,
+                skip_first_screenshot=True,
+            )
             # Collect
             if remain > 0:
                 collected = self.meow_collect(collect_all=True)
@@ -207,8 +231,14 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
             self.meow_menu_close()
         else:
             # Enter
-            self.ui_click(MEOWFFICER_TRAIN_ENTER, check_button=MEOWFFICER_TRAIN_START, additional=self.meow_additional,
-                          retry_wait=3, confirm_wait=0, skip_first_screenshot=True)
+            self.ui_click(
+                MEOWFFICER_TRAIN_ENTER,
+                check_button=MEOWFFICER_TRAIN_START,
+                additional=self.meow_additional,
+                retry_wait=3,
+                confirm_wait=0,
+                skip_first_screenshot=True,
+            )
             # Collect
             if remain > 0:
                 collected = self.meow_collect(collect_all=self.meow_is_sunday())

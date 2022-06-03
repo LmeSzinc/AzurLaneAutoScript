@@ -20,7 +20,7 @@ def info_letter_preprocess(image):
     image = (image - 64) / 0.75
     image[image > 255] = 255
     image[image < 0] = 0
-    image = image.astype('uint8')
+    image = image.astype("uint8")
     return image
 
 
@@ -28,6 +28,7 @@ class InfoHandler(ModuleBase):
     """
     Class to handle all kinds of message.
     """
+
     """
     Info bar
     """
@@ -72,28 +73,30 @@ class InfoHandler(ModuleBase):
     """
     _popup_offset = (3, 30)
 
-    def handle_popup_confirm(self, name='', interval=2):
-        if self.appear(POPUP_CANCEL, offset=self._popup_offset) \
-                and self.appear(POPUP_CONFIRM, offset=self._popup_offset, interval=interval):
-            POPUP_CONFIRM.name = POPUP_CONFIRM.name + '_' + name
+    def handle_popup_confirm(self, name="", interval=2):
+        if self.appear(POPUP_CANCEL, offset=self._popup_offset) and self.appear(
+            POPUP_CONFIRM, offset=self._popup_offset, interval=interval
+        ):
+            POPUP_CONFIRM.name = POPUP_CONFIRM.name + "_" + name
             self.device.click(POPUP_CONFIRM)
-            POPUP_CONFIRM.name = POPUP_CONFIRM.name[:-len(name) - 1]
+            POPUP_CONFIRM.name = POPUP_CONFIRM.name[: -len(name) - 1]
             return True
         return False
 
-    def handle_popup_cancel(self, name='', interval=2):
-        if self.appear(POPUP_CONFIRM, offset=self._popup_offset) \
-                and self.appear(POPUP_CANCEL, offset=self._popup_offset, interval=interval):
-            POPUP_CANCEL.name = POPUP_CANCEL.name + '_' + name
+    def handle_popup_cancel(self, name="", interval=2):
+        if self.appear(POPUP_CONFIRM, offset=self._popup_offset) and self.appear(
+            POPUP_CANCEL, offset=self._popup_offset, interval=interval
+        ):
+            POPUP_CANCEL.name = POPUP_CANCEL.name + "_" + name
             self.device.click(POPUP_CANCEL)
-            POPUP_CANCEL.name = POPUP_CANCEL.name[:-len(name) - 1]
+            POPUP_CANCEL.name = POPUP_CANCEL.name[: -len(name) - 1]
             return True
         return False
 
-    def handle_popup_single(self, name=''):
+    def handle_popup_single(self, name=""):
         if self.appear(GET_MISSION, offset=self._popup_offset, interval=2):
             prev_name = GET_MISSION.name
-            GET_MISSION.name = POPUP_CONFIRM.name + '_' + name
+            GET_MISSION.name = POPUP_CONFIRM.name + "_" + name
             self.device.click(GET_MISSION)
             GET_MISSION.name = prev_name
             return True
@@ -110,7 +113,7 @@ class InfoHandler(ModuleBase):
         """
         appear = self.appear(GET_MISSION, offset=True, interval=2)
         if appear:
-            logger.info('Get urgent commission')
+            logger.info("Get urgent commission")
             if drop:
                 self.handle_info_bar()
                 drop.add(self.device.image)
@@ -121,7 +124,7 @@ class InfoHandler(ModuleBase):
         if not self.config.Emotion_IgnoreLowEmotionWarn:
             return False
 
-        result = self.handle_popup_confirm('IGNORE_LOW_EMOTION')
+        result = self.handle_popup_confirm("IGNORE_LOW_EMOTION")
         if result:
             # Avoid clicking AUTO_SEARCH_MAP_OPTION_OFF
             self.interval_reset(AUTO_SEARCH_MAP_OPTION_OFF)
@@ -131,8 +134,9 @@ class InfoHandler(ModuleBase):
         if not self.config.USE_DATA_KEY:
             return False
 
-        if not self.appear(POPUP_CONFIRM, offset=self._popup_offset) \
-                and not self.appear(POPUP_CANCEL, offset=self._popup_offset, interval=2):
+        if not self.appear(
+            POPUP_CONFIRM, offset=self._popup_offset
+        ) and not self.appear(POPUP_CANCEL, offset=self._popup_offset, interval=2):
             return False
 
         if self.appear(USE_DATA_KEY, offset=(20, 20)):
@@ -143,8 +147,9 @@ class InfoHandler(ModuleBase):
                 else:
                     self.device.screenshot()
 
-                enabled = self.image_color_count(USE_DATA_KEY_NOTIFIED,
-                    color=(140, 207, 66), threshold=180, count=10)
+                enabled = self.image_color_count(
+                    USE_DATA_KEY_NOTIFIED, color=(140, 207, 66), threshold=180, count=10
+                )
                 if enabled:
                     break
 
@@ -152,8 +157,10 @@ class InfoHandler(ModuleBase):
                     self.device.click(USE_DATA_KEY_NOTIFIED)
                     continue
 
-            self.config.USE_DATA_KEY = False  # Reset on success as task can be stopped before can be recovered
-            return self.handle_popup_confirm('USE_DATA_KEY')
+            self.config.USE_DATA_KEY = (
+                False  # Reset on success as task can be stopped before can be recovered
+            )
+            return self.handle_popup_confirm("USE_DATA_KEY")
 
         return False
 
@@ -169,17 +176,20 @@ class InfoHandler(ModuleBase):
     """
     Guild popup info
     """
+
     def handle_guild_popup_confirm(self):
-        if self.appear(GUILD_POPUP_CANCEL, offset=self._popup_offset) \
-                and self.appear(GUILD_POPUP_CONFIRM, offset=self._popup_offset, interval=2):
+        if self.appear(GUILD_POPUP_CANCEL, offset=self._popup_offset) and self.appear(
+            GUILD_POPUP_CONFIRM, offset=self._popup_offset, interval=2
+        ):
             self.device.click(GUILD_POPUP_CONFIRM)
             return True
 
         return False
 
     def handle_guild_popup_cancel(self):
-        if self.appear(GUILD_POPUP_CONFIRM, offset=self._popup_offset) \
-                and self.appear(GUILD_POPUP_CANCEL, offset=self._popup_offset, interval=2):
+        if self.appear(GUILD_POPUP_CONFIRM, offset=self._popup_offset) and self.appear(
+            GUILD_POPUP_CANCEL, offset=self._popup_offset, interval=2
+        ):
             self.device.click(GUILD_POPUP_CANCEL)
             return True
 
@@ -188,17 +198,20 @@ class InfoHandler(ModuleBase):
     """
     Mission popup info
     """
+
     def handle_mission_popup_go(self):
-        if self.appear(MISSION_POPUP_ACK, offset=self._popup_offset) \
-                and self.appear(MISSION_POPUP_GO, offset=self._popup_offset, interval=2):
+        if self.appear(MISSION_POPUP_ACK, offset=self._popup_offset) and self.appear(
+            MISSION_POPUP_GO, offset=self._popup_offset, interval=2
+        ):
             self.device.click(MISSION_POPUP_GO)
             return True
 
         return False
 
     def handle_mission_popup_ack(self):
-        if self.appear(MISSION_POPUP_GO, offset=self._popup_offset) \
-                and self.appear(MISSION_POPUP_ACK, offset=self._popup_offset, interval=2):
+        if self.appear(MISSION_POPUP_GO, offset=self._popup_offset) and self.appear(
+            MISSION_POPUP_ACK, offset=self._popup_offset, interval=2
+        ):
             self.device.click(MISSION_POPUP_ACK)
             return True
 
@@ -223,7 +236,12 @@ class InfoHandler(ModuleBase):
         Returns:
             list[Button]: List of story options, from upper to bottom. If no option found, return an empty list.
         """
-        image = color_similarity_2d(self.image_crop(self._story_option_area), color=self._story_option_color) > 225
+        image = (
+            color_similarity_2d(
+                self.image_crop(self._story_option_area), color=self._story_option_color
+            )
+            > 225
+        )
         x_count = np.where(np.sum(image, axis=0) > 40)[0]
         if not len(x_count):
             return []
@@ -231,14 +249,14 @@ class InfoHandler(ModuleBase):
 
         parameters = {
             # Option is 300`320px x 50~52px.
-            'height': 280,
-            'width': 45,
-            'distance': 50,
+            "height": 280,
+            "width": 45,
+            "distance": 50,
             # Chooses the relative height at which the peak width is measured as a percentage of its prominence.
             # 1.0 calculates the width of the peak at its lowest contour line,
             # while 0.5 evaluates at half the prominence height.
             # Must be at least 0.
-            'rel_height': 5,
+            "rel_height": 5,
         }
         y_count = np.sum(image, axis=1)
         peaks, properties = signal.find_peaks(y_count, **parameters)
@@ -246,28 +264,42 @@ class InfoHandler(ModuleBase):
         total = len(peaks)
         if not total:
             return []
-        for n, bases in enumerate(zip(properties['left_bases'], properties['right_bases'])):
+        for n, bases in enumerate(
+            zip(properties["left_bases"], properties["right_bases"])
+        ):
             area = (x_min, bases[0], x_max, bases[1])
-            area = area_pad(area_offset(area, offset=self._story_option_area[:2]), pad=5)
+            area = area_pad(
+                area_offset(area, offset=self._story_option_area[:2]), pad=5
+            )
             buttons.append(
-                Button(area=area, color=self._story_option_color, button=area, name=f'STORY_OPTION_{n + 1}_OF_{total}'))
+                Button(
+                    area=area,
+                    color=self._story_option_color,
+                    button=area,
+                    name=f"STORY_OPTION_{n + 1}_OF_{total}",
+                )
+            )
 
         return buttons
 
     def story_skip(self, drop=None):
         if self.story_popup_timout.started() and not self.story_popup_timout.reached():
-            if self.handle_popup_confirm('STORY_SKIP'):
+            if self.handle_popup_confirm("STORY_SKIP"):
                 self.story_popup_timout = Timer(10)
                 self.interval_reset(STORY_SKIP)
                 self.interval_reset(STORY_LETTERS_ONLY)
                 return True
-        if self.appear(STORY_LETTER_BLACK) and self.appear_then_click(STORY_LETTERS_ONLY, offset=(20, 20), interval=2):
+        if self.appear(STORY_LETTER_BLACK) and self.appear_then_click(
+            STORY_LETTERS_ONLY, offset=(20, 20), interval=2
+        ):
             self.story_popup_timout.reset()
             return True
-        if self._story_option_timer.reached() and self.appear(STORY_SKIP, offset=(20, 20), interval=0):
+        if self._story_option_timer.reached() and self.appear(
+            STORY_SKIP, offset=(20, 20), interval=0
+        ):
             options = self._story_option_buttons()
             options_count = len(options)
-            logger.attr('Story_options', options_count)
+            logger.attr("Story_options", options_count)
             if not options_count:
                 self._story_option_record = 0
                 self._story_option_confirm.reset()
@@ -302,13 +334,16 @@ class InfoHandler(ModuleBase):
 
     def handle_story_skip(self, drop=None):
         # 20220310: Game client bugged, Counterattack Within the Fjord Rerun still has stories in clear mode
-        if self.map_has_clear_mode and self.config.Campaign_Event != 'event_20200603_cn':
+        if (
+            self.map_has_clear_mode
+            and self.config.Campaign_Event != "event_20200603_cn"
+        ):
             return False
 
         return self.story_skip(drop=drop)
 
     def ensure_no_story(self, skip_first_screenshot=True):
-        logger.info('Ensure no story')
+        logger.info("Ensure no story")
         story_timer = Timer(3, count=6).start()
         while 1:
             if skip_first_screenshot:

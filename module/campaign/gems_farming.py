@@ -14,7 +14,6 @@ SIM_VALUE = 0.95
 
 
 class GemsCampaignOverride(CampaignBase):
-
     def handle_combat_low_emotion(self):
         """
         Overwrite info_handler.handle_combat_low_emotion()
@@ -23,46 +22,53 @@ class GemsCampaignOverride(CampaignBase):
         if self.config.GemsFarming_LowEmotionRetreat:
             if not self.config.Emotion_IgnoreLowEmotionWarn:
                 return False
-            if self.handle_popup_cancel('IGNORE_LOW_EMOTION'):
+            if self.handle_popup_cancel("IGNORE_LOW_EMOTION"):
                 self.config.GEMS_EMOTION_TRIGGRED = True
-                logger.hr('EMOTION WITHDRAW')
+                logger.hr("EMOTION WITHDRAW")
 
                 while 1:
                     self.device.screenshot()
 
-                    if self.handle_popup_cancel('IGNORE_LOW_EMOTION'):
+                    if self.handle_popup_cancel("IGNORE_LOW_EMOTION"):
                         continue
 
                     if self.is_in_map():
                         self.withdraw()
                         break
 
-                    if self.appear(FLEET_PREPARATION, offset=(20, 20), interval=2) \
-                            or self.appear(MAP_PREPARATION, offset=(20, 20), interval=2):
+                    if self.appear(
+                        FLEET_PREPARATION, offset=(20, 20), interval=2
+                    ) or self.appear(MAP_PREPARATION, offset=(20, 20), interval=2):
                         self.enter_map_cancel()
                         break
-                raise CampaignEnd('Emotion withdraw')
+                raise CampaignEnd("Emotion withdraw")
         else:
             return super().handle_combat_low_emotion()
 
 
 class GemsFarming(CampaignRun, Dock, EquipmentChange):
-
-    def load_campaign(self, name, folder='campaign_main'):
+    def load_campaign(self, name, folder="campaign_main"):
         super().load_campaign(name, folder)
 
         class GemsCampaign(GemsCampaignOverride, self.module.Campaign):
             pass
 
-        self.campaign = GemsCampaign(device=self.campaign.device, config=self.campaign.config)
+        self.campaign = GemsCampaign(
+            device=self.campaign.device, config=self.campaign.config
+        )
 
     def _fleet_detail_enter(self):
         """
         Enter GEMS_FLEET_1 page
         """
         self.ui_goto(page_fleet)
-        self.ui_ensure_index(self.config.Fleet_Fleet1, letter=OCR_FLEET_INDEX,
-                             next_button=FLEET_NEXT, prev_button=FLEET_PREV, skip_first_screenshot=True)
+        self.ui_ensure_index(
+            self.config.Fleet_Fleet1,
+            letter=OCR_FLEET_INDEX,
+            next_button=FLEET_NEXT,
+            prev_button=FLEET_PREV,
+            skip_first_screenshot=True,
+        )
 
     def _ship_detail_enter(self, button):
         self._fleet_detail_enter()
@@ -70,17 +76,17 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
     def flagship_change(self):
         """
-        Change flagship and flagship's equipment 
+        Change flagship and flagship's equipment
         If config.GemsFarming_CommonCV == 'any', only change auxiliary equipment
         """
 
-        if self.config.GemsFarming_CommonCV == 'any':
+        if self.config.GemsFarming_CommonCV == "any":
             index_list = range(3, 5)
         else:
             index_list = range(0, 5)
-        logger.hr('CHANGING FLAGSHIP.')
+        logger.hr("CHANGING FLAGSHIP.")
         if self.config.GemsFarming_FlagshipEquipChange:
-            logger.info('Record flagship equipment.')
+            logger.info("Record flagship equipment.")
             self._ship_detail_enter(FLEET_ENTER_FLAGSHIP)
             self.record_equipment(index_list=index_list)
             self._equip_take_off_one()
@@ -90,7 +96,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         self.flagship_change_execute()
 
         if self.config.GemsFarming_FlagshipEquipChange:
-            logger.info('Record flagship equipment.')
+            logger.info("Record flagship equipment.")
             self._ship_detail_enter(FLEET_ENTER_FLAGSHIP)
             self._equip_take_off_one()
 
@@ -98,11 +104,11 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
     def vanguard_change(self):
         """
-        Change vanguard and vanguard's equipment 
+        Change vanguard and vanguard's equipment
         """
-        logger.hr('CHANGING VANGUARD.')
+        logger.hr("CHANGING VANGUARD.")
         if self.config.GemsFarming_VanguardEquipChange:
-            logger.info('Record vanguard equipment.')
+            logger.info("Record vanguard equipment.")
             self._ship_detail_enter(FLEET_ENTER)
             self.record_equipment()
             self._equip_take_off_one()
@@ -112,7 +118,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         self.vanguard_change_execute()
 
         if self.config.GemsFarming_VanguardEquipChange:
-            logger.info('Equip vanguard equipment.')
+            logger.info("Equip vanguard equipment.")
             self._ship_detail_enter(FLEET_ENTER)
             self._equip_take_off_one()
 
@@ -134,15 +140,16 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
         level_grids = CARD_LEVEL_GRIDS
         card_grids = CARD_GRIDS
-        logger.hr('FINDING FLAGSHIP')
+        logger.hr("FINDING FLAGSHIP")
 
-        if self.config.GemsFarming_CommonCV == 'any':
-            logger.info('')
+        if self.config.GemsFarming_CommonCV == "any":
+            logger.info("")
 
             self.dock_sort_method_dsc_set(False)
 
-            level_ocr = LevelOcr(level_grids.buttons,
-                                 name='DOCK_LEVEL_OCR', threshold=64)
+            level_ocr = LevelOcr(
+                level_grids.buttons, name="DOCK_LEVEL_OCR", threshold=64
+            )
             list_level = level_ocr.ocr(self.device.image)
             for button, level in list(zip(card_grids.buttons, list_level))[::-1]:
                 if level == 1:
@@ -150,25 +157,28 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
             return None
         else:
-            template = globals()[
-                f'TEMPLATE_{self.config.GemsFarming_CommonCV.upper()}']
+            template = globals()[f"TEMPLATE_{self.config.GemsFarming_CommonCV.upper()}"]
 
             self.dock_sort_method_dsc_set()
 
-            ocr = LevelOcr(level_grids.buttons, name='DOCK_LEVEL_OCR')
+            ocr = LevelOcr(level_grids.buttons, name="DOCK_LEVEL_OCR")
             list_level = ocr.ocr(self.device.image)
 
             for button, level in zip(card_grids.buttons, list_level):
-                if level == 1 and template.match(self.image_crop(button), similarity=SIM_VALUE):
+                if level == 1 and template.match(
+                    self.image_crop(button), similarity=SIM_VALUE
+                ):
                     return button
 
-            logger.info('No specific CV was found, try reversed order.')
+            logger.info("No specific CV was found, try reversed order.")
             self.dock_sort_method_dsc_set(False)
 
             list_level = ocr.ocr(self.device.image)
 
             for button, level in zip(card_grids.buttons, list_level):
-                if level == 1 and template.match(self.image_crop(button), similarity=SIM_VALUE):
+                if level == 1 and template.match(
+                    self.image_crop(button), similarity=SIM_VALUE
+                ):
                     return button
 
             return None
@@ -179,17 +189,17 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         Returns:
             Button:
         """
-        logger.hr('FINDING VANGUARD')
+        logger.hr("FINDING VANGUARD")
 
         level_grids = CARD_LEVEL_GRIDS
         card_grids = CARD_GRIDS
         emotion_grids = CARD_EMOTION_GRIDS
 
-        level_ocr = LevelOcr(level_grids.buttons,
-                             name='DOCK_LEVEL_OCR', threshold=64)
+        level_ocr = LevelOcr(level_grids.buttons, name="DOCK_LEVEL_OCR", threshold=64)
         list_level = level_ocr.ocr(self.device.image)
-        emotion_ocr = Digit(emotion_grids.buttons,
-                            name='DOCK_EMOTION_OCR', threshold=176)
+        emotion_ocr = Digit(
+            emotion_grids.buttons, name="DOCK_EMOTION_OCR", threshold=176
+        )
         list_emotion = emotion_ocr.ocr(self.device.image)
 
         button_list = list(zip(card_grids.buttons, list_level, list_emotion))[::-1]
@@ -197,7 +207,9 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         # for :
         #     if level == 100 and emotion == 150:
         #         return button
-        button, _, _ = max(filter(lambda a: a[1] == 100, button_list), key=lambda a: a[2])
+        button, _, _ = max(
+            filter(lambda a: a[1] == 100, button_list), key=lambda a: a[2]
+        )
         return button
 
     def flagship_change_execute(self):
@@ -209,20 +221,25 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             in: page_fleet
             out: page_fleet
         """
-        self.ui_click(FLEET_ENTER_FLAGSHIP,
-                      appear_button=page_fleet.check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
+        self.ui_click(
+            FLEET_ENTER_FLAGSHIP,
+            appear_button=page_fleet.check_button,
+            check_button=DOCK_CHECK,
+            skip_first_screenshot=True,
+        )
         self.dock_filter_set(
-            index='cv', rarity='common', extra='enhanceable', sort='total')
+            index="cv", rarity="common", extra="enhanceable", sort="total"
+        )
         self.dock_favourite_set(False)
 
         ship = self.get_common_rarity_cv()
         if ship is not None:
             self._ship_change_confirm(ship)
 
-            logger.info('Change flagship success')
+            logger.info("Change flagship success")
             return True
         else:
-            logger.info('Change flagship failed, no CV in common rarity.')
+            logger.info("Change flagship failed, no CV in common rarity.")
             self.dock_filter_set()
             self.ui_back(check_button=page_fleet.check_button)
             return False
@@ -236,20 +253,25 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             in: page_fleet
             out: page_fleet
         """
-        self.ui_click(FLEET_ENTER,
-                      appear_button=page_fleet.check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
+        self.ui_click(
+            FLEET_ENTER,
+            appear_button=page_fleet.check_button,
+            check_button=DOCK_CHECK,
+            skip_first_screenshot=True,
+        )
         self.dock_filter_set(
-            index='dd', rarity='common', faction='eagle', extra='can_limit_break')
+            index="dd", rarity="common", faction="eagle", extra="can_limit_break"
+        )
         self.dock_favourite_set(False)
 
         ship = self.get_common_rarity_dd()
         if ship is not None:
             self._ship_change_confirm(ship)
 
-            logger.info('Change vanguard ship success')
+            logger.info("Change vanguard ship success")
             return True
         else:
-            logger.info('Change vanguard ship failed, no DD in common rarity.')
+            logger.info("Change vanguard ship failed, no DD in common rarity.")
             self.dock_filter_set()
             self.ui_back(check_button=page_fleet.check_button)
             return False
@@ -259,19 +281,25 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
     def triggered_stop_condition(self, oil_check=True):
         # Lv32 limit
-        if self.config.GemsFarming_FlagshipChange and self.campaign.config.LV32_TRIGGERED:
+        if (
+            self.config.GemsFarming_FlagshipChange
+            and self.campaign.config.LV32_TRIGGERED
+        ):
             self._trigger_lv32 = True
-            logger.hr('TRIGGERED LV32 LIMIT')
+            logger.hr("TRIGGERED LV32 LIMIT")
             return True
 
-        if self.campaign.map_is_auto_search and self.campaign.config.GEMS_EMOTION_TRIGGRED:
+        if (
+            self.campaign.map_is_auto_search
+            and self.campaign.config.GEMS_EMOTION_TRIGGRED
+        ):
             self._trigger_emotion = True
-            logger.hr('TRIGGERED EMOTION LIMIT')
+            logger.hr("TRIGGERED EMOTION LIMIT")
             return True
 
         return super().triggered_stop_condition(oil_check=oil_check)
 
-    def run(self, name, folder='campaign_main', mode='normal', total=0):
+    def run(self, name, folder="campaign_main", mode="normal", total=0):
         """
         Args:
             name (str): Name of .py file.
@@ -288,7 +316,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             try:
                 super().run(name=name, folder=folder, total=total)
             except CampaignEnd as e:
-                if e.args[0] == 'Emotion withdraw':
+                if e.args[0] == "Emotion withdraw":
                     self._trigger_emotion = True
                 else:
                     raise e

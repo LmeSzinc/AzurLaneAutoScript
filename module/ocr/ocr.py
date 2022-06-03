@@ -20,7 +20,15 @@ else:
 class Ocr:
     SHOW_LOG = True
 
-    def __init__(self, buttons, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet=None, name=None):
+    def __init__(
+        self,
+        buttons,
+        lang="azur_lane",
+        letter=(255, 255, 255),
+        threshold=128,
+        alphabet=None,
+        name=None,
+    ):
         """
         Args:
             buttons (Button, tuple, list[Button], list[tuple]): OCR area.
@@ -32,7 +40,10 @@ class Ocr:
         """
         self.name = str(buttons) if isinstance(buttons, Button) else name
         self.buttons = buttons if isinstance(buttons, list) else [buttons]
-        self.buttons = [button.area if isinstance(button, Button) else button for button in self.buttons]
+        self.buttons = [
+            button.area if isinstance(button, Button) else button
+            for button in self.buttons
+        ]
         self.letter = letter
         self.threshold = threshold
         self.alphabet = alphabet
@@ -62,11 +73,11 @@ class Ocr:
         Returns:
             str:
         """
-        result = ''.join(result)
+        result = "".join(result)
 
-        if self.lang == 'tw':
+        if self.lang == "tw":
             # There no letter `艦` in training dataset
-            result = result.replace('鑑', '艦')
+            result = result.replace("鑑", "艦")
 
         return result
 
@@ -96,8 +107,10 @@ class Ocr:
         if len(self.buttons) == 1:
             result_list = result_list[0]
         if Ocr.SHOW_LOG:
-            logger.attr(name='%s %ss' % (self.name, float2str(time.time() - start_time)),
-                        text=str(result_list))
+            logger.attr(
+                name="%s %ss" % (self.name, float2str(time.time() - start_time)),
+                text=str(result_list),
+            )
 
         return result_list
 
@@ -108,9 +121,23 @@ class Digit(Ocr):
     Method ocr() returns int, or a list of int.
     """
 
-    def __init__(self, buttons, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='0123456789',
-                 name=None):
-        super().__init__(buttons, lang=lang, letter=letter, threshold=threshold, alphabet=alphabet, name=name)
+    def __init__(
+        self,
+        buttons,
+        lang="azur_lane",
+        letter=(255, 255, 255),
+        threshold=128,
+        alphabet="0123456789",
+        name=None,
+    ):
+        super().__init__(
+            buttons,
+            lang=lang,
+            letter=letter,
+            threshold=threshold,
+            alphabet=alphabet,
+            name=name,
+        )
 
     def after_process(self, result):
         result = super().after_process(result)
@@ -120,9 +147,23 @@ class Digit(Ocr):
 
 
 class DigitCounter(Ocr):
-    def __init__(self, buttons, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='0123456789/',
-                 name=None):
-        super().__init__(buttons, lang=lang, letter=letter, threshold=threshold, alphabet=alphabet, name=name)
+    def __init__(
+        self,
+        buttons,
+        lang="azur_lane",
+        letter=(255, 255, 255),
+        threshold=128,
+        alphabet="0123456789/",
+        name=None,
+    ):
+        super().__init__(
+            buttons,
+            lang=lang,
+            letter=letter,
+            threshold=threshold,
+            alphabet=alphabet,
+            name=name,
+        )
 
     def ocr(self, image, direct_ocr=False):
         """
@@ -140,23 +181,37 @@ class DigitCounter(Ocr):
         result = result_list[0] if isinstance(result_list, list) else result_list
 
         try:
-            current, total = result.split('/')
+            current, total = result.split("/")
             current, total = int(current), int(total)
             current = min(current, total)
             return current, total - current, total
         except (IndexError, ValueError):
-            logger.warning(f'Unexpected ocr result: {result_list}')
+            logger.warning(f"Unexpected ocr result: {result_list}")
             return 0, 0, 0
 
 
 class Duration(Ocr):
-    def __init__(self, buttons, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='0123456789:',
-                 name=None):
-        super().__init__(buttons, lang=lang, letter=letter, threshold=threshold, alphabet=alphabet, name=name)
+    def __init__(
+        self,
+        buttons,
+        lang="azur_lane",
+        letter=(255, 255, 255),
+        threshold=128,
+        alphabet="0123456789:",
+        name=None,
+    ):
+        super().__init__(
+            buttons,
+            lang=lang,
+            letter=letter,
+            threshold=threshold,
+            alphabet=alphabet,
+            name=name,
+        )
 
     def after_process(self, result):
         result = super().after_process(result)
-        result = result.replace('D', '0')  # Poor OCR
+        result = result.replace("D", "0")  # Poor OCR
         return result
 
     def ocr(self, image, direct_ocr=False):
@@ -186,10 +241,10 @@ class Duration(Ocr):
         Returns:
             datetime.timedelta:
         """
-        result = re.search('(\d+):(\d+):(\d+)', string)
+        result = re.search("(\d+):(\d+):(\d+)", string)
         if result:
             result = [int(s) for s in result.groups()]
             return timedelta(hours=result[0], minutes=result[1], seconds=result[2])
         else:
-            logger.warning(f'Invalid duration: {string}')
+            logger.warning(f"Invalid duration: {string}")
             return timedelta(hours=0, minutes=0, seconds=0)

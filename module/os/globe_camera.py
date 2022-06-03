@@ -15,7 +15,7 @@ class GlobeCamera(GlobeOperation, ZoneManager):
         """
         Call this method before doing anything.
         """
-        if not hasattr(self, 'globe'):
+        if not hasattr(self, "globe"):
             self.globe = GlobeDetection(self.config)
             self.globe.load_globe_map()
 
@@ -26,7 +26,7 @@ class GlobeCamera(GlobeOperation, ZoneManager):
         self.globe.load(self.device.image)
         self.globe_camera = self.globe.center_loca
         center = self.camera_to_zone(self.globe.center_loca)
-        logger.attr('Globe_center', center.zone_id)
+        logger.attr("Globe_center", center.zone_id)
 
     def globe_swipe(self, vector, box=(20, 220, 980, 620)):
         """
@@ -37,9 +37,9 @@ class GlobeCamera(GlobeOperation, ZoneManager):
         Returns:
             bool: if camera moved.
         """
-        name = 'GLOBE_SWIPE_' + '_'.join([str(int(round(x))) for x in vector])
+        name = "GLOBE_SWIPE_" + "_".join([str(int(round(x))) for x in vector])
         if np.any(np.abs(vector) > 25):
-            if self.config.DEVICE_CONTROL_METHOD == 'minitouch':
+            if self.config.DEVICE_CONTROL_METHOD == "minitouch":
                 distance = self.config.MAP_SWIPE_MULTIPLY_MINITOUCH
             else:
                 distance = self.config.MAP_SWIPE_MULTIPLY
@@ -65,7 +65,7 @@ class GlobeCamera(GlobeOperation, ZoneManager):
             # End
             if np.linalg.norm(np.subtract(self.globe_camera, prev)) < 10:
                 if confirm.reached():
-                    logger.info('Globe map stabled')
+                    logger.info("Globe map stabled")
                     break
             else:
                 confirm.reset()
@@ -94,7 +94,7 @@ class GlobeCamera(GlobeOperation, ZoneManager):
         pinned = self.globe2screen([zone.location])[0]
         # pinned is the bottom left corner of where its actually pinned.
         area = area_offset((0, -10, 16, 0), offset=pinned)
-        button = Button(area=area, color=(), button=area, name=f'ZONE_{zone.zone_id}')
+        button = Button(area=area, color=(), button=area, name=f"ZONE_{zone.zone_id}")
         return button
 
     def globe_in_sight(self, zone, swipe_limit=(620, 340), sight=(20, 220, 980, 620)):
@@ -114,7 +114,9 @@ class GlobeCamera(GlobeOperation, ZoneManager):
             area = (400, 200, GLOBE_MAP_SHAPE[0] - 400, GLOBE_MAP_SHAPE[1] - 250)
             loca = point_limit(zone.location, area=area)
             vector = np.array(loca) - self.globe_camera
-            swipe = tuple(np.min([np.abs(vector), swipe_limit], axis=0) * np.sign(vector))
+            swipe = tuple(
+                np.min([np.abs(vector), swipe_limit], axis=0) * np.sign(vector)
+            )
             self.globe_swipe(swipe)
 
     def get_globe_pinned_zone(self):
@@ -135,7 +137,7 @@ class GlobeCamera(GlobeOperation, ZoneManager):
             out: IN_GLOBE, zone selected, ZONE_ENTRANCE
         """
         zone = self.name_to_zone(zone)
-        logger.info(f'Globe focus_to: {zone.zone_id}')
+        logger.info(f"Globe focus_to: {zone.zone_id}")
 
         interval = Timer(2, count=2)
         while 1:
@@ -152,7 +154,7 @@ class GlobeCamera(GlobeOperation, ZoneManager):
 
             if self.is_zone_pinned():
                 if self.get_globe_pinned_zone() == zone:
-                    logger.attr('Globe_pinned', zone)
+                    logger.attr("Globe_pinned", zone)
                     break
 
     def _globe_predict_stronghold(self, zone):
@@ -176,7 +178,13 @@ class GlobeCamera(GlobeOperation, ZoneManager):
         screen = np.round(screen).astype(int).tolist()
         # Average color of whirlpool center
         center = self.image_crop(screen)
-        center = np.array([[cv2.mean(center), ], ]).astype(np.uint8)
+        center = np.array(
+            [
+                [
+                    cv2.mean(center),
+                ],
+            ]
+        ).astype(np.uint8)
         h, s, v = rgb2hsv(center)[0][0]
         # hsv usually to be (338, 74.9, 100)
         if 285 < h <= 360 and s > 45 and v > 45:
@@ -200,26 +208,28 @@ class GlobeCamera(GlobeOperation, ZoneManager):
         while zones:
             prev = self.camera_to_zone(self.globe_camera)
             zone = zones.sort_by_camera_distance(prev.location)[0]
-            logger.info(f'Find siren stronghold around {zone}')
+            logger.info(f"Find siren stronghold around {zone}")
             self.globe_in_sight(zone, sight=sight)
 
-            to_check = zones.filter(lambda z: point_in_area(self.globe2screen([z.location])[0], area=sight))
+            to_check = zones.filter(
+                lambda z: point_in_area(self.globe2screen([z.location])[0], area=sight)
+            )
             for zone in to_check:
                 if self._globe_predict_stronghold(zone):
-                    logger.info(f'Zone {zone.zone_id} is a siren stronghold')
+                    logger.info(f"Zone {zone.zone_id} is a siren stronghold")
                     self.globe_focus_to(zone)
-                    if self.get_zone_pinned_name() == 'STRONGHOLD':
-                        logger.info('Confirm it is a siren stronghold')
+                    if self.get_zone_pinned_name() == "STRONGHOLD":
+                        logger.info("Confirm it is a siren stronghold")
                         return zone
                     else:
-                        logger.warning('Not a siren stronghold, continue searching')
+                        logger.warning("Not a siren stronghold, continue searching")
                         self.ensure_no_zone_pinned()
                 else:
-                    logger.info(f'Zone {zone.zone_id} is not a siren stronghold')
+                    logger.info(f"Zone {zone.zone_id} is not a siren stronghold")
 
             zones = zones.delete(to_check)
 
-        logger.info('Find siren stronghold finished')
+        logger.info("Find siren stronghold finished")
         return None
 
     def find_siren_stronghold(self):
@@ -231,25 +241,27 @@ class GlobeCamera(GlobeOperation, ZoneManager):
             in: in_globe
             out: in_globe, is_zone_pinned() if found.
         """
-        logger.hr(f'Find siren stronghold', level=1)
+        logger.hr(f"Find siren stronghold", level=1)
         region = self.camera_to_zone(self.globe_camera).region
         order = [1, 2, 4, 3]
         if region not in order:
             # Camera may focus on region 5, select the nearest non-region-5 zone
-            zones = self.zones.delete(self.zones.select(region=5)) \
-                .delete(self.zones.select(is_port=True)) \
+            zones = (
+                self.zones.delete(self.zones.select(region=5))
+                .delete(self.zones.select(is_port=True))
                 .sort_by_camera_distance(self.globe_camera)
+            )
             region = zones[0].region
 
         index = order.index(region)
         order = order * 2
-        order = order[index:index + 4]
+        order = order[index : index + 4]
         for region in order:
-            logger.hr(f'Find siren stronghold in region {region}', level=2)
+            logger.hr(f"Find siren stronghold in region {region}", level=2)
             zones = self.zones.select(region=region, is_port=False)
             result = self._find_siren_stronghold(zones)
             if result is not None:
                 return result
 
-        logger.info('No more siren stronghold')
+        logger.info("No more siren stronghold")
         return None

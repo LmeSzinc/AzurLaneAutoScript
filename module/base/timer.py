@@ -10,8 +10,9 @@ def timer(function):
 
         result = function(*args, **kwargs)
         t1 = time.time()
-        print('%s: %s s' % (function.__name__, str(round(t1 - t0, 10))))
+        print("%s: %s s" % (function.__name__, str(round(t1 - t0, 10))))
         return result
+
     return function_timer
 
 
@@ -23,7 +24,7 @@ def future_time(string):
     Returns:
         datetime.datetime: Time with given hour, minute in the future.
     """
-    hour, minute = [int(x) for x in string.split(':')]
+    hour, minute = [int(x) for x in string.split(":")]
     future = datetime.now().replace(hour=hour, minute=minute, second=0, microsecond=0)
     future = future + timedelta(days=1) if future < datetime.now() else future
     return future
@@ -37,7 +38,7 @@ def past_time(string):
     Returns:
         datetime.datetime: Time with given hour, minute in the past.
     """
-    hour, minute = [int(x) for x in string.split(':')]
+    hour, minute = [int(x) for x in string.split(":")]
     past = datetime.now().replace(hour=hour, minute=minute, second=0, microsecond=0)
     past = past - timedelta(days=1) if past > datetime.now() else past
     return past
@@ -51,7 +52,7 @@ def future_time_range(string):
     Returns:
         tuple(datetime.datetime): (time start, time end).
     """
-    start, end = [future_time(s) for s in string.split('-')]
+    start, end = [future_time(s) for s in string.split("-")]
     if start > end:
         start = start - timedelta(days=1)
     return start, end
@@ -114,7 +115,9 @@ class Timer:
             bool
         """
         self._reach_count += 1
-        return time.time() - self._current > self.limit and self._reach_count > self.count
+        return (
+            time.time() - self._current > self.limit and self._reach_count > self.count
+        )
 
     def reset(self):
         self._current = time.time()
@@ -145,4 +148,5 @@ class Timer:
 
     def show(self):
         from module.logger import logger
-        logger.info('%s s' % str(self.current()))
+
+        logger.info("%s s" % str(self.current()))

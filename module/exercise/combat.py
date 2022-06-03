@@ -18,7 +18,7 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
         return self.appear(PAUSE) and np.max(self.image_crop(PAUSE_DOUBLE_CHECK)) < 153
 
     def _combat_preparation(self, skip_first_screenshot=True):
-        logger.info('Combat preparation')
+        logger.info("Combat preparation")
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -42,8 +42,10 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
         Returns:
             bool: True if wins. False if quit.
         """
-        logger.info('Combat execute')
-        self.low_hp_confirm_timer = Timer(self.config.Exercise_LowHpConfirmWait, count=2).start()
+        logger.info("Combat execute")
+        self.low_hp_confirm_timer = Timer(
+            self.config.Exercise_LowHpConfirmWait, count=2
+        ).start()
         show_hp_timer = Timer(5)
         success = True
         end = False
@@ -80,7 +82,7 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
             # Quit
             if not end:
                 if self._at_low_hp(image=self.device.image):
-                    logger.info('Exercise quit')
+                    logger.info("Exercise quit")
                     if self.appear_then_click(PAUSE, interval=0.5):
                         continue
                 else:
@@ -99,9 +101,9 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
 
             # End
             if self._in_exercise() or self.appear(BATTLE_PREPARATION, offset=(20, 20)):
-                logger.hr('Combat end')
+                logger.hr("Combat end")
                 if not end:
-                    logger.warning('Combat ended without end conditions detected')
+                    logger.warning("Combat ended without end conditions detected")
                 break
 
         return success
@@ -111,7 +113,7 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
         Args:
             index (int): From left to right. 0 to 3.
         """
-        logger.hr('Opponent: %s' % str(index))
+        logger.hr("Opponent: %s" % str(index))
         opponent_timer = Timer(5)
         preparation_timer = Timer(5)
 
@@ -125,7 +127,9 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
                 self.device.click(OPPONENT[index, 0])
                 opponent_timer.reset()
 
-            if preparation_timer.reached() and self.appear_then_click(EXERCISE_PREPARATION):
+            if preparation_timer.reached() and self.appear_then_click(
+                EXERCISE_PREPARATION
+            ):
                 # self.device.sleep(0.3)
                 preparation_timer.reset()
                 opponent_timer.reset()
@@ -136,8 +140,12 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
                 break
 
     def _preparation_quit(self):
-        logger.info('Preparation quit')
-        self.ui_back(check_button=self._in_exercise, appear_button=BATTLE_PREPARATION, skip_first_screenshot=True)
+        logger.info("Preparation quit")
+        self.ui_back(
+            check_button=self._in_exercise,
+            appear_button=BATTLE_PREPARATION,
+            skip_first_screenshot=True,
+        )
 
     def _combat(self, opponent):
         """
@@ -151,11 +159,11 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment):
 
         trial = self.config.Exercise_OpponentTrial
         if not isinstance(trial, int) or trial < 1:
-            logger.warning(f'Invalid Exercise.OpponentTrial: {trial}, revise to 1')
+            logger.warning(f"Invalid Exercise.OpponentTrial: {trial}, revise to 1")
             self.config.Exercise_OpponentTrial = 1
 
         for n in range(1, self.config.Exercise_OpponentTrial + 1):
-            logger.hr('Try: %s' % n)
+            logger.hr("Try: %s" % n)
             self._combat_preparation()
             success = self._combat_execute()
             if success:

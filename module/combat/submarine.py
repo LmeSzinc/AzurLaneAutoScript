@@ -16,32 +16,34 @@ class SubmarineCall(ModuleBase):
         self.submarine_call_timer.reset()
         self.submarine_call_flag = False
 
-    def handle_submarine_call(self, submarine='do_not_use'):
+    def handle_submarine_call(self, submarine="do_not_use"):
         """
         Returns:
             str: If call.
         """
         if self.submarine_call_flag:
             return False
-        if submarine in ['do_not_use', 'hunt_only']:
+        if submarine in ["do_not_use", "hunt_only"]:
             self.submarine_call_flag = True
             return False
         if self.submarine_call_timer.reached():
-            logger.info('Submarine call timer reached')
+            logger.info("Submarine call timer reached")
             self.submarine_call_flag = True
             return False
 
-        if not self.appear(SUBMARINE_AVAILABLE_CHECK_1) or not self.appear(SUBMARINE_AVAILABLE_CHECK_2):
+        if not self.appear(SUBMARINE_AVAILABLE_CHECK_1) or not self.appear(
+            SUBMARINE_AVAILABLE_CHECK_2
+        ):
             return False
 
         if self.appear(SUBMARINE_CALLED):
-            logger.info('Submarine called')
+            logger.info("Submarine called")
             self.submarine_call_flag = True
             return False
         elif self.submarine_call_click_timer.reached():
             if not self.appear_then_click(SUBMARINE_READY):
-                logger.info('Incorrect submarine icon')
+                logger.info("Incorrect submarine icon")
                 self.device.click(SUBMARINE_READY)
-            logger.info('Call submarine')
+            logger.info("Call submarine")
             self.submarine_call_click_timer.reset()
             return True

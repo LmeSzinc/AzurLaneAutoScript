@@ -17,10 +17,13 @@ class SupplyPack(UI):
         Returns:
             bool: If bought.
         """
-        logger.hr('Supply pack buy')
-        [self.interval_clear(asset) for asset in [GET_ITEMS_1, GET_ITEMS_2, supply_pack, BUY_CONFIRM]]
+        logger.hr("Supply pack buy")
+        [
+            self.interval_clear(asset)
+            for asset in [GET_ITEMS_1, GET_ITEMS_2, supply_pack, BUY_CONFIRM]
+        ]
 
-        logger.info(f'Buying {supply_pack}')
+        logger.info(f"Buying {supply_pack}")
         executed = False
         confirm_timer = Timer(1, count=3).start()
         while 1:
@@ -35,7 +38,7 @@ class SupplyPack(UI):
             if self.appear_then_click(BUY_CONFIRM, offset=(20, 20), interval=3):
                 confirm_timer.reset()
                 continue
-            if self.handle_popup_confirm('BUY_SUPPLY_PACK'):
+            if self.handle_popup_confirm("BUY_SUPPLY_PACK"):
                 self.interval_reset(supply_pack)
                 self.interval_reset(BUY_CONFIRM)
                 executed = True
@@ -46,14 +49,15 @@ class SupplyPack(UI):
                     continue
 
             # End
-            if self.appear(page_supply_pack.check_button, offset=(20, 20)) \
-                    and not self.appear(supply_pack, offset=(20, 20)):
+            if self.appear(
+                page_supply_pack.check_button, offset=(20, 20)
+            ) and not self.appear(supply_pack, offset=(20, 20)):
                 if confirm_timer.reached():
                     break
             else:
                 confirm_timer.reset()
 
-        logger.info(f'Supply pack buy finished, executed={executed}')
+        logger.info(f"Supply pack buy finished, executed={executed}")
         return executed
 
     def run(self):
@@ -68,6 +72,6 @@ class SupplyPack(UI):
         if oil <= 21000:
             self.supply_pack_buy(FREE_SUPPLY_PACK)
         else:
-            logger.info('Oil > 21000, unable to buy free weekly supply pack')
+            logger.info("Oil > 21000, unable to buy free weekly supply pack")
 
         self.config.task_delay(server_update=True)

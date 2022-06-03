@@ -5,7 +5,9 @@ from module.ocr.ocr import Digit
 from module.ui.assets import FLEET_CHECK
 from module.ui.ui import page_fleet
 
-OCR_FLEET_INDEX = Digit(OCR_FLEET_INDEX, letter=(90, 154, 255), threshold=128, alphabet='123456')
+OCR_FLEET_INDEX = Digit(
+    OCR_FLEET_INDEX, letter=(90, 154, 255), threshold=128, alphabet="123456"
+)
 
 
 class DailyEquipment(Equipment):
@@ -15,7 +17,9 @@ class DailyEquipment(Equipment):
     def _fleet_daily(self):
         fleet = self.config.FLEET_DAILY
         if isinstance(fleet, list):
-            logger.info(f'Multiple daily fleets are set, change equipment only for the first one. fleet: {fleet}')
+            logger.info(
+                f"Multiple daily fleets are set, change equipment only for the first one. fleet: {fleet}"
+            )
             return fleet[0]
         else:
             return fleet
@@ -27,8 +31,15 @@ class DailyEquipment(Equipment):
             return False
 
         self.ui_ensure(page_fleet)
-        self.ui_ensure_index(self._fleet_daily, letter=OCR_FLEET_INDEX, next_button=FLEET_NEXT, prev_button=FLEET_PREV)
-        super().equipment_take_on(enter=FLEET_ENTER, out=FLEET_CHECK, fleet=self.config.FLEET_DAILY_EQUIPMENT)
+        self.ui_ensure_index(
+            self._fleet_daily,
+            letter=OCR_FLEET_INDEX,
+            next_button=FLEET_NEXT,
+            prev_button=FLEET_PREV,
+        )
+        super().equipment_take_on(
+            enter=FLEET_ENTER, out=FLEET_CHECK, fleet=self.config.FLEET_DAILY_EQUIPMENT
+        )
         self.equipment_has_take_on = True
         self.device.sleep(1)
         return True
@@ -40,8 +51,15 @@ class DailyEquipment(Equipment):
             return False
 
         self.ui_ensure(page_fleet)
-        self.ui_ensure_index(self._fleet_daily, letter=OCR_FLEET_INDEX, next_button=FLEET_NEXT, prev_button=FLEET_PREV)
-        super().equipment_take_off(enter=FLEET_ENTER, out=FLEET_CHECK, fleet=self.config.FLEET_DAILY_EQUIPMENT)
+        self.ui_ensure_index(
+            self._fleet_daily,
+            letter=OCR_FLEET_INDEX,
+            next_button=FLEET_NEXT,
+            prev_button=FLEET_PREV,
+        )
+        super().equipment_take_off(
+            enter=FLEET_ENTER, out=FLEET_CHECK, fleet=self.config.FLEET_DAILY_EQUIPMENT
+        )
         self.equipment_has_take_on = False
         self.device.sleep(1)
         return True

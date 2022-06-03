@@ -12,14 +12,18 @@ from module.ui.page import page_os
 from module.ui.switch import Switch
 from module.ui.ui import UI
 
-OCR_BEACON_REMAIN = DigitCounter(BEACON_REMAIN, threshold=256, name='OCR_ASH_REMAIN')
-OCR_BEACON_TIER = Digit(BEACON_TIER, name='OCR_ASH_TIER')
+OCR_BEACON_REMAIN = DigitCounter(BEACON_REMAIN, threshold=256, name="OCR_ASH_REMAIN")
+OCR_BEACON_TIER = Digit(BEACON_TIER, name="OCR_ASH_TIER")
 OCR_ASH_COLLECT_STATUS = DigitCounter(
-    ASH_COLLECT_STATUS, letter=(235, 235, 235), threshold=160, name='OCR_ASH_COLLECT_STATUS')
+    ASH_COLLECT_STATUS,
+    letter=(235, 235, 235),
+    threshold=160,
+    name="OCR_ASH_COLLECT_STATUS",
+)
 
-SWITCH_BEACON = Switch(name='Beacon', offset=(20, 20))
-SWITCH_BEACON.add_status('mine', BEACON_LIST)
-SWITCH_BEACON.add_status('list', BEACON_MY)
+SWITCH_BEACON = Switch(name="Beacon", offset=(20, 20))
+SWITCH_BEACON.add_status("mine", BEACON_LIST)
+SWITCH_BEACON.add_status("list", BEACON_MY)
 
 
 class AshBeaconFinished(Exception):
@@ -39,7 +43,9 @@ class AshCombat(Combat):
             return False
         if super().handle_battle_status(drop=drop):
             return True
-        if self.appear(BATTLE_STATUS, offset=(20, 20), interval=self.battle_status_click_interval):
+        if self.appear(
+            BATTLE_STATUS, offset=(20, 20), interval=self.battle_status_click_interval
+        ):
             if drop:
                 drop.handle_add(self)
             else:
@@ -109,7 +115,7 @@ class OSAsh(UI, MapEventHandler):
             if self._handle_ash_beacon_reward():
                 confirm_timer.reset()
                 continue
-            if self.handle_popup_confirm('GOTO_GLOBE'):
+            if self.handle_popup_confirm("GOTO_GLOBE"):
                 # Popup: Leaving current zone will terminate meowfficer searching
                 confirm_timer.reset()
                 continue
@@ -139,12 +145,14 @@ class OSAsh(UI, MapEventHandler):
         # Ensure BEACON_TIER shown up
         # When entering beacon list, tier number wasn't shown immediately.
         for n in range(10):
-            if self.image_color_count(BEACON_TIER, color=(0, 0, 0), threshold=221, count=50):
+            if self.image_color_count(
+                BEACON_TIER, color=(0, 0, 0), threshold=221, count=50
+            ):
                 break
 
             self.device.screenshot()
             if n >= 9:
-                logger.warning('Waiting for beacon tier timeout')
+                logger.warning("Waiting for beacon tier timeout")
 
         # Select beacon
         for _ in range(trial):
@@ -156,7 +164,9 @@ class OSAsh(UI, MapEventHandler):
                 self.device.sleep((0.3, 0.5))
                 self.device.screenshot()
 
-        logger.info(f'Tier {tier} beacon not found after {trial} trial, use current beacon')
+        logger.info(
+            f"Tier {tier} beacon not found after {trial} trial, use current beacon"
+        )
         return False
 
     def ash_beacon_assist(self):
@@ -173,21 +183,30 @@ class OSAsh(UI, MapEventHandler):
         ash_combat = AshCombat(self.config, self.device)
         entrance_offset = (200, 5)
         self.ui_ensure(page_os)
-        self._ash_assist_enter_from_map(offset=entrance_offset, skip_first_screenshot=True)
+        self._ash_assist_enter_from_map(
+            offset=entrance_offset, skip_first_screenshot=True
+        )
 
         for _ in range(10):
-            SWITCH_BEACON.set('list', main=self)
+            SWITCH_BEACON.set("list", main=self)
             remain, _, _ = OCR_BEACON_REMAIN.ocr(self.device.image)
             if remain <= 0:
-                logger.info('Ash beacon exhausted')
+                logger.info("Ash beacon exhausted")
                 break
 
             self._ash_beacon_select(tier=self.config.OpsiAshAssist_Tier)
-            ash_combat.combat(expected_end=self.is_in_ash, save_get_items=False, emotion_reduce=False)
+            ash_combat.combat(
+                expected_end=self.is_in_ash, save_get_items=False, emotion_reduce=False
+            )
 
         self.device.sleep((0.5, 0.8))
         self.device.screenshot()
-        self.ui_click(ASH_QUIT, check_button=ASH_ENTRANCE, offset=entrance_offset, skip_first_screenshot=True)
+        self.ui_click(
+            ASH_QUIT,
+            check_button=ASH_ENTRANCE,
+            offset=entrance_offset,
+            skip_first_screenshot=True,
+        )
         return True
 
     _ash_fully_collected = False
@@ -199,14 +218,18 @@ class OSAsh(UI, MapEventHandler):
         """
         if self._ash_fully_collected:
             return 0
-        if not self.image_color_count(ASH_COLLECT_STATUS, color=(235, 235, 235), threshold=221, count=20):
-            if self.image_color_count(ASH_COLLECT_STATUS, color=(82, 85, 82), threshold=235, count=50):
-                logger.info('Ash beacon fully collected today')
+        if not self.image_color_count(
+            ASH_COLLECT_STATUS, color=(235, 235, 235), threshold=221, count=20
+        ):
+            if self.image_color_count(
+                ASH_COLLECT_STATUS, color=(82, 85, 82), threshold=235, count=50
+            ):
+                logger.info("Ash beacon fully collected today")
                 self._ash_fully_collected = True
                 return 0
             else:
                 # If OS daily mission received or finished, the popup will cover beacon status.
-                logger.info('Ash beacon status is covered, will check next time')
+                logger.info("Ash beacon status is covered, will check next time")
                 return 0
 
         status, _, _ = OCR_ASH_COLLECT_STATUS.ocr(self.device.image)
@@ -253,8 +276,12 @@ class OSAsh(UI, MapEventHandler):
             in: is_in_ash
             out: is_in_map
         """
-        self.ui_click(ASH_QUIT, check_button=self.is_in_map, additional=self.handle_map_event,
-                      skip_first_screenshot=skip_first_screenshot)
+        self.ui_click(
+            ASH_QUIT,
+            check_button=self.is_in_map,
+            additional=self.handle_map_event,
+            skip_first_screenshot=skip_first_screenshot,
+        )
 
     def _ash_help(self):
         """
@@ -297,26 +324,30 @@ class OSAsh(UI, MapEventHandler):
             in: is_in_ash
             out: is_in_ash
         """
-        logger.info('Ash beacon attack')
+        logger.info("Ash beacon attack")
         confirm_timer = Timer(1, count=2).start()
         ash_combat = AshCombat(self.config, self.device)
 
         while 1:
             self.device.screenshot()
             percent = color_bar_percentage(
-                self.device.image, BEACON_HP_PERCENTAGE.area, prev_color=(181, 56, 57), threshold=15)
-            logger.attr('Ash_beacon_hp', f'{int(percent * 100)}%')
+                self.device.image,
+                BEACON_HP_PERCENTAGE.area,
+                prev_color=(181, 56, 57),
+                threshold=15,
+            )
+            logger.attr("Ash_beacon_hp", f"{int(percent * 100)}%")
 
             # End
             if self.appear(BEACON_EMPTY, offset=(20, 20)):
                 if confirm_timer.reached():
-                    logger.info('Ash beacon attack finished')
+                    logger.info("Ash beacon attack finished")
                     return True
             elif self.appear(BEACON_ENTER, offset=(20, 20)):
                 # If previous beacon is not completed, the previous beacon is attacked in this round.
                 # Then found a new beacon, after attack.
                 if confirm_timer.reached():
-                    logger.info('Ash beacon attack finished, but found another beacon')
+                    logger.info("Ash beacon attack finished, but found another beacon")
                     return False
             else:
                 confirm_timer.reset()
@@ -326,7 +357,11 @@ class OSAsh(UI, MapEventHandler):
             if self.appear(BATTLE_PREPARATION, offset=(30, 30), interval=2):
                 self.device.click(BACK_ARROW)
             if self.appear(ASH_START, offset=(30, 30)):
-                ash_combat.combat(expected_end=self.is_in_ash, save_get_items=False, emotion_reduce=False)
+                ash_combat.combat(
+                    expected_end=self.is_in_ash,
+                    save_get_items=False,
+                    emotion_reduce=False,
+                )
                 continue
 
     def handle_ash_beacon_attack(self):

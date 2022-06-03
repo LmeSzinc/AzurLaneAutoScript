@@ -4,10 +4,10 @@ from module.map.map_grids import RoadGrids, SelectedGrids
 
 from .campaign_base import CampaignBase
 
-MAP = CampaignMap('SP')
-MAP.shape = 'H8'
-MAP.camera_data = ['C4', 'C5']
-MAP.camera_data_spawn_point = ['C5']
+MAP = CampaignMap("SP")
+MAP.shape = "H8"
+MAP.camera_data = ["C4", "C5"]
+MAP.camera_data_spawn_point = ["C5"]
 MAP.map_data = """
     ++ ++ ++ -- -- ++ ++ ++
     ++ ++ -- -- ++ -- ++ ++
@@ -28,26 +28,83 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50
 """
-MAP.fortress_data = [('D4', 'D6', 'C5', 'E5'), 'E4']
+MAP.fortress_data = [("D4", "D6", "C5", "E5"), "E4"]
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 3},
-    {'battle': 1},
-    {'battle': 2},
-    {'battle': 3},
-    {'battle': 4},
-    {'battle': 5},
-    {'battle': 6},
-    {'battle': 7, 'boss': 1},
+    {"battle": 0, "enemy": 3},
+    {"battle": 1},
+    {"battle": 2},
+    {"battle": 3},
+    {"battle": 4},
+    {"battle": 5},
+    {"battle": 6},
+    {"battle": 7, "boss": 1},
 ]
-A1, B1, C1, D1, E1, F1, G1, H1, \
-A2, B2, C2, D2, E2, F2, G2, H2, \
-A3, B3, C3, D3, E3, F3, G3, H3, \
-A4, B4, C4, D4, E4, F4, G4, H4, \
-A5, B5, C5, D5, E5, F5, G5, H5, \
-A6, B6, C6, D6, E6, F6, G6, H6, \
-A7, B7, C7, D7, E7, F7, G7, H7, \
-A8, B8, C8, D8, E8, F8, G8, H8, \
-    = MAP.flatten()
+(
+    A1,
+    B1,
+    C1,
+    D1,
+    E1,
+    F1,
+    G1,
+    H1,
+    A2,
+    B2,
+    C2,
+    D2,
+    E2,
+    F2,
+    G2,
+    H2,
+    A3,
+    B3,
+    C3,
+    D3,
+    E3,
+    F3,
+    G3,
+    H3,
+    A4,
+    B4,
+    C4,
+    D4,
+    E4,
+    F4,
+    G4,
+    H4,
+    A5,
+    B5,
+    C5,
+    D5,
+    E5,
+    F5,
+    G5,
+    H5,
+    A6,
+    B6,
+    C6,
+    D6,
+    E6,
+    F6,
+    G6,
+    H6,
+    A7,
+    B7,
+    C7,
+    D7,
+    E7,
+    F7,
+    G7,
+    H7,
+    A8,
+    B8,
+    C8,
+    D8,
+    E8,
+    F8,
+    G8,
+    H8,
+) = MAP.flatten()
 
 
 class Config:
@@ -71,17 +128,17 @@ class Config:
     INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
     EDGE_LINES_HOUGHLINES_THRESHOLD = 40
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (80, 255 - 40),
-        'width': (0.9, 10),
-        'prominence': 10,
-        'distance': 35,
+        "height": (80, 255 - 40),
+        "width": (0.9, 10),
+        "prominence": 10,
+        "distance": 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 24, 255),
-        'prominence': 10,
-        'distance': 50,
+        "height": (255 - 24, 255),
+        "prominence": 10,
+        "distance": 50,
         # 'width': (0, 7),
-        'wlen': 1000
+        "wlen": 1000,
     }
     HOMO_CANNY_THRESHOLD = (60, 60)
     # MAP_ENEMY_GENRE_DETECTION_SCALING = {

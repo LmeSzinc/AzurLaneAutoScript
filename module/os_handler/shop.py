@@ -7,8 +7,15 @@ from module.os_handler.map_event import MapEventHandler
 from module.statistics.item import Item, ItemGrid
 from module.ui.ui import UI
 
-OCR_SHOP_YELLOW_COINS = Digit(SHOP_YELLOW_COINS, letter=(239, 239, 239), threshold=160, name='OCR_SHOP_YELLOW_COINS')
-OCR_SHOP_PURPLE_COINS = Digit(SHOP_PURPLE_COINS, letter=(255, 255, 255), name='OCR_SHOP_PURPLE_COINS')
+OCR_SHOP_YELLOW_COINS = Digit(
+    SHOP_YELLOW_COINS,
+    letter=(239, 239, 239),
+    threshold=160,
+    name="OCR_SHOP_YELLOW_COINS",
+)
+OCR_SHOP_PURPLE_COINS = Digit(
+    SHOP_PURPLE_COINS, letter=(255, 255, 255), name="OCR_SHOP_PURPLE_COINS"
+)
 
 
 class OSShopHandler(UI, MapEventHandler):
@@ -18,7 +25,9 @@ class OSShopHandler(UI, MapEventHandler):
     def os_shop_get_coins(self):
         self._shop_yellow_coins = OCR_SHOP_YELLOW_COINS.ocr(self.device.image)
         self._shop_purple_coins = OCR_SHOP_PURPLE_COINS.ocr(self.device.image)
-        logger.info(f'Yellow coins: {self._shop_yellow_coins}, purple coins: {self._shop_purple_coins}')
+        logger.info(
+            f"Yellow coins: {self._shop_yellow_coins}, purple coins: {self._shop_purple_coins}"
+        )
 
     @cached_property
     def os_shop_items(self):
@@ -27,10 +36,15 @@ class OSShopHandler(UI, MapEventHandler):
             ItemGrid:
         """
         shop_grid = ButtonGrid(
-            origin=(237, 219), delta=(189, 224), button_shape=(98, 98), grid_shape=(4, 2), name='SHOP_GRID')
+            origin=(237, 219),
+            delta=(189, 224),
+            button_shape=(98, 98),
+            grid_shape=(4, 2),
+            name="SHOP_GRID",
+        )
         shop_items = ItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        shop_items.load_template_folder('./assets/shop/os')
-        shop_items.load_cost_template_folder('./assets/shop/os_cost')
+        shop_items.load_template_folder("./assets/shop/os")
+        shop_items.load_cost_template_folder("./assets/shop/os_cost")
         return shop_items
 
     def os_shop_get_items(self, name=True):
@@ -41,18 +55,20 @@ class OSShopHandler(UI, MapEventHandler):
         Returns:
             list[Item]:
         """
-        self.os_shop_items.predict(self.device.image, name=name, amount=name, cost=True, price=True)
+        self.os_shop_items.predict(
+            self.device.image, name=name, amount=name, cost=True, price=True
+        )
 
         items = self.os_shop_items.items
         if len(items):
             min_row = self.os_shop_items.grids[0, 0].area[1]
             row = [str(item) for item in items if item.button[1] == min_row]
-            logger.info(f'Shop row 1: {row}')
+            logger.info(f"Shop row 1: {row}")
             row = [str(item) for item in items if item.button[1] != min_row]
-            logger.info(f'Shop row 2: {row}')
+            logger.info(f"Shop row 2: {row}")
             return items
         else:
-            logger.info('No shop items found')
+            logger.info("No shop items found")
             return []
 
     def os_shop_get_item_to_buy_in_akashi(self):
@@ -65,7 +81,7 @@ class OSShopHandler(UI, MapEventHandler):
         # Shop supplies do not appear immediately, need to confirm if shop is empty.
         for _ in range(2):
             if not len(items):
-                logger.info('Empty akashi shop, confirming')
+                logger.info("Empty akashi shop, confirming")
                 self.device.sleep(0.5)
                 self.device.screenshot()
                 items = self.os_shop_get_items(name=True)
@@ -74,19 +90,25 @@ class OSShopHandler(UI, MapEventHandler):
                 break
 
         try:
-            selection = self.config.OpsiGeneral_AkashiShopFilter.replace(' ', '').replace('\n', '').split('>')
+            selection = (
+                self.config.OpsiGeneral_AkashiShopFilter.replace(" ", "")
+                .replace("\n", "")
+                .split(">")
+            )
         except Exception:
-            logger.warning(f'Invalid OS akashi buy filter string: {self.config.OpsiGeneral_AkashiShopFilter}')
+            logger.warning(
+                f"Invalid OS akashi buy filter string: {self.config.OpsiGeneral_AkashiShopFilter}"
+            )
             return None
 
         for select in selection:
             for item in items:
                 if select not in item.name:
                     continue
-                if item.cost == 'YellowCoins':
+                if item.cost == "YellowCoins":
                     if item.price > self._shop_yellow_coins:
                         continue
-                if item.cost == 'PurpleCoins':
+                if item.cost == "PurpleCoins":
                     if item.price > self._shop_purple_coins:
                         continue
 
@@ -103,10 +125,10 @@ class OSShopHandler(UI, MapEventHandler):
         items = self.os_shop_get_items(name=False)
 
         for item in items:
-            if item.cost == 'YellowCoins':
+            if item.cost == "YellowCoins":
                 if item.price > self._shop_yellow_coins:
                     continue
-            if item.cost == 'PurpleCoins':
+            if item.cost == "PurpleCoins":
                 if item.price > self._shop_purple_coins:
                     continue
 
@@ -163,14 +185,14 @@ class OSShopHandler(UI, MapEventHandler):
         for _ in range(12):
             button = select_func()
             if button is None:
-                logger.info('Shop buy finished')
+                logger.info("Shop buy finished")
                 return count
             else:
                 self.os_shop_buy_execute(button)
                 count += 1
                 continue
 
-        logger.warning('Too many items to buy, stopped')
+        logger.warning("Too many items to buy, stopped")
         return count
 
     def handle_port_supply_buy(self):
@@ -194,13 +216,22 @@ class OSShopHandler(UI, MapEventHandler):
             in: is_in_map
             out: is_in_map
         """
-        self.ui_click(grid, appear_button=self.is_in_map, check_button=PORT_SUPPLY_CHECK,
-                      additional=self.handle_story_skip, skip_first_screenshot=True)
+        self.ui_click(
+            grid,
+            appear_button=self.is_in_map,
+            check_button=PORT_SUPPLY_CHECK,
+            additional=self.handle_story_skip,
+            skip_first_screenshot=True,
+        )
         self.os_shop_buy(select_func=self.os_shop_get_item_to_buy_in_akashi)
-        self.ui_back(appear_button=PORT_SUPPLY_CHECK, check_button=self.is_in_map, skip_first_screenshot=True)
+        self.ui_back(
+            appear_button=PORT_SUPPLY_CHECK,
+            check_button=self.is_in_map,
+            skip_first_screenshot=True,
+        )
 
 
-if __name__ == '__main__':
-    self = OSShopHandler('alas6')
-    self.image_file = r'C:\Users\LmeSzinc\Nox_share\ImageShare\Screenshots\Screenshot_20220516-013210.png'
+if __name__ == "__main__":
+    self = OSShopHandler("alas6")
+    self.image_file = r"C:\Users\LmeSzinc\Nox_share\ImageShare\Screenshots\Screenshot_20220516-013210.png"
     self.os_shop_get_coins()
