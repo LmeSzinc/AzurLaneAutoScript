@@ -30,10 +30,18 @@ def func(ev: threading.Event):
 
     uvicorn.run(app, host=host, port=port, factory=True)
 
+
 if __name__ == "__main__":
-    while True:
+    should_exit = False
+    while not should_exit:
         event = Event()
         process = Process(target=func, args=(event,))
         process.start()
-        event.wait()
-        process.kill()
+        while not should_exit:
+            if event.wait(5):
+                process.kill()
+                break
+            elif process.is_alive():
+                continue
+            else:
+                should_exit = True
