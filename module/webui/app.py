@@ -157,7 +157,7 @@ class AlasGUI(Frame):
     @classmethod
     def set_theme(cls, theme="default") -> None:
         cls.theme = theme
-        State.webui_config.Theme = theme
+        State.deploy_config.Theme = theme
         State.theme = theme
         webconfig(theme=theme)
 
@@ -651,7 +651,7 @@ class AlasGUI(Frame):
             with use_scope("updater_info", clear=True):
                 local_commit = updater.get_commit(short_sha1=True)
                 upstream_commit = updater.get_commit(
-                    f"origin/{updater.branch}", short_sha1=True
+                    f"origin/{updater.Branch}", short_sha1=True
                 )
                 put_table(
                     [
@@ -1033,9 +1033,9 @@ def startup():
         task_handler.add(updater.check_update, updater.delay)
     task_handler.add(updater.schedule_update(), 86400)
     task_handler.start()
-    if updater.bool("DiscordRichPresence"):
+    if State.deploy_config.DiscordRichPresence:
         init_discord_rpc()
-    if updater.bool("StartOcrServer"):
+    if State.deploy_config.StartOcrServer:
         start_ocr_server_process(updater.config["OcrServerPort"])
 
 
@@ -1075,21 +1075,17 @@ def app():
     args, _ = parser.parse_known_args()
 
     # Apply config
-    AlasGUI.set_theme(theme=State.webui_config.Theme)
-    lang.LANG = State.webui_config.Language
-    key = args.key or State.webui_config.Password
+    AlasGUI.set_theme(theme=State.deploy_config.Theme)
+    lang.LANG = State.deploy_config.Language
+    key = args.key or State.deploy_config.Password
     if args.cdn:
         cdn = args.cdn
     else:
-        cdn = State.webui_config.CDN
-        if cdn.lower() == "true":
-            cdn = True
-        elif cdn.lower() == "false":
-            cdn = False
+        cdn = State.deploy_config.CDN
     State.electron = args.electron
 
     logger.hr("Webui configs")
-    logger.attr("Theme", State.webui_config.Theme)
+    logger.attr("Theme", State.deploy_config.Theme)
     logger.attr("Language", lang.LANG)
     logger.attr("Password", True if key else False)
     logger.attr("CDN", cdn)

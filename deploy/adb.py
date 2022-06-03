@@ -25,14 +25,14 @@ class AdbManager(DeployConfig):
         hr0('Start ADB service')
 
         emulator = EmulatorConnect(adb=self.adb)
-        if self.bool('ReplaceAdb'):
+        if self.ReplaceAdb:
             hr1('Replace ADB')
             emulator.adb_replace()
-        elif self.bool('AutoConnect'):
+        elif self.AutoConnect:
             hr1('ADB Connect')
             emulator.brute_force_connect()
 
-        if self.bool('InstallUiautomator2'):
+        if self.InstallUiautomator2:
             hr1('Uiautomator2 Init')
             try:
                 import adbutils

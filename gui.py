@@ -25,8 +25,8 @@ def func(ev: threading.Event):
     )
     args, _ = parser.parse_known_args()
 
-    host = args.host or State.webui_config.WebuiHost or "0.0.0.0"
-    port = args.port or int(State.webui_config.WebuiPort) or 22267
+    host = args.host or State.deploy_config.WebuiHost or "0.0.0.0"
+    port = args.port or int(State.deploy_config.WebuiPort) or 22267
 
     uvicorn.run(app, host=host, port=port, factory=True)
 

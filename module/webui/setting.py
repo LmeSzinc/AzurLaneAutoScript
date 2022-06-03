@@ -3,7 +3,7 @@ import threading
 from multiprocessing.managers import SyncManager
 
 from module.config.config_updater import ConfigUpdater
-from module.webui.config import WebuiConfig
+from module.webui.config import DeployConfig
 
 
 class State:
@@ -14,7 +14,7 @@ class State:
     _init = False
     _clearup = False
 
-    webui_config = WebuiConfig()
+    deploy_config = DeployConfig()
     config_updater = ConfigUpdater()
     researt_event: threading.Event = None
     manager: SyncManager = None
