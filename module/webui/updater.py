@@ -274,7 +274,7 @@ class Updater(Config, GitManager, PipManager):
         logger.info("All alas stopped, start updating")
 
         if self.update():
-            if State.reload:
+            if State.researt_event is not None:
                 self.state = "reload"
                 with open("./config/reloadalas", mode="w") as f:
                     f.writelines(names)
@@ -316,7 +316,7 @@ class Updater(Config, GitManager, PipManager):
                 th._task.delay = get_next_time(self.schedule_time)
                 yield
                 continue
-            if not State.reload:
+            if State.researt_event is None:
                 yield
                 continue
             if not self.run_update():

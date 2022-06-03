@@ -18,7 +18,6 @@ class State:
     config_updater = ConfigUpdater()
     researt_event: threading.Event = None
     manager: SyncManager = None
-    reload: bool = False
     electron: bool = False
     theme: str = "default"
 

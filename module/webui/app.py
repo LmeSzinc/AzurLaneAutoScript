@@ -636,7 +636,7 @@ class AlasGUI(Frame):
         self.init_menu(name="Update")
         self.set_title(t("Gui.MenuDevelop.Update"))
 
-        if not State.reload:
+        if State.researt_event is None:
             put_warning(t("Gui.Update.DisabledWarn"))
 
         put_row(
@@ -1086,7 +1086,6 @@ def app():
             cdn = True
         elif cdn.lower() == "false":
             cdn = False
-    State.reload = args.reload or State.webui_config.bool("EnableReload")
     State.electron = args.electron
 
     logger.hr("Webui configs")
@@ -1095,7 +1094,6 @@ def app():
     logger.attr("Password", True if key else False)
     logger.attr("CDN", cdn)
     logger.attr("Electron", args.electron)
-    logger.attr("Reload", State.reload)
 
     def index():
         if key != "" and not login(key):
