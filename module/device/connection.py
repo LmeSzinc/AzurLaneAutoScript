@@ -190,7 +190,7 @@ class Connection:
             dir = QueryValueEx(key, 'UserDefinedDir')[0]
         logger.info(f"Configuration file directory: {dir}")
 
-        with open(os.path.join(dir, 'bluestacks.conf')) as f:
+        with open(os.path.join(dir, 'bluestacks.conf'), encoding='utf-8') as f:
             content = f.read()
         port = re.search(rf'{parameter_name}="(\d+)"', content)
         if port is None:
