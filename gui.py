@@ -1,13 +1,19 @@
 import threading
-
-from multiprocessing import Process, Event
+from multiprocessing import Event, Process
 
 
 def func(ev: threading.Event):
     import argparse
+    import asyncio
+    import sys
+
     import uvicorn
+
     from module.webui.app import app
     from module.webui.setting import State
+
+    if sys.platform.startswith("win"):
+        asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
 
     State.researt_event = ev
 
