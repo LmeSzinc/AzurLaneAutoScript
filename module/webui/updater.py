@@ -15,7 +15,7 @@ from deploy.utils import DEPLOY_CONFIG, cached_property
 from module.base.retry import retry
 from module.logger import logger
 from module.webui.process_manager import ProcessManager
-from module.webui.setting import Setting
+from module.webui.setting import State
 from module.webui.utils import TaskHandler, get_next_time
 
 
@@ -274,7 +274,7 @@ class Updater(Config, GitManager, PipManager):
         logger.info("All alas stopped, start updating")
 
         if self.update():
-            if Setting.reload:
+            if State.reload:
                 self.state = "reload"
                 with open("./config/reloadalas", mode="w") as f:
                     f.writelines(names)
@@ -294,9 +294,10 @@ class Updater(Config, GitManager, PipManager):
     @staticmethod
     def _trigger_reload(delay=2):
         def trigger():
-            with open("./config/reloadflag", mode="w"):
-                # app ended here and uvicorn will restart whole app
-                pass
+            # with open("./config/reloadflag", mode="w"):
+            #     # app ended here and uvicorn will restart whole app
+            #     pass
+            State.researt_event.set()
 
         timer = threading.Timer(delay, trigger)
         timer.start()
@@ -315,7 +316,7 @@ class Updater(Config, GitManager, PipManager):
                 th._task.delay = get_next_time(self.schedule_time)
                 yield
                 continue
-            if not Setting.reload:
+            if not State.reload:
                 yield
                 continue
             if not self.run_update():
