@@ -103,7 +103,7 @@ class Adb(Connection):
                 continue
 
         self.__screenshot_method_fixed = self.__screenshot_method
-        if len(screenshot) < 100:
+        if len(screenshot) < 500:
             logger.warning(f'Unexpected screenshot: {screenshot}')
         raise OSError(f'cannot load screenshot')
 
@@ -118,7 +118,7 @@ class Adb(Connection):
     @retry
     def screenshot_adb_nc(self):
         data = self.adb_shell_nc(['screencap'])
-        if len(data) < 100:
+        if len(data) < 500:
             logger.warning(f'Unexpected screenshot: {data}')
 
         # Load data

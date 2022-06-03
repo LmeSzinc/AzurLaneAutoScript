@@ -296,14 +296,21 @@ class OSGridPredictor(GridPredictor):
             return False
         # Shouldn't contain any thing green or yellow
         # Green is island and yellow is belt
-        image = cv2.cvtColor(crop(self.image, area), cv2.COLOR_RGB2HSV)
-        h = (0, 180)
-        s = (30, 90)
-        v = (30, 100)
-        lower = (h[0] / 2, s[0] * 2.55, v[0] * 2.55)
-        upper = (h[1] / 2 + 1, s[1] * 2.55 + 1, v[1] * 2.55 + 1)
-        image_in_range = cv2.inRange(image, lower, upper)
-        if image_in_range[image_in_range > 0].shape[0] > 30:
+        # image = cv2.cvtColor(crop(self.image, area), cv2.COLOR_RGB2HSV)
+        # h = (0, 180)
+        # s = (30, 90)
+        # v = (30, 100)
+        # lower = (h[0] / 2, s[0] * 2.55, v[0] * 2.55)
+        # upper = (h[1] / 2 + 1, s[1] * 2.55 + 1, v[1] * 2.55 + 1)
+        # image_in_range = cv2.inRange(image, lower, upper)
+        # if image_in_range[image_in_range > 0].shape[0] > 30:
+        #     return False
+        # Should match the letter `2`
+        image = rgb2gray(self.image_trans)
+        sim, button = TEMPLATE_FleetMechanism.match_result(image)
+        point = (53, 37)
+        distance = np.linalg.norm(np.subtract(button.area[:2], point))
+        if distance > 5 or sim < 0.3:
             return False
 
         return True
