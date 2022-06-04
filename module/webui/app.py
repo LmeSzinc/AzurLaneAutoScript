@@ -428,6 +428,7 @@ class AlasGUI(Frame):
                                 modified[k] = v
                                 deep_set(config, k, v)
                                 valid.append(self.path_to_idx[k])
+                                pin[self.path_to_idx[k]] = v
                                 
                         else:
                             modified.pop(k)
