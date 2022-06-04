@@ -616,9 +616,12 @@ class AlasGUI(Frame):
         # ).style(f'--menu-Raise--')
 
         def _force_restart():
-            toast("Alas will restart in 3 seconds", duration=0, color="error")
-            clearup()
-            State.researt_event.set()
+            if State.researt_event is not None:
+                toast("Alas will restart in 3 seconds", duration=0, color="error")
+                clearup()
+                State.researt_event.set()
+            else:
+                toast("Reload not enabled", color="error")
 
         put_button(
             label="Force restart",
@@ -1092,7 +1095,7 @@ def app():
     logger.attr("Electron", args.electron)
 
     def index():
-        if key != "" and not login(key):
+        if key is not None and not login(key):
             logger.warning(f"{info.user_ip} login failed.")
             time.sleep(1.5)
             run_js("location.reload();")
