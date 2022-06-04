@@ -36,6 +36,7 @@ class ConfigModel:
     OcrClientAddress: str = "127.0.0.1:22268"
 
     # Update
+    EnableReload: bool = True
     CheckUpdateInterval: int = 5
     AutoRestartTime: str = "03:50"
 
