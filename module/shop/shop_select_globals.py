@@ -17,11 +17,11 @@ SELECT_GRID_6X1 = ButtonGrid(
     origin=(176, 258), delta=(158, 0), button_shape=(119, 19), grid_shape=(6, 1),
     name='SHOP_SELECT_GRID_6X1')
 
-# Consolidated Guild Item Information Map
+# Consolidated Select Item Information Map
+# Applicable shops (Guild and Medal)
 # Placeholder entry 'DR'; not valid atm
 SELECT_ITEM_INFO_MAP = {
     'book': {
-        'limit': 3,
         'grid': SELECT_GRID_3X1,
         'choices': {
             'red': 0,
@@ -30,7 +30,6 @@ SELECT_ITEM_INFO_MAP = {
         },
     },
     'box': {
-        'limit': 1,
         'grid': SELECT_GRID_4X1,
         'choices': {
             'eagle': 0,
@@ -40,7 +39,6 @@ SELECT_ITEM_INFO_MAP = {
         },
     },
     'retrofit': {
-        'limit': 2,
         'grid': SELECT_GRID_4X1,
         'choices': {
             'dd': 0,
@@ -50,7 +48,6 @@ SELECT_ITEM_INFO_MAP = {
         },
     },
     'plate': {
-        'limit': 5,
         'grid': SELECT_GRID_5X1,
         'choices': {
             'general': 0,
@@ -61,7 +58,6 @@ SELECT_ITEM_INFO_MAP = {
         },
     },
     'pr': {
-        'limit': 1,
         'grid': {
             's1': SELECT_GRID_6X1,
             's2': SELECT_GRID_4X1,
@@ -89,7 +85,6 @@ SELECT_ITEM_INFO_MAP = {
         },
     },
     'dr': {
-        'limit': 1,
         'grid': {
             's1': SELECT_GRID_3X1,
             's2': SELECT_GRID_3X1,

@@ -3,14 +3,13 @@ from module.base.decorator import Config, cached_property
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.shop.assets import *
-from module.shop.base import ShopBase, ShopItemGrid
+from module.shop.base import ShopItemGrid
+from module.shop.clerk import ShopClerk
 
 OCR_SHOP_MEDAL = Digit(SHOP_MEDAL, letter=(239, 239, 239), name='OCR_SHOP_MEDAL')
 
 
-class MedalShop(ShopBase):
-    _shop_medal = 0
-
+class MedalShop(ShopClerk):
     @cached_property
     def shop_filter(self):
         """
@@ -77,13 +76,14 @@ class MedalShop(ShopBase):
     def shop_currency(self):
         """
         Ocr shop medal currency
+        Then return medal count
 
         Returns:
             int: medal amount
         """
-        self._shop_medal = OCR_SHOP_MEDAL.ocr(self.device.image)
-        logger.info(f'Medal: {self._shop_medal}')
-        return self._shop_medal
+        self._currency = OCR_SHOP_MEDAL.ocr(self.device.image)
+        logger.info(f'Medal: {self._currency}')
+        return self._currency
 
     def shop_has_loaded(self, items):
         """
@@ -97,18 +97,6 @@ class MedalShop(ShopBase):
         for item in items:
             if int(item.price) == 5000:
                 return False
-        return True
-
-    def shop_check_item(self, item):
-        """
-        Args:
-            item: Item to check
-
-        Returns:
-            bool:
-        """
-        if item.price > self._shop_medal:
-            return False
         return True
 
     def run(self):

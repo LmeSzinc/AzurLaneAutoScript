@@ -2,15 +2,14 @@ from module.base.decorator import cached_property
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.shop.assets import *
-from module.shop.base import ShopBase, ShopItemGrid
+from module.shop.base import ShopItemGrid
+from module.shop.clerk import ShopClerk
 from module.shop.ui import ShopUI
 
 OCR_SHOP_MERIT = Digit(SHOP_MERIT, letter=(239, 239, 239), name='OCR_SHOP_MERIT')
 
 
-class MeritShop(ShopBase, ShopUI):
-    _shop_merit = 0
-
+class MeritShop(ShopClerk, ShopUI):
     @cached_property
     def shop_filter(self):
         """
@@ -47,25 +46,14 @@ class MeritShop(ShopBase, ShopUI):
     def shop_currency(self):
         """
         Ocr shop merit currency
+        Then return merit count
 
         Returns:
             int: merit amount
         """
-        self._shop_merit = OCR_SHOP_MERIT.ocr(self.device.image)
-        logger.info(f'Merit: {self._shop_merit}')
-        return self._shop_merit
-
-    def shop_check_item(self, item):
-        """
-        Args:
-            item: Item to check
-
-        Returns:
-            bool:
-        """
-        if item.price > self._shop_merit:
-            return False
-        return True
+        self._currency = OCR_SHOP_MERIT.ocr(self.device.image)
+        logger.info(f'Merit: {self._currency}')
+        return self._currency
 
     def run(self):
         """
