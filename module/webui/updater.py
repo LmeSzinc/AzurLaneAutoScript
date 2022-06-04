@@ -7,24 +7,23 @@ import time
 from typing import Generator, Tuple
 
 import requests
-
-from deploy.config import DeployConfig, ExecutionError
+from deploy.config import ExecutionError
 from deploy.git import GitManager
 from deploy.pip import PipManager
-from deploy.utils import DEPLOY_CONFIG, cached_property
+from deploy.utils import DEPLOY_CONFIG
 from module.base.retry import retry
 from module.logger import logger
+from module.webui.config import DeployConfig
 from module.webui.process_manager import ProcessManager
-from module.webui.setting import Setting
+from module.webui.setting import State
 from module.webui.utils import TaskHandler, get_next_time
 
 
-class Config(DeployConfig):
+class Updater(DeployConfig, GitManager, PipManager):
     def __init__(self, file=DEPLOY_CONFIG):
-        self.file = file
-        self.config = {}
-        self.read()
-        self.write()
+        super().__init__(file=file)
+        self.state = 0
+        self.event: threading.Event = None
 
     def execute(self, command, allow_failure=False):
         """
@@ -51,34 +50,19 @@ class Config(DeployConfig):
             print(f"[ success ]")
             return True
 
-
-class Updater(Config, GitManager, PipManager):
-    def __init__(self, file=DEPLOY_CONFIG):
-        super().__init__(file=file)
-        self.state = 0
-        self.event: threading.Event = None
-
     @property
     def delay(self):
         self.read()
-        return int(self.config["CheckUpdateInterval"]) * 60
+        return self.CheckUpdateInterval * 60
 
     @property
     def schedule_time(self):
         self.read()
-        t = self.config["AutoRestartTime"]
-        if t != "":
+        t = self.AutoRestartTime
+        if t is not None:
             return datetime.time.fromisoformat(t)
         else:
             return None
-
-    @cached_property
-    def repo(self):
-        return self.config["Repository"]
-
-    @cached_property
-    def branch(self):
-        return self.config["Branch"]
 
     def execute_output(self, command) -> str:
         command = command.replace(r"\\", "/").replace("\\", "/").replace('"', '"')
@@ -114,7 +98,7 @@ class Updater(Config, GitManager, PipManager):
         source = "origin"
         for _ in range(3):
             if self.execute(
-                f'"{self.git}" fetch {source} {self.branch}', allow_failure=True
+                f'"{self.git}" fetch {source} {self.Branch}', allow_failure=True
             ):
                 break
         else:
@@ -130,7 +114,7 @@ class Updater(Config, GitManager, PipManager):
             )
             return False
 
-        sha1, _, _, message = self.get_commit(f"..{source}/{self.branch}")
+        sha1, _, _, message = self.get_commit(f"..{source}/{self.Branch}")
 
         if sha1:
             logger.info(f"New update avaliable")
@@ -145,7 +129,7 @@ class Updater(Config, GitManager, PipManager):
         Deprecated
         """
         self.state = "checking"
-        r = self.repo.split("/")
+        r = self.Repository.split("/")
         owner = r[3]
         repo = r[4]
         if "gitee" in r[2]:
@@ -164,7 +148,7 @@ class Updater(Config, GitManager, PipManager):
 
         try:
             list_commit = requests.get(
-                base + f"{owner}/{repo}/branches/{self.branch}",
+                base + f"{owner}/{repo}/branches/{self.Branch}",
                 headers=headers,
                 params=para,
             )
@@ -274,7 +258,7 @@ class Updater(Config, GitManager, PipManager):
         logger.info("All alas stopped, start updating")
 
         if self.update():
-            if Setting.reload:
+            if State.researt_event is not None:
                 self.state = "reload"
                 with open("./config/reloadalas", mode="w") as f:
                     f.writelines(names)
@@ -294,9 +278,10 @@ class Updater(Config, GitManager, PipManager):
     @staticmethod
     def _trigger_reload(delay=2):
         def trigger():
-            with open("./config/reloadflag", mode="w"):
-                # app ended here and uvicorn will restart whole app
-                pass
+            # with open("./config/reloadflag", mode="w"):
+            #     # app ended here and uvicorn will restart whole app
+            #     pass
+            State.researt_event.set()
 
         timer = threading.Timer(delay, trigger)
         timer.start()
@@ -315,7 +300,7 @@ class Updater(Config, GitManager, PipManager):
                 th._task.delay = get_next_time(self.schedule_time)
                 yield
                 continue
-            if not Setting.reload:
+            if State.researt_event is None:
                 yield
                 continue
             if not self.run_update():

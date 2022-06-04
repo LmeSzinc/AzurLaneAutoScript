@@ -1,7 +1,7 @@
 from typing import Dict
 
 from module.config.utils import *
-from module.webui.config import WebuiConfig
+from module.webui.setting import State
 
 LANG = "zh-CN"
 TRANSLATE_MODE = False
@@ -17,7 +17,7 @@ def set_language(s: str, refresh=False):
     else:
         LANG = "en-US"
 
-    WebuiConfig().Language = LANG
+    State.deploy_config.Language = LANG
 
     if refresh:
         from pywebio.session import run_js

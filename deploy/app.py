@@ -45,7 +45,7 @@ class AppManager(DeployConfig):
     def app_update(self):
         hr0(f'Update app.asar')
 
-        if not self.bool('AutoUpdate'):
+        if not self.AutoUpdate:
             print('AutoUpdate is disabled, skip')
             return False
 

@@ -7,16 +7,9 @@ import numpy as np
 import zerorpc
 import zmq
 
-from deploy.config import DeployConfig
+from module.webui.setting import State
 from module.logger import logger
 
-
-class Config(DeployConfig):
-    def show_config(self):
-        pass
-
-
-deploy_config = Config()
 process: multiprocessing.Process = None
 
 
@@ -93,7 +86,7 @@ class ModelProxyFactory:
     def __getattribute__(self, __name: str) -> ModelProxy:
         if __name in ["azur_lane", "cnocr", "jp", "tw"]:
             if ModelProxy.client is None:
-                ModelProxy.init(address=deploy_config.config["OcrClientAddress"])
+                ModelProxy.init(address=State.deploy_config.OcrClientAddress)
             return ModelProxy(lang=__name)
         else:
             return super().__getattribute__(__name)
@@ -172,5 +165,5 @@ if __name__ == "__main__":
         help="Port to listen. Default to OcrServerPort in deploy setting",
     )
     args, _ = parser.parse_known_args()
-    port = args.port or deploy_config.config["OcrServerPort"]
+    port = args.port or State.deploy_config.OcrServerPort
     start_ocr_server(port=port)

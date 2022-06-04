@@ -82,9 +82,6 @@ Deploy:
     OcrClientAddress: 127.0.0.1:22268
 
   Update:
-    # Use auto update and builtin updater feature
-    # This may cause problem https://github.com/LmeSzinc/AzurLaneAutoScript/issues/876
-    EnableReload: true
     # Check update every X minute
     # [Disable] -1
     # [Default] 5
