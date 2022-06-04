@@ -130,6 +130,16 @@ class SelectedGrids:
         """
         return [grid.__getattribute__(func)(**kwargs) for grid in self]
 
+    def first_or_none(self):
+        """
+        Returns:
+
+        """
+        if self:
+            return self.grids[0]
+        else:
+            return None
+
     def add(self, grids):
         """
         Args:
