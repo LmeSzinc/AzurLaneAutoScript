@@ -422,14 +422,14 @@ class AlasGUI(Frame):
                             # update Emotion Record if Emotion Value is changed
                             if 'Emotion' in k and 'Value' in k:
                                 k = k.split('.')
-                                k[-1] = k[-1].replace('Value','Record')
+                                k[-1] = k[-1].replace('Value', 'Record')
                                 k = '.'.join(k)
                                 v = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                                 modified[k] = v
                                 deep_set(config, k, v)
                                 valid.append(self.path_to_idx[k])
                                 pin[self.path_to_idx[k]] = v
-                                
+
                         else:
                             modified.pop(k)
                             invalid.append(self.path_to_idx[k])
@@ -637,7 +637,7 @@ class AlasGUI(Frame):
             onclick=_force_restart,
             color="menu",
         ).style(f'--menu-Restart--')
-        
+
     def dev_translate(self) -> None:
         go_app("translate", new_window=True)
         lang.TRANSLATE_MODE = True
@@ -672,6 +672,21 @@ class AlasGUI(Frame):
                     ],
                     header=[
                         "",
+                        "SHA1",
+                        t("Gui.Update.Author"),
+                        t("Gui.Update.Time"),
+                        t("Gui.Update.Message"),
+                    ],
+                )
+            with use_scope("updater_detail", clear=True):
+                put_text(t("Gui.Update.DetailedHistory"))
+                history = updater.get_commit(
+                    f"origin/{updater.Branch}", n=20, short_sha1=True)
+                put_table(
+                    [
+                        commit for commit in history
+                    ],
+                    header=[
                         "SHA1",
                         t("Gui.Update.Author"),
                         t("Gui.Update.Time"),

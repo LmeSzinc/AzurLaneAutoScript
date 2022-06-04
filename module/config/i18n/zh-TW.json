@@ -2002,11 +2002,11 @@
     "Update": {
       "UpToDate": "已是最新版本",
       "HaveUpdate": "有新版本可用",
-      "UpdateFailed": "更新失敗，可在./log/*_gui.txt中找到錯誤日誌",
       "UpdateStart": "開始更新",
       "UpdateWait": "等待所有 Alas 完成當前任務",
       "UpdateRun": "更新中",
       "UpdateSuccess": "更新成功，正在重啓",
+      "UpdateFailed": "更新失敗，可在./log/*_gui.txt中找到錯誤日誌",
       "UpdateChecking": "檢查更新中",
       "UpdateCancel": "取消更新，重啓 Alas 中",
       "UpdateFinish": "更新成功，請手動重啓",
@@ -2015,7 +2015,8 @@
       "Author": "作者",
       "Time": "提交時間",
       "Message": "提交資訊",
-      "DisabledWarn": "更新模塊未啟用，你需要手動重啓 Alas 進行更新"
+      "DisabledWarn": "更新模塊未啟用，你需要手動重啓 Alas 進行更新",
+      "DetailedHistory": "詳細提交歷史"
     },
     "Text": {
       "InvalidFeedBack": "格式錯誤。 示例：{0}"

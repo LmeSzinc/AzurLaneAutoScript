@@ -59,7 +59,6 @@ AddAlas:
 Update:
   UpToDate:
   HaveUpdate:
-  UpdateFailed:
   UpdateStart:
   UpdateWait:
   UpdateRun:
@@ -74,6 +73,7 @@ Update:
   Time:
   Message:
   DisabledWarn:
+  DetailedHistory:
 
 Text:
   InvalidFeedBack:

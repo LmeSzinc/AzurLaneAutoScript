@@ -2002,11 +2002,11 @@
     "Update": {
       "UpToDate": "Latest version",
       "HaveUpdate": "A new version is available",
-      "UpdateFailed": "Update failed. Logs can be found in ./log/*_gui.txt",
       "UpdateStart": "Start update",
       "UpdateWait": "Waiting for all alas complete current task",
       "UpdateRun": "Updating",
       "UpdateSuccess": "Update succeeded, restarting",
+      "UpdateFailed": "Update failed. Logs can be found in ./log/*_gui.txt",
       "UpdateChecking": "Checking for updates",
       "UpdateCancel": "Update canceled, restarting Alas",
       "UpdateFinish": "Update succeeded, please restart manually",
@@ -2015,7 +2015,8 @@
       "Author": "Author",
       "Time": "Commit time",
       "Message": "Commit message",
-      "DisabledWarn": "Updater module is disabled. You need to manually restart Alas to update"
+      "DisabledWarn": "Updater module is disabled. You need to manually restart Alas to update",
+      "DetailedHistory": "Detailed Commit History"
     },
     "Text": {
       "InvalidFeedBack": "Invalid format. Example: {0}"
