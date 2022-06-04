@@ -138,6 +138,9 @@ class Connection:
         logger.attr('PackageName', self.package)
         logger.attr('Server', self.config.SERVER)
 
+        self._nc_server_host = '127.0.0.1'
+        self._nc_server_port = self.config.REVERSE_SERVER_PORT
+
     @staticmethod
     def find_bluestacks4_hyperv(serial):
         """
@@ -270,10 +273,11 @@ class Connection:
         This will bypass adb shell and be faster.
         """
         server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self._server_port = self.adb_reverse(f'tcp:{self.config.REVERSE_SERVER_PORT}')
-        server.bind(('127.0.0.1', self._server_port))
+        self._nc_server_host = socket.gethostbyname(socket.gethostname())
+        self._nc_server_port = random_port(self.config.FORWARD_PORT_RANGE)
+        logger.info(f'Reverse server listening on {self._nc_server_host}:{self._nc_server_port}')
+        server.bind((self._nc_server_host, self._nc_server_port))
         server.listen(5)
-        logger.info(f'Reverse server listening on {self._server_port}')
         return server
 
     def adb_shell_nc(self, cmd, timeout=5, chunk_size=262144):
@@ -286,18 +290,19 @@ class Connection:
         Returns:
             bytes:
         """
-        # <command> | nc 127.0.0.1 {port}
-        cmd += ['|', 'nc', '127.0.0.1', self.config.REVERSE_SERVER_PORT]
-
         # Server start listening
         server = self.reverse_server
         server.settimeout(timeout)
         # Client send data, waiting for server accept
-        _ = self.adb_shell(cmd, stream=True)
+        # <command> | nc 127.0.0.1 {port}
+        cmd += ['|', 'nc', self._nc_server_host, self._nc_server_port]
+        stream = self.adb_shell(cmd, stream=True)
         try:
             # Server accept connection
             conn, conn_port = server.accept()
         except socket.timeout:
+            output = recv_all(stream, chunk_size=chunk_size)
+            logger.warning(str(output))
             raise AdbTimeout('reverse server accept timeout')
 
         # Server receive data
