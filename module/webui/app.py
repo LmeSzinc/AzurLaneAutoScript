@@ -418,6 +418,17 @@ class AlasGUI(Frame):
                         elif not validate or re_fullmatch(validate, v):
                             deep_set(config, k, v)
                             valid.append(self.path_to_idx[k])
+
+                            # update Emotion Record if Emotion Value is changed
+                            if 'Emotion' in k and 'Value' in k:
+                                k = k.split('.')
+                                k[-1] = k[-1].replace('Value','Record')
+                                k = '.'.join(k)
+                                v = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                                modified[k] = v
+                                deep_set(config, k, v)
+                                valid.append(self.path_to_idx[k])
+                                
                         else:
                             modified.pop(k)
                             invalid.append(self.path_to_idx[k])
