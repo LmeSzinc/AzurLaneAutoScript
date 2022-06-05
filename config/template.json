@@ -972,7 +972,13 @@
       "PR3": "cheshire"
     },
     "MedalShop": {
-      "Filter": "DR > PR\n> BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3 > PlateGeneralT3\n> FoodT6 > FoodT5"
+      "Filter": "DR > PR\n> BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3 > PlateGeneralT3\n> FoodT6 > FoodT5",
+      "RETROFIT_T1": "cl",
+      "RETROFIT_T2": "cl",
+      "RETROFIT_T3": "cl",
+      "PLATE_T1": "general",
+      "PLATE_T2": "general",
+      "PLATE_T3": "general"
     },
     "MeritShop": {
       "Refresh": false,

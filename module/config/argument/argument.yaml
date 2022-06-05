@@ -384,6 +384,24 @@ MedalShop:
     > BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2
     > RetrofitT3 > PlateGeneralT3
     > FoodT6 > FoodT5
+  RETROFIT_T1:
+    value: cl
+    option: [dd, cl, bb, cv]
+  RETROFIT_T2:
+    value: cl
+    option: [dd, cl, bb, cv]
+  RETROFIT_T3:
+    value: cl
+    option: [dd, cl, bb, cv]
+  PLATE_T1:
+    value: general
+    option: [general, gun, torpedo, antiair, plane]
+  PLATE_T2:
+    value: general
+    option: [general, gun, torpedo, antiair, plane]
+  PLATE_T3:
+    value: general
+    option: [general, gun, torpedo, antiair, plane]
 MeritShop:
   Refresh: false
   Filter: |-

@@ -245,6 +245,12 @@ class GeneratedConfig:
 
     # Group `MedalShop`
     MedalShop_Filter = 'DR > PR\n> BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3 > PlateGeneralT3\n> FoodT6 > FoodT5'
+    MedalShop_RETROFIT_T1 = 'cl'  # dd, cl, bb, cv
+    MedalShop_RETROFIT_T2 = 'cl'  # dd, cl, bb, cv
+    MedalShop_RETROFIT_T3 = 'cl'  # dd, cl, bb, cv
+    MedalShop_PLATE_T1 = 'general'  # general, gun, torpedo, antiair, plane
+    MedalShop_PLATE_T2 = 'general'  # general, gun, torpedo, antiair, plane
+    MedalShop_PLATE_T3 = 'general'  # general, gun, torpedo, antiair, plane
 
     # Group `MeritShop`
     MeritShop_Refresh = False

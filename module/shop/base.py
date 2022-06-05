@@ -20,7 +20,7 @@ FILTER_REGEX = re.compile(
     '|gascogne|champagne|cheshire|drake|mainz|odin'
     '|anchorage|hakuryu|agir|august|marcopolo'
     '|red|blue|yellow'
-    '|general|gun|torpedo|antiair|plane'
+    '|general|gun|torpedo|antiair|plane|wild'
     '|dd|cl|bb|cv)?'
 
     '(s[1-4]|t[1-6])?$',
