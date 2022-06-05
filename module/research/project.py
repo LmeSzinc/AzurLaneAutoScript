@@ -313,6 +313,22 @@ def research_jp_detect(image):
     return project
 
 
+def research_detect(image):
+    """
+    Args:
+        image (np.ndarray): Screenshot
+
+    Return:
+        list[ResearchProject]:
+    """
+    projects = []
+    for name, series in zip(get_research_name(image), get_research_series(image)):
+        project = ResearchProject(name=name, series=series)
+        logger.attr('Project', project)
+        projects.append(project)
+    return projects
+
+
 class ResearchProject:
     REGEX_SHIP = re.compile(
         '(neptune|monarch|ibuki|izumo|roon|saintlouis'
@@ -522,7 +538,7 @@ class ResearchSelector(UI):
                 break
 
     @Config.when(SERVER='jp')
-    def research_detect(self, image):
+    def research_detect(self):
         """
         We do not need a screenshot here actually. 'image' is a null argument.
         Adding this argument is just to eusure all "research_detect" have the same arguments.
@@ -558,16 +574,28 @@ class ResearchSelector(UI):
         self.projects = proj_sorted
 
     @Config.when(SERVER=None)
-    def research_detect(self, image):
+    def research_detect(self):
         """
         Args:
             image (np.ndarray): Screenshots
         """
-        projects = []
-        for name, series in zip(get_research_name(image), get_research_series(image)):
-            project = ResearchProject(name=name, series=series)
-            logger.attr('Project', project)
-            projects.append(project)
+        timeout = Timer(3, count=3).start()
+        while 1:
+            projects = research_detect(self.device.image)
+
+            if timeout.reached():
+                break
+
+            if sum([p.valid for p in projects]) == 4 and not projects[0].valid:
+                # Leftmost research series covered by battle pass info, see #1037
+                logger.info('Wrong research serial on the leftmost project, '
+                            'probably because of battle pass info')
+                # A rare case, poor sleep is acceptable
+                self.device.sleep(1)
+                self.device.screenshot()
+                continue
+            else:
+                break
 
         self.projects = projects
 

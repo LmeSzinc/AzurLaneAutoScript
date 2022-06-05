@@ -308,7 +308,7 @@ class RewardResearch(ResearchSelector):
 
         for _ in range(2):
             logger.hr('Research select', level=1)
-            self.research_detect(self.device.image)
+            self.research_detect()
             priority = self.research_sort_filter()
             result = self.research_select(priority)
             if result:
