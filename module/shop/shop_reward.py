@@ -1,12 +1,12 @@
-from module.gacha.ui import GachaUI
 from module.shop.shop_core import CoreShop
 from module.shop.shop_general import GeneralShop
 from module.shop.shop_guild import GuildShop
+from module.shop.shop_medal import MedalShop
 from module.shop.shop_merit import MeritShop
 from module.shop.ui import ShopUI
 
 
-class RewardShop(ShopUI, GachaUI):
+class RewardShop(ShopUI):
     def run_frequent(self):
         # Munitions shops
         self.ui_goto_shop()
@@ -29,14 +29,9 @@ class RewardShop(ShopUI, GachaUI):
         if self.shop_bottom_navbar_ensure(left=2):
             GuildShop(self.config, self.device).run()
 
-        # 2022.06.01 Medal shop and gacha shop have been moved to shop
-        # Gacha shops
-        # self.ui_goto_gacha()
-        # if not self.gacha_side_navbar_ensure(bottom=2):
-        #     return
-        # shop = MedalShop(self.config, self.device)
-        # for _ in [1, 2]:
-        #     if self.gacha_bottom_navbar_ensure(left=_, is_build=False):
-        #         shop.run()
+        # 2022.06.01 Medal shop has been moved to page_munitions
+        # Now the left most shop, its UI has changed considerably
+        if self.shop_bottom_navbar_ensure(left=1):
+            MedalShop(self.config, self.device).run()
 
         self.config.task_delay(server_update=True)
