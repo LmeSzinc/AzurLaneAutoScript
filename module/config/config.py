@@ -9,6 +9,7 @@ from module.base.filter import Filter
 from module.config.config_generated import GeneratedConfig
 from module.config.config_manual import ManualConfig, OutputConfig
 from module.config.config_updater import ConfigUpdater
+from module.config.watcher import ConfigWatcher
 from module.config.utils import *
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
@@ -55,7 +56,7 @@ def name_to_function(name):
     return function
 
 
-class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig):
+class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher):
     stop_event: threading.Event = None
     bound = {}
 

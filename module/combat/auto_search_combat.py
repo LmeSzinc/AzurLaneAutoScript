@@ -209,6 +209,7 @@ class AutoSearchCombat(MapOperation, Combat):
             submarine_mode = self.config.Submarine_Mode
         self.combat_auto_reset()
         self.combat_manual_reset()
+        self.device.click_record_clear()
         if emotion_reduce:
             self.emotion.reduce(fleet_index)
         auto = self.config.Fleet_Fleet1Mode if fleet_index == 1 else self.config.Fleet_Fleet2Mode

@@ -43,6 +43,7 @@ A5, B5, C5, D5, E5, F5, G5, H5, I5, \
 A6, B6, C6, D6, E6, F6, G6, H6, I6, \
 A7, B7, C7, D7, E7, F7, G7, H7, I7, \
     = MAP.flatten()
+MAP.ignore_prediction(H1, enemy_scale=1, enemy_genre='Enemy')
 
 
 class Config(ConfigBase):

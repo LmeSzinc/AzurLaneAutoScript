@@ -243,8 +243,14 @@ class GeneratedConfig:
     GuildShop_PR2 = 'seattle'  # seattle, georgia, kitakaze, gascogne
     GuildShop_PR3 = 'cheshire'  # cheshire, mainz, odin, champagne
 
-    # Group `MedalShop`
-    MedalShop_Filter = 'DR > PR\n> BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3 > PlateGeneralT3\n> FoodT6 > FoodT5'
+    # Group `MedalShop2`
+    MedalShop2_Filter = 'DR > PR\n> BookRedT3 > BookYellowT3 > BookBlueT3\n> BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3\n> FoodT6 > FoodT5\n> PlateGeneralT3 > PlateWildT3'
+    MedalShop2_RETROFIT_T1 = 'cl'  # dd, cl, bb, cv
+    MedalShop2_RETROFIT_T2 = 'cl'  # dd, cl, bb, cv
+    MedalShop2_RETROFIT_T3 = 'cl'  # dd, cl, bb, cv
+    MedalShop2_PLATE_T1 = 'general'  # general, gun, torpedo, antiair, plane
+    MedalShop2_PLATE_T2 = 'general'  # general, gun, torpedo, antiair, plane
+    MedalShop2_PLATE_T3 = 'general'  # general, gun, torpedo, antiair, plane
 
     # Group `MeritShop`
     MeritShop_Refresh = False

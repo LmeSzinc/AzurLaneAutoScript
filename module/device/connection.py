@@ -19,9 +19,10 @@ from module.config.server import set_server
 from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
                                         handle_adb_error, PackageNotInstalled,
                                         recv_all, del_cached_property, possible_reasons,
-                                        random_port)
+                                        random_port, get_serial_pair)
 from module.exception import RequestHumanTakeover
 from module.logger import logger
+from module.map.map_grids import SelectedGrids
 
 
 def retry(func):
@@ -46,14 +47,12 @@ def retry(func):
                 logger.error(e)
 
                 def init():
-                    self.adb_disconnect(self.serial)
-                    self.adb_connect(self.serial)
+                    self.adb_reconnect()
             # AdbError
             except AdbError as e:
                 if handle_adb_error(e):
                     def init():
-                        self.adb_disconnect(self.serial)
-                        self.adb_connect(self.serial)
+                        self.adb_reconnect()
                 else:
                     break
             # Package not installed
@@ -123,10 +122,13 @@ class Connection:
         logger.attr('PackageName', self.package)
         logger.attr('Server', self.config.SERVER)
 
+        self._nc_server_host = '127.0.0.1'
+        self._nc_server_port = self.config.REVERSE_SERVER_PORT
+
     @staticmethod
     def find_bluestacks4_hyperv(serial):
         """
-        Find dynamic serial of Bluestacks4 Hyper-v Beta.
+        Find dynamic serial of BlueStacks4 Hyper-V Beta.
 
         Args:
             serial (str): 'bluestacks4-hyperv', 'bluestacks4-hyperv-2' for multi instance, and so on.
@@ -134,35 +136,26 @@ class Connection:
         Returns:
             str: 127.0.0.1:{port}
         """
-        from winreg import (HKEY_LOCAL_MACHINE, CloseKey, ConnectRegistry,
-                            EnumValue, OpenKey, QueryInfoKey)
+        from winreg import HKEY_LOCAL_MACHINE, OpenKey, QueryValueEx
 
-        logger.info("Use Bluestacks4 Hyper-v Beta")
+        logger.info("Use BlueStacks4 Hyper-V Beta")
+        logger.info("Reading Realtime adb port")
+
         if serial == "bluestacks4-hyperv":
             folder_name = "Android"
         else:
             folder_name = f"Android_{serial[19:]}"
 
-        logger.info("Reading Realtime adb port")
-        reg_root = ConnectRegistry(None, HKEY_LOCAL_MACHINE)
-        sub_dir = f"SOFTWARE\\BlueStacks_bgp64_hyperv\\Guests\\{folder_name}\\Config"
-        bs_keys = OpenKey(reg_root, sub_dir)
-        bs_keys_count = QueryInfoKey(bs_keys)[1]
-        for i in range(bs_keys_count):
-            key_name, key_value, key_type = EnumValue(bs_keys, i)
-            if key_name == "BstAdbPort":
-                logger.info(f"New adb port: {key_value}")
-                serial = f"127.0.0.1:{key_value}"
-                break
-
-        CloseKey(bs_keys)
-        CloseKey(reg_root)
-        return serial
+        with OpenKey(HKEY_LOCAL_MACHINE,
+                     rf"SOFTWARE\BlueStacks_bgp64_hyperv\Guests\{folder_name}\Config") as key:
+            port = QueryValueEx(key, "BstAdbPort")[0]
+        logger.info(f"New adb port: {port}")
+        return f"127.0.0.1:{port}"
 
     @staticmethod
     def find_bluestacks5_hyperv(serial):
         """
-        Find dynamic serial of Bluestacks5 Hyper-v.
+        Find dynamic serial of BlueStacks5 Hyper-V.
 
         Args:
             serial (str): 'bluestacks5-hyperv', 'bluestacks5-hyperv-1' for multi instance, and so on.
@@ -170,38 +163,29 @@ class Connection:
         Returns:
             str: 127.0.0.1:{port}
         """
-        from winreg import (HKEY_LOCAL_MACHINE, CloseKey, ConnectRegistry,
-                            EnumValue, OpenKey, QueryInfoKey)
+        from winreg import HKEY_LOCAL_MACHINE, OpenKey, QueryValueEx
 
-        logger.info("Use Bluestacks5 Hyper-v")
+        logger.info("Use BlueStacks5 Hyper-V")
         logger.info("Reading Realtime adb port")
 
         if serial == "bluestacks5-hyperv":
-            parameter_name = "bst.instance.Nougat64.status.adb_port"
+            parameter_name = r"bst\.instance\.Nougat64\.status\.adb_port"
         else:
-            parameter_name = f"bst.instance.Nougat64_{serial[19:]}.status.adb_port"
+            parameter_name = rf"bst\.instance\.Nougat64_{serial[19:]}\.status.adb_port"
 
-        reg_root = ConnectRegistry(None, HKEY_LOCAL_MACHINE)
-        sub_dir = f"SOFTWARE\\BlueStacks_nxt"
-        bs_keys = OpenKey(reg_root, sub_dir)
-        bs_keys_count = QueryInfoKey(bs_keys)[1]
-        for i in range(bs_keys_count):
-            key_name, key_value, key_type = EnumValue(bs_keys, i)
-            if key_name == "UserDefinedDir":
-                logger.info(f"Configuration file directory: {key_value}")
-                with open(f"{key_value}\\bluestacks.conf", 'r', encoding='utf-8') as f:
-                    content = f.read()
-                    port = re.findall(rf'{parameter_name}="(.*?)"\n', content, re.S)
-                    if len(port) > 0:
-                        logger.info(f"Match to dynamic port: {port[0]}")
-                        serial = f"127.0.0.1:{port[0]}"
-                    else:
-                        logger.warning(f"Did not match the result: {serial}.")
-                break
+        with OpenKey(HKEY_LOCAL_MACHINE, r"SOFTWARE\BlueStacks_nxt") as key:
+            dir = QueryValueEx(key, 'UserDefinedDir')[0]
+        logger.info(f"Configuration file directory: {dir}")
 
-        CloseKey(bs_keys)
-        CloseKey(reg_root)
-        return serial
+        with open(os.path.join(dir, 'bluestacks.conf'), encoding='utf-8') as f:
+            content = f.read()
+        port = re.search(rf'{parameter_name}="(\d+)"', content)
+        if port is None:
+            logger.warning(f"Did not match the result: {serial}.")
+            raise RequestHumanTakeover
+        port = port.group(1)
+        logger.info(f"Match to dynamic port: {port}")
+        return f"127.0.0.1:{port}"
 
     @cached_property
     def adb_binary(self):
@@ -273,10 +257,11 @@ class Connection:
         This will bypass adb shell and be faster.
         """
         server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self._server_port = self.adb_reverse(f'tcp:{self.config.REVERSE_SERVER_PORT}')
-        server.bind(('127.0.0.1', self._server_port))
+        self._nc_server_host = socket.gethostbyname(socket.gethostname())
+        self._nc_server_port = random_port(self.config.FORWARD_PORT_RANGE)
+        logger.info(f'Reverse server listening on {self._nc_server_host}:{self._nc_server_port}')
+        server.bind((self._nc_server_host, self._nc_server_port))
         server.listen(5)
-        logger.info(f'Reverse server listening on {self._server_port}')
         return server
 
     def adb_shell_nc(self, cmd, timeout=5, chunk_size=262144):
@@ -289,18 +274,19 @@ class Connection:
         Returns:
             bytes:
         """
-        # <command> | nc 127.0.0.1 {port}
-        cmd += ['|', 'nc', '127.0.0.1', self.config.REVERSE_SERVER_PORT]
-
         # Server start listening
         server = self.reverse_server
         server.settimeout(timeout)
         # Client send data, waiting for server accept
-        _ = self.adb_shell(cmd, stream=True)
+        # <command> | nc 127.0.0.1 {port}
+        cmd += ['|', 'nc', self._nc_server_host, self._nc_server_port]
+        stream = self.adb_shell(cmd, stream=True)
         try:
             # Server accept connection
             conn, conn_port = server.accept()
         except socket.timeout:
+            output = recv_all(stream, chunk_size=chunk_size)
+            logger.warning(str(output))
             raise AdbTimeout('reverse server accept timeout')
 
         # Server receive data
@@ -440,6 +426,12 @@ class Connection:
                     logger.error(msg)
                     possible_reasons('Serial incorrect, might be a typo')
                     raise RequestHumanTakeover
+                elif '(10061)' in msg:
+                    # cannot connect to 127.0.0.1:55555:
+                    # No connection could be made because the target machine actively refused it. (10061)
+                    logger.error(msg)
+                    possible_reasons('No such device exists, please set a correct serial')
+                    raise RequestHumanTakeover
             logger.warning(f'Failed to connect {serial} after 3 trial, assume connected')
             self.detect_device()
             return False
@@ -461,9 +453,8 @@ class Connection:
         if len(self.list_device()) == 0:
             self.adb_restart()
         else:
-            self.adb_disconnect(self.serial)
-            self.adb_connect(self.serial)
-
+            self.adb_reconnect(self.serial)
+            
     def adb_restart(self):
         """
             Reboot adb client
@@ -495,6 +486,14 @@ class Connection:
                 with self.config.multi_set():
                     self.config.Emulator_ScreenshotMethod = 'uiautomator2'
                     self.config.Emulator_ControlMethod = 'uiautomator2'
+
+    def adb_reconnect(self):
+        """
+        Reconnect to serial
+        """
+        self.adb_disconnect(self.serial)
+        self.adb_connect(self.serial)
+        self.detect_device()
 
     def install_uiautomator2(self):
         """
@@ -576,7 +575,7 @@ class Connection:
     def list_device(self):
         """
         Returns:
-            list[AdbDeviceWithStatus]:
+            SelectedGrids[AdbDeviceWithStatus]:
         """
 
         class AdbDeviceWithStatus(AdbDevice):
@@ -589,6 +588,9 @@ class Connection:
 
             __repr__ = __str__
 
+            def __bool__(self):
+                return True
+
         devices = []
         with self.adb_client._connect() as c:
             c.send_command("host:devices")
@@ -600,7 +602,7 @@ class Connection:
                     continue
                 device = AdbDeviceWithStatus(self.adb_client, parts[0], parts[1])
                 devices.append(device)
-        return devices
+        return SelectedGrids(devices)
 
     def detect_device(self):
         """
@@ -612,14 +614,14 @@ class Connection:
                     'copy to Alas.Emulator.Serial to use it or set Alas.Emulator.Serial="auto"')
         devices = self.list_device()
         # Show available devices
-        available = [d for d in devices if d.status == 'device']
+        available = devices.select(status='device')
         for device in available:
             logger.info(device.serial)
         if not len(available):
             logger.info('No available devices')
 
         # Show unavailable devices if having any
-        unavailable = [d for d in devices if d.status != 'device']
+        unavailable = devices.delete(available)
         if len(unavailable):
             logger.info('Here are the devices detected but unavailable')
             for device in unavailable:
@@ -638,6 +640,34 @@ class Connection:
                 logger.critical('Multiple devices found, auto device detection cannot decide which to choose, '
                                 'please copy one of the available devices listed above to Alas.Emulator.Serial')
                 raise RequestHumanTakeover
+
+        # Handle LDPlayer
+        # LDPlayer serial jumps between `127.0.0.1:5555+{X}` and `emulator-5554+{X}`
+        port_serial, emu_serial = get_serial_pair(self.serial)
+        if port_serial and emu_serial:
+            # Might be LDPlayer, check connected devices
+            port_device = devices.select(serial=port_serial).first_or_none()
+            emu_device = devices.select(serial=emu_serial).first_or_none()
+            if port_device and emu_device:
+                # Paired devices found, check status to get the correct one
+                if port_device.status == 'device' and emu_device.status == 'offline':
+                    self.serial = port_serial
+                    logger.info(f'LDPlayer device pair found: {port_device}, {emu_device}. '
+                                f'Using serial: {self.serial}')
+                elif port_device.status == 'offline' and emu_device.status == 'device':
+                    self.serial = emu_serial
+                    logger.info(f'LDPlayer device pair found: {port_device}, {emu_device}. '
+                                f'Using serial: {self.serial}')
+            elif not devices.select(serial=self.serial):
+                # Current serial not found
+                if port_device and not emu_device:
+                    logger.info(f'Current serial {self.serial} not found but paired device {port_serial} found. '
+                                f'Using serial: {port_serial}')
+                    self.serial = port_serial
+                if not port_device and emu_device:
+                    logger.info(f'Current serial {self.serial} not found but paired device {emu_serial} found. '
+                                f'Using serial: {emu_serial}')
+                    self.serial = emu_serial
 
     @retry
     def list_package(self):

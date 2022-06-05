@@ -1,24 +1,26 @@
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.timer import Timer
+from module.handler.assets import POPUP_CONFIRM
 from module.shop.assets import *
 from module.ui.assets import BACK_ARROW
 from module.ui.navbar import Navbar
 from module.ui.page import page_munitions
 from module.ui.ui import UI
-from module.handler.assets import POPUP_CONFIRM
 
 
 class ShopUI(UI):
     @cached_property
     def _shop_bottom_navbar(self):
         """
+        Below information relative to after
+        shop_swipe
         shop_bottom_navbar 5 options
+            medal
             guild.
             prototype.
             core.
             merit.
-            general.
         """
         shop_bottom_navbar = ButtonGrid(
             origin=(399, 619), delta=(182, 0),
@@ -33,20 +35,22 @@ class ShopUI(UI):
         """
         Ensure able to transition to page and
         page has loaded to completion
+        Below information relative to after
+        shop_swipe
 
         Args:
             left (int):
-                1 for guild.
-                4 for prototype.
-                3 for core.
-                2 for merit.
-                1 for general.
+                1 for medal
+                2 for guild.
+                3 for prototype.
+                4 for core.
+                5 for merit.
             right (int):
-                5 for guild.
-                4 for prototype.
-                3 for core.
-                2 for merit.
-                1 for general.
+                5 for medal
+                4 for guild.
+                3 for prototype.
+                2 for core.
+                1 for merit.
 
         Returns:
             bool: if bottom_navbar set ensured
@@ -96,7 +100,7 @@ class ShopUI(UI):
         self.handle_info_bar()
         return refreshed
 
-    def _shop_swipe(self, skip_first_screenshot=True):
+    def shop_swipe(self, skip_first_screenshot=True):
         """
         Swipes bottom navbar one way, right only
 
@@ -115,8 +119,9 @@ class ShopUI(UI):
             else:
                 self.device.screenshot()
 
-            if self.appear(SHOP_GUILD_SWIPE_END, offset=(15, 5)) or \
-                    self.appear(SHOP_GENERAL_SWIPE_END, offset=(15, 5)):
+            # Swipe to the left, medal shop on the leftmost and merit shop on the right most
+            if self.appear(SHOP_MEDAL_SWIPE_END, offset=(15, 5)) or \
+                    self.appear(SHOP_MERIT_SWIPE_END, offset=(15, 5)):
                 return True
 
             self.device.swipe_vector((480, 0), box=detection_area, random_range=(-50, -10, 50, 10), padding=0)
@@ -126,17 +131,8 @@ class ShopUI(UI):
 
     def ui_goto_shop(self):
         """
-        Goes to page_munitions and
-        swipes if needed
-        Default view defined as
-        screen appears with
-        guild shop as left-most or
-        general shop as right-most
-
-        Returns:
-            bool: True if in expected view
-                  otherwise False
+        Goes to page_munitions
+        This route guarantees start
+        in general shop
         """
         self.ui_ensure(page_munitions)
-
-        return self._shop_swipe()

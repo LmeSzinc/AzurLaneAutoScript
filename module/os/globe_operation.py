@@ -4,6 +4,7 @@ from module.exception import GameTooManyClickError
 from module.logger import logger
 from module.os.assets import *
 from module.os_handler.action_point import ActionPointHandler
+from module.os_handler.assets import AUTO_SEARCH_REWARD
 from module.os_handler.map_event import MapEventHandler
 
 ZONE_TYPES = [ZONE_DANGEROUS, ZONE_SAFE, ZONE_OBSCURE, ZONE_ABYSSAL, ZONE_STRONGHOLD, ZONE_ARCHIVE]
@@ -292,6 +293,9 @@ class GlobeOperation(ActionPointHandler, MapEventHandler):
                     raise GameTooManyClickError(f'Too many click for a button: {MAP_GOTO_GLOBE}')
                 continue
             if self.handle_map_event():
+                continue
+            # Popup: AUTO_SEARCH_REWARD appears slowly
+            if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=5):
                 continue
             # Popup: Leaving current zone will terminate meowfficer searching.
             # Searching reward will be shown after entering another zone.

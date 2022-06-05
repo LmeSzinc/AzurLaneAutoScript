@@ -27,7 +27,7 @@ from module.webui.fastapi import asgi_app
 from module.webui.lang import _t, t
 from module.webui.pin import put_input, put_select
 from module.webui.process_manager import ProcessManager
-from module.webui.setting import Setting
+from module.webui.setting import State
 from module.webui.translate import translate
 from module.webui.updater import updater
 from module.webui.utils import (Icon, Switch, TaskHandler, add_css,
@@ -157,8 +157,8 @@ class AlasGUI(Frame):
     @classmethod
     def set_theme(cls, theme="default") -> None:
         cls.theme = theme
-        Setting.webui_config.Theme = theme
-        Setting.theme = theme
+        State.deploy_config.Theme = theme
+        State.theme = theme
         webconfig(theme=theme)
 
     @use_scope("menu", clear=True)
@@ -214,7 +214,7 @@ class AlasGUI(Frame):
         self.set_title(t(f"Task.{task}.name"))
 
         put_scope("_groups", [put_none(), put_scope("groups"), put_scope("navigator")])
-        config = Setting.config_updater.update_file(self.alas_name)
+        config = State.config_updater.update_file(self.alas_name)
         for group, arg_dict in deep_iter(self.ALAS_ARGS[task], depth=1):
             self.set_group(group, arg_dict, config, task)
             self.set_navigator(group)
@@ -379,7 +379,7 @@ class AlasGUI(Frame):
     def _alas_thread_wait_config_change(self) -> None:
         paths = []
         for path, d in deep_iter(self.ALAS_ARGS, depth=3):
-            if d["type"] in ["disable", "hide"]:
+            if d["type"] in ["lock", "disable", "hide"]:
                 continue
             paths.append(self.path_to_idx[".".join(path)])
         while self.alive:
@@ -418,6 +418,18 @@ class AlasGUI(Frame):
                         elif not validate or re_fullmatch(validate, v):
                             deep_set(config, k, v)
                             valid.append(self.path_to_idx[k])
+
+                            # update Emotion Record if Emotion Value is changed
+                            if 'Emotion' in k and 'Value' in k:
+                                k = k.split('.')
+                                k[-1] = k[-1].replace('Value', 'Record')
+                                k = '.'.join(k)
+                                v = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                                modified[k] = v
+                                deep_set(config, k, v)
+                                valid.append(self.path_to_idx[k])
+                                pin[self.path_to_idx[k]] = v
+
                         else:
                             modified.pop(k)
                             invalid.append(self.path_to_idx[k])
@@ -583,7 +595,7 @@ class AlasGUI(Frame):
             scope="log_scroll_btn",
         )
 
-        config = Setting.config_updater.update_file(self.alas_name)
+        config = State.config_updater.update_file(self.alas_name)
         for group, arg_dict in deep_iter(self.ALAS_ARGS[task], depth=1):
             self.set_group(group, arg_dict, config, task)
 
@@ -599,11 +611,11 @@ class AlasGUI(Frame):
             label=t("Gui.MenuDevelop.HomePage"), onclick=self.show, color="menu"
         ).style(f"--menu-HomePage--")
 
-        put_button(
-            label=t("Gui.MenuDevelop.Translate"),
-            onclick=self.dev_translate,
-            color="menu",
-        ).style(f"--menu-Translate--")
+        # put_button(
+        #     label=t("Gui.MenuDevelop.Translate"),
+        #     onclick=self.dev_translate,
+        #     color="menu",
+        # ).style(f"--menu-Translate--")
 
         put_button(
             label=t("Gui.MenuDevelop.Update"), onclick=self.dev_update, color="menu"
@@ -615,6 +627,20 @@ class AlasGUI(Frame):
         #     color="menu"
         # ).style(f'--menu-Raise--')
 
+        def _force_restart():
+            if State.researt_event is not None:
+                toast("Alas will restart in 3 seconds", duration=0, color="error")
+                clearup()
+                State.researt_event.set()
+            else:
+                toast("Reload not enabled", color="error")
+
+        put_button(
+            label="Force restart",
+            onclick=_force_restart,
+            color="menu",
+        ).style(f'--menu-Restart--')
+
     def dev_translate(self) -> None:
         go_app("translate", new_window=True)
         lang.TRANSLATE_MODE = True
@@ -625,7 +651,7 @@ class AlasGUI(Frame):
         self.init_menu(name="Update")
         self.set_title(t("Gui.MenuDevelop.Update"))
 
-        if not Setting.reload:
+        if State.researt_event is None:
             put_warning(t("Gui.Update.DisabledWarn"))
 
         put_row(
@@ -640,7 +666,7 @@ class AlasGUI(Frame):
             with use_scope("updater_info", clear=True):
                 local_commit = updater.get_commit(short_sha1=True)
                 upstream_commit = updater.get_commit(
-                    f"origin/{updater.branch}", short_sha1=True
+                    f"origin/{updater.Branch}", short_sha1=True
                 )
                 put_table(
                     [
@@ -649,6 +675,21 @@ class AlasGUI(Frame):
                     ],
                     header=[
                         "",
+                        "SHA1",
+                        t("Gui.Update.Author"),
+                        t("Gui.Update.Time"),
+                        t("Gui.Update.Message"),
+                    ],
+                )
+            with use_scope("updater_detail", clear=True):
+                put_text(t("Gui.Update.DetailedHistory"))
+                history = updater.get_commit(
+                    f"origin/{updater.Branch}", n=20, short_sha1=True)
+                put_table(
+                    [
+                        commit for commit in history
+                    ],
+                    header=[
                         "SHA1",
                         t("Gui.Update.Author"),
                         t("Gui.Update.Time"),
@@ -1014,17 +1055,17 @@ def debug():
 
 
 def startup():
-    Setting.init()
+    State.init()
     AlasGUI.shorten_path()
     lang.reload()
-    updater.event = Setting.manager.Event()
+    updater.event = State.manager.Event()
     if updater.delay > 0:
         task_handler.add(updater.check_update, updater.delay)
     task_handler.add(updater.schedule_update(), 86400)
     task_handler.start()
-    if updater.bool("DiscordRichPresence"):
+    if State.deploy_config.DiscordRichPresence:
         init_discord_rpc()
-    if updater.bool("StartOcrServer"):
+    if State.deploy_config.StartOcrServer:
         start_ocr_server_process(updater.config["OcrServerPort"])
 
 
@@ -1038,7 +1079,7 @@ def clearup():
     stop_ocr_server_process()
     for alas in ProcessManager._processes.values():
         alas.stop()
-    Setting.clearup()
+    State.clearup()
     task_handler.stop()
     logger.info("Alas closed.")
 
@@ -1064,30 +1105,24 @@ def app():
     args, _ = parser.parse_known_args()
 
     # Apply config
-    AlasGUI.set_theme(theme=Setting.webui_config.Theme)
-    lang.LANG = Setting.webui_config.Language
-    key = args.key or Setting.webui_config.Password
+    AlasGUI.set_theme(theme=State.deploy_config.Theme)
+    lang.LANG = State.deploy_config.Language
+    key = args.key or State.deploy_config.Password
     if args.cdn:
         cdn = args.cdn
     else:
-        cdn = Setting.webui_config.CDN
-        if cdn.lower() == "true":
-            cdn = True
-        elif cdn.lower() == "false":
-            cdn = False
-    Setting.reload = args.reload or Setting.webui_config.bool("EnableReload")
-    Setting.electron = args.electron
+        cdn = State.deploy_config.CDN
+    State.electron = args.electron
 
     logger.hr("Webui configs")
-    logger.attr("Theme", Setting.webui_config.Theme)
+    logger.attr("Theme", State.deploy_config.Theme)
     logger.attr("Language", lang.LANG)
     logger.attr("Password", True if key else False)
     logger.attr("CDN", cdn)
     logger.attr("Electron", args.electron)
-    logger.attr("Reload", Setting.reload)
 
     def index():
-        if key != "" and not login(key):
+        if key is not None and not login(key):
             logger.warning(f"{info.user_ip} login failed.")
             time.sleep(1.5)
             run_js("location.reload();")
@@ -1095,7 +1130,7 @@ def app():
         AlasGUI().run()
 
     app = asgi_app(
-        applications=[index, translate],
+        applications=[index],
         cdn=cdn,
         static_dir=None,
         debug=True,

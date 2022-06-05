@@ -11,7 +11,7 @@ class PipManager(DeployConfig):
 
     @cached_property
     def requirements_file(self):
-        if self.config['RequirementsFile'] == 'requirements.txt':
+        if self.RequirementsFile == 'requirements.txt':
             return 'requirements.txt'
         else:
             return self.filepath("RequirementsFile")
@@ -23,7 +23,7 @@ class PipManager(DeployConfig):
     def pip_install(self):
         hr0('Update Dependencies')
 
-        if not self.bool('InstallDependencies'):
+        if not self.InstallDependencies:
             print('InstallDependencies is disabled, skip')
             return
 
@@ -31,8 +31,8 @@ class PipManager(DeployConfig):
         self.execute(f'"{self.python}" --version')
 
         arg = []
-        if self.bool('PypiMirror'):
-            mirror = self.config['PypiMirror']
+        if self.PypiMirror:
+            mirror = self.PypiMirror
             arg += ['-i', mirror]
             # Trust http mirror
             if 'http:' in mirror:

@@ -9,7 +9,7 @@ from rich.console import ConsoleRenderable
 
 from module.config.utils import deep_get, filepath_config
 from module.logger import logger, set_file_logger, set_func_logger
-from module.webui.setting import Setting
+from module.webui.setting import State
 
 
 class ProcessManager:
@@ -17,7 +17,7 @@ class ProcessManager:
 
     def __init__(self, config_name: str = "alas") -> None:
         self.config_name = config_name
-        self._renderable_queue: queue.Queue[ConsoleRenderable] = Setting.manager.Queue()
+        self._renderable_queue: queue.Queue[ConsoleRenderable] = State.manager.Queue()
         self.renderables: List[ConsoleRenderable] = []
         self.renderables_max_length = 400
         self.renderables_reduce_length = 80

@@ -151,7 +151,9 @@ Emotion:
   CalculateEmotion: true
   IgnoreLowEmotionWarn: false
   Fleet1Value: 119
-  Fleet1Record: 2020-01-01 00:00:00
+  Fleet1Record:
+    value: 2020-01-01 00:00:00
+    type: disable
   Fleet1Control:
     value: prevent_yellow_face
     option: [keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face]
@@ -160,7 +162,9 @@ Emotion:
     option: [not_in_dormitory, dormitory_floor_1, dormitory_floor_2]
   Fleet1Oath: false
   Fleet2Value: 119
-  Fleet2Record: 2020-01-01 00:00:00
+  Fleet2Record:
+    value: 2020-01-01 00:00:00
+    type: disable
   Fleet2Control:
     value: prevent_yellow_face
     option: [keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face]
@@ -378,12 +382,32 @@ GuildShop:
   PR3:
     value: cheshire
     option: [cheshire, mainz, odin, champagne]
-MedalShop:
+MedalShop2:
   Filter: |-
     DR > PR
-    > BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2
-    > RetrofitT3 > PlateGeneralT3
+    > BookRedT3 > BookYellowT3 > BookBlueT3
+    > BookRedT2 > BookYellowT2 > BookBlueT2
+    > RetrofitT3
     > FoodT6 > FoodT5
+    > PlateGeneralT3 > PlateWildT3
+  RETROFIT_T1:
+    value: cl
+    option: [dd, cl, bb, cv]
+  RETROFIT_T2:
+    value: cl
+    option: [dd, cl, bb, cv]
+  RETROFIT_T3:
+    value: cl
+    option: [dd, cl, bb, cv]
+  PLATE_T1:
+    value: general
+    option: [general, gun, torpedo, antiair, plane]
+  PLATE_T2:
+    value: general
+    option: [general, gun, torpedo, antiair, plane]
+  PLATE_T3:
+    value: general
+    option: [general, gun, torpedo, antiair, plane]
 MeritShop:
   Refresh: false
   Filter: |-

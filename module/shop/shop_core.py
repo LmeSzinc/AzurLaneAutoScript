@@ -3,15 +3,13 @@ from module.exception import ScriptError
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.shop.assets import *
-from module.shop.base import ShopBase, ShopItemGrid
+from module.shop.base import ShopItemGrid
+from module.shop.clerk import ShopClerk
 
 OCR_SHOP_CORE = Digit(SHOP_CORE, letter=(239, 239, 239), name='OCR_SHOP_CORE')
-OCR_SHOP_AMOUNT = Digit(SHOP_AMOUNT, letter=(239, 239, 239), name='OCR_SHOP_AMOUNT')
 
 
-class CoreShop(ShopBase):
-    _shop_core = 0
-
+class CoreShop(ShopClerk):
     @cached_property
     def shop_filter(self):
         """
@@ -48,68 +46,14 @@ class CoreShop(ShopBase):
     def shop_currency(self):
         """
         Ocr shop core currency
+        Then return core count
 
         Returns
             int: core amount
         """
-        self._shop_core = OCR_SHOP_CORE.ocr(self.device.image)
-        logger.info(f'Core: {self._shop_core}')
-        return self._shop_core
-
-    def shop_check_item(self, item):
-        """
-        Args:
-            item: Item to check
-
-        Returns:
-            bool:
-        """
-        if item.price > self._shop_core:
-            return False
-        return True
-
-    def shop_buy_amount_execute(self, item):
-        """
-        Args:
-            item (Item):
-
-        Returns:
-            bool:
-
-        Raises:
-            ScriptError
-        """
-        index_offset = (40, 20)
-
-        # In case either -/+ shift position, use
-        # shipyard ocr trick to accurately parse
-        self.appear(AMOUNT_MINUS, offset=index_offset)
-        self.appear(AMOUNT_PLUS, offset=index_offset)
-        area = OCR_SHOP_AMOUNT.buttons[0]
-        OCR_SHOP_AMOUNT.buttons = [(AMOUNT_MINUS.button[2] + 3, area[1], AMOUNT_PLUS.button[0] - 3, area[3])]
-
-        # Total number that can be purchased
-        # altogether based on clicking max
-        # Needs small delay for stable image
-        self.appear_then_click(AMOUNT_MAX)
-        self.device.sleep((0.3, 0.5))
-        self.device.screenshot()
-        limit = OCR_SHOP_AMOUNT.ocr(self.device.image)
-        if not limit:
-            logger.critical('OCR_SHOP_AMOUNT resulted in zero (0); '
-                            'asset may be compromised')
-            raise ScriptError
-
-        # Adjust purchase amount if needed
-        total = int(self._shop_core // item.price)
-        diff = limit - total
-        if diff > 0:
-            limit = total
-
-        self.ui_ensure_index(limit, letter=OCR_SHOP_AMOUNT, prev_button=AMOUNT_MINUS, next_button=AMOUNT_PLUS,
-                             skip_first_screenshot=True)
-        self.device.click(SHOP_BUY_CONFIRM_AMOUNT)
-        return True
+        self._currency = OCR_SHOP_CORE.ocr(self.device.image)
+        logger.info(f'Core: {self._currency}')
+        return self._currency
 
     def shop_interval_clear(self):
         """

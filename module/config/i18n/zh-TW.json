@@ -1399,14 +1399,65 @@
       "champagne": "香檳"
     }
   },
-  "MedalShop": {
+  "MedalShop2": {
     "_info": {
-      "name": "兌換商店 (退役兌換)",
+      "name": "功勳商店（退役兌換）",
       "help": ""
     },
     "Filter": {
-      "name": "兌換商店過濾器",
+      "name": "商店過濾器",
       "help": ""
+    },
+    "RETROFIT_T1": {
+      "name": "藍色改造圖紙選擇",
+      "help": "",
+      "dd": "驅逐",
+      "cl": "巡洋",
+      "bb": "戰列",
+      "cv": "航母"
+    },
+    "RETROFIT_T2": {
+      "name": "紫色改造圖紙選擇",
+      "help": "",
+      "dd": "驅逐",
+      "cl": "巡洋",
+      "bb": "戰列",
+      "cv": "航母"
+    },
+    "RETROFIT_T3": {
+      "name": "金色改造圖紙選擇",
+      "help": "",
+      "dd": "驅逐",
+      "cl": "巡洋",
+      "bb": "戰列",
+      "cv": "航母"
+    },
+    "PLATE_T1": {
+      "name": "白色部件選擇",
+      "help": "",
+      "general": "通用",
+      "gun": "主砲",
+      "torpedo": "魚雷",
+      "antiair": "防空",
+      "plane": "艦載機"
+    },
+    "PLATE_T2": {
+      "name": "藍色部件選擇",
+      "help": "",
+      "general": "通用",
+      "gun": "主砲",
+      "torpedo": "魚雷",
+      "antiair": "防空",
+      "plane": "艦載機"
+    },
+    "PLATE_T3": {
+      "name": "紫色部件選擇",
+      "help": "",
+      "general": "通用",
+      "gun": "主砲",
+      "torpedo": "魚雷",
+      "antiair": "防空",
+      "plane": "艦載機"
     }
   },
   "MeritShop": {
@@ -2002,11 +2053,11 @@
     "Update": {
       "UpToDate": "已是最新版本",
       "HaveUpdate": "有新版本可用",
-      "UpdateFailed": "更新失敗，可在./log/*_gui.txt中找到錯誤日誌",
       "UpdateStart": "開始更新",
       "UpdateWait": "等待所有 Alas 完成當前任務",
       "UpdateRun": "更新中",
       "UpdateSuccess": "更新成功，正在重啓",
+      "UpdateFailed": "更新失敗，可在./log/*_gui.txt中找到錯誤日誌",
       "UpdateChecking": "檢查更新中",
       "UpdateCancel": "取消更新，重啓 Alas 中",
       "UpdateFinish": "更新成功，請手動重啓",
@@ -2015,7 +2066,8 @@
       "Author": "作者",
       "Time": "提交時間",
       "Message": "提交資訊",
-      "DisabledWarn": "更新模塊未啟用，你需要手動重啓 Alas 進行更新"
+      "DisabledWarn": "更新模塊未啟用，你需要手動重啓 Alas 進行更新",
+      "DetailedHistory": "詳細提交歷史"
     },
     "Text": {
       "InvalidFeedBack": "格式錯誤。 示例：{0}"
