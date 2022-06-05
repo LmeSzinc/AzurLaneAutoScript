@@ -48,7 +48,7 @@ class GeneralShop(ShopClerk, ShopUI):
 
     currency_rechecked = 0
 
-    def shop_currency(self, read=False):
+    def shop_currency(self):
         """
         Ocr shop guild currency if needed
         (gold coins and gems)
@@ -57,26 +57,28 @@ class GeneralShop(ShopClerk, ShopUI):
         Returns:
             int: gold coin amount
         """
-        if read:
-            while 1:
-                self._currency = OCR_SHOP_GOLD_COINS.ocr(self.device.image)
-                self.gems = OCR_SHOP_GEMS.ocr(self.device.image)
-                logger.info(f'Gold coins: {self._currency}, Gems: {self.gems}')
+        while 1:
+            self._currency = OCR_SHOP_GOLD_COINS.ocr(self.device.image)
+            self.gems = OCR_SHOP_GEMS.ocr(self.device.image)
+            logger.info(f'Gold coins: {self._currency}, Gems: {self.gems}')
 
-                if self.currency_rechecked >= 3:
-                    logger.warning('Failed to handle fix currency bug in general shop, skip')
-                    break
+            if self.currency_rechecked >= 3:
+                logger.warning('Failed to handle fix currency bug in general shop, skip')
+                break
 
-                if self._currency == 0 and self.gems == 0:
-                    logger.info('Game bugged, coins and gems disappeared, switch between shops to reset')
-                    self.currency_rechecked += 1
-                    # Goto guild shop
-                    self.shop_bottom_navbar_ensure(left=1)
-                    # Goto general shop
-                    self.shop_bottom_navbar_ensure(left=5)
-                    continue
-                else:
-                    break
+            if self._currency == 0 and self.gems == 0:
+                logger.info('Game bugged, coins and gems disappeared, switch between shops to reset')
+                self.currency_rechecked += 1
+
+                # 2022.06.01 General shop no longer at an expected location
+                # NavBar 'get_active' (0 index-based) and swap with its left
+                # adjacent neighbor then back (NavBar 'set' is 1 index-based)
+                index = self._shop_bottom_navbar.get_active(self)
+                self.shop_bottom_navbar_ensure(left=index)
+                self.shop_bottom_navbar_ensure(left=index + 1)
+                continue
+            else:
+                break
 
         return self._currency
 
