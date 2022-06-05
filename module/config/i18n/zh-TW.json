@@ -1401,63 +1401,63 @@
   },
   "MedalShop": {
     "_info": {
-      "name": "兌換商店 (退役兌換)",
+      "name": "功勳商店（退役兌換）",
       "help": ""
     },
     "Filter": {
-      "name": "兌換商店過濾器",
+      "name": "商店過濾器",
       "help": ""
     },
     "RETROFIT_T1": {
-      "name": "MedalShop.RETROFIT_T1.name",
-      "help": "MedalShop.RETROFIT_T1.help",
-      "dd": "dd",
-      "cl": "cl",
-      "bb": "bb",
-      "cv": "cv"
+      "name": "藍色改造圖紙選擇",
+      "help": "",
+      "dd": "驅逐",
+      "cl": "巡洋",
+      "bb": "戰列",
+      "cv": "航母"
     },
     "RETROFIT_T2": {
-      "name": "MedalShop.RETROFIT_T2.name",
-      "help": "MedalShop.RETROFIT_T2.help",
-      "dd": "dd",
-      "cl": "cl",
-      "bb": "bb",
-      "cv": "cv"
+      "name": "紫色改造圖紙選擇",
+      "help": "",
+      "dd": "驅逐",
+      "cl": "巡洋",
+      "bb": "戰列",
+      "cv": "航母"
     },
     "RETROFIT_T3": {
-      "name": "MedalShop.RETROFIT_T3.name",
-      "help": "MedalShop.RETROFIT_T3.help",
-      "dd": "dd",
-      "cl": "cl",
-      "bb": "bb",
-      "cv": "cv"
+      "name": "金色改造圖紙選擇",
+      "help": "",
+      "dd": "驅逐",
+      "cl": "巡洋",
+      "bb": "戰列",
+      "cv": "航母"
     },
     "PLATE_T1": {
-      "name": "MedalShop.PLATE_T1.name",
-      "help": "MedalShop.PLATE_T1.help",
-      "general": "general",
-      "gun": "gun",
-      "torpedo": "torpedo",
-      "antiair": "antiair",
-      "plane": "plane"
+      "name": "白色部件選擇",
+      "help": "",
+      "general": "通用",
+      "gun": "主砲",
+      "torpedo": "魚雷",
+      "antiair": "防空",
+      "plane": "艦載機"
     },
     "PLATE_T2": {
-      "name": "MedalShop.PLATE_T2.name",
-      "help": "MedalShop.PLATE_T2.help",
-      "general": "general",
-      "gun": "gun",
-      "torpedo": "torpedo",
-      "antiair": "antiair",
-      "plane": "plane"
+      "name": "藍色部件選擇",
+      "help": "",
+      "general": "通用",
+      "gun": "主砲",
+      "torpedo": "魚雷",
+      "antiair": "防空",
+      "plane": "艦載機"
     },
     "PLATE_T3": {
-      "name": "MedalShop.PLATE_T3.name",
-      "help": "MedalShop.PLATE_T3.help",
-      "general": "general",
-      "gun": "gun",
-      "torpedo": "torpedo",
-      "antiair": "antiair",
-      "plane": "plane"
+      "name": "紫色部件選擇",
+      "help": "",
+      "general": "通用",
+      "gun": "主砲",
+      "torpedo": "魚雷",
+      "antiair": "防空",
+      "plane": "艦載機"
     }
   },
   "MeritShop": {
