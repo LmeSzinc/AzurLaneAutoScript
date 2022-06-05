@@ -124,6 +124,42 @@ class ShopBase(ModuleBase):
         """
         return True
 
+    def shop_detect_items(self, image=None):
+        """
+        Detect items on image for testing purpose
+        """
+        if image is None:
+            image = self.device.image
+
+        # Retrieve ShopItemGrid
+        shop_items = self.shop_items()
+        if shop_items is None:
+            logger.warning('Expected type \'ShopItemGrid\' but was None')
+            return []
+
+        shop_items.predict(
+            image,
+            name=True,
+            amount=False,
+            cost=True,
+            price=True,
+            tag=False
+        )
+
+        # Log final result on predicted items
+        items = shop_items.items
+        grids = shop_items.grids
+        if len(items):
+            min_row = grids[0, 0].area[1]
+            row = [str(item) for item in items if item.button[1] == min_row]
+            logger.info(f'Shop row 1: {row}')
+            row = [str(item) for item in items if item.button[1] != min_row]
+            logger.info(f'Shop row 2: {row}')
+            return items
+        else:
+            logger.info('No shop items found')
+            return []
+
     def shop_get_items(self, skip_first_screenshot=True):
         """
         Args:
