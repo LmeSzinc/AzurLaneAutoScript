@@ -500,7 +500,7 @@
         "value": 119
       },
       "Fleet1Record": {
-        "type": "input",
+        "type": "disable",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
@@ -532,7 +532,7 @@
         "value": 119
       },
       "Fleet2Record": {
-        "type": "input",
+        "type": "disable",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
@@ -856,7 +856,7 @@
         "value": 119
       },
       "Fleet1Record": {
-        "type": "input",
+        "type": "disable",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
@@ -888,7 +888,7 @@
         "value": 119
       },
       "Fleet2Record": {
-        "type": "input",
+        "type": "disable",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
@@ -1212,7 +1212,7 @@
         "value": 119
       },
       "Fleet1Record": {
-        "type": "input",
+        "type": "disable",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
@@ -1244,7 +1244,7 @@
         "value": 119
       },
       "Fleet2Record": {
-        "type": "input",
+        "type": "disable",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
@@ -1615,7 +1615,7 @@
         "value": 119
       },
       "Fleet1Record": {
-        "type": "input",
+        "type": "disable",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
@@ -1647,7 +1647,7 @@
         "value": 119
       },
       "Fleet2Record": {
-        "type": "input",
+        "type": "disable",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
@@ -2002,7 +2002,7 @@
         "value": 119
       },
       "Fleet1Record": {
-        "type": "input",
+        "type": "disable",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
@@ -2034,7 +2034,7 @@
         "value": 119
       },
       "Fleet2Record": {
-        "type": "input",
+        "type": "disable",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
@@ -2410,7 +2410,7 @@
         "value": 119
       },
       "Fleet1Record": {
-        "type": "input",
+        "type": "disable",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
@@ -2442,7 +2442,7 @@
         "value": 119
       },
       "Fleet2Record": {
-        "type": "input",
+        "type": "disable",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
@@ -2828,7 +2828,7 @@
         "value": 119
       },
       "Fleet1Record": {
-        "type": "input",
+        "type": "disable",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
@@ -2860,7 +2860,7 @@
         "value": 119
       },
       "Fleet2Record": {
-        "type": "input",
+        "type": "disable",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
@@ -3235,7 +3235,7 @@
         "value": 119
       },
       "Fleet1Record": {
-        "type": "input",
+        "type": "disable",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
@@ -3267,7 +3267,7 @@
         "value": 119
       },
       "Fleet2Record": {
-        "type": "input",
+        "type": "disable",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
@@ -3632,7 +3632,7 @@
         "value": 119
       },
       "Fleet1Record": {
-        "type": "input",
+        "type": "disable",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
@@ -3664,7 +3664,7 @@
         "value": 119
       },
       "Fleet2Record": {
-        "type": "input",
+        "type": "disable",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
@@ -3864,7 +3864,7 @@
         "value": 119
       },
       "Fleet1Record": {
-        "type": "input",
+        "type": "disable",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
@@ -3896,7 +3896,7 @@
         "value": 119
       },
       "Fleet2Record": {
-        "type": "input",
+        "type": "disable",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
@@ -4053,7 +4053,7 @@
         "value": 119
       },
       "Fleet1Record": {
-        "type": "input",
+        "type": "disable",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
@@ -4085,7 +4085,7 @@
         "value": 119
       },
       "Fleet2Record": {
-        "type": "input",
+        "type": "disable",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
@@ -4152,7 +4152,7 @@
   "Commission": {
     "Scheduler": {
       "Enable": {
-        "type": "disable",
+        "type": "lock",
         "value": true
       },
       "NextRun": {
@@ -4248,7 +4248,7 @@
   "Research": {
     "Scheduler": {
       "Enable": {
-        "type": "disable",
+        "type": "lock",
         "value": true
       },
       "NextRun": {
@@ -4506,7 +4506,7 @@
   "Reward": {
     "Scheduler": {
       "Enable": {
-        "type": "disable",
+        "type": "lock",
         "value": true
       },
       "NextRun": {
@@ -5595,7 +5595,7 @@
         "value": 119
       },
       "Fleet1Record": {
-        "type": "input",
+        "type": "disable",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
@@ -5627,7 +5627,7 @@
         "value": 119
       },
       "Fleet2Record": {
-        "type": "input",
+        "type": "disable",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
@@ -5956,7 +5956,7 @@
         "value": 119
       },
       "Fleet1Record": {
-        "type": "input",
+        "type": "disable",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
@@ -5988,7 +5988,7 @@
         "value": 119
       },
       "Fleet2Record": {
-        "type": "input",
+        "type": "disable",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
       },
@@ -6097,7 +6097,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": true
+        "value": false
       },
       "NextRun": {
         "type": "input",

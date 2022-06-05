@@ -460,7 +460,7 @@ class ConfigUpdater:
         def deep_load(keys):
             data = deep_get(self.args, keys=keys, default={})
             value = deep_get(old, keys=keys, default=data['value'])
-            if value is None or value == '' or data['type'] in ['disable', 'hide'] or is_template:
+            if value is None or value == '' or data['type'] in ['lock'] or is_template:
                 value = data['value']
             value = parse_value(value, data=data)
             deep_set(new, keys=keys, value=value)

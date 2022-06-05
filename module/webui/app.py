@@ -379,7 +379,7 @@ class AlasGUI(Frame):
     def _alas_thread_wait_config_change(self) -> None:
         paths = []
         for path, d in deep_iter(self.ALAS_ARGS, depth=3):
-            if d["type"] in ["disable", "hide"]:
+            if d["type"] in ["lock", "disable", "hide"]:
                 continue
             paths.append(self.path_to_idx[".".join(path)])
         while self.alive:
