@@ -10,7 +10,7 @@ from rich.console import ConsoleRenderable
 from module.logger import WEB_THEME, Highlighter, HTMLConsole
 from module.webui.pin import put_checkbox, put_input, put_select, put_textarea
 from module.webui.process_manager import ProcessManager
-from module.webui.setting import Setting
+from module.webui.setting import State
 from module.webui.utils import (DARK_TERMINAL_THEME, LIGHT_TERMINAL_THEME,
                                 LOG_CODE_FORMAT, Switch)
 
@@ -82,7 +82,7 @@ class RichLog:
         # self._callback_thread = None
         # self._width = 80
         self.keep_bottom = True
-        if Setting.theme == "dark":
+        if State.theme == "dark":
             self.terminal_theme = DARK_TERMINAL_THEME
         else:
             self.terminal_theme = LIGHT_TERMINAL_THEME

@@ -18,7 +18,7 @@ from rich.console import Console, ConsoleOptions
 from rich.terminal_theme import TerminalTheme
 
 from module.logger import logger
-from module.webui.setting import Setting
+from module.webui.setting import State
 
 RE_DATETIME = (
     r"(\d{2}|\d{4})(?:\-)?([0]{1}\d{1}|[1]{1}[0-2]{1})(?:\-)?"
@@ -491,7 +491,7 @@ def on_task_exception(self):
             word_wrap=True, extra_lines=1, show_locals=True
         )
 
-    if Setting.theme == "dark":
+    if State.theme == "dark":
         theme = DARK_TERMINAL_THEME
     else:
         theme = LIGHT_TERMINAL_THEME

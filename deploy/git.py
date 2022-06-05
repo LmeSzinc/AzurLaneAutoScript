@@ -12,7 +12,7 @@ class GitManager(DeployConfig):
         self.execute(f'"{self.git}" init')
 
         hr1('Set Git Proxy')
-        if self.to_bool(proxy):
+        if proxy:
             self.execute(f'"{self.git}" config --local http.proxy {proxy}')
             self.execute(f'"{self.git}" config --local https.proxy {proxy}')
         else:
@@ -49,14 +49,14 @@ class GitManager(DeployConfig):
     def git_install(self):
         hr0('Update Alas')
 
-        if not self.bool('AutoUpdate'):
+        if not self.AutoUpdate:
             print('AutoUpdate is disabled, skip')
             return
 
         self.git_repository_init(
-            repo=self.config['Repository'],
+            repo=self.Repository,
             source='origin',
-            branch=self.config['Branch'],
-            proxy=self.config['GitProxy'],
-            keep_changes=self.bool('KeepLocalChanges')
+            branch=self.Branch,
+            proxy=self.GitProxy,
+            keep_changes=self.KeepLocalChanges,
         )
