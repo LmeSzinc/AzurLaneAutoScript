@@ -230,6 +230,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         self.submarine_call_reset()
         self.combat_auto_reset()
         self.combat_manual_reset()
+        self.device.click_record_clear()
         confirm_timer = Timer(10)
         confirm_timer.start()
 
