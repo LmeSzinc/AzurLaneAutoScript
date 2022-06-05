@@ -4762,10 +4762,10 @@
         ]
       }
     },
-    "MedalShop": {
+    "MedalShop2": {
       "Filter": {
         "type": "textarea",
-        "value": "DR > PR\n> BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3 > PlateGeneralT3\n> FoodT6 > FoodT5"
+        "value": "DR > PR\n> BookRedT3 > BookYellowT3 > BookBlueT3\n> BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3\n> FoodT6 > FoodT5\n> PlateGeneralT3 > PlateWildT3"
       },
       "RETROFIT_T1": {
         "type": "select",

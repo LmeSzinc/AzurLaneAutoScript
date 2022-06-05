@@ -428,7 +428,7 @@ class ConfigUpdater:
         ('OpsiDaily.Scheduler.Enable', 'OpsiDaily.OpsiDaily.DoMission'),
         ('OpsiShop.Scheduler.Enable', 'OpsiShop.OpsiShop.BuySupply'),
         ('ShopOnce.GuildShop.Filter', 'ShopOnce.GuildShop.Filter', bp_redirect),
-        ('ShopOnce.MedalShop.Filter', 'ShopOnce.MedalShop.Filter', bp_redirect),
+        ('ShopOnce.MedalShop2.Filter', 'ShopOnce.MedalShop2.Filter', bp_redirect),
         (('Alas.DropRecord.SaveResearch', 'Alas.DropRecord.UploadResearch'),
          'Alas.DropRecord.ResearchRecord', upload_redirect),
         (('Alas.DropRecord.SaveCommission', 'Alas.DropRecord.UploadCommission'),

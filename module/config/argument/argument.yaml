@@ -378,12 +378,14 @@ GuildShop:
   PR3:
     value: cheshire
     option: [cheshire, mainz, odin, champagne]
-MedalShop:
+MedalShop2:
   Filter: |-
     DR > PR
-    > BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2
-    > RetrofitT3 > PlateGeneralT3
+    > BookRedT3 > BookYellowT3 > BookBlueT3
+    > BookRedT2 > BookYellowT2 > BookBlueT2
+    > RetrofitT3
     > FoodT6 > FoodT5
+    > PlateGeneralT3 > PlateWildT3
   RETROFIT_T1:
     value: cl
     option: [dd, cl, bb, cv]
