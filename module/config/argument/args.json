@@ -4766,6 +4766,69 @@
       "Filter": {
         "type": "textarea",
         "value": "DR > PR\n> BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3 > PlateGeneralT3\n> FoodT6 > FoodT5"
+      },
+      "RETROFIT_T1": {
+        "type": "select",
+        "value": "cl",
+        "option": [
+          "dd",
+          "cl",
+          "bb",
+          "cv"
+        ]
+      },
+      "RETROFIT_T2": {
+        "type": "select",
+        "value": "cl",
+        "option": [
+          "dd",
+          "cl",
+          "bb",
+          "cv"
+        ]
+      },
+      "RETROFIT_T3": {
+        "type": "select",
+        "value": "cl",
+        "option": [
+          "dd",
+          "cl",
+          "bb",
+          "cv"
+        ]
+      },
+      "PLATE_T1": {
+        "type": "select",
+        "value": "general",
+        "option": [
+          "general",
+          "gun",
+          "torpedo",
+          "antiair",
+          "plane"
+        ]
+      },
+      "PLATE_T2": {
+        "type": "select",
+        "value": "general",
+        "option": [
+          "general",
+          "gun",
+          "torpedo",
+          "antiair",
+          "plane"
+        ]
+      },
+      "PLATE_T3": {
+        "type": "select",
+        "value": "general",
+        "option": [
+          "general",
+          "gun",
+          "torpedo",
+          "antiair",
+          "plane"
+        ]
       }
     },
     "MeritShop": {

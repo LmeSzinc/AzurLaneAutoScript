@@ -1407,6 +1407,57 @@
     "Filter": {
       "name": "MedalShop.Filter.name",
       "help": "MedalShop.Filter.help"
+    },
+    "RETROFIT_T1": {
+      "name": "MedalShop.RETROFIT_T1.name",
+      "help": "MedalShop.RETROFIT_T1.help",
+      "dd": "dd",
+      "cl": "cl",
+      "bb": "bb",
+      "cv": "cv"
+    },
+    "RETROFIT_T2": {
+      "name": "MedalShop.RETROFIT_T2.name",
+      "help": "MedalShop.RETROFIT_T2.help",
+      "dd": "dd",
+      "cl": "cl",
+      "bb": "bb",
+      "cv": "cv"
+    },
+    "RETROFIT_T3": {
+      "name": "MedalShop.RETROFIT_T3.name",
+      "help": "MedalShop.RETROFIT_T3.help",
+      "dd": "dd",
+      "cl": "cl",
+      "bb": "bb",
+      "cv": "cv"
+    },
+    "PLATE_T1": {
+      "name": "MedalShop.PLATE_T1.name",
+      "help": "MedalShop.PLATE_T1.help",
+      "general": "general",
+      "gun": "gun",
+      "torpedo": "torpedo",
+      "antiair": "antiair",
+      "plane": "plane"
+    },
+    "PLATE_T2": {
+      "name": "MedalShop.PLATE_T2.name",
+      "help": "MedalShop.PLATE_T2.help",
+      "general": "general",
+      "gun": "gun",
+      "torpedo": "torpedo",
+      "antiair": "antiair",
+      "plane": "plane"
+    },
+    "PLATE_T3": {
+      "name": "MedalShop.PLATE_T3.name",
+      "help": "MedalShop.PLATE_T3.help",
+      "general": "general",
+      "gun": "gun",
+      "torpedo": "torpedo",
+      "antiair": "antiair",
+      "plane": "plane"
     }
   },
   "MeritShop": {

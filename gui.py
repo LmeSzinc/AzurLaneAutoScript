@@ -1,6 +1,8 @@
 import threading
 from multiprocessing import Event, Process
 
+from module.webui.setting import State
+
 
 def func(ev: threading.Event):
     import argparse
@@ -8,9 +10,6 @@ def func(ev: threading.Event):
     import sys
 
     import uvicorn
-
-    from module.webui.app import app
-    from module.webui.setting import State
 
     if sys.platform.startswith("win"):
         asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
@@ -34,20 +33,23 @@ def func(ev: threading.Event):
     host = args.host or State.deploy_config.WebuiHost or "0.0.0.0"
     port = args.port or int(State.deploy_config.WebuiPort) or 22267
 
-    uvicorn.run(app, host=host, port=port, factory=True)
+    uvicorn.run("module.webui.app:app", host=host, port=port, factory=True)
 
 
 if __name__ == "__main__":
-    should_exit = False
-    while not should_exit:
-        event = Event()
-        process = Process(target=func, args=(event,))
-        process.start()
+    if State.deploy_config.EnableReload:
+        should_exit = False
         while not should_exit:
-            if event.wait(5):
-                process.kill()
-                break
-            elif process.is_alive():
-                continue
-            else:
-                should_exit = True
+            event = Event()
+            process = Process(target=func, args=(event,))
+            process.start()
+            while not should_exit:
+                if event.wait(5):
+                    process.kill()
+                    break
+                elif process.is_alive():
+                    continue
+                else:
+                    should_exit = True
+    else:
+        func(None)

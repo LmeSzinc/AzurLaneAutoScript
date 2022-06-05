@@ -1,17 +1,16 @@
 import re
 
+from module.base.base import ModuleBase
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.filter import Filter
 from module.base.timer import Timer
-from module.combat.assets import GET_ITEMS_1, GET_SHIP
 from module.exception import ScriptError
 from module.logger import logger
-from module.retire.retirement import Retirement
 from module.shop.assets import *
+from module.shop.shop_select_globals import *
 from module.statistics.item import ItemGrid
 from module.tactical.tactical_class import Book
-from module.ui.assets import BACK_ARROW
 
 FILTER_REGEX = re.compile(
     '^(cube|drill|chip|array|pr|dr|box|bulin|book|food|plate|retrofit|cat)'
@@ -21,7 +20,7 @@ FILTER_REGEX = re.compile(
     '|gascogne|champagne|cheshire|drake|mainz|odin'
     '|anchorage|hakuryu|agir|august|marcopolo'
     '|red|blue|yellow'
-    '|general|gun|torpedo|antiair|plane'
+    '|general|gun|torpedo|antiair|plane|wild'
     '|dd|cl|bb|cv)?'
 
     '(s[1-4]|t[1-6])?$',
@@ -47,9 +46,9 @@ class ShopItemGrid(ItemGrid):
             result = re.search(FILTER_REGEX, name)
             if result:
                 item.group, item.sub_genre, item.tier = \
-                [group.lower() \
-                if group is not None else None \
-                for group in result.groups()]
+                [group.lower()
+                 if group is not None else None
+                 for group in result.groups()]
             else:
                 if not name.isnumeric():
                     logger.warning(f'Unable to parse shop item {name}; '
@@ -66,14 +65,16 @@ class ShopItemGrid(ItemGrid):
                 item.tier = book.tier_str.lower()
                 item.name = ''.join(
                     [part.title()
-                    if part is not None
-                    else ''
-                    for part in [item.group, item.sub_genre, item.tier]])
+                     if part is not None
+                     else ''
+                     for part in [item.group, item.sub_genre, item.tier]])
 
         return self.items
 
 
-class ShopBase(Retirement):
+class ShopBase(ModuleBase):
+    _currency = 0
+
     @cached_property
     def shop_filter(self):
         """
@@ -105,7 +106,7 @@ class ShopBase(Retirement):
         Returns:
             int:
         """
-        return 0
+        return self._currency
 
     def shop_has_loaded(self, items):
         """
@@ -201,36 +202,15 @@ class ShopBase(Retirement):
         Returns:
             bool:
         """
-        return False
+        if item.price > self._currency:
+            return False
+        return True
 
     def shop_check_custom_item(self, item):
         """
         Override in variant class
         for specific check custom item
         actions; no restriction to filter string
-
-        Args:
-            item (Item):
-
-        Returns:
-            bool:
-        """
-        return False
-
-    def shop_interval_clear(self):
-        """
-        Override in variant class
-        if need to clear particular
-        asset intervals
-        """
-        self.interval_clear(BACK_ARROW)
-        self.interval_clear(SHOP_BUY_CONFIRM)
-
-    def shop_buy_handle(self, item):
-        """
-        Override in variant class
-        for specific buy handle
-        actions
 
         Args:
             item (Item):
@@ -264,77 +244,3 @@ class ShopBase(Retirement):
         logger.attr('Item_sort', ' > '.join([str(item) for item in filtered]))
 
         return filtered[0]
-
-    def shop_buy_execute(self, item, skip_first_screenshot=True):
-        """
-        Args:
-            item: Item to check
-            skip_first_screenshot: bool
-
-        Returns:
-            None: exits appropriately therefore successful
-        """
-        success = False
-        self.shop_interval_clear()
-
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            if self.appear(BACK_ARROW, offset=(20, 20), interval=3):
-                self.device.click(item)
-                continue
-            if self.appear_then_click(SHOP_BUY_CONFIRM, offset=(20, 20), interval=3):
-                self.interval_reset(BACK_ARROW)
-                continue
-            if self.shop_buy_handle(item):
-                self.interval_reset(BACK_ARROW)
-                continue
-            if self.appear(GET_SHIP, interval=1):
-                self.device.click(SHOP_CLICK_SAFE_AREA)
-                self.interval_reset(BACK_ARROW)
-                continue
-            if self.handle_retirement():
-                self.interval_reset(BACK_ARROW)
-                continue
-            if self.appear(GET_ITEMS_1, interval=1):
-                self.device.click(SHOP_CLICK_SAFE_AREA)
-                self.interval_reset(BACK_ARROW)
-                success = True
-                continue
-            if self.handle_info_bar():
-                self.interval_reset(BACK_ARROW)
-                success = True
-                continue
-
-            # End
-            if success and self.appear(BACK_ARROW, offset=(20, 20)):
-                break
-
-    def shop_buy(self):
-        """
-        Returns:
-            bool: If success, and able to continue.
-        """
-        for _ in range(12):
-            logger.hr('Shop buy', level=2)
-            # Get first for innate delay to ocr
-            # shop currency for accurate parse
-            items = self.shop_get_items()
-            currency = self.shop_currency()
-            if currency <= 0:
-                logger.warning(f'Current funds: {currency}, stopped')
-                return False
-
-            item = self.shop_get_item_to_buy(items)
-            if item is None:
-                logger.info('Shop buy finished')
-                return True
-            else:
-                self.shop_buy_execute(item)
-                continue
-
-        logger.warning('Too many items to buy, stopped')
-        return True
