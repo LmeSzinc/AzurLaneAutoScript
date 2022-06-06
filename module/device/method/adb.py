@@ -7,7 +7,6 @@ from adbutils.errors import AdbError
 from lxml import etree
 
 from module.device.connection import Connection
-from module.config.config import AzurLaneConfig
 from module.device.method.utils import (RETRY_DELAY, RETRY_TRIES,
                                         handle_adb_error, PackageNotInstalled,
                                         recv_all)
@@ -38,7 +37,7 @@ def retry(func):
 
                 def init():
                     try:
-                        self.adb_try_reconnect()
+                        self.adb_reconnect()
                     except ConnectionResetError as e:
                         pass
             # AdbError
@@ -46,7 +45,7 @@ def retry(func):
                 if handle_adb_error(e):
                     def init():
                         try:
-                            self.adb_try_reconnect()
+                            self.adb_reconnect()
                         except ConnectionResetError as e:
                             pass
                 else:

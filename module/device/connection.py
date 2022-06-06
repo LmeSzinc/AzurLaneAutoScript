@@ -67,6 +67,7 @@ def retry(func):
 
                 def init():
                     pass
+
         logger.critical(f'Retry {func.__name__}() failed')
         raise RequestHumanTakeover
 
@@ -445,16 +446,6 @@ class Connection:
         del_cached_property(self, 'minitouch_builder')
         del_cached_property(self, 'reverse_server')
 
-
-    def adb_try_reconnect(self):
-        """
-           Reboot adb client if no device found, otherwise try reconnecting device.
-        """
-        if len(self.list_device()) == 0:
-            self.adb_restart()
-        else:
-            self.adb_reconnect(self.serial)
-            
     def adb_restart(self):
         """
             Reboot adb client
@@ -489,11 +480,14 @@ class Connection:
 
     def adb_reconnect(self):
         """
-        Reconnect to serial
+           Reboot adb client if no device found, otherwise try reconnecting device.
         """
-        self.adb_disconnect(self.serial)
-        self.adb_connect(self.serial)
-        self.detect_device()
+        if len(self.list_device()) == 0:
+            self.adb_restart()
+        else:
+            self.adb_disconnect(self.serial)
+            self.adb_connect(self.serial)
+            self.detect_device()
 
     def install_uiautomator2(self):
         """
@@ -613,6 +607,7 @@ class Connection:
         logger.info('Here are the available devices, '
                     'copy to Alas.Emulator.Serial to use it or set Alas.Emulator.Serial="auto"')
         devices = self.list_device()
+
         # Show available devices
         available = devices.select(status='device')
         for device in available:
@@ -627,6 +622,7 @@ class Connection:
             for device in unavailable:
                 logger.info(f'{device.serial} ({device.status})')
 
+        # Auto device detection
         if self.config.Emulator_Serial == 'auto':
             if len(devices) == 0:
                 logger.critical('No available device found, auto device detection cannot work, '
