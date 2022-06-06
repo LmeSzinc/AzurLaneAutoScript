@@ -545,18 +545,19 @@ class ConfigUpdater:
 
         return new
 
-    def read_file(self, config_name):
+    def read_file(self, config_name, is_template=False):
         """
         Read and update config file.
 
         Args:
             config_name (str): ./config/{file}.json
+            is_template (bool):
 
         Returns:
             dict:
         """
         old = read_file(filepath_config(config_name))
-        return self.config_update(old, is_template=config_name == 'template')
+        return self.config_update(old, is_template=is_template)
 
     @staticmethod
     def write_file(config_name, data):
@@ -570,17 +571,18 @@ class ConfigUpdater:
         write_file(filepath_config(config_name), data)
 
     @timer
-    def update_file(self, config_name):
+    def update_file(self, config_name, is_template=False):
         """
         Read, update and write config file.
 
         Args:
             config_name (str): ./config/{file}.json
+            is_template (bool):
 
         Returns:
             dict:
         """
-        data = self.read_file(config_name)
+        data = self.read_file(config_name, is_template=is_template)
         self.write_file(config_name, data)
         return data
 
@@ -602,4 +604,4 @@ if __name__ == '__main__':
     os.chdir(os.path.join(os.path.dirname(__file__), '../../'))
 
     ConfigGenerator().generate()
-    ConfigUpdater().update_file('template')
+    ConfigUpdater().update_file('template', is_template=True)

@@ -8,7 +8,6 @@ import inflection
 from cached_property import cached_property
 
 from module.config.config import AzurLaneConfig, TaskEnd
-from module.config.config_updater import ConfigUpdater
 from module.config.utils import deep_get, deep_set
 from module.exception import *
 from module.logger import logger
@@ -20,7 +19,6 @@ class AzurLaneAutoScript:
     def __init__(self, config_name='alas'):
         logger.hr('Start', level=0)
         self.config_name = config_name
-        ConfigUpdater().update_file(config_name)
 
     @cached_property
     def config(self):

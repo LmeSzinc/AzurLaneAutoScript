@@ -214,7 +214,7 @@ class AlasGUI(Frame):
         self.set_title(t(f"Task.{task}.name"))
 
         put_scope("_groups", [put_none(), put_scope("groups"), put_scope("navigator")])
-        config = State.config_updater.update_file(self.alas_name)
+        config = State.config_updater.read_file(self.alas_name)
         for group, arg_dict in deep_iter(self.ALAS_ARGS[task], depth=1):
             self.set_group(group, arg_dict, config, task)
             self.set_navigator(group)
@@ -405,7 +405,7 @@ class AlasGUI(Frame):
                     d = self.modified_config_queue.get(timeout=1)
                     modified[self.idx_to_path[d["name"]]] = d["value"]
                 except queue.Empty:
-                    config = read_file(filepath_config(config_name))
+                    config = State.config_updater.read_file(config_name)
                     for k, v in modified.copy().items():
                         valuetype = deep_get(self.ALAS_ARGS, k + ".valuetype")
                         v = parse_pin_value(v, valuetype)
@@ -451,7 +451,7 @@ class AlasGUI(Frame):
                         logger.info(
                             f"Save config {filepath_config(config_name)}, {dict_to_kv(modified)}"
                         )
-                        write_file(filepath_config(config_name), config)
+                        State.config_updater.write_file(config_name, config)
                     modified.clear()
                     valid.clear()
                     invalid.clear()
@@ -595,7 +595,7 @@ class AlasGUI(Frame):
             scope="log_scroll_btn",
         )
 
-        config = State.config_updater.update_file(self.alas_name)
+        config = State.config_updater.read_file(self.alas_name)
         for group, arg_dict in deep_iter(self.ALAS_ARGS[task], depth=1):
             self.set_group(group, arg_dict, config, task)
 
@@ -854,8 +854,8 @@ class AlasGUI(Frame):
                 origin = pin["AddAlas_copyfrom"]
 
                 if name not in alas_instance():
-                    r = read_file(filepath_config(origin))
-                    write_file(filepath_config(name), r)
+                    r = State.config_updater.read_file(origin)
+                    State.config_updater.write_file(name, r)
                     self.set_aside()
                     self.active_button("aside", self.alas_name)
                     close_popup()
