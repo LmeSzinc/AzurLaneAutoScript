@@ -138,7 +138,7 @@ class CampaignRun(UI):
         Returns:
             str, str: name, folder
         """
-        name = name.lower()
+        name = str(name).lower()
         if name[0].isdigit():
             name = 'campaign_' + name.lower().replace('-', '_')
         if folder == 'event_20201126_cn' and name == 'vsp':
