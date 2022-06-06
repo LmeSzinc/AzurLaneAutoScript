@@ -245,7 +245,13 @@ class Connection:
 
         # No gooey anymore, just shell=False
         process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=False)
-        return process.communicate(timeout=timeout)[0]
+        try:
+            stdout, stderr = process.communicate(timeout=timeout)
+        except subprocess.TimeoutExpired:
+            process.kill()
+            stdout, stderr = process.communicate()
+            logger.warning(f'TimeoutExpired when calling {cmd}, stdout={stdout}, stderr={stderr}')
+        return stdout
 
     def adb_shell(self, cmd, **kwargs):
         """
