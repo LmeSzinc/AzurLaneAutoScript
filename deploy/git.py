@@ -27,6 +27,11 @@ class GitManager(DeployConfig):
         self.execute(f'"{self.git}" fetch {source} {branch}')
 
         hr1('Pull Repository Branch')
+        # Remove git lock
+        lock_file = './.git/index.lock'
+        if os.path.exists(lock_file):
+            print(f'Lock file {lock_file} exists, removing')
+            os.remove(lock_file)
         if keep_changes:
             if self.execute(f'"{self.git}" stash', allow_failure=True):
                 self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
