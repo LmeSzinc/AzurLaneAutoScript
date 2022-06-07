@@ -191,7 +191,7 @@ class Dock(Equipment):
             if self.appear(check_button, offset=(30, 30)):
                 break
 
-            if self.appear_then_click(SHIP_CONFIRM, offset=(30, 30), interval=5):
+            if self.appear_then_click(SHIP_CONFIRM, offset=(200, 50), interval=5):
                 continue
             if self.handle_popup_confirm('DOCK_SELECT_CONFIRM'):
                 continue

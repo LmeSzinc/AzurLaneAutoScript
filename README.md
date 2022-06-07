@@ -138,7 +138,15 @@ GUI development, thanks **[@18870](https://github.com/18870)** , say HURRAY.
 2020-03-10 22:09:03.830 | INFO | 5 -- -- -- 2E -- 2E ++ ++
 ```
 
-开发文档，请前往 [WIKI](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki)。
+更多文档，请前往 [WIKI](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki)。
+
+
+
+## 参与开发 Join Development
+
+我们会不定期发布未来的工作在 [Issues](https://github.com/LmeSzinc/AzurLaneAutoScript/issues) 上并标记为 `help wanted`，欢迎向 Alas 提交 [Pull Requests](https://github.com/LmeSzinc/AzurLaneAutoScript/pulls)，我们会认真阅读你的每一行代码的。
+
+哦对，别忘了阅读 [开发文档](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/1.-Start)。
 
 
 

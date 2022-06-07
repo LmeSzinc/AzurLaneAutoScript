@@ -84,6 +84,14 @@ Development documents, refer to [WIKI](https://github.com/LmeSzinc/AzurLaneAutoS
 
 
 
+## Join Development
+
+We will occasionally publish future work on [Issues](https://github.com/LmeSzinc/AzurLaneAutoScript/issues) and mark it as `help wanted`, feel free to submit [Pull Requests](https://github.com.com/LmeSzinc/AzurLaneAutoScript/pulls) to Alas, we will read every line of your code.
+
+Oh yeah, don't forget to read the [development documentation](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/1.-Start).
+
+
+
 ## Relative Repositories
 
 - [AzurStats](https://azur-stats.lyoko.io/), An Azur Lane drop statistics platform based on Alas.
